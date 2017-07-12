@@ -9825,654 +9825,697 @@
 							</w:rPr>
 							<w:t>出资人（股东）信息登记表</w:t>
 						</w:r>
-					</w:p>
+					</w:p>			
 					<w:tbl>
-						<w:tblPr>
-							<w:tblStyle w:val="5" />
-							<w:tblW w:w="10047" w:type="dxa" />
-							<w:jc w:val="center" />
-							<w:tblInd w:w="0" w:type="dxa" />
-							<w:tblBorders>
-								<w:top w:val="none" w:color="auto" w:sz="0" w:space="0" />
-								<w:left w:val="none" w:color="auto" w:sz="0" w:space="0" />
-								<w:bottom w:val="none" w:color="auto" w:sz="0" w:space="0" />
-								<w:right w:val="none" w:color="auto" w:sz="0" w:space="0" />
-								<w:insideH w:val="none" w:color="auto" w:sz="0"
-									w:space="0" />
-								<w:insideV w:val="none" w:color="auto" w:sz="0"
-									w:space="0" />
-							</w:tblBorders>
-							<w:tblLayout w:type="fixed" />
-							<w:tblCellMar>
-								<w:top w:w="0" w:type="dxa" />
-								<w:left w:w="108" w:type="dxa" />
-								<w:bottom w:w="0" w:type="dxa" />
-								<w:right w:w="108" w:type="dxa" />
-							</w:tblCellMar>
-						</w:tblPr>
-						<w:tblGrid>
-							<w:gridCol w:w="785" />
-							<w:gridCol w:w="2356" />
-							<w:gridCol w:w="1121" />
-							<w:gridCol w:w="2466" />
-							<w:gridCol w:w="1974" />
-							<w:gridCol w:w="1345" />
-						</w:tblGrid>
-						<w:tr>
-							<w:tblPrEx>
-								<w:tblBorders>
-									<w:top w:val="none" w:color="auto" w:sz="0" w:space="0" />
-									<w:left w:val="none" w:color="auto" w:sz="0" w:space="0" />
-									<w:bottom w:val="none" w:color="auto" w:sz="0"
-										w:space="0" />
-									<w:right w:val="none" w:color="auto" w:sz="0" w:space="0" />
-									<w:insideH w:val="none" w:color="auto" w:sz="0"
-										w:space="0" />
-									<w:insideV w:val="none" w:color="auto" w:sz="0"
-										w:space="0" />
-								</w:tblBorders>
-								<w:tblLayout w:type="fixed" />
-								<w:tblCellMar>
-									<w:top w:w="0" w:type="dxa" />
-									<w:left w:w="108" w:type="dxa" />
-									<w:bottom w:w="0" w:type="dxa" />
-									<w:right w:w="108" w:type="dxa" />
-								</w:tblCellMar>
-							</w:tblPrEx>
-							<w:trPr>
-								<w:trHeight w:val="409" w:hRule="atLeast" />
-								<w:jc w:val="center" />
-							</w:trPr>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="785" w:type="dxa" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
-										<w:left w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:bottom w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:right w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="center" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="360" w:lineRule="exact" />
-										<w:jc w:val="center" />
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>序号</w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="2356" w:type="dxa" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
-										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:right w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="center" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="360" w:lineRule="exact" />
-										<w:jc w:val="center" />
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>出资人名称或姓名</w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="1121" w:type="dxa" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
-										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:right w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="center" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="320" w:lineRule="exact" />
-										<w:jc w:val="center" />
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>出资人性</w:t>
-									</w:r>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t xml:space="preserve">  </w:t>
-									</w:r>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>质</w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="2466" w:type="dxa" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
-										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:right w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="center" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="320" w:lineRule="exact" />
-										<w:jc w:val="center" />
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>统一社会信用代码</w:t>
-									</w:r>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t xml:space="preserve">     </w:t>
-									</w:r>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>或身份证号码</w:t>
-									</w:r>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t xml:space="preserve">  </w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="1974" w:type="dxa" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
-										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:right w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="center" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="320" w:lineRule="exact" />
-										<w:jc w:val="center" />
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>出资金额或股份</w:t>
-									</w:r>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t xml:space="preserve">    </w:t>
-									</w:r>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>（万元</w:t>
-									</w:r>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Calibri" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>/</w:t>
-									</w:r>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体"
-												w:eastAsia="宋体" w:cs="宋体" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>万份）</w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="1345" w:type="dxa" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
-										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:right w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="center" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="360" w:lineRule="exact" />
-										<w:jc w:val="center" />
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>比</w:t>
-									</w:r>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t xml:space="preserve">  </w:t>
-									</w:r>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>例（%）</w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-						</w:tr>
-						<#list listSupplierStockholders! as stockholders>
-						<#if stockholders.id?exists>
-						<w:tr>
-							<w:tblPrEx>
-								<w:tblBorders>
-									<w:top w:val="none" w:color="auto" w:sz="0" w:space="0" />
-									<w:left w:val="none" w:color="auto" w:sz="0" w:space="0" />
-									<w:bottom w:val="none" w:color="auto" w:sz="0"
-										w:space="0" />
-									<w:right w:val="none" w:color="auto" w:sz="0" w:space="0" />
-									<w:insideH w:val="none" w:color="auto" w:sz="0"
-										w:space="0" />
-									<w:insideV w:val="none" w:color="auto" w:sz="0"
-										w:space="0" />
-								</w:tblBorders>
-								<w:tblLayout w:type="fixed" />
-								<w:tblCellMar>
-									<w:top w:w="0" w:type="dxa" />
-									<w:left w:w="108" w:type="dxa" />
-									<w:bottom w:w="0" w:type="dxa" />
-									<w:right w:w="108" w:type="dxa" />
-								</w:tblCellMar>
-							</w:tblPrEx>
-							<w:trPr>
-								<w:trHeight w:val="536" w:hRule="atLeast" />
-								<w:jc w:val="center" />
-							</w:trPr>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="785" w:type="dxa" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
-										<w:left w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:bottom w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:right w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="top" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="320" w:lineRule="exact" />
-										<w:jc w:val="center" />
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>${stockholders_index + 1!}</w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="2356" w:type="dxa" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
-										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:right w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="top" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="320" w:lineRule="exact" />
-										<w:jc w:val="center" />
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>${stockholders.name!}</w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="1121" w:type="dxa" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
-										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:right w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="top" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="320" w:lineRule="exact" />
-										<w:jc w:val="center" />
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t><#if
-											(stockholders.nature=="1")>法人<#elseif
-											(stockholders.nature=="2")>自然人</#if></w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="2466" w:type="dxa" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
-										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:right w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="top" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="320" w:lineRule="exact" />
-										<w:jc w:val="center" />
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>${stockholders.identity!}</w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="1974" w:type="dxa" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
-										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:right w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="top" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="320" w:lineRule="exact" />
-										<w:jc w:val="center" />
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>${stockholders.shares!}</w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="1345" w:type="dxa" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
-										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:right w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="top" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="320" w:lineRule="exact" />
-										<w:jc w:val="center" />
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>${stockholders.proportion!}</w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-						</w:tr>
-						</#if>
-						</#list>
-					</w:tbl>
+            <w:tblPr>
+              <w:tblStyle w:val="3" />
+              <w:tblW w:w="10407" w:type="dxa" />
+              <w:jc w:val="center" />
+              <w:tblInd w:w="0" w:type="dxa" />
+              <w:tblBorders>
+                <w:top w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                <w:left w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                <w:bottom w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                <w:right w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                <w:insideH w:val="none" w:color="auto" w:sz="0"
+                  w:space="0" />
+                <w:insideV w:val="none" w:color="auto" w:sz="0"
+                  w:space="0" />
+              </w:tblBorders>
+              <w:tblLayout w:type="fixed" />
+              <w:tblCellMar>
+                <w:top w:w="0" w:type="dxa" />
+                <w:left w:w="108" w:type="dxa" />
+                <w:bottom w:w="0" w:type="dxa" />
+                <w:right w:w="108" w:type="dxa" />
+              </w:tblCellMar>
+            </w:tblPr>
+            <w:tblGrid>
+              <w:gridCol w:w="785" />
+              <w:gridCol w:w="1719" />
+              <w:gridCol w:w="1020" />
+              <w:gridCol w:w="2088" />
+              <w:gridCol w:w="2136" />
+              <w:gridCol w:w="1800" />
+              <w:gridCol w:w="859" />
+            </w:tblGrid>
+            <w:tr>
+              <w:tblPrEx>
+                <w:tblBorders>
+                  <w:top w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                  <w:left w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                  <w:bottom w:val="none" w:color="auto" w:sz="0"
+                    w:space="0" />
+                  <w:right w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                  <w:insideH w:val="none" w:color="auto" w:sz="0"
+                    w:space="0" />
+                  <w:insideV w:val="none" w:color="auto" w:sz="0"
+                    w:space="0" />
+                </w:tblBorders>
+                <w:tblLayout w:type="fixed" />
+                <w:tblCellMar>
+                  <w:top w:w="0" w:type="dxa" />
+                  <w:left w:w="108" w:type="dxa" />
+                  <w:bottom w:w="0" w:type="dxa" />
+                  <w:right w:w="108" w:type="dxa" />
+                </w:tblCellMar>
+              </w:tblPrEx>
+              <w:trPr>
+                <w:trHeight w:val="409" w:hRule="atLeast" />
+                <w:jc w:val="center" />
+              </w:trPr>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="785" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
+                    <w:left w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:bottom w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:right w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="360" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="default" w:ascii="Calibri"
+                        w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>序号</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1719" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
+                    <w:left w:val="nil" />
+                    <w:bottom w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:right w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="320" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>出资人名称</w:t>
+                  </w:r>
+                </w:p>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="320" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="default" w:ascii="Calibri"
+                        w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>或姓名</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1020" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
+                    <w:left w:val="nil" />
+                    <w:bottom w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:right w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="320" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="default" w:ascii="Calibri"
+                        w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>出资人性质</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="2088" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
+                    <w:left w:val="nil" />
+                    <w:bottom w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:right w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="360" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="default" w:ascii="Calibri"
+                        w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>证件类型</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="2136" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
+                    <w:left w:val="nil" />
+                    <w:bottom w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:right w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="320" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="default" w:ascii="Calibri"
+                        w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>统一社会信用代码或身份证号码</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1800" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
+                    <w:left w:val="nil" />
+                    <w:bottom w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:right w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="320" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="default" w:ascii="Calibri"
+                        w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>出资金额或股份</w:t>
+                  </w:r>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>（万元</w:t>
+                  </w:r>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="default" w:ascii="Calibri"
+                        w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Calibri" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>/</w:t>
+                  </w:r>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体"
+                        w:eastAsia="宋体" w:cs="宋体" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>万份）</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="859" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
+                    <w:left w:val="nil" />
+                    <w:bottom w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:right w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="360" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="default" w:ascii="Calibri"
+                        w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>比</w:t>
+                  </w:r>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="default" w:ascii="Calibri"
+                        w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t xml:space="preserve">  </w:t>
+                  </w:r>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>例（%）</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+            </w:tr>
+            <#list listSupplierStockholders! as stockholders>
+            <#if stockholders.id?exists>
+            <w:tr>
+              <w:tblPrEx>
+                <w:tblBorders>
+                  <w:top w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                  <w:left w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                  <w:bottom w:val="none" w:color="auto" w:sz="0"
+                    w:space="0" />
+                  <w:right w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                  <w:insideH w:val="none" w:color="auto" w:sz="0"
+                    w:space="0" />
+                  <w:insideV w:val="none" w:color="auto" w:sz="0"
+                    w:space="0" />
+                </w:tblBorders>
+                <w:tblLayout w:type="fixed" />
+                <w:tblCellMar>
+                  <w:top w:w="0" w:type="dxa" />
+                  <w:left w:w="108" w:type="dxa" />
+                  <w:bottom w:w="0" w:type="dxa" />
+                  <w:right w:w="108" w:type="dxa" />
+                </w:tblCellMar>
+              </w:tblPrEx>
+              <w:trPr>
+                <w:trHeight w:val="536" w:hRule="atLeast" />
+                <w:jc w:val="center" />
+              </w:trPr>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="785" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
+                    <w:left w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:bottom w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:right w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="320" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="default" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>${stockholders_index + 1!}</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1719" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
+                    <w:left w:val="nil" />
+                    <w:bottom w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:right w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="320" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>${stockholders.name!}</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1020" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
+                    <w:left w:val="nil" />
+                    <w:bottom w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:right w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="320" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                      <w:lang w:eastAsia="zh-CN" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                      <w:lang w:val="en-US" w:eastAsia="zh-CN" />
+                    </w:rPr>
+                    <w:t><#if
+                        (stockholders.nature=="1")>法人<#elseif
+                        (stockholders.nature=="2")>自然人</#if></w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="2088" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
+                    <w:left w:val="nil" />
+                    <w:bottom w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:right w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="320" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t><#if
+                        (stockholders.nature=="1" && stockholders.identityType==1)>统一社会信用代码<#elseif
+                        (stockholders.nature=="2" && stockholders.identityType==1)>居民二代身份证<#elseif
+                        (stockholders.identityType==2)>其他</#if></w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="2136" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
+                    <w:left w:val="nil" />
+                    <w:bottom w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:right w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="320" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>${stockholders.identity!}</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1800" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
+                    <w:left w:val="nil" />
+                    <w:bottom w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:right w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="320" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>${stockholders.shares!}</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="859" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
+                    <w:left w:val="nil" />
+                    <w:bottom w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                    <w:right w:val="single" w:color="000000" w:sz="6"
+                      w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="320" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="default" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+                        w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>${stockholders.proportion!}</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+            </w:tr>
+            </#if>
+            </#list>
+          </w:tbl>
 					<w:p>
 						<w:pPr>
 							<w:spacing w:before="289" w:beforeLines="50"
