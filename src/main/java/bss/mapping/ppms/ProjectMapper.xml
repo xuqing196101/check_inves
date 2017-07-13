@@ -1651,5 +1651,4 @@
 			    ON P.ID = T.PROJECT_ID
 			 WHERE P.PURCHASE_TYPE = #{dictId}
    </select>
-	 
 </mapper>

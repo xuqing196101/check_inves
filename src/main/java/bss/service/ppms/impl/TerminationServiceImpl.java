@@ -29,6 +29,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.sms.Quote;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
+import bss.dao.pms.PurchaseDetailMapper;
 import bss.dao.ppms.BidMethodMapper;
 import bss.dao.ppms.FlowDefineMapper;
 import bss.dao.ppms.FlowExecuteMapper;
@@ -39,14 +40,17 @@ import bss.dao.ppms.PackageMapper;
 import bss.dao.ppms.ParamIntervalMapper;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
+import bss.dao.ppms.ProjectTaskMapper;
 import bss.dao.ppms.SaleTenderMapper;
 import bss.dao.ppms.ScoreModelMapper;
 import bss.dao.ppms.SupplierCheckPassMapper;
+import bss.dao.ppms.TaskMapper;
 import bss.dao.ppms.theSubjectMapper;
 import bss.dao.prms.FirstAuditMapper;
 import bss.dao.prms.PackageExpertMapper;
 import bss.dao.prms.ReviewFirstAuditMapper;
 import bss.dao.prms.ReviewProgressMapper;
+import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.BidMethod;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
@@ -57,9 +61,11 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.ParamInterval;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.ProjectTask;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplierCheckPass;
+import bss.model.ppms.Task;
 import bss.model.ppms.theSubject;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageExpert;
@@ -114,13 +120,17 @@ public class TerminationServiceImpl<V> implements TerminationService {
   private NegotiationMapper negotiationMapper;
   @Autowired
   private NegotiationReportMapper negotiationReportMapper;
-  
+  @Autowired
+  private TaskMapper taskMapper;
+  @Autowired
+  private PurchaseDetailMapper purchaseDetailMapper;
   @Override
   /*
    * (non-Javadoc)
    * @see bss.service.ppms.TerminationService#updateTermination(java.lang.String包的id集合, java.lang.String项目id，java.lang.String流程id)
    */
   public void updateTermination(String packagesId, String projectId,String currFlowDefineId,String oldCurrFlowDefineId,String type) {
+    String[] packId=packagesId.split(",");
     Map<String, Integer> mapOrder=new HashMap<String, Integer>();
     List<Integer> number=new ArrayList<Integer>();
     HashMap<String, Object> map=new HashMap<String, Object>();
@@ -132,7 +142,6 @@ public class TerminationServiceImpl<V> implements TerminationService {
       }
     }
     if(packagesId!=null){
-      String[] packId=packagesId.split(",");
         if(packId.length>0){
           for(String id:packId){
             number.add(mapOrder.get(id));
@@ -142,33 +151,91 @@ public class TerminationServiceImpl<V> implements TerminationService {
     //获取名称
     String title=ShortBooleanTitle(number);
     //生成项目
-    Project project = insertProject(projectId, title,type);
+    Project project = insertProject(projectId, title,type,currFlowDefineId);
     Map<String, String> mapId=new HashMap<String, String>();
-    projectMapper.insertSelective(project);
-    //生成包
-    insertPackages(packagesId, project, mapId,currFlowDefineId,oldCurrFlowDefineId,projectId,type);
-    //生成明细
-    insertDetail(packagesId,projectId, project, mapId);
-    //获取当前流程以前的所有步骤并复制一份
-    FlowDefine define=new FlowDefine();
-    define.setId(currFlowDefineId);
-    define.setUrl("gt");
-    List<FlowDefine> flowDefines = flowDefineMapper.getFlow(define);
-    Map<String, Map<String, Object>> IsTurnUpMap=new HashMap<String, Map<String, Object>>();
-    Map<String, String> firstAuditIdMap=new HashMap<String, String>();
-    for(FlowDefine flw:flowDefines){
-      FlowExecute temp=new FlowExecute();
-      temp.setFlowDefineId(flw.getId());
-      temp.setProjectId(projectId);
-      List<FlowExecute> findExecuteds = flowExecuteMapper.findExecutedByProjectIdAndFlowId(temp);
-      if(findExecuteds!=null&&findExecuteds.size()>0){
-        FlowExecute flowExecute = findExecuteds.get(0);
-        flowExecute.setId(WfUtil.createUUID());
-        flowExecute.setProjectId(project.getId());
-        flowExecuteMapper.insert(flowExecute);
-      }
-      flowDefine(flw,mapId,project,projectId,IsTurnUpMap,firstAuditIdMap);
+    if(!"XMLX".equals(currFlowDefineId)){
+      projectMapper.insertSelective(project);
     }
+    if("XMLX".equals(currFlowDefineId)){
+      if(packId.length>0){
+        for(String id:packId){
+          Packages pg = packageMapper.selectByPrimaryKeyId(id);
+          pg.setOldFlowId(oldCurrFlowDefineId);
+          pg.setNewFlowId("CGLC_CGXMLX");
+          packageMapper.updateByPrimaryKeySelective(pg);
+          HashMap<String, Object> projectMap=new HashMap<String, Object>();
+          projectMap.put("packageId", id);
+          List<ProjectDetail> pds = projectDetailMapper.selectById(projectMap);
+          for(ProjectDetail pd:pds){
+            Map<String, Object> hashMap=new HashMap<String, Object>();
+            hashMap.put("id", pd.getRequiredId());
+            List<PurchaseDetail> puds = purchaseDetailMapper.selectByParent(hashMap);
+            for(PurchaseDetail pud:puds){
+              pud.setProjectStatus(0);
+              purchaseDetailMapper.updateByPrimaryKeySelective(pud);
+            }
+            if(puds!=null&&puds.size()>0){
+              HashMap<String, Object> pMap=new HashMap<String, Object>();
+              PurchaseDetail purchaseDetail = puds.get(0);
+              pMap.put("collectId", purchaseDetail.getUniqueId());
+              pMap.put("purchaseId", project.getPurchaseDepId());
+              List<Task> tasks = taskMapper.listBycollect(pMap);
+              if(tasks!=null&&tasks.size()>0){
+                Task task = tasks.get(0);
+                if(task!=null){
+                  task.setNotDetail(0);
+                  taskMapper.updateByPrimaryKeySelective(task);
+                }
+              }
+            }
+          }
+        }
+      }
+    }else if("XMFB".equals(currFlowDefineId)){
+      if(packId.length>0){
+        for(String id:packId){
+          Packages pg = packageMapper.selectByPrimaryKeyId(id);
+          pg.setOldFlowId(oldCurrFlowDefineId);
+          pg.setNewFlowId("CGLC_CGXMFB");
+          packageMapper.updateByPrimaryKeySelective(pg);
+          List<ProjectDetail> pds = projectDetailMapper.selectByPackageRecursively(id);
+          for(ProjectDetail pd:pds){
+            pd.setPackageId(null);
+            pd.setProject(project);
+            pd.setCreatedAt(new Date());
+            pd.setUpdateAt(null);
+            projectDetailMapper.insertSelective(pd);
+          }
+        }
+      }
+      
+    }else{
+    //生成包
+      insertPackages(packagesId, project, mapId,currFlowDefineId,oldCurrFlowDefineId,projectId,type);
+      //生成明细
+      insertDetail(packagesId,projectId, project, mapId);
+      //获取当前流程以前的所有步骤并复制一份
+      FlowDefine define=new FlowDefine();
+      define.setId(currFlowDefineId);
+      define.setUrl("gt");
+      List<FlowDefine> flowDefines = flowDefineMapper.getFlow(define);
+      Map<String, Map<String, Object>> IsTurnUpMap=new HashMap<String, Map<String, Object>>();
+      Map<String, String> firstAuditIdMap=new HashMap<String, String>();
+      for(FlowDefine flw:flowDefines){
+        FlowExecute temp=new FlowExecute();
+        temp.setFlowDefineId(flw.getId());
+        temp.setProjectId(projectId);
+        List<FlowExecute> findExecuteds = flowExecuteMapper.findExecutedByProjectIdAndFlowId(temp);
+        if(findExecuteds!=null&&findExecuteds.size()>0){
+          FlowExecute flowExecute = findExecuteds.get(0);
+          flowExecute.setId(WfUtil.createUUID());
+          flowExecute.setProjectId(project.getId());
+          flowExecuteMapper.insert(flowExecute);
+        }
+        flowDefine(flw,mapId,project,projectId,IsTurnUpMap,firstAuditIdMap);
+      }
+    }
+    
     
   }
   private void flowDefine(FlowDefine flw,Map<String, String> mapId,Project project,String oldProjectId,Map<String, Map<String, Object>> IsTurnUpMap,Map<String, String> firstAuditIdMap){
@@ -760,7 +827,6 @@ public class TerminationServiceImpl<V> implements TerminationService {
       for(int i=0;i<split.length;i++){
         Packages pg = packageMapper.selectByPrimaryKeyId(split[i]);
         if(type!=null){
-          
         }else{
           pg.setOldFlowId(oldCurrFlowDefineId);
         }
@@ -783,7 +849,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
     }
   }
 
-  private Project insertProject(String projectId, String title,String type) {
+  private Project insertProject(String projectId, String title,String type,String currFlowDefineId ) {
     Project project = projectMapper.selectProjectByPrimaryKey(projectId);
     project.setRelationId(project.getId());
     project.setCreateAt(new Date());
@@ -798,6 +864,13 @@ public class TerminationServiceImpl<V> implements TerminationService {
     project.setIsCharge(null);
     if(type!=null){
       project.setPurchaseType("3CF3C643AE0A4499ADB15473106A7B80");
+    }
+    if("XMLX".equals(currFlowDefineId)){
+      
+    }else if("XMFB".equals(currFlowDefineId)){
+      project.setParentId("1");
+    }else{
+      
     }
     return project;
   }
