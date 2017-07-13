@@ -360,7 +360,7 @@ function submitcurr() {
 						//如果是项目分包环节
 						layer.confirm(data.msg, {
 							shade: 0.01,
-							btn: ['确定', '取消'],
+							btn: ['确定', '取消']
 						}, function() {
 							$.ajax({
 								url: globalPath+"/project/savePackage.html",
@@ -402,8 +402,8 @@ function submitcurr() {
 								}
 							});
 						}, function() {
-							var index = parent.layer.getFrameIndex(window.name);
-							parent.layer.close(index);
+							/*var index = parent.layer.getFrameIndex(window.name);
+							parent.layer.close(index);*/
 						});
 					} else if(data.flowTypes == "KBCB"){
 						layer.msg(data.msgs);
