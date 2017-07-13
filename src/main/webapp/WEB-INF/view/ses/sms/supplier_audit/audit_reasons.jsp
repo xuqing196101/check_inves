@@ -16,7 +16,6 @@
        $(function() {
            $("#reverse_of_seven").attr("class","active");
 
-           $
        /*$(":input").each(function() {
         $(this).attr("readonly", "readonly");
       }); */
@@ -120,9 +119,6 @@
                                // 显示上传批准审核表页面标签
                                $("#reverse_of_seven_i").show();
                                $("#reverse_of_eight").show();
-                               // 初始化文件上传组件
-                               init_web_upload();
-                               layer.close(index);
                            }
                        }
                    });

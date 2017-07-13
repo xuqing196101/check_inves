@@ -437,6 +437,8 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		return JdcgResult.ok();
 	}
 	
+
+
 	/**
 	 * 
 	 * Description:查询公示专家，公示7天后自动入库
@@ -481,7 +483,6 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		// 查询公示专家列表
 		ExpertPublicity expertPublicityQuery = (ExpertPublicity) map.get("expertPublicity");
 		List<ExpertPublicity> list = expertMapper.selectExpByPublictyList(expertPublicityQuery);
-		Map<String, Object> selectMap = new HashMap<>();
 		StringBuffer sb = new StringBuffer();
 		if(list != null && !list.isEmpty()){
 			for (ExpertPublicity expertPublicity : list) {
@@ -507,19 +508,48 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 				}else{
 					expertPublicity.setExpertsTypeId("");
 				}
-				// 封装改专家选择了多少小类目录，通过了多少小类目录
-				// 通过审核数量
-				Integer passCount = expertCategoryMapper.selectRegExpCateCount(expertPublicity.getId());
-				expertPublicity.setPassCateCount(passCount);
-				// 未通过审核数量
-				selectMap.put("expertId", expertPublicity.getId());
-				selectMap.put("regType", "six");
-				Integer noPassCount = expertAuditMapper.selectRegExpCateCount(selectMap);
-				expertPublicity.setNoPassCateCount(noPassCount);
+				selectChooseOrNoPassCateOfDB(expertPublicity);
+
 			}
 		}
 		return list;
 	}
-	
-	
+
+	private ExpertPublicity selectChooseOrNoPassCateOfDB(ExpertPublicity expertPublicity) {
+		/**
+		 *
+		 * Description:查询选择和未通过的小类
+		 *
+		 * @author Easong
+		 * @version 2017/7/13
+		 * @param [expertPublicity]
+		 * @since JDK1.7
+		 */
+		Map<String, Object> selectMap = new HashMap<>();
+		// 封装改专家选择了多少小类目录，通过了多少小类目录
+		// 通过审核数量
+		Integer passCount = expertCategoryMapper.selectRegExpCateCount(expertPublicity.getId());
+		expertPublicity.setPassCateCount(passCount);
+		// 未通过审核数量
+		selectMap.put("expertId", expertPublicity.getId());
+		selectMap.put("regType", "six");
+		Integer noPassCount = expertAuditMapper.selectRegExpCateCount(selectMap);
+		expertPublicity.setNoPassCateCount(noPassCount);
+		return expertPublicity;
+	}
+
+	@Override
+	public ExpertPublicity selectChooseOrNoPassCate(ExpertPublicity expertPublicity) {
+		/**
+		 *
+		 * Description:查询选择和未通过的小类
+		 *
+		 * @author Easong
+		 * @version 2017/7/13
+		 * @param [expertPublicity]
+		 * @since JDK1.7
+		 */
+		return this.selectChooseOrNoPassCateOfDB(expertPublicity);
+	}
+
 }

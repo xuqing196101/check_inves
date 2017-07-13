@@ -17,15 +17,15 @@ $(function () {
             $("#opinion").val(opinionBack);
             return;
         }
-        // 获取供应商ID
-        var supplierId = $("#supplierId").val();
+        // 获取专家ID
+        var expertId = $("#expertId").val();
         $.ajax({
             url:globalPath + "/supplierAudit/selectChooseOrNoPassCate.do",
             data:{
-                "id" : supplierId
+                "id" : expertId
             },
             success:function (data) {
-                var opinionData = "同意入库，选择了"+data.passCateCount+"个产品类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个产品类别";
+                var opinionData = "同意入库，选择了"+data.passCateCount+"个小类，通过了"+(data.passCateCount - data.noPassCateCount)+"个小类";
                 $("#opinion").val(opinionData);
                 $("#opinionBack").val(opinionData);
             }
@@ -73,7 +73,7 @@ function tempSave(flag){
     $("#flagTime").val(0);
     $("#flagAduit").val(selectOption);
     $.ajax({
-        url:globalPath + "/supplierAudit/saveAuditOpinion.do",
+        url:globalPath + "/expertAudit/saveAuditOpinion.do",
         type: "POST",
         data:$("#opinionForm").serialize(),
         dataType:"json",

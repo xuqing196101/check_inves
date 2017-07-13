@@ -20,13 +20,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import bss.formbean.PurchaseRequiredFormBean;
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.dao.ems.ExpertField;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -42,6 +48,7 @@ import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertHistory;
+import ses.model.ems.ExpertPublicity;
 import ses.model.ems.ExpertSignature;
 import ses.model.ems.ExpertTitle;
 import ses.model.oms.Orgnization;
@@ -67,14 +74,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
-import bss.formbean.PurchaseRequiredFormBean;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.utils.JdcgResult;
 
 /**
  * <p>Title:ExpertAuditController </p>
@@ -2389,7 +2389,7 @@ public class ExpertAuditController{
 			return JSON.toJSONString("暂存失败");
 		}
 	}
-	
+
 	/**
 	 * @Title: updateStatus
 	 * @date 2016-12-19 下午7:38:19  
@@ -2414,5 +2414,55 @@ public class ExpertAuditController{
 		expertService.updateByPrimaryKeySelective(expert);
 		return JdcgResult.ok();
 	}
-	
+
+	@RequestMapping("/selectChooseOrNoPassCate")
+	@ResponseBody
+	public ExpertPublicity selectChooseOrNoPassCate(ExpertPublicity expertPublicity){
+		/**
+		 *
+		 * Description:查询选择和未通过的小类
+		 *
+		 * @author Easong
+		 * @version 2017/7/13
+		 * @param [expertPublicity]
+		 * @since JDK1.7
+		 */
+		return expertAuditService.selectChooseOrNoPassCate(expertPublicity);
+	}
+
+	@RequestMapping("/uploadApproveFile")
+	public String uploadApproveFile(Model model, String expertId, Integer sign, Integer status){
+		/**
+		 *
+		 * Description:上传批准审核表
+		 *
+		 * @author Easong
+		 * @version 2017/7/12
+		 * @param [supplier]
+		 * @param [model]
+		 * @since JDK1.7
+		 */
+		// 查询专家
+        model.addAttribute("expertId", expertId);
+        model.addAttribute("sign", sign);
+        model.addAttribute("status", status);
+		// 设置文件上传项
+		fileUploadItem(model);
+		return "ses/ems/expertAudit/audit_attach_upload";
+	}
+
+    @RequestMapping("/saveAuditOpinion")
+    @ResponseBody
+    public JdcgResult auditOpinion(ExpertAuditOpinion expertAuditOpinion, String vertifyFlag) {
+        /**
+         *
+         * Description:记录审核意见
+         *
+         * @author Easong
+         * @version 2017/7/12
+         * @param [supplierAuditOpinion]
+         * @since JDK1.7
+         */
+        return expertAuditOpinionService.insertSelective(expertAuditOpinion, vertifyFlag);
+    }
 }

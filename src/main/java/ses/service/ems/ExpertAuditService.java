@@ -1,16 +1,15 @@
 package ses.service.ems;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.http.ResponseEntity;
-
 import common.utils.JdcgResult;
+import org.springframework.http.ResponseEntity;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertPublicity;
+
+import java.util.List;
+import java.util.Map;
 /**
  * 
   * <p>Title:ExpertAuditService </p>
@@ -243,7 +242,6 @@ public interface ExpertAuditService {
      * @return void
      */
     boolean temporaryAudit (String expertId);
-    
     /**
      * 
      * Description:修改公示状态
@@ -273,4 +271,15 @@ public interface ExpertAuditService {
      * @return
      */
     List<ExpertPublicity> selectExpByPublictyList(Map<String, Object> map);
+
+    /**
+     *
+     * Description: 查询选择和未通过的小类
+     *
+     * @author Easong
+     * @version 2017/7/13
+     * @param expertPublicity
+     * @since JDK1.7
+     */
+	ExpertPublicity selectChooseOrNoPassCate(ExpertPublicity expertPublicity);
 }
