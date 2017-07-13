@@ -40,11 +40,13 @@ function initPasswSubmit() {
 		shade : [ 0.1, '#fff' ],
 		offset : [ '45%', '53%' ]
 	});
-	var is_error = ajaxOldPassword();
+	//var is_error = ajaxOldPassword();
+	var is_error =0;
 	if (is_error == 1) {
 		layer.close(inde);
 		return false;
 	} else {
+		$("#oldPassword").val(setPublicKey($("#oldPassword").val()));
 		$("#password").val(setPublicKey($("#password").val()));
 		$("#password2").val(setPublicKey($("#password2").val()));
 		$.ajax({

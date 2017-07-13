@@ -1110,7 +1110,7 @@ public class UserManageController extends BaseController{
 	        //原密码校验
 	        //私密 解密
 	        String pwd2 = RSAEncrypt.decryptPrivate(u.getPassword2());
-          String pwd = RSAEncrypt.decryptPrivate(u.getPassword());
+            String pwd = RSAEncrypt.decryptPrivate(u.getPassword());
 	        String oldPassword0 = request.getParameter("oldPassword");
 	        String oldPassword = RSAEncrypt.decryptPrivate(oldPassword0);
 	        if (oldPassword == null || "".equals(oldPassword)) {
