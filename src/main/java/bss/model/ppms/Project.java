@@ -90,7 +90,7 @@ public class Project {
     
     private Date demandFromTime; //需求计划提报时间
     
-    private Integer IsRehearse; //是否预研
+    private Integer isRehearse; //是否预研
     
     private Date createAt; //创建时间
     
@@ -507,11 +507,11 @@ public class Project {
 	}
 	
     public Integer getIsRehearse() {
-        return IsRehearse;
+        return isRehearse;
     }
 
     public void setIsRehearse(Integer isRehearse) {
-        IsRehearse = isRehearse;
+    	this.isRehearse = isRehearse;
     }
 
     public Date getCreateAt() {

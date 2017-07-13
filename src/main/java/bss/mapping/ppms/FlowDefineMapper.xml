@@ -183,4 +183,20 @@
     where IS_DELETED = 0 
     and ID = #{id,jdbcType=VARCHAR})  order by STEP asc
   </select>
+  
+  <!-- 根据包上的标示查询对应的流程 -->
+  <select id="viewFlow" parameterType="java.util.Map" resultMap="FlowDefineResult">
+     select * from  T_BSS_PPMS_FLOW_DEFINE where  IS_DELETED = 0
+     <if test="oldFlowId != null and oldFlowId != ''">
+      AND STEP 	<![CDATA[ <= ]]> (select STEP from T_BSS_PPMS_FLOW_DEFINE 
+    	where IS_DELETED = 0 and ID = #{oldFlowId,jdbcType=VARCHAR})
+     </if>
+     <if test="newFlowId != null and newFlowId != ''">
+      AND STEP	<![CDATA[ >= ]]> (select STEP from T_BSS_PPMS_FLOW_DEFINE 
+    	where IS_DELETED = 0 and ID = #{newFlowId,jdbcType=VARCHAR})
+     </if>
+      AND PURCHASE_TYPE_ID=(select PURCHASE_TYPE_ID from T_BSS_PPMS_FLOW_DEFINE 
+   		where IS_DELETED = 0 
+    	AND ID = #{id,jdbcType=VARCHAR})  order by STEP ASC
+  </select>
 </mapper>

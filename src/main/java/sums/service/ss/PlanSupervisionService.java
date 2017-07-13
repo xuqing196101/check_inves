@@ -3,6 +3,9 @@ package sums.service.ss;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.Map.Entry;
+
+import sums.model.ss.Supervision;
 
 
 import bss.model.cs.PurchaseContract;
@@ -215,5 +218,9 @@ public interface PlanSupervisionService {
     AdvancedProject viewAdvancedProject(String projectId);
     
     HashMap<String, Object> flow(List<Project> list, String detailId, HashMap<String, Object> map);
+    
+    List<Supervision> viewSupervision(List<Entry<String, Object>> sortsMap, List<Project> project, String detailId);
+    
+    Project viewProjects(String projectId);
 
 }

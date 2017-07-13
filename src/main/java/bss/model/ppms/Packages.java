@@ -106,7 +106,7 @@ public class Packages {
   
   private String oldFlowId;//终止流程id  默认null
   
-  private String newFlowId;//终止流程id  默认null
+  private String newFlowId;//开始流程id  默认null
 
   /**
    * 是否维护符合性审查项 0 未维护 1:维护中 2：已维护

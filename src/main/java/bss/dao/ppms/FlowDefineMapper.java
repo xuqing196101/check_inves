@@ -18,5 +18,17 @@ public interface FlowDefineMapper {
     List<FlowDefine> findList(FlowDefine fd);
     
     List<FlowDefine> getFlow(FlowDefine flowDefine);
+    
+    /**
+     * 
+    * @Title: viewFlow
+    * @author FengTian 
+    * @date 2017-7-6 下午2:02:16  
+    * @Description: 根据步骤查询对应的流程 
+    * @param @param map
+    * @param @return      
+    * @return List<FlowDefine>
+     */
+    List<FlowDefine> viewFlow(HashMap<String, Object> map);
 
 }

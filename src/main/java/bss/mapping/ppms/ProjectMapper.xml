@@ -37,7 +37,7 @@
     <result column="APPROVAL_TIME" property="approvalTime"/>
     <result column="REPLY_TIME" property="replyTime"/>
     <result column="DEMAND_FROM_TIME" property="demandFromTime"/>
-    <result column="IS_REHEARSE" property="IsRehearse"/>
+    <result column="IS_REHEARSE" property="isRehearse"/>
     <result column="CREATED_AT" property="createAt"/>
     <result column="START_TIME" property="startTime"/>
     <result column="NOTICE_NEWS_TIME" property="noticeNewsTime"/>
@@ -479,7 +479,7 @@
       <if test="demandFromTime != null">
         DEMAND_FROM_TIME,
       </if>
-      <if test="IsRehearse != null">
+      <if test="isRehearse != null">
         IS_REHEARSE,
       </if>
       <if test="createAt != null">
@@ -655,8 +655,8 @@
       <if test="demandFromTime != null">
         #{demandFromTime},
       </if>
-      <if test="IsRehearse != null">
-        #{IsRehearse},
+      <if test="isRehearse != null">
+        #{isRehearse},
       </if>
       <if test="createAt != null">
         #{createAt},
@@ -831,8 +831,8 @@
       <if test="demandFromTime != null">
         DEMAND_FROM_TIME = #{demandFromTime},
       </if>
-      <if test="IsRehearse != null">
-        IS_REHEARSE = #{IsRehearse},
+      <if test="isRehearse != null">
+        IS_REHEARSE = #{isRehearse},
       </if>
       <if test="createAt != null">
         CREATED_AT = #{createAt},
@@ -1081,7 +1081,7 @@
       <if test="demandFromTime != null">
         DEMAND_FROM_TIME,
       </if>
-      <if test="IsRehearse != null">
+      <if test="isRehearse != null">
         IS_REHEARSE,
       </if>
       <if test="createAt != null">
@@ -1254,8 +1254,8 @@
       <if test="demandFromTime != null">
         #{demandFromTime},
       </if>
-      <if test="IsRehearse != null">
-        #{IsRehearse},
+      <if test="isRehearse != null">
+        #{isRehearse},
       </if>
       <if test="createAt != null">
         #{createAt},
