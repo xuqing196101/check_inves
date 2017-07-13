@@ -4827,7 +4827,7 @@
 								<w:p>
 									<w:pPr>
 										<w:spacing w:line="360" w:lineRule="auto" />
-										<w:jc w:val="center" />
+										<w:jc w:val="left" />
 										<w:rPr>
 											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
 												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />

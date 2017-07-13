@@ -1424,7 +1424,10 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(ValidateUtils.isNull(purCon.getSupplierBankAccount_string())){
 			flag = false;
 			model.addAttribute("ERR_supplierBankAccount", "乙方账号不能为空");
-		}/*else if(!ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount_string())){
+		}else if(!ValidateUtils.PositiveNumber(purCon.getSupplierBankAccount_string())){
+      flag = false;
+      model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
+    }/*else if(!ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount_string())){
 			flag = false;
 			model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
 		}*/
@@ -1540,6 +1543,9 @@ public class PurchaseContractController extends BaseSupplierController{
         if(ValidateUtils.isNull(purCon.getPurchaseBankAccount_string())){
             flag = false;
             model.addAttribute("ERR_purchaseBankAccount", "甲方账号不能为空");
+        }else if(!ValidateUtils.PositiveNumber(purCon.getPurchaseBankAccount_string())){
+          flag = false;
+          model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方账号");
         }/*else if(!ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount_string())){
             flag = false;
             model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方账号");
