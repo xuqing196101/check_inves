@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.formbean.QualificationBean;
+import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -167,7 +169,7 @@ public class SupplierItemController extends BaseController {
 		// 不通过字段的名字
 		SupplierAudit s = new SupplierAudit();
 		s.setSupplierId(supplierItem.getSupplierId());
-		s.setAuditType("items_page");
+		s.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
 		if(ses.util.Constant.SUPPLIER_PRODUCT.equals(supplierItem.getSupplierTypeRelateId())){
 			s.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
 		}
@@ -618,7 +620,8 @@ public class SupplierItemController extends BaseController {
 			model.addAttribute("allPurList", list1);
 			return "ses/sms/supplier_register/procurement_dep";
 		}
-		//查询所有的三级品目生产
+		
+		/*//查询所有的三级品目生产
 		List < Category > listPro = getProduct(supplier.getId(), supplierTypeIds);
 		removeSame(listPro);
 		//根据品目id查询所有的证书信息
@@ -634,7 +637,25 @@ public class SupplierItemController extends BaseController {
 		List < Category > listService = getService(supplier.getId(), supplierTypeIds);
 		removeSame(listService);
 		//根据品目id查询所有的服务证书信息
-		List < QualificationBean > serviceQua = supplierService.queryCategoyrId(listService, 1);
+		List < QualificationBean > serviceQua = supplierService.queryCategoyrId(listService, 1);*/
+		
+		//查询品目信息--生产
+		List<SupplierItemCategoryBean> sicList_pro = supplierItemService.getSupplierItemCategoryList(supplier.getId(), "PRODUCT");
+		removeSameSic(sicList_pro);
+		//根据品目id查询所有的证书信息
+		List < QualificationBean > proQua = supplierService.getQualificationList(sicList_pro, 2);
+		
+		//查询品目信息--销售
+		List<SupplierItemCategoryBean> sicList_sale = supplierItemService.getSupplierItemCategoryList(supplier.getId(), "SALES");
+		removeSameSic(sicList_sale);
+		//根据品目id查询所有的证书信息
+		List < QualificationBean > saleQua = supplierService.getQualificationList(sicList_sale, 3);
+				
+		//查询品目信息--服务
+		List<SupplierItemCategoryBean> sicList_service = supplierItemService.getSupplierItemCategoryList(supplier.getId(), "SERVICE");
+		removeSameSic(sicList_service);
+		//根据品目id查询所有的证书信息
+		List < QualificationBean > serviceQua = supplierService.getQualificationList(sicList_service, 1);
 
 		//生产证书
 		List < Qualification > proList = new ArrayList < Qualification > ();
@@ -792,6 +813,16 @@ public class SupplierItemController extends BaseController {
 			}
 		}
 	}
+	
+	public void removeSameSic(List < SupplierItemCategoryBean > list) {
+		for(int i = 0; i < list.size() - 1; i++) {
+			for(int j = list.size() - 1; j > i; j--) {
+				if(list.get(j).getId().equals(list.get(i).getId())) {
+					list.remove(j);
+				}
+			}
+		}
+	}
 
 	/**
 	 * 
@@ -856,7 +887,7 @@ public class SupplierItemController extends BaseController {
 		return "0";
 		//		}
 	}
-
+	
 	//生产所有的三级目录
 	public List < Category > getProduct(String supplierId, String code) {
 		List < Category > categoryList = new ArrayList < Category > ();

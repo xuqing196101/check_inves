@@ -208,7 +208,7 @@
 				return false;
 			} else {
 				//return true;
-				/return checkNode(treeNode);
+				return checkNode(treeNode);
 			}
 		}
 	}

@@ -134,9 +134,9 @@
 				<c:forEach items="${contract}" var="obj" varStatus="vs">
 					<tr>
 						<%-- <td class="tl pl20"
-							<c:if test="${fn:contains(audit,obj.categoryId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${obj.categoryId}','${auditType}')"</c:if>>${obj.name}</td> --%>
+							<c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${obj.id}','${auditType}')"</c:if>>${obj.name}</td> --%>
 						<td class="tl pl20">${obj.name}</td>
-						<c:set var="cateIdAndTypeId" value="${obj.categoryId}_${obj.oneContract}"/>
+						<c:set var="cateIdAndTypeId" value="${obj.id}_${obj.oneContract}"/>
 						<td
 							<c:if test="${fn:contains(audit,cateIdAndTypeId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${cateIdAndTypeId}','${auditType}')"</c:if>>
 							<div class="w130 fl">
@@ -161,7 +161,7 @@
 								</c:choose>
 							</div>
 						</td>
-						<c:set var="cateIdAndTypeId" value="${obj.categoryId}_${obj.twoContract}"/>
+						<c:set var="cateIdAndTypeId" value="${obj.id}_${obj.twoContract}"/>
 						<td
 							<c:if test="${fn:contains(audit,cateIdAndTypeId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${cateIdAndTypeId}','${auditType}')"</c:if>>
 							<div class="w130 fl">
@@ -186,7 +186,7 @@
 								</c:choose>
 							</div>
 						</td>
-						<c:set var="cateIdAndTypeId" value="${obj.categoryId}_${obj.threeContract}"/>
+						<c:set var="cateIdAndTypeId" value="${obj.id}_${obj.threeContract}"/>
 						<td
 							<c:if test="${fn:contains(audit,cateIdAndTypeId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${cateIdAndTypeId}','${auditType}')"</c:if>>
 							<div class="w130 fl">
@@ -211,7 +211,7 @@
 								</c:choose>
 							</div>
 						</td>
-						<c:set var="cateIdAndTypeId" value="${obj.categoryId}_${obj.oneBil}"/>
+						<c:set var="cateIdAndTypeId" value="${obj.id}_${obj.oneBil}"/>
 						<td
 							<c:if test="${fn:contains(audit,cateIdAndTypeId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${cateIdAndTypeId}','${auditType}')"</c:if>>
 							<div class="w130 fl">
@@ -236,7 +236,7 @@
 								</c:choose>
 							</div>
 						</td>
-						<c:set var="cateIdAndTypeId" value="${obj.categoryId}_${obj.twoBil}"/>
+						<c:set var="cateIdAndTypeId" value="${obj.id}_${obj.twoBil}"/>
 						<td
 							<c:if test="${fn:contains(audit,cateIdAndTypeId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${cateIdAndTypeId}','${auditType}')"</c:if>>
 							<div class="w130 fl">
@@ -261,7 +261,7 @@
 								</c:choose>
 							</div>
 						</td>
-						<c:set var="cateIdAndTypeId" value="${obj.categoryId}_${obj.threeBil}"/>
+						<c:set var="cateIdAndTypeId" value="${obj.id}_${obj.threeBil}"/>
 						<td
 							<c:if test="${fn:contains(audit,cateIdAndTypeId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${cateIdAndTypeId}','${auditType}')"</c:if>>
 							<div class="w130 fl">

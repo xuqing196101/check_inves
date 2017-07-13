@@ -1,6 +1,7 @@
 package ses.service.sms;
 
 import common.utils.JdcgResult;
+import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Category;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItem;
@@ -200,4 +201,13 @@ public interface SupplierItemService {
 	 */
 	 public List<SupplierItem> selectPassItemByCond(String supplierId, String type, Integer pageNum);
 
-	}
+	 /**
+	  * 获取供应商品目类别信息
+	  * @param supplierId
+	  * @param string
+	  * @return
+	  */
+	 public List<SupplierItemCategoryBean> getSupplierItemCategoryList(
+			String supplierId, String string);
+
+}
