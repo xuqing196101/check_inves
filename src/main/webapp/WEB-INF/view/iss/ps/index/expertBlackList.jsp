@@ -130,7 +130,7 @@
 	}
 
 	function reset() {
-		$("#search_con input[type='text']").val("");
+		$("#search_con").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
 </script>
 </body>

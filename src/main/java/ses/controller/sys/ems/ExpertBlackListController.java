@@ -148,6 +148,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 		
 		if(error.equals("error")) {
 			model.addAttribute("relName", expertBlackList.getRelName());
+			model.addAttribute("expertId", expertBlackList.getExpertId());
 			model.addAttribute("storageTime", expertBlackList.getStorageTime());
 			model.addAttribute("punishDate", expertBlackList.getPunishDate());
 			model.addAttribute("punishType", expertBlackList.getPunishType());
@@ -302,6 +303,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 			expertBlackList.setDateOfPunishment(expertBlackList.getDateOfPunishment());
 			expertBlackList.setReason(expertBlackList.getReason());
 			model.addAttribute("relName", expertBlackList.getRelName());
+			model.addAttribute("expertId", expertBlackList.getExpertId());
 			model.addAttribute("expert", expertBlackList);
 			//文件
 			DictionaryData dd = new  DictionaryData();
