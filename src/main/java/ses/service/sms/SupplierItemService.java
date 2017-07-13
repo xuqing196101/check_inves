@@ -204,10 +204,10 @@ public interface SupplierItemService {
 	 /**
 	  * 获取供应商品目类别信息
 	  * @param supplierId
-	  * @param string
+	  * @param code
 	  * @return
 	  */
 	 public List<SupplierItemCategoryBean> getSupplierItemCategoryList(
-			String supplierId, String string);
+			String supplierId, String code);
 
 }
