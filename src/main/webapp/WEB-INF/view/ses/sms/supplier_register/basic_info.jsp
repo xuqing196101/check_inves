@@ -817,22 +817,22 @@
 			    if(_val!="" && nonNum!=3){//如果可以为负数的话设置3;净资产总额不进行负数校验
 			        if(parseInt(_val)<0){
                    $(obj).val("");
-                   layer.msg("请输入正确的金额,非负数保留两位小数", {
+                   layer.msg("请输入正确的金额,非负数保留4位小数", {
                        offset: '300px'
                    });
                    return false;
                }
            }
            if(_val.indexOf('.')!=-1){
-               var reg = /\d+\.\d{0,2}?$/;
+               var reg = /\d+\.\d{0,4}?$/;
                if(!reg.test(_val)) {
                    $(obj).val("");
                    if(nonNum==3){
-                       layer.msg("请输入正确的金额,保留两位小数", {
+                       layer.msg("请输入正确的金额,保留4位小数", {
                            offset: '300px'
                        });
                    }else{
-                       layer.msg("请输入正确的金额,非负数保留两位小数", {
+                       layer.msg("请输入正确的金额,非负数保留4位小数", {
                            offset: '300px'
                        });
                    }
@@ -841,11 +841,11 @@
                if(!positiveRegular(_val)){
                    $(obj).val("");
                    if(nonNum==3){
-                       layer.msg("请输入正确的金额,保留两位小数", {
+                       layer.msg("请输入正确的金额,保留4位小数", {
                            offset: '300px'
                        });
                    }else{
-                       layer.msg("请输入正确的金额,非负数保留两位小数", {
+                       layer.msg("请输入正确的金额,非负数保留4位小数", {
                            offset: '300px'
                        });
                    }
