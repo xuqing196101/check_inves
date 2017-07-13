@@ -1702,20 +1702,20 @@ public class SupplierController extends BaseSupplierController {
 		}
 
 		if(supplier.getContactFax() == null || "".equals(supplier.getContactFax())) {
-			model.addAttribute("err_fax", "传真不能为空或者格式不正确!");
+			model.addAttribute("err_fax", "传真不能为空 !");
 			count++;
 		}
 
 		if(supplier.getContactMobile() == null || "".equals(supplier.getContactMobile())) {
-			model.addAttribute("err_catMobile", "填写固定电话!");
+			model.addAttribute("err_catMobile", "固定电话不能为空 !");
 			count++;
 		}
 		//		if(supplier.getContactTelephone()==null||!supplier.getContactTelephone().matches("^1[0-9]{10}$")||supplier.getContactTelephone().length()>12){
 		//			model.addAttribute("err_catTelphone", "格式不正确 !");
 		//			count++;
 		//		}
-		if(supplier.getContactEmail() == null) {// || !supplier.getContactEmail().matches("^([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$")
-			model.addAttribute("err_catEmail", "格式不正确 !");
+		if(supplier.getContactEmail() == null || "".equals(supplier.getContactEmail())) {// || !supplier.getContactEmail().matches("^([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$")
+			model.addAttribute("err_catEmail", "邮箱不能为空 !");
 			count++;
 		}
 		/*	if(supplier.getContactAddress()==null||supplier.getContactAddress().length()>35){
@@ -1723,13 +1723,12 @@ public class SupplierController extends BaseSupplierController {
   			count++;
   		}*/
 
-		List < Supplier > tempList = supplierService.validateCreditCode(supplier.getCreditCode());
+		// 统一社会信用代码校验
 		if(supplier.getCreditCode() == null || supplier.getCreditCode().trim().length() != 18) {
 			model.addAttribute("err_creditCide", "不能为空或是格式不正确 !");
 			count++;
 		}
 		
-		// 统一社会信用代码校验
 		String creditCode = supplier.getCreditCode();
 		if(creditCode != null){
 			if(creditCode.matches("^([a-zA-Z0-9]){18}$")){// 18位数字+字母
@@ -1768,6 +1767,8 @@ public class SupplierController extends BaseSupplierController {
         }catch (Exception e){
 		    e.printStackTrace();
         }
+        
+        List < Supplier > tempList = supplierService.validateCreditCode(supplier.getCreditCode());
         if(tempList != null && tempList.size() > 0) {
             for(Supplier supp: tempList) {
                 if(!supplier.getId().equals(supp.getId())) {

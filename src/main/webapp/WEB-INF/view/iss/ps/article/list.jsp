@@ -216,7 +216,7 @@
       function resetQuery() {
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
         $("#articleTypes").select2("val", "");
-        $("#status").val("0");
+        $("#status").val("");
       }
 
       $(function() {
