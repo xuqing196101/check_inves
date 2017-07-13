@@ -32,7 +32,7 @@
 				} */
 				var status="${status}";
 				if(status=="0"){ 
-				  layer.msg("提交未通过，请仔细检查所填信息！");
+				  layer.msg("提交失败，请仔细检查所填信息！");
 				}
 				var card="${notPass}";
 				if(card=="error_card"){ 

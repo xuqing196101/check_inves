@@ -683,17 +683,18 @@ public class SupplierController extends BaseSupplierController {
 				supplierService.perfectBasic(supplier);
 				
 				List<SupplierFinance> finances = supplier.getListSupplierFinances();
-				if(finances.get(0).getTotalNetAssets()!=null&&finances.get(1).getTotalNetAssets()!=null&&finances.get(2).getTotalNetAssets()!=null){
-
-				//判断注册资金是否足够
-			    //BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
-			    BigDecimal score = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
-				if (score.compareTo(BigDecimal.valueOf(100)) == -1) {
-					res="notPass";
-				//	return "notPass";	            
-				 } 
+				if(finances != null && finances.size() >= 3){
+					if (finances.get(0).getTotalNetAssets() != null
+							&& finances.get(1).getTotalNetAssets() != null
+							&& finances.get(2).getTotalNetAssets() != null) {
+						// 判断注册资金是否足够
+						// BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
+						BigDecimal score = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
+						if (score.compareTo(BigDecimal.valueOf(100)) == -1) {
+							res = "notPass";
+						}
+					}
 				}
-			
 			} catch(Exception e) {
 				res = StaticVariables.FAILED;
 				e.printStackTrace();
