@@ -233,10 +233,8 @@ public class TerminationServiceImpl<V> implements TerminationService {
           flowExecuteMapper.insert(flowExecute);
         }
         flowDefine(flw,mapId,project,projectId,IsTurnUpMap,firstAuditIdMap);
+       }
       }
-    }
-    
-    
   }
   private void flowDefine(FlowDefine flw,Map<String, String> mapId,Project project,String oldProjectId,Map<String, Map<String, Object>> IsTurnUpMap,Map<String, String> firstAuditIdMap){
     //判断是采购方式
@@ -827,6 +825,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
       for(int i=0;i<split.length;i++){
         Packages pg = packageMapper.selectByPrimaryKeyId(split[i]);
         if(type!=null){
+          pg.setEditFlowId(oldCurrFlowDefineId);
         }else{
           pg.setOldFlowId(oldCurrFlowDefineId);
         }
@@ -855,13 +854,13 @@ public class TerminationServiceImpl<V> implements TerminationService {
     project.setCreateAt(new Date());
     project.setName(project.getName()+title);
     project.setProjectNumber(project.getProjectNumber()+title);
-    project.setSupplierNumber(null);
-    project.setDeadline(null);
-    project.setBidDate(null);
-    project.setBidAddress(null);
-    project.setStartTime(null);
+    //project.setSupplierNumber(null);
+    //project.setDeadline(null);
+    //project.setBidDate(null);
+    //project.setBidAddress(null);
+    //project.setStartTime(null);
     project.setStatus("8239AF4991F448A28FE1FE09F525FA3D");
-    project.setIsCharge(null);
+    //project.setIsCharge(null);
     if(type!=null){
       project.setPurchaseType("3CF3C643AE0A4499ADB15473106A7B80");
     }

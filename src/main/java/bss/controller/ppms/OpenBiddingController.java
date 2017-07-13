@@ -83,6 +83,7 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.ppms.SupplierCheckPassService;
+import bss.service.ppms.TerminationService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.PackageFirstAuditService;
@@ -242,6 +243,8 @@ public class OpenBiddingController {
   @Autowired
   private PurchaseServiceI purchaseService;
   
+  @Autowired
+  private TerminationService terminationService;
   @Autowired
   private UserServiceI userService;
   @Autowired
@@ -1776,23 +1779,24 @@ public class OpenBiddingController {
           }
       }
     }
-    for (int i = 0; i < json.size(); i++) {
+    //这段代码略坑！！！
+    /*for (int i = 0; i < json.size(); i++) {
         jsonQuote = json.getJSONObject(i); 
         for (SaleTender st : stList) {
             if (st.getSuppliers().getId().equals(jsonQuote.getString("supplierId"))) {
                 if (list != null && list.size() > 0) {
-                   /* List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
+                    List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
                     if (blist1 != null && blist1.size() == 0) {
                         if (!strList.contains(st.getSuppliers().getId()) && Integer.parseInt(jsonQuote.getString("isTurnUp")) == 0) {
                           count ++ ;
                           break labe;
                         }
-                    }*/
+                    }
                 }
                 st.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
             }
         }
-      }
+      }*/
     
     /*if (count > 0) {
       return "false";
@@ -3414,6 +3418,46 @@ public class OpenBiddingController {
           response.getWriter().close();
       }   
   }
-  
-  
+  @RequestMapping("/checkSupplierNumber")
+  @ResponseBody
+  public void checkSupplierNumber(HttpServletResponse response,String projectId) throws IOException{
+	  Project project = projectService.selectById(projectId);
+	  SaleTender condition = new SaleTender();
+	  condition.setProjectId(projectId);
+	  condition.setStatusBid(NUMBER_TWO);
+	  condition.setStatusBond(NUMBER_TWO);
+	  List<SaleTender> stList = saleTenderService.find(condition);
+	  HashMap<String, Object> map = new HashMap<String,Object>();
+	  map.put("projectId", projectId);
+	  List<Packages> packageList = packageService.findPackageById(map);
+	  StringBuffer buffer = new StringBuffer();
+	  for (Packages packages : packageList) {
+		int count=0;
+		for (SaleTender saleTender : stList) {
+			if(packages.getId().equals(saleTender.getPackages())){
+				if(saleTender.getIsTurnUp()==0){
+					count++;
+				}
+			}
+		}
+		if(count<project.getSupplierNumber()){
+			buffer.append(packages.getId()+","+packages.getName()+";");
+		}
+	  }
+	  JSONObject jsonObj =new JSONObject();
+	  if(buffer != null){
+		  jsonObj.put("rules", buffer.toString().substring(0,buffer.toString().length()-1));
+	  }
+      response.getWriter().print(jsonObj.toString());
+      response.getWriter().flush();
+  }
+  @RequestMapping("transformationJZXTP")
+  @ResponseBody
+  public void transformationJZXTP(HttpServletResponse response,String projectId,String packageIds,String currentFlowDefineId) throws IOException{
+	  terminationService.updateTermination(packageIds, projectId, currentFlowDefineId, currentFlowDefineId, "JZXTP");
+	  JSONObject jsonObj =new JSONObject();
+	  jsonObj.put("status", "ok");
+	  response.getWriter().print(jsonObj.toString());
+      response.getWriter().flush();
+  }
 }

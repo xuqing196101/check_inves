@@ -124,6 +124,43 @@
 	   		}
   		});
   	}
+  	function upddatejzxtp() {
+  		var pachageIds="";
+  		var val=[];
+  		$('input[type="checkbox"]:checked').each(function(){ 
+  			val.push($(this).val()); 
+  			$(this).parent().remove();
+  		});
+  		if(val.length==0){
+  			layer.alert("请选择一个或多个包");
+  			return false;
+  		}
+  		pachageIds=val.join(',');
+  		//alert(pachageIds+"-----------"+$("#currHuanjieId").val());
+  		
+  		$.ajax({
+			url:"${pageContext.request.contextPath}/open_bidding/transformationJZXTP.do",
+			data:{"packageIds":pachageIds,
+				  "projectId":'${project.id}',
+				  "currentFlowDefineId":$("#currHuanjieId").val()
+				 },
+			type:"post",
+			dataType:"json",
+	   		success:function(data){
+	   		//layer.close(index);
+	   		//$("#alertId").val(data.status);
+	   		if(data.status=="ok"){
+	   			var checkboxSize=$("input[type='checkbox']").length;
+	   	  		if(checkboxSize==0){
+	   	  			alert(checkboxSize);
+	   	  			layer.close(index);
+	   	  		};
+	   			alert("成功转为竞争性谈判");
+	   			
+	   			}
+	   		}
+  		});
+	}
     </script>
   </head>
 
@@ -257,6 +294,15 @@
         <div class="tc  col-md-12 mt350">
           <input class="btn"  id = "inputbFLw" name="addr"  type="button" onclick="bynSubFlw();" value="确定"> 
 	      <input class="btn"  id = "inputaFlw" name="addr"  type="button" onclick="cancelFlw();" value="取消"> 
+        </div>
+    </div>
+    <div id="openDivPackages" class="dnone layui-layer-wrap">
+        <div class="drop_window tc" id="openDiv_packages">
+        </div>
+        <div class="tc  col-md-12 mt50">
+          <input class="btn"  id = "inputb" name="addr"  type="button" onclick="upddatejzxtp();" value="转为竞争性谈判"> 
+	      <input class="btn"  id = "inputa" name="addr"  type="button" onclick="bynSub();" value="终止实施"> 
+	      <input class="btn"  id = "inputa" name="addr"  type="button" onclick="cancel();" value="继续实施"> 
         </div>
     </div>
     <!--/container-->

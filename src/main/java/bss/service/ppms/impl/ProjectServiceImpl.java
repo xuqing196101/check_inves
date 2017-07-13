@@ -427,6 +427,7 @@ public class ProjectServiceImpl implements ProjectService {
         JSONObject jsonObj = new JSONObject();
         FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
         if(flowDefine != null){
+        	jsonObj.put("flowType", flowDefine.getCode());
             if("XMFB".equals(flowDefine.getCode())){
                 jsonObj.put("flowType", "XMFB");
                 HashMap<String, Object> map = new HashMap<>();

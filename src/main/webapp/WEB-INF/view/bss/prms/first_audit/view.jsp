@@ -125,6 +125,44 @@
 	
 	//结束符合性审查
 	function isFirstGather(projectId, packageId,flowDefineId){
+		var count=0;
+		var supplierNumber='${supplierNumber}';
+		$('#tabId tr:last td').each(function(){ 
+  			var s=$(this).find('div').text();
+  			if(s=='合格'){
+  				count++;
+  			}
+  		});
+		if(count<supplierNumber){
+			 layer.confirm('${pack.name}'+'到场供应商数量不满足项目实施最少供应商数量,如何操作？', {
+		            btn: ['转为竞争性谈判','中止实施','继续实施'] ,
+		            closeBtn: 0,
+		            title:"提示"
+		        }, function(){
+		        	$.ajax({
+		    			url:"${pageContext.request.contextPath}/open_bidding/transformationJZXTP.do",
+		    			data:{"packageIds":packageId,
+		    				  "projectId":projectId,
+		    				  "currentFlowDefineId":flowDefineId
+		    				 },
+		    			type:"post",
+		    			dataType:"json",
+		    	   		success:function(data){
+		    	   		//layer.close(index);
+		    	   		//$("#alertId").val(data.status);
+		    	   		if(data.status=="ok"){
+		    	   			layer.msg('转为竞争性谈判');
+		    	   			}
+		    	   		}
+		      		});
+		           
+		        }, function(){
+		            layer.msg('中止实施' );
+		        }, function(){
+		            layer.msg('继续实施' );
+		        });
+		} 
+		return;
 		$.ajax({
 			url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
 			data: {"projectId": projectId, "packageId": packageId, "flowDefineId":flowDefineId},
@@ -234,6 +272,7 @@
 	function openDetailPrint(projectId,packageId){
 		window.open("${pageContext.request.contextPath}/packageExpert/openAllPrint.html?packageId="+packageId+"&projectId="+projectId, "打印所有检查表");
 	}
+	
   </script>
   <body>
 	    <h2 class="list_title">${pack.name}符合性审查查看</h2>
@@ -302,8 +341,8 @@
 	      	 	<c:forEach items="${supplierList}" var="supplier" varStatus="vs">
 	      	 		<td class="tc">
 	      	 			<c:if test="${supplier.isFirstPass == 0}"><div class='red'>不合格</div></c:if>
-	      	 			<c:if test="${supplier.isFirstPass == 1}">合格</c:if>
-	      	 			<c:if test="${supplier.isFirstPass == null}">暂无</c:if>
+	      	 			<c:if test="${supplier.isFirstPass == 1}"><div>合格</div></c:if>
+	      	 			<c:if test="${supplier.isFirstPass == null}"><div>暂无</div></c:if>
 	      	 		</td>
 	      	 	</c:forEach>
 	      	 </tr>

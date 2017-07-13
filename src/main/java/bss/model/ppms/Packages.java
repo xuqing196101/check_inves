@@ -106,9 +106,16 @@ public class Packages {
   
   private String oldFlowId;//终止流程id  默认null
   
+
   private String newFlowId;//开始流程id  默认null
 
-  /**
+  
+  private String editFlowId;//转竟谈当前流程ID 默认null
+
+
+
+
+/**
    * 是否维护符合性审查项 0 未维护 1:维护中 2：已维护
    */
   private Integer isEditFirst;
@@ -642,5 +649,11 @@ public void setNegotiationReport(NegotiationReport negotiationReport) {
 	public void setNewFlowId(String newFlowId) {
 		this.newFlowId = newFlowId;
 	}
+	public String getEditFlowId() {
+		return editFlowId;
+	}
 
+	public void setEditFlowId(String editFlowId) {
+		this.editFlowId = editFlowId;
+	}
 }

@@ -1613,6 +1613,7 @@ public class PackageExpertController {
         model.addAttribute("supplierExtList", supplierExtList);
         model.addAttribute("packExpertExtList", packExpertExtList);
         Project project = projectService.selectById(projectId);
+        model.addAttribute("supplierNumber",project.getSupplierNumber());
         DictionaryData dd = DictionaryDataUtil.findById(project.getPurchaseType());
         if (dd != null) {
           String purcahseCode = dd.getCode();
