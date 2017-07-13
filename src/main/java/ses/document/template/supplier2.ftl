@@ -4748,107 +4748,117 @@
 								</w:p>
 							</w:tc>
 						</w:tr>
-						<w:tr>
-							<w:tblPrEx>
-								<w:tblBorders>
-									<w:top w:val="none" w:color="auto" w:sz="0" w:space="0" />
-									<w:left w:val="none" w:color="auto" w:sz="0" w:space="0" />
-									<w:bottom w:val="none" w:color="auto" w:sz="0"
-										w:space="0" />
-									<w:right w:val="none" w:color="auto" w:sz="0" w:space="0" />
-									<w:insideH w:val="none" w:color="auto" w:sz="0"
-										w:space="0" />
-									<w:insideV w:val="none" w:color="auto" w:sz="0"
-										w:space="0" />
-								</w:tblBorders>
-								<w:tblLayout w:type="fixed" />
-								<w:tblCellMar>
-									<w:top w:w="0" w:type="dxa" />
-									<w:left w:w="108" w:type="dxa" />
-									<w:bottom w:w="0" w:type="dxa" />
-									<w:right w:w="108" w:type="dxa" />
-								</w:tblCellMar>
-							</w:tblPrEx>
-							<w:trPr>
-								<w:trHeight w:val="1345" w:hRule="atLeast" />
-								<w:jc w:val="center" />
-							</w:trPr>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="1338" w:type="dxa" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="auto" w:sz="4" w:space="0" />
-										<w:left w:val="single" w:color="auto" w:sz="4" w:space="0" />
-										<w:bottom w:val="single" w:color="auto" w:sz="4"
-											w:space="0" />
-										<w:right w:val="single" w:color="auto" w:sz="4"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="center" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="240" w:lineRule="exact" />
-										<w:jc w:val="center" />
-										<w:rPr>
-											<w:rFonts w:hint="default" w:ascii="Calibri"
-												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>经营范围</w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="7661" w:type="dxa" />
-									<w:gridSpan w:val="12" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="auto" w:sz="4" w:space="0" />
-										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="auto" w:sz="4"
-											w:space="0" />
-										<w:right w:val="single" w:color="auto" w:sz="4"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="center" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="360" w:lineRule="auto" />
-										<w:jc w:val="left" />
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t>${businessScope!}</w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
-						</w:tr>
+            <w:tr>
+              <w:tblPrEx>
+                <w:tblBorders>
+                  <w:top w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                  <w:left w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                  <w:bottom w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                  <w:right w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                  <w:insideH w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                  <w:insideV w:val="none" w:color="auto" w:sz="0" w:space="0" />
+                </w:tblBorders>
+                <w:tblLayout w:type="fixed" />
+                <w:tblCellMar>
+                  <w:top w:w="0" w:type="dxa" />
+                  <w:left w:w="108" w:type="dxa" />
+                  <w:bottom w:w="0" w:type="dxa" />
+                  <w:right w:w="108" w:type="dxa" />
+                </w:tblCellMar>
+              </w:tblPrEx>
+              <w:trPr>
+                <w:trHeight w:val="1345" w:hRule="atLeast" />
+                <w:jc w:val="center" />
+              </w:trPr>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="1338" w:type="dxa" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="auto" w:sz="4" w:space="0" />
+                    <w:left w:val="single" w:color="auto" w:sz="4" w:space="0" />
+                    <w:bottom w:val="single" w:color="auto" w:sz="4" w:space="0" />
+                    <w:right w:val="single" w:color="auto" w:sz="4" w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="center" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:spacing w:line="240" w:lineRule="exact" />
+                    <w:jc w:val="center" />
+                    <w:rPr>
+                      <w:rFonts w:hint="default" w:ascii="Calibri" w:hAnsi="Calibri"
+                        w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="宋体"
+                        w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>经营范围</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr>
+                  <w:tcW w:w="7661" w:type="dxa" />
+                  <w:gridSpan w:val="12" />
+                  <w:tcBorders>
+                    <w:top w:val="single" w:color="auto" w:sz="4" w:space="0" />
+                    <w:left w:val="nil" />
+                    <w:bottom w:val="single" w:color="auto" w:sz="4" w:space="0" />
+                    <w:right w:val="single" w:color="auto" w:sz="4" w:space="0" />
+                  </w:tcBorders>
+                  <w:vAlign w:val="top" />
+                </w:tcPr>
+                <w:p>
+                  <w:pPr>
+                    <w:keepNext w:val="0" />
+                    <w:keepLines w:val="0" />
+                    <w:pageBreakBefore w:val="0" />
+                    <w:widowControl w:val="0" />
+                    <w:kinsoku />
+                    <w:wordWrap />
+                    <w:overflowPunct />
+                    <w:topLinePunct w:val="0" />
+                    <w:autoSpaceDE />
+                    <w:autoSpaceDN />
+                    <w:bidi w:val="0" />
+                    <w:adjustRightInd />
+                    <w:snapToGrid />
+                    <w:spacing w:line="240" w:lineRule="auto" />
+                    <w:ind w:left="0" w:leftChars="0" w:right="0" w:rightChars="0"
+                      w:firstLine="0" w:firstLineChars="0" />
+                    <w:jc w:val="left" />
+                    <w:textAlignment w:val="auto" />
+                    <w:outlineLvl w:val="9" />
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="宋体"
+                        w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                  </w:pPr>
+                  <w:r>
+                    <w:rPr>
+                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="宋体"
+                        w:eastAsia="宋体" w:cs="Times New Roman" />
+                      <w:kern w:val="2" />
+                      <w:sz w:val="21" />
+                      <w:szCs w:val="21" />
+                    </w:rPr>
+                    <w:t>${businessScope!}</w:t>
+                  </w:r>
+                </w:p>
+              </w:tc>
+            </w:tr>
 						<w:tr>
 							<w:tblPrEx>
 								<w:tblBorders>

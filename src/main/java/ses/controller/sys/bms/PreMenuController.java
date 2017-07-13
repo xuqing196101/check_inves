@@ -468,8 +468,23 @@ public class PreMenuController {
 	@RequestMapping("/save")
 	public void save(HttpServletResponse response, PreMenu menu) throws IOException {
 		try {
-			if ("".equals(menu.getName()) || menu.getName() == null) {
+			if ("".equals(menu.getId()) || menu.getId() == null) {
+				String msg = "请选择上级节点";
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
+				response.getWriter().flush();
+			} else if ("".equals(menu.getName()) || menu.getName() == null) {
 				String msg = "请填写名称";
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
+				response.getWriter().flush();
+			} else if ("".equals(menu.getType()) || menu.getType() == null) {
+				String msg = "请选择节点类型";
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
+				response.getWriter().flush();
+			} else if (menu.getPosition() == null) {
+				String msg = "请填写菜单序号";
 				response.setContentType("text/html;charset=utf-8");
 				response.getWriter().print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
 				response.getWriter().flush();
@@ -582,8 +597,23 @@ public class PreMenuController {
 	@RequestMapping("/update")
 	public void update(HttpServletResponse response, HttpServletRequest request, PreMenu menu) throws IOException{
 		try {
-			if ("".equals(menu.getName()) || menu.getName() == null) {
+			if ("".equals(menu.getId()) || menu.getId() == null) {
+				String msg = "请选择上级节点";
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
+				response.getWriter().flush();
+			} else if ("".equals(menu.getName()) || menu.getName() == null) {
 				String msg = "请填写名称";
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
+				response.getWriter().flush();
+			} else if ("".equals(menu.getType()) || menu.getType() == null) {
+				String msg = "请选择节点类型";
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
+				response.getWriter().flush();
+			} else if (menu.getPosition() == null) {
+				String msg = "请填写菜单序号";
 				response.setContentType("text/html;charset=utf-8");
 				response.getWriter().print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
 				response.getWriter().flush();

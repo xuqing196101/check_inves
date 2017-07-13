@@ -502,19 +502,19 @@ public class SupplierItemController extends BaseController {
 			String[] types = supplier.getSupplierTypeIds().split(",");
 			for(String s:types){
 				List<SupplierItem> items = supplierItemService.queryBySupplierAndType( supId, s);
-				if(items!=null&&items.size()<1&&s.equals("PRODUCT")){
+				if(items!=null&&items.size()<=1&&s.equals("PRODUCT")){
 					model.addAttribute("productError", "productError");
 					return "ses/sms/supplier_register/items";
 				}
-				if(items!=null&&items.size()<1&&s.equals("PROJECT")){
+				if(items!=null&&items.size()<=1&&s.equals("PROJECT")){
 					model.addAttribute("projectError", "projectError");
 					return "ses/sms/supplier_register/items";
 					}
-				if(items!=null&&items.size()<1&&s.equals("SALES")){
+				if(items!=null&&items.size()<=1&&s.equals("SALES")){
 					model.addAttribute("sellError", "sellError");
 					return "ses/sms/supplier_register/items";
 				}
-				if(items!=null&&items.size()<1&&s.equals("SERVICE")){
+				if(items!=null&&items.size()<=1&&s.equals("SERVICE")){
 					model.addAttribute("serverError", "serverError");
 					return "ses/sms/supplier_register/items";
 				}
