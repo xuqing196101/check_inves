@@ -19,6 +19,14 @@
 		<script type="text/javascript">
 			//默认不显示叉
 			$(function() {
+                // 导航栏选中
+                $("#reverse_of_four").attr("class","active");
+                // 预审核结束状态
+                if('${supplierStatus}' == -2 || '${supplierStatus}' == -3){
+                    $("#reverse_of_seven_i").show();
+                    $("#reverse_of_eight").show();
+                }
+
 				$("td").each(function() {
 					$(this).parent("tr").find("td").eq(9).find("a").hide();
 				});
@@ -757,48 +765,7 @@
 		<div class="container container_box">
 			<div class="content">
 				<div class="col-md-12 col-sm-12 col-xs-12 tab-v2 job-content">
-					<ul class="flow_step">
-						<li onclick="jump('essential')">
-							<a aria-expanded="false">基本信息</a>
-							<i></i>
-						</li>
-						<li onclick="jump('financial')">
-							<a aria-expanded="true">财务信息</a>
-							<i></i>
-						</li>
-						<li onclick="jump('shareholder')">
-							<a aria-expanded="false">股东信息</a>
-							<i></i>
-						</li>
-						<li onclick="jump('supplierType')" class="active">
-							<a aria-expanded="false">供应商类型</a>
-							<i></i>
-						</li>
-						<!-- <li onclick="jump('items')">
-							<a aria-expanded="false">产品类别</a>
-							<i></i>
-						</li> 
-						<li onclick="jump('aptitude')">
-							<a aria-expanded="false">资质文件维护</a>
-							<i></i>
-						</li>
-						<li onclick="jump('contract')">
-							<a aria-expanded="false">销售合同</a>
-							<i></i>
-						</li>-->
-						<li onclick="jump('aptitude')">
-                            <a aria-expanded="false">产品类别及资质合同</a>
-                            <i></i>
-                        </li>
-						<li onclick="jump('applicationForm')">
-							<a aria-expanded="false">承诺书和申请表</a>
-							<i></i>
-						</li>
-						<li onclick="jump('reasonsList')">
-							<a aria-expanded="false">审核汇总</a>
-						</li>
-					</ul>
-					
+					<%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
 					<!-- 供应商类型信息头 -->
 					<ul class="ul_list count_flow">
 						<li>

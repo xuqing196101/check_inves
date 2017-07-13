@@ -6,6 +6,7 @@ import common.constant.StaticVariables;
 import common.service.UploadService;
 import common.utils.DateUtils;
 import common.utils.JdcgResult;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -60,6 +61,7 @@ import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
+import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
@@ -977,8 +979,6 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		SupplierPublicity supplierPublicityQuery = (SupplierPublicity) map.get("supplierPublicity");
 		List<SupplierPublicity> list = supplierMapper.selectSupByPublictyList(supplierPublicityQuery);
 		if(list != null && !list.isEmpty()){
-			// 封装查询map集合
-			Map<String, Object> selectMap = new HashMap<>(); 
 			// 封装供应商类型
 			StringBuffer sb = new StringBuffer(); 
 			for (SupplierPublicity supplierPublicity : list) {
@@ -996,18 +996,35 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					// 清空sb
 					sb.delete(0, sb.toString().length());
 				}
-				// 查询供应商申请类别数量
-				Integer count = supplierItemMapper.selectRegSupCateCount(supplierPublicity.getId());
-				supplierPublicity.setPassCateCount(count);
-				// 查询供应商未通过类别数量
-				selectMap.put("supplierId", supplierPublicity.getId());
-				selectMap.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
-				selectMap.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
-				Integer noPassCount = supplierAuditMapper.selectRegSupCateCount(selectMap);
-				supplierPublicity.setNoPassCateCount(noPassCount);
+				// 查询选择和未通过的产品类别
+				selectChooseOrNoPassCateOfDB(supplierPublicity);
 			}
 		}
 		return list;
+	}
+
+	/**
+	 *
+	 * Description: 查询选择和未通过的产品类别
+	 *
+	 * @author Easong
+	 * @version 2017/7/12
+	 * @param [supplierPublicity]
+	 * @since JDK1.7
+	 */
+	private SupplierPublicity selectChooseOrNoPassCateOfDB(SupplierPublicity supplierPublicity) {
+		// 封装查询map集合
+		Map<String, Object> selectMap = new HashMap<>();
+		// 查询供应商申请类别数量
+		Integer count = supplierItemMapper.selectRegSupCateCount(supplierPublicity.getId());
+		supplierPublicity.setPassCateCount(count);
+		// 查询供应商未通过类别数量
+		selectMap.put("supplierId", supplierPublicity.getId());
+		selectMap.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+		selectMap.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+		Integer noPassCount = supplierAuditMapper.selectRegSupCateCount(selectMap);
+		supplierPublicity.setNoPassCateCount(noPassCount);
+		return supplierPublicity;
 	}
 
 	@Override
@@ -1077,6 +1094,69 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		allTreeList.add(cateTree);		
 		return allTreeList;
 	}
+
+	/**
+	 *
+	 * Description:查询选择和未通过的产品类别
+	 *
+	 * @author Easong
+	 * @version 2017/7/12
+	 * @param [supplierPublicity]
+	 * @since JDK1.7
+	 */
+	@Override
+	public SupplierPublicity selectChooseOrNoPassCate(SupplierPublicity supplierPublicity) {
+        return selectChooseOrNoPassCateOfDB(supplierPublicity);
+	}
+
+	@Override
+	public JdcgResult selectAndVertifyAuditItem(String supplierId) {
+		/**
+		 *
+		 * Description:审核前判断是否有通过项和未通过项--是否符合通过要求
+		 *
+		 * @author Easong
+		 * @version 2017/7/13
+		 * @param [supplierId]
+		 * @since JDK1.7
+		 */
+		// 判断基本信息+财务信息+股东信息
+        Map<String, Object> map = new HashedMap();
+        map.put("supplierId",supplierId);
+        map.put("auditType", Constant.SUPPLIER_BASIC_INFO_ITEM_FLAG);
+        Integer count;
+        // 定义选择类型数量
+        Integer selectCount;
+        count = supplierAuditMapper.selectBasicInfoAuditItem(map);
+        if(count != null && count > 0){
+            return JdcgResult.build(500, "基本、财务、股东信息中有不通过项");
+        }
+        // 判断供应商类型和产品类别分别不能有全不通过项
+        // 获取供应商选择品目的类型
+        List<String> supplierTypeBySupplierIdList = supplierItemMapper.findSupplierTypeBySupplierId(supplierId);
+        // 获取供应商不通过品目的类型
+        map.put("auditType", Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
+        count = supplierAuditMapper.selectBasicInfoAuditItem(map);
+        if(supplierTypeBySupplierIdList != null && !supplierTypeBySupplierIdList.isEmpty()){
+            selectCount = supplierTypeBySupplierIdList.size();
+            if(count != null && (selectCount - count) <= 0){
+                return JdcgResult.build(500, "类型不能全部为不通过项");
+            }
+        }
+
+        // 判断产品类别
+        SupplierPublicity supplierPublicity = new SupplierPublicity();
+        supplierPublicity.setId(supplierId);
+        SupplierPublicity supplierPublicityAfter = this.selectChooseOrNoPassCateOfDB(supplierPublicity);
+        // 获取选择的产品类别数量
+        selectCount = supplierPublicityAfter.getPassCateCount();
+        count = supplierPublicityAfter.getNoPassCateCount();
+        if(count != null && selectCount != null && (selectCount - count) < 0){
+            return JdcgResult.build(500, "产品类别不能全部为不通过项");
+        }
+        return JdcgResult.ok();
+	}
+
 	/**
 	 * 
 	 * Description:封装 合计 销售合同 物资 生产

@@ -43,23 +43,7 @@
 	<div class="container container_box">
 		<div class="content ">
 			<div class="col-md-12 tab-v2 job-content">
-				<ul class="flow_step">
-					<li onclick="jump('essential')">
-					<a aria-expanded="false" href="#tab-1">基本信息</a> <i></i></li>
-					<li onclick="jump('financial')">
-					<a aria-expanded="true"	href="#tab-2">财务信息</a> <i></i></li>
-					<li onclick="jump('shareholder')">
-					<a aria-expanded="false" href="#tab-3">股东信息</a> <i></i></li>
-					<li onclick="jump('supplierType')">
-					<a aria-expanded="false">供应商类型</a>
-						<i></i></li>
-					<li onclick="jump('aptitude')" class="active">
-					<a	aria-expanded="false" href="#tab-4">产品类别及资质合同</a> <i></i></li>
-					<li onclick="jump('applicationForm')">
-					<a aria-expanded="false" href="#tab-4">承诺书和申请表</a> <i></i></li>
-					<li onclick="jump('reasonsList')">
-					<a aria-expanded="false" href="#tab-4">审核汇总</a></li>
-				</ul>
+				<%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
 				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow ">
                     </ul>
                 <div class="red mt10 mb10">提示:点击产品目录即可对该条产品目录进行审核不通过操作</div>
@@ -147,7 +131,7 @@
 	</div>
 	<form id="form_id" action="" method="post">
 		<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden"> 
-		<input name="supplierStatus" value="${supplierStatus}" type="hidden">
+		<input name="supplierStatus" id="supplierStatus" value="${supplierStatus}" type="hidden">
 		<input type="hidden" id="supplierTypes" value="${supplierTypes}">
 		<input type="hidden" name="supplierType" >
 		<input type="hidden" name="sign" value="${sign}">

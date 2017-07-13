@@ -54,6 +54,7 @@ import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierPorjectQua;
+import ses.model.sms.SupplierPublicity;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierSignature;
 import ses.model.sms.SupplierStockholder;
@@ -936,7 +937,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		//回显未通过字段
 		SupplierAudit supplierAudit = new SupplierAudit();
-		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("mat_pro_page");
 			List < SupplierAudit > reasonsProList = supplierAuditService.selectByPrimaryKey(supplierAudit);
@@ -1288,7 +1289,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	@RequestMapping("reasonsList")
 	public String reasonsList(Model model, HttpServletRequest request, SupplierAudit supplierAudit, Integer supplierStatus, Integer sign) {
 		request.setAttribute("sign", sign);
-		
+
 		String supplierId = supplierAudit.getSupplierId();
 		if(supplierId == null) {
 			supplierId = (String) request.getSession().getAttribute("supplierId");
@@ -1308,8 +1309,15 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 
 		// 查询最终审核意见
-		SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionService.selectByExpertId(supplierId);
-		
+		SupplierAuditOpinion supplierAuditOpinion;
+		if(sign == 1){
+			// 初审意见
+            supplierAuditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 0);
+        }else {
+			// 复审和复查意见
+			supplierAuditOpinion = supplierAuditOpinionService.selectByExpertId(supplierId);
+		}
+
 		//文件
 		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
@@ -1317,13 +1325,11 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		request.setAttribute("supplierId", supplierId);
 		request.getSession().removeAttribute("supplierId");
-		String opinion = "";
+		/*String opinion = "";
 		if(supplierAuditOpinion != null){
 			opinion = supplierAuditOpinion.getOpinion();
-		}
-		model.addAttribute("opinion", opinion);
-		// 设置文件上传项
-		fileUploadItem(model);
+		}*/
+		model.addAttribute("supplierAuditOpinion", supplierAuditOpinion);
 		return "ses/sms/supplier_audit/audit_reasons";
 	}
 
@@ -3606,9 +3612,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	
 	/**
 	 * @Title: auditOpinion
-	 * @date 2017-6-9 下午3:20:35  
+	 * @date 2017-6-9 下午3:20:35
 	 * @Description:记录审核意见
-	 * @param @param supplierAuditOpinion      
+	 * @param @param supplierAuditOpinion
 	 * @return void
 	 */
 	/*public void auditOpinion(SupplierAuditOpinion supplierAuditOpinion) {
@@ -3639,13 +3645,137 @@ public class SupplierAuditController extends BaseSupplierController {
 		// 设置修改时间
 		supplier.setUpdatedAt(new Date());
 		supplierAuditService.updateStatus(supplier);
-		//记录最终意见
-		SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
-		supplierAuditOpinion.setOpinion(opinion);
-		supplierAuditOpinion.setSupplierId(supplierId);
-		supplierAuditOpinion.setCreatedAt(new Date());
-		supplierAuditOpinionService.insertSelective(supplierAuditOpinion);
-		
 		return JdcgResult.ok();
 	}
+
+
+	/**
+	 *
+	 * Description:查询选择和未通过的产品类别
+	 *
+	 * @author Easong
+	 * @version 2017/7/12
+	 * @param [supplierPublicity]
+	 * @since JDK1.7
+	 */
+	@RequestMapping("/selectChooseOrNoPassCate")
+	@ResponseBody
+	public SupplierPublicity selectChooseOrNoPassCate(SupplierPublicity supplierPublicity){
+		return supplierAuditService.selectChooseOrNoPassCate(supplierPublicity);
+	}
+
+	@RequestMapping("/uploadApproveFile")
+	public String uploadApproveFile(Model model, String supplierId, String supplierStatus, String sign){
+	    /**
+	     *
+	     * Description:上传批准审核表
+	     *
+	     * @author Easong
+	     * @version 2017/7/12
+	     * @param [supplier]
+	     * @param [model]
+	     * @since JDK1.7
+	     */
+	    // 查询供应商
+        Supplier supplier = supplierAuditService.supplierById(supplierId);
+	    model.addAttribute("supplierId", supplierId);
+	    model.addAttribute("supplierStatus", supplierStatus);
+	    model.addAttribute("sign", sign);
+	    model.addAttribute("supplier", supplier);
+        // 设置文件上传项
+        fileUploadItem(model);
+	    return "ses/sms/supplier_audit/audit_attach_upload";
+    }
+
+    @RequestMapping("/saveAuditOpinion")
+	@ResponseBody
+	public JdcgResult auditOpinion(SupplierAuditOpinion supplierAuditOpinion, String vertifyFlag) {
+		/**
+		 *
+		 * Description:记录审核意见
+		 *
+		 * @author Easong
+		 * @version 2017/7/12
+		 * @param [supplierAuditOpinion]
+		 * @since JDK1.7
+		 */
+		return supplierAuditOpinionService.insertSelective(supplierAuditOpinion, vertifyFlag);
+	}
+
+
+    @RequestMapping("updateStatusAjax")
+    @ResponseBody
+    public JdcgResult updateStatusAjax(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit) throws IOException {
+	    /**
+	     *
+	     * Description:修改供应商状态-ajax
+	     *
+	     * @author Easong
+	     * @version 2017/7/13
+	     * @param [user, request, supplier, supplierAudit, supplierAuditOpinion]
+	     * @since JDK1.7
+	     */
+        String supplierId = supplierAudit.getSupplierId();
+        // 审核前判断是否有通过项和未通过项--是否符合通过要求
+        if(supplier.getStatus() == -3){
+            // 点击通过按钮时判断
+            JdcgResult selectAndVertifyAuditItem = supplierAuditService.selectAndVertifyAuditItem(supplierId);
+            if(selectAndVertifyAuditItem.getStatus() != 200) {
+                //如果有错误信息则直接返回提示操作
+                return selectAndVertifyAuditItem;
+            }
+
+        }
+        Todos todos = new Todos();
+        //更新状态
+        supplier.setId(supplierId);
+        supplier.setAuditDate(new Date());
+        //审核人
+        supplier.setAuditor(user.getRelName());
+
+        //还原审核暂存状态
+        supplier.setAuditTemporary(0);
+        // 设置修改时间
+        supplier.setUpdatedAt(new Date());
+        supplierAuditService.updateStatus(supplier);
+
+        if(supplier.getStatus() != null && supplier.getStatus() == -3){
+            // 供应商分级要素得分
+            supplier.setLevelScoreProduct(SupplierLevelUtil.getScore(supplier.getId(), "PRODUCT"));
+            supplier.setLevelScoreSales(SupplierLevelUtil.getScore(supplier.getId(), "SALES"));
+            supplier.setLevelScoreService(SupplierLevelUtil.getScore(supplier.getId(), "SERVICE"));
+            if(supplier.getProcurementDepId() != null){
+                supplierService.updateSupplierProcurementDep(supplier);
+            }
+        }
+
+        //更新待办
+        supplier = supplierAuditService.supplierById(supplierId);
+        String supplierName = supplier.getSupplierName();
+
+        //记录审核不通过的供应商
+        if(supplier.getStatus() == 3){
+            SupplierAuditNot supplierAuditNot = new SupplierAuditNot();
+            supplierAuditNot.setCreditCode(supplier.getCreditCode());
+            supplierAuditNot.setSupplierId(supplierId);
+            supplierAuditNot.setCreatedAt(new Date());
+            supplierAuditNotService.insertSelective(supplierAuditNot);
+        }
+
+        /**
+         * 更新待办(已完成)
+         */
+        if(supplier.getStatus() != null && supplier.getStatus() == -3 || supplier.getStatus() == 3) {
+            todosService.updateIsFinish("supplierAudit/essential.html?supplierId=" + supplierId);
+        }
+
+        //审核完更新状态
+        List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+        if(reasonsList.size() != 0) {
+            supplierAudit.setStatus(supplier.getStatus());
+            supplierAudit.setSupplierId(supplierId);
+            supplierAuditService.updateStatusById(supplierAudit);
+        }
+        return JdcgResult.ok();
+    }
 }

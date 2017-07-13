@@ -13,7 +13,11 @@ public class SupplierAuditOpinion implements Serializable{
 	private String supplierId;
 	private String opinion;
 	private Date createdAt;
-	
+	/**审核标识：0：审核不通过 1：审核通过**/
+	private Integer flagTime;
+	/**第几次审核意见标识 0：第一次审核 1：第二次审核...**/
+	private Integer flagAduit;
+
 	public String getId() {
 		return id;
 	}
@@ -38,5 +42,20 @@ public class SupplierAuditOpinion implements Serializable{
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	
+
+	public Integer getFlagTime() {
+		return flagTime;
+	}
+
+	public void setFlagTime(Integer flagTime) {
+		this.flagTime = flagTime;
+	}
+
+	public Integer getFlagAduit() {
+		return flagAduit;
+	}
+
+	public void setFlagAduit(Integer flagAduit) {
+		this.flagAduit = flagAduit;
+	}
 }

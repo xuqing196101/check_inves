@@ -17,8 +17,16 @@
 		<script type="text/javascript">
 		  //默认不显示叉
 		  $(function() {
-		  $("td").each(function() {
-		  $(this).find("a").eq(0).hide();
+              // 导航栏选中
+              $("#reverse_of_three").attr("class","active");
+              $("td").each(function() {
+              $(this).find("a").eq(0).hide();
+
+              // 预审核结束状态
+              if('${supplierStatus}' == -2 || '${supplierStatus}' == -3){
+                  $("#reverse_of_seven_i").show();
+                  $("#reverse_of_eight").show();
+              }
 		  });
 		});
 
@@ -211,93 +219,7 @@
     <div class="container container_box">
       <div class="content height-350">
         <div class="col-md-12 tab-v2 job-content">
-          <%-- <ul class="nav nav-tabs bgdd">
-        <li class=""><a>详细信息</a></li>
-        <li class=""><a>财务信息</a></li>
-        <li class="active"><a>股东信息</a></li>
-        <c:if test="${fn:contains(supplierTypeNames, '生产')}">
-        <li class=""><a >物资-生产专业信息</a></li>
-        </c:if>
-        <c:if test="${fn:contains(supplierTypeNames, '销售')}">
-        <li class=""><a >物资-销售专业信息</a></li>
-        </c:if>
-        <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-        <li class=""><a >工程-专业信息</a></li>
-        </c:if>
-        <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-        <li class=""><a >服务-专业信息</a></li>
-        </c:if>
-        <li class=""><a >品目信息</a></li>
-        <li class=""><a >产品信息</a></li>
-        <li class=""><a >申请表</a></li>
-        <li class=""><a >审核汇总</a></li>
-        </ul> --%>
-
-        <ul class="flow_step">
-          <li onclick = "jump('essential')">
-            <a aria-expanded="false" >基本信息</a>
-            <i></i>
-          </li>
-          <li onclick = "jump('financial')">
-            <a aria-expanded="true">财务信息</a>
-            <i></i>
-          </li>
-          <li onclick = "jump('shareholder')"  class="active" >
-            <a aria-expanded="false">股东信息</a>
-            <i></i>
-          </li>
-          <%--<c:if test="${fn:contains(supplierTypeNames, '生产')}">
-            <li onclick = "jump('materialProduction')">
-              <a aria-expanded="false" href="#tab-4" >生产信息</a>
-              <i></i>
-            </li>
-          </c:if>
-          <c:if test="${fn:contains(supplierTypeNames, '销售')}">
-            <li onclick = "jump('materialSales')">
-              <a aria-expanded="false" href="#tab-4" >销售信息</a>
-              <i></i>
-            </li>
-          </c:if>
-          <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-            <li onclick = "jump('engineering')">
-              <a aria-expanded="false" href="#tab-4" >工程信息</a>
-              <i></i>
-            </li>
-          </c:if>
-          <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-            <li onclick = "jump('serviceInformation')">
-              <a aria-expanded="false" href="#tab-4" >服务信息</a>
-              <i></i>
-            </li>
-          </c:if>
-          --%><li onclick = "jump('supplierType')">
-           	  <a aria-expanded="false">供应商类型</a>
-            	<i></i>
-	          </li>
-          <!-- <li onclick = "jump('items')">
-            <a aria-expanded="false" >产品类别</a>
-            <i></i>
-	        </li>
-	        <li onclick="jump('aptitude')">
-						<a aria-expanded="false" >资质文件维护</a>
-						<i></i>
-					</li>
-          <li onclick="jump('contract')">
-					  <a aria-expanded="false" >销售合同</a>
-					  <i></i>
-					</li> -->
-					<li onclick="jump('aptitude')">
-                            <a aria-expanded="false" href="#tab-4">产品类别及资质合同</a>
-                            <i></i>
-                        </li>
-          <li onclick = "jump('applicationForm')">
-            <a aria-expanded="false" >承诺书和申请表</a>
-            <i></i>
-          </li>
-          <li onclick = "jump('reasonsList')">
-            <a aria-expanded="false" >审核汇总</a>
-          </li>
-        </ul>
+            <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
 
         <form id="form_id" action="" method="post" >
             <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">

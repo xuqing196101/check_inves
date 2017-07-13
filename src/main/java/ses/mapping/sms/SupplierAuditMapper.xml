@@ -21,7 +21,7 @@
   </sql>
   
   <select id="selectByPrimaryKey"   parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from T_SES_SMS_SUPPLIER_AUDIT
     where SUPPLIER_ID = #{supplierId}
@@ -354,4 +354,13 @@
 		   AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
        AND T.IS_DELETED = 0
 	</select>
+
+  <!--查询基本信息的审核项数量-->
+   <select id="selectBasicInfoAuditItem" resultType="java.lang.Integer" parameterType="Map">
+     SELECT COUNT(T.ID)
+      FROM T_SES_SMS_SUPPLIER_AUDIT T
+     WHERE T.SUPPLIER_ID = #{supplierId}
+       AND T.AUDIT_TYPE = #{auditType}
+       AND T.IS_DELETED = 0
+   </select>
 </mapper>

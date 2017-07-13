@@ -370,8 +370,10 @@
 	<select id="selectRegSupCateCount" resultType="java.lang.Integer" parameterType="java.lang.String">
 		SELECT COUNT(T.ID)
 		  FROM T_SES_SMS_SUPPLIER_ITEM T
-		   WHERE T.SUPPLIER_ID = #{supplierId}
-		   AND T.CATE_LEVEL = '3'
+		   WHERE T.CATE_LEVEL = '3'
+		   <if test="supplierId != null and supplierId != ''">
+			   AND  T.SUPPLIER_ID = #{supplierId}
+		   </if>
 	</select>
 	
 	<!-- 获取该供应商品目的类型 -->

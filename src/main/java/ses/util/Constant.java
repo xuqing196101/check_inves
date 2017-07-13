@@ -29,4 +29,10 @@ public class Constant {
 	public static final String SUPPLIER_PRODUCT="PRODUCT";
 	//供应商 物资销售 标识
 	public static final String SUPPLIER_SALES="SALES";
+
+	// 供应商审核记录基本信息审核项标识
+	public static final String SUPPLIER_BASIC_INFO_ITEM_FLAG = "basic_page";
+
+    // 供应商审核记录类别标识
+    public static final String SUPPLIER_CATE_INFO_ITEM_FLAG = "supplierType_page";
 }

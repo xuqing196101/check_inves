@@ -39,6 +39,28 @@ function jump(str) {
     if (str == "supplierType") {
         action = globalPath + "/supplierAudit/supplierType.html";
     }
+    if (str == "uploadApproveFile") {
+        var supplierStatus = $("#supplierStatus").val();
+        // 获取审核意见
+        var opinion  = $("#opinion").val();
+        if(supplierStatus != -3){
+            if(opinion == ''){
+                layer.msg("审核意见不能为空！");
+                return;
+            }
+            if(opinion.length > 1000){
+                layer.msg("审核意见不能超过1000字！");
+                return;
+            }
+            // 判断附件是否下载
+            var downloadAttachFile = $("#downloadAttachFile").val();
+            if(downloadAttachFile == ''){
+                layer.msg("请下载审批表！");
+                return;
+            }
+        }
+        action = globalPath + "/supplierAudit/uploadApproveFile.html";
+    }
     $("#form_id").attr("action", action);
     $("#form_id").submit();
 }

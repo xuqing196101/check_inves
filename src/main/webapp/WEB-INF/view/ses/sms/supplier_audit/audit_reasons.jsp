@@ -10,9 +10,13 @@
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">
 	<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
+	<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/audit_reasons.js"></script>
     <script type="text/javascript">
       //只读
        $(function() {
+           $("#reverse_of_seven").attr("class","active");
+
+           $
        /*$(":input").each(function() {
         $(this).attr("readonly", "readonly");
       }); */
@@ -26,12 +30,14 @@
          $("#buhege").attr("disabled", true);
        }
        if(num != 0){
-         $("#tongguo").attr("disabled", true);
+         //$("#tongguo").attr("disabled", true);
          $("#hege").attr("disabled", true);
          };
-      		// 复审预通过状态
-         if('${supplierStatus}' == -2){
+         // 预审核结束状态
+         if('${supplierStatus}' == -2 || '${supplierStatus}' == -3){
          	  $("#checkWord").show();
+         	  $("#reverse_of_seven_i").show();
+         	  $("#reverse_of_eight").show();
          }
          if('${supplierStatus}' == -3){
          	  $("#checkWord").show();
@@ -88,23 +94,44 @@
 						});
 	   			}else{ */
 		   			//询问框
-	   				if(status == -3){
-		   				layer.confirm('您确认吗？', {
+           if(status == -2){
+               layer.confirm('您确认吗？', {
 	              closeBtn: 0,
 	              offset: '100px',
 	              shift: 4,
 	              btn: ['确认','取消']
-	            }, function(index){
+               }, function(index){
 	                //最终意见
                 	$("#status").val(status);
-                	$("#auditOpinion").val($("#auditOpinionFile").val());
+                	//$("#auditOpinion").val($("#auditOpinionFile").val());
                 	//$("input[name='opinion']").val(opinion);
-                	layer.close(index);
-                	$("#form_shen").submit();
+                   // ajax提交改变供应商状态
+                   $.ajax({
+                       url: "${pageContext.request.contextPath}/supplierAudit/updateStatusOfPublictity.do",
+                       data: $("#form_shen").serialize(),
+                       success: function (data) {
+                           if(data.status == 200){
+                               $("#tongguoSpan").hide();
+                               $("#tuihui").hide();
+                               $("#checkWord").show();
+                               $("#publicity").show();
+                               $("#tempSave").show();
+                               $("#nextStep").show();
+                               // 显示上传批准审核表页面标签
+                               $("#reverse_of_seven_i").show();
+                               $("#reverse_of_eight").show();
+                               // 初始化文件上传组件
+                               init_web_upload();
+                               layer.close(index);
+                           }
+                       }
+                   });
+                   layer.close(index);
+                   return;
 	            });
-		   			}
+           }
 	   			
-	   			  if(status != -3){
+	   			  if(status != -2){
             var opinion = document.getElementById('opinion').value;
             opinion = trim(opinion);
 		   			if (opinion != null && opinion != "") {
@@ -168,7 +195,7 @@
 		  }
 		
 		  //移除
-	    function dele(){
+            function dele(){
 	  		var supplierId = $("input[name='supplierId']").val();
 				var ids =[];
 				$('input[name="chkItem"]:checked').each(function(){ 
@@ -204,9 +231,10 @@
 		  
 			  //下载审核/复核/意见函/考察表
 				function downloadTable(str) {
-          $("input[name='tableType']").val(str);
-          $("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/downloadTable.html");
-          $("#shenhe_form_id").submit();
+                      $("input[name='tableType']").val(str);
+                      $("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/downloadTable.html");
+                      $("#shenhe_form_id").submit();
+                      $("#downloadAttachFile").val("1");
 				}
     </script>
     <script type="text/javascript">
@@ -293,78 +321,22 @@
   <div class="container container_box">
       <div class="content">
         <div class="col-md-12 tab-v2 job-content">
-	          <ul class="flow_step">
-		          <li onclick = "jump('essential')">
-		            <a aria-expanded="false" href="#tab-1">基本信息</a>
-		            <i></i>
-		          </li>
-		          <li onclick = "jump('financial')">
-		            <a aria-expanded="true" href="#tab-2">财务信息</a>
-		            <i></i>                            
-		          </li>
-		          <li onclick = "jump('shareholder')" >
-		            <a aria-expanded="false" href="#tab-3">股东信息</a>
-		            <i></i>
-		          </li>
-		          <%--<c:if test="${fn:contains(supplierTypeNames, '生产')}">
-		            <li onclick = "jump('materialProduction')">
-		              <a aria-expanded="false" href="#tab-4">生产信息</a>
-		              <i></i>
-		            </li>
-		          </c:if>
-		          <c:if test="${fn:contains(supplierTypeNames, '销售')}">
-		            <li onclick = "jump('materialSales')" >
-		              <a aria-expanded="false" href="#tab-4" >销售信息</a>
-		              <i></i>
-		            </li>
-		          </c:if>
-		          <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-		            <li onclick = "jump('engineering')">
-		              <a aria-expanded="false" href="#tab-4">工程信息</a>
-		              <i></i>
-		            </li>
-		          </c:if>
-		          <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-		            <li onclick = "jump('serviceInformation')" >
-		              <a aria-expanded="false" href="#tab-4" >服务信息</a>
-		              <i></i>
-		            </li>
-		          </c:if>
-		          --%>
-		          <li onclick = "jump('supplierType')">
-		           	<a aria-expanded="false">供应商类型</a>
-		           	<i></i>
-			      	</li>
-		          <!-- <li onclick = "jump('items')">
-	            	<a aria-expanded="false" href="#tab-4" >产品类别</a>
-	            	<i></i>
-	          	</li>  
-	          	<li onclick="jump('aptitude')">
-								<a aria-expanded="false">资质文件维护</a>
-								<i></i>
-							</li>
-		          <li onclick = "jump('contract')" >
-		            <a aria-expanded="false" href="#tab-4">销售合同</a>
-		             <i></i>-->
-		          </li>   
-		          <li onclick="jump('aptitude')">
-                            <a aria-expanded="false" href="#tab-4">产品类别及资质合同</a>
-                            <i></i>
-                        </li> 
-		          <li onclick = "jump('applicationForm')" >
-		            <a aria-expanded="false" href="#tab-4" >承诺书和申请表</a>
-		            <i></i>
-		          </li>
-		          <li onclick = "jump('reasonsList')"  class="active">
-		            <a aria-expanded="false" href="#tab-4" data-toggle="tab">审核汇总</a>
-		          </li>
-		        </ul>
-        
-          <form id="form_id" action="" method="post">
-              <input name="supplierId" value="${supplierId}" type="hidden">
-              <input name="supplierStatus" value="${supplierStatus}" type="hidden">
-              <input type="hidden" name="sign" value="${sign}">
-          </form>
+            <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
+            <form id="form_id" action="" method="post">
+                <input name="supplierId" value="${supplierId}" type="hidden">
+                <input name="supplierStatus" id="supplierStatus" value="${supplierStatus}" type="hidden">
+                <input type="hidden" name="sign" value="${sign}">
+            </form>
+
+            <!--审核意见上传表单-->
+            <form id="opinionForm" method="post">
+                <input name="id" value="${supplierAuditOpinion.id}" type="hidden">
+                <input name="supplierId" value="${supplierId}" type="hidden">
+                <input name="opinion" value="" id="opinionId" type="hidden">
+                <input name="flagTime" value="" id="flagTime" type="hidden">
+                <input name="flagAduit" value="" id="flagAduit" type="hidden">
+                <input name="vertifyFlag" value="" id="vertifyFlag" type="hidden">
+            </form>
           
           <!-- download check table -->
           <form id="shenhe_form_id" action="" method="post">
@@ -378,7 +350,7 @@
           </c:if>
            <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
           <div class="ul_list count_flow">
-            <c:if test="${supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+            <c:if test="${supplierStatus == 0 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
               <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
             </c:if>
             <table class="table table-bordered table-condensed table-hover">
@@ -442,54 +414,56 @@
 		          </li>
 	          </ul>
 	        </c:if> --%>
-	        
-	        <div id="opinionDiv">
-		        <h2 class="count_flow"><i>2</i>最终意见</h2>
-	          <ul class="ul_list">
-	              <li class="col-md-12 col-sm-12 col-xs-12">
-	                  <div class="col-md-12 col-sm-12 col-xs-12 p0">
-	                      <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ opinion }</textarea>
-	                  </div>
-	              </li>
-	          </ul>
-          </div>
-          <!-- 审核公示扫描件上传 -->
-          <div class="display-none" id="checkWord">
-	            <h2 class="count_flow"><i>3</i>供应商审批表</h2>
-	            <ul class="ul_list">
-	            <c:if test="${ supplierStatus == -3 }">
-					<li class="col-md-6 col-sm-6 col-xs-6">
-						<span class="fl">下载审核表：</span>
-						<a href="javascript:;" onclick="downloadTable(3)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
-					</li>
-	            	<li class="col-md-6 col-sm-6 col-xs-6">
-			              <div>
-			              	<span class="fl">供应商审批表：</span>
-				              <u:show showId="pic_checkword" businessId="${ suppliers.auditOpinionAttach }" sysKey="${ sysKey }" typeId="${typeId }" delete="false" />
-			              </div>
-					</li>
-	            </c:if>
-	            <c:if test="${ supplierStatus != -3 }">
-					<li class="col-md-6 col-sm-6 col-xs-6">
-						<span class="fl">下载审核表：</span>
-						<a href="javascript:;" onclick="downloadTable(3)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
-					</li>
-	                <li class="col-md-6 col-sm-6 col-xs-6">
-			              <div>
-			              	<span class="fl">上传彩色扫描件：</span>
-				              <% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
-				              <input id="auditOpinionFile" type="hidden" value="<%=uuidcheckword%>" />
-				              <u:upload id="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true" exts="png,jpeg,jpg,bmp,git" />
-				              <u:show showId="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${typeId }" />
-			              </div>
-					</li>
-		            </c:if>
-		          </ul>
-          </div>  
-          
-	        <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc mt20">
+			<c:if test="${sign != 1}">
+				<div>
+					<h2 class="count_flow"><i>2</i>最终意见</h2>
+					<ul class="ul_list">
+						<li class="col-md-12 col-sm-12 col-xs-12">
+							<div class="col-md-12 col-sm-12 col-xs-12 p0">
+								<textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</c:if>
+			<c:if test="${ sign == 1}">
+				<div id="checkWord" class="display-none">
+					<div id="opinionDiv">
+						<h2 class="count_flow"><i>2</i>审核意见<span class="red">*</span></h2>
+					  <ul class="ul_list">
+						  <li>
+							  <div class="select_check" id="selectOptionId">
+								  <input type="radio" name="selectOption" value="1">预审核通过
+								  <input type="radio" name="selectOption" value="0">预审核不通过
+							  </div>
+						  </li>
+
+						  <li class="col-md-12 col-sm-12 col-xs-12">
+							  <div class="col-md-12 col-sm-12 col-xs-12 p0">
+								  <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
+							  </div>
+						  </li>
+					  </ul>
+                    <input type="hidden" value="${supplierAuditOpinion.flagAduit}" id="hiddenSelectOptionId">
+                    </div>
+			  <!-- 审核公示扫描件上传 -->
+				  <div>
+						<h2 class="count_flow"><i>3</i>供应商审批表</h2>
+						<ul class="ul_list">
+                            <li class="col-md-6 col-sm-6 col-xs-6">
+                                <span class="fl">下载审核表：</span>
+                                <a href="javascript:;" onclick="downloadTable(3)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
+                            </li>
+						</ul>
+				  </div>
+				</div>
+			</c:if>
+
+			<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc mt20">
+				<input name="opinionBack" id="opinionBack" value="" type="hidden">
+				<input name="downloadAttachFile" id="downloadAttachFile" value="" type="hidden">
 				<form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
-				<input name="supplierId" value="${supplierId}" type="hidden">
+				<input name="supplierId" id="supplierId" value="${supplierId}" type="hidden">
 	            <input name="status" id="status" type="hidden">
 	            <input name="opinion" type="hidden">
 	            <input name="id" type="hidden">
@@ -500,17 +474,21 @@
 					      <a class="btn"  type="button" onclick="lastStep();">上一步</a>
           			<!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
 		            <c:if test="${supplierStatus == 0}">
-		              <span id="tongguoSpan"><input class="btn btn-windows git"  type="button" onclick="shenhe(-2)" value="预审核通过" id="tongguo"></span>
-		              <span class="display-none" id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
-		              <input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
-		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">
+						<input  class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
+						<span id="tongguoSpan"><input class="btn btn-windows git"  type="button" onclick="shenhe(-2)" value="预审核结束" id="tongguo"></span>
+						<%--<span class="display-none" id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>--%>
+                        <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
+                        <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
+		              <%--<input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">--%>
 		            </c:if>
-		            <c:if test="${supplierStatus == -2 || supplierStatus == -3}">
-		            	<c:if test="${supplierStatus == -2}">
+		            <c:if test="${supplierStatus == -2 }">
+		            	<%--<c:if test="${supplierStatus == -2}">
                     <span id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
-                  </c:if>
-                  <input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
-		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">
+                  </c:if>--%>
+                        <%--<input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">--%>
+						<%-- <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">--%>
+						<a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
+					    <a class="btn" type="button" onclick="nextStep();">下一步</a>
                 </c:if>
                 
 		            <c:if test="${supplierStatus == 4}">
