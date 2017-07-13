@@ -435,7 +435,7 @@
 			</c:if>
 			
           <div class="col-md-12 col-sm-12 col-xs-12 tc mt20">
-            <button class="btn btn-windows save" type="button" onclick="submitForm(1)">修改</button>
+            <button class="btn btn-windows save" type="button" onclick="submitForm(0)">修改</button>
             <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
           </div>
         </div>

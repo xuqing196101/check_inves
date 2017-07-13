@@ -65,7 +65,7 @@
 	}
   	function show(id){
   	     if(id){
-  		window.location.href="${pageContext.request.contextPath}/after_sale_ser/show.html?id="+id;
+  		window.location.href="${pageContext.request.contextPath}/after_sale_ser/view.html?id="+id;
   	     }
   	}
     function edit(){
