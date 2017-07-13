@@ -64,7 +64,9 @@
 		   }
 	}
   	function show(id){
+  	     if(id){
   		window.location.href="${pageContext.request.contextPath}/after_sale_ser/show.html?id="+id;
+  	     }
   	}
     function edit(){
     	var id=[]; 
