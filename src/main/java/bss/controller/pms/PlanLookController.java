@@ -222,7 +222,7 @@ public class PlanLookController extends BaseController {
 			model.addAttribute("detail", detail);
             request.getSession().removeAttribute("NoCount");
         	model.addAttribute("kind", DictionaryDataUtil.find(5));
-        	String typeId = DictionaryDataUtil.getId("PURCHASE_FILE");
+        	String typeId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
     		model.addAttribute("typeId", typeId);
         return "bss/pms/collect/plan_views";
     }
