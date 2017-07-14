@@ -628,12 +628,9 @@ public class SupplierController extends BaseSupplierController {
 //                        }
 //                    }
 //                }
-                /*if(before.getStatus().equals(2)) {
+				if(before != null && before.getStatus() != null && before.getStatus() == 2){
 					record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
-				}*/
-                if(before != null && before.getStatus() != null && before.getStatus() == 2){
-                	record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
-                }
+				}
 				
 				if(supplier.getCreditCode()!=null&&supplier.getCreditCode().trim().length()!=0){
 //                    //根据供应商统一社会信用代码判断是否注销或审核不通过且180天内再次注册
@@ -741,12 +738,9 @@ public class SupplierController extends BaseSupplierController {
 	            returnInfo(model, before, supplier);
 	            return "ses/sms/supplier_register/basic_info";
 		    }
-			/*if(before.getStatus().equals(2)) {
-				record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
-			}*/
 			if(before != null && before.getStatus() != null && before.getStatus() == 2){
-            	record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
-            }
+				record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
+			}
 			supplierService.perfectBasic(supplier);
 			supplier = supplierService.get(supplier.getId());
 
