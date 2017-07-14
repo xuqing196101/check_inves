@@ -3409,21 +3409,6 @@ public class ProjectController extends BaseController {
                 page = 1;
             }
             PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-            //判断如果是管理部门
-            if("2".equals(orgnization.getTypeName())){
-                map.put("orgId", user.getOrg().getId());
-                List<Project> list = projectService.selectByOrg(map);
-                for (int i = 0; i < list.size(); i++ ) {
-                    try {
-                        User contractor = userService.getUserById(list.get(i).getPrincipal());
-                        list.get(i).setProjectContractor(contractor.getRelName());
-                    } catch (Exception e) {
-                        list.get(i).setProjectContractor("");
-                    }
-                }
-                model.addAttribute("info", new PageInfo<Project>(list));
-            }
-            
             
           //判断如果是采购机构
             if("1".equals(orgnization.getTypeName())){
@@ -3442,20 +3427,6 @@ public class ProjectController extends BaseController {
                 model.addAttribute("info", new PageInfo<Project>(list));
             }
             
-            //判断如果是需求部门
-            if("0".equals(orgnization.getTypeName())){
-                map.put("userId", user.getId());
-                List<Project> list = projectService.selectByDemand(map);
-                for (int i = 0; i < list.size(); i++ ) {
-                    try {
-                        User contractor = userService.getUserById(list.get(i).getPrincipal());
-                        list.get(i).setProjectContractor(contractor.getRelName());
-                    } catch (Exception e) {
-                        list.get(i).setProjectContractor("");
-                    }
-                }
-                model.addAttribute("info", new PageInfo<Project>(list));
-            }
                 
             model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
             model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据

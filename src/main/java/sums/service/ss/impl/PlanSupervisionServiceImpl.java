@@ -744,47 +744,101 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 				hashMap.put("requiredId", detailId);
 				List<ProjectDetail> selectById = projectDetailMapper.selectById(hashMap);
 				if(selectById != null && selectById.size() > 0){
-					Packages packages = packageMapper.selectByPrimaryKeyId(selectById.get(0).getPackageId());
-					FlowDefine flowDefine = new FlowDefine();
-					flowDefine.setId(packages.getOldFlowId());
-					flowDefine.setUrl("gt");
-    				List<FlowDefine> flows = flowDefineMapper.getFlow(flowDefine);
-    				if(flows != null && flows.size() > 0){
-    					for (int i=0; i<flows.size();i++) {
-    						DictionaryData data = new DictionaryData();
-    						data.setDescription(flows.get(i).getCode());
-    						List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
-    						if(find2 != null && find2.size() > 0){
-    							flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
-    							if(i==flows.size()-1){
-    								map.put(find2.get(0).getId() + "XMFB", find2.get(0));
-    								num = find2.get(0).getPosition()+1;
-    							}else{
-    								map.put(find2.get(0).getId(), find2.get(0));
-    							}
-    						}
-    					}
-    				} else if(!"CGLC_CGXMLX".equals(packages.getOldFlowId()) && !"CGLC_CGXMFB".equals(packages.getOldFlowId())) {
-    					FlowDefine define = new FlowDefine();
-    					define.setPurchaseTypeId(packages.getPurchaseType());
-    					define.setCode("XMXX");
-    					List<FlowDefine> findList = flowDefineMapper.findList(define);
-    					if(findList != null && findList.size() > 0){
-    						flowDefine.setId(findList.get(0).getId());
-    						flowDefine.setUrl("lt");
-    						List<FlowDefine> defines = flowDefineMapper.getFlow(flowDefine);
-    						for (int i=0; i<defines.size();i++) {
-        						DictionaryData data = new DictionaryData();
-        						data.setDescription(defines.get(i).getCode());
-        						List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
-        						if(find2 != null && find2.size() > 0){
-        							flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
-        							map.put(find2.get(0).getId(), find2.get(0));
-        						}
-        					}
-    					}
-    				}
-    				
+					//如果relationId等于空并且分过包进if
+					if(StringUtils.isNotBlank(selectById.get(0).getPackageId())){
+						Packages packages = packageMapper.selectByPrimaryKeyId(selectById.get(0).getPackageId());
+						FlowDefine flowDefine = new FlowDefine();
+						flowDefine.setId(packages.getOldFlowId());
+						flowDefine.setUrl("gt");
+	    				List<FlowDefine> flows = flowDefineMapper.getFlow(flowDefine);//获取小于等于中止的环节
+	    				if(flows != null && flows.size() > 0){
+	    					for (int i=0; i<flows.size();i++) {
+	    						DictionaryData data = new DictionaryData();
+	    						data.setDescription(flows.get(i).getCode());
+	    						List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
+	    						if(find2 != null && find2.size() > 0){
+	    							if(num != 0){
+	    								find2.get(0).setPosition(num);
+	    								num++;
+	    							}
+	    							flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
+	    							if(i == flows.size()-1){
+	    								map.put(WfUtil.createUUID() + "XMFB", find2.get(0));
+	    								num = find2.get(0).getPosition()+1;
+	    							}else{
+	    								map.put(WfUtil.createUUID(), find2.get(0));
+	    							}
+	    						}
+	    					}
+	    				} else if (list.size() == 1){
+	    					//正常流程进这里
+	    					FlowDefine define = new FlowDefine();
+	    					define.setPurchaseTypeId(packages.getPurchaseType());
+	    					define.setCode("XMXX");
+	    					List<FlowDefine> findList = flowDefineMapper.findList(define);
+	    					if(findList != null && findList.size() > 0){
+	    						flowDefine.setId(findList.get(0).getId());
+	    						flowDefine.setUrl("lt");
+	    						List<FlowDefine> defines = flowDefineMapper.getFlow(flowDefine);
+	    						for (int i=0; i<defines.size();i++) {
+	    							DictionaryData data = new DictionaryData();
+	    							data.setDescription(defines.get(i).getCode());
+	    							List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
+	    							if(find2 != null && find2.size() > 0){
+	    								flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
+	    								map.put(find2.get(0).getId(), find2.get(0));
+	    							}
+	    						}
+	    					}
+	    				} else if (!"CGLC_CGXMLX".equals(packages.getOldFlowId()) && !"CGLC_CGXMFB".equals(packages.getOldFlowId())) {
+	    					FlowDefine define = new FlowDefine();
+	    					define.setPurchaseTypeId(packages.getPurchaseType());
+	    					define.setCode("XMXX");
+	    					List<FlowDefine> findList = flowDefineMapper.findList(define);
+	    					if(findList != null && findList.size() > 0){
+	    						flowDefine.setId(findList.get(0).getId());
+	    						flowDefine.setUrl("lt");
+	    						List<FlowDefine> defines = flowDefineMapper.getFlow(flowDefine);
+	    						for (int i=0; i<defines.size();i++) {
+	    							DictionaryData data = new DictionaryData();
+	    							data.setDescription(defines.get(i).getCode());
+	    							List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
+	    							if(find2 != null && find2.size() > 0){
+	    								if(num != 0){
+	    									find2.get(0).setPosition(num);
+	    									num++;
+	    								} else {
+	    									num = find2.get(0).getPosition()+1;
+	    								}
+	    								flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
+	    								map.put(WfUtil.createUUID(), find2.get(0));
+	    							}
+	    						}
+	    					}
+	    				}/* else if ("CGLC_CGXMLX".equals(packages.getOldFlowId()) || "CGLC_CGXMFB".equals(packages.getOldFlowId())) {
+	    					HashMap<String, Object> flowMap = new HashMap<>();
+	    					flowMap.put("lt", packages.getOldFlowId());
+	    					List<DictionaryData> viewFlows = dictionaryDataMapper.viewFlows(flowMap);
+	    					if(viewFlows != null && viewFlows.size() > 0){
+	    						for (int i = 0; i < viewFlows.size(); i++) {
+	    							viewFlows.get(i).setPosition(num);
+	    							flowChart(viewFlows.get(i).getCode(),viewFlows.get(i),project,detailId,packages);
+	    							if(i == viewFlows.size()-1){
+    									map.put(WfUtil.createUUID() + "XMFB", viewFlows.get(i));
+    									num++;
+    								} else {
+    									map.put(WfUtil.createUUID(), viewFlows.get(i));
+    									num++;
+    								}
+								}
+	    					}
+	    				}*/
+					} else {
+						DictionaryData dictionaryData = DictionaryDataUtil.get("CGLC_CGXMLX");
+						dictionaryData.setPosition(num);
+						flowChart(dictionaryData.getCode(),dictionaryData,project,detailId,null);
+						map.put(WfUtil.createUUID(), dictionaryData);
+					}
 				}
 			} else {
 				HashMap<String, Object> hashMap = new HashMap<>();
@@ -802,29 +856,44 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 						maps.put("oldFlowId", packages.getOldFlowId());
 					}
     				List<FlowDefine> flows = flowDefineMapper.viewFlow(maps);
-    				for (int i=0; i<flows.size();i++) {
-						DictionaryData data = new DictionaryData();
-						data.setDescription(flows.get(i).getCode());
-						List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
-						if(find2 != null && find2.size() > 0){
-							find2.get(0).setPosition(num);
-							flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
-							if(StringUtils.isNotBlank(packages.getOldFlowId())){
-								if(i==flows.size()-1){
-									map.put(WfUtil.createUUID() + "XMFB", find2.get(0));
-									num++;
-								}else{
-									map.put(WfUtil.createUUID(), find2.get(0));
-									num++;
-								}
-							} else {
-								map.put(WfUtil.createUUID(), find2.get(0));
-								num++;
-							}
-							
-						}
-					}
-	    				
+    				if(flows != null && flows.size() > 0){
+    					for (int i=0; i<flows.size();i++) {
+    						DictionaryData data = new DictionaryData();
+    						data.setDescription(flows.get(i).getCode());
+    						List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
+    						if(find2 != null && find2.size() > 0){
+    							find2.get(0).setPosition(num);
+    							flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
+    							if(StringUtils.isNotBlank(packages.getOldFlowId())){
+    								if(i==flows.size()-1){
+    									map.put(WfUtil.createUUID() + "XMFB", find2.get(0));
+    									num++;
+    								}else{
+    									map.put(WfUtil.createUUID(), find2.get(0));
+    									num++;
+    								}
+    							} else {
+    								map.put(WfUtil.createUUID(), find2.get(0));
+    								num++;
+    							}
+    							
+    						}
+    					}
+    				} else {
+    					HashMap<String, Object> flowMap = new HashMap<>();
+    					if(StringUtils.isNotBlank(packages.getNewFlowId())){
+    						flowMap.put("gt", packages.getNewFlowId());
+    						List<DictionaryData> viewFlows = dictionaryDataMapper.viewFlows(flowMap);
+        					if(viewFlows != null && viewFlows.size() > 0){
+        						for (int i = 0; i < viewFlows.size(); i++) {
+        							viewFlows.get(i).setPosition(num);
+        							flowChart(viewFlows.get(i).getCode(),viewFlows.get(i),project,detailId,packages);
+    								map.put(WfUtil.createUUID(), viewFlows.get(i));
+    								num++;
+    							}
+        					}
+    					}
+    				}
 				}
 			
 			}
@@ -888,6 +957,9 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
             	dictionaryData.setUpdatedAt(listUser.get(0).getCreatedAt());
             	dictionaryData.setDescription(project.getId());
             }
+		} else if ("CGLC_GYSQD".equals(code)){
+			dictionaryData.setUpdatedAt(project.getBidDate());
+			dictionaryData.setDescription(project.getId());
 		} else if ("CGLC_KB".equals(code)){
 			dictionaryData.setUpdatedAt(project.getBidDate());
 			dictionaryData.setDescription(project.getId());
@@ -919,6 +991,19 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
                 dictionaryData.setUpdatedAt(listCheckPass.get(0).getConfirmTime());
             }
 		}
+    	if(packages != null && StringUtils.isNotBlank(packages.getEditFlowId())){
+    		FlowDefine flowDefine = flowDefineMapper.get(packages.getEditFlowId());
+    		DictionaryData data = new DictionaryData();
+    		data.setDescription(flowDefine.getCode());
+    		List<DictionaryData> findList = dictionaryDataMapper.findList(data);
+    		if(findList != null && findList.size() > 0){
+    			if(dictionaryData.getId().equals(findList.get(0).getId())){
+    				String name = dictionaryData.getName();
+    				name += "(转竟谈)";
+    				dictionaryData.setName(name);
+    			}
+    		}
+    	}
     }
 
 	@Override
@@ -931,7 +1016,9 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 			hashMap.put("requiredId", detailId);
 			List<ProjectDetail> selectById = projectDetailMapper.selectById(hashMap);
 			if(selectById != null && selectById.size() > 0){
-				packages = packageMapper.selectByPrimaryKeyId(selectById.get(0).getPackageId());
+				if(StringUtils.isNotBlank(selectById.get(0).getPackageId())){
+					packages = packageMapper.selectByPrimaryKeyId(selectById.get(0).getPackageId());
+				}
 			}
 			for (Entry<String, Object> entry : sortsMap) {
 				DictionaryData data = (DictionaryData) entry.getValue();
@@ -1311,6 +1398,24 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
             }
     	}
 		return project;
+	}
+	
+	public void opop(int num, HashMap<String, Object> map, List<FlowDefine> defines, Project project, String detailId, Packages packages){
+		for (int i=0; i<defines.size();i++) {
+			DictionaryData data = new DictionaryData();
+			data.setDescription(defines.get(i).getCode());
+			List<DictionaryData> find2 = dictionaryDataMapper.findList(data);
+			if(find2 != null && find2.size() > 0){
+				flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
+				if(i == defines.size()-1){
+					map.put(find2.get(0).getId() + "XMFB", find2.get(0));
+					num = find2.get(0).getPosition()+1;
+				}else{
+					map.put(find2.get(0).getId(), find2.get(0));
+				}
+			}
+		}
+	
 	}
 
 }

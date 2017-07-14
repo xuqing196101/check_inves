@@ -16,12 +16,16 @@
         
         var flow = $(".flow_tips").length;
         var number = flow%6==0?flow/6:flow/6+1;
-        parseInt(number); 
+        number=parseInt(number); 
         for(var i = 1; i<= number; i++){
         	if(i%2!=0){
         		$($(".flow_tips")[i*6-1]).addClass("round_tips round_l last_r");
         		$($(".flow_tips")[i*6-1]).children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
             $($(".flow_tips")[i*6-1]).children(":last").addClass("col-sm-offset-1 col-md-offset-1  col-md-offset-0");
+            if(i==number){
+              $($(".flow_tips")[flow-1]).children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
+            }
+             
         	}
           if(i%2==0){
            for(var j=1;j<=6;j++){
@@ -32,7 +36,6 @@
             $($(".flow_tips")[i*6-6]).children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
           }
         }
-        $($(".flow_tips")[flow-1]).children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
         $(".flow_tips").each(function(i) {
           /* if(i == 5) {
             $(this).addClass("round_tips round_l last_r");
