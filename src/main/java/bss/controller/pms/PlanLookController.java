@@ -222,7 +222,7 @@ public class PlanLookController extends BaseController {
 			model.addAttribute("detail", detail);
             request.getSession().removeAttribute("NoCount");
         	model.addAttribute("kind", DictionaryDataUtil.find(5));
-        	String typeId = DictionaryDataUtil.getId("PURCHASE_FILE");
+        	String typeId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
     		model.addAttribute("typeId", typeId);
         return "bss/pms/collect/plan_views";
     }
@@ -505,8 +505,28 @@ public class PlanLookController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/report")
-	public String report(String id,Model model){
+	public String report(String id,Model model,String one,String two,String three){
 		List<PurchaseDetail> details = purchaseDetailService.getUnique(id,null,null);
+		String [] oneArray = new String[details.size()];
+		String [] twoArray = new String[details.size()];
+		String [] threeArray = new String[details.size()];
+		if(one != null && !one.equals("")){
+			oneArray = one.split(",");
+		}
+		if(two != null && !two.equals("")){
+			twoArray= two.split(",");
+		}
+		if(three != null && !three.equals("")){
+			threeArray= three.split(",");
+		}
+		int i = 0;
+		if(details != null && details.size() > 0){
+			for(i = 0;i < details.size();i ++){
+				details.get(i).setOneAdvice(oneArray[i]);
+				details.get(i).setTwoAdvice(twoArray[i]);
+				details.get(i).setThreeAdvice(threeArray[i]);
+			}
+		}
 		CollectPlan plan = collectPlanService.queryById(id);
 		model.addAttribute("details", details);
 		model.addAttribute("plan", plan);
@@ -589,11 +609,16 @@ public class PlanLookController extends BaseController {
 		String str = null;
 		String id = request.getParameter("id");
 		CollectPlan plan = collectPlanService.queryById(id);
-		if(plan.getStatus()==1){
+		/*if(plan.getStatus()==1){
 			str = "1";
 		}else{
 			str = "0";
-		}
+		}*/
+		if(plan.getStatus() != null && plan.getStatus() == 1 && plan.getAuditTurn() != null){
+      str = "0";
+    } else {
+      str = plan.getStatus().toString();
+    }
 		return str;
 	}
 	@RequestMapping("/auditByDepartment")

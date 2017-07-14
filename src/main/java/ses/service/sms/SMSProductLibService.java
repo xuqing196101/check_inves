@@ -150,4 +150,15 @@ public interface SMSProductLibService {
      */
 	public boolean importCheckProjectData(File file);
 	
+	/**
+	 * 
+	 * Description: 提交
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年7月13日
+	 * @param 
+	 * @return
+	 */
+	public void updateStatusById(String id);
+	
 }

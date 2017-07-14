@@ -571,6 +571,64 @@
 					});
 				}
 				
+				//生成评审报告页面
+				function sc(id,size){
+					var one = "";
+					var two = "";
+					var three = "";
+					//第一轮
+					for (var i = 0; i < size; i++){
+						var a= $("#oneId"+i).val();
+						if(typeof(a) != "undefined"){
+							if(a == ''){
+								layer.alert("请完善审核意见", {
+				                    offset: ['30%', '40%']
+				                  });
+								return;
+							}
+							if(i == 0){
+								one = a;
+							}else{
+								one += ","+a;
+							}
+						}
+					}
+					//第二轮
+					for (var j = 0; j < size; j++){
+						var b= $("#twoId"+j).val();
+						if(typeof(b) != "undefined"){
+							if(b == ''){
+								layer.alert("请完善审核意见", {
+				                    offset: ['30%', '40%']
+				                  });
+								return;
+							}
+							if(j == 0){
+								two = b;
+							}else{
+								two += ","+b;
+							}
+						}
+					}
+					//第三轮
+					for (var k = 0; k < size; k++){
+						var c= $("#threeId"+k).val();
+						if(typeof(c) != "undefined"){
+							if(c == ''){
+								layer.alert("请完善审核意见", {
+				                    offset: ['30%', '40%']
+				                  });
+								return;
+							}
+							if(k == 0){
+								three = c;
+							}else{
+								three += ","+c;
+							}
+						}
+					}
+					window.location.href="${pageContext.request.contextPath}/look/report.html?id="+id+"&&one="+one+"&&two="+two+"&&three="+three;
+				}
 		</script>
 	</head>
 
@@ -599,7 +657,7 @@
 <div class="container">
 	<div class="col-md-12 mt10 tab-v2 col-xs-12 col-sm-12 p0">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">调整审核人员</button>
-		<a class="btn padding-left-10 padding-right-10 btn_back" href="${pageContext.request.contextPath}/look/report.html?id=${id}">生成评审报告页面</a>
+		<a class="btn padding-left-10 padding-right-10 btn_back" onclick = "sc('${id}','${fn:length(list)}')">生成评审报告页面</a>
 		<%-- 	<div class="fl">
 		<u:upload id="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }" />
 		<u:show showId="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }" />
@@ -848,7 +906,7 @@
 									</select>
 								</td>
 								<td class="tc"> --%>
-									<input type="text" class="seq" <c:if test="${status==5 || status==7 }"> readonly="readonly" </c:if>   style="width:330px;"  name="listDetail[${vs.index }].oneAdvice"  value="${objs.oneAdvice }" >
+									<input type="text" class="seq" <c:if test="${status==5 || status==7 }"> readonly="readonly" </c:if>   style="width:330px;"  name="listDetail[${vs.index }].oneAdvice"  value="${objs.oneAdvice }" id = "oneId${vs.index }">
 								</td>
 								</c:if>
 								
@@ -857,7 +915,7 @@
 							<%-- 		<input type="text" name="listDetail[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }" >
 								</td>
 								<td class="tc" --%>
-									<input type="text"  <c:if test="${status==7 }"> readonly="readonly" </c:if>  name="listDetail[${vs.index }].twoAdvice"   value="${objs.twoAdvice }" >
+									<input type="text"  <c:if test="${status==7 }"> readonly="readonly" </c:if>  name="listDetail[${vs.index }].twoAdvice"   value="${objs.twoAdvice }" id = "twoId${vs.index }">
 								<!-- </td> -->
 							</c:if>
 							<c:if test="${status==7 }">	
@@ -877,7 +935,7 @@
 									</select>
 								</td>
 								<td class="tl pl20"> --%>
-									<input type="text" name="listDetail[${vs.index }].threeAdvice" value="${objs.threeAdvice }">
+									<input type="text" name="listDetail[${vs.index }].threeAdvice" value="${objs.threeAdvice }" id = "threeId${vs.index }">
 								<!-- </td> -->
 								</c:if>
 								

@@ -1170,7 +1170,7 @@ public class IndexNewsController extends BaseSupplierController{
 		map.put("id",id);
 		map.put("twoid", twoid);
 		map.put("page", page);
-		map.put("title", title);
+		map.put("title", title.trim());
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 		List<Article> articleList = null;
 		//传入参数通过产品目录查询文章
@@ -1194,7 +1194,7 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
 		
-		model.addAttribute("title", title);
+		model.addAttribute("title", title.trim());
 		model.addAttribute("productType", productType);
 		model.addAttribute("tab", tab);
 		model.addAttribute("productTypeName", categoryName);

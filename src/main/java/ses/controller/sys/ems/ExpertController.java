@@ -4104,6 +4104,9 @@ public class ExpertController extends BaseController {
             // 将筛选完的List转换为CategoryTreeList
             List < CategoryTree > treeList = new ArrayList < CategoryTree > ();
             for(Category category: allCateList) {
+            	if(category.getCode().length()>=9){
+            		continue;
+            	}
                 CategoryTree treeNode = new CategoryTree();
                 treeNode.setId(category.getId());
                 treeNode.setName(category.getName());

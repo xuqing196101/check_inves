@@ -247,7 +247,7 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 		
 		for(int i=0;i<all.size();i++){
 			if(i>0){
-				if(all.get(i).getSeq().equals("一")){
+				if("一".equals(all.get(i).getSeq())){
 					all.remove(all.get(i));
 				}
 			}

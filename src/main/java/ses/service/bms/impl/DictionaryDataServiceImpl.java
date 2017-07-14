@@ -111,7 +111,7 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 				"SUPPLIER_ENG_CERT_FILE",//
 				"SUPPLIER_PRODUCT_PIC",//
 				"SUPPLIER_QRCODE",//
-				"SUPPLIER_CATEGORY",
+				//"SUPPLIER_CATEGORY",
 				"INDENTITY_DOWN",
 				"SUPPLIER_CATEGORY",
 				"SUPPLIER_BANK",

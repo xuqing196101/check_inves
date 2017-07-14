@@ -275,10 +275,9 @@
 			              </td > 
 			              
 			              <td>
-								<%--   <div  class="extrafile">
-									    <u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
-										 <u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-									   </div>	 --%>
+								<div  class="extrafile">
+										 <u:show showId="pShow${vs.index}"  delete="false" businessId="${obj.id}" sysKey="2" typeId="270FA42F7A214E25B62CD80D1045D158" />
+									   </div>
 						 </td>
 											
 			            </tr>

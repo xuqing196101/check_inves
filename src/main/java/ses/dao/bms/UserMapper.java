@@ -420,4 +420,13 @@ public interface UserMapper {
    * @return
    */
   List<User> ajaxOfficerCertNo(User user);
+
+  /**
+   *〈简述〉查询后台用户列表(不带关联集合,不包括专家和供应商)
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param user
+   * @return
+   */
+  List<User> queryBackendUser(User user);
 }

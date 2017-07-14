@@ -122,7 +122,7 @@
               $("#form1").submit();
             },
             function() {
-              parent.layer.close();
+              //parent.layer.close();
             });
         }
       }
