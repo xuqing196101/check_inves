@@ -306,6 +306,13 @@ public class IndexNewsController extends BaseSupplierController{
     map.put("typeId","117");
     List<Article> article117List = articleService.selectArticleByArticleType(map);
     indexMapper.put("article117List", article117List);*/
+ // 供应商黑名单列表
+    List<SupplierBlacklist> supplierBlackList = supplierBlacklistService.getIndexSupplierBlacklist();
+    // 专家黑名单列表
+    List<ExpertBlackList> expertBlackList = expertBlackListService.getIndexExpertBlackList();
+    
+    indexMapper.put("supplierBlackList", supplierBlackList);
+    indexMapper.put("expertBlackList", expertBlackList);
 	}
 	
 	/**
@@ -932,6 +939,9 @@ public class IndexNewsController extends BaseSupplierController{
 		if (supplierBlacklist.getEndTime() != null) {
 			model.addAttribute("endTime", new SimpleDateFormat("yyyy-MM-dd").format(supplierBlacklist.getEndTime()));
 		}
+		Map<String, Object> indexMapper = new HashMap<String, Object>();
+		topNews(indexMapper);
+		model.addAttribute("indexMapper", indexMapper);
 		return "iss/ps/index/supplierBlackList";
 	}
 	
@@ -971,6 +981,9 @@ public class IndexNewsController extends BaseSupplierController{
         		dd.setName(dd.getName()+"技术");
         	}
         }
+        Map<String, Object> indexMapper = new HashMap<String, Object>();
+		topNews(indexMapper);
+		model.addAttribute("indexMapper", indexMapper);
         request.setAttribute("expertTypeList", expertTypeList);
 		return "iss/ps/index/expertBlackList";
 	}
