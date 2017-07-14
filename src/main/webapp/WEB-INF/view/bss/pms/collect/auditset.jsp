@@ -111,6 +111,7 @@
           var auditNature = $("#audit_nature").val();
           var turns = $("#auditRound").val();
           if(isNaN(index)) {
+        	  $("#austa").val(auditNature);
             $("#set_form").submit();
           } else {
             $.ajax({
@@ -601,6 +602,7 @@
 
                   <input type="hidden" name="collectId" id="collectId" value="${id }">
                   <input type="hidden" name="type" value="${type}">
+                  <input type = "hidden" id = "austa" name = "austa" value="${staff }">
                 </table>
               </form>
             </div>

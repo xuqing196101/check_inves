@@ -110,7 +110,6 @@
 												<tr>
 													<td class="w200">${sale.categoryName } </td>
 													<td>
-
 														<c:forEach items="${sale.list }" var="saua">
 															<c:set value="${length+1}" var="length"></c:set>
 															<div class="mr5 fl" <c:if test="${fn:contains(audit,saua.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${saua.flag}','aptitude_page')"</c:if>>
@@ -245,7 +244,7 @@
 		                                    getDate("#listSupplierItems" + number, typeId, certCode, supplierId, professType, number, 0);
 		                                }
 		                            }
-		                           s();
+		                           //s();
 															</script>
 														</c:if>
 														
@@ -460,21 +459,21 @@
 					// 清空等级和附件
 					$(obj).parent().next().find("input[type='text']").val("");
 					$(obj).parent().next().next().find("input[type='text']").val("");
-
+					
 					$(obj).parent().next().next().next().find("input[type='text']").val("");
-				  	$(obj).parent().next().next().next().find("input[type='hidden']").val("");
-
+					$(obj).parent().next().next().next().find("input[type='hidden']").val("");
+					
 					$(obj).parent().next().next().next().next().html("");
 					professType=$(obj).parent().next().next().children().val();
 				} else if(flag=="2") {
 					certCode = $(obj).val();
 					typeId = $(obj).parent().prev().find("select").val();
 					// 清空等级和附件
-					///$(obj).parent().next().find("input[type='text']").val("");
+					//$(obj).parent().next().find("input[type='text']").val("");
 					$(obj).parent().next().children().empty();
 					//清空资质等级
 					$(obj).parent().next().next().find("input[type='text']").val("");
-				  	$(obj).parent().next().next().find("input[type='hidden']").val("");
+					$(obj).parent().next().next().find("input[type='hidden']").val("");
 					$.ajax({
 						url : "${pageContext.request.contextPath}/supplier/getProType.do",
 						type:"post",

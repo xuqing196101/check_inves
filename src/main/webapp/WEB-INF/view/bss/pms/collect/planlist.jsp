@@ -73,7 +73,7 @@
         });
         var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).find("input").val();
         if(id.length == 1) {
-          if(status == '8' || status == '12') {
+          if(status == '8' || status == '12' || status == '2') {
             layer.open({
               type: 2, //page层
               area: ['30%', '50%'],
@@ -86,7 +86,11 @@
               content: "${pageContext.request.contextPath }/look/organddep.html?uniqueId=" + id,
             });
           } else {
-            window.location.href = "${pageContext.request.contextPath }/set/excel.html?id=" + id;
+        	  layer.alert("只能下载审核结束和直接下达的", {
+                  offset: ['222px', '390px'],
+                  shade: 0.01
+                });
+            //window.location.href = "${pageContext.request.contextPath }/set/excel.html?id=" + id;
           }
         } else if(id.length > 1) {
           layer.alert("只能选择一个", {

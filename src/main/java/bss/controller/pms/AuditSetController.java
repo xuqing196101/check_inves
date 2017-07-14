@@ -174,7 +174,7 @@ public class AuditSetController {
 	* @throws
 	 */
 	@RequestMapping("/update")
-	public String save(String val1, String val2,String collectId,String fname2,String fname,String type){
+	public String save(String val1, String val2,String collectId,String fname2,String fname,String type,String austa){
 //		String[] field1 = val1.trim().split(",");
 //		List<String> list=new LinkedList<String>();
 //		
@@ -249,7 +249,7 @@ public class AuditSetController {
 		}
 		
 		collectPlanService.update(collectPlan);
-		
+		auditPersonService.updateAuditStaffByCollectId(collectId,austa);
 		return "redirect:/look/list.html?";
 	}
 	
