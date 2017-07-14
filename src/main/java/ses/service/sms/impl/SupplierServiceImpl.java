@@ -1489,6 +1489,18 @@ public BigDecimal getScoreByFinances(List<SupplierFinance> listSupplierFinances)
             }
           }
         });
+        // 如果近三年财务信息超过三年，则取最近三年
+ 		if(listSupplierFinances.size() > 3){
+ 			Iterator<SupplierFinance> it = listSupplierFinances.iterator();
+ 			int i = listSupplierFinances.size();
+ 			while(it.hasNext()){
+ 				it.next();
+ 				if(i > 3){
+ 					it.remove();
+ 				}
+ 				i--;
+ 			}
+ 		}
         if (null != listSupplierFinances.get(0) && null != listSupplierFinances.get(0).getTotalNetAssets()) score = score.add(listSupplierFinances.get(0).getTotalNetAssets().multiply(BigDecimal.valueOf(0.2)));
         if (null != listSupplierFinances.get(1) && null != listSupplierFinances.get(1).getTotalNetAssets()) score = score.add(listSupplierFinances.get(1).getTotalNetAssets().multiply(BigDecimal.valueOf(0.3)));
         if (null != listSupplierFinances.get(2) && null != listSupplierFinances.get(2).getTotalNetAssets()) score = score.add(listSupplierFinances.get(2).getTotalNetAssets().multiply(BigDecimal.valueOf(0.5)));

@@ -1238,7 +1238,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 企业性质</span>
 									<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-										<select required name="businessNature" id="nature_select_id" <c:if test="${fn:contains(audit,'businessNature')&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if>   <c:if test="${fn:contains(audit,'businessNature')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'businessNature')"</c:if>>
+										<select required name="businessNature" id="nature_select_id" <c:if test="${!fn:contains(audit,'businessNature')&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if>   <c:if test="${fn:contains(audit,'businessNature')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'businessNature')"</c:if>>
 											<c:forEach items="${nature }" var="obj">
 												<option value="${obj.id }" <c:if test="${obj.id eq currSupplier.businessNature}">selected="selected"</c:if>>${obj.name}</option>
 											</c:forEach>
