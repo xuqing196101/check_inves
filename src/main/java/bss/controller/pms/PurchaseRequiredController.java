@@ -1292,10 +1292,10 @@ public class PurchaseRequiredController extends BaseController {
 					p.setEnterPort(enterPort);
 					if (p.getSeq() != null) {
 
-						if (p.getPurchaseType() != null && p.getPurchaseType().trim().length() != 0) {
+						/*if (p.getPurchaseType() != null && p.getPurchaseType().trim().length() != 0) {
 							DictionaryData data = dictionaryDataMapper.queryByName(p.getPurchaseType());
 							p.setPurchaseType(data.getId());
-						}
+						}*/
 
 						if (p.getSeq().matches("[\u4E00-\u9FA5]") && !p.getSeq().contains("（")) {
 							p.setSeq("一");
@@ -1336,11 +1336,11 @@ public class PurchaseRequiredController extends BaseController {
 							// count++;
 						}
 					}
-
+					purchaseRequiredService.updateByPrimaryKeySelective(p);
 				}
 			}
 		}
-		purchaseRequiredService.batchAdd(plist);
+		/*purchaseRequiredService.batchAdd(plist);*/
 		return "";
 	}
 	/**
