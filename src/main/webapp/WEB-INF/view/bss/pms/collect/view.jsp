@@ -472,7 +472,7 @@
 				  <div class="col-md-12 col-xs-12 col-sm-12 p0" >
 				     <div class="col-md-12 col-xs-12 col-sm-12 p0"> 退回理由：</div>
 				     <div class="col-md-12 col-xs-12 col-sm-12 p0">
-				         <textarea id="reson" name="reason" class="h80 col-md-10 col-xs-10 col-sm-12" title="不超过800个字"></textarea>
+				         <textarea id="reson" name="reason" maxlength="800" class="h80 col-md-10 col-xs-10 col-sm-12" title="不超过800个字"></textarea>
                      </div>
                   </div>
                   <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">

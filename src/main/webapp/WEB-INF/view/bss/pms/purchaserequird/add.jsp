@@ -1258,7 +1258,9 @@
 		    	}
 		    	return bool;
 		    } */
-		    
+		    function rest(){
+		    	$("#fileName").val("");
+		    }
 		</script>
 	</head>
 
@@ -1656,6 +1658,7 @@
  			  </div>
  			  <div class="col-md-12 col-sm-12 col-xs-12 mt20 tc">
     		    <input type="button" class="btn input" onclick="fileup()"   value="导入" />
+    		    <input type="button" class="btn input" onclick="rest()"   value="清空" />
     		  </div>
     		<!-- 	 <input type="hidden"  name="planName" id="detailJhmcf">
 							<input type="hidden" name="planNo" id="detailJhbhf">
