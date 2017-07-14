@@ -1010,7 +1010,7 @@
 											<input type="hidden" name="ss" value="${obj.id }">
 											<input maxlength="11" class="price"
 												name="list[${vs.index }].price" onblur="sum1(this);"
-												value="${obj.price}" type="text" />
+												value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
 											<input type="hidden" name="ss" value="${obj.parentId }">
 										</c:if> <c:if test="${obj.price==null}">
 											<input class="price" readonly="readonly" type="text"

@@ -211,22 +211,21 @@
 			 	var fileId = $("#mfiledId").val();
 				var bool= details();
 				
-			      var dy=dyly();  
+			      var dy=dyly();
 			   var ptype=true;
 			    
 			   /*var bool=true; */
 			    $("#table tr").each(function(){
 			    	var  price= $(this).find("td:eq(8)").children(":first").next().val();//上级id
 			    	if($.trim(price) !=""){
-			    		var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
+			    		var  type= $(this).find("td:eq(12)").children(":first").val();//上级id
 				    	  if($.trim(type) == "") {
+				    	      alert();
 				    		  ptype=false;
 				    	  }
 			    	}
 			    	
 			    });
-			    
-			    
 				/* var seq=seqs(); */
 			 if(orgType!='0'){
 				 layer.msg("请用需求部门编制采购需求！"); 
@@ -238,10 +237,10 @@
 				} else if($.trim(type) == ""){
 					 layer.alert("请选择物资类别"); 
 				}
-			  	else if(dy!=true){
+			  	else if(!dy){
 					layer.alert("请填写供应商"); 
 				}  
-				 else if(ptype!=true){
+				 else if(!ptype){
 						layer.alert("请选择采购方式"); 
 					} 
 				/* else if($.trim(refNo) == ""){
@@ -1199,12 +1198,13 @@
 	 	        
 		    function dyly(){
 		    	var bool=true;
-			    $("#table tr").each(function(i){
+			    $("#detailZeroRow tr").each(function(i){
 			    	var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
 			    	  if($.trim(type) == "单一来源") {
 			    		  var  supp= $(this).find("td:eq(12)").children(":first").val();//上级id
-			    		  if($.trim(supp)==""){
+			    		  if($.trim(supp)==''){
 			    			  bool=false;
+			    			  return bool;
 			    		  }
 			    	  }
 			    });
@@ -1214,7 +1214,7 @@
 		    
 		    function purchaseType(){
 		    	var bool=true;
-			    $("#table tr").each(function(i){
+			    $("#detailZeroRow tr").each(function(i){
 			    	var  price= $(this).parent().parent().find("td:eq(8)").children(":first").next().val();//上级id
 			    	if($.trim(price) !=""){
 			    		var  type= $(this).parent().parent().find("td:eq(11)").children(":first").val();//上级id
@@ -1231,7 +1231,7 @@
 		    //校验供应商名称
 		    function checkSupplierName(index) {
 				var name=$("input[name='list["+index+"].supplier']").val();
-				if(name!=null){
+				if(name!=''){
 					$.ajax({
 	                    type: "POST",
 	                    async:false,
