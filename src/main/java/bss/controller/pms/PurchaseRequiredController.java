@@ -1290,14 +1290,14 @@ public class PurchaseRequiredController extends BaseController {
 					p.setStatus("1");
 					p.setFileId(fileId);
 					p.setEnterPort(enterPort);
-					if (p.getSeq() != null) {
+					/*if (p.getSeq() != null) {
 
 						/*if (p.getPurchaseType() != null && p.getPurchaseType().trim().length() != 0) {
 							DictionaryData data = dictionaryDataMapper.queryByName(p.getPurchaseType());
 							p.setPurchaseType(data.getId());
 						}*/
 
-						if (p.getSeq().matches("[\u4E00-\u9FA5]") && !p.getSeq().contains("（")) {
+						/*if (p.getSeq().matches("[\u4E00-\u9FA5]") && !p.getSeq().contains("（")) {
 							p.setSeq("一");
 							// count=1;
 							p.setIsMaster(1);
@@ -1339,13 +1339,15 @@ public class PurchaseRequiredController extends BaseController {
 						} else {
 							p.setUniqueId(unqueId);
 							// count++;
-						}
+						}*/
+						purchaseRequiredService.updateByPrimaryKeySelective(p);
 					}
-					purchaseRequiredService.updateByPrimaryKeySelective(p);
+					
 				}
 			}
-		}
 		/*purchaseRequiredService.batchAdd(plist);*/
+
+
 		return "";
 	}
 	/**

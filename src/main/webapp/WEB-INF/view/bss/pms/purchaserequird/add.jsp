@@ -312,19 +312,34 @@
 									});
 									
 							//	var forms=$("#add_form").serializeArray();
-								  $.ajax({
-						  		        type: "POST",
-						  		        url: "${pageContext.request.contextPath}/purchaser/adddetail.do",
-						  		        data: {"prList":JSON.stringify(jsonStr),"planType":type,
-						  		        	"planNo":no,"planName":name,"recorderMobile":mobile,
-						  		        	"referenceNo":refNo,"fileId":fileId,"enterPort":$("#enterPort").val()},
-						  		        success: function (message) {
-						  		        	 window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
-						  		        },
-						  		        error: function (message) {
-						  		        }
-						  		    });
-								  
+										
+				  		      			if($("#table").find("tr").length<4){//需求明细不添加不能添加
+				  		      			 	layer.alert("需求明细不允许为空");
+				  		      			 	//return false;
+				  		      			}else {
+						  		      		
+										  $.ajax({
+								  		        type: "POST",
+								  		        url: "${pageContext.request.contextPath}/purchaser/adddetail.do",
+								  		        data: {"prList":JSON.stringify(jsonStr),"planType":type,
+								  		        	"planNo":no,"planName":name,"recorderMobile":mobile,
+								  		        	"referenceNo":refNo,"fileId":fileId,"enterPort":$("#enterPort").val()},
+							  		        	/* beforeSend: function(){
+								  		      		$.each(jsonStr,function(i,n){
+								  		      			if($.trim(n.stand) == ""){
+								  		      			 	layer.alert("需求明细中规格型号不允许为空");
+								  		      			 	return false;
+								  		      			}
+								  		      		});
+								  		      	}, */
+								  		        success: function (message) {
+								  		        	 window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
+								  		        },
+								  		        error: function (message) {
+								  		        }
+								  		    });
+						  		      	}
+								
 								  
 								
 							  
