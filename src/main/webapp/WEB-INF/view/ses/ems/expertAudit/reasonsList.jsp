@@ -287,7 +287,7 @@
 
             <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
             <ul class="ul_list count_flow">
-              <c:if test="${status == 0 || (sign ==2 && status ==1) || status ==6}">
+              <c:if test="${status == 0 || status == -2 || status == -3 || (sign ==2 && status ==1) || status ==6}">
                 <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
               </c:if>  
                 <table class="table table-bordered table-condensed table-hover">
@@ -332,7 +332,7 @@
                     <ul class="ul_list">
                         <li class="col-md-12 col-sm-12 col-xs-12">
                             <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                                <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
+                                <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
                             </div>
                         </li>
                     </ul>
@@ -352,7 +352,7 @@
 
                             <li class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                                    <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ opinion }</textarea>
+                                    <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
                                 </div>
                             </li>
                         </ul>
@@ -388,17 +388,21 @@
                             </c:if>--%>
                         </ul>
                     </div>
+                    <input type="hidden" value="${auditOpinion.flagAudit}" id="hiddenSelectOptionId" />
                 </div>
-                <form id="opiniomForm" method="post">
-                    <input type="hidden" name="id" value="" />
-                    <input type="hidden" name="flagTime" value="" id="flagTime"/>
-                    <input type="hidden" name="flagAduit" value="" id="flagAduit"/>
+                <form id="opinionForm" method="post">
+                    <input name="id" value="${auditOpinion.id}" type="hidden">
+                    <input name="flagTime" value="" id="flagTime" type="hidden"/>
+                    <input name="flagAudit" value="" id="flagAudit" type="hidden"/>
+                    <input name="expertId" value="${expertId}" type="hidden"/>
+                    <input name="opinion" value="" id="opinionId" type="hidden"/>
+                    <input name="vertifyFlag" value="" id="vertifyFlag" type="hidden"/>
+                    <input name="downloadAttachFile" id="downloadAttachFile" value="" type="hidden">
                 </form>
             </c:if>
 
             <div class="col-md-12 add_regist tc">
                 <input name="opinionBack" id="opinionBack" value="" type="hidden">
-                <input name="downloadAttachFile" id="downloadAttachFile" value="" type="hidden">
                 <form id="form_shenhe" action="${pageContext.request.contextPath}/expertAudit/updateStatus.html">
                     <a class="btn" type="button" onclick="lastStep();">上一步</a>
                     <input name="id" value="${expertId}" type="hidden">

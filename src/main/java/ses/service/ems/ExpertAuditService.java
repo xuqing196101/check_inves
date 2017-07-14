@@ -282,4 +282,15 @@ public interface ExpertAuditService {
      * @since JDK1.7
      */
 	ExpertPublicity selectChooseOrNoPassCate(ExpertPublicity expertPublicity);
+	
+	/**
+	 *
+	 * Description: 审核前判断是否有通过项和未通过项--是否符合通过要求
+	 *
+	 * @author Easong
+	 * @version 2017/7/14
+	 * @param 
+	 * @since JDK1.7
+	 */
+	JdcgResult selectAndVertifyAuditItem(String expertId);
 }

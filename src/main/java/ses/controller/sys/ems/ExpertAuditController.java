@@ -1,25 +1,5 @@
 package ses.controller.sys.ems;
 
-import java.beans.PropertyDescriptor;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
 import bss.formbean.PurchaseRequiredFormBean;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -27,6 +7,7 @@ import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.utils.JdcgResult;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -74,6 +55,24 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.beans.PropertyDescriptor;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -1471,9 +1470,15 @@ public class ExpertAuditController{
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
 		// 查询审核最终意见
 		ExpertAuditOpinion selectEao = new ExpertAuditOpinion();
+		ExpertAuditOpinion auditOpinion = null;
 		selectEao.setExpertId(expertId);
-		selectEao.setFlagTime(1);
-		ExpertAuditOpinion auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
+		if(sign != null && sign == 2){
+			selectEao.setFlagTime(1);
+			// 复审意见查询
+			auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
+		}else {
+			auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
+		}
 		model.addAttribute("reasonsList", reasonsList);
 		//查看是否有记录
 		model.addAttribute("num", reasonsList.size());
@@ -1484,13 +1489,7 @@ public class ExpertAuditController{
 		model.addAttribute("expert", expert);
 
 		model.addAttribute("expertId", expertId);
-		String opinion = "";
-		if(auditOpinion != null){
-			opinion = auditOpinion.getOpinion();
-		}
-		model.addAttribute("opinion", opinion);
-		// 审核表附件
-		fileUploadItem(model);
+		model.addAttribute("auditOpinion", auditOpinion);
 		return "ses/ems/expertAudit/reasonsList";
 	}
 
@@ -2442,10 +2441,12 @@ public class ExpertAuditController{
 		 * @param [model]
 		 * @since JDK1.7
 		 */
-		// 查询专家
+        Expert expert = service.selectByPrimaryKey(expertId);
+        // 查询专家
         model.addAttribute("expertId", expertId);
         model.addAttribute("sign", sign);
         model.addAttribute("status", status);
+        model.addAttribute("expert", expert);
 		// 设置文件上传项
 		fileUploadItem(model);
 		return "ses/ems/expertAudit/audit_attach_upload";
@@ -2464,5 +2465,51 @@ public class ExpertAuditController{
          * @since JDK1.7
          */
         return expertAuditOpinionService.insertSelective(expertAuditOpinion, vertifyFlag);
+    }
+
+
+    @RequestMapping("/updateStatusAjax")
+    @ResponseBody
+    public JdcgResult updateStatusAjax(@CurrentUser User user, Expert expert, Model model, HttpServletRequest request, ExpertAuditOpinion expertAuditOpinion) {
+	    /**
+	     *
+	     * Description:提交审核-ajax
+	     *
+	     * @author Easong
+	     * @version 2017/7/14
+	     * @param [user, expert, model, request, expertAuditOpinion]
+	     * @since JDK1.7
+	     */
+        String expertId = expert.getId();
+        if("-3".equals(expert.getStatus())){
+            // 点击通过按钮时判断
+            JdcgResult selectAndVertifyAuditItem = expertAuditService.selectAndVertifyAuditItem(expertId);
+            if(selectAndVertifyAuditItem.getStatus() != 200) {
+                //如果有错误信息则直接返回提示操作
+                return selectAndVertifyAuditItem;
+            }
+        }
+
+        //提交审核，更新状态
+        expert.setAuditAt(new Date());
+        //审核人
+        expert.setAuditor(user.getRelName());
+        //还原暂存状态
+        expert.setAuditTemporary(0);
+        // 设置修改时间
+        expert.setUpdatedAt(new Date());
+        expertService.updateByPrimaryKeySelective(expert);
+
+        expert = expertService.selectByPrimaryKey(expertId);
+        String status = expert.getStatus();
+
+        /**
+         * 更新待办（已完成）
+         */
+        if(status.equals("5") || "-3".equals(status)) {
+            todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
+        }
+        return JdcgResult.ok();
+
     }
 }

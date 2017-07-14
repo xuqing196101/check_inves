@@ -35,4 +35,10 @@ public class Constant {
 
     // 供应商审核记录类别标识
     public static final String SUPPLIER_CATE_INFO_ITEM_FLAG = "supplierType_page";
+
+
+    // 专家审核基本信息导航标识
+	public static final String EXPERT_BASIC_INFO_ITEM_FLAG = "one";
+	// 专家审核类别导航标识
+	public static final String EXPERT_CATE_INFO_ITEM_FLAG = "seven";
 }

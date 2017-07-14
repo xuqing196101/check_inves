@@ -46,8 +46,8 @@
                     <c:if test="${ status == -3 }">
                         <li class="col-md-6 col-sm-6 col-xs-6">
                             <div>
-                                <span class="fl">供应商审批表：</span>
-                                <u:show showId="pic_checkword" businessId="${ supplier.auditOpinionAttach }"
+                                <span class="fl">专家审批表：</span>
+                                <u:show showId="pic_checkword" businessId="${ expert.auditOpinionAttach }"
                                         sysKey="${ sysKey }" typeId="${typeId }" delete="false"/>
                             </div>
                         </li>
@@ -77,7 +77,7 @@
             <form id="form_shenhe" action="${pageContext.request.contextPath}/expertAudit/updateStatus.html">
                 <input name="id" value="${expertId}" type="hidden">
                 <input type="hidden" name="status" id="status"/>
-                <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
+                <input name="auditOpinionAttach" id="auditOpinionAttach" type="hidden" />
                 <div class="margin-bottom-0  categories">
                     <div class="col-md-12 add_regist tc">
                         <div class="col-md-12 add_regist tc">

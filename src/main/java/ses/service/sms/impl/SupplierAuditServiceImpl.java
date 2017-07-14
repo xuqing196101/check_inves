@@ -1151,7 +1151,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
         // 获取选择的产品类别数量
         selectCount = supplierPublicityAfter.getPassCateCount();
         count = supplierPublicityAfter.getNoPassCateCount();
-        if(count != null && selectCount != null && (selectCount - count) < 0){
+        if(count != null && selectCount != null && (selectCount - count) <= 0){
             return JdcgResult.build(500, "产品类别不能全部为不通过项");
         }
         return JdcgResult.ok();

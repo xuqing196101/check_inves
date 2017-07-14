@@ -332,7 +332,7 @@
                 <input name="flagTime" value="" id="flagTime" type="hidden">
                 <input name="flagAduit" value="" id="flagAduit" type="hidden">
                 <input name="vertifyFlag" value="" id="vertifyFlag" type="hidden">
-            </form>
+            </form>`
           
           <!-- download check table -->
           <form id="shenhe_form_id" action="" method="post">

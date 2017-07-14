@@ -73,7 +73,7 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
             ExpertAuditOpinion byPrimaryKey = mapper.findByPrimaryKey(expertAuditOpinion.getId());
 			if(byPrimaryKey != null){
 			    // 修改时间
-                byPrimaryKey.setUpdatedAt(new Date());
+				expertAuditOpinion.setUpdatedAt(new Date());
 				// 更新数据
 				mapper.updateByPrimaryKeySelective(expertAuditOpinion);
 			}

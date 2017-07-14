@@ -5,12 +5,12 @@ $(function () {
 
     // 绑定审核通过和不通过事件
     $("#auditPass").click(function () {
-        // -3:审核通过
+        // -3:复审通过
         audit(-3);
     });
     $("#auditNoPass").click(function () {
-        // 3:审核不通过
-        audit(3);
+        // 5:复审不通过
+        audit(5);
     });
 })
 
@@ -35,9 +35,9 @@ function audit(status){
     var auditOpinionFile = $("#auditOpinionFile").val();
     $("#auditOpinionAttach").val(auditOpinionFile);
     $.ajax({
-        url:globalPath + "/supplierAudit/updateStatusAjax.do",
+        url:globalPath + "/expertAudit/updateStatusAjax.do",
         type: "POST",
-        data:$("#form_shen").serialize(),
+        data:$("#form_shenhe").serialize(),
         dataType:"json",
         success:function (data) {
             if(data.status == 200){
@@ -45,7 +45,7 @@ function audit(status){
                 layer.confirm("操作成功",{
                         btn:['确定']
                     },function(){
-                        window.location.href = globalPath+"/supplierAudit/supplierAll.html";
+                        window.location.href = globalPath+"/expertAudit/list.html";
                     }
                 )
             }else{

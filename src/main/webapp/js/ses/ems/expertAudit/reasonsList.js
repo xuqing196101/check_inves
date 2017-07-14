@@ -20,7 +20,7 @@ $(function () {
         // 获取专家ID
         var expertId = $("#expertId").val();
         $.ajax({
-            url:globalPath + "/supplierAudit/selectChooseOrNoPassCate.do",
+            url:globalPath + "/expertAudit/selectChooseOrNoPassCate.do",
             data:{
                 "id" : expertId
             },
@@ -70,8 +70,8 @@ function tempSave(flag){
 
     // 将审核意见表单赋值
     $("#opinionId").val(opinion);
-    $("#flagTime").val(0);
-    $("#flagAduit").val(selectOption);
+    $("#flagTime").val(1);
+    $("#flagAudit").val(selectOption);
     $.ajax({
         url:globalPath + "/expertAudit/saveAuditOpinion.do",
         type: "POST",
@@ -79,7 +79,7 @@ function tempSave(flag){
         dataType:"json",
         success:function (data) {
             if(flag == 1){
-                var action = globalPath + "/supplierAudit/uploadApproveFile.html";
+                var action = globalPath + "/expertAudit/uploadApproveFile.html";
                 $("#form_id").attr("action", action);
                 $("#form_id").submit();
             }else{
