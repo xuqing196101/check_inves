@@ -15,6 +15,9 @@ function jump(str) {
     if (str == "product") {
         action = globalPath + "/expertAudit/product.html";
     }
+    if (str == "reasonsList") {
+        action = globalPath + "/expertAudit/reasonsList.html";
+    }
     if (str == "uploadApproveFile") {
         var expertId = $("#expertId").val();
         // 获取审核意见

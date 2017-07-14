@@ -14,6 +14,7 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertAudit/merge_jump.js"></script>
     <script type="text/javascript">
         $(function () {
+            $("#reverse_of_five").attr("class","active");
             //审核按钮状态
             var num = ${num};
             if (num == 0) {
@@ -26,7 +27,7 @@
             if (num != 0) {
                 $("#tongguo").attr("disabled", true);
             }
-            if('${status}' == -2){
+            if('${status}' == -2 || '${status}' == -3){
                 $("#reverse_of_five_i").show();
                 $("#reverse_of_six").show();
             }

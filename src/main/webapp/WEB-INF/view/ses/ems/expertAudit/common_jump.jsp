@@ -15,7 +15,7 @@
     <li id="reverse_of_four" onclick="jump('expertFile')">
         <a aria-expanded="false" href="#tab-1" data-toggle="tab">承诺书和申请表</a><i></i>
     </li>
-    <li id="reverse_of_five" class="active">
+    <li id="reverse_of_five" onclick="jump('reasonsList')">
         <a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
         <i id="reverse_of_five_i" class="display-none"></i>
     </li>
