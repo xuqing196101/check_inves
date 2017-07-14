@@ -13,7 +13,26 @@
 		  $(function(){
 				$("td[name='userNone']").attr("style","display:none");
 				$("th[name='userNone']").attr("style","display:none");
-			  
+
+				// 绑定采购需求文号事件
+			  $("#referenceNo").blur(function () {
+                  var referenceNO = $("#referenceNo").val();
+                  if(referenceNO == ''){
+                      return;
+                  }
+                  $.ajax({
+                      url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
+                      data:{
+                          "referenceNO": referenceNO
+                      },
+                      success: function(data) {
+                          if(data.data > 0) {
+                              $("#referenceNo").val("");
+                              layer.msg("采购需求文号已存在");
+                          }
+                      }
+                  });
+              })
 		  });
 		  
 		  
