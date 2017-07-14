@@ -1235,6 +1235,7 @@
 								</c:if>>
 								<c:choose>
 									<c:when test="${expert.status == 3 and !fn:contains(errorField,'军队人员身份证件')}">
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert12" businessId="${sysId}" sysKey="${expertKey}" typeId="12" maxcount="12" auto="true" />
 										<u:show showId="show12" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="12" />
 									</c:when>
 									<c:otherwise>
