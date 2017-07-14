@@ -30,6 +30,10 @@
 				if(term=="1"){
 					$("#expireDate").attr("disabled","disabled");
 				} */
+				var status="${status}";
+				if(status=="0"){ 
+				  layer.msg("提交失败，请仔细检查所填信息！");
+				}
 				var card="${notPass}";
 				if(card=="error_card"){ 
 					layer.msg("身份证号已存在！");
@@ -80,7 +84,7 @@
 				} else {
 					$("#bearchCertDiv").hide();
 				}
-
+				
 				if("${currSupplier.status}" == 7) {
 					showReason();
 				}
@@ -813,22 +817,22 @@
 			    if(_val!="" && nonNum!=3){//如果可以为负数的话设置3;净资产总额不进行负数校验
 			        if(parseInt(_val)<0){
                    $(obj).val("");
-                   layer.msg("请输入正确的金额,非负数保留两位小数", {
+                   layer.msg("请输入正确的金额,非负数保留4位小数", {
                        offset: '300px'
                    });
                    return false;
                }
            }
            if(_val.indexOf('.')!=-1){
-               var reg = /\d+\.\d{0,2}?$/;
+               var reg = /\d+\.\d{0,4}?$/;
                if(!reg.test(_val)) {
                    $(obj).val("");
                    if(nonNum==3){
-                       layer.msg("请输入正确的金额,保留两位小数", {
+                       layer.msg("请输入正确的金额,保留4位小数", {
                            offset: '300px'
                        });
                    }else{
-                       layer.msg("请输入正确的金额,非负数保留两位小数", {
+                       layer.msg("请输入正确的金额,非负数保留4位小数", {
                            offset: '300px'
                        });
                    }
@@ -837,11 +841,11 @@
                if(!positiveRegular(_val)){
                    $(obj).val("");
                    if(nonNum==3){
-                       layer.msg("请输入正确的金额,保留两位小数", {
+                       layer.msg("请输入正确的金额,保留4位小数", {
                            offset: '300px'
                        });
                    }else{
-                       layer.msg("请输入正确的金额,非负数保留两位小数", {
+                       layer.msg("请输入正确的金额,非负数保留4位小数", {
                            offset: '300px'
                        });
                    }
@@ -2260,7 +2264,7 @@
 												</th>
 												<th class="info">出资人性质</th>
 												<th class="info">出资人名称或姓名</th>
-												<th class="info">身份类型</th>
+												<th class="info">证件类型</th>
 												<th class="info">统一社会信用代码或身份证号码</th>
 												<th class="info">出资金额或股份（万元/万份）</th>
 												<th class="info">比例（%）</th>
@@ -2283,6 +2287,7 @@
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>>
 														<select name="listSupplierStockholders[${stockvs.index }].identityType" class="w100p border0">
 															<option value="1" <c:if test="${stockholder.identityType==1}"> selected="selected"</c:if> >
+															  <c:if test="${empty stockholder.nature}">统一社会信用代码</c:if>
 																<c:if test="${stockholder.nature==1}">统一社会信用代码</c:if>
 																<c:if test="${stockholder.nature==2}">居民二代身份证</c:if>
 															</option>
@@ -2351,7 +2356,7 @@
 													  <div class="w120 fl">
 														<select name="listSupplierAfterSaleDep[${dep.index }].type" class="w100p border0" <c:if test="${!fn:contains(audit,afterSaleDep.id)&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if>>
 															<option value="1" <c:if test="${afterSaleDep.type == 1}"> selected="selected"</c:if> >自营</option>
-															<option value="2" <c:if test="${afterSaleDep.type == 2}"> selected="selected" </c:if> >合作</option>
+															<option value="2" <c:if test="${afterSaleDep.type == 2}"> selected="selected"</c:if> >合作</option>
 														</select>
 													   </div>
 													</td>

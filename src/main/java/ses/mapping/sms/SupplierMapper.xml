@@ -1172,53 +1172,86 @@
 	</resultMap>
 
 	<!--供应商审核-查询供应商 -->
-	<select id="findSupplierAll" parameterType="ses.model.sms.Supplier" resultMap="BaseResultMap">
-		SELECT
-		<include refid="Base_Column_List" />
-		FROM t_ses_sms_supplier
-		WHERE
-		IS_PROVISIONAL = '0'
-		AND IS_DELETED = '0'
-		<if test="sign == 1">
-			and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or
-			SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3)
-			<if test="procurementDepId !=null">
-				and PROCUREMENT_DEP_ID = #{procurementDepId}
-			</if>
-		</if>
-		<if test="sign == 2">
-			and (SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or
-			SUPPLIER_STATUS = 6)
-			<if test="extractOrgid !=null">
-				and EXTRACT_ORGID = #{extractOrgid}
-			</if>
-		</if>
-		<if test="sign == 3">
-			and (SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7 or
-			SUPPLIER_STATUS = 8)
-			<if test="extractOrgid !=null">
-				and EXTRACT_ORGID = #{extractOrgid}
-			</if>
-		</if>
-		<if test="supplierName != null and supplierName !=''">
-			AND SUPPLIER_NAME like CONCAT(CONCAT('%',#{supplierName}), '%')
-		</if>
-		<if test="status != null">
-			AND SUPPLIER_STATUS = #{status}
-		</if>
-		<if test="businessType != null and businessType !=''">
-			AND BUSINESS_TYPE = #{businessType}
-		</if>
-		<if test="businessNature != null and businessNature !=''">
-      AND BUSINESS_NATURE = #{businessNature}
-    </if>
-		<if test="auditDate !=null and auditDate != ''">
-			AND to_char(AUDIT_DATE,'yyyy-mm-dd')=to_char(#{auditDate},'yyyy-mm-dd')
-		</if>
-		<!-- ORDER BY SUPPLIER_STATUS ASC, UPDATED_AT DESC -->
-		<!-- ORDER BY AUDIT_DATE DESC NULLS LAST -->
-		ORDER BY SUBMIT_AT 
-	</select>
+  <select id="findSupplierAll" parameterType="ses.model.sms.Supplier" resultMap="BaseResultMap">
+     SELECT 
+       supplier.*
+     FROM
+      (SELECT
+        T1. ID,
+        T1.SUPPLIER_NAME,
+        T1.MOBILE,
+        T1.BUSINESS_NATURE,
+        T1.AUDIT_DATE,
+        T1.SUBMIT_AT,
+        T1.AUDITOR,
+        T1.IS_PUBLISH,
+        T1.SUPPLIER_STATUS,
+        T1.PROCUREMENT_DEP_ID,
+        wm_concat (T4.NAME || t3.NAME) AS addressName
+      FROM
+        t_ses_sms_supplier T1
+      LEFT JOIN T_SES_SMS_SUPPLIER_ADDRESS T2 ON T1.ID = T2.SUPPLIER_ID
+      LEFT JOIN T_SES_BMS_AREA T3 ON T3.ID = T2.ADDRESS
+      LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4. ID
+      WHERE
+        1=1
+      <if test="sign == 1">
+        and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or
+        SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3)
+        <if test="procurementDepId !=null">
+          and PROCUREMENT_DEP_ID = #{procurementDepId}
+        </if>
+      </if>
+      <if test="sign == 2">
+        and (SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or
+        SUPPLIER_STATUS = 6)
+        <if test="extractOrgid !=null">
+          and EXTRACT_ORGID = #{extractOrgid}
+        </if>
+      </if>
+      <if test="sign == 3">
+        and (SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7 or
+        SUPPLIER_STATUS = 8)
+        <if test="extractOrgid !=null">
+          and EXTRACT_ORGID = #{extractOrgid}
+        </if>
+      </if>
+      <if test="supplierName != null and supplierName !=''">
+        AND SUPPLIER_NAME like CONCAT(CONCAT('%',#{supplierName}), '%')
+      </if>
+      <if test="status != null">
+        AND SUPPLIER_STATUS = #{status}
+      </if>
+      <if test="businessType != null and businessType !=''">
+        AND BUSINESS_TYPE = #{businessType}
+      </if>
+      <if test="businessNature != null and businessNature !=''">
+        AND BUSINESS_NATURE = #{businessNature}
+      </if>
+      <if test="auditDate !=null and auditDate != ''">
+        AND to_char(AUDIT_DATE,'yyyy-mm-dd')=to_char(#{auditDate},'yyyy-mm-dd')
+      </if>
+      AND T1.IS_PROVISIONAL = '0' AND T1.IS_DELETED = '0'
+      GROUP BY
+        T1. ID,
+        T1.SUPPLIER_NAME,
+        T1.MOBILE,
+        T1.BUSINESS_NATURE,
+        T1.AUDIT_DATE,
+        T1.SUBMIT_AT,
+        T1.AUDITOR,
+        T1.IS_PUBLISH,
+        T1.SUPPLIER_STATUS,
+        T1.PROCUREMENT_DEP_ID
+      <!-- ORDER BY SUPPLIER_STATUS ASC, UPDATED_AT DESC -->
+      <!-- ORDER BY AUDIT_DATE DESC NULLS LAST -->
+      ORDER BY SUBMIT_AT) supplier
+      WHERE
+      1=1
+      <if test="addressName !=null and addressName !=''">
+         AND supplier.addressName like CONCAT(CONCAT('%', #{addressName}), '%')
+      </if>
+  </select>
 
 	<!--  -->
 	<select id="querySupplierbytypeAndCategoryIds" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">

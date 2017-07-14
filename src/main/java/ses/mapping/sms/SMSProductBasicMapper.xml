@@ -283,4 +283,10 @@
     to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
     and to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
    </select>
+   
+   <update id="updateStatusById" parameterType="String">
+     update T_SES_SMS_PRODUCT_BASIC
+    set STATUS = 1
+    where ID = #{id,jdbcType=VARCHAR}
+   </update>
 </mapper>

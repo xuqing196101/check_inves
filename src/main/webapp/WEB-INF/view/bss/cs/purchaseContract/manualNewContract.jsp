@@ -644,7 +644,7 @@
 	}
 	
 	function abandoned(){
-		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html";
+		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html";
 	}
 	function getProjectName(id){
 		$.ajax({
@@ -909,7 +909,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方联系电话：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="purchaseContactTelephone" name="purchaseContactTelephone" value="${purchaseDep.contactTelephone}" type="text">
+			         <input class=" supplier_name" id="purchaseContactTelephone" maxlength="50" name="purchaseContactTelephone" value="${purchaseDep.contactTelephone}" type="text">
 			         <div class="cue">${ERR_purchaseContactTelephone}</div>
 			        </div>
 				 </li>
@@ -943,7 +943,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方银行账号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" name="purchaseBankAccount_string" id="purchaseBankAccount_string" value="${purchaseDep.bankAccount}" type="text">
+			         <input class=" supplier_name" name="purchaseBankAccount_string" maxlength="30" id="purchaseBankAccount_string" value="${purchaseDep.bankAccount}" type="text">
 			         <div class="cue">${ERR_purchaseBankAccount}</div>
 			        </div>
 				 </li>
@@ -1021,7 +1021,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方联系电话：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="supplierContactTelephone" name="supplierContactTelephone" value="${project.dealSupplier.contactTelephone}" type="text">
+			         <input class=" supplier_name" id="supplierContactTelephone" maxlength="50" name="supplierContactTelephone" value="${project.dealSupplier.contactTelephone}" type="text">
 			         <div class="cue">${ERR_supplierContactTelephone}</div>
 			        </div>
 				 </li>
@@ -1056,7 +1056,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方银行账号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="supplierBankAccount_string" name="supplierBankAccount_string" value="${project.dealSupplier.bankAccount}" type="text">
+			         <input class=" supplier_name" id="supplierBankAccount_string" maxlength="30" name="supplierBankAccount_string" value="${project.dealSupplier.bankAccount}" type="text">
 			         <div class="cue">${ERR_supplierBankAccount}</div>
 			        </div>
 				 </li>

@@ -276,7 +276,7 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	@Override
 	public List<ExpertBlackList> getIndexExpertBlackList() {
 		PageHelper.startPage(0, 5);
-		return mapper.findList(null);
+		return mapper.findIndexList(null);
 	}
 
 	@Override

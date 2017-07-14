@@ -229,6 +229,9 @@ public class OnlineComplaintsController {
         if(complaint.getName() == null || complaint.getName().equals("")){
             flag = false;
             model.addAttribute("error_name","投诉人名称不能为空");
+        }else if(complaint.getName().length() > 30){
+        	flag = false;
+            model.addAttribute("error_name","不能超过30个字");
         }
         if(complaint.getTelephone() == null || complaint.getTelephone().equals("")){
             flag = false;

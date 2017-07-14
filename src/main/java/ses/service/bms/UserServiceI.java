@@ -368,4 +368,14 @@ public interface UserServiceI {
    * @return
    */
   List<Ztree> getOrgTree(User user, String typeNameId, String orgType);
+
+  /**
+   *〈简述〉查询后台用户列表(不包括专家和供应商)
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param user
+   * @param i
+   * @return
+   */
+  List<User> queryBackendUser(User user, int i);
 }
