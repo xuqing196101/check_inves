@@ -96,6 +96,7 @@ public class ExcelUtil {
 	  excelUtil = this;
 	  excelUtil.purchaseRequiredService = this.purchaseRequiredService;
 	  excelUtil.OBProjectServer = this.OBProjectServer;
+	  excelUtil.orgnizationService=this.orgnizationService;
   }
   
   
@@ -189,7 +190,6 @@ public class ExcelUtil {
 	        				    	 }
 	        					 }*/
 	        				
-		        				
 	        					 rq.setDepartment(cell.getStringCellValue());
 		        				 continue;
 		        			}else{
@@ -804,10 +804,17 @@ public class ExcelUtil {
 	 		        				 continue;
 	 	        				 }
 	        				 }else if(cell.getCellType()!=3){
-	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，G列错误";
-		        				 map.put("errMsg", errMsg);
-		        				 bool=false;
-		        				 break;
+	        				   Pattern pattern = Pattern.compile("[0-9]*"); 
+	        				   Matcher isNum = pattern.matcher(cell.getStringCellValue());
+	        				   if(isNum.matches()){
+	        				     rq.setPurchaseCount(new BigDecimal(cell.getStringCellValue())); 
+                       continue;
+	        				   }else{
+	        				     errMsg=String.valueOf(row.getRowNum()+1)+"行，G列错误";
+	                     map.put("errMsg", errMsg);
+	                     bool=false;
+	                     break;
+	        				   }
 	        				 	}
 	        				 }
 	        			 }
@@ -829,10 +836,17 @@ public class ExcelUtil {
 //			        				 
 //		        				 } 
 	        					 if(cell.getCellType()!=3){
-		        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，H列错误";
-			        				 map.put("errMsg", errMsg); 
-			        				 bool=false;
-			        				 continue;
+	        					   String stringCellValue=cell.getStringCellValue()!=null?cell.getStringCellValue().replaceAll(",", ""):"";
+                       Pattern pattern = Pattern.compile("^([1-9][\\d]{0,14}|0)(\\.[\\d]{1,4})?$"); 
+                       Matcher isNum = pattern.matcher(stringCellValue);
+                       if(isNum.matches()){
+                         rq.setPrice(new BigDecimal(stringCellValue));
+                       }else{
+                         errMsg=String.valueOf(row.getRowNum()+1)+"行，H列错误";
+                         map.put("errMsg", errMsg); 
+                         bool=false;
+                         continue;
+                       }
 		        				 }
 	        				
 	        				 }
@@ -855,10 +869,18 @@ public class ExcelUtil {
 		        					 continue;
 		        				 }
 	        					 if(cell.getCellType()!=3){
-		        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，I列错误";
-			        				 map.put("errMsg", errMsg);
-			        				 bool=false;
-			        				 break;
+	        					   String stringCellValue=cell.getStringCellValue()!=null?cell.getStringCellValue().replaceAll(",", ""):"";
+	        					   Pattern pattern = Pattern.compile("^([1-9][\\d]{0,14}|0)(\\.[\\d]{1,4})?$"); 
+	                     Matcher isNum = pattern.matcher(stringCellValue);
+	                     if(isNum.matches()){
+	                       rq.setBudget(new BigDecimal(stringCellValue));
+	                       continue;
+	                     }else{
+	                       errMsg=String.valueOf(row.getRowNum()+1)+"行，I列错误";
+	                       map.put("errMsg", errMsg);
+	                       bool=false;
+	                       break;
+	                     }
 		        				 }
 //	        				 }
 	        				
@@ -886,45 +908,45 @@ public class ExcelUtil {
 	        			 }
 	        	
 	        			 if(cell.getColumnIndex()==10){
-	        				if(cell.getCellType()==1){
-	        					rq.setSupplier(cell.getStringCellValue());
-	        				}else if(cell.getCellType()!=3){
-	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，K错误";
-		        				 map.put("errMsg", errMsg);
-		        				 bool=false;
-	        				}
-	        				 
+	        			   if(cell.getCellType()==HSSFCell.CELL_TYPE_STRING){
+                     String str = cell.getStringCellValue();
+                     rq.setPurchaseType(str);
+                   }else if(cell.getCellType()!=3){
+                     errMsg=String.valueOf(row.getRowNum()+1)+"K行列错误!";
+                     map.put("errMsg", errMsg); 
+                     bool=false;
+                     break;
+                   }
 	        			 }
 	        			 if(cell.getColumnIndex()==11){
-	        				 if(cell.getCellType()==HSSFCell.CELL_TYPE_STRING){
-	        					 String str = cell.getStringCellValue();
-	        					 rq.setPurchaseType(str);
-	        				 }else if(cell.getCellType()!=3){
-	        					 errMsg=String.valueOf(row.getRowNum()+1)+"L行列错误，非文本格式!";
-		        				 map.put("errMsg", errMsg); 
-		        				 bool=false;
-		        				 break;
-	        				 }
-	        				
+	        			   if(cell.getCellType()==1){
+                     rq.setOrganization(cell.getStringCellValue());
+                     Orgnization orgnization =excelUtil.orgnizationService.selectByShortName(cell.getStringCellValue());
+                     if(orgnization==null){
+                       errMsg=String.valueOf(row.getRowNum()+1)+"行L列错误，采购机构不存在，请在系统中维护！";
+                       map.put("errMsg", errMsg);
+                        bool=false;
+                        break; 
+                     }
+                     continue;
+                  
+                  }else if(cell.getCellType()!=3){ 
+                     errMsg=String.valueOf(row.getRowNum()+1)+"行L列错误";
+                     map.put("errMsg", errMsg);
+                     bool=false;
+                     break;
+                  }
 	        			 }
 	        			 if(cell.getColumnIndex()==12){
-	        				if(cell.getCellType()==1){
-	        					 rq.setOrganization(cell.getStringCellValue());
-	        					 Orgnization orgnization = excelUtil.purchaseRequiredService.queryByName(cell.getStringCellValue());
-	        					 if(orgnization==null){
-	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，采购机构不存在，请在系统中维护！";
-			        				 map.put("errMsg", errMsg);
-			        				  bool=false;
-			        				  break; 
-	        					 }
-	        					 continue;
-	        				
-	        				}else if(cell.getCellType()!=3){ 
-	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行M列错误";
-		        				 map.put("errMsg", errMsg);
-		        				 bool=false;
-		        				 break;
-	        				}
+	        			   if(cell.getCellType()==1){
+	                    rq.setSupplier(cell.getStringCellValue());
+	                    continue;
+	                  }else if(cell.getCellType()!=3){
+	                     errMsg=String.valueOf(row.getRowNum()+1)+"行，M错误";
+	                     map.put("errMsg", errMsg);
+	                     bool=false;
+	                     break;
+	                  }
 	        			 }
 	        			 if(cell.getColumnIndex()==13){
 	        				if(cell.getCellType()==1){
