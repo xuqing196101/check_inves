@@ -2014,7 +2014,7 @@
 		AND SUPPLIER_STATUS = #{status}
 	</select>
 	
-	<!-- 手机号校验：专家库+供应商库（除去临时供应商） -->
+	<!-- 手机号校验：专家库+供应商库（除去临时供应商和临时专家） -->
 	<select id="countByMobile" resultType="int" parameterType="string">
 		<!-- SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER SUPP,
 		T_SES_EMS_EXPERT EXPE
@@ -2026,6 +2026,6 @@
 		SELECT (T1.COUNT_SUPP + T2.COUNT_EXPE) FROM
 		(SELECT COUNT(1) AS COUNT_SUPP FROM T_SES_SMS_SUPPLIER WHERE MOBILE = #{mobile} AND IS_PROVISIONAL != 1 AND IS_DELETED = 0) T1
 		,
-		(SELECT COUNT(1) AS COUNT_EXPE FROM T_SES_EMS_EXPERT WHERE MOBILE = #{mobile} AND IS_DELETE = 0) T2
+		(SELECT COUNT(1) AS COUNT_EXPE FROM T_SES_EMS_EXPERT WHERE MOBILE = #{mobile} AND IS_PROVISIONAL != 1 AND IS_DELETE = 0) T2
 	</select>
 </mapper>

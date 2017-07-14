@@ -3610,7 +3610,7 @@ public class ExpertController extends BaseController {
      * @param phone 
      * @return
      */
-    @ResponseBody
+    /*@ResponseBody
     @RequestMapping("/validatePhone")
     public String findAllPhone(String phone) {
         Boolean ajaxMoblie = userService.ajaxMoblie(phone, null);
@@ -3619,8 +3619,17 @@ public class ExpertController extends BaseController {
         } else {
             return "1";
         }
+    }*/
+    @ResponseBody
+    @RequestMapping("/validatePhone")
+    public String findAllPhone(String phone) {
+        boolean checkMobile = supplierService.checkMobile(phone);
+        if(checkMobile) {
+            return "0";
+        } else {
+            return "1";
+        }
     }
-
     @ResponseBody
     @RequestMapping("/validateAge")
     public String validateAge(String birthday) {
