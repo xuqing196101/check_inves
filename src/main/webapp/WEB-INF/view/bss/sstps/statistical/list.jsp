@@ -28,6 +28,7 @@
           }
         });
 
+        $("#purchaseDepName").val("${purchaseDepName}");
       });
 
       function showCharts() {
@@ -77,7 +78,15 @@
         <form id="form1" action="${pageContext.request.contextPath}/statistical/view.html" method="post" enctype="multipart/form-data" class="mb0">
           <ul class="demand_list">
             <li class="fl">
-              <label class="fl">采购机构：</label><span><input type="text" value="${purchaseDepName }" name="purchaseDepName" class=""/></span>
+              <label class="fl">采购机构：</label>
+              <span>
+                  <select id="purchaseDepName" name="purchaseDepName">
+                      <option value="">--请选择--</option>
+                      <c:forEach items="${purchaseOrgList}" var="p">
+                        <option value="${p.id}">${p.name}</option>
+                      </c:forEach>
+                  </select>
+              </span>
             </li>
             <li class="fl">
               <label class="fl">合同名称：</label><span><input type="text" value="${name }" name="name" class=""/></span>
