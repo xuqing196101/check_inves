@@ -34,6 +34,7 @@ import synchro.util.OperAttachment;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
+
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
@@ -458,7 +459,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 			// 判断主图片是否上传
 			vertifyMajorPictureUpload(productBasic, tableName);
 			// 暂存状态-待审核状态
-			productBasic.setStatus(SMSProductLibConstant.PRODUCT_LIB_ITEM_STATUS_WAIT_CHECK);
+			productBasic.setStatus(SMSProductLibConstant.PRODUCT_LIB_ITEM_STATUS_TEMP_SAVE);
 			smsProductBasicMapper.updateByPrimaryKeySelective(productBasic);
 		}
 		// 保存商品描述信息
@@ -929,6 +930,11 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 	@Override
 	public List<Supplier> findAllSupplier() {
 		return supplierMapper.findQualifiedSupplier();
+	}
+
+	@Override
+	public void updateStatusById(String id) {
+		smsProductBasicMapper.updateStatusById(id);
 	}
 
 }

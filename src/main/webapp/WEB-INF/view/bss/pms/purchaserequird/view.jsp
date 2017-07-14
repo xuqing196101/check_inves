@@ -337,9 +337,9 @@
 							  </div>
 							</td > 
 							<td>
-							<c:if test="${obj.purchaseCount!=null }">
+							<%-- <c:if test="${obj.purchaseCount!=null }"> --%>
 							   <u:show showId="pShow${vs.index}"  delete="false" businessId="${obj.id}" sysKey="2" typeId="270FA42F7A214E25B62CD80D1045D158" />
-							</c:if>
+							<%-- </c:if> --%>
 							</td>
 						</tr>
 

@@ -16,16 +16,18 @@
 	-->
   </head>
     <script type="text/javascript">
-	 function OpenFile(filePath) {
-		 var obj = document.getElementById("TANGER_OCX");
-			obj.Menubar = true;
-			obj.Caption = "( 双击可放大 ! )"
-			if(filePath != 0){
-				obj.BeginOpenFromURL("${pageContext.request.contextPath}"
-				+"/purchaseContract/loadFile.html?filePath="+filePath,true,false, 'word.document');// 异步加载, 服务器文件路径
-			} 	
-			
-		}
+    
+    function OpenFile(obj) {
+    	var obj = document.getElementById("TANGER_OCX");
+		var projectId = "${id}";
+		obj.Menubar = false;
+		obj.Caption = "( 双击可放大 ! )";
+		obj.BeginOpenFromURL("${pageContext.request.contextPath}"
+				+ "/purchaseContract/loadFile.html?id=" + projectId, true,
+				false, 'word.document');// 异步加载, 服务器文件路径
+
+	}
+	 
 		
 		
 		function exportWord() {

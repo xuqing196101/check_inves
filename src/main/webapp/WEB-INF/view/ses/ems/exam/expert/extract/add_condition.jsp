@@ -668,6 +668,7 @@
             btn: ['打印', '取消'], offset: ['40%', '40%'], shade: 0.01
         }, function (index) {
             window.location.href = "${pageContext.request.contextPath}/ExpExtract/showRecord.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+            layer.close(index);
         }, function (index) {
             window.location.href = "${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
             layer.close(index);

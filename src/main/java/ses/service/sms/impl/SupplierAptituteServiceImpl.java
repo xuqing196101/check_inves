@@ -60,5 +60,10 @@ public class SupplierAptituteServiceImpl implements SupplierAptituteService {
 		return supplierAptituteMapper.quertProType(typeId, matEngId, code);
 	}
 
+	@Override
+	public int selectByCertCode(String certCode) {
+		return supplierAptituteMapper.selectByCertCode(certCode);
+	}
+
 	
 }

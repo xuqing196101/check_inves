@@ -16,4 +16,6 @@ public interface SupplierAptituteService {
 	public List<SupplierAptitute> queryByCodeAndType(String certType,String matEngId,String code,String type);
 	
 	public List<String> getPorType(String typeId, String matEngId, String code);
+
+	public int selectByCertCode(String certCode);
 }

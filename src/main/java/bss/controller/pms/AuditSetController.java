@@ -925,8 +925,9 @@ public class AuditSetController {
 				auditPerson2.setAuditRound(turns);
 				auditPerson2.setType(3);
 				auditPerson2.setCreateDate(new Date());
+				auditPerson2.setAuditStaff(auditNature);
 				auditPersonService.add(auditPerson2);
-				map.put("staff", auditPerson2.getAuditStaff());
+				map.put("staff", auditNature);
 			}
 			map.put("isErr", str);
 			map.put("status", 1);

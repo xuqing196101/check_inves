@@ -164,6 +164,30 @@
 	        $("#name").val("");  
 	        $("#status").val("");  
 	    }
+		
+		//提交
+		function tijiao(){
+			var id=[]; 
+			$('input[name="chkItem"]:checked').each(function(){ 
+				id.push($(this).val());
+			}); 
+			if(id.length==1){
+				var flag = id[0].split(':');
+				if(flag[1] !=0){
+					layer.alert("只能提交暂存的产品信息");
+					return;
+				}
+				layer.confirm("您确认提交吗？", {
+				    btn: ['确定','取消'], //按钮
+				}, function(index){
+					window.location.href="${pageContext.request.contextPath}/product_lib/submit.html?id="+flag[0];
+				});
+			}else if(id.length>1){
+				layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+			}else{
+				layer.alert("请选择需要提交的产品",{offset: ['222px', '390px'], shade:0.01});
+			}
+		}
   </script>
  </head>
   <body>
@@ -209,7 +233,8 @@
     <div class="col-md-12 pl20 mt10">
    		<button class="btn btn-windows add" type="button" onclick="add()">录入</button>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>      
+		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+		<button class="btn btn-windows save" type="button" onclick="tijiao()">提交</button>      
    </div>
    <div class="content table_box">
     	<table class="table table-bordered table-condensed">

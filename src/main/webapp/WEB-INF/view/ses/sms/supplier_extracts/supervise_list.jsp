@@ -63,10 +63,10 @@
   	}
   	//保存监督人员
     function add(){
-        var _phoneVal = $("input[name='phone']").val();
-        var _relNameVal = $("input[name='relName']").val();
-        var _companyVal = $("input[name='company']").val();
-        var _dutiesVal = $("input[name='duties']").val();
+        var _phoneVal = $.trim($("input[name='phone']").val());
+        var _relNameVal =$.trim( $("input[name='relName']").val());
+        var _companyVal = $.trim($("input[name='company']").val());
+        var _dutiesVal =$.trim( $("input[name='duties']").val());
         if(_relNameVal!=""&&_companyVal!=""&&_dutiesVal!=""){
             if(!check_mobile(_phoneVal)){
                 layer.msg("请输入正确的手机号码");
