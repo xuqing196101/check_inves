@@ -741,9 +741,12 @@ public class SupplierController extends BaseSupplierController {
 	            returnInfo(model, before, supplier);
 	            return "ses/sms/supplier_register/basic_info";
 		    }
-			if(before.getStatus().equals(2)) {
+			/*if(before.getStatus().equals(2)) {
 				record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
-			}
+			}*/
+			if(before != null && before.getStatus() != null && before.getStatus() == 2){
+            	record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
+            }
 			supplierService.perfectBasic(supplier);
 			supplier = supplierService.get(supplier.getId());
 
@@ -2555,7 +2558,6 @@ public class SupplierController extends BaseSupplierController {
 
 				ct.setName(type.getName());
 				ct.setId(typeId);
-				System.out.println(typeId+"===============");
 				List < SupplierItem > s = supplierItemService.getSupplierIdCategoryId(supplierId, typeId, code);
 				if(s != null && s.size() > 0) {
 					ct.setChecked(true);
@@ -3175,27 +3177,27 @@ public class SupplierController extends BaseSupplierController {
     @ResponseBody
     @RequestMapping("/isPass")
     public String isPass(String supplierId,String stype) {
-        //BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
+		// BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
 		Supplier supplier = supplierService.get(supplierId);
-		if(supplier == null){
+		if (supplier == null) {
 			return "-1";
 		}
 		BigDecimal score = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
-        List <SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
-        if(stype!=null&&stype.trim().length()!=0){
-        	if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
-                return "0";
-            }	
-	   	}
-        
-        for (SupplierTypeRelate type : relate) {
-            if (type.getSupplierTypeId().equals("SALES")) {
-                if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
-                    return "0";
-                }
-            }
-        }
-        return "1";
+		List<SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
+		if (stype != null && stype.trim().length() != 0) {
+			if (score.compareTo(BigDecimal.valueOf(3000)) == -1) {
+				return "0";
+			}
+		}
+
+		for (SupplierTypeRelate type : relate) {
+			if (type.getSupplierTypeId().equals("SALES")) {
+				if (score.compareTo(BigDecimal.valueOf(3000)) == -1) {
+					return "0";
+				}
+			}
+		}
+		return "1";
     }
 
     /**
@@ -3209,7 +3211,7 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping(value = "/getAptLevel", produces = "application/json;charset=utf-8")
     public String getAptLevel(String typeId,String supplierId) {
         List<DictionaryData> data = qualificationLevelService.getByQuaId(typeId);
-        List<DictionaryData>  list= new ArrayList<DictionaryData>();
+        List<DictionaryData> list = new ArrayList<DictionaryData>();
         if (data != null&&data.size()>0) {
             return JSON.toJSONString(data);
         }else if(data.size()<1){
@@ -3227,10 +3229,7 @@ public class SupplierController extends BaseSupplierController {
                 	return JSON.toJSONString(list);
             	}
         	}
-        	
-        	
         }
-         
         return null;
     }
     
@@ -3244,31 +3243,32 @@ public class SupplierController extends BaseSupplierController {
     @ResponseBody
     @RequestMapping(value = "/getLevel", produces = "application/json;charset=utf-8")
     public String getAptLevel(String typeId, String certCode, String supplierId,String professType) {
-    	 SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
-    	  List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType( typeId,matEng.getId(), certCode, professType);
-    	  if(certEng!=null&&certEng.size()>0){
-        	  String level = certEng.get(0).getAptituteLevel();
-//            Supplier supplier = supplierService.get(supplierId);
-//            String level = supplierCertEngService.getLevel(typeId, certCode, supplier.getSupplierMatEng().getId());
-            DictionaryData data = DictionaryDataUtil.findById(level);
-            if (data != null) {
-                return JSON.toJSONString(data);
-            }
-    	  }
+		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+		List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(typeId, matEng.getId(), certCode, professType);
+		if (certEng != null && certEng.size() > 0) {
+			String level = certEng.get(0).getAptituteLevel();
+			// Supplier supplier = supplierService.get(supplierId);
+			// String level = supplierCertEngService.getLevel(typeId, certCode,
+			// supplier.getSupplierMatEng().getId());
+			DictionaryData data = DictionaryDataUtil.findById(level);
+			if (data != null) {
+				return JSON.toJSONString(data);
+			}
+		}
 
-        List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(typeId, supplierId);
-        if(projectData!=null&&projectData.size()>0){
-            Qualification qualification = qualificationService.getQualification(projectData.get(0).getName());
-        	DictionaryData dd=new DictionaryData();
-        	dd.setId(projectData.get(0).getId());
-        	if(null!=qualification){
-                dd.setName(qualification.getName());
-            }else{
-                dd.setName(projectData.get(0).getCertLevel());
-            }
-        	 return JSON.toJSONString(dd);
-        }
-        return null;
+		List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(typeId, supplierId);
+		if (projectData != null && projectData.size() > 0) {
+			Qualification qualification = qualificationService.getQualification(projectData.get(0).getName());
+			DictionaryData dd = new DictionaryData();
+			dd.setId(projectData.get(0).getId());
+			if (null != qualification) {
+				dd.setName(qualification.getName());
+			} else {
+				dd.setName(projectData.get(0).getCertLevel());
+			}
+			return JSON.toJSONString(dd);
+		}
+		return null;
     }
     
     @RequestMapping("/updateStep")
