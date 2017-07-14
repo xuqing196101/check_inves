@@ -364,6 +364,8 @@
 															<div class="mr5 fl" <c:if test="${fn:contains(audit,obj.itemId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${obj.itemId}','${auditType}')"</c:if>>
 																<c:choose>
 																	<c:when test="${!fn:contains(audit,obj.itemId) && currSupplier.status==2}">
+																		<div class="webuploader-pick">${quaPro.name}</div>
+																		<div class="clear"></div>
 																		<u:show showId="pShow${prolength}" delete="false" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
@@ -398,6 +400,8 @@
 															<div class="mr5 fl" <c:if test="${fn:contains(audit,sale.itemId)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${sale.itemId}','${auditType}')"</c:if>>
 																<c:choose>
 																	<c:when test="${!fn:contains(audit,sale.itemId) && currSupplier.status==2}">
+																		<div class="webuploader-pick">${saua.name}</div>
+																		<div class="clear"></div>
 																		<u:show showId="saleShow${length}" delete="false" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
@@ -556,6 +560,8 @@
 															<div class="fl mr5" <c:if test="${fn:contains(audit,server.itemId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${server.itemId}','${auditType}')"</c:if>>
 																<c:choose>
 																	<c:when test="${!fn:contains(audit,server.itemId) && currSupplier.status==2}">
+																		<div class="webuploader-pick">${ser.name}</div>
+																		<div class="clear"></div>
 																		<u:show showId="serverShow${slength}" delete="false" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
