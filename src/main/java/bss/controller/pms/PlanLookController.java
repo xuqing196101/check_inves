@@ -351,7 +351,9 @@ public class PlanLookController extends BaseController {
 		List<PurchaseManagement> pm = new ArrayList<>();
 		if(listO != null && listO.size() > 0 && listO.get(0) != null){
 			PurchaseRequired required = purchaseRequiredService.queryById(listO.get(0).getId());
-			pm = purchaseManagementService.queryByPid(required.getUniqueId());
+			if(required != null){
+				pm = purchaseManagementService.queryByPid(required.getUniqueId());
+			}
 		}
 		String mid="";
 		if(pm!=null&&pm.size()>0){
