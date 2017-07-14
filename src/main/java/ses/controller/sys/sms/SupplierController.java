@@ -867,7 +867,12 @@ public class SupplierController extends BaseSupplierController {
 			}
 			model.addAttribute("typeList", findList);
 			// 物资销售是否满足条件
-			String isSalePass = isPass(supplier.getId(), "SALES");
+			//String isSalePass = isPass(supplier.getId(), "SALES");
+			String isSalePass = "1";
+			BigDecimal saleScore = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
+			if (saleScore.compareTo(BigDecimal.valueOf(3000)) == -1) {
+				isSalePass = "0";
+			}
 			model.addAttribute("isSalePass", isSalePass);
 			return "ses/sms/supplier_register/supplier_type";
 		} else {
@@ -1171,7 +1176,12 @@ public class SupplierController extends BaseSupplierController {
             }
             model.addAttribute("typeList",  findList);
             // 物资销售是否满足条件
-			String isSalePass = isPass(supplier.getId(), "SALES");
+			//String isSalePass = isPass(supplier.getId(), "SALES");
+			String isSalePass = "1";
+			BigDecimal saleScore = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
+			if (saleScore.compareTo(BigDecimal.valueOf(3000)) == -1) {
+				isSalePass = "0";
+			}
 			model.addAttribute("isSalePass", isSalePass);
 			return "ses/sms/supplier_register/supplier_type";
 		}
@@ -3165,7 +3175,12 @@ public class SupplierController extends BaseSupplierController {
     @ResponseBody
     @RequestMapping("/isPass")
     public String isPass(String supplierId,String stype) {
-        BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
+        //BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
+		Supplier supplier = supplierService.get(supplierId);
+		if(supplier == null){
+			return "-1";
+		}
+		BigDecimal score = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
         List <SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
         if(stype!=null&&stype.trim().length()!=0){
         	if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
