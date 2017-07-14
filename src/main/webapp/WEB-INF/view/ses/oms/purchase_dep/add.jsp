@@ -139,8 +139,8 @@
           "<option  value='2'>会议室</option><option  value='3'>招标室</option><option  value='4'>评标室</option></select></td>" +
           "<td><input type='text' name='siteNumber'/></td>" +
           "<td><input type='text' name='location'/></td>" +
-          "<td><input type='text' name='area'/></td>" +
-          "<td><input type='text' name='crewSize'/></td>" +
+          "<td><input type='text' name='area' onblur = 'yzarea($(this))'/></td>" +
+          "<td><input type='text' name='crewSize' onblur = 'yzarea($(this))'/></td>" +
           "</tr>");
         calIndex('checkbo');
       }
@@ -305,6 +305,23 @@
           $("#experAddress").addClass("dnone");
           $("#experPostcode").addClass("dnone");
         }
+      }
+      
+      //验证面积必须为独数
+      function yzofficeArea(obj){
+    	  var v = obj.val();
+    	  if(v%2 != 1){
+    		  $("#officeArea").html("面积必须为独数");
+    	  }else if(v%2 == 1){
+    		  $("#officeArea").html("");
+    	  }
+      }
+      
+      function yzarea(obj){
+    	  var v = obj.val();
+    	  if(v%2 != 1){
+    		  layer.msg("必须为独数")
+    	  }
       }
     </script>
   </head>
@@ -786,8 +803,8 @@
                 <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">办公场地总面积(平方米)</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="officeArea" type="text" maxlength="40" value="${purchaseDep.officeArea}"> <span class="add-on">i</span>
-                      <div class="cue">${ERR_officeArea}</div>
+                      <input class="input_group" name="officeArea" type="text" maxlength="40" value="${purchaseDep.officeArea}" onblur = "yzofficeArea($(this))"> <span class="add-on">i</span>
+                      <div class="cue" id = "officeArea">${ERR_officeArea}</div>
                     </div>
                   </li>
                   
@@ -881,8 +898,8 @@
                               </td>
                               <td class="tc"><input type="text" name="siteNumber" maxlength="40" value="${obj.siteNumber}"/></td>
                               <td class="tc"><input type="text" name="location" maxlength="100" value="${obj.location}"/></td>
-                              <td class="tc"><input type="text" name="area" maxlength="40" value="${obj.area}"/></td>
-                              <td class="tc"><input type="text" name="crewSize" maxlength="40" value="${obj.crewSize}"/></td>
+                              <td class="tc"><input type="text" name="area" maxlength="40" value="${obj.area}" onblur = "yzarea($(this))"/></td>
+                              <td class="tc"><input type="text" name="crewSize" maxlength="40" value="${obj.crewSize}" onblur = "yzarea($(this))"/></td>
                             </tr>
                          </c:forEach>
                       </tbody>
