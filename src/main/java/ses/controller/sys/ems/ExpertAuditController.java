@@ -2411,7 +2411,7 @@ public class ExpertAuditController{
 		// 设置修改时间
 		expert.setUpdatedAt(new Date());
 		expertService.updateByPrimaryKeySelective(expert);
-		return JdcgResult.ok();
+		return JdcgResult.ok(expert.getStatus());
 	}
 
 	@RequestMapping("/selectChooseOrNoPassCate")
@@ -2430,7 +2430,7 @@ public class ExpertAuditController{
 	}
 
 	@RequestMapping("/uploadApproveFile")
-	public String uploadApproveFile(Model model, String expertId, Integer sign, Integer status){
+	public String uploadApproveFile(Model model, String expertId, Integer sign){
 		/**
 		 *
 		 * Description:上传批准审核表
@@ -2445,7 +2445,7 @@ public class ExpertAuditController{
         // 查询专家
         model.addAttribute("expertId", expertId);
         model.addAttribute("sign", sign);
-        model.addAttribute("status", status);
+        model.addAttribute("status", expert.getStatus());
         model.addAttribute("expert", expert);
 		// 设置文件上传项
 		fileUploadItem(model);

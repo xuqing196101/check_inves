@@ -41,7 +41,7 @@
             <div>
                 <h2 class="count_flow"><i>1</i>供应商审批表</h2>
                 <ul class="ul_list">
-                    <c:if test="${ supplierStatus == -3 }">
+                    <c:if test="${ supplierStatus == -3 || supplierStatus == 3 }">
                         <li class="col-md-6 col-sm-6 col-xs-6">
                             <div>
                                 <span class="fl">供应商审批表：</span>
@@ -50,7 +50,7 @@
                             </div>
                         </li>
                     </c:if>
-                    <c:if test="${ supplierStatus != -3 }">
+                    <c:if test="${ supplierStatus != -3 && supplierStatus != 3 }">
                         <li class="col-md-6 col-sm-6 col-xs-6">
                             <div>
                                 <span class="fl">上传批准审核表：</span>
@@ -75,7 +75,7 @@
             </form>
             <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html">
                 <input name="supplierId" id="supplierId" value="${supplierId}" type="hidden">
-                <input name="status" id="status" type="hidden">
+                <input name="status" id="status" type="hidden" value="${supplierStatus}">
                 <input name="opinion" type="hidden">
                 <input name="id" type="hidden">
                 <input name="auditOpinionAttach" id="auditOpinionAttach" type="hidden"/>

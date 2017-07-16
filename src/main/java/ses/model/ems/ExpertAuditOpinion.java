@@ -19,6 +19,8 @@ public class ExpertAuditOpinion implements Serializable{
 	private Integer flagTime;
 	/**审核标识：0：审核不通过 1：审核通过**/
 	private Integer flagAudit;
+	/**是否下载了入库复审表 1：已下载**/
+	private Integer isDownLoadAttch;
 
 	public String getId() {
 		return id;
@@ -66,4 +68,12 @@ public class ExpertAuditOpinion implements Serializable{
 	public void setFlagAudit(Integer flagAudit) {
 		this.flagAudit = flagAudit;
 	}
+
+    public Integer getIsDownLoadAttch() {
+        return isDownLoadAttch;
+    }
+
+    public void setIsDownLoadAttch(Integer isDownLoadAttch) {
+        this.isDownLoadAttch = isDownLoadAttch;
+    }
 }

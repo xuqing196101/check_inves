@@ -9,9 +9,10 @@
     <result column="UPDATED_AT"  property="updatedAt" />
     <result column="FLAG_TIME"  property="flagTime" />
     <result column="FLAG_AUDIT"  property="flagAudit" />
+    <result column="IS_DOWNLOAD_ATTCH"  property="isDownLoadAttch" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, EXPERT_ID, OPINION, CREATED_AT, UPDATED_AT, FLAG_TIME, FLAG_AUDIT
+    ID, EXPERT_ID, OPINION, CREATED_AT, UPDATED_AT, FLAG_TIME, FLAG_AUDIT, IS_DOWNLOAD_ATTCH
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -42,6 +43,9 @@
       <if test="flagAudit != null" >
         FLAG_AUDIT = #{flagAudit,jdbcType=DECIMAL},
       </if>
+      <if test="isDownLoadAttch != null" >
+        IS_DOWNLOAD_ATTCH = #{isDownLoadAttch,jdbcType=DECIMAL},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -70,6 +74,9 @@
       <if test="flagAudit != null">
         FLAG_AUDIT,
       </if>
+      <if test="isDownLoadAttch != null" >
+        IS_DOWNLOAD_ATTCH,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -92,6 +99,9 @@
       </if>
       <if test="flagAudit != null">
         #{flagAudit},
+      </if>
+      <if test="isDownLoadAttch != null" >
+        #{isDownLoadAttch},
       </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">

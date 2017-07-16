@@ -9,7 +9,6 @@
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
-    <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/audit_attach_upload.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertAudit/merge_jump.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertAudit/audit_attach_upload.js"></script>
 </head>
@@ -43,7 +42,7 @@
             <div>
                 <h2 class="count_flow"><i>1</i>专家审批表</h2>
                 <ul class="ul_list">
-                    <c:if test="${ status == -3 }">
+                    <c:if test="${ status == -3 || status == 5}">
                         <li class="col-md-6 col-sm-6 col-xs-6">
                             <div>
                                 <span class="fl">专家审批表：</span>
@@ -52,7 +51,7 @@
                             </div>
                         </li>
                     </c:if>
-                    <c:if test="${ status != -3 }">
+                    <c:if test="${ status != -3 && status != 5 }">
                         <li class="col-md-6 col-sm-6 col-xs-6">
                             <div>
                                 <span class="fl">上传批准审核表：</span>
@@ -76,15 +75,15 @@
             </form>
             <form id="form_shenhe" action="${pageContext.request.contextPath}/expertAudit/updateStatus.html">
                 <input name="id" value="${expertId}" type="hidden">
-                <input type="hidden" name="status" id="status"/>
+                <input name="status" type="hidden" id="status" value="${status}"/>
                 <input name="auditOpinionAttach" id="auditOpinionAttach" type="hidden" />
                 <div class="margin-bottom-0  categories">
                     <div class="col-md-12 add_regist tc">
                         <div class="col-md-12 add_regist tc">
                             <a class="btn" type="button" onclick="lastStep();">上一步</a>
                             <c:if test="${status == -2}">
-                                <input class="btn btn-windows apply" type="button" id="auditPass" value="复审通过 " />
-                                <input class="btn btn-windows cancel" type="button" id="auditNoPass" value="复审不通过" />
+                                <input class="btn btn-windows apply" type="button" id="auditPass" value="复审合格 " />
+                                <input class="btn btn-windows cancel" type="button" id="auditNoPass" value="复审不合格" />
                             </c:if>
                         </div>
                     </div>

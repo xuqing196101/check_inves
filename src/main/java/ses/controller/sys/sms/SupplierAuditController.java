@@ -17,74 +17,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import ses.formbean.QualificationBean;
-import ses.model.bms.Area;
-import ses.model.bms.Category;
-import ses.model.bms.CategoryTree;
-import ses.model.bms.DictionaryData;
-import ses.model.bms.Qualification;
-import ses.model.bms.Todos;
-import ses.model.bms.User;
+import ses.model.bms.*;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
-import ses.model.sms.Supplier;
-import ses.model.sms.SupplierAddress;
-import ses.model.sms.SupplierAfterSaleDep;
-import ses.model.sms.SupplierAptitute;
-import ses.model.sms.SupplierAudit;
-import ses.model.sms.SupplierAuditNot;
-import ses.model.sms.SupplierAuditOpinion;
-import ses.model.sms.SupplierBranch;
-import ses.model.sms.SupplierCateTree;
-import ses.model.sms.SupplierCertEng;
-import ses.model.sms.SupplierCertPro;
-import ses.model.sms.SupplierCertSell;
-import ses.model.sms.SupplierCertServe;
-import ses.model.sms.SupplierDictionaryData;
-import ses.model.sms.SupplierFinance;
-import ses.model.sms.SupplierHistory;
-import ses.model.sms.SupplierItem;
-import ses.model.sms.SupplierMatEng;
-import ses.model.sms.SupplierMatPro;
-import ses.model.sms.SupplierMatSell;
-import ses.model.sms.SupplierMatServe;
-import ses.model.sms.SupplierModify;
-import ses.model.sms.SupplierPorjectQua;
-import ses.model.sms.SupplierPublicity;
-import ses.model.sms.SupplierRegPerson;
-import ses.model.sms.SupplierSignature;
-import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierTypeRelate;
-import ses.service.bms.AreaServiceI;
-import ses.service.bms.CategoryService;
-import ses.service.bms.DictionaryDataServiceI;
-import ses.service.bms.EngCategoryService;
-import ses.service.bms.QualificationService;
-import ses.service.bms.TodosService;
+import ses.model.sms.*;
+import ses.service.bms.*;
 import ses.service.oms.PurchaseOrgnizationServiceI;
-import ses.service.sms.SupplierAddressService;
-import ses.service.sms.SupplierAptituteService;
-import ses.service.sms.SupplierAuditNotService;
-import ses.service.sms.SupplierAuditOpinionService;
-import ses.service.sms.SupplierAuditService;
-import ses.service.sms.SupplierBranchService;
-import ses.service.sms.SupplierHistoryService;
-import ses.service.sms.SupplierItemService;
-import ses.service.sms.SupplierMatEngService;
-import ses.service.sms.SupplierModifyService;
-import ses.service.sms.SupplierPorjectQuaService;
-import ses.service.sms.SupplierService;
-import ses.service.sms.SupplierSignatureService;
-import ses.service.sms.SupplierTypeRelateService;
-import ses.util.DictionaryDataUtil;
-import ses.util.FtpUtil;
-import ses.util.PropUtil;
-import ses.util.SupplierLevelUtil;
-import ses.util.WordUtil;
+import ses.service.sms.*;
+import ses.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -92,16 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <p>Title:SupplierAuditController </p>
@@ -2356,14 +2293,14 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("overAptitude")
 	@ResponseBody
-	public JdcgResult overAptitude(Model model, String supplierId,String supplierType, Integer supplierStatus, Integer sign,Integer pageNum, String flag){
+	public JdcgResult overAptitude(Model model, String supplierId, String supplierType, Integer supplierStatus, Integer sign, @RequestParam(defaultValue = "1") int pageNum, String flag){
 		List<SupplierCateTree> cateTreeList = new ArrayList<>();
 		// 查询已选中的节点信息
 		List < SupplierItem > listSupplierItems = null;
 		if(StringUtils.isEmpty(flag)){
-            listSupplierItems = supplierItemService.findCategoryList(supplierId, supplierType, pageNum == null ? 1 : pageNum);
+            listSupplierItems = supplierItemService.findCategoryList(supplierId, supplierType, pageNum);
         }else {
-            listSupplierItems = supplierItemService.selectPassItemByCond(supplierId, supplierType, pageNum == null ? 1 : pageNum);
+            listSupplierItems = supplierItemService.selectPassItemByCond(supplierId, supplierType, pageNum);
         }
 		SupplierCateTree cateTree=null;
 		long fileNumber=0,contractCount=0;
@@ -2393,7 +2330,19 @@ public class SupplierAuditController extends BaseSupplierController {
                 cateTreeList.add(cateTree);
             }
         }
-		return new JdcgResult(new PageInfo<>(cateTreeList));
+        PageInfo<SupplierCateTree> pageInfo = new PageInfo<>(cateTreeList);
+        // 设置每页显示的条数
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        Integer pageSize = Integer.parseInt(config.getString("pageSize"));
+		// 设置开始和结束页
+        // 起始索引
+        int start = (pageNum - 1) * pageSize;
+        // 结束索引
+        int end = pageNum * pageSize > cateTreeList.size() ? cateTreeList.size()
+                : pageNum * pageSize;
+        pageInfo.setStartRow(start + 1);
+        pageInfo.setEndRow(end);
+        return new JdcgResult(pageInfo);
 	}
 	/**
 	 * 
@@ -3665,7 +3614,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	}
 
 	@RequestMapping("/uploadApproveFile")
-	public String uploadApproveFile(Model model, String supplierId, String supplierStatus, String sign){
+	public String uploadApproveFile(Model model, String supplierId, String sign){
 	    /**
 	     *
 	     * Description:上传批准审核表
@@ -3678,8 +3627,12 @@ public class SupplierAuditController extends BaseSupplierController {
 	     */
 	    // 查询供应商
         Supplier supplier = supplierAuditService.supplierById(supplierId);
-	    model.addAttribute("supplierId", supplierId);
-	    model.addAttribute("supplierStatus", supplierStatus);
+	    Integer supplierStatus = null;
+        if(supplier != null){
+            supplierStatus = supplier.getStatus();
+        }
+        model.addAttribute("supplierId", supplierId);
+        model.addAttribute("supplierStatus", supplierStatus);
 	    model.addAttribute("sign", sign);
 	    model.addAttribute("supplier", supplier);
         // 设置文件上传项

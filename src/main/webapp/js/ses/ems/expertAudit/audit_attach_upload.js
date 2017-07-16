@@ -1,7 +1,7 @@
 $(function () {
-    $("#reverse_of_five_i").show();
-    $("#reverse_of_six").show();
+    // 导航栏显示
     $("#reverse_of_six").attr("class","active");
+    $("#reverse_of_six").removeAttr("onclick");
 
     // 绑定审核通过和不通过事件
     $("#auditPass").click(function () {
@@ -34,25 +34,33 @@ function audit(status){
     // 获取上传文件businessId
     var auditOpinionFile = $("#auditOpinionFile").val();
     $("#auditOpinionAttach").val(auditOpinionFile);
-    $.ajax({
-        url:globalPath + "/expertAudit/updateStatusAjax.do",
-        type: "POST",
-        data:$("#form_shenhe").serialize(),
-        dataType:"json",
-        success:function (data) {
-            if(data.status == 200){
-                // 跳转查询界面
-                layer.confirm("操作成功",{
-                        btn:['确定']
-                    },function(){
-                        window.location.href = globalPath+"/expertAudit/list.html";
+    layer.confirm('您确认吗？', {
+        closeBtn: 0,
+        offset: '100px',
+        shift: 4,
+        btn: ['确认', '取消']
+    }, function (index) {
+        $.ajax({
+            url: globalPath + "/expertAudit/updateStatusAjax.do",
+            type: "POST",
+            data: $("#form_shenhe").serialize(),
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 200) {
+                    // 跳转查询界面
+                    layer.confirm("操作成功", {
+                            btn: ['确定']
+                        }, function () {
+                            window.location.href = globalPath + "/expertAudit/list.html";
+                        }
+                    )
+                } else {
+                    if (data.status == 500) {
+                        layer.alert(data.msg);
                     }
-                )
-            }else{
-                if(data.status == 500){
-                    layer.alert(data.msg);
                 }
             }
-        }
+        });
+        layer.close(index);
     });
 }

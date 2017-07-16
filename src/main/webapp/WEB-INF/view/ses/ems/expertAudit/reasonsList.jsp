@@ -10,30 +10,21 @@
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertAudit/reasonsList.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertAudit/merge_jump.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertAudit/reasonsList.js"></script>
     <script type="text/javascript">
         $(function () {
-            $("#reverse_of_five").attr("class","active");
             //审核按钮状态
             var num = ${num};
             if (num == 0) {
                 if('${status}' != -2 && '${status}' != -3){
                     //$("#tuihui").attr("disabled", true);
-                    $("#butongguo").attr("disabled", true);
+                    //$("#butongguo").attr("disabled", true);
                     $("#tichu").attr("disabled", true);
                 }
             }
             if (num != 0) {
-                $("#tongguo").attr("disabled", true);
-            }
-            if('${status}' == -2 || '${status}' == -3){
-                $("#reverse_of_five_i").show();
-                $("#reverse_of_six").show();
-            }
-            // 预复审合格状态
-            if('${status}' == -2 || '${status}' == -3){
-                $("#checkWord").show();
+                //$("#tongguo").attr("disabled", true);
             }
         });
 
@@ -138,10 +129,11 @@
                             data: $("#form_shenhe").serialize(),
                             success: function (data) {
                             	if(data.status == 200){
+                            	    $("#expertStatus").val(data.data);
                             	    $("#tuihui").hide();
                             	    $("#tongguo").hide();
-                            	    $("#tempSave").show();
-                            	    $("#nextStep").show();
+                            	    $("#tempSave").css("display","inline-block");
+                            	    $("#nextStep").css("display","inline-block");
                                     $("#checkWord").show();
                                     // 加载审核导航栏-上传批准审核表
                                     $("#reverse_of_five_i").show();
@@ -228,22 +220,6 @@
                 layer.alert("请选择需要移除的信息！", {offset: '100px'});
             }
             ;
-        }
-
-        //下载入库复审表
-        function downloadTable(str) {
-            $("input[name='tableType']").val(str);
-            $("#form_id_word").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
-            $("#form_id_word").submit();
-            $("#downloadAttachFile").val("1");
-        }
-    </script>
-    <script type="text/javascript">
-        //上一步
-        function lastStep() {
-            var action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
-            $("#form_id").attr("action", action);
-            $("#form_id").submit();
         }
     </script>
 </head>
@@ -339,15 +315,15 @@
                     </ul>
                 </div>
             </c:if>
-            <c:if test="${ sign == 2}">
+            <c:if test="${ sign == 2 }">
                 <div class="display-none" id="checkWord">
                     <div id="opinionDiv">
-                        <h2 class="count_flow"><i>2</i>复审意见</h2>
+                        <h2 class="count_flow"><i>2</i>复审意见<span class="red">*</span></h2>
                         <ul class="ul_list">
                             <li>
                                 <div class="select_check" id="selectOptionId">
-                                    <input type="radio" name="selectOption" value="1">预复审通过
-                                    <input type="radio" name="selectOption" value="0">预复审不通过
+                                    <input type="radio" name="selectOption" value="1">预复审合格
+                                    <input type="radio" name="selectOption" value="0">预复审不合格
                                 </div>
                             </li>
 
@@ -398,7 +374,7 @@
                     <input name="expertId" value="${expertId}" type="hidden"/>
                     <input name="opinion" value="" id="opinionId" type="hidden"/>
                     <input name="vertifyFlag" value="" id="vertifyFlag" type="hidden"/>
-                    <input name="downloadAttachFile" id="downloadAttachFile" value="" type="hidden">
+                    <input name="isDownLoadAttch" id="downloadAttachFile" value="${auditOpinion.isDownLoadAttch}" type="hidden">
                 </form>
             </c:if>
 
@@ -407,7 +383,7 @@
                 <form id="form_shenhe" action="${pageContext.request.contextPath}/expertAudit/updateStatus.html">
                     <a class="btn" type="button" onclick="lastStep();">上一步</a>
                     <input name="id" value="${expertId}" type="hidden">
-                    <input type="hidden" name="status" id="status"/>
+                    <input type="hidden" name="status" id="status" value="${status}"/>
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
                     <c:if test="${status eq '0'}">
                         <input class="btn btn-windows git" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">

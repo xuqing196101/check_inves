@@ -5,9 +5,14 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
-		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>	
+		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertAudit/merge_jump.js"></script>
 		<script type="text/javascript">
 			$(function() {
+			    // 导航栏显示
+                $("#reverse_of_two").attr("class","active");
+                $("#reverse_of_two").removeAttr("onclick");
+
 				var typeIds = "${expert.expertsTypeId}";
 				var ids = typeIds.split(",");
 				//回显
@@ -230,28 +235,6 @@
          });
        }
 		</script>
-		<script type="text/javascript">
-			function jump(str){
-			  var action;
-			  if(str == "basicInfo") {
-					action = "${pageContext.request.contextPath}/expertAudit/basicInfo.html";
-				}
-			  if(str=="experience"){
-			     action ="${pageContext.request.contextPath}/expertAudit/experience.html";
-			  }
-			  if(str=="product"){
-			    action = "${pageContext.request.contextPath}/expertAudit/product.html";
-			  }
-			  if(str=="expertFile"){
-			    action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
-			  }
-			  if(str=="reasonsList"){
-			    action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
-			  }
-			  $("#form_id").attr("action",action);
-			  $("#form_id").submit();
-			}
-		</script>
 	</head>
 
 	<body>
@@ -290,31 +273,7 @@
 		<div class="container container_box">
 			<div class=" content">
 				<div class="col-md-12 col-sm-12 col-xs-12 tab-v2 job-content">
-					<ul class="flow_step">
-						<li onclick="jump('basicInfo')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">基本信息</a>
-							<i></i>
-						</li>
-						<!-- <li onclick="jump('experience')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">经历经验</a>
-							<i></i>
-						</li> -->
-						<li class="active">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">专家类别</a>
-							<i></i>
-						</li>
-						<li onclick="jump('product')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品类别</a>
-							<i></i>
-						</li>
-						<li onclick="jump('expertFile')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">承诺书和申请表</a>
-							<i></i>
-						</li>
-						<li onclick="jump('reasonsList')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
-						</li>
-					</ul>
+                    <%@include file="/WEB-INF/view/ses/ems/expertAudit/common_jump.jsp" %>
 					<!-- 专家专业信息 -->
 					<ul class="ul_list count_flow">
 						<li>
@@ -373,5 +332,6 @@
    	  <input name="expertId" value="${expert.id}" type="hidden">
    	  <input name="sign" value="${sign}" type="hidden">
     </form>
+        <input id="status" value="${expert.status}" type="hidden">
 	</body>
 </html>

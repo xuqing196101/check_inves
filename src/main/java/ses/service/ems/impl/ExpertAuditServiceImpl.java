@@ -571,7 +571,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
         Integer selectCount;
         count = expertAuditMapper.selectRegExpCateCount(map);
         if(count != null && count > 0){
-            return JdcgResult.build(500, "基本中有不通过项");
+            return JdcgResult.build(500, "基本信息中有不通过项");
         }
 
         // 判断专家类型和产品类别分别不能有全不通过项

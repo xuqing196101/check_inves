@@ -19,14 +19,9 @@
 		  $(function() {
               // 导航栏选中
               $("#reverse_of_three").attr("class","active");
+              $("#reverse_of_three").removeAttr("onclick");
               $("td").each(function() {
               $(this).find("a").eq(0).hide();
-
-              // 预审核结束状态
-              if('${supplierStatus}' == -2 || '${supplierStatus}' == -3){
-                  $("#reverse_of_seven_i").show();
-                  $("#reverse_of_eight").show();
-              }
 		  });
 		});
 
@@ -223,7 +218,7 @@
 
         <form id="form_id" action="" method="post" >
             <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
-            <input name="supplierStatus" value="${supplierStatus}" type="hidden">
+            <input id="status" name="supplierStatus" value="${supplierStatus}" type="hidden">
             <input type="hidden" name="sign" value="${sign}">
         </form>
         <ul class="ul_list count_flow">

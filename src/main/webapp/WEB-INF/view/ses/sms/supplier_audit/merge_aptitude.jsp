@@ -131,7 +131,7 @@
 	</div>
 	<form id="form_id" action="" method="post">
 		<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden"> 
-		<input name="supplierStatus" id="supplierStatus" value="${supplierStatus}" type="hidden">
+		<input name="supplierStatus" id="status" value="${supplierStatus}" type="hidden">
 		<input type="hidden" id="supplierTypes" value="${supplierTypes}">
 		<input type="hidden" name="supplierType" >
 		<input type="hidden" name="sign" value="${sign}">

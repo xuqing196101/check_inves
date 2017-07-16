@@ -35,11 +35,8 @@
         $(function () {
             // 导航栏选中
             $("#reverse_of_one").attr("class","active");
-            // 预审核结束状态
-            if('${suppliers.status}' == -2 || '${suppliers.status}' == -3){
-                $("#reverse_of_seven_i").show();
-                $("#reverse_of_eight").show();
-            }
+            $("#reverse_of_one").removeAttr("onclick");
+
             $(":input").each(function () {
                 /* $(this).parent("div").find("div").hide(); */
                 var onMouseMove = "this.style.background='#E8E8E8'";
@@ -428,7 +425,7 @@
             <%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
             <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/financial.html" method="post">
                 <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
-                <input name="supplierStatus" value="${suppliers.status }" type="hidden">
+                <input id="status" name="supplierStatus" value="${suppliers.status }" type="hidden">
                 <input type="hidden" name="sign" value="${sign}">
             </form>
 

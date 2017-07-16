@@ -2,17 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.sms.SupplierAuditOpinionMapper">
   <resultMap id="BaseResultMap" type="ses.model.sms.SupplierAuditOpinion">
-    <id column="ID"  property="id" />
-    <result column="SUPPLIER_ID"  property="supplierId" />
-    <result column="OPINION"  property="opinion" />
-    <result column="CREATED_AT"  property="createdAt" />
-    <result column="FLAG_TIME"  property="flagTime" />
-    <result column="FLAG_AUDIT"  property="flagAduit" />
-
-
+      <id column="ID"  property="id" />
+      <result column="SUPPLIER_ID"  property="supplierId" />
+      <result column="OPINION"  property="opinion" />
+      <result column="CREATED_AT"  property="createdAt" />
+      <result column="FLAG_TIME"  property="flagTime" />
+      <result column="FLAG_AUDIT"  property="flagAduit" />
+      <result column="IS_DOWNLOAD_ATTCH"  property="isDownLoadAttch" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, SUPPLIER_ID, OPINION, CREATED_AT, FLAG_TIME, FLAG_AUDIT
+    ID, SUPPLIER_ID, OPINION, CREATED_AT, FLAG_TIME, FLAG_AUDIT, IS_DOWNLOAD_ATTCH
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -23,50 +22,56 @@
   </select>
 
   <insert id="insertSelective" parameterType="ses.model.sms.SupplierAuditOpinion">
-     <selectKey keyProperty="id" resultType="String" order="BEFORE">
-       select sys_guid() from dual
-     </selectKey>
-    insert into T_SES_SMS_SUPPLIER_OPINION
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="supplierId != null">
-        SUPPLIER_ID,
-      </if>
-      <if test="opinion != null">
-        OPINION,
-      </if>
-      <if test="createdAt != null">
-        CREATED_AT,
-      </if>
-      <if test="flagTime != null">
-        FLAG_TIME,
-      </if>
-      <if test="flagAduit != null">
-        FLAG_AUDIT,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id},
-      </if>
-      <if test="supplierId != null">
-        #{supplierId},
-      </if>
-      <if test="opinion != null">
-        #{opinion},
-      </if>
-      <if test="createdAt != null">
-        #{createdAt},
-      </if>
-      <if test="flagTime != null">
-        #{flagTime},
-      </if>
-      <if test="flagAduit != null">
-        #{flagAduit}
-      </if>
-    </trim>
+      <selectKey keyProperty="id" resultType="String" order="BEFORE">
+          select sys_guid() from dual
+      </selectKey>
+      insert into T_SES_SMS_SUPPLIER_OPINION
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+          <if test="id != null">
+              ID,
+          </if>
+          <if test="supplierId != null">
+              SUPPLIER_ID,
+          </if>
+          <if test="opinion != null">
+              OPINION,
+          </if>
+          <if test="createdAt != null">
+              CREATED_AT,
+          </if>
+          <if test="flagTime != null">
+              FLAG_TIME,
+          </if>
+          <if test="flagAduit != null">
+              FLAG_AUDIT,
+          </if>
+          <if test="isDownLoadAttch != null">
+              IS_DOWNLOAD_ATTCH,
+          </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides=",">
+          <if test="id != null">
+              #{id},
+          </if>
+          <if test="supplierId != null">
+              #{supplierId},
+          </if>
+          <if test="opinion != null">
+              #{opinion},
+          </if>
+          <if test="createdAt != null">
+              #{createdAt},
+          </if>
+          <if test="flagTime != null">
+              #{flagTime},
+          </if>
+          <if test="flagAduit != null">
+              #{flagAduit},
+          </if>
+          <if test="isDownLoadAttch != null">
+              #{isDownLoadAttch},
+          </if>
+      </trim>
   </insert>
   
   <!-- 根据供应商ID查询信息 -->
@@ -112,6 +117,9 @@
             </if>
             <if test="flagAduit != null" >
                 FLAG_AUDIT = #{flagAduit,jdbcType=DECIMAL},
+            </if>
+            <if test="isDownLoadAttch != null" >
+                IS_DOWNLOAD_ATTCH = #{isDownLoadAttch,jdbcType=DECIMAL},
             </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}

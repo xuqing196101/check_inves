@@ -5,30 +5,14 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
-			<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+        <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertAudit/merge_jump.js"></script>
 		<script type="text/javascript">
-			function jump(str) {
-				var action;
-				if(str == "basicInfo") {
-					action = "${pageContext.request.contextPath}/expertAudit/basicInfo.html";
-				}
-				if(str == "experience") {
-					action = "${pageContext.request.contextPath}/expertAudit/experience.html";
-				}
-				if(str=="expertType"){
-			    action = "${pageContext.request.contextPath}/expertAudit/expertType.html";
-			  }
-				if(str == "product") {
-					action = "${pageContext.request.contextPath}/expertAudit/product.html";
-				}
-				if(str == "reasonsList") {
-					action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
-				}
-				$("#form_id").attr("action", action);
-				$("#form_id").submit();
-			}
-			
-			
+			$(function () {
+			    // 导航栏显示
+                $("#reverse_of_four").attr("class","active");
+                $("#reverse_of_four").removeAttr("onclick");
+            })
 			//下一步
 			function nextStep() {
 				var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
@@ -145,27 +129,7 @@
 		<div class="container container_box">
 			<div class=" content height-350">
 				<div class="col-md-12 tab-v2 job-content">
-					<ul class="flow_step">
-						<li onclick="jump('basicInfo')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">基本信息</a><i></i>
-						</li>
-						<!-- <li onclick="jump('experience')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">经历经验</a><i></i>
-						</li> -->
-						<li onclick="jump('expertType')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">专家类别</a><i></i>
-						</li>
-						<li onclick="jump('product')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品类别</a><i></i>
-						</li>
-						<li class="active">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">承诺书和申请表</a><i></i>
-						</li>
-						<li onclick="jump('reasonsList')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
-						</li>
-					</ul>
-					
+					<%@include file="/WEB-INF/view/ses/ems/expertAudit/common_jump.jsp" %>
 					<ul class="ul_list hand count_flow">
 						<li class="col-md-6 col-sm-6 col-xs-12 p0 mt10 mb25">
 							<span <c:if test="${fn:contains(fileModify,'14')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="application" onclick="reason(this);">军队评审专家承诺书：</span>
@@ -206,6 +170,7 @@
 			<input name="expertId" value="${expertId}" type="hidden">
 			<input name="sign" value="${sign}" type="hidden">
 		</form>
+        <input value="${status}" id="status" type="hidden">
 	</body>
 
 </html>

@@ -1,11 +1,6 @@
 $(function () {
     $("#reverse_of_five").attr("class","active");
-    var supplierStatus = $("#supplierStatus").val();
-    // 预审核结束状态
-    if(supplierStatus == -2 || supplierStatus == -3){
-        $("#reverse_of_seven_i").show();
-        $("#reverse_of_eight").show();
-    }
+    $("#reverse_of_five").removeAttr("onclick");
 });
 //封装 数据
 function content(tablerId,ind,item){

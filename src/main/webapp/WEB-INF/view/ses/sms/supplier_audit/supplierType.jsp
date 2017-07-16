@@ -21,12 +21,7 @@
 			$(function() {
                 // 导航栏选中
                 $("#reverse_of_four").attr("class","active");
-                // 预审核结束状态
-                if('${supplierStatus}' == -2 || '${supplierStatus}' == -3){
-                    $("#reverse_of_seven_i").show();
-                    $("#reverse_of_eight").show();
-                }
-
+                $("#reverse_of_four").removeAttr("onclick");
 				$("td").each(function() {
 					$(this).parent("tr").find("td").eq(9).find("a").hide();
 				});
@@ -1463,7 +1458,7 @@
 				</form>
 				<form id="form_id" action="" method="post">
 					<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
-					<input name="supplierStatus" value="${supplierStatus}" type="hidden">
+					<input id="status" name="supplierStatus" value="${supplierStatus}" type="hidden">
 					<input type="hidden" name="sign" value="${sign}">
 				</form>
 	</body>

@@ -30,24 +30,27 @@
     </script>
 
     <script type="text/javascript">
+        function view(expertId,sign){
+            window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign="+sign;
+        }
       //审核
       function shenhe(id) {
-        if(id == null) {
-          var size = $(":checkbox:checked").size();
-          if(size == 0) {
-            layer.msg("请选择专家 !", {
-              offset: '100px',
-            });
-            return;
+          if (id == null) {
+              var size = $(":checkbox:checked").size();
+              if (size == 0) {
+                  layer.msg("请选择专家 !", {
+                      offset: '100px',
+                  });
+                  return;
+              }
+              var id = $(":checkbox:checked").val();
+              if (size > 1) {
+                  layer.msg("只能选择一项 !", {
+                      offset: '100px',
+                  });
+                  return;
+              }
           }
-          var id = $(":checkbox:checked").val();
-          if(size > 1) {
-            layer.msg("只能选择一项 !", {
-              offset: '100px',
-            });
-            return;
-          }
-        }
         var state = $("#" + id + "").parent("tr").find("td").eq(11).text(); //.trim();
         state = trim(state);
         /* var isExtract = $("#" + id + "_isExtract").text(); */
@@ -362,8 +365,8 @@
               <td class="tc w50"><input name="id" type="checkbox" value="${expert.id}"></td>
               <td class="tc w50">${(vs.count)+(result.pageNum-1)*(result.pageSize)}</td>
               <td class="tl" title="${expert.relName}">
-                <c:if test="${fn:length(expert.relName) >4 }"><a href="${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId=${expert.id}&sign=${sign}">${fn:substring(expert.relName,0,4)}...</a></c:if>
-                <c:if test="${fn:length(expert.relName) <=4}"><a href="${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId=${expert.id}&sign=${sign}">${expert.relName}</a></c:if>
+                <c:if test="${fn:length(expert.relName) >4 }"><a href="javascript:;" onclick="view('${expert.id}',${sign})">${fn:substring(expert.relName,0,4)}...</a></c:if>
+                <c:if test="${fn:length(expert.relName) <=4}"><a href="javascript:;" onclick="view('${expert.id}',${sign})">${expert.relName}</a></c:if>
               </td>
               <td class="tc" onclick="shenhe('${expert.id}');">${expert.sex}</td>
               <td class="tc" onclick="shenhe('${expert.id}');">${expert.mobile}</td>
