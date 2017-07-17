@@ -153,7 +153,7 @@
 				    </div>
 				</li>
 				<li class="col-md-12 col-xs-12 col-sm-12">
-				     <span class="col-md-12 padding-left-5 col-xs-12 col-sm-12"><div class="star_red">*</div>路径</span>
+				     <span class="col-md-12 padding-left-5 col-xs-12 col-sm-12"><div class="star_red"></div>路径</span>
 				     <div class="col-md-12 col-xs-12 col-sm-12 p0 input_group input-append">
                         <input name="url" type="text">
                      </div>
@@ -161,11 +161,11 @@
 			     <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
 				    <span class="col-md-12 padding-left-5 col-xs-12 col-sm-12"><div class="star_red">*</div>排序</span>
 				    <div class="col-md-12 col-xs-12 col-sm-12 input_group input-append p0">
-                        <input class="title" name="position" maxlength="3" type="text">
+                        <input class="title" name="position" maxlength="3" type="text" onkeyup="value=value.replace(/[^\d]/g,'')">
                     </div>
 				 </li>
 				<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-				    <span class="col-md-12 padding-left-5 col-xs-12 col-sm-12"><div class="star_red">*</div>图标</span>
+				    <span class="col-md-12 padding-left-5 col-xs-12 col-sm-12"><div class="star_red"></div>图标</span>
 				    <div class="col-md-12 col-xs-12 col-sm-12 p0 input_group input-append">
                         <input name="icon" type="text">
                     </div>

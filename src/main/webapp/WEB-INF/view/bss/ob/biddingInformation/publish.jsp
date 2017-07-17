@@ -463,6 +463,7 @@
 						  }else{
 						 	   layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
 						       layer.close(index);
+						       $("#fileName").val("");
 						         $.each(data, function(index, value) {
 									addTr(value.id,value.code,value.standardModel,value.isDeleted,value.remark);
 									

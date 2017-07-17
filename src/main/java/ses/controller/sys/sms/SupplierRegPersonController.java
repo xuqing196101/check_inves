@@ -75,7 +75,7 @@ public class SupplierRegPersonController extends BaseController{
 		return "redirect:../supplier/page_jump.html";
 	}
 
-	@RequestMapping(value = "delete_reg_person")
+/*	@RequestMapping(value = "delete_reg_person")
 	public String deleteRegPerson(Model model, String regPersonIds, String supplierId) {
 		supplierRegPersonService.deleteRegPerson(regPersonIds);
 		Supplier supplier = supplierService.get(supplierId);
@@ -98,6 +98,18 @@ public class SupplierRegPersonController extends BaseController{
         model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
         model.addAttribute("rootArea", areaService.findRootArea());
 		return "ses/sms/supplier_register/supplier_type";	
+	}*/
+	
+	/**
+	 * 异步删除注册资质人员信息
+	 * @param regPersonIds
+	 * @return
+	 */
+	@RequestMapping(value = "delete_reg_person")
+	@ResponseBody
+	public String deleteRegPerson(String regPersonIds) {
+		supplierRegPersonService.deleteRegPerson(regPersonIds);
+		return "ok";	
 	}
 	
 	public Map<String,Object>  validateRegPerson( SupplierRegPerson supplierRegPerson){

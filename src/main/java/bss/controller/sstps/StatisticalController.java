@@ -1,27 +1,5 @@
 package bss.controller.sstps;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import ses.model.oms.Orgnization;
-import ses.service.oms.OrgnizationServiceI;
-import ses.util.PropertiesUtil;
-
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 import bss.echarts.AxisLabel;
 import bss.echarts.AxisPointer;
 import bss.echarts.Feature;
@@ -39,6 +17,24 @@ import bss.echarts.XAxis;
 import bss.echarts.YAxis;
 import bss.model.sstps.AppraisalContract;
 import bss.service.sstps.AppraisalContractService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import ses.model.oms.Orgnization;
+import ses.service.oms.OrgnizationServiceI;
+import ses.util.PropertiesUtil;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @Scope
@@ -218,6 +214,9 @@ public class StatisticalController {
 			}
 			
 		}
+        // 查询所有采购机构
+        List<Orgnization> purchaseOrgList = orgnizationServiceI.findPurchaseOrgByPosition(null);
+        model.addAttribute("purchaseOrgList", purchaseOrgList);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		model.addAttribute("name", name);
 		model.addAttribute("code", code);

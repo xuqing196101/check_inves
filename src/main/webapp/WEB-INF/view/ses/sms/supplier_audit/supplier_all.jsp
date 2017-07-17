@@ -171,7 +171,7 @@
 				function resetForm() {
 					$("input[name='supplierName']").val("");
 					$("input[name='auditDate']").val("");
-					
+					$("input[name='addressName']").val("");
 					//还原select下拉列表只需要这一句-//但是这一句话不支持IE8即
 					//$("#status option:selected").removeAttr("selected");
 					//$("#businessNature option:selected").removeAttr("selected");
@@ -368,11 +368,11 @@
 		      <ul class="demand_list">
 		      <li class="fl">
 			      <label class="fl">供应商名称：</label> 
-			      <input class="" name="supplierName" type="text" value="${supplierName }">
+			      <input class="w220" name="supplierName" type="text" value="${supplierName }">
 		      </li>
 		      <li class="fl">
 			      <label class="fl">状态：</label> 
-			      <select name="status" class="w178" id="status">
+			      <select name="status" class="span2" id="status">
 			        <option value="">全部</option>
 		        	<c:if test="${sign eq '1' }">
 		        		<option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
@@ -395,17 +395,21 @@
 		       </li>
 		       <li class="fl">
 				      <label class="fl">企业性质：</label> 
-				        <select name="businessNature" id="businessNature" class="w178">
+				        <select name="businessNature" id="businessNature" class="span2">
 				          <option value="">全部</option>
 				          <c:forEach var="business" varStatus="vs" items="${businessNatureList}">
 				            <option <c:if test="${businessNature eq business.id }">selected</c:if> value="${business.id}">${business.name}</option>
 				          </c:forEach>
 				       </select> 
 				    </li>
+				    <li class="fl">
+              <label class="fl">生产经营地址：</label> 
+              <input class="w220" name="addressName" type="text" value="${addressName}">
+            </li>
 				    <li>
 	          	<label class="fl">审核时间：</label>
 	          		<span>
-	          			<input id="auditDate" name="auditDate" class="Wdate w110 fl" value='<fmt:formatDate value="${auditDate}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()" />
+	          			<input id="auditDate" name="auditDate" class="Wdate w220 fl" value='<fmt:formatDate value="${auditDate}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()" />
 		            </span>
 	          </li>
 				   <%-- <li class="fl">
@@ -460,7 +464,7 @@
 								<th class="info">企业类型</th>
 								<th class="info">企业性质</th>
 								<th class="info">审核时间</th>
-								<th class="info">注册时间</th>
+								<th class="info">提交时间</th>
 								<th class="info">审核人</th>
 								<th class="info">发布</th>
 								<th class="info">状态</th>
@@ -478,7 +482,7 @@
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
 								<td class="tc">
-                  <fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
+                  <fmt:formatDate value="${list.submitAt}" pattern="yyyy-MM-dd" />
                 </td>
 								<td class="tc" onclick="shenhe('${list.id }');">
 								  <c:choose>

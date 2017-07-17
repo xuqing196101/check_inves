@@ -101,7 +101,7 @@ public class SupplierCertSellController extends BaseSupplierController {
 		return "redirect:../supplier/page_jump.html";
 	}
 
-	@RequestMapping(value = "delete_cert_sell")
+/*	@RequestMapping(value = "delete_cert_sell")
 	public String deleteCertSell(Model model, String certSellIds, String supplierId) {
 		supplierCertSellService.deleteCertSell(certSellIds);
 		Supplier supplier = supplierService.get(supplierId);
@@ -126,6 +126,18 @@ public class SupplierCertSellController extends BaseSupplierController {
         model.addAttribute("rootArea", areaList);
         model.addAttribute("typeList", qualificationService.findList(null, Integer.MAX_VALUE,null, 4));
 		return "ses/sms/supplier_register/supplier_type";	
+	}*/
+	
+	/**
+	 * 异步删除物资销售资质证书
+	 * @param certSellIds
+	 * @return
+	 */
+	@RequestMapping(value = "delete_cert_sell")
+	@ResponseBody
+	public String deleteCertSell(String certSellIds) {
+		supplierCertSellService.deleteCertSell(certSellIds);
+		return "ok";	
 	}
 	
 	public void setCertSellUpload(HttpServletRequest request, SupplierCertSell supplierCertSell) throws IOException {

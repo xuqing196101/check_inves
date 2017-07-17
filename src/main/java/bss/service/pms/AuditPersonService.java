@@ -76,4 +76,6 @@ public interface AuditPersonService {
 	List<AuditPerson> queryByUserIdAndCid(String userId,String collectId);
 	
     public void updateByPrimaryKeySelective(AuditPerson record);
+    
+    public void updateAuditStaffByCollectId(String collectId,String auditStaff);
 }

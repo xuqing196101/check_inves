@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
+<!--[if !IE]><!--> 
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <title>${properties['system.title']}</title>
 <head>
@@ -577,13 +577,16 @@ function importAdd(){
         </div> --%>
         
         <!-- 拟入库公示 -->
-        <div class="col-md-7 col-sm-7 col-xs-10 mt10">
-            <div class="headline-v2">
-                <h2>拟入库公示</h2>
+        <div class="col-md-8 col-sm-8 col-xs-10 mt10">
+            <div class="headline-v2 m-headline-v2">
+                <h2 class="fl">拟入库公示&nbsp;<span class="red">（如果对公示内容有异议，请拨打举报电话：010-66880147）</span></h2>
+                <%-- <a href="${pageContext.request.contextPath}/index/indexSupPublicity.html" class="news_more">更多&gt;&gt;</a> --%>
+                <div class="clear"></div>
             </div>
             
             <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
             <div class="categories">
+<<<<<<< HEAD
             <ul class="list-unstyled">
                 <c:choose>
                 <c:when test="${!empty my:getPublicitySupplier()}">
@@ -595,9 +598,31 @@ function importAdd(){
                             <th class="tc info">企业性质</th>
                             <th class="tc info">初审单位</th>
                             <th class="tc info" width="55%">审核结果</th>
-                        </tr>
-                    </thead>
+=======
+                <%-- <c:choose> --%>
+                <%-- <c:when test="${!empty my:getPublicitySupplier()}"> --%>
+                <div class="m_nav_scroll_head">
+                <table class="table table-bordered mb0">
                     <tbody>
+                        <tr>
+                            <td class="tc info" width="15%">供应商名称</td>
+                            <td class="tc info" width="12%">类型</td>
+                            <td class="tc info" width="12%">企业性质</td>
+                            <td class="tc info" width="12%">初审单位</td>
+                            <td class="tc info" width="34%">审核结果</td>
+                            <td class="tc info" width="15%">公示时间</td>
+>>>>>>> b7a6911621e9ffe1e3a7704d6a0bc4d98846d301
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+                <div class="m_nav_scroll">
+                <input type="hidden" value="0" name="ishover">
+                <ul class="mns_bxslider">
+                <li>
+                <table class="table table-bordered mb0">
+                    <tbody>
+<<<<<<< HEAD
                     <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
                         <tr>
                             <td>${item.supplierName}</td>
@@ -605,23 +630,72 @@ function importAdd(){
 														<td class="tc">${ item.businessNature }</td>
 														<td class="tc">${ item.orgName }</td>
 														<td class="tl">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</td>
+=======
+                    <%-- <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="4" step="1" varStatus="status">
+                        <c:set value="${item.supplierName}" var="supplierName"></c:set>
+                        <c:set value="${item.supplierTypeNames}" var="supplierTypeNames"></c:set>
+                        <c:set value="${item.businessNature}" var="businessNature"></c:set>
+                        <tr>
+                            <td width="15%">
+                                <c:choose>
+                                    <c:when test="${fn:length(supplierName) > 4}">
+                                        <c:out value="${fn:substring(supplierName, 0, 4)}.." />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:out value="${supplierName}"></c:out>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td class="tc" width="12%">
+                                <c:choose>
+                                    <c:when test="${fn:length(supplierTypeNames) > 4}">
+                                        <c:out value="${fn:substring(supplierTypeNames, 0, 4)}..." />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:out value="${supplierTypeNames}"></c:out>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td class="tc" width="12%">
+                                <c:choose>
+                                    <c:when test="${fn:length(businessNature) > 2}">
+                                        <c:out value="${fn:substring(businessNature, 0, 2)}..." />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:out value="${businessNature}"></c:out>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td class="tc" width="12%">${ item.orgName }</td>
+                            <td class="tl" width="34%">
+                                同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别
+                            </td>
+                            <td class="tl" width="15%">
+                                <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
+                            </td>
+>>>>>>> b7a6911621e9ffe1e3a7704d6a0bc4d98846d301
                         </tr>
-                    </c:forEach>
+                    </c:forEach> --%>
                     </tbody>
                 </table>
-                </c:when>
-                <c:otherwise>
-                <li class="tc">暂无数据</li>
-                </c:otherwise>
-                </c:choose>
-            </ul>
+                </li>
+                </ul>
+                </div>
+                <%-- </c:when> --%>
+               <%--  <c:otherwise> --%>
+                <!-- <div class="tc">暂无数据</div> -->
+                <%-- </c:otherwise>
+                </c:choose> --%>
             </div>
             </div>
+<<<<<<< HEAD
             <a href="${pageContext.request.contextPath}/index/indexSupPublicity.html" class="tab_more">更多&gt;&gt;</a>
+=======
+>>>>>>> b7a6911621e9ffe1e3a7704d6a0bc4d98846d301
         </div>
         <!-- End 拟入库公示 -->
         
-        <div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
+        <div class="login_box job-content col-md-4 col-sm-4 col-xs-12 mt10">
             <h2 class="f17 bgwhite">
             <ul class="list-unstyled login_tab p0">
                 <li class="fl active"><a aria-expanded="true" href="#tab-36" data-toggle="tab">入库名单</a></li>
@@ -756,13 +830,16 @@ function importAdd(){
 				<!--<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html">评审专家注册<i></i></a>	  
 			</div>-->
 			
-			<div class="col-md-7 col-sm-7 col-xs-10 mt10">
-				<div class="headline-v2">
-					<h2>拟入库公示</h2>
+			<div class="col-md-8 col-sm-8 col-xs-10 mt10">
+				<div class="headline-v2 m-headline-v2">
+					<h2 class="fl">拟入库公示&nbsp;<span class="red">（如果对公示内容有异议，请拨打举报电话：010-66880147）</span></h2>
+					<%-- <a href="${pageContext.request.contextPath}/index/indexExpPublicity.html" class="news_more">更多&gt;&gt;</a> --%>
+					<div class="clear"></div>
 				</div>
 				
 				<div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
 				<div class="categories zhuanjia_list">
+<<<<<<< HEAD
 				<ul class="list-unstyled">
 				<c:choose>
 				<c:when test="${!empty my:getPublicityExpert()}">
@@ -773,31 +850,68 @@ function importAdd(){
 							<th class="tc info">类别</th>
 							<th class="tc info">初审单位</th>
 							<th class="tc info" width="50%">审核结果</th>
+=======
+				<%-- <c:choose> --%>
+				<%-- <c:when test="${!empty my:getPublicityExpert()}"> --%>
+				<table class="table table-bordered mb0">
+					<thead>
+						<tr>
+							<th class="tc info" width="25%">专家名称</th>
+							<th class="tc info" width="15%">类别</th>
+							<th class="tc info" width="15%">初审单位</th>
+							<th class="tc info" width="30%">审核结果</th>
+							<th class="tc info" width="15%">公示时间</th>
+>>>>>>> b7a6911621e9ffe1e3a7704d6a0bc4d98846d301
 						</tr>
 					</thead>
+				</table>
+				<div class="m_nav_scroll">
+                <input type="hidden" value="0" name="ishover">
+                <ul class="mns_bxslider">
+                <li>
+                <table class="table table-bordered mb0">
 					<tbody>
+<<<<<<< HEAD
 					<c:forEach items="${my:getPublicityExpert()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
 					<tr>
 						<td>${ item.relName }</td>
 						<td class="tc">${ item.expertsTypeId }</td>
 						<td class="tc">${ item.orgName }</td>
 						<td class="tl">同意入库，选择了${ item.passCateCount }小类，通过了${ item.passCateCount - item.noPassCateCount }个小类</td>
+=======
+					<%-- <c:forEach items="${my:getPublicityExpert()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
+					<tr>
+						<td width="25%">${ item.relName }</td>
+						<td class="tc" width="15%">${ item.expertsTypeId }</td>
+						<td class="tc" width="15%">${ item.orgName }</td>
+						<td class="tl" width="30%">
+                            同意入库，选择了${ item.passCateCount }个小类，通过了${ item.passCateCount - item.noPassCateCount }个小类
+                        </td>
+                        <td class="tl" width="25%">
+                            <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
+                        </td>
+>>>>>>> b7a6911621e9ffe1e3a7704d6a0bc4d98846d301
 					</tr>
-					</c:forEach> 
+					</c:forEach>  --%>
 					</tbody>
 				</table>
-				</c:when>
-				<c:otherwise>
-				<li class="tc">暂无数据</li>
-				</c:otherwise>
-				</c:choose>
+				</li>
 				</ul>
 				</div>
+<<<<<<< HEAD
 				<a href="${pageContext.request.contextPath}/index/indexExpPublicity.html" class="tab_more">更多&gt;&gt;</a>
+=======
+				<%-- </c:when> --%>
+				<%-- <c:otherwise> --%>
+				<!-- <div class="tc">暂无数据</div> -->
+				<%-- </c:otherwise> --%>
+				<%-- </c:choose> --%>
+				</div>
+>>>>>>> b7a6911621e9ffe1e3a7704d6a0bc4d98846d301
 				</div>
 			</div>
 			
-			<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
+			<div class="login_box job-content col-md-4 col-sm-4 col-xs-12 mt10">
 			<h2 class="f17 bgwhite">
 			<ul class="list-unstyled login_tab">
 			<li class="fl active"><a aria-expanded="true" href="#tab-39" data-toggle="tab">入库名单</a></li>
@@ -1108,6 +1222,47 @@ function importAdd(){
 		});
 	</script>
 	<% } %>
+	
+	<!-- 供应商和专家下拉菜单列表滚动效果 -->
+	<script>
+		var m_nav_scroll = []; // 设置保存滚动插件的数组
+		
+		// 循环所有插件并初始化
+		$('.mns_bxslider').each(function (index) {
+			m_nav_scroll[index] = $(this).bxSlider({
+				mode: 'vertical',   // 垂直模式
+				minSlides: 1,       // 最小显示个数
+				maxSlides: 1,       // 最大显示个数
+				ticker: true,
+				tickerHover: true,  // 鼠标移动上停止滚动
+				autoHover: true,    // 鼠标移动上停止滚动
+				speed: 5000         // 滚动速度
+			});
+		});
+		
+		// 设置下拉菜单出现后重置插件，防止display: none时候插件失效
+		$('.navbar-nav > li').mouseenter(function () {
+			var ishover = parseInt($(this).find('input[name=ishover]').val());  // 下拉菜单是否出现
+			// 如果下拉菜单已经出现防止多次重置插件导致滚动列表抖动
+			if (ishover == 0) {
+				$(this).find('input[name=ishover]').val(1);
+				// 加入延时防止下拉菜单还未出现程序已经执行的bug
+				setTimeout(function () {
+					for (var i in m_nav_scroll) {
+						m_nav_scroll[i].reloadSlider();
+					}
+				}, 500);
+			}
+		});
+		// 鼠标移除注销插件并初始化判断参数，以便下次打开重新生成
+		$('.navbar-nav > li').mouseleave(function () {
+			$(this).find('input[name=ishover]').val(0);
+			for (var i in m_nav_scroll) {
+				m_nav_scroll[i].destroySlider();
+			}
+		});
+	</script>
+	<!-- End 供应商和专家下拉菜单列表滚动效果 -->
 
 </body>
 </html>

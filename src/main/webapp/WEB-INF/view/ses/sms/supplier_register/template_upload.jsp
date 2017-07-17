@@ -115,7 +115,16 @@
 		
 		
 			//退回理由
-			function errorMsg(auditField) {
+			function errorMsg(_this, auditField) {
+				// 如果加载过错误信息，则不再加载
+				var errorMsg = $(_this).attr("data-errorMsg");
+				if(errorMsg){
+					layer.msg("不通过理由：" + errorMsg, {
+						offset: '300px'
+					});
+					return;
+				}
+				
 				var supplierId = "${currSupplier.id}";
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplier/audit.html",
@@ -127,6 +136,7 @@
 					dataType: "json",
 					success: function(data) {
 						/* alert(data.suggest); */
+						$(_this).attr("data-errorMsg", data.suggest);
 						layer.msg("不通过理由：" + data.suggest, {
 							offset: '300px'
 						});
@@ -173,7 +183,7 @@
 										<table class="table table-bordered">
 									   	   <tr>
 							   	   			 <td class="bggrey" width="15%" ><i class="red">*</i>供应商承诺书：</td>
-									   	     <td <c:if test="${fn:contains(audit,'supplierPledge')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierPledge')"</c:if>>
+									   	     <td <c:if test="${fn:contains(audit,'supplierPledge')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierPledge')"</c:if>>
 									   	       <div class="w200 fl">
 									   	       	<c:choose>
 									   	     			<c:when test="${!fn:contains(audit,'supplierPledge') && currSupplier.status==2}">
@@ -187,7 +197,7 @@
 									   	       </div>
 									   	     </td>
 									   	     <td class="bggrey" width="15%"><i class="red">*</i>供应商申请表：</td>
-									   	     <td <c:if test="${fn:contains(audit,'supplierRegList')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierRegList')"</c:if>>
+									   	     <td <c:if test="${fn:contains(audit,'supplierRegList')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierRegList')"</c:if>>
 									   	     	<div class="w200 fl">
 									   	     		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
 									   		 			<u:show showId="promise_show"  groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" />

@@ -1065,34 +1065,44 @@
           <h2 class="floor_title col-sm-12 col-md-12 col-xs-12">业务办理</h2>
         </div>
       </div>
+
       <div class="row magazine-page clear">
         <div class="col-sm-12 col-md-12 col-xs-12">
-          <div class="border1 flow_btn fl flow_one">
-            <div class="ywbl_01 col-xs-4 col-sm-4">
-	          <%-- <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc">  --%>
-            <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
-	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc"> 
-	        <% } %>
-	        <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
-	             <a onclick="supplierRegisterTip();" class="qyzc">
-	        <% } %>
-	        	<i></i>
+          <div class="flow_btn fl flow_one">
+            <div class="ywbl_01 col-xs-6 col-sm-6">
+              <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
+              <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc">
+              <% } %>
+              <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
+              <a onclick="supplierRegisterTip();" class="qyzc">
+              <% } %>
+    	        	<i></i>
                 <span>供应商注册</span>
               </a>
             </div>
-            <div class="ywbl_01 col-xs-4 col-sm-4">
-            <%-- <% if (environment != null && environment.equals("0")){ %>
-	        	<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="zjzc">
-	        <% } %>
-	        <% if (environment != null && environment.equals("1")){ %>
-	             <a onclick="expertRegisterTip();" class="zjzc">
-	        <% } %> --%>
-	        	<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="zjzc">
+
+            <div class="ywbl_01 col-xs-6 col-sm-6">
+              <a href="javascript:void(0)" class="nrkgyshgsh">
+                <i></i>
+                <span>拟入库供应商公示</span>
+              </a>
+            </div>
+
+            <div class="ywbl_01 col-xs-6 col-sm-6">
+  	        	<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="zjzc">
                 <i></i>
                 <span>评审专家注册</span>
               </a>
             </div>
-            <div class="ywbl_01 col-xs-4 col-sm-4">
+
+            <div class="ywbl_01 col-xs-6 col-sm-6">
+              <a href="javascript:void(0)" class="nrkzhjgsh">
+                <i></i>
+                <span>拟入库专家公示</span>
+              </a>
+            </div>
+
+            <div class="ywbl_01 col-xs-12 col-sm-12">
               <a href="${pageContext.request.contextPath}/index/sign.html" onclick="importAdd()" class="jksdj">
                 <i></i>
                 <span>进口商登记</span>
@@ -1100,91 +1110,102 @@
             </div>
           </div>
 
-          <div class="border1 flow_btn fl">
+          <div class="flow_btn fl">
             <div class="ywbl_01 col-xs-4 col-sm-4">
-           <% if (environment != null && environment.equals("1")){ %>
-             <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
-               <a href="http://21.100.16.6" class="wssc">
-             <%} %>
-             <% if(ipAddressType != null && ipAddressType.equals("1")) { %>
-               <a href="http://mall.plap.cn" class="wssc">
-             <%} %>
-	       <% } %>
-	       <% if (environment != null && environment.equals("0")){ %>
-               <a href="javascript:void(0);" class="wssc">
-           <%} %>
+              <% if (environment != null && environment.equals("1")){ %>
+              <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
+              <a href="http://21.100.16.6" class="wssc">
+              <%} %>
+              <% if(ipAddressType != null && ipAddressType.equals("1")) { %>
+              <a href="http://mall.plap.cn" class="wssc">
+              <%} %>
+              <% } %>
+              <% if (environment != null && environment.equals("0")){ %>
+              <a href="javascript:void(0);" class="wssc">
+              <%} %>
                 <i></i>
                 <span>网上商城</span>
               </a>
             </div>
+
             <div class="ywbl_01 col-xs-4 col-sm-4">
               <a href="${pageContext.request.contextPath }/index/index_productList.html" class="dxcpjj"><!--  onclick="setting()" -->
                 <i></i>
                 <span>定型产品</span>
               </a>
             </div>
+
             <div class="ywbl_01 col-xs-4 col-sm-4">
               <a href="javascript:void(0)" onclick="drugs()" class="ypcg">
                 <i></i>
                 <span>药品采购</span>
               </a>
             </div>
-            <div class="ywbl_01 col-xs-6 col-sm-6">
+          </div>
+          
+          <div class="border1 flow_btn">
+            <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="javascript:void(0)" class="fwcg">
                 <i></i>
                 <span>服务采购</span>
               </a>
             </div>
-            <div class="ywbl_01 col-xs-6 col-sm-6">
+
+            <div class="ywbl_02 col-xs-4 col-sm-4">
               <!-- <a href="javascript:void(0)" onclick="hotLine()" class="fwrx"> -->
               <a href="${pageContext.request.contextPath }/index/index_hotLineList.html"  class="fwrx">
                 <i></i>
                 <span>服务热线</span>
               </a>
             </div>
-          </div>
-          <div class="border1 flow_btn clear">
+
             <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="${pageContext.request.contextPath }/categorys/categoryList.html" class="cpml">
                 <i></i>
                 <span>产品目录</span>
               </a>
             </div>
+
             <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="${pageContext.request.contextPath }/categorys/parameterList.html" class="jscsk">
                 <i></i>
                 <span>技术参数库</span>
               </a>
             </div>
+
             <div class="ywbl_02 col-xs-4 col-sm-4">
-            <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
-	             <a href="${pageContext.request.contextPath }/dataDownload/getIndexList.html" class="zlxz">
-	        <% } %>
-	        <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
-	             <a onclick="javascript:void(0);" class="zjzc">
-	        <% } %>
+              <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
+              <a href="${pageContext.request.contextPath }/dataDownload/getIndexList.html" class="zlxz">
+              <% } %>
+              <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
+              <a onclick="javascript:void(0);" class="zjzc">
+              <% } %>
                 <i></i>
                 <span>资料下载</span>
               </a>
             </div>
-            <div class="ywbl_02 col-xs-12 col-sm-12">
+
+            <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="javascript:void(0)" class="cpshfw">
                 <i></i>
                 <span>产品售后服务</span>
               </a>
             </div>
+
             <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="${pageContext.request.contextPath}/onlineComplaints/index_add.html" class="zxts">
                 <i></i>
                 <span>网上投诉</span>
               </a>
             </div>
+
             <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="${pageContext.request.contextPath}/park/getIndex.html" class="cglt">
                 <i></i>
                 <span>采购论坛</span>
               </a>
             </div>
+
             <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="javascript:void(0)" class="yjfk">
                 <i></i>

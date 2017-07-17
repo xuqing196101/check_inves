@@ -310,7 +310,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>名称：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="name" name="productBasic.name" value='${smsProductBasic.name}' type="text" />
+                <input id="name" name="productBasic.name" maxlength="660" value='${smsProductBasic.name}' type="text" />
                 <span class="add-on">i</span>
                 <span class="input-tip">名称</span>
                 <div class="cue" id="err_name"></div>
@@ -330,7 +330,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>品牌：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="brand" class="span5" name="productBasic.brand" value='${smsProductBasic.brand}' type="text" />
+                <input id="brand" class="span5" maxlength="660" name="productBasic.brand" value='${smsProductBasic.brand}' type="text" />
                 <span class="add-on">i</span>
                 <span class="input-tip">输入品牌</span>
                 <div class="cue" id="err_brand"></div>
@@ -340,7 +340,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>型号：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="typeNum" name="productBasic.typeNum" value='${smsProductBasic.typeNum}' type="text" />
+                <input id="typeNum" maxlength="660" name="productBasic.typeNum" value='${smsProductBasic.typeNum}' type="text" />
                 <span class="add-on">i</span>
                 <span class="input-tip">型号</span>
                 <div class="cue" id="err_typeNum"></div>
@@ -349,7 +349,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>库存：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="store" name="productBasic.store" value='${smsProductBasic.store}' type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                <input id="store" name="productBasic.store" maxlength="19" value='${smsProductBasic.store}' type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
                 <span class="add-on">i</span>
                 <span class="input-tip">库存</span>
                 <div class="cue" id="err_store"></div>
@@ -374,7 +374,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
             <span class="fl">产品主图 </span>
 	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-	              <input name="productBasic.pictureMajor" type="hidden" value="${ smsProductBasic.pictureMajor }" />
+	              <input name="productBasic.pictureMajor"  type="hidden" value="${ smsProductBasic.pictureMajor }" />
 	              <u:upload id="major_picture" businessId="${ smsProductBasic.pictureMajor }" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="附件上传" auto="true"/>
 	              <u:show showId="major_picture" businessId="${ smsProductBasic.pictureMajor }" sysKey="${sysKey}" typeId="${typeId }" />
 	            </div>
@@ -392,7 +392,7 @@
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red"></div>包装清单：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                <textarea class="h80 col-md-12 col-sm-12 col-xs-12 " name="smsProductInfo.detailList" title="" placeholder="" >${ smsProductInfo.detailList }</textarea>
+                <textarea class="h80 col-md-12 col-sm-12 col-xs-12 " maxlength="1000" name="smsProductInfo.detailList" title="" placeholder="" >${ smsProductInfo.detailList }</textarea>
               </div>
               <div class="clear red">${err_detailList}</div>
             </li>
@@ -435,7 +435,7 @@
 			</c:if>
 			
           <div class="col-md-12 col-sm-12 col-xs-12 tc mt20">
-            <button class="btn btn-windows save" type="button" onclick="submitForm(1)">修改</button>
+            <button class="btn btn-windows save" type="button" onclick="submitForm(0)">修改</button>
             <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
           </div>
         </div>

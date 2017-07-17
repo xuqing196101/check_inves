@@ -871,4 +871,9 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		// TODO Auto-generated method stub
 		return orgniztionMapper.findByUserid(userId);
 	}
+
+  @Override
+  public List<Orgnization> findPurchaseOrgByPosition(HashMap<String, Object> map) {
+    return orgniztionMapper.findPurchaseOrgByPosition(map);
+  }
 }

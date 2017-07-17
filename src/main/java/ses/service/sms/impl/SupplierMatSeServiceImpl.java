@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierMatServeMapper;
 import ses.model.sms.Supplier;
-import ses.model.sms.SupplierCertPro;
-import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
-import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.service.sms.SupplierMatSeService;
 import ses.util.WfUtil;
@@ -53,19 +50,21 @@ public class SupplierMatSeServiceImpl implements SupplierMatSeService {
         // 供应商资服务质证书
 		SupplierMatServe supplierMatServer = supplierMatSeMapper.getMatSeBySupplierId(supplier.getId());		
         List<SupplierCertServe> listCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
-        for (SupplierCertServe certSe : listCertSes) {
-            SupplierCertServe certSeBean = supplierCertServeMapper.selectByPrimaryKey(certSe.getId());
-            // 判断是否已经存在,来选择insert还是update
-            if (certSeBean != null) {
-                // 修改
-                certSe.setMatServeId(supplierMatServer.getId());
-                supplierCertServeMapper.updateByPrimaryKeySelective(certSe);
-            } else {
-                // 新增
-                certSe.setMatServeId(supplierMatServer.getId());
-                supplierCertServeMapper.insertSelective(certSe);
-            }
-        }
+		for (SupplierCertServe certSe : listCertSes) {
+			if (certSe != null && certSe.getId() != null) {
+				SupplierCertServe certSeBean = supplierCertServeMapper.selectByPrimaryKey(certSe.getId());
+				// 判断是否已经存在,来选择insert还是update
+				if (certSeBean != null) {
+					// 修改
+					certSe.setMatServeId(supplierMatServer.getId());
+					supplierCertServeMapper.updateByPrimaryKeySelective(certSe);
+				} else {
+					// 新增
+					certSe.setMatServeId(supplierMatServer.getId());
+					supplierCertServeMapper.insertSelective(certSe);
+				}
+			}
+		}
 	}
 	
 	/**

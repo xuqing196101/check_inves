@@ -5,15 +5,6 @@
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
 <title>投诉页面</title>
 <script type="text/javascript">
 $(function(){
@@ -46,7 +37,7 @@ function hid(){
 } */
 </script>
 </head>
-<body onload="open();">
+<body>
 	<!--面包屑导航开始-->
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">

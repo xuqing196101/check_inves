@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import common.utils.JdcgResult;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -319,4 +320,19 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
         
         return purchaseRequiredMapper.selectByAll(map);
     }
+
+	/**
+	 *
+	 * Description: 采购文号唯一校验
+	 *
+	 * @author Easong
+	 * @version 2017/7/14
+	 * @param
+	 * @since JDK1.7
+	 */
+	@Override
+	public JdcgResult selectUniqueReferenceNO(String referenceNO) {
+        Integer integer = purchaseRequiredMapper.selectUniqueReferenceNO(referenceNO);
+        return JdcgResult.ok(integer);
+	}
 }

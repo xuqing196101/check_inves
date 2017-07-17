@@ -87,6 +87,8 @@ public class Packages {
   private String supplierNames;
 
   private String projectId;
+  
+  private String projectName;
 
   private Supplier supplier;//用于拆分供应商展示
 
@@ -656,4 +658,13 @@ public void setNegotiationReport(NegotiationReport negotiationReport) {
 	public void setEditFlowId(String editFlowId) {
 		this.editFlowId = editFlowId;
 	}
+
+    public String getProjectName() {
+      return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+      this.projectName = projectName;
+    }
+
 }

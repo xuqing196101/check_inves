@@ -23,6 +23,8 @@
 		urlArr[1]="index/sign";
 		//专家注册
 		urlArr[2]="expert/";
+		//供应商注冊頁面
+		urlArr[3]="supplier_item/";
 		
 		for(var i=0;i<urlArr.length;i++){
 			//如果在url列表中找到就 隐藏，找不到就显示

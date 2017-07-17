@@ -429,6 +429,7 @@ public class ProjectServiceImpl implements ProjectService {
         if(flowDefine != null){
         	jsonObj.put("flowType", flowDefine.getCode());
             if("XMFB".equals(flowDefine.getCode())){
+                //项目分包
                 jsonObj.put("flowType", "XMFB");
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("id", projectId);
@@ -453,7 +454,18 @@ public class ProjectServiceImpl implements ProjectService {
                         jsonObj.put("success", true);
                     }
                 }
+            }else if("XMXX".equals(flowDefine.getCode())){
+                //项目信息
+                jsonObj.put("flowTypes", "XMXX");
+                Project project = projectMapper.selectProjectByPrimaryKey(projectId);
+                if (project != null && project.getSupplierNumber() != null && project.getDeadline() != null && project.getBidDate() != null && !"".equals(project.getBidAddress()) && project.getBidAddress() != null ) {
+                  jsonObj.put("success", true);
+                }else {
+                  jsonObj.put("success", false);
+                  jsonObj.put("msgs", "请完善并保存项目信息");
+                }
             }else if("KBCB".equals(flowDefine.getCode())){
+                //开标唱标
                 jsonObj.put("flowTypes", "KBCB");
                 Quote quoteCondition = new Quote();
                 quoteCondition.setProjectId(projectId);

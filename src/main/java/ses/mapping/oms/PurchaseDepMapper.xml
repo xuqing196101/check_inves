@@ -126,7 +126,7 @@
 		<if test="cityId != null">
 			and o.CITY_ID= #{cityId}
 		</if>
-		ORDER BY O.CREATED_AT DESC
+		ORDER BY O.POSITION ASC
 		<!-- <if test="quaEdndate != null"> and o.QUA_EDNDATE <= #{quaEdndate} 
 			</if> <if test="quaStartDate != null"> and o.QUA_START_DATE >= #{quaStartDate} 
 			</if> -->

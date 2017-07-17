@@ -128,7 +128,7 @@
               <ul class="demand_list">
                 <li class="fl"><label class="fl">标题：</label><span><input
                                                                     type="text" id="topic" class="w200" name="name" value="${todos.name}" /></span></li>
-                <li class="fl"><label class="fl">待办类型：</label>
+                <li class="fl"><label class="fl">已办类型：</label>
                   <span>
                   <select class="w200 " id="undoType" name="undoType">
                     <option value="">请选择</option>

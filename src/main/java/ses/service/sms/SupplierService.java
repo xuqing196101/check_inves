@@ -15,6 +15,7 @@ import ses.model.bms.Category;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
+import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItemLevel;
 import ses.model.sms.supplierExport;
 /**
@@ -468,4 +469,11 @@ public interface SupplierService {
 	 * @param supplier
 	 */
 	public void initFinance(Supplier supplier);
+	/**
+	 * 根据财务信息计算供应商三年加权平均净资产
+	 * @param listSupplierFinances
+	 * @return
+	 */
+	public BigDecimal getScoreByFinances(
+			List<SupplierFinance> listSupplierFinances);
 }

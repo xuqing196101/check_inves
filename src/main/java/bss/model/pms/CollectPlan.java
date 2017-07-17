@@ -26,6 +26,11 @@ public class CollectPlan {
 
     private BigDecimal budget;
 
+    /**
+     * @Fields status : 
+     * 1:审核轮次设置，2：已下达， 3：第一轮审核，4：第二轮审核人员设置，5：第二轮审核
+     * 6：第三轮审核人员设置，7：第三轮审核，8：审核结束，12：直接下达
+     */
     private Integer status;
 
     private String purchaseId;

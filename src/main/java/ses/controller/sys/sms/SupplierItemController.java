@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,6 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCateTree;
-import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierPorjectQua;
@@ -52,8 +52,8 @@ import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
-
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -112,6 +112,8 @@ public class SupplierItemController extends BaseController {
 	@Autowired
 	private SupplierMatEngService supplierMatEngService; // 供应商工程专业信息
 	
+	private static final ObjectMapper mapper = new ObjectMapper();
+	
 	@ResponseBody
 	@RequestMapping(value = "/saveCategory")
 	public String saveCategory(SupplierItem supplierItem, String flag, String clickFlag) {
@@ -166,7 +168,7 @@ public class SupplierItemController extends BaseController {
 
 		// 不通过字段的名字
 		SupplierAudit s = new SupplierAudit();
-		s.setSupplierId(supplierItem.getSupplierId());;
+		s.setSupplierId(supplierItem.getSupplierId());
 		s.setAuditType("items_page");
 		List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
 
@@ -500,21 +502,21 @@ public class SupplierItemController extends BaseController {
 			String[] types = supplier.getSupplierTypeIds().split(",");
 			for(String s:types){
 				List<SupplierItem> items = supplierItemService.queryBySupplierAndType( supId, s);
-				if(items!=null&&items.size()<1&&s.equals("PRODUCT")){
+				if(items!=null&&items.size()<=1&&s.equals("PRODUCT")){
 					model.addAttribute("productError", "productError");
 					return "ses/sms/supplier_register/items";
 				}
-				if(items!=null&&items.size()<1&&s.equals("PROJECT")){
+				if(items!=null&&items.size()<=1&&s.equals("PROJECT")){
 					model.addAttribute("projectError", "projectError");
 					return "ses/sms/supplier_register/items";
 					}
-				if(items!=null&&items.size()<1&&s.equals("SALES")){
+				if(items!=null&&items.size()<=1&&s.equals("SALES")){
 					model.addAttribute("sellError", "sellError");
-					 return "ses/sms/supplier_register/items";
+					return "ses/sms/supplier_register/items";
 				}
-				if(items!=null&&items.size()<1&&s.equals("SERVICE")){
+				if(items!=null&&items.size()<=1&&s.equals("SERVICE")){
 					model.addAttribute("serverError", "serverError");
-					 return "ses/sms/supplier_register/items";
+					return "ses/sms/supplier_register/items";
 				}
 			}
 		}
@@ -684,13 +686,14 @@ public class SupplierItemController extends BaseController {
 		model.addAttribute("serviceQua", serviceQua);
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("businessId", supplier.getId());
-		 String id = DictionaryDataUtil.getId("SUPPLIER_APTITUD");
+		String id = DictionaryDataUtil.getId("SUPPLIER_APTITUD");
 		model.addAttribute("typeId", id);
 
 		// 不通过字段的名字
 		SupplierAudit s = new SupplierAudit();
-		s.setSupplierId(supplier.getId());;
+		s.setSupplierId(supplier.getId());
 		s.setAuditType("aptitude_page");
+		
 		List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
 
 		StringBuffer errorField = new StringBuffer();
@@ -713,9 +716,22 @@ public class SupplierItemController extends BaseController {
 			SupplierMatEng matEng = supplierMatEngService.getMatEng(supId);
 			List < SupplierItem > listSupplierItems = getProject(supId, "PROJECT");
 			List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+			String modifiedCertCodes = "";
 			for(SupplierItem item: listSupplierItems) {
 				String categoryId = item.getCategoryId();
 				SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, item);
+				//后台判断证书编号是否有更新，若有讲更新的证书编号放进数组，前台更新显示样式
+				if(StringUtils.isNotEmpty(item.getCertCode())){
+					int selectByCertCode = supplierAptituteService.selectByCertCode(item.getCertCode());
+					if(selectByCertCode==0){
+						if(StringUtils.isEmpty(modifiedCertCodes)){
+							modifiedCertCodes=item.getCertCode();
+						}else{
+							modifiedCertCodes = modifiedCertCodes+"-"+item.getCertCode();
+						}
+					}
+				}
+				
 				if(cateTree != null && cateTree.getRootNode() != null) {
 					cateTree.setItemsId(item.getId());
 					cateTree.setDiyLevel(item.getLevel());
@@ -753,6 +769,7 @@ public class SupplierItemController extends BaseController {
 					allTreeList.add(cateTree);
 				}
 			}
+			model.addAttribute("modifiedCertCodes", modifiedCertCodes);
 			model.addAttribute("allTreeList", allTreeList);
 			model.addAttribute("engTypeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
 		}

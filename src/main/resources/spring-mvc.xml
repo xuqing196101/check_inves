@@ -92,6 +92,11 @@
 			<!-- app首页访问过滤 -->
 			<mvc:exclude-mapping path="/api/v1/*" />
 			
+			<!-- 过滤供应商处罚公告 -->
+			<mvc:exclude-mapping path="/index/supplierPunishment.*" />
+			<!-- 过滤首页供应商专家黑名单查看更多 -->
+			<mvc:exclude-mapping path="/index/supplierBlackList.*" />
+			<mvc:exclude-mapping path="/index/expertBlackList.*" />
 <!-- 			专家注册 -->
  			<mvc:exclude-mapping path="/expert/toExpert.*" />
  			<mvc:exclude-mapping path="/expert/toRegisterNotice.*" />

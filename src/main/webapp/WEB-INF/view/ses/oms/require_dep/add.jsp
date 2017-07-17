@@ -165,6 +165,7 @@
 	
 	
 	function save(){
+		
 	   if(flag == true){
 	     $("#formID").validForm();
 	     $("#formID").submit();
@@ -214,7 +215,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>名称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="name" type="text" onblur="verify(this);" required  maxlength="100"> 
+			  <input class="input_group" name="name" value="${orgnization.name}" type="text" onblur="verify(this);" required  maxlength="100"> 
 			  <span class="add-on">i</span>
 			  <div class="cue" id="sps"><sf:errors path="name"/></div>
 			</div>
@@ -223,7 +224,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>简称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="shortName" required maxlength="20" type="text" > 
+			  <input class="input_group" name="shortName" value="${orgnization.shortName}" required maxlength="20" type="text" > 
 			  <span class="add-on">i</span>
 			  <div class="cue"><sf:errors path="shortName"/></div>
 			</div>
@@ -232,8 +233,8 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12"> 
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上级</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input id="proSec" type="text" readonly value="${orgnization.name}" class="input_group" name="parentName"  onclick="showMenu(); return false;"/>
-			  <input type="hidden"  id="treeId" name="parentId" value="${orgnization.id}"  class="text"/>
+			  <input id="proSec" type="text" readonly value="${orgnization.parentName}" class="input_group" name="parentName"  onclick="showMenu(); return false;"/>
+			  <input type="hidden"  id="treeId" name="parentId" value="${orgnization.parentId}"  class="text"/>
 			</div>
 		  </li>
 		  

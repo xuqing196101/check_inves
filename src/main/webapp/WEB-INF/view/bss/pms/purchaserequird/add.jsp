@@ -13,7 +13,26 @@
 		  $(function(){
 				$("td[name='userNone']").attr("style","display:none");
 				$("th[name='userNone']").attr("style","display:none");
-			  
+
+				// 绑定采购需求文号事件
+			  $("#referenceNo").blur(function () {
+                  var referenceNO = $("#referenceNo").val();
+                  if(referenceNO == ''){
+                      return;
+                  }
+                  $.ajax({
+                      url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
+                      data:{
+                          "referenceNO": referenceNO
+                      },
+                      success: function(data) {
+                          if(data.data > 0) {
+                              $("#referenceNo").val("");
+                              layer.msg("采购需求文号已存在");
+                          }
+                      }
+                  });
+              })
 		  });
 		  
 		  
@@ -211,22 +230,21 @@
 			 	var fileId = $("#mfiledId").val();
 				var bool= details();
 				
-			      var dy=dyly();  
+			      var dy=dyly();
 			   var ptype=true;
 			    
 			   /*var bool=true; */
 			    $("#table tr").each(function(){
 			    	var  price= $(this).find("td:eq(8)").children(":first").next().val();//上级id
 			    	if($.trim(price) !=""){
-			    		var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
+			    		var  type= $(this).find("td:eq(12)").children(":first").val();//上级id
 				    	  if($.trim(type) == "") {
+				    	      alert();
 				    		  ptype=false;
 				    	  }
 			    	}
 			    	
 			    });
-			    
-			    
 				/* var seq=seqs(); */
 			 if(orgType!='0'){
 				 layer.msg("请用需求部门编制采购需求！"); 
@@ -238,10 +256,10 @@
 				} else if($.trim(type) == ""){
 					 layer.alert("请选择物资类别"); 
 				}
-			  	else if(dy!=true){
+			  	else if(!dy){
 					layer.alert("请填写供应商"); 
 				}  
-				 else if(ptype!=true){
+				 else if(!ptype){
 						layer.alert("请选择采购方式"); 
 					} 
 				/* else if($.trim(refNo) == ""){
@@ -294,19 +312,34 @@
 									});
 									
 							//	var forms=$("#add_form").serializeArray();
-								  $.ajax({
-						  		        type: "POST",
-						  		        url: "${pageContext.request.contextPath}/purchaser/adddetail.do",
-						  		        data: {"prList":JSON.stringify(jsonStr),"planType":type,
-						  		        	"planNo":no,"planName":name,"recorderMobile":mobile,
-						  		        	"referenceNo":refNo,"fileId":fileId,"enterPort":$("#enterPort").val()},
-						  		        success: function (message) {
-						  		        	 window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
-						  		        },
-						  		        error: function (message) {
-						  		        }
-						  		    });
-								  
+										
+				  		      			if($("#table").find("tr").length<4){//需求明细不添加不能添加
+				  		      			 	layer.alert("需求明细不允许为空");
+				  		      			 	//return false;
+				  		      			}else {
+						  		      		
+										  $.ajax({
+								  		        type: "POST",
+								  		        url: "${pageContext.request.contextPath}/purchaser/adddetail.do",
+								  		        data: {"prList":JSON.stringify(jsonStr),"planType":type,
+								  		        	"planNo":no,"planName":name,"recorderMobile":mobile,
+								  		        	"referenceNo":refNo,"fileId":fileId,"enterPort":$("#enterPort").val()},
+							  		        	/* beforeSend: function(){
+								  		      		$.each(jsonStr,function(i,n){
+								  		      			if($.trim(n.stand) == ""){
+								  		      			 	layer.alert("需求明细中规格型号不允许为空");
+								  		      			 	return false;
+								  		      			}
+								  		      		});
+								  		      	}, */
+								  		        success: function (message) {
+								  		        	 window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
+								  		        },
+								  		        error: function (message) {
+								  		        }
+								  		    });
+						  		      	}
+								
 								  
 								
 							  
@@ -485,6 +518,21 @@
 					$(obj).parent().next().find("input").val("");
 					$(obj).parent().next().find("input").attr("readonly", "readonly");
 				}
+                var next=$(obj).parent().parent().nextAll();
+				var parent_id=$($(obj).parent().parent().children()[1]).children(":last").val();
+				var arry = [];
+				for(var i = 0; i < next.length; i++){
+                   if(parent_id==$($(next[i]).children()[1]).children(":last").val()){
+                       break;
+                   }
+                   $($(next[i]).children()[11]).children(":last").val($(obj).val());
+                    if($(obj).val() == "单一来源") {
+                        $($(next[i]).children()[12]).find("input").removeAttr("readonly");
+                    } else {
+                        $($(next[i]).children()[12]).find("input").val("");
+                        $($(next[i]).children()[12]).find("input").attr("readonly", "readonly");
+                    }
+                }
 			}
 			
 			//只能输入数字
@@ -1199,12 +1247,13 @@
 	 	        
 		    function dyly(){
 		    	var bool=true;
-			    $("#table tr").each(function(i){
+			    $("#detailZeroRow tr").each(function(i){
 			    	var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
 			    	  if($.trim(type) == "单一来源") {
 			    		  var  supp= $(this).find("td:eq(12)").children(":first").val();//上级id
-			    		  if($.trim(supp)==""){
+			    		  if($.trim(supp)==''){
 			    			  bool=false;
+			    			  return bool;
 			    		  }
 			    	  }
 			    });
@@ -1214,7 +1263,7 @@
 		    
 		    function purchaseType(){
 		    	var bool=true;
-			    $("#table tr").each(function(i){
+			    $("#detailZeroRow tr").each(function(i){
 			    	var  price= $(this).parent().parent().find("td:eq(8)").children(":first").next().val();//上级id
 			    	if($.trim(price) !=""){
 			    		var  type= $(this).parent().parent().find("td:eq(11)").children(":first").val();//上级id
@@ -1231,7 +1280,7 @@
 		    //校验供应商名称
 		    function checkSupplierName(index) {
 				var name=$("input[name='list["+index+"].supplier']").val();
-				if(name!=null){
+				if(name!=''){
 					$.ajax({
 	                    type: "POST",
 	                    async:false,
@@ -1258,7 +1307,9 @@
 		    	}
 		    	return bool;
 		    } */
-		    
+		    function rest(){
+		    	$("#fileName").val("");
+		    }
 		</script>
 	</head>
 
@@ -1656,6 +1707,7 @@
  			  </div>
  			  <div class="col-md-12 col-sm-12 col-xs-12 mt20 tc">
     		    <input type="button" class="btn input" onclick="fileup()"   value="导入" />
+    		    <input type="button" class="btn input" onclick="rest()"   value="清空" />
     		  </div>
     		<!-- 	 <input type="hidden"  name="planName" id="detailJhmcf">
 							<input type="hidden" name="planNo" id="detailJhbhf">

@@ -1203,4 +1203,72 @@
 		    WHERE ROWNUM &lt;= 10
 	</select>
 	
+	<!-- 排序查询采购机构typeName=1 -->
+	<select id="findPurchaseOrgByPosition" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization">
+	  select d.id  as id,
+		       d.NAME         as name,
+		       d.TYPE_NAME       as typeName,
+		       d.ADDRESS   as address,
+		       d.MOBILE    as mobile,
+		       d.POST_CODE  as postCode,
+		       d.ORG_CODE   as orgCode,
+		       d.TELEPHONE  as telephone,
+		       d.AREA_ID    as areaId,
+		       d.DETAIL_ADDR  as detailAddr,
+		       d.fax          as fax,
+		       d.WEBSITE      as website,
+		       d.PRINCINPAL   as princinpal,
+		       d.PRINCINPAL_ID_CARD  as princinpalIdCard,
+		       d.NATURE       as nature,
+		       d.SHORT_NAME as shortName,
+		       d.PARENT_ID     as parentId,
+		       d.PARENT_NAME      as parentName,
+		       d.PROVINCE_ID      as provinceId,
+		       d.CITY_ID          as cityId,
+		       d.ORG_LEVEL       as orgLevel,
+		       d.IS_DELETED       as isDeleted,
+		       d.DEP_ID       as depId,
+		       d.IS_ROOT         as isRoot,
+		       d.EMAIL      as email,
+		       d.CONTACT_NAME      as contactName,
+           	   d.CONTACT_MOBILE     as contactMobile,
+		       d.Full_NAME as fullName
+		  from T_SES_OMS_ORG     d
+		  INNER JOIN T_SES_OMS_PURCHASE_DEP pd on
+		  pd.ORG_ID = d.id
+		  where d.IS_DELETED = 0
+		  and pd.IS_DELETED = 0
+		  and d.TYPE_NAME= 1
+		 <if test="id != null and id != ''">
+			and d.id= #{id}
+		</if>
+		 <if test="pid != null and pid != ''">
+			and d.PARENT_ID= #{pid}
+		</if>
+		<if test="isroot != null and isroot != ''">
+			and d.PARENT_ID is null
+		</if>
+		<if test="typeName != null">
+			and d.TYPE_NAME= #{typeName}
+		</if> 
+		<if test="requireDepId != null and requireDepId != ''">
+			and d.REQUIRE_DEP_ID= #{requireDepId}
+		</if> 
+		<if test="name != null and name != ''">
+			and d.name like CONCAT(CONCAT('%', #{name}), '%')
+		</if>
+		<if test="notName != null and notName != ''">
+			and a.name not like  CONCAT(CONCAT('%', #{notName}), '%')
+		</if>
+		<if test="isName != null and isName != ''">
+			and a.name like CONCAT(CONCAT('%', #{isName}), '%')
+		</if>
+		<if test="provinceId != null and provinceId != ''">
+			and d.PROVINCE_ID = #{provinceId}
+		</if>
+		<if test="cityId != null and cityId != ''">
+			and d.CITY_ID = #{cityId}
+		</if>
+      ORDER BY d.POSITION ASC
+	</select>
 </mapper>

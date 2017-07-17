@@ -47,7 +47,7 @@
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT_BLACKLIST 
     where 
-    	 STATUS <![CDATA[ <> ]]> 2
+    	 STATUS = 0
        <if test="relName != null and relName !=''">  
               AND  REL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
        </if>  
@@ -271,14 +271,13 @@
 		FROM T_SES_EMS_EXPERT_BLACKLIST eb
 		LEFT JOIN T_SES_EMS_EXPERT e ON eb.EXPERT_ID = e.ID
 		LEFT JOIN T_SES_BMS_DICTIONARY_DATA dd ON dd.ID = e.EXPERTS_TYPE_ID
-		<where>
-			<if test="expertBlacklist.relName != null and expertBlacklist.relName != ''">
-				AND eb.REL_NAME like  CONCAT(CONCAT('%', #{expertBlacklist.relName}), '%')
-			</if>
-			<if test="expertTypeId != null and expertTypeId != ''">
-				AND e.EXPERTS_TYPE_ID = #{expertTypeId}
-			</if>
-		</where>
+		WHERE eb.STATUS = 0
+		<if test="expertBlacklist.relName != null and expertBlacklist.relName != ''">
+			AND eb.REL_NAME like  CONCAT(CONCAT('%', #{expertBlacklist.relName}), '%')
+		</if>
+		<if test="expertTypeId != null and expertTypeId != ''">
+			AND e.EXPERTS_TYPE_ID = #{expertTypeId}
+		</if>
 		ORDER BY eb.DATE_OF_PUNISHMENT desc
   </select>
   
@@ -288,4 +287,23 @@
 		<result column="EXPERT_TYPE_NAME" property="expertTypeName"/>
 	</resultMap>
   
+  <!-- 查询首页专家黑名单及条件查询 -->
+  <select id="findIndexList"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT_BLACKLIST 
+    where 
+    	 STATUS = 0
+       <if test="relName != null and relName !=''">  
+              AND  REL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
+       </if>  
+       <if test="punishType != null and punishType !=''">  
+              AND PUNISH_TYPE = #{punishType} 
+       </if> 
+       <if test="punishDate != null and punishDate !=''">  
+              AND PUNISH_DATE = #{punishDate}
+       </if>
+        
+       ORDER BY CREATED_AT DESC 
+  </select>
 </mapper>

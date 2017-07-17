@@ -222,7 +222,7 @@ public class PlanLookController extends BaseController {
 			model.addAttribute("detail", detail);
             request.getSession().removeAttribute("NoCount");
         	model.addAttribute("kind", DictionaryDataUtil.find(5));
-        	String typeId = DictionaryDataUtil.getId("PURCHASE_FILE");
+        	String typeId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
     		model.addAttribute("typeId", typeId);
         return "bss/pms/collect/plan_views";
     }
@@ -345,27 +345,31 @@ public class PlanLookController extends BaseController {
 		
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("typeName", 1);
-		  List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
+		List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		
-		  List<PurchaseDetail> listO = purchaseDetailService.getUnique(id,null,null);
-		  PurchaseRequired required = purchaseRequiredService.queryById(listO.get(0).getId());
-
-		   List<PurchaseManagement> pm = purchaseManagementService.queryByPid(required.getUniqueId());
-		   String mid="";
-			if(pm!=null&&pm.size()>0){
-				mid=pm.get(0).getManagementId();
+		List<PurchaseDetail> listO = purchaseDetailService.getUnique(id,null,null);
+		List<PurchaseManagement> pm = new ArrayList<>();
+		if(listO != null && listO.size() > 0 && listO.get(0) != null){
+			PurchaseRequired required = purchaseRequiredService.queryById(listO.get(0).getId());
+			if(required != null){
+				pm = purchaseManagementService.queryByPid(required.getUniqueId());
 			}
-			List<PurchaseOrg> manages = purchaseOrgnizationServiceI.get(mid);
-			
-			
-		   List<PurchaseDep> orgs=new LinkedList<PurchaseDep>();
-			for(PurchaseOrg m:manages){
-				for(PurchaseDep pd:org){
-					if(m.getPurchaseDepId().equals(pd.getOrgId())){
-						orgs.add(pd);
-					}
+		}
+		String mid="";
+		if(pm!=null&&pm.size()>0){
+			mid=pm.get(0).getManagementId();
+		}
+		List<PurchaseOrg> manages = purchaseOrgnizationServiceI.get(mid);
+		
+		
+		List<PurchaseDep> orgs=new LinkedList<PurchaseDep>();
+		for(PurchaseOrg m:manages){
+			for(PurchaseDep pd:org){
+				if(m.getPurchaseDepId().equals(pd.getOrgId())){
+					orgs.add(pd);
 				}
 			}
+		}
 			
 //		List<String> no = collectPurchaseService.getNo(id);
 		
@@ -503,10 +507,31 @@ public class PlanLookController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/report")
-	public String report(String id,Model model){
+	public String report(String id,Model model,String one,String two,String three){
 		List<PurchaseDetail> details = purchaseDetailService.getUnique(id,null,null);
-//		CollectPlan plan = collectPlanService.queryById(id);
+		String [] oneArray = new String[details.size()];
+		String [] twoArray = new String[details.size()];
+		String [] threeArray = new String[details.size()];
+		if(one != null && !one.equals("")){
+			oneArray = one.split(",");
+		}
+		if(two != null && !two.equals("")){
+			twoArray= two.split(",");
+		}
+		if(three != null && !three.equals("")){
+			threeArray= three.split(",");
+		}
+		int i = 0;
+		if(details != null && details.size() > 0){
+			for(i = 0;i < details.size();i ++){
+				details.get(i).setOneAdvice(oneArray[i]);
+				details.get(i).setTwoAdvice(twoArray[i]);
+				details.get(i).setThreeAdvice(threeArray[i]);
+			}
+		}
+		CollectPlan plan = collectPlanService.queryById(id);
 		model.addAttribute("details", details);
+		model.addAttribute("plan", plan);
 		return "bss/pms/collect/pdf";
 	}
 	
@@ -525,10 +550,15 @@ public class PlanLookController extends BaseController {
 		String str = null;
 		String id = request.getParameter("id");
 		CollectPlan plan = collectPlanService.queryById(id);
-		if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7||plan.getStatus()==8||plan.getStatus()==12){
+		if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7||plan.getStatus()==8){
+			//可以审核
 			str = "1";
-		}else{
+		}else if (plan.getStatus()==4||plan.getStatus()==6){
+			//设置审核人员
 			str = "0";
+		}else{
+			//审核结束
+			str = "2";
 		}
 		//return plan.getStatus()+"";
 		return str;
@@ -581,11 +611,16 @@ public class PlanLookController extends BaseController {
 		String str = null;
 		String id = request.getParameter("id");
 		CollectPlan plan = collectPlanService.queryById(id);
-		if(plan.getStatus()==1){
+		/*if(plan.getStatus()==1){
 			str = "1";
 		}else{
 			str = "0";
-		}
+		}*/
+		if(plan.getStatus() != null && plan.getStatus() == 1 && plan.getAuditTurn() != null){
+      str = "0";
+    } else {
+      str = plan.getStatus().toString();
+    }
 		return str;
 	}
 	@RequestMapping("/auditByDepartment")

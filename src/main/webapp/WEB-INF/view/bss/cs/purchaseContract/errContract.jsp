@@ -257,7 +257,7 @@
 			var flag = true;
 			if(text.length<=0){
 				flag = false;
-				layer.alert("请先上传附件",{offset: ['222px', '390px'], shade:0.01});
+				layer.alert("请先上传授权书",{offset: ['222px', '390px'], shade:0.01});
 			}
 			if(flag){
 			 $("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/createTransFormal.html?ids=${id}");
@@ -913,7 +913,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方联系电话：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="purchaseContactTelephone" name="purchaseContactTelephone" value="${purCon.purchaseContactTelephone}" type="text">
+			         <input class=" supplier_name" id="purchaseContactTelephone" maxlength="50" name="purchaseContactTelephone" value="${purCon.purchaseContactTelephone}" type="text">
 			         <div class="cue">${ERR_purchaseContactTelephone}</div>
 			        </div>
 				 </li>
@@ -947,7 +947,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方银行账号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" name="purchaseBankAccount_string" value="${purCon.purchaseBankAccount_string}" type="text">
+			         <input class=" supplier_name" name="purchaseBankAccount_string" maxlength="30" value="${purCon.purchaseBankAccount_string}" type="text">
 			         <div class="cue">${ERR_purchaseBankAccount}</div>
 			        </div>
 				 </li>
@@ -1030,7 +1030,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方联系电话：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="supplierContactTelephone" name="supplierContactTelephone" value="${purCon.supplierContactTelephone}" type="text">
+			         <input class=" supplier_name" id="supplierContactTelephone" maxlength="50" name="supplierContactTelephone" value="${purCon.supplierContactTelephone}" type="text">
 			         <div class="cue">${ERR_supplierContactTelephone}</div>
 			        </div>
 				 </li>
@@ -1058,14 +1058,14 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方开户银行：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="supplierBank" name="supplierBank" value="${purCon.supplierBank}" type="text">
+			         <input class=" supplier_name" id="supplierBank" name="supplierBank"  value="${purCon.supplierBank}" type="text">
 			         <div class="cue">${ERR_supplierBank}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方银行账号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="supplierBankAccount_string" name="supplierBankAccount_string" value="${purCon.supplierBankAccount_string}" type="text">
+			         <input class=" supplier_name" id="supplierBankAccount_string" name="supplierBankAccount_string" maxlength="30" value="${purCon.supplierBankAccount_string}" type="text">
 			         <div class="cue">${ERR_supplierBankAccount}</div>
 			        </div>
 				 </li>
@@ -1275,7 +1275,7 @@
 		<div  class="col-md-12 tc mt20">
    			<input type="button" class="btn btn-windows save mb20" onclick="staging()" value="暂存"/>
    			<input type="button" class="btn btn-windows save mb20" onclick="protocol()" value="生成草案"/>
-   			<input type="button" class="btn btn-windows save mb20" onclick="createContract()" value="生成合同"/>
+   			  <input type="button" class="btn btn-windows save mb20" onclick="createContract()" value="生成正式合同"/>
    			<%--<input type="button" class="btn btn-windows save mb20" onclick="printContract()" value="打印"/>
    			--%><input type="button" class="btn btn-windows cancel mb20" onclick="abandoned()" value="取消">
   		</div>
