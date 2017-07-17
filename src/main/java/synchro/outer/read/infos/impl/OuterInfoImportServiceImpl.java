@@ -3,13 +3,9 @@ package synchro.outer.read.infos.impl;
 import java.io.File;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import app.service.IndexAppService;
 import iss.model.ps.Article;
@@ -87,10 +83,7 @@ public class OuterInfoImportServiceImpl implements OuterInfoImportService {
                 } else {
                     articleService.insertArticle(article);
                     //生成App公告图片
-                  //获取到request对象
-                    ServletRequestAttributes attr = (ServletRequestAttributes)  
-                            RequestContextHolder.currentRequestAttributes();  
-                    indexAppService.getContentImg(article, attr.getRequest());
+                    indexAppService.getContentImg(article, null);
                 }
                 
             }
