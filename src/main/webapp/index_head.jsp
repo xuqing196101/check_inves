@@ -586,19 +586,6 @@ function importAdd(){
             
             <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
             <div class="categories">
-<<<<<<< HEAD
-            <ul class="list-unstyled">
-                <c:choose>
-                <c:when test="${!empty my:getPublicitySupplier()}">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th class="tc info">供应商名称</th>
-                            <th class="tc info">类型</th>
-                            <th class="tc info">企业性质</th>
-                            <th class="tc info">初审单位</th>
-                            <th class="tc info" width="55%">审核结果</th>
-=======
                 <%-- <c:choose> --%>
                 <%-- <c:when test="${!empty my:getPublicitySupplier()}"> --%>
                 <div class="m_nav_scroll_head">
@@ -611,7 +598,6 @@ function importAdd(){
                             <td class="tc info" width="12%">初审单位</td>
                             <td class="tc info" width="34%">审核结果</td>
                             <td class="tc info" width="15%">公示时间</td>
->>>>>>> b7a6911621e9ffe1e3a7704d6a0bc4d98846d301
                         </tr>
                     </tbody>
                 </table>
@@ -622,15 +608,7 @@ function importAdd(){
                 <li>
                 <table class="table table-bordered mb0">
                     <tbody>
-<<<<<<< HEAD
-                    <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
-                        <tr>
-                            <td>${item.supplierName}</td>
-														<td class="tc">${ item.supplierTypeNames }</td>
-														<td class="tc">${ item.businessNature }</td>
-														<td class="tc">${ item.orgName }</td>
-														<td class="tl">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</td>
-=======
+
                     <%-- <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="4" step="1" varStatus="status">
                         <c:set value="${item.supplierName}" var="supplierName"></c:set>
                         <c:set value="${item.supplierTypeNames}" var="supplierTypeNames"></c:set>
@@ -673,7 +651,6 @@ function importAdd(){
                             <td class="tl" width="15%">
                                 <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
                             </td>
->>>>>>> b7a6911621e9ffe1e3a7704d6a0bc4d98846d301
                         </tr>
                     </c:forEach> --%>
                     </tbody>
@@ -688,10 +665,6 @@ function importAdd(){
                 </c:choose> --%>
             </div>
             </div>
-<<<<<<< HEAD
-            <a href="${pageContext.request.contextPath}/index/indexSupPublicity.html" class="tab_more">更多&gt;&gt;</a>
-=======
->>>>>>> b7a6911621e9ffe1e3a7704d6a0bc4d98846d301
         </div>
         <!-- End 拟入库公示 -->
         
@@ -839,18 +812,6 @@ function importAdd(){
 				
 				<div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
 				<div class="categories zhuanjia_list">
-<<<<<<< HEAD
-				<ul class="list-unstyled">
-				<c:choose>
-				<c:when test="${!empty my:getPublicityExpert()}">
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th class="tc info">专家名称</th>
-							<th class="tc info">类别</th>
-							<th class="tc info">初审单位</th>
-							<th class="tc info" width="50%">审核结果</th>
-=======
 				<%-- <c:choose> --%>
 				<%-- <c:when test="${!empty my:getPublicityExpert()}"> --%>
 				<table class="table table-bordered mb0">
@@ -861,7 +822,6 @@ function importAdd(){
 							<th class="tc info" width="15%">初审单位</th>
 							<th class="tc info" width="30%">审核结果</th>
 							<th class="tc info" width="15%">公示时间</th>
->>>>>>> b7a6911621e9ffe1e3a7704d6a0bc4d98846d301
 						</tr>
 					</thead>
 				</table>
@@ -871,14 +831,6 @@ function importAdd(){
                 <li>
                 <table class="table table-bordered mb0">
 					<tbody>
-<<<<<<< HEAD
-					<c:forEach items="${my:getPublicityExpert()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
-					<tr>
-						<td>${ item.relName }</td>
-						<td class="tc">${ item.expertsTypeId }</td>
-						<td class="tc">${ item.orgName }</td>
-						<td class="tl">同意入库，选择了${ item.passCateCount }小类，通过了${ item.passCateCount - item.noPassCateCount }个小类</td>
-=======
 					<%-- <c:forEach items="${my:getPublicityExpert()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
 					<tr>
 						<td width="25%">${ item.relName }</td>
@@ -890,7 +842,6 @@ function importAdd(){
                         <td class="tl" width="25%">
                             <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
                         </td>
->>>>>>> b7a6911621e9ffe1e3a7704d6a0bc4d98846d301
 					</tr>
 					</c:forEach>  --%>
 					</tbody>
@@ -898,16 +849,12 @@ function importAdd(){
 				</li>
 				</ul>
 				</div>
-<<<<<<< HEAD
-				<a href="${pageContext.request.contextPath}/index/indexExpPublicity.html" class="tab_more">更多&gt;&gt;</a>
-=======
 				<%-- </c:when> --%>
 				<%-- <c:otherwise> --%>
 				<!-- <div class="tc">暂无数据</div> -->
 				<%-- </c:otherwise> --%>
 				<%-- </c:choose> --%>
 				</div>
->>>>>>> b7a6911621e9ffe1e3a7704d6a0bc4d98846d301
 				</div>
 			</div>
 			
