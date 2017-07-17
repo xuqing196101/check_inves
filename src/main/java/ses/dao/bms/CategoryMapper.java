@@ -355,4 +355,32 @@ public interface CategoryMapper {
      * @return
      */
     List<Category> selectByCList(@Param("listID") String listID);
+
+    /**
+	 * 根据ID查询所有子节点
+	 * @param id
+	 * @return
+	 */
+	public List<Category> selectCListById(String id);
+
+	/**
+	 * 根据ID查询所有父节点
+	 * @param id
+	 * @return
+	 */
+	public List<Category> selectPListById(String id);
+
+	/**
+	 * 根据CODE查询所有子节点
+	 * @param code
+	 * @return
+	 */
+	public List<Category> selectCListByCode(String code);
+
+	/**
+	 * 根据CODE查询所有父节点
+	 * @param code
+	 * @return
+	 */
+	public List<Category> selectPListByCode(String code);
 }

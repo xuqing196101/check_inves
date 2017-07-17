@@ -36,4 +36,15 @@ public interface InnerExpertService {
      */
     void saveBackModifyExpertForOut(final File file);
 
+    /**
+     *
+     * Description: 导入公示的专家 到外网展示
+     *
+     * @author Easong
+     * @version 2017/7/10
+     * @param file
+     * @since JDK1.7
+     */
+    void importExpOfPublicity(final File file);
+
 }

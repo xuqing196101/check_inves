@@ -39,6 +39,7 @@ import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
+import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
@@ -748,6 +749,7 @@ public class SupplierServiceImpl implements SupplierService {
         List<Qualification> qua = get(categoryQua, category.getParentId());
         if (qua.size() != 0) {
           newList.add(list.get(i));
+          quaBean.setCategoryId(category.getId());
           quaBean.setCategoryName(category.getName());
           quaBean.setList(qua);
           quaList.add(quaBean);
@@ -1513,5 +1515,39 @@ public BigDecimal getScoreByFinances(List<SupplierFinance> listSupplierFinances)
     }
     return score;
 }
+
+	@Override
+	public List<QualificationBean> getQualificationList(
+			List<SupplierItemCategoryBean> sicList, int quaType) {
+		if(sicList != null){
+			List<QualificationBean> quaList = new ArrayList<QualificationBean>();
+			List<SupplierItemCategoryBean> newList = new ArrayList<SupplierItemCategoryBean>();
+			for (int i = 0; i < sicList.size(); i++) {
+				SupplierItemCategoryBean sic = sicList.get(i);
+				QualificationBean quaBean = new QualificationBean();
+				if (sic.getId() == null) {
+					continue;
+				}
+				// 根据品目id查询所要上传的资质文件
+				List<CategoryQua> categoryQua = categoryQuaMapper.findListSupplier(
+						sic.getId(), quaType);
+				if (null != categoryQua
+						&& StringUtils.isNotBlank(sic.getParentId())) {
+					List<Qualification> qua = get(categoryQua, sic.getParentId());
+					if (qua.size() != 0) {
+						newList.add(sicList.get(i));
+						quaBean.setCategoryId(sic.getId());
+						quaBean.setCategoryName(sic.getName());
+						quaBean.setItemId(sic.getItemId());
+						quaBean.setList(qua);
+						quaList.add(quaBean);
+					}
+				}
+			}
+			sicList = newList;
+			return quaList;
+		}
+		return null;
+	}
 
 }

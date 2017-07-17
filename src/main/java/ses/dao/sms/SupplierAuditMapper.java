@@ -1,11 +1,10 @@
 package ses.dao.sms;
 
+import org.apache.ibatis.annotations.Param;
+import ses.model.sms.SupplierAudit;
+
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
-import ses.model.sms.SupplierAudit;
 
 public interface SupplierAuditMapper {
     int deleteByPrimaryKey(String id);
@@ -113,4 +112,14 @@ public interface SupplierAuditMapper {
      * @return
      */
     Integer selectRegSupCateCount(Map<String, Object> map);
+    /**
+     *
+     * Description: 查询基本信息的审核项数量
+     *
+     * @author Easong
+     * @version 2017/7/13
+     * @param [map]
+     * @since JDK1.7
+     */
+    Integer selectBasicInfoAuditItem(Map<String, Object> map);
 } 

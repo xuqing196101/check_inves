@@ -1,23 +1,18 @@
 package synchro.controller;
 
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBSupplierService;
+import com.github.pagehelper.PageInfo;
+import common.bean.ResponseBean;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.model.bms.DictionaryData;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
@@ -33,13 +28,12 @@ import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.service.SynchService;
 import synchro.util.Constant;
-import bss.service.ob.OBProductService;
-import bss.service.ob.OBProjectServer;
-import bss.service.ob.OBSupplierService;
 
-import com.github.pagehelper.PageInfo;
-
-import common.bean.ResponseBean;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * 
@@ -176,6 +170,18 @@ public class SynchExportController {
             	  /**产品资质表  只能是内网导出外网**/
             	  iter.remove();
             	  continue;
+              }
+
+              if(dd.getCode().equals(Constant.SYNCH_PUBLICITY_SUPPLIER)){
+                  /**公示供应商**/
+                  iter.remove();
+                  continue;
+              }
+
+              if(dd.getCode().equals(Constant.SYNCH_PUBLICITY_EXPERT)){
+                  /**公示专家**/
+                  iter.remove();
+                  continue;
               }
           }
           //内网时
@@ -339,6 +345,17 @@ public class SynchExportController {
         	//门户模板管理 导出数据
         	qualificationService.exportQualification(startTime, endTime, date);
         }
+
+        /**内网公示供应商导出*/
+        if (synchType.contains(Constant.SYNCH_PUBLICITY_SUPPLIER)) {
+            outerSupplierService.selectSupByPublictyOfExport(startTime, endTime);
+        }
+
+        /**内网公示专家导出*/
+        if (synchType.contains(Constant.SYNCH_PUBLICITY_EXPERT)) {
+            outerExpertService.selectExpByPublictyOfExport(startTime, endTime);
+        }
+
         bean.setSuccess(true);
         return bean;
     }

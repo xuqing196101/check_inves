@@ -2468,7 +2468,7 @@ resultMap="BaseResultMap">
     
   <!-- 查询公示的专家 -->
 	<select id="selectExpByPublicty" resultMap="expertOfPublicityMap">
-		  SELECT T.ID, T.UPDATED_AT
+		  SELECT T.ID, T.AUDIT_AT
        FROM T_SES_EMS_EXPERT T
        WHERE T.STATUS = '-3'
        AND T.IS_PROVISIONAL = '0'
@@ -2478,7 +2478,7 @@ resultMap="BaseResultMap">
 	
 	<!-- 查询公示专家列表 -->
 	<select id="selectExpByPublictyList" resultMap="expertOfPublicityMapList" parameterType="ses.model.ems.ExpertPublicity">
-		SELECT T.ID, T.EXPERTS_TYPE_ID, T.REAL_NAME, ORG.SHORT_NAME AS ORGNAME
+		SELECT T.ID, T.EXPERTS_TYPE_ID, T.REAL_NAME, T.AUDIT_AT, ORG.SHORT_NAME AS ORGNAME
 		  FROM T_SES_EMS_EXPERT T
 		  LEFT JOIN T_SES_OMS_PURCHASE_DEP DEP
 		    ON T.PURCHASE_DEP_ID = DEP.ID
@@ -2487,9 +2487,31 @@ resultMap="BaseResultMap">
 		 WHERE T.STATUS = '-3'
 		   AND T.IS_PROVISIONAL = '0'
 		   AND T.IS_DELETE = '0'
+           <!--专家名称-->
 		   <if test="relName != null and relName != ''">
 		     AND INSTR(T.REAL_NAME,#{relName}) >0
 		   </if>
-		 ORDER BY T.UPDATED_AT DESC
+           <!--专家类型-->
+           <if test="expertsTypeId != null and expertsTypeId !=''">
+             AND INSTR(T.EXPERTS_TYPE_ID, #{expertsTypeId})>0
+           </if>
+           <!--采购机构ID-->
+           <if test="orgId != null and orgId !=''">
+             AND DEP.ID = #{orgId}
+           </if>
+		 ORDER BY T.AUDIT_AT
 	</select>
+
+    <!-- 查询公示专家导出外网 -->
+    <select id="selectExpByPublictyOfExport" resultMap="BaseResultMap" parameterType="Map">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM T_SES_EMS_EXPERT T
+        WHERE T.STATUS = #{status}
+        AND T.AUDIT_AT &gt;=
+        to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+        AND
+        T.AUDIT_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+    </select>
+
 </mapper>

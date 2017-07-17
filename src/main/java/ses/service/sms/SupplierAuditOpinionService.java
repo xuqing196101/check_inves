@@ -1,5 +1,6 @@
 package ses.service.sms;
 
+import common.utils.JdcgResult;
 import ses.model.sms.SupplierAuditOpinion;
 
 /**
@@ -15,7 +16,7 @@ public interface SupplierAuditOpinionService {
 	 * @param @param expertAuditOpinionMapper      
 	 * @return void
 	 */
-	void insertSelective (SupplierAuditOpinion supplierAuditOpinion );
+	void insertSelective (SupplierAuditOpinion supplierAuditOpinion);
 	
 	/**
 	 * @Title: selectByPrimaryKey
@@ -28,7 +29,7 @@ public interface SupplierAuditOpinionService {
 	
 	/**
 	 * 
-	 * Description:
+	 * Description:供应商Id查询审核意见
 	 * 
 	 * @author Easong
 	 * @version 2017年7月3日
@@ -36,4 +37,28 @@ public interface SupplierAuditOpinionService {
 	 * @return
 	 */
 	SupplierAuditOpinion selectByExpertId(String supplierId);
+
+	/**
+	 *
+	 * Description: 保存审核意见
+	 *
+	 * @author Easong
+	 * @version 2017/7/13
+	 * @param [vertifyFlag]
+	 * @param [supplierAuditOpinion]
+	 * @since JDK1.7
+	 */
+    JdcgResult insertSelective (SupplierAuditOpinion supplierAuditOpinion, String vertifyFlag);
+
+    /**
+     *
+     * Description:
+     *
+     * @author Easong
+     * @version 2017/7/13
+     * @param [supplierId]
+     * @param [flagTime]
+     * @since JDK1.7
+     */
+    SupplierAuditOpinion selectByExpertIdAndflagTime(String supplierId, Integer flagTime);
 }

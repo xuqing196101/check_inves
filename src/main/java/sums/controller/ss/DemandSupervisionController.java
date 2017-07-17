@@ -149,7 +149,7 @@ public class DemandSupervisionController extends BaseController{
                 }
             }
         }
-        if(bool!=true){
+        if(!bool){
             purchaseRequired.setUserId(user.getId());
         } 
         List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page);
@@ -165,6 +165,51 @@ public class DemandSupervisionController extends BaseController{
          model.addAttribute("list", new PageInfo<PurchaseRequired>(list));
 		model.addAttribute("purchaseRequired", purchaseRequired);
 		return "sums/ss/demandSupervision/list";
+	}
+	
+	/**
+	 * 
+	 *〈资源管理中心查看全部采购需求〉
+	 *〈详细描述〉
+	 * @author FengTian
+	 * @param user
+	 * @param purchaseRequired
+	 * @param page
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/demandSupervisionByAll", produces = "text/html;charset=UTF-8")
+	public String demandSupervisionByAll(@CurrentUser User user, PurchaseRequired purchaseRequired, Integer page, Model model){
+	    if(user != null && StringUtils.isNotBlank(user.getTypeName()) && "4".equals(user.getTypeName())){
+	        //是否是详细，1是主要，不是1为明细
+	        purchaseRequired.setIsMaster(1);
+	        
+	        if(purchaseRequired.getStatus()==null){
+	            purchaseRequired.setStatus("total");
+	        } else if(purchaseRequired.getStatus().equals("5")){
+	            purchaseRequired.setSign("5");
+	        }
+	        if(purchaseRequired.getStatus().equals("total")){
+	            purchaseRequired.setStatus(null);
+	        }
+	        if (page == null ){
+	            page = StaticVariables.DEFAULT_PAGE;
+	        }
+	        List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page);
+	        //获取用户的真实姓名
+	         for (int i = 0; i < list.size(); i++ ) {
+	             try {
+	                 User users = userService.getUserById(list.get(i).getUserId());
+	                 list.get(i).setUserName(users.getRelName());
+	             } catch (Exception e) {
+	                  list.get(i).setUserName("");
+	             }
+	         }
+	         model.addAttribute("list", new PageInfo<PurchaseRequired>(list));
+	        model.addAttribute("purchaseRequired", purchaseRequired);
+	        
+	    }
+	    return "sums/ss/demandSupervision/listByAll";
 	}
 	
 	 /**

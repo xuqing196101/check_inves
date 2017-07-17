@@ -18,9 +18,13 @@
 		<script type="text/javascript">
 			//默认不显示叉
 			$(function() {
+                // 导航栏选中
+                $("#reverse_of_two").attr("class","active");
+                $("#reverse_of_two").removeAttr("onclick");
 				$("td").each(function() {
 					$(this).find("p").hide();
 				});
+
 			});
 
 			function reason(id, auditFieldName, year) {
@@ -35,6 +39,10 @@
 	    } else {
 	      offset = "200px";
 	    } */
+	     var supplierStatus= $("input[name='supplierStatus']").val();
+       var sign = $("input[name='sign']").val();
+        //只有审核的状态能审核
+       if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 				var supplierId = $("#supplierId").val();
 				if(auditFieldName == "财务信息") {
 					var auditContent = year + "年财务信息"; //审批的字段内容
@@ -79,6 +87,7 @@
 		      			layer.msg('不能为空！', {offset:'100px'});
 		      		}
 					});
+        }
 			}
 
 			/* function reason1(year, ele,auditField){
@@ -274,98 +283,11 @@
 		<div class="container container_box">
 			<div class="content height-350">
 				<div class="col-md-12 tab-v2 job-content">
-					<%-- <ul class="nav nav-tabs bgdd">
-	        <li class=""><a>详细信息</a></li>
-	        <li class="active"><a id="financial">财务信息</a></li>
-	        <li class=""><a >股东信息</a></li>
-	        <c:if test="${fn:contains(supplierTypeNames, '生产')}">
-	        <li class=""><a >物资-生产专业信息</a></li>
-	        </c:if>
-	        <c:if test="${fn:contains(supplierTypeNames, '销售')}">
-	        <li class=""><a >物资-销售专业信息</a></li>
-	        </c:if>
-	        <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-	        <li class=""><a >工程-专业信息</a></li>
-	        </c:if>
-	        <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-	        <li class=""><a >服务-专业信息</a></li>
-	        </c:if>
-	        <li class=""><a >品目信息</a></li>
-	        <li class=""><a >产品信息</a></li>
-	        <li class=""><a >申请表</a></li>
-	        <li class=""><a >审核汇总</a></li>
-	        </ul> --%>
-
-					<ul class="flow_step">
-						<li onclick="jump('essential')">
-							<a aria-expanded="false" href="#tab-1">基本信息</a>
-							<i></i>
-						</li>
-						<li class="active" onclick="jump('financial')">
-							<a aria-expanded="true" href="#tab-2" data-toggle="tab">财务信息</a>
-							<i></i>
-						</li>
-						<li onclick="jump('shareholder')">
-							<a aria-expanded="false" href="#tab-3">股东信息</a>
-							<i></i>
-						</li>
-						<%--<c:if test="${fn:contains(supplierTypeNames, '生产')}">
-							<li onclick="jump('materialProduction')">
-								<a aria-expanded="false" href="#tab-4">生产信息</a>
-								<i></i>
-							</li>
-						</c:if>
-						<c:if test="${fn:contains(supplierTypeNames, '销售')}">
-							<li onclick="jump('materialSales')">
-								<a aria-expanded="false" href="#tab-4">销售信息</a>
-								<i></i>
-							</li>
-						</c:if>
-						<c:if test="${fn:contains(supplierTypeNames, '工程')}">
-							<li onclick="jump('engineering')">
-								<a aria-expanded="false" href="#tab-4">工程信息</a>
-								<i></i>
-							</li>
-						</c:if>
-						<c:if test="${fn:contains(supplierTypeNames, '服务')}">
-							<li onclick="jump('serviceInformation')">
-								<a aria-expanded="false" href="#tab-4">服务信息</a>
-								<i></i>
-							</li>
-						</c:if>
-						--%>
-						<li onclick = "jump('supplierType')">
-           	  <a aria-expanded="false">供应商类型</a>
-            	<i></i>
-	          </li>
-						<!-- <li onclick = "jump('items')">
-	              <a aria-expanded="false" href="#tab-4" >产品类别</a>
-	               <i></i>
-	          </li>
-	          <li onclick="jump('aptitude')">
-							<a aria-expanded="false" href="#tab-4">资质文件维护</a>
-							<i></i>
-						</li>
-						<li onclick="jump('contract')">
-							<a aria-expanded="false" href="#tab-4">销售合同</a>
-							<i></i>
-						</li> -->
-						<li onclick="jump('aptitude')">
-                            <a aria-expanded="false" href="#tab-4">产品类别及资质合同</a>
-                            <i></i>
-                        </li>
-						<li onclick="jump('applicationForm')">
-							<a aria-expanded="false" href="#tab-4">承诺书和申请表</a>
-							<i></i>
-						</li>
-						<li onclick="jump('reasonsList')">
-							<a aria-expanded="false" href="#tab-4">审核汇总</a>
-						</li>
-					</ul>
+					<%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
 
 					<form id="form_id" action="" method="post">
 						<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
-						<input name="supplierStatus" value="${supplierStatus}" type="hidden">
+						<input id="status" name="supplierStatus" value="${supplierStatus}" type="hidden">
 						<input type="hidden" name="sign" value="${sign}">
 					</form>
 
@@ -497,7 +419,9 @@
 				</div>
 				<div class="col-md-12 add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
-					<a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+					<c:if test="${supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+          </c:if>
 					<a class="btn" type="button" onclick="nextStep();">下一步</a>
 				</div>
 			</div>

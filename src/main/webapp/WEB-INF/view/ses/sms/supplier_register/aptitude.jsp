@@ -78,9 +78,11 @@
 													<td>
 														<c:forEach items="${obj.list }" var="quaPro">
 															<c:set value="${prolength+1}" var="prolength"></c:set>
-															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaPro.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${quaPro.flag}','aptitude_page')"</c:if>>
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,obj.itemId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${obj.itemId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,quaPro.flag) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,obj.itemId) && currSupplier.status==2}">
+																		<div class="webuploader-pick">${quaPro.name}</div>
+																		<div class="clear"></div>
 																		<u:show showId="pShow${prolength}" delete="false" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
@@ -112,9 +114,11 @@
 													<td>
 														<c:forEach items="${sale.list }" var="saua">
 															<c:set value="${length+1}" var="length"></c:set>
-															<div class="mr5 fl" <c:if test="${fn:contains(audit,saua.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${saua.flag}','aptitude_page')"</c:if>>
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,sale.itemId)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${sale.itemId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,saua.flag) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,sale.itemId) && currSupplier.status==2}">
+																		<div class="webuploader-pick">${saua.name}</div>
+																		<div class="clear"></div>
 																		<u:show showId="saleShow${length}" delete="false" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
@@ -134,7 +138,7 @@
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fade height-300" id="tab-3">
-										<h2 class="f16  ">
+										<h2 class="f16">
 											<font color="red">*</font> 上传工程资质文件
 										</h2>
 										<form id="item_form" method="post" class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
@@ -155,8 +159,7 @@
 												</tr>
 												</thead>
 												<c:forEach items="${allTreeList}" var="cate" varStatus="vs">
-													<tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg(this, '${cate.itemsId}','aptitude_page')"</c:if>>
-														
+													<tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg(this, '${cate.itemsId}','${auditType}')"</c:if>>
 														<!-- 序号 -->
 														<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 															<div class="w50"> ${vs.index + 1}</div>
@@ -277,9 +280,11 @@
 													<td>
 														<c:forEach items="${server.list }" var="ser">
 															<c:set value="${slength+1}" var="slength"></c:set>
-															<div class="fl mr5" <c:if test="${fn:contains(audit,ser.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${ser.flag}','aptitude_page')"</c:if>>
+															<div class="fl mr5" <c:if test="${fn:contains(audit,server.itemId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${server.itemId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,ser.flag) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,server.itemId) && currSupplier.status==2}">
+																		<div class="webuploader-pick">${ser.name}</div>
+																		<div class="clear"></div>
 																		<u:show showId="serverShow${slength}" delete="false" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
@@ -408,7 +413,6 @@
 					 	}
 					}
 				});
-
 			}
 
 			function prev() {

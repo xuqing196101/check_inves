@@ -35,4 +35,16 @@ public interface OuterExpertService {
      * @param endTime
      */
     void backModifyExpert(String startTime, String endTime);
+    
+    /**
+     * 
+     * Description:查询公示专家导出外网
+     * 
+     * @author Easong
+     * @version 2017/7/9
+     * @param startTime
+     * @param endTime
+     * @since JDK1.7
+     */
+    void selectExpByPublictyOfExport(String startTime, String endTime);
 }

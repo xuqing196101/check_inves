@@ -1,5 +1,6 @@
 package ses.service.ems;
 
+import common.utils.JdcgResult;
 import ses.model.ems.ExpertAuditOpinion;
 
 /**
@@ -28,7 +29,7 @@ public interface ExpertAuditOpinionService {
 	 * @return void
 	 */
 	ExpertAuditOpinion selectByPrimaryKey (ExpertAuditOpinion expertAuditOpinion );
-	
+
 	/**
 	 * 
 	 * Description:根据专家ID查询信息
@@ -39,4 +40,16 @@ public interface ExpertAuditOpinionService {
 	 * @return
 	 */
 	ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion);
+
+	/**
+	 *
+	 * Description: 保存审核意见
+	 *
+	 * @author Easong
+	 * @version 2017/7/13
+	 * @param [vertifyFlag]
+	 * @param [supplierAuditOpinion]
+	 * @since JDK1.7
+	 */
+	JdcgResult insertSelective (ExpertAuditOpinion expertAuditOpinion, String vertifyFlag);
 }
