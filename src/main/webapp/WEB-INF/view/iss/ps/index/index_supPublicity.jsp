@@ -25,18 +25,49 @@
 
   <div class="container job-content ">
      <form id="queryForm" method="get">
-      <div class="search_box col-md-12 col-sm-12 col-xs-12">
-         	供应商名称 : <input name="supplierName" type="text" id="supplierName" />
-        	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
-      </div>
+         <div class="search_box form-inline">
+             <div class="form-group">
+                 <label>供应商名称：</label>
+                 <input type="text" name="supplierName" id="supplierName" class="form-control"/>
+             </div>
+             <div class="form-group">
+                 <label>类型：</label>
+                 <select id="supplierTypeId" name="supplierTypeId">
+                     <option value="">--请选择--</option>
+                     <c:forEach var="b" items="${listSupplierTypes}">
+                         <option value="${b.id}">${b.name}</option>
+                     </c:forEach>
+                 </select>
+             </div>
+             <div class="form-group">
+                 <label>企业性质：</label>
+                 <select id="businessNature" name="businessNature">
+                     <option value="">--请选择--</option>
+                     <c:forEach var="b" items="${businessNatureList}">
+                         <option value="${b.id}">${b.name}</option>
+                     </c:forEach>
+                 </select>
+                 <label>初审单位：</label>
+                 <select id="orgId" name="orgId">
+                     <option value="">--请选择--</option>
+                     <c:forEach var="b" items="${orgDepList}">
+                         <option value="${b.id}">${b.name}</option>
+                     </c:forEach>
+                 </select>
+             </div>
+             <button type="button" onclick="query()"  class="btn btn-u-light-grey">查询</button>
+             <input onclick="resetAll()" type="button" class="btn btn-u-light-grey" value="重置"></input>
+         </div>
      </form>
         <div class="report_list_box">
-            <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
-          		<div class="col-md-2 col-xs-2 col-sm-2 f16">供应商名称</div>
-              <div class="col-md-3 col-xs-3 col-sm-3 f16">类型</div>
+            <div class="report_list_title">
+          	  <div class="col-md-2 col-xs-2 col-sm-2 f16">供应商名称</div>
+              <div class="col-md-1 col-xs-1 col-sm-1 f16">类型</div>
               <div class="col-md-1 col-xs-1 col-sm-1 f16">企业性质</div>
               <div class="col-md-2 col-xs-2 col-sm-2 f16">初审单位</div>
               <div class="col-md-4 col-xs-4 col-sm-4 f16">审核结果</div>
+              <div class="col-md-2 col-xs-2 col-sm-2 f16">公示时间</div>
+              <div class="clear"></div>
             </div>
                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new" id="supPublicityList">
                 </ul>

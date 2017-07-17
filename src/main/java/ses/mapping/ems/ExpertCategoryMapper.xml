@@ -171,4 +171,34 @@
 		 	WHERE T.LEVELS = 1
    		AND T.EXPERT_ID = #{expertId}
    </select>
+
+    <!--查询专家审核通过的类型-->
+    <select id="selectCateByExpertId" parameterType="Map" resultType="java.lang.String">
+        SELECT C.TYPE_ID
+          FROM T_SES_EMS_EXPERT_CATEGORY C
+         WHERE NOT EXISTS (SELECT T.AUDIT_FIELD_ID
+                  FROM T_SES_EMS_EXPERT_AUDIT T
+                 WHERE C.CATEGORY_ID = T.AUDIT_FIELD_ID
+                   AND T.EXPERT_ID = #{expertId}
+                   AND T.SUGGEST_TYPE = #{type}
+                   AND T.IS_DELETED = 0)
+           AND C.EXPERT_ID = #{expertId}
+           AND C.LEVELS = '1'
+         GROUP BY C.TYPE_ID
+    </select>
+
+    <!--查询专家审核通过的类型—根据类型查询-->
+    <select id="selectPassCateByExpertId" parameterType="Map" resultMap="BaseResultMap">
+        SELECT C.TYPE_ID, C.CATEGORY_ID
+          FROM T_SES_EMS_EXPERT_CATEGORY C
+         WHERE NOT EXISTS (SELECT T.AUDIT_FIELD_ID
+                  FROM T_SES_EMS_EXPERT_AUDIT T
+                 WHERE C.CATEGORY_ID = T.AUDIT_FIELD_ID
+                   AND T.EXPERT_ID = #{expertId}
+                   AND T.SUGGEST_TYPE = #{type}
+                   AND T.IS_DELETED = 0)
+           AND C.EXPERT_ID = #{expertId}
+           AND C.LEVELS = '1'
+           AND C.TYPE_ID = #{typeId}
+    </select>
 </mapper>

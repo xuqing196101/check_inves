@@ -23,7 +23,8 @@ import common.model.UploadFile;
  * @author: Wang Zhaohua
  * @date: 2016-9-13上午9:45:27
  */
-public class Supplier implements Serializable {
+public class
+Supplier implements Serializable {
 	private static final long serialVersionUID = 8734428260706437179L;
 	
 	//关联报价

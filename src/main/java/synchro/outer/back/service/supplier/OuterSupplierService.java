@@ -58,5 +58,17 @@ public interface OuterSupplierService {
     
     
     public void backSupplierExport(String startTime, String endTime);
+
+    /**
+     *
+     * Description: 按时间导出公示供应商
+     *
+     * @author Easong
+     * @version 2017/7/9
+     * @param startTime
+     * @param endTime
+     * @since JDK1.7
+     */
+    void selectSupByPublictyOfExport(String startTime, String endTime);
     
 }

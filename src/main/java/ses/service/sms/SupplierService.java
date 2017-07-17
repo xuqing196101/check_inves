@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
+import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Category;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
@@ -476,4 +477,13 @@ public interface SupplierService {
 	 */
 	public BigDecimal getScoreByFinances(
 			List<SupplierFinance> listSupplierFinances);
+
+	/**
+	 * 获取证书信息
+	 * @param sicList
+	 * @param quaType
+	 * @return
+	 */
+	public List<QualificationBean> getQualificationList(
+			List<SupplierItemCategoryBean> sicList, int quaType);
 }

@@ -17,7 +17,11 @@ public class ExpertAuditOpinion implements Serializable{
 
 	/**第几次审核意见标识 0：第一次(初审) 1：第二次(复审)**/
 	private Integer flagTime;
-	
+	/**审核标识：0：审核不通过 1：审核通过**/
+	private Integer flagAudit;
+	/**是否下载了入库复审表 1：已下载**/
+	private Integer isDownLoadAttch;
+
 	public String getId() {
 		return id;
 	}
@@ -56,4 +60,20 @@ public class ExpertAuditOpinion implements Serializable{
 	public void setFlagTime(Integer flagTime) {
 		this.flagTime = flagTime;
 	}
+
+	public Integer getFlagAudit() {
+		return flagAudit;
+	}
+
+	public void setFlagAudit(Integer flagAudit) {
+		this.flagAudit = flagAudit;
+	}
+
+    public Integer getIsDownLoadAttch() {
+        return isDownLoadAttch;
+    }
+
+    public void setIsDownLoadAttch(Integer isDownLoadAttch) {
+        this.isDownLoadAttch = isDownLoadAttch;
+    }
 }

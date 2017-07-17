@@ -9,8 +9,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ibatis.annotations.Param;
-
 import common.bean.ResBean;
 import ses.model.bms.Category;
 import ses.model.sms.SupplierCateTree;
@@ -419,4 +417,29 @@ import ses.model.sms.SupplierTypeTree;
 	 * @return
 	 */
 	public SupplierCateTree addNode(List<Category> parentNodeList);
+
+	/**
+	 * 根据ID查询所有子节点
+	 * @param id
+	 * @return
+	 */
+	public List<Category> getCListById(String id);
+	/**
+	 * 根据ID查询所有父节点
+	 * @param id
+	 * @return
+	 */
+	public List<Category> getPListById(String id);
+	/**
+	 * 根据CODE查询所有子节点
+	 * @param code
+	 * @return
+	 */
+	public List<Category> getCListByCode(String code);
+	/**
+	 * 根据CODE查询所有父节点
+	 * @param code
+	 * @return
+	 */
+	public List<Category> getPListByCode(String code);
 }

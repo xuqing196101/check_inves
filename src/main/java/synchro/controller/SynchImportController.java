@@ -1,22 +1,18 @@
 package synchro.controller;
 
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBSupplierService;
+import com.github.pagehelper.PageInfo;
+import common.bean.ResponseBean;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.model.bms.DictionaryData;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
@@ -34,13 +30,12 @@ import synchro.service.SynchService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
-import bss.service.ob.OBProductService;
-import bss.service.ob.OBProjectServer;
-import bss.service.ob.OBSupplierService;
 
-import com.github.pagehelper.PageInfo;
-
-import common.bean.ResponseBean;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * 
@@ -175,6 +170,17 @@ public class SynchImportController {
           	  iter.remove();
           	  continue;
             }
+            if(dd.getCode().equals(Constant.SYNCH_PUBLICITY_SUPPLIER)){
+                /**公示供应商**/
+                iter.remove();
+                continue;
+            }
+
+            if(dd.getCode().equals(Constant.SYNCH_PUBLICITY_EXPERT)){
+                /**公示专家**/
+                iter.remove();
+                continue;
+            }
         }
           //外网时   
         if(ipAddressType.equals("1")){
@@ -286,7 +292,7 @@ public class SynchImportController {
                   */
                  if(synchType.contains("inner_out")){
 					if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)) {
-						innerSupplierService.immportInner(f);
+						innerSupplierService.immportInner(f, null);
 					}
 					if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
 						attachService.importSupplierAttach(f);
@@ -610,6 +616,41 @@ public class SynchImportController {
 						}
 					}
 				}
+
+				// 公示供应商
+				if(synchType.contains(Constant.SYNCH_PUBLICITY_SUPPLIER)){
+					for (File file2 : f.listFiles()){
+						if(file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)){
+							innerSupplierService.immportInner(file2, "publicity");
+						}
+					}
+					if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
+						attachService.importSupplierAttach(f);
+					}
+					if (f.isDirectory()) {
+						if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)) {
+							OperAttachment.moveFolder(f);
+						}
+					}
+				}
+
+                // 公示专家
+                if(synchType.contains(Constant.SYNCH_PUBLICITY_EXPERT)){
+                    for (File file2 : f.listFiles()){
+                        if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME)) {
+                            innerExpertService.importExpOfPublicity(file2);
+                        }
+                    }
+
+                    if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {
+                        attachService.importExpertAttach(f);
+                    }
+                    if (f.isDirectory()) {
+                        if (f.getName().equals(Constant.ATTCH_FILE_EXPERT)) {
+                            OperAttachment.moveFolder(f);
+                        }
+                    }
+                }
 				
 				 /**目录资质关联表*/
 				categoryService.importCategoryQua(synchType,f);

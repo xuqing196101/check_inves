@@ -5,6 +5,7 @@
 
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertAudit/merge_jump.js"></script>
 		<!-- <script type="text/javascript">
 
 		function initTree(){
@@ -143,6 +144,10 @@
 		</script> -->
 		<script type="text/javascript">
 			$(function(){
+                // 导航栏显示
+                $("#reverse_of_three").attr("class","active");
+                $("#reverse_of_three").removeAttr("onclick");
+
 				var expertId = $("#expertId").val();
 				var mat = $("#mat").val();
 				var eng = $("#eng").val();
@@ -193,89 +198,73 @@
 			};   
 			
 			function reason(firstNode, secondNode, thirdNode, fourthNode, id) {
-				var auditContent;
-				var auditField;
-				var expertId = $("#expertId").val();
-				if(fourthNode != null && fourthNode !=""){
-					auditContent = fourthNode + "目录信息";
-					auditField = fourthNode;
-				}else if(thirdNode !=null && thirdNode!=""){
-					auditContent = thirdNode + "目录信息";
-					auditField = thirdNode;
-				}else if(secondNode !=null && secondNode !=""){
-					auditContent = secondNode + "目录信息";
-					auditField = secondNode;
-				}else{
-					auditContent = firstNode + "目录信息";
-					auditField = firstNode;
-				}
-				
-				function trim(str){ //删除左右两端的空格
-				return str.replace(/(^\s*)|(\s*$)/g, "");
-				}
-				
-				var index = layer.prompt({
-						title: '请填写不通过的理由：',
-						formType: 2,
-						offset: '100px',
-						 maxlength : '50'
-					},
-					function(text) {
-						var text = trim(text);
-				  	if(text != null && text !=""){
-								$.ajax({
-									url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
-									type: "post",
-									data: {
-										"suggestType": "six",
-										"auditReason": text,
-										"expertId": expertId,
-										"auditField": auditField,
-										"auditContent": auditContent,
-										"auditFieldId": id
-									},
-									dataType: "json",
-									success: function(result) {
-										result = eval("(" + result + ")");
-										if(result.msg == "fail") {
-											layer.msg('该条信息已审核过！', {
-												shift: 6, //动画类型
-												offset: '300px'
-											});
+				var status = ${status};
+        var sign = $("input[name='sign']").val();
+        //只能审核可以审核的状态
+        if(status ==-2 || status == -3 || status == 0 || (sign ==2 && status ==1) || status ==6){
+					var auditContent;
+					var auditField;
+					var expertId = $("#expertId").val();
+					if(fourthNode != null && fourthNode !=""){
+						auditContent = fourthNode + "目录信息";
+						auditField = fourthNode;
+					}else if(thirdNode !=null && thirdNode!=""){
+						auditContent = thirdNode + "目录信息";
+						auditField = thirdNode;
+					}else if(secondNode !=null && secondNode !=""){
+						auditContent = secondNode + "目录信息";
+						auditField = secondNode;
+					}else{
+						auditContent = firstNode + "目录信息";
+						auditField = firstNode;
+					}
+					
+					function trim(str){ //删除左右两端的空格
+					return str.replace(/(^\s*)|(\s*$)/g, "");
+					}
+					
+					var index = layer.prompt({
+							title: '请填写不通过的理由：',
+							formType: 2,
+							offset: '100px',
+							 maxlength : '50'
+						},
+						function(text) {
+							var text = trim(text);
+					  	if(text != null && text !=""){
+									$.ajax({
+										url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
+										type: "post",
+										data: {
+											"suggestType": "six",
+											"auditReason": text,
+											"expertId": expertId,
+											"auditField": auditField,
+											"auditContent": auditContent,
+											"auditFieldId": id
+										},
+										dataType: "json",
+										success: function(result) {
+											result = eval("(" + result + ")");
+											if(result.msg == "fail") {
+												layer.msg('该条信息已审核过！', {
+													shift: 6, //动画类型
+													offset: '300px'
+												});
+											}
 										}
-									}
-								});
-								$("#" + id + "_hidden").hide();
-								$("#" + id + "_show").show();
-								layer.close(index);
-						}else{
-							layer.msg('不能为空！', {offset:'100px'});
-						}
-					});
+									});
+									$("#" + id + "_hidden").hide();
+									$("#" + id + "_show").show();
+									layer.close(index);
+							}else{
+								layer.msg('不能为空！', {offset:'100px'});
+							}
+						});
+					}
 				}
 		</script>
 		<script type="text/javascript">
-			function jump(str) {
-				var action;
-				if(str == "basicInfo") {
-					action = "${pageContext.request.contextPath}/expertAudit/basicInfo.html";
-				}
-				if(str == "experience") {
-					action = "${pageContext.request.contextPath}/expertAudit/experience.html";
-				}
-				if(str == "expertType") {
-					action = "${pageContext.request.contextPath}/expertAudit/expertType.html";
-				}
-				if(str == "expertFile") {
-					action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
-				}
-				if(str == "reasonsList") {
-					action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
-				}
-				$("#form_id").attr("action", action);
-				$("#form_id").submit();
-			}
-
 			//下一步
 			function nextStep() {
 				var action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
@@ -349,31 +338,7 @@
 		<div class="container container_box">
 			<div class=" content">
 				<div class="col-md-12 tab-v2 job-content">
-					<ul class="flow_step">
-						<li onclick="jump('basicInfo')">
-							<a aria-expanded="false" data-toggle="tab">基本信息</a>
-							<i></i>
-						</li>
-						<!-- <li onclick="jump('experience')">
-							<a aria-expanded="false" data-toggle="tab">经历经验</a>
-							<i></i>
-						</li> -->
-						<li onclick="jump('expertType')">
-							<a aria-expanded="false" data-toggle="tab">专家类别</a>
-							<i></i>
-						</li>
-						<li class="active">
-							<a aria-expanded="false" data-toggle="tab">产品类别</a>
-							<i></i>
-						</li>
-						<li onclick="jump('expertFile')">
-							<a aria-expanded="false" data-toggle="tab">承诺书和申请表</a>
-							<i></i>
-						</li>
-						<li onclick="jump('reasonsList')">
-							<a aria-expanded="false" data-toggle="tab">审核汇总</a>
-						</li>
-					</ul>
+					<%@include file="/WEB-INF/view/ses/ems/expertAudit/common_jump.jsp" %>
 					<div class="padding-top-10">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab hand">
 							<c:set value="0" var="liCount" />
@@ -459,8 +424,10 @@
 							<div id="pagediv" align="right" class="mb50"></div>
 					</div>
 					<div class="col-md-12 add_regist tc">
-					  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
 						<a class="btn" type="button" onclick="lastStep();">上一步</a>
+						<c:if test="${status == 0 || (sign ==2 && status ==1) || status ==6}">
+	            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+	          </c:if>
 						<a class="btn" type="button" onclick="nextStep();">下一步</a>
 					</div>
 				</div>
@@ -471,6 +438,7 @@
 			<input name="expertId" value="${expertId}" type="hidden">
 			<input name="sign" value="${sign}" type="hidden">
 		</form>
+        <input id="status" value="${status}" type="hidden">
 	</body>
 
 </html>

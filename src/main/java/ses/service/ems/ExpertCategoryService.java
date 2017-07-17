@@ -1,11 +1,11 @@
 package ses.service.ems;
 
-import java.util.List;
-import java.util.Map;
-
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertCategory;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -85,8 +85,39 @@ public interface ExpertCategoryService {
 	List<ExpertCategory> selectListByExpertId(String expertId);
 	
     List<ExpertCategory> getListCategory(String expertId,String categoryId, String typeId);
-	
-	
-	
+
+    /**
+     *
+     * Description:查询专家审核通过的类型
+     *
+     * @author Easong
+     * @version 2017/7/7
+     * @param
+     * @since JDK1.7
+     */
+
+	List<String> selectCateByExpertId(String expertId);
+    /**
+     *
+     * Description:查询专家审核通过的类型
+     *
+     * @author Easong
+     * @version 2017/7/7
+     * @param
+     * @since JDK1.7
+     */
+	List<ExpertCategory> selectPassCateByExpertId(String expertId, String typeId, Integer pageNum);
+
+	/**
+	 *
+	 * Description:保存专家选择的类型（小类）
+	 *
+	 * @author Easong
+	 * @version 2017/7/7
+	 * @param expertCategory
+	 * @since JDK1.7
+	 */
+	void insertSelective(ExpertCategory expertCategory);
+
 
 }

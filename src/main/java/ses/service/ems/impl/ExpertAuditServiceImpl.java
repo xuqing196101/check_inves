@@ -1,11 +1,10 @@
 package ses.service.ems.impl;
 
-import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.github.pagehelper.PageHelper;
+import common.constant.StaticVariables;
+import common.utils.DateUtils;
+import common.utils.JdcgResult;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -13,12 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import com.github.pagehelper.PageHelper;
-
-import common.constant.StaticVariables;
-import common.utils.DateUtils;
-import common.utils.JdcgResult;
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertCategoryMapper;
@@ -30,12 +23,18 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertPublicity;
-import ses.model.sms.Supplier;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertService;
+import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
+
+import java.io.File;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * <p>Title:ExpertAuditServiceImpl </p>
  * <p>Description: 专家审核</p>
@@ -437,6 +436,8 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		return JdcgResult.ok();
 	}
 	
+
+
 	/**
 	 * 
 	 * Description:查询公示专家，公示7天后自动入库
@@ -455,7 +456,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	        for (Expert expert : list) {
 	            // 将公示7天的拟入库供应商入库 
 	            // 获取七天后的今天
-	            String afterDateString = DateUtils.getDateOfFormat(DateUtils.addDayDate(expert.getUpdatedAt(), 7));
+	            String afterDateString = DateUtils.getDateOfFormat(DateUtils.addDayDate(expert.getAuditAt(), 7));
 	            if(nowDateString.equals(afterDateString)){
 	                // 审核通过，自动入库
 	            	expert.setStatus("4");
@@ -481,7 +482,6 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		// 查询公示专家列表
 		ExpertPublicity expertPublicityQuery = (ExpertPublicity) map.get("expertPublicity");
 		List<ExpertPublicity> list = expertMapper.selectExpByPublictyList(expertPublicityQuery);
-		Map<String, Object> selectMap = new HashMap<>();
 		StringBuffer sb = new StringBuffer();
 		if(list != null && !list.isEmpty()){
 			for (ExpertPublicity expertPublicity : list) {
@@ -507,19 +507,97 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 				}else{
 					expertPublicity.setExpertsTypeId("");
 				}
-				// 封装改专家选择了多少小类目录，通过了多少小类目录
-				// 通过审核数量
-				Integer passCount = expertCategoryMapper.selectRegExpCateCount(expertPublicity.getId());
-				expertPublicity.setPassCateCount(passCount);
-				// 未通过审核数量
-				selectMap.put("expertId", expertPublicity.getId());
-				selectMap.put("regType", "six");
-				Integer noPassCount = expertAuditMapper.selectRegExpCateCount(selectMap);
-				expertPublicity.setNoPassCateCount(noPassCount);
+				selectChooseOrNoPassCateOfDB(expertPublicity);
+
 			}
 		}
 		return list;
 	}
-	
-	
+
+	private ExpertPublicity selectChooseOrNoPassCateOfDB(ExpertPublicity expertPublicity) {
+		/**
+		 *
+		 * Description:查询选择和未通过的小类
+		 *
+		 * @author Easong
+		 * @version 2017/7/13
+		 * @param [expertPublicity]
+		 * @since JDK1.7
+		 */
+		Map<String, Object> selectMap = new HashMap<>();
+		// 封装改专家选择了多少小类目录，通过了多少小类目录
+		// 通过审核数量
+		Integer passCount = expertCategoryMapper.selectRegExpCateCount(expertPublicity.getId());
+		expertPublicity.setPassCateCount(passCount);
+		// 未通过审核数量
+		selectMap.put("expertId", expertPublicity.getId());
+		selectMap.put("regType", "six");
+		Integer noPassCount = expertAuditMapper.selectRegExpCateCount(selectMap);
+		expertPublicity.setNoPassCateCount(noPassCount);
+		return expertPublicity;
+	}
+
+	@Override
+	public ExpertPublicity selectChooseOrNoPassCate(ExpertPublicity expertPublicity) {
+		/**
+		 *
+		 * Description:查询选择和未通过的小类
+		 *
+		 * @author Easong
+		 * @version 2017/7/13
+		 * @param [expertPublicity]
+		 * @since JDK1.7
+		 */
+		return this.selectChooseOrNoPassCateOfDB(expertPublicity);
+	}
+
+	@Override
+	public JdcgResult selectAndVertifyAuditItem(String expertId) {
+		/**
+		 *
+		 * Description:审核前判断是否有通过项和未通过项--是否符合通过要求
+		 *
+		 * @author Easong
+		 * @version 2017/7/14
+		 * @param [expertId]
+		 * @since JDK1.7
+		 */
+        // 判断基本信息是否存在审核未通过项
+        Map<String, Object> map = new HashedMap();
+        map.put("expertId",expertId);
+        map.put("regType", Constant.EXPERT_BASIC_INFO_ITEM_FLAG);
+        Integer count;
+        // 定义选择类型数量
+        Integer selectCount;
+        count = expertAuditMapper.selectRegExpCateCount(map);
+        if(count != null && count > 0){
+            return JdcgResult.build(500, "基本信息中有不通过项");
+        }
+
+        // 判断专家类型和产品类别分别不能有全不通过项
+        // 获取专家选择品目的类型
+        map.put("regType", Constant.EXPERT_CATE_INFO_ITEM_FLAG);
+        count = expertAuditMapper.selectRegExpCateCount(map);
+        Expert expert = expertMapper.selectByPrimaryKey(expertId);
+        if(expert != null && expert.getExpertsTypeId() != null){
+            String[] split = expert.getExpertsTypeId().split(",");
+            selectCount = split.length;
+            if(count != null && (selectCount - count) <= 0){
+                return JdcgResult.build(500, "类别不能全部为不通过项");
+            }
+        }
+
+        // 判断产品类别
+        ExpertPublicity expertPublicity = new ExpertPublicity();
+        expertPublicity.setId(expertId);
+        ExpertPublicity expertPublicityAfter = this.selectChooseOrNoPassCate(expertPublicity);
+        // 获取选择的产品类别数量
+        selectCount = expertPublicityAfter.getPassCateCount();
+        count = expertPublicityAfter.getNoPassCateCount();
+        if(count != null && selectCount != null && (selectCount - count) <= 0){
+            return JdcgResult.build(500, "产品类别不能全部为不通过项");
+        }
+        return JdcgResult.ok();
+	}
+
 }

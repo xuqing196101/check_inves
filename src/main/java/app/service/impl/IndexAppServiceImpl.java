@@ -187,7 +187,10 @@ public class IndexAppServiceImpl implements IndexAppService{
         File glisteningFile = new File(glisteningPath+"/"+articleDetail.getId()+".jpg");
         UploadUtil.createDir(filePath);
         UploadUtil.createDir(glisteningPath);
-        String proWaterPath = request.getSession().getServletContext().getRealPath("/")+"/proWatermark/shuiyin.png";
+        String PATH_CLASS_ROOT = this.getClass().getClassLoader().getResource("").getPath();    
+    	/*项目根路径*/  
+    	String ROOT_Path = PATH_CLASS_ROOT.substring(0,PATH_CLASS_ROOT.length() - "WEB-INF\\classes\\".length());
+        String proWaterPath = ROOT_Path+"/proWatermark/shuiyin.png";
         File stagingFile = new File(filePath);
         File glisFile = new File(glisteningPath);
         //判读图片是否存在

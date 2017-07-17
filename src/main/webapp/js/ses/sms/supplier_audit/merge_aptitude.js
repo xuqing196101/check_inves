@@ -39,6 +39,22 @@ function jump(str) {
     if (str == "supplierType") {
         action = globalPath + "/supplierAudit/supplierType.html";
     }
+    if (str == "uploadApproveFile") {
+        if(status == -2 || status == -3 || status == 3){
+            tempSave(1);
+            return;
+        }
+        action = globalPath + "/supplierAudit/uploadApproveFile.html";
+    }
     $("#form_id").attr("action", action);
     $("#form_id").submit();
 }
+var status;
+$(function () {
+    status = $("#status").val();
+    // 预审核结束状态
+    if(status == -2 || status == -3 || status == 3){
+        $("#reverse_of_seven_i").show();
+        $("#reverse_of_eight").show();
+    }
+})

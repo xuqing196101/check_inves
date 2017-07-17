@@ -93,4 +93,26 @@ public interface ExpertCategoryMapper {
 	 * @return
 	 */
 	Integer selectRegExpCateCount(@Param("expertId") String expertId);
+
+	/**
+	 *
+	 * Description:查询专家审核通过的类型
+	 *
+	 * @author Easong
+	 * @version 2017/7/7
+	 * @param  map
+	 * @since JDK1.7
+	 */
+
+	List<String> selectCateByExpertId(Map<String,Object> map);
+	/**
+	 *
+	 * Description:查询专家审核通过的类型
+	 *
+	 * @author Easong
+	 * @version 2017/7/7
+	 * @param  map
+	 * @since JDK1.7
+	 */
+	List<ExpertCategory> selectPassCateByExpertId(Map<String,Object> map);
 }

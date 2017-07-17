@@ -152,5 +152,37 @@ public interface SupplierItemMapper {
 	 * @return
 	 */
 	List<String> findSupplierTypeBySupplierId(@Param("supplierId")String supplierId);
-    
+
+	/**
+	 *
+	 * Description:查询供应商选择的小类节点
+	 *
+	 * @author Easong
+	 * @version 2017/7/6
+	 * @param supplierId
+	 * @since JDK1.7
+	 */
+	List<SupplierItem> selectRegSupCateOfLastNode(@Param("supplierId")String supplierId);
+
+	/**
+	 *
+	 * Description:查询供应商审核通过的产品类别
+	 *
+	 * @author Easong
+	 * @version 2017/7/7
+	 * @param map
+	 * @since JDK1.7
+	 */
+	List<String> findPassSupplierTypeBySupplierId(Map<String,Object> map);
+
+	/**
+	 *
+	 * Description:查询供应商审核通过的产品类别列表
+	 *
+	 * @author Easong
+	 * @version 2017/7/7
+	 * @param map
+	 * @since JDK1.7
+	 */
+	List<SupplierItem> selectPassItemByCond(Map<String,Object> map);
 }

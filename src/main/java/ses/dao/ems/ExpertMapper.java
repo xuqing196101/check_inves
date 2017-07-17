@@ -1,18 +1,17 @@
 package ses.dao.ems;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Param;
-
 import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertHistory;
 import ses.model.ems.ExpertPublicity;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public interface ExpertMapper {
@@ -383,4 +382,15 @@ public interface ExpertMapper {
      * @return
      */
     List<ExpertPublicity> selectExpByPublictyList(ExpertPublicity expertPublicity);
+
+    /**
+     *
+     * Description:查询公示专家导出外网
+     *
+     * @author Easong
+     * @version 2017/7/9
+     * @param
+     * @since JDK1.7
+     */
+    List<Expert> selectExpByPublictyOfExport(Map<String, Object> map);
 }
