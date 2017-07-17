@@ -241,6 +241,7 @@
      	if(errorField.indexOf(treeNode.id) >= 0){
      		return true;
      	}
+     	layer.msg("此节点已通过审核，不能修改!");
      	layer.close(loading);
      	return false;
 		}
