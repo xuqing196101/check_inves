@@ -160,6 +160,11 @@ public class ProjectSupervisionController {
                         list.get(i).setAppointMan(users.getRelName());
                     }
                 }
+                
+                DictionaryData findById = DictionaryDataUtil.findById(list.get(i).getStatus());
+                if("YJFB".equals(findById.getCode())){
+                	list.get(i).setLinkman("1");
+                }
             }
             model.addAttribute("info", new PageInfo<Project>(list));
             model.addAttribute("kind", DictionaryDataUtil.find(5));// 获取数据字典数据
@@ -183,14 +188,18 @@ public class ProjectSupervisionController {
         if(StringUtils.isNotBlank(id)){
             Project project = projectService.selectById(id);
             if(project != null){
-                 //项目状态
-            	 String projectStatus = supervisionService.progressBarProject(project.getStatus());
-            	 //合同状态
-            	 Integer contractStatus = projectSupervisionService.contractStatus(project.getId());
+                //项目状态
+            	DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+            	if(!"YJFB".equals(findById.getCode())){
+            		String projectStatus = supervisionService.progressBarProject(project.getStatus());
+            		model.addAttribute("projectStatus", Integer.valueOf(projectStatus));
+            	}
             	 
-                 model.addAttribute("projectStatus", Integer.valueOf(projectStatus));
-                 model.addAttribute("contractStatus", contractStatus);
-                 model.addAttribute("project", project);
+            	//合同状态
+            	Integer contractStatus = projectSupervisionService.contractStatus(project.getId());
+            	 
+                model.addAttribute("contractStatus", contractStatus);
+                model.addAttribute("project", project);
             }
         }
     	return "sums/ss/projectSupervision/schedule_view";

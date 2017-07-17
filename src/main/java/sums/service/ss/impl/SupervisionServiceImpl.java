@@ -14,6 +14,7 @@ import bss.dao.pms.CollectPlanMapper;
 import bss.dao.pms.PurchaseDetailMapper;
 import bss.dao.ppms.AdvancedDetailMapper;
 import bss.dao.ppms.AdvancedProjectMapper;
+import bss.dao.ppms.PackageMapper;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
 import bss.dao.ppms.ProjectTaskMapper;
@@ -26,6 +27,7 @@ import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
@@ -76,6 +78,9 @@ public class SupervisionServiceImpl implements SupervisionService {
     @Autowired
     private ProjectTaskMapper projectTaskMapper;
     
+    @Autowired
+    private PackageMapper packageMapper;
+    
     @Override
     public String[] progressBar(String id, String projectId) {
         String[] progressBar = null;
@@ -92,8 +97,14 @@ public class SupervisionServiceImpl implements SupervisionService {
                     PurchaseContract purchaseContract = contractMapper.selectContractByid(contractRequireds.get(0).getContractId());
                     progressBar = progressBars(String.valueOf(purchaseContract.getStatus()),purchaseContract.getId());
                 } else {
-                    Project project = projectMapper.selectProjectByPrimaryKey(selectById.get(0).getProject().getId());
-                    progressBar = progressBars(project.getStatus(),id);
+                	if(StringUtils.isBlank(selectById.get(0).getPackageId())){
+                		Project project = projectMapper.selectProjectByPrimaryKey(selectById.get(0).getProject().getId());
+                        progressBar = progressBars(project.getStatus(),id);
+                	} else {
+                		Packages packages = packageMapper.selectByPrimaryKeyId(selectById.get(0).getPackageId());
+                		progressBar = progressBars(packages.getProjectStatus(),id);
+                	}
+                    
                 }
             } else {
                 PurchaseDetail detail = purchaseDetailMapper.selectByPrimaryKey(id);
@@ -225,7 +236,7 @@ public class SupervisionServiceImpl implements SupervisionService {
             List<PqInfo> selectByContract = pqInfoMapper.selectByContract(map);
             if(selectByContract != null && selectByContract.size() > 0){
                 if("合格".equals(selectByContract.get(0).getConclusion())){
-                    int one = 38;
+                    //int one = 38;
                     num = "100";
                     name = "质检合格";
                 }
