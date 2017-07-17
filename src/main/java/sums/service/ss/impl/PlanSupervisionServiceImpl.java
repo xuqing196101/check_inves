@@ -324,19 +324,32 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
         map.put("collectId", id);
         List<Task> listBycollect = taskMapper.listBycollect(map);
         List<String> status = new ArrayList<String>();
+        List<Project> projectList = new ArrayList<Project>();
         if(listBycollect != null && listBycollect.size() > 0){
             for (Task task : listBycollect) {
                 map.put("taskId", task.getId());
                 List<ProjectTask> projectTasks = projectTaskMapper.queryByNo(map);
                 for (ProjectTask projectTask : projectTasks) {
-                    Project project = projectMapper.selectProjectByPrimaryKey(projectTask.getProjectId());
-                    if(project != null && !"4".equals(project.getStatus())){
-                        String projectStatus = supervisionService.progressBarProject(project.getStatus());
-                        String proStatus = projectStatus + ".00";
-                        status.add(proStatus);
-                    }
+                	HashMap<String, Object> hashMap = new HashMap<>();
+                	hashMap.put("parentId", projectTask.getProjectId());
+                	List<Project> selectByList = projectMapper.selectByList(hashMap);
+                	if(selectByList != null && selectByList.size() > 0){
+                		projectList.addAll(selectByList);
+                	}
                 }
             }
+        }
+        if(projectList != null && projectList.size() > 0){
+        	for (Project project : projectList) {
+                if(project != null && !"4".equals(project.getStatus())){
+                	DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                	if(!"YJFB".equals(findById.getCode())){
+                		String projectStatus = supervisionService.progressBarProject(project.getStatus());
+                        String proStatus = projectStatus + ".00";
+                        status.add(proStatus);
+                	}
+                }
+			}
         }
         if(status != null && status.size() > 0){
             Integer num = 0;
