@@ -299,7 +299,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>名称：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="name" name="productBasic.name" value='${pqinfo.place}' type="text">
+                <input id="name" name="productBasic.name" maxlength="660" value='${pqinfo.place}' type="text">
                 <span class="add-on">i</span>
                 <span class="input-tip">名称</span>
                 <div class="cue" id="err_name"></div>
@@ -319,7 +319,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>品牌：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="brand" class="span5" name="productBasic.brand"  type="text">
+                <input id="brand" class="span5" name="productBasic.brand" maxlength="660" type="text">
                 <span class="add-on">i</span>
                 <span class="input-tip">输入品牌</span>
                 <div class="cue" id="err_brand"></div>
@@ -329,7 +329,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>型号：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="typeNum" name="productBasic.typeNum" value='${pqinfo.inspectors}' type="text">
+                <input id="typeNum" maxlength="660" name="productBasic.typeNum" value='${pqinfo.inspectors}' type="text">
                 <span class="add-on">i</span>
                 <span class="input-tip">型号</span>
                 <div class="cue" id="err_typeNum"></div>
@@ -338,7 +338,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>库存：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="store" name="productBasic.store" value='${pqinfo.inspectors}' type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+                <input id="store" maxlength="19" name="productBasic.store" value='${pqinfo.inspectors}' type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" />
                 <span class="add-on">i</span>
                 <span class="input-tip">库存</span>
                 <div class="cue" id="err_store"></div>
@@ -347,7 +347,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>SKU：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="sku" name="productBasic.sku" type="text" />
+                <input id="sku" maxlength="33" name="productBasic.sku" type="text" />
                 <span class="add-on">i</span>
                 <span class="input-tip">SKU</span>
                 <div class="cue" id="err_sku"></div>
@@ -376,7 +376,7 @@
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red"></div>包装清单：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                <textarea class="h80 col-md-12 col-sm-12 col-xs-12 " name="smsProductInfo.detailList" title="" placeholder="" ></textarea>
+                <textarea class="h80 col-md-12 col-sm-12 col-xs-12 " maxlength="1000" name="smsProductInfo.detailList" title="" placeholder="" ></textarea>
               </div>
               <div class="clear red"></div>
             </li>

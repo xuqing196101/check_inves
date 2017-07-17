@@ -540,10 +540,14 @@ public class FirstAuditController {
    * @return
    */
   @RequestMapping("/loadOtherPackage")
-  public String loadOtherPackage(Model model, Integer page, Packages packages, String oldPackageId, String oldProjectId, String flowDefineId){
-      List<Packages> list = packageService.findPackageByPage(packages, page == null ? 1 : page);
+  public String loadOtherPackage(Model model, Integer page,String projectName, String packageName, String oldPackageId, String oldProjectId, String flowDefineId){
+      HashMap<String, Object> map = new HashMap<String, Object>();
+      map.put("projectName", projectName);
+      map.put("packageName", packageName);
+      List<Packages> list = packageService.findPackage(map, page == null ? 1 : page);
       model.addAttribute("list", new PageInfo<Packages>(list));
-      model.addAttribute("packages", packages);
+      model.addAttribute("projectName", projectName);
+      model.addAttribute("packageName", packageName);
       model.addAttribute("oldPackageId", oldPackageId);
       model.addAttribute("oldProjectId", oldProjectId);
       model.addAttribute("flowDefineId", flowDefineId);

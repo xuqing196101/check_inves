@@ -106,4 +106,15 @@ public interface ExpertBlackListMapper {
 	List<ExpertBlackListVO> selectExpertBlacklist(
 		@Param("expertBlacklist")ExpertBlackList expertBlacklist,
 		@Param("expertTypeId")String expertTypeId);
+	
+	/**
+	 * 
+	 * Description: 查询首页专家黑名单
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年7月12日
+	 * @param 
+	 * @return
+	 */
+	List<ExpertBlackList> findIndexList(ExpertBlackList expertBlackList);
 }

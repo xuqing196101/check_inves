@@ -99,12 +99,17 @@ public class AfterSaleSerController extends BaseSupplierController{
         Map<String,Object> map = new HashMap<String, Object>();
         map.put("page", page);
     	 List<AfterSaleSer> AfterSaleSers = afterSaleSerService.getAll(map);
-    	 for(AfterSaleSer after:AfterSaleSers){
-    		 ContractRequired selectConRequByPrimaryKey = contractRequiredService.selectConRequByPrimaryKey(after.getRequiredId());
-    		 PurchaseContract selectById = purchaseContractService.selectById(selectConRequByPrimaryKey.getContractId());
-    		 after.setContractCode(selectById.getCode());
-    		 after.setMoney(selectById.getMoney());
-    		 after.setRequiredId(selectConRequByPrimaryKey.getGoodsName());
+    	 if(null!=AfterSaleSers && !AfterSaleSers.isEmpty()){
+	    	 for(AfterSaleSer after:AfterSaleSers){
+	    		 ContractRequired selectConRequByPrimaryKey = contractRequiredService.selectConRequByPrimaryKey(after.getRequiredId());
+	    		 if(selectConRequByPrimaryKey==null){
+	    			 continue;
+	    		 }
+	    		 PurchaseContract selectById = purchaseContractService.selectById(selectConRequByPrimaryKey.getContractId());
+	    		 after.setContractCode(selectById.getCode());
+	    		 after.setMoney(selectById.getMoney());
+	    		 after.setRequiredId(selectConRequByPrimaryKey.getGoodsName());
+	    	 }
     	 }
     	 PageInfo<AfterSaleSer> list = new PageInfo<AfterSaleSer>(AfterSaleSers);
     	 model.addAttribute("list", list);

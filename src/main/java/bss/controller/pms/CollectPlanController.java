@@ -246,7 +246,7 @@ public class CollectPlanController extends BaseController {
 			}
 					BigDecimal budget=BigDecimal.ZERO;
 					for(PurchaseRequired pr:list){
-						if(pr.getSeq().equals("一")){
+						if("一".equals(pr.getSeq())){
 							budget=budget.add(pr.getBudget()==null?new BigDecimal(0):pr.getBudget());
 						}
 //						if(pr.getPurchaseCount()!=null){

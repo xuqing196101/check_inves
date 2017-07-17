@@ -10,7 +10,7 @@
 	.current{
 		cursor:pointer;
 	}
-	</style>
+</style>
 <script type="text/javascript">
 	var zTreeObj;
 	var zNodes;
@@ -241,6 +241,7 @@
      	if(errorField.indexOf(treeNode.id) >= 0){
      		return true;
      	}
+     	layer.msg("此节点已通过审核，不能修改!");
      	layer.close(loading);
      	return false;
 		}
@@ -522,10 +523,22 @@
 		$("a[title='" + treeNode.name + "']").next("ul").removeAttr("style");
 	}
 	
-	function searchCate(cateId, treeId,type,seq, code) {
+	function searchCate(cateId, treeId, type, seq, code) {
 		var zNodes;
 		var zTreeObj;
 		var setting = {
+			async : {
+        autoParam: ["id","code"],
+        enable : true,
+        url : "${pageContext.request.contextPath}/supplier/category_type.do",
+        otherParam : {
+        "code" : code,
+        "supplierId" : "${currSupplier.id}",
+        "status" : seq
+        },
+        dataType : "json",
+        type : "post",
+      },
 			check : {
 				enable : true,
 				chkStyle:"checkbox",  
@@ -569,6 +582,15 @@
 						zNodes = data;
 						zTreeObj = $.fn.zTree.init($("#" + treeId), setting, zNodes);
 						zTreeObj.expandAll(true);//全部展开
+						// 如果搜索到的最后一个节点是父节点，折叠最后一个节点
+						var allNodes = zTreeObj.transformToArray(zTreeObj.getNodes());
+						if(allNodes && allNodes.length > 0){
+							// 最后一个节点
+							var lastNode = allNodes[allNodes.length-1];
+							if(lastNode.isParent){
+								zTreeObj.expandNode(lastNode, false);//折叠最后一个节点
+							}
+						}
 					}
 					// 关闭加载中的菊花图标
 					layer.close(loading);

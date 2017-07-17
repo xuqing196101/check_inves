@@ -8,6 +8,7 @@ import java.util.Map;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
+import ses.model.oms.util.Ztree;
 
 /**
  * Description: 用户业务接口
@@ -356,4 +357,25 @@ public interface UserServiceI {
    * @return
    */
   Boolean ajaxOfficerCertNo(String officerCertNo, String id);
+
+  /**
+   *〈简述〉获取机构树
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param orgType 
+   * @param typeNameId 
+   * @param user 
+   * @return
+   */
+  List<Ztree> getOrgTree(User user, String typeNameId, String orgType);
+
+  /**
+   *〈简述〉查询后台用户列表(不包括专家和供应商)
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param user
+   * @param i
+   * @return
+   */
+  List<User> queryBackendUser(User user, int i);
 }

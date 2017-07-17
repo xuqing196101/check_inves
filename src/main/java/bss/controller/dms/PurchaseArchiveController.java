@@ -3,33 +3,6 @@
  */
 package bss.controller.dms;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
-import common.constant.Constant;
-import common.model.UploadFile;
-import common.service.DownloadService;
-import common.service.UploadService;
-
 import bss.model.cs.PurchaseContract;
 import bss.model.dms.ArchiveBorrow;
 import bss.model.dms.ProbationaryArchive;
@@ -40,13 +13,37 @@ import bss.service.dms.ArchiveBorrowServiceI;
 import bss.service.dms.ProbationaryArchiveServiceI;
 import bss.service.dms.PurchaseArchiveServiceI;
 import bss.service.ppms.ProjectService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.DownloadService;
+import common.service.UploadService;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseInfo;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Title:PurchaseArchiveController
@@ -76,6 +73,9 @@ public class PurchaseArchiveController extends BaseSupplierController{
 	
 	@Autowired
 	private PurchaseContractService contractService;
+
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
 
 	
 	/**
@@ -235,7 +235,7 @@ public class PurchaseArchiveController extends BaseSupplierController{
 			map.put("relName",name);
 		}
 		if(depName!=null&&!depName.equals("")){
-			map.put("purchaseDepName",depName);
+			map.put("purchaseDepId",depName);
 		}
 		if(page==null){
 			page = 1;
@@ -244,9 +244,12 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<PurchaseInfo> purList = purchaseService.findPurchaseList(map);
-		model.addAttribute("name", name);
+		// 查询所有采购机构
+        List<Orgnization> purchaseOrgList = orgnizationServiceI.findPurchaseOrgByPosition(null);
+        model.addAttribute("name", name);
 		model.addAttribute("depName", depName);
 		model.addAttribute("purchaseList", new PageInfo<PurchaseInfo>(purList));
+		model.addAttribute("purchaseOrgList", purchaseOrgList);
 		return "bss/dms/purchaseArchive/authorize";
 	}
 

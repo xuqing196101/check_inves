@@ -104,6 +104,7 @@ import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.JdcgResult;
+import common.utils.ListSortUtil;
 
 /**
  * <p>Title:SupplierAuditController </p>
@@ -447,6 +448,28 @@ public class SupplierAuditController extends BaseSupplierController {
 		//文件
 		if(supplierId != null) {
 			List < SupplierFinance > supplierFinance = supplierService.get(supplierId).getListSupplierFinances();
+			
+			/**
+			 * 只要近三年财务
+			 */
+			if(supplierFinance != null && supplierFinance.size() > 0){
+				// 排序
+				ListSortUtil<SupplierFinance> sortList = new ListSortUtil<SupplierFinance>();
+				sortList.sort(supplierFinance, "year", "asc");
+				// 如果近三年财务信息超过三年，则取最近三年
+				if(supplierFinance.size() > 3){
+					Iterator<SupplierFinance> it = supplierFinance.iterator();
+					int i = supplierFinance.size();
+					while(it.hasNext()){
+						it.next();
+						if(i > 3){
+							it.remove();
+						}
+						i--;
+					}
+				}
+			}
+			
 			request.setAttribute("financial", supplierFinance);
 		}
 
@@ -2124,7 +2147,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("state", status);
 		request.setAttribute("businessNature", supplier.getBusinessNature());
 		request.setAttribute("auditDate", supplier.getAuditDate());
-
+		request.setAttribute("addressName", supplier.getAddressName());
 		//审核、复核、实地考察的标识
 		request.setAttribute("sign", supplier.getSign());
 		request.getSession().setAttribute("signs", supplier.getSign());

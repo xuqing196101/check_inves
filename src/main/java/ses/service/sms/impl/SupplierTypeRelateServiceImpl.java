@@ -17,7 +17,6 @@ import ses.dao.sms.SupplierMatEngMapper;
 import ses.dao.sms.SupplierMatProMapper;
 import ses.dao.sms.SupplierMatSellMapper;
 import ses.dao.sms.SupplierMatServeMapper;
-import ses.dao.sms.SupplierReasonMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;

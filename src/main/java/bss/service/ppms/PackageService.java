@@ -222,4 +222,14 @@ public interface PackageService {
      */
     String merge(String projectId, String id);
 
+    /**
+     *〈简述〉
+     *〈详细描述〉查询包
+     * @author Ye MaoLin
+     * @param map
+     * @param i
+     * @return
+     */
+    List<Packages> findPackage(HashMap<String, Object> map, int i);
+
 }

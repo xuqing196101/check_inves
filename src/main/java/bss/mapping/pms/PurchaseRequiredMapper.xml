@@ -1170,4 +1170,12 @@
     </where>
     ORDER  BY   r.CREATED_AT DESC
   </select>
+
+	<!--查询采购需求文号-->
+	<select id="selectUniqueReferenceNO" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(T.ID)
+			FROM T_BSS_PMS_PURCHASE_REQUIRED T
+		   WHERE T.REFERENCE_NO = #{referenceNO}
+	</select>
+
 </mapper>

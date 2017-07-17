@@ -37,27 +37,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 -->
 
+<style>
+
+@page
+    {mso-page-border-surround-header:no;
+    mso-page-border-surround-footer:no;}
+@page Section1
+    {size:841.9pt 595.3pt;
+    mso-page-orientation:landscape;
+    margin:89.85pt 72.0pt 89.85pt 72.0pt;
+    mso-header-margin:42.55pt;
+    mso-footer-margin:49.6pt;
+    mso-paper-source:0;
+    layout-grid:15.6pt;}
+div.Section1
+    {page:Section1;}
+
+</style>
+
 <%
 
-String fileName = "评审结果.doc"; 
+String fileName = "评审结果"; 
 
 //对中文文件名编码 
-
-fileName = URLEncoder.encode(fileName, "utf-8"); 
-
-byte[] yte = fileName.getBytes("GB2312"); 
-
-String unicoStr = new String(yte, "utf-8");
-
-response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);     
-
+String UserAgent = request.getHeader("USER-AGENT").toLowerCase();  
+String tem="";
+  if (UserAgent != null) {  
+      if (UserAgent.indexOf("msie") >= 0)  
+           tem="IE";  
+      if (UserAgent.indexOf("firefox") >= 0)  
+          tem= "FF";  
+      if (UserAgent.indexOf("safari") >= 0)  
+          tem= "SF";  
+  }
+  if ("FF".equals(tem)) {  
+      // 针对火狐浏览器处理方式不一样了  
+      fileName = new String(fileName.getBytes("UTF-8"),"iso-8859-1") + ".doc";  
+  }else{
+  fileName = URLEncoder.encode(fileName, "UTF-8")+ ".doc";
+  }    
+//对中文文件名编码 
+response.setHeader("Content-disposition", "attachment; filename=" + fileName);     
 %>
 
 </head>
 
 <body>
 
-<div style="width:85%;margin:auto;">
+<div style="width:85%;margin:auto;" class = "Section1">
     <div style="display: block;background: #fff;padding: 1px 10px;margin: 10px 0 10px 20px;border-left: 4px solid #2c9fa6;">
    		<h2>检查数据</h2>
    	</div>
@@ -79,8 +106,8 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
 	   		    </th>
    		    </c:if>
    		  </c:forEach>
-   		  <c:if test="${fn:length(extensions.supplierList)<4}">
-		        <c:forEach begin="1" end="${4-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
+   		  <c:if test="${fn:length(extensions.supplierList)<8}">
+		        <c:forEach begin="1" end="${8-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
 		            <th width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">
 		            </th>
 		         </c:forEach>
@@ -112,8 +139,8 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
 		                </c:if> 
 		                </td>
 		              </c:forEach>
-		              <c:if test="${fn:length(extensions.supplierList)<4}">
-		                 <c:forEach begin="1" end="${4-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
+		              <c:if test="${fn:length(extensions.supplierList)<8}">
+		                 <c:forEach begin="1" end="${8-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
 		                 <td width="120" style="border: 1px solid #ddd;padding: 5px 10px;">
 		                 </td>
 		                 </c:forEach>

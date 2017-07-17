@@ -220,6 +220,10 @@
     ORDER BY CREATE_DATE ASC
   </select>
   
-  
+  <update id="updateAuditStaffByCollectId">
+    UPDATE T_BSS_PMS_AUDIT_PERSON
+    SET AUDIT_STAFF = #{auditStaff,jdbcType=VARCHAR}
+    WHERE COLLECT_ID = #{collectId,jdbcType=VARCHAR}
+  </update>
   
 </mapper>

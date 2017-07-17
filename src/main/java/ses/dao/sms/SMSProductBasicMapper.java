@@ -73,4 +73,6 @@ public interface SMSProductBasicMapper {
      * @return
      */
     List<SMSProductBasic> selectByCreatedAt(@Param("start")String start,@Param("end")String end);
+
+    void updateStatusById(@Param("id") String id);
 }

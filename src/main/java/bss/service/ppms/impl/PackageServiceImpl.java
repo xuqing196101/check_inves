@@ -328,5 +328,11 @@ public class PackageServiceImpl implements PackageService{
 		return flag;
 	}
 
+@Override
+public List<Packages> findPackage(HashMap<String, Object> map, int pageNum) {
+  PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
+  return packageMapper.selectPackageOrderByCreated(map);
+}
+
 }
 

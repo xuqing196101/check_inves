@@ -106,7 +106,7 @@
   		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html?projectName="+projectName+"&projectCode="+projectCode+"&purchaseDep="+purchaseDep+"&isCreate="+isCreate;
   	}
   	
-  	function reset(){
+  	function resets(){
   		$("#projectName").val("");
   		$("#projectCode").val("");
   		$("#purchaseDep").val("");
@@ -311,7 +311,7 @@
 	      </span></li>
     	</ul>
 	    	<button type="button" onclick="query()" class="btn mt1 fl">查询</button>
-	    	<button type="reset" onclick="reset()" class="btn mt1 fl">重置</button>
+	    	<button type="button" onclick="resets()" class="btn mt1 fl">重置</button>
     	  <div class="clear"></div>
     	</form>
      </div>

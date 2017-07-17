@@ -371,7 +371,7 @@
 						<a href="javascript:void(0);">供应商管理</a>
 					</li>
 					<li class="active">
-						<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/highmaps.html')">供应商查询</a>
+						<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/highmaps.html')">全部供应商查询</a>
 					</li>
 				</ul>
 				<div class="clear"></div>
@@ -475,7 +475,7 @@
 	              <select name="orgName" id="orgName" class="w220">
 	                <option value=''>全部</option>
 	                <c:forEach items="${allOrg}" var="org">
-	                  <option value="${org.name}" <c:if test="${supplier.orgName eq org.name}">selected</c:if>>${org.name}</option>
+	                  <option value="${org.shortName}" <c:if test="${supplier.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
 	                </c:forEach>
 	              </select>
 	            </li>

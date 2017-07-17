@@ -63,4 +63,9 @@ public class AuditPersonServiceImpl implements AuditPersonService{
 		auditPersonMapper.updateByPrimaryKeySelective(record);
 	}
 
+	@Override
+	public void updateAuditStaffByCollectId(String collectId, String auditStaff) {
+		auditPersonMapper.updateAuditStaffByCollectId(collectId, auditStaff);
+	}
+
 }

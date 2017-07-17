@@ -546,7 +546,7 @@
 							<td class="tl"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td> --%>
 							<td>
 							<input   type="hidden" name="ss"   value="${obj.id }">
-							    <textarea class="memo" readonly="readonly" name="listDetail[${vs.index }].memo">${obj.memo }</textarea>
+							    <textarea class="memo" name="listDetail[${vs.index }].memo">${obj.memo }</textarea>
 					 	     <input type="hidden"  name="history" value="">
 					 	     <input type="hidden"    name="history" value=""/>
 							<input type="hidden" class="count"   name="history" value=""/>
