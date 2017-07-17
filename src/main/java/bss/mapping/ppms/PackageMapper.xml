@@ -301,6 +301,11 @@
 		<if test="id != null and id !=''">
 			AND ID = #{id}
 		</if>
+		<if test="projectStatus != null and projectStatus !=''">
+			and 
+			PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='YZZ') and 
+		    PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='ZJZXTP')
+		</if>
 		ORDER BY
 		CREATED_AT ASC
 	</select>

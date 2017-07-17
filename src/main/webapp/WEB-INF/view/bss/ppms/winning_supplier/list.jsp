@@ -205,7 +205,11 @@
             <c:forEach items="${packList }" var="pack" varStatus="vs">
               <tr>
                 <td class="tc w30">${vs.count }</td>
-                <td class="tc">${pack.name }</td>
+                <td class="tc">${pack.name }
+                <c:if test="${pack.projectStatus=='YZZ'}">
+		           <span class="star_red">[已终止]</span>
+		         </c:if>
+                </td>
                 <td class="tc">
                   <c:choose>
                     <c:when test="${fn:length(pack.listCheckPasses) != 0}">
@@ -216,7 +220,7 @@
                       </a>
                     </c:when>
                     <c:otherwise>
-                      <button class="btn btn-windows add" onclick="confirm('${pack.id}');" type="button">选择供应商</button>
+                      <button class="btn btn-windows add"  <c:if test="${pack.projectStatus=='YZZ'}">disabled="disabled"</c:if> onclick="confirm('${pack.id}');" type="button">选择供应商</button>
                       <c:set value="1" var="values" />
                     </c:otherwise>
                   </c:choose>

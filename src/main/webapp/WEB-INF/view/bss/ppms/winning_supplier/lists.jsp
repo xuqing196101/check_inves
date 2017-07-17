@@ -172,7 +172,8 @@
                 <td class="tc w30">
                   <input type="checkbox" value="${pack.id }" name="chkItem" onclick="check()">
                 </td>
-                <td class="tc">${pack.name }</td>
+                <td class="tc">${pack.name }
+                </td>
                 <c:if test="${fn:length(pack.listCheckPasses) != 0}">
                   <c:forEach items="${pack.listCheckPasses}" var="list">
                     <td class="tc">

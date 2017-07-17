@@ -57,22 +57,23 @@
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div class="col-md-12 col-sm-12 col-xs-12 p0">
 			 	<c:if test="${vsKey.index ==0 }">
-				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand fl">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+				 	<h2  onclick="ycDiv(this,'${vsKey.index}')"  <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}">class="count_flow hand fl spread" </c:if> class="count_flow spread hand fl">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}"><span class="star_red">[该包已终止]</span></c:if>  </span>
 				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 				 	</h2>
 				 	<div class="fl mt20 ml10">
-					 	<button class="btn" onclick="printCon('${projectId}','${vsKey.index}')">投标报价一览表</button>
+					 	<button class="btn" onclick="printCon('${projectId}','${vsKey.index}')" <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}"> disabled="disabled"</c:if>>投标报价一览表</button>
 				 	</div>
 			 	</c:if>
 			 	<c:if test="${vsKey.index != 0 }">
-				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink hand fl clear">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}">class="count_flow hand fl spread" </c:if>class="count_flow shrink hand fl clear">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}"><span class="star_red">[该包已终止]</span></c:if></span>
 				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 				 	</h2>
 				 	<div class="fl mt20 ml10">
-					 	<button class="btn" onclick="printCon('${projectId}','${vsKey.index}')">投标报价一览表</button>
+					 	<button class="btn" onclick="printCon('${projectId}','${vsKey.index}')"  <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}"> disabled="disabled"</c:if>>投标报价一览表</button>
 				 	</div>
 			 	</c:if>
         </div>
+        <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]!='YZZ'}"> 
         <div class="p0${vsKey.index} clear w100p">
 		<table class="table table-bordered table-condensed mt5">
 			<thead>
@@ -98,6 +99,7 @@
 		</c:forEach>
 		</table>
 		</div>
+		</c:if>
 	</c:forEach>
 </c:forEach>
 </div>

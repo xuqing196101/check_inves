@@ -139,12 +139,13 @@
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div>
 			 <c:if test="${vsKey.index == 0}">
-			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span></h2>
+			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span><c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}"><span class="star_red">[该包已终止]</span></c:if></h2>
 			 </c:if>
 			 <c:if test="${vsKey.index != 0}">
-			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span></h2>
+			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span><c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}"><span class="star_red">[该包已终止]</span></c:if></h2>
 			 </c:if>
         </div>
+        <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]!='YZZ'}">
         <div class="p0${vsKey.index}">
 		<table class="table table-bordered table-condensed mt5">
 			<thead>
@@ -212,6 +213,7 @@
 		 </c:if>
 		</table>
 		</div>
+		</c:if>
 	</c:forEach>
 </c:forEach>
 </div>

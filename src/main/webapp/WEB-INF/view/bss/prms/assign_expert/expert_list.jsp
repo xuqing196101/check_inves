@@ -420,16 +420,17 @@
         	<c:set var="listCount" value="0" />
 	        <c:forEach items="${packageList}" var="pack" varStatus="vs">
 		        <div class="over_hideen">
-					<h2 onclick="ycDiv(this,'${vs.index}')" class="count_flow shrink hand fl clear" id="package">包名:<span class="f15 blue">${pack.name}</span>
+					<h2 onclick="ycDiv(this,'${vs.index}')"  <c:if test="${pack.projectStatus=='YZZ'}">class="count_flow hand fl spread"</c:if>class="count_flow shrink hand fl clear" id="package">包名:<span class="f15 blue">${pack.name} <c:if test="${pack.projectStatus=='YZZ'}"><span class="star_red">[该包已终止]</span></c:if>  </span>
 		          	</h2>
 	          		<div class="fl mt20 ml10">
-		             <button class="btn" name="addExp_btn" onclick="relate('${pack.id}','${vs.index}','${pack.name}')" type="button">设为组长</button>
-		             <button class="btn" name="viewExp_btn" onclick="resetPwd('${vs.index}');" type="button">重置密码</button>
-		             <button class="btn" name="citeExp_btn"  type="button" package-id="${pack.id}">引用临时专家</button>
-		             <button class="btn" name="" onclick = "editExpert('${pack.id}','${vs.index}')" type="button">修改临时专家</button>
+		             <button class="btn"  <c:if test="${pack.projectStatus=='YZZ'}">disabled="disabled"</c:if>name="addExp_btn" onclick="relate('${pack.id}','${vs.index}','${pack.name}')" type="button">设为组长</button>
+		             <button class="btn" <c:if test="${pack.projectStatus=='YZZ'}">disabled="disabled"</c:if>name="viewExp_btn" onclick="resetPwd('${vs.index}');" type="button">重置密码</button>
+		             <button class="btn" <c:if test="${pack.projectStatus=='YZZ'}">disabled="disabled"</c:if>name="citeExp_btn"  type="button" package-id="${pack.id}">引用临时专家</button>
+		             <button class="btn" <c:if test="${pack.projectStatus=='YZZ'}">disabled="disabled"</c:if>name="" onclick = "editExpert('${pack.id}','${vs.index}')" type="button">修改临时专家</button>
 		             <%-- <button class="btn" name="addExp_btn" onclick="addExpert('${vs.index}','${project.id}','${pack.id}');" type="button">添加临时专家</button> --%>
 		           	</div>
 		        </div>
+		        <c:if test="${pack.projectStatus!='YZZ'}">
 	        	<div class="p0${vs.index} hide">
 	        		
 		          	<input type="hidden" id="packId" value="${pack.id}" />
@@ -488,6 +489,7 @@
 		            	</tbody>
 	            	</table>
 	            </div>
+	            </c:if>
 	        </c:forEach>
 	        <input type="hidden" id="listCountId" value="${listCount}">
 	        <div class="col-md-12 tc mt20" id="end_submit">

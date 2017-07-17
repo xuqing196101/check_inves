@@ -222,7 +222,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
       Map<String, Map<String, Object>> IsTurnUpMap=new HashMap<String, Map<String, Object>>();
       Map<String, String> firstAuditIdMap=new HashMap<String, String>();
       for(FlowDefine flw:flowDefines){
-        FlowExecute temp=new FlowExecute();
+        /*FlowExecute temp=new FlowExecute();
         temp.setFlowDefineId(flw.getId());
         temp.setProjectId(projectId);
         List<FlowExecute> findExecuteds = flowExecuteMapper.findExecutedByProjectIdAndFlowId(temp);
@@ -231,7 +231,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
           flowExecute.setId(WfUtil.createUUID());
           flowExecute.setProjectId(project.getId());
           flowExecuteMapper.insert(flowExecute);
-        }
+        }*/
         flowDefine(flw,mapId,project,projectId,IsTurnUpMap,firstAuditIdMap);
        }
       }
@@ -825,10 +825,13 @@ public class TerminationServiceImpl<V> implements TerminationService {
       for(int i=0;i<split.length;i++){
         Packages pg = packageMapper.selectByPrimaryKeyId(split[i]);
         if(type!=null){
-          pg.setEditFlowId(oldCurrFlowDefineId);
+          pg.setProjectStatus("1");
+          pg.setEditFlowId("FC0D62C307844E7693238E58C0B0610D");
         }else{
+          pg.setProjectStatus("F0EAF1136F7E4E8A8BDA6561AE8B4390");
           pg.setOldFlowId(oldCurrFlowDefineId);
         }
+        
         packageMapper.updateByPrimaryKeySelective(pg);
         if(pg!=null){
           pagId=pg.getId();

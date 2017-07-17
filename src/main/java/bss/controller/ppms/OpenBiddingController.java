@@ -90,6 +90,7 @@ import bss.service.prms.PackageFirstAuditService;
 import bss.util.PropUtil;
 
 import com.alibaba.fastjson.JSON;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
@@ -1255,6 +1256,7 @@ public class OpenBiddingController {
     //这里用这个是因为hashMap是无序的
     TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
     SaleTender condition = new SaleTender();
+    Map<String, String> mapPackageName=new HashMap<String, String>();
     HashMap<String, Object> map = new HashMap<String, Object>();
     HashMap<String, Object> map1 = new HashMap<String, Object>();
     if ("1".equals(count)) {
@@ -1275,6 +1277,11 @@ public class OpenBiddingController {
     }
 
     for (Packages pack : packList) {
+      Packages ps = packageService.selectByPrimaryKeyId(pack.getId());
+      if(ps!=null&&ps.getProjectStatus()!=null){
+        DictionaryData findById = DictionaryDataUtil.findById(ps.getProjectStatus());
+        mapPackageName.put(ps.getName(), findById.getCode());
+      }
       condition.setProjectId(projectId);
       condition.setPackages(pack.getId());
       condition.setStatusBid(NUMBER_TWO);
@@ -1308,6 +1315,7 @@ public class OpenBiddingController {
     model.addAttribute("projectId", projectId);
     model.addAttribute("packId", packId);
     model.addAttribute("flowDefineId", flowDefineId);
+    model.addAttribute("mapPackageName", mapPackageName);
     model.addAttribute("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
     return "bss/ppms/open_bidding/bid_file/chang_total";
   }
@@ -1324,6 +1332,7 @@ public class OpenBiddingController {
     //这里用这个是因为hashMap是无序的
     TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
     SaleTender condition = new SaleTender();
+    Map<String, String> mapPackageName=new HashMap<String, String>();
     HashMap<String, Object> map = new HashMap<String, Object>();
     HashMap<String, Object> map1 = new HashMap<String, Object>();
     Quote quote2 = new Quote();
@@ -1341,6 +1350,11 @@ public class OpenBiddingController {
       model.addAttribute("listLength", 1);
     }
     for (Packages pack : packList) {
+      Packages ps = packageService.selectByPrimaryKeyId(pack.getId());
+      if(ps!=null&&ps.getProjectStatus()!=null){
+        DictionaryData findById = DictionaryDataUtil.findById(ps.getProjectStatus());
+        mapPackageName.put(ps.getName(), findById.getCode());
+      }
       condition.setProjectId(projectId);
       condition.setPackages(pack.getId());
       condition.setStatusBid(NUMBER_TWO);
@@ -1417,6 +1431,7 @@ public class OpenBiddingController {
     model.addAttribute("treeMap", treeMap);
     model.addAttribute("projectId", projectId);
     model.addAttribute("dd", dictionaryData);
+    model.addAttribute("mapPackageName", mapPackageName);
     return "bss/ppms/open_bidding/bid_file/view_chang_total";
   }
   

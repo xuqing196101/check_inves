@@ -162,7 +162,6 @@
 		            layer.msg('继续实施' );
 		        });
 		} 
-		return;
 		$.ajax({
 			url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
 			data: {"projectId": projectId, "packageId": packageId, "flowDefineId":flowDefineId},

@@ -120,6 +120,8 @@
 	   		layer.close(index);
 	   		if(data=="ok"){
 	   			layer.alert("终止成功");
+	   			layer.close(indexFlw);
+	   			layer.close(index);
 	   			}
 	   		}
   		});

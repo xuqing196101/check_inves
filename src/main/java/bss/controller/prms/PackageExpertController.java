@@ -87,6 +87,7 @@ import bss.service.prms.ReviewFirstAuditService;
 import bss.service.prms.ReviewProgressService;
 
 import com.alibaba.fastjson.JSON;
+
 import common.annotation.CurrentUser;
 
 @Controller
@@ -194,12 +195,24 @@ public class PackageExpertController {
           HashMap<String, Object> pack = new HashMap<String, Object>();
           pack.put("projectId", projectId);
           List<Packages> packages = packageService.findPackageById(pack);
+          for(Packages pa:packages){
+            DictionaryData dd = DictionaryDataUtil.findById(pa.getProjectStatus());
+            if(dd!=null){
+              pa.setProjectStatus(dd.getCode());
+            }
+          }
           model.addAttribute("packages", packages);
           model.addAttribute("expertSigneds", expertSigneds);
           model.addAttribute("isEndSigin", "1");
           return "bss/prms/assign_expert/expert_list_view";
         } else {
           List<Packages> packages = packageService.listProjectExtract(projectId);
+          for(Packages pa:packages){
+            DictionaryData dd = DictionaryDataUtil.findById(pa.getProjectStatus());
+            if(dd!=null){
+              pa.setProjectStatus(dd.getCode());
+            }
+          }
           model.addAttribute("isEndSigin", "0");
           // 包信息
           model.addAttribute("packageList", packages);
@@ -336,6 +349,11 @@ public class PackageExpertController {
             }
             //开始循环包
             for (Packages pk:listPackage) {
+                Packages ps = packageService.selectByPrimaryKeyId(pk.getId());
+                if(ps!=null&&ps.getProjectStatus()!=null){
+                  DictionaryData findById = DictionaryDataUtil.findById(ps.getProjectStatus());
+                  pk.setProjectStatus(findById.getCode());
+                }
                 map.put("packageId", pk.getId());
                 quote2.setProjectId(projectId);
                 quote2.setPackageId(pk.getId());
@@ -384,7 +402,13 @@ public class PackageExpertController {
             HashMap<String, Object> map1 = new HashMap<String, Object>();
             Quote quote2 = new Quote();
             Quote quote3 = new Quote();
+            Map<String, String> mapPackageName=new HashMap<String, String>();
             for (Packages pack : packList) {
+                Packages ps = packageService.selectByPrimaryKeyId(pack.getId());
+                if(ps!=null&&ps.getProjectStatus()!=null){
+                  DictionaryData findById = DictionaryDataUtil.findById(ps.getProjectStatus());
+                  mapPackageName.put(ps.getName(), findById.getCode());
+                }
                 condition1.setProjectId(projectId);
                 condition1.setPackages(pack.getId());
                 condition1.setStatusBid(NUMBER_TWO);
@@ -393,6 +417,7 @@ public class PackageExpertController {
                 List<SaleTender> stList = saleTenderService.find(condition1);
                 map1.put("packageId", pack.getId());
                 map1.put("projectId", projectId);
+                model.addAttribute("mapPackageName", mapPackageName);
                 List<ProjectDetail> detailList = detailService.selectByCondition(map1, null);
                 BigDecimal projectBudget = BigDecimal.ZERO;
                 for (ProjectDetail projectDetail : detailList) {
@@ -1440,6 +1465,11 @@ public class PackageExpertController {
        List<ReviewProgress> reviewProgressList = new ArrayList<ReviewProgress>();
        List<Packages> packages = packageService.listResultExpert(projectId);
        for (Packages pg : packages) {
+           Packages ps = packageService.selectByPrimaryKeyId(pg.getId());
+           if(ps!=null&&ps.getProjectStatus()!=null){
+             DictionaryData findById = DictionaryDataUtil.findById(ps.getProjectStatus());
+             pg.setProjectStatus(findById.getCode());
+           }
            Map<String, Object> map2 = new HashMap<String, Object>();
            map2.put("projectId", projectId);
            map2.put("packageId", pg.getId());
@@ -1638,6 +1668,11 @@ public class PackageExpertController {
         List<Packages> packages = packageService.listResultExpert(projectId);
         List<PackageExpert> list = new ArrayList<PackageExpert>();
         for (Packages pg : packages) {
+            Packages ps = packageService.selectByPrimaryKeyId(pg.getId());
+            if(ps!=null&&ps.getProjectStatus()!=null){
+              DictionaryData findById = DictionaryDataUtil.findById(ps.getProjectStatus());
+              pg.setProjectStatus(findById.getCode());
+            }
             Map<String, Object> map2 = new HashMap<String, Object>();
             map2.put("projectId", projectId);
             map2.put("packageId", pg.getId());
@@ -3233,6 +3268,7 @@ public class PackageExpertController {
         // 项目分包信息
         HashMap<String, Object> pack = new HashMap<String, Object>();
         pack.put("projectId", projectId);
+        pack.put("projectStatus", "close");
         List<Packages> packages = packageService.findPackageById(pack);
         for (Packages packages2 : packages) {
           int count = 0;
