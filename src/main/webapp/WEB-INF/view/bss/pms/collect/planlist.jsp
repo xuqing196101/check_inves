@@ -73,7 +73,7 @@
         });
         var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).find("input").val();
         if(id.length == 1) {
-          if(status == '8' || status == '12') {
+          if(status == '8' || status == '12' || status == '2') {
             layer.open({
               type: 2, //page层
               area: ['30%', '50%'],
@@ -86,7 +86,11 @@
               content: "${pageContext.request.contextPath }/look/organddep.html?uniqueId=" + id,
             });
           } else {
-            window.location.href = "${pageContext.request.contextPath }/set/excel.html?id=" + id;
+        	  layer.alert("只能下载审核结束和直接下达的", {
+                  offset: ['222px', '390px'],
+                  shade: 0.01
+                });
+            //window.location.href = "${pageContext.request.contextPath }/set/excel.html?id=" + id;
           }
         } else if(id.length > 1) {
           layer.alert("只能选择一个", {
@@ -137,10 +141,15 @@
             dataType: "json",
             url: "${pageContext.request.contextPath }/look/auditStatus.do?id=" + id,
             success: function(data) {
-              if(data == 0) {
-                layer.alert("请设置审核人员");
-              }
-              if(data == 1) {
+              if(data == 3 || data == 5 || data == 7){
+              	layer.alert("已设置审核轮次，请审核");
+              } else if(data == 0 || data == 4 || data == 6){
+              	layer.alert("已设置审核轮次，请设置审核人员");
+              } else if(data == 8){
+              	layer.alert("审核结束");
+              } else if(data == 12 || data == 2){
+              	layer.alert("已审核或已下达");
+              } else if(data == 1) {
                 index = layer.open({
                   type: 1, //page层
                   area: ['300px', '200px'],
@@ -152,6 +161,8 @@
                   offset: ['80px', '600px'],
                   content: $('#content'),
                 });
+              }else{
+              	layer.alert("已设置审核轮次");
               }
             }
           });
@@ -178,18 +189,21 @@
           $.ajax({
             type: "POST",
             dataType: "json",
-            url: "${pageContext.request.contextPath }/look/auditPersonCheck.do?id=" + id,
+            /* url: "${pageContext.request.contextPath }/look/auditPersonCheck.do?id=" + id, */
+            url: "${pageContext.request.contextPath }/look/auditStatus.do?id=" + id,
             success: function(data) {
-              if(data == 1) {
-                layer.alert("请设置审核人员", {
-                  offset: ['30%', '40%']
-                });
-              } else if(data == 3) {
-                layer.alert("请审核", {
+              if(data == 3 || data == 5 || data == 7){
+              	layer.alert("已设置审核人员，请审核");
+              } else if(data == 0 || data == 4 || data == 6){
+              	window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + data;
+              }else if(data == 12 || data == 2 || data == 8){
+              	layer.alert("已审核或已下达");
+              }else if(data == 1) {
+                layer.alert("请设置审核轮次", {
                   offset: ['30%', '40%']
                 });
               } else {
-                window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + data;
+                layer.alert("已设置审核人员");
               }
             }
           });
@@ -216,9 +230,23 @@
           $.ajax({
             type: "POST",
             dataType: "json",
-            url: "${pageContext.request.contextPath }/look/auditId.do?id=" + id,
+            /* url: "${pageContext.request.contextPath }/look/auditId.do?id=" + id, */
+            url: "${pageContext.request.contextPath }/look/auditStatus.do?id=" + id,
             success: function(data) {
-              if(data == 0) {
+              if(data == 3 || data == 5 || data == 7){
+              	window.location.href = "${pageContext.request.contextPath }/look/auditlook.html?id=" + id;
+              } else if(data == 0 || data == 4 || data == 6){
+              	layer.alert("请设置审核人员");
+              }else if(data == 12 || data == 2 || data == 8){
+              	layer.alert("已审核或已下达");
+              }else if(data == 1) {
+                layer.alert("请设置审核轮次", {
+                  offset: ['30%', '40%']
+                });
+              } else {
+                layer.alert("已审核或已下达");
+              }
+              /* if(data == 0) {
                 layer.alert("请点击审核人员设置", {
                   offset: ['30%', '40%']
                 });
@@ -230,7 +258,7 @@
                 }
               if(data == 1) {
                 window.location.href = "${pageContext.request.contextPath }/look/auditlook.html?id=" + id;
-              }
+              } */
               /* } */
             }
           });

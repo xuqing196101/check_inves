@@ -1,17 +1,14 @@
 package bss.service.pms;
 
+import bss.model.pms.PurchaseRequired;
+import common.utils.JdcgResult;
+import ses.model.oms.Orgnization;
+import ses.model.sms.Supplier;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-import org.omg.CORBA.ORB;
-
-import ses.model.oms.Orgnization;
-import ses.model.sms.Supplier;
-import bss.model.pms.PurchaseRequired;
-import bss.model.ppms.ProjectDetail;
 
 /**
  * 
@@ -345,4 +342,15 @@ public interface PurchaseRequiredService {
      * @return
      */
     List<PurchaseRequired> selectByAll(HashMap<String, Object> map);
+
+	/**
+	 *
+	 * Description: 采购文号唯一校验
+	 *
+	 * @author Easong
+	 * @version 2017/7/14
+	 * @param
+	 * @since JDK1.7
+	 */
+	JdcgResult selectUniqueReferenceNO(String referenceNO);
 }

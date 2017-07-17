@@ -24,7 +24,6 @@
         
         //获取查看或操作权限
           var isOperate = $('#isOperate', window.parent.document).val();
-          alert(isOperate);
           if(isOperate == 0) {
             //只具有查看权限，隐藏操作按钮
         $(":button").each(function(){ 

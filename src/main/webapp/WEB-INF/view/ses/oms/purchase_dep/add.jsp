@@ -139,8 +139,8 @@
           "<option  value='2'>会议室</option><option  value='3'>招标室</option><option  value='4'>评标室</option></select></td>" +
           "<td><input type='text' name='siteNumber'/></td>" +
           "<td><input type='text' name='location'/></td>" +
-          "<td><input type='text' name='area'/></td>" +
-          "<td><input type='text' name='crewSize'/></td>" +
+          "<td><input type='text' name='area' onkeyup='this.value=this.value.replace(/\\D/g,\"\")' /></td>" +
+          "<td><input type='text' name='crewSize' onkeyup='this.value=this.value.replace(/\\D/g,\"\")' /></td>" +
           "</tr>");
         calIndex('checkbo');
       }
@@ -306,6 +306,7 @@
           $("#experPostcode").addClass("dnone");
         }
       }
+      
     </script>
   </head>
 
@@ -786,8 +787,8 @@
                 <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">办公场地总面积(平方米)</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="officeArea" type="text" maxlength="40" value="${purchaseDep.officeArea}"> <span class="add-on">i</span>
-                      <div class="cue">${ERR_officeArea}</div>
+                      <input class="input_group" name="officeArea" type="text" maxlength="40" value="${purchaseDep.officeArea}" onkeyup="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+                      <div class="cue" id = "officeArea">${ERR_officeArea}</div>
                     </div>
                   </li>
                   

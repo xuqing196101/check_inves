@@ -3610,7 +3610,7 @@ public class ExpertController extends BaseController {
      * @param phone 
      * @return
      */
-    @ResponseBody
+    /*@ResponseBody
     @RequestMapping("/validatePhone")
     public String findAllPhone(String phone) {
         Boolean ajaxMoblie = userService.ajaxMoblie(phone, null);
@@ -3619,8 +3619,17 @@ public class ExpertController extends BaseController {
         } else {
             return "1";
         }
+    }*/
+    @ResponseBody
+    @RequestMapping("/validatePhone")
+    public String findAllPhone(String phone) {
+        boolean checkMobile = supplierService.checkMobile(phone);
+        if(checkMobile) {
+            return "0";
+        } else {
+            return "1";
+        }
     }
-
     @ResponseBody
     @RequestMapping("/validateAge")
     public String validateAge(String birthday) {
@@ -4104,6 +4113,9 @@ public class ExpertController extends BaseController {
             // 将筛选完的List转换为CategoryTreeList
             List < CategoryTree > treeList = new ArrayList < CategoryTree > ();
             for(Category category: allCateList) {
+            	if(category.getCode().length()>=9){
+            		continue;
+            	}
                 CategoryTree treeNode = new CategoryTree();
                 treeNode.setId(category.getId());
                 treeNode.setName(category.getName());

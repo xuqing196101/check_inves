@@ -229,6 +229,7 @@
 		            <th class="info w50">序号</th>
 		            <th class="info" width="10%">出资人性质</th>
 		            <th class="info">出资人名称或姓名</th>
+		            <th class="info">证件类型</th>
 		            <th class="info">统一社会信用代码或身份证号码</th>
 		            <th class="info">出资金额或股份(万元/份)</th>
 		            <th class="info">比例(%)</th>
@@ -243,6 +244,10 @@
 		              	<c:if test="${s.nature eq '2'}">自然人</c:if>
 		              </td>
 		              <td class="tl" id="name_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('name','${s.id}');"</c:if> >${s.name}</td>
+		              <td class="tl" id="nature_${s.id }" >
+                    <c:if test="${s.nature==1}">统一社会信用代码</c:if>
+                    <c:if test="${s.nature==2}">居民二代身份证</c:if>
+                  </td>
 		              <td class="tc" id="identity_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_identity'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('identity','${s.id}');"</c:if>>${s.identity}</td>
 		              <td class="tc" id="shares_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_shares'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('shares','${s.id}');"</c:if>>${s.shares}</td>
 		              <td class="tc" id="proportion_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_proportion'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('proportion','${s.id}');"</c:if>>${s.proportion}</td>

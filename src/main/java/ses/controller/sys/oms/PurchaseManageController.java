@@ -251,11 +251,14 @@ public class PurchaseManageController {
 		Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(parentId);
 		initManageLevel(model);
 		if (org != null){
+			org = new Orgnization();
 			org.setTypeName(typeName);
+			org.setParentId(parentId);
+			org.setParentName(orgnizationServiceI.getOrgByPrimaryKey(parentId).getName());
 		} else {
 			org = new Orgnization();
 			org.setTypeName(typeName);
-			org.setId(parentId);
+			org.setParentId(parentId);
 			DictionaryData dd = null;
 			if (typeName.equals(StaticVariables.ORG_TYPE_DEFAULT)){
 				dd = DictionaryDataUtil.get(StaticVariables.ORG_TYPE_DEMAND);
@@ -264,7 +267,7 @@ public class PurchaseManageController {
 				dd = DictionaryDataUtil.get(StaticVariables.ORG_TYPE_MANAGER);
 			}
 			if (dd != null){
-				org.setName(dd.getName());
+				org.setParentName(dd.getName());
 			}
 		}
 		model.addAttribute("orgnization", org);

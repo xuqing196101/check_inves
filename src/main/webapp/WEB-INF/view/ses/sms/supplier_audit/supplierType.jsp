@@ -801,7 +801,7 @@
 						</c:if>
 						<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 							<li class='<c:if test="${liCountSell == 0 && liCountPro == 0}">active <c:set value="${liCountEng+1}" var="liCountEng"/></c:if>'>
-								<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程专业信息</a>
+								<a aria-expanded="false" href="#tab-3" data-toggle="tab" onmouseup="init_web_upload_in('#tab-3')">工程专业信息</a>
 							</li>
 						</c:if>
 						<c:if test="${fn:contains(supplierTypeNames, '服务')}">
@@ -1196,7 +1196,7 @@
 													<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 											</li>
 										</c:forEach>
-									</ul>
+									</ul>	
 									
 									<h2 class="count_flow"><i>3</i>取得注册资质的人员信息</h2>
 									<div class="ul_list">

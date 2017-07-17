@@ -614,6 +614,16 @@
     <include refid="Example_Where_Clause"/>
     ORDER BY u.CREATED_AT DESC
   </select>
+  
+  <!-- 8.1.查询后台用户列表(不带关联集合,不包括专家和供应商) -->
+  <select id="queryBackendUser" resultMap="UserBaseMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List"/>
+    from T_SES_BMS_USER u
+    <include refid="Example_Where_Clause"/>
+    and u.TYPE_NAME IS NOT NULL
+    ORDER BY u.CREATED_AT DESC
+  </select>
 
   <!-- 查询用户（关联角色） -->
   <select id="findUserRole" resultMap="UserBaseMap" parameterType="Object">

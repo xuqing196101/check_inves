@@ -415,4 +415,19 @@ public class SMSProductLibController {
 	public String test(String aaa) {
 		return null;
 	}
+	
+	/**
+	 * 
+	 * Description: 提交
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年7月13日
+	 * @param 
+	 * @return
+	 */
+	@RequestMapping("/submit")
+	public String submit(String id){
+		smsProductLibService.updateStatusById(id);
+		return "redirect:findAllProductLibBasicInfo.html";
+	}
 }

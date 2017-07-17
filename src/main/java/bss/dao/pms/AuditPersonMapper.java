@@ -27,4 +27,6 @@ public interface AuditPersonMapper {
     List<AuditPerson> selectByMap(HashMap<String,Object> map);
     
     List<AuditPerson> queryByUserIdAndCid(@Param("userId")String userId,@Param("collectId")String collectId);
+
+    void updateAuditStaffByCollectId(@Param("collectId")String collectId,@Param("auditStaff")String auditStaff);
 }

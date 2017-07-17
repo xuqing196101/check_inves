@@ -515,5 +515,11 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
     }
     return treeList;
   }
+
+  @Override
+  public List<User> queryBackendUser(User user, int pageNum) {
+    PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
+    return userMapper.queryBackendUser(user);
+  }
 }
 
