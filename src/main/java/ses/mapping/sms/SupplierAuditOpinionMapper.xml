@@ -130,8 +130,12 @@
     <select id="selectByExpertIdAndflagTime" parameterType="Map" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
+        FROM (SELECT
+        <include refid="Base_Column_List" />
         FROM T_SES_SMS_SUPPLIER_OPINION T
         WHERE T.SUPPLIER_ID = #{supplierId}
         AND T.FLAG_TIME = #{flagTime}
+        ORDER BY T.CREATED_AT DESC)
+        WHERE ROWNUM = 1
     </select>
 </mapper>
