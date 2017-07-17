@@ -149,6 +149,8 @@ public class Packages {
   
   private String projectStatus; //项目状态
   
+  private String packageNumber; //包号
+  
 
   public List<Supplier> getSuList() {
       return suList;
@@ -667,4 +669,12 @@ public void setNegotiationReport(NegotiationReport negotiationReport) {
       this.projectName = projectName;
     }
 
+	public String getPackageNumber() {
+		return packageNumber;
+	}
+
+	public void setPackageNumber(String packageNumber) {
+		this.packageNumber = packageNumber;
+	}
+	
 }

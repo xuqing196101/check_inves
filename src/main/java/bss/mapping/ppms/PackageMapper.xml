@@ -18,6 +18,7 @@
 		<result column="OLD_FLOW_ID" property="oldFlowId" />
 		<result column="NEW_FLOW_ID" property="newFlowId" />
 		<result column="EDIT_FLOW_ID" property="editFlowId" />
+		<result column="PACKAGE_NUMBER" property="packageNumber" />
 		<result column="TECHNIQUE_TIME" property="techniqueTime" jdbcType="TIMESTAMP" />
 		<result column="QUALIFICATION_TIME" property="qualificationTime" jdbcType="TIMESTAMP" />
 		<association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
@@ -36,6 +37,7 @@
 		<result column="OLD_FLOW_ID" property="oldFlowId" />
 		<result column="NEW_FLOW_ID" property="newFlowId" />
 		<result column="EDIT_FLOW_ID" property="editFlowId" />
+		<result column="PACKAGE_NUMBER" property="packageNumber" />
 		<association property="project" column="PROJECT_ID"
 			select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
 	</resultMap>
@@ -102,7 +104,7 @@
 
 	<sql id="Base_Column_List">
 		ID, NAME,PROJECT_ID,IS_DELETED,CREATED_AT,
-		UPDATED_AT,STATUS,MARK_TERM_TREE,BID_METHOD_ID,
+		UPDATED_AT,STATUS,MARK_TERM_TREE,BID_METHOD_ID,PACKAGE_NUMBER,
 		PURCHASE_TYPE,IS_IMPORT,IS_END_PRICE,TECHNIQUE_TIME,QUALIFICATION_TIME,PROJECT_STATUS,OLD_FLOW_ID,NEW_FLOW_ID,EDIT_FLOW_ID
 	</sql>
 
@@ -163,6 +165,9 @@
       <if test="newFlowId != null">
         NEW_FLOW_ID,
       </if>
+      <if test="packageNumber != null">
+        PACKAGE_NUMBER,
+      </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -215,6 +220,9 @@
       </if>
       <if test="newFlowId != null">
         #{newFlowId},
+      </if>
+      <if test="packageNumber != null">
+        #{packageNumber},
       </if>
 		</trim>
 	</insert>
@@ -272,6 +280,9 @@
       <if test="projectStatus != null">
         PROJECT_STATUS = #{projectStatus},
       </if>
+      <if test="packageNumber != null">
+        PACKAGE_NUMBER = #{packageNumber},
+      </if>
 		</set>
 		where ID = #{id}
 	</update>
@@ -290,6 +301,7 @@
 		TECHNIQUE_TIME AS techniqueTime,
 		QUALIFICATION_TIME AS qualificationTime,
 		PROJECT_STATUS AS projectStatus,
+		PACKAGE_NUMBER AS packageNumber,
 		IS_END_PRICE AS isEndPrice
 		FROM
 		T_BSS_PPMS_PACKAGE
@@ -368,10 +380,10 @@
 		p.ID AS id,
 		p.NAME AS name,
 		p.PROJECT_ID AS projectId,
-		p.STATUS AS
-		status,
+		p.STATUS AS status,
 		p.BID_METHOD_ID as bidMethodId,
 		p.PROJECT_STATUS as projectStatus,
+		p.PACKAGE_NUMBER as packageNumber,
 		b.name as bidMethodName,
 		b.MAX_SCORE as bidMethodMaxScore,
 		b.TYPE_NAME as bidMethodTypeName
@@ -397,8 +409,8 @@
 		ID AS id,
 		NAME AS name,
 		PROJECT_ID AS projectId,
-		STATUS
-		AS status,
+		STATUS AS status,
+		PACKAGE_NUMBER as packageNumber,
 		MARK_TERM_TREE AS markTermTree,
 		PROJECT_STATUS as projectStatus,
 		PURCHASE_TYPE AS
@@ -589,6 +601,9 @@
 			<if test="projectStatus != null">
 				PROJECT_STATUS,
 			</if>
+			<if test="packageNumber != null">
+				PACKAGE_NUMBER,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -630,6 +645,9 @@
 			<if test="projectStatus != null">
 				#{projectStatus},
 			</if>
+			<if test="packageNumber != null">
+				#{packageNumber},
+			</if>
 		</trim>
 	</insert>
 
@@ -645,6 +663,7 @@
 		pa.PURCHASE_TYPE AS purchaseType,
 		pa.IS_IMPORT AS isImport,
 		pa.PROJECT_STATUS AS projectStatus,
+		pa.PACKAGE_NUMBER AS packageNumber,
 		pa.IS_END_PRICE AS isEndPrice
 		FROM
 		T_BSS_PPMS_PACKAGE pa
