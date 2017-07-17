@@ -41,8 +41,22 @@ function jump(str) {
     }
     if (str == "uploadApproveFile") {
         if(status == -2 || status == -3 || status == 3){
-            tempSave(1);
-            return;
+            // 获取审核意见
+            var opinion  = $("#opinion").val();
+            if(opinion == ''){
+                layer.msg("审核意见不能为空！");
+                return;
+            }
+            if(opinion.length > 1000){
+                layer.msg("审核意见不能超过1000字！");
+                return;
+            }
+            // 判断附件是否下载
+            var downloadAttachFile = $("#downloadAttachFile").val();
+            if(downloadAttachFile == ''){
+                layer.msg("请下载审批表！");
+                return;
+            }
         }
         action = globalPath + "/supplierAudit/uploadApproveFile.html";
     }
