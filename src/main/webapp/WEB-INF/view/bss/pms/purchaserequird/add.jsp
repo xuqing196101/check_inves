@@ -220,7 +220,11 @@
 			
 			//保存
 			function incr() {
-			
+
+                if($("#detailZeroRow tr").length <=2){
+                    layer.alert("请填写需求明细！");
+                    return;
+				}
 				var orgType="${orgType}";
 				var name = $("#jhmc").val();
 				var no = $("#jhbh").val();
