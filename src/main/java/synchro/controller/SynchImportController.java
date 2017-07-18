@@ -683,9 +683,12 @@ public class SynchImportController {
 	                         attachService.importAttach(f);
 	                     }
 						if (f.isDirectory()) {
-						if (f.getName().equals(Constant.ONLINE_COMPLAINTS_FILE_EXPERT)) {
+							if (f.getName().equals(Constant.ONLINE_COMPLAINTS_FILE_EXPERT)) {
 								OperAttachment.moveFolder(f);
 							}
+							if (f.getName().equals(Constant.ATTACH_FILE_TENDER)){
+	                             OperAttachment.moveFolder(f);
+	                         }
                       }
                  }
 				
