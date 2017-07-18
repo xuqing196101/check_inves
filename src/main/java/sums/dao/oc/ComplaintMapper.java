@@ -89,4 +89,37 @@ public interface ComplaintMapper {
      * @exception
      */
     Integer yzsc(@Param("businessid") String businessid,@Param("typeId") String typeId);
+    
+    /**
+     * 
+     * Description: 根据创建时间查询
+     * 
+     * @author zhang shubin
+     * @data 2017年7月17日
+     * @param 
+     * @return
+     */
+    List<Complaint> selectByCreateDate(@Param("start")String start,@Param("end")String end);
+
+    /**
+     * 
+     * Description: 根据修改时间查询
+     * 
+     * @author zhang shubin
+     * @data 2017年7月17日
+     * @param 
+     * @return
+     */
+    List<Complaint> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
+
+    /**
+     * 
+     * Description: 根据id查询数量
+     * 
+     * @author zhang shubin
+     * @data 2017年7月17日
+     * @param 
+     * @return
+     */
+    Integer countById(@Param("id")String id);
 }

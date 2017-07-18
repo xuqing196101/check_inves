@@ -182,6 +182,14 @@ public class FileUtils {
     /**导出文件目录**/
     public final static String C_SYNCH_PUBLICITY_EXPERT_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_expert_publicity_path.system.path");
 
+    /** 网上投诉新建数据名称 **/
+    public final static String C_ONLINE_COMPLAINTS_PATH_FILENAME="_c_online_complaints.dat";
+    /** 网上投诉更新数据名称 **/
+    public final static String M_ONLINE_COMPLAINTS_PATH_FILENAME="_m_online_complaints.dat";
+    
+    /** 网上投诉目录 路径 25 **/
+    public final static String ONLINE_COMPLAINTS_PATH = PropUtil.getProperty("file.online_complaints.system.path");
+    
     /**
      * 
      *〈简述〉创建根目录
@@ -757,6 +765,7 @@ public class FileUtils {
           case 22:  filePath=FILE_SYNCH_QUALIFICATION_PATH;break;
           case 23:  filePath=C_SYNCH_PUBLICITY_SUPPLIER_FILE_DIRECTORY;break;
           case 24:  filePath=C_SYNCH_PUBLICITY_EXPERT_FILE_DIRECTORY;break;
+          case 25:  filePath=ONLINE_COMPLAINTS_PATH;break;
         }
         return filePath;
     }

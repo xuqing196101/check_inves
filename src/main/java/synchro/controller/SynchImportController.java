@@ -3,16 +3,20 @@ package synchro.controller;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierService;
+
 import com.github.pagehelper.PageInfo;
+
 import common.bean.ResponseBean;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import ses.model.bms.DictionaryData;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
@@ -21,6 +25,7 @@ import ses.service.sms.SMSProductLibService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
+import sums.service.oc.ComplaintService;
 import synchro.inner.read.expert.InnerExpertService;
 import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.model.SynchRecord;
@@ -32,6 +37,7 @@ import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -98,6 +104,12 @@ public class SynchImportController {
     private QualificationService qualificationService;
     /** 设置数据类型 **/
     private static final Integer DATA_TYPE_KIND = 29;
+    
+    /**
+     * 网上投诉信息
+     */
+    @Autowired
+    private ComplaintService complaintService;
     
     
     /**
@@ -651,6 +663,31 @@ public class SynchImportController {
                         }
                     }
                 }
+                
+                /** 网上投诉信息数据导入 **/
+                if(synchType.contains(Constant.DATE_SYNCH_ONLINE_COMPLAINTS)){
+						if (f.getName().equals(Constant.ONLINE_COMPLAINTS_FILE_EXPERT)) {
+							for (File file2 : f.listFiles()) {
+								// 判断文件名是否是网上投诉信息数据名称
+								if (file2.getName().contains(
+										FileUtils.C_ONLINE_COMPLAINTS_PATH_FILENAME)
+										|| file2.getName()
+												.contains(
+														FileUtils.M_ONLINE_COMPLAINTS_PATH_FILENAME)) {
+									complaintService.importProduct(file2);
+								}
+
+							}
+						}
+						if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
+	                         attachService.importAttach(f);
+	                     }
+						if (f.isDirectory()) {
+						if (f.getName().equals(Constant.ONLINE_COMPLAINTS_FILE_EXPERT)) {
+								OperAttachment.moveFolder(f);
+							}
+                      }
+                 }
 				
 				 /**目录资质关联表*/
 				categoryService.importCategoryQua(synchType,f);

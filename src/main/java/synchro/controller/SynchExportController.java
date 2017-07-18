@@ -3,16 +3,20 @@ package synchro.controller;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierService;
+
 import com.github.pagehelper.PageInfo;
+
 import common.bean.ResponseBean;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import ses.model.bms.DictionaryData;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
@@ -21,6 +25,7 @@ import ses.service.sms.SMSProductLibService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
+import sums.service.oc.ComplaintService;
 import synchro.inner.back.service.infos.InnerInfoExportService;
 import synchro.model.SynchRecord;
 import synchro.outer.back.service.expert.OuterExpertService;
@@ -30,6 +35,7 @@ import synchro.service.SynchService;
 import synchro.util.Constant;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -101,6 +107,12 @@ public class SynchExportController {
     /**产品资质**/
     @Autowired
     private QualificationService qualificationService;
+    
+    /**
+     * 网上投诉信息
+     */
+    @Autowired
+    private ComplaintService complaintService;
     /**
      * 
      *〈简述〉初始化导出
@@ -356,6 +368,11 @@ public class SynchExportController {
             outerExpertService.selectExpByPublictyOfExport(startTime, endTime);
         }
 
+        /**网上投诉信息导出*/
+        if (synchType.contains(Constant.DATE_SYNCH_ONLINE_COMPLAINTS)) {
+        	complaintService.exportComplaintService(startTime, endTime,date);
+        }
+        
         bean.setSuccess(true);
         return bean;
     }

@@ -222,4 +222,14 @@ public class Constant {
 
     /**目录资质关联表 文件夹名称**/
     
+    
+    /** 网上投诉信息描述 **/
+    public final static String ONLINE_COMPLAINTS_COMMIT = "导出网上投诉信息数量:";
+    /** 网上投诉信息导入描述 **/
+    public final static String ONLINE_COMPLAINTS_COMMIT_IMPORT = "同步网上投诉信息数量:";
+    /** 网上投诉信息 **/
+    public final static String DATE_SYNCH_ONLINE_COMPLAINTS ="SYNCH_ONLINE_COMPLAINTS";
+    /** 网上投诉信息文件名称 **/
+    public final static String ONLINE_COMPLAINTS_FILE_EXPERT = "online_complaints";
+    
 }
