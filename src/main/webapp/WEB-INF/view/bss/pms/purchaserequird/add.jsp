@@ -220,10 +220,10 @@
 			
 			//保存
 			function incr() {
-                if($("#detailZeroRow tr").length <=2){
+                /*if($("#detailZeroRow tr").length <=2){
                     layer.alert("请填写需求明细！");
                     return;
-                }
+                }*/
                 var orgType="${orgType}";
                 var name = $("#jhmc").val();
                 var no = $("#jhbh").val();
@@ -259,9 +259,9 @@
 			  	else if(!dy){
 					layer.alert("请填写供应商"); 
 				}  
-				 else if(!ptype){
+				/* else if(!ptype){
 						layer.alert("请选择采购方式"); 
-					} 
+					} */
 				/* else if($.trim(refNo) == ""){
 					 layer.msg("请 填写计划文号"); 
 				} */
@@ -876,13 +876,14 @@
 			}
 			
 	 	function budgets(bud){
-				if (bud != null ){
-					  bud = bud.toFixed(2);
+			    var budFloat = parseFloat(bud);
+				if (budFloat != null ){
+                    budFloat = budFloat.toFixed(2);
 					}
-				if (bud == null || bud =="null" || bud =="undefined" || bud ==undefined){
+				if (budFloat == null || budFloat =="null" || budFloat =="undefined" || budFloat ==undefined){
 					   return "";
 					}
-				return bud;
+				return budFloat;
 			}   
 /* 			function  jud() {
 		  var data="5行A列有错误信息";
