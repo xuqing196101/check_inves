@@ -220,10 +220,10 @@
 			
 			//保存
 			function incr() {
-                /*if($("#detailZeroRow tr").length <=2){
-                    layer.alert("请填写需求明细！");
+                if($("#detailZeroRow tr").length <=2){
+                    layer.alert("请添加需求明细！");
                     return;
-                }*/
+                }
                 var orgType="${orgType}";
                 var name = $("#jhmc").val();
                 var no = $("#jhbh").val();
@@ -876,14 +876,13 @@
 			}
 			
 	 	function budgets(bud){
-			    var budFloat = parseFloat(bud);
-				if (budFloat != null ){
-                    budFloat = budFloat.toFixed(2);
+				if (bud != null ){
+                    bud = bud.toFixed(2);
 					}
-				if (budFloat == null || budFloat =="null" || budFloat =="undefined" || budFloat ==undefined){
+				if (bud == null || bud =="null" || bud =="undefined" || bud ==undefined){
 					   return "";
 					}
-				return budFloat;
+				return bud;
 			}   
 /* 			function  jud() {
 		  var data="5行A列有错误信息";
