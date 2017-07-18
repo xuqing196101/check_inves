@@ -1941,6 +1941,10 @@ table.lockout .extrafile{
 		.m_table_fixed_border {
 			border-collapse: inherit;
 		}
-		.m_table_fixed_border td, .m_table_fixed_border th {
-			
+		/* 后台查询区域所有元素对齐 */
+		.m_demand_list {
+		  margin-top: -5px;
 		}
+    .m_demand_list li {
+      margin-top: 5px;
+    }
