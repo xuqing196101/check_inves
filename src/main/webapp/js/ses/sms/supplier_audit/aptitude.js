@@ -20,15 +20,14 @@ function init(){
 		return;
 	}
 	if(supplierTypes.indexOf('PRODUCT') !='-1'){
-		i++;
 		$("#tab_1").addClass("active in");
 		$("#page_ul_id").append("<li class=\"active\"   id=\"productId\"> "+
 	       " <a aria-expanded=\"true\" href=\"#tab_1\" onclick=\"initDivHide('tab_1','productId','PRODUCT','content_1')\" data-toggle=\"tab\">物资-生产型专业信息</a>"+
 	    " </li>");
 		initDivHide('tab_1','productId','PRODUCT','content_1');
+		i++;
 	}
 	if(supplierTypes.indexOf('SALES')  !='-1'){
-		i++;
 		if(i==0){
 			$("#tab_2").addClass("active in");
 			liclass=" class=\"active\"";
@@ -41,9 +40,9 @@ function init(){
 		if(i==0){
 			initDivHide('tab_2','productId','SALES','content_2');
 		}
+		i++;
 	}
 	if(supplierTypes.indexOf('PROJECT')  !='-1'){
-		i++;
 		if(i==0){
 			$("#tab_3").addClass("active in");
 			liclass=" class=\"active\" ";
@@ -56,9 +55,9 @@ function init(){
 		if(i==0){
 			initDivHide('tab_3','projectId','PROJECT','content_3');
 	    }
+		i++;
 	}
 	if(supplierTypes.indexOf('SERVICE')  !='-1'){
-		i++;
 		if(i==0){
 			$("#tab_4").addClass("active in");
 			liclass=" class=\"active\" ";
@@ -71,6 +70,7 @@ function init(){
 		if(i==0){
 			initDivHide('tab_4','serviecId','SERVICE','content_4');
 		}
+		i++;
 	}
 }
 /** 分页* */
