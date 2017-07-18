@@ -73,6 +73,38 @@ public class SupplierBlacklist implements Serializable {
 	private Integer term;
 
 	private String supplierName;
+	
+	/**
+     * <pre>
+     * 创建时间
+     * 表字段 : T_SUMS_OC_COMPLAINT.CREATED_AT
+     * </pre>
+     */
+    private Date createdAt;
+
+    /**
+     * <pre>
+     * 修改时间
+     * 表字段 : T_SUMS_OC_COMPLAINT.UPDATED_AT
+     * </pre>
+     */
+    private Date updatedAt;
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 
 	public String getId() {
 		return id;

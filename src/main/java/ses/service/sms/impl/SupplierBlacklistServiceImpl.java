@@ -1,5 +1,6 @@
 package ses.service.sms.impl;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -12,14 +13,18 @@ import ses.dao.sms.BlacklistLogMapper;
 import ses.dao.sms.SupplierBlacklistMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.model.bms.User;
-import ses.model.ems.ExpertBlackListVO;
 import ses.model.sms.BlacklistLog;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierBlacklist;
 import ses.model.sms.SupplierBlacklistVO;
 import ses.service.sms.SupplierBlacklistService;
 import ses.util.PropertiesUtil;
+import sums.model.oc.Complaint;
+import synchro.service.SynchRecordService;
+import synchro.util.Constant;
+import synchro.util.FileUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
 @Service(value = "supplierBlacklistService")
@@ -33,6 +38,10 @@ public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
 
 	@Autowired
 	private BlacklistLogMapper blacklistLogMapper;
+	
+	/** 记录service  **/
+    @Autowired
+    private SynchRecordService  synchRecordService;
 
 	@Override
 	public List<Supplier> findSupplier(Supplier supplier, int page) {
@@ -67,9 +76,11 @@ public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
 		blacklistLog.setOperationId(user.getId());
 		blacklistLog.setOperationName(user.getRelName());
 		if (supplierBlacklist.getId() != null && !"".equals(supplierBlacklist.getId())) {
+			supplierBlacklist.setUpdatedAt(new Date());
 			supplierBlacklistMapper.updateByPrimaryKeySelective(supplierBlacklist);
 			blacklistLog.setOperationType(1);
 		} else {
+			supplierBlacklist.setCreatedAt(new Date());
 			supplierBlacklistMapper.insertSelective(supplierBlacklist);
 			blacklistLog.setOperationType(0);
 		}
@@ -152,6 +163,86 @@ public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
 		}
 		List<SupplierBlacklistVO> list = supplierBlacklistMapper.selectSupplierBlacklist(supplierBlacklist, supplierTypeIdAry);
 		return list;
+	}
+
+	/**
+	 * 导出供应商黑名单信息
+	 */
+	@Override
+	public boolean exportSupplierBlacklist(String start, String end,
+			Date synchDate) {
+		boolean boo=false;
+		//导出供应商黑名单表数据
+		//获取创建的
+		List<SupplierBlacklist> supplierBlacklistCList= supplierBlacklistMapper.selectByCreateDate(start, end);
+		//获取修改的
+		List<SupplierBlacklist> supplierBlacklistMList=supplierBlacklistMapper.selectByUpdateDate(start, end);
+		int sum=0;
+		if(supplierBlacklistCList != null && supplierBlacklistCList.size() > 0){
+			sum=sum+supplierBlacklistCList.size();
+			//生成json 并保存
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SUPPLIER_BLACKLIST_PATH_FILENAME, 26),JSON.toJSONString(supplierBlacklistCList));
+		}
+		if(supplierBlacklistMList!=null && supplierBlacklistMList.size()>0){
+			sum=sum+supplierBlacklistMList.size();
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SUPPLIER_BLACKLIST_PATH_FILENAME, 26),JSON.toJSONString(supplierBlacklistMList));
+		}
+		synchRecordService.synchBidding(synchDate, sum+"", Constant.DATE_SYNCH_SUPPLIER_BLACKLIST, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_BLACKLIST_COMMIT);
+		//导出供应商黑名单记录表数据
+		List<BlacklistLog> supplierBlacklistLogList = blacklistLogMapper.selectByDate(start, end);
+		int log=0;
+		if(supplierBlacklistLogList != null && supplierBlacklistLogList.size() > 0){
+			log=log+supplierBlacklistLogList.size();
+			//生成json 并保存
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SUPPLIER_BLACKLIST_LOG_PATH_FILENAME, 27),JSON.toJSONString(supplierBlacklistLogList));
+		}
+		synchRecordService.synchBidding(synchDate, log+"", Constant.DATE_SYNCH_SUPPLIER_BLACKLIST_LOG, Constant.OPER_TYPE_EXPORT, Constant.SUPPLIER_BLACKLIST_LOG_COMMIT);
+		boo=true;
+		return boo;
+	}
+
+	/**
+	 * 导入供应商黑名单信息
+	 */
+	@Override
+	public boolean importSupplierBlacklist(File file) {
+		boolean boo=false;
+		 List<SupplierBlacklist> list = FileUtils.getBeans(file, SupplierBlacklist.class); 
+	        if (list != null && list.size() > 0){
+	        	for (SupplierBlacklist supplierBlacklist : list) {
+	        	Integer count=	supplierBlacklistMapper.countById(supplierBlacklist.getId());
+	        	  if(count==0){
+	        		  supplierBlacklistMapper.insertSelective(supplierBlacklist);
+	        	  }else{
+	        		  supplierBlacklistMapper.updateByPrimaryKeySelective(supplierBlacklist);
+	        	  }
+				}
+	        	synchRecordService.synchBidding(new Date(), list.size()+"", Constant.DATE_SYNCH_SUPPLIER_BLACKLIST, Constant.OPER_TYPE_IMPORT, Constant.SUPPLIER_BLACKLIST_COMMIT_IMPORT);
+	        }
+	        boo=true;
+		return boo;
+	}
+
+	/**
+	 * 导入供应商黑名单记录信息
+	 */
+	@Override
+	public boolean importSupplierBlacklistLog(File file) {
+		boolean boo=false;
+		 List<BlacklistLog> list = FileUtils.getBeans(file, BlacklistLog.class); 
+	        if (list != null && list.size() > 0){
+	        	for (BlacklistLog blacklistLog : list) {
+	        	Integer count=	blacklistLogMapper.countById(blacklistLog.getId());
+	        	  if(count==0){
+	        		  blacklistLogMapper.insertSelective(blacklistLog);
+	        	  }else{
+	        		  blacklistLogMapper.updateByPrimaryKeySelective(blacklistLog);
+	        	  }
+				}
+	        	synchRecordService.synchBidding(new Date(), list.size()+"", Constant.DATE_SYNCH_SUPPLIER_BLACKLIST_LOG, Constant.OPER_TYPE_IMPORT, Constant.SUPPLIER_BLACKLIST_LOG_COMMIT_IMPORT);
+	        }
+	        boo=true;
+		return boo;
 	}
 	
 }

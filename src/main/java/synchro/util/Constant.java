@@ -232,4 +232,21 @@ public class Constant {
     /** 网上投诉信息文件名称 **/
     public final static String ONLINE_COMPLAINTS_FILE_EXPERT = "online_complaints";
     
+    /** 供应商黑名单信息描述 **/
+    public final static String SUPPLIER_BLACKLIST_COMMIT = "导出供应商黑名单信息数量:";
+    /** 供应商黑名单信息导入描述 **/
+    public final static String SUPPLIER_BLACKLIST_COMMIT_IMPORT = "同步供应商黑名单信息数量:";
+    /** 供应商黑名单信息 **/
+    public final static String DATE_SYNCH_SUPPLIER_BLACKLIST ="SYNCH_S_SUPPLIER_BLACKLIST";
+    /** 供应商黑名单文件名称 **/
+    public final static String SUPPLIER_BLACKLIST_FILE_EXPERT = "supplier_blacklist";
+    
+    /** 供应商黑名单记录信息描述 **/
+    public final static String SUPPLIER_BLACKLIST_LOG_COMMIT = "导出供应商黑名单记录信息数量:";
+    /** 供应商黑名单记录信息导入描述 **/
+    public final static String SUPPLIER_BLACKLIST_LOG_COMMIT_IMPORT = "同步供应商黑名单记录信息数量:";
+    /** 供应商黑名单记录信息 **/
+    public final static String DATE_SYNCH_SUPPLIER_BLACKLIST_LOG ="SYNCH_S_SUPPLIER_BLACKLIST_LOG";
+    /** 供应商黑名单记录文件名称 **/
+    public final static String SUPPLIER_BLACKLIST_LOG_FILE_EXPERT = "supplier_blacklist_log";
 }

@@ -186,10 +186,22 @@ public class FileUtils {
     public final static String C_ONLINE_COMPLAINTS_PATH_FILENAME="_c_online_complaints.dat";
     /** 网上投诉更新数据名称 **/
     public final static String M_ONLINE_COMPLAINTS_PATH_FILENAME="_m_online_complaints.dat";
-    
     /** 网上投诉目录 路径 25 **/
     public final static String ONLINE_COMPLAINTS_PATH = PropUtil.getProperty("file.online_complaints.system.path");
     
+    /** 供应商黑名单新建数据名称 **/
+    public final static String C_SUPPLIER_BLACKLIST_PATH_FILENAME="_c_supplier_blacklist.dat";
+    /** 供应商黑名单更新数据名称 **/
+    public final static String M_SUPPLIER_BLACKLIST_PATH_FILENAME="_m_supplier_blacklist.dat";
+    /** 供应商黑名单目录 路径 26 **/
+    public final static String SUPPLIER_BLACKLIST_PATH = PropUtil.getProperty("file.supplier_blacklist.system.path");
+    
+    /** 供应商黑名单记录表新建数据名称 **/
+    public final static String C_SUPPLIER_BLACKLIST_LOG_PATH_FILENAME="_c_supplier_blacklist_log.dat";
+    /** 供应商黑名单记录表更新数据名称 **/
+    public final static String M_SUPPLIER_BLACKLIST_LOG_PATH_FILENAME="_m_supplier_blacklist_log.dat";
+    /** 供应商黑名单记录表目录 路径 27 **/
+    public final static String SUPPLIER_BLACKLIST_LOG_PATH = PropUtil.getProperty("file.supplier_blacklist_log.system.path");
     /**
      * 
      *〈简述〉创建根目录
@@ -766,6 +778,8 @@ public class FileUtils {
           case 23:  filePath=C_SYNCH_PUBLICITY_SUPPLIER_FILE_DIRECTORY;break;
           case 24:  filePath=C_SYNCH_PUBLICITY_EXPERT_FILE_DIRECTORY;break;
           case 25:  filePath=ONLINE_COMPLAINTS_PATH;break;
+          case 26:  filePath=SUPPLIER_BLACKLIST_PATH;break;
+          case 27:  filePath=SUPPLIER_BLACKLIST_LOG_PATH;break;
         }
         return filePath;
     }

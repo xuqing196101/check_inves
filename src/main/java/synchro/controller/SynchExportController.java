@@ -21,7 +21,9 @@ import ses.model.bms.DictionaryData;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.bms.QualificationService;
+import ses.service.ems.ExpertBlackListService;
 import ses.service.sms.SMSProductLibService;
+import ses.service.sms.SupplierBlacklistService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -108,11 +110,18 @@ public class SynchExportController {
     @Autowired
     private QualificationService qualificationService;
     
-    /**
-     * 网上投诉信息
-     */
+    /** 网上投诉信息 **/
     @Autowired
     private ComplaintService complaintService;
+    
+    /** 供应商黑名单 **/
+    @Autowired
+	private SupplierBlacklistService supplierBlacklistService;
+    
+    /** 专家黑名单 **/
+    @Autowired
+	private ExpertBlackListService expertBlackListService;
+    
     /**
      * 
      *〈简述〉初始化导出
@@ -371,6 +380,11 @@ public class SynchExportController {
         /**网上投诉信息导出*/
         if (synchType.contains(Constant.DATE_SYNCH_ONLINE_COMPLAINTS)) {
         	complaintService.exportComplaintService(startTime, endTime,date);
+        }
+        
+        /**供应商黑名单信息导出*/
+        if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_BLACKLIST)) {
+        	supplierBlacklistService.exportSupplierBlacklist(startTime, endTime,date);
         }
         
         bean.setSuccess(true);

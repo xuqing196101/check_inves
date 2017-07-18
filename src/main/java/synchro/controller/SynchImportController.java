@@ -22,6 +22,7 @@ import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.bms.QualificationService;
 import ses.service.sms.SMSProductLibService;
+import ses.service.sms.SupplierBlacklistService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -110,6 +111,10 @@ public class SynchImportController {
      */
     @Autowired
     private ComplaintService complaintService;
+    
+    /** 供应商黑名单 **/
+    @Autowired
+	private SupplierBlacklistService supplierBlacklistService;
     
     
     /**
@@ -689,6 +694,44 @@ public class SynchImportController {
 							if (f.getName().equals(Constant.ATTACH_FILE_TENDER)){
 	                             OperAttachment.moveFolder(f);
 	                         }
+                      }
+                 }
+                
+                /** 供应商黑名单信息数据导入 **/
+                if(synchType.contains(Constant.DATE_SYNCH_SUPPLIER_BLACKLIST)){
+						if (f.getName().equals(Constant.SUPPLIER_BLACKLIST_FILE_EXPERT)) {
+							for (File file2 : f.listFiles()) {
+								// 判断文件名是否是供应商黑名单信息数据名称
+								if (file2.getName().contains(
+										FileUtils.C_SUPPLIER_BLACKLIST_PATH_FILENAME)
+										|| file2.getName()
+												.contains(
+														FileUtils.M_SUPPLIER_BLACKLIST_PATH_FILENAME)) {
+									supplierBlacklistService.importSupplierBlacklist(file2);
+								}
+
+							}
+						}
+						if (f.getName().equals(Constant.SUPPLIER_BLACKLIST_LOG_FILE_EXPERT)) {
+							for (File file2 : f.listFiles()) {
+								// 判断文件名是否是供应商黑名单记录信息数据名称
+								if (file2.getName().contains(
+										FileUtils.C_SUPPLIER_BLACKLIST_LOG_PATH_FILENAME)
+										|| file2.getName()
+												.contains(
+														FileUtils.M_SUPPLIER_BLACKLIST_LOG_PATH_FILENAME)) {
+									supplierBlacklistService.importSupplierBlacklistLog(file2);
+								}
+
+							}
+						}
+						if (f.isDirectory()) {
+							if (f.getName().equals(Constant.SUPPLIER_BLACKLIST_FILE_EXPERT)) {
+								OperAttachment.moveFolder(f);
+							}
+							if (f.getName().equals(Constant.SUPPLIER_BLACKLIST_LOG_FILE_EXPERT)) {
+								OperAttachment.moveFolder(f);
+							}
                       }
                  }
 				
