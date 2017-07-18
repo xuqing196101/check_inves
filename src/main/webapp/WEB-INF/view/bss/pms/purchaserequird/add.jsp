@@ -220,23 +220,21 @@
 			
 			//保存
 			function incr() {
-
                 if($("#detailZeroRow tr").length <=2){
                     layer.alert("请填写需求明细！");
                     return;
-				}
-				var orgType="${orgType}";
-				var name = $("#jhmc").val();
-				var no = $("#jhbh").val();
-				var mobile = $("#mobile").val();
-				var type = $("#wtype").val();
-			 	var refNo = $("#referenceNo").val();
-			 	var fileId = $("#mfiledId").val();
-				var bool= details();
-				
-			      var dy=dyly();
-			   var ptype=true;
-			    
+                }
+                var orgType="${orgType}";
+                var name = $("#jhmc").val();
+                var no = $("#jhbh").val();
+                var mobile = $("#mobile").val();
+                var type = $("#wtype").val();
+                var refNo = $("#referenceNo").val();
+                var fileId = $("#mfiledId").val();
+                var bool= details();
+
+                var dy=dyly();
+                var ptype=true;
 			   /*var bool=true; */
 			    $("#detailZeroRow tr").each(function(){
 			    	//var  price= $(this).find("td:eq(8)").children(":first").next().val();//上级id
