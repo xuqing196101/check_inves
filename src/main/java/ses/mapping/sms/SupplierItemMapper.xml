@@ -13,9 +13,10 @@
 		<result column="CERT_CODE" property="certCode"/>
 		<result column="QUALIFICATION_TYPE" property="qualificationType"/>
 		<result column="PROFESS_TYPE"   property="professType"/>
+		<result column="NODE_LEVEL"   property="nodeLevel"/>
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT, CATE_LEVEL, CERT_CODE, DIY_LEVEL, QUALIFICATION_TYPE,PROFESS_TYPE
+		ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT, CATE_LEVEL, CERT_CODE, DIY_LEVEL, QUALIFICATION_TYPE,PROFESS_TYPE, NODE_LEVEL
 	</sql>
 	
 	<sql id="Base_Column">
@@ -50,10 +51,10 @@
 	<insert id="insert" parameterType="ses.model.sms.SupplierItem">
 		insert into T_SES_SMS_SUPPLIER_ITEM (ID, SUPPLIER_ID, CATEGORY_ID,
 		SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT,
-		UPDATED_AT)
+		UPDATED_AT, NODE_LEVEL)
 		values (#{id}, #{supplierId}, #{categoryId},
 		#{supplierTypeRelateId}, #{status}, #{createdAt,jdbcType=TIMESTAMP},
-		#{updatedAt,jdbcType=TIMESTAMP})
+		#{updatedAt,jdbcType=TIMESTAMP},#{nodeLevel, jdbcType=DECIMAL})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierItem">
 		insert into T_SES_SMS_SUPPLIER_ITEM
@@ -94,7 +95,10 @@
 			<if test="professType != null">
 				PROFESS_TYPE,
 			</if>
-			
+			<if test="nodeLevel != null">
+				NODE_LEVEL,
+			</if>
+
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -132,6 +136,9 @@
 			</if>
 			<if test="professType != null">
 				#{professType}
+			</if>
+			<if test="nodeLevel != null">
+				#{nodeLevel}
 			</if>
 		</trim>
 	
@@ -171,6 +178,9 @@
 			</if>
 			<if test="professType != null">
 				PROFESS_TYPE = #{professType},
+			</if>
+			<if test="nodeLevel != null">
+				NODE_LEVEL = #{nodeLevel},
 			</if>
 		</set>
 		where ID = #{id}
@@ -370,7 +380,7 @@
 	<select id="selectRegSupCateCount" resultType="java.lang.Integer" parameterType="java.lang.String">
 		SELECT COUNT(T.ID)
 		  FROM T_SES_SMS_SUPPLIER_ITEM T
-		   WHERE T.CATE_LEVEL = '3'
+		   WHERE T.NODE_LEVEL = 3
 		   <if test="supplierId != null and supplierId != ''">
 			   AND  T.SUPPLIER_ID = #{supplierId}
 		   </if>
@@ -396,7 +406,7 @@
 						 AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
 						 AND T.IS_DELETED = 0)
 				 AND A.SUPPLIER_ID = #{supplierId}
-				 AND A.CATE_LEVEL = '3'
+				 AND A.NODE_LEVEL = 3
 			   GROUP BY A.SUPPLIER_TYPE_RELATE_ID
 	</select>
 
@@ -406,7 +416,7 @@
 		<include refid="Base_Column_List"/>
 		FROM T_SES_SMS_SUPPLIER_ITEM T
 		WHERE T.SUPPLIER_ID = #{supplierId}
-		AND T.CATE_LEVEL = '3'
+		AND T.NODE_LEVEL = 3
 	</select>
 
     <!--通过条件查询供应商审核通过的产品类别-->
@@ -423,7 +433,7 @@
 					 AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
 					 AND T.IS_DELETED = 0)
 			 AND A.SUPPLIER_ID = #{supplierId}
-			 AND A.CATE_LEVEL = '3'
+			 AND A.NODE_LEVEL = 3
             <if test="type != null and type !=''">
                 AND A.SUPPLIER_TYPE_RELATE_ID = #{type}
             </if>

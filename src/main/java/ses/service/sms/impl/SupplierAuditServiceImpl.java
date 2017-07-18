@@ -8,6 +8,7 @@ import common.utils.DateUtils;
 import common.utils.JdcgResult;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
+import ses.dao.sms.SupplierAuditOpinionMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
 import ses.dao.sms.SupplierCertSellMapper;
@@ -39,6 +41,7 @@ import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
@@ -65,6 +68,7 @@ import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
+import ses.util.StringUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -192,6 +196,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	// 注入供应商和供应商类别对应关系Mapper
 	@Autowired
 	private SupplierItemMapper supplierItemMapper;
+	@Autowired
+    private SupplierAuditOpinionMapper supplierAuditOpinionMapper;
 	
 	/**
 	 * @Title: supplierList
@@ -1120,7 +1126,16 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		 * @param [supplierId]
 		 * @since JDK1.7
 		 */
-		// 判断基本信息+财务信息+股东信息
+		// 判断审核意见是否填写
+        Map<String, Object> selectMap = new HashedMap();
+        selectMap.put("supplierId",supplierId);
+        selectMap.put("flagTime",0);
+        SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(selectMap);
+        if(supplierAuditOpinion == null || (supplierAuditOpinion != null && StringUtils.isEmpty(supplierAuditOpinion.getOpinion()))){
+            return JdcgResult.build(500, "审核意见不能为空");
+        }
+
+        // 判断基本信息+财务信息+股东信息
         Map<String, Object> map = new HashedMap();
         map.put("supplierId",supplierId);
         map.put("auditType", Constant.SUPPLIER_BASIC_INFO_ITEM_FLAG);

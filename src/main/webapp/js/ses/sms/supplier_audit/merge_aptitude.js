@@ -40,28 +40,44 @@ function jump(str) {
         action = globalPath + "/supplierAudit/supplierType.html";
     }
     if (str == "uploadApproveFile") {
-        if(status == -2 || status == -3 || status == 3){
-            // 获取审核意见
-            var opinion  = $("#opinion").val();
-            if(opinion == ''){
-                layer.msg("审核意见不能为空！");
-                return;
-            }
-            if(opinion.length > 1000){
-                layer.msg("审核意见不能超过1000字！");
-                return;
-            }
-            // 判断附件是否下载
-            var downloadAttachFile = $("#downloadAttachFile").val();
-            if(downloadAttachFile == ''){
-                layer.msg("请下载审批表！");
-                return;
-            }
+        var flag = true;
+        if(status == -2 || status == 0){
+            var supplierId = $("#supplierId").val();
+            $.ajax({
+                url:globalPath + "/supplierAudit/isHaveOpinion.do",
+                type: "POST",
+                async:false,
+                data:{
+                  "supplierId":supplierId
+                },
+                dataType:"json",
+                success:function (data) {
+                    if(data.data == null){
+                        layer.msg("审核意见不能为空！");
+                        flag = false;
+                        return;
+                    }else if(data.data.opinion == null){
+                        layer.msg("审核意见不能为空！");
+                        flag = false;
+                        return;
+                    }else if(data.data.isDownLoadAttch == null){
+                        // 判断附件是否下载
+                        layer.msg("请下载审批表！");
+                        flag = false;
+                        return;
+                    }
+                }
+            });
         }
-        action = globalPath + "/supplierAudit/uploadApproveFile.html";
+        if(flag){
+            action = globalPath + "/supplierAudit/uploadApproveFile.html";
+        }
     }
-    $("#form_id").attr("action", action);
-    $("#form_id").submit();
+
+    if(action != null){
+        $("#form_id").attr("action", action);
+        $("#form_id").submit();
+    }
 }
 var status;
 $(function () {

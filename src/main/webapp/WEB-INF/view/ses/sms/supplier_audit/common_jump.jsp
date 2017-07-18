@@ -62,11 +62,11 @@
         <i></i>
     </li>
     <li id="reverse_of_seven" onclick="jump('reasonsList')">
-        <a aria-expanded="false" href="#tab-4" data-toggle="tab">审核汇总</a>
+        <a aria-expanded="false" href="#tab-4">审核汇总</a>
         <i id="reverse_of_seven_i" class="display-none"></i>
     </li>
     <li id="reverse_of_eight" onclick="jump('uploadApproveFile')" class="display-none">
-        <a aria-expanded="false" href="#tab-4" data-toggle="tab">上传批准审核表</a>
+        <a aria-expanded="false" href="#tab-4">上传批准审核表</a>
     </li>
 
 </ul>

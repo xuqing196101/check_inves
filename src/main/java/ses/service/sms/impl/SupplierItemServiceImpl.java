@@ -105,7 +105,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                 item.setCreatedAt(new Date());
                 if(categoryId.equals(cate.getId())){
                 	// 设置末级
-                	item.setLevel("3");
+                	item.setNodeLevel(3);
                 }
                 supplierItemMapper.insertSelective(item);
             }

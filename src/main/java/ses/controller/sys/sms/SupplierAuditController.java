@@ -23,14 +23,70 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import ses.formbean.QualificationBean;
-import ses.model.bms.*;
+import ses.model.bms.Area;
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
+import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
+import ses.model.bms.Todos;
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
-import ses.model.sms.*;
-import ses.service.bms.*;
+import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierAfterSaleDep;
+import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierAuditNot;
+import ses.model.sms.SupplierAuditOpinion;
+import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCateTree;
+import ses.model.sms.SupplierCertEng;
+import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierDictionaryData;
+import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierHistory;
+import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatEng;
+import ses.model.sms.SupplierMatPro;
+import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierModify;
+import ses.model.sms.SupplierPorjectQua;
+import ses.model.sms.SupplierPublicity;
+import ses.model.sms.SupplierRegPerson;
+import ses.model.sms.SupplierSignature;
+import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierTypeRelate;
+import ses.service.bms.AreaServiceI;
+import ses.service.bms.CategoryService;
+import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.EngCategoryService;
+import ses.service.bms.QualificationService;
+import ses.service.bms.TodosService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
-import ses.service.sms.*;
-import ses.util.*;
+import ses.service.sms.SupplierAddressService;
+import ses.service.sms.SupplierAptituteService;
+import ses.service.sms.SupplierAuditNotService;
+import ses.service.sms.SupplierAuditOpinionService;
+import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierBranchService;
+import ses.service.sms.SupplierHistoryService;
+import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierMatEngService;
+import ses.service.sms.SupplierModifyService;
+import ses.service.sms.SupplierPorjectQuaService;
+import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierSignatureService;
+import ses.service.sms.SupplierTypeRelateService;
+import ses.util.DictionaryDataUtil;
+import ses.util.FtpUtil;
+import ses.util.PropUtil;
+import ses.util.PropertiesUtil;
+import ses.util.SupplierLevelUtil;
+import ses.util.WordUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +94,16 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>Title:SupplierAuditController </p>
@@ -1319,11 +1384,13 @@ public class SupplierAuditController extends BaseSupplierController {
 		String supplierName = supplier.getSupplierName();
 		
 		//记录最终意见
-		if(StringUtils.isNotEmpty(supplierAuditOpinion.getOpinion())){
+		if(supplier != null && supplier.getStatus() != -2){
+			supplierAuditOpinion.setOpinion(supplierAuditOpinion.getOpinion());
+			supplierAuditOpinion.setSupplierId(supplierId);
 			supplierAuditOpinion.setCreatedAt(new Date());
 			supplierAuditOpinionService.insertSelective(supplierAuditOpinion);
 		}
-		
+
 		//记录审核不通过的供应商
 		if(supplier.getStatus() == 3){
 			SupplierAuditNot supplierAuditNot = new SupplierAuditNot();
@@ -2106,7 +2173,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	public void fileUploadItem(Model model) {
 		// 供应商系统key文件上传key
-		Integer sysKey = common.constant.Constant.SUPPLIER_SYS_KEY;
+		Integer sysKey = Constant.SUPPLIER_SYS_KEY;
 		// 定义文件上传类型
 		DictionaryData dictionaryData = DictionaryDataUtil
 				.get(synchro.util.Constant.SUPPLIER_CHECK_ATTACHMENT);
@@ -2408,7 +2475,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if("工程".equals(type)){
 			//封装 供应商id
 			cateTree.setSupplierItemId(supplierId);
-			sysKey=common.constant.Constant.SUPPLIER_SYS_KEY;
+			sysKey= Constant.SUPPLIER_SYS_KEY;
 			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_ENG_CERT);
 			List<SupplierCateTree> showProject=supplierAuditService.showProject(cateTree, 4, typeId, sysKey);
 			model.addAttribute("sysKey", sysKey);
@@ -3730,5 +3797,20 @@ public class SupplierAuditController extends BaseSupplierController {
             supplierAuditService.updateStatusById(supplierAudit);
         }
         return JdcgResult.ok();
+    }
+
+    @RequestMapping("/isHaveOpinion")
+    @ResponseBody
+    public JdcgResult isHaveOpinion(String supplierId){
+		/**
+		 *
+		 * Description:校验审核意见
+		 *
+		 * @author Easong
+		 * @version 2017/7/18
+		 * @param [supplierId]
+		 * @since JDK1.7
+		 */
+		return JdcgResult.ok(supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 0));
     }
 }

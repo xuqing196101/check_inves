@@ -19,9 +19,7 @@ function jump(str) {
         action = globalPath + "/expertAudit/reasonsList.html";
     }
     if (str == "uploadApproveFile") {
-        // 获取审核意见
-        var opinion  = $("#opinion").val();
-        if(status == -2 || status == -3 || status == 5){
+        if(status == -2){
             // 获取审核意见
             var opinion  = $("#opinion").val();
             if(opinion == ''){

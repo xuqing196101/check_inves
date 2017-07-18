@@ -1390,6 +1390,7 @@
           method="post">
         <input type="hidden" name="fileName"/>
     </form>
+    <input name="supplierId" id="supplierId" value="${suppliers.id }" type="hidden">
 </div>
 </body>
 
