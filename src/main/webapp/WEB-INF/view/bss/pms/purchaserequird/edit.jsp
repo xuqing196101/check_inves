@@ -94,21 +94,22 @@
  
   	 function sum2(obj){  //数量
 	        var purchaseCount = $(obj).val()-0;//数量
-	        var price2 = $(obj).parent().next().children(":last").prev();//价钱
+	        var price2 = $(obj).parent().next().children(":last");//价钱
 	        var price = $(price2).val()-0;
 	        var sum = purchaseCount*price/10000;
-	        var budget = $(obj).parent().next().next().children(":last").prev();
+	        var budget = $(obj).parent().next().next().children(":last");
 	        $(budget).val(sum);
-	      	var id=$(obj).next().val(); //parentId
+	      	var id=$(obj).prev().val(); //parentId
 	      	aa(id);
 	    } 
 	    
 	       function sum1(obj){
-	        var purchaseCount = $(obj).val()-0; //价钱
-	         var price2 = $(obj).parent().prev().children(":last").prev().val()-0;//数量
-	      	 var sum = purchaseCount*price2/10000;
-	         $(obj).parent().next().children(":last").prev().val(sum);
-		     	var id=$(obj).next().val(); //parentId
+	    	   alert(111111111)
+	        var price = $(obj).val()-0; //价钱
+	         var purchaseCount = $(obj).parent().prev().children(":last").val()-0;//数量
+	      	 var sum = purchaseCount*price/10000;
+	         $(obj).parent().next().children(":last").val(sum);
+		     	var id=$(obj).prev().val(); //parentId
 		     	aa(id);
 	    }
 	
@@ -249,11 +250,14 @@
 	    			$(obj).next().val("");
 	    		} 
  	        }
-	      
-	      
+	     
 	      function submit(){
 	    	  
 	    	  var name=$("#jhmc").val();
+	    	  if($.trim(name) == "") {
+					 layer.alert("需求名称不允许为空"); 
+					 return false;
+				}
 	    	  var no=$("#jhbh").val();
 	    	  var refNo=$("#referenceNo").val();
 	    	  var type=$("#wtype").val();
@@ -292,9 +296,12 @@
 	 						"item":item, "purchaseCount":purchaseCount, "price":price, "budget":budget, 
 	 						"deliverDate":deliverDate,"purchaseType":purchaseTypes,"supplier":supplier,
 	 						"isFreeTax":isFreeTax,"goodsUse":goodsUse,"useUnit":useUnit,"memo":memo,"isMaster":i};
-	 				  	jsonStr.push(json);  
+
+	 					jsonStr.push(json);  
+
 	 				 	}
 	 				});
+	 			// return false;
 	 		//	var forms=$("#add_form").serializeArray();
 	 			  $.ajax({
 	 	  		        type: "POST",
@@ -572,7 +579,7 @@
 					  "type":"edit"},
 				success: function(data) {
 					$("#detailZeroRow").append(data);
-					init_web_upload();
+					init_web_upload();//加载附件上传按钮
 				    var bool=$("input[name='import']").is(':checked');
 					if(bool==true){
 						$("td[name='userNone']").attr("style","");
@@ -956,12 +963,12 @@
 						<tbody id="detailZeroRow">
 							<c:forEach items="${list }" var="obj" varStatus="vs">
 								<tr style="cursor: pointer;" name="detailRow">
+																		
 									<td><div class="seq">${vs.index+1 }</div></td>
-									<td class="tc"><input type="hidden" id="id${vs.index}"
-										name="list[${vs.index }].id" value="${obj.id }"> <input
-										type="hidden" id="seq${vs.index}" value="${obj.seq}">
-										<input type="hidden" id="parentId${vs.index}"
-										name="list[${vs.index }].parentId" value="${obj.parentId }">
+									<td class="tc">
+									<input type="hidden" id="id${vs.index}" name="list[${vs.index }].id" value="${obj.id }">
+									<input type="hidden" id="seq${vs.index}" value="${obj.seq}">
+									<input type="hidden" id="parentId${vs.index}" name="list[${vs.index }].parentId" value="${obj.parentId }">
 										${obj.seq}</td>
 									<td>
 										<%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
@@ -980,15 +987,21 @@
 									<td><input type="hidden" name="ss" value="${obj.id }">
 										<input type="text" name="list[${vs.index }].stand"
 										value="${obj.stand}" onblur="historys(this)" class="stand">
-										<!-- <input type="hidden" name="history" value="" /> --></td>
+
+										<!-- <input type="hidden" name="history" value="" /> -->
+									</td>
+
 									<td><input type="hidden" name="ss" value="${obj.id }">
 										<input type="text" name="list[${vs.index }].qualitStand"
 										value="${obj.qualitStand}" onblur="historys(this)"
 										class="qualitstand"> <!-- <input type="hidden"
-										name="history" value="" /> --></td>
+										name="history" value="" /> -->
+									</td>
 									<td><input type="hidden" name="ss" value="${obj.id }">
 										<input type="text" name="list[${vs.index }].item"
-										value="${obj.item}" onblur="historys(this)" class="item"></td>
+										value="${obj.item}" onblur="historys(this)" class="item">
+									</td>
+
 									<!-- <input type="hidden" name="history" value="" /> -->
 									<td><c:if test="${obj.purchaseCount!=null}">
 											<input type="hidden" name="ss" value="${obj.id }">
@@ -1000,18 +1013,17 @@
 												name="list[${vs.index }].purchaseCount"
 												value="${obj.purchaseCount}" />
 										</c:if> <c:if test="${obj.purchaseCount==null }">
-											<input class="purchasecount" type="text"
+											<input class="purchasecount" type="text" 
 												name="list[${vs.index }].purchaseCount" class="w80"
-												value="${obj.purchaseCount }">
+												value="${obj.purchaseCount }" >
 										</c:if></td>
 									<td class="tl w80"><c:if test="${obj.price!=null}">
 											<input type="hidden" name="ss" value="${obj.id }">
 											<input type="hidden" name="ss" value="${obj.parentId }">
 											<input maxlength="11" class="price"
 												name="list[${vs.index }].price" onblur="sum1(this);" value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
-
 										</c:if> <c:if test="${obj.price==null}">
-											<input class="price" readonly="readonly" type="text"
+											<input class="price"  type="text"
 												name="list[${vs.index }].price" value="${obj.price }">
 										</c:if></td>
 									<td><input type="hidden" name="ss" value="${obj.id }">
@@ -1024,11 +1036,13 @@
 										value="${obj.id }"> <textarea
 											name="list[${vs.index }].deliverDate" onblur="historys(this)"
 											class="target deliverdate">${obj.deliverDate}</textarea> <!-- <input
-										type="hidden" name="history" value="" /> --></td>
+										type="hidden" name="history" value="" /> -->
+										</td>
 
 									<td>
-										<%--       <c:if test="${obj.price!=null}"> --%> <input
-										type="hidden" name="ss" value="${obj.id}"> <select
+										<%--     
+										  <c:if test="${obj.price!=null}"> --%> <input
+										type="hidden" name="ss" value="${obj.id}"/> <select
 										name="list[${vs.index }].purchaseType"
 										<c:if test="${obj.price==null}"> onchange="sel(this);" </c:if>
 										class="purchasetype" id="select">

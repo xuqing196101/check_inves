@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +21,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import common.utils.JdcgResult;
 import net.sf.json.JSONArray;
 
 import org.apache.commons.io.FileUtils;
@@ -1290,12 +1290,12 @@ public class PurchaseRequiredController extends BaseController {
 					p.setStatus("1");
 					p.setFileId(fileId);
 					p.setEnterPort(enterPort);
-					if (p.getSeq() != null) {
+					/*if (p.getSeq() != null) {
 
-						/*if (p.getPurchaseType() != null && p.getPurchaseType().trim().length() != 0) {
+						if (p.getPurchaseType() != null && p.getPurchaseType().trim().length() != 0) {
 							DictionaryData data = dictionaryDataMapper.queryByName(p.getPurchaseType());
 							p.setPurchaseType(data.getId());
-						}*/
+						}
 
 						if (p.getSeq().matches("[\u4E00-\u9FA5]") && !p.getSeq().contains("（")) {
 							p.setSeq("一");
@@ -1305,18 +1305,21 @@ public class PurchaseRequiredController extends BaseController {
 							// unqueId= UUID.randomUUID().toString().replaceAll("-", "");
 							p.setUniqueId(unqueId);
 							// count++;
+							purchaseRequiredService.updateByPrimaryKeySelective(p);
 							continue;
 						}
 						// 判断是否是二级节点(一)
 						if (isContainChinese(p.getSeq())) {
 							p.setUniqueId(unqueId);
 							// count++;
+							purchaseRequiredService.updateByPrimaryKeySelective(p);
 							continue;
 						}
 						// 判断是否是三级节点1,2,3
 						else if (isInteger(p.getSeq())) {
 							p.setUniqueId(unqueId);
 							// count++;
+							purchaseRequiredService.updateByPrimaryKeySelective(p);
 							continue;
 						}
 
@@ -1324,23 +1327,27 @@ public class PurchaseRequiredController extends BaseController {
 						else if (isContainIntger(p.getSeq())) {
 							p.setUniqueId(unqueId);
 							// count++;
+							purchaseRequiredService.updateByPrimaryKeySelective(p);
 							continue;
 						}
 						// 五级节点
 						else if (isEng(p.getSeq())) {
 							p.setUniqueId(unqueId);
 							// count++;
+							purchaseRequiredService.updateByPrimaryKeySelective(p);
 							continue;
 						} else {
 							p.setUniqueId(unqueId);
 							// count++;
-						}
+						}*/
+						purchaseRequiredService.updateByPrimaryKeySelective(p);
 					}
-					purchaseRequiredService.updateByPrimaryKeySelective(p);
+					
 				}
 			}
-		}
 		/*purchaseRequiredService.batchAdd(plist);*/
+
+
 		return "";
 	}
 	/**
@@ -1409,4 +1416,19 @@ public class PurchaseRequiredController extends BaseController {
         model.addAttribute("orgId", orgId);
         return "dss/rids/list/view_required";
 	}
+
+    /**
+     *
+     * Description: 采购文号唯一校验
+     *
+     * @author Easong
+     * @version 2017/7/14
+     * @param
+     * @since JDK1.7
+     */
+    @RequestMapping("/selectUniqueReferenceNO")
+    @ResponseBody
+	public JdcgResult selectUniqueReferenceNO(String referenceNO){
+        return purchaseRequiredService.selectUniqueReferenceNO(referenceNO);
+    }
 }

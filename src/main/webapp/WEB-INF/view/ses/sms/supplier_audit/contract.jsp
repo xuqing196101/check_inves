@@ -211,7 +211,7 @@
 			
 			//暂存
         function zhancun(){
-         var supplierId = $("#id").val();
+         var supplierId = $("#supplierId").val();
           $.ajax({
             url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
             dataType: "json",

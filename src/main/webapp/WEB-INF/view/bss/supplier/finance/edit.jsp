@@ -16,8 +16,8 @@
     	$("#status").val(status);
     	form1.submit();
     }
-	function checknums(obj){
-		var vals=$(obj).val();
+	function checknums(obj,nonNum){
+		/* var vals=$(obj).val();
 		var reg= /^\d+\.?\d*$/;  
 		if(!reg.exec(vals)){
 			$(obj).val("");
@@ -25,7 +25,46 @@
 		}else{
 			$("#err_fund").text();
 			$("#err_fund").empty();
-		}
+		} */
+		
+		 var _val = $(obj).val();
+			    if(_val!="" && nonNum!=3){//如果可以为负数的话设置3;净资产总额不进行负数校验
+			        if(parseInt(_val)<0){
+                   $(obj).val("");
+                   layer.msg("请输入正确的金额,非负数保留4位小数", {
+                       offset: '300px'
+                   });
+                   return false;
+               }
+           }
+           if(_val.indexOf('.')!=-1){
+               var reg = /\d+\.\d{0,4}?$/;
+               if(!reg.test(_val)) {
+                   $(obj).val("");
+                   if(nonNum==3){
+                       layer.msg("请输入正确的金额,保留4位小数", {
+                           offset: '300px'
+                       });
+                   }else{
+                       layer.msg("请输入正确的金额,非负数保留4位小数", {
+                           offset: '300px'
+                       });
+                   }
+               }
+           }else{
+               if(!positiveRegular(_val)){
+                   $(obj).val("");
+                   if(nonNum==3){
+                       layer.msg("请输入正确的金额,保留4位小数", {
+                           offset: '300px'
+                       });
+                   }else{
+                       layer.msg("请输入正确的金额,非负数保留4位小数", {
+                           offset: '300px'
+                       });
+                   }
+               }
+           }
 	}
 </script>
 </head>
@@ -81,25 +120,25 @@
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资产总额（万元）：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input  onkeyup="checknums(this)" type="text" name="totalAssets" value="${supplierFinance.totalAssets}" />
+									<input  onkeyup="checknums(this,1)" type="text" name="totalAssets" value="${supplierFinance.totalAssets}" />
 									<div class="cue">${map.assets}</div>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>负债总额（万元）：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input onkeyup="checknums(this)" type="text" name="totalLiabilities" value="${supplierFinance.totalLiabilities}" />
+									<input onkeyup="checknums(this,2)" type="text" name="totalLiabilities" value="${supplierFinance.totalLiabilities}" />
 									<div class="cue">${map.bilit}</div>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>净资产总额（万元）：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input onkeyup="checknums(this)" type="text" name="totalNetAssets" value="${supplierFinance.totalNetAssets}" />
+									<input onkeyup="checknums(this,3)" type="text" name="totalNetAssets" value="${supplierFinance.totalNetAssets}" />
 									<div class="cue">${map.noAssets}</div>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>营业收入（万元）：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input onkeyup="checknums(this)" type="text" name="taking" value="${supplierFinance.taking}" />
+									<input onkeyup="checknums(this,4)" type="text" name="taking" value="${supplierFinance.taking}" />
 									<div class="cue">${map.taking}</div>
 								</div>
 							</li>

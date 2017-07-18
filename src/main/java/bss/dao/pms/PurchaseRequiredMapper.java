@@ -1,14 +1,13 @@
 package bss.dao.pms;
 
+import bss.model.pms.PurchaseRequired;
+import org.apache.ibatis.annotations.Param;
+import ses.model.bms.AnalyzeBigDecimal;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
-import ses.model.bms.AnalyzeBigDecimal;
-import bss.model.pms.PurchaseRequired;
 /**
  * 
  * @Title: PurchaseRequiredMapper
@@ -362,5 +361,16 @@ public interface PurchaseRequiredMapper {
      * @return
      */
     List<PurchaseRequired> selectByAll(HashMap<String, Object> map);
+
+    /**
+     *
+     * Description: 采购文号唯一校验
+     *
+     * @author Easong
+     * @version 2017/7/14
+     * @param 
+     * @since JDK1.7
+     */
+    Integer selectUniqueReferenceNO(String referenceNO);
     
 }

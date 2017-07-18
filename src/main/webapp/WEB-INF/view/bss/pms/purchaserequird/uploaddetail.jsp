@@ -70,10 +70,10 @@
 										 <td name='userNone' ><input type="text" name="list[${vs.index }].useUnit" class="useunit"></td>
 									     <td><input type="text" name="list[${vs.index }].memo"  class="memo" value="${obj.memo}" ></td>
 									     <td>
-											   <%-- <div class="extrafile">
+											   <div class="extrafile">
 													<u:upload id="pUp${vs.index }" multiple="true" buttonName="上传文件"  businessId="${obj.id}" sysKey="2" typeId="${attId}" auto="true" />
 													<u:show showId="pShow${vs.index }" businessId="${obj.id}" sysKey="2" typeId="${attId}" />
-											   </div>	 --%>										
+											   </div>										
 										 </td>
 										
 										

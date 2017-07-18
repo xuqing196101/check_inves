@@ -13,7 +13,26 @@
 		  $(function(){
 				$("td[name='userNone']").attr("style","display:none");
 				$("th[name='userNone']").attr("style","display:none");
-			  
+
+				// 绑定采购需求文号事件
+			  $("#referenceNo").blur(function () {
+                  var referenceNO = $("#referenceNo").val();
+                  if(referenceNO == ''){
+                      return;
+                  }
+                  $.ajax({
+                      url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
+                      data:{
+                          "referenceNO": referenceNO
+                      },
+                      success: function(data) {
+                          if(data.data > 0) {
+                              $("#referenceNo").val("");
+                              layer.msg("采购需求文号已存在");
+                          }
+                      }
+                  });
+              })
 		  });
 		  
 		  
@@ -201,30 +220,30 @@
 			
 			//保存
 			function incr() {
-			
-				var orgType="${orgType}";
-				var name = $("#jhmc").val();
-				var no = $("#jhbh").val();
-				var mobile = $("#mobile").val();
-				var type = $("#wtype").val();
-			 	var refNo = $("#referenceNo").val();
-			 	var fileId = $("#mfiledId").val();
-				var bool= details();
-				
-			      var dy=dyly();
-			   var ptype=true;
-			    
+                if($("#detailZeroRow tr").length <=2){
+                    layer.alert("请填写需求明细！");
+                    return;
+                }
+                var orgType="${orgType}";
+                var name = $("#jhmc").val();
+                var no = $("#jhbh").val();
+                var mobile = $("#mobile").val();
+                var type = $("#wtype").val();
+                var refNo = $("#referenceNo").val();
+                var fileId = $("#mfiledId").val();
+                var bool= details();
+
+                var dy=dyly();
+                var ptype=true;
 			   /*var bool=true; */
-			    $("#table tr").each(function(){
-			    	var  price= $(this).find("td:eq(8)").children(":first").next().val();//上级id
-			    	if($.trim(price) !=""){
-			    		var  type= $(this).find("td:eq(12)").children(":first").val();//上级id
+			    $("#detailZeroRow tr").each(function(){
+			    	//var  price= $(this).find("td:eq(8)").children(":first").next().val();//上级id
+			    	//if($.trim(price) !=""){
+			    		var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
 				    	  if($.trim(type) == "") {
-				    	      alert();
 				    		  ptype=false;
 				    	  }
-			    	}
-			    	
+			    	//}
 			    });
 				/* var seq=seqs(); */
 			 if(orgType!='0'){
@@ -293,19 +312,34 @@
 									});
 									
 							//	var forms=$("#add_form").serializeArray();
-								  $.ajax({
-						  		        type: "POST",
-						  		        url: "${pageContext.request.contextPath}/purchaser/adddetail.do",
-						  		        data: {"prList":JSON.stringify(jsonStr),"planType":type,
-						  		        	"planNo":no,"planName":name,"recorderMobile":mobile,
-						  		        	"referenceNo":refNo,"fileId":fileId,"enterPort":$("#enterPort").val()},
-						  		        success: function (message) {
-						  		        	 window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
-						  		        },
-						  		        error: function (message) {
-						  		        }
-						  		    });
-								  
+										
+				  		      			if($("#table").find("tr").length<4){//需求明细不添加不能添加
+				  		      			 	layer.alert("需求明细不允许为空");
+				  		      			 	//return false;
+				  		      			}else {
+						  		      		
+										  $.ajax({
+								  		        type: "POST",
+								  		        url: "${pageContext.request.contextPath}/purchaser/adddetail.do",
+								  		        data: {"prList":JSON.stringify(jsonStr),"planType":type,
+								  		        	"planNo":no,"planName":name,"recorderMobile":mobile,
+								  		        	"referenceNo":refNo,"fileId":fileId,"enterPort":$("#enterPort").val()},
+							  		        	/* beforeSend: function(){
+								  		      		$.each(jsonStr,function(i,n){
+								  		      			if($.trim(n.stand) == ""){
+								  		      			 	layer.alert("需求明细中规格型号不允许为空");
+								  		      			 	return false;
+								  		      			}
+								  		      		});
+								  		      	}, */
+								  		        success: function (message) {
+								  		        	 window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
+								  		        },
+								  		        error: function (message) {
+								  		        }
+								  		    });
+						  		      	}
+								
 								  
 								
 							  
@@ -484,6 +518,21 @@
 					$(obj).parent().next().find("input").val("");
 					$(obj).parent().next().find("input").attr("readonly", "readonly");
 				}
+                var next=$(obj).parent().parent().nextAll();
+				var parent_id=$($(obj).parent().parent().children()[1]).children(":last").val();
+				var arry = [];
+				for(var i = 0; i < next.length; i++){
+                   if(parent_id==$($(next[i]).children()[1]).children(":last").val()){
+                       break;
+                   }
+                   $($(next[i]).children()[11]).children(":last").val($(obj).val());
+                    if($(obj).val() == "单一来源") {
+                        $($(next[i]).children()[12]).find("input").removeAttr("readonly");
+                    } else {
+                        $($(next[i]).children()[12]).find("input").val("");
+                        $($(next[i]).children()[12]).find("input").attr("readonly", "readonly");
+                    }
+                }
 			}
 			
 			//只能输入数字

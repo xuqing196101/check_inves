@@ -695,7 +695,7 @@ public class ExpertController extends BaseController {
     @ResponseBody
     public String findErrorReason(ExpertAudit expertAudit) {
         List < ExpertAudit > audit = expertAuditService.selectFailByExpertId(expertAudit);
-        if(null != audit){
+        if(audit != null && !audit.isEmpty()){
         	return JSON.toJSONString(audit.get(0));
         }
         return null;
@@ -3610,7 +3610,7 @@ public class ExpertController extends BaseController {
      * @param phone 
      * @return
      */
-    @ResponseBody
+    /*@ResponseBody
     @RequestMapping("/validatePhone")
     public String findAllPhone(String phone) {
         Boolean ajaxMoblie = userService.ajaxMoblie(phone, null);
@@ -3619,8 +3619,17 @@ public class ExpertController extends BaseController {
         } else {
             return "1";
         }
+    }*/
+    @ResponseBody
+    @RequestMapping("/validatePhone")
+    public String findAllPhone(String phone) {
+        boolean checkMobile = supplierService.checkMobile(phone);
+        if(checkMobile) {
+            return "0";
+        } else {
+            return "1";
+        }
     }
-
     @ResponseBody
     @RequestMapping("/validateAge")
     public String validateAge(String birthday) {
