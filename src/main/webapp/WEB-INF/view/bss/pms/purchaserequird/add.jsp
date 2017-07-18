@@ -234,16 +234,14 @@
 			   var ptype=true;
 			    
 			   /*var bool=true; */
-			    $("#table tr").each(function(){
-			    	var  price= $(this).find("td:eq(8)").children(":first").next().val();//上级id
-			    	if($.trim(price) !=""){
-			    		var  type= $(this).find("td:eq(12)").children(":first").val();//上级id
+			    $("#detailZeroRow tr").each(function(){
+			    	//var  price= $(this).find("td:eq(8)").children(":first").next().val();//上级id
+			    	//if($.trim(price) !=""){
+			    		var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
 				    	  if($.trim(type) == "") {
-				    	      alert();
 				    		  ptype=false;
 				    	  }
-			    	}
-			    	
+			    	//}
 			    });
 				/* var seq=seqs(); */
 			 if(orgType!='0'){
