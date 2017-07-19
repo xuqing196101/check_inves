@@ -19,7 +19,6 @@ import ses.model.sms.SupplierBlacklist;
 import ses.model.sms.SupplierBlacklistVO;
 import ses.service.sms.SupplierBlacklistService;
 import ses.util.PropertiesUtil;
-import sums.model.oc.Complaint;
 import synchro.service.SynchRecordService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;

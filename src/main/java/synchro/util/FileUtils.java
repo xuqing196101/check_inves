@@ -202,6 +202,21 @@ public class FileUtils {
     public final static String M_SUPPLIER_BLACKLIST_LOG_PATH_FILENAME="_m_supplier_blacklist_log.dat";
     /** 供应商黑名单记录表目录 路径 27 **/
     public final static String SUPPLIER_BLACKLIST_LOG_PATH = PropUtil.getProperty("file.supplier_blacklist_log.system.path");
+    
+    /** 专家黑名单新建数据名称 **/
+    public final static String C_EXPERT_BLACKLIST_PATH_FILENAME="_c_expert_blacklist.dat";
+    /** 专家黑名单更新数据名称 **/
+    public final static String M_EXPERT_BLACKLIST_PATH_FILENAME="_m_expert_blacklist.dat";
+    /** 专家黑名单目录 路径 28 **/
+    public final static String EXPERT_BLACKLIST_PATH = PropUtil.getProperty("file.expert_blacklist.system.path");
+    
+    /** 专家黑名单记录表新建数据名称 **/
+    public final static String C_EXPERT_BLACKLIST_LOG_PATH_FILENAME="_c_expert_blacklist_log.dat";
+    /** 专家黑名单记录表更新数据名称 **/
+    public final static String M_EXPERT_BLACKLIST_LOG_PATH_FILENAME="_m_expert_blacklist_log.dat";
+    /** 专家黑名单记录表目录 路径 29 **/
+    public final static String EXPERT_BLACKLIST_LOG_PATH = PropUtil.getProperty("file.expert_blacklist_log.system.path");
+    
     /**
      * 
      *〈简述〉创建根目录
@@ -780,6 +795,8 @@ public class FileUtils {
           case 25:  filePath=ONLINE_COMPLAINTS_PATH;break;
           case 26:  filePath=SUPPLIER_BLACKLIST_PATH;break;
           case 27:  filePath=SUPPLIER_BLACKLIST_LOG_PATH;break;
+          case 28:  filePath=EXPERT_BLACKLIST_PATH;break;
+          case 29:  filePath=EXPERT_BLACKLIST_LOG_PATH;break;
         }
         return filePath;
     }

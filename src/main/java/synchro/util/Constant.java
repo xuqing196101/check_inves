@@ -249,4 +249,23 @@ public class Constant {
     public final static String DATE_SYNCH_SUPPLIER_BLACKLIST_LOG ="SYNCH_S_SUPPLIER_BLACKLIST_LOG";
     /** 供应商黑名单记录文件名称 **/
     public final static String SUPPLIER_BLACKLIST_LOG_FILE_EXPERT = "supplier_blacklist_log";
+
+    /** 专家黑名单信息描述 **/
+    public final static String EXPERT_BLACKLIST_COMMIT = "导出专家黑名单信息数量:";
+    /** 专家黑名单信息导入描述 **/
+    public final static String EXPERT_BLACKLIST_COMMIT_IMPORT = "同步专家黑名单信息数量:";
+    /** 专家黑名单信息 **/
+    public final static String DATE_SYNCH_EXPERT_BLACKLIST ="SYNCH_S_EXPERT_BLACKLIST";
+    /** 专家黑名单文件名称 **/
+    public final static String EXPERT_BLACKLIST_FILE_EXPERT = "expert_blacklist";
+
+    /** 专家黑名单记录信息描述 **/
+    public final static String EXPERT_BLACKLIST_LOG_COMMIT = "导出专家黑名单记录信息数量:";
+    /** 专家黑名单记录信息导入描述 **/
+    public final static String EXPERT_BLACKLIST_LOG_COMMIT_IMPORT = "同步专家黑名单记录信息数量:";
+    /** 专家黑名单记录信息 **/
+    public final static String DATE_SYNCH_EXPERT_BLACKLIST_LOG ="SYNCH_S_EXPERT_BLACKLIST_LOG";
+    /** 专家黑名单记录文件名称 **/
+    public final static String EXPERT_BLACKLIST_LOG_FILE_EXPERT = "expert_blacklist_log";
+
 }

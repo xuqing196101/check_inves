@@ -21,6 +21,7 @@ import ses.model.bms.DictionaryData;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.bms.QualificationService;
+import ses.service.ems.ExpertBlackListService;
 import ses.service.sms.SMSProductLibService;
 import ses.service.sms.SupplierBlacklistService;
 import ses.service.sms.SupplierService;
@@ -115,6 +116,10 @@ public class SynchImportController {
     /** 供应商黑名单 **/
     @Autowired
 	private SupplierBlacklistService supplierBlacklistService;
+    
+    /** 专家黑名单 **/
+    @Autowired
+	private ExpertBlackListService expertBlackListService;
     
     
     /**
@@ -735,6 +740,51 @@ public class SynchImportController {
                       }
                  }
 				
+                /** 专家黑名单信息数据导入 **/
+                if(synchType.contains(Constant.DATE_SYNCH_EXPERT_BLACKLIST)){
+						if (f.getName().equals(Constant.EXPERT_BLACKLIST_FILE_EXPERT)) {
+							for (File file2 : f.listFiles()) {
+								// 判断文件名是否是专家黑名单信息数据名称
+								if (file2.getName().contains(
+										FileUtils.C_EXPERT_BLACKLIST_PATH_FILENAME)
+										|| file2.getName()
+												.contains(
+														FileUtils.M_EXPERT_BLACKLIST_PATH_FILENAME)) {
+									expertBlackListService.importExpertBlacklist(file2);
+								}
+
+							}
+						}
+						if (f.getName().equals(Constant.EXPERT_BLACKLIST_LOG_FILE_EXPERT)) {
+							for (File file2 : f.listFiles()) {
+								// 判断文件名是否是专家黑名单记录信息数据名称
+								if (file2.getName().contains(
+										FileUtils.C_EXPERT_BLACKLIST_LOG_PATH_FILENAME)
+										|| file2.getName()
+												.contains(
+														FileUtils.M_EXPERT_BLACKLIST_LOG_PATH_FILENAME)) {
+									expertBlackListService.importExpertBlacklistLog(file2);
+								}
+
+							}
+						}
+						//专家黑名单附件
+						if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
+	                         attachService.importExpertAttach(f);
+	                     }
+						if (f.isDirectory()) {
+							if (f.getName().equals(Constant.EXPERT_BLACKLIST_FILE_EXPERT)) {
+								OperAttachment.moveFolder(f);
+							}
+							if (f.getName().equals(Constant.EXPERT_BLACKLIST_LOG_FILE_EXPERT)) {
+								OperAttachment.moveFolder(f);
+							}
+							if (f.getName().equals(Constant.ATTCH_FILE_EXPERT)){
+	                             OperAttachment.moveFolder(f);
+	                         }
+                      }
+                 }
+                
 				 /**目录资质关联表*/
 				categoryService.importCategoryQua(synchType,f);
                 /** 产品资质表*/

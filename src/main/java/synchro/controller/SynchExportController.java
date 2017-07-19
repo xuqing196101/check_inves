@@ -387,6 +387,11 @@ public class SynchExportController {
         	supplierBlacklistService.exportSupplierBlacklist(startTime, endTime,date);
         }
         
+        /**专家黑名单信息导出*/
+        if (synchType.contains(Constant.DATE_SYNCH_EXPERT_BLACKLIST)) {
+        	expertBlackListService.exportExpertBlacklist(startTime, endTime,date);
+        }
+        
         bean.setSuccess(true);
         return bean;
     }
