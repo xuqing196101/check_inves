@@ -1,21 +1,14 @@
 package app.controller;
 
-import gui.ava.html.image.generator.HtmlImageGenerator;
 import iss.model.ps.Article;
 import iss.model.ps.ArticleType;
 import iss.service.ps.ArticleService;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -27,12 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.ImageIcon;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,13 +49,10 @@ import app.service.AppInfoService;
 import app.service.IndexAppService;
 
 import com.alibaba.fastjson.JSON;
-
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
-import common.utils.CommonStringUtil;
-import common.utils.UploadUtil;
 
 /**
  * 
@@ -203,7 +190,12 @@ public class IndexAppController {
         }
         List<Article> indexMsgList = new ArrayList<>();
         //动态
-        Article dynamic= indexAppMapper.selectAppNewsByArticleTypeId(INDEX_DYNAMIC);
+        Map<String, Object> mapdy = new HashMap<>();
+        String[] idArray = new String[2];
+        idArray[0] = "110";
+        idArray[1] = "111";
+        mapdy.put("idArray",idArray);
+        Article dynamic= indexAppMapper.selectdynamicByArticleTypeId(mapdy);
         if(dynamic != null){
             dynamic.setCreate_at(dataToString(dynamic.getPublishedAt()));
             indexMsgList.add(dynamic);
@@ -232,10 +224,10 @@ public class IndexAppController {
         }
         //法规
         Map<String, Object> map = new HashMap<>();
-        String[] idArray = new String[2];
-        idArray[0] = "107";
-        idArray[1] = "108";
-        map.put("idArray",idArray);
+        String[] idArrayreg = new String[2];
+        idArrayreg[0] = "107";
+        idArrayreg[1] = "108";
+        map.put("idArray",idArrayreg);
         Article regulations= appArticleMapper.selectsumApp(map);
         if(regulations != null){
             regulations.setCreate_at(dataToString(regulations.getPublishedAt()));
@@ -566,11 +558,30 @@ public class IndexAppController {
             Integer typeId = Integer.parseInt(id);
             switch (typeId) {
                 case 110 ://工作动态
+                case 111 ://图片新闻
+                    appData.setTitle("工作动态");
+                    String[] idArraydy = new String[2];
+                    idArraydy[0] = "110";
+                    idArraydy[1] = "111";
+                    map.put("idArray",idArraydy);
+                    map.put("page", page);
+                    List<Article> dynamicList = indexAppService.selectAppRegulations(map);
+                    if(dynamicList != null && !dynamicList.isEmpty()){
+                        for (Article article : dynamicList) {
+                            article.setCreate_at(dataToString(article.getPublishedAt()));
+                        }
+                        appData.setIndexMsgList(dynamicList);
+                        appImg.setData(appData);
+                        appImg.setStatus(true);
+                    }else {
+                        appImg.setData(appData);
+                        appImg.setStatus(false);
+                        appImg.setMsg("暂无数据");
+                    }
+                    break;
                 case 109://重要通知
                 case 112://投诉处理
-                    if(typeId == 110){
-                        appData.setTitle("工作动态");
-                    }else if(typeId == 109){
+                    if(typeId == 109){
                         appData.setTitle("重要通知");
                     }else if(typeId == 112){
                         appData.setTitle("投诉处理公告");
