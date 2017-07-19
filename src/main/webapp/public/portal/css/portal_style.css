@@ -867,6 +867,9 @@ transition: all 0.1s ease-in-out;
   min-height: 200px;
   position: relative;
 }
+.floor_kind {
+	height: 240px;
+}
 .floor_kind .tab-content .categories {
   padding: 0 10px;
   overflow: hidden;
