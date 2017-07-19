@@ -790,8 +790,47 @@
                  });
             }
         }
-	    
-	
+	    function deleteRow(id){
+	    	$.ajax({
+	  		        type: "POST",
+	  		        url: "${pageContext.request.contextPath}/purchaser/deleteRequired.do",
+	  		        data: {"id":id},
+	  		        success: function (data) {
+	  		        },
+	  		        error: function (message) {
+	  		        }
+	  		    });
+	    }
+      function delRowIndex(obj){
+			var detailRow = document.getElementsByName("detailRow");
+			var index = detailRow.length;
+			
+			if(index<3){
+				 layer.alert("至少保留两行！",{offset: ['222px', '390px'], shade:0.01});
+			}else{
+			var tr=$(obj).parent().parent();
+			var nextEle=$(obj).parent().parent().next().children();
+			 var val=$(tr).find("td:eq(8)").children(":first").next().val();
+			 if($.trim(val)!=""){
+				 var input=$(obj).prev().val();
+				 if(typeof(input)!="undefined"){
+					 deleteRow(input);
+				 }
+				 $(obj).parent().parent().remove();
+			 }
+			 else if(nextEle.length<1){
+				 var input=$(obj).prev().val();
+				 if(typeof(input)!="undefined"){
+					 deleteRow(input);
+				 }
+				 $(obj).parent().parent().remove(); 
+			 }
+			 else{
+				 layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
+			 }
+			} 
+			
+		}
 </script>
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
 <%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
@@ -944,16 +983,16 @@
 							<th class="info freetax">是否申请</br>办理免税
 							</th>
 							
-								<th name="userNone" class="info" <c:if test="${list[0].enterPort==1}">style="display:none;"</c:if>>物资用途</br>（仅进口）
+								<th name="userNone" class="info" <c:if test="${list[0].enterPort==0}">style="display:none;"</c:if>>物资用途</br>（仅进口）
 								</th>
-								<th name="userNone" class="info" <c:if test="${list[0].enterPort==1}">style="display:none;"</c:if>>使用单位</br>（仅进口）
+								<th name="userNone" class="info" <c:if test="${list[0].enterPort==0}">style="display:none;"</c:if>>使用单位</br>（仅进口）
 								</th>
 							
 							<!-- 		<th class="info">物资用途</br>（仅进口）</th>
 							<th class="info">使用单位</br>（仅进口）</th> -->
 							<th class="info memo">备注</th>
 							<th class="extrafile">附件</th>
-							<!-- 		<th class="w100">状态</th> -->
+							<th class="w100">操作</th> 
 						</tr>
 					</thead>
 					<form id="edit_form"
@@ -1062,9 +1101,9 @@
 										onblur="historys(this)" value="${obj.isFreeTax}"
 										class="freetax"></td>
 									
-										<td name="userNone" <c:if test="${list[0].enterPort!=1}"> style="display:none;" </c:if>><input type="text"
+										<td name="userNone" <c:if test="${list[0].enterPort==0}"> style="display:none;" </c:if>><input type="text"
 											name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
-										<td name="userNone" <c:if test="${list[0].enterPort!=1}"> style="display:none;" </c:if>><input type="text"
+										<td name="userNone" <c:if test="${list[0].enterPort==0}"> style="display:none;" </c:if>><input type="text"
 											name="list[${vs.index }].userUnit" value="${obj.useUnit}"></td>
 									
 									<td><div class="memo">
@@ -1083,7 +1122,7 @@
 											</div>
 										</c:if> <input type="hidden" class="ptype" name="ptype"
 										value="${obj.purchaseType}" /></td>
-
+<td class="tc w100"><input type="hidden" value="${obj.id}"/>   <button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 
 									<!--       <td class="tc w100"><input type="text" value="暂存" readonly="readonly"></td> -->
 								</tr>

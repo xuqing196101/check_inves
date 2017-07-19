@@ -29,6 +29,7 @@ import ses.util.DictionaryDataUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 /**
  * Description: 角色管理控制类
@@ -63,7 +64,7 @@ public class RoleManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/list")
-	public String list(Model model, Integer page, Role role) {
+	public String list(@CurrentUser User cuser,Model model, Integer page, Role role) {
 		List<Role> roles = roleService.list(role, page == null ? 1 : page);
 		for (Role role2 : roles) {
       HashMap<String, Object> map = new HashMap<String, Object>();
@@ -75,6 +76,11 @@ public class RoleManageController {
         role2.setUserNumber(0);
       }
     }
+		if("4".equals(cuser.getTypeName())){
+      model.addAttribute("menu", "show");
+    }else{
+      model.addAttribute("menu", "hidden");
+    }
 		model.addAttribute("list", new PageInfo<Role>(roles));
 		model.addAttribute("role", role);
 		logger.info(JSON.toJSONStringWithDateFormat(roles,
@@ -83,7 +89,6 @@ public class RoleManageController {
         model.addAttribute("dds", dds);
 		return "ses/bms/role/list";
 	}
-
 	/**
 	 * Description: 跳转添加页面
 	 * 

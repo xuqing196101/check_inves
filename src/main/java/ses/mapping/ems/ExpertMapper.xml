@@ -195,7 +195,7 @@
           and GRADUATE_SCHOOL like CONCAT(CONCAT('%', #{graduateSchool}), '%')
         </if>
         <if test="orgName !=null and orgName !=''">
-          and org.SHORT_NAME like CONCAT(CONCAT('%',#{orgName}),'%')
+          and org.SHORT_NAME =#{orgName}
         </if>
         ORDER BY T1.CREATED_AT DESC
     </select>
@@ -1220,6 +1220,20 @@ resultMap="BaseResultMap">
             AND ID != #{param2}
         </if>
     </select>
+    <!-- 手机号校验：专家库+供应商库（除去临时供应商和临时专家还有本身之前存的那一条数据） -->
+	<select id="countByMobile" resultType="int" parameterType="java.util.Map">
+		<!-- SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER SUPP,
+		T_SES_EMS_EXPERT EXPE
+		WHERE SUPP.MOBILE = #{mobile}
+		AND EXPE.MOBILE = #{mobile}
+		AND SUPP.IS_PROVISIONAL != 1 AND SUPP.IS_DELETED = 0
+		AND EXPE.IS_DELETE = 0 -->
+		
+		SELECT (T1.COUNT_SUPP + T2.COUNT_EXPE) FROM
+		(SELECT COUNT(1) AS COUNT_SUPP FROM T_SES_SMS_SUPPLIER WHERE MOBILE = #{mobile} AND IS_PROVISIONAL != 1 AND IS_DELETED = 0) T1
+		,
+		(SELECT COUNT(1) AS COUNT_EXPE FROM T_SES_EMS_EXPERT WHERE MOBILE = #{mobile} AND IS_PROVISIONAL != 1 AND IS_DELETE = 0 AND ID !=#{id}) T2
+	</select>
     <!-- 证件号码唯一性验证 -->
     <select id="validateIdNumber" parameterType="java.lang.String"
             resultMap="BaseResultMap">

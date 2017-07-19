@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
@@ -16,7 +15,6 @@ import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierFinance;
-import ses.model.sms.SupplierItemLevel;
 import ses.model.sms.supplierExport;
 /**
  * @Title: SupplierInfoService
@@ -406,8 +404,7 @@ public interface SupplierService {
 	  */
 	 List<Supplier> viewCreditCodeMobile(HashMap<String, Object> map);
 	 
-	 
-	   List<Supplier> getCreditCode(String creditCode,Integer isProvisional);
+	 List<Supplier> getCreditCode(String creditCode,Integer isProvisional);
 	 public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map);
 	 public List<supplierExport> selectExpertNumber(HashMap<String, Object> map);
 	 /**
@@ -458,7 +455,7 @@ public interface SupplierService {
 	public boolean checkMobile(String mobile);
 
 	/**
-	 * 通过供应商名称查询(去除临时供应商)
+	 * 通过供应商名称查询(除去临时供应商)
 	 * @param supplierName
 	 * @return
 	 */
@@ -476,4 +473,20 @@ public interface SupplierService {
 	 */
 	public BigDecimal getScoreByFinances(
 			List<SupplierFinance> listSupplierFinances);
+
+	/**
+	 * 供应商名称校验：供应商库（除去临时供应商）
+	 * @param id
+	 * @param supplierName
+	 * @return
+	 */
+	public boolean checkSupplierName(String id, String supplierName);
+
+	/**
+	 * 统一社会信用代码校验：供应商库（除去临时供应商）
+	 * @param id
+	 * @param creditCode
+	 * @return
+	 */
+	public boolean checkCreditCode(String id, String creditCode);
 }

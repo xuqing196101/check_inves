@@ -1327,7 +1327,7 @@
 	      AND BUSINESS_NATURE =#{businessNature}
 	    </if>
 	    <if test="orgName != null and orgName != ''">
-	      AND ORG.SHORT_NAME like CONCAT(CONCAT('%', #{orgName}), '%') 
+	      AND ORG.SHORT_NAME =#{orgName}
 	    </if>
 	    <if test="orgId != null and orgId != ''">
 	      AND ORG.ID = #{orgId}
@@ -1799,7 +1799,7 @@
 		WHERE IS_DELETED = 0 and SUPPLIER_NAME = #{supplierName}
 	</select>
 	
-	<!-- 通过供应商名称查询(去除临时供应商) -->
+	<!-- 通过供应商名称查询(除去临时供应商) -->
 	<select id="selByNameWithoutProvisional" resultMap="BaseResultMap" parameterType="String">
 		SELECT
 		<include refid="Base_Column_List" />
@@ -1872,7 +1872,7 @@
 	</select>
 	
 	
-		<!-- 根据创建日期查询已提交的供应商 -->
+	<!-- 根据创建日期查询已提交的供应商 -->
 	<select id="tempExportSupplier" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
@@ -2027,5 +2027,23 @@
 		(SELECT COUNT(1) AS COUNT_SUPP FROM T_SES_SMS_SUPPLIER WHERE MOBILE = #{mobile} AND IS_PROVISIONAL != 1 AND IS_DELETED = 0) T1
 		,
 		(SELECT COUNT(1) AS COUNT_EXPE FROM T_SES_EMS_EXPERT WHERE MOBILE = #{mobile} AND IS_PROVISIONAL != 1 AND IS_DELETE = 0) T2
+	</select>
+	
+	<!-- 供应商名称校验：供应商库（除去临时供应商） -->
+	<select id="countSupplierName" resultType="int">
+		SELECT COUNT(*) FROM T_SES_SMS_SUPPLIER
+		WHERE SUPPLIER_NAME = #{supplierName}
+		AND ID != #{id}
+		AND IS_DELETED = 0
+		AND IS_PROVISIONAL != 1
+	</select>
+	
+	<!-- 统一社会信用代码校验：供应商库（除去临时供应商） -->
+	<select id="countCreditCode" resultType="int">
+		SELECT COUNT(*) FROM T_SES_SMS_SUPPLIER
+		WHERE CREDIT_CODE = #{creditCode}
+		AND ID != #{id}
+		AND IS_DELETED = 0
+		AND IS_PROVISIONAL != 1
 	</select>
 </mapper>
