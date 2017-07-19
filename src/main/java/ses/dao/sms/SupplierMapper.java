@@ -559,7 +559,7 @@ public interface SupplierMapper {
 	int countByMobile(String mobile);
 
 	/**
-	 * 通过供应商名称查询(去除临时供应商)
+	 * 通过供应商名称查询(除去临时供应商)
 	 * @param supplierName
 	 * @return
 	 */
@@ -597,4 +597,20 @@ public interface SupplierMapper {
 	 * @since JDK1.7
 	 */
 	List<Supplier> selectSupByPublictyOfExport(Map<String,Object> map);
+
+	/**
+	 * 供应商名称校验：供应商库（除去临时供应商）
+	 * @param id
+	 * @param supplierName
+	 * @return
+	 */
+	int countSupplierName(@Param("id")String id, @Param("supplierName")String supplierName);
+
+	/**
+	 * 统一社会信用代码校验：供应商库（除去临时供应商）
+	 * @param id
+	 * @param creditCode
+	 * @return
+	 */
+	int countCreditCode(@Param("id")String id, @Param("creditCode")String creditCode);
 }

@@ -695,7 +695,7 @@ public class ExpertController extends BaseController {
     @ResponseBody
     public String findErrorReason(ExpertAudit expertAudit) {
         List < ExpertAudit > audit = expertAuditService.selectFailByExpertId(expertAudit);
-        if(null != audit){
+        if(audit != null && !audit.isEmpty()){
         	return JSON.toJSONString(audit.get(0));
         }
         return null;
