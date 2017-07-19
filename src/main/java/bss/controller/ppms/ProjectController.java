@@ -1894,6 +1894,7 @@ public class ProjectController extends BaseController {
                 pg.setProjectId(projectId);
                 pg.setIsDeleted(0);
                 pg.setProjectStatus(DictionaryDataUtil.getId("FBWC"));
+                pg.setPackageNumber(project.getProjectNumber() + "(" + (packList.size()+1) + ")");
                 if(project.getIsImport()==1){
                     pg.setIsImport(1);
                 }else{
@@ -1941,6 +1942,7 @@ public class ProjectController extends BaseController {
             pg.setProjectId(projectId);
             pg.setIsDeleted(0);
             pg.setProjectStatus(DictionaryDataUtil.getId("FBWC"));
+            pg.setPackageNumber(project.getProjectNumber() + "(" + (packList.size()+1) + ")");
             if(project.getIsImport()==1){
                 pg.setIsImport(1);
             }else{
@@ -2020,6 +2022,7 @@ public class ProjectController extends BaseController {
                 pg.setProjectId(projectId);
                 pg.setIsDeleted(0);
                 pg.setProjectStatus(DictionaryDataUtil.getId("FBWC"));
+                pg.setPackageNumber(project.getProjectNumber() + "(" + (packList.size()+1) + ")");
                 if(project.getIsImport()==1){
                     pg.setIsImport(1);
                 }else{
@@ -2064,9 +2067,12 @@ public class ProjectController extends BaseController {
     public void editPackName(HttpServletRequest request){
         String name = request.getParameter("name");
         String id = request.getParameter("id");
+        String projectId = request.getParameter("projectId");
+        Project project = projectService.selectById(projectId);
         Packages pk = new Packages();
         pk.setId(id);
         pk.setName(name);
+        pk.setPackageNumber(project.getProjectNumber() + "(" + name + ")");
         pk.setUpdatedAt(new Date());
         packageService.updateByPrimaryKeySelective(pk);
     }

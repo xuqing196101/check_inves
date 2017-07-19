@@ -794,12 +794,34 @@ public class OpenBiddingController {
             Project project = projectService.selectById(article.getProjectId());
             String code = "ZBGGNZZ";
             projectService.updateStatus(project, code);
+            
+            //获取包信息
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("projectId", project.getId());
+            List<Packages> findById = packageService.findByID(map);
+            if(findById != null && findById.size() > 0){
+            	for (Packages packages : findById) {
+            		packages.setProjectStatus(DictionaryDataUtil.getId("ZBGGNZZ"));
+            		packageService.updateByPrimaryKeySelective(packages);
+        		}
+            }
           }
           //如果是拟制中标公告，更新项目状态为中标公示编制
           if ("win".equals(noticeType)) {
             Project project = projectService.selectById(article.getProjectId());
             String code = "NZZBGG";
             projectService.updateStatus(project, code);
+            
+            //获取包信息
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("projectId", project.getId());
+            List<Packages> findById = packageService.findByID(map);
+            if(findById != null && findById.size() > 0){
+            	for (Packages packages : findById) {
+            		packages.setProjectStatus(DictionaryDataUtil.getId("NZZBGG"));
+            		packageService.updateByPrimaryKeySelective(packages);
+        		}
+            }
           }
         }
         if (flag == 1) {
@@ -817,12 +839,32 @@ public class OpenBiddingController {
                 //如果是公开招标更新项目状态为发售标书
                 String code = "FSBSZ";
                 projectService.updateStatus(project, code);
+                
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("projectId", project.getId());
+                List<Packages> findById = packageService.findByID(map);
+                if(findById != null && findById.size() > 0){
+                	for (Packages packages : findById) {
+                		packages.setProjectStatus(DictionaryDataUtil.getId("FSBSZ"));
+                		packageService.updateByPrimaryKeySelective(packages);
+            		}
+                }
             } else if ("JZXTP".equals(puchaseTypeCode)) {
               
             } else {
                 //如果是询价、邀请招标、竞争性谈判更新项目状态为抽取供应商
                 String code = "GYSCQZ";
                 projectService.updateStatus(project, code);
+                
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("projectId", project.getId());
+                List<Packages> findById = packageService.findByID(map);
+                if(findById != null && findById.size() > 0){
+                	for (Packages packages : findById) {
+                		packages.setProjectStatus(DictionaryDataUtil.getId("GYSCQZ"));
+                		packageService.updateByPrimaryKeySelective(packages);
+            		}
+                }
             }
           }
           if ("win".equals(noticeType)) {
@@ -834,6 +876,16 @@ public class OpenBiddingController {
                 //如果不是单一来源，项目状态为确认中标供应商
                 String code = "QRZBGYS";
                 projectService.updateStatus(project, code);
+                
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("projectId", project.getId());
+                List<Packages> findById = packageService.findByID(map);
+                if(findById != null && findById.size() > 0){
+                	for (Packages packages : findById) {
+                		packages.setProjectStatus(DictionaryDataUtil.getId("QRZBGYS"));
+                		packageService.updateByPrimaryKeySelective(packages);
+            		}
+                }
             }
           }
         }
@@ -1022,6 +1074,17 @@ public class OpenBiddingController {
         push(user,project.getId());
         //该环节设置为执行中状态
         flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+        
+        //获取包信息
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("projectId", projectId);
+        List<Packages> findById = packageService.findByID(map);
+        if(findById != null && findById.size() > 0){
+        	for (Packages packages : findById) {
+        		packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+        		packageService.updateByPrimaryKeySelective(packages);
+    		}
+        }
       }
       //flag：0，招标文件为暂存状态
       if ("0".equals(flag)) {
@@ -1046,6 +1109,17 @@ public class OpenBiddingController {
         push(user,project.getId());
         //该环节设置为执行中状态
         flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+        
+        //获取包信息
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("projectId", projectId);
+        List<Packages> findById = packageService.findByID(map);
+        if(findById != null && findById.size() > 0){
+        	for (Packages packages : findById) {
+        		packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+        		packageService.updateByPrimaryKeySelective(packages);
+    		}
+        }
       }
       //flag：0，招标文件为暂存状态
       if ("0".equals(flag)) {
@@ -1841,7 +1915,7 @@ public class OpenBiddingController {
 
 
   @RequestMapping("/selectSupplierByProject")
-  public String selectSupplierByProject(String projectId, Model model) throws ParseException{
+  public String selectSupplierByProject(String projectId, String flowDefineId, Model model) throws ParseException{
     //文件上传类型
     boolean flag = false;
     DictionaryData dd = new DictionaryData();

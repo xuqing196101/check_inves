@@ -112,7 +112,7 @@
         } else {
           var packageId = $(obj).next().next().next().val();
           $.ajax({
-            url: "${pageContext.request.contextPath }/project/editPackName.do?name=" + name + "&id=" + packageId,
+            url: "${pageContext.request.contextPath }/project/editPackName.do?name=" + name + "&id=" + packageId + "&projectId=" + projectId,
             type: "post",
             success: function(data) {
               layer.msg('修改成功', {

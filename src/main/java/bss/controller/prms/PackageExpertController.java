@@ -3363,9 +3363,9 @@ public class PackageExpertController {
 //            }
           }
           //修改项目状态
-          //Project project = projectService.selectById(projectId);
-          //project.setStatus(DictionaryDataUtil.getId("ZJQDWC"));
-          //projectService.update(project);
+          Project project = projectService.selectById(projectId);
+          project.setStatus(DictionaryDataUtil.getId("ZJQDWC"));
+          projectService.update(project);
           msg = "签到完成";
           response.setContentType("text/html;charset=utf-8");
           response.getWriter()

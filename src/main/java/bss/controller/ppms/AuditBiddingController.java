@@ -3,6 +3,7 @@ package bss.controller.ppms;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,9 +32,11 @@ import ses.service.bms.UserServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
+import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.Reason;
 import bss.service.ppms.FlowMangeService;
+import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 import bss.util.PropUtil;
 
@@ -86,6 +89,9 @@ public class AuditBiddingController extends BaseController {
 
   @Autowired
   private PurchaseOrgnizationServiceI purchaseOrgnizationService;
+  
+  @Autowired
+  private PackageService packageService;
   /**
    * 
    *〈简述〉返回待审核的项目信息
@@ -153,6 +159,22 @@ public class AuditBiddingController extends BaseController {
     flowMangeService.flowExe(request, flowDefineId, projectId, 2);
     //获取项目信息
     Project selectById = projectService.selectById(projectId);
+    //获取包信息
+    HashMap<String, Object> map = new HashMap<>();
+    map.put("projectId", projectId);
+    List<Packages> findById = packageService.findByID(map);
+    if(findById != null && findById.size() > 0){
+    	for (Packages packages : findById) {
+    		if("4".equals(status)){
+    			packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJXGBB"));
+    		} else if ("3".equals(status)) {
+    			packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTG"));
+    		} else if ("2".equals(status)) {
+    			packages.setProjectStatus(DictionaryDataUtil.getId("NZPFBZ"));
+    		}
+    		packageService.updateByPrimaryKeySelective(packages);
+		}
+    }
     //修改代办为已办
     todosService.updateIsFinish("open_bidding/bidFile.html?id=" + projectId + "&process=1");
     

@@ -2,24 +2,19 @@ package sums.controller.ss;
 
 import iss.model.ps.Article;
 import iss.service.ps.ArticleService;
-import iss.service.ps.ArticleTypeService;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,17 +41,13 @@ import bss.model.pms.PurchaseManagement;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedProject;
-import bss.model.ppms.FlowDefine;
-import bss.model.ppms.FlowExecute;
 import bss.model.ppms.NegotiationReport;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
-import bss.model.ppms.ProjectTask;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
-import bss.model.pqims.PqInfo;
 import bss.model.prms.PackageExpert;
 import bss.model.prms.SupplierRank;
 import bss.model.prms.ext.ExpertSuppScore;
@@ -66,18 +57,14 @@ import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseManagementService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.AdvancedDetailService;
-import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.BidMethodService;
-import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.NegotiationReportService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
-import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
-import bss.service.pqims.PqInfoService;
 import bss.service.prms.ExpertScoreService;
 import bss.service.prms.PackageExpertService;
 
@@ -85,14 +72,12 @@ import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
-import common.utils.DateUtils;
 
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.ExpExtractRecord;
-import ses.model.ems.Expert;
 import ses.model.ems.ProExtSupervise;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Quote;
@@ -100,11 +85,9 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtUser;
 import ses.model.sms.SupplierExtracts;
-import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpExtConditionService;
 import ses.service.ems.ExpExtractRecordService;
-import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectSupervisorServicel;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierConditionService;
@@ -146,9 +129,6 @@ public class PlanSupervisionController {
     private TaskService taskService;
     
     @Autowired
-    private ProjectTaskService projectTaskService;
-    
-    @Autowired
     private ProjectService projectService;
     
     @Autowired
@@ -176,16 +156,7 @@ public class PlanSupervisionController {
     private AdvancedDetailService advancedDetailService;
     
     @Autowired
-    private AdvancedProjectService advancedProjectService;
-    
-    @Autowired
     private UploadService uploadService;
-    
-    @Autowired
-    private FlowMangeService flowMangeService;
-    
-    @Autowired
-    private ArticleTypeService articelTypeService;
     
     @Autowired
     private ArticleService articleService;
@@ -203,13 +174,7 @@ public class PlanSupervisionController {
     private PackageExpertService packageExpertService;
     
     @Autowired
-    private ExpertService expertService;
-    
-    @Autowired
     private NegotiationReportService reportService;
-    
-    @Autowired
-    private PqInfoService pqInfoService;
     
     @Autowired 
     private BidMethodService bidMethodService; 
@@ -241,8 +206,6 @@ public class PlanSupervisionController {
     @Autowired
     private PlanSupervisionService planSupervisionService;
     
-    @Autowired
-    private DictionaryDataServiceI dictionaryDataService;
     
     
     /**

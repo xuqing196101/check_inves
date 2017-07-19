@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -226,7 +227,18 @@ public class PackageServiceImpl implements PackageService{
 		for (int i = 0; i < packageId.length; i++) {
 			Packages packages = packageMapper.selectByPrimaryKeyId(packageId[i]);
 			if(packages != null){
-				num.add(Integer.valueOf(packages.getName().substring(1,2)));
+				String substring = packages.getName().substring(1,2);
+				if(Pattern.compile("^[0-9]*[1-9][0-9]*$").matcher(substring).matches()){
+					num.add(Integer.valueOf(substring));
+				} else {
+					if(packageName == null){
+						packageName = packages.getName();
+					} else {
+						packageName = packageName + StaticVariables.COMMA_SPLLIT + String.valueOf(packages.getName());
+					}
+					
+				}
+				
 			}
 		}
 	
@@ -328,11 +340,11 @@ public class PackageServiceImpl implements PackageService{
 		return flag;
 	}
 
-@Override
-public List<Packages> findPackage(HashMap<String, Object> map, int pageNum) {
-  PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
-  return packageMapper.selectPackageOrderByCreated(map);
-}
+	@Override
+	public List<Packages> findPackage(HashMap<String, Object> map, int pageNum) {
+	  PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
+	  return packageMapper.selectPackageOrderByCreated(map);
+	}
 
 }
 

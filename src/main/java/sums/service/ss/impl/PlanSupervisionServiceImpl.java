@@ -751,13 +751,14 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 	public HashMap<String, Object> flow(List<Project> list, String detailId, HashMap<String, Object> map) {
 		int num = 0;
 		for (Project project : list) {
+			//先判断relationId是否为空，为空的话说明项目是中止（转竟谈）之前的项目或者正常项目
 			if(StringUtils.isBlank(project.getRelationId())){
 				HashMap<String, Object> hashMap = new HashMap<>();
 				hashMap.put("id", project.getId());
 				hashMap.put("requiredId", detailId);
 				List<ProjectDetail> selectById = projectDetailMapper.selectById(hashMap);
 				if(selectById != null && selectById.size() > 0){
-					//如果relationId等于空并且分过包进if
+					//判断项目下面这条明细有没有分包，没有的话就只有立项这个环节
 					if(StringUtils.isNotBlank(selectById.get(0).getPackageId())){
 						Packages packages = packageMapper.selectByPrimaryKeyId(selectById.get(0).getPackageId());
 						FlowDefine flowDefine = new FlowDefine();
@@ -776,6 +777,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 	    							}
 	    							flowChart(find2.get(0).getCode(),find2.get(0),project,detailId,packages);
 	    							if(i == flows.size()-1){
+	    								//给最后一个流程加一个标示
 	    								map.put(WfUtil.createUUID() + "XMFB", find2.get(0));
 	    								num = find2.get(0).getPosition()+1;
 	    							}else{
