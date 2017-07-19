@@ -3631,6 +3631,16 @@ public class ExpertController extends BaseController {
         }
     }
     @ResponseBody
+    @RequestMapping("/checkPhone")
+    public String checkPhone(String phone,String id) {
+    	boolean checkMobile = service.checkMobile(phone,id);
+    	if(checkMobile) {
+    		return "0";
+    	} else {
+    		return "1";
+    	}
+    }
+    @ResponseBody
     @RequestMapping("/validateAge")
     public String validateAge(String birthday) {
         String isok = "0";
@@ -3660,12 +3670,20 @@ public class ExpertController extends BaseController {
     @ResponseBody
     @RequestMapping("/validateIdCardNumber")
     public String validateIdCardNumber(String idCardNumber, String expertId) {
-        Boolean ajaxIdNumber = userService.ajaxIdNumber(idCardNumber, userService.findByTypeId(expertId).getId());
-        if(ajaxIdNumber) {
-            return "0";
-        } else {
-            return "1";
-        }
+    	 if(StringUtils.isNotBlank(idCardNumber)){
+             List < Expert > list = service.validateIdCardNumber(idCardNumber, expertId);
+             if(list.isEmpty()) {
+                 return "0";
+             } else {
+                 if(list.size() == 1 && expertId.equals(list.get(0).getId())) {
+                     return "0";
+                 } else {
+                     return "1";
+                 }
+             }
+         }else{
+             return "1";
+         }
     }
 
     /**

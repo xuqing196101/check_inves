@@ -337,12 +337,14 @@
       
    	  <!-- 表格开始-->
 	  <div class="col-md-12 pl20 mt10">
+	      <c:if test="${menu=='show' }">
 		    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 			<button class="btn btn-windows edit" type="button" onclick="openPreMenu()">设置权限</button>
 			<!-- <button class="btn btn-windows edit" type="button" onclick="openDataMenu()">设置数据权限</button> -->
 			<button class="btn btn-windows edit" type="button" onclick="resetPaw()">重置密码</button>
+		 </c:if>
 	  </div>
 	  
 	    <div class="content table_box">
@@ -362,6 +364,7 @@
 					</tr>
 		      </thead>
 		      <tbody>
+		      <c:if test="${menu=='show' }">
 				<c:forEach items="${list.list}" var="user" varStatus="vs">
 					<tr>
 					  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${user.id}" /></td>
@@ -423,6 +426,7 @@
 					  </td> --%>
 					</tr>
 				</c:forEach>
+				</c:if>
 				</tbody>
 		       </table>
 		    </div>

@@ -49,6 +49,7 @@
     function loadPackage(id){
     	var packageId = $("#oldpackageId").val();
     	var projectId = $("#oldprojectId").val();
+    	var flowDefineId = "${flowDefineId}";
     	$.ajax({  
             type: "POST",  
             url: "${pageContext.request.contextPath}/adFirstAudit/saveLoadPackage.html",  
@@ -80,7 +81,10 @@
         <input type="hidden" name="oldProjectId" id="oldprojectId" value="${oldProjectId}">
         <ul class="demand_list">
           <li>
-            <label class="fl">包名：</label><span><input type="text" name="name" value="${packages.name}"/></span>
+            <label class="fl">项目名称：</label><span><input type="text" name="projectName" value="${projectName}"/></span>
+          </li>
+          <li>
+            <label class="fl">包名：</label><span><input type="text" name="packageName" value="${packageName}"/></span>
           </li>
             <button type="submit" class="btn">查询</button>
             <button type="button" onclick="resetQuery()" class="btn">重置</button>    
@@ -102,7 +106,7 @@
           <c:forEach items="${list.list}" var="pa" varStatus="vs">
               <tr>
                   <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-                  <td>${pa.project.name}</td>
+                  <td>${pa.projectName}</td>
                   <td class="tc">${pa.name}</td>
                   <td class="tc">
                       <button class="btn" type="button" onclick="view('${pa.id}','${pa.project.id}');">包信息</button>
