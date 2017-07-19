@@ -5,7 +5,8 @@
 <tr>
     <td class="tc" style="border: 1px solid #ddd;"><input type="checkbox" value="${id}" /></td>
     <td class="tc" style="border: 1px solid #ddd;">
-        <input type="text" required class="w200 border0 address_zip_code" name="addressList[${ind }].code" value="" onblur='tempSave()' />
+        <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" onblur="validatePostCode(this.value)"
+        	required class="w200 border0 address_zip_code" name="addressList[${ind }].code" value="" />
         <input type='hidden' name='addressList[${ind }].id' value='${id}'>
     </td>
     <td class="tc" style="border: 1px solid #ddd;">
@@ -13,20 +14,20 @@
             <select id="root_area_select_id_" class="w100p" onchange="loadChildren(this)" name="addressList[${ind }].provinceId" <c:if test="${fn:contains(audit,'address_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address_${addr.id }')"</c:if>>
                 <option value="">请选择</option>
                 <c:forEach items="${privnce }" var="prin">
-                    <option value="${prin.id }" onchange='tempSave()'>${prin.name }</option>
+                    <option value="${prin.id }">${prin.name }</option>
                 </c:forEach>
             </select>
         </div>
         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
             <select id="children_area_select_id_" class="w100p" name="addressList[${ind }].address" <c:if test="${fn:contains(audit,'address_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address_${addr.id }')"</c:if>>
                 <c:forEach items="${addr.areaList }" var="city">
-                    <option value="${city.id }" onchange='tempSave()'>${city.name }</option>
+                    <option value="${city.id }">${city.name }</option>
                 </c:forEach>
             </select>
         </div>
     </td>
     <td class="tc" style="border: 1px solid #ddd;">
-        <input type="text" class="w200 border0" name="addressList[${ind }].detailAddress" placeholder="街道名称，门牌号。" onblur='tempSave()' maxlength="50" value="" >
+        <input type="text" class="w200 border0" name="addressList[${ind }].detailAddress" placeholder="街道名称，门牌号。" maxlength="50" value="" >
 
     </td>
     <td class="tc" style="border: 1px solid #ddd;">
@@ -96,28 +97,6 @@
         <input type="hidden" value="${id}" />
     </div>
 </li>--%>
-<script type="text/javascript">
-    $(function () {
-        /**邮编校验*/
-        $(".address_zip_code").focus(function(){
-            $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
-        }).blur(function(){
-            var oldVal=($(this).attr("data-oval")); //获取原值
-            var newVal=($(this).val()); //获取当前值
-            if (oldVal!=newVal){
-                var tel = /^[0-9]{6}$/;
-                if(!tel.test(newVal)){
-                    $(this).val("");
-                    layer.msg('请输入正确的邮政编码！', {
-                        offset: '300px'
-                    });
-                }else{
-                    tempSave();
-                }
-            }
-        });
-    })
-</script>
 
 
 

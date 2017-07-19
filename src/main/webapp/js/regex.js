@@ -95,3 +95,13 @@ function validatePositiveInteger(val) {
 	}
 	return true;
 }
+
+//验证邮编
+function validatePostCode(val) {
+	var reg = /^([0-9]{6})?$/;
+	if(!reg.test(val)){
+		layer.msg("请输入正确的邮编！");
+        return false;
+	}
+	return true;
+}

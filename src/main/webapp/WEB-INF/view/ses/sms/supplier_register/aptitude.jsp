@@ -456,21 +456,23 @@
 				var professType="";
 				if (flag == "1") {
 					certCode = $(obj).parent().next().find("input").val();
-					// 清空等级和附件
+					//清空编号
 					$(obj).parent().next().find("input[type='text']").val("");
-					$(obj).parent().next().next().find("input[type='text']").val("");
-					
+					//清空专业类别下拉框
+					$(obj).parent().next().next().find("select").empty();
+					//清空资质等级
 					$(obj).parent().next().next().next().find("input[type='text']").val("");
 					$(obj).parent().next().next().next().find("input[type='hidden']").val("");
-					
-					$(obj).parent().next().next().next().next().html("");
+					//清空预览图片
+					$(obj).parents("tr").find("td:last").empty();
 					professType=$(obj).parent().next().next().children().val();
 				} else if(flag=="2") {
 					certCode = $(obj).val();
 					typeId = $(obj).parent().prev().find("select").val();
 					// 清空等级和附件
 					//$(obj).parent().next().find("input[type='text']").val("");
-					$(obj).parent().next().children().empty();
+					//清空专业类别下拉框
+					$(obj).parent().next().find("select").empty();
 					//清空资质等级
 					$(obj).parent().next().next().find("input[type='text']").val("");
 					$(obj).parent().next().next().find("input[type='hidden']").val("");
@@ -494,13 +496,13 @@
 					});
 					//$(obj).parent().next().next().next().html("");
 					//清除图片显示图标
-					var objs = $(obj).parents("tr").find("td:last").empty();
+					$(obj).parents("tr").find("td:last").empty();
 					// professType=$(obj).parent().next().children().val();
 				}else{
 					$(obj).parent().next().find("input[type='text']").val("");
 					$(obj).parent().next().find("input[type='hidden']").val("");
-					$(obj).parent().next().next().html("");
 					certCode = $(obj).parent().prev().children().val();
+					$(obj).parents("tr").find("td:last").empty();
 					professType=$(obj).val();
 				}
 
