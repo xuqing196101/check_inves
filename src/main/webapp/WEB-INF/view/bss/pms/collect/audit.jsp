@@ -1018,20 +1018,21 @@
 		
 		</div>
 	</body>
+	
 	<script>
-	  (function($,w){
-            w.onload=function(){
-              $('#table_div').scroll( function() {
-                    $('#audit_table_div').scrollTop($(this).scrollTop());
-                    $('#audit_table_div').scrollLeft($(this).scrollLeft());
-                });
-                $('#audit_table_div').scroll( function() {
-                    $('#table_div').scrollTop($(this).scrollTop());
-                    $('#table_div').scrollLeft($(this).scrollLeft());
-                });
-            }
-        })(jQuery,window);
-    </script>
+		(function($,w){
+			w.onload=function(){
+				$('#table_div').bind('scroll', function() {
+					$('#audit_table_div').scrollTop($(this).scrollTop());
+					//$('#audit_table_div').scrollLeft($(this).scrollLeft());
+				});
+				$('#audit_table_div').bind('scroll', function() {
+					$('#table_div').scrollTop($(this).scrollTop());
+					//$('#table_div').scrollLeft($(this).scrollLeft());
+				});
+			}
+		})(jQuery,window);
+	</script>
 	
 	
 </html>
