@@ -75,4 +75,5 @@
 				typeId="${attId}" />
 		</div>
 	</td>
+	<td class="tc w100"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 </tr>

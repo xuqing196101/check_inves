@@ -103,7 +103,7 @@ public class UserManageController extends BaseController{
 	 * @exception IOException
 	 */
 	@RequestMapping("/list")
-	public String list(Model model, Integer page, User user) {
+	public String list(@CurrentUser User cuser,Model model, Integer page, User user) {
 	    if (user.getRoleId() != null && !"".equals(user.getRoleId())) {
 	        user.setRoleIdList(Arrays.asList(user.getRoleId().split(",")));
 	    }
@@ -115,6 +115,11 @@ public class UserManageController extends BaseController{
       for (User u : users) {
         List<Role> roles2 = roleService.selectByUserId(u.getId());
         u.setRoles(roles2);
+      }
+      if("4".equals(cuser.getTypeName())){
+        model.addAttribute("menu", "show");
+      }else{
+        model.addAttribute("menu", "hidden");
       }
       model.addAttribute("roles", roles);
       model.addAttribute("list", new PageInfo<User>(users));
