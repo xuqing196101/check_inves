@@ -122,7 +122,69 @@
 		html += "</tr>";
 		$("#content").append(html);
 	}); */
-	
+	  var pack_id="";
+  	function bynSub(packageId,projectId,flowDefineId){
+  		pack_id=packageId;
+  		$.ajax({
+			url:"${pageContext.request.contextPath}/termination/flowDefineId.do",
+			data:{"currFlowDefineId":flowDefineId},
+			type:"post",
+			dataType:"json",
+	   	success:function(data){
+	   		$("#openDiv_checkFlw").empty();
+	   		var html='<div class="tl">';
+	   		if(data!=null){
+	   			html+='<div class=" mt10 ml40"><input type="radio" name="flw" value="XMLX"/>项目立项</div>';
+	   			html+='<div class=" mt10 ml40"><input type="radio" name="flw" value="XMFB"/>项目分包</div>';
+	   			for(var i=0;i<data.length;i++){
+	   				if(i>=2){
+	   					html+='<div class=" mt10 ml40"><input type="radio" name="flw" value="'+data[i].id+'"/>'+data[i].name+'</div>';
+	   				}
+	   			}
+	   		}
+	   		html+='</div>';
+	   		$("#openDiv_checkFlw").append(html);
+	   		openDetailFlw();
+	   	 }
+  		});
+  	}
+	var indexFlw;
+  	function openDetailFlw(){
+  		indexFlw =  layer.open({
+  	    shift: 1, //0-6的动画形式，-1不开启
+  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+  	    title: ['终止环节','border-bottom:1px solid #e5e5e5'],
+  	    shade:0.01, //遮罩透明度
+	  		type : 1,
+	  		area : [ '20%', '400px'  ], //宽高
+	  		content : $('#openDivFlw'),
+	  	  });
+      }
+  	function cancelFlw(){
+		  layer.close(indexFlw);
+	  }
+  	function bynSubFlw(){
+  		var val=[];
+  		$('input[type="radio"]:checked').each(function(){ 
+  			val.push($(this).val()); 
+  		});
+  		if(val.length==0){
+  			layer.alert("请选择终止流程");
+  			return false;
+  		}
+  		$.ajax({
+			url:"${pageContext.request.contextPath}/termination/ter_package.do",
+			data:{"packagesId":pack_id,"projectId":'${projectId}',"currFlowDefineId":val.join(','),"oldCurrFlowDefineId":'${flowDefineId}'},
+			type:"post",
+			dataType:"json",
+	   	success:function(data){
+	   		if(data=="ok"){
+	   			layer.alert("终止成功");
+	   			layer.close(indexFlw);
+	   			}
+	   		}
+  		});
+  	}
 	//结束符合性审查
 	function isFirstGather(projectId, packageId,flowDefineId){
 		var count=0;
@@ -157,12 +219,12 @@
 		      		});
 		           
 		        }, function(){
-		            layer.msg('中止实施' );
+		        	bynSub(packageId,projectId,flowDefineId);
 		        }, function(){
 		            layer.msg('继续实施' );
 		        });
-		} 
-		$.ajax({
+		}
+		/* $.ajax({
 			url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
 			data: {"projectId": projectId, "packageId": packageId, "flowDefineId":flowDefineId},
 			dataType:'json',
@@ -177,7 +239,7 @@
             error: function(result){
                 layer.msg("符合性检查结束失败",{offset: ['222px']});
             }
-		});
+		}); */
 	}
 	
 	//退回复核
@@ -358,6 +420,15 @@
   		<div class="clear col-md-12 pl20 mt10 tc">
 		    <button class="btn btn-windows back" onclick="goBack();" type="button">返回</button>
 	   	</div>
+	   	<div id="openDivFlw" class="dnone layui-layer-wrap">
+        <div class="drop_window tc" id="openDiv_checkFlw">
+         
+        </div>
+        <div class="tc  col-md-12 mt350">
+          <input class="btn"  id = "inputbFLw" name="addr"  type="button" onclick="bynSubFlw();" value="确定"> 
+	      <input class="btn"  id = "inputaFlw" name="addr"  type="button" onclick="cancelFlw();" value="取消"> 
+        </div>
+    </div>
 	   	
 	   <script type="text/javascript">
 		function resize_table_width() {

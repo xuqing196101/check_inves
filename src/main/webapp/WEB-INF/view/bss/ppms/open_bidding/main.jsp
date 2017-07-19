@@ -27,7 +27,7 @@
 	   				for(var i=0;i<data.length;i++){
 		   				if((i+1)%2==0){
 		   					html+='<div class=" mt10 fl ml10"><input type="checkbox" value="'+data[i].id+'" name="pack" />'+data[i].name+'</div>';
-		   					html+='<div class=" clear"></div>';
+		   					html+='<div class=" clear" name="clear"></div>';
 		   				}else{
 		   					html+='<div class=" mt10 ml40 fl"><input type="checkbox" value="'+data[i].id+'" name="pack" />'+data[i].name+'</div>';
 		   				}
@@ -117,11 +117,18 @@
 			type:"post",
 			dataType:"json",
 	   	success:function(data){
-	   		layer.close(index);
 	   		if(data=="ok"){
 	   			layer.alert("终止成功");
 	   			layer.close(indexFlw);
-	   			layer.close(index);
+	   			var checkboxSize=$("#openDiv_check input[type='checkbox']").length;
+	   			if(checkboxSize==0){
+	   				layer.close(index);
+	   			}else{
+	   				$('#openDiv_check input[type="checkbox"]:checked').each(function(){
+		   	  			$(this).parent().empty();
+		   	  		    $(this).parent().html("<div></div>");
+		   	  		});
+	   			}
 	   			}
 	   		}
   		});

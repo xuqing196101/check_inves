@@ -217,7 +217,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
       //获取当前流程以前的所有步骤并复制一份
       FlowDefine define=new FlowDefine();
       define.setId(currFlowDefineId);
-      define.setUrl("gt");
+      define.setUrl("gtl");
       List<FlowDefine> flowDefines = flowDefineMapper.getFlow(define);
       Map<String, Map<String, Object>> IsTurnUpMap=new HashMap<String, Map<String, Object>>();
       Map<String, String> firstAuditIdMap=new HashMap<String, String>();
@@ -825,8 +825,8 @@ public class TerminationServiceImpl<V> implements TerminationService {
       for(int i=0;i<split.length;i++){
         Packages pg = packageMapper.selectByPrimaryKeyId(split[i]);
         if(type!=null){
-          pg.setProjectStatus("1");
-          pg.setEditFlowId("FC0D62C307844E7693238E58C0B0610D");
+          pg.setProjectStatus("FC0D62C307844E7693238E58C0B0610D");
+          pg.setEditFlowId(currFlowDefineId);
         }else{
           pg.setProjectStatus("F0EAF1136F7E4E8A8BDA6561AE8B4390");
           pg.setOldFlowId(oldCurrFlowDefineId);

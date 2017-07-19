@@ -37,6 +37,7 @@ public class TerminationController extends BaseSupplierController {
   public void getPackage(HttpServletResponse response, String projectId){
     HashMap<String, Object> map=new HashMap<String, Object>();
 	map.put("projectId", projectId);
+	map.put("projectStatus", "1");
 	List<Packages> packages = packageService.selectByProjectKey(map);
 	super.writeJson(response, packages);
   }

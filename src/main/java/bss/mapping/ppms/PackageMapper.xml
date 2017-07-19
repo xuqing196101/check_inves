@@ -329,6 +329,11 @@
 		<if test="projectId != null and projectId != '' ">
 			where PROJECT_ID = #{projectId} and IS_DELETED=0
 		</if>
+		<if test="projectStatus != null and projectStatus !=''">
+			and 
+			PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='YZZ') and 
+		    PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='ZJZXTP')
+		</if>
 	</select>
 
 	<select id="selectByPrimaryKeyId" parameterType="java.lang.String"
