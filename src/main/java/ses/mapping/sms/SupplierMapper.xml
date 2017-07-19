@@ -2099,7 +2099,7 @@
 		AND
 		T.AUDIT_DATE &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd
 		hh24:mi:ss')
-	
+	</select>
 	<!-- 供应商名称校验：供应商库（除去临时供应商） -->
 	<select id="countSupplierName" resultType="int">
 		SELECT COUNT(*) FROM T_SES_SMS_SUPPLIER
