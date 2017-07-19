@@ -195,7 +195,7 @@
           and GRADUATE_SCHOOL like CONCAT(CONCAT('%', #{graduateSchool}), '%')
         </if>
         <if test="orgName !=null and orgName !=''">
-          and org.SHORT_NAME like CONCAT(CONCAT('%',#{orgName}),'%')
+          and org.SHORT_NAME =#{orgName}
         </if>
         ORDER BY T1.CREATED_AT DESC
     </select>
