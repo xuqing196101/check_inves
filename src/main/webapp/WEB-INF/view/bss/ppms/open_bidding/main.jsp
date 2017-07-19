@@ -154,8 +154,8 @@
 	   		if(data.status=="ok"){
 	   			var checkboxSize=$("input[type='checkbox']").length;
 	   	  		if(checkboxSize==0){
-	   	  			alert(checkboxSize);
-	   	  			layer.close(index);
+	   	  			//alert(checkboxSize);
+	   	  		    closelayer();
 	   	  		};
 	   			alert("成功转为竞争性谈判");
 	   			

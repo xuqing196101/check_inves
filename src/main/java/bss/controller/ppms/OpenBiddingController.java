@@ -3530,6 +3530,12 @@ public class OpenBiddingController {
 			}
 		}
 		if(count<project.getSupplierNumber()){
+			DictionaryData findById = DictionaryDataUtil.findById(packages.getProjectStatus());
+			if("".equals(findById.getCode())){
+				if(findById.getCode().equals("YZZ") || findById.getCode().equals("ZJZXTP")){
+					continue;
+				}
+			}
 			buffer.append(packages.getId()+","+packages.getName()+";");
 		}
 	  }
