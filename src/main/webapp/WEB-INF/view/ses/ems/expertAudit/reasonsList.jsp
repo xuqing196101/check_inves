@@ -264,7 +264,7 @@
 
             <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
             <ul class="ul_list count_flow">
-              <c:if test="${status == 0 || status == -2 || status == -3 || (sign ==2 && status ==1) || status ==6}">
+              <c:if test="${status == 0 || status == -2 || (sign ==2 && status ==1) || status == 6}">
                 <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
               </c:if>  
                 <table class="table table-bordered table-condensed table-hover">
@@ -322,14 +322,29 @@
                         <ul class="ul_list">
                             <li>
                                 <div class="select_check" id="selectOptionId">
-                                    <input type="radio" name="selectOption" value="1">预复审合格
-                                    <input type="radio" name="selectOption" value="0">预复审不合格
+	                                <c:choose>
+	                                  <c:when test="${status eq '-2' || status eq '0' || (sign eq '2' && status eq '1') || status eq '6'}">
+	                                    <input type="radio"  name="selectOption" value="1">预复审合格
+	                                    <input type="radio"  name="selectOption" value="0">预复审不合格
+	                                  </c:when>
+	                                  <c:otherwise>
+	                                    <input type="radio" disabled="disabled" name="selectOption" value="1">预复审合格
+	                                    <input type="radio" disabled="disabled" name="selectOption" value="0">预复审不合格
+	                                  </c:otherwise>
+	                                </c:choose>
                                 </div>
                             </li>
 
                             <li class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                                    <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
+                                  <c:choose>
+		                                 <c:when test="${status eq '-2' || status eq '0' || (sign eq '2' && status eq '1') || status eq '6'}">
+		                                   <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
+		                                 </c:when>
+		                                 <c:otherwise>
+		                                   <textarea id="opinion" disabled="disabled" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
+		                                 </c:otherwise>
+		                               </c:choose>
                                 </div>
                             </li>
                         </ul>
@@ -398,7 +413,7 @@
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
                         <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
-                    <c:if test="${status eq '-2' || status eq '-3'}">
+                    <c:if test="${status eq '-2' || status eq '0' || (sign eq '2' && status eq '1') || status eq '6'}">
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
                         <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
