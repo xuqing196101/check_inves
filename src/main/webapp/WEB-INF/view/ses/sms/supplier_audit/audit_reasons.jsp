@@ -280,6 +280,7 @@
             <form id="shenhe_form_id" action="" method="post">
                 <input name="supplierId" type="hidden" value="${supplierId}"/>
                 <input type="hidden" name="sign" value="${sign}">
+                <input type="hidden" name="opinion">
                 <input type="hidden" name="tableType">
             </form>
           
@@ -367,18 +368,34 @@
 			<c:if test="${ sign == 1}">
 				<div id="checkWord" class="display-none">
 					<div id="opinionDiv">
-						<h2 class="count_flow"><i>2</i><span class="red">*</span>审核意见</h2>
+						<h2 class="count_flow"><i>2</i><span class="red">*</span>最终意见</h2>
 					  <ul class="ul_list">
 						  <li>
 							  <div class="select_check" id="selectOptionId">
-								  <input type="radio" name="selectOption" value="1">预审核通过
-								  <input type="radio" name="selectOption" value="0">预审核不通过
+							    <c:choose>
+							      <c:when test="${supplierStatus == 0 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+							        <input type="radio" name="selectOption" value="1">预审核通过
+                      <input type="radio" name="selectOption" value="0">预审核不通过
+							      </c:when>
+							      <c:otherwise>
+							        <input type="radio" disabled="disabled" name="selectOption" value="1">预审核通过
+                      <input type="radio" disabled="disabled" name="selectOption" value="0">预审核不通过
+							      </c:otherwise>
+							    </c:choose>
 							  </div>
 						  </li>
 
 						  <li class="col-md-12 col-sm-12 col-xs-12">
 							  <div class="col-md-12 col-sm-12 col-xs-12 p0">
-								  <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
+								  <c:choose>
+	                  <c:when test="${supplierStatus == 0 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+	                    <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
+	                  </c:when>
+	                  <c:otherwise>
+	                    <textarea id="opinion" disabled="disabled" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
+	                  </c:otherwise>
+	                </c:choose>
+								  
 							  </div>
 						  </li>
 					  </ul>
@@ -390,7 +407,7 @@
                         <ul class="ul_list">
                             <li class="col-md-6 col-sm-6 col-xs-6">
                                 <span class="fl">下载审核表：</span>
-                                <a href="javascript:;" onclick="downloadTable(3)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
+                                <a href="javascript:;" onclick="downloadTable(0)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
                             </li>
                         </ul>
                     </div>

@@ -293,7 +293,7 @@ function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
 	var supplierStatus= $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
 	    //只有审核的状态能审核
-	    if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+	    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 		var supplierId=$("#supplierId").val();
 		var content;
 		var auditType;
@@ -360,7 +360,7 @@ function reasonProject(tablerId,ind,auditField, auditFieldName,type,auditContent
 	var supplierStatus= $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     //只有审核的状态能审核
-    if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 	
 		var supplierId = $("#supplierId").val();
 		var auditType;

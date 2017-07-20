@@ -3364,13 +3364,13 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return ResponseEntity<byte[]>
 	 */
 	@RequestMapping("downloadTable")
-	public ResponseEntity < byte[] > downloadTable(String supplierId, HttpServletRequest request, HttpServletResponse response, String tableType) throws Exception {
+	public ResponseEntity < byte[] > downloadTable(String supplierId, HttpServletRequest request, HttpServletResponse response, String tableType, String opinion) throws Exception {
 		//供应商信息
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
 		// 文件存储地址
 		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 		// 文件名称
-		String fileName = createWordMethod(supplier, request, tableType);
+		String fileName = createWordMethod(supplier, request, tableType, opinion);
 		// 下载后的文件名
 		String downFileName = "";
 		if(tableType.equals("1")){
@@ -3379,10 +3379,10 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(tableType.equals("2")){
 			downFileName = new String("军队供应商实地考察廉政意见函.doc".getBytes("UTF-8"), "iso-8859-1"); 
 		}
-		if("3".equals(tableType)){
+		if("3".equals(tableType) || "0".equals(tableType)){
 			downFileName = new String("军队采购供应商审核表.doc".getBytes("UTF-8"), "iso-8859-1");
 		}
-		if("4".equals(tableType)){
+		if("4".equals(tableType) || "0".equals(tableType)){
 			downFileName = new String("军队采购供应商复核表.doc".getBytes("UTF-8"), "iso-8859-1");
 		}
 		response.setContentType("application/x-download");
@@ -3400,7 +3400,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @param @throws Exception      
 	 * @return String
 	 */
-	private String createWordMethod(Supplier supplier, HttpServletRequest request, String tableType) throws Exception {
+	private String createWordMethod(Supplier supplier, HttpServletRequest request, String tableType, String opinion) throws Exception {
 		/** 用于组装word页面需要的数据 */
 		Map < String, Object > dataMap = new HashMap < String, Object > ();
 		SupplierSignature supplierSignature = new SupplierSignature();
@@ -3465,7 +3465,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 审核/复核表的数据
 		 */
-		if("3".equals(tableType) || "4".equals(tableType)){
+		if("3".equals(tableType) || "4".equals(tableType) || "0".equals(tableType)){
 			//企业性质
 			String businessNature = businessNature(supplier.getBusinessNature());
 			dataMap.put("businessNature", businessNature);
@@ -3490,23 +3490,24 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			dataMap.put("auditList",auditList);
 			
-			//最终意见
-			SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
-			supplierAuditOpinion.setSupplierId(supplier.getId());
-			SupplierAuditOpinion opinion = supplierAuditOpinionService.selectByPrimaryKey(supplierAuditOpinion);
-			if(opinion !=null){
-				dataMap.put("opinion",opinion.getOpinion() == null ? "" : opinion.getOpinion());
+			if("0".equals(tableType)){
+				//公示的最终意见
+				dataMap.put("opinion",opinion == null ? "无" :opinion);
 			}else{
-				dataMap.put("opinion","无");
+				//最终意见
+				SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
+				supplierAuditOpinion.setSupplierId(supplier.getId());
+				SupplierAuditOpinion auditOpinion = supplierAuditOpinionService.selectByPrimaryKey(supplierAuditOpinion);
+				dataMap.put("opinion",auditOpinion.getOpinion() == null ? "无" : auditOpinion.getOpinion());
 			}
 			
 		}
 		//审核表
-		if("3".equals(tableType)){
+		if("3".equals(tableType) || "0".equals(tableType)){
 			newFileName = WordUtil.createWord(dataMap, "supplierOneAudit.ftl", "supplierOneAudit", request);
 		}
 		//复核表
-		if("4".equals(tableType)){
+		if("4".equals(tableType) || "0".equals(tableType)){
 			newFileName = WordUtil.createWord(dataMap, "supplierTwoAudit.ftl", "supplierTwoAudit", request);
 		}
 		

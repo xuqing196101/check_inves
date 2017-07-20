@@ -120,6 +120,8 @@ function tempSave(flag){
  */
 function downloadTable(str) {
     $("input[name='tableType']").val(str);
+    var auditOpinion = $("#opinion").val();
+    $("input[name='opinion']").val(auditOpinion);
     $("#shenhe_form_id").attr("action", globalPath + "/supplierAudit/downloadTable.html");
     $("#shenhe_form_id").submit();
     $("#downloadAttachFile").val("1");
