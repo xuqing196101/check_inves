@@ -297,6 +297,7 @@
                 </c:if>
                 <c:if test="${sign == 2}">
                   <option <c:if test="${state eq '1'}">selected</c:if> value="1">待复审</option>
+                  <option <c:if test="${state eq '-2'}">selected</c:if> value="-2">复审预合格</option>
                   <option <c:if test="${state eq '-3'}">selected</c:if> value="-3">公示中</option>
                   <option <c:if test="${state eq '4'}">selected</c:if> value="4">复审合格</option>
                   <option <c:if test="${state eq '5'}">selected</c:if> value="5">复审不合格</option>
