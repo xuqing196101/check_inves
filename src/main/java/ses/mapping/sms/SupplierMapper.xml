@@ -1338,7 +1338,7 @@
 	      AND BUSINESS_NATURE =#{businessNature}
 	    </if>
 	    <if test="orgName != null and orgName != ''">
-	      AND ORG.SHORT_NAME like CONCAT(CONCAT('%', #{orgName}), '%') 
+	      AND ORG.SHORT_NAME =#{orgName}
 	    </if>
 	    <if test="orgId != null and orgId != ''">
 	      AND ORG.ID = #{orgId}

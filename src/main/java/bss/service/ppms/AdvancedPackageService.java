@@ -62,5 +62,7 @@ public interface AdvancedPackageService {
     List<AdvancedPackages> find(AdvancedPackages packages, Integer page);
     
     List<AdvancedPackages> findPackageAndBidMethodById(HashMap<String,Object> map);
+    
+    List<AdvancedPackages> selectPackName(HashMap<String, Object> map, Integer pageNum);
 
 }

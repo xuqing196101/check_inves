@@ -418,15 +418,6 @@
           	  	</div>
               	</span>
             </li>
-            <li class="hide" id="second">
-              	<label class="fl">栏目属性：</label>
-              	<span class="fl">
-        	  	<div class="w200" style="font-size: 0px;">
-          			<select id="secondType" name="secondArticleTypeId" class="w200" >
-            		</select>
-          	  	</div>
-              	</span>
-            </li>
             <li>
               <label class="fl">发布范围：</label>
               <span>
@@ -456,6 +447,15 @@
                 <span class="f13">至</span>
                 <input id="endDate" name="publishEndDate" value='<fmt:formatDate value="${publishEndDate}" pattern="YYYY-MM-dd"/>' class="Wdate w110" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
           	</li>
+          	<li class="hide" id="second">
+                <label class="fl">栏目属性：</label>
+                <span class="fl">
+              <div class="w200" style="font-size: 0px;">
+                <select id="secondType" name="secondArticleTypeId" class="w200" >
+                </select>
+                </div>
+                </span>
+            </li>
           </ul>
             <div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
             <button type="submit" class="btn">查询</button>

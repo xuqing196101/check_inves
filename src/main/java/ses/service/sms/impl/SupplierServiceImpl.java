@@ -183,7 +183,7 @@ public class SupplierServiceImpl implements SupplierService {
   @Override
   public Supplier get(String id) {
     Supplier supplier = supplierMapper.getSupplier(id);
-    if (supplier != null && !supplier.equals("")) {
+    if (supplier != null) {
       List<SupplierTypeRelate> relateList = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(id);
       supplier.setListSupplierFinances(null);
       List<SupplierFinance> fiance = supplierFinanceMapper.getFinanceBySid(id);
@@ -227,45 +227,40 @@ public class SupplierServiceImpl implements SupplierService {
           }
         }
       }
-    }
-
-    List<SupplierBranch> list = supplierBranchService.findSupplierBranch(id);
-    if (list.size() > 0) {
-
-      supplier.setBranchList(list);
-    } else {
-      SupplierBranch branch = new SupplierBranch();
-      String bid = WfUtil.createUUID();
-      branch.setId(bid);
-      list.add(branch);
-      supplier.setBranchList(list);
-    }
-    List<SupplierAddress> addressList = supplierAddressService.getBySupplierId(id);
-    if (addressList.size() > 0) {
-      for (SupplierAddress b : addressList) {
-        if (StringUtils.isNotBlank(b.getProvinceId())) {
-          List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
-          b.setAreaList(city);
-        }
+      List<SupplierBranch> list = supplierBranchService.findSupplierBranch(id);
+      if (list.size() > 0) {
+        supplier.setBranchList(list);
+      } else {
+        SupplierBranch branch = new SupplierBranch();
+        String bid = WfUtil.createUUID();
+        branch.setId(bid);
+        list.add(branch);
+        supplier.setBranchList(list);
       }
-      supplier.setAddressList(addressList);
-    } else {
-      SupplierAddress address = new SupplierAddress();
-      address.setId(WfUtil.createUUID());
-      addressList.add(address);
-      supplier.setAddressList(addressList);
+      List<SupplierAddress> addressList = supplierAddressService.getBySupplierId(id);
+      if (addressList.size() > 0) {
+        for (SupplierAddress b : addressList) {
+          if (StringUtils.isNotBlank(b.getProvinceId())) {
+            List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
+            b.setAreaList(city);
+          }
+        }
+        supplier.setAddressList(addressList);
+      } else {
+        SupplierAddress address = new SupplierAddress();
+        address.setId(WfUtil.createUUID());
+        addressList.add(address);
+        supplier.setAddressList(addressList);
+      }
+      if (supplier.getConcatProvince() != null) {
+        List<Area> concity = areaService.findAreaByParentId(supplier.getConcatProvince());
+        supplier.setConcatCityList(concity);
+      }
+      if (supplier.getArmyBuinessProvince() != null) {
+        List<Area> armcity = areaService.findAreaByParentId(supplier.getArmyBuinessProvince());
+        supplier.setArmyCity(armcity);
+      }
     }
-    if (supplier.getConcatProvince() != null) {
-      List<Area> concity = areaService.findAreaByParentId(supplier.getConcatProvince());
-      supplier.setConcatCityList(concity);
-    }
-    if (supplier.getArmyBuinessProvince() != null) {
-      List<Area> armcity = areaService.findAreaByParentId(supplier.getArmyBuinessProvince());
-      supplier.setArmyCity(armcity);
-    }
-
-//        supplier.setParamVleu(paramList);
-
     return supplier;
   }
 

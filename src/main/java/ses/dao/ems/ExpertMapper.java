@@ -28,7 +28,7 @@ public interface ExpertMapper {
     int updateByPrimaryKey(Expert record);
     
     List<Expert> getAllExpert();
-    
+    int countByMobile(Map<String, Object> map);
    // List<Expert> selectLoginNameList(String loginName);
     /**
      * 

@@ -1431,4 +1431,10 @@ public class PurchaseRequiredController extends BaseController {
 	public JdcgResult selectUniqueReferenceNO(String referenceNO){
         return purchaseRequiredService.selectUniqueReferenceNO(referenceNO);
     }
+    @RequestMapping("/deleteRequired")
+    @ResponseBody
+    public String deleteRequired(String id){
+        purchaseRequiredService.delete(id);
+        return "ok";
+    }
 }
