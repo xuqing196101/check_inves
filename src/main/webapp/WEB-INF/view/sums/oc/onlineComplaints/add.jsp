@@ -8,6 +8,11 @@
 <title>投诉页面</title>
 <script type="text/javascript">
 $(function(){
+	var authType = "${authType}";
+	if(authType != 'VSE'){
+		layer.msg("只有供应商和专家才能操作");
+		return;
+	}
 	$("#extensionId").val("bmp,pmg,jpg,gif,png");
 	$("#idcad #extensionId").val("bmp,pmg,jpg,gif,png");
 	var success = "${complaintSuccess}";

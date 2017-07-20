@@ -74,6 +74,11 @@
       }
 
       function view(id) {
+   		var authType = "${authType}";
+   		if(authType != '4'){
+   			layer.msg("只有资源服务中心才能操作");
+   			return;
+   		}
       	var status = $("#status").val();
       	var curpage = "${list.pageNum}";
       	var articleTypeId = $("#articleTypes").val();
@@ -86,6 +91,11 @@
       }
 
       function audit() {
+   		var authType = "${authType}";
+   		if(authType != '4'){
+   			layer.msg("只有资源服务中心才能操作");
+   			return;
+   		}
         var id = [];
         var status = "";
         $('input[name="chkItem"]:checked').each(function() {
@@ -115,6 +125,10 @@
       }
 
       $(function() {
+   		var authType = "${authType}";
+   		if(authType != '4'){
+   			return;
+   		}
         $.ajax({
           contentType: "application/json;charset=UTF-8",
           url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=0",
@@ -294,6 +308,11 @@
       }
       
       function quxiaoaudit() {
+   		var authType = "${authType}";
+   		if(authType != '4'){
+   			layer.msg("只有资源服务中心才能操作");
+   			return;
+   		}
           var applys = [];
           var ids = [];
           var flag = true;
@@ -333,6 +352,11 @@
         
         
         function del(){
+        	var authType = "${authType}";
+        	if(authType != '4'){
+        		layer.msg("只有资源服务中心才能操作");
+        		return;
+        	}
         	var ids = [];
 	        var status = [];
 	        var flag = true;

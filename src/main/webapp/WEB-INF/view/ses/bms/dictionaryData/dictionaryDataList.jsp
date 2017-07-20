@@ -6,6 +6,11 @@
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 <script type="text/javascript">
   	function show(code,page){
+	var authType = "${authType}";
+	if(authType != '4'){
+		layer.msg("只有资源服务中心才能操作");
+		return;
+	} 
   	$("#kind").val(code);
 	$.ajax({
     		contentType: "application/json;charset=UTF-8",

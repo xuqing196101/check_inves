@@ -6,21 +6,20 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
-import bss.model.pqims.PqInfo;
+import ses.model.bms.Templet;
+import ses.model.bms.User;
+import ses.service.bms.TempletService;
 
 import com.github.pagehelper.PageInfo;
-
-import ses.model.bms.Templet;
-import ses.service.bms.TempletService;
+import common.annotation.CurrentUser;
 
 
 /**
@@ -48,9 +47,16 @@ public class TempletController {
 	 * @return: String
 	 */
 	@RequestMapping("/getAll")
-	public String getAll(Model model,Integer page){
-		List<Templet> templets = templetService.getAll(page==null?1:page);
-		model.addAttribute("list",new PageInfo<Templet>(templets));
+	public String getAll(@CurrentUser User user,Model model,Integer page){
+		//声明标识是否是资源服务中心
+        String authType = null;
+        if(null != user && "4".equals(user.getTypeName())){
+            //判断是否 是资源服务中心 
+            authType = "4";
+            model.addAttribute("authType", authType);
+            List<Templet> templets = templetService.getAll(page==null?1:page);
+            model.addAttribute("list",new PageInfo<Templet>(templets));
+		}
 		return "ses/bms/templet/list";
 	}
 	
@@ -64,8 +70,12 @@ public class TempletController {
 	 * @return: String
 	 */
 	@RequestMapping("/add")
-	public String add(HttpServletRequest request,Model model){	
-		return "ses/bms/templet/add";
+	public String add(@CurrentUser User user,HttpServletRequest request,Model model){
+		if(null != user && "4".equals(user.getTypeName())){
+			//判断是否 是资源服务中心 
+			return "ses/bms/templet/add";
+		}
+		return "";
 	}
 	
 	/**
@@ -78,28 +88,32 @@ public class TempletController {
 	 * @return:String
 	 */
 	@RequestMapping("/save")
-	public String save(HttpServletRequest request,@Valid Templet templet,BindingResult result,Model model){
-		Boolean flag = true;
-		String url = "";
-		if(templet.getTemType().equals("-请选择-")){
-			flag = false;
-			model.addAttribute("ERR_temType", "请选择模板类型");
-		}
-		if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+	public String save(@CurrentUser User user,HttpServletRequest request,@Valid Templet templet,BindingResult result,Model model){
+		if(null != user && "4".equals(user.getTypeName())){
+			//判断是否 是资源服务中心 
+			Boolean flag = true;
+			String url = "";
+			if(templet.getTemType().equals("-请选择-")){
+				flag = false;
+				model.addAttribute("ERR_temType", "请选择模板类型");
 			}
-			flag = false;
+			if(result.hasErrors()){
+				List<FieldError> errors = result.getFieldErrors();
+				for(FieldError fieldError:errors){
+					model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+				}
+				flag = false;
+			}
+			if(flag == false){
+				model.addAttribute("templet", templet);
+				url="ses/bms/templet/add";
+			}else{	
+				templetService.save(templet);
+				url="redirect:getAll.do";
+			}
+			return url;
 		}
-		if(flag == false){
-			model.addAttribute("templet", templet);
-			url="ses/bms/templet/add";
-		}else{	
-			templetService.save(templet);
-			url="redirect:getAll.do";
-		}
-		return url;
+		return "";
 	}
 	
 	/**
@@ -112,9 +126,13 @@ public class TempletController {
 	 * @return:String
 	 */
 	@RequestMapping("/edit")
-	public String edit(Model model,String id){
-		model.addAttribute("templet",templetService.get(id));
-		return "ses/bms/templet/edit";
+	public String edit(@CurrentUser User user,Model model,String id){
+		if(null != user && "4".equals(user.getTypeName())){
+			//判断是否 是资源服务中心
+			model.addAttribute("templet",templetService.get(id));
+			return "ses/bms/templet/edit";
+		}
+		return "";
 	}
 	
 	/**
@@ -195,10 +213,17 @@ public class TempletController {
 	 * @return:
 	 */
 	@RequestMapping("/search")
-	public String search(Model model,HttpServletRequest request,Templet templet,Integer page){
-		List<Templet> templets = templetService.search(page==null?1:page,templet);
-		model.addAttribute("list",new PageInfo<Templet>(templets));
-		model.addAttribute("templet",templet);
+	public String search(@CurrentUser User user,Model model,HttpServletRequest request,Templet templet,Integer page){
+		//声明标识是否是资源服务中心
+        String authType = null;
+        if(null != user && "4".equals(user.getTypeName())){
+            //判断是否 是资源服务中心 
+            authType = "4";
+			List<Templet> templets = templetService.search(page==null?1:page,templet);
+			model.addAttribute("list",new PageInfo<Templet>(templets));
+			model.addAttribute("templet",templet);
+			model.addAttribute("authType",authType);
+        }
 		return "ses/bms/templet/list";
 	}
 	
