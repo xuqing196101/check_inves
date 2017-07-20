@@ -48,6 +48,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import common.annotation.CurrentUser;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
 import ses.model.ems.ExamPaper;
@@ -107,7 +108,7 @@ public class PurchaserExamController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/purchaserList")
-	public String purchaserList(Model model,Integer page,HttpServletRequest request){
+	public String purchaserList(@CurrentUser User user,Model model,Integer page,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String questionTypeId = request.getParameter("questionTypeId");
 		String topic = request.getParameter("topic");
@@ -120,11 +121,18 @@ public class PurchaserExamController extends BaseSupplierController{
 		if(page==null){
 			page = 1;
 		}
-		map.put("page", page.toString());
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		List<ExamQuestion> queryList = examQuestionService.queryPurchaserByTerm(map);
-		model.addAttribute("purchaserQuestionList", new PageInfo<ExamQuestion>(queryList));
+		if(null != user && "4".equals(user.getTypeName())){
+	        //判断是否 是资源服务中心 
+			map.put("page", page.toString());
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+			List<ExamQuestion> queryList = examQuestionService.queryPurchaserByTerm(map);
+			model.addAttribute("purchaserQuestionList", new PageInfo<ExamQuestion>(queryList));
+	    }else{
+	    	model.addAttribute("purchaserQuestionList", new PageInfo<ExamQuestion>(new ArrayList<ExamQuestion>()));
+	    }
+
+		
 		model.addAttribute("topic", topic);
 		model.addAttribute("questionTypeId", questionTypeId);
 		return "ses/ems/exam/purchaser/question/list";
@@ -2421,7 +2429,12 @@ public class PurchaserExamController extends BaseSupplierController{
 				}
 			}
 		}
-		model.addAttribute("list", new PageInfo<ExamUserScore>(userScores));
+		if(null != user && "1".equals(user.getTypeName())){
+			model.addAttribute("list", new PageInfo<ExamUserScore>(userScores));
+		}else{
+			model.addAttribute("list", new PageInfo<ExamUserScore>());
+		}
+		
 		model.addAttribute("code", code);
 		return "ses/ems/exam/purchaser/personal_result";
 	}
