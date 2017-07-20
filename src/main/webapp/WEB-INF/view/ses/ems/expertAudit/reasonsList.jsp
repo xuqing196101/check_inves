@@ -420,7 +420,7 @@
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
                         <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
-                    <c:if test="${status eq '-2' || status eq '0' || (sign eq '2' && status eq '-2') || status eq '6'}">
+                    <c:if test="${status eq '-2'}">
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
                         <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
