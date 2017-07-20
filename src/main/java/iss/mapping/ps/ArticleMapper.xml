@@ -1153,7 +1153,10 @@ WHERE
 	FROM
 	T_ISS_PS_ARTICLE
 	WHERE
-	LAST_ARTICLE_TYPE_ID = #{id}
+	LAST_ARTICLE_TYPE_ID IN
+	<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+    			#{item}
+   	</foreach>
 	order by published_at desc
 ) where 1=1 and status=2 and rownum &lt;=10
 	and IS_DELETED = 0

@@ -977,92 +977,89 @@
     	<!-- End 评审专家 -->
 
       <!-- 法规 -->
-      <li class="dropdown other cgfw_li mega-menu-fullwidth">
-        <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="cgfw nav_icon"></i>采购服务</a>
-        
-        <!--采购服务鼠标移动开始-->
-        <div class="drop_next dropdown-menu">
-        <div class="magazine-page clear">
-        <div class="col-md-12 col-xs-12 col-sm-12 drop_hover">
-        <div class="drop_main supp_service">
-          
-          <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
-          <a href="${pageContext.request.contextPath}/categorys/categoryList.html">
-            <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic cpml">
-              <img src="${pageContext.request.contextPath}/public/portal/images/cpml.jpg" width="80%" height="80%;"/>
-            </div>
-            <div class="tc f18 mt20 pt10 clear">产品目录</div>
-          </a>
-          </div>
-          
-          <div class="service_btns col-md-2 col-sm-2 col-xs-3">
-          <a href="${pageContext.request.contextPath}/categorys/parameterList.html">
-            <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic jscsk">
-              <img src="${pageContext.request.contextPath}/public/portal/images/jscsk.jpg" width="80%" height="80%;"/>
-            </div>
-            <div class="tc f18 mt20 pt10 clear">技术参数库</div>
-          </a>
-          </div>
-          
-          <div class="service_btns col-md-2 col-sm-2 col-xs-3">
-          <a href="${pageContext.request.contextPath}/park/getIndex.html">
-            <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic cglt">
-              <img src="${pageContext.request.contextPath}/public/portal/images/cglt.jpg" width="80%" height="80%;"/>
-            </div>
-            <div class="tc f18 mt20 pt10 clear">采购论坛</div>
-          </a>
-          </div>
-          
-          <div class="service_btns col-md-2 col-sm-2 col-xs-3">
-          <%-- <% if (ipAddressType != null && ipAddressType.equals("0")){ %> --%>
-          <a href="${pageContext.request.contextPath }/dataDownload/getIndexList.html">
-            <%--  <% } %> --%>
-            <%-- <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
-            <a href="javascript:void(0);">
-            <% } %> --%>
-            <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic zlxz">
-              <img src="${pageContext.request.contextPath}/public/portal/images/new_zlxz.jpg" width="80%" height="80%;"/>
-            </div>
-            <div class="tc f18 mt20 pt10 clear">资料下载</div>
-          </a>
-          </div>
-          
-          <div class="service_btns col-md-2 col-sm-2 col-xs-3">
-          <%-- <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
-          <% } %>
-          <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
-          <a href="javascript:void(0);">
-          <% } %> --%>
-          <a href="${pageContext.request.contextPath }/templateDownload/getIndexList.html">
-            <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic cgmb">
-              <img src="${pageContext.request.contextPath}/public/portal/images/mb_pic.png" width="80%" height="80%;"/>
-            </div>
-            <div class="tc f18 mt20 pt10 clear">采购模板</div>
-          </a>
-          </div>
-          
-          <div class="service_btns col-md-2 col-sm-2 col-xs-3">
-          <a href="javascript:void(0)">
-            <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic yjfk">
-              <img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/> 
-            </div>
-            <div class="tc f18 mt20 pt10 clear">意见反馈</div>
-          </a>
-          </div>
-          
-          <div class="service_btns col-md-2 col-sm-2 col-xs-3">
-          <a href="${pageContext.request.contextPath }/index/index_hotLineList.html">
-            <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic shfw">
-              <img src="${pageContext.request.contextPath}/public/portal/images/new_shfw.jpg" width="80%" height="80%;"/>
-            </div>
-            <div class="tc f18 mt20 pt10 clear">服务热线</div>
-          </a>
-          </div>
-        </div>
-        </div>
-        </div>
-        </div>
-      </li>
+
+        <li class="dropdown other cgfw_li mega-menu-fullwidth">
+          <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="cgfw nav_icon"></i>采购服务</a>
+	<!--采购服务鼠标移动开始-->
+		  <div class="drop_next dropdown-menu" >
+	   <div class="magazine-page clear">
+
+	<div class="col-md-12 col-xs-12 col-sm-12 drop_hover">
+	 <div class="drop_main supp_service">
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
+	  <a href="${pageContext.request.contextPath}/categorys/categoryList.html">
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic cpml">
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/cpml.jpg" width="80%" height="80%;"/>
+	    </div>
+		<div class="tc f18 mt20 pt10 clear">产品目录</div>
+	  </a>
+	 </div>
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
+	  <a href="${pageContext.request.contextPath}/categorys/parameterList.html">
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic jscsk">
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/jscsk.jpg" width="80%" height="80%;"/>
+	    </div>
+		<div class="tc f18 mt20 pt10 clear">技术参数库</div>
+	  </a>
+	 </div>
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
+	  <a <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
+               href="${pageContext.request.contextPath}/park/getIndex.html"
+              <% } %> >
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic cglt">
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/cglt.jpg" width="80%" height="80%;"/>
+	    </div>
+		<div class="tc f18 mt20 pt10 clear">采购论坛</div>
+	  </a>
+	 </div>
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
+	  <%-- <% if (ipAddressType != null && ipAddressType.equals("0")){ %> --%>
+	       <a href="${pageContext.request.contextPath }/dataDownload/getIndexList.html">
+	 <%--  <% } %> --%>
+	  <%-- <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
+	      <a href="javascript:void(0);">
+	  <% } %> --%>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic zlxz">
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/new_zlxz.jpg" width="80%" height="80%;"/>
+	    </div>
+		<div class="tc f18 mt20 pt10 clear">资料下载</div>
+	  </a>
+	 </div>
+	  <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
+	  <%-- <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
+	  <% } %>
+	  <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
+	      <a href="javascript:void(0);">
+	  <% } %> --%>
+        <a href="${pageContext.request.contextPath }/templateDownload/getIndexList.html">
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic cgmb">
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/mb_pic.png" width="80%" height="80%;"/>
+	    </div>
+		<div class="tc f18 mt20 pt10 clear">采购模板</div>
+	  </a>
+	 </div>
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
+	  <a href="">
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic yjfk">
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/> 
+	    </div>
+		<div class="tc f18 mt20 pt10 clear">意见反馈</div>
+	  </a>
+	 </div>
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
+	  <a href="${pageContext.request.contextPath }/index/index_hotLineList.html">
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic shfw">
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/new_shfw.jpg" width="80%" height="80%;"/>
+	    </div>
+		<div class="tc f18 mt20 pt10 clear">服务热线</div>
+	  </a>
+	 </div>
+	</div>
+    </div>
+	</div>
+   </div>
+   
+        </li>
       <!-- End 法规 -->
 
       <li class="dropdown other luntan_li mega-menu-fullwidth">

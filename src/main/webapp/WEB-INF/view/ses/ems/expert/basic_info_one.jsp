@@ -172,11 +172,11 @@
 				    }
                     //校验专家表身份证
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/expert/validateIdNumber.do',
+                        url: '${pageContext.request.contextPath}/expert/validateIdCardNumber.do',
                         type: "post",
                         async: false,
                         data: {
-                            "idNumber": idCard,
+                            "idCardNumber": idCard,
                             "expertId": $("#id").val()
                         },
                         success: function(obj) {
@@ -475,11 +475,11 @@
 					});*/
                     //校验专家表身份证
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/expert/validateIdNumber.do',
+                        url: '${pageContext.request.contextPath}/expert/validateIdCardNumber.do',
                         type: "post",
                         async: false,
                         data: {
-                            "idNumber": idCardNumber,
+                            "idCardNumber": idCardNumber,
                             "expertId": $("#id").val()
                         },
                         success: function(obj) {
@@ -578,6 +578,34 @@
 					layer.msg("请填写健康状态!");
 					return false;
 				}
+				var mobile = $("#mobile").val();
+				if(!mobile) {
+					layer.msg("请填写手机号!");
+					return false;
+				}
+				if(!(/^1[3|4|5|7|8]\d{9}$/.test(mobile))){
+					layer.msg("手机号格式不正确!");
+                    return false;
+				}
+				var checkPhone=0;
+				$.ajax({
+					url: '${pageContext.request.contextPath}/expert/checkPhone.do',
+					type: "post",
+					async: false,
+					data: {
+						"phone": mobile,
+						"id": $("#id").val()
+					},
+					success: function(obj) {
+						if(obj == '1') {
+							layer.msg("该手机号码已被使用!");
+							checkPhone=1;
+						}
+					}
+				});
+				if(checkPhone==1){
+					 return false;
+				}
 				var idCardNumber = $("#idCardNumber").val().trim();
 				if(!idCardNumber) {
 					layer.msg("请填写居民身份证号码 !");
@@ -623,15 +651,7 @@
 					}
 				}
 
-				var mobile = $("#mobile").val();
-				if(!mobile) {
-					layer.msg("请填写手机号!");
-					return false;
-				}
-				if(!(/^1[3|4|5|7|8]\d{9}$/.test(mobile))){
-					layer.msg("手机号格式不正确!");
-                    return false;
-				}
+				
 				var telephone = $("#telephone").val().trim();
 				if(!telephone) {
 					layer.msg("请填写固定电话!");
@@ -986,7 +1006,32 @@
                     $("#teachTitle1").attr("selected","");
 				}
 			}
-			
+			function checkMobile(){
+				var mobile = $("#mobile").val();
+				if(!mobile) {
+					layer.msg("请填写手机号!");
+					return false;
+				}
+				if(!(/^1[3|4|5|7|8]\d{9}$/.test(mobile))){
+					layer.msg("手机号格式不正确!");
+                    return false;
+				}
+				$.ajax({
+					url: '${pageContext.request.contextPath}/expert/checkPhone.do',
+					type: "post",
+					async: false,
+					data: {
+						"phone": mobile,
+						"id": $("#id").val()
+					},
+					success: function(obj) {
+						if(obj == '1') {
+							layer.msg("该手机号码已被使用!");
+							return false;
+						}
+					}
+				});
+			}
 		</script>
 	</head>
 
@@ -1122,7 +1167,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 手机</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input maxlength="15" value="${user.mobile}" name="mobile" id="mobile" type="text" <c:if test="${fn:contains(errorField,'手机')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('手机')"
+								<input maxlength="15" value="${user.mobile}" onblur="checkMobile()" name="mobile" id="mobile" type="text" <c:if test="${fn:contains(errorField,'手机')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('手机')"
 								</c:if>/>
 								<span class="add-on">i</span>
 								<span class="input-tip">11位数字</span>

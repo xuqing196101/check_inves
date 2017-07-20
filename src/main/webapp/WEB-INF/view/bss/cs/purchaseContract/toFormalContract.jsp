@@ -79,14 +79,14 @@ function cancel(){
      <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 p0"><div class="red star_red">*</div>正式合同上报时间：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" name="formalGitAt" id="formalGitAt" readonly="readonly" value="<fmt:formatDate value="${purCon.formalGitAt}" pattern="yyyy-MM-dd HH:mm:ss" />" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate contract_name"/>
+        <input type="text" name="formalGitAt" id="formalGitAt" value="<fmt:formatDate value="${purCon.formalGitAt}" pattern="yyyy-MM-dd HH:mm:ss" />" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true})" class="Wdate contract_name"/>
         <div class="cue">${ERR_formalGitAt}</div>
        </div>
 	 </li> 
      <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 p0"><div class="red star_red">*</div>正式合同批复时间：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" name="formalReviewedAt" readonly="readonly" value="<fmt:formatDate value="${purCon.formalReviewedAt}" pattern="yyyy-MM-dd HH:mm:ss" />" id="formalReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate contract_name"/>
+        <input type="text" name="formalReviewedAt"  value="<fmt:formatDate value="${purCon.formalReviewedAt}" pattern="yyyy-MM-dd HH:mm:ss" />" id="formalReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true})" class="Wdate contract_name"/>
         <div class="cue">${ERR_formalReviewedAt}</div>
        </div>
 	 </li> 

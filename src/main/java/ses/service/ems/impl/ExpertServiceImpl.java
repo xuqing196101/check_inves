@@ -1140,7 +1140,13 @@ public class ExpertServiceImpl implements ExpertService {
 		
 		return mapper.findExpertAuditList(expert);
 	}
-
+	public boolean checkMobile(String mobile,String id) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("mobile", mobile);
+		map.put("id", id);
+		int count = mapper.countByMobile(map);
+		return count > 0 ? false : true;
+	}
 	/**
      *〈简述〉
      * 未退回修改的专家存储历史信息

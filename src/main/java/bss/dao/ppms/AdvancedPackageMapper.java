@@ -65,4 +65,6 @@ public interface AdvancedPackageMapper {
     List<AdvancedPackages> findPackageAndBidMethodById(HashMap<String,Object> map);
     
     List<AdvancedPackages> findByID(Map<String,Object> map);
+    
+    List<AdvancedPackages> selectPackName(HashMap<String, Object> map);
 }
