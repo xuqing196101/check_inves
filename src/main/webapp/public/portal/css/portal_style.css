@@ -1749,6 +1749,7 @@ img.sign_left_image {
   border: none;
   left: 0;
   background: none;
+  min-height: 190px;
 }
 .m_nav_scroll .bx-wrapper .bx-pager {
   padding: 0;
