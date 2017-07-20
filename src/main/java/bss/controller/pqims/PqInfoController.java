@@ -343,12 +343,12 @@ public class PqInfoController extends BaseSupplierController{
 	 */
 	@RequestMapping("/getAllSupplierPqInfo")
 	public String getAllSupplierPqInfo(@CurrentUser User user, Model model,Integer page, String supplierName){
-	    if(user != null && user.getOrg() != null){
-	        HashMap<String, Object> map = new HashMap<>();
-	        map.put("purchaseDepId", user.getOrg().getId());
-	        if(StringUtils.isNotBlank(supplierName)){
-	            map.put("supplierName", supplierName);
-	        }
+	    if(user != null && user.getOrg() != null && "1".equals(user.getTypeName()) &&  "1".equals(user.getOrg().getTypeName())){
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("purchaseDepId", user.getOrg().getId());
+			if(StringUtils.isNotBlank(supplierName)){
+		    map.put("supplierName", supplierName);
+	    }
 	        List<SupplierPqrecord> list = pqrecordService.getByAll(page==null?1:page, map);
 	        model.addAttribute("info",new PageInfo<SupplierPqrecord>(list));
 	        model.addAttribute("supplierName", supplierName);
