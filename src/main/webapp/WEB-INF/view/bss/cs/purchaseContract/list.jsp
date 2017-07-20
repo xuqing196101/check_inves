@@ -12,6 +12,7 @@
 	<meta http-equiv="description" content="This is my page">
   <script type="text/javascript">
   $(function(){
+	
 	  var status = "${isCreate}";
 	  $("#isCreate").val(status);
 	  laypage({
@@ -107,6 +108,11 @@
   	}
   	
   	function resets(){
+  		var auth='${authType}';
+  	    if(auth !='1'){
+  	    layer.msg("只有采购机构可以操作");
+  	    return;
+  	    }
   		$("#projectName").val("");
   		$("#projectCode").val("");
   		$("#purchaseDep").val("");
@@ -114,6 +120,11 @@
   	}
   	
   	function createContract(){
+  		var auth='${authType}';
+  	    if(auth !='1'){
+  	    layer.msg("只有采购机构可以操作");
+  	    return;
+  	    }
   		var ids =[]; 
   		var supid = [];
   		var supcheckid = [];
@@ -196,6 +207,11 @@
   	}*/
   	
   	function someCreateContract(){
+  		var auth='${authType}';
+  	    if(auth !='1'){
+  	    layer.msg("只有采购机构可以操作");
+  	    return;
+  	    }
   		var ids =[]; 
   		var suppliers=[];
   		var supcheckid = [];
@@ -411,7 +427,9 @@
 		</c:forEach> --%>
 	</table>
     </div>
+   <c:if test="${authType == 1}">
    <div id="pagediv" align="right"></div>
+   </c:if>
    <!-- <ul class="list-unstyled dnone mt10 col-xs-offset-3" id="numberWin">
   		    <li class="col-md-12">
 			   <span class="fl mt20"><div class="red star_red">*</div>成交供应商：</span>

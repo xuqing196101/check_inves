@@ -8,6 +8,7 @@
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/bms/user/initPWD.js"></script>
   	<script type="text/javascript">
 	  $(function(){
+		  
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${list.pages}", //总页数

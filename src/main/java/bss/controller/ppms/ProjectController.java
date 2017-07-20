@@ -262,6 +262,7 @@ public class ProjectController extends BaseController {
         roleMap.put("code", "SUPERVISER_R");
         BigDecimal i = roleService.checkRolesByUserId(roleMap);
         model.addAttribute("admin", i);
+        model.addAttribute("authType", user.getTypeName());
         return "bss/ppms/project/list";
     }
     

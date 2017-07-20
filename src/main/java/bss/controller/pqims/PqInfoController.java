@@ -326,10 +326,10 @@ public class PqInfoController extends BaseSupplierController{
 	            List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page,map);
 	            if(pqInfos != null && pqInfos.size() > 0){
 	                for (PqInfo pqInfo2 : pqInfos) {
-	                    if(StringUtils.isNotBlank(pqInfo2.getContract().getPurchaseDepName())){
+	                    if(StringUtils.isNotBlank(pqInfo2.getContract().getPurchaseDepName()) ){
 	                        Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(pqInfo2.getContract().getPurchaseDepName());
-	                        if(orgnization != null){
-	                            pqInfo2.getContract().setPurchaseDepName(orgnization.getShortName());
+	                        if(orgnization != null ){
+	                            pqInfo2.getContract().setPurchaseDepName(orgnization.getName());
 	                        } else {
 	                            pqInfo2.getContract().setPurchaseDepName(null);
 	                        }
@@ -345,6 +345,9 @@ public class PqInfoController extends BaseSupplierController{
 	            model.addAttribute("info",new PageInfo<PqInfo>(pqInfos));
 	            model.addAttribute("pqInfo", pqInfo);
 	        }
+	        
+	    
+	        
 	    }
 		return "bss/pqims/pqinfo/resultList";
 	}

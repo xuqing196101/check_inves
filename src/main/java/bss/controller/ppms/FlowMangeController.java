@@ -20,6 +20,7 @@ import com.github.pagehelper.PageInfo;
 
 import bss.model.ppms.FlowDefine;
 import bss.service.ppms.FlowMangeService;
+import common.annotation.CurrentUser;
 
 /**
  * 版权：(C) 版权所有 
@@ -49,7 +50,7 @@ public class FlowMangeController {
      * @throws Exception
      */
     @RequestMapping("/list")
-    public String list(Model model, Integer page, FlowDefine fd, String typeCode) {
+    public String list(Model model, Integer page, FlowDefine fd, String typeCode,@CurrentUser User user) {
         if (typeCode != null && !"".equals(typeCode)) {
             fd.setPurchaseTypeId(DictionaryDataUtil.getId(typeCode));
         } 
@@ -57,6 +58,7 @@ public class FlowMangeController {
         model.addAttribute("list", new PageInfo<FlowDefine>(ls));
         model.addAttribute("fd", fd);
         model.addAttribute("typeCode", typeCode);
+        model.addAttribute("authType", user.getTypeName());
         return "bss/ppms/flow/list";
     }
     

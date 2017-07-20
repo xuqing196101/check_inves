@@ -68,6 +68,11 @@
   	
   	/** 编辑 **/
     function edit(){
+    	var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
@@ -81,6 +86,11 @@
     
     /** 编辑 **/
     function del(){
+    	var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
@@ -116,30 +126,60 @@
     
     /** 新增 **/
     function add(){
+    	var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
     	window.location.href="${pageContext.request.contextPath}/purchaseManage/addPurchaseDep.html";
     }
     
     /** 详情 **/
     function show(id){
+    	var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
     	window.location.href="${pageContext.request.contextPath}/purchaseManage/showPurchaseDep.do?id="+id+"&&type=view";
     }
     
     /** 添加管理人员 **/
     function addPurchase(){
+    	var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
     	window.location.href="${pageContext.request.contextPath}/purchase/add.html?origin=1";
     }
     
     /**  重置查询条件  **/
     function resetQuery(){
+    	var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
 		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
     /** 查询 **/
 	function submit() {
+		var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
 		$("#form1").submit();
 	}
     
     /** 更改状态 **/
 	function purchaseStash(opera,title,status){
+		var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
 		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
@@ -179,6 +219,7 @@
     }
   </script>
 <body>
+		
 		<!--面包屑导航开始-->
 		<div class="margin-top-10 breadcrumbs ">
 			<div class="container">
@@ -197,13 +238,13 @@
 		      </div>
 		      <h2 class="search_detail">
 			       <form action="${pageContext.request.contextPath}/purchaseManage/purchaseUnitList.html" method="post" id="form1" enctype="multipart/form-data" class="mb0">
-			       <input type="hidden" name="page" id="page">
+			       <input type="hidden" name="page" id="page"/>
 			        <ul class="demand_list">
 			          <li>
 			            <label class="fl">名称：</label><span><input type="text" name="name" value="${purchaseDep.name }"></span>
 			          </li>
 			         <button type="button" onclick="submit()" class="btn fl mt1">查询</button>
-					     <button type="button" onclick="resetQuery();" class="btn  fl mt1">重置</button>
+					 <button type="button" onclick="resetQuery();" class="btn  fl mt1">重置</button>
 			        </ul>
 			        <div class="clear"></div>
 			       </form>
@@ -220,7 +261,6 @@
 					<button class="btn btn-windows edit"   type="button" onclick="purchaseStash('启用','资质启用','0')">资质启用</button>
 					<button class="btn btn-windows edit"   type="button" onclick="purchaseStash('终止','资质终止','2')">资质终止</button>
 			</div>
-
 			<div class="content table_box">
                 <table class="table table-bordered table-condensed table-hover table-striped">
 							<thead>
@@ -239,6 +279,7 @@
 									<th class="info">资质状态</th>
 								</tr>
 							</thead>
+							<c:if test="${authType == 4}">
 							<tbody>
 								<c:forEach items="${info.list}" var="p" varStatus="vs">
 									<tr class="cursor">
@@ -305,9 +346,12 @@
 									</tr>
 								</c:forEach>
 							</tbody>
+					</c:if>
 					</table>
 				</div>
+				<c:if test="${authType == 4}">
 				<div id="pagediv" align="right"></div>
+				</c:if>
 			</div>
 </body>
 </html>

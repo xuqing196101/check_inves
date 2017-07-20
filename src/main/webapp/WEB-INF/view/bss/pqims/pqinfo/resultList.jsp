@@ -2,7 +2,6 @@
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE html>
 <html>
-
   <head>
     <%@ include file="../../../common.jsp"%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/webupload/js/display.js"></script>
