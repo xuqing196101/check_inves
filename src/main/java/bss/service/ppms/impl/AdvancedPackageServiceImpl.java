@@ -67,4 +67,10 @@ public class AdvancedPackageServiceImpl implements AdvancedPackageService {
         packageMapper.insert(packages);   
     }
 
+    @Override
+    public List<AdvancedPackages> selectPackName(HashMap<String, Object> map, Integer pageNum) {
+        PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
+        return packageMapper.selectPackName(map);
+    }
+
 }

@@ -43,6 +43,8 @@ public class AdvancedPackages {
 	
 	private String projectId;
 	
+	private String projectName;
+	
 	//判断是否有评分办法 1 有 2 没有
     private Integer isHaveScoreMethod;
     
@@ -266,6 +268,13 @@ public class AdvancedPackages {
     public void setListScoreTechnology(List<MarkTerm> listScoreTechnology) {
         this.listScoreTechnology = listScoreTechnology;
     }
-    
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
     
 }
