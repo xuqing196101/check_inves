@@ -71,6 +71,7 @@
             </div>
                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new" id="supPublicityList">
                 </ul>
+            <h5><span class="red">如果对公示内容有异议，请拨打举报电话：010-66880147</span></h5>
            <div id="pagediv" align="right"></div>
         </div>
 	  </div>

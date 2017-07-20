@@ -323,7 +323,7 @@
                 </div>
             </c:if>
             <c:if test="${ sign == 2 }">
-                <div class="display-none" id="checkWord">
+                <div>
                     <div id="opinionDiv">
                         <h2 class="count_flow"><i>2</i><span class="red">*</span>复审意见</h2>
                         <ul class="ul_list">
@@ -357,7 +357,7 @@
                         </ul>
                     </div>
                     <!-- 审核公示扫描件上传 -->
-                    <div>
+                    <div class="display-none" id="checkWord">
                         <h2 class="count_flow"><i>3</i>专家审批表</h2>
                         <ul class="ul_list">
                                 <li class="col-md-6 col-sm-6 col-xs-6">
@@ -420,7 +420,7 @@
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
                         <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
-                    <c:if test="${status eq '-2'}">
+                    <c:if test="${status eq '-2' || status eq '0' || (sign eq '2' && status eq '-2') || status eq '6'}">
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
                         <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
                     </c:if>

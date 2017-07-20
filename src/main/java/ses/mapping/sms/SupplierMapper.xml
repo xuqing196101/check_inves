@@ -2085,7 +2085,7 @@
 		   <if test="orgId != null and orgId != ''">
 			   AND DEP.ID = #{orgId}
 		   </if>
-		 ORDER BY T.AUDIT_DATE
+		 ORDER BY T.AUDIT_DATE DESC
 	</select>
 
 	<!-- 根据公示时间查询公示的供应商 -->

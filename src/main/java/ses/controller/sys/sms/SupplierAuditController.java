@@ -3746,15 +3746,25 @@ public class SupplierAuditController extends BaseSupplierController {
 	     */
         String supplierId = supplierAudit.getSupplierId();
         // 审核前判断是否有通过项和未通过项--是否符合通过要求
-        if(supplier.getStatus() == -3){
-            // 点击通过按钮时判断
-            JdcgResult selectAndVertifyAuditItem = supplierAuditService.selectAndVertifyAuditItem(supplierId);
-            if(selectAndVertifyAuditItem.getStatus() != 200) {
-                //如果有错误信息则直接返回提示操作
-                return selectAndVertifyAuditItem;
+		// 查询供应商审核意见  判断点击审核结束按钮是否是审核通过或者审核不通过状态
+        SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 0);
+        // 选择审核通过
+        if(supplierAuditOpinion != null && supplierAuditOpinion.getFlagAduit() != null){
+            if(supplierAuditOpinion.getFlagAduit() == 1){
+                // 点击通过按钮时判断
+                JdcgResult selectAndVertifyAuditItem = supplierAuditService.selectAndVertifyAuditItem(supplierId);
+                if(selectAndVertifyAuditItem.getStatus() != 200) {
+                    //如果有错误信息则直接返回提示操作
+                    return selectAndVertifyAuditItem;
+                }
+                // 审核通过，公示
+                supplier.setStatus(-3);
+            }else if(supplierAuditOpinion.getFlagAduit() == 0){
+                // 审核未通过
+                supplier.setStatus(3);
             }
-
         }
+
         Todos todos = new Todos();
         //更新状态
         supplier.setId(supplierId);

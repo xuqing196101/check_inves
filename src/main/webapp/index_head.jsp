@@ -655,15 +655,15 @@
               <li>
               <table class="table table-bordered mb0">
                 <tbody>
-                  <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="4" step="1" varStatus="status">
+                  <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="10" step="1" varStatus="status">
                   <c:set value="${item.supplierName}" var="supplierName"></c:set>
                   <c:set value="${item.supplierTypeNames}" var="supplierTypeNames"></c:set>
                   <c:set value="${item.businessNature}" var="businessNature"></c:set>
                   <tr>
                     <td width="15%">
                       <c:choose>
-                      <c:when test="${fn:length(supplierName) > 4}">
-                      <c:out value="${fn:substring(supplierName, 0, 4)}.." />
+                      <c:when test="${fn:length(supplierName) > 10}">
+                      <c:out value="${fn:substring(supplierName, 0, 10)}.." />
                       </c:when>
                       <c:otherwise>
                       <c:out value="${supplierName}"></c:out>
@@ -672,8 +672,8 @@
                     </td>
                     <td class="tc" width="12%">
                       <c:choose>
-                      <c:when test="${fn:length(supplierTypeNames) > 4}">
-                      <c:out value="${fn:substring(supplierTypeNames, 0, 4)}..." />
+                      <c:when test="${fn:length(supplierTypeNames) > 10}">
+                      <c:out value="${fn:substring(supplierTypeNames, 0, 10)}..." />
                       </c:when>
                       <c:otherwise>
                       <c:out value="${supplierTypeNames}"></c:out>
@@ -682,56 +682,8 @@
                     </td>
                     <td class="tc" width="12%">
                       <c:choose>
-                      <c:when test="${fn:length(businessNature) > 2}">
-                      <c:out value="${fn:substring(businessNature, 0, 2)}..." />
-                      </c:when>
-                      <c:otherwise>
-                      <c:out value="${businessNature}"></c:out>
-                      </c:otherwise>
-                      </c:choose>
-                    </td>
-                    <td class="tc" width="12%">${ item.orgName }</td>
-                    <td class="tl" width="34%">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</td>
-                    <td class="tl" width="15%">
-                      <fmt:formatDate value="${item.auditDate}" pattern="yyyy-MM-dd"></fmt:formatDate>
-                    </td>
-                  </tr>
-                  </c:forEach>
-                </tbody>
-              </table>
-              </li>
-              <li>
-              <table class="table table-bordered mb0">
-                <tbody>
-                  <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="4" step="1" varStatus="status">
-                  <c:set value="${item.supplierName}" var="supplierName"></c:set>
-                  <c:set value="${item.supplierTypeNames}" var="supplierTypeNames"></c:set>
-                  <c:set value="${item.businessNature}" var="businessNature"></c:set>
-                  <tr>
-                    <td width="15%">
-                      <c:choose>
-                      <c:when test="${fn:length(supplierName) > 4}">
-                      <c:out value="${fn:substring(supplierName, 0, 4)}.." />
-                      </c:when>
-                      <c:otherwise>
-                      <c:out value="${supplierName}"></c:out>
-                      </c:otherwise>
-                      </c:choose>
-                    </td>
-                    <td class="tc" width="12%">
-                      <c:choose>
-                      <c:when test="${fn:length(supplierTypeNames) > 4}">
-                      <c:out value="${fn:substring(supplierTypeNames, 0, 4)}..." />
-                      </c:when>
-                      <c:otherwise>
-                      <c:out value="${supplierTypeNames}"></c:out>
-                      </c:otherwise>
-                      </c:choose>
-                    </td>
-                    <td class="tc" width="12%">
-                      <c:choose>
-                      <c:when test="${fn:length(businessNature) > 2}">
-                      <c:out value="${fn:substring(businessNature, 0, 2)}..." />
+                      <c:when test="${fn:length(businessNature) > 4}">
+                      <c:out value="${fn:substring(businessNature, 0, 4)}..." />
                       </c:when>
                       <c:otherwise>
                       <c:out value="${businessNature}"></c:out>
@@ -929,24 +881,7 @@
             <li>
             <table class="table table-bordered mb0">
               <tbody>
-              <c:forEach items="${my:getPublicityExpert()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
-                <tr>
-                  <td width="25%">${ item.relName }</td>
-                  <td class="tc" width="15%">${ item.expertsTypeId }</td>
-                  <td class="tc" width="15%">${ item.orgName }</td>
-                  <td class="tl" width="30%">同意入库，选择了${ item.passCateCount }个小类，通过了${ item.passCateCount - item.noPassCateCount }个小类</td>
-                  <td class="tl" width="25%">
-                  <fmt:formatDate value="${item.auditAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
-                  </td>
-                </tr>
-              </c:forEach> 
-              </tbody>
-            </table>
-            </li>
-            <li>
-            <table class="table table-bordered mb0">
-              <tbody>
-              <c:forEach items="${my:getPublicityExpert()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
+              <c:forEach items="${my:getPublicityExpert()}" var="item" begin="0" end="10" step="1" varStatus="status">
                 <tr>
                   <td width="25%">${ item.relName }</td>
                   <td class="tc" width="15%">${ item.expertsTypeId }</td>

@@ -2481,12 +2481,25 @@ public class ExpertAuditController{
 	     * @since JDK1.7
 	     */
         String expertId = expert.getId();
-        if("-3".equals(expert.getStatus())){
-            // 点击通过按钮时判断
-            JdcgResult selectAndVertifyAuditItem = expertAuditService.selectAndVertifyAuditItem(expertId);
-            if(selectAndVertifyAuditItem.getStatus() != 200) {
-                //如果有错误信息则直接返回提示操作
-                return selectAndVertifyAuditItem;
+        // 审核前判断是否有通过项和未通过项--是否符合通过要求
+        // 查询专家审核意见  判断点击审核结束按钮是否是审核通过或者审核不通过状态
+        ExpertAuditOpinion expertAuditOpinions = new ExpertAuditOpinion();
+        expertAuditOpinions.setExpertId(expertId);
+        expertAuditOpinions.setFlagTime(1);
+        ExpertAuditOpinion expertAuditOpinionExist = expertAuditOpinionService.selectByExpertId(expertAuditOpinions);
+        // 选择审核通过
+        if(expertAuditOpinionExist != null && expertAuditOpinionExist.getFlagAudit() != null){
+            if(expertAuditOpinionExist.getFlagAudit() == 1){
+                // 点击通过按钮时判断
+                JdcgResult selectAndVertifyAuditItem = expertAuditService.selectAndVertifyAuditItem(expertId);
+                if(selectAndVertifyAuditItem.getStatus() != 200) {
+                    //如果有错误信息则直接返回提示操作
+                    return selectAndVertifyAuditItem;
+                }
+                expert.setStatus("-3");
+            }else if(expertAuditOpinionExist.getFlagAudit() == 0){
+                // 审核未通过
+                expert.setStatus("5");
             }
         }
 
@@ -2500,7 +2513,7 @@ public class ExpertAuditController{
         expert.setUpdatedAt(new Date());
         expertService.updateByPrimaryKeySelective(expert);
 
-        expert = expertService.selectByPrimaryKey(expertId);
+        //expert = expertService.selectByPrimaryKey(expertId);
         String status = expert.getStatus();
 
         /**

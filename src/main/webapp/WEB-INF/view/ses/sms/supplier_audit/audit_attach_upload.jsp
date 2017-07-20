@@ -84,8 +84,9 @@
                         <div class="col-md-12 add_regist tc">
                             <a class="btn" type="button" onclick="lastStep();">上一步</a>
                             <c:if test="${supplierStatus == -2}">
-                                <input class="btn btn-windows apply" type="button" id="auditPass" value="审核通过 " />
-                                <input class="btn btn-windows cancel" type="button" id="auditNoPass" value="审核不通过" />
+                                <%--<input class="btn btn-windows apply" type="button" id="auditPass" value="审核通过 " />
+                                <input class="btn btn-windows cancel" type="button" id="auditNoPass" value="审核不通过" />--%>
+                                <input class="btn btn-windows git" type="button" id="auditOver" value="审核结束 " />
                             </c:if>
                         </div>
                     </div>

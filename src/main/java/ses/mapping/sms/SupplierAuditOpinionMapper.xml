@@ -133,8 +133,10 @@
         FROM (SELECT
         <include refid="Base_Column_List" />
         FROM T_SES_SMS_SUPPLIER_OPINION T
-        WHERE T.SUPPLIER_ID = #{supplierId}
-        AND T.FLAG_TIME = #{flagTime}
+        WHERE T.FLAG_TIME = #{flagTime}
+        <if test="supplierId != null">
+            AND T.SUPPLIER_ID = #{supplierId}
+        </if>
         ORDER BY T.CREATED_AT DESC)
         WHERE ROWNUM = 1
     </select>

@@ -366,7 +366,7 @@
 				</div>
 			</c:if>
 			<c:if test="${ sign == 1}">
-				<div id="checkWord" class="display-none">
+				<div>
 					<div id="opinionDiv">
 						<h2 class="count_flow"><i>2</i><span class="red">*</span>最终意见</h2>
 					  <ul class="ul_list">
@@ -402,7 +402,7 @@
                     <input type="hidden" value="${supplierAuditOpinion.flagAduit}" id="hiddenSelectOptionId">
                     </div>
 			        <!-- 审核公示扫描件上传 -->
-                    <div>
+                    <div id="checkWord" class="display-none">
                         <h2 class="count_flow"><i>3</i>供应商审批表</h2>
                         <ul class="ul_list">
                             <li class="col-md-6 col-sm-6 col-xs-6">
