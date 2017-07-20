@@ -37,7 +37,7 @@ public class Task {
     
     private String passWord;
     
-    private Integer taskNature; //任务性质
+    private Integer taskNature; //任务性质(0正常任务1预研任务)
     
     private String orgId; //采购管理部门
     
