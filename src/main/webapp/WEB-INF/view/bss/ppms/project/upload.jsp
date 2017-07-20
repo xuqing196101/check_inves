@@ -18,6 +18,9 @@
     if(name == ""){
       $("#sps").html("负责人不能为空").css('color', 'red');
     }else{
+     var index = layer.load(1, {
+	  shade: [0.1,'#fff'] //0.1透明度的白色背景
+	});
       $("#att").submit();
     }
   	

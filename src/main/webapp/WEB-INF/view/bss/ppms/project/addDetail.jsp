@@ -239,6 +239,9 @@
                   var planType = $("#planType").val();
                   $("#planTypes").val(planType);
                   $("#detail_id").val(checkIds);
+                  var index = layer.load(1, {
+					  shade: [0.1,'#fff'] //0.1透明度的白色背景
+					});
                   $("#save_form_id").submit();
                 }
               } else {
