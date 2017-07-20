@@ -5,32 +5,34 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 	<script type="text/javascript">
-	    
-		$(function(){
-			var setting = {
-				async:{
-					autoParam:["id"],
-					enable:true,
-					url:"${pageContext.request.contextPath}/preMenu/treedata.do",
-					dataType:"json",
-					type:"post",
-				},
-				data: {
-					simpleData: {
+	    var auth = "${menu}";
+	    if (auth == "show") {
+			$(function(){
+				var setting = {
+					async:{
+						autoParam:["id"],
 						enable:true,
-						idKey:"id",
-						pId:"pId",
-						rootPId:-1,
+						url:"${pageContext.request.contextPath}/preMenu/treedata.do",
+						dataType:"json",
+						type:"post",
+					},
+					data: {
+						simpleData: {
+							enable:true,
+							idKey:"id",
+							pId:"pId",
+							rootPId:-1,
+						}
+					},
+					callback:{
+						onClick:zTreeOnClick
 					}
-				},
-				callback:{
-					onClick:zTreeOnClick
-				}
-			};
-			var treeObj=$.fn.zTree.init($("#menuTree"),setting);
-			treeObj.expandAll(true);
-			getDetail("0");
-		});
+				};
+				var treeObj=$.fn.zTree.init($("#menuTree"),setting);
+				treeObj.expandAll(true);
+				getDetail("0");
+			});
+		}
 		
 		function zTreeOnClick(event,treeId,treeNode){
 			$("#checkedAll").attr("checked",false);
@@ -204,9 +206,11 @@
 					</div>
 					<div class="col-md-9 col-sm-8 col-xs-12">
 						<div class="col-md-12 col-xs-12 col-sm-12">
-							<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-							<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-							<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+							<c:if test="${menu=='show' }">
+								<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+								<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+								<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+							</c:if>
 						</div>
 						<input type="hidden" id="mid">
 						<div class="tag-box tag-box-v4 col-md-12 col-sm-12 col-xs-12 mt5" id="show_content_div"></div> 

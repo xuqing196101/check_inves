@@ -42,6 +42,7 @@ import ses.util.JsonDateValueProcessor;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
+import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 
 /**
@@ -77,7 +78,13 @@ public class PreMenuController {
 	private static Logger logger = Logger.getLogger(RoleManageController.class);
 
 	@RequestMapping("/list")
-	public String list() {
+	public String list(@CurrentUser User cuse, Model model) {
+	  User user = userService.getUserById(cuse.getId());
+	  if("4".equals(user.getTypeName())){
+      model.addAttribute("menu", "show");
+    }else{
+      model.addAttribute("menu", "hidden");
+    }
 		return "ses/bms/menu/list";
 	}
 
