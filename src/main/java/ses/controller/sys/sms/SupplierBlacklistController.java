@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
@@ -18,6 +17,7 @@ import ses.model.sms.SupplierBlacklist;
 import ses.service.sms.SupplierBlacklistService;
 
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 @Controller
 @Scope("prototype")
@@ -40,16 +40,24 @@ public class SupplierBlacklistController {
 	}
 
 	@RequestMapping(value = "list_blacklist")
-	public String listBlacklist(Model model, SupplierBlacklist supplierBlacklist, Integer page) {
+	public String listBlacklist(Model model, SupplierBlacklist supplierBlacklist, Integer page,@CurrentUser User user) {
 		String supplierName = supplierBlacklist.getSupplierName();
-		List<SupplierBlacklist> listSupplierBlacklists = supplierBlacklistService.findSupplierBlacklist(supplierBlacklist, page == null ? 1 : page);
-		model.addAttribute("listSupplierBlacklists", new PageInfo<SupplierBlacklist>(listSupplierBlacklists));
-		model.addAttribute("supplierName", supplierName);
-		if (supplierBlacklist.getStartTime() != null) {
-			model.addAttribute("startTime", new SimpleDateFormat("yyyy-MM-dd").format(supplierBlacklist.getStartTime()));
-		}
-		if (supplierBlacklist.getEndTime() != null) {
-			model.addAttribute("endTime", new SimpleDateFormat("yyyy-MM-dd").format(supplierBlacklist.getEndTime()));
+		//权限验证 登陆状态 角色只能是资源服务中心
+		if(null!=user && "4".equals(user.getTypeName())){
+			List<SupplierBlacklist> listSupplierBlacklists = supplierBlacklistService.findSupplierBlacklist(supplierBlacklist, page == null ? 1 : page);
+			model.addAttribute("listSupplierBlacklists", new PageInfo<SupplierBlacklist>(listSupplierBlacklists));
+			model.addAttribute("supplierName", supplierName);
+			if (supplierBlacklist.getStartTime() != null) {
+				model.addAttribute("startTime", new SimpleDateFormat("yyyy-MM-dd").format(supplierBlacklist.getStartTime()));
+			}
+			if (supplierBlacklist.getEndTime() != null) {
+				model.addAttribute("endTime", new SimpleDateFormat("yyyy-MM-dd").format(supplierBlacklist.getEndTime()));
+			}
+		}else{
+			model.addAttribute("listSupplierBlacklists", new PageInfo<SupplierBlacklist>() );
+			model.addAttribute("supplierName", supplierName);
+			model.addAttribute("startTime", "");
+			model.addAttribute("endTime", "");
 		}
 		return "ses/sms/supplier_blacklist/blacklist";
 	}

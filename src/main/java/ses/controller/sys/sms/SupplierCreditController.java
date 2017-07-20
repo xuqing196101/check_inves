@@ -2,6 +2,8 @@ package ses.controller.sys.sms;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -9,14 +11,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.User;
 import ses.model.sms.SupplierCredit;
 import ses.service.sms.SupplierCreditService;
 
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 import common.utils.JdcgResult;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @Scope("prototype")
@@ -27,11 +29,14 @@ public class SupplierCreditController {
 	private SupplierCreditService supplierCreditService;
 
 	@RequestMapping(value = "list")
-	public String list(Model model, SupplierCredit supplierCredit, Integer page) {
-		String name = supplierCredit.getName();
-		List<SupplierCredit> listSupplierCredits = supplierCreditService.findSupplierCredit(supplierCredit, page == null ? 0 : page);
-		model.addAttribute("listSupplierCredits", new PageInfo<SupplierCredit>(listSupplierCredits));
-		model.addAttribute("name", name);
+	public String list(Model model, SupplierCredit supplierCredit, Integer page,@CurrentUser User user) {
+		//权限验证 登陆状态 角色只能是资源服务中心
+		if(null!=user && "4".equals(user.getTypeName())){
+			String name = supplierCredit.getName();
+			List<SupplierCredit> listSupplierCredits = supplierCreditService.findSupplierCredit(supplierCredit, page == null ? 0 : page);
+			model.addAttribute("listSupplierCredits", new PageInfo<SupplierCredit>(listSupplierCredits));
+			model.addAttribute("name", name);
+		}
 		return "ses/sms/supplier_credit/list";
 	}
 	
