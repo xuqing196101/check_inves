@@ -260,11 +260,13 @@
   
 	<!-- 表格开始-->
    <div class="col-md-12 pl20 mt10">
-	    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-		<button class="btn btn-windows reset" type="button" onclick="opera();">激活/禁用</button>
-		<button class="btn btn-windows edit" type="button" onclick="openPreMenu()">设置权限</button>
-		<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+     <c:if test="${menu=='show' }">
+		  <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+			<button class="btn btn-windows reset" type="button" onclick="opera();">激活/禁用</button>
+			<button class="btn btn-windows edit" type="button" onclick="openPreMenu()">设置权限</button>
+			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+	 </c:if>
    </div>
 
 		<div class="content table_box">
@@ -284,6 +286,7 @@
 					</tr>
 				</thead>
 				<tbody>
+				<c:if test="${menu=='show' }">
 					<c:forEach items="${list.list}" var="role" varStatus="vs">
 						<tr>
 							<td class="tc"><input onclick="check()" type="checkbox"
@@ -315,6 +318,7 @@
 							<td class="tc"><a href="${pageContext.request.contextPath}/user/listByRole.do?rId=${role.id}" title="用户列表">${role.userNumber}</a></td>
 						</tr>
 					</c:forEach>
+					</c:if>
 				</tbody>
 			</table>
 			<div id="pagediv" align="right"></div>

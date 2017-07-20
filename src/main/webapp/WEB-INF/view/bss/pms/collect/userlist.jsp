@@ -172,7 +172,15 @@
 			  			${obj.relName}
 			    </td>
 			    <td class="tl pl20">${obj.mobile }</td>
-			 	<td class="tl pl20">${obj.org.name }</td>
+			 	<td class="tl pl20">
+         <c:if test="${obj.org == null }">${obj.orgName}</c:if>
+		 				<c:if test="${obj.org != null && obj.org.fullName != null && obj.org.fullName != ''}">
+					  		${obj.org.fullName}
+					  	</c:if>
+					  	<c:if test="${obj.org != null && (obj.org.fullName == null || obj.org.fullName == '')}">
+					  		${obj.org.name}
+					  	</c:if>
+          </td>
 			</tr>
 		 </c:forEach>
       </table>

@@ -220,30 +220,30 @@
 			
 			//保存
 			function incr() {
-			
-				var orgType="${orgType}";
-				var name = $("#jhmc").val();
-				var no = $("#jhbh").val();
-				var mobile = $("#mobile").val();
-				var type = $("#wtype").val();
-			 	var refNo = $("#referenceNo").val();
-			 	var fileId = $("#mfiledId").val();
-				var bool= details();
-				
-			      var dy=dyly();
-			   var ptype=true;
-			    
+                if($("#detailZeroRow tr").length <=2){
+                    layer.alert("请添加需求明细！");
+                    return;
+                }
+                var orgType="${orgType}";
+                var name = $("#jhmc").val();
+                var no = $("#jhbh").val();
+                var mobile = $("#mobile").val();
+                var type = $("#wtype").val();
+                var refNo = $("#referenceNo").val();
+                var fileId = $("#mfiledId").val();
+                var bool= details();
+
+                var dy=dyly();
+                var ptype=true;
 			   /*var bool=true; */
-			    $("#table tr").each(function(){
-			    	var  price= $(this).find("td:eq(8)").children(":first").next().val();//上级id
-			    	if($.trim(price) !=""){
-			    		var  type= $(this).find("td:eq(12)").children(":first").val();//上级id
+			    $("#detailZeroRow tr").each(function(){
+			    	//var  price= $(this).find("td:eq(8)").children(":first").next().val();//上级id
+			    	//if($.trim(price) !=""){
+			    		var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
 				    	  if($.trim(type) == "") {
-				    	      alert();
 				    		  ptype=false;
 				    	  }
-			    	}
-			    	
+			    	//}
 			    });
 				/* var seq=seqs(); */
 			 if(orgType!='0'){
@@ -259,9 +259,9 @@
 			  	else if(!dy){
 					layer.alert("请填写供应商"); 
 				}  
-				 else if(!ptype){
+				/* else if(!ptype){
 						layer.alert("请选择采购方式"); 
-					} 
+					} */
 				/* else if($.trim(refNo) == ""){
 					 layer.msg("请 填写计划文号"); 
 				} */
@@ -877,7 +877,7 @@
 			
 	 	function budgets(bud){
 				if (bud != null ){
-					  bud = bud.toFixed(2);
+                    bud = bud.toFixed(2);
 					}
 				if (bud == null || bud =="null" || bud =="undefined" || bud ==undefined){
 					   return "";

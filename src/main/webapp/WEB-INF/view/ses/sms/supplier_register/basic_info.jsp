@@ -25,18 +25,9 @@
 			});
 			
 			$(function() {
-				
-				/* var term="${currSupplier.branchName}";
-				if(term=="1"){
-					$("#expireDate").attr("disabled","disabled");
-				} */
 				var status="${status}";
 				if(status=="0"){ 
 				  layer.msg("提交失败，请仔细检查所填信息！");
-				}
-				var card="${notPass}";
-				if(card=="error_card"){ 
-					layer.msg("身份证号已存在！");
 				}
 				var notPass = "${notPass}";
 				if (notPass == "notPass") {
@@ -88,6 +79,8 @@
 				if("${currSupplier.status}" == 7) {
 					showReason();
 				}
+				
+				toTempSave();// 实时保存
 				
 			});
 
@@ -157,20 +150,6 @@
 
 			/** 保存基本信息 */
 			function saveBasicInfo(obj) {
-//                //进行出资金额或股份的数据校验
-//                var _count = 0;
-//                var _inputArray = $('#stockholder_list_tbody_id').find('tr').find("td:eq(4)").find('input');
-//                var inputSize = _inputArray.length;
-//                for(var i=0;i<inputSize;i++){
-//                    var _val = _inputArray[i].value;
-//                    if(!positiveRegular(_val)){
-//                        _count ++;
-//                    }
-//                }
-//                if(_count > 0){
-//                    layer.msg('请输入正确的出资金额或股份数据格式(正整数)', {offset: '300px'});
-//                    return false;
-//                }
 				var supplierId = $("input[name='id']").val();
 				var msg = "";
 				var flag = true;
@@ -184,7 +163,7 @@
 				if($("#overseas_branch_select_id").val() == "1") {
 					// 非空校验
 					$("#branch_list").find("input[type='text']").each(function(index, element) {
-                        if(element.value.trim().length <= 0) {
+            if(element.value.trim().length <= 0) {
 							msg = "境外信息不能为空！";
 							flag = false;
 						}
@@ -269,7 +248,6 @@
 					//enableForm();
 					$("#basic_info_form_id").submit();
 				} else {
-
 					layer.msg(msg, {
 						offset: '300px'
 					});
@@ -278,110 +256,42 @@
 			
 			/** 暂存 */
 			function temporarySave() {
-			    //进行出资金额或股份的数据校验
-//                var _count = 0;
-//                var _inputArray = $('#stockholder_list_tbody_id').find('tr').find("td:eq(4)").find('input');
-//                var inputSize = _inputArray.length;
-//                for(var i=0;i<inputSize;i++){
-//                    var _val = _inputArray[i].value;
-//                    if(!positiveRegular(_val)){
-//                        _count ++;
-//                    }
-//                }
-//                if(_count > 0){
-//                    layer.msg('请输入正确的出资金额或股份数据格式(正整数)', {offset: '300px'});
-//                }else{
-                    $("input[name='flag']").val("");
-                    // 提交的时候表单域设置成可编辑
-										//enableForm();
-                    $.ajax({
-                        url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
-                        type: "post",
-                        data: $("#basic_info_form_id").serializeArray(),
-                        contextType: "application/x-www-form-urlencoded",
-                        success: function(msg) {
-                        	//controlForm();
-                            if(msg == 'ok') {
-                              layer.msg('暂存成功', {
-                                offset: '300px'
-                              });
-                            }
-                            else if(msg == 'failed') {
-                              layer.msg('暂存失败', {
-                                offset: '300px'
-                              });
-                            }
-                            else{
-                            	layer.msg('暂存失败，请仔细检查所填信息！', {
-                                offset: '300px'
-                              });
-                            }
-                        },
-												error: function(){
-													//controlForm();
-													layer.msg('暂存失败', {
-                            offset: '300px'
-                          });
-												}
-                    });
-//                }
+				$("input[name='flag']").val("");
+			   	// 提交的时候表单域设置成可编辑
+					//enableForm();
+			   	$.ajax({
+			     	url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
+			     	type: "post",
+			     	data: $("#basic_info_form_id").serializeArray(),
+			     	contextType: "application/x-www-form-urlencoded",
+			     	success: function(msg) {
+						//controlForm();
+						if(msg == 'ok') {
+						  layer.msg('暂存成功', {
+						    offset: '300px'
+						  });
+						}
+					  else if(msg == 'failed') {
+					    layer.msg('暂存失败', {
+					      offset: '300px'
+					    });
+					  }
+					  else{
+					  	/* layer.msg('暂存失败，请仔细检查所填信息！', {
+					      offset: '300px'
+					    }); */
+					    tempSaveValidation(msg);
+					  }
+					},
+					error: function(){
+						//controlForm();
+						layer.msg('暂存失败', {
+	            offset: '300px'
+	          });
+					}
+	    	});
 			}
-			$(function() {
-				//$("input").not("#supplierName_input_id").not(".address_zip_code").not("#stockholder_list_tbody_id input").bind("blur", tempSave);
-//			$("input").not("#supplierName_input_id").not("input[name='legalName']").not("input[name='contactName']").bind("blur", tempSave);
-				//$("textarea").bind("blur", tempSave);
-				//$("select").not("#stockholder_list_tbody_id select").bind("change", tempSave);
-				
-				toTempSave();// 实时保存
-				
-				/**供应商名称校验*/
-                $("#supplierName_input_id").focus(function(){
-                    $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
-                }).blur(function(){
-                    var oldVal=($(this).attr("data-oval")); //获取原值
-                    var newVal=($(this).val()); //获取当前值
-                    if (oldVal!=newVal){
-                        $("#name_span").val(1);
-                        //tempSave();
-                    }
-                });
-				/**邮编校验*/
-                $(".address_zip_code").focus(function(){
-                    $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
-                }).blur(function(){
-                    var oldVal=($(this).attr("data-oval")); //获取原值
-                    var newVal=($(this).val()); //获取当前值
-                    if (oldVal!=newVal){
-                        var tel = /^[0-9]{6}$/;
-                        if(!tel.test(newVal)){
-                            $(this).val("");
-                            layer.msg('请输入正确的邮政编码！', {
-                                offset: '300px'
-                            });
-                        }else{
-                            //tempSave();
-                        }
-                    }
-                });
-                /**联系人姓名校验*/
-//                $("input[name='contactName']").focus(function(){
-//                    $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
-//                }).blur(function(){
-//                    var oldVal=($(this).attr("data-oval")); //获取原值
-//                    var newVal=($(this).val()); //获取当前值
-//                    if (oldVal!=newVal){
-//                        if(newVal==$("input[name='legalName']").val()){
-//                            $(this).val("");
-//                            layer.msg('姓名已存在，请重新填写！', {
-//                                offset: '300px'
-//                            });
-//                        }else{
-//                            $("#name_span").val(3);
-//                            tempSave();
-//                        }
-//                    }
-//                });
-			});
+			
 			/** 无提示实时保存 */
 			function tempSave() {
 				$("input[name='flag']").val("");
@@ -395,46 +305,7 @@
 					success: function(msg) {
 						//controlForm();
             $("#name_span").val("");//名称校验标识初始化
-						if(msg=="notPass"){
-							layer.msg('近3年加权平均净资产不足100万元，不满足注册要求！', {
-								offset: '300px'
-							});
-						}
-						if(msg=="repeat"){
-					 		$("input[name='creditCode']").val("");
-							layer.msg('统一社会信用代码重复，请重新填写！', {
-								offset: '300px'
-							});
-						}
-						if(msg=="disabled_180"){
-              $("input[name='creditCode']").val("");
-              layer.msg('统一社会信用代码在180天内禁止再次注册，请重新填写！', {
-                  offset: '300px'
-              });
-            }
-						if(msg=="errIdentity"){
-							layer.msg('统一社会信用代码或身份证号重复，请重新填写！', {
-								offset: '300px'
-							});
-						}
-						if(msg=="supplierNameExists"){
-					    $("#supplierName_input_id").val("");
-             	layer.msg('供应商名称已存在，请重新填写！', {
-               	offset: '300px'
-              });
-            }
-//                        if(msg=="legalNameExists"){
-//                            $("input[name='legalName']").val("");
-//                            layer.msg('姓名已存在，请重新填写！', {
-//                                offset: '300px'
-//                            });
-//                        }
-//                        if(msg=="contactNameExists"){
-//                            $("input[name='contactName']").val("");
-//                            layer.msg('姓名已存在，请重新填写！', {
-//                                offset: '300px'
-//                            });
-//                        }
+						tempSaveValidation(msg);
 					},
 					error: function(){
 						//controlForm();
@@ -455,6 +326,40 @@
             }
 					});
 				}
+			}
+			
+			function tempSaveValidation(msg){
+				if(msg=="notPass"){
+					layer.msg('近3年加权平均净资产不足100万元，不满足注册要求！', {
+						offset: '300px'
+					});
+				}
+				if(msg=="creditCodeExists"){
+			 		//$("input[name='creditCode']").val("");
+			 		$("input[name='creditCode']").focus();
+					layer.msg('统一社会信用代码已存在，请重新填写！', {
+						offset: '300px'
+					});
+				}
+				if(msg=="disabled_180"){
+          //$("input[name='creditCode']").val("");
+          $("input[name='creditCode']").focus();
+          layer.msg('统一社会信用代码在180天内禁止再次注册，请重新填写！', {
+              offset: '300px'
+          });
+        }
+				if(msg=="errIdentity"){
+					layer.msg('统一社会信用代码或身份证号重复，请重新填写！', {
+						offset: '300px'
+					});
+				}
+				if(msg=="supplierNameExists"){
+			    //$("#supplierName_input_id").val("");
+			    $("#supplierName_input_id").focus();
+         	layer.msg('供应商名称已存在，请重新填写！', {
+           	offset: '300px'
+          });
+        }
 			}
 
 			function openStockholder() {
@@ -799,17 +704,17 @@
 			function checknums(obj) {
 				var vals = $(obj).val();
 				if(vals!=""){
-                    var reg = /^\d+\.?\d*$/;
-                    if(!reg.test(vals)) {
-                        $(obj).val("");
-                        $("#err_fund").text("数字非法");
-                        //解决多提示信息显示问题
-                        $(obj).nextAll().last().html("");
-                    } else {
-                        $("#err_fund").text();
-                        $("#err_fund").empty();
-                    }
-                }
+          var reg = /^\d+\.?\d*$/;
+          if(!reg.test(vals)) {
+            $(obj).val("");
+            $("#err_fund").text("数字非法");
+            //解决多提示信息显示问题
+            $(obj).nextAll().last().html("");
+          } else {
+            $("#err_fund").text();
+            $("#err_fund").empty();
+          }
+      	}
 			}
 			/**对于金额的小数判断*/
 			function checkNumsSale(obj,nonNum){
@@ -915,20 +820,20 @@
 			function increaseAddHouseAddress(obj) {
 				var ind = $("#certSaleNumber").val();
 				var li = $(obj).parent().parent();
-                $.ajax({
-                    url : "${pageContext.request.contextPath}/supplier/addAddress.do",
-                    async : false,
-                    dataType : "html",
-                    data : {
-                        "ind" : ind
-                    },
-                    success : function(data) {
-                        $("#address_list_tbody_id").append(data);
-                        init_web_upload();
-                        ind++;
-                        $("#certSaleNumber").val(ind);
-                    }
-                });
+        $.ajax({
+          url : "${pageContext.request.contextPath}/supplier/addAddress.do",
+          async : false,
+          dataType : "html",
+          data : {
+            "ind" : ind
+          },
+          success : function(data) {
+            $("#address_list_tbody_id").append(data);
+            init_web_upload();
+            ind++;
+            $("#certSaleNumber").val(ind);
+          }
+        });
 			}
 			function delAddress(obj,id) {
         var all = $("#address_list_tbody_id").find(":checkbox");
@@ -1569,7 +1474,8 @@
                                                     <td class="tc"><input type="checkbox" value="${addr.id}" /></td>
                                                   
                                                     <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }')"</c:if>>
-                                                        <input type="text"  <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  required class="w200 border0 address_zip_code" name="addressList[${vs.index }].code" value="${addr.code}" />
+                                                        <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" onblur="validatePostCode(this.value)"
+                                                        <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  required class="w200 border0 address_zip_code" name="addressList[${vs.index }].code" value="${addr.code}" />
                                                         <input type='hidden' name='addressList[${vs.index }].id' value='${addr.id}'>
                                                     </td>
                                                     <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }')"</c:if>>
@@ -2245,14 +2151,15 @@
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
-								<%-- <c:choose>
-                                      <c:when test="${currSupplier.status==2 }">
-                                      <button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
-                                      </c:when>
-                                      <c:otherwise> --%>
-                                        <button class="btn btn-windows add" type="button" onclick="openStockholder()">新增</button>
-                                 <%--      </c:otherwise>
-                                    </c:choose> --%>
+									<%-- <c:choose>
+                    <c:when test="${currSupplier.status==2 }">
+                    	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                    </c:when>
+                    <c:otherwise>
+                      <button class="btn btn-windows add" type="button" onclick="openStockholder()">新增</button>
+               			</c:otherwise>
+                  </c:choose> --%>
+                  <button class="btn btn-windows add" type="button" onclick="openStockholder()">新增</button>
 									<button class="btn btn-windows delete" type="button" onclick="deleteStockholder()">删除</button>
 									<span class="red">${stock }</span>
 								</div>
@@ -2315,14 +2222,14 @@
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
-								<c:choose>
-                                      <c:when test="${currSupplier.status==2 }">
-                                      <button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
-                                      </c:when>
-                                      <c:otherwise>
-                                       <button class="btn btn-windows add" type="button" onclick="openAfterSaleDep()">新增</button>
-                                      </c:otherwise>
-                                    </c:choose>
+									<c:choose>
+                  	<c:when test="${currSupplier.status==2 }">
+                   		<button class="btn btn-Invalid" type="button" disabled="disabled">新增</button>
+                   	</c:when>
+                   	<c:otherwise>
+                   		<button class="btn btn-windows add" type="button" onclick="openAfterSaleDep()">新增</button>
+                   	</c:otherwise>
+                 	</c:choose>
 									<button class="btn btn-windows delete" type="button" onclick="deleteAfterSaleDep()">删除</button>
 									<span class="red">${afterSale}</span>
 								</div>

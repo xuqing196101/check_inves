@@ -1200,7 +1200,9 @@
             </div>
 
             <div class="ywbl_02 col-xs-4 col-sm-4">
-              <a href="${pageContext.request.contextPath}/park/getIndex.html" class="cglt">
+              <a <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
+               href="${pageContext.request.contextPath}/park/getIndex.html"
+              <% } %> class="cglt">
                 <i></i>
                 <span>采购论坛</span>
               </a>

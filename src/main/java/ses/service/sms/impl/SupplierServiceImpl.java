@@ -167,6 +167,7 @@ public class SupplierServiceImpl implements SupplierService {
   /**
    * 供应商类型
    **/
+  @SuppressWarnings("unused")
   @Autowired
   private SupplierTypeRelateService supplierTypeRelateService;
   @Autowired
@@ -181,7 +182,7 @@ public class SupplierServiceImpl implements SupplierService {
   @Override
   public Supplier get(String id) {
     Supplier supplier = supplierMapper.getSupplier(id);
-    if (supplier != null && !supplier.equals("")) {
+    if (supplier != null) {
       List<SupplierTypeRelate> relateList = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(id);
       supplier.setListSupplierFinances(null);
       List<SupplierFinance> fiance = supplierFinanceMapper.getFinanceBySid(id);
@@ -225,45 +226,40 @@ public class SupplierServiceImpl implements SupplierService {
           }
         }
       }
-    }
-
-    List<SupplierBranch> list = supplierBranchService.findSupplierBranch(id);
-    if (list.size() > 0) {
-
-      supplier.setBranchList(list);
-    } else {
-      SupplierBranch branch = new SupplierBranch();
-      String bid = WfUtil.createUUID();
-      branch.setId(bid);
-      list.add(branch);
-      supplier.setBranchList(list);
-    }
-    List<SupplierAddress> addressList = supplierAddressService.getBySupplierId(id);
-    if (addressList.size() > 0) {
-      for (SupplierAddress b : addressList) {
-        if (StringUtils.isNotBlank(b.getProvinceId())) {
-          List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
-          b.setAreaList(city);
-        }
+      List<SupplierBranch> list = supplierBranchService.findSupplierBranch(id);
+      if (list.size() > 0) {
+        supplier.setBranchList(list);
+      } else {
+        SupplierBranch branch = new SupplierBranch();
+        String bid = WfUtil.createUUID();
+        branch.setId(bid);
+        list.add(branch);
+        supplier.setBranchList(list);
       }
-      supplier.setAddressList(addressList);
-    } else {
-      SupplierAddress address = new SupplierAddress();
-      address.setId(WfUtil.createUUID());
-      addressList.add(address);
-      supplier.setAddressList(addressList);
+      List<SupplierAddress> addressList = supplierAddressService.getBySupplierId(id);
+      if (addressList.size() > 0) {
+        for (SupplierAddress b : addressList) {
+          if (StringUtils.isNotBlank(b.getProvinceId())) {
+            List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
+            b.setAreaList(city);
+          }
+        }
+        supplier.setAddressList(addressList);
+      } else {
+        SupplierAddress address = new SupplierAddress();
+        address.setId(WfUtil.createUUID());
+        addressList.add(address);
+        supplier.setAddressList(addressList);
+      }
+      if (supplier.getConcatProvince() != null) {
+        List<Area> concity = areaService.findAreaByParentId(supplier.getConcatProvince());
+        supplier.setConcatCityList(concity);
+      }
+      if (supplier.getArmyBuinessProvince() != null) {
+        List<Area> armcity = areaService.findAreaByParentId(supplier.getArmyBuinessProvince());
+        supplier.setArmyCity(armcity);
+      }
     }
-    if (supplier.getConcatProvince() != null) {
-      List<Area> concity = areaService.findAreaByParentId(supplier.getConcatProvince());
-      supplier.setConcatCityList(concity);
-    }
-    if (supplier.getArmyBuinessProvince() != null) {
-      List<Area> armcity = areaService.findAreaByParentId(supplier.getArmyBuinessProvince());
-      supplier.setArmyCity(armcity);
-    }
-
-//        supplier.setParamVleu(paramList);
-
     return supplier;
   }
 
@@ -1290,228 +1286,239 @@ public class SupplierServiceImpl implements SupplierService {
     return supplierMapper.findSupplierByCategoryId(supplier);
   }
 
-@Override
-public Long countCategoyrId(SupplierCateTree cateTree, String supplierId) {
-	long rut=0;
-	//根据第三节目录节点 id(也就是中级目录 id) 品目id查询所要上传的资质文件
-	List<CategoryQua> categoryQuaList = categoryQuaMapper.findList(cateTree.getSecondNodeID());
-	if(null != categoryQuaList && !categoryQuaList.isEmpty()){
-		String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
-		Map<String, Object> map=new HashMap<>();
-		map.put("supplierId", supplierId);
-		map.put("categoryId", cateTree.getSecondNodeID());
-		//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id
-		List<SupplierItem> itemList=supplierItemService.findByMap(map);
-		if(null != itemList && !itemList.isEmpty()){
-			for (SupplierItem supplierItem : itemList) {
-	            for (CategoryQua categoryQua : categoryQuaList) {
-	            	//组合 资质文件上传的 business_id
-					String business_id=supplierItem.getId()+categoryQua.getId();
-					rut=rut+uploadService.countFileByBusinessId(business_id, type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
+	@Override
+	public Long countCategoyrId(SupplierCateTree cateTree, String supplierId) {
+		long rut=0;
+		//根据第三节目录节点 id(也就是中级目录 id) 品目id查询所要上传的资质文件
+		List<CategoryQua> categoryQuaList = categoryQuaMapper.findList(cateTree.getSecondNodeID());
+		if(null != categoryQuaList && !categoryQuaList.isEmpty()){
+			String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
+			Map<String, Object> map=new HashMap<>();
+			map.put("supplierId", supplierId);
+			map.put("categoryId", cateTree.getSecondNodeID());
+			//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id
+			List<SupplierItem> itemList=supplierItemService.findByMap(map);
+			if(null != itemList && !itemList.isEmpty()){
+				for (SupplierItem supplierItem : itemList) {
+		            for (CategoryQua categoryQua : categoryQuaList) {
+		            	//组合 资质文件上传的 business_id
+						String business_id=supplierItem.getId()+categoryQua.getId();
+						rut=rut+uploadService.countFileByBusinessId(business_id, type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
+					}
+				}
+			}
+	    }
+		return rut;
+	}
+	
+	@Override
+	public Long contractCountCategoyrId(String supplierItemId) {
+		long rut=0;
+		//合同
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		//账单
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id1, common.constant.Constant.SUPPLIER_SYS_KEY);
+		if(rut==0){
+			rut=rut+uploadService.countFileByBusinessId(supplierItemId, id2, common.constant.Constant.SUPPLIER_SYS_KEY);
+		}
+		if(rut==0){
+			rut=rut+uploadService.countFileByBusinessId(supplierItemId, id3, common.constant.Constant.SUPPLIER_SYS_KEY);
+		}
+		if(rut==0){
+			rut=rut+uploadService.countFileByBusinessId(supplierItemId, id4, common.constant.Constant.SUPPLIER_SYS_KEY);
+		}
+		if(rut==0){
+			rut=rut+uploadService.countFileByBusinessId(supplierItemId, id5, common.constant.Constant.SUPPLIER_SYS_KEY);
+		}
+		if(rut==0){
+			rut=rut+uploadService.countFileByBusinessId(supplierItemId, id6, common.constant.Constant.SUPPLIER_SYS_KEY);
+		}
+		return rut;
+	}
+	
+	@Override
+	public boolean checkMobile(String mobile) {
+		int count = supplierMapper.countByMobile(mobile);
+		return count > 0 ? false : true;
+	}
+	
+	@Override
+	public List<Supplier> selByNameWithoutProvisional(String supplierName) {
+		return supplierMapper.selByNameWithoutProvisional(supplierName);
+	}
+	
+	@Override
+	public void initFinance(Supplier supplier) {
+		if(supplier.getListSupplierFinances() != null && supplier.getListSupplierFinances().size() < 1) {
+			List < SupplierFinance > list = supplierFinanceService.getYear();
+			supplier.setListSupplierFinances(list);
+		} else {
+			if(supplier.getStatus() == null || supplier.getStatus() == -1){// 暂存状态
+				SupplierFinance finance1 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(oneYear()));
+				if(finance1 == null) {
+					SupplierFinance fin1 = new SupplierFinance();
+					String id = UUID.randomUUID().toString().replaceAll("-", "");
+					fin1.setId(id);
+					fin1.setYear(String.valueOf(oneYear()));
+					supplier.getListSupplierFinances().add(fin1);
+				}
+				SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
+				if(finance2 == null) {
+					SupplierFinance fin2 = new SupplierFinance();
+					String id = UUID.randomUUID().toString().replaceAll("-", "");
+					fin2.setId(id);
+					fin2.setYear(String.valueOf(twoYear()));
+					supplier.getListSupplierFinances().add(fin2);
+				}
+				//SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear(supplier.getCreatedAt())));
+				SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear()));
+				if(finance3 == null) {
+					SupplierFinance fin3 = new SupplierFinance();
+					String id = UUID.randomUUID().toString().replaceAll("-", "");
+					fin3.setId(id);
+					fin3.setYear(String.valueOf(threeYear()));
+					supplier.getListSupplierFinances().add(fin3);
 				}
 			}
 		}
-    }
-	return rut;
-}
-
-@Override
-public Long contractCountCategoyrId(String supplierItemId) {
-	long rut=0;
-	//合同
-	String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-	String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-	String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
-	//账单
-	String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-	String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-	String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
-	rut=rut+uploadService.countFileByBusinessId(supplierItemId, id1, common.constant.Constant.SUPPLIER_SYS_KEY);
-	if(rut==0){
-		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id2, common.constant.Constant.SUPPLIER_SYS_KEY);
-	}
-	if(rut==0){
-		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id3, common.constant.Constant.SUPPLIER_SYS_KEY);
-	}
-	if(rut==0){
-		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id4, common.constant.Constant.SUPPLIER_SYS_KEY);
-	}
-	if(rut==0){
-		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id5, common.constant.Constant.SUPPLIER_SYS_KEY);
-	}
-	if(rut==0){
-		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id6, common.constant.Constant.SUPPLIER_SYS_KEY);
-	}
-	return rut;
-}
-
-@Override
-public boolean checkMobile(String mobile) {
-	int count = supplierMapper.countByMobile(mobile);
-	return count > 0 ? false : true;
-}
-
-@Override
-public List<Supplier> selByNameWithoutProvisional(String supplierName) {
-	return supplierMapper.selByNameWithoutProvisional(supplierName);
-}
-
-@Override
-public void initFinance(Supplier supplier) {
-	if(supplier.getListSupplierFinances() != null && supplier.getListSupplierFinances().size() < 1) {
-		List < SupplierFinance > list = supplierFinanceService.getYear();
-		supplier.setListSupplierFinances(list);
-	} else {
-		if(supplier.getStatus() == null || supplier.getStatus() == -1){// 暂存状态
-			SupplierFinance finance1 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(oneYear()));
-			if(finance1 == null) {
-				SupplierFinance fin1 = new SupplierFinance();
-				String id = UUID.randomUUID().toString().replaceAll("-", "");
-				fin1.setId(id);
-				fin1.setYear(String.valueOf(oneYear()));
-				supplier.getListSupplierFinances().add(fin1);
-			}
-			SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
-			if(finance2 == null) {
-				SupplierFinance fin2 = new SupplierFinance();
-				String id = UUID.randomUUID().toString().replaceAll("-", "");
-				fin2.setId(id);
-				fin2.setYear(String.valueOf(twoYear()));
-				supplier.getListSupplierFinances().add(fin2);
-			}
-			//SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear(supplier.getCreatedAt())));
-			SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear()));
-			if(finance3 == null) {
-				SupplierFinance fin3 = new SupplierFinance();
-				String id = UUID.randomUUID().toString().replaceAll("-", "");
-				fin3.setId(id);
-				fin3.setYear(String.valueOf(threeYear()));
-				supplier.getListSupplierFinances().add(fin3);
-			}
-		}
-	}
-	
-	List<SupplierFinance> financeList = supplier.getListSupplierFinances();
-	if(financeList != null){
-		// 排序
-		ListSortUtil<SupplierFinance> sortList = new ListSortUtil<SupplierFinance>();
-		sortList.sort(financeList, "year", "asc");
-		// 如果近三年财务信息超过三年，则取最近三年
-		if(financeList.size() > 3){
-			Iterator<SupplierFinance> it = financeList.iterator();
-			int i = financeList.size();
-			while(it.hasNext()){
-				it.next();
-				if(i > 3){
-					it.remove();
-				}
-				i--;
-			}
-		}
-	}
-}
-
-private Integer oneYear() {
-	//	List<Integer> yearList=new ArrayList<Integer>();
-
-	Calendar cale = Calendar.getInstance();
-	int year = cale.get(Calendar.YEAR);
-	int year2 = year - 2; //2014
-	return year2;
-}
-
-private Integer twoYear() {
-	//	List<Integer> yearList=new ArrayList<Integer>();
-
-	Calendar cale = Calendar.getInstance();
-	int year = cale.get(Calendar.YEAR);
-	int year3 = year - 3; //2013
-	return year3;
-}
-
-private Integer threeYear() {
-	Date date = new Date();
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	String mont = sdf.format(date).split("-")[1];
-	Integer month = Integer.valueOf(mont);
-	Calendar cale = Calendar.getInstance();
-	int year = cale.get(Calendar.YEAR);
-	Integer yearThree = 0;
-	
-	if(month < 6) {// 以6月份为基准
-		yearThree = year - 4; //2012
-	} else {
-		yearThree = year - 1; //2015
-	}
-	return yearThree;
-}
-
-@SuppressWarnings("unused")
-private Integer threeYear(Date regDate) {
-	Date date = new Date();
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	String mont = sdf.format(date).split("-")[1];
-	Integer month = Integer.valueOf(mont);
-	Calendar cale = Calendar.getInstance();
-	int year = cale.get(Calendar.YEAR);
-	Integer yearThree = 0;
-	
-	String regMon = sdf.format(regDate).split("-")[1];
-	Integer regMonth = Integer.valueOf(regMon);
-//	
-//	if(month < 7) {
-//		yearThree = year - 4; //2012
-//
-//	} else {
-//		yearThree = year - 1; //2015
-//
-//	}
-	
-	if(regMonth<7){
-		yearThree = year - 4; //2012
-	}
-	else {
-		yearThree = year - 1; //2015
 		
+		List<SupplierFinance> financeList = supplier.getListSupplierFinances();
+		if(financeList != null){
+			// 排序
+			ListSortUtil<SupplierFinance> sortList = new ListSortUtil<SupplierFinance>();
+			sortList.sort(financeList, "year", "asc");
+			// 如果近三年财务信息超过三年，则取最近三年
+			if(financeList.size() > 3){
+				Iterator<SupplierFinance> it = financeList.iterator();
+				int i = financeList.size();
+				while(it.hasNext()){
+					it.next();
+					if(i > 3){
+						it.remove();
+					}
+					i--;
+				}
+			}
+		}
 	}
-	return yearThree;
-}
 
-@Override
-public BigDecimal getScoreByFinances(List<SupplierFinance> listSupplierFinances) {
-	BigDecimal score = new BigDecimal(0);
-    if (null != listSupplierFinances && !listSupplierFinances.isEmpty()) {
-    	// 对年份进行排序
-        Collections.sort(listSupplierFinances, new Comparator<SupplierFinance>() {
-          public int compare(SupplierFinance finance1, SupplierFinance finance2) {
-            // 按照SupplierFinance的年份进行升序排列
-            if (Integer.parseInt(finance1.getYear()) > Integer.parseInt(finance2.getYear())) {
-              return 1;
-            }
-            if (finance1.getYear().equals(finance2.getYear())) {
-              return 0;
-            } else {
-              return -1;
-            }
-          }
-        });
-        // 如果近三年财务信息超过三年，则取最近三年
- 		if(listSupplierFinances.size() > 3){
- 			Iterator<SupplierFinance> it = listSupplierFinances.iterator();
- 			int i = listSupplierFinances.size();
- 			while(it.hasNext()){
- 				it.next();
- 				if(i > 3){
- 					it.remove();
- 				}
- 				i--;
- 			}
- 		}
-        if (null != listSupplierFinances.get(0) && null != listSupplierFinances.get(0).getTotalNetAssets()) score = score.add(listSupplierFinances.get(0).getTotalNetAssets().multiply(BigDecimal.valueOf(0.2)));
-        if (null != listSupplierFinances.get(1) && null != listSupplierFinances.get(1).getTotalNetAssets()) score = score.add(listSupplierFinances.get(1).getTotalNetAssets().multiply(BigDecimal.valueOf(0.3)));
-        if (null != listSupplierFinances.get(2) && null != listSupplierFinances.get(2).getTotalNetAssets()) score = score.add(listSupplierFinances.get(2).getTotalNetAssets().multiply(BigDecimal.valueOf(0.5)));
-    }
-    return score;
-}
+	private Integer oneYear() {
+		//	List<Integer> yearList=new ArrayList<Integer>();
+	
+		Calendar cale = Calendar.getInstance();
+		int year = cale.get(Calendar.YEAR);
+		int year2 = year - 2; //2014
+		return year2;
+	}
+	
+	private Integer twoYear() {
+		//	List<Integer> yearList=new ArrayList<Integer>();
+	
+		Calendar cale = Calendar.getInstance();
+		int year = cale.get(Calendar.YEAR);
+		int year3 = year - 3; //2013
+		return year3;
+	}
+	
+	private Integer threeYear() {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String mont = sdf.format(date).split("-")[1];
+		Integer month = Integer.valueOf(mont);
+		Calendar cale = Calendar.getInstance();
+		int year = cale.get(Calendar.YEAR);
+		Integer yearThree = 0;
+		
+		if(month < 6) {// 以6月份为基准
+			yearThree = year - 4; //2012
+		} else {
+			yearThree = year - 1; //2015
+		}
+		return yearThree;
+	}
+	
+	@SuppressWarnings("unused")
+	private Integer threeYear(Date regDate) {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String mont = sdf.format(date).split("-")[1];
+		Integer month = Integer.valueOf(mont);
+		Calendar cale = Calendar.getInstance();
+		int year = cale.get(Calendar.YEAR);
+		Integer yearThree = 0;
+		
+		String regMon = sdf.format(regDate).split("-")[1];
+		Integer regMonth = Integer.valueOf(regMon);
+		
+//		if(month < 7) {
+//			yearThree = year - 4; //2012
+//		} else {
+//			yearThree = year - 1; //2015
+//	
+//		}
+		
+		if(regMonth<7){
+			yearThree = year - 4; //2012
+		}
+		else {
+			yearThree = year - 1; //2015
+			
+		}
+		return yearThree;
+	}
+	
+	@Override
+	public BigDecimal getScoreByFinances(List<SupplierFinance> listSupplierFinances) {
+		BigDecimal score = new BigDecimal(0);
+	    if (null != listSupplierFinances && !listSupplierFinances.isEmpty()) {
+	    	// 对年份进行排序
+	        Collections.sort(listSupplierFinances, new Comparator<SupplierFinance>() {
+	          public int compare(SupplierFinance finance1, SupplierFinance finance2) {
+	            // 按照SupplierFinance的年份进行升序排列
+	            if (Integer.parseInt(finance1.getYear()) > Integer.parseInt(finance2.getYear())) {
+	              return 1;
+	            }
+	            if (finance1.getYear().equals(finance2.getYear())) {
+	              return 0;
+	            } else {
+	              return -1;
+	            }
+	          }
+	        });
+	        // 如果近三年财务信息超过三年，则取最近三年
+	 		if(listSupplierFinances.size() > 3){
+	 			Iterator<SupplierFinance> it = listSupplierFinances.iterator();
+	 			int i = listSupplierFinances.size();
+	 			while(it.hasNext()){
+	 				it.next();
+	 				if(i > 3){
+	 					it.remove();
+	 				}
+	 				i--;
+	 			}
+	 		}
+	        if (null != listSupplierFinances.get(0) && null != listSupplierFinances.get(0).getTotalNetAssets()) score = score.add(listSupplierFinances.get(0).getTotalNetAssets().multiply(BigDecimal.valueOf(0.2)));
+	        if (null != listSupplierFinances.get(1) && null != listSupplierFinances.get(1).getTotalNetAssets()) score = score.add(listSupplierFinances.get(1).getTotalNetAssets().multiply(BigDecimal.valueOf(0.3)));
+	        if (null != listSupplierFinances.get(2) && null != listSupplierFinances.get(2).getTotalNetAssets()) score = score.add(listSupplierFinances.get(2).getTotalNetAssets().multiply(BigDecimal.valueOf(0.5)));
+	    }
+	    return score;
+	}
+
+	@Override
+	public boolean checkSupplierName(String id, String supplierName) {
+		int count = supplierMapper.countSupplierName(id, supplierName);
+		return count > 0 ? false : true;
+	}
+	
+	@Override
+	public boolean checkCreditCode(String id, String creditCode) {
+		int count = supplierMapper.countCreditCode(id, creditCode);
+		return count > 0 ? false : true;
+	}
 
 }

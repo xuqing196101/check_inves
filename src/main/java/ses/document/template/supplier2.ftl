@@ -5662,35 +5662,53 @@
 									<w:tcBorders>
 										<w:top w:val="single" w:color="auto" w:sz="4" w:space="0" />
 										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="auto" w:sz="4"
-											w:space="0" />
-										<w:right w:val="single" w:color="auto" w:sz="4"
-											w:space="0" />
+										<w:bottom w:val="single" w:color="auto" w:sz="4" w:space="0" />
+										<w:right w:val="single" w:color="auto" w:sz="4" w:space="0" />
 									</w:tcBorders>
-									<w:vAlign w:val="center" />
+									<w:vAlign w:val="top" />
 								</w:tcPr>
 								<w:p>
 									<w:pPr>
-										<w:spacing w:line="240" w:lineRule="exact" />
-										<w:jc w:val="center" />
+										<w:keepNext w:val="0" />
+										<w:keepLines w:val="0" />
+										<w:pageBreakBefore w:val="0" />
+										<w:widowControl w:val="0" />
+										<w:kinsoku />
+										<w:wordWrap />
+										<w:overflowPunct />
+										<w:topLinePunct w:val="0" />
+										<w:autoSpaceDE />
+										<w:autoSpaceDN />
+										<w:bidi w:val="0" />
+										<w:adjustRightInd />
+										<w:snapToGrid />
+										<w:spacing w:line="240" w:lineRule="auto" />
+										<w:ind w:left="0" w:leftChars="0" w:right="0" w:rightChars="0"
+											w:firstLine="0" w:firstLineChars="0" />
+										<w:jc w:val="both" />
+										<w:textAlignment w:val="auto" />
+										<w:outlineLvl w:val="9" />
 										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+											<w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="宋体"
+												w:eastAsia="宋体" w:cs="Times New Roman" />
 											<w:kern w:val="2" />
 											<w:sz w:val="21" />
 											<w:szCs w:val="21" />
+											<w:lang w:val="en-US" w:eastAsia="zh-CN" />
 										</w:rPr>
 									</w:pPr>
 									<w:r>
 										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+											<w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="宋体"
+												w:eastAsia="宋体" w:cs="Times New Roman" />
 											<w:kern w:val="2" />
 											<w:sz w:val="21" />
 											<w:szCs w:val="21" />
 										</w:rPr>
 										<w:t>${branch.businessSope!}</w:t>
 									</w:r>
+									<w:bookmarkStart w:id="1" w:name="_GoBack" />
+									<w:bookmarkEnd w:id="1" />
 								</w:p>
 							</w:tc>
 						</w:tr>
@@ -5760,45 +5778,101 @@
 									</w:r>
 								</w:p>
 							</w:tc>
-							<w:tc>
-								<w:tcPr>
-									<w:tcW w:w="5816" w:type="dxa" />
-									<w:gridSpan w:val="9" />
-									<w:tcBorders>
-										<w:top w:val="single" w:color="auto" w:sz="4" w:space="0" />
-										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="auto" w:sz="4"
-											w:space="0" />
-										<w:right w:val="single" w:color="auto" w:sz="4"
-											w:space="0" />
-									</w:tcBorders>
-									<w:vAlign w:val="center" />
-								</w:tcPr>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="240" w:lineRule="exact" />
-										<w:jc w:val="center" />
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体"
-												w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
-									<w:r>
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体"
-												w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-										<w:t><#if (supplierMatEng.isHavingConAchi ==
-											'1')>有<#else>无</#if></w:t>
-									</w:r>
-								</w:p>
-							</w:tc>
+							<#if (supplierMatEng.isHavingConAchi == '1')>
+								<w:tc>
+									<w:tcPr>
+										<w:tcW w:w="5816" w:type="dxa" />
+										<w:gridSpan w:val="9" />
+										<w:tcBorders>
+											<w:top w:val="single" w:color="000000" w:sz="4" w:space="0" />
+											<w:left w:val="nil" />
+											<w:bottom w:val="single" w:color="000000" w:sz="4" w:space="0" />
+											<w:right w:val="single" w:color="000000" w:sz="4" w:space="0" />
+										</w:tcBorders>
+										<w:vAlign w:val="top" />
+									</w:tcPr>
+									<w:p>
+										<w:pPr>
+											<w:keepNext w:val="0" />
+											<w:keepLines w:val="0" />
+											<w:pageBreakBefore w:val="0" />
+											<w:widowControl w:val="0" />
+											<w:kinsoku />
+											<w:wordWrap />
+											<w:overflowPunct />
+											<w:topLinePunct w:val="0" />
+											<w:autoSpaceDE />
+											<w:autoSpaceDN />
+											<w:bidi w:val="0" />
+											<w:adjustRightInd />
+											<w:snapToGrid />
+											<w:spacing w:line="240" w:lineRule="auto" />
+											<w:ind w:left="0" w:leftChars="0" w:right="0" w:rightChars="0"
+												w:firstLine="0" w:firstLineChars="0" />
+											<w:jc w:val="left" />
+											<w:textAlignment w:val="auto" />
+											<w:outlineLvl w:val="9" />
+											<w:rPr>
+												<w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="宋体"
+													w:eastAsia="宋体" w:cs="Times New Roman" />
+												<w:kern w:val="2" />
+												<w:sz w:val="21" />
+												<w:szCs w:val="21" />
+											</w:rPr>
+										</w:pPr>
+										<w:r>
+											<w:rPr>
+												<w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="宋体"
+													w:eastAsia="宋体" w:cs="Times New Roman" />
+												<w:kern w:val="2" />
+												<w:sz w:val="21" />
+												<w:szCs w:val="21" />
+											</w:rPr>
+											<w:t>${supplierMatEng.confidentialAchievement!}</w:t>
+										</w:r>
+									</w:p>
+								</w:tc>
+							<#else>
+								<w:tc>
+									<w:tcPr>
+										<w:tcW w:w="5816" w:type="dxa" />
+										<w:gridSpan w:val="9" />
+										<w:tcBorders>
+											<w:top w:val="single" w:color="auto" w:sz="4" w:space="0" />
+											<w:left w:val="nil" />
+											<w:bottom w:val="single" w:color="auto" w:sz="4"
+												w:space="0" />
+											<w:right w:val="single" w:color="auto" w:sz="4"
+												w:space="0" />
+										</w:tcBorders>
+										<w:vAlign w:val="center" />
+									</w:tcPr>
+									<w:p>
+										<w:pPr>
+											<w:spacing w:line="240" w:lineRule="exact" />
+											<w:jc w:val="center" />
+											<w:rPr>
+												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体"
+													w:eastAsia="宋体" w:cs="Times New Roman" />
+												<w:kern w:val="2" />
+												<w:sz w:val="21" />
+												<w:szCs w:val="21" />
+											</w:rPr>
+										</w:pPr>
+										<w:r>
+											<w:rPr>
+												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体"
+													w:eastAsia="宋体" w:cs="Times New Roman" />
+												<w:kern w:val="2" />
+												<w:sz w:val="21" />
+												<w:szCs w:val="21" />
+											</w:rPr>
+											<w:t><#if (supplierMatEng.isHavingConAchi ==
+												'1')>有<#else>无</#if></w:t>
+										</w:r>
+									</w:p>
+								</w:tc>
+							</#if>
 						</w:tr>
 						<w:tr>
 							<w:tblPrEx>
@@ -10610,6 +10684,18 @@
 						</w:r>
 						<w:r>
 							<w:rPr>
+								<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体"
+									w:eastAsia="宋体" w:cs="宋体" />
+								<w:kern w:val="2" />
+								<w:sz w:val="21" />
+								<w:szCs w:val="21" />
+								<w:lang w:val="en-US" w:eastAsia="zh-CN" />
+							</w:rPr>
+							<w:tab />
+							<w:t xml:space="preserve">    </w:t>
+						</w:r>
+						<w:r>
+							<w:rPr>
 								<w:rFonts w:hint="default" w:ascii="Calibri" w:hAnsi="宋体"
 									w:eastAsia="宋体" w:cs="Times New Roman" />
 								<w:kern w:val="2" />
@@ -11924,20 +12010,35 @@
 									<w:tcBorders>
 										<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
 										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:right w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
+										<w:bottom w:val="single" w:color="000000" w:sz="6" w:space="0" />
+										<w:right w:val="single" w:color="000000" w:sz="6" w:space="0" />
 									</w:tcBorders>
-									<w:vAlign w:val="center" />
+									<w:vAlign w:val="top" />
 								</w:tcPr>
 								<w:p>
 									<w:pPr>
-										<w:spacing w:line="240" w:lineRule="exact" />
-										<w:jc w:val="center" />
+										<w:keepNext w:val="0" />
+										<w:keepLines w:val="0" />
+										<w:pageBreakBefore w:val="0" />
+										<w:widowControl w:val="0" />
+										<w:kinsoku />
+										<w:wordWrap />
+										<w:overflowPunct />
+										<w:topLinePunct w:val="0" />
+										<w:autoSpaceDE />
+										<w:autoSpaceDN />
+										<w:bidi w:val="0" />
+										<w:adjustRightInd />
+										<w:snapToGrid />
+										<w:spacing w:line="240" w:lineRule="auto" />
+										<w:ind w:left="0" w:leftChars="0" w:right="0" w:rightChars="0"
+											w:firstLine="0" w:firstLineChars="0" />
+										<w:jc w:val="left" />
+										<w:textAlignment w:val="auto" />
+										<w:outlineLvl w:val="9" />
 										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+											<w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="宋体"
+												w:eastAsia="宋体" w:cs="Times New Roman" />
 											<w:kern w:val="2" />
 											<w:sz w:val="21" />
 											<w:szCs w:val="21" />
@@ -11945,8 +12046,8 @@
 									</w:pPr>
 									<w:r>
 										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+											<w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="宋体"
+												w:eastAsia="宋体" w:cs="Times New Roman" />
 											<w:kern w:val="2" />
 											<w:sz w:val="21" />
 											<w:szCs w:val="21" />
@@ -12025,20 +12126,35 @@
 									<w:tcBorders>
 										<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
 										<w:left w:val="nil" />
-										<w:bottom w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
-										<w:right w:val="single" w:color="000000" w:sz="6"
-											w:space="0" />
+										<w:bottom w:val="single" w:color="000000" w:sz="6" w:space="0" />
+										<w:right w:val="single" w:color="000000" w:sz="6" w:space="0" />
 									</w:tcBorders>
-									<w:vAlign w:val="center" />
+									<w:vAlign w:val="top" />
 								</w:tcPr>
 								<w:p>
 									<w:pPr>
-										<w:spacing w:line="240" w:lineRule="exact" />
-										<w:jc w:val="center" />
+										<w:keepNext w:val="0" />
+										<w:keepLines w:val="0" />
+										<w:pageBreakBefore w:val="0" />
+										<w:widowControl w:val="0" />
+										<w:kinsoku />
+										<w:wordWrap />
+										<w:overflowPunct />
+										<w:topLinePunct w:val="0" />
+										<w:autoSpaceDE />
+										<w:autoSpaceDN />
+										<w:bidi w:val="0" />
+										<w:adjustRightInd />
+										<w:snapToGrid />
+										<w:spacing w:line="240" w:lineRule="auto" />
+										<w:ind w:left="0" w:leftChars="0" w:right="0" w:rightChars="0"
+											w:firstLine="0" w:firstLineChars="0" />
+										<w:jc w:val="both" />
+										<w:textAlignment w:val="auto" />
+										<w:outlineLvl w:val="9" />
 										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+											<w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="宋体"
+												w:eastAsia="宋体" w:cs="Times New Roman" />
 											<w:kern w:val="2" />
 											<w:sz w:val="21" />
 											<w:szCs w:val="21" />
@@ -12046,8 +12162,8 @@
 									</w:pPr>
 									<w:r>
 										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
+											<w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="宋体"
+												w:eastAsia="宋体" w:cs="Times New Roman" />
 											<w:kern w:val="2" />
 											<w:sz w:val="21" />
 											<w:szCs w:val="21" />
@@ -13155,8 +13271,7 @@
 	<pkg:part pkg:name="/word/fontTable.xml"
 		pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml">
 		<pkg:xmlData>
-			<w:fonts
-				xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			<w:fonts xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 				xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
 				xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 				xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
@@ -13338,7 +13453,7 @@
 					<w:r>
 						<w:drawing>
 							<wp:anchor distT="0" distB="0" distL="114300" distR="114300"
-								simplePos="0" relativeHeight="251658240" behindDoc="0" locked="0"
+								simplePos="0" relativeHeight="251658240" behindDoc="1" locked="0"
 								layoutInCell="1" allowOverlap="1">
 								<wp:simplePos x="0" y="0" />
 								<wp:positionH relativeFrom="column">
@@ -13349,7 +13464,7 @@
 								</wp:positionV>
 								<wp:extent cx="748665" cy="762635" />
 								<wp:effectExtent l="0" t="0" r="0" b="0" />
-								<wp:wrapSquare wrapText="bothSides" />
+								<wp:wrapNone />
 								<wp:docPr id="1" name="图片 1" />
 								<wp:cNvGraphicFramePr>
 									<a:graphicFrameLocks
@@ -13455,13 +13570,28 @@
 					<w:rsid w:val="004D48E6" />
 					<w:rsid w:val="00523DBE" />
 					<w:rsid w:val="007878CA" />
+					<w:rsid w:val="037110BF" />
+					<w:rsid w:val="05FC5434" />
+					<w:rsid w:val="16951039" />
+					<w:rsid w:val="28B31CBB" />
+					<w:rsid w:val="293C2002" />
+					<w:rsid w:val="2A3E5964" />
+					<w:rsid w:val="2BA35438" />
+					<w:rsid w:val="2CEA0283" />
 					<w:rsid w:val="364E0A19" />
 					<w:rsid w:val="37E31471" />
+					<w:rsid w:val="38FE2E6C" />
+					<w:rsid w:val="3B5174F9" />
+					<w:rsid w:val="3FDE018B" />
+					<w:rsid w:val="404E596D" />
 					<w:rsid w:val="423B39B8" />
 					<w:rsid w:val="52D727F2" />
+					<w:rsid w:val="5D3826E8" />
 					<w:rsid w:val="5FCF161C" />
 					<w:rsid w:val="651079EC" />
-					<w:rsid w:val="6966319A" />
+					<w:rsid w:val="688F65D2" />
+					<w:rsid w:val="7381700F" />
+					<w:rsid w:val="7588411B" />
 					<w:rsid w:val="7AFF2699" />
 				</w:rsids>
 				<m:mathPr>
@@ -13498,8 +13628,7 @@
 				xmlns:v="urn:schemas-microsoft-com:vml"
 				xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 				xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
-				xmlns:w10="urn:schemas-microsoft-com:office:word"
-				xmlns:sl="http://schemas.openxmlformats.org/schemaLibrary/2006/main"
+				xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:sl="http://schemas.openxmlformats.org/schemaLibrary/2006/main"
 				mc:Ignorable="w14">
 				<w:docDefaults>
 					<w:rPrDefault>
@@ -13605,8 +13734,7 @@
 						w:uiPriority="11" w:semiHidden="0" w:name="Subtitle" />
 					<w:lsdException w:uiPriority="99" w:name="Salutation" />
 					<w:lsdException w:uiPriority="99" w:name="Date" />
-					<w:lsdException w:uiPriority="99"
-						w:name="Body Text First Indent" />
+					<w:lsdException w:uiPriority="99" w:name="Body Text First Indent" />
 					<w:lsdException w:uiPriority="99"
 						w:name="Body Text First Indent 2" />
 					<w:lsdException w:uiPriority="99" w:name="Note Heading" />
@@ -13948,8 +14076,7 @@
 					<w:uiPriority w:val="99" />
 					<w:pPr>
 						<w:pBdr>
-							<w:bottom w:val="single" w:color="auto" w:sz="6"
-								w:space="1" />
+							<w:bottom w:val="single" w:color="auto" w:sz="6" w:space="1" />
 						</w:pBdr>
 						<w:tabs>
 							<w:tab w:val="center" w:pos="4153" />

@@ -1006,7 +1006,9 @@ function importAdd(){
 	  </a>
 	 </div>
 	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
-	  <a href="${pageContext.request.contextPath}/park/getIndex.html">
+	  <a <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
+               href="${pageContext.request.contextPath}/park/getIndex.html"
+              <% } %> >
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic cglt">
 	    	<img src="${pageContext.request.contextPath}/public/portal/images/cglt.jpg" width="80%" height="80%;"/>
 	    </div>

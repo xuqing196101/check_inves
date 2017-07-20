@@ -335,7 +335,8 @@ public class IndexNewsController extends BaseSupplierController{
 	public String selectIndexNews(Model model,HttpServletRequest request) throws Exception{
 		Map<String, Object> indexMapper = new HashMap<String, Object>();
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("id", "110");
+		String[] idArray110 = {"110","111"};
+		map.put("idArray", idArray110);
 		List<Article> article110List = articleService.selectJob(map);
 		indexMapper.put("select110List", article110List);
 		map.clear();
@@ -902,7 +903,7 @@ public class IndexNewsController extends BaseSupplierController{
 	    indexMapper.put("supplierBlackList", supplierBlackList);
 	    indexMapper.put("expertBlackList", expertBlackList);
 		
-		//request.getSession().setAttribute("key", Constant.TENDER_SYS_KEY);
+		model.addAttribute("key", Constant.TENDER_SYS_KEY);
 		model.addAttribute("indexMapper", indexMapper);
 //		model.addAttribute("isIndex", "true");
 		

@@ -538,4 +538,6 @@ public interface ExpertService {
      * @return
      */
     List<Expert> yzCardNumber(Map<String, Object> map);
+    
+    boolean checkMobile(String mobile,String id);
 }
