@@ -144,11 +144,12 @@ public class OBProjectController {
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTime,String name) {
 		    //定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		    int orgId=2;
-		    if (user != null && "0".equals(user.getTypeName())) {
+		    if (user != null && "0".equals(user.getTypeName()) && "0".equals(user.getOrg().getTypeName())) {
       			//竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
       				orgId=0;
       			//获取需求部门用户id 集合	
-      			List<String> userList=userService.findListByTypeId(user.getTypeName());
+      			//List<String> userList=userService.findListByTypeId(user.getTypeName());
+      			List<String> userList=userService.findListByOrgId(user.getOrg().getId());
       			
       			Map<String, Object> map = new HashMap<>();
       			map.put("page",page==null?1:page);

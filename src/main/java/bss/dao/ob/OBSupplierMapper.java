@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.bms.User;
+
 public interface OBSupplierMapper {
 	int countByExample(OBSupplierExample example);
 
@@ -49,6 +51,7 @@ public interface OBSupplierMapper {
 	List<OBSupplier> selectByProductID(String id);
 
 	/**
+	 * @param user 
 	 * 
 	 * Description: 根据ID查询所有
 	 * 
@@ -60,9 +63,10 @@ public interface OBSupplierMapper {
 	 * @exception
 	 */
 	List<OBSupplier> selectByProductId(@Param("productId") String productId,
-			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsName,@Param("smallPointsId")String smallPointsId);
+			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsName,@Param("smallPointsId")String smallPointsId,@Param("orgId")String orgId);
 
 	/**
+	 * @param user 
 	 * 
 	 * Description: 根据ID查询 证书过期
 	 * 
@@ -75,9 +79,10 @@ public interface OBSupplierMapper {
 	 */
 	List<OBSupplier> selectByProductId1(@Param("productId") String productId,
 			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsNam,
-			@Param("smallPointsId")String smallPointsId,@Param("date")Date date );
+			@Param("smallPointsId")String smallPointsId,@Param("date")Date date, @Param("orgId")String orgId );
 
 	/**
+	 * @param user 
 	 * 
 	 * Description: 根据ID查询 证书未过期
 	 * 
@@ -91,9 +96,10 @@ public interface OBSupplierMapper {
 
 	List<OBSupplier> selectByProductId2(@Param("productId") String productId,
 			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsName,
-			@Param("smallPointsId")String smallPointsId,@Param("date")Date date);
+			@Param("smallPointsId")String smallPointsId,@Param("date")Date date, @Param("orgId")String orgId);
 	
 	/**
+	 * @param user 
 	 * 
 	 * Description: 查询已暂停的
 	 * 
@@ -108,7 +114,7 @@ public interface OBSupplierMapper {
 	 * @exception
 	 */
 	List<OBSupplier> selectByProductId3(@Param("productId") String productId,
-			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsName,@Param("smallPointsId")String smallPointsId);
+			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsName,@Param("smallPointsId")String smallPointsId, @Param("orgId")String orgId);
 	/**
 	 * 
 	 * Description: 查询产品对应的合格供应商数量
