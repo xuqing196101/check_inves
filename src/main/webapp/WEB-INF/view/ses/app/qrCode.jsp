@@ -37,6 +37,22 @@
         form.submit();
       }
   }
+  
+  //判断微信
+  window.onload = function(){
+    if(isWeiXin()){
+      alert("请在右上角选择在浏览器中打开");
+    }
+  };
+  
+  function isWeiXin(){
+      var ua = window.navigator.userAgent.toLowerCase();
+      if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+          return true;
+      }else{
+          return false;
+      }
+  }
 </script>
 </head>
 <body>
@@ -49,8 +65,8 @@
   <div class="down_load">
     <a >
       <div class="down_andrio down_main">
-        <p onclick = "download('${id}',${sysKey},'${tempContextUrl }')"><img src="${pageContext.request.contextPath}/public/portal/images/android.png">安卓下载</p>
-        <div class="footer_tips">温馨提示：安卓下载，请从右上角浏览器打开此链接</div>
+        <p onclick = "download('${id}',${sysKey},'${tempContextUrl }')"><img src="${pageContext.request.contextPath}/public/portal/images/android.png">点此下载</p>
+        <div class="footer_tips">温馨提示：微信下载，请从右上角浏览器打开此链接</div>
       </div>
     </a>
   </div>
