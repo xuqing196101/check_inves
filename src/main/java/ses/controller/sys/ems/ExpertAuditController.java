@@ -2512,4 +2512,22 @@ public class ExpertAuditController{
         return JdcgResult.ok();
 
     }
+
+	@RequestMapping("/isHaveOpinion")
+	@ResponseBody
+	public JdcgResult isHaveOpinion(String expertId){
+		/**
+		 *
+		 * Description:校验审核意见
+		 *
+		 * @author Easong
+		 * @version 2017/7/18
+		 * @param [supplierId]
+		 * @since JDK1.7
+		 */
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+        expertAuditOpinion.setExpertId(expertId);
+        expertAuditOpinion.setFlagTime(1);
+		return JdcgResult.ok(expertAuditOpinionService.selectByExpertId(expertAuditOpinion));
+	}
 }

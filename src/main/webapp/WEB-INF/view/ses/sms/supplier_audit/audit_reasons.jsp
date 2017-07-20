@@ -110,7 +110,21 @@
                 });
             }
 
-            if(status != -2){
+            if(status == 2){
+                layer.confirm('您确认吗？', {
+                    closeBtn: 0,
+                    offset: '100px',
+                    shift: 4,
+                    btn: ['确认','取消']
+                }, function(index){
+                    //最终意见
+                    $("#status").val(status);
+                    //提交审核
+                    $("#form_shen").submit();
+                });
+            }
+
+            if(status != -2 && status != 2){
                 var opinion = document.getElementById('opinion').value;
                 opinion = trim(opinion);
                 if (opinion != null && opinion != "") {
@@ -353,7 +367,7 @@
 			<c:if test="${ sign == 1}">
 				<div id="checkWord" class="display-none">
 					<div id="opinionDiv">
-						<h2 class="count_flow"><i>2</i>审核意见<span class="red">*</span></h2>
+						<h2 class="count_flow"><i>2</i><span class="red">*</span>审核意见</h2>
 					  <ul class="ul_list">
 						  <li>
 							  <div class="select_check" id="selectOptionId">

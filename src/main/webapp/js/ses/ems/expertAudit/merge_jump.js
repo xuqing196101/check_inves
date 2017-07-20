@@ -19,35 +19,49 @@ function jump(str) {
         action = globalPath + "/expertAudit/reasonsList.html";
     }
     if (str == "uploadApproveFile") {
-        if(status == -2){
-            // 获取审核意见
-            var opinion  = $("#opinion").val();
-            if(opinion == ''){
-                layer.msg("审核意见不能为空！");
-                return;
-            }
-            if(opinion.length > 1000){
-                layer.msg("审核意见不能超过1000字！");
-                return;
-            }
-            // 判断附件是否下载
-            var downloadAttachFile = $("#downloadAttachFile").val();
-            if(downloadAttachFile == ''){
-                layer.msg("请下载审批表！");
-                return;
-            }
+        var flag = true;
+        if(status == -2 || status == 1){
+            var expertId = $("#expertId").val();
+            $.ajax({
+                url:globalPath + "/expertAudit/isHaveOpinion.do",
+                type: "POST",
+                async:false,
+                data:{
+                    "expertId":expertId
+                },
+                dataType:"json",
+                success:function (data) {
+                    if(data.data == null){
+                        layer.msg("审核意见不能为空！");
+                        flag = false;
+                        return;
+                    }else if(data.data.opinion == null){
+                        layer.msg("审核意见不能为空！");
+                        flag = false;
+                        return;
+                    }else if(data.data.isDownLoadAttch == null){
+                        // 判断附件是否下载
+                        layer.msg("请下载审批表！");
+                        flag = false;
+                        return;
+                    }
+                }
+            });
         }
-        action = globalPath + "/expertAudit/uploadApproveFile.html";
+        if(flag){
+            action = globalPath + "/expertAudit/uploadApproveFile.html";
+        }
     }
-    $("#form_id").attr("action", action);
-    $("#form_id").submit();
+    if(action != null){
+        $("#form_id").attr("action", action);
+        $("#form_id").submit();
+    }
 }
 
 
 var status;
 $(function () {
     // 获取专家状态
-    debugger;
     status = $("#status").val();
     if(status == -2 || status == -3 || status == 5){
         $("#reverse_of_five_i").show();

@@ -86,19 +86,26 @@
                      }
                      });
                      }); */
-                     if(checkOpinion(status, expertId)){
-                    	 return;
-                     }else{
-                         $.ajax({
-                             url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
-                             data: {"expertId" : expertId},
-                             success: function() {
-                                 //提交审核
-                                 $("#status").val(status);
-                                 $("#form_shenhe").submit()
-                             }
-                         });
-                     }
+                    if(status != 3){
+                        if(checkOpinion(status, expertId)){
+                            return;
+                        }else{
+                            $.ajax({
+                                url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
+                                data: {"expertId" : expertId},
+                                success: function() {
+                                    //提交审核
+                                    $("#status").val(status);
+                                    $("#form_shenhe").submit();
+                                }
+                            });
+                        }
+                    }else {
+                        //提交审核
+                        $("#status").val(status);
+                        $("#form_shenhe").submit();
+                    }
+
 
                     //初审不合格
                     /* if (status == 2) {
@@ -318,7 +325,7 @@
             <c:if test="${ sign == 2 }">
                 <div class="display-none" id="checkWord">
                     <div id="opinionDiv">
-                        <h2 class="count_flow"><i>2</i>复审意见<span class="red">*</span></h2>
+                        <h2 class="count_flow"><i>2</i><span class="red">*</span>复审意见</h2>
                         <ul class="ul_list">
                             <li>
                                 <div class="select_check" id="selectOptionId">
@@ -413,7 +420,7 @@
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
                         <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
-                    <c:if test="${status eq '-2' || status eq '0' || (sign eq '2' && status eq '1') || status eq '6'}">
+                    <c:if test="${status eq '-2' || status eq '0' || (sign eq '2' && status eq '-2') || status eq '6'}">
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
                         <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
                     </c:if>

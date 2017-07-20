@@ -1292,6 +1292,9 @@ public class SupplierServiceImpl implements SupplierService {
 	public Long countCategoyrId(SupplierCateTree cateTree, String supplierId) {
 		long rut=0;
 		//根据第三节目录节点 id(也就是中级目录 id) 品目id查询所要上传的资质文件
+        if(StringUtils.isEmpty(cateTree.getSecondNodeID())){
+          return rut;
+        }
 		List<CategoryQua> categoryQuaList = categoryQuaMapper.findList(cateTree.getSecondNodeID());
 		if(null != categoryQuaList && !categoryQuaList.isEmpty()){
 			String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);

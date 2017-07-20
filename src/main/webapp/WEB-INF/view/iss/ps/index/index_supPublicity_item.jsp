@@ -17,7 +17,7 @@
    <div class="margin-top-10 breadcrumbs">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="${pageContext.request.contextPath}/"> 首页</a></li><li><a href="javascript:void(0);">类别</a></li>
+		   <li><a href="${pageContext.request.contextPath}/"> 首页<li><a href="javascript:void(0);">供应商拟入库公示</a></li><li><a href="javascript:void(0);">类别</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
