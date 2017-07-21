@@ -116,6 +116,7 @@
 		window.location.href="${pageContext.request.contextPath}/purchaseManage/add.do?";
 	}
 	function editTreeNode(){
+		
 		//var id = $("#defaultid").val();
 		//父页面获取iframe页面元素值
 		var iframeObj=$(window.frames["treeframe"].document); 
@@ -134,6 +135,7 @@
 		$("#hform").submit();
 	}
 	function delTreeNode(){
+		
 		var iframeObj=$(window.frames["treeframe"].document); 
 		var id = iframeObj.find("#defaultid").val();
 		//id ="AA463D92BE804A68B14842EF0C947A0B,EB15F7ECB27B4447AD8CBD91CB1C13F5";//批量删除

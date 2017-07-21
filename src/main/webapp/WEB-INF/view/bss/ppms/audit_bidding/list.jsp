@@ -152,7 +152,9 @@
 	  </form>
     </h2>
 	<div class="col-md-12 pl20 mt10">
-	  <button class="btn btn-windows apply" onclick="audit();" type="button">审核</button>
+	  	<c:if test="${auth == 'show'}">
+	  		<button class="btn btn-windows apply" onclick="audit();" type="button">审核</button>
+		</c:if>
 	</div>
 	<div class="content table_box">
       <table class="table table-bordered table-condensed table-hover table-striped">

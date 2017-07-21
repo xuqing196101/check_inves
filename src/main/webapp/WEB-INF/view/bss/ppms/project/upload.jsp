@@ -13,7 +13,18 @@
 <script type="text/javascript">
   var flag = true;
   function start(){
-    layer.confirm('您确认要启动项目吗?',{
+  	var name = $("#user").val();
+    name = $.trim(name);
+    if(name == ""){
+      $("#sps").html("负责人不能为空").css('color', 'red');
+    }else{
+     var index = layer.load(1, {
+	  shade: [0.1,'#fff'] //0.1透明度的白色背景
+	});
+      $("#att").submit();
+    }
+  	
+    /* layer.confirm('您确认要启动项目吗?',{
       shade:0.01,
       btn:['是','否'],
       },function(){
@@ -34,7 +45,7 @@
            layer.close();
         }
       }
-    ); 
+    );  */
   }
   
   //取消
@@ -75,6 +86,7 @@
   <form id="att" action="${pageContext.request.contextPath}/project/savePrincipal.html"  method="post" name="form1" class="simple" target="_parent">
     <input type="hidden" name="id" value="${project.id}"/>
     <input type="hidden" id="userId" name="userId"/>
+    <input type="hidden" name="cheeckedDetail" value="${checkId}">
     <div id="openDiv" class="layui-layer-wrap" >
       <div class="drop_window">
         <ul class="list-unstyled">

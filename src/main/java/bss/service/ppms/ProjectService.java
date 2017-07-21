@@ -230,8 +230,9 @@ public interface ProjectService {
      *〈详细描述〉
      * @author FengTian
      * @param list
+     * @param string 
      */
-    void updateDetailStatus(List<PurchaseDetail> list);
+    void updateDetailStatus(List<PurchaseDetail> list, String string);
     
     /**
      * 
@@ -242,5 +243,32 @@ public interface ProjectService {
      * @return
      */
     List<Project> selectByProject(HashMap<String,Object> map);
+    /**
+     *〈简述〉判断计划明细是否被引用
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param projectId
+     * @param detailId
+     * @return
+     */
+    String isUseForPlanDetail(String projectId, String detailId);
+    /**
+     *〈简述〉保存项目信息
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param user
+     * @param project
+     * @param checkId
+     */
+    void saveProject(User user, Project project, String checkId);
+    /**
+     *〈简述〉修改采购明细为正式引用状态
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param currUser
+     * @param cheeckedDetail
+     * @param id
+     */
+    void updateProjectStatus(User currUser, String cheeckedDetail, String id);
     
 }

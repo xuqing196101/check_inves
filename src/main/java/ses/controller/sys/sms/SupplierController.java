@@ -628,9 +628,12 @@ public class SupplierController extends BaseSupplierController {
 //                        }
 //                    }
 //                }
-				if(before != null && before.getStatus() != null && before.getStatus() == 2){
+                /*if(before.getStatus().equals(2)) {
 					record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
-				}
+				}*/
+                if(before != null && before.getStatus() != null && before.getStatus() == 2){
+                	record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
+                }
 				
 				if(supplier.getCreditCode()!=null&&supplier.getCreditCode().trim().length()!=0){
 //                    //根据供应商统一社会信用代码判断是否注销或审核不通过且180天内再次注册
@@ -738,7 +741,7 @@ public class SupplierController extends BaseSupplierController {
 	            returnInfo(model, before, supplier);
 	            return "ses/sms/supplier_register/basic_info";
 		    }
-			if(before != null && before.getStatus() != null && before.getStatus() == 2){
+			if(before.getStatus().equals(2)) {
 				record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
 			}
 			supplierService.perfectBasic(supplier);
@@ -864,12 +867,7 @@ public class SupplierController extends BaseSupplierController {
 			}
 			model.addAttribute("typeList", findList);
 			// 物资销售是否满足条件
-			//String isSalePass = isPass(supplier.getId(), "SALES");
-			String isSalePass = "1";
-			BigDecimal saleScore = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
-			if (saleScore.compareTo(BigDecimal.valueOf(3000)) == -1) {
-				isSalePass = "0";
-			}
+			String isSalePass = isPass(supplier.getId(), "SALES");
 			model.addAttribute("isSalePass", isSalePass);
 			return "ses/sms/supplier_register/supplier_type";
 		} else {
@@ -1173,12 +1171,7 @@ public class SupplierController extends BaseSupplierController {
             }
             model.addAttribute("typeList",  findList);
             // 物资销售是否满足条件
-			//String isSalePass = isPass(supplier.getId(), "SALES");
-			String isSalePass = "1";
-			BigDecimal saleScore = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
-			if (saleScore.compareTo(BigDecimal.valueOf(3000)) == -1) {
-				isSalePass = "0";
-			}
+			String isSalePass = isPass(supplier.getId(), "SALES");
 			model.addAttribute("isSalePass", isSalePass);
 			return "ses/sms/supplier_register/supplier_type";
 		}
@@ -1572,7 +1565,10 @@ public class SupplierController extends BaseSupplierController {
 		Supplier before = supplierService.get(supplier.getId());
 		//校验供应商名称是否存在(去除临时供应商)
 		//List<Supplier> suppliers = supplierService.selByName(supplier.getSupplierName());
-		List<Supplier> suppliers = supplierService.selByNameWithoutProvisional(supplier.getSupplierName());
+		String sname=supplier.getSupplierName();
+		//去除   全部空白符号
+		sname=sname.replaceAll("\\s*", "");
+		List<Supplier> suppliers = supplierService.selByNameWithoutProvisional(sname);
         if(null != suppliers && !suppliers.isEmpty()){
             if(before != null && !before.getSupplierName().equals(suppliers.get(0).getSupplierName())){
             	model.addAttribute("err_msg_supplierName", "供应商名称已存在，请重新填写！");
@@ -2552,6 +2548,7 @@ public class SupplierController extends BaseSupplierController {
 
 				ct.setName(type.getName());
 				ct.setId(typeId);
+				System.out.println(typeId+"===============");
 				List < SupplierItem > s = supplierItemService.getSupplierIdCategoryId(supplierId, typeId, code);
 				if(s != null && s.size() > 0) {
 					ct.setChecked(true);
@@ -3171,27 +3168,22 @@ public class SupplierController extends BaseSupplierController {
     @ResponseBody
     @RequestMapping("/isPass")
     public String isPass(String supplierId,String stype) {
-		// BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
-		Supplier supplier = supplierService.get(supplierId);
-		if (supplier == null) {
-			return "-1";
-		}
-		BigDecimal score = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
-		List<SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
-		if (stype != null && stype.trim().length() != 0) {
-			if (score.compareTo(BigDecimal.valueOf(3000)) == -1) {
-				return "0";
-			}
-		}
-
-		for (SupplierTypeRelate type : relate) {
-			if (type.getSupplierTypeId().equals("SALES")) {
-				if (score.compareTo(BigDecimal.valueOf(3000)) == -1) {
-					return "0";
-				}
-			}
-		}
-		return "1";
+        BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
+        List <SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
+        if(stype!=null&&stype.trim().length()!=0){
+        	if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
+                return "0";
+            }	
+	   	}
+        
+        for (SupplierTypeRelate type : relate) {
+            if (type.getSupplierTypeId().equals("SALES")) {
+                if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
+                    return "0";
+                }
+            }
+        }
+        return "1";
     }
 
     /**
@@ -3205,7 +3197,7 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping(value = "/getAptLevel", produces = "application/json;charset=utf-8")
     public String getAptLevel(String typeId,String supplierId) {
         List<DictionaryData> data = qualificationLevelService.getByQuaId(typeId);
-        List<DictionaryData> list = new ArrayList<DictionaryData>();
+        List<DictionaryData>  list= new ArrayList<DictionaryData>();
         if (data != null&&data.size()>0) {
             return JSON.toJSONString(data);
         }else if(data.size()<1){
@@ -3223,7 +3215,10 @@ public class SupplierController extends BaseSupplierController {
                 	return JSON.toJSONString(list);
             	}
         	}
+        	
+        	
         }
+         
         return null;
     }
     
@@ -3237,32 +3232,31 @@ public class SupplierController extends BaseSupplierController {
     @ResponseBody
     @RequestMapping(value = "/getLevel", produces = "application/json;charset=utf-8")
     public String getAptLevel(String typeId, String certCode, String supplierId,String professType) {
-		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
-		List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(typeId, matEng.getId(), certCode, professType);
-		if (certEng != null && certEng.size() > 0) {
-			String level = certEng.get(0).getAptituteLevel();
-			// Supplier supplier = supplierService.get(supplierId);
-			// String level = supplierCertEngService.getLevel(typeId, certCode,
-			// supplier.getSupplierMatEng().getId());
-			DictionaryData data = DictionaryDataUtil.findById(level);
-			if (data != null) {
-				return JSON.toJSONString(data);
-			}
-		}
+    	 SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+    	  List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType( typeId,matEng.getId(), certCode, professType);
+    	  if(certEng!=null&&certEng.size()>0){
+        	  String level = certEng.get(0).getAptituteLevel();
+//            Supplier supplier = supplierService.get(supplierId);
+//            String level = supplierCertEngService.getLevel(typeId, certCode, supplier.getSupplierMatEng().getId());
+            DictionaryData data = DictionaryDataUtil.findById(level);
+            if (data != null) {
+                return JSON.toJSONString(data);
+            }
+    	  }
 
-		List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(typeId, supplierId);
-		if (projectData != null && projectData.size() > 0) {
-			Qualification qualification = qualificationService.getQualification(projectData.get(0).getName());
-			DictionaryData dd = new DictionaryData();
-			dd.setId(projectData.get(0).getId());
-			if (null != qualification) {
-				dd.setName(qualification.getName());
-			} else {
-				dd.setName(projectData.get(0).getCertLevel());
-			}
-			return JSON.toJSONString(dd);
-		}
-		return null;
+        List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(typeId, supplierId);
+        if(projectData!=null&&projectData.size()>0){
+            Qualification qualification = qualificationService.getQualification(projectData.get(0).getName());
+        	DictionaryData dd=new DictionaryData();
+        	dd.setId(projectData.get(0).getId());
+        	if(null!=qualification){
+                dd.setName(qualification.getName());
+            }else{
+                dd.setName(projectData.get(0).getCertLevel());
+            }
+        	 return JSON.toJSONString(dd);
+        }
+        return null;
     }
     
     @RequestMapping("/updateStep")

@@ -37,6 +37,11 @@
 				
 				//新增
 				function add(){
+					var authType = "${authType}";
+					if(authType != '4'){
+						layer.msg("只有资源服务中心才能操作");
+						return;
+					} 
 					window.location.href = "${pageContext.request.contextPath }/templateDownload/add.html";
 				}
 				
@@ -47,6 +52,11 @@
 				
 				//删除
 				function deleteById(){
+					var authType = "${authType}";
+					if(authType != '4'){
+						layer.msg("只有资源服务中心才能操作");
+						return;
+					} 
 					var count = 0;
 					var ids = "";
 					var info = document.getElementsByName("info");
@@ -104,6 +114,11 @@
 				
 				//发布
 				function publishData(){
+					var authType = "${authType}";
+					if(authType != '4'){
+						layer.msg("只有资源服务中心才能操作");
+						return;
+					} 
 					var count = 0;
 					var ids = "";
 					var info = document.getElementsByName("info");
@@ -147,6 +162,11 @@
 				
 				//取消发布
 				function publishCancel(){
+					var authType = "${authType}";
+					if(authType != '4'){
+						layer.msg("只有资源服务中心才能操作");
+						return;
+					} 
 					var count = 0;
 					var ids = "";
 					var info = document.getElementsByName("info");
@@ -240,11 +260,21 @@
 				
 				//查看资料
 				function view(obj){
+					var authType = "${authType}";
+					if(authType != '4'){
+						layer.msg("只有资源服务中心才能操作");
+						return;
+					} 
 					window.location.href = "${pageContext.request.contextPath}/templateDownload/view.html?id="+obj;
 				}
 				
 				//修改资料
 				function edit(){
+					var authType = "${authType}";
+					if(authType != '4'){
+						layer.msg("只有资源服务中心才能操作");
+						return;
+					} 
 					var count = 0;
 					var info = document.getElementsByName("info");
 					var str = "";

@@ -13,11 +13,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import net.sf.json.JSONArray;
+
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
@@ -44,11 +49,11 @@ import bss.model.ob.OBSupplier;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBSupplierService;
 import bss.util.ExcelUtil;
+
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.annotation.SystemControllerLog;
-import common.annotation.SystemServiceLog;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 
@@ -70,7 +75,7 @@ public class OBSupplierController  {
 	// 注入竞价供应商Service
 	@Autowired
 	private OBSupplierService oBSupplierService;
-
+	
 	// 注入竞价产品Service
 	@Autowired
 	private OBProductService oBProductService;
@@ -159,14 +164,14 @@ public class OBSupplierController  {
 		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		int authType=2;
 		 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-		if(user!= null && "1".equals(user.getTypeName())){
+		if(user!= null && "1".equals(user.getTypeName()) && "1".equals(user.getOrg().getTypeName()) && StringUtils.isNotEmpty(user.getOrg().getId()) ){
 			authType=0;
 		int status = request.getParameter("status") == null ? 0 : Integer
 				.parseInt(request.getParameter("status"));
 		String supplierName = request.getParameter("supplierName") == null ? "" : request.getParameter("supplierName");
 		String smallPointsId = request.getParameter("smallPointsId") == null ? "" : request.getParameter("smallPointsId");
 		List<OBSupplier> list = oBSupplierService.selectByProductId(null, page,
-				status,supplierName,null,smallPointsId);
+				status,supplierName,null,smallPointsId,user.getOrg().getId());
 		if(list != null){
 			for (OBSupplier obSupplier : list) {
 				String id = obSupplier.getSmallPointsId();
@@ -198,9 +203,12 @@ public class OBSupplierController  {
 		//model.addAttribute("orgTyp", orgTyp);
 		model.addAttribute("supplierName", supplierName);
 		model.addAttribute("smallPointsId", smallPointsId);
-		}
 		model.addAttribute("authType", authType);
+		}
 		return "bss/ob/addSupplier/supplierlist";
+		//返回权限不足提示
+		//return "redirect:/qualifyError.jsp";
+		
 	}
 
 	/**
@@ -332,7 +340,7 @@ public class OBSupplierController  {
 		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		// 竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
 		if (u != null) {
-			if ("1".equals(u.getTypeName())) {
+			if ("1".equals(u.getTypeName()) && "1".equals(u.getOrg().getTypeName())) {
 
 				boolean flag = true;
 				if (obSupplier.getSupplierId() == null

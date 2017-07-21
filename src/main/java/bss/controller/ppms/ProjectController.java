@@ -262,6 +262,7 @@ public class ProjectController extends BaseController {
         roleMap.put("code", "SUPERVISER_R");
         BigDecimal i = roleService.checkRolesByUserId(roleMap);
         model.addAttribute("admin", i);
+        model.addAttribute("authType", user.getTypeName());
         return "bss/ppms/project/list";
     }
     
@@ -359,6 +360,13 @@ public class ProjectController extends BaseController {
         roleMap.put("code", "SUPERVISER_R");
         BigDecimal i = roleService.checkRolesByUserId(roleMap);
         model.addAttribute("admin", i);
+        
+        //只有采购机构才能操作
+        if("1".equals(user.getTypeName())){
+          model.addAttribute("auth", "show");
+        }else {
+          model.addAttribute("auth", "hidden");
+        }
         return "bss/ppms/project/project_list";
     }
     
@@ -421,8 +429,10 @@ public class ProjectController extends BaseController {
      @RequestMapping("/add")
      public String add(@CurrentUser User user,String id, Integer page, Model model, String name,String projectNumber,
              HttpServletRequest request){
-         //生成ID
-         String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+         if (id == null || "".equals(id)) {
+           //生成ID
+           id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+         }
          //获取采购明细
          HashMap<String, Object> map = new HashMap<>();
          String planName = request.getParameter("planName");
@@ -449,8 +459,10 @@ public class ProjectController extends BaseController {
             task.setOrgId(orgnization.getName());
          }
          model.addAttribute("list", new PageInfo<Task>(taskList));
-         model.addAttribute("id", uuid);
-         model.addAttribute("orgId", user.getOrg().getId());
+         model.addAttribute("id", id);
+         if (user.getOrg() != null) {
+           model.addAttribute("orgId", user.getOrg().getId());
+         }
          model.addAttribute("name", name);
          model.addAttribute("projectNumber", projectNumber);
          model.addAttribute("planName", planName);
@@ -501,24 +513,62 @@ public class ProjectController extends BaseController {
           return "bss/ppms/project/addDetail";
       }
       
-      
       @RequestMapping(value="/viewPlanDetail",produces = "application/json;charset=UTF-8")
       @ResponseBody
-      public String viewPlanDetail(@CurrentUser User user, String taskId, Integer page, String detailId){
+      public String viewPlanDetail(@CurrentUser User user,String projectId, String taskId, Integer page, String detailId){
           JSONObject jsonObj = new JSONObject();
           if(StringUtils.isNotBlank(taskId)){
               Task task = taskservice.selectById(taskId);
               if(task != null && StringUtils.isNotBlank(task.getCollectId())){
                   PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-                  List<PurchaseDetail> lists = purchaseDetailService.getUniques(task.getCollectId(), user.getOrg().getId());
+                  //List<PurchaseDetail> lists = purchaseDetailService.getUniques(task.getCollectId(), user.getOrg().getId());
+                  
+                  List<PurchaseDetail> lists = purchaseDetailService.getUniquesByTask(projectId, task.getCollectId(), user.getOrg().getId());
                   if(lists != null && lists.size() > 0){
-                      sortPurchaseDetail(lists, detailId);
+                      for (PurchaseDetail purchaseDetail : lists) {
+                        DictionaryData findById = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
+                        if (findById != null) {
+                          purchaseDetail.setPurchaseType(findById.getName());
+                        }
+                      }
+                      /*for (PurchaseDetail purchaseDetail : lists) {
+                        //判断是否被引用
+                        String isUse = projectService.isUseForPlanDetail(projectId, purchaseDetail.getId());
+                        if ("true".equals(isUse)) {
+                          //已被引用
+                          purchaseDetail.setProjectStatus(1);
+                        }
+                        if ("false".equals(isUse)) {
+                          //未被引用
+                          purchaseDetail.setProjectStatus(0);
+                        }
+                      }*/
+                      //sortPurchaseDetail(lists, detailId);
                       jsonObj.put("detailId", lists.get(lists.size()-1).getSeq());
                   }
                   PageInfo<PurchaseDetail> pageInfo = new PageInfo<PurchaseDetail>(lists);
                   jsonObj.put("pages", pageInfo.getPages());
                   jsonObj.put("data", pageInfo.getList());
               }
+          }
+          return jsonObj.toString();
+      }
+      
+      /**
+       *〈简述〉
+       *〈详细描述〉判断计划明细是否被引用
+       * @author Ye MaoLin
+       * @param proejctId
+       * @param detailId
+       * @return
+       */
+      public String isUseForPlanDetail(String projectId, String detailId){
+          JSONObject jsonObj = new JSONObject();
+          String isUse = projectService.isUseForPlanDetail(projectId, detailId);
+          if (isUse == null) {
+            jsonObj.put("isUse", null);
+          } else {
+            jsonObj.put("isUse", isUse);
           }
           return jsonObj.toString();
       }
@@ -638,27 +688,10 @@ public class ProjectController extends BaseController {
      public String nextStep(@CurrentUser User user, Project project,Model model, String num, String checkId){
          /*String status = DictionaryDataUtil.getId("YJLX");
          project.setStatus(status);*/
-         project.setIsRehearse(0);
-         project.setIsProvisional(0);
-         project.setAppointMan(user.getId());
-         String[] id = checkId.split(",");
-         List<String> list = getIds(id);
-         String type = null;
-         for (int i = 0; i < list.size(); i++ ) {
-            ProjectDetail detail = detailService.selectByPrimaryKey(list.get(i));
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("projectId", project.getId());
-            map.put("id", detail.getRequiredId());
-            List<ProjectDetail> lists = detailService.selectByParentId(map);
-            if(lists != null && lists.size() == 1){
-                type = detail.getPurchaseType();
-            }
-         }
-         if(StringUtils.isNotBlank(type)){
-             project.setPurchaseType(type);
-         }
-         projectService.update(project);
-         return "redirect:startProject.html?id="+project.getId();
+         //更新项目信息
+         projectService.saveProject(user, project, checkId);
+         
+         return "redirect:startProject.html?id="+project.getId()+"&checkId="+checkId;
      }
      
     
@@ -965,7 +998,7 @@ public class ProjectController extends BaseController {
                                  maps.put("id", required.getId());
                                  List<PurchaseDetail> details = purchaseDetailService.selectByParentId(maps);
                                  if(details != null && details.size() == 1){
-                                     required.setProjectStatus(1);
+                                     required.setProjectStatus(2);
                                      purchaseDetailService.updateByPrimaryKeySelective(required);
                                  }
                                  list.add(required);
@@ -975,10 +1008,10 @@ public class ProjectController extends BaseController {
                      if(list != null && list.size() > 0){
                          //添加项目明细
                          projectService.addProejctDetail(list,project2.getId(),position);
-                         //已经添加为项目明细的采购明细的状态改成不显示
-                         projectService.updateDetailStatus(list);
+                         //已经添加为项目明细的采购明细的状态改成2:暂被引用状态
+                         projectService.updateDetailStatus(list, project2.getId());
                          //如果采购明细状态都不显示了，将这条任务也不显示
-                         taskservice.updateDetail(list, taskId);
+                         //taskservice.updateDetail(list, taskId);
                      }
                  }
              } else {
@@ -1021,9 +1054,10 @@ public class ProjectController extends BaseController {
                     //添加项目明细
                     projectService.addProejctDetail(list,project.getId(),position);
                     //已经添加为项目明细的采购明细的状态改成不显示
-                    projectService.updateDetailStatus(list);
+                    //暂被引用状态 projectStatus：2
+                    projectService.updateDetailStatus(list, project.getId());
                     //如果采购明细状态都不显示了，将这条任务也不显示
-                    taskservice.updateDetail(list, taskId);
+                    //taskservice.updateDetail(list, taskId);
                  }
                  
              }
@@ -1448,19 +1482,20 @@ public class ProjectController extends BaseController {
      * @return 跳转上传页面
      */
     @RequestMapping("/startProject")
-    public String startProject(String id, Model model) {
+    public String startProject(String id, Model model, String checkId) {
         Project project = projectService.selectById(id);
         if (project != null){
            List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseUserList(project.getPurchaseDepId());
            model.addAttribute("purchaseInfo", purchaseInfo);
         }
+        model.addAttribute("checkId", checkId);
         model.addAttribute("project", project);
         model.addAttribute("dataIds", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS"));
         return "bss/ppms/project/upload";
     }
     
     @RequestMapping("/savePrincipal")
-    public String savePrincipal(String id, String principal){
+    public String savePrincipal(@CurrentUser User currUser, String id, String principal, String cheeckedDetail){
         String status = DictionaryDataUtil.getId("YJLX");
         User user = userService.getUserById(principal);
         if(StringUtils.isNotBlank(id)){
@@ -1473,6 +1508,8 @@ public class ProjectController extends BaseController {
                 projectService.update(project);
             }
         }
+        //修改采购明细为正式引用状态
+        projectService.updateProjectStatus(currUser, cheeckedDetail, id);
         return "redirect:listProject.html";
     }
 

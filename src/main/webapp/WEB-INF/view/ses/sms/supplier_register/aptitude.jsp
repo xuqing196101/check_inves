@@ -361,9 +361,9 @@
 							url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
 							type: "post",
 							data: $("#item_form").serializeArray(),
-              success: function(msg) {
-                return "0";
-              }
+             				success: function(msg) {
+                				return "0";
+             				 }
 						});
 					}
 				});
@@ -456,21 +456,23 @@
 				var professType="";
 				if (flag == "1") {
 					certCode = $(obj).parent().next().find("input").val();
-					// 清空等级和附件
+					//清空编号
 					$(obj).parent().next().find("input[type='text']").val("");
-					$(obj).parent().next().next().find("input[type='text']").val("");
-					
+					//清空专业类别下拉框
+					$(obj).parent().next().next().find("select").empty();
+					//清空资质等级
 					$(obj).parent().next().next().next().find("input[type='text']").val("");
 					$(obj).parent().next().next().next().find("input[type='hidden']").val("");
-					
-					$(obj).parent().next().next().next().next().html("");
+					//清空预览图片
+					$(obj).parents("tr").find("td:last").empty();
 					professType=$(obj).parent().next().next().children().val();
 				} else if(flag=="2") {
 					certCode = $(obj).val();
 					typeId = $(obj).parent().prev().find("select").val();
 					// 清空等级和附件
 					//$(obj).parent().next().find("input[type='text']").val("");
-					$(obj).parent().next().children().empty();
+					//清空专业类别下拉框
+					$(obj).parent().next().find("select").empty();
 					//清空资质等级
 					$(obj).parent().next().next().find("input[type='text']").val("");
 					$(obj).parent().next().next().find("input[type='hidden']").val("");
@@ -494,14 +496,15 @@
 					});
 					//$(obj).parent().next().next().next().html("");
 					//清除图片显示图标
-					var objs = $(obj).parents("tr").find("td:last").empty();
+					$(obj).parents("tr").find("td:last").empty();
 					// professType=$(obj).parent().next().children().val();
 				}else{
 					$(obj).parent().next().find("input[type='text']").val("");
 					$(obj).parent().next().find("input[type='hidden']").val("");
-					$(obj).parent().next().next().html("");
 					certCode = $(obj).parent().prev().children().val();
+					$(obj).parents("tr").find("td:last").empty();
 					professType=$(obj).val();
+					
 				}
 
 				var typeId = "";
@@ -521,53 +524,54 @@
 			//请求 获取 数据
 			function getDate(obj,typeId,certCode,supplierId,professType,number,flag){
 				//根据类型和证书编号获取等级
-				$.ajax({
-          url : "${pageContext.request.contextPath}/supplier/getLevel.do",
-          type : "post",
-          data : {
-            "typeId" : typeId,
-            "certCode" : certCode,
-            "supplierId" : supplierId,
-            "professType" : professType
-          },
-          dataType: "json",
-          success: function(result){
-            if (result != null && result != "") {
-              if (flag == "1") {
-                $(obj).parent().next().next().find("input[type='text']").val(result.name);
-                $(obj).parent().next().next().find("input[type='hidden']").val(result.id);
-              } else if(flag == "0"){
-                $(obj).parent().find("input[type='text']").val(result.name);
-                $(obj).parent().next().find("input[type='hidden']").val(result.id);
-              }else{
-                $(obj).parent().next().find("input[type='text']").val(result.name);
-                $(obj).parent().next().find("input[type='hidden']").val(result.id);
-              }
-              // 通过append将附件信息追加到指定位置
-              $.ajax({
-                url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
-                type : "post",
-                async : false,
-                dataType : "html",
-                data : {
-                  "typeId" : typeId,
-                  "certCode" : certCode,
-                  "supplierId" : supplierId,
-                  "number" : number,
-                  "professType" : professType
-                },
-                success : function(data) {
-                  if (flag == "1") {
-                    $(obj).parent().next().next().next().next().html(data);
-                  } else {
-                    $(obj).parent().next().next().next().html(data);
-                  }
-                  init_web_upload();
-                }
-              });
-            }
-          }
-      });
+				$.ajax({	
+			          url : "${pageContext.request.contextPath}/supplier/getLevel.do",
+			          type : "post",
+			          data : {
+			            "typeId" : typeId,
+			            "certCode" : certCode,
+			            "supplierId" : supplierId,
+			            "professType" : professType
+			          },
+			          dataType: "json",
+			          async:false,
+			          success: function(result){
+				            if (result != null && result != "") {
+					              if (flag == "1") {
+					                $(obj).parent().next().next().find("input[type='text']").val(result.name);
+					                $(obj).parent().next().next().find("input[type='hidden']").val(result.id);
+					              } else if(flag == "0"){
+					                $(obj).parent().find("input[type='text']").val(result.name);
+					                $(obj).parent().next().find("input[type='hidden']").val(result.id);
+					              }else{
+					                $(obj).parent().next().find("input[type='text']").val(result.name);
+					                $(obj).parent().next().find("input[type='hidden']").val(result.id);
+					              }
+					              // 通过append将附件信息追加到指定位置
+					              $.ajax({
+						                url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
+						                type : "post",
+						                async : false,
+						                dataType : "html",
+						                data : {
+						                  "typeId" : typeId,
+						                  "certCode" : certCode,
+						                  "supplierId" : supplierId,
+						                  "number" : number,
+						                  "professType" : professType
+						                },
+						                success : function(data) {
+							                  if (flag == "1") {
+							                    $(obj).parent().next().next().next().next().html(data);
+							                  } else {
+							                    $(obj).parent().next().next().next().html(data);
+							                  }
+							                  init_web_upload();
+						                }
+					              });
+			           		}
+			          }
+    	  		});
 			}
 			function isAptitue(){
 				var flag=true;

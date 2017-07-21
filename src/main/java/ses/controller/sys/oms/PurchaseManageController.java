@@ -34,6 +34,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import common.annotation.CurrentUser;
 import common.annotation.SystemControllerLog;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -120,11 +121,13 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping("list")
-	public String list(Model model,HttpServletRequest request) {
+	public String list(Model model,HttpServletRequest request,@CurrentUser User user) {
 	    String orgId = request.getParameter("srcOrgId");
 	    model.addAttribute("srcOrgId", orgId);
 	    String typeName = request.getParameter("typeName");
 	    model.addAttribute("typeName", typeName);
+	    model.addAttribute("authType", user.getTypeName());
+	    
 		return "ses/oms/require_dep/list";
 	}
 	
@@ -514,7 +517,7 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping("purchaseUnitList")
-    public String purchaseUnitList(Model model,Integer page,@ModelAttribute PurchaseDep purchaseDep){
+    public String purchaseUnitList(Model model,Integer page,@ModelAttribute PurchaseDep purchaseDep,@CurrentUser User user){
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("typeName", 1);
         if(purchaseDep != null && StringUtils.isNotBlank(purchaseDep.getName())){
@@ -527,6 +530,7 @@ public class PurchaseManageController {
         List<PurchaseDep> purchaseDepList = purchaseOrgnizationServiceI.findPurchaseDepList(map);
         model.addAttribute("info",new PageInfo<PurchaseDep>(purchaseDepList));
         model.addAttribute("purchaseDep", purchaseDep);
+        model.addAttribute("authType", user.getTypeName());
         return "ses/oms/purchase_dep/list";
     }
 	
@@ -970,7 +974,7 @@ public class PurchaseManageController {
 	 * @return: String
 	 */
 	@RequestMapping("purchaseDepMapList")
-	public String PurchaseDepMapList(Model model,@ModelAttribute PurchaseDep purchaseDep){
+	public String PurchaseDepMapList(Model model,@ModelAttribute PurchaseDep purchaseDep,@CurrentUser User user){
 		HashMap<String, Object> condtionmap = new HashMap<String, Object>();
 		condtionmap.put("typeName", 1);
 		condtionmap.put("name", purchaseDep.getName());
@@ -1004,6 +1008,7 @@ public class PurchaseManageController {
 		//model.addAttribute("data1", map);
 		model.addAttribute("data", highMapStr);
 		model.addAttribute("purchaseDep",purchaseDep);
+		model.addAttribute("authType",user.getTypeName());
 		return "ses/oms/purchase_dep/purchasedep_map_list";
 	}
 	/**

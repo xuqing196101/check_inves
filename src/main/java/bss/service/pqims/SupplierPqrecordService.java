@@ -43,4 +43,6 @@ public interface SupplierPqrecordService {
 	
 	public void delete(String id);
 	
+	List<SupplierPqrecord> getByAll(Integer pageNum, HashMap<String, Object> map);
+	
 }

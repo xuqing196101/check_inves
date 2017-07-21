@@ -26,6 +26,7 @@ import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.EngCategoryService;
@@ -33,6 +34,8 @@ import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 
 import com.alibaba.fastjson.JSON;
+
+import common.annotation.CurrentUser;
 import common.bean.ResBean;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -117,8 +120,9 @@ public class EngCategoryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/get")
-    public String get(HttpServletRequest request,Model model) {
+    public String get(HttpServletRequest request,Model model,@CurrentUser User user) {
         model.addAttribute("cate",new Category());
+        model.addAttribute("authType", user.getTypeName());
         return "ses/bms/engCategory/list";
     }
     

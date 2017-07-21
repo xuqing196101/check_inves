@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.github.pagehelper.PageInfo;
 
+import ses.model.oms.Orgnization;
 import ses.model.sms.supplierExport;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierService;
 
 @Controller
@@ -21,6 +23,8 @@ import ses.service.sms.SupplierService;
 public class SupplierExportController extends BaseSupplierController {
   @Autowired
   private SupplierService supplierService; // 供应商基本信息
+  @Autowired
+  private OrgnizationServiceI orgnizationServiceI;
 
   @RequestMapping("/list")
   public String list(HttpServletRequest request, HttpServletResponse response,
@@ -34,6 +38,8 @@ public class SupplierExportController extends BaseSupplierController {
     HashMap<String, Object> map = new HashMap<String, Object>();
     map.put("pageEx", pageEx);
     map.put("nameEx", nameEx);
+    List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
+    request.setAttribute("allOrg", allOrg);
     List<supplierExport> selectSupplierNumber = supplierService
         .selectSupplierNumber(hashMap);
     List<supplierExport> selecteexNumber = supplierService

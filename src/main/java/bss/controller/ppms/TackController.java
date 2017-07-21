@@ -203,6 +203,13 @@ public class TackController extends BaseController{
             model.addAttribute("task", task);
             model.addAttribute("admin", i);//判断是不是监管人员
 	    }
+	    
+	    //只有采购机构才能操作
+      if("1".equals(user.getTypeName())){
+        model.addAttribute("auth", "show");
+      }else {
+        model.addAttribute("auth", "hidden");
+      }
 		return "bss/ppms/task/list";
 	}
 	

@@ -128,6 +128,13 @@ public class AuditBiddingController extends BaseController {
     }
     model.addAttribute("confirmFile", project.getConfirmFile());
     model.addAttribute("list", new PageInfo<Project>(list));
+    
+    //只有采购管理部门才能操作
+    if("2".equals(user.getTypeName())){
+      model.addAttribute("auth", "show");
+    }else {
+      model.addAttribute("auth", "hidden");
+    }
     return "bss/ppms/audit_bidding/list";
   } 
 

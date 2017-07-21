@@ -9,11 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierService;
 
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 /**
  * <p>Title:SupplierDeleteController </p>
  * <p>Description:供应商注销 </p>
@@ -69,10 +71,13 @@ public class SupplierDeleteController {
       * @return void
       */
      @RequestMapping(value = "/logoutList")
-     public String logoutList(Supplier supplier, Integer page, Model model){
-  	   List<Supplier> logoutList = supplierService.findLogoutList(supplier, page);
-	   PageInfo < Supplier > pageInfo = new PageInfo < Supplier > (logoutList);
-	   model.addAttribute("result", pageInfo);
-  	 return "ses/sms/supplier_delete/list";
+     public String logoutList(Supplier supplier, Integer page, Model model,@CurrentUser User user){
+      //权限验证 登陆状态 角色只能是资源服务中心
+ 	   if(null!=user && "4".equals(user.getTypeName())){
+	  	   List<Supplier> logoutList = supplierService.findLogoutList(supplier, page);
+	  	   PageInfo < Supplier > pageInfo = new PageInfo < Supplier > (logoutList);
+	  	   model.addAttribute("result", pageInfo);
+ 	   }
+  	   return "ses/sms/supplier_delete/list";
      }
 }

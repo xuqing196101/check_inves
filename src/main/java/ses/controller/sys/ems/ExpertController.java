@@ -242,6 +242,7 @@ public class ExpertController extends BaseController {
             ipAddressType = DictionaryDataUtil.getId("LOCAL");
         }
         model.addAttribute("ipAddressType", ipAddressType);
+        model.addAttribute("requestSource", "zjRegister");
         return "ses/ems/expert/expert_register";
     }
 
@@ -266,6 +267,7 @@ public class ExpertController extends BaseController {
             model.addAttribute("doc", doc);
             model.addAttribute("docName", docName);
         }
+        model.addAttribute("requestSource", "zjRegister");
         return "ses/ems/expert/register_notice";
     }
 
@@ -395,7 +397,7 @@ public class ExpertController extends BaseController {
         login( userId,  response,  request,
             attr) ;
      
-    	
+        model.addAttribute("requestSource", "zjRegister");
         model.addAttribute("userId", userId);
         User user = userService.getUserById(userId);
         // 将用户信息存入登录日志
@@ -3631,6 +3633,16 @@ public class ExpertController extends BaseController {
         }
     }
     @ResponseBody
+    @RequestMapping("/checkPhone")
+    public String checkPhone(String phone,String id) {
+    	boolean checkMobile = service.checkMobile(phone,id);
+    	if(checkMobile) {
+    		return "0";
+    	} else {
+    		return "1";
+    	}
+    }
+    @ResponseBody
     @RequestMapping("/validateAge")
     public String validateAge(String birthday) {
         String isok = "0";
@@ -3660,12 +3672,20 @@ public class ExpertController extends BaseController {
     @ResponseBody
     @RequestMapping("/validateIdCardNumber")
     public String validateIdCardNumber(String idCardNumber, String expertId) {
-        Boolean ajaxIdNumber = userService.ajaxIdNumber(idCardNumber, userService.findByTypeId(expertId).getId());
-        if(ajaxIdNumber) {
-            return "0";
-        } else {
-            return "1";
-        }
+    	 if(StringUtils.isNotBlank(idCardNumber)){
+             List < Expert > list = service.validateIdCardNumber(idCardNumber, expertId);
+             if(list.isEmpty()) {
+                 return "0";
+             } else {
+                 if(list.size() == 1 && expertId.equals(list.get(0).getId())) {
+                     return "0";
+                 } else {
+                     return "1";
+                 }
+             }
+         }else{
+             return "1";
+         }
     }
 
     /**

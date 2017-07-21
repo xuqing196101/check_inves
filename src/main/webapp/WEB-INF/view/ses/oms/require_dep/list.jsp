@@ -7,6 +7,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/oms/purchase/list.js"></script>
 </head>
 <body>
+
   <!-- 获取回传的OrgId -->
   <form>
     <input type="hidden" id="srcOrgId" name="srcOrgId" value="${srcOrgId}">
@@ -29,6 +30,7 @@
 	</div>
   </div>
    
+  <c:if test="${authType == 4}">
   <!-- 内容 -->
   <div class="container content height-350">
     <!-- tree -->
@@ -39,7 +41,6 @@
 		</div>
 	  </div>
 	</div>
-       
     <!-- right -->
 	<div class="tag-box tag-box-v4 col-md-9 col-xs-12 col-sm-9" > 
 	     
@@ -58,5 +59,8 @@
 	  </div>
 	</div>
   </div>
+  </c:if>
+
+  
 </body>
 </html>

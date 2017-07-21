@@ -1200,7 +1200,9 @@
             </div>
 
             <div class="ywbl_02 col-xs-4 col-sm-4">
-              <a href="${pageContext.request.contextPath}/park/getIndex.html" class="cglt">
+              <a <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
+               href="${pageContext.request.contextPath}/park/getIndex.html"
+              <% } %> class="cglt">
                 <i></i>
                 <span>采购论坛</span>
               </a>
@@ -1226,7 +1228,7 @@
       </div>
       <div class="row magazine-page clear">
         <div class="col-md-3 mb10 login_box">
-          <div class=" border1 job-content floor_kind">
+          <div class=" border1 job-content floor_kind h240">
             <div class="cgxx_report">
 		     <div class="report-tab">重要通知
 		     	<c:if test="${articleZytz != 0}">
@@ -1256,7 +1258,7 @@
           </div>
         </div>
         <div class="col-md-3 mb10 login_box">
-          <div class=" border1 job-content floor_kind">
+          <div class=" border1 job-content floor_kind h240">
            <div class="cgxx_report">
 		   <div class="report-tab">采购法规
 		   		<c:if test="${articleCgfg != 0}">
@@ -1286,7 +1288,7 @@
           </div>
         </div>
         <div class="col-md-3 mb10 login_box">
-          <div class=" border1 job-content floor_kind">
+          <div class=" border1 job-content floor_kind h240">
            <div class="cgxx_report">
 		    <div class="report-tab">投诉处理公告
 		    	<c:if test="${articleTouSu != 0}">
@@ -1316,7 +1318,7 @@
           </div>
         </div>
         <div class="col-md-3 mb10 login_box">
-          <div class=" border1 job-content floor_kind">
+          <div class=" border1 job-content floor_kind h240">
             <div class="cgxx_report">
 		      <div class="report-tab">处罚公告
 			      <c:if test="${articleChuFa != 0}">

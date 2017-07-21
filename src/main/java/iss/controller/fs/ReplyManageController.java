@@ -43,7 +43,7 @@ import com.github.pagehelper.PageInfo;
 
 /**
 * @Title:ReplyManageController 
-* @Description: 
+* @Description: 回复管理控制类
 * @author Peng Zhongjun
 * @date 2016-9-7下午6:20:38
  */

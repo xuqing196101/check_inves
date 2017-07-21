@@ -2079,10 +2079,14 @@ public class SupplierAuditController extends BaseSupplierController {
 			page = StaticVariables.DEFAULT_PAGE;
 		}
 
-		//获取登录人机构,1代表机构
-		Orgnization org = user.getOrg();
-		if(user !=null && org !=null && "1".equals(org.getTypeName())){
-			PurchaseDep dep = purchaseOrgnizationService.selectByOrgId(org.getId());
+		//获取登录人机构,1代表采购机构
+		Orgnization org = null;
+		if(null!=user){
+			org = user.getOrg();
+		}
+		if(user !=null && org !=null && "1".equals(org.getTypeName()) && "1".equals(supplier.getSign().toString())){
+			//判断用户是否登陆，本部门内查询初审，
+			PurchaseDep dep = purchaseOrgnizationService.selectByOrgId(org.getId());//查询当前部门
 			if(dep !=null){
 				supplier.setProcurementDepId(dep.getId());
 				//抽取时的机构
@@ -2091,6 +2095,10 @@ public class SupplierAuditController extends BaseSupplierController {
 				supplier.setProcurementDepId("");
 				supplier.setExtractOrgid("");
 			}
+		}else if(user !=null && org !=null && "1".equals(org.getTypeName()) && ("2".equals(supplier.getSign().toString()) || "3".equals(supplier.getSign().toString()))){
+			//用户是否登陆  在所有部门查询，复审   因为ExtractOrgid初始为null，为防止注入可以手动
+			supplier.setProcurementDepId(null);
+			supplier.setExtractOrgid(null);
 		}else{
 			supplier.setProcurementDepId("");
 			supplier.setExtractOrgid("");

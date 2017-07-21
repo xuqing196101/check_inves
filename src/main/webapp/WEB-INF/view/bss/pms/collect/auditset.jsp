@@ -351,10 +351,10 @@
           }
           tabhtml += '<tr class="tc pointer tempPersonList">';
           tabhtml += '<td class="w30"><input type="checkbox" name="chkItem" alt="" value=""><input type="hidden" class="tempPersonIndex" value="' + ind + '"></td>';
-          tabhtml += '<td><input class="m0" name="auditPersons[' + i + '].name" type="text" value=""><div class="clear red names" id="name' + ind + '"></div></td>';
-          tabhtml += '<td><input class="m0" name="auditPersons[' + i + '].mobile" type="text" maxlength="18" onkeyup="this.value=this.value.replace(/[^0-9]/g,' + "''" + ')" value=""><div class="clear red phones" id="phone' + ind + '"></div></td>';
-          tabhtml += '<td><input class="m0" name="auditPersons[' + i + '].duty" type="text" value=""><div class="clear red duties" id="duty' + ind + '"></div></td>';
-          tabhtml += '<td><input class="m0" name="auditPersons[' + i + '].unitName" type="text" value=""><div class="clear red unitNames" id="unitName' + ind + '"></div></td>';
+          tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].name" type="text" value=""><div class="clear red names" id="name' + ind + '"></div></td>';
+          tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].mobile" type="text" maxlength="18" onkeyup="this.value=this.value.replace(/[^0-9]/g,' + "''" + ')" value=""><div class="clear red phones" id="phone' + ind + '"></div></td>';
+          tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].duty" type="text" value=""><div class="clear red duties" id="duty' + ind + '"></div></td>';
+          tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].unitName" type="text" value=""><div class="clear red unitNames" id="unitName' + ind + '"></div></td>';
           tabhtml += '</tr>';
           if(isTable == 0) {
             $("#userList tbody").append(tabhtml);

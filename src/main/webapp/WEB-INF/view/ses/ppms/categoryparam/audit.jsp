@@ -8,6 +8,7 @@
   	<script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ppms/categoryparam/auditParameter.js"></script>
   </head>
   <body>
+  
   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -17,6 +18,7 @@
 		<div class="clear"></div>
 	  </div>
    </div>
+   <c:if test="${authType == 4}">
   <div class="container content">
 	  <!-- left tree -->
     <div class="col-md-3 col-sm-4 col-xs-12 ">
@@ -75,6 +77,6 @@
 	  </div>
 	 </div>
     </div>
-     
+    </c:if>
   </body>
 </html>

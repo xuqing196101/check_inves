@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -224,9 +225,19 @@ function goHome(){
 		}); 
 	}*/
 function submit(){
-	form1.submit();
+		var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
+		form1.submit();
 }
 function chongzhi(){
+	var auth='${authType}';
+	    if(auth !='4'){
+	    layer.msg("只有资源服务中心可以操作");
+	    return;
+	    }
 	$("#name").val('');
 	$("#quaStartDate").val('');
 	$("#quaEdndate").val('');
@@ -239,12 +250,13 @@ function chongzhi(){
     <div class="headline-v2">
      <h2>采购机构数量统计</h2>
    </div> 
+     <c:if test="${authType == 4}">
         <h2 class="search_detail">
   			<form id="form1" action="${pageContext.request.contextPath}/purchaseManage/purchaseDepMapList.html" class="mb0" method="post">
 		       <input type="hidden" name="page" id="page">
 		          <ul class="demand_list">
 		               <li>
-			            <label class="fl">采购机构名称：</label><span><input id="name" name="name" value="${purchaseDep.name }" type="text"></span>
+			            <label class="fl">采购机构名称：</label><span><input id="name" name="name" value="${purchaseDep.name }" type="text" ></span>
 			          </li>
 			           <li>
                         <label class="fl">资质起止日期：</label>
@@ -269,7 +281,9 @@ function chongzhi(){
 		       				 <div class="clear"></div>
 		     </form>
      </h2>
+  	
   <div id="mapsId"></div>
+  </c:if>
   </div>
   </body>
 </html>

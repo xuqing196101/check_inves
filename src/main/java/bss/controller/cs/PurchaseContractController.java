@@ -309,6 +309,8 @@ public class PurchaseContractController extends BaseSupplierController{
 		model.addAttribute("isCreate", isCreate);
 	    model.addAttribute("list",list);
 		model.addAttribute("listpass", listCheckPassBD);
+		model.addAttribute("orgName", user.getOrgName());
+		model.addAttribute("authType", user.getTypeName());
 		return "bss/cs/purchaseContract/list";
 	}
 	
@@ -1792,6 +1794,7 @@ public class PurchaseContractController extends BaseSupplierController{
         model.addAttribute("draftConList", draftConList);
         model.addAttribute("contractSum",contractSum);
         model.addAttribute("purCon", purCon);
+        model.addAttribute("authType", user.getTypeName());
         return "bss/cs/purchaseContract/draftlist";
     }
     

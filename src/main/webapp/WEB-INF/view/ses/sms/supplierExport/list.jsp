@@ -123,8 +123,13 @@
 								<input type="hidden" name="page" id="page"/>
 								<input type="hidden" name="type" id="type" value="1"/>
 								<ul class="demand_list">
-									<li class="fl"><label class="fl">采购机构：</label><span><input
-											type="text" id="name" name="name" value="${name }" class="" /></span>
+									<li class="fl"><label class="fl">采购机构：</label><span>
+									<select name="name" id="name" class="w220">
+									  <option value=''>全部</option>
+					           <c:forEach items="${allOrg}" var="org">
+					             <option value="${org.shortName}" <c:if test="${name eq org.shortName}">selected</c:if>>${org.shortName}</option>
+					           </c:forEach>
+					           </select>
 									</li>
 								</ul>
 								<button type="submit" class="btn fl">查询</button>
@@ -170,8 +175,14 @@
 								<input type="hidden" name="pageEx" id="pageEx"/>
 								<input type="hidden" name="type" id="type" value="2"/>
 								<ul class="demand_list">
-									<li class="fl"><label class="fl">采购机构：</label><span><input
-											type="text" id="nameEx" name="nameEx" value="${nameEx }" class="" /></span>
+									<li class="fl"><label class="fl">采购机构：</label><span>
+									<select name="nameEx" id="nameEx" class="w220">
+									  <option value=''>全部</option>
+					           <c:forEach items="${allOrg}" var="org">
+					             <option value="${org.shortName}" <c:if test="${nameEx eq org.shortName}">selected</c:if>>${org.shortName}</option>
+					           </c:forEach>
+					           </select>
+									</span>
 									</li>
 								</ul>
 								<button type="submit" class="btn fl">查询</button>
