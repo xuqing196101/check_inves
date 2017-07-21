@@ -404,8 +404,8 @@
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
                         <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
-                    <c:if test="${status eq '-2' || status == -3}">
-                        <c:if test="${status == -2}">
+                    <c:if test="${status eq '-2' || status == '-3' || status == '4' || status == '5'}">
+                        <c:if test="${status == '-2'}">
                           <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
                         </c:if>
                         <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>

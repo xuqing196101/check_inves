@@ -69,10 +69,10 @@ function lastStep() {
  * 下一步操作
  */
 function nextStep() {
-	if(status == -2){
+	if(status == -2 || status == 1){
 		tempSave(1);
 	}
-    if(status == -3){
+    if(status == -3 || status == 4 || status == 5){
     	$("#form_id").attr("action", globalPath + "/expertAudit/uploadApproveFile.html");
         $("#form_id").submit();
     }

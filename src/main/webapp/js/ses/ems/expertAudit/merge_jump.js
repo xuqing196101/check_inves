@@ -63,7 +63,7 @@ var status;
 $(function () {
     // 获取专家状态
     status = $("#status").val();
-    if(status == -2 || status == -3 || status == 5){
+    if(status == -2 || status == -3 || status == 5 || status == 4){
         $("#reverse_of_five_i").show();
         $("#reverse_of_six").show();
     }
