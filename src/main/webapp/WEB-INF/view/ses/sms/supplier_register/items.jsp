@@ -333,9 +333,9 @@
       	});
       	if(notPassMsg != ""){
       		bool = false;
-					/* layer.alert("以下节点：<br>"+notPassMsg+"审核未通过，需要修改！");
-					return; */
-					layer.confirm("以下节点：<br>"+notPassMsg+"审核未通过，建议修改！", {
+					layer.alert("以下节点：<br>"+notPassMsg+"审核未通过，需要修改！");
+					return;
+					/*layer.confirm("以下节点：<br>"+notPassMsg+"审核未通过，建议修改！", {
 						offset: '200px',
 						scrollbar: false,
 						btn: ['下一步','继续修改'] //按钮
@@ -347,7 +347,7 @@
 					}, function(index){
 						bool = false;
 						layer.close(index);
-					});
+					});*/
 				}
 				if(!bool){
 					return;
