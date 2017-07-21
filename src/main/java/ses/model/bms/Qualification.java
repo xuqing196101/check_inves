@@ -30,8 +30,17 @@ public class Qualification {
     private String flag;
     //临时存储 supplierItemId
     private String supplierItemId;
-    
-    public String getSupplierItemId() {
+    //临时存储 审核数量
+    private Integer auditCount;
+    public Integer getAuditCount() {
+		return auditCount;
+	}
+
+	public void setAuditCount(Integer auditCount) {
+		this.auditCount = auditCount;
+	}
+
+	public String getSupplierItemId() {
 		return supplierItemId;
 	}
 

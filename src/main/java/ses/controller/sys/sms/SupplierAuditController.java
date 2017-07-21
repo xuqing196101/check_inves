@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -1279,6 +1280,58 @@ public class SupplierAuditController extends BaseSupplierController {
 			return new JdcgResult(503, "已审核", null);
 		}
 	}
+	/**
+	 * 
+	 * Description:批量 插入审核
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-21
+	 * @param supplierAuditList
+	 * @param request
+	 * @param supplier
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("auditReasonsMulti")
+	@ResponseBody
+	public JdcgResult auditReasonsMulti(@RequestBody List<SupplierAudit> supplierAuditList,HttpServletRequest request) throws IOException {
+		User user = (User) request.getSession().getAttribute("loginUser");
+		if(user ==null){
+			return null;
+		}
+		if(null != supplierAuditList && !supplierAuditList.isEmpty()){
+			String suggest=supplierAuditList.get(0).getSuggest().trim();
+			if(suggest.length()>900){
+				return new JdcgResult(504, "审核内容长度过长", null);
+			}
+			SupplierAudit audit=new SupplierAudit();
+			audit.setAuditType(supplierAuditList.get(0).getAuditType());
+			audit.setSupplierId(supplierAuditList.get(0).getSupplierId());
+			List<SupplierAudit> alist=supplierAuditService.findByTypeId(audit);
+			alist.retainAll(supplierAuditList);
+			if(null != alist && !alist.isEmpty()){
+				return new JdcgResult(503, "选择中存在已审核,不可重复审核", null);
+			}else{
+				Supplier supplier=null;
+				for (SupplierAudit audit2 : supplierAuditList) {
+					String id = supplierAuditList.get(0).getSupplierId();
+					supplier = supplierAuditService.supplierById(id);
+					audit2.setStatus(supplier.getStatus());
+					audit2.setCreatedAt(new Date());
+					audit2.setUserId(user.getId());
+				}
+				
+				int i=supplierAuditService.insertAudit(supplierAuditList);
+				if(i>0){
+					return new JdcgResult(500, "审核成功", null);
+				}else{
+					return new JdcgResult(502, "审核失败", null);
+				}
+			}
+		}else{
+			return new JdcgResult(504, "参数错误", null);
+		}
+	}
 
 	/**
 	 * @Title: reasonsList
@@ -2378,7 +2431,7 @@ public class SupplierAuditController extends BaseSupplierController {
             listSupplierItems = supplierItemService.selectPassItemByCond(supplierId, supplierType, pageNum);
         }
 		SupplierCateTree cateTree=null;
-		long fileNumber=0,contractCount=0;
+		long contractCount=0;
 		if(listSupplierItems != null && !listSupplierItems.isEmpty()){
             for (SupplierItem supplierItem : listSupplierItems) {
                 cateTree=new SupplierCateTree();
@@ -2386,22 +2439,21 @@ public class SupplierAuditController extends BaseSupplierController {
                 List < Category > parentNodeList = categoryService.getAllParentNode(supplierItem.getCategoryId());
                 // 加入根节点 物资
                 cateTree=categoryService.addNode(parentNodeList);
+                cateTree.setSupplierItemId(supplierItem.getId());
                 // 工程类等级
                 if("工程".equals(cateTree.getRootNode())) {
                 	//--工程  	审核字段存储：末级节点ID关联的SupplierItem的ID
-                    fileNumber=engCategoryService.countEngCategoyrId(cateTree, supplierId);
+                	cateTree=supplierAuditService.countEngCategoyrId(cateTree, supplierId);
                 }else{
                     //供应商物资 专业资质要求上传
                 	//--物资生产/物资销售/服务 	审核字段存储：三级节点ID关联的SupplierItem的ID
-                    fileNumber=supplierService.countCategoyrId(cateTree,supplierId);
+                	cateTree=supplierAuditService.countCategoyrId(cateTree,supplierId);
                 }
                 //是否有销售合同
                 contractCount=supplierService.contractCountCategoyrId(supplierItem.getId());
-                cateTree.setSupplierItemId(supplierItem.getId());
                 //封装 是否有审核数据
                 cateTree=supplierAuditService.cateTreePotting(cateTree,supplierId);
                 cateTree.setContractCount(contractCount);
-                cateTree.setFileCount(fileNumber);
                 cateTreeList.add(cateTree);
             }
         }

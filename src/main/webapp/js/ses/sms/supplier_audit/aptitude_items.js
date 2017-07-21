@@ -6,11 +6,11 @@ $(function () {
 function content(tablerId,ind,item){
     var parents=$("#"+tablerId+" #qualifications"+ind+"",window.parent.document).parent();
     var content;
-    var root=parents.find("td").eq(1).text();
-    var first=parents.find("td").eq(2).text();
-    var second=parents.find("td").eq(3).text();
-    var third=parents.find("td").eq(4).text();
-    var fourth=parents.find("td").eq(5).text();
+    var root=parents.find("td").eq(2).text();
+    var first=parents.find("td").eq(3).text();
+    var second=parents.find("td").eq(4).text();
+    var third=parents.find("td").eq(5).text();
+    var fourth=parents.find("td").eq(6).text();
     if(root){
         content=root;
     }
@@ -32,11 +32,11 @@ function content(tablerId,ind,item){
 function contentParent(tablerId,ind,items){
     var parents=$("#"+tablerId+" #qualifications"+ind+"").parent();
     var content;
-    var root=parents.find("td").eq(1).text();
-    var first=parents.find("td").eq(2).text();
-    var second=parents.find("td").eq(3).text();
-    var third=parents.find("td").eq(4).text();
-    var fourth=parents.find("td").eq(5).text();
+    var root=parents.find("td").eq(2).text();
+    var first=parents.find("td").eq(3).text();
+    var second=parents.find("td").eq(4).text();
+    var third=parents.find("td").eq(5).text();
+    var fourth=parents.find("td").eq(6).text();
     if(root){
         content=root;
     }

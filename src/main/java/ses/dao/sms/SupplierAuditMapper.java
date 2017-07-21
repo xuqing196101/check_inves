@@ -122,4 +122,14 @@ public interface SupplierAuditMapper {
      * @since JDK1.7
      */
     Integer selectBasicInfoAuditItem(Map<String, Object> map);
+    /**
+     * 
+     * Description:查询数据
+     * 
+     * @author YangHongLiang
+     * @version 2017-7-21
+     * @param audit
+     * @return
+     */
+    List<SupplierAudit> findByTypeId(SupplierAudit audit);
 } 

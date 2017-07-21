@@ -80,8 +80,10 @@ public class SupplierCateTree implements Serializable{
     private Integer isItemsSalesPageAudit; 
     //资质文件 是否有审核记录 物资生产 如果其他类型 也是该字段存储
     private Integer isAptitudeProductPageAudit;
+    
     //资质文件 是否有审核记录 物资销售
     private Integer isAptitudeSalesPageAudit;
+    
     //合同文件 是否有资质审核记录  物资生产   如果其他类型 也是该字段存储
     private Integer isContractProductPageAudit;
     //合同文件 是否有资质审核记录  物资销售

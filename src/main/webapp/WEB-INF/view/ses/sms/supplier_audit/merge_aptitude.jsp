@@ -46,11 +46,12 @@
 				<%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
 				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow ">
                     </ul>
-                <div class="red mt10 mb10">提示:点击产品目录即可对该条产品目录进行审核不通过操作</div>
+                <div class="red mt10 mb10">提示:点击产品目录即可对该条产品目录进行审核(以选择产品目录为先)操作</div>
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_1">
 					<table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
 						 <thead>
 							<tr>
+							 <th class="w50 info"><input id="content_1checkAll" type="checkbox" onclick="selectAll('content_1')" /></th>
 							  <td class="tc info">序号</td>
 							  <td class="tc info">类别</td>
 							  <td class="tc info">大类</td>
@@ -69,6 +70,7 @@
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_2">
                          <thead>
                             <tr>
+                              <th class="w50 info"><input id="content_2checkAll" type="checkbox" onclick="selectAll('content_2')" /></th>
                               <td class="tc info">序号</td>
                               <td class="tc info">类别</td>
                               <td class="tc info">大类</td>
@@ -87,6 +89,7 @@
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_3">
                          <thead>
                             <tr>
+                            <th class="w50 info"><input id="content_3checkAll" type="checkbox" onclick="selectAll('content_3')" /></th>
                               <td class="tc info">序号</td>
                               <td class="tc info">类别</td>
                               <td class="tc info">大类</td>
@@ -104,6 +107,7 @@
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_4">
                          <thead>
                             <tr>
+                            <th class="w50 info"><input id="content_4checkAll" type="checkbox" onclick="selectAll('content_4')" /></th>
                               <td class="tc info">序号</td>
                               <td class="tc info">类别</td>
                               <td class="tc info">大类</td>

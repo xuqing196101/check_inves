@@ -35,6 +35,23 @@
     ORDER BY CREATED_AT DESC
   </select>
   
+  <select id="findByTypeId"   parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
+    select
+     AUDIT_TYPE, SUPPLIER_ID, AUDIT_FIELD, 
+    AUDIT_CONTENT, AUDIT_FIELD_NAME 
+    from T_SES_SMS_SUPPLIER_AUDIT
+    where SUPPLIER_ID = #{supplierId}
+    <if test="auditField!=null">
+        and  AUDIT_FIELD=#{auditField}
+    </if>
+    <if test="auditType!=null">
+        and  AUDIT_TYPE=#{auditType}
+    </if>
+    and IS_DELETED = 0
+    ORDER BY CREATED_AT DESC
+  </select>
+  
+  
    <select id="countByPrimaryKey"   parameterType="ses.model.sms.SupplierAudit" resultType="Integer">
     select 
     count(ID)

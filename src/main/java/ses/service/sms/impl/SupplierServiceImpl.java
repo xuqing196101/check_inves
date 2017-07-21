@@ -54,11 +54,13 @@ import ses.model.sms.DeleteLog;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
+import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.model.sms.supplierExport;
@@ -68,10 +70,12 @@ import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
+import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierFinanceService;
 import ses.service.sms.SupplierItemLevelServer;
 import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
@@ -110,7 +114,9 @@ public class SupplierServiceImpl implements SupplierService {
 
   @Autowired
   private DictionaryDataServiceI dictionaryDataServiceI;
-
+  @Autowired
+  private SupplierMatEngService supplierMatEngService;
+  
   @Autowired
   private SupplierTypeRelateMapper supplierTypeRelateMapper;
 
@@ -146,7 +152,9 @@ public class SupplierServiceImpl implements SupplierService {
 
   @Autowired
   private SupplierFinanceService supplierFinanceService;
-
+  
+  @Autowired
+  private SupplierAptituteService supplierAptituteService;
   @Autowired
   private CategoryQuaMapper categoryQuaMapper;
 
@@ -1213,7 +1221,6 @@ public class SupplierServiceImpl implements SupplierService {
 
   @Override
   public List<Supplier> getCreditCode(String creditCode, Integer isProvisional) {
-    // TODO Auto-generated method stub
     return supplierMapper.getCreditCode(creditCode, isProvisional);
   }
 
@@ -1288,34 +1295,6 @@ public class SupplierServiceImpl implements SupplierService {
     return supplierMapper.findSupplierByCategoryId(supplier);
   }
 
-	@Override
-	public Long countCategoyrId(SupplierCateTree cateTree, String supplierId) {
-		long rut=0;
-		//根据第三节目录节点 id(也就是中级目录 id) 品目id查询所要上传的资质文件
-        if(StringUtils.isEmpty(cateTree.getSecondNodeID())){
-          return rut;
-        }
-		List<CategoryQua> categoryQuaList = categoryQuaMapper.findList(cateTree.getSecondNodeID());
-		if(null != categoryQuaList && !categoryQuaList.isEmpty()){
-			String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
-			Map<String, Object> map=new HashMap<>();
-			map.put("supplierId", supplierId);
-			map.put("categoryId", cateTree.getSecondNodeID());
-			//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id
-			List<SupplierItem> itemList=supplierItemService.findByMap(map);
-			if(null != itemList && !itemList.isEmpty()){
-				for (SupplierItem supplierItem : itemList) {
-		            for (CategoryQua categoryQua : categoryQuaList) {
-		            	//组合 资质文件上传的 business_id
-						String business_id=supplierItem.getId()+categoryQua.getId();
-						rut=rut+uploadService.countFileByBusinessId(business_id, type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
-					}
-				}
-			}
-	    }
-		return rut;
-	}
-	
 	@Override
 	public Long contractCountCategoyrId(String supplierItemId) {
 		long rut=0;
@@ -1559,5 +1538,4 @@ public class SupplierServiceImpl implements SupplierService {
 		}
 		return null;
 	}
-
 }
