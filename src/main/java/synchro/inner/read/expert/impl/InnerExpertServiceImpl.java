@@ -282,7 +282,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
         		expertService.insertSelective(expert);
         	}
             if(ep!=null){
-            	expertService.updateByPrimaryKeySelective(ep);
+            	expertService.updateByPrimaryKeySelective(expert);
             }
         }
     }
