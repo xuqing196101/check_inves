@@ -3789,7 +3789,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	}
 
 
-    @RequestMapping("updateStatusAjax")
+    @RequestMapping("/updateStatusAjax")
     @ResponseBody
     public JdcgResult updateStatusAjax(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit) throws IOException {
 	    /**
@@ -3808,12 +3808,6 @@ public class SupplierAuditController extends BaseSupplierController {
         // 选择审核通过
         if(supplierAuditOpinion != null && supplierAuditOpinion.getFlagAduit() != null){
             if(supplierAuditOpinion.getFlagAduit() == 1){
-                // 点击通过按钮时判断
-                JdcgResult selectAndVertifyAuditItem = supplierAuditService.selectAndVertifyAuditItem(supplierId);
-                if(selectAndVertifyAuditItem.getStatus() != 200) {
-                    //如果有错误信息则直接返回提示操作
-                    return selectAndVertifyAuditItem;
-                }
                 // 审核通过，公示
                 supplier.setStatus(-3);
             }else if(supplierAuditOpinion.getFlagAduit() == 0){
@@ -3889,4 +3883,16 @@ public class SupplierAuditController extends BaseSupplierController {
 		 */
 		return JdcgResult.ok(supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 0));
     }
+
+	@RequestMapping("/vertifyAuditItem")
+	@ResponseBody
+    public JdcgResult vertifyAuditItem(String supplierId){
+		// 点击通过按钮时判断
+		JdcgResult selectAndVertifyAuditItem = supplierAuditService.selectAndVertifyAuditItem(supplierId);
+		if(selectAndVertifyAuditItem.getStatus() != 200) {
+			//如果有错误信息则直接返回提示操作
+			return selectAndVertifyAuditItem;
+		}
+		return JdcgResult.ok();
+	}
 }

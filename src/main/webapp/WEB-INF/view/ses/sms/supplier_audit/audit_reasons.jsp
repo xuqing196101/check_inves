@@ -403,7 +403,7 @@
                     </div>
 			        <!-- 审核公示扫描件上传 -->
                     <div id="checkWord" class="display-none">
-                        <h2 class="count_flow"><i>3</i>供应商审批表</h2>
+                        <h2 class="count_flow"><i>3</i><span class="red">*</span>供应商审批表</h2>
                         <ul class="ul_list">
                             <li class="col-md-6 col-sm-6 col-xs-6">
                                 <span class="fl">下载审核表：</span>
