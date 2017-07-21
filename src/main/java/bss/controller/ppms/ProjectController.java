@@ -360,6 +360,13 @@ public class ProjectController extends BaseController {
         roleMap.put("code", "SUPERVISER_R");
         BigDecimal i = roleService.checkRolesByUserId(roleMap);
         model.addAttribute("admin", i);
+        
+        //只有采购机构才能操作
+        if("1".equals(user.getTypeName())){
+          model.addAttribute("auth", "show");
+        }else {
+          model.addAttribute("auth", "hidden");
+        }
         return "bss/ppms/project/project_list";
     }
     

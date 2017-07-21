@@ -113,6 +113,13 @@ public class TaskAssignController extends BaseController{
 		map.put("typeName", 1);
 		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
 		model.addAttribute("org",org);
+		
+		//只有采购管理部门才能操作
+    if("2".equals(user.getTypeName())){
+      model.addAttribute("auth", "show");
+    }else {
+      model.addAttribute("auth", "hidden");
+    }
 		return "bss/pms/collect/taskassgin";
 	}
 	

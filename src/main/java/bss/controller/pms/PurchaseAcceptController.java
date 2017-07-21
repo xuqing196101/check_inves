@@ -205,7 +205,13 @@ public class PurchaseAcceptController extends BaseController{
 //		Map<String,Object> maps=new HashMap<String,Object>();
 //		List<Orgnization> requires = orgnizationService.findOrgPartByParam(maps);
 //		model.addAttribute("requires", requires);
-	
+		
+		//只有采购管理部门才能操作
+		if("2".equals(user.getTypeName())){
+      model.addAttribute("auth", "show");
+    }else {
+      model.addAttribute("auth", "hidden");
+    }
 		return "bss/pms/collect/list";
 	}
 	
