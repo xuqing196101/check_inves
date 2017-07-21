@@ -3544,21 +3544,20 @@ public class SupplierAuditController extends BaseSupplierController {
 			
 			if("0".equals(tableType)){
 				//公示的最终意见
-				dataMap.put("opinion",opinion == "" ? "无" :opinion);
+				dataMap.put("opinion",opinion == null ? "无" :opinion);
 			}else if("3".equals(tableType) || "4".equals(tableType)){
 				//最终意见
 				SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
 				supplierAuditOpinion.setSupplierId(supplier.getId());
 				SupplierAuditOpinion auditOpinion = supplierAuditOpinionService.selectByPrimaryKey(supplierAuditOpinion);
 				if(auditOpinion !=null){
-					dataMap.put("opinion",auditOpinion.getOpinion() == "" ? "无" : auditOpinion.getOpinion());
+					dataMap.put("opinion",auditOpinion.getOpinion() == null ? "无" : auditOpinion.getOpinion());
 				}else{
 					dataMap.put("opinion","无");
 				}
 			}else{
 				dataMap.put("opinion","无");
 			}
-			
 		}
 		//审核表
 		if("3".equals(tableType) || "0".equals(tableType)){

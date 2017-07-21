@@ -1734,13 +1734,13 @@ public class ExpertAuditController{
 		
 		//获取最终意见
 		if("0".equals(tableType)){
-			dataMap.put("reason", opinion == "" ? "无" : opinion);
+			dataMap.put("reason", opinion == null ? "无" : opinion);
 		}else if("1".equals(tableType) || "2".equals(tableType) || "3".equals(tableType)){
 			ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 			expertAuditOpinion.setExpertId(expert.getId());
 			expertAuditOpinion = expertAuditOpinionService.selectByPrimaryKey(expertAuditOpinion);
 			if(expertAuditOpinion !=null){
-				dataMap.put("reason", expertAuditOpinion.getOpinion() == "" ? "无" : expertAuditOpinion.getOpinion());
+				dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? "无" : expertAuditOpinion.getOpinion());
 			}
 			else{
 				dataMap.put("reason", "无");
