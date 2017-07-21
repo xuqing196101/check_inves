@@ -2095,7 +2095,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				supplier.setProcurementDepId("");
 				supplier.setExtractOrgid("");
 			}
-		}else if(user !=null && org !=null && "1".equals(org.getTypeName()) && "2".equals(supplier.getSign().toString()) || "3".equals(supplier.getSign().toString())){
+		}else if(user !=null && org !=null && "1".equals(org.getTypeName()) && ("2".equals(supplier.getSign().toString()) || "3".equals(supplier.getSign().toString()))){
 			//用户是否登陆  在所有部门查询，复审   因为ExtractOrgid初始为null，为防止注入可以手动
 			supplier.setProcurementDepId(null);
 			supplier.setExtractOrgid(null);
