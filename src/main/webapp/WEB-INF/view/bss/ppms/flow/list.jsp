@@ -66,6 +66,12 @@
 	}
 	
     function edit(){
+    	var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }	
+    
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
@@ -92,6 +98,11 @@
     }
     
     function del(){
+    	var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
     	var typeId = $("#typeId").val();
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
@@ -108,6 +119,11 @@
     }
 	
 	function add() {
+		var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
 		var typeId = $("#typeId").val();
 		layer.open({
 			  type: 2, //page层
@@ -124,6 +140,11 @@
 	}
 	
 	function resetQuery(){
+		var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
 		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
 
@@ -221,6 +242,7 @@
 						<th class="info">URL</th>
 					</tr>
 				</thead>
+				<c:if test="${authType == 4}">
 				<c:forEach items="${list.list}" var="fd" varStatus="vs">
 					<tr>
 
@@ -240,8 +262,11 @@
 
 					</tr>
 				</c:forEach>
+				</c:if>
 			</table>
+			<c:if test="${authType == 4}">
 			<div id="pagediv" align="right"></div>
+			</c:if>
 		</div>
 </body>
 </html>

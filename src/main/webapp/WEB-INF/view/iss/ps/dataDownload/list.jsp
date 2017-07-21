@@ -37,6 +37,11 @@
 				
 				//新增
 				function add(){
+					var authType = "${authType}";
+					if(authType != '4'){
+						layer.msg("只有资源服务中心才能操作");
+						return;
+					} 
 					window.location.href = "${pageContext.request.contextPath }/dataDownload/add.html";
 				}
 				

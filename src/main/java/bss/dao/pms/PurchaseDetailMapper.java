@@ -353,4 +353,24 @@ public interface PurchaseDetailMapper {
     List<PurchaseDetail> getdetailAllByUserId(HashMap<String, Object> hashMap);
     
     List<PurchaseDetail> getByUinuqeIds(@Param("uniqueId")String uniqueId, @Param("organization")String organization);
+    /**
+     *〈简述〉获取任务中待选择的明细
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param projectId
+     * @param unique
+     * @param org
+     * @return
+     */
+    List<PurchaseDetail> getUniquesByTask(@Param("projectId")String projectId, @Param("uniqueId")String uniqueId, @Param("organization")String organization);
+    /**
+     *〈简述〉取任务中已被该项目暂时选择的明细 
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param id
+     * @param uniqueId
+     * @param organization
+     * @return
+     */
+    List<PurchaseDetail> getUniquesTempByTask(@Param("projectId")String projectId, @Param("uniqueId")String uniqueId, @Param("organization")String organization);
 }

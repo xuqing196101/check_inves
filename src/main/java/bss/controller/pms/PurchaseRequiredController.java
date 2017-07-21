@@ -182,6 +182,13 @@ public class PurchaseRequiredController extends BaseController {
 		// orgnizationServiceI.findOrgnizationList(maps);
 		List<PurchaseOrg> manages = purchserOrgnaztionService.get(user.getOrg().getId());
 		// model.addAttribute("manages", manages);
+		
+		//只有需求部门才能操作
+    if("0".equals(user.getTypeName())){
+      model.addAttribute("auth", "show");
+    }else {
+      model.addAttribute("auth", "hidden");
+    }
 		model.addAttribute("manages", manages.size());
 		return "bss/pms/purchaserequird/list";
 	}
@@ -488,13 +495,14 @@ public class PurchaseRequiredController extends BaseController {
 			}
 			// 五级节点
 			else if (isEng(p.getSeq())) {
-				p.setId(cccid);
+				p.setParentId(ccid);
 				if (p.getId() != null) {
 					cccid = p.getId();
 				} else {
 					cccid = UUID.randomUUID().toString().replaceAll("-", "");// 重新给顶级id赋值
 				}
-				p.setParentId(ccid);
+				p.setId(cccid);
+				
 				count++;
 				continue;
 			} else {
@@ -1057,8 +1065,10 @@ public class PurchaseRequiredController extends BaseController {
 		boolean bool = true;
 		Pattern p = Pattern.compile(".*\\d+.*");
 		Matcher m = p.matcher(str);
-		if (m.matches()) {
+		if (m.find() == true && str.contains("（")) {
 			bool = true;
+		} else {
+			bool = false;
 		}
 		return bool;
 	}
@@ -1071,7 +1081,8 @@ public class PurchaseRequiredController extends BaseController {
 	public boolean isEng(String str) {
 		boolean bool = true;
 		String eng = "abcdefghijklmnopqrstuvwxyz";
-		if (eng.contains(str)) {
+		 String s= String.valueOf(str.toCharArray()[0]);
+		if (eng.contains(s)) {
 			bool = true;
 		} else {
 			bool = false;

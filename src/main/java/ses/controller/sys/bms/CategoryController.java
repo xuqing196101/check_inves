@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 
+import common.annotation.CurrentUser;
 import common.bean.ResBean;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -37,6 +38,7 @@ import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryAttachmentService;
 import ses.service.bms.CategoryService;
@@ -476,11 +478,12 @@ public class CategoryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/get")
-    public String get(HttpServletRequest request,Model model) {
+    public String get(HttpServletRequest request,Model model,@CurrentUser User user) {
     	Boolean bool = PropUtil.getOutPageButton("config.properties");
     	model.addAttribute("buttonHidden",bool);
         model.addAttribute("cate",new Category());
         model.addAttribute("levelList", DictionaryDataUtil.find(31));
+        model.addAttribute("authType", user.getTypeName());
         return "ses/bms/category/list";
     }
     

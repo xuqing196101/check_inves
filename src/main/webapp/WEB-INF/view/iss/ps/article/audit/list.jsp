@@ -74,6 +74,11 @@
       }
 
       function view(id) {
+   		var authType = "${authType}";
+   		if(authType != '4'){
+   			layer.msg("只有资源服务中心才能操作");
+   			return;
+   		}
       	var status = $("#status").val();
       	var curpage = "${list.pageNum}";
       	var articleTypeId = $("#articleTypes").val();
@@ -86,6 +91,11 @@
       }
 
       function audit() {
+   		var authType = "${authType}";
+   		if(authType != '4'){
+   			layer.msg("只有资源服务中心才能操作");
+   			return;
+   		}
         var id = [];
         var status = "";
         $('input[name="chkItem"]:checked').each(function() {
@@ -115,6 +125,10 @@
       }
 
       $(function() {
+   		var authType = "${authType}";
+   		if(authType != '4'){
+   			return;
+   		}
         $.ajax({
           contentType: "application/json;charset=UTF-8",
           url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=0",
@@ -294,6 +308,11 @@
       }
       
       function quxiaoaudit() {
+   		var authType = "${authType}";
+   		if(authType != '4'){
+   			layer.msg("只有资源服务中心才能操作");
+   			return;
+   		}
           var applys = [];
           var ids = [];
           var flag = true;
@@ -333,6 +352,11 @@
         
         
         function del(){
+        	var authType = "${authType}";
+        	if(authType != '4'){
+        		layer.msg("只有资源服务中心才能操作");
+        		return;
+        	}
         	var ids = [];
 	        var status = [];
 	        var flag = true;
@@ -418,15 +442,6 @@
           	  	</div>
               	</span>
             </li>
-            <li class="hide" id="second">
-              	<label class="fl">栏目属性：</label>
-              	<span class="fl">
-        	  	<div class="w200" style="font-size: 0px;">
-          			<select id="secondType" name="secondArticleTypeId" class="w200" >
-            		</select>
-          	  	</div>
-              	</span>
-            </li>
             <li>
               <label class="fl">发布范围：</label>
               <span>
@@ -456,6 +471,15 @@
                 <span class="f13">至</span>
                 <input id="endDate" name="publishEndDate" value='<fmt:formatDate value="${publishEndDate}" pattern="YYYY-MM-dd"/>' class="Wdate w110" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
           	</li>
+          	<li class="hide" id="second">
+                <label class="fl">栏目属性：</label>
+                <span class="fl">
+              <div class="w200" style="font-size: 0px;">
+                <select id="secondType" name="secondArticleTypeId" class="w200" >
+                </select>
+                </div>
+                </span>
+            </li>
           </ul>
             <div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
             <button type="submit" class="btn">查询</button>

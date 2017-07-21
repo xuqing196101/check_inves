@@ -294,8 +294,10 @@
 
 
 			<div class="col-md-12 col-sm-12 col-xs-12 pl20 mt10">
+				<c:if test="${auth == 'show'}">
 				<button class="btn btn-windows git" onclick="sub()">受理</button>
 			    <button class="btn btn-windows output" onclick="down()">下载打印</button>  
+			    </c:if>
 			</div>
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover table-striped">

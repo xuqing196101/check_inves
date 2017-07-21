@@ -68,11 +68,21 @@
 
 			//查看详情
 			function view(id) {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				window.location.href = "${pageContext.request.contextPath }/topic/view.html?id=" + id;
 			}
 
 			//进入门户
 			function entryPortal() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				var parkId = "";
 				var id = [];
 				$('input[name="chkItem"]:checked').each(function() {
@@ -105,6 +115,11 @@
 
 			//主题下查看帖子
 			function viewPost() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				}
 				var id = [];
 				$('input[name="chkItem"]:checked').each(function() {
 					id.push($(this).val());
@@ -126,6 +141,11 @@
 
 			//修改主题
 			function edit() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				var id = [];
 				$('input[name="chkItem"]:checked').each(function() {
 					id.push($(this).val());
@@ -147,6 +167,11 @@
 
 			//删除
 			function del() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				var condition = $("#condition").val();
 				var parkId = $("#parkId  option:selected").val();
 				var id = [];
@@ -183,6 +208,11 @@
 
 			//新增
 			function add() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				window.location.href = "${pageContext.request.contextPath }/topic/add.html";
 			}
 
@@ -202,6 +232,11 @@
 			}
 
 			function search() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				}
 				var condition = $("#condition").val();
 				var parkId = $("#parkId  option:selected").val();
 				location.href = "${pageContext.request.contextPath }/topic/getlist.do?condition=" + condition + "&parkId=" + parkId;

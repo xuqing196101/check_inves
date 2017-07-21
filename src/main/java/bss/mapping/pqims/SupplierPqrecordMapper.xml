@@ -149,4 +149,53 @@
       </if> 
     </trim>
   </insert>
+  
+  <select id="getAll" parameterType="java.util.Map" resultMap="SupplierPqrecordResultMap">
+    SELECT
+		  SUPPLIER_NAME AS supplierName,
+		  DECODE(SUM(successedCount),null,0,SUM(successedCount)) AS successedCount,
+		  DECODE(SUM(failedCount),null,0,SUM(failedCount)) AS failedCount,
+		  (CEIL(100/(DECODE(SUM(successedCount),null,0,SUM(successedCount)) + DECODE(SUM(failedCount),null,0,SUM(failedCount)))*SUM(successedCount))) AS successedAvg
+		FROM
+		  (
+		    SELECT
+		      c.SUPPLIER_NAME,
+		      DECODE (
+		        P .CONCLUSION,
+		        0,
+		        COUNT (P .CONCLUSION)
+		      ) AS successedCount,
+		      DECODE (
+		        P .CONCLUSION,
+		        1,
+		        COUNT (P .CONCLUSION)
+		      ) AS failedCount
+		    FROM
+		      T_BSS_PQIMS_PQINFO P
+		    LEFT JOIN (
+		      SELECT
+		        (
+		          SELECT
+		            SUPPLIER_NAME
+		          FROM
+		            T_SES_SMS_SUPPLIER
+		          WHERE
+		            "ID" = SUPPLIER_DEP_NAME
+		        ) AS supplier_name,
+		        ID
+		      FROM
+		        T_BSS_CS_PURCHASE_CONTRACT
+		    ) c ON P .CONTRACT_ID = c. ID
+		    WHERE 
+		    P.PURCHASEDEP_ID =#{purchaseDepId}
+		    <if test="supplierName != null and supplierName != ''">
+		      AND c.SUPPLIER_NAME LIKE CONCAT(CONCAT('%', #{supplierName}), '%')
+		    </if>
+		    GROUP BY
+		      c.SUPPLIER_NAME,
+		      P .CONCLUSION
+		  )
+		GROUP BY
+		  SUPPLIER_NAME
+  </select>
 </mapper>

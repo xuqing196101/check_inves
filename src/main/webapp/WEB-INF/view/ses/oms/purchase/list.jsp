@@ -49,16 +49,36 @@
 	}
 	
 	function submit() {
+		var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
 		$("#form1").submit();
 	}
 	function chongzhi() {
+		var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
 		$("#relName").val('');
 		$("#purchaseDepName").val('');
 	}
 	function add(){
+		var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
     	window.location.href="${pageContext.request.contextPath}/purchase/add.do";
     }
     function edit(){
+    	var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
     	var id = []; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
@@ -71,6 +91,11 @@
 		window.location.href = "${pageContext.request.contextPath}/purchase/edit.html?id=" + id[0]; 
     }
     function delPurchaser(){
+    	var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
@@ -104,12 +129,18 @@
     }
     
 	function resetQuery(){
+		var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
 		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
 </script>
 </head>
 
 <body>
+		
 		<!--面包屑导航开始-->
 		<div class="margin-top-10 breadcrumbs ">
 			<div class="container">
@@ -175,7 +206,7 @@
 							<th class="info">证书编号</th>
 						</tr>
 					</thead>
-
+					<c:if test="${authType == 4}">
 					<tbody>
 						<c:forEach items="${purchaseList}" var="p" varStatus="vs">
 							<tr class="cursor">
@@ -225,9 +256,13 @@
 							</tr>
 						</c:forEach>
 					</tbody>
+				</c:if>
 				</table>
+				
 		</div>
+		<c:if test="${authType == 4}">
 		<div id="pagediv" align="right"></div>
+		</c:if>
 	</div>
 </body>
 </html>

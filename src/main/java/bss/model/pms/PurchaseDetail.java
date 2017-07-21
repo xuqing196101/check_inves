@@ -108,6 +108,9 @@ public class PurchaseDetail {
     
   private Integer advancedStatus;
     
+  /**
+   * @Fields projectStatus : 0:未被项目立项引用  1：已被立项 2：暂被引用
+   */
   private Integer projectStatus;
   
   private String uniqueId;

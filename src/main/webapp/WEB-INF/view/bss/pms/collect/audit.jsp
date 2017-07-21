@@ -350,6 +350,7 @@
 							  	 }
 							 
 						}  */
+						var flg=false;
 						 var org=$(obj).val();
 						 var price=$(obj).parent().prev().prev().prev().prev().val();
 						 if(price==""){
@@ -371,13 +372,13 @@
 							      	 			defValue=$(this).parent().parent().parent().children(":last").children(":last").prev().prev().val();
 							      	 			var dValue=$(this).val();
 							      	 			if (defValue==dValue) {
-													defVal = options[i].text;
-												}
-							      	 			
-							      	  		   var opt=$(this).val();
+													     defVal = options[i].text;
+												   }
+							      	 		  });
+							      	 		$(options).each(function(i){
+							      	 			var opt=$(this).val();
 							      	  		   if(org==opt){
 							      	  			$(this).prop("selected",true);
-							      	  			
 							      	  		  var o = this;
 						      	  			   var tr=o.parentNode.parentNode.parentNode;	
 												var index=tr.rowIndex; //获取第几行，然后给赋值
@@ -385,16 +386,14 @@
 												var tdIndex=td.cellIndex;
 												var tdVal1= $("#table tr").find("th:eq("+tdIndex+")").text()+"：";
 							      	  		 if(org!=defValue){
-							      	  			 
 							      	  		 var pid=$(this).parent().prev().val();
 					      	  	     		 $(this).parent().next().val(pid);
 							      	  		   if($.trim(defVal)==""||defVal=="undefined"){
 						      	  	     		   defVal="空值";
 						      	  	     		 }  
-							      	  		 
 												  if(status=='3'){
 													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
-											  			var curval=tdVal1+"由"+defVal+"变成"+val;
+									 		  			var curval=tdVal1+"由"+defVal+"变成"+val;
 											  			var newVal=inpval+curval+"；";
 												       $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal);
 												  }
@@ -493,7 +492,8 @@
 							      	 			if (defValue==dValue) {
 													defVal = options[i].text;
 												}
-							      	 			
+							      	 		  })
+							      	 			$(options).each(function(i){
 							      	 			
 							      	  		   var opt=$(this).val();
 							      	  		   if(org==opt){

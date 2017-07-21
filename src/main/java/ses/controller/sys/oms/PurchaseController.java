@@ -32,6 +32,7 @@ import bss.controller.base.BaseController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -88,7 +89,7 @@ public class PurchaseController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("list")
-	public String list(Model model,@ModelAttribute PurchaseInfo purchaseInfo,Integer page){
+	public String list(Model model,@ModelAttribute PurchaseInfo purchaseInfo,Integer page,@CurrentUser User user){
 		//每页显示十条
 		PageHelper.startPage(page == null ? 1 : page,CommonConstant.PAGE_SIZE);
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -115,7 +116,7 @@ public class PurchaseController extends BaseController{
 		//分页标签
 		model.addAttribute("list",new PageInfo<PurchaseInfo>(purchaseList));
 		model.addAttribute("purchaseInfo", purchaseInfo);
-		
+		model.addAttribute("authType", user.getTypeName());
 		return "ses/oms/purchase/list";
 	}
 	
@@ -588,7 +589,7 @@ public class PurchaseController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("/readOnlyList")
-	public String readOnlyList(Model model,@ModelAttribute PurchaseInfo purchaseInfo,Integer page, String reqType){
+	public String readOnlyList(Model model,@ModelAttribute PurchaseInfo purchaseInfo,Integer page, String reqType,@CurrentUser User user){
 		//每页显示十条
 		PageHelper.startPage(page == null ? 1 : page,CommonConstant.PAGE_SIZE);
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -618,6 +619,7 @@ public class PurchaseController extends BaseController{
 		//分页标签
 		model.addAttribute("list",new PageInfo<PurchaseInfo>(purchaseList));
 		model.addAttribute("purchaseInfo", purchaseInfo);
+		model.addAttribute("authType", user.getTypeName());
 		if(reqType != null){
 			return "dss/rids/list/purchaseMemberListToOrg";
 		}

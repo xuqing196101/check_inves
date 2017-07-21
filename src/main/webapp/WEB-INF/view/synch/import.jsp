@@ -8,6 +8,11 @@
     
     <script type="text/javascript">
     function synchImport(){
+    	var authType = "${authType}";
+    	if(authType != '4'){
+    		layer.msg("只有资源服务中心才能操作");
+    		return;
+    	}
     	var startTime = $("#startTime").val();
     	var endTime = $("#endTime").val();
     	var dataType = [];
@@ -85,13 +90,15 @@
 			<c:forEach  items="${dataTypeList}" var="type">
 			  <input type="checkbox" name="dataType" value="${type.code}"/> ${type.name}
 			</c:forEach> 
-			<input type="checkbox" name="dataType" value="inner_out"/> 供应商退回修改导出外网
-			<input type="checkbox" name="dataType" value="outter_in"/> 供应商退回修改导入内网
-			<input type="checkbox" name="dataType" value="temp_in"/> 临时供应商退回修改导入内网
-			<input type="checkbox" name="dataType" value="expert_out"/> 专家退回修改导出外网
-			<input type="checkbox" name="dataType" value="expert_again_inner"/> 专家退回修改导入内网
-			
-			<input type="checkbox" name="dataType" value="img_inner"/> 供应商，专家图片导入
+			<c:if test="${authType ==  '4'}">
+				<input type="checkbox" name="dataType" value="inner_out"/> 供应商退回修改导出外网
+				<input type="checkbox" name="dataType" value="outter_in"/> 供应商退回修改导入内网
+				<input type="checkbox" name="dataType" value="temp_in"/> 临时供应商退回修改导入内网
+				<input type="checkbox" name="dataType" value="expert_out"/> 专家退回修改导出外网
+				<input type="checkbox" name="dataType" value="expert_again_inner"/> 专家退回修改导入内网
+				
+				<input type="checkbox" name="dataType" value="img_inner"/> 供应商，专家图片导入
+			</c:if>
 		  </div>
 		</li>
 		

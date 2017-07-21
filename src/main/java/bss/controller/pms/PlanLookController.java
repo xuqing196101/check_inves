@@ -175,6 +175,13 @@ public class PlanLookController extends BaseController {
 		model.addAttribute("inf", collectPlan);
 		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
 		model.addAttribute("dic", dic);
+		
+		//只有采购管理部门才能操作
+    if("2".equals(user.getTypeName())){
+      model.addAttribute("auth", "show");
+    }else {
+      model.addAttribute("auth", "hidden");
+    }
 		return "bss/pms/collect/planlist";
 	}
 	

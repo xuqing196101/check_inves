@@ -9,8 +9,12 @@
   </head>
   <script type="text/javascript">
     function goback() {
-      window.location.href = "${pageContext.request.contextPath}/pqinfo/getAll.html";
-
+      var status = "${status}";
+      if(status == "0"){
+        window.location.href = "${pageContext.request.contextPath}/pqinfo/getAll.html";
+      } else {
+        window.location.href = "${pageContext.request.contextPath}/pqinfo/getAllReasult.html";
+      }
     }
     
     function view(){

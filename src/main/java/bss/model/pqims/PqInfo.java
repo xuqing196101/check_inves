@@ -71,7 +71,7 @@ public class PqInfo {
     /*
      * 质检结果
      */
-    @NotBlank(message = "质检单位不能为空")
+    @NotBlank(message = "质检结果不能为空")
     private String conclusion;
 
     /*
@@ -99,6 +99,8 @@ public class PqInfo {
      * 合同实体类
      */
     private PurchaseContract contract;
+    
+    private String purchaseDepId;
     
     public PurchaseContract getContract() {
 		return contract;
@@ -215,4 +217,13 @@ public class PqInfo {
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public String getPurchaseDepId() {
+        return purchaseDepId;
+    }
+
+    public void setPurchaseDepId(String purchaseDepId) {
+        this.purchaseDepId = purchaseDepId;
+    }
+    
 }

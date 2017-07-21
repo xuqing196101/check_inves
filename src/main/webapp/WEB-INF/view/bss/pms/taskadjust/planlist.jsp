@@ -229,9 +229,10 @@
   </h2>
   
    <div class="col-md-12 pl20 mt10">
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="looks()">调整采购任务</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="cancel()">取消采购任务</button>
- 
+   		<c:if test="${auth == 'show'}">
+			<button class="btn padding-left-10 padding-right-10 btn_back" onclick="looks()">调整采购任务</button>
+			<button class="btn padding-left-10 padding-right-10 btn_back" onclick="cancel()">取消采购任务</button>
+ 		</c:if>
    </div>
    <div class="content table_box">
          <table class="table table-bordered table-condensed table-hover table-striped">

@@ -83,6 +83,11 @@
 	}
     
   	function delDraft(){
+  		var auth='${authType}';
+  	    if(auth !='1'){
+  	    layer.msg("只有采购机构可以操作");
+  	    return;
+  	    }
     	var ids =[]; 
     	var status = [];
     	var flag = true;
@@ -117,6 +122,11 @@
   	}
   	
   	function resetForm(){
+  		var auth='${authType}';
+  	    if(auth !='1'){
+  	    layer.msg("只有采购机构可以操作");
+  	    return;
+  	    }
   		$("#projectName").val("");
   		$("#code").val("");
   		$("#demandSector").val("");
@@ -129,6 +139,11 @@
   	}
   	
   	function updateDraft(){
+  		var auth='${authType}';
+  	    if(auth !='1'){
+  	    layer.msg("只有采购机构可以操作");
+  	    return;
+  	    }
   		var ids =[]; 
   		var status = "";
 		$('input[name="chkItem"]:checked').each(function(){ 
@@ -158,6 +173,11 @@
   	
   	var ind;
   	function createContract(){
+  		var auth='${authType}';
+  	    if(auth !='1'){
+  	    layer.msg("只有采购机构可以操作");
+  	    return;
+  	    }
   		var ids =[];
   		var status = "";
   		$('input[name="chkItem"]:checked').each(function(){ 
@@ -266,6 +286,11 @@
 	}
 	
 	function printContract(){
+		var auth='${authType}';
+  	    if(auth !='1'){
+  	    layer.msg("只有采购机构可以操作");
+  	    return;
+  	    }
 		var ids =[];
   		var status = "";
   		$('input[name="chkItem"]:checked').each(function(){ 
@@ -310,6 +335,11 @@
 		window.location.href="${pageContext.request.contextPath}/purchaseContract/printContract.html?id="+ids+"&status="+status;
 	}
 	function manualCreateContract(){
+		var auth='${authType}';
+  	    if(auth !='1'){
+  	    layer.msg("只有采购机构可以操作");
+  	    return;
+  	    }
   		window.location.href="${pageContext.request.contextPath}/purchaseContract/manualCreateContract.html";
   	}
 	function updateZanCun(){
@@ -485,7 +515,9 @@
 		</c:forEach>
 	</table>
     </div>
+    <c:if test="${authType == 1}">
    <div id="pagediv" align="right"></div>
+   </c:if>
    </div>
    <form action="${pageContext.request.contextPath}/purchaseContract/toRoughContract.html" id="form2">
     <input type="hidden" name="id" id="ids" value=""/>

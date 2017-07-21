@@ -16,10 +16,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.DictionaryData;
-import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.User;
-import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.oms.Orgnization;
 import ses.model.sms.ImportRecommend;
@@ -30,6 +28,7 @@ import ses.service.bms.UserServiceI;
 import ses.service.sms.ImportRecommendService;
 
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 import common.constant.Constant;
 
 /**
@@ -96,10 +95,15 @@ public class ImportRecommendController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("list")
-    public String registerStart(ImportRecommend ir, HttpServletRequest request, Integer page, Model model){
-        List<ImportRecommend> irList = importRecommendService.selectByRecommend(ir, page == null ? 1 : page);
-        request.setAttribute("irList", new PageInfo<>(irList));
-        request.setAttribute("ir", ir);
+    public String registerStart(ImportRecommend ir, HttpServletRequest request, Integer page, Model model,@CurrentUser User user){
+    	//权限验证 登陆状态 角色只能是资源服务中心
+    	if(null!=user && "4".equals(user.getTypeName())){
+	        List<ImportRecommend> irList = importRecommendService.selectByRecommend(ir, page == null ? 1 : page);
+	        request.setAttribute("irList", new PageInfo<>(irList));
+	        request.setAttribute("ir", ir);
+    	}else{
+    		model.addAttribute("error", "权限不足");
+    	}
         return "ses/sms/import_recommend/list";
     }
 

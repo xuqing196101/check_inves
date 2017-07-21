@@ -867,9 +867,6 @@ transition: all 0.1s ease-in-out;
   min-height: 200px;
   position: relative;
 }
-.floor_kind {
-	height: 240px;
-}
 .floor_kind .tab-content .categories {
   padding: 0 10px;
   overflow: hidden;
@@ -1667,3 +1664,7 @@ img.sign_left_image {
   }
 }
 /* 主导航供应商和专家滚动表格结束 */
+
+/* 最终需要加入portal_common.css中的开始 */
+.h240 { height: 240px; }
+/* 最终需要加入portal_common.css中的结束 */
