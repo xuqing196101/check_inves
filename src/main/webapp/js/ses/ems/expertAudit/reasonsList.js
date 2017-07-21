@@ -6,14 +6,20 @@ $(function () {
     var hiddenSelectOptionId = $("#hiddenSelectOptionId").val();
     $("input[name='selectOption'][value='"+hiddenSelectOptionId+"']").prop("checked",true);
     // 预复审合格状态
-    if(status == -2 || status == -3 || status == 5){
+    if(status == -2 || status == -3 || status == 5 || status == 4){
         $("#checkWord").show();
         // 审核状态为5（复审不合格）或者-3（公示中）的意见不可更改
-        if( status == 5){
+        if(status == -3 ||status == 5 || status == 4){
             $("input[name='selectOption']").prop("disabled",true);
-            $("#opinion").prop("disabled", true);
+            $("#auditOpinion").prop("disabled", true);
         }
     }
+    
+    //除了待审核状态都不可操作
+    if(status != 0 || (sign !=2 && status ==1) || status != 6){
+    	$("#opinion").prop("disabled", true);
+    }
+    
     $("input[name='selectOption']").bind("click", function(){
         // 清空意见内容
         $("#opinion").val("");
@@ -128,7 +134,9 @@ function tempSave(flag){
  * @param str
  */
 function downloadTable(str) {
+	var auditOpinion = $("#auditOpinion").val();
     $("input[name='tableType']").val(str);
+    $("input[name='opinion']").val(auditOpinion);
     $("#form_id_word").attr("action", globalPath + "/expertAudit/download.html");
     $("#form_id_word").submit();
     $("#downloadAttachFile").val("1");

@@ -316,7 +316,7 @@
                     <ul class="ul_list">
                         <li class="col-md-12 col-sm-12 col-xs-12">
                             <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                                <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
+                                <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
                             </div>
                         </li>
                     </ul>
@@ -329,29 +329,13 @@
                         <ul class="ul_list">
                             <li>
                                 <div class="select_check" id="selectOptionId">
-	                                <c:choose>
-	                                  <c:when test="${status eq '-2' || status eq '0' || (sign eq '2' && status eq '1') || status eq '6'}">
-	                                    <input type="radio"  name="selectOption" value="1">预复审合格
-	                                    <input type="radio"  name="selectOption" value="0">预复审不合格
-	                                  </c:when>
-	                                  <c:otherwise>
-	                                    <input type="radio" disabled="disabled" name="selectOption" value="1">预复审合格
-	                                    <input type="radio" disabled="disabled" name="selectOption" value="0">预复审不合格
-	                                  </c:otherwise>
-	                                </c:choose>
+	                                <input type="radio"  name="selectOption" value="1">预复审合格
+	                                <input type="radio"  name="selectOption" value="0">预复审不合格
                                 </div>
                             </li>
-
                             <li class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                                  <c:choose>
-		                                 <c:when test="${status eq '-2' || status eq '0' || (sign eq '2' && status eq '1') || status eq '6'}">
-		                                   <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
-		                                 </c:when>
-		                                 <c:otherwise>
-		                                   <textarea id="opinion" disabled="disabled" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
-		                                 </c:otherwise>
-		                               </c:choose>
+		                               <textarea id="auditOpinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
                                 </div>
                             </li>
                         </ul>
@@ -362,7 +346,7 @@
                         <ul class="ul_list">
                                 <li class="col-md-6 col-sm-6 col-xs-6">
                                     <span class="fl">下载入库复审表：</span>
-                                    <a href="javascript:;" onclick="downloadTable(2)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
+                                    <a href="javascript:;" onclick="downloadTable(0)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
                                 </li>
                                <%-- <li class="col-md-6 col-sm-6 col-xs-6">
                                    <div>
@@ -420,10 +404,10 @@
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
                         <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
-                    <c:if test="${status eq '-2' || status eq '0' || (sign eq '2' && status eq '-2') || status eq '6'}">
+                    <%-- <c:if test="${status eq '-2' || status eq '0' || (sign eq '2' && status eq '-2') || status eq '6'}">
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
                         <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
-                    </c:if>
+                    </c:if> --%>
                     <c:if test="${status eq '6'}">
                         <input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复查合格 " id="tongguo">
                         <input class="btn btn-windows edit" type="button" onclick="shenhe(8);" value="复查不合格" id="tichu">
@@ -443,6 +427,7 @@
 <form id="form_id_word" method="post">
   <input name="expertId" type="hidden" value="${expertId}"/>
   <input name="sign" type="hidden" value="${sign }"/>
+  <input name="opinion" type="hidden"/>
   <input name="tableType" type="hidden" value=""/>
 </form>
 

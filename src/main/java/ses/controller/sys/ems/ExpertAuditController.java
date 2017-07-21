@@ -1668,22 +1668,22 @@ public class ExpertAuditController{
 	 * @return ResponseEntity<byte[]>
 	 */
 	@RequestMapping("download")
-	public ResponseEntity < byte[] > download(String expertId, HttpServletRequest request, HttpServletResponse response, String tableType) throws Exception {
+	public ResponseEntity < byte[] > download(String expertId, HttpServletRequest request, HttpServletResponse response, String tableType, String opinion) throws Exception {
 		// 根据编号查询专家信息
 		Expert expert = service.selectByPrimaryKey(expertId);
 		// 文件存储地址
 		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 		// 文件名称
-		String fileName = createWordMethod(expert, request, tableType);
+		String fileName = createWordMethod(expert, request, tableType, opinion);
 		// 下载后的文件名
 		String downFileName = "";
-		if(tableType.equals("1")){
+		if("1".equals(tableType)){
 			downFileName = new String("军队采购评审专家入库初审表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
-		if(tableType.equals("2")){
+		if("2".equals(tableType) || "0".equals(tableType)){
 			downFileName = new String("军队采购评审专家入库复审表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
-		if(tableType.equals("3")){
+		if("3".equals(tableType)){
 			downFileName = new String("军队采购评审专家入库复查表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
 		response.setContentType("application/x-download");
@@ -1701,7 +1701,7 @@ public class ExpertAuditController{
 	 * @param @throws Exception      
 	 * @return String
 	 */
-	private String createWordMethod(Expert expert, HttpServletRequest request, String tableType) throws Exception {
+	private String createWordMethod(Expert expert, HttpServletRequest request, String tableType, String opinion) throws Exception {
 		/** 用于组装word页面需要的数据 */
 		Map < String, Object > dataMap = new HashMap < String, Object > ();
 		dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
@@ -1733,11 +1733,18 @@ public class ExpertAuditController{
 		
 		
 		//获取最终意见
-		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
-		expertAuditOpinion.setExpertId(expert.getId());
-		expertAuditOpinion = expertAuditOpinionService.selectByPrimaryKey(expertAuditOpinion);
-		if(expertAuditOpinion != null){
-			dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? "无" : expertAuditOpinion.getOpinion());
+		if("0".equals(tableType)){
+			dataMap.put("reason", opinion == "" ? "无" : opinion);
+		}else if("1".equals(tableType) || "2".equals(tableType) || "3".equals(tableType)){
+			ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+			expertAuditOpinion.setExpertId(expert.getId());
+			expertAuditOpinion = expertAuditOpinionService.selectByPrimaryKey(expertAuditOpinion);
+			if(expertAuditOpinion !=null){
+				dataMap.put("reason", expertAuditOpinion.getOpinion() == "" ? "无" : expertAuditOpinion.getOpinion());
+			}
+			else{
+				dataMap.put("reason", "无");
+			}
 		}else{
 			dataMap.put("reason", "无");
 		}
@@ -1956,7 +1963,7 @@ public class ExpertAuditController{
 		/**
 		 * 专家签字模块（获取勾选的专家）复审
 		 */
-		if(tableType.equals("2")){
+		if("2".equals(tableType) || "0".equals(tableType)){
 			ExpertSignature expertsignature = new ExpertSignature();
 			expertsignature.setExpertId(expert.getId());
 			List<ExpertSignature> expertList = expertSignatureService.selectByExpertId(expertsignature);
@@ -1998,15 +2005,15 @@ public class ExpertAuditController{
 		/** 生成word 返回文件名 */
 		String newFileName = "";
 		String fileName = "";
-		if(tableType.equals("1")){
+		if("1".equals(tableType)){
 			newFileName = WordUtil.createWord(dataMap, "expertOneAudit.ftl", fileName, request);
 			fileName = new String(("军队采购评审专家入库初审表.doc").getBytes("UTF-8"), "UTF-8");
 		}
-		if(tableType.equals("2")){
+		if("2".equals(tableType) || "0".equals(tableType)){
 			newFileName = WordUtil.createWord(dataMap, "expertTwoAudit.ftl", fileName, request);
 			fileName = new String(("军队采购评审专家入库复审表.doc").getBytes("UTF-8"), "UTF-8");
 		}
-		if(tableType.equals("3")){
+		if("3".equals(tableType)){
 			newFileName = WordUtil.createWord(dataMap, "expertThreeAudit.ftl", fileName, request);
 			fileName = new String(("军队采购评审专家入库复查表.doc").getBytes("UTF-8"), "UTF-8");
 		}

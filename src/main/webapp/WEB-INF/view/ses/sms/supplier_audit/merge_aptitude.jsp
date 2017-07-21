@@ -46,7 +46,7 @@
 				<%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
 				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow ">
                     </ul>
-                <div class="red mt10 mb10">提示:点击产品目录即可对该条产品目录进行审核(以选择产品目录为先)操作</div>
+                <div class="red mt10 mb10">提示:点击产品目录即可对产品目录进行审核(以选中产品目录为先)操作</div>
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_1">
 					<table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
 						 <thead>
