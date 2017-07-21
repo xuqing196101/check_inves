@@ -54,10 +54,10 @@
                         <li class="col-md-6 col-sm-6 col-xs-6">
                             <div>
                                 <span class="fl">上传批准审核表：</span>
-                                <% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
-                                <input id="auditOpinionFile" type="hidden" value="<%=uuidcheckword%>"/>
-                                <u:upload id="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true"  exts="png,jpeg,jpg,bmp,git"/>
-                                <u:show showId="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${typeId }"/>
+                                <%--<% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>--%>
+                                <%--<input id="auditOpinionFile" type="hidden" value="<%=uuidcheckword%>"/>--%>
+                                <u:upload id="pic_checkword" businessId="${supplierId}" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true"  exts="png,jpeg,jpg,bmp,git"/>
+                                <u:show showId="pic_checkword" businessId="${supplierId}" sysKey="${ sysKey }" typeId="${typeId }"/>
                             </div>
                         </li>
                     </c:if>
