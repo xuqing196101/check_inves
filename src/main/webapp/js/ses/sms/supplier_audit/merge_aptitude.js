@@ -82,8 +82,9 @@ function jump(str) {
 var status;
 $(function () {
     status = $("#status").val();
+    sign = $("input[name='sign']").val();
     // 预审核结束状态
-    if(status == -2 || status == -3 || status == 3){
+    if(status == -2 || status == -3 || status == 3 || (status == 1 && sign == 1)){
         $("#reverse_of_seven_i").show();
         $("#reverse_of_eight").show();
     }

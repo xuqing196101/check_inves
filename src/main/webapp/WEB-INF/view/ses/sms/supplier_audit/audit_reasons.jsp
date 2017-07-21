@@ -284,9 +284,9 @@
                 <input type="hidden" name="tableType">
             </form>
           
-          <c:if test="${supplierStatus == 3 }">
+          <%-- <c:if test="${supplierStatus == 3 }">
              <h2 class="count_flow"><i>1</i>问题汇总</h2>
-          </c:if>
+          </c:if> --%>
            <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
           <div class="ul_list count_flow">
             <c:if test="${supplierStatus == 0 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
@@ -435,13 +435,15 @@
                                     <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
                                     <%--<input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">--%>
                                 </c:if>
-                                <c:if test="${supplierStatus == -2 }">
+                                <c:if test="${supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 3 || (supplierStatus == 1 && sign == 1)}">
                                     <%--<c:if test="${supplierStatus == -2}">
                                 <span id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
                               </c:if>--%>
                                     <%--<input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">--%>
                                     <%-- <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">--%>
-                                    <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
+                                    <c:if test="${supplierStatus == -2}">
+                                      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
+                                    </c:if>
                                     <a class="btn" type="button" onclick="nextStep();">下一步</a>
                                 </c:if>
 

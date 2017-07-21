@@ -3544,13 +3544,19 @@ public class SupplierAuditController extends BaseSupplierController {
 			
 			if("0".equals(tableType)){
 				//公示的最终意见
-				dataMap.put("opinion",opinion == null ? "无" :opinion);
-			}else{
+				dataMap.put("opinion",opinion == "" ? "无" :opinion);
+			}else if("3".equals(tableType) || "4".equals(tableType)){
 				//最终意见
 				SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
 				supplierAuditOpinion.setSupplierId(supplier.getId());
 				SupplierAuditOpinion auditOpinion = supplierAuditOpinionService.selectByPrimaryKey(supplierAuditOpinion);
-				dataMap.put("opinion",auditOpinion.getOpinion() == null ? "无" : auditOpinion.getOpinion());
+				if(auditOpinion !=null){
+					dataMap.put("opinion",auditOpinion.getOpinion() == "" ? "无" : auditOpinion.getOpinion());
+				}else{
+					dataMap.put("opinion","无");
+				}
+			}else{
+				dataMap.put("opinion","无");
 			}
 			
 		}
@@ -3817,7 +3823,7 @@ public class SupplierAuditController extends BaseSupplierController {
             }
         }
 
-        Todos todos = new Todos();
+        //Todos todos = new Todos();
         //更新状态
         supplier.setId(supplierId);
         supplier.setAuditDate(new Date());
@@ -3830,7 +3836,7 @@ public class SupplierAuditController extends BaseSupplierController {
         supplier.setUpdatedAt(new Date());
         supplierAuditService.updateStatus(supplier);
 
-        if(supplier.getStatus() != null && supplier.getStatus() == -3){
+        /*if(supplier.getStatus() != null && supplier.getStatus() == -3){
             // 供应商分级要素得分
             supplier.setLevelScoreProduct(SupplierLevelUtil.getScore(supplier.getId(), "PRODUCT"));
             supplier.setLevelScoreSales(SupplierLevelUtil.getScore(supplier.getId(), "SALES"));
@@ -3838,11 +3844,11 @@ public class SupplierAuditController extends BaseSupplierController {
             if(supplier.getProcurementDepId() != null){
                 supplierService.updateSupplierProcurementDep(supplier);
             }
-        }
+        }*/
 
         //更新待办
         supplier = supplierAuditService.supplierById(supplierId);
-        String supplierName = supplier.getSupplierName();
+        //String supplierName = supplier.getSupplierName();
 
         //记录审核不通过的供应商
         if(supplier.getStatus() == 3){

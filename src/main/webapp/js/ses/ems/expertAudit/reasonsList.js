@@ -11,7 +11,7 @@ $(function () {
         // 审核状态为5（复审不合格）或者-3（公示中）的意见不可更改
         if(status == -3 ||status == 5 || status == 4){
             $("input[name='selectOption']").prop("disabled",true);
-            $("#auditOpinion").prop("disabled", true);
+            $("#opinion").prop("disabled", true);
         }
     }
     
@@ -69,7 +69,13 @@ function lastStep() {
  * 下一步操作
  */
 function nextStep() {
-    tempSave(1);
+	if(status == -2){
+		tempSave(1);
+	}
+    if(status == -3){
+    	$("#form_id").attr("action", globalPath + "/expertAudit/uploadApproveFile.html");
+        $("#form_id").submit();
+    }
 }
 
 /**
@@ -86,7 +92,7 @@ function tempSave(flag){
             layer.msg("审核意见不能为空！");
             return;
         }
-        if(opinion.length > 1000){
+        if($(opinion).length > 1000){
             layer.msg("审核意见不能超过1000字！");
             return;
         }
@@ -134,7 +140,7 @@ function tempSave(flag){
  * @param str
  */
 function downloadTable(str) {
-	var auditOpinion = $("#auditOpinion").val();
+	var auditOpinion = $("#opinion").val();
     $("input[name='tableType']").val(str);
     $("input[name='opinion']").val(auditOpinion);
     $("#form_id_word").attr("action", globalPath + "/expertAudit/download.html");

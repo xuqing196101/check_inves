@@ -335,7 +335,7 @@
                             </li>
                             <li class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="col-md-12 col-sm-12 col-xs-12 p0">
-		                               <textarea id="auditOpinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
+		                               <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
                                 </div>
                             </li>
                         </ul>
@@ -404,10 +404,12 @@
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
                         <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
-                    <%-- <c:if test="${status eq '-2' || status eq '0' || (sign eq '2' && status eq '-2') || status eq '6'}">
-                        <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
+                    <c:if test="${status eq '-2' || status == -3}">
+                        <c:if test="${status == -2}">
+                          <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
+                        </c:if>
                         <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
-                    </c:if> --%>
+                    </c:if>
                     <c:if test="${status eq '6'}">
                         <input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复查合格 " id="tongguo">
                         <input class="btn btn-windows edit" type="button" onclick="shenhe(8);" value="复查不合格" id="tichu">
