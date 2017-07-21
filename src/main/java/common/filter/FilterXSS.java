@@ -27,7 +27,15 @@ public class FilterXSS implements Filter {
         //获取请求方法 
         String headValue = httpReq.getServletPath();
         //忽略上传方法
-        if(headValue !=null & !headValue.contains("file") & !headValue.contains("article") & !headValue.contains("open_bidding") & !headValue.contains("purchaser") & !headValue.contains("templet")& !headValue.contains("collect")& !headValue.contains("noticeDocument")& !headValue.contains("product_lib")){
+        String[] path={"file","article","open_bidding","purchaser","templet","collect","noticeDocument","product_lib","post"};
+        boolean flag=false;
+        for(String str:path){
+           	if(headValue!=null&&headValue.contains(str)){
+           		flag=true;
+           		break;
+           	}
+        }
+        if(!flag){
         // 构造HttpRequestWrapper对象处理XSS
         HttpRequestWrapper httpReqWarp = new HttpRequestWrapper(httpReq,xssMap);
         fc.doFilter(httpReqWarp, res);
