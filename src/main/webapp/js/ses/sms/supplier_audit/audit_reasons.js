@@ -23,11 +23,11 @@ $(function () {
             return;
         }
         // 判断意见是否已经获取，有的话不再发送请求
-        var opinionBack = $("#opinionBack").val();
+        /*var opinionBack = $("#opinionBack").val();
         if(opinionBack != ''){
             $("#opinion").val(opinionBack);
             return;
-        }
+        }*/
         var index = layer.load(0, {
             shade : [ 0.1, '#fff' ],
             offset : [ '40%', '50%' ]
@@ -42,7 +42,7 @@ $(function () {
             success:function (data) {
                 var opinionData = "同意入库，选择了"+data.passCateCount+"个产品类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个产品类别";
                 $("#opinion").val(opinionData);
-                $("#opinionBack").val(opinionData);
+                //$("#opinionBack").val(opinionData);
                 // 关闭旋转图标
                 layer.close(index);
             }
@@ -72,6 +72,32 @@ function tempSave(flag){
 		$("#form_id").attr("action", globalPath + "/supplierAudit/uploadApproveFile.html");
         $("#form_id").submit();
 	}else{
+		// 判断审核项是否有没有不通过项
+        // 获取复选框值
+        var checkVal = $("input[name='selectOption']:checked").val();
+        var flags = false;
+        if(checkVal == 1){
+            var supplierId=$("#supplierId").val();
+            $.ajax({
+                url:globalPath + "/supplierAudit/vertifyAuditItem.do",
+                type: "POST",
+                async:false,
+                data:{
+                  "supplierId":supplierId
+                },
+                dataType:"json",
+                success:function (data) {
+                    if (data.status == 500) {
+                        layer.alert(data.msg);
+                        flags = true;
+                        return;
+                    }
+                }
+            });
+        }
+        if(flags){
+            return;
+        }
 	    // 获取审核意见
 	    var opinion  = $("#opinion").val();
 	    // 获取选择radio类型

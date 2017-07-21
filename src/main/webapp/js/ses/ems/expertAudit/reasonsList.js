@@ -29,11 +29,11 @@ $(function () {
             return;
         }
         // 判断意见是否已经获取，有的话不再发送请求
-        var opinionBack = $("#opinionBack").val();
+        /*var opinionBack = $("#opinionBack").val();
         if(opinionBack != ''){
             $("#opinion").val(opinionBack);
             return;
-        }
+        }*/
         var index = layer.load(0, {
             shade : [ 0.1, '#fff' ],
             offset : [ '40%', '50%' ]
@@ -48,7 +48,7 @@ $(function () {
             success:function (data) {
                 var opinionData = "同意入库，选择了"+data.passCateCount+"个小类，通过了"+(data.passCateCount - data.noPassCateCount)+"个小类";
                 $("#opinion").val(opinionData);
-                $("#opinionBack").val(opinionData);
+                //$("#opinionBack").val(opinionData);
                 // 关闭旋转图标
                 layer.close(index);
             }
