@@ -46,8 +46,10 @@
 				<%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
 				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow ">
                     </ul>
-                <div class="red mt10 mb10">提示:点击产品目录即可对产品目录进行审核(以选中产品目录为先)操作</div>
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_1">
+				<div class="">
+                    <button class="btn btn-windows check" type="button" onclick="auditButton('content_1');">审核</button>
+                </div>
 					<table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
 						 <thead>
 							<tr>
@@ -67,6 +69,9 @@
 					</table>
 				</div>
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_2">
+				<div class="">
+                    <button class="btn btn-windows check" type="button" onclick="auditButton('content_2');">审核</button>
+                </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_2">
                          <thead>
                             <tr>
@@ -86,6 +91,9 @@
                     </table>
                 </div>
                 <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_3">
+                <div class="">
+                    <button class="btn btn-windows check" type="button" onclick="auditButton('content_3');">审核</button>
+                </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_3">
                          <thead>
                             <tr>
@@ -104,6 +112,9 @@
                     </table>
                 </div>
                 <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_4">
+                 <div class="">
+                    <button class="btn btn-windows check" type="button" onclick="auditButton('content_4');">审核</button>
+                </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_4">
                          <thead>
                             <tr>

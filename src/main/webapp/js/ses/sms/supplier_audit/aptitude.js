@@ -212,11 +212,13 @@ function showData(obj,tablerId,typeId) {
 								"<input type=\"hidden\" id=\"isContractSalesPageAudit"+ind+"\" value=\""+isContractSalesPageAudit+"\">"+
 								"<input type=\"hidden\" id=\"itemsName"+ind+"\" value=\""+item.itemsName+"\">"+
 								"<input type=\"hidden\" id=\"itemsId"+ind+"\" value=\""+item.itemsId+"\">"+
-	                            "<td "+itemsStyle+" id=\"rootNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"','"+typeId+"')\" >"+isNull(item.rootNode)+"</td>"+
-	                            "<td "+itemsStyle+" id=\"firstNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"','"+typeId+"')\">"+isNull(item.firstNode)+"</td>"+
-	                            "<td "+itemsStyle+" id=\"secondNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"','"+typeId+"')\">"+isNull(item.secondNode)+"</td>"+
-	                            "<td "+itemsStyle+" id=\"thirdNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"','"+typeId+"')\">"+isNull(item.thirdNode)+"</td>"+
-	                            "<td "+itemsStyle+" id=\"fourthNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"','"+typeId+"')\">"+isNull(item.fourthNode)+"</td>"+
+								"<input type=\"hidden\" id=\"tablerId"+ind+"\" value=\""+tablerId+"\">"+
+								"<input type=\"hidden\" id=\"typeId"+ind+"\" value=\""+typeId+"\">"+
+	                            "<td "+itemsStyle+" id=\"rootNode"+ind+"\"  >"+isNull(item.rootNode)+"</td>"+
+	                            "<td "+itemsStyle+" id=\"firstNode"+ind+"\" >"+isNull(item.firstNode)+"</td>"+
+	                            "<td "+itemsStyle+" id=\"secondNode"+ind+"\" >"+isNull(item.secondNode)+"</td>"+
+	                            "<td "+itemsStyle+" id=\"thirdNode"+ind+"\" >"+isNull(item.thirdNode)+"</td>"+
+	                            "<td "+itemsStyle+" id=\"fourthNode"+ind+"\" >"+isNull(item.fourthNode)+"</td>"+
 	                            "<td "+aptitudeStyle+" id=\"qualifications"+ind+"\" >"+isShow(tablerId,ind,item.fileCount,"qualifications",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>"+
 	                            projectDiv+"</tr>"
 				);
@@ -258,21 +260,26 @@ function check(tablerId){
 			 }
 	   }
 }
-var isCheck=true;
 //审核 目录
-function onCategory(tablerId,ind,secondNode,secondNodeId,wzType){
-	if(!isCheck){
-		return;
+function auditButton(tablerId){
+	var is=0;
+	var item=$("input[name='"+tablerId+"itemsCheckboxName']:checked").val();
+	//是否是 选择目录
+	if(item){
+		is=2;
 	}
+	if(is>0){
+	  var wzType=$("#"+tablerId+" #typeId1").val();
+	  onCategory(tablerId,wzType);
+	}else{
+		layer.msg('请先选择目录,至少有一条！', {offset:'100px'});
+	}
+}
+//审核 目录
+function onCategory(tablerId,wzType){//,ind,secondNode,secondNodeId,wzType
 	var showin;
 	var auditContent;
 	var auditType;
-	var is=0;
-	isCheck=false;
-	//是否是 选择目录
-	if($("input[name='"+tablerId+"itemsCheckboxName']:checked").val()){
-		is=2;
-	}
 	switch (wzType) {
 	case 'PRODUCT':
 		secondNode='物资-生产目录信息';
@@ -291,8 +298,8 @@ function onCategory(tablerId,ind,secondNode,secondNodeId,wzType){
 		auditType='items_product_page';
 		break;
 	}
-	var count=isAudit(tablerId,ind,wzType);
-	//非 选择框 审核 单选
+	var count=isAudit(tablerId,wzType);
+	/*//非 选择框 审核 单选
 	if(is==0){
 		if(count==0){
 			auditContent=contentParent(tablerId,ind,'目录信息');
@@ -300,21 +307,22 @@ function onCategory(tablerId,ind,secondNode,secondNodeId,wzType){
 		}else{
 			layer.msg('已审核！', {offset:'100px'});
 		}
-	}else{
+	}else{*/
 		//选择框 审核
 		if(count==0){
-			reasonProjectMulti(tablerId,ind,auditType,wzType);
+			reasonProjectMulti(tablerId,auditType,secondNode,wzType);
 		}else{
 			layer.msg('选择框有已审核目录,不可重复审核！', {offset:'100px'});
 		}
-	}
-	isCheck=true;
+	/*}*/
 }
 //判断 是否是已审核 目录
-function isAudit(tablerId,ind,wzType){
+function isAudit(tablerId,wzType){
 	var showin=0;
 	var auditType;
 	var temp=0;
+	$("input[name='"+tablerId+"itemsCheckboxName']:checked").each(function(){ 
+		var ind=$(this).val();
 	switch (wzType) {
 	case 'PRODUCT':
 		temp=parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
@@ -333,6 +341,7 @@ function isAudit(tablerId,ind,wzType){
 		showin=showin+temp;
 		break;
 	}
+	});
 	return showin;
 }
 //判断显示相关内容 合同
@@ -431,22 +440,30 @@ function lastStep() {
 	$("#form_id").attr("action", action);
 	$("#form_id").submit();
 }
+//验证 审核 目录是否可以审核
+function checkML(tablerId,wzType){
+	var auditCount=0;
+	$("input[name='"+tablerId+"itemsCheckboxName']:checked").each(function(){ 
+		var ind=$(this).val();
+		if('PRODUCT'==wzType){
+			auditCount =parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
+		}else if('SALES'==wzType){
+			auditCount = parseInt($("#"+tablerId+" #setIsItemsSalesPageAudit"+ind+"").val());
+		}else{
+			auditCount = parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
+		}
+	});
+	return auditCount;
+}
 //目录 审核不通过理由  物资 生产 
-function reasonProjectMulti(tablerId,ind,aType,wzType) {
+function reasonProjectMulti(tablerId,auditType,auditContent,wzType) {//,ind,aType,wzType
 	var supplierStatus= $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     //只有审核的状态能审核
     if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 	
 		var supplierId = $("#supplierId").val();
-		var auditCount;
-		if('PRODUCT'==wzType){
-			auditCount = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val();
-		}else if('SALES'==wzType){
-			auditCount = $("#"+tablerId+" #setIsItemsSalesPageAudit"+ind+"").val();
-		}else{
-			auditCount = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val();
-		}
+		var auditCount=checkML(tablerId,wzType);
 		if(auditCount!=null && auditCount !='' && auditCount>'0' ){
 			layer.msg('已审核', {offset:'100px'});
 			return;
@@ -466,13 +483,12 @@ function reasonProjectMulti(tablerId,ind,aType,wzType) {
 			  var supplierAuditList=[];
 			  $("input[name='"+tablerId+"itemsCheckboxName']:checked").each(function(){ 
 					var index=$(this).val();
-					 var itemsName=$("#"+tablerId+" #itemsName"+index+"").val();
 					 var itemsId=$("#"+tablerId+" #itemsId"+index+"").val();
 					 var supplierAudit=new Object();
-					 supplierAudit.auditFieldName=itemsName;
+					 supplierAudit.auditFieldName=auditContent;
 					 supplierAudit.suggest=text;
 					 supplierAudit.supplierId=supplierId;
-					 supplierAudit.auditType=aType;
+					 supplierAudit.auditType=auditType;
 					 supplierAudit.auditContent=contentParent(tablerId,index,'目录信息');;
 					 supplierAudit.auditField=itemsId;
 					 supplierAuditList.push(supplierAudit);
