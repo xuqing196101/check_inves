@@ -102,12 +102,12 @@ function resetAll(){
  */
 function loadData(data,index,pageNum,pageSize){
 	var html = "<li> "
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+data.supplierName+"</span>"
+		     + "  <span class='col-md-3 col-xs-3 col-sm-3'>"+data.supplierName+"</span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+data.supplierTypeNames+">"+data.supplierTypeNames+"</span>"
 		     + "  <span class='col-md-1 col-xs-1 col-sm-1'>"+data.businessNature+"</span>"
 		     + "  <span class='col-md-1 col-xs-1 col-sm-1'>"+data.orgName+"</span>"
-             + "  <span class='col-md-4 col-xs-4 col-sm-4'>"+"同意入库，选择了"+data.passCateCount+"个产品类别，通过了<a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+(data.passCateCount - data.noPassCateCount)+"</a>个产品类别"+"</span>"
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+timestampToDate('yyyy-MM-dd', data.auditDate)+"</span>"
+             + "  <span class='col-md-3 col-xs-3 col-sm-3'>"+"同意入库，选择了"+data.passCateCount+"个产品类别，通过了<a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+(data.passCateCount - data.noPassCateCount)+"</a>个产品类别"+"</span>"
+		     + "  <span class='col-md-2 col-xs-2 col-sm-2 text-right'>"+timestampToDate('yyyy-MM-dd', data.auditDate)+"</span>"
 		     html += "</li>";
 	$("#supPublicityList").append(html);
 }
