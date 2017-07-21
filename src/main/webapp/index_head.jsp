@@ -624,36 +624,80 @@
 
           <!-- 拟入库公示 -->
           <div class="col-md-8 col-sm-8 col-xs-10 mt10">
-            <div class="headline-v2 m-headline-v2">
-              <h2 class="fl">入库名单</h2>
-              <%--<a href="${pageContext.request.contextPath}/index/indexSupPublicity.html" class="news_more">更多&gt;&gt;</a>--%>
-              <a href="javascript:;" class="news_more">更多&gt;&gt;</a>
-              <div class="clear"></div>
-            </div>
+              <div class="headline-v2">
+                  <h2>入库名单<a  href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=0" class="fr f14">更多>></a></h2>
+              </div>
+              <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
+                  <div class="categories">
+                      <ul class="list-unstyled">
 
-            <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
-            <div class="categories">
-              <c:choose>
-              <c:when test="">
-              <%--<table class="table table-bordered mb0">
-                  <tbody>
-                  <tr>
-                      <td class="tc info" width="15%">供应商名称</td>
-                      <td class="tc info" width="12%">类型</td>
-                      <td class="tc info" width="12%">企业性质</td>
-                      <td class="tc info" width="12%">初审单位</td>
-                      <td class="tc info" width="34%">审核结果</td>
-                      <td class="tc info" width="15%">公示时间</td>
-                  </tr>
-                  </tbody>
-              </table>--%>
-              </c:when>
-              <c:otherwise>
-              <%--<div class="tc">暂无数据</div>--%>
-              </c:otherwise>
-              </c:choose>
-            </div>
-            </div>
+                          <c:choose>
+                              <c:when test="${!empty my:getSupplierList()}">
+                                  <table class="table table-bordered " >
+                                      <thead>
+                                      <tr >
+                                          <th class="tc info" width="55%">供应商名称</th>
+                                          <th class="tc info" width="25%">编号</th>
+                                          <th class="tc info" width="20%">状态</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <c:forEach items="${my:getSupplierList()}" var="item" begin="0" end="5" step="1" varStatus="status" >
+                                          <tr>
+                                              <td>${item.supplierName }</td>
+                                              <td class="tc"></td>
+                                              <td class="tc">
+                                                  <c:choose>
+                                                      <%-- <c:when test="${item.status == -1}">
+                                                             未未提交审核
+                                                      </c:when>
+                                                <c:when test="${item.status == 0}">
+                                                            待审核
+                                                      </c:when> --%>
+                                                      <c:when test="${item.status == 1 or item.status == 4 or item.status == 6}">
+                                                          审核通过
+                                                      </c:when>
+                                                      <%--  <c:when test="${item.status == 2}">
+                                                             审核退回修改
+                                                       </c:when>
+                                                       <c:when test="${item.status == 3}">
+                                                            审核未通过
+                                                       </c:when>
+                                                       <c:when test="${item.status == 4}">
+                                                             待复核
+                                                       </c:when> --%>
+                                                      <c:when test="${item.status == 5 or item.status == 7 or item.status == 9}">
+                                                          复核通过
+                                                      </c:when>
+                                                      <%-- <c:when test="${item.status == 6}">
+                                                            复核未通过
+                                                      </c:when>
+                                                      <c:when test="${item.status == 7}">
+                                                            待考察
+                                                      </c:when> --%>
+                                                      <c:when test="${item.status == 8}">
+                                                          考察合格
+                                                      </c:when>
+                                                      <%--  <c:when test="${item.status == 9}">
+                                                             考察不合格
+                                                       </c:when> --%>
+                                                      <c:otherwise>
+                                                          无状态
+                                                      </c:otherwise>
+                                                  </c:choose>
+                                              </td>
+                                          </tr>
+                                      </c:forEach>
+                                      </tbody>
+                                  </table>
+                              </c:when>
+                              <c:otherwise>
+                                  <li class="tc">暂无数据</li>
+                              </c:otherwise>
+                          </c:choose>
+                      </ul>
+                  </div>
+              </div>
           </div>
           <!-- End 拟入库公示 -->
 
@@ -798,35 +842,63 @@
         </div>-->
 
         <div class="col-md-8 col-sm-8 col-xs-10 mt10">
-          <div class="headline-v2 m-headline-v2">
-            <h2 class="fl">入库名单</h2>
-            <%--<a href="${pageContext.request.contextPath}/index/indexExpPublicity.html" class="news_more">更多&gt;&gt;</a>--%>
-            <a href="javascript:;" class="news_more">更多&gt;&gt;</a>
-            <div class="clear"></div>
-          </div>
-
-          <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
-          <div class="categories zhuanjia_list">
-            <c:choose>
-            <c:when test="">
-            <%--<table class="table table-bordered mb0">
-            <thead>
-              <tr>
-                <th class="tc info" width="25%">专家名称</th>
-                <th class="tc info" width="15%">类别</th>
-                <th class="tc info" width="15%">初审单位</th>
-                <th class="tc info" width="30%">审核结果</th>
-                <th class="tc info" width="15%">公示时间</th>
-              </tr>
-            </thead>
-            </table>--%>
-            </c:when>
-            <c:otherwise>
-            <%--<div class="tc">暂无数据</div>--%>
-            </c:otherwise>
-            </c:choose>
-          </div>
-          </div>
+            <div class="headline-v2">
+                <h2>入库名单<a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="fr f14">更多>></a></h2>
+            </div>
+            <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
+                <div class="categories zhuanjia_list">
+                    <c:choose>
+                        <c:when test="${!empty my:getExpertList()}">
+                            <table class="table table-bordered " >
+                                <thead>
+                                <tr >
+                                    <th class="tc info" width="55%">专家名称</th>
+                                    <th class="tc info" width="25%">编号</th>
+                                    <th class="tc info" width="20%">状态</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${my:getExpertList()}" var="item" begin="0" end="5" step="1" varStatus="status" >
+                                    <tr>
+                                        <td>${item.relName }</td>
+                                        <td class="tc"></td>
+                                        <td class="tc"> <c:choose>
+                                            <%-- <c:when test="${item.status == 0}">
+                                                      未审核
+                                            </c:when>
+                                             <c:when test="${item.status == 1}">
+                                                初审通过
+                                             </c:when>
+                                             <c:when test="${item.status == 2}">
+                                                    初审未通过
+                                                </c:when>
+                                                <c:when test="${item.status == 3}">
+                                                    退回修改
+                                               </c:when>
+                                                <c:when test="${item.status == 4}">
+                                                     待复审
+                                               </c:when> --%>
+                                            <c:when test="${item.status eq '4' or item.status == '6' or item.status == '8'}">
+                                                复审通过
+                                            </c:when>
+                                            <c:when test="${item.status eq '7'}">
+                                                复查通过
+                                            </c:when>
+                                            <c:otherwise>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:when>
+                        <c:otherwise>
+                            暂无数据
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
         </div>
 
         <div class="login_box job-content col-md-4 col-sm-4 col-xs-12 mt10">
