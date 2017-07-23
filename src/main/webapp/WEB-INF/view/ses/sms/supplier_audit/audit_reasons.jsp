@@ -77,6 +77,22 @@
             }else{*/
                 //询问框
             if(status == -2){
+                /*// 获取审核意见
+                var opinion  = $("#opinion").val();
+                if(opinion == ''){
+                    layer.msg("审核意见不能为空！");
+                    return;
+                }
+                if(opinion.length > 1000){
+                    layer.msg("审核意见不能超过1000字！");
+                    return;
+                }*/
+                // 校验
+                var flags = vartifyAuditCount();
+                if(flags){
+                    return;
+                }
+                // 校验通过
                 layer.confirm('您确认吗？', {
                     closeBtn: 0,
                     offset: '100px',
@@ -368,7 +384,7 @@
 			<c:if test="${ sign == 1}">
 				<div>
 					<div id="opinionDiv">
-						<h2 class="count_flow"><i>2</i><span class="red">*</span>最终意见</h2>
+						<h2 class="count_flow"><i>2</i><span class="red">*</span>审核意见</h2>
 					  <ul class="ul_list">
 						  <li>
 							  <div class="select_check" id="selectOptionId">

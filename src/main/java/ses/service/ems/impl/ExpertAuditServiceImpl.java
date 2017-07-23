@@ -600,4 +600,25 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
         return JdcgResult.ok();
 	}
 
+	@Override
+	public JdcgResult selectAuditNoPassItemCount(String expertId) {
+		/**
+		 * @deprecated:查询审核不通过数量
+		 *
+		 * @Author:Easong
+		 * @Date:Created in 2017/7/22
+		 * @param: [supplierId]
+		 * @return: common.utils.JdcgResult
+		 *
+		 */
+		Map<String, Object> map = new HashedMap();
+		map.put("expertId", expertId);
+		Integer auditNoPassCount = expertAuditMapper.selectRegExpCateCount(map);
+		if(auditNoPassCount != null && auditNoPassCount == 0){
+			return JdcgResult.build(500, "没有审核不通过项");
+		}
+		return JdcgResult.ok();
+	}
+
+
 }

@@ -132,4 +132,5 @@ public interface SupplierAuditMapper {
      * @return
      */
     List<SupplierAudit> findByTypeId(SupplierAudit audit);
-} 
+    
+}

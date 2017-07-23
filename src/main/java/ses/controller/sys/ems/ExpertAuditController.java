@@ -2497,12 +2497,6 @@ public class ExpertAuditController{
         // 选择审核通过
         if(expertAuditOpinionExist != null && expertAuditOpinionExist.getFlagAudit() != null){
             if(expertAuditOpinionExist.getFlagAudit() == 1){
-                // 点击通过按钮时判断
-                JdcgResult selectAndVertifyAuditItem = expertAuditService.selectAndVertifyAuditItem(expertId);
-                if(selectAndVertifyAuditItem.getStatus() != 200) {
-                    //如果有错误信息则直接返回提示操作
-                    return selectAndVertifyAuditItem;
-                }
                 expert.setStatus("-3");
             }else if(expertAuditOpinionExist.getFlagAudit() == 0){
                 // 审核未通过
@@ -2550,4 +2544,43 @@ public class ExpertAuditController{
         expertAuditOpinion.setFlagTime(1);
 		return JdcgResult.ok(expertAuditOpinionService.selectByExpertId(expertAuditOpinion));
 	}
+
+    @RequestMapping("/vertifyAuditItem")
+    @ResponseBody
+    public JdcgResult vertifyAuditItem(String expertId) {
+        /**
+         * @deprecated: 点击审核通过复选框校验审核通过项
+         *
+         * @Author:Easong
+         * @Date:Created in 2017/7/22
+         * @param: [supplierId]
+         * @return: common.utils.JdcgResult
+         *
+         */
+        // 点击通过按钮时判断
+        JdcgResult selectAndVertifyAuditItem = expertAuditService.selectAndVertifyAuditItem(expertId);
+        if (selectAndVertifyAuditItem.getStatus() != 200) {
+            //如果有错误信息则直接返回提示操作
+            return selectAndVertifyAuditItem;
+        }
+        return JdcgResult.ok();
+    }
+
+    @RequestMapping("/vertifyAuditNoPassItem")
+    @ResponseBody
+    public JdcgResult vertifyAuditNoPassItem(String expertId){
+        /**
+         * @deprecated: 点击审核不通过复选框校验审核不通过项
+         * 是否为0，如果为0则提示没有审核不通过项
+         *
+         * @Author:Easong
+         * @Date:Created in 2017/7/22
+         * @param: [supplierId]
+         * @return: common.utils.JdcgResult
+         *
+         */
+        // 点击审核不通过复选框时判断
+        return expertAuditService.selectAuditNoPassItemCount(expertId);
+    }
+
 }

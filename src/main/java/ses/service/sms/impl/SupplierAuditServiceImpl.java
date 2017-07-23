@@ -1014,7 +1014,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					sb.delete(0, sb.toString().length());
 				}
 				// 查询选择和未通过的产品类别
-				selectChooseOrNoPassCateOfDB(supplierPublicity);
+				//selectChooseOrNoPassCateOfDB(supplierPublicity);
 			}
 		}
 		return list;
@@ -1138,13 +1138,13 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		 * @since JDK1.7
 		 */
 		// 判断审核意见是否填写
-        Map<String, Object> selectMap = new HashedMap();
+        /*Map<String, Object> selectMap = new HashedMap();
         selectMap.put("supplierId",supplierId);
         selectMap.put("flagTime",0);
         SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(selectMap);
         if(supplierAuditOpinion == null || (supplierAuditOpinion != null && StringUtils.isEmpty(supplierAuditOpinion.getOpinion()))){
             return JdcgResult.build(500, "审核意见不能为空");
-        }
+        }*/
 
         // 判断基本信息+财务信息+股东信息
         Map<String, Object> map = new HashedMap();
@@ -1183,7 +1183,49 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
         return JdcgResult.ok();
 	}
 
-	/**
+	@Override
+	public JdcgResult selectAuditNoPassItemCount(String supplierId) {
+	    /**
+	     * @deprecated:
+	     *
+	     * @Author:Easong
+	     * @Date:Created in 2017/7/22
+	     * @param: [supplierId]
+	     * @return: common.utils.JdcgResult
+	     *
+	     */
+	    Map<String, Object> map = new HashedMap();
+	    map.put("supplierId", supplierId);
+        Integer auditNoPassCount = supplierAuditMapper.selectBasicInfoAuditItem(map);
+	    if(auditNoPassCount != null && auditNoPassCount == 0){
+	        return JdcgResult.build(500, "没有审核不通过项");
+        }
+        return JdcgResult.ok();
+	}
+
+    @Override
+    public JdcgResult vertifyOpinion(String supplierId) {
+	    /**
+	     * @deprecated:判断审核意见
+	     *
+	     * @Author:Easong
+	     * @Date:Created in 2017/7/23
+	     * @param: [supplierId]
+	     * @return: common.utils.JdcgResult
+	     *
+	     */
+        // 判断审核意见是否填写
+        Map<String, Object> selectMap = new HashedMap();
+        selectMap.put("supplierId",supplierId);
+        selectMap.put("flagTime",0);
+        SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(selectMap);
+        if(supplierAuditOpinion == null || (supplierAuditOpinion != null && StringUtils.isEmpty(supplierAuditOpinion.getOpinion()))){
+            return JdcgResult.build(500, "审核意见不能为空");
+        }
+        return JdcgResult.ok();
+    }
+
+    /**
 	 * 
 	 * Description:封装 合计 销售合同 物资 生产
 	 * 

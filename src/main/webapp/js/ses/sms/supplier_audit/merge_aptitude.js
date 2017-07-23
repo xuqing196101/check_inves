@@ -40,9 +40,9 @@ function jump(str) {
         action = globalPath + "/supplierAudit/supplierType.html";
     }
     if (str == "uploadApproveFile") {
-        var flag = true;
+        //var flag = true;
         if(status == -2 || status == 0){
-            var supplierId = $("#supplierId").val();
+            /*var supplierId = $("#supplierId").val();
             $.ajax({
                 url:globalPath + "/supplierAudit/isHaveOpinion.do",
                 type: "POST",
@@ -67,17 +67,18 @@ function jump(str) {
                         return;
                     }
                 }
-            });
-        }
-        if(flag){
+            });*/
+            layer.msg("请点击'审核汇总'下一步进行操作！");
+            return;
+        }else{
             action = globalPath + "/supplierAudit/uploadApproveFile.html";
         }
-    }
+        /*if(flag){
 
-    if(action != null){
-        $("#form_id").attr("action", action);
-        $("#form_id").submit();
+        }*/
     }
+    $("#form_id").attr("action", action);
+    $("#form_id").submit();
 }
 var status;
 $(function () {

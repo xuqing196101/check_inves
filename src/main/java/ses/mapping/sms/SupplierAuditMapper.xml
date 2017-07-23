@@ -376,8 +376,13 @@
    <select id="selectBasicInfoAuditItem" resultType="java.lang.Integer" parameterType="Map">
      SELECT COUNT(T.ID)
       FROM T_SES_SMS_SUPPLIER_AUDIT T
-     WHERE T.SUPPLIER_ID = #{supplierId}
-       AND T.AUDIT_TYPE = #{auditType}
-       AND T.IS_DELETED = 0
+     WHERE T.IS_DELETED = 0
+       <if test="supplierId != null and supplierId != ''">
+           AND T.SUPPLIER_ID = #{supplierId}
+       </if>
+       <if test="auditType != null and auditType != ''">
+           AND T.AUDIT_TYPE = #{auditType}
+       </if>
    </select>
+
 </mapper>

@@ -25,7 +25,7 @@ $(function () {
         $("#opinion").val("");
         var selectedVal = $(this).val();
         if(selectedVal == 0){
-            $("#opinion").val("不通过");
+            $("#opinion").val("不通过。");
             return;
         }
         // 判断意见是否已经获取，有的话不再发送请求
@@ -46,7 +46,7 @@ $(function () {
                 "id" : expertId
             },
             success:function (data) {
-                var opinionData = "同意入库，选择了"+data.passCateCount+"个小类，通过了"+(data.passCateCount - data.noPassCateCount)+"个小类";
+                var opinionData = "同意入库，选择了"+data.passCateCount+"个小类，通过了"+(data.passCateCount - data.noPassCateCount)+"个小类。";
                 $("#opinion").val(opinionData);
                 //$("#opinionBack").val(opinionData);
                 // 关闭旋转图标
@@ -88,12 +88,8 @@ function tempSave(flag){
     var selectOption = $("input[name='selectOption']:checked").val();
 
     if(flag == 1){
-        if(opinion == ''){
-            layer.msg("审核意见不能为空！");
-            return;
-        }
-        if($(opinion).length > 1000){
-            layer.msg("审核意见不能超过1000字！");
+        var flags = vartifyAuditCount();
+        if(flags){
             return;
         }
         // 判断附件是否下载
@@ -146,4 +142,73 @@ function downloadTable(str) {
     $("#form_id_word").attr("action", globalPath + "/expertAudit/download.html");
     $("#form_id_word").submit();
     $("#downloadAttachFile").val("1");
+}
+
+/**
+ * 校验审核项
+ * @Auth Easong
+ */
+function vartifyAuditCount(){
+    var flags = false;
+    // 获取审核意见
+    var opinion  = $("#opinion").val();
+    // 获取选择radio类型
+    var checkVal = $("input:radio[name='selectOption']:checked").val();
+    if(checkVal === undefined){
+        layer.msg("请选择审核意见项");
+        flags = true;
+        return flags;
+    }
+    // 点击审核通过复选框时的校验
+    if(checkVal == 1){
+        var expertId=$("#expertId").val();
+        $.ajax({
+            url:globalPath + "/expertAudit/vertifyAuditItem.do",
+            type: "POST",
+            async:false,
+            data:{
+                "expertId":expertId
+            },
+            dataType:"json",
+            success:function (data) {
+                if (data.status == 500) {
+                    layer.msg(data.msg);
+                    flags = true;
+                    return flags;
+                }
+            }
+        });
+    }
+    // 点击审核不通过复选框时的校验
+    if(checkVal == 0){
+        var expertId=$("#expertId").val();
+        $.ajax({
+            url:globalPath + "/expertAudit/vertifyAuditNoPassItem.do",
+            type: "POST",
+            async:false,
+            data:{
+                "expertId":expertId
+            },
+            dataType:"json",
+            success:function (data) {
+                if (data.status == 500) {
+                    layer.msg(data.msg);
+                    flags = true;
+                    return flags;
+                }
+            }
+        });
+    }
+    // 判断审核意见
+    if(opinion == ''){
+        layer.msg("审核意见不能为空！");
+        flags = true;
+        return flags;
+    }
+    if(opinion.length > 1000){
+        layer.msg("审核意见不能超过1000字！");
+        flags = true;
+        return flags;
+    }
+    return flags;
 }

@@ -3814,6 +3814,8 @@ public class SupplierAuditController extends BaseSupplierController {
                 // 审核未通过
                 supplier.setStatus(3);
             }
+        }else {
+            return JdcgResult.build(500, "审核意见不能为空");
         }
 
         //Todos todos = new Todos();
@@ -3887,6 +3889,15 @@ public class SupplierAuditController extends BaseSupplierController {
 	@RequestMapping("/vertifyAuditItem")
 	@ResponseBody
     public JdcgResult vertifyAuditItem(String supplierId){
+    	/**
+    	 * @deprecated: 点击审核通过复选框校验审核通过项
+    	 *
+    	 * @Author:Easong
+    	 * @Date:Created in 2017/7/22
+    	 * @param: [supplierId]
+    	 * @return: common.utils.JdcgResult
+    	 *
+    	 */
 		// 点击通过按钮时判断
 		JdcgResult selectAndVertifyAuditItem = supplierAuditService.selectAndVertifyAuditItem(supplierId);
 		if(selectAndVertifyAuditItem.getStatus() != 200) {
@@ -3894,5 +3905,22 @@ public class SupplierAuditController extends BaseSupplierController {
 			return selectAndVertifyAuditItem;
 		}
 		return JdcgResult.ok();
+	}
+
+	@RequestMapping("/vertifyAuditNoPassItem")
+	@ResponseBody
+	public JdcgResult vertifyAuditNoPassItem(String supplierId){
+    	/**
+    	 * @deprecated: 点击审核不通过复选框校验审核不通过项
+		 * 是否为0，如果为0则提示没有审核不通过项
+    	 *
+    	 * @Author:Easong
+    	 * @Date:Created in 2017/7/22
+    	 * @param: [supplierId]
+    	 * @return: common.utils.JdcgResult
+    	 *
+    	 */
+		// 点击审核不通过复选框时判断
+		return supplierAuditService.selectAuditNoPassItemCount(supplierId);
 	}
 }

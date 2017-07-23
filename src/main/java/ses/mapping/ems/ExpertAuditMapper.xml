@@ -423,7 +423,9 @@
   	SELECT COUNT(T.ID)
      FROM T_SES_EMS_EXPERT_AUDIT T
      WHERE T.EXPERT_ID = #{expertId, jdbcType=VARCHAR}
-     AND T.SUGGEST_TYPE=#{regType, jdbcType=VARCHAR}
+     <if test="regType != null and regType != ''">
+       AND T.SUGGEST_TYPE=#{regType, jdbcType=VARCHAR}
+     </if>
      AND T.IS_DELETED = 0
   </select>
   

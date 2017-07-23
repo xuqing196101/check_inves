@@ -21,7 +21,7 @@ function jump(str) {
     if (str == "uploadApproveFile") {
         var flag = true;
         if(status == -2 || status == 1){
-            var expertId = $("#expertId").val();
+            /*var expertId = $("#expertId").val();
             $.ajax({
                 url:globalPath + "/expertAudit/isHaveOpinion.do",
                 type: "POST",
@@ -46,16 +46,18 @@ function jump(str) {
                         return;
                     }
                 }
-            });
-        }
-        if(flag){
+            });*/
+            layer.msg("请点击'审核汇总'的下一步进行操作！");
+            return;
+        }else {
             action = globalPath + "/expertAudit/uploadApproveFile.html";
         }
+        /*if(flag){
+
+        }*/
     }
-    if(action != null){
-        $("#form_id").attr("action", action);
-        $("#form_id").submit();
-    }
+    $("#form_id").attr("action", action);
+    $("#form_id").submit();
 }
 
 

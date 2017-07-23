@@ -113,6 +113,13 @@
                     } */
                 });
             } else {
+                if(status == -2){
+                    //校验
+                    var flag = vartifyAuditCount();
+                    if(flag){
+                        return;
+                    }
+                }
                 //询问框
                 layer.confirm('您确认吗？', {
                     closeBtn: 0,
@@ -148,15 +155,15 @@
                             	}
                             }
                        });
-		                   layer.close(index);
-                       return;
+                    	layer.close(index);
+                        return;
                     }
                     //提交审核
                     layer.close(index);
                     // 上传审核扫描件
-                    if(status == -3){
+                    /*if(status == -3){
                     	$("#auditOpinion").val($("#auditOpinionFile").val());
-                    }
+                    }*/
                     $("#status").val(status);
                     $("#form_shenhe").submit();
                 });

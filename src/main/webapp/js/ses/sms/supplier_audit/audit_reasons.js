@@ -19,7 +19,7 @@ $(function () {
         $("#opinion").val("");
         var selectedVal = $(this).val();
         if(selectedVal == 0){
-            $("#opinion").val("不通过");
+            $("#opinion").val("不通过。");
             return;
         }
         // 判断意见是否已经获取，有的话不再发送请求
@@ -40,7 +40,7 @@ $(function () {
                 "id" : supplierId
             },
             success:function (data) {
-                var opinionData = "同意入库，选择了"+data.passCateCount+"个产品类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个产品类别";
+                var opinionData = "同意入库，选择了"+data.passCateCount+"个产品类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个产品类别。";
                 $("#opinion").val(opinionData);
                 //$("#opinionBack").val(opinionData);
                 // 关闭旋转图标
@@ -72,53 +72,26 @@ function tempSave(flag){
 		$("#form_id").attr("action", globalPath + "/supplierAudit/uploadApproveFile.html");
         $("#form_id").submit();
 	}else{
-		// 判断审核项是否有没有不通过项
-        // 获取复选框值
-        var checkVal = $("input[name='selectOption']:checked").val();
-        var flags = false;
-        if(checkVal == 1){
-            var supplierId=$("#supplierId").val();
-            $.ajax({
-                url:globalPath + "/supplierAudit/vertifyAuditItem.do",
-                type: "POST",
-                async:false,
-                data:{
-                  "supplierId":supplierId
-                },
-                dataType:"json",
-                success:function (data) {
-                    if (data.status == 500) {
-                        layer.alert(data.msg);
-                        flags = true;
-                        return;
-                    }
-                }
-            });
-        }
-        if(flags){
-            return;
-        }
 	    // 获取审核意见
 	    var opinion  = $("#opinion").val();
 	    // 获取选择radio类型
 	    var selectOption = $("input[name='selectOption']:checked").val();
-	
+
+	    // 1： 下一步  否则暂存
 	    if(flag == 1){
-	        if(opinion == ''){
-	            layer.msg("审核意见不能为空！");
-	            return;
-	        }
-	        if(opinion.length > 1000){
-	            layer.msg("审核意见不能超过1000字！");
-	            return;
-	        }
-	        // 判断附件是否下载
-	        var downloadAttachFile = $("#downloadAttachFile").val();
-	        if(downloadAttachFile == ''){
-	            layer.msg("请下载审批表！");
-	            return;
-	        }
-	        // 标识后台不做校验
+            // 判断审核项是否有没有不通过项
+            // 获取复选框值
+            if(vartifyAuditCount()){
+                return;
+            }
+            // 判断附件是否下载
+            var downloadAttachFile = $("#downloadAttachFile").val();
+            if(downloadAttachFile == ''){
+                layer.msg("请下载审批表！");
+                flags = true;
+                return flags;
+            }
+	        // 标识后台需要做校验（不是暂存）
 	        $("#vertifyFlag").val("vartify");
 	    }
 	    // 请求操作
@@ -163,4 +136,72 @@ function downloadTable(str) {
     $("#shenhe_form_id").attr("action", globalPath + "/supplierAudit/downloadTable.html");
     $("#shenhe_form_id").submit();
     $("#downloadAttachFile").val("1");
+}
+
+/**
+ * 校验审核项
+ * @Auth Easong
+ */
+function vartifyAuditCount(){
+    var flags = false;
+    // 获取审核意见
+    var opinion  = $("#opinion").val();
+    var checkVal = $("input:radio[name='selectOption']:checked").val();
+    if(checkVal == undefined){
+        layer.msg("请选择审核意见项");
+        flags = true;
+        return flags;
+    }
+    // 点击审核通过复选框时的校验
+    if(checkVal == 1){
+        var supplierId=$("#supplierId").val();
+        $.ajax({
+            url:globalPath + "/supplierAudit/vertifyAuditItem.do",
+            type: "POST",
+            async:false,
+            data:{
+                "supplierId":supplierId
+            },
+            dataType:"json",
+            success:function (data) {
+                if (data.status == 500) {
+                    layer.msg(data.msg);
+                    flags = true;
+                    return flags;
+                }
+            }
+        });
+    }
+    // 点击审核不通过复选框时的校验
+    if(checkVal == 0){
+        var supplierId=$("#supplierId").val();
+        $.ajax({
+            url:globalPath + "/supplierAudit/vertifyAuditNoPassItem.do",
+            type: "POST",
+            async:false,
+            data:{
+                "supplierId":supplierId
+            },
+            dataType:"json",
+            success:function (data) {
+                if (data.status == 500) {
+                    layer.msg(data.msg);
+                    flags = true;
+                    return flags;
+                }
+            }
+        });
+    }
+    // 判断审核意见
+    if(opinion == ''){
+        layer.msg("审核意见不能为空！");
+        flags = true;
+        return flags;
+    }
+    if(opinion.length > 1000){
+        layer.msg("审核意见不能超过1000字！");
+        flags = true;
+        return flags;
+    }
+    return flags;
 }
