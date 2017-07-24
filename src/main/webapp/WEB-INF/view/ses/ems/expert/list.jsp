@@ -373,7 +373,10 @@
               <th class="info">身份证号</th>
               <th class="info">性别</th>
               <th class="info">类别</th>
-              <th class="info">毕业院校及专业</th>
+              <!-- <th class="info">毕业院校及专业</th> -->
+              <th class="info w90">注册日期</th>
+              <th class="info w90">提交日期</th>
+              <th class="info w90">审核日期</th>
               <th class="info">手机</th>
               <!-- <th class="info">积分</th> -->
               <th class="info">审核状态</th>
@@ -399,7 +402,16 @@
               <%-- <td class="tl pl20" >${e.loginName}</td> --%>
               <td class="tc w50">${e.gender}</td>
               <td class="tl">${e.expertsTypeId}</td>
-              <td class="tl">${e.graduateSchool }</td>
+              <%-- <td class="tl">${e.graduateSchool }</td> --%>
+              <td class="tc">
+                <fmt:formatDate value="${e.createdAt }" pattern="yyyy-MM-dd" />
+              </td>
+              <td class="tc">
+                <fmt:formatDate value="${e.submitAt }" pattern="yyyy-MM-dd" />
+              </td>
+              <td class="tc">
+                <fmt:formatDate value="${e.auditAt }" pattern="yyyy-MM-dd" />
+              </td>
               <td class="tc">${e.mobile }</td>
               <%-- <td class="tc"  class="tc">${e.honestyScore }</td> --%>
               <td class="tc" id="${e.id}">

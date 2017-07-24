@@ -159,6 +159,8 @@
         T1.EXPERTS_FROM,
         T1.MOBILE,
         T1.IS_SUBMIT,
+        T1.SUBMIT_AT,
+        T1.AUDIT_AT,
         T2.LOGIN_NAME AS loginName,
         org.SHORT_NAME AS orgName
       from
@@ -2123,6 +2125,8 @@ resultMap="BaseResultMap">
       T1.EXPERTS_FROM,
       T1.MOBILE,
       T1.IS_SUBMIT,
+      T1.SUBMIT_AT,
+      T1.AUDIT_AT,
       T2.LOGIN_NAME AS loginName,
       org.SHORT_NAME AS orgName,
       AREA.NAME AS ADDRESS
