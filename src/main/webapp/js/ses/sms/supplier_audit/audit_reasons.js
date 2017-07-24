@@ -205,3 +205,22 @@ function vartifyAuditCount(){
     }
     return flags;
 }
+
+function  vertifyAduitItem(supplierId) {
+    $.ajax({
+        url:globalPath + "/supplierAudit/vertifyAuditNoPassItem.do",
+        type: "POST",
+        async:false,
+        data:{
+            "supplierId":supplierId
+        },
+        dataType:"json",
+        success:function (data) {
+            if (data.status == 500) {
+                layer.msg(data.msg);
+                flags = true;
+                return flags;
+            }
+        }
+    });
+}
