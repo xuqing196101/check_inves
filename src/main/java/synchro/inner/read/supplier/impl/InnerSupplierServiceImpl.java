@@ -515,6 +515,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 
 	@Override
 	public void immportInner(File file) {
+	    
 		  List<SupplierAuditFormBean> list = getSupplierFormBaean(file);
 		  for(SupplierAuditFormBean sb:list){
 			  User user = sb.getUser();
