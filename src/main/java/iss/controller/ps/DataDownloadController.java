@@ -75,7 +75,7 @@ public class DataDownloadController {
 	* @return String
 	 */
 	@RequestMapping("/getList")
-	public String getList(Integer page,DataDownload dataDownload,Model model,HttpServletRequest request){
+	public String getList(@CurrentUser User user,Integer page,DataDownload dataDownload,Model model,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<>();
 		if(dataDownload!=null){
 			if(dataDownload.getName()!=null && !dataDownload.getName().equals("")){
@@ -112,9 +112,19 @@ public class DataDownloadController {
 	      act.setGroupsUploadId(groupUploadId);
 	      act.setGroupShowId(groupShowId);
 	    }
+	    //声明标识是否是资源服务中心
+        String authType = null;
+        if(null != user && "4".equals(user.getTypeName())){
+            //判断是否 是资源服务中心 
+            authType = "4";
+            model.addAttribute("list", new PageInfo<DataDownload>(list));
+        }else{
+        	model.addAttribute("list", new PageInfo<DataDownload>());
+        }
+
 		
 		
-		model.addAttribute("list", new PageInfo<DataDownload>(list));
+        model.addAttribute("authType", authType);
 		model.addAttribute("name", request.getParameter("name"));
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 		DictionaryData dataFile = new DictionaryData();

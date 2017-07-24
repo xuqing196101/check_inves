@@ -399,8 +399,8 @@ Supplier implements Serializable {
 
 	/**
 	 * <pre>
-	 * 供应商状态 0代表待审核 1表审核通过 2代表未通过 3代表变更
-	 * 表字段 : T_SES_SMS_SUPPLIER.STATUS
+	 * -1暂存，0待审核，1审核通过（已入库，可抽取），2审核退回修改，3审核未通过，4待复核，5复核通过，6复核未通过，5待考察，7考察合格，8考察不合格, -2审核预通过，-3公示中
+	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_STATUS
 	 * </pre>
 	 */
 	private Integer status;
@@ -565,7 +565,7 @@ Supplier implements Serializable {
 	
 	private List<String> itemType;
 	
-	private Integer sign;  //审核标志
+	private Integer sign;  //审核标志  1 代表审核，2代表复审 
 	
 	private Integer page;
 	

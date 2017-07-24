@@ -188,9 +188,11 @@
     </h2>
       <c:if test="${admin!=1 }">
         <div class="col-md-12 pl20 mt10">
-          <button class="btn btn-windows add" onclick="typeName()">立项</button>
-          <button class="btn btn-windows edit" onclick="edit();">修改</button>
-          <input type="hidden" id="orgn" value="${orgnization.typeName}"/>
+          <c:if test="${auth == 'show'}">
+	          <button class="btn btn-windows add" onclick="typeName()">立项</button>
+	          <button class="btn btn-windows edit" onclick="edit();">修改</button>
+	          <input type="hidden" id="orgn" value="${orgnization.typeName}"/>
+          </c:if>
         </div>
       </c:if>
 

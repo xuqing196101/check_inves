@@ -16,12 +16,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import bss.model.cs.PurchaseContract;
+import ses.model.bms.User;
 
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 
 
@@ -49,10 +49,17 @@ public class ArticleTypeController {
 	 * @return String
 	 */
 	@RequestMapping("/getAll")
-	public String getArticleTypeList(Model model,Integer page) {
-		List<ArticleType> articletypes = articleTypeService.selectAllArticleType(page==null?1:page);
-		model.addAttribute("list", new PageInfo<ArticleType>(articletypes));
-		return "iss/ps/articletype/list";
+	public String getArticleTypeList(@CurrentUser User user,Model model,Integer page) {
+		//声明标识是否是资源服务中心
+        String authType = null;
+        if(null != user && "4".equals(user.getTypeName())){
+            //判断是否 是资源服务中心 
+            authType = "4";
+            model.addAttribute("authType", authType);
+            List<ArticleType> articletypes = articleTypeService.selectAllArticleType(page==null?1:page);
+            model.addAttribute("list", new PageInfo<ArticleType>(articletypes));
+        }
+        return "iss/ps/articletype/list";
 	}
 	
 	/**
@@ -64,10 +71,13 @@ public class ArticleTypeController {
 	 * @return String
 	 */
 	@RequestMapping("/view")
-	public String view(Model model, String id) {
-		ArticleType articletype = articleTypeService.selectTypeByPrimaryKey(id);
-		model.addAttribute("articletype", articletype);
-		return "iss/ps/articletype/view";
+	public String view(@CurrentUser User user,Model model, String id) {
+		if(null != user && "4".equals(user.getTypeName())){
+			ArticleType articletype = articleTypeService.selectTypeByPrimaryKey(id);
+			model.addAttribute("articletype", articletype);
+			return "iss/ps/articletype/view";
+		}
+		return "";
 	}
 	/**
 	 * @Title: view
@@ -78,13 +88,16 @@ public class ArticleTypeController {
 	 * @return String
 	 */
 	@RequestMapping("/edit")
-	public String edit(Model model, String id) {
-		ArticleType articletype = articleTypeService.selectTypeByPrimaryKey(id);
-		List<ArticleType> articletypes = articleTypeService.getAll();
-
-		model.addAttribute("articletype", articletype);
-		model.addAttribute("list", articletypes);
-		return "iss/ps/articletype/edit";
+	public String edit(@CurrentUser User user,Model model, String id) {
+		if(null != user && "4".equals(user.getTypeName())){
+            //判断是否 是资源服务中心 
+			ArticleType articletype = articleTypeService.selectTypeByPrimaryKey(id);
+			List<ArticleType> articletypes = articleTypeService.getAll();
+			model.addAttribute("articletype", articletype);
+			model.addAttribute("list", articletypes);
+			return "iss/ps/articletype/edit";
+		}
+		return "";
 	}
 	
 	/**

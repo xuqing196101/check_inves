@@ -843,6 +843,7 @@
 	  </div>
    </div>
    
+	<c:if test="${authType == 4}">
    <!-- 内容 -->
    <div class="container">
    
@@ -1126,6 +1127,7 @@
          
       </div>
 	</div>
+	</c:if>
 </body>
 <script type="text/javascript">
 	 ztreeInit();

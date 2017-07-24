@@ -94,7 +94,12 @@ public class PlanStatisticsController extends BaseController {
 		model.addAttribute("dic", dic);
 		model.addAttribute("collectPlan", collectPlan);
 		
-		
+		//只有采购管理部门才能操作
+    if("2".equals(user.getTypeName())){
+      model.addAttribute("auth", "show");
+    }else {
+      model.addAttribute("auth", "hidden");
+    }
 		return "bss/pms/statistic/list";
 	}
 	/**

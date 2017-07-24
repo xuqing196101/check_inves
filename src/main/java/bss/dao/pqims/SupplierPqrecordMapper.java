@@ -37,4 +37,6 @@ public interface SupplierPqrecordMapper {
 	SupplierPqrecord selectByName(String name);
 	
 	void delete(String id);
+	
+	List<SupplierPqrecord> getAll(HashMap<String, Object> map);
 }

@@ -285,11 +285,13 @@
 		     </h2>
 	   	  
    	  <div class="col-md-12 pl20 mt10">
-	    	<button class="btn btn-windows add" onclick="add()">需求录入</button>
-	    	<button class="btn btn-windows edit"  onclick="edit()">修改</button>
-				<button class="btn btn-windows input" onclick="exports()">下载</button>
-	   		<button class="btn btn-windows delete" onclick="del()">删除</button>
-				<button class="btn btn-windows git" onclick="sub()">提交采购管理部门</button>
+   	  		<c:if test="${auth == 'show'}">
+		    	<button class="btn btn-windows add" onclick="add()">需求录入</button>
+		    	<button class="btn btn-windows edit"  onclick="edit()">修改</button>
+					<button class="btn btn-windows input" onclick="exports()">下载</button>
+		   		<button class="btn btn-windows delete" onclick="del()">删除</button>
+					<button class="btn btn-windows git" onclick="sub()">提交采购管理部门</button>
+			</c:if>
 	  	</div>
 	  	<div class="clear"></div>
    	<div class="content table_box">

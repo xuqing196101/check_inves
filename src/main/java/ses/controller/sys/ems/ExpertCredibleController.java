@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 
+import common.annotation.CurrentUser;
+import ses.model.bms.User;
 import ses.model.ems.CredibleRelate;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertCredible;
@@ -58,14 +60,19 @@ public class ExpertCredibleController {
 	  * @return String
 	 */
 	@RequestMapping("list")
-	public String list(ExpertCredible expertCredible,Integer page,Model model){
+	public String list(@CurrentUser User user,ExpertCredible expertCredible,Integer page,Model model){
 		Map<String,Object> map = new HashMap<>();
 		if(expertCredible != null){
 		map.put("isStatus", expertCredible.getIsStatus());
 		map.put("badBehavior", expertCredible.getBadBehavior());
 		}
-		List<ExpertCredible> list = service.list(page==null?0:page, map);
-		model.addAttribute("result", new PageInfo<>(list));
+		if(null != user && "4".equals(user.getTypeName())){
+			List<ExpertCredible> list = service.list(page==null?0:page, map);
+			model.addAttribute("result", new PageInfo<>(list));
+		}else{
+			model.addAttribute("result", new PageInfo<>());
+		}
+		
 		model.addAttribute("expertCredible", expertCredible);
 		return "ses/ems/expert/credible_list";
 	}

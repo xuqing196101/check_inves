@@ -55,6 +55,8 @@
 		var id = checkbox.val();
 		var name = checkbox.parents("tr").find("td").eq(2).text();
 		name = $.trim(name);
+		name = encodeURIComponent(encodeURIComponent(name));
+		var url = '${pageContext.request.contextPath}/supplier_credit/add_credit.html?id=' + id + '&name=' + name;
 		layer.open({
 			type : 2,
 			title : '添加形式名称',
@@ -62,7 +64,7 @@
 			area : [ '550px', '230px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
-			content : '${pageContext.request.contextPath}/supplier_credit/add_credit.html?id=' + id + '&name=' + name, //url
+			content : url, //url
 			closeBtn : 1, //不显示关闭按钮
 		});
 	}

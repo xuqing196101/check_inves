@@ -34,12 +34,14 @@ import bss.dao.ppms.FlowExecuteMapper;
 import bss.dao.ppms.PackageMapper;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
+import bss.dao.ppms.TaskMapper;
 import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.Task;
 import bss.service.ppms.ProjectService;
 
 import com.github.pagehelper.PageHelper;
@@ -78,7 +80,11 @@ public class ProjectServiceImpl implements ProjectService {
     private QuoteMapper quoteMapper;
 	
 	@Autowired
+
 	private PackageMapper packageMapper;
+
+	private TaskMapper taskMapper;
+
 	
 	
 	
@@ -783,7 +789,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void updateDetailStatus(List<PurchaseDetail> list) {
+    public void updateDetailStatus(List<PurchaseDetail> list, String projectId) {
         if(list != null && list.size() > 0){
             HashSet<String> set = new HashSet<>();
             for (PurchaseDetail purchaseDetail : list) {
@@ -791,31 +797,36 @@ public class ProjectServiceImpl implements ProjectService {
                 map.put("id", purchaseDetail.getId());
                 List<PurchaseDetail> details = purchaseDetailMapper.selectByParentId(map);
                 if(details != null && details.size() == 1){
-                    purchaseDetail.setProjectStatus(1);
+                    //如果是末级，则设为暂时选中状态
+                    purchaseDetail.setProjectStatus(2);
                     purchaseDetailMapper.updateByPrimaryKeySelective(purchaseDetail);
-                    set.add(purchaseDetail.getParentId());
-                }
+                    
+                    if (purchaseDetail.getParentId() != null && !"1".equals(purchaseDetail.getParentId())) {
+                      set.add(purchaseDetail.getParentId());
+                    }
+                } 
             }
-            List<PurchaseDetail> bottomDetails = new ArrayList<PurchaseDetail>();
+            //List<PurchaseDetail> bottomDetails = new ArrayList<PurchaseDetail>();
             for (String string : set) {
                 PurchaseDetail detail = purchaseDetailMapper.selectByPrimaryKey(string);
                 if(detail != null){
-                    Map<String,Object> map=new HashMap<String,Object>();
-                    map.put("id", detail.getId());
+                    updateDetailStatusParent(projectId, detail);
+                    
+                   /* map.put("id", detail.getId());
                     List<PurchaseDetail> list2 = purchaseDetailMapper.selectByParentId(map);
                     for (PurchaseDetail purchaseDetail1 : list2) {
                         if(!purchaseDetail1.getId().equals(string)){
                             bottomDetails.add(purchaseDetail1);
                         }
-                    }
-                    for (int i = 0; i < bottomDetails.size(); i++ ) {
+                    }*/
+                   /* for (int i = 0; i < bottomDetails.size(); i++ ) {
                         if(bottomDetails.get(i).getProjectStatus() == 0){
                             break;
                         }else if(i == bottomDetails.size()-1){
-                            detail.setProjectStatus(1);
+                            detail.setProjectStatus(2);
                             purchaseDetailMapper.updateByPrimaryKeySelective(detail);
                         }
-                    }
+                    }*/
                 }
             }
         }
@@ -826,9 +837,170 @@ public class ProjectServiceImpl implements ProjectService {
 		
 		return projectMapper.selectByOrgnization(map);
 	}
+    private void updateDetailStatusParent(String projectId, PurchaseDetail purchaseDetail) {
+      Map<String,Object> map=new HashMap<String,Object>();
+      map.put("parentId", purchaseDetail.getId());
+      List<PurchaseDetail> detailChilds = purchaseDetailMapper.getByMap(map);
+      //被选中子节点的数量
+      int count = 0;
+      for (int i = 0; i < detailChilds.size(); i++) {
+        if (detailChilds.get(i).getProjectStatus() == 0) {
+          break;
+        } else if (detailChilds.get(i).getProjectStatus() == 2){
+          String isUse = isUseForPlanDetail(projectId, detailChilds.get(i).getId());
+          if (isUse != null && "flase".equals(isUse)) {
+            break;
+          }
+          if (isUse != null && "true".equals(isUse)) {
+            count += 1;
+          }
+        }else if(detailChilds.get(i).getProjectStatus() == 1){
+          count += 1;
+        }
+      }
+      if (count == detailChilds.size()) {
+        //如果子节点全部被选用
+        purchaseDetail.setProjectStatus(2);
+        purchaseDetailMapper.updateByPrimaryKeySelective(purchaseDetail);
+        PurchaseDetail detailParent = purchaseDetailMapper.selectByPrimaryKey(purchaseDetail.getParentId());
+        if(detailParent != null){
+          updateDetailStatusParent(projectId, detailParent);
+        }
+      }else {
+        //如果子节点未全部被选用
+        purchaseDetail.setProjectStatus(0);
+        purchaseDetailMapper.updateByPrimaryKeySelective(purchaseDetail);
+        PurchaseDetail detailParent = purchaseDetailMapper.selectByPrimaryKey(purchaseDetail.getParentId());
+        if(detailParent != null){
+          updateDetailStatusParent(projectId, detailParent);
+        }
+      }
+      
+    }
+
     @Override
     public List<Project> selectByProject(HashMap<String, Object> map) {
         return projectMapper.selectByProject(map);
     }
+
+    @Override
+    public String isUseForPlanDetail(String projectId, String detailId) {
+        PurchaseDetail purchaseDetail = purchaseDetailMapper.selectByPrimaryKey(detailId);
+        if (purchaseDetail != null && purchaseDetail.getProjectStatus() == 1) {
+            //该明细已经被立项引用
+            return "true";
+        } else if (purchaseDetail != null && purchaseDetail.getProjectStatus() == 2) {
+            //该明细被暂时引用过
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("requiredId", detailId);
+            map.put("id", projectId);
+            List<ProjectDetail> projectDetails = detailMapper.selectById(map);
+            if (projectDetails != null && projectDetails.size() > 0) {
+              //该明细正在被该项目引用
+              return "true";
+            }else {
+              //该明细未被该项目暂时引用
+              return "false";
+            }
+        } else if (purchaseDetail != null && purchaseDetail.getProjectStatus() == 0) {
+          //该明细未被引用
+          return "false";
+        } else {
+          return null;
+        }
+    }
+
+    @Override
+    public void saveProject(User user, Project project, String checkId) {
+      project.setIsRehearse(0);
+      project.setIsProvisional(0);
+      project.setAppointMan(user.getId());
+      String type = null;
+      String[] id = checkId.split(",");
+      List<String> list = getIds(id);
+      for (int i = 0; i < list.size(); i++ ) {
+         ProjectDetail detail = detailMapper.selectByPrimaryKey(list.get(i));
+         if (detail != null) {
+             HashMap<String, Object> map = new HashMap<>();
+             map.put("projectId", project.getId());
+             map.put("id", detail.getRequiredId());
+             List<ProjectDetail> lists = detailMapper.selectByParentId(map);
+             if(lists != null && lists.size() == 1){
+               //获取子节点采购方式
+               type = detail.getPurchaseType();
+               break;
+             }
+         }
+      }
+      if(StringUtils.isNotBlank(type)){
+          project.setPurchaseType(type);
+      }
+     
+      projectMapper.updateByPrimaryKeySelective(project);
+    }
     
+    /**
+     * 
+     *〈数组去重〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param ids
+     * @return
+     */
+    public List<String> getIds(String ids[]){
+        List<String> list= new ArrayList<String>();
+        for(String id:ids){
+            list.add(id);
+        }
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).toString().equals(list.get(i).toString())) {
+                    list.remove(j);
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public void updateProjectStatus(User currUser, String cheeckedDetail, String projectId) {
+      String[] id = cheeckedDetail.split(",");
+      List<String> list = getIds(id);
+      HashSet<String> uniqueIds = new HashSet<>();
+      for (int i = 0; i < list.size(); i++ ) {
+        ProjectDetail detail = detailMapper.selectByPrimaryKey(list.get(i));
+        if (detail != null) {
+          PurchaseDetail purchaseDetail = purchaseDetailMapper.selectByPrimaryKey(detail.getRequiredId());
+          uniqueIds.add(purchaseDetail.getUniqueId());
+        }
+      }
+      if (uniqueIds != null && uniqueIds.size() > 0) {
+        for (String uniqueId : uniqueIds) {
+          String organization = currUser.getOrg().getId();
+          
+          List<PurchaseDetail> lists = purchaseDetailMapper.getUniquesTempByTask(projectId, uniqueId, organization);
+          if (lists != null && lists.size() > 0) {
+            for (PurchaseDetail purchaseDetail : lists) {
+              purchaseDetail.setProjectStatus(1);
+              purchaseDetailMapper.updateByPrimaryKeySelective(purchaseDetail);
+            }
+          }
+          
+          List<Integer> groupByStatus = purchaseDetailMapper.groupByStatus(uniqueId);
+          if(groupByStatus != null && groupByStatus.size() == 1){
+              if(groupByStatus.get(0) == 1){
+                  HashMap<String, Object> map = new HashMap<>();
+                  map.put("purchaseId", organization);
+                  map.put("collectId", uniqueId);
+                  List<Task> listBycollect = taskMapper.listBycollect(map);
+                  if(listBycollect != null && listBycollect.size() > 0){
+                      listBycollect.get(0).setNotDetail(1);
+                      taskMapper.updateByPrimaryKeySelective(listBycollect.get(0));
+                  }
+              }
+          }
+        }
+      }
+      
+    } 
   }

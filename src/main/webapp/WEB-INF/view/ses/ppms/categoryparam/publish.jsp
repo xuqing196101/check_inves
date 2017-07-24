@@ -7,6 +7,7 @@
   	<script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ppms/categoryparam/publish.js"></script>
   </head>
   <body>
+
   <form>
   	<input type="hidden" name="orgId" id="orgId" value="${orgId}">
   </form>
@@ -19,6 +20,7 @@
 		<div class="clear"></div>
 	  </div>
    </div>
+   <c:if test="${authType == 4}">
   <div class="container content height-350">
 	  <!-- left tree -->
     <div class="col-md-3 col-sm-4 col-xs-12">
@@ -74,5 +76,6 @@
 	  
 	 </div>
     </div>
+   </c:if> 
   </body>
 </html>

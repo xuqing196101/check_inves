@@ -6,7 +6,6 @@
 
   <head>
   	<%@ include file="/WEB-INF/view/common.jsp"%>
-  	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
     <script type="text/javascript">
         $(function() {
 			    laypage({
@@ -29,7 +28,6 @@
 			         $("#sname").val(name);
 			         $("#sprojectNumber").val(projectNumber);
 			         $("#form1").submit();
-			          //location.href = "${pageContext.request.contextPath}/project/add.do?page=" + e.curr+"&name="+name+"&projectNumber="+projectNumber;
 			        }
 			      }
 			    });
@@ -38,37 +36,48 @@
 
       function checkInfo(ele) {
         var flag = $(ele).prop("checked");
-        var id = $(ele).val();
-        
-        $.ajax({
-          url: "${pageContext.request.contextPath}/project/checkDeailTops.html",
-          data: "id=" + id,
-          type: "post",
-          dataType: "json",
-          success: function(result) {
-            for(var i = 0; i < result.length; i++) {
-              $("input[name='chkItems']").each(function() {
-                var v1 = result[i].id;
-                var v2 = $(this).val();
-                if(v1 == v2) {
-                  $(this).prop("checked", flag);
-                }
-              });
-            }
-          },
+        //父节点
+        var pId = $(ele).prev().val();
+        //当前对应的节点ID
+        var zId = $(ele).next().val();
+        if(flag){
+          //勾选子节点
+          checkedChild(zId);
+        } else {
+          //取消勾选
+          noCheckedChild(pId);
+        }
+      }
+      
+      function checkedChild(id) {
+        $("input[name='pId_" + id + "']").each(function() {
+          $(this).next().prop("checked", true);
+          var currId = $(this).next().next().val();
+          checkedChild(currId);
+        });
+      }
+      
+      function noCheckedChild(id) {
+        //所有子节点取消选中
+        $("input[name='pId_" + id + "']").each(function() {
+          $(this).next().prop("checked", false);
+          var currId = $(this).next().next().val();
+          noCheckedChild(currId);
         });
       }
 
       //移除
       function remove() {
         var ids = [];
+        var pId = [];
         $('input[name="chkItems"]:checked').each(function() {
           ids.push($(this).val());
+          pId.push($(this).prev().val());
         });
         if(ids.length > 0) {
           var name = $("#name").val();
           var projectNumber = $("#projectNumber").val();
-          window.location.href = "${pageContext.request.contextPath}/project/delete.html?ids=" + ids + "&id=${id}" + "&name=" + name + "&projectNumber=" + projectNumber;
+          window.location.href = "${pageContext.request.contextPath}/project/delete.html?ids=" + ids + "&id=${id}" + "&name=" + name + "&projectNumber=" + projectNumber + "&pId=" + pId;
         } else {
           layer.msg("请选择移除的信息", {
             offset: ['180px', '200px'],
@@ -114,7 +123,6 @@
       }
 
       function nextStep() {
-        var num = "1";
         var name = $("#name").val();
         var projectNumber = $("#projectNumber").val();
         var chkItems = $("input[name='chkItems']").val();
@@ -312,9 +320,9 @@
                       <th class="info deliverdate">交货<br/>期限</th>
                       <th class="info purchasetype">采购方式</th>
                       <th class="info purchasename">供应商名称</th>
-                      <th class="info freetax">是否申请<br/>办理免税</th>
+                      <!-- <th class="info freetax">是否申请<br/>办理免税</th>
                       <th class="info goodsuse">物资用途<br/>（进口）</th>
-                      <th class="info useunit">使用单位<br/>（进口）</th>
+                      <th class="info useunit">使用单位<br/>（进口）</th> -->
                       <th class="memo">备注</th>
                     </tr>
                   </thead>
@@ -322,11 +330,12 @@
                     <tr class="pointer">
                       <td>
                        <div class="choose">
-                        <input type="checkbox" value="${obj.id }" name="chkItems" onclick="checkInfo(this)" alt="">
+                        <input type="hidden" name="pId_${obj.parentId}" value="${obj.parentId}"/>
+                        <input type="checkbox" value="${obj.id}" name="chkItems" onclick="checkInfo(this)" alt="">
+                        <input type="hidden" name="id_${obj.requiredId}" value="${obj.requiredId}">
                        </div>
                       </td>
                       <td class="seq"> ${obj.serialNumber}
-                      <input type="hidden" value="${obj.requiredId }">
                       </td>
                       <td class="tl">
                          <c:if test="${obj.price eq null}">
@@ -361,12 +370,12 @@
                       </td>
                       <td class="tl"><div class="purchasename">${obj.supplier}</div>
                       </td>
-                      <td class="tc"><div class="freetax">${obj.isFreeTax}</div>
+                      <%-- <td class="tc"><div class="freetax">${obj.isFreeTax}</div>
                       </td>
                       <td class="tl"><div class="goodsuse">${obj.goodsUse}</div>
                       </td>
                       <td class="tl"><div class="useunit">${obj.useUnit}</div>
-                      </td>
+                      </td> --%>
                       <td class="tl"><div class="memo">${obj.memo}</div>
                       </td>
                     </tr>

@@ -321,4 +321,14 @@ public interface PurchaseDetailService {
     List<PurchaseDetail> getdetailAllByUserId(HashMap<String, Object> hashMap);
     
     List<PurchaseDetail> getUniques(String unique, String org);
+    /**
+     *〈简述〉获取任务中待选择的明细
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param projectId
+     * @param collectId
+     * @param id
+     * @return
+     */
+    public List<PurchaseDetail> getUniquesByTask(String projectId, String collectId, String id);
 }

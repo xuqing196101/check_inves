@@ -55,7 +55,7 @@ public class SupplierCreditCtntController {
 	@RequestMapping(value = "save_or_update_supplier_credit_ctnt")
 	@ResponseBody
 	public JdcgResult saveOrUpdateSupplierCredit(SupplierCreditCtnt supplierCreditCtnt) {
-		if(StringUtils.isEmpty(supplierCreditCtnt.getName())){
+		if(StringUtils.isEmpty(supplierCreditCtnt.getName()) || supplierCreditCtnt.getName().trim().length()==0 || supplierCreditCtnt.getName().trim().indexOf(' ') != -1){
 			return JdcgResult.build(500, "请填写诚信内容名称");
 		}
 		if(supplierCreditCtnt.getScore() == null || "".equals(supplierCreditCtnt.getScore())){

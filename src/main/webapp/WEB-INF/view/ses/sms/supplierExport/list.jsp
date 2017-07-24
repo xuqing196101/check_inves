@@ -123,8 +123,13 @@
 								<input type="hidden" name="page" id="page"/>
 								<input type="hidden" name="type" id="type" value="1"/>
 								<ul class="demand_list">
-									<li class="fl"><label class="fl">采购机构：</label><span><input
-											type="text" id="name" name="name" value="${name }" class="" /></span>
+									<li class="fl"><label class="fl">采购机构：</label><span>
+									<select name="name" id="name" class="w220">
+									  <option value=''>全部</option>
+					           <c:forEach items="${allOrg}" var="org">
+					             <option value="${org.shortName}" <c:if test="${name eq org.shortName}">selected</c:if>>${org.shortName}</option>
+					           </c:forEach>
+					           </select>
 									</li>
 								</ul>
 								<button type="submit" class="btn fl">查询</button>
@@ -145,6 +150,7 @@
 										<th class="info">审核通过数量</th>
 										<th class="info">退回修改数量</th>
 										<th class="info">审核不通过数量</th>
+										<th class="info">总数</th>
 									</tr>
 								</thead>
 								<c:forEach items="${list.list}" var="su" varStatus="vs">
@@ -156,6 +162,7 @@
 								  <td>${su.statusTwo}</td>
 								  <td>${su.statusThree}</td>
 								  <td>${su.statusFour}</td>
+								  <td>${su.sums}</td>
 								 </tr>
 								</c:forEach>
 							</table>
@@ -170,8 +177,14 @@
 								<input type="hidden" name="pageEx" id="pageEx"/>
 								<input type="hidden" name="type" id="type" value="2"/>
 								<ul class="demand_list">
-									<li class="fl"><label class="fl">采购机构：</label><span><input
-											type="text" id="nameEx" name="nameEx" value="${nameEx }" class="" /></span>
+									<li class="fl"><label class="fl">采购机构：</label><span>
+									<select name="nameEx" id="nameEx" class="w220">
+									  <option value=''>全部</option>
+					           <c:forEach items="${allOrg}" var="org">
+					             <option value="${org.shortName}" <c:if test="${nameEx eq org.shortName}">selected</c:if>>${org.shortName}</option>
+					           </c:forEach>
+					           </select>
+									</span>
 									</li>
 								</ul>
 								<button type="submit" class="btn fl">查询</button>
@@ -194,6 +207,7 @@
 										<th class="info">审核不通过数量</th>
 										<th class="info">军队数量</th>
 										<th class="info">地方数量</th>
+										<th class="info">总数</th>
 									</tr>
 								</thead>
 								<c:forEach items="${listExpert.list}" var="su" varStatus="vs">
@@ -207,6 +221,7 @@
 								  <td>${su.statusFour}</td>
 								  <td>${su.expertArmy}</td>
 								  <td>${su.expertsLocal}</td>
+								  <td>${su.sums}</td>
 								 </tr>
 								</c:forEach>
 							</table>

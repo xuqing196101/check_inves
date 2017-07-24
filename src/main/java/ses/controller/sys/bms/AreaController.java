@@ -17,9 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Area;
+import ses.model.bms.User;
 import ses.service.bms.AreaServiceI;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+
+import app.model.AppInfo;
+import common.annotation.CurrentUser;
 
 
 /**
@@ -47,7 +52,14 @@ public class AreaController {
 	 * @return String
 	 */
 	@RequestMapping("/list")
-	public String list() {
+	public String list(@CurrentUser User user,Model model) {
+		 //声明标识是否是资源服务中心
+        String authType = null;
+        if(null != user && "4".equals(user.getTypeName())){
+            //判断是否 是资源服务中心 
+            authType = "4";
+            model.addAttribute("authType", authType);
+        }
 		return "ses/bms/area/list";
 	}
 

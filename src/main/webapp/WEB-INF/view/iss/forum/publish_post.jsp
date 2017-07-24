@@ -6,6 +6,7 @@
 
 	<head>
         <%@ include file="../../front.jsp"%>
+        <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title></title>
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">

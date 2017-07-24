@@ -2505,7 +2505,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w150">
-															 		<input type="text" class="border0" maxlength="15" onkeyup="checkInputLength(this,15)" 
+															 		<input type="text" class="border0" maxlength="30" onkeyup="checkInputLength(this,15)" 
 																 		<c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																		name="supplierMatSe.listSupplierCertSes[${certSeNumber}].code"
 																		value="${certSe.code}" />

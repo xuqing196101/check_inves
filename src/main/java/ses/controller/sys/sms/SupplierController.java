@@ -2,11 +2,13 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -16,6 +18,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,6 +31,8 @@ import net.sf.json.JSONObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.maven.model.Organization;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.Scope;
@@ -43,6 +48,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import ses.controller.sys.bms.LoginController;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
@@ -82,7 +88,10 @@ import common.model.UploadFile;
 import common.service.LoginLogService;
 import common.service.UploadService;
 import common.utils.Arith;
+import common.utils.Base64;
+import common.utils.BeanUtilsExt;
 import common.utils.IDCardUtil;
+import common.utils.ListSortUtil;
 import common.utils.RSAEncrypt;
 
 /**
@@ -171,7 +180,6 @@ public class SupplierController extends BaseSupplierController {
 	@Autowired
 	private SupplierAuditService supplierAuditService;
 
-	@SuppressWarnings("unused")
 	@Autowired
 	private SupplierHistoryService supplierHistoryService;
 
@@ -572,6 +580,8 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "/temporarySave", produces = "html/text;charset=UTF-8")
 	public String temporarySave(HttpServletRequest request, Supplier supplier, String flag) {
 		String res = StaticVariables.SUCCESS;
+		String name_flag = request.getParameter("name_flag");
+
 		//如果是附件上传页面
 		if(flag != null && flag.equals("file")) {
 			res = StaticVariables.SUCCESS;
@@ -586,40 +596,75 @@ public class SupplierController extends BaseSupplierController {
 		} else {
 			//保存基本信息
 			try {
-            	// 供应商名称校验：供应商库（除去临时供应商）
-				if(StringUtils.isNotBlank(supplier.getSupplierName())){
-					boolean boolSupplierName = supplierService.checkSupplierName(supplier.getId(), supplier.getSupplierName());
-					if(!boolSupplierName){
-						return "supplierNameExists";
+				Supplier before = supplierService.get(supplier.getId());
+				//校验供应商名称是否存在
+                if(!StringUtils.isEmpty(name_flag) && name_flag.equals("1")){
+                    List<Supplier> suppliers = supplierService.selByName(supplier.getSupplierName());
+                    if(null != suppliers && !suppliers.isEmpty()){
+                        if(null== before || null==before.getSupplierName() || !before.getSupplierName().equals(suppliers.get(0).getSupplierName())){
+                            return "supplierNameExists";
+                        }
+                    }
+                }
+                //校验法定代表人名称是否存在
+//                if(!StringUtils.isEmpty(name_flag) && name_flag.equals("2")){
+//                    User user = new User();
+//                    user.setRelName(supplier.getLegalName());
+//                    List<User> userList = userService.find(user);
+//                    if(null != userList && !userList.isEmpty()){
+//                        if(null==before || null==before.getLegalName() || !before.getLegalName().equals(userList.get(0).getRelName())){
+//                            return "legalNameExists";
+//                        }
+//                    }
+//                }
+//                //校验注册联系人名称是否存在
+//                if(!StringUtils.isEmpty(name_flag) && name_flag.equals("3")){
+//                    User user = new User();
+//                    user.setRelName(supplier.getContactName());
+//                    List<User> userList = userService.find(user);
+//                    if(null != userList && !userList.isEmpty()){
+//                        if(null==before || null==before.getContactName() || !before.getContactName().equals(userList.get(0).getRelName())){
+//                            return "contactNameExists";
+//                        }
+//                    }
+//                }
+                /*if(before.getStatus().equals(2)) {
+					record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
+				}*/
+                if(before != null && before.getStatus() != null && before.getStatus() == 2){
+                	record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
+                }
+				
+				if(supplier.getCreditCode()!=null&&supplier.getCreditCode().trim().length()!=0){
+//                    //根据供应商统一社会信用代码判断是否注销或审核不通过且180天内再次注册
+//                    //注销
+//                    DeleteLog deleteLog = deleteLogService.queryByTypeId(null, supplier.getCreditCode());
+//                    if(null != deleteLog && null != deleteLog.getCreateAt()){
+//                        int betweenDays = supplierService.daysBetween(deleteLog.getCreateAt());
+//                        if(betweenDays > 180){
+//                            return "disabled_180";
+//                        }
+//                    }
+//                    //审核不通过
+//                    SupplierAuditNot supplierAuditNot = supplierAuditNotService.selectByCreditCode(supplier.getCreditCode());
+//                    if(null != supplierAuditNot && null != supplierAuditNot.getCreatedAt()){
+//                        int betweenDays = supplierService.daysBetween(supplierAuditNot.getCreatedAt());
+//                        if(betweenDays > 180){
+//                            return "disabled_180";
+//                        }
+//                    }
+                    List < Supplier > tempList = supplierService.getCreditCode(supplier.getCreditCode(),0);
+					if(tempList!=null&&tempList.size()>0){
+						for(Supplier supp: tempList) {
+							if(!supplier.getId().equals(supp.getId())) {
+								 return "repeat";
+							}
+						}
 					}
-				}
-				// 统一社会信用代码校验：供应商库（除去临时供应商）
-				if(StringUtils.isNotBlank(supplier.getCreditCode())){
-					boolean boolCreditCode = supplierService.checkCreditCode(supplier.getId(), supplier.getCreditCode());
-					if(!boolCreditCode){
-						return "creditCodeExists";
-					}
-//					//注销
-//	                DeleteLog deleteLog = deleteLogService.queryByTypeId(null, supplier.getCreditCode());
-//	                if(null != deleteLog && null != deleteLog.getCreateAt()){
-//	                    int betweenDays = supplierService.daysBetween(deleteLog.getCreateAt());
-//	                    if(betweenDays > 180){
-//	                    	return "disabled_180";
-//	                    }
-//	                }
-//	                //审核不通过
-//	                SupplierAuditNot supplierAuditNot = supplierAuditNotService.selectByCreditCode(supplier.getCreditCode());
-//	                if(null != supplierAuditNot && null != supplierAuditNot.getCreatedAt()){
-//	                    int betweenDays = supplierService.daysBetween(supplierAuditNot.getCreatedAt());
-//	                    if(betweenDays > 180){
-//	                    	return "disabled_180";
-//	                    }
-//	                }
 				}else{
                     //supplier.setCreditCode("");
                 }
 			
-				// 出资人信息校验
 				List<SupplierStockholder> stockholders = supplier.getListSupplierStockholders();
 				int count=0;
 				Set<String> set=new HashSet<String>();
@@ -629,20 +674,14 @@ public class SupplierController extends BaseSupplierController {
 							set.add(s.getIdentity());
 							count++;
 						}
+						
 					}
 					if(count!=set.size()){
 						return "errIdentity";
 					}
 				}
-				
-				Supplier before = supplierService.get(supplier.getId());
-				if(before != null && before.getStatus() != null && before.getStatus() == 2){
-					record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
-				}
-				
 				supplierService.perfectBasic(supplier);
 				
-				// 近三年财务信息
 				List<SupplierFinance> finances = supplier.getListSupplierFinances();
 				if(finances != null && finances.size() >= 3){
 					if (finances.get(0).getTotalNetAssets() != null
@@ -702,7 +741,7 @@ public class SupplierController extends BaseSupplierController {
 	            returnInfo(model, before, supplier);
 	            return "ses/sms/supplier_register/basic_info";
 		    }
-			if(before != null && before.getStatus() != null && before.getStatus() == 2){
+			if(before.getStatus().equals(2)) {
 				record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
 			}
 			supplierService.perfectBasic(supplier);
@@ -828,12 +867,7 @@ public class SupplierController extends BaseSupplierController {
 			}
 			model.addAttribute("typeList", findList);
 			// 物资销售是否满足条件
-			//String isSalePass = isPass(supplier.getId(), "SALES");
-			String isSalePass = "1";
-			BigDecimal saleScore = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
-			if (saleScore.compareTo(BigDecimal.valueOf(3000)) == -1) {
-				isSalePass = "0";
-			}
+			String isSalePass = isPass(supplier.getId(), "SALES");
 			model.addAttribute("isSalePass", isSalePass);
 			return "ses/sms/supplier_register/supplier_type";
 		} else {
@@ -997,6 +1031,7 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "perfect_professional")
 	public String perfectProfessional(HttpServletRequest request, Supplier supplier, String flag, Model model,String old) throws IOException {
+		boolean info = true;
 		boolean sale = true;
 		boolean pro = true;
 		boolean server = true;
@@ -1136,12 +1171,7 @@ public class SupplierController extends BaseSupplierController {
             }
             model.addAttribute("typeList",  findList);
             // 物资销售是否满足条件
-			//String isSalePass = isPass(supplier.getId(), "SALES");
-			String isSalePass = "1";
-			BigDecimal saleScore = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
-			if (saleScore.compareTo(BigDecimal.valueOf(3000)) == -1) {
-				isSalePass = "0";
-			}
+			String isSalePass = isPass(supplier.getId(), "SALES");
 			model.addAttribute("isSalePass", isSalePass);
 			return "ses/sms/supplier_register/supplier_type";
 		}
@@ -1529,27 +1559,22 @@ public class SupplierController extends BaseSupplierController {
 	public boolean validateBasicInfo(HttpServletRequest request, Model model, Supplier supplier) {
 		int count = 0;
 		if(supplier.getSupplierName() == null || !supplier.getSupplierName().trim().matches("^.{1,80}$")) {
-			model.addAttribute("err_msg_supplierName", "不能为空或名称过长!");
+			model.addAttribute("err_msg_supplierName", "不能为空!");
 			count++;
 		}
-		/*Supplier before = supplierService.get(supplier.getId());
+		Supplier before = supplierService.get(supplier.getId());
 		//校验供应商名称是否存在(去除临时供应商)
 		//List<Supplier> suppliers = supplierService.selByName(supplier.getSupplierName());
-		List<Supplier> suppliers = supplierService.selByNameWithoutProvisional(supplier.getSupplierName());
+		String sname=supplier.getSupplierName();
+		//去除   全部空白符号
+		sname=sname.replaceAll("\\s*", "");
+		List<Supplier> suppliers = supplierService.selByNameWithoutProvisional(sname);
         if(null != suppliers && !suppliers.isEmpty()){
             if(before != null && !before.getSupplierName().equals(suppliers.get(0).getSupplierName())){
             	model.addAttribute("err_msg_supplierName", "供应商名称已存在，请重新填写！");
     			count++;
             }
-        }*/
-		// 供应商名称校验：供应商库（除去临时供应商）
-		if(StringUtils.isNotBlank(supplier.getSupplierName())){
-			boolean boolSupplierName = supplierService.checkSupplierName(supplier.getId(), supplier.getSupplierName());
-			if(!boolSupplierName){
-				model.addAttribute("err_msg_supplierName", "供应商名称已存在，请重新填写！");
-				count++;
-			}
-		}
+        }
 		//		if (supplier.getWebsite() == null || !ValidateUtils.Url(supplier.getWebsite())) {
 		//			model.addAttribute("err_msg_website", "格式错误 !");
 		//			count++;
@@ -1566,34 +1591,35 @@ public class SupplierController extends BaseSupplierController {
 				count++;
 			}
 		}
-		if(supplier.getBranchName() == null && supplier.getBusinessStartDate() == null){
+		
+		if(supplier.getBranchName()==null&&supplier.getBusinessStartDate()==null){
 			model.addAttribute("err_sDate", "经营期限不能为空!");
 			count++;
+			
 		}
+
+		//		supplierService.addDate(supplier.getFoundDate(), 1, -3);
 		if(supplier.getAddress() == null) {
 			model.addAttribute("err_msg_address", "不能为空!");
 			count++;
 		}
-		if(supplier.getBankName() == null) {
+		if(supplier.getBankName() == null || !supplier.getBankName().trim().matches("^.{1,80}$")) {
 			model.addAttribute("err_msg_bankName", "不能为空 !");
 			count++;
 		}
-		if(StringUtils.isNotBlank(supplier.getBankName()) && !supplier.getBankName().trim().matches("^.{1,80}$")) {
-			model.addAttribute("err_msg_bankName", "格式不正确 !");
-			count++;
-		}
 		if(supplier.getBankAccount() == null) {
-			model.addAttribute("err_msg_bankAccount", "不能为空 !");
+			model.addAttribute("err_msg_bankAccount", "格式不正确 !");
 			count++;
 		}
-		if(supplier.getPostCode() == null || !ValidateUtils.Zipcode(supplier.getPostCode())) {
-			model.addAttribute("err_msg_postCode", "不能为空或格式不正确 !");
+		if(supplier.getPostCode() == null || supplier.getPostCode().length() != 6) {
+			model.addAttribute("err_msg_postCode", "格式不正确 !");
 			count++;
 		}
 		if(supplier.getDetailAddress() == null || supplier.getDetailAddress().length() > 80) {
-			model.addAttribute("err_detailAddress", "详细地址不能为空或过长!");
+			model.addAttribute("err_detailAddress", "详细地址不能为空!");
 			count++;
 		}
+
 		if(supplier.getLegalName() == null || supplier.getLegalName().length() > 20) {
 			model.addAttribute("err_legalName", "不能为空 或者名字过长!");
 			count++;
@@ -1620,18 +1646,18 @@ public class SupplierController extends BaseSupplierController {
 			count++;
 		}
 		if(supplier.getArmyBusinessFax() == null || "".equals(supplier.getArmyBusinessFax())) {
-			model.addAttribute("err_armFax", "传真不能为空!");
+			model.addAttribute("err_armFax", "传真不能为空或者格式不正确!");
 			count++;
 		}
 		if(supplier.getArmyBuinessMobile() == null || "".equals(supplier.getArmyBuinessMobile())) {
-			model.addAttribute("err_armMobile", "固定电话不能为空!");
+			model.addAttribute("err_armMobile", "固定电话不能为空或者格式不正确!");
 			count++;
 		}
 		if(supplier.getArmyBuinessTelephone() == null) {
 			model.addAttribute("err_armTelephone", "不能为空!");
 			count++;
 		}
-		if(supplier.getArmyBuinessTelephone() != null && supplier.getArmyBuinessTelephone().length()!=11 ) {
+		if(supplier.getArmyBuinessTelephone() != null&&supplier.getArmyBuinessTelephone().length()!=11 ) {
 			model.addAttribute("err_armTelephone", "格式不正确!");
 			count++;
 		}
@@ -1722,7 +1748,7 @@ public class SupplierController extends BaseSupplierController {
 		
         //根据供应商统一社会信用代码判断是否注销或审核不通过且180天内再次注册
         try{
-		    if(StringUtils.isNotBlank(supplier.getCreditCode())){
+		    if(!StringUtils.isNotBlank(supplier.getCreditCode())){
                 //注销
                 DeleteLog deleteLog = deleteLogService.queryByTypeId(null, supplier.getCreditCode());
                 if(null != deleteLog && null != deleteLog.getCreateAt()){
@@ -1746,7 +1772,7 @@ public class SupplierController extends BaseSupplierController {
 		    e.printStackTrace();
         }
         
-        /*List < Supplier > tempList = supplierService.validateCreditCode(supplier.getCreditCode());
+        List < Supplier > tempList = supplierService.validateCreditCode(supplier.getCreditCode());
         if(tempList != null && tempList.size() > 0) {
             for(Supplier supp: tempList) {
                 if(!supplier.getId().equals(supp.getId())) {
@@ -1755,17 +1781,9 @@ public class SupplierController extends BaseSupplierController {
                     break;
                 }
             }
-        }*/
-        // 统一社会信用代码校验：供应商库（除去临时供应商）
-        if(StringUtils.isNotBlank(supplier.getCreditCode())){
-        	boolean boolCreditCode = supplierService.checkCreditCode(supplier.getId(), supplier.getCreditCode());
-    		if(!boolCreditCode){
-    			model.addAttribute("err_creditCide", "统一社会信用代码已被占用!");
-                count++;
-    		}
         }
 		if(supplier.getRegistAuthority() == null || supplier.getRegistAuthority().length() > 20) {
-			model.addAttribute("err_reAuthoy", "不能为空或是编码过长!");
+			model.addAttribute("err_reAuthoy", "不能为空 或是编码过长!");
 			count++;
 		}
 		if(supplier.getRegistFund() == null) {
@@ -1776,10 +1794,22 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_fund", "资金不能小于0或者是格式不正确 !");
 			count++;
 		}
+		if(supplier.getBusinessStartDate() == null && supplier.getBranchName() == null) {
+			model.addAttribute("err_sDate", "营业有效期不能为空 !");
+			//count++;
+		}
+		/*	if(supplier.getBusinessEndDate()==null){
+  			model.addAttribute("err_eDate", "营业截至时间不能为空 !");
+  			count++;
+  		}*/
 		//		if(supplier.getBusinessAddress()==null){
 		//			model.addAttribute("err_bAddress", "经营地址不能为空!");
 		//			count++;
 		//		}
+		/*if(supplier.getBusinessPostCode() == null) {
+			model.addAttribute("err_bCode", "不能为空!");
+			count++;
+		}*/
 		if(supplier.getBusinessPostCode() != null && !ValidateUtils.Zipcode(supplier.getBusinessPostCode().toString())) {
 			model.addAttribute("err_bCode", "邮编格式不正确!");
 			count++;
@@ -1869,10 +1899,6 @@ public class SupplierController extends BaseSupplierController {
         List<SupplierAddress> addressList = supplier.getAddressList();
 		if(null != addressList && !addressList.isEmpty()){
 		    for(int i=0;i<addressList.size();i++){
-		    	if(StringUtils.isNotBlank(addressList.get(i).getCode()) && !ValidateUtils.Zipcode(addressList.get(i).getCode())){
-		    		count++;
-                    model.addAttribute("err_address_token", "邮政编码格式不正确");
-		    	}
 		        if(StringUtils.isEmpty(addressList.get(i).getCode())){
                     count++;
                     model.addAttribute("err_address_token", "邮政编码不能为空");
@@ -2522,6 +2548,7 @@ public class SupplierController extends BaseSupplierController {
 
 				ct.setName(type.getName());
 				ct.setId(typeId);
+				System.out.println(typeId+"===============");
 				List < SupplierItem > s = supplierItemService.getSupplierIdCategoryId(supplierId, typeId, code);
 				if(s != null && s.size() > 0) {
 					ct.setChecked(true);
@@ -2982,11 +3009,10 @@ public class SupplierController extends BaseSupplierController {
 	 * @param id
 	 * @return
 	 */
-    @SuppressWarnings("unused")
 	@ResponseBody
 	@RequestMapping("/delAddress")
 	public String delAddress(String id) {
-		String str = "failed";
+	    String str = "failed";
 //        int del = supplierAddressService.delAddressByPrimaryId(id);
 //        if(del==1){
 //            str = "ok";
@@ -3170,27 +3196,22 @@ public class SupplierController extends BaseSupplierController {
     @ResponseBody
     @RequestMapping("/isPass")
     public String isPass(String supplierId,String stype) {
-		// BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
-		Supplier supplier = supplierService.get(supplierId);
-		if (supplier == null) {
-			return "-1";
-		}
-		BigDecimal score = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
-		List<SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
-		if (stype != null && stype.trim().length() != 0) {
-			if (score.compareTo(BigDecimal.valueOf(3000)) == -1) {
-				return "0";
-			}
-		}
-
-		for (SupplierTypeRelate type : relate) {
-			if (type.getSupplierTypeId().equals("SALES")) {
-				if (score.compareTo(BigDecimal.valueOf(3000)) == -1) {
-					return "0";
-				}
-			}
-		}
-		return "1";
+        BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
+        List <SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
+        if(stype!=null&&stype.trim().length()!=0){
+        	if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
+                return "0";
+            }	
+	   	}
+        
+        for (SupplierTypeRelate type : relate) {
+            if (type.getSupplierTypeId().equals("SALES")) {
+                if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
+                    return "0";
+                }
+            }
+        }
+        return "1";
     }
 
     /**
@@ -3204,7 +3225,7 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping(value = "/getAptLevel", produces = "application/json;charset=utf-8")
     public String getAptLevel(String typeId,String supplierId) {
         List<DictionaryData> data = qualificationLevelService.getByQuaId(typeId);
-        List<DictionaryData> list = new ArrayList<DictionaryData>();
+        List<DictionaryData>  list= new ArrayList<DictionaryData>();
         if (data != null&&data.size()>0) {
             return JSON.toJSONString(data);
         }else if(data.size()<1){
@@ -3222,7 +3243,10 @@ public class SupplierController extends BaseSupplierController {
                 	return JSON.toJSONString(list);
             	}
         	}
+        	
+        	
         }
+         
         return null;
     }
     
@@ -3236,32 +3260,31 @@ public class SupplierController extends BaseSupplierController {
     @ResponseBody
     @RequestMapping(value = "/getLevel", produces = "application/json;charset=utf-8")
     public String getAptLevel(String typeId, String certCode, String supplierId,String professType) {
-		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
-		List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(typeId, matEng.getId(), certCode, professType);
-		if (certEng != null && certEng.size() > 0) {
-			String level = certEng.get(0).getAptituteLevel();
-			// Supplier supplier = supplierService.get(supplierId);
-			// String level = supplierCertEngService.getLevel(typeId, certCode,
-			// supplier.getSupplierMatEng().getId());
-			DictionaryData data = DictionaryDataUtil.findById(level);
-			if (data != null) {
-				return JSON.toJSONString(data);
-			}
-		}
+    	 SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+    	  List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType( typeId,matEng.getId(), certCode, professType);
+    	  if(certEng!=null&&certEng.size()>0){
+        	  String level = certEng.get(0).getAptituteLevel();
+//            Supplier supplier = supplierService.get(supplierId);
+//            String level = supplierCertEngService.getLevel(typeId, certCode, supplier.getSupplierMatEng().getId());
+            DictionaryData data = DictionaryDataUtil.findById(level);
+            if (data != null) {
+                return JSON.toJSONString(data);
+            }
+    	  }
 
-		List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(typeId, supplierId);
-		if (projectData != null && projectData.size() > 0) {
-			Qualification qualification = qualificationService.getQualification(projectData.get(0).getName());
-			DictionaryData dd = new DictionaryData();
-			dd.setId(projectData.get(0).getId());
-			if (null != qualification) {
-				dd.setName(qualification.getName());
-			} else {
-				dd.setName(projectData.get(0).getCertLevel());
-			}
-			return JSON.toJSONString(dd);
-		}
-		return null;
+        List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(typeId, supplierId);
+        if(projectData!=null&&projectData.size()>0){
+            Qualification qualification = qualificationService.getQualification(projectData.get(0).getName());
+        	DictionaryData dd=new DictionaryData();
+        	dd.setId(projectData.get(0).getId());
+        	if(null!=qualification){
+                dd.setName(qualification.getName());
+            }else{
+                dd.setName(projectData.get(0).getCertLevel());
+            }
+        	 return JSON.toJSONString(dd);
+        }
+        return null;
     }
     
     @RequestMapping("/updateStep")

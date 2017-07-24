@@ -15,6 +15,7 @@
     <result column="REPORT"  jdbcType="VARCHAR" property="report" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="PURCHASEDEP_ID" jdbcType="VARCHAR" property="purchaseDepId" />
     <!-- 查询合同  -->
     <association column="CONTRACT_ID"  property="contract" select="bss.dao.cs.PurchaseContractMapper.selectContractByid" />  
   </resultMap>
@@ -27,7 +28,7 @@
   <!-- 表中所有列 -->
   <sql id="Base_Column_List">
     p.ID, p.CONTRACT_ID, p.PROJECT_TYPE, p.UNIT, p.TYPE, p.PLACE, p.PQDATE, p.INSPECTORS, p.CONDITION, p.CONCLUSION, 
-    p.DETAIL, p.REPORT, p.CREATED_AT, p.UPDATED_AT
+    p.DETAIL, p.REPORT, p.CREATED_AT, p.UPDATED_AT, p.PURCHASEDEP_ID
   </sql>
   
   <!-- 查询条件 -->
@@ -153,6 +154,9 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
+      <if test="purchaseDepId != null">
+        PURCHASEDEP_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null ">
@@ -196,6 +200,9 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseDepId != null">
+        #{purchaseDepId},
       </if>
     </trim>
   </insert>
@@ -243,6 +250,9 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="purchaseDepId != null">
+        PURCHASEDEP_ID = #{purchaseDepId},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -287,7 +297,7 @@
   
   <select id="queryByList" resultMap="PqInfoResultMap" parameterType="java.util.Map">
     select
-    p.CONTRACT_ID,p.ID,p.TYPE,p.CONCLUSION,p.REPORT,p.PQDATE
+    p.CONTRACT_ID,p.ID,p.TYPE,p.CONCLUSION,p.REPORT,p.PQDATE,p.PURCHASEDEP_ID
     from T_BSS_PQIMS_PQINFO  p LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.ID
     <where>
       1=1
@@ -297,6 +307,9 @@
 	    <if test="type != null and type !=''">
 	       AND p.TYPE=#{type} 
 	    </if>
+	    <if test="purchaseDepId != null and purchaseDepId != ''">
+        AND  p.PURCHASEDEP_ID =#{purchaseDepId}
+      </if>
 	    <if test="code != null and code != ''">
 	       AND c.CODE LIKE  CONCAT(CONCAT('%', #{code}), '%')
 	    </if>

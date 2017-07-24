@@ -1,9 +1,9 @@
 package sums.controller.oc;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +14,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ses.model.bms.Role;
 import ses.model.bms.User;
+import ses.model.ems.Expert;
+import ses.model.sms.Supplier;
+import ses.service.bms.RoleServiceI;
+import ses.service.ems.ExpertService;
+import ses.service.sms.SupplierService;
 import sums.model.oc.Complaint;
 import sums.service.oc.ComplaintService;
 
@@ -22,7 +28,6 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.annotation.SystemControllerLog;
-import common.annotation.SystemServiceLog;
 import common.constant.StaticVariables;
 
 /**
@@ -41,6 +46,15 @@ public class OnlineComplaintsController {
 
     @Autowired
     private ComplaintService complaintService;
+    
+    @Autowired
+    private RoleServiceI roleService;//角色业务接口
+    
+    @Autowired
+    private SupplierService supplierService;//供应商
+    
+    @Autowired
+    private ExpertService expertService;//专家
 
     /**
      * 
@@ -81,8 +95,13 @@ public class OnlineComplaintsController {
      */
     @RequestMapping("/addoredit")
     @SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME)
-     public String addoredit(HttpServletRequest request,Model model){
-        String id = UUID.randomUUID().toString().replaceAll("-", "");
+     public String addoredit(@CurrentUser User user,HttpServletRequest request,Model model){
+    	String authType = null;
+        if(null != user && vaSupplierorExpert(user)){
+	        authType = "VSE";
+	        model.addAttribute("authType",authType);
+	    }
+    	String id = UUID.randomUUID().toString().replaceAll("-", "");
         Complaint complaint = new Complaint();
         complaint.setId(id);
         model.addAttribute("complaint",complaint);
@@ -102,25 +121,30 @@ public class OnlineComplaintsController {
     @RequestMapping("/add")
     @SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME)
     public String add(@CurrentUser User user,Model model,Complaint complaint){
-        if(complaint != null){
-            boolean flag = yzError(complaint,model);
-            if(flag == false){
-                model.addAttribute("complaint",complaint);
-                return "sums/oc/onlineComplaints/add";
-            }
-            complaint.setIsDeleted(0);
-            if(user != null){
-                complaint.setCreaterId(user.getId());
-            }
-            complaint.setCreatedAt(new Date());
-            complaintService.insertSelective(complaint);
-        }
-        model.addAttribute("complaintSuccess","投诉成功");
-        String id = UUID.randomUUID().toString().replaceAll("-", "");
+    	String authType = null;
+    	if(null != user && vaSupplierorExpert(user)){
+    		authType = "VSE";
+    		model.addAttribute("authType",authType);
+	        if(complaint != null){
+	            boolean flag = yzError(complaint,model);
+	            if(flag == false){
+	                model.addAttribute("complaint",complaint);
+	                return "sums/oc/onlineComplaints/add";
+	            }
+	            complaint.setIsDeleted(0);
+	            if(user != null){
+	                complaint.setCreaterId(user.getId());
+	            }
+	            complaint.setCreatedAt(new Date());
+	            complaintService.insertSelective(complaint);
+	        }
+	        model.addAttribute("complaintSuccess","投诉成功");
+    	}
+    	String id = UUID.randomUUID().toString().replaceAll("-", "");
         Complaint complaintId = new Complaint();
         complaintId.setId(id);
         model.addAttribute("complaint",complaintId);
-        return "sums/oc/onlineComplaints/add";
+    	return "sums/oc/onlineComplaints/add";
     }
     
     /**
@@ -137,10 +161,13 @@ public class OnlineComplaintsController {
      */
     @RequestMapping("/view")
     @SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME)
-    public String view(Model model, String id){
-        Complaint complaint = complaintService.selectByPrimaryKey(id);
-        model.addAttribute("complaint", complaint);
-        return "sums/oc/inquire/view";
+    public String view(@CurrentUser User user,Model model, String id){
+    	if(user != null && "4".equals(user.getTypeName())){
+	        Complaint complaint = complaintService.selectByPrimaryKey(id);
+	        model.addAttribute("complaint", complaint);
+	        return "sums/oc/inquire/view";
+    	}
+    	return "";
     }
     
     /**
@@ -158,7 +185,12 @@ public class OnlineComplaintsController {
      */
     @RequestMapping("/index_add")
     @SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME)
-    public String index_add(Model model){
+    public String index_add(@CurrentUser User user,Model model){
+    	String authType = null;
+        if(null != user && vaSupplierorExpert(user)){
+	        authType = "VSE";
+	        model.addAttribute("authType",authType);
+        }
         String id = UUID.randomUUID().toString().replaceAll("-", "");
         Complaint complaint = new Complaint();
         complaint.setId(id);
@@ -182,21 +214,26 @@ public class OnlineComplaintsController {
     @RequestMapping("/indexadd")
     @SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME)
     public String indexadd(@CurrentUser User user,Model model,Complaint complaint){
-        if(complaint != null){
-            boolean flag = yzError(complaint,model);
-            if(flag == false){
-                model.addAttribute("complaint",complaint);
-                return "sums/oc/onlineComplaints/index_add";
-            }
-            complaint.setIsDeleted(0);
-            if(user != null){
-                complaint.setCreaterId(user.getId());
-            }
-            complaint.setCreatedAt(new Date());
-            complaintService.insertSelective(complaint);
-        }
-        model.addAttribute("complaintSuccess","投诉成功");
-        String id = UUID.randomUUID().toString().replaceAll("-", "");
+    	String authType = null;
+    	if(null != user && vaSupplierorExpert(user)){
+    		authType = "VSE";
+    		model.addAttribute("authType",authType);
+	    	if(complaint != null){
+	            boolean flag = yzError(complaint,model);
+	            if(flag == false){
+	                model.addAttribute("complaint",complaint);
+	                return "sums/oc/onlineComplaints/index_add";
+	            }
+	            complaint.setIsDeleted(0);
+	            if(user != null){
+	                complaint.setCreaterId(user.getId());
+	            }
+	            complaint.setCreatedAt(new Date());
+	            complaintService.insertSelective(complaint);
+	        }
+	        model.addAttribute("complaintSuccess","投诉成功");
+    	}
+    	String id = UUID.randomUUID().toString().replaceAll("-", "");
         Complaint complaintId = new Complaint();
         complaintId.setId(id);
         model.addAttribute("complaint",complaintId);
@@ -271,6 +308,46 @@ public class OnlineComplaintsController {
                 flag = false;
                 model.addAttribute("error_zs1","请上传投诉文件");
             }
+        }
+        return flag;
+    }
+    
+
+    /**
+     * 
+     * Description: 判断用户是否为供应商或专家
+     * 
+     * @author zhang shubin
+     * @data 2017年7月20日
+     * @param 
+     * @return
+     */
+    public boolean vaSupplierorExpert(User u){
+    	boolean flag = false;
+    	//查询用户的供应商角色
+        HashMap<String, Object> supplierMap = new HashMap<String, Object>();
+        supplierMap.put("userId", u.getId());
+        supplierMap.put("code", "SUPPLIER_R");
+        List<Role> srs = roleService.selectByUserIdCode(supplierMap);
+        if (srs != null  && srs.size() > 0) {
+        	Supplier supplier = supplierService.selectById(u.getTypeId());
+        	if(supplier != null){
+        		flag = true;
+        	}
+        }
+        if(flag){
+        	return flag;
+        }
+        //查询用户的专家角色
+        HashMap<String, Object> expertMap = new HashMap<String, Object>();
+        expertMap.put("userId", u.getId());
+        expertMap.put("code", "EXPERT_R");
+        List<Role> ers = roleService.selectByUserIdCode(expertMap);
+        if (ers != null && ers.size() > 0) {
+        	Expert expert = expertService.selectByPrimaryKey(u.getTypeId());
+        	if(expert != null){
+        		flag = true;
+        	}
         }
         return flag;
     }
