@@ -1,6 +1,8 @@
 $(function () {
     $("#reverse_of_seven").attr("class","active");
     $("#reverse_of_seven").removeAttr("onclick");
+    // 供应商id
+    var supplierId = $("#supplierId").val();
     // 预审核结束状态
     if(status == -2 || status == -3 || status == 3){
         $("#checkWord").show();
@@ -13,13 +15,14 @@ $(function () {
     // 将审核意见的radio选中
     var hiddenSelectOptionId = $("#hiddenSelectOptionId").val();
     $("input[name='selectOption'][value='"+hiddenSelectOptionId+"']").prop("checked",true);
-
+    // 获取复选框选择类型
+    //var checkVal = $("input:radio[name='selectOption'] :checked").val();
     $("input[name='selectOption']").bind("click", function(){
         // 清空意见内容
-        $("#opinion").val("");
+        //$("#opinion").val("");
         var selectedVal = $(this).val();
         if(selectedVal == 0){
-            $("#opinion").val("不通过。");
+            $("#cate_result").html("不通过。");
             return;
         }
         // 判断意见是否已经获取，有的话不再发送请求
@@ -28,28 +31,43 @@ $(function () {
             $("#opinion").val(opinionBack);
             return;
         }*/
-        var index = layer.load(0, {
-            shade : [ 0.1, '#fff' ],
-            offset : [ '40%', '50%' ]
-        });
-        // 获取供应商ID
-        var supplierId = $("#supplierId").val();
-        $.ajax({
-            url:globalPath + "/supplierAudit/selectChooseOrNoPassCate.do",
-            data:{
-                "id" : supplierId
-            },
-            success:function (data) {
-                var opinionData = "同意入库，选择了"+data.passCateCount+"个产品类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个产品类别。";
-                $("#opinion").val(opinionData);
-                //$("#opinionBack").val(opinionData);
-                // 关闭旋转图标
-                layer.close(index);
-            }
-        })
+        getCheckOpinionType(supplierId);
     });
+    // 判断复选框操作
+    if(hiddenSelectOptionId == 0){
+        // 预审核不通过
+        $("#cate_result").html("不通过。");
+    }
+    if(hiddenSelectOptionId == 1){
+        // 预审核通过
+        getCheckOpinionType(supplierId);
+    }
 });
 
+/**
+ * 审核意见预审核通过类型判断
+ * @param supplierId
+ */
+function getCheckOpinionType(supplierId) {
+    var index = layer.load(0, {
+        shade : [ 0.1, '#fff' ],
+        offset : [ '40%', '50%' ]
+    });
+    // 获取供应商ID
+    $.ajax({
+        url:globalPath + "/supplierAudit/selectChooseOrNoPassCate.do",
+        data:{
+            "id" : supplierId
+        },
+        success:function (data) {
+            var opinionData = "同意入库，选择了"+data.passCateCount+"个产品类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个产品类别。";
+            $("#cate_result").html(opinionData);
+            //$("#opinionBack").val(opinionData);
+            // 关闭旋转图标
+            layer.close(index);
+        }
+    });
+}
 /**
  * 下一步操作
  */

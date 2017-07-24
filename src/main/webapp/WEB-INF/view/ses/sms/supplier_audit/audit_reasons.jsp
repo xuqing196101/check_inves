@@ -410,30 +410,29 @@
 							  <div class="select_check" id="selectOptionId">
 							    <c:choose>
 							      <c:when test="${supplierStatus == 0 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
-							        <input type="radio" name="selectOption" value="1">预审核通过
-                      <input type="radio" name="selectOption" value="0">预审核不通过
+                                      <input type="radio" name="selectOption" value="1">预审核通过
+                                      <input type="radio" name="selectOption" value="0">预审核不通过
 							      </c:when>
 							      <c:otherwise>
-							        <input type="radio" disabled="disabled" name="selectOption" value="1">预审核通过
-                      <input type="radio" disabled="disabled" name="selectOption" value="0">预审核不通过
+							         <input type="radio" disabled="disabled" name="selectOption" value="1">预审核通过
+                                     <input type="radio" disabled="disabled" name="selectOption" value="0">预审核不通过
 							      </c:otherwise>
 							    </c:choose>
 							  </div>
 						  </li>
-
-						  <li class="col-md-12 col-sm-12 col-xs-12">
-							  <div class="col-md-12 col-sm-12 col-xs-12 p0">
-								  <c:choose>
-	                  <c:when test="${supplierStatus == 0 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
-	                    <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
-	                  </c:when>
-	                  <c:otherwise>
-	                    <textarea id="opinion" disabled="disabled" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
-	                  </c:otherwise>
-	                </c:choose>
-								  
-							  </div>
-						  </li>
+                          <div><span type="text" name="cate_result" id="cate_result"></span></div>
+                          <li class="col-md-12 col-sm-12 col-xs-12">
+                              <div class="col-md-12 col-sm-12 col-xs-12 p0">
+                                  <c:choose>
+                                      <c:when test="${supplierStatus == 0 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+                                          <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
+                                      </c:when>
+                                      <c:otherwise>
+                                          <textarea id="opinion" disabled="disabled" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
+                                      </c:otherwise>
+                                  </c:choose>
+                              </div>
+                          </li>
 					  </ul>
                     <input type="hidden" value="${supplierAuditOpinion.flagAduit}" id="hiddenSelectOptionId">
                     </div>

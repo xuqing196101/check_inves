@@ -996,6 +996,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		SupplierPublicity supplierPublicityQuery = (SupplierPublicity) map.get("supplierPublicity");
 		List<SupplierPublicity> list = supplierMapper.selectSupByPublictyList(supplierPublicityQuery);
 		if(list != null && !list.isEmpty()){
+			// 定义审核意见查询条件
+			Map<String, Object> selectMap = new HashedMap();
 			// 封装供应商类型
 			StringBuffer sb = new StringBuffer(); 
 			for (SupplierPublicity supplierPublicity : list) {
@@ -1015,6 +1017,16 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 				}
 				// 查询选择和未通过的产品类别
 				selectChooseOrNoPassCateOfDB(supplierPublicity);
+				// 查询审核意见
+				selectMap.put("supplierId",supplierPublicity.getId());
+				selectMap.put("flagTime",0);
+				SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(selectMap);
+				if(supplierAuditOpinion != null && StringUtils.isNotEmpty(supplierAuditOpinion.getOpinion())){
+					supplierPublicity.setAuditOpinion(supplierAuditOpinion.getOpinion());
+				}else {
+				    // 没意见设置为""
+                    supplierPublicity.setAuditOpinion("");
+                }
 			}
 		}
 		return list;
