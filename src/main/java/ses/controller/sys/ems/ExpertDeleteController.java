@@ -9,11 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 
 import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
 
 /**
  * <p>Title:ExpertDeleteController </p>
@@ -69,10 +72,15 @@ public class ExpertDeleteController {
       * @return void
       */
      @RequestMapping(value = "/logoutList")
-     public String logoutList(Expert expert, Integer page, Model model){
-  	   List<Expert> logoutList = expertService.findLogoutList(expert, page);
-	   PageInfo < Expert > pageInfo = new PageInfo < Expert > (logoutList);
-	   model.addAttribute("result", pageInfo);
+     public String logoutList(@CurrentUser User user,Expert expert, Integer page, Model model){
+       if(null != user && "4".equals(user.getTypeName())){
+    	   List<Expert> logoutList = expertService.findLogoutList(expert, page);
+    	   PageInfo < Expert > pageInfo = new PageInfo < Expert > (logoutList);
+    	   model.addAttribute("result", pageInfo);
+       }else{
+    	   model.addAttribute("result", new PageInfo < Expert > ());
+       }
+       
   	 return "ses/ems/expertDelete/list";
      }
 }

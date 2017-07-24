@@ -1292,7 +1292,7 @@ table .input_group .add-on{
     box-shadow: 0px -1px 4px #ddd;
     height: 40px;
     border-top: 1px solid #dadada;
-    z-index: 1000000;
+    z-index: 100000;
 }
 
 

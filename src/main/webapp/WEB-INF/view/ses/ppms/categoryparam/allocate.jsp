@@ -349,6 +349,7 @@
 		<div class="clear"></div>
 	  </div>
    </div>
+  <c:if test="${authType == 4}">
   <div class="container">
 	   <div class="col-md-3 col-sm-4 col-xs-12">
 		 <div class="tag-box tag-box-v3 mt10">
@@ -416,5 +417,6 @@
         	<div id="pagediv" align="right"></div>
          </div>
       </div>
+      </c:if>
   </body>
 </html>

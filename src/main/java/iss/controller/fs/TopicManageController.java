@@ -34,6 +34,8 @@ import ses.util.PropertiesUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import common.annotation.CurrentUser;
+
 
 /**
 * @Title:TopicManageController 
@@ -66,46 +68,52 @@ public class TopicManageController extends BaseSupplierController {
 	* @return String     
 	*/
 	@RequestMapping("/getlist")
-	public String getList(HttpServletRequest request,Model model,Integer page)throws Exception{
-		User user = (User) request.getSession().getAttribute("loginUser");
-		HashMap<String,Object> roleMap = new HashMap<String,Object>();
-		roleMap.put("userId", user.getId());
-		roleMap.put("code", "ADMIN_R");
-		BigDecimal i = roleService.checkRolesByUserId(roleMap);
-		Map<String,Object> map = new HashMap<String, Object>();
-		String describe = request.getParameter("condition");
-		String parkId = request.getParameter("parkId");		
-		if(page == null){
-			page=1;
-		}
-		if(describe!=null && describe!=""){
-			map.put("content", describe);
-		}
-		if(parkId !=null && parkId!=""){
-			map.put("parkId", parkId);
-		}
-		if(!i.equals(new BigDecimal(1))){
-			map.put("userId", user.getId());
-		}
-		map.put("page",page.toString());
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		List<Topic> list = topicService.queryByList(map);
-		for (Topic topic2 : list) {
-			Post post = new Post();
-			post.setTopic(topic2);
-			BigDecimal postcount = postService.queryByCount(post);
-			topic2.setPostcount(postcount);
-			BigDecimal replycount = replyService.queryCountByTopicId(topic2.getId());
-			topic2.setReplycount(replycount);
-		}
-		List<Park> parks = parkService.getAll(null);
-		model.addAttribute("parks", parks);
-		model.addAttribute("list", new PageInfo<Topic>(list));
-		model.addAttribute("describe", describe);
-		model.addAttribute("parkId", parkId);
-		model.addAttribute("admin", i);
-		return "iss/forum/topic/list";
+	public String getList(@CurrentUser User user,HttpServletRequest request,Model model,Integer page)throws Exception{
+		//声明标识是否是资源服务中心
+        String authType = null;
+        if(null != user && "4".equals(user.getTypeName())){
+            //判断是否 是资源服务中心 
+            authType = "4";
+			HashMap<String,Object> roleMap = new HashMap<String,Object>();
+			roleMap.put("userId", user.getId());
+			roleMap.put("code", "ADMIN_R");
+			BigDecimal i = roleService.checkRolesByUserId(roleMap);
+			Map<String,Object> map = new HashMap<String, Object>();
+			String describe = request.getParameter("condition");
+			String parkId = request.getParameter("parkId");		
+			if(page == null){
+				page=1;
+			}
+			if(describe!=null && describe!=""){
+				map.put("content", describe);
+			}
+			if(parkId !=null && parkId!=""){
+				map.put("parkId", parkId);
+			}
+			if(!i.equals(new BigDecimal(1))){
+				map.put("userId", user.getId());
+			}
+			map.put("page",page.toString());
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+			List<Topic> list = topicService.queryByList(map);
+			for (Topic topic2 : list) {
+				Post post = new Post();
+				post.setTopic(topic2);
+				BigDecimal postcount = postService.queryByCount(post);
+				topic2.setPostcount(postcount);
+				BigDecimal replycount = replyService.queryCountByTopicId(topic2.getId());
+				topic2.setReplycount(replycount);
+			}
+			List<Park> parks = parkService.getAll(null);
+			model.addAttribute("parks", parks);
+			model.addAttribute("list", new PageInfo<Topic>(list));
+			model.addAttribute("describe", describe);
+			model.addAttribute("parkId", parkId);
+			model.addAttribute("admin", i);
+			model.addAttribute("authType", authType);
+        }
+        return "iss/forum/topic/list";
 	}
 	
 	/**   
@@ -118,16 +126,20 @@ public class TopicManageController extends BaseSupplierController {
 	* @return String     
 	*/
 	@RequestMapping("/view")
-	public String view(Model model,String id){
-		Topic topic = topicService.selectByPrimaryKey(id);
-		Post post = new Post();
-		post.setTopic(topic);
-		BigDecimal postcount = postService.queryByCount(post);
-		topic.setPostcount(postcount);
-		BigDecimal replycount = replyService.queryCountByParkId(id);
-		topic.setReplycount(replycount);
-		model.addAttribute("topic", topic);
-		return "iss/forum/topic/view";
+	public String view(@CurrentUser User user,Model model,String id){
+		if(null != user && "4".equals(user.getTypeName())){
+			//判断是否 是资源服务中心 
+			Topic topic = topicService.selectByPrimaryKey(id);
+			Post post = new Post();
+			post.setTopic(topic);
+			BigDecimal postcount = postService.queryByCount(post);
+			topic.setPostcount(postcount);
+			BigDecimal replycount = replyService.queryCountByParkId(id);
+			topic.setReplycount(replycount);
+			model.addAttribute("topic", topic);
+			return "iss/forum/topic/view";
+		}
+		return "";
 	}
 	
 	/**   
@@ -141,17 +153,20 @@ public class TopicManageController extends BaseSupplierController {
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request,Model model){
 		User user = (User) request.getSession().getAttribute("loginUser");
-		HashMap<String,Object> roleMap = new HashMap<String,Object>();
-		roleMap.put("userId", user.getId());
-		roleMap.put("code", "ADMIN_R");
-		BigDecimal i = roleService.checkRolesByUserId(roleMap);
-		Map<String,Object> map = new HashMap<String,Object>();
-		if(!i.equals(new BigDecimal(1))){
-			map.put("userId", user.getId());
+		if(null != user && "4".equals(user.getTypeName())){
+			HashMap<String,Object> roleMap = new HashMap<String,Object>();
+			roleMap.put("userId", user.getId());
+			roleMap.put("code", "ADMIN_R");
+			BigDecimal i = roleService.checkRolesByUserId(roleMap);
+			Map<String,Object> map = new HashMap<String,Object>();
+			if(!i.equals(new BigDecimal(1))){
+				map.put("userId", user.getId());
+			}
+			List<Park> parks = parkService.selectParkListByUser(map);
+			model.addAttribute("parks", parks);
+			return "iss/forum/topic/add";
 		}
-		List<Park> parks = parkService.selectParkListByUser(map);
-		model.addAttribute("parks", parks);
-		return "iss/forum/topic/add";
+		return "";
 	}
 	
 	/**   
@@ -239,21 +254,24 @@ public class TopicManageController extends BaseSupplierController {
 	*/
 	@RequestMapping("/edit")
 	public String edit(String id,Model model,HttpServletRequest request){
-		Topic p = topicService.selectByPrimaryKey(id);
-		model.addAttribute("topic", p);
-		model.addAttribute("parkId", p.getPark().getId());
 		User user = (User) request.getSession().getAttribute("loginUser");
-		HashMap<String,Object> roleMap = new HashMap<String,Object>();
-		roleMap.put("userId", user.getId());
-		roleMap.put("code", "ADMIN_R");
-		BigDecimal i = roleService.checkRolesByUserId(roleMap);
-		Map<String,Object> map = new HashMap<String,Object>();
-		if(!i.equals(new BigDecimal(1))){
-			map.put("userId", user.getId());
+		if(null != user && "4".equals(user.getTypeName())){
+			Topic p = topicService.selectByPrimaryKey(id);
+			model.addAttribute("topic", p);
+			model.addAttribute("parkId", p.getPark().getId());
+			HashMap<String,Object> roleMap = new HashMap<String,Object>();
+			roleMap.put("userId", user.getId());
+			roleMap.put("code", "ADMIN_R");
+			BigDecimal i = roleService.checkRolesByUserId(roleMap);
+			Map<String,Object> map = new HashMap<String,Object>();
+			if(!i.equals(new BigDecimal(1))){
+				map.put("userId", user.getId());
+			}
+			List<Park> parks = parkService.selectParkListByUser(map);
+			model.addAttribute("parks", parks);
+			return "iss/forum/topic/edit";
 		}
-		List<Park> parks = parkService.selectParkListByUser(map);
-		model.addAttribute("parks", parks);
-		return "iss/forum/topic/edit";
+		return "";
 	}
 	
 	/**   
@@ -344,22 +362,26 @@ public class TopicManageController extends BaseSupplierController {
 	* @return String     
 	*/
 	@RequestMapping("/delete")
-	public String delete(String id){
-		String[] ids=id.split(",");
-		for (String str : ids) {
-			topicService.deleteByPrimaryKey(str);
-			List<Post> posts = postService.selectByTopicID(str);
-			for (Post post : posts) {
-				postService.deleteByPrimaryKey(post.getId());
-				Map<String,Object> map = new HashMap<String, Object>();
-				map.put("postId", post.getId());
-				List<Reply> replies = replyService.selectByPostID(map);
-				for (Reply reply : replies) {
-					replyService.deleteByPrimaryKey(reply.getId());
+	public String delete(@CurrentUser User user,String id){
+		if(null != user && "4".equals(user.getTypeName())){
+			//判断是否 是资源服务中心 
+			String[] ids=id.split(",");
+			for (String str : ids) {
+				topicService.deleteByPrimaryKey(str);
+				List<Post> posts = postService.selectByTopicID(str);
+				for (Post post : posts) {
+					postService.deleteByPrimaryKey(post.getId());
+					Map<String,Object> map = new HashMap<String, Object>();
+					map.put("postId", post.getId());
+					List<Reply> replies = replyService.selectByPostID(map);
+					for (Reply reply : replies) {
+						replyService.deleteByPrimaryKey(reply.getId());
+					}
 				}
-			}
-		}		
-		return "redirect:getlist.html";
+			}		
+			return "redirect:getlist.html";
+		}
+		return "";
 	}
 	
 	/**   

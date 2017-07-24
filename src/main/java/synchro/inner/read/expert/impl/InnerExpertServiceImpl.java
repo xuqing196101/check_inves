@@ -244,6 +244,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
         //专家审核记录表
         List<ExpertAudit> expertAudits = expert.getExpertAuditList();
         if(null != expertAudits && !expertAudits.isEmpty()){
+        	expertAuditMapper.deleteByExpertId(expert.getId());
             ExpertAudit audit = null;
             for(ExpertAudit expertAudit:expertAudits){
                 audit = expertAuditMapper.selectByPrimaryKey(expertAudit.getId());
@@ -338,7 +339,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
         		expertService.insertSelective(expert);
         	}
             if(ep!=null){
-            	expertService.updateByPrimaryKeySelective(ep);
+            	expertService.updateByPrimaryKeySelective(expert);
             }
         }
     }

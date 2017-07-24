@@ -13,6 +13,16 @@
     }
   </style>
   <%@ include file="/WEB-INF/view/common.jsp" %>
+  <script type="text/javascript">
+  	function yzExport(){
+  		var authType = "${authType}";
+  		if(authType != '4'){
+  			layer.msg("只有资源服务中心才能操作");
+  			return;
+  		} 
+  		synchExport()
+  	}
+  </script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/synch/export.js"></script>
 </head>
 <body>
@@ -56,23 +66,25 @@
               <input type="checkbox" name="dataType" value="${type.code}"/> ${type.name}
             </div>
           </c:forEach>
-          <div class="dataType">
-            <input type="checkbox" name="dataType" value="inner_out"/> 供应商退回修改导出外网
-          </div>
-          <div class="dataType">
-            <input type="checkbox" name="dataType" value="temp_out"/> 临时供应商导出外网
-          </div>
-          <div class="dataType">
-            <input type="checkbox" name="dataType" value="expert_out"/> 专家退回修改导出外网
-          </div>
-          <div class="dataType">
-            <input type="checkbox" name="dataType" value="img_out"/> 供应商，专家图片导出
-          </div>
+          <c:if test="${authType ==  '4'}">
+	          <div class="dataType">
+	            <input type="checkbox" name="dataType" value="inner_out"/> 供应商退回修改导出外网
+	          </div>
+	          <div class="dataType">
+	            <input type="checkbox" name="dataType" value="temp_out"/> 临时供应商导出外网
+	          </div>
+	          <div class="dataType">
+	            <input type="checkbox" name="dataType" value="expert_out"/> 专家退回修改导出外网
+	          </div>
+	          <div class="dataType">
+	            <input type="checkbox" name="dataType" value="img_out"/> 供应商，专家图片导出
+	          </div>
+          </c:if>
         </div>
       </li>
 
       <div class="clear mt10 tc">
-        <button class="btn" onclick="synchExport();">导出</button>
+        <button class="btn" onclick="yzExport();">导出</button>
       </div>
     </ul>
   </div>

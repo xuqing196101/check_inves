@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import common.annotation.CurrentUser;
 import ses.model.bms.CategoryTree;
+import ses.model.bms.User;
 import ses.service.bms.CategoryPublishService;
 
 /**
@@ -38,8 +41,8 @@ public class CategoryPublishController {
      * @return
      */
     @RequestMapping("/init")
-    public String initPublish(){
-        
+    public String initPublish(@CurrentUser User user,Model model){
+    	 model.addAttribute("authType", user.getTypeName());
         return "/ses/ppms/categoryparam/publish";
     }
     

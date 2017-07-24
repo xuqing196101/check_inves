@@ -441,12 +441,14 @@
   	</h2>
    
    <div class="col-md-12 col-xs-12 col-sm-12 pl20 mt10">
+   	<c:if test="${auth == 'show'}">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collect()">汇总</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collected()">添加至已有计划中</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="advanced()">下达预研项目</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="loadplan()">导入采购计划</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载打印</button>
-	 </div>
+	</c:if>
+	</div>
    <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +37,8 @@ import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
 import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
 import common.constant.Constant;
 
 /**
@@ -186,10 +189,16 @@ public class ExpertBlackListController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("/blacklist")
-	public String fnidAll(HttpServletRequest request,Model model,Integer page,ExpertBlackList expert){
-		List<ExpertBlackList> expertList = service.findAll(expert,page==null?1:page);
-		request.setAttribute("result", new PageInfo<ExpertBlackList>(expertList));
-		model.addAttribute("expertList", expertList);
+	public String fnidAll(@CurrentUser User user,HttpServletRequest request,Model model,Integer page,ExpertBlackList expert){
+		if(null != user && "4".equals(user.getTypeName())){
+	       //判断是否 是资源服务中心 
+			List<ExpertBlackList> expertList = service.findAll(expert,page==null?1:page);
+			request.setAttribute("result", new PageInfo<ExpertBlackList>(expertList));
+			model.addAttribute("expertList", expertList);
+	    }else{
+	    	request.setAttribute("result", new PageInfo<ExpertBlackList>());
+			model.addAttribute("expertList", new ArrayList<ExpertBlackList>());
+	    }
 		//所有专家
 		List<Expert> expertName = service.findExpertList();
 		model.addAttribute("expertName", expertName);

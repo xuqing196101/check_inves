@@ -123,7 +123,7 @@ div.dhx_modal_cover {
 }
 
 .dhtmlx_button input,.dhtmlx_popup_button div {
-	border: 1px solid #FFF;
+	/*border: 1px solid #FFF;*/
 	background:
 		url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAeCAMAAADaS4T1AAAAYFBMVEVwcHBtbW1ra2toaGhmZmZjY2NhYWFeXl5cXFxaWlpXV1dVVVVSUlJQUFBNTU1LS0tJSUlGRkZERERBQUE/Pz88PDw9PT0+Pj5AQEBCQkJDQ0NFRUVHR0dISEhKSkpMTEzqthaMAAAAMklEQVQImQXBhQ2AMAAAsOIMlwWH/8+kRSKVyRVKlVrQaHV6g9FktlhFm93hdLk9Xt8PIfgBvdUqyskAAAAASUVORK5CYII=);
 	background: -webkit-linear-gradient(top, #707070 1%, #3d3d3d 70%, #4c4c4c 99%);

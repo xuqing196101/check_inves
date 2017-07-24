@@ -151,6 +151,7 @@ public class FirstAuditTemplatController extends BaseController{
             model.addAttribute("kinds", kinds);
             model.addAttribute("kind", kind);
             model.addAttribute("name", name);
+            model.addAttribute("auth", "show");
         }
         return "bss/prms/templat/list";
 	}

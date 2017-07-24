@@ -9,6 +9,7 @@
     <script type="text/javascript">
       /*分页  */
       $(function() {
+    	  
         laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
           pages: "${info.pages}", //总页数
@@ -73,6 +74,11 @@
       var flag = true;
 
       function start() {
+   	  	var auth='${authType}';
+   	    if(auth !='1'){
+   	    layer.msg("只有采购机构可以操作");
+   	    return;
+   	    }  
         var id = [];
         $('input[name="chkItem"]:checked').each(function() {
           id.push($(this).val());
@@ -226,11 +232,21 @@
 
       //重置
       function clearSearch() {
+    	var auth='${authType}';
+  	    if(auth !='1'){
+  	    layer.msg("只有采购机构可以操作");
+  	    return;
+  	    }
         $("#proName").attr("value", "");
         $("#projectNumber").attr("value", "");
         $("#status option:selected").removeAttr("selected");
       }
       function contract(){
+    	  var auth='${authType}';
+    	    if(auth !='1'){
+    	    layer.msg("只有采购机构可以操作");
+    	    return;
+    	    }
     	  var id = [];
           $('input[name="chkItem"]:checked').each(function() {
             id.push($(this).val());
@@ -391,7 +407,9 @@
           </tbody>
         </table>
       </div>
+      <c:if test="${authType ==1 }">
       <div id="pagediv" align="right"></div>
+      </c:if>
     </div>
   </body>
 

@@ -193,7 +193,21 @@ public class ExpertAuditController{
 		
 		model.addAttribute("result",result);
 		model.addAttribute("expertList", expertList);
-				
+		if(expert.getSign() == 2 ){
+		    if(!"4".equals(user.getTypeName())){
+		        //判断是否 是资源服务中心 
+		    	model.addAttribute("result", new PageInfo < Expert > ());
+				model.addAttribute("expertList", new ArrayList<Expert>());
+		     }
+
+		}
+		if(expert.getSign() == 1 || expert.getSign() == 3 ){
+			if(!"1".equals(user.getTypeName())){
+		        //判断是否 是采购机构 
+		    	model.addAttribute("result", new PageInfo < Expert > ());
+				model.addAttribute("expertList", new ArrayList<Expert>());
+		     }
+		}
 		// 筛选,只有指定机构的人可以看到
 		/*List<Expert> expertList = new ArrayList<Expert>();
 

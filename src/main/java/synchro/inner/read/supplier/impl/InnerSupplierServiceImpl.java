@@ -536,7 +536,9 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 				  }
 			  }
 			  List<SupplierAudit> supplierAudits = sb.getSupplierAudits();
+			  supplierAuditMapper.deleteBySupplierId(sb.getSupplierId());
 			  for(SupplierAudit sat:supplierAudits){
+				  
 				  SupplierAudit audit = supplierAuditMapper.selectById(sat.getId());
 				  if(audit==null){
 					  supplierAuditMapper.inserActive(sat);

@@ -53,6 +53,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import common.annotation.CurrentUser;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
@@ -127,7 +128,7 @@ public class ExpertExamController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("/searchTecExpPool")
-	public String searchTecExpPool(Model model,Integer page,HttpServletRequest request){
+	public String searchTecExpPool(@CurrentUser User user,Model model,Integer page,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String questionTypeId = request.getParameter("questionTypeId");
 		String topic = request.getParameter("topic");
@@ -141,11 +142,18 @@ public class ExpertExamController extends BaseSupplierController{
 		if(page==null){
 			page = 1;
 		}
-		map.put("page", page.toString());
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		List<ExamQuestion> technicalList = examQuestionService.findExpertQuestionList(map);
-		model.addAttribute("technicalList",new PageInfo<ExamQuestion>(technicalList));
+		if(null != user && "4".equals(user.getTypeName())){
+	        //判断是否 是资源服务中心 
+			map.put("page", page.toString());
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+			List<ExamQuestion> technicalList = examQuestionService.findExpertQuestionList(map);
+			model.addAttribute("technicalList",new PageInfo<ExamQuestion>(technicalList));
+	    }else{
+	    	model.addAttribute("technicalList",new PageInfo<ExamQuestion>(new ArrayList<ExamQuestion>()));
+	    }
+
+		
 		model.addAttribute("topic", topic);
 		model.addAttribute("questionTypeId", questionTypeId);
 		return "ses/ems/exam/expert/technical/list";
@@ -162,7 +170,7 @@ public class ExpertExamController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("/searchComExpPool")
-	public String searchComExpPool(Model model,Integer page,HttpServletRequest request){
+	public String searchComExpPool(@CurrentUser User user,Model model,Integer page,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String questionTypeId = request.getParameter("questionTypeId");
 		String topic = request.getParameter("topic");
@@ -176,11 +184,18 @@ public class ExpertExamController extends BaseSupplierController{
 		if(page==null){
 			page = 1;
 		}
-		map.put("page", page.toString());
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		List<ExamQuestion> commerceList = examQuestionService.findExpertQuestionList(map);
-		model.addAttribute("commerceList",new PageInfo<ExamQuestion>(commerceList));
+		if(null != user && "4".equals(user.getTypeName())){
+	        //判断是否 是资源服务中心 
+			map.put("page", page.toString());
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+			List<ExamQuestion> commerceList = examQuestionService.findExpertQuestionList(map);
+			model.addAttribute("commerceList",new PageInfo<ExamQuestion>(commerceList));
+	    }else{
+	    	model.addAttribute("commerceList",new PageInfo<ExamQuestion>(new ArrayList<ExamQuestion>()));
+	    }
+
+		
 		model.addAttribute("topic", topic);
 		model.addAttribute("questionTypeId", questionTypeId);
 		return "ses/ems/exam/expert/commerce/list";

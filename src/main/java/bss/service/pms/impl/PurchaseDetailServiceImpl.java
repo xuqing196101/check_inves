@@ -371,4 +371,9 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
         return purchaseDetailMapper.getByUinuqeIds(unique, org);
     }
 
+    @Override
+    public List<PurchaseDetail> getUniquesByTask(String projectId, String unique, String org) {
+      return purchaseDetailMapper.getUniquesByTask(projectId, unique, org);
+    }
+
 }

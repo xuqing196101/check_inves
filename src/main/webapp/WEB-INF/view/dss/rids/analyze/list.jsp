@@ -10,7 +10,6 @@
 		var typeName = '${typeName}';
 	</script>
 </head>
-
 <body>
 	<!--面包屑导航开始-->
 	<div class="margin-top-10 breadcrumbs ">
@@ -25,6 +24,7 @@
 		</div>
 	</div>
 
+	<c:if  test="${typeName == 4}">
 	<!-- 内容 -->
 	<div class="container content job-content">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -96,6 +96,6 @@
            </div>
        </div>
     </div>
+</c:if>
 </body>
-
 </html>

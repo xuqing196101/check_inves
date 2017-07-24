@@ -65,11 +65,21 @@
 
 			//查看
 			function view(id) {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				window.location.href = "${pageContext.request.contextPath }/park/view.html?id=" + id;
 			}
 
 			//进入门户
 			function entryPortal() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				var id = [];
 				$('input[name="chkItem"]:checked').each(function() {
 					id.push($(this).val());
@@ -91,6 +101,11 @@
 
 			//查看板块所属主题
 			function viewTopic() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				var id = [];
 				$('input[name="chkItem"]:checked').each(function() {
 					id.push($(this).val());
@@ -112,6 +127,11 @@
 
 			//修改
 			function edit() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				var id = [];
 				$('input[name="chkItem"]:checked').each(function() {
 					id.push($(this).val());
@@ -133,6 +153,11 @@
 
 			//删除
 			function del() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				var parkNameForSerach = $("#parkNameForSerach").val();
 				var parkContentForSerach = $("#parkContentForSerach").val();
 				var ids = [];
@@ -169,6 +194,11 @@
 
 			//新增
 			function add() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				window.location.href = "${pageContext.request.contextPath }/park/add.html";
 			}
 
@@ -189,6 +219,11 @@
 
 			//查询
 			function search() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				var parkNameForSerach = $("#parkNameForSerach").val();
 				var parkContentForSerach = $("#parkContentForSerach").val();
 				location.href = "${pageContext.request.contextPath }/park/getlist.do?parkNameForSerach=" + parkNameForSerach + "&parkContentForSerach=" + parkContentForSerach;

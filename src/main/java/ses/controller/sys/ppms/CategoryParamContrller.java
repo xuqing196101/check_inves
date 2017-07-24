@@ -40,6 +40,7 @@ import ses.model.bms.CategoryAssigned;
 import ses.model.bms.CategoryParameter;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.ppms.CategoryParam;
 import ses.service.bms.CategoryAptitudeService;
@@ -54,6 +55,7 @@ import ses.util.EncodingTool;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 
+import common.annotation.CurrentUser;
 import common.constant.Constant;
 
 @Controller
@@ -609,7 +611,8 @@ public class CategoryParamContrller extends BaseSupplierController {
      * @return void
      */ 
     @RequestMapping("/change")
-    public String change(HttpServletResponse response,String id,Category category){
+    public String change(@CurrentUser User user,Model model,HttpServletResponse response,String id,Category category){
+    	model.addAttribute("authType", user.getTypeName());
         return "ses/ppms/categoryparam/audit";
     }
 
@@ -773,7 +776,7 @@ public class CategoryParamContrller extends BaseSupplierController {
      * @return string
      */
     @RequestMapping("/query_orgnization")
-    public String queryOrgnization(HttpServletRequest request,Model model,Orgnization orgnization){
+    public String queryOrgnization(@CurrentUser User user,HttpServletRequest request,Model model,Orgnization orgnization){
         String name =request.getParameter("name");
         String princinpal= request.getParameter("princinpal");
         Integer page = null;
@@ -809,6 +812,7 @@ public class CategoryParamContrller extends BaseSupplierController {
         model.addAttribute("name", name);
         model.addAttribute("princinpal", princinpal);
         model.addAttribute("list",new PageInfo<Orgnization>(cate));
+        model.addAttribute("authType", user.getTypeName());
         return "ses/ppms/categoryparam/allocate";
     }
     /**

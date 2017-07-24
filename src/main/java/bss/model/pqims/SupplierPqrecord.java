@@ -39,6 +39,8 @@ public class SupplierPqrecord {
      */
     private String successedAvg;
     
+    private String supplierName;
+    
 	public String getId() {
 		return id;
 	}
@@ -71,6 +73,11 @@ public class SupplierPqrecord {
 	public void setSuccessedAvg(String successedAvg) {
 		this.successedAvg = successedAvg;
 	}
+    public String getSupplierName() {
+        return supplierName;
+    }
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
     
-   
 }

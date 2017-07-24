@@ -205,7 +205,7 @@ public class LoginController {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                } else if (srs != null  && srs.size() > 0) {
+                } else if (srs != null  && srs.size() > 0) {//供应商
                     try{
                         // 根据userId查询出Supplier
                         Supplier supplier = supplierService.selectById(u.getTypeId());

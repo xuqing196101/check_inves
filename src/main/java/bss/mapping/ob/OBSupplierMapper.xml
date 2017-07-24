@@ -136,7 +136,10 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_BSS_OB_SUPPLIER
-		WHERE 1 = 1
+		WHERE 1 = 1 
+		<if test="orgId != null and orgId != ''">
+			and CREATER_ID in ( select t.id from T_SES_BMS_USER t where t.org_id = #{orgId})
+		</if>
 		<if test="productId != null and productId != ''">
 			and PRODUCT_ID = #{productId,jdbcType=VARCHAR}
 		</if>
@@ -163,6 +166,9 @@
 		IS_DELETED = 0
 		<if test="productId != null and productId != ''">
 			AND PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+		</if>
+		<if test="orgId != null and orgId != ''">
+			and CREATER_ID in ( select t.id from T_SES_BMS_USER t where t.org_id = #{orgId})
 		</if>
 		<if test="supplierName != null and supplierName != ''">
 			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE  CONCAT(CONCAT('%', #{supplierName}), '%'))
@@ -234,6 +240,9 @@
 		<if test="productId != null and productId != ''">
 			AND PRODUCT_ID = #{productId,jdbcType=VARCHAR}
 		</if>
+		<if test="orgId != null and orgId != ''">
+			and CREATER_ID in ( select t.id from T_SES_BMS_USER t where t.org_id = #{orgId})
+		</if>
 		<if test="supplierName != null and supplierName != ''">
 			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE  CONCAT(CONCAT('%', #{supplierName}), '%'))
 		</if>
@@ -254,6 +263,9 @@
 		IS_DELETED = 1
 		<if test="productId != null and productId != ''">
 			AND PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+		</if>
+		<if test="orgId != null and orgId != ''">
+			and CREATER_ID in ( select t.id from T_SES_BMS_USER t where t.org_id = #{orgId})
 		</if>
 		<if test="supplierName != null and supplierName != ''">
 			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE CONCAT(CONCAT('%', #{supplierName}), '%'))

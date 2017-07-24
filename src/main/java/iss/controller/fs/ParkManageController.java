@@ -39,6 +39,7 @@ import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 
 /**
@@ -77,47 +78,53 @@ public class ParkManageController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("/getlist")
-	public String getParkList(HttpServletRequest request,Model model, Park park,Integer page) {
-		User user = (User) request.getSession().getAttribute("loginUser");
-		Map<String,Object> map = new HashMap<String, Object>();
-		String parkNameForSerach = request.getParameter("parkNameForSerach");
-		String parkContentForSerach = request.getParameter("parkContentForSerach");	
-		HashMap<String,Object> roleMap = new HashMap<String,Object>();
-		roleMap.put("userId", user.getId());
-		roleMap.put("code", "ADMIN_R");
-		BigDecimal i = roleService.checkRolesByUserId(roleMap);
-		if(page == null){
-			page=1;
-		}
-		if(parkNameForSerach!=null && parkNameForSerach!=""){
-			map.put("parkNameForSerach", parkNameForSerach);
-		}
-		if(parkContentForSerach !=null && parkContentForSerach!=""){
-			map.put("parkContentForSerach", parkContentForSerach);
-		}
-		if(!i.equals(new BigDecimal(1))){
-			map.put("userId", user.getId());
-		}
-		map.put("page",page.toString());
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		List<Park> parklist = parkService.queryByList(map);
-		for (Park park2 : parklist) {
-			Topic topic = new Topic();
-			topic.setPark(park2);
-			BigDecimal topiccount = topicService.queryByCount(topic);
-			Post post = new Post();
-			post.setPark(park2);
-			BigDecimal postcount = postService.queryByCount(post);
-			BigDecimal replycount = replyService.queryCountByParkId(park2.getId());
-			park2.setTopiccount(topiccount);
-			park2.setPostcount(postcount);
-			park2.setReplycount(replycount);
-		}
-		model.addAttribute("list", new PageInfo<Park>(parklist));
-		model.addAttribute("parkNameForSerach", parkNameForSerach);
-		model.addAttribute("parkContentForSerach", parkContentForSerach);
-		model.addAttribute("admin", i);
+	public String getParkList(@CurrentUser User user,HttpServletRequest request,Model model, Park park,Integer page) {
+		//声明标识是否是资源服务中心
+        String authType = null;
+        if(null != user && "4".equals(user.getTypeName())){
+            //判断是否 是资源服务中心 
+            authType = "4";
+			Map<String,Object> map = new HashMap<String, Object>();
+			String parkNameForSerach = request.getParameter("parkNameForSerach");
+			String parkContentForSerach = request.getParameter("parkContentForSerach");	
+			HashMap<String,Object> roleMap = new HashMap<String,Object>();
+			roleMap.put("userId", user.getId());
+			roleMap.put("code", "ADMIN_R");
+			BigDecimal i = roleService.checkRolesByUserId(roleMap);
+			if(page == null){
+				page=1;
+			}
+			if(parkNameForSerach!=null && parkNameForSerach!=""){
+				map.put("parkNameForSerach", parkNameForSerach);
+			}
+			if(parkContentForSerach !=null && parkContentForSerach!=""){
+				map.put("parkContentForSerach", parkContentForSerach);
+			}
+			if(!i.equals(new BigDecimal(1))){
+				map.put("userId", user.getId());
+			}
+			map.put("page",page.toString());
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+			List<Park> parklist = parkService.queryByList(map);
+			for (Park park2 : parklist) {
+				Topic topic = new Topic();
+				topic.setPark(park2);
+				BigDecimal topiccount = topicService.queryByCount(topic);
+				Post post = new Post();
+				post.setPark(park2);
+				BigDecimal postcount = postService.queryByCount(post);
+				BigDecimal replycount = replyService.queryCountByParkId(park2.getId());
+				park2.setTopiccount(topiccount);
+				park2.setPostcount(postcount);
+				park2.setReplycount(replycount);
+			}
+			model.addAttribute("list", new PageInfo<Park>(parklist));
+			model.addAttribute("parkNameForSerach", parkNameForSerach);
+			model.addAttribute("parkContentForSerach", parkContentForSerach);
+			model.addAttribute("admin", i);
+			model.addAttribute("authType", authType);
+        }
 		return "iss/forum/park/list";
 	}
 
@@ -131,20 +138,24 @@ public class ParkManageController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("/view")
-	public String view(Model model, String id) {
-		Park p = parkService.selectByPrimaryKey(id);
-		Topic topic = new Topic();
-		topic.setPark(p);
-		BigDecimal topiccount = topicService.queryByCount(topic);
-		Post post = new Post();
-		post.setPark(p);
-		BigDecimal postcount = postService.queryByCount(post);
-		BigDecimal replycount = replyService.queryCountByParkId(p.getId());
-		p.setTopiccount(topiccount);
-		p.setPostcount(postcount);
-		p.setReplycount(replycount);
-		model.addAttribute("park", p);
-		return "iss/forum/park/view";
+	public String view(@CurrentUser User user,Model model, String id) {
+		if(null != user && "4".equals(user.getTypeName())){
+			//判断是否 是资源服务中心 
+			Park p = parkService.selectByPrimaryKey(id);
+			Topic topic = new Topic();
+			topic.setPark(p);
+			BigDecimal topiccount = topicService.queryByCount(topic);
+			Post post = new Post();
+			post.setPark(p);
+			BigDecimal postcount = postService.queryByCount(post);
+			BigDecimal replycount = replyService.queryCountByParkId(p.getId());
+			p.setTopiccount(topiccount);
+			p.setPostcount(postcount);
+			p.setReplycount(replycount);
+			model.addAttribute("park", p);
+			return "iss/forum/park/view";
+		}
+		return "";
 	}
 
 	/**
@@ -156,8 +167,12 @@ public class ParkManageController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("/add")
-	public String add(Model model, HttpServletRequest request) {
-		return "iss/forum/park/add";
+	public String add(@CurrentUser User user,Model model, HttpServletRequest request) {
+		if(null != user && "4".equals(user.getTypeName())){
+			//判断是否 是资源服务中心 
+			return "iss/forum/park/add";
+		}
+		return "";
 	}
 
 	/**
@@ -243,10 +258,14 @@ public class ParkManageController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("/edit")
-	public String edit(String id, Model model) {
-		Park p = parkService.selectByPrimaryKey(id);
-		model.addAttribute("park", p);
-		return "iss/forum/park/edit";
+	public String edit(@CurrentUser User user,String id, Model model) {
+		if(null != user && "4".equals(user.getTypeName())){
+			//判断是否 是资源服务中心 
+			Park p = parkService.selectByPrimaryKey(id);
+			model.addAttribute("park", p);
+			return "iss/forum/park/edit";
+		}
+		return "";
 	}
 
 	/**
@@ -336,28 +355,32 @@ public class ParkManageController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("/delete")
-	public String delete(String ids) {	
-		String[] id=ids.split(",");
-		for (String str : id) {
-			parkService.deleteByPrimaryKey(str);
-			List<Topic> topics = topicService.selectByParkID(str);
-			for (Topic topic : topics) {
-				topicService.deleteByPrimaryKey(topic.getId());
-			}
-			Map<String,Object> map = new HashMap<String, Object>();
-			map.put("parkId", str);
-			List<Post> posts = postService.queryByList(map); 
-			for (Post post : posts) {
-				postService.deleteByPrimaryKey(post.getId());
-				Map<String,Object> map1 = new HashMap<String, Object>();
-				map1.put("postId", post.getId());
-				List<Reply> replies = replyService.selectByPostID(map1);
-				for (Reply reply : replies) {
-					replyService.deleteByPrimaryKey(reply.getId());
+	public String delete(@CurrentUser User user,String ids) {
+		if(null != user && "4".equals(user.getTypeName())){
+			//判断是否 是资源服务中心 
+			String[] id=ids.split(",");
+			for (String str : id) {
+				parkService.deleteByPrimaryKey(str);
+				List<Topic> topics = topicService.selectByParkID(str);
+				for (Topic topic : topics) {
+					topicService.deleteByPrimaryKey(topic.getId());
+				}
+				Map<String,Object> map = new HashMap<String, Object>();
+				map.put("parkId", str);
+				List<Post> posts = postService.queryByList(map); 
+				for (Post post : posts) {
+					postService.deleteByPrimaryKey(post.getId());
+					Map<String,Object> map1 = new HashMap<String, Object>();
+					map1.put("postId", post.getId());
+					List<Reply> replies = replyService.selectByPostID(map1);
+					for (Reply reply : replies) {
+						replyService.deleteByPrimaryKey(reply.getId());
+					}
 				}
 			}
+			return "redirect:getlist.html";
 		}
-		return "redirect:getlist.html";
+		return "";
 	}
 
 	/**

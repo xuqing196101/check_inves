@@ -2178,7 +2178,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				supplier.setProcurementDepId("");
 				supplier.setExtractOrgid("");
 			}
-		}else if(user !=null && org !=null && "1".equals(org.getTypeName()) && "2".equals(supplier.getSign().toString()) || "3".equals(supplier.getSign().toString())){
+		}else if(user !=null && org !=null && "1".equals(org.getTypeName()) && ("2".equals(supplier.getSign().toString()) || "3".equals(supplier.getSign().toString()))){
 			//用户是否登陆  在所有部门查询，复审   因为ExtractOrgid初始为null，为防止注入可以手动
 			supplier.setProcurementDepId(null);
 			supplier.setExtractOrgid(null);
@@ -3434,8 +3434,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		if("3".equals(tableType) || "0".equals(tableType)){
 			downFileName = new String("军队采购供应商审核表.doc".getBytes("UTF-8"), "iso-8859-1");
 		}
-		if("4".equals(tableType) || "0".equals(tableType)){
-			downFileName = new String("军队采购供应商复核表.doc".getBytes("UTF-8"), "iso-8859-1");
+		if("4".equals(tableType)){
+			downFileName = new String("军队采购供应商审核表.doc".getBytes("UTF-8"), "iso-8859-1");
 		}
 		response.setContentType("application/x-download");
 		return supplierAuditService.downloadFile(fileName, filePath, downFileName);
