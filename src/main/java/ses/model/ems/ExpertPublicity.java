@@ -23,6 +23,9 @@ public class ExpertPublicity extends Expert implements Serializable{
 	// 未通过品目数量（小类）
 	private Integer noPassCateCount;
 
+	// 审核意见
+	private String auditOpinion;
+
 	public Integer getPassCateCount() {
 		return passCateCount;
 	}
@@ -39,4 +42,11 @@ public class ExpertPublicity extends Expert implements Serializable{
 		this.noPassCateCount = noPassCateCount;
 	}
 
+	public String getAuditOpinion() {
+		return auditOpinion;
+	}
+
+	public void setAuditOpinion(String auditOpinion) {
+		this.auditOpinion = auditOpinion;
+	}
 }

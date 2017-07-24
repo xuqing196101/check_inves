@@ -34,11 +34,11 @@ $(function () {
         getCheckOpinionType(supplierId);
     });
     // 判断复选框操作
-    if(hiddenSelectOptionId == 0){
+    if(hiddenSelectOptionId != '' && hiddenSelectOptionId == 0){
         // 预审核不通过
         $("#cate_result").html("不通过。");
     }
-    if(hiddenSelectOptionId == 1){
+    if(hiddenSelectOptionId != '' && hiddenSelectOptionId == 1){
         // 预审核通过
         getCheckOpinionType(supplierId);
     }
@@ -149,8 +149,9 @@ function tempSave(flag){
  */
 function downloadTable(str) {
     $("input[name='tableType']").val(str);
+    var cate_result = $("#cate_result").html();
     var auditOpinion = $("#opinion").val();
-    $("input[name='opinion']").val(auditOpinion);
+    $("input[name='opinion']").val(cate_result+auditOpinion);
     $("#shenhe_form_id").attr("action", globalPath + "/supplierAudit/downloadTable.html");
     $("#shenhe_form_id").submit();
     $("#downloadAttachFile").val("1");

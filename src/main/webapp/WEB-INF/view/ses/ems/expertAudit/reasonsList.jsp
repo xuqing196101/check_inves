@@ -340,6 +340,7 @@
 	                                <input type="radio"  name="selectOption" value="0">预复审不合格
                                 </div>
                             </li>
+                            <div><span type="text" name="cate_result" id="cate_result"></span></div>
                             <li class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="col-md-12 col-sm-12 col-xs-12 p0">
 		                               <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
