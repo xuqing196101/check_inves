@@ -305,7 +305,7 @@ public class SynchImportController {
 	                  */
 	                 if(synchType.contains("inner_out")){
 						if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)) {
-							/*innerSupplierService.immportInner(f);*/
+							innerSupplierService.immportInner(f);
 						}
 						if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
 							attachService.importSupplierAttach(f);
