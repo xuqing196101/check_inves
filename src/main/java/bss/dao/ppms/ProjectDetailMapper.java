@@ -21,6 +21,8 @@ public interface ProjectDetailMapper {
 	
 	void deleteByPrimaryKey(String id);
 	
+	void deleteByMap(HashMap<String, Object> map);
+	
 	void updateByPrimaryKeySelective(ProjectDetail projectDetail);
 	
 	List<ProjectDetail> listByAll(ProjectDetail projectDetail);

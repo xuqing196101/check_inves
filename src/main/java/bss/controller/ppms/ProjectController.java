@@ -90,6 +90,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
+import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
 
@@ -2702,47 +2703,41 @@ public class ProjectController extends BaseController {
      
     
      
-     
+     /**
+      * 
+      *〈立项移除明细〉
+      *〈详细描述〉
+      * @author FengTian
+      * @param user
+      * @param page
+      * @param ids
+      * @param pId
+      * @param model
+      * @param project
+      * @return
+      */
      @RequestMapping("/delete")
-     public String delete(@CurrentUser User user, Integer page,String ids,Model model,Project project,String name,String projectNumber){
-         String[] id = ids.split(",");
-         for(int i=0;i<id.length;i++){
-             ProjectDetail pro =  detailService.selectByPrimaryKey(id[i]);
-             PurchaseDetail required = purchaseDetailService.queryById(pro.getRequiredId());
-             required.setProjectStatus(0);
-             purchaseDetailService.updateByPrimaryKeySelective(required);
-             
-             //查看父节点有没有子节点，如果没有吧父节点一块删掉
-             HashMap<String, Object> map = new HashMap<>();
-             map.put("id", pro.getProject().getId());
-             map.put("requiredId", pro.getParentId());
-             List<ProjectDetail> selectById = detailService.selectById(map);
-             if(selectById != null && selectById.size() > 0){
-                 ProjectDetail detail =  detailService.selectByPrimaryKey(selectById.get(0).getId());
-                 HashMap<String, Object> maps = new HashMap<>();
-                 maps.put("id", detail.getRequiredId());
-                 maps.put("projectId", detail.getProject().getId());
-                 List<ProjectDetail> selectByParentId = detailService.selectByParentId(maps);
-                 Integer count = 0;
-                 if(selectByParentId != null && selectByParentId.size() > 0){
-                     for (ProjectDetail projectDetail : selectByParentId) {
-                        if(!id[i].equals(projectDetail.getId())){
-                            count++;
-                        }
-                     }
-                     //大于1的时候说明还有明细
-                     if(count > 1){
-                         detailService.deleteByPrimaryKey(id[i]);
-                     } else if (count == 1){
-                         PurchaseDetail require = purchaseDetailService.queryById(detail.getRequiredId());
-                         require.setProjectStatus(0);
-                         purchaseDetailService.updateByPrimaryKeySelective(require);
-                         detailService.deleteByPrimaryKey(detail.getId());
-                         detailService.deleteByPrimaryKey(id[i]);
-                     }
-                 }
+     public String delete(@CurrentUser User user, Integer page,String ids, String pId, Model model,Project project){
+         String[] id = ids.split(StaticVariables.COMMA_SPLLIT);
+         for (String string : id) {
+             detailService.deleteByPrimaryKey(string);
+         }
+         String[] parentId = pId.split(StaticVariables.COMMA_SPLLIT);
+         List<String> ids2 = getIds(parentId);
+         for (String string : ids2) {
+             HashMap<String, Object> maps = new HashMap<>();
+             maps.put("id", string);
+             maps.put("projectId", project.getId());
+             List<ProjectDetail> selectByParentId = detailService.selectByParentId(maps);
+             if(selectByParentId != null && selectByParentId.size() == 1){
+                 HashMap<String, Object> map = new HashMap<>();
+                 map.put("projectId", project.getId());
+                 map.put("requiredId", string);
+                 detailService.deleteByMap(map);
              }
          }
+         
+         
          HashMap<String, Object> map = new HashMap<String, Object>();
          map.put("id", project.getId());
          List<ProjectDetail> detail = detailService.selectById(map);
@@ -2763,8 +2758,8 @@ public class ProjectController extends BaseController {
          PageInfo<Task> listT = new PageInfo<Task>(taskList);
          model.addAttribute("list", listT);
          model.addAttribute("id", project.getId());
-         model.addAttribute("name", name);
-         model.addAttribute("projectNumber", projectNumber);
+         model.addAttribute("name", project.getName());
+         model.addAttribute("projectNumber", project.getProjectNumber());
          
          return "bss/ppms/project/add";
      }
@@ -3057,18 +3052,20 @@ public class ProjectController extends BaseController {
     
     @RequestMapping("/deleted")
     public String deleted(String id){
-        Map<String,Object> detailMap=new HashMap<String,Object>();
-        detailMap.put("projectId", id);
-        List<ProjectDetail> pd = detailService.selectByRequiredId(detailMap);
-        
-        for(int i=0;i<pd.size();i++){
-            PurchaseDetail required = purchaseDetailService.queryById(pd.get(i).getRequiredId());
-            required.setProjectStatus(0);
-            purchaseDetailService.updateByPrimaryKeySelective(required);
+        if(StringUtils.isNotBlank(id)){
+            Map<String,Object> detailMap=new HashMap<String,Object>();
+            detailMap.put("projectId", id);
+            List<ProjectDetail> pd = detailService.selectByRequiredId(detailMap);
+            if(pd != null && pd.size() > 0){
+                for(int i=0;i<pd.size();i++){
+                    PurchaseDetail required = purchaseDetailService.queryById(pd.get(i).getRequiredId());
+                    required.setProjectStatus(0);
+                    purchaseDetailService.updateByPrimaryKeySelective(required);
+                }
+            }
+            detailService.deleteByProject(id);
+            projectService.delete(id);
         }
-        
-        detailService.deleteByProject(id);
-        projectService.delete(id);
         return "redirect:listProject.html";
     }
     
