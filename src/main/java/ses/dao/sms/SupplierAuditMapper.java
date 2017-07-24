@@ -1,12 +1,10 @@
 package ses.dao.sms;
 
+import org.apache.ibatis.annotations.Param;
+import ses.model.sms.SupplierAudit;
+
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
-import ses.model.sms.SupplierAudit;
-import ses.model.sms.SupplierHistory;
 
 public interface SupplierAuditMapper {
     int deleteByPrimaryKey(String id);
@@ -103,4 +101,36 @@ public interface SupplierAuditMapper {
      * @return void
      */
     void updateIsDeleteBySupplierId(SupplierAudit supplierAudit);
-} 
+    
+    /**
+     * 
+     * Description:查询注册供应商不通过的小类
+     * 
+     * @author Easong
+     * @version 2017年6月28日
+     * @param map
+     * @return
+     */
+    Integer selectRegSupCateCount(Map<String, Object> map);
+    /**
+     *
+     * Description: 查询基本信息的审核项数量
+     *
+     * @author Easong
+     * @version 2017/7/13
+     * @param [map]
+     * @since JDK1.7
+     */
+    Integer selectBasicInfoAuditItem(Map<String, Object> map);
+    /**
+     * 
+     * Description:查询数据
+     * 
+     * @author YangHongLiang
+     * @version 2017-7-21
+     * @param audit
+     * @return
+     */
+    List<SupplierAudit> findByTypeId(SupplierAudit audit);
+    
+}

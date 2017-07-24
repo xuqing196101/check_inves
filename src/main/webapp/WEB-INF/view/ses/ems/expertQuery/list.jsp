@@ -16,7 +16,7 @@
           startRow: "${result.startRow}",
           endRow: "${result.endRow}",
           groups: "${result.pages}" >= 5 ? 5 : "${result.pages}", //连续显示分页数
-          curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
+          curr: function() { //合格url获取当前页，也可以同上（pages）方式获取
             //var page = location.search.match(/page=(\d+)/);
             //return page ? page[1] : 1;
             return "${result.pageNum}";
@@ -103,8 +103,8 @@
              <option <c:if test="${expert.status =='4' }">selected</c:if> value="4">复审合格</option>
              <option <c:if test="${expert.status =='5' }">selected</c:if> value="5">复审不合格</option>
              <option <c:if test="${expert.status =='6' }">selected</c:if> value="6">待复查</option>
-             <option <c:if test="${expert.status =='7' }">selected</c:if> value="7">复查通过</option>
-             <option <c:if test="${expert.status =='8' }">selected</c:if> value="8">复查未通过</option>
+             <option <c:if test="${expert.status =='7' }">selected</c:if> value="7">复查合格</option>
+             <option <c:if test="${expert.status =='8' }">selected</c:if> value="8">复查未合格</option>
            </select>
         </span>
        </li>
@@ -149,11 +149,14 @@
               <th class="info">专家姓名</th>
               <th class="info">身份证号</th>
               <th class="info w50">性别</th>
-              <th class="info">毕业院校及专业</th>
+              <!-- <th class="info">毕业院校及专业</th> -->
+              <th class="info w90">注册日期</th>
+              <th class="info w90">提交日期</th>
+              <th class="info w90">审核日期</th>
               <th class="info">手机</th>
               <th class="info">类别</th>
               <th class="info">采购机构</th>
-              <th class="info w120">审核状态</th>
+              <th class="info">审核状态</th>
               <th class="info">专家类型</th>
             </tr>
           </thead>
@@ -165,7 +168,16 @@
               </td>
               <td class="tc">${e.idCardNumber}</td>
               <td class="tc w50">${e.gender}</td>
-              <td class="tl">${e.graduateSchool }</td>
+              <%-- <td class="tl">${e.graduateSchool }</td> --%>
+              <td class="tc">
+                <fmt:formatDate value="${e.createdAt }" pattern="yyyy-MM-dd" />
+              </td>
+              <td class="tc">
+                <fmt:formatDate value="${e.submitAt }" pattern="yyyy-MM-dd" />
+              </td>
+              <td class="tc">
+                <fmt:formatDate value="${e.auditAt }" pattern="yyyy-MM-dd" />
+              </td>
               <td class="tc">${e.mobile }</td>
               <td class="tl">${e.expertsTypeId}</td>
               <td class="tl">${e.orgName}</td>
@@ -183,10 +195,10 @@
                   <span class="label rounded-2x label-dark">待复查</span>
                 </c:if>
                 <c:if test="${e.status eq '7' }">
-                  <span class="label rounded-2x label-u">复查通过</span>
+                  <span class="label rounded-2x label-u">复查合格</span>
                 </c:if>
                 <c:if test="${e.status eq '8' }">
-                  <span class="label rounded-2x label-dark">复查未通过</span>
+                  <span class="label rounded-2x label-dark">复查未合格</span>
                 </c:if>
               </td>
               <td class="tc">${e.expertsFrom }</td>

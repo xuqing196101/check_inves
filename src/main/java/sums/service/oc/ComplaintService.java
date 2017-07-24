@@ -1,5 +1,7 @@
 package sums.service.oc;
 
+import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import sums.model.oc.Complaint;
@@ -74,4 +76,26 @@ public interface ComplaintService {
 	 * @exception
 	 */
 	Integer yzsc(String businessid, String typeId);
+	
+	/**
+	 * 
+	 * Description: 导出网上投诉信息
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年7月17日
+	 * @param 
+	 * @return
+	 */
+	boolean exportComplaintService(String start,String end,Date synchDate);
+	
+	/**
+	 * 
+	 * Description: 导入网上投诉信息
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年7月17日
+	 * @param 
+	 * @return
+	 */
+	boolean importProduct(File file);
 }

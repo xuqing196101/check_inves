@@ -23,7 +23,8 @@ import common.model.UploadFile;
  * @author: Wang Zhaohua
  * @date: 2016-9-13上午9:45:27
  */
-public class Supplier implements Serializable {
+public class
+Supplier implements Serializable {
 	private static final long serialVersionUID = 8734428260706437179L;
 	
 	//关联报价
@@ -796,7 +797,18 @@ public class Supplier implements Serializable {
     //入库查询列表的标记（5）
     private Integer judge;
     
-    public List<ProjectDetail> getPdList() {
+    /**审核意见附件**/
+	private String auditOpinionAttach;
+	
+    public String getAuditOpinionAttach() {
+		return auditOpinionAttach;
+	}
+
+	public void setAuditOpinionAttach(String auditOpinionAttach) {
+		this.auditOpinionAttach = auditOpinionAttach;
+	}
+
+	public List<ProjectDetail> getPdList() {
         return pdList;
     }
 

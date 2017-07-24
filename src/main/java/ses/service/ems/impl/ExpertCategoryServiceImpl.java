@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -219,7 +220,64 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 		 
 		return mapper.getCategory(expertId, categoryId, typeId);
 	}
-	
-	
+
+	/**
+	 *
+	 * Description:查询专家审核通过的类型
+	 *
+	 * @author Easong
+	 * @version 2017/7/7
+	 * @param map
+	 * @since JDK1.7
+	 */
+	@Override
+	public List<String> selectCateByExpertId(String expertId) {
+        // 定义查询条件
+		Map map = new HashedMap();
+		map.put("expertId", expertId);
+		map.put("type", "six");
+		return mapper.selectCateByExpertId(map);
+	}
+
+	/**
+	 *
+	 * Description:查询专家审核通过的类型
+	 *
+	 * @author Easong
+	 * @version 2017/7/7
+	 * @param expertId
+	 * @param categoryId
+	 * @param typeId
+	 * @since JDK1.7
+	 */
+    @Override
+    public List<ExpertCategory> selectPassCateByExpertId(String expertId, String typeId, Integer pageNum) {
+        if (pageNum != null) {
+            PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSizeArticle"));
+        }
+	    // 定义查询条件
+        Map map = new HashedMap();
+        map.put("expertId", expertId);
+        map.put("typeId", typeId);
+        map.put("type", "six");
+        return mapper.selectPassCateByExpertId(map);
+    }
+
+	/**
+	 *
+	 * Description:保存专家选择的小类
+	 *
+	 * @author Easong
+	 * @version 2017/7/11
+	 * @param [expertCategory]
+	 * @since JDK1.7
+	 */
+	@Override
+	public void insertSelective(ExpertCategory expertCategory) {
+    	mapper.insertSelective(expertCategory);
+
+	}
+
+
 }
  

@@ -69,7 +69,8 @@
 			<mvc:exclude-mapping path="/userInfo/loginInfo.*" />
 			<mvc:exclude-mapping path="/index/selectsumByDirectory.*" />
 	        <mvc:exclude-mapping path="/article/categoryTree.*" />
-				
+			<mvc:exclude-mapping path="/index/indexSupPublicity*.*" />
+			<mvc:exclude-mapping path="/index/indexExpPublicity*.*" />
 
 <!-- 			首页登录 -->
 			<mvc:exclude-mapping path="/index/sign.*" />			
@@ -135,8 +136,9 @@
 			<mvc:exclude-mapping path="/area/listByOne.*" />
 			<mvc:exclude-mapping path="/expert/validateAuditTime.*" />
 			<mvc:exclude-mapping path="/expert/*.*" />
-      <mvc:exclude-mapping path="/user/ajaxIdNumber.*" />
-			
+      		<mvc:exclude-mapping path="/user/ajaxIdNumber.*" />
+      		<mvc:exclude-mapping path="/expertAudit/getCategories.do" />
+
 <!-- 			供应商注册 -->
 			<mvc:exclude-mapping path="/supplier/*.*" /> 
 			<mvc:exclude-mapping path="/supplier_finance/*.*" />

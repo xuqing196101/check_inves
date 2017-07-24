@@ -1,14 +1,19 @@
 package iss.bean;
 
+import iss.model.ps.Article;
+import iss.service.ps.ArticleService;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import iss.model.ps.Article;
-import iss.service.ps.ArticleService;
 import ses.model.ems.Expert;
+import ses.model.ems.ExpertPublicity;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierPublicity;
+import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertService;
+import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierService;
 import synchro.util.SpringBeanUtil;
@@ -196,6 +201,22 @@ public class IssData {
 		map.put("page", 1);
 	 	SupplierLevelService levelService = SpringBeanUtil.getBean(SupplierLevelService.class);
 	 	return levelService.findSupplierCreditIndex(map);
+	}
+	
+	// 查询供应商公示列表
+	public static List<SupplierPublicity> getPublicitySupplier(){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", 1);
+		SupplierAuditService supplierAuditService = SpringBeanUtil.getBean(SupplierAuditService.class);
+		return supplierAuditService.selectSupByPublictyList(map);
+	}
+	 
+	// 查询专家公示列表 
+	public static List<ExpertPublicity> getPublicityExpert(){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", 1);
+		ExpertAuditService expertAuditService = SpringBeanUtil.getBean(ExpertAuditService.class);
+		return expertAuditService.selectExpByPublictyList(map);
 	}
 
 }

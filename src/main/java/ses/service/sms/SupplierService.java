@@ -10,10 +10,10 @@ import java.util.Map;
 
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
+import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Category;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
-import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.supplierExport;
 /**
@@ -425,17 +425,7 @@ public interface SupplierService {
 	 * @return
 	 */
 	public int countByPurchaseDepId(String purchaseDepId, int status);
-	/**
-	 * 
-	 * Description:获取资质文件 数量
-	 * 
-	 * @author YangHongLiang
-	 * @version 2017-6-26
-	 * @param cateTree
-	 * @param supplierId
-	 * @return
-	 */
-	public Long countCategoyrId(SupplierCateTree cateTree,String supplierId);
+	
 	/**
 	 * 
 	 * Description:获取销售合同数量
@@ -446,6 +436,7 @@ public interface SupplierService {
 	 * @return
 	 */
 	public Long contractCountCategoyrId(String supplierItemId);
+	
 
 	/**
 	 * 手机号校验：专家库+供应商库（除去临时供应商）
@@ -474,6 +465,14 @@ public interface SupplierService {
 	public BigDecimal getScoreByFinances(
 			List<SupplierFinance> listSupplierFinances);
 
+	/**
+	 * 获取证书信息
+	 * @param sicList
+	 * @param quaType
+	 * @return
+	 */
+	public List<QualificationBean> getQualificationList(
+			List<SupplierItemCategoryBean> sicList, int quaType);
 	/**
 	 * 供应商名称校验：供应商库（除去临时供应商）
 	 * @param id

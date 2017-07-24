@@ -1,29 +1,30 @@
 package ses.service.sms.impl;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import common.constant.StaticVariables;
+import common.service.UploadService;
+import common.utils.DateUtils;
+import common.utils.JdcgResult;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
+import ses.dao.sms.SupplierAuditOpinionMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
 import ses.dao.sms.SupplierCertSellMapper;
 import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierFinanceMapper;
+import ses.dao.sms.SupplierItemMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierMatEngMapper;
 import ses.dao.sms.SupplierMatProMapper;
@@ -33,11 +34,14 @@ import ses.dao.sms.SupplierStarsMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
@@ -48,23 +52,29 @@ import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierPublicity;
 import ses.model.sms.SupplierStars;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.model.sms.SupplierTypeRelate;
+import ses.service.bms.CategoryService;
 import ses.service.bms.EngCategoryService;
 import ses.service.bms.QualificationService;
 import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
+import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import common.service.UploadService;
 
 /**
  * <p>Title:SupplierAuditServliceImpl </p>
@@ -86,6 +96,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	private SupplierStarsMapper supplierStarsMapper;
 	@Autowired
 	private EngCategoryService engCategoryService;
+	@Autowired
+	private CategoryService categoryService;
 	/**
 	 * 供应商审核记录
 	 */
@@ -178,6 +190,12 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	private SupplierItemService supplierItemService;
 	@Autowired
 	private UploadService uploadService;
+	
+	// 注入供应商和供应商类别对应关系Mapper
+	@Autowired
+	private SupplierItemMapper supplierItemMapper;
+	@Autowired
+    private SupplierAuditOpinionMapper supplierAuditOpinionMapper;
 	
 	/**
 	 * @Title: supplierList
@@ -775,7 +793,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		map.put("categoryId", cateTree.getSecondNodeID());
 		//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 		List<SupplierItem> itemList=supplierItemService.findByMap(map);
-		
+		//资质文件：物资生产/物资销售/服务  审核字段存储：目录三级节点ID关联的SupplierItem的ID
 		long temp=0;
 		if(null!=itemList && !itemList.isEmpty()){
 			SupplierItem supplierItem=itemList.get(0);
@@ -785,7 +803,22 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					if(null!=qualification){
 						temp=uploadService.countFileByBusinessId(supplierItem.getId()+categoryQua.getId(), type_id, syskey);
 						if(temp>0){
+							//资质文件：物资生产/物资销售/服务  审核字段存储：目录三级节点ID关联的SupplierItem的ID
+							qualification.setSupplierItemId(supplierItem.getId());
 						    qualification.setFlag(supplierItem.getId()+categoryQua.getId());
+						    //type:4(工程) 3（销售） 2（生产）1（服务）工程不在该方法内
+							//审核记录
+						    if(3==type){
+						    	//封装 物资销售 记录 资质文件
+							    qualification.setAuditCount(countData(cateTree.getItemsId(), supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_SALES_PAGE));
+						    }else if(2==type){
+						    	//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
+							    qualification.setAuditCount(countData(cateTree.getItemsId(), supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE));
+						    }else if(1==type){
+						    	//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
+							    qualification.setAuditCount(countData(cateTree.getItemsId(), supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE));
+								
+						    }
 						    list.add(qualification);
 						}
 					}
@@ -797,67 +830,80 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	/**
 	 * 
 	 * Description:私有 封装 数据
-	 * 
+	 *  产品目录：审核字段存储：目录末级节点ID
+	 * 资质文件：--物资生产/物资销售/服务
+     * 审核字段存储：三级节点ID关联的SupplierItem的ID
+     *    --工程
+     * 审核字段存储：末级节点ID关联的SupplierItem的ID
+     * 销售合同：
+     * --物资生产/物资销售/服务
+     * 审核字段存储：末级节点ID关联的SupplierItem的ID_附件typeId
 	 * @author YangHongLiang
 	 * @version 2017-6-30
 	 * @param catetree
 	 * @return
 	 */
-	public SupplierCateTree potting(SupplierCateTree cateTree,String supplierId){
-		//封装 目录 是否有审核记录数据
-		SupplierAudit audit=new SupplierAudit();
-		audit.setSupplierId(supplierId);
-		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType("items_page");
-		int count=countByPrimaryKey(audit);
-		cateTree.setIsItemsPageAudit(count);
-		
-		audit=new SupplierAudit();
-		audit.setSupplierId(supplierId);
-		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType("contract_page");
-		count=countByPrimaryKey(audit);
-		cateTree.setIsContractPageAudit(count);
-		
-		audit=new SupplierAudit();
-		audit.setSupplierId(supplierId);
-		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType("aptitude_page");
-		count=countByPrimaryKey(audit);
-		cateTree.setIsAptitudePAgeAudit(count);
-		
+	public SupplierCateTree cateTreePotting(SupplierCateTree cateTree,String supplierId){
+		//封装 目录 物资生产 是否有审核记录数据  如果是其他的 类型 也是该字段存储
+		// 审核字段存储：目录末级节点ID
+		cateTree.setIsItemsProductPageAudit(countData(supplierId, cateTree.getItemsId(), ses.util.Constant.ITMES_PRODUCT_PAGE));
+		//封装 目录 物资销售 是否有审核记录数据   审核字段存储：目录末级节点ID
+		cateTree.setIsItemsSalesPageAudit(countData(supplierId, cateTree.getItemsId(), ses.util.Constant.ITEMS_SALES_PAGE));
+
+		//资质文件：物资生产/物资销售/服务  审核字段存储：目录三级节点ID关联的SupplierItem的ID
+		//--工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
+		//销售合同：--物资生产/物资销售/服务
+		//审核字段存储：目录末级节点ID关联的SupplierItem的ID_附件typeId
+		 if("工程".equals(cateTree.getRootNode())) {
+			//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
+			//cateTree.setIsAptitudeProductPageAudit(countData(supplierId, cateTree.getSupplierItemId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE));
+			//封装 物资销售 记录 资质文件
+			//cateTree.setIsAptitudeSalesPageAudit(countData(supplierId, cateTree.getSupplierItemId(), ses.util.Constant.APTITUDE_SALES_PAGE));
+		 }else{
+			/*Map<String, Object> map=new HashMap<>();
+			map.put("supplierId", supplierId);
+			map.put("categoryId", cateTree.getSecondNodeID());
+			//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
+			List<SupplierItem> itemList=supplierItemService.findByMap(map);
+			String supplierItemId="0";
+			if(null != itemList && !itemList.isEmpty()){
+				supplierItemId=itemList.get(0).getId();
+			}
+			//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
+			cateTree.setIsAptitudeProductPageAudit(countData(supplierId, supplierItemId, ses.util.Constant.APTITUDE_PRODUCT_PAGE));
+			//封装 物资销售 记录 资质文件
+			cateTree.setIsAptitudeSalesPageAudit(countData(supplierId, supplierItemId, ses.util.Constant.APTITUDE_SALES_PAGE));*/
+			//封装 物资生产 销售合同文件  如果是其他的 类型 也是该字段存储
+			cateTree.setIsContractProductPageAudit(countAptitudeProuct(supplierId, cateTree.getSupplierItemId()));
+			//封装 物资销售 记录 销售合同
+			cateTree.setIsContractSalesPageAudit(countAptitudeSales(supplierId, cateTree.getSupplierItemId()));
+		 }
 	return cateTree;
-	}
-	/**
-	 * 
-	 * Description:私有 封装 数据
-	 * 
-	 * @author YangHongLiang
-	 * @version 2017-6-30
-	 * @param catetree
-	 * @return
-	 */
-	private SupplierCateTree pottingFile(SupplierCateTree cateTree,String supplierId){
-	
-		
-		return cateTree;
 	}
 	@Override
 	public List<SupplierCateTree> showProject(SupplierCateTree cateTree,
 			Integer type, String type_id, Integer syskey) {
 		List<SupplierCateTree> cateList=new ArrayList<>();
 		Map<String, Object> map=new HashMap<>();
-		map.put("supplierId", cateTree.getItemsId());
+		map.put("supplierId", cateTree.getSupplierItemId());
 		map.put("categoryId", cateTree.getSecondNodeID());
 		//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 		List<SupplierItem> itemList=supplierItemService.findByMap(map);
-		SupplierMatEng matEng = supplierMatEngService.getMatEng(cateTree.getItemsId());
-	
+		map=new HashMap<>();
+		map.put("supplierId", cateTree.getSupplierItemId());
+		map.put("categoryId", cateTree.getItemsId());
+		List<SupplierItem> itemsList=supplierItemService.findByMap(map);
+		String secondNode="";
+		if(null!=itemsList && !itemsList.isEmpty()){
+			secondNode=itemsList.get(0).getId();
+		}
+		SupplierMatEng matEng = supplierMatEngService.getMatEng(cateTree.getSupplierItemId());
+		//--工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
 		if(null!=itemList && !itemList.isEmpty()){
 			for (SupplierItem supplierItem : itemList) {
 				cateTree=engCategoryService.addNode(cateTree, supplierItem);
 				if(cateTree != null && cateTree.getRootNode() != null) {
-					cateTree.setItemsId(supplierItem.getId());
+					cateTree.setSupplierItemId(secondNode);
 					cateTree.setDiyLevel(supplierItem.getLevel());
 					if(cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
 					if(cateTree!=null&&cateTree.getProName()!=null){
@@ -878,5 +924,477 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	public int countByPrimaryKey(SupplierAudit audit) {
 		return supplierAuditMapper.countByPrimaryKey(audit);
 	}
-	
+
+	/**
+	 * 
+	 * Description:修改公示状态
+	 * 
+	 * @author Easong
+	 * @version 2017年6月26日
+	 * @param ids
+	 * @return
+	 */
+	@Override
+	public JdcgResult updatePublicityStatus(String[] ids) {
+		if(ids != null){
+			Supplier supplier = null;
+			for (int i = 0; i < ids.length; i++) {
+				supplier = new Supplier();
+				supplier.setId(ids[i]);
+				// 设置公示状态
+				supplier.setStatus(-3);
+				supplier.setUpdatedAt(new Date());
+				supplierMapper.updateStatus(supplier);
+			}
+		}
+		return JdcgResult.ok();
+	}
+
+	/**
+	 * 
+	 * Description:查询公示供应商，公示7天后自动入库
+	 * 
+	 * @author Easong
+	 * @version 2017年6月26日
+	 */
+	@Override
+	public void handlerPublictySup() {
+		// 获取当前时间
+	    Date nowDate = new Date();
+	    // 查询所有公示供应商
+	    String nowDateString = DateUtils.getDateOfFormat(nowDate);
+	    List<Supplier> list = supplierMapper.selectSupByPublicty();
+	    if(list != null && !list.isEmpty()){
+	        for (Supplier supplier : list) {
+	            // 将公示7天的拟入库供应商入库 
+	            // 获取七天后的今天
+	            String afterDateString = DateUtils.getDateOfFormat(DateUtils.addDayDate(supplier.getAuditDate(), 7));
+	            if(nowDateString.equals(afterDateString)){
+	                // 审核通过，自动入库
+	                supplier.setStatus(1);
+	                // 修改
+	                supplierMapper.updateStatus(supplier);
+	            }
+	        }
+         }
+	}
+
+	/**
+	 * 
+	 * Description:供应商公示列表
+	 * 
+	 * @author Easong
+	 * @version 2017年6月28日
+	 * @param map
+	 * @return
+	 */
+	@Override
+	public List<SupplierPublicity> selectSupByPublictyList(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer) (map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		// 查询公示供应商列表
+		SupplierPublicity supplierPublicityQuery = (SupplierPublicity) map.get("supplierPublicity");
+		List<SupplierPublicity> list = supplierMapper.selectSupByPublictyList(supplierPublicityQuery);
+		if(list != null && !list.isEmpty()){
+			// 封装供应商类型
+			StringBuffer sb = new StringBuffer(); 
+			for (SupplierPublicity supplierPublicity : list) {
+				// 查询供应商类型
+				List<SupplierTypeRelate> supplierTypes = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(supplierPublicity.getId());
+				if(supplierTypes != null && !supplierTypes.isEmpty()){
+					for (SupplierTypeRelate supplierType : supplierTypes) {
+						// 封装注册供应商类型
+						DictionaryData dict = DictionaryDataUtil.get(supplierType.getSupplierTypeId());
+						if(dict != null) {
+							sb.append(dict.getName()).append(StaticVariables.COMMA_SPLLIT);
+						}
+					}
+					supplierPublicity.setSupplierTypeNames(sb.toString().substring(0, sb.toString().length() - 1));
+					// 清空sb
+					sb.delete(0, sb.toString().length());
+				}
+				// 查询选择和未通过的产品类别
+				selectChooseOrNoPassCateOfDB(supplierPublicity);
+			}
+		}
+		return list;
+	}
+
+	/**
+	 *
+	 * Description: 查询选择和未通过的产品类别
+	 *
+	 * @author Easong
+	 * @version 2017/7/12
+	 * @param [supplierPublicity]
+	 * @since JDK1.7
+	 */
+	private SupplierPublicity selectChooseOrNoPassCateOfDB(SupplierPublicity supplierPublicity) {
+		// 封装查询map集合
+		Map<String, Object> selectMap = new HashMap<>();
+		// 查询供应商申请类别数量
+		Integer count = supplierItemMapper.selectRegSupCateCount(supplierPublicity.getId());
+		supplierPublicity.setPassCateCount(count);
+		// 查询供应商未通过类别数量
+		selectMap.put("supplierId", supplierPublicity.getId());
+		selectMap.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+		selectMap.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+		Integer noPassCount = supplierAuditMapper.selectRegSupCateCount(selectMap);
+		supplierPublicity.setNoPassCateCount(noPassCount);
+		return supplierPublicity;
+	}
+
+	@Override
+	public List<SupplierCateTree> showContractData(String itemId,String supplierId,String supplierItemId) {
+		//合同
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		//账单
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		SupplierCateTree cateTree=new SupplierCateTree();
+		// 递归获取所有父节点
+		List < Category > parentNodeList = categoryService.getAllParentNode(itemId);
+		// 加入根节点 物资
+		cateTree=categoryService.addNode(parentNodeList);
+		SupplierItem item = supplierItemService.selectByPrimaryKey(supplierItemId);
+		String type=item.getSupplierTypeRelateId();
+		String typeName = "";
+		if("PRODUCT".equals(type)) {
+			typeName = "生产";
+		} else if("SALES".equals(type)) {
+			typeName = "销售";
+		}
+		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+		cateTree.setOneContract(id1);
+		cateTree.setTwoContract(id2);
+		cateTree.setThreeContract(id3);
+		cateTree.setOneBil(id4);
+		cateTree.setTwoBil(id5);
+		cateTree.setThreeBil(id6);
+		cateTree.setRootNode(cateTree.getRootNode() == null ? "" : cateTree.getRootNode());
+		cateTree.setFirstNode(cateTree.getFirstNode() == null ? "" : cateTree.getFirstNode());
+		cateTree.setSecondNode(cateTree.getSecondNode() == null ? "" : cateTree.getSecondNode());
+		cateTree.setThirdNode(cateTree.getThirdNode() == null ? "" : cateTree.getThirdNode());
+		cateTree.setFourthNode(cateTree.getFourthNode() == null ? "" : cateTree.getFourthNode());
+		cateTree.setSupplierItemId(supplierItemId);
+		cateTree.setRootNode(cateTree.getRootNode() + typeName);
+		if("PRODUCT".equals(type)) {
+			typeName = ses.util.Constant.CONTRACT_PRODUCT_PAGE;
+		} else if("SALES".equals(type)) {
+			typeName = ses.util.Constant.CONTRACT_SALES_PAGE;
+		}else{
+			typeName = ses.util.Constant.CONTRACT_PRODUCT_PAGE;
+		}
+		//封装 合同 是否有审核 记录数据
+		//* 销售合同：--物资生产/物资销售/服务  审核字段存储：目录末级节点ID关联的SupplierItem的ID_附件typeId
+		// 合同 1 
+		int count=countData(supplierId, cateTree.getSupplierItemId()+"_"+id1, typeName);
+		cateTree.setIsAptitudeProductPageAudit(count);
+		// 合同 2 
+		count=countData(supplierId, cateTree.getSupplierItemId()+"_"+id2, typeName);
+		cateTree.setIsAptitudeSalesPageAudit(count);
+		// 合同 3 
+		count=countData(supplierId, cateTree.getSupplierItemId()+"_"+id3, typeName);
+		cateTree.setIsContractProductPageAudit(count);
+		// 账单 4 
+		count=countData(supplierId, cateTree.getSupplierItemId()+"_"+id4, typeName);
+		cateTree.setIsContractSalesPageAudit(count);
+		// 账单5 
+		count=countData(supplierId, cateTree.getSupplierItemId()+"_"+id5, typeName);
+		cateTree.setIsItemsProductPageAudit(count);
+		// 账单 6 
+		count=countData(supplierId, cateTree.getSupplierItemId()+"_"+id6, typeName);
+		cateTree.setIsItemsSalesPageAudit(count);
+		allTreeList.add(cateTree);		
+		return allTreeList;
+	}
+
+	/**
+	 *
+	 * Description:查询选择和未通过的产品类别
+	 *
+	 * @author Easong
+	 * @version 2017/7/12
+	 * @param [supplierPublicity]
+	 * @since JDK1.7
+	 */
+	@Override
+	public SupplierPublicity selectChooseOrNoPassCate(SupplierPublicity supplierPublicity) {
+        return selectChooseOrNoPassCateOfDB(supplierPublicity);
+	}
+
+	@Override
+	public JdcgResult selectAndVertifyAuditItem(String supplierId) {
+		/**
+		 *
+		 * Description:审核前判断是否有通过项和未通过项--是否符合通过要求
+		 *
+		 * @author Easong
+		 * @version 2017/7/13
+		 * @param [supplierId]
+		 * @since JDK1.7
+		 */
+		// 判断审核意见是否填写
+        /*Map<String, Object> selectMap = new HashedMap();
+        selectMap.put("supplierId",supplierId);
+        selectMap.put("flagTime",0);
+        SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(selectMap);
+        if(supplierAuditOpinion == null || (supplierAuditOpinion != null && StringUtils.isEmpty(supplierAuditOpinion.getOpinion()))){
+            return JdcgResult.build(500, "审核意见不能为空");
+        }*/
+
+        // 判断基本信息+财务信息+股东信息
+        Map<String, Object> map = new HashedMap();
+        map.put("supplierId",supplierId);
+        map.put("auditType", Constant.SUPPLIER_BASIC_INFO_ITEM_FLAG);
+        Integer count;
+        // 定义选择类型数量
+        Integer selectCount;
+        count = supplierAuditMapper.selectBasicInfoAuditItem(map);
+        if(count != null && count > 0){
+            return JdcgResult.build(500, "基本、财务、股东信息中有不通过项");
+        }
+        // 判断供应商类型和产品类别分别不能有全不通过项
+        // 获取供应商选择品目的类型
+        List<String> supplierTypeBySupplierIdList = supplierItemMapper.findSupplierTypeBySupplierId(supplierId);
+        // 获取供应商不通过品目的类型
+        map.put("auditType", Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
+        count = supplierAuditMapper.selectBasicInfoAuditItem(map);
+        if(supplierTypeBySupplierIdList != null && !supplierTypeBySupplierIdList.isEmpty()){
+            selectCount = supplierTypeBySupplierIdList.size();
+            if(count != null && (selectCount - count) <= 0){
+                return JdcgResult.build(500, "类型不能全部为不通过项");
+            }
+        }
+
+        // 判断产品类别
+        SupplierPublicity supplierPublicity = new SupplierPublicity();
+        supplierPublicity.setId(supplierId);
+        SupplierPublicity supplierPublicityAfter = this.selectChooseOrNoPassCateOfDB(supplierPublicity);
+        // 获取选择的产品类别数量
+        selectCount = supplierPublicityAfter.getPassCateCount();
+        count = supplierPublicityAfter.getNoPassCateCount();
+        if(count != null && selectCount != null && (selectCount - count) <= 0){
+            return JdcgResult.build(500, "产品类别不能全部为不通过项");
+        }
+        return JdcgResult.ok();
+	}
+
+	@Override
+	public JdcgResult selectAuditNoPassItemCount(String supplierId) {
+	    /**
+	     * @deprecated:
+	     *
+	     * @Author:Easong
+	     * @Date:Created in 2017/7/22
+	     * @param: [supplierId]
+	     * @return: common.utils.JdcgResult
+	     *
+	     */
+	    Map<String, Object> map = new HashedMap();
+	    map.put("supplierId", supplierId);
+        Integer auditNoPassCount = supplierAuditMapper.selectBasicInfoAuditItem(map);
+	    if(auditNoPassCount != null && auditNoPassCount == 0){
+	        return JdcgResult.build(500, "没有审核不通过项");
+        }
+        return JdcgResult.ok();
+	}
+
+    @Override
+    public JdcgResult vertifyOpinion(String supplierId) {
+	    /**
+	     * @deprecated:判断审核意见
+	     *
+	     * @Author:Easong
+	     * @Date:Created in 2017/7/23
+	     * @param: [supplierId]
+	     * @return: common.utils.JdcgResult
+	     *
+	     */
+        // 判断审核意见是否填写
+        Map<String, Object> selectMap = new HashedMap();
+        selectMap.put("supplierId",supplierId);
+        selectMap.put("flagTime",0);
+        SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(selectMap);
+        if(supplierAuditOpinion == null || (supplierAuditOpinion != null && StringUtils.isEmpty(supplierAuditOpinion.getOpinion()))){
+            return JdcgResult.build(500, "审核意见不能为空");
+        }
+        return JdcgResult.ok();
+    }
+
+    /**
+	 * 
+	 * Description:封装 合计 销售合同 物资 生产
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-6
+	 * @param supplierId
+	 * @param auditField
+	 * @return
+	 */
+	private Integer countAptitudeProuct(String supplierId, String auditField){
+		int rut=0;
+		//合同
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		//账单
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		// 合同 1 物资生产
+		int count=countData(supplierId, auditField+"_"+id1, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		rut=rut+count;
+		// 合同 2 物资生产
+		count=countData(supplierId, auditField+"_"+id2, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		rut=rut+count;
+		// 合同 3 物资生产
+		count=countData(supplierId, auditField+"_"+id3, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		rut=rut+count;
+		// 账单 4 物资生产
+		count=countData(supplierId, auditField+"_"+id4, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		rut=rut+count;
+		// 账单5 物资生产
+		count=countData(supplierId, auditField+"_"+id5, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		rut=rut+count;
+		// 账单 6 物资生产
+		count=countData(supplierId, auditField+"_"+id6, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		rut=rut+count;
+		return rut;
+	}
+	/**
+	 * 
+	 * Description:封装 合计 销售合同 物资 销售
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-6
+	 * @param supplierId
+	 * @param auditField
+	 * @return
+	 */
+	private Integer countAptitudeSales(String supplierId, String auditField){
+		int rut=0;
+		//合同
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		//账单
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		// 合同 1 物资销售
+		int count=countData(supplierId, auditField+"_"+id1, ses.util.Constant.CONTRACT_SALES_PAGE);
+		rut=rut+count;
+		// 合同 2 物资销售
+		count=countData(supplierId, auditField+"_"+id2, ses.util.Constant.CONTRACT_SALES_PAGE);
+		rut=rut+count;
+		// 合同 3 物资销售
+		count=countData(supplierId, auditField+"_"+id3, ses.util.Constant.CONTRACT_SALES_PAGE);
+		rut=rut+count;
+		// 账单 4 物资销售
+		count=countData(supplierId, auditField+"_"+id4, ses.util.Constant.CONTRACT_SALES_PAGE);
+		rut=rut+count;
+		// 账单5 物资销售
+		count=countData(supplierId, auditField+"_"+id5, ses.util.Constant.CONTRACT_SALES_PAGE);
+		rut=rut+count;
+		// 账单 6 物资销售
+		count=countData(supplierId, auditField+"_"+id6, ses.util.Constant.CONTRACT_SALES_PAGE);
+		rut=rut+count;
+		return rut;
+	}
+	/**
+	 * 
+	 * Description:封装私有  方法 简化 查询审核 记录
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-6
+	 * @param supplierId
+	 * @param auditField
+	 * @param auditType
+	 * @return
+	 */
+	private Integer countData(String supplierId, String auditField,String auditType ){
+		SupplierAudit audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(auditField);
+		audit.setAuditType(auditType);
+		return countByPrimaryKey(audit);
+	}
+	@Override
+	public SupplierCateTree countEngCategoyrId(SupplierCateTree cateTree, String supplierId) {
+		long rut=0;
+		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+		String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_ENG_CERT);
+		List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
+        if(certEng != null && certEng.size() > 0) {
+		  rut=rut+uploadService.countFileByBusinessId(certEng.get(0).getId(), type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
+        }
+        //封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
+		cateTree.setIsAptitudeProductPageAudit(countData(supplierId, cateTree.getSupplierItemId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE));
+		//封装 物资销售 记录 资质文件
+		cateTree.setIsAptitudeSalesPageAudit(countData(supplierId, cateTree.getSupplierItemId(), ses.util.Constant.APTITUDE_SALES_PAGE));
+        cateTree.setFileCount(rut);
+		return cateTree;
+	}
+	@Override
+	public SupplierCateTree countCategoyrId(SupplierCateTree cateTree, String supplierId) {
+		long rut=0,temp=0,productCount=0,salesCount=0;
+		//根据第三节目录节点 id(也就是中级目录 id) 品目id查询所要上传的资质文件
+        if(StringUtils.isEmpty(cateTree.getSecondNodeID())){
+          return cateTree;
+        }
+		//专业资质 要求 有可能是末节节点 有可能是其他节点
+		//根据第三节目录节点 id(也就是中级目录 id) 品目id查询所要上传的资质文件
+		List<CategoryQua> categoryQuaList = categoryQuaMapper.findList(cateTree.getSecondNodeID());
+		if(null != categoryQuaList && !categoryQuaList.isEmpty()){
+			String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
+			Map<String, Object> map=new HashMap<>();
+			map.put("supplierId", supplierId);
+			map.put("categoryId", cateTree.getSecondNodeID());
+			//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id
+			List<SupplierItem> itemList=supplierItemService.findByMap(map);
+			if(null != itemList && !itemList.isEmpty()){
+				for (SupplierItem supplierItem : itemList) {
+		            for (CategoryQua categoryQua : categoryQuaList) {
+		            	temp=0;
+		            	//组合 资质文件上传的 business_id
+						String business_id=supplierItem.getId()+categoryQua.getId();
+						temp=uploadService.countFileByBusinessId(business_id, type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
+						rut=rut+temp;
+						//有上传文件 封装 审核数据
+						if(temp>0){
+						//审核记录
+						//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
+						productCount=productCount+countData(supplierId, supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE);
+						//封装 物资销售 记录 资质文件
+						salesCount=salesCount+countData(supplierId, supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_SALES_PAGE);
+						}
+					}
+				}
+			}
+	    }
+		//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
+		cateTree.setIsAptitudeProductPageAudit((int)productCount);
+		//封装 物资销售 记录 资质文件
+		cateTree.setIsAptitudeSalesPageAudit((int)salesCount);
+		cateTree.setFileCount(rut);
+		return cateTree;
+	}
+
+	@Override
+	public List<SupplierAudit> findByTypeId(SupplierAudit supplierAudit) {
+		return supplierAuditMapper.findByTypeId(supplierAudit);
+	}
+
+	@Override
+	public int insertAudit(List<SupplierAudit> supplierAudit) {
+		int i=0;
+		for (SupplierAudit supplierAudit2 : supplierAudit) {
+			i=i+supplierAuditMapper.insertSelective(supplierAudit2);
+		}
+		return i;
+	}
 }

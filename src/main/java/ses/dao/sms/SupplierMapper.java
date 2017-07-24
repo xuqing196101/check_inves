@@ -1,16 +1,16 @@
 package ses.dao.sms;
 
+import org.apache.ibatis.annotations.Param;
+import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCondition;
+import ses.model.sms.SupplierPublicity;
+import ses.model.sms.supplierExport;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
-import ses.model.sms.Supplier;
-import ses.model.sms.SupplierCondition;
-import ses.model.sms.supplierExport;
 
 /**
  * @Title: SupplierMapper
@@ -564,6 +564,39 @@ public interface SupplierMapper {
 	 * @return
 	 */
 	List<Supplier> selByNameWithoutProvisional(String supplierName);
+	
+	/**
+	 * 
+	 * Description:查询公示的供应商
+	 * 
+	 * @author Easong
+	 * @version 2017年6月26日
+	 * @param status
+	 * @return
+	 */
+	List<Supplier> selectSupByPublicty();
+	
+	/**
+	 * 
+	 * Description:查询公示的供应商列表
+	 * 
+	 * @author Easong
+	 * @version 2017年6月28日
+	 * @param supplierPublicity
+	 * @return
+	 */
+	List<SupplierPublicity> selectSupByPublictyList(SupplierPublicity supplierPublicity);
+
+	/**
+	 *
+	 * Description:根据公示时间查询公示的供应商(导出使用)
+	 *
+	 * @author Easong
+	 * @version 2017/7/9
+	 * @param map
+	 * @since JDK1.7
+	 */
+	List<Supplier> selectSupByPublictyOfExport(Map<String,Object> map);
 
 	/**
 	 * 供应商名称校验：供应商库（除去临时供应商）

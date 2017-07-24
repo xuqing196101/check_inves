@@ -68,8 +68,8 @@
 									<!-- 物资生产型 -->
 									<c:set value="0" var="prolength" />
 									<div class="tab-pane active" id="tab-1">
-										<h2 class="f16  ">
-										      	<font color="red">*</font> 上传物资-生产型资质文件
+										<h2 class="f16">
+							      	<font color="red">*</font> 上传物资-生产型资质文件
 										</h2>
 										<table class="table table-bordered">
 											<c:forEach items="${proQua }" var="obj">
@@ -78,9 +78,12 @@
 													<td>
 														<c:forEach items="${obj.list }" var="quaPro">
 															<c:set value="${prolength+1}" var="prolength"></c:set>
-															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaPro.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${quaPro.flag}','aptitude_page')"</c:if>>
+															<c:set value="${obj.itemId}_${quaPro.id}" var="quaId" />
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${quaId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,quaPro.flag) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,quaId) && currSupplier.status==2}">
+																		<div class="webuploader-pick">${quaPro.name}</div>
+																		<div class="clear"></div>
 																		<u:show showId="pShow${prolength}" delete="false" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
@@ -102,8 +105,8 @@
 									<!-- 物资销售型 -->
 									<c:set value="0" var="length"> </c:set>
 									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fade height-300" id="tab-2">
-										<h2 class="f16  ">
-										      	<font color="red">*</font> 上传物资-销售型资质文件
+										<h2 class="f16">
+							      	<font color="red">*</font> 上传物资-销售型资质文件
 										</h2>
 										<table class="table table-bordered">
 											<c:forEach items="${saleQua }" var="sale">
@@ -112,9 +115,12 @@
 													<td>
 														<c:forEach items="${sale.list }" var="saua">
 															<c:set value="${length+1}" var="length"></c:set>
-															<div class="mr5 fl" <c:if test="${fn:contains(audit,saua.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${saua.flag}','aptitude_page')"</c:if>>
+															<c:set value="${obj.itemId}_${saua.id}" var="quaId" />
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaId)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${quaId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,saua.flag) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,quaId) && currSupplier.status==2}">
+																		<div class="webuploader-pick">${saua.name}</div>
+																		<div class="clear"></div>
 																		<u:show showId="saleShow${length}" delete="false" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
@@ -134,7 +140,7 @@
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fade height-300" id="tab-3">
-										<h2 class="f16  ">
+										<h2 class="f16">
 											<font color="red">*</font> 上传工程资质文件
 										</h2>
 										<form id="item_form" method="post" class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
@@ -155,8 +161,7 @@
 												</tr>
 												</thead>
 												<c:forEach items="${allTreeList}" var="cate" varStatus="vs">
-													<tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg(this, '${cate.itemsId}','aptitude_page')"</c:if>>
-														
+													<tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg(this, '${cate.itemsId}','${auditType}')"</c:if>>
 														<!-- 序号 -->
 														<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 															<div class="w50"> ${vs.index + 1}</div>
@@ -264,12 +269,11 @@
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE') and fn:length(serviceQua) > 0}">
 									<div class="tab-pane <c:if test="${divCount==0 } ">active in</c:if> fade height-300" id="tab-4">
-										<h2 class="f16  ">
-										      	<font color="red">*</font> 上传服务资质文件
+										<h2 class="f16">
+							      	<font color="red">*</font> 上传服务资质文件
 										</h2>
 										<table class="table table-bordered">
 											<c:set value="0" var="slength"> </c:set>
-
 											<c:forEach items="${serviceQua }" var="server">
 												<tr>
 													<td class="w200">${server.categoryName }
@@ -277,9 +281,12 @@
 													<td>
 														<c:forEach items="${server.list }" var="ser">
 															<c:set value="${slength+1}" var="slength"></c:set>
-															<div class="fl mr5" <c:if test="${fn:contains(audit,ser.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${ser.flag}','aptitude_page')"</c:if>>
+															<c:set value="${obj.itemId}_${ser.id}" var="quaId" />
+															<div class="fl mr5" <c:if test="${fn:contains(audit,quaId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${quaId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,ser.flag) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,quaId) && currSupplier.status==2}">
+																		<div class="webuploader-pick">${ser.name}</div>
+																		<div class="clear"></div>
 																		<u:show showId="serverShow${slength}" delete="false" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
@@ -408,7 +415,6 @@
 					 	}
 					}
 				});
-
 			}
 
 			function prev() {

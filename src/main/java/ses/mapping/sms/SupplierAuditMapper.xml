@@ -21,7 +21,7 @@
   </sql>
   
   <select id="selectByPrimaryKey"   parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from T_SES_SMS_SUPPLIER_AUDIT
     where SUPPLIER_ID = #{supplierId}
@@ -34,6 +34,23 @@
     and IS_DELETED = 0
     ORDER BY CREATED_AT DESC
   </select>
+  
+  <select id="findByTypeId"   parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
+    select
+     AUDIT_TYPE, SUPPLIER_ID, AUDIT_FIELD, 
+    AUDIT_CONTENT, AUDIT_FIELD_NAME 
+    from T_SES_SMS_SUPPLIER_AUDIT
+    where SUPPLIER_ID = #{supplierId}
+    <if test="auditField!=null">
+        and  AUDIT_FIELD=#{auditField}
+    </if>
+    <if test="auditType!=null">
+        and  AUDIT_TYPE=#{auditType}
+    </if>
+    and IS_DELETED = 0
+    ORDER BY CREATED_AT DESC
+  </select>
+  
   
    <select id="countByPrimaryKey"   parameterType="ses.model.sms.SupplierAudit" resultType="Integer">
     select 
@@ -344,4 +361,28 @@
   		SUPPLIER_ID =#{supplierId}
   </update>
 	
+	<!-- 查询注册供应商不通过的小类 -->
+	<select id="selectRegSupCateCount" resultType="java.lang.Integer" parameterType="Map">
+		SELECT COUNT(T.ID)
+		  FROM T_SES_SMS_SUPPLIER_AUDIT T
+		   WHERE T.SUPPLIER_ID = #{supplierId, jdbcType=VARCHAR}
+		   AND (T.AUDIT_TYPE = #{items_sales_page, jdbcType=VARCHAR}
+		   OR T.AUDIT_TYPE = #{items_product_page, jdbcType=VARCHAR})
+		   AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
+       AND T.IS_DELETED = 0
+	</select>
+
+  <!--查询基本信息的审核项数量-->
+   <select id="selectBasicInfoAuditItem" resultType="java.lang.Integer" parameterType="Map">
+     SELECT COUNT(T.ID)
+      FROM T_SES_SMS_SUPPLIER_AUDIT T
+     WHERE T.IS_DELETED = 0
+       <if test="supplierId != null and supplierId != ''">
+           AND T.SUPPLIER_ID = #{supplierId}
+       </if>
+       <if test="auditType != null and auditType != ''">
+           AND T.AUDIT_TYPE = #{auditType}
+       </if>
+   </select>
+
 </mapper>

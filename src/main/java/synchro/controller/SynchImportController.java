@@ -1,14 +1,14 @@
 package synchro.controller;
 
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBSupplierService;
+
+import com.github.pagehelper.PageInfo;
+
+import common.bean.ResponseBean;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,13 @@ import ses.model.bms.User;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.bms.QualificationService;
+import ses.service.ems.ExpertBlackListService;
 import ses.service.sms.SMSProductLibService;
+import ses.service.sms.SupplierBlacklistService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
+import sums.service.oc.ComplaintService;
 import synchro.inner.read.expert.InnerExpertService;
 import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.model.SynchRecord;
@@ -35,12 +38,12 @@ import synchro.service.SynchService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
-import bss.service.ob.OBProductService;
-import bss.service.ob.OBProjectServer;
-import bss.service.ob.OBSupplierService;
 
-import com.github.pagehelper.PageInfo;
-
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
 
@@ -106,6 +109,20 @@ public class SynchImportController {
     /** 设置数据类型 **/
     private static final Integer DATA_TYPE_KIND = 29;
     
+    /**
+     * 网上投诉信息
+     */
+    @Autowired
+    private ComplaintService complaintService;
+    
+    /** 供应商黑名单 **/
+    @Autowired
+	private SupplierBlacklistService supplierBlacklistService;
+    
+    /** 专家黑名单 **/
+    @Autowired
+	private ExpertBlackListService expertBlackListService;
+    
     
     /**
      * 
@@ -136,7 +153,7 @@ public class SynchImportController {
 				iter.remove();
 	            continue;
 	        }
-	 	   //内网时
+	 	   /*//内网时
 	        if(ipAddressType.equals("0")){
 	     	   //过滤外网导出  	竞价定型产品导出  只能是内网导出外网
 	     	   if (dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_PRODUCT)){
@@ -149,37 +166,37 @@ public class SynchImportController {
 	                continue;
 	            }
 	            if(dd.getCode().equals(Constant.DATA_TYPE_BIDDING_CODE)){
-	            	/**竞价信息导出  只能是内网导出外网**/
+	            	*//**竞价信息导出  只能是内网导出外网**//*
 	            	iter.remove();
 	                continue;
 	            }
 	            if(dd.getCode().equals(Constant.SYNCH_CATEGORY)){
-	            	/**产品目录管理 数据导出  只能是内网导出外网**/
+	            	*//**产品目录管理 数据导出  只能是内网导出外网**//*
 	             iter.remove();
 	         	   continue;
 	            }
 	            if(dd.getCode().equals(Constant.SYNCH_CATE_PARAMTER)){
-	            	/**产品目录参数管理 数据导出  只能是内网导出外网**/
+	            	*//**产品目录参数管理 数据导出  只能是内网导出外网**//*
 	            	iter.remove();
 	            	continue;
 	            }
 	            if(dd.getCode().equals(Constant.SYNCH_DATA)){
-	            	/**资料管理 数据导出  只能是内网导出外网**/
+	            	*//**资料管理 数据导出  只能是内网导出外网**//*
 	             iter.remove();
 	         	   continue;
 	            }
 	            if(dd.getCode().equals(Constant.SYNCH_TEMPLATE_DOWNLOAD)){
-	            	/**门户模板管理 数据导出  只能是内网导出外网**/
+	            	*//**门户模板管理 数据导出  只能是内网导出外网**//*
 	            	iter.remove();
 	            	continue;
 	            }
 	            if(dd.getCode().equals(Constant.DATA_SYNCH_CATEGORY_QUA)){
-	          	  /**目录资质关联表  只能是内网导出外网**/
+	          	  *//**目录资质关联表  只能是内网导出外网**//*
 	          	  iter.remove();
 	          	  continue;
 	            }
 	            if(dd.getCode().equals(Constant.DATA_SYNCH_QUALIFICATION)){
-	          	  /**产品资质表  只能是内网导出外网**/
+	          	  *//**产品资质表  只能是内网导出外网**//*
 	          	  iter.remove();
 	          	  continue;
 	            }
@@ -187,7 +204,7 @@ public class SynchImportController {
 	          //外网时   
 	        if(ipAddressType.equals("1")){
 	            if(dd.getCode().equals(Constant.DATA_TYPE_BIDDING_RESULT_CODE)){
-	            	/**竞价结果导出  只能是外网导出内网**/
+	            	*//**竞价结果导出  只能是外网导出内网**//*
 	            	iter.remove();
 	                continue;
 	            }
@@ -195,6 +212,80 @@ public class SynchImportController {
 		  }
 	       model.addAttribute("dataTypeList", list);
         }
+<<<<<<< HEAD*/
+ 	   //内网时
+        if(ipAddressType.equals("0")){
+     	   //过滤外网导出  	竞价定型产品导出  只能是内网导出外网
+     	   if (dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_PRODUCT)){
+     		  iter.remove();
+                continue;
+            } 
+     	   //竞价供应商导出  只能是内网导出外网
+     	   if(dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_SUPPLIER)){
+     		  iter.remove();
+                continue;
+            }
+            if(dd.getCode().equals(Constant.DATA_TYPE_BIDDING_CODE)){
+            	/**竞价信息导出  只能是内网导出外网**/
+            	iter.remove();
+                continue;
+            }
+            if(dd.getCode().equals(Constant.SYNCH_CATEGORY)){
+            	/**产品目录管理 数据导出  只能是内网导出外网**/
+             iter.remove();
+         	   continue;
+            }
+            if(dd.getCode().equals(Constant.SYNCH_CATE_PARAMTER)){
+            	/**产品目录参数管理 数据导出  只能是内网导出外网**/
+            	iter.remove();
+            	continue;
+            }
+            if(dd.getCode().equals(Constant.SYNCH_DATA)){
+            	/**资料管理 数据导出  只能是内网导出外网**/
+             iter.remove();
+         	   continue;
+            }
+            if(dd.getCode().equals(Constant.SYNCH_TEMPLATE_DOWNLOAD)){
+            	/**门户模板管理 数据导出  只能是内网导出外网**/
+            	iter.remove();
+            	continue;
+            }
+            if(dd.getCode().equals(Constant.DATA_SYNCH_CATEGORY_QUA)){
+          	  /**目录资质关联表  只能是内网导出外网**/
+          	  iter.remove();
+          	  continue;
+            }
+            if(dd.getCode().equals(Constant.DATA_SYNCH_QUALIFICATION)){
+          	  /**产品资质表  只能是内网导出外网**/
+          	  iter.remove();
+          	  continue;
+            }
+            if(dd.getCode().equals(Constant.SYNCH_PUBLICITY_SUPPLIER)){
+                /**公示供应商**/
+                iter.remove();
+                continue;
+            }
+
+            if(dd.getCode().equals(Constant.SYNCH_PUBLICITY_EXPERT)){
+                /**公示专家**/
+                iter.remove();
+                continue;
+            }
+        }
+          //外网时   
+        if(ipAddressType.equals("1")){
+            if(dd.getCode().equals(Constant.DATA_TYPE_BIDDING_RESULT_CODE)){
+            	/**竞价结果导出  只能是外网导出内网**/
+            	iter.remove();
+                continue;
+            }
+          }
+	  }
+	       
+       model.addAttribute("dataTypeList", list);
+        }
+/*=======
+>>>>>>> fix_bug*/
        return "/synch/import";
     }
     
@@ -287,6 +378,40 @@ public class SynchImportController {
 							innerSupplierService.importSupplierInfo(f);
 	
 						}
+/*<<<<<<< HEAD
+					}
+                 }
+                 
+                 *//**
+                  * 退回修改，导入到外网
+                  *//*
+                 if(synchType.contains("inner_out")){
+					if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)) {
+						innerSupplierService.immportInner(f, null);
+					}
+					if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
+						attachService.importSupplierAttach(f);
+					}
+					if (f.isDirectory()) {
+						if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)) {
+							OperAttachment.moveFolder(f);
+=======*/
+					   /**
+             * 退回修改，导入到外网
+             */
+                if(synchType.contains("inner_out")){
+             if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)) {
+               innerSupplierService.immportInner(f, null);
+             }
+             if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
+               attachService.importSupplierAttach(f);
+             }
+             if (f.isDirectory()) {
+               if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)) {
+                 OperAttachment.moveFolder(f);
+               }
+             }
+           }
 						if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
 							attachService.importSupplierAttach(f);
 						}
@@ -297,22 +422,6 @@ public class SynchImportController {
 						}
 	                 }
 	                 
-	                 /**
-	                  * 退回修改，导入到外网
-	                  */
-	                 if(synchType.contains("inner_out")){
-						if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)) {
-							innerSupplierService.immportInner(f);
-						}
-						if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
-							attachService.importSupplierAttach(f);
-						}
-						if (f.isDirectory()) {
-							if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)) {
-								OperAttachment.moveFolder(f);
-							}
-						}
-					}
 	                 
 	                 /**
 	                  * 供应商退回修改之后导入到内网
@@ -627,12 +736,166 @@ public class SynchImportController {
 						}
 					}
 					
-					 /**目录资质关联表*/
+					/* *//**目录资质关联表*//*
 					categoryService.importCategoryQua(synchType,f);
-	                /** 产品资质表*/
+	                *//** 产品资质表*//*
 					qualificationService.importQualification(synchType,f);
 					
 				}
+<<<<<<< HEAD*/
+
+				// 公示供应商
+				if(synchType.contains(Constant.SYNCH_PUBLICITY_SUPPLIER)){
+					for (File file2 : f.listFiles()){
+						if(file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)){
+							innerSupplierService.immportInner(file2, "publicity");
+						}
+					}
+					if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
+						attachService.importSupplierAttach(f);
+					}
+					if (f.isDirectory()) {
+						if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)) {
+							OperAttachment.moveFolder(f);
+						}
+					}
+				}
+
+                // 公示专家
+                if(synchType.contains(Constant.SYNCH_PUBLICITY_EXPERT)){
+                    for (File file2 : f.listFiles()){
+                        if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME)) {
+                            innerExpertService.importExpOfPublicity(file2);
+                        }
+                    }
+
+                    if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {
+                        attachService.importExpertAttach(f);
+                    }
+                    if (f.isDirectory()) {
+                        if (f.getName().equals(Constant.ATTCH_FILE_EXPERT)) {
+                            OperAttachment.moveFolder(f);
+                        }
+                    }
+                }
+                
+                /** 网上投诉信息数据导入 **/
+                if(synchType.contains(Constant.DATE_SYNCH_ONLINE_COMPLAINTS)){
+						if (f.getName().equals(Constant.ONLINE_COMPLAINTS_FILE_EXPERT)) {
+							for (File file2 : f.listFiles()) {
+								// 判断文件名是否是网上投诉信息数据名称
+								if (file2.getName().contains(
+										FileUtils.C_ONLINE_COMPLAINTS_PATH_FILENAME)
+										|| file2.getName()
+												.contains(
+														FileUtils.M_ONLINE_COMPLAINTS_PATH_FILENAME)) {
+									complaintService.importProduct(file2);
+								}
+
+							}
+						}
+						if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
+	                         attachService.importAttach(f);
+	                     }
+						if (f.isDirectory()) {
+							if (f.getName().equals(Constant.ONLINE_COMPLAINTS_FILE_EXPERT)) {
+								OperAttachment.moveFolder(f);
+							}
+							if (f.getName().equals(Constant.ATTACH_FILE_TENDER)){
+	                             OperAttachment.moveFolder(f);
+	                         }
+                      }
+                 }
+                
+                /** 供应商黑名单信息数据导入 **/
+                if(synchType.contains(Constant.DATE_SYNCH_SUPPLIER_BLACKLIST)){
+						if (f.getName().equals(Constant.SUPPLIER_BLACKLIST_FILE_EXPERT)) {
+							for (File file2 : f.listFiles()) {
+								// 判断文件名是否是供应商黑名单信息数据名称
+								if (file2.getName().contains(
+										FileUtils.C_SUPPLIER_BLACKLIST_PATH_FILENAME)
+										|| file2.getName()
+												.contains(
+														FileUtils.M_SUPPLIER_BLACKLIST_PATH_FILENAME)) {
+									supplierBlacklistService.importSupplierBlacklist(file2);
+								}
+
+							}
+						}
+						if (f.getName().equals(Constant.SUPPLIER_BLACKLIST_LOG_FILE_EXPERT)) {
+							for (File file2 : f.listFiles()) {
+								// 判断文件名是否是供应商黑名单记录信息数据名称
+								if (file2.getName().contains(
+										FileUtils.C_SUPPLIER_BLACKLIST_LOG_PATH_FILENAME)
+										|| file2.getName()
+												.contains(
+														FileUtils.M_SUPPLIER_BLACKLIST_LOG_PATH_FILENAME)) {
+									supplierBlacklistService.importSupplierBlacklistLog(file2);
+								}
+
+							}
+						}
+						if (f.isDirectory()) {
+							if (f.getName().equals(Constant.SUPPLIER_BLACKLIST_FILE_EXPERT)) {
+								OperAttachment.moveFolder(f);
+							}
+							if (f.getName().equals(Constant.SUPPLIER_BLACKLIST_LOG_FILE_EXPERT)) {
+								OperAttachment.moveFolder(f);
+							}
+                      }
+                 }
+				
+                /** 专家黑名单信息数据导入 **/
+                if(synchType.contains(Constant.DATE_SYNCH_EXPERT_BLACKLIST)){
+						if (f.getName().equals(Constant.EXPERT_BLACKLIST_FILE_EXPERT)) {
+							for (File file2 : f.listFiles()) {
+								// 判断文件名是否是专家黑名单信息数据名称
+								if (file2.getName().contains(
+										FileUtils.C_EXPERT_BLACKLIST_PATH_FILENAME)
+										|| file2.getName()
+												.contains(
+														FileUtils.M_EXPERT_BLACKLIST_PATH_FILENAME)) {
+									expertBlackListService.importExpertBlacklist(file2);
+								}
+
+							}
+						}
+						if (f.getName().equals(Constant.EXPERT_BLACKLIST_LOG_FILE_EXPERT)) {
+							for (File file2 : f.listFiles()) {
+								// 判断文件名是否是专家黑名单记录信息数据名称
+								if (file2.getName().contains(
+										FileUtils.C_EXPERT_BLACKLIST_LOG_PATH_FILENAME)
+										|| file2.getName()
+												.contains(
+														FileUtils.M_EXPERT_BLACKLIST_LOG_PATH_FILENAME)) {
+									expertBlackListService.importExpertBlacklistLog(file2);
+								}
+
+							}
+						}
+						//专家黑名单附件
+						if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
+	                         attachService.importExpertAttach(f);
+	                     }
+						if (f.isDirectory()) {
+							if (f.getName().equals(Constant.EXPERT_BLACKLIST_FILE_EXPERT)) {
+								OperAttachment.moveFolder(f);
+							}
+							if (f.getName().equals(Constant.EXPERT_BLACKLIST_LOG_FILE_EXPERT)) {
+								OperAttachment.moveFolder(f);
+							}
+							if (f.getName().equals(Constant.ATTCH_FILE_EXPERT)){
+	                             OperAttachment.moveFolder(f);
+	                         }
+                      }
+                 }
+                
+				 /**目录资质关联表*/
+				categoryService.importCategoryQua(synchType,f);
+                /** 产品资质表*/
+				qualificationService.importQualification(synchType,f);
+				
+			}
 	        }
 	        bean.setSuccess(true);
 	        return bean;
