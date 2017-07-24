@@ -57,10 +57,12 @@ public class SupplierCreditController {
 			}
 		}*/
 		String name = supplierCredit.getName();
-		try {
-			name = URLDecoder.decode(name, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		if(StringUtils.isNotBlank(name)){
+			try {
+				name = URLDecoder.decode(name, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 		}
 		supplierCredit.setName(name);
 		if (supplierCredit.getId() != null && !"".equals(supplierCredit.getId())) {
