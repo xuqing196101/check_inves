@@ -1,10 +1,8 @@
 package ses.controller.sys.bms;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,15 +16,16 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import bss.controller.base.BaseController;
-
-import com.github.pagehelper.PageInfo;
-
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.DictionaryType;
+import ses.model.bms.User;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.DictionaryTypeService;
+
+import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
 
 @Controller
 @RequestMapping("/dictionaryData")
@@ -128,20 +127,30 @@ public class DictionaryDataController extends BaseSupplierController{
     }
     
     @RequestMapping("/dictionaryDataList")
-    public String dictionaryDataList(Model model,String kind,Integer page) {
-        List<DictionaryType> ls = dictionaryTypeService.findList();
-        model.addAttribute("list", ls);
-        model.addAttribute("kind", kind);
+    public String dictionaryDataList(@CurrentUser User user,Model model,String kind,Integer page) {
+    	//声明标识是否是资源服务中心
+        String authType = null;
+        if(null != user && "4".equals(user.getTypeName())){
+            //判断是否 是资源服务中心 
+            authType = "4";
+	        List<DictionaryType> ls = dictionaryTypeService.findList();
+	        model.addAttribute("list", ls);
+	        model.addAttribute("kind", kind);
+	        model.addAttribute("authType", authType);
+        }
         return "ses/bms/dictionaryData/dictionaryDataList";
     }
     
     @RequestMapping("/showList")
-    public void showList(HttpServletResponse response,DictionaryData dd,Integer page) throws Exception{
-    	List<DictionaryData> ls = dictionaryDataService.listByPage(dd, page == null ? 1 : page);
-    	HashMap<String, Object> map = new HashMap<>();
-    	map.put("pageInfo", new PageInfo<DictionaryData>(ls));
-    	map.put("list", ls);
-    	map.put("kind", dd.getKind());
-    	super.writeJson(response, JSONSerializer.toJSON(map));
+    public void showList(@CurrentUser User user,HttpServletResponse response,DictionaryData dd,Integer page) throws Exception{
+    	//声明标识是否是资源服务中心
+        if(null != user && "4".equals(user.getTypeName())){
+	    	List<DictionaryData> ls = dictionaryDataService.listByPage(dd, page == null ? 1 : page);
+	    	HashMap<String, Object> map = new HashMap<>();
+	    	map.put("pageInfo", new PageInfo<DictionaryData>(ls));
+	    	map.put("list", ls);
+	    	map.put("kind", dd.getKind());
+	    	super.writeJson(response, JSONSerializer.toJSON(map));
+        }
     }
 }

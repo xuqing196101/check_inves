@@ -958,7 +958,8 @@
     <include refid="Base_Column_List" />
     from T_BSS_PMS_PURCHASE_DETAIL
     <where>
-      HISTORY_STATUS='0'  and IS_DELETE='0' and PROJECT_STATUS = '0'
+      HISTORY_STATUS='0'  and IS_DELETE='0' 
+      <!-- and PROJECT_STATUS = '0' -->
       <if test="uniqueId !=null">
         and UNIQUE_ID =#{uniqueId}
       </if>
@@ -1056,5 +1057,101 @@
 	
 	
 	</sql>
+    
+    <!-- 获取任务中待选择的明细 -->
+    <select id="getUniquesByTask" parameterType="String" resultMap="PurchaseRequired_Map">
+	    select
+	    <include refid="Base_Column_List" />
+	    from T_BSS_PMS_PURCHASE_DETAIL pd
+	    <where>
+	      pd.HISTORY_STATUS='0'  and pd.IS_DELETE='0' 
+	      <if test="uniqueId !=null">
+	        AND pd.UNIQUE_ID =#{uniqueId}
+	      </if>
+	      <if test="organization !=null">
+	        AND pd.ORGANIZATION_ID =#{organization}
+	      </if>
+	      	AND pd.PROJECT_STATUS != 1
+			AND pd.ID NOT IN (
+				SELECT
+					REQUIRED_ID
+				FROM
+					T_BSS_PPMS_PROJECTS_DETAIL B
+				WHERE
+					B.REQUIRED_ID IN (
+						SELECT
+							ID
+						FROM
+							T_BSS_PMS_PURCHASE_DETAIL A
+						WHERE
+							A.HISTORY_STATUS = '0'
+						AND A.IS_DELETE = '0'
+					 <if test="uniqueId !=null">
+				        AND A.UNIQUE_ID =#{uniqueId}
+				      </if>
+				      <if test="organization !=null">
+				        AND A.ORGANIZATION_ID =#{organization}
+				      </if>
+						AND A.PROJECT_STATUS = 2
+					)
+				AND B.PROJECT_ID = #{projectId}
+			)
+	    </where>
+	      ORDER BY IS_MASTER
+	  </select>
+	  
+	  <!-- 获取任务中已被该项目暂时选择的明细 -->
+    <select id="getUniquesTempByTask" parameterType="String" resultMap="PurchaseRequired_Map">
+	    select
+	    <include refid="Base_Column_List" />
+	    from T_BSS_PMS_PURCHASE_DETAIL pd
+	    <where>
+	      pd.HISTORY_STATUS='0'  and pd.IS_DELETE='0' 
+	      <if test="uniqueId !=null">
+	        AND pd.UNIQUE_ID =#{uniqueId}
+	      </if>
+	      <if test="organization !=null">
+	        AND pd.ORGANIZATION_ID =#{organization}
+	      </if>
+	      	AND pd.PROJECT_STATUS != 1
+			AND pd.ID IN (
+				SELECT
+					REQUIRED_ID
+				FROM
+					T_BSS_PPMS_PROJECTS_DETAIL B
+				WHERE
+					B.REQUIRED_ID IN (
+						SELECT
+							ID
+						FROM
+							T_BSS_PMS_PURCHASE_DETAIL A
+						WHERE
+							A.HISTORY_STATUS = '0'
+						AND A.IS_DELETE = '0'
+					  <if test="uniqueId !=null">
+				      AND A.UNIQUE_ID =#{uniqueId}
+				    </if>
+				    <if test="organization !=null">
+				      AND A.ORGANIZATION_ID =#{organization}
+				    </if>
+						AND A.PROJECT_STATUS = 2
+					)
+				AND B.PROJECT_ID = #{projectId}
+			)
+	    </where>
+	      ORDER BY IS_MASTER
+	  </select>
+	  
+	  <!-- 查看该计划明细是否立项 -->
+	  <select id="groupByStatus" parameterType="java.lang.String" resultType="java.lang.Integer">
+	      SELECT
+				  PROJECT_STATUS
+				FROM
+				  T_BSS_PMS_PURCHASE_DETAIL
+				WHERE
+				  UNIQUE_ID =#{uniqueId}
+				GROUP BY
+				  PROJECT_STATUS
+	  </select>
     
 </mapper>

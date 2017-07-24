@@ -22,8 +22,11 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.github.pagehelper.PageHelper;
+
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
@@ -33,8 +36,10 @@ import ses.dao.bms.UserMapper;
 import ses.dao.sms.DeleteLogMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAuditMapper;
+import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
+import ses.dao.sms.SupplierMatEngMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.formbean.ContractBean;
@@ -55,9 +60,11 @@ import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCateTree;
+import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.model.sms.supplierExport;
@@ -179,6 +186,13 @@ public class SupplierServiceImpl implements SupplierService {
   @Autowired
   private SupplierItemLevelServer supplierItemLevelServer;
 
+  @Autowired
+  private SupplierMatEngMapper supplierMatEngMapper;
+  
+  @Autowired
+  private SupplierCertEngMapper supplierCertEngMapper;
+  
+  
   @Override
   public Supplier get(String id) {
     Supplier supplier = supplierMapper.getSupplier(id);
@@ -1085,6 +1099,16 @@ public class SupplierServiceImpl implements SupplierService {
     supplier.setCreditCode(creditCode + buff);
     supplier.setIsDeleted(1);
     supplierMapper.updateById(supplier);
+    
+    SupplierMatEng eng = supplierMatEngMapper.getMatEngBySupplierId(supplierId);
+    
+    List<SupplierCertEng> list = supplierCertEngMapper.findCertEngByMatEngId(eng.getId());
+    
+    for(SupplierCertEng sc:list){
+    	sc.setCertCode(sc.getCertCode()+buff);
+    	supplierCertEngMapper.updateByPrimaryKeySelective(sc);
+    }
+    
 
   }
 

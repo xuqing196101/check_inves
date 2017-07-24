@@ -71,10 +71,20 @@
 		}
 	}
 	function view(id) {
+		var authType = "${authType}";
+		if(authType != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		} 
 		window.location.href = "${pageContext.request.contextPath}/templet/view.do?id="
 				+ id;
 	}
 	function edit() {
+		var authType = "${authType}";
+		if(authType != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		} 
 		var id = [];
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
@@ -96,6 +106,11 @@
 		}
 	}
 	function del() {
+		var authType = "${authType}";
+		if(authType != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		} 
 		var ids = [];
 		$('input[name="chkItem"]:checked').each(function() {
 			ids.push($(this).val());
@@ -122,6 +137,11 @@
 		}
 	}
 	function add() {
+		var authType = "${authType}";
+		if(authType != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		} 
 		window.location.href = "${pageContext.request.contextPath}/templet/add.do";
 	}
 	$(function() {

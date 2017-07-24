@@ -181,8 +181,8 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 	 */
   @Override
   public List<ProjectDetail> findByIdPackageId(HashMap<String, Object> map) {
-    // TODO Auto-generated method stub
-    return projectDetailMapper.selectById(map);
+
+      return projectDetailMapper.selectById(map);
   }
 
 	@Override
@@ -322,5 +322,11 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 		}
 		return newDetails;
 	}
+
+    @Override
+    public void deleteByMap(HashMap<String, Object> map) {
+        
+        projectDetailMapper.deleteByMap(map);
+    }
 
 }

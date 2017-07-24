@@ -57,11 +57,11 @@ import bss.service.ppms.ProjectService;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
-
 import dss.model.rids.ArticleAnalyzeVo;
 
 /**
@@ -826,12 +826,16 @@ public class ArticleController extends BaseSupplierController {
   }
   
   @RequestMapping("auditDelete")
-  public String auditDelete(HttpServletRequest request, String ids) {
-    String[] id = ids.split(",");
-    for (String str : id) {
-      articleService.delete(str);
+  public String auditDelete(@CurrentUser User user,HttpServletRequest request, String ids) {
+    if(null != user && "4".equals(user.getTypeName())){
+	    //判断是否 是资源服务中心 
+	    String[] id = ids.split(",");
+	    for (String str : id) {
+	      articleService.delete(str);
+	    }
+	    return "redirect:auditlist.html?status=1";
     }
-    return "redirect:auditlist.html?status=1";
+    return "";
   }
 
   /**
@@ -906,94 +910,101 @@ public class ArticleController extends BaseSupplierController {
    * @return String
    */
   @RequestMapping("/auditlist")
-  public String auditlist(Model model, String articleTypeId, String secondArticleTypeId, Integer status, Integer range, Integer page, Date publishStartDate, Date publishEndDate, HttpServletRequest request) {
-    Article article = new Article();
-    ArticleType articleType = new ArticleType();
-    String name = request.getParameter("name");
-    
-
-    HashMap<String, Object> map = new HashMap<String, Object>();
-
-    // map.put("status",status);
-
-    if (name != null && !name.equals("")) {
-      map.put("name", "%" + name + "%");
+  public String auditlist(@CurrentUser User user,Model model, String articleTypeId, String secondArticleTypeId, Integer status, Integer range, Integer page, Date publishStartDate, Date publishEndDate, HttpServletRequest request) {
+	//声明标识是否是资源服务中心
+    String authType = null;
+    if(null != user && "4".equals(user.getTypeName())){
+	    //判断是否 是资源服务中心 
+	    authType = "4";
+	    model.addAttribute("authType", authType);
+	    Article article = new Article();
+	    ArticleType articleType = new ArticleType();
+	    String name = request.getParameter("name");
+	    
+	
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+	
+	    // map.put("status",status);
+	
+	    if (name != null && !name.equals("")) {
+	      map.put("name", "%" + name + "%");
+	    }
+	    if (range != null && !range.equals("")) {
+	      map.put("range", range);
+	    }
+	
+	    if (articleTypeId != null && !"".equals(articleTypeId)) {
+	      articleType.setId(articleTypeId);
+	      article.setArticleType(articleType);
+	      map.put("articleType", article.getArticleType());
+	    }
+	    
+	    if (secondArticleTypeId != null && !"null".equals(secondArticleTypeId) && !"".equals(secondArticleTypeId)) {
+	      map.put("secondArticleTypeId", secondArticleTypeId);
+	    }
+	    
+	    if (publishStartDate != null) {
+	      String startDate = new SimpleDateFormat("yyyy-MM-dd").format(publishStartDate);
+	      map.put("publishStartDate", startDate);
+	    }
+	    
+	    if (publishEndDate != null) {
+	      String endDate = new SimpleDateFormat("yyyy-MM-dd").format(publishEndDate);
+	      map.put("publishEndDate", endDate);
+	    }
+	    
+	    if (page == null) {
+	      page = 1;
+	    }
+	    map.put("page", page.toString());
+	    PropertiesUtil config = new PropertiesUtil("config.properties");
+	    PageHelper.startPage(page, Integer.parseInt(config.getString("pageSizeArticle")));
+	    if (status != null && !status.equals("")) {
+	      map.put("status", status);
+	    } 
+	    List<Article> list = articleService.selectArticleByStatus(map);
+	
+	    model.addAttribute("articleId", article.getId());
+	    DictionaryData sj = new DictionaryData();
+	    sj.setCode("SECURITY_COMMITTEE");
+	    List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
+	    request.getSession().setAttribute("sysKey", Constant.TENDER_SYS_KEY);
+	    if (secrets.size() > 0) {
+	      model.addAttribute("secretTypeId", secrets.get(0).getId());
+	    }
+	    Integer num = 0;
+	    StringBuilder groupUpload = new StringBuilder("");
+	    StringBuilder groupShow = new StringBuilder("");
+	    for (Article a : list) {
+	      num++;
+	      groupUpload = groupUpload.append("artice_secret_show" + num + ",");
+	      groupShow = groupShow.append("artice_secret_show" + num + ",");
+	      a.setGroupsUpload("artice_secret_show" + num);
+	      a.setGroupShow("artice_secret_show" + num);
+	    }
+	    String groupUploadId = "";
+	    String groupShowId = "";
+	    if (!"".equals(groupUpload.toString())) {
+	      groupUploadId = groupUpload.toString().substring(0, groupUpload.toString().length() - 1);
+	    }
+	    if (!"".equals(groupShow.toString())) {
+	      groupShowId = groupShow.toString().substring(0, groupShow.toString().length() - 1);
+	    }
+	    for (Article act : list) {
+	      act.setGroupsUploadId(groupUploadId);
+	      act.setGroupShowId(groupShowId);
+	    }
+	    model.addAttribute("list", new PageInfo<Article>(list));
+	    model.addAttribute("articleName", name);
+	    model.addAttribute("articlesRange", range);
+	    model.addAttribute("articlesStatus", status);
+	    model.addAttribute("articlesArticleTypeId", articleTypeId);
+	    model.addAttribute("curpage", page);
+	    model.addAttribute("article", article);
+	    model.addAttribute("publishStartDate", publishStartDate);
+	    model.addAttribute("publishEndDate", publishEndDate);
+	    model.addAttribute("secondArticleTypeId", secondArticleTypeId);
     }
-    if (range != null && !range.equals("")) {
-      map.put("range", range);
-    }
-
-    if (articleTypeId != null && !"".equals(articleTypeId)) {
-      articleType.setId(articleTypeId);
-      article.setArticleType(articleType);
-      map.put("articleType", article.getArticleType());
-    }
-    
-    if (secondArticleTypeId != null && !"null".equals(secondArticleTypeId) && !"".equals(secondArticleTypeId)) {
-      map.put("secondArticleTypeId", secondArticleTypeId);
-    }
-    
-    if (publishStartDate != null) {
-      String startDate = new SimpleDateFormat("yyyy-MM-dd").format(publishStartDate);
-      map.put("publishStartDate", startDate);
-    }
-    
-    if (publishEndDate != null) {
-      String endDate = new SimpleDateFormat("yyyy-MM-dd").format(publishEndDate);
-      map.put("publishEndDate", endDate);
-    }
-    
-    if (page == null) {
-      page = 1;
-    }
-    map.put("page", page.toString());
-    PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage(page, Integer.parseInt(config.getString("pageSizeArticle")));
-    if (status != null && !status.equals("")) {
-      map.put("status", status);
-    } 
-    List<Article> list = articleService.selectArticleByStatus(map);
-
-    model.addAttribute("articleId", article.getId());
-    DictionaryData sj = new DictionaryData();
-    sj.setCode("SECURITY_COMMITTEE");
-    List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
-    request.getSession().setAttribute("sysKey", Constant.TENDER_SYS_KEY);
-    if (secrets.size() > 0) {
-      model.addAttribute("secretTypeId", secrets.get(0).getId());
-    }
-    Integer num = 0;
-    StringBuilder groupUpload = new StringBuilder("");
-    StringBuilder groupShow = new StringBuilder("");
-    for (Article a : list) {
-      num++;
-      groupUpload = groupUpload.append("artice_secret_show" + num + ",");
-      groupShow = groupShow.append("artice_secret_show" + num + ",");
-      a.setGroupsUpload("artice_secret_show" + num);
-      a.setGroupShow("artice_secret_show" + num);
-    }
-    String groupUploadId = "";
-    String groupShowId = "";
-    if (!"".equals(groupUpload.toString())) {
-      groupUploadId = groupUpload.toString().substring(0, groupUpload.toString().length() - 1);
-    }
-    if (!"".equals(groupShow.toString())) {
-      groupShowId = groupShow.toString().substring(0, groupShow.toString().length() - 1);
-    }
-    for (Article act : list) {
-      act.setGroupsUploadId(groupUploadId);
-      act.setGroupShowId(groupShowId);
-    }
-    model.addAttribute("list", new PageInfo<Article>(list));
-    model.addAttribute("articleName", name);
-    model.addAttribute("articlesRange", range);
-    model.addAttribute("articlesStatus", status);
-    model.addAttribute("articlesArticleTypeId", articleTypeId);
-    model.addAttribute("curpage", page);
-    model.addAttribute("article", article);
-    model.addAttribute("publishStartDate", publishStartDate);
-    model.addAttribute("publishEndDate", publishEndDate);
-    model.addAttribute("secondArticleTypeId", secondArticleTypeId);
     return "iss/ps/article/audit/list";
 
   }
@@ -1036,87 +1047,95 @@ public class ArticleController extends BaseSupplierController {
    * @return String
    */
   @RequestMapping("/auditInfo")
-  public String auditInfo(Model model, String id, HttpServletRequest request) {
-    Article article = articleService.selectArticleById(id);
-    List<ArticleAttachments> articleAttaList = articleAttachmentsService
-        .selectAllArticleAttachments(article.getId());
-    article.setArticleAttachments(articleAttaList);
-    model.addAttribute("article", article);
-    List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
-    model.addAttribute("list", list);
-
-    DictionaryData dd = new DictionaryData();
-    dd.setCode("POST_ATTACHMENT");
-    List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
-    model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-    if (lists.size() > 0) {
-      model.addAttribute("attachTypeId", lists.get(0).getId());
+  public String auditInfo(@CurrentUser User user,Model model, String id, HttpServletRequest request) {
+    if(null != user && "4".equals(user.getTypeName())){
+	    //判断是否 是资源服务中心 
+	    Article article = articleService.selectArticleById(id);
+	    List<ArticleAttachments> articleAttaList = articleAttachmentsService
+	        .selectAllArticleAttachments(article.getId());
+	    article.setArticleAttachments(articleAttaList);
+	    model.addAttribute("article", article);
+	    List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+	    model.addAttribute("list", list);
+	
+	    DictionaryData dd = new DictionaryData();
+	    dd.setCode("POST_ATTACHMENT");
+	    List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+	    model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+	    if (lists.size() > 0) {
+	      model.addAttribute("attachTypeId", lists.get(0).getId());
+	    }
+	
+	    model.addAttribute("articleId", article.getId());
+	    DictionaryData da = new DictionaryData();
+	    da.setCode("GGWJ");
+	    List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
+	    if (dlists.size() > 0) {
+	      model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
+	    }
+	
+	    DictionaryData sj = new DictionaryData();
+	    sj.setCode("SECURITY_COMMITTEE");
+	    List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
+	    if (secrets.size() > 0) {
+	      model.addAttribute("secretTypeId", secrets.get(0).getId());
+	    }
+	    //查询关联品目
+	    articleService.getArticleCategory(id, model);
+	    return "iss/ps/article/audit/audit";
     }
-
-    model.addAttribute("articleId", article.getId());
-    DictionaryData da = new DictionaryData();
-    da.setCode("GGWJ");
-    List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
-    if (dlists.size() > 0) {
-      model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
-    }
-
-    DictionaryData sj = new DictionaryData();
-    sj.setCode("SECURITY_COMMITTEE");
-    List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
-    if (secrets.size() > 0) {
-      model.addAttribute("secretTypeId", secrets.get(0).getId());
-    }
-    //查询关联品目
-    articleService.getArticleCategory(id, model);
-    return "iss/ps/article/audit/audit";
+    return "";
   }
 
   @RequestMapping("/showaudit")
-  public String showaudit(Model model, String id, HttpServletRequest request, ArticleAnalyzeVo articleAnalyzeVo, String reqType, String status, String articleTypeId, Integer curpage, Integer range, String title, String secondArticleTypeId, Date startDate, Date endDate) {
-    Article article = articleService.selectArticleById(id);
-    List<ArticleAttachments> articleAttaList = articleAttachmentsService
-        .selectAllArticleAttachments(article.getId());
-    article.setArticleAttachments(articleAttaList);
-    model.addAttribute("article", article);
-    List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
-    model.addAttribute("list", list);
-
-    DictionaryData dd = new DictionaryData();
-    dd.setCode("POST_ATTACHMENT");
-    List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
-    model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-    if (lists.size() > 0) {
-      model.addAttribute("attachTypeId", lists.get(0).getId());
+  public String showaudit(@CurrentUser User user,Model model, String id, HttpServletRequest request, ArticleAnalyzeVo articleAnalyzeVo, String reqType, String status, String articleTypeId, Integer curpage, Integer range, String title, String secondArticleTypeId, Date startDate, Date endDate) {
+    if(null != user && "4".equals(user.getTypeName())){
+	    //判断是否 是资源服务中心 
+	    Article article = articleService.selectArticleById(id);
+	    List<ArticleAttachments> articleAttaList = articleAttachmentsService
+	        .selectAllArticleAttachments(article.getId());
+	    article.setArticleAttachments(articleAttaList);
+	    model.addAttribute("article", article);
+	    List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+	    model.addAttribute("list", list);
+	
+	    DictionaryData dd = new DictionaryData();
+	    dd.setCode("POST_ATTACHMENT");
+	    List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+	    model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+	    if (lists.size() > 0) {
+	      model.addAttribute("attachTypeId", lists.get(0).getId());
+	    }
+	
+	    model.addAttribute("articleId", article.getId());
+	    DictionaryData da = new DictionaryData();
+	    da.setCode("GGWJ");
+	    List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
+	    if (dlists.size() > 0) {
+	      model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
+	    }
+	
+	    DictionaryData sj = new DictionaryData();
+	    sj.setCode("SECURITY_COMMITTEE");
+	    List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
+	    if (secrets.size() > 0) {
+	      model.addAttribute("secretTypeId", secrets.get(0).getId());
+	    }
+	    //查询关联品目
+	    articleService.getArticleCategory(id, model);
+	    model.addAttribute("articleName", title);
+	    model.addAttribute("articlesRange", range);
+	    model.addAttribute("articlesStatus", status);
+	    model.addAttribute("articlesArticleTypeId", articleTypeId);
+	    model.addAttribute("publishStartDate", endDate);
+	    model.addAttribute("publishEndDate", startDate);
+	    model.addAttribute("secondArticleTypeId", secondArticleTypeId);
+	    model.addAttribute("curpage", curpage);
+	    model.addAttribute("articleAnalyzeVo", articleAnalyzeVo);
+	    model.addAttribute("reqType", reqType);
+	    return "iss/ps/article/audit/showaudit";
     }
-
-    model.addAttribute("articleId", article.getId());
-    DictionaryData da = new DictionaryData();
-    da.setCode("GGWJ");
-    List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
-    if (dlists.size() > 0) {
-      model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
-    }
-
-    DictionaryData sj = new DictionaryData();
-    sj.setCode("SECURITY_COMMITTEE");
-    List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
-    if (secrets.size() > 0) {
-      model.addAttribute("secretTypeId", secrets.get(0).getId());
-    }
-    //查询关联品目
-    articleService.getArticleCategory(id, model);
-    model.addAttribute("articleName", title);
-    model.addAttribute("articlesRange", range);
-    model.addAttribute("articlesStatus", status);
-    model.addAttribute("articlesArticleTypeId", articleTypeId);
-    model.addAttribute("publishStartDate", endDate);
-    model.addAttribute("publishEndDate", startDate);
-    model.addAttribute("secondArticleTypeId", secondArticleTypeId);
-    model.addAttribute("curpage", curpage);
-    model.addAttribute("articleAnalyzeVo", articleAnalyzeVo);
-    model.addAttribute("reqType", reqType);
-    return "iss/ps/article/audit/showaudit";
+    return "";
   }
 
   /**
@@ -1428,19 +1447,23 @@ public class ArticleController extends BaseSupplierController {
    * @return String
    */
   @RequestMapping("withdraw")
-  public String withdraw(HttpServletRequest request, String ids) {
-    String[] id = ids.split(",");
-    Article article = new Article();
-    article.setStatus(4);
-    article.setShowCount(0);
-    for (String str : id) {
-      article.setId(str);
-      article.setUpdatedAt(new Date());
-      article.setCancelPublishAt(new Date());
-      articleService.updateStatus(article);
-      // solrNewsService.deleteIndex(str);
+  public String withdraw(@CurrentUser User user,HttpServletRequest request, String ids) {
+    if(null != user && "4".equals(user.getTypeName())){
+	    //判断是否 是资源服务中心 
+	    String[] id = ids.split(",");
+	    Article article = new Article();
+	    article.setStatus(4);
+	    article.setShowCount(0);
+	    for (String str : id) {
+	      article.setId(str);
+	      article.setUpdatedAt(new Date());
+	      article.setCancelPublishAt(new Date());
+	      articleService.updateStatus(article);
+	      // solrNewsService.deleteIndex(str);
+	    }
+	    return "redirect:auditlist.html?status=1";
     }
-    return "redirect:auditlist.html?status=1";
+    return "";
   }
 
   @RequestMapping("/updateApply")

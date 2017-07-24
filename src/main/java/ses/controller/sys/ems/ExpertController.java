@@ -242,6 +242,7 @@ public class ExpertController extends BaseController {
             ipAddressType = DictionaryDataUtil.getId("LOCAL");
         }
         model.addAttribute("ipAddressType", ipAddressType);
+        model.addAttribute("requestSource", "zjRegister");
         return "ses/ems/expert/expert_register";
     }
 
@@ -266,6 +267,7 @@ public class ExpertController extends BaseController {
             model.addAttribute("doc", doc);
             model.addAttribute("docName", docName);
         }
+        model.addAttribute("requestSource", "zjRegister");
         return "ses/ems/expert/register_notice";
     }
 
@@ -395,7 +397,7 @@ public class ExpertController extends BaseController {
         login( userId,  response,  request,
             attr) ;
      
-    	
+        model.addAttribute("requestSource", "zjRegister");
         model.addAttribute("userId", userId);
         User user = userService.getUserById(userId);
         // 将用户信息存入登录日志

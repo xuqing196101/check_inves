@@ -503,7 +503,7 @@ public class PostManageController {
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("POST_ATTACHMENT");
 		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
-		request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+		model.addAttribute("sysKey", Constant.FORUM_SYS_KEY);
 		if(datas.size()>0){
 			model.addAttribute("typeId", datas.get(0).getId());
 		}
@@ -531,7 +531,7 @@ public class PostManageController {
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("POST_ATTACHMENT");
 		List<DictionaryData> list = dictionaryDataServiceI.find(dd);
-		request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+		model.addAttribute("sysKey", Constant.FORUM_SYS_KEY);
 		if(list.size()>0){
 			model.addAttribute("typeId", list.get(0).getId());
 		}

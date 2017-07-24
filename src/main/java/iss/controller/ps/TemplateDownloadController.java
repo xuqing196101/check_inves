@@ -75,59 +75,66 @@ public class TemplateDownloadController {
 	* @return String
 	 */
 	@RequestMapping("/getList")
-	public String getList(Integer page,TemplateDownload templateDownload,Model model,HttpServletRequest request){
-		HashMap<String,Object> map = new HashMap<>();
-		if(templateDownload!=null){
-			if(templateDownload.getName()!=null && !templateDownload.getName().equals("")){
-				map.put("name", templateDownload.getName());
+	public String getList(@CurrentUser User user,Integer page,TemplateDownload templateDownload,Model model,HttpServletRequest request){
+		//声明标识是否是资源服务中心
+        String authType = null;
+        //判断是否 是资源服务中心 
+        if(user != null && "4".equals(user.getTypeName())){
+            authType = "4";
+			HashMap<String,Object> map = new HashMap<>();
+			if(templateDownload!=null){
+				if(templateDownload.getName()!=null && !templateDownload.getName().equals("")){
+					map.put("name", templateDownload.getName());
+				}
 			}
-		}
-		if(page==null){
-			page = 1;
-		}
-		map.put("page", page.toString());
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
-		String ipAddressType=config.getString("ipAddressType");
-		// 1外网 0内网
-		if("1".equals(ipAddressType)){
-			map.put("ipAddressType", ipAddressType);
-		}
-		List<TemplateDownload> list = TemplateDownloadService.findDataByCondition(map);
-		
-	    Integer num = 0;
-	    StringBuilder groupUpload = new StringBuilder("");
-	    StringBuilder groupShow = new StringBuilder("");
-	    for (TemplateDownload a : list) {
-	      num++;
-	      groupUpload = groupUpload.append("data_secret_show" + num + ",");
-	      groupShow = groupShow.append("data_secret_show" + num + ",");
-	      a.setGroupsUpload("data_secret_show" + num);
-	      a.setGroupShow("data_secret_show" + num);
-	    }
-	    String groupUploadId = "";
-	    String groupShowId = "";
-	    if (!"".equals(groupUpload.toString())) {
-	      groupUploadId = groupUpload.toString().substring(0, groupUpload.toString().length() - 1);
-	    }
-	    if (!"".equals(groupShow.toString())) {
-	      groupShowId = groupShow.toString().substring(0, groupShow.toString().length() - 1);
-	    }
-	    for (TemplateDownload act : list) {
-	      act.setGroupsUploadId(groupUploadId);
-	      act.setGroupShowId(groupShowId);
-	    }
-		
-		
-		model.addAttribute("list", new PageInfo<TemplateDownload>(list));
-		model.addAttribute("name", request.getParameter("name"));
-		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-		DictionaryData dataFile = new DictionaryData();
-	    dataFile.setCode("ZLFJ");
-	    List<DictionaryData> dlist = dictionaryDataServiceI.find(dataFile);
-	    if (dlist.size() > 0) {
-	      model.addAttribute("dataTypeId", dlist.get(0).getId());
-	    }
+			if(page==null){
+				page = 1;
+			}
+			map.put("page", page.toString());
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
+			String ipAddressType=config.getString("ipAddressType");
+			// 1外网 0内网
+			if("1".equals(ipAddressType)){
+				map.put("ipAddressType", ipAddressType);
+			}
+			List<TemplateDownload> list = TemplateDownloadService.findDataByCondition(map);
+			
+		    Integer num = 0;
+		    StringBuilder groupUpload = new StringBuilder("");
+		    StringBuilder groupShow = new StringBuilder("");
+		    for (TemplateDownload a : list) {
+		      num++;
+		      groupUpload = groupUpload.append("data_secret_show" + num + ",");
+		      groupShow = groupShow.append("data_secret_show" + num + ",");
+		      a.setGroupsUpload("data_secret_show" + num);
+		      a.setGroupShow("data_secret_show" + num);
+		    }
+		    String groupUploadId = "";
+		    String groupShowId = "";
+		    if (!"".equals(groupUpload.toString())) {
+		      groupUploadId = groupUpload.toString().substring(0, groupUpload.toString().length() - 1);
+		    }
+		    if (!"".equals(groupShow.toString())) {
+		      groupShowId = groupShow.toString().substring(0, groupShow.toString().length() - 1);
+		    }
+		    for (TemplateDownload act : list) {
+		      act.setGroupsUploadId(groupUploadId);
+		      act.setGroupShowId(groupShowId);
+		    }
+			
+			
+			model.addAttribute("list", new PageInfo<TemplateDownload>(list));
+			model.addAttribute("name", request.getParameter("name"));
+			model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+			DictionaryData dataFile = new DictionaryData();
+		    dataFile.setCode("ZLFJ");
+		    List<DictionaryData> dlist = dictionaryDataServiceI.find(dataFile);
+		    if (dlist.size() > 0) {
+		      model.addAttribute("dataTypeId", dlist.get(0).getId());
+		    }
+		    model.addAttribute("authType", authType);
+        }
 		return "iss/ps/templateDownload/list";
 	}
 	
@@ -141,17 +148,21 @@ public class TemplateDownloadController {
 	* @return String
 	 */
 	@RequestMapping("/add")
-	public String add(Model model){
-		String dataId = UUID.randomUUID().toString().replaceAll("-", "");
-		model.addAttribute("dataId", dataId);
-		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-		DictionaryData dataFile = new DictionaryData();
-	    dataFile.setCode("ZLFJ");
-	    List<DictionaryData> list = dictionaryDataServiceI.find(dataFile);
-	    if (list.size() > 0) {
-	      model.addAttribute("dataTypeId", list.get(0).getId());
-	    }
-		return "iss/ps/templateDownload/add";
+	public String add(@CurrentUser User user,Model model){
+		//判断是否 是资源服务中心 
+        if(user != null && "4".equals(user.getTypeName())){
+			String dataId = UUID.randomUUID().toString().replaceAll("-", "");
+			model.addAttribute("dataId", dataId);
+			model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+			DictionaryData dataFile = new DictionaryData();
+		    dataFile.setCode("ZLFJ");
+		    List<DictionaryData> list = dictionaryDataServiceI.find(dataFile);
+		    if (list.size() > 0) {
+		      model.addAttribute("dataTypeId", list.get(0).getId());
+		    }
+			return "iss/ps/templateDownload/add";
+        }
+        return "";
 	}
 	
 	/**
@@ -233,18 +244,22 @@ public class TemplateDownloadController {
 	* @return String
 	 */
 	@RequestMapping("/view")
-	public String view(Model model,HttpServletRequest request){
-		String id = request.getParameter("id");
-		TemplateDownload TemplateDownload = TemplateDownloadService.selectByPrimaryKey(id);
-		model.addAttribute("data", TemplateDownload);
-		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-		DictionaryData dataFile = new DictionaryData();
-	    dataFile.setCode("ZLFJ");
-	    List<DictionaryData> list = dictionaryDataServiceI.find(dataFile);
-	    if (list.size() > 0) {
-	      model.addAttribute("dataTypeId", list.get(0).getId());
-	    }
-		return "iss/ps/templateDownload/view";
+	public String view(@CurrentUser User user,Model model,HttpServletRequest request){
+		//判断是否 是资源服务中心 
+        if(user != null && "4".equals(user.getTypeName())){
+			String id = request.getParameter("id");
+			TemplateDownload TemplateDownload = TemplateDownloadService.selectByPrimaryKey(id);
+			model.addAttribute("data", TemplateDownload);
+			model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+			DictionaryData dataFile = new DictionaryData();
+		    dataFile.setCode("ZLFJ");
+		    List<DictionaryData> list = dictionaryDataServiceI.find(dataFile);
+		    if (list.size() > 0) {
+		      model.addAttribute("dataTypeId", list.get(0).getId());
+		    }
+			return "iss/ps/templateDownload/view";
+        }
+        return "";
 	}
 	
 	/**

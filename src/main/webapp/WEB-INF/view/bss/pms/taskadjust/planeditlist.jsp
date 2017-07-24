@@ -184,8 +184,9 @@
  		</h2>
  		
     <div class="col-md-12 pl20 mt10">
+    	<c:if test="${auth == 'show'}">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="edit()">修改</button>
- 
+ 		</c:if>
 	  </div>
    <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">

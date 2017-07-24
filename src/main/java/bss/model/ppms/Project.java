@@ -18,6 +18,9 @@ public class Project {
     @NotBlank(message="不能为空")
     private String projectNumber; //项目编号
 
+    /**
+     * @Fields status : 4:暂存，其他存在数据字段
+     */
     private String status; //状态
 
     private String principal; //项目负责人
@@ -116,7 +119,7 @@ public class Project {
     
     private Integer isImport;
     
-    private Integer isProvisional;
+    private Integer isProvisional;//是否为临时项目（0：否；1：是）
     
     private String planType; //（货物，工程，服务）
     

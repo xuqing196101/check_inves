@@ -52,11 +52,21 @@
     });
      
     function selectTree() {
+    	var auth='${authType}';
+  	    if(auth !='4'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
         var name = $("input[name='name']").val();
         loadTree(name);
     }
     
       function add(){
+    	  var auth='${authType}';
+    	    if(auth !='4'){
+    	    layer.msg("只有资源服务中心可以操作");
+    	    return;
+    	    }
             var pid = $("#mid").val();
 	   /*      layer.open({
 	          type: 2, //page层
@@ -73,6 +83,11 @@
 	        window.location.href="${pageContext.request.contextPath}/area/add.html?pid="+pid;
         }
         function edit(){
+        	var auth='${authType}';
+      	    if(auth !='4'){
+      	    layer.msg("只有资源服务中心可以操作");
+      	    return;
+      	    }
 	        var pid = $("#mid").val();
 	        if(pid != null && pid != '' ){
 		        /* layer.open({
@@ -93,16 +108,21 @@
 	        }
         }
         function del(){
-        var mid = $("#mid").val();
-        if(mid != null && mid != '' ){
-            layer.confirm('您确定要删除该地区吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-                layer.close(index);
-                window.location.href="${pageContext.request.contextPath}/area/delete.html?id="+mid;
-            });
-        }else{
-            layer.alert("请选择要删除的地区",{offset: ['222px', '390px'], shade:0.01});
-        }
-    }
+        	var auth='${authType}';
+      	    if(auth !='4'){
+      	    layer.msg("只有资源服务中心可以操作");
+      	    return;
+      	    }
+	        var mid = $("#mid").val();
+	        if(mid != null && mid != '' ){
+	            layer.confirm('您确定要删除该地区吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+	                layer.close(index);
+	                window.location.href="${pageContext.request.contextPath}/area/delete.html?id="+mid;
+	            });
+	        }else{
+	            layer.alert("请选择要删除的地区",{offset: ['222px', '390px'], shade:0.01});
+	        }
+	    }
 </script>
 
 </head>
@@ -117,7 +137,7 @@
         <div class="clear"></div>
       </div>
    </div>
-   <div class="container mt20">
+	<div class="container mt20">
        <div class="headline-v2">
             <h2>地区管理</h2>
        </div>
@@ -139,10 +159,12 @@
                 <div class="col-md-12" style="min-height:400px;">
                     <div class="col-md-3 col-sm-4 col-xs-12" id="show_tree_div">
                         <div class="tag-box tag-box-v3 over_auto">
+   						<c:if test="${authType == 4}">
                             <ul id="ztree_show" class="ztree s_ztree" >
                                 <!-- 菜单树-->
                                 <div id="tree" class="ztree"></div>
                             </ul>
+                    	</c:if>
                         </div>
                     </div>
                     <div class="tag-box tag-box-v4 col-md-9 col-sm" id="show_content_div">
@@ -160,6 +182,7 @@
                 </div>
           </div>
       </div>
+      
       <!--=== End Content Part ===-->
   </body>
 </html>

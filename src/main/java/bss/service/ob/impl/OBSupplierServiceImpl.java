@@ -8,20 +8,19 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.model.bms.User;
 import ses.util.PropertiesUtil;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
+import bss.dao.ob.OBSupplierMapper;
+import bss.model.ob.OBSupplier;
+import bss.service.ob.OBSupplierService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
-
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
-import bss.dao.ob.OBSupplierMapper;
-import bss.model.ob.OBSpecialDate;
-import bss.model.ob.OBSupplier;
-import bss.service.ob.OBSupplierService;
 
 @Service("oBSupplierService")
 public class OBSupplierServiceImpl implements OBSupplierService {
@@ -37,19 +36,19 @@ public class OBSupplierServiceImpl implements OBSupplierService {
 
 	@Override
 	public List<OBSupplier> selectByProductId(String id, Integer page,
-			Integer status,String supplierName,String smallPointsName,String smallPointsId) {
+			Integer status,String supplierName,String smallPointsName,String smallPointsId,String orgId) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,
 				Integer.parseInt(config.getString("pageSize")));
 		List<OBSupplier> list = null;
 		if (status == 1) {
-			list = oBSupplierMapper.selectByProductId1(id,supplierName,smallPointsName,smallPointsId,new Date());
+			list = oBSupplierMapper.selectByProductId1(id,supplierName,smallPointsName,smallPointsId,new Date(),orgId);
 		} else if (status == 2) {
-			list = oBSupplierMapper.selectByProductId2(id,supplierName,smallPointsName,smallPointsId,new Date());
+			list = oBSupplierMapper.selectByProductId2(id,supplierName,smallPointsName,smallPointsId,new Date(),orgId);
 		}else if(status == 3){
-			list = oBSupplierMapper.selectByProductId3(id,supplierName,smallPointsName,smallPointsId);
+			list = oBSupplierMapper.selectByProductId3(id,supplierName,smallPointsName,smallPointsId,orgId);
 		}else{
-			list = oBSupplierMapper.selectByProductId(id,supplierName,smallPointsName,smallPointsId);
+			list = oBSupplierMapper.selectByProductId(id,supplierName,smallPointsName,smallPointsId,orgId);
 		}
 		return list;
 	}

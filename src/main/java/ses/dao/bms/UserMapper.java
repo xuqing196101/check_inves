@@ -429,4 +429,13 @@ public interface UserMapper {
    * @return
    */
   List<User> queryBackendUser(User user);
+
+
+  /**
+   *〈简述〉查询同一机构的所有用户集合
+   *〈详细描述〉
+   * @param id
+   * @return
+   */
+  List<String> findByOrgId(String orgId);
 }

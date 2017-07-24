@@ -109,6 +109,12 @@
     delete from T_BSS_PPMS_PROJECTS_DETAIL
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
+  
+  <delete id="deleteByMap" parameterType="java.util.Map">
+    delete from T_BSS_PPMS_PROJECTS_DETAIL
+    where PROJECT_ID = #{projectId,jdbcType=VARCHAR} and REQUIRED_ID = #{requiredId,jdbcType=VARCHAR}
+  </delete>
+  
   <insert id="insert" parameterType="bss.model.ppms.ProjectDetail">
     insert into T_BSS_PPMS_PROJECTS_DETAIL (ID, SERIAL_NUMBER, DEPARTMENT, 
       GOODS_NAME, STAND, QUALIT_STAND, 

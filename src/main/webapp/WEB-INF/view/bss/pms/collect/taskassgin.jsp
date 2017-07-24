@@ -246,9 +246,10 @@
   </h2>
  
      <div class="col-md-12 pl20 mt10">
-		 
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">下达</button>
-		<button class="btn btn-windows input" onclick="down()">下载打印</button>
+		 <c:if test="${auth == 'show'}">
+			<button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">下达</button>
+			<button class="btn btn-windows input" onclick="down()">下载打印</button>
+		</c:if>
 	  </div>
 	  
 	  

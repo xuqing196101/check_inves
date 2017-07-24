@@ -168,6 +168,13 @@ public class TaskAdjustController extends BaseController{
             List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
             model.addAttribute("list2",orgnizations);
 	    }
+	    
+	    //只有采购机构才能操作
+      if("1".equals(user.getTypeName())){
+        model.addAttribute("auth", "show");
+      }else {
+        model.addAttribute("auth", "hidden");
+      }
 		return "bss/pms/taskadjust/planlist";
 		
 	}
@@ -326,13 +333,20 @@ public class TaskAdjustController extends BaseController{
   * @throws
    */
   @RequestMapping("/edit")
-  public String planEditList(Model model,CollectPlan collectPlan,Integer page){
+  public String planEditList(@CurrentUser User user,Model model,CollectPlan collectPlan,Integer page){
     List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
     PageInfo<CollectPlan> info = new PageInfo<>(list);
     List<DictionaryData> types = DictionaryDataUtil.find(5);
     model.addAttribute("types", types);
     model.addAttribute("info", info);
     model.addAttribute("inf", collectPlan);
+    //只有采购管理部门才能操作
+    if("2".equals(user.getTypeName())){
+      model.addAttribute("auth", "show");
+    }else {
+      model.addAttribute("auth", "hidden");
+    }
+    
     return "bss/pms/taskadjust/planeditlist";
     
   }

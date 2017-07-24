@@ -1001,6 +1001,12 @@
 	    where 
 	    TYPE_NAME = #{typeId}
 	  </select>
+  <!-- 根据机构id查询该机构下用户集合 -->  
+  <select id="findByOrgId" parameterType="java.lang.String" resultType="String">
+	    select id  from T_SES_BMS_USER 
+	    where 
+	    ORG_ID = #{orgId}
+	  </select>
 
   <!-- 假删除用户 -->
   <update id="updateByTypeId" parameterType="java.lang.String">

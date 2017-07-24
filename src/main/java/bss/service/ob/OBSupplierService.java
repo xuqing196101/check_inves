@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.bms.User;
+
 import common.model.UploadFile;
 import bss.model.ob.OBSupplier;
 
@@ -23,6 +25,7 @@ import bss.model.ob.OBSupplier;
 public interface OBSupplierService {
 
 	/**
+	 * @param user 
 	 * 
 	 * Description: 根据产品id查询
 	 * 
@@ -34,7 +37,7 @@ public interface OBSupplierService {
 	 * @exception
 	 */
 	List<OBSupplier> selectByProductId(String id, Integer page, Integer status,
-			String supplierName,String smallPointsName,String smallPointsId);
+			String supplierName,String smallPointsName,String smallPointsId, String string);
 
 	/**
 	 * 

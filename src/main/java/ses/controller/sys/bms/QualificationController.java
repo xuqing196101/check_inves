@@ -1,7 +1,6 @@
 package ses.controller.sys.bms;
 
 import java.io.UnsupportedEncodingException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,15 +13,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageInfo;
-
-import common.bean.ResponseBean;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.bms.QualificationLevel;
+import ses.model.bms.User;
 import ses.service.bms.QualificationLevelService;
 import ses.service.bms.QualificationService;
 import ses.util.DictionaryDataUtil;
+
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.bean.ResponseBean;
 
 /**
  * 
@@ -55,14 +56,17 @@ public class QualificationController {
      * @return 
      */
     @RequestMapping("/init")
-    public String init(Model model, HttpServletRequest request){
-        String type = request.getParameter("type");
-        model.addAttribute("type", type);
-        /**
-         * 查询所有的资质等级
-         */
-        List<DictionaryData> list = DictionaryDataUtil.find(31);
-        model.addAttribute("kind", list);
+    public String init(Model model, HttpServletRequest request,@CurrentUser User user){
+    	//权限验证 登陆状态 角色只能是资源服务中心
+    	if(null!=user && "4".equals(user.getTypeName())){
+	        String type = request.getParameter("type");
+	        model.addAttribute("type", type);
+	        /**
+	         * 查询所有的资质等级
+	         */
+	        List<DictionaryData> list = DictionaryDataUtil.find(31);
+	        model.addAttribute("kind", list);
+    	}
         return   "/ses/bms/qualification/list";
     }
     

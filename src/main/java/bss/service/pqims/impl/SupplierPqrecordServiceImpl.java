@@ -87,5 +87,13 @@ public class SupplierPqrecordServiceImpl implements SupplierPqrecordService {
         return null;
     }
 
+
+    @Override
+    public List<SupplierPqrecord> getByAll(Integer pageNum, HashMap<String, Object> map) {
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+        return supplierPqrecordMapper.getAll(map);
+    }
+
 	
 }
