@@ -262,7 +262,15 @@
 	          $("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/downloadTable.html");
 	          $("#shenhe_form_id").submit();
 				  }else{
-				    layer.msg("请选择审核过的供应商！", {offset: '100px',});
+					  if(state == "待审核"){
+              layer.msg("请选择审核过的供应商！", {offset: '100px',});
+            }
+            if(state == "待复核"){
+              layer.msg("请选择复核过的供应商！", {offset: '100px',});
+            }
+            if(state == "待考察"){
+              layer.msg("请选择考察过的供应商！", {offset: '100px',});
+            }
 				  }
 				}
 			}
