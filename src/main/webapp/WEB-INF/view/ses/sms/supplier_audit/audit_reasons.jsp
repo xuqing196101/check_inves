@@ -127,6 +127,26 @@
             }
 
             if(status == 2){
+                var flags = false;
+                $.ajax({
+                    url:globalPath + "/supplierAudit/vertifyAuditNoPassItem.do",
+                    type: "POST",
+                    async:false,
+                    data:{
+                        "supplierId":supplierId
+                    },
+                    dataType:"json",
+                    success:function (data) {
+                        if (data.status == 500) {
+                            layer.msg(data.msg);
+                            flags = true;
+                            return;
+                        }
+                    }
+                });
+                if(flags){
+                    return;
+                }
                 layer.confirm('您确认吗？', {
                     closeBtn: 0,
                     offset: '100px',

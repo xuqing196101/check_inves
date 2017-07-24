@@ -1014,7 +1014,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					sb.delete(0, sb.toString().length());
 				}
 				// 查询选择和未通过的产品类别
-				//selectChooseOrNoPassCateOfDB(supplierPublicity);
+				selectChooseOrNoPassCateOfDB(supplierPublicity);
 			}
 		}
 		return list;

@@ -102,12 +102,13 @@ function resetAll(){
  */
 function loadData(data,index,pageNum,pageSize){
 	var html = "<li> "
-		     + "  <span class='col-md-3 col-xs-3 col-sm-3'>"+data.supplierName+"</span>"
+		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+data.supplierName+">"+data.supplierName+"</span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+data.supplierTypeNames+">"+data.supplierTypeNames+"</span>"
 		     + "  <span class='col-md-1 col-xs-1 col-sm-1'>"+data.businessNature+"</span>"
 		     + "  <span class='col-md-1 col-xs-1 col-sm-1'>"+data.orgName+"</span>"
-             + "  <span class='col-md-3 col-xs-3 col-sm-3'>"+"同意入库，选择了"+data.passCateCount+"个产品类别，通过了<a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+(data.passCateCount - data.noPassCateCount)+"</a>个产品类别"+"</span>"
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2 text-right'>"+timestampToDate('yyyy-MM-dd', data.auditDate)+"</span>"
+             + "  <span class='col-md-4 col-xs-4 col-sm-4' title='同意入库，选择了"+data.passCateCount+"个产品类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个产品类别'>"
+		     +"同意入库，选择了"+data.passCateCount+"个产品类别，通过了<a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+(data.passCateCount - data.noPassCateCount)+"</a>个产品类别"+"</span>"
+		     + "  <span class='col-md-2 col-xs-2 col-sm-2 text-right'>"+timestampToDate('yyyy-MM-dd', data.auditDate)+"至"+ getDateOfNDay(data.auditDate) +"</span>"
 		     html += "</li>";
 	$("#supPublicityList").append(html);
 }
@@ -150,9 +151,34 @@ Date.prototype.format = function(fmt){
 }
 
 /**
+ * 获取n天后的今天
+ * @param data
+ */
+function getDateOfNDay(data){
+    // 审核时间
+    var date1 = new Date(data);
+    // 7天后的时间定义
+    var date2 = new Date();
+    date2.setDate(date1.getDate()+7);
+    var times = date2.getFullYear()+"-"+(Appendzero(date2.getMonth()+1))+"-"+Appendzero(date2.getDate());
+	return times;
+}
+
+/**
+ * 不足两位用0补充
+ * @param obj
+ * @returns {*}
+ * @constructor
+ */
+function Appendzero(obj) {
+    if(obj<10) return "0" +""+ obj;
+    else return obj;
+}
+
+/**
  * 加载产品类别
  * @param id
  */
 function loadItem(id){
-    window.location.href = globalPath + "/index/indexSupPublicityItem.html?supplierId="+id;
+    window.open(globalPath+"/index/indexSupPublicityItem.html?supplierId="+id);
 }
