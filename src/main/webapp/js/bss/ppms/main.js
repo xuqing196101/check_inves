@@ -307,17 +307,18 @@ function normalImg(x) {
 	$(x).removeClass("btmfix");
 	$(x).addClass("btmfixs");
 }
-
+var indexLayer;
 //提交当前环节
 function submitcurr() {
 	var projectId = $("#projectId").val();
 	var currFlowDefineId = $("#currHuanjieId").val();
 	var currUpdateUserId = $("#currPrincipal").val();
-	layer.confirm('您确定已经完成当前环节操作吗?', {
+	var layerobj=layer.confirm('您确定已经完成当前环节操作吗?', {
 		title: '提示',
 		offset: '222px',
 		shade: 0.01
 	}, function(index) {
+		layer.close(layerobj);
 		//校验当前环节是否完成
 		$.ajax({
 			url: globalPath+"/open_bidding/isSubmit.html",
@@ -328,6 +329,44 @@ function submitcurr() {
 			type: "post",
 			dataType: "json", //返回格式为json
 			success: function(data) {
+				if(data.flowType=="GYSQD"){
+					$.ajax({
+						url: globalPath+"/open_bidding/checkSupplierNumber.html",
+						data: {
+							"projectId": projectId
+						},
+						type: "post",
+						dataType: "json",
+						success: function(data2) {
+							if(data2.rules != null){
+								var split=data2.rules.split(";");
+								var html="";
+								$("#openDiv_packages").empty();
+								for(var i=0;i<split.length;i++){
+									//alert(split[i]);
+									var split2=split[i].split(",");
+									html+='<div class=" mt10 fl ml10"><input type="checkbox" value="'+split2[0]+'" name="packagesId" />'+split2[1]+'</div>';
+								}
+								$("#openDiv_packages").append(html);
+								indexLayer =  layer.open({
+								  	    shift: 1, //0-6的动画形式，-1不开启
+								  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+								  	    title: ['操作','border-bottom:1px solid #e5e5e5'],
+								  	    shade:0.01, //遮罩透明度
+									  		type : 1,
+									  		area : [ '30%', '200px'  ], //宽高
+									  		content : $('#openDivPackages'),
+								});
+							}
+						},
+						error: function() {
+							layer.msg("提交失败", {
+								offset: '100px'
+							});
+						}
+					});
+				}
+				//return;
 				if(data.success) {
 					//提交当前环节
 					$.ajax({
@@ -419,4 +458,7 @@ function submitcurr() {
 			}
 		});
 	});
+}
+function closelayer(){
+	layer.close(indexLayer);
 }

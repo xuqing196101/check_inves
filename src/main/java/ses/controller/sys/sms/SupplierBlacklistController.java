@@ -53,13 +53,11 @@ public class SupplierBlacklistController {
 			if (supplierBlacklist.getEndTime() != null) {
 				model.addAttribute("endTime", new SimpleDateFormat("yyyy-MM-dd").format(supplierBlacklist.getEndTime()));
 			}
-		}else{
-			model.addAttribute("listSupplierBlacklists", new PageInfo<SupplierBlacklist>() );
-			model.addAttribute("supplierName", supplierName);
-			model.addAttribute("startTime", "");
-			model.addAttribute("endTime", "");
+			return "ses/sms/supplier_blacklist/blacklist";
 		}
-		return "ses/sms/supplier_blacklist/blacklist";
+		
+		return "redirect:/qualifyError.jsp";
+		
 	}
 
 	@RequestMapping(value = "save_or_update_supplier_black")

@@ -132,10 +132,10 @@
 			<if test="isGather != null">
 				IS_GATHER,
 			</if>
-			<if test="IS_GRADE != null">
+			<if test="isGrade != null">
 				IS_GRADE,
 			</if>
-			<if test="IS_GRADE_GATHER != null">
+			<if test="isGatherGather != null">
 				IS_GRADE_GATHER,
 			</if>
 			 <if test="reviewTypeId != null">

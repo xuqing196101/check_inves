@@ -1,4 +1,4 @@
-/* 全局样式 */
+/* 鍏ㄥ眬鏍峰紡 */
 * {
   border-radius: 0 !important;
 }
@@ -33,15 +33,23 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
   font-family: "Open Sans", Arial, sans-serif;
 }
+h2 {
+  font-size: 24px;
+  line-height: 33px;
+}
 li {
   text-decoration: none;
 }
+/* 琛ㄥ崟input鎻愮ず璇殣钘� */
+.input-tip {
+  display: none;
+}
 
 /*
-* 页面公共样式部分
+* 椤甸潰鍏叡鏍峰紡閮ㄥ垎
 *
 * /
-/*头部样式上开始*/
+/*澶撮儴鏍峰紡涓婂紑濮�*/
 .wrapper {
   background: #FFF;
 }
@@ -57,9 +65,9 @@ li {
 .head_right a {
   margin: 0 5px;
 }
-/*头部样式上结束*/
+/*澶撮儴鏍峰紡涓婄粨鏉�*/
 
-/*logo开始*/
+/*logo寮�濮�*/
 .container {
   padding-right: 15px;
   padding-left: 15px;
@@ -85,9 +93,9 @@ li {
   overflow: hidden;
   padding-bottom: 100px;
 }
-/*logo结束*/
+/*logo缁撴潫*/
 
-/*全局搜索开始*/
+/*鍏ㄥ眬鎼滅储寮�濮�*/
 .search-group {
   position: relative;
   display: table;
@@ -133,9 +141,9 @@ li {
   text-decoration: none;
   line-height: 100%;
 }
-/*全局搜索结束*/
+/*鍏ㄥ眬鎼滅储缁撴潫*/
 
-/*导航样式开始*/
+/*瀵艰埅鏍峰紡寮�濮�*/
 .header-v4 {
   z-index: 99;
   position: relative;
@@ -155,7 +163,7 @@ li {
 .header-v4 .navbar {
   margin: 0;
 }
-/* 导航条pc端样式 */
+/* 瀵艰埅鏉c绔牱寮� */
 .header-v4 .navbar-nav{
   float: left;
 }
@@ -181,15 +189,15 @@ li {
   background-repeat: no-repeat;
   background-clip: border-box;
 }
-/*首页*/
+/*棣栭〉*/
 .header-v4 .navbar-default .navbar-nav > .shouye_li> a .shouye {
   background-position: 0px -121px;
 }
 .header-v4 .navbar-default .navbar-nav > .shouye_li > a:hover .shouye {
   background-position: 0px 2px!important;
 }
-/*首页结束*/
-/*二级导航条公共样式*/
+/*棣栭〉缁撴潫*/
+/*浜岀骇瀵艰埅鏉″叕鍏辨牱寮�*/
 .drop_next{
   top: 100%;
   left: 0px;
@@ -272,27 +280,27 @@ li {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-/*二级导航条公共样式结束*/
+/*浜岀骇瀵艰埅鏉″叕鍏辨牱寮忕粨鏉�*/
 
-/* 信息公告 */
+/* 淇℃伅鍏憡 */
 .navbar-nav > .gonggao_li > a > .gonggao {
   background-position: -98px -122px;
 }
 .header-v4 .navbar-default .navbar-nav > li > a:focus .gonggao, .navbar-nav .gonggao_li:hover .gonggao {
   background-position: -98px 2px;
 }
-/* 信息公告 结束*/
+/* 淇℃伅鍏憡 缁撴潫*/
 
-/* 网上采购 */
+/* 缃戜笂閲囪喘 */
 .navbar-nav > .gongshi_li > a > .gongshi{
   background-position: -240px -122px;
 }
 .header-v4 .navbar-default .navbar-nav > li > a:focus .gongshi, .navbar-nav .gongshi_li:hover .gongshi{
   background-position: -240px 0px;
 }
-/* 网上采购结束 */
+/* 缃戜笂閲囪喘缁撴潫 */
 
-/* 供应商 */
+/* 渚涘簲鍟� */
 .navbar-nav > .zhuanjia_li > a > .zhuanjia {
   background-position: -390px -122px;
 }
@@ -302,18 +310,35 @@ li {
 .m_buyer_list {
   height: 238px;
 }
-/* 供应商结束 */
+/* 渚涘簲鍟嗙粨鏉� */
 
-/* 评审专家 */
+/* 璇勫涓撳 */
 .navbar-nav > .tousu_li > a > .tousu {
   background-position: -526px -122px;
 }
 .header-v4 .navbar-default .navbar-nav > li > a:focus .tousu, .navbar-nav .tousu_li:hover .tousu{
   background-position: -524px 0px;
 }
-/* 评审专家结束*/
+/* 璇勫涓撳缁撴潫*/
 
-/* 采购服务 */
+/* 渚涘簲鍟嗐�佷笓瀹舵敞鍐岄』鐭ラ〉闈㈡枃浠朵笅杞戒慨鏀� */
+.m_download {
+  padding: 12px 24px;
+  background: url(../images/download.png) no-repeat 0px;
+  margin-left: 5px;
+}
+.font-20 {
+  font-size: 20px;
+}
+.list_new li a.publicityCss {
+  display: inline-block;
+  vertical-align: top;
+  color: #2c9fa6;
+  text-decoration: none;
+}
+/* 渚涘簲鍟嗐�佷笓瀹舵敞鍐岄』鐭ラ〉闈㈡枃浠朵笅杞戒慨鏀圭粨鏉� */
+
+/* 閲囪喘鏈嶅姟 */
 .navbar-nav > .cgfw_li > a > .cgfw {
   background-position: -671px -122px;
 }
@@ -331,9 +356,9 @@ li {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* 采购服务结束*/
+/* 閲囪喘鏈嶅姟缁撴潫*/
 
-/* 投诉处理*/
+/* 鎶曡瘔澶勭悊*/
 .navbar-nav > .luntan_li > a > .luntan {
   background-position: -812px -122px;
 }
@@ -350,9 +375,35 @@ a.news_more {
 a.news_more:hover {
   color: #2C9FA6 !important;
 }
-/* 投诉处理结束*/
+.container_box {
+  margin-top: 20px;
+  padding-bottom: 20px;
+  border: 1px solid #eeeeee;
+  background-color: #FBFBFB!important;
+}
+.ul_list {
+  list-style-type: none;
+  font-size: 14px;
+  background: rgb(255, 255, 255) !important;
+  border-width: 1px !important;
+  border-style: dashed !important;
+  border-color: rgb(214, 204, 204) !important;
+  border-image:  !important;
+  padding: 20px 20px 10px !important;
+  width:100%;
+  float: left;
+}
+.star_red {
+  height: 20px;
+  line-height: 20px;
+  margin-right: 5px;
+  display: inline-block;
+  font-size: small;
+  color: #ef0000;
+}
+/* 鎶曡瘔澶勭悊缁撴潫*/
 
-/* 采购法规*/
+/* 閲囪喘娉曡*/
 .navbar-nav > .fagui_li > a > .fagui {
   background-position: -959px -122px;
 }
@@ -373,7 +424,7 @@ a.news_more:hover {
     padding: 9px 3px 7px 3px;
   }
 }
-/* 采购法规结束*/
+/* 閲囪喘娉曡缁撴潫*/
 
 @media (min-width: 800px){
   .supp_service .service_btns {
@@ -383,9 +434,9 @@ a.news_more:hover {
     margin-top: 60px;
   }
 }
-/* 导航条pc端样式结束 */
+/* 瀵艰埅鏉c绔牱寮忕粨鏉� */
 
-/* 导航条移动端样式 */
+/* 瀵艰埅鏉＄Щ鍔ㄧ鏍峰紡 */
 .header-v4 .navbar-default .navbar-toggle {
   width: 100%;
   overflow: hidden;
@@ -417,7 +468,7 @@ a.news_more:hover {
   font-size: 19px;
   margin: 2px 0 7px;
 }
-/* 导航条移动端样式结束*/
+/* 瀵艰埅鏉＄Щ鍔ㄧ鏍峰紡缁撴潫*/
 
 .container {
   position: relative;
@@ -625,9 +676,9 @@ transition: all 0.1s ease-in-out;
     padding: 2px;
   }
 }
-/*导航样式结束*/
+/*瀵艰埅鏍峰紡缁撴潫*/
 
-/*页面信息提示框样式开始*/
+/*椤甸潰淇℃伅鎻愮ず妗嗘牱寮忓紑濮�*/
 .prompt_tips {
   width: 260px;
   border: 1px solid #DDD;
@@ -732,9 +783,9 @@ transition: all 0.1s ease-in-out;
     font-size: 12px;
   }
 }
-/*页面信息提示框样式结束*/
+/*椤甸潰淇℃伅鎻愮ず妗嗘牱寮忕粨鏉�*/
 
-/*底部样式开始*/
+/*搴曢儴鏍峰紡寮�濮�*/
 .footer-v2 .footer {
   padding: 10px 0;
   background: #f7f7f7;
@@ -746,9 +797,9 @@ transition: all 0.1s ease-in-out;
   color: #555;
   line-height: 23px;
 }
-/*底部样式结束*/
+/*搴曢儴鏍峰紡缁撴潫*/
 
-/*面包屑导航样式开始*/
+/*闈㈠寘灞戝鑸牱寮忓紑濮�*/
 .breadcrumbs {
   overflow: hidden;
   padding: 0px;
@@ -775,13 +826,13 @@ transition: all 0.1s ease-in-out;
   color: #777;
   font-size: 16px;
 }
-/*面包屑导航样式结束*/
+/*闈㈠寘灞戝鑸牱寮忕粨鏉�*/
 /*
-* 页面公共样式部分结束
+* 椤甸潰鍏叡鏍峰紡閮ㄥ垎缁撴潫
 */
 
 /*
-* index页面主体部分样式开始
+* index椤甸潰涓讳綋閮ㄥ垎鏍峰紡寮�濮�
 */
 .content {
   padding-top: 20px;
@@ -792,7 +843,7 @@ transition: all 0.1s ease-in-out;
   height: 100%;
 }
 
-/* 轮播图样式开始 */
+/* 杞挱鍥炬牱寮忓紑濮� */
 .section-focus-pic ul li {
   position: absolute;
   top: 0;
@@ -837,9 +888,9 @@ transition: all 0.1s ease-in-out;
     height: 204px !important;
   }
 }
-/* 轮播图样式结束 */
+/* 杞挱鍥炬牱寮忕粨鏉� */
 
-/* 公告导航栏公共样式开始 */
+/* 鍏憡瀵艰埅鏍忓叕鍏辨牱寮忓紑濮� */
 .tab-v1 .nav-tabs {
   border: none;
   background: none;
@@ -921,7 +972,7 @@ span.list_squre {
   position: relative;
   text-decoration: none;
 }
-/* 栏目右上角标开始 */
+/* 鏍忕洰鍙充笂瑙掓爣寮�濮� */
 .floor_kind h2 li a b, .cgxx_report .report-tab b, #redground {
   width: 21px;
   height: 21px;
@@ -951,15 +1002,15 @@ span.list_squre {
     padding: 10px 5px;
   }
 }
-/* 公告导航栏公共样式结束 */
+/* 鍏憡瀵艰埅鏍忓叕鍏辨牱寮忕粨鏉� */
 
-/* 集中采购、部队采购样式开始 */
+/* 闆嗕腑閲囪喘銆侀儴闃熼噰璐牱寮忓紑濮� */
 .floor_news .tab-pane {
   height: 320px;
 }
-/* 集中采购、部队采购样式结束 */
+/* 闆嗕腑閲囪喘銆侀儴闃熼噰璐牱寮忕粨鏉� */
 
-/* 业务办理样式 */
+/* 涓氬姟鍔炵悊鏍峰紡 */
 .ywbl_02 a i, .ywbl_01 a i {
   width: 60px;
   height: 50px;
@@ -998,13 +1049,20 @@ span.list_squre {
 .flow_one {
   margin-right: 14px;
 }
+.drop_main .ywbl_01 {
+  width: 131px;
+  height: 104px;
+  background: url(../images/flow_bg.jpg) center;
+  float: left;
+  margin: 4px;
+}
 .flow_btn {
   padding: 3px 5px;
   border: 1px solid #eee;
   overflow: hidden;
   margin-bottom: 10px;
 }
-.flow_btn a i {
+.flow_btn a i, .drop_main a i {
   background-image: url(../images/portal_icon.png);
   background-repeat: no-repeat;
 }
@@ -1104,9 +1162,9 @@ a.yjfk i {
     margin-top: 3px;
   }
 }
-/* 业务办理样式结束 */
+/* 涓氬姟鍔炵悊鏍峰紡缁撴潫 */
 
-/* 采购信息样式 */
+/* 閲囪喘淇℃伅鏍峰紡 */
 .floor_kind .cgxx_report {
   border-bottom: 2px solid #2C9FA6;
   width: 100%;
@@ -1125,9 +1183,9 @@ a.yjfk i {
   float: left;
   padding: 0 10px 0 0;
 }
-/* 采购信息样式结束*/
+/* 閲囪喘淇℃伅鏍峰紡缁撴潫*/
 
-/*访问量样式开始*/
+/*璁块棶閲忔牱寮忓紑濮�*/
 .visit_count {
   width: 100%;
   background-color: #fafafa;
@@ -1161,15 +1219,15 @@ a.yjfk i {
     display: none;
   }
 }
-/*访问量样式结束*/
+/*璁块棶閲忔牱寮忕粨鏉�*/
 
 /*
-* index页面主体部分样式结束
+* index椤甸潰涓讳綋閮ㄥ垎鏍峰紡缁撴潫
 */
 /*
-* 公告列表页面开始
+* 鍏憡鍒楄〃椤甸潰寮�濮�
 */
-/*搜索框样式开始*/
+/*鎼滅储妗嗘牱寮忓紑濮�*/
 .search_box {
   line-height: 30px;
   padding: 10px 15px;
@@ -1180,9 +1238,9 @@ a.yjfk i {
 .search_box input[type="text"] {
   margin-bottom: 0px;
 }
-/*搜索框样式结束*/
+/*鎼滅储妗嗘牱寮忕粨鏉�*/
 
-/*列表样式开始*/
+/*鍒楄〃鏍峰紡寮�濮�*/
 .report_list_box {
   border: 1px solid #eeeeee;
   width: 100%;
@@ -1218,9 +1276,9 @@ a.yjfk i {
     font-size:14px;
   }
 }
-/*列表样式结束*/
+/*鍒楄〃鏍峰紡缁撴潫*/
 
-/*公告详情页样式开始*/
+/*鍏憡璇︽儏椤垫牱寮忓紑濮�*/
 .details_box {
   padding: 30px 3%;
 }
@@ -1238,18 +1296,32 @@ a.yjfk i {
 .new_content {
   line-height: 30px;
 }
+.li_square {
+  list-style-type: none;
+  padding: 0px;
+  clear: both;
+  margin-top: 10px;
+}
+.li_square li {
+  border-bottom: 1px dashed #e2e2e2;
+  font-size: 14px!important;
+  overflow: hidden;
+}
+.li_square a:hover {
+  color: #ff9000;
+}
 @media (max-width:768px) {
   .details_box .f22{
     font-size:16px;
   }
 }
-/*公告详情页样式结束*/
+/*鍏憡璇︽儏椤垫牱寮忕粨鏉�*/
 /*
-* 公告列表页面结束
+* 鍏憡鍒楄〃椤甸潰缁撴潫
 */
 
 /*
-* 产品目录页、技术参数库样式开始
+* 浜у搧鐩綍椤点�佹妧鏈弬鏁板簱鏍峰紡寮�濮�
 */
 .tag-box {
   padding: 20px;
@@ -1276,12 +1348,17 @@ a.yjfk i {
   }
 }
 /*
-* 产品目录页、技术参数库样式结束
+* 浜у搧鐩綍椤点�佹妧鏈弬鏁板簱鏍峰紡缁撴潫
 */
 
 /*
-* 采购论坛样式开始
+* 閲囪喘璁哄潧鏍峰紡寮�濮�
 */
+.avatar-48 {
+  width: 48px;
+  height: 48px;
+  border-radius: 120px!important;
+}
 .home-icons .item {
   text-align: center;
   margin-bottom: 15px;
@@ -1304,6 +1381,15 @@ a.yjfk i {
   width:100%;
   height:auto;
 }
+.home-icons .item .text {
+  display: block;
+  text-align: center;
+  background: #F5F5F5;
+  border-top: 1px solid #E9E9E9;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 0 0 3px 3px;
+}
 .home-icons .item .text a {
   display: block;
   color: #666;
@@ -1322,12 +1408,25 @@ a.yjfk i {
   padding: 5px 15px;
   color: #333;
 }
+.to_top{
+  margin-top: 15px;
+  background: #6d6afb;
+  line-height: 11px;
+  color: #fff;
+  text-align: center;
+  border-radius: 40px!important;
+  padding: 0px 7px!important;
+  display: inline-block;
+  text-decoration: none;
+  font-size: 12px!important;
+  margin-right: 0px!important;
+}
 /*
-* 采购论坛样式结束
+* 閲囪喘璁哄潧鏍峰紡缁撴潫
 */
 
 /*
-*我的帖子、我要发帖入口样式开始
+*鎴戠殑甯栧瓙銆佹垜瑕佸彂甯栧叆鍙ｆ牱寮忓紑濮�
 */
 .my_poster {
   position: fixed;
@@ -1369,10 +1468,10 @@ a.yjfk i {
   }
 }
 /*
-*我的帖子、我要发帖入口样式结束
+*鎴戠殑甯栧瓙銆佹垜瑕佸彂甯栧叆鍙ｆ牱寮忕粨鏉�
 */
 
-/* 注册&登录开始 */
+/* 娉ㄥ唽&鐧诲綍寮�濮� */
 .sign_bg {
   background: #e7ebee;
 }
@@ -1595,9 +1694,9 @@ img.sign_left_image {
   -moz-opacity: 0.8;
   position:relative;
 }
-/* 注册登录结束 */
+/* 娉ㄥ唽鐧诲綍缁撴潫 */
 
-/* 主导航供应商和专家滚动表格开始 */
+/* 涓诲鑸緵搴斿晢鍜屼笓瀹舵粴鍔ㄨ〃鏍煎紑濮� */
 .m_nav_scroll_head table {
   border: none;
   border-bottom: 1px solid #ddd;
@@ -1663,8 +1762,41 @@ img.sign_left_image {
     font-size: 12px !important;
   }
 }
-/* 主导航供应商和专家滚动表格结束 */
+/* 涓诲鑸緵搴斿晢鍜屼笓瀹舵粴鍔ㄨ〃鏍肩粨鏉� */
 
-/* 最终需要加入portal_common.css中的开始 */
+
+/* APP浜岀淮鐮佸紑濮� */
+.m_app_code {
+  position: fixed;
+  top: 10%;
+  right: -148px;
+  z-index: 100;
+  overflow: hidden;
+}
+.m_app_code span {
+  display: block;
+  padding: 10px 12px;
+  overflow: hidden;
+  background-color: #FCBE3F;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  float: left;
+  cursor: pointer;
+}
+.m_app_code .mac_img {
+  float: left;
+}
+.m_app_code.hover {
+  right: 0;
+}
+.m_app_code .mac_img img {
+  height : 148px;
+  width : 148px;
+}
+/* APP浜岀淮鐮佺粨鏉� */
+
+/* 鏈�缁堥渶瑕佸姞鍏ortal_common.css涓殑寮�濮� */
 .h240 { height: 240px; }
-/* 最终需要加入portal_common.css中的结束 */
+/* 鏈�缁堥渶瑕佸姞鍏ortal_common.css涓殑缁撴潫 */
+

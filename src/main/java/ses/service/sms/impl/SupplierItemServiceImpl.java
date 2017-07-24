@@ -1,22 +1,16 @@
 package ses.service.sms.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import com.github.pagehelper.PageHelper;
+import common.utils.JdcgResult;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import ses.dao.sms.ProductParamMapper;
 import ses.dao.sms.SupplierItemMapper;
-import ses.dao.sms.SupplierProductsMapper;
+import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
@@ -26,8 +20,7 @@ import ses.service.sms.SupplierItemService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
-import com.github.pagehelper.PageHelper;
-import ses.util.StringUtil;
+import java.util.*;
 
 @Service(value = "supplierItemService")
 public class SupplierItemServiceImpl implements SupplierItemService {
@@ -35,12 +28,6 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	@Autowired
 	private SupplierItemMapper supplierItemMapper;
 	
-	@Autowired
-	private SupplierProductsMapper supplierProductsMapper;
-	
-	@Autowired
-	private ProductParamMapper productParamMapper;
-
 	@Autowired
 	private CategoryService categoryService;
 	
@@ -116,6 +103,10 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                 item.setSupplierTypeRelateId(supplierItem.getSupplierTypeRelateId());
                 item.setCategoryId(cate.getId());
                 item.setCreatedAt(new Date());
+                if(categoryId.equals(cate.getId())){
+                	// 设置末级
+                	item.setLevel("3");
+                }
                 supplierItemMapper.insertSelective(item);
             }
         }
@@ -145,7 +136,14 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                 categoryList.add(cate);
                 categoryId = cate.getParentId();
             }
+            
         }
+        // 将集合倒序输出，获取小类
+        /*Collections.reverse(categoryList);
+        if(categoryList.size() >= 4){
+        	// 3：小类
+        	categoryList.get(3).setLevel("3");
+        }*/
         return categoryList;
     }
 	
@@ -429,6 +427,9 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	    List<SupplierItem> itemsList = supplierItemMapper.selectByMap(param);
 	    return itemsList;
 	}
+
+
+
 	@Override
 	public SupplierItem selectByPrimaryKey(String id) {
 	    SupplierItem itemsList = supplierItemMapper.selectByPrimaryKey(id);
@@ -626,5 +627,99 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	public List<String> findSupplierIdByCategoryId(String categoryId) {
 		return supplierItemMapper.findSupplierIdByCategoryId(categoryId);
 	}
-	
+
+	@Override
+	public List<String> findSupplierTypeBySupplierId(String supplierId) {
+		return supplierItemMapper.findSupplierTypeBySupplierId(supplierId);
+	}
+
+	/**
+	 *
+	 * Description:查询供应商审核通过的产品类别
+	 *
+	 * @author Easong
+	 * @version 2017/7/7
+	 * @param map
+	 * @since JDK1.7
+	 */
+	public List<String> findPassSupplierTypeBySupplierId(Map<String,Object> map){
+        return supplierItemMapper.findPassSupplierTypeBySupplierId(map);
+    }
+
+	/**
+	 *
+	 * Description:查询供应商选择的小类节点
+	 *
+	 * @author Easong
+	 * @version 2017/7/6
+	 * @param supplierId
+	 * @since JDK1.7
+	 */
+    @Override
+    public JdcgResult selectRegSupCateOfLastNode(String supplierId) {
+        // 查询供应商选择的小类节点
+        // 封装集合
+        List<List<Category>> list = new ArrayList<>();
+        List<SupplierItem> supplierItemsOfLastNode = supplierItemMapper.selectRegSupCateOfLastNode(supplierId);
+        if(supplierItemsOfLastNode != null && !supplierItemsOfLastNode.isEmpty()){
+            for (SupplierItem supplierItem : supplierItemsOfLastNode){
+                // 获取categoryId
+                String categoryId = supplierItem.getCategoryId();
+                List<Category> allParentNode = categoryService.getAllParentNode(categoryId);
+                // 将集合按照品目从大到小排序
+                Collections.reverse(allParentNode);
+                list.add(allParentNode);
+            }
+        }
+        return JdcgResult.ok(list);
+    }
+
+    /**
+     * 
+     * Description:查询供应商审核通过的产品类别列表
+     * 
+     * @author Easong
+     * @version 2017/7/7
+     * @param 
+     * @since JDK1.7
+     */
+    @Override
+    public List<SupplierItem> selectPassItemByCond(String supplierId, String type, Integer pageNum) {
+        if (pageNum != null) {
+            PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSize"));
+        }
+        Map<String, Object> param = new HashMap<>();
+        param.put("supplierId", supplierId);
+        param.put("type", type);
+        param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+        param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+        return supplierItemMapper.selectPassItemByCond(param);
+    }
+    
+	// 获取供应商品目类别
+	public List < SupplierItemCategoryBean > getSupplierItemCategoryList(String supplierId, String code) {
+		List < SupplierItemCategoryBean > sicList = new ArrayList < SupplierItemCategoryBean > ();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("supplierId", supplierId);
+		paramMap.put("type", code);
+		List < SupplierItem > itemList = this.findByMap(paramMap);
+		for(SupplierItem item: itemList) {
+			Category cate = categoryService.selectByPrimaryKey(item.getCategoryId());
+			SupplierItemCategoryBean sic = new SupplierItemCategoryBean();
+			if (cate == null) {
+				DictionaryData data = DictionaryDataUtil.findById(item.getCategoryId());
+				sic.setId(data.getId());
+				sic.setParentId(data.getId());
+				sic.setName(data.getName());
+			} else {
+				//供应商中间表的id和资质证书的id
+				cate.setParentId(item.getId());
+				BeanUtils.copyProperties(cate, sic);
+			}
+			sic.setItemId(item.getId());
+			sicList.add(sic);
+		}
+		return sicList;
+	}
+
 }

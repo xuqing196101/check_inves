@@ -21,6 +21,8 @@ public interface ProjectDetailMapper {
 	
 	void deleteByPrimaryKey(String id);
 	
+	void deleteByMap(HashMap<String, Object> map);
+	
 	void updateByPrimaryKeySelective(ProjectDetail projectDetail);
 	
 	List<ProjectDetail> listByAll(ProjectDetail projectDetail);
@@ -55,5 +57,7 @@ public interface ProjectDetailMapper {
 	 
 	 List<ProjectDetail> selectByDemand(HashMap<String,Object> map);
 	 List<ProjectDetail> selectByPackageId(String packageId);
+	 
+	 List<ProjectDetail> selectByPackageRecursively(String packageId);
 	 
 }

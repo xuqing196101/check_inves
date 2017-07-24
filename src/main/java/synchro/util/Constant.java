@@ -1,7 +1,5 @@
 package synchro.util;
 
-import ses.util.PropUtil;
-
 /**
  * 
  * 版权：(C) 版权所有 
@@ -105,7 +103,10 @@ public class Constant {
     
     /** 供应商附件文件名称 **/
     public final static String ATTACH_FILE_SUPPLIER_NEW = "supplier_new";
-    
+    /**供应商审核附件**/
+    public final static String SUPPLIER_CHECK_ATTACHMENT = "SUPPLIER_CHECK_ATTACHMENT";
+    /**专家审核附件**/
+    public final static String EXPERT_CHECK_ATTACHMENT = "EXPERT_CHECK_ATTACHMENT";
     
     
     /** 招标附件文件名称 **/
@@ -204,7 +205,21 @@ public class Constant {
     public final static String EXPORT_COMMIT_SYNCH_QUALIFICATION="导入产品资质信息数量:";
     /***产品资质 导出路径***/
     public final static String FILE_SYNCH_QUALIFICATION_PATH="file_synch_qualification_path";
-    
+
+    /**供应商公示信息**/
+    public final static String SYNCH_PUBLICITY_SUPPLIER="SYNCH_PUBLICITY_SUPPLIER";
+    /**供应商公示  导出信息描述 **/
+    public final static String COMMIT_SYNCH_PUBLICITY_SUPPLIER="导出供应商公示信息数量:";
+    /**供应商公示  导入信息描述 **/
+    public final static String IMPORT_SYNCH_PUBLICITY_SUPPLIER="导入供应商公示信息数量:";
+
+    /**专家公示信息**/
+    public final static String SYNCH_PUBLICITY_EXPERT="SYNCH_PUBLICITY_EXPERT";
+    /**专家公示  导出信息描述 **/
+    public final static String COMMIT_SYNCH_PUBLICITY_EXPERT="导出专家公示信息数量:";
+    /**专家公示  导入信息描述 **/
+    public final static String IMPORT_SYNCH_PUBLICITY_EXPERT="导入专家公示信息数量:";
+
     /**目录资质关联表 文件夹名称**/
     
 }

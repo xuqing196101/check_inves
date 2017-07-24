@@ -31,13 +31,17 @@ import ses.util.WfUtil;
 import bss.dao.pms.PurchaseDetailMapper;
 import bss.dao.ppms.FlowDefineMapper;
 import bss.dao.ppms.FlowExecuteMapper;
+import bss.dao.ppms.PackageMapper;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
+import bss.dao.ppms.TaskMapper;
 import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
+import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.Task;
 import bss.service.ppms.ProjectService;
 
 import com.github.pagehelper.PageHelper;
@@ -74,6 +78,13 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Autowired
     private QuoteMapper quoteMapper;
+	
+	@Autowired
+
+	private PackageMapper packageMapper;
+
+	private TaskMapper taskMapper;
+
 	
 	
 	
@@ -427,6 +438,7 @@ public class ProjectServiceImpl implements ProjectService {
         JSONObject jsonObj = new JSONObject();
         FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
         if(flowDefine != null){
+        	jsonObj.put("flowType", flowDefine.getCode());
             if("XMFB".equals(flowDefine.getCode())){
                 //项目分包
                 jsonObj.put("flowType", "XMFB");
@@ -530,6 +542,31 @@ public class ProjectServiceImpl implements ProjectService {
             oldFlowExecute.setOperatorId(currLoginUser.getId());
             oldFlowExecute.setOperatorName(currLoginUser.getRelName());
             flowExecuteMapper.insert(oldFlowExecute);
+            
+            FlowDefine define = flowDefineMapper.get(currFlowDefineId);
+            Project project = projectMapper.selectProjectByPrimaryKey(projectId);
+            if ("FSBS".equals(define.getCode())) {
+            	String status = DictionaryDataUtil.getId("GYSQD");
+            	project.setStatus(status);
+            	packageStatus(projectId, status);
+            } else if ("GYSQD".equals(define.getCode())) {
+            	String status = DictionaryDataUtil.getId("DKB");
+            	project.setStatus(status);
+            	packageStatus(projectId, status);
+            } else if ("KBCB".equals(define.getCode())) {
+            	String status = DictionaryDataUtil.getId("KBCBZ");
+            	project.setStatus(status);
+            	packageStatus(projectId, status);
+            } else if ("ZZZJPS".equals(define.getCode())) {
+            	String status = DictionaryDataUtil.getId("NZZBGG");
+            	project.setStatus(status);
+            	packageStatus(projectId, status);
+            } else if ("QRZBGYS".equals(define.getCode())) {
+            	String status = DictionaryDataUtil.getId("SSJS");
+            	project.setStatus(status);
+            	packageStatus(projectId, status);
+            }
+            projectMapper.updateByPrimaryKeySelective(project);
         } else {
             //如果该项目该环节流程没有执行过
             FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
@@ -552,6 +589,18 @@ public class ProjectServiceImpl implements ProjectService {
         jsonObj.put("success", true);
         return jsonObj;
     }
+
+	private void packageStatus(String projectId, String status) {
+		HashMap<String, Object> hashMap = new HashMap<>();
+		hashMap.put("projectId", projectId);
+		List<Packages> findByIds = packageMapper.findByID(hashMap);
+		if(findByIds != null && findByIds.size() > 0){
+			for (Packages packages : findByIds) {
+				packages.setProjectStatus(status);
+				packageMapper.updateByPrimaryKeySelective(packages);
+			}
+		}
+	}
 
     @Override
     public List<Project> selectByOrg(HashMap<String, Object> map) {
@@ -783,6 +832,11 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+	@Override
+	public List<Project> selectByOrgnization(HashMap<String, Object> map) {
+		
+		return projectMapper.selectByOrgnization(map);
+	}
     private void updateDetailStatusParent(String projectId, PurchaseDetail purchaseDetail) {
       Map<String,Object> map=new HashMap<String,Object>();
       map.put("parentId", purchaseDetail.getId());
@@ -930,6 +984,20 @@ public class ProjectServiceImpl implements ProjectService {
               purchaseDetail.setProjectStatus(1);
               purchaseDetailMapper.updateByPrimaryKeySelective(purchaseDetail);
             }
+          }
+          
+          List<Integer> groupByStatus = purchaseDetailMapper.groupByStatus(uniqueId);
+          if(groupByStatus != null && groupByStatus.size() == 1){
+              if(groupByStatus.get(0) == 1){
+                  HashMap<String, Object> map = new HashMap<>();
+                  map.put("purchaseId", organization);
+                  map.put("collectId", uniqueId);
+                  List<Task> listBycollect = taskMapper.listBycollect(map);
+                  if(listBycollect != null && listBycollect.size() > 0){
+                      listBycollect.get(0).setNotDetail(1);
+                      taskMapper.updateByPrimaryKeySelective(listBycollect.get(0));
+                  }
+              }
           }
         }
       }

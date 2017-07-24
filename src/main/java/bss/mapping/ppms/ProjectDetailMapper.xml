@@ -109,6 +109,12 @@
     delete from T_BSS_PPMS_PROJECTS_DETAIL
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
+  
+  <delete id="deleteByMap" parameterType="java.util.Map">
+    delete from T_BSS_PPMS_PROJECTS_DETAIL
+    where PROJECT_ID = #{projectId,jdbcType=VARCHAR} and REQUIRED_ID = #{requiredId,jdbcType=VARCHAR}
+  </delete>
+  
   <insert id="insert" parameterType="bss.model.ppms.ProjectDetail">
     insert into T_BSS_PPMS_PROJECTS_DETAIL (ID, SERIAL_NUMBER, DEPARTMENT, 
       GOODS_NAME, STAND, QUALIT_STAND, 
@@ -538,6 +544,11 @@
 				  WHERE
 				    u.ID = #{id}
 				) 
+    </select>
+    <select id="selectByPackageRecursively" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select * from T_BSS_PPMS_PROJECTS_DETAIL 
+         START with PACKAGE_ID=#{packageId} 
+         CONNECT by PRIOR PARENT_ID=REQUIRED_ID
     </select>
     
     

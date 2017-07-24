@@ -143,6 +143,13 @@ public class WinningSupplierController extends BaseController {
   @RequestMapping("/selectSupplier")
   public String selectWinningSupplier(Model model, String projectId, String flowDefineId){
     List<Packages> packList = packageService.listSupplierCheckPass(projectId);
+    for(Packages pg:packList){
+      Packages ps = packageService.selectByPrimaryKeyId(pg.getId());
+      if(ps!=null&&ps.getProjectStatus()!=null){
+        DictionaryData ds = DictionaryDataUtil.findById(ps.getProjectStatus());
+        pg.setProjectStatus(ds.getCode());
+      }
+    }
     model.addAttribute("packList", packList);
     model.addAttribute("projectId", projectId);
     model.addAttribute("flowDefineId", flowDefineId);
@@ -157,6 +164,13 @@ public class WinningSupplierController extends BaseController {
     String id = DictionaryDataUtil.getId("DYLY");
     if(project.getPurchaseType().equals(id)){
         List<Packages> pack = packageService.supplierCheckPa(projectId);
+        for(Packages pg:pack){
+          Packages ps = packageService.selectByPrimaryKeyId(pg.getId());
+          if(ps!=null&&ps.getProjectStatus()!=null){
+            DictionaryData ds = DictionaryDataUtil.findById(ps.getProjectStatus());
+            pg.setProjectStatus(ds.getCode());
+          }
+        }
         model.addAttribute("packLi", pack);
         return "bss/ppms/winning_supplier/lists";
     }else{

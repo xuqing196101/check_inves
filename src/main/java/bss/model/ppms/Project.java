@@ -10,7 +10,7 @@ import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 
 public class Project {
-    private String id; //主键
+    private String id; //主键   xxx
     
     @NotBlank(message="不能为空")
     private String name; //项目名称
@@ -93,7 +93,7 @@ public class Project {
     
     private Date demandFromTime; //需求计划提报时间
     
-    private Integer IsRehearse; //是否预研
+    private Integer isRehearse; //是否预研
     
     private Date createAt; //创建时间
     
@@ -138,6 +138,10 @@ public class Project {
     private String appointMan; // 立项人
     
     private String isCharge; //采购文件是否收费  0：是 ，1：否
+    
+    private String parentId; // 父节点
+    
+    private String relationId;
     
     /**
      * @return Returns the auditReason.
@@ -506,11 +510,11 @@ public class Project {
 	}
 	
     public Integer getIsRehearse() {
-        return IsRehearse;
+        return isRehearse;
     }
 
     public void setIsRehearse(Integer isRehearse) {
-        IsRehearse = isRehearse;
+    	this.isRehearse = isRehearse;
     }
 
     public Date getCreateAt() {
@@ -673,4 +677,22 @@ public class Project {
         this.isCharge = isCharge;
     }
 
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+  public String getRelationId() {
+    return relationId;
+  }
+
+  public void setRelationId(String relationId) {
+    this.relationId = relationId;
+  }
+
+	
+    
 }

@@ -376,6 +376,7 @@
 			        <option value="">全部</option>
 		        	<c:if test="${sign eq '1' }">
 		        		<option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
+		            <option <c:if test="${state == -3 }">selected</c:if> value="-3">公示中</option>
 		            <option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
 		            <option <c:if test="${state == 2 }">selected</c:if> value="2">退回修改</option>
 		            <option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option>
@@ -473,7 +474,7 @@
 							<tr>
 								<td class="tc w30"><input name="id" type="checkbox" value="${list.id}"></td>
 								<td class="tc w50" onclick="shenhe('${list.id }');">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
-								<td class="tl" onclick="shenhe('${list.id }');">${list.supplierName }</td>
+								<td class="tl"><a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a></td>
 								<td class="tc" onclick="shenhe('${list.id }');">${list.mobile }</td>
 								<td class="tl" onclick="shenhe('${list.id }');">${list.supplierTypeNames}</td>
 								<td class="tc" onclick="shenhe('${list.id }');">${list.businessNature}</td>
@@ -496,6 +497,8 @@
 								<td class="tc" id="${list.id}" onclick="shenhe('${list.id }');">
 									<c:if test="${list.status == 0 and list.auditTemporary != 1}"><span class="label rounded-2x label-u">待审核</span></c:if>
 									<c:if test="${list.status == 0 and list.auditTemporary == 1}"><span class="label rounded-2x label-u">审核中</span></c:if>
+									<c:if test="${list.status == -3}"><span class="label rounded-2x label-dark">公示中</span></c:if>
+									<c:if test="${list.status == -2}"><span class="label rounded-2x label-dark">预审核通过</span></c:if>
 									<c:if test="${list.status == 1}"><span class="label rounded-2x label-dark">审核通过</span></c:if>
 									<c:if test="${list.status == 2}"><span class="label rounded-2x label-dark">退回修改</span></c:if>
 									<c:if test="${list.status == 3}"><span class="label rounded-2x label-dark">审核未通过</span></c:if>

@@ -146,6 +146,8 @@ public class ContractSupervisionController {
     
     @Autowired
     private ExpertService expertService;
+    
+    
 	@RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
     public String list(Model model, @CurrentUser User user,PurchaseContract purCon,Integer page, String reqType){
 		if(page==null){
@@ -200,7 +202,6 @@ public class ContractSupervisionController {
         	if(pur.getSupplierDepName()!=null){
         		su = supplierService.selectOne(pur.getSupplierDepName());
         	}
-            //				PurchaseDep purdep = purchaseOrgnizationServiceI.selectPurchaseById(pur.getBingDepName());
         	if(pur.getPurchaseDepName()!=null){
         		org = orgnizationServiceI.getOrgByPrimaryKey(pur.getPurchaseDepName());
         	}
@@ -226,6 +227,89 @@ public class ContractSupervisionController {
         model.addAttribute("purCon", purCon);
 		return "sums/ss/contractSupervision/draftlist";
 	}
+	
+	/**
+	 * 
+	 *〈资源管理中心查看全部采购合同〉
+	 *〈详细描述〉
+	 * @author FengTian
+	 * @param model
+	 * @param user
+	 * @param purCon
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value="/contractSupervisionByAll",produces = "text/html;charset=UTF-8")
+	public String contractSupervisionByAll(Model model, @CurrentUser User user, PurchaseContract purCon, Integer page){
+	    if(user != null && StringUtils.isNotBlank(user.getTypeName()) && "4".equals(user.getTypeName())){
+	        if(page==null){
+	            page=1;
+	        }
+	        Map<String,Object> map = new HashMap<String, Object>();
+	        if(purCon.getProjectName()!=null&&!"".equals(purCon.getProjectName())){
+	            map.put("projectName", purCon.getProjectName());
+	        }
+	        if(purCon.getCode()!=null&&!"".equals(purCon.getCode())){
+	            map.put("code", purCon.getCode());
+	        }
+	        if(purCon.getSupplierDepName()!=null&&!"".equals(purCon.getSupplierDepName())){
+	            map.put("supplierDepName", purCon.getSupplierDepName());
+	        }
+	        if(purCon.getPurchaseDepName()!=null&&!"".equals(purCon.getPurchaseDepName())){
+	            map.put("purchaseDepName", purCon.getPurchaseDepName());
+	        }
+	        if(StringUtils.isNotEmpty(purCon.getPurchaseDepShortName())){
+	            map.put("purchaseDepShortName", purCon.getPurchaseDepShortName());
+	        }
+	        if(purCon.getDemandSector()!=null&&!"".equals(purCon.getDemandSector())){
+	            map.put("demandSector", purCon.getDemandSector());
+	        }
+	        if(purCon.getDocumentNumber()!=null&&!"".equals(purCon.getDocumentNumber())){
+	            map.put("documentNumber", purCon.getDocumentNumber());
+	        }
+	        if(purCon.getYear_string()!=null&&!"".equals(purCon.getYear_string())){
+	            if(ValidateUtils.Integer(purCon.getYear_string())){
+	                map.put("year", new BigDecimal(purCon.getYear_string()));
+	            }
+	        }
+	        if(purCon.getBudgetSubjectItem()!=null){
+	            map.put("budgetSubjectItem", purCon.getBudgetSubjectItem());
+	        }
+	        map.put("page", page);
+	        List<PurchaseContract> selectAllContractByStatus = purchaseContractService.selectAllContractByStatus(map);
+	        for(PurchaseContract pur:selectAllContractByStatus){
+	            Supplier su = null;
+	            Orgnization org = null;
+	            if(pur.getSupplierDepName()!=null){
+	                su = supplierService.selectOne(pur.getSupplierDepName());
+	            }
+	            if(pur.getPurchaseDepName()!=null){
+	                org = orgnizationServiceI.getOrgByPrimaryKey(pur.getPurchaseDepName());
+	            }
+	            if(org!=null){
+	                if(org.getName()==null){
+	                    pur.setShowDemandSector("");
+	                }else{
+	                    pur.setShowDemandSector(org.getName());
+	                }
+	            }
+	            if(su!=null){
+	                if(su.getSupplierName()!=null){
+	                    pur.setShowSupplierDepName(su.getSupplierName());
+	                }else{
+	                    pur.setShowSupplierDepName("");
+	                }
+	            }
+	            
+	        }
+	        PageInfo<PurchaseContract> list = new PageInfo<PurchaseContract>(selectAllContractByStatus);
+	        model.addAttribute("list", list);
+	        model.addAttribute("draftConList", selectAllContractByStatus);
+	        model.addAttribute("purCon", purCon);
+	    }
+	    return "sums/ss/contractSupervision/listByAll";
+	}
+	
 	@RequestMapping(value="/contSupervision",produces = "text/html;charset=UTF-8")
 	public String detailContract(Model model, PurchaseContract purCon,Integer page){
 		PurchaseContract purchaseContract = purchaseContractService.selectById(purCon.getId());
@@ -378,7 +462,7 @@ public class ContractSupervisionController {
                     if(packages2.getId().equals(details.get(i).getPackageId())){
                         DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                         details.get(i).setPurchaseType(findById.getName());
-                        String[] progressBarPlan = supervisionService.progressBar(details.get(i).getRequiredId());
+                        String[] progressBarPlan = supervisionService.progressBar(details.get(i).getRequiredId(),id);
                         details.get(i).setProgressBar(progressBarPlan[0]);
                         details.get(i).setStatus(progressBarPlan[1]);
                         list.add(details.get(i));
@@ -487,7 +571,7 @@ public class ContractSupervisionController {
 	            for (PurchaseRequired purchaseRequired : requireds) {
 	                DictionaryData findById = DictionaryDataUtil.findById(purchaseRequired.getPurchaseType());
 	                purchaseRequired.setPurchaseType(findById.getName());
-	                String[] progressBarPlan = supervisionService.progressBar(purchaseRequired.getId());
+	                String[] progressBarPlan = supervisionService.progressBar(purchaseRequired.getId(), null);
 	                purchaseRequired.setProgressBar(progressBarPlan[0]);
 	                purchaseRequired.setStatus(progressBarPlan[1]);
 	                model.addAttribute("code", findById.getCode());
@@ -557,7 +641,7 @@ public class ContractSupervisionController {
                     if(id.equals(purchaseDetail.getUniqueId())){
                         DictionaryData findById = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
                         purchaseDetail.setPurchaseType(findById.getName());
-                        String[] progressBarPlan = supervisionService.progressBar(purchaseDetail.getId());
+                        String[] progressBarPlan = supervisionService.progressBar(purchaseDetail.getId(), null);
                         purchaseDetail.setProgressBar(progressBarPlan[0]);
                         purchaseDetail.setStatus(progressBarPlan[1]);
                         details.add(purchaseDetail);

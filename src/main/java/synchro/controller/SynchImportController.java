@@ -1,22 +1,18 @@
 package synchro.controller;
 
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBSupplierService;
+import com.github.pagehelper.PageInfo;
+import common.bean.ResponseBean;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.service.bms.CategoryParameterService;
@@ -35,14 +31,19 @@ import synchro.service.SynchService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
-import bss.service.ob.OBProductService;
-import bss.service.ob.OBProjectServer;
-import bss.service.ob.OBSupplierService;
+
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
+
 
 /**
  * 
@@ -195,6 +196,7 @@ public class SynchImportController {
 		  }
 	       model.addAttribute("dataTypeList", list);
         }
+
        return "/synch/import";
     }
     
@@ -287,6 +289,7 @@ public class SynchImportController {
 							innerSupplierService.importSupplierInfo(f);
 	
 						}
+
 						if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
 							attachService.importSupplierAttach(f);
 						}
@@ -633,6 +636,7 @@ public class SynchImportController {
 					qualificationService.importQualification(synchType,f);
 					
 				}
+
 	        }
 	        bean.setSuccess(true);
 	        return bean;

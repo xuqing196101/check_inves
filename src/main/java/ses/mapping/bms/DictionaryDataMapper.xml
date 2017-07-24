@@ -269,5 +269,19 @@
   
   </select>
   
+  <!-- 根据包上的标示查询对应的流程 -->
+  <select id="viewFlows" parameterType="java.util.Map" resultMap="DictionaryDataMap">
+     select * from  T_SES_BMS_DICTIONARY_DATA where  IS_DELETED = 0
+     <if test="lt != null and lt != ''">
+      AND POSITION 	<![CDATA[ <= ]]> (select POSITION from T_SES_BMS_DICTIONARY_DATA 
+    	where IS_DELETED = 0 and CODE = #{lt,jdbcType=VARCHAR})
+     </if>
+     <if test="gt != null and gt != ''">
+      AND POSITION	<![CDATA[ >= ]]> (select POSITION from T_SES_BMS_DICTIONARY_DATA 
+    	where IS_DELETED = 0 and CODE = #{gt,jdbcType=VARCHAR})
+     </if>
+      order by POSITION ASC
+  </select>
+  
   
 </mapper>

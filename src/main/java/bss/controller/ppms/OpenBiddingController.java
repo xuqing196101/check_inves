@@ -83,12 +83,14 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.ppms.SupplierCheckPassService;
+import bss.service.ppms.TerminationService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.PackageFirstAuditService;
 import bss.util.PropUtil;
 
 import com.alibaba.fastjson.JSON;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
@@ -242,6 +244,8 @@ public class OpenBiddingController {
   @Autowired
   private PurchaseServiceI purchaseService;
   
+  @Autowired
+  private TerminationService terminationService;
   @Autowired
   private UserServiceI userService;
   @Autowired
@@ -790,12 +794,34 @@ public class OpenBiddingController {
             Project project = projectService.selectById(article.getProjectId());
             String code = "ZBGGNZZ";
             projectService.updateStatus(project, code);
+            
+            //获取包信息
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("projectId", project.getId());
+            List<Packages> findById = packageService.findByID(map);
+            if(findById != null && findById.size() > 0){
+            	for (Packages packages : findById) {
+            		packages.setProjectStatus(DictionaryDataUtil.getId("ZBGGNZZ"));
+            		packageService.updateByPrimaryKeySelective(packages);
+        		}
+            }
           }
           //如果是拟制中标公告，更新项目状态为中标公示编制
           if ("win".equals(noticeType)) {
             Project project = projectService.selectById(article.getProjectId());
             String code = "NZZBGG";
             projectService.updateStatus(project, code);
+            
+            //获取包信息
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("projectId", project.getId());
+            List<Packages> findById = packageService.findByID(map);
+            if(findById != null && findById.size() > 0){
+            	for (Packages packages : findById) {
+            		packages.setProjectStatus(DictionaryDataUtil.getId("NZZBGG"));
+            		packageService.updateByPrimaryKeySelective(packages);
+        		}
+            }
           }
         }
         if (flag == 1) {
@@ -813,12 +839,32 @@ public class OpenBiddingController {
                 //如果是公开招标更新项目状态为发售标书
                 String code = "FSBSZ";
                 projectService.updateStatus(project, code);
+                
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("projectId", project.getId());
+                List<Packages> findById = packageService.findByID(map);
+                if(findById != null && findById.size() > 0){
+                	for (Packages packages : findById) {
+                		packages.setProjectStatus(DictionaryDataUtil.getId("FSBSZ"));
+                		packageService.updateByPrimaryKeySelective(packages);
+            		}
+                }
             } else if ("JZXTP".equals(puchaseTypeCode)) {
               
             } else {
                 //如果是询价、邀请招标、竞争性谈判更新项目状态为抽取供应商
                 String code = "GYSCQZ";
                 projectService.updateStatus(project, code);
+                
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("projectId", project.getId());
+                List<Packages> findById = packageService.findByID(map);
+                if(findById != null && findById.size() > 0){
+                	for (Packages packages : findById) {
+                		packages.setProjectStatus(DictionaryDataUtil.getId("GYSCQZ"));
+                		packageService.updateByPrimaryKeySelective(packages);
+            		}
+                }
             }
           }
           if ("win".equals(noticeType)) {
@@ -830,6 +876,16 @@ public class OpenBiddingController {
                 //如果不是单一来源，项目状态为确认中标供应商
                 String code = "QRZBGYS";
                 projectService.updateStatus(project, code);
+                
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("projectId", project.getId());
+                List<Packages> findById = packageService.findByID(map);
+                if(findById != null && findById.size() > 0){
+                	for (Packages packages : findById) {
+                		packages.setProjectStatus(DictionaryDataUtil.getId("QRZBGYS"));
+                		packageService.updateByPrimaryKeySelective(packages);
+            		}
+                }
             }
           }
         }
@@ -1018,6 +1074,17 @@ public class OpenBiddingController {
         push(user,project.getId());
         //该环节设置为执行中状态
         flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+        
+        //获取包信息
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("projectId", projectId);
+        List<Packages> findById = packageService.findByID(map);
+        if(findById != null && findById.size() > 0){
+        	for (Packages packages : findById) {
+        		packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+        		packageService.updateByPrimaryKeySelective(packages);
+    		}
+        }
       }
       //flag：0，招标文件为暂存状态
       if ("0".equals(flag)) {
@@ -1042,6 +1109,17 @@ public class OpenBiddingController {
         push(user,project.getId());
         //该环节设置为执行中状态
         flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+        
+        //获取包信息
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("projectId", projectId);
+        List<Packages> findById = packageService.findByID(map);
+        if(findById != null && findById.size() > 0){
+        	for (Packages packages : findById) {
+        		packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+        		packageService.updateByPrimaryKeySelective(packages);
+    		}
+        }
       }
       //flag：0，招标文件为暂存状态
       if ("0".equals(flag)) {
@@ -1252,6 +1330,7 @@ public class OpenBiddingController {
     //这里用这个是因为hashMap是无序的
     TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
     SaleTender condition = new SaleTender();
+    Map<String, String> mapPackageName=new HashMap<String, String>();
     HashMap<String, Object> map = new HashMap<String, Object>();
     HashMap<String, Object> map1 = new HashMap<String, Object>();
     if ("1".equals(count)) {
@@ -1272,6 +1351,11 @@ public class OpenBiddingController {
     }
 
     for (Packages pack : packList) {
+      Packages ps = packageService.selectByPrimaryKeyId(pack.getId());
+      if(ps!=null&&ps.getProjectStatus()!=null){
+        DictionaryData findById = DictionaryDataUtil.findById(ps.getProjectStatus());
+        mapPackageName.put(ps.getName(), findById.getCode());
+      }
       condition.setProjectId(projectId);
       condition.setPackages(pack.getId());
       condition.setStatusBid(NUMBER_TWO);
@@ -1305,6 +1389,7 @@ public class OpenBiddingController {
     model.addAttribute("projectId", projectId);
     model.addAttribute("packId", packId);
     model.addAttribute("flowDefineId", flowDefineId);
+    model.addAttribute("mapPackageName", mapPackageName);
     model.addAttribute("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
     return "bss/ppms/open_bidding/bid_file/chang_total";
   }
@@ -1321,6 +1406,7 @@ public class OpenBiddingController {
     //这里用这个是因为hashMap是无序的
     TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
     SaleTender condition = new SaleTender();
+    Map<String, String> mapPackageName=new HashMap<String, String>();
     HashMap<String, Object> map = new HashMap<String, Object>();
     HashMap<String, Object> map1 = new HashMap<String, Object>();
     Quote quote2 = new Quote();
@@ -1338,6 +1424,11 @@ public class OpenBiddingController {
       model.addAttribute("listLength", 1);
     }
     for (Packages pack : packList) {
+      Packages ps = packageService.selectByPrimaryKeyId(pack.getId());
+      if(ps!=null&&ps.getProjectStatus()!=null){
+        DictionaryData findById = DictionaryDataUtil.findById(ps.getProjectStatus());
+        mapPackageName.put(ps.getName(), findById.getCode());
+      }
       condition.setProjectId(projectId);
       condition.setPackages(pack.getId());
       condition.setStatusBid(NUMBER_TWO);
@@ -1414,6 +1505,7 @@ public class OpenBiddingController {
     model.addAttribute("treeMap", treeMap);
     model.addAttribute("projectId", projectId);
     model.addAttribute("dd", dictionaryData);
+    model.addAttribute("mapPackageName", mapPackageName);
     return "bss/ppms/open_bidding/bid_file/view_chang_total";
   }
   
@@ -1776,23 +1868,24 @@ public class OpenBiddingController {
           }
       }
     }
-    for (int i = 0; i < json.size(); i++) {
+    //这段代码略坑！！！
+    /*for (int i = 0; i < json.size(); i++) {
         jsonQuote = json.getJSONObject(i); 
         for (SaleTender st : stList) {
             if (st.getSuppliers().getId().equals(jsonQuote.getString("supplierId"))) {
                 if (list != null && list.size() > 0) {
-                   /* List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
+                    List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
                     if (blist1 != null && blist1.size() == 0) {
                         if (!strList.contains(st.getSuppliers().getId()) && Integer.parseInt(jsonQuote.getString("isTurnUp")) == 0) {
                           count ++ ;
                           break labe;
                         }
-                    }*/
+                    }
                 }
                 st.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
             }
         }
-      }
+      }*/
     
     /*if (count > 0) {
       return "false";
@@ -1822,7 +1915,7 @@ public class OpenBiddingController {
 
 
   @RequestMapping("/selectSupplierByProject")
-  public String selectSupplierByProject(String projectId, Model model) throws ParseException{
+  public String selectSupplierByProject(String projectId, String flowDefineId, Model model) throws ParseException{
     //文件上传类型
     boolean flag = false;
     DictionaryData dd = new DictionaryData();
@@ -3414,6 +3507,52 @@ public class OpenBiddingController {
           response.getWriter().close();
       }   
   }
-  
-  
+  @RequestMapping("/checkSupplierNumber")
+  @ResponseBody
+  public void checkSupplierNumber(HttpServletResponse response,String projectId) throws IOException{
+	  Project project = projectService.selectById(projectId);
+	  SaleTender condition = new SaleTender();
+	  condition.setProjectId(projectId);
+	  condition.setStatusBid(NUMBER_TWO);
+	  condition.setStatusBond(NUMBER_TWO);
+	  List<SaleTender> stList = saleTenderService.find(condition);
+	  HashMap<String, Object> map = new HashMap<String,Object>();
+	  map.put("projectId", projectId);
+	  List<Packages> packageList = packageService.findPackageById(map);
+	  StringBuffer buffer = new StringBuffer();
+	  for (Packages packages : packageList) {
+		int count=0;
+		for (SaleTender saleTender : stList) {
+			if(packages.getId().equals(saleTender.getPackages())){
+				if(saleTender.getIsTurnUp()==0){
+					count++;
+				}
+			}
+		}
+		if(count<project.getSupplierNumber()){
+			DictionaryData findById = DictionaryDataUtil.findById(packages.getProjectStatus());
+			if("".equals(findById.getCode())){
+				if(findById.getCode().equals("YZZ") || findById.getCode().equals("ZJZXTP")){
+					continue;
+				}
+			}
+			buffer.append(packages.getId()+","+packages.getName()+";");
+		}
+	  }
+	  JSONObject jsonObj =new JSONObject();
+	  if(buffer != null){
+		  jsonObj.put("rules", buffer.toString().substring(0,buffer.toString().length()-1));
+	  }
+      response.getWriter().print(jsonObj.toString());
+      response.getWriter().flush();
+  }
+  @RequestMapping("transformationJZXTP")
+  @ResponseBody
+  public void transformationJZXTP(HttpServletResponse response,String projectId,String packageIds,String currentFlowDefineId) throws IOException{
+	  terminationService.updateTermination(packageIds, projectId, currentFlowDefineId, currentFlowDefineId, "JZXTP");
+	  JSONObject jsonObj =new JSONObject();
+	  jsonObj.put("status", "ok");
+	  response.getWriter().print(jsonObj.toString());
+      response.getWriter().flush();
+  }
 }

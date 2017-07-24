@@ -78,9 +78,11 @@
 													<td>
 														<c:forEach items="${obj.list }" var="quaPro">
 															<c:set value="${prolength+1}" var="prolength"></c:set>
-															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaPro.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${quaPro.flag}','aptitude_page')"</c:if>>
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,obj.itemId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${obj.itemId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,quaPro.flag) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,obj.itemId) && currSupplier.status==2}">
+																		<div class="webuploader-pick">${quaPro.name}</div>
+																		<div class="clear"></div>
 																		<u:show showId="pShow${prolength}" delete="false" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
@@ -112,9 +114,11 @@
 													<td>
 														<c:forEach items="${sale.list }" var="saua">
 															<c:set value="${length+1}" var="length"></c:set>
-															<div class="mr5 fl" <c:if test="${fn:contains(audit,saua.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${saua.flag}','aptitude_page')"</c:if>>
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,sale.itemId)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${sale.itemId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,saua.flag) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,sale.itemId) && currSupplier.status==2}">
+																		<div class="webuploader-pick">${saua.name}</div>
+																		<div class="clear"></div>
 																		<u:show showId="saleShow${length}" delete="false" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
@@ -134,7 +138,7 @@
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fade height-300" id="tab-3">
-										<h2 class="f16  ">
+										<h2 class="f16">
 											<font color="red">*</font> 上传工程资质文件
 										</h2>
 										<form id="item_form" method="post" class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
@@ -155,8 +159,7 @@
 												</tr>
 												</thead>
 												<c:forEach items="${allTreeList}" var="cate" varStatus="vs">
-													<tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg(this, '${cate.itemsId}','aptitude_page')"</c:if>>
-														
+													<tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg(this, '${cate.itemsId}','${auditType}')"</c:if>>
 														<!-- 序号 -->
 														<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 															<div class="w50"> ${vs.index + 1}</div>
@@ -277,9 +280,11 @@
 													<td>
 														<c:forEach items="${server.list }" var="ser">
 															<c:set value="${slength+1}" var="slength"></c:set>
-															<div class="fl mr5" <c:if test="${fn:contains(audit,ser.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${ser.flag}','aptitude_page')"</c:if>>
+															<div class="fl mr5" <c:if test="${fn:contains(audit,server.itemId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${server.itemId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,ser.flag) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,server.itemId) && currSupplier.status==2}">
+																		<div class="webuploader-pick">${ser.name}</div>
+																		<div class="clear"></div>
 																		<u:show showId="serverShow${slength}" delete="false" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
@@ -361,9 +366,9 @@
 							url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
 							type: "post",
 							data: $("#item_form").serializeArray(),
-              success: function(msg) {
-                return "0";
-              }
+             				success: function(msg) {
+                				return "0";
+             				 }
 						});
 					}
 				});
@@ -408,7 +413,6 @@
 					 	}
 					}
 				});
-
 			}
 
 			function prev() {
@@ -504,6 +508,7 @@
 					certCode = $(obj).parent().prev().children().val();
 					$(obj).parents("tr").find("td:last").empty();
 					professType=$(obj).val();
+					
 				}
 
 				var typeId = "";
@@ -523,53 +528,54 @@
 			//请求 获取 数据
 			function getDate(obj,typeId,certCode,supplierId,professType,number,flag){
 				//根据类型和证书编号获取等级
-				$.ajax({
-          url : "${pageContext.request.contextPath}/supplier/getLevel.do",
-          type : "post",
-          data : {
-            "typeId" : typeId,
-            "certCode" : certCode,
-            "supplierId" : supplierId,
-            "professType" : professType
-          },
-          dataType: "json",
-          success: function(result){
-            if (result != null && result != "") {
-              if (flag == "1") {
-                $(obj).parent().next().next().find("input[type='text']").val(result.name);
-                $(obj).parent().next().next().find("input[type='hidden']").val(result.id);
-              } else if(flag == "0"){
-                $(obj).parent().find("input[type='text']").val(result.name);
-                $(obj).parent().next().find("input[type='hidden']").val(result.id);
-              }else{
-                $(obj).parent().next().find("input[type='text']").val(result.name);
-                $(obj).parent().next().find("input[type='hidden']").val(result.id);
-              }
-              // 通过append将附件信息追加到指定位置
-              $.ajax({
-                url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
-                type : "post",
-                async : false,
-                dataType : "html",
-                data : {
-                  "typeId" : typeId,
-                  "certCode" : certCode,
-                  "supplierId" : supplierId,
-                  "number" : number,
-                  "professType" : professType
-                },
-                success : function(data) {
-                  if (flag == "1") {
-                    $(obj).parent().next().next().next().next().html(data);
-                  } else {
-                    $(obj).parent().next().next().next().html(data);
-                  }
-                  init_web_upload();
-                }
-              });
-            }
-          }
-      });
+				$.ajax({	
+			          url : "${pageContext.request.contextPath}/supplier/getLevel.do",
+			          type : "post",
+			          data : {
+			            "typeId" : typeId,
+			            "certCode" : certCode,
+			            "supplierId" : supplierId,
+			            "professType" : professType
+			          },
+			          dataType: "json",
+			          async:false,
+			          success: function(result){
+				            if (result != null && result != "") {
+					              if (flag == "1") {
+					                $(obj).parent().next().next().find("input[type='text']").val(result.name);
+					                $(obj).parent().next().next().find("input[type='hidden']").val(result.id);
+					              } else if(flag == "0"){
+					                $(obj).parent().find("input[type='text']").val(result.name);
+					                $(obj).parent().next().find("input[type='hidden']").val(result.id);
+					              }else{
+					                $(obj).parent().next().find("input[type='text']").val(result.name);
+					                $(obj).parent().next().find("input[type='hidden']").val(result.id);
+					              }
+					              // 通过append将附件信息追加到指定位置
+					              $.ajax({
+						                url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
+						                type : "post",
+						                async : false,
+						                dataType : "html",
+						                data : {
+						                  "typeId" : typeId,
+						                  "certCode" : certCode,
+						                  "supplierId" : supplierId,
+						                  "number" : number,
+						                  "professType" : professType
+						                },
+						                success : function(data) {
+							                  if (flag == "1") {
+							                    $(obj).parent().next().next().next().next().html(data);
+							                  } else {
+							                    $(obj).parent().next().next().next().html(data);
+							                  }
+							                  init_web_upload();
+						                }
+					              });
+			           		}
+			          }
+    	  		});
 			}
 			function isAptitue(){
 				var flag=true;

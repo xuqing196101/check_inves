@@ -1,22 +1,18 @@
 package synchro.controller;
 
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBSupplierService;
+import com.github.pagehelper.PageInfo;
+import common.bean.ResponseBean;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.service.bms.CategoryParameterService;
@@ -33,9 +29,13 @@ import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.service.SynchService;
 import synchro.util.Constant;
-import bss.service.ob.OBProductService;
-import bss.service.ob.OBProjectServer;
-import bss.service.ob.OBSupplierService;
+
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
@@ -117,6 +117,7 @@ public class SynchExportController {
      * @return
      */
     @RequestMapping("/initExport")
+
     public String initExport(@CurrentUser User user,Model model, HttpServletRequest request){
     	//声明标识是否是资源服务中心
         String authType = null;
@@ -355,6 +356,7 @@ public class SynchExportController {
 	        bean.setSuccess(true);
 	        return bean;
         }
+
         return new ResponseBean();
     }
     

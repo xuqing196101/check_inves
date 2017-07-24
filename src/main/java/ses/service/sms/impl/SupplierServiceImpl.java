@@ -22,8 +22,11 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.github.pagehelper.PageHelper;
+
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
@@ -33,12 +36,15 @@ import ses.dao.bms.UserMapper;
 import ses.dao.sms.DeleteLogMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAuditMapper;
+import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
+import ses.dao.sms.SupplierMatEngMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
+import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
@@ -55,9 +61,11 @@ import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCateTree;
+import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.model.sms.supplierExport;
@@ -179,6 +187,13 @@ public class SupplierServiceImpl implements SupplierService {
   @Autowired
   private SupplierItemLevelServer supplierItemLevelServer;
 
+  @Autowired
+  private SupplierMatEngMapper supplierMatEngMapper;
+  
+  @Autowired
+  private SupplierCertEngMapper supplierCertEngMapper;
+  
+  
   @Override
   public Supplier get(String id) {
     Supplier supplier = supplierMapper.getSupplier(id);
@@ -571,6 +586,12 @@ public class SupplierServiceImpl implements SupplierService {
     } else if (status == 7) {
       map.put("status", "success");
       map.put("supplier", supplier);
+    } else if (status == -2){
+      // 审核预通过状态
+      map.put("status", "prepass");
+    }else if (status == -3){
+      // 公示中状态
+      map.put("status", "publicity");
     }
     if (supplier.getProcurementDepId() != null) {
       PurchaseDep dep = purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId());
@@ -738,6 +759,7 @@ public class SupplierServiceImpl implements SupplierService {
         List<Qualification> qua = get(categoryQua, category.getParentId());
         if (qua.size() != 0) {
           newList.add(list.get(i));
+          quaBean.setCategoryId(category.getId());
           quaBean.setCategoryName(category.getName());
           quaBean.setList(qua);
           quaList.add(quaBean);
@@ -1079,6 +1101,16 @@ public class SupplierServiceImpl implements SupplierService {
     supplier.setCreditCode(creditCode + buff);
     supplier.setIsDeleted(1);
     supplierMapper.updateById(supplier);
+    
+    SupplierMatEng eng = supplierMatEngMapper.getMatEngBySupplierId(supplierId);
+    
+    List<SupplierCertEng> list = supplierCertEngMapper.findCertEngByMatEngId(eng.getId());
+    
+    for(SupplierCertEng sc:list){
+    	sc.setCertCode(sc.getCertCode()+buff);
+    	supplierCertEngMapper.updateByPrimaryKeySelective(sc);
+    }
+    
 
   }
 
@@ -1513,6 +1545,40 @@ public class SupplierServiceImpl implements SupplierService {
 	public boolean checkCreditCode(String id, String creditCode) {
 		int count = supplierMapper.countCreditCode(id, creditCode);
 		return count > 0 ? false : true;
+	}
+
+	@Override
+	public List<QualificationBean> getQualificationList(
+			List<SupplierItemCategoryBean> sicList, int quaType) {
+		if(sicList != null){
+			List<QualificationBean> quaList = new ArrayList<QualificationBean>();
+			List<SupplierItemCategoryBean> newList = new ArrayList<SupplierItemCategoryBean>();
+			for (int i = 0; i < sicList.size(); i++) {
+				SupplierItemCategoryBean sic = sicList.get(i);
+				QualificationBean quaBean = new QualificationBean();
+				if (sic.getId() == null) {
+					continue;
+				}
+				// 根据品目id查询所要上传的资质文件
+				List<CategoryQua> categoryQua = categoryQuaMapper.findListSupplier(
+						sic.getId(), quaType);
+				if (null != categoryQua
+						&& StringUtils.isNotBlank(sic.getParentId())) {
+					List<Qualification> qua = get(categoryQua, sic.getParentId());
+					if (qua.size() != 0) {
+						newList.add(sicList.get(i));
+						quaBean.setCategoryId(sic.getId());
+						quaBean.setCategoryName(sic.getName());
+						quaBean.setItemId(sic.getItemId());
+						quaBean.setList(qua);
+						quaList.add(quaBean);
+					}
+				}
+			}
+			sicList = newList;
+			return quaList;
+		}
+		return null;
 	}
 
 }

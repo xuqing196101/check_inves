@@ -1,9 +1,7 @@
 package sums.service.ss.impl;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,8 +13,8 @@ import bss.dao.cs.PurchaseContractMapper;
 import bss.dao.pms.CollectPlanMapper;
 import bss.dao.pms.PurchaseDetailMapper;
 import bss.dao.ppms.AdvancedDetailMapper;
-import bss.dao.ppms.AdvancedPackageMapper;
 import bss.dao.ppms.AdvancedProjectMapper;
+import bss.dao.ppms.PackageMapper;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
 import bss.dao.ppms.ProjectTaskMapper;
@@ -28,8 +26,8 @@ import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedDetail;
-import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
@@ -37,11 +35,7 @@ import bss.model.ppms.Task;
 import bss.model.pqims.PqInfo;
 import bss.service.pms.PurchaseRequiredService;
 
-import ses.dao.bms.UserMapper;
-import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
-import ses.model.bms.User;
-import ses.model.oms.Orgnization;
 import ses.util.DictionaryDataUtil;
 import sums.service.ss.SupervisionService;
 
@@ -85,27 +79,32 @@ public class SupervisionServiceImpl implements SupervisionService {
     private ProjectTaskMapper projectTaskMapper;
     
     @Autowired
-    private UserMapper userMapper;
+    private PackageMapper packageMapper;
     
-    @Autowired
-    private OrgnizationMapper orgnizationMapper;
-    
-
     @Override
-    public String[] progressBar(String id) {
+    public String[] progressBar(String id, String projectId) {
         String[] progressBar = null;
         if(StringUtils.isNotBlank(id)){
             HashMap<String, Object> map = new HashMap<>();
             map.put("requiredId", id);
+            if(StringUtils.isNotBlank(projectId)){
+            	map.put("id", projectId);
+            }
             List<ProjectDetail> selectById = projectDetailMapper.selectById(map);
             if(selectById != null && selectById.size() > 0){
                 List<ContractRequired> contractRequireds = contractRequiredMapper.selectConRequByDetailId(selectById.get(0).getId());
                 if(contractRequireds != null && contractRequireds.size()>0){
                     PurchaseContract purchaseContract = contractMapper.selectContractByid(contractRequireds.get(0).getContractId());
-                    progressBar = progressBar(String.valueOf(purchaseContract.getStatus()),purchaseContract.getId());
+                    progressBar = progressBars(String.valueOf(purchaseContract.getStatus()),purchaseContract.getId());
                 } else {
-                    Project project = projectMapper.selectProjectByPrimaryKey(selectById.get(0).getProject().getId());
-                    progressBar = progressBar(project.getStatus(),id);
+                	if(StringUtils.isBlank(selectById.get(0).getPackageId())){
+                		Project project = projectMapper.selectProjectByPrimaryKey(selectById.get(0).getProject().getId());
+                        progressBar = progressBars(project.getStatus(),id);
+                	} else {
+                		Packages packages = packageMapper.selectByPrimaryKeyId(selectById.get(0).getPackageId());
+                		progressBar = progressBars(packages.getProjectStatus(),id);
+                	}
+                    
                 }
             } else {
                 PurchaseDetail detail = purchaseDetailMapper.selectByPrimaryKey(id);
@@ -114,9 +113,9 @@ public class SupervisionServiceImpl implements SupervisionService {
                     map.put("purchaseId", detail.getOrganization());
                     List<Task> listBycollect = taskMapper.listBycollect(map);
                     if(listBycollect != null && listBycollect.size() > 0){
-                        progressBar = progressBar(String.valueOf(listBycollect.get(0).getStatus()),listBycollect.get(0).getId());
+                        progressBar = progressBars(String.valueOf(listBycollect.get(0).getStatus()),listBycollect.get(0).getId());
                     } else {
-                        progressBar = progressBar(detail.getStatus(),detail.getUniqueId());
+                        progressBar = progressBars(detail.getStatus(),detail.getUniqueId());
                        /* HashMap<String, Object> maps = new HashMap<>();
                         maps.put("requiredId", detail.getId());
                         List<ProjectDetail> selectById2 = projectDetailMapper.selectById(maps);
@@ -135,7 +134,7 @@ public class SupervisionServiceImpl implements SupervisionService {
                         if(adProgressBar != null){
                             progressBar = adProgressBar(purchaseRequired.getId());
                         }else{
-                            progressBar = progressBar(purchaseRequired.getStatus(),purchaseRequired.getUniqueId());
+                            progressBar = progressBars(purchaseRequired.getStatus(),purchaseRequired.getUniqueId());
                         }
                     }
                 }
@@ -148,7 +147,7 @@ public class SupervisionServiceImpl implements SupervisionService {
     
     
     
-    public String[] progressBar(String status, String id){
+    public String[] progressBars(String status, String id){
         double number = 100.00/39.00;
         BigDecimal b = new BigDecimal(number);
         double total = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -237,7 +236,7 @@ public class SupervisionServiceImpl implements SupervisionService {
             List<PqInfo> selectByContract = pqInfoMapper.selectByContract(map);
             if(selectByContract != null && selectByContract.size() > 0){
                 if("合格".equals(selectByContract.get(0).getConclusion())){
-                    int one = 38;
+                    //int one = 38;
                     num = "100";
                     name = "质检合格";
                 }

@@ -150,6 +150,7 @@
 										<th class="info">审核通过数量</th>
 										<th class="info">退回修改数量</th>
 										<th class="info">审核不通过数量</th>
+										<th class="info">总数</th>
 									</tr>
 								</thead>
 								<c:forEach items="${list.list}" var="su" varStatus="vs">
@@ -161,6 +162,7 @@
 								  <td>${su.statusTwo}</td>
 								  <td>${su.statusThree}</td>
 								  <td>${su.statusFour}</td>
+								  <td>${su.sums}</td>
 								 </tr>
 								</c:forEach>
 							</table>
@@ -205,6 +207,7 @@
 										<th class="info">审核不通过数量</th>
 										<th class="info">军队数量</th>
 										<th class="info">地方数量</th>
+										<th class="info">总数</th>
 									</tr>
 								</thead>
 								<c:forEach items="${listExpert.list}" var="su" varStatus="vs">
@@ -218,6 +221,7 @@
 								  <td>${su.statusFour}</td>
 								  <td>${su.expertArmy}</td>
 								  <td>${su.expertsLocal}</td>
+								  <td>${su.sums}</td>
 								 </tr>
 								</c:forEach>
 							</table>

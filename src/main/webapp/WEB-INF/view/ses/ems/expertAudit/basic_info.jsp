@@ -6,6 +6,7 @@
 <head>
     <%@ include file="/WEB-INF/view/common.jsp" %>
     <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertAudit/merge_jump.js"></script>
     <style type="text/css">
         input {
             cursor: pointer;
@@ -18,6 +19,9 @@
 
     <script type="text/javascript">
         $(function () {
+            $("#reverse_of_one").attr("class","active");
+            $("#reverse_of_one").removeAttr("onclick");
+
             $(":input").each(function () {
                 var onMouseMove = "this.style.background='#E8E8E8'";
                 var onmouseout = "this.style.background='#FFFFFF'";
@@ -50,7 +54,11 @@
 
         //审核input框
         function reason(obj, str) {
-            var expertId = $("#expertId").val();
+        	var status = ${expert.status};
+        	var sign = $("input[name='sign']").val();
+        	//只能审核可以审核的状态
+        	if(status ==-2 || status == -3 || status == 0 || (sign ==2 && status ==1) || status ==6){
+        		var expertId = $("#expertId").val();
             var auditField;
             var auditContent;
             var html = "<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>";
@@ -75,31 +83,36 @@
                     var text = trim(text);
                     if (text != null && text != "") {
                         $.ajax({
-                            url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
-                            type: "post",
-                            dataType: "json",
-                            data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField,
-                            success: function (result) {
-                                result = eval("(" + result + ")");
-                                if (result.msg == "fail") {
-                                    layer.msg('该条信息已审核过！', {
-                                        shift: 6, //动画类型
-                                        offset: '100px'
-                                    });
-                                }
-                            }
-                        });
-                        $("#" + obj.id + "").css('border-color', '#FF0000');
-                        $(obj).after(html);
-                        layer.close(index);
-                    } else {
-                        layer.msg('不能为空！', {offset: '100px'});
-                    }
-                });
+                          url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
+                          type: "post",
+                          dataType: "json",
+                          data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField,
+                          success: function (result) {
+                              result = eval("(" + result + ")");
+                              if (result.msg == "fail") {
+                                  layer.msg('该条信息已审核过！', {
+                                      shift: 6, //动画类型
+                                      offset: '100px'
+                                  });
+                              }
+                          }
+                      });
+                      $("#" + obj.id + "").css('border-color', '#FF0000');
+                      $(obj).after(html);
+                      layer.close(index);
+                  } else {
+                      layer.msg('不能为空！', {offset: '100px'});
+                  }
+              });
+          }
         }
 
         //审核附件
         function reasonFile(obj, str) {
+        	var status = ${expert.status};
+          var sign = $("input[name='sign']").val();
+          //只能审核可以审核的状态
+          if(status ==-2 || status == -3 || status == 0 || (sign ==2 && status ==1) || status ==6){
             var expertId = $("#expertId").val();
             var showId = obj.id + "1";
 
@@ -137,6 +150,7 @@
                         layer.msg('不能为空！', {offset: '100px'});
                     }
                 });
+           }
         }
 
 
@@ -206,29 +220,6 @@
             });
         }
     </script>
-    <script type="text/javascript">
-        function jump(str) {
-            var action;
-            if (str == "experience") {
-                action = "${pageContext.request.contextPath}/expertAudit/experience.html";
-            }
-            if (str == "expertType") {
-                action = "${pageContext.request.contextPath}/expertAudit/expertType.html";
-            }
-            if (str == "product") {
-                action = "${pageContext.request.contextPath}/expertAudit/product.html";
-            }
-            if (str == "expertFile") {
-                action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
-            }
-            if (str == "reasonsList") {
-                action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
-            }
-            $("#form_id").attr("action", action);
-            $("#form_id").submit();
-        }
-    </script>
-
 </head>
 
 <body>
@@ -268,33 +259,7 @@
 <div class="container container_box">
     <div class=" content height-350">
         <div class="col-md-12 tab-v2 job-content">
-            <!-- <ul class="nav nav-tabs bgdd"> -->
-            <ul class="flow_step">
-                <li class="active">
-                    <a aria-expanded="false" data-toggle="tab">基本信息</a>
-                    <i></i>
-                </li>
-                <!-- <li onclick="jump('experience')" >
-                    <a aria-expanded="false"  data-toggle="tab">经历经验</a>
-                    <i></i>
-                </li> -->
-                <li onclick="jump('expertType')">
-                    <a aria-expanded="false" data-toggle="tab">专家类别</a>
-                    <i></i>
-                </li>
-                <li onclick="jump('product')">
-                    <a aria-expanded="false" data-toggle="tab">产品类别</a>
-                    <i></i>
-                </li>
-                <li onclick="jump('expertFile')">
-                    <a aria-expanded="false" data-toggle="tab">承诺书和申请表</a>
-                    <i></i>
-                </li>
-                <li onclick="jump('reasonsList')">
-                    <a aria-expanded="false" data-toggle="tab">审核汇总</a>
-                </li>
-            </ul>
-
+            <%@include file="/WEB-INF/view/ses/ems/expertAudit/common_jump.jsp" %>
             <h2 class="count_flow"><i>1</i>专家个人信息</h2>
             <ul class="ul_list">
                 <%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -824,8 +789,10 @@
             </ul> --%>
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
+          <c:if test="${expert.status == 0 || (sign ==2 && expert.status ==1) || expert.status ==6}">
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
-            <a class="btn" type="button" onclick="nextStep();">下一步</a>
+          </c:if>
+          <a class="btn" type="button" onclick="nextStep();">下一步</a>
         </div>
     </div>
 </div>
@@ -834,5 +801,6 @@
     <input name="expertId" value="${expertId }" type="hidden">
     <input name="sign" value="${sign }" type="hidden">
 </form>
+<input id="status" value=" ${expert.status}" type="hidden">
 </body>
 </html>

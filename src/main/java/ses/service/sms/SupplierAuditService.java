@@ -1,9 +1,8 @@
 package ses.service.sms;
 
-import java.util.List;
-
+import com.github.pagehelper.PageInfo;
+import common.utils.JdcgResult;
 import org.springframework.http.ResponseEntity;
-
 import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
@@ -17,10 +16,12 @@ import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierPublicity;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 
-import com.github.pagehelper.PageInfo;
+import java.util.List;
+import java.util.Map;
 /**
  * <p>Title:SupplierAuditServlice </p>
  * <p>Description: 供应商审核接口</p>
@@ -332,13 +333,13 @@ public interface SupplierAuditService {
     void deleteBySupplierId(String supplierId);
     /**
      * 
-     * Description:service 封装 是否 有审核 数据
+     * Description:service 封装 是否 有目录审核 数据
      * 
      * @version 2017-6-30
      * @param cateTree
      * @return
      */
-    public SupplierCateTree potting(SupplierCateTree cateTree,String supplierId);
+    public SupplierCateTree cateTreePotting(SupplierCateTree cateTree,String supplierId);
     /**
      * @Title: downloadFile
      * @author XuQing 
@@ -393,4 +394,68 @@ public interface SupplierAuditService {
      * @return
      */
     int countByPrimaryKey(SupplierAudit audit);
+    
+    /**
+     * 
+     * Description:修改公示状态
+     * 
+     * @author Easong
+     * @version 2017年6月26日
+     * @return
+     */
+    JdcgResult updatePublicityStatus(String[] ids);
+    
+    /**
+     * 
+     * Description: 查询公示供应商，公示7天后自动入库
+     * 
+     * @author Easong
+     * @version 2017年6月26日
+     */
+    void handlerPublictySup();
+    
+    /**
+     * 
+     * Description:供应商公示列表
+     * 
+     * @author Easong
+     * @version 2017年6月28日
+     * @param map
+     * @return
+     */
+    List<SupplierPublicity> selectSupByPublictyList(Map<String, Object> map);
+    /**
+     * 
+     * Description:封装 销售合同 数据
+     * 
+     * @author YangHongLiang
+     * @version 2017-7-6
+     * @param itemId
+     * @param supplierId
+     * @param supplierItemId
+     * @return
+     */
+    List<SupplierCateTree> showContractData(String itemId,String supplierId,String supplierItemId);
+
+	/**
+	 *
+	 * Description:查询选择和未通过的产品类别
+	 *
+	 * @author Easong
+	 * @version 2017-7-6
+	 * @param supplierPublicity
+	 * @return
+	 */
+    SupplierPublicity selectChooseOrNoPassCate(SupplierPublicity supplierPublicity);
+
+    /**
+     *
+     * Description: 审核前判断是否有通过项和未通过项--是否符合通过要求
+     *
+     * @author Easong
+     * @version 2017/7/13
+     * @param [supplierId]
+     * @since JDK1.7
+     */
+    JdcgResult selectAndVertifyAuditItem(String supplierId);
 } 

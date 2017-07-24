@@ -42,7 +42,7 @@
 		<!-- @mbggenerated -->
 		select
 		<include refid="Base_Column_List" />
-		from T_BSS_PPMS_SALE_TENDER
+		from T_BSS_PPMS_SALE_TENDER st
 		where ID = #{id,jdbcType=VARCHAR}
 		and
 		IS_REMOVED = '0'
@@ -58,6 +58,7 @@
 					T_BSS_PPMS_PACKAGE
 				WHERE
 					PROJECT_ID = #{projectId}
+				
 			) T
 		WHERE
 			T . ID IN (
@@ -149,7 +150,7 @@
 			<if test="removedReason != null and removedReason != ''">
 				REMOVED_REASON,
 			</if>
-			<if test="isTurnUp != null and isTurnUp != ''">
+			<if test="isTurnUp != null">
 				IS_TURN_UP,
 			</if>
 		</trim>
@@ -202,7 +203,7 @@
 			<if test="removedReason != null and removedReason != ''">
 				#{removedReason,jdbcType=VARCHAR},
 			</if>
-			<if test="isTurnUp != null and isTurnUp != ''">
+			<if test="isTurnUp != null">
 				#{isTurnUp,jdbcType=DECIMAL},
 			</if>
 		</trim>
@@ -256,7 +257,7 @@
 			<if test="removedReason != null and removedReason != ''">
 				REMOVED_REASON = #{removedReason,jdbcType=VARCHAR},
 			</if>
-			<if test="isTurnUp != null and isTurnUp != ''">
+			<if test="isTurnUp != null">
 				IS_TURN_UP = #{isTurnUp,jdbcType=DECIMAL},
 			</if>
 		</set>

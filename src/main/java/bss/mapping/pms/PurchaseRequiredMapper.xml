@@ -668,10 +668,10 @@
 			<if test="createdAt!=null">
 				and  to_char(CREATED_AT,'yyyy-MM-dd') =to_char(#{createdAt},'yyyy-MM-dd')
 			</if>
-			<if test="planName!=null">
+			<if test="planName != null">
 				and PLAN_NAME like CONCAT(CONCAT('%', #{planName}), '%')
 			</if>
-			<if test="planNo !=null">
+			<if test="planNo != null and planNo != ''">
 				and PLAN_NO like CONCAT(CONCAT('%', #{planNo}), '%')
 			</if>
 			<if test="referenceNo !=null">

@@ -16,7 +16,7 @@
           startRow: "${result.startRow}",
           endRow: "${result.endRow}",
           groups: "${result.pages}" >= 5 ? 5 : "${result.pages}", //连续显示分页数
-          curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
+          curr: function() { //合格url获取当前页，也可以同上（pages）方式获取
             //var page = location.search.match(/page=(\d+)/);
             //return page ? page[1] : 1;
             return "${result.pageNum}";
@@ -184,7 +184,7 @@
           });
         } else {
           var state = $("#" + id + "").parents("tr").find("td").eq(9).text().trim();
-          if(state == "复审合格" || state == "复审不合格" || state == "待复查" || state == "复查通过" || state == "复查不通过") {
+          if(state == "复审合格" || state == "复审不合格" || state == "待复查" || state == "复查合格" || state == "复查不合格") {
             index = layer.open({
               type: 2, //page层
               area: ['700px', '440px'],
@@ -306,15 +306,17 @@
                <option selected="selected" value=''>全部</option>
                <option <c:if test="${expert.status =='-1' }">selected</c:if> value="-1">暂存</option>
                <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">待初审</option>
-               <%-- <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">初审通过</option> --%>
-               <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">初审不通过</option>
+               <%-- <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">初审合格</option> --%>
+               <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">初审不合格</option>
                <option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
                <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">待复审</option>
+               <option <c:if test="${expert.status =='-3' }">selected</c:if> value="-3">公示中</option>
+               <option <c:if test="${expert.status =='-3' }">selected</c:if> value="-2">预复审合格</option>
                <option <c:if test="${expert.status =='4' }">selected</c:if> value="4">复审合格</option>
                <option <c:if test="${expert.status =='5' }">selected</c:if> value="5">复审不合格</option>
                <option <c:if test="${expert.status =='6' }">selected</c:if> value="6">待复查</option>
-               <option <c:if test="${expert.status =='7' }">selected</c:if> value="7">复查通过</option>
-               <option <c:if test="${expert.status =='8' }">selected</c:if> value="8">复查不通过</option>
+               <option <c:if test="${expert.status =='7' }">selected</c:if> value="7">复查合格</option>
+               <option <c:if test="${expert.status =='8' }">selected</c:if> value="8">复查不合格</option>
              </select>
           </span>
        </li>
@@ -413,16 +415,22 @@
                   <span class="label rounded-2x label-dark">待初审</span>
                 </c:if>
                 <%-- <c:if test="${e.status eq '1' }">
-                  <span class="label rounded-2x label-u">初审通过</span>
+                  <span class="label rounded-2x label-u">初审合格</span>
                 </c:if> --%>
                 <c:if test="${e.status eq '2' }">
-                  <span class="label rounded-2x label-dark">初审未通过</span>
+                  <span class="label rounded-2x label-dark">初审未合格</span>
                 </c:if>
                 <c:if test="${e.status eq '3' }">
                   <span class="label rounded-2x label-dark">退回修改</span>
                 </c:if>
                 <c:if test="${e.status eq '1' }">
                   <span class="label rounded-2x label-dark">待复审</span>
+                </c:if>
+                <c:if test="${e.status eq '-3'}">
+                  <span class="label rounded-2x label-dark">公示中</span>
+                </c:if>
+                <c:if test="${e.status eq '-2'}">
+                  <span class="label rounded-2x label-dark">预复审合格</span>
                 </c:if>
                 <c:if test="${e.status eq '4' and e.isProvisional eq '0'}">
                   <span class="label rounded-2x label-u">复审合格</span>
@@ -434,10 +442,10 @@
                   <span class="label rounded-2x label-dark">待复查</span>
                 </c:if>
                 <c:if test="${e.status eq '7' }">
-                  <span class="label rounded-2x label-u">复查通过</span>
+                  <span class="label rounded-2x label-u">复查合格</span>
                 </c:if>
                 <c:if test="${e.status eq '8' }">
-                  <span class="label rounded-2x label-dark">复查未通过</span>
+                  <span class="label rounded-2x label-dark">复查未合格</span>
                 </c:if>
               </td>
               <td class="tc">${e.expertsFrom }</td>

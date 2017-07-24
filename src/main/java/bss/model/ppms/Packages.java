@@ -105,8 +105,19 @@ public class Packages {
   private NegotiationReport negotiationReport;
 
   private BigDecimal wonPrice;
+  
+  private String oldFlowId;//终止流程id  默认null
+  
 
-  /**
+  private String newFlowId;//开始流程id  默认null
+
+  
+  private String editFlowId;//转竟谈当前流程ID 默认null
+
+
+
+
+/**
    * 是否维护符合性审查项 0 未维护 1:维护中 2：已维护
    */
   private Integer isEditFirst;
@@ -136,8 +147,12 @@ public class Packages {
   
   private Date qualificationTime; //评审资格性时间
   
+  private String projectStatus; //项目状态
+  
+  private String packageNumber; //包号
+  
 
-public List<Supplier> getSuList() {
+  public List<Supplier> getSuList() {
       return suList;
   }
 
@@ -615,6 +630,37 @@ public void setNegotiationReport(NegotiationReport negotiationReport) {
         this.qualificationTime = qualificationTime;
     }
 
+	public String getProjectStatus() {
+		return projectStatus;
+	}
+
+	public void setProjectStatus(String projectStatus) {
+		this.projectStatus = projectStatus;
+	}
+
+	public String getOldFlowId() {
+		return oldFlowId;
+	}
+
+	public void setOldFlowId(String oldFlowId) {
+		this.oldFlowId = oldFlowId;
+	}
+
+	public String getNewFlowId() {
+		return newFlowId;
+	}
+
+	public void setNewFlowId(String newFlowId) {
+		this.newFlowId = newFlowId;
+	}
+	public String getEditFlowId() {
+		return editFlowId;
+	}
+
+	public void setEditFlowId(String editFlowId) {
+		this.editFlowId = editFlowId;
+	}
+
     public String getProjectName() {
       return projectName;
     }
@@ -623,5 +669,12 @@ public void setNegotiationReport(NegotiationReport negotiationReport) {
       this.projectName = projectName;
     }
 
-    
+	public String getPackageNumber() {
+		return packageNumber;
+	}
+
+	public void setPackageNumber(String packageNumber) {
+		this.packageNumber = packageNumber;
+	}
+	
 }
