@@ -373,4 +373,14 @@ public interface PurchaseDetailMapper {
      * @return
      */
     List<PurchaseDetail> getUniquesTempByTask(@Param("projectId")String projectId, @Param("uniqueId")String uniqueId, @Param("organization")String organization);
+    
+    /**
+     * 
+     *〈查看该计划明细是否立项〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param uniqueId
+     * @return
+     */
+    List<Integer> groupByStatus(String uniqueId);
 }

@@ -137,8 +137,9 @@ public class OBProductController {
             model.addAttribute(OnlineBidding.AUTH_TYPE, authType);
             model.addAttribute("productExample", example);
             model.addAttribute("numlist", numlist);
+            return "bss/ob/finalize_DesignProduct/list";
         }
-        return "bss/ob/finalize_DesignProduct/list";
+        return "redirect:/qualifyError.jsp";
     }
 
     /**
