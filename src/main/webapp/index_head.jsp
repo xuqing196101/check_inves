@@ -12,7 +12,7 @@
 <head>
 <!--导航js-->
 
-<%@ include file="/WEB-INF/view/portal.jsp" %>
+<%@ include file="/WEB-INF/view/portal_only.jsp" %>
 <script type="text/javascript"> 
   		$(function(){
   		    /* 导航延迟两秒 */
