@@ -74,7 +74,7 @@
  -->     	 
      	 
      	  <!-- 定时处理退回修改后的供应商30天不提交自动审核不通过/供应商审核不通过180天后再次注册需要提示供应商为第二次注册(凌晨1.30执行一次) -->
-         <task:scheduled ref="SupplierTask"  method="handlerSupplierchange" cron=" 2 * * * * ?"/> 
+         <task:scheduled ref="SupplierTask"  method="handlerSupplierchange" cron=" 0 30 1 * * ?"/> 
      	 <!-- 0 30 1 * * ? -->
 	   <!-- 定时处理竞价业务(凌晨十二点执行一次) -->
      	 <task:scheduled ref="OBProjectTask"  method="handleOBProject" cron="0 0 0 * * ?"/> 
