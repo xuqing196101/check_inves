@@ -69,11 +69,21 @@
 
   /**添加页面*/
   function add() {
+	  var authType = "${authType}";
+		if(authType != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		} 
     window.location.href = "${pageContext.request.contextPath}/expertBlacklist/addBlacklist.html";
   }
 
   //更新
   function update() {
+	  var authType = "${authType}";
+		if(authType != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		} 
     var id = [];
     var e_status;
     $('input[name="chkItem"]:checked').each(function(){
@@ -103,6 +113,11 @@
 
   //移除
   function updateStatus() {
+	  var authType = "${authType}";
+		if(authType != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		} 
     var ids = [];
     var type;
     $('input[name="chkItem"]:checked').each(function() {
@@ -157,6 +172,11 @@
   }
 
   function log() {
+	  var authType = "${authType}";
+		if(authType != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		} 
     window.location.href = "${pageContext.request.contextPath}/expertBlacklist/expertBlackListLog.html";
   }
 

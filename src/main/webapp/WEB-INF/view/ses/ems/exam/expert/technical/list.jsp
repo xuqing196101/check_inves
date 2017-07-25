@@ -40,6 +40,11 @@
 
 			//删除题库中的题目
 			function deleteById() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				var topic = $("#topic").val();
 				var questionTypeId = $("#questionTypeId").val();
 				var count = 0;
@@ -86,6 +91,11 @@
 
 			//增加题库
 			function addTechnical() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				window.location.href = "${pageContext.request.contextPath }/expertExam/addTechnical.html";
 			}
 
@@ -106,6 +116,11 @@
 
 			//修改题库
 			function editTechnical() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				var count = 0;
 				var info = document.getElementsByName("info");
 				var str = "";
@@ -143,6 +158,11 @@
 
 			//下载模板
 			function download() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				window.location.href = "${pageContext.request.contextPath }/expertExam/loadExpertTemplet.html";
 			}
 
@@ -155,6 +175,11 @@
 
 			//导入技术类题目
 			function poiExcel() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				var file = $("#excelFile").val();
 				if(file == null || file == "") {
 					layer.alert("请选择文件", {
