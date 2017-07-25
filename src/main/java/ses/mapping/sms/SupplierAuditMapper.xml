@@ -15,6 +15,10 @@
     <result column="AUDIT_FIELD_NAME" property="auditFieldName" />
     <result column="IS_DELETED" property="isDeleted" />
   </resultMap>
+
+    <resultMap id="BaseResultMapChild" type="ses.model.sms.SupplierAudit" extends="BaseResultMap">
+        <result column="TYPE" property="type"/>
+    </resultMap>
   <sql id="Base_Column_List">
     ID, SUGGEST, AUDIT_TYPE, USER_ID, SUPPLIER_ID, STATUS, CREATED_AT, UPDATED_AT, AUDIT_FIELD, 
     AUDIT_CONTENT, AUDIT_FIELD_NAME ,IS_DELETED
@@ -384,5 +388,20 @@
            AND T.AUDIT_TYPE = #{auditType}
        </if>
    </select>
+
+
+  <select id="selectBySupIdAndType" resultMap="BaseResultMapChild" parameterType="Map">
+      SELECT T.AUDIT_FIELD, DA.CODE AS TYPE
+          FROM T_SES_SMS_SUPPLIER_AUDIT T
+          LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA
+          ON T.AUDIT_FIELD = DA.ID
+          WHERE T.IS_DELETED = 0
+          <if test="supplierId != null and supplierId != ''">
+              AND T.SUPPLIER_ID = #{supplierId}
+          </if>
+          <if test="auditType != null and auditType != ''">
+              AND T.AUDIT_TYPE = #{auditType}
+          </if>
+  </select>
 
 </mapper>

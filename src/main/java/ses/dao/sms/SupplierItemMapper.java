@@ -1,12 +1,11 @@
 package ses.dao.sms;
 
+import org.apache.ibatis.annotations.Param;
+import ses.model.sms.SupplierItem;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
-import ses.model.sms.SupplierItem;
 
 public interface SupplierItemMapper {
     /**
@@ -185,4 +184,6 @@ public interface SupplierItemMapper {
 	 * @since JDK1.7
 	 */
 	List<SupplierItem> selectPassItemByCond(Map<String,Object> map);
+
+	Integer selectCountBySupType(Map<String,Object> map);
 }

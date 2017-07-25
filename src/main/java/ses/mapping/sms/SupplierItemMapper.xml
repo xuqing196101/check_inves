@@ -394,20 +394,28 @@
 
 	<!-- 获取该供应商通过的类型 -->
 	<select id="findPassSupplierTypeBySupplierId" resultType="String" parameterType="Map">
-		SELECT A.SUPPLIER_TYPE_RELATE_ID
-				FROM T_SES_SMS_SUPPLIER_ITEM A
-			   WHERE NOT EXISTS
-			   (SELECT T.SUPPLIER_ID, T.AUDIT_FIELD
-						FROM T_SES_SMS_SUPPLIER_AUDIT T
-					   WHERE A.CATEGORY_ID = T.AUDIT_FIELD
-						 AND T.SUPPLIER_ID = #{supplierId}
-						 AND (T.AUDIT_TYPE = #{items_sales_page} OR
-							 T.AUDIT_TYPE = #{items_product_page})
-						 AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
-						 AND T.IS_DELETED = 0)
-				 AND A.SUPPLIER_ID = #{supplierId}
-				 AND A.NODE_LEVEL = 3
-			   GROUP BY A.SUPPLIER_TYPE_RELATE_ID
+		SELECT E.SUPPLIER_TYPE_RELATE_ID
+		  FROM (SELECT A.SUPPLIER_TYPE_RELATE_ID
+			  FROM T_SES_SMS_SUPPLIER_ITEM A
+			 WHERE NOT EXISTS
+			 (SELECT T.SUPPLIER_ID, T.AUDIT_FIELD
+					  FROM T_SES_SMS_SUPPLIER_AUDIT T
+					 WHERE A.CATEGORY_ID = T.AUDIT_FIELD
+					   AND T.SUPPLIER_ID = #{supplierId}
+					   AND (T.AUDIT_TYPE = #{items_sales_page} OR
+						   T.AUDIT_TYPE = #{items_product_page})
+					   AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
+					   AND T.IS_DELETED = 0)
+			   AND A.SUPPLIER_ID = #{supplierId}
+			   AND A.NODE_LEVEL = 3
+			 GROUP BY A.SUPPLIER_TYPE_RELATE_ID) E
+	 WHERE E.SUPPLIER_TYPE_RELATE_ID NOT IN
+		   (SELECT DA.CODE
+			  FROM T_SES_SMS_SUPPLIER_AUDIT T
+			  LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA
+				ON T.AUDIT_FIELD = DA.ID
+			 WHERE T.SUPPLIER_ID = #{supplierId}
+			   AND T.AUDIT_TYPE = #{supplierType_page})
 	</select>
 
 	<!-- 查询供应商选择的小类节点 -->
@@ -438,4 +446,17 @@
                 AND A.SUPPLIER_TYPE_RELATE_ID = #{type}
             </if>
     </select>
+
+	<!--查询供应商类型下所有选择的产品类别数量-->
+	<select id="selectCountBySupType" resultType="java.lang.Integer" parameterType="Map">
+		SELECT COUNT(ID)
+		 FROM T_SES_SMS_SUPPLIER_ITEM T
+			WHERE T.NODE_LEVEL = 3
+			<if test="supplierId != null and supplierId != ''">
+				AND T.SUPPLIER_ID = #{supplierId}
+			</if>
+			<if test="type != null and type != ''">
+				AND T.SUPPLIER_TYPE_RELATE_ID = #{type}
+			</if>
+	</select>
 </mapper>
