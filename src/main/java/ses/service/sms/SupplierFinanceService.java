@@ -82,5 +82,11 @@ public interface SupplierFinanceService {
     * @return
     */
    public List<SupplierFinance> findBySupplierIdYearThree(String supplierId);
+
+   /**
+    * 查询当前供应商所有的财务信息
+    * @param supplierId
+    */
+   public List<SupplierFinance> findFinanceBySupplierId(String supplierId);
 	
 }

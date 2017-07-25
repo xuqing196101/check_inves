@@ -109,7 +109,6 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
             if(dlist!=null&&dlist.size()>0){
                 for(DictionaryData d:dlist){
                     if(d.getCode().equals("sc")){
-//					supplierMatProMapper.
                         supplierMatProMapper.deleteByPrimaryKey(supplier.getId());
                         supplierCertProMapper.deleteByPrimaryKey(supplier.getSupplierMatPro().getId());
                     }

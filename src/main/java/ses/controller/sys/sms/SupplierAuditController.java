@@ -2521,6 +2521,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		// categoryQua type:4(工程) 3（销售） 2（生产）1（服务）
 		if("工程".equals(type)){
 			//封装 供应商id
+			cateTree.setRootNodeCode("PROJECT");
 			cateTree.setSupplierItemId(supplierId);
 			sysKey= Constant.SUPPLIER_SYS_KEY;
 			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_ENG_CERT);
@@ -2534,6 +2535,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			return "ses/sms/supplier_audit/aptitude_project_item";
 		}else if("服务".equals(type)){
 			//封装 供应商id
+			cateTree.setRootNodeCode("SERVICE");
 			cateTree.setItemsId(supplierId);
 			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
 			bean.setCategoryName(cateTree.getItemsName()+"专业资质要求");
@@ -2544,7 +2546,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				beanList.add(bean);
 			}
 		}else{
-			//封装 供应商id
+			cateTree.setRootNodeCode("PRODUCT");
 			cateTree.setItemsId(supplierId);
 			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
 			bean.setCategoryName(cateTree.getItemsName()+"-生产专业资质要求");
@@ -2554,6 +2556,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				bean.setList(list);
 				beanList.add(bean);
 			}
+			cateTree.setRootNodeCode("SALES");
 			QualificationBean bean2=new QualificationBean();
 			bean2.setCategoryName(cateTree.getItemsName()+"-销售专业资质要求");
 			list= supplierAuditService.showQualifications(cateTree, 3,typeId,sysKey);

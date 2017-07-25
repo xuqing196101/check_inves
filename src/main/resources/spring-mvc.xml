@@ -193,6 +193,14 @@
 			
 			<bean class="ses.interceptor.MyInterceptor"></bean>
 		</mvc:interceptor>
+		
+		<!-- 表单防重拦截器 -->
+		<!-- <mvc:interceptor>
+			<mvc:mapping path="/*/*.do" />
+			<mvc:mapping path="/*/*.ajax" />
+			<mvc:mapping path="/*/*.html" />
+			<bean class="common.interceptor.FormTokenInterceptor"/>
+		</mvc:interceptor> -->
 	</mvc:interceptors>
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
 	<bean

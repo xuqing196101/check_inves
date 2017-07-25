@@ -80,11 +80,8 @@
 		if (severError == "serverError") {
 			layer.alert("请选择服务型品目！");
 		}
-		 
-		
-		
 	});
-    var loading;
+  var loading;
 	//加载默认的页签
 	function defaultLoadTab(id){
 		if (id == "li_id_1"){
@@ -280,29 +277,7 @@
 	}
 
 	function saveItems() {
-		/*  getCategoryId();
-		$("#flag").val("");
-		$("#items_info_form_id").submit(); */
-		//	function temporarySave(){
-		$("input[name='flag']").val("file");
-		$
-				.ajax({
-					url : "${pageContext.request.contextPath}/supplier/temporarySave.do",
-					type : "post",
-					data : $("#items_info_form_id").serializeArray(),
-					contextType : "application/x-www-form-urlencoded",
-					success : function(msg) {
-
-						if (msg == 'ok') {
-							layer.msg('暂存成功');
-						}
-						if (msg == 'failed') {
-							layer.msg('暂存失败');
-						}
-					}
-				});
-		//}
-
+		layer.msg('暂存成功');
 	}
 
 	function next(flag) {
@@ -367,10 +342,8 @@
 	
 	}
 
-	function prev(flag) {
-		getCategoryId();
-		$("#flag").val(flag);
-		$("#items_info_form_id").submit();
+	function prev() {
+		updateStep(2);
 	}
 
 	function getCategoryId() {
@@ -453,7 +426,6 @@
 		}
 		$("#flag").val("4");
 		var supplierId = "${currSupplier.id}";
-		var type = $("#supplierTypeRelateId").val();
 		var index_loading = layer.load(1);
 		$
 				.ajax({
@@ -732,16 +704,16 @@
 		</div>
 	</div>
 	
-	 <div class="btmfix">
-	  	  <div class="mt5 mb5 tc">
-	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev('3')">上一步</button>
-				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems(2)">暂存</button>
-				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next(1)">下一步</button>
-	  	  </div>
+	<div class="btmfix">
+ 	  <div class="mt5 mb5 tc">
+ 	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev()">上一步</button>
+			<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems()">暂存</button>
+			<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next(1)">下一步</button>
+ 	  </div>
 	</div>
 	
 	
-	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier_item/save_or_update.html" method="post">
+	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/perfect_items.html" method="post">
 		<input name="supplierId" id="supplierId" value="${currSupplier.id}" type="hidden" /> 
 		<input name="categoryId" value=""  id="categoryId" type="hidden" /> 
 		<input name="clickFlag" value=""  id="clickFlag" type="hidden" /> 

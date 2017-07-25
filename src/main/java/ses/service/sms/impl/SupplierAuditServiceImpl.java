@@ -802,6 +802,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			Map<String, Object> map=new HashMap<>();
 			map.put("supplierId", cateTree.getItemsId());
 			map.put("categoryId", cateTree.getFourthNodeID());
+			map.put("type", cateTree.getRootNodeCode());
 			//根据第4节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 			List<SupplierItem> itemList=supplierItemService.findByMap(map);
 			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type, type_id, syskey);
@@ -812,6 +813,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			Map<String, Object> map=new HashMap<>();
 			map.put("supplierId", cateTree.getItemsId());
 			map.put("categoryId", cateTree.getThirdNodeID());
+			map.put("type", cateTree.getRootNodeCode());
 			//根据第4节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 			List<SupplierItem> itemList=supplierItemService.findByMap(map);
 			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type, type_id, syskey);
@@ -822,6 +824,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			Map<String, Object> map=new HashMap<>();
 			map.put("supplierId", cateTree.getItemsId());
 			map.put("categoryId", cateTree.getSecondNodeID());
+			map.put("type", cateTree.getRootNodeCode());
 			//根据第4节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 			List<SupplierItem> itemList=supplierItemService.findByMap(map);
 			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type, type_id, syskey);
@@ -832,6 +835,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			Map<String, Object> map=new HashMap<>();
 			map.put("supplierId", cateTree.getItemsId());
 			map.put("categoryId", cateTree.getFirstNodeID());
+			map.put("type", cateTree.getRootNodeCode());
 			//根据第4节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 			List<SupplierItem> itemList=supplierItemService.findByMap(map);
 			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type, type_id, syskey);

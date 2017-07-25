@@ -2,8 +2,10 @@ package ses.service.sms;
 
 import common.utils.JdcgResult;
 import ses.formbean.SupplierItemCategoryBean;
+
 import ses.model.bms.Category;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierItem;
 
 import java.util.List;
@@ -209,5 +211,30 @@ public interface SupplierItemService {
 	  */
 	 public List<SupplierItemCategoryBean> getSupplierItemCategoryList(
 			String supplierId, String code);
+
+	/**
+	 * 查询品目信息
+	 * @param categoryId
+	 * @param item
+	 * @return
+	 */
+	public SupplierCateTree getTreeListByCategoryId(String categoryId,
+			SupplierItem item);
+
+	/**
+	 * 查询三级品目
+	 * @param supplierId
+	 * @param type
+	 * @return
+	 */
+	public List<Category> getThirdCategoryList(String supplierId, String type);
+
+	/**
+	 * 获取品目资质相关信息
+	 * @param supplierId
+	 * @param supplierTypeIds
+	 * @return
+	 */
+	public Map<String, Object> getAptitude(String supplierId, String supplierTypeIds);
 
 }

@@ -92,6 +92,8 @@ public class SupplierCateTree implements Serializable{
     private String auditType;
     // 根节点类型（1：物质生产；2：物质销售；3：工程；4：服务）
     private int rootNodeType;
+    // 根节点编码（PRODUCT：物质生产；SALES：物质销售；PROJECT：工程；SERVICE：服务）
+    private String rootNodeCode;
     // 类别id
     private String categoryId;
     
@@ -394,6 +396,14 @@ public class SupplierCateTree implements Serializable{
 
 	public void setRootNodeType(int rootNodeType) {
 		this.rootNodeType = rootNodeType;
+	}
+	
+	public String getRootNodeCode() {
+		return rootNodeCode;
+	}
+
+	public void setRootNodeCode(String rootNodeCode) {
+		this.rootNodeCode = rootNodeCode;
 	}
 
 	public String getCategoryId() {

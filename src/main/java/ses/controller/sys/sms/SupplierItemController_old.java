@@ -8,10 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.BeanUtils;
-
 import org.apache.commons.lang.StringUtils;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -173,6 +170,7 @@ public class SupplierItemController_old extends BaseController {
 		// 不通过字段的名字
 		SupplierAudit s = new SupplierAudit();
 		s.setSupplierId(supplierItem.getSupplierId());
+		//s.setAuditType("items_page");
 		s.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
 		if(ses.util.Constant.SUPPLIER_PRODUCT.equals(supplierItem.getSupplierTypeRelateId())){
 			s.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
@@ -296,15 +294,13 @@ public class SupplierItemController_old extends BaseController {
 					cateTree.setLevel(data);
 				}else{
 					List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(item.getQualificationType(), item.getSupplierId());
-					   if(projectData!=null&&projectData.size()>0){
-				        	DictionaryData dd=new DictionaryData();
-				        	dd.setName(projectData.get(0).getCertLevel());
-				        	dd.setId(projectData.get(0).getId());
-				        	cateTree.setLevel(dd); 
-				        }
-					   
+					if(projectData!=null&&projectData.size()>0){
+				    	DictionaryData dd=new DictionaryData();
+				    	dd.setName(projectData.get(0).getCertLevel());
+				    	dd.setId(projectData.get(0).getId());
+				    	cateTree.setLevel(dd); 
+			    	}
 				}
-				
 			}
 			// 证书编号
 			if(item != null && item.getCertCode() != null) {
@@ -317,8 +313,6 @@ public class SupplierItemController_old extends BaseController {
 			if(item != null && item.getProfessType()!= null) {
 				cateTree.setProName(item.getProfessType());
 			}
-			
-			
 			// 所有等级List
 			List < Category > cateList = new ArrayList < Category > ();
 			cateList.add(categoryService.selectByPrimaryKey(categoryId));
