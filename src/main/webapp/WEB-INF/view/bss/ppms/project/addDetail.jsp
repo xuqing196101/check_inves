@@ -355,7 +355,7 @@
 
       </div>
       <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
-        <button class="btn btn-windows save" type="button" onclick="save()">确定</button>
+        <button class="btn btn-windows save" type="button" onclick="save()">确定选择</button>
         <button class="btn btn-windows back" type="button" onclick="javascript:history.go(-1);">返回</button>
       </div>
     </div>

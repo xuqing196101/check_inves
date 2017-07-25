@@ -46,11 +46,21 @@
 
 			//采购人新增题库
 			function add() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				window.location.href = "${pageContext.request.contextPath }/purchaserExam/addPurQue.html";
 			}
 
 			//采购人修改题库
 			function edit() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				var count = 0;
 				var info = document.getElementsByName("info");
 				var str = "";
@@ -83,6 +93,11 @@
 
 			//采购人员删除题库
 			function deleteById() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				var topic = $("#topic").val();
 				var questionTypeId = $("#questionTypeId").val();
 				var count = 0;
@@ -162,6 +177,11 @@
 
 			//导入Excel
 			function poiExcel() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				var file = $("#excelFile").val();
 				if(file == null || file == "") {
 					layer.alert("请选择文件", {
@@ -223,6 +243,11 @@
 
 			//下载模板
 			function download() {
+				var authType = "${authType}";
+				if(authType != '4'){
+					layer.msg("只有资源服务中心才能操作");
+					return;
+				} 
 				window.location.href = "${pageContext.request.contextPath }/purchaserExam/loadPurchaserTemplet.html";
 			}
 

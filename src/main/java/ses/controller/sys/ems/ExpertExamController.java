@@ -149,6 +149,7 @@ public class ExpertExamController extends BaseSupplierController{
 			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 			List<ExamQuestion> technicalList = examQuestionService.findExpertQuestionList(map);
 			model.addAttribute("technicalList",new PageInfo<ExamQuestion>(technicalList));
+			model.addAttribute("authType", 4);
 	    }else{
 	    	model.addAttribute("technicalList",new PageInfo<ExamQuestion>(new ArrayList<ExamQuestion>()));
 	    }
@@ -191,6 +192,7 @@ public class ExpertExamController extends BaseSupplierController{
 			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 			List<ExamQuestion> commerceList = examQuestionService.findExpertQuestionList(map);
 			model.addAttribute("commerceList",new PageInfo<ExamQuestion>(commerceList));
+		    model.addAttribute("authType", 4);
 	    }else{
 	    	model.addAttribute("commerceList",new PageInfo<ExamQuestion>(new ArrayList<ExamQuestion>()));
 	    }
@@ -2013,7 +2015,7 @@ public class ExpertExamController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("/result")
-	public String result(Model model,HttpServletRequest request,Integer page){
+	public String result(@CurrentUser User user,Model model,HttpServletRequest request,Integer page){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		List<ExpertAudit> list = expertAuditService.findAllPassExpert();
 		for(int i=0;i<list.size();i++){
@@ -2076,11 +2078,17 @@ public class ExpertExamController extends BaseSupplierController{
 		map.put("page", page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		List<ExamUserScore> expertResultList = examUserScoreService.selectExpertResultByCondition(map);
-		for(int i=0;i<expertResultList.size();i++){
-			expertResultList.get(i).setFormatDate(sdf.format(expertResultList.get(i).getTestDate()));
-		}
-		model.addAttribute("expertResultList", new PageInfo<ExamUserScore>(expertResultList));
+		if(null != user && "4".equals(user.getTypeName())){
+	        //判断是否 是资源服务中心 
+			List<ExamUserScore> expertResultList = examUserScoreService.selectExpertResultByCondition(map);
+			for(int i=0;i<expertResultList.size();i++){
+				expertResultList.get(i).setFormatDate(sdf.format(expertResultList.get(i).getTestDate()));
+			}
+			model.addAttribute("expertResultList", new PageInfo<ExamUserScore>(expertResultList));
+		    model.addAttribute("authType", 4);
+	    }else{
+	    	model.addAttribute("expertResultList", new PageInfo<ExamUserScore>());
+	    }
 		model.addAttribute("userName", userName);
 		model.addAttribute("userType", userType);
 		model.addAttribute("status", status);

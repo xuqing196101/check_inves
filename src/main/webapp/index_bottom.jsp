@@ -66,16 +66,34 @@
        <span class="close_icon" id="close"></span>
      </div>
       <div class="prompt_main">
+       <c:choose> 
+             <c:when test="${fn:length(properties['indexTip7']) > 13}"> 
+               <a class="red" href="javascript:void(0);" title="${properties['indexTip7']}" onclick="indexTip('571C7352DA5E422DA44C6BF06EC072A7')">${fn:substring(properties['indexTip7'], 0, 13)}...</a>
+             </c:when> 
+             <c:otherwise> 
+              <a class="red" href="javascript:void(0);" title="${properties['indexTip7']}" onclick="indexTip('571C7352DA5E422DA44C6BF06EC072A7')">${properties['indexTip7']}</a>
+             </c:otherwise>
+            </c:choose>
+           <br />
+            <c:choose> 
+             <c:when test="${fn:length(properties['indexTip6']) > 13}"> 
+               <a class="red" href="javascript:void(0);" title="${properties['indexTip6']}" onclick="indexTip('BDEB4C3383F5400886A3A451BAF4E889')">${fn:substring(properties['indexTip6'], 0, 13)}...</a>
+             </c:when> 
+             <c:otherwise> 
+              <a class="red" href="javascript:void(0);" title="${properties['indexTip6']}" onclick="indexTip('BDEB4C3383F5400886A3A451BAF4E889')">${properties['indexTip6']}</a>
+             </c:otherwise>
+            </c:choose>
+           <br />
 		   <c:choose> 
 		     <c:when test="${fn:length(properties['indexTip5']) > 13}"> 
-		       <a class="red" href="javascript:void(0);" title="${properties['indexTip5']}" onclick="indexTip('581DD6335F95404BBB325760B86E6E82')">${fn:substring(properties['indexTip5'], 0, 13)}...</a>
+		       <a class="" href="javascript:void(0);" title="${properties['indexTip5']}" onclick="indexTip('581DD6335F95404BBB325760B86E6E82')">${fn:substring(properties['indexTip5'], 0, 13)}...</a>
 		     </c:when> 
 		     <c:otherwise> 
-		      <a class="red" href="javascript:void(0);" title="${properties['indexTip5']}" onclick="indexTip('581DD6335F95404BBB325760B86E6E82')">${properties['indexTip5']}</a>
+		      <a class="" href="javascript:void(0);" title="${properties['indexTip5']}" onclick="indexTip('581DD6335F95404BBB325760B86E6E82')">${properties['indexTip5']}</a>
 		     </c:otherwise>
 		    </c:choose>
            <br />
-           <a class="red" href="javascript:void(0);" onclick="indexTip('06615ACC3B38463CA76AA93BFF2A99B2')">${properties['indexTip4']}</a>
+           <a class="" href="javascript:void(0);" onclick="indexTip('06615ACC3B38463CA76AA93BFF2A99B2')">${properties['indexTip4']}</a>
            <br />
            <a  href="javascript:void(0);" onclick="indexTip('7C5808A4C4B34C9CA86F661AF6B6E989')">${properties['indexTip3']}</a>
            <br />

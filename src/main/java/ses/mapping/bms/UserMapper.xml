@@ -23,6 +23,7 @@
     <result column="ID_NUMBER" jdbcType="VARCHAR" property="idNumber"/>
     <result column="OFFICER_CERT_NO" jdbcType="VARCHAR" property="officerCertNo"/>
     <result column="NET_TYPE" property="netType"/>
+    <result column="ERROR_NUM" property="errorNum"/>
     <!-- 查询机构 -->
     <association column="ORG_ID" property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById"/>
     <!-- 查询创建人 -->
@@ -71,7 +72,7 @@
   <sql id="Base_Column_List">
     ID, LOGIN_NAME, PASSWORD, CREATED_AT, IS_DELETED, REL_NAME, UPDATED_AT, USER_ID, 
     MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUTIES, TYPE_NAME, TYPE_ID, ADDRESS, RANDOM_CODE, ORG_NAME,
-    PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE
+    PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE, ERROR_NUM
   </sql>
 
   <!-- 查询条件 -->
@@ -138,6 +139,9 @@
       <if test="typeName != null">
         and u.TYPE_NAME = #{typeName}
       </if>
+      <if test="errorNum != null">
+        and u.ERROR_NUM = #{errorNum}
+      </if>
     </trim>
   </sql>
 
@@ -187,7 +191,7 @@
     GENDER, TELEPHONE, EMAIL,
     ORG_ID, DUTIES, TYPE_NAME,
     TYPE_ID, ADDRESS, RANDOM_CODE,
-    ORG_NAME, PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE)
+    ORG_NAME, PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE, ERROR_NUM)
     values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
     #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted}, #{relName,jdbcType=VARCHAR},
     #{updatedAt,jdbcType=TIMESTAMP}, #{user.id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
@@ -195,7 +199,7 @@
     #{org.id,jdbcType=VARCHAR}, #{duties,jdbcType=VARCHAR}, #{typeName},
     #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{randomCode,jdbcType=VARCHAR},
     #{orgName,jdbcType=VARCHAR},#{publishType}, #{idNumber,jdbcType=VARCHAR},
-    #{officerCertNo,jdbcType=VARCHAR},#{netType})
+    #{officerCertNo,jdbcType=VARCHAR},#{netType},#{errorNum})
   </insert>
   <!-- 保存用户 -->
   <insert id="saveUser" parameterType="ses.model.bms.User">
@@ -270,6 +274,9 @@
       <if test="netType != null">
         NET_TYPE,
       </if>
+      <if test="errorNum != null">
+        ERROR_NUM,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null and id != ''">
@@ -340,6 +347,9 @@
       </if>
       <if test="netType != null">
         #{netType},
+      </if>
+      <if test="errorNum != null">
+        #{errorNum},
       </if>
     </trim>
   </insert>
@@ -418,7 +428,10 @@
         OFFICER_CERT_NO,
       </if>
       <if test="netType != null">
-        NET_TYPE
+        NET_TYPE,
+      </if>
+      <if test="errorNum != null">
+        ERROR_NUM
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -490,6 +503,9 @@
       </if>
       <if test="netType != null">
         #{netType},
+      </if>
+      <if test="errorNum != null">
+        #{errorNum},
       </if>
     </trim>
   </insert>
@@ -565,7 +581,10 @@
         OFFICER_CERT_NO = #{officerCertNo,jdbcType=VARCHAR},
       </if>
       <if test="netType != null">
-        NET_TYPE = #{netType}
+        NET_TYPE = #{netType},
+      </if>
+      <if test="errorNum != null">
+        ERROR_NUM = #{errorNum}
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -595,7 +614,8 @@
       PUBLISH_TYPE = #{publishType},
       ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
       OFFICER_CERT_NO = #{officerCertNo,jdbcType=VARCHAR},
-      NET_TYPE = #{netType}
+      NET_TYPE = #{netType},
+      ERROR_NUM = #{errorNum}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 
@@ -893,7 +913,8 @@
     u.PUBLISH_TYPE AS PUBLISH_TYPE,
     u.ID_NUMBER AS ID_NUMBER,
     u.OFFICER_CERT_NO AS OFFICER_CERT_NO,
-    u.NET_TYPE AS NET_TYPE
+    u.NET_TYPE AS NET_TYPE,
+    u.ERROR_NUM AS ERROR_NUM
     FROM
     T_SES_BMS_USER u
     LEFT JOIN T_SES_BMS_USER_ROLE ur ON u. ID = ur.USER_ID

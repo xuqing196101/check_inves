@@ -128,6 +128,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 			List<ExamQuestion> queryList = examQuestionService.queryPurchaserByTerm(map);
 			model.addAttribute("purchaserQuestionList", new PageInfo<ExamQuestion>(queryList));
+			model.addAttribute("authType", 4);
 	    }else{
 	    	model.addAttribute("purchaserQuestionList", new PageInfo<ExamQuestion>(new ArrayList<ExamQuestion>()));
 	    }
@@ -791,23 +792,27 @@ public class PurchaserExamController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/paperManage")
-	public String paperManage(Model model,Integer page){
-		List<ExamPaper> paperList = examPaperService.queryAllPaper(null,page==null?1:page);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		for(int i=0;i<paperList.size();i++){
-			paperList.get(i).setStartTrueDate(sdf.format(paperList.get(i).getStartTime()));
-			paperList.get(i).setOffTrueDate(sdf.format(paperList.get(i).getOffTime()));
-			Date startTime = paperList.get(i).getStartTime();
-		    Date offTime = paperList.get(i).getOffTime();
-		    if(new Date().getTime()>=startTime.getTime()&&new Date().getTime()<=offTime.getTime()){
-		    	paperList.get(i).setStatus("正在考试中");
-			}else if(new Date().getTime()<startTime.getTime()){
-				paperList.get(i).setStatus("未开始");
-			}else if(new Date().getTime()>offTime.getTime()){
-				paperList.get(i).setStatus("已结束");
+	public String paperManage(@CurrentUser User user,Model model,Integer page){
+		if(null != user && "1".equals(user.getTypeName())){
+	       //判断是否 是资源服务中心 
+			List<ExamPaper> paperList = examPaperService.queryAllPaper(null,page==null?1:page);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			for(int i=0;i<paperList.size();i++){
+				paperList.get(i).setStartTrueDate(sdf.format(paperList.get(i).getStartTime()));
+				paperList.get(i).setOffTrueDate(sdf.format(paperList.get(i).getOffTime()));
+				Date startTime = paperList.get(i).getStartTime();
+			    Date offTime = paperList.get(i).getOffTime();
+			    if(new Date().getTime()>=startTime.getTime()&&new Date().getTime()<=offTime.getTime()){
+			    	paperList.get(i).setStatus("正在考试中");
+				}else if(new Date().getTime()<startTime.getTime()){
+					paperList.get(i).setStatus("未开始");
+				}else if(new Date().getTime()>offTime.getTime()){
+					paperList.get(i).setStatus("已结束");
+				}
 			}
-		}
-		model.addAttribute("paperList", new PageInfo<ExamPaper>(paperList));
+			model.addAttribute("paperList", new PageInfo<ExamPaper>(paperList));
+		    model.addAttribute("authType", 1);
+	    }
 		return "ses/ems/exam/purchaser/paper/list";
 	}
 	

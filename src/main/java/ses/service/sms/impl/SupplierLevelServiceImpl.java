@@ -123,6 +123,9 @@ public class SupplierLevelServiceImpl implements SupplierLevelService {
 	public void updateScore(Supplier supplier, String scores) {
 		supplier = supplierMapper.getSupplier(supplier.getId());
 		Integer score = supplier.getScore();
+		if(null == score){
+			score = 0 ;
+		}
 		for (String str : scores.split(",")) {
 			score += Integer.valueOf(str);
 		}
