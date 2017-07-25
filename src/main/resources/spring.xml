@@ -73,8 +73,9 @@
 <!--      	 <task:scheduled ref="ExpertTask"  method="handlerImportExpert" cron="0 0 5 * * ?"/> 
  -->     	 
      	 
-     	 
-     	 
+     	  <!-- 定时处理退回修改后的供应商30天不提交自动审核不通过/供应商审核不通过180天后再次注册需要提示供应商为第二次注册(凌晨1.30执行一次) -->
+         <task:scheduled ref="SupplierTask"  method="handlerSupplierchange" cron=" 2 * * * * ?"/> 
+     	 <!-- 0 30 1 * * ? -->
 	   <!-- 定时处理竞价业务(凌晨十二点执行一次) -->
      	 <task:scheduled ref="OBProjectTask"  method="handleOBProject" cron="0 0 0 * * ?"/> 
         <!-- 定时删除无效专家(每天凌晨十二点执行一次) -->
@@ -88,7 +89,7 @@
         
         <!-- 统计当天门户访问量(每天凌晨十二点半执行一次) -->
         <task:scheduled ref="analyzeTask" method="handlerPV"  cron="0 30 0 * * ?"/>
-        
+       
         <!-- 内网任务 -->
         <!-- <task:scheduled ref="innerInfoExportTask" method="innerInfoExportTask" cron="0 0 5/6 * * ?"/>  
         <task:scheduled ref="innerInfoImportTask" method="innerInfoImportTask" cron="0 0 7/6 * * ?"/>  

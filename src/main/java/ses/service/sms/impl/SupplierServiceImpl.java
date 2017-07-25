@@ -36,6 +36,7 @@ import ses.dao.bms.UserMapper;
 import ses.dao.sms.DeleteLogMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAuditMapper;
+import ses.dao.sms.SupplierAuditOpinionMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
@@ -59,9 +60,8 @@ import ses.model.sms.DeleteLog;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
-import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierBranch;
-import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
@@ -94,6 +94,7 @@ import ses.util.WfUtil;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
+import common.utils.DateUtils;
 import common.utils.ListSortUtil;
 
 
@@ -125,7 +126,9 @@ public class SupplierServiceImpl implements SupplierService {
   
   @Autowired
   private SupplierTypeRelateMapper supplierTypeRelateMapper;
-
+  //供应商审核 意见
+  @Autowired
+  private SupplierAuditOpinionMapper  supplierAuditOpinionMapper;
   @Autowired
   private SupplierItemService supplierItemService;
 
@@ -1108,7 +1111,10 @@ public class SupplierServiceImpl implements SupplierService {
     Supplier info = supplierMapper.getSupplier(supplierId);
     String supplierName = info.getSupplierName();
     String creditCode = info.getCreditCode();
-
+    //判读 是否有脏数据  如果有截取 防止报错
+    if(creditCode.length()>30){
+    	creditCode=creditCode.substring(0, 18);
+    }
 
     Supplier supplier = new Supplier();
     supplier.setId(supplierId);
@@ -1118,15 +1124,15 @@ public class SupplierServiceImpl implements SupplierService {
     supplierMapper.updateById(supplier);
     
     SupplierMatEng eng = supplierMatEngMapper.getMatEngBySupplierId(supplierId);
-    
-    List<SupplierCertEng> list = supplierCertEngMapper.findCertEngByMatEngId(eng.getId());
-    
-    for(SupplierCertEng sc:list){
-    	sc.setCertCode(sc.getCertCode()+buff);
-    	supplierCertEngMapper.updateByPrimaryKeySelective(sc);
+    if(null != eng ){
+	    List<SupplierCertEng> list = supplierCertEngMapper.findCertEngByMatEngId(eng.getId());
+	    if(null != eng && !list.isEmpty()){
+		    for(SupplierCertEng sc:list){
+		    	sc.setCertCode(sc.getCertCode()+buff);
+		    	supplierCertEngMapper.updateByPrimaryKeySelective(sc);
+		    }
+	    }
     }
-    
-
   }
 
   /**
@@ -1568,5 +1574,62 @@ public class SupplierServiceImpl implements SupplierService {
 			return quaList;
 		}
 		return null;
+	}
+
+	@Override
+	public boolean updateSupplierStatus() {
+		Date date =new Date();
+		Supplier sup=null;
+		SupplierAuditOpinion auditOp=null;
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy年MM月dd日");
+		StringBuffer sb=new StringBuffer();
+		Map<String ,Object> map;
+		//退回修改后的供应商逾期没提交应提示采购机构该供应商已逾期未提交，需要自动生成审核不通过结论：自x年x月x日退回修改后，已逾期30天未提交审核。
+		List<Supplier> goBackList=supplierMapper.fundGoBackSupplierByDate(DateUtils.addDayDate(date, 30));
+		if(null != goBackList && !goBackList.isEmpty()){
+			for(Supplier back:goBackList){
+				map=new HashMap<>();
+				map.put("supplierId", back.getId());
+				map.put("flagTime", 0);
+				SupplierAuditOpinion auditOpinion=supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
+				sb.setLength(0);
+				sb.append("自");
+				sb.append(sdf.format(back.getAuditDate()));
+				sb.append("退回修改后，已逾期30天未提交审核。");
+				if(null !=auditOpinion){
+					auditOp=new SupplierAuditOpinion();
+					auditOp.setId(auditOpinion.getId());
+					auditOp.setCreatedAt(date);
+					auditOp.setOpinion(sb.toString());
+					supplierAuditOpinionMapper.updateByPrimaryKeySelective(auditOp);
+				}else{
+					//供应商退回修改 添加供应商 审核不通过原因 
+					auditOp=new SupplierAuditOpinion();
+					auditOp.setCreatedAt(date);
+					auditOp.setFlagAduit(0);
+					auditOp.setFlagTime(0);
+					auditOp.setOpinion(sb.toString());
+					auditOp.setIsDownLoadAttch(1);
+					auditOp.setSupplierId(back.getId());
+					supplierAuditOpinionMapper.insertSelective(auditOp);
+				}
+				//供应商修改 供应商审核不通过
+				sup=new Supplier();
+				sup.setId(back.getId());
+				sup.setUpdatedAt(date);
+				sup.setAuditDate(date);
+				sup.setStatus(3);
+				supplierMapper.updateByPrimaryKeySelective(sup);
+			}
+		}
+		//供应商审核不通过180天后再次注册需要提示供应商为第二次注册 包括任何阶段不通过 3审核未通过 6复核未通过 8考察不合格
+		List<String> supplierList=supplierMapper.fundNotPassSupplierByDate(DateUtils.addDayDate(date, 180));
+		if(null != supplierList && !supplierList.isEmpty()){
+			for (String supplier : supplierList) {
+				userServiceI.updateByTypeId(supplier);
+				this.updateById(supplier);
+			}
+		}
+		return false;
 	}
 }

@@ -488,4 +488,15 @@ public interface SupplierService {
 	 * @return
 	 */
 	public boolean checkCreditCode(String id, String creditCode);
+	/**
+	 * 
+	 * Description:处理供应商 
+	 * 退回修改后的供应商逾期没提交应提示采购机构该供应商已逾期未提交，
+	 * 需要自动生成审核不通过结论：自x年x月x日退回修改后，已逾期30天未提交审核。（只有退回修改的 供应商 状态是2）
+	 * 供应商审核不通过180天后再次注册需要提示供应商为第二次注册（包括任何阶段不通过 3审核未通过 6复核未通过 8考察不合格）
+	 * @author YangHongLiang
+	 * @version 2017-7-25
+	 * @return
+	 */
+	public boolean updateSupplierStatus();
 }

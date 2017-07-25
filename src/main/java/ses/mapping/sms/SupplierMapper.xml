@@ -2121,4 +2121,17 @@
 		AND IS_DELETED = 0
 		AND IS_PROVISIONAL != 1
 	</select>
+	<!-- 根据数据 时间 查看退回修改供应商 2-->
+    <select id="fundGoBackSupplierByDate" resultMap="BaseResultMap" parameterType="java.util.Date">
+        SELECT ID,AUDIT_DATE FROM T_SES_SMS_SUPPLIER
+        WHERE AUDIT_DATE <![CDATA[<]]> #{date}
+        AND SUPPLIER_STATUS='2' AND IS_DELETED = 0
+    </select>
+    <!-- 根据数据时间 查看 各种不通过修改供应商  3审核未通过 6复核未通过 8考察不合格-->
+    <select id="fundNotPassSupplierByDate" resultType="String" parameterType="java.util.Date">
+        SELECT ID FROM T_SES_SMS_SUPPLIER
+        WHERE AUDIT_DATE <![CDATA[<]]> #{date}
+        AND (SUPPLIER_STATUS ='3' or  SUPPLIER_STATUS ='6' or SUPPLIER_STATUS ='8')
+        AND IS_DELETED = 0
+    </select>
 </mapper>

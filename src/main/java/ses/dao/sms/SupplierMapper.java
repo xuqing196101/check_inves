@@ -613,4 +613,24 @@ public interface SupplierMapper {
 	 * @return
 	 */
 	int countCreditCode(@Param("id")String id, @Param("creditCode")String creditCode);
+	/**
+	 * 
+	 * Description:获取退回修改的 供应商 根据时间
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-25
+	 * @param date
+	 * @return
+	 */
+	List<Supplier> fundGoBackSupplierByDate(@Param("date")Date date);
+	/**
+	 * 
+	 * Description:获取各种不通过的 供应商 根据时间
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-25
+	 * @param date
+	 * @return
+	 */
+	List<String> fundNotPassSupplierByDate(@Param("date")Date date);
 }
