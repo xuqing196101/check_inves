@@ -2059,6 +2059,7 @@ resultMap="BaseResultMap">
 		SELECT
 			t1.*,
 			t2.LOGIN_NAME AS loginName,
+			t2.ERROR_NUM AS errorNum,
 			t3.NAME AS sex
 		FROM
 			T_SES_EMS_EXPERT t1

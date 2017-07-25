@@ -53,7 +53,7 @@
                     and T.PARK_ID = #{parkId}
                 </if> 
                 <if test="content!= null">
-                    and T.CONTENT Like concat(concat('%', '#{content}'), '%')
+                    and T.CONTENT Like concat(concat('%', #{content}), '%')
                 </if>  
 			    ORDER BY T.CREATED_AT DESC
 		  	</select>

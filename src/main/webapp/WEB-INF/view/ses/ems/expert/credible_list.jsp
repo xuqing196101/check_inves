@@ -69,6 +69,11 @@
  
    	//修改
    	function edit(){
+   		var authType = "${authType}";
+   		if(authType != '4'){
+   			layer.msg("只有资源服务中心才能操作");
+   			return;
+   		} 
   	  var count = 0;
   	  var ids = document.getElementsByName("check");
    
@@ -99,6 +104,11 @@
     }
    	//删除
    	function dell(){
+   		var authType = "${authType}";
+   		if(authType != '4'){
+   			layer.msg("只有资源服务中心才能操作");
+   			return;
+   		} 
    	 var count = 0;
  	  var ids = document.getElementsByName("check");
  	 var id2="";
@@ -149,6 +159,11 @@
  	   layer.close(index);
  	}
    	function openWindow(){
+   		var authType = "${authType}";
+   		if(authType != '4'){
+   			layer.msg("只有资源服务中心才能操作");
+   			return;
+   		} 
 		index = layer.open({
 	          type: 1, //page层
 	          area: ['500px', '300px'],
