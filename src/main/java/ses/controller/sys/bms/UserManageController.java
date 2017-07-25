@@ -1508,4 +1508,20 @@ public class UserManageController extends BaseController{
 		  return JSON.toJSONString(msg);
 	 }
 	  
+	  @RequestMapping("/unlock")
+	  public void unlock(HttpServletResponse response, String ids, String type) throws IOException{
+	    try {
+	      Boolean result;
+	      result = userService.unlock(ids, type);
+	      String msg = "已解锁";
+	      response.setContentType("text/html;charset=utf-8");
+	      response.getWriter().print("{\"success\": " + result + ", \"msg\": \"" + msg + "\"}");
+	      response.getWriter().flush();
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    } finally {
+	      response.getWriter().close();
+	    }
+	  }
+	
 }
