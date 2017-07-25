@@ -1961,6 +1961,7 @@
 	</select>
 	
 	<select id="selectSupplierNumber" parameterType="java.util.Map" resultType="ses.model.sms.supplierExport">
+	select f.*,(f.reg+f.statusOne+f.statusTwo+f.statusThree+f.statusFour) as sums from (
 	select  
 	 o.id as id,o.name as name,o.short_name as shortName,d.id as depId,o.position,
 	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id) reg,
@@ -1976,9 +1977,10 @@
 	    and  o.short_name like CONCAT(CONCAT('%', #{name}), '%')
 	  </if>
 	  group by o.id,o.name,o.short_name,d.id,o.position
-	  order by o.position
+	  order by o.position) f
 	</select>
 	<select id="selectExpertNumber" parameterType="java.util.Map" resultType="ses.model.sms.supplierExport">
+	select f.*,(f.reg+f.statusOne+f.statusTwo+f.statusThree+f.statusFour+f.expertArmy+f.expertsLocal) as sums from (
 	select  
 	 o.id as id,o.name as name,o.short_name as shortName,d.id as depId,o.position,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id) reg,
@@ -1996,7 +1998,7 @@
 	    and  o.short_name like CONCAT(CONCAT('%', #{nameEx}), '%')
 	  </if>
 	 group by o.id,o.name,o.short_name,d.id,o.position
-	 order by o.position
+	 order by o.position) f
 	</select>
 	<!-- 根据suppliers 获取供应商 最大的 成立时间 -->
 	<select id="findMaxFoundDate" parameterType="String" resultType="Date">

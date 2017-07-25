@@ -1,9 +1,12 @@
 package ses.controller.sys.sms;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -15,7 +18,6 @@ import ses.model.bms.User;
 import ses.model.sms.SupplierCredit;
 import ses.service.sms.SupplierCreditService;
 
-import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.utils.JdcgResult;
@@ -36,14 +38,16 @@ public class SupplierCreditController {
 			List<SupplierCredit> listSupplierCredits = supplierCreditService.findSupplierCredit(supplierCredit, page == null ? 0 : page);
 			model.addAttribute("listSupplierCredits", new PageInfo<SupplierCredit>(listSupplierCredits));
 			model.addAttribute("name", name);
+			model.addAttribute("orgTypeName", user.getTypeName());
+			return "ses/sms/supplier_credit/list";
 		}
-		return "ses/sms/supplier_credit/list";
+		return "redirect:/qualifyError.jsp"; 
 	}
 	
 	@RequestMapping(value = "add_credit")
-	public String addCredit(Model model, SupplierCredit supplierCredit, HttpServletRequest request) throws Exception {
+	public String addCredit(Model model, SupplierCredit supplierCredit, HttpServletRequest request) {
 		// 解决中文乱码
-		String encoding = request.getCharacterEncoding();
+		/*String encoding = request.getCharacterEncoding();
 		if(supplierCredit.getName() != null){
 			if ("UTF-8".equals(encoding)) {
 				supplierCredit.setName(supplierCredit.getName());
@@ -51,7 +55,16 @@ public class SupplierCreditController {
 			if ("ISO8859-1".equals(encoding)){
 				supplierCredit.setName(new String(supplierCredit.getName().getBytes("ISO8859-1"), "UTF-8"));
 			}
+		}*/
+		String name = supplierCredit.getName();
+		if(StringUtils.isNotBlank(name)){
+			try {
+				name = URLDecoder.decode(name, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 		}
+		supplierCredit.setName(name);
 		if (supplierCredit.getId() != null && !"".equals(supplierCredit.getId())) {
 			model.addAttribute("supplierCredit", supplierCredit);
 		}
@@ -61,9 +74,12 @@ public class SupplierCreditController {
 	@RequestMapping(value = "save_or_update_supplier_credit")
 	@ResponseBody
 	public JdcgResult saveOrUpdateSupplierCredit(SupplierCredit supplierCredit,Model model) {
-		if(StringUtils.isEmpty(supplierCredit.getName())){
+		if(StringUtils.isBlank(supplierCredit.getName())){
 			return JdcgResult.build(500, "请填写诚信形式名称");
+		}else if(supplierCredit.getName().trim().length()==0 || supplierCredit.getName().trim().indexOf(' ') != -1){
+			return JdcgResult.build(500, "名称中包含空格");
 		}
+		supplierCredit.setName(supplierCredit.getName().trim());
 		supplierCreditService.saveOrUpdateSupplierCredit(supplierCredit);
 		return JdcgResult.ok();
 	}

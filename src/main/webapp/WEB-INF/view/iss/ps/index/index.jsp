@@ -63,6 +63,10 @@
 	  	layer.alert("服务热线：66946342(吕工)");
 	  }
 	  
+	  $(function(){
+	  	$("a").attr("target","_blank");
+	  })
+	  
     </script>
   </head>
 

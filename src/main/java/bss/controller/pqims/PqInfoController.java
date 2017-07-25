@@ -2,13 +2,10 @@
 package bss.controller.pqims;
 
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,11 +22,9 @@ import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
-import ses.util.PropUtil;
 import ses.util.WfUtil;
 
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -40,7 +35,6 @@ import common.service.UploadService;
 
 import bss.model.pqims.PqInfo;
 import bss.model.pqims.SupplierPqrecord;
-import bss.model.sstps.Select;
 import bss.service.pqims.PqInfoService;
 import bss.service.pqims.SupplierPqrecordService;
 
@@ -219,34 +213,6 @@ public class PqInfoController extends BaseSupplierController{
 	        for (String str : id) {
 	            PqInfo pqInfo = pqInfoService.get(str);
 	            pqInfoService.delete(pqInfo.getId());
-	            /*String supplierId = pqInfo.getContract().getSupplier().getId();
-	            String supplierName = pqInfoService.get(str).getContract().getSupplier().getSupplierName();
-	            int count = pqInfoService.queryByConut(supplierId);
-	            if (count == 0) {
-	                SupplierPqrecord sPqrecord = supplierPqrecordService.selectByName(supplierName);
-	                supplierPqrecordService.delete(sPqrecord.getId());
-	            }else {
-	                 SupplierPqrecord supplierPqrecord = supplierPqrecordService.selectByName(supplierName);
-	                 if (supplierPqrecord==null) {
-	                     Supplier supplier = pqInfo.getContract().getSupplier();
-	                     supplier.setSupplierName(supplierName);
-	                     supplierPqrecord.setSupplier(supplier);
-	                     supplierPqrecordService.add(supplierPqrecord);
-	                 }
-	                 supplierPqrecord = supplierPqrecordService.selectByName(supplierName);
-	                 BigDecimal countSuccess = pqInfoService.queryByCountSuccess(supplierPqrecord.getSupplier().getId());
-	                 if (countSuccess==null) {
-	                     countSuccess=new BigDecimal(0);
-	                 }
-	                 BigDecimal countFail =pqInfoService.queryByCountFail(supplierPqrecord.getSupplier().getId());
-	                 if (countFail==null) {
-	                     countFail=new BigDecimal(0);
-	                 }
-	                 supplierPqrecord.setSuccessedCount(countSuccess.intValue());
-	                 supplierPqrecord.setFailedCount(countFail.intValue());
-	                 supplierPqrecord.setSuccessedAvg(myPercent(countSuccess.doubleValue(),(countSuccess.doubleValue()+countFail.doubleValue())));
-	                 supplierPqrecordService.update(supplierPqrecord);
-	            }*/
 	        }
 	    }
 		return "redirect:getAll.html";
@@ -324,9 +290,6 @@ public class PqInfoController extends BaseSupplierController{
 	            model.addAttribute("info",new PageInfo<PqInfo>(pqInfos));
 	            model.addAttribute("pqInfo", pqInfo);
 	        }
-	        
-	    
-	        
 	    }
 		return "bss/pqims/pqinfo/resultList";
 	}
@@ -334,12 +297,14 @@ public class PqInfoController extends BaseSupplierController{
 	
 	/**
 	 * 
-	 * @Title: getAllSupplierPqInfo
-	 * @author Liyi 
-	 * @date 2016-9-29 下午2:19:08  
-	 * @Description:
-	 * @param:     
-	 * @return:
+	 *〈简述〉
+	 *〈详细描述〉
+	 * @author FengTian
+	 * @param user
+	 * @param model
+	 * @param page
+	 * @param supplierName
+	 * @return
 	 */
 	@RequestMapping("/getAllSupplierPqInfo")
 	public String getAllSupplierPqInfo(@CurrentUser User user, Model model,Integer page, String supplierName){
@@ -355,16 +320,5 @@ public class PqInfoController extends BaseSupplierController{
 	    }
 		return "bss/pqims/pqinfo/supplier_pqinfo_list";
 	}
-	
-	
-	  public static String myPercent(double y, double z) {  
-	        String baifenbi = "";// 接受百分比的值  
-	        double fen = y / z;  
-	        // NumberFormat nf = NumberFormat.getPercentInstance(); 注释掉的也是一种方法  
-	        // nf.setMinimumFractionDigits( 2 ); 保留到小数点后几位  
-	        DecimalFormat df1 = new DecimalFormat("##.00%"); // ##.00%  
-	        baifenbi = df1.format(fen);   
-	        return baifenbi;  
-	    }  
 	  
 }

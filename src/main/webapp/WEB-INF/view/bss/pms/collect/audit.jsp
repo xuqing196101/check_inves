@@ -915,7 +915,7 @@
 							<%-- 		<input type="text" name="listDetail[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }" >
 								</td>
 								<td class="tc" --%>
-									<input type="text"  <c:if test="${status==7 }"> readonly="readonly" </c:if>  name="listDetail[${vs.index }].twoAdvice"   value="${objs.twoAdvice }" id = "twoId${vs.index }">
+									<input type="text"  <c:if test="${status==7 }"> readonly="readonly" </c:if>  name="listDetail[${vs.index }].twoAdvice"  style="width:330px;"   value="${objs.twoAdvice }" id = "twoId${vs.index }">
 								<!-- </td> -->
 							</c:if>
 							<c:if test="${status==7 }">	
@@ -1023,7 +1023,7 @@
 		(function($,w){
 			w.onload=function(){
 				$('#table_div').bind('scroll', function() {
-					$('#audit_table_div').scrollTop($(this).scrollTop());
+					//$('#audit_table_div').scrollTop($(this).scrollTop());
 					//$('#audit_table_div').scrollLeft($(this).scrollLeft());
 				});
 				$('#audit_table_div').bind('scroll', function() {

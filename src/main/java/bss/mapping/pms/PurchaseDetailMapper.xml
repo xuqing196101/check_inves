@@ -1128,18 +1128,30 @@
 						WHERE
 							A.HISTORY_STATUS = '0'
 						AND A.IS_DELETE = '0'
-					 <if test="uniqueId !=null">
-				        AND A.UNIQUE_ID =#{uniqueId}
-				      </if>
-				      <if test="organization !=null">
-				        AND A.ORGANIZATION_ID =#{organization}
-				      </if>
+					  <if test="uniqueId !=null">
+				      AND A.UNIQUE_ID =#{uniqueId}
+				    </if>
+				    <if test="organization !=null">
+				      AND A.ORGANIZATION_ID =#{organization}
+				    </if>
 						AND A.PROJECT_STATUS = 2
 					)
 				AND B.PROJECT_ID = #{projectId}
 			)
 	    </where>
 	      ORDER BY IS_MASTER
+	  </select>
+	  
+	  <!-- 查看该计划明细是否立项 -->
+	  <select id="groupByStatus" parameterType="java.lang.String" resultType="java.lang.Integer">
+	      SELECT
+				  PROJECT_STATUS
+				FROM
+				  T_BSS_PMS_PURCHASE_DETAIL
+				WHERE
+				  UNIQUE_ID =#{uniqueId}
+				GROUP BY
+				  PROJECT_STATUS
 	  </select>
     
 </mapper>

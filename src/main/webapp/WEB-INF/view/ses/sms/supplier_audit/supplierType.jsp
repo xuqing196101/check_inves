@@ -340,12 +340,12 @@
 									}
 								}
 							});
-							$("#" + id + "_hidden").hide();
-							$("#" + id + "_hidden1").hide();
-							$("#" + id + "_hidden2").hide();
-							$("#" + id + "_show").css('visibility', 'visible');
-							$("#" + id + "_show1").css('visibility', 'visible');
-							$("#" + id + "_show2").css('visibility', 'visible');
+							$("#" + id + "_hidden").removeClass().addClass('hidden');
+							$("#" + id + "_hidden1").removeClass().addClass('hidden');
+							$("#" + id + "_hidden2").removeClass().addClass('hidden');
+							$("#" + id + "_show").removeClass('hidden');
+							$("#" + id + "_show1").removeClass('hidden');
+							$("#" + id + "_show2").removeClass('hidden');
 							layer.close(index);
 							}else{
 		      			layer.msg('不能为空！', {offset:'100px'});
@@ -1190,8 +1190,8 @@
 													<td class="tc" id="regType_${regPrson.id }" <c:if test="${fn:contains(fieldRegPersons,regPrson.id.concat('_regType'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('regType','${regPrson.id }','mat_eng_page');"</c:if>>${regPrson.regType}</td>
 													<td class="tc" id="regNumber_${regPrson.id }" <c:if test="${fn:contains(fieldRegPersons,regPrson.id.concat('_regNumber'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('regNumber','${regPrson.id }','mat_eng_page');"</c:if>>${regPrson.regNumber}</td>
 													<td class="tc w50">
-														<p onclick="reasonEngineering('${regPrson.id}','工程-注册人员登记','${regPrson.regType}');" id="${regPrson.id}_hidden2"><c:if test="${!fn:contains(passedEngField,regPrson.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedEngField,regPrson.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
-														<a id="${regPrson.id }_show2" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+														<p onclick="reasonEngineering('${regPrson.id}','工程-注册人员登记','${regPrson.regType}');" id="${regPrson.id}_hidden2" class="toinline"><c:if test="${!fn:contains(passedEngField,regPrson.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedEngField,regPrson.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+														<a id="${regPrson.id }_show2" class="hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 													
 														<c:if test="${fn:contains(passedEngField,regPrson.id)}">
 															<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
@@ -1248,8 +1248,8 @@
 														<u:show showId="eng_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
 													</td> --%>
 													<td class="tc w50">
-														<p onclick="reasonEngineering('${s.id}','工程-资质证书','${s.certCode}');" id="${s.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
-														<a id="${s.id }_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+														<p onclick="reasonEngineering('${s.id}','工程-资质证书','${s.certCode}');" id="${s.id}_hidden" class="editItem toinline"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+														<a id="${s.id }_show" class="hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 													
 														<c:if test="${fn:contains(passedEngField,s.id)}">
 															<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
@@ -1320,8 +1320,8 @@
 													</td>
 														<td class="tc w50">
 														
-															<p onclick="reasonEngineering('${s.id}','工程-资质资格证书','${s.certCode}');" id="${s.id}_hidden1" class="editItem"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
-															<a id="${s.id }_show1" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+															<p onclick="reasonEngineering('${s.id}','工程-资质资格证书','${s.certCode}');" id="${s.id}_hidden1" class="editItem toinline"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+															<a id="${s.id }_show1" class="hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 														
 															<c:if test="${fn:contains(passedEngField,s.id)}">
 																<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>

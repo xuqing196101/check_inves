@@ -8,208 +8,233 @@
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script src="${pageContext.request.contextPath}/public/webuploadFT/layui/layui.js"></script>
     <script type="text/javascript">
-      var obj="";
+      var objectStauts=false;
+      var obj = "";
       var detailId = "";
       var projectId = "${id}";
       $(function() {
-          layui.use('flow', function() {
-            var flow = layui.flow;
-            flow.load({
-              elem: '#tb_id' //指定列表容器
-              ,done: function(page, next) { //到达临界点（默认滚动触发），触发下一页
-                var lis = [];
-                //以jQuery的Ajax请求为例，请求下一页数据
-                $.ajax({
-                  url: "${pageContext.request.contextPath}/project/viewPlanDetail.do?taskId=${taskId}&page=" + page + "&detailId=" + detailId + "&projectId=" + projectId,
-                  type: "get",
-                  dataType: "json",
-                  success: function(res) {
-                   /* var ch=$("#tb_id").children();
-                   if(ch.length>1){
-                     for(var i=0;i<ch.length;i++){
-                        var tds=$(ch[i]).children()[0];
-                        if($(tds).children()[0]==obj){
-                          check($(tds).children()[0])
-                          break;
-                        }
-                     }
+        layui.use('flow', function() {
+          var flow = layui.flow;
+          flow.load({
+            elem: '#tb_id' //指定列表容器
+            ,done: function(page, next) { //到达临界点（默认滚动触发），触发下一页
+              var lis = [];
+              //以jQuery的Ajax请求为例，请求下一页数据
+              $.ajax({
+                url: "${pageContext.request.contextPath}/project/viewPlanDetail.do?taskId=${taskId}&page=" + page + "&detailId=" + detailId + "&projectId=" + projectId,
+                type: "get",
+                dataType: "json",
+                success: function(res) {
+                  /* var ch=$("#tb_id").children();
+                  if(ch.length>1){
+                    for(var i=0;i<ch.length;i++){
+                       var tds=$(ch[i]).children()[0];
+                       if($(tds).children()[0]==obj){
+                         check($(tds).children()[0])
+                         break;
+                       }
+                    }
                    
-                   } */
-                   detailId=res.detailId;
-                   var checkDoc = [];//保存被选中的节点
-                   layui.each(res.data, function(index, item) {
-	                    var code = "";
-	                    if(item.oneAdvice == "DYLY") {
-	                        code = item.supplier;
-	                    }
-	                    if(item.purchaseCount == 0) {
-	                        item.purchaseCount = "";
-	                    }
-                    	var html = "<tr class='pointer'>";
-	              	  	/* if (item.projectStatus == 1) {
-							//如果已被引用
-							html +="<td><input type='text'><input type='checkbox' disabled='disabled' title='该明细已被引用'></td>";
-							html +="<td><div class='seq'>" + item.seq + "</div></td>";
-							html +="<td><div class='department'>" + item.department + "</div></td>";
-							html +="<td><div class='goodsname'>" + item.goodsName + "</div></td>";
-							html +="<td><div class='stand'>" + item.stand + "</div></td>";
-							html +="<td><div class='qualitStand'>" +item.qualitStand + "</div></td>";
-							html +="<td><div class='item'>" + item.item + "</div></td>";
-							html +="<td><div class='purchaseCount'>" + item.purchaseCount + "</div></td>";
-							html +="<td><div class='deliverDate'>" + item.deliverDate + "</div></td>";
-							html +="<td><div class='purchaseType tc'>" + item.purchaseType + "</div></td>";
-							html +="<td><div class='purchasename'>" + code + "</div></td>";
-							html +="<td><div class='memo'>"+item.memo+"</div><input type='hidden' id='planType' value='"+item.planType+"' /></td>";
-							html +="</tr>";
-							lis.push(html);
-						} */
-	              	  	//如果未被引用
-	              	  	if (item.projectStatus != 1) {
-	              	  		var flag = false;
-	              	  		for ( var int = 0; int < checkDoc.length; int++) {
-								if (item.parentId == checkDoc[int]) {
-									flag = true;
-									checkDoc.push(item.id);
-								}
-							}
-	              	  		
-	              	  		//查看父节点是否被选中
-	              	  		$("input[name='chkItem_"+item.parentId+"']").each(function() {
-	              	  			flag = $(this).prop("checked");
-		              	  		if (flag == true) {
-									checkDoc.push(item.id);
-								}
-	              	  		});
-	              	  		
-							html +="<td>";
-							html +="<input type='hidden' name='pId_"+item.parentId+"' value='"+item.parentId+"'>";
-							if (flag == true) {
-								html +="<input type='checkbox' checked='checked' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this)' alt=''>";
-							} else {
-								html +="<input type='checkbox' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this)' alt=''>";
-							}
-							html +="</td>";
-							html +="<td><div class='seq'>" + item.seq + "</div></td>";
-							html +="<td><div class='department'>" + item.department + "</div></td>";
-							html +="<td><div class='goodsname'>" + item.goodsName + "</div></td>";
-							html +="<td><div class='stand'>" + item.stand + "</div></td>";
-							html +="<td><div class='qualitStand'>" +item.qualitStand + "</div></td>";
-							html +="<td><div class='item'>" + item.item + "</div></td>";
-							html +="<td><div class='purchaseCount'>" + item.purchaseCount + "</div></td>";
-							html +="<td><div class='deliverDate'>" + item.deliverDate + "</div></td>";
-							html +="<td><div class='purchaseType tc'>" + item.purchaseType + "</div></td>";
-							html +="<td><div class='purchasename'>" + code + "</div></td>";
-							html +="<td><div class='memo'>"+item.memo+"</div><input type='hidden' id='planType' value='"+item.planType+"' /></td>";
-							html +="</tr>";
-							lis.push(html);
+                  } */
+                  detailId = res.detailId;
+                  var checkDoc = []; //保存被选中的节点
+                  layui.each(res.data, function(index, item) {
+                    var code = "";
+                    if(item.oneAdvice == "DYLY") {
+                      code = item.supplier;
+                    }
+                    if(item.purchaseCount == 0) {
+                      item.purchaseCount = "";
+                    }
+                    var html = "<tr class='pointer'>";
+                    /* if (item.projectStatus == 1) {
+				              //如果已被引用
+				              html +="<td><input type='text'><input type='checkbox' disabled='disabled' title='该明细已被引用'></td>";
+				              html +="<td><div class='seq'>" + item.seq + "</div></td>";
+				              html +="<td><div class='department'>" + item.department + "</div></td>";
+				              html +="<td><div class='goodsname'>" + item.goodsName + "</div></td>";
+				              html +="<td><div class='stand'>" + item.stand + "</div></td>";
+				              html +="<td><div class='qualitStand'>" +item.qualitStand + "</div></td>";
+				              html +="<td><div class='item'>" + item.item + "</div></td>";
+				              html +="<td><div class='purchaseCount'>" + item.purchaseCount + "</div></td>";
+				              html +="<td><div class='deliverDate'>" + item.deliverDate + "</div></td>";
+				              html +="<td><div class='purchaseType tc'>" + item.purchaseType + "</div></td>";
+				              html +="<td><div class='purchasename'>" + code + "</div></td>";
+				              html +="<td><div class='memo'>"+item.memo+"</div><input type='hidden' id='planType' value='"+item.planType+"' /></td>";
+				              html +="</tr>";
+				              lis.push(html);
+				            } */
+                    //如果未被引用
+                    if(item.projectStatus != 1) {
+                      var flag = false;
+                      
+                      for(var int = 0; int < checkDoc.length; int++) {
+                        if(item.parentId == checkDoc[int]) {
+                          flag = true;
+                          checkDoc.push(item.id);
+                        }
+                      }
+                      if(objectStauts){
+							 //查看父节点是否被选中
+		                      $("input[name='chkItem_" + item.parentId + "']").each(function() {
+		                        flag = $(this).prop("checked");
+		                        if(flag == true) {
+		                          checkDoc.push(item.id);
+		                        }
+		                      });
+						}else{
+							flag=false;
 						}
-                      /* var html = "<tr class='pointer'><td><input type='checkbox' value='"+item.id+"' name='chkItem' onclick='check(this)'  alt=''></td><td><div class='seq'>" + item.seq + "</div></td><td><div class='department'>" +
-                        item.department + "</div></td><td><div class='goodsname'>" + item.goodsName + "</div></td><td><div class='stand'>" + item.stand + "</div></td><td><div class='qualitStand'>" +item.qualitStand + "</div></td><td><div class='item'>" + 
-                        item.item + "</div></td><td><div class='purchaseCount'>" + item.purchaseCount + "</div></td><td><div class='deliverDate'>" + item.deliverDate + "</div></td><td><div class='purchaseType tc'>" + item.purchaseType + 
-                        "</div></td><td><div class='purchasename'>" + code + "</div></td><td><div class='memo'>"+item.memo+"</div><input type='hidden' id='planType' value='"+item.planType+"' /></td></tr>"; */
-                    });
-                    next(lis.join(''), page < res.pages);
-                  },
-                });
-              }
-            });
-          });
-        });
-        
-        function check(ele){
-        	obj=ele;
-          	var flag = $(ele).prop("checked");
-          	var id = $(ele).val();
-          	var pId = $(ele).prev().val();
-          	if (flag == true) {
-          		//递归选中父节点
-				checkedParent(pId);
-				//递归选中子节点
-				checkedChild(id);
-			} else {
-				//递归取消父节点选中
-				noCheckedParent(pId);
-				//递归取消子节点选中
-				noCheckedChild(id);
-			}
-        }
-        
-        //递归取消父节点选中
-        function noCheckedParent(pId){
-        	//判断子节点是否全部没有选中
-        	var isChecked = 0;
-			$("input[name='pId_"+pId+"']").each(function() {
-				 var v = $(this).val();
-				 if($(this).next().prop("checked") == true){
-				 	isChecked = 1;
-				 }
-			});
-			if (isChecked == 0) {
-				$("input[name='chkItem_"+pId+"']").each(function() {
-	                  $(this).prop("checked", false);
-	                  var pId_v = $(this).prev().val();
-	                  noCheckedParent(pId_v);
-	          	});
-			}
-		}
-        
-        //递归取消子节点选中
-        function noCheckedChild(id){
-        	//所有子节点取消选中
-        	$("input[name='pId_"+id+"']").each(function() {
-        		$(this).next().prop("checked", false);
-        		var currId = $(this).next().val();
-        		noCheckedChild(currId);
-        	});
-        }
-        
-        //递归选中父节点
-        function checkedParent(pId){
-        	$("input[name='chkItem_"+pId+"']").each(function() {
-                  $(this).prop("checked", true);
-                  var pId_v = $(this).prev().val();
-                  checkedParent(pId_v);
-          	});
-        }
-        
-        //递归选中子节点
-        function checkedChild(id){
-        	$("input[name='pId_"+id+"']").each(function() {
-        		$(this).next().prop("checked", true);
-        		var currId = $(this).next().val();
-        		checkedChild(currId);
-        	});
-        }
-        
-        function check1(ele) {
-          obj=ele;
-          var flag = $(ele).prop("checked");
-          var id = $(ele).val();
-          $.ajax({
-            url: "${pageContext.request.contextPath}/project/checkDeail.html",
-            data: {"id" : id, "flag" : flag},
-            type: "post",
-            dataType: "json",
-            success: function(result) {
-				for(var i = 0; i < result.length; i++) {
-	                $("input[name='chkItem']").each(function() {
-	                  var v1 = result[i].id;
-	                  var v2 = $(this).val();
-	                  if(v2 == v1) {
-	                    $(this).prop("checked", flag);
-	                  }
-	                });
-	              }
-            },
-            error: function() {
-              layer.msg("失败", {
-                offset: ['222px', '390px']
+                     
+
+                      html += "<td>";
+                      html += "<input type='hidden' name='pId_" + item.parentId + "' value='" + item.parentId + "'>";
+                      if (flag == true) {
+                    	  if(item.seq=='一'){
+                    		  html +="<input type='checkbox' checked='checked' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,1)' alt=''>";
+                    	  }else{
+                    		  html +="<input type='checkbox' checked='checked' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,2)' alt=''>";
+                    	  }
+								
+						} else {
+						  if(item.seq=='一'){
+								html +="<input type='checkbox' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,1)' alt=''>";
+						  }else{
+							    html +="<input type='checkbox' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,2)' alt=''>";
+						  }
+						}
+
+                      html += "</td>";
+                      html += "<td><div class='seq'>" + item.seq + "</div></td>";
+                      html += "<td><div class='department'>" + item.department + "</div></td>";
+                      html += "<td><div class='goodsname'>" + item.goodsName + "</div></td>";
+                      html += "<td><div class='stand'>" + item.stand + "</div></td>";
+                      html += "<td><div class='qualitStand'>" + item.qualitStand + "</div></td>";
+                      html += "<td><div class='item'>" + item.item + "</div></td>";
+                      html += "<td><div class='purchaseCount'>" + item.purchaseCount + "</div></td>";
+                      html += "<td><div class='deliverDate'>" + item.deliverDate + "</div></td>";
+                      html += "<td><div class='purchaseType tc'>" + item.purchaseType + "</div></td>";
+                      html += "<td><div class='purchasename'>" + code + "</div></td>";
+                      html += "<td><div class='memo'>" + item.memo + "</div><input type='hidden' id='planType' value='" + item.planType + "' /></td>";
+                      html += "</tr>";
+                      lis.push(html);
+                    }
+                    /* var html = "<tr class='pointer'><td><input type='checkbox' value='"+item.id+"' name='chkItem' onclick='check(this)'  alt=''></td><td><div class='seq'>" + item.seq + "</div></td><td><div class='department'>" +
+                      item.department + "</div></td><td><div class='goodsname'>" + item.goodsName + "</div></td><td><div class='stand'>" + item.stand + "</div></td><td><div class='qualitStand'>" +item.qualitStand + "</div></td><td><div class='item'>" + 
+                      item.item + "</div></td><td><div class='purchaseCount'>" + item.purchaseCount + "</div></td><td><div class='deliverDate'>" + item.deliverDate + "</div></td><td><div class='purchaseType tc'>" + item.purchaseType + 
+                      "</div></td><td><div class='purchasename'>" + code + "</div></td><td><div class='memo'>"+item.memo+"</div><input type='hidden' id='planType' value='"+item.planType+"' /></td></tr>"; */
+                  });
+                  next(lis.join(''), page < res.pages);
+                },
               });
             }
           });
+        });
+      });
+
+      function check(ele,seq) {
+        obj = ele;
+        var flag = $(ele).prop("checked");
+        var id = $(ele).val();
+        var pId = $(ele).prev().val();
+        if(flag == true) {
+        	if(seq==1){
+        		objectStauts=true;
+        	}
+          //递归选中父节点
+          checkedParent(pId);
+          //递归选中子节点
+          checkedChild(id);
+        } else {
+        	if(seq==1){
+        		objectStauts=false;
+        	}
+          //递归取消父节点选中
+          noCheckedParent(pId);
+          //递归取消子节点选中
+          noCheckedChild(id);
+        }
+      }
+
+      //递归取消父节点选中
+      function noCheckedParent(pId) {
+        //判断子节点是否全部没有选中
+        var isChecked = 0;
+        $("input[name='pId_" + pId + "']").each(function() {
+          var v = $(this).val();
+          if($(this).next().prop("checked") == true) {
+            isChecked = 1;
+          }
+        });
+        if(isChecked == 0) {
+          $("input[name='chkItem_" + pId + "']").each(function() {
+            $(this).prop("checked", false);
+            var pId_v = $(this).prev().val();
+            noCheckedParent(pId_v);
+          });
+        }
+      }
+
+      //递归取消子节点选中
+      function noCheckedChild(id) {
+        //所有子节点取消选中
+        $("input[name='pId_" + id + "']").each(function() {
+          $(this).next().prop("checked", false);
+          var currId = $(this).next().val();
+          noCheckedChild(currId);
+        });
+      }
+
+      //递归选中父节点
+      function checkedParent(pId) {
+        $("input[name='chkItem_" + pId + "']").each(function() {
+          $(this).prop("checked", true);
+          var pId_v = $(this).prev().val();
+          checkedParent(pId_v);
+        });
+      }
+
+      //递归选中子节点
+      function checkedChild(id) {
+        $("input[name='pId_" + id + "']").each(function() {
+          $(this).next().prop("checked", true);
+          var currId = $(this).next().val();
+          checkedChild(currId);
+        });
+      }
+
+      function check1(ele) {
+        obj = ele;
+        var flag = $(ele).prop("checked");
+        var id = $(ele).val();
+        $.ajax({
+          url: "${pageContext.request.contextPath}/project/checkDeail.html",
+          data: {
+            "id": id,
+            "flag": flag
+          },
+          type: "post",
+          dataType: "json",
+          success: function(result) {
+            for(var i = 0; i < result.length; i++) {
+              $("input[name='chkItem']").each(function() {
+                var v1 = result[i].id;
+                var v2 = $(this).val();
+                if(v2 == v1) {
+                  $(this).prop("checked", flag);
+                }
+              });
+            }
+          },
+          error: function() {
+            layer.msg("失败", {
+              offset: ['222px', '390px']
+            });
+          }
+        });
 
       }
-      
+
       function save() {
         var checkIds = [];
         $('input[name^="chkItem"]:checked').each(function() {
@@ -259,6 +284,15 @@
           });
         }
       }
+      /* function test(obj) {
+    	  if(obj.checked){
+    		   objectStauts=true;
+    			alert("teue");
+    		}else{
+    		   objectStauts=false;
+    			alert("false");
+    		}
+    	}  */
     </script>
   </head>
 

@@ -42,6 +42,7 @@
 		var id = checkbox.val();
 		var supplierName = checkbox.parents("tr").find("td").eq(2).text();
 		supplierName = $.trim(supplierName);
+		supplierName = encodeURIComponent(encodeURIComponent(supplierName));
 		layer.open({
 			type : 2,
 			title : '添加形式名称',
@@ -123,6 +124,7 @@
 						<span>
 							<select id="level_select_id" class="w150" name="level">
 								<option selected="selected" value="">全部</option>
+								<option value="0">无级别</option>
 								<option value="1">一星级</option>
 								<option value="2">二星级</option>
 								<option value="3">三星级</option>
