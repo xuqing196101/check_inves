@@ -39,7 +39,7 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
          */
 
         // 非暂存判断
-        if(StringUtils.isNotEmpty(vertifyFlag) && "vartify".equals(vertifyFlag)){
+        if(StringUtils.isNotEmpty(vertifyFlag) && "vartify".equals(vertifyFlag) && supplierAuditOpinion.getFlagAduit() == 0){
             // 需要判断用户输入的意见是否为空
             if(StringUtils.isEmpty(supplierAuditOpinion.getOpinion())){
                 return JdcgResult.build(500,"审核意见不能为空");

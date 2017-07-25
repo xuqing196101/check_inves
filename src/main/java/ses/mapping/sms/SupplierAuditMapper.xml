@@ -373,7 +373,13 @@
 		   AND (T.AUDIT_TYPE = #{items_sales_page, jdbcType=VARCHAR}
 		   OR T.AUDIT_TYPE = #{items_product_page, jdbcType=VARCHAR})
 		   AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
-       AND T.IS_DELETED = 0
+           AND T.IS_DELETED = 0
+            <if test="supplierItems != null and supplierItems.size > 0">
+                AND T.AUDIT_FIELD NOT IN
+                <foreach collection="supplierItems" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
 	</select>
 
   <!--查询基本信息的审核项数量-->
@@ -388,7 +394,6 @@
            AND T.AUDIT_TYPE = #{auditType}
        </if>
    </select>
-
 
   <select id="selectBySupIdAndType" resultMap="BaseResultMapChild" parameterType="Map">
       SELECT T.AUDIT_FIELD, DA.CODE AS TYPE

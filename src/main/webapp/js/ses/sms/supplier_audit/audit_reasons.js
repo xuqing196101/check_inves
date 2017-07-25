@@ -128,9 +128,13 @@ function tempSave(flag){
 	        dataType:"json",
 	        success:function (data) {
 	            if(flag == 1){
-	                var action = globalPath + "/supplierAudit/uploadApproveFile.html";
-	                $("#form_id").attr("action", action);
-	                $("#form_id").submit();
+	                if(data == 500){
+                        layer.alert(data.msg);
+                    }else {
+                        var action = globalPath + "/supplierAudit/uploadApproveFile.html";
+                        $("#form_id").attr("action", action);
+                        $("#form_id").submit();
+                    }
 	            }else{
 	                if(data.status == 200){
 	                    layer.alert("暂存成功！");
@@ -212,7 +216,7 @@ function vartifyAuditCount(){
         });
     }
     // 判断审核意见
-    if(opinion == ''){
+    if(checkVal != 1 && opinion == ''){
         layer.msg("审核意见不能为空！");
         flags = true;
         return flags;

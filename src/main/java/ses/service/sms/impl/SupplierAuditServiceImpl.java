@@ -1047,18 +1047,14 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		// 查询供应商申请类别数量
 		Integer count = supplierItemMapper.selectRegSupCateCount(supplierPublicity.getId());
 		supplierPublicity.setPassCateCount(count);
-		// 查询供应商未通过类别数量
-		selectMap.put("supplierId", supplierPublicity.getId());
-		selectMap.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
-		selectMap.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
 
 		// 定义不通过数量总量
-		Integer noPassCount = supplierAuditMapper.selectRegSupCateCount(selectMap);
-		// 查询供应商选择的类型不通过时，其子下的全不通过
-		selectMap.clear();
+        int totalCountOfNoPass = 0;
 		selectMap.put("supplierId", supplierPublicity.getId());
 		selectMap.put("auditType", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
 		List<SupplierAudit> supplierAudits = supplierAuditMapper.selectBySupIdAndType(selectMap);
+        List<String> supplierItem;
+        List<String> supplierItems = new ArrayList<>();
 		if(supplierAudits != null && !supplierAudits.isEmpty()){
 			for (SupplierAudit supAudit : supplierAudits){
 				if(StringUtils.isNotEmpty(supAudit.getType())){
@@ -1066,15 +1062,26 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					selectMap.put("supplierId", supplierPublicity.getId());
 					selectMap.put("type", supAudit.getType());
 					// 查询该类型，其子下的全部数量
-					Integer allCountOfType = supplierItemMapper.selectCountBySupType(selectMap);
-					if(allCountOfType != null){
+                    // 查询供应商选择的类型不通过时，其子下的全不通过
+                    supplierItem = supplierItemMapper.selectCountBySupType(selectMap);
+					if(supplierItem != null && !supplierItem.isEmpty()){
 						// 累加
-						noPassCount += allCountOfType;
+                        totalCountOfNoPass += supplierItem.size();
+                        supplierItems.addAll(supplierItem);
 					}
 				}
 			}
 		}
-		supplierPublicity.setNoPassCateCount(noPassCount);
+        selectMap.clear();
+        // 查询供应商未通过类别数量
+        selectMap.put("supplierId", supplierPublicity.getId());
+        selectMap.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+        selectMap.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+        selectMap.put("supplierItems", supplierItems);
+        // 定义不通过数量总量
+        Integer noPassCount = supplierAuditMapper.selectRegSupCateCount(selectMap);
+        totalCountOfNoPass += noPassCount;
+		supplierPublicity.setNoPassCateCount(totalCountOfNoPass);
 		return supplierPublicity;
 	}
 

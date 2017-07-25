@@ -185,5 +185,5 @@ public interface SupplierItemMapper {
 	 */
 	List<SupplierItem> selectPassItemByCond(Map<String,Object> map);
 
-	Integer selectCountBySupType(Map<String,Object> map);
+    List<String> selectCountBySupType(Map<String,Object> map);
 }

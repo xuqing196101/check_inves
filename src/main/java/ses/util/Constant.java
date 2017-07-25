@@ -41,4 +41,6 @@ public class Constant {
 	public static final String EXPERT_BASIC_INFO_ITEM_FLAG = "one";
 	// 专家审核类别导航标识
 	public static final String EXPERT_CATE_INFO_ITEM_FLAG = "seven";
+	// 专家审核小类导航标识
+	public static final String EXPERT_CATE_INFO_FLAG = "six";
 }
