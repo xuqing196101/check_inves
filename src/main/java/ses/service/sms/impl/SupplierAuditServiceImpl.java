@@ -890,44 +890,6 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 	@Override
 	public List<Qualification> showQualifications(SupplierCateTree cateTree,Integer type,String type_id,Integer syskey) {
-		/*List<Qualification> list=new ArrayList<>();
-		List<CategoryQua> quaList= categoryQuaMapper.findListSupplier(cateTree.getSecondNodeID(), type);
-		Qualification qualification=null;
-		Map<String, Object> map=new HashMap<>();
-		map.put("supplierId", cateTree.getItemsId());
-		map.put("categoryId", cateTree.getSecondNodeID());
-		//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
-		List<SupplierItem> itemList=supplierItemService.findByMap(map);*/
-		/*long temp=0;
-		if(null!=itemList && !itemList.isEmpty()){
-			SupplierItem supplierItem=itemList.get(0);
-			if(null!=quaList && !quaList.isEmpty()){
-				for (CategoryQua categoryQua : quaList) {
-					qualification= qualificationService.getQualification(categoryQua.getQuaId());
-					if(null!=qualification){
-						temp=uploadService.countFileByBusinessId(supplierItem.getId()+categoryQua.getId(), type_id, syskey);
-						if(temp>0){
-						//资质文件：物资生产/物资销售/服务  审核字段存储：目录三级节点ID关联的SupplierItem的ID
-						qualification.setSupplierItemId(supplierItem.getId());
-					    qualification.setFlag(supplierItem.getId()+categoryQua.getId());
-					    //type:4(工程) 3（销售） 2（生产）1（服务）工程不在该方法内
-						//审核记录
-					    if(3==type){
-				    	//封装 物资销售 记录 资质文件
-					    	qualification.setAuditCount(countData(cateTree.getItemsId(), supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_SALES_PAGE));
-						 }else if(2==type){
-						   	//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
-						    qualification.setAuditCount(countData(cateTree.getItemsId(), supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE));
-						  }else if(1==type){
-						   	//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
-						   qualification.setAuditCount(countData(cateTree.getItemsId(), supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE));
-						 }
-					    	list.add(qualification);
-						}
-					}
-				}
-			}
-		}*/
 		return isQualificationsCateTree(cateTree, type, type_id, syskey);
 	}
 	/**
