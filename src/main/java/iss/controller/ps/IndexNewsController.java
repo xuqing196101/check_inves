@@ -2459,6 +2459,7 @@ public class IndexNewsController extends BaseSupplierController{
             map.put("supplierId", supplierId);
             map.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
             map.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+            map.put("supplierType_page", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
             List<String> supplierTypes=supplierItemService.findPassSupplierTypeBySupplierId(map);
             model.addAttribute("supplierTypes", StringUtils.join(supplierTypes,","));
         }

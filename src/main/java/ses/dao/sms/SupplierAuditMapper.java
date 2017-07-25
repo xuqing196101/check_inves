@@ -132,5 +132,7 @@ public interface SupplierAuditMapper {
      * @return
      */
     List<SupplierAudit> findByTypeId(SupplierAudit audit);
+
+    List<SupplierAudit> selectBySupIdAndType(Map<String, Object> map);
     
 }
