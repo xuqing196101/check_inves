@@ -163,7 +163,7 @@
 				</div>
 				<div class="extra_file" id="file">
 					<span class="f14 fl">附件：</span>
-					<up:show showId="post_attach_show" delete="false" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" />
+					<u:show showId="post_attach_show" delete="false" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" />
 				</div>
 			</div>
 			<div id="repliesForJudge">

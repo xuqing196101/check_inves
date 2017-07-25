@@ -41,6 +41,10 @@ public class SupplierLevelServiceImpl implements SupplierLevelService {
 		
 		String level = supplier.getLevel();
 		if(level != null && !"".equals(level)) {
+			if (level.equals("0")) {
+				supplier.setStartScore(0);
+				supplier.setEndScore(listSupplierStars.get(0).getOneStars());
+			}
 			if (level.equals("1")) {
 				supplier.setStartScore(listSupplierStars.get(0).getOneStars());
 				supplier.setEndScore(listSupplierStars.get(0).getTwoStars());

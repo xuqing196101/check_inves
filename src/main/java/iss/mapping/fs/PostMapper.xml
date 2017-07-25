@@ -59,7 +59,7 @@
 		    from T_ISS_FS_POST
 		    where IS_DELETED = 0
                   <if test="postName!= null and postName != ''">
-                    and NAME Like concat(concat('%', '#{postName}'), '%')
+                    and NAME Like concat(concat('%', #{postName}), '%')
                   </if>                
                   <if test="parkId!= null and  parkId!=''">
                     and PARK_ID = #{parkId}
