@@ -70,24 +70,24 @@ public class SupplierCateTree implements Serializable{
     //专业类别名称
     private String proName;
     //资质文件数量
-    private Long fileCount;
+    private long fileCount;
     //合同文件数量
     private Long contractCount;
     private String supplierItemId;
     //目录 是否有审核记录 物资生产 如果是其他的目录类型 也是该字段存储
-    private Integer isItemsProductPageAudit; 
+    private long isItemsProductPageAudit; 
     //目录 是否有审核记录 物资销售
-    private Integer isItemsSalesPageAudit; 
+    private long isItemsSalesPageAudit; 
     //资质文件 是否有审核记录 物资生产 如果其他类型 也是该字段存储
-    private Integer isAptitudeProductPageAudit;
+    private long isAptitudeProductPageAudit;
     
     //资质文件 是否有审核记录 物资销售
-    private Integer isAptitudeSalesPageAudit;
+    private long isAptitudeSalesPageAudit;
     
     //合同文件 是否有资质审核记录  物资生产   如果其他类型 也是该字段存储
-    private Integer isContractProductPageAudit;
+    private long isContractProductPageAudit;
     //合同文件 是否有资质审核记录  物资销售
-    private Integer isContractSalesPageAudit;
+    private long isContractSalesPageAudit;
     //审核记录 type
     private String auditType;
     // 根节点类型（1：物质生产；2：物质销售；3：工程；4：服务）
@@ -104,35 +104,35 @@ public class SupplierCateTree implements Serializable{
 		this.auditType = auditType;
 	}
 
-	public Integer getIsAptitudeProductPageAudit() {
+	public long getIsAptitudeProductPageAudit() {
 		return isAptitudeProductPageAudit;
 	}
 
-	public void setIsAptitudeProductPageAudit(Integer isAptitudeProductPageAudit) {
+	public void setIsAptitudeProductPageAudit(long isAptitudeProductPageAudit) {
 		this.isAptitudeProductPageAudit = isAptitudeProductPageAudit;
 	}
 
-	public Integer getIsAptitudeSalesPageAudit() {
+	public long getIsAptitudeSalesPageAudit() {
 		return isAptitudeSalesPageAudit;
 	}
 
-	public void setIsAptitudeSalesPageAudit(Integer isAptitudeSalesPageAudit) {
+	public void setIsAptitudeSalesPageAudit(long isAptitudeSalesPageAudit) {
 		this.isAptitudeSalesPageAudit = isAptitudeSalesPageAudit;
 	}
 
-	public Integer getIsContractSalesPageAudit() {
+	public long getIsContractSalesPageAudit() {
 		return isContractSalesPageAudit;
 	}
 
-	public void setIsContractSalesPageAudit(Integer isContractSalesPageAudit) {
+	public void setIsContractSalesPageAudit(long isContractSalesPageAudit) {
 		this.isContractSalesPageAudit = isContractSalesPageAudit;
 	}
 
-	public Integer getIsContractProductPageAudit() {
+	public long getIsContractProductPageAudit() {
 		return isContractProductPageAudit;
 	}
 
-	public void setIsContractProductPageAudit(Integer isContractProductPageAudit) {
+	public void setIsContractProductPageAudit(long isContractProductPageAudit) {
 		this.isContractProductPageAudit = isContractProductPageAudit;
 	}
 
@@ -144,15 +144,15 @@ public class SupplierCateTree implements Serializable{
 		this.itemsName = itemsName;
 	}
 	
-	public Integer getIsItemsProductPageAudit() {
+	public long getIsItemsProductPageAudit() {
 		return isItemsProductPageAudit;
 	}
 
-	public void setIsItemsProductPageAudit(Integer isItemsProductPageAudit) {
+	public void setIsItemsProductPageAudit(long isItemsProductPageAudit) {
 		this.isItemsProductPageAudit = isItemsProductPageAudit;
 	}
 
-	public Integer getIsItemsSalesPageAudit() {
+	public long getIsItemsSalesPageAudit() {
 		return isItemsSalesPageAudit;
 	}
 
