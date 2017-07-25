@@ -1236,17 +1236,6 @@ public class SupplierAuditController extends BaseSupplierController {
 		supplierAudit.setUserId(supplier.getProcurementDepId());
 		supplierAudit.setUserId(user.getId());
 
-		//审核时只要填写理由，就不通过
-		/*		supplier.setId(id);
-				if(status==0){
-					supplier.setStatus(2); //审核不通过
-					supplierAuditService.updateStatus(supplier);
-				}
-				if(status==1){
-					supplier.setStatus(4); //复核不通过
-					supplierAuditService.updateStatus(supplier);
-				}*/
-
 		//唯一检验
 		String auditField = supplierAudit.getAuditField();
 		String auditType = supplierAudit.getAuditType();
@@ -1275,8 +1264,6 @@ public class SupplierAuditController extends BaseSupplierController {
 				return new JdcgResult(502, "审核失败", null);
 			}
 		} else {
-			/*String msg = "{\"msg\":\"fail\"}";
-			super.writeJson(response, msg);*/
 			return new JdcgResult(503, "已审核", null);
 		}
 	}

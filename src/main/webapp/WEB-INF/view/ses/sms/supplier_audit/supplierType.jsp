@@ -84,7 +84,7 @@
 			    	var text = trim(text);
 						if(text != null && text !=""){
 					    $.ajax({
-					      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+					      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 					      type:"post",
 					      dataType:"json",
 					      data:{
@@ -96,8 +96,7 @@
 									"auditField": auditField
 					      },
 					      success:function(result){
-					        result = eval("(" + result + ")");
-					        if(result.msg == "fail"){
+					        if(result.status == "503"){
 					           layer.msg('该条信息已审核过！', {	            
 					             shift: 6, //动画类型
 					             offset:'100px'
@@ -133,7 +132,7 @@
 							var text = trim(text);
 							if(text != null && text !=""){
 								$.ajax({
-									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 									type: "post",
 									data: {
 										"auditType": "mat_pro_page",
@@ -144,15 +143,14 @@
 										"auditField": id
 									},
 									dataType: "json",
-									success: function(result) {
-										result = eval("(" + result + ")");
-										if(result.msg == "fail") {
-											layer.msg('该条信息已审核过！', {
-												shift: 6, //动画类型
-												offset: '100px'
-											});
-										}
-									}
+									success:function(result){
+	                  if(result.status == "503"){
+	                     layer.msg('该条信息已审核过！', {             
+	                       shift: 6, //动画类型
+	                       offset:'100px'
+	                    });
+	                  }
+	                }
 								});
 								$("#" + id + "_show").show();
 								$("#" + id + "_hidden").hide();
@@ -193,7 +191,7 @@
 							var text = trim(text);
 							if(text != null && text !=""){
 								$.ajax({
-									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 									type: "post",
 									data: {
 										"auditType": "mat_pro_page",
@@ -204,15 +202,14 @@
 										"auditField": auditField
 									},
 									dataType: "json",
-									success: function(result) {
-										result = eval("(" + result + ")");
-										if(result.msg == "fail") {
-											layer.msg('该条信息已审核过！', {
-												shift: 6, //动画类型
-												offset: '100px'
-											});
-										}
-									}
+									success:function(result){
+                    if(result.status == "503"){
+                       layer.msg('该条信息已审核过！', {             
+                         shift: 6, //动画类型
+                         offset:'100px'
+                      });
+                    }
+                  }
 								});
 								$(obj).after(html);
 								$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
@@ -241,7 +238,7 @@
 						var text = trim(text);
 						if(text != null && text !=""){
 							$.ajax({
-								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 								type: "post",
 								data: {
 									"auditType": "mat_sell_page",
@@ -252,15 +249,14 @@
 									"auditField": id
 								},
 								dataType: "json",
-								success: function(result) {
-									result = eval("(" + result + ")");
-									if(result.msg == "fail") {
-										layer.msg('该条信息已审核过！', {
-											shift: 6, //动画类型
-											offset: '100px'
-										});
-									}
-								}
+								success:function(result){
+                  if(result.status == "503"){
+                     layer.msg('该条信息已审核过！', {             
+                       shift: 6, //动画类型
+                       offset:'100px'
+                    });
+                  }
+                }
 							});
 
 							$("#" + id + "_hidden").hide();
@@ -305,7 +301,7 @@
 						var text = trim(text);
 						if(text != null && text !=""){
 							$.ajax({
-								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 								type: "post",
 								data: {
 									"auditType": "mat_sell_page",
@@ -316,15 +312,14 @@
 									"auditField": auditField
 								},
 								dataType: "json",
-								success: function(result) {
-									result = eval("(" + result + ")");
-									if(result.msg == "fail") {
-										layer.msg('该条信息已审核过！', {
-											shift: 6, //动画类型
-											offset: '100px'
-										});
-									}
-								}
+								success:function(result){
+                   if(result.status == "503"){
+                      layer.msg('该条信息已审核过！', {             
+                        shift: 6, //动画类型
+                        offset:'100px'
+                     });
+                   }
+                 }
 							});
 							$(obj).after(html);
 							$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
@@ -360,7 +355,7 @@
 							var text = trim(text);
 							if(text != null && text !=""){
 								$.ajax({
-									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 									type: "post",
 									data: {
 										"auditType": "mat_eng_page",
@@ -371,15 +366,14 @@
 										"auditField": id
 									},
 									dataType: "json",
-									success: function(result) {
-										result = eval("(" + result + ")");
-										if(result.msg == "fail") {
-											layer.msg('该条信息已审核过！', {
-												shift: 6, //动画类型
-												offset: '100px'
-											});
-										}
-									}
+									success:function(result){
+                    if(result.status == "503"){
+                       layer.msg('该条信息已审核过！', {             
+                         shift: 6, //动画类型
+                         offset:'100px'
+                      });
+                    }
+                  }
 								});
 								$("#" + id + "_hidden").hide();
 								$("#" + id + "_hidden1").hide();
@@ -425,7 +419,7 @@
 							var text = trim(text);
 							if(text != null && text !=""){
 								$.ajax({
-									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 									type: "post",
 									data: {
 										"auditType": "mat_eng_page",
@@ -436,15 +430,14 @@
 										"auditField": auditField
 									},
 									dataType: "json",
-									success: function(result) {
-										result = eval("(" + result + ")");
-										if(result.msg == "fail") {
-											layer.msg('该条信息已审核过！', {
-												shift: 6, //动画类型
-												offset: '100px'
-											});
-										}
-									}
+									success:function(result){
+                    if(result.status == "503"){
+                       layer.msg('该条信息已审核过！', {             
+                         shift: 6, //动画类型
+                         offset:'100px'
+                      });
+                    }
+                  }
 								});
 								/* $("#"+id3+"").show();
 								$("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */
@@ -474,19 +467,18 @@
 						var text = trim(text);
 						if(text != null && text !=""){
 							$.ajax({
-								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 								type: "post",
 								data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType=mat_eng_page" + "&auditContent=附件" + "&auditField=" + auditField,
 								dataType: "json",
-								success: function(result) {
-									result = eval("(" + result + ")");
-									if(result.msg == "fail") {
-										layer.msg('该条信息已审核过！', {
-											shift: 6, //动画类型
-											offset: '100px'
-										});
-									}
-								}
+								success:function(result){
+                  if(result.status == "503"){
+                     layer.msg('该条信息已审核过！', {             
+                       shift: 6, //动画类型
+                       offset:'100px'
+                    });
+                  }
+                }
 							});
 							$(ele).parents("li").find("p").show(); //显示叉
 							layer.close(index);
@@ -515,7 +507,7 @@
 							var text = trim(text);
 							if(text != null && text !=""){
 								$.ajax({
-									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 									type: "post",
 									data: {
 										"auditType": "mat_serve_page",
@@ -526,15 +518,14 @@
 										"auditField": id
 									},
 									dataType: "json",
-									success: function(result) {
-										result = eval("(" + result + ")");
-										if(result.msg == "fail") {
-											layer.msg('该条信息已审核过！', {
-												shift: 6, //动画类型
-												offset: '100px'
-											});
-										}
-									}
+									success:function(result){
+                    if(result.status == "503"){
+                       layer.msg('该条信息已审核过！', {             
+                         shift: 6, //动画类型
+                         offset:'100px'
+                      });
+                    }
+                  }
 								});
 								$("#" + id + "_hidden").hide();
 								$("#" + id + "_show").show();
@@ -572,7 +563,7 @@
 							var text = trim(text);
 							if(text != null && text !=""){
 								$.ajax({
-									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 									type: "post",
 									data: {
 										"auditType": "mat_serve_page",
@@ -583,15 +574,14 @@
 										"auditField": auditField
 									},
 									dataType: "json",
-									success: function(result) {
-										result = eval("(" + result + ")");
-										if(result.msg == "fail") {
-											layer.msg('该条信息已审核过！', {
-												shift: 6, //动画类型
-												offset: '100px'
-											});
-										}
-									}
+									success:function(result){
+                    if(result.status == "503"){
+                       layer.msg('该条信息已审核过！', {             
+                         shift: 6, //动画类型
+                         offset:'100px'
+                      });
+                    }
+                  }
 								});
 								/* $("#"+id3+"").show();
 								$("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */

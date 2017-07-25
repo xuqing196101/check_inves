@@ -40,18 +40,17 @@
                             var text = trim(text);
                             if(text != null && text !=""){
                                 $.ajax({
-                                    url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+                                    url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
                                     type: "post",
                                     data: {"auditType":"download_page","auditFieldName":auditFieldName,"auditContent":"附件","suggest":text,"supplierId":supplierId,"auditField":auditField},
                                     dataType: "json",
                                     success:function(result){
-                                        result = eval("(" + result + ")");
-                                        if(result.msg == "fail"){
-                                            layer.msg('该条信息已审核过！', {
-                                                shift: 6, //动画类型
-                                                offset:'100px'
-                                            });
-                                        }
+                                      if(result.status == "503"){
+                                         layer.msg('该条信息已审核过！', {             
+                                           shift: 6, //动画类型
+                                           offset:'100px'
+                                        });
+                                      }
                                     }
                                 });
 								/* $(ele).parent("li").find("div").eq(1).show(); //显示叉
