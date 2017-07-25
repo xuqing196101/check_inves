@@ -404,6 +404,7 @@
 			<c:if test="${ sign == 1}">
 				<div>
 					<div id="opinionDiv">
+					  <div class="clear"></div>
 						<h2 class="count_flow"><i>2</i><span class="red">*</span>审核意见</h2>
 					  <ul class="ul_list">
 						  <li>
@@ -420,9 +421,8 @@
 							    </c:choose>
 							  </div>
 						  </li>
-                          <div><span type="text" name="cate_result" id="cate_result"></span></div>
-                          <li class="col-md-12 col-sm-12 col-xs-12">
-                              <div class="col-md-12 col-sm-12 col-xs-12 p0">
+                          <li><span type="text" name="cate_result" id="cate_result"></span></li>
+                          <li class="mt10">
                                   <c:choose>
                                       <c:when test="${supplierStatus == 0 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
                                           <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
@@ -431,7 +431,7 @@
                                           <textarea id="opinion" disabled="disabled" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
                                       </c:otherwise>
                                   </c:choose>
-                              </div>
+                                  <div class="clear"></div>
                           </li>
 					  </ul>
                     <input type="hidden" value="${supplierAuditOpinion.flagAduit}" id="hiddenSelectOptionId">
