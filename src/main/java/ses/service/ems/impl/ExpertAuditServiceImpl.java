@@ -6,6 +6,7 @@ import common.utils.DateUtils;
 import common.utils.JdcgResult;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
+import ses.dao.ems.ExpertAuditOpinionMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ExpertTitleMapper;
@@ -22,7 +24,9 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
+import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertPublicity;
+import ses.model.sms.SupplierAuditOpinion;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertService;
 import ses.util.Constant;
@@ -65,7 +69,11 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	// 注入专家审核Mapper
 	@Autowired
 	private ExpertAuditMapper expertAuditMapper;
-	
+
+	// 注入专家审核意见Mapper
+	@Autowired
+	private ExpertAuditOpinionMapper expertAuditOpinionMapper;
+
 	/**
 	 * 
 	  * @Title: deleteByPrimaryKey
@@ -507,8 +515,19 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 				}else{
 					expertPublicity.setExpertsTypeId("");
 				}
+				// 查询选择和未通过的产品小类
 				selectChooseOrNoPassCateOfDB(expertPublicity);
-
+				// 查询审核意见
+                ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+                expertAuditOpinion.setExpertId(expertPublicity.getId());
+                expertAuditOpinion.setFlagTime(1);
+                ExpertAuditOpinion expertAuditOpinionByCond = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
+                if(expertAuditOpinionByCond != null && StringUtils.isNotEmpty(expertAuditOpinionByCond.getOpinion())){
+                    expertPublicity.setAuditOpinion(expertAuditOpinionByCond.getOpinion());
+				}else {
+					// 没意见设置为""
+                    expertPublicity.setAuditOpinion("");
+				}
 			}
 		}
 		return list;

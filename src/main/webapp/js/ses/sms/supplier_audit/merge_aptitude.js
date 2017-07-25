@@ -81,6 +81,7 @@ function jump(str) {
     $("#form_id").submit();
 }
 var status;
+var sign;
 $(function () {
     status = $("#status").val();
     sign = $("input[name='sign']").val();

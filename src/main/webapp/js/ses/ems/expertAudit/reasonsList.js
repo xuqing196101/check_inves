@@ -2,6 +2,9 @@ $(function () {
     // 导航栏显示
     $("#reverse_of_five").attr("class","active");
     $("#reverse_of_five").removeAttr("onclick");
+    // 获取专家ID
+    var expertId=$("#expertId").val();
+
     // 将审核意见的radio选中
     var hiddenSelectOptionId = $("#hiddenSelectOptionId").val();
     $("input[name='selectOption'][value='"+hiddenSelectOptionId+"']").prop("checked",true);
@@ -16,16 +19,16 @@ $(function () {
     }
     
     //除了待审核状态都不可操作
-    if(status != 0 || (sign !=2 && status ==1) || status != 6){
+    if(status != 0 && status != -2 && (sign !=2 && status ==1) && status != 6){
     	$("#opinion").prop("disabled", true);
     }
     
     $("input[name='selectOption']").bind("click", function(){
         // 清空意见内容
-        $("#opinion").val("");
+        //$("#cate_result").val("");
         var selectedVal = $(this).val();
         if(selectedVal == 0){
-            $("#opinion").val("不通过。");
+            $("#cate_result").html("不通过。");
             return;
         }
         // 判断意见是否已经获取，有的话不再发送请求
@@ -34,27 +37,40 @@ $(function () {
             $("#opinion").val(opinionBack);
             return;
         }*/
-        var index = layer.load(0, {
-            shade : [ 0.1, '#fff' ],
-            offset : [ '40%', '50%' ]
-        });
-        // 获取专家ID
-        var expertId = $("#expertId").val();
-        $.ajax({
-            url:globalPath + "/expertAudit/selectChooseOrNoPassCate.do",
-            data:{
-                "id" : expertId
-            },
-            success:function (data) {
-                var opinionData = "同意入库，选择了"+data.passCateCount+"个小类，通过了"+(data.passCateCount - data.noPassCateCount)+"个小类。";
-                $("#opinion").val(opinionData);
-                //$("#opinionBack").val(opinionData);
-                // 关闭旋转图标
-                layer.close(index);
-            }
-        })
+        getCheckOpinionType(expertId);
     });
-})
+    // 判断复选框操作
+    if(hiddenSelectOptionId != '' && hiddenSelectOptionId == 0){
+        // 预审核不通过
+        $("#cate_result").html("不通过。");
+    }
+    if(hiddenSelectOptionId != '' && hiddenSelectOptionId == 1){
+        // 预审核通过
+        getCheckOpinionType(expertId);
+    }
+});
+
+function getCheckOpinionType(expertId){
+    var index = layer.load(0, {
+        shade : [ 0.1, '#fff' ],
+        offset : [ '40%', '50%' ]
+    });
+    // 获取专家ID
+    var expertId = $("#expertId").val();
+    $.ajax({
+        url:globalPath + "/expertAudit/selectChooseOrNoPassCate.do",
+        data:{
+            "id" : expertId
+        },
+        success:function (data) {
+            var opinionData = "同意入库，选择了"+data.passCateCount+"个小类，通过了"+(data.passCateCount - data.noPassCateCount)+"个小类。";
+            $("#cate_result").html(opinionData);
+            //$("#opinionBack").val(opinionData);
+            // 关闭旋转图标
+            layer.close(index);
+        }
+    });
+}
 
 /**
  * 上一步操作
@@ -136,9 +152,10 @@ function tempSave(flag){
  * @param str
  */
 function downloadTable(str) {
-	var auditOpinion = $("#opinion").val();
+    var cate_result = $("#cate_result").html();
+    var auditOpinion = $("#opinion").val();
     $("input[name='tableType']").val(str);
-    $("input[name='opinion']").val(auditOpinion);
+    $("input[name='opinion']").val(cate_result + auditOpinion);
     $("#form_id_word").attr("action", globalPath + "/expertAudit/download.html");
     $("#form_id_word").submit();
     $("#downloadAttachFile").val("1");

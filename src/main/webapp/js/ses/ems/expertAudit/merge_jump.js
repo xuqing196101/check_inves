@@ -62,9 +62,11 @@ function jump(str) {
 
 
 var status;
+var sign;
 $(function () {
     // 获取专家状态
     status = $("#status").val();
+    sign = $("input[name='sign']").val();
     if(status == -2 || status == -3 || status == 5 || status == 4){
         $("#reverse_of_five_i").show();
         $("#reverse_of_six").show();
