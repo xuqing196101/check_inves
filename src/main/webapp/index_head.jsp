@@ -35,6 +35,7 @@
 			    })
   		    }
   		    
+	  		$("a").attr("target","_blank");
   		    
 		   $("#close").click(function(){
 		   		$(".prompt_tips").hide();
