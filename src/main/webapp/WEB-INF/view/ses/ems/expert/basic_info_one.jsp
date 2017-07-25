@@ -1824,6 +1824,9 @@
 				if(this.style.border == '1px solid rgb(239, 0, 0)'||this.style.border == '1px solid red'){
 					$(this).attr('disabled',false);
 				}
+				if(this.value==''||this.value=='0'){
+					$(this).attr('disabled',false);
+				}
 			});
 		}
 	</script>

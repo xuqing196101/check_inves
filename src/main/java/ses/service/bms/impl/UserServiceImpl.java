@@ -526,5 +526,45 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
   public List<String> findListByOrgId(String orgId) {
 	return userMapper.findByOrgId(orgId);
   }
+
+  @Override
+  public void updateUserLoginErrorNum(String loginName) {
+    List<User> loginErrorUser = userMapper.queryByLoginName(loginName);
+    if (loginErrorUser != null && loginErrorUser.size() > 0) {
+      User loginUser = loginErrorUser.get(0);
+      Integer lastErrorNum = loginUser.getErrorNum();
+      if (lastErrorNum == null) {
+        loginUser.setErrorNum(1);
+      } else {
+        loginUser.setErrorNum(lastErrorNum + 1);
+      }
+      userMapper.updateByPrimaryKeySelective(loginUser);
+    }
+    
+  }
+
+  @Override
+  public boolean unlock(String ids, String type) {
+    if (ids != null && !"".equals(ids)) {
+      User user = null;
+      if ("backend".equals(type)) {
+        user = userMapper.queryById(ids);
+      }else if ("expertOrSupplier".equals(type)) {
+        user = userMapper.findUserByTypeId(ids);
+      }else {
+        user = null;
+      }
+      if (user != null) {
+        user.setErrorNum(0);
+        userMapper.updateByPrimaryKeySelective(user);
+        return true;
+      }else {
+        return false;
+      }
+    }else {
+      return false;
+    }
+    
+  }
 }
 

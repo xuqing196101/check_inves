@@ -707,6 +707,11 @@ Supplier implements Serializable {
     // 新添属性
     private String qrcodeImage;// 供应商二维码图片
     
+    /**
+     * @Fields errorNum : 用户登录密码错误次数
+     */
+    private Integer errorNum;
+    
     public String getQrcodeImage() {
 		return qrcodeImage;
 	}
@@ -2001,6 +2006,13 @@ Supplier implements Serializable {
 	public void setAuditTemporary(Integer auditTemporary) {
 		this.auditTemporary = auditTemporary;
 	}
-	
 
+  public Integer getErrorNum() {
+    return errorNum;
+  }
+
+  public void setErrorNum(Integer errorNum) {
+    this.errorNum = errorNum;
+  }
+	
 }

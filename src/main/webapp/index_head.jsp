@@ -34,6 +34,8 @@
       });
     }
     
+    $("a").attr("target","_blank")
+    
     $("#close").click(function(){
       $(".prompt_tips").hide();
     });
@@ -1201,6 +1203,7 @@
           </div>
           </div> --%>  
         </div>
+<%-- <<<<<<< HEAD
         </div>
         </div>
         </div>
@@ -1272,6 +1275,100 @@
     });
     </script>-->
     <!-- End 供应商和专家下拉菜单列表滚动效果 -->
+======= --%>
+		</div>
+		</div>
+      <%-- <div class="col-md-7 col-sm-7 col-xs-12 mt20">
+	  <div class="col-md-12 col-xs-12 col-sm-12">
+	  <div class="col-md-6 col-sm-6 col-xs-12">
+	    <div class="col-md-12 col-xs-12 col-sm-12 p0 fg_rule">
+		 <img src="${pageContext.request.contextPath}/public/portal/images/fg_01.jpg" class="fl" width="100%" />
+		</div>
+	  </div>
+	  <div class="col-md-6 col-sm-6 col-xs-12">
+		 <a href="">主题：2016年9月30日烈士纪念日</a>
+	  </div>
+	  </div>
+	  <div class="col-md-12 col-xs-12 col-sm-12 mt20">
+         <div class="job-content col-md-12 col-xs-12 col-sm-12">
+		    <div class="categories">
+             <ul class="p0_10 list-unstyled">   
+              <li></li>
+			 </ul>
+			</div>
+		  </div>
+	   </div>
+	  </div> --%>  
+	  </div>
+	 </div>
+	</div>
+	</div>
+   </li>
+      </ul>
+      </div>
+      </div>
+      </div>
+      </div>
+     <!-- 首页APP下载二维码 -->
+     <%-- <% if (environment != null && environment.equals("0")){ %>
+         <div class="m_app_code" id="m_app_code">
+		<span>A<br>P<br>P<br>下<br>载<br>二<br>维<br>码</span>
+		<div class="mac_img"><img src="${pageContext.request.contextPath}/public/portal/images/AppDownload.png" alt=""></div>
+	</div>
+	
+	<script>
+		$(function() {
+			$('#m_app_code span').on('click', function() {
+				if ($(this).parent().hasClass('hover')) {
+					$(this).parent().removeClass('hover');
+				} else {
+					$(this).parent().addClass('hover');
+				}
+			});
+		});
+	</script>
+	<% } %> --%>
+	
+	<!-- 供应商和专家下拉菜单列表滚动效果 -->
+	<script>
+		var m_nav_scroll = []; // 设置保存滚动插件的数组
+		
+		// 循环所有插件并初始化
+		$('.mns_bxslider').each(function (index) {
+			m_nav_scroll[index] = $(this).bxSlider({
+				mode: 'vertical',   // 垂直模式
+				minSlides: 1,       // 最小显示个数
+				maxSlides: 1,       // 最大显示个数
+				ticker: true,
+				tickerHover: true,  // 鼠标移动上停止滚动
+				autoHover: true,    // 鼠标移动上停止滚动
+				speed: 5000         // 滚动速度
+			});
+		});
+		
+		// 设置下拉菜单出现后重置插件，防止display: none时候插件失效
+		$('.navbar-nav > li').mouseenter(function () {
+			var ishover = parseInt($(this).find('input[name=ishover]').val());  // 下拉菜单是否出现
+			// 如果下拉菜单已经出现防止多次重置插件导致滚动列表抖动
+			if (ishover == 0) {
+				$(this).find('input[name=ishover]').val(1);
+				// 加入延时防止下拉菜单还未出现程序已经执行的bug
+				setTimeout(function () {
+					for (var i in m_nav_scroll) {
+						m_nav_scroll[i].reloadSlider();
+					}
+				}, 500);
+			}
+		});
+		// 鼠标移除注销插件并初始化判断参数，以便下次打开重新生成
+		$('.navbar-nav > li').mouseleave(function () {
+			$(this).find('input[name=ishover]').val(0);
+			for (var i in m_nav_scroll) {
+				m_nav_scroll[i].destroySlider();
+			}
+		});
+	</script>
+	<!-- End 供应商和专家下拉菜单列表滚动效果 -->
 
 </body>
 </html>
