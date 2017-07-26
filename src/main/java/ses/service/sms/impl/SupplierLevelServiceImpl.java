@@ -42,7 +42,7 @@ public class SupplierLevelServiceImpl implements SupplierLevelService {
 		String level = supplier.getLevel();
 		if(level != null && !"".equals(level)) {
 			if (level.equals("0")) {
-				supplier.setStartScore(0);
+				supplier.setStartScore(null);
 				supplier.setEndScore(listSupplierStars.get(0).getOneStars());
 			}
 			if (level.equals("1")) {
@@ -90,6 +90,8 @@ public class SupplierLevelServiceImpl implements SupplierLevelService {
 					} else {
 						s.setLevel("五级");
 					}
+				}else{
+					s.setLevel("无级别");
 				}
 			}
 		}
