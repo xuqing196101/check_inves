@@ -459,7 +459,7 @@
 				var newVal = $(_this).val();
 				var oldVal = $(_this).attr("oldCode");
 				if(oldVal != newVal){
-					getFileByCode(_this, '${vs.index}', '2');
+					getFileByCode(_this, index, '2');
 				}
 			}
 
