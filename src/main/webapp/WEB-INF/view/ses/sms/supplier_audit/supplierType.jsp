@@ -172,7 +172,7 @@
 					var auditField = obj.id.trim();
 					var auditContent;
 					var auditFieldName;
-					var html = "<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
+					var html = "<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
 						$("#" + obj.id + "").each(function() {
 						auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
 						auditContent = $(this).parents("li").find("input").val();
@@ -287,7 +287,7 @@
 					var auditField = obj.id.replace("_sale", "").trim();
 					var auditContent;
 					var auditFieldName;
-					var html = "<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
+					var html = "<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
 					$("#" + obj.id + "").each(function() {
 						auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
 						auditContent = $(this).parents("li").find("input").val();
@@ -400,7 +400,7 @@
 					var auditField = obj.id.replace("_engineering", "").trim();
 					var auditContent;
 					var auditFieldName;
-					var html = "<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
+					var html = "<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
 					$("#" + obj.id + "").each(function() {
 						auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
 						auditContent = $(this).parents("li").find("input").val();
@@ -548,7 +548,7 @@
 					var auditField = obj.id.replace("_service", "").trim();
 					var auditContent;
 					var auditFieldName;
-					var html = "<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
+					var html = "<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
 					$("#" + obj.id + "").each(function() {
 						auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
 						auditContent = $(this).parents("li").find("input").val();
@@ -875,7 +875,7 @@
 													onblur="validatePercentage2(this.value)"
 												/>
 												<c:if test="${fn:contains(passedProField,'scaleHeightTech')}">
-													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
 											</div>
 										</li>
@@ -884,7 +884,7 @@
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="researchName" type="text" value="${supplierMatPros.researchName }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'researchName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('researchName','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'researchName')}">style="border: 1px solid red;"</c:if>/>
 												<c:if test="${fn:contains(passedProField,'researchName')}">
-													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
 											</div>
 										</li>
@@ -893,7 +893,7 @@
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="totalResearch" type="text" value="${supplierMatPros.totalResearch }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'totalResearch')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalResearch','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'totalResearch')}">style="border: 1px solid red;"</c:if>/>
 												<c:if test="${fn:contains(passedProField,'totalResearch')}">
-													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
 											</div>
 										</li>
@@ -902,7 +902,7 @@
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="researchLead" type="text" value="${supplierMatPros.researchLead }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'researchLead')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('researchLead','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'researchLead')}">style="border: 1px solid red;"</c:if>/>
 												<c:if test="${fn:contains(passedProField,'researchLead')}">
-													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
 											</div>
 										</li>
