@@ -511,4 +511,5 @@ public interface SupplierAuditService {
     JdcgResult selectAuditNoPassItemCount(String supplierId);
 
     JdcgResult vertifyOpinion(String supplierId);
-} 
+
+}

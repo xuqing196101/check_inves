@@ -370,8 +370,28 @@
 		SELECT COUNT(T.ID)
 		  FROM T_SES_SMS_SUPPLIER_AUDIT T
 		   WHERE T.SUPPLIER_ID = #{supplierId, jdbcType=VARCHAR}
-		   AND (T.AUDIT_TYPE = #{items_sales_page, jdbcType=VARCHAR}
-		   OR T.AUDIT_TYPE = #{items_product_page, jdbcType=VARCHAR})
+            <if test="items_product_page != null and items_product_page != ''">
+              AND T.AUDIT_TYPE = #{items_product_page}
+            </if>
+            <if test="items_sales_page != null and items_sales_page != ''">
+              AND T.AUDIT_TYPE = #{items_sales_page}
+            </if>
+		   AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
+           AND T.IS_DELETED = 0
+            <if test="supplierItems != null and supplierItems.size > 0">
+                AND T.AUDIT_FIELD NOT IN
+                <foreach collection="supplierItems" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+	</select>
+	<!-- 查询注册供应商不通过的小类 -->
+	<select id="selectRegSupCateCount2" resultType="java.lang.Integer" parameterType="Map">
+		SELECT COUNT(T.ID)
+		  FROM T_SES_SMS_SUPPLIER_AUDIT T
+		   WHERE T.SUPPLIER_ID = #{supplierId, jdbcType=VARCHAR}
+              AND (T.AUDIT_TYPE = #{items_product_page}
+              OR T.AUDIT_TYPE = #{items_sales_page})
 		   AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
            AND T.IS_DELETED = 0
             <if test="supplierItems != null and supplierItems.size > 0">
@@ -408,5 +428,21 @@
               AND T.AUDIT_TYPE = #{auditType}
           </if>
   </select>
+
+    <!-- 查询注册供应商不通过的小类 -->
+    <select id="selectNoPassItem" resultMap="BaseResultMap" parameterType="Map">
+        SELECT
+          <include refid="Base_Column_List" />
+            FROM T_SES_SMS_SUPPLIER_AUDIT T
+            WHERE T.SUPPLIER_ID = #{supplierId, jdbcType=VARCHAR}
+            <if test="items_product_page != null and items_product_page != ''">
+                AND T.AUDIT_TYPE = #{items_product_page}
+            </if>
+            <if test="items_sales_page != null and items_sales_page != ''">
+                AND T.AUDIT_TYPE = #{items_sales_page}
+            </if>
+            AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
+            AND T.IS_DELETED = 0
+    </select>
 
 </mapper>
