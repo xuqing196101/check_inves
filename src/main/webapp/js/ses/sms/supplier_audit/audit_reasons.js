@@ -105,7 +105,7 @@ function tempSave(flag){
             // 判断附件是否下载
             var downloadAttachFile = $("#downloadAttachFile").val();
             if(downloadAttachFile == ''){
-                layer.msg("请下载审批表！");
+                layer.msg("请下载审核表！");
                 flags = true;
                 return flags;
             }

@@ -62,7 +62,7 @@ function jump(str) {
                         return;
                     }else if(data.data.isDownLoadAttch == null){
                         // 判断附件是否下载
-                        layer.msg("请下载审批表！");
+                        layer.msg("请下载审核表！");
                         flag = false;
                         return;
                     }
