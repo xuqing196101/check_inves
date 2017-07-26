@@ -308,10 +308,15 @@
 			var orgType = $("#org_type").val();
 			if(type=='1'){
 			   $("#orgSel").attr("value", "");
+			   
+			}
+			var origin = "${origin}";
+			if(!origin){
+			   $("#oId").val("");
 			}
 			
 			$("#orgParent").val("");
-			$("#oId").val("");
+			
 			if (orgType == '3' ) {
 			   $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
@@ -662,7 +667,7 @@
 				   	</span>
 				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				        <c:choose> 
-					        <c:when  test="${not empty origin}">
+					        <c:when  test="${origin ne null}">
 					            <input id="oId" name="orgId" value="${orgId}" type="hidden" />
 					        	<input id="orgSel"  type="text" name="orgName"  value="${orgName}" onclick="showOrg();"  />
 					        </c:when >
