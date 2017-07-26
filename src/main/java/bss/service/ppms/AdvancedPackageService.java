@@ -64,5 +64,15 @@ public interface AdvancedPackageService {
     List<AdvancedPackages> findPackageAndBidMethodById(HashMap<String,Object> map);
     
     List<AdvancedPackages> selectPackName(HashMap<String, Object> map, Integer pageNum);
+    
+    /**
+     * 
+     *〈专家抽取〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param projectId
+     * @return
+     */
+    List<AdvancedPackages> listProjectExtract(String projectId);
 
 }

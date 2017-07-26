@@ -73,4 +73,10 @@ public class AdvancedPackageServiceImpl implements AdvancedPackageService {
         return packageMapper.selectPackName(map);
     }
 
+    @Override
+    public List<AdvancedPackages> listProjectExtract(String projectId) {
+        
+        return packageMapper.listProjectExtract(projectId);
+    }
+
 }

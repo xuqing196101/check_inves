@@ -14,6 +14,12 @@
 		<result column="AD_PROJECT_ID" property="project" />
 		<association property="project" column="AD_PROJECT_ID" select="bss.dao.ppms.AdvancedProjectMapper.selectAdvancedProjectByPrimaryKey" />
 	</resultMap>
+	
+	<!-- 返回抽取信息 -->
+  <resultMap id="ResultProjectExtract" extends="BaseResultMap" type="bss.model.ppms.AdvancedPackages">
+    <collection property="listProjectExtract" column="ID"
+      select="ses.dao.ems.ProjectExtractMapper.getById" ofType="ses.model.ems.ProjectExtract" />
+  </resultMap>
 
 	<sql id="Base_Column_List">
 		ID, NAME,
@@ -44,6 +50,16 @@
     ORDER BY p.CREATED_AT ASC
   </select>
   
+  <!-- 返回所有专家 -->
+  <select id="listProjectExtract" parameterType="java.lang.String" resultMap="ResultProjectExtract">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM T_BSS_PPMS_ADVANCED_PACKAGE
+    WHERE
+    IS_DELETED=0 AND AD_PROJECT_ID = #{projectId}
+    ORDER BY
+    CREATED_AT ASC
+  </select>
   
   <select id="findPackageAndBidMethodById" parameterType="java.util.Map"
     resultType="bss.model.ppms.AdvancedPackages">

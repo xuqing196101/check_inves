@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import bss.model.ppms.AdvancedPackages;
-import bss.model.ppms.Packages;
 
 public interface AdvancedPackageMapper {
     /**
@@ -67,4 +66,14 @@ public interface AdvancedPackageMapper {
     List<AdvancedPackages> findByID(Map<String,Object> map);
     
     List<AdvancedPackages> selectPackName(HashMap<String, Object> map);
+    
+    /**
+     * 
+     *〈专家抽取〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param projectId
+     * @return
+     */
+    List<AdvancedPackages> listProjectExtract(String projectId);
 }

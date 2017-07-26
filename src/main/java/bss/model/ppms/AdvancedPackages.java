@@ -6,6 +6,8 @@ package bss.model.ppms;
 import java.util.Date;
 import java.util.List;
 
+import ses.model.ems.ProjectExtract;
+
 import bss.model.prms.FirstAudit;
 
 
@@ -76,6 +78,10 @@ public class AdvancedPackages {
      * 是否维护经济技术评分细则 0 未维护 1:维护中 2：已维护
      */
     private Integer isEditSecond;
+    
+    private List<SaleTender> saleTenderList;
+    
+    private List<ProjectExtract> listProjectExtract;
 
     public String getId() {
         return id;
@@ -275,6 +281,22 @@ public class AdvancedPackages {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public List<SaleTender> getSaleTenderList() {
+        return saleTenderList;
+    }
+
+    public void setSaleTenderList(List<SaleTender> saleTenderList) {
+        this.saleTenderList = saleTenderList;
+    }
+
+    public List<ProjectExtract> getListProjectExtract() {
+        return listProjectExtract;
+    }
+
+    public void setListProjectExtract(List<ProjectExtract> listProjectExtract) {
+        this.listProjectExtract = listProjectExtract;
     }
     
 }

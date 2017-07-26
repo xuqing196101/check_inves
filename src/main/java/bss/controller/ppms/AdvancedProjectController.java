@@ -28,7 +28,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -41,7 +40,6 @@ import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
-import ses.model.oms.util.CommonConstant;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;

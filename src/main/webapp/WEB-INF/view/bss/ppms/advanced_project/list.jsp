@@ -79,33 +79,6 @@
         var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).find("input").val();
         status = $.trim(status);
         if(id.length == 1) {
-          /* if(status == "YLX_DFB" || status == "YFB_DSS") {
-            $.ajax({
-              url: "${pageContext.request.contextPath}/advancedProject/viewPackages.html",
-              data: "id=" + id,
-              type: "post",
-              dataType: "json",
-              success: function(result) {
-                if(result == 0) {
-                  layer.open({
-                    type: 2, //page层
-                    area: ['800px', '500px'],
-                    title: '请上传项目批文',
-                    shade: 0.01, //遮罩透明度
-                    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-                    shift: 1, //0-6的动画形式，-1不开启
-                    shadeClose: true,
-                    content: '${pageContext.request.contextPath}/advancedProject/startProject.html?id=' + id,
-                  });
-                } else if(result == 1) {
-                  layer.alert("项目中有明细尚未分包,请进维护页面进行分包", {
-                    offset: ['30%', '40%'],
-                  });
-                  $(".layui-layer-shade").remove();
-                }
-              }
-            });
-          } */
           if(status == "YJFB") {
             layer.alert("项目已废标", {
               offset: ['30%', '40%'],
