@@ -81,7 +81,7 @@
     <!-- 专家公示 -->
 	  <resultMap id="expertOfPublicityMap" type="ses.model.ems.Expert">
 		  <id column="ID" jdbcType="VARCHAR" property="id" />
-		  <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+		  <result column="AUDIT_AT" jdbcType="TIMESTAMP" property="auditAt" />
 	  </resultMap>
     
     <!-- 专家公示列表查询 -->
