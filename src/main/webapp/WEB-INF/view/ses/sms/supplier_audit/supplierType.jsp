@@ -101,10 +101,12 @@
 					             shift: 6, //动画类型
 					             offset:'100px'
 					          });
+					        }else{
+					        	$("#"+appear+"").css('visibility', 'visible');
 					        }
 					      }
 					    });
-					    $("#"+appear+"").css('visibility', 'visible');
+					    
 			      	layer.close(index);
 			      	}else{
 			      		layer.msg('不能为空！', {offset:'100px'});
@@ -855,12 +857,9 @@
 												<input id="scaleTech" type="text" value="${supplierMatPros.scaleTech }" 
 													<c:if test="${fn:contains(fieldProOne,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech','mat_pro_page');"</c:if> 
 													<c:if test="${fn:contains(passedProField,'scaleTech')}">style="border: 1px solid red;"</c:if>
-													onclick="reasonProduction1(this)" maxlength="10"
-													onkeyup="value=value.replace(/[^\d.]/g,'')"
-													onblur="validatePercentage2(this.value)"
-												/>
+													onclick="reasonProduction1(this)"/>
 												<c:if test="${fn:contains(passedProField,'scaleTech')}">
-													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
 											</div>
 										</li>
@@ -870,10 +869,7 @@
 												<input id="scaleHeightTech" type="text" value="${supplierMatPros.scaleHeightTech }" 
 													<c:if test="${fn:contains(fieldProOne,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech','mat_pro_page');"</c:if> 
 													<c:if test="${fn:contains(passedProField,'scaleHeightTech')}">style="border: 1px solid red;"</c:if>
-													onclick="reasonProduction1(this)" maxlength="10"
-													onkeyup="value=value.replace(/[^\d.]/g,'')"
-													onblur="validatePercentage2(this.value)"
-												/>
+													onclick="reasonProduction1(this)"/>
 												<c:if test="${fn:contains(passedProField,'scaleHeightTech')}">
 													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
