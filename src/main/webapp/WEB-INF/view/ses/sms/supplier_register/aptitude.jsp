@@ -212,7 +212,9 @@
 														</td>
 													<!-- 证书编号 -->	
 														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-															<input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" label="${vs.index}" value="${cate.certCode}" onkeyup="getFileByCode(this, '${vs.index}', '2')">
+															<input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" label="${vs.index}" value="${cate.certCode}" 
+															onfocus="onfocusCertCode(this)"
+															onkeyup="onkeyupCertCode(this, '${vs.index}')">
 														</td>
 													<!-- 专业类别 -->
 														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
@@ -447,6 +449,18 @@
 						layer.msg("不通过理由：" + data.suggest , {offset: '200px'});
 					}
 				});
+			}
+			
+			function onfocusCertCode(_this){
+				$(_this).attr("oldCode", $(_this).val());
+			}
+			
+			function onkeyupCertCode(_this, index){
+				var newVal = $(_this).val();
+				var oldVal = $(_this).attr("oldCode");
+				if(oldVal != newVal){
+					getFileByCode(_this, '${vs.index}', '2');
+				}
 			}
 
 			// 根据证书编号获取附件信息
