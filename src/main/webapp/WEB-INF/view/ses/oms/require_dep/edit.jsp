@@ -139,6 +139,7 @@
     $.ajax({
           url: "${pageContext.request.contextPath}/purchaseManage/verify.html?name=" + name + "&parentId=" + parentId + "&id=" + id,
           type: "post",
+          async:false,
           dataType: "json",
           success: function(data) {
             var datas = eval("(" + data + ")");
@@ -155,8 +156,8 @@
   
   
   function save(){
-    //$("#formID").validForm();
      if(verify() == 0){
+      $("#formID").validForm();
        $("#formID").submit();
      }else{
        $("input[name='name']").focus();
