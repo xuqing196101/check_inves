@@ -144,7 +144,6 @@
             var datas = eval("(" + data + ")");
             if(datas == false) {
               aa = 1;
-              alert(aa);
               $("#sps").html("机构已存在").css('color', 'red');
             } else {
               $("#sps").html("");
