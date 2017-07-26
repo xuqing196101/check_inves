@@ -1108,7 +1108,10 @@
 			and tt1.SCORE &gt; #{startScore}
 		</if>
 		<if test="endScore != null and endScore !=''">
-			and tt1.SCORE &lt; #{endScore}
+			and 
+			<if test="startScore == null" >(</if>
+			 tt1.SCORE &lt; #{endScore}
+			 <if test="startScore == null"> or tt1.SCORE is null) </if>
 		</if>
 		<if test="item != null">
 			<foreach collection="item" item="id" open="and tt1.id not in ("
