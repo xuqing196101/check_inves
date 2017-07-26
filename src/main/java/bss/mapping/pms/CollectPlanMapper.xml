@@ -338,7 +338,7 @@
       </if>
       
       <if test="userId != null">
-       and  USER_ID=#{userId}
+       and  USER_ID IN (SELECT ID FROM T_SES_BMS_USER WHERE ORG_ID = #{userId})
       </if>
        <if test="planNo != null">
          and  PLAN_NUMBER = #{planNo}
