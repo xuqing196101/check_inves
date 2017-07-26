@@ -13,9 +13,10 @@
 		<result column="CERT_CODE" property="certCode"/>
 		<result column="QUALIFICATION_TYPE" property="qualificationType"/>
 		<result column="PROFESS_TYPE"   property="professType"/>
+		<result column="NODE_LEVEL"   property="nodeLevel"/>
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT, CATE_LEVEL, CERT_CODE, DIY_LEVEL, QUALIFICATION_TYPE,PROFESS_TYPE
+		ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT, CATE_LEVEL, CERT_CODE, DIY_LEVEL, QUALIFICATION_TYPE,PROFESS_TYPE, NODE_LEVEL
 	</sql>
 	
 	<sql id="Base_Column">
@@ -50,10 +51,10 @@
 	<insert id="insert" parameterType="ses.model.sms.SupplierItem">
 		insert into T_SES_SMS_SUPPLIER_ITEM (ID, SUPPLIER_ID, CATEGORY_ID,
 		SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT,
-		UPDATED_AT)
+		UPDATED_AT, NODE_LEVEL)
 		values (#{id}, #{supplierId}, #{categoryId},
 		#{supplierTypeRelateId}, #{status}, #{createdAt,jdbcType=TIMESTAMP},
-		#{updatedAt,jdbcType=TIMESTAMP})
+		#{updatedAt,jdbcType=TIMESTAMP},#{nodeLevel, jdbcType=DECIMAL})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierItem">
 		insert into T_SES_SMS_SUPPLIER_ITEM
@@ -94,7 +95,10 @@
 			<if test="professType != null">
 				PROFESS_TYPE,
 			</if>
-			
+			<if test="nodeLevel != null">
+				NODE_LEVEL,
+			</if>
+
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -132,6 +136,9 @@
 			</if>
 			<if test="professType != null">
 				#{professType}
+			</if>
+			<if test="nodeLevel != null">
+				#{nodeLevel}
 			</if>
 		</trim>
 	
@@ -171,6 +178,9 @@
 			</if>
 			<if test="professType != null">
 				PROFESS_TYPE = #{professType},
+			</if>
+			<if test="nodeLevel != null">
+				NODE_LEVEL = #{nodeLevel},
 			</if>
 		</set>
 		where ID = #{id}
@@ -364,6 +374,91 @@
 			  LEFT JOIN T_BSS_OB_SUPPLIER S
 			    ON T.SUPPLIER_ID = S.ID
 			 WHERE T.SUPPLIER_TYPE_RELATE_ID = 'PROJECT'
+	</select>
+	
+	<!-- 查询供应商选择了多少个产品类别 -->
+	<select id="selectRegSupCateCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(T.ID)
+		  FROM T_SES_SMS_SUPPLIER_ITEM T
+		   WHERE T.NODE_LEVEL = 3
+		   <if test="supplierId != null and supplierId != ''">
+			   AND  T.SUPPLIER_ID = #{supplierId}
+		   </if>
+	</select>
+	
+	<!-- 获取该供应商品目的类型 -->
+	<select id="findSupplierTypeBySupplierId" resultType="String" parameterType="String">
+	SELECT SUPPLIER_TYPE_RELATE_ID from T_SES_SMS_SUPPLIER_ITEM where SUPPLIER_ID=#{supplierId}
+     GROUP BY SUPPLIER_TYPE_RELATE_ID
+	</select>
+
+	<!-- 获取该供应商通过的类型 -->
+	<select id="findPassSupplierTypeBySupplierId" resultType="String" parameterType="Map">
+		SELECT E.SUPPLIER_TYPE_RELATE_ID
+		  FROM (SELECT A.SUPPLIER_TYPE_RELATE_ID
+			  FROM T_SES_SMS_SUPPLIER_ITEM A
+			 WHERE NOT EXISTS
+			 (SELECT T.SUPPLIER_ID, T.AUDIT_FIELD
+					  FROM T_SES_SMS_SUPPLIER_AUDIT T
+					 WHERE A.CATEGORY_ID = T.AUDIT_FIELD
+					   AND T.SUPPLIER_ID = #{supplierId}
+					   AND (T.AUDIT_TYPE = #{items_sales_page} OR
+						   T.AUDIT_TYPE = #{items_product_page})
+					   AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
+					   AND T.IS_DELETED = 0)
+			   AND A.SUPPLIER_ID = #{supplierId}
+			   AND A.NODE_LEVEL = 3
+			 GROUP BY A.SUPPLIER_TYPE_RELATE_ID) E
+	 WHERE E.SUPPLIER_TYPE_RELATE_ID NOT IN
+		   (SELECT DA.CODE
+			  FROM T_SES_SMS_SUPPLIER_AUDIT T
+			  LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA
+				ON T.AUDIT_FIELD = DA.ID
+			 WHERE T.SUPPLIER_ID = #{supplierId}
+			   AND T.AUDIT_TYPE = #{supplierType_page})
+	</select>
+
+	<!-- 查询供应商选择的小类节点 -->
+	<select id="selectRegSupCateOfLastNode" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM T_SES_SMS_SUPPLIER_ITEM T
+		WHERE T.SUPPLIER_ID = #{supplierId}
+		AND T.NODE_LEVEL = 3
+	</select>
+
+    <!--通过条件查询供应商审核通过的产品类别-->
+    <select id="selectPassItemByCond" resultMap="BaseResultMap" parameterType="Map">
+	  	SELECT A.ID, A.SUPPLIER_TYPE_RELATE_ID, A.CATEGORY_ID
+			FROM T_SES_SMS_SUPPLIER_ITEM A
+		   WHERE NOT EXISTS
+		   (SELECT T.SUPPLIER_ID, T.AUDIT_FIELD
+					FROM T_SES_SMS_SUPPLIER_AUDIT T
+				   WHERE A.CATEGORY_ID = T.AUDIT_FIELD
+					 AND T.SUPPLIER_ID = #{supplierId}
+					 AND (T.AUDIT_TYPE = #{items_sales_page} OR
+						 T.AUDIT_TYPE = #{items_product_page})
+					 AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
+					 AND T.IS_DELETED = 0)
+			 AND A.SUPPLIER_ID = #{supplierId}
+			 AND A.NODE_LEVEL = 3
+            <if test="type != null and type !=''">
+                AND A.SUPPLIER_TYPE_RELATE_ID = #{type}
+            </if>
+    </select>
+
+	<!--查询供应商类型下所有选择的产品类别数量-->
+	<select id="selectCountBySupType" resultType="java.lang.String" parameterType="Map">
+		SELECT
+		T.CATEGORY_ID
+		 FROM T_SES_SMS_SUPPLIER_ITEM T
+			WHERE T.NODE_LEVEL = 3
+			<if test="supplierId != null and supplierId != ''">
+				AND T.SUPPLIER_ID = #{supplierId}
+			</if>
+			<if test="type != null and type != ''">
+				AND T.SUPPLIER_TYPE_RELATE_ID = #{type}
+			</if>
 	</select>
 
 </mapper>

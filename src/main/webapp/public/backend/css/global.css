@@ -2,7 +2,7 @@
 	font-family: 'Open Sans', sans-serif;
 }
 
-/* 已执行环节背景颜色 */
+/* 宸叉墽琛岀幆鑺傝儗鏅鑹� */
 .btn_list li a.executed, .btn_list li:hover a{
 	background-color:#edaa2d;
    	color:#ffffff;
@@ -1292,7 +1292,7 @@ table .input_group .add-on{
     box-shadow: 0px -1px 4px #ddd;
     height: 40px;
     border-top: 1px solid #dadada;
-    z-index: 1000000;
+    z-index: 100000;
 }
 
 
@@ -1497,7 +1497,7 @@ table.lockout .extrafile{
 	width: 175px;
 }
 
-    /** 监督系统项目总览 **/
+    /** 鐩戠潱绯荤粺椤圭洰鎬昏 **/
     .flow_tips{
       color:#bbbbbb;
       padding:0px;
@@ -1633,7 +1633,7 @@ table.lockout .extrafile{
 
 
 
-/* 圆形统计图 */
+/* 鍦嗗舰缁熻鍥� */
 .circle{
         width:600px; 
         margin:40px auto 0 auto;
@@ -1689,7 +1689,7 @@ table.lockout .extrafile{
     }
     
     
-    /* 进度条样式 */
+    /* 杩涘害鏉℃牱寮� */
     .progress-new{
         height: 20px;
         line-height: 25px;
@@ -1754,14 +1754,14 @@ table.lockout .extrafile{
 		    transition: width .6s ease;
 		}
 		
-		/* 北京-前端-马田力修改样式 */
+		/* 鍖椾含-鍓嶇-椹敯鍔涗慨鏀规牱寮� */
 		.m-bg-blue-600 {
 		    background-color: #2c9fa6 !important;
 		}
 		.m-bg-green-600 {
 		    background-color: #2ca56f !important;
 		}
-		/* 图表样式 */
+		/* 鍥捐〃鏍峰紡 */
 		.m-chart-head {
 		    padding: 0px 0 15px;
 		    font-size: 0px;
@@ -1933,15 +1933,27 @@ table.lockout .extrafile{
 		    background-repeat: no-repeat;
 		    background-position: 0 0;
 		}
-		/* 后台-人员管理-采购机构人员管理，添加/修改页面错版修复*/
+		/* 鍚庡彴-浜哄憳绠＄悊-閲囪喘鏈烘瀯浜哄憳绠＄悊锛屾坊鍔�/淇敼椤甸潰閿欑増淇*/
 		.m_ul_list li {
 			height: 77px;
 		}
-		/* 修复表格红色边框显示不全问题 */
+		/* 淇琛ㄦ牸绾㈣壊杈规鏄剧ず涓嶅叏闂 */
 		.m_table_fixed_border {
 			border-collapse: inherit;
 		}
-		/* 后台查询区域所有元素对齐 */
+		.p20 { padding: 20px; }
+		.m_inline { display: inline-block; vertical-align: middle; }
+		.m_upload_file .wuexample, .m_upload_file .m_uploadFiles {
+			float: none !important;
+			display: block !important;
+			width: 100% !important;
+			overflow: hidden;
+		}
+		.m_upload_file .btns {
+			float: none;
+			text-align: center;
+		}
+		/* 鍚庡彴鏌ヨ鍖哄煙鎵�鏈夊厓绱犲榻� */
 		.m_demand_list {
 		  margin-top: -5px;
 		}

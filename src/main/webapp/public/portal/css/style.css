@@ -2222,6 +2222,9 @@ a.news_more{
   font-size: 14px!important;
   padding: 0px!important;
 }
+a.news_more:hover {
+  color: #2C9FA6 !important;
+}
 .buyer_news{
 	margin-top: 0px!important;
 	padding:0px;
@@ -3209,7 +3212,7 @@ h2.list_title{
     z-index: 10000;
     font-size:16px;
     background-color:#ffffff;
-    height:180px;
+    height:240px;
     bottom:0px;
     right:0px;
 }
@@ -3530,4 +3533,10 @@ h2.list_title{
 }
 .font-20 {
 	font-size: 20px;
+}
+.list_new li a.publicityCss {
+	display: inline-block;
+	vertical-align: top;
+	color: #2c9fa6;
+	text-decoration: none;
 }

@@ -69,6 +69,7 @@ public class ExpertCredibleController {
 		if(null != user && "4".equals(user.getTypeName())){
 			List<ExpertCredible> list = service.list(page==null?0:page, map);
 			model.addAttribute("result", new PageInfo<>(list));
+			 model.addAttribute("authType", 4);
 		}else{
 			model.addAttribute("result", new PageInfo<>());
 		}

@@ -189,6 +189,8 @@
     
     /**新增 */
     function add(){
+    	$("#posId").val("");
+		  $("#cateId").val("");
     	$("#results").css("display","none");
     	$("#result").css("display","");
     	hideQua();

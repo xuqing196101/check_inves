@@ -46,8 +46,9 @@ public class SupplierStarsController {
 				model.addAttribute("status", "fail");
 			}
 			model.addAttribute("info", new PageInfo<SupplierStars>(list));
+			return "ses/sms/supplier_stars/list";
 		}
-		return "ses/sms/supplier_stars/list";
+		return "redirect:/qualifyError.jsp";
 	}
 	
 	@RequestMapping(value = "add")

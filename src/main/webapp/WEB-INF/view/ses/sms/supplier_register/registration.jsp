@@ -39,7 +39,7 @@
 				<div class="tab-content margin-bottom-20 margin-top-20 lh24">
 					${doc}
 					<div class="mt40 col-md-12 col-sm-12 col-xs-12 p0">
-					<div class="lh30 font-20" > <span >文件下载：</span></div>
+					<div class="lh30 font-20"> <span >文件下载：</span></div>
 						<div class="font-20 mt10">
 							<span >《${docName }》（第二版）</span><a href="${pageContext.request.contextPath}/browser/supplierDownload.html" class="m_download"></a>
 						</div>
@@ -65,7 +65,7 @@
 						<input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/first.jsp'" value="返回">
 					</div>
 					<div class="mt40 tc col-md-12 col-sm-12 col-xs-12 p0 red f16 b">
-						推荐使用火狐浏览器（Firefox）、谷歌浏览器（Chrome）以及IE9以上浏览器！
+						推荐使用火狐浏览器（Firefox）、谷歌浏览器（Chrome）<!-- 以及IE9以上浏览器 -->！
 					</div>
 				</div>
 			</div>

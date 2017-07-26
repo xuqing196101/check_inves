@@ -514,7 +514,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     }
 
 	@Override
-	public void immportInner(File file) {
+	public void immportInner(File file, String flag) {
 		  List<SupplierAuditFormBean> list = getSupplierFormBaean(file);
 		  for(SupplierAuditFormBean sb:list){
 			  User user = sb.getUser();
@@ -574,6 +574,10 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 				  }
 			  }
 				
+		  }
+		  //
+		  if("publicity".equals(flag)){
+              synchRecordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.SYNCH_PUBLICITY_SUPPLIER, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.IMPORT_SYNCH_PUBLICITY_SUPPLIER);
 		  }
 		  
 		
@@ -889,5 +893,5 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 		
 	}
 
-	   
+
 }

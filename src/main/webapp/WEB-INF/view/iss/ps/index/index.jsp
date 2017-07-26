@@ -1082,7 +1082,7 @@
             </div>
 
             <div class="ywbl_01 col-xs-6 col-sm-6">
-              <a href="javascript:void(0)" class="nrkgyshgsh">
+              <a href="${pageContext.request.contextPath}/index/indexSupPublicity.html" class="nrkgyshgsh">
                 <i></i>
                 <span>拟入库供应商公示</span>
               </a>
@@ -1096,7 +1096,7 @@
             </div>
 
             <div class="ywbl_01 col-xs-6 col-sm-6">
-              <a href="javascript:void(0)" class="nrkzhjgsh">
+              <a href="${pageContext.request.contextPath}/index/indexExpPublicity.html" class="nrkzhjgsh">
                 <i></i>
                 <span>拟入库专家公示</span>
               </a>

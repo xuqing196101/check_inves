@@ -84,6 +84,8 @@ public class PreMenuController {
       model.addAttribute("menu", "show");
     }else{
       model.addAttribute("menu", "hidden");
+      //权限不通过进入提示页面
+      return "redirect:/qualifyError.jsp";
     }
 		return "ses/bms/menu/list";
 	}

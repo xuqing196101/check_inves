@@ -3,9 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<%@ include file="/WEB-INF/view/common.jsp" %>
+<link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css"> 
+<link href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" rel="stylesheet" >
+	<%-- <%@ include file="/WEB-INF/view/common.jsp" %> --%>
 	<jsp:include page="/index_head.jsp"></jsp:include>
 	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+	<script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>
 	<script type="text/javascript">
 	/* 分页 */
 	$(function() {

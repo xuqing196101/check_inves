@@ -4,6 +4,7 @@
 <html>
 	<head>
     <%@ include file="/WEB-INF/view/front.jsp"%>
+    <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<script type="text/javascript">
 			$(function() {
 				var replyLength = "${replyLength}";
@@ -157,13 +158,12 @@
 						<span class="ml15">回复数：<span class="red">${post.replycount }</span></span>
 					</div>
 				</div>
-
 				<div class="clear margin-top-20 new_content f18">
-					${post.content }
+				${post.content }
 				</div>
 				<div class="extra_file" id="file">
 					<span class="f14 fl">附件：</span>
-					<up:show showId="post_attach_show" delete="false" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" />
+					<u:show showId="post_attach_show" delete="false" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" />
 				</div>
 			</div>
 			<div id="repliesForJudge">

@@ -179,6 +179,61 @@ public class ProjectSupervisionController {
         }
         return "sums/ss/projectSupervision/list";
     }
+    
+    /**
+     * 
+     *〈资源管理中心查看全部采购项目〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param model
+     * @param user
+     * @param project
+     * @param page
+     * @return
+     */
+    @RequestMapping(value="/projectSupervisionByAll",produces = "text/html;charset=UTF-8")
+    public String projectSupervisionByAll(Model model, @CurrentUser User user, Project project, Integer page){
+        if(user != null && StringUtils.isNotBlank(user.getTypeName()) && "4".equals(user.getTypeName())){
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            if (StringUtils.isNotBlank(project.getName())) {
+                map.put("name", project.getName());
+            }
+            if (StringUtils.isNotBlank(project.getProjectNumber())) {
+                map.put("projectNumber", project.getProjectNumber());
+            }
+            if (StringUtils.isNotBlank(project.getStatus())) {
+                map.put("status", project.getStatus());
+            }
+            if (StringUtils.isNotBlank(project.getPurchaseType())) {
+                map.put("purchaseType", project.getPurchaseType());
+            }
+            if (page == null) {
+                page = 1;
+            }
+            PageHelper.startPage(page, Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+            List<Project> list = projectService.selectProjectsByConition(map);
+            for (int i = 0; i < list.size(); i++ ) {
+                Orgnization org = orgnizationService.getOrgByPrimaryKey(list.get(i).getPurchaseDepId());
+                if(org != null && StringUtils.isNotBlank(org.getName())){
+                    list.get(i).setPurchaseDepId(org.getName());
+                }else{
+                    list.get(i).setPurchaseDepId("");
+                }
+                
+                if(StringUtils.isNotBlank(list.get(i).getAppointMan())){
+                    User users = userService.getUserById(list.get(i).getAppointMan());
+                    if(users != null && StringUtils.isNotBlank(users.getRelName())){
+                        list.get(i).setAppointMan(users.getRelName());
+                    }
+                }
+            }
+            model.addAttribute("info", new PageInfo<Project>(list));
+            model.addAttribute("kind", DictionaryDataUtil.find(5));// 获取数据字典数据
+            model.addAttribute("status", DictionaryDataUtil.find(2));// 获取数据字典数据
+            model.addAttribute("project", project);
+        }
+        return "sums/ss/projectSupervision/listByAll";
+    }
 
     /**
      * 〈查看跳转〉 〈详细描述〉

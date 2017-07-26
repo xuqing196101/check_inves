@@ -1,14 +1,27 @@
 package ses.model.ems;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ExpertAuditOpinion {
+public class ExpertAuditOpinion implements Serializable{
+	/**
+	 * ExpertAuditOpinion.java
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String id;
 	private String expertId;
 	private String opinion;
 	private Date updatedAt;
 	private Date createdAt;
-	
+
+	/**第几次审核意见标识 0：第一次(初审) 1：第二次(复审)**/
+	private Integer flagTime;
+	/**审核标识：0：审核不通过 1：审核通过**/
+	private Integer flagAudit;
+	/**是否下载了入库复审表 1：已下载**/
+	private Integer isDownLoadAttch;
+
 	public String getId() {
 		return id;
 	}
@@ -39,6 +52,28 @@ public class ExpertAuditOpinion {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	
-	
+
+	public Integer getFlagTime() {
+		return flagTime;
+	}
+
+	public void setFlagTime(Integer flagTime) {
+		this.flagTime = flagTime;
+	}
+
+	public Integer getFlagAudit() {
+		return flagAudit;
+	}
+
+	public void setFlagAudit(Integer flagAudit) {
+		this.flagAudit = flagAudit;
+	}
+
+    public Integer getIsDownLoadAttch() {
+        return isDownLoadAttch;
+    }
+
+    public void setIsDownLoadAttch(Integer isDownLoadAttch) {
+        this.isDownLoadAttch = isDownLoadAttch;
+    }
 }

@@ -118,6 +118,11 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private Integer netType;
     
+    /**
+     * @Fields errorNum : 用户登录密码错误次数
+     */
+    private Integer errorNum;
+    
     public Integer getNetType() {
 		return netType;
 	}
@@ -331,6 +336,17 @@ public class Expert extends ExpertHistory implements Serializable {
     //步骤（用于区分第一步和其他几步）
     private String step;
     
+    /**审核意见附件**/
+	private String auditOpinionAttach;
+	
+    public String getAuditOpinionAttach() {
+		return auditOpinionAttach;
+	}
+
+	public void setAuditOpinionAttach(String auditOpinionAttach) {
+		this.auditOpinionAttach = auditOpinionAttach;
+	}
+	
     public String getStep() {
 			return step;
 		}
@@ -882,5 +898,13 @@ public class Expert extends ExpertHistory implements Serializable {
 	public void setAuditTemporary(Integer auditTemporary) {
 		this.auditTemporary = auditTemporary;
 	}
+
+  public Integer getErrorNum() {
+    return errorNum;
+  }
+
+  public void setErrorNum(Integer errorNum) {
+    this.errorNum = errorNum;
+  }
     
 }

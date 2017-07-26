@@ -1,13 +1,15 @@
 package ses.service.ems;
 
-import java.util.List;
-
+import common.utils.JdcgResult;
 import org.springframework.http.ResponseEntity;
-
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
+import ses.model.ems.ExpertPublicity;
+
+import java.util.List;
+import java.util.Map;
 /**
  * 
   * <p>Title:ExpertAuditService </p>
@@ -240,4 +242,66 @@ public interface ExpertAuditService {
      * @return void
      */
     boolean temporaryAudit (String expertId);
+    /**
+     * 
+     * Description:修改公示状态
+     * 
+     * @author Easong
+     * @version 2017年6月27日
+     * @param ids
+     * @return
+     */
+    JdcgResult updatePublicityStatus(String[] ids);
+    
+    /**
+     * 
+     * Description:查询公示专家，公示7天后自动入库
+     * 
+     * @author Easong
+     * @version 2017年6月27日
+     */
+    void handlerPublictyExp();
+    
+    /**
+     * 
+     * Description:专家公示列表
+     * 
+     * @author Easong
+     * @version 2017年6月27日
+     * @return
+     */
+    List<ExpertPublicity> selectExpByPublictyList(Map<String, Object> map);
+
+    /**
+     *
+     * Description: 查询选择和未通过的小类
+     *
+     * @author Easong
+     * @version 2017/7/13
+     * @param expertPublicity
+     * @since JDK1.7
+     */
+	ExpertPublicity selectChooseOrNoPassCate(ExpertPublicity expertPublicity);
+	
+	/**
+	 *
+	 * Description: 审核前判断是否有通过项和未通过项--是否符合通过要求
+	 *
+	 * @author Easong
+	 * @version 2017/7/14
+	 * @param 
+	 * @since JDK1.7
+	 */
+	JdcgResult selectAndVertifyAuditItem(String expertId);
+
+	/**
+	 *
+	 * Description: 审核前判断是否有通过项和未通过项--是否符合通过要求
+	 *
+	 * @author Easong
+	 * @version 2017/7/13
+	 * @param [supplierId]
+	 * @since JDK1.7
+	 */
+	JdcgResult selectAuditNoPassItemCount(String expertId);
 }

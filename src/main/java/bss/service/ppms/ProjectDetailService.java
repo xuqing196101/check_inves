@@ -19,6 +19,8 @@ public interface ProjectDetailService {
 	
 	void deleteByPrimaryKey(String id);
 	
+	void deleteByMap(HashMap<String, Object> map);
+	
 	void update(ProjectDetail projectDetail);
 	
 	List<ProjectDetail> listByAll(ProjectDetail projectDetail);

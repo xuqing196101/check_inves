@@ -23,7 +23,8 @@ import common.model.UploadFile;
  * @author: Wang Zhaohua
  * @date: 2016-9-13上午9:45:27
  */
-public class Supplier implements Serializable {
+public class
+Supplier implements Serializable {
 	private static final long serialVersionUID = 8734428260706437179L;
 	
 	//关联报价
@@ -706,6 +707,11 @@ public class Supplier implements Serializable {
     // 新添属性
     private String qrcodeImage;// 供应商二维码图片
     
+    /**
+     * @Fields errorNum : 用户登录密码错误次数
+     */
+    private Integer errorNum;
+    
     public String getQrcodeImage() {
 		return qrcodeImage;
 	}
@@ -796,7 +802,18 @@ public class Supplier implements Serializable {
     //入库查询列表的标记（5）
     private Integer judge;
     
-    public List<ProjectDetail> getPdList() {
+    /**审核意见附件**/
+	private String auditOpinionAttach;
+	
+    public String getAuditOpinionAttach() {
+		return auditOpinionAttach;
+	}
+
+	public void setAuditOpinionAttach(String auditOpinionAttach) {
+		this.auditOpinionAttach = auditOpinionAttach;
+	}
+
+	public List<ProjectDetail> getPdList() {
         return pdList;
     }
 
@@ -1989,6 +2006,13 @@ public class Supplier implements Serializable {
 	public void setAuditTemporary(Integer auditTemporary) {
 		this.auditTemporary = auditTemporary;
 	}
-	
 
+  public Integer getErrorNum() {
+    return errorNum;
+  }
+
+  public void setErrorNum(Integer errorNum) {
+    this.errorNum = errorNum;
+  }
+	
 }

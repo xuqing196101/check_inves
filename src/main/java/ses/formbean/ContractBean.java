@@ -17,6 +17,8 @@ public class ContractBean {
 	private String twoBil;
 	
 	private String threeBil;
+	
+	private String categoryId;// 类别id
 
 	public String getId() {
 		return id;
@@ -81,6 +83,13 @@ public class ContractBean {
 	public void setThreeBil(String threeBil) {
 		this.threeBil = threeBil;
 	}
-	
+
+	public String getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
 	
 }

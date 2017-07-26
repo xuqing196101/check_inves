@@ -469,10 +469,12 @@
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
-							<th class="info" width="15%">供应商名称</th>
+							<th class="info" >供应商名称</th>
 							<!-- <th class="info">用户名</th> -->
 							<th class="info" width="10%">联系人</th>
 							<th class="info" width="10%">手机号</th>
+							<th class="info" width="10%">注册日期</th>
+							<th class="info" width="10%">提交日期</th>
 							<th class="info" width="10%">审核日期</th>
 							<th class="info" width="9%">地区</th>
 							<th class="info" width="13%">供应商类型</th>
@@ -492,12 +494,18 @@
 								<td class="">${list.contactName }</td>
 								<td class="tc">${list.mobile }</td>
 								<td class="tc">
+                  <fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
+                </td>
+                <td class="tc">
+                  <fmt:formatDate value="${list.submitAt }" pattern="yyyy-MM-dd" />
+                </td>
+								<td class="tc">
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
 								<td class="">${list.name }</td>							
 								<td class="">${list.supplierType }</td>
 								<td class="tc">${list.businessNature}</td>
-								<td class="tl">${list.orgName}</td>
+								<td class="tc">${list.orgName}</td>
 								<td class="tc">
 									<%-- <c:if test="${list.status==5 and list.isProvisional == 1 }"><span class="label rounded-2x label-dark">临时</span></c:if> --%>
 									<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>

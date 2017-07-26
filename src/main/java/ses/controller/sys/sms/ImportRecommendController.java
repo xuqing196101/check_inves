@@ -101,10 +101,9 @@ public class ImportRecommendController extends BaseSupplierController {
 	        List<ImportRecommend> irList = importRecommendService.selectByRecommend(ir, page == null ? 1 : page);
 	        request.setAttribute("irList", new PageInfo<>(irList));
 	        request.setAttribute("ir", ir);
-    	}else{
-    		model.addAttribute("error", "权限不足");
+	        return "ses/sms/import_recommend/list";
     	}
-        return "ses/sms/import_recommend/list";
+    	return "redirect:/qualifyError.jsp";
     }
 
     /**

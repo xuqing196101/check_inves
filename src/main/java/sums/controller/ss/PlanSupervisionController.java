@@ -293,7 +293,7 @@ public class PlanSupervisionController {
                     }
                 }
             }
-            if(bool!=true){
+            if(!bool){
                 collectPlan.setUserId(user.getId());
             }
             List<CollectPlan> list = collectPlanService.querySupervision(collectPlan, page==null?1:page);
@@ -310,6 +310,49 @@ public class PlanSupervisionController {
             model.addAttribute("collectPlan", collectPlan);
         }
         return "sums/ss/planSupervision/list";
+    }
+    
+    /**
+     * 
+     *〈资源管理中心查看全部采购计划〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param model
+     * @param user
+     * @param collectPlan
+     * @param page
+     * @return
+     */
+    @RequestMapping(value="/planSupervisionByAll",produces = "text/html;charset=UTF-8")
+    public String planSupervisionByAll(Model model, @CurrentUser User user, CollectPlan collectPlan, Integer page){
+        if(user != null && StringUtils.isNotBlank(user.getTypeName()) && "4".equals(user.getTypeName())){
+            if(collectPlan.getStatus() == null){
+                collectPlan.setSign("0");
+                collectPlan.setStatus(null);
+            }else if(collectPlan.getStatus() == 8){
+                collectPlan.setSign("8");
+                collectPlan.setStatus(null);
+            } else if(collectPlan.getStatus() == 12){
+                collectPlan.setSign("12");
+                collectPlan.setStatus(null);
+            }
+            if("".equals(collectPlan.getFileName())){
+                collectPlan.setFileName(null);
+            }
+            List<CollectPlan> list = collectPlanService.querySupervision(collectPlan, page==null?1:page);
+            for (int i = 0; i < list.size(); i++ ) {
+                try {
+                    User users = userService.getUserById(list.get(i).getUserId());
+                    list.get(i).setUserId(users.getRelName());
+                } catch (Exception e) {
+                    list.get(i).setUserId("");
+                }
+            }
+            PageInfo<CollectPlan> info = new PageInfo<>(list);
+            model.addAttribute("info", info);
+            model.addAttribute("collectPlan", collectPlan);
+        }
+        return "sums/ss/planSupervision/listByAll";
     }
     
     

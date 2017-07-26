@@ -1,17 +1,17 @@
 package synchro.util;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.StringUtils;
-
-import com.alibaba.fastjson.JSON;
-
 import ses.util.PropUtil;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -161,8 +161,7 @@ public class FileUtils {
     public final static String C_FILE_TEMPLATE_DOWNLOAD_FILENAME="_c_file_template_download.dat";
     /***门户模板管理 附件数据导出路径***/
     public final static String C_FILE_TEMPLATE_DOWNLOAD_ATTFILE_FILENAME=PropUtil.getProperty("attfile.file_t_iss_ps_template_download_path.system.path");
-    
-    
+
     /***目录资质关联表录 导出创建数据名称***/
     public final static String C_SYNCH_CATEGORY_QUA="_c_category_qua.dat";
     /***目录资质关联表录 导出路径***/
@@ -172,6 +171,51 @@ public class FileUtils {
     public final static String C_SYNCH_QUALIFICATION="_c_qualification.dat";
     /***产品资质 导出路径***/
     public final static String FILE_SYNCH_QUALIFICATION_PATH=PropUtil.getProperty("file.synch_qualification.system.path");
+
+    /**供应商公示 导出创建数据名称**/
+    public final static String C_SYNCH_PUBLICITY_SUPPLIER_FILENAME = "_c_publicity_supplier.dat";
+    /**导出文件目录**/
+    public final static String C_SYNCH_PUBLICITY_SUPPLIER_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_supplier_publicity_path.system.path");
+
+    /**专家公示 导出创建数据名称**/
+    public final static String C_SYNCH_PUBLICITY_EXPERT_FILENAME = "_c_publicity_expert.dat";
+    /**导出文件目录**/
+    public final static String C_SYNCH_PUBLICITY_EXPERT_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_expert_publicity_path.system.path");
+
+    /** 网上投诉新建数据名称 **/
+    public final static String C_ONLINE_COMPLAINTS_PATH_FILENAME="_c_online_complaints.dat";
+    /** 网上投诉更新数据名称 **/
+    public final static String M_ONLINE_COMPLAINTS_PATH_FILENAME="_m_online_complaints.dat";
+    /** 网上投诉目录 路径 25 **/
+    public final static String ONLINE_COMPLAINTS_PATH = PropUtil.getProperty("file.online_complaints.system.path");
+    
+    /** 供应商黑名单新建数据名称 **/
+    public final static String C_SUPPLIER_BLACKLIST_PATH_FILENAME="_c_supplier_blacklist.dat";
+    /** 供应商黑名单更新数据名称 **/
+    public final static String M_SUPPLIER_BLACKLIST_PATH_FILENAME="_m_supplier_blacklist.dat";
+    /** 供应商黑名单目录 路径 26 **/
+    public final static String SUPPLIER_BLACKLIST_PATH = PropUtil.getProperty("file.supplier_blacklist.system.path");
+    
+    /** 供应商黑名单记录表新建数据名称 **/
+    public final static String C_SUPPLIER_BLACKLIST_LOG_PATH_FILENAME="_c_supplier_blacklist_log.dat";
+    /** 供应商黑名单记录表更新数据名称 **/
+    public final static String M_SUPPLIER_BLACKLIST_LOG_PATH_FILENAME="_m_supplier_blacklist_log.dat";
+    /** 供应商黑名单记录表目录 路径 27 **/
+    public final static String SUPPLIER_BLACKLIST_LOG_PATH = PropUtil.getProperty("file.supplier_blacklist_log.system.path");
+    
+    /** 专家黑名单新建数据名称 **/
+    public final static String C_EXPERT_BLACKLIST_PATH_FILENAME="_c_expert_blacklist.dat";
+    /** 专家黑名单更新数据名称 **/
+    public final static String M_EXPERT_BLACKLIST_PATH_FILENAME="_m_expert_blacklist.dat";
+    /** 专家黑名单目录 路径 28 **/
+    public final static String EXPERT_BLACKLIST_PATH = PropUtil.getProperty("file.expert_blacklist.system.path");
+    
+    /** 专家黑名单记录表新建数据名称 **/
+    public final static String C_EXPERT_BLACKLIST_LOG_PATH_FILENAME="_c_expert_blacklist_log.dat";
+    /** 专家黑名单记录表更新数据名称 **/
+    public final static String M_EXPERT_BLACKLIST_LOG_PATH_FILENAME="_m_expert_blacklist_log.dat";
+    /** 专家黑名单记录表目录 路径 29 **/
+    public final static String EXPERT_BLACKLIST_LOG_PATH = PropUtil.getProperty("file.expert_blacklist_log.system.path");
     
     /**
      * 
@@ -419,12 +463,23 @@ public class FileUtils {
      * @param str 字符串
      */
     public static final void writeFile(final File file , final String str){
+        // 定义高速缓冲流
+        BufferedWriter bw = null;
         try {
-            FileWriter  fw = new FileWriter(file);
-            fw.write(str);
-            fw.close();
+             bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
+             bw.write(str, 0, str.length());
+             // 将缓存中的内容刷进文件中
+             bw.flush();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if(bw != null){
+                try {
+                    bw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
     
@@ -735,6 +790,13 @@ public class FileUtils {
           case 20:  filePath=C_FILE_TEMPLATE_DOWNLOAD_ATTFILE_FILENAME;break;
           case 21:  filePath=FILE_SYNCH_CATEGORY_QUA_PATH;break;
           case 22:  filePath=FILE_SYNCH_QUALIFICATION_PATH;break;
+          case 23:  filePath=C_SYNCH_PUBLICITY_SUPPLIER_FILE_DIRECTORY;break;
+          case 24:  filePath=C_SYNCH_PUBLICITY_EXPERT_FILE_DIRECTORY;break;
+          case 25:  filePath=ONLINE_COMPLAINTS_PATH;break;
+          case 26:  filePath=SUPPLIER_BLACKLIST_PATH;break;
+          case 27:  filePath=SUPPLIER_BLACKLIST_LOG_PATH;break;
+          case 28:  filePath=EXPERT_BLACKLIST_PATH;break;
+          case 29:  filePath=EXPERT_BLACKLIST_LOG_PATH;break;
         }
         return filePath;
     }

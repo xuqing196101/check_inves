@@ -9,22 +9,7 @@
 <title>产品类别及资质合同</title>
 <script	src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude.js"></script>
 <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
-<script type="text/javascript">
-//暂存
-function zhancun(){
-  var supplierId = $("#supplierId").val();
-  $.ajax({
-    url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
-    dataType: "json",
-    data:{supplierId : supplierId},
-    success : function (result) {
-        layer.msg(result, {offset : [ '100px' ]});
-    },error : function(){
-      layer.msg("暂存失败", {offset : [ '100px' ]});
-    }
-  });
-}
-</script>
+<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_items.js"></script>
 </head>
 <body>
 	<!--面包屑导航开始-->
@@ -54,37 +39,30 @@ function zhancun(){
 			</ul>
 		</div>
 	</div>
+	
 	<div class="container container_box">
 		<div class="content ">
 			<div class="col-md-12 tab-v2 job-content">
-				<ul class="flow_step">
-					<li onclick="jump('essential')">
-					<a aria-expanded="false" href="#tab-1">基本信息</a> <i></i></li>
-					<li onclick="jump('financial')">
-					<a aria-expanded="true"	href="#tab-2">财务信息</a> <i></i></li>
-					<li onclick="jump('shareholder')">
-					<a aria-expanded="false" href="#tab-3">股东信息</a> <i></i></li>
-					<li onclick="jump('supplierType')">
-					<a aria-expanded="false">供应商类型</a>
-						<i></i></li>
-					<li onclick="jump('aptitude')" class="active">
-					<a	aria-expanded="false" href="#tab-4">产品类别及资质合同</a> <i></i></li>
-					<li onclick="jump('applicationForm')">
-					<a aria-expanded="false" href="#tab-4">承诺书和申请表</a> <i></i></li>
-					<li onclick="jump('reasonsList')">
-					<a aria-expanded="false" href="#tab-4">审核汇总</a></li>
-				</ul>
-				<div class="tab-content padding-top-20" id="tab_content_div_id">
-					<table class="table table-bordered table-condensed table-hover table-striped m_table_fixed_border" id="tab_content_2">
+				<%@include file="/WEB-INF/view/ses/sms/supplier_audit/common_jump.jsp"%>
+				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow ">
+                    </ul>
+				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_1">
+				<div class="">
+				  <c:if test="${supplierStatus == 0 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+            <button class="btn btn-windows check" type="button" onclick="auditButton('content_1');">审核</button>
+          </c:if>
+        </div>
+					<table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
 						 <thead>
 							<tr>
+							 <th class="w50 info"><input id="content_1checkAll" type="checkbox" onclick="selectAll('content_1')" /></th>
 							  <td class="tc info">序号</td>
 							  <td class="tc info">类别</td>
 							  <td class="tc info">大类</td>
 							  <td class="tc info">中类</td>
 							  <td class="tc info">小类</td>
 							  <td class="tc info">品种名称</td>
-							  <td class="tc info">资质文件</td>
+							  <td class="tc info">专业资质要求</td>
 							  <td class="tc info">销售合同</td>
 							</tr>
 						</thead> 
@@ -92,10 +70,83 @@ function zhancun(){
 						</tbody>
 					</table>
 				</div>
+				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_2">
+				<div class="">
+				  <c:if test="${supplierStatus == 0 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+            <button class="btn btn-windows check" type="button" onclick="auditButton('content_2');">审核</button>
+          </c:if>
+                </div>
+                    <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_2">
+                         <thead>
+                            <tr>
+                              <th class="w50 info"><input id="content_2checkAll" type="checkbox" onclick="selectAll('content_2')" /></th>
+                              <td class="tc info">序号</td>
+                              <td class="tc info">类别</td>
+                              <td class="tc info">大类</td>
+                              <td class="tc info">中类</td>
+                              <td class="tc info">小类</td>
+                              <td class="tc info">品种名称</td>
+                              <td class="tc info">专业资质要求</td>
+                              <td class="tc info">销售合同</td>
+                            </tr>
+                        </thead> 
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_3">
+                <div class="">
+                  <c:if test="${supplierStatus == 0 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+                    <button class="btn btn-windows check" type="button" onclick="auditButton('content_3');">审核</button>
+                  </c:if>
+                </div>
+                    <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_3">
+                         <thead>
+                            <tr>
+                            <th class="w50 info"><input id="content_3checkAll" type="checkbox" onclick="selectAll('content_3')" /></th>
+                              <td class="tc info">序号</td>
+                              <td class="tc info">类别</td>
+                              <td class="tc info">大类</td>
+                              <td class="tc info">中类</td>
+                              <td class="tc info">小类</td>
+                              <td class="tc info">品种名称</td>
+                              <td class="tc info">专业资质要求</td>
+                            </tr>
+                        </thead> 
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_4">
+                 <div class="">
+                   <c:if test="${supplierStatus == 0 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+                     <button class="btn btn-windows check" type="button" onclick="auditButton('content_4');">审核</button>
+                   </c:if>
+                </div>
+                    <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_4">
+                         <thead>
+                            <tr>
+                            <th class="w50 info"><input id="content_4checkAll" type="checkbox" onclick="selectAll('content_4')" /></th>
+                              <td class="tc info">序号</td>
+                              <td class="tc info">类别</td>
+                              <td class="tc info">大类</td>
+                              <td class="tc info">中类</td>
+                              <td class="tc info">小类</td>
+                              <td class="tc info">品种名称</td>
+                              <td class="tc info">专业资质要求</td>
+                              <td class="tc info">销售合同</td>
+                            </tr>
+                        </thead> 
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
 				<div id="pagediv" align="right"></div>
 				<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
-					  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> 
+					  <c:if test="${supplierStatus == 0 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+					    <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+					  </c:if>
 						 <a class="btn" type="button" onclick="nextStep();">下一步</a>
 				</div>
 			</div>
@@ -103,7 +154,9 @@ function zhancun(){
 	</div>
 	<form id="form_id" action="" method="post">
 		<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden"> 
-		<input name="supplierStatus" value="${supplierStatus}" type="hidden">
+		<input name="supplierStatus" id="status" value="${supplierStatus}" type="hidden">
+		<input type="hidden" id="supplierTypes" value="${supplierTypes}">
+		<input type="hidden" name="supplierType" >
 		<input type="hidden" name="sign" value="${sign}">
 	</form>
 </body>
