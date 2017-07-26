@@ -269,7 +269,7 @@ function onCheck(e, treeId, treeNode) {
 		
 		<div class="padding-top-10 clear">
 		  <h2 class="count_flow"><i>2</i>专业信息</h2>
-		  <ul class="ul_list m_ul_list">
+		  <ul class="ul_list">
 			<li class="col-md-3 col-sm-6 col-xs-12 pl15">  
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">学历</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -478,12 +478,14 @@ function onCheck(e, treeId, treeNode) {
 				</div>
 			  </li>
 			  
-			  <li class="col-md-12 col-sm-12 col-xs-12"> 
-			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系地址</span>
-				<div class="col-md-12 col-sm-12 col-xs-12 p0">
-				  <textarea  class="w100p" title="不超过800个字" name="address" >${purchaseInfo.address}</textarea>
-				</div>
-			  </li>
+			  <li class="col-md-3 col-sm-12 col-xs-12"> 
+        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系地址</span>
+        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" name="address" value="${purchaseInfo.address}" type="text"> 
+        <span class="add-on">i</span>
+        <div class="cue">${exist_address}</div>
+        </div>
+      </li>
 			</ul>
 		  </div>
 		  
