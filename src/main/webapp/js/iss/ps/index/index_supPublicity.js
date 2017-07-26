@@ -158,7 +158,7 @@ function getDateOfNDay(data){
     // 审核时间
     var date1 = new Date(data);
     // 7天后的时间定义
-    var date2 = new Date();
+    var date2 = new Date(data);
     date2.setDate(date1.getDate()+7);
     var times = date2.getFullYear()+"-"+(Appendzero(date2.getMonth()+1))+"-"+Appendzero(date2.getDate());
 	return times;

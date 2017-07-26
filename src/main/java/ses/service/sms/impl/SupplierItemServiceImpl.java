@@ -691,8 +691,11 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         Map<String, Object> param = new HashMap<>();
         param.put("supplierId", supplierId);
         param.put("type", type);
-        param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
-        param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+        if("SALES".equals(type)){
+            param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+        }else {
+            param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+        }
         return supplierItemMapper.selectPassItemByCond(param);
     }
     
