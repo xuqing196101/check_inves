@@ -387,7 +387,16 @@ public class PurchaseController extends BaseController{
         }
 		
 		//验证身份证格式
-        if(!purchaseInfo.getIdCard().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")){
+        if(StringUtils.isBlank(purchaseInfo.getIdCard())){
+            model.addAttribute("roleName",roleName);
+            model.addAttribute("exist_idCard", "身份证不能为空");
+            model.addAttribute("mainId",purchaseInfo.getId());
+            model.addAttribute("purchaseInfo", purchaseInfo);
+            model.addAttribute("origin", origin);
+            model.addAttribute("originOrgId", originOrgId);
+            purchaseServiceI.initPurchaser(model,originOrgId);
+            return "ses/oms/purchase/edit";
+        } else if (!purchaseInfo.getIdCard().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")){
             model.addAttribute("roleName",roleName);
             model.addAttribute("exist_idCard", "身份证格式不对");
             model.addAttribute("mainId",purchaseInfo.getId());
@@ -433,7 +442,7 @@ public class PurchaseController extends BaseController{
         }
 		
       //验证邮编格式
-        if(purchaseInfo.getPostCode() != null){
+        /*if(purchaseInfo.getPostCode() != null){
             if(!purchaseInfo.getPostCode().matches("^([1-9]\\d{5}(?!\\d))$")){
                 model.addAttribute("roleName",roleName);
                 model.addAttribute("exist_postCode", "输入正确的邮编格式");
@@ -444,7 +453,7 @@ public class PurchaseController extends BaseController{
                 purchaseServiceI.initPurchaser(model,originOrgId);
                 return "ses/oms/purchase/edit";
             }
-        }
+        }*/
         
         purchaseServiceI.updatePurchase(purchaseInfo);
         
