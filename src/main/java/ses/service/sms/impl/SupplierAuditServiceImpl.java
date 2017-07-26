@@ -72,6 +72,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -1113,13 +1114,25 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		Integer count = supplierItemMapper.selectRegSupCateCount(supplierPublicity.getId());
 		supplierPublicity.setPassCateCount(count);
 
-		// 定义不通过数量总量
+        selectMap.put("supplierId", supplierPublicity.getId());
+        selectMap.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+        // 查询审核不通过的所有
+        List<SupplierAudit> supplierAuditsSales = supplierAuditMapper.selectNoPassItem(selectMap);
+
+        selectMap.clear();
+        selectMap.put("supplierId", supplierPublicity.getId());
+        selectMap.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+        List<SupplierAudit> supplierAuditsProducts = supplierAuditMapper.selectNoPassItem(selectMap);
+
+
+        selectMap.clear();
+        // 定义不通过数量总量
         int totalCountOfNoPass = 0;
 		selectMap.put("supplierId", supplierPublicity.getId());
 		selectMap.put("auditType", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
 		List<SupplierAudit> supplierAudits = supplierAuditMapper.selectBySupIdAndType(selectMap);
         List<String> supplierItem;
-        List<String> supplierItems = new ArrayList<>();
+        //List<String> supplierItems = new ArrayList<>();
 		if(supplierAudits != null && !supplierAudits.isEmpty()){
 			for (SupplierAudit supAudit : supplierAudits){
 				if(StringUtils.isNotEmpty(supAudit.getType())){
@@ -1132,20 +1145,85 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					if(supplierItem != null && !supplierItem.isEmpty()){
 						// 累加
                         totalCountOfNoPass += supplierItem.size();
-                        supplierItems.addAll(supplierItem);
+                        //supplierItems.addAll(supplierItem);
+                        // 如果审核结果里面包含则删除掉此categoryId
+                        if("SALES".equals(supAudit.getType())){
+                            if(supplierAuditsProducts != null && !supplierAuditsProducts.isEmpty()){
+                                Iterator<String> iterator = supplierItem.iterator();
+                                while (iterator.hasNext()){
+                                    String next = iterator.next();
+                                    boolean flag = false;
+                                    for (SupplierAudit supa: supplierAuditsProducts){
+                                        System.out.println(next + "--" + supa.getAuditField());
+                                        if(next.equals(supa.getAuditField())){
+                                            flag = true;
+                                        }
+                                    }
+                                    if(flag){
+                                        iterator.remove();
+                                    }
+                                }
+
+                                selectMap.clear();
+                                // 查询供应商未通过类别数量
+                                selectMap.put("supplierId", supplierPublicity.getId());
+                                //selectMap.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+                                selectMap.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+                                selectMap.put("supplierItems", supplierItem);
+                                Integer noPassCount = supplierAuditMapper.selectRegSupCateCount(selectMap);
+                                totalCountOfNoPass += noPassCount;
+
+
+                            }
+                        }else if("PRODUCT".equals(supAudit.getType())){
+                            if(supplierAuditsSales != null && !supplierAuditsSales.isEmpty()){
+                                Iterator<String> iterator = supplierItem.iterator();
+                                while (iterator.hasNext()){
+                                    String next = iterator.next();
+                                    boolean flag = false;
+                                    for (SupplierAudit supa: supplierAuditsSales){
+                                        System.out.println(next + "--" + supa.getAuditField());
+                                        if(next.equals(supa.getAuditField())){
+                                            flag = true;
+                                        }
+                                    }
+                                    if(flag){
+                                        iterator.remove();
+                                    }
+                                }
+
+                                selectMap.clear();
+                                // 查询供应商未通过类别数量
+                                selectMap.put("supplierId", supplierPublicity.getId());
+                                selectMap.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+                                //selectMap.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+                                selectMap.put("supplierItems", supplierItem);
+                                Integer noPassCount = supplierAuditMapper.selectRegSupCateCount(selectMap);
+                                totalCountOfNoPass += noPassCount;
+                            }
+                        }else{
+                            selectMap.clear();
+                            // 查询供应商未通过类别数量
+                            selectMap.put("supplierId", supplierPublicity.getId());
+                            selectMap.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+                            selectMap.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+                            selectMap.put("supplierItems", supplierItem);
+                            Integer noPassCount = supplierAuditMapper.selectRegSupCateCount2(selectMap);
+                            totalCountOfNoPass += noPassCount;
+                        }
 					}
 				}
 			}
-		}
-        selectMap.clear();
-        // 查询供应商未通过类别数量
-        selectMap.put("supplierId", supplierPublicity.getId());
-        selectMap.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
-        selectMap.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
-        selectMap.put("supplierItems", supplierItems);
-        // 定义不通过数量总量
-        Integer noPassCount = supplierAuditMapper.selectRegSupCateCount(selectMap);
-        totalCountOfNoPass += noPassCount;
+		}else{
+            selectMap.clear();
+            // 查询供应商未通过类别数量
+            selectMap.put("supplierId", supplierPublicity.getId());
+            selectMap.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+            selectMap.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+            //selectMap.put("supplierItems", supplierItems);
+            Integer noPassCount = supplierAuditMapper.selectRegSupCateCount2(selectMap);
+            totalCountOfNoPass += noPassCount;
+        }
 		supplierPublicity.setNoPassCateCount(totalCountOfNoPass);
 		return supplierPublicity;
 	}

@@ -112,6 +112,7 @@ public interface SupplierAuditMapper {
      * @return
      */
     Integer selectRegSupCateCount(Map<String, Object> map);
+    Integer selectRegSupCateCount2(Map<String, Object> map);
     /**
      *
      * Description: 查询基本信息的审核项数量
@@ -134,5 +135,7 @@ public interface SupplierAuditMapper {
     List<SupplierAudit> findByTypeId(SupplierAudit audit);
 
     List<SupplierAudit> selectBySupIdAndType(Map<String, Object> map);
+
+    List<SupplierAudit> selectNoPassItem(Map<String, Object> map);
     
 }
