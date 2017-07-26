@@ -548,7 +548,7 @@ public class UserManageController extends BaseController{
 	 * @exception IOException
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request, @Valid User u, BindingResult result, String roleId, String orgId, Model model) {
+	public String update(HttpServletRequest request, @Valid User u, @CurrentUser User user, BindingResult result, String roleId, String orgId, Model model) {
         
 	    String origin = request.getParameter("origin");
 	    String deptTypeName = request.getParameter("deptTypeName");
@@ -732,6 +732,7 @@ public class UserManageController extends BaseController{
 		if (StringUtils.isNotBlank(origin)){
 		     model.addAttribute("srcOrgId", orgId);
 		     model.addAttribute("typeName", deptTypeName);
+		     model.addAttribute("authType", user.getTypeName());
             return "ses/oms/require_dep/list";
 		} else {
 		    String currpage = request.getParameter("currpage");
