@@ -1154,7 +1154,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
                                     String next = iterator.next();
                                     boolean flag = false;
                                     for (SupplierAudit supa: supplierAuditsProducts){
-                                        System.out.println(next + "--" + supa.getAuditField());
+                                        //System.out.println(next + "--" + supa.getAuditField());
                                         if(next.equals(supa.getAuditField())){
                                             flag = true;
                                         }
@@ -1182,7 +1182,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
                                     String next = iterator.next();
                                     boolean flag = false;
                                     for (SupplierAudit supa: supplierAuditsSales){
-                                        System.out.println(next + "--" + supa.getAuditField());
+                                        //System.out.println(next + "--" + supa.getAuditField());
                                         if(next.equals(supa.getAuditField())){
                                             flag = true;
                                         }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import ses.dao.bms.CategoryMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Category;
@@ -30,6 +31,9 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	
 	@Autowired
 	private CategoryService categoryService;
+
+	@Autowired
+    private CategoryMapper categoryMapper;
 	
 	@Override
 	public void saveSupplierItem(Supplier supplier) {
@@ -104,8 +108,12 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                 item.setCategoryId(cate.getId());
                 item.setCreatedAt(new Date());
                 if(categoryId.equals(cate.getId())){
-                	// 设置末级
-                	item.setNodeLevel(3);
+                    // 设置末级节点
+                    List<Category> treeByPid = categoryMapper.findTreeByPid(categoryId);
+                    if(treeByPid == null || (treeByPid != null && treeByPid.isEmpty())){
+                        // 设置末级
+                        item.setNodeLevel(3);
+                    }
                 }
                 supplierItemMapper.insertSelective(item);
             }
