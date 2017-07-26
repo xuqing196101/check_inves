@@ -2434,7 +2434,7 @@ public class SupplierAuditController extends BaseSupplierController {
                 }else{
                     //供应商物资 专业资质要求上传
                 	//--物资生产/物资销售/服务 	审核字段存储：三级节点ID关联的SupplierItem的ID
-                	cateTree=supplierAuditService.countCategoyrId(cateTree,supplierId);
+                	cateTree=supplierAuditService.countCategoyrId(cateTree,supplierId,supplierType);
                 }
                 //是否有销售合同
                 contractCount=supplierService.contractCountCategoyrId(supplierItem.getId());

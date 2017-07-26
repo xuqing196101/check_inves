@@ -1454,11 +1454,11 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * @param cateTree
 	 * @return
 	 */
-	private SupplierCateTree isCateTree(SupplierCateTree cateTree, String supplierId){
+	private SupplierCateTree isCateTree(SupplierCateTree cateTree, String supplierId,String supplierType){
 		long rut=0,productCount=0,salesCount=0;
 		//专业资质 要求 有可能是末节节点 有可能是其他节点
 		if(StringUtils.isNotBlank(cateTree.getFourthNodeID())){
-			cateTree= pottingDate(cateTree,supplierId,categoryQuaMapper.findList(cateTree.getFourthNodeID()),cateTree.getFourthNodeID());
+			cateTree= pottingDate(cateTree,supplierId,categoryQuaMapper.findList(cateTree.getFourthNodeID()),cateTree.getFourthNodeID(),supplierType);
 			if(cateTree.getIsAptitudeProductPageAudit() >0 || cateTree.getIsAptitudeSalesPageAudit()>0 || cateTree.getFileCount()>0){
 				//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
 				productCount=productCount+cateTree.getIsAptitudeProductPageAudit();
@@ -1469,7 +1469,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		}
 		if(StringUtils.isNotBlank(cateTree.getThirdNodeID())){
 			//如果末节点 为空 或者  查询时空
-			cateTree= pottingDate(cateTree,supplierId,categoryQuaMapper.findList(cateTree.getThirdNodeID()),cateTree.getThirdNodeID());
+			cateTree= pottingDate(cateTree,supplierId,categoryQuaMapper.findList(cateTree.getThirdNodeID()),cateTree.getThirdNodeID(),supplierType);
 			if(cateTree.getIsAptitudeProductPageAudit() >0 || cateTree.getIsAptitudeSalesPageAudit()>0 || cateTree.getFileCount()>0){
 			//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
 			productCount=productCount+cateTree.getIsAptitudeProductPageAudit();
@@ -1479,7 +1479,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			}
 		}
 		if(StringUtils.isNotBlank(cateTree.getSecondNodeID())){
-			cateTree= pottingDate(cateTree,supplierId,categoryQuaMapper.findList(cateTree.getSecondNodeID()),cateTree.getSecondNodeID());
+			cateTree= pottingDate(cateTree,supplierId,categoryQuaMapper.findList(cateTree.getSecondNodeID()),cateTree.getSecondNodeID(),supplierType);
 			if(cateTree.getIsAptitudeProductPageAudit() >0 || cateTree.getIsAptitudeSalesPageAudit()>0 || cateTree.getFileCount()>0){
 			//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
 			productCount=productCount+cateTree.getIsAptitudeProductPageAudit();
@@ -1489,7 +1489,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			}
 		}
 		if(StringUtils.isNotBlank(cateTree.getFirstNodeID()) ){
-			cateTree= pottingDate(cateTree,supplierId,categoryQuaMapper.findList(cateTree.getFirstNodeID()),cateTree.getFirstNodeID());
+			cateTree= pottingDate(cateTree,supplierId,categoryQuaMapper.findList(cateTree.getFirstNodeID()),cateTree.getFirstNodeID(),supplierType);
 			if(cateTree.getIsAptitudeProductPageAudit() >0 || cateTree.getIsAptitudeSalesPageAudit()>0 || cateTree.getFileCount()>0){
 			//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
 			productCount=productCount+cateTree.getIsAptitudeProductPageAudit();
@@ -1518,7 +1518,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * @param categoryId
 	 * @return
 	 */
-	private SupplierCateTree pottingDate(SupplierCateTree cateTree, String supplierId,List<CategoryQua> categoryQuaList,String categoryId){
+	private SupplierCateTree pottingDate(SupplierCateTree cateTree, String supplierId,List<CategoryQua> categoryQuaList,
+			String categoryId,String supplierType){
 		long rut=0,temp=0,productCount=0,salesCount=0;
 		//专业资质 要求 有可能是末节节点 有可能是其他节点
 		//根据第三节目录节点 id(也就是中级目录 id) 品目id查询所要上传的资质文件
@@ -1528,6 +1529,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			Map<String, Object> map=new HashMap<>();
 			map.put("supplierId", supplierId);
 			map.put("categoryId", categoryId);
+			map.put("type", supplierType);
 			//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id
 			List<SupplierItem> itemList=supplierItemService.findByMap(map);
 			if(null != itemList && !itemList.isEmpty()){
@@ -1558,13 +1560,13 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		return cateTree;
 	}
 	@Override
-	public SupplierCateTree countCategoyrId(SupplierCateTree cateTree, String supplierId) {
+	public SupplierCateTree countCategoyrId(SupplierCateTree cateTree, String supplierId,String supplierType) {
 		//根据第三节目录节点 id(也就是中级目录 id) 品目id查询所要上传的资质文件
       /*  if(StringUtils.isEmpty(cateTree.getSecondNodeID())){
           return cateTree;
         }*/
 		
-		isCateTree(cateTree, supplierId);
+		isCateTree(cateTree, supplierId,supplierType);
 		return cateTree;
 	}
 
