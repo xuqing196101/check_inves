@@ -436,8 +436,12 @@
 					FROM T_SES_SMS_SUPPLIER_AUDIT T
 				   WHERE A.CATEGORY_ID = T.AUDIT_FIELD
 					 AND T.SUPPLIER_ID = #{supplierId}
-					 AND (T.AUDIT_TYPE = #{items_sales_page} OR
-						 T.AUDIT_TYPE = #{items_product_page})
+					<if test="items_product_page != null and items_product_page != ''">
+						AND T.AUDIT_TYPE = #{items_product_page}
+					</if>
+					<if test="items_sales_page != null and items_sales_page != ''">
+						AND T.AUDIT_TYPE = #{items_sales_page}
+					</if>
 					 AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
 					 AND T.IS_DELETED = 0)
 			 AND A.SUPPLIER_ID = #{supplierId}
