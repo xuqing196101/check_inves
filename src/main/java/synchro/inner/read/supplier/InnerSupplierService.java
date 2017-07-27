@@ -24,11 +24,12 @@ public interface InnerSupplierService {
     public void importSupplierInfo(final File file);
     
     
-    public void immportInner(final File file);
+    public void immportInner(final File file, String flag);
     
     
     public void importTempSupplier(final File file);
     
     
     public void importBackSupplier(final File file);
+
 }

@@ -1,23 +1,15 @@
 package ses.controller.sys.sms;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import bss.formbean.PurchaseRequiredFormBean;
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.UploadService;
+import common.utils.JdcgResult;
+import common.utils.ListSortUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -26,11 +18,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
 import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -64,6 +56,7 @@ import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierPorjectQua;
+import ses.model.sms.SupplierPublicity;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierSignature;
 import ses.model.sms.SupplierStockholder;
@@ -81,7 +74,6 @@ import ses.service.sms.SupplierAuditNotService;
 import ses.service.sms.SupplierAuditOpinionService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
-import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
@@ -93,20 +85,26 @@ import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
+import ses.util.PropertiesUtil;
 import ses.util.SupplierLevelUtil;
 import ses.util.WordUtil;
-import bss.formbean.PurchaseRequiredFormBean;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.model.UploadFile;
-import common.service.UploadService;
-import common.utils.JdcgResult;
-import common.utils.ListSortUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>Title:SupplierAuditController </p>
@@ -196,9 +194,6 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@Autowired
 	private QualificationService qualificationService; 
-	
-	@Autowired
-	private SupplierCertEngService supplierCertEngService;
 	
 	@Autowired
 	private EngCategoryService engCategoryService;
@@ -416,7 +411,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 
 		//回显未通过字段
-		if(supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5){
+		if(supplier.getStatus() == -3 || supplier.getStatus() == -2 || supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
@@ -496,7 +491,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
@@ -600,7 +595,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("url", url);
 		
 		//回显未通过字段
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
@@ -945,7 +940,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		//回显未通过字段
 		SupplierAudit supplierAudit = new SupplierAudit();
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("mat_pro_page");
 			List < SupplierAudit > reasonsProList = supplierAuditService.selectByPrimaryKey(supplierAudit);
@@ -994,7 +989,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setAuditType("mat_sell_page");
 			List < SupplierAudit > reasonsSellList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			StringBuffer passedSellField = new StringBuffer();
@@ -1128,7 +1123,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setAuditType("mat_eng_page");
 			List < SupplierAudit > reasonsEngList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			StringBuffer passedEngField = new StringBuffer();
@@ -1173,7 +1168,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setAuditType("mat_serve_page");
 			List < SupplierAudit > reasonsServeList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			StringBuffer passedServeField = new StringBuffer();
@@ -1241,17 +1236,6 @@ public class SupplierAuditController extends BaseSupplierController {
 		supplierAudit.setUserId(supplier.getProcurementDepId());
 		supplierAudit.setUserId(user.getId());
 
-		//审核时只要填写理由，就不通过
-		/*		supplier.setId(id);
-				if(status==0){
-					supplier.setStatus(2); //审核不通过
-					supplierAuditService.updateStatus(supplier);
-				}
-				if(status==1){
-					supplier.setStatus(4); //复核不通过
-					supplierAuditService.updateStatus(supplier);
-				}*/
-
 		//唯一检验
 		String auditField = supplierAudit.getAuditField();
 		String auditType = supplierAudit.getAuditType();
@@ -1264,10 +1248,12 @@ public class SupplierAuditController extends BaseSupplierController {
 		supplierAudit.setSupplierId(id);
 		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		boolean same = true;
-		for(int i = 0; i < reasonsList.size(); i++) {
-			if(reasonsList.get(i).getAuditField().equals(auditField) && reasonsList.get(i).getAuditType().equals(auditType) && reasonsList.get(i).getAuditFieldName().equals(auditFieldName) && reasonsList.get(i).getAuditContent().equals(auditContent)) {
-				same = false;
-				break;
+		if(null !=reasonsList && !reasonsList.isEmpty()){
+			for(int i = 0; i < reasonsList.size(); i++) {
+				if(reasonsList.get(i).getAuditField().equals(auditField) && reasonsList.get(i).getAuditType().equals(auditType) && reasonsList.get(i).getAuditFieldName().equals(auditFieldName) && reasonsList.get(i).getAuditContent().equals(auditContent)) {
+					same = false;
+					break;
+				}
 			}
 		}
 		if(same) {
@@ -1278,9 +1264,59 @@ public class SupplierAuditController extends BaseSupplierController {
 				return new JdcgResult(502, "审核失败", null);
 			}
 		} else {
-			/*String msg = "{\"msg\":\"fail\"}";
-			super.writeJson(response, msg);*/
 			return new JdcgResult(503, "已审核", null);
+		}
+	}
+	/**
+	 * 
+	 * Description:批量 插入审核
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-21
+	 * @param supplierAuditList
+	 * @param request
+	 * @param supplier
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("auditReasonsMulti")
+	@ResponseBody
+	public JdcgResult auditReasonsMulti(@RequestBody List<SupplierAudit> supplierAuditList,HttpServletRequest request) throws IOException {
+		User user = (User) request.getSession().getAttribute("loginUser");
+		if(user ==null){
+			return null;
+		}
+		if(null != supplierAuditList && !supplierAuditList.isEmpty()){
+			String suggest=supplierAuditList.get(0).getSuggest().trim();
+			if(suggest.length()>900){
+				return new JdcgResult(504, "审核内容长度过长", null);
+			}
+			SupplierAudit audit=new SupplierAudit();
+			audit.setAuditType(supplierAuditList.get(0).getAuditType());
+			audit.setSupplierId(supplierAuditList.get(0).getSupplierId());
+			List<SupplierAudit> alist=supplierAuditService.findByTypeId(audit);
+			alist.retainAll(supplierAuditList);
+			if(null != alist && !alist.isEmpty()){
+				return new JdcgResult(503, "选择中存在已审核,不可重复审核", null);
+			}else{
+				Supplier supplier=null;
+				for (SupplierAudit audit2 : supplierAuditList) {
+					String id = supplierAuditList.get(0).getSupplierId();
+					supplier = supplierAuditService.supplierById(id);
+					audit2.setStatus(supplier.getStatus());
+					audit2.setCreatedAt(new Date());
+					audit2.setUserId(user.getId());
+				}
+				
+				int i=supplierAuditService.insertAudit(supplierAuditList);
+				if(i>0){
+					return new JdcgResult(500, "审核成功", null);
+				}else{
+					return new JdcgResult(502, "审核失败", null);
+				}
+			}
+		}else{
+			return new JdcgResult(504, "参数错误", null);
 		}
 	}
 
@@ -1293,9 +1329,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("reasonsList")
-	public String reasonsList(HttpServletRequest request, SupplierAudit supplierAudit, Integer supplierStatus, Integer sign) {
+	public String reasonsList(Model model, HttpServletRequest request, SupplierAudit supplierAudit, Integer supplierStatus, Integer sign) {
 		request.setAttribute("sign", sign);
-		
+
 		String supplierId = supplierAudit.getSupplierId();
 		if(supplierId == null) {
 			supplierId = (String) request.getSession().getAttribute("supplierId");
@@ -1310,7 +1346,19 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
-		request.setAttribute("supplierStatus", supplierStatus);
+		if(supplier != null){
+			request.setAttribute("supplierStatus", supplier.getStatus());
+		}
+
+		// 查询最终审核意见
+		SupplierAuditOpinion supplierAuditOpinion;
+		if(sign == 1){
+			// 初审意见
+            supplierAuditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 0);
+        }else {
+			// 复审和复查意见
+			supplierAuditOpinion = supplierAuditOpinionService.selectByExpertId(supplierId);
+		}
 
 		//文件
 		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
@@ -1319,6 +1367,11 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		request.setAttribute("supplierId", supplierId);
 		request.getSession().removeAttribute("supplierId");
+		/*String opinion = "";
+		if(supplierAuditOpinion != null){
+			opinion = supplierAuditOpinion.getOpinion();
+		}*/
+		model.addAttribute("supplierAuditOpinion", supplierAuditOpinion);
 		return "ses/sms/supplier_audit/audit_reasons";
 	}
 
@@ -1341,7 +1394,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("updateStatus")
-	public String updateStatus(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit, String opinion) throws IOException {
+	public String updateStatus(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit, SupplierAuditOpinion supplierAuditOpinion) throws IOException {
 		String supplierId = supplierAudit.getSupplierId();
 		Todos todos = new Todos();
 		/*User user = (User) request.getSession().getAttribute("loginUser");*/
@@ -1352,6 +1405,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		supplier.setAuditor(user.getRelName());
 		//还原审核暂存状态
 		supplier.setAuditTemporary(0);
+		// 设置修改时间
+		supplier.setUpdatedAt(new Date());
 		supplierAuditService.updateStatus(supplier);
 
 		if(supplier.getStatus() != null && supplier.getStatus() == 1){
@@ -1369,12 +1424,13 @@ public class SupplierAuditController extends BaseSupplierController {
 		String supplierName = supplier.getSupplierName();
 		
 		//记录最终意见
-		SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
-		supplierAuditOpinion.setOpinion(opinion);
-		supplierAuditOpinion.setSupplierId(supplierId);
-		supplierAuditOpinion.setCreatedAt(new Date());
-		supplierAuditOpinionService.insertSelective(supplierAuditOpinion);
-		
+		if(supplier != null && supplier.getStatus() != -2){
+			supplierAuditOpinion.setOpinion(supplierAuditOpinion.getOpinion());
+			supplierAuditOpinion.setSupplierId(supplierId);
+			supplierAuditOpinion.setCreatedAt(new Date());
+			supplierAuditOpinionService.insertSelective(supplierAuditOpinion);
+		}
+
 		//记录审核不通过的供应商
 		if(supplier.getStatus() == 3){
 			SupplierAuditNot supplierAuditNot = new SupplierAuditNot();
@@ -1387,7 +1443,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 更新待办(已完成)
 		 */
-		if(supplier.getStatus() != null && supplier.getStatus() == 1 || supplier.getStatus() == 2 || supplier.getStatus() == 3 || supplier.getStatus() == 5 || supplier.getStatus() == 6 || supplier.getStatus() == 7 || supplier.getStatus() == 8) {
+		if(supplier.getStatus() != null && supplier.getStatus() == -3 || supplier.getStatus() == 1 || supplier.getStatus() == 2 || supplier.getStatus() == 3 || supplier.getStatus() == 5 || supplier.getStatus() == 6 || supplier.getStatus() == 7 || supplier.getStatus() == 8) {
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId=" + supplierId);
 		}
 
@@ -1535,6 +1591,20 @@ public class SupplierAuditController extends BaseSupplierController {
 	}
 
 	/**
+	 * 
+	 * Description:公示操作
+	 * 
+	 * @author Easong
+	 * @version 2017年6月26日
+	 * @return
+	 */
+	@RequestMapping("/publicity")
+	@ResponseBody
+	public JdcgResult publicity(String ids[]){
+		return supplierAuditService.updatePublicityStatus(ids);
+	}
+	
+	/**
 	 * @Title: temporaryAudit
 	 * @date 2016-10-28 下午3:29:51  
 	 * @Description: 暂存审核
@@ -1654,7 +1724,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierStatus", supplierStatus);
 		
 		//回显未通过字段
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("download_page");
 			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
@@ -2068,7 +2138,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping(value = "supplierAll")
-	public String supplierAll(@CurrentUser User user, HttpServletRequest request, Supplier supplier, Integer page) {
+	public String supplierAll(@CurrentUser User user, Model model, HttpServletRequest request, Supplier supplier, Integer page) {
 		if(supplier.getSign() == null) {
 			Integer sign = (Integer) request.getSession().getAttribute("signs");
 			supplier.setSign(sign);
@@ -2138,6 +2208,27 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.getSession().getAttribute("sign");
 
 		return "ses/sms/supplier_audit/supplier_all";
+	}
+	
+	/**
+	 * 
+	 * @Title: fileUploadItem
+	 * @Description: 获取文件上传配置
+	 * @author Easong
+	 * @param @param model 设定文件
+	 * @return void 返回类型
+	 * @throws
+	 */
+	public void fileUploadItem(Model model) {
+		// 供应商系统key文件上传key
+		Integer sysKey = Constant.SUPPLIER_SYS_KEY;
+		// 定义文件上传类型
+		DictionaryData dictionaryData = DictionaryDataUtil
+				.get(synchro.util.Constant.SUPPLIER_CHECK_ATTACHMENT);
+		if (dictionaryData != null) {
+			model.addAttribute("typeId", dictionaryData.getId());
+		}
+		model.addAttribute("sysKey", sysKey);
 	}
 
 	/**
@@ -2274,7 +2365,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	}
 	/**
 	 * 
-	 * Description:页面跳转
+	 * Description:页面跳转 产品类别及资质合同
 	 * 
 	 * @author YangHongLiang
 	 * @version 2017-6-23
@@ -2287,11 +2378,24 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("sign", sign);
 		model.addAttribute("supplierStatus", supplierStatus);
+		//封装 目录分类 分别显示相关的数据
+		if(StringUtils.isNotBlank(supplierId)){
+			List<String> supplierTypes=supplierItemService.findSupplierTypeBySupplierId(supplierId);
+			model.addAttribute("supplierTypes", StringUtils.join(supplierTypes,","));
+		}
 		return "ses/sms/supplier_audit/merge_aptitude";
 	}
 	/**
 	 * 
 	 * Description:封装 供应商审核（产品类别及资质合同）数据
+	 * 产品目录：审核字段存储：目录末级节点ID
+	 * 资质文件：--物资生产/物资销售/服务
+     * 审核字段存储：三级节点ID关联的SupplierItem的ID
+     *    --工程
+     * 审核字段存储：末级节点ID关联的SupplierItem的ID
+     * 销售合同：
+     * --物资生产/物资销售/服务
+     * 审核字段存储：末级节点ID关联的SupplierItem的ID_附件typeId
 	 * 
 	 * @author YangHongLiang
 	 * @version 2017-6-23
@@ -2304,40 +2408,60 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("overAptitude")
 	@ResponseBody
-	public JdcgResult overAptitude(Model model, String supplierId, Integer supplierStatus, Integer sign,Integer pageNum){
+	public JdcgResult overAptitude(Model model, String supplierId, String supplierType, Integer supplierStatus, Integer sign, @RequestParam(defaultValue = "1") int pageNum, String flag){
 		List<SupplierCateTree> cateTreeList = new ArrayList<>();
 		// 查询已选中的节点信息
-		List < SupplierItem > listSupplierItems = supplierItemService.findCategoryList(supplierId, null, pageNum == null ? 1 : pageNum);
+		List < SupplierItem > listSupplierItems = null;
+		if(StringUtils.isEmpty(flag)){
+            listSupplierItems = supplierItemService.findCategoryList(supplierId, supplierType, pageNum);
+        }else {
+            listSupplierItems = supplierItemService.selectPassItemByCond(supplierId, supplierType, pageNum);
+        }
 		SupplierCateTree cateTree=null;
-		long fileNumber=0,contractCount=0;
-		for (SupplierItem supplierItem : listSupplierItems) {
-			cateTree=new SupplierCateTree();
-			// 递归获取所有父节点
-			List < Category > parentNodeList = categoryService.getAllParentNode(supplierItem.getCategoryId());
-			// 加入根节点 物资
-			cateTree=categoryService.addNode(parentNodeList);
-			// 工程类等级
-			if("工程".equals(cateTree.getRootNode())) {
-				fileNumber=engCategoryService.countEngCategoyrId(cateTree, supplierId);
-			}else{ 
-				//供应商物资 资质文件上传
-				fileNumber=supplierService.countCategoyrId(cateTree,supplierId);
-			}
-			//是否有销售合同
-			contractCount=supplierService.contractCountCategoyrId(supplierItem.getId());
-			//封装 是否有审核数据
-			cateTree=supplierAuditService.potting(cateTree,supplierId);
-			cateTree.setContractCount(contractCount);
-			cateTree.setFileCount(fileNumber);
-			cateTree.setSupplierItemId(supplierItem.getId());
-			cateTreeList.add(cateTree);
-		}
-		return new JdcgResult(new PageInfo<>(cateTreeList)); 
+		long contractCount=0;
+		if(listSupplierItems != null && !listSupplierItems.isEmpty()){
+            for (SupplierItem supplierItem : listSupplierItems) {
+                cateTree=new SupplierCateTree();
+                // 递归获取所有父节点
+                List < Category > parentNodeList = categoryService.getAllParentNode(supplierItem.getCategoryId());
+                // 加入根节点 物资
+                cateTree=categoryService.addNode(parentNodeList);
+                cateTree.setSupplierItemId(supplierItem.getId());
+                // 工程类等级
+                if("工程".equals(cateTree.getRootNode())) {
+                	//--工程  	审核字段存储：末级节点ID关联的SupplierItem的ID
+                	cateTree=supplierAuditService.countEngCategoyrId(cateTree, supplierId);
+                }else{
+                    //供应商物资 专业资质要求上传
+                	//--物资生产/物资销售/服务 	审核字段存储：三级节点ID关联的SupplierItem的ID
+                	cateTree=supplierAuditService.countCategoyrId(cateTree,supplierId,supplierType);
+                }
+                //是否有销售合同
+                contractCount=supplierService.contractCountCategoyrId(supplierItem.getId());
+                //封装 是否有审核数据
+                cateTree=supplierAuditService.cateTreePotting(cateTree,supplierId);
+                cateTree.setContractCount(contractCount);
+                cateTreeList.add(cateTree);
+            }
+        }
+        PageInfo<SupplierCateTree> pageInfo = new PageInfo<>(cateTreeList);
+        // 设置每页显示的条数
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        Integer pageSize = Integer.parseInt(config.getString("pageSize"));
+		// 设置开始和结束页
+        // 起始索引
+        int start = (pageNum - 1) * pageSize;
+        // 结束索引
+        int end = pageNum * pageSize > cateTreeList.size() ? cateTreeList.size()
+                : pageNum * pageSize;
+        pageInfo.setStartRow(start + 1);
+        pageInfo.setEndRow(end);
+        return new JdcgResult(pageInfo);
 	}
 	/**
 	 * 
-	 * Description:
-	 * 
+	 * Description:销售合同
+	 * 销售合同：--物资生产/物资销售/服务  审核字段存储：目录末级节点ID关联的SupplierItem的ID_附件typeId
 	 * @author YangHongLiang
 	 * @version 2017-6-28
 	 * @param itemId
@@ -2346,62 +2470,19 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return
 	 */
 	@RequestMapping("showContract")
-	public String showContract(String itemId,String supplierId,Model model,String supplierItemId,Integer ids){
+	public String showContract(String itemId,String supplierId,Model model,String supplierItemId,Integer ids,String tablerId){
 		if(StringUtils.isBlank(itemId)){
 			return "ses/sms/supplier_audit/aptitude_contract_item";
 		}
-		//合同
-		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
-		//账单
-		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
-		SupplierCateTree cateTree=new SupplierCateTree();
-		// 递归获取所有父节点
-		List < Category > parentNodeList = categoryService.getAllParentNode(itemId);
-		// 加入根节点 物资
-		cateTree=categoryService.addNode(parentNodeList);
-		SupplierItem item = supplierItemService.selectByPrimaryKey(supplierItemId);
-		String type=item.getSupplierTypeRelateId();
-		String typeName = "";
-		if("PRODUCT".equals(type)) {
-			typeName = "生产";
-		} else if("SALES".equals(type)) {
-			typeName = "销售";
-		}
-		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
-		cateTree.setOneContract(id1);
-		cateTree.setTwoContract(id2);
-		cateTree.setThreeContract(id3);
-		cateTree.setOneBil(id4);
-		cateTree.setTwoBil(id5);
-		cateTree.setThreeBil(id6);
-		cateTree.setRootNode(cateTree.getRootNode() == null ? "" : cateTree.getRootNode());
-		cateTree.setFirstNode(cateTree.getFirstNode() == null ? "" : cateTree.getFirstNode());
-		cateTree.setSecondNode(cateTree.getSecondNode() == null ? "" : cateTree.getSecondNode());
-		cateTree.setThirdNode(cateTree.getThirdNode() == null ? "" : cateTree.getThirdNode());
-		cateTree.setFourthNode(cateTree.getFourthNode() == null ? "" : cateTree.getFourthNode());
-		cateTree.setSupplierItemId(supplierItemId);
-		cateTree.setRootNode(cateTree.getRootNode() + typeName);
-		allTreeList.add(cateTree);
 		
-		//封装 合同 是否有审核 记录数据
-		SupplierAudit audit=new SupplierAudit();
-		audit=new SupplierAudit();
-		audit.setSupplierId(supplierId);
-		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType("contract_page");
-		int count=supplierAuditService.countByPrimaryKey(audit);
-		model.addAttribute("count", count);
+		List<SupplierCateTree> allTreeList=supplierAuditService.showContractData(itemId, supplierId, supplierItemId);
 		model.addAttribute("contract", allTreeList);
 		// 年份
 		List < Integer > years = supplierService.getThressYear();
 		model.addAttribute("years", years);
-		model.addAttribute("supplierTypeId", type);
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("ids", ids-1);
+		model.addAttribute("tablerId", tablerId);
 		// 供应商附件sysKey参数
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		return "ses/sms/supplier_audit/aptitude_contract_item";
@@ -2409,7 +2490,8 @@ public class SupplierAuditController extends BaseSupplierController {
 	/**
 	 * 
 	 * Description:资质 文件查看
-	 * 
+	 * 资质文件：物资生产/物资销售/服务  审核字段存储：目录三级节点ID关联的SupplierItem的ID
+	 * --工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
 	 * @author YangHongLiang
 	 * @version 2017-6-26
 	 * @param itemId
@@ -2417,7 +2499,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return
 	 */
 	@RequestMapping("showQualifications")
-	public String showQualifications(String itemId,String supplierId,Model model,Integer ids){
+	public String showQualifications(String itemId,String supplierId,Model model,Integer ids,String tablerId){
 		Set<QualificationBean> beanList=new HashSet<>();
 		if(StringUtils.isBlank(itemId)){
 			return "ses/sms/supplier_audit/aptitude_material_item";
@@ -2430,16 +2512,17 @@ public class SupplierAuditController extends BaseSupplierController {
 		// 加入根节点 物资
 		SupplierCateTree cateTree=categoryService.addNode(parentNodeList);
 		String type=cateTree.getRootNode();
-		//封装 供应商id
-		cateTree.setItemsId(supplierId);
+		
 		QualificationBean bean=new QualificationBean();
 		List<Qualification> list=new ArrayList<>();
 		Integer sysKey=Constant.SUPPLIER_SYS_KEY;
-		String typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
+		String typeId=null;
 		
 		// categoryQua type:4(工程) 3（销售） 2（生产）1（服务）
 		if("工程".equals(type)){
-			sysKey=common.constant.Constant.SUPPLIER_SYS_KEY;
+			//封装 供应商id
+			cateTree.setSupplierItemId(supplierId);
+			sysKey= Constant.SUPPLIER_SYS_KEY;
 			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_ENG_CERT);
 			List<SupplierCateTree> showProject=supplierAuditService.showProject(cateTree, 4, typeId, sysKey);
 			model.addAttribute("sysKey", sysKey);
@@ -2447,26 +2530,35 @@ public class SupplierAuditController extends BaseSupplierController {
 			model.addAttribute("showProject", showProject);
 			model.addAttribute("supplierId", supplierId);
 			model.addAttribute("ids", ids-1);
+			model.addAttribute("tablerId", tablerId);
 			return "ses/sms/supplier_audit/aptitude_project_item";
 		}else if("服务".equals(type)){
-			bean.setCategoryName(cateTree.getItemsName()+"资质文件");
-			bean.setCategoryId(itemId);
+			//封装 供应商id
+			cateTree.setItemsId(supplierId);
+			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
+			bean.setCategoryName(cateTree.getItemsName()+"专业资质要求");
 			list= supplierAuditService.showQualifications(cateTree, 1,typeId,sysKey);
-			bean.setList(list);
-			beanList.add(bean);
+			if(null!=list && !list.isEmpty()){
+				bean.setCategoryId(list.get(0).getSupplierItemId());
+				bean.setList(list);
+				beanList.add(bean);
+			}
 		}else{
-			bean.setCategoryName(cateTree.getItemsName()+"-生产资质文件");
-			bean.setCategoryId(itemId);
+			//封装 供应商id
+			cateTree.setItemsId(supplierId);
+			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
+			bean.setCategoryName(cateTree.getItemsName()+"-生产专业资质要求");
 			list= supplierAuditService.showQualifications(cateTree, 2,typeId,sysKey);
 			if(null!=list && !list.isEmpty()){
+				bean.setCategoryId(list.get(0).getSupplierItemId());
 				bean.setList(list);
 				beanList.add(bean);
 			}
 			QualificationBean bean2=new QualificationBean();
-			bean2.setCategoryName(cateTree.getItemsName()+"-销售资质文件");
-			bean.setCategoryId(itemId);
+			bean2.setCategoryName(cateTree.getItemsName()+"-销售专业资质要求");
 			list= supplierAuditService.showQualifications(cateTree, 3,typeId,sysKey);
 			if(null!=list && !list.isEmpty()){
+				bean.setCategoryId(list.get(0).getSupplierItemId());
 				bean2.setList(list);
 				beanList.add(bean2);
 			}
@@ -2477,6 +2569,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("beanList", beanList);
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("ids", ids-1);
+		model.addAttribute("tablerId", tablerId);
 		return "ses/sms/supplier_audit/aptitude_material_item";
 	}
 	/**
@@ -2621,7 +2714,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("aptitude_page");
@@ -3113,7 +3206,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
 		
-		if(supplier.getStatus() !=null && (supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5)){
+		if(supplier.getStatus() !=null && (supplier.getStatus() == -3 || supplier.getStatus() == -2 || supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5)){
 			//回显未通过字段
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
@@ -3310,13 +3403,13 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return ResponseEntity<byte[]>
 	 */
 	@RequestMapping("downloadTable")
-	public ResponseEntity < byte[] > downloadTable(String supplierId, HttpServletRequest request, HttpServletResponse response, String tableType) throws Exception {
+	public ResponseEntity < byte[] > downloadTable(String supplierId, HttpServletRequest request, HttpServletResponse response, String tableType, String opinion) throws Exception {
 		//供应商信息
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
 		// 文件存储地址
 		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 		// 文件名称
-		String fileName = createWordMethod(supplier, request, tableType);
+		String fileName = createWordMethod(supplier, request, tableType, opinion);
 		// 下载后的文件名
 		String downFileName = "";
 		if(tableType.equals("1")){
@@ -3325,7 +3418,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(tableType.equals("2")){
 			downFileName = new String("军队供应商实地考察廉政意见函.doc".getBytes("UTF-8"), "iso-8859-1"); 
 		}
-		if("3".equals(tableType)){
+		if("3".equals(tableType) || "0".equals(tableType)){
 			downFileName = new String("军队采购供应商审核表.doc".getBytes("UTF-8"), "iso-8859-1");
 		}
 		if("4".equals(tableType)){
@@ -3346,7 +3439,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @param @throws Exception      
 	 * @return String
 	 */
-	private String createWordMethod(Supplier supplier, HttpServletRequest request, String tableType) throws Exception {
+	private String createWordMethod(Supplier supplier, HttpServletRequest request, String tableType, String opinion) throws Exception {
 		/** 用于组装word页面需要的数据 */
 		Map < String, Object > dataMap = new HashMap < String, Object > ();
 		SupplierSignature supplierSignature = new SupplierSignature();
@@ -3411,7 +3504,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 审核/复核表的数据
 		 */
-		if("3".equals(tableType) || "4".equals(tableType)){
+		if("3".equals(tableType) || "4".equals(tableType) || "0".equals(tableType)){
 			//企业性质
 			String businessNature = businessNature(supplier.getBusinessNature());
 			dataMap.put("businessNature", businessNature);
@@ -3436,23 +3529,29 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			dataMap.put("auditList",auditList);
 			
-			//最终意见
-			SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
-			supplierAuditOpinion.setSupplierId(supplier.getId());
-			SupplierAuditOpinion opinion = supplierAuditOpinionService.selectByPrimaryKey(supplierAuditOpinion);
-			if(opinion !=null){
-				dataMap.put("opinion",opinion.getOpinion() == null ? "" : opinion.getOpinion());
+			if("0".equals(tableType)){
+				//公示的最终意见
+				dataMap.put("opinion",opinion == null ? "无" :opinion);
+			}else if("3".equals(tableType) || "4".equals(tableType)){
+				//最终意见
+				SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
+				supplierAuditOpinion.setSupplierId(supplier.getId());
+				SupplierAuditOpinion auditOpinion = supplierAuditOpinionService.selectByPrimaryKey(supplierAuditOpinion);
+				if(auditOpinion !=null){
+					dataMap.put("opinion",auditOpinion.getOpinion() == null ? "无" : auditOpinion.getOpinion());
+				}else{
+					dataMap.put("opinion","无");
+				}
 			}else{
 				dataMap.put("opinion","无");
 			}
-			
 		}
 		//审核表
-		if("3".equals(tableType)){
+		if("3".equals(tableType) || "0".equals(tableType)){
 			newFileName = WordUtil.createWord(dataMap, "supplierOneAudit.ftl", "supplierOneAudit", request);
 		}
 		//复核表
-		if("4".equals(tableType)){
+		if("4".equals(tableType) || "0".equals(tableType)){
 			newFileName = WordUtil.createWord(dataMap, "supplierTwoAudit.ftl", "supplierTwoAudit", request);
 		}
 		
@@ -3582,13 +3681,233 @@ public class SupplierAuditController extends BaseSupplierController {
 	
 	/**
 	 * @Title: auditOpinion
-	 * @date 2017-6-9 下午3:20:35  
+	 * @date 2017-6-9 下午3:20:35
 	 * @Description:记录审核意见
-	 * @param @param supplierAuditOpinion      
+	 * @param @param supplierAuditOpinion
 	 * @return void
 	 */
 	/*public void auditOpinion(SupplierAuditOpinion supplierAuditOpinion) {
 		supplierAuditOpinion.setCreatedAt(new Date());
 		supplierAuditOpinionService.insertSelective(supplierAuditOpinion);
 	}*/
+	
+	/**
+	 * @Title: updateStatus
+	 * @date 2016-9-20 下午7:32:49  
+	 * @Description: 根据供应商id更新审核状态
+	 * @param @param request
+	 * @param @return      
+	 * @return String
+	 * @throws IOException 
+	 */
+	@RequestMapping("/updateStatusOfPublictity")
+	@ResponseBody
+	public JdcgResult updateStatusOfPublictity(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit, String opinion) throws IOException {
+		String supplierId = supplierAudit.getSupplierId();
+		//更新状态
+		supplier.setId(supplierId);
+		supplier.setAuditDate(new Date());
+		//审核人
+		supplier.setAuditor(user.getRelName());
+		//还原审核暂存状态
+		supplier.setAuditTemporary(0);
+		// 设置修改时间
+		supplier.setUpdatedAt(new Date());
+		supplierAuditService.updateStatus(supplier);
+		return JdcgResult.ok();
+	}
+
+
+	/**
+	 *
+	 * Description:查询选择和未通过的产品类别
+	 *
+	 * @author Easong
+	 * @version 2017/7/12
+	 * @param [supplierPublicity]
+	 * @since JDK1.7
+	 */
+	@RequestMapping("/selectChooseOrNoPassCate")
+	@ResponseBody
+	public SupplierPublicity selectChooseOrNoPassCate(SupplierPublicity supplierPublicity){
+		return supplierAuditService.selectChooseOrNoPassCate(supplierPublicity);
+	}
+
+	@RequestMapping("/uploadApproveFile")
+	public String uploadApproveFile(Model model, String supplierId, String sign){
+	    /**
+	     *
+	     * Description:上传批准审核表
+	     *
+	     * @author Easong
+	     * @version 2017/7/12
+	     * @param [supplier]
+	     * @param [model]
+	     * @since JDK1.7
+	     */
+	    // 查询供应商
+        Supplier supplier = supplierAuditService.supplierById(supplierId);
+	    Integer supplierStatus = null;
+        if(supplier != null){
+            supplierStatus = supplier.getStatus();
+        }
+        model.addAttribute("supplierId", supplierId);
+        model.addAttribute("supplierStatus", supplierStatus);
+	    model.addAttribute("sign", sign);
+	    model.addAttribute("supplier", supplier);
+        // 设置文件上传项
+        fileUploadItem(model);
+	    return "ses/sms/supplier_audit/audit_attach_upload";
+    }
+
+    @RequestMapping("/saveAuditOpinion")
+	@ResponseBody
+	public JdcgResult auditOpinion(SupplierAuditOpinion supplierAuditOpinion, String vertifyFlag) {
+		/**
+		 *
+		 * Description:记录审核意见
+		 *
+		 * @author Easong
+		 * @version 2017/7/12
+		 * @param [supplierAuditOpinion]
+		 * @since JDK1.7
+		 */
+		return supplierAuditOpinionService.insertSelective(supplierAuditOpinion, vertifyFlag);
+	}
+
+
+    @RequestMapping("/updateStatusAjax")
+    @ResponseBody
+    public JdcgResult updateStatusAjax(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit) throws IOException {
+	    /**
+	     *
+	     * Description:修改供应商状态-ajax
+	     *
+	     * @author Easong
+	     * @version 2017/7/13
+	     * @param [user, request, supplier, supplierAudit, supplierAuditOpinion]
+	     * @since JDK1.7
+	     */
+        String supplierId = supplierAudit.getSupplierId();
+        // 审核前判断是否有通过项和未通过项--是否符合通过要求
+		// 查询供应商审核意见  判断点击审核结束按钮是否是审核通过或者审核不通过状态
+        SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 0);
+        // 选择审核通过
+        if(supplierAuditOpinion != null && supplierAuditOpinion.getFlagAduit() != null){
+            if(supplierAuditOpinion.getFlagAduit() == 1){
+                // 审核通过，公示
+                supplier.setStatus(-3);
+            }else if(supplierAuditOpinion.getFlagAduit() == 0){
+                // 审核未通过
+                supplier.setStatus(3);
+            }
+        }else {
+            return JdcgResult.build(500, "审核意见不能为空");
+        }
+
+        //Todos todos = new Todos();
+        //更新状态
+        supplier.setId(supplierId);
+        supplier.setAuditDate(new Date());
+        //审核人
+        supplier.setAuditor(user.getRelName());
+
+        //还原审核暂存状态
+        supplier.setAuditTemporary(0);
+        // 设置修改时间
+        supplier.setUpdatedAt(new Date());
+        supplierAuditService.updateStatus(supplier);
+
+        /*if(supplier.getStatus() != null && supplier.getStatus() == -3){
+            // 供应商分级要素得分
+            supplier.setLevelScoreProduct(SupplierLevelUtil.getScore(supplier.getId(), "PRODUCT"));
+            supplier.setLevelScoreSales(SupplierLevelUtil.getScore(supplier.getId(), "SALES"));
+            supplier.setLevelScoreService(SupplierLevelUtil.getScore(supplier.getId(), "SERVICE"));
+            if(supplier.getProcurementDepId() != null){
+                supplierService.updateSupplierProcurementDep(supplier);
+            }
+        }*/
+
+        //更新待办
+        supplier = supplierAuditService.supplierById(supplierId);
+        //String supplierName = supplier.getSupplierName();
+
+        //记录审核不通过的供应商
+        if(supplier.getStatus() == 3){
+            SupplierAuditNot supplierAuditNot = new SupplierAuditNot();
+            supplierAuditNot.setCreditCode(supplier.getCreditCode());
+            supplierAuditNot.setSupplierId(supplierId);
+            supplierAuditNot.setCreatedAt(new Date());
+            supplierAuditNotService.insertSelective(supplierAuditNot);
+        }
+
+        /**
+         * 更新待办(已完成)
+         */
+        if(supplier.getStatus() != null && supplier.getStatus() == -3 || supplier.getStatus() == 3) {
+            todosService.updateIsFinish("supplierAudit/essential.html?supplierId=" + supplierId);
+        }
+
+        //审核完更新状态
+        List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+        if(reasonsList.size() != 0) {
+            supplierAudit.setStatus(supplier.getStatus());
+            supplierAudit.setSupplierId(supplierId);
+            supplierAuditService.updateStatusById(supplierAudit);
+        }
+        return JdcgResult.ok();
+    }
+
+    @RequestMapping("/isHaveOpinion")
+    @ResponseBody
+    public JdcgResult isHaveOpinion(String supplierId){
+		/**
+		 *
+		 * Description:校验审核意见
+		 *
+		 * @author Easong
+		 * @version 2017/7/18
+		 * @param [supplierId]
+		 * @since JDK1.7
+		 */
+		return JdcgResult.ok(supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 0));
+    }
+
+	@RequestMapping("/vertifyAuditItem")
+	@ResponseBody
+    public JdcgResult vertifyAuditItem(String supplierId){
+    	/**
+    	 * @deprecated: 点击审核通过复选框校验审核通过项
+    	 *
+    	 * @Author:Easong
+    	 * @Date:Created in 2017/7/22
+    	 * @param: [supplierId]
+    	 * @return: common.utils.JdcgResult
+    	 *
+    	 */
+		// 点击通过按钮时判断
+		JdcgResult selectAndVertifyAuditItem = supplierAuditService.selectAndVertifyAuditItem(supplierId);
+		if(selectAndVertifyAuditItem.getStatus() != 200) {
+			//如果有错误信息则直接返回提示操作
+			return selectAndVertifyAuditItem;
+		}
+		return JdcgResult.ok();
+	}
+
+	@RequestMapping("/vertifyAuditNoPassItem")
+	@ResponseBody
+	public JdcgResult vertifyAuditNoPassItem(String supplierId){
+    	/**
+    	 * @deprecated: 点击审核不通过复选框校验审核不通过项
+		 * 是否为0，如果为0则提示没有审核不通过项
+    	 *
+    	 * @Author:Easong
+    	 * @Date:Created in 2017/7/22
+    	 * @param: [supplierId]
+    	 * @return: common.utils.JdcgResult
+    	 *
+    	 */
+		// 点击审核不通过复选框时判断
+		return supplierAuditService.selectAuditNoPassItemCount(supplierId);
+	}
 }

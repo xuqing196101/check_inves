@@ -1,5 +1,7 @@
 package ses.service.ems;
 
+import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import ses.model.ems.Expert;
@@ -147,5 +149,37 @@ public interface ExpertBlackListService {
 	List<ExpertBlackListVO> findExpertBlackList(ExpertBlackList expert,
 			String expertTypeId, int page);
 	
+	/**
+	 * 
+	 * Description: 导出专家黑名单
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年7月17日
+	 * @param 
+	 * @return
+	 */
+	boolean exportExpertBlacklist(String start,String end,Date synchDate);
+	
+	/**
+	 * 
+	 * Description: 导入供应商黑名单信息
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年7月17日
+	 * @param 
+	 * @return
+	 */
+	boolean importExpertBlacklist(File file);
+	
+	/**
+	 * 
+	 * Description: 导入供应商黑名单记录信息
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年7月17日
+	 * @param 
+	 * @return
+	 */
+	boolean importExpertBlacklistLog(File file);
 	
 }

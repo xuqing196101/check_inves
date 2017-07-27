@@ -68,6 +68,7 @@
 				<result column="ORGNAME" property="orgName" />
 				<result column="AUDITOR" property="auditor" />
 				<result column="AUDIT_TEMPORARY" property="auditTemporary" />
+				<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
     </resultMap>
     
     <!-- 统计Analyze关系映射 -->
@@ -76,6 +77,16 @@
 			<result column="COL_VALUE" property="value"/>
 			<result column="COL_ID" property="id"/>
 		</resultMap>
+    
+    <!-- 专家公示 -->
+	  <resultMap id="expertOfPublicityMap" type="ses.model.ems.Expert">
+		  <id column="ID" jdbcType="VARCHAR" property="id" />
+		  <result column="AUDIT_AT" jdbcType="TIMESTAMP" property="auditAt" />
+	  </resultMap>
+    
+    <!-- 专家公示列表查询 -->
+    <resultMap id="expertOfPublicityMapList" type="ses.model.ems.ExpertPublicity" extends="BaseResultMap">
+    </resultMap>
     
     <sql id="Base_Column_List">
         ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
@@ -103,7 +114,8 @@
         IS_REFERENCE_LETTER,
         PROFESSIONAL,
         TIME_PROFESSIONAL,
-        IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE,TEACH_TITLE, EXTRACT_ORGID, AUDITOR
+        IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE,TEACH_TITLE, EXTRACT_ORGID, AUDITOR,
+        AUDIT_OPINION_ATTACH
     </sql>
     <sql id="Column_List">
         e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -844,6 +856,9 @@ resultMap="BaseResultMap">
             <if test="auditTemporary != null">
                 AUDIT_TEMPORARY = #{auditTemporary},
             </if>
+            <if test="auditOpinionAttach != null">
+                AUDIT_OPINION_ATTACH = #{auditOpinionAttach},
+            </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}
     </update>
@@ -1275,7 +1290,7 @@ resultMap="BaseResultMap">
         	<when test="sign == 2">
         		<if test="isOrg !=null and isOrg == 1">
 	            (t1.IS_SUBMIT = '1'
-	            AND (t1.STATUS = '1' OR t1.STATUS = '4' OR t1.STATUS = '5'))
+	            AND (t1.STATUS = '1' OR t1.STATUS = '4' OR t1.STATUS = '5' OR t1.STATUS = '-2' OR t1.STATUS = '-3'))
 	          </if>
 	          <if test="isOrg !=null and isOrg == 0">
 	            t1.PURCHASE_DEP_ID = #{purchaseDepId}
@@ -2471,4 +2486,52 @@ resultMap="BaseResultMap">
     
     </update>
     
+  <!-- 查询公示的专家 -->
+	<select id="selectExpByPublicty" resultMap="expertOfPublicityMap">
+		  SELECT T.ID, T.AUDIT_AT
+       FROM T_SES_EMS_EXPERT T
+       WHERE T.STATUS = '-3'
+       AND T.IS_PROVISIONAL = '0'
+       AND T.IS_DELETE = '0'
+       ORDER BY T.AUDIT_AT DESC NULLS LAST
+	</select>
+	
+	<!-- 查询公示专家列表 -->
+	<select id="selectExpByPublictyList" resultMap="expertOfPublicityMapList" parameterType="ses.model.ems.ExpertPublicity">
+		SELECT T.ID, T.EXPERTS_TYPE_ID, T.REAL_NAME, T.AUDIT_AT, ORG.SHORT_NAME AS ORGNAME
+		  FROM T_SES_EMS_EXPERT T
+		  LEFT JOIN T_SES_OMS_PURCHASE_DEP DEP
+		    ON T.PURCHASE_DEP_ID = DEP.ID
+		  LEFT JOIN T_SES_OMS_ORG ORG
+		    ON ORG.ID = DEP.ORG_ID
+		 WHERE T.STATUS = '-3'
+		   AND T.IS_PROVISIONAL = '0'
+		   AND T.IS_DELETE = '0'
+           <!--专家名称-->
+		   <if test="relName != null and relName != ''">
+		     AND INSTR(T.REAL_NAME,#{relName}) >0
+		   </if>
+           <!--专家类型-->
+           <if test="expertsTypeId != null and expertsTypeId !=''">
+             AND INSTR(T.EXPERTS_TYPE_ID, #{expertsTypeId})>0
+           </if>
+           <!--采购机构ID-->
+           <if test="orgId != null and orgId !=''">
+             AND DEP.ID = #{orgId}
+           </if>
+		 ORDER BY T.AUDIT_AT DESC
+	</select>
+
+    <!-- 查询公示专家导出外网 -->
+    <select id="selectExpByPublictyOfExport" resultMap="BaseResultMap" parameterType="Map">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM T_SES_EMS_EXPERT T
+        WHERE T.STATUS = #{status}
+        AND T.AUDIT_AT &gt;=
+        to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+        AND
+        T.AUDIT_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+    </select>
+
 </mapper>

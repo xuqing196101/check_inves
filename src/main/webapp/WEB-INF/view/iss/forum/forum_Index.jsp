@@ -5,7 +5,7 @@
 <html>
 
 	<head>
-		<%@ include file="/WEB-INF/view/front.jsp"%>
+		<%-- <%@ include file="/WEB-INF/view/front.jsp"%> --%>
 	</head>
 
 	<body>
