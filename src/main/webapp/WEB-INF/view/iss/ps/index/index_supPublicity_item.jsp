@@ -98,6 +98,7 @@
       <input name="supplierStatus" value="${supplierStatus}" type="hidden">
       <input type="hidden" id="supplierTypes" value="${supplierTypes}">
       <input type="hidden" name="supplierType" >
+      <input type="hidden" name="pageNum" id="pageNum" value="1">
       <input type="hidden" name="flag" value="list">
   </form>
   <!--底部代码开始-->
