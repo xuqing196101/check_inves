@@ -135,7 +135,7 @@
 				#{qualificationType},
 			</if>
 			<if test="professType != null">
-				#{professType}
+				#{professType},
 			</if>
 			<if test="nodeLevel != null">
 				#{nodeLevel}
