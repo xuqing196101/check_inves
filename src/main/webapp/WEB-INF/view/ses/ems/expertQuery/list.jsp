@@ -149,11 +149,14 @@
               <th class="info">专家姓名</th>
               <th class="info">身份证号</th>
               <th class="info w50">性别</th>
-              <th class="info">毕业院校及专业</th>
+              <!-- <th class="info">毕业院校及专业</th> -->
+              <th class="info w90">注册日期</th>
+              <th class="info w90">提交日期</th>
+              <th class="info w90">审核日期</th>
               <th class="info">手机</th>
               <th class="info">类别</th>
               <th class="info">采购机构</th>
-              <th class="info w120">审核状态</th>
+              <th class="info">审核状态</th>
               <th class="info">专家类型</th>
             </tr>
           </thead>
@@ -165,7 +168,16 @@
               </td>
               <td class="tc">${e.idCardNumber}</td>
               <td class="tc w50">${e.gender}</td>
-              <td class="tl">${e.graduateSchool }</td>
+              <%-- <td class="tl">${e.graduateSchool }</td> --%>
+              <td class="tc">
+                <fmt:formatDate value="${e.createdAt }" pattern="yyyy-MM-dd" />
+              </td>
+              <td class="tc">
+                <fmt:formatDate value="${e.submitAt }" pattern="yyyy-MM-dd" />
+              </td>
+              <td class="tc">
+                <fmt:formatDate value="${e.auditAt }" pattern="yyyy-MM-dd" />
+              </td>
               <td class="tc">${e.mobile }</td>
               <td class="tl">${e.expertsTypeId}</td>
               <td class="tl">${e.orgName}</td>

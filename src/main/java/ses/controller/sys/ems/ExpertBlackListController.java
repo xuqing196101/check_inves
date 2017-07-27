@@ -195,6 +195,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 			List<ExpertBlackList> expertList = service.findAll(expert,page==null?1:page);
 			request.setAttribute("result", new PageInfo<ExpertBlackList>(expertList));
 			model.addAttribute("expertList", expertList);
+			model.addAttribute("authType", 4);
 	    }else{
 	    	request.setAttribute("result", new PageInfo<ExpertBlackList>());
 			model.addAttribute("expertList", new ArrayList<ExpertBlackList>());

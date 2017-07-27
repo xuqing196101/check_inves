@@ -203,9 +203,12 @@ public class OBSupplierController  {
 		//model.addAttribute("orgTyp", orgTyp);
 		model.addAttribute("supplierName", supplierName);
 		model.addAttribute("smallPointsId", smallPointsId);
-		}
 		model.addAttribute("authType", authType);
+		}
 		return "bss/ob/addSupplier/supplierlist";
+		//返回权限不足提示
+		//return "redirect:/qualifyError.jsp";
+		
 	}
 
 	/**

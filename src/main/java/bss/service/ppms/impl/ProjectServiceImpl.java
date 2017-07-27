@@ -33,11 +33,13 @@ import bss.dao.ppms.FlowDefineMapper;
 import bss.dao.ppms.FlowExecuteMapper;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
+import bss.dao.ppms.TaskMapper;
 import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.Task;
 import bss.service.ppms.ProjectService;
 
 import com.github.pagehelper.PageHelper;
@@ -74,6 +76,9 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Autowired
     private QuoteMapper quoteMapper;
+	
+	@Autowired
+	private TaskMapper taskMapper;
 	
 	
 	
@@ -930,6 +935,20 @@ public class ProjectServiceImpl implements ProjectService {
               purchaseDetail.setProjectStatus(1);
               purchaseDetailMapper.updateByPrimaryKeySelective(purchaseDetail);
             }
+          }
+          
+          List<Integer> groupByStatus = purchaseDetailMapper.groupByStatus(uniqueId);
+          if(groupByStatus != null && groupByStatus.size() == 1){
+              if(groupByStatus.get(0) == 1){
+                  HashMap<String, Object> map = new HashMap<>();
+                  map.put("purchaseId", organization);
+                  map.put("collectId", uniqueId);
+                  List<Task> listBycollect = taskMapper.listBycollect(map);
+                  if(listBycollect != null && listBycollect.size() > 0){
+                      listBycollect.get(0).setNotDetail(1);
+                      taskMapper.updateByPrimaryKeySelective(listBycollect.get(0));
+                  }
+              }
           }
         }
       }

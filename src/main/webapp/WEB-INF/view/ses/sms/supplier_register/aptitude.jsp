@@ -212,7 +212,9 @@
 														</td>
 													<!-- 证书编号 -->	
 														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-															<input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" label="${vs.index}" value="${cate.certCode}" onkeyup="getFileByCode(this, '${vs.index}', '2')">
+															<input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" label="${vs.index}" value="${cate.certCode}" 
+															onfocus="onfocusCertCode(this)"
+															onkeyup="onkeyupCertCode(this, '${vs.index}')">
 														</td>
 													<!-- 专业类别 -->
 														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
@@ -361,9 +363,9 @@
 							url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
 							type: "post",
 							data: $("#item_form").serializeArray(),
-              success: function(msg) {
-                return "0";
-              }
+             				success: function(msg) {
+                				return "0";
+             				 }
 						});
 					}
 				});
@@ -448,6 +450,18 @@
 					}
 				});
 			}
+			
+			function onfocusCertCode(_this){
+				$(_this).attr("oldCode", $(_this).val());
+			}
+			
+			function onkeyupCertCode(_this, index){
+				var newVal = $(_this).val();
+				var oldVal = $(_this).attr("oldCode");
+				if(oldVal != newVal){
+					getFileByCode(_this, index, '2');
+				}
+			}
 
 			// 根据证书编号获取附件信息
 			function getFileByCode(obj, number, flag){
@@ -504,6 +518,7 @@
 					certCode = $(obj).parent().prev().children().val();
 					$(obj).parents("tr").find("td:last").empty();
 					professType=$(obj).val();
+					
 				}
 
 				var typeId = "";
@@ -523,53 +538,54 @@
 			//请求 获取 数据
 			function getDate(obj,typeId,certCode,supplierId,professType,number,flag){
 				//根据类型和证书编号获取等级
-				$.ajax({
-          url : "${pageContext.request.contextPath}/supplier/getLevel.do",
-          type : "post",
-          data : {
-            "typeId" : typeId,
-            "certCode" : certCode,
-            "supplierId" : supplierId,
-            "professType" : professType
-          },
-          dataType: "json",
-          success: function(result){
-            if (result != null && result != "") {
-              if (flag == "1") {
-                $(obj).parent().next().next().find("input[type='text']").val(result.name);
-                $(obj).parent().next().next().find("input[type='hidden']").val(result.id);
-              } else if(flag == "0"){
-                $(obj).parent().find("input[type='text']").val(result.name);
-                $(obj).parent().next().find("input[type='hidden']").val(result.id);
-              }else{
-                $(obj).parent().next().find("input[type='text']").val(result.name);
-                $(obj).parent().next().find("input[type='hidden']").val(result.id);
-              }
-              // 通过append将附件信息追加到指定位置
-              $.ajax({
-                url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
-                type : "post",
-                async : false,
-                dataType : "html",
-                data : {
-                  "typeId" : typeId,
-                  "certCode" : certCode,
-                  "supplierId" : supplierId,
-                  "number" : number,
-                  "professType" : professType
-                },
-                success : function(data) {
-                  if (flag == "1") {
-                    $(obj).parent().next().next().next().next().html(data);
-                  } else {
-                    $(obj).parent().next().next().next().html(data);
-                  }
-                  init_web_upload();
-                }
-              });
-            }
-          }
-      });
+				$.ajax({	
+			          url : "${pageContext.request.contextPath}/supplier/getLevel.do",
+			          type : "post",
+			          data : {
+			            "typeId" : typeId,
+			            "certCode" : certCode,
+			            "supplierId" : supplierId,
+			            "professType" : professType
+			          },
+			          dataType: "json",
+			          async:false,
+			          success: function(result){
+				            if (result != null && result != "") {
+					              if (flag == "1") {
+					                $(obj).parent().next().next().find("input[type='text']").val(result.name);
+					                $(obj).parent().next().next().find("input[type='hidden']").val(result.id);
+					              } else if(flag == "0"){
+					                $(obj).parent().find("input[type='text']").val(result.name);
+					                $(obj).parent().next().find("input[type='hidden']").val(result.id);
+					              }else{
+					                $(obj).parent().next().find("input[type='text']").val(result.name);
+					                $(obj).parent().next().find("input[type='hidden']").val(result.id);
+					              }
+					              // 通过append将附件信息追加到指定位置
+					              $.ajax({
+						                url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
+						                type : "post",
+						                async : false,
+						                dataType : "html",
+						                data : {
+						                  "typeId" : typeId,
+						                  "certCode" : certCode,
+						                  "supplierId" : supplierId,
+						                  "number" : number,
+						                  "professType" : professType
+						                },
+						                success : function(data) {
+							                  if (flag == "1") {
+							                    $(obj).parent().next().next().next().next().html(data);
+							                  } else {
+							                    $(obj).parent().next().next().next().html(data);
+							                  }
+							                  init_web_upload();
+						                }
+					              });
+			           		}
+			          }
+    	  		});
 			}
 			function isAptitue(){
 				var flag=true;

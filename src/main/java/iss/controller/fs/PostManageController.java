@@ -175,7 +175,22 @@ public class PostManageController {
 		if(list.size()>0){
 			model.addAttribute("typeId", list.get(0).getId());
 		}
-		List<Park> parks = parkService.getAll(null);
+		//如果是管理员 就获取所有帖子主题，版主获取自己负责的版块下的帖子
+		User user = (User)request.getSession().getAttribute("loginUser");
+		String userId = user.getId();
+		HashMap<String,Object> roleMap = new HashMap<String,Object>();
+		roleMap.put("userId", userId);
+		roleMap.put("code", "ADMIN_R");
+		BigDecimal i = roleService.checkRolesByUserId(roleMap);
+		BigDecimal j = new BigDecimal(0);
+		Map<String,Object> map = new HashMap<String, Object>();
+		List<Park> parks = null;
+		if(i.equals(j)){	
+			map.put("userId", userId);
+			parks = parkService.selectParkListByUser(map);
+		}else{
+			parks = parkService.getAll(null);
+		}
 		model.addAttribute("parks", parks);
 		return "iss/forum/post/add";
 	}
@@ -212,7 +227,22 @@ public class PostManageController {
 			flag = false;
 		}
 		if(flag == false){
-			List<Park> parks = parkService.getAll(null);
+			//如果是管理员 就获取所有帖子主题，版主获取自己负责的版块下的帖子
+			User user = (User)request.getSession().getAttribute("loginUser");
+			String userId = user.getId();
+			HashMap<String,Object> roleMap = new HashMap<String,Object>();
+			roleMap.put("userId", userId);
+			roleMap.put("code", "ADMIN_R");
+			BigDecimal i = roleService.checkRolesByUserId(roleMap);
+			BigDecimal j = new BigDecimal(0);
+			Map<String,Object> map = new HashMap<String, Object>();
+			List<Park> parks = null;
+			if(i.equals(j)){	
+				map.put("userId", userId);
+				parks = parkService.selectParkListByUser(map);
+			}else{
+				parks = parkService.getAll(null);
+			}
 			model.addAttribute("parks", parks);
 			if(!(parkId.equals(null) ||parkId.equals(""))){
 				Park park = parkService.selectByPrimaryKey(parkId);
@@ -271,7 +301,22 @@ public class PostManageController {
 	public String edit(String id,Model model,HttpServletRequest request){
 		Post p = postService.selectByPrimaryKey(id);
 		model.addAttribute("post", p);
-		List<Park> parks = parkService.getAll(null);
+		//如果是管理员 就获取所有帖子主题，版主获取自己负责的版块下的帖子
+		User user = (User)request.getSession().getAttribute("loginUser");
+		String userId = user.getId();
+		HashMap<String,Object> roleMap = new HashMap<String,Object>();
+		roleMap.put("userId", userId);
+		roleMap.put("code", "ADMIN_R");
+		BigDecimal i = roleService.checkRolesByUserId(roleMap);
+		BigDecimal j = new BigDecimal(0);
+		Map<String,Object> map = new HashMap<String, Object>();
+		List<Park> parks = null;
+		if(i.equals(j)){	
+			map.put("userId", userId);
+			parks = parkService.selectParkListByUser(map);
+		}else{
+			parks = parkService.getAll(null);
+		}
 		model.addAttribute("parks", parks);
 		List<Topic> topics = topicService.selectByParkID(p.getPark().getId());
 		//附件信息
@@ -334,7 +379,22 @@ public class PostManageController {
 				p.setTopic(topic);
 			}
 			model.addAttribute("post", p);
-			List<Park> parks = parkService.getAll(null);
+			//如果是管理员 就获取所有帖子主题，版主获取自己负责的版块下的帖子
+			User user = (User)request.getSession().getAttribute("loginUser");
+			String userId = user.getId();
+			HashMap<String,Object> roleMap = new HashMap<String,Object>();
+			roleMap.put("userId", userId);
+			roleMap.put("code", "ADMIN_R");
+			BigDecimal i = roleService.checkRolesByUserId(roleMap);
+			BigDecimal j = new BigDecimal(0);
+			Map<String,Object> map = new HashMap<String, Object>();
+			List<Park> parks = null;
+			if(i.equals(j)){	
+				map.put("userId", userId);
+				parks = parkService.selectParkListByUser(map);
+			}else{
+				parks = parkService.getAll(null);
+			}
 			model.addAttribute("parks", parks);
 			List<Topic> topics = topicService.selectByParkID(p.getPark().getId());
 			model.addAttribute("topics", topics);
@@ -503,7 +563,7 @@ public class PostManageController {
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("POST_ATTACHMENT");
 		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
-		request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+		model.addAttribute("sysKey", Constant.FORUM_SYS_KEY);
 		if(datas.size()>0){
 			model.addAttribute("typeId", datas.get(0).getId());
 		}
@@ -531,7 +591,7 @@ public class PostManageController {
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("POST_ATTACHMENT");
 		List<DictionaryData> list = dictionaryDataServiceI.find(dd);
-		request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+		model.addAttribute("sysKey", Constant.FORUM_SYS_KEY);
 		if(list.size()>0){
 			model.addAttribute("typeId", list.get(0).getId());
 		}

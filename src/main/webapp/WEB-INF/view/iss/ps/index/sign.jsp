@@ -65,7 +65,11 @@
     						getIdentityCode(0);
     						$("#inputCode").val("");
     						layer.close(index);
-    					} else if (data == "nullcontext") {
+    					} else if (data == "errorNumMax") {
+    						$("#divPrompt").removeClass("hide");
+    						 $("#spanPrompt").text("您密码输入错误5次，账号被锁，请联系管理员解锁");
+    						layer.close(index);
+    					}  else if (data == "nullcontext") {
     						$("#divPrompt").removeClass("hide");
    						    $("#spanPrompt").text("请输入用户名密码或者验证码!");
     					} else if (data == "scuesslogin") {
@@ -118,19 +122,19 @@
     						  $("#spanPrompt").text("请耐心等待复查");
     						layer.close(index); */
     						$.ajax({
-                  url: "${pageContext.request.contextPath}/expert/validateAuditTime.do",
-                  data: {"userId" : data.split(",")[1]},
-                  dataType: "json",
-                  async: false,
-                  success: function(response){
-                	  layer.alert("<span style='margin-left:26px;'> 您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待！</span>"+"<br/> <span style='margin-left:26px;'> 您选择的采购机构是</span>：" +response.purchaseDep.shortName + "；联系人是:" + response.purchaseDep.experContact + ";"+"联系人电话：" +  response.purchaseDep.experPhone + "；联系人地址是：" + response.purchaseDep.experAddress +";邮编："+response.purchaseDep.unitPostCode+ "。");
-                	  layer.close(index);
-                  }
+				                  url: "${pageContext.request.contextPath}/expert/validateAuditTime.do",
+				                  data: {"userId" : data.split(",")[1]},
+				                  dataType: "json",
+				                  async: false,
+				                  success: function(response){
+				                	  layer.alert("<span style='margin-left:26px;'> 您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待！</span>"+"<br/> <span style='margin-left:26px;'> 您选择的采购机构是</span>：" +response.purchaseDep.shortName + "；联系人是:" + response.purchaseDep.experContact + ";"+"联系人电话：" +  response.purchaseDep.experPhone + "；联系人地址是：" + response.purchaseDep.experAddress +";邮编："+response.purchaseDep.unitPostCode+ "。");
+				                	  layer.close(index);
+				                  }
     						});
     						
     					} else if (flag[0] == "auditExp") {
     						
-    				  /* 	layer.confirm('您的个人信息被退回，是否前去完善？', {
+    				 	 /*layer.confirm('您的个人信息被退回，是否前去完善？', {
     							btn : [ '是', '否' ]
     						//按钮
     						}, function() {
