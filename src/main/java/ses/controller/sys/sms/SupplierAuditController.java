@@ -2408,7 +2408,10 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("overAptitude")
 	@ResponseBody
-	public JdcgResult overAptitude(Model model, String supplierId, String supplierType, Integer supplierStatus, Integer sign, @RequestParam(defaultValue = "1") int pageNum, String flag){
+	public JdcgResult overAptitude(Model model, String supplierId, String supplierType, Integer supplierStatus, Integer sign, Integer pageNum, String flag){
+		if(pageNum==null){
+			pageNum=1;
+		}
 		List<SupplierCateTree> cateTreeList = new ArrayList<>();
 		// 查询已选中的节点信息
 		List < SupplierItem > listSupplierItems = null;
@@ -2444,19 +2447,24 @@ public class SupplierAuditController extends BaseSupplierController {
                 cateTreeList.add(cateTree);
             }
         }
-        PageInfo<SupplierCateTree> pageInfo = new PageInfo<>(cateTreeList);
-        // 设置每页显示的条数
-        PropertiesUtil config = new PropertiesUtil("config.properties");
-        Integer pageSize = Integer.parseInt(config.getString("pageSize"));
-		// 设置开始和结束页
-        // 起始索引
-        int start = (pageNum - 1) * pageSize;
-        // 结束索引
-        int end = pageNum * pageSize > cateTreeList.size() ? cateTreeList.size()
-                : pageNum * pageSize;
-        pageInfo.setStartRow(start + 1);
-        pageInfo.setEndRow(end);
-        return new JdcgResult(pageInfo);
+        PageInfo<SupplierItem> pageInfo = new PageInfo<>(listSupplierItems);
+    	PageInfo<SupplierCateTree> listInfo = new PageInfo<>();
+    	listInfo.setEndRow(pageInfo.getEndRow());
+    	listInfo.setNavigatepageNums(pageInfo.getNavigatepageNums());
+    	listInfo.setNavigatePages(pageInfo.getNavigatePages());
+    	listInfo.setNextPage(pageInfo.getNextPage());
+    	listInfo.setOrderBy(pageInfo.getOrderBy());
+    	listInfo.setPageNum(pageInfo.getPageNum());
+    	listInfo.setPageSize(pageInfo.getPageSize());
+    	listInfo.setPrePage(pageInfo.getPrePage());
+    	listInfo.setSize(pageInfo.getSize());
+    	listInfo.setStartRow(pageInfo.getStartRow());
+    	listInfo.setTotal(pageInfo.getTotal());
+    	listInfo.setFirstPage(pageInfo.getFirstPage());
+    	listInfo.setLastPage(pageInfo.getLastPage());
+    	listInfo.setList(cateTreeList);
+    	listInfo.setPages(pageInfo.getPages());
+        return new JdcgResult(listInfo);
 	}
 	/**
 	 * 
