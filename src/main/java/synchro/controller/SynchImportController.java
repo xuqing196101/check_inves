@@ -178,66 +178,6 @@ public class SynchImportController {
                     iter.remove();
                     continue;
                 }
-            /*//内网时
-	        if(ipAddressType.equals("0")){
-	     	   //过滤外网导出  	竞价定型产品导出  只能是内网导出外网
-	     	   if (dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_PRODUCT)){
-	     		  iter.remove();
-	                continue;
-	            } 
-	     	   //竞价供应商导出  只能是内网导出外网
-	     	   if(dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_SUPPLIER)){
-	     		  iter.remove();
-	                continue;
-	            }
-	            if(dd.getCode().equals(Constant.DATA_TYPE_BIDDING_CODE)){
-	            	*//**竞价信息导出  只能是内网导出外网**//*
-	            	iter.remove();
-	                continue;
-	            }
-	            if(dd.getCode().equals(Constant.SYNCH_CATEGORY)){
-	            	*//**产品目录管理 数据导出  只能是内网导出外网**//*
-	             iter.remove();
-	         	   continue;
-	            }
-	            if(dd.getCode().equals(Constant.SYNCH_CATE_PARAMTER)){
-	            	*//**产品目录参数管理 数据导出  只能是内网导出外网**//*
-	            	iter.remove();
-	            	continue;
-	            }
-	            if(dd.getCode().equals(Constant.SYNCH_DATA)){
-	            	*//**资料管理 数据导出  只能是内网导出外网**//*
-	             iter.remove();
-	         	   continue;
-	            }
-	            if(dd.getCode().equals(Constant.SYNCH_TEMPLATE_DOWNLOAD)){
-	            	*//**门户模板管理 数据导出  只能是内网导出外网**//*
-	            	iter.remove();
-	            	continue;
-	            }
-	            if(dd.getCode().equals(Constant.DATA_SYNCH_CATEGORY_QUA)){
-	          	  *//**目录资质关联表  只能是内网导出外网**//*
-	          	  iter.remove();
-	          	  continue;
-	            }
-	            if(dd.getCode().equals(Constant.DATA_SYNCH_QUALIFICATION)){
-	          	  *//**产品资质表  只能是内网导出外网**//*
-	          	  iter.remove();
-	          	  continue;
-	            }
-	        }
-	          //外网时   
-	        if(ipAddressType.equals("1")){
-	            if(dd.getCode().equals(Constant.DATA_TYPE_BIDDING_RESULT_CODE)){
-	            	*//**竞价结果导出  只能是外网导出内网**//*
-	            	iter.remove();
-	                continue;
-	            }
-	          }
-		  }
-	       model.addAttribute("dataTypeList", list);
-        }
-<<<<<<< HEAD*/
                 //内网时
                 if (ipAddressType.equals("0")) {
                     //过滤外网导出  	竞价定型产品导出  只能是内网导出外网
@@ -309,8 +249,6 @@ public class SynchImportController {
 
             model.addAttribute("dataTypeList", list);
         }
-/*=======
->>>>>>> fix_bug*/
         return "/synch/import";
     }
 
@@ -738,16 +676,10 @@ public class SynchImportController {
                             }
                         }
                     }
-					
-					/* *//**目录资质关联表*//*
-					categoryService.importCategoryQua(synchType,f);
-	                *//** 产品资质表*//*
-					qualificationService.importQualification(synchType,f);
-					
-				}
-<<<<<<< HEAD*/
 
-                    // 公示供应商
+                    /**
+                     * 公示供应商
+                     */
                     if (synchType.contains(Constant.SYNCH_PUBLICITY_SUPPLIER)) {
                         for (File file2 : f.listFiles()) {
                             if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)) {
@@ -764,14 +696,15 @@ public class SynchImportController {
                         }
                     }
 
-                    // 公示专家
+                    /**
+                     * 公示专家
+                     */
                     if (synchType.contains(Constant.SYNCH_PUBLICITY_EXPERT)) {
                         for (File file2 : f.listFiles()) {
                             if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME)) {
                                 innerExpertService.importExpOfPublicity(file2);
                             }
                         }
-
                         if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {
                             attachService.importExpertAttach(f);
                         }
