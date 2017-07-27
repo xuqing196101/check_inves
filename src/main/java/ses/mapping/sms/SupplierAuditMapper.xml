@@ -445,4 +445,21 @@
             AND T.IS_DELETED = 0
     </select>
 
+    <!--查询基本信息的审核项数量-->
+    <select id="selectBasicInfoAuditItemSingal" resultMap="BaseResultMap" parameterType="Map">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM T_SES_SMS_SUPPLIER_AUDIT T
+        WHERE T.IS_DELETED = 0
+        <if test="supplierId != null and supplierId != ''">
+            AND T.SUPPLIER_ID = #{supplierId}
+        </if>
+        <if test="auditField != null and auditField != ''">
+            AND T.AUDIT_FIELD = #{auditField}
+        </if>
+        <if test="auditType != null and auditType != ''">
+            AND T.AUDIT_TYPE = #{auditType}
+        </if>
+    </select>
+
 </mapper>

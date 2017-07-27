@@ -426,7 +426,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	
 	@Override
 	public List<SupplierItem> findCategoryList(String supplierId, String type, Integer pageNum) {
-	    if (pageNum != null) {
+	   if (pageNum != null) {
 	        PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSize"));
 	    }
 	    Map<String, Object> param = new HashMap<String, Object>();

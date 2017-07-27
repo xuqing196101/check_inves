@@ -137,5 +137,7 @@ public interface SupplierAuditMapper {
     List<SupplierAudit> selectBySupIdAndType(Map<String, Object> map);
 
     List<SupplierAudit> selectNoPassItem(Map<String, Object> map);
+
+    List<SupplierAudit> selectBasicInfoAuditItemSingal(Map<String, Object> map);
     
 }
