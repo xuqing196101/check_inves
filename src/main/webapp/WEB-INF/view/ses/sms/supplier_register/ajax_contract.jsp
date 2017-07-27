@@ -114,7 +114,7 @@
 			<input type="hidden" name="pageNum" id="pageNum">
 			<input type="hidden" name="supplierId" id="supplierId" value="${supplierId}">
 			<input type="hidden" name="supplierTypeId" id="supplierTypeId" value="${supplierTypeId}">
-			<table class="table table-bordered">
+			<table class="table table-bordered m_table_fixed_border">
 				<tr>
 					<td class="info tc" rowspan="2"><div class="w210">
 							产品名称或小类</div></td>

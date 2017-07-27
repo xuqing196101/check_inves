@@ -39,7 +39,6 @@ public class PurchaseInfo extends User{
 
     private String detailAddr;
 
-    @NotNull(message = "身份证不能为空")  
     private String idCard;
 
     private String professional;//职称
@@ -72,7 +71,7 @@ public class PurchaseInfo extends User{
     private Integer age;
     
     /** 采购人员性别 **/
-    private String gender;
+    //private String gender;
 
     public String getId() {
         return id;
@@ -313,12 +312,12 @@ public class PurchaseInfo extends User{
 		this.age = age;
 	}
 
-	public String getGender() {
+	/*public String getGender() {
 		return gender;
 	}
 
 	public void setGender(String gender) {
 		this.gender = gender;
-	}
+	}*/
 	
 }

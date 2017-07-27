@@ -204,7 +204,7 @@ public class UserManageController extends BaseController{
 	 * @exception IOException
 	 */
 	@RequestMapping("/save")
-	public String save(@Valid User user, BindingResult result, String roleName, String orgName, HttpServletRequest request, Model model) throws Exception {
+	public String save(@Valid User user, @CurrentUser User loginUser, BindingResult result, String roleName, String orgName, HttpServletRequest request, Model model) throws Exception {
   		//校验字段
   		String origin = request.getParameter("origin");
   		String orgId = request.getParameter("org_orgId");
@@ -422,6 +422,7 @@ public class UserManageController extends BaseController{
 		if (StringUtils.isNotBlank(origin)){
 		    model.addAttribute("srcOrgId", orgId);
 		    model.addAttribute("typeName", deptTypeName);
+		    model.addAttribute("authType", loginUser.getTypeName());
 		    return "ses/oms/require_dep/list";
 		} else {
 	        return "redirect:list.html";
@@ -547,7 +548,7 @@ public class UserManageController extends BaseController{
 	 * @exception IOException
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request, @Valid User u, BindingResult result, String roleId, String orgId, Model model) {
+	public String update(HttpServletRequest request, @Valid User u, @CurrentUser User user, BindingResult result, String roleId, String orgId, Model model) {
         
 	    String origin = request.getParameter("origin");
 	    String deptTypeName = request.getParameter("deptTypeName");
@@ -731,6 +732,7 @@ public class UserManageController extends BaseController{
 		if (StringUtils.isNotBlank(origin)){
 		     model.addAttribute("srcOrgId", orgId);
 		     model.addAttribute("typeName", deptTypeName);
+		     model.addAttribute("authType", user.getTypeName());
             return "ses/oms/require_dep/list";
 		} else {
 		    String currpage = request.getParameter("currpage");
