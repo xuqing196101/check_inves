@@ -60,7 +60,7 @@
 <body>
 	<input type="hidden" value="${audit}" id="errorField" >
   <h2 class="f16">已选产品类别</h2>
-  <table class="table table-bordered table-hover">
+  <table class="table table-bordered table-hover m_table_fixed_border">
     <tr>
       <td class="info tc w50">序号</td>
       <td class="info tc w100">类别</td>
