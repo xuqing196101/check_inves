@@ -472,4 +472,33 @@
 			</if>
 	</select>
 
+    <select id="selectCountBySupTypeMore" resultType="java.lang.String" parameterType="Map">
+        SELECT
+        T.CATEGORY_ID
+        FROM T_SES_SMS_SUPPLIER_ITEM T
+        WHERE T.NODE_LEVEL = 3
+        AND T.SUPPLIER_ID = #{supplierId}
+        <if test="product != null and product != ''">
+            AND T.SUPPLIER_TYPE_RELATE_ID = #{product}
+        </if>
+        <if test="sales != null and sales != ''">
+            AND T.SUPPLIER_TYPE_RELATE_ID = #{sales}
+        </if>
+    </select>
+
+
+    <!--查询供应商类型下所有选择的产品类别数量-->
+    <select id="selectCountBySupTypeList" resultMap="BaseResultMap" parameterType="Map">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM T_SES_SMS_SUPPLIER_ITEM T
+        WHERE T.NODE_LEVEL = 3
+        <if test="supplierId != null and supplierId != ''">
+            AND T.SUPPLIER_ID = #{supplierId}
+        </if>
+        <if test="type != null and type != ''">
+            AND T.SUPPLIER_TYPE_RELATE_ID = #{type}
+        </if>
+    </select>
+
 </mapper>
