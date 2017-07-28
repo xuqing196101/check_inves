@@ -310,7 +310,7 @@
                 <input name="flagAduit" value="" id="flagAduit" type="hidden">
                 <input name="vertifyFlag" value="" id="vertifyFlag" type="hidden">
                 <input name="isDownLoadAttch" id="downloadAttachFile" value="${supplierAuditOpinion.isDownLoadAttch}" type="hidden">
-            </form>`
+            </form>
           
           <!-- download check table -->
             <form id="shenhe_form_id" action="" method="post">
