@@ -1206,12 +1206,15 @@ public class ExpertController extends BaseController {
         expertAudit.setExpertId(expertId);
         expertAudit.setSuggestType("six");
         List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);*/
-        for(ExpertAudit audit: auditList) {
-            if(audit.getAuditFieldId().equals(categoryId)) {
-            	
-            	return false;
-            	}
-    	}
+        if(auditList!=null && auditList.size()>0){
+        	for(ExpertAudit audit: auditList) {
+                if(audit.getAuditFieldId().equals(categoryId)) {
+                	
+                	return false;
+                	}
+        	}
+        }
+        
         for (ExpertCategory expertCategory : allCategoryList) {
             if (expertCategory.getCategoryId().equals(categoryId)) {
                    	return true;
