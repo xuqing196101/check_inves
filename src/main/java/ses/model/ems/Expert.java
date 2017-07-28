@@ -336,6 +336,17 @@ public class Expert extends ExpertHistory implements Serializable {
     //步骤（用于区分第一步和其他几步）
     private String step;
     
+    /**审核意见附件**/
+	private String auditOpinionAttach;
+	
+    public String getAuditOpinionAttach() {
+		return auditOpinionAttach;
+	}
+
+	public void setAuditOpinionAttach(String auditOpinionAttach) {
+		this.auditOpinionAttach = auditOpinionAttach;
+	}
+	
     public String getStep() {
 			return step;
 		}

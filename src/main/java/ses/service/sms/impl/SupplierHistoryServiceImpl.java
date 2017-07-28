@@ -271,7 +271,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                     }
                     
                     // 资产总额
-                    if(finances.getTotalAssets().toString() !=null){
+                    if(finances.getTotalAssets() !=null){
                     	historyInfo.setBeforeField("totalAssets");
                         historyInfo.setBeforeContent(finances.getTotalAssets().toString());
                         supplierHistoryMapper.insertSelective(historyInfo);

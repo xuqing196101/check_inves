@@ -1154,4 +1154,24 @@ public class CategoryServiceImpl implements CategoryService {
 	  }
 		return cateTree;
 	}
+
+	@Override
+	public List<Category> getCListById(String id) {
+		return categoryMapper.selectCListById(id);
+	}
+
+	@Override
+	public List<Category> getPListById(String id) {
+		return categoryMapper.selectPListById(id);
+	}
+
+	@Override
+	public List<Category> getCListByCode(String code) {
+		return categoryMapper.selectCListByCode(code);
+	}
+
+	@Override
+	public List<Category> getPListByCode(String code) {
+		return categoryMapper.selectPListByCode(code);
+	}
 }

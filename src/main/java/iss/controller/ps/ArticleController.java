@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +33,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.controller.sys.bms.LoginController;
@@ -46,6 +50,7 @@ import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
+import app.service.IndexAppService;
 import bss.model.ppms.Project;
 import bss.service.ppms.ProjectService;
 
@@ -87,7 +92,15 @@ public class ArticleController extends BaseSupplierController {
   
   @Autowired
   private CategoryService categoryService;
+  
+  //App接口Service注入
+  @Autowired
+  private IndexAppService indexAppService;
 
+  //app公告图片生成所需参数
+  private Article articless;
+  private HttpServletRequest hsrequest;
+  
   private Logger logger = Logger.getLogger(LoginController.class);
 
   /**
@@ -1299,8 +1312,21 @@ public class ArticleController extends BaseSupplierController {
         
         articleService.saveArtCategory(id, categoryIds);
         articleService.update(article);
-        
 
+        //判断为外网发布的公告   生成app公告查看图片
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        if("1".equals(config.getString("ipAddressType"))){
+        	articless = article;
+            hsrequest = request;
+            ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+            cachedThreadPool.submit(new Runnable() {
+    			@Override
+    			public void run() {
+    				indexAppService.getContentImg(articless, hsrequest);
+    			}
+    		});
+        }
+        
         List<Article> list = articleService.selectAllArticle(null, page == null ? 1 : page);
         model.addAttribute("list", new PageInfo<Article>(list));
 

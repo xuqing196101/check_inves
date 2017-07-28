@@ -41,6 +41,22 @@
       <function-signature>java.util.Map getSupplierCreditRecord()</function-signature>
       <example>${my.getSupplierCreditRecord()}</example>
   </function>
+  
+  <!-- 首页供应商拟入库公示 -->
+  <function>
+      <name>getPublicitySupplier</name>
+      <function-class>iss.bean.IssData</function-class>
+      <function-signature>java.util.List getPublicitySupplier()</function-signature>
+      <example>${my.getPublicitySupplier()}</example>
+  </function>
+  
+  <!-- 首页专家拟入库公示 -->
+  <function>
+      <name>getPublicityExpert</name>
+      <function-class>iss.bean.IssData</function-class>
+      <function-signature>java.util.List getPublicityExpert()</function-signature>
+      <example>${my.getPublicityExpert()}</example>
+  </function>
 </taglib> 
 
 

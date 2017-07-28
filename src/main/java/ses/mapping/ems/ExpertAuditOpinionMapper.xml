@@ -7,11 +7,12 @@
     <result column="OPINION"  property="opinion" />
     <result column="CREATED_AT"  property="createdAt" />
     <result column="UPDATED_AT"  property="updatedAt" />
-
-
+    <result column="FLAG_TIME"  property="flagTime" />
+    <result column="FLAG_AUDIT"  property="flagAudit" />
+    <result column="IS_DOWNLOAD_ATTCH"  property="isDownLoadAttch" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, EXPERT_ID, OPINION, CREATED_AT, UPDATED_AT
+    ID, EXPERT_ID, OPINION, CREATED_AT, UPDATED_AT, FLAG_TIME, FLAG_AUDIT, IS_DOWNLOAD_ATTCH
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -21,7 +22,35 @@
     AND CREATED_AT = ( SELECT MAX(CREATED_AT) FROM T_SES_EMS_EXPERT_AUDIT_OPINION )
   </select>
 
-  <insert id="insertSelective" parameterType="ses.model.ems.ExpertAudit">
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExpertAuditOpinion" >
+    update T_SES_EMS_EXPERT_AUDIT_OPINION
+    <set>
+      <if test="expertId != null" >
+        EXPERT_ID = #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="opinion != null" >
+        OPINION = #{opinion,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flagTime != null" >
+        FLAG_TIME = #{flagTime,jdbcType=DECIMAL},
+      </if>
+      <if test="flagAudit != null" >
+        FLAG_AUDIT = #{flagAudit,jdbcType=DECIMAL},
+      </if>
+      <if test="isDownLoadAttch != null" >
+        IS_DOWNLOAD_ATTCH = #{isDownLoadAttch,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="insertSelective" parameterType="ses.model.ems.ExpertAuditOpinion">
     insert into T_SES_EMS_EXPERT_AUDIT_OPINION
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -38,6 +67,15 @@
       </if>
       <if test="updatedAt != null">
         UPDATED_AT,
+      </if>
+      <if test="flagTime != null">
+        FLAG_TIME,
+      </if>
+      <if test="flagAudit != null">
+        FLAG_AUDIT,
+      </if>
+      <if test="isDownLoadAttch != null" >
+        IS_DOWNLOAD_ATTCH,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -56,9 +94,39 @@
       <if test="updatedAt != null">
         #{updatedAt},
       </if>
+      <if test="flagTime != null">
+        #{flagTime},
+      </if>
+      <if test="flagAudit != null">
+        #{flagAudit},
+      </if>
+      <if test="isDownLoadAttch != null" >
+        #{isDownLoadAttch},
+      </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select sys_guid() from dual
-		</selectKey>
+    </selectKey>
   </insert>
+
+  <!-- 根据专家ID查询信息 -->
+  <select id="selectByExpertId" parameterType="ses.model.ems.ExpertAuditOpinion" resultMap="BaseResultMap">
+       SELECT <include refid="Base_Column_List" />
+        FROM (SELECT <include refid="Base_Column_List" />
+          FROM T_SES_EMS_EXPERT_AUDIT_OPINION T
+          WHERE T.EXPERT_ID = #{expertId}
+          <if test="flagTime != null and flagTime !=''">
+            AND T.FLAG_TIME = #{flagTime}
+          </if>
+          ORDER BY CREATED_AT DESC)
+          WHERE ROWNUM = 1
+  </select>
+
+  <!--主键查询-->
+  <select id="findByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM T_SES_EMS_EXPERT_AUDIT_OPINION T
+    WHERE T.ID = #{id,jdbcType=VARCHAR}
+  </select>
 </mapper>

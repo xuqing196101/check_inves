@@ -108,4 +108,15 @@ public interface IndexAppMapper {
      * @return
      */
     String selectPathById(@Param("id") String id);
+    
+    /**
+     * 
+     * Description: App首页查询工作动态
+     * 
+     * @author zhang shubin
+     * @data 2017年7月19日
+     * @param 
+     * @return
+     */
+    Article selectdynamicByArticleTypeId(Map<String, Object> map);
 }

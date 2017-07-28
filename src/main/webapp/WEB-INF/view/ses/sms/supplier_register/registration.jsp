@@ -39,7 +39,7 @@
 				<div class="tab-content margin-bottom-20 margin-top-20 lh24">
 					${doc}
 					<div class="mt40 col-md-12 col-sm-12 col-xs-12 p0">
-					<div class="lh30 font-20" > <span >文件下载：</span></div>
+					<div class="lh30 font-20"> <span >文件下载：</span></div>
 						<div class="font-20 mt10">
 							<span >《${docName }》（第二版）</span><a href="${pageContext.request.contextPath}/browser/supplierDownload.html" class="m_download"></a>
 						</div>

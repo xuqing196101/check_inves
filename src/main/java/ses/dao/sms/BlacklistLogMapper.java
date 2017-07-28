@@ -48,4 +48,26 @@ public interface BlacklistLogMapper {
     int updateByPrimaryKey(BlacklistLog record);
     
     List<BlacklistLog> findBlacklistLogBySupplierId(@Param("supplierId")String supplierId);
+    
+    /**
+     * 
+     * Description: 根据添加时间查询
+     * 
+     * @author zhang shubin
+     * @data 2017年7月18日
+     * @param 
+     * @return
+     */
+    List<BlacklistLog> selectByDate(@Param("start")String start,@Param("end")String end);
+
+    /**
+     * 
+     * Description: 根据id查询数量
+     * 
+     * @author zhang shubin
+     * @data 2017年7月17日
+     * @param 
+     * @return
+     */
+    Integer countById(@Param("id")String id);
 }

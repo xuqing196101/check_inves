@@ -28,8 +28,27 @@ public class Qualification {
     private Date updatedAt;
     /** 唯一标示flag(供应商资质文件维护) **/
     private String flag;
-    
-    public String getId() {
+    //临时存储 supplierItemId
+    private String supplierItemId;
+    //临时存储 审核数量
+    private Integer auditCount;
+    public Integer getAuditCount() {
+		return auditCount;
+	}
+
+	public void setAuditCount(Integer auditCount) {
+		this.auditCount = auditCount;
+	}
+
+	public String getSupplierItemId() {
+		return supplierItemId;
+	}
+
+	public void setSupplierItemId(String supplierItemId) {
+		this.supplierItemId = supplierItemId;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -84,6 +103,5 @@ public class Qualification {
     public void setFlag(String flag) {
         this.flag = flag;
     }
-    
     
 }
