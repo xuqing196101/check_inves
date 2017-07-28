@@ -1132,7 +1132,7 @@ public class ExpertController extends BaseController {
                         //
                         allCategories.add(ct);
                     }
-                    
+                    if(expert.getStatus().equals("3")) {
                         for(CategoryTree treeNode: allCategories) {
                             for(ExpertAudit audit: auditList) {
                                 if(audit.getAuditField().equals(treeNode.getId())) {
@@ -1142,6 +1142,7 @@ public class ExpertController extends BaseController {
                                 }
                             }
                         }
+                    }
                 }
             }
             return JSON.toJSONString(allCategories);
@@ -1174,7 +1175,7 @@ public class ExpertController extends BaseController {
                         allCategories.add(ct);
                     }
                     // 判断专家是否为被退回状态
-                   
+                    if(expert.getStatus().equals("3")) {
                         for(CategoryTree treeNode: allCategories) {
                             for(ExpertAudit audit: auditList) {
                                 if(audit.getAuditField().equals(treeNode.getId())) {
@@ -1184,6 +1185,7 @@ public class ExpertController extends BaseController {
                                 }
                             }
                         }
+                    }
                 }
             }
             return JSON.toJSONString(allCategories);
