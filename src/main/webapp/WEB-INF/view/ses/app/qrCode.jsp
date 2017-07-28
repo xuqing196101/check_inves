@@ -32,7 +32,7 @@
         var form = $("<form>");   
         form.attr('style', 'display:none');   
         form.attr('method', 'post');
-        form.attr('action', url + 'api/v1/download.html?id='+ id +'&key='+key + '&zipFileName=' + encodeURI(encodeURI(zipFileName)) + '&fileName=' + encodeURI(encodeURI(fileName)));
+        form.attr('action', '${pageContext.request.contextPath}/api/v1/download.html?id='+ id +'&key='+key + '&zipFileName=' + encodeURI(encodeURI(zipFileName)) + '&fileName=' + encodeURI(encodeURI(fileName)));
         $('body').append(form); 
         form.submit();
       }

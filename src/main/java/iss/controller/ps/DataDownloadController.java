@@ -392,7 +392,7 @@ public class DataDownloadController {
 	public String publish(@CurrentUser User user,DataDownload dataDownload,Model model,HttpServletRequest request){
 		boolean flag = true;
 		if(dataDownload!=null){
-			if(dataDownload.getName()==null||dataDownload.getName().equals("")){
+			if(dataDownload.getName()==null||dataDownload.getName().trim().equals("")){
 				flag = false;
 				model.addAttribute("ERR_name", "资料名称不能为空");
 			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>200){
@@ -411,6 +411,9 @@ public class DataDownloadController {
 			model.addAttribute("ERR_dataFile", "请上传附件");
 		}
 		if(flag==false){
+			if(dataDownload != null && dataDownload.getName() != null){
+				dataDownload.setName(dataDownload.getName().trim());
+			}
 			model.addAttribute("dataId", id);
 			model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 			DictionaryData dataFile = new DictionaryData();
@@ -423,6 +426,7 @@ public class DataDownloadController {
 		    //model.addAttribute("ipAddressType", ipAddress);
 			return "iss/ps/dataDownload/add";
 		}
+		dataDownload.setName(dataDownload.getName().trim());
 		dataDownload.setCreatedAt(new Date());
 		dataDownload.setPublishAt(new Date());
 		dataDownload.setIsDeleted(0);
