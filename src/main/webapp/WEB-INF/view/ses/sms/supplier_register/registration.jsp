@@ -45,7 +45,7 @@
 						</div>
 						
 						<div class="font-20 mt10">
-							《军队物资工程服务采购产品分类目录》（第三版）<a href="${pageContext.request.contextPath}/browser/categoryDownload.html" class="m_download"></a>
+							《军队物资工程服务采购产品分类目录》（第四版）<a href="${pageContext.request.contextPath}/browser/categoryDownload.html" class="m_download"></a>
 						</div>
 						
 						<div class="font-20 mt10">
