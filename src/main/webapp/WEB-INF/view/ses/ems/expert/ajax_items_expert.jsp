@@ -57,13 +57,13 @@
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
       <tr <c:if test="${fn:contains(errorField,item.itemsId)}">onmouseover="errorMsg('${item.itemsId}')"</c:if>>
-        <td class="tc" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${result.pageSize * (result.pageNum - 1) + vs.index + 1}
+        <td class="tc" <c:if test="${fn:contains(errorField,item.itemsId)}">style="background-color: #bfbfbf;"</c:if>>${result.pageSize * (result.pageNum - 1) + vs.index + 1}
         	<input type="hidden" value="${item.itemsId}" />
         </td>
-		    <td class="tc" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${item.rootNode}</td>
-		    <td class="tl pl20" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${item.firstNode}</td>
-		    <td class="tl pl20" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${item.secondNode}</td>
-		    <td class="tl pl20" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${item.thirdNode}</td>
+		    <td class="tc" <c:if test="${fn:contains(errorField,item.itemsId)}">style="background-color: #bfbfbf"</c:if>>${item.rootNode}</td>
+		    <td class="tl pl20" <c:if test="${fn:contains(errorField,item.itemsId)}">style="background-color: #bfbfbf"</c:if>>${item.firstNode}</td>
+		    <td class="tl pl20" <c:if test="${fn:contains(errorField,item.itemsId)}">style="background-color: #bfbfbf"</c:if>>${item.secondNode}</td>
+		    <td class="tl pl20" <c:if test="${fn:contains(errorField,item.itemsId)}">style="background-color: #bfbfbf"</c:if>>${item.thirdNode}</td>
 		    <%-- <td class="tl pl20" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${item.fourthNode}</td> --%>
       </tr>
     </c:forEach>
