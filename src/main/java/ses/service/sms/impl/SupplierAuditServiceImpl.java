@@ -1236,10 +1236,10 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
                     supplierAudits = supplierAuditMapper.selectBasicInfoAuditItemSingal(selectMap);
                     supplierAuditsTotal.addAll(supplierAudits);
                 }
+				passTotal += sales.size() - supplierAuditsTotal.size();
+				total += sales.size();
+				noTotal += supplierAuditsTotal.size();
             }
-            passTotal += sales.size() - supplierAuditsTotal.size();
-            total += sales.size();
-            noTotal += supplierAuditsTotal.size();
         }
         if(!SERVICE_TEMP.equals("SERVICE")) {
             // 封装查询map集合
@@ -1258,10 +1258,10 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
                     supplierAudits = supplierAuditMapper.selectBasicInfoAuditItemSingal(selectMap);
                     supplierAuditsTotal.addAll(supplierAudits);
                 }
+				passTotal += sales.size() - supplierAuditsTotal.size();
+				total += sales.size();
+				noTotal += supplierAuditsTotal.size();
             }
-            passTotal += sales.size() - supplierAuditsTotal.size();
-            total += sales.size();
-            noTotal += supplierAuditsTotal.size();
         }
 
         if(!PROJECT_TEMP.equals("PROJECT")) {
@@ -1280,10 +1280,10 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
                     supplierAudits = supplierAuditMapper.selectBasicInfoAuditItemSingal(selectMap);
                     supplierAuditsTotal.addAll(supplierAudits);
                 }
+				passTotal += sales.size() - supplierAuditsTotal.size();
+				total += sales.size();
+				noTotal += supplierAuditsTotal.size();
             }
-            passTotal += sales.size() - supplierAuditsTotal.size();
-            total += sales.size();
-            noTotal += supplierAuditsTotal.size();
         }
         // 获取选择的
         supplierPublicity.setPassCateCount(total);
