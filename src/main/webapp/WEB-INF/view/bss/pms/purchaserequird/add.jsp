@@ -1298,6 +1298,14 @@
 	                 });
 				}
 			}
+		    function supplierReadOnly(obj){
+		    	 if($(obj).parent().prev().find("select").val()=="单一来源"){
+		    		 $(obj).removeAttr("readonly");
+		    	 }else{
+		    		 $(obj).val("");
+		    		 $(obj).attr("readonly","readonly");
+		    	 }
+		     }
 		 /*    
 		    function sequen(obj){
 		    	var bool=true;
@@ -1490,7 +1498,7 @@
 													<option value="${sup.supplierName }">${sup.supplierName }</option>
 												</c:forEach>
 											</select> --%>
-										<input type="text" name="list[0].supplier" onblur="checkSupplierName(0)" class="m0 w260 border0"></td>
+										<input type="text" name="list[0].supplier" onblur="checkSupplierName(0)" onmouseover="supplierReadOnly(this)" class="m0 w260 border0"></td>
 										<td><input type="text" name="list[0].isFreeTax" class="freetax"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="goodsuse"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="useunit"></td>
@@ -1561,7 +1569,7 @@
 													<option value="${sup.supplierName }">${sup.supplierName }</option>
 												</c:forEach>
 											</select> --%>
-										<input type="text" name="list[1].supplier" onblur="checkSupplierName(1)" class="m0 w260 border0"></td>
+										<input type="text" name="list[1].supplier" onblur="checkSupplierName(1)" onmouseover="supplierReadOnly(this)" class="m0 w260 border0"></td>
 										<td><input type="text" name="list[1].isFreeTax" class="freetax"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[1].goodsUse" class="goodsuse"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[1].useUnit" class="useunit"></td>

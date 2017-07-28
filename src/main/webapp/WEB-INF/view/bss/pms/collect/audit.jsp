@@ -19,7 +19,7 @@
 
 			function view(obj) {
 
-			   window.location.href="${pageContext.request.contextPath}/look/views.html?id="+obj;
+			   window.location.href="${pageContext.request.contextPath}/look/views.html?id="+obj+"&type=required";
 			}
 
 			function aadd() {

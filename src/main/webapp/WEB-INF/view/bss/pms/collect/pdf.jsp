@@ -299,7 +299,7 @@
 					<td class="tc w50">${d.seq }  </td>
 					<td class="tc w50">
 				
-						<textarea style="width: 650px;height: 100px;border: 0px">
+						<textarea style="width: 650px;height: 100px;border: 0px" readonly="readonly">
 							<c:if test="${d.oneAdvice!=null }">第一轮审核意见是：${d.oneAdvice}  </c:if>
 							<c:if test="${d.twoAdvice!=null }">第二轮审核意见是：${d.twoAdvice}  </c:if>
 							<c:if test="${d.threeAdvice!=null }">第三轮审核意见是：${d.threeAdvice}  </c:if>

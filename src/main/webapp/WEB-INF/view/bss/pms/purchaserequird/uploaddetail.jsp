@@ -55,7 +55,7 @@
 										</td>
 										<td>
 										
-										<input type="text" name="list[${vs.index }].supplier" onblur="checkSupplierName('${vs.index }')" class="m0 w260 border0"   value="${obj.supplier}">
+										<input type="text" name="list[${vs.index }].supplier" onblur="checkSupplierName('${vs.index }')" onmouseover="supplierReadOnly(this)" class="m0 w260 border0"   value="${obj.supplier}">
 										
 											
 										    <%-- <select name="list[${vs.index }].supplier" class="purchasename" onchange="changeType(this)" id="pType[0]">
