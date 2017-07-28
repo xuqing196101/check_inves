@@ -64,7 +64,7 @@
 												</c:forEach>
 											</select> --%>
 										</td>
-										<td><input type="text" name="list[${index }].isFreeTax" class="freetax"></td>
+										<td name="userNone"><input type="text" name="list[${index }].isFreeTax" class="freetax"></td>
 									 	<td name='userNone'><input type="text" name="list[${index }].goodsUse" class="goodsuse"></td>
 										 <td name='userNone' ><input type="text" name="list[${index }].useUnit" class="useunit"></td>
 									     <td><input type="text" name="list[${index }].memo" value="" class="memo" ></td>

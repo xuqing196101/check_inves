@@ -993,7 +993,7 @@
 							<th class="info deliverdate">交货期限</th>
 							<th class="info purchasetype">采购方式</th>
 							<th class="info purchasename">供应商名称</th>
-							<th class="info freetax">是否申请</br>办理免税
+							<th class="info freetax" name="userNone" <c:if test="${list[0].enterPort==0}">style="display:none;"</c:if>>是否申请</br>办理免税
 							</th>
 							
 								<th name="userNone" class="info" <c:if test="${list[0].enterPort==0}">style="display:none;"</c:if>>物资用途</br>（仅进口）
@@ -1111,7 +1111,7 @@
 										<textarea name="list[${vs.index }].supplier"
 											  onmouseover="supplierReadOnly(this)"  class="target purchasename">${obj.supplier}</textarea>
 										<!-- <input type="hidden" name="history" value="" /> --></td>
-									<td><input type="text" name="list[${vs.index }].isFreeTax"
+									<td name="userNone" <c:if test="${list[0].enterPort==0}"> style="display:none;" </c:if>><input type="text" name="list[${vs.index }].isFreeTax"
 										 value="${obj.isFreeTax}"
 										class="freetax"></td>
 									

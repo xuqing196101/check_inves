@@ -1432,7 +1432,7 @@
 										<th class="deliverdate">交货<br/>期限</th>
 										<th class="purchasetype">采购方式</br>建议</th>
 										<th class="purchasename">供应商名称</th>
-										<th class="freetax">是否申请</br>办理免税</th>
+										<th name="userNone" class="freetax">是否申请</br>办理免税</th>
 										<th name="userNone" class="goodsuse">物资用途</br>（仅进口）</th>
 										<th name="userNone" class="useunit">使用单位</br>（仅进口）</th>
 										<th class="memo">备注</th>
@@ -1499,7 +1499,7 @@
 												</c:forEach>
 											</select> --%>
 										<input type="text" name="list[0].supplier" onblur="checkSupplierName(0)" onmouseover="supplierReadOnly(this)" class="m0 w260 border0"></td>
-										<td><input type="text" name="list[0].isFreeTax" class="freetax"></td>
+										<td name="userNone"><input type="text" name="list[0].isFreeTax" class="freetax"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="goodsuse"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="useunit"></td>
 										<td><input type="text" name="list[0].memo" class="memo"></td>
@@ -1570,7 +1570,7 @@
 												</c:forEach>
 											</select> --%>
 										<input type="text" name="list[1].supplier" onblur="checkSupplierName(1)" onmouseover="supplierReadOnly(this)" class="m0 w260 border0"></td>
-										<td><input type="text" name="list[1].isFreeTax" class="freetax"></td>
+										<td name="userNone"><input type="text" name="list[1].isFreeTax" class="freetax"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[1].goodsUse" class="goodsuse"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[1].useUnit" class="useunit"></td>
 										<td><input type="text" name="list[1].memo" class="memo"></td>
