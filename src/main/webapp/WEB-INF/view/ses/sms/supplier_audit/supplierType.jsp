@@ -101,10 +101,12 @@
 					             shift: 6, //动画类型
 					             offset:'100px'
 					          });
+					        }else{
+					        	$("#"+appear+"").css('visibility', 'visible');
 					        }
 					      }
 					    });
-					    $("#"+appear+"").css('visibility', 'visible');
+					    
 			      	layer.close(index);
 			      	}else{
 			      		layer.msg('不能为空！', {offset:'100px'});
@@ -855,12 +857,9 @@
 												<input id="scaleTech" type="text" value="${supplierMatPros.scaleTech }" 
 													<c:if test="${fn:contains(fieldProOne,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech','mat_pro_page');"</c:if> 
 													<c:if test="${fn:contains(passedProField,'scaleTech')}">style="border: 1px solid red;"</c:if>
-													onclick="reasonProduction1(this)" maxlength="10"
-													onkeyup="value=value.replace(/[^\d.]/g,'')"
-													onblur="validatePercentage2(this.value)"
-												/>
+													onclick="reasonProduction1(this)"/>
 												<c:if test="${fn:contains(passedProField,'scaleTech')}">
-													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
 											</div>
 										</li>
@@ -870,10 +869,7 @@
 												<input id="scaleHeightTech" type="text" value="${supplierMatPros.scaleHeightTech }" 
 													<c:if test="${fn:contains(fieldProOne,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech','mat_pro_page');"</c:if> 
 													<c:if test="${fn:contains(passedProField,'scaleHeightTech')}">style="border: 1px solid red;"</c:if>
-													onclick="reasonProduction1(this)" maxlength="10"
-													onkeyup="value=value.replace(/[^\d.]/g,'')"
-													onblur="validatePercentage2(this.value)"
-												/>
+													onclick="reasonProduction1(this)"/>
 												<c:if test="${fn:contains(passedProField,'scaleHeightTech')}">
 													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
@@ -1153,11 +1149,11 @@
 										<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 												<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierConAch)}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,'supplierConAch')}">style="border: 1px solid red;"</c:if>>承包合同主要页及保密协议：</span>
-												<c:if test="${suppliers.status == 0 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
+												<c:if test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
 												  <u:upload singleFileSize="300" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" id="conAch_up" multiple="true" auto="true" maxcount="5"/>
 												</c:if>
 												<c:choose>
-												  <c:when test="${suppliers.status == 0 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
+												  <c:when test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
 												    <u:show showId="conAch_show"  businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}"/>
 												  </c:when>
 												  <c:otherwise>
@@ -1181,11 +1177,11 @@
 										<c:forEach items="${rootArea}" var="area" varStatus="st">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'${area.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,area.name)}">style="border: 1px solid red;"</c:if>>${area.name}：</span>
-													<c:if test="${suppliers.status == 0 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
+													<c:if test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
 													  <u:upload singleFileSize="300" maxcount="5"  id="area_show_${st.index+1}" multiple="true" businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" auto="true" />
 													</c:if>
 													<c:choose>
-													  <c:when test="${suppliers.status == 0 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
+													  <c:when test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
 													    <u:show showId="area_show_${st.index+1}"  businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
 													  </c:when>
 													  <c:otherwise>

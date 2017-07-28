@@ -14,11 +14,10 @@
     ID, SUPPLIER_ID, OPINION, CREATED_AT, FLAG_TIME, FLAG_AUDIT, IS_DOWNLOAD_ATTCH
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from T_SES_SMS_SUPPLIER_OPINION
-    where SUPPLIER_ID = #{supplierId}
-    AND CREATED_AT = ( SELECT MAX(CREATED_AT) FROM T_SES_SMS_SUPPLIER_OPINION )
+    SELECT <include refid="Base_Column_List" />
+    FROM T_SES_SMS_SUPPLIER_OPINION
+    WHERE SUPPLIER_ID = #{supplierId}
+    AND CREATED_AT = ( SELECT MAX(CREATED_AT) FROM T_SES_SMS_SUPPLIER_OPINION  WHERE SUPPLIER_ID = #{supplierId})
   </select>
 
   <insert id="insertSelective" parameterType="ses.model.sms.SupplierAuditOpinion">

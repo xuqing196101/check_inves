@@ -347,8 +347,12 @@ public class OBProductController {
             String supplierName = request.getParameter(OnlineBidding.SUPPLIER_NAME) == null ? "" : request.getParameter(OnlineBidding.SUPPLIER_NAME);
             Integer status = request.getParameter(OnlineBidding.STATUS) == null ? 0 : Integer.parseInt(request.getParameter(OnlineBidding.STATUS));
             String smallPointsId = request.getParameter(OnlineBidding.SMALL_POINTS_ID) == null ? "" : request.getParameter(OnlineBidding.SMALL_POINTS_ID);
+            String orgId = null;
+            if(user.getOrg() != null){
+            	orgId = user.getOrg().getId();
+            }
             List<OBSupplier> list = oBSupplierService.selectByProductId(null, page,
-                    status,supplierName,null,smallPointsId,user.getOrg().getId());
+                    status,supplierName,null,smallPointsId,orgId);
             if(list != null){
                 for (OBSupplier obSupplier : list) {
                     String id = obSupplier.getSmallPointsId();
