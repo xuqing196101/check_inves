@@ -105,7 +105,7 @@ function loadData(data,index,pageNum,pageSize){
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title=\"+data.supplierName+\">"+data.supplierName+"</span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+data.supplierTypeNames+">"+data.supplierTypeNames+"</span>"
 		     + "  <span class='col-md-1 col-xs-1 col-sm-1'>"+data.businessNature+"</span>"
-		     + "  <span class='col-md-1 col-xs-1 col-sm-1'>"+data.orgName+"</span>"
+		     + "  <span class='col-md-1 col-xs-1 col-sm-1' title="+data.orgName+">"+data.orgName+"</span>"
              + "  <span class='col-md-4 col-xs-4 col-sm-4' title='同意入库，选择了"+data.passCateCount+"个产品类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个产品类别。"+data.auditOpinion+"'>"
 		     + "  <a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">同意入库，选择了"+data.passCateCount+"个产品类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个产品类别。"+data.auditOpinion+"</a></span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2 text-right'>"+timestampToDate('yyyy-MM-dd', data.auditDate)+"至"+ getDateOfNDay(data.auditDate) +"</span>"
