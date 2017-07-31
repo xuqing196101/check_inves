@@ -68,11 +68,11 @@ import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -1088,7 +1088,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					sb.delete(0, sb.toString().length());
 				}
 				// 查询选择和未通过的产品类别
-				selectChooseOrNoPassCateOfDB(supplierPublicity);
+				//selectChooseOrNoPassCateOfDB(supplierPublicity);
 				// 查询审核意见
 				selectMap.put("supplierId",supplierPublicity.getId());
 				selectMap.put("flagTime",0);

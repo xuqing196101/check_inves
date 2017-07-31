@@ -1,6 +1,7 @@
 package ses.service.sms.impl;
 
 import common.utils.JdcgResult;
+import javafx.scene.control.Separator;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,14 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
                 return JdcgResult.build(500,"审核意见不能为空");
             }
         }
-
+		// 拼接审核意见  例如:同意....+ HelloWorld
+		if(StringUtils.isNotEmpty(supplierAuditOpinion.getCateResult())){
+            if(StringUtils.isEmpty(supplierAuditOpinion.getOpinion())){
+                supplierAuditOpinion.setOpinion(supplierAuditOpinion.getCateResult());
+            }else {
+                supplierAuditOpinion.setOpinion(supplierAuditOpinion.getCateResult() + supplierAuditOpinion.getOpinion());
+            }
+		}
         // 判断是不是原有的数据
         if(StringUtils.isNotEmpty(supplierAuditOpinion.getId())){
             // 查询此条数据
@@ -77,7 +85,13 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
 		Map<String, Object> map = new HashedMap();
 		map.put("supplierId",supplierId);
 		map.put("flagTime",flagTime);
-		return supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
+        SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
+        //  获取意见切割字符串
+        if(supplierAuditOpinion != null && StringUtils.isNotEmpty(supplierAuditOpinion.getOpinion())){
+            int indexOf = supplierAuditOpinion.getOpinion().indexOf("。");
+            supplierAuditOpinion.setOpinion(supplierAuditOpinion.getOpinion().substring(indexOf + 1));
+        }
+        return supplierAuditOpinion;
 	}
 
 	@Override

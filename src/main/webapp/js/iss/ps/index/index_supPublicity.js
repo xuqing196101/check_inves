@@ -102,12 +102,14 @@ function resetAll(){
  */
 function loadData(data,index,pageNum,pageSize){
 	var html = "<li> "
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title=\"+data.supplierName+\">"+data.supplierName+"</span>"
+		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+data.supplierName+">"+data.supplierName+"</span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+data.supplierTypeNames+">"+data.supplierTypeNames+"</span>"
 		     + "  <span class='col-md-1 col-xs-1 col-sm-1'>"+data.businessNature+"</span>"
 		     + "  <span class='col-md-1 col-xs-1 col-sm-1' title="+data.orgName+">"+data.orgName+"</span>"
-             + "  <span class='col-md-4 col-xs-4 col-sm-4' title='同意入库，选择了"+data.passCateCount+"个产品类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个产品类别。"+data.auditOpinion+"'>"
-		     + "  <a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">同意入库，选择了"+data.passCateCount+"个产品类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个产品类别。"+data.auditOpinion+"</a></span>"
+             /*+ "  <span class='col-md-4 col-xs-4 col-sm-4' title='同意入库，选择了"+data.passCateCount+"个产品类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个产品类别。"+data.auditOpinion+"'>"*/
+		     /*+ "  <a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">同意入库，选择了"+data.passCateCount+"个产品类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个产品类别。"+data.auditOpinion+"</a></span>"*/
+		     + "  <span class='col-md-4 col-xs-4 col-sm-4' title='"+data.auditOpinion+"'>"
+			 + "  <a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+data.auditOpinion+"</a></span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2 text-right'>"+timestampToDate('yyyy-MM-dd', data.auditDate)+"至"+ getDateOfNDay(data.auditDate) +"</span>"
 		     html += "</li>";
 	$("#supPublicityList").append(html);
@@ -153,6 +155,7 @@ Date.prototype.format = function(fmt){
 /**
  * 获取n天后的今天
  * @param data
+ * @author Easong
  */
 function getDateOfNDay(data){
     // 审核时间
@@ -169,6 +172,7 @@ function getDateOfNDay(data){
  * @param obj
  * @returns {*}
  * @constructor
+ * @author Easong
  */
 function Appendzero(obj) {
     if(obj<10) return "0" +""+ obj;
@@ -180,5 +184,5 @@ function Appendzero(obj) {
  * @param id
  */
 function loadItem(id){
-    window.open(globalPath+"/index/indexSupPublicityItem.html?supplierId="+id);
+    window.open(globalPath+"/index/indexSupPublicityItem.html?query_id_of_cate="+id);
 }

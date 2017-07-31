@@ -212,6 +212,8 @@ public class Constant {
     public final static String COMMIT_SYNCH_PUBLICITY_SUPPLIER="导出供应商公示信息数量:";
     /**供应商公示  导入信息描述 **/
     public final static String IMPORT_SYNCH_PUBLICITY_SUPPLIER="导入供应商公示信息数量:";
+    /**供应商公示  导入信息描述 **/
+    public final static String T_SES_SMS_SUPPLIER_PUBLICITY_PATH="t_ses_sms_supplier_publicity_path";
 
     /**专家公示信息**/
     public final static String SYNCH_PUBLICITY_EXPERT="SYNCH_PUBLICITY_EXPERT";

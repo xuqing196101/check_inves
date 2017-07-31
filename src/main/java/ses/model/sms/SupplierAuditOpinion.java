@@ -19,6 +19,8 @@ public class SupplierAuditOpinion implements Serializable{
 	private Integer flagAduit;
 	/**是否下载了入库复审表 1：已下载**/
 	private Integer isDownLoadAttch;
+	/**审核意见  同意..../不同意**/
+	private String cateResult;
 
 	public String getId() {
 		return id;
@@ -68,4 +70,12 @@ public class SupplierAuditOpinion implements Serializable{
     public void setIsDownLoadAttch(Integer isDownLoadAttch) {
         this.isDownLoadAttch = isDownLoadAttch;
     }
+
+	public String getCateResult() {
+		return cateResult;
+	}
+
+	public void setCateResult(String cateResult) {
+		this.cateResult = cateResult;
+	}
 }
