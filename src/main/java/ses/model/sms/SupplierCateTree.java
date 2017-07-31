@@ -95,7 +95,17 @@ public class SupplierCateTree implements Serializable{
     private int rootNodeType;
     // 类别id
     private String categoryId;
+    //审核理由
+    private String auditReason;
     
+	public String getAuditReason() {
+		return auditReason;
+	}
+
+	public void setAuditReason(String auditReason) {
+		this.auditReason = auditReason;
+	}
+
 	public String getAuditType() {
 		return auditType;
 	}

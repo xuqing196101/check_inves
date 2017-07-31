@@ -4273,7 +4273,15 @@ public class ExpertController extends BaseController {
             cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
             cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
             cate.setRootNode(cate.getRootNode());
+            ExpertAudit audit = new ExpertAudit();
+            audit.setExpertId(expertId);
+            audit.setAuditFieldId(cate.getItemsId());
+            List < ExpertAudit > list = expertAuditService.selectFailByExpertId(audit);
+            if(list!=null && list.size()>0){
+            	cate.setAuditReason(list.get(0).getAuditReason());
+            }
         }
+        Expert expert = service.selectByPrimaryKey(expertId);
         model.addAttribute("expertId", expertId);
         model.addAttribute("typeId", typeId);
         model.addAttribute("result", new PageInfo < > (items));
@@ -4302,7 +4310,7 @@ public class ExpertController extends BaseController {
             errorField.append(audit.getAuditFieldId() + ",");
         }
         model.addAttribute("errorField", errorField);
-
+        model.addAttribute("status", expert.getStatus());
         return "ses/ems/expert/ajax_items_expert";
     }
     
