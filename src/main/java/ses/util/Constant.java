@@ -30,6 +30,11 @@ public class Constant {
 	//供应商 物资销售 标识
 	public static final String SUPPLIER_SALES="SALES";
 
+	//供应商 工程 生成 标识
+	public static final String SUPPLIER_PROJECT="PROJECT";
+	//供应商 服务 标识
+	public static final String SUPPLIER_SERVICE="SERVICE";
+
 	// 供应商审核记录基本信息审核项标识
 	public static final String SUPPLIER_BASIC_INFO_ITEM_FLAG = "basic_page";
 

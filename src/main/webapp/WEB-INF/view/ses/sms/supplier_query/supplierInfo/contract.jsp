@@ -109,9 +109,9 @@
 			</div>
 		</div>
 		<div class="container container_box">
-			<div class="content">
-				<div class="col-md-12 tab-v2 job-content">
-					<ul class="nav nav-tabs bgwhite">
+      <div class="content height-350">
+        <div class="col-md-12 tab-v2 job-content">
+          <ul class="nav nav-tabs bgwhite">
 						<li class="">
 							<a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18" onclick="tijiao('essential');">基本信息</a>
 						</li>
@@ -133,12 +133,9 @@
 						<li class="active">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">销售合同</a>
 						</li>
-						<!-- <li class="">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('chengxin');">诚信记录</a>
-						</li>
 						<li class="">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('updateHistory');">历史修改记录</a>
-						</li> -->
+              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('audit');">审核信息</a>
+            </li>
 					</ul>
 					<div class="ul_list">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">

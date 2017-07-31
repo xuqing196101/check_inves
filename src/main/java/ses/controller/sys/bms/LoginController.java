@@ -163,39 +163,41 @@ public class LoginController {
 //                        int validateDay = expertService.logoutExpertByDay(expert);
 //                        int validateDay = 0;
 //                        if(0==validateDay){//通过
-                            Map<String, Object> map = expertService.loginRedirect(u);
-                            Object object = map.get("expert");
-                            if (object != null) {
-                                req.getSession().setAttribute("loginName", u.getId());
-                                // 拉黑 阻止登录
-                                if (object.equals("1")) {
-                                    out.print("black");
-                                } else if(object.equals("5")){
-                                    out.print("reject");
-                                }else if (object.equals("2")) {
-                                    out.print("reset," + u.getId());
-                                } else if (object.equals("3")) {
-                                    out.print("auditExp," + u.getId());
-                                } else if (object.equals("4")) {
-                                    out.print("firset," + u.getId());
-                                } else if (object.equals("6")) {
-                                    out.print("weed,"+u.getId());
-                                } else if (object.equals("7")) {
-                                    out.print("notLogin");
-                                } else if (("1").equals(object)){
-                                    // 待复审状态
-                                    out.print("expert_waitOnceCheck");
-                                }else if (("5").equals(object)){
-                                    // 复审未通过状态
-                                    out.print("onceCheckNoPass");
-                                } else if (("-2").equals(object)){
-                                    // 审核预通过状态
-                                    out.print("prepass");
-                                } else if (("-3").equals(object)){
-                                    // 公示中状态
-                                    out.print("publicity");
-                                }
-                            }else {
+                          Map<String, Object> map = expertService.loginRedirect(u);
+                          Object object = map.get("expert");
+                          if (object != null) {
+                            req.getSession().setAttribute("loginName", u.getId());
+                            // 拉黑 阻止登录
+                            if (object.equals("1")) {
+                              out.print("black");
+                            } else if(object.equals("5")){
+                              out.print("reject");
+                            }else if (object.equals("2")) {
+                              out.print("reset," + u.getId());
+                            } else if (object.equals("3")) {
+                              out.print("auditExp," + u.getId());
+                            } else if (object.equals("4")) {
+                              out.print("firset," + u.getId());
+                            } else if (object.equals("6")) {
+                              out.print("weed,"+u.getId());
+                            } else if (object.equals("7")) {
+                              out.print("notLogin");
+                            } else if (object.equals("8")){
+                              out.print("review");
+                            } else if (("1").equals(object)){
+                                // 待复审状态
+                                out.print("expert_waitOnceCheck");
+                            }else if (("5").equals(object)){
+                                // 复审未通过状态
+                                out.print("onceCheckNoPass");
+                            } else if (("-2").equals(object)){
+                                // 审核预通过状态
+                                out.print("prepass");
+                            } else if (("-3").equals(object)){
+                                // 公示中状态
+                                out.print("publicity");
+                            }
+                          } else {
                             req.getSession().setAttribute("loginUser", u);
                             // loginLog记录
                             loginLog(u, req);

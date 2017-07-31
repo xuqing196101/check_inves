@@ -381,7 +381,10 @@ public class ExpertServiceImpl implements ExpertService {
 				} else if(expert.getStatus().equals("2")){
 					//审核未通过
 					map.put("expert", "5");
-				}else if(expert.getIsBlack().equals("1")){
+				} else if(expert.getStatus().equals("1")){
+					//初审已通过，待复审
+					map.put("expert", "8");
+				} else if(expert.getIsBlack().equals("1")){
 	                    //已拉黑
 	                    map.put("expert", "1");
 	            }else if(expert.getStatus().equals("0") && expert.getIsSubmit().equals("1") ){

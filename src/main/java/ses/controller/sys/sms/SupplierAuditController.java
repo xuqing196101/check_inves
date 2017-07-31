@@ -2380,7 +2380,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("supplierStatus", supplierStatus);
 		//封装 目录分类 分别显示相关的数据
 		if(StringUtils.isNotBlank(supplierId)){
-			List<String> supplierTypes=supplierItemService.findSupplierTypeBySupplierId(supplierId);
+			List<String> supplierTypes=supplierTypeRelateService.findTypeBySupplierId(supplierId);
 			model.addAttribute("supplierTypes", StringUtils.join(supplierTypes,","));
 		}
 		return "ses/sms/supplier_audit/merge_aptitude";
@@ -2408,7 +2408,10 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("overAptitude")
 	@ResponseBody
-	public JdcgResult overAptitude(Model model, String supplierId, String supplierType, Integer supplierStatus, Integer sign, @RequestParam(defaultValue = "1") int pageNum, String flag){
+	public JdcgResult overAptitude(Model model, String supplierId, String supplierType, Integer supplierStatus, Integer sign, Integer pageNum, String flag){
+		if(pageNum==null){
+			pageNum=1;
+		}
 		List<SupplierCateTree> cateTreeList = new ArrayList<>();
 		// 查询已选中的节点信息
 		List < SupplierItem > listSupplierItems = null;
@@ -2434,7 +2437,7 @@ public class SupplierAuditController extends BaseSupplierController {
                 }else{
                     //供应商物资 专业资质要求上传
                 	//--物资生产/物资销售/服务 	审核字段存储：三级节点ID关联的SupplierItem的ID
-                	cateTree=supplierAuditService.countCategoyrId(cateTree,supplierId);
+                	cateTree=supplierAuditService.countCategoyrId(cateTree,supplierId,supplierType);
                 }
                 //是否有销售合同
                 contractCount=supplierService.contractCountCategoyrId(supplierItem.getId());
@@ -2444,19 +2447,24 @@ public class SupplierAuditController extends BaseSupplierController {
                 cateTreeList.add(cateTree);
             }
         }
-        PageInfo<SupplierCateTree> pageInfo = new PageInfo<>(cateTreeList);
-        // 设置每页显示的条数
-        PropertiesUtil config = new PropertiesUtil("config.properties");
-        Integer pageSize = Integer.parseInt(config.getString("pageSize"));
-		// 设置开始和结束页
-        // 起始索引
-        int start = (pageNum - 1) * pageSize;
-        // 结束索引
-        int end = pageNum * pageSize > cateTreeList.size() ? cateTreeList.size()
-                : pageNum * pageSize;
-        pageInfo.setStartRow(start + 1);
-        pageInfo.setEndRow(end);
-        return new JdcgResult(pageInfo);
+        PageInfo<SupplierItem> pageInfo = new PageInfo<>(listSupplierItems);
+    	PageInfo<SupplierCateTree> listInfo = new PageInfo<>();
+    	listInfo.setEndRow(pageInfo.getEndRow());
+    	listInfo.setNavigatepageNums(pageInfo.getNavigatepageNums());
+    	listInfo.setNavigatePages(pageInfo.getNavigatePages());
+    	listInfo.setNextPage(pageInfo.getNextPage());
+    	listInfo.setOrderBy(pageInfo.getOrderBy());
+    	listInfo.setPageNum(pageInfo.getPageNum());
+    	listInfo.setPageSize(pageInfo.getPageSize());
+    	listInfo.setPrePage(pageInfo.getPrePage());
+    	listInfo.setSize(pageInfo.getSize());
+    	listInfo.setStartRow(pageInfo.getStartRow());
+    	listInfo.setTotal(pageInfo.getTotal());
+    	listInfo.setFirstPage(pageInfo.getFirstPage());
+    	listInfo.setLastPage(pageInfo.getLastPage());
+    	listInfo.setList(cateTreeList);
+    	listInfo.setPages(pageInfo.getPages());
+        return new JdcgResult(listInfo);
 	}
 	/**
 	 * 
@@ -2507,19 +2515,21 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(StringUtils.isBlank(supplierId)){
 			return "ses/sms/supplier_audit/aptitude_material_item";
 		}
+		if(StringUtils.isBlank(tablerId)){
+			return "ses/sms/supplier_audit/aptitude_material_item";
+		}
 		// 递归获取所有父节点
 		List <Category > parentNodeList = categoryService.getAllParentNode(itemId);
 		// 加入根节点 物资
 		SupplierCateTree cateTree=categoryService.addNode(parentNodeList);
-		String type=cateTree.getRootNode();
 		
 		QualificationBean bean=new QualificationBean();
 		List<Qualification> list=new ArrayList<>();
 		Integer sysKey=Constant.SUPPLIER_SYS_KEY;
 		String typeId=null;
-		
 		// categoryQua type:4(工程) 3（销售） 2（生产）1（服务）
-		if("工程".equals(type)){
+		//content_1 物资生产 content_2物资销售 content_3工程 content_4 服务
+		if("content_3".equals(tablerId)){
 			//封装 供应商id
 			cateTree.setRootNodeCode("PROJECT");
 			cateTree.setSupplierItemId(supplierId);
@@ -2533,7 +2543,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			model.addAttribute("ids", ids-1);
 			model.addAttribute("tablerId", tablerId);
 			return "ses/sms/supplier_audit/aptitude_project_item";
-		}else if("服务".equals(type)){
+		}else if("content_4".equals(tablerId)){
 			//封装 供应商id
 			cateTree.setRootNodeCode("SERVICE");
 			cateTree.setItemsId(supplierId);
@@ -2545,7 +2555,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				bean.setList(list);
 				beanList.add(bean);
 			}
-		}else{
+		}else if("content_1".equals(tablerId)){
 			cateTree.setRootNodeCode("PRODUCT");
 			cateTree.setItemsId(supplierId);
 			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
@@ -2556,8 +2566,12 @@ public class SupplierAuditController extends BaseSupplierController {
 				bean.setList(list);
 				beanList.add(bean);
 			}
+		}else if("content_2".equals(tablerId)){
+			//封装 供应商id
 			cateTree.setRootNodeCode("SALES");
+			cateTree.setItemsId(supplierId);
 			QualificationBean bean2=new QualificationBean();
+			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
 			bean2.setCategoryName(cateTree.getItemsName()+"-销售专业资质要求");
 			list= supplierAuditService.showQualifications(cateTree, 3,typeId,sysKey);
 			if(null!=list && !list.isEmpty()){

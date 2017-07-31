@@ -131,7 +131,7 @@
 											<c:set var="vs" value="1"/>
 											<c:forEach items="${allPurList}" var="org1" varStatus="vs1">
 											  <c:if test="${org1.cityId eq currSupplier.address}">
-												<tr>
+												<tr <c:if test="${fn:contains(org1.shortName, '北京')}"> style="dispaly:none" </c:if>>
 													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${-1!=currSupplier.status}"> disabled="disabled" </c:if> <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 													<td class="tc">${vs}</td>
 													<td class="tc">${org1.shortName}</td>
@@ -160,7 +160,7 @@
 											<c:set var="vs" value="1"/>
 											<c:forEach items="${allPurList}" var="org1">
 												<c:if test="${org1.cityId ne currSupplier.address}">
-												<tr>
+												<tr <c:if test="${fn:contains(org1.shortName, '北京')}"> style="dispaly:none" </c:if>>
 													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${-1!=currSupplier.status}"> disabled="disabled" </c:if> <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 													<td class="tc">${vs}</td>
 													<td class="tc">${org1.shortName}</td>

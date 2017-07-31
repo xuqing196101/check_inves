@@ -805,14 +805,6 @@ public class EngCategoryServiceImpl implements EngCategoryService {
 			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
 				typeList = type.get(0).getList();
 			}
-			//自定义等级
-//					List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, item.getSupplierId());
-//					for(SupplierPorjectQua qua:supplierQua){
-//						Qualification q=new Qualification();
-//						q.setId(qua.getName());
-//						q.setName(qua.getName());
-//						typeList.add(q);
-//					}
 					
 			cateTree.setTypeList(typeList);
 		}

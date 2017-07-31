@@ -368,7 +368,7 @@ public interface SupplierAuditService {
 	 * @param supplierId
 	 * @return
 	 */
-	public SupplierCateTree countCategoyrId(SupplierCateTree cateTree,String supplierId);
+	public SupplierCateTree countCategoyrId(SupplierCateTree cateTree,String supplierId,String supplierType);
     /**
 	 * 
 	 * Description:获取工程资质文件数量
@@ -511,4 +511,5 @@ public interface SupplierAuditService {
     JdcgResult selectAuditNoPassItemCount(String supplierId);
 
     JdcgResult vertifyOpinion(String supplierId);
-} 
+
+}

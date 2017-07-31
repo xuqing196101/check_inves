@@ -209,7 +209,31 @@ public class SupplierController extends BaseSupplierController {
     		return null;
     	}
     	
-    	Supplier supplier = supplierService.get(suppId, 2);
+    	Supplier supplier = supplierService.selectById(suppId);
+    	
+    	if(supplier != null && supplier.getStatus() == 2){
+    		// 设置审核不通过的品目
+        	List<SupplierItem> itemList_product = supplierItemService.removeAuditNotItems(null, suppId, "PRODUCT");
+        	List<SupplierItem> itemList_sales = supplierItemService.removeAuditNotItems(null, suppId, "SALES");
+        	List<SupplierItem> itemList_project = supplierItemService.removeAuditNotItems(null, suppId, "PROJECT");
+        	List<SupplierItem> itemList_service = supplierItemService.removeAuditNotItems(null, suppId, "SERVICE");
+        	
+        	// 随后设置供应商类型（如果所选产品目录全部被退回，则去掉对应所属的供应商类型）
+        	if(itemList_product == null || itemList_product.isEmpty()){
+        		supplierTypeRelateService.delete(suppId, "PRODUCT");
+        	}
+        	if(itemList_sales == null || itemList_sales.isEmpty()){
+        		supplierTypeRelateService.delete(suppId, "SALES");
+        	}
+        	if(itemList_project == null || itemList_project.isEmpty()){
+        		supplierTypeRelateService.delete(suppId, "PROJECT");
+        	}
+        	if(itemList_service == null || itemList_service.isEmpty()){
+        		supplierTypeRelateService.delete(suppId, "SERVICE");
+        	}
+    	}
+    	
+    	supplier = supplierService.get(suppId, 2);
     	
 		// 初始化常量
 		initSupplierTypeConstants(model, supplier);
@@ -1453,6 +1477,8 @@ public class SupplierController extends BaseSupplierController {
 	public String isCommit(Model model, Supplier supplier) {
 		boolean bool = validateUpload(model, supplier.getId());
 		Supplier supp = supplierService.selectOne(supplier.getId());
+		// 删除审核不通过的品目
+		supplierItemService.deleteItemsBySupplierId(supplier.getId(), (byte)1);
         //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
 //        try {
 //            int validateDay = supplierService.logoutSupplierByDay(supp);
@@ -2658,8 +2684,11 @@ public class SupplierController extends BaseSupplierController {
 
 				ct.setName(type.getName());
 				ct.setId(typeId);
-				List < SupplierItem > s = supplierItemService.getSupplierIdCategoryId(supplierId, typeId, code);
-				if(s != null && s.size() > 0) {
+				List < SupplierItem > items = supplierItemService.getBySupplierIdCategoryIdIsNotReturned(supplierId, typeId, code);
+				//List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, typeId, code);
+				// 去掉审核不通过的品目
+				//items = supplierItemService.removeAuditNotItems(items, supplierId, code);
+				if(items != null && items.size() > 0) {
 					ct.setChecked(true);
 				}
 				ct.setIsParent("true");
@@ -2684,7 +2713,10 @@ public class SupplierController extends BaseSupplierController {
 				ct1.setParentId(c.getParentId());
 				ct1.setId(c.getId());
                 ct1.setCode(c.getCode());
-				List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, c.getId(), code);
+                List < SupplierItem > items = supplierItemService.getBySupplierIdCategoryIdIsNotReturned(supplierId, c.getId(), code);
+				//List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, c.getId(), code);
+				// 去掉审核不通过的品目
+				//items = supplierItemService.removeAuditNotItems(items, supplierId, code);
 				if(items != null && items.size() > 0) {
 					ct1.setChecked(true);
 				}
@@ -2744,8 +2776,11 @@ public class SupplierController extends BaseSupplierController {
                 jsonObject.put("name",type.getName());
                 jsonObject.put("id", typeId);
                 jsonObject.put("open",true);//默认打开根节点
-                List < SupplierItem > s = supplierItemService.getSupplierIdCategoryId(supplierId, typeId, code);
-                if(s != null && s.size() > 0) {
+                List < SupplierItem > items = supplierItemService.getBySupplierIdCategoryIdIsNotReturned(supplierId, typeId, code);
+                //List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, typeId, code);
+                // 去掉审核不通过的品目
+                //items = supplierItemService.removeAuditNotItems(items, supplierId, code);
+                if(items != null && items.size() > 0) {
                     jsonObject.put("checked", true);
                 }
                 jsonObject.put("isParent", true);
@@ -2777,7 +2812,10 @@ public class SupplierController extends BaseSupplierController {
             jsonObject.put("parentId", c.getParentId());
             jsonObject.put("id", c.getId());
             jsonObject.put("code", c.getCode());
-            List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, c.getId(), code);
+            List < SupplierItem > items = supplierItemService.getBySupplierIdCategoryIdIsNotReturned(supplierId, c.getId(), code);
+            //List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, c.getId(), code);
+            // 去掉审核不通过的品目
+            //items = supplierItemService.removeAuditNotItems(items, supplierId, code);
             if(items != null && items.size() > 0) {
                 jsonObject.put("checked", true);
             }
@@ -2864,7 +2902,10 @@ public class SupplierController extends BaseSupplierController {
 			con.setTwoBil(id5);
 			con.setThreeBil(id6);
 		}*/
-		List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplierId, supplierTypeId, pageNum == null ? 1 : pageNum);
+		//List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplierId, supplierTypeId, pageNum == null ? 1 : pageNum);
+		// 去掉审核不通过的品目(由于是分页，不好处理，这里直接查询SupplierItem的isReturned不为1的记录)
+		//itemsList = supplierItemService.removeAuditNotItems(itemsList, supplierId, supplierTypeId);
+		List < SupplierItem > itemsList = supplierItemService.getItemList(supplierId, supplierTypeId, (byte)0, pageNum == null ? 1 : pageNum);
 		List<ContractBean> contractList = new ArrayList<ContractBean>();
 		for (SupplierItem item : itemsList) {
 			ContractBean con = new ContractBean();

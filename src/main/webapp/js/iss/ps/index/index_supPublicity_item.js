@@ -68,16 +68,17 @@ function initDivHide(showId,type,typeId,tableId){
     //模糊匹配 隐藏
     $("div[id^='tab_']").hide();
     $("#"+showId+"").show();
-    findDate(typeId,tableId);
+    findDate(typeId,tableId,1);
 }
 
 //获取 数据
-function findDate(type,tablerId) {
+function findDate(type,tablerId,pageNum) {
     var index = layer.load(0, {
         shade : [ 0.1, '#fff' ],
         offset : [ '40%', '50%' ]
     });
     $("[name=supplierType]").val(type);
+    $("#pageNum").val(pageNum);
     $.ajax({
         type : "POST",
         url : globalPath + "/supplierAudit/overAptitude.do",
@@ -85,8 +86,8 @@ function findDate(type,tablerId) {
         success : function(obj) {
             if (obj) {
                 listPage(obj.data.pages, obj.data.total, obj.data.startRow,
-                    obj.data.endRow, obj.data.pageNum,type);
-                showData(obj.data,tablerId,type);
+                    obj.data.endRow, pageNum,type,tablerId);
+                showData(obj.data,tablerId,type,pageNum);
             } else {
                 layer.msg(obj.msg);
             }
@@ -117,18 +118,18 @@ function listPage(pages, total, startRow, endRow, pageNum,type,tablerId) {
         jump : function(e, first) { // 触发分页后的回调
             if (!first) { // 一定要加此判断，否则初始时会无限刷新
                 $("#page").val(e.curr);
-                findDate(type,tablerId);
+                findDate(type,tablerId,e.curr);
             }
         }
     });
 }
 
 //封装填充 数据
-function showData(obj,tablerId,typeId) {
+function showData(obj,tablerId,typeId,pageNum) {
     $("#"+tablerId+" tbody").empty();
     $(obj.list).each(
         function(index, item) {
-            var ind=((index+1)+(obj.pageNum-1)*(obj.pageSize));
+            var ind=((index+1)+(pageNum-1)*(obj.pageSize));
             // 根据类型 判断
             $("#"+tablerId+" tbody").append("<tr>"+
                 "<td class=\"tc info\">" + ind+ "</td>"+

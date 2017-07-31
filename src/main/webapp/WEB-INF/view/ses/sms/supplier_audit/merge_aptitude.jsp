@@ -77,6 +77,7 @@
           </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_2">
+                    
                          <thead>
                             <tr>
                               <th class="w50 info"><input id="content_2checkAll" type="checkbox" onclick="selectAll('content_2')" /></th>
@@ -154,6 +155,7 @@
 	</div>
 	<form id="form_id" action="" method="post">
 		<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden"> 
+		<input id="pageNum" name="pageNum" value="1" type="hidden"> 
 		<input name="supplierStatus" id="status" value="${supplierStatus}" type="hidden">
 		<input type="hidden" id="supplierTypes" value="${supplierTypes}">
 		<input type="hidden" name="supplierType" >

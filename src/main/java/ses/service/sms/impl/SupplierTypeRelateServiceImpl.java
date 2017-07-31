@@ -162,4 +162,8 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
 		
 	}
 
+	@Override
+	public List<String> findTypeBySupplierId(String supplierId) {
+		return supplierTypeRelateMapper.findTypeBySupplierId(supplierId);
+	}
 }

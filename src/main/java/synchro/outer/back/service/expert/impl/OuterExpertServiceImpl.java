@@ -266,7 +266,8 @@ public class OuterExpertServiceImpl implements OuterExpertService {
      * @return
      */
     private List<ExpertCategory> getCategory(String expertId) {
-        List<ExpertCategory> categoryList = expertCategoryService.getListByExpertId(expertId, null);
+        //List<ExpertCategory> categoryList = expertCategoryService.getListByExpertId(expertId, null);
+        List<ExpertCategory> categoryList = expertCategoryService.selectListByExpertId1(expertId, null);
         return categoryList;
     }
     

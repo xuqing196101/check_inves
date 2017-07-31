@@ -1,7 +1,16 @@
 package ses.service.sms.impl;
 
-import com.github.pagehelper.PageHelper;
-import common.utils.JdcgResult;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+
+import ses.dao.bms.CategoryMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.formbean.QualificationBean;
 import ses.formbean.SupplierItemCategoryBean;
@@ -16,17 +27,21 @@ import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierPorjectQua;
 import ses.service.bms.CategoryService;
+import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
+import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
-import java.util.*;
+import com.github.pagehelper.PageHelper;
+import common.utils.JdcgResult;
 
 @Service(value = "supplierItemService")
 public class SupplierItemServiceImpl implements SupplierItemService {
@@ -42,6 +57,12 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	
 	@Autowired
 	private SupplierPorjectQuaService supplierPorjectQuaService;
+
+	@Autowired
+    private CategoryMapper categoryMapper;
+	
+	@Autowired
+	private SupplierAuditService supplierAuditService;
 	
 	@Override
 	public void saveSupplierItem(Supplier supplier) {
@@ -115,8 +136,12 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                 item.setCategoryId(cate.getId());
                 item.setCreatedAt(new Date());
                 if(categoryId.equals(cate.getId())){
-                	// 设置末级
-                	item.setNodeLevel(3);
+                    // 设置末级节点
+                    List<Category> treeByPid = categoryMapper.findTreeByPid(categoryId);
+                    if(treeByPid == null || (treeByPid != null && treeByPid.isEmpty())){
+                        // 设置末级
+                        item.setNodeLevel(3);
+                    }
                 }
                 supplierItemMapper.insertSelective(item);
             }
@@ -420,7 +445,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	
 	@Override
 	public List<SupplierItem> findCategoryList(String supplierId, String type, Integer pageNum) {
-	    if (pageNum != null) {
+	   if (pageNum != null) {
 	        PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSize"));
 	    }
 	    Map<String, Object> param = new HashMap<String, Object>();
@@ -640,8 +665,43 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	 * @param map
 	 * @since JDK1.7
 	 */
-	public List<String> findPassSupplierTypeBySupplierId(Map<String,Object> map){
-        return supplierItemMapper.findPassSupplierTypeBySupplierId(map);
+	public Set<String> findPassSupplierTypeBySupplierId(Map<String,Object> map){
+        Set<String> set = new HashSet<>();
+        // 查询供应商是否选择了物资类型
+        String supplierId = (String) map.get("supplierId");
+        List<String> allTypeOfSup = supplierItemMapper.findSupplierTypeBySupplierId(supplierId);
+        List<String> passSupplierTypeBySupplierId = new ArrayList<>();
+        // 物资类型做特殊处理
+        boolean flag = false;
+        if(allTypeOfSup != null && allTypeOfSup.contains(Constant.SUPPLIER_SALES)){
+            map.put("type", Constant.SUPPLIER_SALES);
+            map.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+            map.put("supplierType_page", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
+            passSupplierTypeBySupplierId = supplierItemMapper.findPassSupplierTypeBySupplierId(map);
+            if(passSupplierTypeBySupplierId != null && !passSupplierTypeBySupplierId.isEmpty()){
+                set.addAll(passSupplierTypeBySupplierId);
+            }
+            flag = true;
+        }
+
+        // gys没有选择物资，工程和服务类型直接返回
+        if(allTypeOfSup != null && !allTypeOfSup.contains(Constant.SUPPLIER_PRODUCT) && !allTypeOfSup.contains(Constant.SUPPLIER_PROJECT)
+                && !allTypeOfSup.contains(Constant.SUPPLIER_SERVICE)){
+            return set;
+        }
+        // 清空
+        passSupplierTypeBySupplierId.clear();
+        map.remove("type");
+        map.remove("items_sales_page");
+        // 查询其他类型
+        if(flag){
+            map.put("type", "SALES");
+        }
+        map.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+        map.put("supplierType_page", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
+        passSupplierTypeBySupplierId = supplierItemMapper.findPassSupplierTypeBySupplierId(map);
+        set.addAll(passSupplierTypeBySupplierId);
+        return set;
     }
 
 	/**
@@ -689,8 +749,11 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         Map<String, Object> param = new HashMap<>();
         param.put("supplierId", supplierId);
         param.put("type", type);
-        param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
-        param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+        if(Constant.SUPPLIER_SALES.equals(type)){
+            param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+        }else {
+            param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+        }
         return supplierItemMapper.selectPassItemByCond(param);
     }
     
@@ -992,6 +1055,125 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				}
 			}
 		}
+	}
+	
+	@Override
+	public List<SupplierItem> removeAuditNotItems(List<SupplierItem> items,
+			String supplierId, String code) {
+		if(items == null){
+			items = this.queryBySupplierAndType(supplierId, code);
+		}
+		if(items != null){
+			SupplierAudit supplierAudit = new SupplierAudit();
+			supplierAudit.setSupplierId(supplierId);
+			supplierAudit.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
+			if(ses.util.Constant.SUPPLIER_PRODUCT.equals(code)){
+				supplierAudit.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
+			}
+			if(ses.util.Constant.SUPPLIER_SALES.equals(code)){
+				supplierAudit.setAuditType(ses.util.Constant.ITEMS_SALES_PAGE);
+			}
+			List<SupplierAudit> auditList = supplierAuditService.findReason(supplierAudit);
+			if(auditList != null){
+				StringBuffer errorField = new StringBuffer();
+				for(SupplierAudit audit: auditList) {
+					errorField.append(audit.getAuditField() + ",");
+				}
+				Iterator<SupplierItem> itr = items.iterator();
+				while(itr.hasNext()){
+					SupplierItem item = itr.next();
+					String cateId = item.getCategoryId();
+					if(errorField.indexOf(cateId) != -1){
+						if(item.getIsReturned() != 1){
+							item.setIsReturned((byte)1);
+							supplierItemMapper.updateByPrimaryKeySelective(item);
+							// 或者
+							/*SupplierItem updateItem = new SupplierItem();
+							updateItem.setId(item.getId());
+							updateItem.setIsReturned((byte)1);
+							supplierItemMapper.updateByPrimaryKeySelective(updateItem);*/
+						}
+						itr.remove();//这里删除的是末级节点
+					}
+					StringBuffer pSb = new StringBuffer();// 存储删除的父节点
+					// 查询该节点的所有父节点
+					List<Category> pList = categoryService.getPListById(cateId);
+					Collections.reverse(pList);// 反转
+					if(pList != null){
+						for(Category p : pList){
+							// 查询每一个父节点的子节点（下级节点）
+							List<Category> cList = categoryService.findTreeByPidIsPublish(p.getId());
+							if(cList != null){
+								List<String> catIds = new ArrayList<String>();
+								for(Category c : cList){
+									catIds.add(c.getId());
+								}
+								int countItems = this.countItemsBySuppIdAndCateIds(supplierId, catIds, code);
+								// 如果子节点在品目中没有找到，则删除该父节点对应的品目信息
+								if(countItems == 0){
+									pSb.append(p.getId() + ",");
+								}
+							}
+						}
+					}
+					if(pSb.indexOf(cateId) != -1 && errorField.indexOf(cateId) == -1){
+						if(item.getIsReturned() != 1){
+							item.setIsReturned((byte)1);
+							supplierItemMapper.updateByPrimaryKeySelective(item);
+						}
+						itr.remove();
+					}
+				}
+			}
+			if(items.size() == 1){
+				SupplierItem rootItem = items.get(0);
+				Category rootCate = categoryService.findById(rootItem.getCategoryId());
+				if(rootCate == null){// 如果最后只剩下一个根节点（如：物资生产）则清空节点
+					if(rootItem.getIsReturned() != 1){
+						rootItem.setIsReturned((byte)1);
+						supplierItemMapper.updateByPrimaryKeySelective(rootItem);
+					}
+					items.clear();
+				}
+			}
+		}
+		return items;
+	}
+
+	@Override
+	public List<SupplierItem> getItemList(String supplierId,
+			String type, Byte isReturned, Integer pageNum) {
+		if (pageNum != null) {
+	        PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSize"));
+	    }
+	    Map<String, Object> param = new HashMap<String, Object>();
+	    param.put("supplierId", supplierId);
+	    param.put("type", type);
+	    if(isReturned != null){
+	    	param.put("isReturned", isReturned);
+	    }
+	    List<SupplierItem> itemsList = supplierItemMapper.selectByMap(param);
+	    return itemsList;
+	}
+	
+	private int countItemsBySuppIdAndCateIds(String supplierId, List<String> catIds, String code){
+		return supplierItemMapper.countItemsBySuppIdAndCateIds(supplierId, catIds, code);
+	}
+
+	@Override
+	public List<SupplierItem> getBySupplierIdCategoryIdIsNotReturned(
+			String supplierId, String categoryId, String type) {
+		return supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, categoryId, type);
+	}
+
+	@Override
+	public int deleteItemsBySupplierId(String supplierId, Byte isReturned) {
+		Map<String , String> param = new HashMap<String, String>();
+		param.put("supplierId", supplierId);
+		if(isReturned != null){
+			param.put("isReturned", isReturned.toString());
+		}
+		return supplierItemMapper.deleteByMap(param);
 	}
 	
 }

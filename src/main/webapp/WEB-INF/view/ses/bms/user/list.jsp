@@ -83,7 +83,7 @@
 		if(id.length==1){
 			var trObj = checktd.parent().parent();
 			var tdArr = trObj.children("td");
-		    var roleCode = tdArr.eq(7).find("input").val();
+		    var roleCode = tdArr.eq(8).find("input").val();
 		    //判断：如果该用户拥有供应商、专家（临时专家）、进口供应商、进口代理商中的任何一个角色都不能进行修改操作
 		    if(roleCode.indexOf("SUPPLIER_R") > -1 || roleCode.indexOf("EXPERT_R") > -1 || roleCode.indexOf("EXPERT_TEMP_R") > -1 || roleCode.indexOf("IMP_SUPPLIER_R") > -1 || roleCode.indexOf("IMPORT_AGENT_R") > -1){
 				layer.msg("该（角色）用户不能进行信息修改",{offset: ['222px']});
@@ -105,7 +105,7 @@
 			ids.push($(this).val()); 
 			var trObj = $(this).parent().parent();
 			var tdArr = trObj.children("td");
-		    var roleCode = tdArr.eq(7).find("input").val();
+		    var roleCode = tdArr.eq(8).find("input").val();
 		    //判断：如果该用户拥有供应商、专家（临时专家）、进口供应商、进口代理商中的任何一个角色都不能进行修改操作
 		    if(roleCode.indexOf("SUPPLIER_R") > -1 || roleCode.indexOf("EXPERT_R") > -1 || roleCode.indexOf("EXPERT_TEMP_R") > -1 || roleCode.indexOf("IMP_SUPPLIER_R") > -1 || roleCode.indexOf("IMPORT_AGENT_R") > -1){
 				flag = 1;

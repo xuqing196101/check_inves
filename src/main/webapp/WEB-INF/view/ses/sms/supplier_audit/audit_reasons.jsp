@@ -305,12 +305,13 @@
             <form id="opinionForm" method="post">
                 <input name="id" value="${supplierAuditOpinion.id}" type="hidden">
                 <input name="supplierId" value="${supplierId}" type="hidden">
+                <input id="cateResult" name="cateResult" value="" type="hidden">
                 <input name="opinion" value="" id="opinionId" type="hidden">
                 <input name="flagTime" value="" id="flagTime" type="hidden">
                 <input name="flagAduit" value="" id="flagAduit" type="hidden">
                 <input name="vertifyFlag" value="" id="vertifyFlag" type="hidden">
                 <input name="isDownLoadAttch" id="downloadAttachFile" value="${supplierAuditOpinion.isDownLoadAttch}" type="hidden">
-            </form>`
+            </form>
           
           <!-- download check table -->
             <form id="shenhe_form_id" action="" method="post">
@@ -438,7 +439,7 @@
                     </div>
 			        <!-- 审核公示扫描件上传 -->
                     <div id="checkWord" class="display-none">
-                        <h2 class="count_flow"><i>3</i><span class="red">*</span>供应商审批表</h2>
+                        <h2 class="count_flow"><i>3</i><span class="red">*</span>供应商审核表</h2>
                         <ul class="ul_list">
                             <li class="col-md-6 col-sm-6 col-xs-6">
                                 <span class="fl">下载审核表：</span>

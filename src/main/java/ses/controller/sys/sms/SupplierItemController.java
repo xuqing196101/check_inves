@@ -80,6 +80,7 @@ public class SupplierItemController extends BaseController {
 			if(cateTree != null && cateTree.getRootNode() != null) {
 				cateTree.setItemsId(item.getId());
 				cateTree.setCategoryId(categoryId);
+				cateTree.setIsReturned(item.getIsReturned());
 				allTreeList.add(cateTree);
 			}
 		}
@@ -99,6 +100,7 @@ public class SupplierItemController extends BaseController {
 		}
 		model.addAttribute("supplierId", supplierItem.getSupplierId());
 		model.addAttribute("supplierTypeRelateId", supplierItem.getSupplierTypeRelateId());
+		model.addAttribute("currSupplier", supplierService.selectById(supplierItem.getSupplierId()));
 		model.addAttribute("result", new PageInfo < > (listSupplierItems));
 		model.addAttribute("itemsList", allTreeList);
 

@@ -59,6 +59,7 @@ public class SupplierCateTree implements Serializable{
     /** 该品目所有等级 **/
     private List<Qualification> typeList;
     
+    private SupplierAptitute supplierAptitute;//资质信息
     /** 工程对应附件Id **/
     private String fileId;
     
@@ -96,7 +97,18 @@ public class SupplierCateTree implements Serializable{
     private String rootNodeCode;
     // 类别id
     private String categoryId;
+    //审核理由
+    private String auditReason;
+    // 是否被退回
+    private byte isReturned;
     
+	public String getAuditReason() {
+		return auditReason;
+	}
+
+	public void setAuditReason(String auditReason) {
+		this.auditReason = auditReason;
+	}
 
 	public String getAuditType() {
 		return auditType;
@@ -116,6 +128,14 @@ public class SupplierCateTree implements Serializable{
 
 	public long getIsAptitudeSalesPageAudit() {
 		return isAptitudeSalesPageAudit;
+	}
+
+	public SupplierAptitute getSupplierAptitute() {
+		return supplierAptitute;
+	}
+
+	public void setSupplierAptitute(SupplierAptitute supplierAptitute) {
+		this.supplierAptitute = supplierAptitute;
 	}
 
 	public void setIsAptitudeSalesPageAudit(long isAptitudeSalesPageAudit) {
@@ -414,8 +434,12 @@ public class SupplierCateTree implements Serializable{
 		this.categoryId = categoryId;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public byte getIsReturned() {
+		return isReturned;
+	}
+
+	public void setIsReturned(byte isReturned) {
+		this.isReturned = isReturned;
 	}
 	
 }

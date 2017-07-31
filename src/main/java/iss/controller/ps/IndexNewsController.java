@@ -94,6 +94,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /*
@@ -2449,19 +2450,17 @@ public class IndexNewsController extends BaseSupplierController{
 	 * @since JDK1.7
 	 */
 	@RequestMapping("/indexSupPublicityItem")
-    public String indexSupPublicityItem(Model model, String supplierId, String supplierStatus){
-        model.addAttribute("supplierId", supplierId);
+    public String indexSupPublicityItem(Model model, String query_id_of_cate, String supplierStatus){
+        model.addAttribute("supplierId", query_id_of_cate);
         model.addAttribute("supplierStatus", supplierStatus);
         //封装 目录分类 分别显示相关的数据
-        if(StringUtils.isNotBlank(supplierId)){
+        if(StringUtils.isNotBlank(query_id_of_cate)){
             // 封装查询数据
-            Map<String, Object> map = new HashedMap();
-            map.put("supplierId", supplierId);
-            map.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
-            map.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
-            map.put("supplierType_page", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
-            List<String> supplierTypes=supplierItemService.findPassSupplierTypeBySupplierId(map);
-            model.addAttribute("supplierTypes", StringUtils.join(supplierTypes,","));
+			// 定义两个集合
+			Map<String, Object> map = new HashedMap();
+			map.put("supplierId", query_id_of_cate);
+            Set<String> set = supplierItemService.findPassSupplierTypeBySupplierId(map);
+            model.addAttribute("supplierTypes", StringUtils.join(set,","));
         }
 		return "iss/ps/index/index_supPublicity_item";
 	}

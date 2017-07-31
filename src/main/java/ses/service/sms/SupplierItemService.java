@@ -10,6 +10,7 @@ import ses.model.sms.SupplierItem;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface SupplierItemService {
 	public void saveOrUpdate(SupplierItem supplierItem);
@@ -179,7 +180,7 @@ public interface SupplierItemService {
 	 * @param map
 	 * @since JDK1.7
 	 */
-	public List<String> findPassSupplierTypeBySupplierId(Map<String, Object> map);
+	 Set<String> findPassSupplierTypeBySupplierId(Map<String, Object> map);
 
 	/**
 	 *
@@ -236,5 +237,44 @@ public interface SupplierItemService {
 	 * @return
 	 */
 	public Map<String, Object> getAptitude(String supplierId, String supplierTypeIds);
+	
+	/**
+	 * 去掉审核不通过的品目
+	 * @param items
+	 * @param supplierId
+	 * @param code
+	 * @return
+	 */
+	public List<SupplierItem> removeAuditNotItems(List<SupplierItem> items,
+			String supplierId, String code);
+
+	/**
+	 * 查询供应商品目
+	 * @param supplierId
+	 * @param type
+	 * @param isReturned
+	 * @param pageNum
+	 * @return
+	 */
+	public List<SupplierItem> getItemList(String supplierId,
+			String type, Byte isReturned, Integer pageNum);
+
+	/**
+	 * 查询没有被退回的品目
+	 * @param supplierId
+	 * @param categoryId
+	 * @param type
+	 * @return
+	 */
+	List<SupplierItem> getBySupplierIdCategoryIdIsNotReturned(
+			String supplierId, String categoryId, String type);
+
+	/**
+	 * 删除供应商品目
+	 * @param supplierId
+	 * @param isReturned
+	 * @return
+	 */
+	public int deleteItemsBySupplierId(String supplierId, Byte isReturned);
 
 }

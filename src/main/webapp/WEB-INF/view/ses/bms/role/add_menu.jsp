@@ -48,7 +48,8 @@
 			$.ajax({
              type: "POST",
              async: false, 
-             url: "${pageContext.request.contextPath}/role/saveRoleMenu.do?roleId="+rid+"&ids="+idstr,
+             url: "${pageContext.request.contextPath}/role/saveRoleMenu.do",
+             data:"roleId="+rid+"&ids="+idstr+"",
              dataType: "text",
              success: function(str){
 		        	 //var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引

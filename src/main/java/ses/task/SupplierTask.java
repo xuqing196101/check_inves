@@ -97,7 +97,7 @@ public class SupplierTask {
 		String endTime=fat+" 23:59:59";
 		outerSupplierService.auditPass(startTime, endTime);
 	}
-	
+
 	/**
 	 * 
 	* @Title: handlerAudit
