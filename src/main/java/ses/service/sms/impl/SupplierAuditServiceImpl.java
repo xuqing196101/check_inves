@@ -962,40 +962,31 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		SupplierMatEng matEng = supplierMatEngService.getMatEng(cateTree.getSupplierItemId());
 		//--工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
 		if(null!=itemsList && !itemsList.isEmpty()){
-			//for (SupplierItem supplierItem : itemsList) {
-			/*cateTree=engCategoryService.addNode(cateTree, supplierItem);
-				if(cateTree != null && cateTree.getRootNode() != null) {*/
-					cateTree.setSupplierItemId(secondNode);
-					//cateTree.setDiyLevel(supplierItem.getLevel());
-					//if(cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
-					//if(cateTree!=null&&cateTree.getProName()!=null){
-						List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
-						if(certEng != null && certEng.size() > 0) {
-							cateTree.setFileId(certEng.get(0).getId());
-							//cateTree.setLevel(certEng.get(0).getAptituteLevel());
-							/*certEng.get(0).getCertType();//资质类型
-							certEng.get(0).getCertCode();//证书编号
-							certEng.get(0).getProfessType();//专业类别
-							certEng.get(0).getAptituteLevel();//资质等级*/
-							Qualification qua= qualificationService.getQualification(certEng.get(0).getCertType());
-							if(null != qua){
-								certEng.get(0).setCertType(qua.getName());
-							}else{
-								certEng.get(0).setCertType("");
-							}
-							DictionaryData data=DictionaryDataUtil.findById(certEng.get(0).getAptituteLevel());
-							if(null != data){
-								certEng.get(0).setAptituteLevel(data.getName());
-							}else{
-								certEng.get(0).setAptituteLevel("");
-							}
-							cateTree.setSupplierAptitute(certEng.get(0));
-							
-						//}	
-					//}
-				/*}*/
-					cateList.add(cateTree);
-				//}
+			cateTree.setSupplierItemId(secondNode);
+			if(!"".equals(secondNode)){
+			List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), itemsList.get(0).getCertCode(), itemsList.get(0).getProfessType());
+			if(certEng != null && certEng.size() > 0) {
+				cateTree.setFileId(certEng.get(0).getId());
+				//cateTree.setLevel(certEng.get(0).getAptituteLevel());
+				/*certEng.get(0).getCertType();//资质类型
+				certEng.get(0).getCertCode();//证书编号
+				certEng.get(0).getProfessType();//专业类别
+				certEng.get(0).getAptituteLevel();//资质等级*/
+				Qualification qua= qualificationService.getQualification(certEng.get(0).getCertType());
+				if(null != qua){
+					certEng.get(0).setCertType(qua.getName());
+				}else{
+					certEng.get(0).setCertType("");
+				}
+				DictionaryData data=DictionaryDataUtil.findById(certEng.get(0).getAptituteLevel());
+				if(null != data){
+					certEng.get(0).setAptituteLevel(data.getName());
+				}else{
+					certEng.get(0).setAptituteLevel("");
+				}
+				cateTree.setSupplierAptitute(certEng.get(0));
+				cateList.add(cateTree);
+			  }
 			}
 		}
 		return cateList;
