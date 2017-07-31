@@ -2337,3 +2337,9 @@ h2.list_title{
 	font-size: 16px;
 	margin: 15px 0;
 }
+
+/* 前端-马田力修改 */
+/* 修复表格红色边框显示不全问题 */
+.m_table_fixed_border {
+  border-collapse: inherit;
+}

@@ -13,6 +13,11 @@
 		<script type="text/javascript">
 			//新增考卷
 			function addPaper() {
+				var authType = "${authType}";
+				if(authType != '1'){
+					layer.msg("只有采购机构才能操作");
+					return;
+				} 
 				window.location.href = "${pageContext.request.contextPath }/purchaserExam/addPaper.html";
 			}
 
@@ -41,6 +46,11 @@
 
 			//编辑考卷
 			function editPaper() {
+				var authType = "${authType}";
+				if(authType != '1'){
+					layer.msg("只有采购机构才能操作");
+					return;
+				} 
 				var count = 0;
 				var ids = "";
 				var info = document.getElementsByName("info");
@@ -90,11 +100,21 @@
 
 			//查看考卷
 			function view(obj) {
+				var authType = "${authType}";
+				if(authType != '1'){
+					layer.msg("只有采购机构才能操作");
+					return;
+				} 
 				window.location.href = "${pageContext.request.contextPath }/purchaserExam/viewPaper.html?id=" + obj;
 			}
 
 			//设置参考人员
 			function setReference() {
+				var authType = "${authType}";
+				if(authType != '1'){
+					layer.msg("只有采购机构才能操作");
+					return;
+				} 
 				var count = 0;
 				var info = document.getElementsByName("info");
 				var str = "";
@@ -147,6 +167,11 @@
 
 			//查看成绩
 			function viewScore() {
+				var authType = "${authType}";
+				if(authType != '1'){
+					layer.msg("只有采购机构才能操作");
+					return;
+				} 
 				var count = 0;
 				var info = document.getElementsByName("info");
 				var str = "";

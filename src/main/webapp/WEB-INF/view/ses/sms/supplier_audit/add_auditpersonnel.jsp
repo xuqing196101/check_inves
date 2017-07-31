@@ -21,6 +21,7 @@
 			}
 			function add(){
 				var batchNo = $("input[name='batchNo']").val();
+				batchNo = trim(batchNo);
 				if(batchNo == ""){
 					layer.msg("审核批次不能为空！", {
 						offset: '300px'
@@ -29,7 +30,9 @@
 					var msg = "";
 					var flag = true;
 					$("#info").find("input[type='text']").each(function(index, element) {
-						if(element.value == "") {
+						var info = element.value;
+			      info = trim(info);
+						if(info == "") {
 							msg = "信息不能为空!";
 							flag = false;
 						}
@@ -63,6 +66,9 @@
 						});
 					}
 			}
+			function trim(str) { //删除左右两端的空格
+        return str.replace(/(^\s*)|(\s*$)/g, "");
+      }
 			
 			//删除
 			function del(tr){
@@ -84,7 +90,7 @@
 			   <button class="btn btn-windows add" type="button" onclick="openTr()">新增</button>
 			   <ul class="demand_list">
 						<li>
-							<label class="fl">批次：</label>
+							<label class="fl"><div class="star_red">*</div>批次：</label>
 							<input type="text" name="batchNo" value="">
 							<input type="hidden" name="ids" value="${ids }">
 						</li>

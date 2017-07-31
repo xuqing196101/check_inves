@@ -55,7 +55,7 @@
 										</td>
 										<td>
 										
-										<input type="text" name="list[${vs.index }].supplier" onblur="checkSupplierName('${vs.index }')" class="m0 w260 border0"   value="${obj.supplier}">
+										<input type="text" name="list[${vs.index }].supplier" onblur="checkSupplierName('${vs.index }')" onmouseover="supplierReadOnly(this)" class="m0 w260 border0"   value="${obj.supplier}">
 										
 											
 										    <%-- <select name="list[${vs.index }].supplier" class="purchasename" onchange="changeType(this)" id="pType[0]">
@@ -65,7 +65,7 @@
 												</c:forEach>
 											</select> --%>
 										</td>
-										<td><input type="text" name="list[${vs.index }].isFreeTax" class="freetax" value="${obj.isFreeTax}"></td>
+										<td name="userNone"><input type="text" name="list[${vs.index }].isFreeTax" class="freetax" value="${obj.isFreeTax}"></td>
 									 	<td name='userNone'><input type="text" name="list[${vs.index }].goodsUse" class="goodsuse"></td>
 										 <td name='userNone' ><input type="text" name="list[${vs.index }].useUnit" class="useunit"></td>
 									     <td><input type="text" name="list[${vs.index }].memo"  class="memo" value="${obj.memo}" ></td>

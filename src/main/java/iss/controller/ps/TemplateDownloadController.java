@@ -411,7 +411,7 @@ public class TemplateDownloadController {
 	public String publish(@CurrentUser User user,TemplateDownload TemplateDownload,Model model,HttpServletRequest request){
 		boolean flag = true;
 		if(TemplateDownload!=null){
-			if(TemplateDownload.getName()==null||TemplateDownload.getName().equals("")){
+			if(TemplateDownload.getName()==null||TemplateDownload.getName().trim().equals("")){
 				flag = false;
 				model.addAttribute("ERR_name", "模板名称不能为空");
 			}else if(TemplateDownload.getName()!=null&&TemplateDownload.getName().length()>200){
@@ -442,6 +442,9 @@ public class TemplateDownloadController {
 			model.addAttribute("ERR_IpAddressType", "请选择发布范围");
 		}
 		if(flag==false){
+			if(TemplateDownload != null && TemplateDownload.getName() != null){
+				TemplateDownload.setName(TemplateDownload.getName().trim());
+			}
 			model.addAttribute("dataId", id);
 			model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 			DictionaryData dataFile = new DictionaryData();
@@ -454,6 +457,7 @@ public class TemplateDownloadController {
 		    //model.addAttribute("ipAddressType", ipAddress);
 			return "iss/ps/templateDownload/add";
 		}
+		TemplateDownload.setName(TemplateDownload.getName().trim());
 		TemplateDownload.setCreatedAt(new Date());
 		TemplateDownload.setPublishAt(new Date());
 		TemplateDownload.setIsDeleted(0);

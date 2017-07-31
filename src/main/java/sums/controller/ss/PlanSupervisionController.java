@@ -259,43 +259,34 @@ public class PlanSupervisionController {
     @RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
     public String list(Model model, @CurrentUser User user, CollectPlan collectPlan, Integer page){
         if(user != null && user.getOrg() != null){
-            if(collectPlan.getStatus() == null){
-                collectPlan.setSign("0");
-                collectPlan.setStatus(null);
-            }else if(collectPlan.getStatus() == 8){
-                collectPlan.setSign("8");
-                collectPlan.setStatus(null);
-            } else if(collectPlan.getStatus() == 12){
-                collectPlan.setSign("12");
-                collectPlan.setStatus(null);
-            }
-            if("".equals(collectPlan.getFileName())){
-                collectPlan.setFileName(null);
-            }
-            List<Role> roles = user.getRoles();
-            boolean bool=false;
-            if(roles!=null&&roles.size()>0){
-                for(Role r:roles){
-                    if(r.getCode().equals("MANAGE_M")){
-                        bool=true;
+            if(StringUtils.isNotBlank(user.getTypeName()) && "2".equals(user.getTypeName())){
+                if(collectPlan.getStatus() == null){
+                    collectPlan.setSign("0");
+                    collectPlan.setStatus(null);
+                }else if(collectPlan.getStatus() == 8){
+                    collectPlan.setSign("8");
+                    collectPlan.setStatus(null);
+                } else if(collectPlan.getStatus() == 12){
+                    collectPlan.setSign("12");
+                    collectPlan.setStatus(null);
+                }
+                if("".equals(collectPlan.getFileName())){
+                    collectPlan.setFileName(null);
+                }
+                collectPlan.setUserId(user.getOrg().getId());
+                List<CollectPlan> list = collectPlanService.querySupervision(collectPlan, page==null?1:page);
+                for (int i = 0; i < list.size(); i++ ) {
+                    try {
+                        User users = userService.getUserById(list.get(i).getUserId());
+                        list.get(i).setUserId(users.getRelName());
+                    } catch (Exception e) {
+                        list.get(i).setUserId("");
                     }
                 }
+                PageInfo<CollectPlan> info = new PageInfo<>(list);
+                model.addAttribute("info", info);
+                model.addAttribute("collectPlan", collectPlan);
             }
-            if(bool!=true){
-                collectPlan.setUserId(user.getId());
-            }
-            List<CollectPlan> list = collectPlanService.querySupervision(collectPlan, page==null?1:page);
-            for (int i = 0; i < list.size(); i++ ) {
-                try {
-                    User users = userService.getUserById(list.get(i).getUserId());
-                    list.get(i).setUserId(users.getRelName());
-                } catch (Exception e) {
-                    list.get(i).setUserId("");
-                }
-            }
-            PageInfo<CollectPlan> info = new PageInfo<>(list);
-            model.addAttribute("info", info);
-            model.addAttribute("collectPlan", collectPlan);
         }
         return "sums/ss/planSupervision/list";
     }

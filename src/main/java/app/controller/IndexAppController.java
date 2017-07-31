@@ -170,8 +170,7 @@ public class IndexAppController {
     @ResponseBody
     public String indexNews(HttpServletRequest request){
         List<Img> imgList = new ArrayList<>();
-        StringBuffer url = request.getRequestURL();  
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString(); 
+        String tempContextUrl = request.getScheme()+"://"+ request.getServerName() +":"+ request.getServerPort() +request.getContextPath();
         List<Article> picList = articleService.selectPics();
         List<Article> indexPics = null;
         if(picList.size()>0){
@@ -194,12 +193,12 @@ public class IndexAppController {
         }
         if(indexPics != null && !indexPics.isEmpty()){
             for (Article article : indexPics) {
-                imgList.add(new Img(article.getId(),tempContextUrl+"file/viewFile.html?id="+article.getUploadId()+"&key=2"));
+                imgList.add(new Img(article.getId(),tempContextUrl+"/file/viewFile.html?id="+article.getUploadId()+"&key=2"));
             }
         }else{
-            imgList.add(new Img(null,tempContextUrl+"public/portal/images/AppImg1.png"));
-            imgList.add(new Img(null,tempContextUrl+"public/portal/images/AppImg2.png"));
-            imgList.add(new Img(null,tempContextUrl+"public/portal/images/AppImg3.png"));
+            imgList.add(new Img(null,tempContextUrl+"/public/portal/images/AppImg1.png"));
+            imgList.add(new Img(null,tempContextUrl+"/public/portal/images/AppImg2.png"));
+            imgList.add(new Img(null,tempContextUrl+"/public/portal/images/AppImg3.png"));
         }
         List<Article> indexMsgList = new ArrayList<>();
         //动态
@@ -296,7 +295,7 @@ public class IndexAppController {
                 businessId = appInfoList.get(0).getRemark();
             }
             String id = appInfoService.selectFileIdByBusinessId(businessId);
-            String downloadUrl = tempContextUrl + "api/v1/download.html?id="+id+"&key="+Constant.APP_APK_SYS_KEY+"&zipFileName="+null+"&fileName="+null;
+            String downloadUrl = tempContextUrl + "/api/v1/download.html?id="+id+"&key="+Constant.APP_APK_SYS_KEY+"&zipFileName="+null+"&fileName="+null;
             appData.setDownloadUrl(downloadUrl);
             appImg.setData(appData);
         }else{
@@ -745,9 +744,8 @@ public class IndexAppController {
     @ResponseBody
     public String appDatailsById(String id,HttpServletRequest request){
         Article article = indexAppService.selectContentById(id);
-        StringBuffer url = request.getRequestURL();  
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString(); 
         indexAppService.getContentImg(article, request);
+        String tempContextUrl = request.getScheme()+"://"+ request.getServerName() +":"+ request.getServerPort() +request.getContextPath();
         String content = null;
         if(article != null){
             content = "<div style='width: 100%;overflow: hidden;'><h3 style = 'text-align: center;font-size: 60px;'>"
@@ -755,9 +753,9 @@ public class IndexAppController {
                 + "<div style='overflow: hidden;border-bottom: 1px dashed #ddd;height: 100px;line-height: 100px;'>"
                 + "<div style='text-align: right; margin-left: 15px;font-size: 40px;'><span>"
                 + "<i style='margin-right: 5px;'>"
-                + "<img src='"+tempContextUrl+"public/portal/images/block.png'/></i>"+dataToString(article.getPublishedAt())+"</span></div></div>"
+                + "<img src='"+tempContextUrl+"/public/portal/images/block.png'/></i>"+dataToString(article.getPublishedAt())+"</span></div></div>"
                 + "<div style='width: 100%; clear: both;margin-top: 20px;line-height: 30px;'>"
-                + "<img src='"+tempContextUrl+"api/v1/AppdownloadDetailsImage.html?id="+article.getId()+"' width='100%'/></div></div>";
+                + "<img src='"+tempContextUrl+"/api/v1/AppdownloadDetailsImage.html?id="+article.getId()+"' width='100%'/></div></div>";
         }
         AppData appData = new AppData();
         AppImg appImg = new AppImg();
@@ -971,8 +969,9 @@ public class IndexAppController {
         String id = appInfoService.selectFileIdByBusinessId(businessId);
         model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
         model.addAttribute("id", id);
-        StringBuffer url = request.getRequestURL();  
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString(); 
+       /* StringBuffer url = request.getRequestURL();  
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString(); */
+        String tempContextUrl = request.getScheme()+"://"+ request.getServerName() +":"+ request.getServerPort() +request.getContextPath();
         model.addAttribute("tempContextUrl", tempContextUrl);
         return "ses/app/qrCode";
     }

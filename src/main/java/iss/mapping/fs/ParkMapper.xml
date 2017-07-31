@@ -53,10 +53,10 @@
 			    WHERE IS_DELETED = 0
 			    <trim suffixOverrides=",">
 	                 <if test="parkNameForSerach!= null">
-	                    and NAME Like concat(concat('%', '#{parkNameForSerach}'), '%')
+	                    and NAME Like concat(concat('%', #{parkNameForSerach}), '%')
 	                 </if> 
 	                 <if test="parkContentForSerach!= null">
-	                    and CONTENT Like concat(concat('%', '#{parkContentForSerach}'), '%')
+	                    and CONTENT Like concat(concat('%', #{parkContentForSerach}), '%')
 	                 </if> 
 	                 <if test="userId != null and userId != '' ">
 	                    and USER_ID = #{userId}
