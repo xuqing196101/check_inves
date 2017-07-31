@@ -338,6 +338,7 @@ public class ExpertController extends BaseController {
             expert.setId(expertId);
             expert.setIsProvisional((short) 0);
             expert.setMobile(user.getMobile());
+            expert.setCreatedAt(new Date());
             service.insertSelective(expert);
             Role role = new Role();
             role.setCode("EXPERT_R");
