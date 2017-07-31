@@ -120,7 +120,7 @@ public interface ExpertCategoryService {
 	 */
 	void insertSelective(ExpertCategory expertCategory);
 
-	  /*
+	  /**
      *〈简述〉
      *〈详细描述〉查询专家所有关联品目
      * @author Ye MaoLin
