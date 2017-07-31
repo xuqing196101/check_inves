@@ -46,4 +46,14 @@ public interface SupplierTypeRelateService {
 	* @throws
 	 */
 	void delete(String supplierId,String supplierType);
+	/**
+	 * 
+	 * Description:根据供应商id 获取类型集合
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-31
+	 * @param supplierId
+	 * @return
+	 */
+	public List<String> findTypeBySupplierId(String supplierId);
 }

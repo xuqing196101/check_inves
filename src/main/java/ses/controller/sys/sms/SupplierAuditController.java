@@ -2380,7 +2380,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("supplierStatus", supplierStatus);
 		//封装 目录分类 分别显示相关的数据
 		if(StringUtils.isNotBlank(supplierId)){
-			List<String> supplierTypes=supplierItemService.findSupplierTypeBySupplierId(supplierId);
+			List<String> supplierTypes=supplierTypeRelateService.findTypeBySupplierId(supplierId);
 			model.addAttribute("supplierTypes", StringUtils.join(supplierTypes,","));
 		}
 		return "ses/sms/supplier_audit/merge_aptitude";
