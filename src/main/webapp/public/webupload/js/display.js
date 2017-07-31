@@ -102,9 +102,9 @@ function displayName(params,data,id,del){
 	if (data != null){
 		if (data.picture){
 			//var li = '<li class="file_view"><a href=\'javascript:openViewDIv("'+params.businessId+'","'+params.typeId+'","'+key+'","'+id+'","this");\'></a></li>';
+			var li = '<li class="file_view"><a href=\'javascript:showPhotoToNewWindow("'+params.businessId+'","'+params.typeId+'","'+key+'","'+id+'","this");\'></a></li>';
 			//var li = '<li class="file_view"><a target=\'_blank\' href=\'javascript:openViewDIv("'+params.businessId+'","'+params.typeId+'","'+key+'","'+id+'","this");\'></a></li>';
-			//
-			var li = '<li class="file_view"><a target="__blank" href=\'../openPic.jsp?bid='+params.businessId+'&tid='+params.typeId+'&key='+key+'&id='+id+'\'\></a></li>';
+			//var li = '<li class="file_view"><a target="__blank" href=\'../openPic.jsp?bid='+params.businessId+'&tid='+params.typeId+'&key='+key+'&id='+id+'\'\></a></li>';
 			$ul.append(li);
 		}
 		if (data.success){
@@ -119,6 +119,18 @@ function displayName(params,data,id,del){
 	}
 }
 	
+
+/***
+ * 在新窗口显示图片  
+ */
+function showPhotoToNewWindow(bid,tid,key,id){
+	window.sessionStorage.setItem("bid",bid);
+	window.sessionStorage.setItem("tid",tid);
+	window.sessionStorage.setItem("key",key);
+	window.sessionStorage.setItem("id",id);
+	window.open(globalPath+"/openPic.jsp");
+}
+
 
 /**
  * 删除文件
@@ -161,6 +173,9 @@ function openViewDIv(businessId,typeId,key,id,obj){
 		  area: [$(document).width() +'px',height + "px"],
 		  offset:['0px','0px'],
 		  content: html,
+		  end:function(){
+			  window.close();
+		  }
 		});
 	display(businessId,typeId,key,id);
 	
