@@ -293,6 +293,7 @@
                 </table>
             </ul>
 
+            <div class="clear"></div>
             <h2 class="count_flow"><i>2</i>最终意见</h2>
             <ul class="ul_list">
                 <li class="col-md-12 col-sm-12 col-xs-12">
@@ -308,18 +309,18 @@
                     <input name="id" value="${expertId}" type="hidden">
                     <input type="hidden" name="status" id="status"/>
                     <c:if test="${status eq '0'}">
-                        <input class="btn btn-windows git" type="button" onclick="shenhe(1);" value="初审通过 " id="tongguo">
-                        <input class="btn btn-windows reset" type="button" onclick="shenhe(2);" value="初审不通过" id="butongguo">
+                        <input class="btn btn-windows passed" type="button" onclick="shenhe(1);" value="初审通过 " id="tongguo">
+                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不通过" id="butongguo">
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                     </c:if>
                     <c:if test="${status eq '1'}">
-                        <input class="btn btn-windows git" type="button" onclick="shenhe(4);" value="复审合格 " id="tongguo">
-                        <input class="btn btn-windows edit" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu">
+                        <input class="btn btn-windows passed" type="button" onclick="shenhe(4);" value="复审合格 " id="tongguo">
+                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu">
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                     </c:if>
                     <c:if test="${status eq '6'}">
-                        <input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复查通过 " id="tongguo">
-                        <input class="btn btn-windows edit" type="button" onclick="shenhe(8);" value="复查不通过" id="tichu">
+                        <input class="btn btn-windows passed" type="button" onclick="shenhe(7);" value="复查通过 " id="tongguo">
+                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(8);" value="复查不通过" id="tichu">
                     </c:if>
                 </form>
             </div>

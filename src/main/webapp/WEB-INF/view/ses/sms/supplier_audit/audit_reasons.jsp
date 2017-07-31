@@ -375,6 +375,7 @@
 	          </ul>
 	        </c:if> --%>
 	        
+	        <div class="clear"></div>
 	        <h2 class="count_flow"><i>2</i>最终意见</h2>
           <ul class="ul_list">
               <li class="col-md-12 col-sm-12 col-xs-12">
@@ -396,16 +397,16 @@
 	              <div class="col-md-12 add_regist tc">
           			<!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
 		            <c:if test="${supplierStatus == 0}">
-		              <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="审核通过 " id="tongguo">
-		              <input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
+		              <input class="btn btn-windows passed"  type="button" onclick="shenhe(1)" value="审核通过 " id="tongguo">
 		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">
+		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
 		            </c:if>
 		            <c:if test="${supplierStatus == 4}">
-		              <input class="btn btn-windows git"  type="button" onclick="shenhe(5)" value="复核通过 " id="tongguo">
+		              <input class="btn btn-windows passed"  type="button" onclick="shenhe(5)" value="复核通过 " id="tongguo">
 		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(6)" value="复核不通过" id="butongguo">
 		            </c:if>
 		            <c:if test="${supplierStatus == 5}">
-		              <input class="btn btn-windows git"  type="button" onclick="shenhe(7)" value="合格 " id="hege">
+		              <input class="btn btn-windows passed"  type="button" onclick="shenhe(7)" value="合格 " id="hege">
 		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(8)" value="不合格" id="buhege">
 		            </c:if>
 	              </div>
