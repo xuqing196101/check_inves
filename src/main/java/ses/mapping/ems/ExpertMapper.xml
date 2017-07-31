@@ -171,6 +171,10 @@
         T1.EXPERTS_FROM,
         T1.MOBILE,
         T1.IS_SUBMIT,
+        T1.CREATED_AT,
+        T1.SUBMIT_AT,
+        T1.AUDIT_AT,
+        T1.COVER_NOTE,
         T2.LOGIN_NAME AS loginName,
         org.SHORT_NAME AS orgName
       from
@@ -2072,6 +2076,7 @@ resultMap="BaseResultMap">
 		SELECT
 			t1.*,
 			t2.LOGIN_NAME AS loginName,
+			t2.ERROR_NUM AS errorNum,
 			t3.NAME AS sex
 		FROM
 			T_SES_EMS_EXPERT t1
@@ -2138,6 +2143,8 @@ resultMap="BaseResultMap">
       T1.EXPERTS_FROM,
       T1.MOBILE,
       T1.IS_SUBMIT,
+      T1.SUBMIT_AT,
+      T1.AUDIT_AT,
       T2.LOGIN_NAME AS loginName,
       org.SHORT_NAME AS orgName,
       AREA.NAME AS ADDRESS

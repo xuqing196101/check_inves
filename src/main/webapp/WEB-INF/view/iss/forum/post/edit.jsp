@@ -6,6 +6,7 @@
 
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
+		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<script type="text/javascript">
 			$(function() {
 				$("#parks").val("${post.park.id}");
@@ -68,7 +69,7 @@
 					<ul class="ul_list mb20">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>帖子名称：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 m0">
 								<input type="text" name="name" value='${post.name }'>
 								<span class="add-on">i</span>
 								<div class="cue">${ERR_name}</div>

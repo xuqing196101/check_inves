@@ -1120,7 +1120,7 @@
 			and tt1.SCORE &gt; #{startScore}
 		</if>
 		<if test="endScore != null and endScore !=''">
-			and tt1.SCORE &lt; #{endScore}
+			and NVL(tt1.SCORE,0) &lt; #{endScore}
 		</if>
 		<if test="item != null">
 			<foreach collection="item" item="id" open="and tt1.id not in ("
@@ -1878,7 +1878,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS in(1,2,3,4,5,6,7,8)
+		WHERE SUPPLIER_STATUS in(-3,1,2,3,4,5,6,7,8)
 		AND AUDIT_DATE &gt;=
 		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND

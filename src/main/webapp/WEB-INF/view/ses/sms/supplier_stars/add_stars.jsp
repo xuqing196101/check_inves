@@ -35,7 +35,7 @@
 					   </div>   
 					<ul class="ul_list">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">一星级所需分数</span>
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>一星级所需分数</span>
 							 <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="input_group" name="oneStars" id="oneStars" type="text" value="${supplierStars.oneStars}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
 								<span class="add-on">i</span>
@@ -43,7 +43,7 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">二星级所需分数</span>
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>二星级所需分数</span>
 							 <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="input_group" name="twoStars" id="twoStars" type="text" value="${supplierStars.twoStars}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
 								<span class="add-on">i</span>
@@ -51,7 +51,7 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">三星级所需分数</span>
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>三星级所需分数</span>
 							<div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="input_group" name="threeStars" id="threeStars" type="text" value="${supplierStars.threeStars}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
 								<span class="add-on">i</span>
@@ -59,7 +59,7 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">四星级所需分数</span>
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>四星级所需分数</span>
 							<div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="input_group" name="fourStars" id="fourStars" type="text" value="${supplierStars.fourStars}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
 								<span class="add-on">i</span>
@@ -67,7 +67,7 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">五星级所需分数</span>
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>五星级所需分数</span>
 							<div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="input_group" name="fiveStars" id="fiveStars" type="text" value="${supplierStars.fiveStars}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
 								<span class="add-on">i</span>

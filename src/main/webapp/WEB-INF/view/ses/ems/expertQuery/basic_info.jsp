@@ -174,7 +174,7 @@
 									<c:if test="${expert.coverNote eq '1'}">
 										<td width="12%" class="bggrey">缴纳社保证明</td>
 										<td width="25%">
-											<up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
+											<up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
 										</td>
 									</c:if>
 									<c:if test="${expert.coverNote eq '2'}">

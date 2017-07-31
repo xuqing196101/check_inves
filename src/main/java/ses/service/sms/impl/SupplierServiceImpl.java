@@ -1004,10 +1004,18 @@ public class SupplierServiceImpl implements SupplierService {
     if (page == null) {
       page = StaticVariables.DEFAULT_PAGE;
     }
-
     PageHelper.startPage(page, Integer.parseInt(PropUtil.getProperty("pageSize")));
-    return supplierMapper.findLogoutList(supplier);
-
+    List<Supplier> suppliers = supplierMapper.findLogoutList(supplier);
+    if (suppliers != null && suppliers.size() > 0) {
+      for (Supplier supplier2 : suppliers) {
+        // 根据userId查询出s
+        User user = userMapper.findUserByTypeId(supplier2.getId());
+        if (user != null) {
+          supplier2.setErrorNum(user.getErrorNum());
+        }
+      }
+    }
+    return suppliers;
   }
 
   /**

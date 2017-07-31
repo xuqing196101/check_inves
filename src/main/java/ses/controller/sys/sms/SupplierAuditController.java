@@ -3316,7 +3316,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			downFileName = new String("军队采购供应商审核表.doc".getBytes("UTF-8"), "iso-8859-1");
 		}
 		if("4".equals(tableType)){
-			downFileName = new String("军队采购供应商复核表.doc".getBytes("UTF-8"), "iso-8859-1");
+			downFileName = new String("军队采购供应商审核表.doc".getBytes("UTF-8"), "iso-8859-1");
 		}
 		response.setContentType("application/x-download");
 		return supplierAuditService.downloadFile(fileName, filePath, downFileName);
