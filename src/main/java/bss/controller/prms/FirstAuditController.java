@@ -427,7 +427,7 @@ public class FirstAuditController {
         }
         count ++;
       }
-      if (firstAudit.getContent()== null || "".equals(firstAudit.getContent())) {
+      if (firstAudit.getContent()== null || "".equals(firstAudit.getContent())|| "".equals(firstAudit.getContent().trim())) {
         if (count > 0) {
           msg += "和评审内容";
         } else {
