@@ -42,7 +42,7 @@ public class Expert extends ExpertHistory implements Serializable {
     /**是否删除；0未删除，1已删除*/
     private Short isDelete = 0;
     /**创建时间*/
-    private Date createdAt = new Date();
+    private Date createdAt;
     /**性别 M 男  F 女*/
     private String gender;
     /**修改时间*/
