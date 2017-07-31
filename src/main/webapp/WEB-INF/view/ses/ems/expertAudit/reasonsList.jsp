@@ -329,7 +329,7 @@
               <h2 class="count_flow"><i>2</i>最终意见</h2>
               <ul class="ul_list">
                  <li>
-                   <div class="select_check" id="selectOptionId">
+                   <div class="select_check">
                       <input type="radio"  name="selectShenhe" value="1">初审合格
                       <input type="radio"  name="selectShenhe" value="2">初审不合格
                     </div>
