@@ -1112,7 +1112,7 @@ public class SupplierServiceImpl implements SupplierService {
     String supplierName = info.getSupplierName();
     String creditCode = info.getCreditCode();
     //判读 是否有脏数据  如果有截取 防止报错
-    if(creditCode.length()>30){
+    if(creditCode!=null && creditCode.length()>30){
     	creditCode=creditCode.substring(0, 18);
     }
 
