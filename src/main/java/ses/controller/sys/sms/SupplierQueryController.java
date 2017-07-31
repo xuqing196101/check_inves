@@ -34,6 +34,8 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
@@ -82,11 +84,11 @@ import bss.formbean.Maps;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.JdcgResult;
-
 import dss.model.rids.SupplierAnalyzeVo;
 /**
  * 版权：(C) 版权所有 
@@ -2208,4 +2210,22 @@ public class SupplierQueryController extends BaseSupplierController {
 		return "dss/rids/list/storeSupplierList";
 	}
 
+    /**
+     * 
+     * @param model
+     * @param request
+     * @param supplierAudit
+     * @param supplierStatus
+     * @param sign
+     * @return
+     */
+    @RequestMapping("/auditInfo")
+	public String auditInfo(Model model, SupplierAudit supplierAudit, Integer judge, Integer sign) {
+		List < SupplierAudit > auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		model.addAttribute("auditList", auditList);
+		model.addAttribute("sign", sign);
+		model.addAttribute("judge", judge);
+		model.addAttribute("supplierId", supplierAudit.getSupplierId());
+		return "/ses/sms/supplier_query/supplierInfo/auditInfo";
+	}
 }

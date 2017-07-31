@@ -686,14 +686,14 @@ public class SynchImportController {
                                 innerSupplierService.immportInner(file2, "publicity");
                             }
                         }
-                        if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
+                        /*if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
                             attachService.importSupplierAttach(f);
                         }
                         if (f.isDirectory()) {
                             if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)) {
                                 OperAttachment.moveFolder(f);
                             }
-                        }
+                        }*/
                     }
 
                     /**

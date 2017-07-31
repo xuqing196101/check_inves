@@ -1,20 +1,14 @@
 package synchro.task.outer.importTask;
 
-import iss.service.ps.DataDownloadService;
-import iss.service.ps.TemplateDownloadService;
-
-import java.io.File;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import common.constant.StaticVariables;
-
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierService;
-
+import common.constant.StaticVariables;
+import iss.service.ps.DataDownloadService;
+import iss.service.ps.TemplateDownloadService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.bms.QualificationService;
@@ -27,9 +21,11 @@ import synchro.outer.read.att.OuterAttachService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
+
+import java.io.File;
 /**
  * 定时 外网 导入 数据
- * 
+ *
  * @author YHL
  */
 @Component("outerMultiImportTask")
@@ -384,9 +380,30 @@ public class MultiImportTask {
 								}
 							}
 						}*/
+
+                        /**
+                         * 供应商公示自动导入
+                         */
+                        result = DictionaryDataUtil.getId(Constant.SYNCH_PUBLICITY_SUPPLIER);
+                        if(StringUtils.isNotEmpty(result)){
+                            /** 产品目录参数管理 只能是外网导入 **/
+                            if (f.getName().equals(Constant.T_SES_SMS_SUPPLIER_PUBLICITY_PATH)) {
+                                if (f.isDirectory()) {
+                                    // 遍历文件夹中的所有文件
+                                    for (File file2 : f.listFiles()) {
+                                        if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)) {
+                                            innerSupplierService.immportInner(file2, "publicity");
+                                        }
+                                    }
+                                }
+                            }
+                        }
 					}
 				}
 			}
+
+
+
 		}
 	}
 }

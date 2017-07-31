@@ -1319,6 +1319,10 @@ public class SupplierController extends BaseSupplierController {
                     if(pro != null && city != null) {
                         purchaseDep.setAddress(pro.getName() + city.getName());
                     }
+                    
+                    int pendingAuditCount = supplierService.countByPurchaseDepId(purchaseDep.getId(), 0);
+                    purchaseDep.setPendingAuditCount(pendingAuditCount);
+                    
 			        purList.add(purchaseDep);
 			    }
 			}

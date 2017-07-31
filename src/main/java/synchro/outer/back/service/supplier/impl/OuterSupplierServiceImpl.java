@@ -16,6 +16,7 @@ import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierAuditNotMapper;
+import ses.dao.sms.SupplierAuditOpinionMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
 import ses.dao.sms.SupplierCertSellMapper;
@@ -37,6 +38,7 @@ import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierAuditNot;
+import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
@@ -206,6 +208,10 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     
     @Autowired
     private SupplierSignatureMapper supplierSignatureMapper;
+
+    @Autowired
+    private SupplierAuditOpinionMapper supplierAuditOpinionMapper;
+
     /**
      * 
      * @see synchro.outer.back.service.supplier.OuterSupplierService#exportCommitSupplier(java.lang.String, java.lang.String, java.util.Date)
@@ -862,6 +868,12 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
             saf.setSupplierAuditNot(supplierAuditNots);
             List<SupplierSignature> ss = supplierSignatureMapper.queryBySupplierId(s.getId());
             saf.setSupplierSignature(ss);
+            // 查询审核意见
+            selectMap.clear();
+            selectMap.put("supplierId",s.getId());
+            selectMap.put("flagTime",0);
+            SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(selectMap);
+            saf.setSupplierAuditOpinions(supplierAuditOpinion);
             supplierAudits.add(saf);
 
         }

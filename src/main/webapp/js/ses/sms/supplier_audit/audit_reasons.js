@@ -121,6 +121,8 @@ function tempSave(flag){
 	    $("#opinionId").val(opinion);
 	    $("#flagTime").val(0);
 	    $("#flagAduit").val(selectOption);
+	    var cate_result = $("#cate_result").html();
+	    $("#cateResult").val(cate_result);
 	    $.ajax({
 	        url:globalPath + "/supplierAudit/saveAuditOpinion.do",
 	        type: "POST",
