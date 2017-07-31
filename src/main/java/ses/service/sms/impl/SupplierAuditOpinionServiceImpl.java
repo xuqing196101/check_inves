@@ -1,7 +1,6 @@
 package ses.service.sms.impl;
 
 import common.utils.JdcgResult;
-import javafx.scene.control.Separator;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
