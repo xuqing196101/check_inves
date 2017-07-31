@@ -470,9 +470,6 @@ a.news_more:hover {
 }
 /* 导航条移动端样式结束*/
 
-.container {
-  position: relative;
-}
 .header-v4 .navbar-default .navbar-nav > li > a {
   font-size: 16px;
   padding: 0 16px;
