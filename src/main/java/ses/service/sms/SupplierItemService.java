@@ -8,6 +8,7 @@ import ses.model.sms.SupplierItem;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface SupplierItemService {
 	public void saveOrUpdate(SupplierItem supplierItem);
@@ -177,7 +178,7 @@ public interface SupplierItemService {
 	 * @param map
 	 * @since JDK1.7
 	 */
-	public List<String> findPassSupplierTypeBySupplierId(Map<String, Object> map);
+	 Set<String> findPassSupplierTypeBySupplierId(Map<String, Object> map);
 
 	/**
 	 *

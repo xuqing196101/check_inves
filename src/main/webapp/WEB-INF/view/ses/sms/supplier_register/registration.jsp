@@ -52,7 +52,7 @@
 							《军队物资工程服务供应商入库操作手册》<a href="${pageContext.request.contextPath}/browser/downOpManuals.html" class="m_download"></a>
 						</div>
 						
-						<div class="font-20 mt10">
+						<div class="font-20 mt10 " style="display: none">
 							《供应商注册常见问题汇总》<a href="${pageContext.request.contextPath}/browser/downQuestion.html" class="m_download"></a>
 						</div>
 						<div class="clear"></div>

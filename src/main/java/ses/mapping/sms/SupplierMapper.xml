@@ -1877,7 +1877,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS in(1,2,3,4,5,6,7,8)
+		WHERE SUPPLIER_STATUS in(-3,1,2,3,4,5,6,7,8)
 		AND AUDIT_DATE &gt;=
 		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND
@@ -1994,7 +1994,7 @@
 	  order by o.position) f
 	</select>
 	<select id="selectExpertNumber" parameterType="java.util.Map" resultType="ses.model.sms.supplierExport">
-	select f.*,(f.reg+f.statusOne+f.statusTwo+f.statusThree+f.statusFour+f.expertArmy+f.expertsLocal) as sums from (
+	select f.*,(f.reg+f.statusOne+f.statusTwo+f.statusThree+f.statusFour+f.expertArmy+f.expertsLocal) as sums  from (
 	select  
 	 o.id as id,o.name as name,o.short_name as shortName,d.id as depId,o.position,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id) reg,

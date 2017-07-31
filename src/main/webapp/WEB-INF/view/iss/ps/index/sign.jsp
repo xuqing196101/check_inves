@@ -79,6 +79,10 @@
     						$("#divPrompt").removeClass("hide");
    						  	$("#spanPrompt").text("对不起，您已被列入黑名单!");
     						layer.close(index);
+    					} else if (data == "review") {
+    						$("#divPrompt").removeClass("hide");
+   						  	$("#spanPrompt").text("初审已通过，待复审!");
+   						    layer.close(index);
     					} else if (data == "notLogin") {
     						$("#divPrompt").removeClass("hide");
   						  	$("#spanPrompt").text("对不起，您参加的评审项目已结束!");

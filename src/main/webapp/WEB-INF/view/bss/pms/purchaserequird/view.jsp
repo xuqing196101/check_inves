@@ -134,6 +134,13 @@
 			}	
 		});
 	}
+	
+	$(function() {
+		// 附件一排显示
+		$('#content .uploadFiles').each(function() {
+			$(this).addClass('w50 p0');
+		});
+	});
 </script>
 </head>
 
@@ -242,8 +249,8 @@
 							 <th class="info organization">采购机构</br>建议</th>
 							 </c:if>
 							<th class="info purchasename">供应商名称</th>
-							<th class="info freetax">是否申请<br>办理免税</th>
 							<c:if test="${list[0].planType=='FC9528B2E74F4CB2A9E74735A8D6E90A'&&list[0].enterPort==1}">
+							<th class="info freetax">是否申请<br>办理免税</th>
 							<th class="goodsuse ">物资用途（仅进口）</th>
 							<th class="useunit">使用单位（仅进口）</th> 
 							</c:if>
@@ -316,13 +323,14 @@
 							   <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
 							 </div>
 							</td >
-							<td title="${obj.isFreeTax}">
+							
+							<c:if test="${list[0].planType=='FC9528B2E74F4CB2A9E74735A8D6E90A'&&list[0].enterPort==1}">
+							 <td title="${obj.isFreeTax}">
 							 <div class="freetax">
 							   <c:if test="${fn:length (obj.isFreeTax) > 8}">${fn:substring(obj.isFreeTax,0,7)}...</c:if>
 							   <c:if test="${fn:length(obj.isFreeTax) <= 8}">${obj.isFreeTax}</c:if>
 							 </div>
 							</td >
-							<c:if test="${list[0].planType=='FC9528B2E74F4CB2A9E74735A8D6E90A'&&list[0].enterPort==1}">
 							  <td title="${obj.goodsUse}">
 							     ${obj.goodsUse}
 							  </td>
@@ -338,7 +346,7 @@
 							</td > 
 							<td>
 							<%-- <c:if test="${obj.purchaseCount!=null }"> --%>
-							   <u:show showId="pShow${vs.index}"  delete="false" businessId="${obj.id}" sysKey="2" typeId="270FA42F7A214E25B62CD80D1045D158" />
+							   <u:show showId="pShow${vs.index}" delete="false" businessId="${obj.id}" sysKey="2" typeId="270FA42F7A214E25B62CD80D1045D158" />
 							<%-- </c:if> --%>
 							</td>
 						</tr>

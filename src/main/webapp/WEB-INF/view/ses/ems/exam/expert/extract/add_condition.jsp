@@ -197,7 +197,7 @@
                     </li>
 
                     <li class="col-md-3 col-sm-6 col-xs-12  dnone clear" id="goodsCount">
-                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">物资技术人数：</span>
+                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>物资技术人数：</span>
                         <div class="input-append input_group col-sm-12 col-xs-12 p0">
                             <input type="text" name="goodsCount" id="goods" value="${con.expertsCount}"
                                    onchange="chane();"/>
@@ -206,7 +206,7 @@
                     </li>
 
                     <li class="col-md-3 col-sm-6 col-xs-12 dnone " id="projectCount">
-                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工程技术人数：</span>
+                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程技术人数：</span>
                         <div class="input-append input_group col-sm-12 col-xs-12 p0">
                             <input type="text" name="projectCount" id="project" value="${con.expertsCount }"
                                    onchange="chane();"/>
@@ -215,7 +215,7 @@
                     </li>
 
                     <li class="col-md-3 col-sm-6 col-xs-12 dnone " id="serviceCount">
-                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">服务技术人数：</span>
+                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>服务技术人数：</span>
                         <div class="input-append input_group col-sm-12 col-xs-12 p0">
                             <input type="text" name="serviceCount" id="service" value="${con.expertsCount }"
                                    onchange="chane();"/>
@@ -224,7 +224,7 @@
                     </li>
 
                     <li class="col-md-3 col-sm-6 col-xs-12  dnone" id="goodsServerCount">
-                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">物资服务经济人数：</span>
+                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>物资服务经济人数：</span>
                         <div class="input-append input_group col-sm-12 col-xs-12 p0">
                             <input type="text" name="goodsServerCount" id="goodsServer" value="${con.expertsCount }"
                                    onchange="chane();"/>
@@ -233,7 +233,7 @@
                     </li>
 
                     <li class="col-md-3 col-sm-6 col-xs-12 dnone" id="goodsProjectCount">
-                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工程经济人数：</span>
+                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程经济人数：</span>
                         <div class="input-append input_group col-sm-12 col-xs-12 p0">
                             <input type="text" name="goodsProjectCount" id="goodsProject" value="${con.expertsCount }"
                                    onchange="chane();"/>

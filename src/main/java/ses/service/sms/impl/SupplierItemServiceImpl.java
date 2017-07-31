@@ -2,6 +2,7 @@ package ses.service.sms.impl;
 
 import com.github.pagehelper.PageHelper;
 import common.utils.JdcgResult;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,20 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItem;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierItemService;
+import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
-import java.util.*;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 @Service(value = "supplierItemService")
 public class SupplierItemServiceImpl implements SupplierItemService {
@@ -650,8 +661,43 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	 * @param map
 	 * @since JDK1.7
 	 */
-	public List<String> findPassSupplierTypeBySupplierId(Map<String,Object> map){
-        return supplierItemMapper.findPassSupplierTypeBySupplierId(map);
+	public Set<String> findPassSupplierTypeBySupplierId(Map<String,Object> map){
+        Set<String> set = new HashSet<>();
+        // 查询供应商是否选择了物资类型
+        String supplierId = (String) map.get("supplierId");
+        List<String> allTypeOfSup = supplierItemMapper.findSupplierTypeBySupplierId(supplierId);
+        List<String> passSupplierTypeBySupplierId = new ArrayList<>();
+        // 物资类型做特殊处理
+        boolean flag = false;
+        if(allTypeOfSup != null && allTypeOfSup.contains(Constant.SUPPLIER_SALES)){
+            map.put("type", Constant.SUPPLIER_SALES);
+            map.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+            map.put("supplierType_page", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
+            passSupplierTypeBySupplierId = supplierItemMapper.findPassSupplierTypeBySupplierId(map);
+            if(passSupplierTypeBySupplierId != null && !passSupplierTypeBySupplierId.isEmpty()){
+                set.addAll(passSupplierTypeBySupplierId);
+            }
+            flag = true;
+        }
+
+        // gys没有选择物资，工程和服务类型直接返回
+        if(allTypeOfSup != null && !allTypeOfSup.contains(Constant.SUPPLIER_PRODUCT) && !allTypeOfSup.contains(Constant.SUPPLIER_PROJECT)
+                && !allTypeOfSup.contains(Constant.SUPPLIER_SERVICE)){
+            return set;
+        }
+        // 清空
+        passSupplierTypeBySupplierId.clear();
+        map.remove("type");
+        map.remove("items_sales_page");
+        // 查询其他类型
+        if(flag){
+            map.put("type", "SALES");
+        }
+        map.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+        map.put("supplierType_page", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
+        passSupplierTypeBySupplierId = supplierItemMapper.findPassSupplierTypeBySupplierId(map);
+        set.addAll(passSupplierTypeBySupplierId);
+        return set;
     }
 
 	/**
@@ -699,7 +745,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         Map<String, Object> param = new HashMap<>();
         param.put("supplierId", supplierId);
         param.put("type", type);
-        if("SALES".equals(type)){
+        if(Constant.SUPPLIER_SALES.equals(type)){
             param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
         }else {
             param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);

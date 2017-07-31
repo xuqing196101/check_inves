@@ -247,7 +247,7 @@ public class PlanLookController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/views")
-    public String views(String id, String planNo, Model model){
+    public String views(String id, String planNo, Model model,String type){
        HashMap<String, Object> map = new HashMap<>();
        map.put("id", id);
 //       map.put("planNo", planNo);
@@ -263,7 +263,7 @@ public class PlanLookController extends BaseController {
 		
 	     model.addAttribute("kind", DictionaryDataUtil.find(5));
 	      model.addAttribute("org", orga);	
-	      
+	      model.addAttribute("type", type);
         return "bss/pms/collect/plan_view";
     }
 	

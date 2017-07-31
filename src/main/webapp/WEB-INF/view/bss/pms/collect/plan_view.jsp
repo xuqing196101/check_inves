@@ -129,7 +129,9 @@
         <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
         <li><a href="javascript:void(0);">保障作业系统</a></li>
         <li><a href="javascript:void(0);">采购计划管理</a></li>
+        <c:if test="${type==null}">
         <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/taskassgin/list.html');">采购任务下达</a></li>
+        </c:if>
         <!-- <li class="active"><a href="javascript:void(0);">采购需求管理重新</a></li> -->
       </ul>
       <div class="clear"></div>
@@ -267,10 +269,9 @@
               </td > 
            
               <td class="p0">
-					<%--   <div class="extrafile">
-							  <u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
-							  <u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-					  </div> --%>	
+					<div class="extrafile">
+							  <u:show showId="pShow${vs.index}"  delete="false" businessId="${obj.id}" sysKey="2" typeId="270FA42F7A214E25B62CD80D1045D158" />
+					  </div> 
 			  </td>
 						 
             </tr>

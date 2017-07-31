@@ -16,6 +16,7 @@ public class supplierExport implements Serializable {
 	private Integer expertArmy;//军队专家
 	private Integer expertsLocal;//地方专家
 	private Integer sums;//总数
+	private Integer total;//合计
 	public String getId() {
 		return id;
 	}
@@ -87,6 +88,12 @@ public class supplierExport implements Serializable {
   }
   public void setSums(Integer sums) {
     this.sums = sums;
+  }
+  public Integer getTotal() {
+    return total;
+  }
+  public void setTotal(Integer total) {
+    this.total = total;
   }
 	
 	

@@ -305,6 +305,7 @@
             <form id="opinionForm" method="post">
                 <input name="id" value="${supplierAuditOpinion.id}" type="hidden">
                 <input name="supplierId" value="${supplierId}" type="hidden">
+                <input id="cateResult" name="cateResult" value="" type="hidden">
                 <input name="opinion" value="" id="opinionId" type="hidden">
                 <input name="flagTime" value="" id="flagTime" type="hidden">
                 <input name="flagAduit" value="" id="flagAduit" type="hidden">
