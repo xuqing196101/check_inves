@@ -414,14 +414,14 @@
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
                     <c:if test="${status eq '0'}">
                         <input class="btn btn-windows git" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
-                        <input class="btn btn-windows reset" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo">
+                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo">
                         <!-- <input class="btn btn-windows reset" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                     </c:if>
                     <c:if test="${status eq '1' && sign eq '2'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(4);" value="复审合格 " id="tongguo">
                         <input class="btn btn-windows cancel" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu"> -->
-                        <input class="btn btn-windows passed" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
+                        <input class="btn btn-windows git" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                         <input class="btn btn-windows cancel"  type="button" onclick="shenhe(-2)" value="预复审结束" id="tongguo">
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
                         <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
@@ -433,7 +433,7 @@
                         <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
                     <c:if test="${status eq '6'}">
-                        <input class="btn btn-windows passed" type="button" onclick="shenhe(7);" value="复查合格 " id="tongguo">
+                        <input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复查合格 " id="tongguo">
                         <input class="btn btn-windows cancel" type="button" onclick="shenhe(8);" value="复查不合格" id="tichu">
                     </c:if>
                 </form>
