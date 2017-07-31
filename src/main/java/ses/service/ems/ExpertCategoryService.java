@@ -87,6 +87,7 @@ public interface ExpertCategoryService {
     List<ExpertCategory> getListCategory(String expertId,String categoryId, String typeId);
 
     /**
+<<<<<<< HEAD
      *
      * Description:查询专家审核通过的类型
      *
@@ -119,5 +120,14 @@ public interface ExpertCategoryService {
 	 */
 	void insertSelective(ExpertCategory expertCategory);
 
+	  /*
+     *〈简述〉
+     *〈详细描述〉查询专家所有关联品目
+     * @author Ye MaoLin
+     * @param expertId
+     * @param object
+     * @return
+     */
+    List<ExpertCategory> selectListByExpertId1(String expertId, String typeId);
 
 }

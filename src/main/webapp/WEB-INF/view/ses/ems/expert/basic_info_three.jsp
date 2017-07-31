@@ -219,7 +219,7 @@
                 <tbody id="purchase_orgs">
                 <c:forEach items="${allPurList}" var="org1" varStatus="vs">
                     <c:if test="${org1.cityId eq expert.address}">
-                        <tr>
+                        <tr <c:if test="${fn:contains(org1.shortName, '北京')}"> style="dispaly:none" </c:if>>
                             <td class="tc"><input  name="procurementDepId" type="radio" value="${org1.id}" onclick="checkDep(this)" <c:if test="${-1!=expert.status}"> disabled="disabled" </c:if>
                                     <c:if test="${org1.id==expert.purchaseDepId}"> checked='checked' </c:if> />
                             </td>
@@ -250,7 +250,8 @@
                 <tbody id="purchase_orgs_">
                 <c:forEach items="${allPurList}" var="org1" varStatus="vs">
                     <c:if test="${org1.cityId ne expert.address}">
-                        <tr>
+                    
+                        <tr <c:if test="${fn:contains(org1.shortName, '北京')}"> style="dispaly:none" </c:if>>
                             <td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" <c:if test="${-1!=expert.status}"> disabled="disabled" </c:if>
                                                   name="procurementDepId" <c:if test="${org1.id ==expert.purchaseDepId}"> checked='checked' </c:if> /></td>
                             <td class="tc">${vs.index + 1}</td>
@@ -260,7 +261,8 @@
                             <td class="tc">${org1.address}</td>
                             <td class="tc">${org1.pendingAuditCount}</td>
                         </tr>
-                    </c:if>
+                       </c:if>
+                    
                 </c:forEach>
                 </tbody>
             </table>
