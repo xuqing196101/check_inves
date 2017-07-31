@@ -186,11 +186,31 @@
 	    	  if($(obj).val()!="26E3925D38BB4295BEB342BDC82B65AC"){
 	    		  $(obj).parent().next().children(":last").val("");
 		    	 }
+	    	  var next=$(obj).parent().parent().nextAll();
+				var parent_id=$($(obj).parent().parent().children()[1]).children(":last").val();
+				for(var i = 0; i < next.length; i++){
+					 if(next[i].tagName=="TR"){
+						 if(parent_id==$($(next[i]).children()[1]).children(":last").val()){
+			              break;
+			        }
+			       $($(next[i]).children()[11]).children(":last").val($(obj).val());
+					 }
+	    	 }
         }
 	  	 
 	      function sel(obj) {
 	    	  if($(obj).val()!="26E3925D38BB4295BEB342BDC82B65AC"){
 	    		  $(obj).parent().next().children(":last").val("");
+	    	  }
+	    		  var next=$(obj).parent().parent().nextAll();
+					var parent_id=$($(obj).parent().parent().children()[1]).children(":last").val();
+					for(var i = 0; i < next.length; i++){
+						 if(next[i].tagName=="TR"){
+							 if(parent_id==$($(next[i]).children()[1]).children(":last").val()){
+				              break;
+				        }
+				       $($(next[i]).children()[11]).children(":last").val($(obj).val());
+						 }
 		    	 }
 		   /*  var val = $(obj).val();
 		    $("select option").each(function() {
@@ -271,6 +291,19 @@
 					 layer.alert("需求名称不允许为空"); 
 					 return false;
 				}
+	    	  var flgs=false;
+	    	  $("#table tr").each(function(i){
+	    		  var price = $(this).find("td:eq(8)").children(":last").val();
+			    	if($.trim(price)!=""){
+			    		 if($(this).find("td:eq(11)").children(":last").val()==""){
+			    			 flgs=true;
+			    		 }
+			    	}
+	    	  });
+	    	  if(flgs){
+				   layer.alert("子节点采购方式不能为空"); 
+				   return false;
+			   }
 	    	  var no=$("#jhbh").val();
 	    	  var refNo=$("#referenceNo").val();
 	    	  var type=$("#wtype").val();

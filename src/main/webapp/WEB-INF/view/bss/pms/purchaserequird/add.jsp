@@ -235,9 +235,15 @@
 
                 var dy=dyly();
                 var ptype=true;
+                var flgs=false;
 			   /*var bool=true; */
 			    $("#detailZeroRow tr").each(function(){
-			    	//var  price= $(this).find("td:eq(8)").children(":first").next().val();//上级id
+			    	var  price= $(this).find("td:eq(8)").children(":first").next().val();
+			    	if($.trim(price)!=""){
+			    		 if($(this).find("td:eq(11)").find("select").val()==""){
+			    			 flgs=true;
+			    		 }
+			    	}
 			    	//if($.trim(price) !=""){
 			    		var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
 				    	  if($.trim(type) == "") {
@@ -245,6 +251,10 @@
 				    	  }
 			    	//}
 			    });
+			   if(flgs){
+				   layer.alert("子节点采购方式不能为空"); 
+				   return false;
+			   }
 				/* var seq=seqs(); */
 			 if(orgType!='0'){
 				 layer.msg("请用需求部门编制采购需求！"); 
@@ -258,7 +268,7 @@
 				}
 			  	else if(!dy){
 					layer.alert("请填写供应商"); 
-				}  
+				}
 				/* else if(!ptype){
 						layer.alert("请选择采购方式"); 
 					} */

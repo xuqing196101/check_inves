@@ -426,7 +426,7 @@
 							<select  class="org w200" required="required"  name="list[${vs.index }].organization" onchange="org(this)">
 							<option value="">请选择</option>
 								<c:forEach items="${org }" var="ss">
-									<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
+									<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.shortName}</option>
 								</c:forEach>
 							</select>
 						 <input type="hidden"  name="history" value="">  
