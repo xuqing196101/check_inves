@@ -17,19 +17,40 @@
 	
 	window.onload=function(){ 
 	
-		function getQueryString(name) { 
+		/* function getQueryString(name) { 
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
 		var r = window.location.search.substr(1).match(reg); 
 		if (r != null) return unescape(r[2]); return null; 
 	
-	} 
-	var businessId = getQueryString("bid");	
-	var typeId = getQueryString("tid");
-	var key = getQueryString("key");
-	var id = getQueryString("id"); 
-	
+	}  */
+	var businessId = window.sessionStorage.getItem("bid");	
+	var typeId = window.sessionStorage.getItem("tid");
+	var key = sessionStorage.getItem("key");
+	var id = window.sessionStorage.getItem("id"); 
 	openViewDIv(businessId,typeId,key,id,this);
 	};
+	
+	//禁用鼠标右键
+	if (window.Event) 
+		document.captureEvents(Event.MOUSEUP); 
+	function nocontextmenu(){ 
+		event.cancelBubble = true ;
+		event.returnValue = false; 
+		return false; 
+	} 
+	function norightclick(e){ 
+		if (window.Event){ 
+		if (e.which == 2 || e.which == 3) 
+			return false; 
+		} 
+		else if (event.button == 2 || event.button == 3){ 
+		   event.cancelBubble = true ;
+		   event.returnValue = false; 
+		   return false; 
+		} 
+	} 
+	document.oncontextmenu = nocontextmenu; // for IE5+ 
+	document.onmousedown = norightclick; // for  others  web browser
 	
 	
 </script>
