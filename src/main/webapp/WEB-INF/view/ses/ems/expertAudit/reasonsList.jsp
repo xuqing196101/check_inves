@@ -59,6 +59,14 @@
         //提交审核
         function shenhe(status) {
             var expertId = $("input[name='expertId']").val();
+            if(status == null){
+            	var status = $(":radio:checked").val();
+            	if(status == null){
+            		layer.msg("请选择意见", {offset: '100px'});
+                return true;
+            	}
+            }
+            
             //退回
             if (status == 3) {
                 updateStepNumber("one");
@@ -318,16 +326,21 @@
                 </table>
             </ul>
             <c:if test="${sign != 2}">
-                <div>
-                    <h2 class="count_flow"><i>2</i>最终意见</h2>
-                    <ul class="ul_list">
-                        <li class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                                <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+              <h2 class="count_flow"><i>2</i>最终意见</h2>
+              <ul class="ul_list">
+                 <li>
+                   <div class="select_check" id="selectOptionId">
+                      <input type="radio"  name="selectShenhe" value="1">初审合格
+                      <input type="radio"  name="selectShenhe" value="2">初审不合格
+                    </div>
+                  </li>
+                  <li class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-12 col-sm-12 col-xs-12 p0">
+                      <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
+                    </div>
+                  </li> 
+                </ul>
+              </div>
             </c:if>
             <c:if test="${ sign == 2 }">
                 <div>
@@ -400,8 +413,9 @@
                     <input type="hidden" name="status" id="status" value="${status}"/>
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
                     <c:if test="${status eq '0'}">
-                        <input class="btn btn-windows git" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
-                        <input class="btn btn-windows reset" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo">
+                        <!-- <input class="btn btn-windows git" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
+                        <input class="btn btn-windows reset" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->
+                        <input class="btn btn-windows reset" type="button" onclick="shenhe();" value="初审结束" id="tuihui">
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                     </c:if>
                     <c:if test="${status eq '1' && sign eq '2'}">
