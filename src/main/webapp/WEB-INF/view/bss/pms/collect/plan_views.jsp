@@ -47,7 +47,7 @@
     function view(obj){
       
       var planNo = $("#planNo").val();
-      window.location.href="${pageContext.request.contextPath}/look/views.html?id="+obj+"&planNo="+planNo;
+      window.location.href="${pageContext.request.contextPath}/look/views.html?id="+obj+"&planNo="+planNo+"&type=required";
     }
     
     function edit(){

@@ -134,6 +134,13 @@
 			}	
 		});
 	}
+	
+	$(function() {
+		// 附件一排显示
+		$('#content .uploadFiles').each(function() {
+			$(this).addClass('w50 p0');
+		});
+	});
 </script>
 </head>
 
@@ -338,7 +345,7 @@
 							</td > 
 							<td>
 							<%-- <c:if test="${obj.purchaseCount!=null }"> --%>
-							   <u:show showId="pShow${vs.index}"  delete="false" businessId="${obj.id}" sysKey="2" typeId="270FA42F7A214E25B62CD80D1045D158" />
+							   <u:show showId="pShow${vs.index}" delete="false" businessId="${obj.id}" sysKey="2" typeId="270FA42F7A214E25B62CD80D1045D158" />
 							<%-- </c:if> --%>
 							</td>
 						</tr>

@@ -49,7 +49,8 @@
 			$.ajax({
              type: "POST",
              async: false, 
-             url: "${pageContext.request.contextPath}/user/saveUserMenu.do?userId="+uid+"&ids="+idstr,
+             url: "${pageContext.request.contextPath}/user/saveUserMenu.do",
+             data:"userId=" + uid + "&ids=" + idstr + "",
              dataType: "text",
              success: function(str){
 		        	 //var index = layer.getFrameIndex(window.name); //先得到当前iframe层的索引

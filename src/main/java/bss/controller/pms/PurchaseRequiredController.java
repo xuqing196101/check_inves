@@ -336,6 +336,7 @@ public class PurchaseRequiredController extends BaseController {
 		try {
 			WorkbookFactory.create(file.getInputStream());
 		} catch (Exception e) {
+		  e.printStackTrace();
 			mark = e.getMessage();
 		}
 
