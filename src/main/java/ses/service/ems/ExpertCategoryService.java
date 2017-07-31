@@ -85,8 +85,15 @@ public interface ExpertCategoryService {
 	List<ExpertCategory> selectListByExpertId(String expertId);
 	
     List<ExpertCategory> getListCategory(String expertId,String categoryId, String typeId);
-	
-	
-	
+
+    /**
+     *〈简述〉
+     *〈详细描述〉查询专家所有关联品目
+     * @author Ye MaoLin
+     * @param expertId
+     * @param object
+     * @return
+     */
+    List<ExpertCategory> selectListByExpertId1(String expertId, String typeId);
 
 }
