@@ -1086,7 +1086,7 @@ public class ExpertController extends BaseController {
                 ct.setId(parent.getId());
                 ct.setIsParent("true");
                 // 设置是否被选中
-                ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, "ENG_INFO",auditList));
+                ct.setChecked(service.isExpertCheckedParent(ct.getId(), expertId, categoryId, "ENG_INFO",auditList));
                 allCategories.add(ct);
             } else {
                 List < Category > tempNodes = engCategoryService.findPublishTree(id, null);
@@ -1156,7 +1156,7 @@ public class ExpertController extends BaseController {
                 ct.setId(parent.getId());
                 ct.setIsParent("true");
                 // 设置是否被选中
-                ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null,auditList));
+                ct.setChecked(service.isExpertCheckedParent(ct.getId(), expertId, categoryId, null,auditList));
                 allCategories.add(ct);
             } else {
                 List < Category > childNodes = categoryService.findPublishTree(id, null);
@@ -2997,7 +2997,8 @@ public class ExpertController extends BaseController {
 
         // 品目信息
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
-        List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplier.getId(), null, null);
+        //List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplier.getId(), null, null);
+        List < SupplierItem > itemsList = supplierItemService.getItemList(supplier.getId(), null, (byte)0, null);
         for(SupplierItem supplierItem: itemsList) {
             if(supplier.getSupplierTypeIds().contains(supplierItem.getSupplierTypeRelateId())){
                 SupplierCateTree cateTree = getTreeListByCategoryId(supplierItem);

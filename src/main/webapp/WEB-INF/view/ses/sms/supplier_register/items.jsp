@@ -80,11 +80,8 @@
 		if (severError == "serverError") {
 			layer.alert("请选择服务型品目！");
 		}
-		 
-		
-		
 	});
-    var loading;
+  var loading;
 	//加载默认的页签
 	function defaultLoadTab(id){
 		if (id == "li_id_1"){
@@ -213,35 +210,20 @@
 		}
 	}
 	
-	var enableNodeList = [];// 存放可以编辑的节点
+	//var enableNodeList = [];// 存放可以编辑的节点
 	function checkNode(treeNode){
 		// 已经通过审核的节点不能修改
     var currSupplierSt = '${currSupplier.status}';
 		if(currSupplierSt == '2'){// 退回修改的状态
-			/* if($.inArray(treeNode.id, enableNodeList) >= 0){
-				return true;
-			}
-			var bool = true;
-			$("#tbody_category tr").each(function(index){
-     		var checkedId = $(this).find("td:last").attr("data-catId");
-     		var errorField = $("#errorField").val();
-     		if(checkedId == treeNode.id && errorField.indexOf(treeNode.id) < 0){
-       		layer.msg("此节点已通过审核，不能修改!");
-     			bool = false;
-     			return false;
-     		}
-     	});
-     	if(!bool){
-     		layer.close(loading);
-     		return false;
-     	}
-     	enableNodeList.push(treeNode.id);
-     	return true; */
      	var errorField = $("#errorField").val();
-     	if(errorField.indexOf(treeNode.id) >= 0){
+     	/* if(errorField.indexOf(treeNode.id) >= 0){
      		return true;
+     	} */
+     	if(!treeNode.checked){
+     		layer.msg("退回修改不能新增产品类别！");
+     	}else{
+     		layer.msg("此节点已通过审核，不能修改！");
      	}
-     	layer.msg("此节点已通过审核，不能修改!");
      	layer.close(loading);
      	return false;
 		}
@@ -280,29 +262,7 @@
 	}
 
 	function saveItems() {
-		/*  getCategoryId();
-		$("#flag").val("");
-		$("#items_info_form_id").submit(); */
-		//	function temporarySave(){
-		$("input[name='flag']").val("file");
-		$
-				.ajax({
-					url : "${pageContext.request.contextPath}/supplier/temporarySave.do",
-					type : "post",
-					data : $("#items_info_form_id").serializeArray(),
-					contextType : "application/x-www-form-urlencoded",
-					success : function(msg) {
-
-						if (msg == 'ok') {
-							layer.msg('暂存成功');
-						}
-						if (msg == 'failed') {
-							layer.msg('暂存失败');
-						}
-					}
-				});
-		//}
-
+		layer.msg('暂存成功');
 	}
 
 	function next(flag) {
@@ -367,10 +327,8 @@
 	
 	}
 
-	function prev(flag) {
-		getCategoryId();
-		$("#flag").val(flag);
-		$("#items_info_form_id").submit();
+	function prev() {
+		updateStep(2);
 	}
 
 	function getCategoryId() {
@@ -453,7 +411,6 @@
 		}
 		$("#flag").val("4");
 		var supplierId = "${currSupplier.id}";
-		var type = $("#supplierTypeRelateId").val();
 		var index_loading = layer.load(1);
 		$
 				.ajax({
@@ -732,16 +689,16 @@
 		</div>
 	</div>
 	
-	 <div class="btmfix">
-	  	  <div class="mt5 mb5 tc">
-	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev('3')">上一步</button>
-				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems(2)">暂存</button>
-				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next(1)">下一步</button>
-	  	  </div>
+	<div class="btmfix">
+ 	  <div class="mt5 mb5 tc">
+ 	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev()">上一步</button>
+			<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems()">暂存</button>
+			<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next(1)">下一步</button>
+ 	  </div>
 	</div>
 	
 	
-	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier_item/save_or_update.html" method="post">
+	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/perfect_items.html" method="post">
 		<input name="supplierId" id="supplierId" value="${currSupplier.id}" type="hidden" /> 
 		<input name="categoryId" value=""  id="categoryId" type="hidden" /> 
 		<input name="clickFlag" value=""  id="clickFlag" type="hidden" /> 

@@ -55,12 +55,13 @@
 			}
 		});
 	}
+	
 </script>
 </head>
 <body>
 	<input type="hidden" value="${audit}" id="errorField" >
   <h2 class="f16">已选产品类别</h2>
-  <table class="table table-bordered table-hover m_table_fixed_border">
+  <table class="table table-bordered table-hover">
     <tr>
       <td class="info tc w50">序号</td>
       <td class="info tc w100">类别</td>
@@ -68,15 +69,52 @@
       <td class="info tc">中类</td>
       <td class="info tc">小类</td>
       <td class="info tc">品种名称</td>
+      <c:if test="${currSupplier.status==2}">
+      	<td class="info tc">审核状态</td>
+      </c:if>
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
-      <tr <c:if test="${fn:contains(audit,item.categoryId)}"> onmouseover="errorMsg(this,'${item.categoryId}','${auditType}')"</c:if>>
-        <td class="tc" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${result.pageSize * (result.pageNum - 1) + vs.index + 1}</td>
-		    <td class="tc" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${item.rootNode}</td>
-		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${item.firstNode}</td>
-		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${item.secondNode}</td>
-		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${item.thirdNode}</td>
-		    <td class="tl pl20" data-id="${item.itemsId}" data-catId = "${item.categoryId}" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${item.fourthNode}</td>
+      <%-- <tr <c:if test="${fn:contains(audit,item.categoryId)}"> onmouseover="errorMsg(this,'${item.categoryId}','${auditType}')"</c:if>>
+        <td class="tc" <c:if test="${fn:contains(audit,item.categoryId)}">style="background-color: #bfbfbf;" </c:if>>${result.pageSize * (result.pageNum - 1) + vs.index + 1}</td>
+		    <td class="tc" <c:if test="${fn:contains(audit,item.categoryId)}">style="background-color: #bfbfbf;" </c:if>>${item.rootNode}</td>
+		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.categoryId)}">style="background-color: #bfbfbf;" </c:if>>${item.firstNode}</td>
+		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.categoryId)}">style="background-color: #bfbfbf;" </c:if>>${item.secondNode}</td>
+		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.categoryId)}">style="background-color: #bfbfbf;" </c:if>>${item.thirdNode}</td>
+		    <td class="tl pl20" data-id="${item.itemsId}" data-catId = "${item.categoryId}" <c:if test="${fn:contains(audit,item.categoryId)}">style="background-color: #bfbfbf;" </c:if>>${item.fourthNode}</td>
+      </tr> --%>
+      <tr>
+        <td class="tc">${result.pageSize * (result.pageNum - 1) + vs.index + 1}</td>
+		    <td class="tc">${item.rootNode}</td>
+		    <td class="tl pl20">${item.firstNode}</td>
+		    <td class="tl pl20">${item.secondNode}</td>
+		    <td class="tl pl20">${item.thirdNode}</td>
+		    <td class="tl pl20" data-id="${item.itemsId}" data-catId="${item.categoryId}">${item.fourthNode}</td>
+		    <c:if test="${currSupplier.status==2}">
+		    	<td class="tl pl20" id="${item.itemsId}">
+			    	<c:if test="${!fn:contains(audit,item.categoryId)}">审核通过</c:if>
+			    	<c:if test="${fn:contains(audit,item.categoryId)}">
+			    		<script type="text/javascript">
+			    			function onloadErrorMsg(_this, auditField, auditType){
+									var supplierId = "${supplierId}";
+									$.ajax({
+										url: "${pageContext.request.contextPath}/supplier/audit.html",
+										data: {"supplierId": supplierId, "auditField": auditField, "auditType": auditType},
+										dataType: "json",
+										success: function(data){
+											if(data && data.suggest && data.suggest.length > 10){
+												$(_this).text("审核不通过："+data.suggest.substring(0,10)+"...");
+												$(_this).attr("title", "审核不通过："+data.suggest);
+											}else{
+												$(_this).text("审核不通过："+data.suggest);
+											}
+										}
+									});
+								}
+								onloadErrorMsg($("#${item.itemsId}"),'${item.categoryId}','${auditType}');
+			    		</script>
+			    	</c:if>
+			    </td>
+		    </c:if>
       </tr>
     </c:forEach>
   </table> 

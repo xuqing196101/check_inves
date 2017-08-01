@@ -50,91 +50,74 @@
 
 	//暂存
 	function saveItems(){
-		$("input[name='flag']").val("file");
-		$.ajax({
-			url : "${pageContext.request.contextPath}/supplier/temporarySave.do",
-			type : "post",
-			data : $("#items_info_form_id").serializeArray(),
-			contextType: "application/x-www-form-urlencoded",
-			success:function (msg) {
-				if (msg == 'ok'){
-					layer.msg('暂存成功');
-				} 
-				if (msg == 'failed'){
-					layer.msg('暂存失败');
-				}  
-			}
-		});
+		layer.msg('暂存成功');
 	}
 	
 	function next(){
-		$("#flag").val("5");
-		sessionStorage.formF=JSON.stringify($("#items_info_form_id").serializeArray());
 		$("#items_info_form_id").submit();
 	}
 	
 	function prev(){
-		$("input[name='flag']").val("1");
-		$("#items_info_form_id").submit();
+		updateStep(4);
 	}
 	var index;
 	function loadPageOne(id, url, supplierTypeId) {
 		 index = layer.load(1, {
 			  shade: [0.1,'#fff'] //0.1透明度的白色背景
 		 });
-	     var supplierId = $("#supplierId").val();
-	  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
-	  	 $("#tab-4").html("");
-	  	 $("#tab-2").html("");
-	  	 $("#tab-3").html("");
-	  	 $("#"+id).load(path);
-	  	 init_web_upload_in("#" + id);
+     var supplierId = $("#supplierId").val();
+  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
+  	 $("#tab-4").html("");
+  	 $("#tab-2").html("");
+  	 $("#tab-3").html("");
+  	 $("#"+id).load(path);
+  	 init_web_upload_in("#" + id);
 	}
 	
 	function loadPageTwo(id, url, supplierTypeId) {
 		 index = layer.load(1, {
 			  shade: [0.1,'#fff'] //0.1透明度的白色背景
 		 });
-	     var supplierId = $("#supplierId").val();
-	  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
-	  	 $("#tab-1").html("");
-	  	 $("#tab-4").html("");
-	  	 $("#tab-3").html("");
-	  	 $("#"+id).load(path);
-	  	 init_web_upload_in("#" + id);
+     var supplierId = $("#supplierId").val();
+  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
+  	 $("#tab-1").html("");
+  	 $("#tab-4").html("");
+  	 $("#tab-3").html("");
+  	 $("#"+id).load(path);
+  	 init_web_upload_in("#" + id);
 	}
 	
 	function loadPageThree(id, url, supplierTypeId) {
 		 index = layer.load(1, {
 			  shade: [0.1,'#fff'] //0.1透明度的白色背景
 		 });
-	     var supplierId = $("#supplierId").val();
-	  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
-	  	 $("#tab-1").html("");
-	  	 $("#tab-2").html("");
-	  	 $("#tab-4").html("");
-	  	 $("#"+id).load(path);
-	  	 init_web_upload_in("#" + id);
+     var supplierId = $("#supplierId").val();
+  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
+  	 $("#tab-1").html("");
+  	 $("#tab-2").html("");
+  	 $("#tab-4").html("");
+  	 $("#"+id).load(path);
+  	 init_web_upload_in("#" + id);
 	}
 	
 	function loadPageFour(id, url, supplierTypeId) {
 		 index = layer.load(1, {
 			  shade: [0.1,'#fff'] //0.1透明度的白色背景
 		 });
-	     var supplierId = $("#supplierId").val();
-	  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
-	  	 $("#tab-1").html("");
-	  	 $("#tab-2").html("");
-	  	 $("#tab-3").html("");
-	  	 $("#"+id).load(path);
-	  	 init_web_upload_in("#" + id);
+     var supplierId = $("#supplierId").val();
+  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
+  	 $("#tab-1").html("");
+  	 $("#tab-2").html("");
+  	 $("#tab-3").html("");
+  	 $("#"+id).load(path);
+  	 init_web_upload_in("#" + id);
 	}
 	function updateStep(step){
 		var supplierId = $("#supplierId").val();
 		location.href = "${pageContext.request.contextPath}/supplier/updateStep.html?step=" + step + "&supplierId=" + supplierId;
 	}
-			sessionStorage.locationE=true;
-			sessionStorage.index=5;
+	sessionStorage.locationE=true;
+	sessionStorage.index=5;
 </script>
 </head>
 
@@ -210,22 +193,19 @@
 	</div>
 	
 	 <div class="btmfix">
-	  	  <div class="mt5 mb5 tc">
-	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev()">上一步</button>
-				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems()">暂存</button>
-				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next()">下一步</button>
-	  	  </div>
+		<div class="mt5 mb5 tc">
+			<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev()">上一步</button>
+			<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems()">暂存</button>
+			<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next()">下一步</button>
+		</div>
 	</div>
 	
-	
-	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier_item/save_or_update.html" method="post">
+	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/perfect_contract.html" method="post">
 		<input name="supplierId" id="supplierId" value="${supplierId}" type="hidden" /> 
-		<input name="supplierTypeIds"  value="${supplierTypeIds}"    type="hidden" /> 
-		<input name="flag" value="" id="flag" type="hidden" /> 
-	 
+		<input name="supplierTypeIds" value="${supplierTypeIds}" type="hidden" /> 
 	</form>
 	<div class="footer_margin">
-   		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
-   </div>
+ 		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
+  </div>
 </body>
 </html>

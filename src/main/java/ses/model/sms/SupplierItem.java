@@ -73,6 +73,14 @@ public class SupplierItem implements Serializable {
 	 * </pre>
 	 */
 	private Date updatedAt;
+	
+	/**
+	 * <pre>
+	 * 品目是否被退回（0：未被退回；1：已被退回）
+	 * 表字段 : T_SES_SMS_SUPPLIER_ITEMS.IS_RETURNED
+	 * </pre>
+	 */
+	private byte isReturned;
 
 	private String categoryName;
 
@@ -300,4 +308,13 @@ public class SupplierItem implements Serializable {
     public void setNodeLevel(Integer nodeLevel) {
         this.nodeLevel = nodeLevel;
     }
+
+	public byte getIsReturned() {
+		return isReturned;
+	}
+
+	public void setIsReturned(byte isReturned) {
+		this.isReturned = isReturned;
+	}
+    
 }
