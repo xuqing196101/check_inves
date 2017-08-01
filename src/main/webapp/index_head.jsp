@@ -198,12 +198,8 @@
     
     <div style="height: 0px;" aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
     <div class="container position_r">
-<<<<<<< HEAD
-    <ul class="nav navbar-nav m-navbar-nav">
-      
-=======
       <ul class="nav navbar-nav m-navbar-nav" >
->>>>>>> fix_bug
+
       <!-- 通知 -->
       <li id="firstPage" class="dropdown shouye_li mega-menu-fullwidth">
       <a class=" dropdown-toggle " href="${pageContext.request.contextPath}/"><i class="shouye nav_icon"></i>首 页</a>
