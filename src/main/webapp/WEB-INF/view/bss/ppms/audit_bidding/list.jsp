@@ -91,9 +91,14 @@
   }
   //重置
   function clearSearch() {
-	$("#proName").attr("value", "");
-	$("#projectNumber").attr("value", "");
-	$("#status option:selected").removeAttr("selected");
+	  var auth='${auth}';
+      if(auth !='show'){
+      layer.msg("只有采购管理部门可以操作");
+      return;
+      }
+      $("#proName").attr("value", "");
+      $("#projectNumber").attr("value", "");
+      $("#status option:selected").removeAttr("selected");
   }
 </script>
 </head>
@@ -151,10 +156,9 @@
 		<div class="clear"></div>
 	  </form>
     </h2>
-	<div class="col-md-12 pl20 mt10">
 	  	<c:if test="${auth == 'show'}">
+	<div class="col-md-12 pl20 mt10">
 	  		<button class="btn btn-windows apply" onclick="audit();" type="button">审核</button>
-		</c:if>
 	</div>
 	<div class="content table_box">
       <table class="table table-bordered table-condensed table-hover table-striped">
@@ -209,8 +213,11 @@
 		  </c:forEach>
 		</tbody>
 	  </table>
+	  </c:if>
 	</div>
+	<c:if test="${auth == 'show'}">
 	<div id="pagediv" align="right"></div>
+	</c:if>
   </div>
 </body>
 </html>
