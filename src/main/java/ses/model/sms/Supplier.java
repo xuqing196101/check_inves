@@ -12,7 +12,6 @@ import ses.model.bms.CategoryParameter;
 import ses.model.bms.RoleUser;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
-import ses.model.bms.Userrole;
 import ses.util.MyAnnotation;
 import bss.model.ppms.ProjectDetail;
 import common.model.UploadFile;
@@ -651,9 +650,7 @@ Supplier implements Serializable {
 	private List<Area> concatCityList=new ArrayList<Area>();
 	
 	private List<Area> armyCity=new ArrayList<Area>();
-	/**
-	 * 字典
-	 */
+	
 	private Area area;
 	
 	private String packageName;

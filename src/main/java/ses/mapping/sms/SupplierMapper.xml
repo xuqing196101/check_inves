@@ -91,8 +91,7 @@
 		<result column="ORGNAME" property="orgName" />
 		<result column="AUDITOR" property="auditor" />
 		<result column="AUDIT_TEMPORARY" property="auditTemporary" />
-		<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
-        <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
+    <!-- <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/> -->
 	</resultMap>
 
 	<resultMap type="ses.model.sms.Supplier" id="supplierTypeMap"

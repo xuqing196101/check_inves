@@ -279,11 +279,11 @@ public class CategoryServiceImpl implements CategoryService {
          * 新增
          */
         if (operaType.equals(OPERA_ADD)) {
-            	if(readExcel!=null&&readExcel.size()>0){
-            		res.setSuccess(false);
-                    res.setError(CATEGORY_CODE_CODE);
-                   return  res;
-            	}
+        	if(readExcel!=null&&readExcel.size()>0){
+        		res.setSuccess(false);
+                res.setError(CATEGORY_CODE_CODE);
+                return res;
+        	}
               
         	
             /*Integer count = findByCode(code);
@@ -855,9 +855,9 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Category> findCategoryByName(HashMap<String, Object> map) {
-		List<Category> Category = categoryMapper.findCategoryByName(map);
+		List<Category> category = categoryMapper.findCategoryByName(map);
 		
-		for(Category cate:Category){
+		for(Category cate:category){
 			List<CategoryQua> list = categoryQuaMapper.findList(cate.getId());
 			String generalQuaNames="";
 			if(list!=null&&list.size()>0){
@@ -871,10 +871,8 @@ public class CategoryServiceImpl implements CategoryService {
 			}
 			
 		}
-			 
 		
-		 
-		return Category;
+		return category;
 	}
 
 	@Override
@@ -959,9 +957,9 @@ public class CategoryServiceImpl implements CategoryService {
           }
       }
       if(list!=null){
-      recordService.synchBidding(synchDate, String.valueOf(list.size()), synchro.util.Constant.SYNCH_CATEGORY, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_CATEGORY);
+    	  recordService.synchBidding(synchDate, String.valueOf(list.size()), synchro.util.Constant.SYNCH_CATEGORY, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_CATEGORY);
       }
-		return false;
+      return false;
 	}
     /**
      * 实现导入 产品目录
@@ -1011,17 +1009,17 @@ public class CategoryServiceImpl implements CategoryService {
 	 */
 	private boolean importDate(File file){
 		List<CategoryQua> list = FileUtils.getBeans(file, CategoryQua.class); 
-		 if(list!=null  && !list.isEmpty()){
-			 for(CategoryQua category:list){
-			 Integer isExist=categoryQuaMapper.countByPrimaryKey(category.getId());
-			  if(isExist!=null && isExist >0){
-				  categoryQuaMapper.updateByPrimaryKeySelective(category);
-			  }else{
-				  categoryQuaMapper.insertSelective(category);
-			  }
-			 }
-			 recordService.synchBidding(new Date(), list.size()+"", synchro.util.Constant.DATA_SYNCH_CATEGORY_QUA, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.EXPORT_COMMIT_SYNCH_CATEGORY_QUA);
-		 }
+		if(list!=null  && !list.isEmpty()){
+			for(CategoryQua category:list){
+				Integer isExist=categoryQuaMapper.countByPrimaryKey(category.getId());
+				if(isExist!=null && isExist >0){
+					categoryQuaMapper.updateByPrimaryKeySelective(category);
+				}else{
+					categoryQuaMapper.insertSelective(category);
+				}
+			}
+			recordService.synchBidding(new Date(), list.size()+"", synchro.util.Constant.DATA_SYNCH_CATEGORY_QUA, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.EXPORT_COMMIT_SYNCH_CATEGORY_QUA);
+		}
 		return false;
 	}
 	/**
@@ -1139,19 +1137,19 @@ public class CategoryServiceImpl implements CategoryService {
 		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
 		    if(parentNodeList.size()>4){
                 for(int i = 0; i < parentNodeList.size(); i++) {
-                Category cate = findById(parentNodeList.get(i).getId());
-	            if(cate != null && cate.getParentId() != null) {
-		            Category parentNode = findById(cate.getParentId());
-		            if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
-		                cateTree.setFourthNode(cate.getName());
-						cateTree.setFourthNodeID(cate.getId());
-						cateTree.setItemsId(cate.getId());
-						cateTree.setItemsName(cate.getName());
+	                Category cate = findById(parentNodeList.get(i).getId());
+		            if(cate != null && cate.getParentId() != null) {
+			            Category parentNode = findById(cate.getParentId());
+			            if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
+			                cateTree.setFourthNode(cate.getName());
+							cateTree.setFourthNodeID(cate.getId());
+							cateTree.setItemsId(cate.getId());
+							cateTree.setItemsName(cate.getName());
+		                }
 	                }
-                }
-	        }
-		 }
-	  }
+		        }
+		    }
+		}
 		return cateTree;
 	}
 

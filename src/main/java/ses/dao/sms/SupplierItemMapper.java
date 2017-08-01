@@ -190,6 +190,29 @@ public interface SupplierItemMapper {
     List<String> selectCountBySupTypeMore(Map<String,Object> map);
 
     List<SupplierItem> selectCountBySupTypeList(Map<String,Object> map);
+    
+    /**
+     * 统计品目
+     * @param supplierId
+     * @param catIds
+     * @param code
+     */
+	int countItemsBySuppIdAndCateIds(
+			@Param("supplierId")String supplierId, 
+			@Param("catIds")List<String> catIds,
+			@Param("code")String code);
+
+	/**
+	 * 查询没有被退回的品目
+	 * @param supplierId
+	 * @param categoryId
+	 * @param type
+	 * @return
+	 */
+	List<SupplierItem> getBySupplierIdCategoryIdIsNotReturned(
+			@Param("supplierId")String supplierId, 
+			@Param("categoryId")String categoryId, 
+			@Param("type")String type);
     /**
      * 
      * Description: 封装map 获取相关参数 数据

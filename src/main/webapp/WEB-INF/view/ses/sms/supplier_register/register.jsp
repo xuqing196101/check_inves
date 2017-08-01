@@ -153,7 +153,6 @@
 								 <span class="red clear col-md-12 col-xs-12 col-sm-12 p0">${err_msg_code }</span> 
 								</div>
 							</div> -->
-							<input type="hidden" name="id" value="${id }">
 							<div class="tc mt10 clear col-md-12 col-sm-12 col-xs-12">
 								<button id="submit_button_id" type="submit" onclick="register()" class="btn margin-5">注册</button>
 								<button type="button" class="btn margin-5" onclick="location='${pageContext.request.contextPath}/supplier/registration_page.html'">返回</button>
