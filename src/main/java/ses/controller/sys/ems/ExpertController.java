@@ -338,6 +338,7 @@ public class ExpertController extends BaseController {
             expert.setId(expertId);
             expert.setIsProvisional((short) 0);
             expert.setMobile(user.getMobile());
+            expert.setCreatedAt(new Date());
             service.insertSelective(expert);
             Role role = new Role();
             role.setCode("EXPERT_R");
@@ -1057,9 +1058,27 @@ public class ExpertController extends BaseController {
             code = "PROJECT";
             categoryId = DictionaryDataUtil.getId("PROJECT");
         }
+        Expert expert = null;
+        if(!"".equals(expertId)){
+        	expert = service.selectByPrimaryKey(expertId);
+        }
+        List < ExpertAudit > auditList=null ;
+        ExpertAudit expertAudit = new ExpertAudit();
+     // 判断专家是否为被退回状态
+        if(expert.getStatus().equals("3")) {
+            // 查询所有的不通过的品目
+            expertAudit.setExpertId(expertId);
+            expertAudit.setSuggestType("six");
+            auditList = expertAuditService.selectFailByExpertId(expertAudit);
+            /*for (ExpertAudit e : auditList) {
+            	Map < String, Object > map = new HashMap < String, Object > ();
+                map.put("expertId", expertId);
+                map.put("categoryId", e.getAuditFieldId());
+                expertCategoryService.deleteByMap(map);
+			}*/
+        }
         if (code != null && code.equals("ENG_INFO_ID")) {
             List < CategoryTree > allCategories = new ArrayList < CategoryTree > ();
-            Expert expert = service.selectByPrimaryKey(expertId);
             if(id == null) {
                 DictionaryData parent = dictionaryDataServiceI.getDictionaryData(categoryId);
                 CategoryTree ct = new CategoryTree();
@@ -1067,7 +1086,7 @@ public class ExpertController extends BaseController {
                 ct.setId(parent.getId());
                 ct.setIsParent("true");
                 // 设置是否被选中
-                ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, "ENG_INFO"));
+                ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, "ENG_INFO",auditList));
                 allCategories.add(ct);
             } else {
                 List < Category > tempNodes = engCategoryService.findPublishTree(id, null);
@@ -1110,17 +1129,11 @@ public class ExpertController extends BaseController {
                             ct.setIsParent("true");
                         }
                         // 判断是否被选中
-                        ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null));
+                        ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null,auditList));
                         //
                         allCategories.add(ct);
                     }
-                    // 判断专家是否为被退回状态
                     if(expert.getStatus().equals("3")) {
-                        // 查询所有的不通过的品目
-                        ExpertAudit expertAudit = new ExpertAudit();
-                        expertAudit.setExpertId(expertId);
-                        expertAudit.setSuggestType("six");
-                        List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
                         for(CategoryTree treeNode: allCategories) {
                             for(ExpertAudit audit: auditList) {
                                 if(audit.getAuditField().equals(treeNode.getId())) {
@@ -1136,7 +1149,6 @@ public class ExpertController extends BaseController {
             return JSON.toJSONString(allCategories);
         } else {
             List < CategoryTree > allCategories = new ArrayList < CategoryTree > ();
-            Expert expert = service.selectByPrimaryKey(expertId);
             if(id == null) {
                 DictionaryData parent = dictionaryDataServiceI.getDictionaryData(categoryId);
                 CategoryTree ct = new CategoryTree();
@@ -1144,7 +1156,7 @@ public class ExpertController extends BaseController {
                 ct.setId(parent.getId());
                 ct.setIsParent("true");
                 // 设置是否被选中
-                ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null));
+                ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null,auditList));
                 allCategories.add(ct);
             } else {
                 List < Category > childNodes = categoryService.findPublishTree(id, null);
@@ -1160,16 +1172,11 @@ public class ExpertController extends BaseController {
                             ct.setIsParent("true");
                         }
                         // 判断是否被选中
-                        ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null));
+                        ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null,auditList));
                         allCategories.add(ct);
                     }
                     // 判断专家是否为被退回状态
                     if(expert.getStatus().equals("3")) {
-                        // 查询所有的不通过的品目
-                        ExpertAudit expertAudit = new ExpertAudit();
-                        expertAudit.setExpertId(expertId);
-                        expertAudit.setSuggestType("six");
-                        List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
                         for(CategoryTree treeNode: allCategories) {
                             for(ExpertAudit audit: auditList) {
                                 if(audit.getAuditField().equals(treeNode.getId())) {
@@ -1195,13 +1202,28 @@ public class ExpertController extends BaseController {
      * @param expertId
      * @return
      */
-    public boolean isExpertChecked(String categoryId, String expertId, String typeId, String flag) {
+    public boolean isExpertChecked(String categoryId, String expertId, String typeId, String flag,List < ExpertAudit > auditList ) {
         List < ExpertCategory > allCategoryList = expertCategoryService.getListByExpertId(expertId, typeId);
+   /*  // 查询所有的不通过的品目
+        ExpertAudit expertAudit = new ExpertAudit();
+        expertAudit.setExpertId(expertId);
+        expertAudit.setSuggestType("six");
+        List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);*/
+        if(auditList!=null && auditList.size()>0){
+        	for(ExpertAudit audit: auditList) {
+                if(audit.getAuditFieldId().equals(categoryId)) {
+                	
+                	return false;
+                	}
+        	}
+        }
+        
         for (ExpertCategory expertCategory : allCategoryList) {
             if (expertCategory.getCategoryId().equals(categoryId)) {
-                return true;
-            }
+                   	return true;
+                   }
         }
+       
         return false;
     }
     /**
@@ -1949,7 +1971,19 @@ public class ExpertController extends BaseController {
 //                int validateDay = service.logoutExpertByDay(temp);
 //                if(0==validateDay){//通过审核时间校验
                     // 用户信息处理
-                
+                if("3".equals(temp.getStatus())){
+                	 // 查询所有的不通过的品目
+            	    ExpertAudit expertAudit = new ExpertAudit();
+                    expertAudit.setExpertId(expertId);
+                    expertAudit.setSuggestType("six");
+                    List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
+                    for (ExpertAudit e : auditList) {
+                    	Map < String, Object > map = new HashMap < String, Object > ();
+                        map.put("expertId", expertId);
+                        map.put("categoryId", e.getAuditFieldId());
+                        expertCategoryService.deleteByMap(map);
+                    }
+                }
                 
                 List < UploadFile > promise = uploadService.getFilesOther(expertId,  ExpertPictureType.COMMITMENT_PROOF.getSign().toString(),"3");
                 List < UploadFile > application = uploadService.getFilesOther(expertId,  ExpertPictureType.APPLICATION_PROOF.getSign().toString(),"3");
@@ -3461,7 +3495,7 @@ public class ExpertController extends BaseController {
         }
         dataMap.put("unitAddress", expert.getUnitAddress() == null ? "" : expert.getUnitAddress());
         dataMap.put("postCode", expert.getPostCode() == null ? "" : expert.getPostCode());
-        dataMap.put("atDuty", expert.getAtDuty() == null ? "" : expert.getAtDuty());
+        dataMap.put("atDuty", expert.getAtDuty() == null ? "无" : expert.getAtDuty());
         dataMap.put("companyAddress", expert.getCompanyAddress() == null ? "" : expert.getCompanyAddress());
         dataMap.put("idCardNumber", expert.getIdCardNumber() == null ? "" : expert.getIdCardNumber());
         DictionaryData idType = dictionaryDataServiceI.getDictionaryData(expert.getIdType());
@@ -3539,10 +3573,15 @@ public class ExpertController extends BaseController {
         }
         String expertsType = expertType.toString().substring(0, expertType.length() - 1);
         dataMap.put("expertsTypeId", expertsType);
-        dataMap.put("graduateSchool", expert.getGraduateSchool() == null ? "" : expert.getGraduateSchool());
+        dataMap.put("graduateSchool", expert.getGraduateSchool() == null ? "无" : expert.getGraduateSchool());
         String hightEducationId = expert.getHightEducation();
         DictionaryData hightEducation = dictionaryDataServiceI.getDictionaryData(hightEducationId);
-        dataMap.put("hightEducation", hightEducation == null ? "" : hightEducation.getName());
+        if(hightEducation == null ){
+        	dataMap.put("hightEducation","无");
+        }else{
+        	dataMap.put("hightEducation", hightEducation.getName() == null ? "无" : hightEducation.getName());
+        }
+        
         DictionaryData degree = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
         if (degree != null) {
             dataMap.put("degree", degree.getName() == null ? "" : degree.getName());
@@ -3556,7 +3595,21 @@ public class ExpertController extends BaseController {
         StringBuffer categories = new StringBuffer();
         //        List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expert.getId(), null);
         List<ExpertCategory> categoriesTxt = getCategoriesTxt(expert.getId());
+        ExpertAudit expertAudit = new ExpertAudit();
+        expertAudit.setExpertId(expert.getId());
+        expertAudit.setSuggestType("six");
+        List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
         for (ExpertCategory expertCategory : categoriesTxt) {
+        	boolean status=false;
+        	for (ExpertAudit e : auditList) {
+				if(e.getAuditFieldId().equals(expertCategory.getCategoryId())){
+					status=true;
+					break;
+				}
+			}
+        	if(status){
+        		continue;
+        	}
             Category category= categoryService.selectByPrimaryKey(expertCategory.getCategoryId());
             if (category != null){
                 categories.append( category.getName());
@@ -3574,10 +3627,10 @@ public class ExpertController extends BaseController {
             productCategories = categories.substring(0, categories.length() - 1);  
         }
         dataMap.put("productCategories", productCategories);
-        dataMap.put("jobExperiences", expert.getJobExperiences() == null ? "" : expert.getJobExperiences());
-        dataMap.put("academicAchievement", expert.getAcademicAchievement() == null ? "" : expert.getAcademicAchievement());
-        dataMap.put("reviewSituation", expert.getReviewSituation() == null ? "" : expert.getReviewSituation());
-        dataMap.put("avoidanceSituation", expert.getAvoidanceSituation() == null ? "" : expert.getAvoidanceSituation());
+        dataMap.put("jobExperiences", expert.getJobExperiences() == null ? "无" : expert.getJobExperiences());
+        dataMap.put("academicAchievement", expert.getAcademicAchievement() == null ? "无" : expert.getAcademicAchievement());
+        dataMap.put("reviewSituation", expert.getReviewSituation() == null ? "无" : expert.getReviewSituation());
+        dataMap.put("avoidanceSituation", expert.getAvoidanceSituation() == null ? "无" : expert.getAvoidanceSituation());
         // 文件名称
         String fileName = new String(("军队评标专家申请表.doc").getBytes("UTF-8"),
             "UTF-8");
@@ -4064,7 +4117,7 @@ public class ExpertController extends BaseController {
             for(CategoryTree treeNode: treeList) {
                 // 判断是否被选中
                 if(expertId != null) {
-                    treeNode.setChecked(isExpertChecked(treeNode.getId(), expertId, typeId, "ENG_INFO"));
+                    treeNode.setChecked(isExpertChecked(treeNode.getId(), expertId, typeId, "ENG_INFO",null));
                 }
             }
             return JSON.toJSONString(treeList);
@@ -4151,7 +4204,7 @@ public class ExpertController extends BaseController {
             for(CategoryTree treeNode: treeList) {
                 // 判断是否被选中
                 if(expertId != null) {
-                    treeNode.setChecked(isExpertChecked(treeNode.getId(), expertId, typeId, null));
+                    treeNode.setChecked(isExpertChecked(treeNode.getId(), expertId, typeId, null,null));
                 } else if(supplierId != null) {
                     treeNode.setChecked(isSupplierChecked(treeNode.getId(), supplierId, type));
                 }
@@ -4221,7 +4274,15 @@ public class ExpertController extends BaseController {
             cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
             cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
             cate.setRootNode(cate.getRootNode());
+            ExpertAudit audit = new ExpertAudit();
+            audit.setExpertId(expertId);
+            audit.setAuditFieldId(cate.getItemsId());
+            List < ExpertAudit > list = expertAuditService.selectFailByExpertId(audit);
+            if(list!=null && list.size()>0){
+            	cate.setAuditReason(list.get(0).getAuditReason());
+            }
         }
+        Expert expert = service.selectByPrimaryKey(expertId);
         model.addAttribute("expertId", expertId);
         model.addAttribute("typeId", typeId);
         model.addAttribute("result", new PageInfo < > (items));
@@ -4243,10 +4304,14 @@ public class ExpertController extends BaseController {
         // 所有的不通过字段的名字
         StringBuffer errorField = new StringBuffer();
         for(ExpertAudit audit: auditList) {
+        	/*Map < String, Object > map = new HashMap < String, Object > ();
+            map.put("expertId", expertId);
+            map.put("categoryId", audit.getAuditFieldId());
+            expertCategoryService.deleteByMap(map);*/
             errorField.append(audit.getAuditFieldId() + ",");
         }
         model.addAttribute("errorField", errorField);
-
+        model.addAttribute("status", expert.getStatus());
         return "ses/ems/expert/ajax_items_expert";
     }
     
@@ -4499,7 +4564,7 @@ public class ExpertController extends BaseController {
         List<UploadFile> IDENTITY_CARD_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.IDENTITY_CARD_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> TECHNOLOGY_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.TECHNOLOGY_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> GRADUATE_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.GRADUATE_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
-//        List<UploadFile> QUALIFICATIONS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.QUALIFICATIONS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        List<UploadFile> QUALIFICATIONS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.QUALIFICATIONS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> RECOMMENDATION_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.RECOMMENDATION_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
 //        List<UploadFile> PRACTICING_REQUIREMENTS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.PRACTICING_REQUIREMENTS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> APPLICATION_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.APPLICATION_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
@@ -4531,10 +4596,10 @@ public class ExpertController extends BaseController {
                 imgInfo="毕业证书未上传";
                 return JSON.toJSONString(imgInfo);
             }
-//            if(QUALIFICATIONS_PROOF.size()<1 && QUALIFICATIONS_PROOF !=null ){
-//                imgInfo="学位证书未上传";
-//                return JSON.toJSONString(imgInfo);
-//            }
+            if(QUALIFICATIONS_PROOF.size()<1 && QUALIFICATIONS_PROOF !=null ){
+                imgInfo="学位证书未上传";
+                return JSON.toJSONString(imgInfo);
+            }
 
         }else if(from.equals("ARMY")){
             if(ARMY_PROOF.size()<1 && ARMY_PROOF !=null ){

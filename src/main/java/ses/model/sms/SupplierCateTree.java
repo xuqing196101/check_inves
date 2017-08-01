@@ -59,6 +59,7 @@ public class SupplierCateTree implements Serializable{
     /** 该品目所有等级 **/
     private List<Qualification> typeList;
     
+    private SupplierAptitute supplierAptitute;//资质信息
     /** 工程对应附件Id **/
     private String fileId;
     
@@ -70,53 +71,111 @@ public class SupplierCateTree implements Serializable{
     //专业类别名称
     private String proName;
     //资质文件数量
-    private Long fileCount;
+    private long fileCount;
     //合同文件数量
     private Long contractCount;
     private String supplierItemId;
-    //目录 是否有审核记录
-    private Integer isItemsPageAudit; 
-    //资质文件 是否有审核记录
-    private Integer isAptitudePAgeAudit;
-    //合同文件 是否有资质审核记录
-    private Integer isContractPageAudit;
+    //目录 是否有审核记录 物资生产 如果是其他的目录类型 也是该字段存储
+    private long isItemsProductPageAudit; 
+    //目录 是否有审核记录 物资销售
+    private long isItemsSalesPageAudit; 
+    //资质文件 是否有审核记录 物资生产 如果其他类型 也是该字段存储
+    private long isAptitudeProductPageAudit;
+    
+    //资质文件 是否有审核记录 物资销售
+    private long isAptitudeSalesPageAudit;
+    
+    //合同文件 是否有资质审核记录  物资生产   如果其他类型 也是该字段存储
+    private long isContractProductPageAudit;
+    //合同文件 是否有资质审核记录  物资销售
+    private long isContractSalesPageAudit;
+    //审核记录 type
+    private String auditType;
     // 根节点类型（1：物质生产；2：物质销售；3：工程；4：服务）
     private int rootNodeType;
-    
     // 类别id
     private String categoryId;
+    //审核理由
+    private String auditReason;
     
-    
-    public String getItemsName() {
+	public String getAuditReason() {
+		return auditReason;
+	}
+
+	public void setAuditReason(String auditReason) {
+		this.auditReason = auditReason;
+	}
+
+	public String getAuditType() {
+		return auditType;
+	}
+
+	public void setAuditType(String auditType) {
+		this.auditType = auditType;
+	}
+
+	public long getIsAptitudeProductPageAudit() {
+		return isAptitudeProductPageAudit;
+	}
+
+	public void setIsAptitudeProductPageAudit(long isAptitudeProductPageAudit) {
+		this.isAptitudeProductPageAudit = isAptitudeProductPageAudit;
+	}
+
+	public long getIsAptitudeSalesPageAudit() {
+		return isAptitudeSalesPageAudit;
+	}
+
+	public SupplierAptitute getSupplierAptitute() {
+		return supplierAptitute;
+	}
+
+	public void setSupplierAptitute(SupplierAptitute supplierAptitute) {
+		this.supplierAptitute = supplierAptitute;
+	}
+
+	public void setIsAptitudeSalesPageAudit(long isAptitudeSalesPageAudit) {
+		this.isAptitudeSalesPageAudit = isAptitudeSalesPageAudit;
+	}
+
+	public long getIsContractSalesPageAudit() {
+		return isContractSalesPageAudit;
+	}
+
+	public void setIsContractSalesPageAudit(long isContractSalesPageAudit) {
+		this.isContractSalesPageAudit = isContractSalesPageAudit;
+	}
+
+	public long getIsContractProductPageAudit() {
+		return isContractProductPageAudit;
+	}
+
+	public void setIsContractProductPageAudit(long isContractProductPageAudit) {
+		this.isContractProductPageAudit = isContractProductPageAudit;
+	}
+
+	public String getItemsName() {
 		return itemsName;
 	}
 
 	public void setItemsName(String itemsName) {
 		this.itemsName = itemsName;
 	}
-
-	public Integer getIsItemsPageAudit() {
-		return isItemsPageAudit;
+	
+	public long getIsItemsProductPageAudit() {
+		return isItemsProductPageAudit;
 	}
 
-	public void setIsItemsPageAudit(Integer isItemsPageAudit) {
-		this.isItemsPageAudit = isItemsPageAudit;
+	public void setIsItemsProductPageAudit(long isItemsProductPageAudit) {
+		this.isItemsProductPageAudit = isItemsProductPageAudit;
 	}
 
-	public Integer getIsAptitudePAgeAudit() {
-		return isAptitudePAgeAudit;
+	public long getIsItemsSalesPageAudit() {
+		return isItemsSalesPageAudit;
 	}
 
-	public void setIsAptitudePAgeAudit(Integer isAptitudePAgeAudit) {
-		this.isAptitudePAgeAudit = isAptitudePAgeAudit;
-	}
-
-	public Integer getIsContractPageAudit() {
-		return isContractPageAudit;
-	}
-
-	public void setIsContractPageAudit(Integer isContractPageAudit) {
-		this.isContractPageAudit = isContractPageAudit;
+	public void setIsItemsSalesPageAudit(Integer isItemsSalesPageAudit) {
+		this.isItemsSalesPageAudit = isItemsSalesPageAudit;
 	}
 
 	public String getSupplierItemId() {

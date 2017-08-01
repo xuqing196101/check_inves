@@ -1,14 +1,9 @@
 package ses.controller.sys.bms;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import common.constant.Constant;
+import common.service.LoginLogService;
+import common.utils.AuthUtil;
+import common.utils.RSAEncrypt;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +12,6 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.StationMessage;
@@ -25,22 +19,20 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
-import ses.service.bms.PreMenuServiceI;
-import ses.service.bms.RoleServiceI;
-import ses.service.bms.StationMessageService;
-import ses.service.bms.TodosService;
-import ses.service.bms.UserDataRuleService;
-import ses.service.bms.UserServiceI;
+import ses.service.bms.*;
 import ses.service.ems.ExpertService;
 import ses.service.sms.ImportSupplierService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
 import ses.util.PropUtil;
 
-import common.constant.Constant;
-import common.service.LoginLogService;
-import common.utils.AuthUtil;
-import common.utils.RSAEncrypt;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -113,99 +105,123 @@ public class LoginController {
             List<User> list = userService.findByLoginName(user.getLoginName());
             // 获取当前登录用户名的随机码
             String randomCode = "";
-            if (list.size() > 0) {
-                randomCode = list.get(0).getRandomCode();
-            }
-            // 根据随机码+密码加密
-            Md5PasswordEncoder md5 = new Md5PasswordEncoder();
-            // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true 表示：生成24位的Base64版
-            md5.setEncodeHashAsBase64(false);
-            String pwd = md5.encodePassword(user.getPassword(), randomCode);
-            user.setPassword(pwd);
-            // 根据用户名、密码验证用户登录
-            List<User> ulist = userService.queryByLogin(user);
-            User u = null;
-            if (ulist.size() > 0) {
-                u = ulist.get(0);
-            }
-
-            // 获取验证码
-            String code = (String) req.getSession().getAttribute("img-identity-code");
-            if (!rqcode.toUpperCase().equals(code)) {
-                logger.info("验证码输入有误");
-                out.print("errorcode");
-            } else if (u != null) {
-                req.getSession().setAttribute("register", true);
-                //查询 是否有监管 中心数据
-               /*List<String> dataRule= UserDataRuleService.getOrgID(u.getId());
-               if(dataRule!=null&& dataRule.size()>0){
-                 u.setUserDataRule(userService.getUserId(dataRule,u.getTypeName()));
-               }*/
-                //查询该用户的供应商角色
-                HashMap<String, Object> supplierMap = new HashMap<String, Object>();
-                supplierMap.put("userId", u.getId());
-                supplierMap.put("code", "SUPPLIER_R");
-                List<Role> srs = roleService.selectByUserIdCode(supplierMap);
-                //查询该用户的专家角色
-                HashMap<String, Object> expertMap = new HashMap<String, Object>();
-                expertMap.put("userId", u.getId());
-                expertMap.put("code", "EXPERT_R");
-                List<Role> ers = roleService.selectByUserIdCode(expertMap);
-                //查询该用户是否是内部超级管理员
-                HashMap<String, Object> adminMap = new HashMap<String, Object>();
-                adminMap.put("userId", u.getId());
-                adminMap.put("code", "ADMIN_R");
-                List<Role> adminRoles = roleService.selectByUserIdCode(adminMap);
-                //进入专家后台
-                if (ers != null && ers.size() > 0) {
-                    try {
+            if (list != null && list.size() > 0) {
+                if (list.get(0).getErrorNum() >= 5) {
+                  logger.info("密码错误5次，账户被锁");
+                  out.print("errorNumMax");
+                } else {
+                  randomCode = list.get(0).getRandomCode();
+                  // 根据随机码+密码加密
+                  Md5PasswordEncoder md5 = new Md5PasswordEncoder();
+                  // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true 表示：生成24位的Base64版
+                  md5.setEncodeHashAsBase64(false);
+                  String pwd = md5.encodePassword(user.getPassword(), randomCode);
+                  user.setPassword(pwd);
+                  // 根据用户名、密码验证用户登录
+                  List<User> ulist = userService.queryByLogin(user);
+                  User u = null;
+                  if (ulist.size() > 0) {
+                    u = ulist.get(0);
+                  }
+                  // 获取验证码
+                  String code = (String) req.getSession().getAttribute("img-identity-code");
+                  if (!rqcode.toUpperCase().equals(code)) {
+                    logger.info("验证码输入有误");
+                    out.print("errorcode");
+                  } else if (u != null) {
+                    //清除用户登录密码错误次数
+                    u.setErrorNum(0);
+                    userService.update(u);
+                    req.getSession().setAttribute("register", true);
+                    //查询 是否有监管 中心数据
+                    /*List<String> dataRule= UserDataRuleService.getOrgID(u.getId());
+                     if(dataRule!=null&& dataRule.size()>0){
+                       u.setUserDataRule(userService.getUserId(dataRule,u.getTypeName()));
+                     }*/
+                    //查询该用户的供应商角色
+                    HashMap<String, Object> supplierMap = new HashMap<String, Object>();
+                    supplierMap.put("userId", u.getId());
+                    supplierMap.put("code", "SUPPLIER_R");
+                    List<Role> srs = roleService.selectByUserIdCode(supplierMap);
+                    //查询该用户的专家角色
+                    HashMap<String, Object> expertMap = new HashMap<String, Object>();
+                    expertMap.put("userId", u.getId());
+                    expertMap.put("code", "EXPERT_R");
+                    List<Role> ers = roleService.selectByUserIdCode(expertMap);
+                    //查询该用户是否是内部超级管理员
+                    HashMap<String, Object> adminMap = new HashMap<String, Object>();
+                    adminMap.put("userId", u.getId());
+                    adminMap.put("code", "ADMIN_R");
+                    List<Role> adminRoles = roleService.selectByUserIdCode(adminMap);
+                    //进入专家后台
+                    if (ers != null && ers.size() > 0) {
+                      try {
                         // 根据userId查询出Expert
                         Expert expert = expertService.selectByPrimaryKey(u.getTypeId());
-                        //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
+                        if (expert != null) {
+                          //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
 //                        int validateDay = expertService.logoutExpertByDay(expert);
 //                        int validateDay = 0;
 //                        if(0==validateDay){//通过
-                            Map<String, Object> map = expertService.loginRedirect(u);
-                            Object object = map.get("expert");
-                            if (object != null) {
-                                req.getSession().setAttribute("loginName", u.getId());
-                                // 拉黑 阻止登录
-                                if (object.equals("1")) {
-                                    out.print("black");
-                                } else if(object.equals("5")){
-                                    out.print("reject");
-                                }else if (object.equals("2")) {
-                                    out.print("reset," + u.getId());
-                                } else if (object.equals("3")) {
-                                    out.print("auditExp," + u.getId());
-                                } else if (object.equals("4")) {
-                                    out.print("firset," + u.getId());
-                                } else if (object.equals("6")) {
-                                    out.print("weed,"+u.getId());
-                                } else if (object.equals("7")) {
-                                    out.print("notLogin");
-                                }
-                            } else {
-                                req.getSession().setAttribute("loginUser", u);
-                                // loginLog记录
-                                loginLog(u, req);
-                                List<PreMenu> resource = preMenuService.getMenu(u);
-                                req.getSession().setAttribute("resource", resource);
-                                //req.getSession().setAttribute("resource", u.getMenus());
-                                req.getSession().setAttribute("loginUserType", "expert");
-                                out.print("scuesslogin");
+                          Map<String, Object> map = expertService.loginRedirect(u);
+                          Object object = map.get("expert");
+                          if (object != null) {
+                            req.getSession().setAttribute("loginName", u.getId());
+                            // 拉黑 阻止登录
+                            if (object.equals("1")) {
+                              out.print("black");
+                            } else if(object.equals("5")){
+                              out.print("reject");
+                            }else if (object.equals("2")) {
+                              out.print("reset," + u.getId());
+                            } else if (object.equals("3")) {
+                              out.print("auditExp," + u.getId());
+                            } else if (object.equals("4")) {
+                              out.print("firset," + u.getId());
+                            } else if (object.equals("6")) {
+                              out.print("weed,"+u.getId());
+                            } else if (object.equals("7")) {
+                              out.print("notLogin");
+                            } else if (object.equals("8")){
+                              out.print("review");
+                            } else if (("1").equals(object)){
+                                // 待复审状态
+                                out.print("expert_waitOnceCheck");
+                            }else if (("5").equals(object)){
+                                // 复审未通过状态
+                                out.print("onceCheckNoPass");
+                            } else if (("-2").equals(object)){
+                                // 审核预通过状态
+                                out.print("prepass");
+                            } else if (("-3").equals(object)){
+                                // 公示中状态
+                                out.print("publicity");
                             }
+                          } else {
+                            req.getSession().setAttribute("loginUser", u);
+                            // loginLog记录
+                            loginLog(u, req);
+                            List<PreMenu> resource = preMenuService.getMenu(u);
+                            req.getSession().setAttribute("resource", resource);
+                            //req.getSession().setAttribute("resource", u.getMenus());
+                            req.getSession().setAttribute("loginUserType", "expert");
+                            out.print("scuesslogin");
+                          }
 //                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
 //                            out.print("expert_logout," + validateDay);
 //                        }
-                    } catch (Exception e) {
+                        }else {
+                          out.print("deleteLogin");
+                        }
+                      } catch (Exception e) {
                         e.printStackTrace();
-                    }
-                } else if (srs != null  && srs.size() > 0) {//供应商
-                    try{
+                      }
+                    } else if (srs != null  && srs.size() > 0) {//供应商
+                      try{
                         // 根据userId查询出Supplier
                         Supplier supplier = supplierService.selectById(u.getTypeId());
-                        //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
+                        if (supplier != null) {
+                          //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
 //                        int validateDay = supplierService.logoutSupplierByDay(supplier);
 //                        int validateDay = 0;
 //                        if(0==validateDay) {//通过
@@ -242,16 +258,25 @@ public class LoginController {
                                 out.print("commit," + u.getId());
                             } else  if("reject".equals(msg)){
                                 out.print("reject," + u.getLoginName());
-                            }
+                            } else if("prepass".equals(msg)){
+                                // 预通过状态
+                                out.print("prepass");
+                            } else if (("publicity").equals(msg)){
+                                // 公示中状态
+                                out.print("publicity");
+
+                          }
 //                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
 //                            out.print("supplier_logout," + validateDay);
 //                        }
-
-                    }catch (Exception e){
+                        }else {
+                          out.print("deleteLogin");
+                        }
+                      }catch (Exception e){
                         e.printStackTrace();
-                    }
-                } else {
-                    /*if (adminRoles != null && adminRoles.size() > 0) {
+                      }
+                    } else {
+                      /*if (adminRoles != null && adminRoles.size() > 0) {
                       //如果当前用户是管理员
                       //查看当前是内网还是外网
                       String ipAddressType = PropUtil.getProperty("ipAddressType");
@@ -273,12 +298,19 @@ public class LoginController {
                       req.getSession().setAttribute("resource", resource);
                       //req.getSession().setAttribute("resource", u.getMenus());
                       out.print("scuesslogin");
-                    /*}*/
+                      /*}*/
+                    }
+                    
+                  } else {
+                    //用户名或密码错误时，更新用户密码错误次数
+                    userService.updateUserLoginErrorNum(user.getLoginName());
+                    logger.error("验证失败");
+                    out.print("errorlogin");
+                  }
                 }
-
-            } else {
-                logger.error("验证失败");
-                out.print("errorlogin");
+            }else {
+              logger.error("用户名不存在");
+              out.print("errorlogin");
             }
         } else {
             logger.error("请输入用户名密码或者验证码");

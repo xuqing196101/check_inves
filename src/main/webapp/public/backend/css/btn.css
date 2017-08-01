@@ -763,6 +763,9 @@
 .cancel{
    background-position: -36px -290px;
 }
+.passed {
+	background-position: -36px -1384px;
+}
 .print{
    background-position:-42px -1262px; 
 }

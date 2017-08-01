@@ -91,6 +91,7 @@
 		<result column="ORGNAME" property="orgName" />
 		<result column="AUDITOR" property="auditor" />
 		<result column="AUDIT_TEMPORARY" property="auditTemporary" />
+		<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
         <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
@@ -100,6 +101,17 @@
 			select="ses.dao.sms.SupplierTypeRelateMapper.findSupplierTypeBySupplierId"
 			column="ID" />
 	</resultMap>
+	
+	<!-- 供应商公示 -->
+	<resultMap id="supplierOfPublicityMap" type="ses.model.sms.Supplier">
+		<id column="ID" property="id" />
+		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 供应商公示列表查询 -->
+  <resultMap id="supplierOfPublicityMapList" type="ses.model.sms.SupplierPublicity" extends="BaseResultMap">
+  </resultMap>
+	
 	<sql id="Base_Column_List">
 		ID, LOGIN_NAME, MOBILE, PASSWORD, SUPPLIER_NAME, WEBSITE,
 		FOUND_DATE, BUSINESS_TYPE,
@@ -1108,7 +1120,7 @@
 			and tt1.SCORE &gt; #{startScore}
 		</if>
 		<if test="endScore != null and endScore !=''">
-			and tt1.SCORE &lt; #{endScore}
+			and NVL(tt1.SCORE,0) &lt; #{endScore}
 		</if>
 		<if test="item != null">
 			<foreach collection="item" item="id" open="and tt1.id not in ("
@@ -1196,8 +1208,7 @@
       WHERE
         1=1
       <if test="sign == 1">
-        and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or
-        SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3)
+        and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3 or SUPPLIER_STATUS = -2 or SUPPLIER_STATUS =-3)
         <if test="procurementDepId !=null">
           and PROCUREMENT_DEP_ID = #{procurementDepId}
         </if>
@@ -1494,7 +1505,10 @@
         AUDITOR =#{auditor},
       </if>
       <if test="auditTemporary !=null">
-        AUDIT_TEMPORARY =#{auditTemporary}
+        AUDIT_TEMPORARY =#{auditTemporary},
+      </if>
+      <if test="auditOpinionAttach !=null">
+        AUDIT_OPINION_ATTACH =#{auditOpinionAttach}
       </if>
 		</set>
 		where ID = #{id}
@@ -1863,7 +1877,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS in(1,2,3,4,5,6,7,8)
+		WHERE SUPPLIER_STATUS in(-3,1,2,3,4,5,6,7,8)
 		AND AUDIT_DATE &gt;=
 		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND
@@ -1980,7 +1994,7 @@
 	  order by o.position) f
 	</select>
 	<select id="selectExpertNumber" parameterType="java.util.Map" resultType="ses.model.sms.supplierExport">
-	select f.*,(f.reg+f.statusOne+f.statusTwo+f.statusThree+f.statusFour+f.expertArmy+f.expertsLocal) as sums from (
+	select f.*,(f.reg+f.statusOne+f.statusTwo+f.statusThree+f.statusFour+f.expertArmy+f.expertsLocal) as sums  from (
 	select  
 	 o.id as id,o.name as name,o.short_name as shortName,d.id as depId,o.position,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id) reg,
@@ -2032,7 +2046,64 @@
 		,
 		(SELECT COUNT(1) AS COUNT_EXPE FROM T_SES_EMS_EXPERT WHERE MOBILE = #{mobile} AND IS_PROVISIONAL != 1 AND IS_DELETE = 0) T2
 	</select>
+
+	<!-- 查询公示的供应商 -->
+	<select id="selectSupByPublicty" resultMap="supplierOfPublicityMap">
+		  SELECT
+		   ID, AUDIT_DATE
+		   FROM T_SES_SMS_SUPPLIER
+		   WHERE
+		   IS_PROVISIONAL = '0'
+		   AND IS_DELETED = '0'
+		   AND SUPPLIER_STATUS = -3
+		   ORDER BY AUDIT_DATE DESC NULLS LAST
+	</select>
 	
+	<!-- 查询公示的供应商 列表 -->
+	<select id="selectSupByPublictyList" resultMap="supplierOfPublicityMapList" parameterType="ses.model.sms.SupplierPublicity">
+		SELECT T.ID, T.SUPPLIER_NAME, DT.NAME AS BUSINESS_NATURE, T.AUDIT_DATE, ORG.SHORT_NAME AS ORGNAME
+		  FROM T_SES_SMS_SUPPLIER T
+		  LEFT JOIN (SELECT T.SUPPLIER_ID,
+		    	WM_CONCAT(SUPPLIER_TYPE_ID) AS SUPPLIER_TYPE_ID
+		    	FROM T_SES_SMS_SUPPLIER_TYPE_RELATE T
+		    	GROUP BY T.SUPPLIER_ID) SC
+		    	ON T.ID = SC.SUPPLIER_ID
+		  LEFT JOIN T_SES_BMS_DICTIONARY_DATA DT
+		    ON T.BUSINESS_NATURE = DT.ID
+		  LEFT JOIN T_SES_OMS_PURCHASE_DEP DEP
+		    ON T.PROCUREMENT_DEP_ID = DEP.ID
+		  LEFT JOIN T_SES_OMS_ORG ORG
+		    ON ORG.ID = DEP.ORG_ID
+		 WHERE T.SUPPLIER_STATUS = -3
+		   AND T.IS_PROVISIONAL = '0'
+		   AND T.IS_DELETED = 0
+		   <if test="supplierName != null and supplierName != ''">
+		     AND INSTR(T.SUPPLIER_NAME,#{supplierName}) >0
+		   </if>
+		   <if test="businessNature != null and businessNature != ''">
+				AND T.BUSINESS_NATURE = #{businessNature}
+		   </if>
+		   <if test="supplierTypeId != null and supplierTypeId != ''">
+				AND INSTR(SC.SUPPLIER_TYPE_ID, #{supplierTypeId}) > 0
+		   </if>
+		   <if test="orgId != null and orgId != ''">
+			   AND DEP.ID = #{orgId}
+		   </if>
+		 ORDER BY T.AUDIT_DATE DESC
+	</select>
+
+	<!-- 根据公示时间查询公示的供应商 -->
+	<select id="selectSupByPublictyOfExport" resultMap="BaseResultMap" parameterType="Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_SMS_SUPPLIER T
+		WHERE T.SUPPLIER_STATUS = #{status}
+		AND T.AUDIT_DATE &gt;=
+		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+		AND
+		T.AUDIT_DATE &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd
+		hh24:mi:ss')
+	</select>
 	<!-- 供应商名称校验：供应商库（除去临时供应商） -->
 	<select id="countSupplierName" resultType="int">
 		SELECT COUNT(*) FROM T_SES_SMS_SUPPLIER
@@ -2050,4 +2121,17 @@
 		AND IS_DELETED = 0
 		AND IS_PROVISIONAL != 1
 	</select>
+	<!-- 根据数据 时间 查看退回修改供应商 2-->
+    <select id="fundGoBackSupplierByDate" resultMap="BaseResultMap" parameterType="java.util.Date">
+        SELECT ID,AUDIT_DATE FROM T_SES_SMS_SUPPLIER
+        WHERE AUDIT_DATE <![CDATA[<]]> #{date}
+        AND SUPPLIER_STATUS='2' AND IS_DELETED = 0
+    </select>
+    <!-- 根据数据时间 查看 各种不通过修改供应商  3审核未通过 6复核未通过 8考察不合格-->
+    <select id="fundNotPassSupplierByDate" resultType="String" parameterType="java.util.Date">
+        SELECT ID FROM T_SES_SMS_SUPPLIER
+        WHERE AUDIT_DATE <![CDATA[<]]> #{date}
+        AND (SUPPLIER_STATUS ='3' or  SUPPLIER_STATUS ='6' or SUPPLIER_STATUS ='8')
+        AND IS_DELETED = 0
+    </select>
 </mapper>

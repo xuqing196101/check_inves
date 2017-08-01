@@ -83,7 +83,7 @@
 		if(id.length==1){
 			var trObj = checktd.parent().parent();
 			var tdArr = trObj.children("td");
-		    var roleCode = tdArr.eq(7).find("input").val();
+		    var roleCode = tdArr.eq(8).find("input").val();
 		    //判断：如果该用户拥有供应商、专家（临时专家）、进口供应商、进口代理商中的任何一个角色都不能进行修改操作
 		    if(roleCode.indexOf("SUPPLIER_R") > -1 || roleCode.indexOf("EXPERT_R") > -1 || roleCode.indexOf("EXPERT_TEMP_R") > -1 || roleCode.indexOf("IMP_SUPPLIER_R") > -1 || roleCode.indexOf("IMPORT_AGENT_R") > -1){
 				layer.msg("该（角色）用户不能进行信息修改",{offset: ['222px']});
@@ -105,7 +105,7 @@
 			ids.push($(this).val()); 
 			var trObj = $(this).parent().parent();
 			var tdArr = trObj.children("td");
-		    var roleCode = tdArr.eq(7).find("input").val();
+		    var roleCode = tdArr.eq(8).find("input").val();
 		    //判断：如果该用户拥有供应商、专家（临时专家）、进口供应商、进口代理商中的任何一个角色都不能进行修改操作
 		    if(roleCode.indexOf("SUPPLIER_R") > -1 || roleCode.indexOf("EXPERT_R") > -1 || roleCode.indexOf("EXPERT_TEMP_R") > -1 || roleCode.indexOf("IMP_SUPPLIER_R") > -1 || roleCode.indexOf("IMPORT_AGENT_R") > -1){
 				flag = 1;
@@ -268,6 +268,35 @@
 		});
 	}
 
+	//给密码输入错误次数超过5次被锁住的用户解锁
+	function unlock(){
+    	var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length == 1){
+			$.ajax({  
+               type: "POST",  
+               url: "${pageContext.request.contextPath}/user/unlock.html?ids="+ids+"&type=backend",  
+               dataType: 'json',  
+               success:function(result){
+               		if(result.success){
+               			$("#"+ids).html('<span class="label rounded-2x label-u">正常</span>');
+                    	layer.msg(result.msg,{offset: '222px'});
+               		}else {
+						layer.msg("解锁失败",{offset: '222px'});
+					}
+                },
+                error: function(result){
+                    layer.msg("操作失败",{offset: '222px'});
+                }
+            });
+		}else if(ids.length>1){
+			layer.alert("只能选择一个用户",{offset: '222px', shade:0.01});
+		}else{
+			layer.alert("请选择用户",{offset: '222px', shade:0.01});
+		}
+    }
 	</script>
   </head>
   <body>
@@ -345,6 +374,7 @@
 			<button class="btn btn-windows edit" type="button" onclick="openPreMenu()">设置权限</button>
 			<!-- <button class="btn btn-windows edit" type="button" onclick="openDataMenu()">设置数据权限</button> -->
 			<button class="btn btn-windows edit" type="button" onclick="resetPaw()">重置密码</button>
+			<button class="btn btn-windows reset" type="button" onclick="unlock();">解锁</button>
 		 </c:if>
 	  </div>
 	  
@@ -359,6 +389,7 @@
 					  <th class="info" width="13%">机构类型</th>
 					  <th class="info"  width="25%">单位</th>
 					  <th class="info"  width="140">联系电话</th>
+					  <th class="info">状态</th>
 					  <th class="info"  width="">角色</th>
 					  <th class="info w50">权限</th>
 					  <!-- <th class="info w80">数据权限</th> -->
@@ -372,14 +403,14 @@
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 					  <td class="tl hidden" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
 					  <td class="tl"><a href="#" onclick="view('${user.id}');">${user.relName}</a></td>
-					 <td class="tl"> <c:if test="${user.typeName == '1'}">采购机构</c:if>
+					  <td class="tl"> <c:if test="${user.typeName == '1'}">采购机构</c:if>
 						        		<c:if test="${user.typeName == '2'}">采购管理部门</c:if>
 						        		<c:if test="${user.typeName == '0'}">需求部门</c:if>
 						        		<c:if test="${user.typeName == '4'}">资源服务中心</c:if>
 						        		<c:if test="${user.typeName == '5'}">监管部门</c:if>
 						        		<c:if test="${user.typeName == '3'}">其他</c:if>
 						        	</td>
-					  <td class="tl">
+					   <td class="tl">
 					   	<c:choose>
 						    <c:when test="${user.typeName=='0'}">
 		                        <c:if test="${user.org != null && user.org.shortName != null }">
@@ -405,6 +436,14 @@
                         </c:choose>
 					  </td>
 					  <td class="tc">${user.mobile}</td>
+					  <td class="tc" id="${user.id}">
+					  	<c:if test="${user.errorNum >= 5}">
+							<span class="label rounded-2x label-dark" >锁住</span>
+						</c:if> 
+						<c:if test="${user.errorNum < 5}">
+							<span class="label rounded-2x label-u">正常</span>
+						</c:if>
+					  </td>
 					  <td class="tl">
 					  	<c:set var="roleCode" value=""/>
 					  	<c:forEach items="${user.roles}" var="r" varStatus="vs">

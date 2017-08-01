@@ -960,7 +960,7 @@
 				});
 				var localHtml = _editor.getPlainTxt();
 				if ($.trim(localHtml) === $.trim(justPlainText)) {
-					_editor.setContent(" ");
+					_editor.setContent("");
 				}
 			});
 			_editor.addListener("blur", function() {

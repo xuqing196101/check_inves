@@ -178,4 +178,17 @@
 		</if>
 		order by t1.OPERATION_DATE asc
 	</select>
+	
+	<!-- 根据修改时间查询 -->
+  <select id="selectByDate" resultMap="BaseResultMap" >
+    select * from T_SES_SMS_BLACKLIST_LOG where 
+    to_char(OPERATION_DATE,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(OPERATION_DATE,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
+  </select>
+  
+  <!-- 根据id查询数量 -->
+   <select id="countById" parameterType="String" resultType="java.lang.Integer" >
+    select count(*) from T_SES_SMS_BLACKLIST_LOG
+    where id=#{id,jdbcType=VARCHAR}
+  </select>
 </mapper>

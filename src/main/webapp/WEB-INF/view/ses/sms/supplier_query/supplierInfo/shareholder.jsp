@@ -59,12 +59,9 @@
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">销售合同</a>
 						</li>
-						<!-- <li class="">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('chengxin');">诚信记录</a>
-						</li>
 						<li class="">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('updateHistory');">历史修改记录</a>
-						</li> -->
+              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('audit');">审核信息</a>
+            </li>
 					</ul>
 					<div class="tab-content padding-top-20">
 						<form id="form_id" action="" method="post">

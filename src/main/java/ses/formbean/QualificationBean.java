@@ -9,6 +9,7 @@ public class QualificationBean {
 
 	private String categoryName;
 	private String categoryId;
+	private String itemId;
 	
 	private  List<Qualification> list=new ArrayList<Qualification>();
 
@@ -35,6 +36,13 @@ public class QualificationBean {
 	public void setList(List<Qualification> list) {
 		this.list = list;
 	}
-	
+
+	public String getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
+	}
 	
 }

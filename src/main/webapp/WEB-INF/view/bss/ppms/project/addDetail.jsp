@@ -8,6 +8,7 @@
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script src="${pageContext.request.contextPath}/public/webuploadFT/layui/layui.js"></script>
     <script type="text/javascript">
+      var objectStauts=false;
       var obj = "";
       var detailId = "";
       var projectId = "${id}";
@@ -66,28 +67,43 @@
                     //如果未被引用
                     if(item.projectStatus != 1) {
                       var flag = false;
+                      
                       for(var int = 0; int < checkDoc.length; int++) {
                         if(item.parentId == checkDoc[int]) {
                           flag = true;
                           checkDoc.push(item.id);
                         }
                       }
-
-                      //查看父节点是否被选中
-                      $("input[name='chkItem_" + item.parentId + "']").each(function() {
-                        flag = $(this).prop("checked");
-                        if(flag == true) {
-                          checkDoc.push(item.id);
-                        }
-                      });
+                      if(objectStauts){
+							 //查看父节点是否被选中
+		                      $("input[name='chkItem_" + item.parentId + "']").each(function() {
+		                        flag = $(this).prop("checked");
+		                        if(flag == true) {
+		                          checkDoc.push(item.id);
+		                        }
+		                      });
+						}else{
+							flag=false;
+						}
+                     
 
                       html += "<td>";
                       html += "<input type='hidden' name='pId_" + item.parentId + "' value='" + item.parentId + "'>";
-                      if(flag == true) {
-                        html += "<input type='checkbox' checked='checked' value='" + item.id + "' name='chkItem_" + item.id + "' onclick='check(this)' alt=''>";
-                      } else {
-                        html += "<input type='checkbox' value='" + item.id + "' name='chkItem_" + item.id + "' onclick='check(this)' alt=''>";
-                      }
+                      if (flag == true) {
+                    	  if(item.seq=='一'){
+                    		  html +="<input type='checkbox' checked='checked' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,1)' alt=''>";
+                    	  }else{
+                    		  html +="<input type='checkbox' checked='checked' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,2)' alt=''>";
+                    	  }
+								
+						} else {
+						  if(item.seq=='一'){
+								html +="<input type='checkbox' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,1)' alt=''>";
+						  }else{
+							    html +="<input type='checkbox' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,2)' alt=''>";
+						  }
+						}
+
                       html += "</td>";
                       html += "<td><div class='seq'>" + item.seq + "</div></td>";
                       html += "<td><div class='department'>" + item.department + "</div></td>";
@@ -116,17 +132,23 @@
         });
       });
 
-      function check(ele) {
+      function check(ele,seq) {
         obj = ele;
         var flag = $(ele).prop("checked");
         var id = $(ele).val();
         var pId = $(ele).prev().val();
         if(flag == true) {
+        	if(seq==1){
+        		objectStauts=true;
+        	}
           //递归选中父节点
           checkedParent(pId);
           //递归选中子节点
           checkedChild(id);
         } else {
+        	if(seq==1){
+        		objectStauts=false;
+        	}
           //递归取消父节点选中
           noCheckedParent(pId);
           //递归取消子节点选中
@@ -262,6 +284,15 @@
           });
         }
       }
+      /* function test(obj) {
+    	  if(obj.checked){
+    		   objectStauts=true;
+    			alert("teue");
+    		}else{
+    		   objectStauts=false;
+    			alert("false");
+    		}
+    	}  */
     </script>
   </head>
 
@@ -324,7 +355,7 @@
 
       </div>
       <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
-        <button class="btn btn-windows save" type="button" onclick="save()">确定</button>
+        <button class="btn btn-windows save" type="button" onclick="save()">确定选择</button>
         <button class="btn btn-windows back" type="button" onclick="javascript:history.go(-1);">返回</button>
       </div>
     </div>

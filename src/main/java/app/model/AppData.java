@@ -5,6 +5,9 @@ import iss.model.ps.Article;
 
 import java.util.List;
 
+import ses.model.ems.ExpertPublicity;
+import ses.model.sms.SupplierPublicity;
+
 /**
  *
  * Description：封装app接口返回的数据
@@ -41,7 +44,30 @@ public class AppData {
     //apk下载链接
     private String downloadUrl;
     
-    public String getVersion() {
+    //供应商入库公示
+    private List<SupplierPublicity> supplierPublicityList;
+    
+    //专家入库公示
+    private List<ExpertPublicity> expertPublicityList;
+    
+    public List<SupplierPublicity> getSupplierPublicityList() {
+		return supplierPublicityList;
+	}
+
+	public void setSupplierPublicityList(
+			List<SupplierPublicity> supplierPublicityList) {
+		this.supplierPublicityList = supplierPublicityList;
+	}
+
+	public List<ExpertPublicity> getExpertPublicityList() {
+		return expertPublicityList;
+	}
+
+	public void setExpertPublicityList(List<ExpertPublicity> expertPublicityList) {
+		this.expertPublicityList = expertPublicityList;
+	}
+
+	public String getVersion() {
         return version;
     }
 

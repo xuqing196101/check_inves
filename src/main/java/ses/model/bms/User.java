@@ -155,6 +155,11 @@ public class User implements Serializable{
      */
     private List<String> userDataRule;
     
+    /**
+     * @Fields errorNum : 用户登录密码错误次数
+     */
+    private Integer errorNum;
+    
     public List<String> getUserDataRule() {
 		return userDataRule;
 	}
@@ -424,4 +429,13 @@ public class User implements Serializable{
   public void setTempOrgName(String tempOrgName) {
 	this.tempOrgName = tempOrgName;
   }
+
+  public Integer getErrorNum() {
+    return errorNum;
+  }
+
+  public void setErrorNum(Integer errorNum) {
+    this.errorNum = errorNum;
+  }
+  
 }

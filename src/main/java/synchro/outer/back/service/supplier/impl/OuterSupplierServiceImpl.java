@@ -1,23 +1,22 @@
 package synchro.outer.back.service.supplier.impl;
 
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
+import common.service.UploadService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierAuditNotMapper;
+import ses.dao.sms.SupplierAuditOpinionMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
 import ses.dao.sms.SupplierCertSellMapper;
@@ -39,6 +38,7 @@ import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierAuditNot;
+import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
@@ -72,12 +72,12 @@ import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
 
-import com.alibaba.fastjson.JSON;
-
-import common.constant.Constant;
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
-import common.service.UploadService;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -208,6 +208,10 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     
     @Autowired
     private SupplierSignatureMapper supplierSignatureMapper;
+
+    @Autowired
+    private SupplierAuditOpinionMapper supplierAuditOpinionMapper;
+
     /**
      * 
      * @see synchro.outer.back.service.supplier.OuterSupplierService#exportCommitSupplier(java.lang.String, java.lang.String, java.util.Date)
@@ -827,5 +831,56 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         }
         recordService.commitSupplierRecord(new Integer(list.size()).toString(), new Date() );
 	}
-    
+
+    /**
+     *
+     * Description: 按时间导出公示供应商
+     *
+     * @author Easong
+     * @version 2017/7/9
+     * @param startTime
+     * @param endTime
+     * @since JDK1.7
+     */
+    @Override
+    public void selectSupByPublictyOfExport(String startTime, String endTime) {
+        Map<String, Object> map=new HashMap<>();
+        Map<String, Object> selectMap=new HashMap<>();
+        selectMap.put("startTime", startTime);
+        selectMap.put("endTime", endTime);
+        selectMap.put("status", -3);
+        List<Supplier> list = supplierMapper.selectSupByPublictyOfExport(selectMap);
+        List<SupplierAuditFormBean> supplierAudits=new LinkedList<>();
+        for(Supplier s:list){
+            SupplierAuditFormBean saf = new SupplierAuditFormBean();
+            saf.setSupplierId(s.getId());
+            saf.setStatus(s.getStatus());
+            saf.setAuditDate(s.getAuditDate());
+            saf.setUser(getUser(s.getId()));
+            map.put("supplierId", s.getId());
+            List<SupplierAudit> sa = supplierAuditMapper.findByMap(map);
+            saf.setSupplierAudits(sa);
+            List<SupplierModify> supplierModifys = supplierModifyMapper.queryBySupplierId(s.getId());
+            saf.setSupplierModify(supplierModifys);
+            List<SupplierHistory> historys = supplierHistoryMapper.queryBySupplierId(s.getId());
+            saf.setSupplierHistory(historys);
+            List<SupplierAuditNot> supplierAuditNots = supplierAuditNotMapper.selectQueryBySupplierId(s.getId());
+            saf.setSupplierAuditNot(supplierAuditNots);
+            List<SupplierSignature> ss = supplierSignatureMapper.queryBySupplierId(s.getId());
+            saf.setSupplierSignature(ss);
+            // 查询审核意见
+            selectMap.clear();
+            selectMap.put("supplierId",s.getId());
+            selectMap.put("flagTime",0);
+            SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(selectMap);
+            saf.setSupplierAuditOpinions(supplierAuditOpinion);
+            supplierAudits.add(saf);
+
+        }
+        if (list != null && list.size() > 0){
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME, 23),JSON.toJSONString(supplierAudits, SerializerFeature.WriteMapNullValue));
+        }
+        recordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.SYNCH_PUBLICITY_SUPPLIER, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_PUBLICITY_SUPPLIER);
+    }
+
 }

@@ -60,7 +60,7 @@
 <body>
 	<input type="hidden" value="${audit}" id="errorField" >
   <h2 class="f16">已选产品类别</h2>
-  <table class="table table-bordered table-hover">
+  <table class="table table-bordered table-hover m_table_fixed_border">
     <tr>
       <td class="info tc w50">序号</td>
       <td class="info tc w100">类别</td>
@@ -70,7 +70,7 @@
       <td class="info tc">品种名称</td>
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
-      <tr <c:if test="${fn:contains(audit,item.categoryId)}"> onmouseover="errorMsg(this,'${item.categoryId}','items_page')"</c:if>>
+      <tr <c:if test="${fn:contains(audit,item.categoryId)}"> onmouseover="errorMsg(this,'${item.categoryId}','${auditType}')"</c:if>>
         <td class="tc" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${result.pageSize * (result.pageNum - 1) + vs.index + 1}</td>
 		    <td class="tc" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${item.rootNode}</td>
 		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${item.firstNode}</td>

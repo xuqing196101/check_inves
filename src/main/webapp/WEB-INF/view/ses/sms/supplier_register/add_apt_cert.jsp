@@ -32,6 +32,13 @@
 			$obj.combobox({
 				panelHeight : 240,
 				width : "200px",
+				onLoadSuccess: function() {
+					if ($('#aptitute_list_tbody_id').length > 0) {
+						$('#aptitute_list_tbody_id .textbox').each(function() {
+	            $(this).addClass('border0');
+	          });
+					}
+				},
 				onSelect : function(record) {
 					getAptLevelSelect(record);
 				},
@@ -54,6 +61,13 @@
 			$obj.combobox({
 				panelHeight : 240,
 				width : "200px",
+				onLoadSuccess: function() {
+          if ($('#aptitute_list_tbody_id').length > 0) {
+            $('#aptitute_list_tbody_id .textbox').each(function() {
+              $(this).addClass('border0');
+            });
+          }
+        },
 				onSelect : function(record) {
 					getAptLevelSelect(record);
 				},

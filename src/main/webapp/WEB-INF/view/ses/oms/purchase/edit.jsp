@@ -151,6 +151,24 @@ function onCheck(e, treeId, treeNode) {
           });
           return is_error;
     }
+    
+    $(document).ready(function(){  
+        $("#formID").bind("submit", function(){  
+          var error = 0;
+          debugger;
+          if (ajaxIdNumber() == 1) {
+          error += 1;
+        } 
+        if (ajaxMoblie() == 1){
+          error += 1;
+        } 
+        if (error > 0) {
+          return false;
+        } else {
+          return true;
+        }
+        })
+      })
 	
 </script>
 </head>
@@ -269,7 +287,7 @@ function onCheck(e, treeId, treeNode) {
 		
 		<div class="padding-top-10 clear">
 		  <h2 class="count_flow"><i>2</i>专业信息</h2>
-		  <ul class="ul_list m_ul_list">
+		  <ul class="ul_list">
 			<li class="col-md-3 col-sm-6 col-xs-12 pl15">  
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">学历</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -325,6 +343,7 @@ function onCheck(e, treeId, treeNode) {
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购资质开始日期</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			    <input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" value="<fmt:formatDate value="${purchaseInfo.quaStartDate}" pattern="yyyy-MM-dd" />"  /> 
+			    <div class="cue">${err_sDate}</div>
 			  </div>
 			</li>
 			
@@ -332,6 +351,7 @@ function onCheck(e, treeId, treeNode) {
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购资质截止日期</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 				<input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="quaEdndate" value="<fmt:formatDate value="${purchaseInfo.quaEdndate}" pattern="yyyy-MM-dd" />"   /> 
+			  <div class="cue">${err_eDate}</div>
 			  </div>
 			</li>
 			
@@ -417,7 +437,7 @@ function onCheck(e, treeId, treeNode) {
 			  <li class="col-md-3 col-sm-6 col-xs-12"> 
         <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>身份证号</span>
         <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="idNumber" name="idCard" onkeyup="ajaxIdNumber()" value="${purchaseInfo.idCard}" type="text"> 
+        <input class="input_group" id="idNumber" name="idCard" onblur="ajaxIdNumber()" value="${purchaseInfo.idCard}" type="text"> 
         <span class="add-on">i</span>
         <div class="cue"><sf:errors path="idCard"/></div>
         <div id="ajax_idNumber" class="cue">${exist_idCard}</div>
@@ -478,12 +498,14 @@ function onCheck(e, treeId, treeNode) {
 				</div>
 			  </li>
 			  
-			  <li class="col-md-12 col-sm-12 col-xs-12"> 
-			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系地址</span>
-				<div class="col-md-12 col-sm-12 col-xs-12 p0">
-				  <textarea  class="w100p" title="不超过800个字" name="address" >${purchaseInfo.address}</textarea>
-				</div>
-			  </li>
+			  <li class="col-md-3 col-sm-12 col-xs-12"> 
+        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系地址</span>
+        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" name="address" value="${purchaseInfo.address}" type="text"> 
+        <span class="add-on">i</span>
+        <div class="cue">${exist_address}</div>
+        </div>
+      </li>
 			</ul>
 		  </div>
 		  

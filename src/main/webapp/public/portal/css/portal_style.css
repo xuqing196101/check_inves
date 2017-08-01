@@ -1792,3 +1792,5 @@ img.sign_left_image {
   width : 148px;
 }
 /* APP二维码结束 */
+/* 最终需要加入portal_common.css中的开始 */
+.h240 { height: 240px; }

@@ -138,6 +138,9 @@
 							</form>
 						</h2>
 						<!-- 表格开始-->
+						<div class="fr mt5 b">
+	      	合计：${contractSum}
+	          </div>
 						<div class="content table_box">
 							<table
 								class="table table-bordered table-condensed table-hover table-striped">
@@ -193,6 +196,9 @@
 							</form>
 						</h2>
 						<!-- 表格开始-->
+						<div class="fr mt5 b">
+	      	       合计：${contractSum}
+	          </div>
 						<div class="content table_box">
 							<table
 								class="table table-bordered table-condensed table-hover table-striped">

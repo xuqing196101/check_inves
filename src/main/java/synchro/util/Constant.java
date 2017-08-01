@@ -1,7 +1,5 @@
 package synchro.util;
 
-import ses.util.PropUtil;
-
 /**
  * 
  * 版权：(C) 版权所有 
@@ -105,7 +103,10 @@ public class Constant {
     
     /** 供应商附件文件名称 **/
     public final static String ATTACH_FILE_SUPPLIER_NEW = "supplier_new";
-    
+    /**供应商审核附件**/
+    public final static String SUPPLIER_CHECK_ATTACHMENT = "SUPPLIER_CHECK_ATTACHMENT";
+    /**专家审核附件**/
+    public final static String EXPERT_CHECK_ATTACHMENT = "EXPERT_CHECK_ATTACHMENT";
     
     
     /** 招标附件文件名称 **/
@@ -204,7 +205,69 @@ public class Constant {
     public final static String EXPORT_COMMIT_SYNCH_QUALIFICATION="导入产品资质信息数量:";
     /***产品资质 导出路径***/
     public final static String FILE_SYNCH_QUALIFICATION_PATH="file_synch_qualification_path";
-    
+
+    /**供应商公示信息**/
+    public final static String SYNCH_PUBLICITY_SUPPLIER="SYNCH_PUBLICITY_SUPPLIER";
+    /**供应商公示  导出信息描述 **/
+    public final static String COMMIT_SYNCH_PUBLICITY_SUPPLIER="导出供应商公示信息数量:";
+    /**供应商公示  导入信息描述 **/
+    public final static String IMPORT_SYNCH_PUBLICITY_SUPPLIER="导入供应商公示信息数量:";
+    /**供应商公示  导入信息描述 **/
+    public final static String T_SES_SMS_SUPPLIER_PUBLICITY_PATH="t_ses_sms_supplier_publicity_path";
+
+    /**专家公示信息**/
+    public final static String SYNCH_PUBLICITY_EXPERT="SYNCH_PUBLICITY_EXPERT";
+    /**专家公示  导出信息描述 **/
+    public final static String COMMIT_SYNCH_PUBLICITY_EXPERT="导出专家公示信息数量:";
+    /**专家公示  导入信息描述 **/
+    public final static String IMPORT_SYNCH_PUBLICITY_EXPERT="导入专家公示信息数量:";
+
     /**目录资质关联表 文件夹名称**/
     
+    
+    /** 网上投诉信息描述 **/
+    public final static String ONLINE_COMPLAINTS_COMMIT = "导出网上投诉信息数量:";
+    /** 网上投诉信息导入描述 **/
+    public final static String ONLINE_COMPLAINTS_COMMIT_IMPORT = "同步网上投诉信息数量:";
+    /** 网上投诉信息 **/
+    public final static String DATE_SYNCH_ONLINE_COMPLAINTS ="SYNCH_ONLINE_COMPLAINTS";
+    /** 网上投诉信息文件名称 **/
+    public final static String ONLINE_COMPLAINTS_FILE_EXPERT = "online_complaints";
+    
+    /** 供应商黑名单信息描述 **/
+    public final static String SUPPLIER_BLACKLIST_COMMIT = "导出供应商黑名单信息数量:";
+    /** 供应商黑名单信息导入描述 **/
+    public final static String SUPPLIER_BLACKLIST_COMMIT_IMPORT = "同步供应商黑名单信息数量:";
+    /** 供应商黑名单信息 **/
+    public final static String DATE_SYNCH_SUPPLIER_BLACKLIST ="SYNCH_S_SUPPLIER_BLACKLIST";
+    /** 供应商黑名单文件名称 **/
+    public final static String SUPPLIER_BLACKLIST_FILE_EXPERT = "supplier_blacklist";
+    
+    /** 供应商黑名单记录信息描述 **/
+    public final static String SUPPLIER_BLACKLIST_LOG_COMMIT = "导出供应商黑名单记录信息数量:";
+    /** 供应商黑名单记录信息导入描述 **/
+    public final static String SUPPLIER_BLACKLIST_LOG_COMMIT_IMPORT = "同步供应商黑名单记录信息数量:";
+    /** 供应商黑名单记录信息 **/
+    public final static String DATE_SYNCH_SUPPLIER_BLACKLIST_LOG ="SYNCH_S_SUPPLIER_BLACKLIST_LOG";
+    /** 供应商黑名单记录文件名称 **/
+    public final static String SUPPLIER_BLACKLIST_LOG_FILE_EXPERT = "supplier_blacklist_log";
+
+    /** 专家黑名单信息描述 **/
+    public final static String EXPERT_BLACKLIST_COMMIT = "导出专家黑名单信息数量:";
+    /** 专家黑名单信息导入描述 **/
+    public final static String EXPERT_BLACKLIST_COMMIT_IMPORT = "同步专家黑名单信息数量:";
+    /** 专家黑名单信息 **/
+    public final static String DATE_SYNCH_EXPERT_BLACKLIST ="SYNCH_S_EXPERT_BLACKLIST";
+    /** 专家黑名单文件名称 **/
+    public final static String EXPERT_BLACKLIST_FILE_EXPERT = "expert_blacklist";
+
+    /** 专家黑名单记录信息描述 **/
+    public final static String EXPERT_BLACKLIST_LOG_COMMIT = "导出专家黑名单记录信息数量:";
+    /** 专家黑名单记录信息导入描述 **/
+    public final static String EXPERT_BLACKLIST_LOG_COMMIT_IMPORT = "同步专家黑名单记录信息数量:";
+    /** 专家黑名单记录信息 **/
+    public final static String DATE_SYNCH_EXPERT_BLACKLIST_LOG ="SYNCH_S_EXPERT_BLACKLIST_LOG";
+    /** 专家黑名单记录文件名称 **/
+    public final static String EXPERT_BLACKLIST_LOG_FILE_EXPERT = "expert_blacklist_log";
+
 }

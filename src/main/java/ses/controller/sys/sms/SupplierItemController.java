@@ -1,13 +1,12 @@
 package ses.controller.sys.sms;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import bss.controller.base.BaseController;
+import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -15,8 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.formbean.QualificationBean;
+import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -49,14 +48,13 @@ import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
-import bss.controller.base.BaseController;
 
-import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.pagehelper.PageInfo;
-import common.constant.Constant;
-import common.model.UploadFile;
-import common.service.UploadService;
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @Scope("prototype")
@@ -169,7 +167,13 @@ public class SupplierItemController extends BaseController {
 		// 不通过字段的名字
 		SupplierAudit s = new SupplierAudit();
 		s.setSupplierId(supplierItem.getSupplierId());
-		s.setAuditType("items_page");
+		s.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
+		if(ses.util.Constant.SUPPLIER_PRODUCT.equals(supplierItem.getSupplierTypeRelateId())){
+			s.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
+		}
+		if(ses.util.Constant.SUPPLIER_SALES.equals(supplierItem.getSupplierTypeRelateId())){
+			s.setAuditType(ses.util.Constant.ITEMS_SALES_PAGE);
+		}
 		List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
 
 		StringBuffer errorField = new StringBuffer();
@@ -177,6 +181,7 @@ public class SupplierItemController extends BaseController {
 			errorField.append(audit.getAuditField() + ",");
 		}
 		model.addAttribute("audit", errorField);
+		model.addAttribute("auditType", s.getAuditType());
 
 		return "ses/sms/supplier_register/ajax_items";
 	}
@@ -613,23 +618,42 @@ public class SupplierItemController extends BaseController {
 			model.addAttribute("allPurList", list1);
 			return "ses/sms/supplier_register/procurement_dep";
 		}
-		//查询所有的三级品目生产
-		List < Category > listPro = getSupplier(supplier.getId(), supplierTypeIds);
+		
+		/*//查询所有的三级品目生产
+		List < Category > listPro = getProduct(supplier.getId(), supplierTypeIds);
 		removeSame(listPro);
 		//根据品目id查询所有的证书信息
 		List < QualificationBean > proQua = supplierService.queryCategoyrId(listPro, 2);
 
 		//查询所有的三级品目销售
-		List < Category > listSlae = getSale(supplier.getId(), supplierTypeIds);
-		removeSame(listSlae);
+		List < Category > listSale = getSale(supplier.getId(), supplierTypeIds);
+		removeSame(listSale);
 		//根据品目id查询所有的证书信息
-		List < QualificationBean > saleQua = supplierService.queryCategoyrId(listSlae, 3);
+		List < QualificationBean > saleQua = supplierService.queryCategoyrId(listSale, 3);
 
 		//查询所有的三级品目服务
-		List < Category > listService = getServer(supplier.getId(), supplierTypeIds);
+		List < Category > listService = getService(supplier.getId(), supplierTypeIds);
 		removeSame(listService);
 		//根据品目id查询所有的服务证书信息
-		List < QualificationBean > serviceQua = supplierService.queryCategoyrId(listService, 1);
+		List < QualificationBean > serviceQua = supplierService.queryCategoyrId(listService, 1);*/
+		
+		//查询品目信息--生产
+		List<SupplierItemCategoryBean> sicList_pro = supplierItemService.getSupplierItemCategoryList(supplier.getId(), "PRODUCT");
+		removeSameSic(sicList_pro);
+		//根据品目id查询所有的证书信息
+		List < QualificationBean > proQua = supplierService.getQualificationList(sicList_pro, 2);
+		
+		//查询品目信息--销售
+		List<SupplierItemCategoryBean> sicList_sale = supplierItemService.getSupplierItemCategoryList(supplier.getId(), "SALES");
+		removeSameSic(sicList_sale);
+		//根据品目id查询所有的证书信息
+		List < QualificationBean > saleQua = supplierService.getQualificationList(sicList_sale, 3);
+				
+		//查询品目信息--服务
+		List<SupplierItemCategoryBean> sicList_service = supplierItemService.getSupplierItemCategoryList(supplier.getId(), "SERVICE");
+		removeSameSic(sicList_service);
+		//根据品目id查询所有的证书信息
+		List < QualificationBean > serviceQua = supplierService.getQualificationList(sicList_service, 1);
 
 		//生产证书
 		List < Qualification > proList = new ArrayList < Qualification > ();
@@ -692,7 +716,14 @@ public class SupplierItemController extends BaseController {
 		// 不通过字段的名字
 		SupplierAudit s = new SupplierAudit();
 		s.setSupplierId(supplier.getId());
-		s.setAuditType("aptitude_page");
+		//s.setAuditType("aptitude_page");
+		s.setAuditType(ses.util.Constant.APTITUDE_PRODUCT_PAGE);
+		if(ses.util.Constant.SUPPLIER_PRODUCT.equals(supplierItem.getSupplierTypeRelateId())){
+			s.setAuditType(ses.util.Constant.APTITUDE_PRODUCT_PAGE);
+		}
+		if(ses.util.Constant.SUPPLIER_SALES.equals(supplierItem.getSupplierTypeRelateId())){
+			s.setAuditType(ses.util.Constant.APTITUDE_SALES_PAGE);
+		}
 		
 		List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
 
@@ -701,6 +732,7 @@ public class SupplierItemController extends BaseController {
 			errorField.append(audit.getAuditField() + ",");
 		}
 		model.addAttribute("audit", errorField);
+		model.addAttribute("auditType", s.getAuditType());
 
 		// 工程
 		String[] typeIds = supplierTypeIds.split(",");
@@ -712,7 +744,7 @@ public class SupplierItemController extends BaseController {
 			}
 		}
 		
-		if(isEng) {
+		if(isEng) {// 工程
 			SupplierMatEng matEng = supplierMatEngService.getMatEng(supId);
 			List < SupplierItem > listSupplierItems = getProject(supId, "PROJECT");
 			List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
@@ -734,6 +766,7 @@ public class SupplierItemController extends BaseController {
 				
 				if(cateTree != null && cateTree.getRootNode() != null) {
 					cateTree.setItemsId(item.getId());
+					cateTree.setCategoryId(categoryId);
 					cateTree.setDiyLevel(item.getLevel());
                     List < Qualification > typeList = new ArrayList < Qualification > ();
 					if(cateTree!=null && cateTree.getCertCode() != null && cateTree.getQualificationType() != null && cateTree.getProName()!=null) {
@@ -784,6 +817,16 @@ public class SupplierItemController extends BaseController {
 	 * @param list
 	 */
 	public void removeSame(List < Category > list) {
+		for(int i = 0; i < list.size() - 1; i++) {
+			for(int j = list.size() - 1; j > i; j--) {
+				if(list.get(j).getId().equals(list.get(i).getId())) {
+					list.remove(j);
+				}
+			}
+		}
+	}
+	
+	public void removeSameSic(List < SupplierItemCategoryBean > list) {
 		for(int i = 0; i < list.size() - 1; i++) {
 			for(int j = list.size() - 1; j > i; j--) {
 				if(list.get(j).getId().equals(list.get(i).getId())) {
@@ -856,9 +899,9 @@ public class SupplierItemController extends BaseController {
 		return "0";
 		//		}
 	}
-
+	
 	//生产所有的三级目录
-	public List < Category > getSupplier(String supplierId, String code) {
+	public List < Category > getProduct(String supplierId, String code) {
 		List < Category > categoryList = new ArrayList < Category > ();
 		String[] types = code.split(",");
 		for(String s: types) {
@@ -941,7 +984,7 @@ public class SupplierItemController extends BaseController {
 	}
 
 	//服务
-	public List < Category > getServer(String supplierId, String code) {
+	public List < Category > getService(String supplierId, String code) {
 		List < Category > categoryList = new ArrayList < Category > ();
 
 		String[] types = code.split(",");
@@ -992,24 +1035,24 @@ public class SupplierItemController extends BaseController {
     public String validateFile(String supplierId,String supplierTypeIds){
 		Integer count=0;
 		//查询所有的三级品目生产
-		List < Category > listPro = getSupplier(supplierId, supplierTypeIds);
+		List < Category > listPro = getProduct(supplierId, supplierTypeIds);
 		removeSame(listPro);
 		//根据品目id查询所有的证书信息
 		List < QualificationBean > list3 = supplierService.queryCategoyrId(listPro, 2);
 
 		//查询所有的三级品目销售
-		List < Category > listSlae = getSale(supplierId, supplierTypeIds);
-		removeSame(listSlae);
+		List < Category > listSale = getSale(supplierId, supplierTypeIds);
+		removeSame(listSale);
 		//根据品目id查询所有的证书信息
-		List < QualificationBean > saleQua = supplierService.queryCategoyrId(listSlae, 3);
+		List < QualificationBean > saleQua = supplierService.queryCategoyrId(listSale, 3);
 
 		//查询所有的三级品目服务
-		List < Category > listService = getServer(supplierId, supplierTypeIds);
+		List < Category > listService = getService(supplierId, supplierTypeIds);
 		removeSame(listService);
 		//根据品目id查询所有的服务证书信息
 		List < QualificationBean > serviceQua = supplierService.queryCategoyrId(listService, 1);
 		
-		List<QualificationBean> list=new ArrayList<QualificationBean>();
+		List<QualificationBean> list = new ArrayList<QualificationBean>();
 		list.addAll(list3);
 		list.addAll(saleQua);
 		list.addAll(serviceQua);

@@ -235,9 +235,15 @@
 
                 var dy=dyly();
                 var ptype=true;
+                var flgs=false;
 			   /*var bool=true; */
 			    $("#detailZeroRow tr").each(function(){
-			    	//var  price= $(this).find("td:eq(8)").children(":first").next().val();//上级id
+			    	var  price= $(this).find("td:eq(8)").children(":first").next().val();
+			    	if($.trim(price)!=""){
+			    		 if($(this).find("td:eq(11)").find("select").val()==""){
+			    			 flgs=true;
+			    		 }
+			    	}
 			    	//if($.trim(price) !=""){
 			    		var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
 				    	  if($.trim(type) == "") {
@@ -245,6 +251,10 @@
 				    	  }
 			    	//}
 			    });
+			   if(flgs){
+				   layer.alert("子节点采购方式不能为空"); 
+				   return false;
+			   }
 				/* var seq=seqs(); */
 			 if(orgType!='0'){
 				 layer.msg("请用需求部门编制采购需求！"); 
@@ -258,7 +268,7 @@
 				}
 			  	else if(!dy){
 					layer.alert("请填写供应商"); 
-				}  
+				}
 				/* else if(!ptype){
 						layer.alert("请选择采购方式"); 
 					} */
@@ -1298,6 +1308,14 @@
 	                 });
 				}
 			}
+		    function supplierReadOnly(obj){
+		    	 if($(obj).parent().prev().find("select").val()=="单一来源"){
+		    		 $(obj).removeAttr("readonly");
+		    	 }else{
+		    		 $(obj).val("");
+		    		 $(obj).attr("readonly","readonly");
+		    	 }
+		     }
 		 /*    
 		    function sequen(obj){
 		    	var bool=true;
@@ -1424,7 +1442,7 @@
 										<th class="deliverdate">交货<br/>期限</th>
 										<th class="purchasetype">采购方式</br>建议</th>
 										<th class="purchasename">供应商名称</th>
-										<th class="freetax">是否申请</br>办理免税</th>
+										<th name="userNone" class="freetax">是否申请</br>办理免税</th>
 										<th name="userNone" class="goodsuse">物资用途</br>（仅进口）</th>
 										<th name="userNone" class="useunit">使用单位</br>（仅进口）</th>
 										<th class="memo">备注</th>
@@ -1490,8 +1508,8 @@
 													<option value="${sup.supplierName }">${sup.supplierName }</option>
 												</c:forEach>
 											</select> --%>
-										<input type="text" name="list[0].supplier" onblur="checkSupplierName(0)" class="m0 w260 border0"></td>
-										<td><input type="text" name="list[0].isFreeTax" class="freetax"></td>
+										<input type="text" name="list[0].supplier" onblur="checkSupplierName(0)" onmouseover="supplierReadOnly(this)" class="m0 w260 border0"></td>
+										<td name="userNone"><input type="text" name="list[0].isFreeTax" class="freetax"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="goodsuse"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="useunit"></td>
 										<td><input type="text" name="list[0].memo" class="memo"></td>
@@ -1561,8 +1579,8 @@
 													<option value="${sup.supplierName }">${sup.supplierName }</option>
 												</c:forEach>
 											</select> --%>
-										<input type="text" name="list[1].supplier" onblur="checkSupplierName(1)" class="m0 w260 border0"></td>
-										<td><input type="text" name="list[1].isFreeTax" class="freetax"></td>
+										<input type="text" name="list[1].supplier" onblur="checkSupplierName(1)" onmouseover="supplierReadOnly(this)" class="m0 w260 border0"></td>
+										<td name="userNone"><input type="text" name="list[1].isFreeTax" class="freetax"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[1].goodsUse" class="goodsuse"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[1].useUnit" class="useunit"></td>
 										<td><input type="text" name="list[1].memo" class="memo"></td>

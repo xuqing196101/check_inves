@@ -7,6 +7,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import ses.service.ems.ExpertAuditService;
 import ses.service.sms.SupplierService;
 import synchro.inner.read.expert.InnerExpertService;
 import synchro.outer.back.service.expert.OuterExpertService;
@@ -36,6 +37,10 @@ public class ExpertTask {
     
     @Autowired
 	private SupplierService supplierService;
+    
+    // 注入专家审核Service
+    @Autowired
+    private ExpertAuditService expertAuditService;
     
     public void handlerExportExpert(){
     	Date date=new Date();
@@ -69,6 +74,17 @@ public class ExpertTask {
     	   
     }
   
+    /**
+	 * 
+	 * Description:定时处理供应商拟入库公示
+	 * 
+	 * @author Easong
+	 * @version 2017年6月26日
+	 */
+	public void handleExpertPublicity(){
+		// 调用7天后自动入库公示
+		expertAuditService.handlerPublictyExp();
+	}
   
    /**
     * 

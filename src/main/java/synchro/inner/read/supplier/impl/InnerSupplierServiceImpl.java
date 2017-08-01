@@ -1,12 +1,10 @@
 package synchro.inner.read.supplier.impl;
 
-import java.io.File;
-import java.util.List;
-
-import org.aspectj.internal.lang.annotation.ajcDeclareAnnotation;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAddressMapper;
@@ -14,6 +12,7 @@ import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierAuditNotMapper;
+import ses.dao.sms.SupplierAuditOpinionMapper;
 import ses.dao.sms.SupplierBranchMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
@@ -41,6 +40,7 @@ import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierAuditNot;
+import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
@@ -64,8 +64,9 @@ import ses.service.sms.SupplierService;
 import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * 
@@ -177,6 +178,9 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     
     @Autowired
     private SupplierAddressMapper supplierAddressMapper;
+
+    @Autowired
+    private SupplierAuditOpinionMapper supplierAuditOpinionMapper;
     
     /**
      * 
@@ -514,7 +518,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     }
 
 	@Override
-	public void immportInner(File file) {
+	public void immportInner(File file, String flag) {
 		  List<SupplierAuditFormBean> list = getSupplierFormBaean(file);
 		  for(SupplierAuditFormBean sb:list){
 			  User user = sb.getUser();
@@ -573,7 +577,30 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 //					  supplierSignatureMapper.
 				  }
 			  }
-				
+			  if("publicity".equals(flag)){
+			  	// 获取审核意见
+                  SupplierAuditOpinion supplierAuditOpinion = sb.getSupplierAuditOpinions();
+                  if(supplierAuditOpinion != null){
+                      // 先判断表中是否有该数据
+                      // 判断是不是原有的数据
+                      if(StringUtils.isNotEmpty(supplierAuditOpinion.getId())){
+                          // 查询此条数据
+                          SupplierAuditOpinion byPrimaryKey = supplierAuditOpinionMapper.findByPrimaryKey(supplierAuditOpinion.getId());
+                          if(byPrimaryKey != null){
+                              // 更新数据
+                              supplierAuditOpinionMapper.updateByPrimaryKeySelective(supplierAuditOpinion);
+                          }else {
+                              // 插入数据
+                              supplierAuditOpinionMapper.insertSelective(supplierAuditOpinion);
+                          }
+                      }
+                  }
+              }
+
+		  }
+		  //
+		  if("publicity".equals(flag)){
+              synchRecordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.SYNCH_PUBLICITY_SUPPLIER, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.IMPORT_SYNCH_PUBLICITY_SUPPLIER);
 		  }
 		  
 		
@@ -889,5 +916,5 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 		
 	}
 
-	   
+
 }

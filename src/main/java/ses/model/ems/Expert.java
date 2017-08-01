@@ -42,7 +42,7 @@ public class Expert extends ExpertHistory implements Serializable {
     /**是否删除；0未删除，1已删除*/
     private Short isDelete = 0;
     /**创建时间*/
-    private Date createdAt = new Date();
+    private Date createdAt;
     /**性别 M 男  F 女*/
     private String gender;
     /**修改时间*/
@@ -117,6 +117,11 @@ public class Expert extends ExpertHistory implements Serializable {
     private RoleUser roleUser;
     
     private Integer netType;
+    
+    /**
+     * @Fields errorNum : 用户登录密码错误次数
+     */
+    private Integer errorNum;
     
     public Integer getNetType() {
 		return netType;
@@ -331,6 +336,17 @@ public class Expert extends ExpertHistory implements Serializable {
     //步骤（用于区分第一步和其他几步）
     private String step;
     
+    /**审核意见附件**/
+	private String auditOpinionAttach;
+	
+    public String getAuditOpinionAttach() {
+		return auditOpinionAttach;
+	}
+
+	public void setAuditOpinionAttach(String auditOpinionAttach) {
+		this.auditOpinionAttach = auditOpinionAttach;
+	}
+	
     public String getStep() {
 			return step;
 		}
@@ -882,5 +898,13 @@ public class Expert extends ExpertHistory implements Serializable {
 	public void setAuditTemporary(Integer auditTemporary) {
 		this.auditTemporary = auditTemporary;
 	}
+
+  public Integer getErrorNum() {
+    return errorNum;
+  }
+
+  public void setErrorNum(Integer errorNum) {
+    this.errorNum = errorNum;
+  }
     
 }

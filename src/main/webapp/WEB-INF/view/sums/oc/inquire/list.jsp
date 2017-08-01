@@ -75,7 +75,7 @@
 	
 	//查看详情
 	function doview(id){
-        jumppage("${pageContext.request.contextPath }/onlineComplaints/view.html?id="+id);
+		window.location.href = "${pageContext.request.contextPath }/onlineComplaints/view.html?id="+id;
 	}
 	</script>
 </head>

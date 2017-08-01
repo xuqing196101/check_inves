@@ -12,9 +12,11 @@
 		<result column="REASON" property="reason" />
 		<result column="SUPPLIER_NAME" property="supplierName" />
 		<result column="TERM" property="term" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    	<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, SUPPLIER_ID, START_TIME, END_TIME, PUNISH_TYPE, RELEASE_TYPE, STATUS, REASON, SUPPLIER_NAME, TERM
+		ID, SUPPLIER_ID, START_TIME, END_TIME, PUNISH_TYPE, RELEASE_TYPE, STATUS, REASON, SUPPLIER_NAME, TERM,CREATED_AT,UPDATED_AT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
@@ -29,10 +31,10 @@
 	<insert id="insert" parameterType="ses.model.sms.SupplierBlacklist">
 		insert into T_SES_SMS_SUPPLIER_BLACKLIST (ID, SUPPLIER_ID, START_TIME,
 		END_TIME, PUNISH_TYPE, RELEASE_TYPE,
-		STATUS, REASON, SUPPLIER_NAME, TERM)
+		STATUS, REASON, SUPPLIER_NAME, TERM, CREATED_AT, UPDATED_AT)
 		values (#{id}, #{supplierId}, #{startTime,jdbcType=TIMESTAMP},
 		#{endTime,jdbcType=TIMESTAMP}, #{punishType}, #{releaseType},
-		#{status}, #{reason}, #{supplierName}. #{term})
+		#{status}, #{reason}, #{supplierName}, #{term},#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierBlacklist">
 		insert into T_SES_SMS_SUPPLIER_BLACKLIST
@@ -67,6 +69,12 @@
 			<if test="term != null">
 				TERM,
 			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -98,6 +106,12 @@
 			</if>
 			<if test="term != null">
 				#{term},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</trim>
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -134,6 +148,12 @@
 			<if test="term != null">
 				TERM = #{term},
 			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+			</if>
 		</set>
 		where ID = #{id}
 	</update>
@@ -145,9 +165,11 @@
 		PUNISH_TYPE = #{punishType},
 		RELEASE_TYPE = #{releaseType},
 		STATUS = #{status},
-		REASON = #{reason}
-		SUPPLIER_NAME = #{supplierName}
-		TERM = #{term}
+		REASON = #{reason},
+		SUPPLIER_NAME = #{supplierName},
+		TERM = #{term},
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP}, 
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
 		where ID = #{id}
 	</update>
 	
@@ -214,4 +236,23 @@
 		<result column="SUPPLIER_TYPE_NAME" property="supplierTypeName"/>
 	</resultMap>
 	
+	<!-- 根据创建时间查询 -->
+  <select id="selectByCreateDate" resultMap="BaseResultMap" >
+    select * from T_SES_SMS_SUPPLIER_BLACKLIST where 
+    to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
+  </select>
+  
+   <!-- 根据修改时间查询 -->
+  <select id="selectByUpdateDate" resultMap="BaseResultMap" >
+    select * from T_SES_SMS_SUPPLIER_BLACKLIST where 
+    to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
+  </select>
+  
+  <!-- 根据id查询数量 -->
+   <select id="countById" parameterType="String" resultType="java.lang.Integer" >
+    select count(*) from T_SES_SMS_SUPPLIER_BLACKLIST
+    where id=#{id,jdbcType=VARCHAR}
+  </select>
 </mapper>

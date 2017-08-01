@@ -1,5 +1,7 @@
 package ses.controller.sys.sms;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,16 +66,27 @@ public class SupplierLevelController extends BaseSupplierController {
 	}
 	
 	@RequestMapping(value = "change_score")
-	public String changeScore(Model model, Supplier supplier, HttpServletRequest request) throws Exception {
+	public String changeScore(Model model, Supplier supplier, HttpServletRequest request){
 		// 解决中文乱码
-		String encoding = request.getCharacterEncoding();
+		//String encoding = request.getCharacterEncoding();
 		if(supplier.getSupplierName() != null){
-			if ("UTF-8".equals(encoding)){
+			
+			String name = supplier.getSupplierName();
+			try {
+				name = URLDecoder.decode(name,"UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			supplier.setSupplierName(name);
+			
+			/*if ("UTF-8".equals(encoding)){
 				supplier.setSupplierName(supplier.getSupplierName());
 			}
 			if ("ISO8859-1".equals(encoding)) {
 				supplier.setSupplierName(new String(supplier.getSupplierName().getBytes("ISO-8859-1"), "UTF-8"));
-			}
+			}*/
 		}
 		List<SupplierCredit> listSupplierCredits = supplierCreditService.findSupplierCredit(new SupplierCredit());
 		model.addAttribute("supplier", supplier);

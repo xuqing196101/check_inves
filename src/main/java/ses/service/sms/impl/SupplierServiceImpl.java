@@ -36,6 +36,7 @@ import ses.dao.bms.UserMapper;
 import ses.dao.sms.DeleteLogMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAuditMapper;
+import ses.dao.sms.SupplierAuditOpinionMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
@@ -44,6 +45,7 @@ import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
+import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
@@ -58,8 +60,8 @@ import ses.model.sms.DeleteLog;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
+import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierBranch;
-import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
@@ -74,10 +76,12 @@ import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
+import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierFinanceService;
 import ses.service.sms.SupplierItemLevelServer;
 import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
@@ -90,6 +94,7 @@ import ses.util.WfUtil;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
+import common.utils.DateUtils;
 import common.utils.ListSortUtil;
 
 
@@ -116,10 +121,14 @@ public class SupplierServiceImpl implements SupplierService {
 
   @Autowired
   private DictionaryDataServiceI dictionaryDataServiceI;
-
+  @Autowired
+  private SupplierMatEngService supplierMatEngService;
+  
   @Autowired
   private SupplierTypeRelateMapper supplierTypeRelateMapper;
-
+  //供应商审核 意见
+  @Autowired
+  private SupplierAuditOpinionMapper  supplierAuditOpinionMapper;
   @Autowired
   private SupplierItemService supplierItemService;
 
@@ -152,7 +161,9 @@ public class SupplierServiceImpl implements SupplierService {
 
   @Autowired
   private SupplierFinanceService supplierFinanceService;
-
+  
+  @Autowired
+  private SupplierAptituteService supplierAptituteService;
   @Autowired
   private CategoryQuaMapper categoryQuaMapper;
 
@@ -585,6 +596,12 @@ public class SupplierServiceImpl implements SupplierService {
     } else if (status == 7) {
       map.put("status", "success");
       map.put("supplier", supplier);
+    } else if (status == -2){
+      // 审核预通过状态
+      map.put("status", "prepass");
+    }else if (status == -3){
+      // 公示中状态
+      map.put("status", "publicity");
     }
     if (supplier.getProcurementDepId() != null) {
       PurchaseDep dep = purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId());
@@ -752,6 +769,7 @@ public class SupplierServiceImpl implements SupplierService {
         List<Qualification> qua = get(categoryQua, category.getParentId());
         if (qua.size() != 0) {
           newList.add(list.get(i));
+          quaBean.setCategoryId(category.getId());
           quaBean.setCategoryName(category.getName());
           quaBean.setList(qua);
           quaList.add(quaBean);
@@ -996,10 +1014,18 @@ public class SupplierServiceImpl implements SupplierService {
     if (page == null) {
       page = StaticVariables.DEFAULT_PAGE;
     }
-
     PageHelper.startPage(page, Integer.parseInt(PropUtil.getProperty("pageSize")));
-    return supplierMapper.findLogoutList(supplier);
-
+    List<Supplier> suppliers = supplierMapper.findLogoutList(supplier);
+    if (suppliers != null && suppliers.size() > 0) {
+      for (Supplier supplier2 : suppliers) {
+        // 根据userId查询出s
+        User user = userMapper.findUserByTypeId(supplier2.getId());
+        if (user != null) {
+          supplier2.setErrorNum(user.getErrorNum());
+        }
+      }
+    }
+    return suppliers;
   }
 
   /**
@@ -1085,7 +1111,10 @@ public class SupplierServiceImpl implements SupplierService {
     Supplier info = supplierMapper.getSupplier(supplierId);
     String supplierName = info.getSupplierName();
     String creditCode = info.getCreditCode();
-
+    //判读 是否有脏数据  如果有截取 防止报错
+    if(creditCode!=null && creditCode.length()>30){
+    	creditCode=creditCode.substring(0, 18);
+    }
 
     Supplier supplier = new Supplier();
     supplier.setId(supplierId);
@@ -1095,15 +1124,15 @@ public class SupplierServiceImpl implements SupplierService {
     supplierMapper.updateById(supplier);
     
     SupplierMatEng eng = supplierMatEngMapper.getMatEngBySupplierId(supplierId);
-    
-    List<SupplierCertEng> list = supplierCertEngMapper.findCertEngByMatEngId(eng.getId());
-    
-    for(SupplierCertEng sc:list){
-    	sc.setCertCode(sc.getCertCode()+buff);
-    	supplierCertEngMapper.updateByPrimaryKeySelective(sc);
+    if(null != eng ){
+	    List<SupplierCertEng> list = supplierCertEngMapper.findCertEngByMatEngId(eng.getId());
+	    if(null != eng && !list.isEmpty()){
+		    for(SupplierCertEng sc:list){
+		    	sc.setCertCode(sc.getCertCode()+buff);
+		    	supplierCertEngMapper.updateByPrimaryKeySelective(sc);
+		    }
+	    }
     }
-    
-
   }
 
   /**
@@ -1229,21 +1258,20 @@ public class SupplierServiceImpl implements SupplierService {
 
   @Override
   public List<Supplier> getCreditCode(String creditCode, Integer isProvisional) {
-    // TODO Auto-generated method stub
     return supplierMapper.getCreditCode(creditCode, isProvisional);
   }
 
   @Override
   public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map) {
     PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage((Integer) map.get("page"), Integer.parseInt(config.getString("pageSize")));
+    PageHelper.startPage((Integer) map.get("page"), 20);
     return supplierMapper.selectSupplierNumber(map);
   }
 
   @Override
   public List<supplierExport> selectExpertNumber(HashMap<String, Object> map) {
     PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage((Integer) map.get("pageEx"), Integer.parseInt(config.getString("pageSize")));
+    PageHelper.startPage((Integer) map.get("pageEx"), 20);
     return supplierMapper.selectExpertNumber(map);
   }
 
@@ -1304,31 +1332,6 @@ public class SupplierServiceImpl implements SupplierService {
     return supplierMapper.findSupplierByCategoryId(supplier);
   }
 
-	@Override
-	public Long countCategoyrId(SupplierCateTree cateTree, String supplierId) {
-		long rut=0;
-		//根据第三节目录节点 id(也就是中级目录 id) 品目id查询所要上传的资质文件
-		List<CategoryQua> categoryQuaList = categoryQuaMapper.findList(cateTree.getSecondNodeID());
-		if(null != categoryQuaList && !categoryQuaList.isEmpty()){
-			String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
-			Map<String, Object> map=new HashMap<>();
-			map.put("supplierId", supplierId);
-			map.put("categoryId", cateTree.getSecondNodeID());
-			//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id
-			List<SupplierItem> itemList=supplierItemService.findByMap(map);
-			if(null != itemList && !itemList.isEmpty()){
-				for (SupplierItem supplierItem : itemList) {
-		            for (CategoryQua categoryQua : categoryQuaList) {
-		            	//组合 资质文件上传的 business_id
-						String business_id=supplierItem.getId()+categoryQua.getId();
-						rut=rut+uploadService.countFileByBusinessId(business_id, type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
-					}
-				}
-			}
-	    }
-		return rut;
-	}
-	
 	@Override
 	public Long contractCountCategoyrId(String supplierItemId) {
 		long rut=0;
@@ -1539,4 +1542,94 @@ public class SupplierServiceImpl implements SupplierService {
 		return count > 0 ? false : true;
 	}
 
+	@Override
+	public List<QualificationBean> getQualificationList(
+			List<SupplierItemCategoryBean> sicList, int quaType) {
+		if(sicList != null){
+			List<QualificationBean> quaList = new ArrayList<QualificationBean>();
+			List<SupplierItemCategoryBean> newList = new ArrayList<SupplierItemCategoryBean>();
+			for (int i = 0; i < sicList.size(); i++) {
+				SupplierItemCategoryBean sic = sicList.get(i);
+				QualificationBean quaBean = new QualificationBean();
+				if (sic.getId() == null) {
+					continue;
+				}
+				// 根据品目id查询所要上传的资质文件
+				List<CategoryQua> categoryQua = categoryQuaMapper.findListSupplier(
+						sic.getId(), quaType);
+				if (null != categoryQua
+						&& StringUtils.isNotBlank(sic.getParentId())) {
+					List<Qualification> qua = get(categoryQua, sic.getParentId());
+					if (qua.size() != 0) {
+						newList.add(sicList.get(i));
+						quaBean.setCategoryId(sic.getId());
+						quaBean.setCategoryName(sic.getName());
+						quaBean.setItemId(sic.getItemId());
+						quaBean.setList(qua);
+						quaList.add(quaBean);
+					}
+				}
+			}
+			sicList = newList;
+			return quaList;
+		}
+		return null;
+	}
+
+	@Override
+	public boolean updateSupplierStatus() {
+		Date date =new Date();
+		Supplier sup=null;
+		SupplierAuditOpinion auditOp=null;
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy年MM月dd日");
+		StringBuffer sb=new StringBuffer();
+		Map<String ,Object> map;
+		//退回修改后的供应商逾期没提交应提示采购机构该供应商已逾期未提交，需要自动生成审核不通过结论：自x年x月x日退回修改后，已逾期30天未提交审核。
+		List<Supplier> goBackList=supplierMapper.fundGoBackSupplierByDate(DateUtils.addDayDate(date, 30));
+		if(null != goBackList && !goBackList.isEmpty()){
+			for(Supplier back:goBackList){
+				map=new HashMap<>();
+				map.put("supplierId", back.getId());
+				map.put("flagTime", 0);
+				SupplierAuditOpinion auditOpinion=supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
+				sb.setLength(0);
+				sb.append("自");
+				sb.append(sdf.format(back.getAuditDate()));
+				sb.append("退回修改后，已逾期30天未提交审核。");
+				if(null !=auditOpinion){
+					auditOp=new SupplierAuditOpinion();
+					auditOp.setId(auditOpinion.getId());
+					auditOp.setCreatedAt(date);
+					auditOp.setOpinion(sb.toString());
+					supplierAuditOpinionMapper.updateByPrimaryKeySelective(auditOp);
+				}else{
+					//供应商退回修改 添加供应商 审核不通过原因 
+					auditOp=new SupplierAuditOpinion();
+					auditOp.setCreatedAt(date);
+					auditOp.setFlagAduit(0);
+					auditOp.setFlagTime(0);
+					auditOp.setOpinion(sb.toString());
+					auditOp.setIsDownLoadAttch(1);
+					auditOp.setSupplierId(back.getId());
+					supplierAuditOpinionMapper.insertSelective(auditOp);
+				}
+				//供应商修改 供应商审核不通过
+				sup=new Supplier();
+				sup.setId(back.getId());
+				sup.setUpdatedAt(date);
+				sup.setAuditDate(date);
+				sup.setStatus(3);
+				supplierMapper.updateByPrimaryKeySelective(sup);
+			}
+		}
+		//供应商审核不通过180天后再次注册需要提示供应商为第二次注册 包括任何阶段不通过 3审核未通过 6复核未通过 8考察不合格
+		List<String> supplierList=supplierMapper.fundNotPassSupplierByDate(DateUtils.addDayDate(date, 180));
+		if(null != supplierList && !supplierList.isEmpty()){
+			for (String supplier : supplierList) {
+				userServiceI.updateByTypeId(supplier);
+				this.updateById(supplier);
+			}
+		}
+		return false;
+	}
 }

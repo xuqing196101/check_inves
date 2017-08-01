@@ -38,12 +38,12 @@
 				<div class="tab-content margin-bottom-20 margin-top-20 lh24">
 				${doc}
 					<div class="mt40 col-md-12 col-xs-12 col-sm-12 p0">
-					  <div class="lh30 font-20" > 	<span >文件下载：</span></div>
+					  <div class="lh30 font-20"> 	<span >文件下载：</span></div>
 						<div class="font-20 mt10">
 							<span >《${docName }》（第二版）</span><a onclick="downNotice()" href="javascript:void(0)" class="m_download"></a>
 						</div>
 						<div class="font-20 mt10">
-							《军队物资工程服务采购评审专家参评产品分类目录》（第三版）<a href="${pageContext.request.contextPath}/supplier/download_category.html" class="m_download"></a>
+							《军队物资工程服务采购评审专家参评产品分类目录》（第四版）<a href="${pageContext.request.contextPath}/supplier/download_category.html" class="m_download"></a>
 						</div>
 						<div class="font-20 mt10">
 							《军队评审专家注册操作手册》<a href="${pageContext.request.contextPath}/expert/downloadReghandbook.html" class="m_download"></a>
@@ -58,7 +58,7 @@
 					    <input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location.href='javascript:history.go(-1);'" value="取消">
 					</div>
 					<div class="mt40 tc red f16 b col-md-12 col-sm-12 col-xs-12" >
-						推荐使用火狐浏览器（Firefox）、谷歌浏览器（Chrome）以及IE9以上浏览器！
+						推荐使用火狐浏览器（Firefox）、谷歌浏览器（Chrome）<!-- 以及IE9以上浏览器 -->！
 					</div>
 				</div>
 			</div>

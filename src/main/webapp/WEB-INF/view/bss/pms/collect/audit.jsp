@@ -19,7 +19,7 @@
 
 			function view(obj) {
 
-			   window.location.href="${pageContext.request.contextPath}/look/views.html?id="+obj;
+			   window.location.href="${pageContext.request.contextPath}/look/views.html?id="+obj+"&type=required";
 			}
 
 			function aadd() {
@@ -258,19 +258,19 @@
 			  		   if(status=='3'){
 			  			   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
 				  			var curval=tdVal1+"由"+defVal+"变成"+val;
-				  			var newVal=inpval+curval+"；";
+				  			var newVal=splitS(inpval,defVal,curval,val);
 			  			 $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal); 
 			  		   }
 			  		 if(status=='5'){
 			  		   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(); 
 			  			var curval=tdVal1+"由"+defVal+"变成"+val;
-			  			var newVal=inpval+curval+"；";
+			  			var newVal=splitS(inpval,defVal,curval,val);
 				  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(newVal);
 				  	   }
 				  	 if(status=='7'){
 				  	   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(); 
 			  			var curval=tdVal1+"由"+defVal+"变成"+val;
-			  			var newVal=inpval+curval+"；";
+			  			var newVal=splitS(inpval,defVal,curval,val);
 				  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
 				  	   }  
 					} 
@@ -369,7 +369,7 @@
 						      	 			 var td=$(this).find("td:eq(10)");
 						      	 			var options= $(td).find("option");
 							      	 		  $(options).each(function(i){
-							      	 			defValue=$(this).parent().parent().parent().children(":last").children(":last").prev().prev().val();
+							      	 			defValue=$(this).parent().parent().parent().children(":last").children(":first").val();
 							      	 			var dValue=$(this).val();
 							      	 			if (defValue==dValue) {
 													     defVal = options[i].text;
@@ -394,19 +394,19 @@
 												  if(status=='3'){
 													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
 									 		  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval+"；";
+									 		  			var newVal=splitS(inpval,defVal,curval,val);
 												       $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal);
 												  }
 												  if(status=='5'){
 													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval+"；";
+											  			var newVal=splitS(inpval,defVal,curval,val);
 												  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(newVal);
 												  	   }
 												 if(status=='7'){
 													   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval+"；";
+											  			var newVal=splitS(inpval,defVal,curval,val);
 												  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
 												  	 }
 												 
@@ -487,7 +487,7 @@
 						      	 			 var td=$(this).find("td:eq(11)");
 						      	 			var options= $(td).find("option");
 							      	 		  $(options).each(function(i){
-							      	 			defValue=$(this).parent().parent().parent().children(":last").children(":last").prev().val();
+							      	 			defValue=$($(this).parent().parent().parent().children(":last").children()[1]).val();
 							      	 			var dValue=$(this).val();
 							      	 			if (defValue==dValue) {
 													defVal = options[i].text;
@@ -514,20 +514,20 @@
 							      	  	     		 }  
 												  if(status=='3'){
 													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
-											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval+"；";
-												       $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal);
+													  var curval=tdVal1+"由"+defVal+"变成"+val;
+													  var newVal=splitS(inpval,defVal,curval,val);
+												      $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal);
 												  }
 												  if(status=='5'){
 													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval+"；";
+											  			var newVal=splitS(inpval,defVal,curval,val);
 												  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(newVal);
 												  	   }
 												 if(status=='7'){
 													   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval+"；";
+											  			var newVal=splitS(inpval,defVal,curval,val);
 												  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
 												  	 }
 												 
@@ -550,7 +550,28 @@
 						  	 
 				}
 				
-		
+		   function splitS(inpval,defVal,curval,val){
+			   var newVal="";
+			   if(inpval.length>0){
+				    var flg=false;
+		  			var str=inpval.split("；");
+		  			for(var i=0;i<str.length;i++){
+		  				if(str[i].indexOf("由"+defVal+"变成")>0){
+		  					str[i]=curval;
+		  					flg=true;
+		  					break;
+		  				}
+		  			}
+		  			if(flg){
+		  				newVal=str.join("；");
+		  			}else{
+		  				newVal=str.join("；")+curval+"；";
+		  			}
+		  		}	else{
+		  			newVal=inpval+curval+"；";
+		  		}
+			   return newVal;
+		   }
 				function eavlChildren(obj){
 					
 				}
