@@ -354,7 +354,7 @@
               <th class="info">毕业院校及专业</th>
               <th class="info">工作单位</th>
               <th class="info">审核时间</th>
-              <th class="info">注册时间</th>
+              <th class="info">提交时间</th>
               <th class="info">采购机构</th>
               <th class="info">发布</th>
               <th class="info">审核状态</th>
@@ -384,7 +384,7 @@
                 <fmt:formatDate type='date' value='${expert.auditAt }' dateStyle="default" pattern="yyyy-MM-dd" />
               </td>
               <td class="tc" onclick="shenhe('${expert.id}');">
-                <fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
+                <fmt:formatDate type='date' value='${expert.submitAt }' dateStyle="default" pattern="yyyy-MM-dd" />
               </td>
               <td class="tl" onclick="shenhe('${expert.id}');">${expert.orgName }</td>
               <td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">
