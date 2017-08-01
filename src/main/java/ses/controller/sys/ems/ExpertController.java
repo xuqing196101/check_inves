@@ -2997,7 +2997,8 @@ public class ExpertController extends BaseController {
 
         // 品目信息
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
-        List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplier.getId(), null, null);
+        //List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplier.getId(), null, null);
+        List < SupplierItem > itemsList = supplierItemService.getItemList(supplier.getId(), null, (byte)0, null);
         for(SupplierItem supplierItem: itemsList) {
             if(supplier.getSupplierTypeIds().contains(supplierItem.getSupplierTypeRelateId())){
                 SupplierCateTree cateTree = getTreeListByCategoryId(supplierItem);

@@ -39,7 +39,6 @@
                 window.location.href = '${pageContext.request.contextPath}/';
             });
 					} else {
-            $("input[name='jsp']").val(flag);
             if (flag == "commit") {
             	var msg = "<span style='margin-left:26px;'> 您已成功提交,请等待审核结果！</span>" + "<br/><span style='margin-left:26px;'> 您选择的采购机构：" + response.shortName + "；联系人姓名：" + response.supplierContact + "；" + "联系方式：" + response.supplierPhone + "；联系地址：" + response.supplierAddress + "；邮编：" + response.supplierPostcode;
             	layer.alert(msg, {
@@ -65,8 +64,7 @@
 				}
 			});
 		} else {
-			$("input[name='jsp']").val(flag);
-			$("#template_upload_form_id").submit();
+			updateStep(7);
 		}
 	}
 	
@@ -217,10 +215,10 @@
 		</div>
 	</div>
 	
-	 	<div class="mt40 tc mb50">
-				 <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveTemplate('prev')">上一步</button>
-				 <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveTemplate('commit')">提交审核</button>
-		 </div>
+ 	<div class="mt40 tc mb50">
+	 <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveTemplate('prev')">上一步</button>
+	 <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveTemplate('commit')">提交审核</button>
+	</div>
 							
 							
 	<form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplier/download.html" method="post">
@@ -228,7 +226,7 @@
 	</form>
 	
 	<div class="footer_margin">
-   		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
-    </div>
+ 		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
+  </div>
 </body>
 </html>

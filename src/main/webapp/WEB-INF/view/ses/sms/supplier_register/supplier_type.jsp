@@ -118,9 +118,7 @@
 
 	//上一步
 	function prev() {
-		var id = $("#sid").val();
-		window.location.href = "${pageContext.request.contextPath}/supplier/register.html?id="
-				+ id;
+		updateStep(1);
 	}
 
 	//暂存
@@ -189,7 +187,6 @@
 		});
 	
 		$("input[name='supplierTypeIds']").val(id);
-		var types=$("#supplierTypes").val();
 		// 保存工程地址附件信息
 		var areaIds = "";
 		$("#areaSelect").find("option").each(function(i, element){
@@ -1538,6 +1535,7 @@
 						<form id="save_pro_form_id"
 							action="${pageContext.request.contextPath}/supplier/perfect_professional.html"
 							method="post">
+							<input type="hidden" name="formToken" value="${formToken}" />
 							<input type="hidden" name="id" id="sid"
 								value="${currSupplier.id}" /> <input type="hidden" name="flag" />
 							<input type="hidden" name="defaultPage" value="${defaultPage}" />
@@ -2027,15 +2025,14 @@
 										
 										<div class="ml20">
 											省、直辖市：
-										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)" <c:if test="${currSupplier.status==2}"> disabled="disabled" </c:if> title="按住CTRL+鼠标左键可多选和取消选择">
+										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)"  title="按住CTRL+鼠标左键可多选和取消选择">
 										    	<c:forEach items="${rootArea}" var="area" varStatus="st">
-										    	  	<option value="${area.id}">${area.name}</option>
+									    	  	<option value="${area.id}">${area.name}</option>
 										    	</c:forEach>
 										    </select>
-										    <span class="red">${province }</span>
 										</div>
 										<ul class="list-unstyled overflow_h">
-											<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}">
+											<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}"/>
 											<c:forEach items="${rootArea}" var="area" varStatus="st">
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}" >
 													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">${area.name}</span>
@@ -2505,7 +2502,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w150">
-															 		<input type="text" class="border0" maxlength="30" onkeyup="checkInputLength(this,15)" 
+															 		<input type="text" class="border0" maxlength="30" onkeyup="checkInputLength(this,30)" 
 																 		<c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																		name="supplierMatSe.listSupplierCertSes[${certSeNumber}].code"
 																		value="${certSe.code}" />
@@ -2581,10 +2578,7 @@
 									<%-- </c:if> --%>
 
 								</div>
-								<input name="supplierTypeIds" type="hidden" value="" /> <input
-								 
-									type="hidden" value="${currSupplier.supplierTypeIds }"
-									id="supplierTypes">
+								<input type="hidden" id="supplierTypes" name="supplierTypeIds" value="${currSupplier.supplierTypeIds }" />
 							</div>
 						</form>
 					</div>
@@ -2664,6 +2658,16 @@
 				var typeErrorField = '${typePageField}';
 				if(typeErrorField.indexOf($(this).parent().attr("id")) >= 0){
 					$(this).attr('disabled',false);
+				}
+			});
+			// 控制承揽业务范围：省、直辖市
+			var engPageField = '${engPageField}';
+			$("#areaSelect").attr('disabled',false);
+			$("#areaSelect").find("option").each(function(i, element){
+				if (engPageField.indexOf(element.text) >= 0) {
+					
+				}else{
+					element.disabled = 'disabled';
 				}
 			});
 		}

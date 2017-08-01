@@ -1,5 +1,7 @@
 package ses.service.sms.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,5 +57,11 @@ public class SupplierAfterSaleDepServiceImpl implements SupplierAfterSaleDepServ
             }
         }
     }
+
+	@Override
+	public List<SupplierAfterSaleDep> findAfterSaleDepBySupplierId(
+			String supplierId) {
+		return supplierAfterSaleDepMapper.findAfterSaleDepBySupplierId(supplierId);
+	}
 
 }

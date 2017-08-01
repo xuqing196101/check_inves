@@ -273,4 +273,9 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 	public List<SupplierFinance> findBySupplierIdYearThree(String supplierId) {
 		return supplierFinanceMapper.findBySupplierIdYearThree(supplierId);
 	}
+
+	@Override
+	public List<SupplierFinance> findFinanceBySupplierId(String supplierId) {
+		return supplierFinanceMapper.getFinanceBySid(supplierId);
+	}
 }

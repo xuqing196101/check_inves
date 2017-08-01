@@ -107,7 +107,7 @@ public interface SupplierService {
 	 * @Description: 校验是否登录
 	 * @param: @param user
 	 * @param: @return
-	 * @return: Map<String,Integer>
+	 * @return: Map<String,Object>
 	 */
 	public Map<String, Object> checkLogin(User user);
 	 /**
@@ -117,7 +117,7 @@ public interface SupplierService {
      * @Description: 根据主键获取一条数据库记录
      * @param: @param id
      * @param: @return
-     * @return: SupplierInfo
+     * @return: Supplier
      */
     Supplier selectById(String id);
     
@@ -499,4 +499,38 @@ public interface SupplierService {
 	 * @return
 	 */
 	public boolean updateSupplierStatus();
+
+	/**
+	 * 根据登录名查询
+	 * @param name
+	 * @return
+	 */
+	public Supplier queryByName(String name);
+
+	/**
+	 * 获取供应商信息（为减少不必要的查询，按需获取）
+	 * @param suppId	供应商id
+	 * @param type		获取类型
+	 * <br>1.基本信息
+	 * <br>2.供应商类型
+	 * <br>3.产品类别
+	 * <br>4.资质文件
+	 * <br>5.销售合同
+	 * <br>6.采购机构
+	 * <br>7.附件下载（承诺书和申请表）
+	 * <br>8.附件上传（承诺书和申请表）
+	 * @return
+	 */
+	public Supplier get(String suppId, int type);
+
+	/**
+	 * 记录供应商修改
+	 * @param operationInfo
+	 * @param obj1
+	 * @param obj2
+	 * @param supplierId
+	 */
+	public void record(String operationInfo, Object obj1, Object obj2,
+			String supplierId) throws Exception;
+
 }
