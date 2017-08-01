@@ -979,13 +979,23 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		 }
 	return cateTree;
 	}
-	private List<SupplierItem> getProjecct(SupplierCateTree cateTree,Integer type){
+	/**
+	 * 
+	 * Description:封装 工程 专业资质要求 数据审核
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-31
+	 * @param cateTree
+	 * @param type
+	 * @return
+	 */
+	private List<SupplierItem> getProject(SupplierCateTree cateTree,Integer type,String supplierId){
 		List<SupplierItem> itemsList=new ArrayList<>();
 		List<SupplierItem> tempList=null;
 		Map<String, Object> map=new HashMap<>();
 		if(StringUtils.isNotBlank(cateTree.getFourthNodeID())){
 			//根据末节目录节点 id) 获取目录中间表id  获取文件的business_id
-			map.put("supplierId", cateTree.getSupplierItemId());
+			map.put("supplierId", supplierId);
 			map.put("categoryId", cateTree.getFourthNodeID());
 			map.put("type", isType(type));
 			tempList=supplierItemMapper.findByMapByNull(map);
@@ -993,7 +1003,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		}
 		if(StringUtils.isNotBlank(cateTree.getThirdNodeID())){
 			map.clear();
-			map.put("supplierId", cateTree.getSupplierItemId());
+			map.put("supplierId", supplierId);
 			map.put("categoryId", cateTree.getThirdNodeID());
 			map.put("type", isType(type));
 			tempList=supplierItemMapper.findByMapByNull(map);
@@ -1001,7 +1011,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		}
 		if(StringUtils.isNotBlank(cateTree.getSecondNodeID())){
 			map.clear();
-			map.put("supplierId", cateTree.getSupplierItemId());
+			map.put("supplierId", supplierId);
 			map.put("categoryId", cateTree.getSecondNodeID());
 			map.put("type", isType(type));
 			tempList=supplierItemMapper.findByMapByNull(map);
@@ -1009,7 +1019,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		}
 		if(StringUtils.isNotBlank(cateTree.getFirstNodeID()) ){
 			map.clear();
-			map.put("supplierId", cateTree.getSupplierItemId());
+			map.put("supplierId", supplierId);
 			map.put("categoryId", cateTree.getFirstNodeID());
 			map.put("type", isType(type));
 			tempList=supplierItemMapper.findByMapByNull(map);
@@ -1021,7 +1031,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	public List<SupplierCateTree> showProject(SupplierCateTree cateTree,
 			Integer type, String type_id, Integer syskey) {
 		List<SupplierCateTree> cateList=new ArrayList<>();
-		Map<String, Object> map=new HashMap<>();
+		/*Map<String, Object> map=new HashMap<>();
 		//根据末节目录节点 id) 获取目录中间表id  获取文件的business_id
 		map.put("supplierId", cateTree.getSupplierItemId());
 		map.put("categoryId", cateTree.getItemsId());
@@ -1030,13 +1040,13 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		String secondNode="";
 		if(null!=temp && !temp.isEmpty()){
 			secondNode=temp.get(0).getId();
-		}
-		List<SupplierItem> itemsList=getProjecct(cateTree, type);//supplierItemService.findByMap(map);
+		}*/
+		List<SupplierItem> itemsList=getProject(cateTree, type,cateTree.getSupplierItemId());//supplierItemService.findByMap(map);
 		//--工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
 		if(null!=itemsList && !itemsList.isEmpty()){
 			for (SupplierItem supplierItem : itemsList) {
 				SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierItem.getSupplierId());
-			cateTree.setSupplierItemId(secondNode);
+			cateTree.setSupplierItemId(supplierItem.getId());
 			if(null !=  matEng || StringUtils.isNotBlank(supplierItem.getCertCode()) || StringUtils.isNotBlank(supplierItem.getProfessType())){
 				List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), supplierItem.getCertCode(), supplierItem.getProfessType());
 				if(certEng != null && certEng.size() > 0) {
@@ -1639,17 +1649,24 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 	@Override
 	public SupplierCateTree countEngCategoyrId(SupplierCateTree cateTree, String supplierId) {
-		long rut=0;
+		long rut=0,product=0,sales=0;
 		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
 		String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_ENG_CERT);
 		List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
-        if(certEng != null && certEng.size() > 0) {
+        if(certEng != null && !certEng.isEmpty()) {
 		  rut=rut+uploadService.countFileByBusinessId(certEng.get(0).getId(), type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
         }
+        List<SupplierItem> itemList= getProject(cateTree, 4,supplierId);
+        if(itemList != null && !itemList.isEmpty()){
+        	for (SupplierItem supplierItem : itemList) {
+        		product+=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE);
+        		sales+=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_SALES_PAGE);
+			}
+        }
         //封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
-		cateTree.setIsAptitudeProductPageAudit(countData(supplierId, cateTree.getSupplierItemId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE));
+		cateTree.setIsAptitudeProductPageAudit(product);
 		//封装 物资销售 记录 资质文件
-		cateTree.setIsAptitudeSalesPageAudit(countData(supplierId, cateTree.getSupplierItemId(), ses.util.Constant.APTITUDE_SALES_PAGE));
+		cateTree.setIsAptitudeSalesPageAudit(sales);
         cateTree.setFileCount(rut);
 		return cateTree;
 	}
@@ -1730,7 +1747,6 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			String categoryId,String supplierType){
 		long rut=0,temp=0,productCount=0,salesCount=0;
 		//专业资质 要求 有可能是末节节点 有可能是其他节点
-		//根据第三节目录节点 id(也就是中级目录 id) 品目id查询所要上传的资质文件
 		//categoryQuaMapper.findList(cateTree.getSecondNodeID());
 		if(null != categoryQuaList && !categoryQuaList.isEmpty()){
 			String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
