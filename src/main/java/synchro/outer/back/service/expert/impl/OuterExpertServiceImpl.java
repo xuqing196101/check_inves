@@ -365,6 +365,11 @@ public class OuterExpertServiceImpl implements OuterExpertService {
             	  attchs.addAll(attch);
             }
             expert.setAttchList(attchs);
+            //专家审核记录表
+            List<ExpertAudit> expertAuditList = expertAuditMapper.selectByExpertId(expert.getId());
+            if(null != expertAuditList){
+                expert.setExpertAuditList(expertAuditList);
+            }
             list.add(expert);
         }
         return list;
