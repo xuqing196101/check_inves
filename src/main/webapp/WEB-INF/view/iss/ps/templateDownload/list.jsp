@@ -423,7 +423,9 @@
 					</tbody>
 				</table>
 			</div>
+			<c:if test="${authType == 4}">
 			<div id="pageDiv" align="right"></div>
+			</c:if>
 		</div>
   </body>
 </html>

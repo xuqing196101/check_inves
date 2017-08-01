@@ -1498,6 +1498,23 @@ public class ExpertServiceImpl implements ExpertService {
 	public List<Expert> yzCardNumber(Map<String, Object> map) {
 		return mapper.yzCardNumber(map);
 	}
+
+  @Override
+  public boolean isExpertCheckedParent(String categoryId, String expertId, String typeId, String flag,List < ExpertAudit > auditList) {
+         List < ExpertCategory > allCategoryList = expertCategoryMapper.selectListByExpertId(expertId, typeId, null);
+         if(auditList!=null && auditList.size()>0){
+           for(ExpertAudit audit: auditList) {
+                 if(audit.getAuditFieldId().equals(categoryId)) {
+                   
+                   return false;
+                   }
+           }
+         }
+         if (allCategoryList != null && allCategoryList.size() > 0 ) {
+           return true;
+         }
+         return false;
+  }
 	
 }
 

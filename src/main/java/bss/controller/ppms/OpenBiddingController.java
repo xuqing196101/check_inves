@@ -34,6 +34,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Templet;
 import ses.model.bms.Todos;
@@ -108,7 +109,7 @@ import common.service.UploadService;
 @Controller
 @Scope("prototype")
 @RequestMapping("/open_bidding")
-public class OpenBiddingController {
+public class OpenBiddingController extends BaseSupplierController{
 
   private final static Short NUMBER_TWO = 2;
 
@@ -281,10 +282,14 @@ public class OpenBiddingController {
   public String bidFile(@CurrentUser User user,HttpServletRequest request, String id, Model model, HttpServletResponse response, String flowDefineId,Integer process) throws Exception{
     //类别是否是在流程中展示 process 1不在流程中  2在流程中  
     model.addAttribute("process", process);  
-
+    String delOk = request.getParameter("delOk");
+    if (delOk=="ok") {
+		model.addAttribute("delOk", 1);
+	}
 
     HashMap<String, Object> map = new HashMap<String, Object>();
     map.put("projectId", id);
+    model.addAttribute("pId", id);
     List<Packages> packages = packageService.findPackageById(map);
     String msg = "";
     if (process != null && process == 1) {
@@ -471,7 +476,33 @@ public class OpenBiddingController {
   public void loadFile(HttpServletRequest request, String fileId, HttpServletResponse response){
     downloadService.downloadOther(request, response, fileId, Constant.TENDER_SYS_KEY+"");
   }
-
+  
+  /**
+   *〈简述〉下载附件
+   *〈详细描述〉
+   * @author Zhou Wei
+   * @param request
+   * @param response
+   */
+  @RequestMapping("/downloadList")
+  public void downloadList(HttpServletRequest request, HttpServletResponse response){
+  	
+  	List<String> list= downloadService.downloadMap(request);
+  	super.writeJson(response, list.get(0));
+   }
+  /**
+   *〈简述〉删除附件
+   *〈详细描述〉
+   * @author Zhou Wei
+   * @param request
+   * @param response
+   */
+  @RequestMapping("/removeFile")
+  public void removeFile(HttpServletRequest request, HttpServletResponse response){
+  	List<String> list= downloadService.downloadMap(request);
+  	super.writeJson(response, list);
+  }
+  
   /**
    * 
    *〈简述〉
