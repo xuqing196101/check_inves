@@ -269,7 +269,7 @@ function auditButton(tablerId){
 		is=2;
 	}
 	if(is>0){
-	  var wzType=$("#"+tablerId+" #typeId1").val();
+	  var wzType=$("#"+tablerId+" input[id^='typeId']").val();
 	  onCategory(tablerId,wzType);
 	}else{
 		layer.msg('请先选择目录,至少有一条！', {offset:'100px'});
