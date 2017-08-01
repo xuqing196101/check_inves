@@ -14,6 +14,7 @@ import ses.model.bms.Category;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
+import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertHistory;
 import ses.model.sms.Supplier;
 import bss.model.ppms.Packages;
@@ -540,4 +541,17 @@ public interface ExpertService {
     List<Expert> yzCardNumber(Map<String, Object> map);
     
     boolean checkMobile(String mobile,String id);
+    /**
+     *〈简述〉判断专家是否勾选根节点
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param id
+     * @param expertId
+     * @param categoryId
+     * @param string
+     * @param auditList
+     * @return
+     */
+    boolean isExpertCheckedParent(String id, String expertId, String categoryId, String string,
+        List<ExpertAudit> auditList);
 }
