@@ -2316,9 +2316,7 @@
 																	<c:if test="${tempForShowOption eq 'go' }">
 																		<option value="${aptitute.certType}" selected="selected">${aptitute.certType}</option>
 																	</c:if>
-																	
 																</select>
-																
 																<input type="hidden" class="forSelectId" value="${aptitute.aptituteLevel}">
 															</td>
 															<td class="tc"
@@ -2338,12 +2336,7 @@
 																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()"></select>
 																 -->
 																<select id="certGrade_select${certAptNumber}" title="cnjewfnGrade" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" style="width:200px;border: none;">
-																	<c:choose>
-                                                                        <c:when test="${aptitute.aptituteLevel}">
-
-                                                                        </c:when>
-                                                                    </c:choose>
-                                                                    <c:if test="${tempForShowOption eq 'go' }">
+                                  <c:if test="${tempForShowOption eq 'go' }">
 																		<option selected="selected">${aptitute.aptituteLevel}</option>
 																	</c:if>
 																	<c:set var="tempForShowOption" value="notgo"/>
