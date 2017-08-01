@@ -1116,6 +1116,97 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("auditTypeMap", auditTypeMap);
 		}
 	}
+	
+	private void returnSupplierTypeInfo(Model model, Supplier persistentSup, Supplier supplier){
+		if(supplier != null && persistentSup != null){
+			//BeanUtilsExt.copyPropertiesIgnoreNull(persistentSup, supplier);
+			supplier.setStatus(persistentSup.getStatus());
+			// 工程
+			SupplierMatEng matEng = supplier.getSupplierMatEng();
+			if(matEng != null){
+				// 去掉空的注册资质人员信息
+				List<SupplierRegPerson> listRegPersons = matEng.getListSupplierRegPersons();
+				if(listRegPersons != null && listRegPersons.size() > 0){
+					Iterator<SupplierRegPerson> itr = listRegPersons.iterator();
+					while(itr.hasNext()){
+						SupplierRegPerson regPerson = itr.next();
+						if(regPerson.getId() == null){
+							itr.remove();
+						}
+					}
+				}
+				// 去掉空的供应商资质（认证）证书信息
+				List<SupplierCertEng> listCertEngs = matEng.getListSupplierCertEngs();
+				if(listCertEngs != null && listCertEngs.size() > 0){
+					Iterator<SupplierCertEng> itr = listCertEngs.iterator();
+					while(itr.hasNext()){
+						SupplierCertEng certEng = itr.next();
+						if(certEng.getId() == null){
+							itr.remove();
+						}
+					}
+				}
+				// 去掉空的供应商资质证书详细信息
+				List<SupplierAptitute> listAptitutes = matEng.getListSupplierAptitutes();
+				if(listAptitutes != null && listAptitutes.size() > 0){
+					Iterator<SupplierAptitute> itr = listAptitutes.iterator();
+					while(itr.hasNext()){
+						SupplierAptitute aptitute = itr.next();
+						if(aptitute.getId() == null){
+							itr.remove();
+						}
+					}
+				}
+			}
+			// 生产
+			SupplierMatPro matPro = supplier.getSupplierMatPro();
+			if(matPro != null){
+				// 去掉空的生产资质证书信息
+				List<SupplierCertPro> listCertPros = matPro.getListSupplierCertPros();
+				if(listCertPros != null && listCertPros.size() > 0){
+					Iterator<SupplierCertPro> itr = listCertPros.iterator();
+					while(itr.hasNext()){
+						SupplierCertPro certPro = itr.next();
+						if(certPro.getId() == null){
+							itr.remove();
+						}
+					}
+				}
+			}
+			// 销售
+			SupplierMatSell matSell = supplier.getSupplierMatSell();
+			if(matSell != null){
+				// 去掉空的销售资质证书信息
+				List<SupplierCertSell> listCertSells = matSell.getListSupplierCertSells();
+				if(listCertSells != null && listCertSells.size() > 0){
+					Iterator<SupplierCertSell> itr = listCertSells.iterator();
+					while(itr.hasNext()){
+						SupplierCertSell certSell = itr.next();
+						if(certSell.getId() == null){
+							itr.remove();
+						}
+					}
+				}
+			}
+			// 服务
+			SupplierMatServe matServe = supplier.getSupplierMatSe();
+			if(matServe != null){
+				// 去掉空的服务资质证书信息
+				List<SupplierCertServe> listCertSes = matServe.getListSupplierCertSes();
+				if(listCertSes != null && listCertSes.size() > 0){
+					Iterator<SupplierCertServe> itr = listCertSes.iterator();
+					while(itr.hasNext()){
+						SupplierCertServe certSe = itr.next();
+						if(certSe.getId() == null){
+							itr.remove();
+						}
+					}
+				}
+			}
+			// 返回当前供应商
+			model.addAttribute("currSupplier", supplier);
+		}
+	}
 
 	/**
 	 *〈简述〉ajax保存供应商类型
@@ -1214,12 +1305,15 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("suppId", supplier.getId());
 			return "redirect:/supplier/items.html";
 		} else {
+			//Supplier supplier2 = supplierService.get(supplier.getId(), 2);
+			Supplier supplier2 = supplierService.selectById(supplier.getId());
 			model.addAttribute("pro", pro);
 			model.addAttribute("server", server);
 			model.addAttribute("project", project);
 			model.addAttribute("sale", sale);
 			initSupplierTypeConstants(model, supplier);
 			initSupplierTypeAudit(model, supplier);
+			returnSupplierTypeInfo(model, supplier2, supplier);
 			return "ses/sms/supplier_register/supplier_type";
 		}
 	}
