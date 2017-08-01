@@ -264,8 +264,10 @@ public class LoginController {
                             } else if (("publicity").equals(msg)){
                                 // 公示中状态
                                 out.print("publicity");
-
-                          }
+                            }else if("send_back".equals(msg)){
+                            	//退回再审核
+                            	out.print("send_back,"+ u.getId());
+                            }
 //                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
 //                            out.print("supplier_logout," + validateDay);
 //                        }
