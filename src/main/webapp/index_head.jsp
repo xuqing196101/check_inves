@@ -12,7 +12,7 @@
 <head>
 <!--导航js-->
 
-<%@ include file="/WEB-INF/view/portal.jsp" %>
+<%@ include file="/WEB-INF/view/portal_only.jsp" %>
 <script type="text/javascript"> 
   		$(function(){
   		    /* 导航延迟两秒 */
@@ -190,7 +190,7 @@ function importAdd(){
        </button>
     </div>
     <div style="height: 0px;" aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
-    <div class="container">
+    <div class="container position_r">
       <ul class="nav navbar-nav m-navbar-nav" >
       <!-- 通知 -->
         <li id="firstPage" class="dropdown shouye_li mega-menu-fullwidth">
