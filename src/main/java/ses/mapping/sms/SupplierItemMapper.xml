@@ -281,6 +281,23 @@
 		</where>
 	</select>
 	
+	<select id="findByMapByNull" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from T_SES_SMS_SUPPLIER_ITEM
+        <where>
+            CERT_CODE IS NOT NULL
+            <if test="categoryId != null and categoryId != ''">
+                and CATEGORY_ID = #{categoryId}
+            </if>
+            <if test="supplierId != null and supplierId != ''">
+                and SUPPLIER_ID = #{supplierId}
+            </if>
+            <if test="type != null and type != ''">
+                and SUPPLIER_TYPE_RELATE_ID = #{type}
+            </if>
+            
+        </where>
+    </select>
+	
 	<select id="selectByMap" parameterType="java.util.Map" resultMap="BaseResultMap" flushCache="true">
 		SELECT DISTINCT
 		<include refid="Base_Column"/>
