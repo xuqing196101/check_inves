@@ -190,4 +190,14 @@ public interface SupplierItemMapper {
     List<String> selectCountBySupTypeMore(Map<String,Object> map);
 
     List<SupplierItem> selectCountBySupTypeList(Map<String,Object> map);
+    /**
+     * 
+     * Description: 封装map 获取相关参数 数据
+     * 
+     * @author YangHongLiang
+     * @version 2017-7-31
+     * @param map
+     * @return
+     */
+    List<SupplierItem> findByMapByNull(Map<String,Object> map);
 }
