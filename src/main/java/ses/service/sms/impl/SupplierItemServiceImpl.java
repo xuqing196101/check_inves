@@ -266,7 +266,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         boolean fiveAllEx = false;
         boolean fourAllEx = false;
         //一级节点
-        List<SupplierItem> cateList = supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId, type);
+        List<SupplierItem> cateList = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, categoryId, type);
 
         for(SupplierItem s:cateList){
             //二级节点
@@ -290,7 +290,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                                             List<SupplierItem> supListexists = new ArrayList<>();
                                             for(int j=0;j<cateFive.size();j++){
                                                 //去中间表查是否存在
-                                                List<SupplierItem> cateLs = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFive.get(j).getId(),type);
+                                                List<SupplierItem> cateLs = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFive.get(j).getId(),type);
                                                 // 判断是否为空,不为空加入子节点
                                                 if (cateLs != null && !cateLs.isEmpty()) {
                                                     list.add(cateLs.get(0));
@@ -304,7 +304,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                                                     list.remove(supListexists.get(j));
                                                 }
                                                 //去中间表查是否存在
-                                                List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFour.get(i).getId(),type);
+                                                List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFour.get(i).getId(),type);
                                                 // 判断是否为空,不为空加入子节点
                                                 if (cates != null && !cates.isEmpty()) {
                                                     list.add(cates.get(0));
@@ -314,7 +314,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                                         }else{//没有子节点时显示本节点
                                             fiveAllEx = true;
                                             //去中间表查是否存在
-                                            List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFour.get(i).getId(),type);
+                                            List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFour.get(i).getId(),type);
                                             // 判断是否为空,不为空加入子节点
                                             if (cates != null && !cates.isEmpty()) {
                                                 list.add(cates.get(0));
@@ -329,7 +329,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                                             list.remove(supFourListexists.get(i));
                                         }
                                         //去中间表查是否存在
-                                        List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId(),type);
+                                        List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cs.getId(),type);
                                         // 判断是否为空,不为空加入子节点
                                         if (cateLst != null && cateLst.size() > 0) {
                                             list.add(cateLst.get(0));
@@ -339,7 +339,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                                 }else{
                                     fourAllEx = true;
                                     //去中间表查是否存在
-                                    List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId(),type);
+                                    List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cs.getId(),type);
                                     // 判断是否为空,不为空加入子节点
                                     if (cateLst != null && cateLst.size() > 0) {
                                         list.add(cateLst.get(0));
@@ -353,7 +353,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                                     list.remove(supThreeListexists.get(i));
                                 }
                                 //去中间表查是否存在
-                                List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, c.getId(),type);
+                                List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, c.getId(),type);
                                 // 判断是否为空,不为空加入子节点
                                 if (cateLst != null && cateLst.size() > 0) {
                                     list.add(cateLst.get(0));
@@ -361,7 +361,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                             }
                         }else{
                             //去中间表查是否存在
-                            List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, c.getId(),type);
+                            List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, c.getId(),type);
                             // 判断是否为空,不为空加入子节点
                             if (cateLst != null && cateLst.size() > 0) {
                                 list.add(cateLst.get(0));
@@ -397,7 +397,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                     if(null != cateFive && !cateFive.isEmpty()){
                         for(int j=0;j<cateFive.size();j++){
                             //去中间表查是否存在
-                            List<SupplierItem> cateLs = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFive.get(j).getId(),type);
+                            List<SupplierItem> cateLs = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFive.get(j).getId(),type);
                             // 判断是否为空,不为空加入子节点
                             if (cateLs != null && !cateLs.isEmpty()) {
                                 list.add(cateLs.get(0));
@@ -405,7 +405,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                         }
                     }else{
                         //去中间表查是否存在
-                        List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFour.get(i).getId(),type);
+                        List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cateFour.get(i).getId(),type);
                         // 判断是否为空,不为空加入子节点
                         if (cates != null && !cates.isEmpty()) {
                             list.add(cates.get(0));
@@ -414,7 +414,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                 }
             }else{
                 //去中间表查是否存在
-                List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId(),type);
+                List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryIdIsNotReturned(supplierId, cs.getId(),type);
                 //list.addAll(cateLst);
                 // 判断是否为空,不为空加入子节点
                 if (cateLst != null && cateLst.size() > 0) {
@@ -763,6 +763,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("supplierId", supplierId);
 		paramMap.put("type", code);
+		paramMap.put("isReturned", 0);
 		List < SupplierItem > itemList = this.findByMap(paramMap);
 		for(SupplierItem item: itemList) {
 			Category cate = categoryService.selectByPrimaryKey(item.getCategoryId());

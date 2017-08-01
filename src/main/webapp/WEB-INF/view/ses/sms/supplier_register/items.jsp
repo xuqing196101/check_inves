@@ -210,35 +210,20 @@
 		}
 	}
 	
-	var enableNodeList = [];// 存放可以编辑的节点
+	//var enableNodeList = [];// 存放可以编辑的节点
 	function checkNode(treeNode){
 		// 已经通过审核的节点不能修改
     var currSupplierSt = '${currSupplier.status}';
 		if(currSupplierSt == '2'){// 退回修改的状态
-			/* if($.inArray(treeNode.id, enableNodeList) >= 0){
-				return true;
-			}
-			var bool = true;
-			$("#tbody_category tr").each(function(index){
-     		var checkedId = $(this).find("td:last").attr("data-catId");
-     		var errorField = $("#errorField").val();
-     		if(checkedId == treeNode.id && errorField.indexOf(treeNode.id) < 0){
-       		layer.msg("此节点已通过审核，不能修改!");
-     			bool = false;
-     			return false;
-     		}
-     	});
-     	if(!bool){
-     		layer.close(loading);
-     		return false;
-     	}
-     	enableNodeList.push(treeNode.id);
-     	return true; */
      	var errorField = $("#errorField").val();
-     	if(errorField.indexOf(treeNode.id) >= 0){
+     	/* if(errorField.indexOf(treeNode.id) >= 0){
      		return true;
+     	} */
+     	if(!treeNode.checked){
+     		layer.msg("退回修改不能新增产品类别！");
+     	}else{
+     		layer.msg("此节点已通过审核，不能修改！");
      	}
-     	layer.msg("此节点已通过审核，不能修改!");
      	layer.close(loading);
      	return false;
 		}
