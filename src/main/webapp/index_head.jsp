@@ -989,7 +989,7 @@ function importAdd(){
 	  </a>
 	 </div>
 	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
-	  <a href="">
+	  <a href="javascript:void(0);">
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic yjfk">
 	    	<img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/> 
 	    </div>
