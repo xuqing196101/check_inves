@@ -1207,7 +1207,7 @@
       WHERE
         1=1
       <if test="sign == 1">
-        and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3 or SUPPLIER_STATUS = -2 or SUPPLIER_STATUS =-3)
+        and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3 or SUPPLIER_STATUS = -2 or SUPPLIER_STATUS =-3 or SUPPLIER_STATUS =9)
         <if test="procurementDepId !=null">
           and PROCUREMENT_DEP_ID = #{procurementDepId}
         </if>
