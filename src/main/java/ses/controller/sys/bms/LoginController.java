@@ -466,8 +466,12 @@ public class LoginController {
      * @return String     
      */
     @RequestMapping("/loginOut")
-    public String loginOut(@CurrentUser User user){
-    	forceLogoutUser(user.getId());
+    public String loginOut(@CurrentUser User user,HttpServletRequest re){
+    	if(user != null){
+    		forceLogoutUser(user.getId());
+    	} else {
+    		re.getSession().invalidate();
+    	}
         return "redirect:/";
     }
     
@@ -494,6 +498,8 @@ public class LoginController {
 					hs.removeAttribute(sessionName);
 					Jedis jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
 					jedis.del("spring:session:sessions:"+hs.getId());
+					jedis.quit();
+					jedis.disconnect();
 				}
 			}
 			// hs.invalidate();
