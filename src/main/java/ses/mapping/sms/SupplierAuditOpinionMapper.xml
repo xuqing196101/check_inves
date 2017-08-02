@@ -2,56 +2,141 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.sms.SupplierAuditOpinionMapper">
   <resultMap id="BaseResultMap" type="ses.model.sms.SupplierAuditOpinion">
-    <id column="ID"  property="id" />
-    <result column="SUPPLIER_ID"  property="supplierId" />
-    <result column="OPINION"  property="opinion" />
-    <result column="CREATED_AT"  property="createdAt" />
-
-
+      <id column="ID"  property="id" />
+      <result column="SUPPLIER_ID"  property="supplierId" />
+      <result column="OPINION"  property="opinion" />
+      <result column="CREATED_AT"  property="createdAt" />
+      <result column="FLAG_TIME"  property="flagTime" />
+      <result column="FLAG_AUDIT"  property="flagAduit" />
+      <result column="IS_DOWNLOAD_ATTCH"  property="isDownLoadAttch" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, SUPPLIER_ID, OPINION, CREATED_AT
+    ID, SUPPLIER_ID, OPINION, CREATED_AT, FLAG_TIME, FLAG_AUDIT, IS_DOWNLOAD_ATTCH
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from T_SES_SMS_SUPPLIER_OPINION
-    where SUPPLIER_ID = #{supplierId}
-    AND CREATED_AT = ( SELECT MAX(CREATED_AT) FROM T_SES_SMS_SUPPLIER_OPINION )
+    SELECT <include refid="Base_Column_List" />
+    FROM T_SES_SMS_SUPPLIER_OPINION
+    WHERE SUPPLIER_ID = #{supplierId}
+    AND CREATED_AT = ( SELECT MAX(CREATED_AT) FROM T_SES_SMS_SUPPLIER_OPINION  WHERE SUPPLIER_ID = #{supplierId})
   </select>
 
-  <insert id="insertSelective" parameterType="ses.model.ems.ExpertAudit">
-    insert into T_SES_SMS_SUPPLIER_OPINION
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="supplierId != null">
-        SUPPLIER_ID,
-      </if>
-      <if test="opinion != null">
-        OPINION,
-      </if>
-      <if test="createdAt != null">
-        CREATED_AT,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id},
-      </if>
-      <if test="supplierId != null">
-        #{supplierId},
-      </if>
-      <if test="opinion != null">
-        #{opinion},
-      </if>
-      <if test="createdAt != null">
-        #{createdAt},
-      </if>
-    </trim>
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-			select sys_guid() from dual
-		</selectKey>
+  <insert id="insertSelective" parameterType="ses.model.sms.SupplierAuditOpinion">
+      <selectKey keyProperty="id" resultType="String" order="BEFORE">
+          select sys_guid() from dual
+      </selectKey>
+      insert into T_SES_SMS_SUPPLIER_OPINION
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+          <if test="id != null">
+              ID,
+          </if>
+          <if test="supplierId != null">
+              SUPPLIER_ID,
+          </if>
+          <if test="opinion != null">
+              OPINION,
+          </if>
+          <if test="createdAt != null">
+              CREATED_AT,
+          </if>
+          <if test="flagTime != null">
+              FLAG_TIME,
+          </if>
+          <if test="flagAduit != null">
+              FLAG_AUDIT,
+          </if>
+          <if test="isDownLoadAttch != null">
+              IS_DOWNLOAD_ATTCH,
+          </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides=",">
+          <if test="id != null">
+              #{id},
+          </if>
+          <if test="supplierId != null">
+              #{supplierId},
+          </if>
+          <if test="opinion != null">
+              #{opinion},
+          </if>
+          <if test="createdAt != null">
+              #{createdAt},
+          </if>
+          <if test="flagTime != null">
+              #{flagTime},
+          </if>
+          <if test="flagAduit != null">
+              #{flagAduit},
+          </if>
+          <if test="isDownLoadAttch != null">
+              #{isDownLoadAttch},
+          </if>
+      </trim>
   </insert>
+  
+  <!-- 根据供应商ID查询信息 -->
+  <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
+       SELECT 
+        <include refid="Base_Column_List" />
+        FROM (SELECT <include refid="Base_Column_List" />
+         FROM T_SES_SMS_SUPPLIER_OPINION T
+         WHERE T.SUPPLIER_ID = #{supplierId}
+         ORDER BY T.CREATED_AT DESC)
+         WHERE ROWNUM = 1
+  </select>
+  
+  <!-- 根据专家Id修改 -->
+  <update id="updateOpinionByExpertId" parameterType="ses.model.sms.SupplierAuditOpinion">
+  	UPDATE T_SES_SMS_SUPPLIER_OPINION T
+     SET T.AUDIT_OPINION_ATTACH = #{auditOpinionAttach}
+     WHERE T.SUPPLIER_ID = #{supplierId}
+  </update>
+
+    <!--主键查询-->
+    <select id="findByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM T_SES_SMS_SUPPLIER_OPINION T
+        WHERE T.ID = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierAuditOpinion" >
+        update T_SES_SMS_SUPPLIER_OPINION
+        <set>
+            <if test="supplierId != null" >
+                SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+            </if>
+            <if test="opinion != null" >
+                OPINION = #{opinion,jdbcType=VARCHAR},
+            </if>
+            <if test="createdAt != null" >
+                CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="flagTime != null" >
+                FLAG_TIME = #{flagTime,jdbcType=DECIMAL},
+            </if>
+            <if test="flagAduit != null" >
+                FLAG_AUDIT = #{flagAduit,jdbcType=DECIMAL},
+            </if>
+            <if test="isDownLoadAttch != null" >
+                IS_DOWNLOAD_ATTCH = #{isDownLoadAttch,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+    <!-- 根据供应商ID查询信息 -->
+    <select id="selectByExpertIdAndflagTime" parameterType="Map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM (SELECT
+        <include refid="Base_Column_List" />
+        FROM T_SES_SMS_SUPPLIER_OPINION T
+        WHERE T.FLAG_TIME = #{flagTime}
+        <if test="supplierId != null">
+            AND T.SUPPLIER_ID = #{supplierId}
+        </if>
+        ORDER BY T.CREATED_AT DESC)
+        WHERE ROWNUM = 1
+    </select>
 </mapper>

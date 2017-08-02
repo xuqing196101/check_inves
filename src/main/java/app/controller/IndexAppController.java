@@ -1,21 +1,14 @@
 package app.controller;
 
-import gui.ava.html.image.generator.HtmlImageGenerator;
 import iss.model.ps.Article;
 import iss.model.ps.ArticleType;
 import iss.service.ps.ArticleService;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -27,12 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.ImageIcon;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +32,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.ems.ExpertAuditService;
+import ses.service.sms.SupplierAuditService;
 import ses.util.PropUtil;
 import app.dao.app.AppArticleMapper;
 import app.dao.app.AppSupplierBlackListMapper;
@@ -57,13 +49,10 @@ import app.service.AppInfoService;
 import app.service.IndexAppService;
 
 import com.alibaba.fastjson.JSON;
-
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
-import common.utils.CommonStringUtil;
-import common.utils.UploadUtil;
 
 /**
  * 
@@ -114,6 +103,14 @@ public class IndexAppController {
   //App版本管理
     @Autowired
     private AppInfoService appInfoService;
+    
+    // 注入专家审核Service
+    @Autowired
+    private ExpertAuditService expertAuditService;
+    
+    // 注入供应商审核Service
+    @Autowired
+    private SupplierAuditService supplierAuditService;
     
     /** 文件下载service */
     @Autowired
@@ -192,7 +189,12 @@ public class IndexAppController {
         }
         List<Article> indexMsgList = new ArrayList<>();
         //动态
-        Article dynamic= indexAppMapper.selectAppNewsByArticleTypeId(INDEX_DYNAMIC);
+        Map<String, Object> mapdy = new HashMap<>();
+        String[] idArray = new String[2];
+        idArray[0] = "110";
+        idArray[1] = "111";
+        mapdy.put("idArray",idArray);
+        Article dynamic= indexAppMapper.selectdynamicByArticleTypeId(mapdy);
         if(dynamic != null){
             dynamic.setCreate_at(dataToString(dynamic.getPublishedAt()));
             indexMsgList.add(dynamic);
@@ -221,10 +223,10 @@ public class IndexAppController {
         }
         //法规
         Map<String, Object> map = new HashMap<>();
-        String[] idArray = new String[2];
-        idArray[0] = "107";
-        idArray[1] = "108";
-        map.put("idArray",idArray);
+        String[] idArrayreg = new String[2];
+        idArrayreg[0] = "107";
+        idArrayreg[1] = "108";
+        map.put("idArray",idArrayreg);
         Article regulations= appArticleMapper.selectsumApp(map);
         if(regulations != null){
             regulations.setCreate_at(dataToString(regulations.getPublishedAt()));
@@ -403,10 +405,10 @@ public class IndexAppController {
         AppData appData = new AppData();
         AppImg appImg = new AppImg();
         switch(id){
-            case 1 ://供应商名录  //1465798
+            case 1 ://入库名单 //1465798
                 Map<String, Object> map = new HashMap<>();
-                String[] statusArray = new String[] {"1","4","6","5","7","9","8"};
-                map.put("statusArray",statusArray);
+                /*String[] statusArray = new String[] {"1","4","6","5","7","9","8"};
+                map.put("statusArray",statusArray);*/
                 map.put("page", page);
                 List<AppSupplier> supplierList = indexAppService.selectAppSupplierList(map);
                 if(supplierList != null && !supplierList.isEmpty()){
@@ -446,6 +448,18 @@ public class IndexAppController {
                     appImg.setMsg("暂无数据");
                 }
                 break;
+            case 6 ://供应商拟入库公示
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("page", page);
+                appData.setSupplierPublicityList(supplierAuditService.selectSupByPublictyList(map1));
+                if(appData.getSupplierPublicityList() != null && !appData.getSupplierPublicityList().isEmpty()){
+                    appImg.setData(appData);
+                    appImg.setStatus(true);
+                }else {
+                    appImg.setStatus(false);
+                    appImg.setMsg("暂无数据");
+                }
+                break;
         }
         return JSON.toJSONString(appImg);
     }
@@ -465,10 +479,10 @@ public class IndexAppController {
         AppData appData = new AppData();
         AppImg appImg = new AppImg();
         switch(id){
-            case 1 ://专家名录  //4 6 8 复审通过  7 复查通过
+            case 1 ://入库名单   //4 6 8 复审通过  7 复查通过
                 Map<String, Object> map = new HashMap<>();
-                String[] statusArray = new String[] {"4","6","8","7"};
-                map.put("statusArray",statusArray);
+                /*String[] statusArray = new String[] {"4","6","8","7"};
+                map.put("statusArray",statusArray);*/
                 map.put("page", page);
                 List<AppSupplier> expertList = indexAppService.selectAppExpertList(map);
                 if(expertList != null && !expertList.isEmpty()){
@@ -508,6 +522,18 @@ public class IndexAppController {
                     appImg.setMsg("暂无数据");
                 }
                 break;
+            case 6 ://专家拟入库公示
+                Map<String, Object> map2 = new HashMap<>();
+                map2.put("page", page);
+                appData.setExpertPublicityList(expertAuditService.selectExpByPublictyList(map2));
+                if(appData.getExpertPublicityList() != null && !appData.getExpertPublicityList().isEmpty()){
+                    appImg.setData(appData);
+                    appImg.setStatus(true);
+                }else {
+                    appImg.setStatus(false);
+                    appImg.setMsg("暂无数据");
+                }
+                break;
         }
         return JSON.toJSONString(appImg);
     }
@@ -531,11 +557,30 @@ public class IndexAppController {
             Integer typeId = Integer.parseInt(id);
             switch (typeId) {
                 case 110 ://工作动态
+                case 111 ://图片新闻
+                    appData.setTitle("工作动态");
+                    String[] idArraydy = new String[2];
+                    idArraydy[0] = "110";
+                    idArraydy[1] = "111";
+                    map.put("idArray",idArraydy);
+                    map.put("page", page);
+                    List<Article> dynamicList = indexAppService.selectAppRegulations(map);
+                    if(dynamicList != null && !dynamicList.isEmpty()){
+                        for (Article article : dynamicList) {
+                            article.setCreate_at(dataToString(article.getPublishedAt()));
+                        }
+                        appData.setIndexMsgList(dynamicList);
+                        appImg.setData(appData);
+                        appImg.setStatus(true);
+                    }else {
+                        appImg.setData(appData);
+                        appImg.setStatus(false);
+                        appImg.setMsg("暂无数据");
+                    }
+                    break;
                 case 109://重要通知
                 case 112://投诉处理
-                    if(typeId == 110){
-                        appData.setTitle("工作动态");
-                    }else if(typeId == 109){
+                    if(typeId == 109){
                         appData.setTitle("重要通知");
                     }else if(typeId == 112){
                         appData.setTitle("投诉处理公告");
@@ -710,8 +755,8 @@ public class IndexAppController {
     @ResponseBody
     public String appDatailsById(String id,HttpServletRequest request){
         Article article = indexAppService.selectContentById(id);
+        indexAppService.getContentImg(article, request);
         String tempContextUrl = request.getScheme()+"://"+ request.getServerName() +":"+ request.getServerPort() +request.getContextPath();
-        getContentImg(article, request);
         String content = null;
         if(article != null){
             content = "<div style='width: 100%;overflow: hidden;'><h3 style = 'text-align: center;font-size: 60px;'>"
@@ -874,104 +919,6 @@ public class IndexAppController {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
         String time = simpleDateFormat.format(date);
         return time;
-    }
-
-    /**
-     * 
-     * Description: 生成公告内容图片
-     * 
-     * @author zhang shubin
-     * @data 2017年6月7日
-     * @param 
-     * @return
-     */
-    public void getContentImg(Article articleDetail,HttpServletRequest request){
-        String filePath = PropUtil.getProperty("file.noticePic.base")+ File.separator + "Appzanpic";
-        String glisteningPath = PropUtil.getProperty("file.noticePic.base")+ File.separator + "Appglistening"; 
-        File glisteningFile = new File(glisteningPath+"/"+articleDetail.getId()+".jpg");
-        UploadUtil.createDir(filePath);
-        UploadUtil.createDir(glisteningPath);
-        String proWaterPath = request.getSession().getServletContext().getRealPath("/")+"/proWatermark/shuiyin.png";
-        File stagingFile = new File(filePath);
-        File glisFile = new File(glisteningPath);
-        //判读图片是否存在
-        if(glisteningFile.exists()){
-        } else {
-            if(!stagingFile.exists()){
-                stagingFile.mkdir();
-            }
-            if(!glisFile.exists()){
-                glisFile.mkdir();
-            }
-            HtmlImageGenerator imageGenerator = new HtmlImageGenerator();
-            StringBuffer divStyle = new StringBuffer();
-            divStyle.append("<div class='article_content' style='font-size: 20px; line-height: 35px; padding: 35px;width: 400px;'>");
-            String content = articleDetail.getContent();
-            if (StringUtils.isNotBlank(content)){
-                content = content.replaceAll(CommonStringUtil.getAppendString("&nbsp;", 30), "");
-                content = content.replaceAll(":=\"\"", "=\"\"");
-            }
-            divStyle.append(content);
-            divStyle.append("</div>");
-            String htmlstr = divStyle.toString();
-            imageGenerator.loadHtml(htmlstr);
-            imageGenerator.getBufferedImage();
-            imageGenerator.saveAsImage(filePath+"/"+articleDetail.getId()+".png");
-            String zancunPicPath = filePath+"/"+articleDetail.getId()+".png";
-            String srcImgPath = zancunPicPath;  
-            String iconPath = proWaterPath;
-            String targerPath2 = glisteningPath+"/"+articleDetail.getId()+".jpg";
-            //给图片添加水印，水印旋转-45
-            markByText(iconPath, srcImgPath,targerPath2,0);
-        }
-    }
-
-    /**
-     * 
-     * Description: 给图片添加水印
-     * 
-     * @author zhang shubin
-     * @data 2017年6月7日
-     * @param 
-     * @return
-     */
-    public static void markByText(String logoText,String srcImgPath,String targetPath,Integer degree){
-        //主图片路径
-        InputStream is = null;
-        FileOutputStream os = null;
-        try {
-            Image srcImg = ImageIO.read(new File(srcImgPath));
-            BufferedImage buffImg = new BufferedImage(srcImg.getWidth(null),srcImg.getHeight(null), BufferedImage.TYPE_INT_RGB);
-            //得到画笔对象
-            Graphics2D g = buffImg.createGraphics();
-            //设置对线段的锯齿状边缘处理
-            g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g.drawImage(srcImg.getScaledInstance(srcImg.getWidth(null), srcImg.getHeight(null), Image.SCALE_SMOOTH),0,0,null);
-            if(null!=degree){
-                //设置水印旋转
-                g.rotate(Math.toRadians(degree),(double) buffImg.getWidth()/2,(double) buffImg.getHeight()/2);
-            }
-            ImageIcon imgIcon = new ImageIcon(logoText);
-            Image img = imgIcon.getImage();
-            float alpha = 0.5f;
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha));
-            g.drawImage(img,200,10,null);
-            g.dispose();
-            os = new FileOutputStream(targetPath);
-            //生成图片
-            ImageIO.write(buffImg, "jpg", os);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if(null!=is)
-                    is.close();
-                if(null!=os)
-                    os.close();
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
     }
 
     /**

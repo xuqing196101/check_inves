@@ -1,19 +1,82 @@
 $(function(){
+	var tablerId=$("#tablerId").val();
 	var ind = parseInt($("#ids").val());
 	ind=ind+1;
-	var auditCount = $("#isAptitudePAgeAudit"+ind+"",window.parent.document).val();
+	var auditCount;
+	$("input[id^='count']").each(function(index,value){
+		if($(this).val()){
+			if(parseInt($(this).val())>0){
+				var id=$(this).attr("id");
+				id=id.substring(5);
+				$("#show_td"+id+"").attr('src', globalPath+'/public/backend/images/sc.png');
+			}
+		}
+		
+	});
+	switch (tablerId) {
+	case 'content_1'://物资生产
+	case 'content_3'://工程
+	case 'content_4'://服务
+		auditCount = $("#"+tablerId+" #isAptitudeProductPageAudit"+ind+"",window.parent.document).val();
+		break;
+	case 'content_2'://物资销售
+		auditCount = $("#"+tablerId+" #isAptitudeSalesPageAudit"+ind+"",window.parent.document).val();
+		break;
+	}
 	if(auditCount>0){
-		$("#qualifications"+ind+"",window.parent.document).css('border-color', '#FF0000');
-		$("#show_td").css('border-color', '#FF0000');
-		$("#count").val(auditCount);
+		$("#"+tablerId+" #qualifications"+ind+"",window.parent.document).css('border-color', '#FF0000');
 	}
 });
 //审核资质不通过理由
-function reasonProject(ind,auditField, auditFieldName) {
+function reasonProject(ind,auditField, auditFieldName,inds,quaId) {
 	var supplierId = $("#supplierId").val();
-	var auditCount = $("#count").val();
-	var auditContent='上传资质文件信息';
-	var auditType='aptitude_page';
+	var auditCount = $("#count"+quaId+"").val();
+	ind=parseInt(ind)+1;
+	var tablerId=$("#tablerId").val();
+	var auditContent=content(tablerId,ind,'专业资质要求');
+	var audits;
+	switch (tablerId) {
+	case 'content_1'://物资生产
+		audits = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"",window.parent.document).val();
+		auditField=auditField+"_"+quaId;
+		break;
+	case 'content_3'://工程
+		auditField=auditField+"_"+quaId;
+		audits = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"",window.parent.document).val();
+		break;
+	case 'content_4'://服务
+		auditField=auditField+"_"+quaId;
+		audits = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"",window.parent.document).val();
+		break;
+	case 'content_2'://物资销售
+		auditField=auditField+"_"+quaId;
+		audits = $("#"+tablerId+" #isItemsSalesPageAudit"+ind+"",window.parent.document).val();
+		break;
+	}
+	if(audits!=null && audits !='' && audits>'0' ){
+		layer.msg('产品目录审核不通过,该专业资质要求不可审核', {offset:'100px'});
+		return;
+	}
+	
+	var auditType;
+	switch (tablerId) {
+	case 'content_1'://物资生产
+		auditFieldName='物资-生产专业资质要求';
+		auditType="aptitude_product_page";
+		break;
+	case 'content_3'://工程
+		auditFieldName='工程-专业资质要求';
+		auditType="aptitude_product_page";
+		break;
+	case 'content_4'://服务
+		auditType="aptitude_product_page";
+		auditFieldName='服务-专业资质要求';
+		break;
+	case 'content_2'://物资销售
+		auditType="aptitude_sales_page";
+		auditFieldName='物资-销售专业资质要求';
+		break;
+	}
 	if(auditCount!=null && auditCount !='' && auditCount>'0' ){
 		layer.msg('已审核', {offset:'100px'});
 		return;
@@ -24,8 +87,12 @@ function reasonProject(ind,auditField, auditFieldName) {
 		offset: '30px',
 		maxlength: '100',
 	}, function(text) {
-		var text = $.trim(text);
 	  if(text != null && text !=""){
+		    if($.trim(text).length>900){
+		    	layer.msg('审核理由内容太长', {offset:'100px'});
+		    	return;
+		    }
+		     
 			$.ajax({
 				url: globalPath+"/supplierAudit/auditReasons.do",
 				type: "post",
@@ -37,10 +104,24 @@ function reasonProject(ind,auditField, auditFieldName) {
 							shift: 6, //动画类型
 							offset: '100px',
 						});    
-						$("#isAptitudePAgeAudit"+(parseInt(ind)+1)+"",window.parent.document).val('1');
-						$("#qualifications"+(parseInt(ind)+1)+"",window.parent.document).css('border-color', '#FF0000');
-						$("#show_td").css('border-color', '#FF0000');
-						$("#count").val('1');
+						switch (tablerId) {
+						case 'content_1'://物资生产
+						case 'content_3'://工程
+						case 'content_4'://服务
+							$("#"+tablerId+" #isAptitudeProductPageAudit"+ind+"",window.parent.document).val('1');
+							break;
+						case 'content_2'://物资销售
+							$("#"+tablerId+" #isAptitudealesPageAudit"+ind+"",window.parent.document).val('1');
+							break;
+						}
+						$("#"+tablerId+" #qualifications"+ind+"",window.parent.document).css('border-color', '#FF0000');
+						if(quaId){
+							$("#show_td"+quaId+"").attr('src', globalPath+'/public/backend/images/sc.png');
+							$("#count"+quaId+"").val('1');
+						}else{
+							$("#show_td").attr('src', globalPath+'/public/backend/images/sc.png');
+							$("#count").val('1');
+						}
 					}else{
 						layer.msg(result.msg, {
 							shift: 6, //动画类型

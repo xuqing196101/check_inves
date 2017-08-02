@@ -41,6 +41,7 @@ import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
 import ses.util.PropUtil;
 import ses.util.SessionListener;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.service.LoginLogService;
@@ -179,40 +180,52 @@ public class LoginController {
 //                        int validateDay = expertService.logoutExpertByDay(expert);
 //                        int validateDay = 0;
 //                        if(0==validateDay){//通过
-                          Map<String, Object> map = expertService.loginRedirect(u);
-                          Object object = map.get("expert");
-                          if (object != null) {
-                            req.getSession().setAttribute("loginName", u.getId());
-                            // 拉黑 阻止登录
-                            if (object.equals("1")) {
-                              out.print("black");
-                            } else if(object.equals("5")){
-                              out.print("reject");
-                            }else if (object.equals("2")) {
-                              out.print("reset," + u.getId());
-                            } else if (object.equals("3")) {
-                              out.print("auditExp," + u.getId());
-                            } else if (object.equals("4")) {
-                              out.print("firset," + u.getId());
-                            } else if (object.equals("6")) {
-                              out.print("weed,"+u.getId());
-                            } else if (object.equals("7")) {
-                              out.print("notLogin");
-                            } else if (object.equals("8")){
-                              out.print("review");
-                            }
-                          } else {
-                        	  // 实现单一登录 踢人效果
-                        	  if (null != SessionListener.sessionMap.get(u.getId())) {
-                        		  // 第一次登录的用户session销毁
-                        		  // 将第一次登录用户的信息从map中移除
-                        		  forceLogoutUser(u.getId());
-                        		  // 本次登录用户添加到map中
-                        		  SessionListener.sessionMap.put(u.getId(),req.getSession());
-                        	  } else {
-                        		  // 以用户id为key键存入map中，以判断下一次登录的人
-                        		  SessionListener.sessionMap.put(u.getId(),req.getSession());
-							  }
+							Map<String, Object> map = expertService.loginRedirect(u);
+							Object object = map.get("expert");
+							if (object != null) {
+							  req.getSession().setAttribute("loginName", u.getId());
+							  // 拉黑 阻止登录
+							  if (object.equals("1")) {
+							    out.print("black");
+							  } else if(object.equals("5")){
+							    out.print("reject");
+							  }else if (object.equals("2")) {
+							    out.print("reset," + u.getId());
+							  } else if (object.equals("3")) {
+							    out.print("auditExp," + u.getId());
+							  } else if (object.equals("4")) {
+							    out.print("firset," + u.getId());
+							  } else if (object.equals("6")) {
+							    out.print("weed,"+u.getId());
+							  } else if (object.equals("7")) {
+							    out.print("notLogin");
+							  } else if (object.equals("8")){
+							    out.print("review");
+							  } else if (("1").equals(object)){
+                                    // 待复审状态
+                                    out.print("expert_waitOnceCheck");
+                                }else if (("5").equals(object)){
+                                    // 复审未通过状态
+                                    out.print("onceCheckNoPass");
+                                } else if (("-2").equals(object)){
+                                    // 审核预通过状态
+                                    out.print("prepass");
+                                } else if (("-3").equals(object)){
+                                    // 公示中状态
+                                    out.print("publicity");
+                                }
+                            }else {
+                            	// 实现单一登录 踢人效果
+                          	  if (null != SessionListener.sessionMap.get(u.getId())) {
+                          		  // 第一次登录的用户session销毁
+                          		  // 将第一次登录用户的信息从map中移除
+                          		  forceLogoutUser(u.getId());
+                          		  // 本次登录用户添加到map中
+                          		  SessionListener.sessionMap.put(u.getId(),req.getSession());
+                          	  } else {
+                          		  // 以用户id为key键存入map中，以判断下一次登录的人
+                          		  SessionListener.sessionMap.put(u.getId(),req.getSession());
+  							  }
                             req.getSession().setAttribute("loginUser", u);
                             // loginLog记录
                             loginLog(u, req);
@@ -240,50 +253,57 @@ public class LoginController {
 //                        int validateDay = supplierService.logoutSupplierByDay(supplier);
 //                        int validateDay = 0;
 //                        if(0==validateDay) {//通过
-                          Map<String, Object> map = supplierService.checkLogin(u);
-                          String msg = (String) map.get("status");
-                          String date = (String) map.get("date");
-                          PurchaseDep orgnization = ( PurchaseDep ) map.get("orgnization");
-                          
-                          req.getSession().setAttribute("loginName", u.getLoginName());
-                          if ("success".equals(msg)) {
-                            req.getSession().setAttribute("loginSupplier", map.get("supplier"));
-                            // 实现单一登录 踢人效果
-                      	    if (null != SessionListener.sessionMap.get(u.getId())) {
-                      		  // 第一次登录的用户session销毁
-                      		  // 将第一次登录用户的信息从map中移除
-                      		  forceLogoutUser(u.getId());
-                      		  // 本次登录用户添加到map中
-                      		  SessionListener.sessionMap.put(u.getId(),req.getSession());
-                      	    } else {
-                      		  // 以用户id为key键存入map中，以判断下一次登录的人
-                      		  SessionListener.sessionMap.put(u.getId(),req.getSession());
-						    }
-                            req.getSession().setAttribute("loginUser", u);
-                            // loginLog记录
-                            loginLog(u, req);
-                            List<PreMenu> resource = preMenuService.getMenu(u);
-                            req.getSession().setAttribute("resource", resource);
-                            //req.getSession().setAttribute("resource", u.getMenus());
-                            req.getSession().setAttribute("loginUserType", "supplier");
-                            out.print("scuesslogin");
-                          } else  if("unperfect".equals(msg)){
-                            if(orgnization!=null){
-                              out.print("unperfect," + u.getLoginName()+","+orgnization.getShortName()+","+orgnization.getSupplierContact()+","+orgnization.getSupplierPhone()+","+orgnization.getSupplierAddress()+","+orgnization.getSupplierPostcode());
-                            }else{
-                              out.print("unperfect," + u.getLoginName());
-                            }
-                            
-                          } else  if("初审未通过".equals(msg)){
-                            out.print("firstNotPass");
-                          } else  if("考察不合格".equals(msg)){
-                            out.print("thirdNotPass");
-                          } else  if("复核未通过".equals(msg)){
-                            out.print("secondNotPass");
-                          } else  if("commit".equals(msg)){
-                            out.print("commit," + u.getId());
-                          } else  if("reject".equals(msg)){
-                            out.print("reject," + u.getLoginName());
+                            Map<String, Object> map = supplierService.checkLogin(u);
+                            String msg = (String) map.get("status");
+                            String date = (String) map.get("date");
+                            PurchaseDep orgnization = ( PurchaseDep ) map.get("orgnization");
+
+                            req.getSession().setAttribute("loginName", u.getLoginName());
+                            if ("success".equals(msg)) {
+                                req.getSession().setAttribute("loginSupplier", map.get("supplier"));
+                                // 实现单一登录 踢人效果
+                          	    if (null != SessionListener.sessionMap.get(u.getId())) {
+                          		  // 第一次登录的用户session销毁
+                          		  // 将第一次登录用户的信息从map中移除
+                          		  forceLogoutUser(u.getId());
+                          		  // 本次登录用户添加到map中
+                          		  SessionListener.sessionMap.put(u.getId(),req.getSession());
+                          	    } else {
+                          		  // 以用户id为key键存入map中，以判断下一次登录的人
+                          		  SessionListener.sessionMap.put(u.getId(),req.getSession());
+    						    }
+
+                                req.getSession().setAttribute("loginUser", u);
+                                // loginLog记录
+                                loginLog(u, req);
+                                List<PreMenu> resource = preMenuService.getMenu(u);
+                                req.getSession().setAttribute("resource", resource);
+                                //req.getSession().setAttribute("resource", u.getMenus());
+                                req.getSession().setAttribute("loginUserType", "supplier");
+                                out.print("scuesslogin");
+                            } else  if("unperfect".equals(msg)){
+                                if(orgnization!=null){
+                                    out.print("unperfect," + u.getLoginName()+","+orgnization.getShortName()+","+orgnization.getSupplierContact()+","+orgnization.getSupplierPhone()+","+orgnization.getSupplierAddress()+","+orgnization.getSupplierPostcode());
+                                }else{
+                                    out.print("unperfect," + u.getLoginName());
+                                }
+
+                            } else  if("初审未通过".equals(msg)){
+                                out.print("firstNotPass");
+                            } else  if("考察不合格".equals(msg)){
+                                out.print("thirdNotPass");
+                            } else  if("复核未通过".equals(msg)){
+                                out.print("secondNotPass");
+                            } else  if("commit".equals(msg)){
+                                out.print("commit," + u.getId());
+                            } else  if("reject".equals(msg)){
+                                out.print("reject," + u.getLoginName());
+                            } else if("prepass".equals(msg)){
+                                // 预通过状态
+                                out.print("prepass");
+                            } else if (("publicity").equals(msg)){
+                                // 公示中状态
+                                out.print("publicity");
                           }
 //                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
 //                            out.print("supplier_logout," + validateDay);

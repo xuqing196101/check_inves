@@ -1,6 +1,19 @@
 
 package iss.controller.ps;
 
+import bss.model.ob.OBProduct;
+import bss.model.ob.OBSupplier;
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBSupplierService;
+import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
+import common.constant.OnlineBidding;
+import common.model.UploadFile;
+import common.service.UploadService;
+import common.utils.CommonStringUtil;
+import common.utils.JdcgResult;
+import common.utils.RequestTool;
+import common.utils.UploadUtil;
 import gui.ava.html.image.generator.HtmlImageGenerator;
 import iss.model.hl.ServiceHotline;
 import iss.model.ps.Article;
@@ -14,11 +27,53 @@ import iss.service.ps.ArticleTypeService;
 import iss.service.ps.DownloadUserService;
 import iss.service.ps.IndexNewsService;
 import iss.service.ps.SearchService;
+import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.Category;
+import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
+import ses.model.ems.Expert;
+import ses.model.ems.ExpertBlackList;
+import ses.model.ems.ExpertBlackListVO;
+import ses.model.ems.ExpertPublicity;
+import ses.model.oms.PurchaseDep;
+import ses.model.sms.Supplier;
+import ses.model.sms.SupplierBlacklist;
+import ses.model.sms.SupplierBlacklistVO;
+import ses.model.sms.SupplierPublicity;
+import ses.model.sms.SupplierTypeTree;
+import ses.service.bms.CategoryService;
+import ses.service.bms.DictionaryDataServiceI;
+import ses.service.ems.ExpertAuditService;
+import ses.service.ems.ExpertBlackListService;
+import ses.service.ems.ExpertCategoryService;
+import ses.service.ems.ExpertService;
+import ses.service.oms.PurChaseDepOrgService;
+import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierBlacklistService;
+import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierTypeService;
+import ses.util.DictionaryDataUtil;
+import ses.util.FtpUtil;
+import ses.util.PropUtil;
+import ses.util.PropertiesUtil;
+import synchro.util.SpringBeanUtil;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -37,65 +92,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.swing.ImageIcon;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import ses.controller.sys.sms.BaseSupplierController;
-import ses.model.bms.Category;
-import ses.model.bms.DictionaryData;
-import ses.model.bms.User;
-import ses.model.ems.Expert;
-import ses.model.ems.ExpertBlackList;
-import ses.model.ems.ExpertBlackListVO;
-import ses.model.sms.Supplier;
-import ses.model.sms.SupplierBlacklist;
-import ses.model.sms.SupplierBlacklistVO;
-import ses.service.bms.CategoryService;
-import ses.service.bms.DictionaryDataServiceI;
-import ses.service.ems.ExpertBlackListService;
-import ses.service.ems.ExpertService;
-import ses.service.sms.SupplierBlacklistService;
-import ses.service.sms.SupplierService;
-import ses.util.DictionaryDataUtil;
-import ses.util.FtpUtil;
-import ses.util.PropUtil;
-import ses.util.PropertiesUtil;
-import sums.service.oc.ComplaintService;
-import synchro.util.SpringBeanUtil;
-import bss.model.ob.OBProduct;
-import bss.model.ob.OBSupplier;
-import bss.service.ob.OBProductService;
-import bss.service.ob.OBSupplierService;
-
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.annotation.SystemControllerLog;
-import common.annotation.SystemServiceLog;
-import common.constant.Constant;
-import common.constant.OnlineBidding;
-import common.constant.StaticVariables;
-import common.model.UploadFile;
-import common.service.UploadService;
-import common.utils.CommonStringUtil;
-import common.utils.JdcgResult;
-import common.utils.RequestTool;
-import common.utils.UploadUtil;
+import java.util.Set;
 
 
 /*
@@ -153,20 +153,48 @@ public class IndexNewsController extends BaseSupplierController{
     /** 服务热线 **/
     @Autowired
 	private ServiceHotlineService serviceHotlineService;
+    
+    // 注入专家审核Service
+    @Autowired
+    private ExpertAuditService expertAuditService;
+    
+    // 注入供应商审核Service
+    @Autowired
+    private SupplierAuditService supplierAuditService;
+
+    // 注入供应商产品类别
+    @Autowired
+    private SupplierItemService supplierItemService;
+
+    @Autowired
+    private ExpertService expertService;
+
+    @Autowired
+    private ExpertCategoryService expertCategoryService;
+
+    // 注入供应商类型Service
+    @Autowired
+    private SupplierTypeService supplierTypeService;
+
+	// 注入采购机构Service
+	@Autowired
+	private PurChaseDepOrgService purChaseDepOrgService;
+
+
 	/**
-	 * 
+	 *
 	* @Title: sign
 	* @author Peng Zhongjun
-	* @date 2016-11-10 上午8:50:09  
-	* @Description: 跳转登录页面 
-	* @param @return      
+	* @date 2016-11-10 上午8:50:09
+	* @Description: 跳转登录页面
+	* @param @return
 	* @return String
 	 */
 	@RequestMapping("/sign")
 	public String sign(){
 		return "iss/ps/index/sign";
 	}
-	
+
 	public void topNews(Map<String, Object> indexMapper){
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.clear();
@@ -2241,4 +2269,230 @@ public class IndexNewsController extends BaseSupplierController{
         topNews(indexMapper);
         model.addAttribute("indexMapper", indexMapper);
     }
+
+    /**
+     * 
+     * Description:加载首页导航栏专家公示列表
+     * 
+     * @author Easong
+     * @version 2017年6月28日
+     * @param page
+     * @return
+     */
+    @RequestMapping("/indexExpPublicity")
+    public String indexExpPublicity(Model model){
+        // 查询数据字典中的专家类别数据
+        // 专家基类型
+        List < DictionaryData > basicTypeList = DictionaryDataUtil.find(6);
+        for(DictionaryData data: basicTypeList) {
+            data.setName(data.getName() + "技术");
+        }
+        List < DictionaryData > economyTypeList = DictionaryDataUtil.find(19);
+        basicTypeList.addAll(economyTypeList);
+        model.addAttribute("expTypeList", basicTypeList);
+        //全部机构
+        List<PurchaseDep>  orgDepList = purChaseDepOrgService.findAllOrg();
+        model.addAttribute("orgDepList", orgDepList);
+    	return "iss/ps/index/index_expPublicity";
+    }
+    
+    /**
+     * 
+     * Description:加载首页导航栏供应商公示列表
+     * 
+     * @author Easong
+     * @version 2017年6月28日
+     * @param page
+     * @return
+     */
+    @RequestMapping("/indexSupPublicity")
+    public String indexSupPublicity(Model model){
+        // 类型
+		List<SupplierTypeTree> listSupplierTypes = supplierTypeService.findSupplierType(null);
+		for(SupplierTypeTree t : listSupplierTypes){
+			if("物资".equals(t.getName())){
+                listSupplierTypes.remove(t);
+				break;
+			}
+		}
+        // 查询企业性质
+        List<DictionaryData> businessNatureList = DictionaryDataUtil.find(32);
+		// 获取所有采购机构
+		//全部机构
+		List<PurchaseDep>  orgDepList = purChaseDepOrgService.findAllOrg();
+		model.addAttribute("orgDepList", orgDepList);
+        model.addAttribute("businessNatureList",businessNatureList);
+        model.addAttribute("listSupplierTypes",listSupplierTypes);
+        return "iss/ps/index/index_supPublicity";
+    }
+    
+    /**
+     * 
+     * Description:加载首页导航栏供应商公示列表数据
+     * 
+     * @author Easong
+     * @version 2017年6月28日
+     * @param page
+     * @param supplierPublicity
+     * @return
+     */
+    @RequestMapping("/indexSupPublicityAjax")
+    @ResponseBody
+    public JdcgResult indexSupPublicityAjax(@RequestParam(value="page", defaultValue = "1") int page, SupplierPublicity supplierPublicity){
+    	Map<String, Object> map = new HashMap<>();
+    	map.put("page", page);
+    	map.put("supplierPublicity", supplierPublicity);
+    	List<SupplierPublicity> list = supplierAuditService.selectSupByPublictyList(map);
+    	PageInfo<SupplierPublicity> info = new PageInfo<>(list);
+    	return JdcgResult.ok(info);
+    }
+    /**
+     * 
+     * Description:加载首页导航栏专家公示列表数据
+     * 
+     * @author Easong
+     * @version 2017年6月28日
+     * @param page
+     * @param expertPublicity
+     * @return
+     */
+    @RequestMapping("/indexExpPublicityAjax")
+    @ResponseBody
+    public JdcgResult indexExpPublicityAjax(@RequestParam(value="page", defaultValue = "1") int page, ExpertPublicity expertPublicity){
+    	Map<String, Object> map = new HashMap<>();
+    	map.put("page", page);
+    	map.put("expertPublicity", expertPublicity);
+    	List<ExpertPublicity> list = expertAuditService.selectExpByPublictyList(map);
+    	PageInfo<ExpertPublicity> info = new PageInfo<>(list);
+    	return JdcgResult.ok(info);
+    }
+
+	/**
+	 *
+	 * Description:专家小类到根节点查询页面
+	 *
+	 * @author Easong
+	 * @version 2017/7/6
+	 * @param
+	 * @since JDK1.7
+	 */
+	@RequestMapping("/indexExpPublicityItem")
+    public String indexExpPublicityItem(Model model, String expertId, Expert expert, String sign){
+		//初审复审标识（1初审，3复查，2复审）
+		model.addAttribute("sign", sign);
+
+		expert = expertService.selectByPrimaryKey(expertId);
+
+		List <DictionaryData> allCategoryList = new ArrayList <> ();
+
+		// 查询审核通过的专家类型
+        List<String> stringList = expertCategoryService.selectCateByExpertId(expertId);
+
+        // 获取专家类别
+		List < String > allTypeId = new ArrayList <> ();
+		if(expert.getExpertsTypeId() !=null && !"".equals(expert.getExpertsTypeId())){
+			for(String id: expert.getExpertsTypeId().split(",")) {
+			    if(stringList != null && stringList.contains(id)){
+                    allTypeId.add(id);
+                }
+			}
+		}
+
+		a: for(int i = 0; i < allTypeId.size(); i++) {
+			DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
+			allCategoryList.add(dictionaryData);
+		}
+		model.addAttribute("allCategoryList", allCategoryList);
+
+		model.addAttribute("expertId", expertId);
+
+		//查询品目类型id
+		String matCodeId=DictionaryDataUtil.getId("GOODS");
+		String engCodeId=DictionaryDataUtil.getId("PROJECT");
+		String serCodeId=DictionaryDataUtil.getId("SERVICE");
+		String engInfoId=DictionaryDataUtil.getId("ENG_INFO_ID");
+
+		String goodsServerId=DictionaryDataUtil.getId("GOODS_SERVER");
+		String goodsProjectId=DictionaryDataUtil.getId("GOODS_PROJECT");
+
+		model.addAttribute("matCodeId", matCodeId);
+		model.addAttribute("engCodeId", engCodeId);
+		model.addAttribute("serCodeId", serCodeId);
+		model.addAttribute("engInfoId", engInfoId);
+
+		model.addAttribute("goodsServerId", goodsServerId);
+		model.addAttribute("goodsProjectId", goodsProjectId);
+
+		return "iss/ps/index/index_expPublicity_item";
+	}
+
+	/**
+	 *
+	 * Description:专家小类到根节点查询列表
+	 *
+	 * @author Easong
+	 * @version 2017/7/6
+	 * @param
+	 * @since JDK1.7
+	 */
+    @RequestMapping("/indexExpPublicityItemAjax")
+    @ResponseBody
+    public JdcgResult indexExpPublicityItemAjax(){
+    	return JdcgResult.ok();
+	}
+
+	/**
+	 *
+	 * Description:供应商产品类别到根节点查询页面
+	 *
+	 * @author Easong
+	 * @version 2017/7/6
+	 * @param
+	 * @since JDK1.7
+	 */
+	@RequestMapping("/indexSupPublicityItem")
+    public String indexSupPublicityItem(Model model, String supplierId, String supplierStatus){
+        model.addAttribute("supplierId", supplierId);
+        model.addAttribute("supplierStatus", supplierStatus);
+        //封装 目录分类 分别显示相关的数据
+        if(StringUtils.isNotBlank(supplierId)){
+            // 封装查询数据
+			// 定义两个集合
+			Set<String> set = new HashSet<>();
+            Map<String, Object> map = new HashedMap();
+            List<String> supplierTypes;
+            // 查询物资销售型
+            map.put("supplierId", supplierId);
+            map.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+            map.put("supplierType_page", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
+			supplierTypes=supplierItemService.findPassSupplierTypeBySupplierId(map);
+			set.addAll(supplierTypes);
+			// 清空
+			supplierTypes.clear();
+			map.clear();
+			// 查询其他类型
+            map.put("supplierId", supplierId);
+			map.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+			map.put("supplierType_page", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
+            supplierTypes=supplierItemService.findPassSupplierTypeBySupplierId(map);
+			set.addAll(supplierTypes);
+            model.addAttribute("supplierTypes", StringUtils.join(set,","));
+        }
+		return "iss/ps/index/index_supPublicity_item";
+	}
+
+	/**
+	 *
+	 * Description:供应商产品类别到根节点查询列表
+	 *
+	 * @author Easong
+	 * @version 2017/7/6
+	 * @param
+	 * @since JDK1.7
+	 */
+    @RequestMapping("/indexSupPublicityItemAjax")
+    @ResponseBody
+    public JdcgResult indexSupPublicityItemAjax(String supplierId){
+    	return supplierItemService.selectRegSupCateOfLastNode(supplierId);
+	}
 }

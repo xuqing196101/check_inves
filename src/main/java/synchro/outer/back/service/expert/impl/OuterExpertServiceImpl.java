@@ -1,33 +1,45 @@
 package synchro.outer.back.service.expert.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import ses.dao.bms.UserMapper;
-import ses.dao.ems.*;
+import ses.dao.ems.ExpertAuditFileModifyMapper;
+import ses.dao.ems.ExpertAuditMapper;
+import ses.dao.ems.ExpertCategoryMapper;
+import ses.dao.ems.ExpertEngHistoryMapper;
+import ses.dao.ems.ExpertEngModifyMapper;
+import ses.dao.ems.ExpertMapper;
+import ses.dao.ems.ExpertTitleMapper;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.RoleUser;
 import ses.model.bms.User;
-import ses.model.bms.Userrole;
-import ses.model.ems.*;
+import ses.model.ems.Expert;
+import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertAuditFileModify;
+import ses.model.ems.ExpertCategory;
+import ses.model.ems.ExpertEngHistory;
+import ses.model.ems.ExpertHistory;
+import ses.model.ems.ExpertTitle;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
+import ses.util.DictionaryDataUtil;
 import synchro.outer.back.service.expert.OuterExpertService;
 import synchro.service.SynchRecordService;
 import synchro.util.DateUtils;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
 
-import com.alibaba.fastjson.JSON;
-
-import common.constant.Constant;
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 版权：(C) 版权所有 
@@ -80,11 +92,16 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     private ExpertEngModifyMapper expertEngModifyMapper;
     @Autowired
     private ExpertAuditFileModifyMapper expertAuditFileModifyMapper;
+    @Autowired
+    private ExpertMapper expertMapper;
+
+    @Autowired
+    private ExpertCategoryMapper expertCategoryMapper;
 
     /**
      * @see synchro.outer.back.service.supplier.OuterReadExpertService#backupCreated()
      */
-    
+
     @Autowired
     private UserMapper userMapper;
     @Override
@@ -158,6 +175,73 @@ public class OuterExpertServiceImpl implements OuterExpertService {
 //            }
         }
         recordService.commitExpertRecord(new Integer(experts.size()).toString());
+    }
+
+    /**
+     *
+     * Description: 查询公示专家导出外网
+     *
+     * @author Easong
+     * @version 2017/7/9
+     * @param startTime
+     * @param endTime
+     * @since JDK1.7
+     */
+    @Override
+    public void selectExpByPublictyOfExport(String startTime, String endTime) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("startTime", startTime);
+        map.put("endTime", endTime);
+        map.put("status", -3);
+        List<Expert> expertList = expertMapper.selectExpByPublictyOfExport(map);
+        List<Expert> experts = new ArrayList<Expert>();
+        if(null != expertList && !expertList.isEmpty()){
+            ExpertEngHistory expertEngHistory = null;
+            ExpertAuditFileModify expertAuditFileModify = null;
+            for(Expert expert : expertList){
+                //专家审核记录表
+                List<ExpertAudit> expertAuditList = expertAuditMapper.selectByExpertId(expert.getId());
+                if(null != expertAuditList){
+                    expert.setExpertAuditList(expertAuditList);
+                }
+                //工程执业资格历史表
+                expertEngHistory = new ExpertEngHistory();
+                expertEngHistory.setExpertId(expert.getId());
+                List<ExpertEngHistory> expertEngHistoryList = expertEngHistoryMapper.selectByExpertId(expertEngHistory);
+                if(null != expertEngHistoryList){
+                    expert.setExpertEngHistoryList(expertEngHistoryList);
+                }
+                //工程执业资格修改表
+                List<ExpertEngHistory> expertEngModifyList = expertEngModifyMapper.selectByExpertId(expertEngHistory);
+                if(null != expertEngModifyList){
+                    expert.setExpertEngModifyList(expertEngModifyList);
+                }
+                //专家历史表
+                ExpertHistory expertHistory = expertService.selectOldExpertById(expert.getId());
+                if(null != expertHistory){
+                    expert.setHistory(expertHistory);
+                }
+                //工程执业资格文件修改表
+                expertAuditFileModify = new ExpertAuditFileModify();
+                expertAuditFileModify.setExpertId(expert.getId());
+                List<ExpertAuditFileModify> expertAuditFileModifyList = expertAuditFileModifyMapper.selectByExpertId(expertAuditFileModify);
+                if(null != expertAuditFileModifyList){
+                    expert.setExpertAuditFileModifyList(expertAuditFileModifyList);
+                }
+                expert.setAttchList(getAttch(expert.getId()));
+                // 查询专家选择的小类
+                // 查询军队专家类型
+                DictionaryData dict = DictionaryDataUtil.get("ARMY");
+                if(dict != null && dict.getId().equals(expert.getExpertsFrom()))
+                expert.setExpertCategory(expertCategoryMapper.findByExpertId(expert.getId()));
+                experts.add(expert);
+            }
+        }
+        //将数据写入文件
+        if(!experts.isEmpty()){
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME, 24),JSON.toJSONString(experts, SerializerFeature.WriteMapNullValue));
+        }
+        recordService.synchBidding(null, new Integer(experts.size()).toString(), synchro.util.Constant.SYNCH_PUBLICITY_EXPERT, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_PUBLICITY_EXPERT);
     }
 
     /**

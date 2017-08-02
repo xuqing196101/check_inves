@@ -1,31 +1,19 @@
 package ses.controller.sys.ems;
 
-import java.beans.PropertyDescriptor;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import bss.formbean.PurchaseRequiredFormBean;
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.utils.JdcgResult;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.dao.ems.ExpertField;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -41,6 +29,7 @@ import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertHistory;
+import ses.model.ems.ExpertPublicity;
 import ses.model.ems.ExpertSignature;
 import ses.model.ems.ExpertTitle;
 import ses.model.oms.Orgnization;
@@ -66,14 +55,25 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
-import bss.formbean.PurchaseRequiredFormBean;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.beans.PropertyDescriptor;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.constant.StaticVariables;
 
 /**
  * <p>Title:ExpertAuditController </p>
@@ -265,10 +265,30 @@ public class ExpertAuditController{
 		model.addAttribute("relName", relName);
 		model.addAttribute("state", status);
 		model.addAttribute("auditAt", expert.getAuditAt());
-
 		return "ses/ems/expertAudit/list";
 	}
 
+	/**
+	 * 
+	 * @Title: fileUploadItem
+	 * @Description: 获取文件上传配置
+	 * @author Easong
+	 * @param @param model 设定文件
+	 * @return void 返回类型
+	 * @throws
+	 */
+	public void fileUploadItem(Model model) {
+		// 供应商系统key文件上传key
+		Integer sysKey = common.constant.Constant.EXPERT_SYS_KEY;
+		// 定义文件上传类型
+		DictionaryData dictionaryData = DictionaryDataUtil
+				.get(synchro.util.Constant.EXPERT_CHECK_ATTACHMENT);
+		if (dictionaryData != null) {
+			model.addAttribute("typeId", dictionaryData.getId());
+		}
+		model.addAttribute("sysKey", sysKey);
+	}
+	
 	/**
 	 * @Title: basicInfo
 	 * @author XuQing 
@@ -400,7 +420,7 @@ public class ExpertAuditController{
 		}
 		
 		
-		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("0") || expert.getStatus().equals("-2") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
 			/**
 			 * 回显未通过的字段
 			 */
@@ -674,8 +694,9 @@ public class ExpertAuditController{
 	public String product(Expert expert, Model model, String expertId, Integer sign) {
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
-		
+
 		expert = expertService.selectByPrimaryKey(expertId);
+		model.addAttribute("status", expert.getStatus());
 
 		List < DictionaryData > allCategoryList = new ArrayList < DictionaryData > ();
 
@@ -686,35 +707,35 @@ public class ExpertAuditController{
                 allTypeId.add(id);
             }
         }
-        
+
         a: for(int i = 0; i < allTypeId.size(); i++) {
             DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
             /*if(dictionaryData != null && dictionaryData.getKind() == 19) {
 				allTypeId.remove(i);
 				continue a;
 			};*/
-            
+
             allCategoryList.add(dictionaryData);
         }
         //expertCategoryService.delNoTree(expert.getId(), allCategoryList);
         model.addAttribute("allCategoryList", allCategoryList);
 
 		model.addAttribute("expertId", expertId);
-		
+
 		//查询品目类型id
 		String matCodeId=DictionaryDataUtil.getId("GOODS");
 		String engCodeId=DictionaryDataUtil.getId("PROJECT");
 		String serCodeId=DictionaryDataUtil.getId("SERVICE");
 		String engInfoId=DictionaryDataUtil.getId("ENG_INFO_ID");
-		
+
 		String goodsServerId=DictionaryDataUtil.getId("GOODS_SERVER");
 		String goodsProjectId=DictionaryDataUtil.getId("GOODS_PROJECT");
-		
+
 		model.addAttribute("matCodeId", matCodeId);
 		model.addAttribute("engCodeId", engCodeId);
 		model.addAttribute("serCodeId", serCodeId);
 		model.addAttribute("engInfoId", engInfoId);
-		
+
 		model.addAttribute("goodsServerId", goodsServerId);
 		model.addAttribute("goodsProjectId", goodsProjectId);
 		
@@ -734,7 +755,7 @@ public class ExpertAuditController{
 	 * @return
 	 */
 	@RequestMapping("/getCategories")
-	public String getCategories(String expertId, String typeId, Model model, Integer pageNum) {
+	public String getCategories(String expertId, String typeId, Model model, Integer pageNum, String flags) {
 		String code = DictionaryDataUtil.findById(typeId).getCode();
         String flag = null;
         if (code != null && code.equals("GOODS_PROJECT")) {
@@ -745,26 +766,33 @@ public class ExpertAuditController{
             flag = "ENG_INFO";
         }
         // 查询已选中的节点信息(所有子节点)
-        List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+        List<ExpertCategory> items = null;
+        if(StringUtils.isEmpty(flags)){
+            items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+        }else {
+            items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+        }
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
         int count=0;
-        for (ExpertCategory expertCategory : items) {
-        	count++;
-            if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
-                Category data = categoryService.findById(expertCategory.getCategoryId());
-                List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
-                if (findPublishTree.size() == 0) {
-                    expertItems.add(expertCategory);
-                } else if (data != null && data.getCode().length() == 7) {
-                    expertItems.add(expertCategory);
-                }
-            } else {
-                Category data = engCategoryService.findById(expertCategory.getCategoryId());
-                List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
-                if (findPublishTree.size() == 0) {
-                    expertItems.add(expertCategory);
-                } else if (data != null && data.getCode().length() == 7) {
-                    expertItems.add(expertCategory);
+        if(items != null && !items.isEmpty()){
+            for (ExpertCategory expertCategory : items) {
+                count++;
+                if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
+                    Category data = categoryService.findById(expertCategory.getCategoryId());
+                    List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                    if (findPublishTree.size() == 0) {
+                        expertItems.add(expertCategory);
+                    } else if (data != null && data.getCode().length() == 7) {
+                        expertItems.add(expertCategory);
+                    }
+                } else {
+                    Category data = engCategoryService.findById(expertCategory.getCategoryId());
+                    List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                    if (findPublishTree.size() == 0) {
+                        expertItems.add(expertCategory);
+                    } else if (data != null && data.getCode().length() == 7) {
+                        expertItems.add(expertCategory);
+                    }
                 }
             }
         }
@@ -809,7 +837,11 @@ public class ExpertAuditController{
 			conditionStr.append(expertAudit2.getAuditFieldId() + ",");
 		}
 		model.addAttribute("conditionStr", conditionStr);
-        
+		// 首页公示显示专家小类详情
+		if(StringUtils.isNotEmpty(flags)){
+			return "iss/ps/index/index_expPublicity_item_ajax";
+		}
+
         return "ses/ems/expertAudit/ajax_items";
 	}
 	
@@ -1091,8 +1123,9 @@ public class ExpertAuditController{
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
 		model.addAttribute("expertId", expertId);
+		model.addAttribute("status", expert.getStatus());
 		//回显不通过的字段
-		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
 			ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("five");
@@ -1338,7 +1371,7 @@ public class ExpertAuditController{
 		model.addAttribute("typeMap", typeMap);
 		
 		//回显不通过的字段
-		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
 			/*ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("seven");
@@ -1449,6 +1482,17 @@ public class ExpertAuditController{
 		model.addAttribute("sign", sign);
 		
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
+		// 查询审核最终意见
+		ExpertAuditOpinion selectEao = new ExpertAuditOpinion();
+		ExpertAuditOpinion auditOpinion = null;
+		selectEao.setExpertId(expertId);
+		if(sign != null && sign == 2){
+			selectEao.setFlagTime(1);
+			// 复审意见查询
+			auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
+		}else {
+			auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
+		}
 		model.addAttribute("reasonsList", reasonsList);
 		//查看是否有记录
 		model.addAttribute("num", reasonsList.size());
@@ -1456,8 +1500,10 @@ public class ExpertAuditController{
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("status", expert.getStatus());
 		model.addAttribute("isSubmit", expert.getIsSubmit());
+		model.addAttribute("expert", expert);
 
 		model.addAttribute("expertId", expertId);
+		model.addAttribute("auditOpinion", auditOpinion);
 		return "ses/ems/expertAudit/reasonsList";
 	}
 
@@ -1473,7 +1519,7 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/updateStatus")
-	public String updateStatus(@CurrentUser User user, Expert expert, Model model, HttpServletRequest request) {
+	public String updateStatus(@CurrentUser User user, Expert expert, Model model, HttpServletRequest request, ExpertAuditOpinion expertAuditOpinion) {
 		/**
 		 *  如果是退回修改就保存历史信息
 		 */
@@ -1524,12 +1570,15 @@ public class ExpertAuditController{
 		expert.setAuditor(user.getRelName());
 		//还原暂存状态
 		expert.setAuditTemporary(0);
+		// 设置修改时间
+		expert.setUpdatedAt(new Date());
 		expertService.updateByPrimaryKeySelective(expert);
 
 		
 		String expertId = expert.getId();
 		expert = expertService.selectByPrimaryKey(expertId);
 		String status = expert.getStatus();
+		
 		/*Todos todos = new Todos();
 		String expertName = expert.getRelName();
 		User user=(User) request.getSession().getAttribute("loginUser");*/
@@ -1537,7 +1586,8 @@ public class ExpertAuditController{
 		/**
 		 * 更新待办（已完成）
 		 */
-		if(status.equals("1") || status.equals("2") || status.equals("3") || status.equals("4") || status.equals("5") || status.equals("7") || status.equals("8")) {
+		if(status.equals("1") || status.equals("2") || status.equals("3") || status.equals("4") || status.equals("5") || status.equals("7") || status.equals("8")
+				|| "-3".equals(status)) {
 			todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
 
 		}
@@ -1573,6 +1623,21 @@ public class ExpertAuditController{
 		return "redirect:list.html";
 	}
 
+	/**
+	 * 
+	 * Description:公示操作
+	 * 
+	 * @author Easong
+	 * @version 2017年6月27日
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping("/publicity")
+	@ResponseBody
+	public JdcgResult publicity(String ids[]){
+		return expertAuditService.updatePublicityStatus(ids);
+	}
+	
 	public void writeJson(HttpServletResponse response, Object object) {
 		try {
 			String json = JSON.toJSONStringWithDateFormat(object, "yyyy-MM-dd HH:mm:ss");
@@ -1617,22 +1682,22 @@ public class ExpertAuditController{
 	 * @return ResponseEntity<byte[]>
 	 */
 	@RequestMapping("download")
-	public ResponseEntity < byte[] > download(String expertId, HttpServletRequest request, HttpServletResponse response, String tableType) throws Exception {
+	public ResponseEntity < byte[] > download(String expertId, HttpServletRequest request, HttpServletResponse response, String tableType, String opinion) throws Exception {
 		// 根据编号查询专家信息
 		Expert expert = service.selectByPrimaryKey(expertId);
 		// 文件存储地址
 		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 		// 文件名称
-		String fileName = createWordMethod(expert, request, tableType);
+		String fileName = createWordMethod(expert, request, tableType, opinion);
 		// 下载后的文件名
 		String downFileName = "";
-		if(tableType.equals("1")){
+		if("1".equals(tableType)){
 			downFileName = new String("军队采购评审专家入库初审表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
-		if(tableType.equals("2")){
+		if("2".equals(tableType) || "0".equals(tableType)){
 			downFileName = new String("军队采购评审专家入库复审表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
-		if(tableType.equals("3")){
+		if("3".equals(tableType)){
 			downFileName = new String("军队采购评审专家入库复查表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
 		response.setContentType("application/x-download");
@@ -1650,7 +1715,7 @@ public class ExpertAuditController{
 	 * @param @throws Exception      
 	 * @return String
 	 */
-	private String createWordMethod(Expert expert, HttpServletRequest request, String tableType) throws Exception {
+	private String createWordMethod(Expert expert, HttpServletRequest request, String tableType, String opinion) throws Exception {
 		/** 用于组装word页面需要的数据 */
 		Map < String, Object > dataMap = new HashMap < String, Object > ();
 		dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
@@ -1682,11 +1747,18 @@ public class ExpertAuditController{
 		
 		
 		//获取最终意见
-		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
-		expertAuditOpinion.setExpertId(expert.getId());
-		expertAuditOpinion = expertAuditOpinionService.selectByPrimaryKey(expertAuditOpinion);
-		if(expertAuditOpinion != null){
-			dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? "无" : expertAuditOpinion.getOpinion());
+		if("0".equals(tableType)){
+			dataMap.put("reason", opinion == null ? "无" : opinion);
+		}else if("1".equals(tableType) || "2".equals(tableType) || "3".equals(tableType)){
+			ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+			expertAuditOpinion.setExpertId(expert.getId());
+			expertAuditOpinion = expertAuditOpinionService.selectByPrimaryKey(expertAuditOpinion);
+			if(expertAuditOpinion !=null){
+				dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? "无" : expertAuditOpinion.getOpinion());
+			}
+			else{
+				dataMap.put("reason", "无");
+			}
 		}else{
 			dataMap.put("reason", "无");
 		}
@@ -1905,7 +1977,7 @@ public class ExpertAuditController{
 		/**
 		 * 专家签字模块（获取勾选的专家）复审
 		 */
-		if(tableType.equals("2")){
+		if("2".equals(tableType) || "0".equals(tableType)){
 			ExpertSignature expertsignature = new ExpertSignature();
 			expertsignature.setExpertId(expert.getId());
 			List<ExpertSignature> expertList = expertSignatureService.selectByExpertId(expertsignature);
@@ -1947,15 +2019,15 @@ public class ExpertAuditController{
 		/** 生成word 返回文件名 */
 		String newFileName = "";
 		String fileName = "";
-		if(tableType.equals("1")){
+		if("1".equals(tableType)){
 			newFileName = WordUtil.createWord(dataMap, "expertOneAudit.ftl", fileName, request);
 			fileName = new String(("军队采购评审专家入库初审表.doc").getBytes("UTF-8"), "UTF-8");
 		}
-		if(tableType.equals("2")){
+		if("2".equals(tableType) || "0".equals(tableType)){
 			newFileName = WordUtil.createWord(dataMap, "expertTwoAudit.ftl", fileName, request);
 			fileName = new String(("军队采购评审专家入库复审表.doc").getBytes("UTF-8"), "UTF-8");
 		}
-		if(tableType.equals("3")){
+		if("3".equals(tableType)){
 			newFileName = WordUtil.createWord(dataMap, "expertThreeAudit.ftl", fileName, request);
 			fileName = new String(("军队采购评审专家入库复查表.doc").getBytes("UTF-8"), "UTF-8");
 		}
@@ -2337,4 +2409,192 @@ public class ExpertAuditController{
 			return JSON.toJSONString("暂存失败");
 		}
 	}
+
+	/**
+	 * @Title: updateStatus
+	 * @date 2016-12-19 下午7:38:19  
+	 * @Description:提交审核
+	 * @param @param expert
+	 * @param @param model
+	 * @param @param request
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("/updateStatusOfPublictity")
+	@ResponseBody
+	public JdcgResult updateStatusOfPublictity(@CurrentUser User user, Expert expert) {
+		//提交审核，更新状态
+		expert.setAuditAt(new Date());
+		//审核人
+		expert.setAuditor(user.getRelName());
+		//还原暂存状态
+		expert.setAuditTemporary(0);
+		// 设置修改时间
+		expert.setUpdatedAt(new Date());
+		expertService.updateByPrimaryKeySelective(expert);
+		return JdcgResult.ok(expert.getStatus());
+	}
+
+	@RequestMapping("/selectChooseOrNoPassCate")
+	@ResponseBody
+	public ExpertPublicity selectChooseOrNoPassCate(ExpertPublicity expertPublicity){
+		/**
+		 *
+		 * Description:查询选择和未通过的小类
+		 *
+		 * @author Easong
+		 * @version 2017/7/13
+		 * @param [expertPublicity]
+		 * @since JDK1.7
+		 */
+		return expertAuditService.selectChooseOrNoPassCate(expertPublicity);
+	}
+
+	@RequestMapping("/uploadApproveFile")
+	public String uploadApproveFile(Model model, String expertId, Integer sign){
+		/**
+		 *
+		 * Description:上传批准审核表
+		 *
+		 * @author Easong
+		 * @version 2017/7/12
+		 * @param [supplier]
+		 * @param [model]
+		 * @since JDK1.7
+		 */
+        Expert expert = service.selectByPrimaryKey(expertId);
+        // 查询专家
+        model.addAttribute("expertId", expertId);
+        model.addAttribute("sign", sign);
+        model.addAttribute("status", expert.getStatus());
+        model.addAttribute("expert", expert);
+		// 设置文件上传项
+		fileUploadItem(model);
+		return "ses/ems/expertAudit/audit_attach_upload";
+	}
+
+    @RequestMapping("/saveAuditOpinion")
+    @ResponseBody
+    public JdcgResult auditOpinion(ExpertAuditOpinion expertAuditOpinion, String vertifyFlag) {
+        /**
+         *
+         * Description:记录审核意见
+         *
+         * @author Easong
+         * @version 2017/7/12
+         * @param [supplierAuditOpinion]
+         * @since JDK1.7
+         */
+        return expertAuditOpinionService.insertSelective(expertAuditOpinion, vertifyFlag);
+    }
+
+
+    @RequestMapping("/updateStatusAjax")
+    @ResponseBody
+    public JdcgResult updateStatusAjax(@CurrentUser User user, Expert expert, Model model, HttpServletRequest request, ExpertAuditOpinion expertAuditOpinion) {
+	    /**
+	     *
+	     * Description:提交审核-ajax
+	     *
+	     * @author Easong
+	     * @version 2017/7/14
+	     * @param [user, expert, model, request, expertAuditOpinion]
+	     * @since JDK1.7
+	     */
+        String expertId = expert.getId();
+        // 审核前判断是否有通过项和未通过项--是否符合通过要求
+        // 查询专家审核意见  判断点击审核结束按钮是否是审核通过或者审核不通过状态
+        ExpertAuditOpinion expertAuditOpinions = new ExpertAuditOpinion();
+        expertAuditOpinions.setExpertId(expertId);
+        expertAuditOpinions.setFlagTime(1);
+        ExpertAuditOpinion expertAuditOpinionExist = expertAuditOpinionService.selectByExpertId(expertAuditOpinions);
+        // 选择审核通过
+        if(expertAuditOpinionExist != null && expertAuditOpinionExist.getFlagAudit() != null){
+            if(expertAuditOpinionExist.getFlagAudit() == 1){
+                expert.setStatus("-3");
+            }else if(expertAuditOpinionExist.getFlagAudit() == 0){
+                // 审核未通过
+                expert.setStatus("5");
+            }
+        }
+
+        //提交审核，更新状态
+        expert.setAuditAt(new Date());
+        //审核人
+        expert.setAuditor(user.getRelName());
+        //还原暂存状态
+        expert.setAuditTemporary(0);
+        // 设置修改时间
+        expert.setUpdatedAt(new Date());
+        expertService.updateByPrimaryKeySelective(expert);
+
+        //expert = expertService.selectByPrimaryKey(expertId);
+        String status = expert.getStatus();
+
+        /**
+         * 更新待办（已完成）
+         */
+        if(status.equals("5") || "-3".equals(status)) {
+            todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
+        }
+        return JdcgResult.ok();
+
+    }
+
+	@RequestMapping("/isHaveOpinion")
+	@ResponseBody
+	public JdcgResult isHaveOpinion(String expertId){
+		/**
+		 *
+		 * Description:校验审核意见
+		 *
+		 * @author Easong
+		 * @version 2017/7/18
+		 * @param [supplierId]
+		 * @since JDK1.7
+		 */
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+        expertAuditOpinion.setExpertId(expertId);
+        expertAuditOpinion.setFlagTime(1);
+		return JdcgResult.ok(expertAuditOpinionService.selectByExpertId(expertAuditOpinion));
+	}
+
+    @RequestMapping("/vertifyAuditItem")
+    @ResponseBody
+    public JdcgResult vertifyAuditItem(String expertId) {
+        /**
+         * @deprecated: 点击审核通过复选框校验审核通过项
+         *
+         * @Author:Easong
+         * @Date:Created in 2017/7/22
+         * @param: [supplierId]
+         * @return: common.utils.JdcgResult
+         *
+         */
+        // 点击通过按钮时判断
+        JdcgResult selectAndVertifyAuditItem = expertAuditService.selectAndVertifyAuditItem(expertId);
+        if (selectAndVertifyAuditItem.getStatus() != 200) {
+            //如果有错误信息则直接返回提示操作
+            return selectAndVertifyAuditItem;
+        }
+        return JdcgResult.ok();
+    }
+
+    @RequestMapping("/vertifyAuditNoPassItem")
+    @ResponseBody
+    public JdcgResult vertifyAuditNoPassItem(String expertId){
+        /**
+         * @deprecated: 点击审核不通过复选框校验审核不通过项
+         * 是否为0，如果为0则提示没有审核不通过项
+         *
+         * @Author:Easong
+         * @Date:Created in 2017/7/22
+         * @param: [supplierId]
+         * @return: common.utils.JdcgResult
+         *
+         */
+        // 点击审核不通过复选框时判断
+        return expertAuditService.selectAuditNoPassItemCount(expertId);
+    }
+
 }

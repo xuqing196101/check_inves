@@ -67,4 +67,37 @@ public interface SupplierBlacklistMapper {
 	List<SupplierBlacklistVO> selectSupplierBlacklist(
 		@Param("supplierBlacklist")SupplierBlacklist supplierBlacklist, 
 		@Param("supplierTypeIds")String[] supplierTypeIds);
+	
+	 /**
+     * 
+     * Description: 根据创建时间查询
+     * 
+     * @author zhang shubin
+     * @data 2017年7月17日
+     * @param 
+     * @return
+     */
+    List<SupplierBlacklist> selectByCreateDate(@Param("start")String start,@Param("end")String end);
+
+    /**
+     * 
+     * Description: 根据修改时间查询
+     * 
+     * @author zhang shubin
+     * @data 2017年7月17日
+     * @param 
+     * @return
+     */
+    List<SupplierBlacklist> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
+
+    /**
+     * 
+     * Description: 根据id查询数量
+     * 
+     * @author zhang shubin
+     * @data 2017年7月17日
+     * @param 
+     * @return
+     */
+    Integer countById(@Param("id")String id);
 }

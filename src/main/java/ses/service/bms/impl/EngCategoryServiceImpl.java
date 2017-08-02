@@ -818,16 +818,4 @@ public class EngCategoryServiceImpl implements EngCategoryService {
 		}
 		return cateTree;
 	}
-
-	@Override
-	public Long countEngCategoyrId(SupplierCateTree cateTree, String supplierId) {
-		long rut=0;
-		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
-		String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_ENG_CERT);
-		List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
-        if(certEng != null && certEng.size() > 0) {
-		  rut=rut+uploadService.countFileByBusinessId(certEng.get(0).getId(), type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
-        }
-		return rut;
-	}
 }

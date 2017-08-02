@@ -844,8 +844,8 @@ function myReSet(){
 			
 			<div class="form-group" >
 				<label>发布时间：</label>
-			<input class="form-control" name="publishStartDate" type="text" id="publishStartDate" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${publishStartDate }" />
-			-<input class="form-control" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+			<input class="form-control w100" name="publishStartDate" type="text" id="publishStartDate" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${publishStartDate }" />
+			-<input class="form-control w100" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"
 				name="publishEndDate" type="text" id="publishEndDate" value="${publishEndDate }" />
 				</span> 
 			</div>

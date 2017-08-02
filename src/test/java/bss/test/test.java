@@ -1,25 +1,24 @@
 package bss.test;
 
+import bss.model.pms.PurchaseRequired;
+import net.sf.json.JSONObject;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import redis.clients.jedis.Jedis;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import net.sf.json.JSONObject;
-
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServer;
-import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.HttpSolrServer;
-import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import redis.clients.jedis.Jedis;
-import common.utils.JdcgResult;
-import bss.model.pms.PurchaseRequired;
 
 public class test {
 	public static void main(String[] args) {
@@ -170,5 +169,41 @@ public class test {
 			String string = jedis.get("a");
 			System.out.println(string);
 			jedis.close();
+		}
+
+		@Test
+		public void tetFile()  {
+
+			String srcFile = "C:\\web\\src\\QQ20170706-102843.png";
+			String destFile = "C:\\web\\desc\\a.png";
+
+			FileInputStream is = null;
+			FileOutputStream os = null;
+			try {
+				is = new FileInputStream(new File(srcFile));
+				os = new FileOutputStream(new File(destFile));
+				byte[] b = new byte[1024];
+				int len;
+				while ((len = is.read(b)) != -1){
+					os.write(b, 0, len);
+				}
+			}catch (IOException e){
+				e.printStackTrace();
+			}finally {
+				if(os != null)
+					try {
+						os.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				if(is != null)
+					try {
+						is.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+			}
+
 		}
 }

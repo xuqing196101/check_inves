@@ -1,20 +1,19 @@
 package ses.task;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
 import synchro.inner.read.supplier.InnerSupplierService;
-import synchro.outer.back.service.expert.OuterExpertService;
 import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.outer.read.att.OuterAttachService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 
@@ -40,6 +39,10 @@ public class SupplierTask {
 
     @Autowired
     private OuterAttachService attachService;
+    
+    // 注入供应商审核Service
+    @Autowired
+    private SupplierAuditService supplierAuditService;
     
     
 	public void handlerExportSupplier(){
@@ -110,7 +113,7 @@ public class SupplierTask {
              File [] files = file.listFiles();
              for (File f : files){
                  if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)){
-                	 innerSupplierService.immportInner(f);
+                	 innerSupplierService.immportInner(f,null);
                  	
                  }
 //                 if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
@@ -230,6 +233,26 @@ public class SupplierTask {
 		outerSupplierService.exportCommitSupplier(startTime, endTime,new Date());
 	}
 	
-	
-	
+	/**
+	 * 
+	 * Description:定时处理供应商拟入库公示
+	 * 
+	 * @author Easong
+	 * @version 2017年6月26日
+	 */
+	public void handleSupplierPublicity(){
+		// 调用7天后自动入库公示
+		supplierAuditService.handlerPublictySup();
+	}
+	/**
+	 * 
+	 * Description:定时处理供应商 一天运行一次
+	 * 退回修改后的供应商逾期没提交应提示采购机构该供应商已逾期未提交，需要自动生成审核不通过结论：自x年x月x日退回修改后，已逾期30天未提交审核。（只有退回修改的 供应商 状态是2）
+	 * 供应商审核不通过180天后再次注册需要提示供应商为第二次注册（包括任何阶段不通过 3审核未通过 6复核未通过 8考察不合格）
+	 * @author YangHongLiang
+	 * @version 2017-7-25
+	 */
+	public void handlerSupplierchange(){
+		supplierService.updateSupplierStatus();
+	}
 }
