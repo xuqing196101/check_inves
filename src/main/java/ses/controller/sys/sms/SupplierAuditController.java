@@ -85,7 +85,6 @@ import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
-import ses.util.PropertiesUtil;
 import ses.util.SupplierLevelUtil;
 import ses.util.WordUtil;
 
@@ -2466,6 +2465,29 @@ public class SupplierAuditController extends BaseSupplierController {
     	listInfo.setPages(pageInfo.getPages());
         return new JdcgResult(listInfo);
 	}
+
+	/**
+	 *
+	 * Description:查询公示供应商通过的产品品目集
+	 *
+	 * @author Easong
+	 * @version 2017/8/1
+	 * @param [supplierId]
+	 * @param [supplierType]
+	 * @param [pageNum]
+	 * @since JDK1.7
+	 */
+	@RequestMapping("/sup_publicity_item")
+	@ResponseBody
+	public JdcgResult supPublicityItem(String supplierId, String supplierType, @RequestParam(defaultValue = "1") int pageNum){
+		Map<String, Object> map = new HashMap<>();
+		map.put("supplierId", supplierId);
+		map.put("type", supplierType);
+		map.put("pageNum", pageNum);
+		return supplierItemService.selectSupPublicityItem(map);
+
+	}
+
 	/**
 	 * 
 	 * Description:销售合同

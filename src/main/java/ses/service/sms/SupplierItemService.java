@@ -277,4 +277,15 @@ public interface SupplierItemService {
 	 */
 	public int deleteItemsBySupplierId(String supplierId, Byte isReturned);
 
+	/**
+	 *
+	 * Description: 查询供应商通过的品目集合
+	 *
+	 * @author Easong
+	 * @version 2017/8/1
+	 * @param
+	 * @since JDK1.7
+	 */
+	JdcgResult selectSupPublicityItem(Map<String, Object> map);
+
 }
