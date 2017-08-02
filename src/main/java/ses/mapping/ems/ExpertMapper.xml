@@ -1347,7 +1347,7 @@ resultMap="BaseResultMap">
         	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
         </if>
         
-        ORDER BY t1.AUDIT_AT DESC NULLS LAST
+        ORDER BY t1.SUBMIT_AT ASC NULLS LAST
     </select>
 
 		<!-- 插入历史记录 -->

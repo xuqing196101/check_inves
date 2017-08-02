@@ -224,7 +224,8 @@
     						$("#divPrompt").removeClass("hide");
     					    $("#spanPrompt").text("抱歉,您的实地考察不合格,无法登录！");
     						layer.close(index);
-    					} else if(flag[0]=="commit"){
+    					} else if(flag[0]=="commit" || flag[0]=="send_back"){
+    					alert(flag[0]);
     						$.ajax({
     							url: "${pageContext.request.contextPath}/supplier/validateAuditTime.do",
     							data: {"userId" : flag[1]},

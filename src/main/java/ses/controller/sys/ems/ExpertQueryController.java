@@ -14,6 +14,7 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
+import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertTitle;
 import ses.model.oms.Orgnization;
@@ -23,6 +24,7 @@ import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.EngCategoryService;
+import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ExpertTitleService;
@@ -74,6 +76,9 @@ public class ExpertQueryController {
 	
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;
+	
+	@Autowired
+	private ExpertAuditService expertAuditService;
 	
 	/**
      * 
@@ -758,4 +763,22 @@ public class ExpertQueryController {
         model.addAttribute("result", pageInfo);
         return "dss/rids/list/storeExpertList";
     }
+	
+	/**
+	 * 审核信息
+	 * @param model
+	 * @param expertId
+	 * @param sign
+	 * @return
+	 */
+	@RequestMapping(value = "/auditInfo")
+	public String auditInfo(Model model, String expertId, Integer sign, String reqType){
+		List < ExpertAudit > auditList = expertAuditService.getListByExpertId(expertId);
+		model.addAttribute("auditList", auditList);
+		model.addAttribute("expertId", expertId);
+		model.addAttribute("sign", sign);
+		model.addAttribute("reqType", reqType);
+		return "ses/ems/expertQuery/auditInfo";
+	}
+	
 }

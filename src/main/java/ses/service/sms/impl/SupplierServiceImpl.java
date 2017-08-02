@@ -505,14 +505,19 @@ public class SupplierServiceImpl implements SupplierService {
    */
   @Override
   public void commit(Supplier supplier) {
+	  //退回修改状态2 
     if (supplier.getStatus() == 2) {
       Map<String, Object> param = new HashMap<String, Object>();
       param.put("isDeleted", 1);
       param.put("supplierId", supplier.getId());
       supplierAuditMapper.updateByMap(param);
       todosMapper.updateIsFinish(new Todos("supplier/return_edit.html?id=" + supplier.getId()));
+      //退回修改待审核 9
+      supplier.setStatus(9);
+    }else{
+    	//待审核
+    	  supplier.setStatus(0);
     }
-    supplier.setStatus(0);
     // supplier.setCreatedAt(new Date());
     supplier.setSubmitAt(new Date());
     Supplier key = supplierMapper.selectByPrimaryKey(supplier.getId());
@@ -615,6 +620,9 @@ public class SupplierServiceImpl implements SupplierService {
     }else if (status == -3){
       // 公示中状态
       map.put("status", "publicity");
+    }else if(status ==9){
+    	//退回再审核
+    	map.put("status", "send_back");
     }
     if (supplier.getProcurementDepId() != null) {
       PurchaseDep dep = purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId());
