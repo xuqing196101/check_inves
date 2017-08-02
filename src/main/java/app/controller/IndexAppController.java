@@ -759,12 +759,12 @@ public class IndexAppController {
         String tempContextUrl = request.getScheme()+"://"+ request.getServerName() +":"+ request.getServerPort() +request.getContextPath();
         String content = null;
         if(article != null){
-            content = "<div style='width: 100%;overflow: hidden;'><h3 style = 'text-align: center;font-size: 60px;'>"
-                + "<div style='color: #323232 !important;'>"+article.getName()+"</div></h3>"
+            content = "<div style='width: 100%;overflow: hidden; padding: 30px;'>"
+                + "<div style='color: #323232 !important; text-align: left; font-size: 50px;'>"+article.getName()+"</div>"
                 + "<div style='overflow: hidden;border-bottom: 1px dashed #ddd;height: 100px;line-height: 100px;'>"
                 + "<div style='text-align: right; margin-left: 15px;font-size: 40px;'><span>"
                 + "<i style='margin-right: 5px;'>"
-                + "<img src='"+tempContextUrl+"/public/portal/images/block.png'/></i>"+dataToString(article.getPublishedAt())+"</span></div></div>"
+                + "<img src='"+tempContextUrl+"/public/portal/images/appblock.png' width='40' height='40'/></i>"+dataToString(article.getPublishedAt())+"&nbsp;</span></div></div>"
                 + "<div style='width: 100%; clear: both;margin-top: 20px;line-height: 30px;'>"
                 + "<img src='"+tempContextUrl+"/api/v1/AppdownloadDetailsImage.html?id="+article.getId()+"' width='100%'/></div></div>";
         }
