@@ -87,7 +87,6 @@ public interface ExpertCategoryService {
     List<ExpertCategory> getListCategory(String expertId,String categoryId, String typeId);
 
     /**
-<<<<<<< HEAD
      *
      * Description:查询专家审核通过的类型
      *
