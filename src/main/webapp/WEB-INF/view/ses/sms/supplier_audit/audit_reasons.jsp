@@ -326,7 +326,7 @@
           </c:if> --%>
            <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
           <div class="ul_list count_flow">
-            <c:if test="${supplierStatus == 0 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+            <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
               <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
             </c:if>
             <table class="table table-bordered table-condensed table-hover">
@@ -411,9 +411,9 @@
 						  <li>
 							  <div class="select_check" id="selectOptionId">
 							    <c:choose>
-							      <c:when test="${supplierStatus == 0 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
-                                      <input type="radio" name="selectOption" value="1">预审核通过
-                                      <input type="radio" name="selectOption" value="0">预审核不通过
+							      <c:when test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+                      <input type="radio" name="selectOption" value="1">预审核通过
+                      <input type="radio" name="selectOption" value="0">预审核不通过
 							      </c:when>
 							      <c:otherwise>
 							         <input type="radio" disabled="disabled" name="selectOption" value="1">预审核通过
@@ -425,7 +425,7 @@
                           <li><span type="text" name="cate_result" id="cate_result"></span></li>
                           <li class="mt10">
                                   <c:choose>
-                                      <c:when test="${supplierStatus == 0 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+                                      <c:when test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
                                           <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
                                       </c:when>
                                       <c:otherwise>
@@ -463,7 +463,7 @@
                             <div class="col-md-12 add_regist tc">
                                 <a class="btn"  type="button" onclick="lastStep();">上一步</a>
                                 <!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
-                                <c:if test="${supplierStatus == 0}">
+                                <c:if test="${supplierStatus == 0 or supplierStatus == 9}">
                                     <input  class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
                                     <span id="tongguoSpan"><input class="btn btn-windows end"  type="button" onclick="shenhe(-2)" value="预审核结束" id="tongguo"></span>
                                     <%--<span class="display-none" id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>--%>

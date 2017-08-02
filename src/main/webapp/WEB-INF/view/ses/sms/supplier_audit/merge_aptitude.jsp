@@ -48,7 +48,7 @@
                     </ul>
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_1">
 				<div class="">
-				  <c:if test="${supplierStatus == 0 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+				  <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
             <button class="btn btn-windows check" type="button" onclick="auditButton('content_1');">审核</button>
           </c:if>
         </div>
@@ -72,7 +72,7 @@
 				</div>
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_2">
 				<div class="">
-				  <c:if test="${supplierStatus == 0 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+				  <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
             <button class="btn btn-windows check" type="button" onclick="auditButton('content_2');">审核</button>
           </c:if>
                 </div>
@@ -97,7 +97,7 @@
                 </div>
                 <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_3">
                 <div class="">
-                  <c:if test="${supplierStatus == 0 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+                  <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
                     <button class="btn btn-windows check" type="button" onclick="auditButton('content_3');">审核</button>
                   </c:if>
                 </div>
@@ -120,7 +120,7 @@
                 </div>
                 <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_4">
                  <div class="">
-                   <c:if test="${supplierStatus == 0 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+                   <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
                      <button class="btn btn-windows check" type="button" onclick="auditButton('content_4');">审核</button>
                    </c:if>
                 </div>
@@ -145,7 +145,7 @@
 				<div id="pagediv" align="right"></div>
 				<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
-					  <c:if test="${supplierStatus == 0 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+					  <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
 					    <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
 					  </c:if>
 						 <a class="btn" type="button" onclick="nextStep();">下一步</a>
