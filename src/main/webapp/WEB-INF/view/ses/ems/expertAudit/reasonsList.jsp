@@ -326,7 +326,8 @@
                 </table>
             </ul>
             <c:if test="${sign != 2}">
-              <h2 class="count_flow"><i>2</i>最终意见</h2>
+              <div class="clear"></div>
+              <h2 class="count_flow mt0"><i>2</i>最终意见</h2>
               <ul class="ul_list">
                  <li>
                    <div class="select_check">
@@ -334,75 +335,70 @@
                       <input type="radio"  <c:if test="${status eq '2'}">checked</c:if> name="selectShenhe" value="2">初审不合格
                     </div>
                   </li>
-                  <li class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                      <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
-                    </div>
-                  </li> 
+                  <li class="mt10">
+                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
+                  </li>
                 </ul>
               </div>
             </c:if>
             <c:if test="${ sign == 2 }">
-                <div>
-                    <div id="opinionDiv">
-                        <h2 class="count_flow"><i>2</i><span class="red">*</span>复审意见</h2>
-                        <ul class="ul_list">
-                            <li>
-                                <div class="select_check" id="selectOptionId">
-	                                <input type="radio"  name="selectOption" value="1">预复审合格
-	                                <input type="radio"  name="selectOption" value="0">预复审不合格
+              <div class="clear"></div>
+              <div id="opinionDiv">
+                  <h2 class="count_flow mt0"><i>2</i><span class="red">*</span>复审意见</h2>
+                  <ul class="ul_list">
+                      <li>
+                          <div class="select_check" id="selectOptionId">
+                           <input type="radio"  name="selectOption" value="1">预复审合格
+                           <input type="radio"  name="selectOption" value="0">预复审不合格
+                          </div>
+                      </li>
+                      <div><span type="text" name="cate_result" id="cate_result"></span></div>
+                      <li class="mt10">
+                          <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
+                      </li>
+                  </ul>
+              </div>
+              <!-- 审核公示扫描件上传 -->
+              <div class="display-none" id="checkWord">
+                  <h2 class="count_flow"><i>3</i>专家审批表</h2>
+                  <ul class="ul_list">
+                          <li class="col-md-6 col-sm-6 col-xs-6">
+                              <span class="fl">下载入库复审表：</span>
+                              <a href="javascript:;" onclick="downloadTable(0)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
+                          </li>
+                         <%-- <li class="col-md-6 col-sm-6 col-xs-6">
+                             <div>
+                               <span class="fl">专家审批表：</span>
+                                 <u:show showId="pic_checkword" businessId="${ expert.auditOpinionAttach }" sysKey="${ sysKey }" typeId="${typeId }" delete="false" />
+                             </div>
+                            </li>--%>
+                      <%--<c:if test="${ status == -3 }">
+                              <li class="col-md-6 col-sm-6 col-xs-6">
+                                  <span class="fl">下载入库复审表：</span>
+                                  <a href="javascript:;" onclick="downloadTable(2)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
+                              </li>
+                          <li class="col-md-6 col-sm-6 col-xs-6">
+                                <div>
+                                  <span class="fl">上传彩色扫描件：</span>
+                                    <% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
+                                    <input name="check_word_pic" id="auditOpinionFile" type="hidden" value="<%=uuidcheckword%>" />
+                                    <u:upload id="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true" exts="png,jpeg,jpg,bmp,git" />
+                                    <u:show showId="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${typeId }" />
                                 </div>
-                            </li>
-                            <div><span type="text" name="cate_result" id="cate_result"></span></div>
-                            <li class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="col-md-12 col-sm-12 col-xs-12 p0">
-		                               <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- 审核公示扫描件上传 -->
-                    <div class="display-none" id="checkWord">
-                        <h2 class="count_flow"><i>3</i>专家审批表</h2>
-                        <ul class="ul_list">
-                                <li class="col-md-6 col-sm-6 col-xs-6">
-                                    <span class="fl">下载入库复审表：</span>
-                                    <a href="javascript:;" onclick="downloadTable(0)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
-                                </li>
-                               <%-- <li class="col-md-6 col-sm-6 col-xs-6">
-                                   <div>
-                                     <span class="fl">专家审批表：</span>
-                                       <u:show showId="pic_checkword" businessId="${ expert.auditOpinionAttach }" sysKey="${ sysKey }" typeId="${typeId }" delete="false" />
-                                   </div>
-                                  </li>--%>
-                            <%--<c:if test="${ status == -3 }">
-                                    <li class="col-md-6 col-sm-6 col-xs-6">
-                                        <span class="fl">下载入库复审表：</span>
-                                        <a href="javascript:;" onclick="downloadTable(2)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
-                                    </li>
-                                <li class="col-md-6 col-sm-6 col-xs-6">
-                                      <div>
-                                        <span class="fl">上传彩色扫描件：</span>
-                                          <% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
-                                          <input name="check_word_pic" id="auditOpinionFile" type="hidden" value="<%=uuidcheckword%>" />
-                                          <u:upload id="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true" exts="png,jpeg,jpg,bmp,git" />
-                                          <u:show showId="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${typeId }" />
-                                      </div>
-                                    </li>
-                            </c:if>--%>
-                        </ul>
-                    </div>
-                    <input type="hidden" value="${auditOpinion.flagAudit}" id="hiddenSelectOptionId" />
-                </div>
-                <form id="opinionForm" method="post">
-                    <input name="id" value="${auditOpinion.id}" type="hidden">
-                    <input name="flagTime" value="" id="flagTime" type="hidden"/>
-                    <input name="flagAudit" value="" id="flagAudit" type="hidden"/>
-                    <input name="expertId" value="${expertId}" type="hidden"/>
-                    <input name="opinion" value="" id="opinionId" type="hidden"/>
-                    <input name="vertifyFlag" value="" id="vertifyFlag" type="hidden"/>
-                    <input name="isDownLoadAttch" id="downloadAttachFile" value="${auditOpinion.isDownLoadAttch}" type="hidden">
-                </form>
+                              </li>
+                      </c:if>--%>
+                  </ul>
+              </div>
+              <input type="hidden" value="${auditOpinion.flagAudit}" id="hiddenSelectOptionId" />
+              <form id="opinionForm" method="post">
+                  <input name="id" value="${auditOpinion.id}" type="hidden">
+                  <input name="flagTime" value="" id="flagTime" type="hidden"/>
+                  <input name="flagAudit" value="" id="flagAudit" type="hidden"/>
+                  <input name="expertId" value="${expertId}" type="hidden"/>
+                  <input name="opinion" value="" id="opinionId" type="hidden"/>
+                  <input name="vertifyFlag" value="" id="vertifyFlag" type="hidden"/>
+                  <input name="isDownLoadAttch" id="downloadAttachFile" value="${auditOpinion.isDownLoadAttch}" type="hidden">
+              </form>
             </c:if>
 
             <div class="col-md-12 add_regist tc">
