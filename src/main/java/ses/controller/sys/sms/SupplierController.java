@@ -2569,7 +2569,7 @@ public class SupplierController extends BaseSupplierController {
 		    }
 		}
 		
-		List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
+		/*List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
 		if(aptitudeList != null && aptitudeList.size() > 0){
 			Set<String> codeSet = new HashSet<>();
 			int codeCount = 0;
@@ -2583,7 +2583,7 @@ public class SupplierController extends BaseSupplierController {
 				model.addAttribute("eng_aptitutes", "证书编号重复!");
 				bool = false;
 			}
-		}
+		}*/
     	
 		return bool;
 	}
@@ -3489,8 +3489,11 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping(value="/getProType",produces = "application/json;charset=utf-8")
     @ResponseBody
     public String getProType(String typeId, String certCode, String supplierId){
-    	SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
-    	List<String> list = supplierAptituteService.getPorType( typeId,matEng.getId(),certCode);
+    	List<String> list = null;
+    	if(null!= certCode){
+    		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+    		list = supplierAptituteService.getPorType( typeId,matEng.getId(),certCode);
+    	}
     	String string = JSON.toJSONString(list);
     	return string;
     }

@@ -454,6 +454,25 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	    return itemsList;
 	}
 
+    @Override
+    public List<SupplierItem> findCategoryListPassed(String supplierId, String type, Integer pageNum) {
+        if (pageNum != null) {
+            PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSize"));
+        }
+        // 查询数据条件封装
+        PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSize"));
+        Map<String, Object> param = new HashMap<>();
+        param.put("supplierId", supplierId);
+        param.put("type", type);
+        if(Constant.SUPPLIER_SALES.equals(type)){
+            param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+        }else {
+            param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+        }
+        // 查询该某类型下的所通过的子节点
+        return supplierItemMapper.selectPassItemByCond(param);
+    }
+
 
 
 	@Override

@@ -1,19 +1,13 @@
 package ses.controller.sys.sms;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import bss.formbean.Maps;
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
+import common.utils.JdcgResult;
+import dss.model.rids.SupplierAnalyzeVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -21,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -35,7 +28,6 @@ import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
-import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
@@ -80,16 +72,19 @@ import ses.service.sms.SupplierTypeService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
-import bss.formbean.Maps;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-
-import common.constant.Constant;
-import common.model.UploadFile;
-import common.service.UploadService;
-import common.utils.JdcgResult;
-import dss.model.rids.SupplierAnalyzeVo;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 /**
  * 版权：(C) 版权所有 
  * <简述>
@@ -754,19 +749,27 @@ public class SupplierQueryController extends BaseSupplierController {
 	 * @return
 	 */
 	@RequestMapping("/getCategories")
-	public String getCategoryList(SupplierItem supplierItem, Model model, Integer pageNum) {
+	public String getCategoryList(SupplierItem supplierItem, Model model, Integer pageNum, Integer status) {
 		// 查询已选中的节点信息
-		List < SupplierItem > listSupplierItems = supplierItemService.findCategoryList(supplierItem.getSupplierId(), supplierItem.getSupplierTypeRelateId(), pageNum == null ? 1 : pageNum);
+        List < SupplierItem > listSupplierItems = null;
+        if(status != null && status == 1){
+            // 入库
+            listSupplierItems = supplierItemService.findCategoryListPassed(supplierItem.getSupplierId(), supplierItem.getSupplierTypeRelateId(), pageNum == null ? 1 : pageNum);
+        }else{
+            listSupplierItems = supplierItemService.findCategoryList(supplierItem.getSupplierId(), supplierItem.getSupplierTypeRelateId(), pageNum == null ? 1 : pageNum);
+        }
 		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
-		for(SupplierItem item: listSupplierItems) {
-			String categoryId = item.getCategoryId();
-			SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, null);
-			
-			if(cateTree != null && cateTree.getRootNode() != null) {
-				cateTree.setItemsId(item.getId());
-				allTreeList.add(cateTree);
-			}
-		}
+		if(listSupplierItems != null && !listSupplierItems.isEmpty()){
+            for(SupplierItem item: listSupplierItems) {
+                String categoryId = item.getCategoryId();
+                SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, null);
+
+                if(cateTree != null && cateTree.getRootNode() != null) {
+                    cateTree.setItemsId(item.getId());
+                    allTreeList.add(cateTree);
+                }
+            }
+        }
 		for(SupplierCateTree cate: allTreeList) {
 			cate.setRootNode(cate.getRootNode() == null ? "" : cate.getRootNode());
 			cate.setFirstNode(cate.getFirstNode() == null ? "" : cate.getFirstNode());
@@ -872,6 +875,7 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("orgId", orgIdCond);
         request.setAttribute("supplierTypeIds", supplierTypeIdsCond);
         request.setAttribute("reqType", reqType);
+        request.setAttribute("supplier_status", supplier.getStatus());
         return "ses/sms/supplier_query/supplierInfo/item";
     }
 
