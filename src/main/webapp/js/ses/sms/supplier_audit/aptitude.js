@@ -376,7 +376,7 @@ function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
 	var supplierStatus= $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
 	    // 只有审核的状态能审核
-	    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+	    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 		var supplierId=$("#supplierId").val();
 		var content;
 		var auditType;
@@ -457,7 +457,7 @@ function reasonProjectMulti(tablerId,auditType,auditContent,wzType) {// ,ind,aTy
 	var supplierStatus= $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
-    if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 	
 		var supplierId = $("#supplierId").val();
 		var auditCount=checkML(tablerId,wzType);
@@ -552,7 +552,7 @@ function reasonProjectRadio(tablerId,ind,auditField, auditFieldName,type,auditCo
 	var supplierStatus= $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
-    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 	
 		var supplierId = $("#supplierId").val();
 		var auditType;

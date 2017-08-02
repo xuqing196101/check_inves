@@ -23,8 +23,8 @@ function init(){
         }else{
             liclass=" class='activeliCountEng'  ";
         }
-        $("#page_ul_id").append("<li "+liclass+" id=\"salesId\"> "+
-            " <a aria-expanded=\"false\" href=\"#tab_2\" class=\"f18\" onclick=\"initDivHide('tab_2','salesId','SALES','content_2')\"  data-toggle=\"tab\">物资-销售型专业信息</a>"+
+        $("#page_ul_id").append("<li "+liclass+" id=\"salesId\" onclick=\"initDivHide('tab_2','salesId','SALES','content_2')\"> "+
+            " <a aria-expanded=\"false\" href=\"#tab_2\" class=\"f18\" data-toggle=\"tab\">物资-销售型专业信息</a>"+
             " </li>");
         if(i==0){
             initDivHide('tab_2','productId','SALES','content_2');
@@ -38,8 +38,8 @@ function init(){
         }else{
             liclass=" class='activeliCountEng' ";
         }
-        $("#page_ul_id").append(" <li "+liclass+" id='projectId' > "+
-            " <a aria-expanded=\"false\" href=\"#tab_3\" class=\"f18\" onclick=\"initDivHide('tab_3','projectId','PROJECT','content_3')\" data-toggle=\"tab\">工程专业信息</a>"+
+        $("#page_ul_id").append(" <li "+liclass+" id='projectId' onclick=\"initDivHide('tab_3','projectId','PROJECT','content_3')\" > "+
+            " <a aria-expanded=\"false\" href=\"#tab_3\" class=\"f18\" data-toggle=\"tab\">工程专业信息</a>"+
             " </li>");
         if(i==0){
             initDivHide('tab_3','projectId','PROJECT','content_3');
@@ -53,8 +53,8 @@ function init(){
         }else{
             liclass=" class='activeliCountEng' ";
         }
-        $("#page_ul_id").append("<li "+liclass+" id=\"serviecId\" >"+
-            " <a aria-expanded=\"false\" href=\"#tab_4\" class=\"f18\" onclick=\"initDivHide('tab_4','serviecId','SERVICE','content_4')\" data-toggle=\"tab\">服务专业信息</a>"+
+        $("#page_ul_id").append("<li "+liclass+" id=\"serviecId\" onclick=\"initDivHide('tab_4','serviecId','SERVICE','content_4')\">"+
+            " <a aria-expanded=\"false\" href=\"#tab_4\" class=\"f18\" data-toggle=\"tab\">服务专业信息</a>"+
             " </li>");
         if(i==0){
             initDivHide('tab_4','serviecId','SERVICE','content_4');
@@ -81,7 +81,7 @@ function findDate(type,tablerId,pageNum) {
     $("#pageNum").val(pageNum);
     $.ajax({
         type : "POST",
-        url : globalPath + "/supplierAudit/overAptitude.do",
+        url : globalPath + "/supplierAudit/sup_publicity_item.do",
         data : $("#form_id").serializeArray(),
         success : function(obj) {
             if (obj) {

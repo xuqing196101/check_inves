@@ -72,7 +72,7 @@ function getCheckOpinionType(supplierId) {
  * 下一步操作
  */
 function nextStep() {
-	if(status == -2 || status == 0){
+	if(status == -2 || status == 0 || status == 9){
 		tempSave(1);
 	}
 	var sign = $("input[name='sign']").val();
