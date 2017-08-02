@@ -94,13 +94,13 @@ $(function(){
   }
    */
   
-  function importAdd(){
+  /* function importAdd(){
     if(user==null){
       layer.alert("请先登录",{offset: ['222px', '390px'], shade:0.01});
       return;
     }
     window.location.href="${pageContext.request.contextPath}/importSupplier/register.html";
-  }
+  } */
 </script>
 </head>
 <body>
