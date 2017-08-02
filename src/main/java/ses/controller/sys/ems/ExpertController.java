@@ -338,6 +338,7 @@ public class ExpertController extends BaseController {
             expert.setId(expertId);
             expert.setIsProvisional((short) 0);
             expert.setMobile(user.getMobile());
+            expert.setCreatedAt(new Date());
             service.insertSelective(expert);
             Role role = new Role();
             role.setCode("EXPERT_R");
@@ -4499,7 +4500,7 @@ public class ExpertController extends BaseController {
         List<UploadFile> IDENTITY_CARD_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.IDENTITY_CARD_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> TECHNOLOGY_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.TECHNOLOGY_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> GRADUATE_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.GRADUATE_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
-//        List<UploadFile> QUALIFICATIONS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.QUALIFICATIONS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        List<UploadFile> QUALIFICATIONS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.QUALIFICATIONS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> RECOMMENDATION_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.RECOMMENDATION_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
 //        List<UploadFile> PRACTICING_REQUIREMENTS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.PRACTICING_REQUIREMENTS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> APPLICATION_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.APPLICATION_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
@@ -4531,10 +4532,10 @@ public class ExpertController extends BaseController {
                 imgInfo="毕业证书未上传";
                 return JSON.toJSONString(imgInfo);
             }
-//            if(QUALIFICATIONS_PROOF.size()<1 && QUALIFICATIONS_PROOF !=null ){
-//                imgInfo="学位证书未上传";
-//                return JSON.toJSONString(imgInfo);
-//            }
+            if(QUALIFICATIONS_PROOF.size()<1 && QUALIFICATIONS_PROOF !=null ){
+                imgInfo="学位证书未上传";
+                return JSON.toJSONString(imgInfo);
+            }
 
         }else if(from.equals("ARMY")){
             if(ARMY_PROOF.size()<1 && ARMY_PROOF !=null ){

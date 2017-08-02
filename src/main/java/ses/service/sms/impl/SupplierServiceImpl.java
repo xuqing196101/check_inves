@@ -1264,14 +1264,14 @@ public class SupplierServiceImpl implements SupplierService {
   @Override
   public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map) {
     PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage((Integer) map.get("page"), Integer.parseInt(config.getString("pageSize")));
+    PageHelper.startPage((Integer) map.get("page"), 20);
     return supplierMapper.selectSupplierNumber(map);
   }
 
   @Override
   public List<supplierExport> selectExpertNumber(HashMap<String, Object> map) {
     PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage((Integer) map.get("pageEx"), Integer.parseInt(config.getString("pageSize")));
+    PageHelper.startPage((Integer) map.get("pageEx"), 20);
     return supplierMapper.selectExpertNumber(map);
   }
 

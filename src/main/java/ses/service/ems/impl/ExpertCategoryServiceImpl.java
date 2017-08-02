@@ -279,5 +279,10 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	}
 
 
+  @Override
+  public List<ExpertCategory> selectListByExpertId1(String expertId, String typeId) {
+    List<ExpertCategory> list = mapper.selectListByExpertId1(expertId, typeId);
+    return list;
+  }
 }
  

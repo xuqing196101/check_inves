@@ -66,16 +66,6 @@
       }
     });
 
-    if(user!=null && user!=''){
-      $("#welcome_words").html(user+"你好，欢迎来到军队采购网！");
-    } else {
-      $("#exit").remove();
-    }
-    $(".header-v4 .navbar-default .navbar-nav > .other > a").hover(function(){
-      $("#firstPage").attr("Class","dropdown shouye_li mega-menu-fullwidth");
-    });
-  })
-
   function myInfo(){
     window.location.href="${pageContext.request.contextPath}/login/index.html";
   }
@@ -198,8 +188,7 @@
     
     <div style="height: 0px;" aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
     <div class="container position_r">
-    <ul class="nav navbar-nav m-navbar-nav">
-      
+      <ul class="nav navbar-nav m-navbar-nav" >
       <!-- 通知 -->
       <li id="firstPage" class="dropdown shouye_li mega-menu-fullwidth">
       <a class=" dropdown-toggle " href="${pageContext.request.contextPath}/"><i class="shouye nav_icon"></i>首 页</a>
@@ -1035,7 +1024,7 @@
 	  </a>
 	 </div>
 	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
-	  <a href="">
+	  <a href="javascript:void(0);">
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic yjfk">
 	    	<img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/> 
 	    </div>

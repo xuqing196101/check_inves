@@ -3133,7 +3133,9 @@ public class SupplierController extends BaseSupplierController {
 		String path = PathUtil.getWebRoot() + "excel/军队物资工程服务采购评审专家参评产品分类目录.xlsx";;
 		File file = new File(path);
 		HttpHeaders headers = new HttpHeaders();
-		String fileName = new String("军队物资工程服务采购评审专家参评产品分类目录.xlsx".getBytes("UTF-8"), "iso-8859-1"); //为了解决中文名称乱码问题  
+		//String fileName = new String("军队物资工程服务采购评审专家参评产品分类目录.xlsx".getBytes("UTF-8"), "iso-8859-1"); //为了解决中文名称乱码问题  
+		//从配置文件里读文件名（经常变）
+        String fileName = new String(PropUtil.getProperty("file.excel.expert").getBytes("UTF-8"), "iso-8859-1"); //为了解决中文名称乱码问题  
 		headers.setContentDispositionFormData("attachment", fileName);
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity < byte[] > (FileUtils.readFileToByteArray(file),

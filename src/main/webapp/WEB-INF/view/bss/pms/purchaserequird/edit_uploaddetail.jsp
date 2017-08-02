@@ -66,7 +66,7 @@
 													<option value="${sup.supplierName }">${sup.supplierName}</option>
 												</c:forEach>
 											</select> --%></td>
-		<td><input type="text" name="list[${vs.index }].isFreeTax"
+		<td name='userNone'><input type="text" name="list[${vs.index }].isFreeTax"
 			class="freetax" value="${obj.isFreeTax}"></td>
 		<td name='userNone'><input type="text"
 			name="list[${vs.index }].goodsUse" class="goodsuse"></td>

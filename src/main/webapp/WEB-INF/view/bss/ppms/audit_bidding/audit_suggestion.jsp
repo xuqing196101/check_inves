@@ -81,27 +81,27 @@
 	 <c:if test="${project.confirmFile == 4}">修改报备</c:if>
 	 </h2>
 	<h2 onclick="ycDiv(this,'1')" class="count_flow spread hand">采购管理部门意见</h2>
-	<div class="p01 container ">${reasons.pcReason}
+	<div class="p01 p0_40 clearfix">${reasons.pcReason}
 		<div class="clear mt10">
 			<span class="fl"><b>采购管理部门审核意见附件:</b></span>
 		    <u:show  showId="e" delete="flase" businessId="${project.id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>
 		</div>
 	</div>
 	<h2 onclick="ycDiv(this,'2')" class="count_flow spread hand">事业部门意见</h2>
-	<div class="p02 container ">${reasons.causeReason}
+	<div class="p02 p0_40 clearfix">${reasons.causeReason}
 		<div class="clear mt10">
 			<span class="fl"><b>事业部门审核意见附件:</b></span>
 		    <u:show delete="flase"  showId="y" businessId="${project.id}" sysKey="${sysKey}" typeId="${causeTypeId}"/>
 		</div>
 	</div>
 	<h2 onclick="ycDiv(this,'3')" class="count_flow spread hand">财务部门意见</h2>
-	<div class="p03 container">${reasons.financeReason}
+	<div class="p03 p0_40 clearfix">${reasons.financeReason}
 		<div class="clear mt10">
 			<span class="fl"><b>财务部门审核意见附件:</b></span>
 		    <u:show  showId="o" delete="flase" businessId="${project.id}" sysKey="${sysKey}" typeId="${financeTypeId}"/>
 		</div>
 	</div>
 	<h2 onclick="ycDiv(this,'4')" class="count_flow spread hand">最终意见</h2>
-	<div class="p04 container">${reasons.finalReason}</div>
+	<div class="p04 p0_40 clearfix">${reasons.finalReason}</div>
 </body>
 </html>
