@@ -195,7 +195,7 @@
 						layer.close(percentLayer);
 					}
 					uploader.removeFile(file);
-					layer.msg("文件大小错误，只允许上传" + singleFileSize + "KB文件");
+					layer.msg("文件大小错误，最大只允许上传" + singleFileSize + "KB文件");
 					return;
 				}
 				var mutiples = transBoolean($("#"+$base+"_multipleId").val());
@@ -211,7 +211,7 @@
 						success: function(msg){
 							if(msg == 'error'){
 								uploader.removeFile(file);
-								layer.msg("超过最大数量上限，只允许上传" + maxcount + "个文件");
+								layer.msg("超过最大数量上限，最多只允许上传" + maxcount + "个文件");
 								return;
 							}
 						}

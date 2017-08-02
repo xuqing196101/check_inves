@@ -1,16 +1,8 @@
 package ses.service.sms.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import common.utils.JdcgResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
-
 import ses.dao.bms.CategoryMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.formbean.QualificationBean;
@@ -40,8 +31,16 @@ import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
-import com.github.pagehelper.PageHelper;
-import common.utils.JdcgResult;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 @Service(value = "supplierItemService")
 public class SupplierItemServiceImpl implements SupplierItemService {
@@ -455,6 +454,25 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	    return itemsList;
 	}
 
+    @Override
+    public List<SupplierItem> findCategoryListPassed(String supplierId, String type, Integer pageNum) {
+        if (pageNum != null) {
+            PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSize"));
+        }
+        // 查询数据条件封装
+        PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSize"));
+        Map<String, Object> param = new HashMap<>();
+        param.put("supplierId", supplierId);
+        param.put("type", type);
+        if(Constant.SUPPLIER_SALES.equals(type)){
+            param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+        }else {
+            param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+        }
+        // 查询该某类型下的所通过的子节点
+        return supplierItemMapper.selectPassItemByCond(param);
+    }
+
 
 
 	@Override
@@ -756,6 +774,9 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         }
         return supplierItemMapper.selectPassItemByCond(param);
     }
+
+
+
     
 	// 获取供应商品目类别
 	public List < SupplierItemCategoryBean > getSupplierItemCategoryList(String supplierId, String code) {
@@ -1176,5 +1197,106 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		}
 		return supplierItemMapper.deleteByMap(param);
 	}
-	
+
+	/**
+	 *
+	 * Description: 查询公示供应商通过的产品品目
+	 *
+	 * @author Easong
+	 * @version 2017/8/1
+	 * @param [map: int age, String supplierId, String type]
+	 * @since JDK1.7
+	 */
+    @Override
+    public JdcgResult selectSupPublicityItem(Map<String, Object> map) {
+        // 获取条件
+        Integer pageNum = (Integer) map.get("pageNum");
+        String supplierId = (String) map.get("supplierId");
+        String type = (String) map.get("type");
+
+        // 查询数据条件封装
+        PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSize"));
+        Map<String, Object> param = new HashMap<>();
+        param.put("supplierId", supplierId);
+        param.put("type", type);
+        if(Constant.SUPPLIER_SALES.equals(type)){
+            param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+        }else {
+            param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+        }
+        // 查询该某类型下的所通过的子节点
+        List<SupplierItem> supplierItems = supplierItemMapper.selectPassItemByCond(param);
+        HashMap<String, Object> selectMap = new HashMap<>();
+        // 定义节点封装类实例化
+        List<SupplierCateTree> supplierCateTreeList = new ArrayList<>();
+        // 定义根节点只执行一次
+        boolean flag = true;
+        // 定义根节点名称
+        String rootNodeName = null;
+
+        if(supplierItems != null && !supplierItems.isEmpty()){
+            for (SupplierItem supplierItem : supplierItems){
+                // 根据子节点级联查询所有父节点
+                selectMap.clear();
+                selectMap.put("id", supplierItem.getCategoryId());
+                List<Category> categoryByParentNode =  categoryMapper.findCategoryByParentNode(selectMap);
+                if(categoryByParentNode != null && !categoryByParentNode.isEmpty()){
+                    SupplierCateTree supplierCateTree = new SupplierCateTree();
+                    // 查询数据词典
+                    if(flag){
+                        // 根节点一样只查询一次
+                        DictionaryData rootNode = DictionaryDataUtil.findById(categoryByParentNode.get(0).getParentId());
+                        rootNodeName = rootNode.getName();
+                        flag = false;
+                    }
+                    // 加入根节点
+                    supplierCateTree.setRootNode(rootNodeName);
+                    // 定义数组下标
+                    int i = 0;
+                    // 遍历循环封装节点值
+                    do {
+                        if(i == 0){
+                            // 加入一级节点
+                            supplierCateTree.setFirstNode(categoryByParentNode.get(0).getName());
+                        }
+                        if(i == 1){
+                            // 加入二级节点
+                            supplierCateTree.setSecondNode(categoryByParentNode.get(1).getName());
+                        }
+                        if(i == 2){
+                            // 加入三级节点
+                            supplierCateTree.setThirdNode(categoryByParentNode.get(2).getName());
+                        }
+                        if(i == 3){
+                            // 加入品种名称
+                            supplierCateTree.setFourthNode(categoryByParentNode.get(3).getName());
+                        }
+                        i++;
+                    }while (i != categoryByParentNode.size());
+                    // 加入集合中
+                    supplierCateTreeList.add(supplierCateTree);
+                }
+            }
+        }
+        // 封装分页查询
+        PageInfo<SupplierItem> pageInfo = new PageInfo<>(supplierItems);
+        PageInfo<SupplierCateTree> listInfo = new PageInfo<>();
+        listInfo.setEndRow(pageInfo.getEndRow());
+        listInfo.setNavigatepageNums(pageInfo.getNavigatepageNums());
+        listInfo.setNavigatePages(pageInfo.getNavigatePages());
+        listInfo.setNextPage(pageInfo.getNextPage());
+        listInfo.setOrderBy(pageInfo.getOrderBy());
+        listInfo.setPageNum(pageInfo.getPageNum());
+        listInfo.setPageSize(pageInfo.getPageSize());
+        listInfo.setPrePage(pageInfo.getPrePage());
+        listInfo.setSize(pageInfo.getSize());
+        listInfo.setStartRow(pageInfo.getStartRow());
+        listInfo.setTotal(pageInfo.getTotal());
+        listInfo.setFirstPage(pageInfo.getFirstPage());
+        listInfo.setLastPage(pageInfo.getLastPage());
+        listInfo.setList(supplierCateTreeList);
+        listInfo.setPages(pageInfo.getPages());
+        return JdcgResult.ok(listInfo);
+    }
+
 }
