@@ -2569,7 +2569,7 @@ public class SupplierController extends BaseSupplierController {
 		    }
 		}
 		
-		List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
+		/*List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
 		if(aptitudeList != null && aptitudeList.size() > 0){
 			Set<String> codeSet = new HashSet<>();
 			int codeCount = 0;
@@ -2583,7 +2583,7 @@ public class SupplierController extends BaseSupplierController {
 				model.addAttribute("eng_aptitutes", "证书编号重复!");
 				bool = false;
 			}
-		}
+		}*/
     	
 		return bool;
 	}
