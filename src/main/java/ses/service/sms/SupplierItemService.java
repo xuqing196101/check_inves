@@ -288,4 +288,6 @@ public interface SupplierItemService {
 	 */
 	JdcgResult selectSupPublicityItem(Map<String, Object> map);
 
+	List<SupplierItem> findCategoryListPassed(String supplierId, String type, Integer pageNum);
+
 }
