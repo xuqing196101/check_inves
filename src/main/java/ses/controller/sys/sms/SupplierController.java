@@ -361,7 +361,10 @@ public class SupplierController extends BaseSupplierController {
                 if(prov != null && city != null) {
                     purchaseDep.setAddress(prov.getName() + city.getName());
                 }
-		        purList.add(purchaseDep);
+                // 统计待审核供应商数量
+                int pendingAuditCount = supplierService.countByPurchaseDepId(purchaseDep.getId(), 0);
+                purchaseDep.setPendingAuditCount(pendingAuditCount);
+                purList.add(purchaseDep);
 		    }
 		}
 		model.addAttribute("allPurList", purList);

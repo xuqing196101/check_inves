@@ -46,9 +46,10 @@ jQuery.validator.addMethod("isFax", function(value, element){
 }, "请输入正确的传真格式");
 
 // 网址验证
-jQuery.validator.addMethod("isUrl", function(value, element) { 
-	var url = /^((https?|ftp|news):\/\/)?([a-z]([a-z0-9\-]*[\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\/[a-z0-9_\-\.~]+)*(\/([a-z0-9_\-\.]*)(\?[a-z0-9+_\-\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$/; 
-	return this.optional(element) || (url.test(value));
+jQuery.validator.addMethod("isUrl", function(value, element) {
+	//var url = /^((https?|ftp|news):\/\/)?([a-z]([a-z0-9\-]*[\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\/[a-z0-9_\-\.~]+)*(\/([a-z0-9_\-\.]*)(\?[a-z0-9+_\-\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$/; 
+	//return this.optional(element) || (url.test(value));
+	return this.optional(element) || (isURL(value));
 }, "请输入正确的网址"); 
 
 // 银行卡验证
@@ -57,3 +58,23 @@ jQuery.validator.addMethod("isBankCard", function(value, element) {
 	var bankCard = /^\d{0,30}$/; 
 	return this.optional(element) || (bankCard.test(value));
 }, "请输入正确的银行卡卡号"); 
+
+function isURL(str_url){
+    var strRegex = "^((https|http|ftp|rtsp|mms)?://)"
+    + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //ftp的user@
+    + "(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP形式的URL- 199.194.52.184
+    + "|" // 允许IP和DOMAIN（域名）
+    + "([0-9a-z_!~*'()-]+\.)*" // 域名- www.
+    + "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." // 二级域名
+    + "[a-z]{2,6})" // first level domain- .com or .museum
+    + "(:[0-9]{1,4})?" // 端口- :80
+    + "((/?)|" // a slash isn't required if there is no file name
+    + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
+    var re = new RegExp(strRegex);
+    //re.test()
+    if (re.test(str_url)){
+        return (true);
+    }else{
+        return (false);
+    }
+}
