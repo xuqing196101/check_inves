@@ -66,7 +66,6 @@
       }
     });
   });
->>>>>>> fix_bug
   function myInfo(){
     window.location.href="${pageContext.request.contextPath}/login/index.html";
   }
