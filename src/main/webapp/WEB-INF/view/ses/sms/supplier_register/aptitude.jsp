@@ -146,7 +146,7 @@
 											<font color="red">*</font> 上传工程资质文件
 										</h2>
 										<form id="item_form" method="post" class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
-											<table class="table table-bordered table_input">
+											<table class="table table-bordered table_input m_table_fixed_border">
 												<thead>
 												<tr>
 													<th class="info tc w50">序号</th>

@@ -464,8 +464,8 @@
                                 <a class="btn"  type="button" onclick="lastStep();">上一步</a>
                                 <!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
                                 <c:if test="${supplierStatus == 0}">
-                                    <input  class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
-                                    <span id="tongguoSpan"><input class="btn btn-windows git"  type="button" onclick="shenhe(-2)" value="预审核结束" id="tongguo"></span>
+                                    <input  class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
+                                    <span id="tongguoSpan"><input class="btn btn-windows end"  type="button" onclick="shenhe(-2)" value="预审核结束" id="tongguo"></span>
                                     <%--<span class="display-none" id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>--%>
                                     <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
                                     <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
@@ -475,7 +475,7 @@
                                     <%--<c:if test="${supplierStatus == -2}">
                                 <span id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
                               </c:if>--%>
-                                    <%--<input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">--%>
+                                    <%--<input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">--%>
                                     <%-- <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">--%>
                                     <c:if test="${supplierStatus == -2}">
                                       <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
@@ -484,7 +484,7 @@
                                 </c:if>
 
                                 <c:if test="${supplierStatus == 4}">
-                                    <input class="btn btn-windows git"  type="button" onclick="shenhe(5)" value="复核通过 " id="tongguo">
+                                    <input class="btn btn-windows passed"  type="button" onclick="shenhe(5)" value="复核通过 " id="tongguo">
                                     <input class="btn btn-windows cancel"  type="button" onclick="shenhe(6)" value="复核不通过" id="butongguo">
                                 </c:if>
                                 <c:if test="${supplierStatus == 5 && sign ==3}">
