@@ -76,9 +76,9 @@
 </head>
 <body>
   <input  class="btn btn-windows check" type="button" value="审核" onclick="batchSelection();">
-  <table class="table table-bordered table-hover">
+  <table class="table table-bordered table-hover mt10">
     <tr>
-      <td><input type="checkbox" id="checkAll" onclick="selectAll()"/></td>
+      <td class="w50 text-center"><input type="checkbox" id="checkAll" onclick="selectAll()"/></td>
       <td class="info tc w50">序号</td>
       <td class="info tc w100">类别</td>
       <td class="info tc">大类</td>
@@ -89,7 +89,7 @@
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
       <tr>
-      	  <td>
+      	  <td class="text-center">
       	   <input type="checkbox" name="chkItem" value="${vs.index}" onclick="check()"/>
       	   <input type="hidden" id="itemsId${vs.index}" value="${item.itemsId}" />
       	   <input type="hidden" id="firstNode${vs.index}" value="${item.firstNode}" />
