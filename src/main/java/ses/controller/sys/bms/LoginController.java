@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.zookeeper.server.quorum.Election;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -340,13 +341,18 @@ public class LoginController {
                     }
                     
                   } else {
-                    //用户名或密码错误时，更新用户密码错误次数
-                    userService.updateUserLoginErrorNum(user.getLoginName());
-                    logger.error("验证失败");
-                    if (list != null && list.size() > 0) {
-                        user.setErrorNum(list.get(0).getErrorNum()+1);
-                    }
-                    out.print("errorlogin,"+user.getErrorNum());
+                      //用户名或密码错误时，更新用户密码错误次数
+                      Integer errorNum = userService.updateUserLoginErrorNum(user.getLoginName());
+                      logger.error("验证失败");
+                      if (errorNum != null) {
+                          if (errorNum >= 5) {
+                              out.print("errorNumMax");
+                          }else {
+                              out.print("errorlogin," + errorNum);
+                          }
+                      } else {
+                          out.print("errorlogin");
+                      }
                   }
                 }
             }else {
