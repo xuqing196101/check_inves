@@ -355,7 +355,10 @@ public class LoginController {
                     //用户名或密码错误时，更新用户密码错误次数
                     userService.updateUserLoginErrorNum(user.getLoginName());
                     logger.error("验证失败");
-                    out.print("errorlogin");
+                    if (list != null && list.size() > 0) {
+                    	user.setErrorNum(list.get(0).getErrorNum()+1);
+                    }
+                    out.print("errorlogin,"+user.getErrorNum());
                   }
                 }
             }else {
