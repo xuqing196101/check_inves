@@ -2420,7 +2420,6 @@ public class SupplierAuditController extends BaseSupplierController {
             listSupplierItems = supplierItemService.selectPassItemByCond(supplierId, supplierType, pageNum);
         }
 		SupplierCateTree cateTree=null;
-		long contractCount=0;
 		if(listSupplierItems != null && !listSupplierItems.isEmpty()){
             for (SupplierItem supplierItem : listSupplierItems) {
                 cateTree=new SupplierCateTree();
@@ -2439,10 +2438,10 @@ public class SupplierAuditController extends BaseSupplierController {
                 	cateTree=supplierAuditService.countCategoyrId(cateTree,supplierId,supplierType);
                 }
                 //是否有销售合同
-                contractCount=supplierService.contractCountCategoyrId(supplierItem.getId());
-                //封装 是否有审核数据
+                cateTree=supplierService.contractCountCategoyrId(cateTree,supplierItem);
+                //封装 是否有审核 目录 和 销售 合同数据
                 cateTree=supplierAuditService.cateTreePotting(cateTree,supplierId);
-                cateTree.setContractCount(contractCount);
+                
                 cateTreeList.add(cateTree);
             }
         }
@@ -2552,7 +2551,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		// categoryQua type:4(工程) 3（销售） 2（生产）1（服务）
 		//content_1 物资生产 content_2物资销售 content_3工程 content_4 服务
 		if("content_3".equals(tablerId)){
-			//封装 供应商id
+			//封装 供应商id   工程
 			cateTree.setRootNodeCode("PROJECT");
 			cateTree.setSupplierItemId(supplierId);
 			sysKey= Constant.SUPPLIER_SYS_KEY;

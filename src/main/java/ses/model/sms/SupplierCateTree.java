@@ -101,7 +101,27 @@ public class SupplierCateTree implements Serializable{
     private String auditReason;
     // 是否被退回
     private byte isReturned;
+    //记录一条有资质的节点id
+    private String aptitudeId;
+    //记录一条有销售合同节点id
+    private String contractId;
     
+	public String getAptitudeId() {
+		return aptitudeId;
+	}
+
+	public void setAptitudeId(String aptitudeId) {
+		this.aptitudeId = aptitudeId;
+	}
+
+	public String getContractId() {
+		return contractId;
+	}
+
+	public void setContractId(String contractId) {
+		this.contractId = contractId;
+	}
+
 	public String getAuditReason() {
 		return auditReason;
 	}

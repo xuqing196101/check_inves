@@ -17,7 +17,7 @@
 <title>修改服务热线</title>
 
 </head>
-<body onload="open();">
+<body>
 	<!--面包屑导航开始-->
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
@@ -35,6 +35,7 @@
 			<form action="${pageContext.request.contextPath }/serviceHotline/edit.html" method="post" class="mb0">
 			  <h2 class="list_title">修改服务热线</h2>
 				<ul class="ul_list">
+				<input class="" name="id" type="hidden" value='${serviceHotline.id}'>
 				  <!-- 服务内容 -->
 				  <li class="col-md-3 col-sm-6 col-xs-12 pl15"   >
           	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>服务内容</span>

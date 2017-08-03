@@ -133,13 +133,13 @@ public class ServiceHotlineController {
 			if(serviceHotline.getContactphonenumber() == null || serviceHotline.getContactphonenumber().equals("")){
 				flag = false;
 				model.addAttribute("error_phone","联系电话不能为空");
-			}else{
+			}/*else{
 				Pattern p = Pattern.compile("[0-9-()（）]{7,18}");
 				if (p.matcher(serviceHotline.getContactphonenumber()).matches() == false) {
 					flag = false;
 					model.addAttribute("error_phone", "请输入正确的电话号码");
 				}
-			}
+			}*/
 			if(flag == false){
 				model.addAttribute("serviceHotline", serviceHotline);
 				return "iss/hl/add";
@@ -183,13 +183,13 @@ public class ServiceHotlineController {
 			if(serviceHotline.getContactphonenumber() == null || serviceHotline.getContactphonenumber().equals("")){
 				flag = false;
 				model.addAttribute("error_phone","联系电话不能为空");
-			}else{
+			}/*else{
 				Pattern p = Pattern.compile("[0-9-()（）]{7,18}");
 				if (p.matcher(serviceHotline.getContactphonenumber()).matches() == false) {
 					flag = false;
 					model.addAttribute("error_phone", "请输入正确的电话号码");
 				}
-			}
+			}*/
 			if(flag == false){
 				model.addAttribute("serviceHotline", serviceHotline);
 				return "iss/hl/edit";

@@ -73,8 +73,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -1649,24 +1651,69 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 	@Override
 	public SupplierCateTree countEngCategoyrId(SupplierCateTree cateTree, String supplierId) {
-		long rut=0,product=0,sales=0;
-		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+		long rut=0,product=0,sales=0,temp=0;
+		String ids="";
+		/*SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
 		String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_ENG_CERT);
 		List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
         if(certEng != null && !certEng.isEmpty()) {
 		  rut=rut+uploadService.countFileByBusinessId(certEng.get(0).getId(), type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
-        }
+        }*/
+		String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_ENG_CERT);
+        List<SupplierItem> itemsList=getProject(cateTree, 4,supplierId);
+		//--工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
+		if(null!=itemsList && !itemsList.isEmpty()){
+			for (SupplierItem supplierItem : itemsList) {
+				SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierItem.getSupplierId());
+			if(null !=  matEng || StringUtils.isNotBlank(supplierItem.getCertCode()) || StringUtils.isNotBlank(supplierItem.getProfessType())){
+				List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), supplierItem.getCertCode(), supplierItem.getProfessType());
+				if(certEng != null && !certEng.isEmpty()) {
+					ids=ids+supplierItem.getCategoryId()+",";
+					rut=rut+uploadService.countFileByBusinessId(certEng.get(0).getId(), type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
+					if(rut>0){
+						temp=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE);
+			        		if(temp>0){
+			        			product+=temp;
+			        			temp=0;
+			        		}
+			        		temp=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_SALES_PAGE);
+			        		if(temp>0){
+			        			sales+=temp;
+			        			temp=0;
+			        		}
+					  }
+				}
+				
+			}
+			}
+		}
+        
+        
+        /*
+        //随着变动 添加 没节目录 便利查询
         List<SupplierItem> itemList= getProject(cateTree, 4,supplierId);
         if(itemList != null && !itemList.isEmpty()){
         	for (SupplierItem supplierItem : itemList) {
-        		product+=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE);
-        		sales+=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_SALES_PAGE);
+        		temp=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE);
+        		if(temp>0){
+        			ids=ids+supplierItem.getCategoryId()+",";
+        			product+=temp;
+        			temp=0;
+        		}
+        		temp=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_SALES_PAGE);
+        		if(temp>0){
+        			ids=ids+supplierItem.getCategoryId()+",";
+        			sales+=temp;
+        			temp=0;
+        		}
 			}
-        }
+        }*/
         //封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
 		cateTree.setIsAptitudeProductPageAudit(product);
 		//封装 物资销售 记录 资质文件
 		cateTree.setIsAptitudeSalesPageAudit(sales);
+		//资质标记的 id
+		cateTree.setAptitudeId(ids);
         cateTree.setFileCount(rut);
 		return cateTree;
 	}
@@ -1745,7 +1792,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	private SupplierCateTree pottingDate(SupplierCateTree cateTree, String supplierId,List<CategoryQua> categoryQuaList,
 			String categoryId,String supplierType){
-		long rut=0,temp=0,productCount=0,salesCount=0;
+		long rut=0,temp=0,productCount=0,salesCount=0,tempCount=0;
+		String ids="";
 		//专业资质 要求 有可能是末节节点 有可能是其他节点
 		//categoryQuaMapper.findList(cateTree.getSecondNodeID());
 		if(null != categoryQuaList && !categoryQuaList.isEmpty()){
@@ -1759,25 +1807,39 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			if(null != itemList && !itemList.isEmpty()){
 				for (SupplierItem supplierItem : itemList) {
 		            for (CategoryQua categoryQua : categoryQuaList) {
-		            	temp=0;
 		            	//组合 资质文件上传的 business_id
 	    				String business_id=supplierItem.getId()+categoryQua.getId();
 						temp=uploadService.countFileByBusinessId(business_id, type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
 						rut=rut+temp;
 						//有上传文件 封装 审核数据
 						if(temp>0){
+							ids=ids+supplierItem.getCategoryId()+",";
 						//审核记录
-						//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
-						productCount=productCount+countData(supplierId, supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE);
-						//封装 物资销售 记录 资质文件
-						salesCount=salesCount+countData(supplierId, supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_SALES_PAGE);
+							if("SALES".equals(supplierType)){
+								//封装 物资销售 记录 资质文件
+								tempCount=countData(supplierId, supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_SALES_PAGE);
+								if(tempCount>0){
+									salesCount=salesCount+tempCount;
+									tempCount=0;
+								}
+							}else{
+							//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
+								tempCount=countData(supplierId, supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE);
+								if(tempCount>0){
+									productCount=productCount+tempCount;
+									tempCount=0;
+								}
+							}
 						}
+						temp=0;
 		            }
 				}
 				//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
 				cateTree.setIsAptitudeProductPageAudit((int)productCount);
 				//封装 物资销售 记录 资质文件
 				cateTree.setIsAptitudeSalesPageAudit((int)salesCount);
+				//封装 资质文件 id
+				cateTree.setAptitudeId(ids);
 				cateTree.setFileCount(rut);
 			}
 		}
