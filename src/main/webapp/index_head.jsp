@@ -12,74 +12,68 @@
 <head>
 <!--导航js-->
 <%@ include file="/WEB-INF/view/portal_only.jsp" %>
-<script type="text/javascript"> 
+<script type="text/javascript">
+  var user = "${sessionScope.loginUser.relName}";
+  
   $(function(){
     /* 导航延迟两秒 */
     var _width=$(window).width();
     if(_width>972){
       var id;
-      var _self;	    
+      var _self;      
       $(".dropdown").each(function(){
         $(this).hover(function(){
           _self = this;
           id = setTimeout(function(){
             $(_self).find(".drop_next").show();
-          },200);	    		
+          },200);         
         },function(){
           if(id){
             clearTimeout(id);
           }
-          $(_self).find(".drop_next").hide();		
+          $(_self).find(".drop_next").hide();   
         });
       });
     }
     
-    $("a").attr("target","_blank")
+    $("a").attr("target","_blank");
     
     $("#close").click(function(){
       $(".prompt_tips").hide();
     });
-  });
+    
+    $.ajax({
+      url: "${pageContext.request.contextPath}/cacheManage/getPVDate.do",
+      type: "POST",
+      dataType: "json",
+      success: function(data) {
+        if(data.data.loginName != null && data.status==200){
+          $("#welcome_words").html(data.data.loginName+"你好，欢迎来到军队采购网！");
+          $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>|<a id=\"my\" onclick=\"myInfo()\">我的信息</a><a href=\"${pageContext.request.contextPath}/login/loginOut.html\" id=\"exit\">&nbsp;|&nbsp;退出</a>")
+          // 今日访问量
+          $("#pvThisDay").text(data.data.dayNum);
+          // 总访问量
+          $("#pvTotal").text(data.data.totalCount);
+        }else{
+          $("#welcome_words").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a>");
+          $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>");
+          // 今日访问量
+          $("#pvThisDay").text(data.data.dayNum);
+          // 总访问量
+          $("#pvTotal").text(data.data.totalCount);
+        }
+      }
+    });
   
-var user = "${sessionScope.loginUser.relName}";
-$(function(){
-		$.ajax({
-			    url: "${pageContext.request.contextPath}/cacheManage/getPVDate.do",
-			    type: "POST",
-			    dataType: "json",
-			    success: function(data) {
-			    	if(data.data.loginName != null && data.status==200){
-			    	   $("#welcome_words").html(data.data.loginName+"你好，欢迎来到军队采购网！");
-			    	   $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>|<a id=\"my\" onclick=\"myInfo()\">我的信息</a><a href=\"${pageContext.request.contextPath}/login/loginOut.html\" id=\"exit\">&nbsp;|&nbsp;退出</a>")
-			    	   // 今日访问量
-		           $("#pvThisDay").text(data.data.dayNum);
-			    	   // 总访问量
-		           $("#pvTotal").text(data.data.totalCount);
-			    	}else{
-			    	   $("#welcome_words").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a>");
-			    	   $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>");
-			    	   // 今日访问量
-				       $("#pvThisDay").text(data.data.dayNum);
-					    // 总访问量
-				       $("#pvTotal").text(data.data.totalCount);
-			    	}
-			    }
-		});
-		
-	
-	
-	if(user!=null && user!=''){
-		$("#welcome_words").html(user+"你好，欢迎来到军队采购网！");
-	}else {
-	    $("#exit").remove();
-	    
-	}
-	$(".header-v4 .navbar-default .navbar-nav > .other > a").hover(function(){
-		$("#firstPage").attr("Class","dropdown shouye_li mega-menu-fullwidth");
-	});
-	
-});
-
+    if(user!=null && user!=''){
+      $("#welcome_words").html(user+"你好，欢迎来到军队采购网！");
+    } else {
+      $("#exit").remove();
+    }
+    $(".header-v4 .navbar-default .navbar-nav > .other > a").hover(function(){
+      $("#firstPage").attr("Class","dropdown shouye_li mega-menu-fullwidth");
+    });
+  });
 
   function myInfo(){
     window.location.href="${pageContext.request.contextPath}/login/index.html";
@@ -87,11 +81,11 @@ $(function(){
   
   /* 
   function myInfo(){
-  	if(user!=null && user!=''){
-  		window.location.href="${pageContext.request.contextPath}/login/index.html";
-  	}else{
-  		window.location.href="${pageContext.request.contextPath}/index/sign.html";
-  	}
+    if(user!=null && user!=''){
+      window.location.href="${pageContext.request.contextPath}/login/index.html";
+    }else{
+      window.location.href="${pageContext.request.contextPath}/index/sign.html";
+    }
   }
    */
   
@@ -1335,7 +1329,7 @@ $(function(){
 	
 	<!-- 供应商和专家下拉菜单列表滚动效果 -->
 	<script>
-		var m_nav_scroll = []; // 设置保存滚动插件的数组
+		/* var m_nav_scroll = []; // 设置保存滚动插件的数组
 		
 		// 循环所有插件并初始化
 		$('.mns_bxslider').each(function (index) {
@@ -1370,7 +1364,7 @@ $(function(){
 			for (var i in m_nav_scroll) {
 				m_nav_scroll[i].destroySlider();
 			}
-		});
+		}); */
 	</script>
 	<!-- End 供应商和专家下拉菜单列表滚动效果 -->
 
