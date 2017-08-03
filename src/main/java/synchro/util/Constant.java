@@ -269,5 +269,14 @@ public class Constant {
     public final static String DATE_SYNCH_EXPERT_BLACKLIST_LOG ="SYNCH_S_EXPERT_BLACKLIST_LOG";
     /** 专家黑名单记录文件名称 **/
     public final static String EXPERT_BLACKLIST_LOG_FILE_EXPERT = "expert_blacklist_log";
+    
+    /** 网上投诉信息描述 **/
+    public final static String HOT_LINE_COMMIT = "导出服务热线信息数量:";
+    /** 网上投诉信息导入描述 **/
+    public final static String HOT_LINE_COMMIT_IMPORT = "同步服务热线信息数量:";
+    /** 网上投诉信息 **/
+    public final static String DATE_SYNCH_HOT_LINE ="SYNCH_HOT_LINE";
+    /** 网上投诉信息文件名称 **/
+    public final static String HOT_LINE_FILE_EXPERT = "hot_line";
 
 }
