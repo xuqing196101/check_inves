@@ -17,7 +17,7 @@
 <title>新增服务热线</title>
 
 </head>
-<body onload="open();">
+<body>
 	<!--面包屑导航开始-->
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">

@@ -59,9 +59,13 @@
     						  $("#spanPrompt").text("验证码不正确");
     						  $("#inputCode").val("");
     						layer.close(index);
-    					} else if (data == "errorlogin") {
+    					} else if (flag[0] == "errorlogin") {
     						$("#divPrompt").removeClass("hide");
-    						 $("#spanPrompt").text("用户名或密码错误！");
+    						var ms = "";
+    						if(flag[1] != null){
+    							ms =" ，您输错密码"+flag[1]+"次，错误5次后账号将被锁！";						
+    						}
+    						 $("#spanPrompt").text("用户名或密码错误"+ms);
     						getIdentityCode(0);
     						$("#inputCode").val("");
     						layer.close(index);
