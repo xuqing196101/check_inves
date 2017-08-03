@@ -1313,7 +1313,7 @@ $(function(){
       </div>
       </div>
      <!-- 首页APP下载二维码 -->
-     <%-- <% if (environment != null && environment.equals("0")){ %>
+     <% if (environment != null && environment.equals("1")){ %>
          <div class="m_app_code" id="m_app_code">
 		<span>A<br>P<br>P<br>下<br>载<br>二<br>维<br>码</span>
 		<div class="mac_img"><img src="${pageContext.request.contextPath}/public/portal/images/AppDownload.png" alt=""></div>
@@ -1330,7 +1330,7 @@ $(function(){
 			});
 		});
 	</script>
-	<% } %> --%>
+	<% } %>
 	
 	<!-- 供应商和专家下拉菜单列表滚动效果 -->
 	<script>
