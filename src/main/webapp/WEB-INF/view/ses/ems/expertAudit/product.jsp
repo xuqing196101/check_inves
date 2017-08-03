@@ -293,7 +293,7 @@
 							  $("input[name='chkItem']:checked").each(function(){ 
 									 var index=$(this).val();
 									 var itemsId=$("#itemsId"+index+"").val();
-									 ids+=itemsId+",";
+									 ids=ids+","+itemsId;
 									 var firstNode=$("#firstNode"+index+"").val();
 									 var secondNode=$("#secondNode"+index+"").val();
 									 var thirdNode=$("#thirdNode"+index+"").val();
@@ -329,7 +329,25 @@
 									contentType:"application/json",
 									success: function(result) {
 										if(result.status==500){
-											location.reload();
+											//location.reload();
+											layer.msg(result.msg, {
+												shift: 6, // 动画类型
+												offset: '100px',
+											});
+											var checklist = document.getElementsByName ("chkItem");
+		 									var checkAll = document.getElementById("checkAll");
+		 									checkAll.checked=false;
+		 									 for(var j=0;j<checklist.length;j++)
+		 									  {
+		 									     checklist[j].checked = false;
+		 									  }
+											ids=ids.substring(1, ids.length);
+											var sp=ids.split(",");
+											for ( var s in sp) {
+												$("#" + sp[s] + "_hidden").hide();
+												$("#" + sp[s] + "_show").show();
+											}
+											 
 										}else{
 											layer.msg(result.msg, {
 												shift: 6, // 动画类型
