@@ -221,7 +221,7 @@
 													<!-- 证书编号 -->	
 														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 															<input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" label="${vs.index}" value="${cate.certCode}" 
-															onfocus="onfocusCertCode(this)"
+															onkeydown="onkeydownCertCode(this)"
 															onkeyup="onkeyupCertCode(this, '${vs.index}')">
 														</td>
 													<!-- 专业类别 -->
@@ -415,7 +415,7 @@
 				});
 			}
 			
-			function onfocusCertCode(_this){
+			function onkeydownCertCode(_this){
 				$(_this).attr("oldCode", $(_this).val());
 			}
 			
@@ -463,6 +463,7 @@
 							"supplierId": supplierId
 						},
 						dataType: "json",
+						async: false,
 						success: function(data){
 							var select=$(obj).parent().next().children();
 							var html="<option value=''>请选择</option>";

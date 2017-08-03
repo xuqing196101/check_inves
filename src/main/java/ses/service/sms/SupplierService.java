@@ -14,7 +14,9 @@ import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Category;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierItem;
 import ses.model.sms.supplierExport;
 /**
  * @Title: SupplierInfoService
@@ -435,7 +437,7 @@ public interface SupplierService {
 	 * @param supplierItemId
 	 * @return
 	 */
-	public Long contractCountCategoyrId(String supplierItemId);
+	public SupplierCateTree contractCountCategoyrId(SupplierCateTree cateTree,SupplierItem supplierItem);
 	
 
 	/**

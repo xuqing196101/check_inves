@@ -188,7 +188,7 @@
 					var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
 					state = trim(state);
 					if(size == 1){
-			  			if(state != "待审核" && state != "退回修改" && state != "审核未通过"){
+			  			if(state != "待审核" && state != "退回再审核" && state != "退回修改" && state != "审核未通过"){
 			  	 			$.ajax({
 			  	 				url:"${pageContext.request.contextPath}/supplierAudit/publish.html",
 			  	 				data:"supplierId=" +id,

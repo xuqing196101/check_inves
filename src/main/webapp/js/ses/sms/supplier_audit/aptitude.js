@@ -213,7 +213,14 @@ function showData(obj,tablerId,typeId,pageNum) {
 								"<input type=\"hidden\" id=\"itemsName"+ind+"\" value=\""+item.itemsName+"\">"+
 								"<input type=\"hidden\" id=\"itemsId"+ind+"\" value=\""+item.itemsId+"\">"+
 								"<input type=\"hidden\" id=\"tablerId"+ind+"\" value=\""+tablerId+"\">"+
-								"<input type=\"hidden\" id=\"typeId"+ind+"\" value=\""+typeId+"\">"+
+								"<input type=\"hidden\" id=\"contractId"+ind+"\" value=\""+isNull(item.contractId)+"\">"+
+								"<input type=\"hidden\" id=\"aptitudeId"+ind+"\" value=\""+isNull(item.aptitudeId)+"\">"+
+								
+								"<input type=\"hidden\" id=\"firstNodeId"+ind+"\" value=\""+isNull(item.firstNodeID)+"\">"+
+								"<input type=\"hidden\" id=\"secondNodeId"+ind+"\" value=\""+isNull(item.secondNodeID)+"\">"+
+								"<input type=\"hidden\" id=\"thirdNodeId"+ind+"\" value=\""+isNull(item.thirdNodeID)+"\">"+
+								"<input type=\"hidden\" id=\"fourthNodeId"+ind+"\" value=\""+isNull(item.fourthNodeID)+"\">"+
+								
 	                            "<td "+itemsStyle+" id=\"rootNode"+ind+"\"  >"+isNull(item.rootNode)+"</td>"+
 	                            "<td "+itemsStyle+" id=\"firstNode"+ind+"\" >"+isNull(item.firstNode)+"</td>"+
 	                            "<td "+itemsStyle+" id=\"secondNode"+ind+"\" >"+isNull(item.secondNode)+"</td>"+
@@ -280,6 +287,7 @@ function onCategory(tablerId,wzType){// ,ind,secondNode,secondNodeId,wzType
 	var showin;
 	var auditContent;
 	var auditType;
+	var secondNode;
 	switch (wzType) {
 	case 'PRODUCT':
 		secondNode='物资-生产目录信息';
@@ -376,7 +384,7 @@ function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
 	var supplierStatus= $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
 	    // 只有审核的状态能审核
-	    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+	    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 		var supplierId=$("#supplierId").val();
 		var content;
 		var auditType;
@@ -457,7 +465,7 @@ function reasonProjectMulti(tablerId,auditType,auditContent,wzType) {// ,ind,aTy
 	var supplierStatus= $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
-    if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 	
 		var supplierId = $("#supplierId").val();
 		var auditCount=checkML(tablerId,wzType);
@@ -552,7 +560,7 @@ function reasonProjectRadio(tablerId,ind,auditField, auditFieldName,type,auditCo
 	var supplierStatus= $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
-    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 	
 		var supplierId = $("#supplierId").val();
 		var auditType;

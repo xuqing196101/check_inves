@@ -68,6 +68,7 @@ import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
@@ -1354,7 +1355,7 @@ public class SupplierServiceImpl implements SupplierService {
   }
 
 	@Override
-	public Long contractCountCategoyrId(String supplierItemId) {
+	public SupplierCateTree contractCountCategoyrId(SupplierCateTree cateTree,SupplierItem supplierItem) {
 		long rut=0;
 		//合同
 		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
@@ -1364,6 +1365,8 @@ public class SupplierServiceImpl implements SupplierService {
 		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
 		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
 		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		
+		String supplierItemId=supplierItem.getId();
 		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id1, common.constant.Constant.SUPPLIER_SYS_KEY);
 		if(rut==0){
 			rut=rut+uploadService.countFileByBusinessId(supplierItemId, id2, common.constant.Constant.SUPPLIER_SYS_KEY);
@@ -1380,7 +1383,13 @@ public class SupplierServiceImpl implements SupplierService {
 		if(rut==0){
 			rut=rut+uploadService.countFileByBusinessId(supplierItemId, id6, common.constant.Constant.SUPPLIER_SYS_KEY);
 		}
-		return rut;
+		if(rut>0){
+		//封装销售 合同 目录id
+		cateTree.setContractId(supplierItem.getCategoryId());
+		}
+		//封装 销售合同 数量
+		cateTree.setContractCount(rut);
+		return cateTree;
 	}
 	
 	@Override

@@ -71,7 +71,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
 	      var sign = $("input[name='sign']").val();
 	       //只有审核的状态能审核
-	      if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+	      if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 				  var supplierId = $("#supplierId").val();
 				  var appear = auditField + "_show";
 					var index = layer.prompt({
@@ -121,7 +121,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
 					var auditContent = "证书名称为:" + str + "的信息";
 					var index = layer.prompt({
@@ -168,7 +168,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
 					var appear = obj.id;
 					var auditField = obj.id.trim();
@@ -228,7 +228,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
 					var auditContent = "证书名称：" + str + "的信息";
 					var index = layer.prompt({
@@ -283,7 +283,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
 					var appear = obj.id;
 					var auditField = obj.id.replace("_sale", "").trim();
@@ -338,7 +338,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 	        var supplierId = $("#supplierId").val();
 					var auditFieldName = auditContent.replace("信息", "");
 					if(auditFieldName == "工程-注册人员登记"){
@@ -396,7 +396,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
 				  var appear = obj.id;
 					var auditField = obj.id.replace("_engineering", "").trim();
@@ -457,7 +457,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
 					var auditFieldName = $(ele).parents("li").find("span").text().replace("：", "").replace("view", ""); //审批的字段名字
 					var index = layer.prompt({
@@ -496,7 +496,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
 					var auditContent = "资质证书名称为：" + str +"的信息";
 					var index = layer.prompt({
@@ -544,7 +544,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
 					var appear = obj.id;
 					var auditField = obj.id.replace("_service", "").trim();
@@ -1440,7 +1440,7 @@
 
 							<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc mt20">
 								<a class="btn" type="button" onclick="lastStep();">上一步</a>
-								<c:if test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+								<c:if test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
 			            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
 			          </c:if>
 								<a class="btn" type="button" onclick="nextStep();">下一步</a>

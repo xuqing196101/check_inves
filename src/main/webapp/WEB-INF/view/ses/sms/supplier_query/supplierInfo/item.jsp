@@ -154,38 +154,40 @@
 		</script>
 		<script type="text/javascript">
 			//加载默认的页签
+            var supplier_status;
 				$(function() {
 					var supplierId = $("#supplierId").val();
 					var PRODUCT = $("#a_id_1").text();
 					var SALES = $("#a_id_2").text();
 					var PROJECT = $("#a_id_3").text();
 					var SERVICE = $("#a_id_4").text();
+                    supplier_status = $("input[name='supplier_status']").val();
 					//加载默认的页签
 					if(PRODUCT == "物资-生产型产品类别信息") {
 						// 加载已选品目列表
 						loading = layer.load(1);
-						var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=PRODUCT";
+						var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=PRODUCT&status="+supplier_status;
 						$("#tbody_category").load(path);
 						return;
 					}
 				 	if(SALES == "物资-销售型产品类别信息") {
 					 	// 加载已选品目列表
 						loading = layer.load(1);
-						var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=SALES";
+						var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=SALES&status="+supplier_status;
 						$("#tbody_category").load(path);
 						return;
 					}
 					if(PROJECT == "工程产品类别信息") {
 						// 加载已选品目列表
 					  loading = layer.load(1);
-						var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=PROJECT";
+						var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=PROJECT&status="+supplier_status;
 						$("#tbody_category").load(path);
 						return;
 					}
 					if(SERVICE == "服务产品类别信息") {
 						// 加载已选品目列表
 						loading = layer.load(1);
-						var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=SERVICE";
+						var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=SERVICE&status="+supplier_status;
 						$("#tbody_category").load(path);
 						return;
 					}
@@ -195,7 +197,7 @@
 					// 加载已选品目列表
 				  loading = layer.load(1);
 					var supplierId = $("#supplierId").val();
-					var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + code;
+					var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + code + "&status="+supplier_status;
 					$("#tbody_category").load(path);
 			};
 		
@@ -339,6 +341,7 @@
 									</div>
 								</c:if>
 							</div> --%>
+							<input type="hidden" name="supplier_status" value="${supplier_status}">
 							<div class="col-md-12 tc">
 			    			<button class="btn btn-windows back" onclick="fanhui()">返回</button> 
 			   			</div>
