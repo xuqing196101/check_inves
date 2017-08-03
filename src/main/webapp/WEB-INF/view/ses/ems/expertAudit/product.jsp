@@ -263,6 +263,90 @@
 						});
 					}
 				}
+			
+			function batchSelection(){
+				var status = ${status};
+		        var sign = ${sign};
+		        //只能审核可以审核的状态
+		        if(status ==-2 || status == 0 || (sign ==2 && status ==1) || status ==6){
+		        	 
+					 var expAuditList=[];
+					 var expertId = $("#expertId").val();
+					 var ids="";
+					 var count=$("input[name='chkItem']:checked").length;
+					 if(count<=0){
+						 layer.msg('请先选择目录,至少有一条！', {offset:'100px'});
+						 return;
+					 }
+					 var index = layer.prompt({
+							title: '请填写不通过的理由：',
+							formType: 2,
+							offset: '100px',
+							maxlength: '100',
+						}, function(text) {
+							var text = $.trim(text);
+						  if(text != null && text !=""){
+							  if($.trim(text).length>900){
+								  layer.msg('审核内容长度过长！', {offset:'100px'});
+								  return;
+							  }
+							  $("input[name='chkItem']:checked").each(function(){ 
+									 var index=$(this).val();
+									 var itemsId=$("#itemsId"+index+"").val();
+									 ids+=itemsId+",";
+									 var firstNode=$("#firstNode"+index+"").val();
+									 var secondNode=$("#secondNode"+index+"").val();
+									 var thirdNode=$("#thirdNode"+index+"").val();
+									 var fourthNode=$("#fourthNode"+index+"").val();
+									 var auditContent;
+									 var auditField;
+									 if(fourthNode != null && fourthNode !=""){
+										auditContent = fourthNode + "目录信息";
+										auditField = fourthNode;
+									 }else if(thirdNode !=null && thirdNode!=""){
+										auditContent = thirdNode + "目录信息";
+										auditField = thirdNode;
+									 }else if(secondNode !=null && secondNode !=""){
+										auditContent = secondNode + "目录信息";
+										auditField = secondNode;
+									 }else{
+										auditContent = firstNode + "目录信息";
+										auditField = firstNode;
+									 }
+									 var expAudit=new Object();
+									 expAudit.auditReason=text;
+									 expAudit.expertId=expertId;
+									 expAudit.suggestType="six";
+									 expAudit.auditContent=auditContent;
+									 expAudit.auditField=auditField;
+									 expAudit.auditFieldId=itemsId;
+									 expAuditList.push(expAudit);
+						       }); 
+							  $.ajax({
+									url: "${pageContext.request.contextPath}/expertAudit/batchSelection.do",
+									type: "post",
+									data: JSON.stringify(expAuditList),
+									contentType:"application/json",
+									success: function(result) {
+										if(result.status==500){
+											location.reload();
+										}else{
+											layer.msg(result.msg, {
+												shift: 6, // 动画类型
+												offset: '100px',
+											});
+										}
+											
+									}
+								});
+							  
+									layer.close(index);
+						  }else{
+						  		layer.msg('不能为空！', {offset:'100px'});
+						  	};
+			        })
+		        }
+			}
 		</script>
 		<script type="text/javascript">
 			//下一步

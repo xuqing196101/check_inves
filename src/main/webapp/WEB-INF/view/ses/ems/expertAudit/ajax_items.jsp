@@ -37,11 +37,48 @@
 			}
 		});
 	});
+	/** 全选全不选 */
+	function selectAll(){
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 if(checkAll.checked){
+			   for(var i=0;i<checklist.length;i++)
+			   {
+			      checklist[i].checked = true;
+			   } 
+			 }else{
+			  for(var j=0;j<checklist.length;j++)
+			  {
+			     checklist[j].checked = false;
+			  }
+		 }
+	}
+	
+	/** 单选 */
+	function check(){
+		 var count=0;
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 for(var i=0;i<checklist.length;i++){
+			   if(checklist[i].checked == false){
+				   checkAll.checked = false;
+				   break;
+			   }
+			   for(var j=0;j<checklist.length;j++){
+					 if(checklist[j].checked == true){
+						   checkAll.checked = true;
+						   count++;
+					   }
+				 }
+		   }
+	}
 </script>
 </head>
 <body>
+  <input  class="btn btn-windows check" type="button" value="审核" onclick="batchSelection();">
   <table class="table table-bordered table-hover">
     <tr>
+      <td><input type="checkbox" id="checkAll" onclick="selectAll()"/></td>
       <td class="info tc w50">序号</td>
       <td class="info tc w100">类别</td>
       <td class="info tc">大类</td>
@@ -52,11 +89,19 @@
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
       <tr>
+      	  <td>
+      	   <input type="checkbox" name="chkItem" value="${vs.index}" onclick="check()"/>
+      	   <input type="hidden" id="itemsId${vs.index}" value="${item.itemsId}" />
+      	   <input type="hidden" id="firstNode${vs.index}" value="${item.firstNode}" />
+      	   <input type="hidden" id="secondNode${vs.index}" value="${item.secondNode}" />
+      	   <input type="hidden" id="thirdNode${vs.index}" value="${item.thirdNode}" />
+      	   <input type="hidden" id="fourthNode${vs.index}" value="${item.fourthNode}" />
+      	  </td>
 	      <td class="tc">${result.pageSize * (result.pageNum - 1) + vs.index + 1}</td>
 		    <td class="tc">${item.rootNode}</td>
-		    <td class="tl pl20">${item.firstNode}</td>
-		    <td class="tl pl20">${item.secondNode}</td>
-		    <td class="tl pl20">${item.thirdNode}</td>
+		    <td class="tl pl20" >${item.firstNode}</td>
+		    <td class="tl pl20" >${item.secondNode}</td>
+		    <td class="tl pl20" >${item.thirdNode}</td>
 		   <%--  <td class="tl pl20">${item.fourthNode}</td> --%>
 		    <td class="tc w50 hand">
 					<a onclick="reason('${item.firstNode}','${item.secondNode}','${item.thirdNode}','${item.fourthNode}','${item.itemsId}');"  id="${item.itemsId}_hidden" class="editItem"><c:if test="${!fn:contains(conditionStr,item.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if> <c:if test="${fn:contains(conditionStr,item.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></a>
