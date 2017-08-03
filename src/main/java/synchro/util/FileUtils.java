@@ -217,6 +217,13 @@ public class FileUtils {
     /** 专家黑名单记录表目录 路径 29 **/
     public final static String EXPERT_BLACKLIST_LOG_PATH = PropUtil.getProperty("file.expert_blacklist_log.system.path");
     
+    /** 服务热线新建数据名称 **/
+    public final static String C_HOT_LINE_PATH_FILENAME="_c_hot_line.dat";
+    /** 服务热线更新数据名称 **/
+    public final static String M_HOT_LINE_PATH_FILENAME="_m_hot_line.dat";
+    /** 服务热线目录 路径 30 **/
+    public final static String HOT_LINE_PATH = PropUtil.getProperty("file.hot_line.system.path");
+    
     /**
      * 
      *〈简述〉创建根目录
@@ -797,6 +804,7 @@ public class FileUtils {
           case 27:  filePath=SUPPLIER_BLACKLIST_LOG_PATH;break;
           case 28:  filePath=EXPERT_BLACKLIST_PATH;break;
           case 29:  filePath=EXPERT_BLACKLIST_LOG_PATH;break;
+          case 30:  filePath=HOT_LINE_PATH;break;
         }
         return filePath;
     }

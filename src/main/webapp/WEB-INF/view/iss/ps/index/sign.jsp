@@ -52,18 +52,18 @@
     					rqcode : $("#inputCode").val()
     				},
     				success : function(data) {
-    					var flag = data.split(",");
     					if (data == "errorcode") {
     						 getIdentityCode(0);
     						 $("#divPrompt").removeClass("hide");
     						  $("#spanPrompt").text("验证码不正确");
     						  $("#inputCode").val("");
     						layer.close(index);
-    					} else if (flag[0] == "errorlogin") {
+    					} else if (data.indexOf("errorlogin") >= 0) {
     						$("#divPrompt").removeClass("hide");
+    						var flag = data.split(",");
     						var ms = "";
     						if(flag[1] != null){
-    							ms =" ，您输错密码"+flag[1]+"次，错误5次后账号将被锁！";						
+    							ms =" ，您已输错密码"+flag[1]+"次，错误5次后账号将被锁！";						
     						}
     						 $("#spanPrompt").text("用户名或密码错误"+ms);
     						getIdentityCode(0);

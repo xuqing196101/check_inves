@@ -1,8 +1,10 @@
 package iss.dao.hl;
 
+import iss.model.hl.ServiceHotline;
+
 import java.util.List;
 
-import iss.model.hl.ServiceHotline;
+import org.apache.ibatis.annotations.Param;
 
 public interface ServiceHotlineMapper {
 	
@@ -74,4 +76,48 @@ public interface ServiceHotlineMapper {
      * @exception
      */
     List<ServiceHotline> selectAll(ServiceHotline record);
+    
+    /**
+     * 
+     * Description: 根据创建时间查询
+     * 
+     * @author zhang shubin
+     * @data 2017年8月3日
+     * @param 
+     * @return
+     */
+    List<ServiceHotline> selectByCreateDate(@Param("start")String start,@Param("end")String end);
+
+    /**
+     * 
+     * Description: 根据修改时间查询
+     * 
+     * @author zhang shubin
+     * @data 2017年8月3日
+     * @param 
+     * @return
+     */
+    List<ServiceHotline> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
+
+    /**
+     * 
+     * Description: 根据id查询数量
+     * 
+     * @author zhang shubin
+     * @data 2017年8月3日
+     * @param 
+     * @return
+     */
+    Integer countById(@Param("id")String id);
+    
+    /**
+     * 
+     * Description: 新增
+     * 
+     * @author zhang shubin
+     * @data 2017年8月3日
+     * @param 
+     * @return
+     */
+    int addHotline(ServiceHotline record);
 }
