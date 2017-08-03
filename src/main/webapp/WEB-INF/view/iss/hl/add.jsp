@@ -57,7 +57,7 @@
 	        </li>	
 				</ul>
 			<div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
-				<button type="submit" class="btn">提交</button>
+				<button type="submit" class="btn btn-windows add">添加</button>
 				<button class="btn btn-windows back" type="button"
 						onclick="window.location.href = '${pageContext.request.contextPath}/serviceHotline/list.html'">返回</button>
 			</div>
