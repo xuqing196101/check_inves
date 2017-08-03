@@ -78,7 +78,8 @@ $(function(){
 		$("#firstPage").attr("Class","dropdown shouye_li mega-menu-fullwidth");
 	});
 	
-})
+});
+
 
   function myInfo(){
     window.location.href="${pageContext.request.contextPath}/login/index.html";
