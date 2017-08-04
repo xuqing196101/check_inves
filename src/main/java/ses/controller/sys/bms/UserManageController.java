@@ -1131,6 +1131,8 @@ public class UserManageController extends BaseController{
 	                //私密 解密
   	              u.setPassword2(pwd2);
   	              u.setPassword(pwd);
+  	              //排除空格
+					pwd=pwd.replaceAll("\\s*", "");
   	              if (pwd == null || "".equals(pwd)) {
   	                  msg = "请输入新密码";
   	                  count ++;

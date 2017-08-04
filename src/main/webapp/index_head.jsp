@@ -13,6 +13,7 @@
 <!--导航js-->
 <%@ include file="/WEB-INF/view/portal_only.jsp" %>
 <script type="text/javascript">
+
   var user = "${sessionScope.loginUser.relName}";
   $(function(){
     /* 导航延迟两秒 */
@@ -73,6 +74,7 @@
       $("#firstPage").attr("Class","dropdown shouye_li mega-menu-fullwidth");
     });
   });
+
   function myInfo(){
     window.location.href="${pageContext.request.contextPath}/login/index.html";
   }
@@ -80,18 +82,24 @@
   /* 
   function myInfo(){
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if(user!=null && user!=''){
 			window.location.href="${pageContext.request.contextPath}/login/index.html";
 		}else{
 			window.location.href="${pageContext.request.contextPath}/index/sign.html";
 		}
 =======
+=======
+>>>>>>> fix_bug
     if(user!=null && user!=''){
       window.location.href="${pageContext.request.contextPath}/login/index.html";
     }else{
       window.location.href="${pageContext.request.contextPath}/index/sign.html";
     }
+<<<<<<< HEAD
 >>>>>>> develop
+=======
+>>>>>>> fix_bug
   }
    */
   

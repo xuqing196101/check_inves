@@ -2026,6 +2026,9 @@ public class ExpertController extends BaseController {
                         //删除之前的审核不通过的字段信息
                     	expertAuditService.updateIsDeleteByExpertId(expertId);
                     	/* expertAuditService.deleteByExpertId(expertId);*/
+                    	
+                    	//清空审核人
+                    	expert.setAuditor("");
                     }
                     //待审核
                     expert.setStatus("0");

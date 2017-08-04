@@ -2534,5 +2534,24 @@ resultMap="BaseResultMap">
         AND
         T.AUDIT_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
     </select>
+    
+        <select id="findExpertByBlacklist" resultMap="BaseResultMap"
+            parameterType="ses.model.ems.Expert">
+        SELECT
+        *
+        FROM
+        T_SES_EMS_EXPERT
+        WHERE STATUS IN (-3,4)
+        <if test="relName != null and relName !=''">
+            AND REAL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
+        </if>
+        <if test="ids != null">
+            <foreach collection="ids" item="id" open="and ID not in ("
+                     close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+        ORDER BY CREATED_AT DESC
+    </select>
 
 </mapper>
