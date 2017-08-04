@@ -1383,12 +1383,8 @@ public class SupplierServiceImpl implements SupplierService {
 		if(rut==0){
 			rut=rut+uploadService.countFileByBusinessId(supplierItemId, id6, common.constant.Constant.SUPPLIER_SYS_KEY);
 		}
-		if(rut>0){
 		//封装销售 合同 目录id
 		cateTree.setContractId(supplierItem.getCategoryId());
-		}
-		//封装 销售合同 数量
-		cateTree.setContractCount(rut);
 		return cateTree;
 	}
 	
