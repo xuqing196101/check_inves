@@ -52,6 +52,7 @@
     					rqcode : $("#inputCode").val()
     				},
     				success : function(data) {
+    					var flag = data.split(",");
     					if (data == "errorcode") {
     						 getIdentityCode(0);
     						 $("#divPrompt").removeClass("hide");
@@ -60,7 +61,7 @@
     						layer.close(index);
     					} else if (data.indexOf("errorlogin") >= 0) {
     						$("#divPrompt").removeClass("hide");
-    						var flag = data.split(",");
+    						
     						var ms = "";
     						if(flag[1] != null){
     							ms =" ，您已输错密码"+flag[1]+"次，错误5次后账号将被锁！";						
