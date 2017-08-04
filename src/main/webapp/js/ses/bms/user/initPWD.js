@@ -166,8 +166,8 @@ function userResetPasswSubmit() {
 			layer.msg("重置失败", {
 				offset : [ '222px' ]
 			});
-			$("#password").val();
-			$("#password2").val();
+			$("#password").val("");
+			$("#password2").val("");
 			layer.close(inde);
 		}
 	});

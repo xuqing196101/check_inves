@@ -1203,7 +1203,8 @@ public class UserManageController extends BaseController{
           //私密 解密
           String pwd2 = RSAEncrypt.decryptPrivate(u.getPassword2());
           String pwd = RSAEncrypt.decryptPrivate(u.getPassword());
-         
+          //排除空格
+		  pwd=pwd.replaceAll("\\s*", "");
           if (pwd == null || "".equals(pwd)) {
               msg = "请输入新密码";
               count ++;
