@@ -21,4 +21,15 @@ public interface OuterInfoImportService {
      * @author myc
      */
     public void importInfos(final File file);
+    
+    /**
+     * 
+     * Description: 导入公告品目
+     * 
+     * @author zhang shubin
+     * @data 2017年8月4日
+     * @param 
+     * @return
+     */
+    public void importArticleCategory(final File file);
 }

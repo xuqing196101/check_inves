@@ -337,6 +337,9 @@ public class SynchImportController {
                         if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
                             attachService.importAttach(f);
                         }
+                        if(f.getName().contains(FileUtils.C_ARTICLE_CATEGORY_PATH_FILENAME)){
+                        	infoService.importArticleCategory(f);
+                        }
                         if (f.isDirectory()) {
                             if (f.getName().equals(Constant.ATTACH_FILE_TENDER)) {
                                 OperAttachment.moveFolder(f);

@@ -224,6 +224,9 @@ public class FileUtils {
     /** 服务热线目录 路径 30 **/
     public final static String HOT_LINE_PATH = PropUtil.getProperty("file.hot_line.system.path");
     
+    /** 公告品目数据名称 **/
+    public final static String C_ARTICLE_CATEGORY_PATH_FILENAME="_c_article_category.dat";
+
     /**
      * 
      *〈简述〉创建根目录
@@ -764,6 +767,21 @@ public class FileUtils {
         return "";
     }
     
+    /**
+     * 
+     * Description: 导出公告品目信息
+     * 
+     * @author zhang shubin
+     * @data 2017年8月4日
+     * @param 
+     * @return
+     */
+    public static final File getArticleCategoryFile(){
+        String fileName = System.currentTimeMillis() + C_ARTICLE_CATEGORY_PATH_FILENAME;
+        String path = getBackUpPath();
+        final File file = new File(path,fileName);
+        return file;
+    }
     /**
      * 
      *〈简述〉根据系统key获取对应的附件目录
