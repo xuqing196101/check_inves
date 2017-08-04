@@ -141,6 +141,14 @@ function showData(obj,tablerId,typeId,pageNum) {
 				var isAptitudeProductPageAudit=isNumber(item.isAptitudeProductPageAudit);
 				// 物资 销售 资质
 				var isAptitudeSalesPageAudit=isNumber(item.isAptitudeSalesPageAudit);
+
+				var showQua=0,showContract=0;
+				if(item.contractId){
+                    showContract=2;
+				}
+				if(item.aptitudeId){
+                    showQua=2;
+				}
 				// 根据类型 判断
 				switch (typeId) {
 				case 'PRODUCT':
@@ -197,7 +205,7 @@ function showData(obj,tablerId,typeId,pageNum) {
 					break;
 				}
 				if("content_3" !=tablerId){
-					projectDiv="<td "+contractStyle+" id=\"contract"+ind+"\" >"+isShow(tablerId,ind,item.contractCount,"contract",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>";
+					projectDiv="<td "+contractStyle+" id=\"contract"+ind+"\" >"+isShow(tablerId,ind,showContract,"contract",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>";
 				}else{
 					projectDiv="";
 				}
@@ -228,7 +236,7 @@ function showData(obj,tablerId,typeId,pageNum) {
 	                            "<td "+itemsStyle+" id=\"secondNode"+ind+"\" >"+isNull(item.secondNode)+"</td>"+
 	                            "<td "+itemsStyle+" id=\"thirdNode"+ind+"\" >"+isNull(item.thirdNode)+"</td>"+
 	                            "<td "+itemsStyle+" id=\"fourthNode"+ind+"\" >"+isNull(item.fourthNode)+"</td>"+
-	                            "<td "+aptitudeStyle+" id=\"qualifications"+ind+"\" >"+isShow(tablerId,ind,item.fileCount,"qualifications",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>"+
+	                            "<td "+aptitudeStyle+" id=\"qualifications"+ind+"\" >"+isShow(tablerId,ind,showQua,"qualifications",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>"+
 	                            projectDiv+"</tr>"
 				);
 			});
