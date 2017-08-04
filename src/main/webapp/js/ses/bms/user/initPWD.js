@@ -110,24 +110,19 @@ function resetPasswSubmit() {
 			data : $('#form2').serializeArray(),
 			dataType : 'json',
 			success : function(result) {
-				if (!result.success) {
-					layer.close(inde);
-					layer.msg(result.msg, {
-						offset : [ '150px' ]
-					});
-					$("#password").val("");
-					$("#password2").val("");
-				} else {
 					layer.msg(result.msg, {
 						offset : [ '222px' ]
 					});
+                    $("#oldPassword").val("");
+                    $("#password").val("");
+                    $("#password2").val("");
 					layer.close(inde);
-				}
 			},
 			error : function(result) {
 				layer.msg("重置失败", {
 					offset : [ '222px' ]
 				});
+                $("#oldPassword").val("");
 				$("#password").val();
 				$("#password2").val();
 				layer.close(inde);

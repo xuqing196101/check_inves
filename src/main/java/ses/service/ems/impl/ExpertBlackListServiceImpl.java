@@ -16,8 +16,6 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.model.ems.ExpertBlackListLog;
 import ses.model.ems.ExpertBlackListVO;
-import ses.model.sms.BlacklistLog;
-import ses.model.sms.SupplierBlacklist;
 import ses.service.ems.ExpertBlackListService;
 import ses.util.PropertiesUtil;
 import synchro.service.SynchRecordService;
@@ -27,7 +25,6 @@ import synchro.util.OperAttachment;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
-
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.DateUtils;
@@ -204,7 +201,7 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 		
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		return expertMapper.findExpertAll(expert);
+		return expertMapper.findExpertByBlacklist(expert);
 	}
 	
 	/**

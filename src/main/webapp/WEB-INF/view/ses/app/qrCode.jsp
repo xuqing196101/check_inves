@@ -41,7 +41,9 @@
   //判断微信
   window.onload = function(){
     if(isWeiXin()){
-      alert("请在右上角选择在浏览器中打开");
+    	document.getElementById('guide').style.display = 'block';
+    } else {
+    	document.getElementById('qrCode_body').style.display = 'block';
     }
   };
   
@@ -56,6 +58,7 @@
 </script>
 </head>
 <body>
+  <div id="qrCode_body">
   <div class="all">
     <div class="logo">
       <img src="${pageContext.request.contextPath}/public/portal/images/logo.png" />
@@ -70,6 +73,10 @@
       </div>
     </a>
   </div>
+  </div>
+  <!-- 引导 -->
+  <div class="guide" id="guide"><img src="${pageContext.request.contextPath}/public/portal/images/guide_bg.png" alt=""></div>
+  <!-- End 引导 -->
 </body>
 </html>
 <style type="text/css">
@@ -176,5 +183,24 @@
        color:#ffffff;
        text-align: center;
        margin-top: 1rem;
+  }
+  #qrCode_body {
+    display: none;
+  }
+  /* 引导 */
+  .guide {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+    padding-right: 20px;
+    background-color: #FFF;
+    text-align: right;
+  }
+  .guide img {
+    max-width: 100%;
   }
 </style>

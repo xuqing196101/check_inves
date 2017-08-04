@@ -377,12 +377,12 @@
                     }
                   }
 								});
-								$("#" + id + "_hidden").hide();
-								$("#" + id + "_hidden1").hide();
-								$("#" + id + "_hidden2").hide();
-								$("#" + id + "_show").css('visibility', 'visible');
-								$("#" + id + "_show1").css('visibility', 'visible');
-								$("#" + id + "_show2").css('visibility', 'visible');
+								$("#" + id + "_hidden").removeClass().addClass('hidden');
+								$("#" + id + "_hidden1").removeClass().addClass('hidden');
+								$("#" + id + "_hidden2").removeClass().addClass('hidden');
+								$("#" + id + "_show").removeClass('hidden');
+								$("#" + id + "_show1").removeClass('hidden');
+								$("#" + id + "_show2").removeClass('hidden');
 								layer.close(index);
 								}else{
 			      			layer.msg('不能为空！', {offset:'100px'});

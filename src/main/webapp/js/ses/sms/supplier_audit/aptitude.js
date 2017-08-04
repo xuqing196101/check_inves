@@ -213,6 +213,8 @@ function showData(obj,tablerId,typeId,pageNum) {
 								"<input type=\"hidden\" id=\"itemsName"+ind+"\" value=\""+item.itemsName+"\">"+
 								"<input type=\"hidden\" id=\"itemsId"+ind+"\" value=\""+item.itemsId+"\">"+
 								"<input type=\"hidden\" id=\"tablerId"+ind+"\" value=\""+tablerId+"\">"+
+
+					            "<input type=\"hidden\" id=\"typeId"+ind+"\" value=\""+typeId+"\">"+
 								"<input type=\"hidden\" id=\"contractId"+ind+"\" value=\""+isNull(item.contractId)+"\">"+
 								"<input type=\"hidden\" id=\"aptitudeId"+ind+"\" value=\""+isNull(item.aptitudeId)+"\">"+
 								
@@ -284,8 +286,6 @@ function auditButton(tablerId){
 }
 // 审核 目录
 function onCategory(tablerId,wzType){// ,ind,secondNode,secondNodeId,wzType
-	var showin;
-	var auditContent;
 	var auditType;
 	var secondNode;
 	switch (wzType) {

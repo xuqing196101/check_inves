@@ -1,13 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html oncontextmenu="return false">
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <%@ include file="/WEB-INF/view/common.jsp" %>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Picture Viewer</title>
+<style type="text/css">
+	body{-moz-user-select:none}
+</style>
 </head>
 <body>
 
@@ -23,10 +26,18 @@
 		if (r != null) return unescape(r[2]); return null; 
 	
 	}  */
-	var businessId = window.sessionStorage.getItem("bid");	
+/* 	var businessId = window.sessionStorage.getItem("bid");	
 	var typeId = window.sessionStorage.getItem("tid");
 	var key = sessionStorage.getItem("key");
-	var id = window.sessionStorage.getItem("id"); 
+	var id = window.sessionStorage.getItem("id");  */
+	
+	var id = sessionStorage.getItem("id");
+	var picture = JSON.parse(sessionStorage.getItem(id));
+	
+	var businessId = picture.bid;	
+	var typeId = picture.tid;
+	var id = picture.id; 
+	var key = picture.key; 
 	openViewDIv(businessId,typeId,key,id,this);
 	};
 	

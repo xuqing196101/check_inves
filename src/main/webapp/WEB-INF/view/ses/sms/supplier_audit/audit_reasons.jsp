@@ -391,16 +391,13 @@
 	          </ul>
 	        </c:if> --%>
 			<c:if test="${sign != 1}">
-				<div>
-					<h2 class="count_flow"><i>2</i>最终意见</h2>
-					<ul class="ul_list">
-						<li class="col-md-12 col-sm-12 col-xs-12">
-							<div class="col-md-12 col-sm-12 col-xs-12 p0">
-								<textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
-							</div>
-						</li>
-					</ul>
-				</div>
+			  <div class="clear"></div>
+				<h2 class="count_flow mt0"><i>2</i>最终意见</h2>
+				<ul class="ul_list">
+					<li>
+						<textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
+					</li>
+				</ul>
 			</c:if>
 			<c:if test="${ sign == 1}">
 				<div>

@@ -1,5 +1,6 @@
 package synchro.controller;
 
+import iss.service.hl.ServiceHotlineService;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
 
@@ -41,6 +42,7 @@ import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierService;
 
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
 
@@ -122,6 +124,10 @@ public class SynchExportController {
     /** 专家黑名单 **/
     @Autowired
 	private ExpertBlackListService expertBlackListService;
+    
+    /** 服务热线 **/
+    @Autowired
+	private ServiceHotlineService serviceHotlineService;
     
     /**
      * 
@@ -391,6 +397,11 @@ public class SynchExportController {
 	        /**专家黑名单信息导出*/
 	        if (synchType.contains(Constant.DATE_SYNCH_EXPERT_BLACKLIST)) {
 	          expertBlackListService.exportExpertBlacklist(startTime, endTime,date);
+	        } 
+	        
+	        /** 服务热线信息导出*/
+	        if (synchType.contains(Constant.DATE_SYNCH_HOT_LINE)) {
+	        	serviceHotlineService.exportHotLine(startTime, endTime,date);
 	        } 
 	        
 	        bean.setSuccess(true);

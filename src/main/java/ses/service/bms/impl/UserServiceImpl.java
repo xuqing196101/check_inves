@@ -528,19 +528,23 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
   }
 
   @Override
-  public void updateUserLoginErrorNum(String loginName) {
+  public Integer updateUserLoginErrorNum(String loginName) {
     List<User> loginErrorUser = userMapper.queryByLoginName(loginName);
+    Integer errorNum = 0;
     if (loginErrorUser != null && loginErrorUser.size() > 0) {
       User loginUser = loginErrorUser.get(0);
       Integer lastErrorNum = loginUser.getErrorNum();
       if (lastErrorNum == null) {
-        loginUser.setErrorNum(1);
+        errorNum = 1;  
       } else {
-        loginUser.setErrorNum(lastErrorNum + 1);
+        errorNum = lastErrorNum + 1;  
       }
+      loginUser.setErrorNum(errorNum);
       userMapper.updateByPrimaryKeySelective(loginUser);
+      return errorNum;
+    }else {
+        return null;
     }
-    
   }
 
   @Override

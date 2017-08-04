@@ -8,10 +8,12 @@ import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.utils.JdcgResult;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.profiles.activation.SystemPropertyProfileActivator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ses.dao.ems.ExpertField;
@@ -596,13 +598,13 @@ public class ExpertAuditController{
 	 * @param @param response      
 	 * @return void
 	 */
+	@SuppressWarnings("null")
 	@RequestMapping("/auditReasons")
 	public void auditReasons(ExpertAudit expertAudit, Model model, HttpServletResponse response, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("loginUser");
 		if(user != null) {
 			expertAudit.setAuditUserId(user.getId());
 			expertAudit.setAuditUserName(user.getRelName());
-			
 			//记录审核人
 			Expert expert = new Expert();
 			expert.setId(expertAudit.getExpertId());
@@ -2596,5 +2598,41 @@ public class ExpertAuditController{
         // 点击审核不通过复选框时判断
         return expertAuditService.selectAuditNoPassItemCount(expertId);
     }
+    @RequestMapping(value="batchSelection")
+    @ResponseBody
+    public JdcgResult batchSelection(@RequestBody List < ExpertAudit > allTreeList, Model model, HttpServletResponse response, HttpServletRequest request){
+    	User user = (User) request.getSession().getAttribute("loginUser");
+    	if( null == user){
+    		return null;
+    	}
+    	if(allTreeList !=null && !allTreeList.isEmpty()){
+    		Integer count=0;
+    		for (ExpertAudit expertAudit : allTreeList) {
+    			Integer num = expertAuditService.findByObj(expertAudit);
+    			count+=num;
+			}
+    		if(count>0){
+				return new JdcgResult(503, "选择中存在已审核,不可重复审核", null);
+			}else{
 
+		    	for (ExpertAudit expertAudit2 : allTreeList) {
+		    			expertAudit2.setAuditUserId(user.getId());
+		    			expertAudit2.setAuditUserName(user.getRelName());
+		    			//记录审核人
+		    			Expert expert = new Expert();
+		    			expert.setId(expertAudit2.getExpertId());
+		    			expert.setAuditor(user.getRelName());
+		    			expertService.updateByPrimaryKeySelective(expert);
+		    			expertAudit2.setAuditAt(new Date());
+		    			expertAuditService.add(expertAudit2);
+				}
+		    	return new JdcgResult(500, "审核成功", null);
+			 }
+    	}else{
+    		return new JdcgResult(504, "参数错误", null);
+    	}
+		
+		
+    	
+    }
 }
