@@ -548,6 +548,7 @@
 	          <div class="col-md-12 clear tc mt10">
             	<button type="button" onclick="submit()" class="btn">查询</button>
               <button type="reset" onclick="chongzhi()" class="btn">重置</button>
+
               <!-- <button type="reset" onclick="openDiy()" class="btn">自定义查询</button> -->
               <c:choose>
 								<c:when test="${sign == 1 }">

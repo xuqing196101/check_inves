@@ -3,17 +3,22 @@ package synchro.controller;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierService;
+
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
+import iss.service.hl.ServiceHotlineService;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.service.bms.CategoryParameterService;
@@ -37,6 +42,7 @@ import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -147,6 +153,10 @@ public class SynchImportController {
      **/
     @Autowired
     private ExpertBlackListService expertBlackListService;
+    
+    /** 服务热线 **/
+    @Autowired
+	private ServiceHotlineService serviceHotlineService;
 
 
     /**
@@ -326,6 +336,9 @@ public class SynchImportController {
                         }
                         if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
                             attachService.importAttach(f);
+                        }
+                        if(f.getName().contains(FileUtils.C_ARTICLE_CATEGORY_PATH_FILENAME)){
+                        	infoService.importArticleCategory(f);
                         }
                         if (f.isDirectory()) {
                             if (f.getName().equals(Constant.ATTACH_FILE_TENDER)) {
@@ -821,6 +834,26 @@ public class SynchImportController {
                                 OperAttachment.moveFolder(f);
                             }
                             if (f.getName().equals(Constant.ATTCH_FILE_EXPERT)) {
+                                OperAttachment.moveFolder(f);
+                            }
+                        }
+                    }
+                    
+                    /** 服务热线信息数据导入 **/
+                    if (synchType.contains(Constant.DATE_SYNCH_HOT_LINE)) {
+                        if (f.getName().equals(Constant.HOT_LINE_FILE_EXPERT)) {
+                            for (File file2 : f.listFiles()) {
+                                if (file2.getName().contains(
+                                        FileUtils.C_HOT_LINE_PATH_FILENAME)
+                                        || file2.getName()
+                                        .contains(
+                                                FileUtils.M_HOT_LINE_PATH_FILENAME)) {
+                                	serviceHotlineService.importHotLine(file2);
+                                }
+                            }
+                        }
+                        if (f.isDirectory()) {
+                            if (f.getName().equals(Constant.HOT_LINE_FILE_EXPERT)) {
                                 OperAttachment.moveFolder(f);
                             }
                         }

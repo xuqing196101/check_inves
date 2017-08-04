@@ -1,18 +1,16 @@
 package ses.controller.sys.bms;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.zookeeper.server.quorum.Election;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -20,7 +18,6 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import redis.clients.jedis.Jedis;
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
@@ -41,21 +38,18 @@ import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
 import ses.util.PropUtil;
 import ses.util.SessionListener;
-
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.service.LoginLogService;
 import common.utils.AuthUtil;
 import common.utils.JedisUtils;
 import common.utils.RSAEncrypt;
-
-
 /**
- * <p>Title:LoginController </p>
- * <p>Description: 用户登录</p>
- * <p>Company: ses </p> 
- * @author yyyml
- * @date 2016-7-15下午2:52:15
+ * <p>Title:LoginController </p>
+ * <p>Description: 用户登录</p>
+ * <p>Company: ses </p> 
+ * @author yyyml
+ * @date 2016-7-15下午2:52:15
  */
 @Controller
 @Scope("prototype")
@@ -66,13 +60,10 @@ public class LoginController {
      */
     @Autowired
     private TodosService todosService;
-
     @Autowired
     private UserServiceI userService;
-
     @Autowired
     private ImportSupplierService importSupplierService;
-
     @Autowired
     private ExpertService expertService;//专家
     
@@ -81,7 +72,6 @@ public class LoginController {
     
     @Autowired
     private StationMessageService stationMessageService;//站内消息
-
     @Autowired
     private SupplierService supplierService;
     
@@ -94,14 +84,13 @@ public class LoginController {
     //数据权限
     @Autowired
     private UserDataRuleService UserDataRuleService;
-
     private static Logger logger = Logger.getLogger(LoginController.class); 
     //定义修改强制修改时间
     private static String modifyDate="2017-06-05";
     @Autowired
     private JedisConnectionFactory jedisConnectionFactory;
     /**
-     * Description: 用户登录
+     * Description: 用户登录
      * 
      * @author Ye MaoLin
      * @version 2016-9-18
@@ -180,28 +169,28 @@ public class LoginController {
 //                        int validateDay = expertService.logoutExpertByDay(expert);
 //                        int validateDay = 0;
 //                        if(0==validateDay){//通过
-							Map<String, Object> map = expertService.loginRedirect(u);
-							Object object = map.get("expert");
-							if (object != null) {
-							  req.getSession().setAttribute("loginName", u.getId());
-							  // 拉黑 阻止登录
-							  if (object.equals("1")) {
-							    out.print("black");
-							  } else if(object.equals("5")){
-							    out.print("reject");
-							  }else if (object.equals("2")) {
-							    out.print("reset," + u.getId());
-							  } else if (object.equals("3")) {
-							    out.print("auditExp," + u.getId());
-							  } else if (object.equals("4")) {
-							    out.print("firset," + u.getId());
-							  } else if (object.equals("6")) {
-							    out.print("weed,"+u.getId());
-							  } else if (object.equals("7")) {
-							    out.print("notLogin");
-							  } else if (object.equals("8")){
-							    out.print("review");
-							  } else if (("1").equals(object)){
+                            Map<String, Object> map = expertService.loginRedirect(u);
+                            Object object = map.get("expert");
+                            if (object != null) {
+                              req.getSession().setAttribute("loginName", u.getId());
+                              // 拉黑 阻止登录
+                              if (object.equals("1")) {
+                                out.print("black");
+                              } else if(object.equals("5")){
+                                out.print("reject");
+                              }else if (object.equals("2")) {
+                                out.print("reset," + u.getId());
+                              } else if (object.equals("3")) {
+                                out.print("auditExp," + u.getId());
+                              } else if (object.equals("4")) {
+                                out.print("firset," + u.getId());
+                              } else if (object.equals("6")) {
+                                out.print("weed,"+u.getId());
+                              } else if (object.equals("7")) {
+                                out.print("notLogin");
+                              } else if (object.equals("8")){
+                                out.print("review");
+                              } else if (("1").equals(object)){
                                     // 待复审状态
                                     out.print("expert_waitOnceCheck");
                                 }else if (("5").equals(object)){
@@ -215,17 +204,17 @@ public class LoginController {
                                     out.print("publicity");
                                 }
                             }else {
-                            	// 实现单一登录 踢人效果
-                          	 /* if (null != SessionListener.sessionMap.get(u.getId())) {
-                          		  // 第一次登录的用户session销毁
-                          		  // 将第一次登录用户的信息从map中移除
-                          		  forceLogoutUser(u.getId());
-                          		  // 本次登录用户添加到map中
-                          		  SessionListener.sessionMap.put(u.getId(),req.getSession());
-                          	  } else {
-                          		  // 以用户id为key键存入map中，以判断下一次登录的人
-                          		  SessionListener.sessionMap.put(u.getId(),req.getSession());
-  							  }*/
+                                // 实现单一登录 踢人效果
+                             /* if (null != SessionListener.sessionMap.get(u.getId())) {
+                                  // 第一次登录的用户session销毁
+                                  // 将第一次登录用户的信息从map中移除
+                                  forceLogoutUser(u.getId());
+                                  // 本次登录用户添加到map中
+                                  SessionListener.sessionMap.put(u.getId(),req.getSession());
+                              } else {
+                                  // 以用户id为key键存入map中，以判断下一次登录的人
+                                  SessionListener.sessionMap.put(u.getId(),req.getSession());
+                              }*/
                             req.getSession().setAttribute("loginUser", u);
                             // loginLog记录
                             loginLog(u, req);
@@ -257,22 +246,20 @@ public class LoginController {
                             String msg = (String) map.get("status");
                             String date = (String) map.get("date");
                             PurchaseDep orgnization = ( PurchaseDep ) map.get("orgnization");
-
                             req.getSession().setAttribute("loginName", u.getLoginName());
                             if ("success".equals(msg)) {
                                 req.getSession().setAttribute("loginSupplier", map.get("supplier"));
                                 // 实现单一登录 踢人效果
-                          	    /*if (null != SessionListener.sessionMap.get(u.getId())) {
-                          		  // 第一次登录的用户session销毁
-                          		  // 将第一次登录用户的信息从map中移除
-                          		  forceLogoutUser(u.getId());
-                          		  // 本次登录用户添加到map中
-                          		  SessionListener.sessionMap.put(u.getId(),req.getSession());
-                          	    } else {
-                          		  // 以用户id为key键存入map中，以判断下一次登录的人
-                          		  SessionListener.sessionMap.put(u.getId(),req.getSession());
-    						    }*/
-
+                                /*if (null != SessionListener.sessionMap.get(u.getId())) {
+                                  // 第一次登录的用户session销毁
+                                  // 将第一次登录用户的信息从map中移除
+                                  forceLogoutUser(u.getId());
+                                  // 本次登录用户添加到map中
+                                  SessionListener.sessionMap.put(u.getId(),req.getSession());
+                                } else {
+                                  // 以用户id为key键存入map中，以判断下一次登录的人
+                                  SessionListener.sessionMap.put(u.getId(),req.getSession());
+                                }*/
                                 req.getSession().setAttribute("loginUser", u);
                                 // loginLog记录
                                 loginLog(u, req);
@@ -287,7 +274,6 @@ public class LoginController {
                                 }else{
                                     out.print("unperfect," + u.getLoginName());
                                 }
-
                             } else  if("初审未通过".equals(msg)){
                                 out.print("firstNotPass");
                             } else  if("考察不合格".equals(msg)){
@@ -305,8 +291,8 @@ public class LoginController {
                                 // 公示中状态
                                 out.print("publicity");
                             }else if("send_back".equals(msg)){
-                            	//退回再审核
-                            	out.print("send_back,"+ u.getId());
+                                //退回再审核
+                                out.print("send_back,"+ u.getId());
                             }
 //                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
 //                            out.print("supplier_logout," + validateDay);
@@ -355,13 +341,18 @@ public class LoginController {
                     }
                     
                   } else {
-                    //用户名或密码错误时，更新用户密码错误次数
-                    userService.updateUserLoginErrorNum(user.getLoginName());
-                    logger.error("验证失败");
-                    if (list != null && list.size() > 0) {
-                    	user.setErrorNum(list.get(0).getErrorNum()+1);
-                    }
-                    out.print("errorlogin,"+user.getErrorNum());
+                      //用户名或密码错误时，更新用户密码错误次数
+                      Integer errorNum = userService.updateUserLoginErrorNum(user.getLoginName());
+                      logger.error("验证失败");
+                      if (errorNum != null) {
+                          if (errorNum >= 5) {
+                              out.print("errorNumMax");
+                          }else {
+                              out.print("errorlogin," + errorNum);
+                          }
+                      } else {
+                          out.print("errorlogin");
+                      }
                   }
                 }
             }else {
@@ -386,7 +377,7 @@ public class LoginController {
     * @throws
      */
     public void loginLog(User user, HttpServletRequest req){
-    	loginLogService.saveOnlineUser(user, req);
+        loginLogService.saveOnlineUser(user, req);
     }
     
     /**   
@@ -400,9 +391,9 @@ public class LoginController {
     public String index(HttpServletRequest req,String type,String page,String id){
         User user = (User) req.getSession().getAttribute("loginUser");
         if (user != null){
-        	//判断 该用户 是否是6.5号之前注册  修改日期不是6.5号的 用户 强制修改密码
-        	Integer ischeck=userService.isUpdateUser(modifyDate, user.getLoginName());
-        	if(ischeck>0){
+            //判断 该用户 是否是6.5号之前注册  修改日期不是6.5号的 用户 强制修改密码
+            Integer ischeck=userService.isUpdateUser(modifyDate, user.getLoginName());
+            if(ischeck>0){
             //站内
             StationMessage message=new StationMessage();
             message.setIsFinish((short)0);
@@ -417,15 +408,14 @@ public class LoginController {
             req.setAttribute("stationMessage", listStationMessage);
             Integer tenderKey = Constant.TENDER_SYS_KEY;
             req.setAttribute("sysId",tenderKey);
-        	}else{
-        		req.setAttribute("uid",user.getId());
-        		//跳转自定义 强制修改密码页面
-        		return "initPassword";
-        	}
+            }else{
+                req.setAttribute("uid",user.getId());
+                //跳转自定义 强制修改密码页面
+                return "initPassword";
+            }
         }
         return "index";    
     }
-
     /**   
      * @Title: home
      * @author yyyml
@@ -458,7 +448,6 @@ public class LoginController {
         }
         return "backend";
     }
-
     /**   
      * @Title: loginOut
      * @author yyyml
@@ -469,38 +458,38 @@ public class LoginController {
      */
     @RequestMapping("/loginOut")
     public String loginOut(@CurrentUser User user,HttpServletRequest re){
-    	re.getSession().invalidate();
+        re.getSession().invalidate();
         return "redirect:/";
     }
     
-	/**
-	 * 
-	 * Description: 通过用户ID来强行把已经在线的用户的登录信息注销
-	 * 
-	 * @author zhang shubin
-	 * @data 2017年8月1日
-	 * @param id 要强行退出的用户的ID
-	 * @return
-	 */
-	public void forceLogoutUser(String id) {
-		// 删除单一登录中记录的变量
-		if (SessionListener.sessionMap.get(id) != null) {
-			HttpSession hs = (HttpSession) SessionListener.sessionMap.get(id);
-			SessionListener.sessionMap.remove(id);
-			@SuppressWarnings("rawtypes")
-			Enumeration e = hs.getAttributeNames();
-			while (e.hasMoreElements()) {
-				String sessionName = (String) e.nextElement();
-				if(sessionName.equals("loginUser")){
-					// 清空session
-					hs.removeAttribute(sessionName);
-					Jedis jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
-					jedis.del("spring:session:sessions:"+hs.getId());
-					jedis.quit();
-					jedis.disconnect();
-				}
-			}
-			// hs.invalidate();
-		}
-	}
+    /**
+     * 
+     * Description: 通过用户ID来强行把已经在线的用户的登录信息注销
+     * 
+     * @author zhang shubin
+     * @data 2017年8月1日
+     * @param id 要强行退出的用户的ID
+     * @return
+     */
+    public void forceLogoutUser(String id) {
+        // 删除单一登录中记录的变量
+        if (SessionListener.sessionMap.get(id) != null) {
+            HttpSession hs = (HttpSession) SessionListener.sessionMap.get(id);
+            SessionListener.sessionMap.remove(id);
+            @SuppressWarnings("rawtypes")
+            Enumeration e = hs.getAttributeNames();
+            while (e.hasMoreElements()) {
+                String sessionName = (String) e.nextElement();
+                if(sessionName.equals("loginUser")){
+                    // 清空session
+                    hs.removeAttribute(sessionName);
+                    Jedis jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
+                    jedis.del("spring:session:sessions:"+hs.getId());
+                    jedis.quit();
+                    jedis.disconnect();
+                }
+            }
+            // hs.invalidate();
+        }
+    }
 }

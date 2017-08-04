@@ -1500,7 +1500,7 @@
 			<if test="isPublish != null">
 				IS_PUBLISH=#{isPublish},
 			</if>
-			<if test="auditor !=null and auditor !=''">
+			<if test="auditor !=null">
         AUDITOR =#{auditor},
       </if>
       <if test="auditTemporary !=null">

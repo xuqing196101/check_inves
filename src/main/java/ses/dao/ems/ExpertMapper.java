@@ -393,4 +393,15 @@ public interface ExpertMapper {
      * @since JDK1.7
      */
     List<Expert> selectExpByPublictyOfExport(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 专家黑名单专家条件查询
+     *               公示中和已入库
+     * @author zhang shubin
+     * @data 2017年8月3日
+     * @param 
+     * @return
+     */
+    List<Expert> findExpertByBlacklist(Expert expert);
 }
