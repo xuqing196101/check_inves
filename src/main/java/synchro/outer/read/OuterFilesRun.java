@@ -50,6 +50,9 @@ public class OuterFilesRun implements Runnable {
             if (file.getName().contains(FileUtils.C_ATTACH_FILENAME)){
                 attachService.importAttach(file);
             }
+            if(file.getName().contains(FileUtils.C_ARTICLE_CATEGORY_PATH_FILENAME)){
+            	infoService.importArticleCategory(file);
+            }
             if (file.isDirectory()){
                 if (file.getName().equals(Constant.ATTACH_FILE_TENDER)){
                     OperAttachment.moveFolder(file);

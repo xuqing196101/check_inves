@@ -1,5 +1,10 @@
 package synchro.outer.read.infos.impl;
 
+import iss.dao.ps.ArticleMapper;
+import iss.model.ps.Article;
+import iss.model.ps.ArticleCategory;
+import iss.service.ps.ArticleService;
+
 import java.io.File;
 import java.util.List;
 
@@ -7,13 +12,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import app.service.IndexAppService;
-import iss.model.ps.Article;
-import iss.service.ps.ArticleService;
 import ses.util.PropUtil;
 import synchro.outer.read.infos.OuterInfoImportService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
+import app.service.IndexAppService;
 
 /**
  * 
@@ -40,6 +43,9 @@ public class OuterInfoImportServiceImpl implements OuterInfoImportService {
     //App接口Service注入
     @Autowired
     private IndexAppService indexAppService;
+    
+    @Autowired
+    private ArticleMapper articleMapper;
     
     /**
      * 
@@ -91,5 +97,20 @@ public class OuterInfoImportServiceImpl implements OuterInfoImportService {
         }
     }
 
+    /**
+     * 导入公告关联品目
+     */
+    @Override
+    public void importArticleCategory(final File file) { 
+		 List<ArticleCategory> list = FileUtils.getBeans(file, ArticleCategory.class); 
+	        if (list != null && list.size() > 0){
+	        	for (ArticleCategory articleCategory : list) {
+	        		if(articleMapper.findArtCategory(articleCategory) != null && articleMapper.findArtCategory(articleCategory).size() > 0){
+	        			articleMapper.deleteArtCategory(articleCategory);
+	        		}
+	        		articleMapper.saveArtCategory(articleCategory);
+	        	}
+	        }
+    }
     
 }
