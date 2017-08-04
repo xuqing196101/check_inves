@@ -204,7 +204,7 @@ public class UserManageController extends BaseController{
 	 * @exception IOException
 	 */
 	@RequestMapping("/save")
-	public String save(@Valid User user, @CurrentUser User loginUser, BindingResult result, String roleName, String orgName, HttpServletRequest request, Model model) throws Exception {
+	public String save(@Valid User user, BindingResult result, @CurrentUser User loginUser, String roleName, String orgName, HttpServletRequest request, Model model) throws Exception {
   		//校验字段
   		String origin = request.getParameter("origin");
   		String orgId = request.getParameter("org_orgId");
@@ -548,7 +548,7 @@ public class UserManageController extends BaseController{
 	 * @exception IOException
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request, @Valid User u, @CurrentUser User user, BindingResult result, String roleId, String orgId, Model model) {
+	public String update(HttpServletRequest request, @Valid User u, BindingResult result, @CurrentUser User user, String roleId, String orgId, Model model) {
         
 	    String origin = request.getParameter("origin");
 	    String deptTypeName = request.getParameter("deptTypeName");
