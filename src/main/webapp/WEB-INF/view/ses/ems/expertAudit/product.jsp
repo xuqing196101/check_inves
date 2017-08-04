@@ -344,8 +344,7 @@
 											ids=ids.substring(1, ids.length);
 											var sp=ids.split(",");
 											for ( var s in sp) {
-												$("#" + sp[s] + "_hidden").hide();
-												$("#" + sp[s] + "_show").show();
+												$("td[name='itemtd"+sp[s]+"']").css('border-color', '#FF0000');
 											}
 											 
 										}else{

@@ -76,7 +76,7 @@
 </head>
 <body>
   <input  class="btn btn-windows check" type="button" value="审核" onclick="batchSelection();">
-  <table class="table table-bordered table-hover mt10">
+  <table class="table table-bordered table-hover m_table_fixed_border">
     <tr>
       <td class="w50 text-center"><input type="checkbox" id="checkAll" onclick="selectAll()"/></td>
       <td class="info tc w50">序号</td>
@@ -85,7 +85,7 @@
       <td class="info tc">中类</td>
       <td class="info tc">小类</td>
       <!-- <td class="info tc">品种名称</td> -->
-      <td class="info tc">操作</td>
+      <!-- <td class="info tc">操作</td> -->
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
       <tr>
@@ -98,16 +98,16 @@
       	   <input type="hidden" id="fourthNode${vs.index}" value="${item.fourthNode}" />
       	  </td>
 	      <td class="tc">${result.pageSize * (result.pageNum - 1) + vs.index + 1}</td>
-		    <td class="tc">${item.rootNode}</td>
-		    <td class="tl pl20" >${item.firstNode}</td>
-		    <td class="tl pl20" >${item.secondNode}</td>
-		    <td class="tl pl20" >${item.thirdNode}</td>
+		    <td class="tc" name="itemtd${item.itemsId}" <c:if test="${fn:contains(conditionStr,item.itemsId)}"> style="border-color: #FF0000"</c:if> >${item.rootNode}</td>
+		    <td class="tl pl20" name="itemtd${item.itemsId}" <c:if test="${fn:contains(conditionStr,item.itemsId)}"> style="border-color: #FF0000"</c:if> >${item.firstNode}</td>
+		    <td class="tl pl20" name="itemtd${item.itemsId}" <c:if test="${fn:contains(conditionStr,item.itemsId)}"> style="border-color: #FF0000"</c:if> >${item.secondNode}</td>
+		    <td class="tl pl20" name="itemtd${item.itemsId}" <c:if test="${fn:contains(conditionStr,item.itemsId)}"> style="border-color: #FF0000"</c:if> >${item.thirdNode}</td>
 		   <%--  <td class="tl pl20">${item.fourthNode}</td> --%>
-		    <td class="tc w50 hand">
+		    <%-- <td class="tc w50 hand">
 					<a onclick="reason('${item.firstNode}','${item.secondNode}','${item.thirdNode}','${item.fourthNode}','${item.itemsId}');"  id="${item.itemsId}_hidden" class="editItem"><c:if test="${!fn:contains(conditionStr,item.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if> <c:if test="${fn:contains(conditionStr,item.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></a>
 					<p id="${item.itemsId}_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 					<c:if test="${fn:contains(conditionStr,item.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
-				</td>
+				</td> --%>
       </tr>
     </c:forEach>
   </table> 
