@@ -1650,6 +1650,20 @@
 			</if>
 		</where>
 	</select>
+	
+	<!-- 供应商登陆获取信息 -->
+	<select id="getById" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		T_SES_SMS_SUPPLIER t1
+		<where>
+			<if test="id != null">
+				and t1.id = #{id}
+			</if>
+		</where>
+	</select>
+	
 
 	<!-- 关联 -->
 	<select id="getByExtRelateProjectId" parameterType="java.lang.String"
@@ -1929,6 +1943,9 @@
       </if>
       <if test="creditCode !=null">
         CREDIT_CODE = #{creditCode},
+      </if>
+      <if test="loginName !=null">
+        LOGIN_NAME = #{loginName},
       </if>
     </set>
     WHERE ID = #{id}

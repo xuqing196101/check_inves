@@ -242,7 +242,7 @@ public class LoginController {
 //                        int validateDay = supplierService.logoutSupplierByDay(supplier);
 //                        int validateDay = 0;
 //                        if(0==validateDay) {//通过
-                            Map<String, Object> map = supplierService.checkLogin(u);
+                            Map<String, Object> map = supplierService.checkLogin(supplier);
                             String msg = (String) map.get("status");
                             String date = (String) map.get("date");
                             PurchaseDep orgnization = ( PurchaseDep ) map.get("orgnization");
@@ -333,7 +333,7 @@ public class LoginController {
                       req.getSession().setAttribute("loginUser", u);
                       // loginLog记录
                       loginLog(u, req);
-                      List<PreMenu> resource = preMenuService.getMenu(u);
+                      List<PreMenu> resource = preMenuService.getMenu(u);	
                       req.getSession().setAttribute("resource", resource);
                       //req.getSession().setAttribute("resource", u.getMenus());
                       out.print("scuesslogin");
