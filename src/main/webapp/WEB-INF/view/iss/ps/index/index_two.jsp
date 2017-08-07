@@ -45,6 +45,10 @@ function query(){
   	}
 	window.location.href = encodeURI(encodeURI(url));
 }
+//重置
+function reset() {
+	$("#title").val("");
+}
 </script>
 </head>
 
@@ -63,6 +67,7 @@ function query(){
       <div class="search_box col-md-12 col-sm-12 col-xs-12">
          	标题：<input name="title" type="text" id="title" value="${title}"/>
         	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
+        	<button type="button" onclick="reset()" class="btn btn-u-light-grey">重置</button>
       </div>
           <div class="col-md-12 col-sm-12 col-xs-12 report_list_box">
             <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
