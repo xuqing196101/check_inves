@@ -1129,7 +1129,11 @@ public class ExpertController extends BaseController {
                             ct.setIsParent("true");
                         }
                         // 判断是否被选中
-                        ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null,auditList));
+                        if(category.getCode().length()>=7){
+                        	ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null,auditList,null));
+                        }else{
+                        	ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null,auditList,ct.getIsParent()));
+                        }
                         //
                         allCategories.add(ct);
                     }
@@ -1171,8 +1175,12 @@ public class ExpertController extends BaseController {
                         if(nodesList != null && nodesList.size() > 0) {
                             ct.setIsParent("true");
                         }
-                        // 判断是否被选中
-                        ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null,auditList));
+                        //判断是否选中
+                        if(category.getCode().length()>=7){
+                        	ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null,auditList,null));
+                        }else{
+                        	ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null,auditList,ct.getIsParent()));
+                        }
                         allCategories.add(ct);
                     }
                     // 判断专家是否为被退回状态
@@ -1202,8 +1210,9 @@ public class ExpertController extends BaseController {
      * @param expertId
      * @return
      */
-    public boolean isExpertChecked(String categoryId, String expertId, String typeId, String flag,List < ExpertAudit > auditList ) {
+    public boolean isExpertChecked(String categoryId, String expertId, String typeId, String flag,List < ExpertAudit > auditList ,String isParent ) {
         List < ExpertCategory > allCategoryList = expertCategoryService.getListByExpertId(expertId, typeId);
+        
    /*  // 查询所有的不通过的品目
         ExpertAudit expertAudit = new ExpertAudit();
         expertAudit.setExpertId(expertId);
@@ -1220,8 +1229,23 @@ public class ExpertController extends BaseController {
         
         for (ExpertCategory expertCategory : allCategoryList) {
             if (expertCategory.getCategoryId().equals(categoryId)) {
+	            	if( null !=isParent){
+	                	if(isParent=="true"){
+	                		List < Category > list = categoryService.findPublishTree(categoryId, null);
+	                		int count=list.size();
+	                		for (Category category : list) {
+	                			boolean b = isExpertChecked(category.getId(), expertId, typeId, flag, auditList, null);
+	                			if(!b){
+	                				count=count-1;
+	                			}
+							}
+	                		if(count==0){
+	                			return false;
+	                		}
+	                	}
+	                }
                    	return true;
-                   }
+              }
         }
        
         return false;
@@ -4121,7 +4145,7 @@ public class ExpertController extends BaseController {
             for(CategoryTree treeNode: treeList) {
                 // 判断是否被选中
                 if(expertId != null) {
-                    treeNode.setChecked(isExpertChecked(treeNode.getId(), expertId, typeId, "ENG_INFO",null));
+                    treeNode.setChecked(isExpertChecked(treeNode.getId(), expertId, typeId, "ENG_INFO",null,null));
                 }
             }
             return JSON.toJSONString(treeList);
@@ -4208,7 +4232,7 @@ public class ExpertController extends BaseController {
             for(CategoryTree treeNode: treeList) {
                 // 判断是否被选中
                 if(expertId != null) {
-                    treeNode.setChecked(isExpertChecked(treeNode.getId(), expertId, typeId, null,null));
+                    treeNode.setChecked(isExpertChecked(treeNode.getId(), expertId, typeId, null,null,null));
                 } else if(supplierId != null) {
                     treeNode.setChecked(isSupplierChecked(treeNode.getId(), supplierId, type));
                 }
