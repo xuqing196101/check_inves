@@ -381,14 +381,14 @@ function preview(){
  * @param id 主键
  * @param key 对应系统的key
  */
-/*function download(id,key,zipFileName,fileName){
+function download(id,key,zipFileName,fileName){
 	var form = $("<form>");   
 	    form.attr('style', 'display:none');   
 	    form.attr('method', 'post');
 	    form.attr('action', globalPath + '/file/download.html?id='+ id +'&key='+key + '&zipFileName=' + encodeURI(encodeURI(zipFileName)) + '&fileName=' + encodeURI(encodeURI(fileName)));
 	    $('body').append(form); 
 	    form.submit();
-}*/
+}
 /**
  * 附件下载
  * @param id  组件主键
