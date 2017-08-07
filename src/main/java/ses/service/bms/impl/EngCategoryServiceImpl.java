@@ -107,7 +107,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
    
     
     public void insertSelective(Category category) {
-       Category ct = engCcategoryMapper.findById(category.getParentId());
+       /*Category ct = engCcategoryMapper.findById(category.getParentId());
        if(ct==null){
          category.setLevel(2);
        }else{
@@ -115,7 +115,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
          ct.setIsParent("true");
          engCcategoryMapper.updateByPrimaryKeySelective(ct);
        }
-       category.setIsParent("false");
+       category.setIsParent("false");*/
        engCcategoryMapper.insertSelective(category);
     }
 
