@@ -2805,7 +2805,7 @@ public class SupplierController extends BaseSupplierController {
 			if (level != null) {
 			    for (int i = 0; i < child.size(); i++) {
 			        Category cate = child.get(i);
-			        if (cate.getLevel() != null && Integer.parseInt(cate.getLevel()) < level) {
+			        if (cate.getLevel() != null && cate.getLevel() < level) {
 			            child.remove(i);
 			        }
 			    }
@@ -2904,7 +2904,7 @@ public class SupplierController extends BaseSupplierController {
         if (level != null) {
             for (int i = 0; i < child.size(); i++) {
                 Category cate = child.get(i);
-                if (cate.getLevel() != null && Integer.parseInt(cate.getLevel()) < level) {
+                if (cate.getLevel() != null && cate.getLevel() < level) {
                     child.remove(i);
                 }
             }

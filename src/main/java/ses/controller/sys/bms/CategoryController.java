@@ -117,18 +117,10 @@ public class CategoryController extends BaseSupplierController {
 	            jList.add(ct);
 	        }
 			List < Category > categoryList = categoryService.searchByNameAndCode(name.trim(),code,isCreate);
-			List < Category > cateList = new ArrayList < Category > ();
 			Set<Category> set=new HashSet<Category>();
 			for(int i=0;i<categoryList.size();i++){
-				Category catego = categoryList.get(i);
-				List<Category> cList=categoryService.findTreeByPid(catego.getId());
-				if(cList==null||cList.size()<=0){
-					cateList.add(catego);
-				}
-			}
-			for(int i=0;i<cateList.size();i++){
 				HashMap<String,Object> map=new HashMap<String, Object>();
-				map.put("id", cateList.get(i).getId());
+				map.put("id", categoryList.get(i).getId());
 				List<Category> catego = categoryService.findCategoryByParentNode(map);
 				for(int j=0;j<catego.size();j++){
 					set.add(catego.get(j));
@@ -137,13 +129,8 @@ public class CategoryController extends BaseSupplierController {
 			Iterator<Category> it = set.iterator();  
 			while(it.hasNext()){
 				Category cate = it.next();
-				List<Category> cList=categoryService.findTreeByPid(cate.getId());
 	            CategoryTree ct=new CategoryTree();
-	            if(!cList.isEmpty()){
-	                ct.setIsParent("true");
-	            }else{
-	                ct.setIsParent("false");
-	            }
+	            ct.setIsParent(cate.getIsParent());
 	            ct.setId(cate.getId());
 	            ct.setName(cate.getName());
 	            ct.setParentId(cate.getParentId());
@@ -218,13 +205,8 @@ public class CategoryController extends BaseSupplierController {
             String list="";
             List<Category> cateList=categoryService.findTreeByPid(category.getId());
     	        for(Category cate:cateList){
-    	            List<Category> cList=categoryService.findTreeByPid(cate.getId());
     	            CategoryTree ct=new CategoryTree();
-    	            if(!cList.isEmpty()){
-    	                ct.setIsParent("true");
-    	            }else{
-    	                ct.setIsParent("false");
-    	            }
+    	            ct.setIsParent(cate.getIsParent());
     	            ct.setId(cate.getId());
     	            ct.setName(cate.getName());
     	            ct.setpId(cate.getParentId());
