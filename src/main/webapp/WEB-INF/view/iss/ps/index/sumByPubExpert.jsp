@@ -39,6 +39,13 @@ function query(){
 	//alert(title);
 	window.location.href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1&relName="+relName+"&status="+status;
 }
+
+//重置
+function reset() {
+	$("#status").val("");
+	$("#relName").val("");
+	$("#code").val("");
+}
 </script>
 </head>
 
@@ -86,6 +93,7 @@ function query(){
 			<input name="code" type="text" id="code" value="${productType }"  class="form-control"/>
 		 </div>
        	 <button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
+       	 <button type="button" onclick="reset()" class="btn btn-u-light-grey">重置</button>
       </div>
           <div class="report_list_box">
           <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">

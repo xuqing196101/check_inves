@@ -177,7 +177,7 @@
 		 });
    	}
    	function submit1(){
-   		var name = $("#name").val();
+   		var name = $("#name").val().replace(/\s/g,"");
 		if(!name){
 			layer.tips("请填写名称", "#name");
 			return ;
