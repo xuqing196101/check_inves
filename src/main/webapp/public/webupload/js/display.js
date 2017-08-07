@@ -98,21 +98,34 @@ function displayName(params,data,id,del){
 	var zipFileName = params.zipFileName;
 	var fileName = params.fileName;
 	var $ul = $("#"+id+"_disFileId");
+	var picture = new Object();
+	picture.bid = params.businessId;
+	picture.tid = params.typeId;
+	picture.key = key;
+	picture.id = id;
+	picture.zipFileName = zipFileName;
+	picture.fileName = fileName;
+	picture.ids = data.fileIds;
+	window.sessionStorage.setItem(id,JSON.stringify(picture));
 	$ul.empty();
 	if (data != null){
 		if (data.picture){
 			//var li = '<li class="file_view"><a href=\'javascript:openViewDIv("'+params.businessId+'","'+params.typeId+'","'+key+'","'+id+'","this");\'></a></li>';
-			var li = '<li class="file_view"><a href=\'javascript:showPhotoToNewWindow("'+params.businessId+'","'+params.typeId+'","'+key+'","'+id+'","this");\'></a></li>';
+			//var li = '<li class="file_view"><a href=\'javascript:showPhotoToNewWindow("'+params.businessId+'","'+params.typeId+'","'+key+'","'+id+'","this");\'></a></li>';
+			var li = '<li class="file_view"><a href=\'javascript:showPhotoToNewWindow("'+id+'");\'></a></li>';
 			//var li = '<li class="file_view"><a target=\'_blank\' href=\'javascript:openViewDIv("'+params.businessId+'","'+params.typeId+'","'+key+'","'+id+'","this");\'></a></li>';
 			//var li = '<li class="file_view"><a target="__blank" href=\'../openPic.jsp?bid='+params.businessId+'&tid='+params.typeId+'&key='+key+'&id='+id+'\'\></a></li>';
+			//var li = '<li class="file_view"><a target="__blank" href=\'../openPic.jsp?id='+id+'\'\></a></li>';
 			$ul.append(li);
 		}
 		if (data.success){
-			var li = '<li class="file_load"><a href=\javascript:download("'+data.fileIds+'",'+key+',"'+zipFileName+'","'+fileName+'");></a></li>';
+			//var li = '<li class="file_load"><a href=\javascript:download("'+data.fileIds+'",'+key+',"'+zipFileName+'","'+fileName+'");></a></li>';
+			var li = '<li class="file_load"><a href=\javascript:downloads("'+id+'");></a></li>';
 			$ul.append(li);
 		}
 		if (del && data.success){
-			var li = '<li class="file_delete"><a href=\javascript:removeFile("'+data.fileIds+'",'+key+',"'+id+'");></a></li>';
+			//var li = '<li class="file_delete"><a href=\javascript:removeFile("'+data.fileIds+'",'+key+',"'+id+'");></a></li>';
+			var li = '<li class="file_delete"><a href=\javascript:removeFile("'+id+'");></a></li>';
 			$ul.append(li);
 		}
 		
@@ -121,12 +134,19 @@ function displayName(params,data,id,del){
 	
 
 /***
- * 在新窗口显示图片  
+ * 在新窗口显示图片存储图片信息
  */
-function showPhotoToNewWindow(bid,tid,key,id){
+/*function showPhotoToNewWindow(bid,tid,key,id){
 	window.sessionStorage.setItem("bid",bid);
 	window.sessionStorage.setItem("tid",tid);
 	window.sessionStorage.setItem("key",key);
+	window.sessionStorage.setItem("id",id);
+	window.open(globalPath+"/openPic.jsp");
+}*/
+/***
+ * 在新窗口显示图片存储图片信息
+ */
+function showPhotoToNewWindow(id){
 	window.sessionStorage.setItem("id",id);
 	window.open(globalPath+"/openPic.jsp");
 }
@@ -137,14 +157,38 @@ function showPhotoToNewWindow(bid,tid,key,id){
  * @param id  附件Id
  * @param key 系统对应的key
  */
-function removeFile(ids,key,id){
+/*function removeFile(ids,key,id){
 	var $ul = $("#"+id+"_disFileId");
 	$.ajax({
 		url: globalPath + '/file/deleteFile.html',
 		data: {id: ids, key: key},
 		async:true,
+		type:"post",
 		success:function(msg){
-			if (msg == "ok"){
+			if (msg){
+				$("#" + id).text("删除成功.");
+				$ul.empty();
+			}
+		}
+	});
+}*/
+/**
+ * 删除文件(修改)
+ * @param id  附件Id
+ * @param key 系统对应的key
+ */
+function removeFile(id){
+	var $ul = $("#"+id+"_disFileId");
+	var picture = JSON.parse(sessionStorage.getItem(id));
+	var ids = picture.ids;
+	var key = picture.key;
+	$.ajax({
+		url: globalPath + '/file/deleteFile.html',
+		data: {id: ids, key: key},
+		async:true,
+		type:"post",
+		success:function(msg){
+			if (msg=="ok"){
 				$("#" + id).text("删除成功.");
 				$ul.empty();
 			}
@@ -337,11 +381,36 @@ function preview(){
  * @param id 主键
  * @param key 对应系统的key
  */
-function download(id,key,zipFileName,fileName){
+/*function download(id,key,zipFileName,fileName){
 	var form = $("<form>");   
 	    form.attr('style', 'display:none');   
 	    form.attr('method', 'post');
 	    form.attr('action', globalPath + '/file/download.html?id='+ id +'&key='+key + '&zipFileName=' + encodeURI(encodeURI(zipFileName)) + '&fileName=' + encodeURI(encodeURI(fileName)));
 	    $('body').append(form); 
 	    form.submit();
+}*/
+/**
+ * 附件下载
+ * @param id  组件主键
+ * @param key 对应系统的key
+ */
+function downloads(id){
+	var picture = JSON.parse(sessionStorage.getItem(id));
+	var zipFileName = encodeURI(encodeURI(picture.zipFileName));
+	var fileName = encodeURI(encodeURI(picture.fileName));
+	var ids = picture.ids;
+	var key = picture.key;
+	
+	var form = $("<form>");   
+	form.attr('style', 'display:none');   
+	form.attr('method', 'post');
+	form.attr('action', globalPath + '/file/download.html');
+	form.append("<input type='hiden' name='id' value='"+ids+"'/>");
+	form.append("<input type='hiden' name='key' value='"+key+"'/>");
+	form.append("<input type='hiden' name='zipFileName' value='"+zipFileName+"'/>");
+	form.append("<input type='hiden' name='fileName' value='"+fileName+"'/>");
+	$('body').append(form); 
+	form.submit();
 }
+
+

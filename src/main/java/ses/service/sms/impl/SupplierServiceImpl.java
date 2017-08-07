@@ -587,10 +587,10 @@ public class SupplierServiceImpl implements SupplierService {
    * @return: Map<String,Object>
    */
   @Override
-  public Map<String, Object> checkLogin(User user) {
+  public Map<String, Object> checkLogin(Supplier su) {
     Map<String, Object> param = new HashMap<String, Object>();
-    param.put("loginName", user.getLoginName());
-    Supplier supplier = supplierMapper.getByMap(param);
+    param.put("id", su.getId());
+    Supplier supplier = supplierMapper.getById(param);
     Map<String, Object> map = new HashMap<String, Object>();
     Integer status = supplier.getStatus();
     if (status == -1) {
@@ -1132,6 +1132,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     Supplier info = supplierMapper.getSupplier(supplierId);
     String supplierName = info.getSupplierName();
+    String loginName = info.getLoginName();
     String creditCode = info.getCreditCode();
     //判读 是否有脏数据  如果有截取 防止报错
     if(creditCode!=null && creditCode.length()>30){
@@ -1142,6 +1143,7 @@ public class SupplierServiceImpl implements SupplierService {
     supplier.setId(supplierId);
     supplier.setSupplierName(supplierName + buff);
     supplier.setCreditCode(creditCode + buff);
+    supplier.setLoginName(loginName + buff);
     supplier.setIsDeleted(1);
     supplierMapper.updateById(supplier);
     

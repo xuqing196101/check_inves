@@ -633,4 +633,14 @@ public interface SupplierMapper {
 	 * @return
 	 */
 	List<String> fundNotPassSupplierByDate(@Param("date")Date date);
+	/**
+	 * 
+	 * Description:登陆时获取供应商信息
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-25
+	 * @param date
+	 * @return
+	 */
+	Supplier getById(Map<String, Object> param);
 }

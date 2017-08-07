@@ -107,11 +107,11 @@ public interface SupplierService {
 	 * @author: Wang Zhaohua
 	 * @date: 2016-11-7 下午1:37:12
 	 * @Description: 校验是否登录
-	 * @param: @param user
+	 * @param: @param supplier
 	 * @param: @return
 	 * @return: Map<String,Object>
 	 */
-	public Map<String, Object> checkLogin(User user);
+	public Map<String, Object> checkLogin(Supplier supplier);
 	 /**
      * @Title: selectByPrimaryKey
      * @author: Wang Zhaohua

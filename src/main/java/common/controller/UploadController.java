@@ -103,11 +103,10 @@ public class UploadController {
      * @return {@link java.lang.String}
      */
     @RequestMapping("/deleteFile")
-    
+    @ResponseBody
     public String deleteFile(HttpServletRequest request){
         String msg = uploadService.updateFile(request);
-        String id = request.getParameter("pId");
-        return "redirect:/open_bidding//bidFile.html?id="+id+"&process=1"+"&delOk="+msg;
+        return msg;
     }
     
     /**
