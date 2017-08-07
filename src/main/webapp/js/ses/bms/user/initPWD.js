@@ -155,6 +155,8 @@ function userResetPasswSubmit() {
 				$("#password").val("");
 				$("#password2").val("");
 			} else {
+				$("#password").val("");
+				$("#password2").val("");
 				layer.confirm(result.msg, {
 					btn : [ '确定' ]
 				}, function() {
