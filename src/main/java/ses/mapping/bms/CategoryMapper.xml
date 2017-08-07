@@ -554,7 +554,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_BMS_CATEGORY
-		WHERE 1 = 1 AND IS_DELETED=0 AND IS_PARENT='false'
+		WHERE 1 = 1 AND IS_DELETED=0
 		<if test="param1 != null">
 			AND NAME like CONCAT(CONCAT('%', #{param1}), '%')
 		</if> 
