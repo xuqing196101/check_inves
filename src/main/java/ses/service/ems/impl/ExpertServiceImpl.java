@@ -1505,17 +1505,48 @@ public class ExpertServiceImpl implements ExpertService {
          if(auditList!=null && auditList.size()>0){
            for(ExpertAudit audit: auditList) {
                  if(audit.getAuditFieldId().equals(categoryId)) {
-                   
                    return false;
                    }
            }
          }
+         int count=0;
          if (allCategoryList != null && allCategoryList.size() > 0 ) {
-           return true;
+        	 for (ExpertCategory expertCategory : allCategoryList) {
+                 if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
+                     Category data = categoryMapper.findById(expertCategory.getCategoryId());
+                     List<Category> findPublishTree = categoryMapper.findPublishTree(expertCategory.getCategoryId(), null);
+                     if (findPublishTree.size() == 0) {
+                        count++;
+                     } else if (data != null && data.getCode().length() == 7) {
+                    	count++;
+                     }
+                 } else {
+                     Category data = engCategoryMapper.findById(expertCategory.getCategoryId());
+                     List<Category> findPublishTree = engCategoryMapper.findPublishTree(expertCategory.getCategoryId(), null);
+                     if (findPublishTree.size() == 0) {
+                    	 count++;
+                     } else if (data != null && data.getCode().length() == 7) {
+                    	 count++;
+                     }
+                 }
+             }
+        	 int notCount=0;
+        	 for(ExpertAudit audit: auditList) {
+        		 for (ExpertCategory expertCategory : allCategoryList) {
+        			 
+     				if(expertCategory.getCategoryId().equals(audit.getAuditFieldId())){
+     					notCount++;
+     				}
+     			}
+        	 }
+        	 if(count>notCount){
+        		 return true;
+        	 }else{
+        		 return false;
+        	 }
          }
          return false;
   }
-	
 }
 
 
