@@ -104,7 +104,7 @@ public class FlowMangeController {
                 }
                 count ++;
             } 
-            if (fd.getCode() == null || "".equals(fd.getCode())) {
+            if (fd.getCode() == null || "".equals(fd.getCode().trim())) {
                 if (count > 0) {
                     msg += "、流程编码";
                 } else {

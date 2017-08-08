@@ -10,7 +10,7 @@
         	var typeId = $("#typeId").val();
             $.ajax({  
                type: "POST",  
-               url: "${pageContext.request.contextPath}/flow/save.html",  
+               url: "${pageContext.request.contextPath}/flow/save.do",  
                data: $("#form1").serializeArray(),  
                dataType: 'json',  
                success:function(result){
