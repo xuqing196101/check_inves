@@ -4173,13 +4173,13 @@ public class ExpertController extends BaseController {
                 for (int i = 0; i < categoryList.size(); i++) {
                     Category cate = categoryList.get(i);
                     if (cate != null) {
-                        if (cate.getLevel() != null && Integer.parseInt(cate.getLevel()) < level) {
+                        if (cate.getLevel() != null && cate.getLevel() < level) {
                             categoryList.remove(i);
                         } else {
                             if (cate.getParentId() != null) {
                                 Category parentCate = categoryService.findById(cate.getParentId());
                                 if (parentCate != null) {
-                                    if (parentCate.getLevel() != null && Integer.parseInt(parentCate.getLevel()) < level) {
+                                    if (parentCate.getLevel() != null && parentCate.getLevel() < level) {
                                         categoryList.remove(i);
                                     }
                                 }

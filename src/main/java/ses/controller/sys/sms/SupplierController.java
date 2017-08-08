@@ -2575,7 +2575,7 @@ public class SupplierController extends BaseSupplierController {
 		    }
 		}
 		
-		/*List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
+		List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
 		if(aptitudeList != null && aptitudeList.size() > 0){
 			Set<String> codeSet = new HashSet<>();
 			int codeCount = 0;
@@ -2589,7 +2589,7 @@ public class SupplierController extends BaseSupplierController {
 				model.addAttribute("eng_aptitutes", "证书编号重复!");
 				bool = false;
 			}
-		}*/
+		}
     	
 		return bool;
 	}
@@ -2805,7 +2805,7 @@ public class SupplierController extends BaseSupplierController {
 			if (level != null) {
 			    for (int i = 0; i < child.size(); i++) {
 			        Category cate = child.get(i);
-			        if (cate.getLevel() != null && Integer.parseInt(cate.getLevel()) < level) {
+			        if (cate.getLevel() != null && cate.getLevel() < level) {
 			            child.remove(i);
 			        }
 			    }
@@ -2904,7 +2904,7 @@ public class SupplierController extends BaseSupplierController {
         if (level != null) {
             for (int i = 0; i < child.size(); i++) {
                 Category cate = child.get(i);
-                if (cate.getLevel() != null && Integer.parseInt(cate.getLevel()) < level) {
+                if (cate.getLevel() != null && cate.getLevel() < level) {
                     child.remove(i);
                 }
             }

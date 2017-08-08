@@ -782,7 +782,7 @@
 						<li  id="zhiyezige" style="display: none;" class="col-md-3 col-sm-6 col-xs-12 pl10">
 						<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>有无执业资格</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<select class="w100p" name="isTitle" id="mySelect" onchange="isZhiye(this)" >
+								<select class="w100p" name="isTitle" id="mySelect" onchange="isZhiye(this)" <c:if test="${fn:contains(typeErrorField,'isTitle')}">style="border: 1px solid red;"  onmouseover="errorMsg('isTitle')"</c:if>>
 									<option  value="2" <c:if test="${expert.isTitle==2}">selected="selected"</c:if> >无 </option>
 									<option  value="1" <c:if test="${expert.isTitle==1}">selected="selected"</c:if> >有 </option>
 								</select>
