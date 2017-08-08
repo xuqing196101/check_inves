@@ -1531,14 +1531,17 @@ public class ExpertServiceImpl implements ExpertService {
                  }
              }
         	 int notCount=0;
-        	 for(ExpertAudit audit: auditList) {
-        		 for (ExpertCategory expertCategory : allCategoryList) {
-        			 
-     				if(expertCategory.getCategoryId().equals(audit.getAuditFieldId())){
-     					notCount++;
-     				}
-     			}
+        	 if(auditList!=null && auditList.size()>0){
+        		 for(ExpertAudit audit: auditList) {
+            		 for (ExpertCategory expertCategory : allCategoryList) {
+            			 
+         				if(expertCategory.getCategoryId().equals(audit.getAuditFieldId())){
+         					notCount++;
+         				}
+         			}
+            	 }
         	 }
+        	
         	 if(count>notCount){
         		 return true;
         	 }else{
