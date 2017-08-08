@@ -1212,12 +1212,6 @@ public class ExpertController extends BaseController {
      */
     public boolean isExpertChecked(String categoryId, String expertId, String typeId, String flag,List < ExpertAudit > auditList ,String isParent ) {
         List < ExpertCategory > allCategoryList = expertCategoryService.getListByExpertId(expertId, typeId);
-        
-   /*  // 查询所有的不通过的品目
-        ExpertAudit expertAudit = new ExpertAudit();
-        expertAudit.setExpertId(expertId);
-        expertAudit.setSuggestType("six");
-        List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);*/
         if(auditList!=null && auditList.size()>0){
         	for(ExpertAudit audit: auditList) {
                 if(audit.getAuditFieldId().equals(categoryId)) {
@@ -1232,12 +1226,26 @@ public class ExpertController extends BaseController {
 	            	if( null !=isParent){
 	                	if(isParent=="true"){
 	                		List < Category > list = categoryService.findPublishTree(categoryId, null);
+	                		if(list.isEmpty()){
+	                			list=engCategoryService.findPublishTree(categoryId, null);
+	                		}
 	                		int count=list.size();
 	                		for (Category category : list) {
-	                			boolean b = isExpertChecked(category.getId(), expertId, typeId, flag, auditList, null);
-	                			if(!b){
+	                			 boolean b = false;
+	                			 if(category.getCode().length()>=7){
+	                				 b = isExpertChecked(category.getId(), expertId, typeId, flag, auditList, null);
+	                			 }else{
+	                				 List < Category > sunList = categoryService.findPublishTree(category.getId(), null);
+	                				 if(sunList.isEmpty()){
+	                					 b = isExpertChecked(category.getId(), expertId, typeId, flag, auditList, null);
+	                				 }else{
+	                					 b = isExpertChecked(category.getId(), expertId, typeId, flag, auditList, "true");
+	                				 }
+	                			 }
+	                			 
+	                			 if(!b){
 	                				count=count-1;
-	                			}
+	                			 }
 							}
 	                		if(count==0){
 	                			return false;
