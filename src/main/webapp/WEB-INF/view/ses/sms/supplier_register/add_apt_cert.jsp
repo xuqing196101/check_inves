@@ -27,8 +27,7 @@
 		<option value="0">否</option>
 	</select>
 	<script type="text/javascript">
-		var certAptNumber = ${certAptNumber}
-		$("#certType_select"+certAptNumber).each(function() {
+		$("select[title='cnjewfnAdd1']").each(function() {
 			var $obj = $(this);
 			$obj.combobox({
 				panelHeight : 240,
@@ -57,7 +56,7 @@
 				}
 			});
 		});
-		$("#certGrade_addSelect"+certAptNumber).each(function() {
+		$("select[title='cnjewfnAdd2']").each(function() {
 			var $obj = $(this);
 			$obj.combobox({
 				panelHeight : 240,
