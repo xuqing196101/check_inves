@@ -145,6 +145,7 @@
 				$("input[name='relName']").val("");
 				$("input[name='loginName']").val("");
 				$("input[name='mobile']").val("");
+				$("input[name='idCardNumber']").val("");
 				$("#form1").submit();
 			}
 			
@@ -255,19 +256,25 @@
 	      <ul class="demand_list">
 		      <li class="fl">
 			      <label class="fl">专家姓名：</label> 
-			      <input class="" name="relName" type="text" value="${expert.relName }">
+			      <input class="w220" name="relName" type="text" value="${expert.relName }">
+		      </li>
+		      <li class="fl">
+			      <label class="fl">身份证号：</label> 
+			      <input class="w220" name="idCardNumber" type="text" value="${expert.idCardNumber }">
 		      </li>
 		      <li class="fl">
 			      <label class="fl">用户名：</label> 
-			      <input class="" name="loginName" type="text" value="${expert.loginName }">
+			      <input class="w220" name="loginName" type="text" value="${expert.loginName }">
 		      </li>
 		      <li class="fl">
 			      <label class="fl">手机号：</label> 
-			      <input class="" name="mobile" type="text" value="${expert.mobile }">
+			      <input class="w220" name="mobile" type="text" value="${expert.mobile }">
 		      </li>
 	      </ul>
-	        <input type="submit" class="btn fl" value="查询" />
-				  <button onclick="resetForm();" class="btn fl" type="button">重置</button>
+	      <div class="col-md-12 clear tc mt10">
+	        <input type="submit" class="btn mt1" value="查询" />
+				  <button onclick="resetForm();" class="btn mt1" type="button">重置</button>
+				</div>
 				  <div class="clear"></div>
 	      </form>
     	</h2>
@@ -289,6 +296,9 @@
 							<th class="info">手机号</th>
 							<th class="info">账号状态</th>
 							<th class="info w120">状态</th>
+							<th class="info">类别</th>
+							<th class="info w90">注册日期</th>
+							<th class="info">身份证号</th>
 						</tr>
 					</thead>
 					<c:forEach items="${result.list }" var="list" varStatus="page">
@@ -348,6 +358,11 @@
 									<span class="label rounded-2x label-dark">复查未合格</span>
 								</c:if>
 							</td>
+							<td class="tc">${list.fromType }</td>
+							<td class="tc">
+                <fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
+              </td>
+							<td class="tc">${list.idCardNumber}</td>
 						</tr>
 					</c:forEach>
 				</table>
