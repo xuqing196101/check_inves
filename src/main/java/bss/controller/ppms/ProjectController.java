@@ -1776,9 +1776,9 @@ public class ProjectController extends BaseController {
             str = "1";//明细都未分包，默认一包
         }else{
             if(subLength == bottomDetails.size()){
-                Project project = projectService.selectById(id);
+               /* Project project = projectService.selectById(id);
                 project.setStatus(DictionaryDataUtil.getId("FBWC"));
-                projectService.update(project);
+                projectService.update(project);*/
                 str = "0";//明细都分完包了
             }else{
                 str = "1";//有明细分包，还没分完全
@@ -3592,6 +3592,7 @@ public class ProjectController extends BaseController {
     		                	}
     		                }
 						}
+    					viewSubPack(project);
     					model.addAttribute("packageList", packages);
     				}
         		} else {
@@ -3619,6 +3620,33 @@ public class ProjectController extends BaseController {
     		}	
     	}
     	return StaticVariables.ORG_TYPE_MANAGE;
+    }
+    
+    public void viewSubPack(Project project){
+    	//拿到一个项目所有的明细
+    	HashMap<String, Object> map = new HashMap<>();
+    	map.put("id", project.getId());
+        List<ProjectDetail> details = detailService.selectById(map);
+        List<ProjectDetail> bottomDetails = new ArrayList<>();//底层的明细
+        for(ProjectDetail detail:details){
+            HashMap<String,Object> detailMap = new HashMap<>();
+            detailMap.put("id",detail.getRequiredId());
+            detailMap.put("projectId", project.getId());
+            List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+            if(dlist.size()==1){
+                bottomDetails.add(detail);
+            }
+        }
+        for(int i=0;i<bottomDetails.size();i++){
+            if(bottomDetails.get(i).getPackageId()==null){
+                break;
+            }else if(i==bottomDetails.size()-1){
+            	if(DictionaryDataUtil.getId("YJLX").equals(project.getStatus())){
+            		project.setStatus(DictionaryDataUtil.getId("FBWC"));
+                    projectService.update(project);
+            	}
+            }
+        }
     }
     
     /**

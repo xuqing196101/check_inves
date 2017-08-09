@@ -265,15 +265,6 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
                             showDetails.get(j).setDetailStatus(0);
                         }
                     }
-				} else {
-					 Project project = projectMapper.selectProjectByPrimaryKey(projectId);
-					 if(project != null){
-						 if(DictionaryDataUtil.getId("YJLX").equals(project.getStatus()) || DictionaryDataUtil.getId("XMXXWHZ").equals(project.getStatus()) || DictionaryDataUtil.getId("SSZ_WWSXX").equals(project.getStatus())){
-							 project.setStatus(DictionaryDataUtil.getId("FBWC"));
-							 projectMapper.updateByPrimaryKeySelective(project);
-						 }
-					 }
-	                    
 				}
 			}
 		
