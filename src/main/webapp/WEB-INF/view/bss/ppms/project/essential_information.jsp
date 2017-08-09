@@ -91,10 +91,10 @@
 	              flag = false;
 	            }
             } else {
-              if(supplierNumber < 3) {
+              /* if(supplierNumber < 3) {
                 layer.tips("供应商人数不能小于3人", "#supplierNumber");
                 flag = false;
-              }
+              } */
             }
             if(bidAddress == '' || bidAddress == null) {
 		          layer.tips("请填写开标地点", "#bidAddress");

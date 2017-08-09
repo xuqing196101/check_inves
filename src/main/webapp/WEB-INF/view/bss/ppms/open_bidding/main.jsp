@@ -53,6 +53,10 @@
   	function cancel(){
 		  layer.close(index);
 	  }
+  	function cancels(){
+  		saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
+  		closelayer();
+	  }
   	var ids="";
   	function bynSub(){
   		var val=[];
@@ -120,9 +124,10 @@
 	   		if(data=="ok"){
 	   			layer.alert("终止成功");
 	   			layer.close(indexFlw);
+	   			saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
 	   			var checkboxSize=$("#openDiv_check input[type='checkbox']").length;
 	   			if(checkboxSize==0){
-	   				layer.close(index);
+	   				closelayer();
 	   			}else{
 	   				$('#openDiv_check input[type="checkbox"]:checked').each(function(){
 		   	  			$(this).parent().empty();
@@ -159,6 +164,7 @@
 	   		//layer.close(index);
 	   		//$("#alertId").val(data.status);
 	   		if(data.status=="ok"){
+	   			saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
 	   			var checkboxSize=$("input[type='checkbox']").length;
 	   	  		if(checkboxSize==0){
 	   	  			//alert(checkboxSize);
@@ -170,6 +176,34 @@
 	   		}
   		});
 	}
+  	
+  	function saveSumitFlow(currFlowDefineId,projectId){
+  		$.ajax({
+			url: globalPath+"/open_bidding/submitHuanjie.html",
+			data: {
+				"currFlowDefineId": currFlowDefineId,
+				"projectId": projectId
+			},
+			type: "post",
+			dataType: "json",
+			success: function(data2) {
+				if(data2.success) {
+					jumpLoad(data2.url, projectId, currFlowDefineId);
+					$("#"+currFlowDefineId+"_exe").removeClass("executed");
+					$("#"+currFlowDefineId+"_exe").addClass("executed");
+					layer.msg("提交成功", {
+						offset: '100px'
+					});
+					
+				}
+			},
+			error: function() {
+				layer.msg("提交失败", {
+					offset: '100px'
+				});
+			}
+		});
+  	}
     </script>
   </head>
 
@@ -231,6 +265,7 @@
             </ul>
           </div>
           <!-- 右侧内容开始-->
+          <input type="hidden" id="typeSave" value="">
           <input type="hidden" id="initurl" value="${url}">
           <!-- <div class="tag-box tag-box-v4 col-md-9 "  id="open_bidding_main">
                 
@@ -311,7 +346,7 @@
         <div class="tc  col-md-12 mt50">
           <input class="btn"  id = "inputb" name="addr"  type="button" onclick="upddatejzxtp();" value="转为竞争性谈判"> 
 	      <input class="btn"  id = "inputa" name="addr"  type="button" onclick="bynSub();" value="终止实施"> 
-	      <input class="btn"  id = "inputa" name="addr"  type="button" onclick="cancel();" value="继续实施"> 
+	      <input class="btn"  id = "inputa" name="addr"  type="button" onclick="cancels();" value="继续实施"> 
         </div>
     </div>
     <!--/container-->

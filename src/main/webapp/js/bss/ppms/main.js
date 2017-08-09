@@ -357,6 +357,8 @@ function submitcurr() {
 									  		area : [ '30%', '200px'  ], //宽高
 									  		content : $('#openDivPackages'),
 								});
+							}else{
+								submitFlw(data,currFlowDefineId,projectId)
 							}
 						},
 						error: function() {
@@ -365,91 +367,12 @@ function submitcurr() {
 							});
 						}
 					});
+				}else{
+					submitFlw(data,currFlowDefineId,projectId);
 				}
-				//return;
-				if(data.success) {
-					//提交当前环节
-					$.ajax({
-						url: globalPath+"/open_bidding/submitHuanjie.html",
-						data: {
-							"currFlowDefineId": currFlowDefineId,
-							"projectId": projectId
-						},
-						type: "post",
-						dataType: "json",
-						success: function(data2) {
-							if(data2.success) {
-								jumpLoad(data2.url, projectId, currFlowDefineId);
-								$("#"+currFlowDefineId+"_exe").removeClass("executed");
-								$("#"+currFlowDefineId+"_exe").addClass("executed");
-								layer.msg("提交成功", {
-									offset: '100px'
-								});
-								
-							}
-						},
-						error: function() {
-							layer.msg("提交失败", {
-								offset: '100px'
-							});
-						}
-					});
-				} else {
-					if(data.flowType == "XMFB") {
-						//如果是项目分包环节
-						layer.confirm(data.msg, {
-							shade: 0.01,
-							btn: ['确定', '取消']
-						}, function() {
-							$.ajax({
-								url: globalPath+"/project/savePackage.html",
-								data: {
-									"projectId": projectId
-								},
-								type: "post",
-								dataType: "json",
-								success: function(data) {
-									if(data == "1") {
-										$.ajax({
-											url: globalPath+"/open_bidding/submitHuanjie.html",
-											data: {
-												"currFlowDefineId": currFlowDefineId,
-												"projectId": projectId
-											},
-											type: "post",
-											dataType: "json",
-											success: function(data2) {
-												if(data2.success) {
-													layer.msg("提交成功", {
-														offset: '100px'
-													});
-													jumpLoad(data2.url, projectId, currFlowDefineId);
-												}
-											},
-											error: function() {
-												layer.msg("提交失败", {
-													offset: '100px'
-												});
-											}
-										});
-									}
-								},
-								error: function() {
-									layer.msg("提交失败", {
-										offset: '100px'
-									});
-								}
-							});
-						}, function() {
-							/*var index = parent.layer.getFrameIndex(window.name);
-							parent.layer.close(index);*/
-						});
-					} else if(data.flowTypes == "KBCB" || data.flowTypes == "XMXX"){
-						layer.alert(data.msgs, {
-							offset: '100px'
-						});
-					}
-				}
+				
+				
+				
 			},
 			error: function() {
 				layer.msg("提交失败", {
@@ -458,6 +381,92 @@ function submitcurr() {
 			}
 		});
 	});
+}
+
+function submitFlw(data,currFlowDefineId,projectId){
+	if(data.success) {
+		//提交当前环节
+		$.ajax({
+			url: globalPath+"/open_bidding/submitHuanjie.html",
+			data: {
+				"currFlowDefineId": currFlowDefineId,
+				"projectId": projectId
+			},
+			type: "post",
+			dataType: "json",
+			success: function(data2) {
+				if(data2.success) {
+					jumpLoad(data2.url, projectId, currFlowDefineId);
+					$("#"+currFlowDefineId+"_exe").removeClass("executed");
+					$("#"+currFlowDefineId+"_exe").addClass("executed");
+					layer.msg("提交成功", {
+						offset: '100px'
+					});
+					
+				}
+			},
+			error: function() {
+				layer.msg("提交失败", {
+					offset: '100px'
+				});
+			}
+		});
+	} else {
+		if(data.flowType == "XMFB") {
+			//如果是项目分包环节
+			layer.confirm(data.msg, {
+				shade: 0.01,
+				btn: ['确定', '取消']
+			}, function() {
+				$.ajax({
+					url: globalPath+"/project/savePackage.html",
+					data: {
+						"projectId": projectId
+					},
+					type: "post",
+					dataType: "json",
+					success: function(data) {
+						if(data == "1") {
+							$.ajax({
+								url: globalPath+"/open_bidding/submitHuanjie.html",
+								data: {
+									"currFlowDefineId": currFlowDefineId,
+									"projectId": projectId
+								},
+								type: "post",
+								dataType: "json",
+								success: function(data2) {
+									if(data2.success) {
+										layer.msg("提交成功", {
+											offset: '100px'
+										});
+										jumpLoad(data2.url, projectId, currFlowDefineId);
+									}
+								},
+								error: function() {
+									layer.msg("提交失败", {
+										offset: '100px'
+									});
+								}
+							});
+						}
+					},
+					error: function() {
+						layer.msg("提交失败", {
+							offset: '100px'
+						});
+					}
+				});
+			}, function() {
+				/*var index = parent.layer.getFrameIndex(window.name);
+				parent.layer.close(index);*/
+			});
+		} else if(data.flowTypes == "KBCB" || data.flowTypes == "XMXX"){
+			layer.alert(data.msgs, {
+				offset: '100px'
+			});
+		}
+	}
 }
 function closelayer(){
 	layer.close(indexLayer);
