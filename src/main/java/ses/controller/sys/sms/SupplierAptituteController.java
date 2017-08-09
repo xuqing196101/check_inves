@@ -26,17 +26,12 @@ import com.alibaba.fastjson.JSON;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
-import ses.model.bms.Area;
-import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierDictionaryData;
-import ses.service.bms.AreaServiceI;
 import ses.service.bms.DictionaryDataServiceI;
-import ses.service.bms.QualificationService;
 import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierService;
-import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
@@ -55,12 +50,6 @@ public class SupplierAptituteController extends BaseSupplierController {
 	
 	@Autowired
 	private UploadService uploadService;
-    
-    @Autowired
-    private QualificationService qualificationService;
-    
-    @Autowired
-    private AreaServiceI areaService;
 	
 	/**
 	 * @Title: addAptitute
@@ -102,7 +91,7 @@ public class SupplierAptituteController extends BaseSupplierController {
 		
 //		Supplier supplier = supplierService.get(supplierId);
 //		request.getSession().setAttribute("currSupplier", supplier);
-		 Map<String, Object> map = validateAptitute(supplierAptitute);
+		Map<String, Object> map = validateAptitute(supplierAptitute);
 		boolean bool = (boolean) map.get("bool");
 		if(bool==true){
 			supplierAptituteService.saveOrUpdateAptitute(supplierAptitute);

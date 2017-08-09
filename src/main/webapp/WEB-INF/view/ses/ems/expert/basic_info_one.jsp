@@ -749,6 +749,13 @@
 						layer.msg("请填写毕业院校及专业 !");
 						return false;
 					}
+					
+					//校验地方专家最高学位非空
+					/* var degree = $("#degree").val();
+					if(degree == null || degree == 0) {
+						layer.msg("请选择最高学位!");
+						return false;
+					} */
 
 				}
 
@@ -1530,10 +1537,10 @@
 						</div>
 						</li>
 						<c:if test="${expert.expertsFrom eq 'ARMY'}">
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 最高学位</span>
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red"></i> 最高学位</span>
 						</c:if>
 						<c:if test="${expert.expertsFrom eq 'LOCAL'}">
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 最高学位</span>
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red"></i> 最高学位</span>
 						</c:if>
 						<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 							<select name="degree" id="degree" <c:if test="${fn:contains(errorField,'最高学位')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('最高学位')"
@@ -1547,10 +1554,10 @@
 						</div>
 						</li>
 						<c:if test="${expert.expertsFrom eq 'ARMY'}">
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 学位证书</span>
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red"></i> 学位证书</span>
 						</c:if>
 						<c:if test="${expert.expertsFrom eq 'LOCAL'}">
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 学位证书</span>
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red"></i> 学位证书</span>
 						</c:if>
 						<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'学位证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('学位证书')"
 							</c:if>>

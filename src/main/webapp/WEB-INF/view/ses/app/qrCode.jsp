@@ -37,9 +37,28 @@
         form.submit();
       }
   }
+  
+  //判断微信
+  window.onload = function(){
+    if(isWeiXin()){
+    	document.getElementById('guide').style.display = 'block';
+    } else {
+    	document.getElementById('qrCode_body').style.display = 'block';
+    }
+  };
+  
+  function isWeiXin(){
+      var ua = window.navigator.userAgent.toLowerCase();
+      if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+          return true;
+      }else{
+          return false;
+      }
+  }
 </script>
 </head>
 <body>
+  <div id="qrCode_body">
   <div class="all">
     <div class="logo">
       <img src="${pageContext.request.contextPath}/public/portal/images/logo.png" />
@@ -49,11 +68,15 @@
   <div class="down_load">
     <a >
       <div class="down_andrio down_main">
-        <p onclick = "download('${id}',${sysKey},'${tempContextUrl }')"><img src="${pageContext.request.contextPath}/public/portal/images/android.png">安卓下载</p>
-        <div class="footer_tips">温馨提示：安卓下载，请从右上角浏览器打开此链接</div>
+        <p onclick = "download('${id}',${sysKey},'${tempContextUrl }')"><img src="${pageContext.request.contextPath}/public/portal/images/android.png">点此下载</p>
+        <div class="footer_tips">温馨提示：微信下载，请从右上角浏览器打开此链接</div>
       </div>
     </a>
   </div>
+  </div>
+  <!-- 引导 -->
+  <div class="guide" id="guide"><img src="${pageContext.request.contextPath}/public/portal/images/guide_bg.png" alt=""></div>
+  <!-- End 引导 -->
 </body>
 </html>
 <style type="text/css">
@@ -160,5 +183,24 @@
        color:#ffffff;
        text-align: center;
        margin-top: 1rem;
+  }
+  #qrCode_body {
+    display: none;
+  }
+  /* 引导 */
+  .guide {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+    padding-right: 20px;
+    background-color: #FFF;
+    text-align: right;
+  }
+  .guide img {
+    max-width: 100%;
   }
 </style>

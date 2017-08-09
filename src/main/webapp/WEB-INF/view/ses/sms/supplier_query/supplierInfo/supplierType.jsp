@@ -44,18 +44,30 @@
 					<li>
 						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
-					<li>
-						<a href="javascript:void(0);">支撑环境</a>
-					</li>
-					<li>
-						<a href="javascript:void(0);">供应商管理</a>
-					</li>
-					<li>
-						<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?sign=1')">供应商列表</a>
-					</li>
-					<li>
-						<a href="javascript:void(0);">供应商查看</a>
-					</li>
+					<c:choose>
+						<c:when test="${person == 1 }">
+							<li>
+								<a href="javascript:void(0);">个人中心</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);">个人信息</a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li>
+								<a href="javascript:void(0);">支撑环境</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);">供应商管理</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?sign=1')">供应商列表</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);">供应商查看</a>
+							</li>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</div>
@@ -84,12 +96,9 @@
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">销售合同</a>
 						</li>
-						<!-- <li class="">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('chengxin');">诚信记录</a>
-						</li>
 						<li class="">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('updateHistory');">历史修改记录</a>
-						</li> -->
+              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('audit');">审核信息</a>
+            </li>
 					</ul>
 					<div class="content ">
 						<div class="col-md-12 tab-v2 job-content">
@@ -440,7 +449,14 @@
 										</c:if>		
 									</div>
 									<div class="col-md-12 tc">
-										<button class="btn btn-windows back" onclick="fanhui()">返回</button> 
+										<c:choose>
+											<c:when test="${person == 1 }">
+												<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+											</c:when>
+											<c:otherwise>
+												<button class="btn btn-windows back" onclick="fanhui()">返回</button>
+											</c:otherwise>
+										</c:choose>
 									</div>
 								</div>
 							</div>
@@ -456,6 +472,7 @@
 			<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
 			<input name="judge" value="${judge}" type="hidden">
 			<input name="sign" value="${sign}" type="hidden">
+			<input name="person" value="${person}" type="hidden">
 		</form>
 		<form id="form_back" action="" method="post">
 			<input name="judge" value="${judge}" type="hidden">

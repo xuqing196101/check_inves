@@ -163,25 +163,26 @@
         	// 已经通过审核的节点不能修改
         	var expertSt = '${expert.status}';
 					if(expertSt == '3'){// 退回修改的状态
-						//console.log(treeNode);
-						if($.inArray(treeNode.id, enableNodeList) >= 0){
+						layer.msg("此节点已通过审核，不能修改!");
+	        			return false;
+						/* if($.inArray(treeNode.id, enableNodeList) >= 0){
 							return true;
 						}
 						var bool = true;
 						$("#tbody_category tr").each(function(index){
-		        		var checkedId = $(this).find("td:first input[type='hidden']").val();
-		        		var errorField = $("#errorField").val();
-		        		if(errorField.indexOf(treeNode.id) < 0){
-		        		layer.msg("此节点已通过审核，不能修改!");
-	        			bool = false;
-	        			return false;
-	        		}
-	        	});
-	        	if(!bool){
-	        		return false;
-	        	}
-	        	enableNodeList.push(treeNode.id);
-	        	return true;
+			        		var checkedId = $(this).find("td:first input[type='hidden']").val();
+			        		var errorField = $("#errorField").val();
+			        		if(errorField.indexOf(treeNode.id) < 0){
+			        		layer.msg("此节点已通过审核，不能修改!");
+		        			bool = false;
+		        			return false;
+		        			}
+	        			});
+			        	if(!bool){
+			        		return false;
+			        	}
+			        	enableNodeList.push(treeNode.id);
+			        	return true; */
 					}
         	return true;
         }

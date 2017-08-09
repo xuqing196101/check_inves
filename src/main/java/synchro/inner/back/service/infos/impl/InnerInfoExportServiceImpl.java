@@ -1,5 +1,10 @@
 package synchro.inner.back.service.infos.impl;
 
+import iss.dao.ps.ArticleMapper;
+import iss.model.ps.Article;
+import iss.model.ps.ArticleCategory;
+import iss.service.ps.ArticleService;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,17 +13,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import synchro.inner.back.service.infos.InnerInfoExportService;
+import synchro.service.SynchRecordService;
+import synchro.util.FileUtils;
+import synchro.util.OperAttachment;
+
 import com.alibaba.fastjson.JSON;
 
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
-import iss.model.ps.Article;
-import iss.service.ps.ArticleService;
-import synchro.inner.back.service.infos.InnerInfoExportService;
-import synchro.service.SynchRecordService;
-import synchro.util.FileUtils;
-import synchro.util.OperAttachment;
 
 /**
  * 
@@ -45,6 +49,9 @@ public class InnerInfoExportServiceImpl implements InnerInfoExportService {
     @Autowired
     private UploadService uploadService;
     
+    @Autowired
+    private ArticleMapper articleMapper;
+    
     
     /**
      * 
@@ -62,6 +69,15 @@ public class InnerInfoExportServiceImpl implements InnerInfoExportService {
                 attachList.addAll(fileList);
             }
             FileUtils.writeFile(FileUtils.getInfoBackUpFile(),JSON.toJSONString(list));
+            //导出公告品目关联信息
+            List<ArticleCategory> articleCategoryList = new ArrayList<>();
+            ArticleCategory ac = new ArticleCategory();
+            for (Article article : list){
+                ac.setArticleId(article.getId());
+                List<ArticleCategory> acList = articleMapper.findArtCategory(ac);
+                articleCategoryList.addAll(acList);
+            }
+            FileUtils.writeFile(FileUtils.getArticleCategoryFile(),JSON.toJSONString(articleCategoryList));
             if (attachList.size() > 0){
                 FileUtils.writeFile(FileUtils.getInfoAttachmentFile(),JSON.toJSONString(attachList));
                 String basePath = FileUtils.attachExportPath(Constant.TENDER_SYS_KEY);

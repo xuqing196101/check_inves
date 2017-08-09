@@ -59,6 +59,14 @@
         //提交审核
         function shenhe(status) {
             var expertId = $("input[name='expertId']").val();
+            if(status == null){
+            	var status = $(":radio:checked").val();
+            	if(status == null){
+            		layer.msg("请选择意见", {offset: '100px'});
+                return true;
+            	}
+            }
+            
             //退回
             if (status == 3) {
                 updateStepNumber("one");
@@ -86,19 +94,26 @@
                      }
                      });
                      }); */
-                     if(checkOpinion(status, expertId)){
-                    	 return;
-                     }else{
-                         $.ajax({
-                             url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
-                             data: {"expertId" : expertId},
-                             success: function() {
-                                 //提交审核
-                                 $("#status").val(status);
-                                 $("#form_shenhe").submit()
-                             }
-                         });
-                     }
+                    if(status != 3){
+                        if(checkOpinion(status, expertId)){
+                            return;
+                        }else{
+                            $.ajax({
+                                url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
+                                data: {"expertId" : expertId},
+                                success: function() {
+                                    //提交审核
+                                    $("#status").val(status);
+                                    $("#form_shenhe").submit();
+                                }
+                            });
+                        }
+                    }else {
+                        //提交审核
+                        $("#status").val(status);
+                        $("#form_shenhe").submit();
+                    }
+
 
                     //初审不合格
                     /* if (status == 2) {
@@ -106,6 +121,13 @@
                     } */
                 });
             } else {
+                if(status == -2){
+                    //校验
+                    var flag = vartifyAuditCount();
+                    if(flag){
+                        return;
+                    }
+                }
                 //询问框
                 layer.confirm('您确认吗？', {
                     closeBtn: 0,
@@ -141,15 +163,15 @@
                             	}
                             }
                        });
-		                   layer.close(index);
-                       return;
+                    	layer.close(index);
+                        return;
                     }
                     //提交审核
                     layer.close(index);
                     // 上传审核扫描件
-                    if(status == -3){
+                    /*if(status == -3){
                     	$("#auditOpinion").val($("#auditOpinionFile").val());
-                    }
+                    }*/
                     $("#status").val(status);
                     $("#form_shenhe").submit();
                 });
@@ -264,7 +286,7 @@
 
             <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
             <ul class="ul_list count_flow">
-              <c:if test="${status == 0 || status == -2 || status == -3 || (sign ==2 && status ==1) || status ==6}">
+              <c:if test="${status == 0 || status == -2 || (sign ==2 && status ==1) || status == 6}">
                 <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
               </c:if>  
                 <table class="table table-bordered table-condensed table-hover">
@@ -304,78 +326,79 @@
                 </table>
             </ul>
             <c:if test="${sign != 2}">
-                <div>
-                    <h2 class="count_flow"><i>2</i>最终意见</h2>
-                    <ul class="ul_list">
-                        <li class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                                <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+              <div class="clear"></div>
+              <h2 class="count_flow mt0"><i>2</i>最终意见</h2>
+              <ul class="ul_list">
+                 <li>
+                   <div class="select_check">
+                      <input type="radio"  <c:if test="${status eq '1'}">checked</c:if> name="selectShenhe" value="1">初审合格
+                      <input type="radio"  <c:if test="${status eq '2'}">checked</c:if> name="selectShenhe" value="2">初审不合格
+                    </div>
+                  </li>
+                  <li class="mt10">
+                     <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
+                  </li>
+                </ul>
+              </div>
             </c:if>
             <c:if test="${ sign == 2 }">
-                <div class="display-none" id="checkWord">
-                    <div id="opinionDiv">
-                        <h2 class="count_flow"><i>2</i>复审意见<span class="red">*</span></h2>
-                        <ul class="ul_list">
-                            <li>
-                                <div class="select_check" id="selectOptionId">
-                                    <input type="radio" name="selectOption" value="1">预复审合格
-                                    <input type="radio" name="selectOption" value="0">预复审不合格
+              <div class="clear"></div>
+              <div id="opinionDiv">
+                  <h2 class="count_flow mt0"><i>2</i><span class="red">*</span>复审意见</h2>
+                  <ul class="ul_list">
+                      <li>
+                          <div class="select_check" id="selectOptionId">
+                           <input type="radio"  name="selectOption" value="1">预复审合格
+                           <input type="radio"  name="selectOption" value="0">预复审不合格
+                          </div>
+                      </li>
+                      <div><span type="text" name="cate_result" id="cate_result"></span></div>
+                      <li class="mt10">
+                          <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
+                      </li>
+                  </ul>
+              </div>
+              <!-- 审核公示扫描件上传 -->
+              <div class="display-none" id="checkWord">
+                  <h2 class="count_flow"><i>3</i>专家审批表</h2>
+                  <ul class="ul_list">
+                          <li class="col-md-6 col-sm-6 col-xs-6">
+                              <span class="fl">下载入库复审表：</span>
+                              <a href="javascript:;" onclick="downloadTable(0)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
+                          </li>
+                         <%-- <li class="col-md-6 col-sm-6 col-xs-6">
+                             <div>
+                               <span class="fl">专家审批表：</span>
+                                 <u:show showId="pic_checkword" businessId="${ expert.auditOpinionAttach }" sysKey="${ sysKey }" typeId="${typeId }" delete="false" />
+                             </div>
+                            </li>--%>
+                      <%--<c:if test="${ status == -3 }">
+                              <li class="col-md-6 col-sm-6 col-xs-6">
+                                  <span class="fl">下载入库复审表：</span>
+                                  <a href="javascript:;" onclick="downloadTable(2)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
+                              </li>
+                          <li class="col-md-6 col-sm-6 col-xs-6">
+                                <div>
+                                  <span class="fl">上传彩色扫描件：</span>
+                                    <% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
+                                    <input name="check_word_pic" id="auditOpinionFile" type="hidden" value="<%=uuidcheckword%>" />
+                                    <u:upload id="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true" exts="png,jpeg,jpg,bmp,git" />
+                                    <u:show showId="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${typeId }" />
                                 </div>
-                            </li>
-
-                            <li class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                                    <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- 审核公示扫描件上传 -->
-                    <div>
-                        <h2 class="count_flow"><i>3</i>专家审批表</h2>
-                        <ul class="ul_list">
-                                <li class="col-md-6 col-sm-6 col-xs-6">
-                                    <span class="fl">下载入库复审表：</span>
-                                    <a href="javascript:;" onclick="downloadTable(2)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
-                                </li>
-                               <%-- <li class="col-md-6 col-sm-6 col-xs-6">
-                                   <div>
-                                     <span class="fl">专家审批表：</span>
-                                       <u:show showId="pic_checkword" businessId="${ expert.auditOpinionAttach }" sysKey="${ sysKey }" typeId="${typeId }" delete="false" />
-                                   </div>
-                                  </li>--%>
-                            <%--<c:if test="${ status == -3 }">
-                                    <li class="col-md-6 col-sm-6 col-xs-6">
-                                        <span class="fl">下载入库复审表：</span>
-                                        <a href="javascript:;" onclick="downloadTable(2)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
-                                    </li>
-                                <li class="col-md-6 col-sm-6 col-xs-6">
-                                      <div>
-                                        <span class="fl">上传彩色扫描件：</span>
-                                          <% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
-                                          <input name="check_word_pic" id="auditOpinionFile" type="hidden" value="<%=uuidcheckword%>" />
-                                          <u:upload id="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true" exts="png,jpeg,jpg,bmp,git" />
-                                          <u:show showId="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${typeId }" />
-                                      </div>
-                                    </li>
-                            </c:if>--%>
-                        </ul>
-                    </div>
-                    <input type="hidden" value="${auditOpinion.flagAudit}" id="hiddenSelectOptionId" />
-                </div>
-                <form id="opinionForm" method="post">
-                    <input name="id" value="${auditOpinion.id}" type="hidden">
-                    <input name="flagTime" value="" id="flagTime" type="hidden"/>
-                    <input name="flagAudit" value="" id="flagAudit" type="hidden"/>
-                    <input name="expertId" value="${expertId}" type="hidden"/>
-                    <input name="opinion" value="" id="opinionId" type="hidden"/>
-                    <input name="vertifyFlag" value="" id="vertifyFlag" type="hidden"/>
-                    <input name="isDownLoadAttch" id="downloadAttachFile" value="${auditOpinion.isDownLoadAttch}" type="hidden">
-                </form>
+                              </li>
+                      </c:if>--%>
+                  </ul>
+              </div>
+              <input type="hidden" value="${auditOpinion.flagAudit}" id="hiddenSelectOptionId" />
+              <form id="opinionForm" method="post">
+                  <input name="id" value="${auditOpinion.id}" type="hidden">
+                  <input name="flagTime" value="" id="flagTime" type="hidden"/>
+                  <input name="flagAudit" value="" id="flagAudit" type="hidden"/>
+                  <input name="expertId" value="${expertId}" type="hidden"/>
+                  <input name="opinion" value="" id="opinionId" type="hidden"/>
+                  <input name="vertifyFlag" value="" id="vertifyFlag" type="hidden"/>
+                  <input name="isDownLoadAttch" id="downloadAttachFile" value="${auditOpinion.isDownLoadAttch}" type="hidden">
+              </form>
             </c:if>
 
             <div class="col-md-12 add_regist tc">
@@ -386,25 +409,28 @@
                     <input type="hidden" name="status" id="status" value="${status}"/>
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
                     <c:if test="${status eq '0'}">
-                        <input class="btn btn-windows git" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
-                        <input class="btn btn-windows reset" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo">
+                       <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
+                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->
+                        <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui">
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                     </c:if>
                     <c:if test="${status eq '1' && sign eq '2'}">
-                        <%--<span class="display-none" id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>--%>
-                        <%--<input class="btn btn-windows edit" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu">--%>
-                        <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
-                        <input class="btn btn-windows git"  type="button" onclick="shenhe(-2)" value="预复审结束" id="tongguo">
+                       <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(4);" value="复审合格 " id="tongguo">
+                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu"> -->
+                        <input class="btn btn-windows passed" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
+                        <input class="btn btn-windows end"  type="button" onclick="shenhe(-2)" value="预复审结束" id="tongguo">
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
                         <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
-                    <c:if test="${status eq '-2' || status eq '-3'}">
-                        <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
+                    <c:if test="${status eq '-2' || status == '-3' || status == '4' || status == '5'}">
+                        <c:if test="${status == '-2'}">
+                          <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
+                        </c:if>
                         <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
                     <c:if test="${status eq '6'}">
                         <input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复查合格 " id="tongguo">
-                        <input class="btn btn-windows edit" type="button" onclick="shenhe(8);" value="复查不合格" id="tichu">
+                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(8);" value="复查不合格" id="tichu">
                     </c:if>
                 </form>
             </div>
@@ -421,6 +447,7 @@
 <form id="form_id_word" method="post">
   <input name="expertId" type="hidden" value="${expertId}"/>
   <input name="sign" type="hidden" value="${sign }"/>
+  <input name="opinion" type="hidden"/>
   <input name="tableType" type="hidden" value=""/>
 </form>
 

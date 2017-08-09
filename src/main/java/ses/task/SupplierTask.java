@@ -97,7 +97,7 @@ public class SupplierTask {
 		String endTime=fat+" 23:59:59";
 		outerSupplierService.auditPass(startTime, endTime);
 	}
-	
+
 	/**
 	 * 
 	* @Title: handlerAudit
@@ -113,7 +113,7 @@ public class SupplierTask {
              File [] files = file.listFiles();
              for (File f : files){
                  if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)){
-                	 innerSupplierService.immportInner(f);
+                	 innerSupplierService.immportInner(f,null);
                  	
                  }
 //                 if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
@@ -244,5 +244,15 @@ public class SupplierTask {
 		// 调用7天后自动入库公示
 		supplierAuditService.handlerPublictySup();
 	}
-	
+	/**
+	 * 
+	 * Description:定时处理供应商 一天运行一次
+	 * 退回修改后的供应商逾期没提交应提示采购机构该供应商已逾期未提交，需要自动生成审核不通过结论：自x年x月x日退回修改后，已逾期30天未提交审核。（只有退回修改的 供应商 状态是2）
+	 * 供应商审核不通过180天后再次注册需要提示供应商为第二次注册（包括任何阶段不通过 3审核未通过 6复核未通过 8考察不合格）
+	 * @author YangHongLiang
+	 * @version 2017-7-25
+	 */
+	public void handlerSupplierchange(){
+		supplierService.updateSupplierStatus();
+	}
 }

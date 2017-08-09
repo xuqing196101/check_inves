@@ -87,4 +87,14 @@ public interface SupplierTypeRelateMapper {
     
     
     void deleteSupplierType(@Param("supplierId")String supplierId,@Param("supplierType")String supplierType);
+    /**
+     * 
+     * Description:根据供应商 获取供应商选择类型集合
+     * 
+     * @author YangHongLiang
+     * @version 2017-7-31
+     * @param supplierId
+     * @return
+     */
+    List<String> findTypeBySupplierId(@Param("supplierId")String supplierId);
 }

@@ -477,9 +477,11 @@
 	                <option  selected="selected" value=''>全部</option>
 	                <option value="-1">暂存</option>
 	                <option value="0">待审核</option>
+	                <option value="-2">预审核结束</option>
 									<option value="-3">公示中</option>
 									<option value="1">审核通过</option>
 									<option value="2">退回修改</option>
+									<option value="9">退回再审核</option>
 									<option value="3">审核未通过</option>
 									<option value="4">待复核</option>
 									<option value="5">复核通过</option>
@@ -546,6 +548,7 @@
 	          <div class="col-md-12 clear tc mt10">
             	<button type="button" onclick="submit()" class="btn">查询</button>
               <button type="reset" onclick="chongzhi()" class="btn">重置</button>
+
               <!-- <button type="reset" onclick="openDiy()" class="btn">自定义查询</button> -->
               <c:choose>
 								<c:when test="${sign == 1 }">
@@ -615,9 +618,11 @@
 									<c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
 									<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
 									<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
-									<c:if test="${list.status==-3 }"><span class="label rounded-2x label-u">公示中</span></c:if>
+									<c:if test="${list.status==-2 }"><span class="label rounded-2x label-dark">预审核结束</span></c:if>
+									<c:if test="${list.status==-3 }"><span class="label rounded-2x label-dark">公示中</span></c:if>
 									<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
 									<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">退回修改</span></c:if>
+									<c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
 									<c:if test="${list.status==3 }"><span class="label rounded-2x label-dark">审核未通过</span></c:if>
 									<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
 									<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">复核通过</span></c:if>

@@ -393,8 +393,9 @@ public interface UserServiceI {
    *〈详细描述〉
    * @author Ye MaoLin
    * @param loginName
+ * @return 
    */
-  void updateUserLoginErrorNum(String loginName);
+  Integer updateUserLoginErrorNum(String loginName);
 
   /**
    *〈简述〉修改用户密码错误次数为0

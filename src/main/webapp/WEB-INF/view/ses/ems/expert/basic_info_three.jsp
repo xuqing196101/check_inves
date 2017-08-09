@@ -217,13 +217,15 @@
                 </tr>
                 </thead>
                 <tbody id="purchase_orgs">
+                <c:set value="0" var="count0"/>
                 <c:forEach items="${allPurList}" var="org1" varStatus="vs">
                     <c:if test="${org1.cityId eq expert.address}">
+                        <c:set value="${count0+1}" var="count0"/>
                         <tr <c:if test="${fn:contains(org1.shortName, '北京')}"> style="dispaly:none" </c:if>>
                             <td class="tc"><input  name="procurementDepId" type="radio" value="${org1.id}" onclick="checkDep(this)" <c:if test="${-1!=expert.status}"> disabled="disabled" </c:if>
                                     <c:if test="${org1.id==expert.purchaseDepId}"> checked='checked' </c:if> />
                             </td>
-                            <td class="tc">${vs.index + 1}</td>
+                            <td class="tc">${count0}</td>
                             <td class="tc">${org1.shortName}</td>
                                 <%-- <td class="tc">${org1.supplierContact}</td>
                                 <td class="tc">${org1.supplierPhone}</td>--%>
@@ -248,13 +250,14 @@
                 </tr>
                 </thead>
                 <tbody id="purchase_orgs_">
+                <c:set value="0" var="count"/>
                 <c:forEach items="${allPurList}" var="org1" varStatus="vs">
                     <c:if test="${org1.cityId ne expert.address}">
-                    
+                    	<c:set value="${count+1}" var="count"/>
                         <tr <c:if test="${fn:contains(org1.shortName, '北京')}"> style="dispaly:none" </c:if>>
                             <td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" <c:if test="${-1!=expert.status}"> disabled="disabled" </c:if>
                                                   name="procurementDepId" <c:if test="${org1.id ==expert.purchaseDepId}"> checked='checked' </c:if> /></td>
-                            <td class="tc">${vs.index + 1}</td>
+                            <td class="tc">${count}</td>
                             <td class="tc">${org1.shortName}</td>
                                 <%-- <td class="tc">${org1.supplierContact}</td>
                                 <td class="tc">${org1.supplierPhone}</td>--%>

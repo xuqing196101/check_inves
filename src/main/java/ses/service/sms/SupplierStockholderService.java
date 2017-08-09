@@ -1,5 +1,7 @@
 package ses.service.sms;
 
+import java.util.List;
+
 import ses.model.sms.SupplierStockholder;
 
 /**
@@ -15,4 +17,11 @@ public interface SupplierStockholderService {
 	public void deleteStockholder(String stockholderIds);
 	
 	SupplierStockholder queryById(String id);
+
+	/**
+	 * 根据供应商id查询股东信息
+	 * @param supplierId
+	 * @return
+	 */
+	public List<SupplierStockholder> findStockholderBySupplierId(String supplierId);
 }

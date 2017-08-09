@@ -1,19 +1,21 @@
 package ses.formbean;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import ses.model.bms.User;
-import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierAuditNot;
+import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierSignature;
 
-public class SupplierAuditFormBean {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+public class SupplierAuditFormBean implements Serializable{
+
+	private static final long serialVersionUID = 7027388594237003141L;
 	private String supplierId;
 	
 	private Integer status;
@@ -31,6 +33,9 @@ public class SupplierAuditFormBean {
 	private List<SupplierAuditNot> supplierAuditNot=new ArrayList<SupplierAuditNot>();
 
 	private List<SupplierSignature> supplierSignature=new ArrayList<SupplierSignature>();
+
+	// 审核意见
+	private SupplierAuditOpinion supplierAuditOpinions;
 	
 	private User user;
 	
@@ -114,7 +119,12 @@ public class SupplierAuditFormBean {
 		this.supplierAuditNot = supplierAuditNot;
 	}
 
-	 
-	
-	
+
+    public SupplierAuditOpinion getSupplierAuditOpinions() {
+        return supplierAuditOpinions;
+    }
+
+    public void setSupplierAuditOpinions(SupplierAuditOpinion supplierAuditOpinions) {
+        this.supplierAuditOpinions = supplierAuditOpinions;
+    }
 }

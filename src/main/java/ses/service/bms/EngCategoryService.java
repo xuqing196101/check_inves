@@ -323,15 +323,5 @@ import ses.model.sms.SupplierTypeTree;
 	 * @return
 	 */
 	public SupplierCateTree addNode(SupplierCateTree cateTree,SupplierItem item);
-	/**
-	 * 
-	 * Description:获取工程资质文件数量
-	 * 
-	 * @author YangHongLiang
-	 * @version 2017-6-26
-	 * @param cateTree
-	 * @param supplierId
-	 * @return
-	 */
-	public Long countEngCategoyrId(SupplierCateTree cateTree, String supplierId);
+	
 }

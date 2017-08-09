@@ -9,57 +9,57 @@ function init(){
         return;
     }
     if(supplierTypes.indexOf('PRODUCT') !='-1'){
-        i++;
         $("#tab_1").addClass("active in");
         $("#page_ul_id").append("<li class=\"active\"   id=\"productId\" onclick=\"initDivHide('tab_1','productId','PRODUCT','content_1')\"> "+
             " <a aria-expanded=\"true\" href=\"#tab_1\" class=\"f18\"  data-toggle=\"tab\">物资-生产型专业信息</a>"+
             " </li>");
         initDivHide('tab_1','productId','PRODUCT','content_1');
+        i++;
     }
     if(supplierTypes.indexOf('SALES')  !='-1'){
-        i++;
         if(i==0){
             $("#tab_2").addClass("active in");
             liclass=" class=\"active\"";
         }else{
             liclass=" class='activeliCountEng'  ";
         }
-        $("#page_ul_id").append("<li "+liclass+" id=\"salesId\"> "+
-            " <a aria-expanded=\"false\" href=\"#tab_2\" class=\"f18\" onclick=\"initDivHide('tab_2','salesId','SALES','content_2')\"  data-toggle=\"tab\">物资-销售型专业信息</a>"+
+        $("#page_ul_id").append("<li "+liclass+" id=\"salesId\" onclick=\"initDivHide('tab_2','salesId','SALES','content_2')\"> "+
+            " <a aria-expanded=\"false\" href=\"#tab_2\" class=\"f18\" data-toggle=\"tab\">物资-销售型专业信息</a>"+
             " </li>");
         if(i==0){
             initDivHide('tab_2','productId','SALES','content_2');
         }
+        i++;
     }
     if(supplierTypes.indexOf('PROJECT')  !='-1'){
-        i++;
         if(i==0){
             $("#tab_3").addClass("active in");
             liclass=" class=\"active\" ";
         }else{
             liclass=" class='activeliCountEng' ";
         }
-        $("#page_ul_id").append(" <li "+liclass+" id='projectId' > "+
-            " <a aria-expanded=\"false\" href=\"#tab_3\" class=\"f18\" onclick=\"initDivHide('tab_3','projectId','PROJECT','content_3')\" data-toggle=\"tab\">工程专业信息</a>"+
+        $("#page_ul_id").append(" <li "+liclass+" id='projectId' onclick=\"initDivHide('tab_3','projectId','PROJECT','content_3')\" > "+
+            " <a aria-expanded=\"false\" href=\"#tab_3\" class=\"f18\" data-toggle=\"tab\">工程专业信息</a>"+
             " </li>");
         if(i==0){
             initDivHide('tab_3','projectId','PROJECT','content_3');
         }
+        i++;
     }
     if(supplierTypes.indexOf('SERVICE')  !='-1'){
-        i++;
         if(i==0){
             $("#tab_4").addClass("active in");
             liclass=" class=\"active\" ";
         }else{
             liclass=" class='activeliCountEng' ";
         }
-        $("#page_ul_id").append("<li "+liclass+" id=\"serviecId\" >"+
-            " <a aria-expanded=\"false\" href=\"#tab_4\" class=\"f18\" onclick=\"initDivHide('tab_4','serviecId','SERVICE','content_4')\" data-toggle=\"tab\">服务专业信息</a>"+
+        $("#page_ul_id").append("<li "+liclass+" id=\"serviecId\" onclick=\"initDivHide('tab_4','serviecId','SERVICE','content_4')\">"+
+            " <a aria-expanded=\"false\" href=\"#tab_4\" class=\"f18\" data-toggle=\"tab\">服务专业信息</a>"+
             " </li>");
         if(i==0){
             initDivHide('tab_4','serviecId','SERVICE','content_4');
         }
+        i++;
     }
 }
 
@@ -68,25 +68,26 @@ function initDivHide(showId,type,typeId,tableId){
     //模糊匹配 隐藏
     $("div[id^='tab_']").hide();
     $("#"+showId+"").show();
-    findDate(typeId,tableId);
+    findDate(typeId,tableId,1);
 }
 
 //获取 数据
-function findDate(type,tablerId) {
+function findDate(type,tablerId,pageNum) {
     var index = layer.load(0, {
         shade : [ 0.1, '#fff' ],
         offset : [ '40%', '50%' ]
     });
     $("[name=supplierType]").val(type);
+    $("#pageNum").val(pageNum);
     $.ajax({
         type : "POST",
-        url : globalPath + "/supplierAudit/overAptitude.do",
+        url : globalPath + "/supplierAudit/sup_publicity_item.do",
         data : $("#form_id").serializeArray(),
         success : function(obj) {
             if (obj) {
                 listPage(obj.data.pages, obj.data.total, obj.data.startRow,
-                    obj.data.endRow, obj.data.pageNum,type);
-                showData(obj.data,tablerId,type);
+                    obj.data.endRow, pageNum,type,tablerId);
+                showData(obj.data,tablerId,type,pageNum);
             } else {
                 layer.msg(obj.msg);
             }
@@ -117,18 +118,18 @@ function listPage(pages, total, startRow, endRow, pageNum,type,tablerId) {
         jump : function(e, first) { // 触发分页后的回调
             if (!first) { // 一定要加此判断，否则初始时会无限刷新
                 $("#page").val(e.curr);
-                findDate(type,tablerId);
+                findDate(type,tablerId,e.curr);
             }
         }
     });
 }
 
 //封装填充 数据
-function showData(obj,tablerId,typeId) {
+function showData(obj,tablerId,typeId,pageNum) {
     $("#"+tablerId+" tbody").empty();
     $(obj.list).each(
         function(index, item) {
-            var ind=((index+1)+(obj.pageNum-1)*(obj.pageSize));
+            var ind=((index+1)+(pageNum-1)*(obj.pageSize));
             // 根据类型 判断
             $("#"+tablerId+" tbody").append("<tr>"+
                 "<td class=\"tc info\">" + ind+ "</td>"+

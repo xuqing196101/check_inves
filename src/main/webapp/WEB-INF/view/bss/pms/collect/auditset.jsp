@@ -479,7 +479,7 @@
         });
         $("#del_id").val(id);
         var val = $("#del_id").val();
-        if($.trim(val) != "") {
+        if(id.length>0) {
           $.ajax({
             url: "${pageContext.request.contextPath}/set/delete.html",
             type: "post",

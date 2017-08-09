@@ -2,6 +2,8 @@ package iss.service.hl;
 
 import iss.model.hl.ServiceHotline;
 
+import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,7 +30,7 @@ public interface ServiceHotlineService {
 	 * @return List<ServiceHotline> 
 	 * @exception
 	 */
-	public List<ServiceHotline> selectAll(ServiceHotline record,Integer page);
+	List<ServiceHotline> selectAll(ServiceHotline record,Integer page);
 	
 	/**
 	 * 
@@ -81,4 +83,26 @@ public interface ServiceHotlineService {
      * @exception
      */
     int updateByPrimaryKeySelective(ServiceHotline record);
+    
+    /**
+     * 
+     * Description: 导出服务热线信息
+     * 
+     * @author zhang shubin
+     * @data 2017年8月3日
+     * @param 
+     * @return
+     */
+    boolean exportHotLine(String start, String end,Date synchDate);
+    
+    /**
+     * 
+     * Description: 导入服务热线信息
+     * 
+     * @author zhang shubin
+     * @data 2017年8月3日
+     * @param 
+     * @return
+     */
+    boolean importHotLine(File file);
 }

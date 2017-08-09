@@ -40,7 +40,7 @@
 		  var supplierStatus= $("input[name='supplierStatus']").val();
       var sign = $("input[name='sign']").val();
       //只有审核的状态能审核
-      if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+      if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 			  var supplierId=$("#supplierId").val();
 			  var auditContent=str + "股东信息"; //审批的字段内容
 			  var index = layer.prompt({
@@ -53,19 +53,18 @@
 			    	var text = trim(text);
 					  if(text != null && text !=""){
 					    $.ajax({
-					      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+					      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 					      type:"post",
 					      data: {"auditType":"basic_page","auditFieldName":"股东信息","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
 					      dataType:"json",
 					      success:function(result){
-					      result = eval("(" + result + ")");
-					      if(result.msg == "fail"){
-					        layer.msg('该条信息已审核过！', {
-					          shift: 6, //动画类型
-					          offset:'100px'
-					            });
-					        }
-					      }
+                  if(result.status == "503"){
+                     layer.msg('该条信息已审核过！', {             
+                       shift: 6, //动画类型
+                       offset:'100px'
+                    });
+                  }
+                }
 					      });
 					        $("#"+id+"_hidden").hide();
 						      $("#"+id+"_show").show();
@@ -266,7 +265,7 @@
         <div class="col-sm-12 col-xs-12 col-md-12 add_regist tc">
           
           <a class="btn"  type="button" onclick="lastStep();">上一步</a>
-          <c:if test="${supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+          <c:if test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
           </c:if>
           <%--<a class="btn"  type="button" onclick="nextStep('${url}');">下一步</a>--%>

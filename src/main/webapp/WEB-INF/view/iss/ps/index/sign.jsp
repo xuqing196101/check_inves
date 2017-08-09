@@ -59,9 +59,14 @@
     						  $("#spanPrompt").text("验证码不正确");
     						  $("#inputCode").val("");
     						layer.close(index);
-    					} else if (data == "errorlogin") {
+    					} else if (data.indexOf("errorlogin") >= 0) {
     						$("#divPrompt").removeClass("hide");
-    						 $("#spanPrompt").text("用户名或密码错误！");
+    						
+    						var ms = "";
+    						if(flag[1] != null){
+    							ms =" ，您已输错密码"+flag[1]+"次，错误5次后账号将被锁！";						
+    						}
+    						 $("#spanPrompt").text("用户名或密码错误"+ms);
     						getIdentityCode(0);
     						$("#inputCode").val("");
     						layer.close(index);
@@ -79,6 +84,10 @@
     						$("#divPrompt").removeClass("hide");
    						  	$("#spanPrompt").text("对不起，您已被列入黑名单!");
     						layer.close(index);
+    					} else if (data == "review") {
+    						$("#divPrompt").removeClass("hide");
+   						  	$("#spanPrompt").text("初审已通过，待复审!");
+   						    layer.close(index);
     					} else if (data == "notLogin") {
     						$("#divPrompt").removeClass("hide");
   						  	$("#spanPrompt").text("对不起，您参加的评审项目已结束!");
@@ -220,7 +229,7 @@
     						$("#divPrompt").removeClass("hide");
     					    $("#spanPrompt").text("抱歉,您的实地考察不合格,无法登录！");
     						layer.close(index);
-    					} else if(flag[0]=="commit"){
+    					} else if(flag[0]=="commit" || flag[0]=="send_back"){
     						$.ajax({
     							url: "${pageContext.request.contextPath}/supplier/validateAuditTime.do",
     							data: {"userId" : flag[1]},

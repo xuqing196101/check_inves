@@ -2,12 +2,15 @@ package ses.service.sms;
 
 import common.utils.JdcgResult;
 import ses.formbean.SupplierItemCategoryBean;
+
 import ses.model.bms.Category;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierItem;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface SupplierItemService {
 	public void saveOrUpdate(SupplierItem supplierItem);
@@ -177,7 +180,7 @@ public interface SupplierItemService {
 	 * @param map
 	 * @since JDK1.7
 	 */
-	public List<String> findPassSupplierTypeBySupplierId(Map<String, Object> map);
+	 Set<String> findPassSupplierTypeBySupplierId(Map<String, Object> map);
 
 	/**
 	 *
@@ -209,5 +212,82 @@ public interface SupplierItemService {
 	  */
 	 public List<SupplierItemCategoryBean> getSupplierItemCategoryList(
 			String supplierId, String code);
+
+	/**
+	 * 查询品目信息
+	 * @param categoryId
+	 * @param item
+	 * @return
+	 */
+	public SupplierCateTree getTreeListByCategoryId(String categoryId,
+			SupplierItem item);
+
+	/**
+	 * 查询三级品目
+	 * @param supplierId
+	 * @param type
+	 * @return
+	 */
+	public List<Category> getThirdCategoryList(String supplierId, String type);
+
+	/**
+	 * 获取品目资质相关信息
+	 * @param supplierId
+	 * @param supplierTypeIds
+	 * @return
+	 */
+	public Map<String, Object> getAptitude(String supplierId, String supplierTypeIds);
+	
+	/**
+	 * 去掉审核不通过的品目
+	 * @param items
+	 * @param supplierId
+	 * @param code
+	 * @return
+	 */
+	public List<SupplierItem> removeAuditNotItems(List<SupplierItem> items,
+			String supplierId, String code);
+
+	/**
+	 * 查询供应商品目
+	 * @param supplierId
+	 * @param type
+	 * @param isReturned
+	 * @param pageNum
+	 * @return
+	 */
+	public List<SupplierItem> getItemList(String supplierId,
+			String type, Byte isReturned, Integer pageNum);
+
+	/**
+	 * 查询没有被退回的品目
+	 * @param supplierId
+	 * @param categoryId
+	 * @param type
+	 * @return
+	 */
+	List<SupplierItem> getBySupplierIdCategoryIdIsNotReturned(
+			String supplierId, String categoryId, String type);
+
+	/**
+	 * 删除供应商品目
+	 * @param supplierId
+	 * @param isReturned
+	 * @return
+	 */
+	public int deleteItemsBySupplierId(String supplierId, Byte isReturned);
+
+	/**
+	 *
+	 * Description: 查询供应商通过的品目集合
+	 *
+	 * @author Easong
+	 * @version 2017/8/1
+	 * @param
+	 * @since JDK1.7
+	 */
+	JdcgResult selectSupPublicityItem(Map<String, Object> map);
+
+	List<SupplierItem> findCategoryListPassed(String supplierId, String type, Integer pageNum);
 
 }

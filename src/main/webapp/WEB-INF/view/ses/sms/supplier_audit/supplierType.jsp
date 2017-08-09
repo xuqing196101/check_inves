@@ -71,7 +71,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
 	      var sign = $("input[name='sign']").val();
 	       //只有审核的状态能审核
-	      if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+	      if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 				  var supplierId = $("#supplierId").val();
 				  var appear = auditField + "_show";
 					var index = layer.prompt({
@@ -84,7 +84,7 @@
 			    	var text = trim(text);
 						if(text != null && text !=""){
 					    $.ajax({
-					      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+					      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 					      type:"post",
 					      dataType:"json",
 					      data:{
@@ -96,16 +96,17 @@
 									"auditField": auditField
 					      },
 					      success:function(result){
-					        result = eval("(" + result + ")");
-					        if(result.msg == "fail"){
+					        if(result.status == "503"){
 					           layer.msg('该条信息已审核过！', {	            
 					             shift: 6, //动画类型
 					             offset:'100px'
 					          });
+					        }else{
+					        	$("#"+appear+"").css('visibility', 'visible');
 					        }
 					      }
 					    });
-					    $("#"+appear+"").css('visibility', 'visible');
+					    
 			      	layer.close(index);
 			      	}else{
 			      		layer.msg('不能为空！', {offset:'100px'});
@@ -120,7 +121,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
 					var auditContent = "证书名称为:" + str + "的信息";
 					var index = layer.prompt({
@@ -133,7 +134,7 @@
 							var text = trim(text);
 							if(text != null && text !=""){
 								$.ajax({
-									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 									type: "post",
 									data: {
 										"auditType": "mat_pro_page",
@@ -144,15 +145,14 @@
 										"auditField": id
 									},
 									dataType: "json",
-									success: function(result) {
-										result = eval("(" + result + ")");
-										if(result.msg == "fail") {
-											layer.msg('该条信息已审核过！', {
-												shift: 6, //动画类型
-												offset: '100px'
-											});
-										}
-									}
+									success:function(result){
+	                  if(result.status == "503"){
+	                     layer.msg('该条信息已审核过！', {             
+	                       shift: 6, //动画类型
+	                       offset:'100px'
+	                    });
+	                  }
+	                }
 								});
 								$("#" + id + "_show").show();
 								$("#" + id + "_hidden").hide();
@@ -165,57 +165,23 @@
 			}
 			//生产
 			function reasonProduction1(obj) {
-				var supplierId = $("#supplierId").val();
-				var appear = obj.id;
-				var auditField = obj.id.trim();
-				var auditContent;
-				var auditFieldName;
-				var html = "<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
-				$("#" + obj.id + "").each(function() {
-					auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
-					auditContent = $(this).parents("li").find("input").val();
-					if(auditField == "countryPro" || auditField == "countryReward"){
-						auditContent = $(this).parents("li").find("textarea").text();
-					};
-					
-				});
-				var index = layer.prompt({
-						title: '请填写不通过的理由：',
-						formType: 2,
-						offset: '100px',
-						maxlength: '100'
-					},
-					function(text) {
-						var text = trim(text);
-						if(text != null && text !=""){
-							$.ajax({
-								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-								type: "post",
-								data: {
-									"auditType": "mat_pro_page",
-									"auditFieldName": auditFieldName,
-									"auditContent": auditContent,
-									"suggest": text,
-									"supplierId": supplierId,
-									"auditField": auditField
-								},
-								dataType: "json",
-								success: function(result) {
-									result = eval("(" + result + ")");
-									if(result.msg == "fail") {
-										layer.msg('该条信息已审核过！', {
-											shift: 6, //动画类型
-											offset: '100px'
-										});
-									}
-								}
-							});
-							$(obj).after(html);
-							$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
-							layer.close(index);
-						}else{
-		      			layer.msg('不能为空！', {offset:'100px'});
-		      	}
+				var supplierStatus= $("input[name='supplierStatus']").val();
+        var sign = $("input[name='sign']").val();
+         //只有审核的状态能审核
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+					var supplierId = $("#supplierId").val();
+					var appear = obj.id;
+					var auditField = obj.id.trim();
+					var auditContent;
+					var auditFieldName;
+					var html = "<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
+						$("#" + obj.id + "").each(function() {
+						auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
+						auditContent = $(this).parents("li").find("input").val();
+						if(auditField == "countryPro" || auditField == "countryReward"){
+							auditContent = $(this).parents("li").find("textarea").text();
+						};
+						
 					});
 					var index = layer.prompt({
 							title: '请填写不通过的理由：',
@@ -227,7 +193,7 @@
 							var text = trim(text);
 							if(text != null && text !=""){
 								$.ajax({
-									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 									type: "post",
 									data: {
 										"auditType": "mat_pro_page",
@@ -238,15 +204,14 @@
 										"auditField": auditField
 									},
 									dataType: "json",
-									success: function(result) {
-										result = eval("(" + result + ")");
-										if(result.msg == "fail") {
-											layer.msg('该条信息已审核过！', {
-												shift: 6, //动画类型
-												offset: '100px'
-											});
-										}
-									}
+									success:function(result){
+                    if(result.status == "503"){
+                       layer.msg('该条信息已审核过！', {             
+                         shift: 6, //动画类型
+                         offset:'100px'
+                      });
+                    }
+                  }
 								});
 								$(obj).after(html);
 								$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
@@ -259,108 +224,13 @@
 
 			//销售
 			function reasonSale(id, str) {
-				var supplierId = $("#supplierId").val();
-				var auditContent = "证书名称：" + str + "的信息";
-				var index = layer.prompt({
-					title: '请填写不通过的理由：',
-					formType: 2,
-					offset: '100px',
-					maxlength: '100'
-				}, function(text) {
-					var text = trim(text);
-					if(text != null && text !=""){
-						$.ajax({
-							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-							type: "post",
-							data: {
-								"auditType": "mat_sell_page",
-								"auditFieldName": "销售-资质证书",
-								"auditContent": auditContent,
-								"suggest": text,
-								"supplierId": supplierId,
-								"auditField": id
-							},
-							dataType: "json",
-							success: function(result) {
-								result = eval("(" + result + ")");
-								if(result.msg == "fail") {
-									layer.msg('该条信息已审核过！', {
-										shift: 6, //动画类型
-										offset: '100px'
-									});
-								}
-							}
-						});
-						$("#" + id + "_hidden").hide();
-						$("#" + id + "_show").show();
-						layer.close(index);
-						}else{
-		      			layer.msg('不能为空！', {offset:'100px'});
-		      	}
-				});
-			}
-
-			function reasonSale1(obj) {
-				var supplierId = $("#supplierId").val();
-				var appear = obj.id;
-				var auditField = obj.id.replace("_sale", "").trim();
-				var auditContent;
-				var auditFieldName;
-				var html = "<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
-				$("#" + obj.id + "").each(function() {
-					auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
-					auditContent = $(this).parents("li").find("input").val();
-				});
-				var index = layer.prompt({
-					title: '请填写不通过的理由：',
-					formType: 2,
-					offset: '100px',
-					maxlength: '100'
-				}, function(text) {
-					var text = trim(text);
-					if(text != null && text !=""){
-						$.ajax({
-							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-							type: "post",
-							data: {
-								"auditType": "mat_sell_page",
-								"auditFieldName": auditFieldName,
-								"auditContent": auditContent,
-								"suggest": text,
-								"supplierId": supplierId,
-								"auditField": auditField
-							},
-							dataType: "json",
-							success: function(result) {
-								result = eval("(" + result + ")");
-								if(result.msg == "fail") {
-									layer.msg('该条信息已审核过！', {
-										shift: 6, //动画类型
-										offset: '100px'
-									});
-								}
-							}
-						});
-						$(obj).after(html);
-						$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
-						layer.close(index);
-						}else{
-		      			layer.msg('不能为空！', {offset:'100px'});
-		      	}
-				});
-			}
-
-			//工程
-			function reasonEngineering(id, auditContent, str) {
-				var supplierId = $("#supplierId").val();
-				var auditFieldName = auditContent.replace("信息", "");
-				if(auditFieldName == "工程-注册人员登记"){
-					var auditContent = "注册名称为：" + str +"的信息";
-				}else{
-					var auditContent = "证书编号为：" + str +"的信息";
-				}
-				
-				var index = layer.prompt({
+				var supplierStatus= $("input[name='supplierStatus']").val();
+        var sign = $("input[name='sign']").val();
+         //只有审核的状态能审核
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+					var supplierId = $("#supplierId").val();
+					var auditContent = "证书名称：" + str + "的信息";
+					var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
 						offset: '100px',
@@ -369,7 +239,7 @@
 						var text = trim(text);
 						if(text != null && text !=""){
 							$.ajax({
-								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 								type: "post",
 								data: {
 									"auditType": "mat_sell_page",
@@ -380,16 +250,19 @@
 									"auditField": id
 								},
 								dataType: "json",
-								success: function(result) {
-									result = eval("(" + result + ")");
-									if(result.msg == "fail") {
-										layer.msg('该条信息已审核过！', {
-											shift: 6, //动画类型
-											offset: '100px'
-										});
-									}
-								}
+								success:function(result){
+                  if(result.status == "503"){
+                     layer.msg('该条信息已审核过！', {             
+                       shift: 6, //动画类型
+                       offset:'100px'
+                    });
+                  }
+                }
 							});
+
+							$("#" + id + "_hidden").hide();
+							$("#" + id + "_show").show();
+
 							$("#" + id + "_hidden").removeClass().addClass('hidden');
 							$("#" + id + "_hidden1").removeClass().addClass('hidden');
 							$("#" + id + "_hidden2").removeClass().addClass('hidden');
@@ -403,23 +276,22 @@
 					});
         }
 
-			//工程
-			function reasonEngineering1(obj) {
-				var supplierId = $("#supplierId").val();
-			  var appear = obj.id;
-				var auditField = obj.id.replace("_engineering", "").trim();
-				var auditContent;
-				var auditFieldName;
-				var html = "<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
-				$("#" + obj.id + "").each(function() {
-					auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
-					auditContent = $(this).parents("li").find("input").val();
-				  if(auditField == "confidentialAchievement"){
-						auditContent = $(this).parents("li").find("textarea").val();
-					} 
-				});
-
-				var index = layer.prompt({
+			function reasonSale1(obj) {
+				var supplierStatus= $("input[name='supplierStatus']").val();
+        var sign = $("input[name='sign']").val();
+         //只有审核的状态能审核
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+					var supplierId = $("#supplierId").val();
+					var appear = obj.id;
+					var auditField = obj.id.replace("_sale", "").trim();
+					var auditContent;
+					var auditFieldName;
+					var html = "<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
+					$("#" + obj.id + "").each(function() {
+						auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
+						auditContent = $(this).parents("li").find("input").val();
+					});
+					var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
 						offset: '100px',
@@ -428,7 +300,7 @@
 						var text = trim(text);
 						if(text != null && text !=""){
 							$.ajax({
-								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 								type: "post",
 								data: {
 									"auditType": "mat_sell_page",
@@ -439,15 +311,14 @@
 									"auditField": auditField
 								},
 								dataType: "json",
-								success: function(result) {
-									result = eval("(" + result + ")");
-									if(result.msg == "fail") {
-										layer.msg('该条信息已审核过！', {
-											shift: 6, //动画类型
-											offset: '100px'
-										});
-									}
-								}
+								success:function(result){
+                   if(result.status == "503"){
+                      layer.msg('该条信息已审核过！', {             
+                        shift: 6, //动画类型
+                        offset:'100px'
+                     });
+                   }
+                 }
 							});
 							$(obj).after(html);
 							$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
@@ -463,7 +334,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 	        var supplierId = $("#supplierId").val();
 					var auditFieldName = auditContent.replace("信息", "");
 					if(auditFieldName == "工程-注册人员登记"){
@@ -482,7 +353,7 @@
 							var text = trim(text);
 							if(text != null && text !=""){
 								$.ajax({
-									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 									type: "post",
 									data: {
 										"auditType": "mat_eng_page",
@@ -493,22 +364,21 @@
 										"auditField": id
 									},
 									dataType: "json",
-									success: function(result) {
-										result = eval("(" + result + ")");
-										if(result.msg == "fail") {
-											layer.msg('该条信息已审核过！', {
-												shift: 6, //动画类型
-												offset: '100px'
-											});
-										}
-									}
+									success:function(result){
+                    if(result.status == "503"){
+                       layer.msg('该条信息已审核过！', {             
+                         shift: 6, //动画类型
+                         offset:'100px'
+                      });
+                    }
+                  }
 								});
-								$("#" + id + "_hidden").hide();
-								$("#" + id + "_hidden1").hide();
-								$("#" + id + "_hidden2").hide();
-								$("#" + id + "_show").css('visibility', 'visible');
-								$("#" + id + "_show1").css('visibility', 'visible');
-								$("#" + id + "_show2").css('visibility', 'visible');
+								$("#" + id + "_hidden").removeClass().addClass('hidden');
+								$("#" + id + "_hidden1").removeClass().addClass('hidden');
+								$("#" + id + "_hidden2").removeClass().addClass('hidden');
+								$("#" + id + "_show").removeClass('hidden');
+								$("#" + id + "_show1").removeClass('hidden');
+								$("#" + id + "_show2").removeClass('hidden');
 								layer.close(index);
 								}else{
 			      			layer.msg('不能为空！', {offset:'100px'});
@@ -522,13 +392,13 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
 				  var appear = obj.id;
 					var auditField = obj.id.replace("_engineering", "").trim();
 					var auditContent;
 					var auditFieldName;
-					var html = "<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
+					var html = "<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
 					$("#" + obj.id + "").each(function() {
 						auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
 						auditContent = $(this).parents("li").find("input").val();
@@ -547,7 +417,7 @@
 							var text = trim(text);
 							if(text != null && text !=""){
 								$.ajax({
-									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 									type: "post",
 									data: {
 										"auditType": "mat_eng_page",
@@ -558,15 +428,14 @@
 										"auditField": auditField
 									},
 									dataType: "json",
-									success: function(result) {
-										result = eval("(" + result + ")");
-										if(result.msg == "fail") {
-											layer.msg('该条信息已审核过！', {
-												shift: 6, //动画类型
-												offset: '100px'
-											});
-										}
-									}
+									success:function(result){
+                    if(result.status == "503"){
+                       layer.msg('该条信息已审核过！', {             
+                         shift: 6, //动画类型
+                         offset:'100px'
+                      });
+                    }
+                  }
 								});
 								/* $("#"+id3+"").show();
 								$("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */
@@ -584,7 +453,7 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
 					var auditFieldName = $(ele).parents("li").find("span").text().replace("：", "").replace("view", ""); //审批的字段名字
 					var index = layer.prompt({
@@ -596,19 +465,18 @@
 						var text = trim(text);
 						if(text != null && text !=""){
 							$.ajax({
-								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 								type: "post",
 								data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType=mat_eng_page" + "&auditContent=附件" + "&auditField=" + auditField,
 								dataType: "json",
-								success: function(result) {
-									result = eval("(" + result + ")");
-									if(result.msg == "fail") {
-										layer.msg('该条信息已审核过！', {
-											shift: 6, //动画类型
-											offset: '100px'
-										});
-									}
-								}
+								success:function(result){
+                  if(result.status == "503"){
+                     layer.msg('该条信息已审核过！', {             
+                       shift: 6, //动画类型
+                       offset:'100px'
+                    });
+                  }
+                }
 							});
 							$(ele).parents("li").find("p").show(); //显示叉
 							layer.close(index);
@@ -620,47 +488,42 @@
 			}
 			
 			//服务
-			function reasonService1(obj) {
-				var supplierId = $("#supplierId").val();
-				var appear = obj.id;
-				var auditField = obj.id.replace("_service", "").trim();
-				var auditContent;
-				var auditFieldName;
-				var html = "<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
-				$("#" + obj.id + "").each(function() {
-					auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
-					auditContent = $(this).parents("li").find("input").val();
-				});
-				var index = layer.prompt({
-						title: '请填写不通过的理由：',
-						formType: 2,
-						offset: '100px',
-						maxlength: '100'
-					},
-					function(text) {
-						var text = trim(text);
-						if(text != null && text !=""){
-							$.ajax({
-								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-								type: "post",
-								data: {
-									"auditType": "mat_serve_page",
-									"auditFieldName": auditFieldName,
-									"auditContent": auditContent,
-									"suggest": text,
-									"supplierId": supplierId,
-									"auditField": auditField
-								},
-								dataType: "json",
-								success: function(result) {
-									result = eval("(" + result + ")");
-									if(result.msg == "fail") {
-										layer.msg('该条信息已审核过！', {
-											shift: 6, //动画类型
-											offset: '100px'
-										});
-									}
-								 }
+			function reasonService(id, auditFieldName, str) {
+				var supplierStatus= $("input[name='supplierStatus']").val();
+        var sign = $("input[name='sign']").val();
+         //只有审核的状态能审核
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+					var supplierId = $("#supplierId").val();
+					var auditContent = "资质证书名称为：" + str +"的信息";
+					var index = layer.prompt({
+							title: '请填写不通过的理由：',
+							formType: 2,
+							offset: '100px',
+							maxlength: '100'
+						},
+						function(text) {
+							var text = trim(text);
+							if(text != null && text !=""){
+								$.ajax({
+									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
+									type: "post",
+									data: {
+										"auditType": "mat_serve_page",
+										"auditFieldName": auditFieldName,
+										"auditContent": auditContent,
+										"suggest": text,
+										"supplierId": supplierId,
+										"auditField": id
+									},
+									dataType: "json",
+									success:function(result){
+                    if(result.status == "503"){
+                       layer.msg('该条信息已审核过！', {             
+                         shift: 6, //动画类型
+                         offset:'100px'
+                      });
+                    }
+                  }
 								});
 								$("#" + id + "_hidden").hide();
 								$("#" + id + "_show").show();
@@ -676,13 +539,13 @@
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
-        if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+        if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
 					var appear = obj.id;
 					var auditField = obj.id.replace("_service", "").trim();
 					var auditContent;
 					var auditFieldName;
-					var html = "<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
+					var html = "<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
 					$("#" + obj.id + "").each(function() {
 						auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
 						auditContent = $(this).parents("li").find("input").val();
@@ -697,7 +560,7 @@
 							var text = trim(text);
 							if(text != null && text !=""){
 								$.ajax({
-									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+									url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
 									type: "post",
 									data: {
 										"auditType": "mat_serve_page",
@@ -708,15 +571,14 @@
 										"auditField": auditField
 									},
 									dataType: "json",
-									success: function(result) {
-										result = eval("(" + result + ")");
-										if(result.msg == "fail") {
-											layer.msg('该条信息已审核过！', {
-												shift: 6, //动画类型
-												offset: '100px'
-											});
-										}
-									}
+									success:function(result){
+                    if(result.status == "503"){
+                       layer.msg('该条信息已审核过！', {             
+                         shift: 6, //动画类型
+                         offset:'100px'
+                      });
+                    }
+                  }
 								});
 								/* $("#"+id3+"").show();
 								$("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */
@@ -990,10 +852,7 @@
 												<input id="scaleTech" type="text" value="${supplierMatPros.scaleTech }" 
 													<c:if test="${fn:contains(fieldProOne,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech','mat_pro_page');"</c:if> 
 													<c:if test="${fn:contains(passedProField,'scaleTech')}">style="border: 1px solid red;"</c:if>
-													onclick="reasonProduction1(this)" maxlength="10"
-													onkeyup="value=value.replace(/[^\d.]/g,'')"
-													onblur="validatePercentage2(this.value)"
-												/>
+													onclick="reasonProduction1(this)"/>
 												<c:if test="${fn:contains(passedProField,'scaleTech')}">
 													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
@@ -1005,10 +864,7 @@
 												<input id="scaleHeightTech" type="text" value="${supplierMatPros.scaleHeightTech }" 
 													<c:if test="${fn:contains(fieldProOne,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech','mat_pro_page');"</c:if> 
 													<c:if test="${fn:contains(passedProField,'scaleHeightTech')}">style="border: 1px solid red;"</c:if>
-													onclick="reasonProduction1(this)" maxlength="10"
-													onkeyup="value=value.replace(/[^\d.]/g,'')"
-													onblur="validatePercentage2(this.value)"
-												/>
+													onclick="reasonProduction1(this)"/>
 												<c:if test="${fn:contains(passedProField,'scaleHeightTech')}">
 													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
@@ -1046,7 +902,7 @@
 											<div class="col-md-12 col-sm-12 col-xs-12 p0">
 												<textarea class="col-md-12 col-xs-12 col-sm-12 h80 hand" id="countryPro" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'countryPro')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryPro','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'countryPro')}">style="border: 1px solid red;"</c:if>>${supplierMatPros.countryPro }</textarea>
 												<c:if test="${fn:contains(passedProField,'countryPro')}">
-													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
 											</div>
 										</li>
@@ -1055,7 +911,7 @@
 											<div class="col-md-12 col-sm-12 col-xs-12 p0">
 												<textarea class="col-md-12 col-xs-12 col-sm-12 h80 hand" id="countryReward" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'countryReward')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryReward','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'countryReward')}">style="border: 1px solid red;"</c:if>>${supplierMatPros.countryReward }</textarea>
 												<c:if test="${fn:contains(passedProField,'countryReward')}">
-													<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
 											</div>
 										</li>
@@ -1288,11 +1144,11 @@
 										<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 												<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierConAch)}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,'supplierConAch')}">style="border: 1px solid red;"</c:if>>承包合同主要页及保密协议：</span>
-												<c:if test="${suppliers.status == 0 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
+												<c:if test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
 												  <u:upload singleFileSize="300" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" id="conAch_up" multiple="true" auto="true" maxcount="5"/>
 												</c:if>
 												<c:choose>
-												  <c:when test="${suppliers.status == 0 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
+												  <c:when test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
 												    <u:show showId="conAch_show"  businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}"/>
 												  </c:when>
 												  <c:otherwise>
@@ -1316,11 +1172,11 @@
 										<c:forEach items="${rootArea}" var="area" varStatus="st">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'${area.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,area.name)}">style="border: 1px solid red;"</c:if>>${area.name}：</span>
-													<c:if test="${suppliers.status == 0 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
+													<c:if test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
 													  <u:upload singleFileSize="300" maxcount="5"  id="area_show_${st.index+1}" multiple="true" businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" auto="true" />
 													</c:if>
 													<c:choose>
-													  <c:when test="${suppliers.status == 0 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
+													  <c:when test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
 													    <u:show showId="area_show_${st.index+1}"  businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
 													  </c:when>
 													  <c:otherwise>
@@ -1579,7 +1435,7 @@
 
 							<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc mt20">
 								<a class="btn" type="button" onclick="lastStep();">上一步</a>
-								<c:if test="${supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+								<c:if test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
 			            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
 			          </c:if>
 								<a class="btn" type="button" onclick="nextStep();">下一步</a>

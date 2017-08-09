@@ -217,6 +217,9 @@
 .h220 {
   height: 220px;
 }
+.h240 {
+	height: 240px;
+}
 .h270 {
   height: 270px;
 }
@@ -855,4 +858,7 @@ a {
   -moz-opacity: 0.8;
   -khtml-opacity: 0.8;
   opacity: 0.8;
+}
+.position_r {
+  position: relative;
 }

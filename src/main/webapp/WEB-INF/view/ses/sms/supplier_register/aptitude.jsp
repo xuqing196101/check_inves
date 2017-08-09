@@ -68,8 +68,8 @@
 									<!-- 物资生产型 -->
 									<c:set value="0" var="prolength" />
 									<div class="tab-pane active" id="tab-1">
-										<h2 class="f16  ">
-										      	<font color="red">*</font> 上传物资-生产型资质文件
+										<h2 class="f16">
+							      	<font color="red">*</font> 上传物资-生产型资质文件
 										</h2>
 										<table class="table table-bordered">
 											<c:forEach items="${proQua }" var="obj">
@@ -78,9 +78,11 @@
 													<td>
 														<c:forEach items="${obj.list }" var="quaPro">
 															<c:set value="${prolength+1}" var="prolength"></c:set>
-															<div class="mr5 fl" <c:if test="${fn:contains(audit,obj.itemId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${obj.itemId}','${auditType}')"</c:if>>
+															<c:set value="${obj.itemId}_${quaPro.id}" var="quaId" />
+															<c:set value="${auditTypeMap['PRODUCT']}" var="auditType" />
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${quaId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,obj.itemId) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,quaId) && currSupplier.status==2}">
 																		<div class="webuploader-pick">${quaPro.name}</div>
 																		<div class="clear"></div>
 																		<u:show showId="pShow${prolength}" delete="false" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
@@ -104,8 +106,8 @@
 									<!-- 物资销售型 -->
 									<c:set value="0" var="length"> </c:set>
 									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fade height-300" id="tab-2">
-										<h2 class="f16  ">
-										      	<font color="red">*</font> 上传物资-销售型资质文件
+										<h2 class="f16">
+							      	<font color="red">*</font> 上传物资-销售型资质文件
 										</h2>
 										<table class="table table-bordered">
 											<c:forEach items="${saleQua }" var="sale">
@@ -114,9 +116,11 @@
 													<td>
 														<c:forEach items="${sale.list }" var="saua">
 															<c:set value="${length+1}" var="length"></c:set>
-															<div class="mr5 fl" <c:if test="${fn:contains(audit,sale.itemId)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${sale.itemId}','${auditType}')"</c:if>>
+															<c:set value="${obj.itemId}_${saua.id}" var="quaId" />
+															<c:set value="${auditTypeMap['SALES']}" var="auditType" />
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaId)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${quaId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,sale.itemId) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,quaId) && currSupplier.status==2}">
 																		<div class="webuploader-pick">${saua.name}</div>
 																		<div class="clear"></div>
 																		<u:show showId="saleShow${length}" delete="false" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
@@ -142,7 +146,7 @@
 											<font color="red">*</font> 上传工程资质文件
 										</h2>
 										<form id="item_form" method="post" class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
-											<table class="table table-bordered table_input">
+											<table class="table table-bordered table_input m_table_fixed_border">
 												<thead>
 												<tr>
 													<th class="info tc w50">序号</th>
@@ -159,6 +163,7 @@
 												</tr>
 												</thead>
 												<c:forEach items="${allTreeList}" var="cate" varStatus="vs">
+													<c:set value="${auditTypeMap['PROJECT']}" var="auditType" />
 													<tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg(this, '${cate.itemsId}','${auditType}')"</c:if>>
 														<!-- 序号 -->
 														<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
@@ -216,7 +221,7 @@
 													<!-- 证书编号 -->	
 														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 															<input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" label="${vs.index}" value="${cate.certCode}" 
-															onfocus="onfocusCertCode(this)"
+															onkeydown="onkeydownCertCode(this)"
 															onkeyup="onkeyupCertCode(this, '${vs.index}')">
 														</td>
 													<!-- 专业类别 -->
@@ -269,12 +274,11 @@
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE') and fn:length(serviceQua) > 0}">
 									<div class="tab-pane <c:if test="${divCount==0 } ">active in</c:if> fade height-300" id="tab-4">
-										<h2 class="f16  ">
-										      	<font color="red">*</font> 上传服务资质文件
+										<h2 class="f16">
+							      	<font color="red">*</font> 上传服务资质文件
 										</h2>
 										<table class="table table-bordered">
 											<c:set value="0" var="slength"> </c:set>
-
 											<c:forEach items="${serviceQua }" var="server">
 												<tr>
 													<td class="w200">${server.categoryName }
@@ -282,9 +286,11 @@
 													<td>
 														<c:forEach items="${server.list }" var="ser">
 															<c:set value="${slength+1}" var="slength"></c:set>
-															<div class="fl mr5" <c:if test="${fn:contains(audit,server.itemId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${server.itemId}','${auditType}')"</c:if>>
+															<c:set value="${obj.itemId}_${ser.id}" var="quaId" />
+															<c:set value="${auditTypeMap['SERVICE']}" var="auditType" />
+															<div class="fl mr5" <c:if test="${fn:contains(audit,quaId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${quaId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,server.itemId) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,quaId) && currSupplier.status==2}">
 																		<div class="webuploader-pick">${ser.name}</div>
 																		<div class="clear"></div>
 																		<u:show showId="serverShow${slength}" delete="false" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
@@ -318,11 +324,9 @@
 			</div>
 		</div>
 
-		<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/contract.html" method="post">
-			<input name="supplierId" id="supplierId" value="${currSupplier.id}" type="hidden" />
-			<input name="categoryId" value="" id="categoryId" type="hidden" />
-			<input name="flag" value="" id="flag" type="hidden" />
-			<input name="supplierTypeIds" id="supplierTypeIds" value="${supplierTypeIds }" type="hidden" />
+		<form id="aptitude_form" action="${pageContext.request.contextPath}/supplier/perfect_aptitude.html" method="post">
+			<input name="id" id="supplierId" value="${currSupplier.id}" type="hidden" />
+			<input name="supplierTypeIds" id="supplierTypeIds" value="${currSupplier.supplierTypeIds }" type="hidden" />
 		</form>
 		<div class="footer_margin">
    			<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
@@ -331,96 +335,52 @@
 </html>
 <script type="text/javascript">
 			function saveItems() {
-				$("input[name='flag']").val("file");
 				$.ajax({
-					url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
+					url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
 					type: "post",
-					data: $("#items_info_form_id").serializeArray(),
-					contextType: "application/x-www-form-urlencoded",
-					success: function(msg) {
-						$.ajax({
-							url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
-							type: "post",
-							data: $("#item_form").serializeArray(),
-							success: function(){
-								if(msg == 'ok') {
-									layer.msg('暂存成功');
-								}
-								if(msg == 'failed') {
-									layer.msg('暂存失败');
-								}
-							}
-						});
+					data: $("#item_form").serializeArray(),
+					success: function(msg){
+						if(msg == 'ok') {
+							layer.msg('暂存成功');
+						}
+						if(msg == 'failed') {
+							layer.msg('暂存失败');
+						}
 					}
 				});
 			}
 
 			// 无提示暂存
 			function tempSave() {
-				$("input[name='flag']").val("file");
 				$.ajax({
-					url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
+					url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
 					type: "post",
-					data: $("#items_info_form_id").serializeArray(),
-					contextType: "application/x-www-form-urlencoded",
-					success: function(msg) {
-						$.ajax({
-							url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
-							type: "post",
-							data: $("#item_form").serializeArray(),
-             				success: function(msg) {
-                				return "0";
-             				 }
-						});
-					}
+					data: $("#item_form").serializeArray(),
+   				success: function(msg) {
+     				return "0";
+ 				 	}
 				});
 			}
 
 			function next() {
-				var supplierId = "${currSupplier.id}";
-				var supplierTypeIds=$("#supplierTypeIds").val();
-				$.ajax({
-					url: "${pageContext.request.contextPath}/supplier_item/isaAtitude.do",
-					data: {"supplierId": supplierId, "supplierTypeIds": supplierTypeIds},
-					dataType: "json",
-					success: function(msg){
-					 	if(msg=="0"){
-					 		layer.alert("资质文件没有上传完毕，请继续上传！");
-					 	}else{
-							$("input[name='flag']").val("2");
-							sessionStorage.formE=JSON.stringify($("#items_info_form_id").serializeArray());
-							var flag=isAptitue();
-							if(flag==true){
-                $("input[name='flag']").val("file");
-                $.ajax({
-                  url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
-                  type: "post",
-                  data: $("#items_info_form_id").serializeArray(),
-                  contextType: "application/x-www-form-urlencoded",
-                  success: function(msg) {
-                    $.ajax({
-                      url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
-                      type: "post",
-                      data: $("#item_form").serializeArray(),
-                      success: function(msg) {
-                        $("#items_info_form_id").submit();
-                      }
-                    });
-                  }
-                });
-							}else{
-								layer.alert("请完善工程资质证书信息！");
-							}
-
-					 	}
-					}
-				});
+				var flag=isAptitue();
+				if(flag==true){
+          $.ajax({
+            url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
+            type: "post",
+            data: $("#item_form").serializeArray(),
+            success: function(msg) {
+              $("#aptitude_form").submit();
+            }
+          });
+				}else{
+					layer.alert("请完善工程资质证书信息！");
+				}
 			}
 
 			function prev() {
 				tempSave();
-				$("input[name='flag']").val("1");
-				$("#items_info_form_id").submit();
+				updateStep(3);
 			}
 
 			/*获取内层div的最大高度赋予外层div*/
@@ -455,7 +415,7 @@
 				});
 			}
 			
-			function onfocusCertCode(_this){
+			function onkeydownCertCode(_this){
 				$(_this).attr("oldCode", $(_this).val());
 			}
 			
@@ -503,6 +463,7 @@
 							"supplierId": supplierId
 						},
 						dataType: "json",
+						async: false,
 						success: function(data){
 							var select=$(obj).parent().next().children();
 							var html="<option value=''>请选择</option>";
@@ -610,6 +571,7 @@
 				}
 				tempSave();
 			}
+			
 			function updateStep(step){
 				var supplierId = "${currSupplier.id}";
 				location.href = "${pageContext.request.contextPath}/supplier/updateStep.html?step=" + step + "&supplierId=" + supplierId;
@@ -623,6 +585,11 @@
 				var serviceQua = "${fn:contains(currSupplier.supplierTypeIds, 'SERVICE') and fn:length(serviceQua) > 0}";
 				if (proQua == "false" && saleQua == "false" && projectQua == "false" && serviceQua == "false") {
 				  layer.alert("没有需要上传的资质文件，请直接点击下一步！");
+				}
+				
+				var aptitude_error = "${aptitude_error}";
+				if(aptitude_error == "notComplete"){
+					layer.alert("资质文件没有上传完毕！");
 				}
 				
 				//第二步 被修改过的证书编号

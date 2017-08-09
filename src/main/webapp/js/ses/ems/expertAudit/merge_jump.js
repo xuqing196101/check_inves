@@ -19,13 +19,42 @@ function jump(str) {
         action = globalPath + "/expertAudit/reasonsList.html";
     }
     if (str == "uploadApproveFile") {
-        // 获取审核意见
-        var opinion  = $("#opinion").val();
-        if(status == -2 || status == -3 || status == 5){
-            tempSave(1);
+        var flag = true;
+        if(status == -2 || status == 1){
+            /*var expertId = $("#expertId").val();
+            $.ajax({
+                url:globalPath + "/expertAudit/isHaveOpinion.do",
+                type: "POST",
+                async:false,
+                data:{
+                    "expertId":expertId
+                },
+                dataType:"json",
+                success:function (data) {
+                    if(data.data == null){
+                        layer.msg("审核意见不能为空！");
+                        flag = false;
+                        return;
+                    }else if(data.data.opinion == null){
+                        layer.msg("审核意见不能为空！");
+                        flag = false;
+                        return;
+                    }else if(data.data.isDownLoadAttch == null){
+                        // 判断附件是否下载
+                        layer.msg("请下载审批表！");
+                        flag = false;
+                        return;
+                    }
+                }
+            });*/
+            layer.msg("请点击'审核汇总'的下一步进行操作！");
             return;
+        }else {
+            action = globalPath + "/expertAudit/uploadApproveFile.html";
         }
-        action = globalPath + "/expertAudit/uploadApproveFile.html";
+        /*if(flag){
+
+        }*/
     }
     $("#form_id").attr("action", action);
     $("#form_id").submit();
@@ -33,11 +62,12 @@ function jump(str) {
 
 
 var status;
+var sign;
 $(function () {
     // 获取专家状态
-    debugger;
     status = $("#status").val();
-    if(status == -2 || status == -3 || status == 5){
+    sign = $("input[name='sign']").val();
+    if(status == -2 || status == -3 || status == 5 || status == 4){
         $("#reverse_of_five_i").show();
         $("#reverse_of_six").show();
     }

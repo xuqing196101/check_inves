@@ -12,7 +12,6 @@ import ses.model.bms.CategoryParameter;
 import ses.model.bms.RoleUser;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
-import ses.model.bms.Userrole;
 import ses.util.MyAnnotation;
 import bss.model.ppms.ProjectDetail;
 import common.model.UploadFile;
@@ -399,7 +398,9 @@ Supplier implements Serializable {
 
 	/**
 	 * <pre>
-	 * -1暂存，0待审核，1审核通过（已入库，可抽取），2审核退回修改，3审核未通过，4待复核，5复核通过，6复核未通过，5待考察，7考察合格，8考察不合格, -2审核预通过，-3公示中
+	 * -1暂存，0待审核，1审核通过（已入库，可抽取），2退回修改，
+	 * 3审核未通过，4待复核，5复核通过，6复核未通过，5待考察，7考察合格，
+	 * 8考察不合格, -2审核预通过，-3公示中,9退回在审核
 	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_STATUS
 	 * </pre>
 	 */
@@ -651,9 +652,7 @@ Supplier implements Serializable {
 	private List<Area> concatCityList=new ArrayList<Area>();
 	
 	private List<Area> armyCity=new ArrayList<Area>();
-	/**
-	 * 字典
-	 */
+	
 	private Area area;
 	
 	private String packageName;

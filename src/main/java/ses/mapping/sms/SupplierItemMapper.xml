@@ -13,9 +13,11 @@
 		<result column="CERT_CODE" property="certCode"/>
 		<result column="QUALIFICATION_TYPE" property="qualificationType"/>
 		<result column="PROFESS_TYPE"   property="professType"/>
+		<result column="NODE_LEVEL"   property="nodeLevel"/>
+		<result column="IS_RETURNED" property="isReturned"/>
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT, CATE_LEVEL, CERT_CODE, DIY_LEVEL, QUALIFICATION_TYPE,PROFESS_TYPE
+		ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT, CATE_LEVEL, CERT_CODE, DIY_LEVEL, QUALIFICATION_TYPE,PROFESS_TYPE, NODE_LEVEL, IS_RETURNED
 	</sql>
 	
 	<sql id="Base_Column">
@@ -50,10 +52,10 @@
 	<insert id="insert" parameterType="ses.model.sms.SupplierItem">
 		insert into T_SES_SMS_SUPPLIER_ITEM (ID, SUPPLIER_ID, CATEGORY_ID,
 		SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT,
-		UPDATED_AT)
+		UPDATED_AT, NODE_LEVEL)
 		values (#{id}, #{supplierId}, #{categoryId},
 		#{supplierTypeRelateId}, #{status}, #{createdAt,jdbcType=TIMESTAMP},
-		#{updatedAt,jdbcType=TIMESTAMP})
+		#{updatedAt,jdbcType=TIMESTAMP},#{nodeLevel, jdbcType=DECIMAL})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierItem">
 		insert into T_SES_SMS_SUPPLIER_ITEM
@@ -94,7 +96,10 @@
 			<if test="professType != null">
 				PROFESS_TYPE,
 			</if>
-			
+			<if test="nodeLevel != null">
+				NODE_LEVEL,
+			</if>
+
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -131,7 +136,10 @@
 				#{qualificationType},
 			</if>
 			<if test="professType != null">
-				#{professType}
+				#{professType},
+			</if>
+			<if test="nodeLevel != null">
+				#{nodeLevel}
 			</if>
 		</trim>
 	
@@ -171,6 +179,12 @@
 			</if>
 			<if test="professType != null">
 				PROFESS_TYPE = #{professType},
+			</if>
+			<if test="nodeLevel != null">
+				NODE_LEVEL = #{nodeLevel},
+			</if>
+			<if test="isReturned != null">
+				IS_RETURNED = #{isReturned},
 			</if>
 		</set>
 		where ID = #{id}
@@ -261,8 +275,28 @@
 			<if test="type != null and type != ''">
 				and SUPPLIER_TYPE_RELATE_ID = #{type}
 			</if>
+			<if test="isReturned != null">
+				and IS_RETURNED = #{isReturned}
+			</if>
 		</where>
 	</select>
+	
+	<select id="findByMapByNull" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from T_SES_SMS_SUPPLIER_ITEM
+        <where>
+            CERT_CODE IS NOT NULL
+            <if test="categoryId != null and categoryId != ''">
+                and CATEGORY_ID = #{categoryId}
+            </if>
+            <if test="supplierId != null and supplierId != ''">
+                and SUPPLIER_ID = #{supplierId}
+            </if>
+            <if test="type != null and type != ''">
+                and SUPPLIER_TYPE_RELATE_ID = #{type}
+            </if>
+            
+        </where>
+    </select>
 	
 	<select id="selectByMap" parameterType="java.util.Map" resultMap="BaseResultMap" flushCache="true">
 		SELECT DISTINCT
@@ -281,7 +315,9 @@
 			<if test="type != null">
 				AND s.SUPPLIER_TYPE_RELATE_ID = #{type}
 			</if>
-			
+			<if test="isReturned != null">
+				and IS_RETURNED = #{isReturned}
+			</if>
 			order by c.CODE ASC
 	</select>
 	
@@ -297,22 +333,35 @@
 			<if test="supplierId != null and supplierId != ''">
 				and SUPPLIER_ID = #{supplierId}
 			</if>
+			<if test="isReturned != null">
+				and IS_RETURNED = #{isReturned}
+			</if>
 		</where>
 	</delete>
-	
 	
 	<delete id="deleteRelate" parameterType="String">
 			delete from
 				T_SES_SMS_SUPPLIER_ITEM
 			where SUPPLIER_TYPE_RELATE_ID = #{relateId} and  SUPPLIER_ID = #{supplierId}
 	</delete>
+	
 	<select id="getBySupplierIdCategoryId"  resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List"/>
 				from
 				T_SES_SMS_SUPPLIER_ITEM
 				where CATEGORY_ID = #{categoryId}  and  SUPPLIER_ID = #{supplierId} and SUPPLIER_TYPE_RELATE_ID=#{type}
-	</select> 
+	</select>
+	<select id="getBySupplierIdCategoryIdIsNotReturned"  resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+				from
+				T_SES_SMS_SUPPLIER_ITEM
+				where CATEGORY_ID = #{categoryId}  
+				and  SUPPLIER_ID = #{supplierId} 
+				and SUPPLIER_TYPE_RELATE_ID = #{type}
+				and IS_RETURNED != 1
+	</select>
 	
 	<!-- 根据供应商id和类型查询 -->
 	<select id="queryBySupplierIdAndType"  resultMap="BaseResultMap">
@@ -370,7 +419,7 @@
 	<select id="selectRegSupCateCount" resultType="java.lang.Integer" parameterType="java.lang.String">
 		SELECT COUNT(T.ID)
 		  FROM T_SES_SMS_SUPPLIER_ITEM T
-		   WHERE T.CATE_LEVEL = '3'
+		   WHERE T.NODE_LEVEL = 3
 		   <if test="supplierId != null and supplierId != ''">
 			   AND  T.SUPPLIER_ID = #{supplierId}
 		   </if>
@@ -378,26 +427,55 @@
 	
 	<!-- 获取该供应商品目的类型 -->
 	<select id="findSupplierTypeBySupplierId" resultType="String" parameterType="String">
-	SELECT SUPPLIER_TYPE_RELATE_ID from T_SES_SMS_SUPPLIER_ITEM where SUPPLIER_ID=#{supplierId}
-     GROUP BY SUPPLIER_TYPE_RELATE_ID
+	<!--SELECT SUPPLIER_TYPE_RELATE_ID from T_SES_SMS_SUPPLIER_ITEM where SUPPLIER_ID=#{supplierId}
+     GROUP BY SUPPLIER_TYPE_RELATE_ID-->
+      SELECT T.SUPPLIER_TYPE_RELATE_ID
+        FROM (SELECT T.SUPPLIER_TYPE_ID FROM T_SES_SMS_SUPPLIER_TYPE_RELATE T
+              WHERE T.SUPPLIER_ID = #{supplierId}) R
+        LEFT JOIN T_SES_SMS_SUPPLIER_ITEM T
+          ON R.SUPPLIER_TYPE_ID = T.SUPPLIER_TYPE_RELATE_ID
+       WHERE T.SUPPLIER_ID = #{supplierId}
+       GROUP BY T.SUPPLIER_TYPE_RELATE_ID
 	</select>
 
 	<!-- 获取该供应商通过的类型 -->
 	<select id="findPassSupplierTypeBySupplierId" resultType="String" parameterType="Map">
-		SELECT A.SUPPLIER_TYPE_RELATE_ID
-				FROM T_SES_SMS_SUPPLIER_ITEM A
-			   WHERE NOT EXISTS
-			   (SELECT T.SUPPLIER_ID, T.AUDIT_FIELD
-						FROM T_SES_SMS_SUPPLIER_AUDIT T
-					   WHERE A.CATEGORY_ID = T.AUDIT_FIELD
-						 AND T.SUPPLIER_ID = #{supplierId}
-						 AND (T.AUDIT_TYPE = #{items_sales_page} OR
-							 T.AUDIT_TYPE = #{items_product_page})
-						 AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
-						 AND T.IS_DELETED = 0)
-				 AND A.SUPPLIER_ID = #{supplierId}
-				 AND A.CATE_LEVEL = '3'
-			   GROUP BY A.SUPPLIER_TYPE_RELATE_ID
+		SELECT E.SUPPLIER_TYPE_RELATE_ID
+		  FROM (SELECT A.SUPPLIER_TYPE_RELATE_ID
+			  FROM (SELECT T.SUPPLIER_TYPE_ID FROM T_SES_SMS_SUPPLIER_TYPE_RELATE T
+              WHERE T.SUPPLIER_ID = #{supplierId}) R
+              LEFT JOIN  T_SES_SMS_SUPPLIER_ITEM A
+                ON R.SUPPLIER_TYPE_ID = A.SUPPLIER_TYPE_RELATE_ID
+			 WHERE
+                <if test="items_sales_page != null and items_sales_page != ''">
+                    A.SUPPLIER_TYPE_RELATE_ID = #{type} AND
+                </if>
+                <if test="items_product_page != null and items_product_page != '' and type != null and type != ''">
+                    A.SUPPLIER_TYPE_RELATE_ID <![CDATA[<>]]> #{type} AND
+                </if>
+			  NOT EXISTS
+			 (SELECT T.SUPPLIER_ID, T.AUDIT_FIELD
+					  FROM T_SES_SMS_SUPPLIER_AUDIT T
+					 WHERE A.CATEGORY_ID = T.AUDIT_FIELD
+					   AND T.SUPPLIER_ID = #{supplierId}
+                        <if test="items_product_page != null and items_product_page != ''">
+                            AND T.AUDIT_TYPE = #{items_product_page}
+                        </if>
+                        <if test="items_sales_page != null and items_sales_page != ''">
+                            AND T.AUDIT_TYPE = #{items_sales_page}
+                        </if>
+					   AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3 OR T.STATUS = 9)
+					   AND T.IS_DELETED = 0)
+			   AND A.SUPPLIER_ID = #{supplierId}
+			   AND A.NODE_LEVEL = 3
+			 GROUP BY A.SUPPLIER_TYPE_RELATE_ID) E
+	 WHERE E.SUPPLIER_TYPE_RELATE_ID NOT IN
+		   (SELECT DA.CODE
+			  FROM T_SES_SMS_SUPPLIER_AUDIT T
+			  LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA
+				ON T.AUDIT_FIELD = DA.ID
+			 WHERE T.SUPPLIER_ID = #{supplierId}
+			   AND T.AUDIT_TYPE = #{supplierType_page})
 	</select>
 
 	<!-- 查询供应商选择的小类节点 -->
@@ -406,26 +484,81 @@
 		<include refid="Base_Column_List"/>
 		FROM T_SES_SMS_SUPPLIER_ITEM T
 		WHERE T.SUPPLIER_ID = #{supplierId}
-		AND T.CATE_LEVEL = '3'
+		AND T.NODE_LEVEL = 3
 	</select>
 
     <!--通过条件查询供应商审核通过的产品类别-->
     <select id="selectPassItemByCond" resultMap="BaseResultMap" parameterType="Map">
 	  	SELECT A.ID, A.SUPPLIER_TYPE_RELATE_ID, A.CATEGORY_ID
 			FROM T_SES_SMS_SUPPLIER_ITEM A
-		   WHERE NOT EXISTS
+                INNER JOIN T_SES_BMS_CATEGORY C
+                ON A.CATEGORY_ID = C.ID
+		    WHERE
+            <if test="type != null and type !=''">
+                A.SUPPLIER_TYPE_RELATE_ID = #{type} AND
+            </if>
+            NOT EXISTS
 		   (SELECT T.SUPPLIER_ID, T.AUDIT_FIELD
 					FROM T_SES_SMS_SUPPLIER_AUDIT T
 				   WHERE A.CATEGORY_ID = T.AUDIT_FIELD
 					 AND T.SUPPLIER_ID = #{supplierId}
-					 AND (T.AUDIT_TYPE = #{items_sales_page} OR
-						 T.AUDIT_TYPE = #{items_product_page})
-					 AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
+					<if test="items_product_page != null and items_product_page != ''">
+						AND T.AUDIT_TYPE = #{items_product_page}
+					</if>
+					<if test="items_sales_page != null and items_sales_page != ''">
+						AND T.AUDIT_TYPE = #{items_sales_page}
+					</if>
+					 AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3 OR T.STATUS = 9)
 					 AND T.IS_DELETED = 0)
 			 AND A.SUPPLIER_ID = #{supplierId}
-			 AND A.CATE_LEVEL = '3'
-            <if test="type != null and type !=''">
-                AND A.SUPPLIER_TYPE_RELATE_ID = #{type}
-            </if>
+			 AND A.NODE_LEVEL = 3
+            ORDER BY C.CODE ASC
     </select>
+
+    <!--查询供应商类型下所有选择的产品类别数量-->
+    <select id="selectCountBySupTypeList" resultMap="BaseResultMap" parameterType="Map">
+       <!-- SELECT
+        <include refid="Base_Column_List" />
+        FROM T_SES_SMS_SUPPLIER_ITEM T
+        WHERE T.NODE_LEVEL = 3
+        <if test="supplierId != null and supplierId != ''">
+            AND T.SUPPLIER_ID = #{supplierId}
+        </if>
+        <if test="type != null and type != ''">
+            AND T.SUPPLIER_TYPE_RELATE_ID = #{type}
+        </if>-->
+
+		SELECT
+        T.ID, T.SUPPLIER_ID, T.CATEGORY_ID, T.SUPPLIER_TYPE_RELATE_ID,
+        T.STATUS, T.CREATED_AT, T.UPDATED_AT, T.CATE_LEVEL,
+        T.CERT_CODE, T.DIY_LEVEL, T.QUALIFICATION_TYPE,T.PROFESS_TYPE,T.NODE_LEVEL
+		FROM
+        (SELECT T.SUPPLIER_TYPE_ID FROM T_SES_SMS_SUPPLIER_TYPE_RELATE T
+          WHERE T.SUPPLIER_ID = #{supplierId}) R
+		LEFT JOIN T_SES_SMS_SUPPLIER_ITEM T
+		ON R.SUPPLIER_TYPE_ID = T.SUPPLIER_TYPE_RELATE_ID
+		WHERE T.NODE_LEVEL = 3
+		<if test="supplierId != null and supplierId != ''">
+			AND T.SUPPLIER_ID = #{supplierId}
+		</if>
+		<if test="type != null and type != ''">
+			AND T.SUPPLIER_TYPE_RELATE_ID = #{type}
+		</if>
+
+	</select>
+	
+	<!--统计供应商品目-->
+	<select id="countItemsBySuppIdAndCateIds" resultType="int">
+		SELECT COUNT(*) FROM T_SES_SMS_SUPPLIER_ITEM
+		WHERE SUPPLIER_ID = #{supplierId}
+		AND SUPPLIER_TYPE_RELATE_ID = #{code}
+		<if test="catIds != null and catIds.size != 0">
+			AND CATEGORY_ID IN
+			<foreach collection="catIds" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		AND IS_RETURNED != 1
+	</select>
+
 </mapper>

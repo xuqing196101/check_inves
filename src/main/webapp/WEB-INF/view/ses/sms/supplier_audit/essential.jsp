@@ -60,7 +60,7 @@
 	       	var supplierStatus= $("input[name='supplierStatus']").val();
 	        var sign = $("input[name='sign']").val();
 	       	//只有审核的状态能审核
-	       	if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+	       	if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
             var supplierId = $("#id").val();
             var auditField = obj.id;
             var auditContent;
@@ -83,7 +83,7 @@
                     var text = trim(text);
                     if (text != null && text != "") {
                         $.ajax({
-                            url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+                            url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
                             type: "post",
                             dataType: "json",
                             data: {
@@ -94,14 +94,13 @@
                                 "supplierId": supplierId,
                                 "auditField": auditField
                             },
-                            success: function (result) {
-                                result = eval("(" + result + ")");
-                                if (result.msg == "fail") {
-                                    layer.msg('该条信息已审核过！', {
-                                        shift: 6, //动画类型
-                                        offset: '100px'
-                                    });
-                                }
+                            success:function(result){
+                              if(result.status == "503"){
+                                 layer.msg('该条信息已审核过！', {             
+                                   shift: 6, //动画类型
+                                   offset:'100px'
+                                });
+                              }
                             }
                         });
                         $(obj).after(html);
@@ -170,7 +169,7 @@
        	  var supplierStatus= $("input[name='supplierStatus']").val();
           var sign = $("input[name='sign']").val();
            //只有审核的状态能审核
-          if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+          if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
             var supplierId = $("#id").val();
             var auditFieldName = $(ele).parents("li").find("span").text().replace("：", "").replace("view", ""); //审批的字段名字
             var index = layer.prompt({
@@ -182,18 +181,17 @@
                 var text = trim(text);
                 if (text != null && text != "") {
                     $.ajax({
-                        url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+                        url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
                         type: "post",
                         data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType=basic_page" + "&auditContent=附件" + "&auditField=" + auditField,
                         dataType: "json",
-                        success: function (result) {
-                            result = eval("(" + result + ")");
-                            if (result.msg == "fail") {
-                                layer.msg('该条信息已审核过！', {
-                                    shift: 6, //动画类型
-                                    offset: '100px'
-                                });
-                            }
+                        success:function(result){
+                          if(result.status == "503"){
+                             layer.msg('该条信息已审核过！', {             
+                               shift: 6, //动画类型
+                               offset:'100px'
+                            });
+                          }
                         }
                     });
                     $(ele).parents("li").find("p").show(); //显示叉
@@ -210,7 +208,7 @@
         	var supplierStatus= $("input[name='supplierStatus']").val();
           var sign = $("input[name='sign']").val();
            //只有审核的状态能审核
-          if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+          if(supplierStatus == -2 || supplierStatus == 0 | supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
             var supplierId = $("#id").val();
             var auditContent;
             var auditFieldName;
@@ -232,7 +230,7 @@
                     var text = trim(text);
                     if (text != null && text != "") {
                         $.ajax({
-                            url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+                            url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
                             type: "post",
                             data: {
                                 "auditType": "basic_page",
@@ -243,14 +241,13 @@
                                 "auditField": id
                             },
                             dataType: "json",
-                            success: function (result) {
-                                result = eval("(" + result + ")");
-                                if (result.msg == "fail") {
-                                    layer.msg('该条信息已审核过！', {
-                                        shift: 6, //动画类型
-                                        offset: '100px'
-                                    });
-                                }
+                            success:function(result){
+                              if(result.status == "503"){
+                                 layer.msg('该条信息已审核过！', {             
+                                   shift: 6, //动画类型
+                                   offset:'100px'
+                                });
+                              }
                             }
                         });
                         $("#" + id + "_hidden").hide();
@@ -1380,7 +1377,7 @@
         </div>
 
         <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
-          <c:if test="${suppliers.status == 0 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
+          <c:if test="${suppliers.status == -2 or suppliers.status == 0 or suppliers.status == 9 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
           </c:if>
           <a class="btn" type="button" onclick="nextStep();">下一步</a>
@@ -1390,6 +1387,7 @@
           method="post">
         <input type="hidden" name="fileName"/>
     </form>
+    <input name="supplierId" id="supplierId" value="${suppliers.id }" type="hidden">
 </div>
 </body>
 

@@ -77,6 +77,22 @@
             }else{*/
                 //询问框
             if(status == -2){
+                /*// 获取审核意见
+                var opinion  = $("#opinion").val();
+                if(opinion == ''){
+                    layer.msg("审核意见不能为空！");
+                    return;
+                }
+                if(opinion.length > 1000){
+                    layer.msg("审核意见不能超过1000字！");
+                    return;
+                }*/
+                // 校验
+                var flags = vartifyAuditCount();
+                if(flags){
+                    return;
+                }
+                // 校验通过
                 layer.confirm('您确认吗？', {
                     closeBtn: 0,
                     offset: '100px',
@@ -110,7 +126,41 @@
                 });
             }
 
-            if(status != -2){
+            if(status == 2){
+                var flags = false;
+                $.ajax({
+                    url:globalPath + "/supplierAudit/vertifyAuditNoPassItem.do",
+                    type: "POST",
+                    async:false,
+                    data:{
+                        "supplierId":supplierId
+                    },
+                    dataType:"json",
+                    success:function (data) {
+                        if (data.status == 500) {
+                            layer.msg(data.msg);
+                            flags = true;
+                            return;
+                        }
+                    }
+                });
+                if(flags){
+                    return;
+                }
+                layer.confirm('您确认吗？', {
+                    closeBtn: 0,
+                    offset: '100px',
+                    shift: 4,
+                    btn: ['确认','取消']
+                }, function(index){
+                    //最终意见
+                    $("#status").val(status);
+                    //提交审核
+                    $("#form_shen").submit();
+                });
+            }
+
+            if(status != -2 && status != 2){
                 var opinion = document.getElementById('opinion').value;
                 opinion = trim(opinion);
                 if (opinion != null && opinion != "") {
@@ -255,26 +305,28 @@
             <form id="opinionForm" method="post">
                 <input name="id" value="${supplierAuditOpinion.id}" type="hidden">
                 <input name="supplierId" value="${supplierId}" type="hidden">
+                <input id="cateResult" name="cateResult" value="" type="hidden">
                 <input name="opinion" value="" id="opinionId" type="hidden">
                 <input name="flagTime" value="" id="flagTime" type="hidden">
                 <input name="flagAduit" value="" id="flagAduit" type="hidden">
                 <input name="vertifyFlag" value="" id="vertifyFlag" type="hidden">
                 <input name="isDownLoadAttch" id="downloadAttachFile" value="${supplierAuditOpinion.isDownLoadAttch}" type="hidden">
-            </form>`
+            </form>
           
           <!-- download check table -->
             <form id="shenhe_form_id" action="" method="post">
                 <input name="supplierId" type="hidden" value="${supplierId}"/>
                 <input type="hidden" name="sign" value="${sign}">
+                <input type="hidden" name="opinion">
                 <input type="hidden" name="tableType">
             </form>
           
-          <c:if test="${supplierStatus == 3 }">
+          <%-- <c:if test="${supplierStatus == 3 }">
              <h2 class="count_flow"><i>1</i>问题汇总</h2>
-          </c:if>
+          </c:if> --%>
            <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
           <div class="ul_list count_flow">
-            <c:if test="${supplierStatus == 0 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+            <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
               <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
             </c:if>
             <table class="table table-bordered table-condensed table-hover">
@@ -339,44 +391,56 @@
 	          </ul>
 	        </c:if> --%>
 			<c:if test="${sign != 1}">
-				<div>
-					<h2 class="count_flow"><i>2</i>最终意见</h2>
-					<ul class="ul_list">
-						<li class="col-md-12 col-sm-12 col-xs-12">
-							<div class="col-md-12 col-sm-12 col-xs-12 p0">
-								<textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
-							</div>
-						</li>
-					</ul>
-				</div>
+			  <div class="clear"></div>
+				<h2 class="count_flow mt0"><i>2</i>最终意见</h2>
+				<ul class="ul_list">
+					<li>
+						<textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
+					</li>
+				</ul>
 			</c:if>
 			<c:if test="${ sign == 1}">
-				<div id="checkWord" class="display-none">
+				<div>
 					<div id="opinionDiv">
-						<h2 class="count_flow"><i>2</i>审核意见<span class="red">*</span></h2>
+					  <div class="clear"></div>
+						<h2 class="count_flow"><i>2</i><span class="red">*</span>审核意见</h2>
 					  <ul class="ul_list">
 						  <li>
 							  <div class="select_check" id="selectOptionId">
-								  <input type="radio" name="selectOption" value="1">预审核通过
-								  <input type="radio" name="selectOption" value="0">预审核不通过
+							    <c:choose>
+							      <c:when test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+                      <input type="radio" name="selectOption" value="1">预审核通过
+                      <input type="radio" name="selectOption" value="0">预审核不通过
+							      </c:when>
+							      <c:otherwise>
+							         <input type="radio" disabled="disabled" name="selectOption" value="1">预审核通过
+                                     <input type="radio" disabled="disabled" name="selectOption" value="0">预审核不通过
+							      </c:otherwise>
+							    </c:choose>
 							  </div>
 						  </li>
-
-						  <li class="col-md-12 col-sm-12 col-xs-12">
-							  <div class="col-md-12 col-sm-12 col-xs-12 p0">
-								  <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
-							  </div>
-						  </li>
+                          <li><span type="text" name="cate_result" id="cate_result"></span></li>
+                          <li class="mt10">
+                                  <c:choose>
+                                      <c:when test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+                                          <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
+                                      </c:when>
+                                      <c:otherwise>
+                                          <textarea id="opinion" disabled="disabled" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
+                                      </c:otherwise>
+                                  </c:choose>
+                                  <div class="clear"></div>
+                          </li>
 					  </ul>
                     <input type="hidden" value="${supplierAuditOpinion.flagAduit}" id="hiddenSelectOptionId">
                     </div>
 			        <!-- 审核公示扫描件上传 -->
-                    <div>
-                        <h2 class="count_flow"><i>3</i>供应商审批表</h2>
+                    <div id="checkWord" class="display-none">
+                        <h2 class="count_flow"><i>3</i><span class="red">*</span>供应商审核表</h2>
                         <ul class="ul_list">
                             <li class="col-md-6 col-sm-6 col-xs-6">
                                 <span class="fl">下载审核表：</span>
-                                <a href="javascript:;" onclick="downloadTable(3)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
+                                <a href="javascript:;" onclick="downloadTable(0)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
                             </li>
                         </ul>
                     </div>
@@ -396,26 +460,28 @@
                             <div class="col-md-12 add_regist tc">
                                 <a class="btn"  type="button" onclick="lastStep();">上一步</a>
                                 <!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
-                                <c:if test="${supplierStatus == 0}">
-                                    <input  class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
-                                    <span id="tongguoSpan"><input class="btn btn-windows git"  type="button" onclick="shenhe(-2)" value="预审核结束" id="tongguo"></span>
+                                <c:if test="${supplierStatus == 0 or supplierStatus == 9}">
+                                    <input  class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
+                                    <span id="tongguoSpan"><input class="btn btn-windows end"  type="button" onclick="shenhe(-2)" value="预审核结束" id="tongguo"></span>
                                     <%--<span class="display-none" id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>--%>
                                     <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
                                     <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
                                     <%--<input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">--%>
                                 </c:if>
-                                <c:if test="${supplierStatus == -2 }">
+                                <c:if test="${supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 3 || (supplierStatus == 1 && sign == 1)}">
                                     <%--<c:if test="${supplierStatus == -2}">
                                 <span id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
                               </c:if>--%>
-                                    <%--<input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">--%>
+                                    <%--<input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">--%>
                                     <%-- <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">--%>
-                                    <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
+                                    <c:if test="${supplierStatus == -2}">
+                                      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
+                                    </c:if>
                                     <a class="btn" type="button" onclick="nextStep();">下一步</a>
                                 </c:if>
 
                                 <c:if test="${supplierStatus == 4}">
-                                    <input class="btn btn-windows git"  type="button" onclick="shenhe(5)" value="复核通过 " id="tongguo">
+                                    <input class="btn btn-windows passed"  type="button" onclick="shenhe(5)" value="复核通过 " id="tongguo">
                                     <input class="btn btn-windows cancel"  type="button" onclick="shenhe(6)" value="复核不通过" id="butongguo">
                                 </c:if>
                                 <c:if test="${supplierStatus == 5 && sign ==3}">

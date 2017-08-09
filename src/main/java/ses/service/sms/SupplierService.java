@@ -16,6 +16,7 @@ import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierItem;
 import ses.model.sms.supplierExport;
 /**
  * @Title: SupplierInfoService
@@ -106,11 +107,11 @@ public interface SupplierService {
 	 * @author: Wang Zhaohua
 	 * @date: 2016-11-7 下午1:37:12
 	 * @Description: 校验是否登录
-	 * @param: @param user
+	 * @param: @param supplier
 	 * @param: @return
-	 * @return: Map<String,Integer>
+	 * @return: Map<String,Object>
 	 */
-	public Map<String, Object> checkLogin(User user);
+	public Map<String, Object> checkLogin(Supplier supplier);
 	 /**
      * @Title: selectByPrimaryKey
      * @author: Wang Zhaohua
@@ -118,7 +119,7 @@ public interface SupplierService {
      * @Description: 根据主键获取一条数据库记录
      * @param: @param id
      * @param: @return
-     * @return: SupplierInfo
+     * @return: Supplier
      */
     Supplier selectById(String id);
     
@@ -426,17 +427,7 @@ public interface SupplierService {
 	 * @return
 	 */
 	public int countByPurchaseDepId(String purchaseDepId, int status);
-	/**
-	 * 
-	 * Description:获取资质文件 数量
-	 * 
-	 * @author YangHongLiang
-	 * @version 2017-6-26
-	 * @param cateTree
-	 * @param supplierId
-	 * @return
-	 */
-	public Long countCategoyrId(SupplierCateTree cateTree,String supplierId);
+	
 	/**
 	 * 
 	 * Description:获取销售合同数量
@@ -446,7 +437,8 @@ public interface SupplierService {
 	 * @param supplierItemId
 	 * @return
 	 */
-	public Long contractCountCategoyrId(String supplierItemId);
+	public SupplierCateTree contractCountCategoyrId(SupplierCateTree cateTree,SupplierItem supplierItem);
+	
 
 	/**
 	 * 手机号校验：专家库+供应商库（除去临时供应商）
@@ -498,4 +490,49 @@ public interface SupplierService {
 	 * @return
 	 */
 	public boolean checkCreditCode(String id, String creditCode);
+	/**
+	 * 
+	 * Description:处理供应商 
+	 * 退回修改后的供应商逾期没提交应提示采购机构该供应商已逾期未提交，
+	 * 需要自动生成审核不通过结论：自x年x月x日退回修改后，已逾期30天未提交审核。（只有退回修改的 供应商 状态是2）
+	 * 供应商审核不通过180天后再次注册需要提示供应商为第二次注册（包括任何阶段不通过 3审核未通过 6复核未通过 8考察不合格）
+	 * @author YangHongLiang
+	 * @version 2017-7-25
+	 * @return
+	 */
+	public boolean updateSupplierStatus();
+
+	/**
+	 * 根据登录名查询
+	 * @param name
+	 * @return
+	 */
+	public Supplier queryByName(String name);
+
+	/**
+	 * 获取供应商信息（为减少不必要的查询，按需获取）
+	 * @param suppId	供应商id
+	 * @param type		获取类型
+	 * <br>1.基本信息
+	 * <br>2.供应商类型
+	 * <br>3.产品类别
+	 * <br>4.资质文件
+	 * <br>5.销售合同
+	 * <br>6.采购机构
+	 * <br>7.附件下载（承诺书和申请表）
+	 * <br>8.附件上传（承诺书和申请表）
+	 * @return
+	 */
+	public Supplier get(String suppId, int type);
+
+	/**
+	 * 记录供应商修改
+	 * @param operationInfo
+	 * @param obj1
+	 * @param obj2
+	 * @param supplierId
+	 */
+	public void record(String operationInfo, Object obj1, Object obj2,
+			String supplierId) throws Exception;
+
 }

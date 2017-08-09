@@ -74,7 +74,7 @@
 			//注销
 			function cancellation() {
 				var ids = $(":radio:checked").val();
-				var state = $("#" + ids + "").parents("tr").find("td").eq(6).text();
+				var state = $("#" + ids + "").parents("tr").find("td").eq(7).text();
 				state = trim(state);
 				if(ids != null) {
 				if(state == "暂存" || state == "待初审" || state == "退回修改" || state=="临时"){

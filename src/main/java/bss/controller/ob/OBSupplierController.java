@@ -344,7 +344,7 @@ public class OBSupplierController  {
 
 				boolean flag = true;
 				if (obSupplier.getSupplierId() == null
-						|| obSupplier.getSupplierId() == "") {
+						|| obSupplier.getSupplierId().equals("")) {
 					flag = false;
 					model.addAttribute("errorName", "供应商名称不能为空");
 				}
@@ -353,27 +353,22 @@ public class OBSupplierController  {
 					model.addAttribute("errorCertValidPeriod", "证书有效期不能为空");
 				}
 				if (obSupplier.getQualityInspectionDep() == null
-						|| obSupplier.getQualityInspectionDep() == "") {
+						|| obSupplier.getQualityInspectionDep().equals("")) {
 					flag = false;
 					model.addAttribute("errorQualityInspectionDep", "质检机构不能为空");
 				}
 				if (obSupplier.getContactName() == null
-						|| obSupplier.getContactName() == "") {
+						|| obSupplier.getContactName().equals("")) {
 					flag = false;
 					model.addAttribute("errorContactName", "联系人姓名不能为空");
 				}
 				if (obSupplier.getContactTel() == null
-						|| obSupplier.getContactTel() == "") {
+						|| obSupplier.getContactTel().equals("")) {
 					flag = false;
 					model.addAttribute("errorContactTel", "联系人电话不能为空");
-				} else {
-					if (isMobileNO(obSupplier.getContactTel()) == false) {
-						flag = false;
-						model.addAttribute("errorContactTel", "请输入正确手机号码");
-					}
 				}
 				if (obSupplier.getCertCode() == null
-						|| obSupplier.getCertCode() == "") {
+						|| obSupplier.getCertCode().equals("")) {
 					flag = false;
 					model.addAttribute("errorCertCode", "资质证书编号不能为空");
 				} else {
@@ -382,7 +377,7 @@ public class OBSupplierController  {
 						model.addAttribute("errorCertCode", "资质证书编号不能重复");
 					}
 				}
-				if (obSupplier.getUscc() == null || obSupplier.getUscc() == "") {
+				if (obSupplier.getUscc() == null || obSupplier.getUscc().equals("")) {
 					flag = false;
 					model.addAttribute("errorUscc", "统一社会信用代码不能为空");
 				}
@@ -391,7 +386,7 @@ public class OBSupplierController  {
 					model.addAttribute("errorShangchuan", "请上传资质证书图片");
 				}
 				if (obSupplier.getSmallPointsId() == null
-						|| obSupplier.getSmallPointsId() == "") {
+						|| obSupplier.getSmallPointsId().equals("")) {
 					flag = false;
 					model.addAttribute("errorsmallPoints", "产品目录不能为空");
 				} else {
@@ -483,28 +478,23 @@ public class OBSupplierController  {
 			flag = false;
 			model.addAttribute("errorCertValidPeriod","证书有效期不能为空");
 		}
-		if(obSupplier.getQualityInspectionDep() == null || obSupplier.getQualityInspectionDep() == ""){
+		if(obSupplier.getQualityInspectionDep() == null || obSupplier.getQualityInspectionDep().equals("")){
 			flag = false;
 			model.addAttribute("errorQualityInspectionDep","质检机构不能为空");
 		}
-		if(obSupplier.getContactName() == null || obSupplier.getContactName() == ""){
+		if(obSupplier.getContactName() == null || obSupplier.getContactName().equals("")){
 			flag = false;
 			model.addAttribute("errorContactName","联系人姓名不能为空");
 		}
-		if(obSupplier.getContactTel() == null || obSupplier.getContactTel() == ""){
+		if(obSupplier.getContactTel() == null || obSupplier.getContactTel().equals("")){
 			flag = false;
 			model.addAttribute("errorContactTel","联系人电话不能为空");
 		}
-		if(obSupplier.getContactTel() == null || obSupplier.getContactTel() == ""){
+		if(obSupplier.getContactTel() == null || obSupplier.getContactTel().equals("")){
 			flag = false;
 			model.addAttribute("errorContactTel","联系人电话不能为空");
-		}else {
-			if(obSupplier.getContactTel().matches("[0-9]+") == false){
-				flag = false;
-				model.addAttribute("errorContactTel","请输入正确电话号码");
-			}
 		}
-		if(obSupplier.getCertCode() == null || obSupplier.getCertCode() == ""){
+		if(obSupplier.getCertCode() == null || obSupplier.getCertCode().equals("")){
 			flag = false;
 			model.addAttribute("errorCertCode","资质证书编号不能为空");
 		}else{
@@ -513,7 +503,7 @@ public class OBSupplierController  {
 				model.addAttribute("errorCertCode","资质证书编号不能重复");
 			}
 		}
-		if(obSupplier.getUscc() == null || obSupplier.getUscc() == ""){
+		if(obSupplier.getUscc() == null || obSupplier.getUscc().equals("")){
 			flag = false;
 			model.addAttribute("errorUscc","统一社会信用代码不能为空");
 		}
@@ -521,7 +511,7 @@ public class OBSupplierController  {
 			flag = false;
 			model.addAttribute("errorShangchuan","请上传资质证书图片");
 		}
-		if(obSupplier.getSmallPointsId() == null || obSupplier.getSmallPointsId() == ""){
+		if(obSupplier.getSmallPointsId() == null || obSupplier.getSmallPointsId().equals("")){
 			flag = false;
 			model.addAttribute("errorsmallPoints","产品目录不能为空");
 		}else{
