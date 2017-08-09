@@ -67,7 +67,7 @@ $(function(){
 			    }
 		});
 		
-	
+	 
 	
 	if(user!=null && user!=''){
 		$("#welcome_words").html(user+"你好，欢迎来到军队采购网！");
@@ -639,89 +639,7 @@ $(function(){
 
             <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
             <div class="categories">
-<<<<<<< HEAD
-              <c:choose>
-              <c:when test="${!empty my:getPublicitySupplier()}">
-              <div class="m_nav_scroll_head">
-              <table class="table table-bordered mb0">
-                <tbody>
-                  <tr>
-                    <td class="tc info" width="15%">供应商名称</td>
-                    <td class="tc info" width="12%">类型</td>
-                    <td class="tc info" width="12%">企业性质</td>
-                    <td class="tc info" width="12%">初审单位</td>
-                    <td class="tc info" width="34%">审核结果</td>
-                    <td class="tc info" width="15%">公示时间</td>
-                  </tr>
-                </tbody>
-              </table>
-              </div>
-              
-              <div class="m_nav_scroll">
-              <input type="hidden" value="0" name="ishover">
-              <ul class="mns_bxslider">
-              <li>
-              <table class="table table-bordered mb0">
-                <tbody>
-                  <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="4" step="1" varStatus="status">
-                  <c:set value="${item.supplierName}" var="supplierName"></c:set>
-                  <c:set value="${item.supplierTypeNames}" var="supplierTypeNames"></c:set>
-                  <c:set value="${item.businessNature}" var="businessNature"></c:set>
-                  <tr>
-                    <td width="15%">
-                      <c:choose>
-                      <c:when test="${fn:length(supplierName) > 4}">
-                      <c:out value="${fn:substring(supplierName, 0, 4)}.." />
-                      </c:when>
-                      <c:otherwise>
-                      <c:out value="${supplierName}"></c:out>
-                      </c:otherwise>
-                      </c:choose>
-                    </td>
-                    <td class="tc" width="12%">
-                      <c:choose>
-                      <c:when test="${fn:length(supplierTypeNames) > 4}">
-                      <c:out value="${fn:substring(supplierTypeNames, 0, 4)}..." />
-                      </c:when>
-                      <c:otherwise>
-                      <c:out value="${supplierTypeNames}"></c:out>
-                      </c:otherwise>
-                      </c:choose>
-                    </td>
-                    <td class="tc" width="12%">
-                      <c:choose>
-                      <c:when test="${fn:length(businessNature) > 2}">
-                      <c:out value="${fn:substring(businessNature, 0, 2)}..." />
-                      </c:when>
-                      <c:otherwise>
-                      <c:out value="${businessNature}"></c:out>
-                      </c:otherwise>
-                      </c:choose>
-                    </td>
-                    <td class="tc" width="12%">${ item.orgName }</td>
-                    <td class="tl" width="34%">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</td>
-                    <td class="tl" width="15%">
-                      <fmt:formatDate value="${item.auditDate}" pattern="yyyy-MM-dd"></fmt:formatDate>
-                    </td>
-                  </tr>
-                  </c:forEach>
-                </tbody>
-              </table>
-              </li>
-              </ul>
-              </div>
-              </c:when>
-              <c:otherwise>
-              <div class="tc">暂无数据</div>
-              </c:otherwise>
-              </c:choose>
-            </div>
-            </div>
-          </div>
-          <!-- End 拟入库公示 -->
 
-          <div class="login_box job-content col-md-4 col-sm-4 col-xs-12 mt10">
-=======
                 <%-- <c:choose> --%>
                 <%-- <c:when test="${!empty my:getPublicitySupplier()}"> --%>
                 <div class="m_nav_scroll_head">
@@ -804,7 +722,6 @@ $(function(){
         <!-- End 拟入库公示 -->
         
         <div class="login_box job-content col-md-4 col-sm-4 col-xs-12 mt10">
->>>>>>> fix_bug
             <h2 class="f17 bgwhite">
             <ul class="list-unstyled login_tab p0">
               <li class="fl active"><a aria-expanded="true" href="#tab-36" data-toggle="tab">入库名单</a></li>
@@ -924,155 +841,7 @@ $(function(){
       </li>
       <!-- End 供应商 -->
 
-     	<!-- 专家评审 -->
-      <li class="dropdown other tousu_li mega-menu-fullwidth">
-        <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="tousu nav_icon"></i>评审专家</a>
-        
-        <!-- 评审鼠标移动开始 -->
-        <div class="drop_next dropdown-menu">
-        <div class="magazine-page clear">
-        <div class="col-md-12 col-sm-12 col-xs-12 drop_hover" id="drop-4">
-        <div class="drop_main">
-
-        <!--<div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">-->
-        <%-- <% if (environment != null && environment.equals("0")){ %>
-        <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="">
-        <% } %>
-        <% if (environment != null && environment.equals("1")){ %>
-        <a onclick="expertRegisterTip();" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
-        <% } %> --%>
-        <!--<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html">评审专家注册<i></i></a>	  
-        </div>-->
-
-        <div class="col-md-8 col-sm-8 col-xs-10 mt10">
-          <div class="headline-v2 m-headline-v2">
-            <h2 class="fl">拟入库公示&nbsp;<span class="red">（如果对公示内容有异议，请拨打举报电话：010-66880147）</span></h2>
-            <a href="${pageContext.request.contextPath}/index/indexExpPublicity.html" class="news_more">更多&gt;&gt;</a>
-            <div class="clear"></div>
-          </div>
-
-          <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
-          <div class="categories zhuanjia_list">
-            <c:choose>
-            <c:when test="${!empty my:getPublicityExpert()}">
-            <table class="table table-bordered mb0">
-            <thead>
-              <tr>
-                <th class="tc info" width="25%">专家名称</th>
-                <th class="tc info" width="15%">类别</th>
-                <th class="tc info" width="15%">初审单位</th>
-                <th class="tc info" width="30%">审核结果</th>
-                <th class="tc info" width="15%">公示时间</th>
-              </tr>
-            </thead>
-            </table>
-          
-            <div class="m_nav_scroll">
-            <input type="hidden" value="0" name="ishover">
-            <ul class="mns_bxslider">
-            <li>
-            <table class="table table-bordered mb0">
-              <tbody>
-              <c:forEach items="${my:getPublicityExpert()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
-                <tr>
-                  <td width="25%">${ item.relName }</td>
-                  <td class="tc" width="15%">${ item.expertsTypeId }</td>
-                  <td class="tc" width="15%">${ item.orgName }</td>
-                  <td class="tl" width="30%">同意入库，选择了${ item.passCateCount }个小类，通过了${ item.passCateCount - item.noPassCateCount }个小类</td>
-                  <td class="tl" width="25%">
-                  <fmt:formatDate value="${item.auditAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
-                  </td>
-                </tr>
-              </c:forEach> 
-              </tbody>
-            </table>
-            </li>
-            </ul>
-            </div>
-            </c:when>
-            <c:otherwise>
-            <div class="tc">暂无数据</div>
-            </c:otherwise>
-            </c:choose>
-          </div>
-          </div>
-        </div>
-
-        <div class="login_box job-content col-md-4 col-sm-4 col-xs-12 mt10">
-          <h2 class="f17 bgwhite">
-          <ul class="list-unstyled login_tab">
-            <li class="fl active"><a aria-expanded="true" href="#tab-39" data-toggle="tab">入库名单</a></li>
-            <li class="fl"><a aria-expanded="true" href="#tab-40" data-toggle="tab">诚信记录</a></li>
-            <li class="fl"><a aria-expanded="false" href="#tab-41" data-toggle="tab">处罚公告</a></li>
-            <li class="fl"><a aria-expanded="false" href="#tab-zjhmd" data-toggle="tab">黑名单</a></li>
-          </ul>
-          </h2>
-
-          <div class="tab-content buyer_list m_buyer_list">
-            <div id="tab-39" class="categories tab-pane fade active in">
-              <a class="fr" href="javascript:void(0)">更多&gt;&gt;</a>
-            </div>
-
-            <div id="tab-40" class="categories tab-pane fade">
-            <ul class="p0_10">   
-            </ul>
-            <a class="fr" href="javascript:void(0)">更多&gt;&gt;</a>
-            </div>
-
-            <div id="tab-41" class="categories tab-pane fade">
-              <ul class="p0_10">   
-                <c:forEach items="${indexMapper['article115List']}" var="sl">
-                <c:set value="${sl.name}" var="name"></c:set>
-                <c:set value="${fn:length(name)}" var="length"></c:set>
-                <c:if test="${length>25}">
-                <li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,25)}...</a></li>
-                </c:if>
-                <c:if test="${length<=25}">
-                <li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-                </c:if>
-                </c:forEach>
-              </ul>
-              
-              <a class="fr" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=115">更多&gt;&gt;</a>
-            </div>
-
-            <div id="tab-zjhmd" class="categories tab-pane fade">
-              <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
-                <c:forEach items="${indexMapper['expertBlackList']}" var="sl">
-                <c:set value="${sl.relName}" var="name"></c:set>
-                <c:set value="${fn:length(name)}" var="length"></c:set>
-                <c:set value="${sl.relName}" var="shortName"/>
-                <c:if test="${length>15}">
-                <c:set value="${fn:substring(name,0,15)}..." var="shortName"/>
-                </c:if>
-                <li>
-                <%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
-                <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
-                <span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
-                <c:if test="${sl.punishType == 1}">警告</c:if>
-                <c:if test="${sl.punishType == 2}">严重警告</c:if>
-                <c:if test="${sl.punishType == 3}">取消资格</c:if>
-                </span>
-                </li>
-                </c:forEach>
-              </ul>
-              <a class="fr" href="${pageContext.request.contextPath}/index/expertBlackList.html">更多&gt;&gt;</a>
-            </div>
-          </div>
-        </div>
-
-        </div>
-        </div>
-        </div>
-        </div>
-<<<<<<< HEAD
-    	</li>
-    	<!-- End 评审专家 -->
-=======
-        <!-- 供应商鼠标移动结束 -->
-    </li>
-    <!-- End 供应商 -->
-
+   
    	<!-- 专家评审 -->
     <li class="dropdown other tousu_li mega-menu-fullwidth">
 		<a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="tousu nav_icon"></i>评审专家</a>
@@ -1214,7 +983,6 @@ $(function(){
    	</div>
 	</li>
 	<!-- End 评审专家 ->
->>>>>>> fix_bug
 
       <!-- 法规 -->
 
@@ -1447,79 +1215,6 @@ $(function(){
           </div>
           </div> --%>  
         </div>
-<<<<<<< HEAD
-        </div>
-        </div>
-        </div>
-      </li>
-    </ul>
-    </div>
-    </div>
-    
-  </div>
-  </div>
-      
-  <!-- 首页APP下载二维码 -->
-  <% if (environment != null && environment.equals("0")){ %>
-  <div class="m_app_code" id="m_app_code">
-    <span>A<br>P<br>P<br>下<br>载<br>二<br>维<br>码</span>
-    <div class="mac_img"><img src="${pageContext.request.contextPath}/public/portal/images/AppDownload.png" alt=""></div>
-  </div>
-  <script>
-    $(function() {
-      $('#m_app_code span').on('click', function() {
-        if ($(this).parent().hasClass('hover')) {
-          $(this).parent().removeClass('hover');
-        } else {
-          $(this).parent().addClass('hover');
-        }
-      });
-    });
-  </script>
-  <% } %>
-  <!-- End 首页APP下载二维码 -->
-
-  <!-- 供应商和专家下拉菜单列表滚动效果 -->
-  <script>
-    var m_nav_scroll = []; // 设置保存滚动插件的数组
-
-    // 循环所有插件并初始化
-    $('.mns_bxslider').each(function (index) {
-      m_nav_scroll[index] = $(this).bxSlider({
-        mode: 'vertical',   // 垂直模式
-        minSlides: 1,       // 最小显示个数
-        maxSlides: 1,       // 最大显示个数
-        ticker: true,
-        tickerHover: true,  // 鼠标移动上停止滚动
-        autoHover: true,    // 鼠标移动上停止滚动
-        speed: 5000         // 滚动速度
-     });
-    });
-
-    // 设置下拉菜单出现后重置插件，防止display: none时候插件失效
-    $('.navbar-nav > li').mouseenter(function () {
-      var ishover = parseInt($(this).find('input[name=ishover]').val());  // 下拉菜单是否出现
-      // 如果下拉菜单已经出现防止多次重置插件导致滚动列表抖动
-      if (ishover == 0) {
-        $(this).find('input[name=ishover]').val(1);
-        // 加入延时防止下拉菜单还未出现程序已经执行的bug
-        setTimeout(function () {
-          for (var i in m_nav_scroll) {
-            m_nav_scroll[i].reloadSlider();
-          }
-        }, 500);
-      }
-    });
-    // 鼠标移除注销插件并初始化判断参数，以便下次打开重新生成
-    $('.navbar-nav > li').mouseleave(function () {
-      $(this).find('input[name=ishover]').val(0);
-      for (var i in m_nav_scroll) {
-        m_nav_scroll[i].destroySlider();
-      }
-    });
-    </script>
-    <!-- End 供应商和专家下拉菜单列表滚动效果 -->
-=======
 		</div>
 		</div>
       <%-- <div class="col-md-7 col-sm-7 col-xs-12 mt20">
@@ -1613,7 +1308,6 @@ $(function(){
 		});
 	</script>
 	<!-- End 供应商和专家下拉菜单列表滚动效果 -->
->>>>>>> fix_bug
 
 </body>
 </html>
