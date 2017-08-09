@@ -118,6 +118,8 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private Integer netType;
     
+    private String fromType;
+    
     /**
      * @Fields errorNum : 用户登录密码错误次数
      */
@@ -906,5 +908,13 @@ public class Expert extends ExpertHistory implements Serializable {
   public void setErrorNum(Integer errorNum) {
     this.errorNum = errorNum;
   }
+
+public String getFromType() {
+	return fromType;
+}
+
+public void setFromType(String fromType) {
+	this.fromType = fromType;
+}
     
 }
