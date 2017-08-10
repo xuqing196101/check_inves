@@ -27,29 +27,6 @@
           }
         });
       });
-      
-      // 复审选择事件
-      function againAudit_select() {
-        var select_ids = [];  // 储存id的数组
-        $('.againAudit_table').find('.select_item').each(function () {
-          if ($(this).is(':checked')) {
-        	  if ($("#" + $(this).val() + "").parents("tr").find("td").eq(11).text() == '初审合格') {
-        		  select_ids.push($(this).val());
-        	  }
-          }
-        });
-        $.ajax({
-          type: 'POST',
-          dataType: 'json',
-          url: '${pageContext.request.contextPath}/expertAgainAudit/addAgainAudit.do',
-          data: {
-            ids: select_ids
-          },
-          success: function () {
-            console.log('成功');
-          }
-        });
-      }
     </script>
 
     <script type="text/javascript">
@@ -362,11 +339,10 @@
         <c:if test="${sign == 3 }">
           <a class="btn btn-windows input" onclick='downloadTable(3)' href="javascript:void(0)">下载复查表</a>
         </c:if>
-        <a class="btn input" onclick='againAudit_select()' href="javascript:void(0)">复审</a>
       </div>
 
       <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover table-striped hand againAudit_table">
+        <table class="table table-bordered table-condensed table-hover table-striped hand">
           <thead>
             <tr>
               <th class="info w50">选择</th>
@@ -387,7 +363,7 @@
           </thead>
           <c:forEach items="${expertList}" var="expert" varStatus="vs">
             <tr>
-              <td class="tc w50"><input name="id" type="checkbox" value="${expert.id}" class="select_item"></td>
+              <td class="tc w50"><input name="id" type="checkbox" value="${expert.id}"></td>
               <td class="tc w50">${(vs.count)+(result.pageNum-1)*(result.pageSize)}</td>
               <td class="tl" title="${expert.relName}">
                 <c:if test="${fn:length(expert.relName) >4 }"><a href="javascript:;" onclick="view('${expert.id}',${sign})">${fn:substring(expert.relName,0,4)}...</a></c:if>
