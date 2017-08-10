@@ -1552,21 +1552,15 @@ public class SupplierController extends BaseSupplierController {
 			return "ses/sms/supplier_register/template_upload";
 		}
 		supplierService.commit(supplier);
-		//更新审核时间
-		supplier.setAuditDate(new Date());
 		//刪除上次的审核记录
 		/*supplierAuditService.deleteBySupplierId(supplier.getId());*/
 		SupplierAudit supplierAudit = new SupplierAudit();
 		supplierAudit.setSupplierId(supplier.getId());
 		supplierAuditService.updateIsDeleteBySupplierId(supplierAudit);
-		
 		//清空审核人
-		Supplier su = new Supplier ();
-		su.setId(supplier.getId());
-		su.setAuditor("");
-		supplierAuditService.updateStatus(su);
-		
+		supplier.setAuditor("");
 		supplierAuditService.updateStatus(supplier);
+		
 		request.getSession().removeAttribute("currSupplier");
 		request.getSession().removeAttribute("sysKey");
 		request.getSession().removeAttribute("supplierDictionaryData");
