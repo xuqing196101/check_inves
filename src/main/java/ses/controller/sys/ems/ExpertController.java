@@ -2030,6 +2030,7 @@ public class ExpertController extends BaseController {
                     expert.setIsDo("0");
                     //已提交
                     expert.setIsSubmit("1");
+                    //expert.setAuditAt(new Date());
                     if("3".equals(temp.getStatus())) {
                         //删除之前的审核不通过的字段信息
                     	expertAuditService.updateIsDeleteByExpertId(expertId);
@@ -2037,12 +2038,12 @@ public class ExpertController extends BaseController {
                     	
                     	//清空审核人
                     	expert.setAuditor("");
+                    	expert.setAuditAt(null);
                     }
                     //待审核
                     expert.setStatus("0");
                     //修改时间
                     expert.setSubmitAt(new Date());
-                    expert.setAuditAt(new Date());
                     service.updateByPrimaryKeySelective(expert);
 //                }else if(0 < validateDay){//未按规定时间提交审核,注销信息
 //                    return "expert_logout," + validateDay;
@@ -4173,13 +4174,13 @@ public class ExpertController extends BaseController {
                 for (int i = 0; i < categoryList.size(); i++) {
                     Category cate = categoryList.get(i);
                     if (cate != null) {
-                        if (cate.getLevel() != null && Integer.parseInt(cate.getLevel()) < level) {
+                        if (cate.getLevel() != null && cate.getLevel() < level) {
                             categoryList.remove(i);
                         } else {
                             if (cate.getParentId() != null) {
                                 Category parentCate = categoryService.findById(cate.getParentId());
                                 if (parentCate != null) {
-                                    if (parentCate.getLevel() != null && Integer.parseInt(parentCate.getLevel()) < level) {
+                                    if (parentCate.getLevel() != null && parentCate.getLevel() < level) {
                                         categoryList.remove(i);
                                     }
                                 }

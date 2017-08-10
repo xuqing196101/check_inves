@@ -1491,8 +1491,8 @@
 			<if test="status != null">
 				SUPPLIER_STATUS = #{status},
 			</if>
-			<if test="auditDate != null">
-				AUDIT_DATE=#{auditDate},
+			<if test="auditDate != ''">
+				AUDIT_DATE=#{auditDate,jdbcType=DATE},
 			</if>
 			<if test="updatedAt != null">
 				UPDATED_AT=#{updatedAt},

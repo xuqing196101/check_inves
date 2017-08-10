@@ -824,7 +824,7 @@ resultMap="BaseResultMap">
             <if test="remarks != null">
                 REMARKS = #{remarks,jdbcType=VARCHAR},
             </if>
-            <if test="auditAt != null">
+            <if test="auditAt != ''">
                 AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
             </if>
             <if test="isReferenceLftter != null">
@@ -2077,11 +2077,13 @@ resultMap="BaseResultMap">
 			t1.*,
 			t2.LOGIN_NAME AS loginName,
 			t2.ERROR_NUM AS errorNum,
-			t3.NAME AS sex
+			t3.NAME AS sex,
+			t4.NAME AS fromType
 		FROM
 			T_SES_EMS_EXPERT t1
 		LEFT JOIN T_SES_BMS_USER t2 ON t2.TYPE_ID = t1.ID
 		LEFT JOIN T_SES_BMS_DICTIONARY_DATA t3 ON t1.GENDER = t3.ID
+		LEFT JOIN T_SES_BMS_DICTIONARY_DATA t4 ON t1.EXPERTS_FROM = t4.ID
 		WHERE
 			<!-- ((t1.IS_SUBMIT = '1' AND t1.STATUS = '0')
 		OR (
@@ -2103,6 +2105,9 @@ resultMap="BaseResultMap">
     </if>
     <if test="status != null and status !=''">
         AND t1.STATUS = #{status}
+    </if>
+    <if test="idCardNumber != null and idCardNumber !=''">
+        AND t1.ID_CARD_NUMBER LIKE CONCAT(CONCAT('%', #{idCardNumber}), '%')
     </if>
     ORDER BY t1.CREATED_AT DESC
 	</select>

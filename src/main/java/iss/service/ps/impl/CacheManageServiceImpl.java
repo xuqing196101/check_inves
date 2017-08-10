@@ -20,8 +20,10 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
+import ses.controller.sys.bms.LoginController;
 import ses.model.bms.User;
 import ses.util.PropertiesUtil;
+import ses.util.SessionListener;
 import common.dao.SystemPVMapper;
 import common.model.SystemPV;
 import common.model.SystemPVVO;
@@ -286,6 +288,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 			pvTotalCount = new BigDecimal(0);
 		}
 		systemPVVO.setTotalCount(pvTotalCount);
+		
 		if(user != null){
 			systemPVVO.setLoginName(user.getLoginName());
 		}

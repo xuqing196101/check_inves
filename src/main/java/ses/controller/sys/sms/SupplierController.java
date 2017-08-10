@@ -1552,21 +1552,15 @@ public class SupplierController extends BaseSupplierController {
 			return "ses/sms/supplier_register/template_upload";
 		}
 		supplierService.commit(supplier);
-		//更新审核时间
-		supplier.setAuditDate(new Date());
 		//刪除上次的审核记录
 		/*supplierAuditService.deleteBySupplierId(supplier.getId());*/
 		SupplierAudit supplierAudit = new SupplierAudit();
 		supplierAudit.setSupplierId(supplier.getId());
 		supplierAuditService.updateIsDeleteBySupplierId(supplierAudit);
-		
 		//清空审核人
-		Supplier su = new Supplier ();
-		su.setId(supplier.getId());
-		su.setAuditor("");
-		supplierAuditService.updateStatus(su);
-		
+		supplier.setAuditor("");
 		supplierAuditService.updateStatus(supplier);
+		
 		request.getSession().removeAttribute("currSupplier");
 		request.getSession().removeAttribute("sysKey");
 		request.getSession().removeAttribute("supplierDictionaryData");
@@ -2575,7 +2569,7 @@ public class SupplierController extends BaseSupplierController {
 		    }
 		}
 		
-		/*List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
+		List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
 		if(aptitudeList != null && aptitudeList.size() > 0){
 			Set<String> codeSet = new HashSet<>();
 			int codeCount = 0;
@@ -2589,7 +2583,7 @@ public class SupplierController extends BaseSupplierController {
 				model.addAttribute("eng_aptitutes", "证书编号重复!");
 				bool = false;
 			}
-		}*/
+		}
     	
 		return bool;
 	}
@@ -2805,7 +2799,7 @@ public class SupplierController extends BaseSupplierController {
 			if (level != null) {
 			    for (int i = 0; i < child.size(); i++) {
 			        Category cate = child.get(i);
-			        if (cate.getLevel() != null && Integer.parseInt(cate.getLevel()) < level) {
+			        if (cate.getLevel() != null && cate.getLevel() < level) {
 			            child.remove(i);
 			        }
 			    }
@@ -2904,7 +2898,7 @@ public class SupplierController extends BaseSupplierController {
         if (level != null) {
             for (int i = 0; i < child.size(); i++) {
                 Category cate = child.get(i);
-                if (cate.getLevel() != null && Integer.parseInt(cate.getLevel()) < level) {
+                if (cate.getLevel() != null && cate.getLevel() < level) {
                     child.remove(i);
                 }
             }

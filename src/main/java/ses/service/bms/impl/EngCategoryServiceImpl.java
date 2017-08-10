@@ -107,7 +107,16 @@ public class EngCategoryServiceImpl implements EngCategoryService {
    
     
     public void insertSelective(Category category) {
-        engCcategoryMapper.insertSelective(category);
+       /*Category ct = engCcategoryMapper.findById(category.getParentId());
+       if(ct==null){
+         category.setLevel(2);
+       }else{
+         category.setLevel(ct.getLevel()+1);
+         ct.setIsParent("true");
+         engCcategoryMapper.updateByPrimaryKeySelective(ct);
+       }
+       category.setIsParent("false");*/
+       engCcategoryMapper.insertSelective(category);
     }
 
     public List<Category> findTreeByPid(String id) {
