@@ -30,7 +30,7 @@
       
       // 复审选择事件
       function againAudit_select() {
-        var select_ids = "";  // 储存id的数组
+        var select_ids = '';  // 储存id的数组
         var dot = ',';  // 分隔符
         if ($('.againAudit_table').find('.select_item').length > 0) {
 	        $('.againAudit_table').find('.select_item').each(function () {
@@ -45,7 +45,7 @@
 	        	  }
 	          }
 	        });
-	        selec_ids = select_ids.substring(0, select_ids.length()-1);
+	        selec_ids = select_ids.substring(0, select_ids.length - 1);
 	        $.ajax({
 	          type: 'POST',
 	          dataType: 'json',
