@@ -142,12 +142,14 @@
 					}
 					id.push($(this).val());
 				});
-				if(flag == false) {
+			/* 	if(flag == false) {
 					layer.alert("类别不一致，不可汇总", {
 						offset: ['222px', '390px'],
 						shade: 0.01
 					});
-				} else if(id.length >= 1) {
+				} else
+					 */
+					if(id.length >= 1) {
 					var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(7).text();
 				   if($.trim(status)=="待汇总"){
 					index = layer.open({
