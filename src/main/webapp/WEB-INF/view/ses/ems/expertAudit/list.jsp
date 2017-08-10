@@ -362,7 +362,7 @@
         <c:if test="${sign == 3 }">
           <a class="btn btn-windows input" onclick='downloadTable(3)' href="javascript:void(0)">下载复查表</a>
         </c:if>
-        <a class="btn input" onclick='againAudit_select()' href="javascript:void(0)">复审</a>
+        <a class="btn input" onclick='againAudit_select()' href="javascript:void(0)">提交复审</a>
       </div>
 
       <div class="content table_box">
