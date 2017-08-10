@@ -30,28 +30,27 @@
       
       // 复审选择事件
       function againAudit_select() {
-        var select_ids = '';  // 储存id的数组
-        var dot = ',';  // 分隔符
+        var select_ids = [];  // 储存id的数组
         if ($('.againAudit_table').find('.select_item').length > 0) {
 	        $('.againAudit_table').find('.select_item').each(function () {
 	          if ($(this).is(':checked')) {
 	        	  if ($("#" + $(this).val() + "").parents("tr").find("td").eq(11).text() == '初审合格') {
-	        		  select_ids += $(this).val() + dot;
+	        		  select_ids.push($(this).val());
 	        	  } else {
 	        		  layer.msg("请选择初审合格的专家 !", {
-	        			  offset: '100px',
+	        			  offset: '100px'
                 });
 	        		  return false;
 	        	  }
 	          }
 	        });
-	        selec_ids = select_ids.substring(0, select_ids.length - 1);
+	        
 	        $.ajax({
 	          type: 'POST',
 	          dataType: 'json',
 	          url: '${pageContext.request.contextPath}/expertAgainAudit/addAgainAudit.do',
 	          data: {
-	            ids: selec_ids
+	            ids: JSON.stringify(select_ids)
 	          },
 	          success: function () {
 	            console.log('成功');
