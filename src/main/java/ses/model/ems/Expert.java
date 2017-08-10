@@ -278,7 +278,27 @@ public class Expert extends ExpertHistory implements Serializable {
     private String expertsTypeId;
     /**采购机构id*/
     private String purchaseDepId;
-    /**审核状态；0未审核，1审核通过，2审核未通过,3退回修改,4待复审,5复审通过,6复审踢除,7临时专家评审项目已结束(限制登录)*/
+    /** -3 公示中
+	  -2 预复审结束
+	  -1 暂存
+	   0 待初审
+	   1 初审合格
+	   2 初审不合格
+       3 初审退回修改
+	   4 待复审
+	   5 复审不合格
+	   6 待复查
+	   7 复查合格
+	   8 复查不合格
+	   9 初审退回再审核
+	  10 复审退回修改
+	  11 待分配
+	  12 处罚中
+	  13 无产品专家       
+
+		# 初审中（AUDIT_TEMPORARY  1：初审中）
+		# 复查中（AUDIT_TEMPORARY  3：复查中）
+		# 复审中（AUDIT_TEMPORARY  2：复审中）*/
     private String status;
     /**是否拉黑；0未拉黑，1已拉黑*/
     private String isBlack = "0";

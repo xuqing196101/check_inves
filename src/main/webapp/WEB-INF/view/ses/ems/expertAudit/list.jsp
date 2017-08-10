@@ -44,7 +44,7 @@
 	        	  }
 	          }
 	        });
-	        
+	        console.log(select_ids);
 	        $.ajax({
 	          type: 'POST',
 	          dataType: 'json',

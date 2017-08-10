@@ -1200,6 +1200,12 @@ resultMap="BaseResultMap">
         <if test="id != null and id !=''">
             AND ID = #{id}
         </if>
+        <if test="ids != null and ids !=''">
+            <foreach collection="ids" item="id" open="and ID in ("
+                     close=")" separator=",">
+                #{ids}
+            </foreach>
+        </if>
         ORDER BY CREATED_AT DESC
     </select>
 
