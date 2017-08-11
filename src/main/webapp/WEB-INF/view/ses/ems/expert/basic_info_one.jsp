@@ -1132,7 +1132,7 @@
                         class="red">*</i> 出生日期</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 								<input <c:if test="${fn:contains(errorField,'出生日期')}"> style="border: 1px solid #ef0000;" onmouseover="errorMsg('出生日期')"</c:if>
-								readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd' />" name="birthday" onblur="notNull('birthday')" id="birthday" type="text" onclick="WdatePicker({onpicking:function() {document.getElementById('err_msg_birthday').innerHTML = '';},dateFmt:'yyyy-MM-dd',startDate:'1970-01-01'})"/>
+								readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd' />" name="birthday" onblur="notNull('birthday')" id="birthday" type="text" onclick="WdatePicker({onpicking:function() {document.getElementById('err_msg_birthday').innerHTML = '';},dateFmt:'yyyy-MM-dd',startDate:'1970-01-01',maxDate:'%y-%M-%d'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空，年龄不大于70周岁</span>
 								<div class="cue" id="err_msg_birthday"></div>

@@ -150,4 +150,15 @@ public interface ExpertBlackListMapper {
      * @return
      */
     Integer countById(@Param("id")String id);
+    
+    /**
+     * 
+     * Description: 根据专家id查询
+     * 
+     * @author zhang shubin
+     * @data 2017年8月11日
+     * @param 
+     * @return
+     */
+    Integer countByExpertId(@Param("expertId")String expertId);
 }
