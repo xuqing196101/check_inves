@@ -1346,13 +1346,18 @@ resultMap="BaseResultMap">
         <if test="relName != null and relName !=''">
             AND t1.REAL_NAME LIKE CONCAT(CONCAT('%', #{relName}), '%')
         </if>
+        <if test="orgName != null and orgName !=''">
+            AND org.SHORT_NAME LIKE CONCAT(CONCAT('%', #{orgName}), '%')
+        </if>
         <if test="status != null and status !=''">
             AND t1.STATUS = #{status}
+        </if>
+        <if test="updatedAt !=null and updatedAt''">
+        	AND TO_CHAR(t1.UPDATED_AT,'YY-MM-DD') = TO_CHAR(#{updatedAt},'YY-MM-DD')
         </if>
         <if test="auditAt !=null and auditAt!=''">
         	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
         </if>
-        
         ORDER BY t1.SUBMIT_AT ASC NULLS LAST
     </select>
 
