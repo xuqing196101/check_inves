@@ -469,18 +469,18 @@
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
-							<th class="info" >供应商名称</th>
+							<th class="info w100">供应商名称</th>
 							<!-- <th class="info">用户名</th> -->
-							<th class="info" width="10%">联系人</th>
-							<th class="info" width="10%">手机号</th>
-							<th class="info" width="10%">注册日期</th>
-							<th class="info" width="10%">提交日期</th>
-							<th class="info" width="10%">审核日期</th>
-							<th class="info" width="9%">地区</th>
-							<th class="info" width="13%">供应商类型</th>
-							<th class="info" width="10%">企业性质</th>
-							<th class="info" width="10%">采购机构</th>
-							<th class="info">供应商状态</th>
+							<th class="info w80">联系人</th>
+							<th class="info w100">手机号</th>
+							<th class="info w100">注册日期</th>
+							<th class="info w100">提交日期</th>
+							<th class="info w100">审核日期</th>
+							<th class="info w100">地区</th>
+							<th class="info">供应商类型</th>
+							<th class="info w100">企业性质</th>
+							<th class="info w100">采购机构</th>
+							<th class="info w100">供应商状态</th>
 						</tr>
 					</thead>
 					<tbody>
