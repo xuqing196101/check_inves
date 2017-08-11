@@ -41,9 +41,10 @@
                      $.ajax({
                          url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
                          data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime},
+                         type: "POST",
                          success: function () {
-                             //$("#status").val(status);
-                             //$("#form_shenhe").submit();
+                             $("#status").val(status);
+                             $("#form_shenhe").submit();
                          }
                      });
                  } else {
@@ -94,25 +95,28 @@
                      }
                      });
                      }); */
-                    if(status != 3){
-                        if(checkOpinion(status, expertId)){
+                    /* if(status != 3){ */
+                    	checkOpinion(status, expertId)
+                        /* if(checkOpinion(status, expertId)){
                             return;
                         }else{
+                        	var opinion = document.getElementById('opinion').value;
+                          opinion = trim(opinion);
                             $.ajax({
                                 url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
-                                data: {"expertId" : expertId},
+                                data: {"expertId" : expertId,"opinion": opinion},
                                 success: function() {
                                     //提交审核
                                     $("#status").val(status);
                                     $("#form_shenhe").submit();
                                 }
                             });
-                        }
-                    }else {
+                        } */
+                   /*  }else {
                         //提交审核
                         $("#status").val(status);
                         $("#form_shenhe").submit();
-                    }
+                    } */
 
 
                     //初审不合格

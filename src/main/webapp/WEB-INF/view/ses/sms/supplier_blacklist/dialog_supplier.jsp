@@ -59,6 +59,12 @@
         parent.document.getElementById("suppllier_name_input_id").value=supplierName;
         parent.layer.closeAll();
 	}
+	//清空选择
+	function clearRadio() {
+        $('input').removeAttr('checked');
+        parent.document.getElementById("suppi").value='';
+        parent.document.getElementById("suppllier_name_input_id").value='';
+    }
 </script>
 
 </head>
@@ -116,6 +122,7 @@
 			<div class="col-md-12">
 				<div class="tc mb10">
 					<a class="btn btn-windows save" onclick="checkSupplier()">选择</a>
+					<input onclick="clearRadio()" class="btn" type="button" value="清空选择" />
 					<a target="_parent" class="btn btn-windows back" href="${pageContext.request.contextPath}/supplier_blacklist/add_supplier.html">返回</a>
 				</div>
 			</div>

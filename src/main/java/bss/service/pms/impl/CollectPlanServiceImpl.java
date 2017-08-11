@@ -12,6 +12,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -342,7 +343,7 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 	 */
 	public List<String>  dep(List<String> uniqueId) {
 		//获取顶级ID
-		PurchaseRequired p = new PurchaseRequired();
+ 		PurchaseRequired p = new PurchaseRequired();
 		List<Orgnization> allList=new ArrayList<Orgnization>();
 		List<Orgnization> detailList=new ArrayList<Orgnization>();
 		for(String u:uniqueId){
@@ -350,6 +351,9 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 //		       p.setIsMaster(1);
 			   List<PurchaseRequired> one = purchaseRequiredService.queryUnique(p);
 			   String department = one.get(0).getDepartment();
+			  if(StringUtils.isEmpty(department)){
+			  	return null;
+			  }
 			   Orgnization orgnization = purchaseRequiredService.queryByName(department);
 			   List<Orgnization> list = orgnizationMapper.getParent(orgnization.getId());
 			   for(Orgnization org:list){

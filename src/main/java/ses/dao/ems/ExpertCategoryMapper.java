@@ -115,4 +115,10 @@ public interface ExpertCategoryMapper {
 	 * @since JDK1.7
 	 */
 	List<ExpertCategory> selectPassCateByExpertId(Map<String,Object> map);
+	
+	/**
+	 * 更新审核状态 
+	 * @param expertCategory
+	 */
+    void updateAuditStatus(ExpertCategory expertCategory);
 }
