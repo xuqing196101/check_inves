@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -39,13 +40,15 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	@Autowired
 	private ExpertService expertService;
 	@RequestMapping("addAgainAudit")
-	public void addAgainAudit(HttpServletRequest request,HttpServletResponse response,String ids){
+	public void addAgainAudit(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response, String ids){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		JSONObject jsonIds = JSONObject.fromObject(ids);
-		
+		if(!"1".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
 		if(ids != null){
-			ids=ids.substring(1, ids.length()-1);
-			System.out.println(ids);
 			img=againAuditService.addAgainAudit(ids);
 		}else{
 			img.setStatus(false);

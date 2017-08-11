@@ -26,13 +26,8 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	
 	@Override
 	public ExpertAgainAuditImg addAgainAudit(String ids) {
-		//HashMap<String, Object> map = new HashMap<>();
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		String s=ids.replaceAll("＂","\"");
-		System.out.println(s);
 		List<String> idsList = new ArrayList<String>();
-		//map.put("ids", s);
-		//List<Expert> list = expertMapper.findAllExpert(map);
 		Expert e = new Expert();
 		String[] split = ids.split(",");
 		for (String string : split) {
