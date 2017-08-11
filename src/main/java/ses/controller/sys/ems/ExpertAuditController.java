@@ -2632,6 +2632,15 @@ public class ExpertAuditController{
     		for (ExpertAudit expertAudit : allTreeList) {
     			Integer num = expertAuditService.findByObj(expertAudit);
     			count+=num;
+    			
+    			//更新品目的状态
+    			if(expertAudit.getAuditFieldId() !=null && expertAudit.getExpertId() !=null){
+    				ExpertCategory expertCategory = new ExpertCategory();
+    				expertCategory.setCategoryId(expertAudit.getAuditFieldId());
+    				expertCategory.setExpertId(expertAudit.getExpertId());
+    				expertCategoryService.updateAuditStatus(expertCategory);
+    			}
+    			
 			}
     		if(count>0){
 				return new JdcgResult(503, "选择中存在已审核,不可重复审核", null);
