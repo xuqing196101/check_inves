@@ -224,6 +224,10 @@
 				$("#dep").val(de);
 				var val=$('input[name="fileName"]').val();
 				val = $.trim(val);
+				if(val.length > 200){
+                    layer.alert("采购计划名称长度不能大于200字");
+                    return;
+				}
 				if(val == ""){
 					  layer.alert("计划名称不允许为空");
 				}else{
