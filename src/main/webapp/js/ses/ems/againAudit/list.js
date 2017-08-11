@@ -7,6 +7,7 @@
       type: 'POST',
       dataType: 'json',
       url: '',
+      data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
         console.log(data);
@@ -44,10 +45,9 @@
           type: opts.type,
           dataType: opts.dataType,
           url: opts.url,
+          data: opts.data,
           success: opts.success
         });
-        
-        
       });
     }
     
