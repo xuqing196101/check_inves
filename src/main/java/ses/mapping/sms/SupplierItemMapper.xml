@@ -12,9 +12,10 @@
 		<result column="DIY_LEVEL" property="diyLevel"/>
 		<result column="CERT_CODE" property="certCode"/>
 		<result column="QUALIFICATION_TYPE" property="qualificationType"/>
-		<result column="PROFESS_TYPE"   property="professType"/>
-		<result column="NODE_LEVEL"   property="nodeLevel"/>
+		<result column="PROFESS_TYPE" property="professType"/>
+		<result column="NODE_LEVEL" property="nodeLevel"/>
 		<result column="IS_RETURNED" property="isReturned"/>
+		<result column="IS_DELETED" property="isDeleted"/>
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT, CATE_LEVEL, CERT_CODE, DIY_LEVEL, QUALIFICATION_TYPE,PROFESS_TYPE, NODE_LEVEL, IS_RETURNED
@@ -25,7 +26,7 @@
 	</sql>
 	
 	<select id="getSupplierItem" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	  select
+		select
 		*
 		from T_SES_SMS_SUPPLIER_ITEM
 		where SUPPLIER_ID = #{supplierId}
@@ -278,6 +279,9 @@
 			<if test="isReturned != null">
 				and IS_RETURNED = #{isReturned}
 			</if>
+			<if test="isDeleted != null">
+				and IS_DELETED = #{isDeleted}
+			</if>
 		</where>
 	</select>
 	
@@ -304,9 +308,9 @@
 		FROM
 			T_SES_SMS_SUPPLIER_ITEM s
 		INNER JOIN
-  			T_SES_BMS_CATEGORY c
+ 			T_SES_BMS_CATEGORY c
 		ON
-  			s.CATEGORY_ID = c.ID
+ 			s.CATEGORY_ID = c.ID
 		WHERE
 			s.CATEGORY_ID not in (select PARENT_ID from T_SES_BMS_CATEGORY where IS_PUBLISH = 0)
 			<if test="supplierId != null">
@@ -316,7 +320,10 @@
 				AND s.SUPPLIER_TYPE_RELATE_ID = #{type}
 			</if>
 			<if test="isReturned != null">
-				and IS_RETURNED = #{isReturned}
+				and s.IS_RETURNED = #{isReturned}
+			</if>
+			<if test="isDeleted != null">
+				and s.IS_DELETED = #{isDeleted}
 			</if>
 			order by c.CODE ASC
 	</select>
@@ -361,6 +368,7 @@
 				and  SUPPLIER_ID = #{supplierId} 
 				and SUPPLIER_TYPE_RELATE_ID = #{type}
 				and IS_RETURNED != 1
+				and IS_DELETED != 1
 	</select>
 	
 	<!-- 根据供应商id和类型查询 -->

@@ -256,16 +256,16 @@ public class SupplierController extends BaseSupplierController {
         	
         	// 随后设置供应商类型（如果所选产品目录全部被退回，则去掉对应所属的供应商类型）
         	if(itemList_product == null || itemList_product.isEmpty()){
-        		supplierTypeRelateService.delete(suppId, "PRODUCT");
+        		//supplierTypeRelateService.delete(suppId, "PRODUCT");
         	}
         	if(itemList_sales == null || itemList_sales.isEmpty()){
-        		supplierTypeRelateService.delete(suppId, "SALES");
+        		//supplierTypeRelateService.delete(suppId, "SALES");
         	}
         	if(itemList_project == null || itemList_project.isEmpty()){
-        		supplierTypeRelateService.delete(suppId, "PROJECT");
+        		//supplierTypeRelateService.delete(suppId, "PROJECT");
         	}
         	if(itemList_service == null || itemList_service.isEmpty()){
-        		supplierTypeRelateService.delete(suppId, "SERVICE");
+        		//supplierTypeRelateService.delete(suppId, "SERVICE");
         	}
     	}
     	
