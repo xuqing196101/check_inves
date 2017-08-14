@@ -590,7 +590,6 @@ public class ExpertAuditController{
 
 	/**
 	 * @Title: auditReasons
-	 * @author XuQing 
 	 * @date 2016-12-19 下午7:35:55  
 	 * @Description:记录审核
 	 * @param @param expertAudit
@@ -2650,7 +2649,7 @@ public class ExpertAuditController{
 		    			expertAudit2.setAuditUserId(user.getId());
 		    			expertAudit2.setAuditUserName(user.getRelName());
 		    			//记录审核人
-		    			Expert expert = new Expert();
+		    			Expert expert = new Expert(); 
 		    			expert.setId(expertAudit2.getExpertId());
 		    			expert.setAuditor(user.getRelName());
 		    			expertService.updateByPrimaryKeySelective(expert);
@@ -2665,5 +2664,58 @@ public class ExpertAuditController{
 		
 		
     	
+    	
+    }
+    
+    /**
+     *复审时查看的初审信息
+     */
+    @RequestMapping(value = "/preliminaryInfo")
+    public String preliminaryInfo(Model model, String expertId, Integer sign){
+    	//初审复审标识（1初审，3复查，2复审）
+		model.addAttribute("sign", sign);
+		
+		model.addAttribute("expertId", expertId);
+		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
+		if( reasonsList != null && reasonsList.size() > 0 ){
+			for (ExpertAudit e : reasonsList) {
+				if("six".equals(e.getSuggestType())){
+					SupplierCateTree tree =null;
+					Category category = categoryService.findById(e.getAuditFieldId());
+					if(category != null){
+						tree = getTreeListByCategoryId(category.getId(), null);
+					}else{
+						tree = getTreeListByCategoryId(e.getAuditFieldId(), "ENG_INFO_ID");
+					}
+					if("GOODS".equals(tree.getRootNodeCode())){
+						e.setAuditField("物资品目信息");
+					}else if("PROJECT".equals(tree.getRootNodeCode())){
+						e.setAuditField("工程品目信息");
+					}else if("SERVICE".equals(tree.getRootNodeCode())){
+						e.setAuditField("服务品目信息");
+					}else if("ENG_INFO_ID".equals(tree.getRootNodeCode())){
+						e.setAuditField("工程专业属性");
+					}
+				}
+			}
+		}
+		model.addAttribute("reasonsList", reasonsList);
+		
+		// 查询审核最终意见
+		ExpertAuditOpinion selectEao = new ExpertAuditOpinion();
+		ExpertAuditOpinion auditOpinion = null;
+		selectEao.setExpertId(expertId);
+		if(sign != null && sign == 2){
+			selectEao.setFlagTime(1);
+			// 复审意见查询
+			auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
+		}else {
+			auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
+		}
+		model.addAttribute("auditOpinion", auditOpinion);
+		
+		Expert expert = expertService.selectByPrimaryKey(expertId);
+		model.addAttribute("status", expert.getStatus());
+    	return "ses/ems/expertAudit/preliminary_info";
     }
 }

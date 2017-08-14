@@ -15,7 +15,13 @@
             })
 			//下一步
 			function nextStep() {
-				var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
+				var sign = $("input[name='sign']").val();
+				if(sign == 2){
+					var action = "${pageContext.request.contextPath}/expertAudit/preliminaryInfo.html";
+				}else{
+					var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
+				}
+				
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
@@ -56,7 +62,7 @@
 						      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 						      type:"post",
 						      dataType:"json",
-						      data:"suggestType=five"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField,
+						      data:"suggestType=five"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField + "&auditFalg=" + sign,
 						      success:function(result){
 						        result = eval("(" + result + ")");
 						        if(result.msg == "fail"){

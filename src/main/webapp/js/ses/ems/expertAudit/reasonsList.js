@@ -76,7 +76,12 @@ function getCheckOpinionType(expertId){
  * 上一步操作
  */
 function lastStep() {
-    var action = globalPath + "/expertAudit/expertFile.html";
+	var sign = $("input[name='sign']").val();
+	if(sign == 2){
+		var action = globalPath + "/expertAudit/preliminaryInfo.html";
+	}else{
+		var action = globalPath + "/expertAudit/expertFile.html";
+	}
     $("#form_id").attr("action", action);
     $("#form_id").submit();
 }

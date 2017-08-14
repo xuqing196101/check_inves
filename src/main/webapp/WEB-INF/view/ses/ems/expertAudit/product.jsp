@@ -320,6 +320,7 @@
 									 expAudit.auditContent=auditContent;
 									 expAudit.auditField=auditField;
 									 expAudit.auditFieldId=itemsId;
+									 expAudit.auditFalg=sign;
 									 expAuditList.push(expAudit);
 						       }); 
 							  $.ajax({

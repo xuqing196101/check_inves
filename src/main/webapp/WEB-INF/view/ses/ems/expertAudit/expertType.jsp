@@ -62,7 +62,7 @@
 		                url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 		                type:"post",
 		                dataType:"json",
-		                data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditContent +"&auditFieldId="+ auditFieldId+"&type=1",
+		                data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditContent +"&auditFieldId="+ auditFieldId+"&type=1" + "&auditFalg=" + sign,
 		                success:function(result){
 		                  result = eval("(" + result + ")");
 		                  if(result.msg == "fail"){
@@ -114,7 +114,7 @@
 							      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 							      type:"post",
 							      dataType:"json",
-							      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=2"  +"&auditFieldId="+id + "&auditFieldName="+auditFieldName,
+							      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=2"  +"&auditFieldId="+id + "&auditFieldName="+auditFieldName + "&auditFalg=" + sign,
 								    success:function(result){
 							        result = eval("(" + result + ")");
 							        if(result.msg == "fail"){
@@ -160,7 +160,7 @@
 							      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 							      type:"post",
 							      dataType:"json",
-							      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=2"+"&auditFieldId="+id +"&auditFieldName="+auditFieldName,
+							      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=2"+"&auditFieldId="+id +"&auditFieldName="+auditFieldName + "&auditFalg=" + sign,
 							      success:function(result){
 							        result = eval("(" + result + ")");
 							        if(result.msg == "fail"){
