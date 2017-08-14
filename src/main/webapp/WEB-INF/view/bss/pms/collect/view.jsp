@@ -209,45 +209,48 @@
 			 $("#table").find("#acc_form").submit();
 		  }  
  }
- 
- function purchaseType(obj){
-	 var org=$(obj).val();
-	 var price=$(obj).parent().prev().prev().prev().prev().val();
-	 if(price==""){
-		var id=$(obj).prev().val();
-	 	  $.ajax({
-	          url: "${pageContext.request.contextPath}/accept/detail.html",
-	          data: "id=" + id,
-	          type: "post",
-	          dataType: "json",
-	          success: function(result) {
-	            for(var i = 0; i < result.length; i++) {
-	                var v1 = result[i].id;
-	                $("#table tr").each(function(){
-	      			  var opt= $(this).find("td:eq(10)").children(":first").val() ;
-	      	 		   if(v1==opt){
-	      	 			 var td=$(this).find("td:eq(10)");
-	      	 			var options= $(td).find("option");
-		      	 		  $(options).each(function(){
-		      	  		   var opt=$(this).val();
-		      	  		   if(org==opt){
-		      	  			$(this).prop("selected",true);
-		      	  			   
-		      	  		   }else{
-		      	  			$(this).prop("selected",false);
-		      	  			  // $(this).removeAttr("selected");
-		      	  		   }
-			      	  	   });
-	      	 		   }  
-	      	 	   });
-	            }
-	           }
-	          });
-	          
-	          
-	 }
-    } 
- 
+
+    function purchaseType(obj){
+        var purchaseType = $(obj).find("option:selected").text(); //选中的文本
+        var org=$(obj).val();
+        var price=$(obj).parent().prev().prev().prev().prev().val();
+        if(price==""){
+
+            var id=$(obj).prev().val();
+            $.ajax({
+                url: "${pageContext.request.contextPath}/accept/detail.html",
+                data: "id=" + id,
+                type: "post",
+                dataType: "json",
+                success: function(result) {
+                    for(var i = 0; i < result.length; i++) {
+                        var v1 = result[i].id;
+                        $("#table tr").each(function(){
+                            var opt= $(this).find("td:eq(10)").children(":first").val() ;
+                            if(v1==opt){
+                                var td=$(this).find("td:eq(10)");
+                                var options= $(td).find("option");
+                                $(options).each(function(){
+                                    var opt=$(this).val();
+                                    if(org==opt){
+                                        $(this).prop("selected",true);
+                                        if($.trim(purchaseType) == "单一来源") {
+                                            $(this).parent().parent().next().next().find("input").removeAttr("readonly");
+                                        } else {
+                                            $(this).parent().parent().next().next().find("input").attr("readonly", "readonly");
+                                        }
+                                    }else{
+                                        $(this).prop("selected",false);
+                                        // $(this).removeAttr("selected");
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
  
  
 </script>
@@ -434,7 +437,7 @@
 							</td>
 							
 							<td class="tl">
-							     <div class="w80">${obj.supplier }</div>
+								<div class="w80"><input name="list[${vs.index }].supplier" readonly="readonly" value="${obj.supplier }" /></div>
 							</td>
 							<td class="tc">
 							    <div class="w80">${obj.isFreeTax }</div>
