@@ -1352,7 +1352,7 @@ resultMap="BaseResultMap">
         <if test="status != null and status !=''">
             AND t1.STATUS = #{status}
         </if>
-        <if test="updatedAt !=null and updatedAt !=''">
+        <if test="updatedAt !=null and updatedAt != ''">
         	AND TO_CHAR(t1.UPDATED_AT,'YY-MM-DD') = TO_CHAR(#{updatedAt},'YY-MM-DD')
         </if> 
         <if test="auditAt !=null and auditAt!=''">
