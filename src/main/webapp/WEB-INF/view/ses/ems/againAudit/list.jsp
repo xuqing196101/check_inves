@@ -72,11 +72,11 @@
       
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10">
-      <button class="btn" type="button">创建复审批次</button>
+      <button class="btn btn_create_review_batches" type="button">创建复审批次</button>
     </div>
 
     <div class="content table_box">
-      <table class="table table-bordered table-condensed table-hover table-striped">
+      <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
         <thead>
           <tr>
             <th class="info w50">选择</th>
@@ -97,26 +97,67 @@
   </div>
   <!-- 内容结束 -->
   
+  <!-- 弹出框 -->
+  <div class="dnone col-xs-12 pt20 pb20" id="create_review_batches">
+    <div class="search_detail ml0 mt0 mb10">
+      <ul class="demand_list">
+        <li>
+          <label class="fl">批次名称：</label>
+          <input type="text" name="" value="">
+        </li>
+        <li>
+          <label class="fl">批次编号：</label>
+          <span>
+            <input type="text" name="" value="">
+          </span>
+        </li>
+      </ul>
+      <div class="clear"></div>
+    </div>
+    
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th class="info w50">序号</th>
+          <th class="info">专家姓名</th>
+          <th class="info">专业职称</th>
+          <th class="info">提交复审时间</th>
+        </tr>
+      </thead>
+      <tbody id="crb_content"></tbody>
+    </table>
+  </div>
+  <!-- End 弹出框 -->
+  
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/list.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script>
+    var ajax_url = '${pageContext.request.contextPath}/expertAgainAudit/againAuditList.do';
+    
     $(function () {
       $('#list_content').listConstructor({
-        url: '${pageContext.request.contextPath}/expertAgainAudit/againAuditList.do'
+        url: ajax_url
       });
-    });
-    
-    // 搜索
-    function againAudit_search() {
+      
+      // 搜索
       var relName = $('[name=relName]').val();  // 获取采购机构名称
       var auditAt = $('[name=auditAt]').val();  // 获取提交复审时间
-      $('#list_content').listConstructor({
-        data: {
-          orgName: relName,
-          updatedAt: auditAt
-        },
-        url: '${pageContext.request.contextPath}/expertAgainAudit/againAuditList.do'
+      againAudit_search([relName,auditAt], ajax_url);
+      
+      // 创建复审批次
+      $('.btn_create_review_batches').bind('click', function () {
+        var select_ids = "";  // 储存id的数组
+        if ($('.againAudit_table').find('.select_item').length > 0) {
+	        $('.againAudit_table').find('.select_item').each(function () {
+	          if ($(this).is(':checked')) {
+        		  select_ids += $(this).val()+",";
+	          }
+	        });
+	        select_ids = select_ids.substring(0, select_ids.length-1);
+        }
+        create_review_batches(ajax_url, select_ids);
       });
-    }
+    });
   </script>
     
 </body>

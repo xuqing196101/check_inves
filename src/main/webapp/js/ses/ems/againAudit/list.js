@@ -10,7 +10,6 @@
       data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
-        console.log(data);
         $('#list_content').html('')
         for (var i in list_content.list) {
           $('#list_content').append('<tr>'
