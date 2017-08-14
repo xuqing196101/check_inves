@@ -17,10 +17,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
@@ -55,6 +57,9 @@ import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.MarkTerm;
+import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
+import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.Reason;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
@@ -187,6 +192,8 @@ public class AdOpenBiddingController {
     private static final String  PURCHASE_NOTICE= "purchase";
     /** 公告类型 - 中标公告*/
     private static final String  WIN_NOTICE= "win";
+    
+    private final static Short NUMBER_TWO = 2;
     
     /**
      *〈简述〉 进入招标文件页面
@@ -606,10 +613,10 @@ public class AdOpenBiddingController {
                 model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
                 model.addAttribute("security", DictionaryDataUtil.getId("SECURITY_COMMITTEE"));
                 if (WIN_NOTICE.equals(noticeType)) {
-                  model.addAttribute("typeId_examine", DictionaryDataUtil.getId("WIN_BID_ADUIT"));
+                    model.addAttribute("typeId_examine", DictionaryDataUtil.getId("WIN_BID_ADUIT"));
                 }
                 if (PURCHASE_NOTICE.equals(noticeType)) {
-                  model.addAttribute("typeId_examine", DictionaryDataUtil.getId("PROJECT_BID_ADUIT"));
+                    model.addAttribute("typeId_examine", DictionaryDataUtil.getId("PROJECT_BID_ADUIT"));
                 }
                 //查询关联品目
                 articelService.getArticleCategory(articles.get(0).getId(), model);
@@ -1024,7 +1031,7 @@ public class AdOpenBiddingController {
                   }
               }
               //查询公告列表中是否有该项目的公告
-             /* Article art = articelService.selectArticleById(article.getId());
+             Article art = articelService.selectArticleById(article.getId());
               if (art != null ){
                   articelService.update(article);
                   //该环节设置为执行中状态
@@ -1033,7 +1040,7 @@ public class AdOpenBiddingController {
                   articelService.addArticle(article);
                   //该环节设置为执行中状态
                   flowMangeService.flowExe(request, flowDefineId, article.getProjectId(), 1);
-              }*/
+              }
               jsonData.setSuccess(true);
               jsonData.setObj(article);
               return jsonData;
@@ -1299,27 +1306,77 @@ public class AdOpenBiddingController {
     
     @RequestMapping("/save")
     @ResponseBody
-    public void save(BigDecimal total ,String deliveryTime ,Integer isTurnUp ,String supplierId, String projectId, String packageId ,String quoteId) throws Exception{
-        List<Quote> quoteList = new ArrayList<Quote>();
-        Quote quote = new Quote();
-        quote.setSupplierId(supplierId);
-        quote.setTotal(total);
-        quote.setCreatedAt(new Timestamp(new Date().getTime()));
-        quote.setPackageId(packageId);
-        quote.setProjectId(projectId);
-        quote.setIsTurnUp(isTurnUp);
-        if (deliveryTime != null && !"".equals(deliveryTime)) {
-            quote.setDeliveryTime(URLDecoder.decode(deliveryTime, "UTF-8"));
+    public String save(HttpServletRequest request, String quoteList) throws Exception{
+        List<Quote> quoteLists = new ArrayList<Quote>();
+        JSONArray json=JSONArray.fromObject(quoteList);
+        JSONObject jsonQuote = new JSONObject();
+        for (int i = 0; i < json.size(); i++) {
+            Quote quote = new Quote();
+            jsonQuote = json.getJSONObject(i); 
+            quote.setSupplierId(jsonQuote.getString("supplierId"));
+            if (StringUtils.isNotBlank(jsonQuote.getString("total"))) {
+                quote.setTotal(new BigDecimal(jsonQuote.getString("total")));
+            }
+            quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(jsonQuote.getString("date")).getTime()));
+            quote.setPackageId(jsonQuote.getString("packageId"));
+            quote.setProjectId(jsonQuote.getString("projectId"));
+            quote.setDeliveryTime(jsonQuote.getString("deliveryTime"));
+            if (!"".equals(jsonQuote.opt("isGiveUp")) && jsonQuote.opt("isGiveUp") != null ) {
+                quote.setIsRemove(Integer.parseInt(jsonQuote.getString("isGiveUp")));
+                //放弃报价需要修改saletender这个表的isRemoved这个字段为2
+                SaleTender condition = new SaleTender();
+                condition.setProjectId(quote.getProjectId());
+                condition.setPackages(quote.getPackageId());
+                condition.setSupplierId(quote.getSupplierId());
+                condition.setStatusBid(NUMBER_TWO);
+                condition.setStatusBond(NUMBER_TWO);
+                condition.setIsTurnUp(0);
+                List<SaleTender> stList = saleTenderService.find(condition);
+                if (stList != null && stList.size() > 0) {
+                    stList.get(0).setIsRemoved("2");
+                    saleTenderService.update(stList.get(0));
+                }
+            }
+            if (jsonQuote.opt("auditReason") != null) {
+                quote.setGiveUpReason(jsonQuote.getString("auditReason"));
+            }
+            quoteLists.add(quote);
+          
+            //查是否是单一来源的项目
+            AdvancedProject project = projectService.selectById(quote.getProjectId());
+            if(project != null){
+                DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+                if("DYLY".equals(findById.getCode())){
+                    SupplierCheckPass pass = new SupplierCheckPass();
+                    pass.setPackageId(quote.getPackageId());
+                    List<SupplierCheckPass> listCheckPass = supplierCheckPassService.listCheckPass(pass);
+                    if(listCheckPass != null && listCheckPass.size() > 0){
+                        for (SupplierCheckPass supplierCheckPass : listCheckPass) {
+                            if(supplierCheckPass != null){
+                                supplierCheckPassService.delete(supplierCheckPass.getId());
+                            }
+                        }
+
+                    }
+
+                    SupplierCheckPass record = new SupplierCheckPass();
+                    record.setId(WfUtil.createUUID());
+                    record.setPackageId(quote.getPackageId());
+                    record.setProjectId(quote.getProjectId());
+                    record.setSupplierId(jsonQuote.getString("supplierId"));
+                    record.setTotalPrice(quote.getTotal());
+                    record.setRanking(1);
+                    record.setIsWonBid((short)0);
+                    supplierCheckPassService.insert(record);
+                }
+            }
+          
         }
-        quoteList.add(quote);
-        if (quoteId == null || "".equals(quoteId)) {
-            supplierQuoteService.insert(quoteList);    
-        } else {
-            quote.setId(quoteId);
-            supplierQuoteService.update(quoteList);
-        }
-        
-    }
+        supplierQuoteService.insert(quoteLists); 
+        //该环节设置为执行完毕
+        flowMangeService.flowExe(request, jsonQuote.getString("flowDefineId"), jsonQuote.getString("projectId"), 1);
+        return "true";
+      }
     
     /**
      * 
@@ -1335,16 +1392,852 @@ public class AdOpenBiddingController {
     @RequestMapping("/selectSupplierByProject")
     public String selectSupplierByProject(String projectId, String flowDefineId, Model model) throws ParseException{
         //文件上传类型
+        boolean flag = false;
         String typeId = DictionaryDataUtil.getId("OPEN_FILE");
         model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
         model.addAttribute("typeId", typeId);
         List<Supplier> listSupplier = supplierService.selectSupplierByProjectId(projectId);
         if(listSupplier != null && listSupplier.size() > 0){
-            
+            SaleTender condition = new SaleTender();
+            condition.setProjectId(projectId);
+            condition.setStatusBid(NUMBER_TWO);
+            condition.setStatusBond(NUMBER_TWO);
+            StringBuilder sb = new StringBuilder("");
+            for (Supplier supplier : listSupplier) {
+                condition.setSupplierId(supplier.getId());
+                List<SaleTender> stList = saleTenderService.find(condition);
+                if(stList != null && stList.size() > 0){
+                    for (SaleTender saleTender : stList) {
+                        AdvancedPackages packages = packageService.selectById(saleTender.getPackages());
+                        if(packages != null){
+                            sb.append(packages.getName());
+                        }
+                    }
+                    if (stList.get(0).getIsTurnUp() != null) {
+                        supplier.setIsturnUp(stList.get(0).getIsTurnUp().toString());
+                        flag = true;
+                    }
+                    supplier.setPackageName(sb.toString());
+                    sb.delete(0, sb.length());
+                }
+            }
         }
-        return null;
+        Integer num = 0;
+        StringBuilder groupUpload = new StringBuilder("");
+        StringBuilder groupShow = new StringBuilder("");
+        for (Supplier supplier : listSupplier) {
+            num ++;
+            groupUpload = groupUpload.append("bidFileUpload" + num +",");
+            groupShow = groupShow.append("bidFileShow" + num +",");
+            supplier.setGroupsUpload("bidFileUpload"+num);
+            supplier.setGroupShow("bidFileShow"+num);
+            SaleTender st = new SaleTender();
+            st.setProjectId(projectId);
+            st.setSupplierId(supplier.getId());
+            List<SaleTender> findList = saleTenderService.find(st);
+            if(findList != null && findList.size() > 0) {
+                supplier.setProSupFile(findList.get(0).getId());
+            }
+        }
+        String groupUploadId =  "";
+        String groupShowId = "";
+        if (!"".equals(groupUpload.toString())) {
+            groupUploadId ="flUpload" +  groupUpload.toString().substring(0, groupUpload.toString().length()-1);
+        }
+        if (!"".equals(groupShow.toString())) {
+            groupShowId ="flshow" +  groupShow.toString().substring(0, groupShow.toString().length()-1);
+        }
+        SaleTender condition1 = new SaleTender();
+        condition1.setProjectId(projectId);
+        condition1.setStatusBid(NUMBER_TWO);
+        condition1.setStatusBond(NUMBER_TWO);
+        //这里是批量上传全局唯一.调用的upload.js也是改了的
+        for (Supplier supplier : listSupplier) {
+            supplier.setGroupsUploadId(groupUploadId);
+            supplier.setGroupShowId(groupShowId);
+            List<UploadFile> blist = uploadService.getFilesOther(supplier.getProSupFile(), typeId,  Constant.SUPPLIER_SYS_KEY.toString());
+            if (blist != null && blist.size() >0) {
+                supplier.setBidFileName(blist.get(0).getName());
+                supplier.setBidFileId(blist.get(0).getId());
+            }
+        }
+        model.addAttribute("supplierList", listSupplier);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("flag", flag);
+        return "bss/ppms/advanced_project/advanced_bid_file/supplier_project";
     }
     
+    
+    @RequestMapping("/changbiao")
+    public String chooseChangBiaoType(String projectId, String flowDefineId, Model model) {
+        AdvancedProject project = projectService.selectById(projectId);
+        if(project != null){
+            //开标时间
+            long bidDate = 0;
+            if (project.getBidDate() != null) {
+                bidDate = project.getBidDate().getTime();
+            }
+            long nowDate = new Date().getTime();
+            long date = bidDate - nowDate;
+            model.addAttribute("date", date);
+            model.addAttribute("project", project);
+            model.addAttribute("flowDefineId", flowDefineId);
+            
+            if (date < 0) {
+                Integer quotePrice = packageService.quotePrice(projectId);
+                if(quotePrice == null){
+                    return "bss/ppms/advanced_project/advanced_bid_file/cb";
+                } else if (quotePrice == 0) {
+                    return "redirect:changmingxi.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
+                } else {
+                    return "redirect:changtotal.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
+                }
+            }
+        }
+        return "bss/ppms/advanced_project/advanced_bid_file/cb";
+    }
+    
+    /**
+     * 
+     *〈唱总价〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param projectId
+     * @param packId
+     * @param model
+     * @param count
+     * @param flowDefineId
+     * @return
+     * @throws ParseException
+     */
+    @RequestMapping("/changtotal")
+    public String changtotal(String projectId, String packId, Model model, String count, String flowDefineId, HttpServletRequest request) throws ParseException {
+        Quote quoteCondition = new Quote();
+        quoteCondition.setProjectId(projectId);
+        List<Date> listDate =  supplierQuoteService.selectQuoteCount(quoteCondition);
+        if (listDate != null && listDate.size() > 0 && StringUtils.isBlank(packId)) {
+            //如果有明细就是查看了
+            return "redirect:viewChangtotal.html?projectId=" + projectId;
+        }
+        //记录报价的轮次
+        Integer countBid = 0;
+        List<AdvancedPackages> packageId = packageService.getPackageId(projectId);
+        if (StringUtils.isNotBlank(packId)) {
+            //显示第几轮次报价
+            quoteCondition.setPackageId(packId);
+            List<Date> listDate1 =  supplierQuoteService.selectQuoteCount(quoteCondition);
+            if (listDate1 != null) {
+                countBid = listDate1.size();
+                model.addAttribute("count", listDate1.size());
+            }
+            List<AdvancedPackages> listPackage = new ArrayList<AdvancedPackages>();
+            if(packageId != null && packageId.size() > 0){
+                for (AdvancedPackages advancedPackages : packageId) {
+                    if (advancedPackages.getId().equals(packId)) {
+                        listPackage.add(advancedPackages);
+                    }
+                }
+                packageId = listPackage;
+            }
+        }
+        if (StringUtils.isNotBlank(count) && "1".equals(count)) {
+            HashMap<String, Object> map2 = new HashMap<String, Object>();
+            map2.put("projectId", projectId);
+            List<AdvancedPackages> selectByAll = packageService.selectByAll(map2);
+            if (selectByAll != null && selectByAll.size() > 0) {
+                model.addAttribute("count1", selectByAll.size());
+            }
+        }
+        
+        if(packageId != null && packageId.size() > 0){
+            Map<String, String> mapPackageName = new HashMap<String, String>();
+            HashMap<String, Object> hashMap = new HashMap<>();
+            SaleTender condition = new SaleTender();
+            TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
+            for (AdvancedPackages advancedPackages : packageId) {
+                AdvancedPackages packages = packageService.selectById(advancedPackages.getId());
+                if(packages != null && StringUtils.isNotBlank(packages.getProjectStatus())){
+                    DictionaryData findById = DictionaryDataUtil.findById(packages.getProjectStatus());
+                    mapPackageName.put(packages.getName(), findById.getCode());
+                }
+                condition.setProjectId(projectId);
+                condition.setPackages(advancedPackages.getId());
+                condition.setStatusBid(NUMBER_TWO);
+                condition.setStatusBond(NUMBER_TWO);
+                condition.setIsTurnUp(0);
+                if(countBid > 0){
+                  condition.setIsFirstPass(1);
+                }
+                List<SaleTender> stList = saleTenderService.find(condition);
+                List<SaleTender> stList1 = new ArrayList<SaleTender>();
+                stList1.addAll(stList);
+                for (SaleTender st1 : stList1) {
+                    if ("2".equals(st1.getIsRemoved())) {
+                        stList.remove(st1);
+                    }
+                }
+                hashMap.put("advancedProject", projectId);
+                hashMap.put("packageId", advancedPackages.getId());
+                List<AdvancedDetail> selectByAll = detailService.selectByAll(hashMap);
+                BigDecimal projectBudget = BigDecimal.ZERO;
+                if(selectByAll != null && selectByAll.size() > 0){
+                    for (AdvancedDetail advancedDetail : selectByAll) {
+                        projectBudget = projectBudget.add(advancedDetail.getBudget());
+                    }
+                }
+                if (stList != null && stList.size() > 0) {
+                    treeMap.put(packages.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
+                }
+            }
+            model.addAttribute("treeMap", treeMap);
+            model.addAttribute("mapPackageName", mapPackageName);
+        }
+        
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("packId", packId);
+        model.addAttribute("flowDefineId", flowDefineId);
+        model.addAttribute("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        //该环节设置为执行中状态
+        flowMangeService.flowExe(request, flowDefineId, projectId, 2);
+        return "bss/ppms/advanced_project/advanced_bid_file/chang_total";
+    }
+    
+    @RequestMapping("/viewChangtotal")
+    public String viewChangtotal(String projectId, String packId, String timestamp, Model model, HttpServletRequest req) throws ParseException{
+        AdvancedProject project = projectService.selectById(projectId);
+        if(project != null && StringUtils.isNotBlank(project.getPurchaseType())){
+            DictionaryData dictionaryData = DictionaryDataUtil.findById(project.getPurchaseType());
+            List<AdvancedPackages> packageId = packageService.getPackageId(projectId);
+            if(packageId != null && packageId.size() > 0){
+                TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
+                SaleTender condition = new SaleTender();
+                Map<String, String> mapPackageName=new HashMap<String, String>();
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                HashMap<String, Object> map1 = new HashMap<String, Object>();
+                Quote quote2 = new Quote();
+                Quote quote3 = new Quote();
+                List<AdvancedPackages> listPackage1 = new ArrayList<AdvancedPackages>();
+                if(StringUtils.isNotBlank(packId)){
+                    for (AdvancedPackages pack : packageId) {
+                        if (pack.getId().equals(packId)) {
+                          listPackage1.add(pack);
+                        }
+                    }
+                    packageId = listPackage1;
+                }
+                
+                for (AdvancedPackages pack : packageId) {
+                    AdvancedPackages ps = packageService.selectById(pack.getId());
+                    if(ps != null && StringUtils.isNotBlank(ps.getProjectStatus())){
+                        DictionaryData findById = DictionaryDataUtil.findById(ps.getProjectStatus());
+                        mapPackageName.put(ps.getName(), findById.getCode());
+                    }
+                    condition.setProjectId(projectId);
+                    condition.setPackages(pack.getId());
+                    condition.setStatusBid(NUMBER_TWO);
+                    condition.setStatusBond(NUMBER_TWO);
+                    condition.setIsTurnUp(0);
+                    List<SaleTender> stList = saleTenderService.find(condition);
+                    map1.put("packageId", pack.getId());
+                    map1.put("advancedProject", projectId);
+                    List<AdvancedDetail> detailList = detailService.selectByAll(map1);
+                    BigDecimal projectBudget = BigDecimal.ZERO;
+                    for (AdvancedDetail detail : detailList) {
+                        projectBudget = projectBudget.add(detail.getBudget());
+                    }
+                    quote3.setProjectId(projectId);
+                    quote3.setPackageId(pack.getId());
+                    List<Date> listDate1 = supplierQuoteService.selectQuoteCount(quote3);
+                    List<Quote> listQuotebyPackage1 = new ArrayList<Quote>();
+                    if (listDate1 != null && listDate1.size() > 1) {
+                        //给第二次报价的数据查到
+                        if ("JZXTP".equals(dictionaryData.getCode()) || "DYLY".equals(dictionaryData.getCode())) {
+                            quote2.setProjectId(projectId);
+                            quote2.setPackageId(pack.getId());
+                            if (timestamp == null) {
+                                quote2.setCreatedAt(new Timestamp(listDate1.get(listDate1.size()-1).getTime()));
+                            } else {
+                                quote2.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
+                            }
+                            listQuotebyPackage1 = supplierQuoteService.selectQuoteHistoryList(quote2);
+                        }
+                    } 
+
+                    for (SaleTender saleTender : stList) {
+                        Quote quote = new Quote();
+                        quote.setProjectId(projectId);
+                        quote.setPackageId(pack.getId());
+                        quote.setSupplierId(saleTender.getSuppliers().getId());
+                        if (listDate1 != null && listDate1.size() > 0) {
+                            quote.setCreatedAt(new Timestamp(listDate1.get(0).getTime()));
+                        }
+                        if ("0".equals(saleTender.getIsRemoved())) {
+                            saleTender.setIsRemoved("正常");
+                        }
+                        if ("2".equals(saleTender.getIsRemoved())) {
+                            saleTender.setIsRemoved("放弃报价");
+                        }
+                        List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
+                        if (allQuote != null && allQuote.size() > 0) {
+                            for (Quote conditionQuote : allQuote) {
+                                if (conditionQuote.getSupplierId().equals(saleTender.getSuppliers().getId()) &&
+                                    conditionQuote.getProjectId().equals(saleTender.getProjectId()) && saleTender.getPackages().equals(conditionQuote.getPackageId())) {
+                                    for (Quote qp : listQuotebyPackage1) {
+                                        if (qp.getPackageId().equals(conditionQuote.getPackageId()) && qp.getSupplier().getId().equals(conditionQuote.getSupplierId())) {
+                                            conditionQuote.setTotal(qp.getTotal());
+                                            conditionQuote.setQuotePrice(qp.getQuotePrice());
+                                            conditionQuote.setRemark(qp.getRemark());
+                                            conditionQuote.setDeliveryTime(qp.getDeliveryTime());
+                                        }
+                                    }
+                                    saleTender.setTotal(conditionQuote.getTotal());
+                                    saleTender.setDeliveryTime(conditionQuote.getDeliveryTime());
+                                    saleTender.setIsTurnUp(conditionQuote.getIsTurnUp());
+                                    saleTender.setQuoteId(conditionQuote.getId());
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (stList != null && stList.size() > 0) {
+                        treeMap.put(ps.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
+                    }
+                }
+                model.addAttribute("treeMap", treeMap);
+                model.addAttribute("mapPackageName", mapPackageName);
+            } else if (packageId != null && packageId.size() == 1 && StringUtils.isNotBlank(packId)) {
+                model.addAttribute("listLength", 1);
+            }
+            model.addAttribute("dd", dictionaryData);
+        }
+        model.addAttribute("projectId", projectId);
+        return "bss/ppms/advanced_project/advanced_bid_file/view_chang_total";
+    }
+    
+    @RequestMapping("/changTotalWord")
+    public String changTotalWord(String projectId, String packId, String timestamp, Model model, HttpServletRequest req) throws ParseException{
+        AdvancedProject project = projectService.selectById(projectId);
+        DictionaryData dictionaryData = null;
+        if (project != null && project.getPurchaseType() != null ){
+            dictionaryData = DictionaryDataUtil.findById(project.getPurchaseType());
+        }
+        //去saletender查出项目对应的所有的包
+        List<AdvancedPackages> packList = packageService.getPackageId(projectId);
+        //这里用这个是因为hashMap是无序的
+        TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
+        SaleTender condition = new SaleTender();
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map1 = new HashMap<String, Object>();
+        Quote quote2 = new Quote();
+        Quote quote3 = new Quote();
+        List<AdvancedPackages> listPackage1 = new ArrayList<AdvancedPackages>();
+        if (StringUtils.isNotBlank(packId)) {
+            for (AdvancedPackages pack : packList) {
+                if (pack.getId().equals(packId)) {
+                    listPackage1.add(pack);
+                }
+            }
+            packList = listPackage1;
+        }
+        if (packList != null && packList.size() == 1 && packId != null) {
+            model.addAttribute("listLength", 1);
+        }
+        for (AdvancedPackages pack : packList) {
+            AdvancedPackages ps = packageService.selectById(pack.getId());
+            condition.setProjectId(projectId);
+            condition.setPackages(pack.getId());
+            condition.setStatusBid(NUMBER_TWO);
+            condition.setStatusBond(NUMBER_TWO);
+            condition.setIsTurnUp(0);
+            List<SaleTender> stList = saleTenderService.find(condition);
+            map1.put("packageId", pack.getId());
+            map1.put("advancedProject", projectId);
+            List<AdvancedDetail> detailList = detailService.selectByAll(map1);
+            BigDecimal projectBudget = BigDecimal.ZERO;
+            for (AdvancedDetail detail : detailList) {
+                projectBudget = projectBudget.add(detail.getBudget());
+            }
+
+            quote3.setProjectId(projectId);
+            quote3.setPackageId(pack.getId());
+            List<Date> listDate1 = supplierQuoteService.selectQuoteCount(quote3);
+            List<Quote> listQuotebyPackage1 = new ArrayList<Quote>();
+            if (listDate1 != null && listDate1.size() > 1) {
+                //给第二次报价的数据查到
+                if ("JZXTP".equals(dictionaryData.getCode()) || "DYLY".equals(dictionaryData.getCode())) {
+                    quote2.setProjectId(projectId);
+                    quote2.setPackageId(pack.getId());
+                    if (timestamp == null) {
+                        quote2.setCreatedAt(new Timestamp(listDate1.get(listDate1.size()-1).getTime()));
+                    } else {
+                        quote2.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
+                    }
+                    listQuotebyPackage1 = supplierQuoteService.selectQuoteHistoryList(quote2);
+                }
+            } 
+
+            for (SaleTender saleTender : stList) {
+                Quote quote = new Quote();
+                quote.setProjectId(projectId);
+                quote.setPackageId(pack.getId());
+                quote.setSupplierId(saleTender.getSuppliers().getId());
+                if (listDate1 != null && listDate1.size() > 0) {
+                    quote.setCreatedAt(new Timestamp(listDate1.get(0).getTime()));
+                }
+                if ("0".equals(saleTender.getIsRemoved())) {
+                    saleTender.setIsRemoved("正常");
+                }
+                if ("2".equals(saleTender.getIsRemoved())) {
+                    saleTender.setIsRemoved("放弃报价");
+                }
+                List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
+                if (allQuote != null && allQuote.size() > 0) {
+                    for (Quote conditionQuote : allQuote) {
+                        if (conditionQuote.getSupplierId().equals(saleTender.getSuppliers().getId()) &&
+                            conditionQuote.getProjectId().equals(saleTender.getProjectId()) && saleTender.getPackages().equals(conditionQuote.getPackageId())) {
+                            for (Quote qp : listQuotebyPackage1) {
+                                if (qp.getPackageId().equals(conditionQuote.getPackageId()) && qp.getSupplier().getId().equals(conditionQuote.getSupplierId())) {
+                                    conditionQuote.setTotal(qp.getTotal());
+                                    conditionQuote.setQuotePrice(qp.getQuotePrice());
+                                    conditionQuote.setRemark(qp.getRemark());
+                                    conditionQuote.setDeliveryTime(qp.getDeliveryTime());
+                                }
+                            }
+                            saleTender.setTotal(conditionQuote.getTotal());
+                            saleTender.setDeliveryTime(conditionQuote.getDeliveryTime());
+                            saleTender.setIsTurnUp(conditionQuote.getIsTurnUp());
+                            saleTender.setQuoteId(conditionQuote.getId());
+                            break;
+                        }
+                    }
+                }
+            }
+            map.put("id", pack.getId());
+            if (stList != null && stList.size() > 0) {
+                treeMap.put(ps.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
+            }
+        }
+        model.addAttribute("treeMap", treeMap);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("project", project);
+        model.addAttribute("dd", dictionaryData);
+        HashMap<String, Object> mapId = new HashMap<String, Object>();
+        mapId.put("projectId", projectId);
+        mapId.put("id", packId);
+        List<AdvancedPackages> selectByAll = packageService.selectByAll(mapId);
+        if (selectByAll != null && selectByAll.size() > 0) {
+            model.addAttribute("pack", selectByAll.get(0));
+        }
+        return "bss/ppms/open_bidding/bid_file/view_chang_total_word";
+    }
+    
+    @RequestMapping("/changmingxi")
+    public String changmingxi(String projectId, String packId, Model model, String count, String flowDefineId, HttpServletRequest req) throws ParseException{
+        Quote condition = new Quote();
+        condition.setProjectId(projectId);
+        List<Date> listDate =  supplierQuoteService.selectQuoteCount(condition);
+        //packId代再次报价
+        if (listDate != null && listDate.size() > 0  && StringUtils.isBlank(packId)) {
+            //如果有明细就是查看了
+            return "redirect:viewMingxi.html?projectId=" + projectId;
+        }
+        Integer countBid = 0;
+        if (listDate != null && listDate.size() > 0) {
+            countBid = listDate.size();
+            model.addAttribute("listDate", listDate.size());
+        }
+        Quote quote2 = new Quote();
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId", projectId);
+        SaleTender st = new SaleTender();
+        st.setProjectId(projectId);
+        if(countBid > 0){
+            st.setIsFirstPass(1);
+        }
+        StringBuilder sb = new StringBuilder("");
+        List<SaleTender> saleTenderList = saleTenderService.find(st);
+        for (SaleTender saleTender : saleTenderList) {
+            sb.append(saleTender.getPackages());
+        }
+        List<AdvancedPackages> selectByAll = packageService.selectByAll(map);
+        List<AdvancedPackages> listPackage = new ArrayList<AdvancedPackages>();
+        List<AdvancedPackages> listPackage1 = new ArrayList<AdvancedPackages>();
+        for (AdvancedPackages packages : selectByAll) {
+            if (sb.toString().indexOf(packages.getId()) != -1) {
+                listPackage.add(packages);
+            }
+        }
+        if ("1".equals(count)) {
+            HashMap<String, Object> map2 = new HashMap<String, Object>();
+            map2.put("projectId", projectId);
+            List<AdvancedPackages> pl = packageService.selectByAll(map2);
+            if (pl != null) {
+                model.addAttribute("count", pl.size());
+            }
+        }
+        if(StringUtils.isNotBlank(packId)){
+            for (AdvancedPackages pack : listPackage) {
+                if (pack.getId().equals(packId)) {
+                    listPackage1.add(pack);
+                }
+            }
+            listPackage = listPackage1;
+        }
+        for (AdvancedPackages pk : listPackage) {
+            map.put("packageId", pk.getId());
+            quote2.setProjectId(projectId);
+            quote2.setPackageId(pk.getId());
+            List<Supplier> suList = new ArrayList<Supplier>();
+            List<AdvancedDetail> advancedDetails = detailService.selectByAll(map);
+            BigDecimal projectBudget = BigDecimal.ZERO;
+            for (AdvancedDetail detail : advancedDetails) {
+                projectBudget = projectBudget.add(detail.getBudget());
+            }
+            pk.setProjectBudget(projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP));
+            for (SaleTender saleTender : saleTenderList) {
+                if (saleTender.getPackages().indexOf(pk.getId()) != -1 && saleTender.getIsTurnUp() != null && saleTender.getIsTurnUp() == 0 && saleTender.getIsRemoved().equals("0")) {
+                    Supplier supplier = supplierService.get(saleTender.getSuppliers().getId());
+                    supplier.setDetails(advancedDetails);
+                    Supplier supplierNew = new Supplier();
+                    supplierNew.setSupplierName(supplier.getSupplierName());
+                    supplierNew.setId(supplier.getId());
+                    supplierNew.setDetails(advancedDetails);
+                    suList.add(supplierNew);
+                }
+            }
+            pk.setSuppliers(suList);
+        }
+        model.addAttribute("listPackage", listPackage);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("packId", packId);
+        model.addAttribute("flowDefineId", flowDefineId);
+        //该环节设置为执行中状态
+        flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+        return "bss/ppms/advanced_project/advanced_bid_file/changbiao";
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/savemingxi")
+    public String savemingxi(@CurrentUser User user, HttpServletRequest req, Quote quote, Model model, String priceStr, String flowDefineId, String packId, String quoteList) throws Exception {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId", quote.getProjectId());
+        List<AdvancedPackages> selectByAll = packageService.selectByAll(map);
+        SaleTender st = new SaleTender();
+        st.setProjectId(quote.getProjectId());
+        StringBuilder sb = new StringBuilder("");
+        List<SaleTender> saleTenderList = saleTenderService.find(st);
+        for (SaleTender saleTender : saleTenderList) {
+            sb.append(saleTender.getPackages());
+        }
+        List<AdvancedPackages> listPackage = new ArrayList<AdvancedPackages>();
+        for (AdvancedPackages packages : selectByAll) {
+            if (sb.toString().indexOf(packages.getId()) != -1) {
+                if (StringUtils.isNotBlank(packId)) {
+                    if (!packages.getId().equals(packId)) {
+                        continue;
+                    }
+                }
+                listPackage.add(packages);
+            }
+        }
+        //循环次数
+        Integer count = 0;
+        Timestamp timestamp = new Timestamp(new Date().getTime());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        List<Quote> listQuote = new ArrayList<Quote>();
+        for (AdvancedPackages pk : listPackage) {
+            Integer count1 = 0;
+            hashMap.put("advancedProject", quote.getProjectId());
+            hashMap.put("packageId", pk.getId());
+            List<AdvancedDetail> detailList = detailService.selectByAll(map);
+            SaleTender str = new SaleTender();
+            str.setProjectId(quote.getProjectId());
+            List<SaleTender> stl= saleTenderService.find(str);
+            Quote condition = new Quote();
+            condition.setProjectId(quote.getProjectId());
+            List<Date> listDate =  supplierQuoteService.selectQuoteCount(condition);
+            for (SaleTender saleTender : stl) {
+                if (saleTender.getPackages().indexOf(pk.getId()) != -1 && saleTender.getIsTurnUp() != null) {
+                    if(listDate != null && listDate.size() > 0){
+                        //判断是否为第一次报价
+                        if(saleTender.getIsFirstPass() != null && saleTender.getIsFirstPass() == 1 && saleTender.getIsRemoved().equals("0")){
+                            count1++;
+                        }
+                    }else{
+                        count1++;
+                    }
+                }
+            }
+            Integer count2 = detailList.size();
+            //因为暂时没有想到怎么传包ID  所以当一个包下有多个供应商的时候 会导致存数据过少。我是按照物资明细来遍历的，一个供应商就只有一倍 ，两个就俩倍
+            if (count1 != 1){
+                count2 =count2*count1;
+            }
+            JSONArray json=JSONArray.fromObject(quoteList);
+            JSONObject jsonQuote = new JSONObject();
+            for (int i = 0; i < count2; i++) {
+                jsonQuote = json.getJSONObject(count);
+                count ++ ;
+                Quote quoteInsert = new Quote();
+                quoteInsert.setProjectId(quote.getProjectId());
+                quoteInsert.setSupplierId(jsonQuote.getString("supplierId"));
+                quoteInsert.setPackageId(pk.getId());
+                quoteInsert.setProductId(jsonQuote.getString("productId"));
+                quoteInsert.setQuotePrice(new BigDecimal(jsonQuote.getString("price")));
+                quoteInsert.setTotal(new BigDecimal(jsonQuote.getString("total")));
+                if (!jsonQuote.getString("remark").equals("null")) {
+                    quoteInsert.setRemark(jsonQuote.getString("remark"));
+                }
+                quoteInsert.setCreatedAt(timestamp);
+                quoteInsert.setDeliveryTime(jsonQuote.getString("deliveryTime"));
+                listQuote.add(quoteInsert);
+            }
+            int bud = 0;
+            for (Quote quote2 : listQuote) {
+                bud += quote2.getTotal().intValue();
+            }
+            AdvancedProject project = projectService.selectById(quote.getProjectId());
+            if(project != null){
+                DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+                if("DYLY".equals(findById.getCode())){
+                    SupplierCheckPass pass = new SupplierCheckPass();
+                    pass.setPackageId(pk.getId());
+                    List<SupplierCheckPass> listCheckPass = supplierCheckPassService.listCheckPass(pass);
+                    if(listCheckPass != null && listCheckPass.size() > 0){
+                        for (SupplierCheckPass supplierCheckPass : listCheckPass) {
+                            if(supplierCheckPass != null){
+                                supplierCheckPassService.delete(supplierCheckPass.getId());
+                            }
+                        }
+                    }
+
+                    SupplierCheckPass record = new SupplierCheckPass();
+                    record.setId(WfUtil.createUUID());
+                    record.setPackageId(pk.getId());
+                    record.setProjectId(quote.getProjectId());
+                    record.setSupplierId(jsonQuote.getString("supplierId"));
+                    record.setTotalPrice(new BigDecimal(bud));
+                    record.setRanking(1);
+                    record.setIsWonBid((short)0);
+                    SupplierCheckPass checkPass = new SupplierCheckPass();
+                    checkPass.setPackageId(pk.getId());
+                    supplierCheckPassService.insert(record);
+                }
+            }
+        }
+        //该环节设置为执行完毕
+        flowMangeService.flowExe(req, flowDefineId, quote.getProjectId(), 1);
+        try {
+            supplierQuoteService.insert(listQuote);
+            //修改状态
+            SaleTender saleTender = new SaleTender();
+            saleTender.setProjectId(quote.getProjectId());
+            saleTender.setSupplierId(user.getTypeId());
+            List<SaleTender> sts = saleTenderService.find(saleTender);
+            if (sts != null && sts.size() > 0) {
+                SaleTender std = sts.get(0);
+                std.setBidFinish((short) 3);
+                saleTenderService.update(std);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "true";
+    }
+    
+    @RequestMapping("/viewMingxi")
+    public String viewMingxi(String projectId, String packId, String timestamp, Model model ,HttpServletRequest req) throws ParseException{
+        AdvancedProject project = projectService.selectById(projectId);
+        if(project != null){
+            DictionaryData dd = DictionaryDataUtil.findById(project.getPurchaseType());
+            Quote quote2 = new Quote();
+            Quote quote1 = new Quote();
+            Quote quote=new Quote();
+            SaleTender st = new SaleTender();
+            st.setProjectId(projectId);
+            StringBuilder sb = new StringBuilder("");
+            List<SaleTender> saleTenderList = saleTenderService.find(st);
+            if(saleTenderList != null && saleTenderList.size() > 0){
+                for (SaleTender saleTender : saleTenderList) {
+                    sb.append(saleTender.getPackages());
+                }
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put("projectId", projectId);
+                List<AdvancedPackages> selectByAll = packageService.selectByAll(map);
+                List<AdvancedPackages> listPackage = new ArrayList<AdvancedPackages>();
+                List<AdvancedPackages> listPackage1 = new ArrayList<AdvancedPackages>();
+                if(selectByAll != null && selectByAll.size() > 0){
+                    for (AdvancedPackages packages : selectByAll) {
+                        if (sb.toString().indexOf(packages.getId()) != -1) {
+                            listPackage.add(packages);
+                        }
+                    }
+                    if (StringUtils.isNotBlank(packId)) {
+                        for (AdvancedPackages pack : listPackage) {
+                            if (pack.getId().equals(packId)) {
+                                listPackage1.add(pack);
+                            }
+                        }
+                        listPackage = listPackage1;
+                    }
+                }
+              //开始循环包
+                for (AdvancedPackages pk:listPackage) {
+                    map.put("packageId", pk.getId());
+                    quote2.setProjectId(projectId);
+                    quote2.setPackageId(pk.getId());
+                    List<Date> listDate =  supplierQuoteService.selectQuoteCount(quote2);
+                    List<Quote> listQuotebyPackage = new ArrayList<Quote>();
+                    if (listDate != null && listDate.size() > 1) {
+                        if ("JZXTP".equals(dd.getCode()) || "DYLY".equals(dd.getCode())) {
+                            quote1.setProjectId(projectId);
+                            quote1.setPackageId(pk.getId());
+                            if (timestamp == null) {
+                                quote1.setCreatedAt(new Timestamp(listDate.get(0).getTime()));
+                            } else {
+                                quote1.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
+                            }
+                            listQuotebyPackage = supplierQuoteService.selectQuoteHistoryList(quote1);
+                        } 
+                    }
+                    quote.setProjectId(projectId);
+                    if (listDate != null && listDate.size() > 0) {
+                        quote.setCreatedAt(new Timestamp(listDate.get(0).getTime()));
+                    }
+                    quote.setPackageId(pk.getId());
+                    List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
+                    List<Supplier> suList = new ArrayList<Supplier>();
+                    //判断每轮报价的供应商z
+                    if(listDate != null && listDate.size() > 1){
+                        suList = setField(listQuotebyPackage);
+                    }else{
+                        suList = setField(listQuote);
+                    }
+                    //每个包有几个供应商
+                    List<Supplier> suListNew = new ArrayList<Supplier>();
+                    for (Supplier supplier : suList) {
+                        Supplier sup = new Supplier();
+                        sup.setId(supplier.getId());
+                        sup.setSupplierName(supplier.getSupplierName());
+                        sup.setQuoteList(supplier.getQuoteList());
+                        suListNew.add(sup);
+                    }
+                    //每个包有几个供应商
+                    pk.setSuppliers(suListNew);
+                    BigDecimal projectBudget = BigDecimal.ZERO;
+                    if (pk.getSuppliers() != null && pk.getSuppliers().size() > 0) {
+                        for (Quote q : pk.getSuppliers().get(0).getQuoteList()) {
+                            if (q.getAdvancedDetail() != null) {
+                                projectBudget = projectBudget.add(q.getAdvancedDetail().getBudget());
+                            }
+                        }
+                    }
+                    //项目预算
+                    pk.setProjectBudget(projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP));
+                    setNewQuote(listQuote, listQuotebyPackage);
+                }
+                model.addAttribute("listPackage", listPackage);
+                model.addAttribute("projectId", projectId);
+            }
+        }
+        return "bss/ppms/advanced_project/advanced_bid_file/view_changbiao";
+    }
+    
+    @RequestMapping("/changmingxiWord")
+    public String changmingxiWord(String projectId, String packId, String timestamp, Model model ,HttpServletRequest req) throws ParseException{
+        AdvancedProject project = projectService.selectById(projectId);
+        DictionaryData dd = null;
+        if (project != null && StringUtils.isNotBlank(project.getPurchaseType())){
+            dd = DictionaryDataUtil.findById(project.getPurchaseType());
+        }
+        Quote quote2 = new Quote();
+        Quote quote1 = new Quote();
+        Quote quote=new Quote();
+        SaleTender st = new SaleTender();
+        st.setProjectId(projectId);
+        StringBuilder sb = new StringBuilder("");
+        List<SaleTender> saleTenderList = saleTenderService.find(st);
+        for (SaleTender saleTender : saleTenderList) {
+            sb.append(saleTender.getPackages());
+        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("projectId", projectId);
+        List<AdvancedPackages> listPack = packageService.selectByAll(map);
+        List<AdvancedPackages> listPackage = new ArrayList<AdvancedPackages>();
+        List<AdvancedPackages> listPackage1 = new ArrayList<AdvancedPackages>();
+        for (AdvancedPackages packages : listPack) {
+            if (sb.toString().indexOf(packages.getId()) != -1) {
+                listPackage.add(packages);
+            }
+        }
+        if (StringUtils.isNotBlank(packId)) {
+            for (AdvancedPackages pack : listPackage) {
+                if (pack.getId().equals(packId)) {
+                    listPackage1.add(pack);
+                }
+            }
+            listPackage = listPackage1;
+        }
+        //开始循环包
+        for (AdvancedPackages pk : listPackage) {
+            quote2.setProjectId(projectId);
+            quote2.setPackageId(pk.getId());
+            List<Date> listDate =  supplierQuoteService.selectQuoteCount(quote2);
+            List<Quote> listQuotebyPackage = new ArrayList<Quote>();
+            if (listDate != null && listDate.size() > 1) {
+                if ("JZXTP".equals(dd.getCode()) || "DYLY".equals(dd.getCode())) {
+                    quote1.setProjectId(projectId);
+                    quote1.setPackageId(pk.getId());
+                    if (timestamp == null) {
+                        quote1.setCreatedAt(new Timestamp(listDate.get(listDate.size()-1).getTime()));
+                    } else {
+                        quote1.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
+                    }
+                    listQuotebyPackage = supplierQuoteService.selectQuoteHistoryList(quote1);
+                } 
+            }
+            quote.setProjectId(projectId);
+            if (listDate != null && listDate.size() > 0) {
+                quote.setCreatedAt(new Timestamp(listDate.get(0).getTime()));
+            }
+            quote.setPackageId(pk.getId());
+            List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
+            List<Supplier> suList = setField(listQuote);
+            //每个包有几个供应商
+            List<Supplier> suListNew = new ArrayList<Supplier>();
+            for (Supplier supplier : suList) {
+                Supplier sup = new Supplier();
+                sup.setId(supplier.getId());
+                sup.setSupplierName(supplier.getSupplierName());
+                sup.setQuoteList(supplier.getQuoteList());
+                suListNew.add(sup);
+            }
+            //每个包有几个供应商
+            pk.setSuppliers(suListNew);
+            BigDecimal projectBudget = BigDecimal.ZERO;
+            if (pk.getSuppliers() != null && pk.getSuppliers().size() > 0) {
+                for (Quote q : pk.getSuppliers().get(0).getQuoteList()) {
+                    if (q.getProjectDetail() != null) {
+                        projectBudget = projectBudget.add(new BigDecimal(q.getProjectDetail().getBudget()));
+                    }
+                }
+            }
+            //项目预算
+            pk.setProjectBudget(projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP));
+            setNewQuote(listQuote, listQuotebyPackage);
+        }
+        model.addAttribute("listPackage", listPackage);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("project", project);
+        HashMap<String, Object> mapId = new HashMap<String, Object>();
+        mapId.put("projectId", projectId);
+        mapId.put("id", packId);
+        List<AdvancedPackages> pack = packageService.selectByAll(mapId);
+        if (pack != null && pack.size() > 0) {
+            model.addAttribute("pack", pack.get(0));
+        }
+        return "bss/ppms//advanced_project/advanced_bid_file/view_changbiao_word";
+    }
     
     public String getContent(String projectId) {
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -1362,4 +2255,63 @@ public class AdOpenBiddingController {
         return sb.toString();
     }
     
+    //给每个包的供应商，和物资明细赋值
+    public List<Supplier> setField(List<Quote> listQuote) {
+        List<Supplier> suList1 = new ArrayList<Supplier>();
+        List<Supplier> suList2 = new ArrayList<Supplier>();
+        for (Quote quoteSupplier : listQuote) {
+            if (suList1.size() > 0) {
+                suList1.add(quoteSupplier.getSupplier());
+            } else {
+                suList1.add(quoteSupplier.getSupplier());
+            }
+        }
+        //去重
+        for (int i = 0; i < suList1.size(); i++) {
+            if (i == 0) {
+                suList2.add(suList1.get(i));
+            } else {
+                if (!suList2.contains(suList1.get(i))) {
+                    suList2.add(suList1.get(i));
+                }
+            }
+        }
+
+        for (Supplier sup : suList2) {
+            List<Quote> quoteList = new ArrayList<Quote>();
+            for (Quote quote1 : listQuote) {
+                if (quote1.getSupplier().getId().equals(sup.getId())) {
+                    if (quoteList.size() > 0) {
+                        for (Quote quote2 : quoteList) {
+                            if (quote2.getAdvancedDetail().getId().equals(quote1.getAdvancedDetail().getId())) {
+                                continue;
+                            } else {
+                                quoteList.add(quote1);
+                                break;
+                            }
+                        }
+                    } else {
+                        quoteList.add(quote1);
+                    }
+                }
+            }
+            //每个供应商的明细
+            sup.setQuoteList(quoteList);
+        }
+        return suList2;
+    }
+    
+    //给最新的报价赋值
+    public void setNewQuote(List<Quote> listQuote, List<Quote> listQuotebyPackage) {
+        for (Quote q : listQuote) {
+            for (Quote qp : listQuotebyPackage) {
+                if (qp.getPackageId().equals(q.getPackageId()) && qp.getSupplierId().equals(q.getSupplierId()) && qp.getProductId().equals(q.getProductId())) {
+                    q.setTotal(qp.getTotal());
+                    q.setQuotePrice(qp.getQuotePrice());
+                    q.setRemark(qp.getRemark());
+                    q.setDeliveryTime(qp.getDeliveryTime());
+                }
+            }
+        }
+    }
 }

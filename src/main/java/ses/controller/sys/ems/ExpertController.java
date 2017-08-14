@@ -118,11 +118,13 @@ import ses.util.WfUtil;
 import ses.util.WordUtil;
 import sun.misc.BASE64Encoder;
 import bss.controller.base.BaseController;
+import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ext.ProjectExt;
 import bss.model.prms.PackageExpert;
+import bss.service.ppms.AdvancedPackageService;
 import bss.service.ppms.BidMethodService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
@@ -216,6 +218,9 @@ public class ExpertController extends BaseController {
     
     @Autowired
 	private OrgnizationServiceI orgnizationServiceI;
+    
+    @Autowired
+    private AdvancedPackageService advancedPackageService;
     
     /**
      * 
@@ -2395,6 +2400,7 @@ public class ExpertController extends BaseController {
                 // 该专家的所有包集合
                 HashMap < String, Object > hashMap;
                 List < Packages > packageList = new ArrayList < Packages > ();
+                List <AdvancedPackages> list = new ArrayList <AdvancedPackages>();
                 for(PackageExpert packageExpert: packageExpertList) {
                     // 包id
                     String string = packageExpert.getPackageId();
@@ -2406,11 +2412,19 @@ public class ExpertController extends BaseController {
                     if(packages != null && packages.size() > 0) {
                         packageList.add(packages.get(0));
                     }
+                    List<AdvancedPackages> selectByAll = advancedPackageService.selectByAll(hashMap);
+                    if(selectByAll != null && selectByAll.size() > 0){
+                        list.add(selectByAll.get(0));
+                    }
                 }
                 List < ProjectExt > projectExtList = new ArrayList < ProjectExt > ();
                 // 循环包集合 根据包中的项目id 查询出项目集合
                 if(packageList != null && packageList.size() > 0) {
                     projectExtList = service.getProjectExtList(packageList, typeId, status, pageNum == null ? 1 : pageNum);
+                }
+                if(list != null && !list.isEmpty()){
+                    List<ProjectExt> projectExtList2 = advancedPackageService.getProjectExtList(list, typeId, status, pageNum == null ? 1 : pageNum);
+                    projectExtList.addAll(projectExtList2);
                 }
                 // 排序
                 Collections.sort(projectExtList, new Comparator < ProjectExt > () {
@@ -2470,6 +2484,11 @@ public class ExpertController extends BaseController {
                 if(packs != null && packs.size() > 0) {
                     //获取评分办法数据字典编码
                     methodCode = bidMethodService.getMethod(packs.get(0).getProjectId(), packageId);
+                } else {
+                    AdvancedPackages packages = advancedPackageService.selectById(packageId);
+                    if(packages != null && StringUtils.isNotBlank(packages.getProjectId())){
+                        methodCode = bidMethodService.getMethod(packages.getProjectId(), packageId);
+                    }
                 }
                 if("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
                     // 经济技术评审

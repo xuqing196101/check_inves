@@ -131,6 +131,8 @@ public class AdvancedProject {
     
     private String isCharge; //采购文件是否收费  0：是 ，1：否
     
+    private String parentId; //父子节点
+    
     
     public AdvancedProject(String id) {
         super();
@@ -620,6 +622,14 @@ public class AdvancedProject {
 
     public void setIsCharge(String isCharge) {
         this.isCharge = isCharge;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
     
 

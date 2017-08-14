@@ -77,9 +77,8 @@
         });
       }
 
-      var flag = true;
-
       function verify() {
+        var flag = true;
         var projectNumber = $("input[name='projectNumber']").val();
         projectNumber = $.trim(projectNumber);
         $.ajax({
@@ -87,6 +86,7 @@
           type: "post",
           data: "projectNumber=" + projectNumber,
           dataType: "json",
+          async:false,
           success: function(data) {
             var datas = eval("(" + data + ")");
             if(datas == false) {
@@ -94,24 +94,22 @@
               flag = false;
             } else {
               $("#sps").html("");
-              flag = true;
             }
-
           },
         });
+        return flag;
       }
 
       //修改
       function edit() {
           layer.confirm('您确定要修改吗?', {
-              offset: ['300px', '800px'],
               shade: 0.01,
               btn: ['是', '否'],
             },
             function() {
-              if(flag == true) {
-                $("#form1").submit();
+              if(verify() == true) {
                 $("#form1").validForm();
+                $("#form1").submit();
               }
             },
             function() {

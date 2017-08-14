@@ -6,7 +6,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
 		<script type="text/javascript">
-		      var clickState = 0;
+		  var clickState = 0;
       $(function() {
         var sure = document.getElementsByName("sure");
         for(var i = 0; i < sure.length; i++) {
@@ -49,81 +49,86 @@
       
       
       //包下勾选明细
-      function selectedPackage(ele, number) {
-        var projectId = $("#projectId").val();
+      function selectedPackage(ele) {
         var flag = $(ele).prop("checked");
-        var id = $(ele).val();
-        $.ajax({
-          url: "${pageContext.request.contextPath }/advancedProject/checkProjectDetail.do?id=" + id + "&projectId=" + projectId,
-          type: "post",
-          async: false, //请求是否异步，默认为异步
-          dataType: "json",
-          success: function(result) {
-            for(var i = 0; i < result.length; i++) {
-              $("input[name='info" + number + "']").each(function() {
-                var v1 = result[i].id;
-                var v2 = $(this).val();
-                if(v1 == v2) {
-                  $(this).prop("checked", flag);
-                }
-              });
-            }
-          }
-        });
-        var count = 0;
-        var len = 0;
-        var info = document.getElementsByName("info" + number);
-        var selectAll = document.getElementById("selectAll" + number);
-        for(var i = 0; i < info.length; i++) {
-          if(info[i].checked == true) {
-            count++;
-          }
-          len++;
-        }
-        if(count == len) {
-          selectAll.checked = true;
+        var id = $(ele).next().val();
+        var pId = $(ele).prev().val();
+        if(flag) {
+          //递归选中父节点
+          checkedParent(pId);
+          //递归选中子节点
+          checkedChild(id);
         } else {
-          selectAll.checked = false;
+          //递归取消父节点选中
+          noCheckedParent(pId);
+          //递归取消子节点选中
+          noCheckedChild(id);
         }
       }
 
       //勾选明细
       function selectedBox(ele) {
-        var projectId = $("#projectId").val();
         var flag = $(ele).prop("checked");
-        var id = $(ele).val();
-        $.ajax({
-          url: "${pageContext.request.contextPath }/advancedProject/checkProjectDetail.do?id=" + id + "&projectId=" + projectId,
-          async: false, //请求是否异步，默认为异步
-          type: "post",
-          dataType: "json",
-          success: function(result) {
-            for(var i = 0; i < result.length; i++) {
-              $("input[name='info']").each(function() {
-                var v1 = result[i].id;
-                var v2 = $(this).val();
-                if(v1 == v2) {
-                  $(this).prop("checked", flag);
-                }
-              });
-            }
+        var id = $(ele).next().val();
+        var pId = $(ele).prev().val();
+        if(flag) {
+          //递归选中父节点
+          checkedParent(pId);
+          //递归选中子节点
+          checkedChild(id);
+        } else {
+          //递归取消父节点选中
+          noCheckedParent(pId);
+          //递归取消子节点选中
+          noCheckedChild(id);
+        }
+      }
+      
+      //递归取消父节点选中
+      function noCheckedParent(pId) {
+        //判断子节点是否全部没有选中
+        var isChecked = 0;
+        $("input[name='pId_" + pId + "']").each(function() {
+          var v = $(this).val();
+          if($(this).next().prop("checked") == true) {
+            isChecked = 1;
           }
         });
-        var count = 0;
-        var len = 0;
-        var info = document.getElementsByName("info");
-        var selectAll = document.getElementById("selectAll");
-        for(var i = 0; i < info.length; i++) {
-          if(info[i].checked == true) {
-            count++;
-          }
-          len++;
+        if(isChecked == 0) {
+          $("input[name='chkItem_" + pId + "']").each(function() {
+            $(this).prev().prop("checked", false);
+            var pId_v = $(this).prev().prev().val();
+            noCheckedParent(pId_v);
+          });
         }
-        if(count == len) {
-          selectAll.checked = true;
-        } else {
-          selectAll.checked = false;
-        }
+      }
+      
+      //递归取消子节点选中
+      function noCheckedChild(id) {
+        //所有子节点取消选中
+        $("input[name='pId_" + id + "']").each(function() {
+          $(this).next().prop("checked", false);
+          var currId = $(this).next().next().val();
+          noCheckedChild(currId);
+        });
+      }
+
+      //递归选中父节点
+      function checkedParent(pId) {
+        $("input[name='chkItem_" + pId + "']").each(function() {
+          $(this).prev().prop("checked", true);
+          var pId_v = $(this).prev().prev().val();
+          checkedParent(pId_v);
+        });
+      }
+
+      //递归选中子节点
+      function checkedChild(id) {
+        $("input[name='pId_" + id + "']").each(function() {
+          $(this).next().prop("checked", true);
+          var currId = $(this).next().next().val();
+          checkedChild(currId);
+        });
       }
 
       //修改包名
@@ -190,9 +195,7 @@
             type: "POST",
             url: "${pageContext.request.contextPath }/advancedProject/deleteDetailById.do?id=" + packageId + "&dId=" + id,
             success: function(data) {
-              layer.msg('删除成功', {
-                offset: ['45%', '50%']
-              });
+              layer.msg('删除成功');
               window.location.href = "${pageContext.request.contextPath }/advancedProject/subPackage.do?projectId=" + projectId;
             }
           });
@@ -272,40 +275,19 @@
       }
 
       function selectedAddBox(ele) {
-        var projectId = $("#projectId").val();
         var flag = $(ele).prop("checked");
-        var id = $(ele).val();
-        $.ajax({
-          url: "${pageContext.request.contextPath }/advancedProject/checkProjectDetail.do?id=" + id + "&projectId=" + projectId,
-          async: false, //请求是否异步，默认为异步
-          type: "post",
-          dataType: "json",
-          success: function(result) {
-            for(var i = 0; i < result.length; i++) {
-              $("input[name='infoAdd']").each(function() {
-                var v1 = result[i].id;
-                var v2 = $(this).val();
-                if(v1 == v2) {
-                  $(this).prop("checked", flag);
-                }
-              });
-            }
-          }
-        });
-        var count = 0;
-        var len = 0;
-        var info = document.getElementsByName("infoAdd");
-        var selectAll = document.getElementById("selectAddAll");
-        for(var i = 0; i < info.length; i++) {
-          if(info[i].checked == true) {
-            count++;
-          }
-          len++;
-        }
-        if(count == len) {
-          selectAll.checked = true;
+        var id = $(ele).next().val();
+        var pId = $(ele).prev().val();
+        if(flag) {
+          //递归选中父节点
+          checkedParent(pId);
+          //递归选中子节点
+          checkedChild(id);
         } else {
-          selectAll.checked = false;
+          //递归取消父节点选中
+          noCheckedParent(pId);
+          //递归取消子节点选中
+          noCheckedChild(id);
         }
       }
 
@@ -370,9 +352,7 @@
             url: "${pageContext.request.contextPath }/advancedProject/addDetailById.do?id=" + id + "&projectId=" + projectId + "&packageId=" + packId,
             success: function(data) {
               clickState = 1;
-              layer.msg('添加成功', {
-                offset: ['40%', '45%']
-              });
+              layer.msg("添加成功");
               window.location.href = "${pageContext.request.contextPath }/advancedProject/subPackage.do?projectId=" + projectId;
             }
           });
@@ -436,20 +416,125 @@
           $("#show" + index).addClass("hide");
         }
       }
+      
+      
+      //合并实施
+      function merge(){
+        var id = [];
+        var projectId = $("#projectId").val();
+        $('input[name="pName"]:checked').each(function() {
+          id.push($(this).val());
+        }); 
+        if(id.length > 1){
+          layer.confirm('选择合并实施的项目，只能编辑一套招标文件并同时开标', {
+             title: '提示',
+             shade: 0.01
+           },
+           function(index) {
+             layer.close(index);
+               $.ajax({
+                 url: "${pageContext.request.contextPath}/advancedProject/merge.html?id=" + id,
+                 data: {
+                    "projectId" : projectId
+                 },
+                 type: "post",
+                 dateType: "json",
+                 success: function(result) {
+                    if(result == "ok"){
+                      window.location.href = "${pageContext.request.contextPath}/advancedProject/subPackage.html?projectId=" + projectId;
+                    }
+                   },
+                 error: function() {
+                   layer.msg("失败");
+                 }
+               });
+          });
+        } else if (id.length == 1){
+          layer.msg("请选择多个");
+        } else {
+          layer.msg("请选择需要合并的包");
+        }
+      }
+      
+      //独立实施
+      function independent(){
+        var id = [];
+        var projectId = $("#projectId").val();
+        $('input[name="pName"]:checked').each(function() {
+          id.push($(this).val());
+        });
+        if(id.length == 1){
+          layer.confirm('确定选择独立实施？', {
+             title: '提示',
+             shade: 0.01
+           },
+           function(index) {
+             layer.close(index);
+               $.ajax({
+                 url: "${pageContext.request.contextPath}/advancedProject/merge.html?id=" + id,
+                 data: {
+                    "projectId" : projectId
+                 },
+                 type: "post",
+                 dateType: "json",
+                 success: function(result) {
+                    if(result == "ok"){
+                      window.location.href = "${pageContext.request.contextPath}/advancedProject/subPackage.html?projectId=" + projectId;
+                    } else {
+                      layer.msg("失败");
+                    }
+                   },
+                 error: function() {
+                   layer.msg("失败");
+                 }
+               });
+          });
+        } else if (id.length > 1){
+          layer.msg("只能选择一个");
+        } else {
+          layer.msg("请选择");
+        }
+      }
+      
+      function goback(){
+        window.location.href = "${pageContext.request.contextPath }/advancedProject/findByPackage.html";
+      }
 		</script>
 	</head>
 
 	<body>
+	    <div class="margin-top-10 breadcrumbs ">
+	      <div class="container">
+	        <ul class="breadcrumb margin-left-0">
+	          <li>
+	            <a href="javascript:void(0);">首页</a>
+	          </li>
+	          <li>
+	            <a href="javascript:void(0);">保障作业</a>
+	          </li>
+	          <li>
+	            <a href="javascript:void(0);">采购项目管理</a>
+	          </li>
+	        </ul>
+	        <div class="clear"></div>
+	      </div>
+      </div> 
 			<!-- 按钮开始-->
+			<div class="container">
+			<h2 class="tc dangan_file">项目名称：${project.name}</h2>
+      <input type="hidden" id="projectId" value="${project.id}" />
+      <input type="hidden" id="flowDefineId" value="${flowDefineId}"/>
+      <div class="headline-v2">
+        <h2>明细列表</h2>
+      </div>
+      <!-- 按钮开始-->
+      <span class="star_red">(注)未合并实施的包，每个包将作为单独的项目分别实施</span>
 			<div class="col-md-12 col-sm-12 co-xs-12 mb5 p0 mt10">
         <button class="btn btn-windows add" type="button" onclick="addPack()" id="addPack">添加分包</button>
-        <input type="hidden" id="projectId" value="${project.id }" />
-        <input type="hidden" id="flowDefineId" value="${flowDefineId}"/>
       </div>
 
       <c:if test="${!empty list}">
         <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto" id="content">
-          <!-- <table id="table" class="table table-bordered table-condensed"  style="width: 1600px; color: #000000; font-size: medium;"> -->
           <table class="table table-bordered table-condensed lockout">
             <thead>
               <tr class="space_nowrap">
@@ -473,7 +558,11 @@
             </thead>
 						<c:forEach items="${list}" var="obj">
               <tr style="cursor: pointer;">
-                <td><div class="choose tc"><input type="checkbox" value="${obj.id }" name="info" onclick="selectedBox(this)"></div></td>
+                <td class="tc choose">
+                  <input type="hidden" name="pId_${obj.parentId}" value="${obj.parentId}" />
+                  <input type="checkbox" value="${obj.id}" name="info" onclick="selectedBox(this)">
+                  <input type="hidden" name="chkItem_${obj.requiredId}" value="${obj.requiredId}" />
+                </td>
                 <td><div class="seq">${obj.serialNumber }</div></td>
                 <td>
                   <div class="department">${obj.department }</div>
@@ -526,6 +615,7 @@
 			<c:forEach items="${packageList }" var="pack" varStatus="p">
         <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto" id="contents">
           <div class="col-md-6 col-sm-6 col-xs-12 p0">
+            <input type="checkbox" name="pName" value="${pack.id}"/>
             <span onclick="ycDiv(this,${p.index})" class="count_flow spread hand"></span>
             <span class="f16 b">包名：</span>
             <span class="f14 blue" name="packageName">${pack.name }</span>
@@ -560,7 +650,11 @@
             </thead>
 						<c:forEach items="${pack.advancedDetails}" var="obj">
 							<tr>
-								<td><div class="choose"><input type="checkbox" name="info${p.index }" value="${obj.id }" onclick="selectedPackage(this,${p.index})" /></div></td>
+								<td class="choose">
+								  <input type="hidden" name="pId_${obj.parentId}${p.index}" value="${obj.parentId}${p.index}" />
+								  <input type="checkbox" name="info${p.index}" value="${obj.id}" onclick="selectedPackage(this)" />
+								  <input type="hidden" name="chkItem_${obj.requiredId}${p.index}" value="${obj.requiredId}${p.index}" />
+								</td>
 								<td><div class="seq">${obj.serialNumber }</div></td>
 								<td><div class="department">${obj.department}</div></td>
 								<td><div class="goodsname">${obj.goodsName}</div></td>
@@ -587,21 +681,11 @@
 					</table>
 					</div>
 				</c:forEach>
-		
-		<!-- 按钮 -->
-		<%-- <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
-		  <input type="hidden" id="num" value="${num}"/>
-			<c:if test="${num eq 1}">
-        <button class="btn" type="button" onclick="JavaScript:history.go(-1)">上一步</button>
-      </c:if>
-      <c:if test="${num eq 0}">
-        <button class="btn" type="button" onclick="backs('${project.id}')">上一步</button>
-      </c:if>
-      <button class="btn" type="button" onclick="next()">下一步</button>
-		</div> --%>
-		
-		
-		
+		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
+      <button class="btn" type="button" onclick="merge();">合并实施</button>
+      <button class="btn" type="button" onclick="independent();">独立实施</button>
+      <button class="btn" type="button" onclick="goback();">返回</button>
+    </div>
 		<c:if test="${!empty list}">
       <div class="content over_auto dnone" id="oddDetail">
         <table id="table" class="table table-bordered table-condensed table-hover table-striped lockout">
@@ -629,7 +713,11 @@
           </thead>
           <c:forEach items="${list}" var="obj">
             <tr class="tc">
-              <td><div class="choose tc"><input type="checkbox" value="${obj.id }" name="infoAdd" onclick="selectedAddBox(this)"></div></td>
+              <td class="choose tc">
+                <input type="hidden" name="pId_${obj.parentId}add" value="${obj.parentId}add" />
+                <input type="checkbox" value="${obj.id}" name="infoAdd" onclick="selectedAddBox(this)">
+                <input type="hidden" name="chkItem_${obj.requiredId}add" value="${obj.requiredId}add" />
+              </td>
               <td class="seq">${obj.serialNumber }</td>
               <td><div class="department">${obj.department }</div></td>
               <td><div class="goodsname">${obj.goodsName}</div></td>
@@ -664,7 +752,7 @@
       </div>
 
     </c:if> 
-		
+		</div>
 	</body>
 
 </html>

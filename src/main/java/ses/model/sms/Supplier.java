@@ -14,6 +14,7 @@ import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
 import ses.util.MyAnnotation;
+import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.ProjectDetail;
 import common.model.UploadFile;
 
@@ -680,6 +681,8 @@ Supplier implements Serializable {
     
     /**唱标的时候显示物资明细*/
     private List<ProjectDetail> pdList;
+    
+    private List<AdvancedDetail> details;
     
     /**供应商分级要素得分(物资生产)**/
     private BigDecimal levelScoreProduct;
@@ -2001,6 +2004,14 @@ Supplier implements Serializable {
 	public void setAuditTemporary(Integer auditTemporary) {
 		this.auditTemporary = auditTemporary;
 	}
+
+    public List<AdvancedDetail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<AdvancedDetail> details) {
+        this.details = details;
+    }
 	
 
 }

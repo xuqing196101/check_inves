@@ -576,15 +576,15 @@
   <select id="getAdPackegeSuppliers" parameterType="java.util.Map" resultMap="BaseResultMap">
     SELECT
     st.ID,st.CREATED_AT,st.STATUS_BID,ss.ID as supplierId,ss.SUPPLIER_NAME as supplierName,
-    ss.ARMY_BUSINESS_TELEPHONE as armyBuinessTelephone,
-    ss.ARMY_BUSINESS_NAME as armyBuinessName
+    ss.ARMY_BUSINESS_TELEPHONE as armyBuinessTelephone,st.PACKAGR_IDS as packages,
+    ss.ARMY_BUSINESS_NAME as armyBuinessName,st.IS_FIRST_PASS,st.IS_TURN_UP
     FROM
     T_BSS_PPMS_SALE_TENDER st
     INNER JOIN
     T_SES_SMS_SUPPLIER ss ON st.SUPPLIER_ID = ss.ID
-    WHERE
+    WHERE 1=1
     <if test="packageId != null">
-      st.PACKAGR_IDS = #{packageId,jdbcType=VARCHAR}
+      AND st.PACKAGR_IDS = #{packageId,jdbcType=VARCHAR}
     </if>
     <if test="projectId != null">
       AND st.PROJECT_ID = #{projectId,jdbcType=VARCHAR}
@@ -603,6 +603,12 @@
     </if>
     <if test="isRemoved != null  and isRemoved != '' ">
       AND st.IS_REMOVED =#{isRemoved}
+    </if>
+    <if test="isFirstPass != null">
+      AND st.IS_FIRST_PASS = #{isFirstPass}
+    </if>
+    <if test="isTurnUp != null">
+      AND st.IS_TURN_UP = #{isTurnUp}
     </if>
   </select>
 </mapper>

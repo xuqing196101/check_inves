@@ -1,5 +1,9 @@
 package bss.service.ppms.impl;
 
+import iss.dao.ps.ArticleMapper;
+import iss.dao.ps.ArticleTypeMapper;
+import iss.model.ps.Article;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,25 +11,41 @@ import java.util.List;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.oms.PurchaseInfoMapper;
+import ses.dao.sms.QuoteMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.PurchaseInfo;
+import ses.model.sms.Quote;
+import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 
 import com.github.pagehelper.PageHelper;
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 
+import bss.dao.ppms.AdvancedPackageMapper;
 import bss.dao.ppms.AdvancedProjectMapper;
+import bss.dao.ppms.FlowDefineMapper;
 import bss.dao.ppms.FlowExecuteMapper;
+import bss.dao.ppms.SaleTenderMapper;
+import bss.dao.prms.FirstAuditMapper;
+import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
+import bss.model.ppms.Project;
+import bss.model.ppms.SaleTender;
+import bss.model.prms.FirstAudit;
 import bss.service.ppms.AdvancedProjectService;
 
 @Service("advancedProjectService")
@@ -44,6 +64,24 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
     
     @Autowired
     private PurchaseInfoMapper purchaseInfoMapper;
+    
+    @Autowired
+    private FlowDefineMapper flowDefineMapper;
+    
+    @Autowired
+    private UploadService uploadService;
+    
+    @Autowired
+    private ArticleTypeMapper articleTypeMapper;
+    
+    @Autowired
+    private ArticleMapper articleMapper;
+    
+    @Autowired
+    private SaleTenderMapper saleTenderMapper;
+    
+    @Autowired
+    private QuoteMapper quoteMapper;
 
     @Override
     public void deleteById(String id) {
@@ -114,11 +152,12 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
         execute0.setStatus(0);
         execute0.setIsDeleted(0);
         List<FlowExecute> execute0s = flowExecuteMapper.findList(execute0);
-        DictionaryData dd = new DictionaryData();
-        dd.setCode(project.getPurchaseType());
-        List<DictionaryData> list = dataMapper.findList(dd);
+        FlowDefine fd0 = new FlowDefine();
+        fd0.setIsDeleted(0);
+        fd0.setPurchaseTypeId(project.getPurchaseType());
+        List<FlowDefine> fds = flowDefineMapper.findList(fd0);
         //如果当前项目没有初始化各环节经办人,或者初始化的环节不够
-        if (execute0s == null || execute0s.size() < list.size()) {
+        if (execute0s == null || execute0s.size() < fds.size()) {
           for (FlowExecute flowExecute : execute0s) {
               flowExecuteMapper.delete(flowExecute.getId());
           }
@@ -134,37 +173,38 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
                 flowExecute.setOperatorName(operator.get(0).getRelName());
             }
             flowExecute.setIsDeleted(0);
-            DictionaryData data = new DictionaryData();
-            data.setCode(project.getPurchaseType());
-            data.setIsDeleted(0);
-            List<DictionaryData> list2 = dataMapper.findList(data);
-            for (DictionaryData dd1 : list2) {
+            FlowDefine flowDefine = new FlowDefine();
+            flowDefine.setPurchaseTypeId(project.getPurchaseType());
+            flowDefine.setIsDeleted(0);
+            List<FlowDefine> flowDefines = flowDefineMapper.findList(flowDefine);
+            for (FlowDefine fd : flowDefines) {
                 flowExecute.setId(WfUtil.createUUID());
-                flowExecute.setFlowDefineId(dd1.getId());
-                flowExecute.setStep(dd1.getPosition());
+                flowExecute.setFlowDefineId(fd.getId());
+                flowExecute.setStep(fd.getStep());
                 flowExecuteMapper.insert(flowExecute);
             }
         }
         
         //当前点击环节
-        DictionaryData dictionaryData = new DictionaryData();
+        FlowDefine flowDefine = new FlowDefine();
         if ("0".equals(flowDefineId)) {
             //默认进来第一环节
-            DictionaryData define = new DictionaryData();
-            define.setCode(project.getPurchaseType());
-            define.setPosition(1);
-            List<DictionaryData> defines = dataMapper.findList(define);
+            FlowDefine define = new FlowDefine();
+            define.setIsDeleted(0);
+            define.setPurchaseTypeId(project.getPurchaseType());
+            define.setStep(1);
+            List<FlowDefine> defines = flowDefineMapper.findList(define);
             if (defines != null && defines.size() > 0) {
-                dictionaryData = defines.get(0);
+                flowDefine = defines.get(0);
             }
         } else {
-            dictionaryData = dataMapper.selectByPrimaryKey(flowDefineId);
+            flowDefine = flowDefineMapper.get(flowDefineId);
         }
-        jsonObj.put("currFlowDefineId", dictionaryData.getId());
+        jsonObj.put("currFlowDefineId", flowDefine.getId());
         
         //获取环节是否结束
         FlowExecute fe = new FlowExecute();
-        fe.setFlowDefineId(dictionaryData.getId());
+        fe.setFlowDefineId(flowDefine.getId());
         fe.setProjectId(projectId);
         fe.setStatus(3);
         List<FlowExecute> fes = flowExecuteMapper.findList(fe);
@@ -175,7 +215,7 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
         }
         //当前登录人对当前环节的操作权限
         FlowExecute execute = new FlowExecute();
-        execute.setFlowDefineId(dictionaryData.getId());
+        execute.setFlowDefineId(flowDefine.getId());
         execute.setIsDeleted(0);
         execute.setProjectId(projectId);
         execute.setStatus(0);
@@ -201,14 +241,13 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
             }
         }
         
-        
-        DictionaryData di = new DictionaryData();
-        di.setCode(dictionaryData.getCode());
-        di.setPosition(dictionaryData.getPosition() + 1);
-        List<DictionaryData> nextFlowDefine = dataMapper.findList(di);
+        FlowDefine fd = new FlowDefine();
+        fd.setPurchaseTypeId(flowDefine.getPurchaseTypeId());
+        fd.setStep(flowDefine.getStep() + 1);
+        List<FlowDefine> nextFlowDefine = flowDefineMapper.findList(fd);
         if (nextFlowDefine != null && nextFlowDefine.size() > 0) {
             //下一环节
-            DictionaryData fDefine = nextFlowDefine.get(0);
+            FlowDefine fDefine = nextFlowDefine.get(0);
             FlowExecute flowExecute = new FlowExecute();
             flowExecute.setFlowDefineId(fDefine.getId());
             flowExecute.setIsDeleted(0);
@@ -219,6 +258,7 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
                 FlowExecute flowExecute2 = flowExecutes.get(0);
                 jsonObj.put("success", true);
                 jsonObj.put("isEnd", false);
+                jsonObj.put("nextOperatorName", flowExecute2.getOperatorName());
                 jsonObj.put("operatorId", flowExecute2.getOperatorId());
                 jsonObj.put("flowDefineId", fDefine.getId());
                 jsonObj.put("flowDefineName", fDefine.getName());
@@ -228,11 +268,14 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
             jsonObj.put("success", true);
             jsonObj.put("isEnd", true);
         }
+        
+        
         List<PurchaseInfo> purchaseInfo = new ArrayList<>();
-        if(user != null && user.getOrg() != null){
-           //获取当前用户所属机构人员
-           purchaseInfo = purchaseInfoMapper.findPurchaseUserList(user.getOrg().getId());
-        }
+       //获取当前项目所属机构人员
+       String orgId = project.getPurchaseDepId();
+       if (orgId != null && !"".equals(orgId)) {
+           purchaseInfo = purchaseInfoMapper.findPurchaseUserList(orgId);
+       }
         jsonObj.put("users", purchaseInfo);
         return jsonObj;
     }
@@ -276,7 +319,64 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
     @Override
     public JSONObject isSubmit(String projectId, String currFlowDefineId) {
         JSONObject jsonObj = new JSONObject();
-        jsonObj.put("success", true);
+        FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
+        AdvancedProject project = advancedProjectMapper.selectAdvancedProjectByPrimaryKey(projectId);
+        if(flowDefine != null){
+            if ("XMXX".equals(flowDefine.getCode())) {
+                //项目信息
+                if (project != null && project.getSupplierNumber() != null && project.getDeadline() != null && project.getBidDate() != null && StringUtils.isNotBlank(project.getBidAddress())) {
+                  jsonObj.put("success", true);
+                } else {
+                  jsonObj.put("success", false);
+                  jsonObj.put("msg", "请完善并保存项目信息");
+                }
+            } else if ("NZCGWJ".equals(flowDefine.getCode())) {
+                String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+                List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
+                if(files != null && files.size() > 0){
+                    jsonObj.put("success", true);
+                } else {
+                    jsonObj.put("success", false);
+                    jsonObj.put("msg", "请完善信息");
+                }
+            } else if ("NZCGGG".equals(flowDefine.getCode())) {
+                Article article = new Article();
+                article.setArticleType(articleTypeMapper.selectArticleTypeByCode("purchase_notice"));
+                article.setProjectId(projectId);
+                List<Article> articles = articleMapper.selectArticleByProjectId(article);
+                if(articles != null && articles.size() > 0){
+                    jsonObj.put("success", true);
+                } else {
+                    jsonObj.put("success", false);
+                    jsonObj.put("msg", "请拟制采购公告");
+                }
+            } else if ("FSBS".equals(flowDefine.getCode())) {
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("projectId", projectId);
+                List<SaleTender> saleTenderList = saleTenderMapper.getAdPackegeSuppliers(hashMap);
+                if(saleTenderList != null && saleTenderList.size() > 0){
+                    jsonObj.put("success", true);
+                } else {
+                    jsonObj.put("success", false);
+                    jsonObj.put("msg", "请登记供应商");
+                }
+            } else if ("GYSQD".equals(flowDefine.getCode())) {
+                jsonObj.put("success", true);
+            } else if("KBCB".equals(flowDefine.getCode())) {
+                //开标唱标
+                Quote quoteCondition = new Quote();
+                quoteCondition.setProjectId(projectId);
+                List<Date> listDate = quoteMapper.selectQuoteCount(quoteCondition);
+                if(listDate != null && listDate.size() > 0){
+                    jsonObj.put("success", true);
+                }else{
+                    jsonObj.put("success", false);
+                    jsonObj.put("msg", "请填写报价");
+                }
+            } else {
+                jsonObj.put("success", true);
+            }
+        }
         return jsonObj;
     }
     
@@ -305,7 +405,7 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
             flowExecuteMapper.insert(oldFlowExecute);
         } else {
             //如果该项目该环节流程没有执行过
-            DictionaryData dd = dataMapper.selectByPrimaryKey(currFlowDefineId);
+            FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
             FlowExecute flowExecute = new FlowExecute();
             flowExecute.setCreatedAt(new Date());
             flowExecute.setFlowDefineId(currFlowDefineId);
@@ -315,11 +415,73 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
             flowExecute.setProjectId(projectId);
             flowExecute.setStatus(3);
             flowExecute.setId(WfUtil.createUUID());
-            flowExecute.setStep(dd.getPosition());
+            flowExecute.setStep(flowDefine.getStep());
             flowExecuteMapper.insert(flowExecute);
+        }
+        FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
+        if (flowDefine != null) {
+            jsonObj.put("url", flowDefine.getAdvancedUrl());
         }
         jsonObj.put("success", true);
         return jsonObj;
+    }
+
+    @Override
+    public List<AdvancedProject> findByPackage(Integer page, User user, AdvancedProject project) {
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        if(StringUtils.isNotBlank(project.getName())){
+            map.put("name", project.getName());
+        }
+        if(StringUtils.isNotBlank(project.getProjectNumber())){
+            map.put("projectNumber", project.getProjectNumber());
+        }
+        if(StringUtils.isNotBlank(project.getStatus())){
+            map.put("status", project.getStatus());
+        }
+        map.put("principal", user.getId());
+        map.put("purchaseDepId", user.getOrg().getId());
+        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+        List<AdvancedProject> list = advancedProjectMapper.findByPackage(map);
+        return list;
+    }
+
+    @Override
+    public HashMap<String, Object> getFlowDefine(String purchaseTypeId, String projectId) {
+        if(StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(purchaseTypeId)){
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            FlowDefine fd = new FlowDefine();
+            fd.setPurchaseTypeId(purchaseTypeId);
+            //该采购方式定义的流程环节
+            List<FlowDefine> list = flowDefineMapper.findList(fd);
+            for (FlowDefine flowDefine : list) {
+                FlowExecute flowExecute = new FlowExecute();
+                flowExecute.setProjectId(projectId);
+                flowExecute.setFlowDefineId(flowDefine.getId());
+                //获取该项目该环节的执行情况
+                List<FlowExecute> flowExecutes2 = flowExecuteMapper.findStatusDesc(flowExecute);
+                if (flowExecutes2 != null && flowExecutes2.size() > 0) {
+                    Integer s = flowExecutes2.get(0).getStatus();
+                    if (s == 1) {
+                        //已执行状态
+                        flowDefine.setStatus(1);
+                    } else if (s == 2) {
+                        //执行中状态
+                        flowDefine.setStatus(2);
+                    }else if (s == 3) {
+                        //当前环节结束
+                        flowDefine.setStatus(3);
+                    }
+                } else {
+                    //未执行状态
+                    flowDefine.setStatus(0);
+                }
+            
+            }
+            map.put("url", list.get(0).getAdvancedUrl()+"?projectId="+projectId+"&flowDefineId="+list.get(0).getId());
+            map.put("list", list);
+            return map;
+        }
+        return null;
     }
 
 }

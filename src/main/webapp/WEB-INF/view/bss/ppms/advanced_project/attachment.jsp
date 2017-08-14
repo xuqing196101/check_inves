@@ -9,7 +9,7 @@
 <script type="text/javascript">
   function start(id){
     $.ajax({
-          url: "${pageContext.request.contextPath}/advancedProject/verifys.html",
+          url: "${pageContext.request.contextPath}/advancedProject/verifyUpload.html",
           data: "id=" + id,
           type: "post",
           dataType: "json",

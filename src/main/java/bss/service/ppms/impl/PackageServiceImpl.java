@@ -223,7 +223,7 @@ public class PackageServiceImpl implements PackageService{
 	public String merge(String projectId, String id) {
 		String packageName = null;
 		List<Integer> num = new ArrayList<Integer>();
-		String[] packageId = id.split(",");
+		String[] packageId = id.split(StaticVariables.COMMA_SPLLIT);
 		for (int i = 0; i < packageId.length; i++) {
 			Packages packages = packageMapper.selectByPrimaryKeyId(packageId[i]);
 			if(packages != null){

@@ -5,6 +5,11 @@ import java.util.List;
 
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.Packages;
+import bss.model.ppms.SaleTender;
+import bss.model.ppms.ext.ProjectExt;
+import bss.model.prms.PackageExpert;
+import bss.model.prms.ReviewProgress;
+import bss.model.prms.SupplierRank;
 
 public interface AdvancedPackageService {
     /**
@@ -74,5 +79,69 @@ public interface AdvancedPackageService {
      * @return
      */
     List<AdvancedPackages> listProjectExtract(String projectId);
+    
+    /**
+     * 
+     *〈合并或者独立实施〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param projectId
+     * @param id
+     * @return
+     */
+    String merge(String projectId, String id);
+    
+    Integer quotePrice(String projectId);
+    
+    List<AdvancedPackages> getPackageId(String projectId);
+    
+    /**
+     * 
+     *〈进度〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param projectId
+     * @return
+     */
+    List<ReviewProgress> listResultExpert(String projectId);
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param projectId
+     * @return
+     */
+    List<AdvancedPackages> resultExpert(String projectId);
+    
+    List<ProjectExt> getProjectExtList(List<AdvancedPackages> list, String expertId, String status, Integer pageNum);
+    
+    List<SupplierRank> rankList(List<SaleTender> suppList);
+    
+    List<PackageExpert> expList(String packageId);
+    
+    
+    List<AdvancedPackages> packList(String projectId);
+    /**
+     * 
+     *〈供应商排名〉
+     *〈供应商信息〉
+     * @author FengTian
+     * @param packList
+     * @param projectId
+     * @return
+     */
+    List<SaleTender> suppList(List<AdvancedPackages> packList, String projectId);
+    
+    /**
+     * 
+     *〈确认供应商〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param projectId
+     * @return
+     */
+    List<AdvancedPackages> listSupplierCheckPass(String projectId);
 
 }

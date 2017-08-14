@@ -253,7 +253,6 @@
         var currUpdateUserId = $("#currPrincipal").val();
         layer.confirm('您确定已经完成当前环节操作吗?', {
           title: '提示',
-          offset: '222px',
           shade: 0.01
         }, function(index) {
           //校验当前环节是否完成
@@ -278,23 +277,22 @@
                   dataType: "json",
                   success: function(data2) {
                     if(data2.success) {
-                      layer.msg("提交成功", {
-                        offset: '100px'
-                      });
+                      jumpLoad(data2.url, projectId, currFlowDefineId);
+                      $("#"+currFlowDefineId+"_exe").removeClass("executed");
+                      $("#"+currFlowDefineId+"_exe").addClass("executed");
+                      layer.msg("提交成功");
                     }
                   },
                   error: function() {
-                    layer.msg("提交失败", {
-                      offset: '100px'
-                    });
+                    layer.msg("提交失败");
                   }
                 });
+              } else {
+                layer.alert(data.msg);
               }
             },
             error: function() {
-              layer.msg("提交失败", {
-                offset: '100px'
-              });
+              layer.msg("提交失败");
             }
           });
         });
@@ -318,7 +316,7 @@
             <a href="">采购项目管理</a>
           </li>
           <li>
-            <a href="">采购项目实施</a>
+            <a href="">预研采购项目实施</a>
           </li>
         </ul>
       </div>
@@ -333,9 +331,32 @@
           <div class="col-md-2 col-sm-3 col-xs-12 " id="show_tree_div">
             <ul class="btn_list" id="menu">
               <c:forEach items="${list}" var="fd">
-                    <li onclick="jumpLoad('${fd.description}','${project.id }','${fd.id}')" <c:if test="${fd.position == 1}">class="active"</c:if>>
-                      <a class="son-menu">${fd.name }</a>
-                    </li>
+                <c:if test="${fd.advancedUrl ne null}">
+                    <!-- 已执行 -->
+	                <c:if test="${fd.status == 1}">
+	                  <li onclick="jumpLoad('${fd.advancedUrl}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active "</c:if>>
+	                <a class="executed son-menu" id='${fd.id}_exe'>${fd.name }</a>
+	                </li>
+	                </c:if>
+	                <!-- 执行中 -->
+	                <c:if test="${fd.status == 2}">
+	                  <li onclick="jumpLoad('${fd.advancedUrl}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active "</c:if>>
+	                <a class="son-menu" id='${fd.id}_exe'>${fd.name }</a>
+	                </li>
+	                </c:if>
+	                <!-- 环节结束，不可在操作 -->
+	                <c:if test="${fd.status == 3}">
+	                  <li onclick="jumpLoad('${fd.advancedUrl}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
+	                <a class="executed son-menu " id='${fd.id}_exe'>${fd.name }</a>
+	                </li>
+	                </c:if>
+	                <!-- 未执行 -->
+	                <c:if test="${fd.status == 0}">
+	                  <li onclick="jumpLoad('${fd.advancedUrl}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
+	                <a class="son-menu" id='${fd.id}_exe'>${fd.name }</a>
+	                </li>
+	                </c:if>
+                </c:if>
               </c:forEach>
             </ul>
           </div>

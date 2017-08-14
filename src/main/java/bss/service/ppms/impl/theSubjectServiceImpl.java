@@ -1,5 +1,6 @@
 package bss.service.ppms.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,7 +22,8 @@ public class theSubjectServiceImpl implements theSubjectService {
    */
   @Override
   public void insert(theSubject subject) {
-    theSubjectMapper.insertSelective(subject);
+      subject.setCreatedAt(new Date());
+      theSubjectMapper.insertSelective(subject);
   }
 
   /**

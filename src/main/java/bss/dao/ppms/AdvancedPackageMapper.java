@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import bss.model.ppms.AdvancedPackages;
+import bss.model.ppms.Packages;
 
 public interface AdvancedPackageMapper {
     /**
@@ -76,4 +77,34 @@ public interface AdvancedPackageMapper {
      * @return
      */
     List<AdvancedPackages> listProjectExtract(String projectId);
+    
+    /**
+     * 
+     *〈根据包信息返回抽取出的专家 〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param projectId
+     * @return
+     */
+    List<AdvancedPackages> listResultExpert(String projectId);
+    
+    /**
+     * 
+     *〈去saletender查出项目对应的所有的包〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param projectId
+     * @return
+     */
+    List<AdvancedPackages> getPackageId(String projectId);
+    
+    /**
+     * 
+     *〈确认供应商〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param projectId
+     * @return
+     */
+    List<AdvancedPackages> listSupplierCheckPass(String projectId);
 }

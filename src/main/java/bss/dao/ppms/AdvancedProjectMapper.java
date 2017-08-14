@@ -76,6 +76,8 @@ public interface AdvancedProjectMapper {
      */
     List<AdvancedProject> selectByOrg(HashMap<String, Object> map);
     
+    List<AdvancedProject> findByPackage(HashMap<String, Object> map);
+    
     List<AdvancedProject> verifyByProject(AdvancedProject advancedProject);
     
     List<AdvancedProject> selectProjectByAll(AdvancedProject project);

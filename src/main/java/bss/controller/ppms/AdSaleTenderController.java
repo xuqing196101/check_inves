@@ -303,7 +303,7 @@ public class AdSaleTenderController extends BaseController {
     public void removeSaleTender(List<SaleTender> list) {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = list.size() - 1; j > i; j--) {
-                if (list.get(j).getSuppliers().getId().equals(list.get(i).getSuppliers().getId())) {
+                if (list.get(j).getSupplierId().equals(list.get(i).getSupplierId())) {
                     list.remove(j);
                 }
             }
