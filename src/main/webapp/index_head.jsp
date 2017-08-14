@@ -81,25 +81,13 @@
   
   /* 
   function myInfo(){
-<<<<<<< HEAD
-<<<<<<< HEAD
-		if(user!=null && user!=''){
-			window.location.href="${pageContext.request.contextPath}/login/index.html";
-		}else{
-			window.location.href="${pageContext.request.contextPath}/index/sign.html";
-		}
-=======
-=======
->>>>>>> fix_bug
+
     if(user!=null && user!=''){
       window.location.href="${pageContext.request.contextPath}/login/index.html";
     }else{
       window.location.href="${pageContext.request.contextPath}/index/sign.html";
     }
-<<<<<<< HEAD
->>>>>>> develop
-=======
->>>>>>> fix_bug
+
   }
    */
   

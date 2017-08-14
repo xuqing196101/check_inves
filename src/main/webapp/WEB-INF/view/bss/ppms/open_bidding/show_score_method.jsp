@@ -193,7 +193,9 @@
                       </ul>
                 </div>
                 <div class="tc col-md-12 col-sm-12 col-xs-12 mt10">
+                 <c:if test="${status != 1}">
                     <input class="btn btn-windows save w80" readonly onclick="save(this)" value="保存" />
+                    </c:if>
                     <button class="btn btn-windows back w80" onclick="history.go(-1)" type="button">返回</button>
                 </div>
             </form>

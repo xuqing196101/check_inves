@@ -7,6 +7,16 @@
   <%@ include file="/WEB-INF/view/common.jsp"%>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
   <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
+  <style type="text/css">
+    td {
+	width: 200px;
+	height:50px;
+	word-wrap:break-word;
+	word-break:break-all;
+    }
+    #wrap{word-break:break-all; width:200px;}
+   /*  #wrap{word-wrap:break-word; width:200px;} */
+  </style>
   <script type="text/javascript">
 </script>
 </head>
@@ -17,7 +27,7 @@
     <!-- 项目戳开始 -->
     <div class="content" id="content">
       <c:if test="${lists != null }">
-        <table id="table" class="table table-bordered table-condensed table-hover table_wrap">
+        <table id="table" class="table table-bordered table-condensed table-hover table_wrap" >
           <thead>
             <tr class="space_nowrap">
               <th class="info w50">序号</th>
@@ -40,7 +50,7 @@
             <tr style="cursor: pointer;">
               <td class="tc w50"><div class="w50">${obj.serialNumber}</div></td>
               <td class=""><div class="w80">${obj.department}</div></td>
-              <td class=""><div class="w80">${obj.goodsName}</div></td>
+              <td class=""><div class="w80" id="wrap">${obj.goodsName}</div></td>
               <td class=""><div class="w80">${obj.stand}</div></td>
               <td class=""><div class="w80">${obj.qualitStand}</div></td>
               <td class="tc"><div class="w80">${obj.item}</div></td>
@@ -54,7 +64,7 @@
               </c:when>
               <c:otherwise>
                     <c:forEach items="${kind}" var="kind" >
-                      <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}
+                      <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if> ${kind.name}
                     </c:forEach>
               </c:otherwise>
             </c:choose>
@@ -64,7 +74,7 @@
               <td class="tc"><div class="w80">${obj.isFreeTax}</div></td>
               <td class=""><div class="w80">${obj.goodsUse}</div></td>
               <td class=""><div class="w80">${obj.useUnit}</div></td>
-              <td class=""><div class="w160">${obj.memo}</div></td>
+              <td class=""><!-- <div class="w160" id="wrap"> -->${obj.memo}<!-- </div> --></td>
             </tr>
           </c:forEach>  
         </table> 
