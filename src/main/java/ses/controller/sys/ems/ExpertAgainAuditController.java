@@ -1,5 +1,6 @@
 package ses.controller.sys.ems;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,12 +60,13 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	@RequestMapping("againAuditList")
 	public void againAuditList(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,Expert expert, Integer pageNum){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		if(!"4".equals(user.getTypeName())){
+		//Date date = expert.getUpdatedAt();
+		/*if(!"4".equals(user.getTypeName())){
 			img.setStatus(false);
 			img.setMessage("您的权限不足");
 			super.writeJson(response, img);
 			return;
-		}
+		}*/
 		if(pageNum == null) {
 			pageNum = StaticVariables.DEFAULT_PAGE;
 		}
