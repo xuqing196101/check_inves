@@ -1352,11 +1352,17 @@ resultMap="BaseResultMap">
         <if test="status != null and status !=''">
             AND t1.STATUS = #{status}
         </if>
-        <if test="updatedAt !=null and updatedAt''">
+        <if test="updatedAt !=null and updatedAt != ''">
         	AND TO_CHAR(t1.UPDATED_AT,'YY-MM-DD') = TO_CHAR(#{updatedAt},'YY-MM-DD')
-        </if>
+        </if> 
         <if test="auditAt !=null and auditAt!=''">
         	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
+        </if>
+       <if test="ids != null">
+            <foreach collection="ids" item="id" open="and t1.ID in ("
+                     close=")" separator=",">
+                #{id}
+            </foreach>
         </if>
         ORDER BY t1.SUBMIT_AT ASC NULLS LAST
     </select>
