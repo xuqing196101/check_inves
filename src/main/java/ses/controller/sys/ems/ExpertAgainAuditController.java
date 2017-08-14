@@ -61,7 +61,6 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	@RequestMapping("againAuditList")
 	public void againAuditList(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,Expert expert, Integer pageNum,String batchIds){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		//Date date = expert.getUpdatedAt();
 		/*if(!"4".equals(user.getTypeName())){
 			img.setStatus(false);
 			img.setMessage("您的权限不足");
@@ -94,5 +93,50 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	public String findAgainAuditList(HttpServletRequest request,HttpServletResponse response,Model model){
 		return "/ses/ems/againAudit/list";
 	};
+	@RequestMapping("createBatch")
+	public void createBatch(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchName, String batchNumber, String ids){
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}*/
+		if("".equals(batchName) || batchName == null){
+			img.setStatus(false);
+			img.setMessage("批次名称不能为空");
+			super.writeJson(response, img);
+			return;
+		}
+		if("".equals(batchNumber) || batchNumber == null){
+			img.setStatus(false);
+			img.setMessage("批次编号不能为空");
+			super.writeJson(response, img);
+			return;
+		}
+		if("".equals(ids) || ids == null){
+			img.setStatus(false);
+			img.setMessage("请选择专家");
+			super.writeJson(response, img);
+			return;
+		}
+		img = againAuditService.createBatch(batchName, batchNumber, ids);
+		super.writeJson(response, img);
+	}
+	@RequestMapping("findBatch")
+	public void findBatch(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchNumber,String batchName, Date createdAt, Integer pageNum){
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}*/
+		if(pageNum == null) {
+			pageNum = StaticVariables.DEFAULT_PAGE;
+		}
+		img=againAuditService.findBatch(batchNumber,batchName, createdAt, pageNum);
+		super.writeJson(response, img);
+	}
 	
 }

@@ -7,7 +7,7 @@ public class ExpertBatch {
 	/**批次ID*/
 	private String batchId;
 	/**批次编号*/
-	private String batchNamber;
+	private String batchNumber;
 	/**批次名称*/
 	private String batchName;
 	/**创建时间*/
@@ -21,11 +21,11 @@ public class ExpertBatch {
 	public void setBatchId(String batchId) {
 		this.batchId = batchId;
 	}
-	public String getBatchNamber() {
-		return batchNamber;
+	public String getBatchNumber() {
+		return batchNumber;
 	}
-	public void setBatchNamber(String batchNamber) {
-		this.batchNamber = batchNamber;
+	public void setBatchNumber(String batchNumber) {
+		this.batchNumber = batchNumber;
 	}
 	public String getBatchName() {
 		return batchName;
