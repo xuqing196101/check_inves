@@ -1,5 +1,6 @@
 package ses.controller.sys.ems;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		super.writeJson(response, img); 
 	}
 	@RequestMapping("againAuditList")
-	public void againAuditList(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,Expert expert, Integer pageNum){
+	public void againAuditList(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,Expert expert, Integer pageNum,String batchIds){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		//Date date = expert.getUpdatedAt();
 		/*if(!"4".equals(user.getTypeName())){
@@ -71,6 +72,16 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			pageNum = StaticVariables.DEFAULT_PAGE;
 		}
 		expert.setStatus("0");//查询待分配专家
+		if(batchIds != null){
+			List<String> idsList = new ArrayList<String>();
+			String[] split = batchIds.split(",");
+			for (String string : split) {
+				if( string != null ){
+					idsList.add(string);
+				}
+			}
+			expert.setIds(idsList);
+		}
 		//查询列表
 		List < Expert > expertList = expertService.findExpertAuditList(expert, pageNum);
 		PageInfo< Expert > result = new PageInfo < Expert > (expertList);
