@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.filefilter.DelegateFileFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -108,6 +109,21 @@ public class UploadController {
         String msg = uploadService.updateFile(request);
         return msg;
     }
+    /**
+     * 
+     *〈简述〉删除文件
+     *〈详细描述〉
+     * @author Zhou Wei
+     * @param request {@link HttpServletRequest}
+     * @return {@link java.lang.String}
+     */
+    @RequestMapping("/delfile")
+    public String delfile(HttpServletRequest request){
+    	 String msg = uploadService.updateFile(request);
+         String id = request.getParameter("pId");
+         return "redirect:/open_bidding//bidFile.html?id="+id+"&process=1"+"&delOk="+msg;
+    }
+    
     
     /**
      * 

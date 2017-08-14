@@ -63,7 +63,7 @@ function getCheckOpinionType(expertId){
             "id" : expertId
         },
         success:function (data) {
-            var opinionData = "同意入库，选择了"+data.passCateCount+"个小类，通过了"+(data.passCateCount - data.noPassCateCount)+"个小类。";
+            var opinionData = "同意入库，选择了"+data.passCateCount+"个参评类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个参评类别。";
             $("#cate_result").html(opinionData);
             //$("#opinionBack").val(opinionData);
             // 关闭旋转图标

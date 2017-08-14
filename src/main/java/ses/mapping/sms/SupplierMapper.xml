@@ -1739,7 +1739,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS = 0
+		WHERE SUPPLIER_STATUS in (0,9) 
 		AND SUBMIT_AT &gt;=
 		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND
@@ -1890,7 +1890,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS in(-3,1,2,3,4,5,6,7,8)
+		WHERE SUPPLIER_STATUS in(-3,1,2,3,4,5,6,7,8,9)
 		AND AUDIT_DATE &gt;=
 		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND

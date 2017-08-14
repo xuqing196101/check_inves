@@ -39,7 +39,7 @@
 					</div>
 			</div>
 			<button type="button" onclick="query(1)" class="btn">查询</button>
-			<button type="reset" onclick="reset()" class="btn">重置</button>
+			<button type="button" onclick="reset()" class="btn">重置</button>
 		</div>
 		<div class="col-md-12 col-sm-12 col-xs-12 report_list_box">
 			<div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
@@ -217,8 +217,10 @@
 	}
 
 	function reset() {
-		$("#search_con input[type='text']").val("");
-		$("#search_con input[type='hidden']").val("");
+		$("#supplierName").val("");
+		$("#supplierTypeIds ").val("");
+        $("#supplierTypeNames ").val("");
+
 	}
 </script>
 </body>

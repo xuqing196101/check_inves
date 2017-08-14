@@ -609,6 +609,7 @@ public void downloads(HttpServletRequest request, HttpServletResponse response, 
 * @throws IOException 
 */
 @RequestMapping("/processingDocuments")
+@ResponseBody
 public String processingDocuments(Model model,HttpServletRequest request, HttpServletResponse response,String projectId,String suppliersID) throws Exception{
 	//判断是否上传招标文件
     String typeId = DictionaryDataUtil.getId("PROJECT_BID");

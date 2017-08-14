@@ -321,10 +321,10 @@
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function getValue() {
+      /* function getValue() {
         var date = $("#deadline").val();
         $("#bidDate").val(date);
-      }
+      } */
 
       $(function() {
         var id = "${project.id}";
