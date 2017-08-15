@@ -70,7 +70,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		if(pageNum == null) {
 			pageNum = StaticVariables.DEFAULT_PAGE;
 		}
-		expert.setStatus("0");//查询待分配专家
+		expert.setStatus("11");//查询待分配专家
 		if(batchIds != null){
 			List<String> idsList = new ArrayList<String>();
 			String[] split = batchIds.split(",");
@@ -142,4 +142,8 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	public String findBatchList(HttpServletRequest request,HttpServletResponse response,Model model){
 		return "/ses/ems/againAudit/list_batch";
 	};
+	@RequestMapping("findBatchDetailsList")
+	public String findBatchDailesList(HttpServletRequest request,HttpServletResponse response,Model model){
+		return "/ses/ems/againAudit/details_batch";
+	}
 }

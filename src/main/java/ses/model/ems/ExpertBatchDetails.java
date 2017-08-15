@@ -13,7 +13,7 @@ public class ExpertBatchDetails {
 	/**批次详情编号*/
 	private String batchDetailsNumber;
 	/**专家编号*/
-	private String number;
+	private String count;
 	/**批次名称*/
 	private String batchName;
 	/**所属组ID*/
@@ -57,11 +57,11 @@ public class ExpertBatchDetails {
 	public void setBatchDetailsNumber(String batchDetailsNumber) {
 		this.batchDetailsNumber = batchDetailsNumber;
 	}
-	public String getNumber() {
-		return number;
+	public String getCount() {
+		return count;
 	}
-	public void setNumber(String number) {
-		this.number = number;
+	public void setCount(String count) {
+		this.count = count;
 	}
 	public String getBatchName() {
 		return batchName;

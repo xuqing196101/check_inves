@@ -8,7 +8,7 @@
 <body>
 
 	<!-- 面包屑导航开始 -->
-	<div class="margin-top-10 breadcrumbs ">
+	<div class="margin-top-10 breadcrumbs">
 	<div class="container">
 	<ul class="breadcrumb margin-left-0">
 		<li>
@@ -53,16 +53,16 @@
         <ul class="demand_list">
           <li>
             <label class="fl">批次编号：</label>
-            <input type="text" name="relName" value="${relName}">
+            <input type="text" name="batchNumber" value="${relName}">
           </li>
           <li>
             <label class="fl">批次名称：</label>
-            <input type="text" name="relName" value="${relName}">
+            <input type="text" name="batchName" value="${relName}">
           </li>
           <li>
             <label class="fl">批次创建时间：</label>
             <span>
-              <input id="auditAt" name="auditAt" class="Wdate w178 fl" value='<fmt:formatDate value="${auditAt}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()">
+              <input id="auditAt" name="createdAt" class="Wdate w178 fl" value='<fmt:formatDate value="${auditAt}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()">
             </span>
           </li>
           <li>
@@ -76,9 +76,9 @@
       
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10">
-      <button class="btn btn_create_review_batches" type="button">创建复审批次</button>
+      <button type="button" class="btn" onclick="window.location='${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.html'">跳转到批次详情</button>
     </div>
-
+    
     <div class="content table_box">
       <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
         <thead>
@@ -98,7 +98,7 @@
   <!-- 内容结束 -->
   
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batch.js"></script>
-  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batch_processing.js"></script>
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatch.do';  // 列表地址
     
