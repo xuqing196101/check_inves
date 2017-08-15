@@ -29,7 +29,7 @@ public class SessionListener implements HttpSessionListener {
 	public static synchronized void DelSession(HttpSession session) {
 		if (session != null) {
 			// 删除单一登录中记录的变量
-			if (session.getAttribute("users") != null) {
+			if (session.getAttribute("loginUser") != null) {
 				User u = (User) session.getAttribute("loginUser");
 				SessionListener.sessionMap.remove(u.getId());
 			}

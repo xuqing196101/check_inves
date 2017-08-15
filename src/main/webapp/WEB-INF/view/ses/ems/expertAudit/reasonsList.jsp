@@ -27,6 +27,7 @@
                 //$("#tongguo").attr("disabled", true);
                 $("#qualified").prop("disabled", true);
             }
+            check_opinion();
         });
 
         // 审核意见
@@ -248,7 +249,30 @@
             }
             ;
         }
-    </script>
+        
+	//查询合格通过的产品类别
+	function check_opinion() {
+		var status = $(":radio:checked").val();
+		var expertId = $("input[name='expertId']").val();
+		if(status != null && typeof(status) != "undefined") {
+			$.ajax({
+				url: "${pageContext.request.contextPath}/expertAudit/findCategoryCount.do",
+				data: {
+					"expertId" : expertId
+				},
+				type: "post",
+				dataType: "json",
+				success: function(data) {
+					if(status == 1) {
+						$("#check_opinion").html("初审合格，选择了" + data.all + "个产品类别，通过了" + data.pass + "个产品类别。");
+					} else if(status == 2) {
+						$("#check_opinion").html("初审不合格，选择了" + data.all + "个产品类别，通过了" + data.pass + "个产品类别。");
+					}
+				}
+			});
+		}
+	}
+</script>
 </head>
 
 <body>
@@ -336,9 +360,12 @@
               <ul class="ul_list">
                  <li>
                    <div class="select_check">
-                      <input type="radio"  id="qualified" <c:if test="${status eq '1'}">checked</c:if> name="selectShenhe" value="1">初审合格
-                      <input type="radio"  <c:if test="${status eq '2'}">checked</c:if> name="selectShenhe" value="2">初审不合格
+                      <input type="radio"  id="qualified" <c:if test="${status eq '1'}">checked</c:if> name="selectShenhe" value="1" onclick = "check_opinion()">初审合格
+                      <input type="radio"  <c:if test="${status eq '2'}">checked</c:if> name="selectShenhe" value="2" onclick = "check_opinion()">初审不合格
                     </div>
+                  </li>
+                  <li>
+                   <div id="check_opinion"></div>
                   </li>
                   <li class="mt10">
                      <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
