@@ -6,7 +6,7 @@
         <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
         <result column="BATCH_NUMBER" jdbcType="VARCHAR" property="batchNumber" />
         <result column="BATCH_DETAILS_NUMBER" jdbcType="VARCHAR" property="batchDetailsNumber" />
-        <result column="NUMBER" jdbcType="VARCHAR" property="number" />
+        <result column="COUNT" jdbcType="VARCHAR" property="count" />
         <result column="BATCH_NAME" jdbcType="VARCHAR" property="batchName" />
         <result column="GROUP_ID" jdbcType="VARCHAR" property="groupId" />
         <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName" />
@@ -15,7 +15,7 @@
         <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     </resultMap>
     <sql id="Base_List">
-    	ID,EXPERT_ID,BATCH_NUMBER,BATCH_DETAILS_NUMBER,NUMBER,BATCH_NAME,GROUP_ID,GROUP_NAME,CREATED_AT,UPDATED_AT
+    	ID,EXPERT_ID,BATCH_NUMBER,BATCH_DETAILS_NUMBER,COUNT,BATCH_NAME,GROUP_ID,GROUP_NAME,CREATED_AT,UPDATED_AT
     </sql>
   <!--  
     获取所有批次
@@ -35,10 +35,10 @@
     
     <insert id="insert" parameterType="ses.model.ems.ExpertBatchDetails">
         insert into T_SYS_EMS_EXPERT_BATCH_DETAILS
-        (ID,EXPERT_ID,BATCH_NUMBER,BATCH_DETAILS_NUMBER,NUMBER,BATCH_NAME,GROUP_ID,GROUP_NAME,CREATED_AT,UPDATED_AT,BATCH_ID)
+        (ID,EXPERT_ID,BATCH_NUMBER,BATCH_DETAILS_NUMBER,COUNT,BATCH_NAME ,GROUP_ID,GROUP_NAME ,CREATED_AT,UPDATED_AT,BATCH_ID)
         values
-        (#{id,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR},#{batchNumber,jdbcType=VARCHAR}, #{batchDetailsNumber,jdbcType=VARCHAR},#{number,jdbcType=VARCHAR},
-        #{batchName,jdbcType=VARCHAR},#{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},#{batchId,jdbcType=VARCHAR})
+        (#{id,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR},#{batchNumber,jdbcType=VARCHAR}, #{batchDetailsNumber,jdbcType=VARCHAR},  #{count,jdbcType=VARCHAR}, 
+        #{batchName,jdbcType=VARCHAR} ,#{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR},#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},#{batchId,jdbcType=VARCHAR})
     </insert>
    
 </mapper>

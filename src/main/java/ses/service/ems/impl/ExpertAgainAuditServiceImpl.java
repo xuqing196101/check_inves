@@ -99,11 +99,12 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			expertBatchDetails.setBatchNumber(batchNumber);
 			String number=count>=10?(count>=100?count+"":"0"+count):"00"+count;
 			expertBatchDetails.setBatchDetailsNumber(batchNumber+"-"+number);
-			expertBatchDetails.setNumber(number);
+			expertBatchDetails.setCount(number);
 			expertBatchDetails.setBatchName(batchName);
 			expertBatchDetails.setCreatedAt(new Date());
 			expertBatchDetails.setUpdatedAt(new Date());
 			expertBatchDetailsMapper.insert(expertBatchDetails);
+			count++;
 		}
 		img.setStatus(true);
 		img.setMessage("操作成功");
