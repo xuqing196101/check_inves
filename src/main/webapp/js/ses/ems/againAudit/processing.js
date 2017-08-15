@@ -1,8 +1,6 @@
 // 创建复审批次
 function create_review_batches(url, batch_url, ids) {
-  if (ids.length > 0) {
-    ids = ids.join(',');
-  }
+  ids = ids.join(',');
   $.ajax({
     type: 'POST',
     dataType: 'json',
@@ -28,21 +26,24 @@ function create_review_batches(url, batch_url, ids) {
         area : ['40%', '400px'], //宽高
         content : $('#create_review_batches'),
         btn: ['创建复审批次', '取消'],
-        btn1: function() {
+        yes: function() {
           var batchName = $('[name=batchName]').val();  // 批次名称
           var batchNumber = $('[name=batchNumber]').val();  // 批次编号
           if (batchName === '') {
             layer.msg('请填写批次名称', {
               offset: '100px'
             });
+            return false;
           } else if (batchNumber === '') {
             layer.msg('请填写批次编号', {
               offset: '100px'
             });
+            return false;
           } else if (ids === '') {
             layer.msg('请至少选择一名专家', {
               offset: '100px'
             });
+            return false;
           } else {
             $.ajax({
               type: 'POST',
@@ -53,13 +54,13 @@ function create_review_batches(url, batch_url, ids) {
                 batchName: batchName,
                 batchNumber: batchNumber
               },
-              success: function (message) {
-                layer.msg(message, {
+              success: function (data) {
+                layer.msg(data.message, {
                   offset: '100px'
                 });
               },
-              error: function (message) {
-                layer.msg(message, {
+              error: function (data) {
+                layer.msg(data.message, {
                   offset: '100px'
                 });
               }
