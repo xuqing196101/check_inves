@@ -93,7 +93,8 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		int count=1;
 		for (Expert expert : list) {
 			ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
-			expertBatchDetails.setId(WfUtil.createUUID());
+			expertBatchDetails.setId(WfUtil.createUUID()); 
+			expertBatchDetails.setBatchId(expertBatch.getBatchId());
 			expertBatchDetails.setExpertId(expert.getId());
 			expertBatchDetails.setBatchNumber(batchNumber);
 			String number=count>=10?(count>=100?count+"":"0"+count):"00"+count;
@@ -115,7 +116,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		if(pageNum != null){
-			PageHelper.startPage(pageNum,1/*Integer.parseInt(config.getString("pageSize"))*/);
+			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		}
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("batchNumber", batchNumber);

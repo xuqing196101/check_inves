@@ -10,6 +10,7 @@
         <result column="BATCH_NAME" jdbcType="VARCHAR" property="batchName" />
         <result column="GROUP_ID" jdbcType="VARCHAR" property="groupId" />
         <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName" />
+        <result column="BATCH_ID" jdbcType="VARCHAR" property="batchId" />
         <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     </resultMap>
@@ -33,11 +34,11 @@
     </select> -->
     
     <insert id="insert" parameterType="ses.model.ems.ExpertBatchDetails">
-        insert into T_SYS_EMS_EXPERT_BATCH
-        (ID,EXPERT_ID,BATCH_NUMBER,BATCH_DETAILS_NUMBER,NUMBER,BATCH_NAME,GROUP_ID,GROUP_NAME,CREATED_AT,UPDATED_AT)
+        insert into T_SYS_EMS_EXPERT_BATCH_DETAILS
+        (ID,EXPERT_ID,BATCH_NUMBER,BATCH_DETAILS_NUMBER,NUMBER,BATCH_NAME,GROUP_ID,GROUP_NAME,CREATED_AT,UPDATED_AT,BATCH_ID)
         values
-        (#{id}, #{expertId},#{batchNumber}, #{batchDetailsNumber},#{number},
-        #{batchName},#{groupId}, #{groupName}, #{createdAt}, #{updatedAt})
+        (#{id,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR},#{batchNumber,jdbcType=VARCHAR}, #{batchDetailsNumber,jdbcType=VARCHAR},#{number,jdbcType=VARCHAR},
+        #{batchName,jdbcType=VARCHAR},#{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},#{batchId,jdbcType=VARCHAR})
     </insert>
    
 </mapper>

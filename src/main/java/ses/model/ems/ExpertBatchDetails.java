@@ -24,7 +24,15 @@ public class ExpertBatchDetails {
 	private Date createdAt;
 	/**修改时间*/
 	private Date updatedAt;
+	/**所属批次ID*/
+	private String batchId;
 	
+	public String getBatchId() {
+		return batchId;
+	}
+	public void setBatchId(String batchId) {
+		this.batchId = batchId;
+	}
 	public String getId() {
 		return id;
 	}

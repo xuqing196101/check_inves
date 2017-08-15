@@ -138,5 +138,8 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		img=againAuditService.findBatch(batchNumber,batchName, createdAt, pageNum);
 		super.writeJson(response, img);
 	}
-	
+	@RequestMapping("findBatchList")
+	public String findBatchList(HttpServletRequest request,HttpServletResponse response,Model model){
+		return "/ses/ems/againAudit/list_batch";
+	};
 }
