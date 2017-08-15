@@ -191,7 +191,7 @@
 	      var process = "${process}";
 	      $.ajax({
 	      		type: "POST",
-	            url:"${pageContext.request.contextPath}/Auditbidding/updateAuditStatus.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&status="+status,
+	            url:"${pageContext.request.contextPath}/Auditbidding/updateAuditStatus.do?projectId="+projectId+"&flowDefineId="+flowDefineId+"&status="+status,
 	            dataType: 'json', 
 	            data:{"pcReason":pcReason,"causeReason":causereason,"financeReason":financereason,"finalReason":finalreason}, 
 	            success:function(result){
