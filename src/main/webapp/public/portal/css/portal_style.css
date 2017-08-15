@@ -1,4 +1,4 @@
-/* 鍏ㄥ眬鏍峰紡 */
+/* 閸忋劌鐪弽宄扮础 */
 * {
   border-radius: 0 !important;
 }
@@ -40,16 +40,16 @@ h2 {
 li {
   text-decoration: none;
 }
-/* 琛ㄥ崟input鎻愮ず璇殣钘� */
+/* 鐞涖劌宕焛nput閹绘劗銇氱拠顓㈡閽橈拷 */
 .input-tip {
   display: none;
 }
 
 /*
-* 椤甸潰鍏叡鏍峰紡閮ㄥ垎
+* 妞ょ敻娼伴崗顒�鍙￠弽宄扮础闁劌鍨�
 *
 * /
-/*澶撮儴鏍峰紡涓婂紑濮�*/
+/*婢舵挳鍎撮弽宄扮础娑撳﹤绱戞慨锟�*/
 .wrapper {
   background: #FFF;
 }
@@ -68,9 +68,9 @@ li {
 .head_right a {
   margin: 0 5px;
 }
-/*澶撮儴鏍峰紡涓婄粨鏉�*/
+/*婢舵挳鍎撮弽宄扮础娑撳﹦绮ㄩ弶锟�*/
 
-/*logo寮�濮�*/
+/*logo瀵拷婵拷*/
 .container {
   padding-right: 15px;
   padding-left: 15px;
@@ -96,9 +96,9 @@ li {
   overflow: hidden;
   padding-bottom: 100px;
 }
-/*logo缁撴潫*/
+/*logo缂佹挻娼�*/
 
-/*鍏ㄥ眬鎼滅储寮�濮�*/
+/*閸忋劌鐪幖婊呭偍瀵拷婵拷*/
 .search-group {
   position: relative;
   display: table;
@@ -144,9 +144,9 @@ li {
   text-decoration: none;
   line-height: 100%;
 }
-/*鍏ㄥ眬鎼滅储缁撴潫*/
+/*閸忋劌鐪幖婊呭偍缂佹挻娼�*/
 
-/*瀵艰埅鏍峰紡寮�濮�*/
+/*鐎佃壈鍩呴弽宄扮础瀵拷婵拷*/
 .header-v4 {
   z-index: 99;
   position: relative;
@@ -166,7 +166,7 @@ li {
 .header-v4 .navbar {
   margin: 0;
 }
-/* 瀵艰埅鏉c绔牱寮� */
+/* 鐎佃壈鍩呴弶顡禼缁旑垱鐗卞锟� */
 .header-v4 .navbar-nav{
   float: left;
 }
@@ -192,15 +192,15 @@ li {
   background-repeat: no-repeat;
   background-clip: border-box;
 }
-/*棣栭〉*/
+/*妫ｆ牠銆�*/
 .header-v4 .navbar-default .navbar-nav > .shouye_li> a .shouye {
   background-position: 0px -121px;
 }
 .header-v4 .navbar-default .navbar-nav > .shouye_li > a:hover .shouye {
   background-position: 0px 2px!important;
 }
-/*棣栭〉缁撴潫*/
-/*浜岀骇瀵艰埅鏉″叕鍏辨牱寮�*/
+/*妫ｆ牠銆夌紒鎾存将*/
+/*娴滃瞼楠囩�佃壈鍩呴弶鈥冲彆閸忚鲸鐗卞锟�*/
 .drop_next{
   top: 100%;
   left: 0px;
@@ -283,27 +283,27 @@ li {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-/*浜岀骇瀵艰埅鏉″叕鍏辨牱寮忕粨鏉�*/
+/*娴滃瞼楠囩�佃壈鍩呴弶鈥冲彆閸忚鲸鐗卞蹇曠波閺夛拷*/
 
-/* 淇℃伅鍏憡 */
+/* 娣団剝浼呴崗顒�鎲� */
 .navbar-nav > .gonggao_li > a > .gonggao {
   background-position: -98px -122px;
 }
 .header-v4 .navbar-default .navbar-nav > li > a:focus .gonggao, .navbar-nav .gonggao_li:hover .gonggao {
   background-position: -98px 2px;
 }
-/* 淇℃伅鍏憡 缁撴潫*/
+/* 娣団剝浼呴崗顒�鎲� 缂佹挻娼�*/
 
-/* 缃戜笂閲囪喘 */
+/* 缂冩垳绗傞柌鍥枠 */
 .navbar-nav > .gongshi_li > a > .gongshi{
   background-position: -240px -122px;
 }
 .header-v4 .navbar-default .navbar-nav > li > a:focus .gongshi, .navbar-nav .gongshi_li:hover .gongshi{
   background-position: -240px 0px;
 }
-/* 缃戜笂閲囪喘缁撴潫 */
+/* 缂冩垳绗傞柌鍥枠缂佹挻娼� */
 
-/* 渚涘簲鍟� */
+/* 娓氭稑绨查崯锟� */
 .navbar-nav > .zhuanjia_li > a > .zhuanjia {
   background-position: -390px -122px;
 }
@@ -313,18 +313,18 @@ li {
 .m_buyer_list {
   height: 238px;
 }
-/* 渚涘簲鍟嗙粨鏉� */
+/* 娓氭稑绨查崯鍡欑波閺夛拷 */
 
-/* 璇勫涓撳 */
+/* 鐠囧嫬顓告稉鎾愁啀 */
 .navbar-nav > .tousu_li > a > .tousu {
   background-position: -526px -122px;
 }
 .header-v4 .navbar-default .navbar-nav > li > a:focus .tousu, .navbar-nav .tousu_li:hover .tousu{
   background-position: -524px 0px;
 }
-/* 璇勫涓撳缁撴潫*/
+/* 鐠囧嫬顓告稉鎾愁啀缂佹挻娼�*/
 
-/* 渚涘簲鍟嗐�佷笓瀹舵敞鍐岄』鐭ラ〉闈㈡枃浠朵笅杞戒慨鏀� */
+/* 娓氭稑绨查崯鍡愶拷浣风瑩鐎硅埖鏁為崘宀勩�忛惌銉┿�夐棃銏℃瀮娴犳湹绗呮潪鎴掓叏閺�锟� */
 .m_download {
   padding: 12px 24px;
   background: url(../images/download.png) no-repeat 0px;
@@ -339,9 +339,9 @@ li {
   color: #2c9fa6;
   text-decoration: none;
 }
-/* 渚涘簲鍟嗐�佷笓瀹舵敞鍐岄』鐭ラ〉闈㈡枃浠朵笅杞戒慨鏀圭粨鏉� */
+/* 娓氭稑绨查崯鍡愶拷浣风瑩鐎硅埖鏁為崘宀勩�忛惌銉┿�夐棃銏℃瀮娴犳湹绗呮潪鎴掓叏閺�鍦波閺夛拷 */
 
-/* 閲囪喘鏈嶅姟 */
+/* 闁插洩鍠橀張宥呭 */
 .navbar-nav > .cgfw_li > a > .cgfw {
   background-position: -671px -122px;
 }
@@ -359,9 +359,9 @@ li {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* 閲囪喘鏈嶅姟缁撴潫*/
+/* 闁插洩鍠橀張宥呭缂佹挻娼�*/
 
-/* 鎶曡瘔澶勭悊*/
+/* 閹舵洝鐦旀径鍕倞*/
 .navbar-nav > .luntan_li > a > .luntan {
   background-position: -812px -122px;
 }
@@ -404,9 +404,9 @@ a.news_more:hover {
   font-size: small;
   color: #ef0000;
 }
-/* 鎶曡瘔澶勭悊缁撴潫*/
+/* 閹舵洝鐦旀径鍕倞缂佹挻娼�*/
 
-/* 閲囪喘娉曡*/
+/* 闁插洩鍠樺▔鏇☆潐*/
 .navbar-nav > .fagui_li > a > .fagui {
   background-position: -959px -122px;
 }
@@ -427,7 +427,7 @@ a.news_more:hover {
     padding: 9px 3px 7px 3px;
   }
 }
-/* 閲囪喘娉曡缁撴潫*/
+/* 闁插洩鍠樺▔鏇☆潐缂佹挻娼�*/
 
 @media (min-width: 800px){
   .supp_service .service_btns {
@@ -437,9 +437,9 @@ a.news_more:hover {
     margin-top: 60px;
   }
 }
-/* 瀵艰埅鏉c绔牱寮忕粨鏉� */
+/* 鐎佃壈鍩呴弶顡禼缁旑垱鐗卞蹇曠波閺夛拷 */
 
-/* 瀵艰埅鏉＄Щ鍔ㄧ鏍峰紡 */
+/* 鐎佃壈鍩呴弶锛勑╅崝銊ь伂閺嶅嘲绱� */
 .header-v4 .navbar-default .navbar-toggle {
   width: 100%;
   overflow: hidden;
@@ -471,7 +471,7 @@ a.news_more:hover {
   font-size: 19px;
   margin: 2px 0 7px;
 }
-/* 瀵艰埅鏉＄Щ鍔ㄧ鏍峰紡缁撴潫*/
+/* 鐎佃壈鍩呴弶锛勑╅崝銊ь伂閺嶅嘲绱＄紒鎾存将*/
 
 .header-v4 .navbar-default .navbar-nav > li > a {
   font-size: 16px;
@@ -676,9 +676,9 @@ transition: all 0.1s ease-in-out;
     padding: 2px;
   }
 }
-/*瀵艰埅鏍峰紡缁撴潫*/
+/*鐎佃壈鍩呴弽宄扮础缂佹挻娼�*/
 
-/*椤甸潰淇℃伅鎻愮ず妗嗘牱寮忓紑濮�*/
+/*妞ょ敻娼版穱鈩冧紖閹绘劗銇氬鍡樼壉瀵繐绱戞慨锟�*/
 .prompt_tips {
   width: 260px;
   border: 1px solid #DDD;
@@ -783,9 +783,9 @@ transition: all 0.1s ease-in-out;
     font-size: 12px;
   }
 }
-/*椤甸潰淇℃伅鎻愮ず妗嗘牱寮忕粨鏉�*/
+/*妞ょ敻娼版穱鈩冧紖閹绘劗銇氬鍡樼壉瀵繒绮ㄩ弶锟�*/
 
-/*搴曢儴鏍峰紡寮�濮�*/
+/*鎼存洟鍎撮弽宄扮础瀵拷婵拷*/
 .footer-v2 .footer {
   padding: 10px 0;
   background: #f7f7f7;
@@ -796,9 +796,9 @@ transition: all 0.1s ease-in-out;
   color: #555;
   line-height: 23px;
 }
-/*搴曢儴鏍峰紡缁撴潫*/
+/*鎼存洟鍎撮弽宄扮础缂佹挻娼�*/
 
-/*闈㈠寘灞戝鑸牱寮忓紑濮�*/
+/*闂堛垹瀵樼仦鎴濐嚤閼割亝鐗卞蹇撶磻婵拷*/
 .breadcrumbs {
   overflow: hidden;
   padding: 0px;
@@ -825,13 +825,13 @@ transition: all 0.1s ease-in-out;
   color: #777;
   font-size: 16px;
 }
-/*闈㈠寘灞戝鑸牱寮忕粨鏉�*/
+/*闂堛垹瀵樼仦鎴濐嚤閼割亝鐗卞蹇曠波閺夛拷*/
 /*
-* 椤甸潰鍏叡鏍峰紡閮ㄥ垎缁撴潫
+* 妞ょ敻娼伴崗顒�鍙￠弽宄扮础闁劌鍨庣紒鎾存将
 */
 
 /*
-* index椤甸潰涓讳綋閮ㄥ垎鏍峰紡寮�濮�
+* index妞ょ敻娼版稉璁崇秼闁劌鍨庨弽宄扮础瀵拷婵拷
 */
 .content {
   padding-top: 20px;
@@ -842,7 +842,7 @@ transition: all 0.1s ease-in-out;
   height: 100%;
 }
 
-/* 杞挱鍥炬牱寮忓紑濮� */
+/* 鏉烆喗鎸遍崶鐐壉瀵繐绱戞慨锟� */
 .section-focus-pic ul li {
   position: absolute;
   top: 0;
@@ -887,9 +887,9 @@ transition: all 0.1s ease-in-out;
     height: 204px !important;
   }
 }
-/* 杞挱鍥炬牱寮忕粨鏉� */
+/* 鏉烆喗鎸遍崶鐐壉瀵繒绮ㄩ弶锟� */
 
-/* 鍏憡瀵艰埅鏍忓叕鍏辨牱寮忓紑濮� */
+/* 閸忣剙鎲＄�佃壈鍩呴弽蹇撳彆閸忚鲸鐗卞蹇撶磻婵拷 */
 .tab-v1 .nav-tabs {
   border: none;
   background: none;
@@ -971,7 +971,7 @@ span.list_squre {
   position: relative;
   text-decoration: none;
 }
-/* 鏍忕洰鍙充笂瑙掓爣寮�濮� */
+/* 閺嶅繒娲伴崣鍏呯瑐鐟欐帗鐖ｅ锟芥慨锟� */
 .floor_kind h2 li a b, .cgxx_report .report-tab b, #redground {
   width: 21px;
   height: 21px;
@@ -1001,15 +1001,15 @@ span.list_squre {
     padding: 10px 5px;
   }
 }
-/* 鍏憡瀵艰埅鏍忓叕鍏辨牱寮忕粨鏉� */
+/* 閸忣剙鎲＄�佃壈鍩呴弽蹇撳彆閸忚鲸鐗卞蹇曠波閺夛拷 */
 
-/* 闆嗕腑閲囪喘銆侀儴闃熼噰璐牱寮忓紑濮� */
+/* 闂嗗棔鑵戦柌鍥枠閵嗕線鍎撮梼鐔煎櫚鐠愵厽鐗卞蹇撶磻婵拷 */
 .floor_news .tab-pane {
   height: 320px;
 }
-/* 闆嗕腑閲囪喘銆侀儴闃熼噰璐牱寮忕粨鏉� */
+/* 闂嗗棔鑵戦柌鍥枠閵嗕線鍎撮梼鐔煎櫚鐠愵厽鐗卞蹇曠波閺夛拷 */
 
-/* 涓氬姟鍔炵悊鏍峰紡 */
+/* 娑撴艾濮熼崝鐐垫倞閺嶅嘲绱� */
 .ywbl_02 a i, .ywbl_01 a i {
   width: 60px;
   height: 50px;
@@ -1161,9 +1161,9 @@ a.yjfk i {
     margin-top: 3px;
   }
 }
-/* 涓氬姟鍔炵悊鏍峰紡缁撴潫 */
+/* 娑撴艾濮熼崝鐐垫倞閺嶅嘲绱＄紒鎾存将 */
 
-/* 閲囪喘淇℃伅鏍峰紡 */
+/* 闁插洩鍠樻穱鈩冧紖閺嶅嘲绱� */
 .floor_kind .cgxx_report {
   border-bottom: 2px solid #2C9FA6;
   width: 100%;
@@ -1182,9 +1182,9 @@ a.yjfk i {
   float: left;
   padding: 0 10px 0 0;
 }
-/* 閲囪喘淇℃伅鏍峰紡缁撴潫*/
+/* 闁插洩鍠樻穱鈩冧紖閺嶅嘲绱＄紒鎾存将*/
 
-/*璁块棶閲忔牱寮忓紑濮�*/
+/*鐠佸潡妫堕柌蹇旂壉瀵繐绱戞慨锟�*/
 .visit_count {
   width: 100%;
   background-color: #fafafa;
@@ -1218,15 +1218,15 @@ a.yjfk i {
     display: none;
   }
 }
-/*璁块棶閲忔牱寮忕粨鏉�*/
+/*鐠佸潡妫堕柌蹇旂壉瀵繒绮ㄩ弶锟�*/
 
 /*
-* index椤甸潰涓讳綋閮ㄥ垎鏍峰紡缁撴潫
+* index妞ょ敻娼版稉璁崇秼闁劌鍨庨弽宄扮础缂佹挻娼�
 */
 /*
-* 鍏憡鍒楄〃椤甸潰寮�濮�
+* 閸忣剙鎲￠崚妤勩�冩い鐢告桨瀵拷婵拷
 */
-/*鎼滅储妗嗘牱寮忓紑濮�*/
+/*閹兼粎鍌ㄥ鍡樼壉瀵繐绱戞慨锟�*/
 .search_box {
   line-height: 30px;
   padding: 10px 15px;
@@ -1237,9 +1237,9 @@ a.yjfk i {
 .search_box input[type="text"] {
   margin-bottom: 0px;
 }
-/*鎼滅储妗嗘牱寮忕粨鏉�*/
+/*閹兼粎鍌ㄥ鍡樼壉瀵繒绮ㄩ弶锟�*/
 
-/*鍒楄〃鏍峰紡寮�濮�*/
+/*閸掓銆冮弽宄扮础瀵拷婵拷*/
 .report_list_box {
   border: 1px solid #eeeeee;
   width: 100%;
@@ -1275,9 +1275,9 @@ a.yjfk i {
     font-size:14px;
   }
 }
-/*鍒楄〃鏍峰紡缁撴潫*/
+/*閸掓銆冮弽宄扮础缂佹挻娼�*/
 
-/*鍏憡璇︽儏椤垫牱寮忓紑濮�*/
+/*閸忣剙鎲＄拠锔藉剰妞ゅ灚鐗卞蹇撶磻婵拷*/
 .details_box {
   padding: 30px 3%;
 }
@@ -1314,13 +1314,13 @@ a.yjfk i {
     font-size:16px;
   }
 }
-/*鍏憡璇︽儏椤垫牱寮忕粨鏉�*/
+/*閸忣剙鎲＄拠锔藉剰妞ゅ灚鐗卞蹇曠波閺夛拷*/
 /*
-* 鍏憡鍒楄〃椤甸潰缁撴潫
+* 閸忣剙鎲￠崚妤勩�冩い鐢告桨缂佹挻娼�
 */
 
 /*
-* 浜у搧鐩綍椤点�佹妧鏈弬鏁板簱鏍峰紡寮�濮�
+* 娴溠冩惂閻╊喖缍嶆い鐐癸拷浣瑰Η閺堫垰寮弫鏉跨氨閺嶅嘲绱″锟芥慨锟�
 */
 .tag-box {
   padding: 20px;
@@ -1347,11 +1347,11 @@ a.yjfk i {
   }
 }
 /*
-* 浜у搧鐩綍椤点�佹妧鏈弬鏁板簱鏍峰紡缁撴潫
+* 娴溠冩惂閻╊喖缍嶆い鐐癸拷浣瑰Η閺堫垰寮弫鏉跨氨閺嶅嘲绱＄紒鎾存将
 */
 
 /*
-* 閲囪喘璁哄潧鏍峰紡寮�濮�
+* 闁插洩鍠樼拋鍝勬涧閺嶅嘲绱″锟芥慨锟�
 */
 .avatar-48 {
   width: 48px;
@@ -1421,11 +1421,11 @@ a.yjfk i {
   margin-right: 0px!important;
 }
 /*
-* 閲囪喘璁哄潧鏍峰紡缁撴潫
+* 闁插洩鍠樼拋鍝勬涧閺嶅嘲绱＄紒鎾存将
 */
 
 /*
-*鎴戠殑甯栧瓙銆佹垜瑕佸彂甯栧叆鍙ｆ牱寮忓紑濮�
+*閹存垹娈戠敮鏍х摍閵嗕焦鍨滅憰浣稿絺鐢牕鍙嗛崣锝嗙壉瀵繐绱戞慨锟�
 */
 .my_poster {
   position: fixed;
@@ -1467,10 +1467,10 @@ a.yjfk i {
   }
 }
 /*
-*鎴戠殑甯栧瓙銆佹垜瑕佸彂甯栧叆鍙ｆ牱寮忕粨鏉�
+*閹存垹娈戠敮鏍х摍閵嗕焦鍨滅憰浣稿絺鐢牕鍙嗛崣锝嗙壉瀵繒绮ㄩ弶锟�
 */
 
-/* 娉ㄥ唽&鐧诲綍寮�濮� */
+/* 濞夈劌鍞�&閻ц缍嶅锟芥慨锟� */
 .sign_bg {
   background: #e7ebee;
 }
@@ -1693,9 +1693,9 @@ img.sign_left_image {
   -moz-opacity: 0.8;
   position:relative;
 }
-/* 娉ㄥ唽鐧诲綍缁撴潫 */
+/* 濞夈劌鍞介惂璇茬秿缂佹挻娼� */
 
-/* 涓诲鑸緵搴斿晢鍜屼笓瀹舵粴鍔ㄨ〃鏍煎紑濮� */
+/* 娑撹顕遍懜顏冪返鎼存柨鏅㈤崪灞肩瑩鐎硅埖绮撮崝銊ㄣ�冮弽鐓庣磻婵拷 */
 .m_nav_scroll_head table {
   border: none;
   border-bottom: 1px solid #ddd;
@@ -1762,9 +1762,9 @@ img.sign_left_image {
     font-size: 12px !important;
   }
 }
-/* 涓诲鑸緵搴斿晢鍜屼笓瀹舵粴鍔ㄨ〃鏍肩粨鏉� */
+/* 娑撹顕遍懜顏冪返鎼存柨鏅㈤崪灞肩瑩鐎硅埖绮撮崝銊ㄣ�冮弽鑲╃波閺夛拷 */
 
-/* APP浜岀淮鐮佸紑濮� */
+/* APP娴滃瞼娣惍浣哥磻婵拷 */
 .m_app_code {
   position: fixed;
   top: 10%;
@@ -1793,4 +1793,3 @@ img.sign_left_image {
   height : 148px;
   width : 148px;
 }
-
