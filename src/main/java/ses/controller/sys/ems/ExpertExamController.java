@@ -22,15 +22,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-
-
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.http.impl.client.SystemDefaultHttpClient;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -50,10 +46,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
@@ -76,6 +68,10 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 
 /**
@@ -1666,15 +1662,15 @@ public class ExpertExamController extends BaseSupplierController{
 					}else{
 						HashMap<String,Object> tecSingle = new HashMap<String,Object>();
 						tecSingle.put("questionTypeId", 1);
-						tecSingle.put("kind", 0);
+						tecSingle.put("kind", "0");
 						int tec = examQuestionService.queryQuestionCount(tecSingle);
 						HashMap<String,Object> ComSingle = new HashMap<String,Object>();
 						ComSingle.put("questionTypeId", 1);
-						ComSingle.put("kind", 1);
+						ComSingle.put("kind", "1");
 						int com = examQuestionService.queryQuestionCount(ComSingle);
 						HashMap<String,Object> lawSingle = new HashMap<String,Object>();
 						lawSingle.put("questionTypeId", 1);
-						lawSingle.put("kind", 2);
+						lawSingle.put("kind", "2");
 						int law = examQuestionService.queryQuestionCount(lawSingle);
 						if(tec<Integer.parseInt(singleNum)||com<Integer.parseInt(singleNum)||law<Integer.parseInt(singleNum)){
 							error = "error";
@@ -1711,15 +1707,15 @@ public class ExpertExamController extends BaseSupplierController{
 					}else{
 						HashMap<String,Object> tecMultiple = new HashMap<String,Object>();
 						tecMultiple.put("questionTypeId", 2);
-						tecMultiple.put("kind", 0);
+						tecMultiple.put("kind", "0");
 						int tec = examQuestionService.queryQuestionCount(tecMultiple);
 						HashMap<String,Object> ComMultiple = new HashMap<String,Object>();
 						ComMultiple.put("questionTypeId", 2);
-						ComMultiple.put("kind", 1);
+						ComMultiple.put("kind", "1");
 						int com = examQuestionService.queryQuestionCount(ComMultiple);
 						HashMap<String,Object> lawMultiple = new HashMap<String,Object>();
 						lawMultiple.put("questionTypeId", 2);
-						lawMultiple.put("kind", 2);
+						lawMultiple.put("kind", "2");
 						int law = examQuestionService.queryQuestionCount(lawMultiple);
 						if(tec<Integer.parseInt(multipleNum)||com<Integer.parseInt(multipleNum)||law<Integer.parseInt(multipleNum)){
 							error = "error";
@@ -1855,15 +1851,15 @@ public class ExpertExamController extends BaseSupplierController{
 					}else{
 						HashMap<String,Object> tecSingle = new HashMap<String,Object>();
 						tecSingle.put("questionTypeId", 1);
-						tecSingle.put("kind", 0);
+						tecSingle.put("kind", "0");
 						int tec = examQuestionService.queryQuestionCount(tecSingle);
 						HashMap<String,Object> ComSingle = new HashMap<String,Object>();
 						ComSingle.put("questionTypeId", 1);
-						ComSingle.put("kind", 1);
+						ComSingle.put("kind", "1");
 						int com = examQuestionService.queryQuestionCount(ComSingle);
 						HashMap<String,Object> lawSingle = new HashMap<String,Object>();
 						lawSingle.put("questionTypeId", 1);
-						lawSingle.put("kind", 2);
+						lawSingle.put("kind", "2");
 						int law = examQuestionService.queryQuestionCount(lawSingle);
 						if(tec<Integer.parseInt(singleNum)||com<Integer.parseInt(singleNum)||law<Integer.parseInt(singleNum)){
 							error = "error";
@@ -1900,15 +1896,15 @@ public class ExpertExamController extends BaseSupplierController{
 					}else{
 						HashMap<String,Object> tecMultiple = new HashMap<String,Object>();
 						tecMultiple.put("questionTypeId", 2);
-						tecMultiple.put("kind", 0);
+						tecMultiple.put("kind", "0");
 						int tec = examQuestionService.queryQuestionCount(tecMultiple);
 						HashMap<String,Object> ComMultiple = new HashMap<String,Object>();
 						ComMultiple.put("questionTypeId", 2);
-						ComMultiple.put("kind", 1);
+						ComMultiple.put("kind", "1");
 						int com = examQuestionService.queryQuestionCount(ComMultiple);
 						HashMap<String,Object> lawMultiple = new HashMap<String,Object>();
 						lawMultiple.put("questionTypeId", 2);
-						lawMultiple.put("kind", 2);
+						lawMultiple.put("kind", "2");
 						int law = examQuestionService.queryQuestionCount(lawMultiple);
 						if(tec<Integer.parseInt(multipleNum)||com<Integer.parseInt(multipleNum)||law<Integer.parseInt(multipleNum)){
 							error = "error";

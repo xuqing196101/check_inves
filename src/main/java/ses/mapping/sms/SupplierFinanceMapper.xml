@@ -319,6 +319,7 @@
 		<if test="supplierId !=null and supplierId !=''">
 		    and SUPPLIER_ID = #{supplierId}
 		</if>
+		and IS_DELETED is null
 		ORDER BY YEAR ASC
 	</select>
 	

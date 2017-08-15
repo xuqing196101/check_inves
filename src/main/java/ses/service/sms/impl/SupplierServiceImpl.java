@@ -856,7 +856,19 @@ public class SupplierServiceImpl implements SupplierService {
   public List<Supplier> validateCreditCode(String creditCode) {
     return supplierMapper.validateCreditCode(creditCode);
   }
-
+  /**
+   * 统一社会信用代码的唯一校验
+   */
+  @Override
+  public Integer CreditCode(String creditCode) {
+     List<Supplier> list = supplierMapper.validateCreditCode(creditCode);
+     if (list !=null && list.size() > 0) {
+		return 2;//统一社会信用代码已被占用
+	}else {
+		return 1;//统一社会信用代码未被占用
+	}
+  }
+  
   /**
    * @see ses.service.sms.SupplierService#getContract(java.util.List)
    */

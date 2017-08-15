@@ -120,7 +120,11 @@
                             $("#divPrompt").removeClass("hide");
                             $("#spanPrompt").text("对不起，您处于公示期间");
                             layer.close(index);
-                        } else if (flag[0] == "firset") {
+                        }else if(data == "expertBlack"){
+                        	$("#divPrompt").removeClass("hide");
+   						  	$("#spanPrompt").text("对不起，您已被列入黑名单!");
+    						layer.close(index);
+                        }else if (flag[0] == "firset") {
     						//询问框
     						layer.confirm('您还未完善个人信息，是否前去完善？', {
     							btn : [ '是', '否' ]

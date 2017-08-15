@@ -103,6 +103,10 @@ public class ExpertServiceImpl implements ExpertService {
     @Autowired
     private RoleMapper roleMapper;
     
+    //专家黑名单
+    @Autowired
+    private ExpertBlackListMapper expertBlackListMapper;
+    
     
    @Autowired
    private FileUploadMapper fileUploadMapper;
@@ -411,6 +415,9 @@ public class ExpertServiceImpl implements ExpertService {
 				}else if (("-3").equals(expert.getStatus())){
 					// 公示中状态
 					map.put("expert", "-3");
+				} else if(expertBlackListMapper.countByExpertId(expert.getId()) > 0){
+					// 黑名单处罚中
+					map.put("expert", "10");
 				}
 			}else{
 				//如果专家信息为空 证明还没有填写过个人信息

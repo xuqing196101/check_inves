@@ -238,7 +238,15 @@ public interface SupplierService {
     * @return
     */
    List<Supplier> validateCreditCode(String creditCode);
-   
+   /**
+    * 
+   	 * @Title: 社会统一信用代码唯一校验
+   	 * @author: Zhou Wei
+   	 * @date: 2017年8月4日 下午3:12:37
+   	 * @Description:社会统一信用代码唯一校验  
+   	 * @return: String
+    */
+   Integer CreditCode(String creditCode);
    /**
     *〈简述〉获取品目合同信息(分页)
     *〈详细描述〉

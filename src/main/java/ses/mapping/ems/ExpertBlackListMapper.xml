@@ -326,4 +326,10 @@
     select count(*) from T_SES_EMS_EXPERT_BLACKLIST
     where id=#{id,jdbcType=VARCHAR}
   </select>
+  
+  <!-- 根据专家id查询 -->
+  <select id="countByExpertId" parameterType="String" resultType="java.lang.Integer" >
+    select count(*) from T_SES_EMS_EXPERT_BLACKLIST
+    where STATUS = 0 AND EXPERT_ID=#{expertId,jdbcType=VARCHAR}
+  </select>
 </mapper>

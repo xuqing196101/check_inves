@@ -25,6 +25,7 @@
             }
             if (num != 0) {
                 //$("#tongguo").attr("disabled", true);
+                $("#qualified").prop("disabled", true);
             }
         });
 
@@ -335,7 +336,7 @@
               <ul class="ul_list">
                  <li>
                    <div class="select_check">
-                      <input type="radio"  <c:if test="${status eq '1'}">checked</c:if> name="selectShenhe" value="1">初审合格
+                      <input type="radio"  id="qualified" <c:if test="${status eq '1'}">checked</c:if> name="selectShenhe" value="1">初审合格
                       <input type="radio"  <c:if test="${status eq '2'}">checked</c:if> name="selectShenhe" value="2">初审不合格
                     </div>
                   </li>
@@ -352,7 +353,7 @@
                   <ul class="ul_list">
                       <li>
                           <div class="select_check" id="selectOptionId">
-                           <input type="radio"  name="selectOption" value="1">预复审合格
+                           <input type="radio" id="qualified" name="selectOption" value="1">预复审合格
                            <input type="radio"  name="selectOption" value="0">预复审不合格
                           </div>
                       </li>
