@@ -200,6 +200,7 @@
       //验证身份证号唯一
       function yzCardNumber(){
         var cardNumber = $("#idCardNumber").val();
+        isCardNo(cardNumber);
         $.ajax({
           url: "${pageContext.request.contextPath }/ExpExtract/yzCardNumber.do",
           data:{
@@ -216,6 +217,15 @@
           }
         });
       }
+      function isCardNo(card) {  
+         // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X  
+         var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;  
+         if(reg.test(card) === false)  
+         {  
+             layer.msg("身份证输入不合法");  
+             return  ;  
+         }  
+      } 
       
     //验证电话号码唯一
       function yzMobile(){

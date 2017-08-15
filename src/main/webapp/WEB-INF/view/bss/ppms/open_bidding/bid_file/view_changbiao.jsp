@@ -135,10 +135,10 @@
 				</c:forEach>
 		</c:forEach>
 	</div>
-		<div class="col-md-12 tc">
-		<c:if test="${fn:length(listPackage) == 1 }">
+		<%-- <div class="col-md-12 tc">
+		<c:if test="${fn:length(listPackage) != 1 }">
 			<input class="btn btn-windows reset" value="返回" type="button" onclick="back()">
 		</c:if>
-		</div>
+		</div> --%>
 </body>
 </html>

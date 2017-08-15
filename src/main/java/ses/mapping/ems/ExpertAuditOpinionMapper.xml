@@ -19,7 +19,7 @@
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT_AUDIT_OPINION
     where EXPERT_ID = #{expertId}
-    AND CREATED_AT = ( SELECT MAX(CREATED_AT) FROM T_SES_EMS_EXPERT_AUDIT_OPINION )
+    AND CREATED_AT = ( SELECT MAX(CREATED_AT) FROM T_SES_EMS_EXPERT_AUDIT_OPINION where EXPERT_ID = #{expertId})
   </select>
 
   <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExpertAuditOpinion" >

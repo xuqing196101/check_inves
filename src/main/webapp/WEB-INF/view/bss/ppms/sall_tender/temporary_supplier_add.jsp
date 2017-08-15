@@ -49,8 +49,45 @@ function sumbits(){
 		  var path = '${pageContext.request.contextPath}/saleTender/view.html?projectId=${projectId}&ix=${ix}';
 	         $("#tab-1").load(path);
 	}	
+	/*统一社会信用代码的唯一验证  */
+	function referenceNO(){
+        var creditCode = $("input[name='creditCode']").val();
+        var supplier="${supplier}"
+        if(creditCode == ''){
+        	layer.msg("统一社会信用代码不能为空");
+            return;
+        }        
+        $.ajax({
+            url: '${pageContext.request.contextPath}/SupplierExtracts/selectUniqueReferenceNO.do',
+            data:{
+                "creditCode": creditCode,
+                "supplier":supplier
+            },
+            success: function(data) {
+                if(data == 2){
+                	layer.msg("统一社会信用代码已经被占用");
+                	$("input[name='creditCode']").val("");
+                }
+            }
+        });
+    }
 	
 	
+	function checkPwd(){
+		var password = $("input[name='loginPwd']").val();
+		if(password.length<6){
+			layer.msg("密码至少大于等于6位");
+		    $("input[name='loginPwd']").val("");
+		    return;
+
+		}
+		/* var reg = /^[0-9a-zA-Z]+$/;
+		if(!reg.test(password)){
+			layer.msg("密码只能由数字和字母组成");
+		    $("input[name='loginPwd']").val("");
+		      return;
+		} */
+	}
 </script>
 
 <script type="text/javascript">
@@ -162,7 +199,7 @@ function sumbits(){
 	    <li class="col-md-3 col-sm-6 col-xs-12 ">
         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>统一社会信用代码：</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
-         <input class="title col-md-12" id="appendedInput" name="creditCode" onkeyup="this.value=this.value.replace(/[\W]/g,'')" value="${supplier.creditCode}" maxlength="18" type="text">
+         <input class="title col-md-12" id="appendedInput" name="creditCode" onkeyup="this.value=this.value.replace(/[\W]/g,'')" value="${supplier.creditCode}" maxlength="18" type="text" onblur="referenceNO()">
          <span class="add-on">i</span>
          <span class="input-tip">不能为空，长度为18位</span>
          <div class="cue" >${creditCodeError}</div>
@@ -196,7 +233,7 @@ function sumbits(){
       <li class="col-md-3 col-sm-6 col-xs-12 ">
         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>密码：</span>
          <div class="input-append input_group col-sm-12 col-xs-12 p0">
-          <input class="title col-md-12" id="appendedInput" name="loginPwd" value="${loginPwd}" maxlength="11" type="password">
+          <input class="title col-md-12" id="appendedInput" name="loginPwd" value="${loginPwd}" maxlength="11" type="password" onblur="checkPwd()">
           <span class="add-on">i</span>
           <div class="cue" >${loginPwdError}</div>
         </div>

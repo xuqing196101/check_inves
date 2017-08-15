@@ -204,8 +204,10 @@ public class IntelligentScoringController extends BaseController{
     }
 	
 	@RequestMapping(value = "showScoreMethod")
-    public String showScoreMethod(Model model, BidMethod bm, String packageId, String projectId, String flowDefineId) {
+    public String showScoreMethod(Model model, BidMethod bm, String packageId, String projectId, String flowDefineId,String status) {
         List<BidMethod> bidMethod = bidMethodService.findScoreMethod(bm);
+        
+        model.addAttribute("status", status);
         if (bidMethod != null && bidMethod.size() > 0){
             model.addAttribute("bidMethod", bidMethod.get(0));
             model.addAttribute("packageId", packageId);

@@ -22,7 +22,7 @@
 }); */
 	$(function() {
 		
-		
+		 
   		//获取查看或操作权限
        	var isOperate = $('#isOperate', window.parent.document).val();
        	if(isOperate == 0) {
@@ -34,6 +34,14 @@
        	
        
     })
+    function showPhotoTo(bid,tid,key,id){
+    window.sessionStorage.setItem("bid",bid);
+    window.sessionStorage.setItem("tid",tid);
+    window.sessionStorage.setItem("key",key);
+    window.sessionStorage.setItem("id",id);
+    window.open(globalPath+"/openPic.jsp");
+    }
+    
     function download(bid,typeId,key){
 	    var zipFileName = null;
 	    var fileName = null;
@@ -66,9 +74,7 @@
             },
             dataType:"json",
             success: function(data) {
-            	
-            	  location.href="${pageContext.request.contextPath }/file/deleteFile.html?id="+ data +"&key="+key+"&pId="+"${pId}";//为能重定向回原页面
-            	
+            location.href="${pageContext.request.contextPath }/file/delfile.html?id="+ data +"&key="+key+"&pId="+"${pId}";//为能重定向回原页面 
             }
         }); 
     }
@@ -334,10 +340,6 @@ function getTaskTime(strDate) {
 		obj.ActiveDocument.Bookmarks("OLE_LINK_TOP").Select();
 
 	});
-	
-	
-	
-	
 </script>
 </head>
 
@@ -497,11 +499,12 @@ function getTaskTime(strDate) {
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="pcReason" maxlength="2000" name="pcReason" title="不超过2000个字">${reasons.pcReason}</textarea>
             	<span class="fl">采购管理部门审核意见附件：</span>
             	<button  class="btn fl mt1" type="button">
-            	<a target="_blank" href="../openPic.jsp?bid="${project.id}"&tid="${pcTypeId}"&key="${sysKey}"&id=r"><font color="white">查看采购管理部门审核意见</font></a></button>
+            	<a href="javascript:showPhotoTo('${project.id}','${pcTypeId}','${sysKey}','r');"><font color="white">查看采购管理部门审核意见</font></a>
+<%--            <a target="_blank" href="../openPic.jsp?bid=${project.id}&tid=${pcTypeId}&key=${sysKey}&id=r"><font color="white">查看采购管理部门审核意见</font></a></button> --%>
             	<button  class="btn fl mt1" type="button">
             	<a href="javascript:download('${project.id}','${pcTypeId}','${sysKey}');"><font color="white">下载采购管理部门审核意见</font></a>
             	</button>
-            	<%-- <u:show delete="false" showId="r" businessId="${project.id}" sysKey="${sysKey}" typeId="${pcTypeId}"/ --%>
+            	<%-- <u:show delete="false" showId="r" businessId="${project.id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>  --%>
             </c:if>
             <c:if test="${project.confirmFile == 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="pcReason" maxlength="2000" name="pcReason" title="不超过2000个字">${reasons.pcReason}</textarea>
@@ -509,7 +512,7 @@ function getTaskTime(strDate) {
             	<u:upload id="r"  buttonName="上传采购管理部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${pcTypeId}" auto="true" />
 			    
 			    <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button">
-                <a target="_blank" href="../openPic.jsp?bid="${project.id}"&tid="${pcTypeId}"&key="${sysKey}"&id=r"><font color="white">查看采购管理部门审核意见</font></a></button>
+                <a href="javascript:showPhotoTo('${project.id}','${pcTypeId}','${sysKey}','r');"><font color="white">查看采购管理部门审核意见</font></a></button>
                 <button style="margin-left: 1px;height: 26px;" class="btn fl mt1" type="button">
                 <a href="javascript:download('${project.id}','${pcTypeId}','${sysKey}');"><font color="white">下载采购管理部门审核意见</font></a>
                 </button>
@@ -523,7 +526,9 @@ function getTaskTime(strDate) {
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="causereason" maxlength="2000" name="causeReason" title="不超过2000个字">${reasons.causeReason}</textarea>
           		<span class="fl">事业部门审核意见附件：</span>
           		<button  class="btn fl mt1" type="button">
-                <a target="_blank" href="../openPic.jsp?bid="${project.id}"&tid="${causeTypeId}"&key="${sysKey}"&id=y"><font color="white">查看事业部门审核意见</font></a></button>
+          		<a href="javascript:showPhotoTo('${project.id}','${causeTypeId}','${sysKey}','y');"><font color="white">查看事业部门审核意见</font></a>
+                <%-- <a target="_blank" href="../openPic.jsp?bid="${project.id}"&tid="${causeTypeId}"&key="${sysKey}"&id=y"><font color="white">查看事业部门审核意见</font></a> --%>
+                </button>
                 <button  class="btn fl mt1" type="button">
                 <a href="javascript:download('${project.id}','${causeTypeId}','${sysKey}');"><font color="white">下载事业部门审核意见</font></a>
                 </button>
@@ -534,7 +539,8 @@ function getTaskTime(strDate) {
           		<span class="fl">事业部门审核意见附件：</span>
           		<u:upload id="u"  buttonName="上传事业部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${causeTypeId}" auto="true" />
           		<button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button">
-                <a target="_blank" href="../openPic.jsp?bid="${project.id}"&tid="${causeTypeId}"&key="${sysKey}"&id=r"><font color="white">查看事业部门审核意见</font></a></button>
+                <a href="javascript:showPhotoTo('${project.id}','${causeTypeId}','${sysKey}','y');"><font color="white">查看事业部门审核意见</font></a>
+                </button>
                 <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button">
                 <a href="javascript:download('${project.id}','${causeTypeId}','${sysKey}');"><font color="white">下载事业部门审核意见</font></a>
                 </button>
@@ -548,7 +554,9 @@ function getTaskTime(strDate) {
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${reasons.financeReason}</textarea>
             	<span class="fl">财务部门审核意见附件：</span>
             	<button  class="btn fl mt1" type="button">
-                <a target="_blank" href="../openPic.jsp?bid="${project.id}"&tid="${financeTypeId}"&key="${sysKey}"&id=o"><font color="white">查看财务部门审核意见</font></a></button>
+            	<a href="javascript:showPhotoTo('${project.id}','${financeTypeId}','${sysKey}','o');"><font color="white">查看财务部门审核意见</font></a>
+                <%-- <a target="_blank" href="../openPic.jsp?bid="${project.id}"&tid="${financeTypeId}"&key="${sysKey}"&id=o"><font color="white">查看财务部门审核意见</font></a> --%>
+                </button>
                 <button  class="btn fl mt1" type="button">
                 <a href="javascript:download('${project.id}','${financeTypeId}','${sysKey}');"><font color="white">下载财务部门审核意见</font></a>
                 </button>
@@ -557,9 +565,10 @@ function getTaskTime(strDate) {
             <c:if test="${project.confirmFile == 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${reasons.financeReason}</textarea>
             	<span class="fl">财务部门审核意见附件：</span>
-            	<span><u:upload id="p"  buttonName="上传财务部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${financeTypeId}" auto="true" /></span>&nbsp;&nbsp;&nbsp;
+            	<span><u:upload id="p"  buttonName="上传财务部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${financeTypeId}" auto="true" /></span>
             	<button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button">
-                <a target="_blank" href="../openPic.jsp?bid="${project.id}"&tid="${financeTypeId}"&key="${sysKey}"&id=r"><font color="white">查看财务部门审核意见</font></a></button>
+                <a href="javascript:showPhotoTo('${project.id}','${financeTypeId}','${sysKey}','o');"><font color="white">查看财务部门审核意见</font></a>
+                </button>
                 <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button">
                 <a href="javascript:download('${project.id}','${financeTypeId}','${sysKey}');"><font color="white">下载财务部门审核意见</font></a>
                 </button>

@@ -24,6 +24,9 @@
 
 
 <script type="text/javascript">
+	$(function(){
+		delId =[];
+	})
 	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -39,7 +42,27 @@
 			     checklist[j].checked = false;
 			  }
 		 	}
+		 
 		}
+	
+	function referenceNO(){
+        var referenceNO = $("#referenceNo").val();
+        if(referenceNO == ''){
+            return;
+        }        
+        $.ajax({
+            url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
+            data:{
+                "referenceNO": referenceNO
+            },
+            success: function(data) {
+                if(data.data > 0) {
+                    $("#referenceNo").val("");
+                    layer.msg("采购需求文号已存在");
+                }
+            }
+        });
+    }
 	
 	/** 单选 */
 	function check(){
@@ -92,7 +115,7 @@
 	}
 	
  
-  	 function sum2(obj){  //数量
+  	 function sum2(obj){  //修改数量
 	        var purchaseCount = $(obj).val()-0;//数量
 	        var price2 = $(obj).parent().next().children(":last");//价钱
 	        var price = $(price2).val()-0;
@@ -103,7 +126,7 @@
 	      	aa(id);
 	    } 
 	    
-	       function sum1(obj){
+	       function sum1(obj){//修改单价
 	        var price = $(obj).val()-0; //价钱
 	         var purchaseCount = $(obj).parent().prev().children(":last").val()-0;//数量
 	      	 var sum = purchaseCount*price/10000;
@@ -117,22 +140,24 @@
 	    	   
 	    	   var budget=0;
 	    	   $("#table tr").each(function(){
-	 	    		var cid= $(this).find("td:eq(8)").children(":last").val(); //parentId
-	 	    		var same= $(this).find("td:eq(8)").children(":last").prev().val()-0; //价格
+	 	    		var cid= $(this).find("td:eq(8)").children(":first").next().val(); //parentId
+	 	    		var same= $(this).find("td:eq(9)").children(":last").val()-0; //价格
 		 	       if(id==cid){
 		 	    	 
 		 	    	  budget=budget+same; //查出所有的子节点的值
 		 	       }
 	    	   });
-	    	   budget = budget.toFixed(2); 
+	    	   budget = budget.toFixed(2); //保存两位小数
+	    	   
 	    	   var bud;
 	     
 	    	    $("#table tr").each(function(){
-		    	  var  pid= $(this).find("td:eq(8)").children(":first").val();//上级id
+		    	  var  pid= $(this).find("td:eq(9)").children(":first").val();//自己的ID
 		    		
 		    		if(id==pid){
-		    			$(this).find("td:eq(8)").children(":first").next().val(budget);
-		    			 var spid= $(this).find("td:eq(8)").children(":last").val();
+		    			$(this).find("td:eq(9)").children(":last").val(budget); //使父级节点的预算金额为子级节点值和
+		    			 var spid= $(this).find("td:eq(9)").children(":first").next().val();
+		    			/* alert(spid) */
 		    			bud= calc(spid);
 		    		}  
 	    		}); 
@@ -148,16 +173,16 @@
 	 	    		 /*  } 
 	 	    		}); */    
 	    	     
-	    	  var did=$("#table tr:eq(1)").find("td:eq(8)").children(":first").val();
+	    	  var did=$("#table tr:eq(2)").find("td:eq(9)").children(":first").next().val();//超级节点id
 	    	    var total=0;
 	    	    $("#table tr").each(function(){
-	 	    		var cid= $(this).find("td:eq(8)").children(":last").val();
-	 	    		var same= $(this).find("td:eq(8)").children(":last").prev().val()-0;
+	 	    		var cid= $(this).find("td:eq(9)").children(":first").next().val();
+	 	    		var same= $(this).find("td:eq(9)").children(":last").val()-0;
 	 	    		 if(did==cid){
 	 	    			total=total+same;
 	 	    		 }
 	    	   }); 
-	    	    $("#table tr:eq(1)").find("td:eq(8)").children(":first").next().val(total);
+	    	    $("#table tr:eq(1)").find("td:eq(9)").children(":last").val(total);
 	       }   
 	       
         function calc(id){
@@ -315,7 +340,12 @@
 	    	  $("input[name='planType']").val(type);
 	    	  $("input[name='mobile']").val(mobile);
 	    	// $("#table").find("#edit_form").submit();
-	    	 if($("#table tr").length>$("#listSize").val()){
+	    	alert($("#table tr").length );
+	    	alert($("#listSize").val());
+	    	$.each(delId,function(i,n){
+	    		deleteRow(n);
+	    	});
+	    	 /* if($("#table tr").length>$("#listSize").val()){ */
 	    		 var jsonStr = [];
 	 			 $("#table tr").each(function(i){ //遍历Table的所有Row
 	 					 if(i>0&&i<=$("#listSize").val() ){
@@ -331,14 +361,14 @@
 	 					var purchaseCount =$(this).find("td:eq(7)").children(":last").val();
 	 					var price = $(this).find("td:eq(8)").children(":last").val();
 	 					var budget = $(this).find("td:eq(9)").children(":last").val();
-	 				  var deliverDate = $(this).find("td:eq(10)").children(":last").val();
+	 					var deliverDate = $(this).find("td:eq(10)").children(":last").val();
 	 					var purchaseTypes = $(this).find("td:eq(11)").children(":last").val();
 	 					var supplier = $(this).find("td:eq(12)").children(":last").val();
 	 					var isFreeTax = $(this).find("td:eq(13)").children(":last").val();
 	 					var goodsUse = $(this).find("td:eq(14)").children(":last").val();
 	 					var useUnit =$(this).find("td:eq(15)").children(":last").val();
 	 					var memo = $(this).find("td:eq(16)").children(":last").val(); 
-	 				  	var json = {"seq":seq,"id":id,"parentId":parentId,"department":department, "goodsName":goodsName, "stand":stand,"qualitStand":qualitStand,
+	 					var json = {"seq":seq,"id":id,"parentId":parentId,"department":department, "goodsName":goodsName, "stand":stand,"qualitStand":qualitStand,
 	 						"item":item, "purchaseCount":purchaseCount, "price":price, "budget":budget, 
 	 						"deliverDate":deliverDate,"purchaseType":purchaseTypes,"supplier":supplier,
 	 						"isFreeTax":isFreeTax,"goodsUse":goodsUse,"useUnit":useUnit,"memo":memo,"isMaster":i};
@@ -366,7 +396,7 @@
 	 	  		        error: function (message) {
 	 	  		        }
 	 	  		    });
-	    	 }
+	    	 /* } */
 	    	 //$("#table").find("#edit_form").submit();
 	    	 // $("#edit_form").submit();
 	      }
@@ -847,10 +877,15 @@
 	  		        }
 	  		    });
 	    }
-      function delRowIndex(obj){
+      function delRowIndex(obj){//delobjId
 			var detailRow = document.getElementsByName("detailRow");
 			var index = detailRow.length;
 			
+			var input=$(obj).prev().val();
+			delId.push(input); 
+			/* var del = $("input[name='delobjId']").val(delId); */
+			/* delId.push(del); */ 
+			alert(delId);
 			if(index<3){
 				 layer.alert("至少保留两行！",{offset: ['222px', '390px'], shade:0.01});
 			}else{
@@ -860,14 +895,14 @@
 			 if($.trim(val)!=""){
 				 var input=$(obj).prev().val();
 				 if(typeof(input)!="undefined"){
-					 deleteRow(input);
+					/*  deleteRow(input);  */
 				 }
 				 $(obj).parent().parent().remove();
 			 }
 			 else if(nextEle.length<1){
 				 var input=$(obj).prev().val();
 				 if(typeof(input)!="undefined"){
-					 deleteRow(input);
+					/*  deleteRow(input);  */
 				 }
 				 $(obj).parent().parent().remove(); 
 			 }
@@ -875,7 +910,9 @@
 				 layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
 			 }
 			} 
-			
+			var cid = $(obj).parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().children(":last");
+            /* alert(cid); */
+            sum2(cid);
 		}
 </script>
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
@@ -920,8 +957,8 @@
 					class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求文号</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input type="text" class="input_group" id="referenceNo"
-							name="referenceNo" value="${list[0].referenceNo}"> <span
-							class="add-on">i</span>
+							name="referenceNo" value="${list[0].referenceNo}" onblur="referenceNO()"> <span
+							class="add-on" >i</span>
 					</div></li>
 
 
@@ -1182,6 +1219,7 @@
 							<input type="hidden" name="planType">
 							<input type="hidden" name="mobile">
 							<input type="hidden" name="referenceNo" />
+							<input type="hidden" name="delobjId" />
 					</form>
 				</table>
 			</div>

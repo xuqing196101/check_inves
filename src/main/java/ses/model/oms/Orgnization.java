@@ -103,6 +103,9 @@ public class Orgnization implements Serializable {
     
     /** 全称 **/
     private String fullName;
+    
+    //是否具有审核供应商/专家资格
+    private Integer isAuditSupplier;
 
 	public String getId() {
         return id;
@@ -457,6 +460,14 @@ public class Orgnization implements Serializable {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+
+	public Integer getIsAuditSupplier() {
+		return isAuditSupplier;
+	}
+
+	public void setIsAuditSupplier(Integer isAuditSupplier) {
+		this.isAuditSupplier = isAuditSupplier;
+	}
     
     
     

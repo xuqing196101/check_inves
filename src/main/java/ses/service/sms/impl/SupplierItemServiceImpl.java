@@ -450,6 +450,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	    Map<String, Object> param = new HashMap<String, Object>();
 	    param.put("supplierId", supplierId);
 	    param.put("type", type);
+	    param.put("isDeleted", 0);
 	    List<SupplierItem> itemsList = supplierItemMapper.selectByMap(param);
 	    return itemsList;
 	}
@@ -785,6 +786,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		paramMap.put("supplierId", supplierId);
 		paramMap.put("type", code);
 		paramMap.put("isReturned", 0);
+		paramMap.put("isDeleted", 0);
 		List < SupplierItem > itemList = this.findByMap(paramMap);
 		for(SupplierItem item: itemList) {
 			Category cate = categoryService.selectByPrimaryKey(item.getCategoryId());
@@ -1171,6 +1173,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	    Map<String, Object> param = new HashMap<String, Object>();
 	    param.put("supplierId", supplierId);
 	    param.put("type", type);
+	    param.put("isDeleted", 0);
 	    if(isReturned != null){
 	    	param.put("isReturned", isReturned);
 	    }
@@ -1190,7 +1193,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 
 	@Override
 	public int deleteItemsBySupplierId(String supplierId, Byte isReturned) {
-		Map<String , String> param = new HashMap<String, String>();
+		Map<String, String> param = new HashMap<String, String>();
 		param.put("supplierId", supplierId);
 		if(isReturned != null){
 			param.put("isReturned", isReturned.toString());

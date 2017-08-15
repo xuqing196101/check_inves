@@ -3,11 +3,10 @@
 
 <!DOCTYPE HTML>
 <html>
-
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
+		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 	</head>
-
 	<body>
 		<!--面包屑导航开始-->
 		<div class="margin-top-10 breadcrumbs ">
