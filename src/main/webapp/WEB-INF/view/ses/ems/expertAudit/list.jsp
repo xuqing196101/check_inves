@@ -84,7 +84,6 @@
           }
         var state = $("#" + id + "").parent("tr").find("td").eq(11).text(); //.trim();
         state = trim(state);
-        /* var isExtract = $("#" + id + "_isExtract").text(); */
         if(state == "公示中" ||state == "初审合格" || state == "初审未合格" || state == "退回修改" || state == "初审退回" || state == "复查合格" || state == "复查未合格" || state == "复审合格" || state == "复审不合格") {
           layer.msg("请选择待审核项 !", {
             offset: '100px',
@@ -322,6 +321,7 @@
                 <option value="">全部</option>
                 <c:if test="${sign == 1}">
                   <option <c:if test="${state eq '0'}">selected</c:if> value="0">待初审</option>
+                  <option <c:if test="${state eq '9'}">selected</c:if> value="9">初审退回再审核</option>
                   <option <c:if test="${state eq '1'}">selected</c:if> value="1">初审合格</option>
                   <option <c:if test="${state eq '3'}">selected</c:if> value="3">退回修改</option>
                   <option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未合格</option>
@@ -426,6 +426,9 @@
               </td>
               <c:if test="${(sign == 1 and expert.status eq '0' and expert.auditTemporary ne '1')}">
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待初审</span></td>
+              </c:if>
+              <c:if test="${(sign == 1 and expert.status eq '9' and expert.auditTemporary ne '1')}">
+                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">初审退回再审核</span></td>
               </c:if>
               <c:if test="${sign == 1 and expert.status eq '0' and expert.auditTemporary eq '1'}">
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">初审中</span></td>

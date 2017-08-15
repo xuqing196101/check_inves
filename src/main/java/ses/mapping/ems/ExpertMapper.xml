@@ -1291,7 +1291,7 @@ resultMap="BaseResultMap">
         <choose>
         	<when test="sign == 1">
         		(IS_SUBMIT = '1'
-	        	AND (t1.STATUS = '0' OR t1.STATUS = '1' OR t1.STATUS = '2'))
+	        	AND (t1.STATUS = '0' OR t1.STATUS = '1' OR t1.STATUS = '2' OR t1.STATUS = '9'))
 	        	OR (t1.IS_SUBMIT = '0' AND t1.status = '3')
         	</when>
         	<when test="sign == 2">
