@@ -2562,15 +2562,6 @@ public class OpenBiddingController {
       model.addAttribute("projectId", projectId);
       model.addAttribute("listResultExpert", listResultExpert);
     }
-
-    /* Negotiation negotiation = negotiationService.selectByProjectId(project.getId());
-        model.addAttribute("project", project);
-        if(negotiation != null){
-            model.addAttribute("negotiation", negotiation);
-        }else{
-            model.addAttribute("uuId", WfUtil.createUUID());
-        }
-        model.addAttribute("dataId", DictionaryDataUtil.getId("NEGOTIATION_RECORD"));*/
     model.addAttribute("flowDefineId", flowDefineId);
     model.addAttribute("dataId", DictionaryDataUtil.getId("NEGOTIATION_RECORD"));
     return "bss/ppms/open_bidding/bid_file/negotiation";

@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +48,7 @@ import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.service.bms.TempletService;
 import ses.service.bms.TodosService;
+import ses.service.ems.ExpertService;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierExtUserServicel;
@@ -53,10 +56,12 @@ import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
+import ses.util.WordUtil;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.MarkTerm;
+import bss.model.ppms.Negotiation;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -72,6 +77,7 @@ import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.BidMethodService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.MarkTermService;
+import bss.service.ppms.NegotiationService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.ppms.SupplierCheckPassService;
@@ -187,6 +193,12 @@ public class AdOpenBiddingController {
     
     @Autowired
     private PurChaseDepOrgService purChaseDepOrgService;
+    
+    @Autowired
+    private NegotiationService negotiationService;
+    
+    @Autowired
+    private ExpertService expertService;
     
     /** 公告类型 - 采购公告*/
     private static final String  PURCHASE_NOTICE= "purchase";
@@ -524,13 +536,7 @@ public class AdOpenBiddingController {
                 model.addAttribute("rootCode", dictionaryData.getCode());
             }
         }
-        String id = DictionaryDataUtil.getId("DYLY");
-        if(project.getPurchaseType().equals(id)){
-            //return makeNotices(user, projectId, PURCHASE_NOTICE, model, flowDefineId);
-            return null;
-        }else{
-            return makeNotice(projectId, PURCHASE_NOTICE, model, flowDefineId);
-        }
+        return makeNotice(user, projectId, PURCHASE_NOTICE, model, flowDefineId);
     }
     
     /**
@@ -544,13 +550,13 @@ public class AdOpenBiddingController {
      * @param flowDefineId
      * @return
      */
-    public String makeNotice(String projectId, String noticeType, Model model, String flowDefineId){
+    public String makeNotice(User user, String projectId, String noticeType, Model model, String flowDefineId){
         AdvancedProject project = projectService.selectById(projectId);
         Article article = new Article();
         //采购方式数据字典
         DictionaryData data = DictionaryDataUtil.findById(project.getPurchaseType());
         //如果是拟制预研采购公告
-        if(StringUtils.isNotBlank(noticeType) && PURCHASE_NOTICE.equals(noticeType)){
+        if(StringUtils.isNotBlank(noticeType) && PURCHASE_NOTICE.equals(noticeType) && !"DYLY".equals(data.getCode())){
             //采购公告
             article.setArticleType(articelTypeService.selectArticleTypeByCode("purchase_notice"));
             ArticleType articleType = articelTypeService.selectArticleTypeByCode("purchase_notice_centrlized");
@@ -560,21 +566,66 @@ public class AdOpenBiddingController {
             //货物/物资
             if (DictionaryDataUtil.getId("GOODS").equals(project.getPlanType())) { 
                 if (data != null) {
-                    purchaseNoticeArticleType(data.getCode(), article, project.getPlanType());
+                    purchaseNoticeArticleType(user, data.getCode(), article, project.getPlanType());
                 }
             } else if (DictionaryDataUtil.getId("PROJECT").equals(project.getPlanType())) {
                 //工程  
                 if (data != null) {
-                    purchaseNoticeArticleType(data.getCode(), article, project.getPlanType());
+                    purchaseNoticeArticleType(user, data.getCode(), article, project.getPlanType());
                 }
             } else if (DictionaryDataUtil.getId("SERVICE").equals(project.getPlanType())) {
                 //服务 
                 if (data != null) {
-                    purchaseNoticeArticleType(data.getCode(), article, project.getPlanType());
+                    purchaseNoticeArticleType(user, data.getCode(), article, project.getPlanType());
                 }
             }
             getDefaultTemplate(project, data, model, PURCHASE_NOTICE);
-        } else if (StringUtils.isNotBlank(noticeType) && WIN_NOTICE.equals(noticeType)) {
+        } else if (StringUtils.isNotBlank(noticeType) && PURCHASE_NOTICE.equals(noticeType) && "DYLY".equals(data.getCode())) {
+            //单一来源公告
+            article.setArticleType(articelTypeService.selectArticleTypeByCode("single_source_notice"));
+            if(user.getPublishType() != null && user.getPublishType() == 1){
+                //部队采购
+                ArticleType articleType2 = articelTypeService.selectArticleTypeByCode("single_source_notice_military");
+                if (articleType2 != null) {
+                    article.setSecondArticleTypeId(articleType2.getId());
+                }
+                //货物/物资
+                if (DictionaryDataUtil.getId("GOODS").equals(project.getPlanType())) { 
+                    purchaseNoticeArticleType(user, data.getCode(), article, project.getPlanType());
+                } else if (DictionaryDataUtil.getId("PROJECT").equals(project.getPlanType())) {
+                    //工程  
+                    if (data != null) {
+                        purchaseNoticeArticleType(user, data.getCode(), article, project.getPlanType());
+                    }
+                } else if (DictionaryDataUtil.getId("SERVICE").equals(project.getPlanType())) {
+                    //服务 
+                    if (data != null) {
+                        purchaseNoticeArticleType(user, data.getCode(), article, project.getPlanType());
+                    }
+                }
+            } else {
+                //集中采购
+                ArticleType articleType2 = articelTypeService.selectArticleTypeByCode("single_source_notice_centralized");
+                if (articleType2 != null) {
+                    article.setSecondArticleTypeId(articleType2.getId());
+                }
+              //货物/物资
+                if (DictionaryDataUtil.getId("GOODS").equals(project.getPlanType())) { 
+                    purchaseNoticeArticleType(user, data.getCode(), article, project.getPlanType());
+                } else if (DictionaryDataUtil.getId("PROJECT").equals(project.getPlanType())) {
+                    //工程  
+                    if (data != null) {
+                        purchaseNoticeArticleType(user, data.getCode(), article, project.getPlanType());
+                    }
+                } else if (DictionaryDataUtil.getId("SERVICE").equals(project.getPlanType())) {
+                    //服务 
+                    if (data != null) {
+                        purchaseNoticeArticleType(user, data.getCode(), article, project.getPlanType());
+                    }
+                }
+            }
+            //getDefaultTemplate(project, data, model, PURCHASE_NOTICE);
+        } else if (StringUtils.isNotBlank(noticeType) && WIN_NOTICE.equals(noticeType) && !"DYLY".equals(data.getCode())) {
             //中标公告
             article.setArticleType(articelTypeService.selectArticleTypeByCode("success_notice"));
             //集中采购
@@ -728,7 +779,7 @@ public class AdOpenBiddingController {
      * @param code
      * @param article
      */
-    public void purchaseNoticeArticleType(String code, Article article , String planType){
+    public void purchaseNoticeArticleType(User user, String code, Article article , String planType){
         ArticleType articleType = null;
         ArticleType articleType2 = null;
         DictionaryData data = DictionaryDataUtil.findById(planType);
@@ -742,6 +793,12 @@ public class AdOpenBiddingController {
                 articleType = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_quotas_competitive");
             } else if ("YQZB".equals(code)) {
                 articleType = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_quotas_invitation");
+            } else {
+                if(user.getPublishType() != null && user.getPublishType() == 1){
+                    articleType = articelTypeService.selectArticleTypeByCode("single_source_notice_military_quotas");
+                } else {
+                    articleType = articelTypeService.selectArticleTypeByCode("single_source_notice_centralized_quotas");
+                }
             }
         } else if ("PROJECT".equals(data.getCode())) {
             articleType2 = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_engineering");
@@ -753,6 +810,12 @@ public class AdOpenBiddingController {
                 articleType = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_plumbing_competitive");
             } else if ("YQZB".equals(code)) {
                 articleType = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_plumbing_invitation");
+            } else {
+                if(user.getPublishType() != null && user.getPublishType() == 1){
+                    articleType = articelTypeService.selectArticleTypeByCode("single_source_notice_military_plumbing");
+                } else {
+                    articleType = articelTypeService.selectArticleTypeByCode("single_source_notice_centralized_plumbing");
+                }
             }
         } else if ("SERVICE".equals(data.getCode())) {
             articleType2 = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_service");
@@ -764,6 +827,12 @@ public class AdOpenBiddingController {
                 articleType = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_service_competitive");
             } else if ("YQZB".equals(code)) {
                 articleType = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_service_invitation");
+            } else {
+                if(user.getPublishType() != null && user.getPublishType() == 1){
+                    articleType = articelTypeService.selectArticleTypeByCode("single_source_notice_military_service");
+                } else {
+                    articleType = articelTypeService.selectArticleTypeByCode("single_source_notice_centralized_service");
+                }
             }
         }
         if (articleType != null) {
@@ -1062,7 +1131,7 @@ public class AdOpenBiddingController {
      * @return 
      */
     @RequestMapping("/winNotice")
-    public String winNotice(String projectId, Model model, String flowDefineId){
+    public String winNotice(@CurrentUser User user, String projectId, Model model, String flowDefineId){
       AdvancedProject project = projectService.selectById(projectId);
       if (project != null) {
           DictionaryData dictionaryData = DictionaryDataUtil.findById(project.getPlanType());
@@ -1070,7 +1139,7 @@ public class AdOpenBiddingController {
             model.addAttribute("rootCode", dictionaryData.getCode());
           }
       }
-      return makeNotice(projectId, WIN_NOTICE, model, flowDefineId);
+      return makeNotice(user, projectId, WIN_NOTICE, model, flowDefineId);
     }
     
     /**
@@ -2299,6 +2368,103 @@ public class AdOpenBiddingController {
             sup.setQuoteList(quoteList);
         }
         return suList2;
+    }
+    
+    /**
+     * 
+     *〈谈判记录〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param projectId
+     * @param model
+     * @param flowDefineId
+     * @return
+     */
+    @RequestMapping("/negotiation")
+    public String negotiation(String projectId, Model model, String flowDefineId){
+        List<AdvancedPackages> listProjectExtract = packageService.listProjectExtract(projectId);
+        if(listProjectExtract != null && !listProjectExtract.isEmpty()){
+            for (AdvancedPackages packages : listProjectExtract) {
+                Negotiation negotiation = negotiationService.selectByPackageId(packages.getId());
+                if(negotiation != null){
+                    packages.setNegotiation(negotiation);
+                } else {
+                    packages.setNegotiation(new Negotiation());
+                    model.addAttribute("uuId", WfUtil.createUUID());
+                }
+            }
+            model.addAttribute("listResultExpert", listProjectExtract);
+        }
+        AdvancedProject project = projectService.selectById(projectId);
+        model.addAttribute("project", project);
+        model.addAttribute("flowDefineId", flowDefineId);
+        model.addAttribute("dataId", DictionaryDataUtil.getId("NEGOTIATION_RECORD"));
+        model.addAttribute("projectId", projectId);
+        return "bss/ppms/advanced_project/advanced_bid_file/negotiation";
+    }
+    
+    @RequestMapping("/getpackage")
+    @ResponseBody
+    public String getpackage(String projectId){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("projectId", projectId);
+        List<AdvancedPackages> list = packageService.selectByAll(map);
+        if(list != null && !list.isEmpty()){
+            return JSON.toJSONString(list);
+        } else {
+            return null;
+        }
+    }
+    
+    @RequestMapping("/educe")
+    public ResponseEntity<byte[]> educe(String projectId, String createdAt, String nuter, String net,  HttpServletRequest request) throws Exception{
+        AdvancedProject project = projectService.selectById(projectId);
+        List<AdvancedPackages> listProjectExtract = packageService.listProjectExtract(projectId);
+        String downFileName = null;
+        // 文件存储地址
+        String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+        String fileName = createWordMethod(project, createdAt, nuter, net, listProjectExtract,request);
+        downFileName = new String("谈判记录表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        return expertService.downloadFile(fileName, filePath, downFileName);
+    }
+    
+    /**
+     * 
+     *〈freeMarker〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param project
+     * @param createdAt
+     * @param nuter
+     * @param net
+     * @param selectList
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    private String createWordMethod(AdvancedProject project, String createdAt, String nuter, String net, List<AdvancedPackages> selectList, HttpServletRequest request) throws Exception {
+        Date date = new Date(); 
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {   
+            date = sdf.parse(createdAt); 
+        } catch (Exception e) {   
+            e.printStackTrace();   
+        }
+        /** 用于组装word页面需要的数据 */
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("projectName", project.getName() == null ? "" : project.getName());
+        dataMap.put("projectNumber", project.getProjectNumber() == null ? "" : project.getProjectNumber());
+        dataMap.put("address", project.getBidAddress() == null ? "" : project.getBidAddress());
+        dataMap.put("date", date == null ? "" : new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
+        dataMap.put("nuter", nuter == null ? "" : nuter);
+        dataMap.put("net", net == null ? "" : net);
+        dataMap.put("selectList", selectList == null ? "" : selectList);
+        String newFileName = null;
+        // 文件名称
+        String fileName = new String(("谈判记录表.doc").getBytes("UTF-8"), "UTF-8");
+        /** 生成word 返回文件名 */
+        newFileName = WordUtil.createWord(dataMap, "negotiation.ftl", fileName, request);
+        return newFileName;
     }
     
     //给最新的报价赋值

@@ -113,6 +113,10 @@ public class AdvancedPackages {
     private List<Expert> listExperts;
     
     private List<SupplierCheckPass> listCheckPasses;
+    
+    private Negotiation negotiation;
+    
+    private NegotiationReport negotiationReport;
 
     public String getId() {
         return id;
@@ -408,6 +412,22 @@ public class AdvancedPackages {
 
     public void setListCheckPasses(List<SupplierCheckPass> listCheckPasses) {
         this.listCheckPasses = listCheckPasses;
+    }
+
+    public Negotiation getNegotiation() {
+        return negotiation;
+    }
+
+    public void setNegotiation(Negotiation negotiation) {
+        this.negotiation = negotiation;
+    }
+
+    public NegotiationReport getNegotiationReport() {
+        return negotiationReport;
+    }
+
+    public void setNegotiationReport(NegotiationReport negotiationReport) {
+        this.negotiationReport = negotiationReport;
     }
     
 }
