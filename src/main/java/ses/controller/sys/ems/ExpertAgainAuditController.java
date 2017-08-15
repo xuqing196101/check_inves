@@ -142,4 +142,8 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	public String findBatchList(HttpServletRequest request,HttpServletResponse response,Model model){
 		return "/ses/ems/againAudit/list_batch";
 	};
+	@RequestMapping("findBatchDetailsList")
+	public String findBatchDailesList(HttpServletRequest request,HttpServletResponse response,Model model){
+		return "/ses/ems/againAudit/details_batch";
+	}
 }

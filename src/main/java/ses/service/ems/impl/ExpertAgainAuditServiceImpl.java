@@ -105,6 +105,8 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			expertBatchDetails.setUpdatedAt(new Date());
 			expertBatchDetailsMapper.insert(expertBatchDetails);
 			count++;
+			expert.setStatus("14");//将专家状态改为待分组
+			expertMapper.updateByPrimaryKey(expert);
 		}
 		img.setStatus(true);
 		img.setMessage("操作成功");

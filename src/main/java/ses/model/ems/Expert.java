@@ -297,7 +297,7 @@ public class Expert extends ExpertHistory implements Serializable {
 	  11 待分配
 	  12 处罚中
 	  13 无产品专家       
-
+	  14复审待分组专家
 		# 初审中（AUDIT_TEMPORARY  1：初审中）
 		# 复查中（AUDIT_TEMPORARY  3：复查中）
 		# 复审中（AUDIT_TEMPORARY  2：复审中）*/
