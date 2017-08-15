@@ -8,7 +8,7 @@
 <body>
 
 	<!-- 面包屑导航开始 -->
-	<div class="margin-top-10 breadcrumbs ">
+	<div class="margin-top-10 breadcrumbs">
 	<div class="container">
 	<ul class="breadcrumb margin-left-0">
 		<li>
@@ -72,8 +72,8 @@
       
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10">
-      <button class="btn btn_create_review_batches" type="button">创建复审批次</button>
-      <a href="${pageContext.request.contextPath}/expertAgainAudit/findBatch.html" title="">跳转到专家复审批次列表</a>
+      <button type="button" class="btn btn_create_review_batches">创建复审批次</button>
+      <button type="button" class="btn" onclick="window.location='${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html'">跳转到专家复审批次列表</button>
     </div>
 
     <div class="content table_box">
@@ -131,7 +131,7 @@
   <!-- End 弹出框 -->
   
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/againAudit.js"></script>
-  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/againAudit_processing.js"></script>
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/againAuditList.do';  // 列表地址
     var batch_url = '${pageContext.request.contextPath}/expertAgainAudit/createBatch.do';  // 创建复审批次地址
