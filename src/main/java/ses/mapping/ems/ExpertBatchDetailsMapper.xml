@@ -15,23 +15,43 @@
         <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     </resultMap>
     <sql id="Base_List">
-    	ID,EXPERT_ID,BATCH_NUMBER,BATCH_DETAILS_NUMBER,COUNT,BATCH_NAME,GROUP_ID,GROUP_NAME,CREATED_AT,UPDATED_AT
+    	ID,EXPERT_ID,BATCH_NUMBER,BATCH_DETAILS_NUMBER,COUNT,BATCH_NAME,GROUP_ID,GROUP_NAME,CREATED_AT,UPDATED_AT,BATCH_ID
     </sql>
-  <!--  
-    获取所有批次
-    <select id="getAllExpertBatch" resultMap="BaseResultMap">
-        select
-        <include refid="Base_List" />
-        from T_SYS_EMS_EXPERT_BATCH 
+ 
+    <!-- 根据条件查询专家信息 -->
+    <select id="getExpertBatchDetails" resultMap="BaseResultMap"  parameterType="ses.model.ems.ExpertBatchDetails">
+        select 
+        T1.ID,
+        T1.EXPERT_ID,
+        T1.BATCH_NUMBER,
+        T1.BATCH_DETAILS_NUMBER,
+        T1.COUNT,
+        T1.BATCH_NAME,
+        T1.GROUP_NAME,
+        T1.BATCH_ID,
+        T2.REAL_NAME AS realName,<!-- 真实姓名 -->
+        data.NAME AS gender,<!-- 性别 -->
+        T2.WORK_UNIT AS workUnit,<!-- 工作单位 -->
+        T2.PROFESS_TECH_TITLES AS professTechTitles,<!-- 专业职称 -->
+        T2.UPDATED_AT AS updateTime,<!-- 提交复审时间 -->
+        T2.AUDIT_AT AS auditAt,<!-- 审核时间 -->
+        org.SHORT_NAME AS orgName,<!-- 所属采购机构 -->
+        T2.AUDITOR AS auditor,<!-- 审核人 -->
+        T2.STATUS AS status <!-- 审核状态 -->
+        from 
+        T_SYS_EMS_EXPERT_BATCH_DETAILS T1
+		LEFT JOIN T_SES_EMS_EXPERT T2 ON T1.EXPERT_ID=T2.ID 
+        LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T2.PURCHASE_DEP_ID = dep.ID
+        LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID 
+        LEFT JOIN T_SES_BMS_DICTIONARY_DATA data ON T2.GENDER=data.ID
         where 1=1
-        <if test="batchName != null and batchName !=''">
-            AND BATCH_NAME like CONCAT(CONCAT('%', #{batchName}), '%')
+        <if test="batchId != null">
+            and   T1.BATCH_ID=#{batchId}
         </if>
-        <if test="createdAt !=null and createdAt != ''">
-        	AND TO_CHAR(CREATED_AT,'YY-MM-DD') = TO_CHAR(#{createdAt},'YY-MM-DD')
-        </if> 
-        ORDER BY CREATED_AT DESC
-    </select> -->
+        <if test="groupId != null">
+            and   T1.GROUP_ID=#{groupId}
+        </if>
+    </select> 
     
     <insert id="insert" parameterType="ses.model.ems.ExpertBatchDetails">
         insert into T_SYS_EMS_EXPERT_BATCH_DETAILS

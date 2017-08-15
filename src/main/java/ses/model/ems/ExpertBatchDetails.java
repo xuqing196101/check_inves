@@ -26,7 +26,79 @@ public class ExpertBatchDetails {
 	private Date updatedAt;
 	/**所属批次ID*/
 	private String batchId;
+	/**真实姓名*/
+	private String realName;
+	/**性别 */
+	private String gender;
+	/**工作单位*/
+	private String workUnit;
+	/**专业职称*/
+	private String professTechTitles;
+	/**所属采购机构*/
+	private String orgName;
+	/**审核人*/
+	private String auditor;
+	/**审核状态*/
+	private String status;
+	/**提交复审时间*/
+	private Date updateTime;
+	/**复审时间*/
+	private Date auditAt;
 	
+	public String getRealName() {
+		return realName;
+	}
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getWorkUnit() {
+		return workUnit;
+	}
+	public void setWorkUnit(String workUnit) {
+		this.workUnit = workUnit;
+	}
+	public String getProfessTechTitles() {
+		return professTechTitles;
+	}
+	public void setProfessTechTitles(String professTechTitles) {
+		this.professTechTitles = professTechTitles;
+	}
+	public String getOrgName() {
+		return orgName;
+	}
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
+	public String getAuditor() {
+		return auditor;
+	}
+	public void setAuditor(String auditor) {
+		this.auditor = auditor;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+	public Date getAuditAt() {
+		return auditAt;
+	}
+	public void setAuditAt(Date auditAt) {
+		this.auditAt = auditAt;
+	}
 	public String getBatchId() {
 		return batchId;
 	}

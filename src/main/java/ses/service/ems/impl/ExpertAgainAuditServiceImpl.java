@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.maven.cli.BatchModeDownloadMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -132,5 +133,37 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		img.setObject(result);
 		return img;
 	}
+
+	@Override
+	public ExpertAgainAuditImg findBatchDetails(String batchId, Integer pageNum) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		if(pageNum != null){
+			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		}
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+		expertBatchDetails.setBatchId(batchId);
+		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		PageInfo< ExpertBatchDetails > result = new PageInfo < ExpertBatchDetails > (list);
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		img.setObject(result);
+		return img;
+	}
+	
+	public String numToStr(int num) {    
+        String u[] = { "", "一", "二", "三", "四", "五", "六", "七", "八", "九" }; 
+        String s[]={"","十","百"};
+        String rstr = "";
+        int sw=num/10;
+        if(sw!=1){
+        	rstr=rstr+u[sw];
+        }
+        rstr = rstr +  s[String.valueOf(num/10).length()];
+        int g=num%10;
+        rstr=rstr+u[g];
+        return rstr;    
+    } 
 
 }

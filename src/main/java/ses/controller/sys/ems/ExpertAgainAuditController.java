@@ -146,4 +146,20 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	public String findBatchDailesList(HttpServletRequest request,HttpServletResponse response,Model model){
 		return "/ses/ems/againAudit/details_batch";
 	}
+	@RequestMapping("findBatchDetails")
+	public void findBatchDetails(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId,Integer pageNum){
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}*/
+		if(pageNum == null) {
+			pageNum = StaticVariables.DEFAULT_PAGE;
+		}
+		img=againAuditService.findBatchDetails(batchId, pageNum);
+		super.writeJson(response, img);
+	}
+	
 }
