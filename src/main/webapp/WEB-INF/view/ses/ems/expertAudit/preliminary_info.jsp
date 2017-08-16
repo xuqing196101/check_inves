@@ -123,16 +123,13 @@
             </li>
           </ul>
           
-          <div class="col-md-12 add_regist tc">
-            <a class="btn" type="button" onclick="lastStep();">上一步</a>
-            <c:if test="${status eq '-2' || status eq '-3' || status eq '4' || status eq '5'}">
-              <c:if test="${status == '-2'}">
-                <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
-              </c:if>
-              <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
-            </c:if>
-            </form>
-          </div>
+          <div class="col-md-12 col-sm-12 col-xs-12  add_regist tc">
+	          <a class="btn" type="button" onclick="lastStep();">上一步</a>
+	          <c:if test="${status == -2 || status == 0 || status == 9 || (sign ==2 && status ==1) || status ==6}">
+	            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+	          </c:if>
+	          <a class="btn" type="button" onclick="nextStep();">下一步</a>
+	        </div>
         </div>
       </div>
     </div>
