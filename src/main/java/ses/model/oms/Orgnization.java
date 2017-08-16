@@ -15,8 +15,7 @@ public class Orgnization implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-	@NotBlank(message = "机构名称不能为空") 
-	@Length(min=1,max=50,message="长度不可超过50")
+	@Length(min=1,max=50,message="不能为空，同时长度不可超过50")
     private String name;
 
     /**
@@ -32,6 +31,8 @@ public class Orgnization implements Serializable {
 
     private String orgCode;
 
+    
+    @NotBlank(message="电话不能为空") 
     private String telephone;
 
     private String areaId;
