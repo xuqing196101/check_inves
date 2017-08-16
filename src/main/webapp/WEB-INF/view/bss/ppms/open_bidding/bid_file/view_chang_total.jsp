@@ -79,8 +79,8 @@
 				<tr>
 					<th class="info w50">序号</th>
 					<th class="info">供应商名称</th>
-					<th class="info w100">总价(万元)</th>
-					<th class="info  w120">交货期限</th>
+					<th class="info w120">总价(万元)</th>
+					<th class="info  w160">交货期限</th>
 				<!-- 	<th class="info w100">状态</th>
 					<th class="info w100">放弃原因</th> -->
 			    </tr>
@@ -90,7 +90,7 @@
 				<tr>
 				    <td class="tc w50">${vs.index+1 }</td>
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
-				    <td class="tr">${treemapValue.total}</td>
+				    <td class="tc">${treemapValue.total}</td>
 				    <td class="tc">${treemapValue.deliveryTime }</td>
 			<%-- 	    <td class="tc">${treemapValue.isRemoved}</td>
 					<td class="tc">${treemapValue.removedReason}</td> --%>
