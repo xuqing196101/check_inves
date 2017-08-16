@@ -30,6 +30,7 @@
 		</script>
 		<script type="text/javascript">
 			$(function() {
+				$("#extensionId").val("bmp,pmg,jpg,gif,png");
 				var parkId = "${post.park.id}";
 				$("#park").val(parkId);
 				if(parkId != null && parkId != "") {
