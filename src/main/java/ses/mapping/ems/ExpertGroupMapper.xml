@@ -20,7 +20,7 @@
     <!-- 获取当前批次分配好的所有组 -->
     <select id="getGroup" resultMap="BaseResultMap" parameterType="ses.model.ems.ExpertGroup">
         select 
-        <include refid="Base_Column_List" />
+        <include refid="Base_List" />
 		from T_SYS_EMS_EXPERT_GROUP where 1=1
 		<if test="batchId != null and batchId !=''">
             AND BATCH_ID=#{batchId}
