@@ -288,7 +288,7 @@
 						type: "post",
 						success: function(data) {
 							if(data!='1'){  */
-                 var flag;
+                 var flag = true;
 								var jsonStr = [];
 								var allTable = document.getElementsByTagName("table");
 								 $("#table tr").each(function(i){ //遍历Table的所有Row

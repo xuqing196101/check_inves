@@ -346,7 +346,7 @@
 	    		deleteRow(n);
 	    	});
 	    	 /* if($("#table tr").length>$("#listSize").val()){ */
-	    	 var flag;
+	    	 var flag = true;
 	    		 var jsonStr = [];
 	 			 $("#table tr").each(function(i){ //遍历Table的所有Row
 	 					 if(i>0&&i<=$("#listSize").val() ){
