@@ -692,7 +692,7 @@
 			<if test="sign==5 ">
 				and STATUS in('2','3','5')
 			</if>
-			<if test="status!=null ">
+			<if test="sign == null and status!=null ">
 				and STATUS =#{status}
 			</if>
 			

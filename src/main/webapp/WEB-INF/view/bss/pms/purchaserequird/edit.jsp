@@ -340,8 +340,8 @@
 	    	  $("input[name='planType']").val(type);
 	    	  $("input[name='mobile']").val(mobile);
 	    	// $("#table").find("#edit_form").submit();
-	    	alert($("#table tr").length );
-	    	alert($("#listSize").val());
+	    	//alert($("#table tr").length );
+	    	//alert($("#listSize").val());
 	    	$.each(delId,function(i,n){
 	    		deleteRow(n);
 	    	});
@@ -641,7 +641,8 @@
 	                       
 	                    }); 
 				
-			} 
+			}
+
 	 //动态添加
 		function aadd() {
 			var value = $("#xqbm").val();
