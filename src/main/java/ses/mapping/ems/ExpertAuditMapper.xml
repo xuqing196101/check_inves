@@ -67,6 +67,9 @@
     <if test="type != '' and type != null">
     	and TYPE = #{type}
     </if>
+    <if test="auditFalg != '' and auditFalg != null">
+    	and AUDIT_FALG = #{auditFalg}
+    </if>
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

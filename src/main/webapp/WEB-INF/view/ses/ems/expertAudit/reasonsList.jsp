@@ -33,11 +33,12 @@
         function checkOpinion(status, expertId){
         	 var opinion = document.getElementById('opinion').value;
              opinion = trim(opinion);
-             var flagTime;
+             /* var flagTime;
              if(status == -2){
                  flagTime = 1;
-             }
+             } */
              if (opinion != null && opinion != "") {
+            	  var flagTime = $("input[name=sign]").val();
                  if (opinion.length <= 200) {
                      $.ajax({
                          url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",

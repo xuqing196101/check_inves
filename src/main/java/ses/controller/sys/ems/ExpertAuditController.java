@@ -1482,8 +1482,11 @@ public class ExpertAuditController{
 	public String reasonsList(ExpertAudit expertAudit, Model model, String expertId, Integer sign) {
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
-		
-		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
+
+		//List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
+		expertAudit.setAuditFalg(sign);
+		expertAudit.setExpertId(expertId);
+		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAudit);
 		if( reasonsList != null && reasonsList.size() > 0 ){
 			for (ExpertAudit e : reasonsList) {
 				if("six".equals(e.getSuggestType())){
@@ -1510,13 +1513,9 @@ public class ExpertAuditController{
 		ExpertAuditOpinion selectEao = new ExpertAuditOpinion();
 		ExpertAuditOpinion auditOpinion = null;
 		selectEao.setExpertId(expertId);
-		if(sign != null && sign == 2){
-			selectEao.setFlagTime(1);
-			// 复审意见查询
-			auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
-		}else {
-			auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
-		}
+		selectEao.setFlagTime(sign);
+		// 复审意见查询
+		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		model.addAttribute("reasonsList", reasonsList);
 		//查看是否有记录
 		model.addAttribute("num", reasonsList.size());
@@ -2676,7 +2675,10 @@ public class ExpertAuditController{
 		model.addAttribute("sign", sign);
 		
 		model.addAttribute("expertId", expertId);
-		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
+		ExpertAudit expertAudit = new ExpertAudit();
+		expertAudit.setAuditFalg(1);
+		expertAudit.setExpertId(expertId);
+		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAudit);
 		if( reasonsList != null && reasonsList.size() > 0 ){
 			for (ExpertAudit e : reasonsList) {
 				if("six".equals(e.getSuggestType())){
