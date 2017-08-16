@@ -12,11 +12,61 @@
         list_content = data.object;  // 储存所需数据到变量
         $('#list_content').html('');
         for (var i in list_content.list) {
-          $('#list_content').append('<tr class="pointer" onclick="window.location=\'http://www.baidu.com/k?'+ list_content.list[i].batchId +'\'">'
-            +'<td class="text-center w50">'+ (parseInt(i) + 1) +'</td>'
-            +'<td class="text-center w120">'+ list_content.list[i].batchNumber +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].batchName +'</td>'
-            +'<td class="text-center w180">'+ list_content.list[i].createdAt +'</td>'
+          // 判断状态输出
+          if (list_content.list[i].status === '-3') {
+            list_content.list[i].status = '公示中';
+          } else if (list_content.list[i].status === '-2') {
+            list_content.list[i].status = '预复审结束';
+          } else if (list_content.list[i].status === '-1') {
+            list_content.list[i].status = '暂存';
+          } else if (list_content.list[i].status === '0') {
+            list_content.list[i].status = '待初审';
+          } else if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '4') {
+            list_content.list[i].status = '复审中';
+          } else if (list_content.list[i].status === '5') {
+            list_content.list[i].status = '复审不合格';
+          } else if (list_content.list[i].status === '6') {
+            list_content.list[i].status = '待复查';
+          } else if (list_content.list[i].status === '7') {
+            list_content.list[i].status = '复查合格';
+          } else if (list_content.list[i].status === '8') {
+            list_content.list[i].status = '复查不合格';
+          } else if (list_content.list[i].status === '10') {
+            list_content.list[i].status = '复审退回修改';
+          } else if (list_content.list[i].status === '11') {
+            list_content.list[i].status = '待分配';
+          } else if (list_content.list[i].status === '12') {
+            list_content.list[i].status = '处罚中';
+          } else if (list_content.list[i].status === '13') {
+            list_content.list[i].status = '无产品专家';
+          } else if (list_content.list[i].status === '14') {
+            list_content.list[i].status = '复审待分组专家';
+          }
+          
+          // 审核组为空输出
+          if (typeof(list_content.list[i].groupName) == 'undefined') {
+            list_content.list[i].groupName = '';
+          }
+          
+          // 判断复审专家输出
+          if (typeof(list_content.list[i].status) == 'undefined') {
+            list_content.list[i].status = '';
+          } else if (list_content.list[i].status === '4' || list_content.list[i].status === '11' || list_content.list[i].status === '14') {
+            list_content.list[i].auditor = '';
+          }
+          
+          $('#list_content').append('<tr>'
+            +'<td class="text-center">'+ list_content.list[i].batchDetailsNumber +'</td>'
+            +'<td class="text-center">'+ list_content.list[i].orgName +'</td>'
+            +'<td class="text-center">'+ list_content.list[i].realName +'</td>'
+            +'<td class="text-center">'+ list_content.list[i].gender +'</td>'
+            +'<td class="text-center">'+ list_content.list[i].workUnit +'</td>'
+            +'<td class="text-center">'+ list_content.list[i].professTechTitles +'</td>'
+            +'<td class="text-center">'+ list_content.list[i].updateTime +'</td>'
+            +'<td class="text-center">'+ list_content.list[i].groupName +'</td>'
+            +'<td class="text-center">'+ list_content.list[i].auditor +'</td>'
+            +'<td class="text-center">'+ list_content.list[i].status +'</td>'
+            +'<td class="text-center">'+ list_content.list[i].auditAt +'</td>'
           +'</tr>');
         }
         

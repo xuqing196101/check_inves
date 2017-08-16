@@ -75,10 +75,6 @@
     </div>
       
     <!-- 表格开始-->
-    <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn" onclick="window.location='${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.html'">跳转到批次详情</button>
-    </div>
-    
     <div class="content table_box">
       <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
         <thead>
@@ -101,10 +97,12 @@
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batch_processing.js"></script>
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatch.do';  // 列表地址
+    var batch_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.do';
     
     $(function () {
       $('#list_content').listConstructor({
-        url: list_url
+        url: list_url,
+        batch_url: batch_url
       });
       
       // 搜索

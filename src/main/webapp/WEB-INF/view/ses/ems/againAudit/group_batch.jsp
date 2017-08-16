@@ -39,19 +39,19 @@
 
   <!-- 内容开始 -->
   <div class="container">
-    <div class="headline-v2"><h2>2017年 专家复审 第三批次</h2></div>
+    <div class="headline-v2"><h2>批次专家分组</h2></div>
     
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn" onclick="window.location='${pageContext.request.contextPath}//expertAgainAudit/groupBatch.html'">批次分组</button>
-      <button type="button" class="btn">审核配置</button>
-      <button type="button" class="btn">上传复审批准件</button>
+      <button type="button" class="btn" onclick="found_new_batch('${pageContext.request.contextPath}/expertAgainAudit/expertGrouping.do')">创建新分组</button>
+      <button type="button" class="btn" >添加至已有分组</button>
     </div>
     
     <div class="content table_box">
       <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
         <thead>
           <tr>
+            <th class="info w50">选择</th>
             <th class="info w100">批次编号</th>
             <th class="info">采购机构</th>
             <th class="info">专家姓名</th>
@@ -59,27 +59,34 @@
             <th class="info">工作单位</th>
             <th class="info">专业职称</th>
             <th class="info">提交复审时间</th>
-            <th class="info">审核组</th>
-            <th class="info">复审专家</th>
-            <th class="info">审核状态</th>
-            <th class="info">审核时间</th>
           </tr>
         </thead>
         <tbody id="list_content"></tbody>
       </table>
       <div id="pagediv" align="right"></div>
     </div>
+    
+    <!-- 专家分组 -->
+    <div id="group_batch_box"></div>
+    <!-- End 专家分组 -->
       
   </div>
   <!-- 内容结束 -->
   
-  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchDetails.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchGroup.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchGroup_processing.js"></script>
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetails.do';  // 列表地址
+    var select_ids = [];  // id集合
+    var group_ids = [];  // 分组id集合
+    var batch_id = '';  // 批次id
     
     $(function () {
       $('#list_content').listConstructor({
-        url: list_url
+        url: list_url,
+        data: {
+          status: '14'
+        }
       });
     });
   </script>

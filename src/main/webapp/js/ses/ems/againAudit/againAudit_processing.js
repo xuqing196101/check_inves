@@ -61,6 +61,9 @@ function create_review_batches(url, batch_url, ids) {
                   });
                   batchName_obj.val('');
                   batchNumber_obj.val('');
+                  $('#list_content').listConstructor({
+                    url: url
+                  });
                   layer.close(index);
                 },
                 error: function (data) {
