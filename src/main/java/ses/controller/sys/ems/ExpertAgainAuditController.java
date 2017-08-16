@@ -161,5 +161,32 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		img=againAuditService.findBatchDetails(batchId, pageNum);
 		super.writeJson(response, img);
 	}
-	
+	@RequestMapping("expertGrouping")
+	public void expertGrouping(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId,String ids){
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"4".equals(user.getTypeName())){
+		img.setStatus(false);
+		img.setMessage("您的权限不足");
+		super.writeJson(response, img);
+		return;
+		}*/
+		if(batchId==null){
+			img.setStatus(false);
+			img.setMessage("操作失败");
+			super.writeJson(response, img);
+			return;
+		}
+		if(ids==null){
+			img.setStatus(false);
+			img.setMessage("请选择待分组专家");
+			super.writeJson(response, img);
+			return;
+		}
+		img = againAuditService.expertGrouping(batchId, ids);
+		super.writeJson(response, img);
+	}
+	@RequestMapping("groupBatch")
+	public String groupBatch(HttpServletRequest request,HttpServletResponse response,Model model){
+		return "/ses/ems/againAudit/group_batch";
+	}
 }

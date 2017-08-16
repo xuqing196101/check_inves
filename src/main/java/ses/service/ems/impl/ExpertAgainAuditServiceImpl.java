@@ -6,21 +6,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.maven.cli.BatchModeDownloadMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
-import common.annotation.AuthValid;
 import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertBatchMapper;
+import ses.dao.ems.ExpertGroupMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
+import ses.model.ems.ExpertGroup;
 import ses.service.ems.ExpertAgainAuditService;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
@@ -38,7 +38,8 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	private ExpertBatchMapper expertBatchMapper;
 	@Autowired
 	private ExpertBatchDetailsMapper expertBatchDetailsMapper;
-	
+	@Autowired
+	private ExpertGroupMapper expertGroupMapper;
 	@Override
 	public ExpertAgainAuditImg addAgainAudit(String ids) {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
@@ -164,6 +165,40 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
         int g=num%10;
         rstr=rstr+u[g];
         return rstr;    
-    } 
+    }
 
+	@Override
+	public ExpertAgainAuditImg expertGrouping(String batchId, String ids) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		String maxGroupCount = expertGroupMapper.getMaxGroupCount(batchId);
+		int count=1;
+		if(maxGroupCount != null){
+			count=Integer.valueOf(maxGroupCount)+1;
+		}
+		String groupName=numToStr(count)+"组";
+		ExpertGroup expertGroup = new ExpertGroup();
+		expertGroup.setGroupId(WfUtil.createUUID());
+		expertGroup.setBatchId(batchId);
+		expertGroup.setGroupName(groupName);
+		expertGroup.setCount(count+"");
+		expertGroup.setCreatedAt(new Date());
+		expertGroup.setUpdatedAt(new Date());
+		expertGroupMapper.insert(expertGroup);
+		String[] split = ids.split(",");
+		for (String string : split) {
+			if( string != null ){
+				ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+				expertBatchDetails.setExpertId(string);
+				expertBatchDetails.setGroupId(expertGroup.getGroupId());
+				expertBatchDetails.setGroupName(groupName);
+				expertBatchDetails.setUpdatedAt(new Date());
+				expertBatchDetailsMapper.updateExpertBatchDetailsGrouping(expertBatchDetails);
+			}
+		}
+		img.setStatus(true);
+		img.setMessage(groupName+"创建成功");
+		return img;
+	} 
+	
 }

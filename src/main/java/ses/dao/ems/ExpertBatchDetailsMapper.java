@@ -8,4 +8,5 @@ public interface ExpertBatchDetailsMapper {
 	
 	void insert(ExpertBatchDetails expertBatchDetails);
 	List<ExpertBatchDetails> getExpertBatchDetails(ExpertBatchDetails expertBatchDetails);
+	void updateExpertBatchDetailsGrouping(ExpertBatchDetails expertBatchDetails);
 }

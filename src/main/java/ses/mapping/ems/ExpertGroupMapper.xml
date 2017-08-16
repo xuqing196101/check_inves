@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpertGroupMapper">
+    <resultMap id="BaseResultMap" type="ses.model.ems.ExpertGroup">
+        <id column="GROUP_ID" jdbcType="VARCHAR" property="groupId" />
+        <result column="BATCH_ID" jdbcType="VARCHAR" property="batchId" />
+        <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName" />
+        <result column="CROUT" jdbcType="VARCHAR" property="crout" />
+        <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    </resultMap>
+    <sql id="Base_List">
+    	GROUP_ID,BATCH_ID,GROUP_NAME,COUNT,CREATED_AT,UPDATED_AT
+    </sql>
+   
+    <!-- 获取当前批次中最大组号 -->
+    <select id="getMaxGroupCount" resultType="java.lang.String" parameterType="java.lang.String">
+        select max(COUNT) from T_SYS_EMS_EXPERT_GROUP where BATCH_ID=#{id}
+    </select>
+    
+    <insert id="insert" parameterType="ses.model.ems.ExpertGroup">
+        insert into T_SYS_EMS_EXPERT_GROUP
+        (GROUP_ID,BATCH_ID,GROUP_NAME,COUNT,CREATED_AT,UPDATED_AT)
+        values
+        (#{groupId}, #{batchId},#{groupName},#{count}, #{createdAt}, #{updatedAt})
+    </insert>
+   
+</mapper>

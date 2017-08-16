@@ -9,4 +9,5 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg createBatch(String batchName,String batchNumber,String ids);
 	ExpertAgainAuditImg findBatch(String batchNumber,String batchName,Date createdAt, Integer pageNum);
 	ExpertAgainAuditImg findBatchDetails(String batchId, Integer pageNum);
+	ExpertAgainAuditImg expertGrouping(String batchId,String ids);
 }

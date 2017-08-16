@@ -40,11 +40,19 @@ public class ExpertBatchDetails {
 	private String auditor;
 	/**审核状态*/
 	private String status;
+	/**标识审核中状态*/
+	private String auditTemporary;
 	/**提交复审时间*/
 	private Date updateTime;
 	/**复审时间*/
 	private Date auditAt;
 	
+	public String getAuditTemporary() {
+		return auditTemporary;
+	}
+	public void setAuditTemporary(String auditTemporary) {
+		this.auditTemporary = auditTemporary;
+	}
 	public String getRealName() {
 		return realName;
 	}

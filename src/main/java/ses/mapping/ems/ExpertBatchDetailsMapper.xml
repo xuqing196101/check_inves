@@ -37,7 +37,8 @@
         T2.AUDIT_AT AS auditAt,<!-- 审核时间 -->
         org.SHORT_NAME AS orgName,<!-- 所属采购机构 -->
         T2.AUDITOR AS auditor,<!-- 审核人 -->
-        T2.STATUS AS status <!-- 审核状态 -->
+        T2.STATUS AS status, <!-- 审核状态 -->
+        T2.AUDIT_TEMPORARY AS auditTemporary
         from 
         T_SYS_EMS_EXPERT_BATCH_DETAILS T1
 		LEFT JOIN T_SES_EMS_EXPERT T2 ON T1.EXPERT_ID=T2.ID 
@@ -60,5 +61,7 @@
         (#{id,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR},#{batchNumber,jdbcType=VARCHAR}, #{batchDetailsNumber,jdbcType=VARCHAR},  #{count,jdbcType=VARCHAR}, 
         #{batchName,jdbcType=VARCHAR} ,#{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR},#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},#{batchId,jdbcType=VARCHAR})
     </insert>
-   
+   <update  id="updateExpertBatchDetailsGrouping" parameterType="ses.model.ems.ExpertBatchDetails">
+   		update T_SYS_EMS_EXPERT_BATCH_DETAILS GROUP_ID=#{groupId,jdbcType=VARCHAR},GROUP_NAME= #{groupName,jdbcType=VARCHAR},UPDATED_AT=#{updatedAt,jdbcType=TIMESTAMP} where EXPERT_ID=#{expertId,jdbcType=VARCHAR}
+   </update>
 </mapper>
