@@ -346,6 +346,7 @@
 	    		deleteRow(n);
 	    	});
 	    	 /* if($("#table tr").length>$("#listSize").val()){ */
+	    	 var flag;
 	    		 var jsonStr = [];
 	 			 $("#table tr").each(function(i){ //遍历Table的所有Row
 	 					 if(i>0&&i<=$("#listSize").val() ){
@@ -356,7 +357,17 @@
 	 				    var department = $.trim($(this).find("td:eq(2)").text());
 	 					var goodsName =$(this).find("td:eq(3)").children(":last").children(":last").val();
 	 					var stand = $(this).find("td:eq(4)").children(":last").val();
+                             if(stand.length > 250){
+                                 flag = false;
+                                 layer.alert("第" + i +"行规格型号不能超过250字");
+                                 return false;
+                             }
 	 					var qualitStand = $(this).find("td:eq(5)").children(":last").val();
+                             if(qualitStand.length > 1000){
+                                 flag = false;
+                                 layer.alert("第" + i +"行质量技术标准不能超过1000字");
+                                 return false;
+                             }
 	 					var item = $(this).find("td:eq(6)").children(":last").val();
 	 					var purchaseCount =$(this).find("td:eq(7)").children(":last").val();
 	 					var price = $(this).find("td:eq(8)").children(":last").val();
@@ -377,6 +388,9 @@
 
 	 				 	}
 	 				});
+	 			 if(!flag){
+	 			     return;
+                 }
 	 			// return false;
 	 		//	var forms=$("#add_form").serializeArray();
 	 			  $.ajax({
@@ -886,7 +900,7 @@
 			delId.push(input); 
 			/* var del = $("input[name='delobjId']").val(delId); */
 			/* delId.push(del); */ 
-			alert(delId);
+			//alert(delId);
 			if(index<3){
 				 layer.alert("至少保留两行！",{offset: ['222px', '390px'], shade:0.01});
 			}else{

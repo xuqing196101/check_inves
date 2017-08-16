@@ -287,12 +287,13 @@
 						data:{no:no},
 						type: "post",
 						success: function(data) {
-							if(data!='1'){  */ 
+							if(data!='1'){  */
+                 var flag;
 								var jsonStr = [];
 								var allTable = document.getElementsByTagName("table");
 								 $("#table tr").each(function(i){ //遍历Table的所有Row
 										 if(i>0 ){
-											
+
 									
 									    var id =$(this).find("td:eq(1)").children(":first").val();
 									    var parentId =$(this).find("td:eq(1)").children(":last").val();
@@ -300,7 +301,17 @@
 									    var department = $(this).find("td:eq(2)").children(":first").val();
 										var goodsName =$(this).find("td:eq(3)").children(":first").val();
 										var stand = $(this).find("td:eq(4)").children(":first").val();
+                                             if(stand.length > 250){
+                                                 flag = false;
+                                                 layer.alert("第" + i +"行规格型号不能超过250字");
+                                                 return false;
+                                             }
 										var qualitStand = $(this).find("td:eq(5)").children(":first").val();
+                                             if(qualitStand.length > 1000){
+                                                 flag = false;
+                                                 layer.alert("第" + i +"行质量技术标准不能超过1000字");
+                                                 return false;
+                                             }
 										var item = $(this).find("td:eq(6)").children(":first").val();
 										var purchaseCount =$(this).find("td:eq(7)").children(":first").next().val();
 										var price = $(this).find("td:eq(8)").children(":first").next().val();
@@ -320,6 +331,9 @@
 										jsonStr.push(json);  
 									 	}
 									});
+                 if(!flag){
+                     return;
+                 }
 									
 							//	var forms=$("#add_form").serializeArray();
 										
