@@ -186,16 +186,25 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		expertGroup.setCreatedAt(new Date());
 		expertGroup.setUpdatedAt(new Date());
 		expertGroupMapper.insert(expertGroup);
+		List<String> idsList = new ArrayList<String>();
+		Expert e = new Expert();
 		String[] split = ids.split(",");
 		for (String string : split) {
 			if( string != null ){
-				ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
-				expertBatchDetails.setExpertId(string);
-				expertBatchDetails.setGroupId(expertGroup.getGroupId());
-				expertBatchDetails.setGroupName(groupName);
-				expertBatchDetails.setUpdatedAt(new Date());
-				expertBatchDetailsMapper.updateExpertBatchDetailsGrouping(expertBatchDetails);
+				idsList.add(string);
 			}
+		}
+		e.setIds(idsList);
+		List<Expert> list = expertMapper.findExpertByInList(e);
+		for (Expert expert : list) {
+			ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+			expertBatchDetails.setExpertId(expert.getId());
+			expertBatchDetails.setGroupId(expertGroup.getGroupId());
+			expertBatchDetails.setGroupName(groupName);
+			expertBatchDetails.setUpdatedAt(new Date());
+			expertBatchDetailsMapper.updateExpertBatchDetailsGrouping(expertBatchDetails);
+			expert.setStatus("4");
+			expertMapper.updateByPrimaryKey(expert);
 		}
 		img.setStatus(true);
 		img.setMessage(groupName+"创建成功");
@@ -228,19 +237,52 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			return img;
 		}
 		expertGroup=list.get(0);
+		List<String> idsList = new ArrayList<String>();
+		Expert e = new Expert();
 		String[] split = ids.split(",");
 		for (String string : split) {
 			if( string != null ){
-				ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
-				expertBatchDetails.setExpertId(string);
-				expertBatchDetails.setGroupId(expertGroup.getGroupId());
-				expertBatchDetails.setGroupName(expertGroup.getGroupName());
-				expertBatchDetails.setUpdatedAt(new Date());
-				expertBatchDetailsMapper.updateExpertBatchDetailsGrouping(expertBatchDetails);
+				idsList.add(string);
 			}
+		}
+		e.setIds(idsList);
+		List<Expert> expertList = expertMapper.findExpertByInList(e);
+		for (Expert expert : expertList) {
+			ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+			expertBatchDetails.setExpertId(expert.getId());
+			expertBatchDetails.setGroupId(expertGroup.getGroupId());
+			expertBatchDetails.setGroupName(expertGroup.getGroupName());
+			expertBatchDetails.setUpdatedAt(new Date());
+			expertBatchDetailsMapper.updateExpertBatchDetailsGrouping(expertBatchDetails);
+			expert.setStatus("4");
+			expertMapper.updateByPrimaryKey(expert);
 		}
 		img.setStatus(true);
 		img.setMessage("操作成功");
+		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg findExpertGroupDetails(String batchId) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		ExpertGroup expertGroup = new ExpertGroup();
+		expertGroup.setBatchId(batchId);
+		List<ExpertGroup> groupList = expertGroupMapper.getGroup(expertGroup);
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
+		for (ExpertGroup group : groupList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("id", group.getGroupId());
+			map.put("name", group.getGroupName());
+			ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+			expertBatchDetails.setGroupId(group.getGroupId());
+			List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+			map.put("expertList", list);
+			resultList.add(map);
+		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		img.setObject(resultList);
 		return img;
 	} 
 	

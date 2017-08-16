@@ -257,5 +257,25 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		img = againAuditService.expertAddGroup(groupId, ids);
 		super.writeJson(response, img);
 	}
-	
+	/*
+	 * 获取所有分组及各个组中的专家
+	 * */
+	@RequestMapping("findExpertGroupDetails")
+	public void findExpertGroupDetails(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId){
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"4".equals(user.getTypeName())){
+		img.setStatus(false);
+		img.setMessage("您的权限不足");
+		super.writeJson(response, img);
+		return;
+		}*/
+		if(batchId==null){
+			img.setStatus(false);
+			img.setMessage("操作失败");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.findExpertGroupDetails(batchId);
+		super.writeJson(response, img);
+	}
 }
