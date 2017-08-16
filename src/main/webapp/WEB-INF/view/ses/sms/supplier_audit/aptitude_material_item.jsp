@@ -19,7 +19,7 @@
     <input id="tablerId"  type="hidden" value="${tablerId}">
       <c:choose>
       <c:when test="${not empty beanList }">
-       <table class="table table-bordered">
+       <table class="table table-bordered m_table_fixed_border">
          <tbody>
          <c:forEach items="${beanList }" var="obj" varStatus="vs">
          <tr><%-- <td class="tc info">${obj.categoryName}</td>  --%>
