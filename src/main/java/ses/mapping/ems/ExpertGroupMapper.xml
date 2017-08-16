@@ -17,7 +17,19 @@
     <select id="getMaxGroupCount" resultType="java.lang.String" parameterType="java.lang.String">
         select max(COUNT) from T_SYS_EMS_EXPERT_GROUP where BATCH_ID=#{id}
     </select>
-    
+    <!-- 获取当前批次分配好的所有组 -->
+    <select id="getGroup" resultMap="BaseResultMap" parameterType="ses.model.ems.ExpertGroup">
+        select 
+        <include refid="Base_Column_List" />
+		from T_SYS_EMS_EXPERT_GROUP where 1=1
+		<if test="batchId != null and batchId !=''">
+            AND BATCH_ID=#{batchId}
+        </if>
+		<if test="groupId != null and groupId !=''">
+            AND GROUP_ID=#{groupId}
+        </if>
+		ORDER BY COUNT ASC
+    </select>
     <insert id="insert" parameterType="ses.model.ems.ExpertGroup">
         insert into T_SYS_EMS_EXPERT_GROUP
         (GROUP_ID,BATCH_ID,GROUP_NAME,COUNT,CREATED_AT,UPDATED_AT)

@@ -136,7 +136,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	}
 
 	@Override
-	public ExpertAgainAuditImg findBatchDetails(String batchId, Integer pageNum) {
+	public ExpertAgainAuditImg findBatchDetails(String batchId,String status, Integer pageNum) {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		PropertiesUtil config = new PropertiesUtil("config.properties");
@@ -145,6 +145,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		}
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setBatchId(batchId);
+		expertBatchDetails.setStatus(status);
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
 		PageInfo< ExpertBatchDetails > result = new PageInfo < ExpertBatchDetails > (list);
 		img.setStatus(true);
@@ -198,6 +199,48 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		}
 		img.setStatus(true);
 		img.setMessage(groupName+"创建成功");
+		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg getGroups(String batchId) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		ExpertGroup expertGroup = new ExpertGroup();
+		expertGroup.setBatchId(batchId);
+		List<ExpertGroup> list = expertGroupMapper.getGroup(expertGroup);
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		img.setObject(list);
+		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg expertAddGroup(String groupId, String ids) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		ExpertGroup expertGroup = new ExpertGroup();
+		expertGroup.setGroupId(groupId);
+		List<ExpertGroup> list = expertGroupMapper.getGroup(expertGroup);
+		if(list == null ){
+			img.setStatus(false);
+			img.setMessage("请选择正确的分组");
+			return img;
+		}
+		expertGroup=list.get(0);
+		String[] split = ids.split(",");
+		for (String string : split) {
+			if( string != null ){
+				ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+				expertBatchDetails.setExpertId(string);
+				expertBatchDetails.setGroupId(expertGroup.getGroupId());
+				expertBatchDetails.setGroupName(expertGroup.getGroupName());
+				expertBatchDetails.setUpdatedAt(new Date());
+				expertBatchDetailsMapper.updateExpertBatchDetailsGrouping(expertBatchDetails);
+			}
+		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
 		return img;
 	} 
 	

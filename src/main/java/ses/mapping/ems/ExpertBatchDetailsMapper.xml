@@ -52,6 +52,9 @@
         <if test="groupId != null">
             and   T1.GROUP_ID=#{groupId}
         </if>
+        <if test="status != null">
+        	and	  T2.STATUS=#{status}
+        </if>
     </select> 
     
     <insert id="insert" parameterType="ses.model.ems.ExpertBatchDetails">
