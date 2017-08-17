@@ -97,9 +97,9 @@
                      }
                      });
                      }); */
-                    /* if(status != 3){ */
+                    /* if(status != 3){
                     	checkOpinion(status, expertId)
-                        /* if(checkOpinion(status, expertId)){
+                        if(checkOpinion(status, expertId)){
                             return;
                         }else{
                         	var opinion = document.getElementById('opinion').value;
@@ -113,8 +113,8 @@
                                     $("#form_shenhe").submit();
                                 }
                             });
-                        } */
-                   /*  }else {
+                        }
+                   }else {
                         //提交审核
                         $("#status").val(status);
                         $("#form_shenhe").submit();
@@ -125,6 +125,13 @@
                     /* if (status == 2) {
                         window.location.href = "${pageContext.request.contextPath}/expertAudit/saveAuditNot.html?expertId=" + expertId;
                     } */
+                    
+                    if (status == 3) {
+                    	$("#status").val(status);
+                      $("#form_shenhe").submit();
+                    }else{
+                    	checkOpinion(status, expertId)
+                    }
                 });
             } else {
                 if(status == -2){
