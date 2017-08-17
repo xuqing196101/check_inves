@@ -90,9 +90,9 @@ public class Orgnization implements Serializable {
     private String quaStashReason;//资质暂停理由
     private String quaNormalReason;//资质启用理由
     private String quaTerminalReason;//资质终止理由
-    
+    @NotBlank(message="不能为空")
     private String contactName;//联系人姓名
-    
+    @NotBlank(message="不能为空")
     private String contactMobile;//联系人电话
     
     /** 品目名称 */
@@ -467,6 +467,33 @@ public class Orgnization implements Serializable {
 
 	public void setIsAuditSupplier(Integer isAuditSupplier) {
 		this.isAuditSupplier = isAuditSupplier;
+	}
+
+	@Override
+	public String toString() {
+		return "Orgnization [id=" + id + ", name=" + name + ", typeName="
+				+ typeName + ", address=" + address + ", mobile=" + mobile
+				+ ", postCode=" + postCode + ", orgCode=" + orgCode
+				+ ", telephone=" + telephone + ", areaId=" + areaId
+				+ ", detailAddr=" + detailAddr + ", fax=" + fax + ", website="
+				+ website + ", princinpal=" + princinpal
+				+ ", princinpalIdCard=" + princinpalIdCard + ", nature="
+				+ nature + ", isDeleted=" + isDeleted + ", createdAt="
+				+ createdAt + ", updatedAt=" + updatedAt + ", orgLevel="
+				+ orgLevel + ", position=" + position + ", parentId="
+				+ parentId + ", parentName=" + parentName + ", depId=" + depId
+				+ ", isRoot=" + isRoot + ", shortName=" + shortName
+				+ ", describtion=" + describtion + ", email=" + email
+				+ ", provinceId=" + provinceId + ", cityId=" + cityId
+				+ ", townId=" + townId + ", provinceName=" + provinceName
+				+ ", cityName=" + cityName + ", townName=" + townName
+				+ ", requireDepId=" + requireDepId + ", status=" + status
+				+ ", quaStatus=" + quaStatus + ", quaStashReason="
+				+ quaStashReason + ", quaNormalReason=" + quaNormalReason
+				+ ", quaTerminalReason=" + quaTerminalReason + ", contactName="
+				+ contactName + ", contactMobile=" + contactMobile
+				+ ", fullName=" + fullName + ", isAuditSupplier="
+				+ isAuditSupplier + "]";
 	}
     
     

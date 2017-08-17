@@ -335,4 +335,18 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
         Integer integer = purchaseRequiredMapper.selectUniqueReferenceNO(referenceNO);
         return JdcgResult.ok(integer);
 	}
+
+	/**
+	 *
+	 * Description: 根据ID查询
+	 *
+	 * @author Easong
+	 * @version 2017/8/17
+	 * @param 
+	 * @since JDK1.7
+	 */
+	@Override
+	public PurchaseRequired selectById(String id) {
+		return purchaseRequiredMapper.selectById(id);
+	}
 }

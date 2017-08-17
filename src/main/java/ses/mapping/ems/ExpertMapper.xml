@@ -2460,6 +2460,9 @@ resultMap="BaseResultMap">
         <if test="status == 4">
             AND IS_PROVISIONAL = '0'
         </if>
+        <if test="flag != null">
+            AND IS_PROVISIONAL = '0'
+        </if>
         <if test="size > 0">
 			AND T1.STATUS in 
 			<foreach item="item" index="index" collection="statusArray" open="(" separator="," close=")">

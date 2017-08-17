@@ -862,3 +862,7 @@ a {
 .position_r {
   position: relative;
 }
+/* 还原readonly时的鼠标样式 */
+.form-control[readonly] {
+  cursor: default !important;
+}

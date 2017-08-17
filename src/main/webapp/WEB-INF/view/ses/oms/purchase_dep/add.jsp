@@ -281,7 +281,7 @@
                 }
               },
             });
-        }
+        } 
       }
       
       /** 返回 **/
@@ -364,14 +364,14 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人姓名</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="contactName" required  maxlength="20" type="text" value="${purchaseDep.contactName }"> <span class="add-on">i</span>
+                      <input class="input_group" name="contactName" required  maxlength="20" type="text" value="${purchaseDep.contactName }"> <span  class="add-on">i</span>
                       <div class="cue">${ERR_contactName}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="contactMobile" required maxlength="30"  type="text" value="${purchaseDep.contactMobile }"> <span class="add-on">i</span>
+                      <input class="input_group" name="contactMobile" required maxlength="30"  type="text" value="${purchaseDep.contactMobile }"> <span  class="add-on">i</span>
                       <div class="cue">${ERR_contactMobile}</div>
                     </div>
                   </li>

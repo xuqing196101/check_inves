@@ -2660,10 +2660,6 @@ public class ExpertAuditController{
     	}else{
     		return new JdcgResult(504, "参数错误", null);
     	}
-		
-		
-    	
-    	
     }
     
     /**
@@ -2719,5 +2715,70 @@ public class ExpertAuditController{
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("status", expert.getStatus());
     	return "ses/ems/expertAudit/preliminary_info";
+    }
+    
+    
+    /**
+     * 
+     * Description: 查询全部和通过的产品类别数量
+     * 
+     * @author zhang shubin
+     * @data 2017年8月14日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/findCategoryCount")
+    @ResponseBody
+    public String findCategoryCount(String expertId){
+    	Map<String, Integer> map = new HashMap<>();
+    	//全部的产品
+    	List<ExpertCategory> expertCategoryList = expertCategoryService.findByExpertId(expertId);
+    	Integer all = 0;
+    	//工程专业
+    	List<ExpertCategory> listgc = new ArrayList<>();
+    	//物资 工程 服务
+    	List<ExpertCategory> listwgf = new ArrayList<>();
+    	for (ExpertCategory expertCategory : expertCategoryList) {
+    		DictionaryData dd = DictionaryDataUtil.findById(expertCategory.getTypeId());
+    		if(dd != null && "ENG_INFO_ID".equals(dd.getCode())){
+    			listgc.add(expertCategory);
+    		}else{
+    			listwgf.add(expertCategory);
+    		}
+		}
+    	//查询工程专业数量
+    	for (ExpertCategory expertCategory : listgc) {
+    		Category data = engCategoryService.findById(expertCategory.getCategoryId());
+    		if(data != null && data.getCode().length() == 7){
+    			all ++;
+    		}else if(engCategoryService.findTreeByPid(expertCategory.getCategoryId()) == null || engCategoryService.findTreeByPid(expertCategory.getCategoryId()).size() == 0){
+    			all ++;
+    		}
+		}
+    	//查询物资 工程 服务数量
+    	for (ExpertCategory expertCategory : listwgf) {
+    		Category data = categoryService.findById(expertCategory.getCategoryId());
+    		if(data != null && data.getCode().length() == 7){
+    			all ++;
+    		}else if(categoryService.findByParentId(expertCategory.getCategoryId()) == null || categoryService.findByParentId(expertCategory.getCategoryId()).size() == 0){
+    			all ++;
+    		}
+		}
+		map.put("all", all);
+    	//不通过的
+    	ExpertAudit expertAudit = new ExpertAudit();
+		expertAudit.setExpertId(expertId);
+		expertAudit.setSuggestType("six");
+		List<ExpertAudit> expertAuditList = expertAuditService.getListByExpert(expertAudit);
+		Integer noPass = 0;
+		if(expertAuditList != null){
+			noPass = expertAuditList.size();
+		}
+		Integer pass = all - noPass;
+		if(pass < 0){
+			pass = 0;
+		}
+		map.put("pass", pass);
+    	return JSON.toJSONString(map);
     }
 }
