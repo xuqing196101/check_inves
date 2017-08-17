@@ -290,20 +290,21 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		List<String> idsList = new ArrayList<String>();
-		Expert e = new Expert();
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		String[] split = ids.split(",");
 		for (String string : split) {
 			if( string != null ){
 				idsList.add(string);
 			}
 		}
-		e.setIds(idsList);
-		List<Expert> expertList = expertMapper.findExpertByInList(e);
-		for (Expert expert : expertList) {
-			ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
-			expertBatchDetails.setExpertId(expert.getId());
-			expertBatchDetails.setUpdatedAt(new Date());
-			expertBatchDetailsMapper.updateExpertBatchDetailsGrouping(expertBatchDetails);
+		expertBatchDetails.setIds(idsList);
+		List<ExpertBatchDetails> batchDetailslist = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		for (ExpertBatchDetails batchDetails : batchDetailslist) {
+			batchDetails.setGroupId("");
+			batchDetails.setGroupName("");
+			batchDetails.setUpdatedAt(new Date());
+			expertBatchDetailsMapper.updateExpertBatchDetailsGrouping(batchDetails);
+			Expert expert = expertMapper.selectByPrimaryKey(batchDetails.getExpertId());
 			expert.setStatus("14");
 			expertMapper.updateByPrimaryKey(expert);
 		}

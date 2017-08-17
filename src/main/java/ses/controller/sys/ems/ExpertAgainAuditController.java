@@ -97,7 +97,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	}
 	@RequestMapping("findAgainAuditList")
 	public String findAgainAuditList(HttpServletRequest request,HttpServletResponse response,Model model){
-		return "/ses/ems/againAudit/list";
+		return "/ses/ems/againAudit/allot_list";
 	};
 	/*
 	 * 创建新批次
