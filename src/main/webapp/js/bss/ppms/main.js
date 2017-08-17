@@ -476,3 +476,18 @@ function submitFlw(data,currFlowDefineId,projectId){
 function closelayer(){
 	layer.close(indexLayer);
 }
+
+// 左侧导航收缩
+function tree_toggle() {
+	if ($('#show_tree_div').hasClass('open')) {
+		$('#show_tree_div').removeClass('open');
+		$('#show_tree_div').animate({
+			left: '-180'
+		});
+	} else {
+		$('#show_tree_div').addClass('open');
+		$('#show_tree_div').animate({
+			left: '0'
+		});
+	}
+}

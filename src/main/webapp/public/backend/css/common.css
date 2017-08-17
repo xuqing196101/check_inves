@@ -378,7 +378,7 @@
   margin-bottom: 25px; }
 
 .mb40 {
-  margin-bottom: 20px; }
+  margin-bottom: 40px; }
 
 .ml0 {
   margin-left: 0px!important; }
@@ -420,6 +420,7 @@
 .pt15 {
   padding-top: 15px; }
 
+.pb0 { padding-bottom: 0; }
 .pb10 {
   padding-bottom: 10px; }
 
@@ -1041,4 +1042,11 @@ text-align:center;
 }
 .table-border-color-red{
  border-color:#FF0000!important;
+}
+
+/* 修改后台内容显示区域宽度 */
+@media (min-width: 768px) {
+  .container {
+    width: 90%;
+  }
 }

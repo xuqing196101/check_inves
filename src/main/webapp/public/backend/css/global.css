@@ -761,29 +761,25 @@ li:first-child {
 
 .btn_list{
   list-style-type:none;
-  padding:0px;
-  max-height:500px;
+  padding:0;
+	margin: 0;
+	height: 100%;
   overflow-y:auto;
-  overflow-x:hidden; 
+  overflow-x:hidden;
+	border:1px solid #DDD;
+	background-color: #f8f8f8;
 }
 .btn_list li{
    width:100%;
    height:41px;
    line-height:41px;
    text-align:center;
-   border-bottom:1px dashed #e0e7e7!important;
-   border:1px solid #dddddd;
-   border-top:0;
+   border-bottom:1px dashed #e0e7e7;
    cursor:pointer;
-   background:#f8f8f8;
 }
 .btn_list li:first-child{
-   border:1px solid #dddddd;
    height:42px;
    line-height:42px;
-}
-.btn_list li:last-child{
-  border-bottom:1px solid #dddddd!important;
 }
 
 .btn_list li.active a,.btn_list li:focus a{
@@ -1971,3 +1967,32 @@ table.lockout .extrafile{
     .m_demand_list li {
       margin-top: 5px;
     }
+		/* 项目实施左侧收缩 */
+		.m_tree_nav {
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 1;
+			width: 180px;
+			height: 100%;
+		}
+		.m_tree_nav .btn_toggle {
+			position: absolute;
+			top: 50%;
+			right: -22px;
+			width: 22px;
+			height: 60px;
+			margin-top: -30px;
+			font-size: 0px;
+			line-height: normal;
+			cursor: pointer;
+			background-image: url(../images/btn_toggle.png);
+			background-repeat: no-repeat;
+			background-position: -22px 0;
+			-webkit-transtion: all 0.3s ease-in-out;
+			-moz-transtion: all 0.3s ease-in-out;
+			transition: all 0.3s ease-in-out;
+		}
+		.m_tree_nav.open .btn_toggle {
+			background-position: 0 0;
+		}
