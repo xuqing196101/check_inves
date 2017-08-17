@@ -43,6 +43,7 @@
     
     /** 单选 */
     function check(index){
+    	
          var count=0;
          var checklist = document.getElementsByName ("chkItemExpert"+index);
          var checkAll = document.getElementById("checkAllExpert"+index);
@@ -161,6 +162,7 @@
          	 inputObj.val(1);
          	 tdArr.eq(7).html("是");
          	 
+         	   
          	 var groupName = "";
          	 groupName = tdArr.eq(5).find("input").val();
          	 //选择临时专家为组长时时
@@ -176,7 +178,17 @@
 	         	inputObj.val(0);
 	         	tdArr.eq(7).html("否");
          	 });
-         	 
+         	 var packId = tdArr.eq(3).children("input:first-child").val();
+         	$.ajax({
+                url: "${pageContext.request.contextPath}/packageExpert/isGroupLeader.html",
+                type: "POST",
+                data:{
+                	id:packId
+                },
+                dataType: "json",
+                success: function(data){
+                }
+            }); 
          }else if(id.length>1){
              layer.alert("只能选择一个",{offset: '50px', shade:0.01});
          }else{
@@ -471,7 +483,12 @@
 				                  </c:forEach>
 		                		</td>
 				                <td class="tc">
-				                	否
+				                <c:if test="${projectExtract.expert.id == peeid }">
+				                	 是
+				                </c:if>
+				                <c:if test="${projectExtract.expert.id != peeid }">
+                                     否
+                                </c:if>
 				                </td>
 			                    <input type="hidden" name="packageExperts[${listCount}].isGroupLeader" value="0" >
 				                <td>

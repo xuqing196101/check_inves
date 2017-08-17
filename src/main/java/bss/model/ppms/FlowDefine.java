@@ -141,5 +141,12 @@ public class FlowDefine {
     public void setCode(String code) {
       this.code = code;
     }
+
+	@Override
+	public String toString() {
+		return "FlowDefine [id=" + id + ", name=" + name + ", code=" + code + ", step=" + step + ", url=" + url
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", isDeleted=" + isDeleted
+				+ ", purchaseTypeId=" + purchaseTypeId + ", status=" + status + "]";
+	}
     
 }
