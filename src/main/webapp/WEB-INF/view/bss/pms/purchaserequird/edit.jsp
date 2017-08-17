@@ -124,38 +124,38 @@
 	        $(budget).val(sum);
 	      	var id=$(obj).prev().val(); //parentId
 	      	aa(id);
-	    } 
-	    
-	       function sum1(obj){//修改单价
-	        var price = $(obj).val()-0; //价钱
-	         var purchaseCount = $(obj).parent().prev().children(":last").val()-0;//数量
-	      	 var sum = purchaseCount*price/10000;
-	         $(obj).parent().next().children(":last").val(sum);
-		     	var id=$(obj).prev().val(); //parentId
-		     	aa(id);
 	    }
-	
+
+    function sum1(obj){//修改单价
+        var price = $(obj).val()-0; //价钱
+        if(price == 0){
+            return;
+        }
+        var purchaseCount = $($(obj).parent().prev().children(":first").next()).val()-0;//数量
+        var sum = purchaseCount*price/10000;
+        $($(obj).parent().next().children(":first").next()).val(sum);
+        var id=$($(obj).parent().prev().children(":last")).val(); //parentId
+        aa(id);
+    }
 	       function aa(id){// id是指当前的父级parentid
 	    	  
-	    	   
+
 	    	   var budget=0;
 	    	   $("#table tr").each(function(){
-	 	    		var cid= $(this).find("td:eq(8)").children(":first").next().val(); //parentId
-	 	    		var same= $(this).find("td:eq(9)").children(":last").val()-0; //价格
+	 	    		var cid= $(this).find("td:eq(8)").children(":first").next().next().val(); //parentId
+	 	    		var same= $(this).find("td:eq(9)").children(":first").next().val()-0; //价格
 		 	       if(id==cid){
-		 	    	 
 		 	    	  budget=budget+same; //查出所有的子节点的值
 		 	       }
 	    	   });
-	    	   budget = budget.toFixed(2); //保存两位小数
-	    	   
+	    	   budget = budget.toFixed(4); //保存两位小数
 	    	   var bud;
 	     
 	    	    $("#table tr").each(function(){
 		    	  var  pid= $(this).find("td:eq(9)").children(":first").val();//自己的ID
 		    		
 		    		if(id==pid){
-		    			$(this).find("td:eq(9)").children(":last").val(budget); //使父级节点的预算金额为子级节点值和
+		    			$(this).find("td:eq(9)").children(":first").next().val(budget); //使父级节点的预算金额为子级节点值和
 		    			 var spid= $(this).find("td:eq(9)").children(":first").next().val();
 		    			/* alert(spid) */
 		    			bud= calc(spid);
@@ -1165,7 +1165,7 @@
 									</td>
 
 									<!-- <input type="hidden" name="history" value="" /> -->
-									<td><c:if test="${obj.purchaseCount!=null}">
+									<td><%--<c:if test="${obj.purchaseCount!=null}">
 											<input type="hidden" name="ss" value="${obj.id }">
 											<input maxlength="11" class="purchasecount"
 												onblur="sum2(this);" type="text"
@@ -1178,8 +1178,17 @@
 											<input class="purchasecount" type="text" 
 												name="list[${vs.index }].purchaseCount" class="w80"
 												value="${obj.purchaseCount }" >
-										</c:if></td>
-									<td class="tl w80"><c:if test="${obj.price!=null}">
+										</c:if>--%>
+                                        <input type="hidden" name="ss" value="${obj.id }">
+                                        <input maxlength="11" class="purchasecount"
+                                               onblur="sum2(this);" type="text"
+                                               onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                               onafterpaste="this.value=this.value.replace(/\D/g,'')"
+                                               name="list[${vs.index }].purchaseCount"
+                                               value="${obj.purchaseCount}" />
+                                        <input type="hidden" name="ss" value="${obj.parentId }">
+                                    </td>
+									<td class="tl w80"><%--<c:if test="${obj.price!=null}">
 											<input type="hidden" name="ss" value="${obj.id }">
 											<input maxlength="11" class="price"
 												name="list[${vs.index }].price" onblur="sum1(this);" value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
@@ -1187,7 +1196,12 @@
 										</c:if> <c:if test="${obj.price==null}">
 											<input class="price"  type="text"
 												name="list[${vs.index }].price" value="${obj.price }">
-										</c:if></td>
+										</c:if>--%>
+                                        <input type="hidden" name="ss" value="${obj.id }">
+                                        <input maxlength="11" class="price"
+                                               name="list[${vs.index }].price" onblur="sum1(this);" value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                                        <input type="hidden" name="ss" value="${obj.parentId }">
+                                    </td>
 									<td><input type="hidden" name="ss" value="${obj.id }">
 										<input maxlength="11" id="budget"
 										name="list[${vs.index }].budget" type="text"
