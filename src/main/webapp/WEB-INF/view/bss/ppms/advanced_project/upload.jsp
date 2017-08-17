@@ -14,7 +14,7 @@
     var principal = $("#user").val();
     principal = $.trim(principal);
     if(principal == null || principal == ""){
-      layer.msg("承办人不能为空")
+      layer.msg("项目负责人不能为空")
     }else{
       layer.confirm('您确认要启动项目吗?',{
 	      offset: ['50px','90px'],

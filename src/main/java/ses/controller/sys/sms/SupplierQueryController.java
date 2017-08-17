@@ -520,10 +520,10 @@ public class SupplierQueryController extends BaseSupplierController {
         User user = (User) request.getSession().getAttribute("loginUser");
         Integer ps = (Integer) request.getSession().getAttribute("ps");
         Integer per=null;
-        if (user.getTypeId() != null && ps != null) {
+        /*if (user.getTypeId() != null && ps != null) {
             per = ps;
-        }
-        if (user.getTypeId() != null && per != null) {
+        }*/
+        if (user.getTypeId() != null && StringUtils.isBlank(supplierId)) {// && per != null
             request.getSession().setAttribute("ps", per);
             supplierId = user.getTypeId();
         }

@@ -9,6 +9,11 @@
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/bss/ppms/main.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        /* alert("${fds}") */
+    })
+    </script>
   </head>
 
   <body onload="initLoad()">

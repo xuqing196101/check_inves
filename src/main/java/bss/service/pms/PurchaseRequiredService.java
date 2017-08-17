@@ -353,4 +353,15 @@ public interface PurchaseRequiredService {
 	 * @since JDK1.7
 	 */
 	JdcgResult selectUniqueReferenceNO(String referenceNO);
+
+	/**
+	 *
+	 * Description: 根据ID查询
+	 *
+	 * @author Easong
+	 * @version 2017/8/17
+	 * @param 
+	 * @since JDK1.7
+	 */
+	PurchaseRequired selectById(String id);
 }
