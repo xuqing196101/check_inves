@@ -292,7 +292,7 @@ public class PurchaseManageController {
 	@RequestMapping(value="create",method= RequestMethod.POST)
 	@SystemControllerLog(description="新增需求部门")
 	public String create(@Valid Orgnization orgnization,BindingResult result,HttpServletRequest request,Model model){
-	    if(result.hasErrors()){
+		if(result.hasErrors()){
 	        List<Area> areaList = areaServiceI.findRootArea();
 	        model.addAttribute("areaList", areaList);
             model.addAttribute("orgnization", orgnization);

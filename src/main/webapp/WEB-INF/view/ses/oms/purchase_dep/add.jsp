@@ -930,6 +930,7 @@
               </div>
 
               <div class="mt20 tc col-md-12 col-sm-12 col-xs-12">
+              <input type="hidden" name="telephone" value="1"/>
                 <input type="button"  onclick="save();" class="btn btn-windows save"  value="保存" />
                 <input type="button" class="btn btn-windows back" onclick="back();" value="返回" />
               </div>
