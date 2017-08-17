@@ -544,7 +544,6 @@
 				}
                 var next=$(obj).parent().parent().nextAll();
 				var parent_id=$($(obj).parent().parent().children()[1]).children(":last").val();
-				var arry = [];
 				for(var i = 0; i < next.length; i++){
                    if(parent_id==$($(next[i]).children()[1]).children(":last").val()){
                        break;

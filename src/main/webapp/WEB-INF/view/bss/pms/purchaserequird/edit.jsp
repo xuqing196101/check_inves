@@ -223,32 +223,32 @@
 	    	 }
         }
 	  	 
-	      function sel(obj) {
-	    	  if($(obj).val()!="26E3925D38BB4295BEB342BDC82B65AC"){
-	    		  $(obj).parent().next().children(":last").val("");
-	    	  }
-	    		  var next=$(obj).parent().parent().nextAll();
-					var parent_id=$($(obj).parent().parent().children()[1]).children(":last").val();
-					for(var i = 0; i < next.length; i++){
-						 if(next[i].tagName=="TR"){
-							 if(parent_id==$($(next[i]).children()[1]).children(":last").val()){
-				              break;
-				        }
-				       $($(next[i]).children()[11]).children(":last").val($(obj).val());
-						 }
-		    	 }
-		   /*  var val = $(obj).val();
-		    $("select option").each(function() {
-		      var opt = $(this).val();
-		      if (val == opt) {
-		        $(this).attr("selected", "selected");
-		      }
-		    }); */
+	      function changeType(obj) {
+                  /*if($(obj).val()!="26E3925D38BB4295BEB342BDC82B65AC"){
+                      $(obj).parent().next().children(":last").val("");
+                  }
+                      var next=$(obj).parent().parent().nextAll();
+                        var parent_id=$($(obj).parent().parent().children()[1]).children(":last").val();
+                        for(var i = 0; i < next.length; i++){
+                             if(next[i].tagName=="TR"){
+                                 if(parent_id==$($(next[i]).children()[1]).children(":last").val()){
+                                  break;
+                            }
+                           $($(next[i]).children()[11]).children(":last").val($(obj).val());
+                             }
+                     }*/
+               /*  var val = $(obj).val();
+                $("select option").each(function() {
+                  var opt = $(this).val();
+                  if (val == opt) {
+                    $(this).attr("selected", "selected");
+                  }
+                }); */
 		    	var defValue;
 	    		 var org=$(obj).val();
 	    		 var price=$(obj).parent().prev().prev().prev().prev().val();
 	    		 if(price==""){
-	    			var id=$(obj).prev().val();
+	    			/*var id=$(obj).prev().val();
 	    		 	  $.ajax({
 	    		          url: "${pageContext.request.contextPath}/accept/detail.html",
 	    		          data: "id=" + id,
@@ -284,9 +284,33 @@
 	    		      	 	   });
 	    		            }
 	    		           }
-	    		          });
-	    		          
-	    		          
+	    		          });*/
+                     var purchaseType = $(obj).find("option:selected").text(); //选中的文本
+                     if($.trim(purchaseType) == "单一来源") {
+                         $(obj).parent().next().find("input").removeAttr("readonly");
+                     } else {
+                         $(obj).parent().next().find("input").val("");
+                         $(obj).parent().next().find("input").attr("readonly", "readonly");
+                     }
+                     var next=$(obj).parent().parent().nextAll();
+                     var parent_id=$($(obj).parent().parent().children()[1]).children(":last").val();
+                     for(var i = 0; i < next.length; i++){
+                         if(parent_id==$($(next[i]).children()[1]).children(":last").val()){
+                             break;
+                         }
+                         if(i == 8){
+                             alert($($($(next[i]).children()[11]).children(":last")).find("option:selected").text());
+                             alert($(obj).val());
+                         }
+
+                         $($(next[i]).children()[11]).children(":last").val($(obj).val());
+                         if($(obj).val() == "单一来源") {
+                             $($(next[i]).children()[12]).find("input").removeAttr("readonly");
+                         } else {
+                             $($(next[i]).children()[12]).find("input").val("");
+                             $($(next[i]).children()[12]).find("input").attr("readonly", "readonly");
+                         }
+                     }
 	    		 }
 		  }
 	       
@@ -349,7 +373,7 @@
 	    	 var flag = true;
 	    		 var jsonStr = [];
 	 			 $("#table tr").each(function(i){ //遍历Table的所有Row
-	 					 if(i>0&&i<=$("#listSize").val() ){
+	 					 if(i>0){  //&&i<=$("#listSize").val()
 	 				    var id =$(this).find("td:eq(1)").children(":first").val();
 	 				    var parentId =$(this).find("td:eq(1)").children(":last").val();
 	 				    var seq = $(this).find("td:eq(1)").children(":first").next().val();
@@ -369,9 +393,9 @@
                                  return false;
                              }
 	 					var item = $(this).find("td:eq(6)").children(":last").val();
-	 					var purchaseCount =$(this).find("td:eq(7)").children(":last").val();
-	 					var price = $(this).find("td:eq(8)").children(":last").val();
-	 					var budget = $(this).find("td:eq(9)").children(":last").val();
+                        var purchaseCount =$(this).find("td:eq(7)").children(":first").next().val();
+                        var price = $(this).find("td:eq(8)").children(":first").next().val();
+                        var budget = $(this).find("td:eq(9)").children(":first").next().val();
 	 					var deliverDate = $(this).find("td:eq(10)").children(":last").val();
 	 					var purchaseTypes = $(this).find("td:eq(11)").children(":last").val();
 	 					var supplier = $(this).find("td:eq(12)").children(":last").val();
@@ -669,7 +693,8 @@
 				data:{"index":index,
 					  "type":"edit"},
 				success: function(data) {
-					$("#detailZeroRow").append(data);
+                    //$("table tr:last").after(data);
+                    $("#detailZeroRow").append(data);
 					init_web_upload();//加载附件上传按钮
 				    var bool=$("input[name='import']").is(':checked');
 					if(bool==true){
@@ -1142,13 +1167,13 @@
 									<!-- <input type="hidden" name="history" value="" /> -->
 									<td><c:if test="${obj.purchaseCount!=null}">
 											<input type="hidden" name="ss" value="${obj.id }">
-											<input type="hidden" name="ss" value="${obj.parentId }">
 											<input maxlength="11" class="purchasecount"
 												onblur="sum2(this);" type="text"
 												onkeyup="this.value=this.value.replace(/\D/g,'')"
 												onafterpaste="this.value=this.value.replace(/\D/g,'')"
 												name="list[${vs.index }].purchaseCount"
 												value="${obj.purchaseCount}" />
+                                        <input type="hidden" name="ss" value="${obj.parentId }">
 										</c:if> <c:if test="${obj.purchaseCount==null }">
 											<input class="purchasecount" type="text" 
 												name="list[${vs.index }].purchaseCount" class="w80"
@@ -1156,19 +1181,19 @@
 										</c:if></td>
 									<td class="tl w80"><c:if test="${obj.price!=null}">
 											<input type="hidden" name="ss" value="${obj.id }">
-											<input type="hidden" name="ss" value="${obj.parentId }">
 											<input maxlength="11" class="price"
 												name="list[${vs.index }].price" onblur="sum1(this);" value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                                        <input type="hidden" name="ss" value="${obj.parentId }">
 										</c:if> <c:if test="${obj.price==null}">
 											<input class="price"  type="text"
 												name="list[${vs.index }].price" value="${obj.price }">
 										</c:if></td>
 									<td><input type="hidden" name="ss" value="${obj.id }">
-									 <input
-										type="hidden" name="ss" value="${obj.parentId }">
 										<input maxlength="11" id="budget"
 										name="list[${vs.index }].budget" type="text"
-										readonly="readonly" value="${obj.budget}" class="budget" /></td>
+										readonly="readonly" value="${obj.budget}" class="budget" />
+                                        <input type="hidden" name="ss" value="${obj.parentId }">
+                                    </td>
 									<td class="tc"><input type="hidden" name="ss"
 										value="${obj.id }"> <textarea
 											name="list[${vs.index }].deliverDate" 
@@ -1181,7 +1206,7 @@
 										  <c:if test="${obj.price!=null}"> --%> <input
 										type="hidden" name="ss" value="${obj.id}" /> <select
 										name="list[${vs.index }].purchaseType"
-										<c:if test="${obj.price==null}"> onchange="sel(this);" </c:if>
+										<c:if test="${obj.price==null}"> onchange="changeType(this);" </c:if>
 										<c:if test="${obj.price!=null}"> onchange="ssl(this);" </c:if>
 										class="purchasetype" id="select">
 											<option value="">请选择</option>
