@@ -154,7 +154,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		return img;
 	}
 	
-	public String numToStr(int num) {    
+	public  String numToStr(int num) {    
         String u[] = { "", "一", "二", "三", "四", "五", "六", "七", "八", "九" }; 
         String s[]={"","十","百"};
         String rstr = "";
@@ -162,12 +162,13 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
         if(sw!=1){
         	rstr=rstr+u[sw];
         }
-        rstr = rstr +  s[String.valueOf(num/10).length()];
+        if((num/10)!=0){
+        	 rstr = rstr +  s[String.valueOf(num/10).length()];
+        }
         int g=num%10;
         rstr=rstr+u[g];
         return rstr;    
     }
-
 	@Override
 	public ExpertAgainAuditImg expertGrouping(String batchId, String ids) {
 		// TODO Auto-generated method stub
@@ -283,6 +284,33 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		img.setStatus(true);
 		img.setMessage("操作成功");
 		img.setObject(resultList);
+		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg delExpertGroupDetails(String ids) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		List<String> idsList = new ArrayList<String>();
+		Expert e = new Expert();
+		String[] split = ids.split(",");
+		for (String string : split) {
+			if( string != null ){
+				idsList.add(string);
+			}
+		}
+		e.setIds(idsList);
+		List<Expert> expertList = expertMapper.findExpertByInList(e);
+		for (Expert expert : expertList) {
+			ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+			expertBatchDetails.setExpertId(expert.getId());
+			expertBatchDetails.setUpdatedAt(new Date());
+			expertBatchDetailsMapper.updateExpertBatchDetailsGrouping(expertBatchDetails);
+			expert.setStatus("14");
+			expertMapper.updateByPrimaryKey(expert);
+		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
 		return img;
 	} 
 	
