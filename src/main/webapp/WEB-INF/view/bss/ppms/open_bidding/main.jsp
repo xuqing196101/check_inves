@@ -115,10 +115,10 @@
 	   	  			closelayer();
 	   	  		};
 	   				alert("成功转为竞争性谈判");
-	   				}
-	   			} else if (data.status == "failed") {
+	   				} else if (data.status == "failed") {
 	   				alert("失败");
 	   			}
+	   			} 
   		});
 	}
 	var indexFlw;
