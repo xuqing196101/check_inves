@@ -855,6 +855,10 @@ public class IntelligentScoringController extends BaseController{
 		//增加一个字段判断又没有评分办法
 		BidMethod bm = new BidMethod();
         for (Packages packages2 : packagesList) {
+          DictionaryData dat = DictionaryDataUtil.findById(packages2.getProjectStatus());
+          if(dat!=null){
+            packages2.setProjectStatus(dat.getCode());
+          }
             BidMethod condition = new BidMethod();
             condition.setProjectId(packages.getProjectId());
             condition.setPackageId(packages2.getId());

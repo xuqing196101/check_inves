@@ -184,6 +184,10 @@ public class SaleTenderController {
         List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
         //	if(saleTenderList.size()>0){
         packages.setSaleTenderList(saleTenderList);
+        DictionaryData dat = DictionaryDataUtil.findById(packages.getProjectStatus());
+        if(dat!=null){
+          packages.setProjectStatus(dat.getCode());
+        }
         lists.add(packages);
         //    }
       }

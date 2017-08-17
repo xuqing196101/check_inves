@@ -197,6 +197,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
           Packages pg = packageMapper.selectByPrimaryKeyId(id);
           pg.setOldFlowId(oldCurrFlowDefineId);
           pg.setNewFlowId("CGLC_CGXMFB");
+          pg.setProjectStatus("F0EAF1136F7E4E8A8BDA6561AE8B4390");
           packageMapper.updateByPrimaryKeySelective(pg);
           List<ProjectDetail> pds = projectDetailMapper.selectByPackageRecursively(id);
           for(ProjectDetail pd:pds){

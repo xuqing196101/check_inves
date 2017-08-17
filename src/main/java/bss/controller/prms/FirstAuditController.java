@@ -81,6 +81,10 @@ public class FirstAuditController {
               firstAudit.setPackageId(packages2.getId());
               firstAudit.setIsConfirm((short)0);
               List<FirstAudit> fas = service.findBykind(firstAudit);
+              DictionaryData dat = DictionaryDataUtil.findById(packages2.getProjectStatus());
+              if(dat!=null){
+                packages2.setProjectStatus(dat.getCode());
+              }
               //是否维护符合性审查项
               if (fas == null || fas.size() <= 0) {
                 packages2.setIsEditFirst(0);

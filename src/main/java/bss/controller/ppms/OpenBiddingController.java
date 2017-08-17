@@ -295,6 +295,7 @@ public class OpenBiddingController extends BaseSupplierController{
     HashMap<String, Object> map = new HashMap<String, Object>();
     map.put("projectId", id);
     model.addAttribute("pId", id);
+    map.put("projectStatus", "1");
     List<Packages> packages = packageService.findPackageById(map);
     String msg = "";
     if (process != null && process == 1) {
