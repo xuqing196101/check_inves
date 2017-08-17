@@ -333,6 +333,23 @@
 	    		 $(obj).attr("readonly","readonly");
 	    	 }
 	     }
+	     
+	     function dyly(){
+             var bool=true;
+             $("#detailZeroRow tr").each(function(i){
+                 var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
+                   if($.trim(type) == "单一来源") {
+                       var  supp= $(this).find("td:eq(12)").children(":first").val();//上级id
+                       if($.trim(supp)==''){
+                           bool=false;
+                           return bool;
+                       }
+                   }
+             });
+             return bool;
+             
+         } 
+	     
 	      function submit(){
 	    	  
 	    	  var name=$("#jhmc").val();
@@ -340,6 +357,19 @@
 					 layer.alert("需求名称不允许为空"); 
 					 return false;
 				}
+	    	   var dy=dyly(); 
+	    	  
+	    	  $("#detailZeroRow tr").each(function(i){
+                 var  type= $(this).find("td:eq(11)").children(":last").text();//上级id
+                   if($.trim(type) == "单一来源") {
+                       var  supp= $(this).find("td:eq(12)").children(":first").val();//上级id
+                   }
+             });
+	    	  
+	    	  if(!dy){
+                  layer.alert("请填写供应商");
+                  return false;
+              }
 	    	  var flgs=false;
 	    	  $("#table tr").each(function(i){
 	    		  var price = $(this).find("td:eq(8)").children(":last").val();
@@ -364,8 +394,6 @@
 	    	  $("input[name='planType']").val(type);
 	    	  $("input[name='mobile']").val(mobile);
 	    	// $("#table").find("#edit_form").submit();
-	    	//alert($("#table tr").length );
-	    	//alert($("#listSize").val());
 	    	$.each(delId,function(i,n){
 	    		deleteRow(n);
 	    	});
