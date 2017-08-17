@@ -429,6 +429,7 @@ public class ExpertAuditController{
 			ExpertAudit expertAudit = new ExpertAudit();
 			expertAudit.setExpertId(expertId);
 			expertAudit.setSuggestType("one");
+			expertAudit.setAuditFalg(sign);
 			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAudit);
 			StringBuffer conditionStr = new StringBuffer();
 			if(!reasonsList.isEmpty()){
@@ -756,7 +757,7 @@ public class ExpertAuditController{
 	 * @return
 	 */
 	@RequestMapping("/getCategories")
-	public String getCategories(String expertId, String typeId, Model model, Integer pageNum, String flags) {
+	public String getCategories(String expertId, String typeId, Model model, Integer pageNum, String flags , Integer sign) {
 		String code = DictionaryDataUtil.findById(typeId).getCode();
         String flag = null;
         if (code != null && code.equals("GOODS_PROJECT")) {
@@ -831,7 +832,7 @@ public class ExpertAuditController{
         ExpertAudit expertAuditFor = new ExpertAudit();
 		expertAuditFor.setExpertId(expertId);
 		expertAuditFor.setSuggestType("six");
-		
+		expertAuditFor.setAuditFalg(sign);
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
 		StringBuffer conditionStr = new StringBuffer();
 		for (ExpertAudit expertAudit2 : reasonsList) {
@@ -1131,7 +1132,7 @@ public class ExpertAuditController{
 			ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("five");
-			
+			expertAuditFor.setAuditFalg(sign);
 			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
 			StringBuffer conditionStr = new StringBuffer();
 			if(!reasonsList.isEmpty()){
@@ -1394,6 +1395,7 @@ public class ExpertAuditController{
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("seven");
 			expertAuditFor.settype("1");
+			expertAuditFor.setAuditFalg(sign);
 			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
 			
 			

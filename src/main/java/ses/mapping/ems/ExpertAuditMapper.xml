@@ -332,6 +332,9 @@
     <if test="auditContent != '' and auditContent != null">
     	and AUDIT_CONTENT = #{auditContent}
     </if>
+    <if test="auditFalg != '' and auditFalg != null">
+      and AUDIT_FALG = #{auditFalg}
+    </if>
   </select>
   
   
