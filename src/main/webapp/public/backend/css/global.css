@@ -793,7 +793,8 @@ li:first-child {
     color:#ffffff;
 }
 .btn_list li:hover a{
-   background-color:#edaa2d;
+   /* background-color:#edaa2d; */
+   background-color:#2c9fa6;
    color:#ffffff;
    border:1px solid #edaa2d!important;
    padding:4px 9px;
