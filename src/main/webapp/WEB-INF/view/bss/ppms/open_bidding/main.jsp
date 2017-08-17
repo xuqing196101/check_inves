@@ -163,17 +163,17 @@
 	   		success:function(data){
 	   		//layer.close(index);
 	   		//$("#alertId").val(data.status);
-	   		if(data.status=="ok"){
-	   			saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
-	   			var checkboxSize=$("input[type='checkbox']").length;
+	   			if(data.status=="ok"){
+	   				saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
+	   				var checkboxSize=$("input[type='checkbox']").length;
 	   	  		if(checkboxSize==0){
-	   	  			//alert(checkboxSize);
-	   	  		    closelayer();
+	   	  			closelayer();
 	   	  		};
-	   			alert("成功转为竞争性谈判");
-	   			
+	   				alert("成功转为竞争性谈判");
+	   				}
+	   			} else if (data.status == "failed") {
+	   				alert("失败");
 	   			}
-	   		}
   		});
 	}
   	
@@ -344,7 +344,7 @@
         <div class="drop_window tc" id="openDiv_packages">
         </div>
         <div class="tc  col-md-12 mt50">
-          <input class="btn"  id = "inputb" name="addr"  type="button" onclick="upddatejzxtp();" value="转为竞争性谈判"> 
+          <input class="btn"  id = "jzxtp" name="addr"  type="button" onclick="upddatejzxtp();" value="转为竞争性谈判"> 
 	      <input class="btn"  id = "inputa" name="addr"  type="button" onclick="bynSub();" value="终止实施"> 
 	      <input class="btn"  id = "inputa" name="addr"  type="button" onclick="cancels();" value="继续实施"> 
         </div>

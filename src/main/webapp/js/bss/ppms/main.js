@@ -358,7 +358,12 @@ function submitcurr() {
 									  		content : $('#openDivPackages'),
 								});
 							}else{
-								submitFlw(data,currFlowDefineId,projectId)
+								if(data2.status == "failed"){
+									$("#jzxtp").hide();
+								} else {
+									submitFlw(data,currFlowDefineId,projectId);
+								}
+								
 							}
 						},
 						error: function() {

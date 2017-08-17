@@ -255,6 +255,8 @@
 	   	                layer.msg("符合性检查结束失败",{offset: ['222px']});
 	   	            }
 	   			});
+	   			} else if (data.status=="failed"){
+	   				layer.msg("不能转为竞争性谈判");
 	   			}
 	   		}
   		});

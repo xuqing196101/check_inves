@@ -648,6 +648,8 @@
             <span onclick="ycDiv(this,${p.index})" class="count_flow spread hand"></span>
             <span class="f16 b">包名：</span>
             <span class="f14 blue" name="packageName">${pack.name }</span>
+            <span class="f16 b">包号：</span>
+            <span class="f14 blue" name="packageName">${pack.packageNumber}</span>
           </div>
           <div class="col-md-6 col-sm-6 col-xs-12 tr p0 mb5" id="handle${p.index }">
             <input class="btn btn-windows edit" type="button" onclick="edit(this)" value="修改包名" />

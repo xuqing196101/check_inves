@@ -1033,6 +1033,8 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 			if(selectById != null && selectById.size() > 0){
 				if(StringUtils.isNotBlank(selectById.get(0).getPackageId())){
 					packages = packageMapper.selectByPrimaryKeyId(selectById.get(0).getPackageId());
+					DictionaryData data = DictionaryDataUtil.findById(packages.getProjectStatus());
+					packages.setProjectStatus(data.getName());
 				}
 			}
 			for (Entry<String, Object> entry : sortsMap) {
@@ -1060,15 +1062,16 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 					if(packages != null){
 						Supervision supervision = new Supervision();
 						HashMap<String, Object> map = new HashMap<>();
-						map.put("1采购文件名称", "25%");
-						map.put("2编制人", "10%");
-						map.put("3提报时间", "25%");
-						map.put("4审核意见", "20%");
-						map.put("5意见批复时间", "20%");
+						map.put("1包名", "25%");
+						map.put("2包号 ", "20%");
+						map.put("3状态", "15%");
+						map.put("4创建人", "20%");
+						map.put("5创建时间", "20%");
 						List<Map.Entry<String, Object>> lists = sorts(map);
 						supervision.setMap(lists);
 						supervision.setName(data.getName());
 						supervision.setPackages(packages);
+						supervision.setProject(project);
 						list.add(supervision);
 					}
 				} else if (data != null && project.getId().equals(data.getDescription()) && "CGLC_CGWJBB".equals(data.getCode()) && data.getUpdatedAt() != null) {

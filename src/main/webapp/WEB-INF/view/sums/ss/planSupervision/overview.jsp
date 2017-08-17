@@ -532,7 +532,15 @@
 	                    <fmt:formatDate value='${obj.project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
 	                  </td>
 									</c:if>
-									<c:if test="${obj.name eq '采购项目分包'}"></c:if>
+									<c:if test="${obj.name eq '采购项目分包'}">
+										<td>${obj.packages.name}</td>
+	                  <td>${obj.packages.packageNumber}</td>
+	                  <td class="tc">${obj.packages.projectStatus}</td>
+	                  <td class="tc">${obj.project.appointMan}</td>
+	                  <td class="tc">
+	                    <fmt:formatDate value='${obj.packages.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+	                  </td>
+									</c:if>
 									<c:if test="${obj.name eq '采购文件编报'}">
 										<td>
                       <a href="javascript:void(0)" onclick="openFile()">${obj.uploadFile.name}</a>

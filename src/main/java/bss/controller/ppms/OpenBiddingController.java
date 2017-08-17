@@ -94,6 +94,7 @@ import com.alibaba.fastjson.JSON;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
@@ -3542,48 +3543,59 @@ public class OpenBiddingController extends BaseSupplierController{
   @ResponseBody
   public void checkSupplierNumber(HttpServletResponse response,String projectId) throws IOException{
 	  Project project = projectService.selectById(projectId);
-	  SaleTender condition = new SaleTender();
-	  condition.setProjectId(projectId);
-	  condition.setStatusBid(NUMBER_TWO);
-	  condition.setStatusBond(NUMBER_TWO);
-	  List<SaleTender> stList = saleTenderService.find(condition);
-	  HashMap<String, Object> map = new HashMap<String,Object>();
-	  map.put("projectId", projectId);
-	  List<Packages> packageList = packageService.findPackageById(map);
-	  StringBuffer buffer = new StringBuffer();
-	  for (Packages packages : packageList) {
-		int count=0;
-		for (SaleTender saleTender : stList) {
-			if(packages.getId().equals(saleTender.getPackages())){
-				if(saleTender.getIsTurnUp()==0){
-					count++;
+	  DictionaryData data = DictionaryDataUtil.findById(project.getPurchaseType());
+	  JSONObject jsonObj = new JSONObject();
+	  if("JZXTP".equals(data.getCode())){
+		  jsonObj.put("status", StaticVariables.FAILED);
+	  } else {
+		  SaleTender condition = new SaleTender();
+		  condition.setProjectId(projectId);
+		  condition.setStatusBid(NUMBER_TWO);
+		  condition.setStatusBond(NUMBER_TWO);
+		  List<SaleTender> stList = saleTenderService.find(condition);
+		  HashMap<String, Object> map = new HashMap<String,Object>();
+		  map.put("projectId", projectId);
+		  List<Packages> packageList = packageService.findPackageById(map);
+		  StringBuffer buffer = new StringBuffer();
+		  for (Packages packages : packageList) {
+			int count=0;
+			for (SaleTender saleTender : stList) {
+				if(packages.getId().equals(saleTender.getPackages())){
+					if(saleTender.getIsTurnUp()==0){
+						count++;
+					}
 				}
 			}
-		}
-		if(count<project.getSupplierNumber()){
-			DictionaryData findById = DictionaryDataUtil.findById(packages.getProjectStatus());
-			if("".equals(findById.getCode())){
-				if(findById.getCode().equals("YZZ") || findById.getCode().equals("ZJZXTP")){
-					continue;
+			if(count<project.getSupplierNumber()){
+				DictionaryData findById = DictionaryDataUtil.findById(packages.getProjectStatus());
+				if("".equals(findById.getCode())){
+					if(findById.getCode().equals("YZZ") || findById.getCode().equals("ZJZXTP")){
+						continue;
+					}
 				}
+				buffer.append(packages.getId()+","+packages.getName()+";");
 			}
-			buffer.append(packages.getId()+","+packages.getName()+";");
-		}
+		  }
+		  if(buffer != null){
+			  jsonObj.put("rules", buffer.toString().substring(0,buffer.toString().length()-1));
+		  }
 	  }
-	  JSONObject jsonObj =new JSONObject();
-	  if(buffer != null){
-		  jsonObj.put("rules", buffer.toString().substring(0,buffer.toString().length()-1));
-	  }
-      response.getWriter().print(jsonObj.toString());
-      response.getWriter().flush();
+	  this.writeJson(response, jsonObj);
   }
   @RequestMapping("transformationJZXTP")
   @ResponseBody
   public void transformationJZXTP(HttpServletResponse response,String projectId,String packageIds,String currentFlowDefineId) throws IOException{
-	  terminationService.updateTermination(packageIds, projectId, currentFlowDefineId, currentFlowDefineId, "JZXTP");
-	  JSONObject jsonObj =new JSONObject();
-	  jsonObj.put("status", "ok");
-	  response.getWriter().print(jsonObj.toString());
-      response.getWriter().flush();
+	  Project project = projectService.selectById(projectId);
+	  if(project != null && StringUtils.isNotBlank(project.getPurchaseType())){
+		  JSONObject jsonObj = new JSONObject();
+		  DictionaryData data = DictionaryDataUtil.findById(project.getPurchaseType());
+		  if("JZXTP".equals(data.getCode())){
+			  jsonObj.put("status", StaticVariables.FAILED);
+		  } else {
+			  terminationService.updateTermination(packageIds, projectId, currentFlowDefineId, currentFlowDefineId, "JZXTP");
+			  jsonObj.put("status", StaticVariables.SUCCESS);
+		  }
+		  this.writeJson(response, jsonObj);
+	  }
   }
 }
