@@ -531,6 +531,7 @@ public class SupplierQueryController extends BaseSupplierController {
         String provinceName = "";
         String cityName = "";
         try {
+            if(StringUtils.isNotBlank(supplier.getAddress())){
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
                 cityName = area.getName();
@@ -540,6 +541,7 @@ public class SupplierQueryController extends BaseSupplierController {
                 }
             }
             supplier.setAddress(provinceName + cityName);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
