@@ -184,6 +184,7 @@
    <div class="kaibiao_time time_mt col-md-6 col-sm-8 col-xs-10 col-md-offset-4 col-sm-offset-2">
        <span id="showH" class="col-md-12 col-sm-12 col-xs-12 kb_title"><span class="time">距离</span>开标时间还有：</span>
        <div  id="showTime" class="col-md-12 col-xs-12 col-sm-12 yomi_time"></div>
+       <button id="quanping" class="btn" onclick="openNewWindow()">全屏</button>
    </div>
     <div id="showDiv" class="clear hide">
 	  <input type="hidden" id ="projectId" value="${project.id}" />
