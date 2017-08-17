@@ -188,22 +188,21 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		expertGroup.setUpdatedAt(new Date());
 		expertGroupMapper.insert(expertGroup);
 		List<String> idsList = new ArrayList<String>();
-		Expert e = new Expert();
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		String[] split = ids.split(",");
 		for (String string : split) {
 			if( string != null ){
 				idsList.add(string);
 			}
 		}
-		e.setIds(idsList);
-		List<Expert> list = expertMapper.findExpertByInList(e);
-		for (Expert expert : list) {
-			ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
-			expertBatchDetails.setExpertId(expert.getId());
-			expertBatchDetails.setGroupId(expertGroup.getGroupId());
-			expertBatchDetails.setGroupName(groupName);
-			expertBatchDetails.setUpdatedAt(new Date());
-			expertBatchDetailsMapper.updateExpertBatchDetailsGrouping(expertBatchDetails);
+		expertBatchDetails.setIds(idsList);
+		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		for (ExpertBatchDetails batchDetails : list) {
+			batchDetails.setGroupId(expertGroup.getGroupId());
+			batchDetails.setGroupName(groupName);
+			batchDetails.setUpdatedAt(new Date());
+			expertBatchDetailsMapper.updateExpertBatchDetailsGrouping(batchDetails);
+			Expert expert = expertMapper.selectByPrimaryKey(batchDetails.getExpertId());
 			expert.setStatus("4");
 			expertMapper.updateByPrimaryKey(expert);
 		}
@@ -239,22 +238,21 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		}
 		expertGroup=list.get(0);
 		List<String> idsList = new ArrayList<String>();
-		Expert e = new Expert();
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		String[] split = ids.split(",");
 		for (String string : split) {
 			if( string != null ){
 				idsList.add(string);
 			}
 		}
-		e.setIds(idsList);
-		List<Expert> expertList = expertMapper.findExpertByInList(e);
-		for (Expert expert : expertList) {
-			ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
-			expertBatchDetails.setExpertId(expert.getId());
-			expertBatchDetails.setGroupId(expertGroup.getGroupId());
-			expertBatchDetails.setGroupName(expertGroup.getGroupName());
-			expertBatchDetails.setUpdatedAt(new Date());
-			expertBatchDetailsMapper.updateExpertBatchDetailsGrouping(expertBatchDetails);
+		expertBatchDetails.setIds(idsList);
+		List<ExpertBatchDetails> batchDetailslist = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		for (ExpertBatchDetails batchDetails : batchDetailslist) {
+			batchDetails.setGroupId(expertGroup.getGroupId());
+			batchDetails.setGroupName(expertGroup.getGroupName());
+			batchDetails.setUpdatedAt(new Date());
+			expertBatchDetailsMapper.updateExpertBatchDetailsGrouping(batchDetails);
+			Expert expert = expertMapper.selectByPrimaryKey(batchDetails.getExpertId());
 			expert.setStatus("4");
 			expertMapper.updateByPrimaryKey(expert);
 		}

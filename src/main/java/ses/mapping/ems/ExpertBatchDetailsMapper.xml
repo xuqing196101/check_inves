@@ -55,6 +55,12 @@
         <if test="status != null">
         	and	  T2.STATUS=#{status}
         </if>
+        <if test="ids != null">
+            <foreach collection="ids" item="id" open="and T1.ID in ("
+                     close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
     </select> 
     
     <insert id="insert" parameterType="ses.model.ems.ExpertBatchDetails">
@@ -65,6 +71,6 @@
         #{batchName,jdbcType=VARCHAR} ,#{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR},#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},#{batchId,jdbcType=VARCHAR})
     </insert>
    <update  id="updateExpertBatchDetailsGrouping" parameterType="ses.model.ems.ExpertBatchDetails">
-   		update T_SYS_EMS_EXPERT_BATCH_DETAILS SET GROUP_ID=#{groupId,jdbcType=VARCHAR},GROUP_NAME=#{groupName,jdbcType=VARCHAR},UPDATED_AT=#{updatedAt,jdbcType=TIMESTAMP} where EXPERT_ID=#{expertId,jdbcType=VARCHAR}
+   		update T_SYS_EMS_EXPERT_BATCH_DETAILS SET GROUP_ID=#{groupId,jdbcType=VARCHAR},GROUP_NAME=#{groupName,jdbcType=VARCHAR},UPDATED_AT=#{updatedAt,jdbcType=TIMESTAMP} where ID=#{id,jdbcType=VARCHAR}
    </update>
 </mapper>

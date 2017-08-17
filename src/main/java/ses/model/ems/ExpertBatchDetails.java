@@ -1,6 +1,7 @@
 package ses.model.ems;
 
 import java.util.Date;
+import java.util.List;
 
 public class ExpertBatchDetails {
 	
@@ -46,7 +47,14 @@ public class ExpertBatchDetails {
 	private Date updateTime;
 	/**复审时间*/
 	private Date auditAt;
+	private List<String> ids;
 	
+	public List<String> getIds() {
+		return ids;
+	}
+	public void setIds(List<String> ids) {
+		this.ids = ids;
+	}
 	public String getAuditTemporary() {
 		return auditTemporary;
 	}
