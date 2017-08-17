@@ -138,6 +138,9 @@
 			window.open("${pageContext.request.contextPath}/packageExpert/printRank.html?packages=${packageId}", "打印汇总表");
 		}
 	}
+	function refur(packageId,projectId){
+		$("#tab-6").load('${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId='+projectId);
+	}
 </script>
 </head>
 <body>
@@ -151,8 +154,9 @@
 		  <c:if test="${isEnd == 1}">
 			  <button disabled="disabled" class="btn" id="endId" onclick="toTotal()" type="button">结束评审</button>
 			  <button disabled="disabled" class="btn" id="backId" onclick="backScore()" type="button">复核评分</button>
-		  </c:if>
+		  </c:if> 
 		  <button class="btn btn-windows input" onclick="printRank()" type="button">打印汇总表</button>
+		  <button class="btn btn-windows input" onclick="refur('${packageId}','${projectId}')" type="button">刷新</button>
 		</div>
 		<!--循环供应商  -->
 		<div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
