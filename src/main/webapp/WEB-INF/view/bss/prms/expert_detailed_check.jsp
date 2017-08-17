@@ -194,6 +194,9 @@
 		var url = '${pageContext.request.contextPath}/packageExpert/checkAuditView.html?packageId='+packageId+'&projectId='+projectId;
 		$("#tab-6").load(url);
 	}
+	function refur(packageId,projectId){
+		$("#tab-6").load('${pageContext.request.contextPath}/packageExpert/checkAuditView.html?packageId='+packageId+'&projectId='+projectId);
+	}
   </script>
   <body>
 	    <h2 class="list_title">${pack.name}经济技术评审管理</h2>
@@ -210,6 +213,7 @@
 	    	</c:if>
 		    <button class="btn" onclick="openPrint('${projectId}','${pack.id}')" type="button">评审汇总表</button>
 		    <button class="btn" onclick="openDetailPrint('${projectId}','${pack.id}')" type="button">打印评审数据</button>
+		    <button class="btn btn-windows input" onclick="refur('${pack.id}','${projectId}')" type="button">刷新</button>
 	   	</div>
 	   	<input type="hidden" id="packageId" value="${pack.id}">
 	   	<input type="hidden" id="projectId" value="${projectId}">
