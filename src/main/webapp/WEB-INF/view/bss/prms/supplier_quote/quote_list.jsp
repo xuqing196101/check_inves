@@ -152,7 +152,7 @@
 				<tr>
 					<th class="w50 info">序号</th>
 				  	<th class="info">供应商名称</th>
-				  	<th class="info w100">报价<br/>(单位：万元)</th>
+				  	<th class="info w200">报价(万元)</th>
 				  	<th class="info">交货期限</th>
 				  	<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 				  	<th class="info w100">状态</th>
