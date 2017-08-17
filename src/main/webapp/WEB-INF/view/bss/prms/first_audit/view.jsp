@@ -468,7 +468,7 @@
         </div>
     </div>
 	  <div id="openDivjc" class="dnone layui-layer-wrap">
-       <h4> ${pack.name} 到场供应商数量不满足项目实施最少供应商数量,如何操作？</h4>
+       <h4> ${pack.name} 供应商数量不满足项目要求最少供应商数量,请选择！</h4>
         <div class="tc  col-md-12 mt50">
           <input class="btn"  id = "inputb" name="addr"  type="button" onclick="updateJZ('${projectId}','${pack.id}','${flowDefineId}');" value="转为竞争性谈判"> 
 	      <input class="btn"  id = "inputa" name="addr"  type="button" onclick="bynSub('${pack.id}','${projectId}','${flowDefineId}');" value="终止实施"> 
