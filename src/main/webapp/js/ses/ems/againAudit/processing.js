@@ -103,7 +103,6 @@ function init_list(list_url, newGroup_url) {
 // 创建新分组
 function add_batch() {
   if (select_ids.length > 0) {
-    console.log(select_ids);
     var ids = select_ids.join(',');
     $.ajax({
       type: 'POST',
@@ -136,18 +135,24 @@ function del_group(el) {
     }
   });
   
-  str_group_ids = group_ids.join(',');
-  $.ajax({
-    type: 'POST',
-    dataType: 'json',
-    url: del_url,
-    data: {
-      ids: str_group_ids
-    },
-    success: function (data) {
-      init_list(list_url, newGroup_url);
-    }
-  });
+  if (group_ids.length > 0) {
+    str_group_ids = group_ids.join(',');
+    $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: del_url,
+      data: {
+        ids: str_group_ids
+      },
+      success: function (data) {
+        init_list(list_url, newGroup_url);
+      }
+    });
+  } else {
+    layer.msg('请选择专家', {
+      offset: '100px'
+    });
+  }
 }
 
 // 添加至已有分组
