@@ -35,17 +35,52 @@
        
     })
     function showPhotoTo(bid,tid,key,id){
-    window.sessionStorage.setItem("bid",bid);
-    window.sessionStorage.setItem("tid",tid);
-    window.sessionStorage.setItem("key",key);
-    window.sessionStorage.setItem("id",id);
-    window.open(globalPath+"/openPic.jsp");
-    }
     
-    function download(bid,typeId,key){
+	var params = {businessId: bid,typeId: tid,key: key};
+    $.ajax({
+        url: globalPath + '/file/displayFile.do',
+        data: params,
+        async: false,
+        dataType: 'json',
+        success:function(datas){
+            if(datas.length==0){
+            	layer.msg("请先上传审核意见!");
+            	return false;
+            }
+            var picture = new Object();
+            picture.bid = bid;
+            picture.tid = tid;
+            picture.key = key;
+            picture.id = id;
+            window.sessionStorage.setItem(id,JSON.stringify(picture));
+            window.sessionStorage.setItem("id",id);
+            window.open(globalPath+"/openPic.jsp");
+        }
+    });
+        
+		    }
+    
+    function download(bid,typeId,key,id){
 	    var zipFileName = null;
 	    var fileName = null;
-	    
+	    var isExit=false;
+	    var params = {businessId: bid,typeId: typeId,key: key};
+	    $.ajax({
+	        url: globalPath + '/file/displayFile.do',
+	        data: params,
+	        async: false,
+	        dataType: 'json',
+	        success:function(datas){
+	            if(datas.length==0){
+	                layer.msg("请先上传审核意见!");
+	                isExit=true;
+	            }
+	            isExit=false;
+	        }
+	    });
+	    if(isExit){
+	    	return false;
+	    }
         $.ajax({
             url: "${pageContext.request.contextPath }/open_bidding/downloadList.html",
             type: "post",
@@ -64,6 +99,8 @@
     }
 
     function removeFile(bid,typeId,key,id){
+    	if(confirm("确定要删除意见吗？"))
+    	 {
     	$.ajax({
             url: "${pageContext.request.contextPath }/open_bidding/removeFile.html",
             type: "post",
@@ -77,6 +114,7 @@
             location.href="${pageContext.request.contextPath }/file/delfile.html?id="+ data +"&key="+key+"&pId="+"${pId}";//为能重定向回原页面 
             }
         }); 
+    }
     }
     
     
@@ -191,7 +229,7 @@
 	      var process = "${process}";
 	      $.ajax({
 	      		type: "POST",
-	            url:"${pageContext.request.contextPath}/Auditbidding/updateAuditStatus.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&status="+status,
+	            url:"${pageContext.request.contextPath}/Auditbidding/updateAuditStatus.do?projectId="+projectId+"&flowDefineId="+flowDefineId+"&status="+status,
 	            dataType: 'json', 
 	            data:{"pcReason":pcReason,"causeReason":causereason,"financeReason":financereason,"finalReason":finalreason}, 
 	            success:function(result){
@@ -498,83 +536,74 @@ function getTaskTime(strDate) {
             <c:if test="${project.confirmFile != 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="pcReason" maxlength="2000" name="pcReason" title="不超过2000个字">${reasons.pcReason}</textarea>
             	<span class="fl">采购管理部门审核意见附件：</span>
-            	<button  class="btn fl mt1" type="button">
-            	<a href="javascript:showPhotoTo('${project.id}','${pcTypeId}','${sysKey}','r');"><font color="white">查看采购管理部门审核意见</font></a>
+            	<button  class="btn fl mt1" type="button" onclick="showPhotoTo('${project.id}','${pcTypeId}','${sysKey}','r');">
+            	<font color="white">查看采购管理部门审核意见</font></button>
 <%--            <a target="_blank" href="../openPic.jsp?bid=${project.id}&tid=${pcTypeId}&key=${sysKey}&id=r"><font color="white">查看采购管理部门审核意见</font></a></button> --%>
-            	<button  class="btn fl mt1" type="button">
-            	<a href="javascript:download('${project.id}','${pcTypeId}','${sysKey}');"><font color="white">下载采购管理部门审核意见</font></a>
+            	<button  class="btn fl mt1" type="button" onclick="download('${project.id}','${pcTypeId}','${sysKey}','r');">
+            	<font color="white">下载采购管理部门审核意见</font>
             	</button>
             	<%-- <u:show delete="false" showId="r" businessId="${project.id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>  --%>
             </c:if>
             <c:if test="${project.confirmFile == 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="pcReason" maxlength="2000" name="pcReason" title="不超过2000个字">${reasons.pcReason}</textarea>
             	<span class="fl">采购管理部门审核意见附件：</span>
-            	<u:upload id="r"  buttonName="上传采购管理部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${pcTypeId}" auto="true" />
-			    
-			    <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button">
-                <a href="javascript:showPhotoTo('${project.id}','${pcTypeId}','${sysKey}','r');"><font color="white">查看采购管理部门审核意见</font></a></button>
-                <button style="margin-left: 1px;height: 26px;" class="btn fl mt1" type="button">
-                <a href="javascript:download('${project.id}','${pcTypeId}','${sysKey}');"><font color="white">下载采购管理部门审核意见</font></a>
+            	<u:upload id="r" buttonName="上传采购管理部门审核意见" multiple="true" exts=".jsp,.png"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${pcTypeId}" auto="true" />
+			    <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button" onclick="showPhotoTo('${project.id}','${pcTypeId}','${sysKey}','r');">
+                <%-- <a href="javascript:showPhotoTo('${project.id}','${pcTypeId}','${sysKey}','r');"><font color="white">查看采购管理部门审核意见</font></a> --%>
+                <font color="white">查看采购管理部门审核意见</font>
                 </button>
-                <button style="margin-left: 1px;height: 26px;" class="btn fl mt1" type="button">
-                <a href="javascript:removeFile('${project.id}','${pcTypeId}','${sysKey}','t');"><font color="white">删除采购管理部门审核意见</font></a>
-                </button>
+                <button style="margin-left: 1px;height: 26px;" class="btn fl mt1" type="button" onclick="download('${project.id}','${pcTypeId}','${sysKey}','r');">
+                <font color="white">下载采购管理部门审核意见</font></button>
+                <button style="margin-left: 1px;height: 26px;" class="btn fl mt1" type="button" onclick="removeFile('${project.id}','${pcTypeId}','${sysKey}','t');">
+                <font color="white">删除采购管理部门审核意见</font></button>
 			    <%-- <u:show  showId="t" businessId="${project.id}" sysKey="${sysKey}" typeId="${pcTypeId}"/> --%>
             </c:if>
             <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">事业部门意见</span>
             <c:if test="${project.confirmFile != 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="causereason" maxlength="2000" name="causeReason" title="不超过2000个字">${reasons.causeReason}</textarea>
           		<span class="fl">事业部门审核意见附件：</span>
-          		<button  class="btn fl mt1" type="button">
-          		<a href="javascript:showPhotoTo('${project.id}','${causeTypeId}','${sysKey}','y');"><font color="white">查看事业部门审核意见</font></a>
+          		<button  class="btn fl mt1" type="button" onclick="showPhotoTo('${project.id}','${causeTypeId}','${sysKey}','y');">
+          		<font color="white">查看事业部门审核意见</font>
                 <%-- <a target="_blank" href="../openPic.jsp?bid="${project.id}"&tid="${causeTypeId}"&key="${sysKey}"&id=y"><font color="white">查看事业部门审核意见</font></a> --%>
                 </button>
-                <button  class="btn fl mt1" type="button">
-                <a href="javascript:download('${project.id}','${causeTypeId}','${sysKey}');"><font color="white">下载事业部门审核意见</font></a>
-                </button>
+                <button  class="btn fl mt1" type="button" onclick="download('${project.id}','${causeTypeId}','${sysKey}','y');">
+                <font color="white">下载事业部门审核意见</font></button>
           		<%-- <u:show delete="false"  showId="y" businessId="${project.id}" sysKey="${sysKey}" typeId="${causeTypeId}"/> --%>
           	</c:if>
           	<c:if test="${project.confirmFile == 1}">
           		<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="causereason" maxlength="2000" name="causeReason" title="不超过2000个字">${reasons.causeReason}</textarea>
           		<span class="fl">事业部门审核意见附件：</span>
-          		<u:upload id="u"  buttonName="上传事业部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${causeTypeId}" auto="true" />
-          		<button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button">
-                <a href="javascript:showPhotoTo('${project.id}','${causeTypeId}','${sysKey}','y');"><font color="white">查看事业部门审核意见</font></a>
-                </button>
-                <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button">
-                <a href="javascript:download('${project.id}','${causeTypeId}','${sysKey}');"><font color="white">下载事业部门审核意见</font></a>
-                </button>
-                <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button">
-                <a href="javascript:removeFile('${project.id}','${causeTypeId}','${sysKey}','i');"><font color="white">删除事业部门审核意见</font></a>
-                </button>
+          		<u:upload id="u"  buttonName="上传事业部门审核意见"  multiple="true" exts=".jsp,.png" businessId="${project.id}"  sysKey="${sysKey}" typeId="${causeTypeId}" auto="true" />
+          		<button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button" onclick="showPhotoTo('${project.id}','${causeTypeId}','${sysKey}','y');">
+                <font color="white">查看事业部门审核意见</font></button>
+                <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button" onclick="download('${project.id}','${causeTypeId}','${sysKey}','y');">
+                <font color="white">下载事业部门审核意见</font></button>
+                <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button" onclick="removeFile('${project.id}','${causeTypeId}','${sysKey}','i');">
+                <font color="white">删除事业部门审核意见</font></button>
 			    <%-- <u:show  showId="i" businessId="${project.id}" sysKey="${sysKey}" typeId="${causeTypeId}"/> --%>
           	</c:if>
           	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">财务部门意见</span>
             <c:if test="${project.confirmFile != 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${reasons.financeReason}</textarea>
             	<span class="fl">财务部门审核意见附件：</span>
-            	<button  class="btn fl mt1" type="button">
-            	<a href="javascript:showPhotoTo('${project.id}','${financeTypeId}','${sysKey}','o');"><font color="white">查看财务部门审核意见</font></a>
+            	<button  class="btn fl mt1" type="button" onclick="showPhotoTo('${project.id}','${financeTypeId}','${sysKey}','o');"">
+            	<font color="white">查看财务部门审核意见</font>
                 <%-- <a target="_blank" href="../openPic.jsp?bid="${project.id}"&tid="${financeTypeId}"&key="${sysKey}"&id=o"><font color="white">查看财务部门审核意见</font></a> --%>
                 </button>
-                <button  class="btn fl mt1" type="button">
-                <a href="javascript:download('${project.id}','${financeTypeId}','${sysKey}');"><font color="white">下载财务部门审核意见</font></a>
-                </button>
+                <button  class="btn fl mt1" type="button" onclick="download('${project.id}','${financeTypeId}','${sysKey}','o');">
+                <font color="white">下载财务部门审核意见</font></button>
             	<%-- <u:show delete="false"  showId="o" businessId="${project.id}" sysKey="${sysKey}" typeId="${financeTypeId}"/>  --%>
             </c:if>
             <c:if test="${project.confirmFile == 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${reasons.financeReason}</textarea>
             	<span class="fl">财务部门审核意见附件：</span>
-            	<span><u:upload id="p"  buttonName="上传财务部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${financeTypeId}" auto="true" /></span>
-            	<button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button">
-                <a href="javascript:showPhotoTo('${project.id}','${financeTypeId}','${sysKey}','o');"><font color="white">查看财务部门审核意见</font></a>
-                </button>
-                <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button">
-                <a href="javascript:download('${project.id}','${financeTypeId}','${sysKey}');"><font color="white">下载财务部门审核意见</font></a>
-                </button>
-                <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button">
-                <a href="javascript:removeFile('${project.id}','${financeTypeId}','${sysKey}','s');"><font color="white">删除财务部门审核意见</font></a>
-                </button>
+            	<span><u:upload id="p"  buttonName="上传财务部门审核意见" exts=".jsp,.png" multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${financeTypeId}" auto="true" /></span>
+            	<button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button" onclick="showPhotoTo('${project.id}','${financeTypeId}','${sysKey}','o');">
+                <font color="white">查看财务部门审核意见</font></button>
+                <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button" onclick="download('${project.id}','${financeTypeId}','${sysKey}','o');">
+                <font color="white">下载财务部门审核意见</font></button>
+                <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button" onclick="removeFile('${project.id}','${financeTypeId}','${sysKey}','s');">
+                <font color="white">删除财务部门审核意见</font></button>
 			    <%-- <u:show  showId="s" businessId="${project.id}" sysKey="${sysKey}" typeId="${financeTypeId}"/> --%>
           	</c:if>
             <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">最终意见</span>

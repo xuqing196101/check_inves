@@ -744,7 +744,19 @@ public class PackageExpertController {
             }
         }
     }
-
+    /**
+     * 
+     * @Title: 回显设为组长
+     * @author: Zhou Wei
+     * @date: 2017年8月14日 下午5:18:01
+     * @Description:回显设为组长  
+     * @return: String
+     */
+    @RequestMapping("/isGroupLeader")
+    @ResponseBody
+    private static void isGroupLeader(String id,HttpSession session){
+    	session.setAttribute("peeid", id);
+    }
 
     /**
      * 

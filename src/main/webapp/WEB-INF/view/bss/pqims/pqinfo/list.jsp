@@ -64,9 +64,9 @@
       }
     }
 
-    function show(id) {
+    function show(id,report) {
       var status = "0";
-      window.location.href = "${pageContext.request.contextPath}/pqinfo/view.html?id=" + id + "&status=" + status;
+      window.location.href = "${pageContext.request.contextPath}/pqinfo/view.html?id=" + id + "&status=" + status+ "&report=" + report;
     }
 
     function edit() {
@@ -224,22 +224,22 @@
 
               <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${obj.id}" /></td>
 
-              <td class="tc pointer" onclick="show('${obj.id}')">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+              <td class="tc pointer" onclick="show('${obj.id}','${obj.report}')">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 
-              <td class="tl pointer" onclick="show('${obj.id}')">${obj.contract.name}</td>
+              <td class="tl pointer" onclick="show('${obj.id}','${obj.report}')">${obj.contract.name}</td>
 
-              <td class="tl pointer" onclick="show('${obj.id}')">${obj.contract.code}</td>
+              <td class="tl pointer" onclick="show('${obj.id}','${obj.report}')">${obj.contract.code}</td>
 
-              <td class="tl pointer" onclick="show('${obj.id}')">${obj.contract.supplier.supplierName}</td>
+              <td class="tl pointer" onclick="show('${obj.id}','${obj.report}')">${obj.contract.supplier.supplierName}</td>
 
-              <td class="tc pointer" onclick="show('${obj.id}')">
+              <td class="tc pointer" onclick="show('${obj.id}','${obj.report}')">
                 <c:if test="${'0' eq obj.type}">首件检验</c:if>
                 <c:if test="${'1' eq obj.type}">生产验收</c:if>
                 <c:if test="${'2' eq obj.type}">出厂验收</c:if>
                 <c:if test="${'3' eq obj.type}">到货验收</c:if>
               </td>
 
-              <td class="tc pointer" onclick="show('${obj.id}')">
+              <td class="tc pointer" onclick="show('${obj.id}','${obj.report}')">
                 <c:if test="${'0' eq obj.conclusion}">合格</c:if>
                 <c:if test="${'1' eq obj.conclusion}">不合格</c:if>
               </td>

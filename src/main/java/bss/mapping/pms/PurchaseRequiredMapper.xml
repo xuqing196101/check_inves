@@ -426,19 +426,22 @@
 				#{detailStatus,jdbcType=VARCHAR},
 			</if>
 			<if test="reason != null">
-				#{REASON,jdbcType=VARCHAR},
+				#{reason,jdbcType=VARCHAR},
 			</if>
 			<if test="recorderMobile != null">
-				#{RECORDER_MOBILE,jdbcType=VARCHAR},
+				#{recorderMobile,jdbcType=VARCHAR},
 			</if>
 			<if test="advancedStatus != null">
-				#{ADVANCED_STATUS,jdbcType=VARCHAR},
+				#{advancedStatus,jdbcType=VARCHAR},
 			</if>
+            <if test="projectStatus != null">
+                #{projectStatus,jdbcType=VARCHAR},
+            </if>
 			<if test="uniqueId != null">
-	          #{UNIQUE_ID,jdbcType=VARCHAR},
+	          #{uniqueId,jdbcType=VARCHAR},
 		   </if>
 		   	<if test="fileId != null">
-	          #{FILE_ID,jdbcType=VARCHAR},
+	          #{fileId,jdbcType=VARCHAR},
 		   </if>
 		    <if test="enterPort != null">
 	          #{enterPort},
@@ -692,7 +695,7 @@
 			<if test="sign==5 ">
 				and STATUS in('2','3','5')
 			</if>
-			<if test="status!=null ">
+			<if test="sign == null and status!=null ">
 				and STATUS =#{status}
 			</if>
 			
@@ -1176,6 +1179,14 @@
 		SELECT COUNT(T.ID)
 			FROM T_BSS_PMS_PURCHASE_REQUIRED T
 		   WHERE T.REFERENCE_NO = #{referenceNO}
+	</select>
+
+	<!--根据ID查询-->
+	<select id="selectById" parameterType="java.lang.String" resultMap="PurchaseRequired_Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_BSS_PMS_PURCHASE_REQUIRED
+		WHERE ID=#{id}
 	</select>
 
 </mapper>

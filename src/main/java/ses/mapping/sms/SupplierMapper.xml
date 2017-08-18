@@ -1694,7 +1694,7 @@
 		<include refid="Base_Column_List" />
 		from T_SES_SMS_SUPPLIER
 		<where>
-			1=1
+			IS_PROVISIONAL = 0 AND IS_DELETED = 0
 			<if test="supplierName != null and supplierName !=''">
 			    and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 		    </if>
@@ -1722,6 +1722,7 @@
 					#{item}
 				</foreach>
 			</if>
+			ORDER BY AUDIT_DATE DESC
 		</where>
 
 	</select>
