@@ -103,9 +103,41 @@
 	 	   	      }
      		}); 
  	    	   
- 	     }     
-	       //修改采购方式
-	       function sel(obj){
+ 	     }  
+  	  
+  	//修改采购方式
+		  	function changeType(obj) {
+		       var org=$(obj).val();
+		       var price=$(obj).parent().prev().prev().prev().children(":first").val();
+		       if(price==""){
+		           var purchaseType = $(obj).find("option:selected").text(); //选中的文本
+		           if($.trim(purchaseType) == "单一来源") {
+		               $(obj).parent().next().next().find("textarea").removeAttr("readonly");
+		           } else {
+		               $(obj).parent().next().next().find("textarea").val("");
+		               $(obj).parent().next().next().find("textarea").attr("readonly", "readonly");
+		           }
+		           var next=$(obj).parent().parent().nextAll();
+		           var parent_id=$(obj).next().val();
+		           for(var i = 0; i < next.length; i++){
+		               if(parent_id==$($(next[i]).children()[10]).children(":last").val()){
+		            	   break;
+		               }
+		               $($(next[i]).children()[10]).children(":first").next().val($(obj).val());
+		               if($(obj).val() == "26E3925D38BB4295BEB342BDC82B65AC") {
+		                   $($(next[i]).children()[12]).find("textarea").removeAttr("readonly");
+		               } else {
+		                   $($(next[i]).children()[12]).find("textarea").val("");
+		                   $($(next[i]).children()[12]).find("textarea").attr("readonly", "readonly");
+		               }
+		           }
+		       }
+		}
+		    
+		  	
+  	         
+	      /*  //修改采购方式
+	       function sel(obj){ */
 	    	 /*   var val=$(obj).val();
 	    	   $("select option").each(function(){
 	    		   var opt=$(this).val();
@@ -113,7 +145,7 @@
 	    			   $(this).attr("selected", "selected");  
 	    		   }
 	    	   }); */
-	    	     var defVal;
+	    	     /* var defVal;
 	    	     var org=$(obj).val();
 	    	     
 	    	     var did=$("#table tr:eq(1)").find("td:eq(0)").children(":last").val();//超级节点id
@@ -172,7 +204,7 @@
 	    		 }  
 	    		 
 	    		 
-	       }  
+	       }   */
 	       
 	/*        function ss(obj){
 	    	   var val=$(obj).val();
@@ -404,6 +436,27 @@
 				addEvent('focus', change);
 				change();
 			}; */
+			//校验供应商名称
+	        function checkSupplierName(obj) {
+	            var name=$(obj).val();
+	            if(name!=null){
+	                $.ajax({
+	                    type: "POST",
+	                    async:false,
+	                    dataType: "text",
+	                    data:{
+	                        "name":name
+	                    },
+	                    url: "${pageContext.request.contextPath }/purchaser/checkSupplierName.do",
+	                    success: function(data) {
+	                            if(data=='true'){
+	                                $(obj).val("");
+	                                layer.alert("库中没有此供应商，请重新输入");
+	                            }
+	                    }
+	                 });
+	            }
+	        }
 	</script>
 </head>
 
@@ -517,13 +570,15 @@
 							    <textarea onblur="checks(this)" class="deliverdate" name="listDetail[${vs.index }].deliverDate">${obj.deliverDate }</textarea>
                             </td>
 							<td>
-							  <input type="hidden" name="ss" value="${obj.id}"  >
-								<select class="w100" name="listDetail[${vs.index }].purchaseType"   onchange="sel(this)"  id="select">
-	              				    <option value="" >请选择</option>
-		                            <c:forEach items="${types }" var="mt">
-									  <option value="${mt.id }"<c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
-									</c:forEach>	
-				                </select>
+							     <input type="hidden" name="ss" value="${obj.id}" /> 
+							     <select name="list[${vs.index }].purchaseType" onchange="changeType(this);" 
+                                        
+                                        class="purchasetype" id="select">
+                                            <option value="">请选择</option>
+                                            <c:forEach items="${types}" var="mt">
+                                               <option value="${mt.id }"<c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
+                                            </c:forEach>
+                                    </select>
 				                <input type="hidden" id="parentId${vs.index}" name="list[${vs.index }].parentId" value="${obj.parentId }">
 							</td>
 							<td class="">
@@ -543,8 +598,15 @@
 							</td>
 							<td>
 							<input   type="hidden" name="ss"   value="${obj.id }">
-							   <textarea class="purchasename" onblur="historys(this)"  name="listDetail[${vs.index }].supplier">${obj.supplier }</textarea>
-							<input type="hidden"  name="history" value="">
+							<c:forEach items="${types}" var="mt">
+							   <c:if test="${mt.name != '单一来源' }">
+							     <textarea class="purchasename" readonly="readonly" onblur="checkSupplierName(this)"  name="listDetail[${vs.index }].supplier">${obj.supplier }</textarea>
+							   </c:if>
+							   <c:if test="${mt.name == '单一来源' }">
+                                 <textarea class="purchasename" onblur="checkSupplierName(this)"  name="listDetail[${vs.index }].supplier">${obj.supplier }</textarea>
+                               </c:if>
+							</c:forEach>
+							<!-- <input type="hidden"  name="history" value=""> -->
 							</td>
 							<td class="">
 							<input   type="hidden" name="ss"   value="${obj.id }">
