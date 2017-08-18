@@ -1441,97 +1441,97 @@
 									</div>
 								</li>
 								<div id="address_list_body">
-                                    <div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
-	                                    <%-- <c:choose>
-	                                    	<c:when test="${currSupplier.status==2 }">
-	                                      	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
-	                                      </c:when>
-	                                      <c:otherwise>
-	                                        <button class="btn btn-windows add" type="button" onclick="increaseAddHouseAddress()">新增</button>
-	                                      </c:otherwise>
-	                                    </c:choose> --%>
-	                                    <button class="btn btn-windows add" type="button" onclick="increaseAddHouseAddress()">新增</button>
-	                                    <button class="btn btn-windows delete" type="button" onclick="delAddress()">删除</button>
-	                                    <span class="red">${err_address_token}</span>
-                                    </div>
-                                    <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
-                                        <table id="address_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table">
-                                            <thead>
-                                                <tr>
-                                                    <th class="info" style="width:3%;"><input type="checkbox" onchange="checkAll(this, 'address_list_tbody_id')" /></th>
-                                                    <th class="info" style="width:13%;"><font color="red">*</font> 生产或经营地址邮编</th>
-                                                    <th class="info" style="width:23%;"><font color="red">*</font> 生产或经营地址（填写所有地址）</th>
-                                                    <th class="info"><font color="red">*</font> 生产或经营详细地址</th>
-                                                    <th class="info" style="width:22%;"><font color="red">*</font> 房产证明或租赁协议</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="address_list_tbody_id">
-                                            <c:set var="certSaleNumber" value="0" />
-                                            <c:forEach items="${currSupplier.addressList}" var="addr" varStatus="vs">
-                                                <tr >
-                                                    <td class="tc"><input type="checkbox" value="${addr.id}" /></td>
-                                                  
-                                                    <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }')"</c:if>>
-                                                        <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" onblur="validatePostCode(this.value)"
-                                                        <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  required class="w200 border0 address_zip_code" name="addressList[${vs.index }].code" value="${addr.code}" />
-                                                        <input type='hidden' name='addressList[${vs.index }].id' value='${addr.id}'>
-                                                    </td>
-                                                    <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }')"</c:if>>
-                                                        <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0 ml20">
-                                                            <select id="root_area_select_id_${vs.index }" class="w100p" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId">
-                                                                <option value="">请选择</option>
-                                                                <c:forEach items="${province }" var="prov">
-                                                                    <c:if test="${prov.id==addr.provinceId }">
-                                                                        <option value="${prov.id }" selected="selected">${prov.name }</option>
-                                                                    </c:if>
-                                                                    <c:if test="${prov.id!=addr.provinceId }">
-                                                                        <option value="${prov.id }">${prov.name }</option>
-                                                                    </c:if>
-                                                                </c:forEach>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-                                                            <select id="children_area_select_id_${vs.index }" class="w100p" name="addressList[${vs.index }].address">
-                                                                <c:forEach items="${addr.areaList }" var="city">
-                                                                    <c:if test="${city.id==addr.address }">
-                                                                        <option value="${city.id }" selected="selected">${city.name }</option>
-                                                                    </c:if>
-                                                                    <c:if test="${city.id!=addr.address }">
-                                                                        <option value="${city.id }">${city.name }</option>
-                                                                    </c:if>
-                                                                </c:forEach>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }')"</c:if>>
-                                                        <input type="text" class="w200 border0" <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  placeholder="街道名称，门牌号。" name="addressList[${vs.index }].detailAddress" required maxlength="50" value="${addr.detailAddress }" >
+                  <div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
+                   <%-- <c:choose>
+                   	<c:when test="${currSupplier.status==2 }">
+                     	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                     </c:when>
+                     <c:otherwise>
+                       <button class="btn btn-windows add" type="button" onclick="increaseAddHouseAddress()">新增</button>
+                     </c:otherwise>
+                   </c:choose> --%>
+                   <button class="btn btn-windows add" type="button" onclick="increaseAddHouseAddress()">新增</button>
+                   <button class="btn btn-windows delete" type="button" onclick="delAddress()">删除</button>
+                   <span class="red">${err_address_token}</span>
+                  </div>
+                  <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
+                      <table id="address_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table">
+                          <thead>
+                              <tr>
+                                  <th class="info" style="width:3%;"><input type="checkbox" onchange="checkAll(this, 'address_list_tbody_id')" /></th>
+                                  <th class="info" style="width:13%;"><font color="red">*</font> 生产或经营地址邮编</th>
+                                  <th class="info" style="width:23%;"><font color="red">*</font> 生产或经营地址（填写所有地址）</th>
+                                  <th class="info"><font color="red">*</font> 生产或经营详细地址</th>
+                                  <th class="info" style="width:22%;"><font color="red">*</font> 房产证明或租赁协议</th>
+                              </tr>
+                          </thead>
+                          <tbody id="address_list_tbody_id">
+                          <c:set var="certSaleNumber" value="0" />
+                          <c:forEach items="${currSupplier.addressList}" var="addr" varStatus="vs">
+                              <tr >
+                                  <td class="tc"><input type="checkbox" value="${addr.id}" /></td>
+                                
+                                  <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }')"</c:if>>
+                                      <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" onblur="validatePostCode(this.value)"
+                                      <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  required class="w200 border0 address_zip_code" name="addressList[${vs.index }].code" value="${addr.code}" />
+                                      <input type='hidden' name='addressList[${vs.index }].id' value='${addr.id}'>
+                                  </td>
+                                  <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }')"</c:if>>
+                                      <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0 ml20">
+                                          <select id="root_area_select_id_${vs.index }" class="w100p" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId">
+                                              <option value="">请选择</option>
+                                              <c:forEach items="${province }" var="prov">
+                                                  <c:if test="${prov.id==addr.provinceId }">
+                                                      <option value="${prov.id }" selected="selected">${prov.name }</option>
+                                                  </c:if>
+                                                  <c:if test="${prov.id!=addr.provinceId }">
+                                                      <option value="${prov.id }">${prov.name }</option>
+                                                  </c:if>
+                                              </c:forEach>
+                                          </select>
+                                      </div>
+                                      <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
+                                          <select id="children_area_select_id_${vs.index }" class="w100p" name="addressList[${vs.index }].address">
+                                              <c:forEach items="${addr.areaList }" var="city">
+                                                  <c:if test="${city.id==addr.address }">
+                                                      <option value="${city.id }" selected="selected">${city.name }</option>
+                                                  </c:if>
+                                                  <c:if test="${city.id!=addr.address }">
+                                                      <option value="${city.id }">${city.name }</option>
+                                                  </c:if>
+                                              </c:forEach>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }')"</c:if>>
+                                      <input type="text" class="w200 border0" <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  placeholder="街道名称，门牌号。" name="addressList[${vs.index }].detailAddress" required maxlength="50" value="${addr.detailAddress }" >
 
-                                                    </td>
-                                                    <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }')"</c:if>>
-                                                        <div class="w200 fl">
-                                                            <%-- <c:choose>
-                                                            	<c:when test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">
-                                                            		<u:show showId="house_show_${certSaleNumber}" delete="false" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
-                                                            	</c:when>
-                                                            	<c:otherwise>
-                                                            		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
-                                                            		<u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
-                                                            	</c:otherwise>
-                                                            </c:choose> --%>
-                                                            <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
-                                                         		<u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
-                                                            <c:if test="${vs.index == err_house_token}">
-                                                                <div class="cue">  </div>
-                                                            </c:if>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <c:set var="certSaleNumber" value="${certSaleNumber + 1}" />
-                                            </c:forEach>
-                                            <input type="hidden" id="certSaleNumber" value=${certSaleNumber}>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                  </td>
+                                  <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }')"</c:if>>
+                                      <div class="w200 fl">
+                                          <%-- <c:choose>
+                                          	<c:when test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">
+                                          		<u:show showId="house_show_${certSaleNumber}" delete="false" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+                                          	</c:when>
+                                          	<c:otherwise>
+                                          		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
+                                          		<u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+                                          	</c:otherwise>
+                                          </c:choose> --%>
+                                          <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
+                                       		<u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+                                          <c:if test="${vs.index == err_house_token}">
+                                              <div class="cue">  </div>
+                                          </c:if>
+                                      </div>
+                                  </td>
+                              </tr>
+                              <c:set var="certSaleNumber" value="${certSaleNumber + 1}" />
+                          </c:forEach>
+                          <input type="hidden" id="certSaleNumber" value=${certSaleNumber}>
+                          </tbody>
+                      </table>
+                  </div>
 								</div>
 							</ul>
 						</fieldset>
@@ -1540,40 +1540,43 @@
 							<legend>资质资信</legend>
 							<ul class="list-unstyled f14">
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25 pl10">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'taxCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'taxCert')"</c:if>><i class="red">*</i> 近三个月完税凭证</span>
-									<div class="col-md-6 col-sm-12 col-xs-12 p0">
+									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月完税凭证</span>
+									<div class="col-md-6 col-sm-12 col-xs-12 p0"
+										<c:if test="${fn:contains(audit,'taxCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'taxCert')"</c:if>>
 										<c:if test="${(fn:contains(audit,'taxCert')&&currSupplier.status==2 )||(currSupplier.status==-1 || currSupplier.status==1)}"> <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="taxcert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /></c:if>
 										<c:if test="${!fn:contains(audit,'taxCert')&&currSupplier.status==2}">  <u:show showId="taxcert_show"  delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" /></c:if>
 										<c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,'taxCert')}">  <u:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" /></c:if>
-										
 										<div class="cue"> ${err_taxCert } </div>
 									</div>
 								</li>
 
 								<li id="bill_li_id" class="col-md-6 col-sm-6 col-xs-12 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5 w250" <c:if test="${fn:contains(audit,'billCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'billCert')"</c:if>><i class="red">*</i> 近三年银行基本账户年末对账单</span>
-									<div class="col-md-6 col-sm-12 col-xs-12 p0">
-									<c:if test="${(fn:contains(audit,'billCert')&&currSupplier.status==2 )|| currSupplier.status==-1 || currSupplier.status==1}">	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="billcert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /></c:if>
-									<c:if test="${!fn:contains(audit,'billCert')&&currSupplier.status==2 }">	<u:show showId="billcert_show" delete="false"    groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" /></c:if>
-									<c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,'billCert')}">	<u:show showId="billcert_show"     groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" /></c:if>
+									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5 w250"><i class="red">*</i> 近三年银行基本账户年末对账单</span>
+									<div class="col-md-6 col-sm-12 col-xs-12 p0"
+										<c:if test="${fn:contains(audit,'billCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'billCert')"</c:if>>
+										<c:if test="${(fn:contains(audit,'billCert')&&currSupplier.status==2 )|| currSupplier.status==-1 || currSupplier.status==1}">	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="billcert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /></c:if>
+										<c:if test="${!fn:contains(audit,'billCert')&&currSupplier.status==2 }">	<u:show showId="billcert_show" delete="false"    groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" /></c:if>
+										<c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,'billCert')}">	<u:show showId="billcert_show"     groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" /></c:if>
 										<div class="cue"> ${err_bil } </div>
 									</div>
 								</li>
 
 								<li id="security_li_id" class="col-md-6 col-sm-6 col-xs-12 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'securityCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'securityCert')"</c:if>><i class="red">*</i> 近三个月缴纳社会保险金凭证</span>
-									<div class="col-md-6 col-sm-12 col-xs-12 p0">
-									<c:if test="${(fn:contains(audit,'securityCert')&&currSupplier.status==2) || currSupplier.status==-1 || currSupplier.status==1}">	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="curitycert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /></c:if>
+									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月缴纳社会保险金凭证</span>
+									<div class="col-md-6 col-sm-12 col-xs-12 p0"
+										<c:if test="${fn:contains(audit,'securityCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'securityCert')"</c:if>>
+										<c:if test="${(fn:contains(audit,'securityCert')&&currSupplier.status==2) || currSupplier.status==-1 || currSupplier.status==1}">	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="curitycert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /></c:if>
 								    <c:if test="${!fn:contains(audit,'securityCert')&&currSupplier.status==2}">	 	<u:show showId="curitycert_show" delete="false"    groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" /></c:if>
-									<c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,'securityCert')}">	 	<u:show showId="curitycert_show"    groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" /></c:if>
+										<c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,'securityCert')}">	 	<u:show showId="curitycert_show"    groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" /></c:if>
 										<div class="cue"> ${err_security } </div>
 									</div>
 								</li>
 
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5 w250" ><i class="red">*</i> 近三年内有无重大违法记录</span>
+									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5 w250"><i class="red">*</i> 近三年内有无重大违法记录</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0 h30">
-										<select name="isIllegal" id="isIllegal" class="fl mr10 w120" <c:if test="${fn:contains(audit,'isIllegal')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'isIllegal')"</c:if>>
+										<select name="isIllegal" id="isIllegal" class="fl mr10 w120"
+											<c:if test="${fn:contains(audit,'isIllegal')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'isIllegal')"</c:if>>
 											<option value='' disabled selected style="display: none;">请选择</option>
 											<option value="0" <c:if test="${currSupplier.isIllegal eq '0'}">selected</c:if>>无</option>
 											<option value="1" <c:if test="${currSupplier.isIllegal eq '1'}">selected</c:if>>有</option>
@@ -1582,9 +1585,10 @@
 									</div>
 								</li>
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'isHavingConCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'isHavingConCert')"</c:if>><i class="red">*</i> 国家或军队保密资格证书</span>
+									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 国家或军队保密资格证书</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0 h30">
-										<select name="isHavingConCert" id="isHavingConCert" onchange="dis_bearch(this)" class="fl mr10 w120">
+										<select name="isHavingConCert" id="isHavingConCert" onchange="dis_bearch(this)" class="fl mr10 w120"
+											<c:if test="${fn:contains(audit,'isHavingConCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'isHavingConCert')"</c:if>>
 											<option value='' disabled selected style="display: none;">请选择</option>
 											<option value="0" <c:if test="${currSupplier.isHavingConCert eq '0'}">selected</c:if>>无</option>
 											<option value="1" <c:if test="${currSupplier.isHavingConCert eq '1'}">selected</c:if>>有</option>
@@ -1593,12 +1597,12 @@
 									</div>
 								</li>
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25" id="bearchCertDiv">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5 w250" <c:if test="${fn:contains(audit,'supplierBearchCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierBearchCert')"</c:if>><i class="red">*</i> 保密资格证书</span>
-									<div class="col-md-6 col-sm-12 col-xs-12 p0">
-									<c:if test="${(fn:contains(audit,'supplierBearchCert')&&currSupplier.status==2 ) || currSupplier.status==-1 || currSupplier.status==1}"> 	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /></c:if>
-									<c:if test="${!fn:contains(audit,'supplierBearchCert')&&currSupplier.status==2}"> 	<u:show showId="bearchcert_show"  delete="false" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" /></c:if>
-									<c:if test="${currSupplier.status==-1 || currSupplier.status==1 ||fn:contains(audit,'supplierBearchCert')}"> <u:show showId="bearchcert_show"   businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" /></c:if>
-									
+									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5 w250"><i class="red">*</i> 保密资格证书</span>
+									<div class="col-md-6 col-sm-12 col-xs-12 p0"
+										<c:if test="${fn:contains(audit,'supplierBearchCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierBearchCert')"</c:if>>
+										<c:if test="${(fn:contains(audit,'supplierBearchCert')&&currSupplier.status==2 ) || currSupplier.status==-1 || currSupplier.status==1}"> 	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /></c:if>
+										<c:if test="${!fn:contains(audit,'supplierBearchCert')&&currSupplier.status==2}"> 	<u:show showId="bearchcert_show"  delete="false" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" /></c:if>
+										<c:if test="${currSupplier.status==-1 || currSupplier.status==1 ||fn:contains(audit,'supplierBearchCert')}"> <u:show showId="bearchcert_show"   businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" /></c:if>
 										<div class="cue"> ${err_bearch } </div>
 									</div>
 								</li>
