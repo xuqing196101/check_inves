@@ -104,8 +104,7 @@
      		}); 
  	    	   
  	     }     
-	       
-	       
+	       //修改采购方式
 	       function sel(obj){
 	    	 /*   var val=$(obj).val();
 	    	   $("select option").each(function(){
@@ -114,9 +113,20 @@
 	    			   $(this).attr("selected", "selected");  
 	    		   }
 	    	   }); */
-	    	   var defVal;
-	    		 var org=$(obj).val();
-	    		 var price=$(obj).parent().prev().prev().prev().prev().val();
+	    	     var defVal;
+	    	     var org=$(obj).val();
+	    	     
+	    	     var did=$("#table tr:eq(1)").find("td:eq(0)").children(":last").val();//超级节点id
+                 var zid = $(obj).prev().val();
+                 var pid = $(obj).next().val();
+                 var next=$(obj).parent().parent().nextAll();
+                 if(zid == did){
+	                 for(var i = 0; i < next.length; i++){
+	                    $($(next[i]).children()[10]).children(":last").prev().val($(obj).val());
+	                 }
+                 }
+	    		 
+                 var price=$(obj).parent().prev().prev().prev().prev().val();
 	    		 if(price==""){
 	    			var id=$(obj).prev().val();
 	    		 	  $.ajax({
@@ -130,23 +140,21 @@
 	    		                $("#table tr").each(function(){
 	    		      			  var opt= $(this).find("td:eq(10)").children(":first").val() ;
 	    		      	 		   if(v1==opt){
-	    		      	 			 var td=$(this).find("td:eq(10)");
+	    		      	 			var td=$(this).find("td:eq(10)");
 	    		      	 			var options= $(td).find("option");
 	    			      	 		  $(options).each(function(){
 	    			      	 			  
 	    			      	 			if (options[i].defaultSelected) {
 											defVal = options[i].value;
 										}
-	    			      	 			
-	    			      	 			
 	    			      	  		   var opt=$(this).val();
 	    			      	  		   if(org==opt){
 	    			      	  			$(this).prop("selected",true);
 	    			      	  		   if(defVal!=org){
 					      	  			    var eid=$(this).parent().prev().val();
-					      	  		        $(this).parent().parent().parent().children(":last").children(":last").prev().val(eid);
+					      	  		       $(this).parent().parent().parent().children(":last").children(":last").prev().val(eid); 
 							       		}else{
-							       			$(this).parent().parent().parent().children(":last").children(":last").prev().val("");
+ 							       			$(this).parent().parent().parent().children(":last").children(":last").prev().val(""); 
 							       		}
 	    			      	  		
 	    			      	  		   }else{
@@ -161,7 +169,7 @@
 	    		          });
 	    		          
 	    		          
-	    		 }
+	    		 }  
 	    		 
 	    		 
 	       }  
@@ -516,6 +524,7 @@
 									  <option value="${mt.id }"<c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
 									</c:forEach>	
 				                </select>
+				                <input type="hidden" id="parentId${vs.index}" name="list[${vs.index }].parentId" value="${obj.parentId }">
 							</td>
 							<td class="">
 								<%--<input type="hidden" name="listDetail[${vs.index }].organization" value="${obj.organization }">--%>
