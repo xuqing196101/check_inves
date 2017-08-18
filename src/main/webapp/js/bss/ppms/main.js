@@ -492,3 +492,13 @@ function tree_toggle() {
 		});
 	}
 }
+// 显示当前环节
+$(function () {
+	var tree_place = $('#show_tree_div #menu li').eq(0).find('a').html();
+	$('#tree_place').html(tree_place);
+	
+	$('#show_tree_div #menu li').bind('click', function () {
+		tree_place = $(this).find('a').html();
+		$('#tree_place').html(tree_place);
+	});
+});

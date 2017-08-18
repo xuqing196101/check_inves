@@ -309,6 +309,7 @@
         
         <div class="tag-box tag-box-v4 col-md-12 col-sm-12 col-xs-12 mb0 pb0">
         <input type="hidden" id="isOperate">
+        <div class="headline-v2 ml0"><h2>当前环节：<span id="tree_place"></span></h2></div>
         <form id="updateLinkId" action="" method="post" class="w100p fl mb10 border1 padding-10 bg11">
         <input type="hidden" id="projectId" name="projectId" value="${project.id}">
         <input type="hidden" id="type" name="type" value="${type}">
