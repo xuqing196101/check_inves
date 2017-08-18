@@ -218,6 +218,7 @@ function vartifyAuditCount(){
         });
     }
     // 判断审核意见
+    opinion = $.trim(opinion);
     if(checkVal != 1 && opinion == ''){
         layer.msg("审核意见不能为空！");
         flags = true;
