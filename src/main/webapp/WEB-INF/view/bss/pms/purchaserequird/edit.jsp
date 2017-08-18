@@ -117,13 +117,9 @@
  
   	 function sum2(obj){  //修改数量
 	        var purchaseCount = $(obj).val()-0;//数量
-	        var price2 = $(obj).parent().next().children(":last");//价钱
-	        var price = $(price2).val()-0;
-	        var sum = purchaseCount*price/10000;
-	        var budget = $(obj).parent().next().next().children(":last");
-	        $(budget).val(sum);
-	      	var id=$(obj).prev().val(); //parentId
-	      	aa(id);
+	        var price2 = $($(obj).parent().next().children()[1]).val();//价钱
+	        $($(obj).parent().next().next().children()[1]).val(purchaseCount*price2/10000);
+	      	aa($(obj).next().val());//parentId
 	    }
 
     function sum1(obj){//修改单价
@@ -138,8 +134,6 @@
         aa(id);
     }
 	       function aa(id){// id是指当前的父级parentid
-	    	  
-
 	    	   var budget=0;
 	    	   $("#table tr").each(function(){
 	 	    		var cid= $(this).find("td:eq(8)").children(":first").next().next().val(); //parentId
@@ -173,16 +167,16 @@
 	 	    		 /*  } 
 	 	    		}); */    
 	    	     
-	    	  var did=$("#table tr:eq(2)").find("td:eq(9)").children(":first").next().val();//超级节点id
+	    	  var did=$("#table tr:eq(1)").find("td:eq(9)").children(":first").val();//超级节点id
 	    	    var total=0;
 	    	    $("#table tr").each(function(){
-	 	    		var cid= $(this).find("td:eq(9)").children(":first").next().val();
-	 	    		var same= $(this).find("td:eq(9)").children(":last").val()-0;
+	 	    		var cid= $(this).find("td:eq(9)").children(":last").val();
+	 	    		var same= $($(this).find("td:eq(9)").children()[1]).val()-0;
 	 	    		 if(did==cid){
 	 	    			total=total+same;
 	 	    		 }
 	    	   }); 
-	    	    $("#table tr:eq(1)").find("td:eq(9)").children(":last").val(total);
+	    	    $($("#table tr:eq(1)").find("td:eq(9)").children()[1]).val(total.toFixed(4));
 	       }   
 	       
         function calc(id){
@@ -298,10 +292,10 @@
                          if(parent_id==$($(next[i]).children()[1]).children(":last").val()){
                              break;
                          }
-                         if(i == 8){
+                         /* if(i == 8){
                              alert($($($(next[i]).children()[11]).children(":last")).find("option:selected").text());
                              alert($(obj).val());
-                         }
+                         } */
 
                          $($(next[i]).children()[11]).children(":last").val($(obj).val());
                          if($(obj).val() == "单一来源") {
@@ -372,7 +366,7 @@
               }
 	    	  var flgs=false;
 	    	  $("#table tr").each(function(i){
-	    		  var price = $(this).find("td:eq(8)").children(":last").val();
+	    		  var price = $($(this).find("td:eq(8)").children()[1]).val();
 			    	if($.trim(price)!=""){
 			    		 if($(this).find("td:eq(11)").children(":last").val()==""){
 			    			 flgs=true;
