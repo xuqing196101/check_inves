@@ -11,4 +11,6 @@ public interface ExpertGroupMapper {
 	void insert(ExpertGroup expertGroup);
 	
 	List<ExpertGroup> getGroup(ExpertGroup expertGroup);
+	
+	void deleteByPrimaryKey(String groupId);
 }

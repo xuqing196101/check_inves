@@ -62,7 +62,9 @@
             </foreach>
         </if>
     </select> 
-    
+    <select id="getExpertBatchDetailsCount" resultType="java.lang.Integer"  parameterType="java.lang.String">
+    	select count(*) from T_SYS_EMS_EXPERT_BATCH_DETAILS where GROUP_ID=#{groupId}
+    </select>
     <insert id="insert" parameterType="ses.model.ems.ExpertBatchDetails">
         insert into T_SYS_EMS_EXPERT_BATCH_DETAILS
         (ID,EXPERT_ID,BATCH_NUMBER,BATCH_DETAILS_NUMBER,COUNT,BATCH_NAME ,GROUP_ID,GROUP_NAME ,CREATED_AT,UPDATED_AT,BATCH_ID)

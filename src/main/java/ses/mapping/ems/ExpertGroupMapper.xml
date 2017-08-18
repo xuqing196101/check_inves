@@ -36,5 +36,9 @@
         values
         (#{groupId}, #{batchId},#{groupName},#{count}, #{createdAt}, #{updatedAt})
     </insert>
-   
+   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+   		 delete from
+        T_SYS_EMS_EXPERT_GROUP
+        where GROUP_ID = #{groupId,jdbcType=VARCHAR}
+   </delete>
 </mapper>
