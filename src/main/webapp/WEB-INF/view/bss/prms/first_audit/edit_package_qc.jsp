@@ -358,8 +358,7 @@
     <c:if test="${flag != '1' }">
 	    <div class="search_detail ml0">
 	        <ul class="demand_list">
-	          <li>
-	            <label class="fl">模板选择--></label>
+	            <li>
 	             <label class="fl">所属产品目录：</label>
 	            	<div class="input_group w200">
 						<input id="cId" name="categoryId"  type="hidden" value="${categoryId}">
@@ -370,6 +369,9 @@
 					</div>
 		       </li>
 		       <li>
+	            <label class="fl">模板选择</label>
+	            </li>
+	            <li>
 					<select id="fatId" class="w180">
 		               <%-- <c:forEach items="${firstAuditTemplats}" var="fat">
 		                    <option value="${fat.id}">${fat.name}</option>

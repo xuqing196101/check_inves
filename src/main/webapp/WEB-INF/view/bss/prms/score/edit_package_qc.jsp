@@ -400,7 +400,6 @@
   <div class="search_detail ml0">
 	        <ul class="demand_list">
 	          <li>
-	           <label class="fl">模板选择--></label>
 	             <label class="fl">所属产品目录：</label>
 								<div class="fl">
 								<div class="input_group w200">
@@ -408,6 +407,9 @@
 									<input id="categorySel"  type="text" name="categoryName" readonly value="${categoryName}"  onclick="showCategory();" />
 								</div>
 								</div>
+		       </li>
+		       <li>
+		       <label class="fl">模板选择</label>
 		       </li>
 		       <li>
 					<select id="fatId" class="w180">

@@ -144,9 +144,9 @@
       	<!-- <if test="markTerm != null and markTerm.name!='' ">
         	and m.name like CONCAT(CONCAT('%', #{markTerm.name}), '%')
       	</if> -->
-      	<if test="name != null and name!='' ">
+      	<!-- <if test="name != null and name!='' ">
         	and sm.review_content like CONCAT(CONCAT('%', #{name}), '%')
-        </if>
+        </if> -->
       	<if test="markTermId != null and markTermId !='' ">
         	and sm.mark_term_id = #{markTermId} 
       	</if>
