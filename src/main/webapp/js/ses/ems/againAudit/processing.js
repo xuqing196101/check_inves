@@ -85,21 +85,44 @@ function create_review_batches(url, batch_url, ids) {
   }
 }
 
-// 创建新分组
-function found_new_batch(url) {
-  var ids = select_ids.join(',');
-  $.ajax({
-    type: 'POST',
-    dataType: 'json',
-    url: url,
-    data:{
-      batchId: batch_id,
-      ids: ids
+// 初始化专家列表和批次列表
+function init_list(list_url, newGroup_url) {
+  $('#list_content').listConstructor({
+    url: list_url,
+    newGroup_url: newGroup_url,
+    data: {
+      batchId: getUrlParam('batchId'),
+      status: '14'
     },
-    success: function () {
-      init_list();
+    data_new: {
+      batchId: getUrlParam('batchId')
     }
   });
+}
+
+// 创建新分组
+function add_batch() {
+  if (select_ids.length > 0) {
+    var ids = select_ids.join(',');
+    $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: add_url,
+      data:{
+        batchId: batch_id,
+        ids: ids
+      },
+      success: function () {
+        init_list(list_url, newGroup_url);
+      }
+    });
+    
+    select_ids = [];
+  } else {
+    layer.msg('请选择专家', {
+      offset: '100px'
+    });
+  }
 }
 
 // 删除操作
@@ -121,26 +144,92 @@ function del_group(el) {
       ids: str_group_ids
     },
     success: function (data) {
-      init_list();
-      console.log('aa');
+      init_list(list_url, newGroup_url);
     }
   });
 }
 
 // 添加至已有分组
-function add_hasGroud(url) {
-  $.ajax({
-    type: 'POST',
-    dataType: 'json',
-    url: url,
-    data:{
-      groupId: batch_id,
-      ids: select_ids
-    },
-    success: function (data) {
-      console.log(data);
-    }
-  });
+function show_hasGroud() {
+  if (select_ids.length > 0) {
+    $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: getGroup_url,
+      data:{
+        batchId: getUrlParam('batchId')
+      },
+      success: function (data) {
+        var list_content = data.object;
+        var str = '';
+        var ids = select_ids.join(',');
+        for (var i in list_content) {
+          if (i === '0') {
+            str += '<tr>'
+                  +'  <td class="w50 text-center"><input name="groupId" type="radio" checked="checked" value="'+ list_content[i].groupId +'" class="select_item"></td>'
+                  +'  <td class="text-center">'+ list_content[i].groupName +'</td>'
+                  +'</tr>';
+          } else {
+            str += '<tr>'
+                  +'  <td class="w50 text-center"><input name="groupId" type="radio" value="'+ list_content[i].groupId +'" class="select_item"></td>'
+                  +'  <td class="text-center">'+ list_content[i].groupName +'</td>'
+                  +'</tr>';
+          }
+        }
+        
+        str = '<div class="p20"><table class="table table-bordered table-hover table-striped m0">'
+            +'   <thead><tr><th>选择</th><th>审核组</th></tr></thead>'
+            +'   <tbody>'+ str +'</tbody>'
+            +'</table></div>';
+        
+        $('#group_list').html(str);
+        
+        var index = layer.open({
+          title: ['添加至已有分组'],
+          shade: 0.3, //遮罩透明度
+          type : 1,
+          area : ['300px'], //宽高
+          content : $('#group_list'),
+          btn: ['确定', '取消'],
+          yes: function() {
+            $('#group_list').find('.select_item').each(function () {
+              if ($(this).is(':checked')) {
+                select_groupId = $(this).val();
+                return false;
+              }
+            });
+            
+            $.ajax({
+              type: 'POST',
+              dataType: 'json',
+              url: addGroup_url,
+              data: {
+                groupId: select_groupId,
+                ids: ids
+              },
+              success: function (data) {
+                layer.msg(data.message, {
+                  offset: '100px'
+                });
+                select_ids = [];
+                select_groupId = '';
+                init_list(list_url, newGroup_url);
+                layer.close(index);
+              }
+            });
+          },
+          btn2: function() {
+            select_groupId = '';
+            layer.close(index);
+          }
+        });
+      }
+    });
+  } else {
+    layer.msg('请选择专家', {
+      offset: '100px'
+    });
+  }
 }
 
 // 获取地址栏参数

@@ -68,36 +68,39 @@
         list_content_new = data.object;  // 储存所需数据到变量
         $('#group_batch_box').html('');
         for (var i in list_content_new) {
-          for (var ii in list_content_new[i].expertList) {
-            str_tr += '<tr>'
-              +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content_new[i].expertList[i].id +'" class="select_item"></td>'
-              +'<td class="text-center">'+ list_content_new[i].expertList[i].batchDetailsNumber +'</td>'
-              +'<td class="text-center">'+ list_content_new[i].expertList[i].orgName +'</td>'
-              +'<td class="text-center">'+ list_content_new[i].expertList[i].realName +'</td>'
-              +'<td class="text-center">'+ list_content_new[i].expertList[i].gender +'</td>'
-              +'<td class="text-center">'+ list_content_new[i].expertList[i].workUnit +'</td>'
-              +'<td class="text-center">'+ list_content_new[i].expertList[i].professTechTitles +'</td>'
-              +'<td class="text-center">'+ list_content_new[i].expertList[i].updateTime +'</td>'
-            +'</tr>';
+          if (list_content_new[i].expertList.length > 0) {
+            for (var ii in list_content_new[i].expertList) {
+              str_tr += '<tr>'
+                +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content_new[i].expertList[i].id +'" class="select_item"></td>'
+                +'<td class="text-center">'+ list_content_new[i].expertList[i].batchDetailsNumber +'</td>'
+                +'<td class="text-center">'+ list_content_new[i].expertList[i].orgName +'</td>'
+                +'<td class="text-center">'+ list_content_new[i].expertList[i].realName +'</td>'
+                +'<td class="text-center">'+ list_content_new[i].expertList[i].gender +'</td>'
+                +'<td class="text-center">'+ list_content_new[i].expertList[i].workUnit +'</td>'
+                +'<td class="text-center">'+ list_content_new[i].expertList[i].professTechTitles +'</td>'
+                +'<td class="text-center">'+ list_content_new[i].expertList[i].updateTime +'</td>'
+              +'</tr>';
+            }
+            str += '<div class="group_batch_list">'
+                  +'<div class="gbl_tit"><span class="gbl_icon">'+ parseInt(i) + 1 +'</span><span>'+ list_content_new[i].name +'</span></div>'
+                  +'<div class="mt10 mb10"><button type="button" class="btn" onclick="del_group(this)">删除</button></div>'
+                  +'<table class="table table-bordered table-condensed table-hover table-striped groupBatch_table">'
+                  +'  <thead>'
+                  +'    <tr>'
+                  +'      <th class="info w50">选择</th>'
+                  +'      <th class="info w100">批次编号</th>'
+                  +'      <th class="info">采购机构</th>'
+                  +'      <th class="info">专家姓名</th>'
+                  +'      <th class="info">性别</th>'
+                  +'      <th class="info">工作单位</th>'
+                  +'      <th class="info">专业职称</th>'
+                  +'      <th class="info">提交复审时间</th>'
+                  +'    </tr>'
+                  +'  </thead>'
+                  +'  <tbody>'+ str_tr +'</tbody>'
+                  +'</table>'
+            +'</div>';
           }
-          str += '<div class="group_batch_list">'
-                +'<div class="mt10 mb10"><button type="button" class="btn" onclick="del_group(this)">删除</button></div>'
-                +'<table class="table table-bordered table-condensed table-hover table-striped groupBatch_table">'
-                +'  <thead>'
-                +'    <tr>'
-                +'      <th class="info w50">选择</th>'
-                +'      <th class="info w100">批次编号</th>'
-                +'      <th class="info">采购机构</th>'
-                +'      <th class="info">专家姓名</th>'
-                +'      <th class="info">性别</th>'
-                +'      <th class="info">工作单位</th>'
-                +'      <th class="info">专业职称</th>'
-                +'      <th class="info">提交复审时间</th>'
-                +'    </tr>'
-                +'  </thead>'
-                +'  <tbody>'+ str_tr +'</tbody>'
-                +'</table>'
-          +'</div>';
         }
         $('#group_batch_box').append(str);
       },
