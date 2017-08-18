@@ -116,7 +116,9 @@
          <select name="orgName" id="orgName" class="w220">
            <option value=''>全部</option>
            <c:forEach items="${allOrg}" var="org">
+           <c:if test="${org.isAuditSupplier == 1}">
              <option value="${org.shortName}" <c:if test="${expert.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
+           </c:if>
            </c:forEach>
          </select>
        </li>
@@ -154,7 +156,7 @@
               <th class="info w90">提交日期</th>
               <th class="info w90">审核日期</th>
               <th class="info">手机</th>
-              <th class="info">类别</th>
+              <th class="info">类型</th>
               <th class="info">采购机构</th>
               <th class="info">审核状态</th>
               <th class="info">专家类型</th>

@@ -153,6 +153,11 @@
          }); 
          if(ids.length==1){
            var supplierId = $("#"+ids).parent().parent().find("#supplierId").val();
+           var isProvisional = $("#"+ids).parent().parent().find("#isProvisional").val();
+           if(isProvisional != 1){
+               layer.alert("只能修改临时供应商");
+               return;
+           }
            var path = "${pageContext.request.contextPath }/SupplierExtracts/editTemporarySupplier.html?supplierId=" + supplierId + "&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix="+index;
            $("#tab-1").load(path);
          }else if(ids.length>1){
@@ -304,6 +309,7 @@
                   <td class="tc opinter w150">
                   ${obj.suppliers.armyBusinessName}
                   <input type="hidden" value="${obj.suppliers.id }" id="supplierId"/>
+                  <input type="hidden" value="${obj.suppliers.isProvisional }" id="isProvisional"/>
                   </td>
 
                   <td class="tc opinter w150">${obj.suppliers.armyBuinessTelephone}</td>

@@ -108,7 +108,10 @@
     	window.location.href = "${pageContext.request.contextPath}/intelligentScore/addScoreMethod.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+'${flowDefineId}';
     }
     function show(packageId, projectId) {
-    	window.location.href = "${pageContext.request.contextPath}/intelligentScore/showScoreMethod.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+'${flowDefineId}';
+    	var ok = "${project.confirmFile}"
+        
+            window.location.href = "${pageContext.request.contextPath}/intelligentScore/showScoreMethod.html?packageId="+packageId+"&status="+ok+"&projectId="+projectId+"&flowDefineId="+'${flowDefineId}';
+         
     }
     function view(packageId,projectId,flag){
     	if (flag == 0) {

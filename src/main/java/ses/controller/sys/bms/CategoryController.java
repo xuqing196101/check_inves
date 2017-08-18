@@ -93,112 +93,112 @@ public class CategoryController extends BaseSupplierController {
     @ResponseBody
     @RequestMapping(value="/createtree", produces = "application/json;charset=utf-8")
     public String getAll(Category category,String param,Integer isCreate,String code){
-       List<CategoryTree> jList=new ArrayList<CategoryTree>();
-    	String name="";
-    	if((param!=null&&!"".equals(param))||(code!=null&&!"".equals(code))||isCreate!=null){
-			try {
-				if(param!=null&&!"".equals(param)){
-					name=java.net.URLDecoder.decode(param, "UTF-8");
-				}	
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-			//查询所有匹配的数据
-			category.setId("0");
-	        DictionaryData data=new DictionaryData();
-	        data.setKind(6);
-	        List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
-	        for (DictionaryData dictionaryData : listByPage) {
-	            CategoryTree ct=new CategoryTree();
-	            ct.setId(dictionaryData.getId());
-	            ct.setName(dictionaryData.getName());
-	            ct.setIsParent("true");
-	            ct.setClassify(dictionaryData.getCode());
-	            jList.add(ct);
-	        }
-			List < Category > categoryList = categoryService.searchByNameAndCode(name.trim(),code,isCreate);
-			List < Category > cateList = new ArrayList < Category > ();
-			Set<Category> set=new HashSet<Category>();
-			for(int i=0;i<categoryList.size();i++){
-				Category catego = categoryList.get(i);
-				List<Category> cList=categoryService.findTreeByPid(catego.getId());
-				if(cList==null||cList.size()<=0){
-					cateList.add(catego);
-				}
-			}
-			for(int i=0;i<cateList.size();i++){
-				HashMap<String,Object> map=new HashMap<String, Object>();
-				map.put("id", cateList.get(i).getId());
-				List<Category> catego = categoryService.findCategoryByParentNode(map);
-				for(int j=0;j<catego.size();j++){
-					set.add(catego.get(j));
-				}
-			}
-			Iterator<Category> it = set.iterator();  
-			while(it.hasNext()){
-				Category cate = it.next();
-				List<Category> cList=categoryService.findTreeByPid(cate.getId());
-	            CategoryTree ct=new CategoryTree();
-	            if(!cList.isEmpty()){
-	                ct.setIsParent("true");
-	            }else{
-	                ct.setIsParent("false");
-	            }
-	            ct.setId(cate.getId());
-	            ct.setName(cate.getName());
-	            ct.setParentId(cate.getParentId());
-	            ct.setKind(cate.getKind());
-	            ct.setStatus(cate.getStatus());
-	            jList.add(ct);
-			}
-	    	/*坑人的写法
-	    	 * List < Category > categoryList = service.searchByName(name, null, null);
-	    	List < Category > cateList = new ArrayList < Category > ();
-	    	category.setId("0");
-	        DictionaryData data=new DictionaryData();
-	        data.setKind(6);
-	        List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
-	        for (DictionaryData dictionaryData : listByPage) {
-	            CategoryTree ct=new CategoryTree();
-	            ct.setId(dictionaryData.getId());
-	            ct.setName(dictionaryData.getName());
-	            ct.setIsParent("true");
-	            ct.setClassify(dictionaryData.getCode());
-	            jList.add(ct);
-	            for(Category categorys: categoryList) {
-	                String parentId = getParentId(categorys.getId());
-	                if(parentId.equals(dictionaryData.getId())) {
-	                    cateList.add(categorys);
-	                }
-	            }
-	        }
-	    	
-	    	removeSame(cateList);
-	    	List < Category > allCateList = new ArrayList < Category > ();
-	        allCateList.addAll(cateList);
-	        for(Category categoryds: cateList) {
-	            List < Category > list = getParentNodeList(categoryds.getId());
-	            allCateList.addAll(list);
-	        }
-	        removeSame(allCateList);
-	        
-	        for(Category categoryds: allCateList) {
-	            CategoryTree treeNode = new CategoryTree();
-	            treeNode.setId(categoryds.getId());
-	            treeNode.setName(categoryds.getName());
-	            treeNode.setParentId(categoryds.getParentId());
-	            treeNode.setKind(categoryds.getKind());
-	            treeNode.setStatus(categoryds.getStatus());
-	            // 判断是否为父级节点
-	            List < Category > nodesList = categoryService.findPublishTree(categoryds.getId(), null);
-	            if(nodesList != null && nodesList.size() > 0) {
-	                treeNode.setIsParent("true");
-	            }
-	            jList.add(treeNode);
-	        }*/
-	    	return JSON.toJSONString(jList);
-    	}else{
-    		 //获取字典表中的根数据
+      List<CategoryTree> jList=new ArrayList<CategoryTree>();
+      String name="";
+      if((param!=null&&!"".equals(param))||(code!=null&&!"".equals(code))||isCreate!=null){
+      try {
+        if(param!=null&&!"".equals(param)){
+          name=java.net.URLDecoder.decode(param, "UTF-8");
+        } 
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      }
+      //查询所有匹配的数据
+      category.setId("0");
+          DictionaryData data=new DictionaryData();
+          data.setKind(6);
+          List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+          for (DictionaryData dictionaryData : listByPage) {
+              CategoryTree ct=new CategoryTree();
+              ct.setId(dictionaryData.getId());
+              ct.setName(dictionaryData.getName());
+              ct.setIsParent("true");
+              ct.setClassify(dictionaryData.getCode());
+              jList.add(ct);
+          }
+      List < Category > categoryList = categoryService.searchByNameAndCode(name.trim(),code,isCreate);
+      List < Category > cateList = new ArrayList < Category > ();
+      Set<Category> set=new HashSet<Category>();
+      for(int i=0;i<categoryList.size();i++){
+        Category catego = categoryList.get(i);
+        List<Category> cList=categoryService.findTreeByPid(catego.getId());
+        if(cList==null||cList.size()<=0){
+          cateList.add(catego);
+        }
+      }
+      for(int i=0;i<cateList.size();i++){
+        HashMap<String,Object> map=new HashMap<String, Object>();
+        map.put("id", cateList.get(i).getId());
+        List<Category> catego = categoryService.findCategoryByParentNode(map);
+        for(int j=0;j<catego.size();j++){
+          set.add(catego.get(j));
+        }
+      }
+      Iterator<Category> it = set.iterator();  
+      while(it.hasNext()){
+        Category cate = it.next();
+        List<Category> cList=categoryService.findTreeByPid(cate.getId());
+              CategoryTree ct=new CategoryTree();
+              if(!cList.isEmpty()){
+                  ct.setIsParent("true");
+              }else{
+                  ct.setIsParent("false");
+              }
+              ct.setId(cate.getId());
+              ct.setName(cate.getName());
+              ct.setParentId(cate.getParentId());
+              ct.setKind(cate.getKind());
+              ct.setStatus(cate.getStatus());
+              jList.add(ct);
+      }
+        /*坑人的写法
+         * List < Category > categoryList = service.searchByName(name, null, null);
+        List < Category > cateList = new ArrayList < Category > ();
+        category.setId("0");
+          DictionaryData data=new DictionaryData();
+          data.setKind(6);
+          List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+          for (DictionaryData dictionaryData : listByPage) {
+              CategoryTree ct=new CategoryTree();
+              ct.setId(dictionaryData.getId());
+              ct.setName(dictionaryData.getName());
+              ct.setIsParent("true");
+              ct.setClassify(dictionaryData.getCode());
+              jList.add(ct);
+              for(Category categorys: categoryList) {
+                  String parentId = getParentId(categorys.getId());
+                  if(parentId.equals(dictionaryData.getId())) {
+                      cateList.add(categorys);
+                  }
+              }
+          }
+        
+        removeSame(cateList);
+        List < Category > allCateList = new ArrayList < Category > ();
+          allCateList.addAll(cateList);
+          for(Category categoryds: cateList) {
+              List < Category > list = getParentNodeList(categoryds.getId());
+              allCateList.addAll(list);
+          }
+          removeSame(allCateList);
+          
+          for(Category categoryds: allCateList) {
+              CategoryTree treeNode = new CategoryTree();
+              treeNode.setId(categoryds.getId());
+              treeNode.setName(categoryds.getName());
+              treeNode.setParentId(categoryds.getParentId());
+              treeNode.setKind(categoryds.getKind());
+              treeNode.setStatus(categoryds.getStatus());
+              // 判断是否为父级节点
+              List < Category > nodesList = categoryService.findPublishTree(categoryds.getId(), null);
+              if(nodesList != null && nodesList.size() > 0) {
+                  treeNode.setIsParent("true");
+              }
+              jList.add(treeNode);
+          }*/
+        return JSON.toJSONString(jList);
+      }else{
+         //获取字典表中的根数据
             if(category.getId()==null){
                 category.setId("0");
                 DictionaryData data=new DictionaryData();
@@ -217,25 +217,25 @@ public class CategoryController extends BaseSupplierController {
             }
             String list="";
             List<Category> cateList=categoryService.findTreeByPid(category.getId());
-    	        for(Category cate:cateList){
-    	            List<Category> cList=categoryService.findTreeByPid(cate.getId());
-    	            CategoryTree ct=new CategoryTree();
-    	            if(!cList.isEmpty()){
-    	                ct.setIsParent("true");
-    	            }else{
-    	                ct.setIsParent("false");
-    	            }
-    	            ct.setId(cate.getId());
-    	            ct.setName(cate.getName());
-    	            ct.setpId(cate.getParentId());
-    	            ct.setKind(cate.getKind());
-    	            ct.setStatus(cate.getStatus());
-    	            jList.add(ct);
-    	        }
+              for(Category cate:cateList){
+                  List<Category> cList=categoryService.findTreeByPid(cate.getId());
+                  CategoryTree ct=new CategoryTree();
+                  if(!cList.isEmpty()){
+                      ct.setIsParent("true");
+                  }else{
+                      ct.setIsParent("false");
+                  }
+                  ct.setId(cate.getId());
+                  ct.setName(cate.getName());
+                  ct.setpId(cate.getParentId());
+                  ct.setKind(cate.getKind());
+                  ct.setStatus(cate.getStatus());
+                  jList.add(ct);
+              }
 
             list = JSON.toJSONString(jList);
             return list;
-    	}
+      }
     	
     	
     }

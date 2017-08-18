@@ -1,15 +1,14 @@
 package ses.dao.oms;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Param;
-
 import ses.model.bms.Analyze;
 import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.bms.AnalyzeVo;
 import ses.model.oms.Orgnization;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 public interface OrgnizationMapper {
 	
     int saveOrgnization(HashMap<String, Object> map);

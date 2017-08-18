@@ -877,6 +877,7 @@ public class ExpertAuditController{
         for(int i = 0; i < parentNodeList.size(); i++) {
             DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(i).getId());
             if(rootNode != null) {
+            	cateTree.setRootNodeCode(rootNode.getCode());
                 cateTree.setRootNode(rootNode.getName());
             }
         }
@@ -1484,6 +1485,28 @@ public class ExpertAuditController{
 		model.addAttribute("sign", sign);
 		
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
+		if( reasonsList != null && reasonsList.size() > 0 ){
+			for (ExpertAudit e : reasonsList) {
+				if("six".equals(e.getSuggestType())){
+					SupplierCateTree tree =null;
+					Category category = categoryService.findById(e.getAuditFieldId());
+					if(category != null){
+						tree = getTreeListByCategoryId(category.getId(), null);
+					}else{
+						tree = getTreeListByCategoryId(e.getAuditFieldId(), "ENG_INFO_ID");
+					}
+					if("GOODS".equals(tree.getRootNodeCode())){
+						e.setAuditField("物资品目信息");
+					}else if("PROJECT".equals(tree.getRootNodeCode())){
+						e.setAuditField("工程品目信息");
+					}else if("SERVICE".equals(tree.getRootNodeCode())){
+						e.setAuditField("服务品目信息");
+					}else if("ENG_INFO_ID".equals(tree.getRootNodeCode())){
+						e.setAuditField("工程专业属性");
+					}
+				}
+			}
+		}
 		// 查询审核最终意见
 		ExpertAuditOpinion selectEao = new ExpertAuditOpinion();
 		ExpertAuditOpinion auditOpinion = null;
@@ -1767,7 +1790,6 @@ public class ExpertAuditController{
 		
 		
 		//查询品目类型id
-		
 		//工程技术
 		String engCodeId=DictionaryDataUtil.getId("PROJECT");
 		
@@ -2610,6 +2632,15 @@ public class ExpertAuditController{
     		for (ExpertAudit expertAudit : allTreeList) {
     			Integer num = expertAuditService.findByObj(expertAudit);
     			count+=num;
+    			
+    			//更新品目的状态
+    			if(expertAudit.getAuditFieldId() !=null && expertAudit.getExpertId() !=null){
+    				ExpertCategory expertCategory = new ExpertCategory();
+    				expertCategory.setCategoryId(expertAudit.getAuditFieldId());
+    				expertCategory.setExpertId(expertAudit.getExpertId());
+    				expertCategoryService.updateAuditStatus(expertCategory);
+    			}
+    			
 			}
     		if(count>0){
 				return new JdcgResult(503, "选择中存在已审核,不可重复审核", null);
@@ -2631,8 +2662,70 @@ public class ExpertAuditController{
     	}else{
     		return new JdcgResult(504, "参数错误", null);
     	}
-		
-		
-    	
+    }
+    
+    
+    /**
+     * 
+     * Description: 查询全部和通过的产品类别数量
+     * 
+     * @author zhang shubin
+     * @data 2017年8月14日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/findCategoryCount")
+    @ResponseBody
+    public String findCategoryCount(String expertId){
+    	Map<String, Integer> map = new HashMap<>();
+    	//全部的产品
+    	List<ExpertCategory> expertCategoryList = expertCategoryService.findByExpertId(expertId);
+    	Integer all = 0;
+    	//工程专业
+    	List<ExpertCategory> listgc = new ArrayList<>();
+    	//物资 工程 服务
+    	List<ExpertCategory> listwgf = new ArrayList<>();
+    	for (ExpertCategory expertCategory : expertCategoryList) {
+    		DictionaryData dd = DictionaryDataUtil.findById(expertCategory.getTypeId());
+    		if(dd != null && "ENG_INFO_ID".equals(dd.getCode())){
+    			listgc.add(expertCategory);
+    		}else{
+    			listwgf.add(expertCategory);
+    		}
+		}
+    	//查询工程专业数量
+    	for (ExpertCategory expertCategory : listgc) {
+    		Category data = engCategoryService.findById(expertCategory.getCategoryId());
+    		if(data != null && data.getCode().length() == 7){
+    			all ++;
+    		}else if(engCategoryService.findTreeByPid(expertCategory.getCategoryId()) == null || engCategoryService.findTreeByPid(expertCategory.getCategoryId()).size() == 0){
+    			all ++;
+    		}
+		}
+    	//查询物资 工程 服务数量
+    	for (ExpertCategory expertCategory : listwgf) {
+    		Category data = categoryService.findById(expertCategory.getCategoryId());
+    		if(data != null && data.getCode().length() == 7){
+    			all ++;
+    		}else if(categoryService.findByParentId(expertCategory.getCategoryId()) == null || categoryService.findByParentId(expertCategory.getCategoryId()).size() == 0){
+    			all ++;
+    		}
+		}
+		map.put("all", all);
+    	//不通过的
+    	ExpertAudit expertAudit = new ExpertAudit();
+		expertAudit.setExpertId(expertId);
+		expertAudit.setSuggestType("six");
+		List<ExpertAudit> expertAuditList = expertAuditService.getListByExpert(expertAudit);
+		Integer noPass = 0;
+		if(expertAuditList != null){
+			noPass = expertAuditList.size();
+		}
+		Integer pass = all - noPass;
+		if(pass < 0){
+			pass = 0;
+		}
+		map.put("pass", pass);
+    	return JSON.toJSONString(map);
     }
 }

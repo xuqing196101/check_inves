@@ -674,6 +674,26 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }
         FlowDefine define = flowDefineMapper.get(flowDefineId);
+        // 组织专家评审前判断开标唱标是否完成
+        if(define != null && "ZZZJPS".equals(define.getCode()) && define.getStep() >= count){
+            FlowExecute execute = new FlowExecute();
+            execute.setProjectId(projectId);
+            execute.setStep(8);
+            List<FlowExecute> executes = flowExecuteMapper.findList(execute);
+            StringBuffer sb = new StringBuffer();
+            if(executes != null && !executes.isEmpty()){
+                for (FlowExecute fe : executes){
+                    sb.append(fe.getStatus() + ",");
+                }
+                if(!sb.toString().contains("3")){
+                    FlowDefine define2 = flowDefineMapper.get(executes.get(0).getFlowDefineId());
+                    jsonObj.put("name", define2.getName());
+                    jsonObj.put("next", "1");
+                    return jsonObj;
+                }
+            }
+        }
+
         if(define != null && !"ZZZJPS".equals(define.getCode()) && define.getStep() >= count){
             //根据采购方式获取当前所有的环节
             FlowDefine fd = new FlowDefine();

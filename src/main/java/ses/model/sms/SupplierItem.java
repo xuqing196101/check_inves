@@ -81,6 +81,14 @@ public class SupplierItem implements Serializable {
 	 * </pre>
 	 */
 	private byte isReturned;
+	
+	/**
+	 * <pre>
+	 * 是否删除（0：未删除；1：已删除）
+	 * 表字段 : T_SES_SMS_SUPPLIER_ITEMS.IS_DELETED
+	 * </pre>
+	 */
+	private byte isDeleted;
 
 	private String categoryName;
 
@@ -315,6 +323,14 @@ public class SupplierItem implements Serializable {
 
 	public void setIsReturned(byte isReturned) {
 		this.isReturned = isReturned;
+	}
+
+	public byte getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(byte isDeleted) {
+		this.isDeleted = isDeleted;
 	}
     
 }

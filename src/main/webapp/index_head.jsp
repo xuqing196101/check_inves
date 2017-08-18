@@ -81,25 +81,11 @@
   
   /* 
   function myInfo(){
-<<<<<<< HEAD
-<<<<<<< HEAD
-		if(user!=null && user!=''){
-			window.location.href="${pageContext.request.contextPath}/login/index.html";
-		}else{
-			window.location.href="${pageContext.request.contextPath}/index/sign.html";
-		}
-=======
-=======
->>>>>>> fix_bug
     if(user!=null && user!=''){
       window.location.href="${pageContext.request.contextPath}/login/index.html";
     }else{
       window.location.href="${pageContext.request.contextPath}/index/sign.html";
     }
-<<<<<<< HEAD
->>>>>>> develop
-=======
->>>>>>> fix_bug
   }
    */
   
@@ -728,7 +714,7 @@
 
             <div class="tab-content buyer_list m_buyer_list">
               <!-- 诚信记录 -->
-              <div id="tab-37" class="categories tab-pane fade">
+              <div id="tab-37" class="categories articleover tab-pane fade active in">
               <%-- <ul class="p0_10 list-unstyled">
               <table class="table table-bordered " >
               <thead>
@@ -758,8 +744,7 @@
               </table>
               </ul> 
               <a class="tab_more" href="${pageContext.request.contextPath}/supplier_level/indexList.html">更多>></a>--%>
-              
-              <a class="fr" href="javascript:void(0)">更多&gt;&gt;</a>
+              <a class="fr" href="javascript:void(0)">更多>></a>
               </div>
               <!-- End 诚信记录 -->
 
@@ -930,7 +915,7 @@
               <a class="fr" href="javascript:void(0)">更多&gt;&gt;</a>
             </div>--%>
 
-            <div id="tab-40" class="categories tab-pane fade">
+            <div id="tab-40" class="categories articleover tab-pane fade active in">
             <ul class="p0_10">   
             </ul>
             <a class="fr" href="javascript:void(0)">更多&gt;&gt;</a>

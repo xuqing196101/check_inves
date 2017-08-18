@@ -24,6 +24,9 @@
 
 
 <script type="text/javascript">
+	$(function(){
+		delId =[];
+	})
 	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -39,7 +42,27 @@
 			     checklist[j].checked = false;
 			  }
 		 	}
+		 
 		}
+	
+	function referenceNO(){
+        var referenceNO = $("#referenceNo").val();
+        if(referenceNO == ''){
+            return;
+        }        
+        $.ajax({
+            url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
+            data:{
+                "referenceNO": referenceNO
+            },
+            success: function(data) {
+                if(data.data > 0) {
+                    $("#referenceNo").val("");
+                    layer.msg("采购需求文号已存在");
+                }
+            }
+        });
+    }
 	
 	/** 单选 */
 	function check(){
@@ -92,7 +115,7 @@
 	}
 	
  
-  	 function sum2(obj){  //数量
+  	 function sum2(obj){  //修改数量
 	        var purchaseCount = $(obj).val()-0;//数量
 	        var price2 = $(obj).parent().next().children(":last");//价钱
 	        var price = $(price2).val()-0;
@@ -101,38 +124,40 @@
 	        $(budget).val(sum);
 	      	var id=$(obj).prev().val(); //parentId
 	      	aa(id);
-	    } 
-	    
-	       function sum1(obj){
-	        var price = $(obj).val()-0; //价钱
-	         var purchaseCount = $(obj).parent().prev().children(":last").val()-0;//数量
-	      	 var sum = purchaseCount*price/10000;
-	         $(obj).parent().next().children(":last").val(sum);
-		     	var id=$(obj).prev().val(); //parentId
-		     	aa(id);
 	    }
-	
+
+    function sum1(obj){//修改单价
+        var price = $(obj).val()-0; //价钱
+        if(price == 0){
+            return;
+        }
+        var purchaseCount = $($(obj).parent().prev().children(":first").next()).val()-0;//数量
+        var sum = purchaseCount*price/10000;
+        $($(obj).parent().next().children(":first").next()).val(sum);
+        var id=$($(obj).parent().prev().children(":last")).val(); //parentId
+        aa(id);
+    }
 	       function aa(id){// id是指当前的父级parentid
 	    	  
-	    	   
+
 	    	   var budget=0;
 	    	   $("#table tr").each(function(){
-	 	    		var cid= $(this).find("td:eq(8)").children(":last").val(); //parentId
-	 	    		var same= $(this).find("td:eq(8)").children(":last").prev().val()-0; //价格
+	 	    		var cid= $(this).find("td:eq(8)").children(":first").next().next().val(); //parentId
+	 	    		var same= $(this).find("td:eq(9)").children(":first").next().val()-0; //价格
 		 	       if(id==cid){
-		 	    	 
 		 	    	  budget=budget+same; //查出所有的子节点的值
 		 	       }
 	    	   });
-	    	   budget = budget.toFixed(2); 
+	    	   budget = budget.toFixed(4); //保存两位小数
 	    	   var bud;
 	     
 	    	    $("#table tr").each(function(){
-		    	  var  pid= $(this).find("td:eq(8)").children(":first").val();//上级id
+		    	  var  pid= $(this).find("td:eq(9)").children(":first").val();//自己的ID
 		    		
 		    		if(id==pid){
-		    			$(this).find("td:eq(8)").children(":first").next().val(budget);
-		    			 var spid= $(this).find("td:eq(8)").children(":last").val();
+		    			$(this).find("td:eq(9)").children(":first").next().val(budget); //使父级节点的预算金额为子级节点值和
+		    			 var spid= $(this).find("td:eq(9)").children(":first").next().val();
+		    			/* alert(spid) */
 		    			bud= calc(spid);
 		    		}  
 	    		}); 
@@ -148,16 +173,16 @@
 	 	    		 /*  } 
 	 	    		}); */    
 	    	     
-	    	  var did=$("#table tr:eq(1)").find("td:eq(8)").children(":first").val();
+	    	  var did=$("#table tr:eq(2)").find("td:eq(9)").children(":first").next().val();//超级节点id
 	    	    var total=0;
 	    	    $("#table tr").each(function(){
-	 	    		var cid= $(this).find("td:eq(8)").children(":last").val();
-	 	    		var same= $(this).find("td:eq(8)").children(":last").prev().val()-0;
+	 	    		var cid= $(this).find("td:eq(9)").children(":first").next().val();
+	 	    		var same= $(this).find("td:eq(9)").children(":last").val()-0;
 	 	    		 if(did==cid){
 	 	    			total=total+same;
 	 	    		 }
 	    	   }); 
-	    	    $("#table tr:eq(1)").find("td:eq(8)").children(":first").next().val(total);
+	    	    $("#table tr:eq(1)").find("td:eq(9)").children(":last").val(total);
 	       }   
 	       
         function calc(id){
@@ -198,32 +223,32 @@
 	    	 }
         }
 	  	 
-	      function sel(obj) {
-	    	  if($(obj).val()!="26E3925D38BB4295BEB342BDC82B65AC"){
-	    		  $(obj).parent().next().children(":last").val("");
-	    	  }
-	    		  var next=$(obj).parent().parent().nextAll();
-					var parent_id=$($(obj).parent().parent().children()[1]).children(":last").val();
-					for(var i = 0; i < next.length; i++){
-						 if(next[i].tagName=="TR"){
-							 if(parent_id==$($(next[i]).children()[1]).children(":last").val()){
-				              break;
-				        }
-				       $($(next[i]).children()[11]).children(":last").val($(obj).val());
-						 }
-		    	 }
-		   /*  var val = $(obj).val();
-		    $("select option").each(function() {
-		      var opt = $(this).val();
-		      if (val == opt) {
-		        $(this).attr("selected", "selected");
-		      }
-		    }); */
+	      function changeType(obj) {
+                  /*if($(obj).val()!="26E3925D38BB4295BEB342BDC82B65AC"){
+                      $(obj).parent().next().children(":last").val("");
+                  }
+                      var next=$(obj).parent().parent().nextAll();
+                        var parent_id=$($(obj).parent().parent().children()[1]).children(":last").val();
+                        for(var i = 0; i < next.length; i++){
+                             if(next[i].tagName=="TR"){
+                                 if(parent_id==$($(next[i]).children()[1]).children(":last").val()){
+                                  break;
+                            }
+                           $($(next[i]).children()[11]).children(":last").val($(obj).val());
+                             }
+                     }*/
+               /*  var val = $(obj).val();
+                $("select option").each(function() {
+                  var opt = $(this).val();
+                  if (val == opt) {
+                    $(this).attr("selected", "selected");
+                  }
+                }); */
 		    	var defValue;
 	    		 var org=$(obj).val();
 	    		 var price=$(obj).parent().prev().prev().prev().prev().val();
 	    		 if(price==""){
-	    			var id=$(obj).prev().val();
+	    			/*var id=$(obj).prev().val();
 	    		 	  $.ajax({
 	    		          url: "${pageContext.request.contextPath}/accept/detail.html",
 	    		          data: "id=" + id,
@@ -259,9 +284,33 @@
 	    		      	 	   });
 	    		            }
 	    		           }
-	    		          });
-	    		          
-	    		          
+	    		          });*/
+                     var purchaseType = $(obj).find("option:selected").text(); //选中的文本
+                     if($.trim(purchaseType) == "单一来源") {
+                         $(obj).parent().next().find("input").removeAttr("readonly");
+                     } else {
+                         $(obj).parent().next().find("input").val("");
+                         $(obj).parent().next().find("input").attr("readonly", "readonly");
+                     }
+                     var next=$(obj).parent().parent().nextAll();
+                     var parent_id=$($(obj).parent().parent().children()[1]).children(":last").val();
+                     for(var i = 0; i < next.length; i++){
+                         if(parent_id==$($(next[i]).children()[1]).children(":last").val()){
+                             break;
+                         }
+                         if(i == 8){
+                             alert($($($(next[i]).children()[11]).children(":last")).find("option:selected").text());
+                             alert($(obj).val());
+                         }
+
+                         $($(next[i]).children()[11]).children(":last").val($(obj).val());
+                         if($(obj).val() == "单一来源") {
+                             $($(next[i]).children()[12]).find("input").removeAttr("readonly");
+                         } else {
+                             $($(next[i]).children()[12]).find("input").val("");
+                             $($(next[i]).children()[12]).find("input").attr("readonly", "readonly");
+                         }
+                     }
 	    		 }
 		  }
 	       
@@ -284,6 +333,23 @@
 	    		 $(obj).attr("readonly","readonly");
 	    	 }
 	     }
+	     
+	     function dyly(){
+             var bool=true;
+             $("#detailZeroRow tr").each(function(i){
+                 var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
+                   if($.trim(type) == "单一来源") {
+                       var  supp= $(this).find("td:eq(12)").children(":first").val();//上级id
+                       if($.trim(supp)==''){
+                           bool=false;
+                           return bool;
+                       }
+                   }
+             });
+             return bool;
+             
+         } 
+	     
 	      function submit(){
 	    	  
 	    	  var name=$("#jhmc").val();
@@ -291,6 +357,19 @@
 					 layer.alert("需求名称不允许为空"); 
 					 return false;
 				}
+	    	   var dy=dyly(); 
+	    	  
+	    	  $("#detailZeroRow tr").each(function(i){
+                 var  type= $(this).find("td:eq(11)").children(":last").text();//上级id
+                   if($.trim(type) == "单一来源") {
+                       var  supp= $(this).find("td:eq(12)").children(":first").val();//上级id
+                   }
+             });
+	    	  
+	    	  if(!dy){
+                  layer.alert("请填写供应商");
+                  return false;
+              }
 	    	  var flgs=false;
 	    	  $("#table tr").each(function(i){
 	    		  var price = $(this).find("td:eq(8)").children(":last").val();
@@ -315,10 +394,14 @@
 	    	  $("input[name='planType']").val(type);
 	    	  $("input[name='mobile']").val(mobile);
 	    	// $("#table").find("#edit_form").submit();
-	    	 if($("#table tr").length>$("#listSize").val()){
+	    	$.each(delId,function(i,n){
+	    		deleteRow(n);
+	    	});
+	    	 /* if($("#table tr").length>$("#listSize").val()){ */
+	    	 var flag = true;
 	    		 var jsonStr = [];
 	 			 $("#table tr").each(function(i){ //遍历Table的所有Row
-	 					 if(i>0&&i<=$("#listSize").val() ){
+	 					 if(i>0){  //&&i<=$("#listSize").val()
 	 				    var id =$(this).find("td:eq(1)").children(":first").val();
 	 				    var parentId =$(this).find("td:eq(1)").children(":last").val();
 	 				    var seq = $(this).find("td:eq(1)").children(":first").next().val();
@@ -326,19 +409,29 @@
 	 				    var department = $.trim($(this).find("td:eq(2)").text());
 	 					var goodsName =$(this).find("td:eq(3)").children(":last").children(":last").val();
 	 					var stand = $(this).find("td:eq(4)").children(":last").val();
+                             if(stand.length > 250){
+                                 flag = false;
+                                 layer.alert("第" + i +"行规格型号不能超过250字");
+                                 return false;
+                             }
 	 					var qualitStand = $(this).find("td:eq(5)").children(":last").val();
+                             if(qualitStand.length > 1000){
+                                 flag = false;
+                                 layer.alert("第" + i +"行质量技术标准不能超过1000字");
+                                 return false;
+                             }
 	 					var item = $(this).find("td:eq(6)").children(":last").val();
-	 					var purchaseCount =$(this).find("td:eq(7)").children(":last").val();
-	 					var price = $(this).find("td:eq(8)").children(":last").val();
-	 					var budget = $(this).find("td:eq(9)").children(":last").val();
-	 				  var deliverDate = $(this).find("td:eq(10)").children(":last").val();
+                        var purchaseCount =$(this).find("td:eq(7)").children(":first").next().val();
+                        var price = $(this).find("td:eq(8)").children(":first").next().val();
+                        var budget = $(this).find("td:eq(9)").children(":first").next().val();
+	 					var deliverDate = $(this).find("td:eq(10)").children(":last").val();
 	 					var purchaseTypes = $(this).find("td:eq(11)").children(":last").val();
 	 					var supplier = $(this).find("td:eq(12)").children(":last").val();
 	 					var isFreeTax = $(this).find("td:eq(13)").children(":last").val();
 	 					var goodsUse = $(this).find("td:eq(14)").children(":last").val();
 	 					var useUnit =$(this).find("td:eq(15)").children(":last").val();
 	 					var memo = $(this).find("td:eq(16)").children(":last").val(); 
-	 				  	var json = {"seq":seq,"id":id,"parentId":parentId,"department":department, "goodsName":goodsName, "stand":stand,"qualitStand":qualitStand,
+	 					var json = {"seq":seq,"id":id,"parentId":parentId,"department":department, "goodsName":goodsName, "stand":stand,"qualitStand":qualitStand,
 	 						"item":item, "purchaseCount":purchaseCount, "price":price, "budget":budget, 
 	 						"deliverDate":deliverDate,"purchaseType":purchaseTypes,"supplier":supplier,
 	 						"isFreeTax":isFreeTax,"goodsUse":goodsUse,"useUnit":useUnit,"memo":memo,"isMaster":i};
@@ -347,6 +440,9 @@
 
 	 				 	}
 	 				});
+	 			 if(!flag){
+	 			     return;
+                 }
 	 			// return false;
 	 		//	var forms=$("#add_form").serializeArray();
 	 			  $.ajax({
@@ -366,7 +462,7 @@
 	 	  		        error: function (message) {
 	 	  		        }
 	 	  		    });
-	    	 }
+	    	 /* } */
 	    	 //$("#table").find("#edit_form").submit();
 	    	 // $("#edit_form").submit();
 	      }
@@ -611,7 +707,8 @@
 	                       
 	                    }); 
 				
-			} 
+			}
+
 	 //动态添加
 		function aadd() {
 			var value = $("#xqbm").val();
@@ -624,7 +721,8 @@
 				data:{"index":index,
 					  "type":"edit"},
 				success: function(data) {
-					$("#detailZeroRow").append(data);
+                    //$("table tr:last").after(data);
+                    $("#detailZeroRow").append(data);
 					init_web_upload();//加载附件上传按钮
 				    var bool=$("input[name='import']").is(':checked');
 					if(bool==true){
@@ -847,10 +945,15 @@
 	  		        }
 	  		    });
 	    }
-      function delRowIndex(obj){
+      function delRowIndex(obj){//delobjId
 			var detailRow = document.getElementsByName("detailRow");
 			var index = detailRow.length;
 			
+			var input=$(obj).prev().val();
+			delId.push(input); 
+			/* var del = $("input[name='delobjId']").val(delId); */
+			/* delId.push(del); */ 
+			//alert(delId);
 			if(index<3){
 				 layer.alert("至少保留两行！",{offset: ['222px', '390px'], shade:0.01});
 			}else{
@@ -860,14 +963,14 @@
 			 if($.trim(val)!=""){
 				 var input=$(obj).prev().val();
 				 if(typeof(input)!="undefined"){
-					 deleteRow(input);
+					/*  deleteRow(input);  */
 				 }
 				 $(obj).parent().parent().remove();
 			 }
 			 else if(nextEle.length<1){
 				 var input=$(obj).prev().val();
 				 if(typeof(input)!="undefined"){
-					 deleteRow(input);
+					/*  deleteRow(input);  */
 				 }
 				 $(obj).parent().parent().remove(); 
 			 }
@@ -875,7 +978,9 @@
 				 layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
 			 }
 			} 
-			
+			var cid = $(obj).parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().children(":last");
+            /* alert(cid); */
+            sum2(cid);
 		}
 </script>
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
@@ -920,8 +1025,8 @@
 					class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求文号</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input type="text" class="input_group" id="referenceNo"
-							name="referenceNo" value="${list[0].referenceNo}"> <span
-							class="add-on">i</span>
+							name="referenceNo" value="${list[0].referenceNo}" onblur="referenceNO()"> <span
+							class="add-on" >i</span>
 					</div></li>
 
 
@@ -1088,35 +1193,49 @@
 									</td>
 
 									<!-- <input type="hidden" name="history" value="" /> -->
-									<td><c:if test="${obj.purchaseCount!=null}">
+									<td><%--<c:if test="${obj.purchaseCount!=null}">
 											<input type="hidden" name="ss" value="${obj.id }">
-											<input type="hidden" name="ss" value="${obj.parentId }">
 											<input maxlength="11" class="purchasecount"
 												onblur="sum2(this);" type="text"
 												onkeyup="this.value=this.value.replace(/\D/g,'')"
 												onafterpaste="this.value=this.value.replace(/\D/g,'')"
 												name="list[${vs.index }].purchaseCount"
 												value="${obj.purchaseCount}" />
+                                        <input type="hidden" name="ss" value="${obj.parentId }">
 										</c:if> <c:if test="${obj.purchaseCount==null }">
 											<input class="purchasecount" type="text" 
 												name="list[${vs.index }].purchaseCount" class="w80"
 												value="${obj.purchaseCount }" >
-										</c:if></td>
-									<td class="tl w80"><c:if test="${obj.price!=null}">
+										</c:if>--%>
+                                        <input type="hidden" name="ss" value="${obj.id }">
+                                        <input maxlength="11" class="purchasecount"
+                                               onblur="sum2(this);" type="text"
+                                               onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                               onafterpaste="this.value=this.value.replace(/\D/g,'')"
+                                               name="list[${vs.index }].purchaseCount"
+                                               value="${obj.purchaseCount}" />
+                                        <input type="hidden" name="ss" value="${obj.parentId }">
+                                    </td>
+									<td class="tl w80"><%--<c:if test="${obj.price!=null}">
 											<input type="hidden" name="ss" value="${obj.id }">
-											<input type="hidden" name="ss" value="${obj.parentId }">
 											<input maxlength="11" class="price"
 												name="list[${vs.index }].price" onblur="sum1(this);" value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                                        <input type="hidden" name="ss" value="${obj.parentId }">
 										</c:if> <c:if test="${obj.price==null}">
 											<input class="price"  type="text"
 												name="list[${vs.index }].price" value="${obj.price }">
-										</c:if></td>
+										</c:if>--%>
+                                        <input type="hidden" name="ss" value="${obj.id }">
+                                        <input maxlength="11" class="price"
+                                               name="list[${vs.index }].price" onblur="sum1(this);" value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                                        <input type="hidden" name="ss" value="${obj.parentId }">
+                                    </td>
 									<td><input type="hidden" name="ss" value="${obj.id }">
-									 <input
-										type="hidden" name="ss" value="${obj.parentId }">
 										<input maxlength="11" id="budget"
 										name="list[${vs.index }].budget" type="text"
-										readonly="readonly" value="${obj.budget}" class="budget" /></td>
+										readonly="readonly" value="${obj.budget}" class="budget" />
+                                        <input type="hidden" name="ss" value="${obj.parentId }">
+                                    </td>
 									<td class="tc"><input type="hidden" name="ss"
 										value="${obj.id }"> <textarea
 											name="list[${vs.index }].deliverDate" 
@@ -1129,7 +1248,7 @@
 										  <c:if test="${obj.price!=null}"> --%> <input
 										type="hidden" name="ss" value="${obj.id}" /> <select
 										name="list[${vs.index }].purchaseType"
-										<c:if test="${obj.price==null}"> onchange="sel(this);" </c:if>
+										<c:if test="${obj.price==null}"> onchange="changeType(this);" </c:if>
 										<c:if test="${obj.price!=null}"> onchange="ssl(this);" </c:if>
 										class="purchasetype" id="select">
 											<option value="">请选择</option>
@@ -1182,6 +1301,7 @@
 							<input type="hidden" name="planType">
 							<input type="hidden" name="mobile">
 							<input type="hidden" name="referenceNo" />
+							<input type="hidden" name="delobjId" />
 					</form>
 				</table>
 			</div>

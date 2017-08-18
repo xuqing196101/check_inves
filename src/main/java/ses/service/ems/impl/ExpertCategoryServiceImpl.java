@@ -281,5 +281,14 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
     List<ExpertCategory> list = mapper.selectListByExpertId1(expertId, typeId);
     return list;
   }
+
+  	/**
+  	 * 更新审核状态 
+  	 */
+	@Override
+	public void updateAuditStatus(ExpertCategory expertCategory) {
+		mapper.updateAuditStatus(expertCategory);
+		
+	}
 }
  

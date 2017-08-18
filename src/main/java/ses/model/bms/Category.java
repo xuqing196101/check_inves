@@ -146,11 +146,11 @@ public class Category {
     /** 物资销售型专业资质names **/
     private transient String profileSalesQuaNames;
 
-    /** 供应商注册等级要求 **/
-    private String level;
+    /** 等级 **/
+    private Integer level;
     
-    /** 工程类供应商注册等级要求 **/
-    private String engLevel;
+    private String engLevel;//等级
+    private String isParent;//是否为子节点
 
     public Orgnization getOrgnization() {
         return orgnization;
@@ -401,11 +401,11 @@ public class Category {
         this.profileSalesQuaNames = profileSalesQuaNames;
     }
 
-    public String getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
@@ -425,7 +425,15 @@ public class Category {
         this.expertType = expertType;
     }
 
-	@Override
+	public String getIsParent() {
+      return isParent;
+    }
+
+    public void setIsParent(String isParent) {
+      this.isParent = isParent;
+    }
+
+  @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

@@ -21,7 +21,8 @@
 		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP"/>
 		<result column="AUDIT_ADVISE" property="auditAdvise" />
 		<result column="EXPERT_TYPE" property="expertType" />
-
+    <result column="SUPPLIER_REGISTER_LEVEL" property="level" />
+		<result column="IS_PARENT" property="isParent" />
 		<!-- <association property="categoryAptitude" column="APTITUDE_ID" select="ses.dao.bms.CategoryAptitudeMapper.selectByPrimaryKey"/> -->
 		<association property="categoryAttchment" column="ATTCHMENT_ID"
 			select="ses.dao.bms.CategoryAttachmentMapper.selectByPrimaryKey" />
@@ -41,7 +42,7 @@
 		ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT,
 		DESCRIPTION, CLASSIFY_STATUS,CODE,POSITION,IS_DELETED,
 		IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE,
-		ATTCHMENT_ID,ORGNIZATION_ID,AUDIT_DATE,AUDIT_ADVISE,EXPERT_TYPE
+		ATTCHMENT_ID,ORGNIZATION_ID,AUDIT_DATE,AUDIT_ADVISE,EXPERT_TYPE,SUPPLIER_REGISTER_LEVEL,IS_PARENT
 	</sql>
 
 	<!-- 根据id查询 -->
@@ -217,6 +218,12 @@
 			<if test="orgnization != null">
 				ORGNIZATION_ID,
 			</if>
+			<if test="level != null">
+				SUPPLIER_REGISTER_LEVEL,
+			</if>
+			<if test="isParent != null">
+				IS_PARENT,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -275,6 +282,12 @@
 			</if>
 			<if test="orgnization != null">
 				#{orgnization.id},
+			</if>
+			<if test="level != null">
+				#{level},
+			</if>
+			<if test="isParent != null">
+				#{isParent},
 			</if>
 		</trim>
 	</insert>
@@ -345,7 +358,13 @@
 				AUDIT_PERSON_ID = #{auditPersonId},
 			</if>
 			<if test="auditAdvise != null and auditAdvise !=''">
-				AUDIT_ADVISE = #{auditAdvise}
+				AUDIT_ADVISE = #{auditAdvise},
+			</if>
+			<if test="level != null">
+				SUPPLIER_REGISTER_LEVEL=#{level},
+			</if>
+			<if test="isParent != null">
+				IS_PARENT=#{isParent},
 			</if>
 		</set>
 		where ID = #{id}

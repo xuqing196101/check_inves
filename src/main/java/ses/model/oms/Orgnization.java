@@ -15,8 +15,7 @@ public class Orgnization implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-	@NotBlank(message = "机构名称不能为空") 
-	@Length(min=1,max=50,message="长度不可超过50")
+	@Length(min=1,max=50,message="不能为空，同时长度不可超过50")
     private String name;
 
     /**
@@ -32,6 +31,8 @@ public class Orgnization implements Serializable {
 
     private String orgCode;
 
+    
+    @NotBlank(message="电话不能为空") 
     private String telephone;
 
     private String areaId;
@@ -90,9 +91,9 @@ public class Orgnization implements Serializable {
     private String quaStashReason;//资质暂停理由
     private String quaNormalReason;//资质启用理由
     private String quaTerminalReason;//资质终止理由
-    
+    @NotBlank(message="不能为空")
     private String contactName;//联系人姓名
-    
+    @NotBlank(message="不能为空")
     private String contactMobile;//联系人电话
     
     /** 品目名称 */
@@ -103,6 +104,9 @@ public class Orgnization implements Serializable {
     
     /** 全称 **/
     private String fullName;
+    
+    //是否具有审核供应商/专家资格
+    private Integer isAuditSupplier;
 
 	public String getId() {
         return id;
@@ -457,6 +461,41 @@ public class Orgnization implements Serializable {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+
+	public Integer getIsAuditSupplier() {
+		return isAuditSupplier;
+	}
+
+	public void setIsAuditSupplier(Integer isAuditSupplier) {
+		this.isAuditSupplier = isAuditSupplier;
+	}
+
+	@Override
+	public String toString() {
+		return "Orgnization [id=" + id + ", name=" + name + ", typeName="
+				+ typeName + ", address=" + address + ", mobile=" + mobile
+				+ ", postCode=" + postCode + ", orgCode=" + orgCode
+				+ ", telephone=" + telephone + ", areaId=" + areaId
+				+ ", detailAddr=" + detailAddr + ", fax=" + fax + ", website="
+				+ website + ", princinpal=" + princinpal
+				+ ", princinpalIdCard=" + princinpalIdCard + ", nature="
+				+ nature + ", isDeleted=" + isDeleted + ", createdAt="
+				+ createdAt + ", updatedAt=" + updatedAt + ", orgLevel="
+				+ orgLevel + ", position=" + position + ", parentId="
+				+ parentId + ", parentName=" + parentName + ", depId=" + depId
+				+ ", isRoot=" + isRoot + ", shortName=" + shortName
+				+ ", describtion=" + describtion + ", email=" + email
+				+ ", provinceId=" + provinceId + ", cityId=" + cityId
+				+ ", townId=" + townId + ", provinceName=" + provinceName
+				+ ", cityName=" + cityName + ", townName=" + townName
+				+ ", requireDepId=" + requireDepId + ", status=" + status
+				+ ", quaStatus=" + quaStatus + ", quaStashReason="
+				+ quaStashReason + ", quaNormalReason=" + quaNormalReason
+				+ ", quaTerminalReason=" + quaTerminalReason + ", contactName="
+				+ contactName + ", contactMobile=" + contactMobile
+				+ ", fullName=" + fullName + ", isAuditSupplier="
+				+ isAuditSupplier + "]";
+	}
     
     
     

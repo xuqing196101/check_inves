@@ -1491,8 +1491,8 @@
 			<if test="status != null">
 				SUPPLIER_STATUS = #{status},
 			</if>
-			<if test="auditDate != null">
-				AUDIT_DATE=#{auditDate},
+			<if test="auditDate != ''">
+				AUDIT_DATE=#{auditDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
 				UPDATED_AT=#{updatedAt},
@@ -1694,7 +1694,7 @@
 		<include refid="Base_Column_List" />
 		from T_SES_SMS_SUPPLIER
 		<where>
-			1=1
+			IS_PROVISIONAL = 0 AND IS_DELETED = 0
 			<if test="supplierName != null and supplierName !=''">
 			    and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 		    </if>
@@ -1722,6 +1722,7 @@
 					#{item}
 				</foreach>
 			</if>
+			ORDER BY AUDIT_DATE DESC
 		</where>
 
 	</select>
@@ -1739,7 +1740,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS = 0
+		WHERE SUPPLIER_STATUS in (0,9) 
 		AND SUBMIT_AT &gt;=
 		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND
@@ -1890,7 +1891,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS in(-3,1,2,3,4,5,6,7,8)
+		WHERE SUPPLIER_STATUS in(-3,1,2,3,4,5,6,7,8,9)
 		AND AUDIT_DATE &gt;=
 		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND

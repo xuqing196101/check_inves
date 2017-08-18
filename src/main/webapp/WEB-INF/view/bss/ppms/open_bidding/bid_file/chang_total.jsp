@@ -145,6 +145,20 @@
 				});
 		}
 	}
+	function checkTotal(){
+		var total = $("input[name='total']").val();
+		if(total == 0){
+			 layer.msg("总价不合法,请重新输入")	
+			 $("input[name='total']").val("")
+		}
+	}
+	function checkPaymentDate(){
+        var paymentDate = $("input[name='paymentDate']").val();
+        if($.trim(paymentDate) == ""){
+        	layer.msg("交货期限不合法,请重新输入")   
+            $("input[name='paymentDate']").val("")
+        }
+    }
 </script>
 </head>
 <body>
@@ -192,8 +206,8 @@
 			    		<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}','${flowDefineId}')" />
 				    </td>
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
-					<td class="tc"><input maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/></td>
-					<td class="tc"><input type="text"/></td>
+					<td class="tc"><input name="total" onblur="checkTotal()" maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/></td>
+					<td class="tc"><input type="text" onblur="checkPaymentDate()" name="paymentDate"/></td>
 					<c:if test="${not empty count}">
 					<td class="tc">
 							<select onchange="show(this)">

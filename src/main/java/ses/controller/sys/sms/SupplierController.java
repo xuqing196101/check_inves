@@ -1,26 +1,17 @@
 package ses.controller.sys.sms;
 
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.LoginLogService;
+import common.service.UploadService;
+import common.utils.Arith;
+import common.utils.IDCardUtil;
+import common.utils.RSAEncrypt;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -39,13 +30,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
-import ses.model.bms.*;
+import ses.model.bms.Area;
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
+import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
-import ses.model.sms.*;
+import ses.model.sms.DeleteLog;
+import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierAfterSaleDep;
+import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierAuditNot;
+import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCertEng;
+import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierDictionaryData;
+import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatEng;
+import ses.model.sms.SupplierMatPro;
+import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierPorjectQua;
+import ses.model.sms.SupplierRegPerson;
+import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -56,7 +73,21 @@ import ses.service.bms.UserServiceI;
 import ses.service.ems.DeleteLogService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
-import ses.service.sms.*;
+import ses.service.sms.SupplierAddressService;
+import ses.service.sms.SupplierAfterSaleDepService;
+import ses.service.sms.SupplierAptituteService;
+import ses.service.sms.SupplierAuditNotService;
+import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierBranchService;
+import ses.service.sms.SupplierCertEngService;
+import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierMatEngService;
+import ses.service.sms.SupplierMatProService;
+import ses.service.sms.SupplierMatSeService;
+import ses.service.sms.SupplierMatSellService;
+import ses.service.sms.SupplierPorjectQuaService;
+import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.IdentityCode;
@@ -66,17 +97,22 @@ import ses.util.SupplierLevelUtil;
 import ses.util.ValidateUtils;
 import ses.util.WfUtil;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.model.UploadFile;
-import common.service.LoginLogService;
-import common.service.UploadService;
-import common.utils.Arith;
-import common.utils.IDCardUtil;
-import common.utils.RSAEncrypt;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * 供应商控制类
@@ -220,16 +256,16 @@ public class SupplierController extends BaseSupplierController {
         	
         	// 随后设置供应商类型（如果所选产品目录全部被退回，则去掉对应所属的供应商类型）
         	if(itemList_product == null || itemList_product.isEmpty()){
-        		supplierTypeRelateService.delete(suppId, "PRODUCT");
+        		//supplierTypeRelateService.delete(suppId, "PRODUCT");
         	}
         	if(itemList_sales == null || itemList_sales.isEmpty()){
-        		supplierTypeRelateService.delete(suppId, "SALES");
+        		//supplierTypeRelateService.delete(suppId, "SALES");
         	}
         	if(itemList_project == null || itemList_project.isEmpty()){
-        		supplierTypeRelateService.delete(suppId, "PROJECT");
+        		//supplierTypeRelateService.delete(suppId, "PROJECT");
         	}
         	if(itemList_service == null || itemList_service.isEmpty()){
-        		supplierTypeRelateService.delete(suppId, "SERVICE");
+        		//supplierTypeRelateService.delete(suppId, "SERVICE");
         	}
     	}
     	
@@ -412,7 +448,28 @@ public class SupplierController extends BaseSupplierController {
 		
     	return "ses/sms/supplier_register/template_upload";
     }
-    
+
+	/**
+	 * 查看上传承诺书和申请表
+	 * @param model
+	 * @param suppId
+	 * @return
+	 */
+	@RequestMapping("/show_template_upload")
+	public String show_template_upload(Model model, String supplierId,Integer person, Integer judge,Integer sign){
+
+		if(StringUtils.isBlank(supplierId)){
+			return "ses/sms/supplier_query/supplierInfo/template_upload";
+		}
+		Supplier supplier = supplierService.selectById(supplierId);
+		initUploadConstants(model, supplier);
+		initUploadAudit(model, supplier);
+		model.addAttribute("person",person);
+		model.addAttribute("supplierId",supplierId);
+		model.addAttribute("judge",judge);
+		model.addAttribute("sign",sign);
+		return "ses/sms/supplier_query/supplierInfo/template_upload";
+	}
     /**
      * 供应商注册步骤
      * @param step
@@ -1552,21 +1609,15 @@ public class SupplierController extends BaseSupplierController {
 			return "ses/sms/supplier_register/template_upload";
 		}
 		supplierService.commit(supplier);
-		//更新审核时间
-		supplier.setAuditDate(new Date());
 		//刪除上次的审核记录
 		/*supplierAuditService.deleteBySupplierId(supplier.getId());*/
 		SupplierAudit supplierAudit = new SupplierAudit();
 		supplierAudit.setSupplierId(supplier.getId());
 		supplierAuditService.updateIsDeleteBySupplierId(supplierAudit);
-		
 		//清空审核人
-		Supplier su = new Supplier ();
-		su.setId(supplier.getId());
-		su.setAuditor("");
-		supplierAuditService.updateStatus(su);
-		
+		supplier.setAuditor("");
 		supplierAuditService.updateStatus(supplier);
+		
 		request.getSession().removeAttribute("currSupplier");
 		request.getSession().removeAttribute("sysKey");
 		request.getSession().removeAttribute("supplierDictionaryData");
@@ -1720,8 +1771,15 @@ public class SupplierController extends BaseSupplierController {
 				count++;
 			}
 		}
-		if(supplier.getPassword() == null || supplier.getPassword().length() < 6 || supplier.getPassword().length() > 20) {
-			model.addAttribute("err_msg_password", "密码长度为6-20位！");
+		if(supplier.getPassword() == null){
+			model.addAttribute("err_msg_password", "密码不能为空");
+			count++;
+		}else{
+			String pwd=supplier.getPassword();
+			supplier.setPassword(pwd.replaceAll("\\s",""));
+		}
+		if(supplier.getPassword().length() < 6 || supplier.getPassword().length() > 20) {
+			model.addAttribute("err_msg_password", "密码不能出现空格，密码长度为6-20位！");
 			count++;
 		}
 		if(supplier.getConfirmPassword() == null || !supplier.getPassword().equals(supplier.getConfirmPassword())) {
@@ -2575,7 +2633,7 @@ public class SupplierController extends BaseSupplierController {
 		    }
 		}
 		
-		/*List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
+		List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
 		if(aptitudeList != null && aptitudeList.size() > 0){
 			Set<String> codeSet = new HashSet<>();
 			int codeCount = 0;
@@ -2589,7 +2647,7 @@ public class SupplierController extends BaseSupplierController {
 				model.addAttribute("eng_aptitutes", "证书编号重复!");
 				bool = false;
 			}
-		}*/
+		}
     	
 		return bool;
 	}
@@ -2805,7 +2863,7 @@ public class SupplierController extends BaseSupplierController {
 			if (level != null) {
 			    for (int i = 0; i < child.size(); i++) {
 			        Category cate = child.get(i);
-			        if (cate.getLevel() != null && Integer.parseInt(cate.getLevel()) < level) {
+			        if (cate.getLevel() != null && cate.getLevel() < level) {
 			            child.remove(i);
 			        }
 			    }
@@ -2904,7 +2962,7 @@ public class SupplierController extends BaseSupplierController {
         if (level != null) {
             for (int i = 0; i < child.size(); i++) {
                 Category cate = child.get(i);
-                if (cate.getLevel() != null && Integer.parseInt(cate.getLevel()) < level) {
+                if (cate.getLevel() != null && cate.getLevel() < level) {
                     child.remove(i);
                 }
             }

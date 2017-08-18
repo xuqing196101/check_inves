@@ -1,22 +1,11 @@
 package ses.service.sms.impl;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import com.github.pagehelper.PageHelper;
+import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.UploadService;
+import common.utils.DateUtils;
+import common.utils.ListSortUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +13,7 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.github.pagehelper.PageHelper;
-
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
-
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
@@ -104,11 +89,23 @@ import ses.util.PropertiesUtil;
 import ses.util.SupplierLevelSort;
 import ses.util.SupplierToolUtil;
 import ses.util.WfUtil;
-import common.constant.StaticVariables;
-import common.model.UploadFile;
-import common.service.UploadService;
-import common.utils.DateUtils;
-import common.utils.ListSortUtil;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @Title: SupplierServiceImpl
@@ -728,6 +725,7 @@ public class SupplierServiceImpl implements SupplierService {
   }
 
   public List<Supplier> query(Map<String, Object> map) {
+
     return supplierMapper.query(map);
   }
 
@@ -856,7 +854,19 @@ public class SupplierServiceImpl implements SupplierService {
   public List<Supplier> validateCreditCode(String creditCode) {
     return supplierMapper.validateCreditCode(creditCode);
   }
-
+  /**
+   * 统一社会信用代码的唯一校验
+   */
+  @Override
+  public Integer CreditCode(String creditCode) {
+     List<Supplier> list = supplierMapper.validateCreditCode(creditCode);
+     if (list !=null && list.size() > 0) {
+		return 2;//统一社会信用代码已被占用
+	}else {
+		return 1;//统一社会信用代码未被占用
+	}
+  }
+  
   /**
    * @see ses.service.sms.SupplierService#getContract(java.util.List)
    */

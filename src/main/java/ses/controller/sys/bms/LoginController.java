@@ -5,12 +5,13 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.zookeeper.server.quorum.Election;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -18,6 +19,7 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import redis.clients.jedis.Jedis;
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
@@ -38,6 +40,7 @@ import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
 import ses.util.PropUtil;
 import ses.util.SessionListener;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.service.LoginLogService;
@@ -202,10 +205,13 @@ public class LoginController {
                                 } else if (("-3").equals(object)){
                                     // 公示中状态
                                     out.print("publicity");
+                                } else if (("10").equals(object)){
+                                	//黑名单处罚中状态
+                                    out.print("expertBlack");
                                 }
                             }else {
                                 // 实现单一登录 踢人效果
-                             /* if (null != SessionListener.sessionMap.get(u.getId())) {
+                              /*if (null != SessionListener.sessionMap.get(u.getId())) {
                                   // 第一次登录的用户session销毁
                                   // 将第一次登录用户的信息从map中移除
                                   forceLogoutUser(u.getId());
@@ -458,7 +464,7 @@ public class LoginController {
      */
     @RequestMapping("/loginOut")
     public String loginOut(@CurrentUser User user,HttpServletRequest re){
-        re.getSession().invalidate();
+    	re.getSession().invalidate();
         return "redirect:/";
     }
     
@@ -471,7 +477,7 @@ public class LoginController {
      * @param id 要强行退出的用户的ID
      * @return
      */
-    public void forceLogoutUser(String id) {
+    public synchronized void forceLogoutUser(String id) {
         // 删除单一登录中记录的变量
         if (SessionListener.sessionMap.get(id) != null) {
             HttpSession hs = (HttpSession) SessionListener.sessionMap.get(id);

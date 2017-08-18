@@ -7,6 +7,7 @@
     <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
     <result column="LEVELS" jdbcType="VARCHAR" property="levels" />
     <result column="ENGIN_TYPE" jdbcType="VARCHAR" property="engin_type" />
+    <result column="AUDIT_STATUS" property="auditStatus"/>
   </resultMap>
   
   <sql id="baseExpertSql">
@@ -201,4 +202,14 @@
            AND C.LEVELS = '1'
            AND C.TYPE_ID = #{typeId}
     </select>
+    
+    <!-- 更新审核状态 -->
+    <update id="updateAuditStatus" parameterType="ses.model.ems.ExpertCategory">
+      update 
+        T_SES_EMS_EXPERT_CATEGORY 
+      SET 
+        AUDIT_STATUS = 1 
+      WHERE 
+        EXPERT_ID =#{expertId} and CATEGORY_ID =#{categoryId}
+    </update>
 </mapper>

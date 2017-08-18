@@ -1133,14 +1133,18 @@
 									
 									<h2 class="count_flow"><i>1</i>保密工程业绩</h2>
 									<ul class="ul_list">
-										<c:if test="${supplierMatEngs.isHavingConAchi eq '0'}">
-											<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" style="width: 230px;">是否有国家或军队保密工程业绩：</span>
-												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-													<input id="isHavingConAchi" type="text" value="无" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(fieldSecrecy,'isHavingConAchi')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('isHavingConAchi','mat_eng_page');"</c:if> <c:if test="${fn:contains(passedEngField,'isHavingConAchi')}">style="border: 1px solid red;"</c:if>/>
-												</div>
-											</li>
-										</c:if>
+										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" style="width: 230px;">是否有国家或军队保密工程业绩：</span>
+											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+												<c:if test="${supplierMatEngs.isHavingConAchi eq '0'}">
+												  <input id="isHavingConAchi" type="text" value="无" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(fieldSecrecy,'isHavingConAchi')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('isHavingConAchi','mat_eng_page');"</c:if> <c:if test="${fn:contains(passedEngField,'isHavingConAchi')}">style="border: 1px solid red;"</c:if>/>
+											  </c:if>
+												<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
+												  <input id="isHavingConAchi" type="text" value="有" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(fieldSecrecy,'isHavingConAchi')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('isHavingConAchi','mat_eng_page');"</c:if> <c:if test="${fn:contains(passedEngField,'isHavingConAchi')}">style="border: 1px solid red;"</c:if>/>
+											  </c:if>
+											</div>
+										</li>
+										
 										<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 												<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierConAch)}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,'supplierConAch')}">style="border: 1px solid red;"</c:if>>承包合同主要页及保密协议：</span>

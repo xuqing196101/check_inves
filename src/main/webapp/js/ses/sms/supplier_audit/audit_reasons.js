@@ -170,7 +170,7 @@ function downloadTable(str) {
 function vartifyAuditCount(){
     var flags = false;
     // 获取审核意见
-    var opinion  = $("#opinion").val();
+    var opinion  = $.trim($("#opinion").val());
     var checkVal = $("input:radio[name='selectOption']:checked").val();
     if(checkVal == undefined){
         layer.msg("请选择审核意见项");

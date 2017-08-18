@@ -1,6 +1,6 @@
 package ses.util;
 
-import java.util.HashMap;
+import java.util.Hashtable;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
@@ -18,7 +18,7 @@ import ses.model.bms.User;
  */
 @SuppressWarnings("all")
 public class SessionListener implements HttpSessionListener {
-	public static HashMap<String, Object> sessionMap = new HashMap<>();
+	public static Hashtable<String, Object> sessionMap = new Hashtable<>();
 	public void sessionCreated(HttpSessionEvent hse) {
 		HttpSession session = hse.getSession();
 	}
@@ -29,7 +29,7 @@ public class SessionListener implements HttpSessionListener {
 	public static synchronized void DelSession(HttpSession session) {
 		if (session != null) {
 			// 删除单一登录中记录的变量
-			if (session.getAttribute("users") != null) {
+			if (session.getAttribute("loginUser") != null) {
 				User u = (User) session.getAttribute("loginUser");
 				SessionListener.sessionMap.remove(u.getId());
 			}

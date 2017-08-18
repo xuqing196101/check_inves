@@ -22,6 +22,7 @@
 		<result column="AUDIT_ADVISE" property="auditAdvise" />
 		<result column="SUPPLIER_REGISTER_LEVEL" property="level" />
 		<result column="SUPPLIER_ENG_REG_LEVEL" property="engLevel" />
+		<result column="IS_PARENT" property="isParent" />
 
 		<!-- <association property="categoryAptitude" column="APTITUDE_ID" select="ses.dao.bms.CategoryAptitudeMapper.selectByPrimaryKey"/> -->
 		<association property="categoryAttchment" column="ATTCHMENT_ID"
@@ -60,12 +61,13 @@
 		<result column="AUDIT_ADVISE" property="auditAdvise" />
 		<result column="SUPPLIER_REGISTER_LEVEL" property="level" />
 		<result column="SUPPLIER_ENG_REG_LEVEL" property="engLevel" />
+		<result column="IS_PARENT" property="isParent" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT,
 		DESCRIPTION, CLASSIFY_STATUS,CODE,POSITION,IS_DELETED,
 		IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE,
-		ATTCHMENT_ID,ORGNIZATION_ID,AUDIT_DATE,AUDIT_ADVISE,SUPPLIER_REGISTER_LEVEL,SUPPLIER_ENG_REG_LEVEL
+		ATTCHMENT_ID,ORGNIZATION_ID,AUDIT_DATE,AUDIT_ADVISE,SUPPLIER_REGISTER_LEVEL,SUPPLIER_ENG_REG_LEVEL,IS_PARENT
 	</sql>
 
 	<!-- 根据id查询 -->
@@ -260,6 +262,9 @@
 			<if test="engLevel != null">
 				SUPPLIER_ENG_REG_LEVEL,
 			</if>
+			<if test="isParent != null">
+				IS_PARENT,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -321,6 +326,9 @@
 			</if>
 			<if test="engLevel != null">
 				#{engLevel},
+			</if>
+			<if test="isParent != null">
+				#{isParent},
 			</if>
 		</trim>
 	</insert>
@@ -388,13 +396,16 @@
 				AUDIT_PERSON_ID = #{auditPersonId},
 			</if>
 			<if test="auditAdvise != null and auditAdvise !=''">
-				AUDIT_ADVISE = #{auditAdvise}
+				AUDIT_ADVISE = #{auditAdvise},
 			</if>
 			<if test="level != null and level !=''">
-				SUPPLIER_REGISTER_LEVEL = #{level}
+				SUPPLIER_REGISTER_LEVEL = #{level},
 			</if>
 			<if test="engLevel != null and engLevel !=''">
-				SUPPLIER_ENG_REG_LEVEL = #{engLevel}
+				SUPPLIER_ENG_REG_LEVEL = #{engLevel},
+			</if>
+			<if test="isParent != null">
+				IS_PARENT=#{isParent},
 			</if>
 		</set>
 		where ID = #{id}

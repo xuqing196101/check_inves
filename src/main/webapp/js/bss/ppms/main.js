@@ -98,6 +98,7 @@ function jumpLoad(url, projectId, flowDefineId) {
 		url: globalPath+"/open_bidding/getNextKb.do?flowDefineId=" + flowDefineId + "&projectId=" + projectId,
 		contentType: "application/json;charset=UTF-8",
 		dataType: "json", //返回格式为json
+        async : false,
 		type: "POST", //请求方式           
 		success: function(data) {
 			if(data.next == '1') {
