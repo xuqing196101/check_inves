@@ -250,7 +250,10 @@ public class ExpExtractRecordController extends BaseController {
       List<Packages> listResultExpert = packagesService.listProjectExtract(projectId);
       for (Packages packages : listResultExpert) {
         DictionaryData dictionaryData = DictionaryDataUtil.findById(packages.getProjectStatus());
-        packages.setProjectStatus(dictionaryData.getCode());
+        if(dictionaryData!=null){
+          packages.setProjectStatus(dictionaryData.getCode());
+        }
+        
       }
       model.addAttribute("listResultExpert", listResultExpert);
       //专家抽取记录

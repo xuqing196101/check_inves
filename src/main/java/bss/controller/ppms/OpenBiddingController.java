@@ -3577,7 +3577,7 @@ public class OpenBiddingController extends BaseSupplierController{
 				buffer.append(packages.getId()+","+packages.getName()+";");
 			}
 		  }
-		  if(buffer != null){
+		  if(buffer != null&&buffer.length()>0){
 			  jsonObj.put("rules", buffer.toString().substring(0,buffer.toString().length()-1));
 		  }
 	  }

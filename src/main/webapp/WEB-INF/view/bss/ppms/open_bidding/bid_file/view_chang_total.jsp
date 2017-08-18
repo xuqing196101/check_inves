@@ -59,7 +59,7 @@
 			 	<c:if test="${vsKey.index ==0 }">
 				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ' || mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}">
 				 	class="count_flow hand fl spread" </c:if> class="count_flow spread hand fl">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
-					<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竟谈]</span></span>
+					<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竟谈]</span></c:if></span>
 				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 				 	</h2>
 				 	<div class="fl mt20 ml10">
