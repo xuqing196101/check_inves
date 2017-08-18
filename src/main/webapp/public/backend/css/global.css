@@ -1960,3 +1960,9 @@ table.lockout .extrafile{
     .m_demand_list li {
       margin-top: 5px;
     }
+		
+		/* 复审-批次专家创建新列表样式 */
+		.group_batch_list {
+			margin-top: 10px;
+			border-top: solid 2px #333;
+		}

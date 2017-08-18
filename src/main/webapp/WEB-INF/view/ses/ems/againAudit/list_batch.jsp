@@ -93,8 +93,9 @@
   </div>
   <!-- 内容结束 -->
   
-  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batch.js"></script>
-  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batch_processing.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchList.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/search.js"></script>
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatch.do';  // 列表地址
     var batch_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.do';
@@ -107,7 +108,7 @@
       
       // 搜索
       $('.againAudit_search').bind('click', function () {
-        againAudit_search(list_url);
+        batchList_search(list_url);
       });
     });
   </script>

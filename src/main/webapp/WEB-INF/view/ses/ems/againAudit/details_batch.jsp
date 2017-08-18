@@ -43,7 +43,7 @@
     
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn" onclick="window.location='${pageContext.request.contextPath}//expertAgainAudit/groupBatch.html'">批次分组</button>
+      <button type="button" class="btn" onclick="jump_batchGroup()">批次分组</button>
       <button type="button" class="btn">审核配置</button>
       <button type="button" class="btn">上传复审批准件</button>
     </div>
@@ -74,6 +74,7 @@
   <!-- 内容结束 -->
   
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchDetails.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetails.do';  // 列表地址
     
@@ -82,6 +83,11 @@
         url: list_url
       });
     });
+    
+    //  跳转到批次分组
+    function jump_batchGroup() {
+      window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+getUrlParam('batchId');
+    }
   </script>
     
 </body>

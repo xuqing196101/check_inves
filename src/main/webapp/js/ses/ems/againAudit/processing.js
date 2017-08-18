@@ -85,15 +85,67 @@ function create_review_batches(url, batch_url, ids) {
   }
 }
 
-// 搜索
-function againAudit_search(url) {
-  var relName = $('[name=relName]').val();  // 获取采购机构名称
-  var auditAt = $('[name=auditAt]').val();  // 获取提交复审时间
-  $('#list_content').listConstructor({
-    data: {
-      orgName: relName,
-      updatedAt: auditAt
+// 创建新分组
+function found_new_batch(url) {
+  var ids = select_ids.join(',');
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: url,
+    data:{
+      batchId: batch_id,
+      ids: ids
     },
-    url: url
+    success: function () {
+      init_list();
+    }
   });
+}
+
+// 删除操作
+function del_group(el) {
+  var group_ids = [];  // 分组id集合
+  var str_group_ids = '';
+  $(el).parents('.group_batch_list').find('.select_item').each(function () {
+    if ($(this).is(':checked')) {
+      group_ids.push($(this).val());
+    }
+  });
+  
+  str_group_ids = group_ids.join(',');
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: del_url,
+    data: {
+      ids: str_group_ids
+    },
+    success: function (data) {
+      init_list();
+      console.log('aa');
+    }
+  });
+}
+
+// 添加至已有分组
+function add_hasGroud(url) {
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: url,
+    data:{
+      groupId: batch_id,
+      ids: select_ids
+    },
+    success: function (data) {
+      console.log(data);
+    }
+  });
+}
+
+// 获取地址栏参数
+function getUrlParam(name) {
+  var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+  var r = window.location.search.substr(1).match(reg);
+  if (r!=null) return unescape(r[2]); return null;
 }

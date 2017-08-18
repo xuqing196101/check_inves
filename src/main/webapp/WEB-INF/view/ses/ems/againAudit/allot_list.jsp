@@ -131,20 +131,22 @@
   <!-- End 弹出框 -->
   
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/againAudit.js"></script>
-  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/againAudit_processing.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/search.js"></script>
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/againAuditList.do';  // 列表地址
     var batch_url = '${pageContext.request.contextPath}/expertAgainAudit/createBatch.do';  // 创建复审批次地址
-    var select_ids = [];  // id集合
+    var select_ids = [];  // 选择的专家id集合
     
     $(function () {
+      // 构建列表
       $('#list_content').listConstructor({
         url: list_url
       });
       
       // 搜索
       $('.againAudit_search').bind('click', function () {
-        againAudit_search(list_url);
+        allotList_search(list_url);
       });
       
       // 创建复审批次

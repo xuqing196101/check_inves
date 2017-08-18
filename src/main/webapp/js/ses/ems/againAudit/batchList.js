@@ -12,7 +12,6 @@
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
         $('#list_content').html('');
-        console.log(list_content);
         for (var i in list_content.list) {
           $('#list_content').append('<tr class="pointer" onclick="window.location=\''+ defaults.batch_url +'?batchId='+ list_content.list[i].batchId +'\'">'
             +'<td class="text-center w50">'+ (parseInt(i) + 1) +'</td>'

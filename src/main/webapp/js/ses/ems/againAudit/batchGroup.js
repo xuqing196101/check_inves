@@ -1,13 +1,16 @@
 (function($) {
   $.fn.listConstructor = function(options) {
     var list_content = [];  // 初始化数据
+    var list_content_new = [];  // 初始化新分组数据
     
     //默认参数
     var defaults = {
       type: 'POST',
       dataType: 'json',
       url: '',
+      newGroup_url: '',
       data: {},
+      data_new: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
         $('#list_content').html('');
@@ -24,8 +27,9 @@
           +'</tr>');
         }
         
-        batch_id = list_content.list[0].batchId;  // 获取批次id
-        console.log(batch_id);
+        if (list_content.list.length > 0) {
+          batch_id = list_content.list[0].batchId;  // 获取批次id
+        }
         
         // 勾选翻页之前选中的项
         for (var i in select_ids) {
@@ -58,6 +62,45 @@
         // 构造分页
         laypageConstructor();
       },
+      success_new: function (data) {
+        var str = '';
+        var str_tr = '';
+        list_content_new = data.object;  // 储存所需数据到变量
+        $('#group_batch_box').html('');
+        for (var i in list_content_new) {
+          for (var ii in list_content_new[i].expertList) {
+            str_tr += '<tr>'
+              +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content_new[i].expertList[i].id +'" class="select_item"></td>'
+              +'<td class="text-center">'+ list_content_new[i].expertList[i].batchDetailsNumber +'</td>'
+              +'<td class="text-center">'+ list_content_new[i].expertList[i].orgName +'</td>'
+              +'<td class="text-center">'+ list_content_new[i].expertList[i].realName +'</td>'
+              +'<td class="text-center">'+ list_content_new[i].expertList[i].gender +'</td>'
+              +'<td class="text-center">'+ list_content_new[i].expertList[i].workUnit +'</td>'
+              +'<td class="text-center">'+ list_content_new[i].expertList[i].professTechTitles +'</td>'
+              +'<td class="text-center">'+ list_content_new[i].expertList[i].updateTime +'</td>'
+            +'</tr>';
+          }
+          str += '<div class="group_batch_list">'
+                +'<div class="mt10 mb10"><button type="button" class="btn" onclick="del_group(this)">删除</button></div>'
+                +'<table class="table table-bordered table-condensed table-hover table-striped groupBatch_table">'
+                +'  <thead>'
+                +'    <tr>'
+                +'      <th class="info w50">选择</th>'
+                +'      <th class="info w100">批次编号</th>'
+                +'      <th class="info">采购机构</th>'
+                +'      <th class="info">专家姓名</th>'
+                +'      <th class="info">性别</th>'
+                +'      <th class="info">工作单位</th>'
+                +'      <th class="info">专业职称</th>'
+                +'      <th class="info">提交复审时间</th>'
+                +'    </tr>'
+                +'  </thead>'
+                +'  <tbody>'+ str_tr +'</tbody>'
+                +'</table>'
+          +'</div>';
+        }
+        $('#group_batch_box').append(str);
+      },
       error: function (data) {
         layer.msg(data.message, {
           offset: '100px'
@@ -77,6 +120,14 @@
           url: opts.url,
           data: opts.data,
           success: opts.success
+        });
+        
+        $.ajax({
+          type: opts.type,
+          dataType: opts.dataType,
+          url: opts.newGroup_url,
+          data: opts.data_new,
+          success: opts.success_new
         });
       });
     }
