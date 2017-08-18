@@ -562,7 +562,7 @@
 							</td>
 							<td class="">
 								<input type="hidden" name="ss"    value="${obj.id}">
-								<input type="text" class="budget" name="listDetail[${vs.index }].budget" onblur="checks(this)"  value="${obj.budget }">
+								<input type="text" readonly="readonly" class="budget" name="listDetail[${vs.index }].budget" onblur="checks(this)"  value="${obj.budget }">
 								<input type="hidden" name="ss"  value="${obj.parentId }">
 							</td>
 							<td>
