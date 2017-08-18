@@ -527,6 +527,9 @@ public class SupplierQueryController extends BaseSupplierController {
             request.getSession().setAttribute("ps", per);
             supplierId = user.getTypeId();
         }
+		if(supplierId == null || "".equals(supplierId)){
+			supplierId = user.getTypeId();
+		}
         supplier = supplierAuditService.supplierById(supplierId);
         String provinceName = "";
         String cityName = "";
