@@ -340,8 +340,13 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
                     jsonObj.put("msg", "请完善信息");
                 }
             } else if ("NZCGGG".equals(flowDefine.getCode())) {
+                DictionaryData data = DictionaryDataUtil.findById(project.getPurchaseType());
                 Article article = new Article();
-                article.setArticleType(articleTypeMapper.selectArticleTypeByCode("purchase_notice"));
+                if("DYLY".equals(data.getCode())){
+                    article.setArticleType(articleTypeMapper.selectArticleTypeByCode("single_source_notice"));
+                } else {
+                    article.setArticleType(articleTypeMapper.selectArticleTypeByCode("purchase_notice"));
+                }
                 article.setProjectId(projectId);
                 List<Article> articles = articleMapper.selectArticleByProjectId(article);
                 if(articles != null && articles.size() > 0){

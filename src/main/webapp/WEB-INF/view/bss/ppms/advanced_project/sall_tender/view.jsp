@@ -33,7 +33,7 @@
       }
 
       function add(packageId, index) {
-        var kindName = $("#kindName").val();
+        var kindName = $("#code").val();
         var projectId = $("#projectId").val();
         if(kindName == "GKZB" || kindName == "DYLY") {
           if(kindName == "DYLY") {
@@ -62,10 +62,10 @@
 
         } else {
           var id = [];
-          $('input[name="chkItem"]:checked').each(function() {
+          $("input[name='chkItem_"+index+"']:checked").each(function() {
             id.push($(this).val());
           });
-          var statusBid = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+          var statusBid = $("input[name='chkItem_"+index+"']:checked").parents("tr").find("td").eq(5).text();
           if(id.length == 1) {
             if($.trim(statusBid) == "已缴纳") {
               layer.msg("该标书费已缴纳", {
@@ -123,19 +123,19 @@
 
       //添加临时供应商 
       function provisional(packId, index) {
-        var kindName = $("#kindName").val();
+        var kindName = $("#code").val();
         var projectId = $("#projectId").val();
-        var ide = $("input[name = 'chkItem']").val();
+        var ide = $("input[name='chkItem_"+index+"']").val();
         ide = $.trim(ide);
         if(kindName == "DYLY") {
           if(ide) {
             layer.msg("只能添加一个");
           } else {
-            var path = "${pageContext.request.contextPath }/SupplierExtracts/showTemporarySupplier.html?packageId=" + packId + "&&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix=" + index;
+            var path = "${pageContext.request.contextPath }/adSaleTender/showTemporarySupplier.html?packageId=" + packId + "&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix=" + index;
             $("#tab-1").load(path);
           }
         } else {
-          var path = "${pageContext.request.contextPath }/SupplierExtracts/showTemporarySupplier.html?packageId=" + packId + "&&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix=" + index;
+          var path = "${pageContext.request.contextPath }/adSaleTender/showTemporarySupplier.html?packageId=" + packId + "&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix=" + index;
           $("#tab-1").load(path);
         }
       }
@@ -246,10 +246,8 @@
     <!-- 表格开始-->
     <input type="hidden" id="projectId" value="${project.id}" />
     <input type="hidden" id="ix" value="${ix}" />
+    <input type="hidden" id="code" value="${status}" />
 
-    <c:forEach items="${kind}" var="kind">
-      <c:if test="${kind.id == project.purchaseType}"><input type="hidden" id="kindName" value="${kind.code}" /></c:if>
-    </c:forEach>
 
     <div class="clear">
       <c:forEach items="${packageList}" var="pack" varStatus="p">

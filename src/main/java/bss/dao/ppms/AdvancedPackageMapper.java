@@ -107,4 +107,14 @@ public interface AdvancedPackageMapper {
      * @return
      */
     List<AdvancedPackages> listSupplierCheckPass(String projectId);
+    
+    /**
+     * 
+     *〈未确认供应商〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param projectId
+     * @return
+     */
+    List<AdvancedPackages> notSupplierCheckPass(String projectId);
 }

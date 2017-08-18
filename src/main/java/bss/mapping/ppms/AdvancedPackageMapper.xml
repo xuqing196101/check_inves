@@ -36,6 +36,12 @@
     <collection property="listCheckPasses" column="ID"
       select="bss.dao.ppms.SupplierCheckPassMapper.getByCheckPass" ofType="bss.model.ppms.SupplierCheckPass" />
   </resultMap>
+  
+  <!-- 未中标供应商 -->
+  <resultMap type="bss.model.ppms.AdvancedPackages" extends="BaseResultMap" id="NotSupplierCheckPass">
+    <collection property="listCheckPasses" column="ID"
+      select="bss.dao.ppms.SupplierCheckPassMapper.getByCheck" ofType="bss.model.ppms.SupplierCheckPass" />
+  </resultMap>
 
 	<sql id="Base_Column_List">
 		ID, NAME,AD_PROJECT_ID,IS_DELETED,CREATED_AT,
@@ -48,6 +54,15 @@
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_ADVANCED_PACKAGE
     where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="notSupplierCheckPass" parameterType="java.lang.String" resultMap="NotSupplierCheckPass">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    T_BSS_PPMS_ADVANCED_PACKAGE WHERE IS_DELETED=0 AND
+    AD_PROJECT_ID=#{projectId}
+    ORDER BY CREATED_AT ASC
   </select>
   
   <select id="find" parameterType="Object" resultMap="BaseResultMap">

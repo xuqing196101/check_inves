@@ -79,43 +79,35 @@
 
       /** 保存  **/
       function save(id) {
-        var net = $("#negotiationRecord" + id).val();
-        if(net){
-          layer.confirm('您确定要保存吗?', {
+        layer.confirm('您确定要保存吗?', {
           title: '提示',
+          offset: ['30%', '40%'],
           shade: 0.01
-	        }, function(index) {
-	          layer.close(index);
-	          var projectId = $("#projectId").val();
-	          var createdAt = $("#createdAt" + id).val();
-	          var nuter = $("#nuter" + id).val();
-	          var negId = $("#negId").val();
-	          var uuId = $("#uuId").val();
-	          var flowDefineId = $("#flowDefineId").val();
-	          $.ajax({
-	            url: "${pageContext.request.contextPath}/open_bidding/saveNet.html?projectId=" + projectId + "&createdAt=" + createdAt + "&nuter=" + nuter + "&net=" + net + "&negId=" + negId + "&uuId=" + uuId + "&packageId=" + id,
-	            type: "post",
-	            dataType: "json",
-	            success: function(result) {
-	              if(result == "1") {
-	                layer.msg("保存成功", {
-	                  time: 2000,
-	                });
-	                window.setTimeout(function() {
-	                  window.location.href = "${pageContext.request.contextPath}/Adopen_bidding/negotiation.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
-	                }, 1000);
-	
-	              }
-	              if(result == "2") {
-	                layer.msg("修改成功");
-	              }
-	            }
-	          });
-	        });
-        } else {
-          layer.msg("内容不能为空");
-        }
-        
+        }, function(index) {
+          layer.close(index);
+          var projectId = $("#projectId").val();
+          var reviewTime = $("#reviewTime" + id).val();
+          var reviewSite = $("#reviewSite" + id).val();
+          var finalOffer = $("#finalOffer" + id).val();
+          var supperName = $("#supperName" + id).val();
+          var talks = $("#talks" + id).val();
+          var uuId = $("#uuId").val();
+          var flowDefineId = $("#flowDefineId").val();
+          $.ajax({
+            url: "${pageContext.request.contextPath}/open_bidding/saveNetReport.html?projectId=" + projectId + "&reviewTime=" + reviewTime + "&reviewSite=" + reviewSite + "&finalOffer=" + finalOffer + "&talks=" + talks + "&uuId=" + uuId + "&packageId=" + id,
+            type: "post",
+            dataType: "json",
+            success: function(result) {
+              if(result == "1") {
+                layer.msg("保存成功");
+                window.location.href = "${pageContext.request.contextPath}/Adopen_bidding/negotiationReport.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
+              }
+              if(result == "2") {
+                layer.msg("修改成功");
+              }
+            }
+          });
+        });
       }
 
       /** 导出  **/
@@ -124,12 +116,15 @@
         if(packageName) {
           var id = $("#packageId").val();
           var projectId = $("#projectId").val();
-          var createdAt = $("#createdAt" + id).val();
-          var nuter = $("#nuter" + id).val();
-          var net = $("#negotiationRecord" + id).val();
-          window.location.href = "${pageContext.request.contextPath}/Adopen_bidding/educe.html?projectId=" + projectId + "&createdAt=" + createdAt + "&nuter=" + nuter + "&net=" + net;
+          var reviewTime = $("#reviewTime" + id).val();
+          var reviewSite = $("#reviewSite" + id).val();
+          var finalOffer = $("#finalOffer" + id).val();
+          var talks = $("#talks" + id).val();
+          var supperName = $("#supperName" + id).val();
+          window.location.href = "${pageContext.request.contextPath}/Adopen_bidding/educes.html?projectId=" +
+            projectId + "&reviewTime=" + reviewTime + "&reviewSite=" + reviewSite + "&finalOffer=" + finalOffer + "&talks=" + talks + "&supperName=" + supperName + "&packageId=" + id;
         } else {
-          layer.alert("请选择包！");
+          layer.alert("请选择包!");
         }
 
       }
@@ -187,22 +182,29 @@
     <div id="packageContent" class="packageContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
       <ul id="treePackageType" class="ztree" style="margin-top:0;"></ul>
     </div>
+    <div class="container">
       <div class="tab-content mt10">
         <div class="tab-v2">
+          <ul class="nav nav-tabs bgwhite">
+            <li class="active">
+              <a href="#dep_tab-0" data-toggle="tab" class="f18">谈判报告</a>
+            </li>
+          </ul>
           <div class="tab-content">
             <div class="tab-pane fade in active" id="dep_tab-0">
               <input type="hidden" id="flowDefineId" value="${flowDefineId}">
               <input class=" " readonly id="packageName" value="" placeholder="请选择包" onclick="showPackageType();" type="text">
               <input readonly id="packageId" name="packageId" type="hidden">
               <button class="btn btn-windows input" type="button" onclick="educe()">导出</button>
-              <c:forEach items="${listResultExpert }" var="list" varStatus="vs">
+              <c:forEach items="${packages}" var="list" varStatus="vs">
                 <c:set value="${vs.index}" var="index"></c:set>
                 <div>
-                  <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand" id="package">包名:<span class="f14 blue">${listResultExpert[index].name }</span></h2>
+                  <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand" id="package">包名:<span class="f14 blue">${packages[index].name}</span></h2>
                 </div>
                 <div class="p0${index} hide">
                   <table class="table table-bordered left_table">
                     <tbody>
+
                       <tr>
                         <td class="bggrey" colspan="2">项目编号:<input type="hidden" id="projectId" value="${project.id}" /></td>
                         <td class="p0"><input name="projectNumber" class="m0" id="projectNumber" value="${project.projectNumber}" type="text" class="m0" /><input type="hidden" name="id" id="id" value="${project.id}" /></td>
@@ -210,46 +212,50 @@
                         <td class="p0"><input name="name" class="m0" id="name" value="${project.name}" type="text" /><input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}" /></td>
                       </tr>
                       <tr>
-                        <td class="bggrey" colspan="2">时间:<input type="hidden" id="uuId" value="${uuId}" /></td>
-                        <td class="p0"><input readonly="readonly" value="<fmt:formatDate type='date' value='${list.negotiation.createdAt }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="createdAt" id="createdAt${list.id}" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" /></td>
-                        <td class="bggrey">地点:</td>
-                        <td class="p0"><input name="bidAddress" id="bidAddress" value="${project.bidAddress}" type="text" class="m0" /></td>
+                        <td class="bggrey" colspan="2">谈判时间:</td>
+                        <td class="p0"><input readonly="readonly" value="<fmt:formatDate type='date' value='${list.negotiationReport.reviewTime }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="reviewTime" id="reviewTime${list.id}" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" /></td>
+                        <td class="bggrey">谈判地点:</td>
+                        <td class="p0"><input name="reviewSite" id="reviewSite${list.id}" value="${list.negotiationReport.reviewSite}" type="text" class="m0" /></td>
                       </tr>
                       <tr>
-                        <td class="bggrey" colspan="2">记录人:</td>
-                        <td class="p0" colspan="3"><input name="nuter" id="nuter${list.id}" value="${list.negotiation.nuter}" type="text" class="m0" /></td>
+                        <td class="bggrey" colspan="2">成交供应商:</td>
+                        <td class="p0"><input name="nuter" id="supperName${list.id}" type="text" class="m0" value="${list.listCheckPasses[0].supplier.supplierName}" /></td>
+                        <td class="bggrey">报价:</td>
+                        <td class="p0"><input name="finalOffer" id="finalOffer${list.id}" value="${list.listCheckPasses[0].totalPrice}" type="text" class="m0" /></td>
                         <u:upload id="uu${vs.index}" auto="true" businessId="${list.id}" typeId="${dataId}" sysKey="2" />
                         <u:show showId="ss${vs.index}" businessId="${list.id}" sysKey="2" typeId="${dataId}" />
                       </tr>
                       <tr>
                         <td class="bggrey" colspan="5">
-                          <p align="center" class="f22">谈判小组成员</p>
+                          <p align="center" class="f22">谈判情况</p>
                         </td>
+                      </tr>
+                      <tr>
+                        <td colspan="6"><textarea class="col-md-12 col-sm-12 col-xs-12" name="talks" id="talks${list.id}" style="height:330px" title="不超过800个字">${list.negotiationReport.talks}</textarea></td>
                       </tr>
                       <tr>
                         <th class="info w50">序号</th>
+                        <th class="info">谈判小组成员</th>
                         <th class="info">专家姓名</th>
                         <th class="info">工作单位</th>
                         <th class="info">职务</th>
-                        <th class="info">备注</th>
                       </tr>
-                      <c:forEach items="${list.listProjectExtract}" var="listyes" varStatus="vs">
-                        <tr>
-                          <td class='tc'>${vs.index+1}</td>
-                          <td class='tc'>${listyes.expert.relName}</td>
-                          <td class='tc'>${listyes.expert.workUnit}</td>
-                          <td class='tc'>${listyes.expert.professTechTitles}</td>
-                          <td class='tc'>${listyes.expert.remarks}</td>
-                        </tr>
+                      <c:set var="count" value="0" />
+                      <c:forEach items="${expertSigneds}" var="packageExpert" varStatus="vs">
+                        <c:if test="${list.id eq packageExpert.packageId}">
+                          <c:set var="count" value="${count+1}" />
+                          <tr>
+                            <td class='tc'>${count}</td>
+                            <td class='tc'>
+                              <c:if test="${packageExpert.isGroupLeader == 1}">组长</c:if>
+                              <c:if test="${packageExpert.isGroupLeader == 0}">成员</c:if>
+                            </td>
+                            <td class='tc'>${packageExpert.expert.relName}</td>
+                            <td class='tc'>${packageExpert.expert.workUnit}</td>
+                            <td class='tc'>${packageExpert.expert.professTechTitles}</td>
+                          </tr>
+                        </c:if>
                       </c:forEach>
-                      <tr>
-                        <td class="bggrey" colspan="5">
-                          <p align="center" class="f22">记录内容</p>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="6"><textarea class="col-md-12 col-sm-12 col-xs-12" name="negotiationRecord" id="negotiationRecord${list.id}" style="height:330px" title="不超过800个字">${list.negotiation.negotiationRecord}</textarea></td>
-                      </tr>
                     </tbody>
                   </table>
                   <div class="col-md-12 tc mt20">
@@ -258,6 +264,7 @@
                 </div>
               </c:forEach>
             </div>
+          </div>
         </div>
       </div>
     </div>

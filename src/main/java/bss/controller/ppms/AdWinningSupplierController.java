@@ -1,6 +1,7 @@
 package bss.controller.ppms;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import com.alibaba.fastjson.JSON;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 
+import ses.model.bms.DictionaryData;
 import ses.model.sms.Quote;
 import ses.service.sms.SupplierQuoteService;
 import ses.util.DictionaryDataUtil;
@@ -57,9 +59,6 @@ public class AdWinningSupplierController extends BaseController {
     private SupplierQuoteService supplierQuoteService;
 
     @Autowired
-    private AduitQuotaService aduitQuotaService;
-    
-    @Autowired
     private AdvancedProjectService projectService;
     
     @Autowired
@@ -83,14 +82,25 @@ public class AdWinningSupplierController extends BaseController {
      */
     @RequestMapping("/selectSupplier")
     public String selectWinningSupplier(Model model, String projectId, String flowDefineId){
-        List<AdvancedPackages> list = packageService.listSupplierCheckPass(projectId);
-        if(list != null && !list.isEmpty()){
-            model.addAttribute("packList", list);
-        }
-        //获取已有中标供应商的包组
-        String[] packcount = checkPassService.selectWonBid(projectId);
-        if (list.size() != packcount.length){
-            model.addAttribute("error", ERROR);
+        AdvancedProject project = projectService.selectById(projectId);
+        if(project != null){
+            String purchaseType = DictionaryDataUtil.getId("DYLY");
+            if(!purchaseType.equals(project.getPurchaseType())){
+                List<AdvancedPackages> packages = packageService.listSupplierCheckPass(project.getId());
+                if(packages != null && !packages.isEmpty()){
+                    model.addAttribute("packList", packages);
+                }
+            } else {
+                List<AdvancedPackages> packages = packageService.notSupplierCheckPass(project.getId());
+                if(packages != null && !packages.isEmpty()){
+                    model.addAttribute("packages", packages);
+                    //获取已有中标供应商的包组
+                    String[] packcount = checkPassService.selectWonBid(project.getId());
+                    if (packages.size() != packcount.length){
+                        model.addAttribute("error", ERROR);
+                    }
+                }
+            }
         }
         model.addAttribute("projectId", projectId);
         model.addAttribute("flowDefineId", flowDefineId);

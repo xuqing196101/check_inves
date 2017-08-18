@@ -62,6 +62,7 @@ import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Negotiation;
+import bss.model.ppms.NegotiationReport;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -70,6 +71,7 @@ import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.prms.FirstAudit;
+import bss.model.prms.PackageExpert;
 import bss.model.prms.PackageFirstAudit;
 import bss.service.ppms.AdvancedDetailService;
 import bss.service.ppms.AdvancedPackageService;
@@ -77,11 +79,13 @@ import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.BidMethodService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.MarkTermService;
+import bss.service.ppms.NegotiationReportService;
 import bss.service.ppms.NegotiationService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.prms.FirstAuditService;
+import bss.service.prms.PackageExpertService;
 import bss.service.prms.PackageFirstAuditService;
 import bss.util.PropUtil;
 import common.annotation.CurrentUser;
@@ -150,10 +154,14 @@ public class AdOpenBiddingController {
     @Autowired
     private DownloadService downloadService;
     
-    @Autowired FlowMangeService flowMangeService;
+    @Autowired
+    private FlowMangeService flowMangeService;
     
     @Autowired
     private PurchaseOrgnizationServiceI purchaseOrgnizationService;
+    
+    @Autowired
+    private PackageExpertService packageExpertService;
     
     /**
      * 推送待办
@@ -199,6 +207,9 @@ public class AdOpenBiddingController {
     
     @Autowired
     private ExpertService expertService;
+    
+    @Autowired
+    private NegotiationReportService reportService;
     
     /** 公告类型 - 采购公告*/
     private static final String  PURCHASE_NOTICE= "purchase";
@@ -624,7 +635,7 @@ public class AdOpenBiddingController {
                     }
                 }
             }
-            //getDefaultTemplate(project, data, model, PURCHASE_NOTICE);
+            getDefaultTemplate(project, data, model, PURCHASE_NOTICE);
         } else if (StringUtils.isNotBlank(noticeType) && WIN_NOTICE.equals(noticeType) && !"DYLY".equals(data.getCode())) {
             //中标公告
             article.setArticleType(articelTypeService.selectArticleTypeByCode("success_notice"));
@@ -911,6 +922,8 @@ public class AdOpenBiddingController {
                 templet.setTemType("3");
             } else if ("YQZB".equals(code)){
                 templet.setTemType("1");
+            } else {
+                templet.setTemType("4");
             }
         } else if (type.equals(WIN_NOTICE)) {
             if ("GKZB".equals(code)) {
@@ -1446,6 +1459,55 @@ public class AdOpenBiddingController {
         flowMangeService.flowExe(request, jsonQuote.getString("flowDefineId"), jsonQuote.getString("projectId"), 1);
         return "true";
       }
+    
+    @RequestMapping("/viewChangtotalByPackId")
+    public String viewChangtotalByPackId(String projectId, String packId, String timestamp, Model model, HttpServletRequest req) throws ParseException{
+        TreeMap<String, List<SaleTender>> treeMap = new TreeMap<String, List<SaleTender>>();
+        BigDecimal projectBudget = BigDecimal.ZERO;
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("packageId", packId);
+        map.put("projectId", projectId);
+        List<AdvancedDetail> selectByAll = detailService.selectByAll(map);
+        if(selectByAll != null && !selectByAll.isEmpty()){
+            for (AdvancedDetail detail : selectByAll) {
+                projectBudget = projectBudget.add(detail.getBudget());
+            }
+        }
+        SaleTender condition = new SaleTender();
+        condition.setProjectId(projectId);
+        condition.setPackages(packId);
+        condition.setStatusBid(NUMBER_TWO);
+        condition.setStatusBond(NUMBER_TWO);
+        condition.setIsTurnUp(0);
+        List<SaleTender> stList = saleTenderService.find(condition);
+        if(stList != null && !stList.isEmpty()){
+            Quote quote = new Quote();
+            quote.setProjectId(projectId);
+            quote.setPackageId(packId);
+            quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
+            List<Quote> listQuotebyPackage = supplierQuoteService.selectQuoteHistoryList(quote);
+            for (SaleTender saleTender : stList) {
+                for (Quote qp : listQuotebyPackage) {
+                    if (qp.getSupplierId().equals(saleTender.getSuppliers().getId())) {
+                        saleTender.setTotal(qp.getTotal());
+                        saleTender.setDeliveryTime(qp.getDeliveryTime());
+                        saleTender.setQuoteId(qp.getId());
+                        saleTender.setRemovedReason(qp.getGiveUpReason());
+                        if (qp.getIsRemove() == null) {
+                            saleTender.setIsRemoved("正常");
+                        } else {
+                            saleTender.setIsRemoved("放弃报价");
+                        }  
+                    }
+                }
+            }
+            AdvancedPackages packages = packageService.selectById(packId);
+            treeMap.put(packages.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
+            model.addAttribute("treeMap", treeMap);
+        }
+        model.addAttribute("projectId", projectId);
+        return "bss/ppms/advanced_project/advanced_bid_file/view_chang_total_by_packId";
+    }
     
     /**
      * 
@@ -2465,6 +2527,83 @@ public class AdOpenBiddingController {
         /** 生成word 返回文件名 */
         newFileName = WordUtil.createWord(dataMap, "negotiation.ftl", fileName, request);
         return newFileName;
+    }
+    
+    @RequestMapping("/negotiationReport")
+    public String NegotiationReport(String projectId, Model model, String flowDefineId){
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("projectId", projectId);
+        List<PackageExpert> expertSigneds = packageExpertService.selectList(map2);
+        if(expertSigneds != null && !expertSigneds.isEmpty()){
+            List<AdvancedPackages> listProjectExtract = packageService.listProjectExtract(projectId);
+            for (int i = 0; i < listProjectExtract.size(); i++ ) {
+                NegotiationReport report =  reportService.selectByPackageId(listProjectExtract.get(i).getId());
+                SupplierCheckPass checkPass = new SupplierCheckPass();
+                checkPass.setIsWonBid((short)1);
+                checkPass.setPackageId(listProjectExtract.get(i).getId());
+                List<SupplierCheckPass> listCheckPass = supplierCheckPassService.listCheckPass(checkPass);
+                if(listCheckPass != null && listCheckPass.size() > 0){
+                    listProjectExtract.get(i).setListCheckPasses(listCheckPass);
+                }else{
+                    listProjectExtract.get(i).setListCheckPasses(new ArrayList<SupplierCheckPass>());
+                }
+
+                if (report != null) {
+                    listProjectExtract.get(i).setNegotiationReport(report);
+                }else{
+                    listProjectExtract.get(i).setNegotiationReport(new NegotiationReport());
+                }
+            }
+            model.addAttribute("packages", listProjectExtract);
+            model.addAttribute("expertSigneds", expertSigneds);
+        }
+        AdvancedProject project = projectService.selectById(projectId);
+        model.addAttribute("project", project);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("flowDefineId", flowDefineId);
+        return "bss/ppms/advanced_project/advanced_bid_file/negotiation_report";
+    }
+    
+    @RequestMapping("/educes")
+    public ResponseEntity<byte[]> educes(String projectId, String reviewTime, String reviewSite, String finalOffer, String talks, String supperName, String packageId, HttpServletRequest request) throws Exception{
+      AdvancedProject project = projectService.selectById(projectId);
+      Map<String, Object> map2 = new HashMap<String, Object>();
+      map2.put("projectId", projectId);
+      map2.put("packageId", packageId);
+      List<PackageExpert> expertSigneds = packageExpertService.selectList(map2);
+      String downFileName = null;
+      // 文件存储地址
+      String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+      String fileName = createWordMethods(project, reviewTime, reviewSite, supperName, finalOffer, talks, expertSigneds, request);
+      downFileName = new String("谈判报告表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+      return expertService.downloadFile(fileName, filePath, downFileName);
+    }
+    
+    private String createWordMethods(AdvancedProject project, String reviewTime, String reviewSite,String supperName, String finalOffer, String talks, List<PackageExpert> selectList, HttpServletRequest request) throws Exception {
+        Date date = new Date(); 
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {   
+            date = sdf.parse(reviewTime); 
+        } catch (Exception e) {   
+            e.printStackTrace();   
+        }
+        /** 用于组装word页面需要的数据 */
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("projectName", project.getName() == null ? "" : project.getName());
+        dataMap.put("projectNumber", project.getProjectNumber() == null ? "" : project.getProjectNumber());
+        dataMap.put("date", date == null ? "" : new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
+        dataMap.put("reviewSite", reviewSite == null ? "" : reviewSite);
+        dataMap.put("finalOffer", finalOffer == null ? "" : finalOffer);
+        dataMap.put("talks", talks == null ? "" : talks);
+        dataMap.put("expertSigneds", selectList == null ? "" : selectList);
+        dataMap.put("supplierName", supperName == null ? "" : supperName);
+        String newFileName = null;
+        // 文件名称
+        String fileName = new String(("谈判报告表.doc").getBytes("UTF-8"), "UTF-8");
+        /** 生成word 返回文件名 */
+        newFileName = WordUtil.createWord(dataMap, "report.ftl", fileName, request);
+        return newFileName;
+
     }
     
     //给最新的报价赋值

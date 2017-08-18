@@ -15,9 +15,6 @@
     <meta http-equiv="expires" content="0">
     <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
     <meta http-equiv="description" content="This is my page">
-    <!--
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    -->
 
   </head>
   <script type="text/javascript">
@@ -110,7 +107,6 @@
 	            success: function(data) {
 	              if(data == "SCCUESS") {
 	                window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSuppliers.html?projectId=${projectId}&flowDefineId=${flowDefineId}&id=" + id;
-	                //window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}&&flowDefineId=${flowDefineId}&&isFinish=1';
 	              } else {
 	                layer.alert("请选择供应商", {
 	                  offset: ['100', '300px'],

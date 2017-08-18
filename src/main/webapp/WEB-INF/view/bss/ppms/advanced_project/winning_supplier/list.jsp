@@ -24,14 +24,22 @@
         supplierId += $(this).val() + ",";
       });
       supplierId = supplierId.substring(0, supplierId.length - 1);
-      window.location.href = "${pageContext.request.contextPath}/adWinningSupplier/viewPackageSupplier.html?&packageId=" + id + "&flowDefineId=${flowDefineId}&projectId=${projectId}&supplierId=" + supplierId;
+      window.location.href = "${pageContext.request.contextPath}/adWinningSupplier/viewPackageSupplier.html?&packageId=" + id + "&flowDefineId=${flowDefineId}&projectId=${projectId}&supplierIds=" + supplierId;
     }
 
     /** 确认中标供应商  */
     function confirm(id) {
       window.location.href = "${pageContext.request.contextPath}/adWinningSupplier/confirmSupplier.html?packageId=" + id + "&flowDefineId=${flowDefineId}&projectId=${projectId}";
     }
-
+    
+    function views(id) {
+      var error = "${error}";
+      if(error){
+        confirm(id);
+      } else {
+        view(id);
+      }
+    }
   </script>
 
   <body>
@@ -45,31 +53,44 @@
             <th class="info">中标供应商信息</th>
           </tr>
         </thead>
-        <c:forEach items="${packList}" var="pack" varStatus="vs">
-          <tr>
-            <td class="tc w30">${vs.count}</td>
-            <td class="tc">${pack.name }
-              <c:if test="${pack.projectStatus eq 'YZZ'}">
-                <span class="star_red">[已终止]</span>
-              </c:if>
-            </td>
-            <td class="tc">
-              <c:choose>
-                <c:when test="${fn:length(pack.listCheckPasses) != 0}">
-                  <a href="javascript:void(0);" onclick="view('${pack.id}');">
-                    <c:forEach items="${pack.listCheckPasses}" var="list">
-                      ${list.supplier.supplierName}<input type="hidden" name="supplierId" value="${list.supplier.id}" />
-                    </c:forEach>
-                  </a>
-                </c:when>
-                <c:otherwise>
-                  <button class="btn btn-windows add" <c:if test="${pack.projectStatus eq 'YZZ'}">disabled="disabled"</c:if> onclick="confirm('${pack.id}');" type="button">选择供应商</button>
-                  <c:set value="1" var="values" />
-                </c:otherwise>
-              </c:choose>
-            </td>
-          </tr>
-        </c:forEach>
+        <c:if test="${packList ne null}">
+	        <c:forEach items="${packList}" var="pack" varStatus="vs">
+	          <tr>
+	            <td class="tc w30">${vs.count}</td>
+	            <td class="tc">${pack.name }</td>
+	            <td class="tc">
+	              <c:choose>
+	                <c:when test="${fn:length(pack.listCheckPasses) != 0}">
+	                  <a href="javascript:void(0);" onclick="view('${pack.id}');">
+	                    <c:forEach items="${pack.listCheckPasses}" var="list">
+	                      ${list.supplier.supplierName}<input type="hidden" name="supplierId" value="${list.supplier.id}" />
+	                    </c:forEach>
+	                  </a>
+	                </c:when>
+	                <c:otherwise>
+	                  <button class="btn btn-windows add" onclick="confirm('${pack.id}');" type="button">选择供应商</button>
+	                  <c:set value="1" var="values" />
+	                </c:otherwise>
+	              </c:choose>
+	            </td>
+	          </tr>
+	        </c:forEach>
+        </c:if>
+        <c:if test="${packages ne null}">
+          <c:forEach items="${packages}" var="pack" varStatus="vs">
+            <tr>
+              <td class="tc w30">${vs.count}</td>
+              <td class="tc">${pack.name}</td>
+              <td class="tc">
+                <a href="javascript:void(0);" onclick="views('${pack.id}');">
+                  <c:forEach items="${pack.listCheckPasses}" var="list">
+                    ${list.supplier.supplierName}<input type="hidden" name="supplierId" value="${list.supplier.id}" />
+                  </c:forEach>
+                </a>
+              </td>
+            </tr>
+          </c:forEach>
+        </c:if>
       </table>
     </div>
   </body>

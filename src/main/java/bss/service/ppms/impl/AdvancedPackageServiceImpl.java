@@ -632,4 +632,10 @@ public class AdvancedPackageServiceImpl implements AdvancedPackageService {
         return packageMapper.listSupplierCheckPass(projectId);
     }
 
+    @Override
+    public List<AdvancedPackages> notSupplierCheckPass(String projectId) {
+        
+        return packageMapper.notSupplierCheckPass(projectId);
+    }
+
 }
