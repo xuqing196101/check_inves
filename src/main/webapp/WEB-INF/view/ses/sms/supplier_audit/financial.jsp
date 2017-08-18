@@ -293,7 +293,7 @@
 					<c:forEach items="${financial}" var="f" varStatus="vs">
 						<h2 class="count_flow"><i>${vs.index + 1}</i>${f.year }年财务（金额单位：万元）</h2>
 						<ul class="ul_list count_flow">
-							<table class="table table-bordered  table-condensed table-hover">
+							<table class="table table-bordered  table-condensed table-hover m_table_fixed_border">
 								<thead>
 									<tr>
 										<!-- <th class="info">序号</th> -->
@@ -331,7 +331,7 @@
 								</tr>
 							</table>
 							
-							<table class="table table-bordered  table-condensed table-hover">
+							<table class="table table-bordered  table-condensed table-hover m_table_fixed_border">
 							<thead>
 								<tr>
 									<th class="w50 info">年份</th>
@@ -374,7 +374,7 @@
 						</table>
 							
 							
-							<%-- <table class="table table-bordered  table-condensed table-hover">
+							<%-- <table class="table table-bordered  table-condensed table-hover m_table_fixed_border">
 								<thead>
 									<tr>
 										<!-- <th class="info">序号</th> -->
