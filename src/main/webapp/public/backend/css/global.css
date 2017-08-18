@@ -1974,12 +1974,12 @@ table.lockout .extrafile{
 		.group_batch_list .gbl_tit span {
 			display: inline-block;
 			vertical-align: middle;
-			font-size: 14px;
+			font-size: 18px;
 		}
 		.group_batch_list .gbl_tit span.gbl_icon {
-			width: 22px;
-			height: 22px;
-			line-height: 22px;
+			width: 32px;
+			height: 32px;
+			line-height: 32px;
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
@@ -1987,4 +1987,5 @@ table.lockout .extrafile{
 			border-radius: 50% !important;
 			background-color: #2c9fa6;
 			color: #FFF;
+			margin-right: 10px;
 		}
