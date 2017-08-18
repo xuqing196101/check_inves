@@ -331,14 +331,16 @@
 	     function dyly(){
              var bool=true;
              $("#detailZeroRow tr").each(function(i){
-                 var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
-                   if($.trim(type) == "单一来源") {
-                       var  supp= $(this).find("td:eq(12)").children(":first").val();//上级id
-                       if($.trim(supp)==''){
-                           bool=false;
-                           return bool;
-                       }
-                   }
+            	 if($(this).find("td:eq(8)").children(":first").next().val()!=""){
+            		 var  type= $(this).find("td:eq(11)").children(":last").val();
+                     if($.trim(type) == "26E3925D38BB4295BEB342BDC82B65AC") {//单一来源
+                         var  supp= $(this).find("td:eq(12)").children(":last").val();
+                         if($.trim(supp)==''){
+                             bool=false;
+                             return bool;
+                         }
+                     }
+            	 }
              });
              return bool;
              
@@ -353,12 +355,12 @@
 				}
 	    	   var dy=dyly(); 
 	    	  
-	    	  $("#detailZeroRow tr").each(function(i){
+	    	 /*  $("#detailZeroRow tr").each(function(i){
                  var  type= $(this).find("td:eq(11)").children(":last").text();//上级id
                    if($.trim(type) == "单一来源") {
                        var  supp= $(this).find("td:eq(12)").children(":first").val();//上级id
                    }
-             });
+             }); */
 	    	  
 	    	  if(!dy){
                   layer.alert("请填写供应商");
@@ -908,8 +910,8 @@
 			 return parentId;
 		}
 		//校验供应商名称
-        function checkSupplierName(index) {
-            var name=$("input[name='list["+index+"].supplier']").val();
+        function checkSupplierName(obj) {
+            var name=$(obj).val();
             if(name!=null){
                 $.ajax({
                     type: "POST",
@@ -921,7 +923,7 @@
                     url: "${pageContext.request.contextPath }/purchaser/checkSupplierName.do",
                     success: function(data) {
                             if(data=='true'){
-                                $("input[name='list["+index+"].supplier']").val("");
+                                $(obj).val("");
                                 layer.alert("库中没有此供应商，请重新输入");
                             }
                     }
@@ -976,6 +978,7 @@
             /* alert(cid); */
             sum2(cid);
 		}
+      
 </script>
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
 <%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
@@ -1255,7 +1258,7 @@
 									</td>
 									<td><input type="hidden" name="ss" value="${obj.id }">
 										<textarea name="list[${vs.index }].supplier"
-											  onmouseover="supplierReadOnly(this)"  class="target purchasename">${obj.supplier}</textarea>
+											  onmouseover="supplierReadOnly(this)" onblur="checkSupplierName(this)"  class="target purchasename">${obj.supplier}</textarea>
 										<!-- <input type="hidden" name="history" value="" /> --></td>
 									<td name="userNone" <c:if test="${list[0].enterPort==0}"> style="display:none;" </c:if>><input type="text" name="list[${vs.index }].isFreeTax"
 										 value="${obj.isFreeTax}"
