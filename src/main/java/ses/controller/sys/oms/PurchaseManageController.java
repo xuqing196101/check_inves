@@ -292,7 +292,7 @@ public class PurchaseManageController {
 	@RequestMapping(value="create",method= RequestMethod.POST)
 	@SystemControllerLog(description="新增需求部门")
 	public String create(@Valid Orgnization orgnization,BindingResult result,HttpServletRequest request,Model model){
-	    if(result.hasErrors()){
+		if(result.hasErrors()){
 	        List<Area> areaList = areaServiceI.findRootArea();
 	        model.addAttribute("areaList", areaList);
             model.addAttribute("orgnization", orgnization);
@@ -1243,8 +1243,11 @@ public class PurchaseManageController {
 	@RequestMapping("/verify")
 	@ResponseBody
 	public String verify(Orgnization orgnization){
+		
+		
 	    if(StringUtils.isNotBlank(orgnization.getName())){
 	        Boolean flag = orgnizationServiceI.verify(orgnization);
+	        System.out.println(JSON.toJSONString(flag));
 	        return JSON.toJSONString(flag);
 	    }else{
 	        return "1";

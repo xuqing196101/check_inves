@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierAuditOpinionMapper;
 import ses.model.sms.SupplierAuditOpinion;
+import ses.model.sms.SupplierPublicity;
 import ses.service.sms.SupplierAuditOpinionService;
+import ses.service.sms.SupplierAuditService;
 
 import java.util.Date;
 import java.util.Map;
@@ -18,6 +20,9 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
 
 	@Autowired
 	private SupplierAuditOpinionMapper supplierAuditOpinionMapper;
+
+	@Autowired
+	private SupplierAuditService supplierAuditService;
 
 
 	@Override
@@ -51,6 +56,18 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
                 supplierAuditOpinion.setOpinion(supplierAuditOpinion.getCateResult());
             }else {
                 supplierAuditOpinion.setOpinion(supplierAuditOpinion.getCateResult() + supplierAuditOpinion.getOpinion());
+            }
+		}else {
+		    // 网络延迟情况下
+			if(supplierAuditOpinion.getFlagAduit() == 1){
+				SupplierPublicity sp = new SupplierPublicity();
+				sp.setId(supplierAuditOpinion.getSupplierId());
+                SupplierPublicity supplierPublicity = supplierAuditService.selectChooseOrNoPassCate(sp);
+                if(StringUtils.isEmpty(supplierAuditOpinion.getOpinion())){
+                    supplierAuditOpinion.setOpinion("同意入库，选择了"+supplierPublicity.getPassCateCount()+"个产品类别，通过了"+(supplierPublicity.getPassCateCount()-supplierPublicity.getNoPassCateCount())+"个产品类别。");
+                }else {
+                    supplierAuditOpinion.setOpinion("同意入库，选择了"+supplierPublicity.getPassCateCount()+"个产品类别，通过了"+(supplierPublicity.getPassCateCount()-supplierPublicity.getNoPassCateCount())+"个产品类别。" + supplierAuditOpinion.getOpinion());
+                }
             }
 		}
         // 判断是不是原有的数据

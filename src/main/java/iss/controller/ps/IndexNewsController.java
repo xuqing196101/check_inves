@@ -2116,7 +2116,7 @@ public class IndexNewsController extends BaseSupplierController{
 			SupplierService suppService=SpringBeanUtil.getBean(SupplierService.class);
 	        Map<String, Object> sMap = new HashMap<String, Object>();
 	        //只显示公开的
-	        sMap.put("IS_PUBLISH", 1);
+	        //sMap.put("IS_PUBLISH", 1);
 	      //处理查询参数
 			String supplierName=RequestTool.getParam(request,"supplierName","");
 			if(!"".equals(supplierName)){
@@ -2126,10 +2126,14 @@ public class IndexNewsController extends BaseSupplierController{
 			String status=RequestTool.getParam(request,"status","");
 			if(!"".equals(status)){
 				//sMap.put("status", status);
-				String [] statusArray= status.split(","); 
+				String [] statusArray= status.split(",");
+                sMap.put("size", statusArray.length);
 				sMap.put("statusArray", statusArray);
-				sMap.put("size", statusArray.length);
 				model.addAttribute("status", status );
+			}else{
+				int statusArray[] = {1,4,5,6,7,8};
+                sMap.put("size", statusArray.length);
+				sMap.put("statusArray", statusArray);
 			}
 			
 	        List<Supplier> list = suppService.query(page == null ? 1 : page,sMap);
@@ -2155,12 +2159,18 @@ public class IndexNewsController extends BaseSupplierController{
 				expertMap.put("size", statusArray.length);
 				expert.setStatus(status);
 				model.addAttribute("status", status );
-			}
+			}else {
+                int statusArray[] = {4,6,7,8};
+                expertMap.put("size", statusArray.length);
+                expertMap.put("statusArray", statusArray);
+            }
 			
 			ExpertService expertService=SpringBeanUtil.getBean(ExpertService.class);
-			 //只显示公开的
-			expert.setIsPublish(1);
-			expertMap.put("isPublish", 1);
+            //只显示公开的
+			//expert.setIsPublish(1);
+			//expertMap.put("isPublish", 1);
+			expertMap.put("flag", 1);
+
 			//分页
 	        List<Expert> list = expertService.selectIndexExpert(page == null ? 1 : page, expertMap);
 	        model.addAttribute("list",  new PageInfo<Expert>(list));

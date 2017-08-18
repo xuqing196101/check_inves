@@ -9,7 +9,7 @@
     <script type="text/javascript">
       /*分页  */
       $(function() {
-    	  
+      
         laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
           pages: "${info.pages}", //总页数

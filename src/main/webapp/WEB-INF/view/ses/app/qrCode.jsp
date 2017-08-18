@@ -69,7 +69,7 @@
     <a >
       <div class="down_andrio down_main">
         <p onclick = "download('${id}',${sysKey},'${tempContextUrl }')"><img src="${pageContext.request.contextPath}/public/portal/images/android.png">点此下载</p>
-        <div class="footer_tips">温馨提示：微信下载，请从右上角浏览器打开此链接</div>
+        <div class="footer_tips">温馨提示：本App只适用于安卓操作系统的手机。</div>
       </div>
     </a>
   </div>
