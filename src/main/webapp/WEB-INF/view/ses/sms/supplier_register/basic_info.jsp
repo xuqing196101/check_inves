@@ -1186,11 +1186,10 @@
 										<div class="cue"> ${err_supplierBank } </div>
 									</div>
 								</li>
-
 							</ul>
 						</fieldset>
 
-		    	     <fieldset class="col-md-12 border_font mt20">
+						<fieldset class="col-md-12 border_font mt20">
 							<legend>营业执照</legend>
 							<ul class="list-unstyled f14">
 								<li class="col-md-3 col-sm-6 col-xs-12">
@@ -1203,13 +1202,12 @@
 										</c:if>
 										<c:if test="${fn:length(currSupplier.businessType)==32}">
 											<c:forEach items="${company }" var="obj">
-											 <c:if test="${obj.id==currSupplier.businessType }">
-										      	<input type="text" name="businessType" required="required" value=" ${obj.name }" <c:if test="${!fn:contains(audit,'businessType')&&currSupplier.status==2}">readonly="readonly"</c:if> <c:if test="${fn:contains(audit,'businessType')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'businessType')"</c:if>/>
-											 	<span class="add-on cur_point">i</span>
-											 	<span class="input-tip">不能为空</span>
-											 </c:if> 
-											 
-									         </c:forEach>
+										 		<c:if test="${obj.id==currSupplier.businessType }">
+													<input type="text" name="businessType" required="required" value=" ${obj.name }" <c:if test="${!fn:contains(audit,'businessType')&&currSupplier.status==2}">readonly="readonly"</c:if> <c:if test="${fn:contains(audit,'businessType')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'businessType')"</c:if>/>
+													<span class="add-on cur_point">i</span>
+													<span class="input-tip">不能为空</span>
+											 	</c:if> 
+											</c:forEach>
 										</c:if>
 									</div>
 								</li>
