@@ -206,12 +206,11 @@
 		    	  
 		    });
 		    checkSpace()////退回理由空格校验
-		    return false;
 		  if(bool==true){
 			 $("#table").find("#acc_form").submit();
 		  }  
  }
-
+    //选择采购方式
     function purchaseType(obj){
         var purchaseType = $(obj).find("option:selected").text(); //选中的文本
         var org=$(obj).val();
@@ -240,6 +239,7 @@
                                             $(this).parent().parent().next().next().find("input").removeAttr("readonly");
                                         } else {
                                             $(this).parent().parent().next().next().find("input").attr("readonly", "readonly");
+                                            $(this).parent().parent().next().next().find("input").val("");
                                         }
                                     }else{
                                         $(this).prop("selected",false);
@@ -260,6 +260,28 @@
         if(valid.test(space)){
         	layer.msg("退回理由中不能添加空格!");
         	return false;
+        }
+    }
+    
+  //校验供应商名称
+    function checkSupplierName(obj) {
+        var name=$(obj).val();
+        if(name!=null){
+            $.ajax({
+                type: "POST",
+                async:false,
+                dataType: "text",
+                data:{
+                    "name":name
+                },
+                url: "${pageContext.request.contextPath }/purchaser/checkSupplierName.do",
+                success: function(data) {
+                        if(data=='true'){
+                            $(obj).val("");
+                            layer.alert("库中没有此供应商，请重新输入");
+                        }
+                }
+             });
         }
     }
 </script>
@@ -446,7 +468,7 @@
 							</td>
 							
 							<td class="tl">
-								<div class="w80"><input name="list[${vs.index }].supplier" readonly="readonly" value="${obj.supplier }" /></div>
+								<div class="w80"><input name="list[${vs.index }].supplier" readonly="readonly" value="${obj.supplier }" onblur="checkSupplierName(this)" /></div>
 							</td>
 							<td class="tc">
 							    <div class="w80">${obj.isFreeTax }</div>
