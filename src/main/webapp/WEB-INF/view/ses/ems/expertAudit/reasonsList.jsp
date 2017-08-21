@@ -16,6 +16,8 @@
         $(function () {
             //审核按钮状态
             var num = ${num};
+            var notCategoryNum=${notCategoryNum};
+            var qualified=${qualified};
             if (num == 0) {
                 if('${status}' != -2 && '${status}' != -3){
                     //$("#tuihui").attr("disabled", true);
@@ -25,7 +27,16 @@
             }
             if (num != 0) {
                 //$("#tongguo").attr("disabled", true);
-                $("#qualified").prop("disabled", true);
+                if(notCategoryNum == 0){
+                	if(qualified){
+                		$("#qualified").attr("disabled", false);
+                	}else{
+                		$("#qualified").attr("disabled", true);
+                	}
+                }else{
+                	$("#qualified").attr("disabled", true);
+                }
+                
             }
             check_opinion();
         });

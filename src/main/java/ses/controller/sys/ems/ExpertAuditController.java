@@ -74,6 +74,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 
@@ -1485,6 +1486,11 @@ public class ExpertAuditController{
 		model.addAttribute("sign", sign);
 		
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("GOODS", 0);
+		map.put("PROJECT", 0);
+		map.put("SERVICE", 0);
+		map.put("ENG_INFO_ID", 0);
 		if( reasonsList != null && reasonsList.size() > 0 ){
 			for (ExpertAudit e : reasonsList) {
 				if("six".equals(e.getSuggestType())){
@@ -1495,6 +1501,7 @@ public class ExpertAuditController{
 					}else{
 						tree = getTreeListByCategoryId(e.getAuditFieldId(), "ENG_INFO_ID");
 					}
+					map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
 					if("GOODS".equals(tree.getRootNodeCode())){
 						e.setAuditField("物资品目信息");
 					}else if("PROJECT".equals(tree.getRootNodeCode())){
@@ -1518,10 +1525,23 @@ public class ExpertAuditController{
 		}else {
 			auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		}
+		int categoryCount=0;
+		model.addAttribute("qualified", true);
+		for (Entry<String, Integer> entry : map.entrySet()) {  
+			  categoryCount+=entry.getValue();
+			  String id = DictionaryDataUtil.getId(entry.getKey());
+			  if(entry.getValue()>0){
+				  List<ExpertCategory> listCount = expertCategoryService.getListCount(expertId, id, "1");
+				  if(listCount.size()<=entry.getValue()){
+					  model.addAttribute("qualified", false);
+				  }
+			  }
+		}  
 		model.addAttribute("reasonsList", reasonsList);
 		//查看是否有记录
 		model.addAttribute("num", reasonsList.size());
-
+		model.addAttribute("notCategoryNum", reasonsList.size()-categoryCount);
+		
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("status", expert.getStatus());
 		model.addAttribute("isSubmit", expert.getIsSubmit());
