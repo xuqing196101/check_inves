@@ -165,7 +165,7 @@
                     </div>
 				 </li>
 				<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-				    <span class="col-md-12 padding-left-5 col-xs-12 col-sm-12"><div class="star_red"></div>图标</span>
+				    <span class="col-md-12 padding-left-5 col-xs-12 col-sm-12">图标</span>
 				    <div class="col-md-12 col-xs-12 col-sm-12 p0 input_group input-append">
                         <input name="icon" type="text">
                     </div>
