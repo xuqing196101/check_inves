@@ -1,21 +1,15 @@
 package bss.util;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.annotation.PostConstruct;
-
+import bss.model.ob.OBProduct;
+import bss.model.ob.OBSupplier;
+import bss.model.pms.CollectPlan;
+import bss.model.pms.PurchaseRequired;
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBSupplierService;
+import bss.service.pms.CollectPlanService;
+import bss.service.pms.PurchaseRequiredService;
+import bss.service.pms.impl.CollectPlanServiceImpl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -30,23 +24,26 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-
 import ses.model.bms.Category;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierService;
-import bss.model.ob.OBProduct;
-import bss.model.ob.OBSupplier;
-import bss.model.pms.CollectPlan;
-import bss.model.pms.PurchaseRequired;
-import bss.service.ob.OBProductService;
-import bss.service.ob.OBProjectServer;
-import bss.service.ob.OBSupplierService;
-import bss.service.pms.CollectPlanService;
-import bss.service.pms.PurchaseRequiredService;
-import bss.service.pms.impl.CollectPlanServiceImpl;
+
+import javax.annotation.PostConstruct;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -1034,7 +1031,7 @@ public class ExcelUtil {
 			        					int listsize=0;
 			        					String id="";
 			        					for(OBProduct ob:lists){
-			        						if(ob.getName().equals(product)){
+			        						if(product.equals(ob.getName())){
 			        							boo=true;
 			        							id=ob.getId();
 			        							break;
