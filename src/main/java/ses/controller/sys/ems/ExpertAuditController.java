@@ -1515,7 +1515,12 @@ public class ExpertAuditController{
 		ExpertAuditOpinion selectEao = new ExpertAuditOpinion();
 		ExpertAuditOpinion auditOpinion = null;
 		selectEao.setExpertId(expertId);
-		selectEao.setFlagTime(sign);
+		if(sign == 1){
+			selectEao.setFlagTime(0);
+		}else if (sign == 2){
+			selectEao.setFlagTime(1);
+		}
+		
 		// 复审意见查询
 		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		model.addAttribute("reasonsList", reasonsList);

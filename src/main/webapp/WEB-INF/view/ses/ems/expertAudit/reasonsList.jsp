@@ -28,22 +28,29 @@
                 $("#qualified").prop("disabled", true);
             }
             check_opinion();
+            
+            $("#fushengEnd").hide();
         });
 
         // 审核意见
         function checkOpinion(status, expertId){
         	 var opinion = document.getElementById('opinion').value;
              opinion = trim(opinion);
-             /* var flagTime;
-             if(status == -2){
-                 flagTime = 1;
-             } */
+             var sign = ${sign};
+             var flagTime;
+             if(sign == 1){
+            	 flagTime = 0;
+             }
+             if(sign == 2){
+            	 flagTime = 1;
+             }
+             // 获取选择radio类型
+             var selectOption = $("input[name='selectOption']:checked").val();
              if (opinion != null && opinion != "") {
-            	  var flagTime = $("input[name=sign]").val();
                  if (opinion.length <= 200) {
                      $.ajax({
                          url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
-                         data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime},
+                         data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime,"flagAudit":selectOption},
                          type: "POST",
                          success: function () {
                              $("#status").val(status);
@@ -83,50 +90,6 @@
                     shift: 4,
                     btn: ['确认', '取消']
                 }, function () {
-                    /* var index = layer.prompt({
-                     title: '请填写最终意见：',
-                     formType: 2,
-                     offset: '100px',
-                     }, function(text) {
-                     $.ajax({
-                     url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
-                     data: {"opinion" : text , "expertId" : expertId},
-                     success: function() {
-                     //提交审核
-                     $("#status").val(status);
-                     $("#form_shenhe").submit();
-                     }
-                     });
-                     }); */
-                    /* if(status != 3){
-                    	checkOpinion(status, expertId)
-                        if(checkOpinion(status, expertId)){
-                            return;
-                        }else{
-                        	var opinion = document.getElementById('opinion').value;
-                          opinion = trim(opinion);
-                            $.ajax({
-                                url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
-                                data: {"expertId" : expertId,"opinion": opinion},
-                                success: function() {
-                                    //提交审核
-                                    $("#status").val(status);
-                                    $("#form_shenhe").submit();
-                                }
-                            });
-                        }
-                   }else {
-                        //提交审核
-                        $("#status").val(status);
-                        $("#form_shenhe").submit();
-                    } */
-
-
-                    //初审不合格
-                    /* if (status == 2) {
-                        window.location.href = "${pageContext.request.contextPath}/expertAudit/saveAuditNot.html?expertId=" + expertId;
-                    } */
-                    
                     if (status == 3) {
                     	$("#status").val(status);
                       $("#form_shenhe").submit();
@@ -172,8 +135,9 @@
                             	    $("#nextStep").css("display","inline-block");
                                     $("#checkWord").show();
                                     // 加载审核导航栏-上传批准审核表
-                                    $("#reverse_of_five_i").show();
-                                    $("#reverse_of_six").show();
+                                    /* $("#reverse_of_five_i").show();
+                                    $("#reverse_of_six").show(); */
+                                    $("#fushengEnd").show();
                             	}
                             }
                        });
@@ -368,7 +332,7 @@
               <ul class="ul_list">
                  <li>
                    <div class="select_check">
-                      <input type="radio"  id="qualified" <c:if test="${status eq '1'}">checked</c:if> name="selectShenhe" value="1" onclick = "check_opinion()">初审合格
+                      <input type="radio"  id="qualified" <c:if test="${status eq '4'}">checked</c:if> name="selectShenhe" value="4" onclick = "check_opinion()">初审合格
                       <input type="radio"  <c:if test="${status eq '2'}">checked</c:if> name="selectShenhe" value="2" onclick = "check_opinion()">初审不合格
                     </div>
                   </li>
@@ -388,8 +352,9 @@
                   <ul class="ul_list">
                       <li>
                           <div class="select_check" id="selectOptionId">
-                           <input type="radio" id="qualified" name="selectOption" value="1">预复审合格
-                           <input type="radio"  name="selectOption" value="0">预复审不合格
+                           <input type="radio" id="qualified" name="selectOption" value="-3">预复审合格
+                           <input type="radio"  name="selectOption" value="5">预复审不合格
+                           <input type="radio"  name="selectOption" value="10">复审退回修改
                           </div>
                       </li>
                       <div><span type="text" name="cate_result" id="cate_result"></span></div>
@@ -454,19 +419,22 @@
                         <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui">
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                     </c:if>
-                    <c:if test="${status eq '1' && sign eq '2'}">
+                    <c:if test="${status eq '4' && sign eq '2'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(4);" value="复审合格 " id="tongguo">
                         <input class="btn btn-windows cancel" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu"> -->
-                        <input class="btn btn-windows passed" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
+                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui"> -->
                         <input class="btn btn-windows end"  type="button" onclick="shenhe(-2)" value="预复审结束" id="tongguo">
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
-                        <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
+                        <!-- <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a> -->
                     </c:if>
+                    <input class="btn btn-windows end" type="button" onclick="shenhe()" value="复审结束" id="fushengEnd">
                     <c:if test="${status eq '-2' || status == '-3' || status == '4' || status == '5'}">
                         <c:if test="${status == '-2'}">
                           <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
+                           <input class="btn btn-windows end"  type="button" onclick="shenhe()" value="复审结束">
                         </c:if>
-                        <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
+                       
+                        <!-- <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a> -->
                     </c:if>
                     <c:if test="${status eq '6'}">
                         <input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复查合格 " id="tongguo">

@@ -439,6 +439,9 @@
      <if test="regType != null and regType != ''">
        AND T.SUGGEST_TYPE=#{regType, jdbcType=VARCHAR}
      </if>
+     <if test="auditFalg != '' and auditFalg != null">
+      and AUDIT_FALG = #{auditFalg}
+    </if>
      AND T.IS_DELETED = 0
   </select>
   

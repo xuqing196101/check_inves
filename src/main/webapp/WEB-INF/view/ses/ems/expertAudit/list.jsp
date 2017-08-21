@@ -84,7 +84,8 @@
           }
         var state = $("#" + id + "").parent("tr").find("td").eq(11).text(); //.trim();
         state = trim(state);
-        if(state == "公示中" ||state == "初审合格" || state == "初审未合格" || state == "退回修改" || state == "初审退回" || state == "复查合格" || state == "复查未合格" || state == "复审合格" || state == "复审不合格") {
+        var sign= ${sign};
+        if((sign == 2 && state == "复审退回修改") || state == "公示中" ||state == "初审合格" || state == "初审未合格" || state == "退回修改" || state == "初审退回" || state == "复查合格" || state == "复查未合格" || state == "复审合格" || state == "复审不合格") {
           layer.msg("请选择待审核项 !", {
             offset: '100px',
           });
@@ -325,13 +326,15 @@
                   <option <c:if test="${state eq '1'}">selected</c:if> value="1">初审合格</option>
                   <option <c:if test="${state eq '3'}">selected</c:if> value="3">退回修改</option>
                   <option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未合格</option>
+                  <option <c:if test="${state eq '10'}">selected</c:if> value="10">复审退回修改</option>
                 </c:if>
                 <c:if test="${sign == 2}">
-                  <option <c:if test="${state eq '1'}">selected</c:if> value="1">待复审</option>
+                  <option <c:if test="${state eq '4'}">selected</c:if> value="4">待复审</option>
                   <option <c:if test="${state eq '-2'}">selected</c:if> value="-2">复审预合格</option>
                   <option <c:if test="${state eq '-3'}">selected</c:if> value="-3">公示中</option>
-                  <option <c:if test="${state eq '4'}">selected</c:if> value="4">复审合格</option>
+                  <option <c:if test="${state eq '6'}">selected</c:if> value="6">复审合格</option>
                   <option <c:if test="${state eq '5'}">selected</c:if> value="5">复审不合格</option>
+                  <option <c:if test="${state eq '10'}">selected</c:if> value="10">复审退回修改</option>
                 </c:if>
                 <c:if test="${sign == 3}">
                   <option <c:if test="${state eq '6'}">selected</c:if> value="6">待复查</option>
@@ -442,13 +445,13 @@
               <c:if test="${sign == 1 and expert.status eq '3' }">
                 <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">退回修改</span></td>
               </c:if>
-              <c:if test="${sign == 2 and expert.status eq '1' and expert.auditTemporary ne '2'}">
+              <c:if test="${sign == 2 and expert.status eq '4' and expert.auditTemporary ne '2'}">
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复审</span></td>
               </c:if>
-              <c:if test="${sign == 2 and expert.status eq '1' and expert.auditTemporary eq '2'}">
+              <c:if test="${sign == 2 and expert.status eq '4' and expert.auditTemporary eq '2'}">
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">复审中</span></td>
               </c:if>
-              <c:if test="${sign == 2 and expert.status eq '4' }">
+              <c:if test="${sign == 2 and expert.status eq '6' }">
                 <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审合格</span></td>
               </c:if>
               <c:if test="${sign == 2 and expert.status eq '-2' }">
@@ -459,6 +462,9 @@
                </c:if>
               <c:if test="${sign == 2 and expert.status eq '5' }">
                 <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审不合格</span></td>
+              </c:if>
+              <c:if test="${expert.status eq '10' }">
+                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">复审退回修改</span></td>
               </c:if>
               <c:if test="${sign == 3 and expert.status eq '6' and expert.auditTemporary ne '3'}">
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复查</span></td>
