@@ -56,7 +56,7 @@
                 "referenceNO": referenceNO
             },
             success: function(data) {
-                if(data.data > 0) {
+                if(data.data > 1) {
                     $("#referenceNo").val("");
                     layer.msg("采购需求文号已存在");
                 }
