@@ -103,32 +103,37 @@ function onCheck(e, treeId, treeNode) {
   }
 	
 	function ajaxIdNumber(){
-       var is_error = 0;
-       var idNumber = $("#idNumber").val();
-        var msg=validateIdCard(idNumber);
-       if(msg!='success'){
-       is_error = 1;
-       $("#ajax_idNumber").html(msg);
-          return is_error;
-       }else{
-       $("#ajax_idNumber").html("");
-       }
-       var id = $("#uId").val();
-       $.ajax({
-             type: "GET",
-             async: false, 
-             url: "${pageContext.request.contextPath}/user/ajaxIdNumber.do?idNumber="+idNumber+"&id="+id,
-             dataType: "json",
-             success: function(data){
-                     if (!data.success) {
-            $("#ajax_idNumber").html(data.msg);
-            is_error = 1;
-           } else {
-            $("#ajax_idNumber").html("");
-           }
-               }
-          });
-          return is_error;
+		var shenfenzheng = $("#shenfenzheng").val();
+		if(shenfenzheng != 1){
+			alert(1);
+			var is_error = 0;
+		       var idNumber = $("#idNumber").val();
+		        var msg=validateIdCard(idNumber);
+		       if(msg!='success'){
+		       is_error = 1;
+		       $("#ajax_idNumber").html(msg);
+		          return is_error;
+		       }else{
+		       $("#ajax_idNumber").html("");
+		       }
+		       var id = $("#uId").val();
+		       $.ajax({
+		             type: "GET",
+		             async: false, 
+		             url: "${pageContext.request.contextPath}/user/ajaxIdNumber.do?idNumber="+idNumber+"&id="+id,
+		             dataType: "json",
+		             success: function(data){
+		                     if (!data.success) {
+		            $("#ajax_idNumber").html(data.msg);
+		            is_error = 1;
+		           } else {
+		            $("#ajax_idNumber").html("");
+		           }
+		               }
+		          });
+		          return is_error;
+		}
+       
     }
     
     function ajaxMoblie(){
@@ -512,6 +517,7 @@ function onCheck(e, treeId, treeNode) {
 		  <!-- 伸缩层 -->
 		  <div class="col-md-12">
             <div class="mt40 tc  mb50 ">
+            <input type="hidden" id="shenfenzheng" name="shenfenzheng" value="${shenfenzheng }" />
               <button type="submit" class="btn btn-windows save" >保存</button>
               <button type="button" class="btn btn-windows cancel" onclick="back();">取消</button>
             </div>

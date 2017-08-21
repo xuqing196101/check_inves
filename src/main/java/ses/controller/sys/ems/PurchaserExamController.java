@@ -208,6 +208,15 @@ public class PurchaserExamController extends BaseSupplierController{
 		String[] items = saveOption();
 		String queType = request.getParameter("queType");
 		StringBuffer sb_answer = new StringBuffer();
+		/*String a = examQuestion.getAnswer();
+		if(queType.equals(2) || queType.equals("2")){
+			if(!a.contains("，") || a.contains(",")){
+				model.addAttribute("ERR_answer","请多选");
+				return "ses/ems/exam/purchaser/question/add";
+			}
+		}*/
+		
+		
 		if(queType==null||queType.equals("")){
 			model.addAttribute("ERR_type","请选择题型");
 			optionNum(model);
@@ -283,10 +292,23 @@ public class PurchaserExamController extends BaseSupplierController{
 					model.addAttribute("ERR_answer", "请选择答案");
 					error = "answer";
 				}else{
-					for(int i = 0;i<answer.length;i++){
-						sb_answer.append(answer[i]);
+					
+					String a1 =  examQuestion.getAnswer();
+					String[] a2 = a1.split(",");
+					System.out.println(a2.length);
+					if(queType.equals(2) || queType.equals("2")){
+						if(a2.length<2 ){
+							error = "answer";
+							model.addAttribute("ERR_answer","请多选");
+						}else{
+							for(int i = 0;i<answer.length;i++){
+								sb_answer.append(answer[i]);
+							}
+							map.put("answer",sb_answer.toString());
+						}
 					}
-					map.put("answer",sb_answer.toString());
+					
+					
 				}
 			}
 		}else{
