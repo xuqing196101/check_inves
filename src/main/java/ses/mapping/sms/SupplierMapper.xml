@@ -1850,6 +1850,7 @@
 		  SUPPLIER_NAME,
 		  LOGIN_NAME,
 		  MOBILE,
+		  CREDIT_CODE,
 		  SUPPLIER_STATUS,
 		  CREATED_AT,
 		  CONTACT_NAME,
@@ -1860,14 +1861,14 @@
 		<if test="supplierName != null and supplierName !=''">
 			AND SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 		</if>
-		<if test="supplierName != null and supplierName !=''">
-			AND SUPPLIER_NAME like  CONCAT(CONCAT('%', #{supplierName}), '%')
-		</if>
 		<if test="loginName != null and loginName !=''">
-			AND LOGIN_NAME like  CONCAT(CONCAT('%', #{loginName}), '%')
+			AND LOGIN_NAME like CONCAT(CONCAT('%', #{loginName}), '%')
 		</if>
 		<if test="mobile != null and mobile !=''">
 			AND MOBILE like  CONCAT(CONCAT('%', #{mobile}), '%')
+		</if>
+		<if test="creditCode != null and creditCode !=''">
+			AND CREDIT_CODE like CONCAT(CONCAT('%', #{creditCode}), '%')
 		</if>
 		<if test="status != null">
 			AND SUPPLIER_STATUS = #{status}
