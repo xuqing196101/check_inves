@@ -205,6 +205,8 @@
 		    	}
 		    	  
 		    });
+		    checkSpace()////退回理由空格校验
+		    return false;
 		  if(bool==true){
 			 $("#table").find("#acc_form").submit();
 		  }  
@@ -251,8 +253,15 @@
             });
         }
     }
- 
- 
+    //退回理由空格校验
+    function checkSpace(){
+    	var space = $("#reson").val();
+    	var valid=/\s/g;
+        if(valid.test(space)){
+        	layer.msg("退回理由中不能添加空格!");
+        	return false;
+        }
+    }
 </script>
 
 </head>
@@ -475,7 +484,7 @@
 				  <div class="col-md-12 col-xs-12 col-sm-12 p0" >
 				     <div class="col-md-12 col-xs-12 col-sm-12 p0"> 退回理由：</div>
 				     <div class="col-md-12 col-xs-12 col-sm-12 p0">
-				         <textarea id="reson" name="reason" maxlength="800" class="h80 col-md-10 col-xs-10 col-sm-12" title="不超过800个字"></textarea>
+				         <textarea id="reson" name="reason" maxlength="800" class="h80 col-md-10 col-xs-10 col-sm-12" title="不超过800个字" onblur="checkSpace(this);"></textarea>
                      </div>
                   </div>
                   <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
