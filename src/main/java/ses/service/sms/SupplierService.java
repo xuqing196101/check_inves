@@ -435,7 +435,13 @@ public interface SupplierService {
 	 * @return
 	 */
 	public int countByPurchaseDepId(String purchaseDepId, int status);
-	
+
+	/**
+	 * 根据采购机构id统计对应状态的供待审核 和 退回待审核 应商数量
+	 * @param purchaseDepId
+	 * @return
+	 */
+	public int countAuditByPurchaseDepId(String purchaseDepId);
 	/**
 	 * 
 	 * Description:获取销售合同数量
