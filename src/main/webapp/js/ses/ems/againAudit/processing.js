@@ -1,6 +1,6 @@
 // 创建复审批次
-function create_review_batches(url, batch_url, ids) {
-  ids = ids.join(',');  // 将获得到的id数组转换成字符串（为后台处理）
+function create_review_batches() {
+  var ids = select_ids.join(',');  // 将获得到的id数组转换成字符串（为后台处理）
   var batchName_obj = $('[name=batchName]');  // 批次名称
   var batchNumber_obj = $('[name=batchNumber]');  // 批次编号
   
@@ -12,7 +12,7 @@ function create_review_batches(url, batch_url, ids) {
     $.ajax({
       type: 'POST',
       dataType: 'json',
-      url: url,
+      url: list_url,
       data: {
         batchIds: ids
       },
@@ -62,7 +62,7 @@ function create_review_batches(url, batch_url, ids) {
                   batchName_obj.val('');
                   batchNumber_obj.val('');
                   $('#list_content').listConstructor({
-                    url: url
+                    url: list_url
                   });
                   layer.close(index);
                 },
