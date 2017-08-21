@@ -1,21 +1,14 @@
 package app.controller;
 
-import gui.ava.html.image.generator.HtmlImageGenerator;
 import iss.model.ps.Article;
 import iss.model.ps.ArticleType;
 import iss.service.ps.ArticleService;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -27,12 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.ImageIcon;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,13 +49,10 @@ import app.service.AppInfoService;
 import app.service.IndexAppService;
 
 import com.alibaba.fastjson.JSON;
-
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
-import common.utils.CommonStringUtil;
-import common.utils.UploadUtil;
 
 /**
  * 
@@ -170,8 +157,7 @@ public class IndexAppController {
     @ResponseBody
     public String indexNews(HttpServletRequest request){
         List<Img> imgList = new ArrayList<>();
-        StringBuffer url = request.getRequestURL();  
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString(); 
+        //String tempContextUrl = request.getScheme()+"://"+ request.getServerName() +":"+ request.getServerPort() +request.getContextPath();
         List<Article> picList = articleService.selectPics();
         List<Article> indexPics = null;
         if(picList.size()>0){
@@ -194,16 +180,21 @@ public class IndexAppController {
         }
         if(indexPics != null && !indexPics.isEmpty()){
             for (Article article : indexPics) {
-                imgList.add(new Img(article.getId(),tempContextUrl+"file/viewFile.html?id="+article.getUploadId()+"&key=2"));
+                imgList.add(new Img(article.getId(),"/file/viewFile.html?id="+article.getUploadId()+"&key=2"));
             }
         }else{
-            imgList.add(new Img(null,tempContextUrl+"public/portal/images/AppImg1.png"));
-            imgList.add(new Img(null,tempContextUrl+"public/portal/images/AppImg2.png"));
-            imgList.add(new Img(null,tempContextUrl+"public/portal/images/AppImg3.png"));
+            imgList.add(new Img(null,"/public/portal/images/AppImg1.png"));
+            imgList.add(new Img(null,"/public/portal/images/AppImg2.png"));
+            imgList.add(new Img(null,"/public/portal/images/AppImg3.png"));
         }
         List<Article> indexMsgList = new ArrayList<>();
         //动态
-        Article dynamic= indexAppMapper.selectAppNewsByArticleTypeId(INDEX_DYNAMIC);
+        Map<String, Object> mapdy = new HashMap<>();
+        String[] idArray = new String[2];
+        idArray[0] = "110";
+        idArray[1] = "111";
+        mapdy.put("idArray",idArray);
+        Article dynamic= indexAppMapper.selectdynamicByArticleTypeId(mapdy);
         if(dynamic != null){
             dynamic.setCreate_at(dataToString(dynamic.getPublishedAt()));
             indexMsgList.add(dynamic);
@@ -232,10 +223,10 @@ public class IndexAppController {
         }
         //法规
         Map<String, Object> map = new HashMap<>();
-        String[] idArray = new String[2];
-        idArray[0] = "107";
-        idArray[1] = "108";
-        map.put("idArray",idArray);
+        String[] idArrayreg = new String[2];
+        idArrayreg[0] = "107";
+        idArrayreg[1] = "108";
+        map.put("idArray",idArrayreg);
         Article regulations= appArticleMapper.selectsumApp(map);
         if(regulations != null){
             regulations.setCreate_at(dataToString(regulations.getPublishedAt()));
@@ -296,7 +287,7 @@ public class IndexAppController {
                 businessId = appInfoList.get(0).getRemark();
             }
             String id = appInfoService.selectFileIdByBusinessId(businessId);
-            String downloadUrl = tempContextUrl + "api/v1/download.html?id="+id+"&key="+Constant.APP_APK_SYS_KEY+"&zipFileName="+null+"&fileName="+null;
+            String downloadUrl = "/api/v1/download.html?id="+id+"&key="+Constant.APP_APK_SYS_KEY+"&zipFileName="+null+"&fileName="+null;
             appData.setDownloadUrl(downloadUrl);
             appImg.setData(appData);
         }else{
@@ -566,11 +557,30 @@ public class IndexAppController {
             Integer typeId = Integer.parseInt(id);
             switch (typeId) {
                 case 110 ://工作动态
+                case 111 ://图片新闻
+                    appData.setTitle("工作动态");
+                    String[] idArraydy = new String[2];
+                    idArraydy[0] = "110";
+                    idArraydy[1] = "111";
+                    map.put("idArray",idArraydy);
+                    map.put("page", page);
+                    List<Article> dynamicList = indexAppService.selectAppRegulations(map);
+                    if(dynamicList != null && !dynamicList.isEmpty()){
+                        for (Article article : dynamicList) {
+                            article.setCreate_at(dataToString(article.getPublishedAt()));
+                        }
+                        appData.setIndexMsgList(dynamicList);
+                        appImg.setData(appData);
+                        appImg.setStatus(true);
+                    }else {
+                        appImg.setData(appData);
+                        appImg.setStatus(false);
+                        appImg.setMsg("暂无数据");
+                    }
+                    break;
                 case 109://重要通知
                 case 112://投诉处理
-                    if(typeId == 110){
-                        appData.setTitle("工作动态");
-                    }else if(typeId == 109){
+                    if(typeId == 109){
                         appData.setTitle("重要通知");
                     }else if(typeId == 112){
                         appData.setTitle("投诉处理公告");
@@ -743,21 +753,19 @@ public class IndexAppController {
      */
     @RequestMapping(value="/appDatailsById",produces = "text/json;charset=UTF-8")
     @ResponseBody
-    public String appDatailsById(String id,HttpServletRequest request){
+    public String appDatailsById(String id,HttpServletRequest request,String url){
         Article article = indexAppService.selectContentById(id);
-        StringBuffer url = request.getRequestURL();  
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString(); 
         indexAppService.getContentImg(article, request);
         String content = null;
         if(article != null){
-            content = "<div style='width: 100%;overflow: hidden;'><h3 style = 'text-align: center;font-size: 60px;'>"
-                + "<div style='color: #323232 !important;'>"+article.getName()+"</div></h3>"
+            content = "<div style='width: 100%;overflow: hidden; padding: 30px;'>"
+                + "<div style='color: #323232 !important; text-align: left; font-size: 50px;'>"+article.getName()+"</div>"
                 + "<div style='overflow: hidden;border-bottom: 1px dashed #ddd;height: 100px;line-height: 100px;'>"
                 + "<div style='text-align: right; margin-left: 15px;font-size: 40px;'><span>"
                 + "<i style='margin-right: 5px;'>"
-                + "<img src='"+tempContextUrl+"public/portal/images/block.png'/></i>"+dataToString(article.getPublishedAt())+"</span></div></div>"
+                + "<img src='"+url+"/public/portal/images/appblock.png' width='40' height='40'/></i>"+dataToString(article.getPublishedAt())+"&nbsp;</span></div></div>"
                 + "<div style='width: 100%; clear: both;margin-top: 20px;line-height: 30px;'>"
-                + "<img src='"+tempContextUrl+"api/v1/AppdownloadDetailsImage.html?id="+article.getId()+"' width='100%'/></div></div>";
+                + "<img src='"+url+"/api/v1/AppdownloadDetailsImage.html?id="+article.getId()+"' width='100%'/></div></div>";
         }
         AppData appData = new AppData();
         AppImg appImg = new AppImg();
@@ -971,8 +979,9 @@ public class IndexAppController {
         String id = appInfoService.selectFileIdByBusinessId(businessId);
         model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
         model.addAttribute("id", id);
-        StringBuffer url = request.getRequestURL();  
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString(); 
+       /* StringBuffer url = request.getRequestURL();  
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString(); */
+        String tempContextUrl = request.getScheme()+"://"+ request.getServerName() +":"+ request.getServerPort() +request.getContextPath();
         model.addAttribute("tempContextUrl", tempContextUrl);
         return "ses/app/qrCode";
     }

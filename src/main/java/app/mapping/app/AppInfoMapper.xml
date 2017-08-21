@@ -29,7 +29,7 @@
   <select id="selectByVersion" resultMap="BaseResultMap" parameterType="java.lang.String" >
     SELECT <include refid="Base_Column_List"/>
     FROM T_SES_APP_INFO 
-    WHERE IS_DELETED=0 AND VERSION = #{version}
+    WHERE VERSION = #{version}
   </select>
 
   <!-- 回退 -->

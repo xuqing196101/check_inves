@@ -1,27 +1,35 @@
 package synchro.controller;
 
-import bss.service.ob.OBProductService;
-import bss.service.ob.OBProjectServer;
-import bss.service.ob.OBSupplierService;
-import com.github.pagehelper.PageInfo;
-import common.bean.ResponseBean;
+import iss.service.hl.ServiceHotlineService;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.bms.QualificationService;
+import ses.service.ems.ExpertBlackListService;
 import ses.service.sms.SMSProductLibService;
+import ses.service.sms.SupplierBlacklistService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
+import sums.service.oc.ComplaintService;
 import synchro.inner.back.service.infos.InnerInfoExportService;
 import synchro.model.SynchRecord;
 import synchro.outer.back.service.expert.OuterExpertService;
@@ -29,15 +37,12 @@ import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.service.SynchService;
 import synchro.util.Constant;
-
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBSupplierService;
 
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
 
@@ -107,6 +112,23 @@ public class SynchExportController {
     /**产品资质**/
     @Autowired
     private QualificationService qualificationService;
+    
+    /** 网上投诉信息 **/
+    @Autowired
+    private ComplaintService complaintService;
+    
+    /** 供应商黑名单 **/
+    @Autowired
+	private SupplierBlacklistService supplierBlacklistService;
+    
+    /** 专家黑名单 **/
+    @Autowired
+	private ExpertBlackListService expertBlackListService;
+    
+    /** 服务热线 **/
+    @Autowired
+	private ServiceHotlineService serviceHotlineService;
+    
     /**
      * 
      *〈简述〉初始化导出
@@ -117,7 +139,6 @@ public class SynchExportController {
      * @return
      */
     @RequestMapping("/initExport")
-
     public String initExport(@CurrentUser User user,Model model, HttpServletRequest request){
     	//声明标识是否是资源服务中心
         String authType = null;
@@ -353,10 +374,39 @@ public class SynchExportController {
 	        	//门户模板管理 导出数据
 	        	qualificationService.exportQualification(startTime, endTime, date);
 	        }
+	        /**内网公示供应商导出*/
+	        if (synchType.contains(Constant.SYNCH_PUBLICITY_SUPPLIER)) {
+	            outerSupplierService.selectSupByPublictyOfExport(startTime, endTime);
+	        }
+
+	        /**内网公示专家导出*/
+	        if (synchType.contains(Constant.SYNCH_PUBLICITY_EXPERT)) {
+	            outerExpertService.selectExpByPublictyOfExport(startTime, endTime);
+	        }
+
+	        /**网上投诉信息导出*/
+	        if (synchType.contains(Constant.DATE_SYNCH_ONLINE_COMPLAINTS)) {
+	          complaintService.exportComplaintService(startTime, endTime,date);
+	        }
+	        
+	        /**供应商黑名单信息导出*/
+	        if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_BLACKLIST)) {
+	          supplierBlacklistService.exportSupplierBlacklist(startTime, endTime,date);
+	        }
+	        
+	        /**专家黑名单信息导出*/
+	        if (synchType.contains(Constant.DATE_SYNCH_EXPERT_BLACKLIST)) {
+	          expertBlackListService.exportExpertBlacklist(startTime, endTime,date);
+	        } 
+	        
+	        /** 服务热线信息导出*/
+	        if (synchType.contains(Constant.DATE_SYNCH_HOT_LINE)) {
+	        	serviceHotlineService.exportHotLine(startTime, endTime,date);
+	        } 
+	        
 	        bean.setSuccess(true);
 	        return bean;
         }
-
         return new ResponseBean();
     }
     

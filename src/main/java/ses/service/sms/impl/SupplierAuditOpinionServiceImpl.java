@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierAuditOpinionMapper;
 import ses.model.sms.SupplierAuditOpinion;
+import ses.model.sms.SupplierPublicity;
 import ses.service.sms.SupplierAuditOpinionService;
+import ses.service.sms.SupplierAuditService;
 
 import java.util.Date;
 import java.util.Map;
@@ -18,6 +20,9 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
 
 	@Autowired
 	private SupplierAuditOpinionMapper supplierAuditOpinionMapper;
+
+	@Autowired
+	private SupplierAuditService supplierAuditService;
 
 
 	@Override
@@ -39,13 +44,32 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
          */
 
         // 非暂存判断
-        if(StringUtils.isNotEmpty(vertifyFlag) && "vartify".equals(vertifyFlag)){
+        if(StringUtils.isNotEmpty(vertifyFlag) && "vartify".equals(vertifyFlag) && supplierAuditOpinion.getFlagAduit() == 0){
             // 需要判断用户输入的意见是否为空
             if(StringUtils.isEmpty(supplierAuditOpinion.getOpinion())){
                 return JdcgResult.build(500,"审核意见不能为空");
             }
         }
-
+		// 拼接审核意见  例如:同意....+ HelloWorld
+		if(StringUtils.isNotEmpty(supplierAuditOpinion.getCateResult())){
+            if(StringUtils.isEmpty(supplierAuditOpinion.getOpinion())){
+                supplierAuditOpinion.setOpinion(supplierAuditOpinion.getCateResult());
+            }else {
+                supplierAuditOpinion.setOpinion(supplierAuditOpinion.getCateResult() + supplierAuditOpinion.getOpinion());
+            }
+		}else {
+		    // 网络延迟情况下
+			if(supplierAuditOpinion.getFlagAduit() == 1){
+				SupplierPublicity sp = new SupplierPublicity();
+				sp.setId(supplierAuditOpinion.getSupplierId());
+                SupplierPublicity supplierPublicity = supplierAuditService.selectChooseOrNoPassCate(sp);
+                if(StringUtils.isEmpty(supplierAuditOpinion.getOpinion())){
+                    supplierAuditOpinion.setOpinion("同意入库，选择了"+supplierPublicity.getPassCateCount()+"个产品类别，通过了"+(supplierPublicity.getPassCateCount()-supplierPublicity.getNoPassCateCount())+"个产品类别。");
+                }else {
+                    supplierAuditOpinion.setOpinion("同意入库，选择了"+supplierPublicity.getPassCateCount()+"个产品类别，通过了"+(supplierPublicity.getPassCateCount()-supplierPublicity.getNoPassCateCount())+"个产品类别。" + supplierAuditOpinion.getOpinion());
+                }
+            }
+		}
         // 判断是不是原有的数据
         if(StringUtils.isNotEmpty(supplierAuditOpinion.getId())){
             // 查询此条数据
@@ -77,7 +101,13 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
 		Map<String, Object> map = new HashedMap();
 		map.put("supplierId",supplierId);
 		map.put("flagTime",flagTime);
-		return supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
+        SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionMapper.selectByExpertIdAndflagTime(map);
+        //  获取意见切割字符串
+        if(supplierAuditOpinion != null && StringUtils.isNotEmpty(supplierAuditOpinion.getOpinion())){
+            int indexOf = supplierAuditOpinion.getOpinion().indexOf("。");
+            supplierAuditOpinion.setOpinion(supplierAuditOpinion.getOpinion().substring(indexOf + 1));
+        }
+        return supplierAuditOpinion;
 	}
 
 	@Override

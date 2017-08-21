@@ -1,12 +1,11 @@
 package ses.dao.sms;
 
+import org.apache.ibatis.annotations.Param;
+import ses.model.sms.SupplierItem;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
-import ses.model.sms.SupplierItem;
 
 public interface SupplierItemMapper {
     /**
@@ -185,4 +184,40 @@ public interface SupplierItemMapper {
 	 * @since JDK1.7
 	 */
 	List<SupplierItem> selectPassItemByCond(Map<String,Object> map);
+
+
+    List<SupplierItem> selectCountBySupTypeList(Map<String,Object> map);
+    
+    /**
+     * 统计品目
+     * @param supplierId
+     * @param catIds
+     * @param code
+     */
+	int countItemsBySuppIdAndCateIds(
+			@Param("supplierId")String supplierId, 
+			@Param("catIds")List<String> catIds,
+			@Param("code")String code);
+
+	/**
+	 * 查询没有被退回的品目
+	 * @param supplierId
+	 * @param categoryId
+	 * @param type
+	 * @return
+	 */
+	List<SupplierItem> getBySupplierIdCategoryIdIsNotReturned(
+			@Param("supplierId")String supplierId, 
+			@Param("categoryId")String categoryId, 
+			@Param("type")String type);
+    /**
+     * 
+     * Description: 封装map 获取相关参数 数据
+     * 
+     * @author YangHongLiang
+     * @version 2017-7-31
+     * @param map
+     * @return
+     */
+    List<SupplierItem> findByMapByNull(Map<String,Object> map);
 }

@@ -90,7 +90,6 @@ public class SupplierMatProServiceImpl implements SupplierMatProService {
          priList.add(cert);
          
          SupplierMatPro pro = new  SupplierMatPro();
-	
 	   
          pro.setListSupplierCertPros(priList);
          

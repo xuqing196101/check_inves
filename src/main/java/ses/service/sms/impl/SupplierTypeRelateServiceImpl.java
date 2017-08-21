@@ -109,7 +109,6 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
             if(dlist!=null&&dlist.size()>0){
                 for(DictionaryData d:dlist){
                     if(d.getCode().equals("sc")){
-//					supplierMatProMapper.
                         supplierMatProMapper.deleteByPrimaryKey(supplier.getId());
                         supplierCertProMapper.deleteByPrimaryKey(supplier.getSupplierMatPro().getId());
                     }
@@ -163,4 +162,8 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
 		
 	}
 
+	@Override
+	public List<String> findTypeBySupplierId(String supplierId) {
+		return supplierTypeRelateMapper.findTypeBySupplierId(supplierId);
+	}
 }

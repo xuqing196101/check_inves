@@ -236,7 +236,11 @@
          <c:forEach items="${packages}" var="p" varStatus="vs">
             <tr>
                 <td class="tc w30">${vs.count}</td>
-                <td class="tc">${p.name}</td>
+                <td class="tc">${p.name}
+                    <c:if test="${p.projectStatus=='YZZ'}">
+                       <span class="star_red">[该包已终止]</span>
+                    </c:if>
+                </td>
                 <td class="tc">
                 	<c:if test="${p.isEditFirst == 0}">
                 		未维护检查数据
@@ -247,10 +251,10 @@
                 </td>
                 <td class="tc">
                 	<c:if test="${project.confirmFile == 1}">
-                		<button class="btn" type="button" onclick="view('${p.id}','${projectId}')">查看</button>
+                		<button class="btn" type="button" onclick="view('${p.id}','${projectId}')"  <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if>>查看</button>
                 	</c:if>
                 	<c:if test="${project.confirmFile != 1}">
-	                    <button class="btn btn-windows edit" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
+	                    <button class="btn btn-windows edit" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')" <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if>>编辑</button>
                 	</c:if>
                 </td>
          </c:forEach>

@@ -13,10 +13,9 @@
 	<td class=" p0">
 		<%-- 	<input type="text" name="list[${index }].department"   value="${obj.department}"> --%>
 		<%-- 	<input type="hidden" name="list[${index }].department" value="${orgId }" > --%>
-		<input type="text" name="list[${index }].department"
-		readonly="readonly" value="${orgName}" class="m0 border0 w80">
-
-
+		<%--<input type="text" name="list[${index }].department"
+		readonly="readonly" value="${orgName}" class="m0 border0 w80">--%>
+			<div class="department">${orgName}</div>
 	</td>
 	<td><input type="text" class="m0 border0"
 		name="list[${index }].goodsName" onkeyup="listName(this)"
@@ -48,7 +47,7 @@
 		class="purchasetype" onchange="changeType(this)">
 			<option value="">请选择</option>
 			<c:forEach items="${list2 }" var="objd">
-				<option value="${objd.name }">${objd.name }</option>
+				<option value="${objd.id }">${objd.name }</option>
 
 			</c:forEach>
 	</select></td>
@@ -59,7 +58,7 @@
 													<option value="${sup.supplierName }">${sup.supplierName}</option>
 												</c:forEach>
 											</select> --%></td>
-	<td><input type="text" name="list[${index }].isFreeTax"
+	<td name='userNone'><input type="text" name="list[${index }].isFreeTax"
 		class="freetax"></td>
 	<td name='userNone'><input type="text"
 		name="list[${index }].goodsUse" class="goodsuse"></td>

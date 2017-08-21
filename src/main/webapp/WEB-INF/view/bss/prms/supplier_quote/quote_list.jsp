@@ -139,20 +139,26 @@
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div>
 			 <c:if test="${vsKey.index == 0}">
-			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span><c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}"><span class="star_red">[该包已终止]</span></c:if></h2>
+			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
+			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竟谈]</span></c:if>
+			 	</h2>
 			 </c:if>
 			 <c:if test="${vsKey.index != 0}">
-			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span><c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}"><span class="star_red">[该包已终止]</span></c:if></h2>
+			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
+			 		<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竟谈]</span></c:if>
+			 	</h2>
 			 </c:if>
         </div>
-        <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]!='YZZ'}">
+        <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'YZZ' && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJZXTP'}">
         <div class="p0${vsKey.index}">
 		<table class="table table-bordered table-condensed mt5">
 			<thead>
 				<tr>
 					<th class="w50 info">序号</th>
 				  	<th class="info">供应商名称</th>
-				  	<th class="info w100">报价<br/>(单位：万元)</th>
+				  	<th class="info w200">报价(万元)</th>
 				  	<th class="info">交货期限</th>
 				  	<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 				  	<th class="info w100">状态</th>

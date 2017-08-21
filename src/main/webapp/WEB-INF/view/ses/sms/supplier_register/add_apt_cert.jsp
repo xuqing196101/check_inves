@@ -27,11 +27,19 @@
 		<option value="0">否</option>
 	</select>
 	<script type="text/javascript">
-		$("select[title='cnjewfnAdd1']").each(function() {
+		var certAptNumber = ${certAptNumber}
+		$("#certType_select"+certAptNumber).each(function() {
 			var $obj = $(this);
 			$obj.combobox({
 				panelHeight : 240,
 				width : "200px",
+				onLoadSuccess: function() {
+					if ($('#aptitute_list_tbody_id').length > 0) {
+						$('#aptitute_list_tbody_id .textbox').each(function() {
+	            $(this).addClass('border0');
+	          });
+					}
+				},
 				onSelect : function(record) {
 					getAptLevelSelect(record);
 				},
@@ -49,11 +57,18 @@
 				}
 			});
 		});
-		$("select[title='cnjewfnAdd2']").each(function() {
+		$("#certGrade_addSelect"+certAptNumber).each(function() {
 			var $obj = $(this);
 			$obj.combobox({
 				panelHeight : 240,
 				width : "200px",
+				onLoadSuccess: function() {
+          if ($('#aptitute_list_tbody_id').length > 0) {
+            $('#aptitute_list_tbody_id .textbox').each(function() {
+              $(this).addClass('border0');
+            });
+          }
+        },
 				onSelect : function(record) {
 					getAptLevelSelect(record);
 				},

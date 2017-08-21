@@ -23,57 +23,42 @@
 		});
 //		showJiGou($("#children_area_select_id"));
 		//根据状态来判断是否可选择
-        var _status = '${currSupplier.status}';
-        if('-1' !=_status){//提交审核后,禁用radio
-            var _radio_checked = $(".isStatusFlag").find(":radio:checked");
-            $("#procurementDepId").val(_radio_checked.val());
-        }
+    var _status = '${currSupplier.status}';
+    if('-1' !=_status){//提交审核后,禁用radio
+        var _radio_checked = $(".isStatusFlag").find(":radio:checked");
+        $("#procurementDepId").val(_radio_checked.val());
+    }
 	});
 	
 	/** 保存基本信息 */
-	function saveProcurementDep(flag) {
+	function saveProcurementDep() {
 		var size = $(":radio:checked").size();
-		if(flag==='prev'){
-			  $("input[name='flag']").val(flag);
-			  sessionStorage.formG=JSON.stringify($("#procurement_dep_form_id").serializeArray());
-			$("#procurement_dep_form_id").submit();
-		}else{
-			if (!size) {
-				layer.msg("请选择一个审核采购机构", {
-					offset : '300px',
-				});
-				return;
-			}
-			var procurementDepId = $(":radio:checked").val();
-			$("input[name='procurementDepId']").val(procurementDepId);
-			  $("input[name='flag']").val(flag);
-			  $("#procurement_dep_form_id").submit();
+		if (!size) {
+			layer.msg("请选择一个审核采购机构", {
+				offset : '300px',
+			});
+			return;
 		}
-		
-		
-
+		var procurementDepId = $(":radio:checked").val();
+		$("input[name='procurementDepId']").val(procurementDepId);
+	  $("#procurement_dep_form_id").submit();
 	}
+	
 	function prev(){
-		 $("#flag").val("5");
-		 $("#items_info_form_id").submit();
+		 updateStep(5);
 	}
 	
 	///暂存
 	function temporarySave(){
-		
 		var procurementDepId = $("input[type='radio']:checked").val();
 		$("#procurementDepId").val(procurementDepId);
-		
-		
-		$("input[name='flag']").val("1");
 		$.ajax({
-			url : "${pageContext.request.contextPath}/supplier/temporarySave.do",
+			url : "${pageContext.request.contextPath}/supplier/saveDep.do",
 			type : "post",
 			data : $("#procurement_dep_form_id").serializeArray(),
 			contextType: "application/x-www-form-urlencoded",
 			success:function(msg){
-			 
-		 	if (msg == 'ok'){
+		 		if (msg == 'ok'){
 					layer.msg('暂存成功');
 				} 
 			  if (msg == 'failed'){
@@ -90,8 +75,9 @@
 		var supplierId = "${currSupplier.id}";
 		location.href = "${pageContext.request.contextPath}/supplier/updateStep.html?step=" + step + "&supplierId=" + supplierId;
 	}
-		sessionStorage.locationF=true;
-		sessionStorage.index=6;
+	
+	sessionStorage.locationF=true;
+	sessionStorage.index=6;
 </script>
 
 </head>
@@ -120,16 +106,13 @@
 						<form id="procurement_dep_form_id" action="${pageContext.request.contextPath}/supplier/perfect_dep.html" method="post">
 							<input name="id" value="${currSupplier.id}" type="hidden" />
 							<input name="procurementDepId" type="hidden" id="procurementDepId"/>
-							<input  name="org" id="orgId" value="${orgnization.id  }" type="hidden" />
-							<input name="supplierTypeIds"  value="${supplierTypeIds}"    type="hidden" /> 
-							<input name="jsp" type="hidden" />
-							<input name="flag"  type="hidden" />
+							<input name="org" id="orgId" value="${orgnization.id  }" type="hidden" />
 						</form>
 						<div class="tab-content padding-top-20">
 							<div class="tab-pane fade active in height-300" id="tab-1">
 								<div class="margin-bottom-0 categories mb50 isStatusFlag">
 									<h2 class="f16  ">
-								      	<font color="red">*</font> 选择采购机构
+						      	<font color="red">*</font> 选择采购机构
 									</h2>
 									<h2 class="f16 ">
 										推荐采购机构（以公司注册地址作为推荐采购机构依据）
@@ -148,7 +131,7 @@
 											<c:set var="vs" value="1"/>
 											<c:forEach items="${allPurList}" var="org1" varStatus="vs1">
 											  <c:if test="${org1.cityId eq currSupplier.address}">
-												<tr>
+												<tr <c:if test="${fn:contains(org1.shortName, '北京')}"> style="dispaly:none" </c:if>>
 													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${-1!=currSupplier.status}"> disabled="disabled" </c:if> <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 													<td class="tc">${vs}</td>
 													<td class="tc">${org1.shortName}</td>
@@ -177,7 +160,7 @@
 											<c:set var="vs" value="1"/>
 											<c:forEach items="${allPurList}" var="org1">
 												<c:if test="${org1.cityId ne currSupplier.address}">
-												<tr>
+												<tr <c:if test="${fn:contains(org1.shortName, '北京')}"> style="dispaly:none" </c:if>>
 													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${-1!=currSupplier.status}"> disabled="disabled" </c:if> <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 													<td class="tc">${vs}</td>
 													<td class="tc">${org1.shortName}</td>
@@ -198,18 +181,16 @@
 		</div>
 	</div>
 	
-    <div class="btmfix">
-  	  	<div style="margin-top: 15px;text-align: center;">
- 			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="prev()">上一步</button>
-	    	<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="temporarySave()">暂存</button>
-	    	<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('next')">下一步</button>
-  	  	</div>
-    </div>
+  <div class="btmfix">
+  	<div style="margin-top: 15px;text-align: center;">
+			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="prev()">上一步</button>
+   		<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="temporarySave()">暂存</button>
+   		<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep()">下一步</button>
+  	</div>
+  </div>
 	  
-	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/contract.html" method="post">
+	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/pefect_dep.html" method="post">
 		<input name="supplierId" value="${currSupplier.id}" type="hidden" /> 
-		<input name="supplierTypeIds"  value="${supplierTypeIds}"    type="hidden" /> 
-		<input name="flag" value="1" id="flag" type="hidden" /> 
 	</form>
 	<div class="footer_margin">
    		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>

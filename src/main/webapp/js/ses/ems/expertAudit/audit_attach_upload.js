@@ -4,13 +4,17 @@ $(function () {
     $("#reverse_of_six").removeAttr("onclick");
 
     // 绑定审核通过和不通过事件
-    $("#auditPass").click(function () {
+    /*$("#auditPass").click(function () {
         // -3:复审通过
         audit(-3);
     });
     $("#auditNoPass").click(function () {
         // 5:复审不通过
         audit(5);
+    });*/
+    $("#auditOver").click(function () {
+        // 复审结束
+        audit();
     });
 })
 
@@ -27,10 +31,10 @@ function lastStep(){
  * 审核
  * @param status
  */
-function audit(status){
+function audit(){
     // 提交表单，修改供应商状态
     // 设置状态
-    $("#status").val(status);
+    // $("#status").val(status);
     // 获取上传文件businessId
     var auditOpinionFile = $("#auditOpinionFile").val();
     $("#auditOpinionAttach").val(auditOpinionFile);

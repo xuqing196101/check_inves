@@ -107,7 +107,16 @@ public class EngCategoryServiceImpl implements EngCategoryService {
    
     
     public void insertSelective(Category category) {
-        engCcategoryMapper.insertSelective(category);
+       /*Category ct = engCcategoryMapper.findById(category.getParentId());
+       if(ct==null){
+         category.setLevel(2);
+       }else{
+         category.setLevel(ct.getLevel()+1);
+         ct.setIsParent("true");
+         engCcategoryMapper.updateByPrimaryKeySelective(ct);
+       }
+       category.setIsParent("false");*/
+       engCcategoryMapper.insertSelective(category);
     }
 
     public List<Category> findTreeByPid(String id) {
@@ -805,29 +814,9 @@ public class EngCategoryServiceImpl implements EngCategoryService {
 			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
 				typeList = type.get(0).getList();
 			}
-			//自定义等级
-//					List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, item.getSupplierId());
-//					for(SupplierPorjectQua qua:supplierQua){
-//						Qualification q=new Qualification();
-//						q.setId(qua.getName());
-//						q.setName(qua.getName());
-//						typeList.add(q);
-//					}
 					
 			cateTree.setTypeList(typeList);
 		}
 		return cateTree;
-	}
-
-	@Override
-	public Long countEngCategoyrId(SupplierCateTree cateTree, String supplierId) {
-		long rut=0;
-		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
-		String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_ENG_CERT);
-		List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
-        if(certEng != null && certEng.size() > 0) {
-		  rut=rut+uploadService.countFileByBusinessId(certEng.get(0).getId(), type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
-        }
-		return rut;
 	}
 }

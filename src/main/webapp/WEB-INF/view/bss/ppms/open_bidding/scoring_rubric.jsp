@@ -108,7 +108,10 @@
     	window.location.href = "${pageContext.request.contextPath}/intelligentScore/addScoreMethod.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+'${flowDefineId}';
     }
     function show(packageId, projectId) {
-    	window.location.href = "${pageContext.request.contextPath}/intelligentScore/showScoreMethod.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+'${flowDefineId}';
+    	var ok = "${project.confirmFile}"
+        
+            window.location.href = "${pageContext.request.contextPath}/intelligentScore/showScoreMethod.html?packageId="+packageId+"&status="+ok+"&projectId="+projectId+"&flowDefineId="+'${flowDefineId}';
+         
     }
     function view(packageId,projectId,flag){
     	if (flag == 0) {
@@ -242,7 +245,11 @@
 								<%-- <td class="tc w30"><input type="checkbox" value="${p.id }" name="chkItem">
 								</td> --%>
 								<td class="tc w50">${vs.index+1 }</td>
-								<td class="tc">${p.name}</td>
+								<td class="tc">${p.name}
+								<c:if test="${p.projectStatus=='YZZ'}">
+                       <span class="star_red">[该包已终止]</span>
+                    </c:if>
+								</td>
 								<td class="tc">
 								<c:if test="${p.isEditSecond == 0}">
 										请选择评分办法
@@ -263,14 +270,14 @@
 								 <td class="tc">
 								   <c:if test="${p.isHaveScoreMethod == 1 and project.confirmFile != 1}">
 								       <!-- <button class="btn" type="button" onclick="editScoreMethod()">修改评分方法</button> -->
-				                       <button class="btn" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
+				                       <button class="btn" type="button" <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if> onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
 								   </c:if>
 								   <c:if test="${p.isHaveScoreMethod == 2 and project.confirmFile != 1}">
-				                       <button class="btn" type="button" onclick="addScoreMethod('${p.id}','${projectId}')">选择评分办法</button>
+				                       <button class="btn" type="button" <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if> onclick="addScoreMethod('${p.id}','${projectId}')">选择评分办法</button>
 								   </c:if>
 								   <!-- 采购文件提交后不可修改 -->
 								   <c:if test="${project.confirmFile == 1}">
-				                       <button class="btn" type="button" onclick="view('${p.id}','${projectId}','${p.isEditSecond}')">查看</button>
+				                       <button class="btn" type="button" <c:if test="${p.projectStatus=='YZZ'}">disabled="disabled"</c:if> onclick="view('${p.id}','${projectId}','${p.isEditSecond}')">查看</button>
 								   </c:if>
 				                </td>
 								<%-- <td align="center">

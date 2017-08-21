@@ -94,6 +94,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /*
@@ -2115,7 +2116,7 @@ public class IndexNewsController extends BaseSupplierController{
 			SupplierService suppService=SpringBeanUtil.getBean(SupplierService.class);
 	        Map<String, Object> sMap = new HashMap<String, Object>();
 	        //只显示公开的
-	        sMap.put("IS_PUBLISH", 1);
+	        //sMap.put("IS_PUBLISH", 1);
 	      //处理查询参数
 			String supplierName=RequestTool.getParam(request,"supplierName","");
 			if(!"".equals(supplierName)){
@@ -2125,10 +2126,14 @@ public class IndexNewsController extends BaseSupplierController{
 			String status=RequestTool.getParam(request,"status","");
 			if(!"".equals(status)){
 				//sMap.put("status", status);
-				String [] statusArray= status.split(","); 
+				String [] statusArray= status.split(",");
+                sMap.put("size", statusArray.length);
 				sMap.put("statusArray", statusArray);
-				sMap.put("size", statusArray.length);
 				model.addAttribute("status", status );
+			}else{
+				int statusArray[] = {1,4,5,6,7,8};
+                sMap.put("size", statusArray.length);
+				sMap.put("statusArray", statusArray);
 			}
 			
 	        List<Supplier> list = suppService.query(page == null ? 1 : page,sMap);
@@ -2154,12 +2159,18 @@ public class IndexNewsController extends BaseSupplierController{
 				expertMap.put("size", statusArray.length);
 				expert.setStatus(status);
 				model.addAttribute("status", status );
-			}
+			}else {
+                int statusArray[] = {4,6,7,8};
+                expertMap.put("size", statusArray.length);
+                expertMap.put("statusArray", statusArray);
+            }
 			
 			ExpertService expertService=SpringBeanUtil.getBean(ExpertService.class);
-			 //只显示公开的
-			expert.setIsPublish(1);
-			expertMap.put("isPublish", 1);
+            //只显示公开的
+			//expert.setIsPublish(1);
+			//expertMap.put("isPublish", 1);
+			expertMap.put("flag", 1);
+
 			//分页
 	        List<Expert> list = expertService.selectIndexExpert(page == null ? 1 : page, expertMap);
 	        model.addAttribute("list",  new PageInfo<Expert>(list));
@@ -2449,18 +2460,17 @@ public class IndexNewsController extends BaseSupplierController{
 	 * @since JDK1.7
 	 */
 	@RequestMapping("/indexSupPublicityItem")
-    public String indexSupPublicityItem(Model model, String supplierId, String supplierStatus){
-        model.addAttribute("supplierId", supplierId);
+    public String indexSupPublicityItem(Model model, String query_id_of_cate, String supplierStatus){
+        model.addAttribute("supplierId", query_id_of_cate);
         model.addAttribute("supplierStatus", supplierStatus);
         //封装 目录分类 分别显示相关的数据
-        if(StringUtils.isNotBlank(supplierId)){
+        if(StringUtils.isNotBlank(query_id_of_cate)){
             // 封装查询数据
-            Map<String, Object> map = new HashedMap();
-            map.put("supplierId", supplierId);
-            map.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
-            map.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
-            List<String> supplierTypes=supplierItemService.findPassSupplierTypeBySupplierId(map);
-            model.addAttribute("supplierTypes", StringUtils.join(supplierTypes,","));
+			// 定义两个集合
+			Map<String, Object> map = new HashedMap();
+			map.put("supplierId", query_id_of_cate);
+            Set<String> set = supplierItemService.findPassSupplierTypeBySupplierId(map);
+            model.addAttribute("supplierTypes", StringUtils.join(set,","));
         }
 		return "iss/ps/index/index_supPublicity_item";
 	}

@@ -31,7 +31,7 @@
 				$("#form").attr("action","${pageContext.request.contextPath }/dataDownload/publish.html");
 				$("#form").submit();
 			   }else{
-			      layer.alert("发布类型不能为空", {
+			      layer.alert("发布范围不能为空", {
 			        offset : [ '30%', '40%' ]
 		         });
 			   }

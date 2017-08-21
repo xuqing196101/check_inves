@@ -7,7 +7,7 @@
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_items.js"></script>
 <script
-	src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_material_item.js"></script>
+	src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_project_item.js"></script>
 <title>产品类别工程</title>
 </head>
 <body>
@@ -60,12 +60,13 @@
 										</c:otherwise>
 									</c:choose>
 									</td>
-									<td><c:forEach items="${cate.typeList}" var="type">
+									<%--<td><- c:forEach items="${cate.typeList}" var="type">
 											<c:if test="${cate.qualificationType eq type.id}">${type.name}</c:if>
-										</c:forEach></td>
-									<td>${cate.certCode}</td>
-									<td>${cate.proName}</td>
-									<td>${cate.level.name}</td>
+										</c:forEach> </td> --%>
+									<td>${cate.supplierAptitute.certType}</td>
+									<td>${cate.supplierAptitute.certCode}</td>
+									<td>${cate.supplierAptitute.professType}</td>
+									<td>${cate.supplierAptitute.aptituteLevel}</td>
 									<td><div class="w110 fl">
 											<u:show showId="eng_show_${vs.index}"
 												businessId="${cate.fileId}" typeId="${typeId}"

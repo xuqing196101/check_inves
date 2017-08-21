@@ -141,7 +141,16 @@ public interface SupplierAuditService {
 	 * @return void
 	 */
 	int auditReasons (SupplierAudit supplierAudit);
-	
+	/**
+	 * 
+	 * Description:批量插入 审核数据
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-21
+	 * @param supplierAudit
+	 * @return
+	 */
+	int insertAudit(List<SupplierAudit> supplierAudit);
 	/**
      * @Title: selectByPrimaryKey
      * @author Xu Qing
@@ -152,7 +161,16 @@ public interface SupplierAuditService {
      * @return List<SupplierAudit>
      */
     List<SupplierAudit> selectByPrimaryKey(SupplierAudit supplierAudit);
-    
+    /**
+     * 
+     * Description:查询数据
+     * 
+     * @author YangHongLiang
+     * @version 2017-7-21
+     * @param supplierAudit
+     * @return
+     */
+    List<SupplierAudit> findByTypeId(SupplierAudit supplierAudit);
     /**
      * @Title: updateStatus
      * @author Xu Qing
@@ -341,6 +359,28 @@ public interface SupplierAuditService {
      */
     public SupplierCateTree cateTreePotting(SupplierCateTree cateTree,String supplierId);
     /**
+	 * 
+	 * Description:获取资质文件 数量
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-26
+	 * @param cateTree
+	 * @param supplierId
+	 * @return
+	 */
+	public SupplierCateTree countCategoyrId(SupplierCateTree cateTree,String supplierId,String supplierType);
+    /**
+	 * 
+	 * Description:获取工程资质文件数量
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-26
+	 * @param cateTree
+	 * @param supplierId
+	 * @return
+	 */
+	public SupplierCateTree countEngCategoyrId(SupplierCateTree cateTree, String supplierId);
+    /**
      * @Title: downloadFile
      * @author XuQing 
      * @date 2017-4-1 上午11:23:57  
@@ -458,4 +498,18 @@ public interface SupplierAuditService {
      * @since JDK1.7
      */
     JdcgResult selectAndVertifyAuditItem(String supplierId);
-} 
+
+	/**
+	 *
+	 * Description: 审核前判断是否有通过项和未通过项--是否符合通过要求
+	 *
+	 * @author Easong
+	 * @version 2017/7/13
+	 * @param [supplierId]
+	 * @since JDK1.7
+	 */
+    JdcgResult selectAuditNoPassItemCount(String supplierId);
+
+    JdcgResult vertifyOpinion(String supplierId);
+
+}

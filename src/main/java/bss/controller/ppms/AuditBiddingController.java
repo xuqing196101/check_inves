@@ -9,6 +9,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -157,8 +159,10 @@ public class AuditBiddingController extends BaseController {
   public String updateAuditStatus(@CurrentUser User user, String projectId, String status, Reason reasons,HttpServletRequest request,String flowDefineId,String process) throws UnsupportedEncodingException{
     String  reasonStr = "";
     if (reasons != null) {
-      reasonStr = URLDecoder.decode(JSON.toJSONString(reasons),"UTF-8");
+        JSONObject object = JSONObject.fromObject(reasons);
+        reasonStr = object.toString();
     }
+    
     Project project = new Project();
     project.setId(projectId);
     project.setAuditReason(reasonStr);

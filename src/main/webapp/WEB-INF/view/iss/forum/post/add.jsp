@@ -30,6 +30,7 @@
 		</script>
 		<script type="text/javascript">
 			$(function() {
+				$("#extensionId").val("bmp,pmg,jpg,gif,png");
 				var parkId = "${post.park.id}";
 				$("#park").val(parkId);
 				if(parkId != null && parkId != "") {
@@ -109,7 +110,7 @@
 					<ul class="ul_list mb20">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 padding-left-5"><div class="red fl">*</div>帖子名称：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 p0 input_group">
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 p0 input_group m0">
 								<input type="text" name="name" value='${post.name }'>
 								<span class="add-on">i</span>
 								<div class="cue">${ERR_name}</div>

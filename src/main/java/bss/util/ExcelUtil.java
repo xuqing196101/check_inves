@@ -510,114 +510,114 @@ public class ExcelUtil {
      		 }
 			 ///
 			 
-   			 if(rq.getPrice()!=null){
-     				if(rq.getQualitStand()==null||StringUtils.isBlank(rq.getQualitStand().trim())){
-     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，质量技术参数不能为空";
-	        				 map.put("errMsg", errMsg);
-	        				 bool=false;
-	        				 break;
-     			  } 
-     		 }
-			 if(rq.getPrice()!=null){
-     				if(rq.getGoodsName()==null||StringUtils.isBlank(rq.getGoodsName().trim())){
-     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，物资类别及名称不能为空";
-	        				 map.put("errMsg", errMsg);
-	        				 bool=false;
-	        				 break;
-     			  } 
-     		 }
-			 
-			 if(rq.getPrice()!=null){
-     				if(rq.getItem()==null||StringUtils.isBlank(rq.getItem().trim())){
-     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，计量单位不能为空";
-	        				 map.put("errMsg", errMsg);
-	        				 bool=false;
-	        				 break;
-     			  } 
-     		 }
-			 if(rq.getPrice()!=null){
-     				if(rq.getPurchaseCount()==null){
-     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，采购数量不能为空";
-	        				 map.put("errMsg", errMsg);
-	        				 bool=false;
-	        				 break;
-     			  } 
-     		 }
-			 if(rq.getPrice()!=null){
-     				if(rq.getBudget()==null){
-     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，预算金额不能为空";
-	        				 map.put("errMsg", errMsg);
-	        				 bool=false;
-	        				 break;
-     			  } 
-     		 }
-			 if(rq.getPrice()!=null){
-     				if(rq.getDeliverDate()==null||StringUtils.isBlank(rq.getDeliverDate().trim())){
-     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，交货期限不能为空";
-	        				 map.put("errMsg", errMsg);
-	        				 bool=false;
-	        				 break;
-     			  } 
-     		 }
-			 if(rq.getPrice()!=null){
-     				if(rq.getPurchaseType()==null||StringUtils.isBlank(rq.getPurchaseType().trim())){
-     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，采购方式不能为空";
-	        				 map.put("errMsg", errMsg);
-	        				 bool=false;
-	        				 break;
-     			  } 
-     		 }
-			 
-			 
-			 if(rq.getPurchaseType()!=null){
-     				if(rq.getQualitStand()==null||StringUtils.isBlank(rq.getQualitStand().trim())){
-     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，质量技术参数不能为空";
-	        				 map.put("errMsg", errMsg);
-	        				 bool=false;
-	        				 break;
-     			  } 
-     		 }
-			 if(rq.getPurchaseType()!=null){
-     				if(rq.getGoodsName()==null||StringUtils.isBlank(rq.getGoodsName().trim())){
-     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，物资类别及名称不能为空";
-	        				 map.put("errMsg", errMsg);
-	        				 bool=false;
-	        				 break;
-     			  } 
-     		 }
-			 
-			 if(rq.getPurchaseType()!=null){
-     				if(rq.getItem()==null||StringUtils.isBlank(rq.getItem().trim())){
-     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，计量单位不能为空";
-	        				 map.put("errMsg", errMsg);
-	        				 bool=false;
-	        				 break;
-     			  } 
-     		 }
-			 if(rq.getPurchaseType()!=null){
-     				if(rq.getPurchaseCount()==null){
-     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，单价不能为空";
-	        				 map.put("errMsg", errMsg);
-	        				 bool=false;
-	        				 break;
-     			  } 
-     		 }
-			 if(rq.getPurchaseType()!=null){
-     				if(rq.getBudget()==null){
-     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，预算金额不能为空";
-	        				 map.put("errMsg", errMsg);
-	        				 bool=false;
-	        				 break;
-     			  } 
-     		 }
-			 if(rq.getPurchaseType()!=null){
-     				if(rq.getDeliverDate()==null||StringUtils.isBlank(rq.getDeliverDate().trim())){
-     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，交货期限不能为空";
-	        				 map.put("errMsg", errMsg);
-	        				 bool=false;
-	        				 break;
-     			  } 
-     		 }
+//   			 if(rq.getPrice()!=null){
+//     				if(rq.getQualitStand()==null||StringUtils.isBlank(rq.getQualitStand().trim())){
+//     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，质量技术参数不能为空";
+//	        				 map.put("errMsg", errMsg);
+//	        				 bool=false;
+//	        				 break;
+//     			  } 
+//     		 }
+//			 if(rq.getPrice()!=null){
+//     				if(rq.getGoodsName()==null||StringUtils.isBlank(rq.getGoodsName().trim())){
+//     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，物资类别及名称不能为空";
+//	        				 map.put("errMsg", errMsg);
+//	        				 bool=false;
+//	        				 break;
+//     			  } 
+//     		 }
+//			 
+//			 if(rq.getPrice()!=null){
+//     				if(rq.getItem()==null||StringUtils.isBlank(rq.getItem().trim())){
+//     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，计量单位不能为空";
+//	        				 map.put("errMsg", errMsg);
+//	        				 bool=false;
+//	        				 break;
+//     			  } 
+//     		 }
+//			 if(rq.getPrice()!=null){
+//     				if(rq.getPurchaseCount()==null){
+//     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，采购数量不能为空";
+//	        				 map.put("errMsg", errMsg);
+//	        				 bool=false;
+//	        				 break;
+//     			  } 
+//     		 }
+//			 if(rq.getPrice()!=null){
+//     				if(rq.getBudget()==null){
+//     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，预算金额不能为空";
+//	        				 map.put("errMsg", errMsg);
+//	        				 bool=false;
+//	        				 break;
+//     			  } 
+//     		 }
+//			 if(rq.getPrice()!=null){
+//     				if(rq.getDeliverDate()==null||StringUtils.isBlank(rq.getDeliverDate().trim())){
+//     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，交货期限不能为空";
+//	        				 map.put("errMsg", errMsg);
+//	        				 bool=false;
+//	        				 break;
+//     			  } 
+//     		 }
+//			 if(rq.getPrice()!=null){
+//     				if(rq.getPurchaseType()==null||StringUtils.isBlank(rq.getPurchaseType().trim())){
+//     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，采购方式不能为空";
+//	        				 map.put("errMsg", errMsg);
+//	        				 bool=false;
+//	        				 break;
+//     			  } 
+//     		 }
+//			 
+//			 
+//			 if(rq.getPurchaseType()!=null){
+//     				if(rq.getQualitStand()==null||StringUtils.isBlank(rq.getQualitStand().trim())){
+//     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，质量技术参数不能为空";
+//	        				 map.put("errMsg", errMsg);
+//	        				 bool=false;
+//	        				 break;
+//     			  } 
+//     		 }
+//			 if(rq.getPurchaseType()!=null){
+//     				if(rq.getGoodsName()==null||StringUtils.isBlank(rq.getGoodsName().trim())){
+//     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，物资类别及名称不能为空";
+//	        				 map.put("errMsg", errMsg);
+//	        				 bool=false;
+//	        				 break;
+//     			  } 
+//     		 }
+//			 
+//			 if(rq.getPurchaseType()!=null){
+//     				if(rq.getItem()==null||StringUtils.isBlank(rq.getItem().trim())){
+//     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，计量单位不能为空";
+//	        				 map.put("errMsg", errMsg);
+//	        				 bool=false;
+//	        				 break;
+//     			  } 
+//     		 }
+//			 if(rq.getPurchaseType()!=null){
+//     				if(rq.getPurchaseCount()==null){
+//     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，单价不能为空";
+//	        				 map.put("errMsg", errMsg);
+//	        				 bool=false;
+//	        				 break;
+//     			  } 
+//     		 }
+//			 if(rq.getPurchaseType()!=null){
+//     				if(rq.getBudget()==null){
+//     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，预算金额不能为空";
+//	        				 map.put("errMsg", errMsg);
+//	        				 bool=false;
+//	        				 break;
+//     			  } 
+//     		 }
+//			 if(rq.getPurchaseType()!=null){
+//     				if(rq.getDeliverDate()==null||StringUtils.isBlank(rq.getDeliverDate().trim())){
+//     					 errMsg=String.valueOf(row.getRowNum()+1)+"行，交货期限不能为空";
+//	        				 map.put("errMsg", errMsg);
+//	        				 bool=false;
+//	        				 break;
+//     			  } 
+//     		 }
 	        		if(bool==false)break;
 	        		list.add(rq);
 					}

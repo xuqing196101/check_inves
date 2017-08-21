@@ -2,11 +2,6 @@ package iss.bean;
 
 import iss.model.ps.Article;
 import iss.service.ps.ArticleService;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertPublicity;
 import ses.model.sms.Supplier;
@@ -17,6 +12,10 @@ import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierService;
 import synchro.util.SpringBeanUtil;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /*
  *@Title:IssData
@@ -32,8 +31,13 @@ public class IssData {
 		Expert expert=new Expert();
 		ExpertService expertService=SpringBeanUtil.getBean(ExpertService.class);
 		 //只显示公开的
-		expert.setIsPublish(1);
-        List<Expert> expertList = expertService.selectAllExpert(10, expert);
+		//expert.setIsPublish(1);
+        Map<String, Object> expertMap = new HashMap<>();
+        int statusArray[] = {4,6,7,8};
+        expertMap.put("size", statusArray.length);
+        expertMap.put("statusArray", statusArray);
+        expertMap.put("flag", 1);
+        List<Expert> expertList = expertService.selectIndexExpert(1, expertMap);
         return expertList;
 	}
 	
@@ -41,8 +45,12 @@ public class IssData {
 	public static List<Supplier> getSupplierList() {
 		SupplierService suppService=SpringBeanUtil.getBean(SupplierService.class);
         Map<String, Object> sMap = new HashMap<String, Object>();
+
         //只显示公开的
-        sMap.put("IS_PUBLISH", 1);
+        //sMap.put("IS_PUBLISH", 1);
+        int statusArray[] = {1,4,5,6,7,8};
+        sMap.put("size", statusArray.length);
+        sMap.put("statusArray", statusArray);
         List<Supplier> supplierList = suppService.query(sMap);
         return supplierList;
 	}

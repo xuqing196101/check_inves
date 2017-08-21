@@ -1,65 +1,6 @@
 package bss.controller.ppms;
 
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
-import net.sf.json.JSONObject;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import ses.model.bms.DictionaryData;
-import ses.model.bms.User;
-import ses.model.ems.ExpExtractRecord;
-import ses.model.ems.ProExtSupervise;
-import ses.model.oms.Orgnization;
-import ses.model.oms.PurchaseDep;
-import ses.model.oms.PurchaseInfo;
-import ses.model.sms.Quote;
-import ses.model.sms.SupplierExtUser;
-import ses.model.sms.SupplierExtracts;
-import ses.service.bms.RoleServiceI;
-import ses.service.bms.UserServiceI;
-import ses.service.ems.ExpExtractRecordService;
-import ses.service.ems.ProjectSupervisorServicel;
-import ses.service.oms.OrgnizationServiceI;
-import ses.service.oms.PurchaseServiceI;
-import ses.service.sms.SupplierExtUserServicel;
-import ses.service.sms.SupplierExtractsService;
-import ses.service.sms.SupplierQuoteService;
-import ses.util.ComparatorDetail;
-import ses.util.DictionaryDataUtil;
-import ses.util.PropUtil;
-import ses.util.WfUtil;
-import ses.util.WordUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseDetail;
@@ -85,16 +26,70 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.TaskService;
-
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sun.org.apache.xpath.internal.operations.Mod;
-
 import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
+import common.utils.JdcgResult;
+import net.sf.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
+import ses.model.ems.ExpExtractRecord;
+import ses.model.ems.ProExtSupervise;
+import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseInfo;
+import ses.model.sms.Quote;
+import ses.model.sms.SupplierExtUser;
+import ses.model.sms.SupplierExtracts;
+import ses.service.bms.RoleServiceI;
+import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpExtractRecordService;
+import ses.service.ems.ProjectSupervisorServicel;
+import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurchaseServiceI;
+import ses.service.sms.SupplierExtUserServicel;
+import ses.service.sms.SupplierExtractsService;
+import ses.service.sms.SupplierQuoteService;
+import ses.util.ComparatorDetail;
+import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
+import ses.util.WfUtil;
+import ses.util.WordUtil;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 
 /**
@@ -1167,6 +1162,27 @@ public class ProjectController extends BaseController {
     }
 
     /**
+     *
+     * Description: 项目信息附件上传
+     *
+     * @author Easong
+     * @version 2017/8/4
+     * @param 
+     * @since JDK1.7
+     */
+    @RequestMapping("/findUploadFileOfEssential")
+    @ResponseBody
+    public JdcgResult findUploadFileOfEssential(@CurrentUser User user, String projectId){
+        if(StringUtils.isNotEmpty(projectId)){
+            //查看项目附件
+            JdcgResult jr = new JdcgResult();
+            jr.setData(uploadService.getFilesOther(projectId, DictionaryDataUtil.getId("PROJECT_IMPLEMENT"), "2"));
+            jr.setMsg(user.getRelName());
+            return jr;
+        }
+        return JdcgResult.build(500, "附件不存在");
+    }
+    /**
      * 〈递归选中〉 
      * 〈详细描述〉
      * @author FengTian
@@ -1776,9 +1792,9 @@ public class ProjectController extends BaseController {
             str = "1";//明细都未分包，默认一包
         }else{
             if(subLength == bottomDetails.size()){
-                Project project = projectService.selectById(id);
+               /* Project project = projectService.selectById(id);
                 project.setStatus(DictionaryDataUtil.getId("FBWC"));
-                projectService.update(project);
+                projectService.update(project);*/
                 str = "0";//明细都分完包了
             }else{
                 str = "1";//有明细分包，还没分完全
@@ -3592,6 +3608,7 @@ public class ProjectController extends BaseController {
     		                	}
     		                }
 						}
+    					viewSubPack(project);
     					model.addAttribute("packageList", packages);
     				}
         		} else {
@@ -3619,6 +3636,33 @@ public class ProjectController extends BaseController {
     		}	
     	}
     	return StaticVariables.ORG_TYPE_MANAGE;
+    }
+    
+    public void viewSubPack(Project project){
+    	//拿到一个项目所有的明细
+    	HashMap<String, Object> map = new HashMap<>();
+    	map.put("id", project.getId());
+        List<ProjectDetail> details = detailService.selectById(map);
+        List<ProjectDetail> bottomDetails = new ArrayList<>();//底层的明细
+        for(ProjectDetail detail:details){
+            HashMap<String,Object> detailMap = new HashMap<>();
+            detailMap.put("id",detail.getRequiredId());
+            detailMap.put("projectId", project.getId());
+            List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+            if(dlist.size()==1){
+                bottomDetails.add(detail);
+            }
+        }
+        for(int i=0;i<bottomDetails.size();i++){
+            if(bottomDetails.get(i).getPackageId()==null){
+                break;
+            }else if(i==bottomDetails.size()-1){
+            	if(DictionaryDataUtil.getId("YJLX").equals(project.getStatus())){
+            		project.setStatus(DictionaryDataUtil.getId("FBWC"));
+                    projectService.update(project);
+            	}
+            }
+        }
     }
     
     /**

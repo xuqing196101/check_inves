@@ -204,7 +204,7 @@ public class UserManageController extends BaseController{
 	 * @exception IOException
 	 */
 	@RequestMapping("/save")
-	public String save(@Valid User user, BindingResult result, String roleName, String orgName, HttpServletRequest request, Model model) throws Exception {
+	public String save(@Valid User user, BindingResult result, @CurrentUser User loginUser, String roleName, String orgName, HttpServletRequest request, Model model) throws Exception {
   		//校验字段
   		String origin = request.getParameter("origin");
   		String orgId = request.getParameter("org_orgId");
@@ -422,6 +422,7 @@ public class UserManageController extends BaseController{
 		if (StringUtils.isNotBlank(origin)){
 		    model.addAttribute("srcOrgId", orgId);
 		    model.addAttribute("typeName", deptTypeName);
+		    model.addAttribute("authType", loginUser.getTypeName());
 		    return "ses/oms/require_dep/list";
 		} else {
 	        return "redirect:list.html";
@@ -547,7 +548,7 @@ public class UserManageController extends BaseController{
 	 * @exception IOException
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request, @Valid User u, BindingResult result, String roleId, String orgId, Model model) {
+	public String update(HttpServletRequest request, @Valid User u, BindingResult result, @CurrentUser User user, String roleId, String orgId, Model model) {
         
 	    String origin = request.getParameter("origin");
 	    String deptTypeName = request.getParameter("deptTypeName");
@@ -731,6 +732,7 @@ public class UserManageController extends BaseController{
 		if (StringUtils.isNotBlank(origin)){
 		     model.addAttribute("srcOrgId", orgId);
 		     model.addAttribute("typeName", deptTypeName);
+		     model.addAttribute("authType", user.getTypeName());
             return "ses/oms/require_dep/list";
 		} else {
 		    String currpage = request.getParameter("currpage");
@@ -1129,6 +1131,8 @@ public class UserManageController extends BaseController{
 	                //私密 解密
   	              u.setPassword2(pwd2);
   	              u.setPassword(pwd);
+  	              //排除空格
+					pwd=pwd.replaceAll("\\s*", "");
   	              if (pwd == null || "".equals(pwd)) {
   	                  msg = "请输入新密码";
   	                  count ++;
@@ -1199,7 +1203,8 @@ public class UserManageController extends BaseController{
           //私密 解密
           String pwd2 = RSAEncrypt.decryptPrivate(u.getPassword2());
           String pwd = RSAEncrypt.decryptPrivate(u.getPassword());
-         
+          //排除空格
+		  pwd=pwd.replaceAll("\\s*", "");
           if (pwd == null || "".equals(pwd)) {
               msg = "请输入新密码";
               count ++;
@@ -1508,4 +1513,20 @@ public class UserManageController extends BaseController{
 		  return JSON.toJSONString(msg);
 	 }
 	  
+	  @RequestMapping("/unlock")
+	  public void unlock(HttpServletResponse response, String ids, String type) throws IOException{
+	    try {
+	      Boolean result;
+	      result = userService.unlock(ids, type);
+	      String msg = "已解锁";
+	      response.setContentType("text/html;charset=utf-8");
+	      response.getWriter().print("{\"success\": " + result + ", \"msg\": \"" + msg + "\"}");
+	      response.getWriter().flush();
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    } finally {
+	      response.getWriter().close();
+	    }
+	  }
+	
 }

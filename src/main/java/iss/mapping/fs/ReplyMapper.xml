@@ -19,7 +19,7 @@
 			  			  			  
 	  			<!-- 表名 -->
 			  	<sql id="Tabel_Name">
-					T_ISS.FS_REPLY
+					T_ISS_FS_REPLY
 				</sql>
 				
 		  	  <!-- 所有列 -->
@@ -76,7 +76,7 @@
 			     where IS_DELETED = 0
                  <trim suffixOverrides=","> 
                   <if test="replyCon!= null">
-                    and CONTENT Like concat(concat('%', '#{replyCon}'), '%')
+                    and CONTENT LIKE CONCAT(CONCAT('%', #{replyCon}), '%')
                   </if> 
                   <if test="userId != null ">
                     and POST_ID IN (

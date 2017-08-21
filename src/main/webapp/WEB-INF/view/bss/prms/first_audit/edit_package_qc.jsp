@@ -358,8 +358,7 @@
     <c:if test="${flag != '1' }">
 	    <div class="search_detail ml0">
 	        <ul class="demand_list">
-	          <li>
-	            <label class="fl">模板选择--></label>
+	            <li>
 	             <label class="fl">所属产品目录：</label>
 	            	<div class="input_group w200">
 						<input id="cId" name="categoryId"  type="hidden" value="${categoryId}">
@@ -370,6 +369,9 @@
 					</div>
 		       </li>
 		       <li>
+	            <label class="fl">模板选择</label>
+	            </li>
+	            <li>
 					<select id="fatId" class="w180">
 		               <%-- <c:forEach items="${firstAuditTemplats}" var="fat">
 		                    <option value="${fat.id}">${fat.name}</option>
@@ -396,32 +398,28 @@
                <!-- 如果没有评审项 ，显示空td-->
                <c:if test="${d.code == 'COMPLIANCE' && items1.size() == 0}">
                  <tr id="${d.id}">
-                    <td rowspan="2" class="w150">
+                    <td class="w150">
                         <input type="hidden" value="2">
                         <span class="fl">${d.name}</span>
                         <c:if test="${flag != '1' }">
                             <a class="addItem item_size" onclick="addItem(this,'${d.id}');" ></a>
                         </c:if>
                     </td>
-                 </tr>
-                 <tr>
-                     <td></td>
-                     <td></td>
+                    <td></td>
+                    <td></td>
                  </tr>
                </c:if>
                <c:if test="${d.code == 'QUALIFICATION' && items2.size() == 0}">
                  <tr id="${d.id}">
-                    <td rowspan="2" class="w150">
+                    <td class="w150">
                         <input type="hidden" value="2">
                         <span class="fl">${d.name}</span>
                         <c:if test="${flag != '1' }">
                             <a class="addItem item_size" onclick="addItem(this,'${d.id}');" ></a>
                         </c:if>
                     </td>
-                 </tr>
-                 <tr>
-                     <td></td>
-                     <td></td>
+                    <td></td>
+                    <td></td>
                  </tr>
                </c:if>
                <!-- 如果有评审项 ，加载符合性评审项-->

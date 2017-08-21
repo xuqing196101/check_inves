@@ -1,3 +1,4 @@
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE html>
@@ -130,33 +131,34 @@
 	}
 	
 	
-	var flag;
   //验证重复
-  function verify(ele){
-    var name = $(ele).val();
+  function verify(){
+    var aa = 0;
+    var name = $("input[name='name']").val();
     var parentId = $("#treeId").val();
     var id = $("input[name='id']").val();
     $.ajax({
           url: "${pageContext.request.contextPath}/purchaseManage/verify.html?name=" + name + "&parentId=" + parentId + "&id=" + id,
           type: "post",
+          async:false,
           dataType: "json",
           success: function(data) {
             var datas = eval("(" + data + ")");
             if(datas == false) {
+              aa = 1;
               $("#sps").html("机构已存在").css('color', 'red');
-              flag = false;
             } else {
               $("#sps").html("");
-              flag = true;
             }
           },
         });
+        return aa;
   }
   
   
   function save(){
-     if(flag == true){
-       $("#formID").validForm();
+     if(verify() == 0){
+      $("#formID").validForm();
        $("#formID").submit();
      }else{
        $("input[name='name']").focus();
@@ -201,7 +203,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>名称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="name" type="text" required  onblur="verify(this);" value="${orgnization.name}" maxlength="100"> 
+			  <input class="input_group" name="name" type="text" required  onblur="verify();" value="${orgnization.name}" maxlength="100"> 
 			  <span class="add-on">i</span>
 			  <div class="cue" id="sps"><sf:errors path="name"/></div>
 			</div>

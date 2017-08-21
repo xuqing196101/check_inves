@@ -1,9 +1,11 @@
 package ses.service.ems.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +16,17 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.model.ems.ExpertBlackListLog;
 import ses.model.ems.ExpertBlackListVO;
-import ses.model.sms.SupplierBlacklistVO;
 import ses.service.ems.ExpertBlackListService;
 import ses.util.PropertiesUtil;
+import synchro.service.SynchRecordService;
+import synchro.util.Constant;
+import synchro.util.FileUtils;
+import synchro.util.OperAttachment;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
-
+import common.model.UploadFile;
+import common.service.UploadService;
 import common.utils.DateUtils;
 
 /**
@@ -49,6 +56,14 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	
 	@Autowired
 	private ExpertBlackListMapper mapper;
+	
+	/** 记录service  **/
+    @Autowired
+    private SynchRecordService  synchRecordService;
+    
+    /** 附件service **/
+    @Autowired
+    private UploadService uploadService;
 	
 	/**
 	 * 专家
@@ -186,7 +201,7 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 		
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		return expertMapper.findExpertAll(expert);
+		return expertMapper.findExpertByBlacklist(expert);
 	}
 	
 	/**
@@ -290,6 +305,102 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 		}
 		List<ExpertBlackListVO> list = mapper.selectExpertBlacklist(expert, expertTypeId);
 		return list;
+	}
+
+	/**
+	 * 导出专家黑名单
+	 */
+	@Override
+	public boolean exportExpertBlacklist(String start, String end,
+			Date synchDate) {
+		boolean boo=false;
+		//获取创建的专家黑名单
+		List<ExpertBlackList> expertBlackCList= mapper.selectByCreateDate(start, end);
+		//获取修改的专家黑名单
+		List<ExpertBlackList> expertBlackMList=mapper.selectByUpdateDate(start, end);
+		int sum=0;
+		List<UploadFile> attachList = new ArrayList<>();
+		if(expertBlackCList != null && expertBlackCList.size() > 0){
+			sum=sum+expertBlackCList.size();
+			//附件查询
+			for (ExpertBlackList expertBlackList : expertBlackCList) {
+				List<UploadFile> fileList = uploadService.findBybusinessId(expertBlackList.getId(), 3);
+				attachList.addAll(fileList);
+			}
+			//生成json 并保存
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_EXPERT_BLACKLIST_PATH_FILENAME, 28),JSON.toJSONString(expertBlackCList));
+		}
+		if(expertBlackMList!=null && expertBlackMList.size()>0){
+			sum=sum+expertBlackMList.size();
+			//附件查询
+			for (ExpertBlackList expertBlackList : expertBlackMList) {
+				List<UploadFile> fileList = uploadService.findBybusinessId(expertBlackList.getId(), 3);
+				attachList.addAll(fileList);
+			}
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_EXPERT_BLACKLIST_PATH_FILENAME, 28),JSON.toJSONString(expertBlackMList));
+		}
+		if (attachList.size() > 0){
+            FileUtils.writeFile(FileUtils.getInfoAttachmentFile(),JSON.toJSONString(attachList));
+            String basePath = FileUtils.attachExportPath(3);
+            if (StringUtils.isNotBlank(basePath)){
+                OperAttachment.writeFile(basePath, attachList);
+                synchRecordService.backupAttach(new Integer(attachList.size()).toString());
+            }
+        }
+		synchRecordService.synchBidding(synchDate, sum+"", Constant.DATE_SYNCH_EXPERT_BLACKLIST, Constant.OPER_TYPE_EXPORT, Constant.EXPERT_BLACKLIST_COMMIT);
+		//导出专家黑名单记录表数据
+		List<ExpertBlackListLog> expertBlackListLog = expertBlackListHistoryMapper.selectByDate(start, end);
+		int log=0;
+		if(expertBlackListLog != null && expertBlackListLog.size() > 0){
+			log=log+expertBlackListLog.size();
+			//生成json 并保存
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_EXPERT_BLACKLIST_LOG_PATH_FILENAME, 29),JSON.toJSONString(expertBlackListLog));
+		}
+		synchRecordService.synchBidding(synchDate, log+"", Constant.DATE_SYNCH_EXPERT_BLACKLIST_LOG, Constant.OPER_TYPE_EXPORT, Constant.EXPERT_BLACKLIST_LOG_COMMIT);
+		boo=true;
+		return boo;
+	}
+
+	/**
+	 * 导入专家黑名单
+	 */
+	@Override
+	public boolean importExpertBlacklist(File file) {
+		boolean boo=false;
+		 List<ExpertBlackList> list = FileUtils.getBeans(file, ExpertBlackList.class); 
+	        if (list != null && list.size() > 0){
+	        	for (ExpertBlackList expertBlackList : list) {
+	        	Integer count=	mapper.countById(expertBlackList.getId());
+	        	  if(count==0){
+	        		  mapper.insertSelective(expertBlackList);
+	        	  }else{
+	        		  mapper.updateByPrimaryKeySelective(expertBlackList);
+	        	  }
+				}
+	        	synchRecordService.synchBidding(new Date(), list.size()+"", Constant.DATE_SYNCH_EXPERT_BLACKLIST, Constant.OPER_TYPE_IMPORT, Constant.EXPERT_BLACKLIST_COMMIT_IMPORT);
+	        }
+	        boo=true;
+		return boo;
+	}
+
+	/**
+	 * 导入专家黑名单记录
+	 */
+	@Override
+	public boolean importExpertBlacklistLog(File file) {
+		boolean boo=false;
+		 List<ExpertBlackListLog> list = FileUtils.getBeans(file, ExpertBlackListLog.class); 
+	        if (list != null && list.size() > 0){
+	        	for (ExpertBlackListLog expertBlackListLog : list) {
+	        	Integer count=	expertBlackListHistoryMapper.countById(expertBlackListLog.getId());
+	        	  if(count==0){
+	        		  expertBlackListHistoryMapper.insertHistory(expertBlackListLog);
+	        	  }
+				}
+	        	synchRecordService.synchBidding(new Date(), list.size()+"", Constant.DATE_SYNCH_EXPERT_BLACKLIST_LOG, Constant.OPER_TYPE_IMPORT, Constant.EXPERT_BLACKLIST_LOG_COMMIT_IMPORT);
+	        }
+	        boo=true;
+		return boo;
 	}
 
 }

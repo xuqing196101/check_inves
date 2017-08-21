@@ -144,8 +144,12 @@
 		        <c:set value="false" var="flg"></c:set>
 		         <c:forEach items="${packageList}" var="pa">
 		            <c:if test="${pa.id==rp.packageId }">
-		              <c:if test="${pa.projectStatus=='YZZ'}">
+		              <c:if test="${pa.projectStatus eq 'YZZ'}">
 		                <span class="star_red">[已终止]</span>
+		                <c:set value="true" var="flg"></c:set>
+		              </c:if>
+		              <c:if test="${pa.projectStatus eq 'ZJZXTP'}">
+		                <span class="star_red">[已转竟谈]</span>
 		                <c:set value="true" var="flg"></c:set>
 		              </c:if>
 		            </c:if>
@@ -174,7 +178,7 @@
 				  <input type="hidden" value="${rp.firstAuditProgress*100}">
 			    </td>
 			    <td class="tc w100">
-		          <input class="btn" type="button" <c:if test="${flg=='true' }">disabled="disabled" </c:if> value="查看" onclick="fitsrView('${rp.packageId}','${projectId}','${flowDefineId}')">
+		          <input class="btn" type="button" <c:if test="${flg eq 'true' }">disabled="disabled" </c:if> value="查看" onclick="fitsrView('${rp.packageId}','${projectId}','${flowDefineId}')">
 		        </td>
 		      </tr>
 			</c:forEach>

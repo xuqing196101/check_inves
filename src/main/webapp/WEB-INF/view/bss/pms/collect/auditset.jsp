@@ -479,7 +479,7 @@
         });
         $("#del_id").val(id);
         var val = $("#del_id").val();
-        if($.trim(val) != "") {
+        if(id.length>0) {
           $.ajax({
             url: "${pageContext.request.contextPath}/set/delete.html",
             type: "post",
@@ -494,7 +494,7 @@
             }
           });
         }else{
-        	layer.msg('请选择要删除的人员', {offset: ['40%', '45%']});
+        	layer.msg('请选择一条记录删除', {offset: ['40%', '45%']});
         }
 
       }

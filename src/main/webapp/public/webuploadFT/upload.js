@@ -252,6 +252,23 @@
 			   			},
 			   			function(msg){
 			   				if (msg == 'ok') {
+			   					if(flag){
+                                    $.ajax({
+                                        cache: false,
+                                        type: 'POST',
+                                        url: globalPath + "/project/findUploadFileOfEssential.do",
+                                        async: false,
+                                        dataType: 'json',
+                                        data : {
+                                            "projectId": projectIdUpload
+                                        },
+                                        success: function (data) {
+                                            loadUpload(data);
+                                        }
+                                    });
+                                }else{
+                                    window.location.reload();
+                                }
 			   					/*var sid = $("#" + $base + "_btnNameId").nextAll('#showId').val();
 			   					alert(sid);
 			   					if (sid == undefined){
@@ -260,7 +277,6 @@
 			   						sid = $("#" +showPicId).val();
 			   					}
 			   					showInitAfterUpload(sid);*/
-			   					window.location.reload();
 			   				}
 			   				
 			   				

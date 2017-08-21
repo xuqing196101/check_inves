@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
-
 <!DOCTYPE HTML>
 <html>
 
@@ -23,8 +22,14 @@
 
     <script src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
     <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
+    <script src="${pageContext.request.contextPath }/js/bss/ppms/essential_information.js"></script>
     <script type="text/javascript">
+        var flag;
+        var projectIdUpload;
       $(function() {
+          projectIdUpload = $("#id").val();
+          flag = "flag";
+          commonLoadFile();
         /* $("#uploaderId").click(function(){
           var id = $(".web_uploader_class").prev()[0].value;
           init_uploader(eval("var  uploader_" + id),id);
@@ -91,10 +96,10 @@
 	              flag = false;
 	            }
             } else {
-              if(supplierNumber < 3) {
+              /* if(supplierNumber < 3) {
                 layer.tips("供应商人数不能小于3人", "#supplierNumber");
                 flag = false;
-              }
+              } */
             }
             if(bidAddress == '' || bidAddress == null) {
 		          layer.tips("请填写开标地点", "#bidAddress");
@@ -316,10 +321,10 @@
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function getValue() {
+      /* function getValue() {
         var date = $("#deadline").val();
         $("#bidDate").val(date);
-      }
+      } */
 
       $(function() {
         var id = "${project.id}";
@@ -395,10 +400,11 @@
           $.ajax({
             type: "post",
             url: "${pageContext.request.contextPath}/file/deleteFile.html?id=" + ids + "&key=" + a,
-            async: true,
+            async: false,
             success: function(msg) {
               if(msg == "ok") {
-                window.location.reload();
+                //window.location.reload();
+                  commonLoadFile();
               }
             }
           });
@@ -754,21 +760,7 @@
                   <th class="info">上传时间</th>
                 </tr>
               </thead>
-              <c:forEach items="${uploadFiles}" var="data" varStatus="vs">
-                <tr>
-                  <td class="tc w30">
-                    <input type="checkbox" value="${data.id }" name="chkItem" onclick="check()">
-                  </td>
-                  <td class="tc w50">${vs.index+1}</td>
-                  <td class="tl">
-                    <a href="javascript:void(0)" onclick="views('${data.typeId}');">${data.name}</a>
-                  </td>
-                  <td class="tl" onclick="views('${data.typeId}')">${user.relName}</td>
-                  <td class="tl">
-                    <fmt:formatDate type='date' value='${data.createDate}' pattern=" yyyy-MM-dd HH:mm:ss " />
-                  </td>
-                </tr>
-              </c:forEach>
+              <tbody id="loadUpload"></tbody>
             </table>
 
           </div>

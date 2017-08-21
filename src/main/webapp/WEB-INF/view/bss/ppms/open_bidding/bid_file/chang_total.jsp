@@ -145,6 +145,20 @@
 				});
 		}
 	}
+	function checkTotal(){
+		var total = $("input[name='total']").val();
+		if(total == 0){
+			 layer.msg("总价不合法,请重新输入")	
+			 $("input[name='total']").val("")
+		}
+	}
+	function checkPaymentDate(){
+        var paymentDate = $("input[name='paymentDate']").val();
+        if($.trim(paymentDate) == ""){
+        	layer.msg("交货期限不合法,请重新输入")   
+            $("input[name='paymentDate']").val("")
+        }
+    }
 </script>
 </head>
 <body>
@@ -156,17 +170,21 @@
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div class="col-md-12 col-sm-12 col-xs-12 p0">
 			 	<c:if test="${vsKey.index ==0 }">
-				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}">class="count_flow hand fl spread" </c:if>class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}"><span class="star_red">[该包已终止]</span></c:if>  </span>
+				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ' || mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}">
+				 	class="count_flow hand fl spread" </c:if>class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if> 
+				 	<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竟谈]</span></c:if> </span>
 				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 				 	</h2>
 			 	</c:if>
 			 	<c:if test="${vsKey.index != 0 }">
-				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}">class="count_flow hand fl spread" </c:if>class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}"><span class="star_red">[该包已终止]</span></c:if> </span>
+				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ' || mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}">
+				 	class="count_flow hand fl spread" </c:if>class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
+				 	 <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] eq 'ZJZXTP'}"><span class="star_red">[该包已转竟谈]</span></c:if></span>
 				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 				 	</h2>
 			 	</c:if>
         </div>
-        <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]!='YZZ'}"> 
+        <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'YZZ' && mapPackageName[fn:substringBefore(treemapKey, '|')] ne 'ZJZXTP'}"> 
         <div class="p0 ${vsKey.index} w100p clear">
 		<table class="table table-bordered table-condensed mt5 left_table table_input">
 			<thead>
@@ -188,8 +206,8 @@
 			    		<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}','${flowDefineId}')" />
 				    </td>
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
-					<td class="tc"><input maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/></td>
-					<td class="tc"><input type="text"/></td>
+					<td class="tc"><input name="total" onblur="checkTotal()" maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/></td>
+					<td class="tc"><input type="text" onblur="checkPaymentDate()" name="paymentDate"/></td>
 					<c:if test="${not empty count}">
 					<td class="tc">
 							<select onchange="show(this)">

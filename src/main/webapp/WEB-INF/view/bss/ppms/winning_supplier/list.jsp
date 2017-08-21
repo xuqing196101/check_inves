@@ -206,8 +206,11 @@
               <tr>
                 <td class="tc w30">${vs.count }</td>
                 <td class="tc">${pack.name }
-                <c:if test="${pack.projectStatus=='YZZ'}">
+                <c:if test="${pack.projectStatus eq 'YZZ'}">
 		           <span class="star_red">[已终止]</span>
+		         </c:if>
+		         <c:if test="${pack.projectStatus eq 'ZJZXTP'}">
+		           <span class="star_red">[已转竟谈]</span>
 		         </c:if>
                 </td>
                 <td class="tc">
@@ -220,7 +223,7 @@
                       </a>
                     </c:when>
                     <c:otherwise>
-                      <button class="btn btn-windows add"  <c:if test="${pack.projectStatus=='YZZ'}">disabled="disabled"</c:if> onclick="confirm('${pack.id}');" type="button">选择供应商</button>
+                      <button class="btn btn-windows add"  <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if> onclick="confirm('${pack.id}');" type="button">选择供应商</button>
                       <c:set value="1" var="values" />
                     </c:otherwise>
                   </c:choose>

@@ -60,7 +60,7 @@
 	       	var supplierStatus= $("input[name='supplierStatus']").val();
 	        var sign = $("input[name='sign']").val();
 	       	//只有审核的状态能审核
-	       	if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+	       	if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
             var supplierId = $("#id").val();
             var auditField = obj.id;
             var auditContent;
@@ -83,7 +83,7 @@
                     var text = trim(text);
                     if (text != null && text != "") {
                         $.ajax({
-                            url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+                            url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
                             type: "post",
                             dataType: "json",
                             data: {
@@ -94,14 +94,13 @@
                                 "supplierId": supplierId,
                                 "auditField": auditField
                             },
-                            success: function (result) {
-                                result = eval("(" + result + ")");
-                                if (result.msg == "fail") {
-                                    layer.msg('该条信息已审核过！', {
-                                        shift: 6, //动画类型
-                                        offset: '100px'
-                                    });
-                                }
+                            success:function(result){
+                              if(result.status == "503"){
+                                 layer.msg('该条信息已审核过！', {             
+                                   shift: 6, //动画类型
+                                   offset:'100px'
+                                });
+                              }
                             }
                         });
                         $(obj).after(html);
@@ -170,7 +169,7 @@
        	  var supplierStatus= $("input[name='supplierStatus']").val();
           var sign = $("input[name='sign']").val();
            //只有审核的状态能审核
-          if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+          if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
             var supplierId = $("#id").val();
             var auditFieldName = $(ele).parents("li").find("span").text().replace("：", "").replace("view", ""); //审批的字段名字
             var index = layer.prompt({
@@ -182,18 +181,17 @@
                 var text = trim(text);
                 if (text != null && text != "") {
                     $.ajax({
-                        url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+                        url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
                         type: "post",
                         data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType=basic_page" + "&auditContent=附件" + "&auditField=" + auditField,
                         dataType: "json",
-                        success: function (result) {
-                            result = eval("(" + result + ")");
-                            if (result.msg == "fail") {
-                                layer.msg('该条信息已审核过！', {
-                                    shift: 6, //动画类型
-                                    offset: '100px'
-                                });
-                            }
+                        success:function(result){
+                          if(result.status == "503"){
+                             layer.msg('该条信息已审核过！', {             
+                               shift: 6, //动画类型
+                               offset:'100px'
+                            });
+                          }
                         }
                     });
                     $(ele).parents("li").find("p").show(); //显示叉
@@ -210,7 +208,7 @@
         	var supplierStatus= $("input[name='supplierStatus']").val();
           var sign = $("input[name='sign']").val();
            //只有审核的状态能审核
-          if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+          if(supplierStatus == -2 || supplierStatus == 0 | supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
             var supplierId = $("#id").val();
             var auditContent;
             var auditFieldName;
@@ -232,7 +230,7 @@
                     var text = trim(text);
                     if (text != null && text != "") {
                         $.ajax({
-                            url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+                            url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.do",
                             type: "post",
                             data: {
                                 "auditType": "basic_page",
@@ -243,14 +241,13 @@
                                 "auditField": id
                             },
                             dataType: "json",
-                            success: function (result) {
-                                result = eval("(" + result + ")");
-                                if (result.msg == "fail") {
-                                    layer.msg('该条信息已审核过！', {
-                                        shift: 6, //动画类型
-                                        offset: '100px'
-                                    });
-                                }
+                            success:function(result){
+                              if(result.status == "503"){
+                                 layer.msg('该条信息已审核过！', {             
+                                   shift: 6, //动画类型
+                                   offset:'100px'
+                                });
+                              }
                             }
                         });
                         $("#" + id + "_hidden").hide();
@@ -981,8 +978,16 @@
                 </c:if>
                 <c:if test="${suppliers.isHavingConCert eq '1'}">
                     <li class="col-md-3 col-sm-6 col-xs-12">
-                        <span
-                                <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierBearchCert)}">style="border: 1px solid #FF8C00;"</c:if>
+                      <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家或军队保密资格证书：</span>
+                        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+                          <input id="isHavingConCert" class="hand " value="有" type="text" onclick="reason(this)"
+                          <c:if test="${fn:contains(passedField,'isHavingConCert')}">style="border: 1px solid red;"</c:if>
+                          <c:if test="${fn:contains(field,'isHavingConCert')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('isHavingConCert');"</c:if> >
+                          <c:if test="${fn:contains(passedField,'isHavingConCert')}"><a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a></c:if>
+                        </div>
+                    </li>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierBearchCert)}">style="border: 1px solid #FF8C00;"</c:if>
                                 class="hand" onclick="reason1(this,'supplierBearchCert');"
                                 onmouseover="this.style.background='#E8E8E8'"
                                 onmouseout="this.style.background='#FFFFFF'">保密资格证书：</span>
@@ -1380,7 +1385,7 @@
         </div>
 
         <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
-          <c:if test="${suppliers.status == 0 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
+          <c:if test="${suppliers.status == -2 or suppliers.status == 0 or suppliers.status == 9 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
           </c:if>
           <a class="btn" type="button" onclick="nextStep();">下一步</a>
@@ -1390,6 +1395,7 @@
           method="post">
         <input type="hidden" name="fileName"/>
     </form>
+    <input name="supplierId" id="supplierId" value="${suppliers.id }" type="hidden">
 </div>
 </body>
 

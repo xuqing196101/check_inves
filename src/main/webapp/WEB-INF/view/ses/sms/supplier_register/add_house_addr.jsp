@@ -13,8 +13,8 @@
         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0 ml20">
             <select id="root_area_select_id_" class="w100p" onchange="loadChildren(this)" name="addressList[${ind }].provinceId" <c:if test="${fn:contains(audit,'address_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address_${addr.id }')"</c:if>>
                 <option value="">请选择</option>
-                <c:forEach items="${privnce }" var="prin">
-                    <option value="${prin.id }">${prin.name }</option>
+                <c:forEach items="${province }" var="prov">
+                    <option value="${prov.id }">${prov.name }</option>
                 </c:forEach>
             </select>
         </div>

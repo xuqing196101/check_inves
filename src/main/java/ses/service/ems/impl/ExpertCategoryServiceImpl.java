@@ -220,7 +220,6 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 		 
 		return mapper.getCategory(expertId, categoryId, typeId);
 	}
-
 	/**
 	 *
 	 * Description:查询专家审核通过的类型
@@ -277,7 +276,19 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
     	mapper.insertSelective(expertCategory);
 
 	}
+  @Override
+  public List<ExpertCategory> selectListByExpertId1(String expertId, String typeId) {
+    List<ExpertCategory> list = mapper.selectListByExpertId1(expertId, typeId);
+    return list;
+  }
 
-
+  	/**
+  	 * 更新审核状态 
+  	 */
+	@Override
+	public void updateAuditStatus(ExpertCategory expertCategory) {
+		mapper.updateAuditStatus(expertCategory);
+		
+	}
 }
  

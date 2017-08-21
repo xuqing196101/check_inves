@@ -17,7 +17,7 @@ $(function(){
 	    total: "${list.total}",
 	    startRow: "${list.startRow}",
 	    endRow: "${list.endRow}",
-	    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+	    groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
 	    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 	        var page = location.search.match(/page=(\d+)/);
 	        return page ? page[1] : 1;
@@ -39,6 +39,12 @@ function query(){
 	//alert(title);
 	window.location.href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=0&supplierName="+supplierName+"&status="+status;
 }
+
+function reset() {
+    $("#status").val("");
+    $("#supplierName").val("");
+    $("#code").val("");
+}
 </script>
 </head>
 
@@ -47,7 +53,7 @@ function query(){
    <div class="margin-top-10 breadcrumbs">
       <div class="container">
 		   <ul class="breadcrumb mb0">
-		   <li><a href="${pageContext.request.contextPath}/"> 首页</a></li><li><a href="javascript:void(0);">供应商名录</a></li>
+		   <li><a href="${pageContext.request.contextPath}/"> 首页</a></li><li><a href="javascript:void(0);">入库名单</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -92,8 +98,8 @@ function query(){
 				<label>	编号：</label>
 				<input name="code" type="text" id="code" value="${code }" class="form-control"/>
 			</div>
-			
-        	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
+		 <button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
+		 <button type="button" onclick="reset()" class="btn btn-u-light-grey">重置</button>
       </div>
         <div class="report_list_box">
            <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
@@ -104,7 +110,7 @@ function query(){
              <c:choose>
             <c:when test="${!empty list.list}">
            <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
-             <c:forEach items="${list.list}" var="item" begin="0" end="5" step="1" varStatus="status" >
+             <c:forEach items="${list.list}" var="item" varStatus="status" >
 				<li>
 				  <div class="col-md-6 col-xs-6 col-sm-5">
 					    <span class="f18 mr5 fl">·</span>${item.supplierName }

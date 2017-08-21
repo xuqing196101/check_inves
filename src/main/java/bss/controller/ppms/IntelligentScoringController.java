@@ -204,8 +204,10 @@ public class IntelligentScoringController extends BaseController{
     }
 	
 	@RequestMapping(value = "showScoreMethod")
-    public String showScoreMethod(Model model, BidMethod bm, String packageId, String projectId, String flowDefineId) {
+    public String showScoreMethod(Model model, BidMethod bm, String packageId, String projectId, String flowDefineId,String status) {
         List<BidMethod> bidMethod = bidMethodService.findScoreMethod(bm);
+        
+        model.addAttribute("status", status);
         if (bidMethod != null && bidMethod.size() > 0){
             model.addAttribute("bidMethod", bidMethod.get(0));
             model.addAttribute("packageId", packageId);
@@ -855,6 +857,10 @@ public class IntelligentScoringController extends BaseController{
 		//增加一个字段判断又没有评分办法
 		BidMethod bm = new BidMethod();
         for (Packages packages2 : packagesList) {
+          DictionaryData dat = DictionaryDataUtil.findById(packages2.getProjectStatus());
+          if(dat!=null){
+            packages2.setProjectStatus(dat.getCode());
+          }
             BidMethod condition = new BidMethod();
             condition.setProjectId(packages.getProjectId());
             condition.setPackageId(packages2.getId());

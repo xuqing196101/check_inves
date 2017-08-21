@@ -527,8 +527,12 @@
         } else if (id.length > 1){
           layer.msg("只能选择一个");
         } else {
-        	layer.msg("请选择");
+        	layer.msg("请选择独立实施的包");
         }
+      }
+      
+      function goBack(){
+      	window.location.href = "${pageContext.request.contextPath}/project/findByPackage.html";
       }
     </script>
     
@@ -644,6 +648,8 @@
             <span onclick="ycDiv(this,${p.index})" class="count_flow spread hand"></span>
             <span class="f16 b">包名：</span>
             <span class="f14 blue" name="packageName">${pack.name }</span>
+            <span class="f16 b">包号：</span>
+            <span class="f14 blue" name="packageName">${pack.packageNumber}</span>
           </div>
           <div class="col-md-6 col-sm-6 col-xs-12 tr p0 mb5" id="handle${p.index }">
             <input class="btn btn-windows edit" type="button" onclick="edit(this)" value="修改包名" />
@@ -736,7 +742,7 @@
    <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
       <button class="btn" type="button" onclick="merge();">合并实施</button>
       <button class="btn" type="button" onclick="independent();">独立实施</button>
-      <button class="btn" type="button" onclick="window.history.go(-1)">返回</button>
+      <button class="btn" type="button" onclick="goBack()">返回</button>
     </div>
 
     <c:if test="${!empty list}">

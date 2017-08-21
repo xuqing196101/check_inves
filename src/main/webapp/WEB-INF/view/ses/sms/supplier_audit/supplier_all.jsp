@@ -90,7 +90,7 @@
 					state = trim(state);
 					/* var state = $("#"+id+"").text().trim(); */
 					var isExtract = $("#" + id + "_isExtract").text();
-					if(state == "审核通过" || state == "退回修改" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
+					if(state == "公示中" || state == "审核通过" || state == "退回修改" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
 						layer.msg("请选择待审核项 !", {
 							offset: '100px',
 						});
@@ -188,7 +188,7 @@
 					var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
 					state = trim(state);
 					if(size == 1){
-			  			if(state != "待审核" && state != "退回修改" && state != "审核未通过"){
+			  			if(state != "待审核" && state != "退回再审核" && state != "退回修改" && state != "审核未通过"){
 			  	 			$.ajax({
 			  	 				url:"${pageContext.request.contextPath}/supplierAudit/publish.html",
 			  	 				data:"supplierId=" +id,
@@ -255,14 +255,22 @@
 				}else if(size > 1){
 					layer.msg("只能选择一项 !", {offset: '100px',});
 				}else{
-				  if(state == "审核通过" || state == "退回修改" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state=="合格" || state=="不合格"){
+				  if(state == "预审核结束" || state == "审核通过" || state == "退回修改" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state=="合格" || state=="不合格"){
 				    var id = $(":checkbox:checked").val();
 	          $("input[name='supplierId']").val(id);
 	          $("input[name='tableType']").val(str);
 	          $("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/downloadTable.html");
 	          $("#shenhe_form_id").submit();
 				  }else{
-				    layer.msg("请选择审核过的供应商！", {offset: '100px',});
+					  if(state == "待审核"){
+              layer.msg("请选择审核过的供应商！", {offset: '100px',});
+            }
+            if(state == "待复核"){
+              layer.msg("请选择复核过的供应商！", {offset: '100px',});
+            }
+            if(state == "待考察"){
+              layer.msg("请选择考察过的供应商！", {offset: '100px',});
+            }
 				  }
 				}
 			}
@@ -376,6 +384,8 @@
 			        <option value="">全部</option>
 		        	<c:if test="${sign eq '1' }">
 		        		<option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
+		        		<option <c:if test="${state == 9 }">selected</c:if> value="9">退回再审核</option>
+		        		<option <c:if test="${state == -2 }">selected</c:if> value="-2">预审核结束</option>
 		            <option <c:if test="${state == -3 }">selected</c:if> value="-3">公示中</option>
 		            <option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
 		            <option <c:if test="${state == 2 }">selected</c:if> value="2">退回修改</option>
@@ -498,9 +508,10 @@
 									<c:if test="${list.status == 0 and list.auditTemporary != 1}"><span class="label rounded-2x label-u">待审核</span></c:if>
 									<c:if test="${list.status == 0 and list.auditTemporary == 1}"><span class="label rounded-2x label-u">审核中</span></c:if>
 									<c:if test="${list.status == -3}"><span class="label rounded-2x label-dark">公示中</span></c:if>
-									<c:if test="${list.status == -2}"><span class="label rounded-2x label-dark">预审核通过</span></c:if>
+									<c:if test="${list.status == -2}"><span class="label rounded-2x label-u">预审核结束</span></c:if>
 									<c:if test="${list.status == 1}"><span class="label rounded-2x label-dark">审核通过</span></c:if>
 									<c:if test="${list.status == 2}"><span class="label rounded-2x label-dark">退回修改</span></c:if>
+									<c:if test="${list.status == 9}"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
 									<c:if test="${list.status == 3}"><span class="label rounded-2x label-dark">审核未通过</span></c:if>
 									<c:if test="${list.status == 4 and list.auditTemporary != 2}"><span class="label rounded-2x label-u">待复核</span></c:if>
 									<c:if test="${list.status == 4 and list.auditTemporary == 2}"><span class="label rounded-2x label-u">复核中</span></c:if>

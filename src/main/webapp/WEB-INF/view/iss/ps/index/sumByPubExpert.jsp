@@ -17,7 +17,7 @@ $(function(){
 	    total: "${list.total}",
 	    startRow: "${list.startRow}",
 	    endRow: "${list.endRow}",
-	    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+	    groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
 	    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 	        var page = location.search.match(/page=(\d+)/);
 	        return page ? page[1] : 1;
@@ -26,7 +26,7 @@ $(function(){
 	        if(!first){ //一定要加此判断，否则初始时会无限刷新
 	        	var relName = $("#relName").val();
 	        	var status=$("#status").val();
-	      		window.location.href="${pageContext.request.contextPath}/index/selectsumBynews.html?page="+e.curr+"&atc=1&relName="+relName+"&status="+status;
+	      		window.location.href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?page="+e.curr+"&atc=1&relName="+relName+"&status="+status;
 	        }
 	    }
 	});
@@ -39,6 +39,13 @@ function query(){
 	//alert(title);
 	window.location.href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1&relName="+relName+"&status="+status;
 }
+
+//重置
+function reset() {
+	$("#status").val("");
+	$("#relName").val("");
+	$("#code").val("");
+}
 </script>
 </head>
 
@@ -47,7 +54,7 @@ function query(){
    <div class="margin-top-10 breadcrumbs">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="${pageContext.request.contextPath}/"> 首页</a></li><li><a href="javascript:void(0);">专家名录</a></li>
+		   <li><a href="${pageContext.request.contextPath}/"> 首页</a></li><li><a href="javascript:void(0);">入库名单</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -86,6 +93,7 @@ function query(){
 			<input name="code" type="text" id="code" value="${productType }"  class="form-control"/>
 		 </div>
        	 <button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
+       	 <button type="button" onclick="reset()" class="btn btn-u-light-grey">重置</button>
       </div>
           <div class="report_list_box">
           <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">

@@ -152,4 +152,13 @@ public class ExpertAudit implements Serializable{
 		this.auditFieldName = auditFieldName;
 	}
 
+	@Override
+	public String toString() {
+		return "ExpertAudit [id=" + id + ", expertId=" + expertId + ", auditUserId=" + auditUserId + ", auditUserName="
+				+ auditUserName + ", auditReason=" + auditReason + ", auditResult=" + auditResult + ", type=" + type
+				+ ", auditAt=" + auditAt + ", isDeleted=" + isDeleted + ", suggestType=" + suggestType + ", auditField="
+				+ auditField + ", auditContent=" + auditContent + ", auditFieldId=" + auditFieldId + ", auditFieldName="
+				+ auditFieldName + "]";
+	}
+	
 }

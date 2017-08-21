@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.surefire.shade.org.apache.maven.shared.artifact.filter.StatisticsReportingArtifactFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -304,5 +305,18 @@ public class DownloadServiceImpl implements DownloadService {
         }
         System.out.println(Arrays.toString(list.toArray()));
 	}
-    
+	
+	public List<String> downloadMap(HttpServletRequest request){
+		String businessId = request.getParameter("id");
+		String typeId = request.getParameter("typeId");
+		Integer systemKey = Integer.parseInt(request.getParameter("key"));
+		String tableName = Constant.fileSystem.get(systemKey);
+		List<UploadFile> findBybusinessId = fileDao.getFileByBusinessId( businessId, typeId,tableName);
+		List<String> list = new ArrayList<>();
+		for (UploadFile uploadFile : findBybusinessId) {
+			String id =uploadFile.getId();
+			list.add(id);
+		}
+		return list;
+	}
 }

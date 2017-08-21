@@ -74,7 +74,7 @@
 			//注销
 			function cancellation() {
 				var ids = $(":radio:checked").val();
-				var state = $("#" + ids + "").parents("tr").find("td").eq(6).text();
+				var state = $("#" + ids + "").parents("tr").find("td").eq(7).text();
 				state = trim(state);
 				if(ids != null) {
 				if(state == "暂存" || state == "待初审" || state == "退回修改" || state=="临时"){
@@ -145,6 +145,7 @@
 				$("input[name='relName']").val("");
 				$("input[name='loginName']").val("");
 				$("input[name='mobile']").val("");
+				$("input[name='idCardNumber']").val("");
 				$("#form1").submit();
 			}
 			
@@ -199,6 +200,31 @@
 							return(false); 
 						} 
 					};
+					
+		//给密码输入错误次数超过5次被锁住的用户解锁
+		function unlock(){
+			var ids = $(":radio:checked").val();
+			if(ids != null){
+				$.ajax({  
+	               type: "POST",  
+	               url: "${pageContext.request.contextPath}/user/unlock.html?ids="+ids+"&type=expertOrSupplier",  
+	               dataType: 'json',  
+	               success:function(result){
+	               		if(result.success){
+	               			$("#"+ids).html('<span class="label rounded-2x label-u">正常</span>');
+	                    	layer.msg(result.msg,{offset: '222px'});
+	               		}else {
+							layer.msg("解锁失败",{offset: '222px'});
+						}
+	                },
+	                error: function(result){
+	                    layer.msg("操作失败",{offset: '222px'});
+	                }
+	            });
+			}else{
+				layer.alert("请选择",{offset: '222px', shade:0.01});
+			}
+	    }
 		</script>
 	</head>
 
@@ -230,19 +256,25 @@
 	      <ul class="demand_list">
 		      <li class="fl">
 			      <label class="fl">专家姓名：</label> 
-			      <input class="" name="relName" type="text" value="${expert.relName }">
+			      <input class="w220" name="relName" type="text" value="${expert.relName }">
+		      </li>
+		      <li class="fl">
+			      <label class="fl">身份证号：</label> 
+			      <input class="w220" name="idCardNumber" type="text" value="${expert.idCardNumber }">
 		      </li>
 		      <li class="fl">
 			      <label class="fl">用户名：</label> 
-			      <input class="" name="loginName" type="text" value="${expert.loginName }">
+			      <input class="w220" name="loginName" type="text" value="${expert.loginName }">
 		      </li>
 		      <li class="fl">
 			      <label class="fl">手机号：</label> 
-			      <input class="" name="mobile" type="text" value="${expert.mobile }">
+			      <input class="w220" name="mobile" type="text" value="${expert.mobile }">
 		      </li>
 	      </ul>
-	        <input type="submit" class="btn fl" value="查询" />
-				  <button onclick="resetForm();" class="btn fl" type="button">重置</button>
+	      <div class="col-md-12 clear tc mt10">
+	        <input type="submit" class="btn mt1" value="查询" />
+				  <button onclick="resetForm();" class="btn mt1" type="button">重置</button>
+				</div>
 				  <div class="clear"></div>
 	      </form>
     	</h2>
@@ -250,6 +282,7 @@
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows check" type="button" onclick="cancellation();">注销</button>
 				<button class="btn btn-windows edit" type="button" onclick="openResetPwd()">重置密码</button>
+				<button class="btn btn-windows reset" type="button" onclick="unlock();">解锁</button>
 			</div>
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover hand">
@@ -261,7 +294,11 @@
 							<th class="info">用户名</th>
 							<th class="info w50">性别</th>
 							<th class="info">手机号</th>
+							<th class="info">账号状态</th>
 							<th class="info w120">状态</th>
+							<th class="info">类别</th>
+							<th class="info w90">注册日期</th>
+							<th class="info">身份证号</th>
 						</tr>
 					</thead>
 					<c:forEach items="${result.list }" var="list" varStatus="page">
@@ -272,6 +309,14 @@
 							<td class="tl">${list.loginName}</td>
 							<td class="tc w50">${list.sex}</td>
 							<td class="tc">${list.mobile }</td>
+							<td class="tc" id="${list.id}">
+							  	<c:if test="${list.errorNum >= 5}">
+									<span class="label rounded-2x label-dark" >锁住</span>
+								</c:if> 
+								<c:if test="${list.errorNum < 5}">
+									<span class="label rounded-2x label-u">正常</span>
+								</c:if>
+							</td>
 							<td class="tl w120" id="${list.id}">
 								<c:if test="${list.status eq '4' and list.isProvisional eq '1'}">
 									<span class="label rounded-2x label-dark">临时</span>
@@ -313,6 +358,11 @@
 									<span class="label rounded-2x label-dark">复查未合格</span>
 								</c:if>
 							</td>
+							<td class="tc">${list.fromType }</td>
+							<td class="tc">
+                <fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
+              </td>
+							<td class="tc">${list.idCardNumber}</td>
 						</tr>
 					</c:forEach>
 				</table>

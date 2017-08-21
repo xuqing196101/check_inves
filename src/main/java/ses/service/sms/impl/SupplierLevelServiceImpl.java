@@ -41,6 +41,10 @@ public class SupplierLevelServiceImpl implements SupplierLevelService {
 		
 		String level = supplier.getLevel();
 		if(level != null && !"".equals(level)) {
+			if (level.equals("0")) {
+				supplier.setStartScore(null);
+				supplier.setEndScore(listSupplierStars.get(0).getOneStars());
+			}
 			if (level.equals("1")) {
 				supplier.setStartScore(listSupplierStars.get(0).getOneStars());
 				supplier.setEndScore(listSupplierStars.get(0).getTwoStars());
@@ -86,6 +90,8 @@ public class SupplierLevelServiceImpl implements SupplierLevelService {
 					} else {
 						s.setLevel("五级");
 					}
+				}else{
+					s.setLevel("无级别");
 				}
 			}
 		}
@@ -119,6 +125,9 @@ public class SupplierLevelServiceImpl implements SupplierLevelService {
 	public void updateScore(Supplier supplier, String scores) {
 		supplier = supplierMapper.getSupplier(supplier.getId());
 		Integer score = supplier.getScore();
+		if(null == score){
+			score = 0 ;
+		}
 		for (String str : scores.split(",")) {
 			score += Integer.valueOf(str);
 		}

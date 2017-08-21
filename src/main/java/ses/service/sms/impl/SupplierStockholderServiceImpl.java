@@ -1,5 +1,6 @@
 package ses.service.sms.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,10 +26,8 @@ public class SupplierStockholderServiceImpl implements SupplierStockholderServic
 	@Override
 	public void saveOrUpdateStockholder(SupplierStockholder supplierStockholder) {
 		String id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-				supplierStockholder.setId(id);
- 
-			supplierStockholderMapper.insertSelective(supplierStockholder);
-//		}
+		supplierStockholder.setId(id);
+		supplierStockholderMapper.insertSelective(supplierStockholder);
 	}
 
 	@Override
@@ -44,8 +43,11 @@ public class SupplierStockholderServiceImpl implements SupplierStockholderServic
 		SupplierStockholder stockholder = supplierStockholderMapper.selectByPrimaryKey(id);
 		return stockholder;
 	}
-	
-	
-	
 
+	@Override
+	public List<SupplierStockholder> findStockholderBySupplierId(
+			String supplierId) {
+		return supplierStockholderMapper.findStockholderBySupplierId(supplierId);
+	}
+	
 }

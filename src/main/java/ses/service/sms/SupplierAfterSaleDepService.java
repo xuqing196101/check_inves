@@ -1,5 +1,7 @@
 package ses.service.sms;
 
+import java.util.List;
+
 import ses.model.sms.SupplierAfterSaleDep;
 
 /**
@@ -41,4 +43,11 @@ public interface SupplierAfterSaleDepService {
      * @param afterSaleDepIds
      */
     public void deleteAfterSaleDep(String afterSaleDepIds);
+
+    /**
+     * 根据供应商id查询售后服务机构
+     * @param supplierId
+     * @return
+     */
+	public List<SupplierAfterSaleDep> findAfterSaleDepBySupplierId(String supplierId);
 }

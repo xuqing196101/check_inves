@@ -81,7 +81,7 @@
     <!-- 专家公示 -->
 	  <resultMap id="expertOfPublicityMap" type="ses.model.ems.Expert">
 		  <id column="ID" jdbcType="VARCHAR" property="id" />
-		  <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+		  <result column="AUDIT_AT" jdbcType="TIMESTAMP" property="auditAt" />
 	  </resultMap>
     
     <!-- 专家公示列表查询 -->
@@ -171,6 +171,10 @@
         T1.EXPERTS_FROM,
         T1.MOBILE,
         T1.IS_SUBMIT,
+        T1.CREATED_AT,
+        T1.SUBMIT_AT,
+        T1.AUDIT_AT,
+        T1.COVER_NOTE,
         T2.LOGIN_NAME AS loginName,
         org.SHORT_NAME AS orgName
       from
@@ -820,7 +824,7 @@ resultMap="BaseResultMap">
             <if test="remarks != null">
                 REMARKS = #{remarks,jdbcType=VARCHAR},
             </if>
-            <if test="auditAt != null">
+            <if test="auditAt != ''">
                 AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
             </if>
             <if test="isReferenceLftter != null">
@@ -1343,7 +1347,7 @@ resultMap="BaseResultMap">
         	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
         </if>
         
-        ORDER BY t1.AUDIT_AT DESC NULLS LAST
+        ORDER BY t1.SUBMIT_AT ASC NULLS LAST
     </select>
 
 		<!-- 插入历史记录 -->
@@ -2072,11 +2076,14 @@ resultMap="BaseResultMap">
 		SELECT
 			t1.*,
 			t2.LOGIN_NAME AS loginName,
-			t3.NAME AS sex
+			t2.ERROR_NUM AS errorNum,
+			t3.NAME AS sex,
+			t4.NAME AS fromType
 		FROM
 			T_SES_EMS_EXPERT t1
 		LEFT JOIN T_SES_BMS_USER t2 ON t2.TYPE_ID = t1.ID
 		LEFT JOIN T_SES_BMS_DICTIONARY_DATA t3 ON t1.GENDER = t3.ID
+		LEFT JOIN T_SES_BMS_DICTIONARY_DATA t4 ON t1.EXPERTS_FROM = t4.ID
 		WHERE
 			<!-- ((t1.IS_SUBMIT = '1' AND t1.STATUS = '0')
 		OR (
@@ -2098,6 +2105,9 @@ resultMap="BaseResultMap">
     </if>
     <if test="status != null and status !=''">
         AND t1.STATUS = #{status}
+    </if>
+    <if test="idCardNumber != null and idCardNumber !=''">
+        AND t1.ID_CARD_NUMBER LIKE CONCAT(CONCAT('%', #{idCardNumber}), '%')
     </if>
     ORDER BY t1.CREATED_AT DESC
 	</select>
@@ -2138,6 +2148,8 @@ resultMap="BaseResultMap">
       T1.EXPERTS_FROM,
       T1.MOBILE,
       T1.IS_SUBMIT,
+      T1.SUBMIT_AT,
+      T1.AUDIT_AT,
       T2.LOGIN_NAME AS loginName,
       org.SHORT_NAME AS orgName,
       AREA.NAME AS ADDRESS
@@ -2327,7 +2339,7 @@ resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
         FROM T_SES_EMS_EXPERT
-        WHERE STATUS in(1,2,3,4,5,6,7,8) and EXPERTS_FROM=#{netType} AND
+        WHERE  EXPERTS_FROM=#{netType} AND
         AUDIT_AT &gt;=
         to_date(#{startDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
         AND
@@ -2431,6 +2443,9 @@ resultMap="BaseResultMap">
         <if test="status == 4">
             AND IS_PROVISIONAL = '0'
         </if>
+        <if test="flag != null">
+            AND IS_PROVISIONAL = '0'
+        </if>
         <if test="size > 0">
 			AND T1.STATUS in 
 			<foreach item="item" index="index" collection="statusArray" open="(" separator="," close=")">
@@ -2513,7 +2528,7 @@ resultMap="BaseResultMap">
            <if test="orgId != null and orgId !=''">
              AND DEP.ID = #{orgId}
            </if>
-		 ORDER BY T.AUDIT_AT
+		 ORDER BY T.AUDIT_AT DESC
 	</select>
 
     <!-- 查询公示专家导出外网 -->
@@ -2526,6 +2541,25 @@ resultMap="BaseResultMap">
         to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
         AND
         T.AUDIT_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+    </select>
+    
+        <select id="findExpertByBlacklist" resultMap="BaseResultMap"
+            parameterType="ses.model.ems.Expert">
+        SELECT
+        *
+        FROM
+        T_SES_EMS_EXPERT
+        WHERE STATUS IN (-3,6,7,13)
+        <if test="relName != null and relName !=''">
+            AND REAL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
+        </if>
+        <if test="ids != null">
+            <foreach collection="ids" item="id" open="and ID not in ("
+                     close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+        ORDER BY CREATED_AT DESC
     </select>
 
 </mapper>

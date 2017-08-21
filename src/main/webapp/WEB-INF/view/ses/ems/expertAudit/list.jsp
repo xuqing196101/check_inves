@@ -54,7 +54,7 @@
         var state = $("#" + id + "").parent("tr").find("td").eq(11).text(); //.trim();
         state = trim(state);
         /* var isExtract = $("#" + id + "_isExtract").text(); */
-        if(state == "初审合格" || state == "初审未合格" || state == "退回修改" || state == "初审退回" || state == "复查合格" || state == "复查未合格" || state == "复审合格" || state == "复审不合格") {
+        if(state == "公示中" ||state == "初审合格" || state == "初审未合格" || state == "退回修改" || state == "初审退回" || state == "复查合格" || state == "复查未合格" || state == "复审合格" || state == "复审不合格") {
           layer.msg("请选择待审核项 !", {
             offset: '100px',
           });
@@ -96,7 +96,7 @@
           var id = $(":checkbox:checked").val();
           var state = $("#" + id + "").parent("tr").find("td").eq(11).text(); //.trim();
           state = trim(state);
-          if(state == "初审合格" || state == "初审未合格" || state == "退回修改" || state == "复审合格" || state == "复审不合格" || state == "复查合格" || state == "复查未合格") {
+          if(state == "复审预合格" || state == "初审合格" || state == "初审未合格" || state == "退回修改" || state == "复审合格" || state == "复审不合格" || state == "复查合格" || state == "复查未合格") {
             $("input[name='tableType']").val(str);
             $("input[name='expertId']").val(id);
             $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
@@ -297,6 +297,7 @@
                 </c:if>
                 <c:if test="${sign == 2}">
                   <option <c:if test="${state eq '1'}">selected</c:if> value="1">待复审</option>
+                  <option <c:if test="${state eq '-2'}">selected</c:if> value="-2">复审预合格</option>
                   <option <c:if test="${state eq '-3'}">selected</c:if> value="-3">公示中</option>
                   <option <c:if test="${state eq '4'}">selected</c:if> value="4">复审合格</option>
                   <option <c:if test="${state eq '5'}">selected</c:if> value="5">复审不合格</option>
@@ -353,7 +354,7 @@
               <th class="info">毕业院校及专业</th>
               <th class="info">工作单位</th>
               <th class="info">审核时间</th>
-              <th class="info">注册时间</th>
+              <th class="info">提交时间</th>
               <th class="info">采购机构</th>
               <th class="info">发布</th>
               <th class="info">审核状态</th>
@@ -383,7 +384,7 @@
                 <fmt:formatDate type='date' value='${expert.auditAt }' dateStyle="default" pattern="yyyy-MM-dd" />
               </td>
               <td class="tc" onclick="shenhe('${expert.id}');">
-                <fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
+                <fmt:formatDate type='date' value='${expert.submitAt }' dateStyle="default" pattern="yyyy-MM-dd" />
               </td>
               <td class="tl" onclick="shenhe('${expert.id}');">${expert.orgName }</td>
               <td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">

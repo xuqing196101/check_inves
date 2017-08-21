@@ -257,14 +257,14 @@
 			/** 暂存 */
 			function temporarySave() {
 				$("input[name='flag']").val("");
-			   	// 提交的时候表单域设置成可编辑
-					//enableForm();
-			   	$.ajax({
-			     	url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
-			     	type: "post",
-			     	data: $("#basic_info_form_id").serializeArray(),
-			     	contextType: "application/x-www-form-urlencoded",
-			     	success: function(msg) {
+		   	// 提交的时候表单域设置成可编辑
+				//enableForm();
+		   	$.ajax({
+		     	url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
+		     	type: "post",
+		     	data: $("#basic_info_form_id").serializeArray(),
+		     	contextType: "application/x-www-form-urlencoded",
+		     	success: function(msg) {
 						//controlForm();
 						if(msg == 'ok') {
 						  layer.msg('暂存成功', {
@@ -781,8 +781,8 @@
 								"<div class='col-md-12 col-xs-12 col-sm-12 select_common p0'>" +
 								"<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='root_area_select_id' onchange='loadChildren(this)'  name='addressList[" + ind + "].provinceId' >" +
 								" <option value=''>请选择</option>" +
-								" <c:forEach  items='${privnce }' var='prin'>" +
-								" <option value='${prin.id }'>${prin.name }</option>" +
+								" <c:forEach  items='${province }' var='prov'>" +
+								" <option value='${prov.id }'>${prov.name }</option>" +
 								" </c:forEach>" +
 								" </select></div> " +
 								"<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='children_area_select_id' name='addressList[" + ind + "].address'>" +
@@ -1398,12 +1398,12 @@
 												<c:if test="${!fn:contains(audit,'address')&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if>
 												<c:if test="${fn:contains(audit,'address')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'address')"</c:if>>
 												<option value="" >请选择</option>
-												<c:forEach items="${privnce }" var="prin">
-													<c:if test="${prin.id==area.parentId }">
-														<option value="${prin.id }" selected="selected">${prin.name }</option>
+												<c:forEach items="${province }" var="prov">
+													<c:if test="${prov.id==area.parentId }">
+														<option value="${prov.id }" selected="selected">${prov.name }</option>
 													</c:if>
-													<c:if test="${prin.id!=area.parentId }">
-														<option value="${prin.id }">${prin.name }</option>
+													<c:if test="${prov.id!=area.parentId }">
+														<option value="${prov.id }">${prov.name }</option>
 													</c:if>
 												</c:forEach>
 
@@ -1482,12 +1482,12 @@
                                                         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0 ml20">
                                                             <select id="root_area_select_id_${vs.index }" class="w100p" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId">
                                                                 <option value="">请选择</option>
-                                                                <c:forEach items="${privnce }" var="prin">
-                                                                    <c:if test="${prin.id==addr.provinceId }">
-                                                                        <option value="${prin.id }" selected="selected">${prin.name }</option>
+                                                                <c:forEach items="${province }" var="prov">
+                                                                    <c:if test="${prov.id==addr.provinceId }">
+                                                                        <option value="${prov.id }" selected="selected">${prov.name }</option>
                                                                     </c:if>
-                                                                    <c:if test="${prin.id!=addr.provinceId }">
-                                                                        <option value="${prin.id }">${prin.name }</option>
+                                                                    <c:if test="${prov.id!=addr.provinceId }">
+                                                                        <option value="${prov.id }">${prov.name }</option>
                                                                     </c:if>
                                                                 </c:forEach>
                                                             </select>
@@ -1682,12 +1682,12 @@
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 											<select id="root_area_select_id" name="concatProvince" onchange="loadChildren(this)" <c:if test="${fn:contains(audit,'concatCity')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'concatCity')"</c:if>>
 												<option value="">请选择</option>
-												<c:forEach items="${privnce }" var="prin">
-													<c:if test="${prin.id==currSupplier.concatProvince }">
-														<option value="${prin.id }" selected="selected">${prin.name }</option>
+												<c:forEach items="${province }" var="prov">
+													<c:if test="${prov.id==currSupplier.concatProvince }">
+														<option value="${prov.id }" selected="selected">${prov.name }</option>
 													</c:if>
-													<c:if test="${prin.id!=currSupplier.concatProvince }">
-														<option value="${prin.id }">${prin.name }</option>
+													<c:if test="${prov.id!=currSupplier.concatProvince }">
+														<option value="${prov.id }">${prov.name }</option>
 													</c:if>
 												</c:forEach>
 
@@ -1799,12 +1799,12 @@
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 											<select id="root_area_select_id" name="armyBuinessProvince" onchange="loadChildren(this)" <c:if test="${fn:contains(audit,'armyBuinessCity')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'armyBuinessCity')"</c:if>>
 												<option value="">请选择</option>
-												<c:forEach items="${privnce }" var="prin">
-													<c:if test="${prin.id==currSupplier.armyBuinessProvince }">
-														<option value="${prin.id }" selected="selected">${prin.name }</option>
+												<c:forEach items="${province }" var="prov">
+													<c:if test="${prov.id==currSupplier.armyBuinessProvince }">
+														<option value="${prov.id }" selected="selected">${prov.name }</option>
 													</c:if>
-													<c:if test="${prin.id!=currSupplier.armyBuinessProvince }">
-														<option value="${prin.id }">${prin.name }</option>
+													<c:if test="${prov.id!=currSupplier.armyBuinessProvince }">
+														<option value="${prov.id }">${prov.name }</option>
 													</c:if>
 												</c:forEach>
 
@@ -2270,14 +2270,14 @@
 													</td>
 													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid red;" </c:if>> 
 													  <div class="fl w200">
-													  	<input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].address' maxlength="30" value='${afterSaleDep.address}' <c:if test="${!fn:contains(audit,afterSaleDep.id)&&currSupplier.status==2}">readonly='readonly' </c:if>>
+													  	<input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].address' maxlength="50" value='${afterSaleDep.address}' <c:if test="${!fn:contains(audit,afterSaleDep.id)&&currSupplier.status==2}">readonly='readonly' </c:if>>
 													  </div>
 												    </td>
 													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid red;" </c:if>> 
 													 <div class="fl w200">
 													    <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].leadName' maxlength="20" value='${afterSaleDep.leadName}' <c:if test="${!fn:contains(audit,afterSaleDep.id)&&currSupplier.status==2}">readonly='readonly' </c:if>>
 													 </div>
-												    </td>
+											    </td>
 													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid red;" </c:if>> 
 													   <div class="fl w200">
 													   		<input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].mobile' onkeyup="value=value.replace(/[^\d-]/g,'')" value='${afterSaleDep.mobile}' <c:if test="${!fn:contains(audit,afterSaleDep.id)&&currSupplier.status==2}">readonly='readonly' </c:if>>

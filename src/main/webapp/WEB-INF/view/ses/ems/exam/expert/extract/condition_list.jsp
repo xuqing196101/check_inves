@@ -480,7 +480,7 @@
                         <c:forEach items="${listResultExpert }" var="list" varStatus="vs">
                             <c:set value="${vs.index}" var="index"></c:set>
                             <div>
-                                <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand" id="package">包名:<span class="f14 blue">${listResultExpert[index].name }</span></h2>
+                                <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand" id="package">包名:<span class="f14 blue">${listResultExpert[index].name }</span><c:if test="${list.projectStatus=='YZZ'}"><span class="star_red">[该包已终止]</span></c:if></h2>
                             </div>
                             <div class="p0${index} hide">
                                 <table id="table" class="table table-bordered table-condensed">

@@ -427,7 +427,9 @@
               <select name="orgName" id="orgName" class="w220">
                 <option value=''>全部</option>
                 <c:forEach items="${allOrg}" var="org">
-                  <option value="${org.shortName}" <c:if test="${supplier.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
+                  <c:if test="${org.isAuditSupplier == 1}">
+                    <option value="${org.shortName}" <c:if test="${supplier.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
+                  </c:if>
                 </c:forEach>
               </select>
             </li>
@@ -469,16 +471,18 @@
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
-							<th class="info" width="15%">供应商名称</th>
+							<th class="info w100">供应商名称</th>
 							<!-- <th class="info">用户名</th> -->
-							<th class="info" width="10%">联系人</th>
-							<th class="info" width="10%">手机号</th>
-							<th class="info" width="10%">审核日期</th>
-							<th class="info" width="9%">地区</th>
-							<th class="info" width="13%">供应商类型</th>
-							<th class="info" width="10%">企业性质</th>
-							<th class="info" width="10%">采购机构</th>
-							<th class="info">供应商状态</th>
+							<th class="info w80">联系人</th>
+							<th class="info w100">手机号</th>
+							<th class="info w100">注册日期</th>
+							<th class="info w100">提交日期</th>
+							<th class="info w100">审核日期</th>
+							<th class="info w100">地区</th>
+							<th class="info">供应商类型</th>
+							<th class="info w100">企业性质</th>
+							<th class="info w100">采购机构</th>
+							<th class="info w100">供应商状态</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -492,12 +496,18 @@
 								<td class="">${list.contactName }</td>
 								<td class="tc">${list.mobile }</td>
 								<td class="tc">
+                  <fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
+                </td>
+                <td class="tc">
+                  <fmt:formatDate value="${list.submitAt }" pattern="yyyy-MM-dd" />
+                </td>
+								<td class="tc">
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
 								<td class="">${list.name }</td>							
 								<td class="">${list.supplierType }</td>
 								<td class="tc">${list.businessNature}</td>
-								<td class="tl">${list.orgName}</td>
+								<td class="tc">${list.orgName}</td>
 								<td class="tc">
 									<%-- <c:if test="${list.status==5 and list.isProvisional == 1 }"><span class="label rounded-2x label-dark">临时</span></c:if> --%>
 									<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>

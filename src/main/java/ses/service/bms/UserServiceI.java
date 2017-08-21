@@ -387,4 +387,22 @@ public interface UserServiceI {
    * @return
    */
   List<String> findListByOrgId(String orgId);
+
+  /**
+   *〈简述〉更新用户登录密码错误失败次数
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param loginName
+ * @return 
+   */
+  Integer updateUserLoginErrorNum(String loginName);
+
+  /**
+   *〈简述〉修改用户密码错误次数为0
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param ids
+   * @param type 
+   */
+  boolean unlock(String ids, String type);
 }

@@ -26,6 +26,9 @@ public class SupplierAudit {
     private String auditFieldName;
     
     private Integer isDeleted;
+
+    /**产品类别**/
+    private String type;
     
     public String getId() {
         return id;
@@ -123,4 +126,12 @@ public class SupplierAudit {
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

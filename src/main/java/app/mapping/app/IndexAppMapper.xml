@@ -38,6 +38,21 @@
     WHERE ROWNUM = 1
   </select>
   
+  <!-- APP首页工作动态查询 -->
+  <select id="selectdynamicByArticleTypeId" resultMap="AppIndexNewsMapper" parameterType="Map">
+    SELECT * FROM (
+      SELECT ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID FROM T_ISS_PS_ARTICLE
+      WHERE STATUS = 2
+      AND RANGE = 2
+      AND IS_DELETED = 0
+      AND LAST_ARTICLE_TYPE_ID in
+      <foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+      ORDER BY PUBLISHED_AT DESC)
+    WHERE ROWNUM = 1
+  </select>
+  
   <!-- APP首页查询处罚公告 -->
   <select id="selectAppChuFaNewsByTypeId" resultMap="AppIndexNewsMapper2" parameterType="String">
     SELECT * FROM (

@@ -27,7 +27,7 @@ public class FilterXSS implements Filter {
         //获取请求方法 
         String headValue = httpReq.getServletPath();
         //忽略上传方法
-        String[] path={"file","article","open_bidding","purchaser","templet","collect","noticeDocument","product_lib","post"};
+        String[] path={"file","article","open_bidding","purchaser","templet","collect","noticeDocument","product_lib","post","reply","updateAuditStatus"};
         boolean flag=false;
         for(String str:path){
            	if(headValue!=null&&headValue.contains(str)){

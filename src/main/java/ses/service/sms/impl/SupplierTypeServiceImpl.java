@@ -83,5 +83,4 @@ public class SupplierTypeServiceImpl implements SupplierTypeService {
 	public List<SupplierType> findSupplierType() {
 		return supplierTypeMapper.findSupplierType();
 	}
-
 }

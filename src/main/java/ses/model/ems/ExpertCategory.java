@@ -17,6 +17,9 @@ public class ExpertCategory implements Serializable{
     private String levels;
     private String engin_type;
     
+    //审核状态（0默认通过，1不通过）
+    private Integer auditStatus;
+    
     public String getExpertId() {
         return expertId;
     }
@@ -55,6 +58,14 @@ public class ExpertCategory implements Serializable{
 
 	public void setEngin_type(String engin_type) {
 		this.engin_type = engin_type;
+	}
+
+	public Integer getAuditStatus() {
+		return auditStatus;
+	}
+
+	public void setAuditStatus(Integer auditStatus) {
+		this.auditStatus = auditStatus;
 	}
 	
 }

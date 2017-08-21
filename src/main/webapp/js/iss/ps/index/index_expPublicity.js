@@ -97,11 +97,12 @@ function resetAll(){
  */
 function loadData(data,index,pageNum,pageSize){
 	var html = "<li> "
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+data.relName+"</span>"
+		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+ data.relName +">"+data.relName+"</span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+ data.expertsTypeId +">"+data.expertsTypeId+"</span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+data.orgName+"</span>"
-             + "  <span class='col-md-4 col-xs-4 col-sm-4'>"+"同意入库，选择了"+data.passCateCount+"个小类，通过了<a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+(data.passCateCount - data.noPassCateCount)+"</a>个小类"+"</span>"
-             + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+timestampToDate('yyyy-MM-dd', data.auditAt)+"</span>"
+             + "  <span class='col-md-4 col-xs-4 col-sm-4' title='同意入库，选择了"+data.passCateCount+"个参评类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个参评类别。"+data.auditOpinion+"'>"
+             +"同意入库，选择了"+data.passCateCount+"个参评类别，通过了<a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+(data.passCateCount - data.noPassCateCount)+"</a>个参评类别。"+data.auditOpinion+"</span>"
+             + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+timestampToDate('yyyy-MM-dd', data.auditAt)+"至"+ getDateOfNDay(data.auditAt) +"</span>"
 		     html += "</li>";
 	$("#expPublicityList").append(html);
 }
@@ -141,6 +142,31 @@ Date.prototype.format = function(fmt){
         }
     }
     return fmt;
+}
+
+/**
+ * 获取n天后的今天
+ * @param data
+ */
+function getDateOfNDay(data){
+    // 审核时间
+    var date1 = new Date(data);
+    // 7天后的时间定义
+    var date2 = new Date();
+    date2.setDate(date1.getDate()+7);
+    var times = date2.getFullYear()+"-"+(Appendzero(date2.getMonth()+1))+"-"+Appendzero(date2.getDate());
+    return times;
+}
+
+/**
+ * 不足两位用0补充
+ * @param obj
+ * @returns {*}
+ * @constructor
+ */
+function Appendzero(obj) {
+    if(obj<10) return "0" +""+ obj;
+    else return obj;
 }
 
 /**

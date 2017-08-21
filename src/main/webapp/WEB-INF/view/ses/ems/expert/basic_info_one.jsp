@@ -749,6 +749,13 @@
 						layer.msg("请填写毕业院校及专业 !");
 						return false;
 					}
+					
+					//校验地方专家最高学位非空
+					/* var degree = $("#degree").val();
+					if(degree == null || degree == 0) {
+						layer.msg("请选择最高学位!");
+						return false;
+					} */
 
 				}
 
@@ -1125,7 +1132,7 @@
                         class="red">*</i> 出生日期</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 								<input <c:if test="${fn:contains(errorField,'出生日期')}"> style="border: 1px solid #ef0000;" onmouseover="errorMsg('出生日期')"</c:if>
-								readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd' />" name="birthday" onblur="notNull('birthday')" id="birthday" type="text" onclick="WdatePicker({onpicking:function() {document.getElementById('err_msg_birthday').innerHTML = '';},dateFmt:'yyyy-MM-dd',startDate:'1970-01-01'})"/>
+								readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd' />" name="birthday" onblur="notNull('birthday')" id="birthday" type="text" onclick="WdatePicker({onpicking:function() {document.getElementById('err_msg_birthday').innerHTML = '';},dateFmt:'yyyy-MM-dd',startDate:'1970-01-01',maxDate:'%y-%M-%d'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空，年龄不大于70周岁</span>
 								<div class="cue" id="err_msg_birthday"></div>
@@ -1530,10 +1537,10 @@
 						</div>
 						</li>
 						<c:if test="${expert.expertsFrom eq 'ARMY'}">
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 最高学位</span>
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red"></i> 最高学位</span>
 						</c:if>
 						<c:if test="${expert.expertsFrom eq 'LOCAL'}">
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 最高学位</span>
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red"></i> 最高学位</span>
 						</c:if>
 						<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 							<select name="degree" id="degree" <c:if test="${fn:contains(errorField,'最高学位')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('最高学位')"
@@ -1547,10 +1554,10 @@
 						</div>
 						</li>
 						<c:if test="${expert.expertsFrom eq 'ARMY'}">
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 学位证书</span>
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red"></i> 学位证书</span>
 						</c:if>
 						<c:if test="${expert.expertsFrom eq 'LOCAL'}">
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 学位证书</span>
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red"></i> 学位证书</span>
 						</c:if>
 						<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'学位证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('学位证书')"
 							</c:if>>
@@ -1822,6 +1829,9 @@
 				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
 				if(this.style.border == '1px solid rgb(239, 0, 0)'||this.style.border == '1px solid red'){
+					$(this).attr('disabled',false);
+				}
+				if(this.value==''||this.value=='0'){
 					$(this).attr('disabled',false);
 				}
 			});

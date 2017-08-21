@@ -400,8 +400,6 @@ public class AdOpenBiddingController {
         downloadService.downloadOther(request, response, fileId, Constant.TENDER_SYS_KEY+"");
     }
     
-    
-    
     /**
      *〈简述〉获取下一流程环节
      *〈详细描述〉

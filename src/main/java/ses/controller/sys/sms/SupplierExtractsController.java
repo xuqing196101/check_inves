@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import common.annotation.CurrentUser;
+import common.utils.JdcgResult;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -547,6 +549,7 @@ public class SupplierExtractsController extends BaseController {
         if(projectId != null && !"".equals(projectId)){
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("projectId",projectId);
+            map.put("projectStatus","1");
             findPackageById = packagesService.findPackageById(map);
         }
         return  JSON.toJSONString(findPackageById);
@@ -1068,6 +1071,22 @@ public class SupplierExtractsController extends BaseController {
         model.addAttribute("flowDefineId", flowDefineId);
         return "bss/ppms/sall_tender/temporary_supplier_add";
     }
+    
+    /**
+     * 
+     * @Description:社会统一信用代码唯一校验
+     * @author: Zhou Wei
+     * @date: 2017年8月4日 下午2:16:01
+     * @return: String
+     */
+    
+   @RequestMapping("/selectUniqueReferenceNO")
+   @ResponseBody
+	public Integer selectUniqueReferenceNO(Model model,Supplier supplier,String creditCode){
+	   Integer type = supplierService.CreditCode(creditCode);
+	   return  type;
+   }
+    
     
     /**
      * @Description:添加临时供应商

@@ -117,4 +117,48 @@ public interface ExpertBlackListMapper {
 	 * @return
 	 */
 	List<ExpertBlackList> findIndexList(ExpertBlackList expertBlackList);
+	
+	/**
+     * 
+     * Description: 根据创建时间查询
+     * 
+     * @author zhang shubin
+     * @data 2017年7月17日
+     * @param 
+     * @return
+     */
+    List<ExpertBlackList> selectByCreateDate(@Param("start")String start,@Param("end")String end);
+
+    /**
+     * 
+     * Description: 根据修改时间查询
+     * 
+     * @author zhang shubin
+     * @data 2017年7月17日
+     * @param 
+     * @return
+     */
+    List<ExpertBlackList> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
+
+    /**
+     * 
+     * Description: 根据id查询数量
+     * 
+     * @author zhang shubin
+     * @data 2017年7月17日
+     * @param 
+     * @return
+     */
+    Integer countById(@Param("id")String id);
+    
+    /**
+     * 
+     * Description: 根据专家id查询
+     * 
+     * @author zhang shubin
+     * @data 2017年8月11日
+     * @param 
+     * @return
+     */
+    Integer countByExpertId(@Param("expertId")String expertId);
 }

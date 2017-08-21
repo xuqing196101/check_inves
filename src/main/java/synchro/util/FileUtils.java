@@ -182,6 +182,51 @@ public class FileUtils {
     /**导出文件目录**/
     public final static String C_SYNCH_PUBLICITY_EXPERT_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_expert_publicity_path.system.path");
 
+    /** 网上投诉新建数据名称 **/
+    public final static String C_ONLINE_COMPLAINTS_PATH_FILENAME="_c_online_complaints.dat";
+    /** 网上投诉更新数据名称 **/
+    public final static String M_ONLINE_COMPLAINTS_PATH_FILENAME="_m_online_complaints.dat";
+    /** 网上投诉目录 路径 25 **/
+    public final static String ONLINE_COMPLAINTS_PATH = PropUtil.getProperty("file.online_complaints.system.path");
+    
+    /** 供应商黑名单新建数据名称 **/
+    public final static String C_SUPPLIER_BLACKLIST_PATH_FILENAME="_c_supplier_blacklist.dat";
+    /** 供应商黑名单更新数据名称 **/
+    public final static String M_SUPPLIER_BLACKLIST_PATH_FILENAME="_m_supplier_blacklist.dat";
+    /** 供应商黑名单目录 路径 26 **/
+    public final static String SUPPLIER_BLACKLIST_PATH = PropUtil.getProperty("file.supplier_blacklist.system.path");
+    
+    /** 供应商黑名单记录表新建数据名称 **/
+    public final static String C_SUPPLIER_BLACKLIST_LOG_PATH_FILENAME="_c_supplier_blacklist_log.dat";
+    /** 供应商黑名单记录表更新数据名称 **/
+    public final static String M_SUPPLIER_BLACKLIST_LOG_PATH_FILENAME="_m_supplier_blacklist_log.dat";
+    /** 供应商黑名单记录表目录 路径 27 **/
+    public final static String SUPPLIER_BLACKLIST_LOG_PATH = PropUtil.getProperty("file.supplier_blacklist_log.system.path");
+    
+    /** 专家黑名单新建数据名称 **/
+    public final static String C_EXPERT_BLACKLIST_PATH_FILENAME="_c_expert_blacklist.dat";
+    /** 专家黑名单更新数据名称 **/
+    public final static String M_EXPERT_BLACKLIST_PATH_FILENAME="_m_expert_blacklist.dat";
+    /** 专家黑名单目录 路径 28 **/
+    public final static String EXPERT_BLACKLIST_PATH = PropUtil.getProperty("file.expert_blacklist.system.path");
+    
+    /** 专家黑名单记录表新建数据名称 **/
+    public final static String C_EXPERT_BLACKLIST_LOG_PATH_FILENAME="_c_expert_blacklist_log.dat";
+    /** 专家黑名单记录表更新数据名称 **/
+    public final static String M_EXPERT_BLACKLIST_LOG_PATH_FILENAME="_m_expert_blacklist_log.dat";
+    /** 专家黑名单记录表目录 路径 29 **/
+    public final static String EXPERT_BLACKLIST_LOG_PATH = PropUtil.getProperty("file.expert_blacklist_log.system.path");
+    
+    /** 服务热线新建数据名称 **/
+    public final static String C_HOT_LINE_PATH_FILENAME="_c_hot_line.dat";
+    /** 服务热线更新数据名称 **/
+    public final static String M_HOT_LINE_PATH_FILENAME="_m_hot_line.dat";
+    /** 服务热线目录 路径 30 **/
+    public final static String HOT_LINE_PATH = PropUtil.getProperty("file.hot_line.system.path");
+    
+    /** 公告品目数据名称 **/
+    public final static String C_ARTICLE_CATEGORY_PATH_FILENAME="_c_article_category.dat";
+
     /**
      * 
      *〈简述〉创建根目录
@@ -724,6 +769,21 @@ public class FileUtils {
     
     /**
      * 
+     * Description: 导出公告品目信息
+     * 
+     * @author zhang shubin
+     * @data 2017年8月4日
+     * @param 
+     * @return
+     */
+    public static final File getArticleCategoryFile(){
+        String fileName = System.currentTimeMillis() + C_ARTICLE_CATEGORY_PATH_FILENAME;
+        String path = getBackUpPath();
+        final File file = new File(path,fileName);
+        return file;
+    }
+    /**
+     * 
      *〈简述〉根据系统key获取对应的附件目录
      *〈详细描述〉
      * @author myc
@@ -757,6 +817,12 @@ public class FileUtils {
           case 22:  filePath=FILE_SYNCH_QUALIFICATION_PATH;break;
           case 23:  filePath=C_SYNCH_PUBLICITY_SUPPLIER_FILE_DIRECTORY;break;
           case 24:  filePath=C_SYNCH_PUBLICITY_EXPERT_FILE_DIRECTORY;break;
+          case 25:  filePath=ONLINE_COMPLAINTS_PATH;break;
+          case 26:  filePath=SUPPLIER_BLACKLIST_PATH;break;
+          case 27:  filePath=SUPPLIER_BLACKLIST_LOG_PATH;break;
+          case 28:  filePath=EXPERT_BLACKLIST_PATH;break;
+          case 29:  filePath=EXPERT_BLACKLIST_LOG_PATH;break;
+          case 30:  filePath=HOT_LINE_PATH;break;
         }
         return filePath;
     }

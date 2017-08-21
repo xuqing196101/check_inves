@@ -142,4 +142,11 @@ public interface ProjectExtractMapper {
      * @return
      */
     void updateProjectByExpertId(Map<String, Object> map);
+    
+    /**
+     * 获取所有的专家
+     * @param id
+     * @return
+     */
+    List<ProjectExtract> getById(String id);
 }

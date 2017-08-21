@@ -35,6 +35,22 @@
           }
         });
       }
+    //新窗口打开
+    /* function showPhoto(bid,tid,key,id){
+	    window.sessionStorage.setItem("bid",bid);
+	    window.sessionStorage.setItem("tid",tid);
+	    window.sessionStorage.setItem("key",key);
+	    window.sessionStorage.setItem("id",id);
+	    window.open(globalPath+"/openPic.jsp");
+    } */
+    function openUpload(id, report) {
+        if(report == "0") {
+          layer.msg("没有上传质检报告");
+        } else {
+          var a = "2";
+          openViewDIv(id, report, a, null, null);
+        }
+      }
   </script>
 
   <body>
@@ -134,7 +150,8 @@
                       </td>
                       <td width=15% class="bggrey ">质检报告：</td>
                       <td width="35%">
-                        <button type="button" onclick="openViewDIv('${pqinfo.id}','${pqinfo.report}','2','artice_show','this')" class="btn">质检报告</button>
+                        <%-- <button type="button" onclick="showPhoto('${pqinfo.id}','${pqinfo.report}','2','artice_show','this')" class="btn">质检报告</button> --%>
+                        <button type="button" onclick="openUpload('${pqinfo.id}','${report}')" class="btn">质检报告</button>
                       </td>
                     </tr>
                     <tr>

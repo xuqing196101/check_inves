@@ -81,6 +81,10 @@ public class FirstAuditController {
               firstAudit.setPackageId(packages2.getId());
               firstAudit.setIsConfirm((short)0);
               List<FirstAudit> fas = service.findBykind(firstAudit);
+              DictionaryData dat = DictionaryDataUtil.findById(packages2.getProjectStatus());
+              if(dat!=null){
+                packages2.setProjectStatus(dat.getCode());
+              }
               //是否维护符合性审查项
               if (fas == null || fas.size() <= 0) {
                 packages2.setIsEditFirst(0);
@@ -427,7 +431,7 @@ public class FirstAuditController {
         }
         count ++;
       }
-      if (firstAudit.getContent()== null || "".equals(firstAudit.getContent())) {
+      if (firstAudit.getContent()== null || "".equals(firstAudit.getContent())|| "".equals(firstAudit.getContent().trim())) {
         if (count > 0) {
           msg += "和评审内容";
         } else {

@@ -12,35 +12,36 @@
 <head>
 <!--导航js-->
 <%@ include file="/WEB-INF/view/portal_only.jsp" %>
-<script type="text/javascript"> 
+<script type="text/javascript">
+
+  var user = "${sessionScope.loginUser.relName}";
   $(function(){
     /* 导航延迟两秒 */
     var _width=$(window).width();
     if(_width>972){
       var id;
-      var _self;	    
+      var _self;      
       $(".dropdown").each(function(){
         $(this).hover(function(){
           _self = this;
           id = setTimeout(function(){
             $(_self).find(".drop_next").show();
-          },200);	    		
+          },200);         
         },function(){
           if(id){
             clearTimeout(id);
           }
-          $(_self).find(".drop_next").hide();		
+          $(_self).find(".drop_next").hide();   
         });
       });
     }
     
+    $("a").attr("target","_blank");
+    
     $("#close").click(function(){
       $(".prompt_tips").hide();
     });
-  });
-  
-  var user = "${sessionScope.loginUser.relName}";
-  $(function(){
+    
     $.ajax({
       url: "${pageContext.request.contextPath}/cacheManage/getPVDate.do",
       type: "POST",
@@ -53,7 +54,7 @@
           $("#pvThisDay").text(data.data.dayNum);
           // 总访问量
           $("#pvTotal").text(data.data.totalCount);
-        } else {
+        }else{
           $("#welcome_words").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a>");
           $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>");
           // 今日访问量
@@ -63,7 +64,7 @@
         }
       }
     });
-
+  
     if(user!=null && user!=''){
       $("#welcome_words").html(user+"你好，欢迎来到军队采购网！");
     } else {
@@ -72,7 +73,7 @@
     $(".header-v4 .navbar-default .navbar-nav > .other > a").hover(function(){
       $("#firstPage").attr("Class","dropdown shouye_li mega-menu-fullwidth");
     });
-  })
+  });
 
   function myInfo(){
     window.location.href="${pageContext.request.contextPath}/login/index.html";
@@ -80,21 +81,21 @@
   
   /* 
   function myInfo(){
-  	if(user!=null && user!=''){
-  		window.location.href="${pageContext.request.contextPath}/login/index.html";
-  	}else{
-  		window.location.href="${pageContext.request.contextPath}/index/sign.html";
-  	}
+    if(user!=null && user!=''){
+      window.location.href="${pageContext.request.contextPath}/login/index.html";
+    }else{
+      window.location.href="${pageContext.request.contextPath}/index/sign.html";
+    }
   }
    */
- 
-  function importAdd(){
+  
+  /* function importAdd(){
     if(user==null){
       layer.alert("请先登录",{offset: ['222px', '390px'], shade:0.01});
       return;
     }
     window.location.href="${pageContext.request.contextPath}/importSupplier/register.html";
-  }
+  } */
 </script>
 </head>
 <body>
@@ -195,9 +196,8 @@
     <!-- End 全部菜单 -->
     
     <div style="height: 0px;" aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
-    <div class="container">
-    <ul class="nav navbar-nav m-navbar-nav">
-      
+    <div class="container position_r">
+      <ul class="nav navbar-nav m-navbar-nav" >
       <!-- 通知 -->
       <li id="firstPage" class="dropdown shouye_li mega-menu-fullwidth">
       <a class=" dropdown-toggle " href="${pageContext.request.contextPath}/"><i class="shouye nav_icon"></i>首 页</a>
@@ -624,99 +624,88 @@
 
           <!-- 拟入库公示 -->
           <div class="col-md-8 col-sm-8 col-xs-10 mt10">
-            <div class="headline-v2 m-headline-v2">
-              <h2 class="fl">拟入库公示&nbsp;<span class="red">（如果对公示内容有异议，请拨打举报电话：010-66880147）</span></h2>
-              <a href="${pageContext.request.contextPath}/index/indexSupPublicity.html" class="news_more">更多&gt;&gt;</a>
-              <div class="clear"></div>
-            </div>
+              <div class="headline-v2">
+                  <h2>入库名单<a  href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=0" class="fr f14">更多>></a></h2>
+              </div>
+              <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
+                  <div class="categories">
+                      <ul class="list-unstyled">
 
-            <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
-            <div class="categories">
-              <c:choose>
-              <c:when test="${!empty my:getPublicitySupplier()}">
-              <div class="m_nav_scroll_head">
-              <table class="table table-bordered mb0">
-                <tbody>
-                  <tr>
-                    <td class="tc info" width="15%">供应商名称</td>
-                    <td class="tc info" width="12%">类型</td>
-                    <td class="tc info" width="12%">企业性质</td>
-                    <td class="tc info" width="12%">初审单位</td>
-                    <td class="tc info" width="34%">审核结果</td>
-                    <td class="tc info" width="15%">公示时间</td>
-                  </tr>
-                </tbody>
-              </table>
+                          <c:choose>
+                              <c:when test="${!empty my:getSupplierList()}">
+                                  <table class="table table-bordered " >
+                                      <thead>
+                                      <tr >
+                                          <th class="tc info" width="55%">供应商名称</th>
+                                          <th class="tc info" width="25%">编号</th>
+                                          <th class="tc info" width="20%">状态</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <c:forEach items="${my:getSupplierList()}" var="item" begin="0" end="5" step="1" varStatus="status" >
+                                          <tr>
+                                              <td>${item.supplierName }</td>
+                                              <td class="tc"></td>
+                                              <td class="tc">
+                                                  <c:choose>
+                                                      <%-- <c:when test="${item.status == -1}">
+                                                             未未提交审核
+                                                      </c:when>
+                                                <c:when test="${item.status == 0}">
+                                                            待审核
+                                                      </c:when> --%>
+                                                      <c:when test="${item.status == 1 or item.status == 4 or item.status == 6}">
+                                                          审核通过
+                                                      </c:when>
+                                                      <%--  <c:when test="${item.status == 2}">
+                                                             审核退回修改
+                                                       </c:when>
+                                                       <c:when test="${item.status == 3}">
+                                                            审核未通过
+                                                       </c:when>
+                                                       <c:when test="${item.status == 4}">
+                                                             待复核
+                                                       </c:when> --%>
+                                                      <c:when test="${item.status == 5 or item.status == 7 or item.status == 9}">
+                                                          复核通过
+                                                      </c:when>
+                                                      <%-- <c:when test="${item.status == 6}">
+                                                            复核未通过
+                                                      </c:when>
+                                                      <c:when test="${item.status == 7}">
+                                                            待考察
+                                                      </c:when> --%>
+                                                      <c:when test="${item.status == 8}">
+                                                          考察合格
+                                                      </c:when>
+                                                      <%--  <c:when test="${item.status == 9}">
+                                                             考察不合格
+                                                       </c:when> --%>
+                                                      <c:otherwise>
+                                                          无状态
+                                                      </c:otherwise>
+                                                  </c:choose>
+                                              </td>
+                                          </tr>
+                                      </c:forEach>
+                                      </tbody>
+                                  </table>
+                              </c:when>
+                              <c:otherwise>
+                                  <li class="tc">暂无数据</li>
+                              </c:otherwise>
+                          </c:choose>
+                      </ul>
+                  </div>
               </div>
-              
-              <div class="m_nav_scroll">
-              <input type="hidden" value="0" name="ishover">
-              <ul class="mns_bxslider">
-              <li>
-              <table class="table table-bordered mb0">
-                <tbody>
-                  <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="4" step="1" varStatus="status">
-                  <c:set value="${item.supplierName}" var="supplierName"></c:set>
-                  <c:set value="${item.supplierTypeNames}" var="supplierTypeNames"></c:set>
-                  <c:set value="${item.businessNature}" var="businessNature"></c:set>
-                  <tr>
-                    <td width="15%">
-                      <c:choose>
-                      <c:when test="${fn:length(supplierName) > 4}">
-                      <c:out value="${fn:substring(supplierName, 0, 4)}.." />
-                      </c:when>
-                      <c:otherwise>
-                      <c:out value="${supplierName}"></c:out>
-                      </c:otherwise>
-                      </c:choose>
-                    </td>
-                    <td class="tc" width="12%">
-                      <c:choose>
-                      <c:when test="${fn:length(supplierTypeNames) > 4}">
-                      <c:out value="${fn:substring(supplierTypeNames, 0, 4)}..." />
-                      </c:when>
-                      <c:otherwise>
-                      <c:out value="${supplierTypeNames}"></c:out>
-                      </c:otherwise>
-                      </c:choose>
-                    </td>
-                    <td class="tc" width="12%">
-                      <c:choose>
-                      <c:when test="${fn:length(businessNature) > 2}">
-                      <c:out value="${fn:substring(businessNature, 0, 2)}..." />
-                      </c:when>
-                      <c:otherwise>
-                      <c:out value="${businessNature}"></c:out>
-                      </c:otherwise>
-                      </c:choose>
-                    </td>
-                    <td class="tc" width="12%">${ item.orgName }</td>
-                    <td class="tl" width="34%">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</td>
-                    <td class="tl" width="15%">
-                      <fmt:formatDate value="${item.auditDate}" pattern="yyyy-MM-dd"></fmt:formatDate>
-                    </td>
-                  </tr>
-                  </c:forEach>
-                </tbody>
-              </table>
-              </li>
-              </ul>
-              </div>
-              </c:when>
-              <c:otherwise>
-              <div class="tc">暂无数据</div>
-              </c:otherwise>
-              </c:choose>
-            </div>
-            </div>
           </div>
           <!-- End 拟入库公示 -->
 
           <div class="login_box job-content col-md-4 col-sm-4 col-xs-12 mt10">
             <h2 class="f17 bgwhite">
             <ul class="list-unstyled login_tab p0">
-              <li class="fl active"><a aria-expanded="true" href="#tab-36" data-toggle="tab">入库名单</a></li>
-              <li class="fl"><a aria-expanded="true" href="#tab-37" data-toggle="tab">诚信记录</a></li>
+              <%--<li class="fl active"><a aria-expanded="true" href="#tab-36" data-toggle="tab">入库名单</a></li>--%>
+              <li class="fl active"><a aria-expanded="true" href="#tab-37" data-toggle="tab">诚信记录</a></li>
               <li class="fl"><a aria-expanded="false" href="#tab-38" data-toggle="tab">处罚公告</a></li>
               <!-- <li class="fl"><a aria-expanded="false" href="#tab-38" data-toggle="tab">地方处罚公告</a></li> -->
               <li class="fl"><a aria-expanded="false" href="#tab-gyshmd" data-toggle="tab">黑名单</a></li>
@@ -725,7 +714,7 @@
 
             <div class="tab-content buyer_list m_buyer_list">
               <!-- 诚信记录 -->
-              <div id="tab-37" class="categories tab-pane fade">
+              <div id="tab-37" class="categories articleover tab-pane fade active in">
               <%-- <ul class="p0_10 list-unstyled">
               <table class="table table-bordered " >
               <thead>
@@ -755,8 +744,7 @@
               </table>
               </ul> 
               <a class="tab_more" href="${pageContext.request.contextPath}/supplier_level/indexList.html">更多>></a>--%>
-              
-              <a class="fr" href="javascript:void(0)">更多&gt;&gt;</a>
+              <a class="fr" href="javascript:void(0)">更多>></a>
               </div>
               <!-- End 诚信记录 -->
 
@@ -853,75 +841,81 @@
         </div>-->
 
         <div class="col-md-8 col-sm-8 col-xs-10 mt10">
-          <div class="headline-v2 m-headline-v2">
-            <h2 class="fl">拟入库公示&nbsp;<span class="red">（如果对公示内容有异议，请拨打举报电话：010-66880147）</span></h2>
-            <a href="${pageContext.request.contextPath}/index/indexExpPublicity.html" class="news_more">更多&gt;&gt;</a>
-            <div class="clear"></div>
-          </div>
-
-          <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
-          <div class="categories zhuanjia_list">
-            <c:choose>
-            <c:when test="${!empty my:getPublicityExpert()}">
-            <table class="table table-bordered mb0">
-            <thead>
-              <tr>
-                <th class="tc info" width="25%">专家名称</th>
-                <th class="tc info" width="15%">类别</th>
-                <th class="tc info" width="15%">初审单位</th>
-                <th class="tc info" width="30%">审核结果</th>
-                <th class="tc info" width="15%">公示时间</th>
-              </tr>
-            </thead>
-            </table>
-          
-            <div class="m_nav_scroll">
-            <input type="hidden" value="0" name="ishover">
-            <ul class="mns_bxslider">
-            <li>
-            <table class="table table-bordered mb0">
-              <tbody>
-              <c:forEach items="${my:getPublicityExpert()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
-                <tr>
-                  <td width="25%">${ item.relName }</td>
-                  <td class="tc" width="15%">${ item.expertsTypeId }</td>
-                  <td class="tc" width="15%">${ item.orgName }</td>
-                  <td class="tl" width="30%">同意入库，选择了${ item.passCateCount }个小类，通过了${ item.passCateCount - item.noPassCateCount }个小类</td>
-                  <td class="tl" width="25%">
-                  <fmt:formatDate value="${item.auditAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
-                  </td>
-                </tr>
-              </c:forEach> 
-              </tbody>
-            </table>
-            </li>
-            </ul>
+            <div class="headline-v2">
+                <h2>入库名单<a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="fr f14">更多>></a></h2>
             </div>
-            </c:when>
-            <c:otherwise>
-            <div class="tc">暂无数据</div>
-            </c:otherwise>
-            </c:choose>
-          </div>
-          </div>
+            <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
+                <div class="categories zhuanjia_list">
+                    <c:choose>
+                        <c:when test="${!empty my:getExpertList()}">
+                            <table class="table table-bordered " >
+                                <thead>
+                                <tr >
+                                    <th class="tc info" width="55%">专家名称</th>
+                                    <th class="tc info" width="25%">编号</th>
+                                    <th class="tc info" width="20%">状态</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${my:getExpertList()}" var="item" begin="0" end="5" step="1" varStatus="status" >
+                                    <tr>
+                                        <td>${item.relName }</td>
+                                        <td class="tc"></td>
+                                        <td class="tc"> <c:choose>
+                                            <%-- <c:when test="${item.status == 0}">
+                                                      未审核
+                                            </c:when>
+                                             <c:when test="${item.status == 1}">
+                                                初审通过
+                                             </c:when>
+                                             <c:when test="${item.status == 2}">
+                                                    初审未通过
+                                                </c:when>
+                                                <c:when test="${item.status == 3}">
+                                                    退回修改
+                                               </c:when>
+                                                <c:when test="${item.status == 4}">
+                                                     待复审
+                                               </c:when> --%>
+                                            <c:when test="${item.status eq '4' or item.status == '6' or item.status == '8'}">
+                                                复审通过
+                                            </c:when>
+                                            <c:when test="${item.status eq '7'}">
+                                                复查通过
+                                            </c:when>
+                                            <c:otherwise>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:when>
+                        <c:otherwise>
+                            暂无数据
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
         </div>
 
         <div class="login_box job-content col-md-4 col-sm-4 col-xs-12 mt10">
           <h2 class="f17 bgwhite">
           <ul class="list-unstyled login_tab">
-            <li class="fl active"><a aria-expanded="true" href="#tab-39" data-toggle="tab">入库名单</a></li>
-            <li class="fl"><a aria-expanded="true" href="#tab-40" data-toggle="tab">诚信记录</a></li>
+            <%--<li class="fl active"><a aria-expanded="true" href="#tab-39" data-toggle="tab">入库名单</a></li>--%>
+            <li class="fl active"><a aria-expanded="true" href="#tab-40" data-toggle="tab">诚信记录</a></li>
             <li class="fl"><a aria-expanded="false" href="#tab-41" data-toggle="tab">处罚公告</a></li>
             <li class="fl"><a aria-expanded="false" href="#tab-zjhmd" data-toggle="tab">黑名单</a></li>
           </ul>
           </h2>
 
           <div class="tab-content buyer_list m_buyer_list">
-            <div id="tab-39" class="categories tab-pane fade active in">
+            <%--<div id="tab-39" class="categories tab-pane fade active in">
               <a class="fr" href="javascript:void(0)">更多&gt;&gt;</a>
-            </div>
+            </div>--%>
 
-            <div id="tab-40" class="categories tab-pane fade">
+            <div id="tab-40" class="categories articleover tab-pane fade active in">
             <ul class="p0_10">   
             </ul>
             <a class="fr" href="javascript:void(0)">更多&gt;&gt;</a>
@@ -977,7 +971,6 @@
     	<!-- End 评审专家 -->
 
       <!-- 法规 -->
-
         <li class="dropdown other cgfw_li mega-menu-fullwidth">
           <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="cgfw nav_icon"></i>采购服务</a>
 	<!--采购服务鼠标移动开始-->
@@ -1039,7 +1032,7 @@
 	  </a>
 	 </div>
 	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
-	  <a href="">
+	  <a href="javascript:void(0);">
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic yjfk">
 	    	<img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/> 
 	    </div>
@@ -1207,6 +1200,7 @@
           </div>
           </div> --%>  
         </div>
+<%-- <<<<<<< HEAD
         </div>
         </div>
         </div>
@@ -1239,7 +1233,7 @@
   <!-- End 首页APP下载二维码 -->
 
   <!-- 供应商和专家下拉菜单列表滚动效果 -->
-  <script>
+  <!--<script>
     var m_nav_scroll = []; // 设置保存滚动插件的数组
 
     // 循环所有插件并初始化
@@ -1276,8 +1270,102 @@
         m_nav_scroll[i].destroySlider();
       }
     });
-    </script>
+    </script>-->
     <!-- End 供应商和专家下拉菜单列表滚动效果 -->
+======= --%>
+		</div>
+		</div>
+      <%-- <div class="col-md-7 col-sm-7 col-xs-12 mt20">
+	  <div class="col-md-12 col-xs-12 col-sm-12">
+	  <div class="col-md-6 col-sm-6 col-xs-12">
+	    <div class="col-md-12 col-xs-12 col-sm-12 p0 fg_rule">
+		 <img src="${pageContext.request.contextPath}/public/portal/images/fg_01.jpg" class="fl" width="100%" />
+		</div>
+	  </div>
+	  <div class="col-md-6 col-sm-6 col-xs-12">
+		 <a href="">主题：2016年9月30日烈士纪念日</a>
+	  </div>
+	  </div>
+	  <div class="col-md-12 col-xs-12 col-sm-12 mt20">
+         <div class="job-content col-md-12 col-xs-12 col-sm-12">
+		    <div class="categories">
+             <ul class="p0_10 list-unstyled">   
+              <li></li>
+			 </ul>
+			</div>
+		  </div>
+	   </div>
+	  </div> --%>  
+	  </div>
+	 </div>
+	</div>
+	</div>
+   </li>
+      </ul>
+      </div>
+      </div>
+      </div>
+      </div>
+     <!-- 首页APP下载二维码 -->
+  <div class="m_app_code" id="m_app_code">
+    <span>A<br>P<br>P<br>下<br>载<br>二<br>维<br>码</span>
+    <div class="mac_img">
+      <img src="${pageContext.request.contextPath}/public/portal/images/AppDownload.png" alt="">
+    </div>
+  </div>
+
+  <script>
+    $(function() {
+      $('#m_app_code span').on('click', function() {
+        if ($(this).parent().hasClass('hover')) {
+          $(this).parent().removeClass('hover');
+        } else {
+          $(this).parent().addClass('hover');
+        }
+      });
+    });
+  </script>
+
+	<!-- 供应商和专家下拉菜单列表滚动效果 -->
+	<script>
+		/* var m_nav_scroll = []; // 设置保存滚动插件的数组
+		
+		// 循环所有插件并初始化
+		$('.mns_bxslider').each(function (index) {
+			m_nav_scroll[index] = $(this).bxSlider({
+				mode: 'vertical',   // 垂直模式
+				minSlides: 1,       // 最小显示个数
+				maxSlides: 1,       // 最大显示个数
+				ticker: true,
+				tickerHover: true,  // 鼠标移动上停止滚动
+				autoHover: true,    // 鼠标移动上停止滚动
+				speed: 5000         // 滚动速度
+			});
+		});
+		
+		// 设置下拉菜单出现后重置插件，防止display: none时候插件失效
+		$('.navbar-nav > li').mouseenter(function () {
+			var ishover = parseInt($(this).find('input[name=ishover]').val());  // 下拉菜单是否出现
+			// 如果下拉菜单已经出现防止多次重置插件导致滚动列表抖动
+			if (ishover == 0) {
+				$(this).find('input[name=ishover]').val(1);
+				// 加入延时防止下拉菜单还未出现程序已经执行的bug
+				setTimeout(function () {
+					for (var i in m_nav_scroll) {
+						m_nav_scroll[i].reloadSlider();
+					}
+				}, 500);
+			}
+		});
+		// 鼠标移除注销插件并初始化判断参数，以便下次打开重新生成
+		$('.navbar-nav > li').mouseleave(function () {
+			$(this).find('input[name=ishover]').val(0);
+			for (var i in m_nav_scroll) {
+				m_nav_scroll[i].destroySlider();
+			}
+		}); */
+	</script>
+	<!-- End 供应商和专家下拉菜单列表滚动效果 -->
 
 </body>
 </html>

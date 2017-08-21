@@ -24,8 +24,10 @@ import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.ems.ProjectExtractMapper;
 import ses.dao.sms.QuoteMapper;
 import ses.model.bms.DictionaryData;
+import ses.model.ems.ProjectExtract;
 import ses.model.sms.Quote;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
@@ -124,6 +126,8 @@ public class TerminationServiceImpl<V> implements TerminationService {
   private TaskMapper taskMapper;
   @Autowired
   private PurchaseDetailMapper purchaseDetailMapper;
+  @Autowired
+  private ProjectExtractMapper  projectExtractMapper;
   @Override
   /*
    * (non-Javadoc)
@@ -197,6 +201,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
           Packages pg = packageMapper.selectByPrimaryKeyId(id);
           pg.setOldFlowId(oldCurrFlowDefineId);
           pg.setNewFlowId("CGLC_CGXMFB");
+          pg.setProjectStatus("F0EAF1136F7E4E8A8BDA6561AE8B4390");
           packageMapper.updateByPrimaryKeySelective(pg);
           List<ProjectDetail> pds = projectDetailMapper.selectByPackageRecursively(id);
           for(ProjectDetail pd:pds){
@@ -516,6 +521,13 @@ public class TerminationServiceImpl<V> implements TerminationService {
       Entry<String, String> next = iterator.next();
       String newId=next.getValue();
       String oldId=next.getKey();
+      List<ProjectExtract> byId = projectExtractMapper.getById(oldId);
+      for (ProjectExtract projectExtract : byId) {
+        projectExtract.setId(WfUtil.createUUID());
+        projectExtract.setProjectId(newId);
+        projectExtract.setExpertId(projectExtract.getExpert().getId());
+        projectExtractMapper.insertSelective(projectExtract);
+      }
       Quote quote=new Quote();
       quote.setProjectId(oldProjectId);
       quote.setPackageId(oldId);
@@ -596,6 +608,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
         st.setPackages(newId);
         st.setSupplierId(st.getSuppliers().getId());
         st.setUserId(st.getUser().getId());
+        st.setIsFirstPass(null);
         Map<String, Object> map=new HashMap<String, Object>();
         map.put("isTurnUp", st.getIsTurnUp());
         map.put("statusBid", st.getStatusBid());
@@ -844,6 +857,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
           }else{
             pg.setNewFlowId(currFlowDefineId);
           }
+          pg.setProjectStatus(null);
           packageMapper.insertSelective(pg);
           mapId.put(pagId, pg.getId());
         }

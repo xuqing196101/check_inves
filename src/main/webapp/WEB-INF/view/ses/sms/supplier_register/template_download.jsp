@@ -20,9 +20,12 @@
 			}
 			/** 保存基本信息 */
 			function otherPage(flag) {
-				$("input[name='flag']").val(flag);
-				sessionStorage.formH = JSON.stringify($("#template_download_form_id").serializeArray());
-				$("#template_download_form_id").submit();
+				if(flag == "prev"){
+					updateStep(6);
+				}
+				if(flag == "next"){
+					$("#template_download_form_id").submit();
+				}
 			}
 
 			//下载
@@ -98,9 +101,6 @@
 							</form>
 							<form id="template_download_form_id" action="${pageContext.request.contextPath}/supplier/perfect_download.html" method="post">
 								<input name="id" value="${currSupplier.id}" type="hidden" />
-								<input name="jsp" type="hidden" />
-								<input name="flag" type="hidden" />
-								<input name="supplierTypeIds" value="${supplierTypeIds }" type="hidden" />
 								<div class="tab-content padding-top-20">
 									<div class="tab-pane fade active in height-300" id="tab-1">
 										<div class="margin-bottom-0  categories">
@@ -130,7 +130,7 @@
 
 		<div class="btmfix">
 			<div class="mt15 tc">
-				<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="otherPage('prve')">上一步</button>
+				<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="otherPage('prev')">上一步</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="otherPage('next')">下一步</button>
 			</div>
 		</div>

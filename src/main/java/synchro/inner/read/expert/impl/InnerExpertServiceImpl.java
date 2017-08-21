@@ -250,6 +250,8 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                 audit = expertAuditMapper.selectByPrimaryKey(expertAudit.getId());
                 if(null == audit){
                     expertAuditMapper.insertActive(expertAudit);
+                }else{
+                	expertAuditMapper.updateByPrimaryKey(expertAudit);
                 }
             }
         }

@@ -1,7 +1,12 @@
 package common.service;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import common.model.UploadFile;
 /**
  * 
  * 版权：(C) 版权所有 
@@ -54,4 +59,11 @@ public interface DownloadService {
      * @param response
      */
     public void downloadOneFile(HttpServletRequest request, HttpServletResponse response);
+    /**
+     * 根据businessId和表名查询出文件的ID 集合
+     * @author LiWanlin
+     * @param request
+     * @param response
+     */
+    public List<String> downloadMap(HttpServletRequest request);
 }

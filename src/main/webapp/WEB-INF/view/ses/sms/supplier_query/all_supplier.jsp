@@ -439,8 +439,11 @@
 									<option selected="selected" value=''>全部</option>
 									<option value="-1">暂存</option>
 									<option value="0">待审核</option>
+									<option value="-2">预审核结束</option>
+                  <option value="-3">公示中</option>
 									<option value="1">审核通过</option>
 									<option value="2">审核退回修改</option>
+									<option value="9">退回再审核</option>
 									<option value="3">审核未通过</option>
 									<option value="4">待复核</option>
 									<option value="5">复核通过</option>
@@ -475,7 +478,9 @@
 	              <select name="orgName" id="orgName" class="w220">
 	                <option value=''>全部</option>
 	                <c:forEach items="${allOrg}" var="org">
-	                  <option value="${org.shortName}" <c:if test="${supplier.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
+	                  <c:if test="${org.isAuditSupplier == 1}">
+	                    <option value="${org.shortName}" <c:if test="${supplier.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
+	                  </c:if>
 	                </c:forEach>
 	              </select>
 	            </li>

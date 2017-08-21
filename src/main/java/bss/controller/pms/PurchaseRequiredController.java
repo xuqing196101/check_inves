@@ -336,6 +336,7 @@ public class PurchaseRequiredController extends BaseController {
 		try {
 			WorkbookFactory.create(file.getInputStream());
 		} catch (Exception e) {
+		  e.printStackTrace();
 			mark = e.getMessage();
 		}
 
@@ -1351,7 +1352,13 @@ public class PurchaseRequiredController extends BaseController {
 							p.setUniqueId(unqueId);
 							// count++;
 						}*/
-						purchaseRequiredService.updateByPrimaryKeySelective(p);
+                    PurchaseRequired purchaseRequired = purchaseRequiredService.selectById(p.getId());
+                    if(purchaseRequired != null){
+                        purchaseRequiredService.updateByPrimaryKeySelective(p);
+                    }else {
+                        p.setUniqueId(unqueId);
+                        purchaseRequiredService.add(p);
+                    }
 					}
 					
 				}

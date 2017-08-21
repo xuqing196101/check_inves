@@ -34,6 +34,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Templet;
 import ses.model.bms.Todos;
@@ -93,6 +94,7 @@ import com.alibaba.fastjson.JSON;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
@@ -110,7 +112,7 @@ import common.service.UploadService;
 @Controller
 @Scope("prototype")
 @RequestMapping("/open_bidding")
-public class OpenBiddingController {
+public class OpenBiddingController extends BaseSupplierController{
 
   private final static Short NUMBER_TWO = 2;
 
@@ -285,10 +287,15 @@ public class OpenBiddingController {
   public String bidFile(@CurrentUser User user,HttpServletRequest request, String id, Model model, HttpServletResponse response, String flowDefineId,Integer process) throws Exception{
     //类别是否是在流程中展示 process 1不在流程中  2在流程中  
     model.addAttribute("process", process);  
-
+    String delOk = request.getParameter("delOk");
+    if (delOk=="ok") {
+		model.addAttribute("delOk", 1);
+	}
 
     HashMap<String, Object> map = new HashMap<String, Object>();
     map.put("projectId", id);
+    model.addAttribute("pId", id);
+    map.put("projectStatus", "1");
     List<Packages> packages = packageService.findPackageById(map);
     String msg = "";
     if (process != null && process == 1) {
@@ -475,7 +482,33 @@ public class OpenBiddingController {
   public void loadFile(HttpServletRequest request, String fileId, HttpServletResponse response){
     downloadService.downloadOther(request, response, fileId, Constant.TENDER_SYS_KEY+"");
   }
-
+  
+  /**
+   *〈简述〉下载附件
+   *〈详细描述〉
+   * @author Zhou Wei
+   * @param request
+   * @param response
+   */
+  @RequestMapping("/downloadList")
+  public void downloadList(HttpServletRequest request, HttpServletResponse response){
+  	
+  	List<String> list= downloadService.downloadMap(request);
+  	super.writeJson(response, list.get(0));
+   }
+  /**
+   *〈简述〉删除附件
+   *〈详细描述〉
+   * @author Zhou Wei
+   * @param request
+   * @param response
+   */
+  @RequestMapping("/removeFile")
+  public void removeFile(HttpServletRequest request, HttpServletResponse response){
+  	List<String> list= downloadService.downloadMap(request);
+  	super.writeJson(response, list);
+  }
+  
   /**
    * 
    *〈简述〉
@@ -3502,48 +3535,59 @@ public class OpenBiddingController {
   @ResponseBody
   public void checkSupplierNumber(HttpServletResponse response,String projectId) throws IOException{
 	  Project project = projectService.selectById(projectId);
-	  SaleTender condition = new SaleTender();
-	  condition.setProjectId(projectId);
-	  condition.setStatusBid(NUMBER_TWO);
-	  condition.setStatusBond(NUMBER_TWO);
-	  List<SaleTender> stList = saleTenderService.find(condition);
-	  HashMap<String, Object> map = new HashMap<String,Object>();
-	  map.put("projectId", projectId);
-	  List<Packages> packageList = packageService.findPackageById(map);
-	  StringBuffer buffer = new StringBuffer();
-	  for (Packages packages : packageList) {
-		int count=0;
-		for (SaleTender saleTender : stList) {
-			if(packages.getId().equals(saleTender.getPackages())){
-				if(saleTender.getIsTurnUp()==0){
-					count++;
+	  DictionaryData data = DictionaryDataUtil.findById(project.getPurchaseType());
+	  JSONObject jsonObj = new JSONObject();
+	  if("JZXTP".equals(data.getCode())){
+		  jsonObj.put("status", StaticVariables.FAILED);
+	  } else {
+		  SaleTender condition = new SaleTender();
+		  condition.setProjectId(projectId);
+		  condition.setStatusBid(NUMBER_TWO);
+		  condition.setStatusBond(NUMBER_TWO);
+		  List<SaleTender> stList = saleTenderService.find(condition);
+		  HashMap<String, Object> map = new HashMap<String,Object>();
+		  map.put("projectId", projectId);
+		  List<Packages> packageList = packageService.findPackageById(map);
+		  StringBuffer buffer = new StringBuffer();
+		  for (Packages packages : packageList) {
+			int count=0;
+			for (SaleTender saleTender : stList) {
+				if(packages.getId().equals(saleTender.getPackages())){
+					if(saleTender.getIsTurnUp()==0){
+						count++;
+					}
 				}
 			}
-		}
-		if(count<project.getSupplierNumber()){
-			DictionaryData findById = DictionaryDataUtil.findById(packages.getProjectStatus());
-			if("".equals(findById.getCode())){
-				if(findById.getCode().equals("YZZ") || findById.getCode().equals("ZJZXTP")){
-					continue;
+			if(count<project.getSupplierNumber()){
+				DictionaryData findById = DictionaryDataUtil.findById(packages.getProjectStatus());
+				if("".equals(findById.getCode())){
+					if(findById.getCode().equals("YZZ") || findById.getCode().equals("ZJZXTP")){
+						continue;
+					}
 				}
+				buffer.append(packages.getId()+","+packages.getName()+";");
 			}
-			buffer.append(packages.getId()+","+packages.getName()+";");
-		}
+		  }
+		  if(buffer != null&&buffer.length()>0){
+			  jsonObj.put("rules", buffer.toString().substring(0,buffer.toString().length()-1));
+		  }
 	  }
-	  JSONObject jsonObj =new JSONObject();
-	  if(buffer != null){
-		  jsonObj.put("rules", buffer.toString().substring(0,buffer.toString().length()-1));
-	  }
-      response.getWriter().print(jsonObj.toString());
-      response.getWriter().flush();
+	  this.writeJson(response, jsonObj);
   }
   @RequestMapping("transformationJZXTP")
   @ResponseBody
   public void transformationJZXTP(HttpServletResponse response,String projectId,String packageIds,String currentFlowDefineId) throws IOException{
-	  terminationService.updateTermination(packageIds, projectId, currentFlowDefineId, currentFlowDefineId, "JZXTP");
-	  JSONObject jsonObj =new JSONObject();
-	  jsonObj.put("status", "ok");
-	  response.getWriter().print(jsonObj.toString());
-      response.getWriter().flush();
+	  Project project = projectService.selectById(projectId);
+	  if(project != null && StringUtils.isNotBlank(project.getPurchaseType())){
+		  JSONObject jsonObj = new JSONObject();
+		  DictionaryData data = DictionaryDataUtil.findById(project.getPurchaseType());
+		  if("JZXTP".equals(data.getCode())){
+			  jsonObj.put("status", StaticVariables.FAILED);
+		  } else {
+			  terminationService.updateTermination(packageIds, projectId, currentFlowDefineId, currentFlowDefineId, "JZXTP");
+			  jsonObj.put("status", StaticVariables.SUCCESS);
+		  }
+		  this.writeJson(response, jsonObj);
+	  }
   }
 }

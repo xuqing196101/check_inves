@@ -196,52 +196,90 @@
   			}
   		});
 		if(count<supplierNumber){
-			 layer.confirm('${pack.name}'+'到场供应商数量不满足项目实施最少供应商数量,如何操作？', {
-		            btn: ['转为竞争性谈判','中止实施','继续实施'] ,
-		            closeBtn: 0,
-		            title:"提示"
-		        }, function(){
-		        	$.ajax({
-		    			url:"${pageContext.request.contextPath}/open_bidding/transformationJZXTP.do",
-		    			data:{"packageIds":packageId,
-		    				  "projectId":projectId,
-		    				  "currentFlowDefineId":flowDefineId
-		    				 },
-		    			type:"post",
-		    			dataType:"json",
-		    	   		success:function(data){
-		    	   		//layer.close(index);
-		    	   		//$("#alertId").val(data.status);
-		    	   		if(data.status=="ok"){
-		    	   			layer.msg('转为竞争性谈判');
-		    	   			}
-		    	   		}
-		      		});
-		           
-		        }, function(){
-		        	bynSub(packageId,projectId,flowDefineId);
-		        }, function(){
-		            layer.msg('继续实施' );
-		        });
+			layer.open({
+		  	    shift: 1, //0-6的动画形式，-1不开启
+		  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+		  	    title: ['操作','border-bottom:1px solid #e5e5e5'],
+		  	    shade:0.01, //遮罩透明度
+			  		type : 1,
+			  		area : [ '40%', '200px'  ], //宽高
+			  		content : $('#openDivjc'),
+			});
+		}else{
+			$.ajax({
+				url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
+				data: {"projectId": projectId, "packageId": packageId, "flowDefineId":flowDefineId},
+				dataType:'json',
+				success:function(result){
+				    	if(!result.success){
+	                    	layer.msg(result.msg,{offset: ['150px']});
+				    	}else{
+				    		layer.msg("符合性检查结束",{offset: ['150px']});
+				    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
+				    	}
+	                },
+	            error: function(result){
+	                layer.msg("符合性检查结束失败",{offset: ['222px']});
+	            }
+			});
 		}
-		/* $.ajax({
-			url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
-			data: {"projectId": projectId, "packageId": packageId, "flowDefineId":flowDefineId},
-			dataType:'json',
-			success:function(result){
-			    	if(!result.success){
-                    	layer.msg(result.msg,{offset: ['150px']});
-			    	}else{
-			    		layer.msg("符合性检查结束",{offset: ['150px']});
-			    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
-			    	}
-                },
-            error: function(result){
-                layer.msg("符合性检查结束失败",{offset: ['222px']});
-            }
-		}); */
 	}
-	
+	//转为竞争性谈判
+	function updateJZ(projectId, packageId,flowDefineId){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/open_bidding/transformationJZXTP.do",
+			data:{"packageIds":packageId,
+				  "projectId":projectId,
+				  "currentFlowDefineId":flowDefineId
+				 },
+			type:"post",
+			dataType:"json",
+	   		success:function(data){
+	   		//layer.close(index);
+	   		//$("#alertId").val(data.status);
+	   		if(data.status=="ok"){
+	   			layer.msg('转为竞争性谈判');
+	   			$.ajax({
+	   				url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
+	   				data: {"projectId": projectId, "packageId": packageId, "flowDefineId":flowDefineId},
+	   				dataType:'json',
+	   				success:function(result){
+	   				    	if(!result.success){
+	   	                    	layer.msg(result.msg,{offset: ['150px']});
+	   				    	}else{
+	   				    		layer.msg("符合性检查结束",{offset: ['150px']});
+	   				    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
+	   				    	}
+	   	                },
+	   	            error: function(result){
+	   	                layer.msg("符合性检查结束失败",{offset: ['222px']});
+	   	            }
+	   			});
+	   			} else if (data.status=="failed"){
+	   				layer.msg("不能转为竞争性谈判");
+	   			}
+	   		}
+  		});
+	}
+	//继续实施
+	function continueSs(projectId, packageId,flowDefineId){
+		$.ajax({
+				url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
+				data: {"projectId": projectId, "packageId": packageId, "flowDefineId":flowDefineId},
+				dataType:'json',
+				success:function(result){
+				    	if(!result.success){
+	                    	layer.msg(result.msg,{offset: ['150px']});
+				    	}else{
+				    		layer.msg("符合性检查结束",{offset: ['150px']});
+				    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
+				    	}
+	                },
+	            error: function(result){
+	                layer.msg("符合性检查结束失败",{offset: ['222px']});
+	            }
+			});
+	}
 	//退回复核
 	function sendBack(projectId,packageId,flowDefineId){
 		var ids =[]; 
@@ -333,7 +371,9 @@
 	function openDetailPrint(projectId,packageId){
 		window.open("${pageContext.request.contextPath}/packageExpert/openAllPrint.html?packageId="+packageId+"&projectId="+projectId, "打印所有检查表");
 	}
-	
+	function refur(projectId,packageId,flowDefineId){
+		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/firstAuditView.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+flowDefineId);
+	}
   </script>
   <body>
 	    <h2 class="list_title">${pack.name}符合性审查查看</h2>
@@ -354,6 +394,7 @@
 	    	</c:if>
 		    <button class="btn" onclick="openPrint('${projectId}','${pack.id}')" type="button">检查汇总表</button>
 		    <button class="btn" onclick="openDetailPrint('${projectId}','${pack.id}')" type="button">打印检查数据</button>
+		    <button class="btn" onclick="refur('${projectId}','${pack.id}','${flowDefineId}');" type="button">刷新</button>
 	   	</div>
 	   	<input type="hidden" id="projectId" value="${projectId}">
 	   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
@@ -429,7 +470,14 @@
 	      <input class="btn"  id = "inputaFlw" name="addr"  type="button" onclick="cancelFlw();" value="取消"> 
         </div>
     </div>
-	   	
+	  <div id="openDivjc" class="dnone layui-layer-wrap">
+       <h4> ${pack.name} 供应商数量不满足项目要求最少供应商数量,请选择！</h4>
+        <div class="tc  col-md-12 mt50">
+          <input class="btn"  id = "inputb" name="addr"  type="button" onclick="updateJZ('${projectId}','${pack.id}','${flowDefineId}');" value="转为竞争性谈判"> 
+	      <input class="btn"  id = "inputa" name="addr"  type="button" onclick="bynSub('${pack.id}','${projectId}','${flowDefineId}');" value="终止实施"> 
+	      <input class="btn"  id = "inputa" name="addr"  type="button" onclick="continueSs('${projectId}','${pack.id}','${flowDefineId}');" value="继续实施"> 
+        </div>
+    </div>
 	   <script type="text/javascript">
 		function resize_table_width() {
 	        $('.m_resize_table_width').each(function () {
