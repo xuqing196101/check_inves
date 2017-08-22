@@ -63,8 +63,8 @@
       });
     });
     
-    function jump_members() {
-      window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/editMembers.html';
+    function jump_members(groupId) {
+      window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/editMembers.html?groupId='+ groupId +'';
     }
   </script>
     

@@ -101,13 +101,15 @@
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/editMembers.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script>
-    var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetails.do';  // 列表地址
+    var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findExpertReviewTeam.do';  // 列表地址
     var add_url = '${pageContext.request.contextPath}/expertAgainAudit/addExpertReviewTeam.do';  // 添加地址
     var select_ids = [];
     
     $(function () {
+      console.log(getUrlParam('groupId'));
       $('#list_content').listConstructor({
-        url: list_url
+        url: list_url,
+        groupId: getUrlParam('groupId')
       });
     });
   </script>

@@ -11,7 +11,10 @@
       success: function (data) {
         var str = '';
         var str_tr = '';
+        var groupStatus = ['（待配置）','（配置中）','（配置完成）'];
+        var groupStatus_str = '';
         list_content = data.object;  // 储存所需数据到变量
+        console.log(list_content);
         $('#group_batch_box').html('');
         for (var i in list_content) {
           for (var ii in list_content[i].expertList) {
@@ -28,10 +31,19 @@
               +'<td class="text-center">'+ list_content[i].expertList[ii].updateTime +'</td>'
             +'</tr>';
           }
+          if (list_content[i].groupStatus === '1') {
+            groupStatus_str = groupStatus[0];
+          } else if (list_content[i].groupStatus === '2') {
+            groupStatus_str = groupStatus[1];
+          } else if (list_content[i].groupStatus === '3') {
+            groupStatus_str = groupStatus[2];
+          } else {
+            groupStatus_str = '';
+          }
           str += '<div class="group_batch_list">'
-                +'<div class="gbl_tit"><span class="gbl_icon">'+ (parseInt(i) + 1) +'</span><span>'+ list_content[i].name +'</span></div>'
+                +'<div class="gbl_tit"><span class="gbl_icon">'+ (parseInt(i) + 1) +'</span><span>'+ list_content[i].name + groupStatus_str +'</span></div>'
                 +'<div class="mt10 mb10">'
-                +'  <button type="button" class="btn" onclick="jump_members()">配置审核组成员</button>'
+                +'  <button type="button" class="btn" onclick="jump_members(\''+ list_content[i].id +'\')">配置审核组成员</button>'
                 +'  <button type="button" class="btn" onclick="">下载复核表</button>'
                 +'  </div>'
                 +'<table class="table table-bordered table-condensed table-hover table-striped groupBatch_table">'

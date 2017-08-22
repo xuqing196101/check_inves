@@ -14,10 +14,10 @@
         for (var i in list_content.list) {
           $('#list_content').append('<tr>'
             +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list[i].id +'" class="select_item"></td>'
-            +'<td class="text-center">'+ (parseInt(i) + 1) +'</td>'
+            +'<td class="text-center">'+ list_content.list[i].loginName +'</td>'
+            +'<td class="text-center">'+ list_content.list[i].relName +'</td>'
             +'<td>'+ list_content.list[i].orgName +'</td>'
-            +'<td>'+ list_content.list[i].relName +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].sex +'</td>'
+            +'<td>'+ list_content.list[i].Duties +'</td>'
           +'</tr>');
         }
         
