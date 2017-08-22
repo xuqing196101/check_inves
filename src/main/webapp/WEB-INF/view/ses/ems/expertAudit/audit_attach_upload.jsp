@@ -11,6 +11,11 @@
     <meta http-equiv="expires" content="0">
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertAudit/merge_jump.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertAudit/audit_attach_upload.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#reverse_of_five_i").css("display","inline-block");
+})
+</script>
 </head>
 
 <body>
@@ -40,9 +45,9 @@
             <%@include file="/WEB-INF/view/ses/ems/expertAudit/common_jump.jsp" %>
             <!-- 审核公示扫描件上传 -->
             <div>
-                <h2 class="count_flow"><i>1</i>专家审批表</h2>
+                <h2 class="count_flow"><i>1</i>专家初审表</h2>
                 <ul class="ul_list">
-                    <c:if test="${ status == -3 || status == 5}">
+                    <%-- <c:if test="${ status == -3 || status == 5}">
                         <li class="col-md-6 col-sm-6 col-xs-6">
                             <div>
                                 <span class="fl">专家审批表：</span>
@@ -51,14 +56,31 @@
                             </div>
                         </li>
                     </c:if>
-                    <c:if test="${ status != -3 && status != 5 }">
+                    <c:if test="${ status != -3 && status != 5">
                         <li class="col-md-6 col-sm-6 col-xs-6">
                             <div>
                                 <span class="fl">上传批准审核表：</span>
-                                <%--<% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>--%>
+                                <% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
                                 <input name="check_word_pic" id="auditOpinionFile" type="hidden" value="${expertId}1" />
                                 <u:upload id="pic_checkword" businessId="${expertId}1" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true" exts="png,jpeg,jpg,bmp,git" />
                                 <u:show showId="pic_checkword" businessId="${expertId}1" sysKey="${ sysKey }" typeId="${typeId }" />
+                            </div>
+                        </li>
+                    </c:if> --%>
+                    <c:if test="${ status == 15 || status == 16}">
+                        <li class="col-md-6 col-sm-6 col-xs-6">
+                            <div>
+                                <span class="fl">上传批准初审表：</span>
+                                <u:upload id="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true" />
+                                <u:show showId="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${typeId }" />
+                            </div>
+                        </li>
+                    </c:if>
+                    <c:if test="${ status != 15 && status != 16}">
+                        <li class="col-md-6 col-sm-6 col-xs-6">
+                            <div>
+                                <span class="fl">上传批准初审表：</span>
+                                <u:show showId="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${typeId }" />
                             </div>
                         </li>
                     </c:if>
@@ -85,6 +107,9 @@
                                 <%--<input class="btn btn-windows apply" type="button" id="auditPass" value="复审合格 " />
                                 <input class="btn btn-windows cancel" type="button" id="auditNoPass" value="复审不合格" />--%>
                                 <input class="btn btn-windows git" type="button" id="auditOver" value="复审结束" />
+                            </c:if>
+                            <c:if test="${status == 15 || status == 16}">
+                                <input class="btn btn-windows git" type="button" value = "初审结束" onclick = "chuAuditEnd()"/>
                             </c:if>
                         </div>
                     </div>
