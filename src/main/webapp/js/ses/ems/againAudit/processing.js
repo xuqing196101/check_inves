@@ -308,6 +308,7 @@ function add_members() {
           dataType: 'json',
           url: add_url,
           data: {
+            groupId: 'c093210120444b0fb741a9c95b0dcb38',
             loginName: loginName.val(),
             relName: relName.val(),
             orgName: orgName.val(),

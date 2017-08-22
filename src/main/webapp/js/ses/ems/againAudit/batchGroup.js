@@ -66,6 +66,7 @@
         var str = '';
         var str_tr = '';
         list_content_new = data.object;  // 储存所需数据到变量
+        console.log(list_content_new);
         $('#group_batch_box').html('');
         for (var i in list_content_new) {
           for (var ii in list_content_new[i].expertList) {
