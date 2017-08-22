@@ -537,7 +537,7 @@ function onCheck(e, treeId, treeNode) {
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 				<input class="input_group" id="idNumber" name="idCard" onkeyup="ajaxIdNumber()" value="${purchaseInfo.idCard}" type="text"> 
 				<span class="add-on">i</span>
-				<div class="cue"><sf:errors path="idCard"/></div>
+				<div class="cue"></div>
 				<div id="ajax_idNumber" class="cue">${exist_idCard}</div>
 			  </div>
 			</li>

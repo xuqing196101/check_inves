@@ -398,7 +398,7 @@ public class SupplierController extends BaseSupplierController {
                     purchaseDep.setAddress(prov.getName() + city.getName());
                 }
                 // 统计待审核供应商数量
-                int pendingAuditCount = supplierService.countByPurchaseDepId(purchaseDep.getId(), 0);
+                int pendingAuditCount = supplierService.countAuditByPurchaseDepId(purchaseDep.getId());
                 purchaseDep.setPendingAuditCount(pendingAuditCount);
                 purList.add(purchaseDep);
 		    }
@@ -452,7 +452,6 @@ public class SupplierController extends BaseSupplierController {
 	/**
 	 * 查看上传承诺书和申请表
 	 * @param model
-	 * @param suppId
 	 * @return
 	 */
 	@RequestMapping("/show_template_upload")

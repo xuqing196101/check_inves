@@ -159,6 +159,10 @@ function downloadTable(str) {
     $("#form_id_word").attr("action", globalPath + "/expertAudit/download.html");
     $("#form_id_word").submit();
     $("#downloadAttachFile").val("1");
+    $("#isDownLoadAttch").val("1");
+    if(str == 1){
+    	downloadCount();
+    }
 }
 
 /**

@@ -480,8 +480,16 @@ public class OBProjectServerImpl implements OBProjectServer {
 			// 组合 集合
 			list = splitList(list, obProject, userid);
 			for (OBProductInfo b : list) {
-				b.setUpdatedAt(date);
-				OBProductInfoMapper.updateByPrimaryKeySelective(b);
+				// 先查询是否存在
+                OBProductInfo obProductInfo = OBProductInfoMapper.selectByPrimaryKey(b.getId());
+                if(obProductInfo != null){
+                    b.setUpdatedAt(date);
+                    OBProductInfoMapper.updateByPrimaryKeySelective(b);
+                }else {
+                    // 新增数据
+                    b.setCreatedAt(date);
+                    OBProductInfoMapper.insertSelective(b);
+                }
 			}
 			if (obProject.getStatus() == 1) {
 				// 更新关系数据

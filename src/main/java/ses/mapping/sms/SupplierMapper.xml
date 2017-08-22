@@ -1850,6 +1850,7 @@
 		  SUPPLIER_NAME,
 		  LOGIN_NAME,
 		  MOBILE,
+		  CREDIT_CODE,
 		  SUPPLIER_STATUS,
 		  CREATED_AT,
 		  CONTACT_NAME,
@@ -1860,14 +1861,14 @@
 		<if test="supplierName != null and supplierName !=''">
 			AND SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 		</if>
-		<if test="supplierName != null and supplierName !=''">
-			AND SUPPLIER_NAME like  CONCAT(CONCAT('%', #{supplierName}), '%')
-		</if>
 		<if test="loginName != null and loginName !=''">
-			AND LOGIN_NAME like  CONCAT(CONCAT('%', #{loginName}), '%')
+			AND LOGIN_NAME like CONCAT(CONCAT('%', #{loginName}), '%')
 		</if>
 		<if test="mobile != null and mobile !=''">
 			AND MOBILE like  CONCAT(CONCAT('%', #{mobile}), '%')
+		</if>
+		<if test="creditCode != null and creditCode !=''">
+			AND CREDIT_CODE like CONCAT(CONCAT('%', #{creditCode}), '%')
 		</if>
 		<if test="status != null">
 			AND SUPPLIER_STATUS = #{status}
@@ -2048,7 +2049,14 @@
 		WHERE PROCUREMENT_DEP_ID = #{purchaseDepId}
 		AND SUPPLIER_STATUS = #{status}
 	</select>
-	
+	<!-- 根据采购机构id统计对应状态的供待审核 和 退回待审核 应商数量 -->
+	<select id="countAuditByPurchaseDepId" resultType="int">
+		SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER
+		WHERE PROCUREMENT_DEP_ID = #{purchaseDepId}
+		AND SUPPLIER_STATUS in('0','9')
+		AND IS_DELETED = '0'
+		AND PROCUREMENT_DEP_ID is not null
+	</select>
 	<!-- 手机号校验：专家库+供应商库（除去临时供应商和临时专家） -->
 	<select id="countByMobile" resultType="int" parameterType="string">
 		<!-- SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER SUPP,

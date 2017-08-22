@@ -25,6 +25,13 @@ public class AfterSaleSerServiceImp implements AfterSaleSerService {
     private AfterSaleSerMapper afterSaleSerMapper;
 
 	@Override
+	public List<AfterSaleSer> queryBySupplierIdList(String supplierId,String goodsName,String code,String name, Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return afterSaleSerMapper.queryBySupplierIdList(supplierId,goodsName,code,name);
+	}
+
+	@Override
 	public List<AfterSaleSer> getAll(Map<String, Object> map) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));

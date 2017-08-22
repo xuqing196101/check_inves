@@ -16,6 +16,14 @@ public interface AfterSaleSerService {
 	 * 1.获取所有模板对象
 	 */
 	List<AfterSaleSer> getAll(Map<String, Object> map);
+
+	/**
+	 * 根据供应商id获取相关数据
+	 * @param supplierId
+	 * @param map
+	 * @return
+	 */
+	List<AfterSaleSer> queryBySupplierIdList(String supplierId,String goodsName,String code,String name,Map<String,Object> map);
 	/**
 	 * 2.添加模板
 	 */

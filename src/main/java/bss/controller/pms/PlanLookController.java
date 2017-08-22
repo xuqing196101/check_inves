@@ -150,7 +150,7 @@ public class PlanLookController extends BaseController {
 			collectPlan.setStatus(null);
 		} else if(collectPlan.getStatus()==12){
 			collectPlan.setSign("12");
-			collectPlan.setStatus(null);
+			/*collectPlan.setStatus(null);*/
 		}   
 		
 		
@@ -168,11 +168,20 @@ public class PlanLookController extends BaseController {
 			collectPlan.setUserId(user.getId());
 		} 
 		
-		
+		if (collectPlan.getStatus()==12) {
+			collectPlan.setStatus(null);
+			List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
+			PageInfo<CollectPlan> info = new PageInfo<>(list);
+			model.addAttribute("info", info);
+			collectPlan.setStatus(12);
+			model.addAttribute("inf", collectPlan);
+		}else{
+			collectPlan.setStatus(null);
 		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
 		PageInfo<CollectPlan> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("inf", collectPlan);
+		}
 		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
 		model.addAttribute("dic", dic);
 		

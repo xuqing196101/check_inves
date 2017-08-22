@@ -111,6 +111,11 @@
 			  content: pic
 			});
 	};
+    function reset() {
+           $("#productName").val("");
+		   $("#contractName").val("");
+           $("#contractCode").val("");
+    }
   </script>
 
 </head>
@@ -141,19 +146,19 @@
       </div>
       <c:if test="${'1' ne type}">
       <h2 class="search_detail ">
-      <form id="form" action="${pageContext.request.contextPath}/after_sale_ser/list.html" method="post" class="mb0" > 
+      <form id="form" action="${pageContext.request.contextPath}/after_sale_ser/list.html" method="post" class="mb0" >
       <ul class="demand_list">
         <li class="fl">
-        <label class="fl">产品名称：</label><span><input class="span2" name="product.name" id="productName"  type="text"></span>
+        <label class="fl">产品名称：</label><span><input class="span2" name="goodsName" id="productName" value="${goodsName}" type="text"></span>
         </li>
         <li class="fl">
-        <label class="fl">合同名称：</label><span><input class="span2" name="contract.name" id="contractName"  type="text"></span>
+        <label class="fl">合同名称：</label><span><input class="span2" name="name" id="contractName" value="${name}" type="text"></span>
         </li>
         <li class="fl">
-        <label class="fl">合同编号：</label><span><input class="span2" name="contract.code" id="contractCode" type="text"></span>
+        <label class="fl">合同编号：</label><span><input class="span2" name="code" id="contractCode" value="${code}" type="text"></span>
         </li>
 	   	 <button class="btn fl" type="submit">查询</button>
-	   	 <button type="reset" class="btn fl">重置</button> 
+	   	 <button  onclick="reset()" class="btn fl">重置</button>
 	 </ul>
         <div class="clear"></div>
        </form>

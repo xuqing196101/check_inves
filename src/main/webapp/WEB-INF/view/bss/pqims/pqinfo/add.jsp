@@ -193,7 +193,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>质检日期:</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input class="Wdate" name="pqdate" required type="text"  value="<fmt:formatDate value='${pqinfo.pqdate}' pattern='yyyy-MM-dd'/>" onfocus="WdatePicker({isShowWeek:true})">
+                <input class="Wdate" name="pqdate" required type="text"  value="<fmt:formatDate value='${pqinfo.pqdate}' pattern='yyyy-MM-dd'/>" onfocus="WdatePicker({isShowWeek:true,maxDate:'%y-%M-%d'})">
                 <div class="cue">${ERR_pqdate}</div>
               </div>
             </li>

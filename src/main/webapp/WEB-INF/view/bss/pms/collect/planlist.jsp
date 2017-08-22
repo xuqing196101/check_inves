@@ -318,7 +318,7 @@
       function view(id) {
         window.location.href = "${pageContext.request.contextPath }/look/view1.html?id=" + id;
       }
-
+      //重置
       function resetQuery() {
         $("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
       }
