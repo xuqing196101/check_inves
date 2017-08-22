@@ -615,6 +615,87 @@ public class PurchaseManageController {
 	        model.addAttribute("locales", locales);
 	        return "ses/oms/purchase_dep/add";
 	    }
+	    /*供应商注册联系人*/
+	    if(!ValidateUtils.isNotNull(purchaseDep.getSupplierContact())){
+	    	 model.addAttribute("purchaseDep", purchaseDep);
+	            model.addAttribute("ERR_supplierContact", "不能为空");
+	            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	            model.addAttribute("lists", purchaseOrgList);
+	            model.addAttribute("orgInfos", orgInfos);
+	            return "ses/oms/purchase_dep/add";
+	    }
+	    /*供应商注册联系人电话*/
+	    if(!ValidateUtils.isNotNull(purchaseDep.getSupplierPhone())){
+	    	 model.addAttribute("purchaseDep", purchaseDep);
+	            model.addAttribute("ERR_supplierPhone", "不能为空");
+	            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	            model.addAttribute("lists", purchaseOrgList);
+	            model.addAttribute("orgInfos", orgInfos);
+	            return "ses/oms/purchase_dep/add";
+	    }
+	    
+	    /*供应商注册联系地址*/
+	    if(!ValidateUtils.isNotNull(purchaseDep.getSupplierAddress())){
+	    	 model.addAttribute("purchaseDep", purchaseDep);
+	            model.addAttribute("ERR_supplierAddress", "不能为空");
+	            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	            model.addAttribute("lists", purchaseOrgList);
+	            model.addAttribute("orgInfos", orgInfos);
+	            return "ses/oms/purchase_dep/add";
+	    }
+	    
+	    /*供应商注册邮编*/
+	    if(!ValidateUtils.isNotNull(purchaseDep.getSupplierPostcode())){
+	    	 model.addAttribute("purchaseDep", purchaseDep);
+	            model.addAttribute("ERR_supplierPostcode", "不能为空");
+	            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	            model.addAttribute("lists", purchaseOrgList);
+	            model.addAttribute("orgInfos", orgInfos);
+	            return "ses/oms/purchase_dep/add";
+	    }
+	    
+	    
+	    /*专家注册联系人*/
+	    if(!ValidateUtils.isNotNull(purchaseDep.getExperContact())){
+	    	 model.addAttribute("purchaseDep", purchaseDep);
+	            model.addAttribute("ERR_experContact", "不能为空");
+	            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	            model.addAttribute("lists", purchaseOrgList);
+	            model.addAttribute("orgInfos", orgInfos);
+	            return "ses/oms/purchase_dep/add";
+	    }
+	    
+	    
+	    /*专家注册联系人电话*/
+	    if(!ValidateUtils.isNotNull(purchaseDep.getExperPhone())){
+	    	 model.addAttribute("purchaseDep", purchaseDep);
+	            model.addAttribute("ERR_experPhone", "不能为空");
+	            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	            model.addAttribute("lists", purchaseOrgList);
+	            model.addAttribute("orgInfos", orgInfos);
+	            return "ses/oms/purchase_dep/add";
+	    }
+	    
+	    /*专家注册联系人地址*/
+	    if(!ValidateUtils.isNotNull(purchaseDep.getExperAddress())){
+	    	 model.addAttribute("purchaseDep", purchaseDep);
+	            model.addAttribute("ERR_experAddress", "不能为空");
+	            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	            model.addAttribute("lists", purchaseOrgList);
+	            model.addAttribute("orgInfos", orgInfos);
+	            return "ses/oms/purchase_dep/add";
+	    }
+	    
+	    /*专家注册联系人邮编 */
+	    if(!ValidateUtils.isNotNull(purchaseDep.getExperPostcode())){
+	    	model.addAttribute("purchaseDep", purchaseDep);
+	    	model.addAttribute("ERR_experPostcode", "不能为空");
+	    	model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	    	model.addAttribute("lists", purchaseOrgList);
+	    	model.addAttribute("orgInfos", orgInfos);
+	    	return "ses/oms/purchase_dep/add";
+	    }
+	    
         if(!ValidateUtils.isNotNull(purchaseDep.getIsAuditSupplier())){
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("ERR_isAuditSupplier", "请选择");
