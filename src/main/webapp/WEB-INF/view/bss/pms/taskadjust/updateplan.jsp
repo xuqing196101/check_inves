@@ -111,7 +111,7 @@
 		       var price=$(obj).parent().prev().prev().prev().children(":first").val();
 		       if(price==""){
 		           var purchaseType = $(obj).find("option:selected").text(); //选中的文本
-		           if($.trim(purchaseType) == "单一来源" || $.trim(purchaseType) == "公开招标") {
+		           if($.trim(purchaseType) == "单一来源") {
 		               $(obj).parent().next().next().find("textarea").removeAttr("readonly");
 		           } else {
 		               $(obj).parent().next().next().find("textarea").val("");
@@ -124,15 +124,13 @@
 		            	   break;
 		               }
 		               $($(next[i]).children()[10]).children(":first").next().val($(obj).val());
-		               
+		               if($(obj).val() == "26E3925D38BB4295BEB342BDC82B65AC") {
+		                   $($(next[i]).children()[12]).find("textarea").removeAttr("readonly");
+		               } else {
+		                   $($(next[i]).children()[12]).find("textarea").val("");
+		                   $($(next[i]).children()[12]).find("textarea").attr("readonly", "readonly");
+		               }
 		           }
-		       }else{
-		    	   if($(obj).val() == "26E3925D38BB4295BEB342BDC82B65AC" ||$(obj).val() == "94973012E42F4B149E35FF298F8FEB6E" ) {
-		    		   $(obj).parent().next().next().find("textarea").removeAttr("readonly");
-                   } else {
-                	   $(obj).parent().next().next().find("textarea").val("");
-                       $(obj).parent().next().next().find("textarea").attr("readonly", "readonly");
-                   }
 		       }
 		}
 		    
@@ -441,10 +439,6 @@
 			//校验供应商名称
 	        function checkSupplierName(obj) {
 	            var name=$(obj).val();
-	            var type=$(obj).parent().prev().prev().children(":first").next().val();
-	            if(type != "26E3925D38BB4295BEB342BDC82B65AC"){
-	            	return false;
-	            }
 	            if(name!=null){
 	                $.ajax({
 	                    type: "POST",
@@ -605,15 +599,12 @@
 							<td>
 							<input   type="hidden" name="ss"   value="${obj.id }">
 							<c:forEach items="${types}" var="mt">
-							   <c:if test="${mt.name == '公开招标' }">
-                                 <textarea class="purchasename" onblur="checkSupplierName(this)"  name="listDetail[${vs.index }].supplier">${obj.supplier }</textarea>
-                               </c:if>
-                               <c:if test="${mt.name == '单一来源' }">
-                                 <textarea class="purchasename" onblur="checkSupplierName(this)"  name="listDetail[${vs.index }].supplier">${obj.supplier }</textarea>
-                               </c:if>
-							   <c:if test="${mt.name != '单一来源' && mt.name != '公开招标' }">
-							     <textarea class="purchasename" readonly="readonly" onblur="checkSupplierName(this)"  name="listDetail[${vs.index }].supplier">${obj.supplier }</textarea>
+							   <c:if test="${mt.name != '单一来源' }">
+							     <textarea class="purchasename" readonly="readonly"   name="listDetail[${vs.index }].supplier">${obj.supplier }</textarea>
 							   </c:if>
+							   <c:if test="${mt.name == '单一来源' }">
+                                 <textarea class="purchasename"   name="listDetail[${vs.index }].supplier">${obj.supplier }</textarea>
+                               </c:if>
 							</c:forEach>
 							<!-- <input type="hidden"  name="history" value=""> -->
 							</td>

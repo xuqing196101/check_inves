@@ -114,6 +114,11 @@ public class AuditSetController {
 	@RequestMapping(value="/list")
 	public String set(Model model,Integer page,String id,HttpServletRequest request,String staff) throws UnsupportedEncodingException{
 		CollectPlan plan = collectPlanService.queryById(id);
+		String backAttr="";
+		if (request.getParameter("backAttr") !=null) {//判断请求由列表来还是由审核人员调整来
+			backAttr=id;
+		}
+		model.addAttribute("backAttr", backAttr);
 		String type = "";
 		String auditRound="";
 		if(plan.getStatus()==1&&plan.getAuditTurn()!=null){
@@ -174,7 +179,7 @@ public class AuditSetController {
 	* @throws
 	 */
 	@RequestMapping("/update")
-	public String save(String val1, String val2,String collectId,String fname2,String fname,String type,String austa){
+	public String save(String val1, String val2,String collectId,String fname2,String fname,String type,String austa,HttpServletRequest request){
 //		String[] field1 = val1.trim().split(",");
 //		List<String> list=new LinkedList<String>();
 //		
@@ -250,6 +255,11 @@ public class AuditSetController {
 		
 		collectPlanService.update(collectPlan);
 		auditPersonService.updateAuditStaffByCollectId(collectId,austa);
+		String id = "";
+		if (request.getParameter("backAttr") !="") {
+			id=request.getParameter("backAttr");
+			return "redirect:/look/auditlook.html?id=" + id;
+		}
 		return "redirect:/look/list.html?";
 	}
 	

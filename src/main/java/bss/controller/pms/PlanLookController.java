@@ -168,7 +168,7 @@ public class PlanLookController extends BaseController {
 			collectPlan.setUserId(user.getId());
 		} 
 		
-		if (collectPlan.getStatus()==12) {
+		if (collectPlan.getStatus()!=null&&collectPlan.getStatus()==12) {
 			collectPlan.setStatus(null);
 			List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
 			PageInfo<CollectPlan> info = new PageInfo<>(list);
@@ -176,7 +176,7 @@ public class PlanLookController extends BaseController {
 			collectPlan.setStatus(12);
 			model.addAttribute("inf", collectPlan);
 		}else{
-			collectPlan.setStatus(null);
+			
 		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
 		PageInfo<CollectPlan> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
@@ -511,6 +511,56 @@ public class PlanLookController extends BaseController {
 		collectPlanService.update(collectPlan);
 		return "redirect:list.html";
 	}
+	
+	/**
+	 * 
+		 * @Title: 暂存审核数据
+		 * @author: Zhou Wei
+		 * @date: 2017年8月22日 下午4:13:37
+		 * @Description:暂存审核数据  
+		 * @return: String
+	 */
+	@RequestMapping("/submitForm")
+	@ResponseBody
+	public String submitForm(PurchaseRequiredFormBean list,CollectPlan collectPlan,@CurrentUser User user){
+		if(list!=null){
+			if(list.getListDetail()!=null&&list.getListDetail().size()>0){
+				for(PurchaseDetail p:list.getListDetail()){
+					if(p.getId()!=null){
+						purchaseDetailService.updateByPrimaryKeySelective(p);
+					}
+				}
+			}
+		}
+		List<AuditPerson> person = auditPersonService.queryByUserIdAndCid(user.getId(), collectPlan.getId());
+		if(person!=null&&person.size()>0){
+			AuditPerson auditPerson = person.get(0);
+			auditPerson.setCreateDate(new Date());
+			auditPersonService.updateByPrimaryKeySelective(auditPerson);
+		}
+
+		/*if(collectPlan.getStatus().equals(3)){
+			if(collectPlan.getAuditTurn()==1){
+				collectPlan.setStatus(12);
+			}else{
+				collectPlan.setStatus(4);
+			}
+		}
+		if(collectPlan.getStatus().equals(5)){
+			if(collectPlan.getAuditTurn()==2){
+				collectPlan.setStatus(12);
+			}else{
+				collectPlan.setStatus(6);
+			}
+		}
+		if(collectPlan.getStatus().equals(7)){
+			collectPlan.setStatus(12);
+		}*/
+		collectPlan.setOrderAt(new Date());
+		collectPlanService.update(collectPlan);
+		return "commit";
+	}
+	
 	
 	/**
 	 * 

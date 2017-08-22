@@ -178,7 +178,7 @@
           });
         }
       }
-
+      //审核人员设置
       function auditPersonSets() {
         var id = [];
         $('input[name="chkItem"]:checked').each(function() {
