@@ -334,10 +334,12 @@
                <tr>
                	 <th class="info"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
                  <th class="info">序号</th>
-                 <th class="info" >审批类型</th>
-                 <th class="info" >审批字段名字</th>
-                 <th class="info" >审批内容</th>
+                 <th class="info">审批类型</th>
+                 <th class="info">审批字段名字</th>
+                 <th class="info">审批内容</th>
                  <th class="info">不通过理由</th>
+                 <th class="info">审核时间</th>
+                 <th class="info">状态</th>
                </tr>
              </thead>
                <c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
@@ -372,6 +374,12 @@
                    <td class="tl pl20 hand" title="${reasons.suggest}">
                    	 <c:if test="${fn:length (reasons.suggest) > 20}">${fn:substring(reasons.suggest,0,20)}...</c:if>
               		   <c:if test="${fn:length(reasons.suggest) <= 20}">${reasons.suggest}</c:if>
+                   </td>
+                   <td class="tc">
+										<fmt:formatDate value="${reasons.createdAt}" pattern="yyyy-MM-dd HH:mm"/>
+                   </td>
+                   <td class="tc">
+										<c:if test="${reasons.isModified == 1}">已修改</c:if>
                    </td>
                  </tr>
                </c:forEach>

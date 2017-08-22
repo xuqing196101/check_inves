@@ -507,17 +507,15 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 退回修改后的附件
 		 */
-		if(supplierStatus == 0){
-			SupplierModify supplierFileModify= new SupplierModify();
+		if(supplierStatus != null && (supplierStatus == 0 || supplierStatus == 9)) {
+			SupplierModify supplierFileModify = new SupplierModify();
 			supplierFileModify.setSupplierId(supplierId);
 			supplierFileModify.setModifyType("file");
 			StringBuffer fileModifyField = new StringBuffer();
 			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 			for(SupplierModify m : fileModify){
-				if(m.getRelationId() != null){
-					if(m.getRelationId() !=null){
-						fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
-					}
+				if(m.getRelationId() != null && m.getBeforeField() != null){
+					fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
 				}
 			}
 			request.setAttribute("fileModifyField", fileModifyField);
@@ -1336,7 +1334,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierId = (String) request.getSession().getAttribute("supplierId");
 			supplierAudit.setSupplierId(supplierId);
 		}
-		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		//List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit);
 		request.setAttribute("reasonsList", reasonsList);
 		//有信息就不让通过
 		request.setAttribute("num", reasonsList.size());
@@ -1739,7 +1738,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 退回修改后的附件
 		 */
-		if(supplierStatus == 0){
+		if(supplierStatus != null && (supplierStatus == 0 || supplierStatus == 9)) {
 			SupplierModify supplierFileModify= new SupplierModify();
 			supplierFileModify.setSupplierId(supplierId);
 			supplierFileModify.setModifyType("file");
@@ -2381,6 +2380,19 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(StringUtils.isNotBlank(supplierId)){
 			List<String> supplierTypes=supplierTypeRelateService.findTypeBySupplierId(supplierId);
 			model.addAttribute("supplierTypes", StringUtils.join(supplierTypes,","));
+		}
+		if("0".equals(supplierStatus) || "9".equals(supplierStatus)) {
+			SupplierModify supplierFileModify = new SupplierModify();
+			supplierFileModify.setSupplierId(supplierId);
+			supplierFileModify.setModifyType("file");
+			StringBuffer fileModifyField = new StringBuffer();
+			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+			for(SupplierModify m : fileModify){
+				if(m.getRelationId() != null && m.getBeforeField() != null){
+					fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
+				}
+			}
+			request.setAttribute("fileModifyField", fileModifyField);
 		}
 		return "ses/sms/supplier_audit/merge_aptitude";
 	}
