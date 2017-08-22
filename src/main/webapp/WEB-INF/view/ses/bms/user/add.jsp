@@ -324,8 +324,8 @@
 				$("#oId").attr("type","hidden");
 				$("#select_org").show();
 				$("#tempOrg").hide();
-				/* $("#orgSel").hide();
-				$("#oId").attr("type","text"); */
+				$("#orgSel").hide();
+				$("#oId").attr("type","text"); 
 			} else if (  orgType == '5'||orgType == '4') {
 			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");
@@ -669,11 +669,11 @@
 				        <c:choose> 
 					        <c:when  test="${origin ne null}">
 					            <input id="oId" name="orgId" value="${orgId}" type="hidden" />
-					        	<input id="orgSel"  type="text" name="orgName"  value="${orgName}" onclick="showOrg();"  />
+					        	<input id="orgSel" readonly="readonly"  type="text" name="orgName"  value="${orgName}" onclick="showOrg();"  />
 					        </c:when >
 					        <c:otherwise>
 					        	<input id="oId" name="orgId" value="${user.orgId}" type="hidden" />
-					        	<input id="orgSel"  type="text" name="orgName"  value="${orgName}"  onclick="showOrg();" />
+					        	<input id="orgSel" readonly="readonly"  type="text" name="orgName"  value="${orgName}"  onclick="showOrg();" />
 					        </c:otherwise>
 					    </c:choose>
 					    <input type="hidden" id="orgParent" value=""/>
