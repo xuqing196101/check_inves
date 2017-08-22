@@ -170,7 +170,7 @@
 			var trObj = $(this).parent().parent();
 			var tdArr = trObj.children("td");
 		    var roleCode = tdArr.eq(4).text();
-		    if (roleCode == 'SUPPLIER_R' || roleCode == 'NEED_R' ||  roleCode == 'SUPERVISER_R' || roleCode == 'IMPORT_AGENT_R' || roleCode == 'EXPERT_TEMP_P' || roleCode == 'PURCHASE_ORG_R' || roleCode == 'MODERATOR_R' || roleCode == 'PURCHASE_R' || roleCode == 'IMPORT_SUPPLIER_R' || roleCode == 'ADMIN_R' || roleCode == 'EXPERT_R') {
+		    if (roleCode == 'SUPPLIER_R' || roleCode == 'NEED_R' ||  roleCode == 'SUPERVISER_R' || roleCode == 'IMPORT_AGENT_R' || roleCode == 'EXPERT_TEMP_P' || roleCode == 'PURCHASE_ORG_R' || roleCode == 'MODERATOR_R' || roleCode == 'PURCHASE_R' || roleCode == 'IMPORT_SUPPLIER_R' || roleCode == 'ADMIN_R' || roleCode == 'EXPERT_R'|| roleCode == 'EXPERT_REVIEW_R') {
 				count += 1;
 			} else {
 				ids.push($(this).val()); 

@@ -311,6 +311,37 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		img.setStatus(true);
 		img.setMessage("操作成功");
 		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg checkComplete(String batchId) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+		expertBatchDetails.setBatchId(batchId);
+		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		for (ExpertBatchDetails e : list) {
+			if("".equals(e.getGroupId())||e.getGroupId()==null){
+				img.setStatus(false);
+				img.setMessage("需将当前批次中所有专家全部分组才可以结束当前环节");
+				return img;
+			}
+		}
+		ExpertGroup expertGroup = new ExpertGroup();
+		expertGroup.setBatchId(batchId);
+		List<ExpertGroup> group = expertGroupMapper.getGroup(expertGroup);
+		for (ExpertGroup g : group) {
+			expertBatchDetails.setGroupId(g.getGroupId());
+			List<ExpertBatchDetails> details = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+			if(details.size()<=0){
+				img.setStatus(false);
+				img.setMessage("组内必须有专家");
+				return img;
+			}
+		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
 	} 
 	
 }

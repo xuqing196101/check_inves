@@ -95,6 +95,9 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		img.setObject(result);
 		super.writeJson(response, img);
 	}
+	/*
+	 * 专家复审分配列表
+	 * */
 	@RequestMapping("/findAgainAuditList")
 	public String findAgainAuditList(HttpServletRequest request,HttpServletResponse response,Model model){
 		return "/ses/ems/againAudit/allot_list";
@@ -306,5 +309,37 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	@RequestMapping("/auditBatch")
 	public String auditBatch(HttpServletRequest request,HttpServletResponse response,Model model){
 		return "/ses/ems/againAudit/audit_batch";
+	}
+	/*
+	 * 专家审核复审批次列表
+	 * */
+	@RequestMapping("/expertAuditBatch")
+	public String expertAuditBatch(HttpServletRequest request,HttpServletResponse response,Model model){
+		return "/ses/ems/againAudit/expert_auditBatch";
+	}
+	/*
+	 * 专家审核复审批次详情列表
+	 * */
+	@RequestMapping("/expertDetailsBatch")
+	public String expertDetailsBatch(HttpServletRequest request,HttpServletResponse response,Model model){
+		return "/ses/ems/againAudit/expert_detailsBatch";
+	}
+	@RequestMapping("/checkComplete")
+	public void checkComplete(HttpServletRequest request,HttpServletResponse response,String batchId){
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"4".equals(user.getTypeName())){
+		img.setStatus(false);
+		img.setMessage("您的权限不足");
+		super.writeJson(response, img);
+		return;
+		}*/
+		if(batchId==null){
+			img.setStatus(false);
+			img.setMessage("操作失败");
+			super.writeJson(response, img);
+			return;
+		}
+		img = againAuditService.checkComplete(batchId);
+		super.writeJson(response, img);
 	}
 }
