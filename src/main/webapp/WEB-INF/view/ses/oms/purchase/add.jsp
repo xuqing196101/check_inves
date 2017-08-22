@@ -11,7 +11,7 @@
 <script src="${pageContext.request.contextPath}/js/ses/bms/user/add.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/select-tree.js"></script>
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/common/RSA.js"></script>
 <script type="text/javascript">
 
 //验证登陆用户名
@@ -195,7 +195,9 @@ function onCheck(e, treeId, treeNode) {
 		
 		function save(){
 		  $("#formID").validForm();
-      $("#formID").submit();
+		  $("#password11").val(setPublicKey($("#password1").val()));
+	      $("#password22").val(setPublicKey($("#password2").val()));
+	      $("#formID").submit();
 		}
 		
 		function ajaxIdNumber(){
@@ -246,6 +248,7 @@ function onCheck(e, treeId, treeNode) {
 				}
     		})
     	})
+    	
 </script>
 </head>
 <body>
@@ -297,7 +300,8 @@ function onCheck(e, treeId, treeNode) {
 			<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>密码</span>
 			  <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				<input  name="password" value="${purchaseInfo.password}" maxlength="30" id="password1" type="password">
+				<input maxlength="30" id="password1" type="password">
+				<input type="hidden" name="password" id="password11"/>
 				<span class="add-on">i</span>
 				<div class="cue"><sf:errors path="password"/></div>
 				<div class="cue">${password2_msg}</div>
@@ -307,7 +311,8 @@ function onCheck(e, treeId, treeNode) {
 		    <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 col-lg-12"><span class="star_red">*</span>确认密码</span>
 			  <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				<input  id="password2" value="${purchaseInfo.password2}" maxlength="30" name="password2" type="password">
+				<input  id="password2" maxlength="30" type="password">
+				<input type="hidden" name="password2" id="password22"/>
 				<span class="add-on">i</span>
 				<div class="cue"><sf:errors path="password2"/></div>
 				<div class="cue">${password2_msg}</div>
