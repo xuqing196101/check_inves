@@ -321,7 +321,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		expertBatchDetails.setBatchId(batchId);
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
 		for (ExpertBatchDetails e : list) {
-			if("".equals(e.getGroupId())||e.getGroupId()==null){
+			if("".equals(e.getGroupName())||e.getGroupName()==null){
 				img.setStatus(false);
 				img.setMessage("需将当前批次中所有专家全部分组才可以结束当前环节");
 				return img;
