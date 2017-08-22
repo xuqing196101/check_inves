@@ -106,10 +106,11 @@
     var select_ids = [];
     
     $(function () {
-      console.log(getUrlParam('groupId'));
       $('#list_content').listConstructor({
         url: list_url,
-        groupId: getUrlParam('groupId')
+        data: {
+          groupId: getUrlParam('groupId')
+        }
       });
     });
   </script>

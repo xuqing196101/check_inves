@@ -14,7 +14,6 @@
         var groupStatus = ['（待配置）','（配置中）','（配置完成）'];
         var groupStatus_str = '';
         list_content = data.object;  // 储存所需数据到变量
-        console.log(list_content);
         $('#group_batch_box').html('');
         for (var i in list_content) {
           for (var ii in list_content[i].expertList) {
