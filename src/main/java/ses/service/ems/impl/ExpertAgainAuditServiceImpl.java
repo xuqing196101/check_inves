@@ -30,6 +30,7 @@ import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertGroup;
 import ses.model.ems.ExpertReviewTeam;
 import ses.service.ems.ExpertAgainAuditService;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 /**
@@ -400,7 +401,9 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		user.setUpdatedAt(new Date());
 		user.setIsDeleted(1);
 		user.setTypeId(expertReviewTeam.getId());
-		userMapper.insert(user);
+		String ipAddressType = PropUtil.getProperty("ipAddressType");
+		user.setNetType(Integer.valueOf(ipAddressType));
+		userMapper.saveUser(user);
 		ExpertGroup expertGroup = new ExpertGroup();
 		expertGroup.setGroupId(expertReviewTeam.getGroupId());
 		List<ExpertGroup> group = expertGroupMapper.getGroup(expertGroup);
@@ -415,8 +418,48 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		userMapper.saveUserRole(roleUser);
 		expertGroup.setStatus("2");
 		expertGroupMapper.updateStatus(expertGroup);
+		expertReviewTeamMapper.insert(expertReviewTeam);
 		img.setStatus(true);
 		img.setMessage("操作成功");
+		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg deleteExpertReviewTeam(String id) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		expertReviewTeamMapper.deleteByPrimaryKey(id);
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg setUpPassword(String id,String passWord) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		ExpertReviewTeam expertReviewTeam = expertReviewTeamMapper.getExpertReviewTeam(id);
+		User user = new User();
+		user.setId(expertReviewTeam.getUserId());
+		user.setPassword(passWord);
+		userMapper.updateByPrimaryKeySelective(user);
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg checkLoginName(String loginName) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		List<User> list = userMapper.queryByLoginName(loginName);
+		if(list!=null && list.size()>0){
+			img.setStatus(false);
+			img.setMessage("用户名已存在");
+			return img;
+		}
+		img.setStatus(true);
+		img.setMessage("用户名可用");
 		return img;
 	} 
 	

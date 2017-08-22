@@ -412,4 +412,53 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			return;
 		}
 	}
+	/*
+	 * 删除审核组成员
+	 * */
+	@RequestMapping("deleteExpertReviewTeam")
+	public void deleteExpertReviewTeam(HttpServletRequest request,HttpServletResponse response,String id){
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"4".equals(user.getTypeName())){
+		img.setStatus(false);
+		img.setMessage("您的权限不足");
+		super.writeJson(response, img);
+		return;
+		}*/
+		if(id == null){
+			img.setStatus(false);
+			img.setMessage("请选择要删除的成员");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.deleteExpertReviewTeam(id);
+		super.writeJson(response, img);
+	}
+	/*
+	 * 校验用户名唯一
+	 * */
+	@RequestMapping("checkLoginName")
+	public void checkLoginName(HttpServletRequest request,HttpServletResponse response,String loginName){
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"4".equals(user.getTypeName())){
+		img.setStatus(false);
+		img.setMessage("您的权限不足");
+		super.writeJson(response, img);
+		return;
+		}*/
+		if(loginName == null){
+			img.setStatus(false);
+			img.setMessage("用户名不能为空");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.checkLoginName(loginName);
+		super.writeJson(response, img);
+	}
+	/*
+	 * 设置密码
+	 * */
+	@RequestMapping("setUpPassword")
+	public void setUpPassword(HttpServletRequest request,HttpServletResponse response,String id,String password,String password2){
+		
+	}
 }
