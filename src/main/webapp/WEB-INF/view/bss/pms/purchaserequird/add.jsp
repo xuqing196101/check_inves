@@ -230,14 +230,12 @@
                     layer.alert("请添加需求明细！");
                     return;
                 }
-                for(var i=2;i<=indNum;i++){
-				if($.trim($("input[name='list["+i+"].goodsName']").val())==""){
-					layer.alert("需求明细中物资类别及物资名称不能为空");
-					return false;
-				}else if($.trim($("input[name='list["+i+"].stand']").val())==""){
-					layer.alert("需求明细中规格型号不能为空！");
-					return false;
-				}else if($.trim($("input[name='list["+i+"].qualitStand']").val())==""){
+                for(var i=2;i<$("#detailZeroRow tr").length;i++){
+                	if($.trim($("input[name='list["+i+"].price']").val())!=""){
+								if($.trim($("input[name='list["+i+"].goodsName']").val())==""){
+									layer.alert("需求明细中物资类别及物资名称不能为空");
+									return false;
+								}else if($.trim($("input[name='list["+i+"].qualitStand']").val())==""){
                     layer.alert("需求明细中质量技术标准不能为空");
                     return false;
                 }else if($.trim($("input[name='list["+i+"].item']").val())==""){
@@ -248,9 +246,6 @@
                     return false;
                 }else if($.trim($("input[name='list["+i+"].price']").val())==""){
                     layer.alert("需求明细中单价不能为空");
-                    return false;
-                }else if($.trim($("input[name='list["+i+"].deliverDate']").val())==""){
-                    layer.alert("需求明细中交货期限不能为空");
                     return false;
                 }
                 /* else if($.trim($("input[name='list["+i+"].purchaseType']").text())=="单一来源"){
@@ -263,9 +258,8 @@
                     layer.alert("需求明细中供应商名称不能为空");
                     return false;
                 } */ 
-                    
+                	} 
                 }
-				
                 var orgType="${orgType}";
                 var name = $("#jhmc").val();
                 var no = $("#jhbh").val();
