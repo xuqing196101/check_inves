@@ -1,23 +1,17 @@
 package ses.controller.sys.sms;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
@@ -29,12 +23,15 @@ import ses.service.sms.SupplierFinanceService;
 import ses.service.sms.SupplierService;
 import ses.util.PropUtil;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.model.UploadFile;
-import common.service.UploadService;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @Scope("prototype")
@@ -179,6 +176,7 @@ public class SupplierFinanceController extends BaseSupplierController {
         model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
         model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
         model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+        model.addAttribute("propertiesImg",PropUtil.getProperty("file.picture.type"));
         return "bss/supplier/finance/add";
     }
 	

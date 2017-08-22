@@ -20,7 +20,7 @@
         <input id="tablerId"  type="hidden" value="${tablerId}">
 			<c:choose>
 				<c:when test="${not empty showProject }">
-					<table class="table table-bordered">
+					<table class="table table-bordered m_table_fixed_border">
 						<thead>
 							<tr>
 								<th class="info tc w50">序号</th>

@@ -16,6 +16,8 @@
         $(function () {
             //审核按钮状态
             var num = ${num};
+            var notCategoryNum=${notCategoryNum};
+            var qualified=${qualified};
             if (num == 0) {
                 if('${status}' != -2 && '${status}' != -3){
                     //$("#tuihui").attr("disabled", true);
@@ -25,7 +27,19 @@
             }
             if (num != 0) {
                 //$("#tongguo").attr("disabled", true);
-                $("#qualified").prop("disabled", true);
+                if(notCategoryNum == 0){
+                	if(qualified){
+                		$("#qualified").attr("disabled", false);
+                	}else{
+                		$("#qualified").attr("disabled", true);
+                	}
+                }else{
+                	$("#qualified").attr("disabled", true);
+                }
+                
+            }
+            if($("#status").val() == '15' || $("#status").val() == '1' || $("#status").val() == '16' || $("#status").val() == '2'){
+            	$("#expdown").css("display","block");
             }
             check_opinion();
             
@@ -235,15 +249,105 @@
 				type: "post",
 				dataType: "json",
 				success: function(data) {
-					if(status == 1) {
-						$("#check_opinion").html("初审合格，选择了" + data.all + "个产品类别，通过了" + data.pass + "个产品类别。");
-					} else if(status == 2) {
-						$("#check_opinion").html("初审不合格，选择了" + data.all + "个产品类别，通过了" + data.pass + "个产品类别。");
+					if(status == 15) {
+						$("#check_opinion").html("预初审合格，选择了" + data.all + "个产品类别，通过了" + data.pass + "个产品类别。");
+					} else if(status == 16) {
+						$("#check_opinion").html("预初审不合格。");
 					}
 				}
 			});
 		}
 	}
+	
+	//预初审结束
+	function yuend(status) {
+		var status = $(":radio:checked").val();
+		var expertId = $("input[name='expertId']").val();
+		if(status == null) {
+			layer.msg("请选择意见", { offset: '100px' });
+			return true;
+		}
+		layer.confirm('您确认吗？', {
+					closeBtn: 0,
+					offset: '100px',
+					shift: 4,
+					btn: ['确认', '取消']
+				}, function(index) {
+					// 审核意见
+					var opinion = document.getElementById('opinion').value;
+		             opinion = trim(opinion);
+		             var flagTime;
+		             if(status == -2){
+		                 flagTime = 1;
+		             }
+		             var sign = $("input[name='sign']").val();
+		             var radio = $(":radio:checked").val();
+		             if(sign == 1){
+		                 flagTime = 0;
+		             }
+		             if (opinion != null && opinion != "") {
+		                 if (opinion.length <= 200) {
+		                	 $("#status").val(status);
+		                     $.ajax({
+		                         url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
+		                         data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime,"flagAudit":radio},
+		                         type: "POST",
+		                         success: function () {
+		                             layer.close(index);
+		                             $.ajax({
+		                                 url: "${pageContext.request.contextPath}/expertAudit/updateStatusOfPublictity.do",
+		                                 data: $("#form_shenhe").serialize(),
+		                                 success: function (data) {
+		                                 	if(data.status == 200){
+			   		                             $("#expdown").css("display","block");
+			   		                             $("#tuihui").css("display", "none");
+			   		                             $("#yund").css("display", "none");
+			   		                             $("#tempSave").css("display", "inline-block");
+			   		                             $("#nextStep").css("display", "inline-block");
+		                                         // 加载审核导航栏-上传批准审核表
+		                                         $("#reverse_of_five_i").show();
+		                                         $("#reverse_of_six").show();
+		                                         layer.close(index);
+		                                 	}
+		                                 }
+		                            });
+		                         }
+		                     });
+		                 } else {
+		                     layer.msg("不能超过200字", {offset: '100px'});
+		                     return true;
+		                 }
+		             } else {
+		                 layer.msg("请填写最终意见", {offset: '100px'});
+		                 return true;
+		             }
+			});
+	}
+	
+	//预初审下一步
+	function yuNext(){
+		// 判断附件是否下载
+        var downloadAttachFile = $("#isDownLoadAttch").val();
+        if(downloadAttachFile == null || typeof(downloadAttachFile) == "undefined" || downloadAttachFile == ''){
+            layer.msg("请下载审批表！");
+            return;
+        }
+		$("#form_id").attr("action", globalPath + "/expertAudit/uploadApproveFile.html");
+        $("#form_id").submit();
+	}
+	
+	//保存下载次数记录
+	function downloadCount(){
+		var expertId = $("input[name='expertId']").val();
+		$.ajax({
+            url: "${pageContext.request.contextPath}/expertAudit/downloadCount.do",
+            data: {"expertId": expertId},
+            type: "POST",
+            success: function () {
+            	return;
+            }
+        });
+    }
 </script>
 </head>
 
@@ -332,8 +436,8 @@
               <ul class="ul_list">
                  <li>
                    <div class="select_check">
-                      <input type="radio"  id="qualified" <c:if test="${status eq '4'}">checked</c:if> name="selectShenhe" value="4" onclick = "check_opinion()">初审合格
-                      <input type="radio"  <c:if test="${status eq '2'}">checked</c:if> name="selectShenhe" value="2" onclick = "check_opinion()">初审不合格
+                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()">预初审合格
+                      <input type="radio"  <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()">预初审不合格
                     </div>
                   </li>
                   <li>
@@ -343,6 +447,20 @@
                      <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
                   </li>
                 </ul>
+                <div class="clear"></div>
+              <div id = "expdown" class = "display-none">
+              <h2 class="count_flow mt0"><i>3</i>专家审批表</h2>
+              <ul class="ul_list">
+                 <li>
+                   <div class="">
+                      <a class="btn btn-windows input" onclick='downloadTable(1)' href="javascript:void(0)">下载初审表</a>
+                    </div>
+                    <input name="isDownLoadAttch" id="isDownLoadAttch" value="${auditOpinion.isDownLoadAttch}" type="hidden">
+                    <input name="isDownLoadAttch" id="auditOpinionId" value="${auditOpinion.id}" type="hidden">
+                  </li>
+                </ul>
+                </div>
+                </div>
               </div>
             </c:if>
             <c:if test="${ sign == 2 }">
@@ -416,8 +534,17 @@
                     <c:if test="${status eq '0' or status eq '9'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
                         <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->
-                        <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui">
+                        <!-- <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
+                    	<input class="btn btn-windows end" type="button" onclick="yuend(15);" value="预初审结束" id="yund">
+						          <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
+						          <a id="nextStep" class="btn display-none" type="button" onclick="yuNext();">下一步</a>
+                    </c:if>
+                    <c:if test = "${status == '15' || status == '16'}" >
+                    	<a id="nextStep" class="btn" type="button" onclick="yuNext();">下一步</a>
+                    </c:if>
+                    <c:if test = "${status == '1' || status == '2' && sign eq '1'}" >
+                    	<a id="nextStep" class="btn" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
                     <c:if test="${status eq '4' && sign eq '2'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(4);" value="复审合格 " id="tongguo">

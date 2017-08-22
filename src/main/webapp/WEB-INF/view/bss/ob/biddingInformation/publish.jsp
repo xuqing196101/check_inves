@@ -163,7 +163,7 @@
 				productList=data;//延迟加载 数据
         	 <c:forEach items='${list.obProductInfo}' var = 'values' >  
         	 addTr('${values.productId}','${values.obProduct.name}','${values.limitedPrice}','${values.purchaseCount}','${values.remark}');
-		    $("#productName_"+number).combobox('select','${values.productId}'); 
+		    $("#productName_"+number).combobox('select','${values.productId}');
         	 </c:forEach>
 			}
 			}
@@ -474,7 +474,7 @@
 	     }
 	     //提交
 	     function submitProject(status){
-	    var authType='${authType}'; 
+	    var authType='${authType}';
 	    if(authType!='0'){
 	    layer.msg("只有需求部门才能操作");
 	    return;
@@ -604,9 +604,24 @@
 		   $("#contentErr").html("竞价内容不能为空");
 		   show("竞价内容不能为空");
 		   return;
-		  }  
-		  
-		  
+		  }
+
+		  var flag = true;
+       // 遍历所有表格
+       $("#table2 tr").each(function(i){
+           if(i > 0){
+               var limit_price = $($(this).find("td").eq(2)).children(":first").val();
+               if(limit_price == 0){
+                   layer.alert("第" + i + "行限价不能为0");
+                   flag = false;
+                   return;
+               }
+           }
+       });
+       if(!flag){
+           return;
+       }
+
 	if ($('[name="productName"]').length == 0) {
 			$("#buttonErr").html("竞价产品不能为空");
 			show("竞价产品不能为空");

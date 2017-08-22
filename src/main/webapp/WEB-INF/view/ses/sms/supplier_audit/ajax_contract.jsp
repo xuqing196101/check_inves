@@ -75,7 +75,7 @@
 			<input type="hidden" name="pageNum" id="pageNum">
 			<input type="hidden" name="supplierId" id="supplierId" value="${supplierId}">
 			<input type="hidden" name="supplierTypeId" id="supplierTypeId" value="${supplierTypeId}">
-			<table class="table table-bordered">
+			<table class="table table-bordered m_table_fixed_border">
 				<tr>
 					<td class="tc info" rowspan="2">产品名称或小类</td>
 					<td colspan="3" class="tc info">销售合同(体现甲乙双方盖章及标的相关页)</td>

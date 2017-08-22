@@ -236,6 +236,12 @@
 			  <c:if test="${obj.status=='7' }">
 					   第三轮审核
 			  </c:if>
+			  <c:if test="${obj.status=='8' }">
+                                         审核结束
+              </c:if>
+              <c:if test="${obj.status=='12' }">
+                                         直接下达
+              </c:if>
 			  
 			  
 			  </td>

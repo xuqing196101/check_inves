@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import bss.model.cs.PurchaseContract;
-
 /**
  * 版权：(C) 版权所有
  * <简述>
@@ -67,8 +65,18 @@ public class AfterSaleSer implements Serializable{
     
     /**供应商ID**/
     private String supplierId;
-    
-    public String getSupplierId() {
+    /** 图片id */
+    private String afterSaleSerId;
+
+	public String getAfterSaleSerId() {
+		return afterSaleSerId;
+	}
+
+	public void setAfterSaleSerId(String afterSaleSerId) {
+		this.afterSaleSerId = afterSaleSerId;
+	}
+
+	public String getSupplierId() {
 		return supplierId;
 	}
 

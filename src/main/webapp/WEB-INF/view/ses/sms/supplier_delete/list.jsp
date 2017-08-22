@@ -248,7 +248,7 @@
 		</div>
 		<div class="container">
 			<!-- 搜索 -->
-			<h2 class="search_detail">
+			<div class="search_detail">
 	      <form action="${pageContext.request.contextPath}/suppliertDelete/logoutList.html"  method="post" id="form1" class="mb0"> 
 	      <input type="hidden" name="page" id="page">
 	      <ul class="demand_list">
@@ -264,13 +264,19 @@
 			      <label class="fl">手机号：</label> 
 			      <input class="" name="mobile" type="text" value="${supplier.mobile }">
 		      </li>
+		      <li class="fl">
+			      <label class="fl">社会统一代码：</label> 
+			      <input class="" name="creditCode" type="text" value="${supplier.creditCode }">
+		      </li>
 	      </ul>
-	        
-	        <input type="submit" class="btn fl" value="查询" />
-				  <button onclick="resetForm();" class="btn fl" type="button">重置</button>
-				  <div class="clear"></div>
+	       
+				<div class="col-md-12 clear tc mt10">
+					<input type="submit" class="btn" value="查询" />
+					<button onclick="resetForm();" class="btn" type="button">重置</button> 
+				</div>
+				<div class="clear"></div>
 	      </form>
-    	</h2>
+    	</div>
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows check" type="button" onclick="cancellation();">注销</button>
@@ -287,6 +293,7 @@
 							<th class="info">用户名</th>
 							<th class="info">联系人</th>
 							<th class="info">手机号</th>
+							<th class="info">社会统一代码</th>
 							<th class="info">注册日期</th>
 							<th class="info">账号状态</th>
 							<th class="info w100">状态</th>
@@ -298,8 +305,9 @@
 							<td class="tc w50">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tl pl20">${list.supplierName }</td>
 							<td class="">${list.loginName }</td>
-								<td class="">${list.contactName }</td>
+							<td class="">${list.contactName }</td>
 							<td class="tc">${list.mobile }</td>
+							<td class="tc">${list.creditCode }</td>
 							<td class="tc"><fmt:formatDate value='${list.createdAt}' pattern='yyyy-MM-dd'/></td>
 							<td class="tc" id="${list.id}">
 							  	<c:if test="${list.errorNum >= 5}">

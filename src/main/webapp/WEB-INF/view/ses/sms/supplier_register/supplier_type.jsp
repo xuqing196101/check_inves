@@ -1948,7 +1948,7 @@
 												<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 													<select name="supplierMatEng.isHavingConAchi"
 														id="isHavingConAchi" onchange="disConAchi()"
-														<c:if test="${fn:contains(engPageField,'isHavingConAchi')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg(this,'isHavingConAchi')"</c:if>>
+														<c:if test="${fn:contains(engPageField,'isHavingConAchi')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'isHavingConAchi')"</c:if>>
 														<option value="0"
 															<c:if test="${currSupplier.supplierMatEng.isHavingConAchi == '0'}">selected</c:if>>无</option>
 														<option value="1"
@@ -1977,7 +1977,7 @@
 														承包合同主要页及保密协议：
 													</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0"
-														<c:if test="${fn:contains(engPageField,'supplierConAch')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg(this,'supplierConAch')"</c:if>>
+														<c:if test="${fn:contains(engPageField,'supplierConAch')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierConAch')"</c:if>>
 														<c:if test="${(fn:contains(engPageField,'supplierConAch')&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}">
 														  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 																  businessId="${currSupplier.id}" sysKey="${sysKey}"
@@ -2411,9 +2411,8 @@
 																	<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(engPageField,aptitute.id)}">
 																		<u:show showId="eng_show_${certAptNumber}" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
 																	</c:if>
-																</div></td>
-																
-																
+																</div>
+															</td>
 														</tr>
 														<c:set var="certAptNumber" value="${certAptNumber + 1}" />
 													</c:forEach>
@@ -2623,7 +2622,7 @@
 		if(currSupplierSt == '2'){
 			$("input[type='text'],select,textarea").attr('disabled',true);
 			$("input[type='text'],select,textarea").each(function(){
-				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
+				// 或者$(this).attr("style").indexOf("border: 1px solid red;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
 				if($(this).css("border-top-color") == 'rgb(255, 0, 0)' 
 					|| $(this).css("border-bottom-color") == 'rgb(255, 0, 0)' 

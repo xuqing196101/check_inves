@@ -87,5 +87,13 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 		}
 		return JdcgResult.ok();
 	}
+	
+	/**
+	 * 修改
+	 */
+	@Override
+	public void updateIsDownload(String expertId){
+		mapper.updateIsDownload(expertId);
+	}
 
 }

@@ -1,11 +1,11 @@
 package ses.dao.sms;
 
+import bss.model.cs.ContractRequired;
+import org.apache.ibatis.annotations.Param;
+import ses.model.sms.AfterSaleSer;
+
 import java.util.HashMap;
 import java.util.List;
-
-import bss.model.cs.ContractRequired;
-import ses.model.sms.AfterSaleSer;
-import ses.model.sms.SupplierStars;
 
 
 public interface AfterSaleSerMapper {
@@ -85,7 +85,13 @@ public interface AfterSaleSerMapper {
     List<AfterSaleSer> queryByList();
     
     public List< AfterSaleSer > findAfterSaleSerByrequiredId(String requiredId);
-    
+
+    /**
+     * 根据供应商id查询数据
+     * @param supplierId
+     * @return
+     */
+    List<AfterSaleSer> queryBySupplierIdList(@Param("supplierId") String supplierId,@Param("goodsName") String goodsName,@Param("code") String code,@Param("name") String name);
     int updateAfterSaleSer(AfterSaleSer AfterSaleSer);
     
     /**

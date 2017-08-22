@@ -2912,11 +2912,13 @@ public class ExpertController extends BaseController {
         supplier.setProcurementDepId(purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId()).getShortName());
 
         // 地址
-        Area area = areaServiceI.listById(supplier.getAddress());
-        if(area != null) {
-            String province = areaServiceI.listById(area.getParentId()).getName();
-            String city = area.getName();
-            supplier.setAddress(province + city + supplier.getDetailAddress());
+        if(supplier.getAddress() != null){
+        	Area area = areaServiceI.listById(supplier.getAddress());
+            if(area != null) {
+                String province = areaServiceI.listById(area.getParentId()).getName();
+                String city = area.getName();
+                supplier.setAddress(province + city + supplier.getDetailAddress());
+            }
         }
 
         // 企业性质
@@ -2964,6 +2966,9 @@ public class ExpertController extends BaseController {
         // 生产经营地址
         List < SupplierAddress > addressList = supplier.getAddressList();
         for(SupplierAddress address: addressList) {
+            if(StringUtils.isBlank(address.getAddress())){
+                continue;
+            }
             Area addr = areaServiceI.listById(address.getAddress());
             if(addr != null) {
                 String province = areaServiceI.listById(addr.getParentId()).getName();
@@ -2978,7 +2983,10 @@ public class ExpertController extends BaseController {
             for(SupplierBranch branch: branchList) {
                 // 国家(地区)
                 if(branch.getCountry() != null) {
-                    branch.setCountry(DictionaryDataUtil.findById(branch.getCountry()).getName());
+                	DictionaryData dd = DictionaryDataUtil.findById(branch.getCountry());
+                	if(dd != null){
+                		branch.setCountry(dd.getName());
+                	}
                 }
             }
         }else{// 如果没有境外分支清除列表
@@ -3002,6 +3010,8 @@ public class ExpertController extends BaseController {
             //		    List < SupplierCertServe > listSupplierCertSes = new ArrayList < SupplierCertServe > ();
             if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null&&supplier.getSupplierTypeIds().contains("SERVICE")) {
                 List < SupplierCertServe >    listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
+               if(listSupplierCertSes!=null && !listSupplierCertSes.isEmpty()){
+
                 for(SupplierCertServe server: listSupplierCertSes) {
                 	if(server.getCode() != null){
                 		SupplierCertPro pro = new SupplierCertPro();
@@ -3015,10 +3025,12 @@ public class ExpertController extends BaseController {
                         listSupplierCertPros.add(pro);
                 	}
                 }
+               }
             }
             //		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
             if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null&&supplier.getSupplierTypeIds().contains("SALES")) {
                 List < SupplierCertSell >    listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
+                if(listSupplierCertSells !=null && !listSupplierCertSells.isEmpty()){
                 for(SupplierCertSell sell: listSupplierCertSells) {
                 	if(sell.getCode() != null){
                 		SupplierCertPro pro = new SupplierCertPro();
@@ -3032,7 +3044,7 @@ public class ExpertController extends BaseController {
                         listSupplierCertPros.add(pro);
                 	}
                 }
-               
+                }
             }
             supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
 
@@ -3040,28 +3052,30 @@ public class ExpertController extends BaseController {
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
         //List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplier.getId(), null, null);
         List < SupplierItem > itemsList = supplierItemService.getItemList(supplier.getId(), null, (byte)0, null);
-        for(SupplierItem supplierItem: itemsList) {
-            if(supplier.getSupplierTypeIds().contains(supplierItem.getSupplierTypeRelateId())){
-                SupplierCateTree cateTree = getTreeListByCategoryId(supplierItem);
-                if(cateTree != null && cateTree.getRootNode() != null) {
-                	//System.out.println(cateTree.getRootNode()+"============");
-                	switch (cateTree.getRootNode()) {
-					case "物资生产":
-						cateTree.setRootNodeType(1);
-						break;
-					case "物资销售":
-						cateTree.setRootNodeType(2);
-						break;
-					case "工程":
-						cateTree.setRootNodeType(3);
-						break;
-					case "服务":
-						cateTree.setRootNodeType(4);
-						break;
-					default:
-						break;
-					}
-                    allTreeList.add(cateTree);
+        if(itemsList !=null && !itemsList.isEmpty()) {
+            for (SupplierItem supplierItem : itemsList) {
+                if (supplier.getSupplierTypeIds().contains(supplierItem.getSupplierTypeRelateId())) {
+                    SupplierCateTree cateTree = getTreeListByCategoryId(supplierItem);
+                    if (cateTree != null && cateTree.getRootNode() != null) {
+                        //System.out.println(cateTree.getRootNode()+"============");
+                        switch (cateTree.getRootNode()) {
+                            case "物资生产":
+                                cateTree.setRootNodeType(1);
+                                break;
+                            case "物资销售":
+                                cateTree.setRootNodeType(2);
+                                break;
+                            case "工程":
+                                cateTree.setRootNodeType(3);
+                                break;
+                            case "服务":
+                                cateTree.setRootNodeType(4);
+                                break;
+                            default:
+                                break;
+                        }
+                        allTreeList.add(cateTree);
+                    }
                 }
             }
         }
@@ -3072,6 +3086,8 @@ public class ExpertController extends BaseController {
         // 工程类证书
         if (supplier.getIsEng() != null) {
             List<SupplierAptitute> listSupplierAptitutes = supplier.getSupplierMatEng().getListSupplierAptitutes();
+            if(listSupplierAptitutes !=null && !listSupplierAptitutes.isEmpty()){
+
             for (SupplierAptitute apt : listSupplierAptitutes) {
                 Qualification certType = qualificationService.getQualification(apt.getCertType());
                 if (certType != null) {
@@ -3081,6 +3097,8 @@ public class ExpertController extends BaseController {
                 if (aptituteLevel != null) {
                     apt.setAptituteLevel(aptituteLevel.getName());
                 }
+            }
+
             }
         }
         supplier.setAllTreeList(allTreeList);

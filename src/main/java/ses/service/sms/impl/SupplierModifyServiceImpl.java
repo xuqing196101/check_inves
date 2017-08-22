@@ -125,6 +125,8 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		SupplierHistory supplierHistory =new SupplierHistory();
 		String supplierId = supplierModify.getSupplierId();
 		
+		 Supplier supplier = supplierService.get(supplierId);// 供应商信息
+		
 		/**
 		 * 供应商类型
 		 */
@@ -138,7 +140,6 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 			for(SupplierHistory h : historyList){
 				if(!findBySupplier.contains(h.getBeforeField())){
 					supplierModify.setBeforeField(h.getBeforeField());
-					supplierModify.setModifyType("supplier_type");
 					supplierModify.setModifyType("supplier_type");
 					supplierModify.setListType(12);
 					supplierModifyMapper.insertSelective(supplierModify);
@@ -197,7 +198,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		supplierHistory.setListType(1);
 		List<SupplierHistory> addressList = supplierHistoryMapper.findListBySupplierId(supplierHistory);
 
-		List<SupplierAddress> supplierAddress = supplierService.get(supplierId).getAddressList();
+		List<SupplierAddress> supplierAddress = supplier.getAddressList();
 		supplierModify.setSupplierId(supplierId);
 		supplierModify.setListType(1);
 		supplierModify.setModifyType("basic_page");
@@ -255,7 +256,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		supplierHistory.setListType(2);
 		List<SupplierHistory> list = supplierHistoryMapper.findListBySupplierId(supplierHistory);
 
-		List<SupplierBranch> branchList = supplierService.get(supplierId).getBranchList();
+		List<SupplierBranch> branchList = supplier.getBranchList();
 		supplierModify.setSupplierId(supplierId);
 		supplierModify.setListType(2);
 		supplierModify.setModifyType("basic_page");
@@ -306,7 +307,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		supplierHistory.setListType(3);
 		List<SupplierHistory> financesList = supplierHistoryMapper.findListBySupplierId(supplierHistory);
 
-		List < SupplierFinance > supplierFinance = supplierService.get(supplierId).getListSupplierFinances();
+		List < SupplierFinance > supplierFinance = supplier.getListSupplierFinances();
 		supplierModify.setSupplierId(supplierId);
 		supplierModify.setListType(3);
 		supplierModify.setModifyType("finance_page");
@@ -378,7 +379,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		supplierHistory.setListType(4);
 		List<SupplierHistory> shareholderList = supplierHistoryMapper.findListBySupplierId(supplierHistory);
 		
-		List<SupplierStockholder> listSupplierStockholders = supplierService.get(supplierId).getListSupplierStockholders();
+		List<SupplierStockholder> listSupplierStockholders = supplier.getListSupplierStockholders();
 		supplierModify.setSupplierId(supplierId);
 		supplierModify.setListType(4);
 		supplierModify.setModifyType("shareholder_page");
@@ -440,8 +441,8 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		supplierHistory.setListType(null);
 		List<SupplierHistory> matProList = supplierHistoryMapper.findListBySupplierId(supplierHistory);
 		
-		if(supplierService.get(supplierId).getSupplierTypeIds().contains("PRODUCT")){
-			SupplierMatPro supplierMatPro = supplierService.get(supplierId).getSupplierMatPro();
+		if(supplier.getSupplierTypeIds().contains("PRODUCT")){
+			SupplierMatPro supplierMatPro = supplier.getSupplierMatPro();
 			supplierModify.setSupplierId(supplierId);
 			supplierModify.setModifyType("mat_pro_page");
 			supplierModify.setListType(5);
@@ -511,12 +512,12 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		supplierHistory.setListType(5);
 		List<SupplierHistory> certProList = supplierHistoryMapper.findListBySupplierId(supplierHistory);
 		
-		if(supplierService.get(supplierId).getSupplierTypeIds().contains("PRODUCT")){
+		if(supplier.getSupplierTypeIds().contains("PRODUCT")){
 			supplierModify.setListType(5);
-			SupplierMatPro matPro = supplierService.get(supplierId).getSupplierMatPro();
+			SupplierMatPro matPro = supplier.getSupplierMatPro();
 			if(matPro != null ){
 				List<SupplierCertPro> listSupplierCertPros = matPro.getListSupplierCertPros();
-				/*List<SupplierCertPro> listSupplierCertPros = supplierService.get(supplierId).getSupplierMatPro().getListSupplierCertPros();*/
+				/*List<SupplierCertPro> listSupplierCertPros = supplier.getSupplierMatPro().getListSupplierCertPros();*/
 				for(SupplierHistory h : certProList){
 					for(SupplierCertPro certPro : listSupplierCertPros){
 						if(h.getRelationId().equals(certPro.getId())){
@@ -588,10 +589,9 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		supplierHistory.setModifyType("mat_sell_page");
 		List<SupplierHistory> sellList = supplierHistoryMapper.findListBySupplierId(supplierHistory);
 		
-		if(supplierService.get(supplierId).getSupplierTypeIds().contains("SALES")){
+		if(supplier.getSupplierTypeIds().contains("SALES")){
 			supplierModify.setListType(6);
 			supplierModify.setModifyType("mat_sell_page");
-			Supplier supplier = supplierService.get(supplierId);
 			SupplierMatSell supplierMatSell = supplier.getSupplierMatSell();
 			if( supplierMatSell != null){
 				List<SupplierCertSell> listSupplierCertSells = supplierMatSell.getListSupplierCertSells();
@@ -664,7 +664,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		List<SupplierHistory> secrecyList = supplierHistoryMapper.findListBySupplierId(supplierHistory);
 		
 		supplierModify.setModifyType("mat_eng_page");
-		SupplierMatEng supplierMatEng = supplierService.get(supplierId).getSupplierMatEng();
+		SupplierMatEng supplierMatEng = supplier.getSupplierMatEng();
 		if(supplierMatEng != null){
 			for(SupplierHistory h : secrecyList){
 				if(h.getBeforeField() != null && h.getBeforeContent() !=null){
@@ -700,7 +700,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		
 		if(supplierMatEng != null){
 			List<SupplierRegPerson> listSupplierRegPersons = supplierMatEng.getListSupplierRegPersons();
-			/*List<SupplierRegPerson> listSupplierRegPersons = supplierService.get(supplierId).getSupplierMatEng().getListSupplierRegPersons();*/
+			/*List<SupplierRegPerson> listSupplierRegPersons = supplier.getSupplierMatEng().getListSupplierRegPersons();*/
 			
 			for(SupplierHistory h : engList){
 				for(SupplierRegPerson regPerson : listSupplierRegPersons){
@@ -738,11 +738,11 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		
 		supplierModify.setListType(8);
 		supplierModify.setModifyType("mat_eng_page");
-		if(supplierService.get(supplierId).getSupplierTypeIds().contains("PROJECT")){
-			SupplierMatEng matEng = supplierService.get(supplierId).getSupplierMatEng();
+		if(supplier.getSupplierTypeIds().contains("PROJECT")){
+			SupplierMatEng matEng = supplier.getSupplierMatEng();
 			if(matEng != null){
 				List<SupplierCertEng> listSupplierCertEngs = matEng.getListSupplierCertEngs();
-				/*List<SupplierCertEng> listSupplierCertEngs = supplierService.get(supplierId).getSupplierMatEng().getListSupplierCertEngs();*/
+				/*List<SupplierCertEng> listSupplierCertEngs = supplier.getSupplierMatEng().getListSupplierCertEngs();*/
 				
 				for(SupplierHistory h : certEngList){
 					for(SupplierCertEng certEng : listSupplierCertEngs){
@@ -819,8 +819,8 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		supplierModify.setListType(9);
 		supplierModify.setModifyType("mat_eng_page");
 		
-		if(supplierService.get(supplierId).getSupplierTypeIds().contains("PROJECT")){
-			List<SupplierAptitute> listSupplierAptitutes = supplierService.get(supplierId).getSupplierMatEng().getListSupplierAptitutes();
+		if(supplier.getSupplierTypeIds().contains("PROJECT")){
+			List<SupplierAptitute> listSupplierAptitutes = supplier.getSupplierMatEng().getListSupplierAptitutes();
 			for(SupplierHistory h : aptitutesList){
 				for(SupplierAptitute aptitute : listSupplierAptitutes){
 					if(h.getRelationId().equals(aptitute.getId())){
@@ -890,8 +890,8 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		supplierModify.setListType(10);
 		supplierModify.setModifyType("mat_serve_page");
 		
-		if(supplierService.get(supplierId).getSupplierTypeIds().contains("SERVICE")){
-			List<SupplierCertServe> listSupplierCertSes = supplierService.get(supplierId).getSupplierMatSe().getListSupplierCertSes();
+		if(supplier.getSupplierTypeIds().contains("SERVICE")){
+			List<SupplierCertServe> listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
 			
 			for(SupplierHistory h : serveList){
 				for(SupplierCertServe certServe : listSupplierCertSes){
@@ -960,7 +960,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		supplierHistory.setListType(11);
 		List<SupplierHistory> afterSaleDepList = supplierHistoryMapper.findListBySupplierId(supplierHistory);
 		
-		List<SupplierAfterSaleDep> listSupplierAfterSaleDep = supplierService.get(supplierId).getListSupplierAfterSaleDep();
+		List<SupplierAfterSaleDep> listSupplierAfterSaleDep = supplier.getListSupplierAfterSaleDep();
 		supplierModify.setSupplierId(supplierId);
 		supplierModify.setListType(11);
 		supplierModify.setModifyType("basic_page");

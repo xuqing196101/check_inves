@@ -56,6 +56,21 @@
       }
       
       function save(){
+    	var isSave = $("#contractCodeErr").text();
+    	if(isSave == "合同编号不存在"){
+    		layer.msg("合同编号不存在");
+    		return false;
+    	}
+    	
+    	var d2 =new Date(Date.parse($("[name='pqdate']").val()));
+    	var d3 =d2.getFullYear()+"-"+(d2.getMonth()+1)+"-"+d2.getDate();
+        var d = new Date();
+        var str = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+    	 if(d3 > str){
+    		 layer.msg("质检日期不可大于今天");
+    		 return false;
+         }
+    	 
         $("#form1").validForm();
         $("#form1").submit();
       }
@@ -178,7 +193,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>质检日期:</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input class="Wdate" name="pqdate" required type="text" value="<fmt:formatDate value='${pqinfo.pqdate}' pattern='yyyy-MM-dd'/>" onfocus="WdatePicker({isShowWeek:true})">
+                <input class="Wdate" name="pqdate" required type="text"  value="<fmt:formatDate value='${pqinfo.pqdate}' pattern='yyyy-MM-dd'/>" onfocus="WdatePicker({isShowWeek:true,maxDate:'%y-%M-%d'})">
                 <div class="cue">${ERR_pqdate}</div>
               </div>
             </li>

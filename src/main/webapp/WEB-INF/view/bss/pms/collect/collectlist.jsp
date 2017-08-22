@@ -470,6 +470,7 @@
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
+		    <c:if test="${obj.status==3 || obj.status==5 }">
 			<tr class="pointer">
 			  <td class="tc w30">
 			  <input type="hidden" value="${obj.planType }"> 
@@ -477,9 +478,9 @@
 		<%-- 	 <c:if test="${obj.status==3 }"> --%>
               <input type="checkbox" value="${obj.uniqueId }" name="chkItem" onclick="check()"  alt="">
              <%--  </c:if> --%>
-               <c:if test="${obj.status!=3 }">
+               <%-- <c:if test="${obj.status!=3 }"> --%>
              <%--  <input type="checkbox" disabled="disabled"  value="${obj.uniqueId }" name="chkItem" onclick="check()"  alt=""> --%>
-              </c:if>
+             <%--  </c:if> --%>
 			   <input type="hidden"  value="${obj.department }">
 			  </td>
 			  <td class="tc"  onclick="view('${obj.uniqueId}')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
@@ -518,7 +519,7 @@
 			  
 			  </td>
 			</tr>
-	 
+	        </c:if>
 		 </c:forEach>
 		 
 

@@ -506,6 +506,14 @@
         $(".unitNames").empty();
         $("#auditNatureErr").empty();
       }
+      
+       function checkLen(){    
+    	    if($("#audit_nature").val().length>=20){   //长度可自定义
+    	        layer.msg("审核人员性质长度过长")
+    	    }else{
+    	        //未超出……
+    	    }
+    	}; 
     </script>
   </head>
 
@@ -541,7 +549,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>审核人员性质</span>
               <div class="input-append input_group col-sm-12 col-md-12 col-xs-12 p0">
-                <input id="audit_nature" type="text" class="input_group" name="name" value="${staff }" />
+                <input id="audit_nature" type="text" class="input_group" name="name" value="${staff }" maxlength="10" placeholder="最大长度10个字符" onkeyup="checkLen();" />
                 <span class="add-on">i</span>
                 <div class="cue" id="auditNatureErr"></div>
               </div>
