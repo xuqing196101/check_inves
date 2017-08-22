@@ -357,7 +357,9 @@ public class PurchaseManageController {
 		if(result.hasErrors()){
 		    //初始化采购管理部门级别
             initManageLevel(model);
+            List<Area> areaList = areaServiceI.findRootArea();
             model.addAttribute("orgnization", orgnization);
+            model.addAttribute("areaList", areaList);          
             return "ses/oms/require_dep/edit";
         }
 		
