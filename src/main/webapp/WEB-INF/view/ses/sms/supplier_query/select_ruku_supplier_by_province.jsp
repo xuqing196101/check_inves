@@ -479,10 +479,24 @@
 							<th class="info w100">提交日期</th>
 							<th class="info w100">审核日期</th>
 							<th class="info w100">地区</th>
-							<th class="info">供应商类型</th>
-							<th class="info w100">企业性质</th>
+							<th class="info w100">供应商类型</th>
+							<th class="info w80">企业性质</th>
 							<th class="info w100">采购机构</th>
 							<th class="info w100">供应商状态</th>
+<!--
+							<th class="info" width="15%">供应商名称</th>
+							<th class="info">用户名</th>
+							<th class="info" width="7%">联系人</th>
+							<th class="info" width="10%">手机号</th>
+							<th class="info" width="10%">注册日期</th>
+							<th class="info" width="10%">提交日期</th>
+							<th class="info" width="10%">审核日期</th>
+							<th class="info" width="7%">地区</th>
+							<th class="info" width="13%">供应商类型</th>
+							<th class="info" width="7%">企业性质</th>
+							<th class="info" width="15%">采购机构</th>
+							<th class="info">供应商状态</th>
+-->
 						</tr>
 					</thead>
 					<tbody>
@@ -490,7 +504,7 @@
 							<tr>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 								<td>
-									<a half="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a>
+									<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a>
 								</td>
 								<%-- <td class="">${list.loginName }</td> --%>
 								<td class="">${list.contactName }</td>

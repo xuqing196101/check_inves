@@ -318,10 +318,16 @@
                     <fmt:formatDate value='${obj.createdAt}' pattern='yyyy-MM-dd' />
                   </td>
                   <td class="tc opinter w100">
-                    <c:if test="${obj.statusBid==1}">
+                    <%--<c:if test="${obj.statusBid==1}">
                       未缴纳
                     </c:if>
                     <c:if test="${obj.statusBid==2}">
+                      已缴纳
+                    </c:if>--%>
+                    <c:if test="${project.isCharge=='1'}">
+                      未缴纳
+                    </c:if>
+                    <c:if test="${project.isCharge=='0'}">
                       已缴纳
                     </c:if>
                   </td>

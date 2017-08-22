@@ -212,17 +212,54 @@ public class PurchaseController extends BaseController{
             model.addAttribute("origin", origin);
             return "ses/oms/purchase/add";
         }
-		
-		//验证身份证格式
-		if(!purchaseInfo.getIdCard().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")){
-		    model.addAttribute("roleName",roleName);
+        
+        //开始日期
+        if(purchaseInfo.getQuaStartDate() == null ){
+        	model.addAttribute("roleName",roleName);
 		    model.addAttribute("mainId",purchaseInfo.getId());
-		    model.addAttribute("exist_idCard", "身份证格式不对");
+		    model.addAttribute("err_sDate", "必填项");
 		    model.addAttribute("purchaseInfo", purchaseInfo);
 		    model.addAttribute("originOrgId", originOrgId);
             purchaseServiceI.initPurchaser(model,originOrgId);
 		    return "ses/oms/purchase/add";
-		}
+        }
+        
+        //截至日期
+        if(purchaseInfo.getQuaEdndate() == null){
+        	model.addAttribute("roleName",roleName);
+		    model.addAttribute("mainId",purchaseInfo.getId());
+		    model.addAttribute("err_eDate", "必填项");
+		    model.addAttribute("purchaseInfo", purchaseInfo);
+		    model.addAttribute("originOrgId", originOrgId);
+            purchaseServiceI.initPurchaser(model,originOrgId);
+		    return "ses/oms/purchase/add";
+        }
+        
+        
+        
+		//验证身份证格式  exist_idCard
+        if(purchaseInfo.getIdCard() == "" || purchaseInfo.getIdCard() == null){
+        	 model.addAttribute("roleName",roleName);
+ 		    model.addAttribute("mainId",purchaseInfo.getId());
+ 		    model.addAttribute("exist_idCard", "必填项");
+ 		    model.addAttribute("purchaseInfo", purchaseInfo);
+ 		    model.addAttribute("originOrgId", originOrgId);
+             purchaseServiceI.initPurchaser(model,originOrgId);
+ 		    return "ses/oms/purchase/add";
+        }else{
+        	if(!purchaseInfo.getIdCard().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")){
+    		    model.addAttribute("roleName",roleName);
+    		    model.addAttribute("mainId",purchaseInfo.getId());
+    		    model.addAttribute("exist_idCard", "身份证格式不对");
+    		    model.addAttribute("purchaseInfo", purchaseInfo);
+    		    model.addAttribute("originOrgId", originOrgId);
+                purchaseServiceI.initPurchaser(model,originOrgId);
+    		    return "ses/oms/purchase/add";
+    		}
+        }
+        
+        
+        
 		
 		//验证姓名长度
 		if(purchaseInfo.getRelName().length() > 15){
@@ -349,6 +386,8 @@ public class PurchaseController extends BaseController{
 			model.addAttribute("mainId", purchase.getId());
 			model.addAttribute("roleName", roleNames);
 		}
+		Integer shenfenzheng = 1 ;
+		model.addAttribute("shenfenzheng", shenfenzheng);
 		return "ses/oms/purchase/edit";
 	}
 	

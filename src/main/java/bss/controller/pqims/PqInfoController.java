@@ -228,7 +228,7 @@ public class PqInfoController extends BaseSupplierController{
 	 * @return:
 	 */
 	@RequestMapping("/view")
-	public String view(Model model,String id, String type, String status){
+	public String view(Model model,String id, String type, String status,String report){
 	    if(StringUtils.isNotBlank(id)){
 	        PqInfo pqInfo = pqInfoService.get(id);
 	        pqInfo.getContract().setPurchaseType(DictionaryDataUtil.findById(pqInfo.getContract().getPurchaseType()).getName());
@@ -236,6 +236,7 @@ public class PqInfoController extends BaseSupplierController{
 	    }
 		model.addAttribute("type",type);
 		model.addAttribute("status",status);
+		model.addAttribute("report",report);
 		return "bss/pqims/pqinfo/view";
 	}
 	

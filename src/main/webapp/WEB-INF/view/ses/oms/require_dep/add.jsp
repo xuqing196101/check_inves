@@ -157,7 +157,8 @@
               flag = false;
             } else {
               /* $("#sps").html(""); */
-              flag = true;
+        			flag = true;
+              
             }
           },
         });
@@ -165,13 +166,12 @@
 	
 	
 	function save(){
-		
-	   if(flag == true){
-	     $("#formID").validForm();
-	     $("#formID").submit();
-	   }else{
-	     $("input[name='name']").focus();
-	   }
+		if(flag == true){
+		     $("#formID").validForm();
+		     $("#formID").submit();
+		   }else{
+		     $("input[name='name']").focus();
+		   } 
 	}
 	
 </script>
@@ -271,8 +271,8 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15"> 
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">值班室电话</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="telephone" maxlength="25" type="text"> 
-			  <span class="add-on">i</span>
+			  <input class="input_group" id="telephone"  name="telephone" maxlength="25" type="text"> 
+			  <div class="cue"><sf:errors path="telephone"/></div>
 			</div>
 		  </li>
 		  
@@ -346,6 +346,8 @@
 	  
 	  <div class="col-md-12">
 		<div class="mt40 tc mb50">
+		<input type="hidden" name="contactName" value="1"/>
+		<input type="hidden" name="contactMobile" value="1"/>
 		  <button type="button" class="btn btn-windows save" onclick="save()">保存</button>
 		  <input type="button" class="btn btn-windows back" onclick="back('${orgnization.typeName}')" value="返回"/>
 		</div>

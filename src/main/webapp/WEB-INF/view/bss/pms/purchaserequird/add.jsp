@@ -8,8 +8,8 @@
 		 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 		
 		<script type="text/javascript">
-		
-		
+		var flag;
+		var indNum=1;
 		  $(function(){
 				$("td[name='userNone']").attr("style","display:none");
 				$("th[name='userNone']").attr("style","display:none");
@@ -148,6 +148,7 @@
 					data:{"index":index},
 					success: function(data) {
 						$("#detailZeroRow").append(data);
+						indNum+=1;
 						init_web_upload();
 	/* 					id = data;
 						var tr = $("input[name=dyadds]").parent().parent().prev();
@@ -219,11 +220,52 @@
 
 			
 			//保存
-			function incr() {
+			function incr(){
+				if(flag){
+	                   layer.alert("节点填写错误");
+	                   return false;
+	               }
+				
                 if($("#detailZeroRow tr").length <=2){
                     layer.alert("请添加需求明细！");
                     return;
                 }
+                for(var i=2;i<=indNum;i++){
+				if($.trim($("input[name='list["+i+"].goodsName']").val())==""){
+					layer.alert("需求明细中物资类别及物资名称不能为空");
+					return false;
+				}else if($.trim($("input[name='list["+i+"].stand']").val())==""){
+					layer.alert("需求明细中规格型号不能为空！");
+					return false;
+				}else if($.trim($("input[name='list["+i+"].qualitStand']").val())==""){
+                    layer.alert("需求明细中质量技术标准不能为空");
+                    return false;
+                }else if($.trim($("input[name='list["+i+"].item']").val())==""){
+                    layer.alert("需求明细中计量单位不能为空");
+                    return false;
+                }else if($.trim($("input[name='list["+i+"].purchaseCount']").val())==""){
+                    layer.alert("需求明细中采购数量不能为空");
+                    return false;
+                }else if($.trim($("input[name='list["+i+"].price']").val())==""){
+                    layer.alert("需求明细中单价不能为空");
+                    return false;
+                }else if($.trim($("input[name='list["+i+"].deliverDate']").val())==""){
+                    layer.alert("需求明细中交货期限不能为空");
+                    return false;
+                }
+                /* else if($.trim($("input[name='list["+i+"].purchaseType']").text())=="单一来源"){
+                	if($.trim($("input[name='list["+i+"].supplier']").val())==""){
+                        layer.alert("需求明细中供应商名称不能为空");
+                        return false;
+                    }
+                }
+                else if($.trim($("input[name='list["+i+"].supplier']").val())==""){
+                    layer.alert("需求明细中供应商名称不能为空");
+                    return false;
+                } */ 
+                    
+                }
+				
                 var orgType="${orgType}";
                 var name = $("#jhmc").val();
                 var no = $("#jhbh").val();
@@ -287,12 +329,13 @@
 						data:{no:no},
 						type: "post",
 						success: function(data) {
-							if(data!='1'){  */ 
+							if(data!='1'){  */
+                 var flag = true;
 								var jsonStr = [];
 								var allTable = document.getElementsByTagName("table");
 								 $("#table tr").each(function(i){ //遍历Table的所有Row
 										 if(i>0 ){
-											
+
 									
 									    var id =$(this).find("td:eq(1)").children(":first").val();
 									    var parentId =$(this).find("td:eq(1)").children(":last").val();
@@ -300,7 +343,17 @@
 									    var department = $(this).find("td:eq(2)").children(":first").val();
 										var goodsName =$(this).find("td:eq(3)").children(":first").val();
 										var stand = $(this).find("td:eq(4)").children(":first").val();
+                                             if(stand.length > 250){
+                                                 flag = false;
+                                                 layer.alert("第" + i +"行规格型号不能超过250字");
+                                                 return false;
+                                             }
 										var qualitStand = $(this).find("td:eq(5)").children(":first").val();
+                                             if(qualitStand.length > 1000){
+                                                 flag = false;
+                                                 layer.alert("第" + i +"行质量技术标准不能超过1000字");
+                                                 return false;
+                                             }
 										var item = $(this).find("td:eq(6)").children(":first").val();
 										var purchaseCount =$(this).find("td:eq(7)").children(":first").next().val();
 										var price = $(this).find("td:eq(8)").children(":first").next().val();
@@ -320,6 +373,9 @@
 										jsonStr.push(json);  
 									 	}
 									});
+                 if(!flag){
+                     return;
+                 }
 									
 							//	var forms=$("#add_form").serializeArray();
 										
@@ -327,7 +383,6 @@
 				  		      			 	layer.alert("需求明细不允许为空");
 				  		      			 	//return false;
 				  		      			}else {
-						  		      		
 										  $.ajax({
 								  		        type: "POST",
 								  		        url: "${pageContext.request.contextPath}/purchaser/adddetail.do",
@@ -530,7 +585,6 @@
 				}
                 var next=$(obj).parent().parent().nextAll();
 				var parent_id=$($(obj).parent().parent().children()[1]).children(":last").val();
-				var arry = [];
 				for(var i = 0; i < next.length; i++){
                    if(parent_id==$($(next[i]).children()[1]).children(":last").val()){
                        break;
@@ -618,10 +672,11 @@
 				 var val=$(tr).find("td:eq(8)").children(":first").next().val();
 				 if($.trim(val)!=""){
 					 $(obj).parent().parent().remove(); 
-					
+					 indNum-=1;
 				 }
 				 else if(nextEle.length<1){
 					 $(obj).parent().parent().remove(); 
+					 indNum-=1;
 				 }
 				 else{
 					 layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
@@ -1062,6 +1117,23 @@
 				    });
 				    return bool;
 		        } */
+		        //验证序号格式
+		        /* function checkSeq(){
+		        	
+		        	var i = indNum-1;
+		        	var preSeq = $("input[name='list["+i+"].seq']").val();
+		        	
+		        	
+		        	
+		        	
+		        	$("#table tr").each(function(i){
+                        var  val1= $(this).find("td:eq(1)").children(":last").val();//上级id
+                          if($.trim(val1) == "") {
+                              layer.msg("第"+i+"行，序号没有填写！");
+                              bool=false;
+                          }
+                    });
+		        } */
 		        
 		        
 		        //判断是否是中文
@@ -1132,7 +1204,7 @@
 		        }  
 		        
 		        
-		        
+		       //获取序号
 		       function getSeq(obj){
 		    	  var id=$("table tr:eq(1)").find("td:eq(1)").children(":first").val();
 		    	  var val= $(obj).parent().parent().find("td:eq(1)").children(":first").next().val();
@@ -1176,51 +1248,61 @@
 				    	$(obj).parent().parent().find("td:eq(8)").children(":last").val(id);
 				    	$(obj).parent().parent().find("td:eq(9)").children(":last").val(id); */
 				    	same(obj,id);
+				    	flag = false;
 		    		 // alert("二级节点");
 		    	  }else if(con==true&&twoPrev==true){
 		    		  same(obj,id);
+		    		  flag = false;
 		    		 // alert("二级节点");
 		    	  }else if(two==true&&con==true){
 		    		  same(obj,id);
+		    		  flag = false;
 		    		 // alert("二级节点");
 		    	  }else if(twonum==true&&con==true){
 		    		  same(obj,id);
+		    		  flag = false;
 		    		 // alert("二级节点");
 		    	  }else if(twoconeng==true&&con==true){
 		    		  same(obj,id);
+		    		  flag = false;
 		    		  //alert("二级节点");
 		    	  }else if(twoen==true&&con==true){
 		    		  same(obj,id);
+		    		  flag = false;
 		    		 // alert("二级节点");
 		    	  }
-		    	  
-		    	  
 		    	  else if(conPrev==true&&num==true){
 		    		  
 		    		  var parentId= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").val();
 		    		  
 		    		  same(obj,parentId);
+		    		  flag = false;
 		    		 // alert("三级节点");
 		    	  }else if(threePrev==true&&num==true){
 		    		  var parentId= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").val();
 		    		  same(obj,parentId);
+		    		  flag = false;
 		    		 // alert("三级节点");
 		    	  }else if(threenum==true&&num==true){
 		    		  var parentId= $(obj).parent().parent().prev().find("td:eq(8)").children(":eq(2)").val();
 		    		  
 		    		  same(obj,parentId);
+		    		  flag = false;
 		    		 // alert("三级节点");
 		    	  }else if(threeconNum==true&&num==true){
 		    		  var parentId= $(obj).parent().parent().prev().prev().find("td:eq(8)").children(":eq(2)").val();
 		    		  same(obj,parentId);
+		    		  flag = false;
 		    		 // alert("三级节点");
 		    	  }else if(threeen==true&&num==true){
 		    		  var parentId= $(obj).parent().parent().prev().prev().prev().find("td:eq(8)").children(":last").val();
 		    		  same(obj,parentId);
+		    		  flag = false;
 		    		//  alert("三级节点");
 		    	  }else if(threeConEn==true&&num==true){
 		    		  var parentId= $(obj).parent().parent().prev().prev().prev().prev().find("td:eq(8)").children(":last").val();
 		    		  same(obj,parentId);
+		    		  flag = false;
 		    		//  alert("三级节点");
 		    	  }
 		    	  
@@ -1228,29 +1310,35 @@
 		         else if(numPrev==true&&conum==true){
 		        	 var parentId= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").val();
 		        	 same(obj,parentId);
+		        	 flag = false;
 					  //alert("四级节点");
 		    	  }else if(fourPrev==true&&conum==true){
 		    		  var parentId= $(obj).parent().parent().prev().find("td:eq(8)").children(":eq(2)").val();
 		    		  same(obj,parentId);
+		    		  flag = false;
 					  //alert("四级节点");
 		    	  }
 		    	  
 		    	  else if(conumPrev==true&&en==true){
 		    		  var parentId= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").val();
 		    		  same(obj,parentId);
+		    		  flag = false;
 					  //alert("五级节点");
 		    	  }else if(five==true&&en==true){
 		    		  var parentId= $(obj).parent().parent().prev().find("td:eq(8)").children(":eq(2)").val();
 		    		  same(obj,parentId);
+		    		  flag = false;
 					//  alert("五级节点");
 		    	  }
 		    	  
 		    	  else if(enPrev==true&&sixVal==true){
 		    		  var parentId= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").val();
 		    		  same(obj,parentId);
+		    		  flag = false;
 					// alert("六级节点");
 		    	  }else{
 		    		 layer.alert("节点填写错误",{offset: ['222px', '390px'], shade:0.01});
+		    		 flag = true;
 		    	  }  
  
 		       } 

@@ -37,6 +37,9 @@ function tijiao(str) {
 		if (str == "audit") {
 			action = globalPath + "/supplierQuery/auditInfo.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
 		}
+        if (str == "table") {
+            action = globalPath + "/supplier/show_template_upload.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
+        }
 	} else {
 		if (str == "essential") {
 			action = globalPath + "/supplierQuery/essential.html";
@@ -74,6 +77,9 @@ function tijiao(str) {
 		if (str == "audit") {
 			action = globalPath + "/supplierQuery/auditInfo.html";
 		}
+        if (str == "table") {
+            action = globalPath + "/supplier/show_template_upload.html";
+        }
 	}
 	$("#form_id").attr("action", action);
 	$("#form_id").submit();

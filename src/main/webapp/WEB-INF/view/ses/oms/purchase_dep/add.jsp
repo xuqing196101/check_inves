@@ -252,6 +252,7 @@
       
       /** 保存  **/
       function save(){
+	    	  
         var name = $("input[name='name']").val();
         var quaStartDate = $("input[name='quaStartDate']").val();
         var quaEdndate = $("input[name='quaEdndate']").val();
@@ -281,7 +282,7 @@
                 }
               },
             });
-        }
+        }  
       }
       
       /** 返回 **/
@@ -364,14 +365,14 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人姓名</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="contactName" required  maxlength="20" type="text" value="${purchaseDep.contactName }"> <span class="add-on">i</span>
+                      <input class="input_group" name="contactName" required  maxlength="20" type="text" value="${purchaseDep.contactName }"> <span  class="add-on">i</span>
                       <div class="cue">${ERR_contactName}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="contactMobile" required maxlength="30"  type="text" value="${purchaseDep.contactMobile }"> <span class="add-on">i</span>
+                      <input class="input_group" name="contactMobile" required maxlength="30"  type="text" value="${purchaseDep.contactMobile }"> <span  class="add-on">i</span>
                       <div class="cue">${ERR_contactMobile}</div>
                     </div>
                   </li>
@@ -514,7 +515,7 @@
                   
                   <li class="col-md-12 col-sm-12 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购业务范围</span>
                     <div class="col-md-12 col-sm-12 col-xs-12 p0">
-							        <textarea class="col-md-12 col-sm-12 col-xs-12 h130" name="businessRange" required maxlength="800"  title="不超过800个字">${purchaseDep.businessRange }</textarea>
+							        <textarea id="aaa" class="col-md-12 col-sm-12 col-xs-12 h130" name="businessRange"   title="不超过800个字">${purchaseDep.businessRange }</textarea>
 							        <div class="cue">${ERR_businessRange}</div>
 							       </div>
                   </li>
@@ -929,6 +930,7 @@
               </div>
 
               <div class="mt20 tc col-md-12 col-sm-12 col-xs-12">
+              <input type="hidden" name="telephone" value="1"/>
                 <input type="button"  onclick="save();" class="btn btn-windows save"  value="保存" />
                 <input type="button" class="btn btn-windows back" onclick="back();" value="返回" />
               </div>

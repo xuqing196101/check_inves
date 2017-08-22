@@ -74,6 +74,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 
@@ -1485,6 +1486,11 @@ public class ExpertAuditController{
 		model.addAttribute("sign", sign);
 		
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("GOODS", 0);
+		map.put("PROJECT", 0);
+		map.put("SERVICE", 0);
+		map.put("ENG_INFO_ID", 0);
 		if( reasonsList != null && reasonsList.size() > 0 ){
 			for (ExpertAudit e : reasonsList) {
 				if("six".equals(e.getSuggestType())){
@@ -1495,6 +1501,7 @@ public class ExpertAuditController{
 					}else{
 						tree = getTreeListByCategoryId(e.getAuditFieldId(), "ENG_INFO_ID");
 					}
+					map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
 					if("GOODS".equals(tree.getRootNodeCode())){
 						e.setAuditField("物资品目信息");
 					}else if("PROJECT".equals(tree.getRootNodeCode())){
@@ -1518,10 +1525,23 @@ public class ExpertAuditController{
 		}else {
 			auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		}
+		int categoryCount=0;
+		model.addAttribute("qualified", true);
+		for (Entry<String, Integer> entry : map.entrySet()) {  
+			  categoryCount+=entry.getValue();
+			  String id = DictionaryDataUtil.getId(entry.getKey());
+			  if(entry.getValue()>0){
+				  List<ExpertCategory> listCount = expertCategoryService.getListCount(expertId, id, "1");
+				  if(listCount.size()<=entry.getValue()){
+					  model.addAttribute("qualified", false);
+				  }
+			  }
+		}  
 		model.addAttribute("reasonsList", reasonsList);
 		//查看是否有记录
 		model.addAttribute("num", reasonsList.size());
-
+		model.addAttribute("notCategoryNum", reasonsList.size()-categoryCount);
+		
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("status", expert.getStatus());
 		model.addAttribute("isSubmit", expert.getIsSubmit());
@@ -2662,8 +2682,168 @@ public class ExpertAuditController{
     	}else{
     		return new JdcgResult(504, "参数错误", null);
     	}
-		
-		
-    	
+    }
+    
+    
+    /**
+     * 
+     * Description: 查询全部和通过的产品类别数量
+     * 
+     * @author zhang shubin
+     * @data 2017年8月14日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/findCategoryCount")
+    @ResponseBody
+    public String findCategoryCount(String expertId){
+    	Map<String, Integer> map = new HashMap<>();
+    	//全部的产品
+    	List<ExpertCategory> expertCategoryList = expertCategoryService.findByExpertId(expertId);
+    	Integer all = 0;
+    	//工程专业
+    	List<ExpertCategory> listgc = new ArrayList<>();
+    	//物资 工程 服务
+    	List<ExpertCategory> listwgf = new ArrayList<>();
+    	for (ExpertCategory expertCategory : expertCategoryList) {
+    		DictionaryData dd = DictionaryDataUtil.findById(expertCategory.getTypeId());
+    		if(dd != null && "ENG_INFO_ID".equals(dd.getCode())){
+    			listgc.add(expertCategory);
+    		}else{
+    			listwgf.add(expertCategory);
+    		}
+		}
+    	//查询工程专业数量
+    	for (ExpertCategory expertCategory : listgc) {
+    		Category data = engCategoryService.findById(expertCategory.getCategoryId());
+    		if(data != null && data.getCode().length() == 7){
+    			all ++;
+    		}else if(engCategoryService.findTreeByPid(expertCategory.getCategoryId()) == null || engCategoryService.findTreeByPid(expertCategory.getCategoryId()).size() == 0){
+    			all ++;
+    		}
+		}
+    	//查询物资 工程 服务数量
+    	for (ExpertCategory expertCategory : listwgf) {
+    		Category data = categoryService.findById(expertCategory.getCategoryId());
+    		if(data != null && data.getCode().length() == 7){
+    			all ++;
+    		}else if(categoryService.findByParentId(expertCategory.getCategoryId()) == null || categoryService.findByParentId(expertCategory.getCategoryId()).size() == 0){
+    			all ++;
+    		}
+		}
+		map.put("all", all);
+    	//不通过的
+    	ExpertAudit expertAudit = new ExpertAudit();
+		expertAudit.setExpertId(expertId);
+		expertAudit.setSuggestType("six");
+		List<ExpertAudit> expertAuditList = expertAuditService.getListByExpert(expertAudit);
+		Integer noPass = 0;
+		if(expertAuditList != null){
+			noPass = expertAuditList.size();
+		}
+		Integer pass = all - noPass;
+		if(pass < 0){
+			pass = 0;
+		}
+		map.put("pass", pass);
+    	return JSON.toJSONString(map);
+    }
+    
+    
+    /**
+     * 
+     * Description: 初审结束
+     * 
+     * @author zhang shubin
+     * @data 2017年8月21日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/chuAudit")
+    @ResponseBody
+    public JdcgResult chuAudit(@CurrentUser User user, Expert expert, Model model, HttpServletRequest request, ExpertAuditOpinion expertAuditOpinion) {
+    	String expertId = expert.getId();
+        // 审核前判断是否有通过项和未通过项--是否符合通过要求
+        // 查询专家审核意见  判断点击审核结束按钮是否是审核通过或者审核不通过状态
+        ExpertAuditOpinion expertAuditOpinions = new ExpertAuditOpinion();
+        expertAuditOpinions.setExpertId(expertId);
+        expertAuditOpinions.setFlagTime(0);
+        ExpertAuditOpinion expertAuditOpinionExist = expertAuditOpinionService.selectByExpertId(expertAuditOpinions);
+        // 选择审核通过
+        if(expertAuditOpinionExist != null && expertAuditOpinionExist.getFlagAudit() != null){
+            if(expertAuditOpinionExist.getFlagAudit() == 15){
+                expert.setStatus("1");
+            }else if(expertAuditOpinionExist.getFlagAudit() == 16){
+                // 审核未通过
+                expert.setStatus("2");
+            }
+        }
+
+        //提交审核，更新状态
+        expert.setAuditAt(new Date());
+        //审核人
+        expert.setAuditor(user.getRelName());
+        //还原暂存状态
+        expert.setAuditTemporary(0);
+        // 设置修改时间
+        expert.setUpdatedAt(new Date());
+        expertService.updateByPrimaryKeySelective(expert);
+
+        //expert = expertService.selectByPrimaryKey(expertId);
+        String status = expert.getStatus();
+
+        /**
+		 * 更新待办（已完成）
+		 */
+		if(status.equals("1") || status.equals("2")) {
+			todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
+
+		}
+
+		/**
+		 * 待办
+		 */
+		if ("1".equals(status)){
+	        Todos todos = new Todos();
+	        todos.setCreatedAt(new Date());
+	        todos.setIsDeleted((short)0);
+	        todos.setIsFinish((short)0);
+	        //待办名称
+	        todos.setName(expert.getRelName()+"专家复审");
+	        //todos.setReceiverId();
+	        //接受人id
+	        /*todos.setOrgId(expert.getPurchaseDepId());*/
+	        //权限id
+	        PropertiesUtil config = new PropertiesUtil("config.properties");
+	        todos.setPowerId(config.getString("zjfs"));
+	        //发送人id
+	        /*User user = (User)request.getSession().getAttribute("loginUser");*/
+	        todos.setSenderId(user.getId());
+	        //类型
+	        todos.setUndoType((short)2);
+	        //发送人姓名
+	        todos.setSenderName(expert.getRelName());
+	        //审核地址
+	        todos.setUrl("expertAudit/basicInfo.html?expertId=" + expert.getId());
+	        todosService.insert(todos );
+	      }
+        return JdcgResult.ok();
+    }
+    
+    /**
+     * 
+     * Description: 记录下载次数
+     * 
+     * @author zhang shubin
+     * @data 2017年8月21日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/downloadCount")
+    @ResponseBody
+    public void downloadCount(String expertId){
+    	if(expertId != null){
+    		expertAuditOpinionService.updateIsDownload(expertId);
+    	}
     }
 }

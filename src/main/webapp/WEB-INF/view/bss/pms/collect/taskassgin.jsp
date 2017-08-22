@@ -266,6 +266,7 @@
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
+		    <c:if test="${obj.status=='2'||obj.status=='12'||obj.status=='13'}">
 			<tr style="cursor: pointer;">
 			  <td class="tc w30">
 			  <%-- <c:if test="${obj.status=='12' || obj.status=='13'}"> --%>
@@ -289,7 +290,7 @@
 			  </c:if>
 			  </td>
 			</tr>
-	 
+	        </c:if>
 		 </c:forEach>
 		 
 

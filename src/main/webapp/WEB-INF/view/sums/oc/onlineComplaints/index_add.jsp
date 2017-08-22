@@ -6,6 +6,7 @@
 	<%-- <%@ include file="/WEB-INF/view/common.jsp" %> --%>
 	<jsp:include page="/index_head.jsp"></jsp:include>
 	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+	<link href="${pageContext.request.contextPath}/public/front/css/global.css" rel="stylesheet"  type="text/css" />
 	<script type="text/javascript">
 $(function(){
 	var authType = "${authType}";

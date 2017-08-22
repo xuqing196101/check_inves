@@ -398,7 +398,7 @@ public class SupplierController extends BaseSupplierController {
                     purchaseDep.setAddress(prov.getName() + city.getName());
                 }
                 // 统计待审核供应商数量
-                int pendingAuditCount = supplierService.countByPurchaseDepId(purchaseDep.getId(), 0);
+                int pendingAuditCount = supplierService.countAuditByPurchaseDepId(purchaseDep.getId());
                 purchaseDep.setPendingAuditCount(pendingAuditCount);
                 purList.add(purchaseDep);
 		    }
@@ -448,7 +448,27 @@ public class SupplierController extends BaseSupplierController {
 		
     	return "ses/sms/supplier_register/template_upload";
     }
-    
+
+	/**
+	 * 查看上传承诺书和申请表
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/show_template_upload")
+	public String show_template_upload(Model model, String supplierId,Integer person, Integer judge,Integer sign){
+
+		if(StringUtils.isBlank(supplierId)){
+			return "ses/sms/supplier_query/supplierInfo/template_upload";
+		}
+		Supplier supplier = supplierService.selectById(supplierId);
+		initUploadConstants(model, supplier);
+		initUploadAudit(model, supplier);
+		model.addAttribute("person",person);
+		model.addAttribute("supplierId",supplierId);
+		model.addAttribute("judge",judge);
+		model.addAttribute("sign",sign);
+		return "ses/sms/supplier_query/supplierInfo/template_upload";
+	}
     /**
      * 供应商注册步骤
      * @param step

@@ -49,7 +49,7 @@
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_1">
 				<div class="">
 				  <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
-            <button class="btn btn-windows check" type="button" onclick="auditButton('content_1');">审核</button>
+            <button class="btn btn-windows check" type="button" onclick="auditButton('content_1');">批量不通过</button>
           </c:if>
         </div>
 					<table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
@@ -73,7 +73,7 @@
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_2">
 				<div class="">
 				  <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
-            <button class="btn btn-windows check" type="button" onclick="auditButton('content_2');">审核</button>
+            <button class="btn btn-windows check" type="button" onclick="auditButton('content_2');">批量不通过</button>
           </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_2">
@@ -98,7 +98,7 @@
                 <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_3">
                 <div class="">
                   <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
-                    <button class="btn btn-windows check" type="button" onclick="auditButton('content_3');">审核</button>
+                    <button class="btn btn-windows check" type="button" onclick="auditButton('content_3');">批量不通过</button>
                   </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_3">
@@ -121,7 +121,7 @@
                 <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_4">
                  <div class="">
                    <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
-                     <button class="btn btn-windows check" type="button" onclick="auditButton('content_4');">审核</button>
+                     <button class="btn btn-windows check" type="button" onclick="auditButton('content_4');">批量不通过</button>
                    </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_4">

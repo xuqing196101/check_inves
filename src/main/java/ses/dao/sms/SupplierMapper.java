@@ -643,4 +643,10 @@ public interface SupplierMapper {
 	 * @return
 	 */
 	Supplier getById(Map<String, Object> param);
+
+    /**
+     * 根据采购机构id统计对应状态的供待审核 和 退回待审核 应商数量
+     * @return
+     */
+	int countAuditByPurchaseDepId(String purchaseDepId);
 }

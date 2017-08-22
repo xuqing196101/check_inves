@@ -335,9 +335,9 @@
                	 <th class="info"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
                  <th class="info">序号</th>
                  <th class="info" >审批类型</th>
-                 <th class="info" >审批字段名字</th>
-                 <th class="info" >审批内容</th>
-                 <th class="info">不通过理由</th>
+                 <th class="" >审批字段名字</th>
+                 <th class="" >审批内容</th>
+                 <th class="">不通过理由</th>
                </tr>
              </thead>
                <c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
@@ -361,17 +361,17 @@
                      <c:if test="${reasons.auditType eq 'contract_page'}">品目合同</c:if>
                      <c:if test="${reasons.auditType eq 'download_page'}">申请表</c:if>
                    </td>
-                   <td class="tl hand" title="${reasons.auditFieldName }">
+                   <td class="hand" title="${reasons.auditFieldName }">
                      <c:if test="${fn:length (reasons.auditFieldName) > 12}">${fn:substring(reasons.auditFieldName,0,12)}...</c:if>
               		   <c:if test="${fn:length(reasons.auditFieldName) <= 12}">${reasons.auditFieldName}</c:if>
                    </td>
-                   <td class="tl hand" title="${reasons.auditContent}">
-                   	 <c:if test="${fn:length (reasons.auditContent) > 20}">${fn:substring(reasons.auditContent,0,20)}...</c:if>
-              		   <c:if test="${fn:length(reasons.auditContent) <= 20}">${reasons.auditContent}</c:if>
+                   <td class="hand" title="${reasons.auditContent}">
+                   	 <c:if test="${fn:length (reasons.auditContent) > 25}">${fn:substring(reasons.auditContent,0,25)}...</c:if>
+              		   <c:if test="${fn:length(reasons.auditContent) <= 25}">${reasons.auditContent}</c:if>
                    </td>
-                   <td class="tl pl20 hand" title="${reasons.suggest}">
-                   	 <c:if test="${fn:length (reasons.suggest) > 20}">${fn:substring(reasons.suggest,0,20)}...</c:if>
-              		   <c:if test="${fn:length(reasons.suggest) <= 20}">${reasons.suggest}</c:if>
+                   <td class="hand" title="${reasons.suggest}">
+                   	 <c:if test="${fn:length (reasons.suggest) > 35}">${fn:substring(reasons.suggest,0,35)}...</c:if>
+              		   <c:if test="${fn:length(reasons.suggest) <= 35}">${reasons.suggest}</c:if>
                    </td>
                  </tr>
                </c:forEach>
