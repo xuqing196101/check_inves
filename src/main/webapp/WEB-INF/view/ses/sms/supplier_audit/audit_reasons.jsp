@@ -363,17 +363,17 @@
                      <c:if test="${reasons.auditType eq 'contract_page'}">品目合同</c:if>
                      <c:if test="${reasons.auditType eq 'download_page'}">申请表</c:if>
                    </td>
-                   <td class="tl hand" title="${reasons.auditFieldName }">
+                   <td class="hand" title="${reasons.auditFieldName }">
                      <c:if test="${fn:length (reasons.auditFieldName) > 12}">${fn:substring(reasons.auditFieldName,0,12)}...</c:if>
               		   <c:if test="${fn:length(reasons.auditFieldName) <= 12}">${reasons.auditFieldName}</c:if>
                    </td>
-                   <td class="tl hand" title="${reasons.auditContent}">
-                   	 <c:if test="${fn:length (reasons.auditContent) > 20}">${fn:substring(reasons.auditContent,0,20)}...</c:if>
-              		   <c:if test="${fn:length(reasons.auditContent) <= 20}">${reasons.auditContent}</c:if>
+                   <td class="hand" title="${reasons.auditContent}">
+                   	 <c:if test="${fn:length (reasons.auditContent) > 25}">${fn:substring(reasons.auditContent,0,25)}...</c:if>
+              		   <c:if test="${fn:length(reasons.auditContent) <= 25}">${reasons.auditContent}</c:if>
                    </td>
-                   <td class="tl pl20 hand" title="${reasons.suggest}">
-                   	 <c:if test="${fn:length (reasons.suggest) > 20}">${fn:substring(reasons.suggest,0,20)}...</c:if>
-              		   <c:if test="${fn:length(reasons.suggest) <= 20}">${reasons.suggest}</c:if>
+                   <td class="hand" title="${reasons.suggest}">
+                   	 <c:if test="${fn:length (reasons.suggest) > 35}">${fn:substring(reasons.suggest,0,35)}...</c:if>
+              		   <c:if test="${fn:length(reasons.suggest) <= 35}">${reasons.suggest}</c:if>
                    </td>
                    <td class="tc">
 										<fmt:formatDate value="${reasons.createdAt}" pattern="yyyy-MM-dd HH:mm"/>

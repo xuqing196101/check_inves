@@ -38,6 +38,25 @@
 		FROM T_SES_SMS_AFTER_SALE_SERVICE
 		WHERE IS_DELETED=0
   	</select>
+	<!-- 根据供应商id查询 -->
+	<select id="queryBySupplierIdList"  parameterType="String" resultMap="BaseResultMap">
+		SELECT s.sid id,c.code as contractCode,s.contract_id,s.required_id ,c.money,s.technical_parameters from
+		(SELECT s.id as sid,s.technical_parameters,e.contract_id ,e.goods_name as required_id  from
+		T_SES_SMS_AFTER_SALE_SERVICE s,T_BSS_CS_CONTRACT_REQUIRED e
+ 		where s.supplier_id=#{supplierId} and s.required_id=e.id
+		<if test="goodsName != null and goodsName !=''">
+ 		and goods_name like CONCAT(CONCAT('%', #{goodsName}), '%')
+		</if>
+		)s
+		LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT c on s.contract_id=c.id
+		where 2=2
+		<if test="code != null and code !=''">
+		and  c.code like CONCAT(CONCAT('%',#{code}),'%')
+		</if>
+		<if test="name != null and name !=''">
+		and c.name like CONCAT(CONCAT('%',#{name}),'%')
+		</if>
+	</select>
   	<!-- 根据主键查询 -->
   	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
 		SELECT

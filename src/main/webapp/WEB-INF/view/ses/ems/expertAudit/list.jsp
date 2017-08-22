@@ -294,6 +294,8 @@
                   <option <c:if test="${state eq '1'}">selected</c:if> value="1">初审合格</option>
                   <option <c:if test="${state eq '3'}">selected</c:if> value="3">退回修改</option>
                   <option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未合格</option>
+                  <option <c:if test="${state eq '15'}">selected</c:if> value="15">预初审合格</option>
+                  <option <c:if test="${state eq '16'}">selected</c:if> value="16">预初审不合格</option>
                 </c:if>
                 <c:if test="${sign == 2}">
                   <option <c:if test="${state eq '1'}">selected</c:if> value="1">待复审</option>
@@ -405,6 +407,12 @@
               </c:if>
               <c:if test="${sign == 1 and expert.status eq '3' }">
                 <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">退回修改</span></td>
+              </c:if>
+              <c:if test="${sign == 1 and expert.status eq '15' }">
+                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">预初审合格</span></td>
+              </c:if>
+              <c:if test="${sign == 1 and expert.status eq '16' }">
+                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">预初审不合格</span></td>
               </c:if>
               <c:if test="${sign == 2 and expert.status eq '1' and expert.auditTemporary ne '2'}">
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复审</span></td>
