@@ -467,7 +467,7 @@ function submitFlw(data,currFlowDefineId,projectId){
 				/*var index = parent.layer.getFrameIndex(window.name);
 				parent.layer.close(index);*/
 			});
-		} else if(data.flowTypes == "KBCB" || data.flowTypes == "XMXX"){
+		} else if(data.flowTypes == "KBCB" || data.flowTypes == "XMXX"||data.flowTypes == "NZCGWJ"){
 			layer.alert(data.msgs, {
 				offset: '100px'
 			});

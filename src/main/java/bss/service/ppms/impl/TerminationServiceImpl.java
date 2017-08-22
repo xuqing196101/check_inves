@@ -74,6 +74,7 @@ import bss.model.prms.PackageExpert;
 import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.ReviewProgress;
 import bss.service.ppms.TerminationService;
+import bss.util.TerminationConstant;
 @Service("terminationService")
 public class TerminationServiceImpl<V> implements TerminationService {
   @Autowired
@@ -157,10 +158,10 @@ public class TerminationServiceImpl<V> implements TerminationService {
     //生成项目
     Project project = insertProject(projectId, title,type,currFlowDefineId);
     Map<String, String> mapId=new HashMap<String, String>();
-    if(!"XMLX".equals(currFlowDefineId)){
+    if(!TerminationConstant.FLW_XMLX.equals(currFlowDefineId)){
       projectMapper.insertSelective(project);
     }
-    if("XMLX".equals(currFlowDefineId)){
+    if(TerminationConstant.FLW_XMLX.equals(currFlowDefineId)){
       if(packId.length>0){
         for(String id:packId){
           Packages pg = packageMapper.selectByPrimaryKeyId(id);
@@ -195,7 +196,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
           }
         }
       }
-    }else if("XMFB".equals(currFlowDefineId)){
+    }else if(TerminationConstant.FLW_XMFB.equals(currFlowDefineId)){
       if(packId.length>0){
         for(String id:packId){
           Packages pg = packageMapper.selectByPrimaryKeyId(id);
@@ -244,18 +245,18 @@ public class TerminationServiceImpl<V> implements TerminationService {
   private void flowDefine(FlowDefine flw,Map<String, String> mapId,Project project,String oldProjectId,Map<String, Map<String, Object>> IsTurnUpMap,Map<String, String> firstAuditIdMap){
     //判断是采购方式
     DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(flw.getPurchaseTypeId());
-    if("GKZB".equals(data.getCode())){//公开招标
+    if(TerminationConstant.MODE_GKZB.equals(data.getCode())){//公开招标
       project_gkzb(flw, mapId, project, oldProjectId, IsTurnUpMap,
           firstAuditIdMap);
-    }else if("XJCG".equals(data.getCode())){//询价采购
+    }else if(TerminationConstant.MODE_XJCG.equals(data.getCode())){//询价采购
       project_xjcg(flw, mapId, project, oldProjectId, IsTurnUpMap,
           firstAuditIdMap);
-    }else if("JZXTP".equals(data.getCode())){//竞争性谈判
+    }else if(TerminationConstant.MODE_JZXTP.equals(data.getCode())){//竞争性谈判
       project_jzxtp(flw, mapId, project, oldProjectId, IsTurnUpMap,
           firstAuditIdMap);
-    }else if("DYLY".equals(data.getCode())){//单一来源
+    }else if(TerminationConstant.MODE_DYLY.equals(data.getCode())){//单一来源
       project_dyly(flw, mapId, project, oldProjectId, IsTurnUpMap);
-    }else if("YQZB".equals(data.getCode())){//邀请招标
+    }else if(TerminationConstant.MODE_YQZB.equals(data.getCode())){//邀请招标
       project_yqzb(flw, mapId, project, oldProjectId, IsTurnUpMap,
           firstAuditIdMap);
     }

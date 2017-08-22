@@ -11967,9 +11967,7 @@ div.Section9 {
 				<o:p>
 				</o:p> </span>
 		</p> 
-		<a name="DW_TWO_THREE">&nbsp;&nbsp;
-	
-		</a>&nbsp;&nbsp;
+		<a name="DW_TWO_THREE">&nbsp;&nbsp;</a>&nbsp;&nbsp;
 		<a name="DW_TWO_FOUR">&nbsp;&nbsp;
 				
 		</a>
