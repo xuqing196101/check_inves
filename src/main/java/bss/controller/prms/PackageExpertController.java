@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -398,13 +399,14 @@ public class PackageExpertController {
             //这里用这个是因为hashMap是无序的
             TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
             SaleTender condition1 = new SaleTender();
-            HashMap<String, Object> map = new HashMap<String, Object>();
+            /*HashMap<String, Object> map = new HashMap<String, Object>();*/
             HashMap<String, Object> map1 = new HashMap<String, Object>();
             Quote quote2 = new Quote();
             Quote quote3 = new Quote();
             Map<String, String> mapPackageName=new HashMap<String, String>();
             for (Packages pack : packList) {
                 Packages ps = packageService.selectByPrimaryKeyId(pack.getId());
+                pack.setIsEndPrice(ps.getIsEndPrice());
                 if(ps!=null&&ps.getProjectStatus()!=null){
                   DictionaryData findById = DictionaryDataUtil.findById(ps.getProjectStatus());
                   mapPackageName.put(ps.getName(), findById.getCode());
@@ -427,6 +429,7 @@ public class PackageExpertController {
                 quote3.setProjectId(projectId);
                 quote3.setPackageId(pack.getId());
                 List<Date> listDate1 = supplierQuoteService.selectQuoteCount(quote3);
+                Collections.reverse(listDate1);
                 List<Quote> listQuotebyPackage1 = new ArrayList<Quote>();
                 if (listDate1 != null && listDate1.size() > 1) {
                     //给第二次报价的数据查到
@@ -435,9 +438,20 @@ public class PackageExpertController {
                         quote2.setPackageId(pack.getId());
                         quote2.setCreatedAt(new Timestamp(listDate1.get(listDate1.size()-1).getTime()));
                         listQuotebyPackage1 = supplierQuoteService.selectQuoteHistoryList(quote2);
+                        Map<String, List<Quote>> map2=new LinkedHashMap<String, List<Quote>>();
+                        for(Date quo:listDate1){
+                          Quote quote = new Quote();
+                          quote.setProjectId(projectId);
+                          quote.setPackageId(pack.getId());
+                          quote.setCreatedAt(new Timestamp(quo.getTime()));
+                          List<Quote> listQuote = supplierQuoteService.selectQuoteHistoryList(quote);
+                          map2.put(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(quo), listQuote);
+                        }
+                        pack.setQuotes(map2);
                     }
                 } 
-                Collections.reverse(listDate1);
+                
+                
                 for (SaleTender saleTender : stList) {
                     Quote quote = new Quote();
                     quote.setProjectId(projectId);
@@ -475,11 +489,12 @@ public class PackageExpertController {
                         }
                     }
                 }
-                map.put("id", pack.getId());
+                /*map.put("id", pack.getId());*/
                 if (stList != null && stList.size() > 0) {
                 treeMap.put(pack.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
                 }
             }
+            model.addAttribute("packLis", packList);
             model.addAttribute("treeMap", treeMap);
         }
         model.addAttribute("status", status);

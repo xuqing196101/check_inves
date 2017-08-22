@@ -18,7 +18,7 @@
 	<c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 		<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 			<div class="col-md-12 col-xs-12 col-sm-12 p0">
-			 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+			 	<h2  <%-- onclick="ycDiv(this,'${vsKey.index}')"  --%>class="count_flow"><%-- 包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span> --%>
 			 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 			 	</h2>		 	
 	        </div>
@@ -29,9 +29,9 @@
 						<th class="info w50">序号</th>
 						<th class="info w200">供应商名称</th>
 						<th class="info w100">总价(万元)</th>
-						<th class="info">交货期限</th>
+						<th class="info w150">交货期限</th>
 						<th class="info w100">状态</th>
-						<th class="info w100">放弃原因</th>
+						<th class="info w300">放弃原因</th>
 				    </tr>
 				</thead>
 				<c:set value="0" var = "index"> </c:set>
@@ -53,7 +53,7 @@
 		</c:forEach>
 	</c:forEach>
 	<div class="col-md-12 tc">
-		<input class="btn btn-windows reset" value="返回" type="button" onclick="back()">
+		<!-- <input class="btn btn-windows reset" value="返回" type="button" onclick="back()"> -->
 	</div>
 </div>
 </body>
