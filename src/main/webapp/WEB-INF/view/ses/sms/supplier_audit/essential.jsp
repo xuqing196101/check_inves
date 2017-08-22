@@ -832,7 +832,7 @@
                     <div class="clear"></div>
                 </c:forEach> --%>
 
-                <table class="table table-bordered  table-condensed table-hover">
+                <table class="table table-bordered  table-condensed table-hover m_table_fixed_border">
                     <thead>
                     <tr>
                         <th class="info w50">序号</th>
@@ -1298,7 +1298,7 @@
             <h2 class="count_flow"><i>9</i>售后服务机构</h2>
             <ul class="ul_list">
 
-                <table class="table table-bordered  table-condensed table-hover">
+                <table class="table table-bordered  table-condensed table-hover m_table_fixed_border">
                     <thead>
                     <tr>
                         <th class="info w50">序号</th>

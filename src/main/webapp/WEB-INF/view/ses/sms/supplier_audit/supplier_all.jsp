@@ -464,7 +464,7 @@
 					
 				</div>
 				<div class="content table_box">
-					<table class="table table-bordered table-condensed table-hover hand">
+					<table class="table table-bordered table-condensed table-hover hand m_table_fixed_border">
 						<thead>
 							<tr>
 								<th class="info w50">选择</th>
