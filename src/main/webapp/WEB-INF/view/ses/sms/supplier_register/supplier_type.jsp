@@ -2299,10 +2299,10 @@
 															</td>
 															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																 <!-- 
-																<select id="certType_${certAptNumber}" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" class="w100p border0" onchange="getAptLevel(this)">
-																	<c:forEach items="${typeList}" var="type">
-																		<option value="${type.id}" <c:if test="${aptitute.certType eq type.id}">selected</c:if>>${type.name}</option>
-																	</c:forEach>
+																<select id="certType_$ {certAptNumber}" name="supplierMatEng.listSupplierAptitutes[$ {certAptNumber}].certType" class="w100p border0" onchange="getAptLevel(this)">
+																	<c :forEach items="$ {typeList}" var="type">
+																		<option value="$ {type.id}" <c :if test="$ {aptitute.certType eq type.id}">selected</c :if>>$ {type.name}</option>
+																	</c :forEach>
 																</select> -->
 																<select title="cnjewfn" id="certType_${certAptNumber}" class="w100p border0 certTypeSelect" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" style="width:200px;border: none;">
 																    <c:set var="tempForShowOption" value="go" scope="page"/>
@@ -2356,7 +2356,7 @@
 																		if(currSupplierSt == '2'){
 																			options.disabled = true;
 																			//$(this).parent("td").css("border") == '1px solid rgb(255, 0, 0)'
-																			if($(this).parent("td").css("border-color") == 'rgb(255, 0, 0)'){
+																			if($(this).parent("td").attr("style") == 'border: 1px solid red;'){
 																				options.disabled = false;
 																			}
 																		}
@@ -2373,7 +2373,7 @@
 																		if(currSupplierSt == '2'){
 																			options.disabled = true;
 																			//$(this).parent("td").css("border") == '1px solid rgb(255, 0, 0)'
-																			if($(this).parent("td").css("border-color") == 'rgb(255, 0, 0)'){
+																			if($(this).parent("td").attr("style") == 'border: 1px solid red;'){
 																				options.disabled = false;
 																			}
 																		}
