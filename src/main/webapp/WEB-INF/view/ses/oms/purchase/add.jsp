@@ -63,6 +63,7 @@
                 }
             });
         }
+        
 function showRole() {
 	var userId = $("#uId").val();
 	var setting = {
@@ -194,10 +195,18 @@ function onCheck(e, treeId, treeNode) {
 		
 		
 		function save(){
-		  $("#formID").validForm();
-		  $("#password11").val(setPublicKey($("#password1").val()));
-	      $("#password22").val(setPublicKey($("#password2").val()));
-	      $("#formID").submit();
+		  	$("#formID").validForm();
+		  	if ($("#password1").val().indexOf(" ")!=-1 || $("#password2").val().indexOf(" ")!=-1) {
+				$("#password1").val("");
+				$("#password2").val("");
+				$("#pwd1").html("不能有空格").css('color','red');
+                flag=1;
+                return false;
+			} else {
+			  	$("#password11").val(setPublicKey($("#password1").val()));
+		      	$("#password22").val(setPublicKey($("#password2").val()));
+		      	$("#formID").submit();
+			}
 		}
 		
 		function ajaxIdNumber(){
@@ -304,7 +313,7 @@ function onCheck(e, treeId, treeNode) {
 				<input type="hidden" name="password" id="password11"/>
 				<span class="add-on">i</span>
 				<div class="cue"><sf:errors path="password"/></div>
-				<div class="cue">${password2_msg}</div>
+				<div class="cue" id="pwd1">${password2_msg}</div>
 			  </div>
 			</li> 
 			
@@ -315,7 +324,7 @@ function onCheck(e, treeId, treeNode) {
 				<input type="hidden" name="password2" id="password22"/>
 				<span class="add-on">i</span>
 				<div class="cue"><sf:errors path="password2"/></div>
-				<div class="cue">${password2_msg}</div>
+				<div class="cue" id="pwd2">${password2_msg}</div>
 			  </div>
 			</li>
 			 	
