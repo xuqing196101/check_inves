@@ -281,6 +281,7 @@
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			  <input class="input_group" maxlength="27"  name="postCode" isZipCode="true" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text"> 
 			  <span class="add-on">i</span>
+			  <div class="cue"></div>
 			</div>
 		  </li>
 		  

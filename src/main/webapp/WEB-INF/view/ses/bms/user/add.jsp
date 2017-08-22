@@ -466,6 +466,16 @@
 		$("#password11").val(setPublicKey($("#password1").val()));
         $("#password22").val(setPublicKey($("#password2").val()));
 	}
+	
+	function a() {
+		var emaila = $("#email").val();
+		var regex = "/^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g";
+		 if(emaila.indexOf("。") > 0){
+			$("#err_email").text("不能包含 。");
+		}
+		
+	}
+	
 	</script>
 </head>
 <body>
@@ -558,9 +568,9 @@
 		        <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
 				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">邮箱</span>
 				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				        <input  name="email" value="${user.email}" maxlength="100" type="text">
+				        <input  name="email" id="email" value="${user.email}" maxlength="100" type="text" onblur="a()">
 				        <span class="add-on">i</span>
-				        <div class="cue"><sf:errors path="email"/></div>
+				        <div class="cue"><span id="err_email"></span><sf:errors path="email"/>${err_email}</div>
 			       	</div>
 			 	</li>
 		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">

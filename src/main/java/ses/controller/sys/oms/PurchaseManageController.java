@@ -302,6 +302,9 @@ public class PurchaseManageController {
             initManageLevel(model);
             return "ses/oms/require_dep/add";
         }
+		
+		
+		
 	    String depIds = request.getParameter("depIds");
 	    
 		orgnizationServiceI.saveOrgnization(orgnization, depIds);
