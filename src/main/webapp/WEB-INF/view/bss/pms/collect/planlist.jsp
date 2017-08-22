@@ -418,6 +418,7 @@
                 <select name="status">
                   <option value="0" >全部</option>
                   <option value="1" <c:if test="${inf.status=='1'}"> selected</c:if> >审核轮次设置</option>
+                  <option value="9"  <c:if test="${inf.status=='9'}"> selected</c:if>> 第一轮审核人员设置</option>
                   <option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> > 第一轮审核</option>
                   <option value="4" <c:if test="${inf.status=='4'}"> selected</c:if> > 第二轮审核人员设置</option>
                   <option value="5" <c:if test="${inf.status=='5'}"> selected</c:if> > 第二轮审核</option>
@@ -475,7 +476,8 @@
               </td>
               <td class="tl" onclick="view('${obj.id}')">
                 <input type="hidden" value="${obj.status}" />
-                <c:if test="${obj.status=='1' }">审核轮次设置</c:if>
+                <c:if test="${obj.status=='1'&&obj.auditTurn != 2&&obj.auditTurn != 1&&obj.auditTurn != 3 }">审核轮次设置</c:if>
+                <c:if test="${obj.status=='1'&&(obj.auditTurn == 2||obj.auditTurn == 1||obj.auditTurn == 3) }">第一轮审核人员设置</c:if>
                 <c:if test="${(obj.status == 2 || obj.status == 12  ) && obj.auditTurn == null}">已直接下达</c:if>
                 <%--    <c:if test="${obj.status == 2}">
                     已直接下达

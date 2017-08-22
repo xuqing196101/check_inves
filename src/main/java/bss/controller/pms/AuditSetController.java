@@ -278,7 +278,7 @@ public class AuditSetController {
 	@RequestMapping("/expert")
 	public String getExpert(Integer page,Expert expert,Model model,HttpServletRequest request,String satff){
 		String type = request.getParameter("type");
-		expert.setStatus("4");
+		expert.setStatus("6");
 		List<Expert> list = expertService.selectAllExpert(page==null?1:page, expert);
 		PageInfo<Expert> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
