@@ -423,7 +423,7 @@ public class ExpertAuditController{
 		}
 		
 		
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("0") || "9".equals(expert.getStatus()) || expert.getStatus().equals("-2") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("0") || "9".equals(expert.getStatus()) || expert.getStatus().equals("-2") ||  expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
 			/**
 			 * 回显未通过的字段
 			 */
@@ -1129,7 +1129,7 @@ public class ExpertAuditController{
 		model.addAttribute("expertId", expertId);
 		model.addAttribute("status", expert.getStatus());
 		//回显不通过的字段
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "9".equals(expert.getStatus()) ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
 			ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("five");
@@ -1375,7 +1375,7 @@ public class ExpertAuditController{
 		model.addAttribute("typeMap", typeMap);
 		
 		//回显不通过的字段
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "9".equals(expert.getStatus()) ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
 			/*ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("seven");
@@ -1644,7 +1644,7 @@ public class ExpertAuditController{
 		/**
 		 * 待办
 		 */
-		if ("1".equals(status)){
+		if ("4".equals(status)){
 	        Todos todos = new Todos();
 	        todos.setCreatedAt(new Date());
 	        todos.setIsDeleted((short)0);
@@ -2729,13 +2729,9 @@ public class ExpertAuditController{
 		ExpertAuditOpinion selectEao = new ExpertAuditOpinion();
 		ExpertAuditOpinion auditOpinion = null;
 		selectEao.setExpertId(expertId);
-		if(sign != null && sign == 2){
-			selectEao.setFlagTime(1);
-			// 复审意见查询
-			auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
-		}else {
-			auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
-		}
+		selectEao.setFlagTime(0);
+		// 复审意见查询
+		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		model.addAttribute("auditOpinion", auditOpinion);
 		
 		Expert expert = expertService.selectByPrimaryKey(expertId);

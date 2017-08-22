@@ -23,10 +23,13 @@
     </c:if>
     <li id="reverse_of_five" onclick="jump('reasonsList')">
         <a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
-        <i id="reverse_of_five_i" class="display-none"></i>
+        <c:if test="${sign == 1}">
+          <i id="reverse_of_five_i" class="display-none"></i>
+        </c:if>
     </li>
-    
-    <li id="reverse_of_six" onclick="jump('uploadApproveFile')" class="display-none">
-        <a aria-expanded="false" href="#tab-1" data-toggle="tab">上传批准审核表</a>
-    </li>
+    <c:if test="${sign == 1}">
+	    <li id="reverse_of_six" onclick="jump('uploadApproveFile')" class="display-none">
+	      <a aria-expanded="false" href="#tab-1" data-toggle="tab">上传批准审核表</a>
+	    </li>
+    </c:if>
 </ul>
