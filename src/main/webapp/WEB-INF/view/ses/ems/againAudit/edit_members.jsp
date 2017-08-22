@@ -43,7 +43,7 @@
     
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn">添加</button>
+      <button type="button" class="btn" onclick="add_members()">添加</button>
       <button type="button" class="btn">删除</button>
       <button type="button" class="btn">设置密码</button>
     </div>
@@ -67,10 +67,42 @@
   </div>
   <!-- 内容结束 -->
   
-  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchDetails.js"></script>
+  <!-- 添加审核组成员弹出窗 -->
+  <div class="hide mt20" id="modal_addMembers">
+  <div class="form-horizontal w100p pl20 pr20 over_hideen">
+    <div class="form-group">
+      <label class="col-sm-3 text-right pt6">用户名</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control w100p" name="loginName" placeholder="请输入用户名">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 text-right pt6">专家姓名</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control w100p" name="relName" placeholder="请输入专家姓名">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 text-right pt6">单位</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control w100p" name="orgName" placeholder="请输入单位">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 text-right pt6">技术职称（职务）</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control w100p" name="duties" placeholder="请输入技术职称（职务）">
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- End 添加审核组成员弹出窗 -->
+  
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/editMembers.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetails.do';  // 列表地址
+    var add_url = '${pageContext.request.contextPath}/expertAgainAudit/addExpertReviewTeam.do';  // 添加地址
     var select_ids = [];
     
     $(function () {

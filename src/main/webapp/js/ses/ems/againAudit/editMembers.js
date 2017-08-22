@@ -18,9 +18,6 @@
             +'<td>'+ list_content.list[i].orgName +'</td>'
             +'<td>'+ list_content.list[i].relName +'</td>'
             +'<td class="text-center">'+ list_content.list[i].sex +'</td>'
-            +'<td>'+ list_content.list[i].workUnit +'</td>'
-            +'<td>'+ list_content.list[i].professTechTitles +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].updatedAt +'</td>'
           +'</tr>');
         }
         

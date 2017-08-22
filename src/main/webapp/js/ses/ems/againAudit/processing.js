@@ -247,7 +247,6 @@ function getUrlParam(name) {
 
 // 批次分组完成校验
 function finish_groupBatch() {
-  console.log(getUrlParam('batchId'));
   $.ajax({
     type: 'POST',
     dataType: 'json',
@@ -259,11 +258,81 @@ function finish_groupBatch() {
       layer.msg(data.message, {
         offset: '100px'
       });
+      window.history.back();
     },
     error: function (data) {
       layer.msg(data.message, {
         offset: '100px'
       });
+    }
+  });
+}
+
+// 添加审核组成员
+function add_members() {
+  var index = layer.open({
+    title: ['添加审核组成员'],
+    shade: 0.3, //遮罩透明度
+    type : 1,
+    area : ['400px'], //宽高
+    content : $('#modal_addMembers'),
+    btn: ['确定', '取消'],
+    yes: function() {
+      var loginName = $('input[name=loginName]');  // 用户名
+      var relName = $('input[name=relName]');  // 专家姓名
+      var orgName = $('input[name=orgName]');  // 单位
+      var duties = $('input[name=duties]');  // 职务
+      if (loginName.val() === '') {
+        layer.msg('请填写用户名', {
+          offset: '100px'
+        });
+        return false;
+      } else if (relName.val() === '') {
+        layer.msg('请填写专家姓名', {
+          offset: '100px'
+        });
+        return false;
+      } else if (orgName.val() === '') {
+        layer.msg('请填写单位', {
+          offset: '100px'
+        });
+        return false;
+      } else if (duties.val() === '') {
+        layer.msg('请填写职务', {
+          offset: '100px'
+        });
+        return false;
+      } else {
+        $.ajax({
+          type: 'POST',
+          dataType: 'json',
+          url: add_url,
+          data: {
+            loginName: loginName.val(),
+            relName: relName.val(),
+            orgName: orgName.val(),
+            duties: duties.val()
+          },
+          success: function (data) {
+            layer.msg(data.message, {
+              offset: '100px'
+            });
+            loginName.val('');
+            relName.val('');
+            orgName.val('');
+            duties.val('');
+            layer.close(index);
+          },
+          error: function (data) {
+            layer.msg(data.message, {
+              offset: '100px'
+            });
+          }
+        });
+      }
+    },
+    btn2: function() {
+      layer.close(index);
     }
   });
 }
