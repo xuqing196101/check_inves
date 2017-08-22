@@ -12,15 +12,23 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import ses.dao.bms.RoleMapper;
+import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertBatchMapper;
 import ses.dao.ems.ExpertGroupMapper;
 import ses.dao.ems.ExpertMapper;
+import ses.dao.ems.ExpertReviewTeamMapper;
+import ses.model.bms.Role;
+import ses.model.bms.RoleUser;
+import ses.model.bms.User;
+import ses.model.bms.Userrole;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertGroup;
+import ses.model.ems.ExpertReviewTeam;
 import ses.service.ems.ExpertAgainAuditService;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
@@ -40,6 +48,12 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	private ExpertBatchDetailsMapper expertBatchDetailsMapper;
 	@Autowired
 	private ExpertGroupMapper expertGroupMapper;
+	@Autowired
+	private ExpertReviewTeamMapper expertReviewTeamMapper;
+	@Autowired
+	private UserMapper userMapper;
+	@Autowired
+	private RoleMapper roleMapper;
 	@Override
 	public ExpertAgainAuditImg addAgainAudit(String ids) {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
@@ -186,6 +200,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		expertGroup.setCount(count+"");
 		expertGroup.setCreatedAt(new Date());
 		expertGroup.setUpdatedAt(new Date());
+		expertGroup.setStatus("1");
 		expertGroupMapper.insert(expertGroup);
 		List<String> idsList = new ArrayList<String>();
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
@@ -273,6 +288,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("id", group.getGroupId());
 			map.put("name", group.getGroupName());
+			map.put("groupStatus", group.getStatus());
 			ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 			expertBatchDetails.setGroupId(group.getGroupId());
 			List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
@@ -339,6 +355,66 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 				return img;
 			}
 		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg findExpertReviewTeam(String groupId) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		ExpertGroup expertGroup = new ExpertGroup();
+		expertGroup.setGroupId(groupId);
+		List<ExpertGroup> group = expertGroupMapper.getGroup(expertGroup);
+		expertGroup=group.get(0);
+		if("3".equals(expertGroup.getStatus())){
+			img.setStatus(false);
+			img.setMessage("当前组已配置完成");
+			return img;
+		}
+		ExpertReviewTeam expertReviewTeam = new ExpertReviewTeam();
+		expertReviewTeam.setGroupId(groupId);
+		List<ExpertReviewTeam> list = expertReviewTeamMapper.getExpertReviewTeamList(expertReviewTeam);
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("groupId", groupId);
+		map.put("list", list);
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		img.setObject(map);
+		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg addExpertReviewTeam(ExpertReviewTeam expertReviewTeam) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		expertReviewTeam.setId(WfUtil.createUUID());
+		User user = new User();
+		user.setId(WfUtil.createUUID());
+		user.setLoginName(expertReviewTeam.getLoginName());
+		user.setRelName(expertReviewTeam.getRelName());
+		user.setOrgName(expertReviewTeam.getOrgName());
+		user.setDuties(expertReviewTeam.getDuties());
+		user.setCreatedAt(new Date());
+		user.setUpdatedAt(new Date());
+		user.setIsDeleted(1);
+		user.setTypeId(expertReviewTeam.getId());
+		userMapper.insert(user);
+		ExpertGroup expertGroup = new ExpertGroup();
+		expertGroup.setGroupId(expertReviewTeam.getGroupId());
+		List<ExpertGroup> group = expertGroupMapper.getGroup(expertGroup);
+		expertGroup=group.get(0);
+		expertReviewTeam.setBatchId(expertGroup.getBatchId());
+		expertReviewTeam.setUserId(user.getId());
+		expertReviewTeam.setCreatedAt(new Date());
+		expertReviewTeam.setUpdatedAt(new Date());
+		RoleUser roleUser = new RoleUser();
+		roleUser.setUserId(user.getId());
+		roleUser.setRoleId("2A47E9E432CF4E4DACED2BC099715BCC");
+		userMapper.saveUserRole(roleUser);
+		expertGroup.setStatus("2");
+		expertGroupMapper.updateStatus(expertGroup);
 		img.setStatus(true);
 		img.setMessage("操作成功");
 		return img;

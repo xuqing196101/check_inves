@@ -3,6 +3,7 @@ package ses.service.ems;
 import java.util.Date;
 
 import ses.model.ems.ExpertAgainAuditImg;
+import ses.model.ems.ExpertReviewTeam;
 
 public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg addAgainAudit(String ids);
@@ -15,4 +16,6 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg	findExpertGroupDetails(String batchId);
 	ExpertAgainAuditImg delExpertGroupDetails(String ids);
 	ExpertAgainAuditImg checkComplete(String batchId);
+	ExpertAgainAuditImg findExpertReviewTeam(String groupId);
+	ExpertAgainAuditImg addExpertReviewTeam(ExpertReviewTeam expertReviewTeam);
 }

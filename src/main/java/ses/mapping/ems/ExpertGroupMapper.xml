@@ -8,9 +8,10 @@
         <result column="CROUT" jdbcType="VARCHAR" property="crout" />
         <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+        <result column="STATUS" jdbcType="VARCHAR" property="status" />
     </resultMap>
     <sql id="Base_List">
-    	GROUP_ID,BATCH_ID,GROUP_NAME,COUNT,CREATED_AT,UPDATED_AT
+    	GROUP_ID,BATCH_ID,GROUP_NAME,COUNT,CREATED_AT,UPDATED_AT,STATUS
     </sql>
    
     <!-- 获取当前批次中最大组号 -->
@@ -32,10 +33,13 @@
     </select>
     <insert id="insert" parameterType="ses.model.ems.ExpertGroup">
         insert into T_SYS_EMS_EXPERT_GROUP
-        (GROUP_ID,BATCH_ID,GROUP_NAME,COUNT,CREATED_AT,UPDATED_AT)
+        (GROUP_ID,BATCH_ID,GROUP_NAME,COUNT,CREATED_AT,UPDATED_AT,STATUS)
         values
-        (#{groupId}, #{batchId},#{groupName},#{count}, #{createdAt}, #{updatedAt})
+        (#{groupId}, #{batchId},#{groupName},#{count}, #{createdAt}, #{updatedAt},#{status})
     </insert>
+    <update id="updateStatus" parameterType="ses.model.ems.ExpertGroup">
+    	update T_SYS_EMS_EXPERT_GROUP set STATUS=#{status} where GROUP_ID=#{groupId}
+    </update>
    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
    		 delete from
         T_SYS_EMS_EXPERT_GROUP

@@ -25,6 +25,7 @@ import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
+import ses.model.ems.ExpertReviewTeam;
 import ses.service.ems.ExpertAgainAuditService;
 import ses.service.ems.ExpertService;
 
@@ -341,5 +342,74 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		}
 		img = againAuditService.checkComplete(batchId);
 		super.writeJson(response, img);
+	}
+	/*
+	 * 获取当前组的审核组成员
+	 * */
+	@RequestMapping("findExpertReviewTeam")
+	public void findExpertReviewTeam(HttpServletRequest request,HttpServletResponse response,String groupId){
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"4".equals(user.getTypeName())){
+		img.setStatus(false);
+		img.setMessage("您的权限不足");
+		super.writeJson(response, img);
+		return;
+		}*/
+		if(groupId==null){
+			img.setStatus(false);
+			img.setMessage("操作失败");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.findExpertReviewTeam(groupId);
+		super.writeJson(response, img);
+	}
+	/*
+	 * 配置审核组成员
+	 * */
+	@RequestMapping("addExpertReviewTeam")
+	public void addExpertReviewTeam(HttpServletRequest request,HttpServletResponse response,ExpertReviewTeam e){
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"4".equals(user.getTypeName())){
+		img.setStatus(false);
+		img.setMessage("您的权限不足");
+		super.writeJson(response, img);
+		return;
+		}*/
+		if(e!=null){
+			if("".equals(e.getGroupId())){
+				img.setStatus(false);
+				img.setMessage("请选择您要配置的组");
+				super.writeJson(response, img);
+				return;
+			}
+			if("".equals(e.getLoginName())){
+				img.setStatus(false);
+				img.setMessage("用户名不能为空");
+				super.writeJson(response, img);
+				return;
+			}
+			if("".equals(e.getRelName())){
+				img.setStatus(false);
+				img.setMessage("专家姓名不能为空");
+				super.writeJson(response, img);
+				return;
+			}
+			if("".equals(e.getOrgName())){
+				img.setStatus(false);
+				img.setMessage("单位不能为空");
+				super.writeJson(response, img);
+				return;
+			}
+			if("".equals(e.getDuties())){
+				img.setStatus(false);
+				img.setMessage("职务不能为空");
+				super.writeJson(response, img);
+				return;
+			}
+			img=againAuditService.addExpertReviewTeam(e);
+			super.writeJson(response, img);
+			return;
+		}
 	}
 }

@@ -15,6 +15,15 @@ public class ExpertGroup {
 	private Date createdAt;
 	/**修改时间*/
 	private Date updatedAt;
+	/**配置状态（1:待分配，2:分配中，3:分配完成）*/
+	private String status;
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public String getGroupId() {
 		return groupId;
 	}
