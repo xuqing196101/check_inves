@@ -1521,10 +1521,10 @@ public class ExpertAuditController{
 		if(sign != null && sign == 2){
 			selectEao.setFlagTime(1);
 			// 复审意见查询
-			auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		}else {
-			auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
+			selectEao.setFlagTime(0);
 		}
+		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		int categoryCount=0;
 		model.addAttribute("qualified", true);
 		for (Entry<String, Integer> entry : map.entrySet()) {  
