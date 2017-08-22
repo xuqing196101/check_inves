@@ -44,7 +44,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	/*
 	 * 提交复审
 	 * */
-	@RequestMapping("addAgainAudit")
+	@RequestMapping("/addAgainAudit")
 	public void addAgainAudit(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response, String ids){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		if(!"1".equals(user.getTypeName())){
@@ -64,7 +64,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	/*
 	 * 查询所有带分配专家
 	 * */
-	@RequestMapping("againAuditList")
+	@RequestMapping("/againAuditList")
 	public void againAuditList(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,Expert expert, Integer pageNum,String batchIds){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
@@ -95,14 +95,17 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		img.setObject(result);
 		super.writeJson(response, img);
 	}
-	@RequestMapping("findAgainAuditList")
+	/*
+	 * 专家复审分配列表
+	 * */
+	@RequestMapping("/findAgainAuditList")
 	public String findAgainAuditList(HttpServletRequest request,HttpServletResponse response,Model model){
 		return "/ses/ems/againAudit/allot_list";
 	};
 	/*
 	 * 创建新批次
 	 * */
-	@RequestMapping("createBatch")
+	@RequestMapping("/createBatch")
 	public void createBatch(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchName, String batchNumber, String ids){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
@@ -135,7 +138,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	/*
 	 * 查询批次
 	 * */
-	@RequestMapping("findBatch")
+	@RequestMapping("/findBatch")
 	public void findBatch(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchNumber,String batchName, Date createdAt, Integer pageNum){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
@@ -150,18 +153,18 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		img=againAuditService.findBatch(batchNumber,batchName, createdAt, pageNum);
 		super.writeJson(response, img);
 	}
-	@RequestMapping("findBatchList")
+	@RequestMapping("/findBatchList")
 	public String findBatchList(HttpServletRequest request,HttpServletResponse response,Model model){
 		return "/ses/ems/againAudit/list_batch";
 	};
-	@RequestMapping("findBatchDetailsList")
+	@RequestMapping("/findBatchDetailsList")
 	public String findBatchDailesList(HttpServletRequest request,HttpServletResponse response,Model model){
 		return "/ses/ems/againAudit/details_batch";
 	}
 	/*
 	 * 查询批次详情
 	 * */
-	@RequestMapping("findBatchDetails")
+	@RequestMapping("/findBatchDetails")
 	public void findBatchDetails(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId,String status,Integer pageNum){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
@@ -179,7 +182,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	/*
 	 * 创建新分组
 	 * */
-	@RequestMapping("expertGrouping")
+	@RequestMapping("/expertGrouping")
 	public void expertGrouping(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId,String ids){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
@@ -203,7 +206,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		img = againAuditService.expertGrouping(batchId, ids);
 		super.writeJson(response, img);
 	}
-	@RequestMapping("groupBatch")
+	@RequestMapping("/groupBatch")
 	public String groupBatch(HttpServletRequest request,HttpServletResponse response,Model model){
 		return "/ses/ems/againAudit/group_batch";
 	}
@@ -211,7 +214,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	/*
 	 * 获取批次中所有的已有组
 	 * */
-	@RequestMapping("getGroups")
+	@RequestMapping("/getGroups")
 	public void getGroups(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
@@ -233,7 +236,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	/*
 	 * 添加至已有分组
 	 * */
-	@RequestMapping("expertAddGroup")
+	@RequestMapping("/expertAddGroup")
 	public void expertAddGroup(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String groupId,String ids){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
@@ -260,7 +263,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	/*
 	 * 获取所有分组及各个组中的专家
 	 * */
-	@RequestMapping("findExpertGroupDetails")
+	@RequestMapping("/findExpertGroupDetails")
 	public void findExpertGroupDetails(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
@@ -281,7 +284,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	/*
 	 *将已分组专家从本组删除 
 	 * */
-	@RequestMapping("delExpertGroupDetails")
+	@RequestMapping("/delExpertGroupDetails")
 	public void delExpertGroupDetails(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String ids){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
@@ -297,6 +300,46 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			return;
 		}
 		img=againAuditService.delExpertGroupDetails(ids);
+		super.writeJson(response, img);
+	}
+	@RequestMapping("/editMembers")
+	public String editMembers(HttpServletRequest request,HttpServletResponse response,Model model){
+		return "/ses/ems/againAudit/edit_members";
+	}
+	@RequestMapping("/auditBatch")
+	public String auditBatch(HttpServletRequest request,HttpServletResponse response,Model model){
+		return "/ses/ems/againAudit/audit_batch";
+	}
+	/*
+	 * 专家审核复审批次列表
+	 * */
+	@RequestMapping("/expertAuditBatch")
+	public String expertAuditBatch(HttpServletRequest request,HttpServletResponse response,Model model){
+		return "/ses/ems/againAudit/expert_auditBatch";
+	}
+	/*
+	 * 专家审核复审批次详情列表
+	 * */
+	@RequestMapping("/expertDetailsBatch")
+	public String expertDetailsBatch(HttpServletRequest request,HttpServletResponse response,Model model){
+		return "/ses/ems/againAudit/expert_detailsBatch";
+	}
+	@RequestMapping("/checkComplete")
+	public void checkComplete(HttpServletRequest request,HttpServletResponse response,String batchId){
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"4".equals(user.getTypeName())){
+		img.setStatus(false);
+		img.setMessage("您的权限不足");
+		super.writeJson(response, img);
+		return;
+		}*/
+		if(batchId==null){
+			img.setStatus(false);
+			img.setMessage("操作失败");
+			super.writeJson(response, img);
+			return;
+		}
+		img = againAuditService.checkComplete(batchId);
 		super.writeJson(response, img);
 	}
 }

@@ -62,8 +62,8 @@
             </span>
           </li>
           <li>
-            <button type="button" class="btn mb5 againAudit_search">查询</button>
-            <button type="button" class="btn mb5" onclick="resetForm()">重置</button>
+            <button type="button" class="btn mb5" onclick="allotList_search()">查询</button>
+            <button type="reset" class="btn mb5">重置</button>
           </li>
         </ul>
         <div class="clear"></div>
@@ -72,8 +72,7 @@
       
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn btn_create_review_batches">创建复审批次</button>
-      <button type="button" class="btn" onclick="window.location='${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html'">跳转到专家复审批次列表</button>
+      <button type="button" class="btn" onclick="create_review_batches()">创建复审批次</button>
     </div>
 
     <div class="content table_box">
@@ -142,16 +141,6 @@
       // 构建列表
       $('#list_content').listConstructor({
         url: list_url
-      });
-      
-      // 搜索
-      $('.againAudit_search').bind('click', function () {
-        allotList_search(list_url);
-      });
-      
-      // 创建复审批次
-      $('.btn_create_review_batches').bind('click', function () {
-        create_review_batches(list_url, batch_url, select_ids);
       });
     });
   </script>

@@ -66,8 +66,8 @@
             </span>
           </li>
           <li>
-            <button type="button" class="btn mb5 againAudit_search">查询</button>
-            <button type="button" class="btn mb5" onclick="resetForm()">重置</button>
+            <button type="button" class="btn mb5" onclick="batchList_search()">查询</button>
+            <button type="reset" class="btn mb5">重置</button>
           </li>
         </ul>
         <div class="clear"></div>
@@ -104,11 +104,6 @@
       $('#list_content').listConstructor({
         url: list_url,
         batch_url: batch_url
-      });
-      
-      // 搜索
-      $('.againAudit_search').bind('click', function () {
-        batchList_search(list_url);
       });
     });
   </script>

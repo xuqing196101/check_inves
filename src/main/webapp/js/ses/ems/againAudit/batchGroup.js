@@ -13,7 +13,6 @@
       data_new: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
-        console.log(list_content);
         $('#list_content').html('');
         for (var i in list_content.list) {
           $('#list_content').append('<tr>'
@@ -157,7 +156,8 @@
               dataType: opts.dataType,
               url: opts.url,
               data: {
-                pageNum: e.curr
+                pageNum: e.curr,
+                status: '14'
               },
               success: opts.success
             });

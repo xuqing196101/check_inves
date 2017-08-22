@@ -14,4 +14,5 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg expertAddGroup(String groupId,String ids);
 	ExpertAgainAuditImg	findExpertGroupDetails(String batchId);
 	ExpertAgainAuditImg delExpertGroupDetails(String ids);
+	ExpertAgainAuditImg checkComplete(String batchId);
 }
