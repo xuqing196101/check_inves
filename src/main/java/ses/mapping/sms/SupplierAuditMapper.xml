@@ -39,6 +39,21 @@
     ORDER BY CREATED_AT DESC
   </select>
   
+ 	<!-- 查询所有的审核记录 -->
+  <select id="selectAuditRecords"   parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_AUDIT
+    where SUPPLIER_ID = #{supplierId}
+    <if test="auditField!=null">
+		and  AUDIT_FIELD=#{auditField}
+    </if>
+    <if test="auditType!=null">
+		and  AUDIT_TYPE=#{auditType}
+    </if>
+    ORDER BY CREATED_AT DESC
+  </select>
+  
   <select id="findByTypeId"   parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
     select
      AUDIT_TYPE, SUPPLIER_ID, AUDIT_FIELD, 

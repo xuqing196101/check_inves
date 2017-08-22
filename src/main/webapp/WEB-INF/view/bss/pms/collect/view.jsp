@@ -351,7 +351,7 @@
 					<c:if test="${list[0].planType=='FC9528B2E74F4CB2A9E74735A8D6E90A'}">
 					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5"  id="dnone" >
 			            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			                <input type="checkbox" name="" onchange="" <c:if test="${list[0].enterPort==1}">checked="checked"</c:if> value="" />进口
+			                <input type="checkbox" name="" disabled="true" onchange="" <c:if test="${list[0].enterPort==1}">checked="checked"</c:if> value="" />进口
 			            </div>
 			         </li>
 			         </c:if>

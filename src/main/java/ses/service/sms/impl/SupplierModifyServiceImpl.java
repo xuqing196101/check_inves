@@ -1211,6 +1211,25 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				}
 			}
 		}
+		
+		//承揽业务范围附件
+		if(businessId.indexOf("_") > 0){
+			String[] ary = businessId.split("_");
+			if(ary != null && ary.length > 1){
+				String supplierId = ary[0];
+				String areaId = ary[1];
+				if(supplierId != null){
+					supplier = supplierService.selectById(supplierId);
+					if(supplier != null && supplier.getStatus() == 2){
+						supplierModify.setModifyType("file");
+						supplierModify.setBeforeField(fileTypeId);
+						supplierModify.setSupplierId(supplierId);
+						supplierModify.setRelationId(areaId);
+						supplierModifyMapper.insertSelective(supplierModify);
+					}
+				}
+			}
+		}
 	}
 	
 	
@@ -1226,5 +1245,10 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	public void updateIsDeleteBySupplierId(SupplierModify supplierModify) {
 		supplierModifyMapper.updateIsDeleteBySupplierId(supplierModify);
 		
+	}
+
+	@Override
+	public int countBySupplierId(SupplierModify supplierModify) {
+		return supplierModifyMapper.countBySupplierId(supplierModify);
 	}	
 }

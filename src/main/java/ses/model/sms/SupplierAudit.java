@@ -30,6 +30,9 @@ public class SupplierAudit {
     /**产品类别**/
     private String type;
     
+    // 是否修改过
+    private byte isModified;
+    
     public String getId() {
         return id;
     }
@@ -134,4 +137,13 @@ public class SupplierAudit {
     public void setType(String type) {
         this.type = type;
     }
+
+	public byte getIsModified() {
+		return isModified;
+	}
+
+	public void setIsModified(byte isModified) {
+		this.isModified = isModified;
+	}
+    
 }

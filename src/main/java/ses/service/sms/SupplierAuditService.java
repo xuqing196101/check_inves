@@ -512,4 +512,11 @@ public interface SupplierAuditService {
 
     JdcgResult vertifyOpinion(String supplierId);
 
+    /**
+     * 获取所有的审核记录
+     * @param supplierAudit
+     * @return
+     */
+	List<SupplierAudit> getAuditRecords(SupplierAudit supplierAudit);
+
 }

@@ -154,4 +154,20 @@
      to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
      and to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR}
     </select>
+    
+		<select id="selectCategoryQuaList" parameterType="ses.model.bms.CategoryQua" resultMap="categoryQuaMap">
+			select
+			<include refid="BASE_COLUMN_SQL" />
+			from T_SES_BMS_CATEGORY_QUA
+			where 1 = 1
+			<if test="categoryId != null">
+		  	and CATEGORY_ID = #{categoryId}
+		  </if>
+		  <if test="quaId != null">
+		  	and QUA_ID = #{quaId}
+		  </if>
+		  <if test="quaType != null and quaType != 0">
+		  	and QUA_TYPE = #{quaType}
+		  </if>
+		</select>
 </mapper>
