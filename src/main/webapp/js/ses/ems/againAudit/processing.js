@@ -244,3 +244,26 @@ function getUrlParam(name) {
   var r = window.location.search.substr(1).match(reg);
   if (r!=null) return unescape(r[2]); return null;
 }
+
+// 批次分组完成校验
+function finish_groupBatch() {
+  console.log(getUrlParam('batchId'));
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: finish_url,
+    data: {
+      batchId: getUrlParam('batchId')
+    },
+    success: function (data) {
+      layer.msg(data.message, {
+        offset: '100px'
+      });
+    },
+    error: function (data) {
+      layer.msg(data.message, {
+        offset: '100px'
+      });
+    }
+  });
+}

@@ -71,7 +71,7 @@
     <!-- End 专家分组 -->
     
     <div class="text-center mt20">
-      <button type="button" class="btn">完成</button>
+      <button type="button" class="btn" onclick="finish_groupBatch()">完成</button>
       <button type="button" class="btn">取消</button>
     </div>
       
@@ -91,6 +91,7 @@
     var add_url = '${pageContext.request.contextPath}/expertAgainAudit/expertGrouping.do';  // 添加到新分组地址
     var getGroup_url = '${pageContext.request.contextPath}/expertAgainAudit/getGroups.do';  // 获取已有分组
     var addGroup_url = '${pageContext.request.contextPath}/expertAgainAudit/expertAddGroup.do';  // 添加到已有分组地址
+    var finish_url = '${pageContext.request.contextPath}/expertAgainAudit/checkComplete.do';  // 完成校验地址
     var select_ids = [];  // id集合
     var batch_id = '';  // 批次id
     var select_groupId = '';  // 选择的分组id
