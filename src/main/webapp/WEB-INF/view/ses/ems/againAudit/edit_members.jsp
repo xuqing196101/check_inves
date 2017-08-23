@@ -44,8 +44,8 @@
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10">
       <button type="button" class="btn" onclick="add_members()">添加</button>
-      <button type="button" class="btn">删除</button>
-      <button type="button" class="btn">设置密码</button>
+      <button type="button" class="btn" onclick="del_members()">删除</button>
+      <button type="button" class="btn" onclick="set_password()">设置密码</button>
     </div>
     
     <div class="content table_box">
@@ -98,11 +98,32 @@
   </div>
   <!-- End 添加审核组成员弹出窗 -->
   
+  <!-- 设置密码弹出窗 -->
+  <div class="hide mt20" id="modal_setPwd">
+  <div class="form-horizontal w100p pl20 pr20 over_hideen">
+    <div class="form-group">
+      <label class="col-sm-3 text-right pt6">新密码</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control w100p" name="password" placeholder="请输入新密码">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 text-right pt6">确认新密码</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control w100p" name="password2" placeholder="请再次输入密码确认">
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- End 设置密码弹出窗 -->
+  
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/editMembers.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findExpertReviewTeam.do';  // 列表地址
     var add_url = '${pageContext.request.contextPath}/expertAgainAudit/addExpertReviewTeam.do';  // 添加地址
+    var del_url = '${pageContext.request.contextPath}/expertAgainAudit/deleteExpertReviewTeam.do';  // 删除地址
+    var setPwd_url = '${pageContext.request.contextPath}/expertAgainAudit/setUpPassword.do';  // 设置密码地址
     var select_ids = [];
     
     $(function () {

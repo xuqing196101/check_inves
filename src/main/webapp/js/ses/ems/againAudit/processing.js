@@ -308,7 +308,7 @@ function add_members() {
           dataType: 'json',
           url: add_url,
           data: {
-            groupId: 'c093210120444b0fb741a9c95b0dcb38',
+            groupId: getUrlParam('groupId'),
             loginName: loginName.val(),
             relName: relName.val(),
             orgName: orgName.val(),
@@ -322,6 +322,12 @@ function add_members() {
             relName.val('');
             orgName.val('');
             duties.val('');
+            $('#list_content').listConstructor({
+              url: list_url,
+              data: {
+                groupId: getUrlParam('groupId')
+              }
+            });
             layer.close(index);
           },
           error: function (data) {
@@ -333,6 +339,86 @@ function add_members() {
       }
     },
     btn2: function() {
+      layer.close(index);
+    }
+  });
+}
+
+// 删除审核组成员
+function del_members() {
+  var ids = select_ids.join(',');
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: del_url,
+    data: {
+      id: ids
+    },
+    success: function (data) {
+      layer.msg(data.message, {
+        offset: '100px'
+      });
+      $('#list_content').listConstructor({
+        url: list_url,
+        data: {
+          groupId: getUrlParam('groupId')
+        }
+      });
+    },
+    error: function (data) {
+      layer.msg(data.message, {
+        offset: '100px'
+      });
+    }
+  });
+}
+
+// 设置密码
+function set_password() {  
+  var index = layer.open({
+    title: ['设置新密码'],
+    shade: 0.3, //遮罩透明度
+    type : 1,
+    area : ['300px'], //宽高
+    content : $('#modal_setPwd'),
+    btn: ['确定', '取消'],
+    yes: function() {
+      var password = $('input[name=password]');  // 新密码
+      var password2 = $('input[name=password2]');  // 确认新密码
+      var ids = select_ids.join(',');
+      
+      console.log('id='+ids+',password='+password.val()+',password2='+password2.val());
+      
+      if (password.val() != password2.val()) {
+        layer.msg('请确认两次密码一致！', {
+          offset: '100px'
+        });
+        password2.val('').focus();
+        return false;
+      } else {
+        $.ajax({
+          type: 'POST',
+          dataType: 'json',
+          url: setPwd_url,
+          data: {
+            id: ids,
+            password: password.val(),
+            password2: password2.val()
+          },
+          success: function (data) {
+            layer.msg(data.message, {
+              offset: '100px'
+            });
+            layer.close(index);
+          },
+          error: function (data) {
+            console.log(data);
+          }
+        });
+      }
+    },
+    btn2: function() {
+      select_groupId = '';
       layer.close(index);
     }
   });
