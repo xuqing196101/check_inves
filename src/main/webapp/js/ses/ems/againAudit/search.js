@@ -25,3 +25,16 @@ function batchList_search() {
     url: list_url
   });
 }
+
+// 专家批次列表搜索
+function expert_auditBatch_search() {
+  var batchName = $('[name=batchName]').val();  // 获取批次名称
+  var createdAt = $('[name=createdAt]').val();  // 获取批次创建时间
+  $('#list_content').listConstructor({
+    data: {
+      batchName: batchName,
+      createdAt: createdAt
+    },
+    url: list_url
+  });
+}

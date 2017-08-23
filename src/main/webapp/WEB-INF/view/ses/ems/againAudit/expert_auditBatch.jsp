@@ -53,16 +53,16 @@
         <ul class="demand_list">
           <li>
             <label class="fl">批次名称：</label>
-            <input type="text" name="relName" value="${relName }">
+            <input type="text" name="batchName" value="${relName }">
           </li>
           <li>
             <label class="fl">批次创建时间：</label>
             <span>
-              <input id="auditAt" name="auditAt" class="Wdate w178 fl" value='<fmt:formatDate value="${auditAt}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()">
+              <input id="auditAt" name="createdAt" class="Wdate w178 fl" value='<fmt:formatDate value="${auditAt}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()">
             </span>
           </li>
           <li>
-            <button type="button" class="btn mb5" onclick="allotList_search()">查询</button>
+            <button type="button" class="btn mb5" onclick="expert_auditBatch_search()">查询</button>
             <button type="reset" class="btn mb5">重置</button>
           </li>
         </ul>

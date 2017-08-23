@@ -46,7 +46,7 @@
           }
           
           $('#list_content').append('<tr>'
-            +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list[i].id +'" class="select_item"></td>'
+            +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list[i].expertId +'" class="select_item"></td>'
             +'<td>'+ list_content.list[i].batchDetailsNumber +'</td>'
             +'<td>'+ list_content.list[i].realName +'</td>'
             +'<td>'+ list_content.list[i].gender +'</td>'
