@@ -183,7 +183,7 @@
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <input type="hidden" id="id" name="id" value="${project.id}" />
-              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">项目名称</span>
+              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>项目名称</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
                 <input type="text" id="jname" name="name" class="input_group" value="${project.name}" />
                 <span class="add-on">i</span>
@@ -191,7 +191,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">项目编号</span>
+              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>项目编号</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
                 <input type="text" id="projectNumber" maxlength="20" name="projectNumber" onblur="verify(this);" class="input_group" value="${project.projectNumber}" />
                 <span class="add-on">i</span>
