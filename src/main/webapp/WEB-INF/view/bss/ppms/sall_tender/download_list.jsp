@@ -49,10 +49,10 @@
       }
       // 封装弹出 处理文档
        function openDocuments() {
-		var packagesID=$('[name="chkItem_supplier"]:checked').val();
+		    var packagesID=$('[name="chkItem_supplier"]:checked').val();
         var projectId = $("#projectId").val();
-        /* location.href='${pageContext.request.contextPath}/saleTender/processingDocuments.html?projectId='+projectId+'&suppliersID='+packagesID; */
-		layer.open({
+        /* location.href='${pageContext.request.contextPath}/saleTender/processingDocuments.html?projectId='+projectId+'&suppliersID='+packagesID; */  
+		  layer.open({
 			  type: 2, //page层
 			  area: ['200px', '50px'],
 			  title: '等待文档生成中',
@@ -63,7 +63,7 @@
 			  offset: '160px',
 			  shadeClose: true,
 			  content: '${pageContext.request.contextPath}/saleTender/processingDocuments.html?projectId='+projectId+'&suppliersID='+packagesID
-			}); 
+			});  
 	}
     </script>
   </head>

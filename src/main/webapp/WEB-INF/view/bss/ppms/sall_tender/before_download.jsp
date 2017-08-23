@@ -27,15 +27,15 @@ var obj;
 		var pathArray = filePath.split(",");
 		loadWord("DW_TWO_TWO", "DW_THREE_3", "${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath="+ pathArray[0]);
 		/* loadWord("DW_THREE_2", "DW_THREE_3", "${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath="+ pathArray[0]); */
-		window.setTimeout(show,5000);
+		window.setTimeout(show,5000); 
 		
 	}
 	function show()
 	{
+		obj.SaveToLocal("E:\\采购文件.doc",false,true);
 		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 	      parent.layer.close(index); 
-		obj.SaveToLocal("E:\\采购文件.doc",false,true);
-	} 
+	}  
 </script>
 <!-- 打开文档后调用  -->
 
