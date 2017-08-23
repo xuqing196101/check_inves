@@ -473,6 +473,8 @@
                         <th class="info">审批字段</th>
                         <th class="info">审批内容</th>
                         <th class="info">不合格理由</th>
+                        <th class="info">审核时间</th>
+                        <th class="info">状态</th>
                     </tr>
                     </thead>
                     <c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
@@ -495,6 +497,15 @@
                             <td class="hand" title="${reasons.auditReason}">
                                 <c:if test="${fn:length (reasons.auditReason) > 20}">${fn:substring(reasons.auditReason,0,20)}...</c:if>
                                 <c:if test="${fn:length (reasons.auditReason) <= 20}">${reasons.auditReason}</c:if>
+                            </td>
+                            <!-- 审核时间 auditAt-->
+                            <td class="tc">
+                            	<fmt:formatDate value="${reasons.auditAt }" pattern="yyyy-MM-dd HH:mm"/>
+                            </td>
+                            <!-- 状态 -->
+                            <td class="tc">
+                            	<c:if test="${reasons.suggestType eq 'one'}">退回</c:if>
+                            	<c:if test="${reasons.suggestType eq 'seven' || reasons.suggestType eq 'six' || reasons.suggestType eq 'five'}">审核不通过</c:if>
                             </td>
                         </tr>
                     </c:forEach>
