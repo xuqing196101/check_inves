@@ -45,8 +45,6 @@
             list_content.list[i].status = '复审待分组专家';
           }
           
-          console.log(list_content.list[i].status);
-          
           $('#list_content').append('<tr>'
             +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list[i].id +'" class="select_item"></td>'
             +'<td>'+ list_content.list[i].batchDetailsNumber +'</td>'
@@ -61,6 +59,34 @@
             +'<td>'+ list_content.list[i].status +'</td>'
             +'<td>'+ list_content.list[i].auditAt +'</td>'
           +'</tr>');
+        }
+        
+        // 勾选翻页之前选中的项
+        for (var i in select_ids) {
+          $('.select_item').each(function () {
+            if ($(this).val() === select_ids[i]) {
+              $(this).prop('checked', true);
+              return false;
+            }
+          });
+        }
+        
+        // 绑定列表框点击事件，获取选中id集合
+        var select_checkbox = $('.againAudit_table').find('.select_item');
+        if (select_checkbox.length > 0) {
+          select_checkbox.bind('click', function () {
+            var this_val = $(this).val().toString();
+            if ($(this).is(':checked')) {
+              select_ids.push(this_val);
+            } else {
+              for (var i in select_ids) {
+                if (select_ids[i] == this_val) {
+                  select_ids.splice(i, 1);
+                  break;
+                }
+              }
+            }
+          });
         }
         
         // 构造分页

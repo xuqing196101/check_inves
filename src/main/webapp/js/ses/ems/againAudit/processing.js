@@ -510,9 +510,22 @@ function save_editMembers() {
       layer.msg(data.message, {
         offset: '100px'
       });
-    },
-    error: function (data) {
-      console.log(data);
     }
   });
+}
+
+// 专家批次审核
+function expert_auditBatch() {
+  if (select_ids.length > 1) {
+    layer.msg('不能多选，请选择一项', {
+      offset: '100px'
+    });
+  } else if (select_ids.length === 0) {
+    layer.msg('请至少选择一项', {
+      offset: '100px'
+    });
+  } else {
+    var ids = select_ids.toString();
+    console.log(ids);
+  }
 }
