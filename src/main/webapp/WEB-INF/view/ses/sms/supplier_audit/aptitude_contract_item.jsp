@@ -17,7 +17,7 @@
             <input id="ids"  type="hidden" value="${ids }">
             <input id="count"  type="hidden" value="0">
             <input id="tablerId"  type="hidden" value="${tablerId}">
-            <table class="table table-bordered m_table_fixed_border">
+            <table class="table table-bordered m_table_fixed_border m_table_fixed_border">
                 <tr>
                     <!-- <td class="tc info" colspan="4">产品名称</td> -->
                     <td colspan="3" class="tc info">销售合同(体现甲乙双方盖章及标的相关页)</td>

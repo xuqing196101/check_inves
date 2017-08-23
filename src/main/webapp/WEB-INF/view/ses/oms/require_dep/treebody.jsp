@@ -188,7 +188,7 @@
 				  <h3 class="panel-title"><i class="fa fa-users"></i> ${orgnization.name }人员列表</h3>
 				</div>
 			  <div class="panel-body">
-				<table class="table table-bordered table-condensed table-hover table-striped" id="user">
+				<table class="table table-bordered table-condensed table-hover table-striped break-all" id="user">
 				  <thead>
 					<tr>
 					  <th><input type="checkbox" onclick="selectAll();" id="allId" alt="全选"/></th>

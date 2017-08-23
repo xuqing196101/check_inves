@@ -969,7 +969,7 @@
 									
 									<h2 class="count_flow"><i>2</i>资质证书信息</h2>
 									<div class="ul_list">
-										<table class="table table-bordered table-condensed table-hover">
+										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>
 												<tr>
 													<th class="info w50">序号</th>
@@ -1054,7 +1054,7 @@
 								
 									<!-- <h2 class="count_flow"><i>2</i>供应商物资销售资质证书</h2> -->
 									<div class="ul_list">
-										<table class="table table-bordered table-condensed table-hover">
+										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>
 												<tr>
 													<th class="info w50">序号</th>
@@ -1200,7 +1200,7 @@
 									
 									<h2 class="count_flow"><i>3</i>取得注册资质的人员信息</h2>
 									<div class="ul_list">
-										<table class="table table-bordered table-condensed table-hover">
+										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>
 												<tr>
 													<th class="info w50">序号</th>
@@ -1229,7 +1229,7 @@
 									
 									<h2 class="count_flow"><i>4</i>供应商资质（认证）证书信息</h2>
 									<div class="ul_list">
-										<table class="table table-bordered table-condensed table-hover">
+										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>
 												<tr>
 													<th class="info" width="20%">证书名称</th>
@@ -1287,7 +1287,7 @@
 
 									<h2 class="count_flow"><i>5</i>供应商资质证书详细信息</h2>
 									<div class="ul_list">
-										<table class="table table-bordered table-condensed table-hover">
+										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>
 												<tr>
 													<th class="info" width="15%">证书名称</th>
@@ -1396,7 +1396,7 @@
 									</ul> --%>
 								
 									<div class="ul_list count_flow">
-										<table class="table table-bordered table-condensed table-hover">
+										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>
 												<tr>
 													<th class="info w50">序号</th>

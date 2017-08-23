@@ -97,7 +97,7 @@
 					</ul>
 			
 					<div class="content table_box" id="info">
-						<table class="table table-bordered table-condensed table-hover hand left_table table_input">
+						<table class="table table-bordered table-condensed table-hover hand left_table table_input m_table_fixed_border">
 							<tr >
 								<!-- <th class="info"><input type="checkbox"  /> -->
 								<th class="info" width="30%"><div class="star_red">*</div>姓名 </th>
