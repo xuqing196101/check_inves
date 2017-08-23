@@ -19,6 +19,11 @@
         <include refid="Base_List" />
         from T_SYS_EMS_EXPERT_REVIEWTEAM where ID=#{id}
     </select>
+    <select id="findExpertReviewTeam" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select 
+        <include refid="Base_List" />
+        from T_SYS_EMS_EXPERT_REVIEWTEAM where USER_ID=#{userId}
+    </select>
     
     <select id="getExpertReviewTeamList" resultMap="BaseResultMap" parameterType="ses.model.ems.ExpertReviewTeam">
         select 

@@ -328,7 +328,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		return "/ses/ems/againAudit/expert_detailsBatch";
 	}
 	@RequestMapping("/checkComplete")
-	public void checkComplete(HttpServletRequest request,HttpServletResponse response,String batchId){
+	public void checkComplete(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
 		img.setStatus(false);
@@ -349,7 +349,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * 获取当前组的审核组成员
 	 * */
 	@RequestMapping("findExpertReviewTeam")
-	public void findExpertReviewTeam(HttpServletRequest request,HttpServletResponse response,String groupId){
+	public void findExpertReviewTeam(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String groupId){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
 		img.setStatus(false);
@@ -370,7 +370,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * 配置审核组成员
 	 * */
 	@RequestMapping("addExpertReviewTeam")
-	public void addExpertReviewTeam(HttpServletRequest request,HttpServletResponse response,ExpertReviewTeam e){
+	public void addExpertReviewTeam(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,ExpertReviewTeam e){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
 		img.setStatus(false);
@@ -418,7 +418,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * 删除审核组成员
 	 * */
 	@RequestMapping("deleteExpertReviewTeam")
-	public void deleteExpertReviewTeam(HttpServletRequest request,HttpServletResponse response,String id){
+	public void deleteExpertReviewTeam(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String id){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
 		img.setStatus(false);
@@ -439,7 +439,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * 校验用户名唯一
 	 * */
 	@RequestMapping("checkLoginName")
-	public void checkLoginName(HttpServletRequest request,HttpServletResponse response,String loginName){
+	public void checkLoginName(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String loginName){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
 		img.setStatus(false);
@@ -471,7 +471,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * 设置密码
 	 * */
 	@RequestMapping("setUpPassword")
-	public void setUpPassword(HttpServletRequest request,HttpServletResponse response,String id,String password,String password2){
+	public void setUpPassword(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String ids,String password,String password2){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
 		img.setStatus(false);
@@ -479,7 +479,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		super.writeJson(response, img);
 		return;
 		}*/
-		if(id == null){
+		if(ids == null){
 			img.setStatus(false);
 			img.setMessage("请选择审核组成员");
 			super.writeJson(response, img);
@@ -508,14 +508,14 @@ public class ExpertAgainAuditController extends BaseSupplierController {
         	super.writeJson(response, img);
         	return;
         }
-		img=againAuditService.setUpPassword(id, password);
+		img=againAuditService.setUpPassword(ids, password);
 		super.writeJson(response, img);
 	}
 	/*
 	 * 结束审核组成员配置
 	 * */
 	@RequestMapping("preservationExpertReviewTeam")
-	public void preservationExpertReviewTeam(HttpServletRequest request,HttpServletResponse response,String groupId) {
+	public void preservationExpertReviewTeam(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String groupId) {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
 		img.setStatus(false);
@@ -530,6 +530,21 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			return;
 		}
 		img=againAuditService.preservationExpertReviewTeam(groupId);
+		super.writeJson(response, img);
+	}
+	/*
+	 * 查询审核组成员对应的批次
+	 * */
+	@RequestMapping("fingStayReviewExpertList")
+	public void fingStayReviewExpertList(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response, Integer pageNum){
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"6".equals(user.getTypeName())){
+		img.setStatus(false);
+		img.setMessage("您的权限不足");
+		super.writeJson(response, img);
+		return;
+		}*/
+		img=againAuditService.fingStayReviewExpertList(user.getId(), pageNum);
 		super.writeJson(response, img);
 	}
 }

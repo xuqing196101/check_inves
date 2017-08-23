@@ -399,6 +399,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		user.setCreatedAt(new Date());
 		user.setUpdatedAt(new Date());
 		user.setIsDeleted(1);
+		user.setTypeName("6");
 		user.setTypeId(expertReviewTeam.getId());
 		String ipAddressType = PropUtil.getProperty("ipAddressType");
 		user.setNetType(Integer.valueOf(ipAddressType));
@@ -434,22 +435,24 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	}
 
 	@Override
-	public ExpertAgainAuditImg setUpPassword(String id,String passWord) {
+	public ExpertAgainAuditImg setUpPassword(String ids,String passWord) {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		ExpertReviewTeam expertReviewTeam = expertReviewTeamMapper.getExpertReviewTeam(id);
-		User user = new User();
-		user.setId(expertReviewTeam.getUserId());
-		//生成15位随机码
-		String randomCode = generateString(15);
-				
-		Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
-		// false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
-		md5.setEncodeHashAsBase64(false);     
-		String pwd = md5.encodePassword(passWord, randomCode);
-		user.setPassword(pwd);
-		user.setRandomCode(randomCode);
-		userMapper.updateByPrimaryKeySelective(user);
+		String[] split = ids.split(",");
+		for (String id : split) {
+			ExpertReviewTeam expertReviewTeam = expertReviewTeamMapper.getExpertReviewTeam(id);
+			User user = new User();
+			user.setId(expertReviewTeam.getUserId());
+			//生成15位随机码
+			String randomCode = generateString(15);
+			Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
+			// false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
+			md5.setEncodeHashAsBase64(false);     
+			String pwd = md5.encodePassword(passWord, randomCode);
+			user.setPassword(pwd);
+			user.setRandomCode(randomCode);
+			userMapper.updateByPrimaryKeySelective(user);
+		}
 		img.setStatus(true);
 		img.setMessage("操作成功");
 		return img;
@@ -517,6 +520,25 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		expertGroupMapper.updateStatus(expertGroup);
 		img.setStatus(true);
 		img.setMessage("操作成功");
+		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg fingStayReviewExpertList(String userId, Integer pageNum) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		if(pageNum != null){
+			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		}
+		ExpertReviewTeam findExpertReviewTeam = expertReviewTeamMapper.findExpertReviewTeam(userId);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("batchId", findExpertReviewTeam.getBatchId());
+		List<ExpertBatch> list = expertBatchMapper.getAllExpertBatch(map);
+		PageInfo< ExpertBatch > result = new PageInfo < ExpertBatch > (list);
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		img.setObject(result);
 		return img;
 	} 
 	
