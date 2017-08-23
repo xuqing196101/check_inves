@@ -510,7 +510,7 @@
 			     <li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
 				   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>用户名</span>
 				   <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        <input id="loginName"  name="loginName" value="${user.loginName}" maxlength="30" type="text" onkeyup="validataLoginName();"<%-- onblur="isExist();"--%>>
+			        <input id="loginName"  name="loginName" value="${user.loginName}" maxlength="40" type="text" onkeyup="validataLoginName();"<%-- onblur="isExist();"--%>>
 			        <span class="add-on">i</span>
 			       	<div class="cue"><sf:errors path="loginName"/></div>
 			       	<div id="is_exist" class="cue">${exist}</div>
