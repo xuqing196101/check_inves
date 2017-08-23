@@ -276,6 +276,22 @@ function add_members() {
   var orgName = $('input[name=orgName]');  // 单位
   var duties = $('input[name=duties]');  // 职务
   
+  function reset() {
+    loginName.val('');
+    relName.val('');
+    orgName.val('');
+    duties.val('');
+    $('#list_content').listConstructor({
+      url: list_url,
+      data: {
+        groupId: getUrlParam('groupId')
+      }
+    });
+    $('input[name=loginName]').unbind();
+    $('input[name=loginName]').removeAttr('style');
+    $('input[name=loginName]').prop('placeholder', '请输入用户名');
+  }
+  
   var index = layer.open({
     title: ['添加审核组成员'],
     shade: 0.3, //遮罩透明度
@@ -325,16 +341,7 @@ function add_members() {
             layer.msg(data.message, {
               offset: '100px'
             });
-            loginName.val('');
-            relName.val('');
-            orgName.val('');
-            duties.val('');
-            $('#list_content').listConstructor({
-              url: list_url,
-              data: {
-                groupId: getUrlParam('groupId')
-              }
-            });
+            reset();
             layer.close(index);
           },
           error: function (data) {
@@ -346,35 +353,37 @@ function add_members() {
       }
     },
     btn2: function() {
-      loginName.val('');
-      relName.val('');
-      orgName.val('');
-      duties.val('');
+      reset();
       layer.close(index);
     }
   });
   
   layer.ready(function () {
-    $('input[name=loginName]').blur(function () {
+    $('input[name=loginName]').bind('blur', function () {
+      var _this = $(this);
+      
       if (loginName != '') {
         $.ajax({
           type: 'POST',
           dataType: 'json',
           url: usernameOnly_url,
           data: {
-            loginName: $(this).val()
+            loginName: _this.val()
           },
           success: function (data) {
-            console.log(data);
             if (data.status) {
-              $(this).removeAttr('style');
-              $(this).prop('placeholder', '请输入用户名');
+              _this.removeAttr('style');
+              _this.prop('placeholder', '请输入用户名');
               is_only = 1;
             } else {
-              $(this).css({
-                'border-color': '#FFF0000'
-              });
-              $(this).prop('placeholder', data.message);
+              if (data.message != '用户名不能为空') {
+                _this.val('');
+                _this.css({
+                  borderColor: '#FF0000'
+                });
+                _this.prop('placeholder', data.message);
+              }
+              is_only = 0;
             }
           },
           error: function (data) {
@@ -422,7 +431,6 @@ function set_password() {
   var ids = select_ids.join(',');
   var password = $('input[name=password]');  // 新密码
   var password2 = $('input[name=password2]');  // 确认新密码
-  console.log(ids);
   
   if (ids === '') {
     layer.msg('请至少选择一名专家', {
@@ -487,4 +495,24 @@ function set_password() {
       }
     });
   }
+}
+
+// 结束审核组成员配置
+function save_editMembers() {
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: save_url,
+    data: {
+      groupId: getUrlParam('groupId')
+    },
+    success: function (data) {
+      layer.msg(data.message, {
+        offset: '100px'
+      });
+    },
+    error: function (data) {
+      console.log(data);
+    }
+  });
 }

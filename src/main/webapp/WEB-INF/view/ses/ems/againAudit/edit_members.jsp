@@ -61,7 +61,12 @@
         </thead>
         <tbody id="list_content"></tbody>
       </table>
-      <div id="pagediv" align="right"></div>
+      <%-- <div id="pagediv" align="right"></div> --%>
+    </div>
+    
+    <div class="col-md-12 pl20 mt10 mb10">
+      <button type="button" class="btn" onclick="save_editMembers()">保存</button>
+      <button type="button" class="btn" onclick="">返回</button>
     </div>
       
   </div>
@@ -125,6 +130,7 @@
     var del_url = '${pageContext.request.contextPath}/expertAgainAudit/deleteExpertReviewTeam.do';  // 删除地址
     var setPwd_url = '${pageContext.request.contextPath}/expertAgainAudit/setUpPassword.do';  // 设置密码地址
     var usernameOnly_url = '${pageContext.request.contextPath}/expertAgainAudit/checkLoginName.do';  // 用户名唯一验证地址
+    var save_url = '';  // 结束审核组成员配置
     var select_ids = [];
     
     $(function () {
