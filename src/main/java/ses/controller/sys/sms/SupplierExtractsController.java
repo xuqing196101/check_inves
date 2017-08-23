@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bss.controller.base.BaseController;
+import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
@@ -45,12 +46,10 @@ import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
-import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExtConType;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
-import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierConType;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtPackage;
@@ -144,6 +143,8 @@ public class SupplierExtractsController extends BaseController {
     private FlowMangeService flowMangeService;
     @Autowired
     private OrgnizationServiceI orgnizationService;
+    @Autowired
+    private FlowMangeService flowManageService;
 
     /**
      *
@@ -206,7 +207,7 @@ public class SupplierExtractsController extends BaseController {
      * @return String
      */
     @RequestMapping("/Extraction")
-    public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId){
+    public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId,String flowDefineId){
 
         if (packageId != null && !"".equals(packageId)){
             //已抽取
@@ -296,6 +297,17 @@ public class SupplierExtractsController extends BaseController {
             isCurment = "1";
         }
         model.addAttribute("isCurment", isCurment);
+        FlowExecute fe=new FlowExecute();
+        fe.setProjectId(projectId);
+        fe.setFlowDefineId(flowDefineId);
+        List<FlowExecute> findFlowExecute = flowManageService.findFlowExecute(fe);
+        for (FlowExecute flowExecute : findFlowExecute) {
+         if(flowExecute.getStatus()==3){
+           model.addAttribute("hiddenFlow", "hidden");
+           break;
+         }
+        }
+        model.addAttribute("flowDefineId", flowDefineId);
         return "ses/sms/supplier_extracts/condition_list";
     }
 
@@ -415,8 +427,7 @@ public class SupplierExtractsController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/validateAddExtraction")
-    public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest sq,String[] packageId, String[] superviseId,Integer type){
-
+    public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest sq,String[] packageId, String[] superviseId,Integer type,String flowDefineId){
         Map<String, String> map = new HashMap<String, String>();
         map.put("type", type.toString());
 

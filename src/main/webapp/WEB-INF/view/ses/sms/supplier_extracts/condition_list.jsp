@@ -113,9 +113,7 @@
             $("#package").removeClass("shrink");
             $("#package").addClass("spread");
         });
-
         function add(type) {
-
             var packageId=$("#packageId").val();
             var typeclassId = "${typeclassId}";
             $.ajax({
@@ -344,6 +342,8 @@
 <div class="container">
 <div class="container_box col-md-12 col-sm-12 col-xs-12">
     <form id="form">
+    <!-- 监督人员 -->
+        <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}" />
         <!-- 监督人员 -->
         <input type="hidden" name="sids" id="sids" value="${userId}" />
         <!-- 打开类型 -->
@@ -424,8 +424,9 @@
                 <%--                 <option value="${list.id }" >${list.name }</option> --%>
                 <%--             </c:forEach> --%>
                 <!--           </select> -->
-                <button class="btn mb10"
-                        onclick="add(2);" type="button">抽取</button>
+                
+                <button <c:if test="${hiddenFlow=='hidden'}">disabled="disabled"</c:if>class="btn mb10"
+                        onclick="add(2);" type="button" >抽取</button>
                 <!--             <button class="btn" -->
                 <!--                 onclick="record();" type="button">引用其他包</button> -->
             </div>
