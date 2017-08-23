@@ -405,7 +405,7 @@ function del_members() {
     dataType: 'json',
     url: del_url,
     data: {
-      id: ids
+      ids: ids
     },
     success: function (data) {
       layer.msg(data.message, {
@@ -457,7 +457,7 @@ function set_password() {
             dataType: 'json',
             url: setPwd_url,
             data: {
-              id: ids,
+              ids: ids,
               password: password.val(),
               password2: password2.val()
             },
