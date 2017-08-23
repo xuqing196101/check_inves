@@ -23,4 +23,5 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg checkLoginName(String loginName);
 	ExpertAgainAuditImg preservationExpertReviewTeam(String groupId);
 	ExpertAgainAuditImg fingStayReviewExpertList(String userId, Integer pageNum);
+	ExpertAgainAuditImg fingStayReviewExpertDetailsList(String userId,String batchId, Integer pageNum);
 }

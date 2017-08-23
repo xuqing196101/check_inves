@@ -551,6 +551,26 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		img.setMessage("操作成功");
 		img.setObject(result);
 		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg fingStayReviewExpertDetailsList(String userId,String batchId, Integer pageNum) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		if(pageNum != null){
+			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		}
+		ExpertReviewTeam findExpertReviewTeam = expertReviewTeamMapper.findExpertReviewTeam(userId);
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+		expertBatchDetails.setBatchId(batchId);
+		expertBatchDetails.setGroupId(findExpertReviewTeam.getGroupId());
+		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		PageInfo< ExpertBatchDetails > result = new PageInfo < ExpertBatchDetails > (list);
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		img.setObject(result);
+		return img;
 	} 
 	
 }
