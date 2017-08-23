@@ -199,7 +199,7 @@
         <%-- <c:forEach items="${listItem}" var="item" varStatus="vs">
           <h2 class="count_flow"><i>${vs.index + 1}</i>${item.categoryName}产品信息表</h2>
           <ul class="ul_list">
-            <table class="table table-bordered table-condensed table-hover">
+            <table class="table table-bordered table-condensed table-hover m_table_fixed_border">
             <thead>
               <tr>
                 <th class="info w50">序号</th>
@@ -257,7 +257,7 @@
 	              <h2 class="count_flow"><i>${vs.index + 1}</i>${category.categoryName}产品信息表</h2>
 	              <input type="hidden" id="${category.id}_name" value="${category.categoryName}">
 	              <ul class="ul_list">
-	                <table class="table table-bordered table-condensed table-hover">
+	                <table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 	                  <thead>
 	                    <tr>
 	                      <!--这是所有的品目参数  -->

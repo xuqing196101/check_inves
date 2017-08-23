@@ -99,16 +99,27 @@ public class SupplierAptituteServiceImpl implements SupplierAptituteService {
 					}
 				}
 			}
-			
+
 			if(cateTree != null && cateTree.getRootNode() != null) {
 				cateTree.setItemsId(item.getId());
 				cateTree.setDiyLevel(item.getLevel());
-				if(cateTree!=null && cateTree.getCertCode() != null && cateTree.getQualificationType() != null && cateTree.getProName() != null) {
+				//每次都是最新
+				if(matEng.getListSupplierAptitutes() != null && !matEng.getListSupplierAptitutes().isEmpty()){
+					for (SupplierAptitute apt: matEng.getListSupplierAptitutes())
+						//proName="三大部分"  diyLevel="6B0CC322A1BF489898A3EF51DE9AA6AD"
+						//qualificationType="4D96D5A8CAF4E7E2E050007F0100A66F"
+						if(apt.getCertCode().equals(cateTree.getCertCode()) && apt.getCertType().equals(cateTree.getQualificationType())){
+							cateTree.setProName(apt.getProfessType());
+							cateTree.setDiyLevel(apt.getAptituteLevel());
+							cateTree.setFileId(apt.getId());
+						}
+				}
+				/*if(cateTree!=null && cateTree.getCertCode() != null && cateTree.getQualificationType() != null && cateTree.getProName() != null) {
 					List<SupplierAptitute> certEng = queryByCodeAndType(null, matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
 					if(certEng != null && certEng.size() > 0) {
 						cateTree.setFileId(certEng.get(0).getId());
 					}
-				}
+				}*/
 				allTreeList.add(cateTree);
 			}
 		}

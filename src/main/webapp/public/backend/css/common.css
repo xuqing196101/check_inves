@@ -1042,3 +1042,4 @@ text-align:center;
 .table-border-color-red{
  border-color:#FF0000!important;
 }
+.break-all { word-break: break-all; }

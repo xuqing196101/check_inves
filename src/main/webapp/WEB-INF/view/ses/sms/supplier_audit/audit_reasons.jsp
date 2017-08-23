@@ -329,7 +329,7 @@
             <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
               <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
             </c:if>
-            <table class="table table-bordered table-condensed table-hover">
+            <table class="table table-bordered table-condensed table-hover m_table_fixed_border">
              <thead>
                <tr>
                	 <th class="info"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>

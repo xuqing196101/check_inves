@@ -222,7 +222,7 @@
         </form>
         <ul class="ul_list count_flow">
         	<h5>出资人（股东）信息 （说明：出资人（股东）多于10人的，可以列出出资金额前十位的信息，但所列的出资比例应高于50%）</h5>
-          <table class="table table-bordered table-condensed table-hover">
+          <table class="table table-bordered table-condensed table-hover m_table_fixed_border">
             <thead>
 		          <tr>
 		            <th class="info w50">序号</th>
