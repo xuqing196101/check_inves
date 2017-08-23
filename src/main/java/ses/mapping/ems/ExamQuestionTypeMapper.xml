@@ -22,7 +22,7 @@
   <!-- 查询采购人的题库类型 -->
   <select id="selectPurchaserAll" resultMap="BaseResultMap">
   	select 
-    <include refid="Base_Column_List" />
+    distinct <include refid="Base_Column_List" />
     from T_SES_EMS_EXAM_QUESTION_TYPE
   </select>
 </mapper>

@@ -578,6 +578,7 @@
             </div>
             <div class="content table_box">
               <form id="set_form" action="${pageContext.request.contextPath}/set/update.html" method="post">
+              <input type="hidden" name="backAttr" value="${backAttr }">
                 <table class="table table-bordered table-condensed " id="userList">
                   <thead>
                     <tr class="info">

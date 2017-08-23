@@ -927,6 +927,7 @@
               </div>
 
               <div class="col-md-12 col-sm-12 col-xs-12 tc">
+              <input type="hidden" name="telephone" value="1"/>
                 <input type="button"  onclick="save()" class="btn btn-windows save"  value="保存" />
                 <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value="返回" />
               </div>

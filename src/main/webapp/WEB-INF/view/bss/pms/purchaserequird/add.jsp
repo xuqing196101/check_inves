@@ -429,7 +429,7 @@
 					async: {
 						autoParam: ["id"],
 						enable: true,
-						url: "${pageContext.request.contextPath}/category/createtree.do",
+						url: "${pageContext.request.contextPath}/purchaser/createtree.do",
 						dataType: "json",
 						type: "post",
 					},

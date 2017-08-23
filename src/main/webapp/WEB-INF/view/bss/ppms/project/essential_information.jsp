@@ -321,10 +321,10 @@
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      /* function getValue() {
+      function getValue(obj) {
         var date = $("#deadline").val();
         $("#bidDate").val(date);
-      } */
+      } 
 
       $(function() {
         var id = "${project.id}";
@@ -488,7 +488,7 @@
                     </tr>
                     <tr>
                       <td class="bggrey"><span class="red star_red">*</span>投标截止时间:</td>
-                      <td class="p0"><input value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" onfocus="getValue()" class="Wdate" /></td>
+                      <td class="p0"><input value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" onblur="getValue(this)" class="Wdate" /></td>
                       <td class="bggrey"><span class="red star_red">*</span>开标时间:</td>
                       <td class="p0"><input value="<fmt:formatDate type='date' value='${project.bidDate }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
                     </tr>

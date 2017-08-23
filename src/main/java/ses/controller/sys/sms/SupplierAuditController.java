@@ -867,8 +867,10 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierModify.setSupplierId(supplierId);
 			supplierModify.setModifyType("mat_pro_page");
 			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
-			//产品研发能力
+			//产品研发能力  id
 			StringBuffer fieldProOne = new StringBuffer();
+			// name
+			StringBuffer fieldName=new StringBuffer();
 			for(int i = 0; i < editList.size(); i++) {
 				String beforeField = editList.get(i).getBeforeField();
 				fieldProOne.append(beforeField + ",");
@@ -2284,6 +2286,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	public String showModify(SupplierModify supplierModify, HttpServletRequest request) throws ParseException {
 		supplierModify = supplierModifyService.findBySupplierId(supplierModify);
 
+		if(supplierModify ==null){
+			return null;
+		}
 		if(supplierModify.getModifyType().equals("basic_page") && supplierModify.getListType() == 0){
 			//在数据字典里查询营业执照类型
 			if(supplierModify.getBeforeField() != null && supplierModify.getBeforeField().equals("businessType")) {
@@ -2358,13 +2363,23 @@ public class SupplierAuditController extends BaseSupplierController {
 				supplierModify.setBeforeContent("无");
 			}
 		}
-		
+		// 工程 供应商资质证书详细信息 资质等级
+		if(StringUtils.isNotBlank(supplierModify.getSupplierId()) && StringUtils.isNotBlank(supplierModify.getBeforeContent()) && "aptituteLevel".equals(supplierModify.getBeforeField()) && "mat_eng_page".equals(supplierModify.getModifyType())){
+			DictionaryData data=DictionaryDataUtil.findById(supplierModify.getBeforeContent());
+			if(data==null){
+				return  JSON.toJSONString("");
+			}else {
+				return JSON.toJSONString(data.getName());
+			}
+
+		}
+
 		return JSON.toJSONString(supplierModify.getBeforeContent());
 	}
 	/**
-	 * 
+	 *
 	 * Description:页面跳转 产品类别及资质合同
-	 * 
+	 *
 	 * @author YangHongLiang
 	 * @version 2017-6-23
 	 * @param model

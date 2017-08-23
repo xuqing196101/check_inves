@@ -282,6 +282,24 @@ public class UserManageController extends BaseController{
           return "ses/bms/user/add";
   		}*/
   		
+//  		//校验密码是否为空
+  		String password = user.getPassword();
+  		System.out.println(password);
+  		if(password.equals(null) || password.equals("") || password ==null || password ==""){
+  	  		model.addAttribute("user", user);
+  				model.addAttribute("password_msg", "不能为空");
+  				List<DictionaryData> genders = DictionaryDataUtil.find(13);
+  				model.addAttribute("genders", genders);
+  				model.addAttribute("roleName", roleName);
+  				model.addAttribute("orgName", orgName);
+  				
+  				if (StringUtils.isNotBlank(origin)){
+  				  addAtt(request, model);
+  	      }
+  				
+  				return "ses/bms/user/add";
+  	  	}
+  		
 		//校验密码是否满足6位
   	if(user.getPassword().length()<6){
   		model.addAttribute("user", user);

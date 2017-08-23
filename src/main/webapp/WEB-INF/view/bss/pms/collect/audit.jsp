@@ -48,9 +48,24 @@
 
 			function sets() {
 				var id = $("#cid").val();
-				window.location.href = "${pageContext.request.contextPath}/set/list.html?id=" + id;
+				submitForm()//审核人员调整前先保存审核数据
+				window.location.href = "${pageContext.request.contextPath}/set/list.html?id=" + id+"&backAttr=ok";//backAttr是判断请求来源的标识
 			}
-
+		    //异步提交表单,审核人员调整前先保存审核数据
+		    function submitForm(){
+		    	 $.ajax({  
+		    		    type: "POST",  
+		    		    url:"${pageContext.request.contextPath}/look/submitForm.html",  
+		    		    data:$('#audit_form').serialize(),  
+		    		    async: false,  
+		    		    error: function(request) {  
+		    		        alert("暂存审核数据出错!");  
+		    		    },  
+		    		    success: function(data) {  
+		    		          
+		    		    }  
+		    		  });
+		    }
 			function sel(obj) {
 				var val = $(obj).val();
 				$("select option").each(function() {

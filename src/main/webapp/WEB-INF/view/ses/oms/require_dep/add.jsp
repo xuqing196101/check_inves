@@ -215,7 +215,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>名称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="name" value="${orgnization.name}" type="text" onblur="verify(this);" required  maxlength="100"> 
+			  <input class="input_group" name="name" maxlength="8" value="${orgnization.name}" type="text" onblur="verify(this);" required  maxlength="100"> 
 			  <span class="add-on">i</span>
 			  <div class="cue" id="sps"><sf:errors path="name"/></div>
 			</div>
@@ -224,7 +224,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>简称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="shortName" value="${orgnization.shortName}" required maxlength="20" type="text" > 
+			  <input class="input_group" name="shortName" maxlength="14"  value="${orgnization.shortName}" required maxlength="20" type="text" > 
 			  <span class="add-on">i</span>
 			  <div class="cue"><sf:errors path="shortName"/></div>
 			</div>
@@ -263,7 +263,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12">  
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="address" maxlength="100" type="text"> 
+			  <input class="input_group" maxlength="14"  name="address" maxlength="100" type="text"> 
 			  <span class="add-on">i</span>
 			</div>
 		  </li>
@@ -271,7 +271,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15"> 
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">值班室电话</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" id="telephone"  name="telephone" maxlength="25" type="text"> 
+			  <input class="input_group" id="telephone" maxlength="16"  name="telephone" maxlength="25" type="text"> 
 			  <div class="cue"><sf:errors path="telephone"/></div>
 			</div>
 		  </li>
@@ -279,15 +279,16 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12">  
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="postCode" isZipCode="true" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text"> 
+			  <input class="input_group" maxlength="27"  name="postCode" isZipCode="true" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text"> 
 			  <span class="add-on">i</span>
+			  <div class="cue"></div>
 			</div>
 		  </li>
 		  
 		  <li class="col-md-3 col-sm-6 col-xs-12"> 
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="fax" maxlength="25" type="text"> 
+			  <input class="input_group" maxlength="27"  name="fax" maxlength="25" type="text"> 
 			  <span class="add-on">i</span>
 			</div>
 		  </li>
