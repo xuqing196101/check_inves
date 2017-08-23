@@ -536,7 +536,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * 查询审核组成员对应的批次
 	 * */
 	@RequestMapping("fingStayReviewExpertList")
-	public void fingStayReviewExpertList(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response, Integer pageNum){
+	public void fingStayReviewExpertList(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchName,Date createdAt, Integer pageNum){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"6".equals(user.getTypeName())){
 		img.setStatus(false);
@@ -544,7 +544,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		super.writeJson(response, img);
 		return;
 		}*/
-		img=againAuditService.fingStayReviewExpertList(user.getId(), pageNum);
+		img=againAuditService.fingStayReviewExpertList(user.getId(), batchName,createdAt, pageNum);
 		super.writeJson(response, img);
 	}
 	/*

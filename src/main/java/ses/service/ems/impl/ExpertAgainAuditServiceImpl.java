@@ -535,7 +535,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	}
 
 	@Override
-	public ExpertAgainAuditImg fingStayReviewExpertList(String userId, Integer pageNum) {
+	public ExpertAgainAuditImg fingStayReviewExpertList(String userId,String batchName,Date createdAt, Integer pageNum) {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		PropertiesUtil config = new PropertiesUtil("config.properties");
@@ -545,6 +545,8 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertReviewTeam findExpertReviewTeam = expertReviewTeamMapper.findExpertReviewTeam(userId);
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("batchId", findExpertReviewTeam.getBatchId());
+		map.put("batchName", batchName);
+		map.put("createdAt", createdAt);
 		List<ExpertBatch> list = expertBatchMapper.getAllExpertBatch(map);
 		PageInfo< ExpertBatch > result = new PageInfo < ExpertBatch > (list);
 		img.setStatus(true);

@@ -22,6 +22,6 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg setUpPassword(String ids,String passWord);
 	ExpertAgainAuditImg checkLoginName(String loginName);
 	ExpertAgainAuditImg preservationExpertReviewTeam(String groupId);
-	ExpertAgainAuditImg fingStayReviewExpertList(String userId, Integer pageNum);
+	ExpertAgainAuditImg fingStayReviewExpertList(String userId,String batchName,Date createdAt, Integer pageNum);
 	ExpertAgainAuditImg fingStayReviewExpertDetailsList(String userId,String batchId, Integer pageNum);
 }
