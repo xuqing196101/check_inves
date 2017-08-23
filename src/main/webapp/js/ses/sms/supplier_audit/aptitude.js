@@ -141,6 +141,17 @@ function showData(obj,tablerId,typeId,pageNum) {
 				var isAptitudeProductPageAudit=isNumber(item.isAptitudeProductPageAudit);
 				// 物资 销售 资质
 				var isAptitudeSalesPageAudit=isNumber(item.isAptitudeSalesPageAudit);
+				
+				var isContractModified = isNumber(item.isContractModified);
+				var isAptitudeModified = isNumber(item.isAptitudeModified);
+				
+				var contractModifiedStyle,aptitudeModifiedStyle;
+				if(isContractModified == 1){
+					contractModifiedStyle=" style=\"border: 1px solid #FF8C00;\" ";
+				}
+				if(isAptitudeModified == 1){
+					aptitudeModifiedStyle=" style=\"border: 1px solid #FF8C00;\" ";
+				}
 
 				var showQua=0,showContract=0;
 				if(item.contractId){
@@ -205,7 +216,7 @@ function showData(obj,tablerId,typeId,pageNum) {
 					break;
 				}
 				if("content_3" !=tablerId){
-					projectDiv="<td "+contractStyle+" id=\"contract"+ind+"\" >"+isShow(tablerId,ind,showContract,"contract",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>";
+					projectDiv="<td "+contractStyle + contractModifiedStyle +" id=\"contract"+ind+"\" >"+isShow(tablerId,ind,showContract,"contract",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>";
 				}else{
 					projectDiv="";
 				}
@@ -236,7 +247,7 @@ function showData(obj,tablerId,typeId,pageNum) {
 	                            "<td "+itemsStyle+" id=\"secondNode"+ind+"\" >"+isNull(item.secondNode)+"</td>"+
 	                            "<td "+itemsStyle+" id=\"thirdNode"+ind+"\" >"+isNull(item.thirdNode)+"</td>"+
 	                            "<td "+itemsStyle+" id=\"fourthNode"+ind+"\" >"+isNull(item.fourthNode)+"</td>"+
-	                            "<td "+aptitudeStyle+" id=\"qualifications"+ind+"\" >"+isShow(tablerId,ind,showQua,"qualifications",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>"+
+	                            "<td "+aptitudeStyle+aptitudeModifiedStyle+" id=\"qualifications"+ind+"\" >"+isShow(tablerId,ind,showQua,"qualifications",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>"+
 	                            projectDiv+"</tr>"
 				);
 			});
