@@ -42,6 +42,7 @@ import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.EngCategoryService;
 import ses.service.bms.TodosService;
+import ses.service.ems.ExpertAgainAuditService;
 import ses.service.ems.ExpertAuditNotService;
 import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertAuditService;
@@ -87,7 +88,9 @@ import java.util.Set;
 @Controller
 @RequestMapping("/expertAudit")
 public class ExpertAuditController{
-
+	@Autowired
+	private ExpertAgainAuditService expertAgainAuditService;
+	
 	@Autowired
 	private ExpertService expertService;
 
@@ -1673,6 +1676,7 @@ public class ExpertAuditController{
 	        todosService.insert(todos );
 	      }
 			if(sign==2){
+				expertAgainAuditService.handleExpertReviewTeam(expertId);
 				return "/ses/ems/againAudit/expert_auditBatch";
 			}
 		return "redirect:list.html";
