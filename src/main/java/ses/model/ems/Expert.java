@@ -324,7 +324,7 @@ public class Expert extends ExpertHistory implements Serializable {
     private List<String> ids;
     
     
-    private Integer sign; //1：专家:初审 2:专家复查，3复审
+    private Integer sign; //1：专家:初审 2:复审，3专家复查
     
     private String extractOrgid;//抽取的机构id
     

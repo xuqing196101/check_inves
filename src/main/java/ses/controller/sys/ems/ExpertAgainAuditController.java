@@ -568,4 +568,26 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		img=againAuditService.fingStayReviewExpertDetailsList(user.getId(), batchId, pageNum);
 		super.writeJson(response, img);
 	}
+	/*
+	 * 校验组状态
+	 * */
+	@RequestMapping("checkGroupStatus")
+	public void checkGroupStatus(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String expertId){
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"6".equals(user.getTypeName())){
+		img.setStatus(false);
+		img.setMessage("您的权限不足");
+		super.writeJson(response, img);
+		return;
+		}*/
+		if(expertId==null){
+			img.setStatus(false);
+			img.setMessage("请选择要审核的专家");
+			super.writeJson(response, img);
+			return;
+
+		}
+		img=againAuditService.checkGroupStatus(expertId);
+		super.writeJson(response, img);
+	}
 }

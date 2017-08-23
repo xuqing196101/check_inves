@@ -1575,6 +1575,7 @@ public class ExpertAuditController{
 		/**
 		 *  如果是退回修改就保存历史信息
 		 */
+		int sign=expert.getSign();
 		if("3".equals(expert.getStatus())) {
 			//删除旧的专家input信息
 			/*service.deleteExpertHistory(expert.getId());*/
@@ -1671,7 +1672,9 @@ public class ExpertAuditController{
 	        todos.setUrl("expertAudit/basicInfo.html?expertId=" + expert.getId());
 	        todosService.insert(todos );
 	      }
-		
+			if(sign==2){
+				return "/ses/ems/againAudit/expert_auditBatch";
+			}
 		return "redirect:list.html";
 	}
 

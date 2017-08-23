@@ -573,6 +573,26 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		img.setMessage("操作成功");
 		img.setObject(result);
 		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg checkGroupStatus(String expertId) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+		expertBatchDetails.setExpertId(expertId);
+		expertBatchDetails=expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
+		ExpertGroup expertGroup = new ExpertGroup();
+		expertGroup.setGroupId(expertBatchDetails.getGroupId());
+		expertGroup=expertGroupMapper.findGroup(expertGroup);
+		if(!"3".equals(expertGroup.getStatus())){
+			img.setStatus(false);
+			img.setMessage("当前组还未结束分配无法审核");
+			return img;
+		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
 	} 
 	
 }
