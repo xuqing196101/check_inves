@@ -7,6 +7,8 @@ import java.util.Map;
 import net.sf.json.JSONObject;
 import ses.model.bms.User;
 
+import bss.model.pms.PurchaseDetail;
+import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.Project;
@@ -160,4 +162,46 @@ public interface AdvancedProjectService {
     
     HashMap<String, Object> getFlowDefine(String purchaseTypeId, String projectId);
     
+    /**
+     * 
+     *〈采购明细〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param collectId
+     * @return
+     */
+    List<PurchaseDetail> purchaseDetail(String collectId, User user);
+    
+    /**
+     * 
+     *〈判断任务下面的明细是否和预研明细长度一样〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param purchaseDetail
+     * @return
+     */
+    List<AdvancedDetail> ifAdvancedDetail(List<PurchaseDetail> purchaseDetail);
+    
+    /**
+     * 
+     *〈预研明细〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param purchaseDetail
+     * @return
+     */
+    List<AdvancedDetail> advancedDetail(List<PurchaseDetail> purchaseDetail);
+    
+    /**
+     * 
+     *〈对比〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param detail
+     * @param advancedDetail
+     * @return
+     */
+    Boolean reflect(PurchaseDetail detail, AdvancedDetail advancedDetail);
+    
+    void quote(List<AdvancedDetail> list, String taskId);
 }

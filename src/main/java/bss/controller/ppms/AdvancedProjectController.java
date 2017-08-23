@@ -333,6 +333,7 @@ public class AdvancedProjectController extends BaseController {
         //项目明细
         int j = 1;
         String[] idss = ids.split(",");
+        String uniqueId = WfUtil.createUUID();
         for (int i = 0; i < idss.length; i++ ) {
             PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(idss[i]);
             AdvancedDetail detail = new AdvancedDetail();
@@ -343,6 +344,7 @@ public class AdvancedProjectController extends BaseController {
             detail.setStand(purchaseRequired.getStand());
             detail.setQualitStand(purchaseRequired.getQualitStand());
             detail.setItem(purchaseRequired.getItem());
+            detail.setUniqueId(uniqueId);
             detail.setCreatedAt(new Date());
             if (purchaseRequired.getPurchaseCount() != null) {
                 detail.setPurchaseCount(purchaseRequired.getPurchaseCount());

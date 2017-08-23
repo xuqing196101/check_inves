@@ -3560,7 +3560,7 @@ public class OpenBiddingController extends BaseSupplierController{
 			}
 			if(count<project.getSupplierNumber()){
 				DictionaryData findById = DictionaryDataUtil.findById(packages.getProjectStatus());
-				if("".equals(findById.getCode())){
+				if(findById != null && StringUtils.isNotBlank(findById.getCode())){
 					if(findById.getCode().equals("YZZ") || findById.getCode().equals("ZJZXTP")){
 						continue;
 					}

@@ -577,7 +577,9 @@
     SELECT
     st.ID,st.CREATED_AT,st.STATUS_BID,ss.ID as supplierId,ss.SUPPLIER_NAME as supplierName,
     ss.ARMY_BUSINESS_TELEPHONE as armyBuinessTelephone,st.PACKAGR_IDS as packages,
-    ss.ARMY_BUSINESS_NAME as armyBuinessName,st.IS_FIRST_PASS,st.IS_TURN_UP
+    ss.ARMY_BUSINESS_NAME as armyBuinessName,st.IS_FIRST_PASS,st.IS_TURN_UP,st.USER_ID AS userId,
+    st.STATUS_BOND,st.IS_TURN_UP,st.UPDATED_AT,st.BID_FINISH,st.ECONOMIC_SCORE,
+    st.TECHNOLOGY_SCORE,st.REVIEW_RESULT,st.IS_REMOVED,st.REMOVED_REASON
     FROM
     T_BSS_PPMS_SALE_TENDER st
     INNER JOIN

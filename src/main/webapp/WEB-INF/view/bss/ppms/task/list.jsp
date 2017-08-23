@@ -127,9 +127,8 @@
               url: "${pageContext.request.contextPath}/task/comparison.html",
               data: "id=" + id,
               type: "post",
-              dataType: "json",
               success: function(result) {
-                if(result == "1") {
+                if(result == "ok") {
                   layer.confirm('您是否要引用预研生成正式项目?', {
                     shade: 0.01,
                     btn: ['是', '否'],
