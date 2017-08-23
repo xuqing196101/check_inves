@@ -513,7 +513,7 @@ function reasonProjectMulti(tablerId,auditType,auditContent,wzType) {// ,ind,aTy
 					 supplierAudit.suggest=text;
 					 supplierAudit.supplierId=supplierId;
 					 supplierAudit.auditType=auditType;
-					 supplierAudit.auditContent=contentParent(tablerId,index,'目录信息');;
+					 supplierAudit.auditContent=contentParent(tablerId,index,'');;
 					 supplierAudit.auditField=itemsId;
 					 supplierAuditList.push(supplierAudit);
 		       });
