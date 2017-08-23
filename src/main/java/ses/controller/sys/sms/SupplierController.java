@@ -2512,23 +2512,23 @@ public class SupplierController extends BaseSupplierController {
 		    model.addAttribute("cert_pro", "请添加资质证书信息");
 		    return false;
 		} else {
-			Set<String> codeSet = new HashSet<>();
-			int codeCount = 0;
+//			Set<String> codeSet = new HashSet<>();
+//			int codeCount = 0;
 		    for (SupplierCertPro cert : list) {
 	            List < UploadFile > filelist = uploadService.getFilesOther(cert.getId(), dictionaryDataServiceI.getSupplierDictionary().getSupplierProCert(), Constant.SUPPLIER_SYS_KEY.toString());
 	            if(filelist != null && filelist.size() <= 0) {
 	                model.addAttribute("cert_pro", "还有证书图片未上传!");
 	                return false;
 	            }
-	            if(StringUtils.isNotBlank(cert.getCode())){
-	            	codeSet.add(cert.getCode());
-	            	codeCount++;
-	            }
+//	            if(StringUtils.isNotBlank(cert.getCode())){
+//	            	codeSet.add(cert.getCode());
+//	            	codeCount++;
+//	            }
             }
-		    if(codeSet.size() != codeCount){
-		    	model.addAttribute("cert_pro", "证书编号重复!");
-                return false;
-		    }
+//		    if(codeSet.size() != codeCount){
+//		    	model.addAttribute("cert_pro", "证书编号重复!");
+//		    	return false;
+//		    }
 		}
 		return true;
 	}
@@ -2577,7 +2577,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("sale_cert", "资质证书不能为空");
 			bool=false;
 		}*/
-		List<SupplierCertSell> list = supplierMatPro.getListSupplierCertSells();
+		/*List<SupplierCertSell> list = supplierMatPro.getListSupplierCertSells();
 		if(list != null && list.size() > 0){
 			Set<String> codeSet = new HashSet<>();
 			int codeCount = 0;
@@ -2591,7 +2591,7 @@ public class SupplierController extends BaseSupplierController {
 		    	model.addAttribute("sale_cert", "证书编号重复!");
                 bool = false;
 		    }
-		}
+		}*/
 		return bool;
 	}
 	//工程信息校验
@@ -2766,7 +2766,7 @@ public class SupplierController extends BaseSupplierController {
 		//			model.addAttribute("fw_cert", "请添加服务证书信息");
 		//			bool=false;
 		//		}
-		List<SupplierCertServe> list = supplierMatPro.getListSupplierCertSes();
+		/*List<SupplierCertServe> list = supplierMatPro.getListSupplierCertSes();
 		if(list != null && list.size() > 0){
 			Set<String> codeSet = new HashSet<>();
 			int codeCount = 0;
@@ -2780,7 +2780,7 @@ public class SupplierController extends BaseSupplierController {
 		    	model.addAttribute("fw_cert", "证书编号重复!");
                 bool = false;
 		    }
-		}
+		}*/
 		return bool;
 	}
 
