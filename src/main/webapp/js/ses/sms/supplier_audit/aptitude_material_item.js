@@ -24,7 +24,7 @@ function reasonProject(ind,auditField, auditFieldName,inds,quaId) {
 	var auditContent=content(tablerId,ind,'专业资质要求');
 	var audits;
 	var auditType;
-	var aptitudeId=$("#"+tablerId+" #aptitudeId"+inds+"",window.parent.document).val();
+	var aptitudeId=$("#"+tablerId+" #aptitudeId"+ind+"",window.parent.document).val();
 	
 	switch (tablerId) {
 	case 'content_1'://物资生产
