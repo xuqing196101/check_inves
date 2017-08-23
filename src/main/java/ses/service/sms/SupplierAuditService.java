@@ -515,8 +515,31 @@ public interface SupplierAuditService {
     /**
      * 获取所有的审核记录
      * @param supplierAudit
+     * @param rss
      * @return
      */
-	List<SupplierAudit> getAuditRecords(SupplierAudit supplierAudit);
+	List<SupplierAudit> getAuditRecords(SupplierAudit supplierAudit, Integer[] rss);
+	
+	/**
+	 * 获取所有的审核记录（排序）
+	 * @param supplierAudit
+	 * @return
+	 */
+	List<SupplierAudit> getAuditRecordsWithSort(SupplierAudit supplierAudit);
+
+	/**
+	 * 判断合同是否修改
+	 * @param supplierId
+	 * @param supplierItemId
+	 * @return
+	 */
+	boolean isContractModified(String supplierId, String supplierItemId);
+
+	/**
+	 * 更新审核记录的退回状态
+	 * @param supplierId
+	 * @return
+	 */
+	int updateReturnStatus(String supplierId);
 
 }
