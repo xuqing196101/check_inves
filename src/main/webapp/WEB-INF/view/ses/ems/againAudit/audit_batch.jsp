@@ -52,6 +52,7 @@
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findExpertGroupDetails.do';  // 列表地址
+    var members_url = '${pageContext.request.contextPath}/expertAgainAudit/findExpertReviewTeam.do';  // 审核组成员地址
     
     $(function () {
       $('#group_batch_box').listConstructor({
@@ -64,7 +65,23 @@
     });
     
     function jump_members(groupId) {
-      window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/editMembers.html?groupId='+ groupId +'';
+      $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: members_url,
+        data: {
+          groupId: groupId
+        },
+        success: function (data) {
+          if (data.status) {
+            window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/editMembers.html?groupId='+ groupId +'';
+          } else {
+            layer.msg(data.message, {
+              offset: '100px'
+            });
+          }
+        }
+      });
     }
   </script>
     

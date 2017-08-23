@@ -39,30 +39,45 @@
 
   <!-- 内容开始 -->
   <div class="container">
-    <div class="headline-v2"><h2>2017年 专家复审 第三批次</h2></div>
+    <div class="headline-v2"><h2>专家复审批次列表</h2></div>
     
-    <!-- 表格开始-->
-    <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn" onclick="jump_batchGroup()">批次分组</button>
-      <button type="button" class="btn" onclick="jump_auditBatch()">审核配置</button>
-      <button type="button" class="btn">上传复审批准件</button>
+    <div class="search_detail">
+      <form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
+        <input name="expertId" type="hidden" />
+        <input name="sign" type="hidden" value="${sign }"/>
+        <input name="tableType" type="hidden" value=""/>
+      </form>
+      <form action="${pageContext.request.contextPath}/expertAgainAudit/againAuditList.html" method="post" id="formSearch" class="mb0">
+        <input type="hidden" name="pageNum" id="pageNum">
+        <input type="hidden" name="sign" value="${sign }">
+        <ul class="demand_list">
+          <li>
+            <label class="fl">批次名称：</label>
+            <input type="text" name="relName" value="${relName }">
+          </li>
+          <li>
+            <label class="fl">批次创建时间：</label>
+            <span>
+              <input id="auditAt" name="auditAt" class="Wdate w178 fl" value='<fmt:formatDate value="${auditAt}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()">
+            </span>
+          </li>
+          <li>
+            <button type="button" class="btn mb5" onclick="allotList_search()">查询</button>
+            <button type="reset" class="btn mb5">重置</button>
+          </li>
+        </ul>
+        <div class="clear"></div>
+      </form>
     </div>
     
+    <!-- 表格开始-->
     <div class="content table_box">
       <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
         <thead>
           <tr>
-            <th class="info w100">批次编号</th>
-            <th class="info">采购机构</th>
-            <th class="info">专家姓名</th>
-            <th class="info">性别</th>
-            <th class="info">工作单位</th>
-            <th class="info">专业职称</th>
-            <th class="info">提交复审时间</th>
-            <th class="info">审核组</th>
-            <th class="info">复审专家</th>
-            <th class="info">审核状态</th>
-            <th class="info">审核时间</th>
+            <th class="info w100">序号</th>
+            <th class="info">批次名称</th>
+            <th class="info">批次创建时间</th>
           </tr>
         </thead>
         <tbody id="list_content"></tbody>
@@ -73,25 +88,18 @@
   </div>
   <!-- 内容结束 -->
   
-  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchDetails.js"></script>
-  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/expert_auditBatch.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/search.js"></script>
   <script>
-    var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetails.do';  // 列表地址
+    var list_url = '${pageContext.request.contextPath}/expertAgainAudit/fingStayReviewExpertList.do';  // 列表地址
+    var audit_url = '${pageContext.request.contextPath}/expertAgainAudit/expertDetailsBatch.html';  // 审核地址
     
     $(function () {
       $('#list_content').listConstructor({
-        url: list_url
+        url: list_url,
+        audit_url: audit_url
       });
     });
-    
-    //  跳转到批次分组
-    function jump_batchGroup() {
-      window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+getUrlParam('batchId');
-    }
-    // 跳转批次审核
-    function jump_auditBatch() {
-      window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/auditBatch.html?batchId='+getUrlParam('batchId');
-    }
   </script>
     
 </body>

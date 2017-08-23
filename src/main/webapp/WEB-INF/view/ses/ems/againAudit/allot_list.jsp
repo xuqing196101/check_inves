@@ -73,6 +73,8 @@
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10">
       <button type="button" class="btn" onclick="create_review_batches()">创建复审批次</button>
+      <button type="button" class="btn" onclick="window.location='${pageContext.request.contextPath}/expertAgainAudit/expertAuditBatch.html'">专家复审批次列表</button>
+      <button type="button" class="btn" onclick="window.location='${pageContext.request.contextPath}/expertAgainAudit/expertDetailsBatch.html'">批次审核</button>
     </div>
 
     <div class="content table_box">
