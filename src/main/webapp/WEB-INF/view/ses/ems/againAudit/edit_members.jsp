@@ -124,6 +124,7 @@
     var add_url = '${pageContext.request.contextPath}/expertAgainAudit/addExpertReviewTeam.do';  // 添加地址
     var del_url = '${pageContext.request.contextPath}/expertAgainAudit/deleteExpertReviewTeam.do';  // 删除地址
     var setPwd_url = '${pageContext.request.contextPath}/expertAgainAudit/setUpPassword.do';  // 设置密码地址
+    var usernameOnly_url = '${pageContext.request.contextPath}/expertAgainAudit/checkLoginName.do';  // 用户名唯一验证地址
     var select_ids = [];
     
     $(function () {

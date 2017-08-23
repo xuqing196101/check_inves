@@ -270,6 +270,12 @@ function finish_groupBatch() {
 
 // 添加审核组成员
 function add_members() {
+  var is_only = 0;
+  var loginName = $('input[name=loginName]');  // 用户名
+  var relName = $('input[name=relName]');  // 专家姓名
+  var orgName = $('input[name=orgName]');  // 单位
+  var duties = $('input[name=duties]');  // 职务
+  
   var index = layer.open({
     title: ['添加审核组成员'],
     shade: 0.3, //遮罩透明度
@@ -278,12 +284,13 @@ function add_members() {
     content : $('#modal_addMembers'),
     btn: ['确定', '取消'],
     yes: function() {
-      var loginName = $('input[name=loginName]');  // 用户名
-      var relName = $('input[name=relName]');  // 专家姓名
-      var orgName = $('input[name=orgName]');  // 单位
-      var duties = $('input[name=duties]');  // 职务
       if (loginName.val() === '') {
         layer.msg('请填写用户名', {
+          offset: '100px'
+        });
+        return false;
+      } else if (is_only === 0) {
+        layer.msg('此用户名已注册，请换一个', {
           offset: '100px'
         });
         return false;
@@ -339,8 +346,45 @@ function add_members() {
       }
     },
     btn2: function() {
+      loginName.val('');
+      relName.val('');
+      orgName.val('');
+      duties.val('');
       layer.close(index);
     }
+  });
+  
+  layer.ready(function () {
+    $('input[name=loginName]').blur(function () {
+      if (loginName != '') {
+        $.ajax({
+          type: 'POST',
+          dataType: 'json',
+          url: usernameOnly_url,
+          data: {
+            loginName: $(this).val()
+          },
+          success: function (data) {
+            console.log(data);
+            if (data.status) {
+              $(this).removeAttr('style');
+              $(this).prop('placeholder', '请输入用户名');
+              is_only = 1;
+            } else {
+              $(this).css({
+                'border-color': '#FFF0000'
+              });
+              $(this).prop('placeholder', data.message);
+            }
+          },
+          error: function (data) {
+            layer.msg(data.message, {
+              offset: '100px'
+            });
+          }
+        });
+      }
+    });
   });
 }
 
@@ -374,52 +418,73 @@ function del_members() {
 }
 
 // 设置密码
-function set_password() {  
-  var index = layer.open({
-    title: ['设置新密码'],
-    shade: 0.3, //遮罩透明度
-    type : 1,
-    area : ['300px'], //宽高
-    content : $('#modal_setPwd'),
-    btn: ['确定', '取消'],
-    yes: function() {
-      var password = $('input[name=password]');  // 新密码
-      var password2 = $('input[name=password2]');  // 确认新密码
-      var ids = select_ids.join(',');
-      
-      console.log('id='+ids+',password='+password.val()+',password2='+password2.val());
-      
-      if (password.val() != password2.val()) {
-        layer.msg('请确认两次密码一致！', {
-          offset: '100px'
-        });
-        password2.val('').focus();
-        return false;
-      } else {
-        $.ajax({
-          type: 'POST',
-          dataType: 'json',
-          url: setPwd_url,
-          data: {
-            id: ids,
-            password: password.val(),
-            password2: password2.val()
-          },
-          success: function (data) {
-            layer.msg(data.message, {
-              offset: '100px'
-            });
-            layer.close(index);
-          },
-          error: function (data) {
-            console.log(data);
-          }
-        });
+function set_password() {
+  var ids = select_ids.join(',');
+  var password = $('input[name=password]');  // 新密码
+  var password2 = $('input[name=password2]');  // 确认新密码
+  console.log(ids);
+  
+  if (ids === '') {
+    layer.msg('请至少选择一名专家', {
+      offset: '100px'
+    });
+  } else {
+    var index = layer.open({
+      title: ['设置新密码'],
+      shade: 0.3, //遮罩透明度
+      type : 1,
+      area : ['300px'], //宽高
+      content : $('#modal_setPwd'),
+      btn: ['确定', '取消'],
+      yes: function() {
+        if (password.val() != password2.val()) {
+          layer.msg('请确认两次密码一致！', {
+            offset: '100px'
+          });
+          password2.val('').focus();
+          return false;
+        } else {
+          $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: setPwd_url,
+            data: {
+              id: ids,
+              password: password.val(),
+              password2: password2.val()
+            },
+            success: function (data) {
+              if (data.status) {
+                layer.msg(data.message, {
+                  offset: '100px'
+                });
+                for (var i in select_ids) {
+                  $('#list_content .select_item').each(function () {
+                    if (select_ids[i] === $(this).val()) {
+                      $(this).prop('checked', false);
+                      return false;
+                    }
+                  });
+                }
+                select_ids = [];
+                password.val('');
+                password2.val('');
+                layer.close(index);
+              } else {
+                layer.msg(data.message, {
+                  offset: '100px'
+                });
+                return false;
+              }
+            }
+          });
+        }
+      },
+      btn2: function() {
+        password.val('');
+        password2.val('');
+        layer.close(index);
       }
-    },
-    btn2: function() {
-      select_groupId = '';
-      layer.close(index);
-    }
-  });
+    });
+  }
 }
