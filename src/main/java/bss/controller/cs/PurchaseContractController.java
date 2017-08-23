@@ -1021,6 +1021,8 @@ public class PurchaseContractController extends BaseSupplierController{
 		}
 		purCon.setSupplierCheckIds(supcheckid);
 		PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
+		purCon.setSupplierBankAccount(purCon.getSupplierBankAccount_string());
+    purCon.setPurchaseBankAccount(purCon.getPurchaseBankAccount_string());
 		if(pur==null){
 			purchaseContractService.insertSelective(purCon);
 		}else{
@@ -1426,7 +1428,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(ValidateUtils.isNull(purCon.getSupplierBankAccount_string())){
 			flag = false;
 			model.addAttribute("ERR_supplierBankAccount", "乙方账号不能为空");
-		}else if(!ValidateUtils.PositiveNumber(purCon.getSupplierBankAccount_string())){
+		}else if(!ValidateUtils.Number(purCon.getSupplierBankAccount_string())){
       flag = false;
       model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
     }/*else if(!ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount_string())){
@@ -1545,7 +1547,7 @@ public class PurchaseContractController extends BaseSupplierController{
         if(ValidateUtils.isNull(purCon.getPurchaseBankAccount_string())){
             flag = false;
             model.addAttribute("ERR_purchaseBankAccount", "甲方账号不能为空");
-        }else if(!ValidateUtils.PositiveNumber(purCon.getPurchaseBankAccount_string())){
+        }else if(!ValidateUtils.Number(purCon.getPurchaseBankAccount_string())){
           flag = false;
           model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方账号");
         }/*else if(!ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount_string())){
