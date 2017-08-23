@@ -306,6 +306,9 @@ public class ExpertAuditController{
 	 */
 	@RequestMapping("/basicInfo")
 	public String basicInfo(Expert expert, Model model, Integer pageNum, String expertId, Integer sign) {
+		//暂存中
+		temporaryAudit(expertId);
+		
 		/**
 		 * 退回修改后对比历史记录
 		 */
