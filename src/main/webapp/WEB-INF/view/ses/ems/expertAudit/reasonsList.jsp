@@ -563,7 +563,7 @@
                        
                         <!-- <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a> -->
                     </c:if>
-                    <c:if test="${status eq '6'}">
+                    <c:if test="${sign eq '3' and status eq '6'}">
                         <input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复查合格 " id="tongguo">
                         <input class="btn btn-windows cancel" type="button" onclick="shenhe(8);" value="复查不合格" id="tichu">
                     </c:if>
