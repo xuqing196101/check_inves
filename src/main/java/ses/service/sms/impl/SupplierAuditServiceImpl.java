@@ -1143,7 +1143,11 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	@Override
 	public List<SupplierPublicity> selectSupByPublictyList(Map<String, Object> map) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage((Integer) (map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		if(map.get("flag") != null && ("app").equals(map.get("flag"))){
+			PageHelper.startPage((Integer) (map.get("page")),10);
+		} else {
+			PageHelper.startPage((Integer) (map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		}
 		// 查询公示供应商列表
 		SupplierPublicity supplierPublicityQuery = (SupplierPublicity) map.get("supplierPublicity");
 		List<SupplierPublicity> list = supplierMapper.selectSupByPublictyList(supplierPublicityQuery);
