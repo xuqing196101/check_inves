@@ -12,6 +12,8 @@ public interface ExpertGroupMapper {
 	
 	List<ExpertGroup> getGroup(ExpertGroup expertGroup);
 	
+	ExpertGroup findGroup(ExpertGroup expertGroup);
+	
 	void deleteByPrimaryKey(String groupId);
 	
 	void updateStatus(ExpertGroup expertGroup);

@@ -5,24 +5,23 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
-import ses.dao.bms.RoleMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertBatchMapper;
 import ses.dao.ems.ExpertGroupMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ExpertReviewTeamMapper;
-import ses.model.bms.Role;
 import ses.model.bms.RoleUser;
 import ses.model.bms.User;
-import ses.model.bms.Userrole;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertBatch;
@@ -53,8 +52,8 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	private ExpertReviewTeamMapper expertReviewTeamMapper;
 	@Autowired
 	private UserMapper userMapper;
-	@Autowired
-	private RoleMapper roleMapper;
+	
+	public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	@Override
 	public ExpertAgainAuditImg addAgainAudit(String ids) {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
@@ -441,12 +440,28 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertReviewTeam expertReviewTeam = expertReviewTeamMapper.getExpertReviewTeam(id);
 		User user = new User();
 		user.setId(expertReviewTeam.getUserId());
-		user.setPassword(passWord);
+		//生成15位随机码
+		String randomCode = generateString(15);
+				
+		Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
+		// false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
+		md5.setEncodeHashAsBase64(false);     
+		String pwd = md5.encodePassword(passWord, randomCode);
+		user.setPassword(pwd);
+		user.setRandomCode(randomCode);
 		userMapper.updateByPrimaryKeySelective(user);
 		img.setStatus(true);
 		img.setMessage("操作成功");
 		return img;
 	}
+	public String generateString(int length) {  
+        StringBuffer sb = new StringBuffer();  
+        Random random = new Random();  
+        for (int i = 0; i < length; i++) {  
+            sb.append(ALLCHAR.charAt(random.nextInt(ALLCHAR.length())));  
+        }  
+        return sb.toString();  
+    }
 
 	@Override
 	public ExpertAgainAuditImg checkLoginName(String loginName) {
@@ -460,6 +475,48 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		}
 		img.setStatus(true);
 		img.setMessage("用户名可用");
+		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg preservationExpertReviewTeam(String groupId) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		ExpertGroup expertGroup = new ExpertGroup();
+		expertGroup.setGroupId(groupId);
+		expertGroup=expertGroupMapper.findGroup(expertGroup);
+		if("1".equals(expertGroup.getStatus())){
+			img.setStatus(false);
+			img.setMessage("请先配置审核组成员");
+			return img;
+		}
+		if("3".equals(expertGroup.getStatus())){
+			img.setStatus(false);
+			img.setMessage("配置已完成无法进行此操作");
+			return img;
+		}
+		expertGroup.setStatus("3");
+		ExpertReviewTeam expertReviewTeam = new ExpertReviewTeam();
+		expertReviewTeam.setGroupId(groupId);
+		List<ExpertReviewTeam> expertReviewTeamList = expertReviewTeamMapper.getExpertReviewTeamList(expertReviewTeam);
+		ArrayList<User> userList = new ArrayList<User>();
+		for (ExpertReviewTeam e : expertReviewTeamList) {
+			List<User> list = userMapper.selectByPrimaryKey(e.getUserId());
+			User user=list.get(0);
+			if("".equals(user.getPassword())){
+				img.setStatus(false);
+				img.setMessage("请为所有审核组成员设置密码");
+				return img;
+			}
+			user.setIsDeleted(0);
+			userList.add(user);
+		}
+		for (User user : userList) {
+			userMapper.updateByPrimaryKeySelective(user);
+		}
+		expertGroupMapper.updateStatus(expertGroup);
+		img.setStatus(true);
+		img.setMessage("操作成功");
 		return img;
 	} 
 	

@@ -31,6 +31,18 @@
         </if>
 		ORDER BY COUNT ASC
     </select>
+    <select id="findGroup" resultMap="BaseResultMap" parameterType="ses.model.ems.ExpertGroup">
+        select 
+        <include refid="Base_List" />
+		from T_SYS_EMS_EXPERT_GROUP where 1=1
+		<if test="batchId != null and batchId !=''">
+            AND BATCH_ID=#{batchId}
+        </if>
+		<if test="groupId != null and groupId !=''">
+            AND GROUP_ID=#{groupId}
+        </if>
+		ORDER BY COUNT ASC
+    </select>
     <insert id="insert" parameterType="ses.model.ems.ExpertGroup">
         insert into T_SYS_EMS_EXPERT_GROUP
         (GROUP_ID,BATCH_ID,GROUP_NAME,COUNT,CREATED_AT,UPDATED_AT,STATUS)

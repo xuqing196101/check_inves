@@ -3,6 +3,8 @@ package ses.controller.sys.ems;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -451,6 +453,17 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			super.writeJson(response, img);
 			return;
 		}
+		String regex = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+        Pattern p = Pattern.compile(regex);
+        Pattern p2 = Pattern.compile("[\u4e00-\u9fa5]");
+        Matcher m = p.matcher(loginName);
+        Matcher m2 = p2.matcher(loginName);
+        if(loginName.trim().length() < 3 || m.find() || m2.find()){
+        	img.setStatus(false);
+			img.setMessage("用户名不符合规则");
+			super.writeJson(response, img);
+			return;
+        }
 		img=againAuditService.checkLoginName(loginName);
 		super.writeJson(response, img);
 	}
@@ -459,6 +472,64 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * */
 	@RequestMapping("setUpPassword")
 	public void setUpPassword(HttpServletRequest request,HttpServletResponse response,String id,String password,String password2){
-		
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"4".equals(user.getTypeName())){
+		img.setStatus(false);
+		img.setMessage("您的权限不足");
+		super.writeJson(response, img);
+		return;
+		}*/
+		if(id == null){
+			img.setStatus(false);
+			img.setMessage("请选择审核组成员");
+			super.writeJson(response, img);
+			return;
+		}
+		if(password==null){
+			img.setStatus(false);
+			img.setMessage("密码不能为空");
+			super.writeJson(response, img);
+			return;
+		}
+		String regex = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+        Pattern p = Pattern.compile(regex);
+        Pattern p2 = Pattern.compile("[\u4e00-\u9fa5]");
+        Matcher matcher = p.matcher(password);
+        Matcher matcher2 = p2.matcher(password);
+        if(password.trim().length() < 6 || matcher.find() || matcher2.find()) {
+        	img.setStatus(false);
+        	img.setMessage("密码不符合规则");
+        	super.writeJson(response, img);
+        	return;
+        }
+        if(!password.equals(password2)){
+        	img.setStatus(false);
+        	img.setMessage("两次密码输入不一致");
+        	super.writeJson(response, img);
+        	return;
+        }
+		img=againAuditService.setUpPassword(id, password);
+		super.writeJson(response, img);
+	}
+	/*
+	 * 结束审核组成员配置
+	 * */
+	@RequestMapping("preservationExpertReviewTeam")
+	public void preservationExpertReviewTeam(HttpServletRequest request,HttpServletResponse response,String groupId) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		/*if(!"4".equals(user.getTypeName())){
+		img.setStatus(false);
+		img.setMessage("您的权限不足");
+		super.writeJson(response, img);
+		return;
+		}*/
+		if(groupId==null){
+			img.setStatus(false);
+			img.setMessage("操作失败");
+			super.writeJson(response, img);
+			return;
+		}
+		img=againAuditService.preservationExpertReviewTeam(groupId);
+		super.writeJson(response, img);
 	}
 }

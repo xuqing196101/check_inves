@@ -21,4 +21,5 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg deleteExpertReviewTeam(String id);
 	ExpertAgainAuditImg setUpPassword(String id,String passWord);
 	ExpertAgainAuditImg checkLoginName(String loginName);
+	ExpertAgainAuditImg preservationExpertReviewTeam(String groupId);
 }
