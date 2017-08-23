@@ -43,16 +43,43 @@
             list_content.list[i].status = '复审待分组专家';
           }
           
-          // 审核组为空输出
-          if (typeof(list_content.list[i].groupName) == 'undefined') {
-            list_content.list[i].groupName = '';
+          // 判断复审专家输出
+          if (list_content.list[i].status === '4' || list_content.list[i].status === '11' || list_content.list[i].status === '14') {
+            list_content.list[i].auditor = '';
           }
           
-          // 判断复审专家输出
+          if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
+            list_content.list[i].batchDetailsNumber = '';
+          }
+          if (typeof(list_content.list[i].orgName) === 'undefined') {
+            list_content.list[i].orgName = '';
+          }
+          if (typeof(list_content.list[i].realName) === 'undefined') {
+            list_content.list[i].realName = '';
+          }
+          if (typeof(list_content.list[i].gender) === 'undefined') {
+            list_content.list[i].gender = '';
+          }
+          if (typeof(list_content.list[i].workUnit) === 'undefined') {
+            list_content.list[i].workUnit = '';
+          }
+          if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
+            list_content.list[i].professTechTitles = '';
+          }
+          if (typeof(list_content.list[i].updateTime) === 'undefined') {
+            list_content.list[i].updateTime = '';
+          }
+          if (typeof(list_content.list[i].groupName) === 'undefined') {
+            list_content.list[i].groupName = '';
+          }
+          if (typeof(list_content.list[i].auditor) === 'undefined') {
+            list_content.list[i].auditor = '';
+          }
           if (typeof(list_content.list[i].status) == 'undefined') {
             list_content.list[i].status = '';
-          } else if (list_content.list[i].status === '4' || list_content.list[i].status === '11' || list_content.list[i].status === '14') {
-            list_content.list[i].auditor = '';
+          }
+          if (typeof(list_content.list[i].auditAt) === 'undefined') {
+            list_content.list[i].auditAt = '';
           }
           
           $('#list_content').append('<tr>'

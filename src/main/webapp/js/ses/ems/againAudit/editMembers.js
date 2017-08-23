@@ -12,6 +12,19 @@
         list_content = data.object;  // 储存所需数据到变量
         $('#list_content').html('');
         for (var i in list_content.list) {
+          if (typeof(list_content.list[i].loginName) === 'undefined') {
+            list_content.list[i].loginName = '';
+          }
+          if (typeof(list_content.list[i].relName) === 'undefined') {
+            list_content.list[i].relName = '';
+          }
+          if (typeof(list_content.list[i].orgName) === 'undefined') {
+            list_content.list[i].orgName = '';
+          }
+          if (typeof(list_content.list[i].duties) === 'undefined') {
+            list_content.list[i].duties = '';
+          }
+          
           $('#list_content').append('<tr>'
             +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list[i].id +'" class="select_item"></td>'
             +'<td class="text-center">'+ list_content.list[i].loginName +'</td>'

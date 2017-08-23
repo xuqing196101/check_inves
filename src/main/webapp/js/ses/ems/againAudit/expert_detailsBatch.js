@@ -45,6 +45,40 @@
             list_content.list[i].status = '复审待分组专家';
           }
           
+          if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
+            list_content.list[i].batchDetailsNumber = '';
+          }
+          if (typeof(list_content.list[i].realName) === 'undefined') {
+            list_content.list[i].realName = '';
+          }
+          if (typeof(list_content.list[i].gender) === 'undefined') {
+            list_content.list[i].gender = '';
+          }
+          if (typeof(list_content.list[i].workUnit) === 'undefined') {
+            list_content.list[i].workUnit = '';
+          }
+          if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
+            list_content.list[i].professTechTitles = '';
+          }
+          if (typeof(list_content.list[i].orgName) === 'undefined') {
+            list_content.list[i].orgName = '';
+          }
+          if (typeof(list_content.list[i].updateTime) === 'undefined') {
+            list_content.list[i].updateTime = '';
+          }
+          if (typeof(list_content.list[i].groupName) === 'undefined') {
+            list_content.list[i].groupName = '';
+          }
+          if (typeof(list_content.list[i].auditor) === 'undefined') {
+            list_content.list[i].auditor = '';
+          }
+          if (typeof(list_content.list[i].status) === 'undefined') {
+            list_content.list[i].status = '';
+          }
+          if (typeof(list_content.list[i].auditAt) === 'undefined') {
+            list_content.list[i].auditAt = '';
+          }
+          
           $('#list_content').append('<tr>'
             +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list[i].expertId +'" class="select_item"></td>'
             +'<td>'+ list_content.list[i].batchDetailsNumber +'</td>'

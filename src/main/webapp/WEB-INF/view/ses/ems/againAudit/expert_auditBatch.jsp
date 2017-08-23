@@ -89,6 +89,7 @@
   <!-- 内容结束 -->
   
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/expert_auditBatch.js"></script>
+  <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/search.js"></script>
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/fingStayReviewExpertList.do';  // 列表地址
