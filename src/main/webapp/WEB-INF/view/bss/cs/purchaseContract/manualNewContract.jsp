@@ -964,8 +964,8 @@
 				  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	    <input class="easyui-combobox" name="supplierDepName" id="supplierList" data-options="valueField:'id',textField:'supplierName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100" onkeyup="names(this);"  style="width: 100%;height: 29px"/>  
-			        	
+			        	    <input class="easyui-combobox" attr="" name="supplierDepName" id="supplierList" data-options="valueField:'id',textField:'supplierName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100" onkeyup="names(this);"  style="width: 100%;height: 29px"/>  
+			        	    <input type="hidden" id="sup"/>
 			        	<div class="cue">${ERR_supplierDepName}</div>
 	       			</div>
 				 </li> 
@@ -981,6 +981,7 @@
 				            return row[opts.textField].indexOf(L) == 0;  
 				        },
 				        onSelect: function (org) { 
+				        	$("#sup").val(org.supplierName);
 				        	$("#supplierLegal").val(org.legalName);
 				        	  $("#supplierContact").val(org.contactName);
 				        	  $("#supplierContactTelephone").val(org.contactTelephone);
@@ -991,8 +992,17 @@
 				        },
 				        onLoadSuccess:function(){
 				        	$('#supplierList').next('.combo').find('input').blur(function (){
-                                  $("input[name='supplierDepName']").val($(this).val())
-				        		
+				        		if($("#sup").val()!=$(this).val()){
+				        			$("input[name='supplierDepName']").val($(this).val());
+				        			$("#sup").val("");
+	                                  $("#supplierLegal").val("");
+						    				        	  $("#supplierContact").val("");
+						    				        	  $("#supplierContactTelephone").val("");
+						    				        	  $("#supplierContactAddress").val("");
+						    				        	  $("#supplierUnitpostCode").val("");
+						    				        	  $("#supplierBank").val("");
+						    				        	  $("#supplierBankAccount_string").val("");
+				        		}
 				        	 });
 				        	},
 				    });  
