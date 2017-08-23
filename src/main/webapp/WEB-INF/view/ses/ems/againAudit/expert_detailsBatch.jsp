@@ -76,6 +76,7 @@
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/fingStayReviewExpertDetailsList.do';  // 列表地址
+    var audit_url = '${pageContext.request.contextPath}/expertAgainAudit/checkGroupStatus.do';  // 校验地址
     var select_ids = [];
     
     $(function () {
