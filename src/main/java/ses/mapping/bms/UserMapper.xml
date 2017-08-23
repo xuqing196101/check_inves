@@ -1101,4 +1101,31 @@
       and u.ID != #{id}
     </if>
   </select>
+  
+  <!-- 获取权限关联用户 -->
+  <select id="findByPermenuId" resultMap="UserBaseMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM T_SES_BMS_USER
+    WHERE ID IN (
+      SELECT USER_ID ID FROM (
+        SELECT DISTINCT USER_ID
+        FROM T_SES_BMS_USER_ROLE  
+        WHERE
+        ROLE_ID IN (
+          SELECT DISTINCT ROLE_ID
+          FROM T_SES_BMS_ROLE_PERMISSION  
+          WHERE PERMENU_ID = #{permenuId}) 
+      UNION 
+      SELECT DISTINCT USER_ID  
+      FROM T_SES_BMS_USER_PERMISSION
+      WHERE PERMENU_ID = #{permenuId} AND KIND = 0) 
+    MINUS 
+      SELECT DISTINCT USER_ID 
+      FROM T_SES_BMS_USER_PERMISSION
+      WHERE PERMENU_ID = #{permenuId} AND KIND = 1 
+    )
+    AND IS_DELETED = 0
+    ORDER BY CREATED_AT DESC
+  </select>
 </mapper>
