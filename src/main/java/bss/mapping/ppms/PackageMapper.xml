@@ -315,8 +315,8 @@
 		</if>
 		<if test="projectStatus != null and projectStatus !=''">
 			and 
-			PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='YZZ') and 
-		    PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='ZJZXTP')
+			  (PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='YZZ') and 
+		    PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='ZJZXTP') or PROJECT_STATUS is null)
 		</if>
 		ORDER BY
 		CREATED_AT ASC
@@ -331,8 +331,8 @@
 		</if>
 		<if test="projectStatus != null and projectStatus !=''">
 			and 
-			PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='YZZ') and 
-		    PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='ZJZXTP')
+			(PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='YZZ') and 
+		    PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='ZJZXTP') or PROJECT_STATUS is null)
 		</if>
 	</select>
 
