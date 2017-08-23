@@ -18,8 +18,8 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg checkComplete(String batchId);
 	ExpertAgainAuditImg findExpertReviewTeam(String groupId);
 	ExpertAgainAuditImg addExpertReviewTeam(ExpertReviewTeam expertReviewTeam);
-	ExpertAgainAuditImg deleteExpertReviewTeam(String id);
-	ExpertAgainAuditImg setUpPassword(String id,String passWord);
+	ExpertAgainAuditImg deleteExpertReviewTeam(String ids);
+	ExpertAgainAuditImg setUpPassword(String ids,String passWord);
 	ExpertAgainAuditImg checkLoginName(String loginName);
 	ExpertAgainAuditImg preservationExpertReviewTeam(String groupId);
 	ExpertAgainAuditImg fingStayReviewExpertList(String userId, Integer pageNum);

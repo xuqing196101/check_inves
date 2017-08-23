@@ -1,5 +1,6 @@
 package ses.service.ems.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -398,7 +399,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		user.setDuties(expertReviewTeam.getDuties());
 		user.setCreatedAt(new Date());
 		user.setUpdatedAt(new Date());
-		user.setIsDeleted(1);
+		user.setIsDeleted(0);
 		user.setTypeName("6");
 		user.setTypeId(expertReviewTeam.getId());
 		String ipAddressType = PropUtil.getProperty("ipAddressType");
@@ -425,10 +426,27 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	}
 
 	@Override
-	public ExpertAgainAuditImg deleteExpertReviewTeam(String id) {
+	public ExpertAgainAuditImg deleteExpertReviewTeam(String ids) {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		expertReviewTeamMapper.deleteByPrimaryKey(id);
+		String[] split = ids.split(",");
+		for (String id : split) {
+			ExpertReviewTeam expertReviewTeam = expertReviewTeamMapper.getExpertReviewTeam(id);
+			List<User> list = userMapper.selectByPrimaryKey(expertReviewTeam.getUserId());
+			if(list!=null&&list.size()>0){
+				User user=list.get(0);
+				user.setIsDeleted(1);
+				SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm");
+		    	String date = format.format(new Date());
+		    	StringBuffer suffix = new StringBuffer();
+		    	suffix.append("_del_bak_");
+		    	suffix.append(date);
+		    	user.setLoginName(user.getLoginName()+suffix.toString());
+		    	userMapper.updateByPrimaryKeySelective(user);
+			}
+			expertReviewTeamMapper.deleteByPrimaryKey(id);
+		}
+		
 		img.setStatus(true);
 		img.setMessage("操作成功");
 		return img;
@@ -502,20 +520,13 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertReviewTeam expertReviewTeam = new ExpertReviewTeam();
 		expertReviewTeam.setGroupId(groupId);
 		List<ExpertReviewTeam> expertReviewTeamList = expertReviewTeamMapper.getExpertReviewTeamList(expertReviewTeam);
-		ArrayList<User> userList = new ArrayList<User>();
 		for (ExpertReviewTeam e : expertReviewTeamList) {
 			List<User> list = userMapper.selectByPrimaryKey(e.getUserId());
-			User user=list.get(0);
-			if("".equals(user.getPassword())){
+			if("".equals(list.get(0).getPassword())){
 				img.setStatus(false);
 				img.setMessage("请为所有审核组成员设置密码");
 				return img;
 			}
-			user.setIsDeleted(0);
-			userList.add(user);
-		}
-		for (User user : userList) {
-			userMapper.updateByPrimaryKeySelective(user);
 		}
 		expertGroupMapper.updateStatus(expertGroup);
 		img.setStatus(true);

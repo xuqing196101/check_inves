@@ -418,7 +418,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * 删除审核组成员
 	 * */
 	@RequestMapping("deleteExpertReviewTeam")
-	public void deleteExpertReviewTeam(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String id){
+	public void deleteExpertReviewTeam(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String ids){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		/*if(!"4".equals(user.getTypeName())){
 		img.setStatus(false);
@@ -426,13 +426,13 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		super.writeJson(response, img);
 		return;
 		}*/
-		if(id == null){
+		if(ids == null){
 			img.setStatus(false);
 			img.setMessage("请选择要删除的成员");
 			super.writeJson(response, img);
 			return;
 		}
-		img=againAuditService.deleteExpertReviewTeam(id);
+		img=againAuditService.deleteExpertReviewTeam(ids);
 		super.writeJson(response, img);
 	}
 	/*
