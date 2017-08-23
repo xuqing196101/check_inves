@@ -17,7 +17,7 @@
             +'<td class="text-center">'+ list_content.list[i].loginName +'</td>'
             +'<td class="text-center">'+ list_content.list[i].relName +'</td>'
             +'<td>'+ list_content.list[i].orgName +'</td>'
-            +'<td>'+ list_content.list[i].Duties +'</td>'
+            +'<td>'+ list_content.list[i].duties +'</td>'
           +'</tr>');
         }
         
