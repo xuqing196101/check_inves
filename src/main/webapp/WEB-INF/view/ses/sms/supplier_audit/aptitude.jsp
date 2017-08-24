@@ -325,7 +325,7 @@
 								</li>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeNames, '服务') and fn:length(serviceQua) > 0}">
-								<li id="li_id_4" class='<c:if test="${liCountEng == 0 && liCountPro == 0 && liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer"/></c:if>'>
+								<li id="li_id_4" class='<c:if test="${liCountSell == 0 && liCountPro == 0 && liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer"/></c:if>'>
 									<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务资质信息</a>
 								</li>
 							</c:if>
