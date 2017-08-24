@@ -234,7 +234,7 @@ public class UserManageController extends BaseController{
   		}
 	    //判读 所属机构 是否可以为空
 	    if( !"5".equals(user.getTypeName())&& !"4".equals(user.getTypeName())){
-	    	if(orgName==null){
+	    	if("".equals(user.getOrgId())||user.getOrgId() == null){
 	    		 List<DictionaryData> genders = DictionaryDataUtil.find(13);
 	               model.addAttribute("genders", genders);
 	     			model.addAttribute("user", user);
