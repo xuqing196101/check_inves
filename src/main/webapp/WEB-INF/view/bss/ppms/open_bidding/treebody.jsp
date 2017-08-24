@@ -699,6 +699,10 @@ function judge(index) {
 			layer.msg("区间不成立,请重新录入");
 			return;
 		}
+		if($("#model").val()==""){
+			layer.msg("请选择模型");
+			return;
+		}
 	    var standScore = $("#standardScore").val();
 	    var maxScore = $("#maxScore").val();
 	    var id = $("#id").val();
