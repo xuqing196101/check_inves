@@ -115,7 +115,7 @@ public class SupplierItemController extends BaseController {
 		if(ses.util.Constant.SUPPLIER_SALES.equals(supplierItem.getSupplierTypeRelateId())){
 			s.setAuditType(ses.util.Constant.ITEMS_SALES_PAGE);
 		}
-		List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
+		List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, new Integer[]{1,2,4});
 
 		StringBuffer errorField = new StringBuffer();
 		for(SupplierAudit audit: auditLists) {

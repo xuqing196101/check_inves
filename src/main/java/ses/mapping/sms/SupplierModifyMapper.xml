@@ -194,6 +194,9 @@
   	 <if test="beforeField != null">
   	 	and BEFORE_FIELD = #{beforeField}
   	 </if>
+  	 <if test="relationId != null">
+  	 	and RELATION_ID = #{relationId}
+  	 </if>
   	 <if test="listType != null">
   	 	and LIST_TYPE = #{listType}
   	 </if>

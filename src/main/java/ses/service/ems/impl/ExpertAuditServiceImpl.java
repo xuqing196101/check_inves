@@ -486,7 +486,11 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	@Override
 	public List<ExpertPublicity> selectExpByPublictyList(Map<String, Object> map) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage((Integer) (map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		if(map.get("flag") != null && ("app").equals(map.get("flag"))){
+			PageHelper.startPage((Integer) (map.get("page")),10);
+		}else{
+			PageHelper.startPage((Integer) (map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		}
 		// 查询公示专家列表
 		ExpertPublicity expertPublicityQuery = (ExpertPublicity) map.get("expertPublicity");
 		List<ExpertPublicity> list = expertMapper.selectExpByPublictyList(expertPublicityQuery);

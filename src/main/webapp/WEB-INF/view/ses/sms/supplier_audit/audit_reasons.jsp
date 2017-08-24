@@ -375,12 +375,17 @@
                    	 <c:if test="${fn:length (reasons.suggest) > 35}">${fn:substring(reasons.suggest,0,35)}...</c:if>
               		   <c:if test="${fn:length(reasons.suggest) <= 35}">${reasons.suggest}</c:if>
                    </td>
-                   <td class="tc">
-										<fmt:formatDate value="${reasons.createdAt}" pattern="yyyy-MM-dd HH:mm"/>
-                   </td>
-                   <td class="tc">
-										<c:if test="${reasons.isModified == 1}">已修改</c:if>
-                   </td>
+									<td class="tc" title="<fmt:formatDate value="${reasons.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/>">
+										<fmt:formatDate value="${reasons.createdAt}" pattern="yyyy-MM-dd"/>
+				         	</td>
+				         	<td class="tc">
+										<c:choose>
+											<c:when test="${reasons.returnStatus == 1}">退回修改</c:when>
+											<c:when test="${reasons.returnStatus == 2}">审核不通过</c:when>
+											<c:when test="${reasons.returnStatus == 3}">已修改</c:when>
+											<c:when test="${reasons.returnStatus == 4}">未修改</c:when>
+										</c:choose>
+				         	</td>
                  </tr>
                </c:forEach>
             </table>

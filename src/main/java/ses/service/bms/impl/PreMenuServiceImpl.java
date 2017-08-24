@@ -220,7 +220,8 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
 			page = StaticVariables.DEFAULT_PAGE;
 		}
     	PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
-        //查询拥有该菜单权限的角色id
+    	
+        /*//查询拥有该菜单权限的角色id
         List<String> roleIds = roleMapper.getByMid(permenuId);
         
         for(int i = 0; i < roleIds.size() - 1; i++) {
@@ -237,20 +238,20 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
         //查询拥有该角色的用户
         List<String> userIdList = new ArrayList<String>();
         for (String roleId : roleIds) {
-            /*User user = new User();
+            User user = new User();
             user.setRoleId(rId);
             List<String> rIds = new ArrayList<String>();
             rIds.add(rId);
             user.setRoleIdList(rIds);
-            users = userMapper.findUserRole(user);*/
+            users = userMapper.findUserRole(user);
         	List<String> userId = roleMapper.getByRoleId(roleId);
         	userIdList.addAll(userId);
         	
         }
        
-        /**
+        *//**
          * 删除去掉菜单的用户
-         */
+         *//*
         Iterator<String> itr = getUserIdByPermenuId.iterator();
         while(itr.hasNext()) {
         	String id = itr.next();
@@ -270,9 +271,9 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
               }
         }
         
-		 /**
+		 *//**
 		  * 查询用户信息
-		  */
+		  *//*
         List<User> userList = new ArrayList<User>();
         
         for(String userId: userIdList){
@@ -282,8 +283,9 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
         for(String userId : getUserIdByPermenuId){
         	List<User> findById = userMapper.findById(userId);
         	userList.addAll(findById);
-        }
+        }*/
         
+    	List<User> userList = userMapper.findByPermenuId(permenuId);
         return userList;
     }
 

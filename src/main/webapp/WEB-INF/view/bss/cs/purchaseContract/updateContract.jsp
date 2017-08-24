@@ -911,7 +911,7 @@
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	    <input class="easyui-combobox" name="supplierDepName" id="supplierList" data-options="valueField:'id',textField:'supplierName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100"  style="width: 100%;height: 29px"/>  
-			        	
+			        	    <input type="hidden" id="sup" value="${purCon.supplierDepName}"/>
 			        	<div class="cue">${ERR_supplierDepName}</div>
 	       			</div>
 				 </li> 
@@ -930,7 +930,8 @@
 				        },
 				        onSelect: function (org) { 
 				        	if(num!=0&&num!=1){
-				        	$("#supplierLegal").val(org.legalName);
+				        		$("#sup").val(org.supplierName);
+				        	  $("#supplierLegal").val(org.legalName);
 				        	  $("#supplierContact").val(org.contactName);
 				        	  $("#supplierContactTelephone").val(org.contactTelephone);
 				        	  $("#supplierContactAddress").val(org.area.name);
@@ -942,8 +943,17 @@
 				       },
 				       onLoadSuccess:function(){
 				        	$('#supplierList').next('.combo').find('input').blur(function (){
+				        		if($("#sup").val()!=$(this).val()){
+				        			$("#sup").val("");
                                  $("input[name='supplierDepName']").val($(this).val())
-				        		
+                                 $("#supplierLegal").val("");
+						   				        	  $("#supplierContact").val("");
+						   				        	  $("#supplierContactTelephone").val("");
+						   				        	  $("#supplierContactAddress").val("");
+						   				        	  $("#supplierUnitpostCode").val("");
+						   				        	  $("#supplierBank").val("");
+						   				        	  $("#supplierBankAccount_string").val("");
+				        		}
 				        	 });
 				        	},
 				    });  

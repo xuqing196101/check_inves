@@ -1087,7 +1087,7 @@ public class SupplierController extends BaseSupplierController {
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplier.getId());
 			supplierAudit.setAuditType("basic_page");
-			List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});
 
 			StringBuffer errorField = new StringBuffer();
 			for(SupplierAudit audit: auditLists) {
@@ -1110,7 +1110,7 @@ public class SupplierController extends BaseSupplierController {
 			//供应商勾选的类型
 			StringBuffer typePageField = new StringBuffer();
 			supplierAudit.setAuditType("supplierType_page");
-			List < SupplierAudit > typeAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			List < SupplierAudit > typeAuditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});;
 			if(typeAuditList != null && !typeAuditList.isEmpty()){
 				for(SupplierAudit audit: typeAuditList) {
 					typePageField.append(audit.getAuditField() + ",");
@@ -1121,7 +1121,7 @@ public class SupplierController extends BaseSupplierController {
 			//生产
 			StringBuffer proPageField = new StringBuffer();
 			supplierAudit.setAuditType("mat_pro_page");
-			List < SupplierAudit > proAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			List < SupplierAudit > proAuditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});;
 			if(proAuditList != null && !proAuditList.isEmpty()){
 				for(SupplierAudit audit: proAuditList) {
 					proPageField.append(audit.getAuditField() + ",");
@@ -1131,7 +1131,7 @@ public class SupplierController extends BaseSupplierController {
 			//销售
 			StringBuffer sellPageField = new StringBuffer();
 			supplierAudit.setAuditType("mat_sell_page");
-			List < SupplierAudit > sellAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			List < SupplierAudit > sellAuditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});;
 			if(sellAuditList != null && !sellAuditList.isEmpty()){
 				for(SupplierAudit audit: sellAuditList) {
 					sellPageField.append(audit.getAuditField() + ",");
@@ -1141,7 +1141,7 @@ public class SupplierController extends BaseSupplierController {
 			//工程
 			StringBuffer engPageField = new StringBuffer();
 			supplierAudit.setAuditType("mat_eng_page");
-			List < SupplierAudit > engAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			List < SupplierAudit > engAuditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});;
 			if(engAuditList != null && !engAuditList.isEmpty()){
 				for(SupplierAudit audit: engAuditList) {
 					engPageField.append(audit.getAuditField() + ",");
@@ -1151,7 +1151,7 @@ public class SupplierController extends BaseSupplierController {
 			//服务
 			StringBuffer servePageField = new StringBuffer();
 			supplierAudit.setAuditType("mat_serve_page");
-			List < SupplierAudit > serveAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			List < SupplierAudit > serveAuditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});;
 			if(serveAuditList != null && !serveAuditList.isEmpty()){
 				for(SupplierAudit audit: serveAuditList) {
 					servePageField.append(audit.getAuditField() + ",");
@@ -1171,7 +1171,7 @@ public class SupplierController extends BaseSupplierController {
 			SupplierAudit s = new SupplierAudit();
 			s.setSupplierId(supplier.getId());
 			s.setAuditType("download_page");
-			List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
+			List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, new Integer[]{1,2,4});;
 			StringBuffer errorField = new StringBuffer();
 			for(SupplierAudit audit: auditLists) {
 				errorField.append(audit.getAuditField() + ",");
@@ -1205,7 +1205,7 @@ public class SupplierController extends BaseSupplierController {
 						s.setAuditType(ses.util.Constant.APTITUDE_PRODUCT_PAGE);
 					}
 					auditTypeMap.put(typeId, s.getAuditType());
-					List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
+					List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, new Integer[]{1,2,4});;
 
 					for(SupplierAudit audit: auditLists) {
 						errorField.append(audit.getAuditField() + ",");
@@ -3073,7 +3073,7 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "/audit", produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String auditMsg(SupplierAudit supplierAudit) {
-		List < SupplierAudit > list = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		List < SupplierAudit > list = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});;
 		if(list != null && list.size() > 0){
 			return JSON.toJSONString(list.get(0));
 		}
@@ -3084,7 +3084,7 @@ public class SupplierController extends BaseSupplierController {
 		List < String > list = new LinkedList < String > ();
 		SupplierAudit supplierAudit = new SupplierAudit();
 		supplierAudit.setSupplierId(id);
-		List < SupplierAudit > audit = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		List < SupplierAudit > audit = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});;
 		for(SupplierAudit s: audit) {
 			list.add(s.getAuditField());
 		}
@@ -3183,7 +3183,7 @@ public class SupplierController extends BaseSupplierController {
 			if(ses.util.Constant.SUPPLIER_SALES.equals(supplierTypeId)){
 				s.setAuditType(ses.util.Constant.CONTRACT_SALES_PAGE);
 			}
-			List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
+			List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, new Integer[]{1,2,4});;
 
 			StringBuffer errorField = new StringBuffer();
 			for(SupplierAudit audit: auditLists) {

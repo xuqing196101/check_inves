@@ -14,6 +14,7 @@
     <result column="AUDIT_CONTENT" property="auditContent" />
     <result column="AUDIT_FIELD_NAME" property="auditFieldName" />
     <result column="IS_DELETED" property="isDeleted" />
+    <result column="RETURN_STATUS" property="returnStatus" />
   </resultMap>
 
     <resultMap id="BaseResultMapChild" type="ses.model.sms.SupplierAudit" extends="BaseResultMap">
@@ -21,7 +22,7 @@
     </resultMap>
   <sql id="Base_Column_List">
     ID, SUGGEST, AUDIT_TYPE, USER_ID, SUPPLIER_ID, STATUS, CREATED_AT, UPDATED_AT, AUDIT_FIELD, 
-    AUDIT_CONTENT, AUDIT_FIELD_NAME ,IS_DELETED
+    AUDIT_CONTENT, AUDIT_FIELD_NAME, IS_DELETED, RETURN_STATUS
   </sql>
   
   <select id="selectByPrimaryKey"   parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
@@ -40,18 +41,48 @@
   </select>
   
  	<!-- 查询所有的审核记录 -->
-  <select id="selectAuditRecords"   parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
+  <select id="selectAuditRecords" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_AUDIT
+    where SUPPLIER_ID = #{audit.supplierId}
+    <if test="audit.auditField != null">
+		and AUDIT_FIELD = #{audit.auditField}
+    </if>
+    <if test="audit.auditType != null">
+		and AUDIT_TYPE = #{audit.auditType}
+    </if>
+    <if test="audit.returnStatus != null">
+		and RETURN_STATUS = #{audit.returnStatus}
+    </if>
+    <if test="audit.isDeleted != null">
+		and IS_DELETED = #{audit.isDeleted}
+    </if>
+    <if test="rss != null and rss.length > 0">
+		and RETURN_STATUS in
+		<foreach collection="rss" item="item" open="(" close=")" separator="," index="index">
+			#{item}
+		</foreach>
+    </if>
+  </select>
+  
+ 	<!-- 查询所有的审核记录（排序） -->
+  <select id="selectAuditRecordsWithSort" parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from T_SES_SMS_SUPPLIER_AUDIT
     where SUPPLIER_ID = #{supplierId}
-    <if test="auditField!=null">
-		and  AUDIT_FIELD=#{auditField}
+    <if test="auditField != null">
+		and AUDIT_FIELD = #{auditField}
     </if>
-    <if test="auditType!=null">
-		and  AUDIT_TYPE=#{auditType}
+    <if test="auditType != null">
+		and AUDIT_TYPE = #{auditType}
     </if>
-    ORDER BY CREATED_AT DESC
+    <if test="returnStatus != null">
+		and RETURN_STATUS = #{returnStatus}
+    </if>
+    <!-- ORDER BY DECODE(RETURN_STATUS, 1, 0), DECODE(RETURN_STATUS, 3, 1), CREATED_AT DESC -->
+    ORDER BY CREATED_AT ASC
   </select>
   
   <select id="findByTypeId"   parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
@@ -147,6 +178,9 @@
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
+      <if test="returnStatus != null">
+        RETURN_STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -184,6 +218,9 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
+      </if>
+      <if test="returnStatus != null">
+        #{returnStatus},
       </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -326,6 +363,46 @@
       AUDIT_FIELD_NAME = #{auditFieldName},
       IS_DELETED = # {isDeleted}
     where ID = #{id}
+  </update>
+  <update id="updateByIdSelective" parameterType="ses.model.sms.SupplierAudit">
+    update T_SES_SMS_SUPPLIER_AUDIT
+    <set>
+      <if test="suggest != null">
+        SUGGEST = #{suggest},
+      </if>
+      <if test="auditType != null">
+        AUDIT_TYPE = #{auditType},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId},
+      </if>
+      <if test="status != null">
+        STATUS = #{status},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditField != null">
+        AUDIT_FIELD = #{auditField},
+      </if>
+      <if test="auditContent != null">
+        AUDIT_CONTENT = #{auditContent},
+      </if>
+      <if test="auditContent != null">
+        AUDIT_FIELD_NAME = #{auditFieldName},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+      <if test="returnStatus != null">
+        RETURN_STATUS = #{returnStatus},
+      </if>
+    </set>
+    where
+        ID = #{id}
   </update>
   
   <select id="findByMap" parameterType="java.util.Map" resultMap="BaseResultMap">

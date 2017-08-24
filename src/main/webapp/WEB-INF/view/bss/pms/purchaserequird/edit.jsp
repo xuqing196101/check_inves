@@ -991,7 +991,6 @@
 				dataType: "json",
 				url: "${pageContext.request.contextPath }/purchaser/listName.do?name=" + name,
 				success: function(data) {
-					alert(data[0].name)
 						if(data.length>0){
 							var html = "";
 							for(var i = 0; i < data.length; i++) {

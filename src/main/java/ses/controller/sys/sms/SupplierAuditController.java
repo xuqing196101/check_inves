@@ -230,6 +230,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		supplierModifyService.deleteByType(supplierModify);
 		// 插入对比后的数据
 		supplierModifyService.insertModifyRecord(supplierModify);
+		// 更新审核记录状态
+		supplierAuditService.updateReturnStatus(supplierId);
 		
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
@@ -351,7 +353,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			request.setAttribute("fieldAddress", fieldAddress);
 			
-			//input
+			//基本信息
 			supplierModify.setListType(0);
 			List < SupplierModify > fieldList = supplierModifyService.selectBySupplierId(supplierModify);
 			StringBuffer field = new StringBuffer();
@@ -398,19 +400,19 @@ public class SupplierAuditController extends BaseSupplierController {
 			/**
 			 * 房屋证明退回修改后的附件
 			 */
-				StringBuffer houseFileModifyField = new StringBuffer();
-				for(SupplierModify m : fileModify){
-					if(m.getRelationId() != null){
-						if(m.getRelationId() !=null){
-							houseFileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
-						}
+			StringBuffer houseFileModifyField = new StringBuffer();
+			for(SupplierModify m : fileModify){
+				if(m.getRelationId() != null){
+					if(m.getRelationId() !=null){
+						houseFileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
 					}
 				}
+			}
 			request.setAttribute("houseFileModifyField", houseFileModifyField);
 		}
 
 		//回显未通过字段
-		if(supplier.getStatus() == -3 || supplier.getStatus() == -2 || supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5){
+		if(supplier.getStatus() == -3 || supplier.getStatus() == -2 || supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5 || supplier.getStatus() == 9){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
@@ -1199,10 +1201,11 @@ public class SupplierAuditController extends BaseSupplierController {
 			StringBuffer fileModifyField = new StringBuffer();
 			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 			for(SupplierModify m : fileModify){
-				if(m.getRelationId() != null){
-					if(m.getRelationId() != null){
-						fileModifyField.append(m.getRelationId() + m.getBeforeField() + "," );
-					}
+				if(m.getRelationId() != null && m.getBeforeField() != null){
+					fileModifyField.append(m.getRelationId() + m.getBeforeField() + "," );
+				}
+				if(m.getRelationId() == null && m.getBeforeField() != null){
+					fileModifyField.append(m.getBeforeField() + "," );
 				}
 			}
 			request.setAttribute("fileModifyField", fileModifyField);
@@ -1245,6 +1248,12 @@ public class SupplierAuditController extends BaseSupplierController {
 			return new JdcgResult(504, "审核内容长度过长", null);
 		}
 		supplierAudit.setSupplierId(id);
+		// 设置默认退回状态
+		if(auditType != null && auditType.startsWith("items_")){
+			supplierAudit.setReturnStatus(2);
+		}else{
+			supplierAudit.setReturnStatus(1);
+		}
 		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		boolean same = true;
 		if(null !=reasonsList && !reasonsList.isEmpty()){
@@ -1305,6 +1314,12 @@ public class SupplierAuditController extends BaseSupplierController {
 					audit2.setStatus(supplier.getStatus());
 					audit2.setCreatedAt(new Date());
 					audit2.setUserId(user.getId());
+					// 设置默认退回状态
+					if(audit2.getAuditType() != null && audit2.getAuditType().startsWith("items_")){
+						audit2.setReturnStatus(2);
+					}else{
+						audit2.setReturnStatus(1);
+					}
 				}
 				
 				int i=supplierAuditService.insertAudit(supplierAuditList);
@@ -1337,7 +1352,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAudit.setSupplierId(supplierId);
 		}
 		//List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit);
+		List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecordsWithSort(supplierAudit);
 		request.setAttribute("reasonsList", reasonsList);
 		//有信息就不让通过
 		request.setAttribute("num", reasonsList.size());
@@ -2195,17 +2210,14 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("result", getSupplierType(pageInfo));
 
 		//回显
-		String supplierName = supplier.getSupplierName();
-		Integer status = supplier.getStatus();
-		request.setAttribute("supplierName", supplierName);
-		request.setAttribute("state", status);
+		request.setAttribute("supplierName", supplier.getSupplierName());
+		request.setAttribute("state", supplier.getStatus());
 		request.setAttribute("businessNature", supplier.getBusinessNature());
 		request.setAttribute("auditDate", supplier.getAuditDate());
 		request.setAttribute("addressName", supplier.getAddressName());
 		//审核、复核、实地考察的标识
 		request.setAttribute("sign", supplier.getSign());
 		request.getSession().setAttribute("signs", supplier.getSign());
-		request.getSession().getAttribute("sign");
 
 		return "ses/sms/supplier_audit/supplier_all";
 	}
@@ -2396,19 +2408,6 @@ public class SupplierAuditController extends BaseSupplierController {
 			List<String> supplierTypes=supplierTypeRelateService.findTypeBySupplierId(supplierId);
 			model.addAttribute("supplierTypes", StringUtils.join(supplierTypes,","));
 		}
-		if("0".equals(supplierStatus) || "9".equals(supplierStatus)) {
-			SupplierModify supplierFileModify = new SupplierModify();
-			supplierFileModify.setSupplierId(supplierId);
-			supplierFileModify.setModifyType("file");
-			StringBuffer fileModifyField = new StringBuffer();
-			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
-			for(SupplierModify m : fileModify){
-				if(m.getRelationId() != null && m.getBeforeField() != null){
-					fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
-				}
-			}
-			request.setAttribute("fileModifyField", fileModifyField);
-		}
 		return "ses/sms/supplier_audit/merge_aptitude";
 	}
 	/**
@@ -2468,6 +2467,9 @@ public class SupplierAuditController extends BaseSupplierController {
                 cateTree=supplierService.contractCountCategoyrId(cateTree,supplierItem);
                 //封装 是否有审核 目录 和 销售 合同数据
                 cateTree=supplierAuditService.cateTreePotting(cateTree,supplierId);
+                
+                // 合同是否修改
+        		cateTree.setIsContractModified(supplierAuditService.isContractModified(supplierItem.getSupplierId(), supplierItem.getId()) ? (byte)1 : (byte)0);
                 
                 cateTreeList.add(cateTree);
             }
@@ -2541,6 +2543,22 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("tablerId", tablerId);
 		// 供应商附件sysKey参数
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
+		Supplier supplier = supplierService.selectById(supplierId);
+		// 退回修改附件
+		if(supplier != null && supplier.getStatus() != null && (supplier.getStatus() == 0 || supplier.getStatus() == 9)) {
+			SupplierModify supplierFileModify = new SupplierModify();
+			supplierFileModify.setSupplierId(supplierId);
+			supplierFileModify.setModifyType("file");
+			StringBuffer fileModifyField = new StringBuffer();
+			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+			for(SupplierModify m : fileModify){
+				if(m.getRelationId() != null && m.getBeforeField() != null){
+					fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
+				}
+			}
+			model.addAttribute("fileModifyField", fileModifyField);
+		}
 		return "ses/sms/supplier_audit/aptitude_contract_item";
 	}
 	/**
@@ -2627,6 +2645,22 @@ public class SupplierAuditController extends BaseSupplierController {
 				bean2.setList(list);
 				beanList.add(bean2);
 			}
+		}
+		
+		Supplier supplier = supplierService.selectById(supplierId);
+		// 退回修改附件
+		if(supplier != null && supplier.getStatus() != null && (supplier.getStatus() == 0 || supplier.getStatus() == 9)) {
+			SupplierModify supplierFileModify = new SupplierModify();
+			supplierFileModify.setSupplierId(supplierId);
+			supplierFileModify.setModifyType("file");
+			StringBuffer fileModifyField = new StringBuffer();
+			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+			for(SupplierModify m : fileModify){
+				if(m.getBeforeField() != null){
+					fileModifyField.append(m.getBeforeField() + ",");
+				}
+			}
+			model.addAttribute("fileModifyField", fileModifyField);
 		}
 		
 		model.addAttribute("sysKey", sysKey);

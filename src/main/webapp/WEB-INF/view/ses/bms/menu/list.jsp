@@ -40,7 +40,7 @@
 			$("#mid").val(treeNode.id);
 			
 
-			/* loadTab(treeNode.id); */
+			loadTab(treeNode.id);
 		};
 		
 		function getDetail(id){
@@ -90,6 +90,7 @@
 						tabhtml +='<tr><td class="bggrey tr">创建时间：</td><td>'+data[0].createdAt+'</td>';
 						tabhtml +='<td class="bggrey tr">修改时间：</td><td colspan="5">'+data[0].updatedAt+'</td></tr>';
 						tabhtml +='</tbody></table>';
+						tabhtml +='<div class="mt20" id="tbody_user"></div>';
 		            	$("#show_content_div").html("");
 		            	$("#show_content_div").append(tabhtml);
 	            	}
@@ -213,9 +214,11 @@
 							</c:if>
 						</div>
 						<input type="hidden" id="mid">
-						<div class="tag-box tag-box-v4 col-md-12 col-sm-12 col-xs-12 mt5" id="show_content_div"></div> 
+						<div class="tag-box tag-box-v4 col-md-12 col-sm-12 col-xs-12 mt5" id="show_content_div">
+						
+						</div> 
+			   		 	
 			   		 </div>
-			   		 <div class="mt20" id="tbody_user"></div>
 		<!-- <div id="pagediv" align="right" class="mb50"></div> -->
        </div>
    </div>
