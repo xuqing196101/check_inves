@@ -1956,8 +1956,26 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 				if("supplierConAch".equals(auditField)){// 承包合同主要页及保密协议
 					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierConAch();
 				}
+				if("supplierBank".equals(auditField)){// 基本账户开户许可证
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBank();
+				}
+				if("businessCert".equals(auditField)){// 营业执照
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBusinessCert();
+				}
+				if("supplierIdentityUp".equals(auditField)){// 身份证复印件
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierIdentityUp();
+				}
+				if("taxCert".equals(auditField)){// 近三个月完税凭证
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierTaxCert();
+				}
 				if("billCert".equals(auditField)){// 近三年银行基本账户年末对账单
 					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBillCert();
+				}
+				if("securityCert".equals(auditField)){// 近三个月缴纳社会保险金凭证
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierSecurityCert();
+				}
+				if("supplierBearchCert".equals(auditField)){// 保密资格证书
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBearchCert();
 				}
 				if(auditType.startsWith("contract_")){// 合同
 					String[] fieldAry = auditField.split("_");

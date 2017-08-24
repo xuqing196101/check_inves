@@ -73,7 +73,7 @@
 												sysKey="${sysKey}" delete="false" />
 										</div>
 									</td>
-									 <td class="tc info"  onclick="reasonProject('${ids }','${cate.supplierItemId}','${cate.itemsName }','${vs.index + 1}')">
+									 <td class="tc info"  onclick="reasonProject('${ids }','${cate.supplierItemId}','${cate.itemsName }','${cate.supplierAptitute.certType}')">
                                       <a href="javascript:void(0);"><img id="show_td" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>
                                     </td>
 								</tr>
