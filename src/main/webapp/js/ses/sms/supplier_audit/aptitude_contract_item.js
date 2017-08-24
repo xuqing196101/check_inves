@@ -39,7 +39,8 @@ function reasonProject(ind,auditField, auditFieldName,ids) {
 	var auditCount = $("#count"+ids+"").val();
 	ind=parseInt(ind)+1;
 	var tablerId=$("#tablerId").val();
-	var auditContent=content(tablerId,ind,'销售合同_'+showData(ids));
+	//var auditContent=content(tablerId,ind,'销售合同_'+showData(ids));
+	var auditContent=content(tablerId,ind,showData(ids));
 	var audits;
 	var auditType;
 	if(auditCount!=null && auditCount !='' && auditCount>'0' ){
@@ -152,12 +153,34 @@ function reasonProject(ind,auditField, auditFieldName,ids) {
 function showData(index){
 	var rut;
 	index=parseInt(index);
-	var parents=$("#td1"+index+"").parent().parent();
+	/*var parents=$("#td1"+index+"").parent().parent();
 	if(index<=3){
 		rut=parents.find("td").eq(0).text();
 	}else if(index>=4){
 		rut=parents.find("td").eq(1).text();
 	}
-	rut=rut+"_"+parents.find("td").eq(index+1).text();
+	rut=rut+"_"+parents.find("td").eq(index+1).text();*/
+	switch (index) {
+	case 1:
+		rut = "2014年度销售合同";
+		break;
+	case 2:
+		rut = "2015年度销售合同";
+		break;
+	case 3:
+		rut = "2016年度销售合同";
+		break;
+	case 4:
+		rut = "2014年度银行收款证明";
+		break;
+	case 5:
+		rut = "2015年度银行收款证明";
+		break;
+	case 6:
+		rut = "2016年度银行收款证明";
+		break;
+	default:
+		break;
+	}
 	return rut;
 }
