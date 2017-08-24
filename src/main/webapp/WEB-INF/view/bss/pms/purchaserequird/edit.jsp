@@ -355,10 +355,10 @@
 					 layer.alert("需求名称不允许为空"); 
 					 return false;
 				}
-              if($.trim(refNo) == "") {
+             /*  if($.trim(refNo) == "") {
                      layer.alert("需求文号不允许为空"); 
                      return false;
-                }
+                } */
               $.ajax({
                   url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
                   data:{
@@ -1108,7 +1108,7 @@
 
 
 				<li class="col-md-3 col-sm-6 col-xs-12"><span
-					class="col-md-12 padding-left-5 col-sm-12 col-xs-12">录入人手机号</span>
+					class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>录入人手机号</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input type="text" class="input_group" id="rec_mobile"
 							name="mobile" value="${list[0].recorderMobile }"> <span

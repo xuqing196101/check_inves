@@ -17,10 +17,10 @@
 				// 绑定采购需求文号事件
 			  $("#referenceNo").blur(function () {
                   var referenceNO = $("#referenceNo").val();
-                  if(referenceNO == ''){
+                 /*  if(referenceNO == ''){
                 	  layer.msg("采购需求文号不能为空");
                       return;
-                  }
+                  } */
                   $.ajax({
                       url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
                       data:{
