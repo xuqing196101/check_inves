@@ -491,8 +491,8 @@
                             </td>
                             <td class="">${reasons.auditField }</td>
                             <td class="hand" title="${reasons.auditContent}">
-                                <c:if test="${fn:length (reasons.auditContent) > 20}">${fn:substring(reasons.auditContent,0,20)}...</c:if>
-                                <c:if test="${fn:length (reasons.auditContent) <= 20}">${reasons.auditContent}</c:if>
+                                <c:if test="${fn:length (reasons.auditContent) > 30}">${fn:substring(reasons.auditContent,0,30)}...</c:if>
+                                <c:if test="${fn:length (reasons.auditContent) <= 30}">${reasons.auditContent}</c:if>
                             </td>
                             <td class="hand" title="${reasons.auditReason}">
                                 <c:if test="${fn:length (reasons.auditReason) > 20}">${fn:substring(reasons.auditReason,0,20)}...</c:if>

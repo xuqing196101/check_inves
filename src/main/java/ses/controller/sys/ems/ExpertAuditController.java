@@ -1491,6 +1491,7 @@ public class ExpertAuditController{
 		map.put("PROJECT", 0);
 		map.put("SERVICE", 0);
 		map.put("ENG_INFO_ID", 0);
+		StringBuffer items=new StringBuffer();
 		if( reasonsList != null && reasonsList.size() > 0 ){
 			for (ExpertAudit e : reasonsList) {
 				if("six".equals(e.getSuggestType())){
@@ -1501,6 +1502,22 @@ public class ExpertAuditController{
 					}else{
 						tree = getTreeListByCategoryId(e.getAuditFieldId(), "ENG_INFO_ID");
 					}
+					String rootNode = tree.getRootNode();
+		        	String firstNode = tree.getFirstNode();
+		        	String secondNode = tree.getSecondNode();
+		        	String thirdNode = tree.getThirdNode();
+		        	if(rootNode !=null && rootNode !=""){
+		        		items.append(rootNode);
+		        	}
+		        	if(firstNode !=	null && firstNode !=""){
+		        		items.append("/" + firstNode); 
+		        	}
+		        	if(secondNode != null && secondNode !=""){
+		        		items.append("/" + secondNode); 
+		        	}
+		
+					e.setAuditContent(items.toString()+"/"+e.getAuditContent().replaceAll("目录信息", ""));
+					items.setLength(0);
 					map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
 					if("GOODS".equals(tree.getRootNodeCode())){
 						e.setAuditField("物资品目信息");
