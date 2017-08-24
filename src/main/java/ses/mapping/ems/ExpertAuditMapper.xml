@@ -288,6 +288,9 @@
     <if test="auditFieldId != '' and auditFieldId != null">
         and AUDIT_FIELD_ID = #{auditFieldId}
     </if>
+    <if test="auditFalg !='' and auditFalg !=null">
+        and AUDIT_FALG = #{auditFalg}
+    </if>
   </select>
   
   

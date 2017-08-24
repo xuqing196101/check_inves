@@ -2015,6 +2015,7 @@ public class ExpertAuditController{
     		expertAudit.setExpertId(expert.getId());
     		expertAudit.setSuggestType("six");
     		expertAudit.setAuditFieldId(cateTree.getItemsId());
+    		expertAudit.setAuditFalg(Integer.parseInt(tableType));
     		List < ExpertAudit > reasonsItemsList = expertAuditService.selectbyAuditType(expertAudit);
     		ExpertAudit expertAudit1 = new ExpertAudit();
     		//比较
@@ -2135,6 +2136,7 @@ public class ExpertAuditController{
 			expertAudit2.setExpertId(expert.getId());
 			expertAudit2.setSuggestType("one");
 			expertAudit2.setAuditField(str);
+			expertAudit2.setAuditFalg(Integer.parseInt(tableType));
 	    	List < ExpertAudit > basicFileList1 = expertAuditService.selectbyAuditType(expertAudit2);
 	    	ExpertAudit expertAuditMap = new ExpertAudit();
 			if(basicFileList1 !=null && basicFileList1.size() > 0){
