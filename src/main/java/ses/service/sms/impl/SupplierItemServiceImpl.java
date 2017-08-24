@@ -1097,7 +1097,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			if(ses.util.Constant.SUPPLIER_SALES.equals(code)){
 				supplierAudit.setAuditType(ses.util.Constant.ITEMS_SALES_PAGE);
 			}
-			List<SupplierAudit> auditList = supplierAuditService.findReason(supplierAudit);
+			List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});
 			if(auditList != null){
 				StringBuffer errorField = new StringBuffer();
 				for(SupplierAudit audit: auditList) {

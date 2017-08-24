@@ -525,7 +525,7 @@
 					async: {
 						autoParam: ["id"],
 						enable: true,
-						url: "${pageContext.request.contextPath}/category/createtree.do",
+						url: "${pageContext.request.contextPath}/purchaser/createtree.do",
 						dataType: "json",
 						type: "post",
 					},
@@ -978,7 +978,44 @@
             /* alert(cid); */
             sum2(cid);
 		}
-      
+    //检索名字
+		function listName(obj) {
+			var name = $(obj).val();
+			if(name == "" || name == null) {
+				$("#materialName").html("");
+				$("#materialName").addClass("dnone");
+				return;
+			}
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: "${pageContext.request.contextPath }/purchaser/listName.do?name=" + name,
+				success: function(data) {
+						if(data.length>0){
+							var html = "";
+							for(var i = 0; i < data.length; i++) {
+								html += "<div style='width:178px;height:20px;' class='pointer' onmouseover='changeColor(this)' onclick='getValue(this)'>"+data[i].name+"</div>";
+							}
+							$("#materialName").html(html);
+							$("#materialName").removeClass("dnone");
+							$(obj).after($("#materialName"));
+						}else{
+							$("#materialName").html("");
+							$("#materialName").addClass("dnone");
+						}
+				}
+			});
+		}
+		//改变颜色
+		function changeColor(obj){
+			$(obj).css("background-color","#eee");
+		}
+		
+		//获取值
+		function getValue(obj){
+			$(obj).parent().parent().find("textarea").val($(obj).html());
+			$(obj).parent().addClass("dnone");
+		}
 </script>
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
 <%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
@@ -1167,7 +1204,7 @@
 										<div class="goodsname">
 											<input type="hidden" name="ss" value="${obj.id }">
 											<textarea name="list[${vs.index }].goodsName"
-												 class="target">${obj.goodsName}</textarea>
+												 class="target" onkeyup="listName(this)">${obj.goodsName}</textarea>
 											<!-- <input type="hidden" name="history" value="" /> -->
 										</div>
 									</td>
@@ -1353,7 +1390,9 @@
 			<input type="button" class="btn input" onclick="fileup()" value="导入" />
 		</div>
 	</div>
-
+<div id="materialName" class="dnone" style="width:178px;max-height:400px;overflow:scroll;border:1px solid grey;">
+				
+		</div>
 </body>
 <script type="text/javascript">
 /*  	window.onload = function () {

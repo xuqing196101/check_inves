@@ -137,6 +137,11 @@
 					for(var i = 0; i < info.length; i++) {
 						if(info[i].checked) {
 							ids += info[i].value + ',';
+							var status = $("#status_"+info[i].value).val();
+							if (status == 2) {
+								layer.msg("已发布不能再发布");
+								return;
+							}
 						}
 					}
 					layer.confirm('您确定要发布吗?', {
@@ -399,12 +404,15 @@
 									<fmt:formatDate value="${data.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" /> </td>
 								</td>
 								<c:if test="${data.status==1}">
+									<input type="hidden" value="${data.status}" id="status_${data.id}"/>
 									<td class="tl" onclick="view('${data.id }')">暂存</td>
 								</c:if>
 								<c:if test="${data.status==2}">
+									<input type="hidden" value="${data.status}" id="status_${data.id}"/>
 									<td class="tl" onclick="view('${data.id }')">已发布</td>
 								</c:if>
 								<c:if test="${data.status==3}">
+									<input type="hidden" value="${data.status}" id="status_${data.id}"/>
 									<td class="tl" onclick="view('${data.id }')">已取消发布</td>
 								</c:if>
 								<td class="tc" onclick="view('${data.id }')">

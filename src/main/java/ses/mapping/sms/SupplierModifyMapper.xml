@@ -58,6 +58,25 @@
       and RELATION_ID = #{relationId}
     </if>
   </select>
+  
+  <select id="countBySupplierId"   parameterType="ses.model.sms.SupplierModify" resultType="int">
+    select 
+    	count(*)
+    from 
+    	T_SES_SMS_SUPPLIER_MODIFY
+    where 
+    	SUPPLIER_ID = #{supplierId}
+    	and IS_DELETED = 0
+    <if test="modifyType != null">
+      and MODIFY_TYPE = #{modifyType}
+    </if>
+    <if test="beforeField != null and relationId != null">
+      and (BEFORE_FIELD = #{beforeField} or RELATION_ID = #{relationId})
+    </if>
+    <if test="listType != null">
+      and LIST_TYPE = #{listType}
+    </if>
+  </select>
 	
   <insert id="insert" parameterType="ses.model.sms.SupplierModify">
     insert into T_SES_SMS_SUPPLIER_MODIFY (ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, LIST_TYPE, RELATION_ID)
@@ -174,6 +193,9 @@
   	 where SUPPLIER_ID = #{supplierId}
   	 <if test="beforeField != null">
   	 	and BEFORE_FIELD = #{beforeField}
+  	 </if>
+  	 <if test="relationId != null">
+  	 	and RELATION_ID = #{relationId}
   	 </if>
   	 <if test="listType != null">
   	 	and LIST_TYPE = #{listType}

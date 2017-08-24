@@ -96,5 +96,12 @@ public interface CategoryQuaMapper {
 	 * @return
 	 */
 	Integer countByPrimaryKey(String id);
+
+	/**
+	 * 查询资质关联信息
+	 * @param cq
+	 * @return
+	 */
+	List<CategoryQua> selectCategoryQuaList(CategoryQua cq);
 	
 }

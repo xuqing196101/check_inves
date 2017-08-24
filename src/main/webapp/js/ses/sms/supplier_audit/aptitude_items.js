@@ -52,5 +52,9 @@ function contentParent(tablerId,ind,items){
     if(fourth){
         content=content+"/"+fourth;
     }
-    return content+'('+items+')';;
+    if(items){
+    	return content+'('+items+')';
+    }else{
+    	return content;
+    }
 }

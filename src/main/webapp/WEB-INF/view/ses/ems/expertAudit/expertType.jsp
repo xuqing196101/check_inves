@@ -298,11 +298,11 @@
 						  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">有无执业资格:</span>
 						    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 							    <c:if test="${expert.isTitle eq '2'}">
-							      <input readonly="readonly" value="无"  id="isTitle" onclick="reason('isTitle','有无执业资格');" <c:if test="${fn:contains(typeErrorField,'isTitle')}"> style="border: 1px solid red;"</c:if> >
+							      <input readonly="readonly" value="无" type="text" id="isTitle" onclick="reason('isTitle','有无执业资格');" <c:if test="${fn:contains(typeErrorField,'isTitle')}"> style="border: 1px solid red;"</c:if> >
 							    </c:if>
 	                  
 	                <c:if test="${expert.isTitle eq '1'}">
-	                  <input readonly="readonly" value="有" id="isTitle" onclick="reason('isTitle','有无执业资格');" <c:if test="${fn:contains(typeErrorField,'isTitle')}"> style="border: 1px solid red;"</c:if>>
+	                  <input readonly="readonly" value="有" type="text" id="isTitle" onclick="reason('isTitle','有无执业资格');" <c:if test="${fn:contains(typeErrorField,'isTitle')}"> style="border: 1px solid red;"</c:if>>
 	                </c:if>
 	                <c:if test="${fn:contains(typeErrorField,'isTitle')}">
 	                   <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>

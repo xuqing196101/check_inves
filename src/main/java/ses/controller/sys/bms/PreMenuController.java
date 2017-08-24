@@ -571,9 +571,52 @@ public class PreMenuController {
 		PageInfo < User > pageInfo = new PageInfo < User > (users);
 	    model.addAttribute("users", users);
 	    model.addAttribute("result", pageInfo);
+	    model.addAttribute("mid", mid);
 	    return "ses/bms/menu/user_list";
-	  
 	}
+    
+    /**
+     *〈简述〉ajax获取权限关联用户
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param response
+     * @param page
+     * @param mid
+     * @throws IOException
+     */
+    @RequestMapping("ajaxGetUserByMid")
+    public void ajaxGetUserByMid(HttpServletResponse response, Integer page, String mid) throws IOException{
+        List<User> users = preMenuService.getUserByMid(mid, page);
+        for (User user : users) {
+            String orgName = "";
+            if (user.getTypeName() == "0") {
+                if (user.getOrg() !=null && user.getOrg().getShortName() != null) {
+                    orgName = user.getOrg().getShortName();
+                } else if(user.getOrg() != null && (user.getOrg().getShortName() == null || "".equals(user.getOrg().getShortName()))){
+                    orgName = user.getOrg().getName();    
+                } else if(user.getOrg() == null){
+                    orgName = user.getOrgName();
+                }
+            } else if(user.getTypeName() != "4" && user.getTypeName() != "5"){
+                if (user.getOrg() != null && user.getOrg().getFullName() != null && !"".equals(user.getOrg().getFullName())) {
+                    orgName = user.getOrg().getFullName();
+                } else if(user.getOrg() != null && (user.getOrg().getFullName() == null || "".equals(user.getOrg().getFullName()))){
+                    orgName = user.getOrg().getName();
+                } else if(user.getOrg() == null){
+                    orgName = user.getOrgName();             
+                }
+            } else {
+                orgName = user.getOrgName();
+            }
+            user.setOrgName(orgName);
+        }
+        PageInfo < User > pageInfo = new PageInfo < User > (users);
+        String jsonstr = JSON.toJSONString(pageInfo);
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter().print(jsonstr);
+        response.getWriter().flush();
+    }
+    
 	
 	/**
 	 * Description: 调整到编辑页面

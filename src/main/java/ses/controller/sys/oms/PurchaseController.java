@@ -36,6 +36,7 @@ import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
+import common.utils.RSAEncrypt;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
 import ses.model.bms.User;
@@ -150,9 +151,10 @@ public class PurchaseController extends BaseController{
 	 * @param request
 	 * @param model
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value="create",method= RequestMethod.POST)
-	public String create(@Valid PurchaseInfo purchaseInfo, BindingResult result,HttpServletRequest request, Model model){
+	public String create(@Valid PurchaseInfo purchaseInfo, BindingResult result,HttpServletRequest request, Model model) throws Exception{
 		
 		String roleName = request.getParameter("roleName");
 		
@@ -198,7 +200,9 @@ public class PurchaseController extends BaseController{
 			return "ses/oms/purchase/add";
 		}
 		
-		
+		//解密
+        purchaseInfo.setPassword(RSAEncrypt.decryptPrivate(purchaseInfo.getPassword()));
+        purchaseInfo.setPassword2(RSAEncrypt.decryptPrivate(purchaseInfo.getPassword2()));
 
         //验证两次密码是否一致
         if (!purchaseInfo.getPassword().equals(purchaseInfo.getPassword2())){

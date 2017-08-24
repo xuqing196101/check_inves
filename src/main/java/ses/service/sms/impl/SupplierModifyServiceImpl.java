@@ -1081,6 +1081,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				supplierModify.setModifyType("file");
 				supplierModify.setBeforeField(fileTypeId);
 				supplierModify.setSupplierId(businessId);
+				supplierModifyMapper.delete(supplierModify);
 				supplierModifyMapper.insertSelective(supplierModify);
 			}
 		}
@@ -1098,6 +1099,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				supplierModify.setBeforeField(fileTypeId);
 				supplierModify.setSupplierId(financeSupplierId);
 				supplierModify.setRelationId(businessId);
+				supplierModifyMapper.delete(supplierModify);
 				supplierModifyMapper.insertSelective(supplierModify);
 			}
 		}
@@ -1114,6 +1116,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				supplierModify.setBeforeField(fileTypeId);
 				supplierModify.setSupplierId(proSupplierId);
 				supplierModify.setRelationId(businessId);
+				supplierModifyMapper.delete(supplierModify);
 				supplierModifyMapper.insertSelective(supplierModify);
 			}
 		}
@@ -1127,6 +1130,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				supplierModify.setBeforeField(fileTypeId);
 				supplierModify.setSupplierId(sellSupplierId);
 				supplierModify.setRelationId(businessId);
+				supplierModifyMapper.delete(supplierModify);
 				supplierModifyMapper.insertSelective(supplierModify);
 			}
 		}
@@ -1140,6 +1144,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				supplierModify.setBeforeField(fileTypeId);
 				supplierModify.setSupplierId(engSupplierId);
 				supplierModify.setRelationId(businessId);
+				supplierModifyMapper.delete(supplierModify);
 				supplierModifyMapper.insertSelective(supplierModify);
 			}
 		}
@@ -1153,6 +1158,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				supplierModify.setBeforeField(fileTypeId);
 				supplierModify.setSupplierId(serSupplierId);
 				supplierModify.setRelationId(businessId);
+				supplierModifyMapper.delete(supplierModify);
 				supplierModifyMapper.insertSelective(supplierModify);
 			}
 		}
@@ -1173,6 +1179,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 						supplierModify.setBeforeField(businessId);
 						supplierModify.setSupplierId(supplierId);
 						supplierModify.setRelationId(lsitId);
+						supplierModifyMapper.delete(supplierModify);
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 				}
@@ -1191,6 +1198,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 					supplierModify.setBeforeField(fileTypeId);
 					supplierModify.setSupplierId(supplierId);
 					supplierModify.setRelationId(businessId);
+					supplierModifyMapper.delete(supplierModify);
 					supplierModifyMapper.insertSelective(supplierModify);
 				}
 			}
@@ -1207,7 +1215,28 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 					supplierModify.setBeforeField(fileTypeId);
 					supplierModify.setSupplierId(supplierId);
 					supplierModify.setRelationId(businessId);
+					supplierModifyMapper.delete(supplierModify);
 					supplierModifyMapper.insertSelective(supplierModify);
+				}
+			}
+		}
+		
+		//承揽业务范围附件
+		if(businessId.indexOf("_") > 0){
+			String[] ary = businessId.split("_");
+			if(ary != null && ary.length > 1){
+				String supplierId = ary[0];
+				String areaId = ary[1];
+				if(supplierId != null){
+					supplier = supplierService.selectById(supplierId);
+					if(supplier != null && supplier.getStatus() == 2){
+						supplierModify.setModifyType("file");
+						supplierModify.setBeforeField(fileTypeId);
+						supplierModify.setSupplierId(supplierId);
+						supplierModify.setRelationId(areaId);
+						supplierModifyMapper.delete(supplierModify);
+						supplierModifyMapper.insertSelective(supplierModify);
+					}
 				}
 			}
 		}
@@ -1226,5 +1255,10 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	public void updateIsDeleteBySupplierId(SupplierModify supplierModify) {
 		supplierModifyMapper.updateIsDeleteBySupplierId(supplierModify);
 		
+	}
+
+	@Override
+	public int countBySupplierId(SupplierModify supplierModify) {
+		return supplierModifyMapper.countBySupplierId(supplierModify);
 	}	
 }

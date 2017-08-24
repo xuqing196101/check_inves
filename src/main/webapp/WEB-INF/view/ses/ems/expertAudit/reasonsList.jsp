@@ -40,6 +40,8 @@
             }
             if($("#status").val() == '15' || $("#status").val() == '1' || $("#status").val() == '16' || $("#status").val() == '2'){
             	$("#expdown").css("display","block");
+            	/* $("#reverse_of_five_i").css("display","block");
+            	$("#reverse_of_six").css("display","block"); */
             }
             check_opinion();
             
@@ -250,7 +252,7 @@
 				dataType: "json",
 				success: function(data) {
 					if(status == 15) {
-						$("#check_opinion").html("预初审合格，选择了" + data.all + "个产品类别，通过了" + data.pass + "个产品类别。");
+						$("#check_opinion").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
 					} else if(status == 16) {
 						$("#check_opinion").html("预初审不合格。");
 					}
@@ -285,7 +287,7 @@
 		             if(sign == 1){
 		                 flagTime = 0;
 		             }
-		             if (opinion != null && opinion != "") {
+		             if (radio == 15 || (opinion != null && opinion != "")) {
 		                 if (opinion.length <= 200) {
 		                	 $("#status").val(status);
 		                     $.ajax({
@@ -328,9 +330,12 @@
 	function yuNext(){
 		// 判断附件是否下载
         var downloadAttachFile = $("#isDownLoadAttch").val();
-        if(downloadAttachFile == null || typeof(downloadAttachFile) == "undefined" || downloadAttachFile == ''){
-            layer.msg("请下载审批表！");
-            return;
+        var status = $("#status").val();
+		if(status == '0' || status == '15' || status == '16'){
+	        if(downloadAttachFile == null || typeof(downloadAttachFile) == "undefined" || downloadAttachFile == ''){
+	            layer.msg("请下载审批表！");
+	            return;
+	        }
         }
 		$("#form_id").attr("action", globalPath + "/expertAudit/uploadApproveFile.html");
         $("#form_id").submit();
@@ -345,6 +350,36 @@
             type: "POST",
             success: function () {
             	return;
+            }
+        });
+    }
+	
+	 //暂存
+    function zhancun() {
+        var opinion = document.getElementById('opinion').value;
+		var expertId = $("input[name='expertId']").val();
+		var sign = $("input[name='sign']").val();
+        var radio = $(":radio:checked").val();
+        var isDownLoadAttch = $("#isDownLoadAttch").val();
+        if(sign == 1){
+            flagTime = 0;
+        }
+        $.ajax({
+            url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
+            data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime,"flagAudit":radio,"isDownLoadAttch":isDownLoadAttch},
+            type: "POST",
+            success: function () {
+            	//修改专家状态为审核中
+            	$.ajax({
+                    url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
+                    dataType: "json",
+                    data: {expertId: expertId},
+                    success: function (result) {
+                        layer.msg(result, {offset: ['100px']});
+                    }, error: function () {
+                        layer.msg("暂存失败", {offset: ['100px']});
+                    }
+                });
             }
         });
     }
@@ -403,6 +438,8 @@
                         <th class="info">审批字段</th>
                         <th class="info">审批内容</th>
                         <th class="info">不合格理由</th>
+                        <th class="info">审核时间</th>
+                        <th class="info">状态</th>
                     </tr>
                     </thead>
                     <c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
@@ -414,7 +451,7 @@
                                 <c:if test="${reasons.suggestType eq 'one'}">基本信息</c:if>
                                     <%-- <c:if test="${reasons.suggestType eq 'two'}">经历经验</c:if> --%>
                                 <c:if test="${reasons.suggestType eq 'seven'}">专家类别</c:if>
-                                <c:if test="${reasons.suggestType eq 'six'}">产品类别</c:if>
+                                <c:if test="${reasons.suggestType eq 'six'}">参评类别</c:if>
                                 <c:if test="${reasons.suggestType eq 'five'}">承诺书和申请表</c:if>
                             </td>
                             <td class="">${reasons.auditField }</td>
@@ -425,6 +462,15 @@
                             <td class="hand" title="${reasons.auditReason}">
                                 <c:if test="${fn:length (reasons.auditReason) > 20}">${fn:substring(reasons.auditReason,0,20)}...</c:if>
                                 <c:if test="${fn:length (reasons.auditReason) <= 20}">${reasons.auditReason}</c:if>
+                            </td>
+                            <!-- 审核时间 auditAt-->
+                            <td class="tc">
+                            	<fmt:formatDate value="${reasons.auditAt }" pattern="yyyy-MM-dd HH:mm"/>
+                            </td>
+                            <!-- 状态 -->
+                            <td class="tc">
+                            	<c:if test="${reasons.suggestType eq 'one'}">退回</c:if>
+                            	<c:if test="${reasons.suggestType eq 'seven' || reasons.suggestType eq 'six' || reasons.suggestType eq 'five'}">审核不通过</c:if>
                             </td>
                         </tr>
                     </c:forEach>
@@ -449,7 +495,7 @@
                 </ul>
                 <div class="clear"></div>
               <div id = "expdown" class = "display-none">
-              <h2 class="count_flow mt0"><i>3</i>专家审批表</h2>
+              <h2 class="count_flow mt0"><i>3</i>专家初审表</h2>
               <ul class="ul_list">
                  <li>
                    <div class="">
@@ -533,14 +579,15 @@
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
                     <c:if test="${status eq '0' or status eq '9' or status eq '10'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
-                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->
-                        <!-- <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->
-                        <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
-                    	<input class="btn btn-windows end" type="button" onclick="yuend(15);" value="预初审结束" id="yund">
-						          <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
-						          <a id="nextStep" class="btn display-none" type="button" onclick="yuNext();">下一步</a>
+                       <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->
+                       <!-- <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->
+                       <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
+                   	   <input class="btn btn-windows end" type="button" onclick="yuend(15);" value="预初审结束" id="yund">
+										  <a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
+										  <a id="nextStep" class="btn display-none" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
                     <c:if test = "${status == '15' || status == '16'}" >
+                    	<a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
                     	<a id="nextStep" class="btn" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
                     <c:if test = "${status == '1' || status == '2' && sign eq '1'}" >

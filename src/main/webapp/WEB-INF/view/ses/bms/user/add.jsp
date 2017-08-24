@@ -324,8 +324,8 @@
 				$("#oId").attr("type","hidden");
 				$("#select_org").show();
 				$("#tempOrg").hide();
-				/* $("#orgSel").hide();
-				$("#oId").attr("type","text"); */
+				$("#orgSel").hide();
+				$("#oId").attr("type","text"); 
 			} else if (  orgType == '5'||orgType == '4') {
 			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");
@@ -466,6 +466,16 @@
 		$("#password11").val(setPublicKey($("#password1").val()));
         $("#password22").val(setPublicKey($("#password2").val()));
 	}
+	
+	function a() {
+		var emaila = $("#email").val();
+		var regex = "/^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g";
+		 if(emaila.indexOf("。") > 0){
+			$("#err_email").text("不能包含 。");
+		}
+		
+	}
+	
 	</script>
 </head>
 <body>
@@ -500,7 +510,7 @@
 			     <li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
 				   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>用户名</span>
 				   <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        <input id="loginName"  name="loginName" value="${user.loginName}" maxlength="30" type="text" onkeyup="validataLoginName();"<%-- onblur="isExist();"--%>>
+			        <input id="loginName"  name="loginName" value="${user.loginName}" maxlength="40" type="text" onkeyup="validataLoginName();"<%-- onblur="isExist();"--%>>
 			        <span class="add-on">i</span>
 			       	<div class="cue"><sf:errors path="loginName"/></div>
 			       	<div id="is_exist" class="cue">${exist}</div>
@@ -558,9 +568,9 @@
 		        <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
 				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">邮箱</span>
 				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				        <input  name="email" value="${user.email}" maxlength="100" type="text">
+				        <input  name="email" id="email" value="${user.email}" maxlength="100" type="text" onblur="a()">
 				        <span class="add-on">i</span>
-				        <div class="cue"><sf:errors path="email"/></div>
+				        <div class="cue"><span id="err_email"></span><sf:errors path="email"/>${err_email}</div>
 			       	</div>
 			 	</li>
 		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
@@ -669,11 +679,11 @@
 				        <c:choose> 
 					        <c:when  test="${origin ne null}">
 					            <input id="oId" name="orgId" value="${orgId}" type="hidden" />
-					        	<input id="orgSel"  type="text" name="orgName"  value="${orgName}" onclick="showOrg();"  />
+					        	<input id="orgSel" readonly="readonly"  type="text" name="orgName"  value="${orgName}" onclick="showOrg();"  />
 					        </c:when >
 					        <c:otherwise>
 					        	<input id="oId" name="orgId" value="${user.orgId}" type="hidden" />
-					        	<input id="orgSel"  type="text" name="orgName"  value="${orgName}"  onclick="showOrg();" />
+					        	<input id="orgSel" readonly="readonly"  type="text" name="orgName"  value="${orgName}"  onclick="showOrg();" />
 					        </c:otherwise>
 					    </c:choose>
 					    <input type="hidden" id="orgParent" value=""/>

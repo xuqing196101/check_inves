@@ -1524,13 +1524,11 @@ public class ExpertAuditController{
 		ExpertAuditOpinion selectEao = new ExpertAuditOpinion();
 		ExpertAuditOpinion auditOpinion = null;
 		selectEao.setExpertId(expertId);
-		if(sign == 1){
+		if(sign != null && sign == 1){
 			selectEao.setFlagTime(0);
-		}else if (sign == 2){
+		}else if (sign != null && sign == 2){
 			selectEao.setFlagTime(1);
 		}
-		
-		// 复审意见查询
 		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		int categoryCount=0;
 		model.addAttribute("qualified", true);

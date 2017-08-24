@@ -334,10 +334,12 @@
                <tr>
                	 <th class="info"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
                  <th class="info">序号</th>
-                 <th class="info" >审批类型</th>
-                 <th class="" >审批字段名字</th>
-                 <th class="" >审批内容</th>
-                 <th class="">不通过理由</th>
+                 <th class="info">审批类型</th>
+                 <th class="info">审批字段名字</th>
+                 <th class="info">审批内容</th>
+                 <th class="info">不通过理由</th>
+                 <th class="info">审核时间</th>
+                 <th class="info">状态</th>
                </tr>
              </thead>
                <c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
@@ -373,6 +375,17 @@
                    	 <c:if test="${fn:length (reasons.suggest) > 35}">${fn:substring(reasons.suggest,0,35)}...</c:if>
               		   <c:if test="${fn:length(reasons.suggest) <= 35}">${reasons.suggest}</c:if>
                    </td>
+									<td class="tc" title="<fmt:formatDate value="${reasons.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/>">
+										<fmt:formatDate value="${reasons.createdAt}" pattern="yyyy-MM-dd"/>
+				         	</td>
+				         	<td class="tc">
+										<c:choose>
+											<c:when test="${reasons.returnStatus == 1}">退回修改</c:when>
+											<c:when test="${reasons.returnStatus == 2}">审核不通过</c:when>
+											<c:when test="${reasons.returnStatus == 3}">已修改</c:when>
+											<c:when test="${reasons.returnStatus == 4}">未修改</c:when>
+										</c:choose>
+				         	</td>
                  </tr>
                </c:forEach>
             </table>
