@@ -62,4 +62,15 @@ public interface ExpertAuditOpinionMapper {
      * @since JDK1.7
      */
     void updateByPrimaryKeySelective(ExpertAuditOpinion expertAuditOpinion);
+    
+    /**
+     * 
+     * Description: 修改下载次数
+     * 
+     * @author zhang shubin
+     * @data 2017年8月22日
+     * @param 
+     * @return
+     */
+    void updateIsDownload(String expertId);
 }

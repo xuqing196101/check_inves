@@ -1360,7 +1360,10 @@ public class SupplierServiceImpl implements SupplierService {
   public int countByPurchaseDepId(String purchaseDepId, int status) {
     return supplierMapper.countByPurchaseDepId(purchaseDepId, status);
   }
-
+  @Override
+  public int countAuditByPurchaseDepId(String purchaseDepId){
+    return supplierMapper.countAuditByPurchaseDepId(purchaseDepId);
+  }
   @Override
   public List<Supplier> findSupplierByCategoryId(Supplier supplier) {
     return supplierMapper.findSupplierByCategoryId(supplier);

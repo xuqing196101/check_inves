@@ -52,4 +52,16 @@ public interface ExpertAuditOpinionService {
 	 * @since JDK1.7
 	 */
 	JdcgResult insertSelective (ExpertAuditOpinion expertAuditOpinion, String vertifyFlag);
+	
+	/**
+	 *
+	 * Description: 修改
+	 *
+	 * @author zhangshubin
+	 * @version 2017/8/21
+	 * @param 
+	 * @param 
+	 * @since JDK1.7
+	 */
+	void updateIsDownload(String expertId);
 }

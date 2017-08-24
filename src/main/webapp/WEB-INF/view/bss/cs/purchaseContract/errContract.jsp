@@ -114,6 +114,7 @@
 	            $("#bingDeps").select2("val", "${purCon.bingDepName}");
 	          }
 	    });*/
+	    //$("#sup").val($('#supplierList').combobox('getText'))
 	 }); 
 	 var setting={
 		   async:{
@@ -253,16 +254,16 @@
 	 }
 	 
 	 function createContract(){
-		 var text = $("#post_attach_show_disFileId").find("a");
+		/*  var text = $("#post_attach_show_disFileId").find("a");
 			var flag = true;
 			if(text.length<=0){
 				flag = false;
 				layer.alert("请先上传授权书",{offset: ['222px', '390px'], shade:0.01});
 			}
-			if(flag){
+			if(flag){ */
 			 $("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/createTransFormal.html?ids=${id}");
 			 $("#contractForm").submit();
-			}
+			/* } */
 	 }
 	 
 	 function changePurDep(){
@@ -537,13 +538,13 @@
 	
 	var ind = null;
 	function protocol(){
-		var text = $("#post_attach_show_disFileId").find("a");
+		/* var text = $("#post_attach_show_disFileId").find("a");
 		var flag = true;
 		if(text.length<=0){
 			flag = false;
 			layer.alert("请先上传授权书",{offset: ['222px', '390px'], shade:0.01});
 		}
-		if(flag){
+		if(flag){ */
 			ind = layer.open({
 				shift: 1, //0-6的动画形式，-1不开启
 			    moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -555,7 +556,7 @@
 				content : $('#numberWin'),
 				offset: ['30%', '25%']
 			});
-		}
+		/* } */
 	}
 	
 	function save(){
@@ -868,7 +869,7 @@
 			        </div>
 			 	</li>
 			 	<li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>授权书：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->授权书：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        <u:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}" multiple="true" auto="true" />
 					<u:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}"/>
@@ -969,7 +970,7 @@
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	    <input class="easyui-combobox" name="supplierDepName" id="supplierList" data-options="valueField:'id',textField:'supplierName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100"  style="width: 100%;height: 29px"/>  
-			        	
+			        	    <input type="hidden" id="sup" />
 			        	<div class="cue">${ERR_supplierDepName}</div>
 	       			</div>
 				 </li> 
@@ -988,6 +989,7 @@
 				        },
 				        onSelect: function (org) {
 				        	if(num!=0&&num!=1){
+				        		$("#sup").val(org.supplierName);
 				        	 $("#supplierLegal").val(org.legalName);
 				        	 $("#supplierContact").val(org.contactName);
 				        	 $("#supplierContactTelephone").val(org.contactTelephone);
@@ -1000,7 +1002,17 @@
 				        },
 				        onLoadSuccess:function(){
 				        	$('#supplierList').next('.combo').find('input').blur(function (){
+				        		if($("#sup").val()!=$(this).val()){
+				        			$("#sup").val("");
                                   $("input[name='supplierDepName']").val($(this).val())
+                                  $("#supplierLegal").val("");
+					    				        	  $("#supplierContact").val("");
+					    				        	  $("#supplierContactTelephone").val("");
+					    				        	  $("#supplierContactAddress").val("");
+					    				        	  $("#supplierUnitpostCode").val("");
+					    				        	  $("#supplierBank").val("");
+					    				        	  $("#supplierBankAccount_string").val("");
+				        		}
 				        		
 				        	 });
 				        	},

@@ -30,6 +30,9 @@ public class SupplierAudit {
     /**产品类别**/
     private String type;
     
+    // 退回状态
+    private Integer returnStatus;
+    
     public String getId() {
         return id;
     }
@@ -134,4 +137,13 @@ public class SupplierAudit {
     public void setType(String type) {
         this.type = type;
     }
+
+	public Integer getReturnStatus() {
+		return returnStatus;
+	}
+
+	public void setReturnStatus(Integer returnStatus) {
+		this.returnStatus = returnStatus;
+	}
+	
 }

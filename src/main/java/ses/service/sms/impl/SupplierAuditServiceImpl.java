@@ -6,6 +6,8 @@ import common.constant.StaticVariables;
 import common.service.UploadService;
 import common.utils.DateUtils;
 import common.utils.JdcgResult;
+import common.utils.ListSortUtil;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -52,18 +54,22 @@ import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierPublicity;
 import ses.model.sms.SupplierStars;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.model.sms.SupplierTypeRelate;
+import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.EngCategoryService;
 import ses.service.bms.QualificationService;
 import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
+import ses.service.sms.SupplierModifyService;
 import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -101,6 +107,13 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	private EngCategoryService engCategoryService;
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
+	@Autowired
+	private SupplierModifyService supplierModifyService;
+	@Autowired
+	private AreaServiceI areaServiceI;
 	/**
 	 * 供应商审核记录
 	 */
@@ -614,13 +627,15 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	@Override
 	public String findSupplierTypeNameBySupplierId(String supplierId) {
 		Supplier supplier = supplierMapper.getSupplier(supplierId);
-		List<SupplierTypeRelate> listSupplierTypeRelates = supplier.getListSupplierTypeRelates();
 		String supplierTypeNames = "";
-		for (int i = 0; i < listSupplierTypeRelates.size(); i++) {
-			if (i > 0) {
-				supplierTypeNames += ",";
+		if(supplier != null){
+			List<SupplierTypeRelate> listSupplierTypeRelates = supplier.getListSupplierTypeRelates();
+			for (int i = 0; i < listSupplierTypeRelates.size(); i++) {
+				if (i > 0) {
+					supplierTypeNames += ",";
+				}
+				supplierTypeNames += listSupplierTypeRelates.get(i).getSupplierTypeName();
 			}
-			supplierTypeNames += listSupplierTypeRelates.get(i).getSupplierTypeName();
 		}
 		//return supplierTypeRelateMapper.findSupplierTypeNameBySupplierId(supplierId);
 		return supplierTypeNames;
@@ -972,7 +987,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			//封装 物资销售 记录 销售合同
 			cateTree.setIsContractSalesPageAudit(countAptitudeSales(supplierId, cateTree.getSupplierItemId()));
 		 }
-	return cateTree;
+		 return cateTree;
 	}
 	/**
 	 * 
@@ -1128,7 +1143,11 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	@Override
 	public List<SupplierPublicity> selectSupByPublictyList(Map<String, Object> map) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage((Integer) (map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		if(map.get("flag") != null && ("app").equals(map.get("flag"))){
+			PageHelper.startPage((Integer) (map.get("page")),10);
+		} else {
+			PageHelper.startPage((Integer) (map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		}
 		// 查询公示供应商列表
 		SupplierPublicity supplierPublicityQuery = (SupplierPublicity) map.get("supplierPublicity");
 		List<SupplierPublicity> list = supplierMapper.selectSupByPublictyList(supplierPublicityQuery);
@@ -1607,6 +1626,45 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		rut=rut+count;
 		return rut;
 	}
+	
+	@Override
+	public boolean isContractModified(String supplierId, String supplierItemId){
+		//合同
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		//账单
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		
+		Supplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
+		// 退回修改附件
+		if(supplier != null && supplier.getStatus() != null && (supplier.getStatus() == 0 || supplier.getStatus() == 9)) {
+			SupplierModify supplierFileModify = new SupplierModify();
+			supplierFileModify.setSupplierId(supplierId);
+			supplierFileModify.setModifyType("file");
+			//supplierFileModify.setBeforeField(supplierItemId);
+			supplierFileModify.setRelationId(supplierItemId);
+			StringBuffer fileModifyField = new StringBuffer();
+			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+			for(SupplierModify m : fileModify){
+				if(m.getRelationId() != null && m.getBeforeField() != null){
+					fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
+				}
+			}
+			if(fileModifyField.indexOf(supplierItemId+id1) > -1
+					|| fileModifyField.indexOf(supplierItemId+id1) > -1
+					|| fileModifyField.indexOf(supplierItemId+id2) > -1
+					|| fileModifyField.indexOf(supplierItemId+id3) > -1
+					|| fileModifyField.indexOf(supplierItemId+id4) > -1
+					|| fileModifyField.indexOf(supplierItemId+id5) > -1
+					|| fileModifyField.indexOf(supplierItemId+id6) > -1){
+				return true;
+			}
+		}
+		return false;
+	}
 	/**
 	 * 
 	 * Description:封装私有  方法 简化 查询审核 记录
@@ -1764,6 +1822,22 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		long rut=0,productCount=0,salesCount=0,tempCount=0;
 		String ids="";
 		if(null != categoryQuaList && !categoryQuaList.isEmpty()){
+			
+			// 退回修改附件
+			StringBuffer fileModifyField = new StringBuffer();
+			Supplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
+			if(supplier != null && supplier.getStatus() != null && (supplier.getStatus() == 0 || supplier.getStatus() == 9)) {
+				SupplierModify supplierFileModify = new SupplierModify();
+				supplierFileModify.setSupplierId(supplierId);
+				supplierFileModify.setModifyType("file");
+				List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+				for(SupplierModify m : fileModify){
+					if(m.getBeforeField() != null){
+						fileModifyField.append(m.getBeforeField() + ",");
+					}
+				}
+			}
+			
 			Map<String, Object> map=new HashMap<>();
 			map.put("supplierId", supplierId);
 			map.put("categoryId", categoryId);
@@ -1779,23 +1853,27 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 						rut=rut+temp;*/
 
 						//审核记录
-							if("SALES".equals(supplierType)){
-								//有上传文件 封装 审核数据
-								ids=ids+supplierItem.getCategoryId()+",";
-								//封装 物资销售 记录 资质文件
-								tempCount=countData(supplierId, supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_SALES_PAGE);
-								if(tempCount>0){
-									salesCount=salesCount+tempCount;
-								}
-							}else{
-								//有上传文件 封装 审核数据
-								ids=ids+supplierItem.getCategoryId()+",";
-							//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
-								tempCount=countData(supplierId, supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE);
-								if(tempCount>0){
-									productCount=productCount+tempCount;
-								}
+						if("SALES".equals(supplierType)){
+							//有上传文件 封装 审核数据
+							ids=ids+supplierItem.getCategoryId()+",";
+							//封装 物资销售 记录 资质文件
+							tempCount=countData(supplierId, supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_SALES_PAGE);
+							if(tempCount>0){
+								salesCount=salesCount+tempCount;
 							}
+						}else{
+							//有上传文件 封装 审核数据
+							ids=ids+supplierItem.getCategoryId()+",";
+							//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
+							tempCount=countData(supplierId, supplierItem.getId()+"_"+categoryQua.getQuaId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE);
+							if(tempCount>0){
+								productCount=productCount+tempCount;
+							}
+						}
+						String businessId = supplierItem.getId()+categoryQua.getId();
+						if(fileModifyField.indexOf(businessId) > -1){
+							cateTree.setIsAptitudeModified((byte)1);
+						}
 		            }
 				}
 				//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
@@ -1832,4 +1910,109 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		}
 		return i;
 	}
+
+	@Override
+	public List<SupplierAudit> getAuditRecords(SupplierAudit supplierAudit, Integer[] rss) {
+		List<SupplierAudit> reasonsList = supplierAuditMapper.selectAuditRecords(supplierAudit, rss);
+		return reasonsList;
+	}
+
+	@Override
+	public List<SupplierAudit> getAuditRecordsWithSort(
+			SupplierAudit supplierAudit) {
+		List<SupplierAudit> reasonsList = supplierAuditMapper.selectAuditRecordsWithSort(supplierAudit);
+		return reasonsList;
+	}
+
+	@Override
+	public int updateReturnStatus(String supplierId) {
+		int result = 0;
+		SupplierAudit supplierAudit = new SupplierAudit();
+		supplierAudit.setSupplierId(supplierId);
+		supplierAudit.setIsDeleted(1);
+		// 查询退回修改的和未修改的进行更新
+		List<SupplierAudit> reasonsList = supplierAuditMapper.selectAuditRecords(supplierAudit, new Integer[]{1,4});
+		if(reasonsList != null && reasonsList.size() > 0){
+			for(SupplierAudit audit : reasonsList){
+				SupplierModify supplierModify = new SupplierModify();
+				supplierModify.setSupplierId(audit.getSupplierId());
+				//supplierModify.setModifyType(audit.getAuditType());
+				String auditType = audit.getAuditType();
+				String auditField = audit.getAuditField();
+				auditField = auditField.replaceAll("_file", "");// 财务附件
+				auditField = auditField.replaceAll("_info", "");// 财务信息
+				if("mat_eng_page".equals(auditType)){// 承揽业务范围
+					String areaId = areaServiceI.selectByName(auditField);
+					if(areaId != null){
+						auditField = areaId;
+					}
+				}
+				if("supplierPledge".equals(auditField)){// 供应商承诺书
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierPledge();
+				}
+				if("supplierRegList".equals(auditField)){// 供应商入库申请表
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierRegList();
+				}
+				if("supplierConAch".equals(auditField)){// 承包合同主要页及保密协议
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierConAch();
+				}
+				if("billCert".equals(auditField)){// 近三年银行基本账户年末对账单
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBillCert();
+				}
+				if(auditType.startsWith("contract_")){// 合同
+					String[] fieldAry = auditField.split("_");
+					if(fieldAry != null && fieldAry.length > 1){
+						auditField = fieldAry[1];
+					}
+				}
+				if(auditType.startsWith("aptitude_")){// 资质
+					String[] fieldAry = auditField.split("_");
+					if(fieldAry != null && fieldAry.length > 1){
+						String itemId = fieldAry[0];// 品目id
+						String quaId = fieldAry[1];// 资质文件id
+						SupplierItem item = supplierItemService.selectByPrimaryKey(itemId);
+						if(item != null){
+							String catId = item.getCategoryId();
+							Category cate = categoryService.selectByPrimaryKey(catId);
+							String flag = "";
+							if(cate == null){
+								DictionaryData data = DictionaryDataUtil.findById(catId);
+								flag = data.getId();
+							}else{
+								flag = item.getId();
+							}
+							CategoryQua cq = new CategoryQua();
+							cq.setCategoryId(catId);
+							cq.setQuaId(quaId);
+							List<CategoryQua> cqList = categoryQuaMapper.selectCategoryQuaList(cq);
+							if(cqList != null && cqList.size() > 0){
+								auditField = flag + cqList.get(0).getId();
+							}
+						}
+					}
+				}
+				supplierModify.setBeforeField(auditField);
+				supplierModify.setRelationId(auditField);
+				int modifyCount = supplierModifyService.countBySupplierId(supplierModify);
+				// 更新状态
+				SupplierAudit supplierAuditUpdate = new SupplierAudit();
+				supplierAuditUpdate.setId(audit.getId());
+				Integer rs = audit.getReturnStatus();
+				if(modifyCount > 0){
+					if(rs != null && rs != 3){
+						supplierAuditUpdate.setReturnStatus(3);
+						result += supplierAuditMapper.updateByIdSelective(supplierAuditUpdate);
+					}
+				}else{
+					if(rs != null && rs != 4){
+						supplierAuditUpdate.setReturnStatus(4);
+						result += supplierAuditMapper.updateByIdSelective(supplierAuditUpdate);
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+
 }

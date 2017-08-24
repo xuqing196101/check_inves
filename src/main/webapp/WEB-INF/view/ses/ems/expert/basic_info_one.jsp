@@ -1211,8 +1211,8 @@
 						<c:if test="${expert.expertsFrom eq 'LOCAL'}">
 							<li class="col-md-3 col-sm-6 col-xs-12">
 								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 是否缴纳社会保险</span>
-								<div class="select_common col-md-12 col-xs-12 col-sm-12 p0" <c:if test="${fn:contains(errorField,'是否缴纳社会保险')}">style="border: 1px solid red;" onmouseover="errorMsg('是否缴纳社会保险')"</c:if>>
-									<select name="coverNote" id="coverNote" style="width:100%;" >
+								<div class="select_common col-md-12 col-xs-12 col-sm-12 p0" >
+									<select name="coverNote" id="coverNote"  <c:if test="${fn:contains(errorField,'是否缴纳社会保险')}">style="border: 1px solid red;" onmouseover="errorMsg('是否缴纳社会保险')"</c:if> >
 						<option <c:if test="${expert.coverNote eq '2'}">selected="selected"</c:if> value="2">否
 						</option>
 						<option <c:if test="${expert.coverNote eq '1'}">selected="selected"</c:if> value="1">是

@@ -36,6 +36,7 @@ import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
+import common.utils.RSAEncrypt;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
 import ses.model.bms.User;
@@ -150,9 +151,10 @@ public class PurchaseController extends BaseController{
 	 * @param request
 	 * @param model
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value="create",method= RequestMethod.POST)
-	public String create(@Valid PurchaseInfo purchaseInfo, BindingResult result,HttpServletRequest request, Model model){
+	public String create(@Valid PurchaseInfo purchaseInfo, BindingResult result,HttpServletRequest request, Model model) throws Exception{
 		
 		String roleName = request.getParameter("roleName");
 		
@@ -198,7 +200,9 @@ public class PurchaseController extends BaseController{
 			return "ses/oms/purchase/add";
 		}
 		
-		
+		//解密
+        purchaseInfo.setPassword(RSAEncrypt.decryptPrivate(purchaseInfo.getPassword()));
+        purchaseInfo.setPassword2(RSAEncrypt.decryptPrivate(purchaseInfo.getPassword2()));
 
         //验证两次密码是否一致
         if (!purchaseInfo.getPassword().equals(purchaseInfo.getPassword2())){
@@ -212,17 +216,54 @@ public class PurchaseController extends BaseController{
             model.addAttribute("origin", origin);
             return "ses/oms/purchase/add";
         }
-		
-		//验证身份证格式
-		if(!purchaseInfo.getIdCard().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")){
-		    model.addAttribute("roleName",roleName);
+        
+        //开始日期
+        if(purchaseInfo.getQuaStartDate() == null ){
+        	model.addAttribute("roleName",roleName);
 		    model.addAttribute("mainId",purchaseInfo.getId());
-		    model.addAttribute("exist_idCard", "身份证格式不对");
+		    model.addAttribute("err_sDate", "必填项");
 		    model.addAttribute("purchaseInfo", purchaseInfo);
 		    model.addAttribute("originOrgId", originOrgId);
             purchaseServiceI.initPurchaser(model,originOrgId);
 		    return "ses/oms/purchase/add";
-		}
+        }
+        
+        //截至日期
+        if(purchaseInfo.getQuaEdndate() == null){
+        	model.addAttribute("roleName",roleName);
+		    model.addAttribute("mainId",purchaseInfo.getId());
+		    model.addAttribute("err_eDate", "必填项");
+		    model.addAttribute("purchaseInfo", purchaseInfo);
+		    model.addAttribute("originOrgId", originOrgId);
+            purchaseServiceI.initPurchaser(model,originOrgId);
+		    return "ses/oms/purchase/add";
+        }
+        
+        
+        
+		//验证身份证格式  exist_idCard
+        if(purchaseInfo.getIdCard() == "" || purchaseInfo.getIdCard() == null){
+        	 model.addAttribute("roleName",roleName);
+ 		    model.addAttribute("mainId",purchaseInfo.getId());
+ 		    model.addAttribute("exist_idCard", "必填项");
+ 		    model.addAttribute("purchaseInfo", purchaseInfo);
+ 		    model.addAttribute("originOrgId", originOrgId);
+             purchaseServiceI.initPurchaser(model,originOrgId);
+ 		    return "ses/oms/purchase/add";
+        }else{
+        	if(!purchaseInfo.getIdCard().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")){
+    		    model.addAttribute("roleName",roleName);
+    		    model.addAttribute("mainId",purchaseInfo.getId());
+    		    model.addAttribute("exist_idCard", "身份证格式不对");
+    		    model.addAttribute("purchaseInfo", purchaseInfo);
+    		    model.addAttribute("originOrgId", originOrgId);
+                purchaseServiceI.initPurchaser(model,originOrgId);
+    		    return "ses/oms/purchase/add";
+    		}
+        }
+        
+        
+        
 		
 		//验证姓名长度
 		if(purchaseInfo.getRelName().length() > 15){
@@ -349,6 +390,8 @@ public class PurchaseController extends BaseController{
 			model.addAttribute("mainId", purchase.getId());
 			model.addAttribute("roleName", roleNames);
 		}
+		Integer shenfenzheng = 1 ;
+		model.addAttribute("shenfenzheng", shenfenzheng);
 		return "ses/oms/purchase/edit";
 	}
 	

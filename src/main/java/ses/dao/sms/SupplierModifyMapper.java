@@ -106,5 +106,12 @@ public interface SupplierModifyMapper {
     * @throws
      */
     void updateModify(SupplierModify supplierModify);
+
+    /**
+     * 统计修改数量
+     * @param supplierModify
+     * @return
+     */
+	int countBySupplierId(SupplierModify supplierModify);
     
 }

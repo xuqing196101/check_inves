@@ -246,7 +246,7 @@
 				async: false,
 				dataType: "json",
 				success: function(data){
-					if (data.length == 1) {
+					if (data.length == 3) {
 						layer.msg("没有符合查询条件的产品类别信息！");
 					} else {
 						zNodes = data;

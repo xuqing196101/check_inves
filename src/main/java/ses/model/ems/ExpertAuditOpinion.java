@@ -18,6 +18,7 @@ public class ExpertAuditOpinion implements Serializable{
 	/**第几次审核意见标识 0：第一次(初审) 1：第二次(复审)**/
 	private Integer flagTime;
 	/**审核标识：0：审核不通过 1：审核通过**/
+	/**审核标识：16：审核不通过 15：审核通过**/
 	private Integer flagAudit;
 	/**是否下载了入库复审表 1：已下载**/
 	private Integer isDownLoadAttch;
