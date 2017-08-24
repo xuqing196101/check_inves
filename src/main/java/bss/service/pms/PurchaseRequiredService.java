@@ -364,4 +364,14 @@ public interface PurchaseRequiredService {
 	 * @since JDK1.7
 	 */
 	PurchaseRequired selectById(String id);
+	
+	/**
+     * 
+     *〈简述〉
+     *〈关联预研明细表查询需求表在预研有多少明细〉
+     * @author FengTian
+     * @param id
+     * @return
+     */
+    List<PurchaseRequired> connectByList(String id);
 }

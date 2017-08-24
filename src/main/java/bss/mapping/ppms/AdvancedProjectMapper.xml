@@ -771,7 +771,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_ADVANCED_PROJECTS
-    where 1=1 and IS_PROVISIONAL=0
+    where 1=1 and IS_PROVISIONAL=0 and STATUS != '0'
      <if test="name != null and name != ''">
        and NAME like CONCAT(CONCAT('%', #{name}), '%') 
       </if>

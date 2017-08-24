@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 
 import common.utils.JdcgResult;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -349,4 +351,10 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	public PurchaseRequired selectById(String id) {
 		return purchaseRequiredMapper.selectById(id);
 	}
+
+    @Override
+    public List<PurchaseRequired> connectByList(String id) {
+        
+        return purchaseRequiredMapper.connectByList(id);
+    }
 }

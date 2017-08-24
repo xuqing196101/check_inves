@@ -309,7 +309,7 @@
                 <table id="table" class="table table-bordered table-condensed lockout">
                   <thead>
                     <tr class="space_nowrap">
-                      <th>操作</th>
+                      <th class="choose">操作</th>
                       <th class="info seq">序号</th>
                       <th class="info department">需求部门</th>
                       <th class="info goodsname">物资类别<br/>及名称</th>
@@ -362,7 +362,7 @@
                             </c:when>
                             <c:otherwise>
                               <c:forEach items="${kind}" var="kind">
-			                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+			                    <c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
 			                  </c:forEach>
                             </c:otherwise>
                          </c:choose>

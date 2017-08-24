@@ -1,7 +1,6 @@
 package bss.controller.ppms;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,14 +37,11 @@ import com.github.pagehelper.PageInfo;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
-import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
-import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
-import ses.util.ComparatorDetails;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.WfUtil;
@@ -58,13 +54,10 @@ import common.service.UploadService;
 
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
-import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
-import bss.model.ppms.Project;
-import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
 import bss.service.pms.PurchaseRequiredService;
@@ -114,9 +107,6 @@ public class AdvancedProjectController extends BaseController {
     
     @Autowired
     private UploadService uploadService;
-    
-    @Autowired
-    private DictionaryDataServiceI dataService;
     
     //父节点
     private final static String PARENT = "1";
@@ -223,18 +213,21 @@ public class AdvancedProjectController extends BaseController {
         HashMap<String, Object> map = new HashMap<>();
         map.put("planNo", id);
         List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
+        String detailId = null;
         for (PurchaseRequired purchaseRequired : list) {
-            Orgnization org = orgnizationService.getOrgByPrimaryKey(purchaseRequired.getOrganization());
-            if(org != null){
-                purchaseRequired.setOrganization(org.getName());
-                purchaseRequired.setOneOrganiza(org.getId());
+            if("1".equals(purchaseRequired.getParentId())){
+                detailId = purchaseRequired.getId();
             }
         }
-        model.addAttribute("lists", list);
+        if(detailId != null){
+            List<PurchaseRequired> connectByList = purchaseRequiredService.connectByList(detailId);
+            model.addAttribute("lists", connectByList);
+        }
         model.addAttribute("user", list.get(0).getUserId());
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         return "bss/ppms/advanced_project/add_advanced";
     }
+    
     
     /**
      * 
@@ -334,9 +327,10 @@ public class AdvancedProjectController extends BaseController {
         int j = 1;
         String[] idss = ids.split(",");
         String uniqueId = WfUtil.createUUID();
+        AdvancedDetail detail = null;
         for (int i = 0; i < idss.length; i++ ) {
             PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(idss[i]);
-            AdvancedDetail detail = new AdvancedDetail();
+            detail = new AdvancedDetail();
             detail.setRequiredId(purchaseRequired.getId());
             detail.setSerialNumber(purchaseRequired.getSeq());
             detail.setDepartment(purchaseRequired.getDepartment());

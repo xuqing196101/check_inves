@@ -69,9 +69,13 @@
       //递归选中子节点
       function checkedChild(id) {
         $("input[name='pId_" + id + "']").each(function() {
-          $(this).next().prop("checked", true);
-          var currId = $(this).next().val();
-          checkedChild(currId);
+          if(!$(this).next().is(':disabled')){
+            $(this).next().prop("checked", true);
+            var currId = $(this).next().val();
+            checkedChild(currId);
+          } else {
+            $(this).next().prop("checked", false);
+          }
         });
       }
 
@@ -92,7 +96,9 @@
 
       function upload() {
         var proName = $("#proName").val();
+        proName = $.trim(proName);
         var projectNumber = $("#projectNumber").val();
+        projectNumber = $.trim(projectNumber);
         var department = $("#department").val();
         var purchaseType = $("#purchaseType").val();
         var planType = $("#planType").val();
@@ -124,8 +130,9 @@
             shift: 1, //0-6的动画形式，-1不开启
             shadeClose: true,
             content: '${pageContext.request.contextPath}/advancedProject/attachment.html?proName=' + proName +
-              '&projectNumber=' + projectNumber + '&department=' + department + '&purchaseType=' + purchaseType + '&ids=' + ids + '&planType=' + planType + '&organization=' + organization,
-          });
+                    '&projectNumber=' + projectNumber + '&department=' + department + '&purchaseType=' + purchaseType + '&ids=' + ids + '&planType=' + planType + '&organization=' + organization,
+            });
+          
         }
 
       }
@@ -231,6 +238,7 @@
                       </td>
                       <td>
                         <div class="goodsname">${obj.goodsName}</div>
+                        <input type="hidden" id="twoAdvice" name="twoAdvice" value="${obj.twoAdvice}" />
                       </td>
                       <td>
                         <div class="stand">${obj.stand}</div>
@@ -298,6 +306,16 @@
         </div>
       </sf:form>
     </div>
+    <script type="text/javascript">
+      $(function() {
+        $("input[name='twoAdvice']").each(function(){
+          var twoAdvice = $(this).val();
+          if(twoAdvice == "1"){
+            $(this).parents("tr").find("td").eq(0).find("input[type='checkbox']").prop("disabled", true);
+          }
+        });
+      });
+    </script>
   </body>
-
+  
 </html>
