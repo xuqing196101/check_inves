@@ -261,7 +261,7 @@
                       <td>
                         <div class="purchasetype">
                           <c:forEach items="${kind}" var="kind">
-                            <c:if test="${kind.id == obj.purchaseType}">
+                            <c:if test="${kind.id eq obj.purchaseType}">
                               ${kind.name}
                               <input type="hidden" id="kindName" name="kindName" value="${kind.name}" />
                               <input type="hidden" id="purchaseType" name="purchaseType" value="${obj.purchaseType}" />
