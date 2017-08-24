@@ -42,6 +42,7 @@ import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.EngCategoryService;
 import ses.service.bms.TodosService;
+import ses.service.ems.ExpertAgainAuditService;
 import ses.service.ems.ExpertAuditNotService;
 import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertAuditService;
@@ -87,7 +88,9 @@ import java.util.Set;
 @Controller
 @RequestMapping("/expertAudit")
 public class ExpertAuditController{
-
+	@Autowired
+	private ExpertAgainAuditService expertAgainAuditService;
+	
 	@Autowired
 	private ExpertService expertService;
 
@@ -1573,6 +1576,7 @@ public class ExpertAuditController{
 		/**
 		 *  如果是退回修改就保存历史信息
 		 */
+		int sign=expert.getSign();
 		if("3".equals(expert.getStatus())) {
 			//删除旧的专家input信息
 			/*service.deleteExpertHistory(expert.getId());*/
@@ -1669,7 +1673,10 @@ public class ExpertAuditController{
 	        todos.setUrl("expertAudit/basicInfo.html?expertId=" + expert.getId());
 	        todosService.insert(todos );
 	      }
-		
+			if(sign==2){
+				expertAgainAuditService.handleExpertReviewTeam(expertId);
+				return "/ses/ems/againAudit/expert_auditBatch";
+			}
 		return "redirect:list.html";
 	}
 

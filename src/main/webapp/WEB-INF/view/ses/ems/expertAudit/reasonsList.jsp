@@ -577,6 +577,7 @@
                     <input name="id" value="${expertId}" type="hidden">
                     <input type="hidden" name="status" id="status" value="${status}"/>
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
+                    <input name="sign" value="${sign}" type="hidden">
                     <c:if test="${status eq '0' or status eq '9' or status eq '10'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->

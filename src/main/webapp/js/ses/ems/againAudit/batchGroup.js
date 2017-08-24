@@ -15,6 +15,28 @@
         list_content = data.object;  // 储存所需数据到变量
         $('#list_content').html('');
         for (var i in list_content.list) {
+          if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
+            list_content.list[i].batchDetailsNumber = '';
+          }
+          if (typeof(list_content.list[i].orgName) === 'undefined') {
+            list_content.list[i].orgName = '';
+          }
+          if (typeof(list_content.list[i].realName) === 'undefined') {
+            list_content.list[i].realName = '';
+          }
+          if (typeof(list_content.list[i].gender) === 'undefined') {
+            list_content.list[i].gender = '';
+          }
+          if (typeof(list_content.list[i].workUnit) === 'undefined') {
+            list_content.list[i].workUnit = '';
+          }
+          if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
+            list_content.list[i].professTechTitles = '';
+          }
+          if (typeof(list_content.list[i].updateTime) === 'undefined') {
+            list_content.list[i].updateTime = '';
+          }
+          
           $('#list_content').append('<tr>'
             +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list[i].id +'" class="select_item"></td>'
             +'<td class="text-center">'+ list_content.list[i].batchDetailsNumber +'</td>'

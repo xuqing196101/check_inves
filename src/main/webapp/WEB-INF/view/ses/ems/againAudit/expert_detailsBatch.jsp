@@ -43,7 +43,7 @@
     
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn" onclick="expert_auditBatch()">审核</button>
+      <button type="button" class="btn" onclick="expert_auditBatch('${pageContext.request.contextPath}')">审核</button>
     </div>
     
     <div class="content table_box">
@@ -76,6 +76,7 @@
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/processing.js"></script>
   <script>
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/fingStayReviewExpertDetailsList.do';  // 列表地址
+    var audit_url = '${pageContext.request.contextPath}/expertAgainAudit/checkGroupStatus.do';  // 校验地址
     var select_ids = [];
     
     $(function () {

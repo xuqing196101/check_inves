@@ -11,9 +11,15 @@
       data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
-        console.log(list_content);
         $('#list_content').html('');
         for (var i in list_content.list) {
+          if (typeof(list_content.list[i].batchName) === 'undefined') {
+            list_content.list[i].batchName = '';
+          }
+          if (typeof(list_content.list[i].createdAt) === 'undefined') {
+            list_content.list[i].createdAt = '';
+          }
+          
           $('#list_content').append('<tr class="pointer" onclick="window.location=\''+ defaults.audit_url +'?batchId='+ list_content.list[i].batchId +'\'">'
             +'<td class="text-center">'+ (parseInt(i) + 1) +'</td>'
             +'<td>'+ list_content.list[i].batchName +'</td>'

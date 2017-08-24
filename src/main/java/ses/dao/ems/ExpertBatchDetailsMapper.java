@@ -10,4 +10,5 @@ public interface ExpertBatchDetailsMapper {
 	List<ExpertBatchDetails> getExpertBatchDetails(ExpertBatchDetails expertBatchDetails);
 	void updateExpertBatchDetailsGrouping(ExpertBatchDetails expertBatchDetails);
 	int getExpertBatchDetailsCount(String groupId);
+	ExpertBatchDetails findExpertBatchDetails(ExpertBatchDetails expertBatchDetails);
 }

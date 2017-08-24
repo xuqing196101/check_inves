@@ -573,6 +573,61 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		img.setMessage("操作成功");
 		img.setObject(result);
 		return img;
+	}
+
+	@Override
+	public ExpertAgainAuditImg checkGroupStatus(String expertId) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+		expertBatchDetails.setExpertId(expertId);
+		expertBatchDetails=expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
+		ExpertGroup expertGroup = new ExpertGroup();
+		expertGroup.setGroupId(expertBatchDetails.getGroupId());
+		expertGroup=expertGroupMapper.findGroup(expertGroup);
+		if(!"3".equals(expertGroup.getStatus())){
+			img.setStatus(false);
+			img.setMessage("当前组还未结束分配无法审核");
+			return img;
+		}
+		img.setStatus(true);
+		img.setMessage("操作成功");
+		return img;
+	}
+
+	@Override
+	public void handleExpertReviewTeam(String expertId) {
+		// TODO Auto-generated method stub
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+		expertBatchDetails.setExpertId(expertId);
+		expertBatchDetails=expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
+		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		boolean status=true;
+		for (ExpertBatchDetails e : list) {
+			Expert expert = expertMapper.selectByPrimaryKey(e.getExpertId());
+			if(!"5".equals(expert.getStatus())&&!"6".equals(expert.getStatus())&&!"10".equals(expert.getStatus())){
+				status=false;
+			}
+		}
+		if(status){
+			ExpertReviewTeam expertReviewTeam = new ExpertReviewTeam();
+			expertReviewTeam.setGroupId(expertBatchDetails.getGroupId());
+			List<ExpertReviewTeam> expertReviewTeamList = expertReviewTeamMapper.getExpertReviewTeamList(expertReviewTeam);
+			for (ExpertReviewTeam team : expertReviewTeamList) {
+				List<User> userList = userMapper.selectByPrimaryKey(team.getUserId());
+				if(userList.size()>0){
+					User user=userList.get(0);
+					user.setIsDeleted(1);
+					SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm");
+			    	String date = format.format(new Date());
+			    	StringBuffer suffix = new StringBuffer();
+			    	suffix.append("_del_bak_");
+			    	suffix.append(date);
+			    	user.setLoginName(user.getLoginName()+suffix.toString());
+			    	userMapper.updateByPrimaryKeySelective(user);
+				}
+			}
+		}
 	} 
 	
 }

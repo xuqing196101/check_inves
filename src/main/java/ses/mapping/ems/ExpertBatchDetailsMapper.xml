@@ -17,7 +17,14 @@
     <sql id="Base_List">
     	ID,EXPERT_ID,BATCH_NUMBER,BATCH_DETAILS_NUMBER,COUNT,BATCH_NAME,GROUP_ID,GROUP_NAME,CREATED_AT,UPDATED_AT,BATCH_ID
     </sql>
- 
+ 	<select id="findExpertBatchDetails" resultMap="BaseResultMap"  parameterType="ses.model.ems.ExpertBatchDetails">
+ 		select 
+ 		 <include refid="Base_List" />
+ 		 from T_SYS_EMS_EXPERT_BATCH_DETAILS where 1=1
+ 		 <if test="expertId != null">
+            and   EXPERT_ID=#{expertId}
+        </if>
+ 	</select>
     <!-- 根据条件查询专家信息 -->
     <select id="getExpertBatchDetails" resultMap="BaseResultMap"  parameterType="ses.model.ems.ExpertBatchDetails">
         select 

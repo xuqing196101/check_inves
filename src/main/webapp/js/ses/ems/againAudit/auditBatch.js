@@ -17,6 +17,34 @@
         $('#group_batch_box').html('');
         for (var i in list_content) {
           for (var ii in list_content[i].expertList) {
+            if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
+              list_content.list[i].batchDetailsNumber = '';
+            }
+            if (typeof(list_content.list[i].orgName) === 'undefined') {
+              list_content.list[i].orgName = '';
+            }
+            if (typeof(list_content.list[i].realName) === 'undefined') {
+              list_content.list[i].realName = '';
+            }
+            if (typeof(list_content.list[i].gender) === 'undefined') {
+              list_content.list[i].gender = '';
+            }
+            if (typeof(list_content.list[i].workUnit) === 'undefined') {
+              list_content.list[i].workUnit = '';
+            }
+            if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
+              list_content.list[i].professTechTitles = '';
+            }
+            if (typeof(list_content.list[i].updateTime) === 'undefined') {
+              list_content.list[i].updateTime = '';
+            }
+            if (typeof(list_content.list[i].status) === 'undefined') {
+              list_content.list[i].status = '';
+            }
+            if (typeof(list_content.list[i].updateTime) === 'undefined') {
+              list_content.list[i].updateTime = '';
+            }
+            
             str_tr += '<tr>'
               +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content[i].expertList[ii].id +'" class="select_item"></td>'
               +'<td class="text-center">'+ list_content[i].expertList[ii].batchDetailsNumber +'</td>'

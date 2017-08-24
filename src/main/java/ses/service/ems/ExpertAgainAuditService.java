@@ -24,4 +24,6 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg preservationExpertReviewTeam(String groupId);
 	ExpertAgainAuditImg fingStayReviewExpertList(String userId,String batchName,Date createdAt, Integer pageNum);
 	ExpertAgainAuditImg fingStayReviewExpertDetailsList(String userId,String batchId, Integer pageNum);
+	ExpertAgainAuditImg checkGroupStatus(String expertId);
+	void handleExpertReviewTeam(String expertId);
 }
