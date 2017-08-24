@@ -15,6 +15,9 @@ function jump(str) {
     if (str == "expertFile") {
         action = globalPath + "/expertAudit/expertFile.html";
     }
+    if (str == "preliminaryInfo") {
+    	action = globalPath + "/expertAudit/preliminaryInfo.html";
+    }
     if (str == "reasonsList") {
         action = globalPath + "/expertAudit/reasonsList.html";
     }
@@ -64,6 +67,7 @@ function jump(str) {
 var status;
 var sign;
 $(function () {
+	
     // 获取专家状态
     status = $("#status").val();
     sign = $("input[name='sign']").val();

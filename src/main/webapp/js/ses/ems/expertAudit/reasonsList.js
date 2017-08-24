@@ -9,17 +9,17 @@ $(function () {
     var hiddenSelectOptionId = $("#hiddenSelectOptionId").val();
     $("input[name='selectOption'][value='"+hiddenSelectOptionId+"']").prop("checked",true);
     // 预复审合格状态
-    if(status == -2 || status == -3 || status == 5 || status == 4){
+    if(status == -2 || status == -3 || status == 5 || (sign ==2 && status == 6)){
         $("#checkWord").show();
         // 审核状态为5（复审不合格）或者-3（公示中）的意见不可更改
-        if(status == -3 ||status == 5 || status == 4){
+        if(status == -3 ||status == 5 || (sign ==2 && status == 6)){
             $("input[name='selectOption']").prop("disabled",true);
             $("#opinion").prop("disabled", true);
         }
     }
     
     //除了待审核状态都不可操作
-    if(status != 0 && status != -2 && (sign !=2 && status ==1) && status != 6){
+    if(status != 0 && status != -2 && (sign !=2 && status ==1) && (sign == 3 && status != 6 )){
     	$("#opinion").prop("disabled", true);
     }
     
@@ -76,7 +76,12 @@ function getCheckOpinionType(expertId){
  * 上一步操作
  */
 function lastStep() {
-    var action = globalPath + "/expertAudit/expertFile.html";
+	var sign = $("input[name='sign']").val();
+	if(sign == 2){
+		var action = globalPath + "/expertAudit/preliminaryInfo.html";
+	}else{
+		var action = globalPath + "/expertAudit/expertFile.html";
+	}
     $("#form_id").attr("action", action);
     $("#form_id").submit();
 }
@@ -88,7 +93,7 @@ function nextStep() {
 	if(status == -2 || status == 1){
 		tempSave(1);
 	}
-    if(status == -3 || status == 4 || status == 5){
+    if(status == -3 || (sign ==2 && status == 6) || status == 5){
     	$("#form_id").attr("action", globalPath + "/expertAudit/uploadApproveFile.html");
         $("#form_id").submit();
     }
@@ -146,6 +151,27 @@ function tempSave(flag){
         }
     });
 }
+
+
+function saveOpinionInfo(){
+	// 获取审核意见
+    var opinion  = $("#opinion").val();
+    // 获取选择radio类型
+    var selectOption = $("input[name='selectOption']:checked").val();
+	
+	// 将审核意见表单赋值
+    $("#opinionId").val(opinion);
+    $("#flagTime").val(1);
+    $("#flagAudit").val(selectOption);
+    
+	 $.ajax({
+	    url:globalPath + "/expertAudit/saveAuditOpinion.do",
+	    type: "POST",
+	    data:$("#opinionForm").serialize(),
+	    dataType:"json",
+	  });
+}
+
 
 /**
  * 下载入库复审表

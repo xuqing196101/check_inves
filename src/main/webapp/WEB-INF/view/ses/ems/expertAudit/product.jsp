@@ -144,9 +144,9 @@
 		</script> -->
 		<script type="text/javascript">
 			$(function(){
-                // 导航栏显示
-                $("#reverse_of_three").attr("class","active");
-                $("#reverse_of_three").removeAttr("onclick");
+        // 导航栏显示
+        $("#reverse_of_three").attr("class","active");
+        $("#reverse_of_three").removeAttr("onclick");
 
 				var expertId = $("#expertId").val();
 				var mat = $("#mat").val();
@@ -161,30 +161,32 @@
 				var serCodeId = $("#serCodeId").val();
 				var goodsProjectId = $("#goodsProjectId").val();
 				var goodsEngInfoId = $("#goodsEngInfoId").val();
+				
+				var sign = ${sign};
 				if(mat == "mat_page"){
 					// 物资品目信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + matCodeId;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + matCodeId + "&sign=" + sign;
 					$("#tbody_category").load(path);
 				}else if(eng == "eng_page"){
 					// 工程品目信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + engCodeId;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + engCodeId + "&sign=" + sign;
 					$("#tbody_category").load(path);
 				}else if(ser == "ser_page"){
 					// 服务
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + serCodeId;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + serCodeId + "&sign=" + sign;
 					$("#tbody_category").load(path);
 				}else if(goodsProject == "goodsProject_page"){
 					// 工程产品类别信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsProjectId;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsProjectId + "&sign=" + sign;
 					$("#tbody_category").load(path);
 				}else if(goodsEngInfo == "goodsEngInfo_page"){
 					// 工程专业属性信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsEngInfoId;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsEngInfoId + "&sign=" + sign;
 					$("#tbody_category").load(path);
 				}
 			});
@@ -193,7 +195,8 @@
 					// 加载已选品目列表
 					loading = layer.load(1);
 					var expertId = $("#expertId").val();
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + code;
+					var sign = ${sign};
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + code + "&sign=" + sign;
 					$("#tbody_category").load(path);
 			};   
 			
@@ -201,7 +204,7 @@
 				var status = ${status};
         var sign = $("input[name='sign']").val();
         //只能审核可以审核的状态
-        if(status ==-2 || status == 0 || (sign ==2 && status ==1) || status ==6){
+        if(status ==-2 || status == 0 || (sign ==3 && status ==6) || status ==4 || (sign ==1 && status ==10)){
 					var auditContent;
 					var auditField;
 					var expertId = $("#expertId").val();
@@ -268,7 +271,7 @@
 				var status = ${status};
 		        var sign = ${sign};
 		        //只能审核可以审核的状态
-		        if(status ==-2 || status == 0 || (sign ==2 && status ==1) || status ==6){
+		        if(status ==-2 || status == 0 || status == 9 || (sign ==3 && status ==6) || status ==4 || (sign ==1 && status ==10)){
 		        	 
 					 var expAuditList=[];
 					 var expertId = $("#expertId").val();
@@ -320,6 +323,7 @@
 									 expAudit.auditContent=auditContent;
 									 expAudit.auditField=auditField;
 									 expAudit.auditFieldId=itemsId;
+									 expAudit.auditFalg=sign;
 									 expAuditList.push(expAudit);
 						       }); 
 							  $.ajax({
@@ -331,7 +335,6 @@
 										if(result.status==500){
 											//location.reload();
 											layer.msg(result.msg, {
-												shift: 6, // 动画类型
 												offset: '100px',
 											});
 											var checklist = document.getElementsByName ("chkItem");
@@ -381,7 +384,7 @@
 			}
 			
 			//暂存
-       function zhancun(){
+       function zancun(){
          var expertId = $("#expertId").val();
          $.ajax({
            url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
@@ -526,8 +529,8 @@
 					</div>
 					<div class="col-md-12 add_regist tc">
 						<a class="btn" type="button" onclick="lastStep();">上一步</a>
-						<c:if test="${status == -2 || status == 0 || (sign ==2 && status ==1) || status ==6}">
-	            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+						<c:if test="${status == -2 || status == 0 || status == 9 || (sign ==3 && status ==6) || status ==4 || (sign ==1 && status ==10)}">
+	            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zancun();">暂存</a>
 	          </c:if>
 						<a class="btn" type="button" onclick="nextStep();">下一步</a>
 					</div>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpertBatchMapper">
+    <resultMap id="BaseResultMap" type="ses.model.ems.ExpertBatch">
+        <id column="BATCH_ID" jdbcType="VARCHAR" property="batchId" />
+        <result column="BATCH_NUMBER" jdbcType="VARCHAR" property="batchNumber" />
+        <result column="BATCH_NAME" jdbcType="VARCHAR" property="batchName" />
+        <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    </resultMap>
+    <sql id="Base_List">
+    	BATCH_ID,BATCH_NUMBER,BATCH_NAME,CREATED_AT,UPDATED_AT
+    </sql>
+   
+    <!-- 获取所有批次 -->
+    <select id="getAllExpertBatch" resultMap="BaseResultMap">
+        select
+        <include refid="Base_List" />
+        from T_SYS_EMS_EXPERT_BATCH 
+        where 1=1
+        <if test="batchNumber != null and batchNumber !=''">
+            AND BATCH_NUMBER like CONCAT(CONCAT('%', #{batchNumber}), '%')
+        </if>
+        <if test="batchName != null and batchName !=''">
+            AND BATCH_NAME like CONCAT(CONCAT('%', #{batchName}), '%')
+        </if>
+        <if test="createdAt !=null and createdAt != ''">
+        	AND TO_CHAR(CREATED_AT,'YY-MM-DD') = TO_CHAR(#{createdAt},'YY-MM-DD')
+        </if> 
+        ORDER BY CREATED_AT DESC
+    </select>
+    
+    <insert id="insert" parameterType="ses.model.ems.ExpertBatch">
+        insert into T_SYS_EMS_EXPERT_BATCH
+        (BATCH_ID,BATCH_NUMBER,BATCH_NAME,CREATED_AT,UPDATED_AT)
+        values
+        (#{batchId}, #{batchNumber},#{batchName}, #{createdAt}, #{updatedAt})
+    </insert>
+   
+</mapper>

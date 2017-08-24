@@ -44,21 +44,29 @@
             	$("#reverse_of_six").css("display","block"); */
             }
             check_opinion();
+            
+            $("#fushengEnd").hide();
         });
 
         // 审核意见
         function checkOpinion(status, expertId){
         	 var opinion = document.getElementById('opinion').value;
              opinion = trim(opinion);
+             var sign = ${sign};
              var flagTime;
-             if(status == -2){
-                 flagTime = 1;
+             if(sign == 1){
+            	 flagTime = 0;
              }
+             if(sign == 2){
+            	 flagTime = 1;
+             }
+             // 获取选择radio类型
+             var selectOption = $("input[name='selectOption']:checked").val();
              if (opinion != null && opinion != "") {
                  if (opinion.length <= 200) {
                      $.ajax({
                          url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
-                         data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime},
+                         data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime,"flagAudit":selectOption},
                          type: "POST",
                          success: function () {
                              $("#status").val(status);
@@ -98,50 +106,6 @@
                     shift: 4,
                     btn: ['确认', '取消']
                 }, function () {
-                    /* var index = layer.prompt({
-                     title: '请填写最终意见：',
-                     formType: 2,
-                     offset: '100px',
-                     }, function(text) {
-                     $.ajax({
-                     url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
-                     data: {"opinion" : text , "expertId" : expertId},
-                     success: function() {
-                     //提交审核
-                     $("#status").val(status);
-                     $("#form_shenhe").submit();
-                     }
-                     });
-                     }); */
-                    /* if(status != 3){
-                    	checkOpinion(status, expertId)
-                        if(checkOpinion(status, expertId)){
-                            return;
-                        }else{
-                        	var opinion = document.getElementById('opinion').value;
-                          opinion = trim(opinion);
-                            $.ajax({
-                                url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
-                                data: {"expertId" : expertId,"opinion": opinion},
-                                success: function() {
-                                    //提交审核
-                                    $("#status").val(status);
-                                    $("#form_shenhe").submit();
-                                }
-                            });
-                        }
-                   }else {
-                        //提交审核
-                        $("#status").val(status);
-                        $("#form_shenhe").submit();
-                    } */
-
-
-                    //初审不合格
-                    /* if (status == 2) {
-                        window.location.href = "${pageContext.request.contextPath}/expertAudit/saveAuditNot.html?expertId=" + expertId;
-                    } */
-                    
                     if (status == 3) {
                     	$("#status").val(status);
                       $("#form_shenhe").submit();
@@ -187,8 +151,9 @@
                             	    $("#nextStep").css("display","inline-block");
                                     $("#checkWord").show();
                                     // 加载审核导航栏-上传批准审核表
-                                    $("#reverse_of_five_i").show();
-                                    $("#reverse_of_six").show();
+                                    /* $("#reverse_of_five_i").show();
+                                    $("#reverse_of_six").show(); */
+                                    $("#fushengEnd").show();
                             	}
                             }
                        });
@@ -461,7 +426,7 @@
 
             <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
             <ul class="ul_list count_flow">
-              <c:if test="${status == 0 || status == -2 || (sign ==2 && status ==1) || status == 6}">
+              <c:if test="${status == 0 || status == 9 || status == -2 || (sign ==3 && status ==6) || status == 4}">
                 <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
               </c:if>  
                 <table class="table table-bordered table-condensed table-hover">
@@ -551,8 +516,9 @@
                   <ul class="ul_list">
                       <li>
                           <div class="select_check" id="selectOptionId">
-                           <input type="radio" id="qualified" name="selectOption" value="1">预复审合格
-                           <input type="radio"  name="selectOption" value="0">预复审不合格
+                           <input type="radio" id="qualified" name="selectOption" value="-3">预复审合格
+                           <input type="radio"  name="selectOption" value="5">预复审不合格
+                           <input type="radio"  name="selectOption" value="10">复审退回修改
                           </div>
                       </li>
                       <div><span type="text" name="cate_result" id="cate_result"></span></div>
@@ -611,14 +577,15 @@
                     <input name="id" value="${expertId}" type="hidden">
                     <input type="hidden" name="status" id="status" value="${status}"/>
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
-                    <c:if test="${status eq '0'}">
+                    <input name="sign" value="${sign}" type="hidden">
+                    <c:if test="${status eq '0' or status eq '9' or (sign eq '1' &&status eq '10')}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
-                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->
-                        <!-- <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->
-                        <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
-                    	<input class="btn btn-windows end" type="button" onclick="yuend(15);" value="预初审结束" id="yund">
-						<a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
-						<a id="nextStep" class="btn display-none" type="button" onclick="yuNext();">下一步</a>
+                       <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->
+                       <!-- <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->
+                       <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
+                   	   <input class="btn btn-windows end" type="button" onclick="yuend(15);" value="预初审结束" id="yund">
+										  <a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
+										  <a id="nextStep" class="btn display-none" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
                     <c:if test = "${status == '15' || status == '16'}" >
                     	<a id="tempSave" class="btn" onclick="zhancun();">暂存</a>
@@ -627,21 +594,24 @@
                     <c:if test = "${status == '1' || status == '2' && sign eq '1'}" >
                     	<a id="nextStep" class="btn" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
-                    <c:if test="${status eq '1' && sign eq '2'}">
+                    <c:if test="${status eq '4' && sign eq '2'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(4);" value="复审合格 " id="tongguo">
                         <input class="btn btn-windows cancel" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu"> -->
-                        <input class="btn btn-windows passed" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
+                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui"> -->
                         <input class="btn btn-windows end"  type="button" onclick="shenhe(-2)" value="预复审结束" id="tongguo">
                         <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
-                        <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a>
+                        <!-- <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a> -->
                     </c:if>
+                    <input class="btn btn-windows end" type="button" onclick="shenhe()" value="复审结束" id="fushengEnd">
                     <c:if test="${status eq '-2' || status == '-3' || status == '4' || status == '5'}">
                         <c:if test="${status == '-2'}">
                           <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
+                           <input class="btn btn-windows end"  type="button" onclick="shenhe()" value="复审结束">
                         </c:if>
-                        <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
+                       
+                        <!-- <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a> -->
                     </c:if>
-                    <c:if test="${status eq '6'}">
+                    <c:if test="${sign eq '3' and status eq '6'}">
                         <input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复查合格 " id="tongguo">
                         <input class="btn btn-windows cancel" type="button" onclick="shenhe(8);" value="复查不合格" id="tichu">
                     </c:if>

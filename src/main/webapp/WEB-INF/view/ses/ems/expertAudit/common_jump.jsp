@@ -16,10 +16,10 @@
         <a aria-expanded="false" href="#tab-1" data-toggle="tab">承诺书和申请表</a><i></i>
     </li>
     <c:if test="${sign == 2}">
-	    <li id="reverse_of_seven" onclick="jump('preliminaryInfo')">
-	        <a aria-expanded="false" href="#tab-1" data-toggle="tab">采购机构初审意见</a><i></i>
-	        <i id="reverse_of_seven_i"></i>
-	    </li>
+      <li id="reverse_of_seven" onclick="jump('preliminaryInfo')">
+          <a aria-expanded="false" href="#tab-1" data-toggle="tab">采购机构初审意见</a><i></i>
+          <i id="reverse_of_seven_i"></i>
+      </li>
     </c:if>
     <li id="reverse_of_five" onclick="jump('reasonsList')">
         <a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
@@ -28,8 +28,8 @@
         </c:if>
     </li>
     <c:if test="${sign == 1 and (expert.status != 0 and status != 0)}">
-	    <li id="reverse_of_six" onclick="jump('uploadApproveFile')">
-	      <a aria-expanded="false" href="#tab-1" data-toggle="tab">上传批准审核表</a>
-	    </li>
+      <li id="reverse_of_six" onclick="jump('uploadApproveFile')">
+        <a aria-expanded="false" href="#tab-1" data-toggle="tab">上传批准审核表</a>
+      </li>
     </c:if>
 </ul>

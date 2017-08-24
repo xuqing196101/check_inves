@@ -35,6 +35,9 @@ public class ExpertAudit implements Serializable{
     private String auditFieldId;
     
     private String auditFieldName;
+    
+    //审核标识（1初审，2复审，3复查）
+    private Integer auditFalg;
     public String getId() {
         return id;
     }
@@ -150,6 +153,16 @@ public class ExpertAudit implements Serializable{
 
 	public void setAuditFieldName(String auditFieldName) {
 		this.auditFieldName = auditFieldName;
+	}
+
+	
+	
+	public Integer getAuditFalg() {
+		return auditFalg;
+	}
+
+	public void setAuditFalg(Integer auditFalg) {
+		this.auditFalg = auditFalg;
 	}
 
 	@Override

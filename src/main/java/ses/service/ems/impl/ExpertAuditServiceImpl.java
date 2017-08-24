@@ -406,7 +406,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		if("0".equals(status) || "15".equals(status) || "16".equals(status)){
 			//初审中
 			expert.setAuditTemporary(1);
-		}else if("1".equals(status)){
+		}else if("4".equals(status)){
 			//复审中
 			expert.setAuditTemporary(2);
 		}else if("6".equals(status)){
@@ -588,6 +588,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
         // 判断基本信息是否存在审核未通过项
         Map<String, Object> map = new HashedMap();
         map.put("expertId",expertId);
+        map.put("auditFalg",2);
         map.put("regType", Constant.EXPERT_BASIC_INFO_ITEM_FLAG);
         Integer count;
         // 定义选择类型数量

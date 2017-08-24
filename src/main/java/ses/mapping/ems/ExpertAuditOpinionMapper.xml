@@ -115,7 +115,7 @@
         FROM (SELECT <include refid="Base_Column_List" />
           FROM T_SES_EMS_EXPERT_AUDIT_OPINION T
           WHERE T.EXPERT_ID = #{expertId}
-          <if test="flagTime != null and flagTime !=''">
+          <if test="flagTime != null ">
             AND T.FLAG_TIME = #{flagTime}
           </if>
           ORDER BY CREATED_AT DESC)
