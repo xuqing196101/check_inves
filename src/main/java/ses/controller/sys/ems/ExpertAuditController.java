@@ -1547,7 +1547,12 @@ public class ExpertAuditController{
 		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		int categoryCount=0;
 		model.addAttribute("qualified", true);
-		for (Entry<String, Integer> entry : map.entrySet()) {  
+		Expert expert = expertService.selectByPrimaryKey(expertId);
+		JdcgResult result = expertAuditService.selectAndVertifyAuditItem(expertId);
+		if(result.getStatus()==500){
+			model.addAttribute("qualified", false);
+		}
+		/*for (Entry<String, Integer> entry : map.entrySet()) {  
 			  categoryCount+=entry.getValue();
 			  String id = DictionaryDataUtil.getId(entry.getKey());
 			  if(entry.getValue()>0){
@@ -1556,13 +1561,13 @@ public class ExpertAuditController{
 					  model.addAttribute("qualified", false);
 				  }
 			  }
-		}  
+		}  */
 		model.addAttribute("reasonsList", reasonsList);
 		//查看是否有记录
 		model.addAttribute("num", reasonsList.size());
-		model.addAttribute("notCategoryNum", reasonsList.size()-categoryCount);
+		//model.addAttribute("notCategoryNum", reasonsList.size()-categoryCount);
 		
-		Expert expert = expertService.selectByPrimaryKey(expertId);
+		
 		model.addAttribute("status", expert.getStatus());
 		model.addAttribute("isSubmit", expert.getIsSubmit());
 		model.addAttribute("expert", expert);
