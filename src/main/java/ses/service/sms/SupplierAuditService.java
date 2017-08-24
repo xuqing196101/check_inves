@@ -412,7 +412,7 @@ public interface SupplierAuditService {
      * @param type
      * @return
      */
-    List<Qualification> showQualifications(SupplierCateTree cateTree,Integer type,String type_id,Integer syskey);
+    List<Qualification> showQualifications(SupplierCateTree cateTree,Integer type,String type_id,Integer typeService);
     /**
      * 
      * Description:工程 资质 文件查看
@@ -423,7 +423,7 @@ public interface SupplierAuditService {
      * @param type
      * @return
      */
-    List<SupplierCateTree> showProject(SupplierCateTree cateTree,Integer type,String type_id,Integer syskey);
+    List<SupplierCateTree> showProject(SupplierCateTree cateTree,Integer type,String type_id);
     /**
      * 
      * Description:根据参数 查询数据是否存在
