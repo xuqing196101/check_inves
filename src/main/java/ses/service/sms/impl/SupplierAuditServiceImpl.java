@@ -1047,8 +1047,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			for (SupplierItem supplierItem : itemsList) {
 				SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierItem.getSupplierId());
 			cateTree.setSupplierItemId(supplierItem.getId());
-			if(null !=  matEng || StringUtils.isNotBlank(supplierItem.getCertCode()) || StringUtils.isNotBlank(supplierItem.getProfessType())){
-				List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), supplierItem.getCertCode(), supplierItem.getProfessType());
+			if(null !=  matEng || StringUtils.isNotBlank(supplierItem.getQualificationType())&&  StringUtils.isNotBlank(supplierItem.getCertCode()) && StringUtils.isNotBlank(supplierItem.getProfessType())){
+				List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(supplierItem.getQualificationType(),matEng.getId(), supplierItem.getCertCode(), supplierItem.getProfessType());
 				if(certEng != null && certEng.size() > 0) {
 					cateTree.setFileId(certEng.get(0).getId());
 					Qualification qua= qualificationService.getQualification(certEng.get(0).getCertType());
