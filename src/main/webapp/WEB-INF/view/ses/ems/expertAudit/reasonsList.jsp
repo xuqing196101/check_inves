@@ -476,19 +476,21 @@
                     </c:forEach>
                 </table>
             </ul>
-            <c:if test="${sign != 2}">
+            <c:if test="${sign == 1 or sign == 3}">
               <div class="clear"></div>
               <h2 class="count_flow mt0"><i>2</i>最终意见</h2>
               <ul class="ul_list">
+                 <c:if test="${sign == 1 }">
+                   <li>
+                     <div class="select_check">
+                       <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()">预初审合格
+                       <input type="radio"  <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()">预初审不合格
+                     </div>
+                   </li>
                  <li>
-                   <div class="select_check">
-                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()">预初审合格
-                      <input type="radio"  <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()">预初审不合格
-                    </div>
-                  </li>
-                  <li>
                    <div id="check_opinion"></div>
-                  </li>
+                 </li>
+                 </c:if>
                   <li class="mt10">
                      <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
                   </li>
