@@ -3578,7 +3578,8 @@ public class ExpertController extends BaseController {
         
         dataMap.put("teachTitle", expert.getTeachTitle() == null ? "无" : expert.getTeachTitle().equals(1) ? "有" : "无");
         dataMap.put("title", expert.getIsTitle() == null ? "无" : expert.getIsTitle().equals(1) ? "有" : "无");
-//        if(expert.getProfessTechTitles()!=null){
+       
+        //        if(expert.getProfessTechTitles()!=null){
         	 if(expert.getTeachTitle()==1){
           	   dataMap .put("success", "success");
              } else{
@@ -4765,6 +4766,10 @@ public class ExpertController extends BaseController {
                 String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
                 String pId = DictionaryDataUtil.getId("PROJECT");
                 for(String id:ids){
+                	if(expert.getIsTitle()!=1){
+                		expertTitleService.deleteExpertType(expert.getId(), id);
+                		continue;
+                	}
                     if(id.equals(pId)){
                         expertTitleService.addBatch(expert.getTitles(),id);
                         continue;
