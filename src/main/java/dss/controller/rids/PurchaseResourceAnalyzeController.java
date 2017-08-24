@@ -1,16 +1,15 @@
 package dss.controller.rids;
 
-import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import bss.formbean.Maps;
+import com.alibaba.fastjson.JSON;
+import common.annotation.CurrentUser;
+import common.annotation.SystemControllerLog;
+import dss.service.rids.PurchaseResourceAnalyzeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.model.bms.Analyze;
 import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.bms.DictionaryData;
@@ -18,14 +17,11 @@ import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierEditService;
-import bss.formbean.Maps;
 
-import com.alibaba.fastjson.JSON;
-
-import common.annotation.CurrentUser;
-import common.annotation.SystemControllerLog;
-import common.annotation.SystemServiceLog;
-import dss.service.rids.PurchaseResourceAnalyzeService;
+import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -574,7 +570,7 @@ public class PurchaseResourceAnalyzeController {
 		if(this.verifyPermission(user)){
 			return "redirect:list.html";
 		}
-		// 查询全网采购公告总金额
+		// 查询全网已发布采购公告数量
 		BigDecimal totalMoney = purchaseResourceAnalyzeService.selectPurchaseNoticeCount();
 		model.addAttribute("totalMoney", totalMoney);
 		return "dss/rids/analyze/analyzePurchaseNotice";
