@@ -106,10 +106,10 @@ $(function(){
                             <c:if test="${status == -2}">
                                 <%--<input class="btn btn-windows apply" type="button" id="auditPass" value="复审合格 " />
                                 <input class="btn btn-windows cancel" type="button" id="auditNoPass" value="复审不合格" />--%>
-                                <input class="btn btn-windows git" type="button" id="auditOver" value="复审结束" />
+                                <input class="btn btn-windows end" type="button" id="auditOver" value="复审结束" />
                             </c:if>
                             <c:if test="${status == 15 || status == 16}">
-                                <input class="btn btn-windows git" type="button" value = "初审结束" onclick = "chuAuditEnd()"/>
+                                <input class="btn btn-windows end" type="button" value = "初审结束" onclick = "chuAuditEnd()"/>
                             </c:if>
                         </div>
                     </div>
