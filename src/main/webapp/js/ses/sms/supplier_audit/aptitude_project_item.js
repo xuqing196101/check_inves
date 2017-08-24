@@ -23,12 +23,12 @@ $(function(){
 	}
 });
 //审核资质不通过理由
-function reasonProject(ind,auditField, auditFieldName) {
+function reasonProject(ind, auditField, auditFieldName, certType) {
 	var supplierId = $("#supplierId").val();
 	var auditCount = $("#count").val();
 	ind=parseInt(ind)+1;
 	var tablerId=$("#tablerId").val();
-	var auditContent=content(tablerId,ind,'专业资质要求');
+	var auditContent=content(tablerId,ind,certType);
 	var audits;
 	var type="";
 	if(auditCount!=null && auditCount !='' && auditCount>'0' ){

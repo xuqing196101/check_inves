@@ -18,6 +18,7 @@
 			  $("#referenceNo").blur(function () {
                   var referenceNO = $("#referenceNo").val();
                   if(referenceNO == ''){
+                	  layer.msg("采购需求文号不能为空");
                       return;
                   }
                   $.ajax({
@@ -301,7 +302,9 @@
 					//layer.tips("录入人手机号不允许为空", "#mobile");
 				} else if($.trim(type) == ""){
 					 layer.alert("请选择物资类别"); 
-				}
+				}else if($.trim(refNo) == ""){
+                     layer.alert("采购需求文号不允许为空"); 
+                } 
 			  	else if(!dy){
 					layer.alert("请填写供应商"); 
 				}

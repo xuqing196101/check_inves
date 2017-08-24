@@ -2703,9 +2703,9 @@ public class SupplierController extends BaseSupplierController {
 		    }
 		}
 		
-		/*List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
+		List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
 		if(aptitudeList != null && aptitudeList.size() > 0){
-			Set<String> codeSet = new HashSet<>();
+			/*Set<String> codeSet = new HashSet<>();
 			int codeCount = 0;
 			for (SupplierAptitute aptitude : aptitudeList) {
 				if(StringUtils.isNotBlank(aptitude.getCertCode())){
@@ -2716,8 +2716,20 @@ public class SupplierController extends BaseSupplierController {
 			if(codeSet.size() != codeCount){
 				model.addAttribute("eng_aptitutes", "证书编号重复!");
 				bool = false;
+			}*/
+			Set<String> certTypeSet = new HashSet<>();
+			int certTypeCount = 0;
+			for (SupplierAptitute aptitude : aptitudeList) {
+				if(StringUtils.isNotBlank(aptitude.getCertType())){
+					certTypeSet.add(aptitude.getCertType());
+					certTypeCount++;
+				}
 			}
-		}*/
+			if(certTypeSet.size() != certTypeCount){
+				model.addAttribute("eng_aptitutes", "资质类型重复!");
+				bool = false;
+			}
+		}
     	
 		return bool;
 	}

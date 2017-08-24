@@ -1374,6 +1374,14 @@ public class PurchaseContractController extends BaseSupplierController{
 			Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(purCon.getPurchaseDepName());
 			/*purCon.setContractReList(requList);*/
 			/*model.addAttribute("purCon", purCon);*/
+			DictionaryData ddbook=new DictionaryData();
+      ddbook.setCode("CONTRACT_WARRANT");
+      List<DictionaryData> bookdata = dictionaryDataServiceI.find(ddbook);
+      request.getSession().setAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+      if(bookdata.size()>0){
+        model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
+      }
+      model.addAttribute("attachuuid", purCon.getId());
 			model.addAttribute("requList", requList);
 			model.addAttribute("kinds", DictionaryDataUtil.find(5));
 			model.addAttribute("org", orgnization);
@@ -1951,6 +1959,14 @@ public class PurchaseContractController extends BaseSupplierController{
         if(draftCon.getPurchaseBankAccount()!=null){
             draftCon.setPurchaseBankAccount_string(draftCon.getPurchaseBankAccount().toString());
         }
+        DictionaryData ddbook=new DictionaryData();
+        ddbook.setCode("CONTRACT_WARRANT");
+        List<DictionaryData> bookdata = dictionaryDataServiceI.find(ddbook);
+        request.getSession().setAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+        if(bookdata.size()>0){
+          model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
+        }
+        model.addAttribute("attachuuid", draftCon.getId());
         Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(draftCon.getPurchaseDepName());
         model.addAttribute("purCon", draftCon);
         model.addAttribute("kinds", DictionaryDataUtil.find(5));

@@ -19,9 +19,9 @@
 		<script type="text/javascript">
 			//默认不显示叉
 			$(function() {
-                // 导航栏选中
-                $("#reverse_of_four").attr("class","active");
-                $("#reverse_of_four").removeAttr("onclick");
+        // 导航栏选中
+				$("#reverse_of_four").attr("class","active");
+				$("#reverse_of_four").removeAttr("onclick");
 				$("td").each(function() {
 					$(this).parent("tr").find("td").eq(9).find("a").hide();
 				});
@@ -807,7 +807,7 @@
 							</li>
 						</c:if>
 						<c:if test="${fn:contains(supplierTypeNames, '服务')}">
-							<li class='<c:if test="${liCountEng == 0 && liCountPro == 0 && liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer"/></c:if>'>
+							<li class='<c:if test="${liCountSell == 0 && liCountPro == 0 && liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer"/></c:if>'>
 								<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务专业信息</a>
 							</li>
 						</c:if>

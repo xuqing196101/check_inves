@@ -128,7 +128,7 @@
 										</li>
 									</c:if>
 									<c:if test="${fn:contains(supplierTypeNames, '服务')}">
-										<li class='<c:if test="${liCountEng == 0 && liCountPro == 0 && liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer" /></c:if>'>
+										<li class='<c:if test="${liCountSell == 0 && liCountPro == 0 && liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer" /></c:if>'>
 											<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务专业信息</a>
 										</li>
 									</c:if>

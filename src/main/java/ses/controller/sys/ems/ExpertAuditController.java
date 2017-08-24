@@ -1,12 +1,15 @@
 package ses.controller.sys.ems;
 
 import bss.formbean.PurchaseRequiredFormBean;
+
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.utils.JdcgResult;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.profiles.activation.SystemPropertyProfileActivator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import ses.dao.ems.ExpertField;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -60,6 +64,7 @@ import ses.util.WordUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -1491,6 +1496,7 @@ public class ExpertAuditController{
 		map.put("PROJECT", 0);
 		map.put("SERVICE", 0);
 		map.put("ENG_INFO_ID", 0);
+		StringBuffer items=new StringBuffer();
 		if( reasonsList != null && reasonsList.size() > 0 ){
 			for (ExpertAudit e : reasonsList) {
 				if("six".equals(e.getSuggestType())){
@@ -1501,6 +1507,21 @@ public class ExpertAuditController{
 					}else{
 						tree = getTreeListByCategoryId(e.getAuditFieldId(), "ENG_INFO_ID");
 					}
+					String rootNode = tree.getRootNode();
+		        	String firstNode = tree.getFirstNode();
+		        	String secondNode = tree.getSecondNode();
+		        	if(rootNode !=null && rootNode !=""){
+		        		items.append(rootNode);
+		        	}
+		        	if(firstNode !=	null && firstNode !=""){
+		        		items.append("/" + firstNode); 
+		        	}
+		        	if(secondNode != null && secondNode !=""){
+		        		items.append("/" + secondNode); 
+		        	}
+		
+					e.setAuditContent(items.toString()+"/"+e.getAuditContent().replaceAll("目录信息", ""));
+					items.setLength(0);
 					map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
 					if("GOODS".equals(tree.getRootNodeCode())){
 						e.setAuditField("物资品目信息");
@@ -1518,11 +1539,10 @@ public class ExpertAuditController{
 		ExpertAuditOpinion selectEao = new ExpertAuditOpinion();
 		ExpertAuditOpinion auditOpinion = null;
 		selectEao.setExpertId(expertId);
-		if(sign != null && sign == 2){
-			selectEao.setFlagTime(1);
-			// 复审意见查询
-		}else {
+		if(sign != null && sign == 1){
 			selectEao.setFlagTime(0);
+		}else if (sign != null && sign == 2){
+			selectEao.setFlagTime(1);
 		}
 		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		int categoryCount=0;
@@ -1834,18 +1854,122 @@ public class ExpertAuditController{
         		expertTypeId.add(engInfoId);
         	}
         }
+        //记录选择的参评类别
         List<SupplierCateTree> itemsListAll = new ArrayList<SupplierCateTree>();
-        for(String typeId : expertTypeId){
-        	List<SupplierCateTree> itemsList = this.getItemsAll(expert.getId(), typeId);
-        	for(SupplierCateTree c : itemsList){
-        		itemsListAll.add(c);
-        	}
-        }		
-		
+        Integer num = 1;
+        Integer firstNode = 0;
+        Integer secondNode = 0;
+        Integer thirdNode = 0;
+        if(expertTypeId != null && expertTypeId.size() > 0){
+        	for(String typeId : expertTypeId){
+        		//物资
+            	if(typeId.equals(DictionaryDataUtil.getId("GOODS"))){
+            		num ++;
+            		SupplierCateTree supplierCateTree = new SupplierCateTree();
+                	supplierCateTree.setRootNode(toChinese(num)+"、物资");
+                	supplierCateTree.setItemsId(typeId);
+                	itemsListAll.add(supplierCateTree);
+                	//顺序查询出所有的参评类别
+                	List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+                	for (SupplierCateTree sct : clist) {
+                		Map<String, Object> map = new HashMap<>();
+        				map.put("categoryId", sct.getItemsId());
+        				map.put("typeId", typeId);
+                		Integer sctCount = expertCategoryService.findCountParent(map);
+                		String str = "";
+                		if(sctCount == 1){
+                			firstNode ++;
+                			str = "（"+toChinese(firstNode)+"）";
+                			secondNode = 0;
+                			thirdNode = 0;
+                		}else if(sctCount == 2){
+                			secondNode ++;
+                			str = secondNode+".";
+                			thirdNode = 0;
+                		}else if(sctCount == 3){
+                			thirdNode ++;
+                			str = "（"+thirdNode+"）";
+                		}
+                		sct.setRootNode(str + sct.getRootNode());
+					}
+                	firstNode = 0;
+                	itemsListAll.addAll(clist);
+            	}else if(typeId.equals(DictionaryDataUtil.getId("SERVICE"))){
+            		num ++;
+            		//服务
+            		SupplierCateTree supplierCateTree = new SupplierCateTree();
+                	supplierCateTree.setRootNode(toChinese(num)+"、服务");
+                	supplierCateTree.setItemsId(typeId);
+                	itemsListAll.add(supplierCateTree);
+                	//顺序查询出所有的参评类别
+                	List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+                	for (SupplierCateTree sct : clist) {
+                		Map<String, Object> map = new HashMap<>();
+        				map.put("categoryId", sct.getItemsId());
+        				map.put("typeId", typeId);
+                		Integer sctCount = expertCategoryService.findCountParent(map);
+                		String str = "";
+                		if(sctCount == 1){
+                			firstNode ++;
+                			str = "（"+toChinese(firstNode)+"）";
+                			secondNode = 0;
+                			thirdNode = 0;
+                		}else if(sctCount == 2){
+                			secondNode ++;
+                			str = secondNode+".";
+                			thirdNode = 0;
+                		}else if(sctCount == 3){
+                			thirdNode ++;
+                			str = "（"+thirdNode+"）";
+                		}
+                		sct.setRootNode(str + sct.getRootNode());
+					}
+                	firstNode = 0;
+                	itemsListAll.addAll(clist);
+            	}
+            }
+        }
+        
+        if(expertTypeId.contains(engInfoId)){
+        	num ++;
+        	SupplierCateTree supplierCateTree = new SupplierCateTree();
+        	supplierCateTree.setRootNode(toChinese(num)+"、工程");
+        	supplierCateTree.setItemsId(DictionaryDataUtil.getId("PROJECT"));
+        	itemsListAll.add(supplierCateTree);
+        	for(String typeId : expertTypeId){
+        		if(!typeId.equals(DictionaryDataUtil.getId("SERVICE")) && !typeId.equals(DictionaryDataUtil.getId("GOODS"))){
+        			//顺序查询出所有的参评类别
+        			List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+        			for (SupplierCateTree sct : clist) {
+        				Map<String, Object> map = new HashMap<>();
+        				map.put("categoryId", sct.getItemsId());
+        				map.put("typeId", typeId);
+                		Integer sctCount = expertCategoryService.findCountParent(map);
+                		String str = "";
+                		if(sctCount == 1){
+                			firstNode ++;
+                			str = "（"+toChinese(firstNode)+"）";
+                			secondNode = 0;
+                			thirdNode = 0;
+                		}else if(sctCount == 2){
+                			secondNode ++;
+                			str = secondNode+".";
+                			thirdNode = 0;
+                		}else if(sctCount == 3){
+                			thirdNode ++;
+                			str = "（"+thirdNode+"）";
+                		}
+                		sct.setRootNode(str + sct.getRootNode());
+					}
+        			itemsListAll.addAll(clist);
+        		}
+            }
+        }
+        
         /**
          * 拼接产品
          */
-        StringBuffer items = new StringBuffer();
+        /*StringBuffer items = new StringBuffer();
         for(SupplierCateTree cateTree : itemsListAll ){
         	String rootNode = cateTree.getRootNode();
         	String firstNode = cateTree.getFirstNode();
@@ -1865,12 +1989,13 @@ public class ExpertAuditController{
         	}
         	cateTree.setRootNode(items.toString());
         	items.delete(0, items.length());
-        }
-        
+        }*/
+
         /**
          * 比较勾选的产品是否通过审核
          */
         List < ExpertAudit > reasonsList = new ArrayList<ExpertAudit>();
+        List < ExpertAudit > categoryList = new ArrayList<ExpertAudit>();
     	for(SupplierCateTree cateTree : itemsListAll ){
     		//查询未通过审核的产品
     		ExpertAudit expertAudit = new ExpertAudit();
@@ -1890,7 +2015,7 @@ public class ExpertAuditController{
     			expertAudit1.setAuditField(cateTree.getRootNode());
     			expertAudit1.setAuditReason("通过");
     		}
-    		reasonsList.add(expertAudit1);
+    		categoryList.add(expertAudit1);
     		
     	}
     	
@@ -2016,7 +2141,7 @@ public class ExpertAuditController{
 		}
 		
 		dataMap.put("reasonsList", reasonsList);
-		
+		dataMap.put("categoryList", categoryList);
 		
 		/**
 		 * 专家签字模块（获取勾选的专家）复审
@@ -2845,5 +2970,40 @@ public class ExpertAuditController{
     	if(expertId != null){
     		expertAuditOpinionService.updateIsDownload(expertId);
     	}
+    }
+    
+    /**
+     * 
+     * Description: 数字转换中文
+     * 
+     * @author zhang shubin
+     * @data 2017年8月23日
+     * @param 
+     * @return
+     */
+    public String toChinese(Integer num){
+    	String[] units = { "", "十", "百", "千", "万", "十万", "百万", "千万", "亿",
+				"十亿", "百亿", "千亿", "万亿" };
+		char[] numArray = { '零', '一', '二', '三', '四', '五', '六', '七', '八', '九' };
+		char[] val = String.valueOf(num).toCharArray();
+		int len = val.length;
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < len; i++) {
+		String m = val[i] + "";
+		int n = Integer.valueOf(m);
+		boolean isZero = n == 0;
+		String unit = units[(len - 1) - i];
+		if (isZero) {
+		if ('0' == val[i - 1]) {
+		continue;
+		} else {
+		sb.append(numArray[n]);
+		}
+		} else {
+		sb.append(numArray[n]);
+		sb.append(unit);
+		}
+		}
+		return sb.toString();
     }
 }
