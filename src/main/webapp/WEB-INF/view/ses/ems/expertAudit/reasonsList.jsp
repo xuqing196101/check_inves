@@ -472,7 +472,7 @@
                         <th class="info">审批类型</th>
                         <th class="info">审批字段</th>
                         <th class="info">审批内容</th>
-                        <th class="info">不合格理由</th>
+                        <th class="info">审核理由</th>
                         <th class="info">审核时间</th>
                         <th class="info">状态</th>
                     </tr>
