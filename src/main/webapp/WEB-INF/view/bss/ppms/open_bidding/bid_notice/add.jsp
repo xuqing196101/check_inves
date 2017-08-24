@@ -454,7 +454,7 @@
 	                <u:upload id="c"  groups="a,c,e" businessId="${articleId}"  sysKey="${sysKey}" typeId="${typeId_examine}" auto="true" />
                   <u:show  showId="d"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${typeId_examine}"/>
               </li> --%>
-              <li class="col-md-3 col-sm-6 col-xs-12 pl15 mt5">
+              <li class="col-md-6 col-sm-6 col-xs-12 pl15 mt5">
 	              <span class="fl" >单位及保密委员会审核表： </span>
 	                <u:upload id="e" exts="png,jpeg,jpg,bmp" groups="a,c,f" multiple="true" businessId="${articleId}"  sysKey="${sysKey}" typeId="${security}" auto="true" />
                   <u:show  showId="f"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${security}"/>
