@@ -923,12 +923,18 @@
 	
 	//控制省市附件的显示与隐藏
 	function disAreaFile(obj){
+		var currSupplierSt = '${currSupplier.status}';
+		var engPageField = '${engPageField}';
 		$(obj).find("option").each(function(i,element){
-			if (element.selected == true) {
-				$("#area_" + element.value).show();
-				init_web_upload();
-			} else {
-				$("#area_" + element.value).hide();
+			if (currSupplierSt == '2' && engPageField.indexOf(element.text) < 0) {
+				return true;
+			}else{
+				if (element.selected == true) {
+					$("#area_" + element.value).show();
+					init_web_upload();
+				} else {
+					$("#area_" + element.value).hide();
+				}
 			}
 		});
 	}
