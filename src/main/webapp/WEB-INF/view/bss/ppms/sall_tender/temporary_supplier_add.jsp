@@ -233,7 +233,7 @@ function sumbits(){
       <li class="col-md-3 col-sm-6 col-xs-12 ">
         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>密码：</span>
          <div class="input-append input_group col-sm-12 col-xs-12 p0">
-          <input class="title col-md-12" id="appendedInput" name="loginPwd" value="${loginPwd}" maxlength="11" type="password" onblur="checkPwd()">
+          <input class="title col-md-12" id="appendedInput" autocomplete="new-password" name="loginPwd" value="${loginPwd}" maxlength="11" type="password" onblur="checkPwd()">
           <span class="add-on">i</span>
           <div class="cue" >${loginPwdError}</div>
         </div>

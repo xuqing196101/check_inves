@@ -677,10 +677,11 @@
 				 }
 				 else{
 					 layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
-					 
-					
 				 }
-				} 
+				}
+                $("#detailZeroRow tr").each(function(index){
+                    $(this).find("td:eq(0)").text(index+1);
+                });
 				/* 	var detailRow = document.getElementsByName("detailRow");
 				if(detailRow.length!=0){
 					for(var i=0;i<detailRow.length;i++){

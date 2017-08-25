@@ -123,7 +123,10 @@
          //只有审核的状态能审核
         if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
-					var auditContent = "证书名称为:" + str + "的信息";
+					var auditContent = "证书名称为：";
+					if(str){
+						auditContent = "证书名称为：" + str + "的信息";
+					}
 					var index = layer.prompt({
 							title: '请填写不通过的理由：',
 							formType: 2,
@@ -230,7 +233,10 @@
          //只有审核的状态能审核
         if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
-					var auditContent = "证书名称：" + str + "的信息";
+					var auditContent = "证书名称为：";
+					if(str){
+						auditContent = "证书名称为：" + str + "的信息";
+					}
 					var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
@@ -334,17 +340,24 @@
 			}
 
 			//工程
-			function reasonEngineering(id, auditContent, str) {
+			function reasonEngineering(id, auditFieldName, str) {
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
         if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 	        var supplierId = $("#supplierId").val();
-					var auditFieldName = auditContent.replace("信息", "");
+					//auditFieldName = auditFieldName.replace("信息", "");
+					var auditContent = "";
 					if(auditFieldName == "工程-注册人员登记"){
-						var auditContent = "注册名称为：" + str +"的信息";
+						auditContent = "注册名称为：";
+						if(str){
+							auditContent = "注册名称为：" + str +"的信息";
+						}
 					}else{
-						var auditContent = "证书编号为：" + str +"的信息";
+						auditContent = "证书编号为：";
+						if(str){
+							auditContent = "证书编号为：" + str +"的信息";
+						}
 					}
 					
 					var index = layer.prompt({
@@ -498,7 +511,10 @@
          //只有审核的状态能审核
         if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
-					var auditContent = "资质证书名称为：" + str +"的信息";
+					var auditContent = "证书名称为：";
+					if(str){
+						auditContent = "证书名称为：" + str +"的信息";
+					}
 					var index = layer.prompt({
 							title: '请填写不通过的理由：',
 							formType: 2,
@@ -1276,7 +1292,7 @@
 														<u:show showId="eng_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
 													</td> --%>
 													<td class="tc w50">
-														<p onclick="reasonEngineering('${s.id}','工程-资质证书','${s.certCode}');" id="${s.id}_hidden" class="editItem toinline"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+														<p onclick="reasonEngineering('${s.id}','工程-资质（认证）证书信息','${s.certCode}');" id="${s.id}_hidden" class="editItem toinline"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
 														<a id="${s.id }_show" class="hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 													
 														<c:if test="${fn:contains(passedEngField,s.id)}">
@@ -1348,7 +1364,7 @@
 													</td>
 														<td class="tc w50">
 														
-															<p onclick="reasonEngineering('${s.id}','工程-资质资格证书','${s.certCode}');" id="${s.id}_hidden1" class="editItem toinline"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+															<p onclick="reasonEngineering('${s.id}','工程-资质证书详细信息','${s.certCode}');" id="${s.id}_hidden1" class="editItem toinline"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
 															<a id="${s.id }_show1" class="hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 														
 															<c:if test="${fn:contains(passedEngField,s.id)}">
