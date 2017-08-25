@@ -16,7 +16,7 @@
         $(function () {
             //审核按钮状态
             var num = ${num};
-            var notCategoryNum=${notCategoryNum};
+          //  var notCategoryNum=${notCategoryNum};
             var qualified=${qualified};
             if (num == 0) {
                 if('${status}' != -2 && '${status}' != -3){
@@ -27,16 +27,16 @@
             }
             if (num != 0) {
                 //$("#tongguo").attr("disabled", true);
-                if(notCategoryNum == 0){
+                //if(notCategoryNum == 0){
                 	if(qualified){
                 		$("#qualified").attr("disabled", false);
                 	}else{
                 		$("#qualified").attr("disabled", true);
                 	}
-                }else{
+                /* }else{
                 	$("#qualified").attr("disabled", true);
-                }
-                
+                }*/
+                 
             }
             if($("#status").val() == '15' || $("#status").val() == '1' || $("#status").val() == '16' || $("#status").val() == '2'){
             	$("#expdown").css("display","block");

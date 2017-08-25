@@ -992,7 +992,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 					List<SupplierItemCategoryBean> sicList_service = this.getSupplierItemCategoryList(supplierId, "SERVICE");
 					removeSameSic(sicList_service);
 					//根据品目id查询所有的证书信息
-					serviceQua = supplierService.getQualificationList(sicList_service, 1);
+					serviceQua = supplierService.getQualificationList(sicList_service, 2);
 				}
 			}
 		}

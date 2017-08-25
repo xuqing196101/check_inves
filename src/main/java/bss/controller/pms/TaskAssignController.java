@@ -19,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
@@ -205,6 +207,26 @@ public class TaskAssignController extends BaseController{
 //		}
 		
 		return "redirect:list.html";
+	}
+	/**
+	 * 
+		 * @Title: checkAuditNo
+		 * @author: Zhou Wei
+		 * @date: 2017年8月24日 下午5:30:02
+		 * @Description: 采购任务文号唯一校验 
+		 * @return: String
+	 */
+	@RequestMapping("/checkAuditNo")
+	@ResponseBody
+	public String checkAuditNo(String documentNumber){
+		Task task = new Task();
+		task.setDocumentNumber(documentNumber);
+		boolean flag =taskservice.verify(task);
+		if (!flag) {
+			return "exist";
+		}else {
+			return "noexist";
+		}
 	}
 	
 	public String getRandomString() { //length表示生成字符串的长度  

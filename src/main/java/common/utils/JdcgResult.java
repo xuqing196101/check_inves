@@ -194,4 +194,10 @@ public class JdcgResult implements Serializable {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "JdcgResult [count=" + count + ", sum=" + sum + ", status=" + status + ", msg=" + msg + ", data=" + data
+				+ "]";
+	}
+
 }

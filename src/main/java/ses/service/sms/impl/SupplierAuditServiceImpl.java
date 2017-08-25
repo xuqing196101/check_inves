@@ -838,21 +838,21 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * @return
 	 */
 	private List<Qualification> isQualificationsCateTree(SupplierCateTree cateTree,
-			Integer type,String type_id,Integer syskey){
+			Integer type,String type_id,Integer typeService){
 		List<Qualification> tempList=null;
 		List<Qualification> qulist=new ArrayList<>();
 		List<CategoryQua> quaList=null;
-		//type:4(工程) 3（销售） 2（生产）1（服务）
+		//type:4(工程不存在) 3（销售） 2（生产）1（服务）
 		//专业资质 要求 有可能是末节节点 有可能是其他节点
 		if(StringUtils.isNotBlank(cateTree.getFourthNodeID())){
 			quaList= categoryQuaMapper.findListSupplier(cateTree.getFourthNodeID(), type);
 			Map<String, Object> map=new HashMap<>();
 			map.put("supplierId", cateTree.getItemsId());
 			map.put("categoryId", cateTree.getFourthNodeID());
-			map.put("type", isType(type));
+			map.put("type", isType(typeService));
 			//根据第4节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 			List<SupplierItem> itemList=supplierItemService.findByMap(map);
-			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type, type_id, syskey);
+			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type);
 			qulist.addAll(tempList);
 		}
 		if(StringUtils.isNotBlank(cateTree.getThirdNodeID())){
@@ -860,10 +860,10 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			Map<String, Object> map=new HashMap<>();
 			map.put("supplierId", cateTree.getItemsId());
 			map.put("categoryId", cateTree.getThirdNodeID());
-			map.put("type", isType(type));
+			map.put("type", isType(typeService));
 			//根据第4节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 			List<SupplierItem> itemList=supplierItemService.findByMap(map);
-			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type, type_id, syskey);
+			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type);
 			qulist.addAll(tempList);
 		}
 		if(StringUtils.isNotBlank(cateTree.getSecondNodeID())){
@@ -871,10 +871,10 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			Map<String, Object> map=new HashMap<>();
 			map.put("supplierId", cateTree.getItemsId());
 			map.put("categoryId", cateTree.getSecondNodeID());
-			map.put("type", isType(type));
+			map.put("type", isType(typeService));
 			//根据第4节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 			List<SupplierItem> itemList=supplierItemService.findByMap(map);
-			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type, type_id, syskey);
+			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type);
 			qulist.addAll(tempList);
 		}
 		if(StringUtils.isNotBlank(cateTree.getFirstNodeID()) ){
@@ -882,10 +882,10 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			Map<String, Object> map=new HashMap<>();
 			map.put("supplierId", cateTree.getItemsId());
 			map.put("categoryId", cateTree.getFirstNodeID());
-			map.put("type", isType(type));
+			map.put("type", isType(typeService));
 			//根据第4节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 			List<SupplierItem> itemList=supplierItemService.findByMap(map);
-			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type, type_id, syskey);
+			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type);
 			qulist.addAll(tempList);
 		}
 		return qulist;
@@ -900,7 +900,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * @return
 	 */
 	private List<Qualification> pottingQualificationsDate(List<SupplierItem> itemList,List<CategoryQua> quaList,
-			SupplierCateTree cateTree,Integer type,String type_id,Integer syskey){
+			SupplierCateTree cateTree,Integer type){
 		List<Qualification> list=new ArrayList<>();
 		//资质文件：物资生产/物资销售/服务  审核字段存储：目录三级节点ID关联的SupplierItem的ID
 		Qualification qualification=null;
@@ -934,8 +934,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		return list;
 	}
 	@Override
-	public List<Qualification> showQualifications(SupplierCateTree cateTree,Integer type,String type_id,Integer syskey) {
-		return isQualificationsCateTree(cateTree, type, type_id, syskey);
+	public List<Qualification> showQualifications(SupplierCateTree cateTree,Integer type,String type_id,Integer typeService) {
+		return isQualificationsCateTree(cateTree, type, type_id, typeService);
 	}
 	/**
 	 * 
@@ -1039,7 +1039,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 	@Override
 	public List<SupplierCateTree> showProject(SupplierCateTree cateTree,
-			Integer type, String type_id, Integer syskey) {
+			Integer type, String type_id) {
 		List<SupplierCateTree> cateList=new ArrayList<>();
 		List<SupplierItem> itemsList=getProject(cateTree, type,cateTree.getSupplierItemId());//supplierItemService.findByMap(map);
 		//--工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
@@ -1746,6 +1746,9 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 				break;
 			case "PROJECT"://工程类
 				rut=4;
+				break;
+			case "SERVICE"://工程类
+				rut=2;
 				break;
 		}
 		return  rut;

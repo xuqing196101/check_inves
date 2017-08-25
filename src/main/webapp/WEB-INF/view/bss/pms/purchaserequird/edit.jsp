@@ -48,6 +48,7 @@
 	function referenceNO(){
         var referenceNO = $("#referenceNo").val();
         if(referenceNO == ''){
+        	layer.msg("采购需求文号不能为空");
             return;
         }        
         $.ajax({
@@ -347,13 +348,37 @@
          } 
 	     
 	      function submit(){
-	    	  
+	    	  var refNo=$("#referenceNo").val();
 	    	  var name=$("#jhmc").val();
+	    	  var flag = true;
 	    	  if($.trim(name) == "") {
 					 layer.alert("需求名称不允许为空"); 
 					 return false;
 				}
-	    	   var dy=dyly(); 
+             /*  if($.trim(refNo) == "") {
+                     layer.alert("需求文号不允许为空"); 
+                     return false;
+                } */
+              $.ajax({
+                  url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
+                  data:{
+                      "referenceNO":refNo
+                  },
+                  success: function(data) {
+                      if(data.data >= 1){
+                          $("#referenceNo").val("");
+                          layer.alert("采购需求文号已存在");
+                          
+                          flag=false;
+                      }else{
+                          flag=true;
+                      }
+                  }
+              });
+              
+              
+	    	   var dy=dyly();
+	    	   
 	    	  
 	    	 /*  $("#detailZeroRow tr").each(function(i){
                  var  type= $(this).find("td:eq(11)").children(":last").text();//上级id
@@ -380,7 +405,7 @@
 				   return false;
 			   }
 	    	  var no=$("#jhbh").val();
-	    	  var refNo=$("#referenceNo").val();
+	    	  
 	    	  var type=$("#wtype").val();
 	    	  var mobile=$("#rec_mobile").val();
 	    	  var uniqueId=$("#uniqueId").val();
@@ -393,8 +418,9 @@
 	    	$.each(delId,function(i,n){
 	    		deleteRow(n);
 	    	});
+	    	
 	    	 /* if($("#table tr").length>$("#listSize").val()){ */
-	    	 var flag = true;
+	    	
 	    		 var jsonStr = [];
 	 			 $("#table tr").each(function(i){ //遍历Table的所有Row
 	 					 if(i>0){  //&&i<=$("#listSize").val()
@@ -1082,7 +1108,7 @@
 
 
 				<li class="col-md-3 col-sm-6 col-xs-12"><span
-					class="col-md-12 padding-left-5 col-sm-12 col-xs-12">录入人手机号</span>
+					class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>录入人手机号</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input type="text" class="input_group" id="rec_mobile"
 							name="mobile" value="${list[0].recorderMobile }"> <span
@@ -1182,7 +1208,7 @@
 					</thead>
 					<form id="edit_form"
 						action="${pageContext.request.contextPath}/purchaser/update.html"
-						method="post">
+						method="post" >
 						<input type="hidden" id="listSize" value="${listSize }" />
 						<tbody id="detailZeroRow">
 							<c:forEach items="${list }" var="obj" varStatus="vs">
@@ -1329,19 +1355,20 @@
 
 							</c:forEach>
 
-							<input type="hidden" name="planName">
-							<input type="hidden" name="planNo">
-							<input type="hidden" id="planNo" value="${planNo }">
-							<input type="hidden" name="planType">
-							<input type="hidden" name="mobile">
+							<input type="hidden" name="planName"/>
+							<input type="hidden" name="planNo"/>
+							<input type="hidden" id="planNo" value="${planNo }"/>
+							<input type="hidden" name="planType"/>
+							<input type="hidden" name="mobile"/>
 							<input type="hidden" name="referenceNo" />
 							<input type="hidden" name="delobjId" />
 					</form>
+					
 				</table>
 			</div>
 			<div class="col-md-12  mt10 col-sm-12 col-xs-12 tc">
 				<input class="btn btn-windows git" type="button" onclick="submit()"
-					value="保存"> <input class="btn btn-windows back" value="返回"
+					value="保存"><input class="btn btn-windows back" value="返回"
 					type="button" onclick="location.href='javascript:history.go(-1);'">
 			</div>
 
