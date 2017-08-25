@@ -2606,7 +2606,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			model.addAttribute("supplierId", supplierId);
 			model.addAttribute("ids", ids-1);
 			model.addAttribute("tablerId", tablerId);
-			setModifyField(model, supplierId, true);
+			setModifyField(model, supplierId, cateTree, true);
 			return "ses/sms/supplier_audit/aptitude_project_item";
 		}else if("content_4".equals(tablerId)){
 			//封装 供应商id  服务
@@ -2646,7 +2646,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 		}
 		
-		setModifyField(model, supplierId, false);
+		setModifyField(model, supplierId, cateTree, false);
 		
 		model.addAttribute("sysKey", sysKey);
 		model.addAttribute("typeId", typeId);
@@ -2657,7 +2657,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		return "ses/sms/supplier_audit/aptitude_material_item";
 	}
 	
-	private void setModifyField(Model model, String supplierId, boolean isEng){
+	private void setModifyField(Model model, String supplierId, SupplierCateTree cateTree, boolean isEng){
 		Supplier supplier = supplierService.selectById(supplierId);
 		// 退回修改附件
 		if(supplier != null && supplier.getStatus() != null && (supplier.getStatus() == 0 || supplier.getStatus() == 9)) {
@@ -2682,6 +2682,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				supplierModify.setSupplierId(supplierId);
 				supplierModify.setModifyType("mat_eng_page");
 				supplierModify.setListType(9);// 工程资质
+				supplierModify.setRelationId(cateTree.getSupplierAptitute().getId());
 				List < SupplierModify > fieldList = supplierModifyService.selectBySupplierId(supplierModify);
 				StringBuffer field = new StringBuffer();
 				for(int i = 0; i < fieldList.size(); i++) {
