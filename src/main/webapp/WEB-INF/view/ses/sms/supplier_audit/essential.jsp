@@ -49,9 +49,12 @@
                 $(this).find("p").hide();
             });
 
-
             $("td").each(function () {
                 $(this).find("a").eq(0).hide();
+            });
+            
+            $("input[type='text']").each(function(){
+            	$(this).attr("title", $(this).val());
             });
         });
 
@@ -334,6 +337,7 @@
             }
           });
         }
+        
     </script>
 
     <script type="text/javascript">
