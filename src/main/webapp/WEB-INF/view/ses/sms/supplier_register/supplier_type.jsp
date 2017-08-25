@@ -923,9 +923,13 @@
 	
 	//控制省市附件的显示与隐藏
 	function disAreaFile(obj){
-		var currSupplierSt = '${currSupplier.status}';
-		var engPageField = '${engPageField}';
+		var currSupplierSt = "${currSupplier.status}";
+		var engPageField = "${engPageField}";
+		var businessScope = "${currSupplier.supplierMatEng.businessScope}";
 		$(obj).find("option").each(function(i,element){
+			if (currSupplierSt == '2' && engPageField.indexOf(element.text) < 0 && businessScope.indexOf(element.value) >= 0) {
+				element.selected = true;
+			}
 			if (currSupplierSt == '2' && engPageField.indexOf(element.text) < 0) {
 				return true;
 			}else{
