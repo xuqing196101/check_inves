@@ -1698,24 +1698,25 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		if(null!=itemsList && !itemsList.isEmpty()){
 			for (SupplierItem supplierItem : itemsList) {
 				SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierItem.getSupplierId());
-			if(null !=  matEng || StringUtils.isNotBlank(supplierItem.getCertCode()) || StringUtils.isNotBlank(supplierItem.getProfessType())){
-				List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), supplierItem.getCertCode(), supplierItem.getProfessType());
-				if(certEng != null && !certEng.isEmpty()) {
-					ids=ids+supplierItem.getCategoryId()+",";
-					/*rut=rut+uploadService.countFileByBusinessId(certEng.get(0).getId(), type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
-					if(rut>0){*/
-						temp=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE);
-			        		if(temp>0){
-			        			product+=temp;
-			        		}
-			        		temp=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_SALES_PAGE);
-			        		if(temp>0){
-			        			sales+=temp;
-			        		}
-					  }
-				/*}*/
-				
-			}
+				if(null !=  matEng || StringUtils.isNotBlank(supplierItem.getCertCode()) || StringUtils.isNotBlank(supplierItem.getProfessType())){
+					List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), supplierItem.getCertCode(), supplierItem.getProfessType());
+					if(certEng != null && !certEng.isEmpty()) {
+						ids=ids+supplierItem.getCategoryId()+",";
+						/*rut=rut+uploadService.countFileByBusinessId(certEng.get(0).getId(), type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
+						if(rut>0){*/
+							temp=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE);
+				        		if(temp>0){
+				        			product+=temp;
+				        		}
+				        		temp=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_SALES_PAGE);
+				        		if(temp>0){
+				        			sales+=temp;
+				        		}
+						  }
+					/*}*/
+					// 工程资质是否修改
+					cateTree.setIsEngAptitudeModified(isEngAptitudeModified(supplierItem, matEng.getListSupplierAptitutes()) ? (byte)1 : (byte)0);
+				}
 			}
 		}
         
@@ -1870,6 +1871,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 								productCount=productCount+tempCount;
 							}
 						}
+						// 资质是否修改
 						String businessId = supplierItem.getId()+categoryQua.getId();
 						if(fileModifyField.indexOf(businessId) > -1){
 							cateTree.setIsAptitudeModified((byte)1);
@@ -2032,5 +2034,50 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		return result;
 	}
 
+	private boolean isEngAptitudeModified(SupplierItem supplierItem, List<SupplierAptitute> aptitudes) {
+		String supplierId = supplierItem.getSupplierId();
+		Supplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
+		// 退回修改附件和字段
+		if(supplier != null && supplier.getStatus() != null && (supplier.getStatus() == 0 || supplier.getStatus() == 9)) {
+			SupplierModify supplierFileModify = new SupplierModify();
+			supplierFileModify.setSupplierId(supplierId);
+			supplierFileModify.setModifyType("file");
+			StringBuffer fileModifyField = new StringBuffer();
+			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+			for(SupplierModify m : fileModify){
+				if(m.getRelationId() != null){
+					fileModifyField.append(m.getRelationId() + ",");
+				}
+			}
+			SupplierModify supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
+			supplierModify.setModifyType("mat_eng_page");
+			supplierModify.setListType(9);// 工程资质
+			List < SupplierModify > fieldList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer field = new StringBuffer();
+			for(int i = 0; i < fieldList.size(); i++) {
+				String beforeField = fieldList.get(i).getBeforeField();
+				field.append(beforeField + ",");
+			}
+			
+			if(aptitudes != null && aptitudes.size() > 0){
+				for(SupplierAptitute aptitude : aptitudes){
+					if(aptitude.getCertType() != null && aptitude.getCertType().equals(supplierItem.getQualificationType())
+							&& aptitude.getCertCode() != null && aptitude.getCertCode().equals(supplierItem.getCertCode())
+							&& aptitude.getProfessType() != null && aptitude.getProfessType().equals(supplierItem.getProfessType())
+							&& aptitude.getAptituteLevel() != null && aptitude.getAptituteLevel().equals(supplierItem.getLevel())){
+						if(fileModifyField.indexOf(aptitude.getId()) > -1 
+								|| field.indexOf("certType") > -1
+								|| field.indexOf("certCode") > -1
+								|| field.indexOf("professType") > -1
+								|| field.indexOf("aptituteLevel") > -1){
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 }

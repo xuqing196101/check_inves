@@ -2459,18 +2459,16 @@ public class SupplierAuditController extends BaseSupplierController {
                 	//--工程  	审核字段存储：末级节点ID关联的SupplierItem的ID
                 	cateTree=supplierAuditService.countEngCategoyrId(cateTree, supplierId);
                 }else{
-                    //供应商物资 专业资质要求上传
-                	//--物资生产/物资销售/服务 	审核字段存储：三级节点ID关联的SupplierItem的ID
-                	cateTree=supplierAuditService.countCategoyrId(cateTree,supplierId,supplierType);
+					//供应商物资 专业资质要求上传
+					//--物资生产/物资销售/服务 	审核字段存储：三级节点ID关联的SupplierItem的ID
+					cateTree=supplierAuditService.countCategoyrId(cateTree,supplierId,supplierType);
+					//是否有销售合同
+					cateTree=supplierService.contractCountCategoyrId(cateTree,supplierItem);
+					//封装 是否有审核 目录 和 销售 合同数据
+					cateTree=supplierAuditService.cateTreePotting(cateTree,supplierId);
+					// 合同是否修改
+					cateTree.setIsContractModified(supplierAuditService.isContractModified(supplierItem.getSupplierId(), supplierItem.getId()) ? (byte)1 : (byte)0);
                 }
-                //是否有销售合同
-                cateTree=supplierService.contractCountCategoyrId(cateTree,supplierItem);
-                //封装 是否有审核 目录 和 销售 合同数据
-                cateTree=supplierAuditService.cateTreePotting(cateTree,supplierId);
-                
-                // 合同是否修改
-        		cateTree.setIsContractModified(supplierAuditService.isContractModified(supplierItem.getSupplierId(), supplierItem.getId()) ? (byte)1 : (byte)0);
-                
                 cateTreeList.add(cateTree);
             }
         }
@@ -2608,6 +2606,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			model.addAttribute("supplierId", supplierId);
 			model.addAttribute("ids", ids-1);
 			model.addAttribute("tablerId", tablerId);
+			setModifyField(model, supplierId, true);
 			return "ses/sms/supplier_audit/aptitude_project_item";
 		}else if("content_4".equals(tablerId)){
 			//封装 供应商id
@@ -2647,21 +2646,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 		}
 		
-		Supplier supplier = supplierService.selectById(supplierId);
-		// 退回修改附件
-		if(supplier != null && supplier.getStatus() != null && (supplier.getStatus() == 0 || supplier.getStatus() == 9)) {
-			SupplierModify supplierFileModify = new SupplierModify();
-			supplierFileModify.setSupplierId(supplierId);
-			supplierFileModify.setModifyType("file");
-			StringBuffer fileModifyField = new StringBuffer();
-			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
-			for(SupplierModify m : fileModify){
-				if(m.getBeforeField() != null){
-					fileModifyField.append(m.getBeforeField() + ",");
-				}
-			}
-			model.addAttribute("fileModifyField", fileModifyField);
-		}
+		setModifyField(model, supplierId, false);
 		
 		model.addAttribute("sysKey", sysKey);
 		model.addAttribute("typeId", typeId);
@@ -2671,6 +2656,44 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("tablerId", tablerId);
 		return "ses/sms/supplier_audit/aptitude_material_item";
 	}
+	
+	private void setModifyField(Model model, String supplierId, boolean isEng){
+		Supplier supplier = supplierService.selectById(supplierId);
+		// 退回修改附件
+		if(supplier != null && supplier.getStatus() != null && (supplier.getStatus() == 0 || supplier.getStatus() == 9)) {
+			SupplierModify supplierFileModify = new SupplierModify();
+			supplierFileModify.setSupplierId(supplierId);
+			supplierFileModify.setModifyType("file");
+			StringBuffer fileModifyField = new StringBuffer();
+			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+			for(SupplierModify m : fileModify){
+				if(isEng){
+					if(m.getRelationId() != null){
+						fileModifyField.append(m.getRelationId() + ",");
+					}
+				}else{
+					if(m.getBeforeField() != null){
+						fileModifyField.append(m.getBeforeField() + ",");
+					}
+				}
+			}
+			if(isEng){
+				SupplierModify supplierModify = new SupplierModify();
+				supplierModify.setSupplierId(supplierId);
+				supplierModify.setModifyType("mat_eng_page");
+				supplierModify.setListType(9);// 工程资质
+				List < SupplierModify > fieldList = supplierModifyService.selectBySupplierId(supplierModify);
+				StringBuffer field = new StringBuffer();
+				for(int i = 0; i < fieldList.size(); i++) {
+					String beforeField = fieldList.get(i).getBeforeField();
+					field.append(beforeField + ",");
+				}
+				model.addAttribute("field", field);
+			}
+			model.addAttribute("fileModifyField", fileModifyField);
+		}
+	}
+	
 	/**
 	 * @Title: aptitude
 	 * @author XuQing 
