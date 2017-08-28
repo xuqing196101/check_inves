@@ -1866,7 +1866,6 @@
 							</w:p>
 						</w:tc>
 					</w:tr>
-					<#list reasonsList as reasons >
 					<w:tr wsp:rsidR="006B557B" wsp:rsidRPr="007324D4" wsp:rsidTr="00A01A6A">
 						<w:tblPrEx>
 							<w:tblBorders>
@@ -1904,7 +1903,7 @@
 										<wx:font wx:val="宋体" />
 										<w:sz w:val="18" />
 										<w:sz-cs w:val="18" /></w:rPr>
-									<w:t>${reasons.auditField}</w:t>
+									<w:t>一、基本情况</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -1932,12 +1931,12 @@
 										<wx:font wx:val="宋体" />
 										<w:sz w:val="18" />
 										<w:sz-cs w:val="18" /></w:rPr>
-									<w:t>${reasons.auditReason}</w:t>
+									<w:t>${expertAuditReason}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
 					</w:tr>
-					</#list>
+
 					
 					<#list categoryList as category >
 					<w:tr wsp:rsidR="006B557B" wsp:rsidRPr="007324D4" wsp:rsidTr="00A01A6A">

@@ -1,9 +1,11 @@
 package ses.dao.sms;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.sms.SupplierCategoryOpinion;
 import ses.model.sms.SupplierTypeRelate;
 
 /**
@@ -97,4 +99,15 @@ public interface SupplierTypeRelateMapper {
      * @return
      */
     List<String> findTypeBySupplierId(@Param("supplierId")String supplierId);
+    
+    /**
+	 * 
+	 * Description: 查询供应商所有的参评类别
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年8月25日
+	 * @param 
+	 * @return
+	 */
+	public List<SupplierCategoryOpinion> findSupplierCategoryByTypeId(Map<String, Object> map);
 }

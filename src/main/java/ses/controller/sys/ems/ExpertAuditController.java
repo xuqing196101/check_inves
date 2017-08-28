@@ -1522,16 +1522,19 @@ public class ExpertAuditController{
 		
 					e.setAuditContent(items.toString()+"/"+e.getAuditContent().replaceAll("目录信息", ""));
 					items.setLength(0);
-					map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
-					if("GOODS".equals(tree.getRootNodeCode())){
-						e.setAuditField("物资品目信息");
-					}else if("PROJECT".equals(tree.getRootNodeCode())){
-						e.setAuditField("工程品目信息");
-					}else if("SERVICE".equals(tree.getRootNodeCode())){
-						e.setAuditField("服务品目信息");
-					}else if("ENG_INFO_ID".equals(tree.getRootNodeCode())){
-						e.setAuditField("工程专业属性");
+					if(tree != null && tree.getRootNodeCode() != null){
+						map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
+						if("GOODS".equals(tree.getRootNodeCode())){
+							e.setAuditField("物资品目信息");
+						}else if("PROJECT".equals(tree.getRootNodeCode())){
+							e.setAuditField("工程品目信息");
+						}else if("SERVICE".equals(tree.getRootNodeCode())){
+							e.setAuditField("服务品目信息");
+						}else if("ENG_INFO_ID".equals(tree.getRootNodeCode())){
+							e.setAuditField("工程专业属性");
+						}
 					}
+					
 				}
 			}
 		}
@@ -1804,7 +1807,16 @@ public class ExpertAuditController{
 		StringBuffer expertType = new StringBuffer();
 		if(expert.getExpertsTypeId() !=null && expert.getExpertsTypeId() !=""){
 			for(String typeId: expert.getExpertsTypeId().split(",")) {
-				expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+				ExpertAudit expertAudit = new ExpertAudit();
+				expertAudit.setExpertId(expert.getId());
+				expertAudit.setAuditFieldId(typeId);
+				expertAudit.settype("1");
+				List<ExpertAudit> expertauList = expertAuditService.selectFailByExpertId(expertAudit);
+				if(expertauList != null && expertauList.size() > 0){
+					expertType.append("");
+				}else{
+					expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+				}
 			}
 		}
 		dataMap.put("professTechTitles", expert.getProfessTechTitles() == null ? "" : expert.getProfessTechTitles());
@@ -1899,38 +1911,6 @@ public class ExpertAuditController{
 					}
                 	firstNode = 0;
                 	itemsListAll.addAll(clist);
-            	}else if(typeId.equals(DictionaryDataUtil.getId("SERVICE"))){
-            		num ++;
-            		//服务
-            		SupplierCateTree supplierCateTree = new SupplierCateTree();
-                	supplierCateTree.setRootNode(toChinese(num)+"、服务");
-                	supplierCateTree.setItemsId(typeId);
-                	itemsListAll.add(supplierCateTree);
-                	//顺序查询出所有的参评类别
-                	List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
-                	for (SupplierCateTree sct : clist) {
-                		Map<String, Object> map = new HashMap<>();
-        				map.put("categoryId", sct.getItemsId());
-        				map.put("typeId", typeId);
-                		Integer sctCount = expertCategoryService.findCountParent(map);
-                		String str = "";
-                		if(sctCount == 1){
-                			firstNode ++;
-                			str = "（"+toChinese(firstNode)+"）";
-                			secondNode = 0;
-                			thirdNode = 0;
-                		}else if(sctCount == 2){
-                			secondNode ++;
-                			str = secondNode+".";
-                			thirdNode = 0;
-                		}else if(sctCount == 3){
-                			thirdNode ++;
-                			str = "（"+thirdNode+"）";
-                		}
-                		sct.setRootNode(str + sct.getRootNode());
-					}
-                	firstNode = 0;
-                	itemsListAll.addAll(clist);
             	}
             }
         }
@@ -1966,10 +1946,50 @@ public class ExpertAuditController{
                 		}
                 		sct.setRootNode(str + sct.getRootNode());
 					}
+        			firstNode = 0;
         			itemsListAll.addAll(clist);
         		}
             }
         }
+        
+        if(expertTypeId != null && expertTypeId.size() > 0){
+        	for(String typeId : expertTypeId){
+        		if(typeId.equals(DictionaryDataUtil.getId("SERVICE"))){
+            		num ++;
+            		//服务
+            		SupplierCateTree supplierCateTree = new SupplierCateTree();
+                	supplierCateTree.setRootNode(toChinese(num)+"、服务");
+                	supplierCateTree.setItemsId(typeId);
+                	itemsListAll.add(supplierCateTree);
+                	//顺序查询出所有的参评类别
+                	List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+                	for (SupplierCateTree sct : clist) {
+                		Map<String, Object> map = new HashMap<>();
+        				map.put("categoryId", sct.getItemsId());
+        				map.put("typeId", typeId);
+                		Integer sctCount = expertCategoryService.findCountParent(map);
+                		String str = "";
+                		if(sctCount == 1){
+                			firstNode ++;
+                			str = "（"+toChinese(firstNode)+"）";
+                			secondNode = 0;
+                			thirdNode = 0;
+                		}else if(sctCount == 2){
+                			secondNode ++;
+                			str = secondNode+".";
+                			thirdNode = 0;
+                		}else if(sctCount == 3){
+                			thirdNode ++;
+                			str = "（"+thirdNode+"）";
+                		}
+                		sct.setRootNode(str + sct.getRootNode());
+        			}
+                	firstNode = 0;
+                	itemsListAll.addAll(clist);
+            	}
+        	}
+        }
+        
         
         /**
          * 拼接产品
@@ -2016,6 +2036,27 @@ public class ExpertAuditController{
         			String reason = audit.getAuditReason();
         			expertAudit1.setAuditReason("不通过。原因：" + reason);
     			}
+    		}else if(expertTypeId.contains(cateTree.getItemsId())){
+    			ExpertAudit expertAudit22 = new ExpertAudit();
+				expertAudit22.setExpertId(expert.getId());
+				expertAudit22.setAuditFieldId(cateTree.getItemsId());
+				expertAudit22.settype("1");
+				List<ExpertAudit> expertauList = expertAuditService.selectFailByExpertId(expertAudit22);
+				if(expertauList != null && expertauList.size() > 0){
+					ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+					expertAuditOpinion.setExpertId(expert.getId());
+					if("1".equals(tableType)){
+						expertAuditOpinion.setFlagTime(0);
+					}else if("2".equals(tableType)){
+						expertAuditOpinion.setFlagTime(1);
+					}
+					ExpertAuditOpinion expertOpinion = expertAuditOpinionService.selectByExpertId(expertAuditOpinion);
+					expertAudit1.setAuditField(cateTree.getRootNode());
+	    			expertAudit1.setAuditReason("不通过。原因：" + expertOpinion.getOpinion());
+				}else{
+					expertAudit1.setAuditField(cateTree.getRootNode());
+	    			expertAudit1.setAuditReason("通过");
+				}
     		}else{
     			expertAudit1.setAuditField(cateTree.getRootNode());
     			expertAudit1.setAuditReason("通过");
@@ -2146,6 +2187,20 @@ public class ExpertAuditController{
 		}
 		
 		dataMap.put("reasonsList", reasonsList);
+		StringBuffer expertAuditReason = new StringBuffer();
+		expertAudit2.setExpertId(expert.getId());
+		expertAudit2.setSuggestType("one");
+    	List < ExpertAudit > basicFileList1 = expertAuditService.selectbyAuditType(expertAudit2);
+    	if(basicFileList1 != null && basicFileList1.size() > 0){
+    		expertAuditReason.append("不通过。原因：");
+    		for (ExpertAudit expertAudit : basicFileList1) {
+    			expertAuditReason.append(expertAudit.getAuditReason()+"  ");
+			}
+    		expertAuditReason.append("。");
+    	}else{
+    		expertAuditReason.append("通过。");
+    	}
+    	dataMap.put("expertAuditReason", expertAuditReason);
 		dataMap.put("categoryList", categoryList);
 		
 		/**
