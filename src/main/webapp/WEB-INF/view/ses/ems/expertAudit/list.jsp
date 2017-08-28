@@ -29,6 +29,12 @@
       });
       
       // 复审选择事件
+      $(function () {
+        var sign= ${sign};
+        if (sign == 1) {
+          $('#btn_group').append('<a class="btn input" onclick="againAudit_select()" href="javascript:void(0)">提交复审</a>');
+        }
+      });
       function againAudit_select() {
         var select_ids = [];  // 储存id的数组
         var ids = '';
@@ -376,7 +382,7 @@
         </form>
       </h2>
       <!-- 表格开始-->
-      <div class="col-md-12 pl20 mt10">
+      <div class="col-md-12 pl20 mt10" id="btn_group">
         <button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>
         <c:if test="${sign == 2 or sign == 3}">
           <a class="btn btn-windows apply" onclick='publish()' type="button">发布</a>
@@ -391,7 +397,6 @@
         <c:if test="${sign == 3 }">
           <a class="btn btn-windows input" onclick='downloadTable(3)' href="javascript:void(0)">下载复查表</a>
         </c:if>
-        <a class="btn input" onclick='againAudit_select()' href="javascript:void(0)">提交复审</a>
       </div>
 
       <div class="content table_box">

@@ -268,6 +268,32 @@ function finish_groupBatch() {
   });
 }
 
+// 批次分组取消操作
+function cancel_groupBatch() {
+  var group_ids = [];
+  var str_group_ids = '';
+  $('.groupBatch_table .select_item').each(function () {
+    group_ids.push($(this).val());
+  });
+  
+  if (group_ids.length > 0) {
+    str_group_ids = group_ids.join(',');
+    $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: del_url,
+      data: {
+        ids: str_group_ids
+      },
+      success: function (data) {
+        init_list(list_url, newGroup_url);
+      }
+    });
+  }
+  
+  history.back();
+}
+
 // 添加审核组成员
 function add_members() {
   var is_only = 0;

@@ -72,7 +72,7 @@
     
     <div class="text-center mt20">
       <button type="button" class="btn" onclick="finish_groupBatch()">完成</button>
-      <button type="button" class="btn">取消</button>
+      <button type="button" class="btn" onclick="cancel_groupBatch()">取消</button>
     </div>
       
   </div>

@@ -66,7 +66,7 @@
     
     <div class="col-md-12 pl20 mt10 mb10">
       <button type="button" class="btn" onclick="save_editMembers()">保存</button>
-      <button type="button" class="btn" onclick="">返回</button>
+      <button type="button" class="btn" onclick="javascript:history.back()">返回</button>
     </div>
       
   </div>
