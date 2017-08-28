@@ -620,7 +620,16 @@ public class PurchaseManageController {
 	        model.addAttribute("locales", locales);
 	        return "ses/oms/purchase_dep/add";
 	    }
-	    
+	    //判断字符串是否超过800
+	    String str = purchaseDep.getBusinessRange();
+	    if(str.length() > 800){
+	    	model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("err_businessRange", "输入不能超过800");
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+	    }
 	    
 	    
 	    //值班室电话只能输入数字

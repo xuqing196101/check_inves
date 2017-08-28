@@ -29,7 +29,6 @@ public class PurchaseDep extends Orgnization{
     private String businessDepId;
 
     @NotBlank(message="不能为空")
-    @Length(min=0,max=800,message="长度不可超过800")
     private String businessRange;//采购业务范围
     
     @NotBlank(message="电话不能为空")
