@@ -634,7 +634,7 @@ public class PurchaseManageController {
 	    
 	    
 	    //值班室电话只能输入数字
-	    Pattern p5 = Pattern.compile("^[0-9]*$");
+	   /* Pattern p5 = Pattern.compile("^[0-9]*$");
 	    Matcher m5 = p5.matcher(purchaseDep.getDutyRoomPhone());
 	    if(!m5.find()){
 	    	model.addAttribute("purchaseDep", purchaseDep);
@@ -644,9 +644,9 @@ public class PurchaseManageController {
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/add";
 	    }
-	    
+	    */
 	    //传真号只能数字
-	    Pattern p6 = Pattern.compile("^[0-9]*$");
+	   /* Pattern p6 = Pattern.compile("^[0-9]*$");
 	    Matcher m6 = p6.matcher(purchaseDep.getFax());
 	    if(!m6.find()){
 	    	model.addAttribute("purchaseDep", purchaseDep);
@@ -655,7 +655,7 @@ public class PurchaseManageController {
             model.addAttribute("lists", purchaseOrgList);
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/add";
-	    }
+	    }*/
 	    
 	    
 	    /*电话  contactMobile*/
