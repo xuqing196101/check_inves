@@ -104,7 +104,7 @@
           }
           str += '<div class="group_batch_list">'
                 +'<div class="gbl_tit"><span class="gbl_icon">'+ (parseInt(i) + 1) +'</span><span>'+ list_content_new[i].name +'</span></div>'
-                +'<div class="mt10 mb10"><button type="button" class="btn" onclick="del_group(this)">删除</button></div>'
+                +'<div class="mt10 mb10"><button type="button" class="btn btn-windows delete" onclick="del_group(this)">删除</button></div>'
                 +'<table class="table table-bordered table-condensed table-hover table-striped groupBatch_table">'
                 +'  <thead>'
                 +'    <tr>'

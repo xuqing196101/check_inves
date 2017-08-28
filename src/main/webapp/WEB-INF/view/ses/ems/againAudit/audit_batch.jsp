@@ -45,7 +45,7 @@
     <div class="pl20" id="group_batch_box"></div>
     
     <div class="text-center mt20">
-      <button type="button" class="btn" onclick="javascript:history.back()">返回</button>
+      <button type="button" class="btn btn-windows back" onclick="javascript:history.back()">返回</button>
     </div>
     <!-- End 专家分组 -->
       

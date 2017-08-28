@@ -69,7 +69,7 @@
       </table>
       <div id="pagediv" align="right"></div>
       <div class="mt20 text-center">
-        <button type="button" class="btn" onclick="javascript:history.back()">返回</button>
+        <button type="button" class="btn btn-windows back" onclick="javascript:history.back()">返回</button>
       </div>
     </div>
       
