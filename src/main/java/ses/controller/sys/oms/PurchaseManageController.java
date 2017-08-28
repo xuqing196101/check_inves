@@ -430,7 +430,7 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping("addPurchaseOrg")
-	public String addPurchaseOrg(Model model,Orgnization orgnization, Integer page) {
+	public String addPurchaseOrg(Model model,Orgnization orgnization, Integer page,String qwe) {
 		//每页显示十条
 	    if (page == null){
 	        page = 1;
@@ -445,6 +445,7 @@ public class PurchaseManageController {
 		}
 		map.put("name", orgnization.getName());
 		model.addAttribute("orgnization", orgnization);
+		model.addAttribute("qwe", qwe);
 		List<Orgnization> orgnizationList = orgnizationServiceI.findOrgnizationList(map);
 		model.addAttribute("list", new PageInfo<Orgnization>(orgnizationList));
 		return "ses/oms/require_dep/add_purchase_org";

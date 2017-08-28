@@ -8,6 +8,8 @@
 <script type="text/javascript">
     /*分页  */
   $(function() {
+	  
+	  
     laypage({
       cont : $("#pagediv"), 
       pages : "${list.pages}", 
@@ -92,9 +94,29 @@
 	   var index = parent.layer.getFrameIndex(window.name);
 	   parent.layer.close(index);
 	}
+	 function  qwe() {
+		var qwe = $("#qwe").val();
+	 	var items = document.getElementsByName("items");
+		var F_qwe = qwe.split(",");
+		
+		if(items == null || items == undefined || items == ''){
+			
+		}else{
+			for (var i = 0; i < F_qwe.length; i++) {
+				for (var a = 0; a < items.length; a++) {
+					if(F_qwe[i] == items[a].value){
+						items[a].style.display = "none";
+					}
+				}
+			}
+		}
+		
+		
+	} 
+	
 </script>
 </head>
-<body>
+<body onload="qwe()">
   <div class="container">
 	<h2 class="search_detail">
 	  <form  class="mb0" action="${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html" method="post" id="form1">
@@ -133,6 +155,7 @@
 	  </table>
 	  <div id="pagediv" align="right"></div>
 	   <div class="col-md-12 col-sm-12 col-xs-12 tc">
+	   <input type="hidden" id="qwe" value="${qwe }">
     <button class="btn btn-windows add" type="button" onclick="add()">添加</button>
     <button class="btn btn-windows cancel" type="button" onclick="closess();">取消</button>
   </div>
