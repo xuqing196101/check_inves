@@ -3740,6 +3740,7 @@ public class SupplierAuditController extends BaseSupplierController {
 					map.put("typeId", DictionaryDataUtil.getId(typeId));
 					List<SupplierCategoryOpinion> supplierCList = supplierTypeRelateService.findSupplierCategoryByTypeId(map);
 					for (SupplierCategoryOpinion sct : supplierCList) {
+						sct.setType(str);
         				Map<String, Object> map22 = new HashMap<>();
         				map22.put("categoryId", sct.getCategoryId());
         				map22.put("typeId", DictionaryDataUtil.getId(typeId));
@@ -3775,6 +3776,12 @@ public class SupplierAuditController extends BaseSupplierController {
 				SupplierAudit supplierAudit11 = new SupplierAudit();
 				supplierAudit11.setSupplierId(supplier.getId());
 				supplierAudit11.setAuditField(sco.getCategoryId());
+				if(sco.getType() != null && sco.getType().equals("PRODUCT")){
+					supplierAudit11.setAuditType("items_product_page");
+				}
+				if(sco.getType() != null && sco.getType().equals("SALES")){
+					supplierAudit11.setAuditType("items_sales_page");
+				}
 				List<SupplierAudit> suList = supplierAuditService.selectByPrimaryKey(supplierAudit11);
 				if(suList != null && suList.size() > 0){
 					sco.setOpinion("不通过。原因：" + suList.get(0).getSuggest());
