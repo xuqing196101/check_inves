@@ -321,6 +321,7 @@
       //重置
       function resetQuery() {
         $("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+        $("#afterReset").val("0");
       }
 
       function auditturns(obj) {
@@ -426,6 +427,7 @@
                   <option value="7" <c:if test="${inf.status=='7'}"> selected</c:if> > 第三轮审核</option>
                   <option value="8" <c:if test="${inf.status=='8'}"> selected</c:if> > 审核结束</option>
                   <option value="12" <c:if test="${inf.status=='12'}"> selected</c:if> > 直接下达</option>
+                  <option style="display: none;" value="" id="afterReset">
                 </select>
               </span>
             </li>       
