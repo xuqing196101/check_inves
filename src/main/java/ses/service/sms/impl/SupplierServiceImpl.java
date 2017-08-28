@@ -1,11 +1,13 @@
 package ses.service.sms.impl;
 
 import com.github.pagehelper.PageHelper;
+
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.DateUtils;
 import common.utils.ListSortUtil;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
@@ -1973,5 +1976,21 @@ public class SupplierServiceImpl implements SupplierService {
 			}
 		}
 	}
+
+  @Override
+  public List<supplierExport> selectSupplierNumberFormal(
+      HashMap<String, Object> map) {
+    PropertiesUtil config = new PropertiesUtil("config.properties");
+    PageHelper.startPage((Integer) map.get("pageSupFormal"), 20);
+    return  supplierMapper.selectSupplierNumberFormal(map);
+  }
+
+  @Override
+  public List<supplierExport> selectExpertNumberFormal(
+      HashMap<String, Object> map) {
+    PropertiesUtil config = new PropertiesUtil("config.properties");
+    PageHelper.startPage((Integer) map.get("pageExpFormal"), 20);
+    return supplierMapper.selectExpertNumberFormal(map);
+  }
 
 }
