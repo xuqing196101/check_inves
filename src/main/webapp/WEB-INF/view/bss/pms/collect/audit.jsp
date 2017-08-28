@@ -367,8 +367,30 @@
 						}  */
 						var flg=false;
 						 var org=$(obj).val();
-						 var price=$(obj).parent().prev().prev().prev().prev().val();
+						 var price=$(obj).parent().prev().prev().prev().val();
 						 if(price==""){
+							 //单一来源可输入供应商
+							 var purchaseType = $(obj).find("option:selected").text(); //选中的文本
+			                   if($.trim(purchaseType) == "单一来源") {
+			                       $(obj).parent().next().next().find("input").removeAttr("readonly");
+			                   } else {
+			                       $(obj).parent().next().next().find("input").val("");
+			                       $(obj).parent().next().next().find("input").attr("readonly", "readonly");
+			                   }
+			                   var next=$(obj).parent().parent().nextAll();
+			                   var parent_id=$(obj).next().val();
+			                   for(var i = 0; i < next.length; i++){
+			                       if(parent_id==$($(next[i]).children()[10]).children(":last").val()){
+			                           break;
+			                       }
+			                       $($(next[i]).children()[10]).children(":first").next().val($(obj).val());
+			                       if($(obj).val() == "26E3925D38BB4295BEB342BDC82B65AC") {
+			                           $($(next[i]).children()[12]).find("input").removeAttr("readonly");
+			                       } else {
+			                           $($(next[i]).children()[12]).find("input").val("");
+			                           $($(next[i]).children()[12]).find("input").attr("readonly", "readonly");
+			                       }
+			                   }
 							var id=$(obj).prev().val();
 						 	  $.ajax({
 						          url: "${pageContext.request.contextPath}/accept/detail.html",
@@ -844,7 +866,7 @@
 											</td>
 											<td>
 											<input type="hidden" name="ss" value="${obj.id }">
-											<input onblur="change(this)"  type="text" name="listDetail[${vs.index }].supplier" value="${obj.supplier }" class="purchasename">
+											<input onblur="change(this)" readonly="readonly" type="text" name="listDetail[${vs.index }].supplier" value="${obj.supplier }" class="purchasename">
 											 <input type="hidden"    name="history" value=""/>
 											</td>
 											<td>
