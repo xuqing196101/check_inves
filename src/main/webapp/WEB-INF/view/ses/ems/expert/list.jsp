@@ -306,7 +306,7 @@
                <option selected="selected" value=''>全部</option>
                <option <c:if test="${expert.status =='-1' }">selected</c:if> value="-1">暂存</option>
                <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">待初审</option>
-               <option <c:if test="${expert.status =='9' }">selected</c:if> value="9">初审退回再审核</option>
+               <option <c:if test="${expert.status =='9' }">selected</c:if> value="9">退回再初审</option>
                <%-- <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">初审合格</option> --%>
                <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">初审不合格</option>
                <option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
@@ -430,7 +430,7 @@
                   <span class="label rounded-2x label-dark">待初审</span>
                 </c:if>
                 <c:if test="${e.status eq '9' }">
-                  <span class="label rounded-2x label-dark">初审退回再审核</span>
+                  <span class="label rounded-2x label-dark">退回再初审</span>
                 </c:if>
                 <%-- <c:if test="${e.status eq '1' }">
                   <span class="label rounded-2x label-u">初审合格</span>

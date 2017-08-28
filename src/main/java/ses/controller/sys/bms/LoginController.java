@@ -205,7 +205,7 @@ public class LoginController {
                                 } else if (("-3").equals(object)){
                                     // 公示中状态
                                     out.print("publicity");
-                                } else if (("10").equals(object)){
+                                } else if (("expertBlack").equals(object)){
                                 	//黑名单处罚中状态
                                     out.print("expertBlack");
                                 }

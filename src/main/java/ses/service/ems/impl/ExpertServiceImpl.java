@@ -385,7 +385,7 @@ public class ExpertServiceImpl implements ExpertService {
 				} else if(expert.getStatus().equals("2")){
 					//审核未通过
 					map.put("expert", "5");
-				} else if(expert.getStatus().equals("1")){
+				} else if(expert.getStatus().equals("4")){
 					//初审已通过，待复审
 					map.put("expert", "8");
 				} else if(expert.getIsBlack().equals("1")){
@@ -417,7 +417,7 @@ public class ExpertServiceImpl implements ExpertService {
 					map.put("expert", "-3");
 				} else if(expertBlackListMapper.countByExpertId(expert.getId()) > 0){
 					// 黑名单处罚中
-					map.put("expert", "10");
+					map.put("expert", "expertBlack");
 				}
 			}else{
 				//如果专家信息为空 证明还没有填写过个人信息
