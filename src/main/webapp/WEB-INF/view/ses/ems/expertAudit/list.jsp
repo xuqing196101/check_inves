@@ -32,7 +32,7 @@
       $(function () {
         var sign= ${sign};
         if (sign == 1) {
-          $('#btn_group').append('<a class="btn input" onclick="againAudit_select()" href="javascript:void(0)">提交复审</a>');
+          $('#btn_group').append('<a class="btn btn-windows git" onclick="againAudit_select()" href="javascript:void(0)">提交复审</a>');
         }
       });
       function againAudit_select() {

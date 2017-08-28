@@ -43,8 +43,8 @@
     
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn" onclick="add_batch()">创建新分组</button>
-      <button type="button" class="btn" onclick="show_hasGroud()">添加至已有分组</button>
+      <button type="button" class="btn btn-windows add" onclick="add_batch()">创建新分组</button>
+      <button type="button" class="btn btn-windows addTo" onclick="show_hasGroud()">添加至已有分组</button>
     </div>
     
     <div class="content table_box">

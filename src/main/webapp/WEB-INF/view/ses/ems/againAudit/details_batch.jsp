@@ -43,9 +43,9 @@
     
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn" onclick="jump_batchGroup()">批次分组</button>
-      <button type="button" class="btn" onclick="jump_auditBatch()">审核配置</button>
-      <button type="button" class="btn">上传复审批准件</button>
+      <button type="button" class="btn btn-windows group" onclick="jump_batchGroup()">批次分组</button>
+      <button type="button" class="btn btn-windows config" onclick="jump_auditBatch()">审核配置</button>
+      <button type="button" class="btn btn-windows apply">上传复审批准件</button>
     </div>
     
     <div class="content table_box">

@@ -43,7 +43,7 @@
     
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn" onclick="expert_auditBatch('${pageContext.request.contextPath}')">审核</button>
+      <button type="button" class="btn btn-windows git" onclick="expert_auditBatch('${pageContext.request.contextPath}')">审核</button>
     </div>
     
     <div class="content table_box">

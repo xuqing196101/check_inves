@@ -15,7 +15,6 @@
         var groupStatus_str = '';
         list_content = data.object;  // 储存所需数据到变量
         $('#group_batch_box').html('');
-        console.log(list_content);
         for (var i in list_content) {
           for (var ii in list_content[i].expertList) {
             if (typeof(list_content[i].expertList[ii].batchDetailsNumber) === 'undefined') {

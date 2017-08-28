@@ -772,6 +772,18 @@
 .print{
    background-position:-42px -1262px; 
 }
+.group {
+   background-position: -36px -1464px; 
+}
+.config {
+   background-position: -36px -1490px; 
+}
+.addTo {
+  background-position: -36px -1514px;
+}
+.setPwd {
+  background-position: -36px -1540px;
+}
 .day_order{
    background-position: -44px -1293px;
 }
