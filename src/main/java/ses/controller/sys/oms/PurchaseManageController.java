@@ -621,6 +621,33 @@ public class PurchaseManageController {
 	        return "ses/oms/purchase_dep/add";
 	    }
 	    
+	    
+	    
+	    //值班室电话只能输入数字
+	    Pattern p5 = Pattern.compile("^[0-9]*$");
+	    Matcher m5 = p5.matcher(purchaseDep.getDutyRoomPhone());
+	    if(!m5.find()){
+	    	model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_dutyRoomPhone", "只能输入数字");
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+	    }
+	    
+	    //传真号只能数字
+	    Pattern p6 = Pattern.compile("^[0-9]*$");
+	    Matcher m6 = p6.matcher(purchaseDep.getFax());
+	    if(!m6.find()){
+	    	model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_fax", "只能输入数字");
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+	    }
+	    
+	    
 	    /*电话  contactMobile*/
 	    Pattern p1 = Pattern.compile("[\u4e00-\u9fa5]");
 	    Matcher m1 = p1.matcher(purchaseDep.getContactMobile());
