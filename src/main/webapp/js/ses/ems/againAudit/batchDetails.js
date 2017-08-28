@@ -21,8 +21,12 @@
             list_content.list[i].status = '暂存';
           } else if (list_content.list[i].status === '0') {
             list_content.list[i].status = '待初审';
-          } else if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '4') {
-            list_content.list[i].status = '复审中';
+          } else if (list_content.list[i].status === '4') {
+            if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '4') {
+              list_content.list[i].status = '复审中';
+            } else {
+              list_content.list[i].status = '待复审';
+            }
           } else if (list_content.list[i].status === '5') {
             list_content.list[i].status = '复审不合格';
           } else if (list_content.list[i].status === '6') {

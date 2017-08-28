@@ -52,11 +52,11 @@
       <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
         <thead>
           <tr>
-            <th class="info w100">批次编号</th>
+            <th class="info w150">批次编号</th>
             <th class="info">采购机构</th>
             <th class="info">专家姓名</th>
-            <th class="info">性别</th>
-            <th class="info">工作单位</th>
+            <th class="info w50">性别</th>
+            <th class="info w300">工作单位</th>
             <th class="info">专业职称</th>
             <th class="info">提交复审时间</th>
             <th class="info">审核组</th>

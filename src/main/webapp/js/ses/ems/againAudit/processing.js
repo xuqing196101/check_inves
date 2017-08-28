@@ -18,12 +18,22 @@ function create_review_batches() {
       },
       success: function (data) {
         var str = '';
-        for (var i in data.object.list) {
+        var list_content = data.object.list;
+        for (var i in list_content) {
+          if (typeof(list_content[i].relName) === 'undefined') {
+            list_content[i].relName = '';
+          }
+          if (typeof(list_content[i].professTechTitles) === 'undefined') {
+            list_content[i].professTechTitles = '';
+          }
+          if (typeof(list_content[i].updatedAt) === 'undefined') {
+            list_content[i].updatedAt = '';
+          }
           str += '<tr>'
             +'<td class="text-center">'+ (parseInt(i) + 1) +'</td>'
-            +'<td class="text-center">'+ data.object.list[i].relName +'</td>'
-            +'<td class="text-center">'+ data.object.list[i].Major +'</td>'
-            +'<td class="text-center">'+ data.object.list[i].updatedAt +'</td>'
+            +'<td class="text-center">'+ list_content[i].relName +'</td>'
+            +'<td class="text-center">'+ list_content[i].professTechTitles +'</td>'
+            +'<td class="text-center">'+ list_content[i].updatedAt +'</td>'
           +'</tr>';
         }
         $('#crb_content').html(str);
@@ -31,7 +41,7 @@ function create_review_batches() {
           title: ['创建专家复审批次'],
           shade: 0.3, //遮罩透明度
           type : 1,
-          area : ['40%', '400px'], //宽高
+          area : ['700px', '400px'], //宽高
           content : $('#create_review_batches'),
           btn: ['创建复审批次', '取消'],
           yes: function() {

@@ -102,11 +102,11 @@
     <div class="search_detail ml0 mt0 mb10">
       <ul class="demand_list">
         <li>
-          <label class="fl">批次名称：</label>
+          <label class="fl"><i class="red">*</i> 批次名称：</label>
           <input type="text" name="batchName" value="">
         </li>
         <li>
-          <label class="fl">批次编号：</label>
+          <label class="fl"><i class="red">*</i> 批次编号：</label>
           <span>
             <input type="text" name="batchNumber" value="">
           </span>
