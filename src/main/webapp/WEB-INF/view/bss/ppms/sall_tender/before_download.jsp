@@ -32,7 +32,7 @@ var obj;
 	}
 	function show()
 	{
-		obj.SaveToLocal("E:\\采购文件.doc",false,true);
+		obj.SaveToLocal("E:\\【${project.name}】招标文件【${supplier.supplierName}】.doc",false,true);
 		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 	      parent.layer.close(index); 
 	}  

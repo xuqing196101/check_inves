@@ -617,6 +617,7 @@ public String processingDocuments(Model model,HttpServletRequest request, HttpSe
 	//判断是否上传招标文件
     String typeId = DictionaryDataUtil.getId("PROJECT_BID");
     Project project = projectService.selectById(projectId);
+    Supplier supplier = supplierService.selectById(suppliersID);
 	List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
 	if (files != null && files.size() > 0 ){
 	//调用生成word模板传人 标识0 表示 只是生成 拆包部分模板
@@ -628,6 +629,7 @@ public String processingDocuments(Model model,HttpServletRequest request, HttpSe
     System.out.println(files.get(0).getId()+"  files.get(0).getId()");
       model.addAttribute("fileId", files.get(0).getId());
       model.addAttribute("project", project);
+      model.addAttribute("supplier", supplier);
       return  "bss/ppms/sall_tender/before_download";
 	}else{
 		//model.addAttribute("filePath", "0");
