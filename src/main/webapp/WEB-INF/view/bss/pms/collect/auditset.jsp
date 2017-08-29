@@ -135,7 +135,7 @@
         }
 
       }
-
+      //添加专家
       function beforeExperts() {
         var ap = $("#userList tr:last td:first input:last").val();
         var tp = Number($(".tempPersonIndex:first").val());
@@ -567,26 +567,43 @@
                       <th>单位名称</th>
                     </tr>
                   </thead>
-                  <c:forEach items="${info.list}" var="obj" varStatus="vs">
+                  <%-- <c:forEach items="${info.list}" var="obj" varStatus="vs" >
                     <tr class="tc pointer" id="person_set">
                       <td class="w30"><input type="checkbox" value="${obj.id }" onclick="check()" name="chkItem" alt=""><input type="hidden" class="positions" value="${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}"></td>
 
-                      <%--    <td>
+                         <td>
             <c:forEach items="${kind}" var="kind">
             <c:if test="${kind.id == obj.auditRound}">${kind.name}</c:if>
           </c:forEach>
-        </td> --%>
+        </td>
                       <td class="tc w120">${obj.name }</td>
                       <td class="tc w120">${obj.mobile }</td>
                       <td class="tl pl20" width="30%">${obj.duty }</td>
                       <td class="tl pl20">${obj.unitName }</td>
-                      <%--   <td>${obj.auditStaff }</td> --%>
+                        <td>${obj.auditStaff }</td>
+                    </tr>
+                  </c:forEach> --%>
+                  <c:forEach items="${expInfo.list}" var="obj" varStatus="vs" >
+                    <tr class="tc pointer" id="person_set1">
+                      <td class="w30"><input type="checkbox" value="${obj.id }" onclick="check()" name="chkItem" alt=""><input type="hidden" class="positions" value="${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}"></td>
+                      <td class="tc w120">${obj.name }</td>
+                      <td class="tc w120">${obj.mobile }</td>
+                      <td class="tl pl20" width="30%">${obj.duty }</td>
+                      <td class="tl pl20">${obj.unitName }</td>
                     </tr>
                   </c:forEach>
-
-                  <input type="hidden" name="collectId" id="collectId" value="${id }">
-                  <input type="hidden" name="type" value="${type}">
-                  <input type = "hidden" id = "austa" name = "austa" value="${staff }">
+                  <c:forEach items="${aupInfo.list}" var="obj" varStatus="vs" >
+                    <tr class="tc pointer" id="person_set2">
+                      <td class="w30"><input type="checkbox" value="${obj.id }" onclick="check()" name="chkItem" alt=""><input type="hidden" class="positions" value="${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}"></td>
+                      <td class="tc w120">${obj.name }</td>
+                      <td class="tc w120">${obj.mobile }</td>
+                      <td class="tl pl20" width="30%">${obj.duty }</td>
+                      <td class="tl pl20">${obj.unitName }</td>
+                    </tr>
+                  </c:forEach>
+                  <input type="hidden" name="collectId" id="collectId" value="${id }"/>
+                  <input type="hidden" name="type" value="${type}"/>
+                  <input type = "hidden" id = "austa" name = "austa" value="${staff }"/>
                 </table>
               </form>
             </div>
