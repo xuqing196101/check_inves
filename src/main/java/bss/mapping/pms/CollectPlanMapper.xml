@@ -305,7 +305,12 @@
 	  	</if>
 	   
 	    <if test="status !=null ">
-	  	   and status=#{status} and  AUDIT_TURN is null
+	        <if test='status=="1"'>
+	        and status=#{status}  and AUDIT_TURN is null
+	        </if>
+	  	    <if test='status!="1"'>
+	  	    and status=#{status}  
+	  	    </if>
 	  	</if>
 	  	
   	</where>

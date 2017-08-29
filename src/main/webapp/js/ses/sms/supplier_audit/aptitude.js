@@ -142,14 +142,21 @@ function showData(obj,tablerId,typeId,pageNum) {
 				// 物资 销售 资质
 				var isAptitudeSalesPageAudit=isNumber(item.isAptitudeSalesPageAudit);
 				
+				// 合同是否修改
 				var isContractModified = isNumber(item.isContractModified);
+				// 资质是否修改
 				var isAptitudeModified = isNumber(item.isAptitudeModified);
+				// 工程资质是否修改
+				var isEngAptitudeModified = isNumber(item.isEngAptitudeModified);
 				
 				var contractModifiedStyle,aptitudeModifiedStyle;
 				if(isContractModified == 1){
 					contractModifiedStyle=" style=\"border: 1px solid #FF8C00;\" ";
 				}
 				if(isAptitudeModified == 1){
+					aptitudeModifiedStyle=" style=\"border: 1px solid #FF8C00;\" ";
+				}
+				if(isEngAptitudeModified == 1){
 					aptitudeModifiedStyle=" style=\"border: 1px solid #FF8C00;\" ";
 				}
 

@@ -17,10 +17,10 @@
 				// 绑定采购需求文号事件
 			  $("#referenceNo").blur(function () {
                   var referenceNO = $("#referenceNo").val();
-                  if(referenceNO == ''){
+                 /*  if(referenceNO == ''){
                 	  layer.msg("采购需求文号不能为空");
                       return;
-                  }
+                  } */
                   $.ajax({
                       url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
                       data:{
@@ -677,10 +677,11 @@
 				 }
 				 else{
 					 layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
-					 
-					
 				 }
-				} 
+				}
+                $("#detailZeroRow tr").each(function(index){
+                    $(this).find("td:eq(0)").text(index+1);
+                });
 				/* 	var detailRow = document.getElementsByName("detailRow");
 				if(detailRow.length!=0){
 					for(var i=0;i<detailRow.length;i++){
@@ -1593,7 +1594,7 @@
 													<option value="${sup.supplierName }">${sup.supplierName }</option>
 												</c:forEach>
 											</select> --%>
-										<input type="text" name="list[0].supplier" onblur="checkSupplierName(0)" onmouseover="supplierReadOnly(this)" class="m0 w260 border0"></td>
+										<input type="text" name="list[0].supplier"  onmouseover="supplierReadOnly(this)" class="m0 w260 border0"></td>
 										<td name="userNone"><input type="text" name="list[0].isFreeTax" class="freetax"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="goodsuse"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="useunit"></td>

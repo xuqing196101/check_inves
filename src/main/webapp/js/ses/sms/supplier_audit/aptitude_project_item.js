@@ -130,3 +130,18 @@ function reasonProject(ind, auditField, auditFieldName, certType) {
   	};
 	});
 }
+
+//提示之前的信息
+function isCompare(field, targetId) {
+    var supplierId = $("#supplierId").val();
+    $.ajax({
+        url: globalPath+"/supplierAudit/showModify.do",
+        data: {"supplierId": supplierId, "beforeField": field, "modifyType": "mat_eng_page", "listType": "9"},
+        async: false,
+        success: function (result) {
+            layer.tips("修改前:" + result, "#" + targetId, {
+                tips: 3
+            });
+        }
+    });
+}

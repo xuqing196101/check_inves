@@ -86,7 +86,7 @@
     }
   </script>
   <body>
-    <div class="container">
+    <div class="">
     <h2 class="search_detail">
        <form action="${pageContext.request.contextPath}/firstAudit/loadOtherPackage.html" method="post" class="mb0" id="form1">
         <input type="hidden" name="page" id="page">
@@ -98,10 +98,12 @@
           	<label class="fl">项目名称：</label><span><input type="text" name="projectName" value="${projectName}"/></span>
           </li>
           <li>
-            <label class="fl">包名：</label><span><input type="text" name="packageName" value="${packageName}"/></span>
+            <label class="fl w50">包名：</label><span><input type="text" name="packageName" value="${packageName}"/></span>
           </li>
-            <button type="submit" class="btn">查询</button>
-            <button type="button" onclick="resetQuery()" class="btn">重置</button>    
+          <li>
+            <button type="submit" class="btn fl">查询</button>
+            <button type="button" onclick="resetQuery()" class="btn fl">重置</button>    
+            </li>
         </ul>
           <div class="clear"></div>
        </form>

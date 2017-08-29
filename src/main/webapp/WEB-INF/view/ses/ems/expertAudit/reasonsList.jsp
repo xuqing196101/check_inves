@@ -16,7 +16,7 @@
         $(function () {
             //审核按钮状态
             var num = ${num};
-            var notCategoryNum=${notCategoryNum};
+          //  var notCategoryNum=${notCategoryNum};
             var qualified=${qualified};
             if (num == 0) {
                 if('${status}' != -2 && '${status}' != -3){
@@ -27,21 +27,25 @@
             }
             if (num != 0) {
                 //$("#tongguo").attr("disabled", true);
-                if(notCategoryNum == 0){
+                //if(notCategoryNum == 0){
                 	if(qualified){
                 		$("#qualified").attr("disabled", false);
                 	}else{
                 		$("#qualified").attr("disabled", true);
                 	}
-                }else{
+                /* }else{
                 	$("#qualified").attr("disabled", true);
-                }
-                
+                }*/
+                 
             }
             if($("#status").val() == '15' || $("#status").val() == '1' || $("#status").val() == '16' || $("#status").val() == '2'){
             	$("#expdown").css("display","block");
             	/* $("#reverse_of_five_i").css("display","block");
             	$("#reverse_of_six").css("display","block"); */
+            }
+            if($("#status").val() != '0' && $("#status").val() != '15' && $("#status").val() != '16'){
+            	$("#qualified").attr("disabled", true);
+            	$("#noQualified").attr("disabled", true);
             }
             check_opinion();
             
@@ -482,12 +486,12 @@
               <ul class="ul_list">
                  <c:if test="${sign == 1 }">
                    <li>
-                     <div class="select_check">
-                       <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()">预初审合格
-                       <input type="radio"  <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()">预初审不合格
-                     </div>
-                   </li>
-                 <li>
+                   <div class="select_check">
+                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()">预初审合格
+                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()">预初审不合格
+                    </div>
+                  </li>
+                  <li>
                    <div id="check_opinion"></div>
                  </li>
                  </c:if>

@@ -296,6 +296,10 @@
 			function tempSave() {
 				$("input[name='flag']").val("");
 				//enableForm();
+				var saveMsg = layer.msg("暂存中，请稍候......", {time: 0, shade: [0.1,'#fff']});
+				/* var loading = layer.load(1, {
+				  shade: [0.1,'#fff'] //0.1透明度的白色背景
+				}); */
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
 					type: "post",
@@ -306,17 +310,26 @@
 						//controlForm();
             $("#name_span").val("");//名称校验标识初始化
 						tempSaveValidation(msg);
+						layer.close(saveMsg);
 					},
 					error: function(){
 						//controlForm();
+						layer.msg('暂存失败！', {
+							offset: '300px'
+						});
+						layer.close(saveMsg);
 					}
 				});
 			}
 			
-			function toTempSave(){
+			function toTempSave(obj){
 				// 指定字段实时保存
-				if($(".txtTempSave")){
-					$(".txtTempSave").focus(function(){
+				var target = $(".txtTempSave");
+				if(obj){
+					target = $(obj);
+				}
+				if(target){
+					target.focus(function(){
 						$(this).attr("data-oval", $(this).val());
 					}).blur(function(){
 						var oldVal = $(this).attr("data-oval"); //获取原值
@@ -376,7 +389,7 @@
 				});
 
 				$("#stockholder_list_tbody_id").append("<tr>" +
-					"<td class='tc'><input type='checkbox' value='' /><input type='hidden' name='listSupplierStockholders[" + stocIndex + "].id' value=" + id + "><input type='hidden' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].supplierId' value=" + supplierId + ">" +
+					"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='listSupplierStockholders[" + stocIndex + "].id' value='" + id + "'><input type='hidden' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].supplierId' value=" + supplierId + ">" +
 					"</td>" +
 					"<td class='tc'>" +
 					"<select class='w100p border0' name='listSupplierStockholders[" + stocIndex + "].nature' onchange='onchangeNature(this.value,"+stocIndex+")'>" +
@@ -392,13 +405,14 @@
 					"</select>" +
 					"</td>" +
 					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].identity' maxlength='18' onkeyup='validateIdentity(this)' onchange='validateIdentity(this)' value=''> </td>" +
-					"<td class='tc'> <input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].shares' value=''></td>" +
-					"<td class='tc'> <input type='text' style='border:0px;' class='proportion_vali txtTempSave' name='listSupplierStockholders[" + stocIndex + "].proportion' value='' onkeyup=\"value=value.replace(/[^\\d.]/g,'')\" onblur=\"validatePercentage2(this.value)\"> </td>" + "</tr>");
+					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].shares' value=''></td>" +
+					"<td class='tc'><input type='text' style='border:0px;' class='proportion_vali txtTempSave' name='listSupplierStockholders[" + stocIndex + "].proportion' value='' onkeyup=\"value=value.replace(/[^\\d.]/g,'')\" onblur=\"validatePercentage2(this.value)\"> </td>" + "</tr>");
+
+				checkStockholdersID("input[name='listSupplierStockholders[" + stocIndex + "].identity']");
+				toTempSave("input[name='listSupplierStockholders[" + stocIndex + "].proportion']");
 
 				stocIndex++;
 				$("#stockIndex").val(stocIndex);
-        checkStockholdersID();
-        toTempSave();
 			}
 			
 			function validateIdentity(obj){
@@ -532,9 +546,9 @@
 						btn: ['确定','取消'] //按钮
 					}, function(index) {
 						var stockholderIds = "";
-						var supplierId = $("input[name='id']").val();		
-						$(checkboxs).each(function(index) {
-							if(index > 0) {
+						var supplierId = $("input[name='id']").val();
+						$(checkboxs).each(function(n) {
+							if(n > 0) {
 								stockholderIds += ",";
 							}
 							stockholderIds += $(this).val();
@@ -2481,8 +2495,12 @@
 	}
 	
 	// 校验出资人统一社会信用代码或身份证号码
-	function checkStockholdersID(){
-		$("input[name^='listSupplierStockholders'][name$='identity']").blur(function(){
+	function checkStockholdersID(obj){
+		var target  = $("input[name^='listSupplierStockholders'][name$='identity']");
+		if(obj){
+			target = $(obj);
+		}
+		target.blur(function(){
 			var index = $(this).attr("name").replace("listSupplierStockholders[", "").replace("].identity", "");
 			var nature = $("select[name='listSupplierStockholders["+index+"].nature'").val();
 			var identityType = $("select[name='listSupplierStockholders["+index+"].identityType'").val();

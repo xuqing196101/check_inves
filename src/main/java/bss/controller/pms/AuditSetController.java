@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +16,10 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -63,6 +66,7 @@ import bss.service.pms.UpdateFiledService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import common.constant.StaticVariables;
 
 /***
  * 
@@ -155,7 +159,31 @@ public class AuditSetController {
 		person.setCollectId(id);
 		person.setAuditRound(type);
 		List<AuditPerson> listAudit = auditPersonService.query(person, page==null?1:page);
+		Expert expert = new Expert();//判断审核人员是专家还是普通用户
+		expert.setStatus("7");
+		List<Expert> list= expertService.selectAllExpert(page==null?1:page, expert);
+		List<String> expIds = new ArrayList<>();
+		for (Expert exp : list) {
+			expIds.add(exp.getId());
+		}
+		List<AuditPerson>expAuditList = new ArrayList<>();
+		List<AuditPerson>auditPerList = new ArrayList<>();
+		if (listAudit.size()!=0) {
+		for (AuditPerson auditPerson : listAudit) {
+			
+				if (expIds.contains((Object)auditPerson.getUserId())) {//判断审核人员是专家还是普通用户
+					expAuditList.add(auditPerson);
+				}else{
+					auditPerList.add(auditPerson);
+				}
+			
+		}
+		}
 		PageInfo<AuditPerson> info = new PageInfo<>(listAudit);
+		PageInfo<AuditPerson>exPageInfo=new PageInfo<>(expAuditList);
+		PageInfo<AuditPerson>audPerInfo=new PageInfo<>(auditPerList);
+		model.addAttribute("expInfo", exPageInfo);
+		model.addAttribute("aupInfo", audPerInfo);
 		model.addAttribute("info", info);
 		model.addAttribute("auditRound", auditRound);
 		model.addAttribute("id", id);
@@ -278,7 +306,7 @@ public class AuditSetController {
 	@RequestMapping("/expert")
 	public String getExpert(Integer page,Expert expert,Model model,HttpServletRequest request,String satff){
 		String type = request.getParameter("type");
-		expert.setStatus("6");
+		expert.setStatus("7");
 		List<Expert> list = expertService.selectAllExpert(page==null?1:page, expert);
 		PageInfo<Expert> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
@@ -322,37 +350,32 @@ public class AuditSetController {
 	@RequestMapping(value="/add",produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String add(AuditPerson auditPerson,String id,HttpServletRequest request){
+	    JSONObject jsonObj = new JSONObject();
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		Integer num=0;
-		Expert expert = expertService.selectByPrimaryKey(id);
-//		 if(auditPerson.getType()==1){
-	  map.put("auditRound", auditPerson.getAuditRound());
-	  map.put("collectId", auditPerson.getCollectId());
-	  map.put("userId", expert.getId());
-	  num = auditPersonService.findUserByCondition(map);
-		
-//		 }
-//		 if(auditPerson.getType()==2){
-//			 User user = userServiceI.getUserById(id);
-//			 map.put("auditRound", request.getParameter("auditRound"));
-//			 map.put("collectId", auditPerson.getCollectId());
-//			 map.put("userId", user.getId());
-//			 num = auditPersonService.findUserByCondition(map);
-//		 }
-		if(num==1){
-			 return JSON.toJSONString("error");
-		}else{
-			auditPerson.setName(expert.getRelName());
-			auditPerson.setMobile(expert.getMobile());
-			auditPerson.setIdNumber(expert.getIdNumber());
-			auditPerson.setUnitName(expert.getWorkUnit());
-			auditPerson.setUserId(expert.getId());
-			auditPerson.setCreateDate(new Date());
-			auditPersonService.add(auditPerson);
-			auditPerson.setType(1);
-			return JSON.toJSONString(auditPerson.getAuditStaff());
-		}
-		
+		map.put("auditRound", auditPerson.getAuditRound());
+        map.put("collectId", auditPerson.getCollectId());
+		String[] expertId = id.split(StaticVariables.COMMA_SPLLIT);
+		for (int i = 0; i < expertId.length; i++ ) {
+		    Expert expert = expertService.selectByPrimaryKey(expertId[i]);
+		    map.put("userId", expert.getId());
+		    Integer num = auditPersonService.findUserByCondition(map);
+	        if(num == 1){
+	            jsonObj.put("expert", expert.getRelName());
+	            jsonObj.put("success", false);
+	            break;
+	        }else{
+	            auditPerson.setName(expert.getRelName());
+	            auditPerson.setMobile(expert.getMobile());
+	            auditPerson.setIdNumber(expert.getIdNumber());
+	            auditPerson.setUnitName(expert.getWorkUnit());
+	            auditPerson.setUserId(expert.getId());
+	            auditPerson.setCreateDate(new Date());
+	            auditPersonService.add(auditPerson);
+	            jsonObj.put("success", true);
+	        }
+        }
+		jsonObj.put("auditStaff", auditPerson.getAuditStaff());
+		return jsonObj.toString();
 	}
 	/**
 	 * @throws UnsupportedEncodingException 
@@ -841,44 +864,38 @@ public class AuditSetController {
 	* @param @param request      
 	* @return void
 	 */
-	@RequestMapping(value="/addUser",produces="application/text;charset=utf-8")
+	@RequestMapping(value="/addUser",produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String addUser(AuditPerson auditPerson){
+	public String addUser(AuditPerson auditPerson, String userId){
+	    JSONObject jsonObject = new JSONObject();
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		Integer num=0;
-		 User user = userServiceI.getUserById(auditPerson.getUserId());
-//		 if(auditPerson.getType()==1){
-			 map.put("auditRound", auditPerson.getAuditRound());
-			 map.put("collectId", auditPerson.getCollectId());
-			 map.put("userId", user.getId());
-			 num = auditPersonService.findUserByCondition(map);
-		
-//		 }
-//		 if(auditPerson.getType()==2){
-//			 User user = userServiceI.getUserById(id);
-//			 map.put("auditRound", request.getParameter("auditRound"));
-//			 map.put("collectId", auditPerson.getCollectId());
-//			 map.put("userId", user.getId());
-//			 num = auditPersonService.findUserByCondition(map);
-//		 }
-		 if(num==1){
-			 return "1";
-		}else{
-			auditPerson.setName(user.getRelName());
-			auditPerson.setMobile(user.getMobile());
-//			auditPerson.setIdNumber(user.get);
-			if(user.getOrg()!=null){
-				if(user.getOrg().getName()!=null){
-					auditPerson.setUnitName(user.getOrg().getName());	
-				}
-			}
-			auditPerson.setUserId(user.getId());
-			auditPerson.setType(2);
-			auditPersonService.add(auditPerson);
-			
-			return auditPerson.getAuditStaff();
-		}
-			
+		map.put("auditRound", auditPerson.getAuditRound());
+        map.put("collectId", auditPerson.getCollectId());
+		String[] id = userId.split(StaticVariables.COMMA_SPLLIT);
+		for (int i = 0; i < id.length; i++ ) {
+		    User user = userServiceI.getUserById(id[i]);
+		    map.put("userId", user.getId());
+		    Integer num = auditPersonService.findUserByCondition(map);
+		    if(num == 1){
+		        jsonObject.put("user", user.getRelName());
+		        jsonObject.put("success", false);
+                break;
+	        } else {
+	            auditPerson.setName(user.getRelName());
+	            auditPerson.setMobile(user.getMobile());
+	            if(user.getOrg()!=null){
+	                if(StringUtils.isNotBlank(user.getOrg().getShortName())){
+	                    auditPerson.setUnitName(user.getOrg().getShortName());   
+	                }
+	            }
+	            auditPerson.setUserId(user.getId());
+	            auditPerson.setType(2);
+	            auditPersonService.add(auditPerson);
+	            jsonObject.put("success", true);
+	        }
+        }
+		jsonObject.put("auditStaff", auditPerson.getAuditStaff());
+		return jsonObject.toString();
 	}
 	
 	/**

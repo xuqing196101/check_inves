@@ -355,10 +355,10 @@
 					 layer.alert("需求名称不允许为空"); 
 					 return false;
 				}
-              if($.trim(refNo) == "") {
+             /*  if($.trim(refNo) == "") {
                      layer.alert("需求文号不允许为空"); 
                      return false;
-                }
+                } */
               $.ajax({
                   url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
                   data:{
@@ -967,43 +967,46 @@
 	  		        }
 	  		    });
 	    }
-      function delRowIndex(obj){//delobjId
-			var detailRow = document.getElementsByName("detailRow");
-			var index = detailRow.length;
-			
-			var input=$(obj).prev().val();
-			delId.push(input); 
-			/* var del = $("input[name='delobjId']").val(delId); */
-			/* delId.push(del); */ 
-			//alert(delId);
-			if(index<3){
-				 layer.alert("至少保留两行！",{offset: ['222px', '390px'], shade:0.01});
-			}else{
-			var tr=$(obj).parent().parent();
-			var nextEle=$(obj).parent().parent().next().children();
-			 var val=$(tr).find("td:eq(8)").children(":first").next().val();
-			 if($.trim(val)!=""){
-				 var input=$(obj).prev().val();
-				 if(typeof(input)!="undefined"){
+    function delRowIndex(obj){//delobjId
+        var detailRow = document.getElementsByName("detailRow");
+        var index = detailRow.length;
+
+        var input=$(obj).prev().val();
+        delId.push(input);
+		/* var del = $("input[name='delobjId']").val(delId); */
+		/* delId.push(del); */
+        //alert(delId);
+        if(index<3){
+            layer.alert("至少保留两行！",{offset: ['222px', '390px'], shade:0.01});
+        }else{
+            var tr=$(obj).parent().parent();
+            var nextEle=$(obj).parent().parent().next().children();
+            var val=$(tr).find("td:eq(8)").children(":first").next().val();
+            if($.trim(val)!=""){
+                var input=$(obj).prev().val();
+                if(typeof(input)!="undefined"){
 					/*  deleteRow(input);  */
-				 }
-				 $(obj).parent().parent().remove();
-			 }
-			 else if(nextEle.length<1){
-				 var input=$(obj).prev().val();
-				 if(typeof(input)!="undefined"){
+                }
+                $(obj).parent().parent().remove();
+            }
+            else if(nextEle.length<1){
+                var input=$(obj).prev().val();
+                if(typeof(input)!="undefined"){
 					/*  deleteRow(input);  */
-				 }
-				 $(obj).parent().parent().remove(); 
-			 }
-			 else{
-				 layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
-			 }
-			} 
-			var cid = $(obj).parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().children(":last");
-            /* alert(cid); */
-            sum2(cid);
-		}
+                }
+                $(obj).parent().parent().remove();
+            }
+            else{
+                layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
+            }
+            $("#detailZeroRow tr").each(function(index){
+                $(this).find("td:eq(0)").text(index+1);
+            });
+        }
+        var cid = $(obj).parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().children(":last");
+		/* alert(cid); */
+        sum2(cid);
+    }
     //检索名字
 		function listName(obj) {
 			var name = $(obj).val();
@@ -1108,7 +1111,7 @@
 
 
 				<li class="col-md-3 col-sm-6 col-xs-12"><span
-					class="col-md-12 padding-left-5 col-sm-12 col-xs-12">录入人手机号</span>
+					class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>录入人手机号</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input type="text" class="input_group" id="rec_mobile"
 							name="mobile" value="${list[0].recorderMobile }"> <span
@@ -1321,7 +1324,7 @@
 									</td>
 									<td><input type="hidden" name="ss" value="${obj.id }">
 										<textarea name="list[${vs.index }].supplier"
-											  onmouseover="supplierReadOnly(this)" onblur="checkSupplierName(this)"  class="target purchasename">${obj.supplier}</textarea>
+											  onmouseover="supplierReadOnly(this)"   class="target purchasename">${obj.supplier}</textarea>
 										<!-- <input type="hidden" name="history" value="" /> --></td>
 									<td name="userNone" <c:if test="${list[0].enterPort==0}"> style="display:none;" </c:if>><input type="text" name="list[${vs.index }].isFreeTax"
 										 value="${obj.isFreeTax}"

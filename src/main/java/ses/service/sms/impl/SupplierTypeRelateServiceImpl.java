@@ -1,13 +1,18 @@
 package ses.service.sms.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
@@ -20,6 +25,7 @@ import ses.dao.sms.SupplierMatServeMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCategoryOpinion;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.DictionaryDataServiceI;
@@ -165,5 +171,10 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
 	@Override
 	public List<String> findTypeBySupplierId(String supplierId) {
 		return supplierTypeRelateMapper.findTypeBySupplierId(supplierId);
+	}
+
+	@Override
+	public List<SupplierCategoryOpinion> findSupplierCategoryByTypeId(Map<String, Object> map) {
+		return supplierTypeRelateMapper.findSupplierCategoryByTypeId(map);
 	}
 }

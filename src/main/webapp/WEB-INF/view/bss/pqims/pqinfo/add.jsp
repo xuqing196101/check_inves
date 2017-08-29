@@ -66,7 +66,7 @@
     	var d3 =d2.getFullYear()+"-"+(d2.getMonth()+1)+"-"+d2.getDate();
         var d = new Date();
         var str = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
-    	 if(d3 > str){
+    	 if(d3 >= str){
     		 layer.msg("质检日期不可大于今天");
     		 return false;
          }

@@ -25,7 +25,7 @@ public class CategoryQua implements Serializable{
     private String categoryId;
     /** 资质Id **/
     private String quaId;
-    /** 资质类型Id  1:通用 2：物资生产型 3：物资销售型 4：工程类**/
+    /** 资质类型Id  1:通用 2：物资生产型 3：物资销售型 4：工程类  服务2**/
     private int quaType;
     /**创建时间**/
     private Date createdAt;

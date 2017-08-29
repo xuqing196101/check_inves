@@ -107,6 +107,7 @@ public class SupplierCateTree implements Serializable{
     private String contractId;
     private byte isContractModified;// 合同是否修改过
     private byte isAptitudeModified;// 资质是否修改过
+    private byte isEngAptitudeModified;// 工程资质是否修改过
     
 	public String getAptitudeId() {
 		return aptitudeId;
@@ -478,6 +479,14 @@ public class SupplierCateTree implements Serializable{
 
 	public void setIsAptitudeModified(byte isAptitudeModified) {
 		this.isAptitudeModified = isAptitudeModified;
+	}
+
+	public byte getIsEngAptitudeModified() {
+		return isEngAptitudeModified;
+	}
+
+	public void setIsEngAptitudeModified(byte isEngAptitudeModified) {
+		this.isEngAptitudeModified = isEngAptitudeModified;
 	}
 	
 }

@@ -119,6 +119,7 @@
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val()); 
 		}); 
+		checkAduitNo();
 		if($.trim(name)==""){
 			layer.alert("请填写采购任务名称！", {
 				offset: ['222px', '390px'],
@@ -138,6 +139,7 @@
 	}
 	function resetQuery(){
 		$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+		$("#afterReset").val("1");
 	}
 	
 	function view(id) {
@@ -184,7 +186,23 @@
 			});
 		}
 	}
-	
+	function checkAduitNo(){
+		var aduitNo = $("#aduit_No").val();
+		$.ajax({
+            url: "${pageContext.request.contextPath}/taskassgin/checkAuditNo.html",
+            data:{
+                "documentNumber":aduitNo
+            },
+            success: function(data) {
+                if(data=="exist"){
+                	$("#aduit_No").val("");
+                    layer.alert("采购任务文号已存在");
+                    return false;
+                }
+            }
+        });
+		
+	}
 	
   </script>
   </head>
@@ -233,6 +251,7 @@
 				  	      <option value="1" >全部</option>
 						  	<option value="12" <c:if test="${inf.status=='12'}"> selected</c:if> >未下达</option>
 							<option value="2" <c:if test="${inf.status=='2'}"> selected</c:if> >已下达</option>
+							<option style="display: none;" id="afterReset" value="">
 					   </select>
 				    	
 				    	</span>
@@ -313,7 +332,7 @@
 	       <div class="col-md-6 col-sm-6 col-xs-6">
 	       		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购任务文号:</span>
 	       		<div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
-	       			<input id="aduit_No"   type="text" name="documentNumber" value="">
+	       			<input id="aduit_No" onblur="checkAduitNo()" type="text" name="documentNumber" value="">
 	       		</div>
 	       </div>
 	       

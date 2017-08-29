@@ -2237,11 +2237,12 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/auditInfo")
 	public String auditInfo(Model model, SupplierAudit supplierAudit,Integer person ,Integer judge, Integer sign) {
-		List < SupplierAudit > auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+//		List < SupplierAudit > auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		List < SupplierAudit > auditList = supplierAuditService.getAuditRecordsWithSort(supplierAudit);
 		model.addAttribute("auditList", auditList);
 		model.addAttribute("sign", sign);
 		model.addAttribute("judge", judge);
-        model.addAttribute("person", person);
+		model.addAttribute("person", person);
 		model.addAttribute("supplierId", supplierAudit.getSupplierId());
 		return "/ses/sms/supplier_query/supplierInfo/auditInfo";
 	}
