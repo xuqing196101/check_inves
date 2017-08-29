@@ -149,7 +149,8 @@
               dataType: opts.dataType,
               url: opts.url,
               data: {
-                pageNum: e.curr
+                pageNum: e.curr,
+                batchId: getUrlParam('batchId')
               },
               success: opts.success
             });

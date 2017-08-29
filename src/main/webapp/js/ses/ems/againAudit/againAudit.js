@@ -27,8 +27,8 @@
           if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
             list_content.list[i].professTechTitles = '';
           }
-          if (typeof(list_content.list[i].updatedAt) === 'undefined') {
-            list_content.list[i].updatedAt = '';
+          if (typeof(list_content.list[i].updateTime) === 'undefined') {
+            list_content.list[i].updateTime = '';
           }
           
           $('#list_content').append('<tr>'
@@ -39,7 +39,7 @@
             +'<td class="text-center">'+ list_content.list[i].sex +'</td>'
             +'<td>'+ list_content.list[i].workUnit +'</td>'
             +'<td>'+ list_content.list[i].professTechTitles +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].updatedAt +'</td>'
+            +'<td class="text-center">'+ list_content.list[i].updateTime +'</td>'
           +'</tr>');
         }
         

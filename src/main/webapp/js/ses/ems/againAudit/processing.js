@@ -26,14 +26,14 @@ function create_review_batches() {
           if (typeof(list_content[i].professTechTitles) === 'undefined') {
             list_content[i].professTechTitles = '';
           }
-          if (typeof(list_content[i].updatedAt) === 'undefined') {
-            list_content[i].updatedAt = '';
+          if (typeof(list_content[i].updateTime) === 'undefined') {
+            list_content[i].updateTime = '';
           }
           str += '<tr>'
             +'<td class="text-center">'+ (parseInt(i) + 1) +'</td>'
             +'<td class="text-center">'+ list_content[i].relName +'</td>'
             +'<td class="text-center">'+ list_content[i].professTechTitles +'</td>'
-            +'<td class="text-center">'+ list_content[i].updatedAt +'</td>'
+            +'<td class="text-center">'+ list_content[i].updateTime +'</td>'
           +'</tr>';
         }
         $('#crb_content').html(str);

@@ -83,7 +83,10 @@
     
     $(function () {
       $('#list_content').listConstructor({
-        url: list_url
+        url: list_url,
+        data: {
+          batchId: getUrlParam('batchId')
+        }
       });
     });
     
