@@ -1,5 +1,7 @@
 package ses.controller.sys.ems;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -178,6 +180,12 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		}*/
 		if(pageNum == null) {
 			pageNum = StaticVariables.DEFAULT_PAGE;
+		}
+		if(batchId==null){
+			img.setStatus(false);
+			img.setMessage("参数有误");
+			super.writeJson(response, img);
+			return;
 		}
 		img=againAuditService.findBatchDetails(batchId,status, pageNum);
 		super.writeJson(response, img);
