@@ -578,7 +578,7 @@
 	}
 	
 	function abandoned(){
-		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html";
+		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html";
 	}
 </script>
 <script language="JScript" for="TANGER_OCX" event="ondocumentopened(File, Document)">
@@ -738,8 +738,8 @@
 			       <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	<!-- <select id="purchaseDeps" name="purchaseDepName" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changeXuqiuDep()">
                 		</select> -->
-			        <input class="supplier_ids" name="purchaseDepNames" value="${user.org.name}" type="text">
-			        <input type="hidden" name="purchaseDepName" value="${user.org.id}" >
+			        <input class="supplier_ids" readonly="readonly" name="purchaseDepNames" value="${project.purchaseDep.depName}" type="text">
+			        <input type="hidden" name="purchaseDepName" value="${project.purchaseDep.orgId}" >
 			        	<div class="cue">${ERR_purchaseDepName}</div>
 	       			</div> 
 	       			<%-- <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
