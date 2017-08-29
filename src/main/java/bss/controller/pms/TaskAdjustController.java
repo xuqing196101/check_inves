@@ -373,10 +373,8 @@ public class TaskAdjustController extends BaseController{
 	    model.addAttribute("orgs", orgs);	
 	    
 	    List<DictionaryData> types = DictionaryDataUtil.find(5);
-//	          采购方式 
 	    model.addAttribute("types", types);	 
-    
-    
+	    model.addAttribute("DYLY", DictionaryDataUtil.getId("DYLY"));    
     return "bss/pms/taskadjust/updateplan";
   }
   

@@ -205,11 +205,12 @@
 		    	}
 		    	  
 		    });
+		    checkSpace()////退回理由空格校验
 		  if(bool==true){
 			 $("#table").find("#acc_form").submit();
 		  }  
  }
-
+    //选择采购方式
     function purchaseType(obj){
         var purchaseType = $(obj).find("option:selected").text(); //选中的文本
         var org=$(obj).val();
@@ -238,6 +239,7 @@
                                             $(this).parent().parent().next().next().find("input").removeAttr("readonly");
                                         } else {
                                             $(this).parent().parent().next().next().find("input").attr("readonly", "readonly");
+                                            $(this).parent().parent().next().next().find("input").val("");
                                         }
                                     }else{
                                         $(this).prop("selected",false);
@@ -251,8 +253,37 @@
             });
         }
     }
- 
- 
+    //退回理由空格校验
+    function checkSpace(){
+    	var space = $("#reson").val();
+    	var valid=/\s/g;
+        if(valid.test(space)){
+        	layer.msg("退回理由中不能添加空格!");
+        	return false;
+        }
+    }
+    
+  //校验供应商名称
+    function checkSupplierName(obj) {
+        var name=$(obj).val();
+        if(name!=null){
+            $.ajax({
+                type: "POST",
+                async:false,
+                dataType: "text",
+                data:{
+                    "name":name
+                },
+                url: "${pageContext.request.contextPath }/purchaser/checkSupplierName.do",
+                success: function(data) {
+                        if(data=='true'){
+                            $(obj).val("");
+                            layer.alert("库中没有此供应商，请重新输入");
+                        }
+                }
+             });
+        }
+    }
 </script>
 
 </head>
@@ -320,7 +351,7 @@
 					<c:if test="${list[0].planType=='FC9528B2E74F4CB2A9E74735A8D6E90A'}">
 					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5"  id="dnone" >
 			            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			                <input type="checkbox" name="" onchange="" <c:if test="${list[0].enterPort==1}">checked="checked"</c:if> value="" />进口
+			                <input type="checkbox" name="" disabled="true" onchange="" <c:if test="${list[0].enterPort==1}">checked="checked"</c:if> value="" />进口
 			            </div>
 			         </li>
 			         </c:if>
@@ -437,7 +468,7 @@
 							</td>
 							
 							<td class="tl">
-								<div class="w80"><input name="list[${vs.index }].supplier" readonly="readonly" value="${obj.supplier }" /></div>
+								<div class="w80"><input name="list[${vs.index }].supplier" readonly="readonly" value="${obj.supplier }"  /></div>
 							</td>
 							<td class="tc">
 							    <div class="w80">${obj.isFreeTax }</div>
@@ -475,7 +506,7 @@
 				  <div class="col-md-12 col-xs-12 col-sm-12 p0" >
 				     <div class="col-md-12 col-xs-12 col-sm-12 p0"> 退回理由：</div>
 				     <div class="col-md-12 col-xs-12 col-sm-12 p0">
-				         <textarea id="reson" name="reason" maxlength="800" class="h80 col-md-10 col-xs-10 col-sm-12" title="不超过800个字"></textarea>
+				         <textarea id="reson" name="reason" maxlength="800" class="h80 col-md-10 col-xs-10 col-sm-12" title="不超过800个字" onblur="checkSpace(this);"></textarea>
                      </div>
                   </div>
                   <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">

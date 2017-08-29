@@ -90,6 +90,8 @@
                   <th class="info">审批字段名字</th>
                   <th class="info">审批内容</th>
                   <th class="info">不通过理由</th>
+                  <th class="info">审核时间</th>
+                  <th class="info">状态</th>
                 </tr>
               </thead>
               <c:forEach items="${auditList }" var="audit" varStatus="vs">
@@ -119,6 +121,17 @@
                     <c:if test="${fn:length (audit.suggest) > 20}">${fn:substring(audit.suggest,0,20)}...</c:if>
                     <c:if test="${fn:length(audit.suggest) <= 20}">${audit.suggest}</c:if>
                   </td>
+									<td class="tc" title="<fmt:formatDate value="${audit.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/>">
+										<fmt:formatDate value="${audit.createdAt}" pattern="yyyy-MM-dd"/>
+									</td>
+									<td class="tc">
+										<c:choose>
+											<c:when test="${audit.returnStatus == 1}">退回修改</c:when>
+											<c:when test="${audit.returnStatus == 2}">审核不通过</c:when>
+											<c:when test="${audit.returnStatus == 3}">已修改</c:when>
+											<c:when test="${audit.returnStatus == 4}">未修改</c:when>
+										</c:choose>
+									</td>
                 </tr>
               </c:forEach>
             </table>

@@ -91,7 +91,7 @@
 		<result column="ORGNAME" property="orgName" />
 		<result column="AUDITOR" property="auditor" />
 		<result column="AUDIT_TEMPORARY" property="auditTemporary" />
-    <!-- <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/> -->
+    <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
 	<resultMap type="ses.model.sms.Supplier" id="supplierTypeMap"
@@ -1850,6 +1850,7 @@
 		  SUPPLIER_NAME,
 		  LOGIN_NAME,
 		  MOBILE,
+		  CREDIT_CODE,
 		  SUPPLIER_STATUS,
 		  CREATED_AT,
 		  CONTACT_NAME,
@@ -1860,14 +1861,14 @@
 		<if test="supplierName != null and supplierName !=''">
 			AND SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 		</if>
-		<if test="supplierName != null and supplierName !=''">
-			AND SUPPLIER_NAME like  CONCAT(CONCAT('%', #{supplierName}), '%')
-		</if>
 		<if test="loginName != null and loginName !=''">
-			AND LOGIN_NAME like  CONCAT(CONCAT('%', #{loginName}), '%')
+			AND LOGIN_NAME like CONCAT(CONCAT('%', #{loginName}), '%')
 		</if>
 		<if test="mobile != null and mobile !=''">
 			AND MOBILE like  CONCAT(CONCAT('%', #{mobile}), '%')
+		</if>
+		<if test="creditCode != null and creditCode !=''">
+			AND CREDIT_CODE like CONCAT(CONCAT('%', #{creditCode}), '%')
 		</if>
 		<if test="status != null">
 			AND SUPPLIER_STATUS = #{status}
@@ -1992,14 +1993,18 @@
 	</select>
 	
 	<select id="selectSupplierNumber" parameterType="java.util.Map" resultType="ses.model.sms.supplierExport">
-	select f.*,(f.reg+f.statusOne+f.statusTwo+f.statusThree+f.statusFour) as sums from (
+	select f.* from (
 	select  
 	 o.id as id,o.name as name,o.short_name as shortName,d.id as depId,o.position,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id) reg,
 	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=0) as  statusOne,
 	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=1) as statusTwo,
 	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=2) as statusThree,
-	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=3) as statusFour
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=3) as statusFour,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=-3) as statusFive,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=6) as statusSix,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=5) as statusSeven,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=7) as statusNine,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=8) as statusEight
 	from 
 	 T_SES_OMS_ORG o inner join T_SES_OMS_PURCHASE_DEP d  on o.id =d.org_id LEFT JOIN T_SES_SMS_SUPPLIER s
 	 on o.id=s.PROCUREMENT_DEP_ID where 1=1
@@ -2011,16 +2016,18 @@
 	  order by o.position) f
 	</select>
 	<select id="selectExpertNumber" parameterType="java.util.Map" resultType="ses.model.sms.supplierExport">
-	select f.*,(f.reg+f.statusOne+f.statusTwo+f.statusThree+f.statusFour+f.expertArmy+f.expertsLocal) as sums  from (
+	select f.*  from (
 	select  
 	 o.id as id,o.name as name,o.short_name as shortName,d.id as depId,o.position,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id) reg,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=0) as  statusOne,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=1) as statusTwo,
-	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=3) as statusThree,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=9) as statusThree,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=2) as statusFour,
-  (select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and EXPERTS_FROM='E8D313E0C37E432E8E779493D659E686') as expertArmy,
-  (select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and EXPERTS_FROM='0F51B541448B4F9E9D0C0BE5BBCC9D9B') as expertsLocal
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=-3) as statusFive,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=5) as statusSix,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=7) as statusNine,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=8) as statusEight,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=6) as statusSeven
 	from 
 	 T_SES_OMS_ORG o inner join T_SES_OMS_PURCHASE_DEP d  on o.id =d.org_id LEFT JOIN T_SES_EMS_EXPERT s
 	 on o.id=s.PURCHASE_DEP_ID where 1=1
@@ -2041,14 +2048,74 @@
             </foreach>
             </where> 
 	</select>
-	
+	<select id="selectSupplierNumberFormal" parameterType="java.util.Map" resultType="ses.model.sms.supplierExport">
+		select f.*,(f.formalPr+f.formalMs+f.formalSe+f.formalMr) as formalSum,(f.checkPr+f.checkMs+f.checkSe+f.checkMr) as checkSum,(f.inspectPr+f.inspectMs+f.inspectSe+f.inspectMr) as inspectSum from 
+		(select o.id as id,o.name as name,o.short_name as shortName,d.id as depId,o.position,
+		(SELECT count(*) FROM T_SES_SMS_SUPPLIER t1 LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1.ID = t3.SUPPLIER_ID where t1.PROCUREMENT_DEP_ID=d.id and t3.SUPPLIER_TYPE_ID='PROJECT' and t1.SUPPLIER_STATUS=1 ) as formalPr,
+		(SELECT count(*) FROM T_SES_SMS_SUPPLIER t1 LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1.ID = t3.SUPPLIER_ID where t1.PROCUREMENT_DEP_ID=d.id and t3.SUPPLIER_TYPE_ID='SALES' and t1.SUPPLIER_STATUS=1) as formalMs,
+		(SELECT count(*) FROM T_SES_SMS_SUPPLIER t1 LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1.ID = t3.SUPPLIER_ID where t1.PROCUREMENT_DEP_ID=d.id and t3.SUPPLIER_TYPE_ID='SERVICE' and t1.SUPPLIER_STATUS=1) as formalSe,
+		(SELECT count(*) FROM T_SES_SMS_SUPPLIER t1 LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1.ID = t3.SUPPLIER_ID where t1.PROCUREMENT_DEP_ID=d.id and t3.SUPPLIER_TYPE_ID='PRODUCT' and t1.SUPPLIER_STATUS=1) as formalMr,
+		(SELECT count(*) FROM T_SES_SMS_SUPPLIER t1 LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1.ID = t3.SUPPLIER_ID where t1.PROCUREMENT_DEP_ID=d.id and t3.SUPPLIER_TYPE_ID='PROJECT' and t1.SUPPLIER_STATUS=5 ) as checkPr,
+		(SELECT count(*) FROM T_SES_SMS_SUPPLIER t1 LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1.ID = t3.SUPPLIER_ID where t1.PROCUREMENT_DEP_ID=d.id and t3.SUPPLIER_TYPE_ID='SALES' and t1.SUPPLIER_STATUS=5) as checkMs,
+		(SELECT count(*) FROM T_SES_SMS_SUPPLIER t1 LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1.ID = t3.SUPPLIER_ID where t1.PROCUREMENT_DEP_ID=d.id and t3.SUPPLIER_TYPE_ID='SERVICE' and t1.SUPPLIER_STATUS=5) as checkSe,
+		(SELECT count(*) FROM T_SES_SMS_SUPPLIER t1 LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1.ID = t3.SUPPLIER_ID where t1.PROCUREMENT_DEP_ID=d.id and t3.SUPPLIER_TYPE_ID='PRODUCT' and t1.SUPPLIER_STATUS=5) as checkMr,
+		(SELECT count(*) FROM T_SES_SMS_SUPPLIER t1 LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1.ID = t3.SUPPLIER_ID where t1.PROCUREMENT_DEP_ID=d.id and t3.SUPPLIER_TYPE_ID='PROJECT' and t1.SUPPLIER_STATUS=7 ) as inspectPr,
+		(SELECT count(*) FROM T_SES_SMS_SUPPLIER t1 LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1.ID = t3.SUPPLIER_ID where t1.PROCUREMENT_DEP_ID=d.id and t3.SUPPLIER_TYPE_ID='SALES' and t1.SUPPLIER_STATUS=7) as inspectMs,
+		(SELECT count(*) FROM T_SES_SMS_SUPPLIER t1 LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1.ID = t3.SUPPLIER_ID where t1.PROCUREMENT_DEP_ID=d.id and t3.SUPPLIER_TYPE_ID='SERVICE' and t1.SUPPLIER_STATUS=7) as inspectSe,
+		(SELECT count(*) FROM T_SES_SMS_SUPPLIER t1 LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1.ID = t3.SUPPLIER_ID where t1.PROCUREMENT_DEP_ID=d.id and t3.SUPPLIER_TYPE_ID='PRODUCT' and t1.SUPPLIER_STATUS=7) as inspectMr
+		  from 
+	 T_SES_OMS_ORG o inner join T_SES_OMS_PURCHASE_DEP d  on o.id =d.org_id LEFT JOIN T_SES_SMS_SUPPLIER s
+	 on o.id=s.PROCUREMENT_DEP_ID where 1=1
+	 and o.TYPE_NAME=1 and o.is_deleted =0 and d.is_deleted= 0 and d.IS_AUDIT_SUPPLIER=1
+	 <if test="nameSupFormal != null and nameSupFormal !=''">
+	    and  o.short_name like CONCAT(CONCAT('%', #{nameSupFormal}), '%')
+	  </if>
+	  group by o.id,o.name,o.short_name,d.id,o.position) f
+	   
+	</select>
+	<select id="selectExpertNumberFormal" parameterType="java.util.Map" resultType="ses.model.sms.supplierExport">
+	select f.*,(f.formalPr+f.formalMs+f.formalSe+f.formalMr+f.formalPs) as formalSum,(f.checkPr+f.checkMs+f.checkSe+f.checkMr+f.checkPs) as checkSum,(f.inspectPr+f.inspectMs+f.inspectSe+f.inspectMr+f.inspectPs) as inspectSum from (
+	select  
+	 o.id as id,o.name as name,o.short_name as shortName,d.id as depId,o.position,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=6 and instr(EXPERTS_TYPE_ID,(select id from T_SES_BMS_DICTIONARY_DATA where code='GOODS'))>0) as  formalMr,
+(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=6 and instr(EXPERTS_TYPE_ID, (select id from T_SES_BMS_DICTIONARY_DATA where code='PROJECT'))>0) as  formalPr,
+(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=6 and instr(EXPERTS_TYPE_ID, (select id from T_SES_BMS_DICTIONARY_DATA where code='GOODS_SERVER'))>0) as  formalMs,
+(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=6 and instr(EXPERTS_TYPE_ID, (select id from T_SES_BMS_DICTIONARY_DATA where code='GOODS_PROJECT'))>0) as  formalPs,
+(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=6 and instr(EXPERTS_TYPE_ID, (select id from T_SES_BMS_DICTIONARY_DATA where code='SERVICE'))>0) as  formalSe,
+(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=7 and instr(EXPERTS_TYPE_ID, (select id from T_SES_BMS_DICTIONARY_DATA where code='GOODS'))>0) as  inspectMr,
+(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=7 and instr(EXPERTS_TYPE_ID, (select id from T_SES_BMS_DICTIONARY_DATA where code='PROJECT'))>0) as  inspectPr,
+(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=7 and instr(EXPERTS_TYPE_ID, (select id from T_SES_BMS_DICTIONARY_DATA where code='GOODS_SERVER'))>0) as  inspectMs,
+(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=7 and instr(EXPERTS_TYPE_ID, (select id from T_SES_BMS_DICTIONARY_DATA where code='GOODS_PROJECT'))>0) as  inspectPs,
+(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=7 and instr(EXPERTS_TYPE_ID, (select id from T_SES_BMS_DICTIONARY_DATA where code='SERVICE'))>0) as  inspectSe,
+(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=1 and instr(EXPERTS_TYPE_ID, (select id from T_SES_BMS_DICTIONARY_DATA where code='GOODS'))>0) as  checkMr,
+(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=1 and instr(EXPERTS_TYPE_ID, (select id from T_SES_BMS_DICTIONARY_DATA where code='PROJECT'))>0) as  checkPr,
+(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=1 and instr(EXPERTS_TYPE_ID, (select id from T_SES_BMS_DICTIONARY_DATA where code='GOODS_SERVER'))>0) as  checkMs,
+(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=1 and instr(EXPERTS_TYPE_ID, (select id from T_SES_BMS_DICTIONARY_DATA where code='GOODS_PROJECT'))>0) as  checkPs,
+(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=1 and instr(EXPERTS_TYPE_ID, (select id from T_SES_BMS_DICTIONARY_DATA where code='SERVICE'))>0) as  checkSe
+	from 
+	 T_SES_OMS_ORG o inner join T_SES_OMS_PURCHASE_DEP d  on o.id =d.org_id LEFT JOIN T_SES_EMS_EXPERT s
+	 on o.id=s.PURCHASE_DEP_ID where 1=1
+	 and o.TYPE_NAME=1 and o.is_deleted =0 and d.is_deleted= 0 and d.IS_AUDIT_SUPPLIER=1
+   <if test="nameExpFormal != null and nameExpFormal !=''">
+	    and  o.short_name like CONCAT(CONCAT('%', #{nameExpFormal}), '%')
+	  </if>
+	 group by o.id,o.name,o.short_name,d.id,o.position
+	 order by o.position) f
+	</select>
 	<!-- 根据采购机构id统计对应状态的供应商数量 -->
 	<select id="countByPurchaseDepId" resultType="int">
 		SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER 
 		WHERE PROCUREMENT_DEP_ID = #{purchaseDepId}
 		AND SUPPLIER_STATUS = #{status}
 	</select>
-	
+	<!-- 根据采购机构id统计对应状态的供待审核 和 退回待审核 应商数量 -->
+	<select id="countAuditByPurchaseDepId" resultType="int">
+		SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER
+		WHERE PROCUREMENT_DEP_ID = #{purchaseDepId}
+		AND SUPPLIER_STATUS in('0','9')
+		AND IS_DELETED = '0'
+		AND PROCUREMENT_DEP_ID is not null
+	</select>
 	<!-- 手机号校验：专家库+供应商库（除去临时供应商和临时专家） -->
 	<select id="countByMobile" resultType="int" parameterType="string">
 		<!-- SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER SUPP,

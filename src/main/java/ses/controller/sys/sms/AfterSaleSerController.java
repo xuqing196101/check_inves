@@ -1,58 +1,38 @@
 package ses.controller.sys.sms;
 
-import java.math.BigDecimal;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import bss.model.cs.ContractRequired;
+import bss.model.cs.PurchaseContract;
+import bss.service.cs.ContractRequiredService;
+import bss.service.cs.PurchaseContractService;
+import bss.service.pqims.SupplierPqrecordService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.service.UploadService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-
-
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import bss.model.cs.ContractRequired;
-import bss.model.cs.PurchaseContract;
-import bss.model.pqims.PqInfo;
-import bss.model.pqims.SupplierPqrecord;
-import bss.service.cs.ContractRequiredService;
-import bss.service.cs.PurchaseContractService;
-import bss.service.pqims.SupplierPqrecordService;
-
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import ses.dao.sms.AfterSaleSerMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
-import ses.model.oms.Orgnization;
 import ses.model.sms.AfterSaleSer;
-import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.AfterSaleSerService;
 import ses.service.sms.SupplierService;
-import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @Scope("prototype")
@@ -81,6 +61,9 @@ public class AfterSaleSerController extends BaseSupplierController{
     @Autowired
     private OrgnizationServiceI orgnizationServiceI;
 
+    @Autowired
+    private UploadService uploadService;
+
 	/**ContractRequiredService
      * 
      *〈简述〉
@@ -92,27 +75,32 @@ public class AfterSaleSerController extends BaseSupplierController{
      * @return
      */
     @RequestMapping(value="/list")
-    public String getAll(@CurrentUser User user, Model model, String code, String type, Integer page){
+    public String getAll(@CurrentUser User user, Model model, String code, String goodsName,String name, Integer page){
     	if(page==null){
             page=1;
         }
-        Map<String,Object> map = new HashMap<String, Object>();
-        map.put("page", page);
-    	 List<AfterSaleSer> AfterSaleSers = afterSaleSerService.getAll(map);
-    	 if(null!=AfterSaleSers && !AfterSaleSers.isEmpty()){
-	    	 for(AfterSaleSer after:AfterSaleSers){
-	    		 ContractRequired selectConRequByPrimaryKey = contractRequiredService.selectConRequByPrimaryKey(after.getRequiredId());
-	    		 if(selectConRequByPrimaryKey==null){
-	    			 continue;
-	    		 }
-	    		 PurchaseContract selectById = purchaseContractService.selectById(selectConRequByPrimaryKey.getContractId());
-	    		 after.setContractCode(selectById.getCode());
-	    		 after.setMoney(selectById.getMoney());
-	    		 after.setRequiredId(selectConRequByPrimaryKey.getGoodsName());
-	    	 }
-    	 }
-    	 PageInfo<AfterSaleSer> list = new PageInfo<AfterSaleSer>(AfterSaleSers);
-    	 model.addAttribute("list", list);
+        if(user!=  null){
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("page", page);
+			 List<AfterSaleSer> AfterSaleSers = afterSaleSerService.queryBySupplierIdList(user.getTypeId(),goodsName,code,name,map);
+			/* if(null!=AfterSaleSers && !AfterSaleSers.isEmpty()){
+				 for(AfterSaleSer after:AfterSaleSers){
+					 ContractRequired selectConRequByPrimaryKey = contractRequiredService.selectConRequByPrimaryKey(after.getRequiredId());
+					 if(selectConRequByPrimaryKey==null){
+						 continue;
+					 }
+					 PurchaseContract selectById = purchaseContractService.selectById(selectConRequByPrimaryKey.getContractId());
+					 after.setContractCode(selectById.getCode());
+					 after.setMoney(selectById.getMoney());
+					 after.setRequiredId(selectConRequByPrimaryKey.getGoodsName());
+				 }
+			 }*/
+			 PageInfo<AfterSaleSer> list = new PageInfo<AfterSaleSer>(AfterSaleSers);
+			 model.addAttribute("list", list);
+			model.addAttribute("goodsName", goodsName);
+			model.addAttribute("code", code);
+			model.addAttribute("name", name);
+		}
         return "ses/sms/after_sale_ser/list";
     }
 	
@@ -135,6 +123,7 @@ public class AfterSaleSerController extends BaseSupplierController{
 		if(datas.size()>0){
 			model.addAttribute("attachTypeId", datas.get(0).getId());
 		}
+		model.addAttribute("propertiesImg",PropUtil.getProperty("file.picture.type"));
 		return "ses/sms/after_sale_ser/add";
 	}
 	@RequestMapping(value="/getContract",produces = "text/html; charset=utf-8")
@@ -169,11 +158,9 @@ public class AfterSaleSerController extends BaseSupplierController{
 	 */
 	@SuppressWarnings("null")
 	@RequestMapping(value="/save",produces = "text/html; charset=utf-8")
-	public String save(HttpServletRequest request, AfterSaleSer afterSaleSer,Model model,String contractCode){
-		
+	public String save(@CurrentUser User user, AfterSaleSer afterSaleSer,Model model,String contractCode){
 		Boolean flag = true;
 		String url = "";
-			
 		if(contractCode==null || "".equals(contractCode)){
 			flag = false;
 			model.addAttribute("ERR_contract_code","请输入合同编号");
@@ -185,6 +172,16 @@ public class AfterSaleSerController extends BaseSupplierController{
 				model.addAttribute("ERR_contract_code","合同编号不存在");
 			}
 			model.addAttribute("contractCode",contractCode);
+		}
+		if(StringUtils.isBlank(afterSaleSer.getAfterSaleSerId())){
+			flag = false;
+			model.addAttribute("ERR_img","产品使用说明或用户操作手册非法");
+		}else{
+			long sum=uploadService.countFileByBusinessId(afterSaleSer.getAfterSaleSerId(), "70", Constant.TENDER_SYS_KEY);
+			if(sum==0){
+				flag = false;
+				model.addAttribute("ERR_img","产品使用说明或用户操作手册非法不能为空");
+			}
 		}
 		if(afterSaleSer.getRequiredId() == null) {
 			flag = false;
@@ -206,14 +203,18 @@ public class AfterSaleSerController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_mobile", "联系电话不能为空!");
 		}
+
 		if(flag == false){
-			
+			model.addAttribute("afterSaleSerId", afterSaleSer.getAfterSaleSerId());
+			model.addAttribute("propertiesImg",PropUtil.getProperty("file.picture.type"));
 			url="ses/sms/after_sale_ser/add";
 		}else{
-			afterSaleSer.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-			afterSaleSerService.add(afterSaleSer);
-			
-			url="redirect:list.html";
+			if(user !=null){
+				afterSaleSer.setId(afterSaleSer.getAfterSaleSerId());
+				afterSaleSer.setSupplierId(user.getTypeId());
+				afterSaleSerService.add(afterSaleSer);
+				url="redirect:list.html";
+			}
 		}
 		return url;
 	}

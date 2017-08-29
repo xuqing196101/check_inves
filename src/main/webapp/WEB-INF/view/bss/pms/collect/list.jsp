@@ -210,6 +210,7 @@
 			//重置
 			function resetQuery() {
 				$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+				$("#afterReset").val("total");
 			}
 			
 			//下载
@@ -282,6 +283,7 @@
 			                <option value="2" <c:if test="${'2'==status}">selected="selected"</c:if>>待受理</option>
 			                <option value="3" <c:if test="${'3'==status}">selected="selected"</c:if>>已受理 </option>
 			                <option value="4" <c:if test="${'4'==status}">selected="selected"</c:if>>受理退回</option>
+			                <option style="display: none;" id="afterReset" value="">
 			              </select>
 			          </li>
 		  		</ul>

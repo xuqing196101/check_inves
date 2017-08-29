@@ -141,6 +141,24 @@ function showData(obj,tablerId,typeId,pageNum) {
 				var isAptitudeProductPageAudit=isNumber(item.isAptitudeProductPageAudit);
 				// 物资 销售 资质
 				var isAptitudeSalesPageAudit=isNumber(item.isAptitudeSalesPageAudit);
+				
+				// 合同是否修改
+				var isContractModified = isNumber(item.isContractModified);
+				// 资质是否修改
+				var isAptitudeModified = isNumber(item.isAptitudeModified);
+				// 工程资质是否修改
+				var isEngAptitudeModified = isNumber(item.isEngAptitudeModified);
+				
+				var contractModifiedStyle,aptitudeModifiedStyle;
+				if(isContractModified == 1){
+					contractModifiedStyle=" style=\"border: 1px solid #FF8C00;\" ";
+				}
+				if(isAptitudeModified == 1){
+					aptitudeModifiedStyle=" style=\"border: 1px solid #FF8C00;\" ";
+				}
+				if(isEngAptitudeModified == 1){
+					aptitudeModifiedStyle=" style=\"border: 1px solid #FF8C00;\" ";
+				}
 
 				var showQua=0,showContract=0;
 				if(item.contractId){
@@ -205,7 +223,7 @@ function showData(obj,tablerId,typeId,pageNum) {
 					break;
 				}
 				if("content_3" !=tablerId){
-					projectDiv="<td "+contractStyle+" id=\"contract"+ind+"\" >"+isShow(tablerId,ind,showContract,"contract",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>";
+					projectDiv="<td "+contractStyle + contractModifiedStyle +" id=\"contract"+ind+"\" >"+isShow(tablerId,ind,showContract,"contract",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>";
 				}else{
 					projectDiv="";
 				}
@@ -236,7 +254,7 @@ function showData(obj,tablerId,typeId,pageNum) {
 	                            "<td "+itemsStyle+" id=\"secondNode"+ind+"\" >"+isNull(item.secondNode)+"</td>"+
 	                            "<td "+itemsStyle+" id=\"thirdNode"+ind+"\" >"+isNull(item.thirdNode)+"</td>"+
 	                            "<td "+itemsStyle+" id=\"fourthNode"+ind+"\" >"+isNull(item.fourthNode)+"</td>"+
-	                            "<td "+aptitudeStyle+" id=\"qualifications"+ind+"\" >"+isShow(tablerId,ind,showQua,"qualifications",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>"+
+	                            "<td "+aptitudeStyle+aptitudeModifiedStyle+" id=\"qualifications"+ind+"\" >"+isShow(tablerId,ind,showQua,"qualifications",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>"+
 	                            projectDiv+"</tr>"
 				);
 			});
@@ -502,7 +520,7 @@ function reasonProjectMulti(tablerId,auditType,auditContent,wzType) {// ,ind,aTy
 					 supplierAudit.suggest=text;
 					 supplierAudit.supplierId=supplierId;
 					 supplierAudit.auditType=auditType;
-					 supplierAudit.auditContent=contentParent(tablerId,index,'目录信息');;
+					 supplierAudit.auditContent=contentParent(tablerId,index,'');;
 					 supplierAudit.auditField=itemsId;
 					 supplierAuditList.push(supplierAudit);
 		       });

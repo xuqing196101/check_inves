@@ -1021,6 +1021,8 @@ public class PurchaseContractController extends BaseSupplierController{
 		}
 		purCon.setSupplierCheckIds(supcheckid);
 		PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
+		purCon.setSupplierBankAccount(purCon.getSupplierBankAccount_string());
+    purCon.setPurchaseBankAccount(purCon.getPurchaseBankAccount_string());
 		if(pur==null){
 			purchaseContractService.insertSelective(purCon);
 		}else{
@@ -1372,6 +1374,14 @@ public class PurchaseContractController extends BaseSupplierController{
 			Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(purCon.getPurchaseDepName());
 			/*purCon.setContractReList(requList);*/
 			/*model.addAttribute("purCon", purCon);*/
+			DictionaryData ddbook=new DictionaryData();
+      ddbook.setCode("CONTRACT_WARRANT");
+      List<DictionaryData> bookdata = dictionaryDataServiceI.find(ddbook);
+      request.getSession().setAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+      if(bookdata.size()>0){
+        model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
+      }
+      model.addAttribute("attachuuid", purCon.getId());
 			model.addAttribute("requList", requList);
 			model.addAttribute("kinds", DictionaryDataUtil.find(5));
 			model.addAttribute("org", orgnization);
@@ -1426,7 +1436,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(ValidateUtils.isNull(purCon.getSupplierBankAccount_string())){
 			flag = false;
 			model.addAttribute("ERR_supplierBankAccount", "乙方账号不能为空");
-		}else if(!ValidateUtils.PositiveNumber(purCon.getSupplierBankAccount_string())){
+		}else if(!ValidateUtils.Number(purCon.getSupplierBankAccount_string())){
       flag = false;
       model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
     }/*else if(!ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount_string())){
@@ -1545,7 +1555,7 @@ public class PurchaseContractController extends BaseSupplierController{
         if(ValidateUtils.isNull(purCon.getPurchaseBankAccount_string())){
             flag = false;
             model.addAttribute("ERR_purchaseBankAccount", "甲方账号不能为空");
-        }else if(!ValidateUtils.PositiveNumber(purCon.getPurchaseBankAccount_string())){
+        }else if(!ValidateUtils.Number(purCon.getPurchaseBankAccount_string())){
           flag = false;
           model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方账号");
         }/*else if(!ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount_string())){
@@ -1949,6 +1959,14 @@ public class PurchaseContractController extends BaseSupplierController{
         if(draftCon.getPurchaseBankAccount()!=null){
             draftCon.setPurchaseBankAccount_string(draftCon.getPurchaseBankAccount().toString());
         }
+        DictionaryData ddbook=new DictionaryData();
+        ddbook.setCode("CONTRACT_WARRANT");
+        List<DictionaryData> bookdata = dictionaryDataServiceI.find(ddbook);
+        request.getSession().setAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+        if(bookdata.size()>0){
+          model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
+        }
+        model.addAttribute("attachuuid", draftCon.getId());
         Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(draftCon.getPurchaseDepName());
         model.addAttribute("purCon", draftCon);
         model.addAttribute("kinds", DictionaryDataUtil.find(5));

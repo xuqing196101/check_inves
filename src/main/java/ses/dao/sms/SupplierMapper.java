@@ -643,4 +643,22 @@ public interface SupplierMapper {
 	 * @return
 	 */
 	Supplier getById(Map<String, Object> param);
+
+    /**
+     * 根据采购机构id统计对应状态的供待审核 和 退回待审核 应商数量
+     * @return
+     */
+	int countAuditByPurchaseDepId(String purchaseDepId);
+	/**
+	 * 查询入库供应商
+	 * @param map
+	 * @return
+	 */
+	List<supplierExport> selectSupplierNumberFormal(HashMap<String, Object> map);
+	/**
+	 * 查询入库专家
+	 * @param map
+	 * @return
+	 */
+	List<supplierExport> selectExpertNumberFormal(HashMap<String, Object> map);
 }

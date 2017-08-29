@@ -412,7 +412,7 @@ public interface SupplierAuditService {
      * @param type
      * @return
      */
-    List<Qualification> showQualifications(SupplierCateTree cateTree,Integer type,String type_id,Integer syskey);
+    List<Qualification> showQualifications(SupplierCateTree cateTree,Integer type,String type_id,Integer typeService);
     /**
      * 
      * Description:工程 资质 文件查看
@@ -423,7 +423,7 @@ public interface SupplierAuditService {
      * @param type
      * @return
      */
-    List<SupplierCateTree> showProject(SupplierCateTree cateTree,Integer type,String type_id,Integer syskey);
+    List<SupplierCateTree> showProject(SupplierCateTree cateTree,Integer type,String type_id);
     /**
      * 
      * Description:根据参数 查询数据是否存在
@@ -511,5 +511,35 @@ public interface SupplierAuditService {
     JdcgResult selectAuditNoPassItemCount(String supplierId);
 
     JdcgResult vertifyOpinion(String supplierId);
+
+    /**
+     * 获取所有的审核记录
+     * @param supplierAudit
+     * @param rss
+     * @return
+     */
+	List<SupplierAudit> getAuditRecords(SupplierAudit supplierAudit, Integer[] rss);
+	
+	/**
+	 * 获取所有的审核记录（排序）
+	 * @param supplierAudit
+	 * @return
+	 */
+	List<SupplierAudit> getAuditRecordsWithSort(SupplierAudit supplierAudit);
+
+	/**
+	 * 判断合同是否修改
+	 * @param supplierId
+	 * @param supplierItemId
+	 * @return
+	 */
+	boolean isContractModified(String supplierId, String supplierItemId);
+
+	/**
+	 * 更新审核记录的退回状态
+	 * @param supplierId
+	 * @return
+	 */
+	int updateReturnStatus(String supplierId);
 
 }

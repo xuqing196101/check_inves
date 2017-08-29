@@ -7,6 +7,7 @@
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<script type="text/javascript">
 			$(function() {
+				//alert('${fn:length(list)}')
 				$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
 					// 获取已激活的标签页的名称
 					var activeTab = $(e.target).text();
@@ -48,9 +49,24 @@
 
 			function sets() {
 				var id = $("#cid").val();
-				window.location.href = "${pageContext.request.contextPath}/set/list.html?id=" + id;
+				submitForm()//审核人员调整前先保存审核数据
+				window.location.href = "${pageContext.request.contextPath}/set/list.html?id=" + id+"&backAttr=ok";//backAttr是判断请求来源的标识
 			}
-
+		    //异步提交表单,审核人员调整前先保存审核数据
+		    function submitForm(){
+		    	 $.ajax({  
+		    		    type: "POST",  
+		    		    url:"${pageContext.request.contextPath}/look/submitForm.html",  
+		    		    data:$('#audit_form').serialize(),  
+		    		    async: false,  
+		    		    error: function(request) {  
+		    		        alert("暂存审核数据出错!");  
+		    		    },  
+		    		    success: function(data) {  
+		    		          
+		    		    }  
+		    		  });
+		    }
 			function sel(obj) {
 				var val = $(obj).val();
 				$("select option").each(function() {
@@ -352,8 +368,30 @@
 						}  */
 						var flg=false;
 						 var org=$(obj).val();
-						 var price=$(obj).parent().prev().prev().prev().prev().val();
+						 var price=$(obj).parent().prev().prev().prev().val();
 						 if(price==""){
+							 //单一来源可输入供应商
+							 var purchaseType = $(obj).find("option:selected").text(); //选中的文本
+			                   if($.trim(purchaseType) == "单一来源") {
+			                       $(obj).parent().next().next().find("input").removeAttr("readonly");
+			                   } else {
+			                       $(obj).parent().next().next().find("input").val("");
+			                       $(obj).parent().next().next().find("input").attr("readonly", "readonly");
+			                   }
+			                   var next=$(obj).parent().parent().nextAll();
+			                   var parent_id=$(obj).next().val();
+			                   for(var i = 0; i < next.length; i++){
+			                       if(parent_id==$($(next[i]).children()[10]).children(":last").val()){
+			                           break;
+			                       }
+			                       $($(next[i]).children()[10]).children(":first").next().val($(obj).val());
+			                       if($(obj).val() == "26E3925D38BB4295BEB342BDC82B65AC") {
+			                           $($(next[i]).children()[12]).find("input").removeAttr("readonly");
+			                       } else {
+			                           $($(next[i]).children()[12]).find("input").val("");
+			                           $($(next[i]).children()[12]).find("input").attr("readonly", "readonly");
+			                       }
+			                   }
 							var id=$(obj).prev().val();
 						 	  $.ajax({
 						          url: "${pageContext.request.contextPath}/accept/detail.html",
@@ -602,14 +640,14 @@
 						var a= $("#oneId"+i).val();
 						if(typeof(a) != "undefined"){
 							if(a == ''){
-								layer.alert("请完善审核意见", {
-				                    offset: ['30%', '40%']
-				                  });
-								return;
-							}
+                                layer.alert("请完善审核意见", {
+                                    offset: ['30%', '40%']
+                                  });
+                                return;
+                            } 
 							if(i == 0){
-								one = a;
-							}else{
+                                one = a;
+                            }else{
 								one += ","+a;
 							}
 						}
@@ -618,12 +656,12 @@
 					for (var j = 0; j < size; j++){
 						var b= $("#twoId"+j).val();
 						if(typeof(b) != "undefined"){
-							if(b == ''){
+							 if(b == ''){
 								layer.alert("请完善审核意见", {
 				                    offset: ['30%', '40%']
 				                  });
 								return;
-							}
+							} 
 							if(j == 0){
 								two = b;
 							}else{
@@ -635,12 +673,12 @@
 					for (var k = 0; k < size; k++){
 						var c= $("#threeId"+k).val();
 						if(typeof(c) != "undefined"){
-							if(c == ''){
+							 if(c == ''){
 								layer.alert("请完善审核意见", {
 				                    offset: ['30%', '40%']
 				                  });
 								return;
-							}
+							} 
 							if(k == 0){
 								three = c;
 							}else{
@@ -648,7 +686,14 @@
 							}
 						}
 					}
-					window.location.href="${pageContext.request.contextPath}/look/report.html?id="+id+"&&one="+one+"&&two="+two+"&&three="+three;
+					//window.location.href="${pageContext.request.contextPath}/look/report.html?id="+id+"&&one="+one+"&&two="+two+"&&three="+three;
+					document.write("<form action='${pageContext.request.contextPath}/look/report.html' id='form1' method='post' style='display:none'>");    
+					document.write("<input type='hidden' name='id' value='"+id+"'>");    
+					document.write("<input type='hidden' name='one' value='"+one+"'>");    
+					document.write("<input type='hidden' name='two' value='"+two+"'>");    
+					document.write("<input type='hidden' name='three' value='"+three+"'>");    
+					document.write("</form>");    
+					document.getElementById("form1").submit();  
 				}
 		</script>
 	</head>
@@ -683,6 +728,7 @@
 		<u:upload id="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }" />
 		<u:show showId="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }" />
 		</div> --%>
+		    
 	</div>	 
 	<div class="row magazine-page">
 		<div class="col-md-12 pt10 tab-v2">
@@ -829,7 +875,7 @@
 											</td>
 											<td>
 											<input type="hidden" name="ss" value="${obj.id }">
-											<input onblur="change(this)"  type="text" name="listDetail[${vs.index }].supplier" value="${obj.supplier }" class="purchasename">
+											<input onblur="change(this)" readonly="readonly" type="text" name="listDetail[${vs.index }].supplier" value="${obj.supplier }" class="purchasename">
 											 <input type="hidden"    name="history" value=""/>
 											</td>
 											<td>

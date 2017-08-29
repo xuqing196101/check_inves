@@ -1085,6 +1085,33 @@ public class SupplierExtractsController extends BaseController {
     
     /**
      * 
+    	 * @Title: checkSupplierName
+    	 * @author: Zhou Wei
+    	 * @date: 2017年8月28日 下午5:11:32
+    	 * @Description:  验证临时供应商名称
+    	 * @return: String
+     */
+    @RequestMapping(value="/checkSupplierName",produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String checkSupplierName(String packageId,String projectId){
+    	Supplier supplier=new Supplier();
+        String name="";
+        SaleTender saleTender = new SaleTender();
+       
+        saleTender.setProject(new Project(projectId));
+        saleTender.setPackages(packageId);
+        saleTender.setSuppliers(supplier);
+        List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
+        List<String> sippName=new ArrayList<>();
+        for (SaleTender saleTender2 : saleTenderList) {
+        	name = saleTender2.getSuppliers().getSupplierName();
+			sippName.add(name);
+		}
+        return JSON.toJSONString(sippName);
+    }
+    
+    /**
+     * 
      * @Description:社会统一信用代码唯一校验
      * @author: Zhou Wei
      * @date: 2017年8月4日 下午2:16:01

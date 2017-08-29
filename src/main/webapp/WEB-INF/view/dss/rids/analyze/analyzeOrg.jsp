@@ -45,6 +45,14 @@
 							mark: {
 								show: true
 							},
+                            myTool: {
+                                show: true,
+                                title: '查询所有',
+                                icon: 'image://' + globalPath + '/public/backend/images/pie.png',
+                                onclick: function () {
+                                    findAllOrg();
+                                }
+                            },
 							dataView: {
 								show: true,
 								readOnly: false

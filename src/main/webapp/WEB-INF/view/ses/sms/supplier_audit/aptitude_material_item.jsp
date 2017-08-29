@@ -19,7 +19,7 @@
     <input id="tablerId"  type="hidden" value="${tablerId}">
       <c:choose>
       <c:when test="${not empty beanList }">
-       <table class="table table-bordered">
+       <table class="table table-bordered m_table_fixed_border">
          <tbody>
          <c:forEach items="${beanList }" var="obj" varStatus="vs">
          <tr><%-- <td class="tc info">${obj.categoryName}</td>  --%>
@@ -27,9 +27,9 @@
          <c:forEach items="${obj.list }" var="qua" varStatus="vss">
             <div class="tc info fl w400">
             
-            <span class="tc info fl">
+            <span class="tc info fl" <c:if test="${fn:contains(fileModifyField,qua.flag)}">style="border: 1px solid #FF8C00;"</c:if>>
             <input id="count${qua.id}"  type="hidden" value="${qua.auditCount}">
-            <div class="m_inline" onclick="reasonProject('${ids }','${obj.categoryId }','${obj.categoryName }','${vss.index + 1}','${qua.id}')"><a href="javascript:void(0);"><img id="show_td${qua.id}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>&nbsp;&nbsp;${qua.name}</div>
+            <div class="m_inline" onclick="reasonProject('${ids }','${obj.categoryId }','${obj.categoryName }','${vss.index + 1}','${qua.id}','${qua.name}')"><a href="javascript:void(0);"><img id="show_td${qua.id}" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>&nbsp;&nbsp;${qua.name}</div>
             <div class="m_inline"><u:show showId="showfile${qua.flag}" delete="false" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId }"/></div>
             </span>
             </div>

@@ -1,8 +1,10 @@
 package ses.service.sms;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCategoryOpinion;
 import ses.model.sms.SupplierTypeRelate;
 
 /**
@@ -56,4 +58,15 @@ public interface SupplierTypeRelateService {
 	 * @return
 	 */
 	public List<String> findTypeBySupplierId(String supplierId);
+	
+	/**
+	 * 
+	 * Description: 查询供应商所有的参评类别
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年8月25日
+	 * @param 
+	 * @return
+	 */
+	public List<SupplierCategoryOpinion> findSupplierCategoryByTypeId(Map<String, Object> map);
 }

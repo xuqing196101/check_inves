@@ -1050,3 +1050,4 @@ text-align:center;
     width: 90%;
   }
 }
+.break-all { word-break: break-all; }

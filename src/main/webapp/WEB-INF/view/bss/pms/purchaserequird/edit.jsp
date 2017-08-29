@@ -48,6 +48,7 @@
 	function referenceNO(){
         var referenceNO = $("#referenceNo").val();
         if(referenceNO == ''){
+        	layer.msg("采购需求文号不能为空");
             return;
         }        
         $.ajax({
@@ -56,7 +57,7 @@
                 "referenceNO": referenceNO
             },
             success: function(data) {
-                if(data.data > 0) {
+                if(data.data > 1) {
                     $("#referenceNo").val("");
                     layer.msg("采购需求文号已存在");
                 }
@@ -117,13 +118,9 @@
  
   	 function sum2(obj){  //修改数量
 	        var purchaseCount = $(obj).val()-0;//数量
-	        var price2 = $(obj).parent().next().children(":last");//价钱
-	        var price = $(price2).val()-0;
-	        var sum = purchaseCount*price/10000;
-	        var budget = $(obj).parent().next().next().children(":last");
-	        $(budget).val(sum);
-	      	var id=$(obj).prev().val(); //parentId
-	      	aa(id);
+	        var price2 = $($(obj).parent().next().children()[1]).val();//价钱
+	        $($(obj).parent().next().next().children()[1]).val(purchaseCount*price2/10000);
+	      	aa($(obj).next().val());//parentId
 	    }
 
     function sum1(obj){//修改单价
@@ -138,8 +135,6 @@
         aa(id);
     }
 	       function aa(id){// id是指当前的父级parentid
-	    	  
-
 	    	   var budget=0;
 	    	   $("#table tr").each(function(){
 	 	    		var cid= $(this).find("td:eq(8)").children(":first").next().next().val(); //parentId
@@ -173,16 +168,16 @@
 	 	    		 /*  } 
 	 	    		}); */    
 	    	     
-	    	  var did=$("#table tr:eq(2)").find("td:eq(9)").children(":first").next().val();//超级节点id
+	    	  var did=$("#table tr:eq(1)").find("td:eq(9)").children(":first").val();//超级节点id
 	    	    var total=0;
 	    	    $("#table tr").each(function(){
-	 	    		var cid= $(this).find("td:eq(9)").children(":first").next().val();
-	 	    		var same= $(this).find("td:eq(9)").children(":last").val()-0;
+	 	    		var cid= $(this).find("td:eq(9)").children(":last").val();
+	 	    		var same= $($(this).find("td:eq(9)").children()[1]).val()-0;
 	 	    		 if(did==cid){
 	 	    			total=total+same;
 	 	    		 }
 	    	   }); 
-	    	    $("#table tr:eq(1)").find("td:eq(9)").children(":last").val(total);
+	    	    $($("#table tr:eq(1)").find("td:eq(9)").children()[1]).val(total.toFixed(4));
 	       }   
 	       
         function calc(id){
@@ -298,10 +293,10 @@
                          if(parent_id==$($(next[i]).children()[1]).children(":last").val()){
                              break;
                          }
-                         if(i == 8){
+                         /* if(i == 8){
                              alert($($($(next[i]).children()[11]).children(":last")).find("option:selected").text());
                              alert($(obj).val());
-                         }
+                         } */
 
                          $($(next[i]).children()[11]).children(":last").val($(obj).val());
                          if($(obj).val() == "单一来源") {
@@ -337,34 +332,60 @@
 	     function dyly(){
              var bool=true;
              $("#detailZeroRow tr").each(function(i){
-                 var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
-                   if($.trim(type) == "单一来源") {
-                       var  supp= $(this).find("td:eq(12)").children(":first").val();//上级id
-                       if($.trim(supp)==''){
-                           bool=false;
-                           return bool;
-                       }
-                   }
+            	 if($(this).find("td:eq(8)").children(":first").next().val()!=""){
+            		 var  type= $(this).find("td:eq(11)").children(":last").val();
+                     if($.trim(type) == "26E3925D38BB4295BEB342BDC82B65AC") {//单一来源
+                         var  supp= $(this).find("td:eq(12)").children(":last").val();
+                         if($.trim(supp)==''){
+                             bool=false;
+                             return bool;
+                         }
+                     }
+            	 }
              });
              return bool;
              
          } 
 	     
 	      function submit(){
-	    	  
+	    	  var refNo=$("#referenceNo").val();
 	    	  var name=$("#jhmc").val();
+	    	  var flag = true;
 	    	  if($.trim(name) == "") {
 					 layer.alert("需求名称不允许为空"); 
 					 return false;
 				}
-	    	   var dy=dyly(); 
+             /*  if($.trim(refNo) == "") {
+                     layer.alert("需求文号不允许为空"); 
+                     return false;
+                } */
+              $.ajax({
+                  url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
+                  data:{
+                      "referenceNO":refNo
+                  },
+                  success: function(data) {
+                      if(data.data >= 1){
+                          $("#referenceNo").val("");
+                          layer.alert("采购需求文号已存在");
+                          
+                          flag=false;
+                      }else{
+                          flag=true;
+                      }
+                  }
+              });
+              
+              
+	    	   var dy=dyly();
+	    	   
 	    	  
-	    	  $("#detailZeroRow tr").each(function(i){
+	    	 /*  $("#detailZeroRow tr").each(function(i){
                  var  type= $(this).find("td:eq(11)").children(":last").text();//上级id
                    if($.trim(type) == "单一来源") {
                        var  supp= $(this).find("td:eq(12)").children(":first").val();//上级id
                    }
-             });
+             }); */
 	    	  
 	    	  if(!dy){
                   layer.alert("请填写供应商");
@@ -372,7 +393,7 @@
               }
 	    	  var flgs=false;
 	    	  $("#table tr").each(function(i){
-	    		  var price = $(this).find("td:eq(8)").children(":last").val();
+	    		  var price = $($(this).find("td:eq(8)").children()[1]).val();
 			    	if($.trim(price)!=""){
 			    		 if($(this).find("td:eq(11)").children(":last").val()==""){
 			    			 flgs=true;
@@ -384,7 +405,7 @@
 				   return false;
 			   }
 	    	  var no=$("#jhbh").val();
-	    	  var refNo=$("#referenceNo").val();
+	    	  
 	    	  var type=$("#wtype").val();
 	    	  var mobile=$("#rec_mobile").val();
 	    	  var uniqueId=$("#uniqueId").val();
@@ -397,8 +418,9 @@
 	    	$.each(delId,function(i,n){
 	    		deleteRow(n);
 	    	});
+	    	
 	    	 /* if($("#table tr").length>$("#listSize").val()){ */
-	    	 var flag = true;
+	    	
 	    		 var jsonStr = [];
 	 			 $("#table tr").each(function(i){ //遍历Table的所有Row
 	 					 if(i>0){  //&&i<=$("#listSize").val()
@@ -529,7 +551,7 @@
 					async: {
 						autoParam: ["id"],
 						enable: true,
-						url: "${pageContext.request.contextPath}/category/createtree.do",
+						url: "${pageContext.request.contextPath}/purchaser/createtree.do",
 						dataType: "json",
 						type: "post",
 					},
@@ -914,8 +936,8 @@
 			 return parentId;
 		}
 		//校验供应商名称
-        function checkSupplierName(index) {
-            var name=$("input[name='list["+index+"].supplier']").val();
+        function checkSupplierName(obj) {
+            var name=$(obj).val();
             if(name!=null){
                 $.ajax({
                     type: "POST",
@@ -927,7 +949,7 @@
                     url: "${pageContext.request.contextPath }/purchaser/checkSupplierName.do",
                     success: function(data) {
                             if(data=='true'){
-                                $("input[name='list["+index+"].supplier']").val("");
+                                $(obj).val("");
                                 layer.alert("库中没有此供应商，请重新输入");
                             }
                     }
@@ -945,42 +967,83 @@
 	  		        }
 	  		    });
 	    }
-      function delRowIndex(obj){//delobjId
-			var detailRow = document.getElementsByName("detailRow");
-			var index = detailRow.length;
-			
-			var input=$(obj).prev().val();
-			delId.push(input); 
-			/* var del = $("input[name='delobjId']").val(delId); */
-			/* delId.push(del); */ 
-			//alert(delId);
-			if(index<3){
-				 layer.alert("至少保留两行！",{offset: ['222px', '390px'], shade:0.01});
-			}else{
-			var tr=$(obj).parent().parent();
-			var nextEle=$(obj).parent().parent().next().children();
-			 var val=$(tr).find("td:eq(8)").children(":first").next().val();
-			 if($.trim(val)!=""){
-				 var input=$(obj).prev().val();
-				 if(typeof(input)!="undefined"){
+    function delRowIndex(obj){//delobjId
+        var detailRow = document.getElementsByName("detailRow");
+        var index = detailRow.length;
+
+        var input=$(obj).prev().val();
+        delId.push(input);
+		/* var del = $("input[name='delobjId']").val(delId); */
+		/* delId.push(del); */
+        //alert(delId);
+        if(index<3){
+            layer.alert("至少保留两行！",{offset: ['222px', '390px'], shade:0.01});
+        }else{
+            var tr=$(obj).parent().parent();
+            var nextEle=$(obj).parent().parent().next().children();
+            var val=$(tr).find("td:eq(8)").children(":first").next().val();
+            if($.trim(val)!=""){
+                var input=$(obj).prev().val();
+                if(typeof(input)!="undefined"){
 					/*  deleteRow(input);  */
-				 }
-				 $(obj).parent().parent().remove();
-			 }
-			 else if(nextEle.length<1){
-				 var input=$(obj).prev().val();
-				 if(typeof(input)!="undefined"){
+                }
+                $(obj).parent().parent().remove();
+            }
+            else if(nextEle.length<1){
+                var input=$(obj).prev().val();
+                if(typeof(input)!="undefined"){
 					/*  deleteRow(input);  */
-				 }
-				 $(obj).parent().parent().remove(); 
-			 }
-			 else{
-				 layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
-			 }
-			} 
-			var cid = $(obj).parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().children(":last");
-            /* alert(cid); */
-            sum2(cid);
+                }
+                $(obj).parent().parent().remove();
+            }
+            else{
+                layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
+            }
+            $("#detailZeroRow tr").each(function(index){
+                $(this).find("td:eq(0)").text(index+1);
+            });
+        }
+        var cid = $(obj).parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().children(":last");
+		/* alert(cid); */
+        sum2(cid);
+    }
+    //检索名字
+		function listName(obj) {
+			var name = $(obj).val();
+			if(name == "" || name == null) {
+				$("#materialName").html("");
+				$("#materialName").addClass("dnone");
+				return;
+			}
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: "${pageContext.request.contextPath }/purchaser/listName.do?name=" + name,
+				success: function(data) {
+						if(data.length>0){
+							var html = "";
+							for(var i = 0; i < data.length; i++) {
+								html += "<div style='width:178px;height:20px;' class='pointer' onmouseover='changeColor(this)' onclick='getValue(this)'>"+data[i].name+"</div>";
+							}
+							$("#materialName").html(html);
+							$("#materialName").removeClass("dnone");
+							$(obj).after($("#materialName"));
+						}else{
+							$("#materialName").html("");
+							$("#materialName").addClass("dnone");
+						}
+				}
+			});
+		}
+		//改变颜色
+		function changeColor(obj){
+			$(obj).css("background-color","#eee");
+		}
+		
+		//获取值
+		function getValue(obj){
+			$(obj).parent().parent().find("textarea").val($(obj).html());
+			$(obj).parent().addClass("dnone");
 		}
 </script>
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
@@ -1048,7 +1111,7 @@
 
 
 				<li class="col-md-3 col-sm-6 col-xs-12"><span
-					class="col-md-12 padding-left-5 col-sm-12 col-xs-12">录入人手机号</span>
+					class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>录入人手机号</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input type="text" class="input_group" id="rec_mobile"
 							name="mobile" value="${list[0].recorderMobile }"> <span
@@ -1148,7 +1211,7 @@
 					</thead>
 					<form id="edit_form"
 						action="${pageContext.request.contextPath}/purchaser/update.html"
-						method="post">
+						method="post" >
 						<input type="hidden" id="listSize" value="${listSize }" />
 						<tbody id="detailZeroRow">
 							<c:forEach items="${list }" var="obj" varStatus="vs">
@@ -1170,7 +1233,7 @@
 										<div class="goodsname">
 											<input type="hidden" name="ss" value="${obj.id }">
 											<textarea name="list[${vs.index }].goodsName"
-												 class="target">${obj.goodsName}</textarea>
+												 class="target" onkeyup="listName(this)">${obj.goodsName}</textarea>
 											<!-- <input type="hidden" name="history" value="" /> -->
 										</div>
 									</td>
@@ -1261,7 +1324,7 @@
 									</td>
 									<td><input type="hidden" name="ss" value="${obj.id }">
 										<textarea name="list[${vs.index }].supplier"
-											  onmouseover="supplierReadOnly(this)"  class="target purchasename">${obj.supplier}</textarea>
+											  onmouseover="supplierReadOnly(this)"   class="target purchasename">${obj.supplier}</textarea>
 										<!-- <input type="hidden" name="history" value="" /> --></td>
 									<td name="userNone" <c:if test="${list[0].enterPort==0}"> style="display:none;" </c:if>><input type="text" name="list[${vs.index }].isFreeTax"
 										 value="${obj.isFreeTax}"
@@ -1295,19 +1358,20 @@
 
 							</c:forEach>
 
-							<input type="hidden" name="planName">
-							<input type="hidden" name="planNo">
-							<input type="hidden" id="planNo" value="${planNo }">
-							<input type="hidden" name="planType">
-							<input type="hidden" name="mobile">
+							<input type="hidden" name="planName"/>
+							<input type="hidden" name="planNo"/>
+							<input type="hidden" id="planNo" value="${planNo }"/>
+							<input type="hidden" name="planType"/>
+							<input type="hidden" name="mobile"/>
 							<input type="hidden" name="referenceNo" />
 							<input type="hidden" name="delobjId" />
 					</form>
+					
 				</table>
 			</div>
 			<div class="col-md-12  mt10 col-sm-12 col-xs-12 tc">
 				<input class="btn btn-windows git" type="button" onclick="submit()"
-					value="保存"> <input class="btn btn-windows back" value="返回"
+					value="保存"><input class="btn btn-windows back" value="返回"
 					type="button" onclick="location.href='javascript:history.go(-1);'">
 			</div>
 
@@ -1356,7 +1420,9 @@
 			<input type="button" class="btn input" onclick="fileup()" value="导入" />
 		</div>
 	</div>
-
+<div id="materialName" class="dnone" style="width:178px;max-height:400px;overflow:scroll;border:1px solid grey;">
+				
+		</div>
 </body>
 <script type="text/javascript">
 /*  	window.onload = function () {

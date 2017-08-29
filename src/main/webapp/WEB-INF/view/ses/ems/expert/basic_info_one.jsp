@@ -1211,8 +1211,8 @@
 						<c:if test="${expert.expertsFrom eq 'LOCAL'}">
 							<li class="col-md-3 col-sm-6 col-xs-12">
 								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 是否缴纳社会保险</span>
-								<div class="select_common col-md-12 col-xs-12 col-sm-12 p0" <c:if test="${fn:contains(errorField,'是否缴纳社会保险')}">style="border: 1px solid red;" onmouseover="errorMsg('是否缴纳社会保险')"</c:if>>
-									<select name="coverNote" id="coverNote" style="width:100%;" >
+								<div class="select_common col-md-12 col-xs-12 col-sm-12 p0" >
+									<select name="coverNote" id="coverNote"  <c:if test="${fn:contains(errorField,'是否缴纳社会保险')}">style="border: 1px solid red;" onmouseover="errorMsg('是否缴纳社会保险')"</c:if> >
 						<option <c:if test="${expert.coverNote eq '2'}">selected="selected"</c:if> value="2">否
 						</option>
 						<option <c:if test="${expert.coverNote eq '1'}">selected="selected"</c:if> value="1">是
@@ -1423,7 +1423,7 @@
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 								<input <c:if test="${fn:contains(errorField,'专业起始年月')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专业起始年月')"
 								</c:if>
-								value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" onblur="notNull('timeStartWork')" name="timeStartWork" id="timeStartWork" type="text" onclick="WdatePicker({onpicking:function() {document.getElementById('err_msg_timeStartWork').innerHTML = '';},lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+								value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" onblur="notNull('timeStartWork')" name="timeStartWork" id="timeStartWork" type="text" onclick="WdatePicker({onpicking:function() {document.getElementById('err_msg_timeStartWork').innerHTML = '';},lang:'zh-cn',dateFmt:'yyyy-MM',maxDate:'%y-%M'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">如：2017-03</span>
 								<div class="cue" id="err_msg_timeStartWork"></div>
@@ -1476,7 +1476,7 @@
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 								<input <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('取得技术职称时间')"
 								</c:if>
-								value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" onblur="notNull('makeTechDate')" name="makeTechDate" id="makeTechDate" type="text" onclick="WdatePicker({onpicking:function() {document.getElementById('err_msg_makeTechDate').innerHTML = '';},lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span class="add-on">i</span> <span class="input-tip">如：2017-03</span>
+								value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" onblur="notNull('makeTechDate')" name="makeTechDate" id="makeTechDate" type="text" onclick="WdatePicker({onpicking:function() {document.getElementById('err_msg_makeTechDate').innerHTML = '';},lang:'zh-cn',dateFmt:'yyyy-MM',maxDate:'%y-%M'})"/> <span class="add-on">i</span> <span class="input-tip">如：2017-03</span>
 								<div class="cue" id="err_msg_makeTechDate"></div>
 							</div>
 						</li>
@@ -1582,7 +1582,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间</span>
 							<div class="input-append input_group  col-sm-12 col-xs-12 col-md-12 p0">
 								<input <c:if test="${fn:contains(errorField,'参加工作时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('参加工作时间')"
-								</c:if> readonly="readonly" value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM' />" name="timeToWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+								</c:if> readonly="readonly" value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM' />" name="timeToWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM',maxDate:'%y-%M'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">如：2017-03</span>
 							</div>

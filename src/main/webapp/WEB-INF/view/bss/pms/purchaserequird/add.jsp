@@ -17,9 +17,10 @@
 				// 绑定采购需求文号事件
 			  $("#referenceNo").blur(function () {
                   var referenceNO = $("#referenceNo").val();
-                  if(referenceNO == ''){
+                 /*  if(referenceNO == ''){
+                	  layer.msg("采购需求文号不能为空");
                       return;
-                  }
+                  } */
                   $.ajax({
                       url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
                       data:{
@@ -230,14 +231,12 @@
                     layer.alert("请添加需求明细！");
                     return;
                 }
-                for(var i=2;i<=indNum;i++){
-				if($.trim($("input[name='list["+i+"].goodsName']").val())==""){
-					layer.alert("需求明细中物资类别及物资名称不能为空");
-					return false;
-				}else if($.trim($("input[name='list["+i+"].stand']").val())==""){
-					layer.alert("需求明细中规格型号不能为空！");
-					return false;
-				}else if($.trim($("input[name='list["+i+"].qualitStand']").val())==""){
+                for(var i=2;i<$("#detailZeroRow tr").length;i++){
+                	if($.trim($("input[name='list["+i+"].price']").val())!=""){
+								if($.trim($("input[name='list["+i+"].goodsName']").val())==""){
+									layer.alert("需求明细中物资类别及物资名称不能为空");
+									return false;
+								}else if($.trim($("input[name='list["+i+"].qualitStand']").val())==""){
                     layer.alert("需求明细中质量技术标准不能为空");
                     return false;
                 }else if($.trim($("input[name='list["+i+"].item']").val())==""){
@@ -248,9 +247,6 @@
                     return false;
                 }else if($.trim($("input[name='list["+i+"].price']").val())==""){
                     layer.alert("需求明细中单价不能为空");
-                    return false;
-                }else if($.trim($("input[name='list["+i+"].deliverDate']").val())==""){
-                    layer.alert("需求明细中交货期限不能为空");
                     return false;
                 }
                 /* else if($.trim($("input[name='list["+i+"].purchaseType']").text())=="单一来源"){
@@ -263,9 +259,8 @@
                     layer.alert("需求明细中供应商名称不能为空");
                     return false;
                 } */ 
-                    
+                	} 
                 }
-				
                 var orgType="${orgType}";
                 var name = $("#jhmc").val();
                 var no = $("#jhbh").val();
@@ -307,7 +302,9 @@
 					//layer.tips("录入人手机号不允许为空", "#mobile");
 				} else if($.trim(type) == ""){
 					 layer.alert("请选择物资类别"); 
-				}
+				}else if($.trim(refNo) == ""){
+                     layer.alert("采购需求文号不允许为空"); 
+                } 
 			  	else if(!dy){
 					layer.alert("请填写供应商"); 
 				}
@@ -435,7 +432,7 @@
 					async: {
 						autoParam: ["id"],
 						enable: true,
-						url: "${pageContext.request.contextPath}/category/createtree.do",
+						url: "${pageContext.request.contextPath}/purchaser/createtree.do",
 						dataType: "json",
 						type: "post",
 					},
@@ -680,10 +677,11 @@
 				 }
 				 else{
 					 layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
-					 
-					
 				 }
-				} 
+				}
+                $("#detailZeroRow tr").each(function(index){
+                    $(this).find("td:eq(0)").text(index+1);
+                });
 				/* 	var detailRow = document.getElementsByName("detailRow");
 				if(detailRow.length!=0){
 					for(var i=0;i<detailRow.length;i++){
@@ -1596,7 +1594,7 @@
 													<option value="${sup.supplierName }">${sup.supplierName }</option>
 												</c:forEach>
 											</select> --%>
-										<input type="text" name="list[0].supplier" onblur="checkSupplierName(0)" onmouseover="supplierReadOnly(this)" class="m0 w260 border0"></td>
+										<input type="text" name="list[0].supplier"  onmouseover="supplierReadOnly(this)" class="m0 w260 border0"></td>
 										<td name="userNone"><input type="text" name="list[0].isFreeTax" class="freetax"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="goodsuse"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="useunit"></td>

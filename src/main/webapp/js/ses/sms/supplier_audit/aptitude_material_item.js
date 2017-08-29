@@ -16,15 +16,15 @@ $(function(){
 	
 });
 //审核资质不通过理由
-function reasonProject(ind,auditField, auditFieldName,inds,quaId) {
+function reasonProject(ind,auditField, auditFieldName,inds,quaId,quaName) {
 	var supplierId = $("#supplierId").val();
 	var auditCount = $("#count"+quaId+"").val();
 	ind=parseInt(ind)+1;
 	var tablerId=$("#tablerId").val();
-	var auditContent=content(tablerId,ind,'专业资质要求');
+	var auditContent=content(tablerId,ind,quaName);
 	var audits;
 	var auditType;
-	var aptitudeId=$("#"+tablerId+" #aptitudeId"+inds+"",window.parent.document).val();
+	var aptitudeId=$("#"+tablerId+" #aptitudeId"+ind+"",window.parent.document).val();
 	
 	switch (tablerId) {
 	case 'content_1'://物资生产

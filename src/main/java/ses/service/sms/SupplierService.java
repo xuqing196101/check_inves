@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 
+
+
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
 import ses.formbean.SupplierItemCategoryBean;
@@ -435,7 +437,13 @@ public interface SupplierService {
 	 * @return
 	 */
 	public int countByPurchaseDepId(String purchaseDepId, int status);
-	
+
+	/**
+	 * 根据采购机构id统计对应状态的供待审核 和 退回待审核 应商数量
+	 * @param purchaseDepId
+	 * @return
+	 */
+	public int countAuditByPurchaseDepId(String purchaseDepId);
 	/**
 	 * 
 	 * Description:获取销售合同数量
@@ -543,4 +551,8 @@ public interface SupplierService {
 	public void record(String operationInfo, Object obj1, Object obj2,
 			String supplierId) throws Exception;
 
+	
+	List<supplierExport> selectSupplierNumberFormal(HashMap<String, Object> map);
+	
+	List<supplierExport> selectExpertNumberFormal(HashMap<String, Object> map);
 }

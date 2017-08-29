@@ -451,6 +451,7 @@ public class IndexAppController {
             case 6 ://供应商拟入库公示
                 Map<String, Object> map1 = new HashMap<>();
                 map1.put("page", page);
+                map1.put("flag","app");
                 appData.setSupplierPublicityList(supplierAuditService.selectSupByPublictyList(map1));
                 if(appData.getSupplierPublicityList() != null && !appData.getSupplierPublicityList().isEmpty()){
                     appImg.setData(appData);
@@ -525,6 +526,7 @@ public class IndexAppController {
             case 6 ://专家拟入库公示
                 Map<String, Object> map2 = new HashMap<>();
                 map2.put("page", page);
+                map2.put("flag","app");
                 appData.setExpertPublicityList(expertAuditService.selectExpByPublictyList(map2));
                 if(appData.getExpertPublicityList() != null && !appData.getExpertPublicityList().isEmpty()){
                     appImg.setData(appData);

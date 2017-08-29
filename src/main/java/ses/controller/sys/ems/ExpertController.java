@@ -2907,11 +2907,13 @@ public class ExpertController extends BaseController {
         supplier.setProcurementDepId(purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId()).getShortName());
 
         // 地址
-        Area area = areaServiceI.listById(supplier.getAddress());
-        if(area != null) {
-            String province = areaServiceI.listById(area.getParentId()).getName();
-            String city = area.getName();
-            supplier.setAddress(province + city + supplier.getDetailAddress());
+        if(supplier.getAddress() != null){
+        	Area area = areaServiceI.listById(supplier.getAddress());
+            if(area != null) {
+                String province = areaServiceI.listById(area.getParentId()).getName();
+                String city = area.getName();
+                supplier.setAddress(province + city + supplier.getDetailAddress());
+            }
         }
 
         // 企业性质
@@ -2976,10 +2978,10 @@ public class ExpertController extends BaseController {
             for(SupplierBranch branch: branchList) {
                 // 国家(地区)
                 if(branch.getCountry() != null) {
-                   DictionaryData date= DictionaryDataUtil.findById(branch.getCountry());
-                    if(date != null ){
-                        branch.setCountry(date.getName());
-                    }
+                	DictionaryData dd = DictionaryDataUtil.findById(branch.getCountry());
+                	if(dd != null){
+                		branch.setCountry(dd.getName());
+                	}
                 }
             }
         }else{// 如果没有境外分支清除列表
@@ -3571,7 +3573,8 @@ public class ExpertController extends BaseController {
         
         dataMap.put("teachTitle", expert.getTeachTitle() == null ? "无" : expert.getTeachTitle().equals(1) ? "有" : "无");
         dataMap.put("title", expert.getIsTitle() == null ? "无" : expert.getIsTitle().equals(1) ? "有" : "无");
-//        if(expert.getProfessTechTitles()!=null){
+       
+        //        if(expert.getProfessTechTitles()!=null){
         	 if(expert.getTeachTitle()==1){
           	   dataMap .put("success", "success");
              } else{
@@ -4758,6 +4761,10 @@ public class ExpertController extends BaseController {
                 String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
                 String pId = DictionaryDataUtil.getId("PROJECT");
                 for(String id:ids){
+                	if(expert.getIsTitle()!=1){
+                		expertTitleService.deleteExpertType(expert.getId(), id);
+                		continue;
+                	}
                     if(id.equals(pId)){
                         expertTitleService.addBatch(expert.getTitles(),id);
                         continue;

@@ -992,7 +992,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 					List<SupplierItemCategoryBean> sicList_service = this.getSupplierItemCategoryList(supplierId, "SERVICE");
 					removeSameSic(sicList_service);
 					//根据品目id查询所有的证书信息
-					serviceQua = supplierService.getQualificationList(sicList_service, 1);
+					serviceQua = supplierService.getQualificationList(sicList_service, 2);
 				}
 			}
 		}
@@ -1097,7 +1097,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			if(ses.util.Constant.SUPPLIER_SALES.equals(code)){
 				supplierAudit.setAuditType(ses.util.Constant.ITEMS_SALES_PAGE);
 			}
-			List<SupplierAudit> auditList = supplierAuditService.findReason(supplierAudit);
+			List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});
 			if(auditList != null){
 				StringBuffer errorField = new StringBuffer();
 				for(SupplierAudit audit: auditList) {

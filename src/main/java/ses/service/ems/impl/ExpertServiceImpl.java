@@ -466,7 +466,9 @@ public class ExpertServiceImpl implements ExpertService {
 			//expert.setStatus("0");
 			//修改时间
 			expert.setUpdatedAt(new Date());
-			
+			User user = userMapper.findUserByTypeId(expert.getId());
+			user.setMobile(expert.getMobile());
+			userMapper.updateByPrimaryKeySelective(user);
 			try {
 				mapper.updateByPrimaryKey(expert);
 			} catch (Exception e) {

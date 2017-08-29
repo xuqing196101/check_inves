@@ -4,6 +4,7 @@
 <html>
 <head>
 	<jsp:include page="/WEB-INF/view/common.jsp"/>
+	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
     <title>页签</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -802,6 +803,13 @@
 			        	<div class="cue">${ERR_purchaseType}</div>
 			        </div>
 			 	</li>
+			 	<li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->授权书：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        <u:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}" multiple="true" auto="true" />
+					<u:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}"/>
+	       			</div>
+				 </li>
 				 <div class="clear"></div>
 			 </ul>
 	   		<h2 class="f16 count_flow mt40"><i>02</i>甲方信息</h2>
@@ -897,7 +905,7 @@
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	    <input class="easyui-combobox" name="supplierDepName" id="supplierList" data-options="valueField:'id',textField:'supplierName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100"  style="width: 100%;height: 29px"/>  
-			        	
+			        	    <input type="hidden" id="sup" value="${purCon.supplierDepName}"/>
 			        	<div class="cue">${ERR_supplierDepName}</div>
 	       			</div>
 				 </li> 
@@ -916,6 +924,7 @@
 				        },
 				        onSelect: function (org) { 
 				        	if(num!=0&&num!=1){
+				        		$("#sup").val(org.supplierName);
 				        	 $("#supplierLegal").val(org.legalName);
 				        	  $("#supplierContact").val(org.contactName);
 				        	  $("#supplierContactTelephone").val(org.contactTelephone);
@@ -928,7 +937,17 @@
 				        },
 				        onLoadSuccess:function(){
 				        	$('#supplierList').next('.combo').find('input').blur(function (){
-                                 $("input[name='supplierDepName']").val($(this).val())
+				        		if($("#sup").val()!=$(this).val()){
+				        			$("#sup").val("");
+                                 $("input[name='supplierDepName']").val($(this).val());
+                                 $("#supplierLegal").val("");
+						   				        	  $("#supplierContact").val("");
+						   				        	  $("#supplierContactTelephone").val("");
+						   				        	  $("#supplierContactAddress").val("");
+						   				        	  $("#supplierUnitpostCode").val("");
+						   				        	  $("#supplierBank").val("");
+						   				        	  $("#supplierBankAccount_string").val("");
+				        		}
 				        		
 				        	 });
 				        	},

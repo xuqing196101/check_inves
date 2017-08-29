@@ -18,6 +18,7 @@ import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertCategory;
+import ses.model.sms.SupplierCateTree;
 import ses.service.bms.CategoryService;
 import ses.service.bms.EngCategoryService;
 import ses.service.ems.ExpertCategoryService;
@@ -289,6 +290,23 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	public void updateAuditStatus(ExpertCategory expertCategory) {
 		mapper.updateAuditStatus(expertCategory);
 		
+	}
+
+	/**
+	 * 查询所有的参评类别
+	 */
+	@Override
+	public List<SupplierCateTree> findExpertCatrgory(String expertId,
+			String typeId) {
+		return mapper.findExpertCatrgory(expertId,typeId);
+	}
+
+	/**
+	 * 判断为第几级节点
+	 */
+	@Override
+	public Integer findCountParent(Map<String,Object> map) {
+		return mapper.findCountParent(map);
 	}
 }
  

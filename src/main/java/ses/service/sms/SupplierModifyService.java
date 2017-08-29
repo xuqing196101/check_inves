@@ -90,4 +90,11 @@ public interface SupplierModifyService {
      * @return void
      */
     void updateIsDeleteBySupplierId(SupplierModify supplierModify);
+
+    /**
+     * 统计修改数量
+     * @param supplierModify
+     * @return
+     */
+	int countBySupplierId(SupplierModify supplierModify);
 }

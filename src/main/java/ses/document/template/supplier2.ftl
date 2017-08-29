@@ -2384,7 +2384,7 @@
 											<w:sz w:val="21" />
 											<w:szCs w:val="21" />
 										</w:rPr>
-										<w:t><#if (isIllegal == '1')>有<#else>无</#if></w:t>
+										<w:t><#if isIllegal??><#if (isIllegal == '1')>有<#else>无</#if><#else>无</#if></w:t>
 									</w:r>
 								</w:p>
 							</w:tc>
@@ -2486,8 +2486,8 @@
 											<w:sz w:val="21" />
 											<w:szCs w:val="21" />
 										</w:rPr>
-										<w:t><#if (isHavingConCert ==
-											'1')>有<#else>无</#if></w:t>
+										<w:t><#if isHavingConCert??><#if (isHavingConCert ==
+											'1')>有<#else>无</#if><#else>无</#if></w:t>
 									</w:r>
 								</w:p>
 							</w:tc>
@@ -10392,9 +10392,9 @@
                       <w:szCs w:val="21" />
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" />
                     </w:rPr>
-                    <w:t><#if
+                    <w:t><#if stockholders.nature??><#if
                         (stockholders.nature=="1")>法人<#elseif
-                        (stockholders.nature=="2")>自然人</#if></w:t>
+                        (stockholders.nature=="2")>自然人</#if></#if></w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -10431,10 +10431,10 @@
                       <w:sz w:val="21" />
                       <w:szCs w:val="21" />
                     </w:rPr>
-                    <w:t><#if
+                    <w:t><#if stockholders.identityType?? && stockholders.nature??><#if
                         (stockholders.nature=="1" && stockholders.identityType==1)>统一社会信用代码<#elseif
                         (stockholders.nature=="2" && stockholders.identityType==1)>居民二代身份证<#elseif
-                        (stockholders.identityType==2)>其他</#if></w:t>
+                        (stockholders.identityType==2)>其他</#if></#if></w:t>
                   </w:r>
                 </w:p>
               </w:tc>

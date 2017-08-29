@@ -126,5 +126,27 @@ public interface SupplierAuditMapper {
     List<SupplierAudit> selectBySupIdAndType(Map<String, Object> map);
 
     List<SupplierAudit> selectBasicInfoAuditItemSingal(Map<String, Object> map);
+
+    /**
+     * 查询所有的审核记录
+     * @param supplierAudit
+     * @param rss
+     * @return
+     */
+	List<SupplierAudit> selectAuditRecords(@Param("audit")SupplierAudit supplierAudit, @Param("rss")Integer[] rss);
+
+	/**
+	 * 查询所有的审核记录（排序）
+	 * @param supplierAudit
+	 * @return
+	 */
+	List<SupplierAudit> selectAuditRecordsWithSort(SupplierAudit supplierAudit);
+
+	/**
+	 * 根据主键更新
+	 * @param supplierAudit
+	 * @return
+	 */
+	int updateByIdSelective(SupplierAudit supplierAudit);
     
 }

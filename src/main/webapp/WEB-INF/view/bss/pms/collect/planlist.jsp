@@ -178,7 +178,7 @@
           });
         }
       }
-
+      //审核人员设置
       function auditPersonSets() {
         var id = [];
         $('input[name="chkItem"]:checked').each(function() {
@@ -318,9 +318,10 @@
       function view(id) {
         window.location.href = "${pageContext.request.contextPath }/look/view1.html?id=" + id;
       }
-
+      //重置
       function resetQuery() {
         $("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+        $("#afterReset").val("0");
       }
 
       function auditturns(obj) {
@@ -418,6 +419,7 @@
                 <select name="status">
                   <option value="0" >全部</option>
                   <option value="1" <c:if test="${inf.status=='1'}"> selected</c:if> >审核轮次设置</option>
+                  <option value="9"  <c:if test="${inf.status=='9'}"> selected</c:if>> 第一轮审核人员设置</option>
                   <option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> > 第一轮审核</option>
                   <option value="4" <c:if test="${inf.status=='4'}"> selected</c:if> > 第二轮审核人员设置</option>
                   <option value="5" <c:if test="${inf.status=='5'}"> selected</c:if> > 第二轮审核</option>
@@ -425,6 +427,7 @@
                   <option value="7" <c:if test="${inf.status=='7'}"> selected</c:if> > 第三轮审核</option>
                   <option value="8" <c:if test="${inf.status=='8'}"> selected</c:if> > 审核结束</option>
                   <option value="12" <c:if test="${inf.status=='12'}"> selected</c:if> > 直接下达</option>
+                  <option style="display: none;" value="" id="afterReset">
                 </select>
               </span>
             </li>       
@@ -475,7 +478,8 @@
               </td>
               <td class="tl" onclick="view('${obj.id}')">
                 <input type="hidden" value="${obj.status}" />
-                <c:if test="${obj.status=='1' }">审核轮次设置</c:if>
+                <c:if test="${obj.status=='1'&&obj.auditTurn != 2&&obj.auditTurn != 1&&obj.auditTurn != 3 }">审核轮次设置</c:if>
+                <c:if test="${obj.status=='1'&&(obj.auditTurn == 2||obj.auditTurn == 1||obj.auditTurn == 3) }">第一轮审核人员设置</c:if>
                 <c:if test="${(obj.status == 2 || obj.status == 12  ) && obj.auditTurn == null}">已直接下达</c:if>
                 <%--    <c:if test="${obj.status == 2}">
                     已直接下达

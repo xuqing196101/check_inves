@@ -2,6 +2,7 @@ package bss.controller.pms;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.ParseException;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -54,6 +56,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
 import ses.model.bms.User;
@@ -215,6 +218,7 @@ public class PurchaseRequiredController extends BaseController {
 		model.addAttribute("typeId", typeId);
 		model.addAttribute("fileId", fileId);
 		model.addAttribute("planNo", planNo);
+		model.addAttribute("goods", DictionaryDataUtil.getId("GOODS"));
 		model.addAttribute("detailId", DictionaryDataUtil.getId("PURCHASE_DETAIL"));
 		model.addAttribute("org_advice", type);
 		model.addAttribute("uniqueId", planNo.trim());
@@ -848,21 +852,13 @@ public class PurchaseRequiredController extends BaseController {
 	@ResponseBody
 	public void delete(HttpServletRequest request) {
 		String planNo = request.getParameter("planNo");
-
 		String uniqueId = planNo.trim();
 		if (uniqueId.length() != 0) {
-			String[] uniqueIds = uniqueId.split(",");
+			String[] uniqueIds = uniqueId.split(StaticVariables.COMMA_SPLLIT);
 			for (String str : uniqueIds) {
 				purchaseRequiredService.updateByUniqueId(str);
 			}
-
 		}
-		/*
-		 * PurchaseRequired p=new PurchaseRequired(); p.setUniqueId(planNo.trim());
-		 * List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
-		 * for(PurchaseRequired pr:list){
-		 * purchaseRequiredService.delete(pr.getId()); }
-		 */
 
 	}
 
@@ -981,11 +977,70 @@ public class PurchaseRequiredController extends BaseController {
 		} else {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("name", name);
-			list = categoryService.listByKeyname(map);
+			List<Category> ca = categoryService.listByKeyname(map);
+			for (Category category : ca) {
+			  List<Category> findTreeByPid = categoryService.findTreeByPidIsPublish(category.getId());
+			  if(findTreeByPid==null||findTreeByPid.size()==0){
+			    list.add(category);
+			  }
+      }
 		}
 		return list;
 	}
+	/**
+	 * 需求编报 产品目录查询
+	 * @param category
+	 * @param param
+	 * @param isCreate
+	 * @param code
+	 * @return
+	 */
+	@ResponseBody
+  @RequestMapping(value="/createtree", produces = "application/json;charset=utf-8")
+  public String getAll(Category category,String param,Integer isCreate,String code){
+    List<CategoryTree> jList=new ArrayList<CategoryTree>();
+    
+       //获取字典表中的根数据
+          if(category.getId()==null){
+              category.setId("0");
+              DictionaryData data=new DictionaryData();
+              data.setKind(6);
+              List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+              for (DictionaryData dictionaryData : listByPage) {
+                  CategoryTree ct=new CategoryTree();
+                  ct.setId(dictionaryData.getId());
+                  ct.setName(dictionaryData.getName());
+                  ct.setIsParent("true");
+                  ct.setClassify(dictionaryData.getCode());
+                  jList.add(ct);
+              }
+              
+              return JSON.toJSONString(jList);
+          }
+          String list="";
+          List<Category> cateList=categoryService.findTreeByPidIsPublish(category.getId());
+            for(Category cate:cateList){
+                List<Category> cList=categoryService.findTreeByPidIsPublish(cate.getId());
+                CategoryTree ct=new CategoryTree();
+                if(!cList.isEmpty()){
+                    ct.setIsParent("true");
+                }else{
+                    ct.setIsParent("false");
+                }
+                ct.setId(cate.getId());
+                ct.setName(cate.getName());
+                ct.setpId(cate.getParentId());
+                ct.setKind(cate.getKind());
+                ct.setStatus(cate.getStatus());
+                jList.add(ct);
+            }
 
+          list = JSON.toJSONString(jList);
+          return list;
+    
+    
+    
+  }
 	/**
 	 * 
 	 * @Title: viewIds
