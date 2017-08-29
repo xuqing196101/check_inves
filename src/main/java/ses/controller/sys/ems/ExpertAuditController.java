@@ -1510,6 +1510,7 @@ public class ExpertAuditController{
 					String rootNode = tree.getRootNode();
 		        	String firstNode = tree.getFirstNode();
 		        	String secondNode = tree.getSecondNode();
+		        	String thirdNode=tree.getThirdNode();
 		        	if(rootNode !=null && rootNode !=""){
 		        		items.append(rootNode);
 		        	}
@@ -1519,8 +1520,11 @@ public class ExpertAuditController{
 		        	if(secondNode != null && secondNode !=""){
 		        		items.append("/" + secondNode); 
 		        	}
+		        	if(thirdNode != null && thirdNode !=""){
+		        		items.append("/" + thirdNode); 
+		        	}
 		
-					e.setAuditContent(items.toString()+"/"+e.getAuditContent().replaceAll("目录信息", ""));
+					e.setAuditContent(items.toString());
 					items.setLength(0);
 					if(tree != null && tree.getRootNodeCode() != null){
 						map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
