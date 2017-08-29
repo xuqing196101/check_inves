@@ -1746,6 +1746,7 @@ public class ExpExtractRecordController extends BaseController {
         }
         if (StringUtils.isEmpty(mobile)) {
             model.addAttribute("mobile", "不能为空");
+            type = 1;
         } else {
             Map<String, Object> map = new HashMap<>();
             map.put("mobile", mobile);
@@ -1753,6 +1754,7 @@ public class ExpExtractRecordController extends BaseController {
             List<Expert> list = expertServices.yzCardNumber(map);
             if (list != null && list.size() != 0) {
                 model.addAttribute("mobile", "联系电话已存在");
+                type = 1;
             }
         }
         if (packageId == null || "".equals(packageId)) {

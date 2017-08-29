@@ -34,10 +34,6 @@
           $(this).hide();
               }); 
       } 
-     /*  $("#uploaderId").click(function(){
-          var id = $(".web_uploader_class").prev()[0].value;
-          init_uploader(eval("var  uploader_" + id),id);
-        }); */
 
         var isCharges = "${project.isCharge}";
         if(isCharges) {
@@ -59,7 +55,6 @@
       var deadline;
 
       function checkDate() {
-
         var flag = true;
         var id = $("#id").val();
         var flowDefineId = $("#flowDefineId").val();
@@ -172,7 +167,7 @@
           }
 
         }
-        if(flag == true) {
+        if(flag) {
           layer.msg("修改成功", {
             shade: 0.01
           });
@@ -464,22 +459,12 @@
                     </tr>
                     <tr>
                       <td class="bggrey">采购需求提报时间:</td>
-                      <td>${project.demandFromTime}</td>
+                      <td><fmt:formatDate value='${auditDate}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                       <td class="bggrey">采购项目立项时间:</td>
                       <td>
                         <fmt:formatDate value='${project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                       </td>
                     </tr>
-                    <%-- <tr>
-                      <td class="bggrey">采购任务受理时间:</td>
-                      <td>
-                        <fmt:formatDate value='${task.acceptTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
-                      </td>
-                      <td class="bggrey">采购任务下达时间:</td>
-                      <td>
-                        <fmt:formatDate value='${task.giveTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
-                      </td>
-                    </tr> --%>
                     <tr>
                       <td class="bggrey">采购项目实施时间:</td>
                       <td>
@@ -504,7 +489,7 @@
                       <td class="bggrey">发送中标通知书时间:</td>
                       <td>${project.noticeTime}</td>
                       <td class="bggrey">项目结束时间:</td>
-                      <td>${project.endTime}</td>
+                      <td><fmt:formatDate value='${project.endTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                     </tr>
                     <tr>
                       <td class="bggrey">合同签订时间:</td>

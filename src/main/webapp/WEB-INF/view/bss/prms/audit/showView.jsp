@@ -256,13 +256,13 @@
                 <td class="tc">${score.standardScore}</td>
                 <c:forEach items="${supplierList}" var="supplier">
                   <td class="tc">
-                    <input type="hidden" name="supplierId" value="${supplier.suppliers.id}" />
+                    <input type="hidden" name="supplierId" value="${supplier.supplierId}" />
                     <input type="hidden" name="expertScore" readonly="readonly" <c:forEach items="${scores}" var="sco">
-                    <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.score}"</c:if>
+                    <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.supplierId and sco.scoreModelId eq score.id}">value="${sco.score}"</c:if>
                 </c:forEach>
                 />
                 <span><c:forEach items="${scores}" var="sco">
-                      <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}"><font color="red" class="f18">${sco.score}</font></c:if>
+                      <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.supplierId and sco.scoreModelId eq score.id}"><font color="red" class="f18">${sco.score}</font></c:if>
                     </c:forEach></span>
                 </td>
               </c:forEach>
@@ -276,11 +276,11 @@
 			 	<td class="tc">--</td>
 			 	<c:forEach items="${supplierList}" var="supplier">
 			      <td class="tc" >
-			      	<input type="hidden" name="${supplier.suppliers.id}_total"/>
+			      	<input type="hidden" name="${supplier.supplierId}_total"/>
 			      	<span>
 			      		<c:set var="sum_score" value="0"/>
 			      		<c:forEach items="${scores}" var="sco">
-			 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id}">
+			 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.supplierId}">
 			 	          	<c:set var="sum_score" value="${sum_score+sco.score}"/>
 			 	          </c:if>
 			 	        </c:forEach>

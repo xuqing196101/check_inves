@@ -477,7 +477,7 @@ public class ProjectServiceImpl implements ProjectService {
                 //项目信息
                 jsonObj.put("flowTypes", "XMXX");
                 Project project = projectMapper.selectProjectByPrimaryKey(projectId);
-                if (project != null && project.getSupplierNumber() != null && project.getDeadline() != null && project.getBidDate() != null && !"".equals(project.getBidAddress()) && project.getBidAddress() != null ) {
+                if (project != null && project.getSupplierNumber() != null && StringUtils.isNotBlank(project.getIpone()) && project.getDeadline() != null && project.getBidDate() != null && StringUtils.isNotBlank(project.getBidAddress()) ) {
                   jsonObj.put("success", true);
                 }else {
                   jsonObj.put("success", false);

@@ -19,8 +19,8 @@
 		  	<b>
 		  	<c:if test="${ totalCountPriceBigDecimal != '0.0000' }">
 		  		${ totalCountPriceBigDecimal}
+		    </c:if>
 		  	</b>
-		  	</c:if>
 		  </td>
 			<td></td>
 		</tr>

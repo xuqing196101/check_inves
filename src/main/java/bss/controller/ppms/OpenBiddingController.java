@@ -2595,15 +2595,6 @@ public class OpenBiddingController extends BaseSupplierController{
       model.addAttribute("projectId", projectId);
       model.addAttribute("listResultExpert", listResultExpert);
     }
-
-    /* Negotiation negotiation = negotiationService.selectByProjectId(project.getId());
-        model.addAttribute("project", project);
-        if(negotiation != null){
-            model.addAttribute("negotiation", negotiation);
-        }else{
-            model.addAttribute("uuId", WfUtil.createUUID());
-        }
-        model.addAttribute("dataId", DictionaryDataUtil.getId("NEGOTIATION_RECORD"));*/
     model.addAttribute("flowDefineId", flowDefineId);
     model.addAttribute("dataId", DictionaryDataUtil.getId("NEGOTIATION_RECORD"));
     return "bss/ppms/open_bidding/bid_file/negotiation";
@@ -3569,7 +3560,7 @@ public class OpenBiddingController extends BaseSupplierController{
 			}
 			if(count<project.getSupplierNumber()){
 				DictionaryData findById = DictionaryDataUtil.findById(packages.getProjectStatus());
-				if("".equals(findById.getCode())){
+				if(findById != null && StringUtils.isNotBlank(findById.getCode())){
 					if(findById.getCode().equals("YZZ") || findById.getCode().equals("ZJZXTP")){
 						continue;
 					}

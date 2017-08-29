@@ -82,10 +82,12 @@ import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
 
@@ -724,656 +726,71 @@ public class TackController extends BaseController{
 	    
 	}
 	
-	
-	public Boolean reflect(PurchaseDetail detail, AdvancedDetail advancedDetail){
-	    
-	    if(!advancedDetail.getGoodsName().equals(detail.getGoodsName())){
-	        return false;
-	    }
-	    if(advancedDetail.getStand() != null && detail.getStand() != null){
-	        if(!advancedDetail.getStand().equals(detail.getStand())){
-	            return false;
-	        }
-	    }
-	    if(advancedDetail.getStand() == null && detail.getStand() != null){
-	        return false;
-	    }
-	    if(advancedDetail.getStand() != null && detail.getStand() == null){
-            return false;
-        }
-	    
-	    if(advancedDetail.getQualitStand() != null && detail.getQualitStand() != null){
-	        if(!advancedDetail.getQualitStand().equals(detail.getQualitStand())){
-	            return false;
-	        }
-	    }
-	    if(advancedDetail.getQualitStand() == null && detail.getQualitStand() != null){
-	        return false;
-	    }
-	    if(advancedDetail.getQualitStand() != null && detail.getQualitStand() == null){
-            return false;
-        }
-	    if(advancedDetail.getItem() != null && detail.getItem() != null){
-	        if(!advancedDetail.getItem().equals(detail.getItem())){
-	            return false;
-	        }
-	    }
-	    if(advancedDetail.getItem() == null && detail.getItem() != null){
-	        return false;
-	    }
-	    if(advancedDetail.getItem() != null && detail.getItem() == null){
-            return false;
-        }
-	    
-	    if(!advancedDetail.getPurchaseCount().equals(detail.getPurchaseCount())){
-	        return false;
-	    }
-	    if(!advancedDetail.getPrice().equals(detail.getPrice())){
-	        return false;
-	    }
-	    if(!advancedDetail.getBudget().equals(detail.getBudget())){
-	        return false;
-	    }
-	    if(advancedDetail.getDeliverDate() != null && detail.getDeliverDate() != null){
-	        if(!advancedDetail.getDeliverDate().equals(detail.getDeliverDate())){
-	            return false;
-	        }
-	    }
-	    if(advancedDetail.getDeliverDate() == null && detail.getDeliverDate() != null){
-	        return false;
-	    }
-	    if(advancedDetail.getDeliverDate() != null && detail.getDeliverDate() == null){
-            return false;
-        }
-	    
-	    if(!advancedDetail.getPurchaseType().equals(detail.getPurchaseType())){
-	        return false;
-	    }
-	    if(!advancedDetail.getOrganization().equals(detail.getOrganization())){
-	        return false;
-	    }
-	    if(advancedDetail.getSupplier() != null && detail.getSupplier() != null){
-	        if(!advancedDetail.getSupplier().equals(detail.getSupplier())){
-	            return false;
-	        }
-	    }
-	    if(advancedDetail.getSupplier() != null && detail.getSupplier() == null){
-	        return false;
-	    }
-	    if(detail.getSupplier() != null && advancedDetail.getSupplier() == null){
-	        return false;
-	    }
-	    if(advancedDetail.getIsFreeTax() != null && detail.getIsFreeTax() != null){
-	        if(!advancedDetail.getIsFreeTax().equals(detail.getIsFreeTax())){
-	            return false;
-	        }
-	    }
-	    if(advancedDetail.getIsFreeTax() == null && detail.getIsFreeTax() != null){
-	        return false;
-	    }
-	    if(advancedDetail.getIsFreeTax() != null && detail.getIsFreeTax() == null){
-            return false;
-        }
-	    
-	    if(advancedDetail.getGoodsUse() != null && detail.getGoodsUse() != null){
-	        if(!advancedDetail.getGoodsUse().equals(detail.getGoodsUse())){
-	            return false;
-	        }
-	    }
-	    if(advancedDetail.getGoodsUse() == null && detail.getGoodsUse() != null){
-	        return false;
-	    }
-	    if(advancedDetail.getGoodsUse() != null && detail.getGoodsUse() == null){
-            return false;
-        }
-	    if(advancedDetail.getUseUnit() != null && detail.getUserUnit() != null){
-	        if(!advancedDetail.getUseUnit().equals(detail.getUserUnit())){
-	            return false;
-	        }
-	    }
-	    if(advancedDetail.getUseUnit() == null && detail.getUserUnit() != null){
-	        return false;
-	    }
-	    if(advancedDetail.getUseUnit() != null && detail.getUserUnit() == null){
-            return false;
-        }
-	    
-	    return true;
-	}
-	
-	
-	
+	/**
+	 * 
+	 *〈引用预研〉
+	 *〈详细描述〉
+	 * @author FengTian
+	 * @param id
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping("/comparison")
-	public String comparison(@CurrentUser User user,String id, HttpServletRequest request){
-	    String num = "1";
-        String number = "2";
-	    List<PurchaseDetail> detail =new ArrayList<PurchaseDetail>();
+	public String comparison(@CurrentUser User user, String id){
 	    if(StringUtils.isNotBlank(id)){
 	        Task task = taskservice.selectById(id);
-            List<PurchaseDetail> list2 = purchaseDetailService.getUnique(task.getCollectId(),null,null);
-            if(list2 != null && list2.size() > 0){
-                for (PurchaseDetail purchaseRequired : list2) {
-                        if(purchaseRequired.getPrice()!=null){
-                            detail.add(purchaseRequired);
-                        }
-                }
-            }
-            
-            
-            HashMap<String,Object> map = new HashMap<String,Object>();
-            map.put("taskNature", "1");
-            //查询所有的预研任务
-            List<AdvancedDetail> detailss =new ArrayList<AdvancedDetail>();
-            List<Task> lists = taskservice.likeByName(map);
-            int count=0;
-            if(lists != null && lists.size() > 0){
-                for (Task task2 : lists) {
-                    map.put("taskId", task2.getId());
-                    List<ProjectTask> projectTask = projectTaskService.queryByNo(map);
-                    if(projectTask != null && projectTask.size()>0){
-                        AdvancedProject project = advancedProjectService.selectById(projectTask.get(0).getProjectId());
-                        if(project != null && !"0".equals(project.getStatus())){
-                            map.put("advancedProject", project.getId());
-                            List<AdvancedDetail> details = detailService.selectByAll(map);
-                            for (AdvancedDetail purchaseRequired : details) {
-                                if(purchaseRequired.getPrice()!=null){
-                                    detailss.add(purchaseRequired);
-                                }
-                            }
-                            if(detailss != null && detailss.size() > 0){
-                                for(AdvancedDetail ad:detailss){
-                                    for(PurchaseDetail p:detail){
-                                        if(ad.getRequiredId().equals(p.getId())){
-                                            Boolean flag = reflect(p, ad);
-                                            if(flag == true){
-                                                count++;
-                                            }
-                                            
-                                        }
-                                    }
-                                    
-                                }
-                                
-                                if(count==detailss.size()){
-                                    request.getSession().setAttribute("detail", detail);
-                                    request.getSession().setAttribute("details", detailss);
-                                    return num;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-           
+	        //该任务下面的明细
+	        List<PurchaseDetail> purchaseDetail = advancedProjectService.purchaseDetail(task.getCollectId(), user);
+	        if(purchaseDetail != null && !purchaseDetail.isEmpty()){
+	            //判断任务下面的明细是否和预研明细长度一样
+	            List<AdvancedDetail> ifAdvancedDetail = advancedProjectService.ifAdvancedDetail(purchaseDetail);
+	            if(purchaseDetail.size() == ifAdvancedDetail.size()){
+	                //根据采购明细查预研明细
+	                List<AdvancedDetail> advancedDetail = advancedProjectService.advancedDetail(purchaseDetail);
+	                if(advancedDetail != null && !advancedDetail.isEmpty()){
+	                    int count = 0;
+	                    for (AdvancedDetail detail : advancedDetail) {
+	                        for(PurchaseDetail detail2 : purchaseDetail){
+	                            if(detail.getRequiredId().equals(detail2.getId())){
+	                                Boolean flag = advancedProjectService.reflect(detail2, detail);
+	                                if(flag){
+	                                    count++;
+	                                }
+	                            }
+	                        }
+	                    }
+	                    if(count == advancedDetail.size()){
+	                        return StaticVariables.SUCCESS;
+	                    }
+	                }
+	            } else {
+	                return StaticVariables.FAILED;
+	            }
+	        }
 	    }
-	    return number;
+	    return StaticVariables.FAILED;
 	}
 	
-	
-	
+	/**
+	 * 
+	 *〈合并〉
+	 *〈详细描述〉
+	 * @author Administrator
+	 * @param taskId
+	 * @return
+	 */
 	@RequestMapping("/quote")
-	public String quote(HttpServletRequest request,String taskId) throws Exception{
-	    List<PurchaseDetail> detail = (List<PurchaseDetail>)request.getSession().getAttribute("detail");
-	    request.removeAttribute("detail");
-	    List<AdvancedDetail> details = (List<AdvancedDetail>)request.getSession().getAttribute("details");
-	    request.removeAttribute("details");
-	    List<PurchaseDetail> list = new ArrayList<>();
-	    int count = 0;
-            for(AdvancedDetail advancedDetail:details){
-                for(PurchaseDetail p:detail){
-                    if(advancedDetail.getRequiredId().equals(p.getId())){
-                        Boolean flag = reflect(p, advancedDetail);
-                        if(flag == true){
-                            PurchaseDetail aa = new PurchaseDetail();
-                            aa.setId(p.getId());
-                            aa.setParentId(p.getParentId());
-                            list.add(aa);
-                            count++;
-                        }
-                    }
-            
-              }
+	public String quote(@CurrentUser User user, String taskId){
+	    Task task = taskservice.selectById(taskId);
+	    //该任务下面的明细
+        List<PurchaseDetail> purchaseDetail = advancedProjectService.purchaseDetail(task.getCollectId(), user);
+        if(purchaseDetail != null && !purchaseDetail.isEmpty()){
+            //根据采购明细查预研明细
+            List<AdvancedDetail> advancedDetail = advancedProjectService.advancedDetail(purchaseDetail);
+            if(advancedDetail != null && !advancedDetail.isEmpty()){
+                advancedProjectService.quote(advancedDetail, taskId);
             }
-            
-            if(count==details.size()){
-                List<PurchaseDetail> bottomDetails = new ArrayList<>();
-                Set<String> set = new HashSet<>();
-                for (PurchaseDetail detail2 : list) {
-                    detail2.setProjectStatus(1);
-                    purchaseDetailService.updateByPrimaryKeySelective(detail2);
-                    set.add(detail2.getParentId());
-                }
-                for (String string : set) {
-                    PurchaseDetail detail3 = purchaseDetailService.queryById(string);
-                    HashMap<String, Object> map = new HashMap<>();
-                    map.put("id", detail3.getId());
-                    List<PurchaseDetail> list2 = purchaseDetailService.selectByParentId(map);
-                    for (PurchaseDetail purchaseDetail : list2) {
-                        if(!purchaseDetail.getId().equals(string)){
-                            bottomDetails.add(purchaseDetail);
-                        }
-                    }
-                    for (int i = 0; i < bottomDetails.size(); i++ ) {
-                        if(bottomDetails.get(i).getProjectStatus() == 0){
-                            break;
-                        }else if(i == bottomDetails.size()-1){
-                            detail3.setProjectStatus(1);
-                            purchaseDetailService.updateByPrimaryKeySelective(detail3);
-                        }
-                    }
-                }
-                
-               
-                
-            //合并任务
-            HashMap<String, Object> map2 = new HashMap<>();
-            map2.put("projectId", details.get(0).getAdvancedProject());
-            List<ProjectTask> projectTask = projectTaskService.queryByNo(map2);
-            Task task2 = taskservice.selectById(projectTask.get(0).getTaskId());
-            Task task = taskservice.selectById(taskId);
-            task.setStatus(task2.getStatus());
-            task.setUserId(task2.getUserId());
-            task.setNotDetail(1);
-            task.setAcceptTime(new Date());
-            taskservice.update(task);
-            taskservice.softDelete(task2.getId());
-            
-            
-            //添加到正式项目
-            Project project = new Project();
-            AdvancedProject advancedProject = advancedProjectService.selectById(details.get(0).getAdvancedProject());
-            project.setName(advancedProject.getName());
-            project.setProjectNumber(advancedProject.getProjectNumber());
-            project.setStatus(advancedProject.getStatus());
-            project.setPrincipal(advancedProject.getPrincipal());
-            project.setIpone(advancedProject.getIpone());
-            project.setPurchaseType(advancedProject.getPurchaseType());
-            project.setPurchaseDep(new PurchaseDep(advancedProject.getPurchaseDepId()));
-            project.setBidAddress(advancedProject.getBidAddress());
-            project.setStartTime(advancedProject.getStartTime());
-            project.setCreateAt(advancedProject.getCreateAt());
-            project.setIsImport(advancedProject.getIsImport());
-            project.setSupplierNumber(advancedProject.getSupplierNumber());
-            project.setDeadline(advancedProject.getDeadline());
-            project.setBidDate(advancedProject.getBidDate());
-            project.setIsRehearse(0);
-            project.setIsProvisional(advancedProject.getIsProvisional());
-            project.setPlanType(advancedProject.getPlanType());
-            project.setAppointMan(advancedProject.getAppointMan());
-            project.setAuditReason(advancedProject.getAuditReason());
-            project.setApprovalTime(advancedProject.getApprovalTime());
-            project.setReplyTime(advancedProject.getReplyTime());
-            projectService.add(project);
-            
-            advancedProject.setStatus(DictionaryDataUtil.getId("YYYBYY"));
-            advancedProjectService.update(advancedProject);
-            
-            String id = project.getId();
-            
-            //添加中间表
-            ProjectTask projectTask2 = new ProjectTask();
-            projectTask2.setProjectId(id);
-            projectTask2.setTaskId(taskId);
-            projectTaskService.insertSelective(projectTask2);
-            
-            
-          //添加到正式分包
-            HashMap<String, Object> maps = new HashMap<>();
-            maps.put("projectId", details.get(0).getAdvancedProject());
-            List<AdvancedPackages> advancedPackages = advancedPackageService.selectByAll(maps);
-            if(advancedPackages != null && advancedPackages.size() > 0){
-                for (AdvancedPackages advancedPackages2 : advancedPackages) {
-                    Packages package1 = new Packages();
-                    package1.setId(advancedPackages2.getId());
-                    package1.setName(advancedPackages2.getName());
-                    package1.setProjectId(id);
-                    package1.setIsDeleted(advancedPackages2.getIsDeleted());
-                    package1.setCreatedAt(advancedPackages2.getCreatedAt());
-                    package1.setIsImport(advancedPackages2.getIsImport());
-                    package1.setPurchaseType(advancedPackages2.getPurchaseType());
-                    packageService.insertPackage(package1);
-                }
-            }
-            
-            
-            
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("advancedProject", details.get(0).getAdvancedProject());
-           
-            //添加到正式明细
-            List<AdvancedDetail> advancedDetails = detailService.selectByAll(map);
-            if(advancedDetails != null && advancedDetails.size() > 0){
-                for (AdvancedDetail adDetail : advancedDetails) {
-                    ProjectDetail projectDetail = new ProjectDetail();
-                    projectDetail.setRequiredId(adDetail.getRequiredId());
-                    projectDetail.setSerialNumber(adDetail.getSerialNumber());
-                    projectDetail.setDepartment(adDetail.getDepartment());
-                    projectDetail.setGoodsName(adDetail.getGoodsName());
-                    projectDetail.setStand(adDetail.getStand());
-                    projectDetail.setQualitStand(adDetail.getQualitStand());
-                    projectDetail.setItem(adDetail.getItem());
-                    projectDetail.setCreatedAt(adDetail.getCreatedAt());
-                    projectDetail.setProject(new Project(id));
-                    if (adDetail.getPurchaseCount() != null) {
-                        projectDetail.setPurchaseCount(adDetail.getPurchaseCount().doubleValue());
-                    }
-                    if(adDetail.getPackageId() != null){
-                        projectDetail.setPackageId(adDetail.getPackageId());
-                    }
-                    if (adDetail.getPrice() != null) {
-                        projectDetail.setPrice(adDetail.getPrice().doubleValue());
-                    }
-                    if (adDetail.getBudget() != null) {
-                        projectDetail.setBudget(adDetail.getBudget().doubleValue());
-                    }
-                    if (adDetail.getDeliverDate() != null) {
-                        projectDetail.setDeliverDate(adDetail.getDeliverDate());
-                    }
-                    if (adDetail.getPurchaseType() != null) {
-                        projectDetail.setPurchaseType(adDetail.getPurchaseType());
-                    }
-                    if (adDetail.getSupplier() != null) {
-                        projectDetail.setSupplier(adDetail.getSupplier());
-                    }
-                    if (adDetail.getIsFreeTax() != null) {
-                        projectDetail.setIsFreeTax(adDetail.getIsFreeTax());
-                    }
-                    if (adDetail.getGoodsUse() != null) {
-                        projectDetail.setGoodsUse(adDetail.getGoodsUse());
-                    }
-                    if (adDetail.getUseUnit() != null) {
-                        projectDetail.setUseUnit(adDetail.getUseUnit());
-                    }
-                    if (adDetail.getParentId() != null) {
-                        projectDetail.setParentId(adDetail.getParentId());
-                    }
-                    if (adDetail.getStatus() != null) {
-                        projectDetail.setStatus(String.valueOf(adDetail.getStatus()));
-                    }
-                    projectDetail.setPosition(adDetail.getPosition());
-                    projectDetailService.insert(projectDetail);
-                }
-            }
-            
-            
-            
-          /*  HashMap<String, Object> map5 = new HashMap<>();
-            map5.put("id", advancedDetails.get(0).getRequiredId());
-            List<PurchaseDetail> purchaseDetails = purchaseDetailService.selectByParentId(map5);
-            if(purchaseDetails != null && purchaseDetails.size() > 0){
-                for (PurchaseDetail purchaseDetail : purchaseDetails) {
-                    purchaseDetail.setProjectStatus(1);
-                    purchaseDetailService.updateByPrimaryKeySelective(purchaseDetail);
-                }
-            }*/
-            
-            List<FirstAudit> firstAudit = service.getListByProjectId(details.get(0).getAdvancedProject());
-            String auditId = WfUtil.createUUID();
-            if(firstAudit != null && firstAudit.size() > 0){
-                for (FirstAudit firstAudit2 : firstAudit) {
-                    FirstAudit audit = new FirstAudit();
-                    audit.setId(auditId);
-                    audit.setProjectId(id);
-                    audit.setName(firstAudit2.getName());
-                    audit.setKind(firstAudit2.getKind());
-                    audit.setCreatedAt(firstAudit2.getCreatedAt());
-                    audit.setPosition(firstAudit2.getPosition());
-                    audit.setContent(firstAudit2.getContent());
-                    audit.setPackageId(firstAudit2.getPackageId());
-                    service.add(audit);
-                }
-            }
-            
-            
-            HashMap<String, Object> map3 = new HashMap<>();
-            map3.put("projectId", details.get(0).getAdvancedProject());
-            List<PackageFirstAudit> selectList = packageFirstAuditService.findByProAndPackage(map3);
-            for (PackageFirstAudit packageFirstAudit : selectList) {
-                PackageFirstAudit audit = new PackageFirstAudit();
-                audit.setProjectId(id);
-                audit.setPackageId(packageFirstAudit.getPackageId());
-                audit.setFirstAuditId(auditId);
-                packageFirstAuditService.save(audit);
-            }
-            
-            BidMethod bidMethod = new BidMethod();
-            bidMethod.setProjectId(details.get(0).getAdvancedProject());
-            List<BidMethod> findListByBidMethod = bidMethodService.findListByBidMethod(bidMethod);
-            if(findListByBidMethod != null && findListByBidMethod.size() > 0){
-                for (BidMethod bidMethod2 : findListByBidMethod) {
-                    BidMethod bidMethod1 = new BidMethod();
-                    bidMethod1.setName(bidMethod2.getName());
-                    bidMethod1.setTypeName(bidMethod2.getTypeName());
-                    bidMethod1.setIsDeleted(bidMethod2.getIsDeleted());
-                    bidMethod1.setCreatedAt(bidMethod2.getCreatedAt());
-                    bidMethod1.setProjectId(id);
-                    bidMethod1.setRemark(bidMethod2.getRemark());
-                    bidMethod1.setRemainScore(bidMethod2.getRemainScore());
-                    bidMethod1.setPackageId(bidMethod2.getPackageId());
-                    bidMethod1.setFloatingRatio(bidMethod2.getFloatingRatio());
-                    bidMethod1.setBusiness(bidMethod2.getBusiness());
-                    bidMethod1.setValid(bidMethod2.getValid());
-                    bidMethodService.save(bidMethod1);
-                    String bidMethodId = bidMethod1.getId();
-                    
-                    
-                    
-                    
-                    
-                    MarkTerm condition = new MarkTerm();
-                    condition.setProjectId(details.get(0).getAdvancedProject());
-                    List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);
-                    if(mtList != null && mtList.size() > 0){
-                        for (MarkTerm markTerm : mtList) {
-                            if(markTerm.getBidMethodId() != null && markTerm.getBidMethodId().equals(bidMethod2.getId())){
-                                MarkTerm term = new MarkTerm();
-                                term.setProjectId(id);
-                                term.setPackageId(markTerm.getPackageId());
-                                term.setPid(markTerm.getPid());
-                                if(markTerm.getName() != null){
-                                    term.setName(markTerm.getName());
-                                }
-                                term.setIsDeleted(markTerm.getIsDeleted());
-                                term.setCreatedAt(markTerm.getCreatedAt());
-                                if(markTerm.getBidMethodId() != null){
-                                    term.setBidMethodId(bidMethodId);
-                                }
-                                if(markTerm.getMaxScore() != null){
-                                    term.setMaxScore(markTerm.getMaxScore());
-                                }
-                                if(markTerm.getPackageId() != null){
-                                    term.setPackageId(markTerm.getPackageId());
-                                }
-                                if(markTerm.getRemainScore() != null){
-                                    term.setRemainScore(markTerm.getRemainScore());
-                                }
-                                if(markTerm.getTypeName() != null){
-                                    term.setTypeName(markTerm.getTypeName());
-                                }
-                                markTermService.save(term);
-                                String markTermId = term.getId();
-                                
-                                
-                                for (MarkTerm markTerm2 : mtList) {
-                                    if (markTerm.getId().equals(markTerm2.getPid())) {
-                                        MarkTerm mtChildren = new MarkTerm();
-                                        mtChildren.setPid(markTermId);
-                                        mtChildren.setName(markTerm2.getName());
-                                        mtChildren.setIsDeleted(0);
-                                        mtChildren.setCreatedAt(new Date());
-                                        mtChildren.setMaxScore(markTerm2.getMaxScore());
-                                        mtChildren.setPackageId(markTerm2.getPackageId());
-                                        mtChildren.setProjectId(id);
-                                        mtChildren.setRemainScore(markTerm2.getRemainScore());
-                                        mtChildren.setTypeName(markTerm2.getTypeName());
-                                        mtChildren.setChecked(markTerm2.isChecked());
-                                        markTermService.saveMarkTerm(mtChildren);
-                                        
-                                        
-                                        ScoreModel scoreModel = new ScoreModel();
-                                        scoreModel.setProjectId(details.get(0).getAdvancedProject());
-                                        List<ScoreModel> findListByScoreModel = scoreModelService.findListByScoreModel(scoreModel);
-                                        for (ScoreModel scoreModel2 : findListByScoreModel) {
-                                            if(scoreModel2.getMarkTermId().equals(markTerm2.getId())){
-                                                ScoreModel model1 = new ScoreModel();
-                                                model1.setProjectId(id);
-                                                model1.setPackageId(scoreModel2.getPackageId());
-                                                if(scoreModel2.getMarkTermId() != null){
-                                                    model1.setMarkTermId(mtChildren.getId());
-                                                }
-                                                model1.setName(scoreModel2.getName());
-                                                model1.setTypeName(scoreModel2.getTypeName());
-                                                model1.setReviewContent(scoreModel2.getReviewContent());
-                                                model1.setEasyUnderstandContent(scoreModel2.getEasyUnderstandContent());
-                                                model1.setStandExplain(scoreModel2.getStandExplain());
-                                                model1.setStandardScore(scoreModel2.getStandardScore());
-                                                model1.setJudgeContent(scoreModel2.getJudgeContent());
-                                                model1.setReviewParam(scoreModel2.getReviewParam());
-                                                model1.setAddSubtractTypeName(scoreModel2.getAddSubtractTypeName());
-                                                model1.setUnitScore(scoreModel2.getUnitScore());
-                                                model1.setUnit(scoreModel2.getUnit());
-                                                model1.setReviewStandScore(scoreModel2.getReviewStandScore());
-                                                model1.setMaxScore(scoreModel2.getMaxScore());
-                                                model1.setMinScore(scoreModel2.getMinScore());
-                                                model1.setScore(scoreModel2.getScore());
-                                                model1.setDeadlineNumber(scoreModel2.getDeadlineNumber());
-                                                model1.setIntervalNumber(scoreModel2.getIntervalNumber());
-                                                model1.setIsDeleted(scoreModel2.getIsDeleted());
-                                                model1.setCreatedAt(scoreModel2.getCreatedAt());
-                                                //model1.setIscheck(scoreModel2.getMarkTerm().isChecked());
-                                                model1.setIntervalTypeName(scoreModel2.getIntervalTypeName());
-                                                scoreModelService.saveScoreModel(model1);
-                                                String scoreId = model1.getId();
-                                                
-                                                ParamInterval paramInterval = new ParamInterval();
-                                                paramInterval.setScoreModelId(scoreModel2.getId());
-                                                paramInterval.setProjectId(details.get(0).getAdvancedProject());
-                                                paramInterval.setPackageId(scoreModel2.getPackageId());
-                                                List<ParamInterval> intervals = intervalService.findListByParamInterval(paramInterval);
-                                                if(intervals != null && intervals.size() > 0){
-                                                    for (ParamInterval paramInterval2 : intervals) {
-                                                        ParamInterval interval = new ParamInterval();
-                                                        interval.setCreatedAt(new Date());
-                                                        interval.setEndParam(paramInterval2.getEndParam());
-                                                        interval.setEndRelation(paramInterval2.getEndRelation());
-                                                        interval.setExplain(paramInterval2.getExplain());
-                                                        interval.setIsDeleted(paramInterval2.getIsDeleted());
-                                                        interval.setPackageId(paramInterval2.getPackageId());
-                                                        interval.setProjectId(id);
-                                                        interval.setScore(paramInterval2.getScore());
-                                                        interval.setScoreModelId(scoreId);
-                                                        interval.setStartParam(paramInterval2.getStartParam());
-                                                        interval.setStartRelation(paramInterval2.getStartRelation());
-                                                        interval.setUpdatedAt(new Date());
-                                                        intervalService.saveParamInterval(interval);
-                                                    }
-                                                }
-                                            }
-                                            
-                                            
-                                            }
-                                        
-                                        
-                                    }
-                                }
-                                
-                                
-                                
-                                
-                            }
-                            
-                           
-                        }
-                 }
-                    
-                    
-            }
-           
-            
-            
-            
-               
-            
-
-                String typeId = DictionaryDataUtil.getId("PROJECT_BID");
-                List<UploadFile> files = uploadService.getFilesOther(details.get(0).getAdvancedProject(), typeId, Constant.TENDER_SYS_KEY+"");
-                if(files != null && files.size() > 0){
-                    for (UploadFile uploadFile : files) {
-                        uploadFile.setBusinessId(id);
-                        uploadService.updateLoad(uploadFile);
-                        /*UploadFile file = new UploadFile();
-                        file.setId(WfUtil.createUUID());
-                        file.setBusinessId(id);
-                        file.setCreateDate(new Date());
-                        file.setIsDelete(uploadFile.getIsDelete());
-                        file.setName(uploadFile.getName());
-                        file.setPath(uploadFile.getPath());
-                        file.setSize(uploadFile.getSize());
-                        file.setStatus(uploadFile.getStatus());
-                        file.setTypeId(uploadFile.getTypeId());
-                        uploadService.insertFile(uploadFile, 2);*/
-                    }
-                }
-                
-                String id2 = DictionaryDataUtil.getId("PC_REASON");
-                List<UploadFile> filesPc = uploadService.getFilesOther(details.get(0).getAdvancedProject(), id2, Constant.TENDER_SYS_KEY+"");
-                if(filesPc != null && filesPc.size() > 0){
-                    for (UploadFile uploadFile : filesPc) {
-                        uploadFile.setBusinessId(id);
-                        uploadService.updateLoad(uploadFile);
-                    }
-                }
-                
-                String id3 = DictionaryDataUtil.getId("CAUSE_REASON");
-                List<UploadFile> filesCause = uploadService.getFilesOther(details.get(0).getAdvancedProject(), id3, Constant.TENDER_SYS_KEY+"");
-                if(filesCause != null && filesCause.size() > 0){
-                    for (UploadFile uploadFile : filesCause) {
-                        uploadFile.setBusinessId(id);
-                        uploadService.updateLoad(uploadFile);
-                    }
-                }
-                
-                String id4 = DictionaryDataUtil.getId("FINANCE_REASON");
-                List<UploadFile> filesRe = uploadService.getFilesOther(details.get(0).getAdvancedProject(), id4, Constant.TENDER_SYS_KEY+"");
-                if(filesRe != null && filesRe.size() > 0){
-                    for (UploadFile uploadFile : filesRe) {
-                        uploadFile.setBusinessId(id);
-                        uploadService.updateLoad(uploadFile);
-                    }
-                }
-            
-                FlowExecute flowExecute = new FlowExecute();
-                flowExecute.setProjectId(advancedProject.getId());
-                List<FlowExecute> flowExecutes = flowMangeService.findFlowExecute(flowExecute);
-                for (FlowExecute flowExecute2 : flowExecutes) {
-                    FlowExecute execute = new FlowExecute();
-                    execute.setId(WfUtil.createUUID());
-                    execute.setProjectId(id);
-                    execute.setStatus(flowExecute2.getStatus());
-                    execute.setCreatedAt(new Date());
-                    execute.setUpdatedAt(new Date());
-                    execute.setOperatorId(flowExecute2.getOperatorId());
-                    execute.setOperatorName(flowExecute2.getOperatorName());
-                    execute.setIsDeleted(flowExecute2.getIsDeleted());
-                    execute.setStep(flowExecute2.getStep());
-                    
-                    DictionaryData data = DictionaryDataUtil.findById(flowExecute2.getFlowDefineId());
-                    FlowDefine flowDefine = new FlowDefine();
-                    flowDefine.setName(data.getName());
-                    flowDefine.setPurchaseTypeId(advancedProject.getPurchaseType());
-                    List<FlowDefine> defines = flowMangeService.find(flowDefine);
-                    execute.setFlowDefineId(defines.get(0).getId());
-                    flowMangeService.saveExecute(execute);
-                }
         }
-            
-            
-        
-        
-            }
-            
-        
 	    return "redirect:list.html";
 	}
 	

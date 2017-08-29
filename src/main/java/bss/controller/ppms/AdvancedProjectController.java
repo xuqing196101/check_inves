@@ -1,7 +1,6 @@
 package bss.controller.ppms;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +27,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -39,21 +37,18 @@ import com.github.pagehelper.PageInfo;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
-import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
-import ses.model.oms.util.CommonConstant;
-import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
-import ses.util.ComparatorDetails;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 
 import common.annotation.CurrentUser;
+import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
 
@@ -113,8 +108,10 @@ public class AdvancedProjectController extends BaseController {
     @Autowired
     private UploadService uploadService;
     
-    @Autowired
-    private DictionaryDataServiceI dataService;
+    //父节点
+    private final static String PARENT = "1";
+    
+    private final static String STATUS = "0";
     
     /**
      * 
@@ -216,18 +213,21 @@ public class AdvancedProjectController extends BaseController {
         HashMap<String, Object> map = new HashMap<>();
         map.put("planNo", id);
         List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
+        String detailId = null;
         for (PurchaseRequired purchaseRequired : list) {
-            Orgnization org = orgnizationService.getOrgByPrimaryKey(purchaseRequired.getOrganization());
-            if(org != null){
-                purchaseRequired.setOrganization(org.getName());
-                purchaseRequired.setOneOrganiza(org.getId());
+            if("1".equals(purchaseRequired.getParentId())){
+                detailId = purchaseRequired.getId();
             }
         }
-        model.addAttribute("lists", list);
+        if(detailId != null){
+            List<PurchaseRequired> connectByList = purchaseRequiredService.connectByList(detailId);
+            model.addAttribute("lists", connectByList);
+        }
         model.addAttribute("user", list.get(0).getUserId());
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         return "bss/ppms/advanced_project/add_advanced";
     }
+    
     
     /**
      * 
@@ -253,44 +253,43 @@ public class AdvancedProjectController extends BaseController {
         return "bss/ppms/advanced_project/attachment";
     }
     
-    /**
-     * 
-     *〈下达〉
-     *〈详细描述〉
-     * @author Administrator
-     * @param user
-     * @param model
-     * @param organization
-     * @param ids
-     * @param projectNumber
-     * @param proName
-     * @param name
-     * @param documentNumber
-     * @param id
-     * @param department
-     * @param purchaseType
-     * @param request
-     * @return
-     */
+   /**
+    * 
+    *〈下达〉
+    *〈详细描述〉
+    * @author FengTian
+    * @param user
+    * @param model
+    * @param organization
+    * @param ids
+    * @param projectNumber
+    * @param proName
+    * @param name
+    * @param documentNumber
+    * @param id
+    * @param department
+    * @param purchaseType
+    * @return
+    */
     @RequestMapping("/transmit")
-    public String transmit(@CurrentUser User user, Model model, String organization, String ids, String projectNumber, String proName, String name, String documentNumber,String id, String department, String purchaseType, HttpServletRequest request){
+    public String transmit(@CurrentUser User user, Model model, String organization, String ids, String projectNumber, String proName, String name, String documentNumber,String id, String department, String purchaseType){
         //立项 
         AdvancedProject project = new AdvancedProject();
-        String planType = request.getParameter("planType");
+        String planType = super.request.getParameter("planType");
         project.setId(id);
         project.setName(proName);
         project.setProjectNumber(projectNumber);
         project.setPurchaseType(purchaseType);
         project.setPlanType(planType);
-        //project.setPurchaseDep(new PurchaseDep(organization));
         project.setCreateAt(new Date());
-        project.setStatus("0");
+        project.setStatus(STATUS);
+        project.setParentId(PARENT);
         advancedProjectService.save(project);
         
         //下达
         HashSet<String> set = new HashSet<>();
-        String[] orgId = organization.split(",");
-        if(orgId != null){
+        String[] orgId = organization.split(StaticVariables.COMMA_SPLLIT);
+        if(orgId != null && orgId.length > 0){
             for (int i = 0; i < orgId.length; i++ ) {
                 Orgnization org= orgnizationService.getOrgByPrimaryKey(orgId[i]);
                 if(org != null){
@@ -327,9 +326,11 @@ public class AdvancedProjectController extends BaseController {
         //项目明细
         int j = 1;
         String[] idss = ids.split(",");
+        String uniqueId = WfUtil.createUUID();
+        AdvancedDetail detail = null;
         for (int i = 0; i < idss.length; i++ ) {
             PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(idss[i]);
-            AdvancedDetail detail = new AdvancedDetail();
+            detail = new AdvancedDetail();
             detail.setRequiredId(purchaseRequired.getId());
             detail.setSerialNumber(purchaseRequired.getSeq());
             detail.setDepartment(purchaseRequired.getDepartment());
@@ -337,6 +338,7 @@ public class AdvancedProjectController extends BaseController {
             detail.setStand(purchaseRequired.getStand());
             detail.setQualitStand(purchaseRequired.getQualitStand());
             detail.setItem(purchaseRequired.getItem());
+            detail.setUniqueId(uniqueId);
             detail.setCreatedAt(new Date());
             if (purchaseRequired.getPurchaseCount() != null) {
                 detail.setPurchaseCount(purchaseRequired.getPurchaseCount());
@@ -413,7 +415,7 @@ public class AdvancedProjectController extends BaseController {
         String userNames = users.getRelName();
         String userphone = users.getMobile();
         String name = null;
-        String[] ids = orgId.split(",");
+        String[] ids = orgId.split(StaticVariables.COMMA_SPLLIT);
         HashSet<String> set = new HashSet<>();
         for (int i = 0; i < ids.length; i++ ) {
             set.add(ids[i]);
@@ -422,7 +424,7 @@ public class AdvancedProjectController extends BaseController {
             Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(string);
             if(orgnization != null){
                 if(StringUtils.isNotBlank(name)){
-                    name = name + "," + orgnization.getName();
+                    name = name + StaticVariables.COMMA_SPLLIT + orgnization.getName();
                 } else {
                     name = orgnization.getName();
                 }
@@ -441,68 +443,6 @@ public class AdvancedProjectController extends BaseController {
     }
     
     
-    
-    
-    
-    /**
-     * 
-     *〈新增〉
-     *〈新增预研项目内容和明细〉
-     * @author Administrator
-     * @param advancedProject
-     * @param list
-     * @param model
-     * @param result
-     * @param request
-     * @return
-     */
-    @RequestMapping("/save")
-    public String create(@Valid AdvancedProject advancedProject, String projectIds, PurchaseRequiredFormBean list, Model model, BindingResult result, HttpServletRequest request){
-        //验证
-        if(result.hasErrors()){
-            List<FieldError> errors = result.getFieldErrors();
-            for(FieldError fieldError:errors){
-                model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-            }
-            return "bss/ppms/advanced_project/add";
-        }
-        //新增项目信息
-        if(projectIds != null){
-            AdvancedProject project = advancedProjectService.selectById(projectIds);
-            project.setCreateAt(new Date());
-            project.setStatus(DictionaryDataUtil.getId("YJLX"));
-            project.setName(advancedProject.getName());
-            project.setProjectNumber(advancedProject.getProjectNumber());
-            if(list.getList().get(0).getOrganization() != null){
-                project.setPurchaseDep(new PurchaseDep(list.getList().get(0).getOrganization()));
-            }
-            if(list.getList().get(0).getGoodsUse() != null || list.getList().get(0).getUseUnit() != null){
-                project.setIsImport(1);
-            }else{
-                project.setIsImport(0);
-            }
-            if(list.getList().get(0).getPlanType() != null){
-                project.setPlanType(list.getList().get(0).getPlanType());
-            }
-            if(list.getList().get(0).getId() != null){
-                project.setRequieredId(list.getList().get(0).getId());
-            }
-            project.setPurchaseType(list.getList().get(0).getPurchaseType());
-            advancedProjectService.update(project);
-        }
-        
-        //进入分包页面
-        if(projectIds != null){
-            HashMap<String, Object> map1 = new HashMap<>();
-            AdvancedProject project = advancedProjectService.selectById(projectIds);
-            map1.put("advancedProject", project.getId());
-            List<AdvancedDetail> details = detailService.selectByAll(map1);
-            model.addAttribute("project", project);
-            model.addAttribute("kind", DictionaryDataUtil.find(5));
-            model.addAttribute("list", details);
-        }
-        return "bss/ppms/advanced_project/package";
-    }
     
     /**
      * 
@@ -529,24 +469,36 @@ public class AdvancedProjectController extends BaseController {
         return "bss/ppms/advanced_project/edit";
     }
     
-    
+    /**
+     * 
+     *〈唯一校验〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param project
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/verify")
-    public String verify(String projectNumber, Model model){
-        if(StringUtils.isNotBlank(projectNumber)){
-            AdvancedProject project = new AdvancedProject();
-            project.setProjectNumber(projectNumber);
+    public String verify(AdvancedProject project){
+        if(StringUtils.isNotBlank(project.getProjectNumber())){
             Boolean flag = advancedProjectService.SameNameCheck(project);
             return JSON.toJSONString(flag);
         }else{
             return null;
         }
-        
     }
     
+    /**
+     * 
+     *〈查看是否上传预研通知书〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param id
+     * @return
+     */
     @ResponseBody
-    @RequestMapping("/verifys")
-    public String verifys(String id){
+    @RequestMapping("/verifyUpload")
+    public String verifyUpload(String id){
        List<UploadFile> list = uploadService.getFilesOther(id, null, "2");
        if(list != null && list.size() > 0){
           return "0";
@@ -589,282 +541,38 @@ public class AdvancedProjectController extends BaseController {
         return "redirect:list.html";
     }
     
-    
+    /**
+     * 
+     *〈查看项目〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping("/view")
-    public String view(String id, Model model, Integer page, HttpServletRequest request) {
+    public String view(String id, Model model) {
         HashMap<String,Object> pack = new HashMap<>();
-        HashMap<String,Object> map = new HashMap<>();
         pack.put("projectId", id);
         List<AdvancedPackages> packages = packageService.selectByAll(pack);
-        if(packages.size()!=0){
-            for(AdvancedPackages ps:packages){
-                int serialoneOne = 1;
-                int serialtwoTwo = 1;
-                int serialthreeThree = 1;
-                int serialfourFour = 1;
-                int serialfiveFive = 0;
-                int serialOne = 1;
-                int serialTwo = 1;
-                int serialThree = 1;
-                int serialFour = 1;
-                int serialSix = 0;
-                int serialFive = 0;
+        if(packages != null && packages.size() > 0){
+            for(AdvancedPackages ps : packages){
                 HashMap<String,Object> packageId = new HashMap<>();
                 packageId.put("packageId", ps.getId());
                 List<AdvancedDetail> detailList = detailService.selectByAll(packageId);
-                List<String> parentId = new ArrayList<>();
-                List<AdvancedDetail> newDetails = new ArrayList<>();
-                for(int i=0;i<detailList.size();i++){
-                    HashMap<String,Object> dMap = new HashMap<String,Object>();
-                    dMap.put("projectId", id);
-                    dMap.put("id", detailList.get(i).getRequiredId());
-                    List<AdvancedDetail> lists = detailService.selectByParent(dMap);
-                    String ids = "";
-                    for(int k=0;k<lists.size();k++){
-                        if(lists.get(k).getParentId().equals("1")){
-                            ids = lists.get(k).getId();
-                            break;
-                        }
-                    }
-                    if(!parentId.contains(ids)){
-                        parentId.add(ids);
-                        HashMap<String,Object> parentMap = new HashMap<>();
-                        parentMap.put("projectId", id);
-                        parentMap.put("id", detailList.get(i).getRequiredId());
-                        List<AdvancedDetail> pList = detailService.selectByParent(parentMap);
-                        newDetails.addAll(pList);
-                    }else{
-                        HashMap<String,Object> map2 = new HashMap<>();
-                        map2.put("projectId", id);
-                        map2.put("id", detailList.get(i).getRequiredId());
-                        List<AdvancedDetail> list3 = detailService.selectByParent(map2);
-                        for(int j=0;j<newDetails.size();j++){
-                            for(int k=0;k<list3.size();k++){
-                                if(newDetails.get(j).getId().equals(list3.get(k).getId())){
-                                    list3.remove(list3.get(k));
-                                    break;
-                                }
-                            }
-                        }
-                        newDetails.addAll(list3);
-                    }
+                if(detailList != null && detailList.size() > 0){
+                    ps.setAdvancedDetails(detailList);
                 }
-                ComparatorDetails comparator = new ComparatorDetails();
-                Collections.sort(newDetails, comparator);
-                List<String> newParentId = new ArrayList<>();
-                List<String> oneParentId = new ArrayList<>();
-                List<String> twoParentId = new ArrayList<>();
-                List<String> threeParentId = new ArrayList<>();
-                List<String> fourParentId = new ArrayList<>();
-                List<String> fiveParentId = new ArrayList<>();
-                for(int i=0;i<newDetails.size();i++){
-                    HashMap<String,Object> detailMap = new HashMap<>();
-                    detailMap.put("id",newDetails.get(i).getRequiredId());
-                    detailMap.put("projectId", id);
-                    List<AdvancedDetail> dlist = detailService.selectByParentId(detailMap);
-                    List<AdvancedDetail> plist = detailService.selectByParent(detailMap);
-                    if(dlist.size()>1){
-                        HashMap<String,Object> dMap = new HashMap<>();
-                        dMap.put("projectId", id);
-                        dMap.put("id", newDetails.get(i).getRequiredId());
-                        dMap.put("packageId", ps.getId());
-                        List<AdvancedDetail> packDetails = detailService.findHavePackageIdDetail(dMap);
-                        int budget = 0;
-                        for (AdvancedDetail projectDetail : packDetails) {
-                            budget += projectDetail.getBudget().intValue();
-                        }
-                        BigDecimal money = new BigDecimal(budget);
-                        newDetails.get(i).setBudget(money);
-                    }
-                    if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
-                        if(!oneParentId.contains(newDetails.get(i).getParentId())){
-                            oneParentId.add(newDetails.get(i).getParentId());
-                            serialoneOne = 1;
-                        }
-                        newDetails.get(i).setSerialNumber(test(serialoneOne));
-                        serialoneOne ++;
-                    }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
-                        if(!twoParentId.contains(newDetails.get(i).getParentId())){
-                            twoParentId.add(newDetails.get(i).getParentId());
-                            serialtwoTwo = 1;
-                        }
-                        newDetails.get(i).setSerialNumber("（"+test(serialtwoTwo)+"）");
-                        serialtwoTwo ++;
-                    }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
-                        if(!threeParentId.contains(newDetails.get(i).getParentId())){
-                            threeParentId.add(newDetails.get(i).getParentId());
-                            serialthreeThree = 1;
-                        }
-                        newDetails.get(i).setSerialNumber(String.valueOf(serialthreeThree));
-                        serialthreeThree ++;
-                    }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
-                        if(!fourParentId.contains(newDetails.get(i).getParentId())){
-                            fourParentId.add(newDetails.get(i).getParentId());
-                            serialfourFour = 1;
-                        }
-                        newDetails.get(i).setSerialNumber("（"+String.valueOf(serialfourFour)+"）");
-                        serialfourFour ++;
-                    }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
-                        if(!fiveParentId.contains(newDetails.get(i).getParentId())){
-                            fiveParentId.add(newDetails.get(i).getParentId());
-                            serialfiveFive = 0;
-                        }
-                        char serialNum = (char) (97 + serialfiveFive);
-                        newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
-                        serialfiveFive++;
-                    }
-                    if(dlist.size()==1){
-                        map.put("projectId", id);
-                        map.put("id", newDetails.get(i).getRequiredId());
-                        List<AdvancedDetail> list = detailService.selectByParent(map);
-                        if(!newParentId.contains(newDetails.get(i).getParentId())){
-                            serialOne = 1;
-                            serialTwo = 1;
-                            serialThree = 1;
-                            serialFour = 1;
-                            serialFive = 0;
-                            serialSix = 0;
-                            newParentId.add(newDetails.get(i).getParentId());
-                        }
-                        if(list.size()==1){
-                            newDetails.get(i).setSerialNumber(test(serialOne));
-                            serialOne ++;
-                        }else if(list.size()==2){
-                            newDetails.get(i).setSerialNumber("（"+test(serialTwo)+"）");
-                            serialTwo ++;
-                        }else if(list.size()==3){
-                            newDetails.get(i).setSerialNumber(String.valueOf(serialThree));
-                            serialThree ++;
-                        }else if(list.size()==4){
-                            newDetails.get(i).setSerialNumber("（"+String.valueOf(serialFour)+"）");
-                            serialFour ++;
-                        }else if(list.size()==5){
-                            char serialNum = (char) (97 + serialFive);
-                            newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
-                            serialFive ++;
-                        }else if(list.size()==6){
-                            char serialNum = (char) (97 + serialSix);
-                            newDetails.get(i).setSerialNumber("（"+serialNum+"）");
-                            serialSix ++;
-                        }
-                    }
-                    
-                }
-                ps.setAdvancedDetails(newDetails);
             }
-            }else{
-                map.put("advancedProject", id);
-                List<AdvancedDetail> detail = detailService.selectByAll(map);
-                model.addAttribute("lists", detail);
-            }
-            model.addAttribute("kind", DictionaryDataUtil.find(5));
             model.addAttribute("packageList", packages);
-            return "bss/ppms/advanced_project/view";
-
-    }
-    
-    /**
-     * 
-     *〈递归〉
-     *〈详细描述〉
-     * @author Administrator
-     * @param response
-     * @param request
-     * @throws IOException
-     */
-    @RequestMapping("/checkProjectDetail")
-    public void checkProjectDeail(HttpServletResponse response, HttpServletRequest request) throws IOException{
-        String projectId = request.getParameter("projectId");
-        HashMap<String,Object> map = new HashMap<String,Object>();
-        String id = request.getParameter("id");
-        AdvancedDetail details = detailService.selectById(id);
-        if("1".equals(details.getParentId())){
-            if(StringUtils.isNotBlank(projectId)){
-                map.put("projectId", projectId);
-            }
-            map.put("id", details.getRequiredId());
-            List<AdvancedDetail> list = detailService.selectByParentId(map);
-            String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
-            response.setContentType("text/html;charset=utf-8");
-            response.getWriter().write(json);
-            response.getWriter().flush();
-            response.getWriter().close();
         }else{
-            map.put("projectId", projectId);
-            map.put("id", details.getRequiredId());
-            List<AdvancedDetail> list1 = new ArrayList<AdvancedDetail>();
-            List<AdvancedDetail> list = detailService.selectByParent(map);
-            list1.addAll(list);
-            List<AdvancedDetail> lists = detailService.selectByParentId(map);
-            list1.addAll(lists);
-            removeSames(list1);
-            String json = JSON.toJSONStringWithDateFormat(list1, "yyyy-MM-dd HH:mm:ss");
-            response.setContentType("text/html;charset=utf-8");
-            response.getWriter().write(json);
-            response.getWriter().flush();
-            response.getWriter().close();
+            HashMap<String,Object> map = new HashMap<>();
+            map.put("advancedProject", id);
+            List<AdvancedDetail> detail = detailService.selectByAll(map);
+            model.addAttribute("lists", detail);
         }
-    }
-    
-    /**
-     * 〈递归选中〉 
-     * 〈详细描述〉
-     * @author FengTian
-     * @param response 内置对象
-     * @param id 需求明细id
-     * @param model 内置对象
-     * @throws IOException 抛出异常
-     */
-    @RequestMapping("/checkDetail")
-    public void checkDetail(HttpServletResponse response, String id, Model model)
-        throws IOException {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(id);
-        if ("1".equals(purchaseRequired.getParentId())) {
-            map.put("id", purchaseRequired.getId());
-            List<PurchaseRequired> list = purchaseRequiredService.selectByParentId(map);
-            String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
-            response.setContentType("text/html;charset=utf-8");
-            response.getWriter().write(json);
-            response.getWriter().flush();
-            response.getWriter().close();
-        }else{
-            map.put("id", purchaseRequired.getId());
-            List<PurchaseRequired> list = new ArrayList<PurchaseRequired>();
-            List<PurchaseRequired> list1 = purchaseRequiredService.selectByParent(map);
-            list.addAll(list1);
-            List<PurchaseRequired> list2 = purchaseRequiredService.selectByParentId(map);
-            list.addAll(list2);
-            removeSame(list);
-            String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
-            response.setContentType("text/html;charset=utf-8");
-            response.getWriter().write(json);
-            response.getWriter().flush();
-            response.getWriter().close();
-        }
-        
-    }
-    
-    
-    public void removeSame(List<PurchaseRequired> list) {
-        for (int i = 0; i < list.size() - 1; i++) {
-            for (int j = list.size() - 1; j > i; j--) {
-                if (list.get(j).getId().equals(list.get(i).getId())) {
-                    list.remove(j);
-                }
-            }
-        }
-    }
-    
-    
-    public void removeSames(List<AdvancedDetail> list) {
-        for (int i = 0; i < list.size() - 1; i++) {
-            for (int j = list.size() - 1; j > i; j--) {
-                if (list.get(j).getId().equals(list.get(i).getId())) {
-                    list.remove(j);
-                }
-            }
-        }
+        model.addAttribute("kind", DictionaryDataUtil.find(5));
+        return "bss/ppms/advanced_project/view";
     }
     
     @RequestMapping("/viewIds")
@@ -878,168 +586,6 @@ public class AdvancedProjectController extends BaseController {
             response.getWriter().write(json);
             response.getWriter().flush();
             response.getWriter().close();
-    }
-    
-    /**
-     * 
-     *〈删除明细〉
-     *〈详细描述〉
-     * @author Administrator
-     * @param id
-     * @param idss
-     * @return
-     */
-    @RequestMapping("/deleted")
-    public String deleted(String id, String idss, String projectIds){
-        if(id != null){
-            String[] ids = id.split(",");
-            for (int i = 0; i < ids.length; i++ ) {
-                AdvancedDetail detail = detailService.selectById(ids[i]);
-                PurchaseRequired required = purchaseRequiredService.queryById(detail.getRequiredId());
-                required.setAdvancedStatus(0);
-                purchaseRequiredService.updateByPrimaryKeySelective(required);
-                detailService.deleteById(ids[i]);
-            }
-            return "redirect:add.html";
-        }else{
-            if(idss != null){
-                advancedProjectService.deleteById(projectIds);
-                String[] ids = idss.split(",");
-                for (int i = 0; i < ids.length; i++ ) {
-                    AdvancedDetail detail = detailService.selectById(ids[i]);
-                    PurchaseRequired required = purchaseRequiredService.queryById(detail.getRequiredId());
-                    required.setAdvancedStatus(0);
-                    purchaseRequiredService.updateByPrimaryKeySelective(required);
-                    detailService.deleteById(ids[i]);
-                }
-            }
-            return "redirect:/collect/list.html";
-        }
-    }
-    
-    
-    /**
-     * 
-     *〈查看明细是否分包〉
-     *〈详细描述〉
-     * @author Administrator
-     * @param id
-     * @param response
-     * @throws IOException
-     */
-    @RequestMapping("/viewPackages")
-    @ResponseBody
-    public String viewPackages(String id, HttpServletResponse response) throws IOException{
-        HashMap<String,Object> map = new HashMap<String,Object>();
-        map.put("advancedProject", id);
-        List<AdvancedDetail> details = detailService.selectByAll(map);
-        List<AdvancedDetail> bottomDetails = new ArrayList<>();
-        for(AdvancedDetail detail:details){
-            HashMap<String,Object> detailMap = new HashMap<>();
-            detailMap.put("id",detail.getRequiredId());
-            detailMap.put("projectId", id);
-            List<AdvancedDetail> dlist = detailService.selectByParentId(detailMap);
-            if(dlist.size()==1){
-                bottomDetails.add(detail);
-            }
-        }
-        int bottomLength = 0;
-        int subLength = 0;
-        for(int i=0;i<bottomDetails.size();i++){
-            if(bottomDetails.get(i).getPackageId()==null){
-                bottomLength++;
-            }
-            if(bottomDetails.get(i).getPackageId()!=null){
-                subLength++;
-            }
-        }
-        String str = null;
-        if(bottomLength==bottomDetails.size()){
-            str = "1";//明细都未分包，默认一包
-        }else{
-            if(subLength == bottomDetails.size()){
-                str = "0";//明细都分完包了
-            }else{
-                str = "1";//有明细分包，还没分完全
-            }
-        }
-        return str;
-    }
-    
-    /**
-     * 
-     *〈查看明细是否分包〉
-     *〈详细描述〉
-     * @author Administrator
-     * @param id
-     * @param response
-     * @throws IOException
-     */
-    @RequestMapping("/viewPackage")
-    @ResponseBody
-    public String viewPackage(String id, HttpServletResponse response) throws IOException{
-        HashMap<String,Object> map = new HashMap<String,Object>();
-        map.put("advancedProject", id);
-        List<AdvancedDetail> details = detailService.selectByAll(map);
-        List<AdvancedDetail> bottomDetails = new ArrayList<>();
-        for(AdvancedDetail detail:details){
-            HashMap<String,Object> detailMap = new HashMap<>();
-            detailMap.put("id",detail.getRequiredId());
-            detailMap.put("projectId", id);
-            List<AdvancedDetail> dlist = detailService.selectByParentId(detailMap);
-            if(dlist.size()==1){
-                bottomDetails.add(detail);
-            }
-        }
-        int bottomLength = 0;
-        int subLength = 0;
-        for(int i=0;i<bottomDetails.size();i++){
-            if(bottomDetails.get(i).getPackageId()==null){
-                bottomLength++;
-            }
-            if(bottomDetails.get(i).getPackageId()!=null){
-                subLength++;
-            }
-        }
-        String str = null;
-        if(bottomLength==bottomDetails.size()){
-            AdvancedProject project = advancedProjectService.selectById(id);
-            AdvancedPackages pg = new AdvancedPackages();
-            String pId = UUID.randomUUID().toString().replaceAll("-", "");
-            pg.setId(pId);
-            pg.setName("第1包");
-            pg.setProjectId(id);
-            pg.setIsDeleted(0);
-            if(project.getIsImport()==1){
-                pg.setIsImport(1);
-            }else{
-                pg.setIsImport(0);
-            }
-            if(bottomDetails.get(0).getStatus().equals("1")){
-                pg.setStatus(1);
-            }else{
-                pg.setStatus(0);
-            }
-            pg.setPurchaseType(project.getPurchaseType());
-            pg.setCreatedAt(new Date());
-            pg.setUpdatedAt(new Date());
-            packageService.saves(pg);
-            for(int i=0;i<bottomDetails.size();i++){
-                AdvancedDetail projectDetail = new AdvancedDetail();
-                projectDetail.setId(bottomDetails.get(i).getId());
-                projectDetail.setPackageId(pId);
-                projectDetail.setUpdateAt(new Date());
-                detailService.update(projectDetail);
-            }
-            str = "0";//明细都未分包，默认一包
-        }else{
-            if(subLength == bottomDetails.size()){
-                str = "0";//明细都分完包了
-            }else{
-                str = "1";//有明细分包，还没分完全
-            }
-        }
-        return str;
     }
     
     
@@ -1077,108 +623,53 @@ public class AdvancedProjectController extends BaseController {
         return result;
     }
     
-    
-    public List<AdvancedDetail> sort(List<AdvancedDetail> newDetails, String id){
-        HashMap<String, Object> map = new HashMap<>();
-        int serialoneOne = 1;
-        int serialtwoTwo = 1;
-        int serialthreeThree = 1;
-        int serialfourFour = 1;
-        int serialfiveFive = 0;
-        int serialOne = 1;
-        int serialTwo = 1;
-        int serialThree = 1;
-        int serialFour = 1;
-        int serialSix = 0;
-        int serialFive = 0;
-        List<String> newParentId = new ArrayList<>();
-        List<String> oneParentId = new ArrayList<>();
-        List<String> twoParentId = new ArrayList<>();
-        List<String> threeParentId = new ArrayList<>();
-        List<String> fourParentId = new ArrayList<>();
-        List<String> fiveParentId = new ArrayList<>();
-        for(int i=0;i<newDetails.size();i++){
-            HashMap<String,Object> detailMap = new HashMap<>();
-            detailMap.put("id",newDetails.get(i).getRequiredId());
-            detailMap.put("projectId", id);
-            List<AdvancedDetail> dlist = detailService.selectByParentId(detailMap);
-            List<AdvancedDetail> plist = detailService.selectByParent(detailMap);
-            if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
-                if(!oneParentId.contains(newDetails.get(i).getParentId())){
-                    oneParentId.add(newDetails.get(i).getParentId());
-                    serialoneOne = 1;
-                }
-                newDetails.get(i).setSerialNumber(test(serialoneOne));
-                serialoneOne ++;
-            }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
-                if(!twoParentId.contains(newDetails.get(i).getParentId())){
-                    twoParentId.add(newDetails.get(i).getParentId());
-                    serialtwoTwo = 1;
-                }
-                newDetails.get(i).setSerialNumber("（"+test(serialtwoTwo)+"）");
-                serialtwoTwo ++;
-            }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
-                if(!threeParentId.contains(newDetails.get(i).getParentId())){
-                    threeParentId.add(newDetails.get(i).getParentId());
-                    serialthreeThree = 1;
-                }
-                newDetails.get(i).setSerialNumber(String.valueOf(serialthreeThree));
-                serialthreeThree ++;
-            }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
-                if(!fourParentId.contains(newDetails.get(i).getParentId())){
-                    fourParentId.add(newDetails.get(i).getParentId());
-                    serialfourFour = 1;
-                }
-                newDetails.get(i).setSerialNumber("（"+String.valueOf(serialfourFour)+"）");
-                serialfourFour ++;
-            }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
-                if(!fiveParentId.contains(newDetails.get(i).getParentId())){
-                    fiveParentId.add(newDetails.get(i).getParentId());
-                    serialfiveFive = 0;
-                }
-                char serialNum = (char) (97 + serialfiveFive);
-                newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
-                serialfiveFive++;
-            }
-            if(dlist.size()==1){
-                map.put("projectId", id);
-                map.put("id", newDetails.get(i).getRequiredId());
-                List<AdvancedDetail> list = detailService.selectByParent(map);
-                if(!newParentId.contains(newDetails.get(i).getParentId())){
-                    serialOne = 1;
-                    serialTwo = 1;
-                    serialThree = 1;
-                    serialFour = 1;
-                    serialFive = 0;
-                    serialSix = 0;
-                    newParentId.add(newDetails.get(i).getParentId());
-                }
-                if(list.size()==1){
-                    newDetails.get(i).setSerialNumber(test(serialOne));
-                    serialOne ++;
-                }else if(list.size()==2){
-                    newDetails.get(i).setSerialNumber("（"+test(serialTwo)+"）");
-                    serialTwo ++;
-                }else if(list.size()==3){
-                    newDetails.get(i).setSerialNumber(String.valueOf(serialThree));
-                    serialThree ++;
-                }else if(list.size()==4){
-                    newDetails.get(i).setSerialNumber("（"+String.valueOf(serialFour)+"）");
-                    serialFour ++;
-                }else if(list.size()==5){
-                    char serialNum = (char) (97 + serialFive);
-                    newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
-                    serialFive ++;
-                }else if(list.size()==6){
-                    char serialNum = (char) (97 + serialSix);
-                    newDetails.get(i).setSerialNumber("（"+serialNum+"）");
-                    serialSix ++;
-                }
-            }
+    /**
+     * 
+     *〈分包页面〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param user
+     * @param page
+     * @param project
+     * @param model
+     * @return
+     */
+    @RequestMapping(value="/findByPackage",produces = "text/html;charset=UTF-8")
+    public String findByPackage(@CurrentUser User user, Integer page, AdvancedProject project, Model model){
+        if (user != null && user.getOrg() != null && "1".equals(user.getTypeName())) {
+            List<AdvancedProject> list = advancedProjectService.findByPackage(page == null ? 1 : page, user, project);
+            model.addAttribute("info", new PageInfo<AdvancedProject>(list));
+            model.addAttribute("type", user.getTypeName());
         }
-        return newDetails;
+        model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+        model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
+        model.addAttribute("project", project);
+        return "bss/ppms/advanced_project/view_package";
     }
     
+    /**
+     * 
+     *〈查询是否有底层明细〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param projectId
+     * @return
+     */
+    @RequestMapping("/ifSubPackage")
+    @ResponseBody
+    public String ifSubPackage(String projectId){
+        if(StringUtils.isNotBlank(projectId)){
+            AdvancedProject project = advancedProjectService.selectById(projectId);
+            if(project != null){
+                List<AdvancedDetail> viewDetail = detailService.viewDetail(projectId);
+                //是否有底层明细，没有的话进else
+                if(viewDetail != null && viewDetail.size() > 0){
+                    return StaticVariables.ORG_TYPE_PURCHASE;
+                }
+            }   
+        }
+        return StaticVariables.ORG_TYPE_MANAGE;
+    }
     
     
     /**
@@ -1191,268 +682,45 @@ public class AdvancedProjectController extends BaseController {
      * @return
      */
     @RequestMapping("/subPackage")
-    public String subPackage(HttpServletRequest request, String flowDefineId, Model model){
-        String id = request.getParameter("projectId");
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("advancedProject", id);
-        //拿到一个项目所有的明细
-        List<AdvancedDetail> details = detailService.selectByAll(map);
-        //拿到packageId不为null的底层明细
-        List<AdvancedDetail> bottomDetails = new ArrayList<>();//底层的明细
-        List<String> parentIds = new ArrayList<>();
-        for(AdvancedDetail detail:details){
-            HashMap<String,Object> detailMap = new HashMap<>();
-            detailMap.put("id",detail.getRequiredId());
-            detailMap.put("projectId", id);
-            List<AdvancedDetail> dlist = detailService.selectByParentId(detailMap);
-            if(dlist.size()==1){
-                bottomDetails.add(detail);
-            }
-        }
-        String str = "";
-        String pId = "";
-        List<AdvancedDetail> showDetails = new ArrayList<>();//展示的明细
-        for(int i=0;i<bottomDetails.size();i++){
-            if(bottomDetails.get(i).getPackageId()==null){
-                HashMap<String,Object> bMap = new HashMap<>();
-                bMap.put("id", bottomDetails.get(i).getRequiredId());
-                bMap.put("projectId", id);
-                List<AdvancedDetail> list2 = detailService.selectByParent(bMap);
-                for(AdvancedDetail detail:list2){
-                    if(detail.getParentId().equals("1")){
-                        pId = detail.getId();
-                        break;
+    public String subPackage(String projectId, String flowDefineId, Model model){
+        if(StringUtils.isNotBlank(projectId)){
+            AdvancedProject project = advancedProjectService.selectById(projectId);
+            if(project != null){
+                List<AdvancedDetail> viewDetail = detailService.viewDetail(project.getId());
+                if(viewDetail != null && viewDetail.size() > 0){
+                    List<AdvancedDetail> showDetail = detailService.showDetail(viewDetail, projectId);
+                    if(showDetail != null && showDetail.size() > 0){
+                        sorts(showDetail);
+                        detail(showDetail, project.getId());
+                        model.addAttribute("list", showDetail);
                     }
-                }
-                if(!parentIds.contains(pId)){
-                    str = "无";
-                    parentIds.add(pId);
-                    HashMap<String,Object> detailMap = new HashMap<>();
-                    detailMap.put("id",bottomDetails.get(i).getRequiredId());
-                    detailMap.put("projectId", id);
-                    List<AdvancedDetail> dlist = detailService.selectByParent(detailMap);
-                    for(int j=dlist.size()-1;j>=0;j--){
-                       showDetails.add(dlist.get(j));
-                    }
-                }else{
-                    HashMap<String,Object> map2 = new HashMap<>();
-                    map2.put("projectId", id);
-                    map2.put("id", bottomDetails.get(i).getRequiredId());
-                    List<AdvancedDetail> list3 = detailService.selectByParent(map2);
-                    for(int j=0;j<showDetails.size();j++){
-                        for(int k=0;k<list3.size();k++){
-                            if(showDetails.get(j).getId().equals(list3.get(k).getId())){
-                                list3.remove(list3.get(k));
-                                break;
-                            }
-                        }
-                    }
-                    showDetails.addAll(list3);
-                }
-            }
-            if(i==bottomDetails.size()-1){
-                if(str.equals("")){
-                    AdvancedProject project = advancedProjectService.selectById(id);
-                    if(DictionaryDataUtil.getId("YJLX").equals(project.getStatus()) || DictionaryDataUtil.getId("XMXXWHZ").equals(project.getStatus()) || DictionaryDataUtil.getId("SSZ_WWSXX").equals(project.getStatus())){
-                        project.setStatus(DictionaryDataUtil.getId("FBWC"));
-                        advancedProjectService.update(project);
-                        model.addAttribute("list", null);
-                    }else{
-                        model.addAttribute("list", null);
-                    }
-                }else{
-                    ComparatorDetails comparator = new ComparatorDetails();
-                    Collections.sort(showDetails, comparator);
-                    for(int j=0;j<showDetails.size();j++){
-                        HashMap<String,Object> detailMap = new HashMap<>();
-                        detailMap.put("id",showDetails.get(j).getRequiredId());
-                        detailMap.put("projectId", id);
-                        List<AdvancedDetail> dlist = detailService.selectByParentId(detailMap);
-                        if(dlist.size()>1){
-                            HashMap<String,Object> dMap = new HashMap<>();
-                            dMap.put("projectId", id);
-                            dMap.put("id", showDetails.get(j).getRequiredId());
-                            List<AdvancedDetail> packDetails = detailService.findNoPackageIdDetail(dMap);
-                            int budget = 0;
-                            for (AdvancedDetail projectDetail : packDetails) {
-                                budget += projectDetail.getBudget().intValue();
-                            }
-                            BigDecimal money = new BigDecimal(budget);
-                            showDetails.get(j).setBudget(money);
-                        }
-                    }
-                    sort(showDetails,id);
-                    model.addAttribute("list", showDetails);
-                }
-            }
-        }
-        HashMap<String,Object> pack = new HashMap<>();
-        pack.put("projectId", id);
-        List<AdvancedPackages> packages = packageService.selectByAll(pack);
-        if(packages.size()!=0){
-            for(AdvancedPackages ps:packages){
-                int serialoneOne = 1;
-                int serialtwoTwo = 1;
-                int serialthreeThree = 1;
-                int serialfourFour = 1;
-                int serialfiveFive = 0;
-                int serialOne = 1;
-                int serialTwo = 1;
-                int serialThree = 1;
-                int serialFour = 1;
-                int serialSix = 0;
-                int serialFive = 0;
-                HashMap<String,Object> packageId = new HashMap<>();
-                packageId.put("packageId", ps.getId());
-                List<AdvancedDetail> detailList = detailService.selectByAll(packageId);
-                List<String> parentId = new ArrayList<>();
-                List<AdvancedDetail> newDetails = new ArrayList<>();
-                for(int i=0;i<detailList.size();i++){
-                    HashMap<String,Object> dMap = new HashMap<String,Object>();
-                    dMap.put("projectId", id);
-                    dMap.put("id", detailList.get(i).getRequiredId());
-                    List<AdvancedDetail> lists = detailService.selectByParent(dMap);
-                    String ids = "";
-                    for(int k=0;k<lists.size();k++){
-                        if(lists.get(k).getParentId().equals("1")){
-                            ids = lists.get(k).getId();
-                            break;
-                        }
-                    }
-                    if(!parentId.contains(ids)){
-                        parentId.add(ids);
-                        HashMap<String,Object> parentMap = new HashMap<>();
-                        parentMap.put("projectId", id);
-                        parentMap.put("id", detailList.get(i).getRequiredId());
-                        List<AdvancedDetail> pList = detailService.selectByParent(parentMap);
-                        newDetails.addAll(pList);
-                    }else{
-                        HashMap<String,Object> map2 = new HashMap<>();
-                        map2.put("projectId", id);
-                        map2.put("id", detailList.get(i).getRequiredId());
-                        List<AdvancedDetail> list3 = detailService.selectByParent(map2);
-                        for(int j=0;j<newDetails.size();j++){
-                            for(int k=0;k<list3.size();k++){
-                                if(newDetails.get(j).getId().equals(list3.get(k).getId())){
-                                    list3.remove(list3.get(k));
-                                    break;
+                    //查询包
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("projectId", projectId);
+                    List<AdvancedPackages> selectByAll = packageService.selectByAll(map);
+                    if(selectByAll != null && selectByAll.size() > 0){
+                        for (AdvancedPackages packages : selectByAll) {
+                            HashMap<String,Object> packageId = new HashMap<>();
+                            packageId.put("packageId", packages.getId());
+                            List<AdvancedDetail> advancedDetails = detailService.selectByAll(packageId);
+                            if(advancedDetails != null && advancedDetails.size() > 0){
+                                List<AdvancedDetail> showPackDetail = detailService.showPackDetail(advancedDetails, projectId);
+                                if(showPackDetail != null && showPackDetail.size() > 0){
+                                    sorts(showPackDetail);
+                                    detail(showPackDetail, project.getId());
+                                    packages.setAdvancedDetails(showPackDetail);
                                 }
                             }
                         }
-                        newDetails.addAll(list3);
+                        model.addAttribute("packageList", selectByAll);
                     }
+                } else {
+                    return "redirect:findByPackage.html";
                 }
-                ComparatorDetails comparator = new ComparatorDetails();
-                Collections.sort(newDetails, comparator);
-                List<String> newParentId = new ArrayList<>();
-                List<String> oneParentId = new ArrayList<>();
-                List<String> twoParentId = new ArrayList<>();
-                List<String> threeParentId = new ArrayList<>();
-                List<String> fourParentId = new ArrayList<>();
-                List<String> fiveParentId = new ArrayList<>();
-                for(int i=0;i<newDetails.size();i++){
-                    HashMap<String,Object> detailMap = new HashMap<>();
-                    detailMap.put("id",newDetails.get(i).getRequiredId());
-                    detailMap.put("projectId", id);
-                    List<AdvancedDetail> dlist = detailService.selectByParentId(detailMap);
-                    List<AdvancedDetail> plist = detailService.selectByParent(detailMap);
-                    if(dlist.size()>1){
-                        HashMap<String,Object> dMap = new HashMap<>();
-                        dMap.put("projectId", id);
-                        dMap.put("id", newDetails.get(i).getRequiredId());
-                        dMap.put("packageId", ps.getId());
-                        List<AdvancedDetail> packDetails = detailService.findHavePackageIdDetail(dMap);
-                        int budget = 0;
-                        for (AdvancedDetail projectDetail : packDetails) {
-                            budget += projectDetail.getBudget().intValue();
-                        }
-                        BigDecimal money = new BigDecimal(budget);
-                        newDetails.get(i).setBudget(money);
-                    }
-                    if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
-                        if(!oneParentId.contains(newDetails.get(i).getParentId())){
-                            oneParentId.add(newDetails.get(i).getParentId());
-                            serialoneOne = 1;
-                        }
-                        newDetails.get(i).setSerialNumber(test(serialoneOne));
-                        serialoneOne ++;
-                    }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
-                        if(!twoParentId.contains(newDetails.get(i).getParentId())){
-                            twoParentId.add(newDetails.get(i).getParentId());
-                            serialtwoTwo = 1;
-                        }
-                        newDetails.get(i).setSerialNumber("（"+test(serialtwoTwo)+"）");
-                        serialtwoTwo ++;
-                    }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
-                        if(!threeParentId.contains(newDetails.get(i).getParentId())){
-                            threeParentId.add(newDetails.get(i).getParentId());
-                            serialthreeThree = 1;
-                        }
-                        newDetails.get(i).setSerialNumber(String.valueOf(serialthreeThree));
-                        serialthreeThree ++;
-                    }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
-                        if(!fourParentId.contains(newDetails.get(i).getParentId())){
-                            fourParentId.add(newDetails.get(i).getParentId());
-                            serialfourFour = 1;
-                        }
-                        newDetails.get(i).setSerialNumber("（"+String.valueOf(serialfourFour)+"）");
-                        serialfourFour ++;
-                    }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
-                        if(!fiveParentId.contains(newDetails.get(i).getParentId())){
-                            fiveParentId.add(newDetails.get(i).getParentId());
-                            serialfiveFive = 0;
-                        }
-                        char serialNum = (char) (97 + serialfiveFive);
-                        newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
-                        serialfiveFive++;
-                    }
-                    if(dlist.size()==1){
-                        map.put("projectId", id);
-                        map.put("id", newDetails.get(i).getRequiredId());
-                        List<AdvancedDetail> list = detailService.selectByParent(map);
-                        if(!newParentId.contains(newDetails.get(i).getParentId())){
-                            serialOne = 1;
-                            serialTwo = 1;
-                            serialThree = 1;
-                            serialFour = 1;
-                            serialFive = 0;
-                            serialSix = 0;
-                            newParentId.add(newDetails.get(i).getParentId());
-                        }
-                        if(list.size()==1){
-                            newDetails.get(i).setSerialNumber(test(serialOne));
-                            serialOne ++;
-                        }else if(list.size()==2){
-                            newDetails.get(i).setSerialNumber("（"+test(serialTwo)+"）");
-                            serialTwo ++;
-                        }else if(list.size()==3){
-                            newDetails.get(i).setSerialNumber(String.valueOf(serialThree));
-                            serialThree ++;
-                        }else if(list.size()==4){
-                            newDetails.get(i).setSerialNumber("（"+String.valueOf(serialFour)+"）");
-                            serialFour ++;
-                        }else if(list.size()==5){
-                            char serialNum = (char) (97 + serialFive);
-                            newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
-                            serialFive ++;
-                        }else if(list.size()==6){
-                            char serialNum = (char) (97 + serialSix);
-                            newDetails.get(i).setSerialNumber("（"+serialNum+"）");
-                            serialSix ++;
-                        }
-                    }
-                    
-                }
-                ps.setAdvancedDetails(newDetails);
+                model.addAttribute("project", project);
             }
         }
-        String num = request.getParameter("num");
-        model.addAttribute("packageList", packages);
-        model.addAttribute("num", num);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
-        model.addAttribute("flowDefineId", flowDefineId);
-        AdvancedProject project = advancedProjectService.selectById(id);
-        model.addAttribute("project", project);
         return "bss/ppms/advanced_project/package";
     }
     
@@ -1514,10 +782,22 @@ public class AdvancedProjectController extends BaseController {
         }
     }
     
+    @RequestMapping("/merge")
+    @ResponseBody
+    public String merge(Model model, String id, String projectId){
+        if(StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(id)){
+            String merge = packageService.merge(projectId, id);
+            if(StringUtils.isNotBlank(merge)){
+                return StaticVariables.SUCCESS;
+            }
+        }
+        return StaticVariables.FAILED;
+    }
+    
     @RequestMapping("/addDetailById")
     @ResponseBody
     public void addDetailById(HttpServletRequest request){
-         String[] id = request.getParameter("id").split(",");
+         String[] id = request.getParameter("id").split(StaticVariables.COMMA_SPLLIT);
          String packageId = request.getParameter("packageId");
          String projectId = request.getParameter("projectId");
          for(int i=0;i<id.length;i++){
@@ -1665,6 +945,20 @@ public class AdvancedProjectController extends BaseController {
         });
     }
     
+    public void detail(List<AdvancedDetail> list, String projectId){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("projectId", projectId);
+        for (AdvancedDetail advancedDetail : list) {
+            map.put("id", advancedDetail.getRequiredId());
+            List<AdvancedDetail> selectByParentId = detailService.selectByParentId(map);
+            if(selectByParentId != null && selectByParentId.size() > 1){
+                advancedDetail.setPurchaseType(null);
+            } else if (selectByParentId != null && selectByParentId.size() == 1) {
+                advancedDetail.setDepartment(null);
+            }
+        }
+    }
+    
     @RequestMapping("/excute")
     public String execute(String id, Model model) {
         AdvancedProject project = advancedProjectService.selectById(id);
@@ -1675,22 +969,13 @@ public class AdvancedProjectController extends BaseController {
                 advancedProjectService.update(project);
             }
             model.addAttribute("project", project);
-            HashMap<String, Object> map = (HashMap<String, Object>)getFlowDefine(project.getPurchaseType(), project.getId());
+            HashMap<String, Object> map = advancedProjectService.getFlowDefine(project.getPurchaseType(), project.getId());
             model.addAttribute("list", map.get("list"));
             model.addAttribute("url", map.get("url"));
         }
         return "bss/ppms/advanced_project/main";
     }
     
-    public Map<String, Object> getFlowDefine(String code, String projectId){
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        DictionaryData dd = new DictionaryData();
-        dd.setCode(code);
-        List<DictionaryData> list = dataService.list(dd);
-        map.put("url", list.get(0).getDescription()+"?projectId="+projectId+"&flowDefineId="+list.get(0).getCode());
-        map.put("list", list);
-        return map;
-    }
     
     @RequestMapping("/mplement")
     public String starts(@CurrentUser User user,String projectId, String flowDefineId, Model model) {
@@ -1701,6 +986,21 @@ public class AdvancedProjectController extends BaseController {
                 Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
                 project.setPurchaseDepId(orgnization.getName());
                 project.setPurchaseType(findById.getName());
+                
+                //获取需求提报时间
+                HashMap<String, Object> hashMap = new HashMap<String, Object>();
+                hashMap.put("advancedProject", projectId);
+                List<AdvancedDetail> advancedDetails = detailService.selectByAll(hashMap);
+                if(advancedDetails != null && advancedDetails.size() > 0){
+                    for (AdvancedDetail detail : advancedDetails) {
+                        PurchaseRequired required = purchaseRequiredService.queryById(detail.getRequiredId());
+                        if(required != null){
+                            model.addAttribute("auditDate",required.getCreatedAt());
+                        }
+                        break;
+                    }
+                }
+               
                 
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put("projectId", project.getId());
@@ -1819,6 +1119,7 @@ public class AdvancedProjectController extends BaseController {
             packageService.update(packages);
         }
     }
+    
     
     
     

@@ -132,4 +132,8 @@ public interface SupplierCheckPassService {
   List<SupplierCheckPass> selectPackageIdWonBid(String packageId);
   List<SupplierCheckPass> listsupplier(HashMap<String, Object> map);
   List<SupplierCheckPass> listCheckPassOrderRanking(String packId);
+  
+  Boolean checkpassId(String ids, String priceRatios);
+  
+  List<SupplierCheckPass> checkPassSupplier(String supplierIds, String packageId);
 }

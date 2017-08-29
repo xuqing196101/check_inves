@@ -19,8 +19,8 @@
 		<result column="IS_REMOVED" jdbcType="VARCHAR" property="isRemoved" />
 		<result column="REMOVED_REASON" jdbcType="VARCHAR" property="removedReason" />
 		<result column="IS_TURN_UP" jdbcType="DECIMAL" property="isTurnUp" />
-		
 	</resultMap>
+	
 	<resultMap extends="BaseResultMap" id="BaseResultExternalMap" type="bss.model.ppms.SaleTender">
 	<association property="user" column="USER_ID"
       select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
@@ -372,8 +372,7 @@
 		<if test="project != null  and project != '' ">
 			AND st.PROJECT_ID = #{project.id,jdbcType=VARCHAR}
 		</if>
-		<if
-			test="suppliers != null and suppliers.supplierName != null and suppliers.supplierName != ''">
+		<if test="suppliers != null and suppliers.supplierName != null and suppliers.supplierName != ''">
 			AND ss.SUPPLIER_NAME LIKE CONCAT(CONCAT('%',  #{suppliers.supplierName,jdbcType=VARCHAR}), '%') 
 		</if>
 		<if
@@ -571,5 +570,47 @@
   SELECT PROJECT_ID,PACKAGR_IDS,supplier_id,bid_finish FROM T_BSS_PPMS_SALE_TENDER WHERE project_id=#{projectId,jdbcType=VARCHAR} 
   AND supplier_id=#{supplierId,jdbcType=VARCHAR} AND is_removed=0) t 
   LEFT JOIN T_BSS_PPMS_PACKAGE p ON t.PROJECT_ID=p.PROJECT_ID and t.PACKAGR_IDS=p.id
+  </select>
+  
+  <!-- 根据预研包ID和预研项目Id查询供应商 -->
+  <select id="getAdPackegeSuppliers" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+    st.ID,st.CREATED_AT,st.STATUS_BID,ss.ID as supplierId,ss.SUPPLIER_NAME as supplierName,
+    ss.ARMY_BUSINESS_TELEPHONE as armyBuinessTelephone,st.PACKAGR_IDS as packages,
+    ss.ARMY_BUSINESS_NAME as armyBuinessName,st.IS_FIRST_PASS,st.IS_TURN_UP,st.USER_ID AS userId,
+    st.STATUS_BOND,st.IS_TURN_UP,st.UPDATED_AT,st.BID_FINISH,st.ECONOMIC_SCORE,
+    st.TECHNOLOGY_SCORE,st.REVIEW_RESULT,st.IS_REMOVED,st.REMOVED_REASON
+    FROM
+    T_BSS_PPMS_SALE_TENDER st
+    INNER JOIN
+    T_SES_SMS_SUPPLIER ss ON st.SUPPLIER_ID = ss.ID
+    WHERE 1=1
+    <if test="packageId != null">
+      AND st.PACKAGR_IDS = #{packageId,jdbcType=VARCHAR}
+    </if>
+    <if test="projectId != null">
+      AND st.PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+    </if>
+    <if test="supplierId != null and supplierId != ''">
+      AND ss.ID = #{supplierId,jdbcType=VARCHAR}
+    </if>
+    <if test="supplierName != null and supplierName != ''">
+      AND ss.SUPPLIER_NAME LIKE CONCAT(CONCAT('%',  #{supplierName,jdbcType=VARCHAR}), '%') 
+    </if>
+    <if test="armyBuinessTelephone != null and armyBuinessTelephone != ''">
+      AND ss.ARMY_BUSINESS_TELEPHONE LIKE CONCAT(CONCAT('%',  #{armyBuinessTelephone,jdbcType=VARCHAR}), '%')
+    </if>
+    <if test="statusBid != null  and statusBid != '' ">
+      AND st.STATUS_BID=#{statusBid,jdbcType=DECIMAL}
+    </if>
+    <if test="isRemoved != null  and isRemoved != '' ">
+      AND st.IS_REMOVED =#{isRemoved}
+    </if>
+    <if test="isFirstPass != null">
+      AND st.IS_FIRST_PASS = #{isFirstPass}
+    </if>
+    <if test="isTurnUp != null">
+      AND st.IS_TURN_UP = #{isTurnUp}
+    </if>
   </select>
 </mapper>

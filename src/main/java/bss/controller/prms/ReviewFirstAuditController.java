@@ -28,6 +28,8 @@ import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.ScoreModelUtil;
+import bss.model.ppms.AdvancedPackages;
+import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -42,6 +44,8 @@ import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.SupplierRank;
 import bss.model.prms.ext.Extension;
 import bss.service.ppms.AduitQuotaService;
+import bss.service.ppms.AdvancedPackageService;
+import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.MarkTermService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
@@ -89,6 +93,10 @@ public class ReviewFirstAuditController {
     private SupplierExtRelateService supplierExtRelateService;//供应商分包查询
     @Autowired
     private PackageExpertService packageExpertService;//专家分包查询
+    @Autowired
+    private AdvancedPackageService advancedPackageService;
+    @Autowired
+    private AdvancedProjectService advancedProjectService;
 
     /**
      *〈简述〉
@@ -150,6 +158,19 @@ public class ReviewFirstAuditController {
 	            packages.setQualificationTime(new Date());
 	            packageService.updateByPrimaryKeySelective(packages);
 	        }
+		} else {
+		    List<AdvancedPackages> selectByAll = advancedPackageService.selectByAll(map);
+		    if(selectByAll != null && !selectByAll.isEmpty()){
+		        AdvancedPackages packages = selectByAll.get(0);
+		      //放入包信息
+	            extension.setPackageId(packages.getId());
+	            extension.setPackageName(packages.getName());
+	            
+	            if(packages != null && packages.getQualificationTime() == null){
+	                packages.setQualificationTime(new Date());
+	                advancedPackageService.update(packages);
+	            }
+		    }
 		}
 		//查询项目信息
 		Project project = projectService.selectById(projectId);
@@ -158,6 +179,14 @@ public class ReviewFirstAuditController {
 			extension.setProjectId(project.getId());
 			extension.setProjectName(project.getName());
 			extension.setProjectCode(project.getProjectNumber());
+		} else {
+		    AdvancedProject project2 = advancedProjectService.selectById(projectId);
+		    if(project2 != null){
+		        //放入项目信息
+	            extension.setProjectId(project2.getId());
+	            extension.setProjectName(project2.getName());
+	            extension.setProjectCode(project2.getProjectNumber());
+		    }
 		}
 		
 		//查询改包下的初审项信息
@@ -213,6 +242,14 @@ public class ReviewFirstAuditController {
 		model.addAttribute("expertId", expertId);
 		//查询项目信息
 		Project project = projectService.selectById(projectId);
+		if(project != null){
+		    model.addAttribute("project", project);
+		} else {
+		    AdvancedProject project2 = advancedProjectService.selectById(projectId);
+		    if(project2 != null){
+		        model.addAttribute("project", project2);
+		    }
+		}
 		HashMap<String, Object> map2 = new HashMap<>();
 		map2.put("id", packageId);
 		//查询包信息
@@ -223,6 +260,15 @@ public class ReviewFirstAuditController {
 	            packageService.updateByPrimaryKeySelective(packages.get(0));
 	        }
 			model.addAttribute("pack", packages.get(0));
+		} else {
+		    AdvancedPackages packages2 = advancedPackageService.selectById(packageId);
+		    if(packages2 != null){
+		        if( packages2.getTechniqueTime() == null){
+	                packages2.setTechniqueTime(new Date());
+	                advancedPackageService.update(packages2);
+	            }
+	            model.addAttribute("pack", packages2);
+		    }
 		}
 		//查询评分信息
 		Map<String, Object> map = new HashMap<>();
@@ -331,13 +377,13 @@ public class ReviewFirstAuditController {
 		}
 		model.addAttribute("markTermList", markTerms);
 		//查询供应商信息
-		SaleTender record = new SaleTender();
-		record.setPackages(packageId);
-		record.setProject(project);
-		record.setIsFirstPass(1);
-		record.setIsRemoved("0");
-		record.setIsTurnUp(0);
-		List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
+		HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("packageId", packageId);
+        hashMap.put("projectId", projectId);
+        hashMap.put("isFirstPass", 1);
+        hashMap.put("isRemoved", "0");
+        hashMap.put("isTurnUp", 0);
+        List<SaleTender> supplierList = saleTenderService.getAdPackegeSuppliers(hashMap);
 		model.addAttribute("supplierList", supplierList);
 		// 回显
 		map.put("expertId", expertId);
@@ -345,7 +391,6 @@ public class ReviewFirstAuditController {
 		model.addAttribute("scores", scores);
 		// 新增参数
         model.addAttribute("size", supplierList.size());
-		model.addAttribute("project", project);
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("packageId", packageId);
 		return "bss/prms/audit/review_first_grade";
@@ -689,6 +734,19 @@ public class ReviewFirstAuditController {
           packages.setTechniqueTime(new Date());
           packageService.updateByPrimaryKeySelective(packages);
       }
+    } else {
+        List<AdvancedPackages> selectByAll = advancedPackageService.selectByAll(map);
+        if(selectByAll != null && !selectByAll.isEmpty()){
+            AdvancedPackages packages = selectByAll.get(0);
+            //放入包信息
+            extension.setPackageId(packages.getId());
+            extension.setPackageName(packages.getName());
+            
+            if(packages.getTechniqueTime() != null){
+                packages.setTechniqueTime(new Date());
+                advancedPackageService.update(packages);
+            }
+        }
     }
     //查询项目信息
     Project project = projectService.selectById(projectId);
@@ -697,6 +755,13 @@ public class ReviewFirstAuditController {
       extension.setProjectId(project.getId());
       extension.setProjectName(project.getName());
       extension.setProjectCode(project.getProjectNumber());
+    } else {
+        AdvancedProject project2 = advancedProjectService.selectById(projectId);
+        if(project2 != null){
+            extension.setProjectId(project2.getId());
+            extension.setProjectName(project2.getName());
+            extension.setProjectCode(project2.getProjectNumber());
+        }
     }
     // 专家可以评审的类型
     Map<String, Object> map2 = new HashMap<>();
@@ -746,30 +811,49 @@ public class ReviewFirstAuditController {
 	    if(StringUtils.isNotBlank(expertId) && StringUtils.isNotBlank(packageId)){
 	        //专家信息
             Expert expert = expertService.selectByPrimaryKey(expertId);
-            //包信息
-            Packages packages = packageService.selectByPrimaryKeyId(packageId);
-            if(expert != null && packages != null){
+            if(expert != null){
                 HashMap<String, Object> map = new HashMap<>();
-                map.put("packageId", packages.getId());
+                map.put("packageId", packageId);
                 map.put("expertId", expert.getId());
                 List<PackageExpert> packageExperts = packageExpertService.selectList(map);
                 if(packageExperts != null && packageExperts.size() > 0){
                     model.addAttribute("isSubmit", packageExperts.get(0).getIsAudit());
                 }
+                Packages packages = packageService.selectByPrimaryKeyId(packageId);
+                String packName = "";
+                String projectId = "";
+                if(packages != null){
+                    packName = packages.getName();
+                    projectId = packages.getProjectId();
+                } else {
+                    AdvancedPackages packages2 = advancedPackageService.selectById(packageId);
+                    if(packages2 != null){
+                        packName = packages2.getName();
+                        projectId = packages2.getProjectId();
+                    }
+                }
                 //创建封装的实体
                 Extension extension = new Extension();
-                extension.setPackageId(packages.getId());
-                extension.setPackageName(packages.getName());
-                Project project = projectService.selectById(packages.getProjectId());
+                extension.setPackageId(packageId);
+                extension.setPackageName(packName);
+                Project project = projectService.selectById(projectId);
                 if(project != null){
                     extension.setProjectId(project.getId());
                     extension.setProjectName(project.getName());
                     extension.setProjectCode(project.getProjectNumber());
                     model.addAttribute("project", project);
+                } else {
+                    AdvancedProject project2 = advancedProjectService.selectById(projectId);
+                    if(project2 != null){
+                        extension.setProjectId(project2.getId());
+                        extension.setProjectName(project2.getName());
+                        extension.setProjectCode(project2.getProjectNumber());
+                        model.addAttribute("project", project2);
+                    }
                 }
                 //获取包下的评审项
                 FirstAudit firstAudit = new FirstAudit();
-                firstAudit.setPackageId(packages.getId());
+                firstAudit.setPackageId(packageId);
                 firstAudit.setIsConfirm((short)0);
                 List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
                 if(fas != null && fas.size() > 0){
@@ -777,7 +861,7 @@ public class ReviewFirstAuditController {
                     extension.setFirstAuditList(fas);
                     // 获取符合性审查通过且到场没被移除的供应商
                     SaleTender saleTender = new SaleTender();
-                    saleTender.setPackages(packages.getId());
+                    saleTender.setPackages(packageId);
                     saleTender.setIsTurnUp(0);
                     List<SaleTender> supplierList = saleTenderService.findByCon(saleTender);
                     if(supplierList != null && supplierList.size() > 0){
@@ -787,7 +871,7 @@ public class ReviewFirstAuditController {
                 
                 //查询审核过的信息用于回显
                 Map<String, Object> reviewFirstAuditMap = new HashMap<>();
-                reviewFirstAuditMap.put("projectId", project.getId());
+                reviewFirstAuditMap.put("projectId", projectId);
                 reviewFirstAuditMap.put("packageId", packageId);
                 reviewFirstAuditMap.put("expertId", expertId);
                 List<ReviewFirstAudit> reviewFirstAuditList = service.selectList(reviewFirstAuditMap);
@@ -795,7 +879,7 @@ public class ReviewFirstAuditController {
                 
                 //查询评分信息
                 Map<String, Object> maps = new HashMap<>();
-                maps.put("projectId", project.getId());
+                maps.put("projectId", projectId);
                 maps.put("packageId", packageId);
                 // 专家可以打分的类型
                 List<DictionaryData> markTermTypeList = new ArrayList<DictionaryData>();
@@ -808,7 +892,7 @@ public class ReviewFirstAuditController {
              // 查询所有的ScoreModel
                 ScoreModel scoreModel = new ScoreModel();
                 scoreModel.setPackageId(packageId);
-                scoreModel.setProjectId(project.getId());
+                scoreModel.setProjectId(projectId);
                 List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
                 for (ScoreModel score : scoreModelList) {
                     if (score.getStandardScore() == null || "".equals(score.getStandardScore())) {
@@ -818,7 +902,7 @@ public class ReviewFirstAuditController {
                 model.addAttribute("scoreModelList", scoreModelList);
                 // 查出该包内所有的markTerm
                 MarkTerm markTerm = new MarkTerm();
-                markTerm.setProjectId(project.getId());
+                markTerm.setProjectId(projectId);
                 markTerm.setPackageId(packageId);
                 List<MarkTerm> allMarkTerm = markTermService.findListByMarkTerm(markTerm);
                 // 遍历去除pid is not null 的
@@ -867,13 +951,14 @@ public class ReviewFirstAuditController {
                 
                 
                 //查询供应商信息
-                SaleTender record = new SaleTender();
-                record.setPackages(packageId);
-                record.setProject(project);
-                record.setIsFirstPass(1);
-                record.setIsRemoved("0");
-                record.setIsTurnUp(0);
-                List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("packageId", packageId);
+                hashMap.put("projectId", projectId);
+                hashMap.put("isFirstPass", 1);
+                hashMap.put("isRemoved", "0");
+                hashMap.put("isTurnUp", 0);
+                
+                List<SaleTender> supplierList = saleTenderService.getAdPackegeSuppliers(hashMap);
                 model.addAttribute("supplierList", supplierList);
                 
                 List<ExpertScore> scoresList = expertScoreService.selectInfoByMap(maps);
@@ -894,7 +979,11 @@ public class ReviewFirstAuditController {
                 List<SupplierRank> rankList = new ArrayList<SupplierRank>();
                 for (SaleTender supp : supplierList) {
                     SupplierRank rank = new SupplierRank();
-                    rank.setSupplierId(supp.getSuppliers().getId());
+                    if(supp.getSuppliers() != null && StringUtils.isNotBlank(supp.getSuppliers().getId())){
+                        rank.setSupplierId(supp.getSuppliers().getId());
+                    } else if (StringUtils.isNotBlank(supp.getSupplierId())){
+                        rank.setSupplierId(supp.getSupplierId());
+                    }
                     rank.setPackageId(supp.getPackages());
                     BigDecimal es = supp.getEconomicScore();
                     if (es == null) {
@@ -942,7 +1031,7 @@ public class ReviewFirstAuditController {
                 model.addAttribute("expert", expert);
                 model.addAttribute("pack", packages);
                 model.addAttribute("expertId", expertId);
-                model.addAttribute("projectId", project.getId());
+                model.addAttribute("projectId", projectId);
                 model.addAttribute("packageId", packageId);
             }
 	    }

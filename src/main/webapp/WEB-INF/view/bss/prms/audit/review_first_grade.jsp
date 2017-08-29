@@ -349,17 +349,17 @@ $(document).ready(function () {
 					 	      <c:when test="${score.typeName == '0'}">
 					 	        <td class="p0">
 					 	          <select name="expertValue" title="单位:${score.unit}" class="target"
-					 	           onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
+					 	           onchange="audit(this,'${score.id}','${supplier.supplierId}','${score.typeName}','${score.markTermId}','')"
 					 	          >
 					 	            <option value=""></option>
 					 	            <option value="1" 
 					 	              <c:forEach items="${scores}" var="sco">
-					 	                <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id and sco.expertValue eq '1'}">selected=selected</c:if>
+					 	                <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.supplierId and sco.scoreModelId eq score.id and sco.expertValue eq '1'}">selected=selected</c:if>
 					 	              </c:forEach>
 					 	            >是</option>
 					 	            <option value="0"
 					 	              <c:forEach items="${scores}" var="sco">
-					 	                <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id and sco.expertValue eq '0'}">selected=selected</c:if>
+					 	                <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.supplierId and sco.scoreModelId eq score.id and sco.expertValue eq '0'}">selected=selected</c:if>
 					 	              </c:forEach>
 					 	            >否</option>
 					 	          </select>
@@ -368,7 +368,7 @@ $(document).ready(function () {
 					 	      <c:when test="${score.typeName == '8'}">
 					 	        <td class="p0">
 					 	          <select name="expertValue" title="单位:${score.unit}" class="target"
-					 	           onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
+					 	           onchange="audit(this,'${score.id}','${supplier.supplierId}','${score.typeName}','${score.markTermId}','')"
 					 	          >
 					 	            <option value=""></option>
 					 	            <c:forEach items="${score.model1BJudgeContent}" var="se" varStatus="vs"> 
@@ -377,7 +377,7 @@ $(document).ready(function () {
 										<option value="${finalV}" 
 						 	              <c:forEach items="${scores}" var="sco">
 						 	              	<fmt:formatNumber value='${sco.expertValue}' pattern='0.00' var="eV"/>
-						 	                <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id and eV == finalV}">selected=selected</c:if>
+						 	                <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.supplierId and sco.scoreModelId eq score.id and eV == finalV}">selected=selected</c:if>
 						 	              </c:forEach>
 						 	            >${fn:substringBefore(se, '-')}</option>
 									</c:forEach>
@@ -387,23 +387,23 @@ $(document).ready(function () {
 					 	      <c:otherwise>
 					 	        <td class="tc p0">
 					 	          <input type="text" title="单位:${score.unit}" name="expertValue" id="ipt5" onpaste="return false;" class="m0"
-					 	            onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
+					 	            onchange="audit(this,'${score.id}','${supplier.supplierId}','${score.typeName}','${score.markTermId}','')"
 					 	            <c:forEach items="${scores}" var="sco">
-					 	              <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.expertValue}"</c:if>
+					 	              <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.supplierId and sco.scoreModelId eq score.id}">value="${sco.expertValue}"</c:if>
 					 	            </c:forEach>
 					 	          >
 					 	        </td>
 					 	      </c:otherwise>
 					 	    </c:choose>
 					 	    <td class="tc">
-					 	      <input type="hidden" name="supplierId"  value="${supplier.suppliers.id}"/>
+					 	      <input type="hidden" name="supplierId"  value="${supplier.supplierId}"/>
 					 	      <input type="hidden" name="expertScore" readonly="readonly"
 					 	      	<c:forEach items="${scores}" var="sco">
-					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.score}"</c:if>
+					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.supplierId and sco.scoreModelId eq score.id}">value="${sco.score}"</c:if>
 					 	        </c:forEach>
 					 	      />
 					 	      <span><c:forEach items="${scores}" var="sco">
-					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}"><font color="red" class="f18">${sco.score}</font></c:if>
+					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.supplierId and sco.scoreModelId eq score.id}"><font color="red" class="f18">${sco.score}</font></c:if>
 					 	        </c:forEach>
 					 	      </span>
 					 	    </td>
@@ -418,11 +418,11 @@ $(document).ready(function () {
 				 	<td class="tc">--</td>
 				 	<c:forEach items="${supplierList}" var="supplier">
 				      <td colspan="2" class="tc" >
-				      	<input type="hidden" name="${supplier.suppliers.id}_total"/>
+				      	<input type="hidden" name="${supplier.supplierId}_total"/>
 				      	<span>
 				      		<c:set var="sum_score" value="0"/>
 				      		<c:forEach items="${scores}" var="sco">
-				 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id}">
+				 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.supplierId}">
 				 	          	<c:set var="sum_score" value="${sum_score+sco.score}"/>
 				 	          </c:if>
 				 	        </c:forEach>

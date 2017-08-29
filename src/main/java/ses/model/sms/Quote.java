@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
+import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -82,6 +83,8 @@ public class Quote {
      * 关联项目明细实体
      */
     private ProjectDetail projectDetail;
+    
+    private AdvancedDetail advancedDetail;
     
     /**
      * 关联供应商实体
@@ -278,4 +281,13 @@ public class Quote {
     public void setSupplierId(String supplierId) {
         this.supplierId = supplierId == null ? null : supplierId.trim();
     }
+
+    public AdvancedDetail getAdvancedDetail() {
+        return advancedDetail;
+    }
+
+    public void setAdvancedDetail(AdvancedDetail advancedDetail) {
+        this.advancedDetail = advancedDetail;
+    }
+    
 }

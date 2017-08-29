@@ -6,7 +6,6 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
     <script type="text/javascript">
       function sum2(obj) { //数量
         var id = $(obj).next().val();
@@ -84,6 +83,7 @@
         var aa = 0;
         var projectNumber = $(ele).val();
         var id = $("#id").val();
+        projectNumber = $.trim(projectNumber);
         $.ajax({
           url: "${pageContext.request.contextPath}/project/verify.html?id=" + id + "&projectNumber=" + projectNumber,
           type: "post",

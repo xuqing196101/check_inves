@@ -4133,7 +4133,7 @@ public class PackageExpertController {
         Project project = projectService.selectById(projectId);
         model.addAttribute("project", project);
         for (PackageExpert packageExpert : packageExperts) {
-        	List<Extension> extensions= new ArrayList<Extension>();;
+        	List<Extension> extensions= new ArrayList<Extension>();
         	 
         	 // 获取符合性审查通过且到场没被移除的供应商
         	 SaleTender saleTender = new SaleTender();

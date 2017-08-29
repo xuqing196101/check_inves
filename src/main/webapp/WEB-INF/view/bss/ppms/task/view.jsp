@@ -7,7 +7,6 @@
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
     <%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js"></script> --%>
 
     <script type="text/javascript"></script>
@@ -58,7 +57,7 @@
                     <td>${task.documentNumber}</td>
                     <c:if test="${projectId != null}">
                       <td class="bggrey">预研通知书：</td>
-                      <td><u:show showId="upload_id" businessId="${projectId}" sysKey="2" delete="false" typeId="${advancedAdvice}" /></td>
+                      <td><u:show showId="upload_id" groups="upload_ids" businessId="${projectId}" sysKey="2" delete="false" typeId="${advancedAdvice}" /></td>
                     </c:if>
                   </tr>
                 </tbody>
@@ -80,9 +79,9 @@
                       <th class="info purchasetype">采购方式</th>
                       <th class="info organization">采购机构</th>
                       <th class="info purchasename">供应商名称</th>
-                      <th class="info freetax">是否申请<br>办理免税</th>
+                      <!-- <th class="info freetax">是否申请<br>办理免税</th>
                       <th class="info goodsuse">物资用途<br>（进口）</th>
-                      <th class="info useunit">使用单位<br>（进口）</th>
+                      <th class="info useunit">使用单位<br>（进口）</th> -->
                       <th class="info memo">备注</th>
                       <c:if test="${lists != null}">
                         <th class="info purchasetype">明细状态</th>
@@ -133,7 +132,7 @@
                         <td>
                            <div class="purchasename">${obj.supplier}</div>
                         </td>
-                        <td>
+                       <%--  <td>
                            <div class="freetax">${obj.isFreeTax}</div>
                         </td>
                         <td>
@@ -141,7 +140,7 @@
                         </td>
                         <td>
                            <div class="useunit">${obj.useUnit}</div>
-                        </td>
+                        </td> --%>
                         <td>
                            <div class="memo">${obj.memo}</div>
                         </td>
@@ -186,7 +185,7 @@
                         <td>
                            <div class="purchasename">${obj.supplier}</div>
                         </td>
-                        <td>
+                        <%-- <td>
                            <div class="freetax">${obj.isFreeTax}</div>
                         </td>
                         <td>
@@ -194,7 +193,7 @@
                         </td>
                         <td>
                            <div class="useunit">${obj.useUnit}</div>
-                        </td>
+                        </td> --%>
                         <td>
                            <div class="memo">${obj.memo}</div>
                         </td>

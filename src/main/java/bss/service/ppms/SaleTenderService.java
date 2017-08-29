@@ -224,4 +224,14 @@ public interface SaleTenderService   {
      * @return
      */
     List<SaleTender> findPackages(String supplierId,String projectId);
+    
+    /**
+     * 
+     *〈根据预研项目ID和包ID查询供应商〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param map
+     * @return
+     */
+    List<SaleTender> getAdPackegeSuppliers(HashMap<String, Object> map);
 }
