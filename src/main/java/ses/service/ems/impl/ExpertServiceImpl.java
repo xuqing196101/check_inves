@@ -382,16 +382,16 @@ public class ExpertServiceImpl implements ExpertService {
 				if(expert.getIsSubmit().equals("0") && !expert.getIsBlack().equals("1") && !expert.getStatus().equals("3")){
 					//未提交
 					map.put("expert", "4");
-				} else if(expert.getStatus().equals("2")){
+				} else if(expert.getStatus().equals("2") || expert.getStatus().equals("16")){
 					//审核未通过
 					map.put("expert", "5");
-				} else if(expert.getStatus().equals("4")){
+				} else if(expert.getStatus().equals("4") || expert.getStatus().equals("15")){
 					//初审已通过，待复审
 					map.put("expert", "8");
 				} else if(expert.getIsBlack().equals("1")){
 	                    //已拉黑
 	                    map.put("expert", "1");
-	            }else if((expert.getStatus().equals("0") || expert.getStatus().equals("9"))&& expert.getIsSubmit().equals("1") ){
+	            }else if((expert.getStatus().equals("0") || expert.getStatus().equals("9"))&& expert.getIsSubmit().equals("1") || expert.getStatus().equals("10")){
 					//未审核
 					map.put("expert", "3");
 				}else if(expert.getStatus().equals("3") && !expert.getIsBlack().equals("1")){
