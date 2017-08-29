@@ -156,7 +156,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		if(pageNum != null){
-			PageHelper.startPage(pageNum,1/*Integer.parseInt(config.getString("pageSize"))*/);
+			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		}
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setBatchId(batchId);
