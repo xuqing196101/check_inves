@@ -2922,9 +2922,34 @@ public class ExpertAuditController{
 		expertAudit.setExpertId(expertId);
 		expertAudit.setSuggestType("six");
 		List<ExpertAudit> expertAuditList = expertAuditService.getListByExpert(expertAudit);
+	
 		Integer noPass = 0;
 		if(expertAuditList != null){
 			noPass = expertAuditList.size();
+		}
+		expertAudit.setSuggestType("seven");
+		expertAudit.settype("1");
+		List<ExpertAudit> expertTypeAuditList = expertAuditService.getListByExpert(expertAudit);
+		for (ExpertAudit e : expertTypeAuditList) {
+			DictionaryData data = DictionaryDataUtil.findById(e.getAuditFieldId());
+			if("PROJECT".equals(data.getCode())||"GOODS_PROJECT".equals(data.getCode())){
+				Map<String,Object> map2 = new HashMap<String,Object>();
+				 map2.put("expertId", expertId);
+			     map2.put("typeId", DictionaryDataUtil.getId("PROJECT"));
+			     map2.put("type", "six");
+				int projectPassCount = expertCategoryService.selectPassCount(map2);
+				map2.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
+				int enginfoidPassCount = expertCategoryService.selectPassCount(map2);
+				noPass=noPass+projectPassCount+enginfoidPassCount;
+			}else{
+				Map<String,Object> map2 = new HashMap<String,Object>();
+				 map2.put("expertId", expertId);
+			     map2.put("typeId", e.getAuditFieldId());
+			     map2.put("type", "six");
+				int passCount = expertCategoryService.selectPassCount(map2);
+				noPass+=passCount;
+			}
+			
 		}
 		Integer pass = all - noPass;
 		if(pass < 0){

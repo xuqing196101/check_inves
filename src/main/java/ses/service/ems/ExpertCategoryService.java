@@ -160,4 +160,5 @@ public interface ExpertCategoryService {
      * @return
      */
     Integer findCountParent(Map<String,Object> map);
+    int selectPassCount(Map<String,Object> map);
 }
