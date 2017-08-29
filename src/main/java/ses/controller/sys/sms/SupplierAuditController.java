@@ -4201,6 +4201,15 @@ public class SupplierAuditController extends BaseSupplierController {
 		return supplierAuditService.selectAuditNoPassItemCount(supplierId);
 	}
 	
+	/**
+	 * 
+	 * Description: 数字转化字母
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年8月29日
+	 * @param 
+	 * @return
+	 */
 	public String toEnglish(Integer num){
     	if(num > 0){
 	    	String a[] = {"","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
@@ -4208,8 +4217,10 @@ public class SupplierAuditController extends BaseSupplierController {
 	    		return a[num];
 	    	}else if(num % 26 == 0){
 	    		return a[num/26 - 1] + "z";
-	    	}else{
+	    	}else if(num % 26 <= 26){
 	    		return a[num/26] + a[num%26];
+	    	}else {
+	    		return "";
 	    	}
     	}else{
     		return "";
