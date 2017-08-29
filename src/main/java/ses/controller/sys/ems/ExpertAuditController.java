@@ -1510,6 +1510,7 @@ public class ExpertAuditController{
 					String rootNode = tree.getRootNode();
 		        	String firstNode = tree.getFirstNode();
 		        	String secondNode = tree.getSecondNode();
+		        	String thirdNode=tree.getThirdNode();
 		        	if(rootNode !=null && rootNode !=""){
 		        		items.append(rootNode);
 		        	}
@@ -1519,8 +1520,11 @@ public class ExpertAuditController{
 		        	if(secondNode != null && secondNode !=""){
 		        		items.append("/" + secondNode); 
 		        	}
+		        	if(thirdNode != null && thirdNode !=""){
+		        		items.append("/" + thirdNode); 
+		        	}
 		
-					e.setAuditContent(items.toString()+"/"+e.getAuditContent().replaceAll("目录信息", ""));
+					e.setAuditContent(items.toString());
 					items.setLength(0);
 					if(tree != null && tree.getRootNodeCode() != null){
 						map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
@@ -2922,9 +2926,34 @@ public class ExpertAuditController{
 		expertAudit.setExpertId(expertId);
 		expertAudit.setSuggestType("six");
 		List<ExpertAudit> expertAuditList = expertAuditService.getListByExpert(expertAudit);
+	
 		Integer noPass = 0;
 		if(expertAuditList != null){
 			noPass = expertAuditList.size();
+		}
+		expertAudit.setSuggestType("seven");
+		expertAudit.settype("1");
+		List<ExpertAudit> expertTypeAuditList = expertAuditService.getListByExpert(expertAudit);
+		for (ExpertAudit e : expertTypeAuditList) {
+			DictionaryData data = DictionaryDataUtil.findById(e.getAuditFieldId());
+			if("PROJECT".equals(data.getCode())||"GOODS_PROJECT".equals(data.getCode())){
+				Map<String,Object> map2 = new HashMap<String,Object>();
+				 map2.put("expertId", expertId);
+			     map2.put("typeId", DictionaryDataUtil.getId("PROJECT"));
+			     map2.put("type", "six");
+				int projectPassCount = expertCategoryService.selectPassCount(map2);
+				map2.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
+				int enginfoidPassCount = expertCategoryService.selectPassCount(map2);
+				noPass=noPass+projectPassCount+enginfoidPassCount;
+			}else{
+				Map<String,Object> map2 = new HashMap<String,Object>();
+				 map2.put("expertId", expertId);
+			     map2.put("typeId", e.getAuditFieldId());
+			     map2.put("type", "six");
+				int passCount = expertCategoryService.selectPassCount(map2);
+				noPass+=passCount;
+			}
+			
 		}
 		Integer pass = all - noPass;
 		if(pass < 0){

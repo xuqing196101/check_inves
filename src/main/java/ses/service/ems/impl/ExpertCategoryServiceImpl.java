@@ -262,7 +262,22 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
         map.put("type", "six");
         return mapper.selectPassCateByExpertId(map);
     }
-
+    /**
+	 *
+	 * Description:查询专家审核通过的数量
+	 *
+	 * @author SS
+	 * @version 2017/8/25
+	 * @param expertId
+	 * @param categoryId
+	 * @param typeId
+	 * @since JDK1.7
+	 */
+    public int selectPassCount(Map<String,Object> map){
+    	List<ExpertCategory> list = mapper.selectPassCount(map);
+		return list.size();
+    	
+    }
 	/**
 	 *
 	 * Description:保存专家选择的小类

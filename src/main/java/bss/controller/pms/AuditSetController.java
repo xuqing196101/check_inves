@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -158,7 +159,31 @@ public class AuditSetController {
 		person.setCollectId(id);
 		person.setAuditRound(type);
 		List<AuditPerson> listAudit = auditPersonService.query(person, page==null?1:page);
+		Expert expert = new Expert();//判断审核人员是专家还是普通用户
+		expert.setStatus("7");
+		List<Expert> list= expertService.selectAllExpert(page==null?1:page, expert);
+		List<String> expIds = new ArrayList<>();
+		for (Expert exp : list) {
+			expIds.add(exp.getId());
+		}
+		List<AuditPerson>expAuditList = new ArrayList<>();
+		List<AuditPerson>auditPerList = new ArrayList<>();
+		if (listAudit.size()!=0) {
+		for (AuditPerson auditPerson : listAudit) {
+			
+				if (expIds.contains((Object)auditPerson.getUserId())) {//判断审核人员是专家还是普通用户
+					expAuditList.add(auditPerson);
+				}else{
+					auditPerList.add(auditPerson);
+				}
+			
+		}
+		}
 		PageInfo<AuditPerson> info = new PageInfo<>(listAudit);
+		PageInfo<AuditPerson>exPageInfo=new PageInfo<>(expAuditList);
+		PageInfo<AuditPerson>audPerInfo=new PageInfo<>(auditPerList);
+		model.addAttribute("expInfo", exPageInfo);
+		model.addAttribute("aupInfo", audPerInfo);
 		model.addAttribute("info", info);
 		model.addAttribute("auditRound", auditRound);
 		model.addAttribute("id", id);
@@ -281,7 +306,7 @@ public class AuditSetController {
 	@RequestMapping("/expert")
 	public String getExpert(Integer page,Expert expert,Model model,HttpServletRequest request,String satff){
 		String type = request.getParameter("type");
-		expert.setStatus("6");
+		expert.setStatus("7");
 		List<Expert> list = expertService.selectAllExpert(page==null?1:page, expert);
 		PageInfo<Expert> info = new PageInfo<>(list);
 		model.addAttribute("info", info);

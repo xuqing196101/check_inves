@@ -116,6 +116,16 @@ public interface ExpertCategoryMapper {
 	 * @since JDK1.7
 	 */
 	List<ExpertCategory> selectPassCateByExpertId(Map<String,Object> map);
+	/**
+	 *
+	 * Description:查询专家审核通过的数量
+	 *
+	 * @author Easong
+	 * @version 2017/7/7
+	 * @param  map
+	 * @since JDK1.7
+	 */
+	List<ExpertCategory> selectPassCount(Map<String,Object> map);
 	
 	/**
 	 * 更新审核状态 
