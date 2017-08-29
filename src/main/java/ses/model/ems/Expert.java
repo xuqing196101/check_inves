@@ -119,8 +119,18 @@ public class Expert extends ExpertHistory implements Serializable {
     private Integer netType;
     
     private String fromType;
+    private String updateTime;
     
-    /**
+    
+    public String getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	/**
      * @Fields errorNum : 用户登录密码错误次数
      */
     private Integer errorNum;
