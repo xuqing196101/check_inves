@@ -43,6 +43,10 @@
             	/* $("#reverse_of_five_i").css("display","block");
             	$("#reverse_of_six").css("display","block"); */
             }
+            if($("#status").val() != '0' && $("#status").val() != '15' && $("#status").val() != '16'){
+            	$("#qualified").attr("disabled", true);
+            	$("#noQualified").attr("disabled", true);
+            }
             check_opinion();
         });
 
@@ -518,7 +522,7 @@
                  <li>
                    <div class="select_check">
                       <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()">预初审合格
-                      <input type="radio"  <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()">预初审不合格
+                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()">预初审不合格
                     </div>
                   </li>
                   <li>
