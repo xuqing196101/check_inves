@@ -64,6 +64,15 @@
 
  	/** 关联 **/
     function dynamicAdd(){
+ 		
+ 		var str = document.getElementsByName("selectedItem");
+ 		var qwe = "";
+ 		for (var i = 0; i < str.length; i++) {
+			qwe+=","+str[i].value;
+		}
+ 		
+ 		
+ 		
     	var typeName = $("#typeName").val();
     	var title = "";
     	if(typeName!=undefined && typeName==2){
@@ -79,7 +88,7 @@
 			moveType : 1, //拖拽风格，0是默认，1是传统拖动
 			shift : 1, //0-6的动画形式，-1不开启
 			shadeClose : true,
-			content : '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?typeName='+typeName
+			content : '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?typeName='+typeName+'&qwe='+qwe
 		 });
     }
    
@@ -313,7 +322,6 @@
 			</div>
 		  </li>
 		</ul>
-		
 		<div class="padding-top-10 clear" id="relaDeptId">
 		  <h2 class="count_flow"><i>2</i><span id="show_org_cont">关联管理部门</span></h2>
 		  <ul class="ul_list">

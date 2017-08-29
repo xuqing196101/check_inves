@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 
+
+
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
 import ses.formbean.SupplierItemCategoryBean;
@@ -549,4 +551,8 @@ public interface SupplierService {
 	public void record(String operationInfo, Object obj1, Object obj2,
 			String supplierId) throws Exception;
 
+	
+	List<supplierExport> selectSupplierNumberFormal(HashMap<String, Object> map);
+	
+	List<supplierExport> selectExpertNumberFormal(HashMap<String, Object> map);
 }

@@ -78,6 +78,7 @@ function chongzhi(){
                                      <option selected="selected" value=''>-请选择-</option>
                                     <option  value="生产型">部门1</option>
                                     <option  value="销售型">部门2</option>
+                                    <option  value="军区采购">军区采购</option>
                           </select>
                         </span>
                       </li>

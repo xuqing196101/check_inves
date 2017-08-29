@@ -516,7 +516,7 @@
                   
                   <li class="col-md-12 col-sm-12 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购业务范围</span>
                     <div class="col-md-12 col-sm-12 col-xs-12 p0">
-							        <textarea id="aaa" class="col-md-12 col-sm-12 col-xs-12 h130" name="businessRange"   title="不超过800个字">${purchaseDep.businessRange }</textarea>
+							        <textarea id="aaa" class="col-md-12 col-sm-12 col-xs-12 h130" name="businessRange"   >${purchaseDep.businessRange }</textarea><div style="float: right;font-size: 12px;color: red" >${err_businessRange}</div><!-- title="不超过800个字" -->
 							        <div class="cue">${ERR_businessRange}</div>
 							       </div>
                   </li>

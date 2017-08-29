@@ -157,65 +157,67 @@
 							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 								<div class="tab-pane <c:if test="${liCountEng==1}">active in</c:if> fade height-200" id="tab-3">
 									<c:set value="0" var="plength"> </c:set>
-									<table class="table table-bordered">
-										<thead>
-											<tr>
-												<th class="info tc w50">序号</th>
-												<!-- <th class="info tc">类别</th>
-												<th class="info tc">大类</th>
-												<th class="info tc">中类</th> -->
-												<th class="info tc">产品类别</th>
-												<th class="info tc">资质类型</th>
-												<th class="info tc">证书编号</th>
-												 <th class="info tc">专业类别</th>
-												<th class="info tc">资质等级</th>
-												<th class="info tc">证书图片</th>
-											</tr>
-										</thead>
-										<c:forEach items="${allTreeList}" var="cate" varStatus="vs">
-											<tr>
-												<td><div class="w50">${vs.index + 1}</div></td>
-												<td>${cate.rootNode}</td>
-												<td>${cate.firstNode}</td>
-												<td>${cate.secondNode}</td>
-												<td>
-													<c:forEach items="${cate.typeList}" var="type">
-														<c:if test="${cate.qualificationType eq type.id}">${type.name}</c:if>
-													</c:forEach>
-												</td>
-												<td>
-									      	<c:choose>
-		                      	<c:when test="${cate.fourthNode!=null}">
-		                            ${cate.fourthNode}
-		                        </c:when>
-	                        	<c:otherwise>
-	                          	<c:choose>
-	                            	<c:when test="${cate.thirdNode!=null}">
-	                              	${cate.thirdNode}
-	                              </c:when>
-	                              <c:otherwise>
-	                              	<c:choose>
-	                                	<c:when test="${cate.secondNode!=null}">
-	                                  	${cate.secondNode}
-	                                  </c:when>
-	                                  <c:otherwise>
-	                                  	${cate.firstNode}
-	                                  </c:otherwise>
-	                                </c:choose>
-	                            	</c:otherwise>
-	                            </c:choose>
-	                        	</c:otherwise>
-	                    		</c:choose>
-								      	</td>
-												<td>
-												<div class="w110 fl">
-													<u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}" delete="false" />
-												</div>
-												</td>
-												
-											</tr>
-										</c:forEach>
-									</table>
+									<table class="table table-bordered m_table_fixed_border">
+                    <thead>
+                      <tr>
+                        <th class="info tc w50">序号</th>
+                        <!-- <th class="info tc">类别</th>
+                        <th class="info tc">大类</th>
+                        <th class="info tc">中类</th> -->
+                        <th class="info tc" width="20%">产品类别</th>
+                        <th class="info tc" width="25%">资质类型</th>
+                        <th class="info tc" width="15%">证书编号</th>
+                        <th class="info tc" width="10%">专业类别</th>
+                        <th class="info tc" width="10%">资质等级</th>
+                        <th class="info tc">证书图片</th>
+                      </tr>
+                    </thead>
+                    <c:forEach items="${allTreeList}" var="cate" varStatus="vs">
+                      <tr>
+                        <td>${vs.index + 1}</td>
+                        <%-- <td>${cate.rootNode}</td>
+                        <td>${cate.firstNode}</td>
+                        <td>${cate.secondNode}</td> --%>
+                        <td>
+                          <c:choose>
+                            <c:when test="${cate.fourthNode!=null}">
+                                ${cate.fourthNode}
+                            </c:when>
+                            <c:otherwise>
+                              <c:choose>
+                                <c:when test="${cate.thirdNode!=null}">
+                                  ${cate.thirdNode}
+                                </c:when>
+                                <c:otherwise>
+                                  <c:choose>
+                                    <c:when test="${cate.secondNode!=null}">
+                                      ${cate.secondNode}
+                                    </c:when>
+                                    <c:otherwise>
+                                      ${cate.firstNode}
+                                    </c:otherwise>
+                                  </c:choose>
+                                </c:otherwise>
+                              </c:choose>
+                            </c:otherwise>
+                          </c:choose>
+                        </td>
+                        <td>
+                          <c:forEach items="${cate.typeList}" var="type">
+                            <c:if test="${cate.qualificationType eq type.id}">${type.name}</c:if>
+                          </c:forEach>
+                        </td>
+                        <td>${cate.certCode}</td>
+                        <td>${cate.proName}</td>
+                        <td>${cate.level.name}</td>
+                        <td>
+                          <div class="w110 fl">
+                            <u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}" delete="false"/>
+                          </div>
+                        </td>
+                      </tr>
+                    </c:forEach>
+                  </table>
 								</div>
 							</c:if>
 

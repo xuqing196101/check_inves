@@ -139,6 +139,7 @@
 	}
 	function resetQuery(){
 		$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+		$("#afterReset").val("1");
 	}
 	
 	function view(id) {
@@ -250,6 +251,7 @@
 				  	      <option value="1" >全部</option>
 						  	<option value="12" <c:if test="${inf.status=='12'}"> selected</c:if> >未下达</option>
 							<option value="2" <c:if test="${inf.status=='2'}"> selected</c:if> >已下达</option>
+							<option style="display: none;" id="afterReset" value="">
 					   </select>
 				    	
 				    	</span>

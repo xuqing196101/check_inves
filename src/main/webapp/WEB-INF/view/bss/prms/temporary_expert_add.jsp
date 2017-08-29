@@ -340,15 +340,15 @@
 	  <li class="col-md-3 col-sm-6 col-xs-12 ">
 	    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>分配账户：</span>
 	      <div class="input-append input_group col-sm-12 col-xs-12 p0">
-              <input class="title col-md-12" id="appendedInput" name="loginName" value="${loginName}"  maxlength="30" type="text">
+              <input class="title col-md-12" id="appendedInput" name="loginName" maxlength="30" type="text">
          <span class="add-on">i</span>
          <div class="cue" >${loginNameError}</div>
         </div>
-     </li> 
+     </li>
       <li class="col-md-3 col-sm-6 col-xs-12 ">
         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>分配密码：</span>
          <div class="input-append input_group col-sm-12 col-xs-12 p0">
-          <input class="title col-md-12" id="appendedInput" name="loginPwd" value="${loginPwd}" maxlength="11" type="password">
+          <input class="title col-md-12" type="password" autocomplete="new-password" id="appendedInputPwd" name="loginPwd" minlength="6" maxlength="11" >
           <span class="add-on">i</span>
           <div class="cue" >${loginPwdError}</div>
         </div>

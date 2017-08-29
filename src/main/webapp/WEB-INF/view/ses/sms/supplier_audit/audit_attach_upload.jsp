@@ -56,7 +56,7 @@
                                 <span class="fl">上传批准审核表：</span>
                                 <%--<% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>--%>
                                 <input id="auditOpinionFile" type="hidden" value="${supplierId}1"/>
-                                <u:upload id="pic_checkword" businessId="${supplierId}1" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true"  exts="png,jpeg,jpg,bmp,git"/>
+                                <u:upload id="pic_checkword" businessId="${supplierId}1" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true"  exts="png,jpeg,jpg,bmp,git"  multiple="true"/>
                                 <u:show showId="pic_checkword" businessId="${supplierId}1" sysKey="${ sysKey }" typeId="${typeId }"/>
                             </div>
                         </li>

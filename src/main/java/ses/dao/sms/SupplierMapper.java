@@ -649,4 +649,16 @@ public interface SupplierMapper {
      * @return
      */
 	int countAuditByPurchaseDepId(String purchaseDepId);
+	/**
+	 * 查询入库供应商
+	 * @param map
+	 * @return
+	 */
+	List<supplierExport> selectSupplierNumberFormal(HashMap<String, Object> map);
+	/**
+	 * 查询入库专家
+	 * @param map
+	 * @return
+	 */
+	List<supplierExport> selectExpertNumberFormal(HashMap<String, Object> map);
 }

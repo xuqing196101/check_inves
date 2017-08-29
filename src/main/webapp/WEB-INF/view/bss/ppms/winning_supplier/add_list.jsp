@@ -143,6 +143,13 @@
 		}
 		**/
 	}
+	
+	function checkTotal(obj){
+	   var num = $(obj).val();
+	   if(num == 0){
+	     $("input[name='unitPrice']").val("");
+	   }
+	}
 
 	//保存
 	function saveOrUpdate(btns) {
@@ -312,7 +319,7 @@
 					<td>
 					<%-- <c:if test="${quote == 0 }"> --%>
 					
-					<input type="text" name='unitPrice' value="${detail.budget }" onkeyup="this.value=this.value.replace(/\D/g,'')">
+					<input type="text" name='unitPrice' value="${detail.budget }" onkeyup="this.value=this.value.replace(/\D/g,'')" onblur="checkTotal(this)">
 					<%-- </c:if>
 					<c:if test="${quote == 1 }">
 					<input type="text" name='unitPrice' value="${detail.price}" readonly="readonly"/>
