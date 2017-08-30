@@ -308,11 +308,11 @@
 			var orgType = $("#org_type").val();
 			if(type=='1'){
 			   $("#orgSel").attr("value", "");
-			   
+			   $("#oId").val("");
 			}
 			var origin = "${origin}";
 			if(!origin){
-			   $("#oId").val("");
+			   //$("#oId").val("");
 			}
 			
 			$("#orgParent").val("");
@@ -371,6 +371,7 @@
              dataType: "json",
              success: function(data){
                      if (!data.success) {
+                    	$("#errMobile").html("");
 						$("#ajax_mobile").html(data.msg);
 						is_error = 1;
 					 } else {
@@ -561,7 +562,7 @@
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0" >
 				        <input id="mobile" name="mobile" value="${user.mobile}" maxlength="40" type="text" onblur="ajaxMoblie()">
 				        <span class="add-on">i</span>
-				        <div class="cue"><sf:errors path="mobile"/></div>
+				        <div class="cue" id="errMobile"><sf:errors path="mobile"/></div>
 				        <div id="ajax_mobile" class="cue"></div>
 			        </div>
 			 	</li>
