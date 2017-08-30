@@ -501,12 +501,19 @@
     	}; 
     	
     	function goBack(){
+    		var backAttr = "${backAttr}";
+    		var backid = "${backid}";
+    		var status = "${status}";
     		$.ajax({
                 url: "${pageContext.request.contextPath}/set/goBack.html",
                 type: "post",
                 success: function(data) {
                 	if(data=="ok"){
-                	location.href='javascript:history.go(-1);'
+	                	if(backAttr==2){
+	                		window.location.href="${pageContext.request.contextPath}/look/auditlook.html?backAttr="+backAttr+"&id="+backid;
+	                	}else{
+	                		window.location.href="${pageContext.request.contextPath}/look/list.html?backAttr="+backAttr+"&id="+backid+"&status="+status;
+	                	}
                 	}
                 }
               });

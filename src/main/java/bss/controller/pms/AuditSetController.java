@@ -129,6 +129,8 @@ public class AuditSetController {
 			model.addAttribute("backid",id);
 		}
 		model.addAttribute("backAttr", request.getParameter("backAttr"));
+		model.addAttribute("status", request.getParameter("status"));
+		
 		List<String>ids=new ArrayList<>();
 		if (request.getSession().getAttribute("ids")==null) {
 			request.getSession().setAttribute("ids", ids);

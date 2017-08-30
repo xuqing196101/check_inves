@@ -695,6 +695,11 @@
 					document.write("</form>");    
 					document.getElementById("form1").submit();  
 				}
+				
+				
+				function goback(){
+					window.location.href="${pageContext.request.contextPath}/look/list.html?status="+"${status}";
+				}
 		</script>
 	</head>
 
@@ -1077,7 +1082,7 @@
 							<input type="hidden" name="auditTurn" value="${audit }">
 							<input type="hidden" id="status" name="status" value="${status }">
 							<input class="btn btn-windows save" type="submit" value="保存">
-							<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+							<input class="btn btn-windows back" value="返回" type="button" onclick="goback()">
 					</div>
 					</form>			
 					</div>

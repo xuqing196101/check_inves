@@ -184,7 +184,7 @@
         $('input[name="chkItem"]:checked').each(function() {
           id.push($(this).val());
         });
-
+        var status=$("[name='status']").val();
         if(id.length == 1) {
           $.ajax({
             type: "POST",
@@ -195,7 +195,7 @@
               if(data == 3 || data == 5 || data == 7){
               	layer.alert("已设置审核人员，请审核");
               } else if(data == 0 || data == 4 || data == 6){
-              	window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + data+"&backAttr="+1;//backAttr 1:从采购计划列表请求 2:从审核页面请求
+              	window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + data+"&backAttr="+1+"&status="+status;//backAttr 1:从采购计划列表请求 2:从审核页面请求
               }else if(data == 12 || data == 2 || data == 8){
               	layer.alert("已审核或已下达");
               }else if(data == 1) {
