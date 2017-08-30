@@ -50,7 +50,7 @@
 			function sets() {
 				var id = $("#cid").val();
 				submitForm()//审核人员调整前先保存审核数据
-				window.location.href = "${pageContext.request.contextPath}/set/list.html?id=" + id+"&backAttr=ok";//backAttr是判断请求来源的标识
+				window.location.href = "${pageContext.request.contextPath}/set/list.html?id=" + id+"&backAttr="+2;//backAttr 1:从采购计划列表请求 2:从审核页面请求
 			}
 		    //异步提交表单,审核人员调整前先保存审核数据
 		    function submitForm(){

@@ -92,7 +92,7 @@
         });
 
       });
-
+      //保存
       function save() {
         var ap = $("#userList tr:last td:first input:last").val();
         var tp = Number($(".tempPersonIndex:first").val());
@@ -105,7 +105,14 @@
           var turns = $("#auditRound").val();
           if(isNaN(index)) {
         	  $("#austa").val(auditNature);
+        	  $.ajax({
+        		  url:"${pageContext.request.contextPath}/set/clearSession.html",
+        		  type: "POST",
+        		  success:function(){
             $("#set_form").submit();
+        			  
+        		  }
+        	  });
           } else {
             $.ajax({
               url: "${pageContext.request.contextPath}/set/judgeAddUser.do?index=" + index + "&auditNature=" + auditNature + "&turns=" + turns,
@@ -211,7 +218,7 @@
             moveType: 1, //拖拽风格，0是默认，1是传统拖动
             shift: 1, //0-6的动画形式，-1不开启
             offset: ['0px', '10%'],
-            content: "${pageContext.request.contextPath}/set/expert.html?type=" + type,
+            content: "${pageContext.request.contextPath}/set/expert.html?type=" +type+ "&backAttr=" + "${backAttr}" + "&backid=" + "${backid}",
           });
         }
       }
@@ -288,7 +295,7 @@
             shade: 0.01, //遮罩透明度
             shift: 1, //0-6的动画形式，-1不开启
             offset: ['0px', '10%'],
-            content: "${pageContext.request.contextPath}/set/user.html?type=" + type,
+            content: "${pageContext.request.contextPath}/set/user.html?type=" + type+"&backAttr="+"${backAttr}" +"&backid="+"${backid}",
           });
 
         }
@@ -448,7 +455,7 @@
           }
         }
       }
-
+      //删除
       function delet() {
         var id = [];
         $('input[name="chkItem"]:checked').each(function() {
@@ -492,6 +499,19 @@
     	        //未超出……
     	    }
     	}; 
+    	
+    	function goBack(){
+    		$.ajax({
+                url: "${pageContext.request.contextPath}/set/goBack.html",
+                type: "post",
+                success: function(data) {
+                	if(data=="ok"){
+                	location.href='javascript:history.go(-1);'
+                	}
+                }
+              });
+    		}
+    	
     </script>
   </head>
 
@@ -556,7 +576,8 @@
             </div>
             <div class="content table_box">
               <form id="set_form" action="${pageContext.request.contextPath}/set/update.html" method="post">
-              <input type="hidden" name="backAttr" value="${backAttr }">
+              <input type="hidden" name="backAttr" id="backAttr" value="${backAttr }">
+              <input type="hidden" name="backid" id="backid" value="${backid}">
                 <table class="table table-bordered table-condensed " id="userList">
                   <thead>
                     <tr class="info">
@@ -612,7 +633,7 @@
         </div>
         <div class="mt20 tc col-md-12 col-xs-12 col-sm-12">
           <button class="btn btn-windows git" onclick="save()">保存</button>
-          <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+          <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
         </div>
 
         <div id="content" class="dnone layui-layer-wrap mt20">

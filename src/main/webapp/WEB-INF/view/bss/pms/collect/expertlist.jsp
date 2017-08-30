@@ -30,7 +30,7 @@
           }
         });
       });
-
+      //确定保存专家
       function closede() {
         var nature = parent.nature;
         var turn = parent.turns;
@@ -59,7 +59,7 @@
               } else {
                 var el = document.createElement("a");
                 document.body.appendChild(el);
-                el.href = "${pageContext.request.contextPath}/set/list.html?staff=" + result.auditStaff + "&id=" + cid + "&type=" + $("#type").val(); //url 是你得到的连接
+                el.href = "${pageContext.request.contextPath}/set/list.html?staff=" + result.auditStaff + "&id=" + cid + "&type=" + $("#type").val()+"&backAttr="+"${backAttr}" +"&backid="+"${backid}"; //url 是你得到的连接
                 el.target = '_parent'; //指定在新窗口打开
                 el.click();
                 document.body.removeChild(el);
