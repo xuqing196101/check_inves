@@ -171,7 +171,7 @@ public class AuditSetController {
 		person.setCollectId(id);
 		person.setAuditRound(type);
 		List<AuditPerson> listAudit = auditPersonService.query(person, page==null?1:page);
-		Expert expert = new Expert();//判断审核人员是专家还是普通用户
+		/*Expert expert = new Expert();//判断审核人员是专家还是普通用户
 		expert.setStatus("7");
 		List<Expert> list= expertService.selectAllExpert(page==null?1:page, expert);
 		List<String> expIds = new ArrayList<>();
@@ -190,12 +190,12 @@ public class AuditSetController {
 				}
 			
 		}
-		}
+		}*/
 		PageInfo<AuditPerson> info = new PageInfo<>(listAudit);
-		PageInfo<AuditPerson>exPageInfo=new PageInfo<>(expAuditList);
+		/*PageInfo<AuditPerson>exPageInfo=new PageInfo<>(expAuditList);
 		PageInfo<AuditPerson>audPerInfo=new PageInfo<>(auditPerList);
 		model.addAttribute("expInfo", exPageInfo);
-		model.addAttribute("aupInfo", audPerInfo);
+		model.addAttribute("aupInfo", audPerInfo);*/
 		model.addAttribute("info", info);
 		model.addAttribute("auditRound", auditRound);
 		model.addAttribute("id", id);
