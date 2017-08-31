@@ -203,7 +203,9 @@ public interface SupplierMapper {
      * @param @return      
      * @return List<Expert>
      */
-    List<Supplier> listExtractionExpert(SupplierCondition con);
+    List<Supplier> listExtractionExpert(
+			extract.model.supplier.SupplierCondition condition);
+    
     
     List<Supplier> selectByProjectId(String projectId);
     
@@ -661,4 +663,7 @@ public interface SupplierMapper {
 	 * @return
 	 */
 	List<supplierExport> selectExpertNumberFormal(HashMap<String, Object> map);
+
+	List<Supplier> listExtractionExpert(SupplierCondition condition);
+
 }

@@ -308,14 +308,13 @@
         }
     </script>
 
-</head>
-
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/ses/sms/supplierExtract.js"></script></head>
 <body>
 <div id="packageContent" class="packageContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
     <ul id="treePackageType" class="ztree" style="margin-top:0;"></ul>
 </div>
 <!--面包屑导航开始-->
-<c:if test="${typeclassId!=null && typeclassId !='' }">
+<c:if test="${typeclassId==null }">
     <div class="margin-top-10 breadcrumbs ">
         <div class="container">
             <ul class="breadcrumb margin-left-0">
@@ -354,135 +353,361 @@
         <input type="hidden" id="superviseId" value="${superviseId}" name="superviseId">
         <!-- 包id  -->
         <%--           <input type="hidden" id="packageId" value="${packageId}" name="packageId"> --%>
-            <h2 class="count_flow"><i>1</i>项目信息</h2>
-            <ul class="ul_list border0">
-                <li class="col-md-3 col-sm-4 col-xs-12 pl15">
-                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red0">*</span> 项目名称:</span>
-                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                        <input id="projectName" name="name"  value="${projectName}" type="text">
-                        <span class="add-on">i</span>
-                        <div class="cue" id="projectNameError"></div>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-4 col-xs-12">
-                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red1">*</span> 项目编号:</span>
-                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                        <input id="projectNumber" name="projectNumber" value="${projectNumber}" type="text" >
-                        <span class="add-on">i</span>
-                        <div class="cue" id="projectNumberError"></div>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-4 col-xs-12">
-                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red2">*</span>采购方式:</span>
-                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                        <select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0">
-                            <c:forEach items="${findByMap}" var="map">
-                                <option value="${map.id}">${map.name}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-4 col-xs-12 ">
-                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red3">*</span> 开标日期:</span>
-                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                        <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="tenderTimeId" readonly="readonly"  name="bidDate" value="<fmt:formatDate value='${bidDate}'
-                                pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">
-                        <div class="cue" id="tenderTimeError"></div>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-4 col-xs-12 ">
-                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 监督人员:</span>
-                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                        <input readonly id="supervises" title="${userName}" value="${userName}" onclick="supervise();" type="text">
-                        <span class="add-on">i</span>
-                        <div class="cue" id="dSupervise"></div>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-4 col-xs-12 ">
-                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="star_red">*</span> 抽取地区:</span>
-                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                        <input id="extractionSites" name="extractionSites" value="${extractionSites}" type="text">
-                        <span class="add-on">i</span>
-                        <div class="cue" id="extractionSitesError"></div>
-                    </div>
-                </li>
-            </ul>
-        <div>
-        <div class="count_flow ">
-            <i>2</i>
-            <div class="ww50 fl">抽取信息
-            </div>
-        </div>
-        <div align="right" class=" pl20 mb10 hide isCurment_div" >
-            <c:if test="${typeclassId!=null && typeclassId !='' }">
-                <button class="btn mb10" onclick="add(1);" type="button">添加包</button>
-            </c:if>
-            <input class="input_group " readonly id="packageName" placeholder="请选择包" value="" onclick="showPackageType();" type="text">
-            <input  readonly id="packageId" name="packageId"     type="hidden">
-                <!--           <select class="w200" id="packageId" > -->
-                <%--             <c:forEach items="${listResultSupplier}" var="list"> --%>
-                <%--                 <option value="${list.id }" >${list.name }</option> --%>
-                <%--             </c:forEach> --%>
-                <!--           </select> -->
-                <button class="btn mb10"
-                        onclick="add(2);" type="button">抽取</button>
-                <!--             <button class="btn" -->
-                <!--                 onclick="record();" type="button">引用其他包</button> -->
-            </div>
-            <div class="ul_list">
-                <div class="clear">
-                    <input id="priceStr" name="priceStr" type="hidden" />
-                    <input id="projectId" name="projectId" value="${projectId }" type="hidden" />
-                    <c:forEach items="${listResultSupplier }" var="list" varStatus="vs">
-                        <c:set value="${vs.index}" var="index"></c:set>
-                        <div>
-                            <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand" id="package">包名:<span class="f14 blue">${listResultSupplier[index].name }</span></h2>
-                        </div>
-                        <div class="p0${index} hide">
-                            <table  class="table table-bordered table-condensed mt5">
-                                <thead>
-                                <tr>
-                                    <th class="info w50">序号</th>
-                                    <th class="info">供应商名称</th>
-                                    <th class="info">类型</th>
-                                    <th class="info">联系人名称</th>
-                                    <th class="info">联系人电话</th>
-                                    <th class="info">联系人手机</th>
-                                </tr>
-                                </thead>
-                                <tbody id="tbody">
-                                <c:forEach items="${list.listExtRelate}" var="listyes" varStatus="vs">
-                                    <tr class='cursor '>
-                                        <td class='tc' >${vs.index+1}</td>
-                                        <td class='tc' >${listyes.supplier.supplierName}</td>
-                                        <td class='tc'>
-                                            <c:forEach var="type" items="${supplierType}">
-                                                <c:if test="${type.code eq listyes.reviewType }">
-                                                    ${type.name}
-                                                </c:if>
-                                            </c:forEach>
-                                        </td>
-                                        <td class='tc' >${listyes.supplier.contactName}</td>
-                                        <c:choose>
-                                            <c:when test="${listyes.supplier.contactTelephone==null || listyes.supplier.contactTelephone==''}">
-                                                <td class='tc' >-</td>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <td class='tc' >${listyes.supplier.contactTelephone}</td>
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <td class='tc' >${listyes.supplier.contactMobile}</td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
-                    </c:forEach>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
-</body>
+         <h2 class="count_flow"><i>1</i>项目信息</h2>
+         <ul class="ul_list border0">
+             <li class="col-md-3 col-sm-4 col-xs-12 pl15">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red0">*</span> 项目名称:</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                     <input id="projectName" name="projectName"  value="${projectInfo.projectName}" type="text">
+                     <span class="add-on">i</span>
+                     <div class="cue" id="projectNameError"></div>
+                 </div>
+             </li>
+             <li class="col-md-3 col-sm-4 col-xs-12">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red1">*</span> 项目编号:</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                     <input id="projectNumber" name="projectCode" value="${projectInfo.projectCode}" type="text" >
+                     <span class="add-on">i</span>
+                     <div class="cue" id="projectNumberError"></div>
+                 </div>
+             </li>
+             <li class="col-md-3 col-sm-4 col-xs-12">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red2">*</span>采购方式:</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                 	<c:choose>
+	                 	<c:when test="${purchaseTypes!=null && purchaseTypes != '' }">
+		                     <select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0">
+		                         <c:forEach items="${purchaseTypes}" var="map">
+		                             <option value="${map.id}">${map.name}</option>
+		                         </c:forEach>
+		                     </select>
+	                 	</c:when>
+	                 	<c:otherwise>
+	                 		<input id="purchaseTypeName"  name="purchaseType"  value="${projectInfo.purchaseType}" type="hidden" >
+	                 		<input  readonly="readonly" name="purchaseTypeName"  value="${projectInfo.purchaseTypeName}" type="text" >
+	                 	</c:otherwise>
+                 	</c:choose>
+                 </div>
+             </li>
+             <li class="col-md-3 col-sm-4 col-xs-12 ">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red3">*</span> 开标日期:</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                     <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="tenderTimeId" readonly="readonly"  name="bidDate" value="<fmt:formatDate value='${bidDate}'
+                             pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">
+                     <div class="cue" id="tenderTimeError"></div>
+                 </div>
+             </li>
+             <li class="col-md-3 col-sm-4 col-xs-12 ">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 监督人员:</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                     <input readonly id="supervises" title="${supervises}" value="${supervises}" onclick="supervise();" type="text">
+                     <span class="add-on">i</span>
+                     <div class="cue" id="dSupervise"></div>
+                 </div>
+             </li>
+             <li class="col-md-3 col-sm-4 col-xs-12 ">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="star_red">*</span> 抽取地区:</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                     <input id="extractionSites" name="extractionSites" value="${extractionSites}" type="text">
+                     <span class="add-on">i</span>
+                     <div class="cue" id="extractionSitesError"></div>
+                 </div>
+             </li>
+         </ul>
+	 </form>
+	</div><!-- 项目信息结束 -->
+	<!-- 条件开始 -->
+	<div class="container container_box">
+    <form id="form1" method="post">
+        <input id="sunCount" type="hidden">
+        <!--    地區id -->
+        <input type="hidden" name="addressId" id="addressId">
+        <!--        项目id -->
+        <input type="hidden" name="projectId" id="pid" value="${packageId}">
+        <!-- 地区 -->
+        <input type="hidden" name="address" id="address">
+		<input type="hidden" name="id" value="${projectInfo.conditionId }">
+        <!-- 类型id -->
+        <input type="hidden" name="supplierTypeId" id="supplierTypeId">
+        <input type="hidden" name="expertsTypeId" id="expertsTypeId">
 
+        <!--  满足多个条件 -->
+        <!-- <input type="hidden" name="isMulticondition" id="isSatisfy" value="1"> -->
+        <!-- 品目Name ， -->
+        <input type="hidden" name="categoryName" id="extCategoryNames">
+        <!--     品目id -->
+       <!--  <input type='hidden' name='categoryId' id='extCategoryId'> -->
+        <input type="hidden" name="addressReason" id="addressReason">
+        <!--         省 -->
+        <input type="hidden" name="province" id="province"/>
+        <input type="hidden" name="" id="hiddentype">
+          <h2 class="count_flow"><i>2</i>抽取条件</h2>
+          <ul class="ul_list" style="background-color: #fbfbfb">
+              <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div
+                          class="star_red">*</div>所在地区：</span>
+                  <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                  	<input class="input_group " readonly  id="area" onclick="showTree();">
+                  	 <span class="add-on">i</span>
+                  	  <div class="cue" id="dCategoryName"></div>
+                  </div>
+              </li>
+              <li class="col-md-3 col-sm-6 col-xs-12">
+                  <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div
+                          class="star_red">*</div>抽取类型：</span>
+                  <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                  		<input name="SupplierTypeCode" id="supplierTypeCode" type="hidden">
+                      <input id="supplierType" class="" type="text" readonly
+                             value="${listCon.conTypes[0].supplierTypeName }" name="supplierTypeName"
+                             onclick="showSupplierType();"/>
+                      <span class="add-on">i</span>
+                      <div class="cue" id="dCount"></div>
+                  </div>
+              </li>
+              <li class="col-md-3 col-sm-6 col-xs-12">
+                  <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>抽取总数量：</span>
+                  <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="supplierCount" id="supplierCount" value="${sumCount}"
+                             type="text">
+                      <span class="add-on">i</span>
+                      <div class="cue" id="countSupplier"></div>
+                  </div>
+              </li>
+
+               <li class="col-md-3 col-sm-3 col-xs-3 dnone clear" id="projectCount">
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程品目：</span>
+					<!--  满足多个条件 -->
+					<input type="hidden" name="projectIsMulticondition" class="isSatisfy">
+					<input type="hidden" name="projectCategoryIds" id="projectCategoryIds" class="categoryId">
+					<div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input class="input_group " readonly  typeCode="PROJECT"
+							   value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
+						<span class="add-on">i</span>
+						<div class="cue" id="dCategoryName"></div>
+					</div>
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程等级：</span>
+					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input type="hidden" name="projectLevel" >
+						<input type="text" readonly  id="projectLevel" treeHome="projectLevelContent"
+							   value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
+						<span class="add-on">i</span>
+						<div class="cue" id="dCount"></div>
+					</div>
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input class="title col-md-12" id='projectExtractNum' name="projectExtractNum" onchange="chane();"
+							   maxlength="11" type="text">
+						<span class="add-on">i</span>
+						<div class="cue">${loginPwdError}</div>
+					</div>
+				</li>
+               <li class="col-md-3 col-sm-3 col-xs-3 dnone clear" id="serviceCount">
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>服务品目：</span>
+					<!--  满足多个条件 -->
+					<input type="hidden" name="serviceIsMulticondition" class="isSatisfy">
+					<input type="hidden" name="serviceCategoryIds" id="serviceCategoryIds" class="categoryId">
+					<div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input class="input_group " readonly  typeCode="SERVICE"
+							   value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
+						<span class="add-on">i</span>
+						<div class="cue" id="dCategoryName"></div>
+					</div>
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>服务等级：</span>
+					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input type="hidden" name="serviceLevel" >
+						<input type="text" readonly  id="serviceLevel" treeHome="serviceLevelContent"
+							   value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
+						<span class="add-on">i</span>
+						<div class="cue" id="dCount"></div>
+					</div>
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input class="title col-md-12" id='serviceExtractNum' name="serviceExtractNum" onchange="chane();"
+							   maxlength="11" type="text">
+						<span class="add-on">i</span>
+						<div class="cue">${loginPwdError}</div>
+					</div>
+				</li>
+               <li class="col-md-3 col-sm-3 col-xs-3 dnone clear" id="productCount">
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>生产品目：</span>
+					<!--  满足多个条件 -->
+					<input type="hidden" name="productIsMulticondition" class="isSatisfy">
+					<input type="hidden" name="productCategoryIds" id="productCategoryIds" class="categoryId">
+					<div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input class="input_group " readonly  typeCode="PRODUCT"
+							   value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
+						<span class="add-on">i</span>
+						<div class="cue" id="dCategoryName"></div>
+					</div>
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>生产等级：</span>
+					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input type="hidden" name="productLevel" >
+						<input type="text" readonly  id="productLevel" treeHome="productLevelContent"
+							   value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
+						<span class="add-on">i</span>
+						<div class="cue" id="dCount"></div>
+					</div>
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input class="title col-md-12" id='productExtractNum' name="productExtractNum" onchange="chane();"
+							   maxlength="11" type="text">
+						<span class="add-on">i</span>
+						<div class="cue">${loginPwdError}</div>
+					</div>
+				</li>
+             <li class="col-md-3 col-sm-3 col-xs-3 dnone clear" id="salesCount">
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>销售品目：</span>
+					<!--  满足多个条件 -->
+					<input type="hidden" name="salesIsMulticondition" class="isSatisfy">
+					<input type="hidden" name="salesCategoryIds" id="salesCategoryIds" class="categoryId">
+					<div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input class="input_group " readonly  typeCode="SALES"
+							   value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
+						<span class="add-on">i</span>
+						<div class="cue" id="dCategoryName"></div>
+					</div>
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>销售等级：</span>
+					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input type="hidden" name="salesLevel" >
+						<input type="text" readonly  id="salesLevel" treeHome="salesLevelContent"
+							   value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
+						<span class="add-on">i</span>
+						<div class="cue" id="dCount"></div>
+					</div>
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input class="title col-md-12" id='salesExtractNum' name="salesExtractNum" onchange="chane();"
+							   maxlength="11" type="text">
+						<span class="add-on">i</span>
+						<div class="cue">${loginPwdError}</div>
+					</div>
+				</li>
+             
+             
+              <li class="col-md-12 col-sm-12 col-xs-12 tc">
+                  <div>
+                      <button class="btn " onclick="extractVerify();" type="button">抽取</button>
+                      <button class="btn  " onclick="finish();" type="button">完成抽取</button>
+                      <button class="btn " onclick="temporary();" type="button">暂存</button>
+                  </div>
+              </li>
+          </ul>
+          <!--=== Content Part ===-->
+          <h2 class="count_flow"><i>3</i>抽取结果</h2>
+	         <div class="ul_list" id="projectResult">
+	          	<div align="center" id="countdnone" class="f26    ">满足条件共有<span class="f26 red" id="count">0</span>人</div>
+	           	<!-- Begin Content -->
+                 <table id="table" class="table table-bordered table-condensed">
+                     <thead>
+                     <tr>
+                         <th class="info w50">序号</th>
+                         <th class="info" width="15%">供应商名称</th>
+                         <th class="info" width="15%">类型</th>
+                         <th class="info" width="15%">联系人名称</th>
+                         <th class="info" width="18%">联系人电话</th>
+                         <th class="info" width="18%">联系人手机</th>
+                         <th class="info">操作</th>
+                     </tr>
+                     </thead>
+                     <tbody>
+                     
+                     </tbody>
+                </table>
+			</div>
+          <div class="ul_list dnone clear" id="serviceResult">
+          <div align="center" id="countdnone" class="f26">满足条件共有<span class="f26 red" id="count">0</span>人</div>
+           <!-- Begin Content -->
+                  <table id="table" class="table table-bordered table-condensed">
+                      <thead>
+                      <tr>
+                          <th class="info w50">序号</th>
+                          <th class="info" width="15%">供应商名称</th>
+                          <th class="info" width="15%">类型</th>
+                          <th class="info" width="15%">联系人名称</th>
+                          <th class="info" width="18%">联系人电话</th>
+                          <th class="info" width="18%">联系人手机</th>
+                          <th class="info">操作</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      
+                      </tbody>
+                 </table>
+			</div>
+          <div class="ul_list dnone clear" id="productResult">
+          <div align="center" id="countdnone" class="f26    ">满足条件共有<span class="f26 red" id="count">0</span>人</div>
+           <!-- Begin Content -->
+                  <table id="table" class="table table-bordered table-condensed">
+                      <thead>
+                      <tr>
+                          <th class="info w50">序号</th>
+                          <th class="info" width="15%">供应商名称</th>
+                          <th class="info" width="15%">类型</th>
+                          <th class="info" width="15%">联系人名称</th>
+                          <th class="info" width="18%">联系人电话</th>
+                          <th class="info" width="18%">联系人手机</th>
+                          <th class="info">操作</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      
+                      </tbody>
+                 </table>
+			</div>
+          <div class="ul_list dnone clear" id="salesResult">
+          <div align="center" id="countdnone" class="f26    ">满足条件共有<span class="f26 red" id="count">0</span>人</div>
+           <!-- Begin Content -->
+                  <table id="table" class="table table-bordered table-condensed">
+                      <thead>
+                      <tr>
+                          <th class="info w50">序号</th>
+                          <th class="info" width="15%">供应商名称</th>
+                          <th class="info" width="15%">类型</th>
+                          <th class="info" width="15%">联系人名称</th>
+                          <th class="info" width="18%">联系人电话</th>
+                          <th class="info" width="18%">联系人手机</th>
+                          <th class="info">操作</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      
+                      </tbody>
+                 </table>
+			</div>
+    	</form>
+	</div>
+</div>
+<!-- 地区树 -->
+<div id="areaContent" class="levelTypeContent"
+     style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+    <ul  id="treeArea" class="ztree" style="margin-top:0;"></ul>
+</div>
+<!-- 类别树 -->
+<div id=supplierTypeContent class="levelTypeContent"
+     style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+    <ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
+</div>
+
+<!-- 工程等级树 -->
+<div id="projectLevelContent" class="levelTypeContent"
+     style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+    <ul id="projectLevelTree" class="ztree" style="margin-top:0;"></ul>
+</div>
+<!-- 服务等级树 -->
+<div id="serviceLevelContent" class="levelTypeContent"
+     style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+    <ul id="serviceLevelTree" class="ztree" style="margin-top:0;"></ul>
+</div>
+<!-- 生产等级树 -->
+<div id="productLevelContent" class="levelTypeContent"
+     style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+    <ul id="productLevelTree" class="ztree" style="margin-top:0;"></ul>
+</div>
+<!-- 销售等级树 -->
+<div id="salesLevelContent" class="levelTypeContent"
+     style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+    <ul id="salesLevelTree" class="ztree" style="margin-top:0;"></ul>
+</div>
+
+</body>
 </html>

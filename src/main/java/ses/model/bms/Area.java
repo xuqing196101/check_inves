@@ -52,6 +52,8 @@ public class Area implements Serializable{
     private String name;
     
     private String errInfo;
+    
+    private String isParent;
 
     public String getId() {
         return id;
@@ -84,7 +86,7 @@ public class Area implements Serializable{
 	public void setPosition(Integer position) {
 		this.position = position;
 	}
-
+	
 	public Integer getIsDeleted() {
 		return isDeleted;
 	}
@@ -124,4 +126,13 @@ public class Area implements Serializable{
     public void setErrInfo(String errInfo) {
         this.errInfo = errInfo;
     }
+
+	public String getIsParent() {
+		return isParent;
+	}
+
+	public void setIsParent(String isParent) {
+		this.isParent = isParent;
+	}
+
 }

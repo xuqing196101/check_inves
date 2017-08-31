@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import ses.model.bms.DictionaryData;
+import ses.util.DictionaryDataUtil;
 
 public interface DictionaryDataMapper {
     
@@ -70,4 +71,8 @@ public interface DictionaryDataMapper {
     
     
     DictionaryData queryByName(@Param("name")String name);
+
+	DictionaryDataUtil selectByPrimaryCode(String supplierTypeCode);
+	
+	List<DictionaryData> selectByCode(String supplierTypeCode);
 }
