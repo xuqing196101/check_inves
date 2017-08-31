@@ -73,7 +73,10 @@
   	          },
   	          success: function (data) {
                 layer.msg('操作成功！', {
-	        			  offset: '100px'
+	        			  offset: '100px',
+                  time: 1000
+                }, function () {
+                  window.location.reload();
                 });
   	          }
   	        });
