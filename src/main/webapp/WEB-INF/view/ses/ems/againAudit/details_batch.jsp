@@ -39,7 +39,7 @@
 
   <!-- 内容开始 -->
   <div class="container">
-    <div class="headline-v2"><h2>2017年 专家复审 第三批次</h2></div>
+    <div class="headline-v2"><h2 id="head_tit"></h2></div>
     
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10" id="btn_group"></div>

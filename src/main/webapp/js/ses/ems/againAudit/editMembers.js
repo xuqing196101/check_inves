@@ -10,7 +10,11 @@
       data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
-        console.log(list_content);
+        var allchecked = 0;
+        
+        if (list_content.groupStatus != '3') {
+          $('.temp_btn').remove();
+        }
         
         if (typeof(list_content) != 'undefined') {
           $('#list_content').html('');
@@ -49,10 +53,16 @@
           for (var i in select_ids) {
             $('.select_item').each(function () {
               if ($(this).val() === select_ids[i]) {
+                allchecked++;
                 $(this).prop('checked', true);
                 return false;
               }
             });
+            if (allchecked === $('.select_item').length) {
+              $('[name=checkAll]').prop('checked', true);
+            } else {
+              $('[name=checkAll]').prop('checked', false);
+            }
           }
           
           // 绑定列表框点击事件，获取选中id集合
@@ -60,6 +70,7 @@
           if (select_checkbox.length > 0) {
             select_checkbox.bind('click', function () {
               var this_val = $(this).val().toString();
+              
               if ($(this).is(':checked')) {
                 select_ids.push(this_val);
               } else {
@@ -69,6 +80,19 @@
                     break;
                   }
                 }
+              }
+              
+              var sum = 0;
+              $('.select_item').each(function () {
+                if ($(this).is(':checked')) {
+                  sum++;
+                }
+              });
+              
+              if (sum === $('.againAudit_table').find('.select_item').length) {
+                $('[name=checkAll]').prop('checked', true);
+              } else {
+                $('[name=checkAll]').prop('checked', false);
               }
             });
           }
@@ -117,7 +141,8 @@
               dataType: opts.dataType,
               url: opts.url,
               data: {
-                pageNum: e.curr
+                pageNum: e.curr,
+                groupId: getUrlParam('groupId')
               },
               success: opts.success
             });

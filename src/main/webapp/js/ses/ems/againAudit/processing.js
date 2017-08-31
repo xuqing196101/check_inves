@@ -584,30 +584,32 @@ function expert_auditBatch(url) {
 
 //  全选操作
 function checkAll(el) {
-  var ishas = 0;
+  var temp_list = [];
   
   if ($(el).is(':checked')) {
-    $('#list_content .select_item').each(function () {
-      for (var i in select_ids) {
-        if ($(this).val() != select_ids[i]) {
-          ishas++;
-        }
-      }
-      
-      if (ishas > 0) {
-        select_item.push($(this).val());
-      }
+    $('.select_item').each(function () {
+      $(this).prop('checked', true);
+      temp_list.push($(this).val());
     });
-  } else {
-    $('#list_content .select_item').each(function () {
-      for (var i in select_ids) {
-        if ($(this).val() != select_ids[i]) {
-          ishas++;
+    
+    for (var i in temp_list) {
+      for (var ii in select_ids) {
+        if (temp_list[i] === select_ids[ii]) {
+          temp_list.splice(i, 1);
         }
       }
-      
-      if (ishas > 0) {
-        select_item.push($(this).val());
+    }
+    
+    for (var iii in temp_list) {
+      select_ids.push(temp_list[iii]);
+    }
+  } else {
+    $('.select_item').each(function () {
+      $(this).prop('checked', false);
+      for (var i in select_ids) {
+        if ($(this).val() === select_ids[i]) {
+          select_ids.splice(i, 1);
+        }
       }
     });
   }

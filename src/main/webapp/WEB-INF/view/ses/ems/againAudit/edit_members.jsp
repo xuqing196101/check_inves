@@ -43,8 +43,8 @@
     
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn btn-windows add" onclick="add_members()">添加</button>
-      <button type="button" class="btn btn-windows delete" onclick="del_members()">删除</button>
+      <button type="button" class="btn btn-windows add temp_btn" onclick="add_members()">添加</button>
+      <button type="button" class="btn btn-windows delete temp_btn" onclick="del_members()">删除</button>
       <button type="button" class="btn btn-windows setPwd" onclick="set_password()">设置密码</button>
     </div>
     
@@ -66,7 +66,7 @@
     </div>
     
     <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn btn-windows save" onclick="save_editMembers()">保存</button>
+      <button type="button" class="btn btn-windows save temp_btn" onclick="save_editMembers()">保存</button>
       <button type="button" class="btn btn-windows back" onclick="javascript:history.back()">返回</button>
     </div>
       
