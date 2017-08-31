@@ -90,6 +90,14 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	public ExpertAgainAuditImg createBatch(String batchName, String batchNumber, String ids) {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("batchNumber", batchNumber);
+		List<ExpertBatch> batchList = expertBatchMapper.getAllExpertBatch(map);
+		if(batchList.size()>0){
+			img.setStatus(true);
+			img.setMessage("已存在该批次编号！");
+			return img;
+		}
 		ExpertBatch expertBatch = new ExpertBatch();
 		expertBatch.setBatchId(WfUtil.createUUID());
 		expertBatch.setBatchName(batchName);
@@ -382,6 +390,10 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		}*/
 		ExpertReviewTeam expertReviewTeam = new ExpertReviewTeam();
 		expertReviewTeam.setGroupId(groupId);
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		if(pageNum != null){
+			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		}
 		List<ExpertReviewTeam> list = expertReviewTeamMapper.getExpertReviewTeamList(expertReviewTeam);
 		for (ExpertReviewTeam e : list) {
 			if(e.getPassWord()!=null){
@@ -391,10 +403,6 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			}
 		}
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		if(pageNum != null){
-			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		}
 		PageInfo< ExpertReviewTeam > result = new PageInfo < ExpertReviewTeam > (list);
 		map.put("groupId", groupId);
 		map.put("list", result);
