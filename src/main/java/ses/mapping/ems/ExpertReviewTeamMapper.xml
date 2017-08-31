@@ -36,7 +36,8 @@
         T2.REL_NAME AS relName,
         T2.LOGIN_NAME AS loginName,
         T2.ORG_NAME AS orgName,
-        T2.DUTIES AS duties
+        T2.DUTIES AS duties,
+        T2.PASSWORD AS passWord
 		from T_SYS_EMS_EXPERT_REVIEWTEAM T1,T_SES_BMS_USER T2 where T1.USER_ID=T2.ID
 		<if test="groupId != null and groupId !=''">
             AND T1.GROUP_ID=#{groupId}

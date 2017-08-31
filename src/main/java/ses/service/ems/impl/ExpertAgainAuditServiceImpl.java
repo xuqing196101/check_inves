@@ -161,8 +161,14 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setBatchId(batchId);
 		expertBatchDetails.setStatus(status);
+		Map<String,Object> map = new HashMap<String,Object>();
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		if(list.size()>0){
+			map.put("batchId", list.get(0).getBatchId());
+			map.put("batchName", list.get(0).getBatchName());
+		}
 		PageInfo< ExpertBatchDetails > result = new PageInfo < ExpertBatchDetails > (list);
+		map.put("list", result);
 		img.setStatus(true);
 		img.setMessage("操作成功");
 		img.setObject(result);
@@ -362,24 +368,36 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	}
 
 	@Override
-	public ExpertAgainAuditImg findExpertReviewTeam(String groupId) {
+	public ExpertAgainAuditImg findExpertReviewTeam(String groupId,Integer pageNum) {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		ExpertGroup expertGroup = new ExpertGroup();
 		expertGroup.setGroupId(groupId);
 		List<ExpertGroup> group = expertGroupMapper.getGroup(expertGroup);
 		expertGroup=group.get(0);
-		if("3".equals(expertGroup.getStatus())){
+		/*if("3".equals(expertGroup.getStatus())){
 			img.setStatus(false);
 			img.setMessage("当前组已配置完成");
 			return img;
-		}
+		}*/
 		ExpertReviewTeam expertReviewTeam = new ExpertReviewTeam();
 		expertReviewTeam.setGroupId(groupId);
 		List<ExpertReviewTeam> list = expertReviewTeamMapper.getExpertReviewTeamList(expertReviewTeam);
+		for (ExpertReviewTeam e : list) {
+			if(e.getPassWord()!=null){
+				e.setPassWord("1");
+			}else{
+				e.setPassWord("0");
+			}
+		}
 		HashMap<String,Object> map = new HashMap<String,Object>();
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		if(pageNum != null){
+			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		}
+		PageInfo< ExpertReviewTeam > result = new PageInfo < ExpertReviewTeam > (list);
 		map.put("groupId", groupId);
-		map.put("list", list);
+		map.put("list", result);
 		img.setStatus(true);
 		img.setMessage("操作成功");
 		img.setObject(map);
@@ -568,7 +586,13 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		expertBatchDetails.setBatchId(batchId);
 		expertBatchDetails.setGroupId(findExpertReviewTeam.getGroupId());
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(list.size()>0){
+			map.put("batchId", list.get(0).getBatchId());
+			map.put("batchName", list.get(0).getBatchName());
+		}
 		PageInfo< ExpertBatchDetails > result = new PageInfo < ExpertBatchDetails > (list);
+		map.put("list", result);
 		img.setStatus(true);
 		img.setMessage("操作成功");
 		img.setObject(result);

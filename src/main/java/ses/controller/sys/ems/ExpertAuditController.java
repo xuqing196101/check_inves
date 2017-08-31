@@ -1708,7 +1708,7 @@ public class ExpertAuditController{
 	      }
 			if(sign==2){
 				expertAgainAuditService.handleExpertReviewTeam(expertId);
-				return "/ses/ems/againAudit/expert_auditBatch";
+				return "/ses/ems/againAudit/list_batch";
 			}
 		return "redirect:list.html";
 	}

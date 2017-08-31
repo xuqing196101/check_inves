@@ -24,7 +24,14 @@ public class ExpertReviewTeam {
     private String orgName;
     /**用户名*/
     private String loginName;
-    
+    /**密码*/
+    private String passWord;
+	public String getPassWord() {
+		return passWord;
+	}
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
+	}
 	public String getLoginName() {
 		return loginName;
 	}

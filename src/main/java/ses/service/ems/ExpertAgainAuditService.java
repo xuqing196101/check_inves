@@ -16,7 +16,7 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg	findExpertGroupDetails(String batchId);
 	ExpertAgainAuditImg delExpertGroupDetails(String ids);
 	ExpertAgainAuditImg checkComplete(String batchId);
-	ExpertAgainAuditImg findExpertReviewTeam(String groupId);
+	ExpertAgainAuditImg findExpertReviewTeam(String groupId,Integer pageNum);
 	ExpertAgainAuditImg addExpertReviewTeam(ExpertReviewTeam expertReviewTeam);
 	ExpertAgainAuditImg deleteExpertReviewTeam(String ids);
 	ExpertAgainAuditImg setUpPassword(String ids,String passWord);

@@ -18,6 +18,9 @@
         <include refid="Base_List" />
         from T_SYS_EMS_EXPERT_BATCH 
         where 1=1
+        <if test="batchId != null and batchId !=''">
+            AND BATCH_ID = #{batchId}
+        </if>
         <if test="batchNumber != null and batchNumber !=''">
             AND BATCH_NUMBER like CONCAT(CONCAT('%', #{batchNumber}), '%')
         </if>
