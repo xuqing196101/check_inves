@@ -150,16 +150,20 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	@RequestMapping("/findBatch")
 	public void findBatch(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchNumber,String batchName, Date createdAt, Integer pageNum){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		/*if(!"4".equals(user.getTypeName())){
-			img.setStatus(false);
-			img.setMessage("您的权限不足");
+		if("4".equals(user.getTypeName())){
+			if(pageNum == null) {
+				pageNum = StaticVariables.DEFAULT_PAGE;
+			}
+			img=againAuditService.findBatch(batchNumber,batchName, createdAt, pageNum);
 			super.writeJson(response, img);
 			return;
-		}*/
-		if(pageNum == null) {
-			pageNum = StaticVariables.DEFAULT_PAGE;
+		}else if("6".equals(user.getTypeName())){
+			img=againAuditService.fingStayReviewExpertList(user.getId(), batchName,createdAt, pageNum);
+			super.writeJson(response, img);
+			return;
 		}
-		img=againAuditService.findBatch(batchNumber,batchName, createdAt, pageNum);
+		img.setStatus(false);
+		img.setMessage("您的权限不足");
 		super.writeJson(response, img);
 	}
 	@RequestMapping("/findBatchList")
@@ -176,23 +180,36 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	@RequestMapping("/findBatchDetails")
 	public void findBatchDetails(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId,String status,Integer pageNum){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		/*if(!"4".equals(user.getTypeName())){
-			img.setStatus(false);
-			img.setMessage("您的权限不足");
+		if("4".equals(user.getTypeName())){
+			if(pageNum == null) {
+				pageNum = StaticVariables.DEFAULT_PAGE;
+			}
+			if(batchId==null){
+				img.setStatus(false);
+				img.setMessage("参数有误");
+				super.writeJson(response, img);
+				return;
+			}
+			img=againAuditService.findBatchDetails(batchId,status, pageNum);
+			img.setUserType(user.getTypeName());
 			super.writeJson(response, img);
 			return;
-		}*/
-		if(pageNum == null) {
-			pageNum = StaticVariables.DEFAULT_PAGE;
-		}
-		if(batchId==null){
-			img.setStatus(false);
-			img.setMessage("参数有误");
+		}else if("6".equals(user.getTypeName())){
+			if(batchId==null){
+				img.setStatus(false);
+				img.setMessage("请选择要审核的批次");
+				super.writeJson(response, img);
+				return;
+			}
+			img=againAuditService.fingStayReviewExpertDetailsList(user.getId(), batchId, pageNum);
+			img.setUserType(user.getTypeName());
 			super.writeJson(response, img);
 			return;
 		}
-		img=againAuditService.findBatchDetails(batchId,status, pageNum);
+		img.setStatus(false);
+		img.setMessage("您的权限不足");
 		super.writeJson(response, img);
+		return;
 	}
 	/*
 	 * 创建新分组

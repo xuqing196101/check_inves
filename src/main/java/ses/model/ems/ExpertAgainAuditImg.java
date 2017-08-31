@@ -5,6 +5,8 @@ public class ExpertAgainAuditImg {
 	private boolean status;
 	//回调信息
 	private String message;
+	//登录角色的类型
+	private String userType;
 	//回调详情
 	private Object object;
 	public boolean isStatus() {
@@ -25,9 +27,17 @@ public class ExpertAgainAuditImg {
 	public void setObject(Object object) {
 		this.object = object;
 	}
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
 	@Override
 	public String toString() {
-		return "ExpertAgainAuditImg [status=" + status + ", message=" + message + ", object=" + object + "]";
+		return "ExpertAgainAuditImg [status=" + status + ", message=" + message + ", userType=" + userType + ", object="
+				+ object + "]";
 	}
+	
 	
 }
