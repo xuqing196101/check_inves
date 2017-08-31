@@ -22,4 +22,12 @@ public interface QualificationLevelMapper {
     public List<QualificationLevel> getThird();
     
     public void delete(@Param("qualificationId")String qualificationId);
+
+    /**
+     * 根据资质id和等级统计数量
+     * @param quaId
+     * @param level
+     * @return
+     */
+	public int countByQuaIdAndLevel(@Param("quaId")String quaId, @Param("level")String level);
 }

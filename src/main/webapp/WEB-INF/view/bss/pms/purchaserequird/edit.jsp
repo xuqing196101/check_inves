@@ -350,7 +350,7 @@
 	      function submit(){
 	    	  var refNo=$("#referenceNo").val();
 	    	  var name=$("#jhmc").val();
-	    	  var flag = true;
+	    	  var flags = true;
 	    	  if($.trim(name) == "") {
 					 layer.alert("需求名称不允许为空"); 
 					 return false;
@@ -359,24 +359,6 @@
                      layer.alert("需求文号不允许为空"); 
                      return false;
                 } */
-              $.ajax({
-                  url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
-                  data:{
-                      "referenceNO":refNo
-                  },
-                  success: function(data) {
-                      if(data.data >= 1){
-                          $("#referenceNo").val("");
-                          layer.alert("采购需求文号已存在");
-                          
-                          flag=false;
-                      }else{
-                          flag=true;
-                      }
-                  }
-              });
-              
-              
 	    	   var dy=dyly();
 	    	   
 	    	  
@@ -432,13 +414,13 @@
 	 					var goodsName =$(this).find("td:eq(3)").children(":last").children(":last").val();
 	 					var stand = $(this).find("td:eq(4)").children(":last").val();
                              if(stand.length > 250){
-                                 flag = false;
+                                 flags = false;
                                  layer.alert("第" + i +"行规格型号不能超过250字");
                                  return false;
                              }
 	 					var qualitStand = $(this).find("td:eq(5)").children(":last").val();
                              if(qualitStand.length > 1000){
-                                 flag = false;
+                                 flags = false;
                                  layer.alert("第" + i +"行质量技术标准不能超过1000字");
                                  return false;
                              }
@@ -462,28 +444,47 @@
 
 	 				 	}
 	 				});
-	 			 if(!flag){
-	 			     return;
-                 }
+	 			 if(!flags){
+	 			     return false;
+                 } 
 	 			// return false;
 	 		//	var forms=$("#add_form").serializeArray();
-	 			  $.ajax({
-	 	  		        type: "POST",
-	 	  		        url: "${pageContext.request.contextPath}/purchaser/editdetail.do",
-	 	  		        data: {"prList":JSON.stringify(jsonStr),
-	 	  		        	"planType":type,
-	 	  		        	"planNo":no,
-	 	  		        	"planName":name,
-	 	  		        	"recorderMobile":mobile,
-	 	  		        	"referenceNo":refNo,
-	 	  		        	"unqueId":uniqueId,
-	 	  		        	"enterPort":$("#enterPort").val()},
-	 	  		        success: function (message) {
-	 	  		        	 window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
-	 	  		        },
-	 	  		        error: function (message) {
-	 	  		        }
-	 	  		    });
+	 		
+	 		    $.ajax({
+                    url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
+                    data:{
+                        "referenceNO":$("#referenceNo").val()
+                    },
+                    success: function(data) {
+                        if(data.data >= 1){
+                            $("#referenceNo").val("");
+                            layer.msg("采购需求文号已存在");
+                        }else{
+                        	
+                        	 $.ajax({
+                                 type: "POST",
+                                 url: "${pageContext.request.contextPath}/purchaser/editdetail.do",
+                                 data: {"prList":JSON.stringify(jsonStr),
+                                     "planType":type,
+                                     "planNo":no,
+                                     "planName":name,
+                                     "recorderMobile":mobile,
+                                     "referenceNo":refNo,
+                                     "unqueId":uniqueId,
+                                     "enterPort":$("#enterPort").val()},
+                                 success: function (message) {
+                                      window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
+                                 },
+                                 error: function (message) {
+                                 }
+                             });
+                        	 
+                        }
+                    }
+                });
+                
+	 			 
+                 
 	    	 /* } */
 	    	 //$("#table").find("#edit_form").submit();
 	    	 // $("#edit_form").submit();
