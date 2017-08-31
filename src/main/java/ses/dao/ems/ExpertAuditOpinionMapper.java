@@ -1,6 +1,9 @@
 package ses.dao.ems;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
 import ses.model.ems.ExpertAuditOpinion;
 
 /**
@@ -29,7 +32,7 @@ public interface ExpertAuditOpinionMapper {
 	 * @param @param expertAuditOpinionMapper      
 	 * @return void
 	 */
-	ExpertAuditOpinion selectByPrimaryKey (ExpertAuditOpinion expertAuditOpinion );
+	List<ExpertAuditOpinion> selectByPrimaryKey (ExpertAuditOpinion expertAuditOpinion );
 	/**
 	 * 
 	 * Description:根据专家ID查询信息

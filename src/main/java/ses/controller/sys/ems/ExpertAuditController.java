@@ -1950,10 +1950,10 @@ public class ExpertAuditController{
                 		}
                 		sct.setRootNode(str + sct.getRootNode());
 					}
-        			firstNode = 0;
         			itemsListAll.addAll(clist);
         		}
             }
+        	firstNode = 0;
         }
         
         if(expertTypeId != null && expertTypeId.size() > 0){
