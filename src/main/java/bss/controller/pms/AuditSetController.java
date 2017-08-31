@@ -123,10 +123,11 @@ public class AuditSetController {
 	@RequestMapping(value="/list")
 	public String set(Model model,Integer page,String id,HttpServletRequest request,String staff) throws UnsupportedEncodingException{
 		CollectPlan plan = collectPlanService.queryById(id);
-		String  aa = request.getParameter("backAttr") ;
-		if (Integer.parseInt(aa) ==2){//判断请求由列表来还是由审核人员调整来
-			
-			model.addAttribute("backid",id);
+		if(request.getParameter("backAttr") !=null){
+			if (Integer.parseInt(request.getParameter("backAttr")) ==2){//判断请求由列表来还是由审核人员调整来
+				
+				model.addAttribute("backid",id);
+			}
 		}
 		model.addAttribute("backAttr", request.getParameter("backAttr"));
 		model.addAttribute("status", request.getParameter("status"));
