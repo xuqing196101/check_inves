@@ -12,7 +12,7 @@
         list_content = data.object;  // 储存所需数据到变量
         var allchecked = 0;
         
-        if (list_content.groupStatus != '3') {
+        if (list_content.groupStatus === '3') {
           $('.temp_btn').remove();
         }
         
