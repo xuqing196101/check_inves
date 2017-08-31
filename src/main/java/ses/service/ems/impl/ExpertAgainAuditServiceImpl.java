@@ -171,7 +171,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		map.put("list", result);
 		img.setStatus(true);
 		img.setMessage("操作成功");
-		img.setObject(result);
+		img.setObject(map);
 		return img;
 	}
 	
@@ -595,7 +595,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		map.put("list", result);
 		img.setStatus(true);
 		img.setMessage("操作成功");
-		img.setObject(result);
+		img.setObject(map);
 		return img;
 	}
 

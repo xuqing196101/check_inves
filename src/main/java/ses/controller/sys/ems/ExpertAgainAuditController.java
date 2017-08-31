@@ -233,7 +233,6 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			}
 			img=againAuditService.fingStayReviewExpertDetailsList(user.getId(), batchId, pageNum);
 			img.setUserType(user.getTypeName());
-			System.out.println(img.toString());
 			super.writeJson(response, img);
 			return;
 		}
