@@ -364,4 +364,13 @@ public interface PurchaseRequiredService {
 	 * @since JDK1.7
 	 */
 	PurchaseRequired selectById(String id);
+	
+	/***
+	 * 
+	 *〈真删〉
+	 *〈详细描述〉
+	 * @author FengTian
+	 * @param list
+	 */
+	void deletedList(String unqueId);
 }

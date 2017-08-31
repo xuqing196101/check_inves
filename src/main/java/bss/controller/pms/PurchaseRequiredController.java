@@ -220,6 +220,7 @@ public class PurchaseRequiredController extends BaseController {
 		model.addAttribute("planNo", planNo);
 		model.addAttribute("goods", DictionaryDataUtil.getId("GOODS"));
 		model.addAttribute("detailId", DictionaryDataUtil.getId("PURCHASE_DETAIL"));
+		model.addAttribute("DYLY", DictionaryDataUtil.getId("DYLY"));
 		model.addAttribute("org_advice", type);
 		model.addAttribute("uniqueId", planNo.trim());
 		if (type.equals("1") || type.equals("2")) {
@@ -1333,91 +1334,57 @@ public class PurchaseRequiredController extends BaseController {
 	public String editReq(PurchaseRequiredFormBean list, String planType, String planNo, String planName,
 			String recorderMobile, HttpServletRequest request, String referenceNo, String fileId, String prList,
 			Integer enterPort, String unqueId) throws IOException {
+	    
 		List<PurchaseRequired> plist = get(prList);
 		User user = (User) request.getSession().getAttribute("loginUser");
-		// int count=1;
-		if (list != null) {
-			if (plist != null && plist.size() > 0) {
-				for (int i = 0; i < plist.size(); i++) {
-					PurchaseRequired p = plist.get(i);
-					p.setPlanNo(planNo);
-					p.setPlanName(planName);
-					p.setPlanType(planType);
-					p.setHistoryStatus("0");
-					p.setIsDelete(0);
-					// p.setIsMaster(count);
-					p.setCreatedAt(new Date());
-					p.setUserId(user.getId());
-					p.setRecorderMobile(recorderMobile);
-					p.setProjectStatus(0);
-					p.setAdvancedStatus(0);
-					p.setIsDelete(0);
-					p.setReferenceNo(referenceNo);
-					p.setDetailStatus(0);
-					p.setStatus("1");
-					p.setFileId(fileId);
-					p.setEnterPort(enterPort);
-					/*if (p.getSeq() != null) {
-
-						if (p.getPurchaseType() != null && p.getPurchaseType().trim().length() != 0) {
-							DictionaryData data = dictionaryDataMapper.queryByName(p.getPurchaseType());
-							p.setPurchaseType(data.getId());
-						}
-
-						if (p.getSeq().matches("[\u4E00-\u9FA5]") && !p.getSeq().contains("（")) {
-							p.setSeq("一");
-							// count=1;
-							p.setIsMaster(1);
-							p.setParentId("1");// 注释
-							// unqueId= UUID.randomUUID().toString().replaceAll("-", "");
-							p.setUniqueId(unqueId);
-							// count++;
-							purchaseRequiredService.updateByPrimaryKeySelective(p);
-							continue;
-						}
-						// 判断是否是二级节点(一)
-						if (isContainChinese(p.getSeq())) {
-							p.setUniqueId(unqueId);
-							// count++;
-							purchaseRequiredService.updateByPrimaryKeySelective(p);
-							continue;
-						}
-						// 判断是否是三级节点1,2,3
-						else if (isInteger(p.getSeq())) {
-							p.setUniqueId(unqueId);
-							// count++;
-							purchaseRequiredService.updateByPrimaryKeySelective(p);
-							continue;
-						}
-
-						// 判断是否四级节点(1),(2)
-						else if (isContainIntger(p.getSeq())) {
-							p.setUniqueId(unqueId);
-							// count++;
-							purchaseRequiredService.updateByPrimaryKeySelective(p);
-							continue;
-						}
-						// 五级节点
-						else if (isEng(p.getSeq())) {
-							p.setUniqueId(unqueId);
-							// count++;
-							purchaseRequiredService.updateByPrimaryKeySelective(p);
-							continue;
-						} else {
-							p.setUniqueId(unqueId);
-							// count++;
-						}*/
-                    PurchaseRequired purchaseRequired = purchaseRequiredService.selectById(p.getId());
-                    if(purchaseRequired != null){
-                        purchaseRequiredService.updateByPrimaryKeySelective(p);
-                    }else {
-                        p.setUniqueId(unqueId);
-                        purchaseRequiredService.add(p);
+		int count=1;
+		if(StringUtils.isNotBlank(unqueId) && list != null && plist != null && !plist.isEmpty()){
+		    purchaseRequiredService.deletedList(unqueId);
+		    
+		    for (int i = 0; i < plist.size(); i++) {
+                PurchaseRequired p = plist.get(i);
+                if(StringUtils.isNotBlank(planNo)){
+                    p.setPlanNo(planNo);
+                }
+                if(StringUtils.isNotBlank(planName)){
+                    p.setPlanName(planName);
+                }
+                if(StringUtils.isNotBlank(planType)){
+                    p.setPlanType(planType);
+                }
+                p.setHistoryStatus("0");
+                p.setIsDelete(0);
+                p.setIsMaster(count);
+                p.setCreatedAt(new Date());
+                p.setUserId(user.getId());
+                if(StringUtils.isNotBlank(recorderMobile)){
+                    p.setRecorderMobile(recorderMobile);
+                }
+                List<DictionaryData> find = DictionaryDataUtil.find(5);
+                for (DictionaryData dictionaryData : find) {
+                    if(p.getPurchaseType().equals(dictionaryData.getName())){
+                        p.setPurchaseType(dictionaryData.getId());
+                        break;
                     }
-					}
-					
-				}
-			}
+                }
+                p.setProjectStatus(0);
+                p.setAdvancedStatus(0);
+                p.setIsDelete(0);
+                p.setReferenceNo(referenceNo);
+                p.setDetailStatus(0);
+                p.setStatus("1");
+                p.setFileId(fileId);
+                p.setEnterPort(enterPort);
+                PurchaseRequired purchaseRequired = purchaseRequiredService.selectById(p.getId());
+                if(purchaseRequired != null){
+                    purchaseRequiredService.updateByPrimaryKeySelective(p);
+                }else {
+                    p.setUniqueId(unqueId);
+                    purchaseRequiredService.add(p);
+                }
+                count++;
+            }
+		}
 		/*purchaseRequiredService.batchAdd(plist);*/
 
 

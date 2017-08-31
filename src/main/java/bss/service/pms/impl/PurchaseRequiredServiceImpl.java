@@ -349,4 +349,16 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	public PurchaseRequired selectById(String id) {
 		return purchaseRequiredMapper.selectById(id);
 	}
+
+    @Override
+    public void deletedList(String unqueId) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("planNo", unqueId);
+        List<PurchaseRequired> byMap = purchaseRequiredMapper.getByMap(map);
+        if(byMap != null && !byMap.isEmpty()){
+            for (PurchaseRequired purchaseRequired : byMap) {
+                purchaseRequiredMapper.deleteByPrimaryKey(purchaseRequired.getId());
+            }
+        }
+    }
 }
