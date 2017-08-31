@@ -405,6 +405,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		PageInfo< ExpertReviewTeam > result = new PageInfo < ExpertReviewTeam > (list);
 		map.put("groupId", groupId);
+		map.put("groupStatus", expertGroup.getStatus());
 		map.put("list", result);
 		img.setStatus(true);
 		img.setMessage("操作成功");
