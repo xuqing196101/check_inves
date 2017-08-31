@@ -10,6 +10,7 @@
       data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
+        var allchecked = 0;
         
         if (typeof(list_content) != 'undefined') {
           $('#list_content').html('');
@@ -49,10 +50,16 @@
           for (var i in select_ids) {
             $('.select_item').each(function () {
               if ($(this).val() === select_ids[i]) {
+                allchecked++;
                 $(this).prop('checked', true);
                 return false;
               }
             });
+            if (allchecked === $('.select_item').length) {
+              $('[name=checkAll]').prop('checked', true);
+            } else {
+              $('[name=checkAll]').prop('checked', false);
+            }
           }
           
           // 绑定列表框点击事件，获取选中id集合
@@ -60,6 +67,7 @@
           if (select_checkbox.length > 0) {
             select_checkbox.bind('click', function () {
               var this_val = $(this).val().toString();
+              
               if ($(this).is(':checked')) {
                 select_ids.push(this_val);
               } else {
@@ -69,6 +77,19 @@
                     break;
                   }
                 }
+              }
+              
+              var sum = 0;
+              $('.select_item').each(function () {
+                if ($(this).is(':checked')) {
+                  sum++;
+                }
+              });
+              
+              if (sum === $('.againAudit_table').find('.select_item').length) {
+                $('[name=checkAll]').prop('checked', true);
+              } else {
+                $('[name=checkAll]').prop('checked', false);
               }
             });
           }

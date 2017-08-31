@@ -79,7 +79,7 @@
       <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
         <thead>
           <tr>
-            <th class="info w50">选择</th>
+            <th class="info w50"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
             <th class="info w100">序号</th>
             <th class="info">采购机构</th>
             <th class="info">专家姓名</th>

@@ -12,8 +12,10 @@
         list_content = data.object;  // 储存所需数据到变量
         var allchecked = 0;
         
-        if (list_content.groupStatus === '3') {
-          $('.temp_btn').remove();
+        if (list_content.groupStatus != '3') {
+          $('.btn_group_t').before('<button type="button" class="btn btn-windows add" onclick="add_members()">添加</button>'
+                        +'<button type="button" class="btn btn-windows delete" onclick="del_members()">删除</button>');
+          $('.btn_group_b').before('<button type="button" class="btn btn-windows save" onclick="save_editMembers()">保存</button>');
         }
         
         if (typeof(list_content) != 'undefined') {
