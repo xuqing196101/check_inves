@@ -896,7 +896,6 @@ public class PurchaseManageController {
 		model.addAttribute("orgnization", orgnization);
 		//UserEntity user = (UserEntity) session.getAttribute(SessionStringPool.LOGIN_USER);
 		//后台校验
-		
 		HashMap<String, Object> orgMap = new HashMap<String, Object>();
 		HashMap<String, Object> purMap = new HashMap<String, Object>();
 		orgMap.put("type_name", orgnization.getTypeName()==null?0:orgnization.getTypeName());

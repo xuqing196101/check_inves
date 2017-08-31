@@ -75,7 +75,7 @@ function chongzhi(){
                         <label class="fl">上级监管部门：</label>
                         <span class="fl">
                           <select name="" class="w100">
-                                     <option selected="selected" value=''>-请选择-</option>
+                                    <option selected="selected" value=''>-请选择-</option>
                                     <option  value="生产型">部门1</option>
                                     <option  value="销售型">部门2</option>
                                     <option  value="军区采购">军区采购</option>
@@ -88,7 +88,7 @@ function chongzhi(){
                    <div class="clear"></div>
 		     </form>
 		     </h2>
-		     <div class="col-md-12 pl20 mt10">
+		     <div class="col-md-12 pl20 mt10" style="margin-top: 20px">
 		          <input class="btn btn-windows back" value="返回" type="button" onclick="fanhui();">
 		     </div>
 		      <div class="content table_box">
