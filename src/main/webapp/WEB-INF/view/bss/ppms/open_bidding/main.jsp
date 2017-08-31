@@ -75,6 +75,8 @@
 	   		$("#openDiv_checkFlw").empty();
 	   		var html='<div class="tl">';
 	   		if(data!=null){
+	   			html+='<div class=" mt10 ml40"><input type="radio" name="flw" value="XMLX"/>项目立项</div>';
+	   			html+='<div class=" mt10 ml40"><input type="radio" name="flw" value="XMFB"/>项目分包</div>';
 	   			for(var i=0;i<data.length;i++){
 	   				html+='<div class=" mt10 ml40"><input type="radio" name="flw" value="'+data[i].id+'"/>'+data[i].name+'</div>';
 	   			}

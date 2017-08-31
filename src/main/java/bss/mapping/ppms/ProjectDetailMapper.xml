@@ -551,5 +551,9 @@
          CONNECT by PRIOR PARENT_ID=REQUIRED_ID
     </select>
     
-    
+    <select id="selectByRequiredIdTree"  parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from T_BSS_PPMS_PROJECTS_DETAIL
+        start with REQUIRED_ID = #{requiredId} 
+        connect by prior PARENT_ID = REQUIRED_ID ORDER BY CREATED_AT 
+    </select>
 </mapper>

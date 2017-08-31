@@ -59,5 +59,6 @@ public interface ProjectDetailMapper {
 	 List<ProjectDetail> selectByPackageId(String packageId);
 	 
 	 List<ProjectDetail> selectByPackageRecursively(String packageId);
+	 List<ProjectDetail> selectByRequiredIdTree(String requiredId);
 	 
 }

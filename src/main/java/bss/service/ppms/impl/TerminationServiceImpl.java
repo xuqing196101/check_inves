@@ -11,10 +11,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +106,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
   @Autowired
   private ReviewProgressMapper reviewProgressMapper;
   @Autowired
-  private ReviewFirstAuditMapper reviewFirstAuditMapper;
+  private ReviewFirstAuditMapper reviewFirstAuditMapper; 
   @Autowired
   private ArticleTypeMapper articleTypeMapper;
   @Autowired
@@ -198,6 +200,10 @@ public class TerminationServiceImpl<V> implements TerminationService {
       }
     }else if(TerminationConstant.FLW_XMFB.equals(currFlowDefineId)){
       if(packId.length>0){
+        Set<ProjectDetail> set=new HashSet<ProjectDetail>();
+        Project pr = projectMapper.selectProjectByPrimaryKey(projectId);
+        Project oldProject = projectMapper.selectProjectByPrimaryKey(pr.getParentId());
+        List<ProjectDetail> oldPd = projectDetailMapper.selectNotEmptyPackageOfDetail(oldProject.getId());
         for(String id:packId){
           Packages pg = packageMapper.selectByPrimaryKeyId(id);
           pg.setOldFlowId(oldCurrFlowDefineId);
@@ -206,11 +212,28 @@ public class TerminationServiceImpl<V> implements TerminationService {
           packageMapper.updateByPrimaryKeySelective(pg);
           List<ProjectDetail> pds = projectDetailMapper.selectByPackageRecursively(id);
           for(ProjectDetail pd:pds){
-            pd.setPackageId(null);
-            pd.setProject(project);
-            pd.setCreatedAt(new Date());
-            pd.setUpdateAt(null);
-            projectDetailMapper.insertSelective(pd);
+            List<ProjectDetail> pdss = projectDetailMapper.selectByRequiredIdTree(pd.getRequiredId());
+            set.addAll(pdss);
+          }
+        }
+        Iterator<ProjectDetail> iterator = set.iterator();
+        while(iterator.hasNext()){
+          ProjectDetail next = iterator.next();
+          for (ProjectDetail pde : oldPd) {
+            if(next.getId().equals(pde.getId())){
+              next.setPackageId(null);
+              next.setProject(project);
+              next.setCreatedAt(new Date());
+              next.setUpdateAt(null);
+              projectDetailMapper.insertSelective(next);
+            }
+          }
+          if(next.getPackageId()!=null&&!"".equals(next.getPackageId())){
+            next.setPackageId(null);
+            next.setProject(project);
+            next.setCreatedAt(new Date());
+            next.setUpdateAt(null);
+            projectDetailMapper.insertSelective(next);
           }
         }
       }
