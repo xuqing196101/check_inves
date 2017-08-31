@@ -83,7 +83,6 @@
                     +'<div class="gbl_tit"><span class="gbl_icon">'+ (parseInt(i) + 1) +'</span><span>'+ list_content[i].name + groupStatus_str +'</span></div>'
                     +'<div class="mt10 mb10">'
                     +'  <button type="button" class="btn btn-windows config" onclick="jump_members(\''+ list_content[i].id +'\')">配置审核组成员</button>'
-                    +'  <button type="button" class="btn btn-windows input" onclick="">下载复核表</button>'
                     +'</div>'
                     +'<table class="table table-bordered table-condensed table-hover table-striped groupBatch_table">'
                     +'  <thead>'
