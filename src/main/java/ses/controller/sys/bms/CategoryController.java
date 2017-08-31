@@ -710,4 +710,16 @@ public class CategoryController extends BaseSupplierController {
         map.put("articleSysKey",Constant.TENDER_SYS_KEY);
         return JSONSerializer.toJSON(map).toString();
     }
+    
+    /**
+     * 根据工程品目ID 查询资质等级 
+     * @author Jia chegnxiang
+     */
+    @RequestMapping("/getEngLevelByCid")
+    @ResponseBody
+    public List<DictionaryData> getEngLevelByCid(String categoryId){
+    	return categoryService.getEngAptitudeLevelByCategoryId(categoryId);
+    }
+    
+    
 }

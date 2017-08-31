@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="extract.dao.supplier.SupplierExtractRelateResultMapper">
+	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtRelate">
+		<!-- @mbggenerated -->
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="SUPPLIER_CONDITION_ID" jdbcType="VARCHAR"
+			property="supplierConditionId" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+		<result column="OPERATING_TYPE" jdbcType="DECIMAL" property="operatingType" />
+		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+		<result column="REASON" jdbcType="VARCHAR" property="reason" />
+		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+		<result column="UPDATED_AT" jdbcType="VARCHAR" property="updatedAt" />
+		<result column="CON_TYPE_ID" jdbcType="VARCHAR" property="conTypeId" />
+		<result column="STATUS_COUNT" jdbcType="DECIMAL" property="statusCount" />
+		<result column="REVIEW_TYPE" jdbcType="VARCHAR" property="reviewType" />
+
+		<!-- 供应商 -->
+		<association column="SUPPLIER_ID" property="supplier"
+			select="ses.dao.sms.SupplierMapper.selectByPrimaryKeyItem" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		ID, SUPPLIER_ID, SUPPLIER_CONDITION_ID, CREATED_AT, OPERATING_TYPE,
+		IS_DELETED, REASON,
+		PROJECT_ID, UPDATED_AT, CON_TYPE_ID,
+		STATUS_COUNT,REVIEW_TYPE
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_EXT_RELATE
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		<!-- @mbggenerated -->
+		delete from T_SES_SMS_SUPPLIER_EXT_RELATE
+		where ID =
+		#{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="extract.model.supplier.SupplierExtRelate">
+		<!-- @mbggenerated -->
+		insert into T_SES_SMS_SUPPLIER_EXT_RELATE (ID, SUPPLIER_ID,
+		SUPPLIER_CONDITION_ID,
+		CREATED_AT, OPERATING_TYPE, IS_DELETED,
+		REASON,
+		PROJECT_ID, UPDATED_AT,
+		CON_TYPE_ID, STATUS_COUNT,REVIEW_TYPE)
+		values
+		(#{id,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR},
+		#{supplierConditionId,jdbcType=VARCHAR},
+		#{createdAt,jdbcType=TIMESTAMP},
+		#{operatingType,jdbcType=DECIMAL},
+		#{isDeleted,jdbcType=DECIMAL},
+		#{reason,jdbcType=VARCHAR},
+		#{projectId,jdbcType=VARCHAR},
+		#{updatedAt,jdbcType=VARCHAR},
+		#{conTypeId,jdbcType=VARCHAR},
+		#{statusCount,jdbcType=DECIMAL},#{reviewType,jdbc=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtRelate">
+		<!-- @mbggenerated -->
+		insert into T_SES_SMS_SUPPLIER_EXT_RELATE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="conditionId != null">
+				SUPPLIER_CONDITION_ID,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="operatingType != null">
+				OPERATING_TYPE,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
+			<if test="reason != null">
+				REASON,
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+			<if test="conTypeId != null">
+				CON_TYPE_ID,
+			</if>
+			<if test="statusCount != null">
+				STATUS_COUNT,
+			</if>
+			<if test="reviewType != null">
+				REVIEW_TYPE,
+			</if>
+			<if test="attend != null">
+				ATTEND,
+			</if>
+			<if test="recordId != null">
+				RECORD_ID
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="conditionId != null">
+				#{conditionId,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operatingType != null">
+				#{operatingType,jdbcType=DECIMAL},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="reason != null">
+				#{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=VARCHAR},
+			</if>
+			<if test="conTypeId != null">
+				#{conTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="statusCount != null">
+				#{statusCount,jdbcType=DECIMAL},
+			</if>
+			<if test="reviewType != null">
+				#{reviewType,jdbcType=VARCHAR},
+			</if>
+			<if test="attend != null">
+				#{attend,jdbcType=DECIMAL},
+			</if>
+			<if test="recordId != null">
+				#{recordId,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtRelate">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_SUPPLIER_EXT_RELATE
+		<set>
+			<if test="supplierId != null">
+				SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierConditionId != null">
+				SUPPLIER_CONDITION_ID =
+				#{supplierConditionId,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operatingType != null">
+				OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL},
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="reason != null">
+				REASON = #{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt,jdbcType=VARCHAR},
+			</if>
+			<if test="conTypeId != null">
+				CON_TYPE_ID = #{conTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="statusCount != null">
+				STATUS_COUNT = #{statusCount,jdbcType=DECIMAL},
+			</if>
+			<if test="reviewType != null">
+				REVIEW_TYPE = #{reviewType,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierExtRelate">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_SUPPLIER_EXT_RELATE
+		set SUPPLIER_ID =
+		#{supplierId,jdbcType=VARCHAR},
+		SUPPLIER_CONDITION_ID =
+		#{supplierConditionId,jdbcType=VARCHAR},
+		CREATED_AT =
+		#{createdAt,jdbcType=TIMESTAMP},
+		OPERATING_TYPE =
+		#{operatingType,jdbcType=DECIMAL},
+		IS_DELETED =
+		#{isDeleted,jdbcType=DECIMAL},
+		REASON = #{reason,jdbcType=VARCHAR},
+		PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+		UPDATED_AT =
+		#{updatedAt,jdbcType=VARCHAR},
+		CON_TYPE_ID =
+		#{conTypeId,jdbcType=VARCHAR},
+		STATUS_COUNT =
+		#{statusCount,jdbcType=DECIMAL},
+		REVIEW_TYPE =
+		#{reviewType,jdbcType=VARCHAR},
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 关联抽取表 -->
+	<select id="getById" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_SES_SMS_SUPPLIER_EXT_RELATE WHERE PROJECT_ID =#{id} AND
+		OPERATING_TYPE =1
+
+	</select>
+
+	<select id="list" parameterType="extract.model.supplier.SupplierExtRelate"
+		resultMap="BaseResultMap">
+		SELECT
+		pe.*
+		FROM
+		T_SES_SMS_SUPPLIER_EXT_RELATE pe
+		INNER JOIN
+		T_SES_SMS_SUPPLIER ss ON PE.SUPPLIER_ID = ss."ID"
+		Where STATUS_COUNT=0
+		<if test="id != null and id != ''">
+			AND pe.ID =#{id}
+		</if>
+		<if test="supplierConditionId != null and supplierConditionId != ''">
+			AND pe.SUPPLIER_CONDITION_ID =#{supplierConditionId}
+		</if>
+		<if test="reason != null and reason != ''">
+			AND pe.OPERATING_TYPE in (${reason})
+		</if>
+		<if test="reviewType != null and reviewType != ''">
+			AND pe.REVIEW_TYPE = #{reviewType}
+		</if>
+		<if test="supplierId != null and supplierId != '' ">
+			AND pe.SUPPLIER_ID = #{supplierId}
+		</if>
+		<if test="projectId != null and projectId != ''">
+			AND pe.PROJECT_ID =#{projectId}
+			ORDER BY
+			SUPPLIER_CONDITION_ID
+		</if>
+		<if test="supplier!=null">
+			<if test="supplier.supplierName!=null and supplier.supplierName !='' ">
+				AND SS.SUPPLIER_NAME LIKE CONCAT(CONCAT('%', #{supplier.supplierName}), '%')
+			</if>
+		</if>
+	</select>
+	<!-- 删除重复数据 -->
+	<delete id="deleteData" parameterType="Map">
+		delete from
+		T_SES_SMS_SUPPLIER_EXT_RELATE
+
+		where SUPPLIER_ID in (select SUPPLIER_ID
+		from
+		T_SES_SMS_SUPPLIER_EXT_RELATE group
+		by SUPPLIER_ID having
+		count(SUPPLIER_ID) >
+		1)
+
+		and rowid not in (select min(rowid) from
+		T_SES_SMS_SUPPLIER_EXT_RELATE
+		group
+		by SUPPLIER_ID having
+		count(SUPPLIER_ID )>1)
+		AND
+		PROJECT_ID=#{projectId}
+		AND
+		SUPPLIER_CONDITION_ID=#{expertConditionId}
+	</delete>
+	<!-- 当抽取数量满足时修改还未抽取的专家状态为1 -->
+	<update id="updateStatusCount" parameterType="map">
+		UPDATE
+		T_SES_SMS_SUPPLIER_EXT_RELATE
+		SET STATUS_COUNT = #{type}
+		WHERE
+		CON_TYPE_ID =
+		#{conTypeId}
+		AND OPERATING_TYPE = 0
+	</update>
+	<!-- 包下是否已存在供应商 -->
+	<select id="getSupplierId" parameterType="Map" resultType="java.lang.Integer">
+		SELECT "COUNT"(SUPPLIER_ID) as count FROM
+		T_SES_SMS_SUPPLIER_EXT_RELATE WHERE
+		SUPPLIER_ID=#{supplierId}
+		AND
+		PROJECT_ID=#{projectId}
+	</select>
+	<insert id="insertList" parameterType="java.util.List">
+		INSERT INTO T_SES_SMS_SUPPLIER_EXT_RELATE
+		(SUPPLIER_ID,SUPPLIER_CONDITION_ID,PROJECT_ID,CON_TYPE_ID)
+		<foreach collection="list" item="item" index="index"
+			separator="union" close=")" open="(">
+			select
+			#{item.supplierId,jdbcType=VARCHAR},
+			#{item.supplierConditionId,jdbcType=VARCHAR},
+			#{item.projectId,jdbcType=VARCHAR},
+			#{item.conTypeId,jdbcType=VARCHAR}
+			from dual
+		</foreach>
+	</insert>
+	<!-- 关联 -->
+	<select id="getBuyConId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_SES_SMS_SUPPLIER_EXT_RELATE WHERE
+		SUPPLIER_CONDITION_ID=#{supplierId} AND (OPERATING_TYPE =1 OR
+		OPERATING_TYPE =2 OR OPERATING_TYPE =3)
+	</select>
+
+	<!-- 删除未抽取的的数据 -->
+	<select id="del" parameterType="Map">
+		DELETE FROM ( SELECT
+		*
+		FROM
+		T_SES_SMS_SUPPLIER_EXT_RELATE
+		WHERE PROJECT_ID
+		IN (SELECT "ID" FROM
+		T_BSS_PPMS_PACKAGE WHERE PROJECT_ID =
+		#{projectId}) AND
+		SUPPLIER_ID =
+		#{supplierId}
+		AND OPERATING_TYPE = 0 )
+	</select>
+
+	<!-- 删除未抽取的的数据 -->
+	<select id="delPe" parameterType="java.lang.String">
+		DELETE FROM (
+		SELECT T1.* FROM
+		T_SES_SMS_SUPPLIER_EXT_RELATE t1 LEFT JOIN
+		T_BSS_PPMS_PACKAGE t2 ON
+		T1.PROJECT_ID=t2."ID" WHERE t2.PROJECT_ID
+		=#{projectId} AND
+		t1.OPERATING_TYPE = 0 )
+	</select>
+
+	<resultMap id="BaseMap" type="extract.model.supplier.SupplierExtRelate">
+		<result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+		<result column="SUPPLIER_TYPE_ID" jdbcType="VARCHAR" property="supplierTypeId" />
+	</resultMap>
+
+	<select id="selectSupplierType" parameterType="java.lang.String"
+		resultMap="BaseMap">
+		SELECT
+		wm_concat(t1.SUPPLIER_TYPE_ID) as
+		SUPPLIER_TYPE_ID,t1.SUPPLIER_ID
+		FROM
+		T_SES_SMS_SUPPLIER_TYPE_RELATE t1
+		INNER JOIN
+		T_SES_SMS_SUPPLIER_EXT_RELATE t2 ON t1.SUPPLIER_ID =
+		T2.SUPPLIER_ID
+		WHERE T2.SUPPLIER_CONDITION_ID =#{conditionId}
+		GROUP BY
+		t1.SUPPLIER_ID
+	</select>
+	
+	<select id="selectSupplierIdListByRecordId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_EXT_RELATE WHERE 
+	</select>
+
+
+
+</mapper>

@@ -98,5 +98,7 @@ public interface AreaMapper {
 	 * @return
 	 */
 	String selectByName(@Param("name") String name);
+
+	List<Area> getTreeForExt();
 	
 }
