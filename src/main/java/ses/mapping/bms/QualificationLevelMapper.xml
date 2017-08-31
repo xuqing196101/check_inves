@@ -17,8 +17,6 @@
         <include refid="BASE_COLUMN_SQL" />
         FROM T_SES_BMS_QUALIFCATE_LEVEL
         WHERE  QUALIFCATION_ID = #{qualificationId,jdbcType=VARCHAR}
-
-
     </select>
     <!-- 保存 -->
     <insert id="save" parameterType="ses.model.bms.QualificationLevel" >
@@ -26,8 +24,14 @@
         (#{id}, #{qualificationId},#{grade})
     </insert>
     
-   <delete id="delete" parameterType="String">
-   delete from T_SES_BMS_QUALIFCATE_LEVEL  where QUALIFCATION_ID = #{qualificationId}
-   </delete>
+		<delete id="delete" parameterType="String">
+		delete from T_SES_BMS_QUALIFCATE_LEVEL  where QUALIFCATION_ID = #{qualificationId}
+		</delete>
+   
+		<!-- 根据资质id和等级统计数量 -->
+		<select id="countByQuaIdAndLevel" resultType="int">
+			select count(*) from T_SES_BMS_QUALIFCATE_LEVEL
+			where QUALIFCATION_ID = #{quaId} and GRADE = #{level}
+		</select>
     
 </mapper>

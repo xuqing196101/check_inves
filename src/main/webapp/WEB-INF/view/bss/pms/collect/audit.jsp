@@ -635,7 +635,9 @@
 					var one = "";
 					var two = "";
 					var three = "";
+					var status = "${status}";
 					//第一轮
+					if(status==3){
 					for (var i = 0; i < size; i++){
 						var a= $("#oneId"+i).val();
 						if(typeof(a) != "undefined"){
@@ -652,6 +654,7 @@
 							}
 						}
 					}
+					}else if(status==5){
 					//第二轮
 					for (var j = 0; j < size; j++){
 						var b= $("#twoId"+j).val();
@@ -669,6 +672,7 @@
 							}
 						}
 					}
+					}else{
 					//第三轮
 					for (var k = 0; k < size; k++){
 						var c= $("#threeId"+k).val();
@@ -685,6 +689,7 @@
 								three += ","+c;
 							}
 						}
+					}
 					}
 					//window.location.href="${pageContext.request.contextPath}/look/report.html?id="+id+"&&one="+one+"&&two="+two+"&&three="+three;
 					document.write("<form action='${pageContext.request.contextPath}/look/report.html' id='form1' method='post' style='display:none'>");    
