@@ -388,18 +388,18 @@ public class ExpertServiceImpl implements ExpertService {
 				} else if(expert.getStatus().equals("4") || expert.getStatus().equals("15")){
 					//初审已通过，待复审
 					map.put("expert", "8");
-				} else if(expert.getIsBlack().equals("1")){
+				} else if(expert.getIsBlack().equals("1") || expert.getStatus().equals("12")){
 	                    //已拉黑
-	                    map.put("expert", "1");
-	            }else if((expert.getStatus().equals("0") || expert.getStatus().equals("9"))&& expert.getIsSubmit().equals("1") || expert.getStatus().equals("10")){
+	                    map.put("expert", "expertBlack");
+	            }else if((expert.getStatus().equals("0") || expert.getStatus().equals("9")) && expert.getIsSubmit().equals("1") || expert.getStatus().equals("10")){
 					//未审核
 					map.put("expert", "3");
 				}else if(expert.getStatus().equals("3") && !expert.getIsBlack().equals("1")){
 				    // 退回修改
 				    map.put("expert", "2");
 				}else if(expert.getStatus().equals("6")){
-                    // 复审踢除
-                    map.put("expert", "6");
+                    // 复查合格
+                    map.put("expert", "7");
                 }else if(expert.getStatus().equals("7") && 1 == expert.getIsProvisional()){
                     // 临时专家,并且参加的评审项目已结束
                     map.put("expert", "7");
@@ -418,6 +418,12 @@ public class ExpertServiceImpl implements ExpertService {
 				} else if(expertBlackListMapper.countByExpertId(expert.getId()) > 0){
 					// 黑名单处罚中
 					map.put("expert", "expertBlack");
+				}else if(("8").equals(expert.getStatus())){
+					//复查不合格
+					map.put("expert", "reviewFailed");
+				}else if(("11").equals(expert.getStatus()) || ("14").equals(expert.getStatus())){
+					//复审中的状态
+					map.put("expert", "inReview");
 				}
 			}else{
 				//如果专家信息为空 证明还没有填写过个人信息
