@@ -77,13 +77,14 @@
           groupId: groupId
         },
         success: function (data) {
-          if (data.status) {
-            window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/editMembers.html?groupId='+ groupId +'';
-          } else {
-            layer.msg(data.message, {
-              offset: '100px'
-            });
-          }
+          // if (data.status) {
+          //   window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/editMembers.html?groupId='+ groupId +'';
+          // } else {
+          //   layer.msg(data.message, {
+          //     offset: '100px'
+          //   });
+          // }
+          window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/editMembers.html?groupId='+ groupId +'';
         }
       });
     }

@@ -52,7 +52,7 @@
       <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
         <thead>
           <tr>
-            <th class="info w50">选择</th>
+            <th class="info w50"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
             <th class="info">用户名</th>
             <th class="info">专家姓名</th>
             <th class="info">单位</th>
@@ -62,7 +62,7 @@
         </thead>
         <tbody id="list_content"></tbody>
       </table>
-      <%-- <div id="pagediv" align="right"></div> --%>
+      <div id="pagediv" align="right"></div>
     </div>
     
     <div class="col-md-12 pl20 mt10 mb10">

@@ -11,33 +11,31 @@
       data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
-        $('#list_content').html('');
-        for (var i in list_content.list) {
-          if (typeof(list_content.list[i].batchNumber) === 'undefined') {
-            list_content.list[i].batchNumber = '';
-          }
-          if (typeof(list_content.list[i].batchName) === 'undefined') {
-            list_content.list[i].batchName = '';
-          }
-          if (typeof(list_content.list[i].createdAt) === 'undefined') {
-            list_content.list[i].createdAt = '';
+        
+        if (typeof(list_content) != 'undefined') {
+          $('#list_content').html('');
+          for (var i in list_content.list) {
+            if (typeof(list_content.list[i].batchNumber) === 'undefined') {
+              list_content.list[i].batchNumber = '';
+            }
+            if (typeof(list_content.list[i].batchName) === 'undefined') {
+              list_content.list[i].batchName = '';
+            }
+            if (typeof(list_content.list[i].createdAt) === 'undefined') {
+              list_content.list[i].createdAt = '';
+            }
+            
+            $('#list_content').append('<tr class="pointer" onclick="window.location=\''+ defaults.batch_url +'?batchId='+ list_content.list[i].batchId +'\'">'
+              +'<td class="text-center w50">'+ (parseInt(i) + 1) +'</td>'
+              +'<td class="text-center w120">'+ list_content.list[i].batchNumber +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].batchName +'</td>'
+              +'<td class="text-center w180">'+ list_content.list[i].createdAt +'</td>'
+            +'</tr>');
           }
           
-          $('#list_content').append('<tr class="pointer" onclick="window.location=\''+ defaults.batch_url +'?batchId='+ list_content.list[i].batchId +'\'">'
-            +'<td class="text-center w50">'+ (parseInt(i) + 1) +'</td>'
-            +'<td class="text-center w120">'+ list_content.list[i].batchNumber +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].batchName +'</td>'
-            +'<td class="text-center w180">'+ list_content.list[i].createdAt +'</td>'
-          +'</tr>');
+          // 构造分页
+          laypageConstructor();
         }
-        
-        // 构造分页
-        laypageConstructor();
-      },
-      error: function (data) {
-        layer.msg(data.message, {
-          offset: '100px'
-        });
       }
     };
 

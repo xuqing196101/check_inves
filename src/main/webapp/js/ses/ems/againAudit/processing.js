@@ -581,3 +581,34 @@ function expert_auditBatch(url) {
     });
   }
 }
+
+//  全选操作
+function checkAll(el) {
+  var ishas = 0;
+  
+  if ($(el).is(':checked')) {
+    $('#list_content .select_item').each(function () {
+      for (var i in select_ids) {
+        if ($(this).val() != select_ids[i]) {
+          ishas++;
+        }
+      }
+      
+      if (ishas > 0) {
+        select_item.push($(this).val());
+      }
+    });
+  } else {
+    $('#list_content .select_item').each(function () {
+      for (var i in select_ids) {
+        if ($(this).val() != select_ids[i]) {
+          ishas++;
+        }
+      }
+      
+      if (ishas > 0) {
+        select_item.push($(this).val());
+      }
+    });
+  }
+}

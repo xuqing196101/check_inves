@@ -14,102 +14,100 @@
         var groupStatus = ['（待配置）','（配置中）','（配置完成）'];
         var groupStatus_str = '';
         list_content = data.object;  // 储存所需数据到变量
-        $('#group_batch_box').html('');
-        if (list_content.length === 0) {
-          layer.msg('请先进行批次分组！', {
-            time: 0,
-            btn: ['好'],
-            yes: function(index){
-              layer.close(index);
-              history.back();
+        
+        if (typeof(list_content) != 'undefined') {
+          $('#group_batch_box').html('');
+          if (list_content.length === 0) {
+            layer.msg('请先进行批次分组！', {
+              time: 0,
+              btn: ['好'],
+              yes: function(index){
+                layer.close(index);
+                history.back();
+              }
+            });
+          } else {
+            for (var i in list_content) {
+              for (var ii in list_content[i].expertList) {
+                if (typeof(list_content[i].expertList[ii].batchDetailsNumber) === 'undefined') {
+                  list_content[i].expertList[ii].batchDetailsNumber = '';
+                }
+                if (typeof(list_content[i].expertList[ii].orgName) === 'undefined') {
+                  list_content[i].expertList[ii].orgName = '';
+                }
+                if (typeof(list_content[i].expertList[ii].realName) === 'undefined') {
+                  list_content[i].expertList[ii].realName = '';
+                }
+                if (typeof(list_content[i].expertList[ii].gender) === 'undefined') {
+                  list_content[i].expertList[ii].gender = '';
+                }
+                if (typeof(list_content[i].expertList[ii].workUnit) === 'undefined') {
+                  list_content[i].expertList[ii].workUnit = '';
+                }
+                if (typeof(list_content[i].expertList[ii].professTechTitles) === 'undefined') {
+                  list_content[i].expertList[ii].professTechTitles = '';
+                }
+                if (typeof(list_content[i].expertList[ii].updateTime) === 'undefined') {
+                  list_content[i].expertList[ii].updateTime = '';
+                }
+                if (typeof(list_content[i].expertList[ii].status) === 'undefined') {
+                  list_content[i].expertList[ii].status = '';
+                }
+                if (typeof(list_content[i].expertList[ii].updateTime) === 'undefined') {
+                  list_content[i].expertList[ii].updateTime = '';
+                }
+                
+                str_tr += '<tr>'
+                  +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content[i].expertList[ii].id +'" class="select_item"></td>'
+                  +'<td class="text-center">'+ list_content[i].expertList[ii].batchDetailsNumber +'</td>'
+                  +'<td class="text-center">'+ list_content[i].expertList[ii].orgName +'</td>'
+                  +'<td class="text-center">'+ list_content[i].expertList[ii].realName +'</td>'
+                  +'<td class="text-center">'+ list_content[i].expertList[ii].gender +'</td>'
+                  +'<td class="text-center">'+ list_content[i].expertList[ii].workUnit +'</td>'
+                  +'<td class="text-center">'+ list_content[i].expertList[ii].professTechTitles +'</td>'
+                  +'<td class="text-center">'+ list_content[i].expertList[ii].updateTime +'</td>'
+                  +'<td class="text-center">'+ list_content[i].expertList[ii].status +'</td>'
+                  +'<td class="text-center">'+ list_content[i].expertList[ii].updateTime +'</td>'
+                +'</tr>';
+              }
+              if (list_content[i].groupStatus === '1') {
+                groupStatus_str = groupStatus[0];
+              } else if (list_content[i].groupStatus === '2') {
+                groupStatus_str = groupStatus[1];
+              } else if (list_content[i].groupStatus === '3') {
+                groupStatus_str = groupStatus[2];
+              } else {
+                groupStatus_str = '';
+              }
+              str += '<div class="group_batch_list">'
+                    +'<div class="gbl_tit"><span class="gbl_icon">'+ (parseInt(i) + 1) +'</span><span>'+ list_content[i].name + groupStatus_str +'</span></div>'
+                    +'<div class="mt10 mb10">'
+                    +'  <button type="button" class="btn btn-windows config" onclick="jump_members(\''+ list_content[i].id +'\')">配置审核组成员</button>'
+                    +'  <button type="button" class="btn btn-windows input" onclick="">下载复核表</button>'
+                    +'</div>'
+                    +'<table class="table table-bordered table-condensed table-hover table-striped groupBatch_table">'
+                    +'  <thead>'
+                    +'    <tr>'
+                    +'      <th class="info w50">选择</th>'
+                    +'      <th class="info w100">批次编号</th>'
+                    +'      <th class="info">采购机构</th>'
+                    +'      <th class="info">专家姓名</th>'
+                    +'      <th class="info">性别</th>'
+                    +'      <th class="info">工作单位</th>'
+                    +'      <th class="info">专业职称</th>'
+                    +'      <th class="info">提交复审时间</th>'
+                    +'      <th class="info">审核状态</th>'
+                    +'      <th class="info">审核时间</th>'
+                    +'    </tr>'
+                    +'  </thead>'
+                    +'  <tbody>'+ str_tr +'</tbody>'
+                    +'</table>'
+              +'</div>';
+              $('#group_batch_box').append(str);
+              str = str_tr = '';
             }
-          });
-        } else {
-          for (var i in list_content) {
-            for (var ii in list_content[i].expertList) {
-              if (typeof(list_content[i].expertList[ii].batchDetailsNumber) === 'undefined') {
-                list_content[i].expertList[ii].batchDetailsNumber = '';
-              }
-              if (typeof(list_content[i].expertList[ii].orgName) === 'undefined') {
-                list_content[i].expertList[ii].orgName = '';
-              }
-              if (typeof(list_content[i].expertList[ii].realName) === 'undefined') {
-                list_content[i].expertList[ii].realName = '';
-              }
-              if (typeof(list_content[i].expertList[ii].gender) === 'undefined') {
-                list_content[i].expertList[ii].gender = '';
-              }
-              if (typeof(list_content[i].expertList[ii].workUnit) === 'undefined') {
-                list_content[i].expertList[ii].workUnit = '';
-              }
-              if (typeof(list_content[i].expertList[ii].professTechTitles) === 'undefined') {
-                list_content[i].expertList[ii].professTechTitles = '';
-              }
-              if (typeof(list_content[i].expertList[ii].updateTime) === 'undefined') {
-                list_content[i].expertList[ii].updateTime = '';
-              }
-              if (typeof(list_content[i].expertList[ii].status) === 'undefined') {
-                list_content[i].expertList[ii].status = '';
-              }
-              if (typeof(list_content[i].expertList[ii].updateTime) === 'undefined') {
-                list_content[i].expertList[ii].updateTime = '';
-              }
-              
-              str_tr += '<tr>'
-                +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content[i].expertList[ii].id +'" class="select_item"></td>'
-                +'<td class="text-center">'+ list_content[i].expertList[ii].batchDetailsNumber +'</td>'
-                +'<td class="text-center">'+ list_content[i].expertList[ii].orgName +'</td>'
-                +'<td class="text-center">'+ list_content[i].expertList[ii].realName +'</td>'
-                +'<td class="text-center">'+ list_content[i].expertList[ii].gender +'</td>'
-                +'<td class="text-center">'+ list_content[i].expertList[ii].workUnit +'</td>'
-                +'<td class="text-center">'+ list_content[i].expertList[ii].professTechTitles +'</td>'
-                +'<td class="text-center">'+ list_content[i].expertList[ii].updateTime +'</td>'
-                +'<td class="text-center">'+ list_content[i].expertList[ii].status +'</td>'
-                +'<td class="text-center">'+ list_content[i].expertList[ii].updateTime +'</td>'
-              +'</tr>';
-            }
-            if (list_content[i].groupStatus === '1') {
-              groupStatus_str = groupStatus[0];
-            } else if (list_content[i].groupStatus === '2') {
-              groupStatus_str = groupStatus[1];
-            } else if (list_content[i].groupStatus === '3') {
-              groupStatus_str = groupStatus[2];
-            } else {
-              groupStatus_str = '';
-            }
-            str += '<div class="group_batch_list">'
-                  +'<div class="gbl_tit"><span class="gbl_icon">'+ (parseInt(i) + 1) +'</span><span>'+ list_content[i].name + groupStatus_str +'</span></div>'
-                  +'<div class="mt10 mb10">'
-                  +'  <button type="button" class="btn btn-windows config" onclick="jump_members(\''+ list_content[i].id +'\')">配置审核组成员</button>'
-                  +'  <button type="button" class="btn btn-windows input" onclick="">下载复核表</button>'
-                  +'</div>'
-                  +'<table class="table table-bordered table-condensed table-hover table-striped groupBatch_table">'
-                  +'  <thead>'
-                  +'    <tr>'
-                  +'      <th class="info w50">选择</th>'
-                  +'      <th class="info w100">批次编号</th>'
-                  +'      <th class="info">采购机构</th>'
-                  +'      <th class="info">专家姓名</th>'
-                  +'      <th class="info">性别</th>'
-                  +'      <th class="info">工作单位</th>'
-                  +'      <th class="info">专业职称</th>'
-                  +'      <th class="info">提交复审时间</th>'
-                  +'      <th class="info">审核状态</th>'
-                  +'      <th class="info">审核时间</th>'
-                  +'    </tr>'
-                  +'  </thead>'
-                  +'  <tbody>'+ str_tr +'</tbody>'
-                  +'</table>'
-            +'</div>';
-            $('#group_batch_box').append(str);
-            str = str_tr = '';
           }
         }
-      },
-      error: function (data) {
-        layer.msg(data.message, {
-          offset: '100px'
-        });
       }
     };
 

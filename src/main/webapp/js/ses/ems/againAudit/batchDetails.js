@@ -37,95 +37,97 @@
             +'<tbody id="list_content"></tbody>'
           +'</table>');
           
-          $('#list_content').html('');
-          for (var i in list_content.list) {
-            // 判断状态输出
-            if (list_content.list[i].status === '-3') {
-              list_content.list[i].status = '公示中';
-            } else if (list_content.list[i].status === '-2') {
-              list_content.list[i].status = '预复审结束';
-            } else if (list_content.list[i].status === '-1') {
-              list_content.list[i].status = '暂存';
-            } else if (list_content.list[i].status === '0') {
-              list_content.list[i].status = '待初审';
-            } else if (list_content.list[i].status === '4') {
-              if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '4') {
-                list_content.list[i].status = '复审中';
-              } else {
-                list_content.list[i].status = '待复审';
+          if (typeof(list_content) != 'undefined') {
+            $('#list_content').html('');
+            for (var i in list_content.list) {
+              // 判断状态输出
+              if (list_content.list[i].status === '-3') {
+                list_content.list[i].status = '公示中';
+              } else if (list_content.list[i].status === '-2') {
+                list_content.list[i].status = '预复审结束';
+              } else if (list_content.list[i].status === '-1') {
+                list_content.list[i].status = '暂存';
+              } else if (list_content.list[i].status === '0') {
+                list_content.list[i].status = '待初审';
+              } else if (list_content.list[i].status === '4') {
+                if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '4') {
+                  list_content.list[i].status = '复审中';
+                } else {
+                  list_content.list[i].status = '待复审';
+                }
+              } else if (list_content.list[i].status === '5') {
+                list_content.list[i].status = '复审不合格';
+              } else if (list_content.list[i].status === '6') {
+                list_content.list[i].status = '待复查';
+              } else if (list_content.list[i].status === '7') {
+                list_content.list[i].status = '复查合格';
+              } else if (list_content.list[i].status === '8') {
+                list_content.list[i].status = '复查不合格';
+              } else if (list_content.list[i].status === '10') {
+                list_content.list[i].status = '复审退回修改';
+              } else if (list_content.list[i].status === '11') {
+                list_content.list[i].status = '待分配';
+              } else if (list_content.list[i].status === '12') {
+                list_content.list[i].status = '处罚中';
+              } else if (list_content.list[i].status === '13') {
+                list_content.list[i].status = '无产品专家';
+              } else if (list_content.list[i].status === '14') {
+                list_content.list[i].status = '复审待分组专家';
               }
-            } else if (list_content.list[i].status === '5') {
-              list_content.list[i].status = '复审不合格';
-            } else if (list_content.list[i].status === '6') {
-              list_content.list[i].status = '待复查';
-            } else if (list_content.list[i].status === '7') {
-              list_content.list[i].status = '复查合格';
-            } else if (list_content.list[i].status === '8') {
-              list_content.list[i].status = '复查不合格';
-            } else if (list_content.list[i].status === '10') {
-              list_content.list[i].status = '复审退回修改';
-            } else if (list_content.list[i].status === '11') {
-              list_content.list[i].status = '待分配';
-            } else if (list_content.list[i].status === '12') {
-              list_content.list[i].status = '处罚中';
-            } else if (list_content.list[i].status === '13') {
-              list_content.list[i].status = '无产品专家';
-            } else if (list_content.list[i].status === '14') {
-              list_content.list[i].status = '复审待分组专家';
+              
+              // 判断复审专家输出
+              if (list_content.list[i].status === '4' || list_content.list[i].status === '11' || list_content.list[i].status === '14') {
+                list_content.list[i].auditor = '';
+              }
+              
+              if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
+                list_content.list[i].batchDetailsNumber = '';
+              }
+              if (typeof(list_content.list[i].orgName) === 'undefined') {
+                list_content.list[i].orgName = '';
+              }
+              if (typeof(list_content.list[i].realName) === 'undefined') {
+                list_content.list[i].realName = '';
+              }
+              if (typeof(list_content.list[i].gender) === 'undefined') {
+                list_content.list[i].gender = '';
+              }
+              if (typeof(list_content.list[i].workUnit) === 'undefined') {
+                list_content.list[i].workUnit = '';
+              }
+              if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
+                list_content.list[i].professTechTitles = '';
+              }
+              if (typeof(list_content.list[i].updateTime) === 'undefined') {
+                list_content.list[i].updateTime = '';
+              }
+              if (typeof(list_content.list[i].groupName) === 'undefined') {
+                list_content.list[i].groupName = '';
+              }
+              if (typeof(list_content.list[i].auditor) === 'undefined') {
+                list_content.list[i].auditor = '';
+              }
+              if (typeof(list_content.list[i].status) == 'undefined') {
+                list_content.list[i].status = '';
+              }
+              if (typeof(list_content.list[i].auditAt) === 'undefined') {
+                list_content.list[i].auditAt = '';
+              }
+              
+              $('#list_content').append('<tr>'
+                +'<td class="text-center">'+ list_content.list[i].batchDetailsNumber +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].orgName +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].realName +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].gender +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].workUnit +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].professTechTitles +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].updateTime +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].groupName +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].auditor +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].status +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].auditAt +'</td>'
+              +'</tr>');
             }
-            
-            // 判断复审专家输出
-            if (list_content.list[i].status === '4' || list_content.list[i].status === '11' || list_content.list[i].status === '14') {
-              list_content.list[i].auditor = '';
-            }
-            
-            if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
-              list_content.list[i].batchDetailsNumber = '';
-            }
-            if (typeof(list_content.list[i].orgName) === 'undefined') {
-              list_content.list[i].orgName = '';
-            }
-            if (typeof(list_content.list[i].realName) === 'undefined') {
-              list_content.list[i].realName = '';
-            }
-            if (typeof(list_content.list[i].gender) === 'undefined') {
-              list_content.list[i].gender = '';
-            }
-            if (typeof(list_content.list[i].workUnit) === 'undefined') {
-              list_content.list[i].workUnit = '';
-            }
-            if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
-              list_content.list[i].professTechTitles = '';
-            }
-            if (typeof(list_content.list[i].updateTime) === 'undefined') {
-              list_content.list[i].updateTime = '';
-            }
-            if (typeof(list_content.list[i].groupName) === 'undefined') {
-              list_content.list[i].groupName = '';
-            }
-            if (typeof(list_content.list[i].auditor) === 'undefined') {
-              list_content.list[i].auditor = '';
-            }
-            if (typeof(list_content.list[i].status) == 'undefined') {
-              list_content.list[i].status = '';
-            }
-            if (typeof(list_content.list[i].auditAt) === 'undefined') {
-              list_content.list[i].auditAt = '';
-            }
-            
-            $('#list_content').append('<tr>'
-              +'<td class="text-center">'+ list_content.list[i].batchDetailsNumber +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].orgName +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].realName +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].gender +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].workUnit +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].professTechTitles +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].updateTime +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].groupName +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].auditor +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].status +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].auditAt +'</td>'
-            +'</tr>');
           }
         } else if (userType === '6') {
           $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
@@ -151,96 +153,98 @@
             +'<tbody id="list_content"></tbody>'
           +'</table>');
           
-          $('#list_content').html('');
-          for (var i in list_content.list) {
-            // 判断状态输出
-            if (list_content.list[i].status === '-3') {
-              list_content.list[i].status = '公示中';
-            } else if (list_content.list[i].status === '-2') {
-              list_content.list[i].status = '预复审结束';
-            } else if (list_content.list[i].status === '-1') {
-              list_content.list[i].status = '暂存';
-            } else if (list_content.list[i].status === '0') {
-              list_content.list[i].status = '待初审';
-            } else if (list_content.list[i].status === '4') {
-              if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '4') {
-                list_content.list[i].status = '复审中';
-              } else {
-                list_content.list[i].status = '待复审';
+          if (typeof(list_content) != 'undefined') {
+            $('#list_content').html('');
+            for (var i in list_content.list) {
+              // 判断状态输出
+              if (list_content.list[i].status === '-3') {
+                list_content.list[i].status = '公示中';
+              } else if (list_content.list[i].status === '-2') {
+                list_content.list[i].status = '预复审结束';
+              } else if (list_content.list[i].status === '-1') {
+                list_content.list[i].status = '暂存';
+              } else if (list_content.list[i].status === '0') {
+                list_content.list[i].status = '待初审';
+              } else if (list_content.list[i].status === '4') {
+                if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '4') {
+                  list_content.list[i].status = '复审中';
+                } else {
+                  list_content.list[i].status = '待复审';
+                }
+              } else if (list_content.list[i].status === '5') {
+                list_content.list[i].status = '复审不合格';
+              } else if (list_content.list[i].status === '6') {
+                list_content.list[i].status = '待复查';
+              } else if (list_content.list[i].status === '7') {
+                list_content.list[i].status = '复查合格';
+              } else if (list_content.list[i].status === '8') {
+                list_content.list[i].status = '复查不合格';
+              } else if (list_content.list[i].status === '10') {
+                list_content.list[i].status = '复审退回修改';
+              } else if (list_content.list[i].status === '11') {
+                list_content.list[i].status = '待分配';
+              } else if (list_content.list[i].status === '12') {
+                list_content.list[i].status = '处罚中';
+              } else if (list_content.list[i].status === '13') {
+                list_content.list[i].status = '无产品专家';
+              } else if (list_content.list[i].status === '14') {
+                list_content.list[i].status = '复审待分组专家';
               }
-            } else if (list_content.list[i].status === '5') {
-              list_content.list[i].status = '复审不合格';
-            } else if (list_content.list[i].status === '6') {
-              list_content.list[i].status = '待复查';
-            } else if (list_content.list[i].status === '7') {
-              list_content.list[i].status = '复查合格';
-            } else if (list_content.list[i].status === '8') {
-              list_content.list[i].status = '复查不合格';
-            } else if (list_content.list[i].status === '10') {
-              list_content.list[i].status = '复审退回修改';
-            } else if (list_content.list[i].status === '11') {
-              list_content.list[i].status = '待分配';
-            } else if (list_content.list[i].status === '12') {
-              list_content.list[i].status = '处罚中';
-            } else if (list_content.list[i].status === '13') {
-              list_content.list[i].status = '无产品专家';
-            } else if (list_content.list[i].status === '14') {
-              list_content.list[i].status = '复审待分组专家';
+              
+              // 判断复审专家输出
+              if (list_content.list[i].status === '4' || list_content.list[i].status === '11' || list_content.list[i].status === '14') {
+                list_content.list[i].auditor = '';
+              }
+              
+              if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
+                list_content.list[i].batchDetailsNumber = '';
+              }
+              if (typeof(list_content.list[i].orgName) === 'undefined') {
+                list_content.list[i].orgName = '';
+              }
+              if (typeof(list_content.list[i].realName) === 'undefined') {
+                list_content.list[i].realName = '';
+              }
+              if (typeof(list_content.list[i].gender) === 'undefined') {
+                list_content.list[i].gender = '';
+              }
+              if (typeof(list_content.list[i].workUnit) === 'undefined') {
+                list_content.list[i].workUnit = '';
+              }
+              if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
+                list_content.list[i].professTechTitles = '';
+              }
+              if (typeof(list_content.list[i].updateTime) === 'undefined') {
+                list_content.list[i].updateTime = '';
+              }
+              if (typeof(list_content.list[i].groupName) === 'undefined') {
+                list_content.list[i].groupName = '';
+              }
+              if (typeof(list_content.list[i].auditor) === 'undefined') {
+                list_content.list[i].auditor = '';
+              }
+              if (typeof(list_content.list[i].status) == 'undefined') {
+                list_content.list[i].status = '';
+              }
+              if (typeof(list_content.list[i].auditAt) === 'undefined') {
+                list_content.list[i].auditAt = '';
+              }
+              
+              $('#list_content').append('<tr>'
+                +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list[i].expertId +'" class="select_item"></td>'
+                +'<td class="text-center">'+ list_content.list[i].batchDetailsNumber +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].orgName +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].realName +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].gender +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].workUnit +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].professTechTitles +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].updateTime +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].groupName +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].auditor +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].status +'</td>'
+                +'<td class="text-center">'+ list_content.list[i].auditAt +'</td>'
+              +'</tr>');
             }
-            
-            // 判断复审专家输出
-            if (list_content.list[i].status === '4' || list_content.list[i].status === '11' || list_content.list[i].status === '14') {
-              list_content.list[i].auditor = '';
-            }
-            
-            if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
-              list_content.list[i].batchDetailsNumber = '';
-            }
-            if (typeof(list_content.list[i].orgName) === 'undefined') {
-              list_content.list[i].orgName = '';
-            }
-            if (typeof(list_content.list[i].realName) === 'undefined') {
-              list_content.list[i].realName = '';
-            }
-            if (typeof(list_content.list[i].gender) === 'undefined') {
-              list_content.list[i].gender = '';
-            }
-            if (typeof(list_content.list[i].workUnit) === 'undefined') {
-              list_content.list[i].workUnit = '';
-            }
-            if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
-              list_content.list[i].professTechTitles = '';
-            }
-            if (typeof(list_content.list[i].updateTime) === 'undefined') {
-              list_content.list[i].updateTime = '';
-            }
-            if (typeof(list_content.list[i].groupName) === 'undefined') {
-              list_content.list[i].groupName = '';
-            }
-            if (typeof(list_content.list[i].auditor) === 'undefined') {
-              list_content.list[i].auditor = '';
-            }
-            if (typeof(list_content.list[i].status) == 'undefined') {
-              list_content.list[i].status = '';
-            }
-            if (typeof(list_content.list[i].auditAt) === 'undefined') {
-              list_content.list[i].auditAt = '';
-            }
-            
-            $('#list_content').append('<tr>'
-              +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list[i].id +'" class="select_item"></td>'
-              +'<td class="text-center">'+ list_content.list[i].batchDetailsNumber +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].orgName +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].realName +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].gender +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].workUnit +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].professTechTitles +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].updateTime +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].groupName +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].auditor +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].status +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].auditAt +'</td>'
-            +'</tr>');
           }
         }
         
