@@ -57,6 +57,7 @@
             <th class="info">专家姓名</th>
             <th class="info">单位</th>
             <th class="info">技术职称（职务）</th>
+            <th class="info">是否设置密码</th>
           </tr>
         </thead>
         <tbody id="list_content"></tbody>

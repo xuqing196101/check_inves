@@ -10,95 +10,266 @@
       data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
-        $('#list_content').html('');
-        for (var i in list_content.list) {
-          // 判断状态输出
-          if (list_content.list[i].status === '-3') {
-            list_content.list[i].status = '公示中';
-          } else if (list_content.list[i].status === '-2') {
-            list_content.list[i].status = '预复审结束';
-          } else if (list_content.list[i].status === '-1') {
-            list_content.list[i].status = '暂存';
-          } else if (list_content.list[i].status === '0') {
-            list_content.list[i].status = '待初审';
-          } else if (list_content.list[i].status === '4') {
-            if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '4') {
-              list_content.list[i].status = '复审中';
-            } else {
-              list_content.list[i].status = '待复审';
+        var userType = data.userType;
+        
+        // 按钮判断
+        if (userType === '4') {
+          $('#btn_group').html('<button type="button" class="btn btn-windows group" onclick="jump_batchGroup()">批次分组</button>'
+            +'<button type="button" class="btn btn-windows config" onclick="jump_auditBatch()">审核配置</button>'
+            +'<button type="button" class="btn btn-windows apply">上传复审批准件</button>');
+            
+          $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped againAudit_table">'
+            +'<thead>'
+            +'  <tr>'
+            +'    <th class="info w130">批次编号</th>'
+            +'    <th class="info w100">采购机构</th>'
+            +'    <th class="info">专家姓名</th>'
+            +'    <th class="info w50">性别</th>'
+            +'    <th class="info w2500">工作单位</th>'
+            +'    <th class="info w80">专业职称</th>'
+            +'    <th class="info w100">提交复审时间</th>'
+            +'    <th class="info w60">审核组</th>'
+            +'    <th class="info w80">复审专家</th>'
+            +'    <th class="info w80">审核状态</th>'
+            +'    <th class="info">审核时间</th>'
+            +'  </tr>'
+            +'</thead>'
+            +'<tbody id="list_content"></tbody>'
+          +'</table>');
+          
+          $('#list_content').html('');
+          for (var i in list_content.list) {
+            // 判断状态输出
+            if (list_content.list[i].status === '-3') {
+              list_content.list[i].status = '公示中';
+            } else if (list_content.list[i].status === '-2') {
+              list_content.list[i].status = '预复审结束';
+            } else if (list_content.list[i].status === '-1') {
+              list_content.list[i].status = '暂存';
+            } else if (list_content.list[i].status === '0') {
+              list_content.list[i].status = '待初审';
+            } else if (list_content.list[i].status === '4') {
+              if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '4') {
+                list_content.list[i].status = '复审中';
+              } else {
+                list_content.list[i].status = '待复审';
+              }
+            } else if (list_content.list[i].status === '5') {
+              list_content.list[i].status = '复审不合格';
+            } else if (list_content.list[i].status === '6') {
+              list_content.list[i].status = '待复查';
+            } else if (list_content.list[i].status === '7') {
+              list_content.list[i].status = '复查合格';
+            } else if (list_content.list[i].status === '8') {
+              list_content.list[i].status = '复查不合格';
+            } else if (list_content.list[i].status === '10') {
+              list_content.list[i].status = '复审退回修改';
+            } else if (list_content.list[i].status === '11') {
+              list_content.list[i].status = '待分配';
+            } else if (list_content.list[i].status === '12') {
+              list_content.list[i].status = '处罚中';
+            } else if (list_content.list[i].status === '13') {
+              list_content.list[i].status = '无产品专家';
+            } else if (list_content.list[i].status === '14') {
+              list_content.list[i].status = '复审待分组专家';
             }
-          } else if (list_content.list[i].status === '5') {
-            list_content.list[i].status = '复审不合格';
-          } else if (list_content.list[i].status === '6') {
-            list_content.list[i].status = '待复查';
-          } else if (list_content.list[i].status === '7') {
-            list_content.list[i].status = '复查合格';
-          } else if (list_content.list[i].status === '8') {
-            list_content.list[i].status = '复查不合格';
-          } else if (list_content.list[i].status === '10') {
-            list_content.list[i].status = '复审退回修改';
-          } else if (list_content.list[i].status === '11') {
-            list_content.list[i].status = '待分配';
-          } else if (list_content.list[i].status === '12') {
-            list_content.list[i].status = '处罚中';
-          } else if (list_content.list[i].status === '13') {
-            list_content.list[i].status = '无产品专家';
-          } else if (list_content.list[i].status === '14') {
-            list_content.list[i].status = '复审待分组专家';
+            
+            // 判断复审专家输出
+            if (list_content.list[i].status === '4' || list_content.list[i].status === '11' || list_content.list[i].status === '14') {
+              list_content.list[i].auditor = '';
+            }
+            
+            if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
+              list_content.list[i].batchDetailsNumber = '';
+            }
+            if (typeof(list_content.list[i].orgName) === 'undefined') {
+              list_content.list[i].orgName = '';
+            }
+            if (typeof(list_content.list[i].realName) === 'undefined') {
+              list_content.list[i].realName = '';
+            }
+            if (typeof(list_content.list[i].gender) === 'undefined') {
+              list_content.list[i].gender = '';
+            }
+            if (typeof(list_content.list[i].workUnit) === 'undefined') {
+              list_content.list[i].workUnit = '';
+            }
+            if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
+              list_content.list[i].professTechTitles = '';
+            }
+            if (typeof(list_content.list[i].updateTime) === 'undefined') {
+              list_content.list[i].updateTime = '';
+            }
+            if (typeof(list_content.list[i].groupName) === 'undefined') {
+              list_content.list[i].groupName = '';
+            }
+            if (typeof(list_content.list[i].auditor) === 'undefined') {
+              list_content.list[i].auditor = '';
+            }
+            if (typeof(list_content.list[i].status) == 'undefined') {
+              list_content.list[i].status = '';
+            }
+            if (typeof(list_content.list[i].auditAt) === 'undefined') {
+              list_content.list[i].auditAt = '';
+            }
+            
+            $('#list_content').append('<tr>'
+              +'<td class="text-center">'+ list_content.list[i].batchDetailsNumber +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].orgName +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].realName +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].gender +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].workUnit +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].professTechTitles +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].updateTime +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].groupName +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].auditor +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].status +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].auditAt +'</td>'
+            +'</tr>');
           }
+        } else if (userType === '6') {
+          $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
+            +'<button type="button" class="btn btn-windows input">下载复审表</button>');
           
-          // 判断复审专家输出
-          if (list_content.list[i].status === '4' || list_content.list[i].status === '11' || list_content.list[i].status === '14') {
-            list_content.list[i].auditor = '';
-          }
+          $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped againAudit_table">'
+            +'<thead>'
+            +'  <tr>'
+            +'    <th class="info w50">选择</th>'
+            +'    <th class="info w130">批次编号</th>'
+            +'    <th class="info w100">采购机构</th>'
+            +'    <th class="info">专家姓名</th>'
+            +'    <th class="info w50">性别</th>'
+            +'    <th class="info w2500">工作单位</th>'
+            +'    <th class="info w80">专业职称</th>'
+            +'    <th class="info w100">提交复审时间</th>'
+            +'    <th class="info w60">审核组</th>'
+            +'    <th class="info w80">复审专家</th>'
+            +'    <th class="info w80">审核状态</th>'
+            +'    <th class="info">审核时间</th>'
+            +'  </tr>'
+            +'</thead>'
+            +'<tbody id="list_content"></tbody>'
+          +'</table>');
           
-          if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
-            list_content.list[i].batchDetailsNumber = '';
+          $('#list_content').html('');
+          for (var i in list_content.list) {
+            // 判断状态输出
+            if (list_content.list[i].status === '-3') {
+              list_content.list[i].status = '公示中';
+            } else if (list_content.list[i].status === '-2') {
+              list_content.list[i].status = '预复审结束';
+            } else if (list_content.list[i].status === '-1') {
+              list_content.list[i].status = '暂存';
+            } else if (list_content.list[i].status === '0') {
+              list_content.list[i].status = '待初审';
+            } else if (list_content.list[i].status === '4') {
+              if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '4') {
+                list_content.list[i].status = '复审中';
+              } else {
+                list_content.list[i].status = '待复审';
+              }
+            } else if (list_content.list[i].status === '5') {
+              list_content.list[i].status = '复审不合格';
+            } else if (list_content.list[i].status === '6') {
+              list_content.list[i].status = '待复查';
+            } else if (list_content.list[i].status === '7') {
+              list_content.list[i].status = '复查合格';
+            } else if (list_content.list[i].status === '8') {
+              list_content.list[i].status = '复查不合格';
+            } else if (list_content.list[i].status === '10') {
+              list_content.list[i].status = '复审退回修改';
+            } else if (list_content.list[i].status === '11') {
+              list_content.list[i].status = '待分配';
+            } else if (list_content.list[i].status === '12') {
+              list_content.list[i].status = '处罚中';
+            } else if (list_content.list[i].status === '13') {
+              list_content.list[i].status = '无产品专家';
+            } else if (list_content.list[i].status === '14') {
+              list_content.list[i].status = '复审待分组专家';
+            }
+            
+            // 判断复审专家输出
+            if (list_content.list[i].status === '4' || list_content.list[i].status === '11' || list_content.list[i].status === '14') {
+              list_content.list[i].auditor = '';
+            }
+            
+            if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
+              list_content.list[i].batchDetailsNumber = '';
+            }
+            if (typeof(list_content.list[i].orgName) === 'undefined') {
+              list_content.list[i].orgName = '';
+            }
+            if (typeof(list_content.list[i].realName) === 'undefined') {
+              list_content.list[i].realName = '';
+            }
+            if (typeof(list_content.list[i].gender) === 'undefined') {
+              list_content.list[i].gender = '';
+            }
+            if (typeof(list_content.list[i].workUnit) === 'undefined') {
+              list_content.list[i].workUnit = '';
+            }
+            if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
+              list_content.list[i].professTechTitles = '';
+            }
+            if (typeof(list_content.list[i].updateTime) === 'undefined') {
+              list_content.list[i].updateTime = '';
+            }
+            if (typeof(list_content.list[i].groupName) === 'undefined') {
+              list_content.list[i].groupName = '';
+            }
+            if (typeof(list_content.list[i].auditor) === 'undefined') {
+              list_content.list[i].auditor = '';
+            }
+            if (typeof(list_content.list[i].status) == 'undefined') {
+              list_content.list[i].status = '';
+            }
+            if (typeof(list_content.list[i].auditAt) === 'undefined') {
+              list_content.list[i].auditAt = '';
+            }
+            
+            $('#list_content').append('<tr>'
+              +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list[i].id +'" class="select_item"></td>'
+              +'<td class="text-center">'+ list_content.list[i].batchDetailsNumber +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].orgName +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].realName +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].gender +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].workUnit +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].professTechTitles +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].updateTime +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].groupName +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].auditor +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].status +'</td>'
+              +'<td class="text-center">'+ list_content.list[i].auditAt +'</td>'
+            +'</tr>');
           }
-          if (typeof(list_content.list[i].orgName) === 'undefined') {
-            list_content.list[i].orgName = '';
-          }
-          if (typeof(list_content.list[i].realName) === 'undefined') {
-            list_content.list[i].realName = '';
-          }
-          if (typeof(list_content.list[i].gender) === 'undefined') {
-            list_content.list[i].gender = '';
-          }
-          if (typeof(list_content.list[i].workUnit) === 'undefined') {
-            list_content.list[i].workUnit = '';
-          }
-          if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
-            list_content.list[i].professTechTitles = '';
-          }
-          if (typeof(list_content.list[i].updateTime) === 'undefined') {
-            list_content.list[i].updateTime = '';
-          }
-          if (typeof(list_content.list[i].groupName) === 'undefined') {
-            list_content.list[i].groupName = '';
-          }
-          if (typeof(list_content.list[i].auditor) === 'undefined') {
-            list_content.list[i].auditor = '';
-          }
-          if (typeof(list_content.list[i].status) == 'undefined') {
-            list_content.list[i].status = '';
-          }
-          if (typeof(list_content.list[i].auditAt) === 'undefined') {
-            list_content.list[i].auditAt = '';
-          }
-          
-          $('#list_content').append('<tr>'
-            +'<td class="text-center">'+ list_content.list[i].batchDetailsNumber +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].orgName +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].realName +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].gender +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].workUnit +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].professTechTitles +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].updateTime +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].groupName +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].auditor +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].status +'</td>'
-            +'<td class="text-center">'+ list_content.list[i].auditAt +'</td>'
-          +'</tr>');
+        }
+        
+        // 勾选翻页之前选中的项
+        for (var i in select_ids) {
+          $('.select_item').each(function () {
+            if ($(this).val() === select_ids[i]) {
+              $(this).prop('checked', true);
+              return false;
+            }
+          });
+        }
+        
+        // 绑定列表框点击事件，获取选中id集合
+        var select_checkbox = $('.againAudit_table').find('.select_item');
+        if (select_checkbox.length > 0) {
+          select_checkbox.bind('click', function () {
+            var this_val = $(this).val().toString();
+            if ($(this).is(':checked')) {
+              select_ids.push(this_val);
+            } else {
+              for (var i in select_ids) {
+                if (select_ids[i] == this_val) {
+                  select_ids.splice(i, 1);
+                  break;
+                }
+              }
+            }
+          });
         }
         
         // 构造分页

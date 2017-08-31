@@ -180,7 +180,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	@RequestMapping("/findBatchDetails")
 	public void findBatchDetails(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId,String status,Integer pageNum){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		if("4".equals(user.getTypeName())){
+ 		if("4".equals(user.getTypeName())){
 			if(pageNum == null) {
 				pageNum = StaticVariables.DEFAULT_PAGE;
 			}
@@ -192,6 +192,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			}
 			img=againAuditService.findBatchDetails(batchId,status, pageNum);
 			img.setUserType(user.getTypeName());
+			System.out.println(img.toString());
 			super.writeJson(response, img);
 			return;
 		}else if("6".equals(user.getTypeName())){

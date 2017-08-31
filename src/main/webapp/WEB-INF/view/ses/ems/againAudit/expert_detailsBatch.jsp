@@ -83,8 +83,7 @@
       $('#list_content').listConstructor({
         url: list_url,
         data: {
-          batchId: getUrlParam('batchId'),
-          
+          batchId: getUrlParam('batchId')
         }
       });
     });

@@ -10,6 +10,7 @@
       data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
+        console.log(list_content);
         $('#list_content').html('');
         for (var i in list_content.list) {
           if (typeof(list_content.list[i].loginName) === 'undefined') {
@@ -24,6 +25,13 @@
           if (typeof(list_content.list[i].duties) === 'undefined') {
             list_content.list[i].duties = '';
           }
+          if (typeof(list_content.list[i].passWord) === 'undefined') {
+            list_content.list[i].passWord = '';
+          } else if (list_content.list[i].passWord === '1') {
+            list_content.list[i].passWord = '已设置密码';
+          } else if (list_content.list[i].passWord === '0') {
+            list_content.list[i].passWord = '未设置密码';
+          }
           
           $('#list_content').append('<tr>'
             +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list[i].id +'" class="select_item"></td>'
@@ -31,6 +39,7 @@
             +'<td class="text-center">'+ list_content.list[i].relName +'</td>'
             +'<td>'+ list_content.list[i].orgName +'</td>'
             +'<td>'+ list_content.list[i].duties +'</td>'
+            +'<td>'+ list_content.list[i].passWord +'</td>'
           +'</tr>');
         }
         
