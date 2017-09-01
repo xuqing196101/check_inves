@@ -42,14 +42,14 @@ $(function () {
             dataView: {show: true, readOnly: true},
         },
         calculable: true,
-        xAxis: [{
+        /*xAxis: [{
             axisLabel: {
                 interval: 0,
                 formatter: function (val) {
                     return val.split("").join("\n");
                 }
             }
-        }],
+        }],*/
         series: [
             {
                 itemStyle: {
