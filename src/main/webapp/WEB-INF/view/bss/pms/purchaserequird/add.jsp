@@ -69,7 +69,12 @@
       }
 
       //动态添加
+      var flgNumber=false;
       function aadd() {
+    	  if(flgNumber) {
+              layer.alert("节点填写错误");
+              return false;
+           }
         var value = $("#xqbm").val();
         var detailRow = document.getElementsByName("detailRow");
         var index = detailRow.length;
@@ -96,37 +101,48 @@
           }
         });
       }
-
+      function trimNull(i){
+    	  var trimFlog=false;
+    	  if($.trim($("input[name='list[" + i + "].goodsName']").val()) == "") {
+              layer.alert("需求明细中物资类别及物资名称不能为空");
+              trimFlog=true;
+            } else if($.trim($("input[name='list[" + i + "].qualitStand']").val()) == "") {
+              layer.alert("需求明细中质量技术标准不能为空");
+              trimFlog=true;
+            } else if($.trim($("input[name='list[" + i + "].item']").val()) == "") {
+              layer.alert("需求明细中计量单位不能为空");
+              trimFlog=true;
+            } else if($.trim($("input[name='list[" + i + "].purchaseCount']").val()) == "") {
+              layer.alert("需求明细中采购数量不能为空");
+              trimFlog=true;
+            } else if($.trim($("input[name='list[" + i + "].price']").val()) == "") {
+              layer.alert("需求明细中单价不能为空");
+              trimFlog=true;
+            }else if($.trim($("select[name='list[" + i + "].purchaseType']").val()) == "") {
+                layer.alert("需求明细中采购方式不能为空");
+                trimFlog=true;
+              }
+    	  return trimFlog;
+      }
       //保存
       function incr() {
-        if(flag) {
+        if(flgNumber) {
           layer.alert("节点填写错误");
           return false;
         }
-
         if($("#detailZeroRow tr").length <= 2) {
           layer.alert("请添加需求明细！");
-          return;
-        }
-        for(var i = 2; i < $("#detailZeroRow tr").length; i++) {
-          if($.trim($("input[name='list[" + i + "].price']").val()) != "") {
-            if($.trim($("input[name='list[" + i + "].goodsName']").val()) == "") {
-              layer.alert("需求明细中物资类别及物资名称不能为空");
-              return false;
-            } else if($.trim($("input[name='list[" + i + "].qualitStand']").val()) == "") {
-              layer.alert("需求明细中质量技术标准不能为空");
-              return false;
-            } else if($.trim($("input[name='list[" + i + "].item']").val()) == "") {
-              layer.alert("需求明细中计量单位不能为空");
-              return false;
-            } else if($.trim($("input[name='list[" + i + "].purchaseCount']").val()) == "") {
-              layer.alert("需求明细中采购数量不能为空");
-              return false;
-            } else if($.trim($("input[name='list[" + i + "].price']").val()) == "") {
-              layer.alert("需求明细中单价不能为空");
-              return false;
-            }
-          }
+          return false;
+        }else{
+        	var tableTr=$("#detailZeroRow tr");
+        	for(var i = 2; i < tableTr.length; i++) {
+        		 if(typeof($(tableTr[i]).attr("attr"))=="undefined"){//获取子节点
+        			  if(trimNull(i)){
+        				  return false;
+        				  break;
+        			  }
+        		 }
+        	}
         }
         var orgType = "${orgType}";
         var name = $("#jhmc").val();
@@ -137,25 +153,8 @@
         var fileId = $("#mfiledId").val();
         var bool = details();
 
-        var dy = dyly();
+        var dy = dyly();//单一来源必须填写供应商
         var ptype = true;
-        var flgs = false;
-        $("#detailZeroRow tr").each(function() {
-          var price = $(this).find("td:eq(8)").children(":first").next().val();
-          if($.trim(price) != "") {
-            if($(this).find("td:eq(11)").find("select").val() == "") {
-              flgs = true;
-            }
-          }
-          var type = $(this).find("td:eq(11)").children(":first").val(); //上级id
-          if($.trim(type) == "") {
-            ptype = false;
-          }
-        });
-        if(flgs) {
-          layer.alert("子节点采购方式不能为空");
-          return false;
-        }
         if(orgType != '0') {
           layer.msg("请用需求部门编制采购需求！");
         } else if($.trim(name) == "") {
@@ -164,10 +163,10 @@
           layer.alert("录入人手机号不允许为空");
         } else if($.trim(type) == "") {
           layer.alert("请选择物资类别");
-        } else if($.trim(refNo) == "") {
+        } /* else if($.trim(refNo) == "") {
           layer.alert("采购需求文号不允许为空");
-        } else if(!dy) {
-          layer.alert("请填写供应商");
+        }  */else if(!dy) {
+          layer.alert("单一来源必须填写供应商");
         } else if(bool == true) {
           $("#detailJhmc").val(name);
           $("#detailJhbh").val(no);
@@ -399,7 +398,108 @@
 
       //删除一行
       function delRowIndex(obj) {
-        var detailRow = document.getElementsByName("detailRow");
+    	  var trAll=$("#detailZeroRow tr");
+    	  if(trAll.length<=2){
+    		  layer.alert("至少保留两行！", {
+    	        offset: ['222px', '390px'],
+    	        shade: 0.01
+    	     });
+    	  }else{
+    		  var tr = $(obj).parent().parent();
+    		  var trId=$(tr).children(":first").next().children(":first").val();
+    		  var trPid=$(tr).children(":first").next().children(":last").val();
+    		  if(typeof($(tr).attr("attr"))!="undefined"){//父节点删除
+    			  var trNextAll=tr.nextAll();
+    			  var nextFlg=false;
+    			  for(var i=0;i<trNextAll.length;i++){
+    				  var tdNextId=$(trNextAll[i]).children(":first").next().children(":last").val();
+    			      if(trId==tdNextId){
+    			    	  nextFlg=true;
+    			    	  break;
+    			      }
+    			  }
+    			  if(nextFlg){//父节点下面有子节点的不允许删
+    				  layer.alert("不能删除父节点！", {
+			    	        offset: ['222px', '390px'],
+			    	        shade: 0.01
+			    	   });
+    			  }
+    		  }else{//删除子节点
+    			  var trNextPid=$(tr).next().children(":first").next().children(":last").val();
+    			  var trPrevPid=$(tr).prev().children(":first").next().children(":last").val();
+    			  if(trPid==trNextPid||trPid==trPrevPid){//说明字节点不是只有一个，删除当前节点，改变后面节点的序号
+    				  var trNextAll=tr.nextAll();
+        			for(var i=0;i<trNextAll.length;i++){
+        				var tdNextId=$(trNextAll[i]).children(":first").next().children(":last").val();
+    					  if(trPid==tdNextId){
+    						  var nextNumber=$(trNextAll[i]).children(":first").next().children(":first").next();
+    						  if(nextNumber.val().indexOf("（")>=0){//说明2,4,6级
+    							  var second = conChniese($(nextNumber).val());//2级
+    							  if(second){
+    								  var vals=$(nextNumber).val().substring(1,$(nextNumber).val().length-1);
+    								  var number=["一","二","三","四","五","六","七","八","九","十"];
+    								  num:
+    								  for(var j=0;j<number.length;j++){
+        							   if(vals==number[j]){
+        							      $(nextNumber).val("（"+number[j-1]+"）");
+          							    break num;
+        							   }
+    								  }
+    							  }
+    							  var fourth = conNum($(nextNumber).val());//4级
+    							  if(fourth){
+    								  var vals=$(nextNumber).val().substring(1,$(nextNumber).val().length-1);
+    								  $(nextNumber).val("（"+(parseInt(vals)-1)+"）");//重新赋值序号
+    							  }
+    							  var ifFifth = ifFifthNode($(nextNumber).val());//6级
+    							  if(ifFifth){
+    								  var vals=$(nextNumber).val().substring(1,$(nextNumber).val().length-1);
+    								  var number=["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    								  num:  
+    								  for(var j=0;j<number.length;j++){
+      							    	if(vals==number[j]){
+      							    		$(nextNumber).val("（"+number[j-1]+"）");
+      							    		break num;
+      							    	}
+      							    }
+    							  }
+    						  }else{//1,3,5级
+    							  var third = nums($(nextNumber).val());//3级
+    						    if(third){
+    						    	$(nextNumber).val(parseInt($(nextNumber).val())-1)//重新赋值序号
+    						    }
+    							  var fifth = eng($(nextNumber).val());//5级
+    							  if(fifth){
+    								  var number=["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    							    num:
+    								  for(var j=0;j<number.length;j++){
+    							    	if($(nextNumber).val()==number[j]){
+    							    		$(nextNumber).val(number[j-1]);
+    							    		break num;
+    							    	}
+    							    }
+    							  }
+    						  }
+    					  }
+    				  }
+    				  $(tr).remove();
+    			  }else{//删除当前节点，把父节点的父节点的readOnly=false,并且删除tr上的attr=“true”
+    				    $(tr).prev().removeAttr("attr");
+    		    	  var tr7=$($(tr).prev().children()[7]).children(":first").next();
+    		    	  var tr8=$($(tr).prev().children()[8]).children(":first").next();
+    		    	  var tr9=$($(tr).prev().children()[9]).children(":first").next();
+    		    	  $(tr7).removeAttr("readonly");
+    		    	  $(tr7).val("");
+    		    	  $(tr8).removeAttr("readonly");
+    		    	  $(tr8).val("");
+    		    	  $(tr9).removeAttr("readonly");
+    		    	  $(tr9).val("");
+    		    	  $(tr).remove();
+    			  }
+    			  
+    		  }
+    	  }
+        /* var detailRow = document.getElementsByName("detailRow");
         var index = detailRow.length;
 
         if(index < 3) {
@@ -426,7 +526,7 @@
         }
         $("#detailZeroRow tr").each(function(index) {
           $(this).find("td:eq(0)").text(index + 1);
-        });
+        }); */
       }
       var index;
 
@@ -467,6 +567,7 @@
           fileElementId: 'fileName',
           dataType: 'json',
           success: function(data) {
+        	  alert(JSON.stringify(data))
             var bool = true;
             var chars = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
             if(data == "0") {
@@ -733,9 +834,47 @@
         }
         return bool;
       }
-
+      function numberTwo(prevVal,val){
+    	  var twoBool=false;
+    	  var number=["一","二","三","四","五","六","七","八","九","十"];
+    	  for(var i=0;i<number.length;i++){
+    		  if(number[i]==prevVal){
+    			   if(val==number[i+1]){
+    				   twoBool=true;
+    				   break;
+    			   }
+    		  }
+    	  }
+    	  return twoBool;
+      }
+      function numberSix(prevVal,val){
+    	  var twoBool=false;
+    	  var number=["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    	  for(var i=0;i<number.length;i++){
+    		  if(number[i]==prevVal){
+    			   if(val==number[i+1]){
+    				   twoBool=true;
+    				   break;
+    			   }
+    		  }
+    	  }
+    	  return twoBool;
+      }
+      function parentAttr(tr){
+    	  $(tr).attr("attr","true");
+    	  var tr7=$($(tr).children()[7]).children(":first").next();
+    	  var tr8=$($(tr).children()[8]).children(":first").next();
+    	  var tr9=$($(tr).children()[9]).children(":first").next();
+    	  $(tr7).attr("readonly", "readonly");
+    	  $(tr7).val("");
+    	  $(tr8).attr("readonly", "readonly");
+    	  $(tr8).val("");
+    	  $(tr9).attr("readonly", "readonly");
+    	  $(tr9).val("");
+      }
       //获取序号
       function getSeq(obj) {
+    	  flgNumber=false;
         //当前节点的ID
         var id = $("table tr:eq(1)").find("td:eq(1)").children(":first").val();
         //当前节点的序号
@@ -752,14 +891,30 @@
             var second = conChniese(val);
             if(second){
               var list = $(obj).parent().parent().prevAll();
+                  outer:
                   for(var i = 0; i < list.length; i++){
                     var aa = $(list[i].children[1]).children(":first").next().val();
                     var conPrevs = chniese(aa);
                     if(conPrevs){
                       var parentId = $(list[i].children[1]).children(":first").val();
+                      parentAttr(list[i]);
                       same(obj,parentId);
-                      flag = false;
-                      break;
+                      var val=$(obj).val().substring(1,$(obj).val().length-1);
+                      var prevVal="";
+                      inter:
+                      for(var j = 0; j < list.length; j++){
+                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+                    		  prevVal=$(list[j].children[1]).children(":last").prev().val();
+                    		  break inter;
+                    	  }
+                      }
+                      prevVal=prevVal.substring(1,prevVal.length-1);
+                      if(!numberTwo(prevVal,val)){
+                    	  layer.msg("序号填写错误");
+                    	  flgNumber=true;
+                    	  return false;
+                      }
+                      break outer;
                   }
                }
             } else {
@@ -770,35 +925,73 @@
                 var ifThird = ifThirdNode(obj);
                 if(ifThird){
                   var list = $(obj).parent().parent().prevAll();
+                  outer:
                   for(var i = 0; i < list.length; i++){
                     var aa = $(list[i].children[1]).children(":first").next().val();
                     var conPrevs = nums(aa);
                     if(conPrevs){
                       var parentId = $(list[i].children[1]).children(":first").val();
+                      parentAttr(list[i]);
                       same(obj,parentId);
-                      flag = false;
-                      break;
+                      var val=$(obj).val().substring(1,$(obj).val().length-1);
+                      if(parseInt(val)!=1){
+	                      var prevVal="";
+	                      inter:
+	                      for(var j = 0; j < list.length; j++){
+	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	                    		  prevVal=$(list[j].children[1]).children(":last").prev().val();
+	                    		  break inter;
+	                    	  }
+	                      }
+	                      prevVal=prevVal.substring(1,prevVal.length-1);
+	                      if(parseInt(val)!=parseInt(prevVal)+1){
+	                    	  layer.msg("序号填写错误");
+	                    	  flgNumber=true;
+	                    	  return false;
+	                      }
+                     }
+                      break outer;
                     }
                   }
                 } else {
                   layer.msg("序号填写错误");
+                  flgNumber=true;
                 }
               } else {
                 var ifFifth = ifFifthNode(obj);
                 if(ifFifth){
                   var list = $(obj).parent().parent().prevAll();
+                  outer:
                   for(var i = 0; i < list.length; i++){
                     var aa = $(list[i].children[1]).children(":first").next().val();
                     var conPrevs = eng(aa);
                     if(conPrevs){
                       var parentId = $(list[i].children[1]).children(":first").val();
+                      parentAttr(list[i]);
                       same(obj,parentId);
-                      flag = false;
-                      break;
+                      var val=$(obj).val().substring(1,$(obj).val().length-1);
+                      if(val!="a"){
+	                      var prevVal="";
+	                      inter:
+	                      for(var j = 0; j < list.length; j++){
+	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	                    		  prevVal=$(list[j].children[1]).children(":last").prev().val();
+	                    		  break inter;
+	                    	  }
+	                      }
+	                      prevVal=prevVal.substring(1,prevVal.length-1);
+	                      if(!numberSix(prevVal,val)){
+	                    	  layer.msg("序号填写错误");
+	                    	  flgNumber=true;
+	                    	  return false;
+	                      }
+                     }
+                      break outer;
                     }
                   }
                 } else {
                   layer.msg("序号填写错误");
+                  flgNumber=true;
                 }
               }
             }
@@ -807,14 +1000,31 @@
             var third = nums(val);
             if(third){
               var list = $(obj).parent().parent().prevAll();
+              outer:
               for(var i = 0; i < list.length; i++){
                 var aa = $(list[i].children[1]).children(":first").next().val();
                 var conPrevs = conChniese(aa);
                 if(conPrevs){
                   var parentId = $(list[i].children[1]).children(":first").val();
+                  parentAttr(list[i]);
                   same(obj,parentId);
-                  flag = false;
-                  break;
+                  var val=$(obj).val();
+                  if(parseInt(val)!=1){
+                      var prevVal="";
+                      inter:
+                      for(var j = 0; j < list.length; j++){
+                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+                    		  prevVal=$(list[j].children[1]).children(":last").prev().val();
+                    		  break inter;
+                    	  }
+                      }
+                      if(parseInt(val)!=parseInt(prevVal)+1){
+                    	  layer.msg("序号填写错误");
+                    	  flgNumber=true;
+                    	  return false;
+                      }
+                 }
+                  break outer;
                 }
 
               }
@@ -846,26 +1056,45 @@
                 if(fifth){
                   //获取父节点
                   var list = $(obj).parent().parent().prevAll();
+                  outer:
                   for(var i = 0; i < list.length; i++){
                     var aa = $(list[i].children[1]).children(":first").next().val();
                     var conPrevs = conNum(aa);
                     if(conPrevs){
                       var parentId = $(list[i].children[1]).children(":first").val();
+                      parentAttr(list[i]);
                       same(obj,parentId);
-                      flag = false;
-                      break;
+                      if(val!="a"){
+	                      var prevVal="";
+	                      inter:
+	                      for(var j = 0; j < list.length; j++){
+	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	                    		  prevVal=$(list[j].children[1]).children(":last").prev().val();
+	                    		  break inter;
+	                    	  }
+	                      }
+	                      if(!numberSix(prevVal,val)){
+	                    	  layer.msg("序号填写错误");
+	                    	  flgNumber=true;
+	                    	  return false;
+	                      }
+                     }
+                      break outer;
                     }
                   }
                 } else {
                   layer.msg("序号填写错误");
+                  flgNumber=true;
                 }
               } else {
                 layer.msg("序号填写错误");
+                flgNumber=true;
               }
             }
           }
         } else {
           layer.msg("请填写序号");
+          flgNumber=true;
         }
       }
       
@@ -924,7 +1153,7 @@
         var bool = true;
         $("#detailZeroRow tr").each(function(i) {
           var type = $(this).find("td:eq(11)").children(":first").val(); //上级id
-          if($.trim(type) == "单一来源") {
+          if($.trim(type) == "单一来源" && typeof($(this).attr("attr"))=="undefined") {
             var supp = $(this).find("td:eq(12)").children(":first").val(); //上级id
             if($.trim(supp) == '') {
               bool = false;
@@ -970,6 +1199,25 @@
       function rest() {
         $("#fileName").val("");
       }
+      function referenceNO(){
+          var referenceNO = $("#referenceNo").val();
+          if(referenceNO == ''){
+            layer.msg("采购需求文号不能为空");
+              return;
+          }        
+          $.ajax({
+              url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
+              data:{
+                  "referenceNO": referenceNO
+              },
+              success: function(data) {
+                  if(data.data > 1) {
+                      $("#referenceNo").val("");
+                      layer.msg("采购需求文号已存在");
+                  }
+              }
+          });
+      }
     </script>
   </head>
 
@@ -1009,7 +1257,7 @@
           <li class="col-md-3 col-sm-6 col-xs-12">
             <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">采购需求文号</span>
             <div class="input-append input_group col-sm-12 col-xs-12 p0">
-              <input type="text" class="input_group" name="no" value="" id="referenceNo">
+              <input type="text" class="input_group" name="no" onblur="referenceNO()" value="" id="referenceNo">
               <span class="add-on">i</span>
             </div>
           </li>
@@ -1087,7 +1335,7 @@
                 </thead>
                 <tbody id="detailZeroRow">
                   <c:if test="${plist==null }">
-                    <tr name="detailRow">
+                    <tr name="detailRow" attr="true">
                       <td>
                         <div class="seq">1</div>
                       </td>

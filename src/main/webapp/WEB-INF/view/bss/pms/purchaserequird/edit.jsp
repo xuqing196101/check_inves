@@ -216,39 +216,65 @@
         return bool;
 
       }
-
+      function trimNull(i){
+    	  var trimFlog=false;
+    	  if($.trim($("input[name='list[" + i + "].goodsName']").val()) == "") {
+              layer.alert("需求明细中物资类别及物资名称不能为空");
+              trimFlog=true;
+            } else if($.trim($("input[name='list[" + i + "].qualitStand']").val()) == "") {
+              layer.alert("需求明细中质量技术标准不能为空");
+              trimFlog=true;
+            } else if($.trim($("input[name='list[" + i + "].item']").val()) == "") {
+              layer.alert("需求明细中计量单位不能为空");
+              trimFlog=true;
+            } else if($.trim($("input[name='list[" + i + "].purchaseCount']").val()) == "") {
+              layer.alert("需求明细中采购数量不能为空");
+              trimFlog=true;
+            } else if($.trim($("input[name='list[" + i + "].price']").val()) == "") {
+              layer.alert("需求明细中单价不能为空");
+              trimFlog=true;
+            }else if($.trim($("select[name='list[" + i + "].purchaseType']").val()) == "") {
+                layer.alert("需求明细中采购方式不能为空");
+                trimFlog=true;
+              }
+    	  return trimFlog;
+      }
+      var flgNumber=false;
       function submit() {
+    	  if(flgNumber) {
+           layer.alert("节点填写错误");
+           return false;
+        }
+    	  if($("#detailZeroRow tr").length <= 2) {
+              layer.alert("请添加需求明细！");
+              return false;
+            }else{
+            	var tableTr=$("#detailZeroRow tr");
+            	for(var i = 2; i < tableTr.length; i++) {
+            		 if(typeof($(tableTr[i]).attr("attr"))=="undefined"){//获取子节点
+            			  if(trimNull(i)){
+            				  return false;
+            				  break;
+            			  }
+            		 }
+            	}
+         }
         var refNo = $("#referenceNo").val();
         var name = $("#jhmc").val();
         var uniqueId = $("#uniqueId").val();
+        var mobile = $("#rec_mobile").val();
         var flag = true;
         if($.trim(name) == "") {
           layer.alert("需求名称不允许为空");
           return false;
         }
-        $.ajax({
-          url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
-          data: {
-            "referenceNO": refNo,
-            "uniqueId": uniqueId
-          },
-          success: function(data) {
-            if(data.data >= 1) {
-              $("#referenceNo").val("");
-              layer.alert("采购需求文号已存在");
-
-              flag = false;
-            } else {
-              flag = true;
-            }
-          }
-        });
-
+        if($.trim(mobile) == "") {
+            layer.alert("录入人手机号不允许为空");
+            return false;
+        }
         var dy = dyly();
-
-
         if(!dy) {
-          layer.alert("请填写供应商");
+          layer.alert("单一来源必须填写供应商");
           return false;
         }
         var flgs = false;
@@ -265,7 +291,6 @@
           return false;
         }
         var no = $("#jhbh").val();
-
         var type = $("#wtype").val();
         var mobile = $("#rec_mobile").val();
         var uniqueId = $("#uniqueId").val();
@@ -277,8 +302,6 @@
         $.each(delId, function(i, n) {
           deleteRow(n);
         });
-
-
         var jsonStr = [];
         $("#table tr").each(function(i) { //遍历Table的所有Row
           if(i > 0) { //&&i<=$("#listSize").val()
@@ -286,7 +309,7 @@
             var parentId = $(this).find("td:eq(1)").children(":last").val();
             var seq = $(this).find("td:eq(1)").children(":first").next().val();
             var department = $.trim($(this).find("td:eq(2)").text());
-            var goodsName = $(this).find("td:eq(3)").children(":last").children(":last").val();
+            var goodsName = $(this).find("td:eq(3)").children(":last").children(":first").next().val();
             var stand = $(this).find("td:eq(4)").children(":last").val();
             if(stand.length > 250) {
               flag = false;
@@ -641,9 +664,47 @@
           }
         });
       }
-
+      function numberTwo(prevVal,val){
+    	  var twoBool=false;
+    	  var number=["一","二","三","四","五","六","七","八","九","十"];
+    	  for(var i=0;i<number.length;i++){
+    		  if(number[i]==prevVal){
+    			   if(val==number[i+1]){
+    				   twoBool=true;
+    				   break;
+    			   }
+    		  }
+    	  }
+    	  return twoBool;
+      }
+      function numberSix(prevVal,val){
+    	  var twoBool=false;
+    	  var number=["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    	  for(var i=0;i<number.length;i++){
+    		  if(number[i]==prevVal){
+    			   if(val==number[i+1]){
+    				   twoBool=true;
+    				   break;
+    			   }
+    		  }
+    	  }
+    	  return twoBool;
+      }
+      function parentAttr(tr){
+    	  $(tr).attr("attr","true");
+    	  var tr7=$($(tr).children()[7]).children(":first").next();
+    	  var tr8=$($(tr).children()[8]).children(":first").next();
+    	  var tr9=$($(tr).children()[9]).children(":first").next();
+    	  $(tr7).attr("readonly", "readonly");
+    	  $(tr7).val("");
+    	  $(tr8).attr("readonly", "readonly");
+    	  $(tr8).val("");
+    	  $(tr9).attr("readonly", "readonly");
+    	  $(tr9).val("");
+      }
       //获取序号
       function getSeq(obj) {
+    	  flgNumber=false;
         //当前节点的ID
         var id = $("table tr:eq(1)").find("td:eq(1)").children(":first").val();
         //当前节点的序号
@@ -660,14 +721,30 @@
             var second = conChniese(val);
             if(second) {
               var list = $(obj).parent().parent().prevAll();
+              outer:
               for(var i = 0; i < list.length; i++) {
                 var aa = $(list[i].children[1]).children(":first").next().val();
                 var conPrevs = chniese(aa);
                 if(conPrevs) {
                   var parentId = $(list[i].children[1]).children(":first").val();
+                  parentAttr(list[i]);
                   same(obj, parentId);
-                  flag = false;
-                  break;
+                  var val=$(obj).val().substring(1,$(obj).val().length-1);
+                  var prevVal="";
+                  inter:
+                  for(var j = 0; j < list.length; j++){
+                	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+                		  prevVal=$(list[j].children[1]).children(":last").prev().val();
+                		  break inter;
+                	  }
+                  }
+                  prevVal=prevVal.substring(1,prevVal.length-1);
+                  if(!numberTwo(prevVal,val)){
+                	  layer.msg("序号填写错误");
+                	  flgNumber=true;
+                	  return false;
+                  }
+                  break outer;
                 }
               }
             } else {
@@ -678,35 +755,73 @@
                 var ifThird = ifThirdNode(obj);
                 if(ifThird) {
                   var list = $(obj).parent().parent().prevAll();
+                  outer:
                   for(var i = 0; i < list.length; i++) {
                     var aa = $(list[i].children[1]).children(":first").next().val();
                     var conPrevs = nums(aa);
                     if(conPrevs) {
                       var parentId = $(list[i].children[1]).children(":first").val();
+                      parentAttr(list[i]);
                       same(obj, parentId);
-                      flag = false;
-                      break;
+                      var val=$(obj).val().substring(1,$(obj).val().length-1);
+                      if(parseInt(val)!=1){
+	                      var prevVal="";
+	                      inter:
+	                      for(var j = 0; j < list.length; j++){
+	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	                    		  prevVal=$(list[j].children[1]).children(":last").prev().val();
+	                    		  break inter;
+	                    	  }
+	                      }
+	                      prevVal=prevVal.substring(1,prevVal.length-1);
+	                      if(parseInt(val)!=parseInt(prevVal)+1){
+	                    	  layer.msg("序号填写错误");
+	                    	  flgNumber=true;
+	                    	  return false;
+	                      }
+                     }
+                      break outer;
                     }
                   }
                 } else {
-                  layer.msg("序号填写错误");
+                	layer.msg("序号填写错误");
+                  flgNumber=true;
                 }
               } else {
                 var ifFifth = ifFifthNode(obj);
                 if(ifFifth) {
                   var list = $(obj).parent().parent().prevAll();
+                  outer:
                   for(var i = 0; i < list.length; i++) {
                     var aa = $(list[i].children[1]).children(":first").next().val();
                     var conPrevs = eng(aa);
                     if(conPrevs) {
                       var parentId = $(list[i].children[1]).children(":first").val();
+                      parentAttr(list[i]);
                       same(obj, parentId);
-                      flag = false;
-                      break;
+                      var val=$(obj).val().substring(1,$(obj).val().length-1);
+                      if(val!="a"){
+	                      var prevVal="";
+	                      inter:
+	                      for(var j = 0; j < list.length; j++){
+	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	                    		  prevVal=$(list[j].children[1]).children(":last").prev().val();
+	                    		  break inter;
+	                    	  }
+	                      }
+	                      prevVal=prevVal.substring(1,prevVal.length-1);
+	                      if(!numberSix(prevVal,val)){
+	                    	  layer.msg("序号填写错误");
+	                    	  flgNumber=true;
+	                    	  return false;
+	                      }
+                     }
+                      break outer;
                     }
                   }
                 } else {
-                  layer.msg("序号填写错误");
+                	layer.msg("序号填写错误");
+                  flgNumber=true;
                 }
               }
             }
@@ -715,14 +830,31 @@
             var third = nums(val);
             if(third) {
               var list = $(obj).parent().parent().prevAll();
+              outer:
               for(var i = 0; i < list.length; i++) {
                 var aa = $(list[i].children[1]).children(":first").next().val();
                 var conPrevs = conChniese(aa);
                 if(conPrevs) {
                   var parentId = $(list[i].children[1]).children(":first").val();
+                  parentAttr(list[i]);
                   same(obj, parentId);
-                  flag = false;
-                  break;
+                  var val=$(obj).val();
+                  if(parseInt(val)!=1){
+                      var prevVal="";
+                      inter:
+                      for(var j = 0; j < list.length; j++){
+                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+                    		  prevVal=$(list[j].children[1]).children(":last").prev().val();
+                    		  break inter;
+                    	  }
+                      }
+                      if(parseInt(val)!=parseInt(prevVal)+1){
+                    	  layer.msg("序号填写错误");
+                    	  flgNumber=true;
+                    	  return false;
+                      }
+                 }
+                  break outer;
                 }
               }
             } else {
@@ -734,26 +866,45 @@
                 if(fifth) {
                   //获取父节点
                   var list = $(obj).parent().parent().prevAll();
+                  outer:
                   for(var i = 0; i < list.length; i++) {
                     var aa = $(list[i].children[1]).children(":first").next().val();
                     var conPrevs = conNum(aa);
                     if(conPrevs) {
                       var parentId = $(list[i].children[1]).children(":first").val();
+                      parentAttr(list[i]);
                       same(obj, parentId);
-                      flag = false;
-                      break;
+                      if(val!="a"){
+	                      var prevVal="";
+	                      inter:
+	                      for(var j = 0; j < list.length; j++){
+	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	                    		  prevVal=$(list[j].children[1]).children(":last").prev().val();
+	                    		  break inter;
+	                    	  }
+	                      }
+	                      if(!numberSix(prevVal,val)){
+	                    	  layer.msg("序号填写错误");
+	                    	  flgNumber=true;
+	                    	  return false;
+	                      }
+                     }
+                      break outer;
                     }
                   }
                 } else {
-                  layer.msg("序号填写错误");
+                	layer.msg("序号填写错误");
+              	  flgNumber=true;
                 }
               } else {
-                layer.msg("序号填写错误");
+            	  layer.msg("序号填写错误");
+            	  flgNumber=true;
               }
             }
           }
         } else {
-          layer.msg("请填写序号");
+        	layer.msg("序号填写错误");
+      	  flgNumber=true;
         }
       }
 
@@ -987,7 +1138,6 @@
       }
       
       function selectNode(obj,index){
-        debugger;
         //获取节点
         var node = $(obj).val();
         //判断是几级节点
@@ -1111,7 +1261,7 @@
 
       //获取值
       function getValue(obj) {
-        $(obj).parent().parent().find("textarea").val($(obj).html());
+        $(obj).parent().parent().children(":first").next().val($(obj).html());
         $(obj).parent().addClass("dnone");
       }
     </script>
@@ -1219,8 +1369,8 @@
           <table id="table" class="table table-bordered table-condensed lockout">
             <thead>
               <tr id="scroll_top">
-                <th class="seq">行号</th>
-                <th class="info seq">序号</th>
+                <th class="info w30">行号</th>
+                <th class="info w50">序号</th>
                 <th class="info department">需求部门</th>
                 <th class="info goodsname">物资类别<br/>及名称
                 </th>
@@ -1257,13 +1407,13 @@
               <input type="hidden" id="listSize" value="${listSize }" />
               <tbody id="detailZeroRow">
                 <c:forEach items="${list }" var="obj" varStatus="vs">
-                  <tr style="cursor: pointer;" name="detailRow">
+                  <tr style="cursor: pointer;" name="detailRow"  <c:if test="${obj.price=='' || obj.price==null}">attr="true"</c:if> >
                     <td>
                       <div class="seq">${vs.index+1 }</div>
                     </td>
                     <td class="tc">
                       <input type="hidden" id="id${vs.index}" name="list[${vs.index }].id" value="${obj.id }">
-                      <input type="text" id="seq${vs.index}" name="list[${vs.index }].seq" value="${obj.seq}" onblur="selectNode(this,'${vs.index}')">
+                      <input type="text" class="w70" id="seq${vs.index}" name="list[${vs.index }].seq" value="${obj.seq}" onblur="selectNode(this,'${vs.index}')">
                       <input type="hidden" id="parentId${vs.index}" name="list[${vs.index }].parentId" value="${obj.parentId }"> 
                     </td>
                     <td>
@@ -1272,7 +1422,7 @@
                     <td>
                       <div class="goodsname">
                         <input type="hidden" name="ss" value="${obj.id }">
-                        <textarea name="list[${vs.index }].goodsName" class="target" onkeyup="listName(this)">${obj.goodsName}</textarea>
+                        <input type="text" name="list[${vs.index }].goodsName" class="target" onkeyup="listName(this)" value="${obj.goodsName}">
                       </div>
                     </td>
                     <td><input type="hidden" name="ss" value="${obj.id }">
@@ -1283,16 +1433,16 @@
                       <input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}" class="qualitstand">
                     </td>
                     <td><input type="hidden" name="ss" value="${obj.id }">
-                      <input type="text" name="list[${vs.index }].item" value="${obj.item}" class="item">
+                      <input type="text" name="list[${vs.index }].item" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> value="${obj.item}" class="item">
                     </td>
                     <td>
                       <input type="hidden" name="ss" value="${obj.id }">
-                      <input maxlength="11" class="purchasecount" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount" value="${obj.purchaseCount}" />
+                      <input maxlength="11" class="purchasecount" onblur="sum2(this);" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount" value="${obj.purchaseCount}" />
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </td>
                     <td class="tl w80">
                       <input type="hidden" name="ss" value="${obj.id }">
-                      <input maxlength="11" class="price" name="list[${vs.index }].price" onblur="sum1(this);" value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+                      <input maxlength="11" class="price" name="list[${vs.index }].price" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> onblur="sum1(this);" value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </td>
                     <td><input type="hidden" name="ss" value="${obj.id }">

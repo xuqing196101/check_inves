@@ -17,14 +17,19 @@
 		readonly="readonly" value="${orgName}" class="m0 border0 w80">--%>
 			<div class="department">${orgName}</div>
 	</td>
-	<td><input type="text" class="m0 border0"
-		name="list[${index }].goodsName" onkeyup="listName(this)"
-		onblur="lossValue()" value="" /></td>
+	<td>
+	<div class="goodsname">
+	    <input type="hidden" name="ss" value="${obj.id }">
+			<input type="text"  class="m0 border0"
+				name="list[${index }].goodsName" onkeyup="listName(this)"
+				 value="" />
+		 </div>
+		 </td>
 	<td><input type="text" class="stand" name="list[${index }].stand"
 		value="${objs.stand}"></td>
 	<td><input type="text" class="qualitstand"
 		name="list[${index }].qualitStand" value="" class=""></td>
-	<td><input type="text" class="item" name="list[${index }].item"
+	<td><input type="text"  class="item" name="list[${index }].item"
 		value=""></td>
 	<td><input type="hidden" value="${id }"> <input
 		type="text" class="purchasecount" onblur='sum2(this)'
