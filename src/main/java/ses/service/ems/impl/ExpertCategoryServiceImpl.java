@@ -126,8 +126,8 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
     }
 	
 	@Override
-	public List<ExpertCategory> findByExpertId(String map) {
-		return mapper.findByExpertId(map);
+	public List<ExpertCategory> findByExpertId(String expertId) {
+		return mapper.findByExpertId(expertId);
 	}
 	
 	@Override
