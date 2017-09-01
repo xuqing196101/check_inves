@@ -587,7 +587,7 @@ function checkAll(el) {
   var temp_list = [];
   
   if ($(el).is(':checked')) {
-    $('.select_item').each(function () {
+    $(el).parents('table').find('.select_item').each(function () {
       $(this).prop('checked', true);
       temp_list.push($(this).val());
     });
@@ -604,7 +604,7 @@ function checkAll(el) {
       select_ids.push(temp_list[iii]);
     }
   } else {
-    $('.select_item').each(function () {
+    $(el).parents('table').find('.select_item').each(function () {
       $(this).prop('checked', false);
       for (var i in select_ids) {
         if ($(this).val() === select_ids[i]) {

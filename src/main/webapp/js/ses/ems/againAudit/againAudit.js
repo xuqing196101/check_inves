@@ -10,7 +10,6 @@
       data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
-        var allchecked = 0;
         
         if (typeof(list_content) != 'undefined') {
           $('#list_content').html('');
@@ -47,6 +46,7 @@
           }
           
           // 勾选翻页之前选中的项
+          var allchecked = 0;
           for (var i in select_ids) {
             $('.select_item').each(function () {
               if ($(this).val() === select_ids[i]) {
@@ -80,7 +80,7 @@
               }
               
               var sum = 0;
-              $('.select_item').each(function () {
+              $('.againAudit_table').find('.select_item').each(function () {
                 if ($(this).is(':checked')) {
                   sum++;
                 }

@@ -10,7 +10,6 @@
       data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
-        var allchecked = 0;
         
         if (list_content.groupStatus != '3') {
           $('.btn_group_t').before('<button type="button" class="btn btn-windows add" onclick="add_members()">添加</button>'
@@ -52,6 +51,7 @@
           }
           
           // 勾选翻页之前选中的项
+          var allchecked = 0;
           for (var i in select_ids) {
             $('.select_item').each(function () {
               if ($(this).val() === select_ids[i]) {
@@ -85,7 +85,7 @@
               }
               
               var sum = 0;
-              $('.select_item').each(function () {
+              $('.againAudit_table').find('.select_item').each(function () {
                 if ($(this).is(':checked')) {
                   sum++;
                 }
