@@ -1088,10 +1088,11 @@
       SELECT
         NVL(SUM(BUDGET),0)
       FROM
-        T_BSS_PMS_PURCHASE_REQUIRED
+        T_BSS_PMS_PURCHASE_REQUIRED T
       WHERE
-        PARENT_ID = '1'
-      AND HISTORY_STATUS = '0'
+        T.PARENT_ID = '1'
+      AND T.HISTORY_STATUS = '0'
+       AND T.STATUS != 1 AND T.STATUS != 4
       <if test="createdAt != null">
         AND to_char(CREATED_AT,'yyyy') = to_char(#{createdAt},'yyyy')
       </if>
@@ -1117,6 +1118,7 @@
 			AND ORG.IS_DELETED = 0
 			AND p.PARENT_ID = '1'
 			AND p.HISTORY_STATUS = '0'
+			AND P.STATUS != 1 AND P.STATUS != 4
 			GROUP BY
 			  ORG.SHORT_NAME,ORG.ID
 			ORDER BY
