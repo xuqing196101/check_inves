@@ -13,46 +13,47 @@
       data_new: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
+        console.log(data);
         
         if (typeof(list_content) != 'undefined') {
           $('#list_content').html('');
-          for (var i in list_content.list) {
-            if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
-              list_content.list[i].batchDetailsNumber = '';
+          for (var i in list_content.list.list) {
+            if (typeof(list_content.list.list[i].batchDetailsNumber) === 'undefined') {
+              list_content.list.list[i].batchDetailsNumber = '';
             }
-            if (typeof(list_content.list[i].orgName) === 'undefined') {
-              list_content.list[i].orgName = '';
+            if (typeof(list_content.list.list[i].orgName) === 'undefined') {
+              list_content.list.list[i].orgName = '';
             }
-            if (typeof(list_content.list[i].realName) === 'undefined') {
-              list_content.list[i].realName = '';
+            if (typeof(list_content.list.list[i].realName) === 'undefined') {
+              list_content.list.list[i].realName = '';
             }
-            if (typeof(list_content.list[i].gender) === 'undefined') {
-              list_content.list[i].gender = '';
+            if (typeof(list_content.list.list[i].gender) === 'undefined') {
+              list_content.list.list[i].gender = '';
             }
-            if (typeof(list_content.list[i].workUnit) === 'undefined') {
-              list_content.list[i].workUnit = '';
+            if (typeof(list_content.list.list[i].workUnit) === 'undefined') {
+              list_content.list.list[i].workUnit = '';
             }
-            if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
-              list_content.list[i].professTechTitles = '';
+            if (typeof(list_content.list.list[i].professTechTitles) === 'undefined') {
+              list_content.list.list[i].professTechTitles = '';
             }
-            if (typeof(list_content.list[i].updateTime) === 'undefined') {
-              list_content.list[i].updateTime = '';
+            if (typeof(list_content.list.list[i].updateTime) === 'undefined') {
+              list_content.list.list[i].updateTime = '';
             }
             
             $('#list_content').append('<tr>'
-              +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list[i].id +'" class="select_item"></td>'
-              +'<td class="text-center">'+ list_content.list[i].batchDetailsNumber +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].orgName +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].realName +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].gender +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].workUnit +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].professTechTitles +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].updateTime +'</td>'
+              +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list.list[i].id +'" class="select_item"></td>'
+              +'<td class="text-center">'+ list_content.list.list[i].batchDetailsNumber +'</td>'
+              +'<td class="text-center">'+ list_content.list.list[i].orgName +'</td>'
+              +'<td class="text-center">'+ list_content.list.list[i].realName +'</td>'
+              +'<td class="text-center">'+ list_content.list.list[i].gender +'</td>'
+              +'<td class="text-center">'+ list_content.list.list[i].workUnit +'</td>'
+              +'<td class="text-center">'+ list_content.list.list[i].professTechTitles +'</td>'
+              +'<td class="text-center">'+ list_content.list.list[i].updateTime +'</td>'
             +'</tr>');
           }
           
-          if (list_content.list.length > 0) {
-            batch_id = list_content.list[0].batchId;  // 获取批次id
+          if (list_content.list.list.length > 0) {
+            batch_id = list_content.list.list[0].batchId;  // 获取批次id
           }
           
           // 勾选翻页之前选中的项
@@ -161,15 +162,15 @@
     function laypageConstructor() {
       laypage({
         cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-        pages: list_content.pages, //总页数
+        pages: list_content.list.pages, //总页数
         skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
         skip: true, //是否开启跳页
-        total: list_content.total,
-        startRow: list_content.startRow,
-        endRow: list_content.endRow,
-        groups: list_content.pages >= 3 ? 3 : list_content.pages, //连续显示分页数
+        total: list_content.list.total,
+        startRow: list_content.list.startRow,
+        endRow: list_content.list.endRow,
+        groups: list_content.list.pages >= 3 ? 3 : list_content.list.pages, //连续显示分页数
         curr: function() { //合格url获取当前页，也可以同上（pages）方式获取
-          return list_content.pageNum;
+          return list_content.list.pageNum;
         }(),
         jump: function(e, first) { //触发分页后的回调
           if(!first) { //一定要加此判断，否则初始时会无限刷新
