@@ -2474,11 +2474,11 @@ public class SupplierAuditController extends BaseSupplierController {
 					cateTree=supplierAuditService.countCategoyrId(cateTree,supplierId,supplierType);
 					//是否有销售合同
 					cateTree=supplierService.contractCountCategoyrId(cateTree,supplierItem);
-					//封装 是否有审核 目录 和 销售 合同数据
-					cateTree=supplierAuditService.cateTreePotting(cateTree,supplierId);
 					// 合同是否修改
 					cateTree.setIsContractModified(supplierAuditService.isContractModified(supplierItem.getSupplierId(), supplierItem.getId()) ? (byte)1 : (byte)0);
                 }
+                //封装 是否有审核 目录 和 销售 合同数据
+                cateTree=supplierAuditService.cateTreePotting(cateTree,supplierId);
                 cateTreeList.add(cateTree);
             }
         }
