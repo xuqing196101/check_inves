@@ -38,9 +38,9 @@ $(function () {
                         }
                     }
                 },
-                restore: {
+                /*restore: {
                     show: true
-                },
+                },*/
                 saveAsImage: {
                     show: true
                 }
@@ -83,9 +83,9 @@ $(function () {
                     show: true,
                     type: ['line', 'bar']
                 },
-                restore: {
+                /*restore: {
                     show: true
-                },
+                },*/
                 saveAsImage: {
                     show: true
                 }
