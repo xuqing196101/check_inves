@@ -86,6 +86,8 @@
 			
 			<!-- 过滤产品目录-->
 			<mvc:exclude-mapping path="/categorys/categoryList.*" />
+			<mvc:exclude-mapping path="/categorys/createtree.*" />
+			<mvc:exclude-mapping path="/categorys/update.*" />
 			<!-- 过滤技术参数库 -->
 			<mvc:exclude-mapping path="/categorys/parameterList.*" />
 			

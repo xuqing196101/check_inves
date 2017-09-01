@@ -816,6 +816,7 @@
                   flag = false;
                   break;
                 }
+
               }
               /* //判断上一个序号是否是父节点
               var conPrev = conChniese(prev);
@@ -1311,6 +1312,7 @@
       </div>
     </div>
     <div id="materialName" class="dnone" style="width:178px;max-height:400px;overflow:scroll;border:1px solid grey;">
+
 
     </div>
 

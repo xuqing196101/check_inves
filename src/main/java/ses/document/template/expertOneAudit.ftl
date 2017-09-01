@@ -1195,9 +1195,8 @@
 									<w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
 									<w:right w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" /></w:tcBorders>
 								<w:vAlign w:val="center" /></w:tcPr>
-							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="0070290A" wsp:rsidP="00943475">
+							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="00D95BE3" wsp:rsidP="008A2A3E">
 								<w:pPr>
-									<w:jc w:val="center" />
 									<w:rPr>
 										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
@@ -1206,7 +1205,7 @@
 								</w:pPr>
 								<w:r wsp:rsidRPr="00E43E33">
 									<w:rPr>
-										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
 										<w:sz w:val="18" />
 										<w:sz-cs w:val="18" /></w:rPr>
@@ -1290,9 +1289,8 @@
 									<w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
 									<w:right w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" /></w:tcBorders>
 								<w:vAlign w:val="center" /></w:tcPr>
-							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="006B557B" wsp:rsidP="00943475">
+							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="00D95BE3" wsp:rsidP="008A2A3E">
 								<w:pPr>
-									<w:jc w:val="center" />
 									<w:rPr>
 										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
@@ -1301,7 +1299,7 @@
 								</w:pPr>
 								<w:r wsp:rsidRPr="00E43E33">
 									<w:rPr>
-										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
 										<w:sz w:val="18" />
 										<w:sz-cs w:val="18" /></w:rPr>
@@ -1385,9 +1383,8 @@
 									<w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
 									<w:right w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" /></w:tcBorders>
 								<w:vAlign w:val="center" /></w:tcPr>
-							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="006B557B" wsp:rsidP="00943475">
+							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="00D95BE3" wsp:rsidP="008A2A3E">
 								<w:pPr>
-									<w:jc w:val="center" />
 									<w:rPr>
 										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
@@ -1396,7 +1393,7 @@
 								</w:pPr>
 								<w:r wsp:rsidRPr="00E43E33">
 									<w:rPr>
-										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
 										<w:sz w:val="18" />
 										<w:sz-cs w:val="18" /></w:rPr>
@@ -1487,9 +1484,8 @@
 									<w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
 									<w:right w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" /></w:tcBorders>
 								<w:vAlign w:val="center" /></w:tcPr>
-							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="006B557B" wsp:rsidP="00943475">
+							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="00D95BE3" wsp:rsidP="008A2A3E">
 								<w:pPr>
-									<w:jc w:val="center" />
 									<w:rPr>
 										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
@@ -1498,7 +1494,7 @@
 								</w:pPr>
 								<w:r wsp:rsidRPr="00E43E33">
 									<w:rPr>
-										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
 										<w:sz w:val="18" />
 										<w:sz-cs w:val="18" /></w:rPr>
@@ -1582,9 +1578,8 @@
 									<w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
 									<w:right w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" /></w:tcBorders>
 								<w:vAlign w:val="center" /></w:tcPr>
-							<w:p wsp:rsidR="00B55AD5" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="00575CF3" wsp:rsidP="00943475">
+							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="00D95BE3" wsp:rsidP="008A2A3E">
 								<w:pPr>
-									<w:jc w:val="center" />
 									<w:rPr>
 										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
@@ -1593,7 +1588,7 @@
 								</w:pPr>
 								<w:r wsp:rsidRPr="00E43E33">
 									<w:rPr>
-										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
 										<w:sz w:val="18" />
 										<w:sz-cs w:val="18" /></w:rPr>
@@ -1677,9 +1672,8 @@
 									<w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
 									<w:right w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" /></w:tcBorders>
 								<w:vAlign w:val="center" /></w:tcPr>
-							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="006B557B" wsp:rsidP="00943475">
+							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="00D95BE3" wsp:rsidP="008A2A3E">
 								<w:pPr>
-									<w:jc w:val="center" />
 									<w:rPr>
 										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
@@ -1688,7 +1682,7 @@
 								</w:pPr>
 								<w:r wsp:rsidRPr="00E43E33">
 									<w:rPr>
-										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
 										<w:sz w:val="18" />
 										<w:sz-cs w:val="18" /></w:rPr>
@@ -1697,6 +1691,8 @@
 							</w:p>
 						</w:tc>
 					</w:tr>
+					
+					<#if isAdd == "yes" >
 					<w:tr wsp:rsidR="006B557B" wsp:rsidRPr="007324D4" wsp:rsidTr="00A01A6A">
 						<w:tblPrEx>
 							<w:tblBorders>
@@ -1772,9 +1768,8 @@
 									<w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
 									<w:right w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" /></w:tcBorders>
 								<w:vAlign w:val="center" /></w:tcPr>
-							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="00782308" wsp:rsidP="00943475">
+							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="00D95BE3" wsp:rsidP="008A2A3E">
 								<w:pPr>
-									<w:jc w:val="center" />
 									<w:rPr>
 										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
@@ -1783,7 +1778,7 @@
 								</w:pPr>
 								<w:r wsp:rsidRPr="00E43E33">
 									<w:rPr>
-										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
 										<wx:font wx:val="宋体" />
 										<w:sz w:val="18" />
 										<w:sz-cs w:val="18" /></w:rPr>
@@ -1792,6 +1787,9 @@
 							</w:p>
 						</w:tc>
 					</w:tr>
+					</#if>
+					
+					
 					<w:tr wsp:rsidR="006B557B" wsp:rsidRPr="007324D4" wsp:rsidTr="00A01A6A">
 						<w:tblPrEx>
 							<w:tblBorders>

@@ -166,7 +166,7 @@
         NAME LIKE CONCAT(CONCAT('%', #{name}), '%')  AND
      </if> 
     IS_DELETED !=1 
-     
+    ORDER BY CREATED_AT DESC
   </select>
   
   <select id="searchByTemType" parameterType="java.lang.String" resultType="ses.model.bms.Templet">

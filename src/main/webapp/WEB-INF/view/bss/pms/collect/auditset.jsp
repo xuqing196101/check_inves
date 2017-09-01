@@ -144,6 +144,7 @@
       }
       //添加专家
       function beforeExperts() {
+    	  saveTemp()
         var ap = $("#userList tr:last td:first input:last").val();
         var tp = Number($(".tempPersonIndex:first").val());
         experts();
@@ -224,6 +225,7 @@
       }
 
       function beforeUsers() {
+    	  saveTemp()
         var ap = $("#userList tr:last td:first input:last").val();
         var tp = Number($(".tempPersonIndex:first").val());
         users();
@@ -313,7 +315,7 @@
         if(isNaN(index)) {
           index = 1;
           isTable = 1;
-          ind = Number(index) + 1;
+          ind = Number(index) - 1;
         }
         if(isNaN(first)){
           first = ind;
@@ -330,18 +332,20 @@
         tabhtml += '</tr>';
         if(isTable == 0) {
           $("#userList tbody").append(tabhtml);
+          
         } else {
           $("#userList").append(tabhtml);
+         
         }
       }
-
+      //保存临时人员
       function saveTemp() {
         cleanErr();
-        var index = Number($(".tempPersonIndex:first").val());
+        var index = Number($(".tempPersonIndex:last").val());
         var auditNature = $("#audit_nature").val();
         var turns = $("#auditRound").val();
         if(isNaN(index)) {
-          window.location.reload();
+          //window.location.reload();
         } else {
           $.ajax({
             url: "${pageContext.request.contextPath}/set/judgeAddUser.do?index=" + index + "&auditNature=" + auditNature + "&turns=" + turns,
@@ -362,9 +366,7 @@
                   $("#duty" + i).text(msg[duty]);
                   $("#unitName" + i).text(msg[unitName]);
                 }
-              } else {
-                window.location.reload();
-              }
+              } 
             }
           });
         }
@@ -578,7 +580,7 @@
               <button class="btn btn-windows add" onclick="beforeExperts()">专家库添加</button>
               <button class="btn btn-windows add" onclick="beforeUsers()">用户库添加</button>
               <button class="btn btn-windows add" onclick="tempbefore()">添加临时人员</button>
-              <!-- <button class="btn btn-windows add" onclick="saveTemp()">保存临时人员</button> -->
+              <!-- <button class="btn btn-windows add" onclick="saveTemp()">保存临时人员</button>  -->
               <button class="btn btn-windows delete" onclick="delet()">删除</button>
             </div>
             <div class="content table_box">
@@ -595,23 +597,23 @@
                       <th>单位名称</th>
                     </tr>
                   </thead>
-                  <%-- <c:forEach items="${info.list}" var="obj" varStatus="vs" >
+                  <c:forEach items="${info.list}" var="obj" varStatus="vs" >
                     <tr class="tc pointer" id="person_set">
                       <td class="w30"><input type="checkbox" value="${obj.id }" onclick="check()" name="chkItem" alt=""><input type="hidden" class="positions" value="${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}"></td>
 
-                         <td>
+               <%--           <td>
             <c:forEach items="${kind}" var="kind">
             <c:if test="${kind.id == obj.auditRound}">${kind.name}</c:if>
           </c:forEach>
-        </td>
+        </td> --%>
                       <td class="tc w120">${obj.name }</td>
                       <td class="tc w120">${obj.mobile }</td>
                       <td class="tl pl20" width="30%">${obj.duty }</td>
                       <td class="tl pl20">${obj.unitName }</td>
-                        <td>${obj.auditStaff }</td>
+                       <%--  <td>${obj.auditStaff }</td> --%>
                     </tr>
-                  </c:forEach> --%>
-                  <c:forEach items="${expInfo.list}" var="obj" varStatus="vs" >
+                  </c:forEach>
+                  <%-- <c:forEach items="${expInfo.list}" var="obj" varStatus="vs" >
                     <tr class="tc pointer" id="person_set1">
                       <td class="w30"><input type="checkbox" value="${obj.id }" onclick="check()" name="chkItem" alt=""><input type="hidden" class="positions" value="${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}"></td>
                       <td class="tc w120">${obj.name }</td>
@@ -628,7 +630,7 @@
                       <td class="tl pl20" width="30%">${obj.duty }</td>
                       <td class="tl pl20">${obj.unitName }</td>
                     </tr>
-                  </c:forEach>
+                  </c:forEach> --%>
                   <input type="hidden" name="collectId" id="collectId" value="${id }"/>
                   <input type="hidden" name="type" value="${type}"/>
                   <input type = "hidden" id = "austa" name = "austa" value="${staff }"/>

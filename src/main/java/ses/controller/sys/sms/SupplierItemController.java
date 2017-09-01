@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.constants.SupplierConstants;
 import ses.formbean.QualificationBean;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -115,7 +116,7 @@ public class SupplierItemController extends BaseController {
 		if(ses.util.Constant.SUPPLIER_SALES.equals(supplierItem.getSupplierTypeRelateId())){
 			s.setAuditType(ses.util.Constant.ITEMS_SALES_PAGE);
 		}
-		List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, new Integer[]{1,2,4});
+		List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, SupplierConstants.AUDIT_RETURN_STATUS);
 
 		StringBuffer errorField = new StringBuffer();
 		for(SupplierAudit audit: auditLists) {

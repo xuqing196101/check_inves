@@ -1,14 +1,17 @@
 package ses.service.ems.impl;
 
 import common.utils.JdcgResult;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import ses.dao.ems.ExpertAuditOpinionMapper;
 import ses.model.ems.ExpertAuditOpinion;
 import ses.service.ems.ExpertAuditOpinionService;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Title:ExpertAuditOpinionServiceImpl </p>
@@ -30,7 +33,19 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 
 	@Override
 	public ExpertAuditOpinion selectByPrimaryKey(ExpertAuditOpinion expertAuditOpinion) {
-		return mapper.selectByPrimaryKey(expertAuditOpinion);
+		List<ExpertAuditOpinion> list = mapper.selectByPrimaryKey(expertAuditOpinion);
+//		if(list != null && list.size() > 0){
+//			 
+//		}else{
+//			return null;
+//		}
+		ExpertAuditOpinion eao=new ExpertAuditOpinion();
+		for(ExpertAuditOpinion ea:list){
+			if(ea.getOpinion()!=null){
+				 eao=ea;
+			}
+		}
+		return eao;
 	}
 
 	/**

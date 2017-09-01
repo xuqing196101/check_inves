@@ -123,11 +123,9 @@ public class AuditSetController {
 	@RequestMapping(value="/list")
 	public String set(Model model,Integer page,String id,HttpServletRequest request,String staff) throws UnsupportedEncodingException{
 		CollectPlan plan = collectPlanService.queryById(id);
-		String  aa = request.getParameter("backAttr") ;
-		if (Integer.parseInt(aa) ==2){//判断请求由列表来还是由审核人员调整来
-			
-			model.addAttribute("backid",id);
-		}
+			if (Integer.parseInt(request.getParameter("backAttr")) ==2){//判断请求由列表来还是由审核人员调整来
+				model.addAttribute("backid",id);
+			}
 		model.addAttribute("backAttr", request.getParameter("backAttr"));
 		model.addAttribute("status", request.getParameter("status"));
 		
@@ -171,7 +169,7 @@ public class AuditSetController {
 		person.setCollectId(id);
 		person.setAuditRound(type);
 		List<AuditPerson> listAudit = auditPersonService.query(person, page==null?1:page);
-		Expert expert = new Expert();//判断审核人员是专家还是普通用户
+		/*Expert expert = new Expert();//判断审核人员是专家还是普通用户
 		expert.setStatus("7");
 		List<Expert> list= expertService.selectAllExpert(page==null?1:page, expert);
 		List<String> expIds = new ArrayList<>();
@@ -190,12 +188,12 @@ public class AuditSetController {
 				}
 			
 		}
-		}
+		}*/
 		PageInfo<AuditPerson> info = new PageInfo<>(listAudit);
-		PageInfo<AuditPerson>exPageInfo=new PageInfo<>(expAuditList);
+		/*PageInfo<AuditPerson>exPageInfo=new PageInfo<>(expAuditList);
 		PageInfo<AuditPerson>audPerInfo=new PageInfo<>(auditPerList);
 		model.addAttribute("expInfo", exPageInfo);
-		model.addAttribute("aupInfo", audPerInfo);
+		model.addAttribute("aupInfo", audPerInfo);*/
 		model.addAttribute("info", info);
 		model.addAttribute("auditRound", auditRound);
 		model.addAttribute("id", id);

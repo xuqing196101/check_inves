@@ -332,22 +332,22 @@
             <table class="table table-bordered table-condensed table-hover m_table_fixed_border">
              <thead>
                <tr>
-               	 <th class="info"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
-                 <th class="info">序号</th>
-                 <th class="info">审批类型</th>
-                 <th class="info">审批字段名字</th>
-                 <th class="info">审批内容</th>
+               	 <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
+                 <th class="info w50">序号</th>
+                 <th class="info w100">审批类型</th>
+                 <th class="info w100">审批字段名字</th>
+                 <th class="info w200">审批内容</th>
                  <th class="info">审核理由</th>
-                 <th class="info">审核时间</th>
-                 <th class="info">状态</th>
+                 <th class="info w100">审核时间</th>
+                 <th class="info w100">状态</th>
                </tr>
              </thead>
                <c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
                 <input id="auditId" value="${list.id}" type="hidden">
                  <tr>
-                   <td class="tc"><input type="checkbox" value="${reasons.id }" name="chkItem"  id="${reasons.id}"></td>
-                   <td class="tc">${vs.index + 1}</td>
-                   <td class="tc">
+                   <td class="tc text-center"><input type="checkbox" value="${reasons.id }" name="chkItem"  id="${reasons.id}"></td>
+                   <td class="tc text-center">${vs.index + 1}</td>
+                   <td class="tc text-center">
                      <c:if test="${reasons.auditType eq 'basic_page'}">基本信息</c:if>
                      <c:if test="${reasons.auditType eq 'finance_page'}">财务信息</c:if>
                      <c:if test="${reasons.auditType eq 'shareholder_page'}">股东信息</c:if>
@@ -363,15 +363,15 @@
                      <c:if test="${reasons.auditType eq 'contract_page'}">品目合同</c:if>
                      <c:if test="${reasons.auditType eq 'download_page'}">申请表</c:if>
                    </td>
-                   <td class="hand" title="${reasons.auditFieldName }">
+                   <td class="text-center" title="${reasons.auditFieldName }">
                      <c:if test="${fn:length (reasons.auditFieldName) > 12}">${fn:substring(reasons.auditFieldName,0,12)}...</c:if>
               		   <c:if test="${fn:length(reasons.auditFieldName) <= 12}">${reasons.auditFieldName}</c:if>
                    </td>
-                   <td class="hand" title="${reasons.auditContent}">
+                   <td class="" title="${reasons.auditContent}">
                    	 <c:if test="${fn:length (reasons.auditContent) > 25}">${fn:substring(reasons.auditContent,0,25)}...</c:if>
               		   <c:if test="${fn:length(reasons.auditContent) <= 25}">${reasons.auditContent}</c:if>
                    </td>
-                   <td class="hand" title="${reasons.suggest}">
+                   <td class="" title="${reasons.suggest}">
                    	 <c:if test="${fn:length (reasons.suggest) > 35}">${fn:substring(reasons.suggest,0,35)}...</c:if>
               		   <c:if test="${fn:length(reasons.suggest) <= 35}">${reasons.suggest}</c:if>
                    </td>

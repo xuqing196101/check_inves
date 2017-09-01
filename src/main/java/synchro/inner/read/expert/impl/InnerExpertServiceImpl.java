@@ -318,7 +318,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
      */
     private void saveUser(User user) {
         if (user != null) {
-        	User user2 = userMapper.queryByNameAndPw(user.getLoginName(), user.getPassword());
+        	User user2 = userMapper.queryById(user.getId());
         	if(user2==null){
         		 userService.saveUser(user);
         	}

@@ -51,8 +51,8 @@
                   return;
               }
           }
-        var state = $("#" + id + "").parent("tr").find("td").eq(11).text(); //.trim();
-        state = trim(state);
+        var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
+        state = trim(state)
         /* var isExtract = $("#" + id + "_isExtract").text(); */
         if(state == "公示中" ||state == "初审合格" || state == "初审未合格" || state == "退回修改" || state == "初审退回" || state == "复查合格" || state == "复查未合格" || state == "复审合格" || state == "复审不合格") {
           layer.msg("请选择待审核项 !", {
@@ -94,9 +94,9 @@
           });
         } else if(size == 1) {
           var id = $(":checkbox:checked").val();
-          var state = $("#" + id + "").parent("tr").find("td").eq(11).text(); //.trim();
+          var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
           state = trim(state);
-          if(state =="预初审合格" || state =="预初审不合格" || state == "复审预合格" || state == "初审合格" || state == "初审未合格" || state == "退回修改" || state == "复审合格" || state == "复审不合格" || state == "复查合格" || state == "复查未合格") {
+          if(state =="预初审合格" || state =="预初审不合格" || state == "复审预合格" || state == "初审合格" || state == "初审未合格" || state == "复审合格" || state == "复审不合格" || state == "复查合格" || state == "复查未合格") {
             $("input[name='tableType']").val(str);
             $("input[name='expertId']").val(id);
             $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
@@ -129,7 +129,7 @@
       function publish() {
         var id = $(":checkbox:checked").val();
         var size = $(":checkbox:checked").size();
-        var state = $("#" + id + "").parents("tr").find("td").eq(11).text(); //.trim();
+        var state = $("#" + id + "").parents("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
         if(size == 1) {
           if(state == "复审合格" || state == "待复查" || state == "复查合格" || state == "复查未合格") {
@@ -358,8 +358,9 @@
               <th class="info">审核时间</th>
               <th class="info">提交时间</th>
               <th class="info">采购机构</th>
-              <th class="info">发布</th>
+              
               <th class="info">审核状态</th>
+              <th class="info" hidden>发布</th>
               <th class="info">审核人</th>
             </tr>
           </thead>
@@ -389,10 +390,7 @@
                 <fmt:formatDate type='date' value='${expert.submitAt }' dateStyle="default" pattern="yyyy-MM-dd" />
               </td>
               <td class="tl" onclick="shenhe('${expert.id}');">${expert.orgName }</td>
-              <td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">
-                <c:if test="${expert.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
-                <c:if test="${expert.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>
-              </td>
+              
               <c:if test="${(sign == 1 and expert.status eq '0' and expert.auditTemporary ne '1')}">
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待初审</span></td>
               </c:if>
@@ -444,6 +442,10 @@
               <c:if test="${sign == 3 and expert.status eq '8' }">
                 <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查未合格</span></td>
               </c:if>
+              <td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');" hidden>
+                <c:if test="${expert.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
+                <c:if test="${expert.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>
+              </td>
               <td class="" onclick="shenhe('${expert.id}');">
                 <c:choose>
                   <c:when test="${expert.auditor ==null or expert.auditor == ''}">无</c:when>
