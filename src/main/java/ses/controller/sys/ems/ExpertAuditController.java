@@ -271,6 +271,7 @@ public class ExpertAuditController{
 		}
 		String status = expert.getStatus();
 		model.addAttribute("relName", relName);
+		model.addAttribute("auditTemporary", expert.getAuditTemporary());
 		model.addAttribute("state", status);
 		model.addAttribute("auditAt", expert.getAuditAt());
 		return "ses/ems/expertAudit/list";
