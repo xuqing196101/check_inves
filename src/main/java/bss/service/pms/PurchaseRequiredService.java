@@ -352,7 +352,7 @@ public interface PurchaseRequiredService {
 	 * @param
 	 * @since JDK1.7
 	 */
-	JdcgResult selectUniqueReferenceNO(String referenceNO);
+	JdcgResult selectUniqueReferenceNO(String referenceNO, String uniqueId);
 
 	/**
 	 *

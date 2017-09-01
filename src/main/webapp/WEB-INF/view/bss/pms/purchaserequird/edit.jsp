@@ -42,19 +42,24 @@
 
       var flag = true;
 
-      function sum2(obj) { //数量
+      //数量
+      function sum2(obj) { 
         var bool = adds(obj);
         if(!bool) {
           layer.alert("请先填写序号", {
             shade: 0.01
           });
         } else {
-          var purchaseCount = $(obj).val() - 0; //数量
-          var price2 = $(obj).parent().next().children(":last").prev(); //价钱
+          //数量
+          var purchaseCount = $(obj).val() - 0; 
+          //价钱
+          var price2 = $(obj).parent().next().children(":last").prev();
           var price = $(price2).val() - 0;
+          //单价乘以数量获得总价（万元）
           var sum = purchaseCount * price / 10000;
           var budget = $(obj).parent().next().next().children(":last").prev();
           sum = sum.toFixed(2);
+          //将总价赋给预算金额
           $(budget).val(sum);
           var id = $(obj).next().val(); //parentId
           aa(id);
@@ -108,7 +113,7 @@
             calc(spid);
           }
         });
-        var did = $("table tr:eq(1)").find("td:eq(9)").children(":first").val();
+        /* var did = $("table tr:eq(1)").find("td:eq(9)").children(":first").val();
         var total = 0;
         $("#table tr").each(function() {
           var cid = $(this).find("td:eq(9)").children(":last").val();
@@ -117,7 +122,7 @@
             total = total + same;
           }
         });
-        $("table tr:eq(1)").find("td:eq(9)").children(":first").next().val(total);
+        $("table tr:eq(1)").find("td:eq(9)").children(":first").next().val(total); */
       }
 
       function calc(id) {
@@ -126,7 +131,7 @@
           var pid = $(this).find("td:eq(8)").children(":last").val();
           if(id == pid) {
             var currBud = $(this).find("td:eq(8)").children(":first").next().val() - 0;
-            bud = bud + currBud;
+            bud = parseFloat(bud) + parseFloat(currBud);
             bud = bud.toFixed(2);
 
             var spid = $(this).find("td:eq(8)").children(":last").val();
@@ -214,6 +219,7 @@
       function submit() {
         var refNo = $("#referenceNo").val();
         var name = $("#jhmc").val();
+        var uniqueId = $("#uniqueId").val();
         var flag = true;
         if($.trim(name) == "") {
           layer.alert("需求名称不允许为空");
@@ -222,7 +228,8 @@
         $.ajax({
           url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
           data: {
-            "referenceNO": refNo
+            "referenceNO": refNo,
+            "uniqueId": uniqueId
           },
           success: function(data) {
             if(data.data >= 1) {
@@ -977,6 +984,125 @@
           }
         });
       }
+      
+      function selectNode(obj,index){
+        debugger;
+        //获取节点
+        var node = $(obj).val();
+        //判断是几级节点
+        var bool = ifNode(node);
+        var parentId = $(obj).next().val();
+        if(bool){
+          if(bool == 1){
+            if(parentId != '1'){
+              layer.msg("节点错误");
+              return;
+            }
+          } else if (bool == 2) {
+            //获取上级节点
+            var list = $(obj).parent().parent().prevAll();
+            for(var i = 0; i < list.length; i++){
+              var aa = $(list[i].children[1]).children(":first").val();
+              if(aa == parentId){
+                var bb = $(list[i].children[1]).children(":last").val();
+                if(bb != '1'){
+                  layer.msg("节点错误");
+                  return;
+                }
+              }
+            }
+          } else if (bool == 3) {
+            //获取上级节点
+            var list = $(obj).parent().parent().prevAll();
+            for(var i = 0; i < list.length; i++){
+              var aa = $(list[i].children[1]).children(":first").val();
+              if(aa == parentId){
+                var bb = $(list[i].children[1]).children(":first").next().val();
+                var cc = conChniese(bb);
+                if(!cc){
+                  layer.msg("节点错误");
+                  return;
+                }
+              }
+            }
+          } else if (bool == 4) {
+            //获取上级节点
+            var list = $(obj).parent().parent().prevAll();
+            for(var i = 0; i < list.length; i++){
+              var aa = $(list[i].children[1]).children(":first").val();
+              if(aa == parentId){
+                var bb = $(list[i].children[1]).children(":first").next().val();
+                var cc = nums(bb);
+                if(!cc){
+                  layer.msg("节点错误");
+                  return;
+                }
+              }
+            }
+          } else if (bool == 5) {
+            //获取上级节点
+            var list = $(obj).parent().parent().prevAll();
+            for(var i = 0; i < list.length; i++){
+              var aa = $(list[i].children[1]).children(":first").val();
+              if(aa == parentId){
+                var bb = $(list[i].children[1]).children(":first").next().val();
+                var cc = conNum(bb);
+                if(!cc){
+                  layer.msg("节点错误");
+                  return;
+                }
+              }
+            }
+          } else {
+            //获取上级节点
+            var list = $(obj).parent().parent().prevAll();
+            for(var i = 0; i < list.length; i++){
+              var aa = $(list[i].children[1]).children(":first").val();
+              if(aa == parentId){
+                var bb = $(list[i].children[1]).children(":first").next().val();
+                var cc = eng(bb);
+                if(!cc){
+                  layer.msg("节点错误");
+                  return;
+                }
+              }
+            }
+          }
+        } else {
+          layer("节点错误");
+        }
+      }
+      
+      function ifNode(obj){
+        var node = null;
+        //一级节点
+        var one = chniese(obj);
+        //二级节点
+        var two = conChniese(obj);
+        //三级节点
+        var three = nums(obj);
+        //四级节点
+        var four = conNum(obj);
+        //五级节点
+        var five = eng(obj);
+        //六级节点
+        var six = conEng(obj);
+        if(one){
+          node = 1;
+        } else if (two) {
+          node = 2;
+        } else if (three) {
+          node = 3;
+        } else if (four) {
+          node = 4;
+        } else if (five) {
+          node = 5;
+        } else {
+          node = 6;
+        }
+        return node;
+      }
+      
       //改变颜色
       function changeColor(obj) {
         $(obj).css("background-color", "#eee");
@@ -1136,8 +1262,8 @@
                     </td>
                     <td class="tc">
                       <input type="hidden" id="id${vs.index}" name="list[${vs.index }].id" value="${obj.id }">
-                      <input type="hidden" id="seq${vs.index}" value="${obj.seq}">
-                      <input type="hidden" id="parentId${vs.index}" name="list[${vs.index }].parentId" value="${obj.parentId }"> ${obj.seq}
+                      <input type="text" id="seq${vs.index}" name="list[${vs.index }].seq" value="${obj.seq}" onblur="selectNode(this,'${vs.index}')">
+                      <input type="hidden" id="parentId${vs.index}" name="list[${vs.index }].parentId" value="${obj.parentId }"> 
                     </td>
                     <td>
                       <div class="department">${obj.department}</div>

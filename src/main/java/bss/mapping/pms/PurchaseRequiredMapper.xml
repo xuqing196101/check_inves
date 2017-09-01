@@ -1178,7 +1178,7 @@
 	<select id="selectUniqueReferenceNO" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(T.ID)
 			FROM T_BSS_PMS_PURCHASE_REQUIRED T
-		   WHERE T.REFERENCE_NO = #{referenceNO} and parent_id='1'
+		   WHERE T.REFERENCE_NO = #{referenceNO} and T.PARENT_ID='1'
 	</select>
 
 	<!--根据ID查询-->

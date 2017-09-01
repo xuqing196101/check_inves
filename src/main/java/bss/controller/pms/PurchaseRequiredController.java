@@ -1468,8 +1468,9 @@ public class PurchaseRequiredController extends BaseController {
      */
     @RequestMapping("/selectUniqueReferenceNO")
     @ResponseBody
-	public JdcgResult selectUniqueReferenceNO(String referenceNO){
-        return purchaseRequiredService.selectUniqueReferenceNO(referenceNO);
+	public JdcgResult selectUniqueReferenceNO(String referenceNO, String uniqueId){
+        
+        return purchaseRequiredService.selectUniqueReferenceNO(referenceNO, uniqueId);
     }
     @RequestMapping("/deleteRequired")
     @ResponseBody
