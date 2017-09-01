@@ -242,7 +242,7 @@
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                     <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>序号</label>
 	                <div class="col-md-12 col-sm-12 col-xs-12 p0 input_group input-append">
-	                   <input  name="position" id="itemPosition" maxlength="10" type="text">
+	                   <input  name="position" id="itemPosition" maxlength="10" onkeyup="value=value.replace(/[^\d]/g,'')" type="text">
 	                </div>
                  </li>
                  <li class="col-md-12 col-sm-12 col-xs-12 mb20">

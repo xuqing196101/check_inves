@@ -761,16 +761,19 @@
    background-position: -35px -266px;
 }
 .cancel{
-   background-position: -36px -290px;
+   background-position: -36px -289px;
 }
 .passed {
 	background-position: -36px -1384px;
 }
 .end {
-  background-position: -36px -1412px;
+  background-position: -36px -1411px;
 }
 .print{
    background-position:-42px -1262px; 
+}
+.import {
+	background-position: -36px -1438px;
 }
 .day_order{
    background-position: -44px -1293px;

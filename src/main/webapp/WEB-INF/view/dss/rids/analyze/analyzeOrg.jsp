@@ -57,9 +57,9 @@
 								show: true,
 								readOnly: false
 							},
-							restore: {
+							/*restore: {
 								show: true
-							},
+							},*/
 							saveAsImage: {
 								show: true
 							}
