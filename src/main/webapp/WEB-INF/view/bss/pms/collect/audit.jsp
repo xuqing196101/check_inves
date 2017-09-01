@@ -635,7 +635,9 @@
 					var one = "";
 					var two = "";
 					var three = "";
+					var status = "${status}";
 					//第一轮
+					if(status==3){
 					for (var i = 0; i < size; i++){
 						var a= $("#oneId"+i).val();
 						if(typeof(a) != "undefined"){
@@ -652,6 +654,7 @@
 							}
 						}
 					}
+					}else if(status==5){
 					//第二轮
 					for (var j = 0; j < size; j++){
 						var b= $("#twoId"+j).val();
@@ -669,6 +672,7 @@
 							}
 						}
 					}
+					}else{
 					//第三轮
 					for (var k = 0; k < size; k++){
 						var c= $("#threeId"+k).val();
@@ -686,6 +690,7 @@
 							}
 						}
 					}
+					}
 					//window.location.href="${pageContext.request.contextPath}/look/report.html?id="+id+"&&one="+one+"&&two="+two+"&&three="+three;
 					document.write("<form action='${pageContext.request.contextPath}/look/report.html' id='form1' method='post' style='display:none'>");    
 					document.write("<input type='hidden' name='id' value='"+id+"'>");    
@@ -694,6 +699,11 @@
 					document.write("<input type='hidden' name='three' value='"+three+"'>");    
 					document.write("</form>");    
 					document.getElementById("form1").submit();  
+				}
+				
+				
+				function goback(){
+					window.location.href="${pageContext.request.contextPath}/look/list.html?status="+"${status}";
 				}
 		</script>
 	</head>
@@ -1077,7 +1087,7 @@
 							<input type="hidden" name="auditTurn" value="${audit }">
 							<input type="hidden" id="status" name="status" value="${status }">
 							<input class="btn btn-windows save" type="submit" value="保存">
-							<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+							<input class="btn btn-windows back" value="返回" type="button" onclick="goback()">
 					</div>
 					</form>			
 					</div>
