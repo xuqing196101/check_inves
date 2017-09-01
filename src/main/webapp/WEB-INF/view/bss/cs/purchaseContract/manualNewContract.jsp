@@ -870,7 +870,7 @@
 			       <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	<!-- <select id="purchaseDeps" name="purchaseDepName" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changeXuqiuDep()">
                 		</select> -->
-                		<input class="supplier_ids" name="purchaseDepNames" value="${user.org.name}" type="text">
+                		<input readonly="readonly" class="supplier_ids" name="purchaseDepNames" value="${purchaseDep.depName}" type="text">
 			              <input type="hidden" name="purchaseDepName" value="${user.org.id}" >
 			        	<!-- <input class=" supplier_id" name="purchaseDepName" value="${project.orgnization.name}" type="text"> -->
 			        	<div class="cue">${ERR_purchaseDepName}</div>

@@ -547,7 +547,7 @@ function getTaskTime(strDate) {
             <c:if test="${project.confirmFile == 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="pcReason" maxlength="2000" name="pcReason" title="不超过2000个字">${reasons.pcReason}</textarea>
             	<span class="fl">采购管理部门审核意见附件：</span>
-            	<u:upload id="r" buttonName="上传采购管理部门审核意见" multiple="true" exts=".jsp,.png"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${pcTypeId}" auto="true" />
+            	<u:upload id="r" buttonName="上传采购管理部门审核意见" multiple="true" exts=".jpg,.png"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${pcTypeId}" auto="true" />
 			    <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button" onclick="showPhotoTo('${project.id}','${pcTypeId}','${sysKey}','r');">
                 <%-- <a href="javascript:showPhotoTo('${project.id}','${pcTypeId}','${sysKey}','r');"><font color="white">查看采购管理部门审核意见</font></a> --%>
                 <font color="white">查看采购管理部门审核意见</font>
@@ -573,7 +573,7 @@ function getTaskTime(strDate) {
           	<c:if test="${project.confirmFile == 1}">
           		<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="causereason" maxlength="2000" name="causeReason" title="不超过2000个字">${reasons.causeReason}</textarea>
           		<span class="fl">事业部门审核意见附件：</span>
-          		<u:upload id="u"  buttonName="上传事业部门审核意见"  multiple="true" exts=".jsp,.png" businessId="${project.id}"  sysKey="${sysKey}" typeId="${causeTypeId}" auto="true" />
+          		<u:upload id="u"  buttonName="上传事业部门审核意见"  multiple="true" exts=".jpg,.png" businessId="${project.id}"  sysKey="${sysKey}" typeId="${causeTypeId}" auto="true" />
           		<button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button" onclick="showPhotoTo('${project.id}','${causeTypeId}','${sysKey}','y');">
                 <font color="white">查看事业部门审核意见</font></button>
                 <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button" onclick="download('${project.id}','${causeTypeId}','${sysKey}','y');">
@@ -597,7 +597,7 @@ function getTaskTime(strDate) {
             <c:if test="${project.confirmFile == 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${reasons.financeReason}</textarea>
             	<span class="fl">财务部门审核意见附件：</span>
-            	<span><u:upload id="p"  buttonName="上传财务部门审核意见" exts=".jsp,.png" multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${financeTypeId}" auto="true" /></span>
+            	<span><u:upload id="p"  buttonName="上传财务部门审核意见" exts=".jpg,.png" multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${financeTypeId}" auto="true" /></span>
             	<button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button" onclick="showPhotoTo('${project.id}','${financeTypeId}','${sysKey}','o');">
                 <font color="white">查看财务部门审核意见</font></button>
                 <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button" onclick="download('${project.id}','${financeTypeId}','${sysKey}','o');">

@@ -659,9 +659,24 @@ function judge(index) {
 			$("#easyUnderstandContent4").text(str);
 		}
 	}
-	
+	//空格校验
+    function checkSpace(name,obj){
+        var valid=/\s/g;
+        if(valid.test(obj)){
+            layer.msg(""+name+"中不能添加空格!");
+            return false;
+        }
+        return true;
+    }
 	
 	function associate(){
+		if(!checkSpace("评审指标名称",$("#name").val())){
+			return false;
+		}
+		if(!checkSpace("评审指标内容及规则说明",$("#reviewContent").val())){
+			return false;
+		}
+		
 		var text = $("#show_table").find("tr").eq("1").find("td:last").text();
 		if (text == '添加一行') {
 			layer.msg("请至少添加一行");
@@ -870,6 +885,8 @@ function judge(index) {
 			gernerator();
 		}
 	}
+	
+	
 </script>  
 <script type="text/javascript">
 	//validate

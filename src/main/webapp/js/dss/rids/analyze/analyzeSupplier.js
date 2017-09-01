@@ -14,6 +14,14 @@ $(function() {
 				mark : {
 					show : true
 				},
+                myTool : {
+                    show : true,
+                    title : '查询所有',
+                    icon : 'image://'+globalPath+'/public/backend/images/pie.png',
+                    onclick : function (){
+                        findAllSupplier();
+                    }
+                },
 				dataView : {
 					show : true,
 					readOnly : false
@@ -56,6 +64,14 @@ $(function() {
 				mark : {
 					show : true
 				},
+                myTool : {
+                    show : true,
+                    title : '查询所有',
+                    icon : 'image://'+globalPath+'/public/backend/images/pie.png',
+                    onclick : function (){
+                        findAllSupplier();
+                    }
+                },
 				dataView : {
 					show : true,
 					readOnly : false
@@ -102,6 +118,14 @@ $(function() {
 		toolbox : {
 			show : true,
 			feature : {
+                myTool : {
+                    show : true,
+                    title : '查询所有',
+                    icon : 'image://'+globalPath+'/public/backend/images/pie.png',
+                    onclick : function (){
+                        findAllSupplier();
+                    }
+                },
 				dataView : {
 					show : true,
 					readOnly : false
@@ -242,3 +266,7 @@ $(function() {
 		}
 	});
 });
+
+function findAllSupplier(){
+    window.location.href = globalPath + "/supplierQuery/readOnlyList.html?judge=5&sign=2";
+}

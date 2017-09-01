@@ -47,9 +47,9 @@
         }
       }
 
-      function show(id) {
+      function show(id,report) {
         var status = "1";
-        window.location.href = "${pageContext.request.contextPath}/pqinfo/view.html?id=" + id + "&status=" + status;
+        window.location.href = "${pageContext.request.contextPath}/pqinfo/view.html?id=" + id + "&status=" + status+ "&report=" + report;
       }
 
       function clearSearch() {
@@ -58,6 +58,14 @@
         $("#searchType option:selected").removeAttr("selected");
         $("#searchConclusion option:selected").removeAttr("selected");
       }
+      function openUpload(id, report) {
+          if(report == "0") {
+            layer.msg("没有上传质检报告");
+          } else {
+            var a = "2";
+            openViewDIv(id, report, a, null, null);
+          }
+        }
     </script>
 
     <body>
@@ -147,25 +155,26 @@
             <c:forEach items="${info.list}" var="obj" varStatus="vs">
               <tr>
                 <td class="tc" onclick="show('${obj.id}')">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-                <td class="tl pointer" onclick="show('${obj.id}')">${obj.contract.name}</td>
-                <td class="tl pointer" onclick="show('${obj.id}')">${obj.contract.code}</td>
-                <td class="tl pointer" onclick="show('${obj.id}')">${obj.contract.purchaseDepName}</td>
-                <td class="tl pointer" onclick="show('${obj.id}')">${obj.contract.supplier.supplierName}</td>
-                <td class="tc pointer" onclick="show('${obj.id}')">
+                <td class="tl pointer" onclick="show('${obj.id}','${obj.report}')">${obj.contract.name}</td>
+                <td class="tl pointer" onclick="show('${obj.id}','${obj.report}')">${obj.contract.code}</td>
+                <td class="tl pointer" onclick="show('${obj.id}','${obj.report}')">${obj.contract.purchaseDepName}</td>
+                <td class="tl pointer" onclick="show('${obj.id}','${obj.report}')">${obj.contract.supplier.supplierName}</td>
+                <td class="tc pointer" onclick="show('${obj.id}','${obj.report}')">
                   <c:if test="${'0' eq obj.type}">首件检验</c:if>
                   <c:if test="${'1' eq obj.type}">生产验收</c:if>
                   <c:if test="${'2' eq obj.type}">出厂验收</c:if>
                   <c:if test="${'3' eq obj.type}">到货验收</c:if>
                 </td>
-                <td class="tc pointer" onclick="show('${obj.id}')">
+                <td class="tc pointer" onclick="show('${obj.id}','${obj.report}')">
                   <fmt:formatDate value='${obj.pqdate}' pattern='yyyy-MM-dd' />
                 </td>
-                <td class="tc pointer" onclick="show('${obj.id}')">
+                <td class="tc pointer" onclick="show('${obj.id}','${obj.report}')">
                   <c:if test="${'0' eq obj.conclusion}">合格</c:if>
                   <c:if test="${'1' eq obj.conclusion}">不合格</c:if>
                 </td>
                 <td class="tc pointer">
-                  <button type="button" onclick="openViewDIv('${obj.id}', '${obj.report}', '2', 'artice_show', 'this')" class="btn">质检报告</button>
+                  <button type="button" onclick="openUpload('${obj.id}','${obj.report}')" class="btn">质检报告</button>
+<%--                   <button type="button" onclick="openViewDIv('${obj.id}', '${obj.report}', '2', 'artice_show', 'this')" class="btn">质检报告</button> --%>
                 </td>
               </tr>
             </c:forEach>

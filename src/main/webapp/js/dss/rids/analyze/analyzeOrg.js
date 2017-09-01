@@ -1,5 +1,4 @@
 $(function () {
-
     // 各采购机构人员数量
     optionOrgSup = {
         title: {
@@ -15,6 +14,14 @@ $(function () {
         toolbox: {
             show: true,
             feature: {
+                myTool: {
+                    show: true,
+                    title: '查询所有',
+                    icon: 'image://' + globalPath + '/public/backend/images/pie.png',
+                    onclick: function () {
+                        findAllOrg();
+                    }
+                },
                 dataView: {
                     show: true,
                     readOnly: false
@@ -41,9 +48,9 @@ $(function () {
                 }
             }
         }],
-        yAxis :[
+        yAxis: [
             {
-                type:"value"
+                type: "value"
             }
         ],
         series: [
@@ -77,11 +84,9 @@ $(function () {
                                 + '"/>';
                         }
                     },
-
                 }
             }
         ]
-
     };
 
     // 当年各采购机构受领任务总金额
@@ -99,6 +104,14 @@ $(function () {
         toolbox: {
             show: true,
             feature: {
+                myTool: {
+                    show: true,
+                    title: '查询所有',
+                    icon: 'image://' + globalPath + '/public/backend/images/pie.png',
+                    onclick: function () {
+                        findAllOrg();
+                    }
+                },
                 dataView: {
                     show: true,
                     readOnly: false
@@ -240,9 +253,10 @@ $(function () {
             var supplierOrg = $("#nowYearOrgContractMoney").echartsTemplate("getMyChart", null);
             supplierOrg.on('click', function (params) {
                 window.location.href = globalPath + "/purchaseManage/readOnlyList.html?orgId=" + params.data.id;
-                ;
             });
         }
     });
-
 });
+function findAllOrg(){
+    window.location.href = globalPath + "/purchaseManage/readOnlyList.html";
+}

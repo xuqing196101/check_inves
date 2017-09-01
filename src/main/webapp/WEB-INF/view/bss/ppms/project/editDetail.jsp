@@ -79,42 +79,43 @@
         });
       }
 
-      var flag = true;
 
       function verify(ele) {
+        var aa = 0;
         var projectNumber = $(ele).val();
         var id = $("#id").val();
         $.ajax({
           url: "${pageContext.request.contextPath}/project/verify.html?id=" + id + "&projectNumber=" + projectNumber,
           type: "post",
           dataType: "json",
+          async:false,
           success: function(data) {
             var datas = eval("(" + data + ")");
             if(datas == false) {
+              aa = 1;
               $("#sps").html("已存在").css('color', 'red');
-              flag = false;
             } else {
               $("#sps").html("");
-              flag = true;
             }
-
           },
         });
+        return aa;
       }
 
       //修改
       function edit() {
         var name = $("input[name='name']").val();
         var projectNumber = $("input[name='projectNumber']").val();
-        if(flag == false){
+        if(verify() == 1){
           $("#projectNumber").focus();
         }else if(name == "") {
           layer.tips("项目名称不能为空", "#jname");
+          $("#jname").focus();
         } else if(projectNumber == "") {
           layer.tips("项目编号不能为空", "#projectNumber");
+          $("#projectNumber").focus();
         } else {
           layer.confirm('您确定要修改吗?', {
-              offset: ['300px', '800px'],
               shade: 0.01,
               btn: ['是', '否'],
             },
@@ -122,31 +123,14 @@
               $("#form1").submit();
             },
             function() {
-              //parent.layer.close();
+              layer.closeAll();
             });
         }
       }
 
-      //重置
-      function sel(obj) {
-        var val = $(obj).val();
-        $("select option").each(function() {
-          var opt = $(this).val();
-          if(val == opt) {
-            $(this).attr("selected", "selected");
-          }
-        });
-      }
-
-      //分包
-      function subPackage() {
-        var num = "0";
-        var id = $("#id").val();
-        window.location.href = "${pageContext.request.contextPath}/project/subPackage.html?id=" + id + "&num=" + num;
-      }
 
       function goBack() {
-        window.location.href = "${pageContext.request.contextPath }/project/listProject.html";
+        window.location.href = "${pageContext.request.contextPath}/project/listProject.html";
       }
     </script>
   </head>
@@ -308,7 +292,6 @@
           </div>
         </div>
         <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
-          <!-- <button class="btn" type="button" onclick="subPackage()">分包</button> -->
           <button class="btn btn-windows git" type="button" onclick="edit()">修改</button>
           <button class="btn btn-windows back" type="button" onclick="goBack();">返回</button>
         </div>

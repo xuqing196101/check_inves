@@ -18,6 +18,7 @@ import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertCategory;
+import ses.model.sms.SupplierCateTree;
 import ses.service.bms.CategoryService;
 import ses.service.bms.EngCategoryService;
 import ses.service.ems.ExpertCategoryService;
@@ -261,7 +262,22 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
         map.put("type", "six");
         return mapper.selectPassCateByExpertId(map);
     }
-
+    /**
+	 *
+	 * Description:查询专家审核通过的数量
+	 *
+	 * @author SS
+	 * @version 2017/8/25
+	 * @param expertId
+	 * @param categoryId
+	 * @param typeId
+	 * @since JDK1.7
+	 */
+    public int selectPassCount(Map<String,Object> map){
+    	List<ExpertCategory> list = mapper.selectPassCount(map);
+		return list.size();
+    	
+    }
 	/**
 	 *
 	 * Description:保存专家选择的小类
@@ -291,6 +307,23 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	public void updateAuditStatus(ExpertCategory expertCategory) {
 		mapper.updateAuditStatus(expertCategory);
 		
+	}
+
+	/**
+	 * 查询所有的参评类别
+	 */
+	@Override
+	public List<SupplierCateTree> findExpertCatrgory(String expertId,
+			String typeId) {
+		return mapper.findExpertCatrgory(expertId,typeId);
+	}
+
+	/**
+	 * 判断为第几级节点
+	 */
+	@Override
+	public Integer findCountParent(Map<String,Object> map) {
+		return mapper.findCountParent(map);
 	}
 }
  

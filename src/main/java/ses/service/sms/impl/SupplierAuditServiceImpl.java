@@ -17,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
@@ -838,21 +840,21 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * @return
 	 */
 	private List<Qualification> isQualificationsCateTree(SupplierCateTree cateTree,
-			Integer type,String type_id,Integer syskey){
+			Integer type,String type_id,Integer typeService){
 		List<Qualification> tempList=null;
 		List<Qualification> qulist=new ArrayList<>();
 		List<CategoryQua> quaList=null;
-		//type:4(工程) 3（销售） 2（生产）1（服务）
+		//type:4(工程不存在) 3（销售） 2（生产）1（服务）
 		//专业资质 要求 有可能是末节节点 有可能是其他节点
 		if(StringUtils.isNotBlank(cateTree.getFourthNodeID())){
 			quaList= categoryQuaMapper.findListSupplier(cateTree.getFourthNodeID(), type);
 			Map<String, Object> map=new HashMap<>();
 			map.put("supplierId", cateTree.getItemsId());
 			map.put("categoryId", cateTree.getFourthNodeID());
-			map.put("type", isType(type));
+			map.put("type", isType(typeService));
 			//根据第4节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 			List<SupplierItem> itemList=supplierItemService.findByMap(map);
-			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type, type_id, syskey);
+			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type);
 			qulist.addAll(tempList);
 		}
 		if(StringUtils.isNotBlank(cateTree.getThirdNodeID())){
@@ -860,10 +862,10 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			Map<String, Object> map=new HashMap<>();
 			map.put("supplierId", cateTree.getItemsId());
 			map.put("categoryId", cateTree.getThirdNodeID());
-			map.put("type", isType(type));
+			map.put("type", isType(typeService));
 			//根据第4节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 			List<SupplierItem> itemList=supplierItemService.findByMap(map);
-			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type, type_id, syskey);
+			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type);
 			qulist.addAll(tempList);
 		}
 		if(StringUtils.isNotBlank(cateTree.getSecondNodeID())){
@@ -871,10 +873,10 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			Map<String, Object> map=new HashMap<>();
 			map.put("supplierId", cateTree.getItemsId());
 			map.put("categoryId", cateTree.getSecondNodeID());
-			map.put("type", isType(type));
+			map.put("type", isType(typeService));
 			//根据第4节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 			List<SupplierItem> itemList=supplierItemService.findByMap(map);
-			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type, type_id, syskey);
+			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type);
 			qulist.addAll(tempList);
 		}
 		if(StringUtils.isNotBlank(cateTree.getFirstNodeID()) ){
@@ -882,10 +884,10 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			Map<String, Object> map=new HashMap<>();
 			map.put("supplierId", cateTree.getItemsId());
 			map.put("categoryId", cateTree.getFirstNodeID());
-			map.put("type", isType(type));
+			map.put("type", isType(typeService));
 			//根据第4节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 			List<SupplierItem> itemList=supplierItemService.findByMap(map);
-			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type, type_id, syskey);
+			tempList=  pottingQualificationsDate(itemList, quaList, cateTree, type);
 			qulist.addAll(tempList);
 		}
 		return qulist;
@@ -900,7 +902,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * @return
 	 */
 	private List<Qualification> pottingQualificationsDate(List<SupplierItem> itemList,List<CategoryQua> quaList,
-			SupplierCateTree cateTree,Integer type,String type_id,Integer syskey){
+			SupplierCateTree cateTree,Integer type){
 		List<Qualification> list=new ArrayList<>();
 		//资质文件：物资生产/物资销售/服务  审核字段存储：目录三级节点ID关联的SupplierItem的ID
 		Qualification qualification=null;
@@ -934,8 +936,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		return list;
 	}
 	@Override
-	public List<Qualification> showQualifications(SupplierCateTree cateTree,Integer type,String type_id,Integer syskey) {
-		return isQualificationsCateTree(cateTree, type, type_id, syskey);
+	public List<Qualification> showQualifications(SupplierCateTree cateTree,Integer type,String type_id,Integer typeService) {
+		return isQualificationsCateTree(cateTree, type, type_id, typeService);
 	}
 	/**
 	 * 
@@ -1039,7 +1041,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 	@Override
 	public List<SupplierCateTree> showProject(SupplierCateTree cateTree,
-			Integer type, String type_id, Integer syskey) {
+			Integer type, String type_id) {
 		List<SupplierCateTree> cateList=new ArrayList<>();
 		List<SupplierItem> itemsList=getProject(cateTree, type,cateTree.getSupplierItemId());//supplierItemService.findByMap(map);
 		//--工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
@@ -1047,8 +1049,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			for (SupplierItem supplierItem : itemsList) {
 				SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierItem.getSupplierId());
 			cateTree.setSupplierItemId(supplierItem.getId());
-			if(null !=  matEng || StringUtils.isNotBlank(supplierItem.getCertCode()) || StringUtils.isNotBlank(supplierItem.getProfessType())){
-				List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), supplierItem.getCertCode(), supplierItem.getProfessType());
+			if(null !=  matEng || StringUtils.isNotBlank(supplierItem.getQualificationType())&&  StringUtils.isNotBlank(supplierItem.getCertCode()) && StringUtils.isNotBlank(supplierItem.getProfessType())){
+				List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(supplierItem.getQualificationType(),matEng.getId(), supplierItem.getCertCode(), supplierItem.getProfessType());
 				if(certEng != null && certEng.size() > 0) {
 					cateTree.setFileId(certEng.get(0).getId());
 					Qualification qua= qualificationService.getQualification(certEng.get(0).getCertType());
@@ -1698,24 +1700,25 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		if(null!=itemsList && !itemsList.isEmpty()){
 			for (SupplierItem supplierItem : itemsList) {
 				SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierItem.getSupplierId());
-			if(null !=  matEng || StringUtils.isNotBlank(supplierItem.getCertCode()) || StringUtils.isNotBlank(supplierItem.getProfessType())){
-				List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), supplierItem.getCertCode(), supplierItem.getProfessType());
-				if(certEng != null && !certEng.isEmpty()) {
-					ids=ids+supplierItem.getCategoryId()+",";
-					/*rut=rut+uploadService.countFileByBusinessId(certEng.get(0).getId(), type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
-					if(rut>0){*/
-						temp=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE);
-			        		if(temp>0){
-			        			product+=temp;
-			        		}
-			        		temp=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_SALES_PAGE);
-			        		if(temp>0){
-			        			sales+=temp;
-			        		}
-					  }
-				/*}*/
-				
-			}
+				if(null !=  matEng || StringUtils.isNotBlank(supplierItem.getCertCode()) || StringUtils.isNotBlank(supplierItem.getProfessType())){
+					List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(supplierItem.getQualificationType(), matEng.getId(), supplierItem.getCertCode(), supplierItem.getProfessType());
+					if(certEng != null && !certEng.isEmpty()) {
+						ids=ids+supplierItem.getCategoryId()+",";
+						/*rut=rut+uploadService.countFileByBusinessId(certEng.get(0).getId(), type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
+						if(rut>0){*/
+							temp=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE);
+							if(temp>0){
+								product+=temp;
+							}
+							temp=countData(supplierId, supplierItem.getId(), ses.util.Constant.APTITUDE_SALES_PAGE);
+							if(temp>0){
+								sales+=temp;
+							}
+						/*}*/
+						// 工程资质是否修改
+						cateTree.setIsEngAptitudeModified(isEngAptitudeModified(supplierItem, certEng.get(0)) ? (byte)1 : (byte)0);
+					}
+				}
 			}
 		}
         
@@ -1745,6 +1748,9 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 				break;
 			case "PROJECT"://工程类
 				rut=4;
+				break;
+			case "SERVICE"://工程类
+				rut=2;
 				break;
 		}
 		return  rut;
@@ -1870,6 +1876,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 								productCount=productCount+tempCount;
 							}
 						}
+						// 资质是否修改
 						String businessId = supplierItem.getId()+categoryQua.getId();
 						if(fileModifyField.indexOf(businessId) > -1){
 							cateTree.setIsAptitudeModified((byte)1);
@@ -1956,8 +1963,26 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 				if("supplierConAch".equals(auditField)){// 承包合同主要页及保密协议
 					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierConAch();
 				}
+				if("supplierBank".equals(auditField)){// 基本账户开户许可证
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBank();
+				}
+				if("businessCert".equals(auditField)){// 营业执照
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBusinessCert();
+				}
+				if("supplierIdentityUp".equals(auditField)){// 身份证复印件
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierIdentityUp();
+				}
+				if("taxCert".equals(auditField)){// 近三个月完税凭证
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierTaxCert();
+				}
 				if("billCert".equals(auditField)){// 近三年银行基本账户年末对账单
 					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBillCert();
+				}
+				if("securityCert".equals(auditField)){// 近三个月缴纳社会保险金凭证
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierSecurityCert();
+				}
+				if("supplierBearchCert".equals(auditField)){// 保密资格证书
+					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBearchCert();
 				}
 				if(auditType.startsWith("contract_")){// 合同
 					String[] fieldAry = auditField.split("_");
@@ -2014,5 +2039,47 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		return result;
 	}
 
+	private boolean isEngAptitudeModified(SupplierItem supplierItem, SupplierAptitute aptitude) {
+		String supplierId = supplierItem.getSupplierId();
+		Supplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
+		// 退回修改附件和字段
+		if(supplier != null && supplier.getStatus() != null && (supplier.getStatus() == 0 || supplier.getStatus() == 9)) {
+			SupplierModify supplierFileModify = new SupplierModify();
+			supplierFileModify.setSupplierId(supplierId);
+			supplierFileModify.setModifyType("file");
+			StringBuffer fileModifyField = new StringBuffer();
+			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+			for(SupplierModify m : fileModify){
+				if(m.getRelationId() != null){
+					fileModifyField.append(m.getRelationId() + ",");
+				}
+			}
+			SupplierModify supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
+			supplierModify.setModifyType("mat_eng_page");
+			supplierModify.setListType(9);// 工程资质
+			supplierModify.setRelationId(aptitude.getId());
+			List < SupplierModify > fieldList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer field = new StringBuffer();
+			for(int i = 0; i < fieldList.size(); i++) {
+				String beforeField = fieldList.get(i).getBeforeField();
+				field.append(beforeField + ",");
+			}
+			
+			if(aptitude.getCertType() != null && aptitude.getCertType().equals(supplierItem.getQualificationType())
+					&& aptitude.getCertCode() != null && aptitude.getCertCode().equals(supplierItem.getCertCode())
+					&& aptitude.getProfessType() != null && aptitude.getProfessType().equals(supplierItem.getProfessType())
+					&& aptitude.getAptituteLevel() != null && aptitude.getAptituteLevel().equals(supplierItem.getLevel())){
+				if(fileModifyField.indexOf(aptitude.getId()) > -1 
+						|| field.indexOf("certType") > -1
+						|| field.indexOf("certCode") > -1
+						|| field.indexOf("professType") > -1
+						|| field.indexOf("aptituteLevel") > -1){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 }

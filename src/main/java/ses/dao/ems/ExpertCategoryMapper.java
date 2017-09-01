@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import ses.model.ems.ExpertCategory;
+import ses.model.sms.SupplierCateTree;
 
 public interface ExpertCategoryMapper {
     int insert(ExpertCategory record);
@@ -115,10 +116,42 @@ public interface ExpertCategoryMapper {
 	 * @since JDK1.7
 	 */
 	List<ExpertCategory> selectPassCateByExpertId(Map<String,Object> map);
+	/**
+	 *
+	 * Description:查询专家审核通过的数量
+	 *
+	 * @author Easong
+	 * @version 2017/7/7
+	 * @param  map
+	 * @since JDK1.7
+	 */
+	List<ExpertCategory> selectPassCount(Map<String,Object> map);
 	
 	/**
 	 * 更新审核状态 
 	 * @param expertCategory
 	 */
     void updateAuditStatus(ExpertCategory expertCategory);
+    
+    /**
+     * 
+     * Description: 查询专家所有参评类别
+     * 
+     * @author zhang shubin
+     * @data 2017年8月23日
+     * @param 
+     * @return
+     */
+    List<SupplierCateTree> findExpertCatrgory(@Param("expertId")String expertId,@Param("typeId")String typeId);
+    
+    /**
+     * 
+     * Description: 查询父节点的数量（带本身）
+     * 
+     * @author zhang shubin
+     * @data 2017年8月23日
+     * @param 
+     * @return
+     */
+    Integer findCountParent(Map<String,Object> map);
 }

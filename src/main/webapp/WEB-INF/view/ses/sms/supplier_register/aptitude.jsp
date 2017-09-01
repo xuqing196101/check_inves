@@ -592,7 +592,7 @@
 					layer.alert("资质文件没有上传完毕！");
 				}
 				
-				//第二步 被修改过的证书编号
+				/* //第二步 被修改过的证书编号
 				var modifiedCertCodes = "${modifiedCertCodes}";
 				if(modifiedCertCodes){
 					 var modifiedCertCodesArray = modifiedCertCodes.split("-");
@@ -601,7 +601,7 @@
 					 	var index = obj.attr("label");
 					 	getFileByCode(obj,index,"2");
 					}
-				}
+				} */
 			});
 
 			sessionStorage.locationD=true;

@@ -184,7 +184,7 @@
         $('input[name="chkItem"]:checked').each(function() {
           id.push($(this).val());
         });
-
+        var status=$("[name='status']").val();
         if(id.length == 1) {
           $.ajax({
             type: "POST",
@@ -195,7 +195,7 @@
               if(data == 3 || data == 5 || data == 7){
               	layer.alert("已设置审核人员，请审核");
               } else if(data == 0 || data == 4 || data == 6){
-              	window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + data;
+              	window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + data+"&backAttr="+1+"&status="+status;//backAttr 1:从采购计划列表请求 2:从审核页面请求
               }else if(data == 12 || data == 2 || data == 8){
               	layer.alert("已审核或已下达");
               }else if(data == 1) {
@@ -290,7 +290,7 @@
         } else if(type == 4) {
           window.location.href = "${pageContext.request.contextPath }/look/audit.html?id=" + id + "&status=12";
         } else {
-          window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + type;
+          window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + type+ "&backAttr=" + 1;
         }
       }
 
@@ -321,6 +321,7 @@
       //重置
       function resetQuery() {
         $("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+        $("#afterReset").val("0");
       }
 
       function auditturns(obj) {
@@ -426,6 +427,7 @@
                   <option value="7" <c:if test="${inf.status=='7'}"> selected</c:if> > 第三轮审核</option>
                   <option value="8" <c:if test="${inf.status=='8'}"> selected</c:if> > 审核结束</option>
                   <option value="12" <c:if test="${inf.status=='12'}"> selected</c:if> > 直接下达</option>
+                  <option style="display: none;" value="" id="afterReset">
                 </select>
               </span>
             </li>       

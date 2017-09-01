@@ -32,6 +32,20 @@
         });
       });
 
+      function selectAll() {
+        var checklist = document.getElementsByName("chkItem");
+        var checkAll = document.getElementById("checkAll");
+        if(checkAll.checked) {
+          for(var i = 0; i < checklist.length; i++) {
+            checklist[i].checked = true;
+          }
+        } else {
+          for(var j = 0; j < checklist.length; j++) {
+            checklist[j].checked = false;
+          }
+        }
+      }
+      
       $(function() {
         //移到右边
         $('#add').click(function() {
@@ -78,33 +92,12 @@
         });
 
       });
-
+      //保存
       function save() {
-        /*    var id1=[];
-      var name=[];
-    $('#select1 option').each(function(){ 
-      var val=$(this).val().split(",");
-      id1.push(val[0]);
-      name.push(val[1]);
-    }); 
-
-    var id2=[]; 
-    var name2=[];
-    $('#select2 option').each(function(){ 
-      var val=$(this).val().split(",");
-      id2.push(val[0]);
-      name2.push(val[1]);
-    });
-    $("#fname").val(name);
-    $("#fname2").val(name2);
-    $("#val1").val(id1);
-    $("#val2").val(id2); */
         var ap = $("#userList tr:last td:first input:last").val();
         var tp = Number($(".tempPersonIndex:first").val());
         if(isNaN(ap) && isNaN(tp)) {
-          layer.alert("请添加审核人员", {
-            offset: ['30%', '40%']
-          });
+          layer.msg("请添加审核人员");
         } else {
           cleanErr();
           var index = Number($(".tempPersonIndex:first").val());
@@ -112,7 +105,14 @@
           var turns = $("#auditRound").val();
           if(isNaN(index)) {
         	  $("#austa").val(auditNature);
+        	  $.ajax({
+        		  url:"${pageContext.request.contextPath}/set/clearSession.html",
+        		  type: "POST",
+        		  success:function(){
             $("#set_form").submit();
+        			  
+        		  }
+        	  });
           } else {
             $.ajax({
               url: "${pageContext.request.contextPath}/set/judgeAddUser.do?index=" + index + "&auditNature=" + auditNature + "&turns=" + turns,
@@ -142,8 +142,9 @@
         }
 
       }
-
+      //添加专家
       function beforeExperts() {
+    	  saveTemp()
         var ap = $("#userList tr:last td:first input:last").val();
         var tp = Number($(".tempPersonIndex:first").val());
         experts();
@@ -218,12 +219,13 @@
             moveType: 1, //拖拽风格，0是默认，1是传统拖动
             shift: 1, //0-6的动画形式，-1不开启
             offset: ['0px', '10%'],
-            content: "${pageContext.request.contextPath}/set/expert.html?type=" + type,
+            content: "${pageContext.request.contextPath}/set/expert.html?type=" +type+ "&backAttr=" + "${backAttr}" + "&backid=" + "${backid}",
           });
         }
       }
 
       function beforeUsers() {
+    	  saveTemp()
         var ap = $("#userList tr:last td:first input:last").val();
         var tp = Number($(".tempPersonIndex:first").val());
         users();
@@ -295,87 +297,55 @@
             shade: 0.01, //遮罩透明度
             shift: 1, //0-6的动画形式，-1不开启
             offset: ['0px', '10%'],
-            content: "${pageContext.request.contextPath}/set/user.html?type=" + type,
+            content: "${pageContext.request.contextPath}/set/user.html?type=" + type+"&backAttr="+"${backAttr}" +"&backid="+"${backid}",
           });
 
         }
       }
 
-      function tempbefore() {
-        var id = $("#collectId").val();
-        var type = $("#auditRound").val();
-        $.ajax({
-          url: "${pageContext.request.contextPath}/set/tempOnly.do?id=" + id + "&type=" + type,
-          type: "POST",
-          dataType: "json",
-          success: function(msg) {
-            /* if(msg == 1) {
-              layer.alert("只能有一个审核人员", {
-                offset: ['30%', '40%']
-              });
-            } else {
-              temp();
-            } */
-            temp();
-          }
-        })
-      }
       //    var index;//添加临时审核人员
-      function temp() {
-        //       layer.open({
-        //            type: 1, //page层
-        //            area: ['500px', '300px'],
-        //          title: '临时添加专家',
-        //            closeBtn: 1,
-        //            shade:0.01, //遮罩透明度
-        //            moveType: 1, //拖拽风格，0是默认，1是传统拖动
-        //            shift: 1, //0-6的动画形式，-1不开启
-        //            offset: ['80px', '500px'],
-        //          content: $("#content"),
-        //          });
+      function tempbefore() {
+        debugger;
         var tabhtml = "";
         var index = Number($("#userList tr:last td:first input:last").val());
         var ind = Number(index) + 1;
-        var first = Number($(".tempPersonIndex:first").val());
+        var first = Number($(".tempPersonIndex:last").val());
         var isTable = 0;
+        var i = 0;
         if(isNaN(index)) {
           index = 1;
           isTable = 1;
-          ind = Number(index) + 1;
+          ind = Number(index) - 1;
         }
-        if(isNaN(first)) {
+        if(isNaN(first)){
           first = ind;
-          var i = 0;
-          if(first != null && first != "") {
-            i = eval(ind - first);
-          }
-          tabhtml += '<tr class="tc pointer tempPersonList">';
-          tabhtml += '<td class="w30"><input type="checkbox" name="chkItem" alt="" value=""><input type="hidden" class="tempPersonIndex" value="' + ind + '"></td>';
-          tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].name" type="text" value=""><div class="clear red names" id="name' + ind + '"></div></td>';
-          tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].mobile" type="text" maxlength="18" onkeyup="this.value=this.value.replace(/[^0-9]/g,' + "''" + ')" value=""><div class="clear red phones" id="phone' + ind + '"></div></td>';
-          tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].duty" type="text" value=""><div class="clear red duties" id="duty' + ind + '"></div></td>';
-          tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].unitName" type="text" value=""><div class="clear red unitNames" id="unitName' + ind + '"></div></td>';
-          tabhtml += '</tr>';
-          if(isTable == 0) {
-            $("#userList tbody").append(tabhtml);
-          } else {
-            $("#userList").append(tabhtml);
-          }
-        } else {
-          //      layer.alert("只能添加一个临时人员", {
-          //        offset: ['30%', '40%']
-          //      });  
         }
-
+        if(first != null && first != "") {
+          i = eval(ind - first);
+        }
+        tabhtml += '<tr class="tc pointer tempPersonList">';
+        tabhtml += '<td class="w30"><input type="checkbox" name="chkItem" alt="" value=""><input type="hidden" class="tempPersonIndex" value="' + ind + '"></td>';
+        tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].name" type="text" value=""><div class="clear red names" id="name' + ind + '"></div></td>';
+        tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].mobile" type="text" maxlength="18" onkeyup="this.value=this.value.replace(/[^0-9]/g,' + "''" + ')" value=""><div class="clear red phones" id="phone' + ind + '"></div></td>';
+        tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].duty" type="text" value=""><div class="clear red duties" id="duty' + ind + '"></div></td>';
+        tabhtml += '<td><input class="m0 border0 w100p" name="auditPersons[' + i + '].unitName" type="text" value=""><div class="clear red unitNames" id="unitName' + ind + '"></div></td>';
+        tabhtml += '</tr>';
+        if(isTable == 0) {
+          $("#userList tbody").append(tabhtml);
+          
+        } else {
+          $("#userList").append(tabhtml);
+         
+        }
       }
-
+      //保存临时人员
       function saveTemp() {
         cleanErr();
-        var index = Number($(".tempPersonIndex:first").val());
+        var index = Number($(".tempPersonIndex:last").val());
         var auditNature = $("#audit_nature").val();
         var turns = $("#auditRound").val();
         if(isNaN(index)) {
-          window.location.reload();
+          //window.location.reload();
         } else {
           $.ajax({
             url: "${pageContext.request.contextPath}/set/judgeAddUser.do?index=" + index + "&auditNature=" + auditNature + "&turns=" + turns,
@@ -396,9 +366,7 @@
                   $("#duty" + i).text(msg[duty]);
                   $("#unitName" + i).text(msg[unitName]);
                 }
-              } else {
-                window.location.reload();
-              }
+              } 
             }
           });
         }
@@ -470,7 +438,26 @@
           });
         }
       }
-
+      
+      /** 单选 */
+      function check() {
+        var count = 0;
+        var checklist = document.getElementsByName("chkItem");
+        var checkAll = document.getElementById("checkAll");
+        for(var i = 0; i < checklist.length; i++) {
+          if(checklist[i].checked == false) {
+            checkAll.checked = false;
+            break;
+          }
+          for(var j = 0; j < checklist.length; j++) {
+            if(checklist[j].checked == true) {
+              checkAll.checked = true;
+              count++;
+            }
+          }
+        }
+      }
+      //删除
       function delet() {
         var id = [];
         $('input[name="chkItem"]:checked').each(function() {
@@ -514,6 +501,26 @@
     	        //未超出……
     	    }
     	}; 
+    	
+    	function goBack(){
+    		var backAttr = "${backAttr}";
+    		var backid = "${backid}";
+    		var status = "${status}";
+    		$.ajax({
+                url: "${pageContext.request.contextPath}/set/goBack.html",
+                type: "post",
+                success: function(data) {
+                	if(data=="ok"){
+	                	if(backAttr==2){
+	                		window.location.href="${pageContext.request.contextPath}/look/auditlook.html?backAttr="+backAttr+"&id="+backid;
+	                	}else{
+	                		window.location.href="${pageContext.request.contextPath}/look/list.html?backAttr="+backAttr+"&id="+backid+"&status="+status;
+	                	}
+                	}
+                }
+              });
+    		}
+    	
     </script>
   </head>
 
@@ -573,30 +580,28 @@
               <button class="btn btn-windows add" onclick="beforeExperts()">专家库添加</button>
               <button class="btn btn-windows add" onclick="beforeUsers()">用户库添加</button>
               <button class="btn btn-windows add" onclick="tempbefore()">添加临时人员</button>
-              <!-- <button class="btn btn-windows add" onclick="saveTemp()">保存临时人员</button> -->
+              <!-- <button class="btn btn-windows add" onclick="saveTemp()">保存临时人员</button>  -->
               <button class="btn btn-windows delete" onclick="delet()">删除</button>
             </div>
             <div class="content table_box">
               <form id="set_form" action="${pageContext.request.contextPath}/set/update.html" method="post">
-              <input type="hidden" name="backAttr" value="${backAttr }">
+              <input type="hidden" name="backAttr" id="backAttr" value="${backAttr }">
+              <input type="hidden" name="backid" id="backid" value="${backid}">
                 <table class="table table-bordered table-condensed " id="userList">
                   <thead>
                     <tr class="info">
                       <th class="w30"><input type="checkbox" id="checkAll" onclick="selectAll()" alt=""></th>
-                      <!-- <th class="w50">序号</th>
-        <th>审核轮次</th> -->
                       <th>姓名</th>
                       <th>手机号</th>
                       <th>职务</th>
                       <th>单位名称</th>
-                      <!--   <th>审核人员性质</th> -->
                     </tr>
                   </thead>
-                  <c:forEach items="${info.list}" var="obj" varStatus="vs">
+                  <c:forEach items="${info.list}" var="obj" varStatus="vs" >
                     <tr class="tc pointer" id="person_set">
-                      <td class="w30"><input type="checkbox" value="${obj.id }" name="chkItem" alt=""><input type="hidden" class="positions" value="${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}"></td>
+                      <td class="w30"><input type="checkbox" value="${obj.id }" onclick="check()" name="chkItem" alt=""><input type="hidden" class="positions" value="${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}"></td>
 
-                      <%--    <td>
+               <%--           <td>
             <c:forEach items="${kind}" var="kind">
             <c:if test="${kind.id == obj.auditRound}">${kind.name}</c:if>
           </c:forEach>
@@ -605,13 +610,30 @@
                       <td class="tc w120">${obj.mobile }</td>
                       <td class="tl pl20" width="30%">${obj.duty }</td>
                       <td class="tl pl20">${obj.unitName }</td>
-                      <%--   <td>${obj.auditStaff }</td> --%>
+                       <%--  <td>${obj.auditStaff }</td> --%>
                     </tr>
                   </c:forEach>
-
-                  <input type="hidden" name="collectId" id="collectId" value="${id }">
-                  <input type="hidden" name="type" value="${type}">
-                  <input type = "hidden" id = "austa" name = "austa" value="${staff }">
+                  <%-- <c:forEach items="${expInfo.list}" var="obj" varStatus="vs" >
+                    <tr class="tc pointer" id="person_set1">
+                      <td class="w30"><input type="checkbox" value="${obj.id }" onclick="check()" name="chkItem" alt=""><input type="hidden" class="positions" value="${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}"></td>
+                      <td class="tc w120">${obj.name }</td>
+                      <td class="tc w120">${obj.mobile }</td>
+                      <td class="tl pl20" width="30%">${obj.duty }</td>
+                      <td class="tl pl20">${obj.unitName }</td>
+                    </tr>
+                  </c:forEach>
+                  <c:forEach items="${aupInfo.list}" var="obj" varStatus="vs" >
+                    <tr class="tc pointer" id="person_set2">
+                      <td class="w30"><input type="checkbox" value="${obj.id }" onclick="check()" name="chkItem" alt=""><input type="hidden" class="positions" value="${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}"></td>
+                      <td class="tc w120">${obj.name }</td>
+                      <td class="tc w120">${obj.mobile }</td>
+                      <td class="tl pl20" width="30%">${obj.duty }</td>
+                      <td class="tl pl20">${obj.unitName }</td>
+                    </tr>
+                  </c:forEach> --%>
+                  <input type="hidden" name="collectId" id="collectId" value="${id }"/>
+                  <input type="hidden" name="type" value="${type}"/>
+                  <input type = "hidden" id = "austa" name = "austa" value="${staff }"/>
                 </table>
               </form>
             </div>
@@ -620,7 +642,7 @@
         </div>
         <div class="mt20 tc col-md-12 col-xs-12 col-sm-12">
           <button class="btn btn-windows git" onclick="save()">保存</button>
-          <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+          <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
         </div>
 
         <div id="content" class="dnone layui-layer-wrap mt20">

@@ -16,7 +16,7 @@
         $(function () {
             //审核按钮状态
             var num = ${num};
-            var notCategoryNum=${notCategoryNum};
+          //  var notCategoryNum=${notCategoryNum};
             var qualified=${qualified};
             if (num == 0) {
                 if('${status}' != -2 && '${status}' != -3){
@@ -27,21 +27,25 @@
             }
             if (num != 0) {
                 //$("#tongguo").attr("disabled", true);
-                if(notCategoryNum == 0){
+                //if(notCategoryNum == 0){
                 	if(qualified){
                 		$("#qualified").attr("disabled", false);
                 	}else{
                 		$("#qualified").attr("disabled", true);
                 	}
-                }else{
+                /* }else{
                 	$("#qualified").attr("disabled", true);
-                }
-                
+                }*/
+                 
             }
             if($("#status").val() == '15' || $("#status").val() == '1' || $("#status").val() == '16' || $("#status").val() == '2'){
             	$("#expdown").css("display","block");
             	/* $("#reverse_of_five_i").css("display","block");
             	$("#reverse_of_six").css("display","block"); */
+            }
+            if($("#status").val() != '0'){
+            	$("#qualified").attr("disabled", true);
+            	$("#noQualified").attr("disabled", true);
             }
             check_opinion();
         });
@@ -472,7 +476,7 @@
                         <th class="info">审批类型</th>
                         <th class="info">审批字段</th>
                         <th class="info">审批内容</th>
-                        <th class="info">不合格理由</th>
+                        <th class="info">审核理由</th>
                         <th class="info">审核时间</th>
                         <th class="info">状态</th>
                     </tr>
@@ -491,8 +495,8 @@
                             </td>
                             <td class="">${reasons.auditField }</td>
                             <td class="hand" title="${reasons.auditContent}">
-                                <c:if test="${fn:length (reasons.auditContent) > 20}">${fn:substring(reasons.auditContent,0,20)}...</c:if>
-                                <c:if test="${fn:length (reasons.auditContent) <= 20}">${reasons.auditContent}</c:if>
+                                <c:if test="${fn:length (reasons.auditContent) > 30}">${fn:substring(reasons.auditContent,0,30)}...</c:if>
+                                <c:if test="${fn:length (reasons.auditContent) <= 30}">${reasons.auditContent}</c:if>
                             </td>
                             <td class="hand" title="${reasons.auditReason}">
                                 <c:if test="${fn:length (reasons.auditReason) > 20}">${fn:substring(reasons.auditReason,0,20)}...</c:if>
@@ -518,7 +522,7 @@
                  <li>
                    <div class="select_check">
                       <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()">预初审合格
-                      <input type="radio"  <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()">预初审不合格
+                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()">预初审不合格
                     </div>
                   </li>
                   <li>

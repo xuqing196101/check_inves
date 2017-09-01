@@ -47,9 +47,10 @@
 	
 	function referenceNO(){
         var referenceNO = $("#referenceNo").val();
-        if(referenceNO == ''){
+       /*  if(referenceNO == ''){
+        	layer.msg("采购需求文号不能为空");
             return;
-        }        
+        }  */       
         $.ajax({
             url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
             data:{
@@ -347,13 +348,38 @@
          } 
 	     
 	      function submit(){
-	    	  
+	    	  var refNo=$("#referenceNo").val();
 	    	  var name=$("#jhmc").val();
+	    	  var flags = true;
 	    	  if($.trim(name) == "") {
 					 layer.alert("需求名称不允许为空"); 
 					 return false;
 				}
-	    	   var dy=dyly(); 
+             /*  if($.trim(refNo) == "") {
+                     layer.alert("需求文号不允许为空"); 
+                     return false;
+                } */
+                $.ajax({
+                    async:false,
+                    url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
+                    data:{
+                        "referenceNO":$("#referenceNo").val()
+                    },
+                    success: function(data) {
+                        if(data.data >= 1){
+                            flags= false;
+                            $("#referenceNo").val("");
+                            layer.msg("采购需求文号已存在");
+                        }else{
+                            flags= true;
+                        }
+                    }
+                });
+               /*  if(!flags){
+                    return false;
+                }  */
+	    	   var dy=dyly();
+	    	   
 	    	  
 	    	 /*  $("#detailZeroRow tr").each(function(i){
                  var  type= $(this).find("td:eq(11)").children(":last").text();//上级id
@@ -380,7 +406,7 @@
 				   return false;
 			   }
 	    	  var no=$("#jhbh").val();
-	    	  var refNo=$("#referenceNo").val();
+	    	  
 	    	  var type=$("#wtype").val();
 	    	  var mobile=$("#rec_mobile").val();
 	    	  var uniqueId=$("#uniqueId").val();
@@ -393,8 +419,9 @@
 	    	$.each(delId,function(i,n){
 	    		deleteRow(n);
 	    	});
+	    	
 	    	 /* if($("#table tr").length>$("#listSize").val()){ */
-	    	 var flag = true;
+	    	
 	    		 var jsonStr = [];
 	 			 $("#table tr").each(function(i){ //遍历Table的所有Row
 	 					 if(i>0){  //&&i<=$("#listSize").val()
@@ -406,13 +433,13 @@
 	 					var goodsName =$(this).find("td:eq(3)").children(":last").children(":last").val();
 	 					var stand = $(this).find("td:eq(4)").children(":last").val();
                              if(stand.length > 250){
-                                 flag = false;
+                                 flags = false;
                                  layer.alert("第" + i +"行规格型号不能超过250字");
                                  return false;
                              }
 	 					var qualitStand = $(this).find("td:eq(5)").children(":last").val();
                              if(qualitStand.length > 1000){
-                                 flag = false;
+                                 flags = false;
                                  layer.alert("第" + i +"行质量技术标准不能超过1000字");
                                  return false;
                              }
@@ -436,28 +463,29 @@
 
 	 				 	}
 	 				});
-	 			 if(!flag){
-	 			     return;
-                 }
+	 			 if(!flags){
+	 			     return false;
+                 } 
 	 			// return false;
 	 		//	var forms=$("#add_form").serializeArray();
-	 			  $.ajax({
-	 	  		        type: "POST",
-	 	  		        url: "${pageContext.request.contextPath}/purchaser/editdetail.do",
-	 	  		        data: {"prList":JSON.stringify(jsonStr),
-	 	  		        	"planType":type,
-	 	  		        	"planNo":no,
-	 	  		        	"planName":name,
-	 	  		        	"recorderMobile":mobile,
-	 	  		        	"referenceNo":refNo,
-	 	  		        	"unqueId":uniqueId,
-	 	  		        	"enterPort":$("#enterPort").val()},
-	 	  		        success: function (message) {
-	 	  		        	 window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
-	 	  		        },
-	 	  		        error: function (message) {
-	 	  		        }
-	 	  		    });
+	 		   $.ajax({
+                   type: "POST",
+                   url: "${pageContext.request.contextPath}/purchaser/editdetail.do",
+                   data: {"prList":JSON.stringify(jsonStr),
+                       "planType":type,
+                       "planNo":no,
+                       "planName":name,
+                       "recorderMobile":mobile,
+                       "referenceNo":refNo,
+                       "unqueId":uniqueId,
+                       "enterPort":$("#enterPort").val()},
+                   success: function (message) {
+                        window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
+                   },
+                   error: function (message) {
+                   }
+               }); 
+                 
 	    	 /* } */
 	    	 //$("#table").find("#edit_form").submit();
 	    	 // $("#edit_form").submit();
@@ -941,43 +969,46 @@
 	  		        }
 	  		    });
 	    }
-      function delRowIndex(obj){//delobjId
-			var detailRow = document.getElementsByName("detailRow");
-			var index = detailRow.length;
-			
-			var input=$(obj).prev().val();
-			delId.push(input); 
-			/* var del = $("input[name='delobjId']").val(delId); */
-			/* delId.push(del); */ 
-			//alert(delId);
-			if(index<3){
-				 layer.alert("至少保留两行！",{offset: ['222px', '390px'], shade:0.01});
-			}else{
-			var tr=$(obj).parent().parent();
-			var nextEle=$(obj).parent().parent().next().children();
-			 var val=$(tr).find("td:eq(8)").children(":first").next().val();
-			 if($.trim(val)!=""){
-				 var input=$(obj).prev().val();
-				 if(typeof(input)!="undefined"){
+    function delRowIndex(obj){//delobjId
+        var detailRow = document.getElementsByName("detailRow");
+        var index = detailRow.length;
+
+        var input=$(obj).prev().val();
+        delId.push(input);
+		/* var del = $("input[name='delobjId']").val(delId); */
+		/* delId.push(del); */
+        //alert(delId);
+        if(index<3){
+            layer.alert("至少保留两行！",{offset: ['222px', '390px'], shade:0.01});
+        }else{
+            var tr=$(obj).parent().parent();
+            var nextEle=$(obj).parent().parent().next().children();
+            var val=$(tr).find("td:eq(8)").children(":first").next().val();
+            if($.trim(val)!=""){
+                var input=$(obj).prev().val();
+                if(typeof(input)!="undefined"){
 					/*  deleteRow(input);  */
-				 }
-				 $(obj).parent().parent().remove();
-			 }
-			 else if(nextEle.length<1){
-				 var input=$(obj).prev().val();
-				 if(typeof(input)!="undefined"){
+                }
+                $(obj).parent().parent().remove();
+            }
+            else if(nextEle.length<1){
+                var input=$(obj).prev().val();
+                if(typeof(input)!="undefined"){
 					/*  deleteRow(input);  */
-				 }
-				 $(obj).parent().parent().remove(); 
-			 }
-			 else{
-				 layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
-			 }
-			} 
-			var cid = $(obj).parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().children(":last");
-            /* alert(cid); */
-            sum2(cid);
-		}
+                }
+                $(obj).parent().parent().remove();
+            }
+            else{
+                layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
+            }
+            $("#detailZeroRow tr").each(function(index){
+                $(this).find("td:eq(0)").text(index+1);
+            });
+        }
+        var cid = $(obj).parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().children(":last");
+		/* alert(cid); */
+        sum2(cid);
+    }
     //检索名字
 		function listName(obj) {
 			var name = $(obj).val();
@@ -1082,7 +1113,7 @@
 
 
 				<li class="col-md-3 col-sm-6 col-xs-12"><span
-					class="col-md-12 padding-left-5 col-sm-12 col-xs-12">录入人手机号</span>
+					class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>录入人手机号</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input type="text" class="input_group" id="rec_mobile"
 							name="mobile" value="${list[0].recorderMobile }"> <span
@@ -1182,7 +1213,7 @@
 					</thead>
 					<form id="edit_form"
 						action="${pageContext.request.contextPath}/purchaser/update.html"
-						method="post">
+						method="post" >
 						<input type="hidden" id="listSize" value="${listSize }" />
 						<tbody id="detailZeroRow">
 							<c:forEach items="${list }" var="obj" varStatus="vs">
@@ -1295,7 +1326,7 @@
 									</td>
 									<td><input type="hidden" name="ss" value="${obj.id }">
 										<textarea name="list[${vs.index }].supplier"
-											  onmouseover="supplierReadOnly(this)" onblur="checkSupplierName(this)"  class="target purchasename">${obj.supplier}</textarea>
+											  onmouseover="supplierReadOnly(this)"   class="target purchasename">${obj.supplier}</textarea>
 										<!-- <input type="hidden" name="history" value="" /> --></td>
 									<td name="userNone" <c:if test="${list[0].enterPort==0}"> style="display:none;" </c:if>><input type="text" name="list[${vs.index }].isFreeTax"
 										 value="${obj.isFreeTax}"
@@ -1329,19 +1360,20 @@
 
 							</c:forEach>
 
-							<input type="hidden" name="planName">
-							<input type="hidden" name="planNo">
-							<input type="hidden" id="planNo" value="${planNo }">
-							<input type="hidden" name="planType">
-							<input type="hidden" name="mobile">
+							<input type="hidden" name="planName"/>
+							<input type="hidden" name="planNo"/>
+							<input type="hidden" id="planNo" value="${planNo }"/>
+							<input type="hidden" name="planType"/>
+							<input type="hidden" name="mobile"/>
 							<input type="hidden" name="referenceNo" />
 							<input type="hidden" name="delobjId" />
 					</form>
+					
 				</table>
 			</div>
 			<div class="col-md-12  mt10 col-sm-12 col-xs-12 tc">
 				<input class="btn btn-windows git" type="button" onclick="submit()"
-					value="保存"> <input class="btn btn-windows back" value="返回"
+					value="保存"><input class="btn btn-windows back" value="返回"
 					type="button" onclick="location.href='javascript:history.go(-1);'">
 			</div>
 

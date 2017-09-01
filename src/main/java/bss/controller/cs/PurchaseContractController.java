@@ -713,7 +713,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		/*Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(project.getSectorOfDemand());
 		project.setOrgnization(org);*/
 		
-		//PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(project.getSectorOfDemand());
+		/*PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(project.getSectorOfDemand());*/
 		model.addAttribute("project", project);
 		model.addAttribute("department", department);
 		model.addAttribute("transactionAmount", amounts);
@@ -903,6 +903,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			if(bookdata.size()>0){
 				model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
 			}
+			PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(purCon.getPurchaseDepName());
 			model.addAttribute("attachuuid", ids);
 			model.addAttribute("supcheckid", supcheckid);
 			model.addAttribute("kinds", DictionaryDataUtil.find(5));
@@ -911,6 +912,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			model.addAttribute("planNos", purCon.getDocumentNumber());
 			model.addAttribute("id", ids);
 			model.addAttribute("user", user);
+			model.addAttribute("purchaseDep", purchaseDep);
 			/*model.addAttribute("manual", manual);*/
 			url = "bss/cs/purchaseContract/errContract";
 		}else{
@@ -1134,11 +1136,12 @@ public class PurchaseContractController extends BaseSupplierController{
 		purCon.setSupplierBankAccount(purCon.getSupplierBankAccount_string());
 		purCon.setPurchaseBankAccount(purCon.getPurchaseBankAccount_string());
 		List<ContractRequired> resultList = contractRequiredService.selectConRequeByContractId(purCon.getId());
+		PurchaseDep  purchaseDep= chaseDepOrgService.findByOrgId(purCon.getPurchaseDepName());
 		model.addAttribute("requList", resultList);
 		model.addAttribute("purCon", purCon);
 		model.addAttribute("supcheckid", supcheckid);
 		model.addAttribute("user", user);
-		
+		model.addAttribute("purchaseDep", purchaseDep);
 		return "bss/cs/purchaseContract/errContract";
 	}
 	
@@ -1374,9 +1377,19 @@ public class PurchaseContractController extends BaseSupplierController{
 			Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(purCon.getPurchaseDepName());
 			/*purCon.setContractReList(requList);*/
 			/*model.addAttribute("purCon", purCon);*/
+			DictionaryData ddbook=new DictionaryData();
+      ddbook.setCode("CONTRACT_WARRANT");
+      List<DictionaryData> bookdata = dictionaryDataServiceI.find(ddbook);
+      request.getSession().setAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+      if(bookdata.size()>0){
+        model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
+      }
+      PurchaseDep  purchaseDep= chaseDepOrgService.findByOrgId(purCon.getPurchaseDepName());
+      model.addAttribute("attachuuid", purCon.getId());
 			model.addAttribute("requList", requList);
 			model.addAttribute("kinds", DictionaryDataUtil.find(5));
 			model.addAttribute("org", orgnization);
+			model.addAttribute("purchaseDep", purchaseDep);
 			url = "bss/cs/purchaseContract/updateErrContract";
 		}else{
 			SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
@@ -1753,18 +1766,19 @@ public class PurchaseContractController extends BaseSupplierController{
             for(PurchaseContract pur:draftConList){
             	Supplier su = null;
             	Orgnization org = null;
+            	PurchaseDep purchaseDep=null;
             	if(pur.getSupplierDepName()!=null){
             		su = supplierService.selectOne(pur.getSupplierDepName());
             	}
                 //				PurchaseDep purdep = purchaseOrgnizationServiceI.selectPurchaseById(pur.getBingDepName());
             	if(pur.getPurchaseDepName()!=null){
-            		org = orgnizationServiceI.getOrgByPrimaryKey(pur.getPurchaseDepName());
+            	   purchaseDep = chaseDepOrgService.findByOrgId(pur.getPurchaseDepName());
             	}
-            	if(org!=null){
-	                if(org.getName()==null){
+            	if(purchaseDep!=null){
+	                if(purchaseDep.getDepName()==null){
 	                    pur.setShowDemandSector("");
 	                }else{
-	                    pur.setShowDemandSector(org.getName());
+	                    pur.setShowDemandSector(purchaseDep.getDepName());
 	                }
             	}
                 if(su!=null){
@@ -1951,12 +1965,22 @@ public class PurchaseContractController extends BaseSupplierController{
         if(draftCon.getPurchaseBankAccount()!=null){
             draftCon.setPurchaseBankAccount_string(draftCon.getPurchaseBankAccount().toString());
         }
+        DictionaryData ddbook=new DictionaryData();
+        ddbook.setCode("CONTRACT_WARRANT");
+        List<DictionaryData> bookdata = dictionaryDataServiceI.find(ddbook);
+        request.getSession().setAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+        if(bookdata.size()>0){
+          model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
+        }
+        model.addAttribute("attachuuid", draftCon.getId());
         Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(draftCon.getPurchaseDepName());
+        PurchaseDep  purchaseDep= chaseDepOrgService.findByOrgId(draftCon.getPurchaseDepName());
         model.addAttribute("purCon", draftCon);
         model.addAttribute("kinds", DictionaryDataUtil.find(5));
         model.addAttribute("id", id);
         model.addAttribute("requList", conRequList);
         model.addAttribute("org", orgnization);
+        model.addAttribute("purchaseDep", purchaseDep);
         return "bss/cs/purchaseContract/updateContract";
     }
     /**
@@ -2462,12 +2486,14 @@ public class PurchaseContractController extends BaseSupplierController{
                     }
                 }
             }
+            PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(purCon.getPurchaseDepName());
             model.addAttribute("requList", requList);
             model.addAttribute("planNos", purCon.getDocumentNumber());
             model.addAttribute("id", purCon.getId());
             model.addAttribute("attachuuid", purCon.getId());
             model.addAttribute("supcheckid", supcheckid);
             model.addAttribute("user", user);
+            model.addAttribute("purchaseDep", purchaseDep);
             url = "bss/cs/purchaseContract/errContract";
         }else{
             SimpleDateFormat sdf = new SimpleDateFormat("YYYY");

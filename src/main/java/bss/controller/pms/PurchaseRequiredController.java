@@ -218,6 +218,7 @@ public class PurchaseRequiredController extends BaseController {
 		model.addAttribute("typeId", typeId);
 		model.addAttribute("fileId", fileId);
 		model.addAttribute("planNo", planNo);
+		model.addAttribute("goods", DictionaryDataUtil.getId("GOODS"));
 		model.addAttribute("detailId", DictionaryDataUtil.getId("PURCHASE_DETAIL"));
 		model.addAttribute("org_advice", type);
 		model.addAttribute("uniqueId", planNo.trim());
@@ -851,21 +852,13 @@ public class PurchaseRequiredController extends BaseController {
 	@ResponseBody
 	public void delete(HttpServletRequest request) {
 		String planNo = request.getParameter("planNo");
-
 		String uniqueId = planNo.trim();
 		if (uniqueId.length() != 0) {
-			String[] uniqueIds = uniqueId.split(",");
+			String[] uniqueIds = uniqueId.split(StaticVariables.COMMA_SPLLIT);
 			for (String str : uniqueIds) {
 				purchaseRequiredService.updateByUniqueId(str);
 			}
-
 		}
-		/*
-		 * PurchaseRequired p=new PurchaseRequired(); p.setUniqueId(planNo.trim());
-		 * List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
-		 * for(PurchaseRequired pr:list){
-		 * purchaseRequiredService.delete(pr.getId()); }
-		 */
 
 	}
 

@@ -71,8 +71,32 @@ function sumbits(){
             }
         });
     }
-	
-	
+	//验证临时供应商名称
+	function checkSupplierName(obj){
+		var packageId ="${packageId}";
+		var projectId = "${projectId}";
+		var supplierName = $(obj).val();
+		$.ajax({
+			url:"${pageContext.request.contextPath}/SupplierExtracts/checkSupplierName.do",
+			type: "POST",
+			data:{
+				"packageId":packageId,
+				"projectId":projectId,
+			},
+			dataType: "json",
+			 success: function(data) {
+				 $.each(data,function(index,item){
+					 if(supplierName==item){
+						 layer.msg("供应商名称已添加");
+				         $("#appendedInput").val("");
+				         return;
+					 }
+			      
+			   });
+	         }
+			
+		});
+	}
 	function checkPwd(){
 		var password = $("input[name='loginPwd']").val();
 		if(password.length<6){
@@ -91,6 +115,8 @@ function sumbits(){
 </script>
 
 <script type="text/javascript">
+$(function(){
+})
       function showExpertType() {
         var setting = {
           check: {
@@ -191,7 +217,7 @@ function sumbits(){
       <li class="col-md-3 col-sm-6 col-xs-12 pl15">
          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>供应商名称：</span>
          <div class="input-append input_group col-sm-12 col-xs-12 p0">
-         <input class="title col-md-12" maxlength="80" id="appendedInput" name="supplierName" value="${supplier.supplierName}" type="text"/>
+         <input class="title col-md-12" maxlength="80" id="appendedInput" name="supplierName" value="${supplier.supplierName}" onblur="checkSupplierName(this)" type="text"/>
          <span class="add-on">i</span>
          <div class="cue">${supplierNameError}</div>
         </div>
@@ -233,7 +259,7 @@ function sumbits(){
       <li class="col-md-3 col-sm-6 col-xs-12 ">
         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>密码：</span>
          <div class="input-append input_group col-sm-12 col-xs-12 p0">
-          <input class="title col-md-12" id="appendedInput" name="loginPwd" value="${loginPwd}" maxlength="11" type="password" onblur="checkPwd()">
+          <input class="title col-md-12" id="appendedInput" autocomplete="new-password" name="loginPwd" value="${loginPwd}" maxlength="11" type="password" onblur="checkPwd()">
           <span class="add-on">i</span>
           <div class="cue" >${loginPwdError}</div>
         </div>

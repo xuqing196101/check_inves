@@ -923,12 +923,22 @@
 	
 	//控制省市附件的显示与隐藏
 	function disAreaFile(obj){
+		var currSupplierSt = "${currSupplier.status}";
+		var engPageField = "${engPageField}";
+		var businessScope = "${currSupplier.supplierMatEng.businessScope}";
 		$(obj).find("option").each(function(i,element){
-			if (element.selected == true) {
-				$("#area_" + element.value).show();
-				init_web_upload();
-			} else {
-				$("#area_" + element.value).hide();
+			if (currSupplierSt == '2' && engPageField.indexOf(element.text) < 0 && businessScope.indexOf(element.value) >= 0) {
+				element.selected = true;
+			}
+			if (currSupplierSt == '2' && engPageField.indexOf(element.text) < 0) {
+				return true;
+			}else{
+				if (element.selected == true) {
+					$("#area_" + element.value).show();
+					init_web_upload();
+				} else {
+					$("#area_" + element.value).hide();
+				}
 			}
 		});
 	}
@@ -1250,7 +1260,7 @@
 		
 	}
 	//资质类型下拉框改变时调用的方法
-	function getAptLevel(obj,enterWay){
+	function getAptLevel(obj,isSelect){
 		var supplierId=$("#sid").val();
 		if(obj instanceof jQuery) {
 			var typeId = obj.val();
@@ -1267,7 +1277,13 @@
 					}]
 				});
 			*/
-			
+			var objId = obj.attr("id");
+			var objIdNum = objId.replace("certType_","");
+			var selectedLevel = $("#certLevel_"+objIdNum).val();
+			if(isSelect){// 如果是选择下拉
+				$("[id='certGrade_select" + objIdNum + "']").combobox("clear");//清除选中值
+				$("[id='certGrade_select" + objIdNum + "']").combobox('loadData', {});//清空option
+			}
 			if (typeId != null && typeId != "") {
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplier/getAptLevel.do",
@@ -1278,7 +1294,6 @@
 					},
 					dataType: "json",
 					success: function(data){
-						
 						var easyuiData = [];
 						var flag_certGrade = 0;
 						if(data == null || data == {} || data == "") {
@@ -1286,68 +1301,50 @@
 							easyuiData.push(cur_str);
 						} else {
 							for(var i = 0; i < data.length; i++){
-							    if(null != data[i]){
-                                    var optionDOM = "";
-                                    var cur_str = "";
-                                    if (obj.parent().children(".forSelectId").val() != "" && obj.parent().children(".forSelectId").val() == data[i].id) {
-                                        //optionDOM = "<option value='" + data[i].id + "' selected='selected'>" + data[i].name + "</option>";
-                                        cur_str = {label : data[i].id,value : data[i].name,selected : true};
-                                        flag_certGrade = 1;
-                                    } else {
-                                        //var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
-                                        cur_str = {label : data[i].id,value : data[i].name};
-                                    }
-                                    easyuiData.push(cur_str);
-                                    //obj.parent().next().next().next().find("select").append(optionDOM);
-                                }
+							  if(null != data[i]){
+								  var optionDOM = "";
+								  var cur_str = "";
+								  if (selectedLevel != "" && selectedLevel == data[i].id) {
+								      //optionDOM = "<option value='" + data[i].id + "' selected='selected'>" + data[i].name + "</option>";
+								      cur_str = {label : data[i].id,value : data[i].name,selected : true};
+								      //flag_certGrade = 1;
+								  } else {
+								      //var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
+								      cur_str = {label : data[i].id,value : data[i].name};
+								  }
+								  if(selectedLevel != ""){
+								  	flag_certGrade = 1;
+								  }
+								  easyuiData.push(cur_str);
+								  //obj.parent().next().next().next().find("select").append(optionDOM);
+								}
 							}
 						}
-						if(enterWay == "addBtn") {
-							if(flag_certGrade == 0) {
-								easyuiData[0].selected = true;
+						if(flag_certGrade == 0) {
+							easyuiData[0].selected = true;
+						}
+						
+						var currentText = obj.combobox("getText");
+						var flag_current = 0;
+						var selectData = obj.combobox("getData");
+						for(var i = 0;i < selectData.length;i++) {
+							if(selectData[i].value == currentText) {
+								//flag_current = 1;
 							}
-							obj.parent().parent().find("[id^='certGrade_addSelect']").combobox({
+						}
+						
+						if(flag_current == 0) {
+							$("[id='certGrade_select" + objIdNum + "']").combobox({
 								valueField: 'label',
 								textField: 'value',
 								data: easyuiData
 							});
 						} else {
-							if(flag_certGrade == 0) {
-								easyuiData[0].selected = true;
-							}
-							
-							var objId = obj.attr("id");
-							var objIdNum = 0;
-							for(var i = 0;i < objId.length;i++) {
-								if(objId.charAt(i) > 0 && objId.charAt(i) < 10) {
-									objIdNum = objId.substr(i,objId.length);
-									//changeStatusJudge = changeStatus.substr(0,i);
-									break;
-								}
-							}
-							var currentText = obj.combobox("getText");
-							var flag_current = 0;
-							var selectData = obj.combobox("getData");
-							for(var i = 0;i < selectData.length;i++) {
-								if(selectData[i].value == currentText) {
-									//flag_current = 1;
-								}
-							}
-							
-							if(flag_current == 0) {
-								$("[id='certGrade_select" + objIdNum + "']").combobox({
-									valueField: 'label',
-									textField: 'value',
-									data: easyuiData
-								});
-							} else {
-								$("[id='certGrade_select" + objIdNum + "']").combobox({
-									valueField: 'label',
-									textField: 'value',
-									data: ""
-								});
-							}
-							
+							$("[id='certGrade_select" + objIdNum + "']").combobox({
+								valueField: 'label',
+								textField: 'value',
+								data: ""
+							});
 						}
 					}
 				});
@@ -1365,7 +1362,10 @@
 					success: function(data){
 						for(var i = 0; i < data.length; i++){
 							var optionDOM = "";
-							if ($(obj).parent().children(".forSelectId").val() != "" && $(obj).parent().children(".forSelectId").val() == data[i].id) {
+							var objId = obj.attr("id");
+							var objIdNum = objId.replace("certType_","");
+							var selectedLevel = $("#certLevel_"+objIdNum).val();
+							if (selectedLevel != "" && selectedLevel == data[i].id) {
 								optionDOM = "<option value='" + data[i].id + "' selected='selected'>" + data[i].name + "</option>";
 							} else {
 								var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
@@ -2317,7 +2317,6 @@
 																		<option value="${aptitute.certType}" selected="selected">${aptitute.certType}</option>
 																	</c:if>
 																</select>
-																<input type="hidden" class="forSelectId" value="${aptitute.aptituteLevel}">
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input
@@ -2336,11 +2335,13 @@
 																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()"></select>
 																 -->
 																<select id="certGrade_select${certAptNumber}" title="cnjewfnGrade" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" style="width:200px;border: none;">
-                                  <c:if test="${tempForShowOption eq 'go' }">
+                                  <%-- <c:if test="${tempForShowOption eq 'go' }">
 																		<option selected="selected">${aptitute.aptituteLevel}</option>
-																	</c:if>
+																	</c:if> --%>
+																	<option selected="selected">${aptitute.aptituteLevel}</option>
 																	<c:set var="tempForShowOption" value="notgo"/>
 																</select>
+																<input type="hidden" id="certLevel_${certAptNumber}" value="${aptitute.aptituteLevel}">
 																<script type="text/javascript">
 																	var currSupplierSt = '${currSupplier.status}';
 																	$("select[title='cnjewfn']").each(function() {
@@ -2350,7 +2351,9 @@
 																				getAptLevelSelect(record);
 																			},
 																			onChange : function() {
-																				getAptLevel($obj);
+																				var index = $obj.attr("id").replace("certType_","");
+																				$("#certLevel_"+index).val("");
+																				getAptLevel($obj, true);
 																			},
 																		};
 																		if(currSupplierSt == '2'){

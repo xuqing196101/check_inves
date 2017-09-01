@@ -26,6 +26,17 @@ public interface AuditPersonService {
 	* @throws
 	 */
 	void add(AuditPerson auditPerson);
+	
+	/**
+	 * 
+		 * @Title:addAuditPer 
+		 * @author: Zhou Wei
+		 * @date: 2017年8月29日 下午3:33:46
+		 * @Description: 添加审核人员,用于可返回的 
+		 * @return: String
+	 */
+	void addAuditPer(AuditPerson auditPerson);
+	
 	/**
 	 * 
 	* @Title: query

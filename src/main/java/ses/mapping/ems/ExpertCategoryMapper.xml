@@ -10,6 +10,11 @@
     <result column="AUDIT_STATUS" property="auditStatus"/>
   </resultMap>
   
+  <resultMap id="expertCategoryMap" type="ses.model.sms.SupplierCateTree">
+    <result column="NAME" jdbcType="VARCHAR" property="rootNode" />
+    <result column="ID" jdbcType="VARCHAR" property="itemsId" />
+  </resultMap>
+  
   <sql id="baseExpertSql">
      EXPERT_ID, CATEGORY_ID, TYPE_ID, LEVELS, ENGIN_TYPE
   </sql>
@@ -202,7 +207,20 @@
            AND C.LEVELS = '1'
            AND C.TYPE_ID = #{typeId}
     </select>
-    
+    <!--查询专家审核通过的数量-->
+    <select id="selectPassCount" parameterType="Map" resultMap="BaseResultMap">
+        SELECT C.TYPE_ID, C.CATEGORY_ID
+          FROM T_SES_EMS_EXPERT_CATEGORY C
+         WHERE NOT EXISTS (SELECT T.AUDIT_FIELD_ID
+                  FROM T_SES_EMS_EXPERT_AUDIT T
+                 WHERE C.CATEGORY_ID = T.AUDIT_FIELD_ID
+                   AND T.EXPERT_ID = #{expertId}
+                   AND T.SUGGEST_TYPE = #{type}
+                   AND T.IS_DELETED = 0)
+           AND C.EXPERT_ID = #{expertId}
+            AND C.LEVELS = '1' 
+           AND C.TYPE_ID = #{typeId}
+    </select>
     <!-- 更新审核状态 -->
     <update id="updateAuditStatus" parameterType="ses.model.ems.ExpertCategory">
       update 
@@ -212,4 +230,35 @@
       WHERE 
         EXPERT_ID =#{expertId} and CATEGORY_ID =#{categoryId}
     </update>
+    
+    <!-- 查询专家所有参评类别 -->
+    <select id="findExpertCatrgory" resultMap = "expertCategoryMap">
+		SELECT * FROM (
+			SELECT ID,PARENT_ID,NAME FROM
+			<if test=" 'FC9528B2E74F4CB2A9ASD789123AS7D'.equals(typeId)">
+				T_SES_BMS_ENG_CATEGORY
+			</if>
+			<if test=" !'FC9528B2E74F4CB2A9ASD789123AS7D'.equals(typeId)">
+				T_SES_BMS_CATEGORY
+			</if>
+			WHERE ID IN (SELECT CATEGORY_ID AS ID FROM
+			T_SES_EMS_EXPERT_CATEGORY WHERE EXPERT_ID = #{expertId})
+		)
+		START WITH PARENT_ID = #{typeId} CONNECT BY PRIOR ID = PARENT_ID
+    </select>
+    
+    <!-- 查询父节点的数量 （带本身） -->
+    <select id="findCountParent" parameterType="Map" resultType="Integer">
+		SELECT
+			COUNT(ID)
+		FROM
+			<if test=" 'FC9528B2E74F4CB2A9ASD789123AS7D'.equals(typeId)">
+				T_SES_BMS_ENG_CATEGORY
+			</if>
+			<if test=" !'FC9528B2E74F4CB2A9ASD789123AS7D'.equals(typeId)">
+				T_SES_BMS_CATEGORY
+			</if>
+		START WITH ID = #{categoryId}
+		CONNECT BY PRIOR PARENT_ID = ID
+    </select>
 </mapper>

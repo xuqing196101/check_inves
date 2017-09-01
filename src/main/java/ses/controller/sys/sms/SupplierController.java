@@ -996,7 +996,8 @@ public class SupplierController extends BaseSupplierController {
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("rootArea", areaService.findRootArea());
 		List<Qualification> findList = qualificationService.findList(null, Integer.MAX_VALUE, null, 4);
-		List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, supplier.getId());
+		// 去掉下面的代码（只要后台维护的资质，不要供应商自己添加的资质）
+		/*List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, supplier.getId());
 		if(supplierQua != null && !supplierQua.isEmpty()){
 			for(SupplierPorjectQua qua : supplierQua){
             	Qualification q = new Qualification();
@@ -1004,7 +1005,7 @@ public class SupplierController extends BaseSupplierController {
             	q.setName(qua.getName());
             	findList.add(q);
             }
-		}
+		}*/
 		model.addAttribute("typeList", findList);
 		// 物资销售是否满足条件
 		//String isSalePass = isPass(supplier.getId(), "SALES");
@@ -2698,14 +2699,14 @@ public class SupplierController extends BaseSupplierController {
 	            }
             }
 		    if(codeSet.size() != codeCount){
-		    	model.addAttribute("eng_cert", "证书编号重复!");
+		    	model.addAttribute("eng_cert", "证书编号重复！");
                 bool = false;
 		    }
 		}
 		
-		/*List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
+		List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
 		if(aptitudeList != null && aptitudeList.size() > 0){
-			Set<String> codeSet = new HashSet<>();
+			/*Set<String> codeSet = new HashSet<>();
 			int codeCount = 0;
 			for (SupplierAptitute aptitude : aptitudeList) {
 				if(StringUtils.isNotBlank(aptitude.getCertCode())){
@@ -2714,10 +2715,38 @@ public class SupplierController extends BaseSupplierController {
 				}
 			}
 			if(codeSet.size() != codeCount){
-				model.addAttribute("eng_aptitutes", "证书编号重复!");
+				model.addAttribute("eng_aptitutes", "证书编号重复！");
+				bool = false;
+			}*/
+			Set<String> certTypeSet = new HashSet<>();
+			int certTypeCount = 0;
+			StringBuffer levelSb = new StringBuffer();
+			boolean levelBool = true;
+			for (SupplierAptitute aptitude : aptitudeList) {
+				if(StringUtils.isNotBlank(aptitude.getCertType())){
+					certTypeSet.add(aptitude.getCertType());
+					certTypeCount++;
+					// 校验资质等级
+					Qualification qualification = qualificationService.getQualification(aptitude.getCertType());// 根据id查询资质类型
+					if(qualification != null && StringUtils.isNotBlank(aptitude.getAptituteLevel())){
+						int countByQuaIdAndLevel = qualificationLevelService.countByQuaIdAndLevel(aptitude.getCertType(), aptitude.getAptituteLevel());
+						if(countByQuaIdAndLevel == 0){
+							levelSb.append(aptitude.getAptituteLevel() + ",");
+							levelBool = false;
+						}
+					}
+				}
+			}
+			if(certTypeSet.size() != certTypeCount){
+				model.addAttribute("eng_aptitutes", "资质类型重复！");
 				bool = false;
 			}
-		}*/
+			if(!levelBool){
+				String levelStr = levelSb.substring(0, levelSb.lastIndexOf(","));
+				model.addAttribute("eng_aptitutes", "资质等级"+levelStr+"不存在！请选择");
+				bool = false;
+			}
+		}
     	
 		return bool;
 	}

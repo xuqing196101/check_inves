@@ -4,6 +4,7 @@
 <html>
 <head>
 	<jsp:include page="/WEB-INF/view/common.jsp"/>
+	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
     <title>页签</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -802,6 +803,13 @@
 			        	<div class="cue">${ERR_purchaseType}</div>
 			        </div>
 			 	</li>
+			 	<li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->授权书：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        <u:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}" multiple="true" auto="true" />
+					<u:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}"/>
+	       			</div>
+				 </li>
 				 <div class="clear"></div>
 			 </ul>
 	   		<h2 class="f16 count_flow mt40"><i>02</i>甲方信息</h2>
@@ -811,8 +819,8 @@
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	<!-- <select id="purchaseDeps" name="purchaseDepName" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changeXuqiuDep()">
                 		</select> -->
-                		<input class="supplier_ids" name="purchaseDepNames" value="${org.name}" type="text">
-                    <input type="hidden" name="purchaseDepName" value="${org.id}" >
+                		<input class="supplier_ids" readonly="readonly" name="purchaseDepNames" value="${purchaseDep.depName}" type="text">
+                    <input type="hidden" name="purchaseDepName" value="${purCon.purchaseDepName}" >
 			        	<!-- <input class=" supplier_id" name="purchaseDepName" value="${project.orgnization.name}" type="text"> -->
 			        	<div class="cue">${ERR_purchaseDepName}</div>
 	       			</div>

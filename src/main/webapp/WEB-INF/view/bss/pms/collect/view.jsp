@@ -468,7 +468,7 @@
 							</td>
 							
 							<td class="tl">
-								<div class="w80"><input name="list[${vs.index }].supplier" readonly="readonly" value="${obj.supplier }" onblur="checkSupplierName(this)" /></div>
+								<div class="w80"><input name="list[${vs.index }].supplier" readonly="readonly" value="${obj.supplier }"  /></div>
 							</td>
 							<td class="tc">
 							    <div class="w80">${obj.isFreeTax }</div>

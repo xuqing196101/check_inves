@@ -197,7 +197,7 @@
     <if test="categoryId == null or categoryId == ''">
     	from T_ISS_PS_ARTICLE T
     </if>
-    where T.IS_DELETED = 0
+    WHERE T.IS_DELETED = 0
 	  	<if test="name != null">
 	  	  AND T.NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
 	  	</if>
@@ -1522,6 +1522,7 @@ where
 		 SELECT COUNT(T.ID)
 		   FROM T_ISS_PS_ARTICLE T
 		  	WHERE T.STATUS = 2
+            AND T.IS_DELETED = 0
 		 <!-- 按年份查询 -->
 		 <if test="year != '' and year != null">
 		 	AND TO_CHAR(T.PUBLISHED_AT, 'yyyy') = TO_CHAR(#{year},'yyyy')
