@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import extract.model.supplier.SupplierConType;
-import extract.model.supplier.SupplierCondition;
+import extract.model.supplier.SupplierExtractCondition;
 
 public interface SupplierExtractConditionMapper {
     /**
@@ -19,33 +19,33 @@ public interface SupplierExtractConditionMapper {
      *
      * @param record
      */
-    int insert(SupplierCondition record);
+    int insert(SupplierExtractCondition record);
 
     /**
      *
      * @param record
      */
-    int insertSelective(SupplierCondition record);
+    int insertSelective(SupplierExtractCondition record);
 
     /**
      * 根据主键获取一条数据库记录
      *
      * @param id
      */
-    SupplierCondition selectByPrimaryKey(String id);
+    SupplierExtractCondition selectByPrimaryKey(String id);
 
     /**
      *
      * @param record
      */
-    int updateByPrimaryKeySelective(SupplierCondition record);
+    int updateByPrimaryKeySelective(SupplierExtractCondition record);
 
     /**
      * 根据主键来更新数据库记录
      *
      * @param record
      */
-    int updateByPrimaryKey(SupplierCondition record);
+    int updateByPrimaryKey(SupplierExtractCondition record);
     
     /**
      * @Description:获取集合信息
@@ -56,7 +56,7 @@ public interface SupplierExtractConditionMapper {
      * @param @return      
      * @return List<SupplierCondition>
      */
-    List<SupplierCondition> list(SupplierCondition record);
+    List<SupplierExtractCondition> list(SupplierExtractCondition record);
     
     
     /**
@@ -69,19 +69,19 @@ public interface SupplierExtractConditionMapper {
      */
     Integer getCount(String packId);
 
-	void updateConditionByPrimaryKeySelective(SupplierCondition condition);
+	void updateConditionByPrimaryKeySelective(SupplierExtractCondition condition);
 
 	List<SupplierConType> getAreaInfoByConditionId(String id);
 	
 	void deleteAreaInfoByConditionId(String id);
 	
-	void insertAreaCondition(SupplierCondition condition);
+	void insertAreaCondition(SupplierExtractCondition condition);
 	
 	List<SupplierConType> getTypeInfoByMap(Map<String, String> map);
 
 	void deleteTypeInfoByMap(Map<String, String> map);
 
-	void insertTypeInfo(SupplierCondition condition);
+	void insertTypeInfo(SupplierExtractCondition condition);
 
 
 	

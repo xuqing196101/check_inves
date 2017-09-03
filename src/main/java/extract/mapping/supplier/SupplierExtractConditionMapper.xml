@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="extract.dao.supplier.SupplierExtractConditionMapper">
-	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierCondition">
+	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractCondition">
 		<!-- @mbggenerated -->
 		<id column="ID" jdbcType="VARCHAR" property="id" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
@@ -18,7 +18,7 @@
 		<result column="ADDRESS_ID" jdbcType="VARCHAR" property="addressId" />
 	</resultMap>
 
-	<resultMap type="extract.model.supplier.SupplierCondition" id="BaseResultListMap"
+	<resultMap type="extract.model.supplier.SupplierExtractCondition" id="BaseResultListMap"
 		extends="BaseResultMap">
 		<collection property="conTypes" column="ID"
 			ofType="extract.model.supplier.SupplierConType">
@@ -31,12 +31,12 @@
 			<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
 			<result column="IS_MULTICONDITION" jdbcType="DECIMAL"
 				property="isMulticondition" />
-			<association property="supplierType" column="SUPPLIER_TYPE_ID"
-				select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryCode"></association>
+		<!-- 	<association property="supplierType" column="SUPPLIER_TYPE_ID"
+				select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryCode"></association> -->
 		</collection>
 		<!-- 关联抽取过的供应商 -->
-		<collection property="extRelatesList" column="ID"
-			ofType="extract.model.supplier.SupplierExtRelate" select="ses.dao.sms.SupplierExtRelateMapper.getBuyConId" />
+		<!-- <collection property="extRelatesList" column="ID"
+			ofType="extract.model.supplier.SupplierExtractResult" select="ses.dao.sms.SupplierExtRelateMapper.getBuyConId" /> -->
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
@@ -58,7 +58,7 @@
 		where ID =
 		#{id,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert" parameterType="extract.model.supplier.SupplierCondition">
+	<insert id="insert" parameterType="extract.model.supplier.SupplierExtractCondition">
 		<!-- @mbggenerated -->
 		insert into T_SES_SMS_SUPPLIE_CONDITION (ID, PROJECT_ID, STATUS,
 		ADDRESS, EXPERTS_TYPE_ID, TENDER_TIME,
@@ -81,7 +81,7 @@
 		#{addressId,jdbcType=VARCHAR},
 		)
 	</insert>
-	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierCondition">
+	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtractCondition">
 
 		<!-- @mbggenerated -->
 		insert into T_SES_SMS_SUPPLIE_CONDITION
@@ -171,7 +171,7 @@
 			select sys_guid() from dual
 		</selectKey>
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierCondition">
+	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractCondition">
 		<!-- @mbggenerated -->
 		update T_SES_SMS_SUPPLIE_CONDITION
 		<set>
@@ -217,7 +217,7 @@
 			PROJECT_ID = #{projectId,jdbcType=VARCHAR}
 		</if>
 	</update>
-	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierCondition">
+	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierExtractCondition">
 		<!-- @mbggenerated -->
 		update T_SES_SMS_SUPPLIE_CONDITION
 		set PROJECT_ID =
@@ -257,7 +257,7 @@
 
 
 
-	<select id="list" parameterType="extract.model.supplier.SupplierCondition"
+	<select id="list" parameterType="extract.model.supplier.SupplierExtractCondition"
 		resultMap="BaseResultListMap">
 		SELECT
 		sc.*, CT."ID" AS ctid,
@@ -308,7 +308,7 @@
 		sc.PROJECT_ID =#{projectId}
 	</select>
 	
-	<update id="updateConditionByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierCondition">
+	<update id="updateConditionByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractCondition">
 		<!-- @mbggenerated -->
 		update T_SES_SMS_SUPPLIE_CONDITION
 		<set>
@@ -350,7 +350,7 @@
 	<delete id="deleteTypeInfoByMap" parameterType="map">
 		DELETE FROM T_SES_EXT_TYPE_CATEGORY WHERE CONDITION_ID = #{conditionId} AND TYPE_CODE = #{supplierTypeCode}
 	</delete>
-	<insert id="insertTypeInfo" parameterType="extract.model.supplier.SupplierCondition">
+	<insert id="insertTypeInfo" parameterType="extract.model.supplier.SupplierExtractCondition">
 		INSERT INTO T_SES_EXT_TYPE_CATEGORY (CONDITION_ID,TYPE_CODE,CATEGORY_ID,PRIVARY,BUSINESS_NATURE,LEVEL_TYPE_ID,TEMP) 
 		VALUES (#{id},
 		<choose>

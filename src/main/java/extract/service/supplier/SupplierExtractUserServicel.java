@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import extract.model.supplier.SupplierExtUser;
+import extract.model.common.ExtractUser;
 
 
 /**
@@ -26,7 +26,7 @@ public interface SupplierExtractUserServicel {
 	 * @param @return      
 	 * @return List<ProjectSupervisor>
 	 */
-	List<SupplierExtUser> list(SupplierExtUser extSupervise);
+	List<ExtractUser> list(ExtractUser extSupervise);
 	
     /**
      * @Description:根据项目id删除监督信息
@@ -44,7 +44,7 @@ public interface SupplierExtractUserServicel {
      *〈详细描述〉
      * @author Wang Wenshuai
      */
-    void insert(SupplierExtUser record);
+    void insert(ExtractUser record);
     
     /**
      * 
@@ -53,7 +53,7 @@ public interface SupplierExtractUserServicel {
      * @author Wang Wenshuai
      * @param listInsert
      */
-    void listInsert(List<SupplierExtUser> listInsert);
+    void listInsert(List<ExtractUser> listInsert);
     
     /**
      * 
@@ -62,7 +62,7 @@ public interface SupplierExtractUserServicel {
      * @author Wang Wenshuai
      * @param extUser
      */
-    void update(SupplierExtUser extUser);
+    void update(ExtractUser extUser);
     
     /**
      * 

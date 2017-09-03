@@ -2,18 +2,18 @@
 package extract.controller.supplier;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,7 +27,6 @@ import ses.model.sms.Supplier;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierService;
-import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import bss.controller.base.BaseController;
 import bss.model.ppms.Packages;
@@ -36,18 +35,20 @@ import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 
-import extract.model.supplier.SupplierCondition;
-import extract.model.supplier.SupplierExtRelate;
-import extract.model.supplier.SupplierExtUser;
-import extract.model.supplier.SupplierExtracts;
+import extract.model.common.ExtractUser;
+import extract.model.common.Supervise;
+import extract.model.supplier.SupplierExtractCondition;
+import extract.model.supplier.SupplierExtractProjectInfo;
+import extract.model.supplier.SupplierExtractResult;
+import extract.service.common.ExtractUserService;
+import extract.service.common.SuperviseService;
 import extract.service.supplier.SupplierExtractConditionService;
+import extract.service.supplier.SupplierExtractRecordService;
 import extract.service.supplier.SupplierExtractRelateResultService;
 import extract.service.supplier.SupplierExtractUserServicel;
-import extract.service.supplier.SupplierExtractRecordService;
 
 /**
  * @Description:供应商抽取记录
@@ -88,8 +89,11 @@ public class ExtractSupplierController extends BaseController {
     private CategoryService categoryService; //品目
     @Autowired
     private SupplierService supplierService;
+    @Autowired
+    private ExtractUserService extractUserService;
+    @Autowired
+    private SuperviseService superviseService;
     
-
     /**
      * @Description:获取项目集合
      *
@@ -102,8 +106,8 @@ public class ExtractSupplierController extends BaseController {
      */
     @RequestMapping("/projectList")
     public String list(Integer page, Model model, Project project){
-    	List<SupplierExtracts> extractRecords = expExtractRecordService.getList(page == null?1:page);
-    	model.addAttribute("info", new PageInfo<SupplierExtracts>(extractRecords));
+    	List<SupplierExtractProjectInfo> extractRecords = expExtractRecordService.getList(page == null?1:page);
+    	model.addAttribute("info", new PageInfo<SupplierExtractProjectInfo>(extractRecords));
         return "ses/sms/supplier_extracts/project_list";
     }
     /**
@@ -116,12 +120,12 @@ public class ExtractSupplierController extends BaseController {
      */
     @RequestMapping("/Extraction")
    // public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId){
-   public String listExtraction(@CurrentUser User user,Model model, SupplierExtracts eRecord,String conditionId){
+   public String listExtraction(@CurrentUser User user,Model model, SupplierExtractProjectInfo eRecord,String conditionId){
 
     	if(StringUtils.isEmpty(conditionId)){
     		conditionId = WfUtil.createUUID();
     		//生成一条查询条件
-    		SupplierCondition supplierCondition = new SupplierCondition();
+    		SupplierExtractCondition supplierCondition = new SupplierExtractCondition();
     		supplierCondition.setId(conditionId);
     		conditionService.insert(supplierCondition);
     		//将conditionId 插入记录表
@@ -144,7 +148,7 @@ public class ExtractSupplierController extends BaseController {
     			model.addAttribute("typeclassId", "hidden");
     		}else{
     			//点击人工抽取
-    			model.addAttribute("purchaseTypes",DictionaryDataUtil.find(5));
+    			//model.addAttribute("purchaseTypes",DictionaryDataUtil.find(5));
     		}
     		
     	}else if(StringUtils.isNotBlank(eRecord.getId())){
@@ -156,9 +160,11 @@ public class ExtractSupplierController extends BaseController {
     		}
     		//从记录列表进入 继续抽取 项目信息
     		model.addAttribute("projectInfo",eRecord);
-    		model.addAttribute("supervises",extUserServicel.getName(eRecord.getId()));
+    		//model.addAttribute("supervises",extUserServicel.getName(eRecord.getId()));
     		//重新抽取  只携带项目信息
     	}
+    	List<Area> province = areaService.findRootArea();
+    	model.addAttribute("province", province);
     	return "ses/sms/supplier_extracts/condition_list";
     }
 
@@ -175,7 +181,7 @@ public class ExtractSupplierController extends BaseController {
      * @param extAddress
      * @return
      */
-    @ResponseBody
+    /*@ResponseBody
     @RequestMapping("/validateAddExtraction")
     public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest sq,String[] packageId, String[] superviseId,Integer type){
 
@@ -205,7 +211,7 @@ public class ExtractSupplierController extends BaseController {
                 count = 1;
             }
         }else{
-            List<SupplierExtUser> list = extUserServicel.list(new SupplierExtUser(project.getId()));
+            List<ExtractUser> list = extUserServicel.list(new ExtractUser(project.getId()));
             if (list == null || list.size() == 0 || "".equals(project.getId())){
                 map.put("supervise", "不能为空");
                 count = 1;
@@ -244,7 +250,7 @@ public class ExtractSupplierController extends BaseController {
                     //修改监督人员
                     if (superviseId != null && superviseId.length != 0) {
                         for (String id : superviseId) {
-                            SupplierExtUser extUser = new SupplierExtUser();
+                            ExtractUser extUser = new ExtractUser();
                             extUser.setProjectId(projectId);
                             extUser.setId(id);
                             extUserServicel.update(extUser);
@@ -253,17 +259,17 @@ public class ExtractSupplierController extends BaseController {
                 }
                 //抽取地址
                 if (extractionSites != null && !"".equals(extractionSites)){
-                    SupplierExtracts supplierExtracts = new SupplierExtracts();
+                    SupplierExtractProjectInfo supplierExtracts = new SupplierExtractProjectInfo();
                     supplierExtracts.setProjectId(projectId);
                     PageHelper.startPage(1, 1);
                     //查询抽取记录
-                    List<SupplierExtracts> listSe = expExtractRecordService.listExtractRecord(supplierExtracts,0);
+                    List<SupplierExtractProjectInfo> listSe = expExtractRecordService.listExtractRecord(supplierExtracts,0);
                     //设置抽取地点
                     supplierExtracts.setExtractionSites(extractionSites);
                     User user = (User) sq.getSession().getAttribute("loginUser");
                     if(user != null ){
                     	//设置抽取人员
-                        supplierExtracts.setExtractsPeople(user.getId());
+                        //supplierExtracts.setExtractsPeople(user.getId());
                     }
                     if (listSe != null && listSe.size() != 0){
                         supplierExtracts.setId(listSe.get(0).getId());
@@ -298,7 +304,7 @@ public class ExtractSupplierController extends BaseController {
         return JSON.toJSONString(map);
 
 
-    }
+    }*/
 
     /**
      *
@@ -356,7 +362,7 @@ public class ExtractSupplierController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/resultextract")
-    public Object resultextract(Model model,SupplierExtRelate supplierExtRelate){
+    public Object resultextract(Model model,SupplierExtractResult supplierExtRelate){
     	
     	//保存抽取记录  供应商id  记录id 条件id  结果id 是否参加 不参加理由 供应商类型代码
     	//supplierExtRelate.setId(UUIDUtils.getUUID32());
@@ -374,9 +380,9 @@ public class ExtractSupplierController extends BaseController {
      * @return String
      */
     @RequestMapping("/resuleRecordlist")
-    public String resuleRecord(Model model,SupplierExtracts se,String page){
-        List<SupplierExtracts> listExtractRecord = expExtractRecordService.listExtractRecord(se,page!=null&&!page.equals("")?Integer.parseInt(page):1);
-        model.addAttribute("extractslist", new PageInfo<SupplierExtracts>(listExtractRecord));
+    public String resuleRecord(Model model,SupplierExtractProjectInfo se,String page){
+        List<SupplierExtractProjectInfo> listExtractRecord = expExtractRecordService.listExtractRecord(se,page!=null&&!page.equals("")?Integer.parseInt(page):1);
+        model.addAttribute("extractslist", new PageInfo<SupplierExtractProjectInfo>(listExtractRecord));
         model.addAttribute("se", se);
         return "ses/sms/supplier_extracts/recordlist";
     }
@@ -391,22 +397,22 @@ public class ExtractSupplierController extends BaseController {
      * @param @return
      * @return String
      */
-    @RequestMapping("/showRecord")
+    /*@RequestMapping("/showRecord")
     public String showRecord(Model model, String id,String projectId,String packageId,String typeclassId){
         model.addAttribute("typeclassId", typeclassId);
         model.addAttribute("projectId", projectId);
         model.addAttribute("packageId", packageId);
-        SupplierExtracts showExpExtractRecord=null;
+        SupplierExtractProjectInfo showExpExtractRecord=null;
         if (projectId != null && projectId != null){
             //获取抽取记录
-            SupplierExtracts extracts = new SupplierExtracts();
+            SupplierExtractProjectInfo extracts = new SupplierExtractProjectInfo();
             extracts.setProjectId(projectId);
-            List<SupplierExtracts> listExtractRecord = expExtractRecordService.listExtractRecord(extracts,0);
+            List<SupplierExtractProjectInfo> listExtractRecord = expExtractRecordService.listExtractRecord(extracts,0);
             if(listExtractRecord != null && listExtractRecord.size() !=0){
                 showExpExtractRecord = listExtractRecord.get(0);
                 model.addAttribute("ExpExtractRecord", showExpExtractRecord);
                 //获取监督人员
-                List<SupplierExtUser>    listUser = extUserServicel.list(new SupplierExtUser(showExpExtractRecord.getProjectId()));
+                List<ExtractUser>    listUser = extUserServicel.list(new ExtractUser(showExpExtractRecord.getProjectId()));
                 model.addAttribute("listUser", listUser);
                 //抽取条件
                 List<Packages> conList = packagesService.listExpExtCondition(showExpExtractRecord.getProjectId());
@@ -416,10 +422,10 @@ public class ExtractSupplierController extends BaseController {
                     //已抽取
                     String[] packageIds =  packageId.split(",");
                     if(packageIds.length != 0 ){
-                        SupplierCondition con = null;
+                        SupplierExtractCondition con = null;
                         for (String pckId : packageIds) {
                             if(pckId != null && !"".equals(pckId)){
-                                con = new SupplierCondition();
+                                con = new SupplierExtractCondition();
                                 con.setProjectId(pckId);
                                 con.setStatus((short)2);
                                 conditionService.update(con);
@@ -432,14 +438,14 @@ public class ExtractSupplierController extends BaseController {
 
         }else{
             //获取抽取记录
-            List<SupplierExtracts> listExtractRecord = expExtractRecordService.listExtractRecord(new SupplierExtracts(id),0);
+            List<SupplierExtractProjectInfo> listExtractRecord = expExtractRecordService.listExtractRecord(new SupplierExtractProjectInfo(id),0);
             if(listExtractRecord != null && listExtractRecord.size() !=0){
                 showExpExtractRecord = listExtractRecord.get(0);
                 model.addAttribute("ExpExtractRecord", showExpExtractRecord);
             }
         }
         return "ses/sms/supplier_extracts/extract_supervise_word";
-    }
+    }*/
 
     /**
      * @Description: 获取市
@@ -463,22 +469,64 @@ public class ExtractSupplierController extends BaseController {
      * @version 2016年9月25日 09:49:56
      * @return String
      */
-    @RequestMapping("/showSupervise")
+    
+    
+   /* @RequestMapping("/showSupervise")
     public String showSupervise(Model model,String recordId){
         if (recordId != null && !"".equals(recordId)) {
             model.addAttribute("recordId", recordId);
-            List<SupplierExtUser> list = extUserServicel.list(new SupplierExtUser(recordId));
+            List<ExtractUser> list = extUserServicel.list(new ExtractUser(recordId));
             model.addAttribute("list", list);
         }
         model.addAttribute("type", "supplier");
         return "ses/sms/supplier_extracts/supervise_list";
-    }
+    }*/
 
+    /**
+     * 添加抽取人员
+     * @param packageId
+     * @return
+     */
+    @RequestMapping("addExtractUser")
+    @ResponseBody
+    public List<FieldError> addExtractUser(@CurrentUser User user, Model model,@Valid ExtractUser extUser, BindingResult result){
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+            for(FieldError fieldError:errors){
+               // model.addAttribute(fieldError.getField()+"Error", fieldError.getDefaultMessage());
+            }
+            return errors; 
+		}
+		return null;
+    	
+    }
+    
+    /**
+     * 引用历史人员
+     * @param packageId
+     * @return
+     */
+     @RequestMapping("/getPeronList")
+    public String getPeronList(Model model,String personType,ExtractUser user,Supervise suser){
+        if (personType != null && !"".equals(personType)) {
+        	if("extractUser".equals(personType)){
+    			model.addAttribute("persons", extractUserService.getList(user));
+    		}
+    		if("supervise".equals(personType)){
+    			model.addAttribute("persons", superviseService.getList(suser));
+    		}
+        }
+        model.addAttribute("personType", personType);
+        return "ses/sms/extract/person_list";
+    }
+    
+    
+    
     @ResponseBody
     @RequestMapping("/isFinish")
     public String isFinish(String packageId){
         //获取查询条件类型
-        SupplierCondition condition = new SupplierCondition();
+        SupplierExtractCondition condition = new SupplierExtractCondition();
         condition.setProjectId(packageId);
         condition.setStatus((short)1);
         String finish = conditionService.isFinish(condition);

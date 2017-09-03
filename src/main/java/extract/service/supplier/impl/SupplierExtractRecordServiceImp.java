@@ -33,7 +33,7 @@ import bss.model.ppms.SaleTender;
 import com.github.pagehelper.PageHelper;
 
 import extract.dao.supplier.SupplierExtractRecordMapper;
-import extract.model.supplier.SupplierExtracts;
+import extract.model.supplier.SupplierExtractProjectInfo;
 import extract.service.supplier.SupplierExtractRecordService;
 
 /**
@@ -70,7 +70,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
      * @return void
      */
     @Override
-    public void insert(SupplierExtracts record) {
+    public void insert(SupplierExtractProjectInfo record) {
     	record.setCreatedAt(new Date());
         supplierExtractsMapper.insertSelective(record);
     }
@@ -84,8 +84,8 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
      * @return void
      */
     @Override
-    public List<SupplierExtracts> listExtractRecord(
-        SupplierExtracts expExtractRecord,Integer pageNum) {
+    public List<SupplierExtractProjectInfo> listExtractRecord(
+        SupplierExtractProjectInfo expExtractRecord,Integer pageNum) {
         if(pageNum!=0){
             PageHelper.startPage(pageNum, 10);
         }
@@ -99,7 +99,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
      * @author Wang Wenshuai
      */
     @Override
-    public void update(SupplierExtracts extracts) {
+    public void update(SupplierExtractProjectInfo extracts) {
     	extracts.setExtractionTime(new Date());
         supplierExtractsMapper.updateByPrimaryKeySelective(extracts);
     }
@@ -202,12 +202,12 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     }
 
 	@Override
-	public SupplierExtracts selectByPrimaryKey(String id) {
+	public SupplierExtractProjectInfo selectByPrimaryKey(String id) {
 		return supplierExtractsMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
-	public List<SupplierExtracts> getList(int i) {
+	public List<SupplierExtractProjectInfo> getList(int i) {
 		 PageHelper.startPage(i, PropUtil.getIntegerProperty("pageSize"));
 		return supplierExtractsMapper.getList();
 	}

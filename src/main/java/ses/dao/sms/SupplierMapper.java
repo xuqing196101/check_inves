@@ -204,7 +204,7 @@ public interface SupplierMapper {
      * @return List<Expert>
      */
     List<Supplier> listExtractionExpert(
-			extract.model.supplier.SupplierCondition condition);
+			extract.model.supplier.SupplierExtractCondition condition);
     
     
     List<Supplier> selectByProjectId(String projectId);

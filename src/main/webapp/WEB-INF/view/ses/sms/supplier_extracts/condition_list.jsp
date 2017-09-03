@@ -341,6 +341,7 @@
 
 <!-- 项目戳开始 -->
 <div class="container">
+<!-- 项目信息开始 -->
 <div class="container_box col-md-12 col-sm-12 col-xs-12">
     <form id="form">
         <!-- 监督人员 -->
@@ -356,7 +357,7 @@
          <h2 class="count_flow"><i>1</i>项目信息</h2>
          <ul class="ul_list border0">
              <li class="col-md-3 col-sm-4 col-xs-12 pl15">
-                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red0">*</span> 项目名称:</span>
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 项目名称:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                      <input id="projectName" name="projectName"  value="${projectInfo.projectName}" type="text">
                      <span class="add-on">i</span>
@@ -364,7 +365,7 @@
                  </div>
              </li>
              <li class="col-md-3 col-sm-4 col-xs-12">
-                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red1">*</span> 项目编号:</span>
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 项目编号:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                      <input id="projectNumber" name="projectCode" value="${projectInfo.projectCode}" type="text" >
                      <span class="add-on">i</span>
@@ -372,24 +373,96 @@
                  </div>
              </li>
              <li class="col-md-3 col-sm-4 col-xs-12">
-                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red2">*</span>采购方式:</span>
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购方式:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                 	<c:choose>
-	                 	<c:when test="${purchaseTypes!=null && purchaseTypes != '' }">
-		                     <select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0">
-		                         <c:forEach items="${purchaseTypes}" var="map">
-		                             <option value="${map.id}">${map.name}</option>
-		                         </c:forEach>
-		                     </select>
-	                 	</c:when>
-	                 	<c:otherwise>
-	                 		<input id="purchaseTypeName"  name="purchaseType"  value="${projectInfo.purchaseType}" type="hidden" >
-	                 		<input  readonly="readonly" name="purchaseTypeName"  value="${projectInfo.purchaseTypeName}" type="text" >
-	                 	</c:otherwise>
-                 	</c:choose>
+           			<c:if test="${projectInfo.purchaseType ==null }">
+                     	<select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0">
+                    </c:if>
+                   	<c:if test="${projectInfo.purchaseType !=null }">
+                		 <select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0" disabled="disabled">
+                   			<option value="${projectInfo.purchaseType}" selected="selected">${projectInfo.purchaseTypeName}</option>
+                   	</c:if>
+                             <option value="3CF3C643AE0A4499ADB15473106A7B80" >竞争性谈判</option>
+                             <option value="EF33590F956F4450A43C1B510EBA7923" >询价采购</option>
+                             <option value="209C109291F241D88188521A7F8FA308" >邀请招标</option>
+                     </select>
+                 	<div class="cue" id="purchaseTypeError"></div>
                  </div>
              </li>
-             <li class="col-md-3 col-sm-4 col-xs-12 ">
+             <li class="col-md-3 col-sm-4 col-xs-12">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">包名(标段):</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                     <input id="packageName" name="packageName" value="${projectInfo.projectCode}" type="text" >
+                     <span class="add-on">i</span>
+                     <div class="cue" id="packageNameError"></div>
+                 </div>
+             </li>
+             <li class="col-md-3 col-sm-4 col-xs-12">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>售领采购文件起始时间:</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                     <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="sellBegin" readonly="readonly"  name="sellBegin" value="<fmt:formatDate value='${project}'
+                             pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">
+                     <div class="cue" id="sellBeginError"></div>
+                 </div>
+             </li>
+             <li class="col-md-3 col-sm-4 col-xs-12">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>售领采购文件结束时间:</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                     <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="sellEnd" readonly="readonly"  name="sellEnd" value="<fmt:formatDate value='${bidDate}'
+                             pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">
+                     <div class="cue" id="sellEndError"></div>
+                 </div>
+             </li>
+             <li class="col-md-3 col-sm-4 col-xs-12">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>售领地区</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                     <select class="col-md-6 col-sm-6 col-xs-6 p0" id="sellProvince" name="sellProvince" onchange="selectArea(this);">
+                            <c:forEach items="${province }" var="pro">
+                                    <option value="${pro.id }">${pro.name }</option>
+                            </c:forEach>
+                        </select>
+                        <select name="sellAddress" class="col-md-6 col-sm-6 col-xs-6 p0" id="sellAddress">
+                            <option value="" >选择地区</option>
+                        </select>
+                     <div class="cue" id="sellAreaError"></div>
+                 </div>
+             </li>
+             <li class="col-md-3 col-sm-4 col-xs-12">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>售领详细地址</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                     <input id="sellSite" name="sellSite" value="" type="text" >
+                     <span class="add-on">i</span>
+                     <div class="cue" id="sellSiteError"></div>
+                 </div>
+             </li>
+             <li class="col-md-3 col-sm-4 col-xs-12">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>项目类型</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                     <select name="projectType" class="col-md-12 col-sm-12 col-xs-6 p0">
+                          <option value="FC9528B2E74F4CB2A9E74735A8D6E90A" ${projectInfo.projectType == 'FC9528B2E74F4CB2A9E74735A8D6E90A' ? 'selected' : '' }>物资</option>
+                          <option value="3EC64C63FE15422EA100F58A4A872F4A" ${projectInfo.projectType == '3EC64C63FE15422EA100F58A4A872F4A' ? 'selected' : '' }>工程</option>
+                          <option value="E4E4220290A2489D8AE2C1CC4F46459B" ${projectInfo.projectType == 'E4E4220290A2489D8AE2C1CC4F46459B' ? 'selected' : '' }>服务</option>
+                     </select>
+                     <span class="add-on">i</span>
+                     <div class="cue" id="projectTypeError"></div>
+                 </div>
+             </li>
+             <li class="col-md-3 col-sm-4 col-xs-12">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>项目实施地区</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                    <select class="col-md-6 col-sm-6 col-xs-6 p0" id="constructionPro" name="constructionPro" onchange="selectArea(this);">
+                            <c:forEach items="${province }" var="pro">
+                                    <option value="${pro.id }">${pro.name }</option>
+                            </c:forEach>
+                        </select>
+                        <select name="constructionAddr" class="col-md-6 col-sm-6 col-xs-6 p0" id="constructionAddr">
+                            <option value="" >选择地区</option>
+                        </select>
+                     <span class="add-on">i</span>
+                     <div class="cue" id="constructionProError"></div>
+                 </div>
+             </li>
+            <%--  <li class="col-md-3 col-sm-4 col-xs-12 ">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red3">*</span> 开标日期:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                      <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="tenderTimeId" readonly="readonly"  name="bidDate" value="<fmt:formatDate value='${bidDate}'
@@ -405,19 +478,100 @@
                      <div class="cue" id="dSupervise"></div>
                  </div>
              </li>
-             <li class="col-md-3 col-sm-4 col-xs-12 ">
+           <li class="col-md-3 col-sm-4 col-xs-12 ">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="star_red">*</span> 抽取地区:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                      <input id="extractionSites" name="extractionSites" value="${extractionSites}" type="text">
                      <span class="add-on">i</span>
                      <div class="cue" id="extractionSitesError"></div>
                  </div>
-             </li>
+             </li> --%>
          </ul>
 	 </form>
 	</div><!-- 项目信息结束 -->
+	<!-- 人员信息开始-->
+	<div class="container_box col-md-12 col-sm-12 col-xs-12">
+		 <h2 class="count_flow"><i>2</i>人员信息</h2>
+		 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span><b> 抽取人员:</b></span>
+		 <form action="addExtractUser.do" id="extractUser">
+		 <div class="col-md-12 col-sm-12 col-xs-12 tc">
+		 	<input type="button" class="btn list_btn" onclick="addPerson(this)" value="新增">
+		 	<input type="button" class="btn list_btn" onclick="delPerson(this)" value="删除">
+		 	<input type="button" class="btn list_btn" onclick="selectHistory(this)" value="引用历史人员">
+		 	<input type="submit" class="btn list_btn"  value="保存">
+		 </div>
+		  <table class="table table-bordered table-condensed table_input left_table">
+              <thead>				
+	              <tr>
+	                  <th class="info"><input type="checkbox" onclick="checkAll(this)"> </th>
+	                  <th class="info">序号</th>
+	                  <th class="info" width="15%">姓名</th>
+	                  <th class="info" width="40%">单位</th>
+	                  <th class="info" width="15%">职务</th>
+	                  <th class="info" width="15%">军衔</th>
+	              </tr>
+              </thead>
+              <tbody>
+              <tr>
+              	<td> <input type="checkbox"> </td>
+              	<td> 1 </td>
+              	<td> <input name="list[0].name" class='tc' type="text"> <span class="name_0_Error"></span> </td>
+              	<td> <input name="list[0].compary" type="text"> <span class="compary_0_Error"></span> </td>
+              	<td> <input name="list[0].duty" type="text">  <span class="duty_0_Error"></span></td>
+              	<td> <input name="list[0].rank" type="text">  <span class="rank_0_Error"></span></td>
+              </tr>
+              <tr>
+              	<td> <input type="checkbox"> </td>
+              	<td> 2 </td>
+              	<td> <input name="list[1].name" type="text">  <span class="name_1_Error"></span></td>
+              	<td> <input name="list[1].compary" type="text">  <span class="compary_1_Error"></span></td>
+              	<td> <input name="list[1].duty" type="text">  <span class="duty_1_Error"></span></td>
+              	<td> <input name="list[1].rank" type="text"> <span class="rank_1_Error"></span> </td>
+              </tr>
+            </tbody>
+          </table>
+       </form>      
+		 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span><b> 监督人员:</b></span>
+		  <form action="" id="supervise">
+		  <div class="col-md-12 col-sm-12 col-xs-12 tc">
+		 	<input type="button" class="btn list_btn" onclick="addPerson(this)" value="新增">
+		 	<input type="button" class="btn list_btn" onclike="delPerson" value="删除">
+		 	<input type="button" class="btn list_btn" onclick="selectHistory()" value="引用历史人员">
+		  </div>
+		  <table class="table table-bordered table-condensed">
+               <thead>
+	              <tr>
+	                  <th class="info "><input type="checkbox" onclick="checkAll(this)"> </th>
+	                  <th class="info ">序号</th>
+	                  <th class="info" width="15%">姓名</th>
+	                  <th class="info" width="40%">单位</th>
+	                  <th class="info" width="15%">职务</th>
+	                  <th class="info" width="15%">军衔</th>
+	              </tr>
+              </thead>
+              <tbody>
+              <tr>
+              	<td> <input type="checkbox"> </td>
+              	<td> 1 </td>
+              	<td> <input name="name" type="text"> </td>
+              	<td> <input name="compary" type="text"> </td>
+              	<td> <input name="duty" type="text"> </td>
+              	<td> <input name="rank" type="text"> </td>
+              </tr>
+              <tr>
+              	<td> <input type="checkbox"> </td>
+              	<td> 2 </td>
+              	<td> <input name="name" type="text"> </td>
+              	<td> <input name="compary" type="text"> </td>
+              	<td> <input name="duty" type="text"> </td>
+              	<td> <input name="rank" type="text"> </td>
+              </tr>
+            </tbody>
+            </table>
+         </form> 
+	</div>	
 	<!-- 条件开始 -->
-	<div class="container container_box">
+	<div class="container_box col-md-12 col-sm-12 col-xs-12">
     <form id="form1" method="post">
         <input id="sunCount" type="hidden">
         <!--    地區id -->
@@ -441,7 +595,7 @@
         <!--         省 -->
         <input type="hidden" name="province" id="province"/>
         <input type="hidden" name="" id="hiddentype">
-          <h2 class="count_flow"><i>2</i>抽取条件</h2>
+          <h2 class="count_flow"><i>3</i>抽取条件</h2>
           <ul class="ul_list" style="background-color: #fbfbfb">
               <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div
@@ -592,8 +746,11 @@
                   </div>
               </li>
           </ul>
+          </form>
           <!--=== Content Part ===-->
-          <h2 class="count_flow"><i>3</i>抽取结果</h2>
+          </div>
+          <div class="container_box col-md-12 col-sm-12 col-xs-12">
+          <h2 class="count_flow"><i>4</i>抽取结果</h2>
 	         <div class="ul_list" id="projectResult">
 	          	<div align="center" id="countdnone" class="f26    ">满足条件共有<span class="f26 red" id="count">0</span>人</div>
 	           	<!-- Begin Content -->
@@ -674,8 +831,7 @@
                       </tbody>
                  </table>
 			</div>
-    	</form>
-	</div>
+		</div>
 </div>
 <!-- 地区树 -->
 <div id="areaContent" class="levelTypeContent"

@@ -6,7 +6,7 @@ import java.util.Map;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import extract.model.supplier.SupplierConType;
-import extract.model.supplier.SupplierCondition;
+import extract.model.supplier.SupplierExtractCondition;
 
 
 /**
@@ -26,7 +26,7 @@ public interface SupplierExtractConditionService {
    * @param @param condition      
    * @return void
    */
-  void insert(SupplierCondition condition);
+  void insert(SupplierExtractCondition condition);
 
   /**
    * @Description:修改
@@ -36,7 +36,7 @@ public interface SupplierExtractConditionService {
    * @param @param condition      
    * @return void
    */
-  void update(SupplierCondition condition);
+  void update(SupplierExtractCondition condition);
 
   /**
    * @Description:集合查询
@@ -47,7 +47,7 @@ public interface SupplierExtractConditionService {
    * @param @return      
    * @return List<ExpExtCondition>
    */
-  List<SupplierCondition> list(SupplierCondition condition,Integer pageNum);
+  List<SupplierExtractCondition> list(SupplierExtractCondition condition,Integer pageNum);
 
   /**
    * @Description:获取单个
@@ -58,7 +58,7 @@ public interface SupplierExtractConditionService {
    * @param @return      
    * @return ExpExtCondition
    */
-  SupplierCondition show(String id);
+  SupplierExtractCondition show(String id);
 
   /**
    * 
@@ -84,7 +84,7 @@ public interface SupplierExtractConditionService {
    * @param conType
    * @return
    */
-  Map<String,Object> selectLikeSupplier(SupplierCondition condition,SupplierConType conType);
+  Map<String,Object> selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType);
 
   /**
    * 
@@ -93,7 +93,7 @@ public interface SupplierExtractConditionService {
    * @author Wang Wenshuai
    * @return
    */
-  String isFinish(SupplierCondition condition);
+  String isFinish(SupplierExtractCondition condition);
   /**
    * 
    *〈简述〉获取供应商类型
@@ -113,7 +113,7 @@ public interface SupplierExtractConditionService {
    */
   String addPackage(String packagesName,String projectId);
   
-  void saveOrUpdateCondition(SupplierCondition condition, SupplierConType conType);
+  void saveOrUpdateCondition(SupplierExtractCondition condition, SupplierConType conType);
 
 }
 

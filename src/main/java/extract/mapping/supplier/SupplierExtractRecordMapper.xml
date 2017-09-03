@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="extract.dao.supplier.SupplierExtractRecordMapper">
-  <resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtracts">
+  <resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractProjectInfo">
     <!--
     @mbggenerated
     -->
@@ -21,8 +21,8 @@
     <result column="CONDITION_ID" jdbcType="VARCHAR" property="conditionId" />
     <result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType" />
     <result column="PURCHASE_TYPE_NAME" jdbcType="VARCHAR" property="purchaseTypeName" />
-        <association property="perpleUser"  column="EXTRACTS_PEOPLE"
-            select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
+       <!--  <association property="perpleUser"  column="EXTRACTS_PEOPLE"
+            select="ses.dao.bms.UserMapper.selectByPrimaryKey" /> -->
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -55,7 +55,7 @@
     delete from T_SES_SMS_SUPPLIER_EXTRACTS
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="extract.model.supplier.SupplierExtracts">
+  <insert id="insert" parameterType="extract.model.supplier.SupplierExtractProjectInfo">
     <!--
     @mbggenerated
     -->
@@ -68,7 +68,7 @@
       #{extractsPeople,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
       #{projectCode,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtracts">
+  <insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtractProjectInfo">
     <!--
     @mbggenerated
     -->
@@ -154,7 +154,7 @@
       
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtracts">
+  <update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractProjectInfo">
     <!--
     @mbggenerated
     -->
@@ -202,7 +202,7 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierExtracts">
+  <update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierExtractProjectInfo">
     <!--
     @mbggenerated
     -->
@@ -219,7 +219,7 @@
       PROJECT_ID = #{projectId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="list" parameterType="extract.model.supplier.SupplierExtracts"
+  <select id="list" parameterType="extract.model.supplier.SupplierExtractProjectInfo"
         resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />

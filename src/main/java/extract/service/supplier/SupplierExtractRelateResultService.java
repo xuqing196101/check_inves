@@ -6,7 +6,7 @@ package extract.service.supplier;
 import java.util.List;
 import java.util.Map;
 
-import extract.model.supplier.SupplierExtRelate;
+import extract.model.supplier.SupplierExtractResult;
 
 /**
  * @Description:供应商抽取关联
@@ -35,7 +35,7 @@ public interface SupplierExtractRelateResultService {
    * @param @param projectExtract      
    * @return void
    */
-  List<SupplierExtRelate> list(SupplierExtRelate supplierExtRelate,String page);
+  List<SupplierExtractResult> list(SupplierExtractResult supplierExtRelate,String page);
 
   /**
    * @Description:修改操作状态
@@ -45,7 +45,7 @@ public interface SupplierExtractRelateResultService {
    * @param @param projectExtract      
    * @return void
    */
-  void update(SupplierExtRelate supplierExtRelate);
+  void update(SupplierExtractResult supplierExtRelate);
 
   /**
    * @Description:获取单个对象
@@ -55,7 +55,7 @@ public interface SupplierExtractRelateResultService {
    * @param @param projectExtract      
    * @return void
    */
-  SupplierExtRelate getSupplierExtRelate(String id);
+  SupplierExtractResult getSupplierExtRelate(String id);
   /**
    * @Description:删除重复记录
    *
@@ -100,8 +100,8 @@ public interface SupplierExtractRelateResultService {
    * @param condition
    * @return
    */
-  List<SupplierExtRelate> selectSupplierType(String conditionId);
+  List<SupplierExtractResult> selectSupplierType(String conditionId);
 
-  void saveResult(SupplierExtRelate supplierExtRelate);
+  void saveResult(SupplierExtractResult supplierExtRelate);
 
 }

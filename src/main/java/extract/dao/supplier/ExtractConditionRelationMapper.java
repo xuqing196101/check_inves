@@ -1,8 +1,8 @@
-package extract.dao.common;
+package extract.dao.supplier;
 
 import java.util.List;
 
-import extract.model.common.ExtractConditionRelation;
+import extract.model.supplier.ExtractConditionRelation;
 
 public interface ExtractConditionRelationMapper {
 

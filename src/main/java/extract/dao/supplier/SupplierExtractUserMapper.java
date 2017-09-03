@@ -2,7 +2,7 @@ package extract.dao.supplier;
 
 import java.util.List;
 
-import extract.model.supplier.SupplierExtUser;
+import extract.model.common.ExtractUser;
 
 public interface SupplierExtractUserMapper {
     /**
@@ -17,33 +17,33 @@ public interface SupplierExtractUserMapper {
      *
      * @param record
      */
-    int insert(SupplierExtUser record);
+    int insert(ExtractUser record);
 
     /**
      *
      * @param record
      */
-    int insertSelective(SupplierExtUser record);
+    int insertSelective(ExtractUser record);
 
     /**
      * 根据主键获取一条数据库记录
      *
      * @param id
      */
-    SupplierExtUser selectByPrimaryKey(String id);
+    ExtractUser selectByPrimaryKey(String id);
 
     /**
      *
      * @param record
      */
-    int updateByPrimaryKeySelective(SupplierExtUser record);
+    int updateByPrimaryKeySelective(ExtractUser record);
 
     /**
      * 根据主键来更新数据库记录
      *
      * @param record
      */
-    int updateByPrimaryKey(SupplierExtUser record);
+    int updateByPrimaryKey(ExtractUser record);
     
     /**
      * @Description:集合
@@ -54,7 +54,7 @@ public interface SupplierExtractUserMapper {
      * @param @return      
      * @return List<ProExtSupervise>
      */
-    List<SupplierExtUser> list(SupplierExtUser record);
+    List<ExtractUser> list(ExtractUser record);
     
     /**
      * @Description:根据项目id删除监督信息
@@ -74,7 +74,7 @@ public interface SupplierExtractUserMapper {
      * @author Wang Wenshuai
      * @param listInsert
      */
-    void listInsert(List<SupplierExtUser> listInsert);
+    void listInsert(List<ExtractUser> listInsert);
 
 	String getName(String recordId);
 }

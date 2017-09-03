@@ -3,7 +3,7 @@ package extract.dao.supplier;
 import java.util.List;
 import java.util.Map;
 
-import extract.model.supplier.SupplierExtRelate;
+import extract.model.supplier.SupplierExtractResult;
 
 public interface SupplierExtractRelateResultMapper {
   /**
@@ -18,33 +18,33 @@ public interface SupplierExtractRelateResultMapper {
    *
    * @param record
    */
-  int insert(SupplierExtRelate record);
+  int insert(SupplierExtractResult record);
 
   /**
    *
    * @param record
    */
-  int insertSelective(SupplierExtRelate record);
+  int insertSelective(SupplierExtractResult record);
 
   /**
    * 根据主键获取一条数据库记录
    *
    * @param id
    */
-  SupplierExtRelate selectByPrimaryKey(String id);
+  SupplierExtractResult selectByPrimaryKey(String id);
 
   /**
    *
    * @param record
    */
-  int updateByPrimaryKeySelective(SupplierExtRelate record);
+  int updateByPrimaryKeySelective(SupplierExtractResult record);
 
   /**
    * 根据主键来更新数据库记录
    *
    * @param record
    */
-  int updateByPrimaryKey(SupplierExtRelate record);
+  int updateByPrimaryKey(SupplierExtractResult record);
 
   /**
    * @Description:集合获取中间表
@@ -55,7 +55,7 @@ public interface SupplierExtractRelateResultMapper {
    * @param @return      
    * @return List<SupplierExtRelate>
    */
-  List<SupplierExtRelate> list(SupplierExtRelate extract);
+  List<SupplierExtractResult> list(SupplierExtractResult extract);
 
   /**
    * @Description:删除重复记录
@@ -96,7 +96,7 @@ public interface SupplierExtractRelateResultMapper {
    * @author Wang Wenshuai
    * @param list
    */
-  void insertList(List<SupplierExtRelate> list);
+  void insertList(List<SupplierExtractResult> list);
 
   /**
    * 删除满足条件后的其他抽取信息
@@ -123,7 +123,7 @@ public interface SupplierExtractRelateResultMapper {
    * @author Wang Wenshuai
    * @return
    */
-  List<SupplierExtRelate> selectSupplierType(String conditionId);
+  List<SupplierExtractResult> selectSupplierType(String conditionId);
   
 
   List<String> selectSupplierIdListByRecordId(String recordId);

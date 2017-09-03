@@ -22,7 +22,7 @@ import com.github.pagehelper.PageHelper;
 import extract.dao.supplier.SupplierExtractConditionMapper;
 import extract.dao.supplier.SupplierExtractRelateResultMapper;
 import extract.dao.supplier.SupplierExtractRecordMapper;
-import extract.model.supplier.SupplierExtRelate;
+import extract.model.supplier.SupplierExtractResult;
 import extract.service.supplier.SupplierExtractRelateResultService;
 
 /**
@@ -130,7 +130,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    * @return void
    */
   @Override
-  public List<SupplierExtRelate> list(SupplierExtRelate projectExtract,String page) {
+  public List<SupplierExtractResult> list(SupplierExtractResult projectExtract,String page) {
     if(page!=null&&!"".equals(page))
       PageHelper.startPage(Integer.valueOf(page), PropUtil.getIntegerProperty("pageSize"));
     return supplierExtRelateMapper.list(projectExtract);
@@ -145,17 +145,17 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    * @return void
    */
   @Override
-  public void update(SupplierExtRelate projectExtract) {
+  public void update(SupplierExtractResult projectExtract) {
     if(projectExtract != null && projectExtract.getPackageId() != null && projectExtract.getPackageId().length !=0 ){
       for (String packageId : projectExtract.getPackageId()) {
         if (!"".equals(packageId)){
-          SupplierExtRelate pe = supplierExtRelateMapper.selectByPrimaryKey(projectExtract.getId());
+          SupplierExtractResult pe = supplierExtRelateMapper.selectByPrimaryKey(projectExtract.getId());
           if(pe != null){
             if(packageId != pe.getProjectId()){
-              SupplierExtRelate extract = new SupplierExtRelate();
+              SupplierExtractResult extract = new SupplierExtractResult();
               extract.setProjectId(packageId);
               extract.setSupplierId(pe.getSupplier().getId());
-              List<SupplierExtRelate> list = supplierExtRelateMapper.list(extract);
+              List<SupplierExtractResult> list = supplierExtRelateMapper.list(extract);
               if(list != null && list.size() != 0){
                 list.get(0).setOperatingType(projectExtract.getOperatingType());
                 list.get(0).setReviewType(pe.getReviewType());
@@ -165,7 +165,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
                 }
                 supplierExtRelateMapper.updateByPrimaryKeySelective(list.get(0));
               }else{
-                SupplierExtRelate pext = new SupplierExtRelate();
+                SupplierExtractResult pext = new SupplierExtractResult();
                 pext.setSupplierId(pe.getSupplier().getId());
                 pext.setProjectId(packageId);
 
@@ -200,7 +200,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    * @return void
    */
   @Override
-  public SupplierExtRelate getSupplierExtRelate(String id) {
+  public SupplierExtractResult getSupplierExtRelate(String id) {
     return supplierExtRelateMapper.selectByPrimaryKey(id);
   }
 
@@ -241,8 +241,8 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    */
   @Override
   public void del(String conditionId,String projectId,List<String> expertTypeIds,List<String> saveExpertTypeIds) {
-    List<SupplierExtRelate> list = selectSupplierType(conditionId);
-    for (SupplierExtRelate supplierExtRelate : list) {
+    List<SupplierExtractResult> list = selectSupplierType(conditionId);
+    for (SupplierExtractResult supplierExtRelate : list) {
       boolean containsAll = expertTypeIds.containsAll(castList(supplierExtRelate.getSupplierTypeId(),saveExpertTypeIds));
       if(containsAll){
         Map<String, Object> map = new HashMap<String, Object>();
@@ -292,11 +292,11 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    * @see ses.service.sms.SupplierExtRelateService#selectSupplierType(java.lang.String)
    */
   @Override
-  public List<SupplierExtRelate> selectSupplierType(String conditionId) {
+  public List<SupplierExtractResult> selectSupplierType(String conditionId) {
     return supplierExtRelateMapper.selectSupplierType(conditionId);
   }
 	@Override
-	public void saveResult(SupplierExtRelate supplierExtRelate) {
+	public void saveResult(SupplierExtractResult supplierExtRelate) {
 		supplierExtRelate.setId(UUIDUtils.getUUID32());
 		supplierExtRelate.setCreatedAt(new Date());
 		supplierExtRelateMapper.insertSelective(supplierExtRelate);

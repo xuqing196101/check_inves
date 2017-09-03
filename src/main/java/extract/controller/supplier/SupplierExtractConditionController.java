@@ -3,9 +3,6 @@
  */
 package extract.controller.supplier;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,17 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.dao.sms.SupplierExtRelateMapper;
 import ses.dao.sms.SupplierExtUserMapper;
 import ses.dao.sms.SupplierExtractsMapper;
-import ses.model.bms.Area;
-import ses.model.bms.User;
 import ses.service.bms.AreaServiceI;
 import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
 
 import extract.model.supplier.SupplierConType;
-import extract.model.supplier.SupplierCondition;
-import extract.model.supplier.SupplierExtRelate;
+import extract.model.supplier.SupplierExtractCondition;
 import extract.service.supplier.SupplierExtractConTypeService;
 import extract.service.supplier.SupplierExtractConditionService;
 import extract.service.supplier.SupplierExtractRelateResultService;
@@ -245,7 +238,7 @@ public class SupplierExtractConditionController {
      */
     @ResponseBody
     @RequestMapping("selectLikeSupplier")
-    public String selectLikeSupplier(SupplierCondition condition,SupplierConType conType,HttpServletRequest sq,String province){
+    public String selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType,HttpServletRequest sq,String province){
         Map<String,Object> count = conditionService.selectLikeSupplier(condition,conType);
         return JSON.toJSONString(count);
     }

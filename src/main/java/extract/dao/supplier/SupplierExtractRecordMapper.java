@@ -3,7 +3,7 @@ package extract.dao.supplier;
 import java.util.List;
 
 import bss.model.ppms.Project;
-import extract.model.supplier.SupplierExtracts;
+import extract.model.supplier.SupplierExtractProjectInfo;
 
 public interface SupplierExtractRecordMapper {
     /**
@@ -18,33 +18,33 @@ public interface SupplierExtractRecordMapper {
      *
      * @param record
      */
-    int insert(SupplierExtracts record);
+    int insert(SupplierExtractProjectInfo record);
 
     /**
      *
      * @param record
      */
-    int insertSelective(SupplierExtracts record);
+    int insertSelective(SupplierExtractProjectInfo record);
 
     /**
      * 根据主键获取一条数据库记录
      *
      * @param id
      */
-    SupplierExtracts selectByPrimaryKey(String id);
+    SupplierExtractProjectInfo selectByPrimaryKey(String id);
 
     /**
      *
      * @param record
      */
-    int updateByPrimaryKeySelective(SupplierExtracts record);
+    int updateByPrimaryKeySelective(SupplierExtractProjectInfo record);
 
     /**
      * 根据主键来更新数据库记录
      *
      * @param record
      */
-    int updateByPrimaryKey(SupplierExtracts record);
+    int updateByPrimaryKey(SupplierExtractProjectInfo record);
     
     /**
      * @Description:获取集合信息
@@ -55,9 +55,9 @@ public interface SupplierExtractRecordMapper {
      * @param @return      
      * @return List<SupplierExtracts>
      */
-    List<SupplierExtracts> list(SupplierExtracts record);
+    List<SupplierExtractProjectInfo> list(SupplierExtractProjectInfo record);
 
 	Project getProjectInfoById(String id);
 
-	List<SupplierExtracts> getList();
+	List<SupplierExtractProjectInfo> getList();
 }

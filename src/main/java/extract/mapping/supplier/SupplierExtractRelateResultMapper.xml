@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="extract.dao.supplier.SupplierExtractRelateResultMapper">
-	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtRelate">
+	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractResult">
 		<!-- @mbggenerated -->
 		<id column="ID" jdbcType="VARCHAR" property="id" />
 		<result column="SUPPLIER_CONDITION_ID" jdbcType="VARCHAR"
@@ -17,8 +17,8 @@
 		<result column="REVIEW_TYPE" jdbcType="VARCHAR" property="reviewType" />
 
 		<!-- 供应商 -->
-		<association column="SUPPLIER_ID" property="supplier"
-			select="ses.dao.sms.SupplierMapper.selectByPrimaryKeyItem" />
+		<!-- <association column="SUPPLIER_ID" property="supplier"
+			select="ses.dao.sms.SupplierMapper.selectByPrimaryKeyItem" /> -->
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
@@ -41,7 +41,7 @@
 		where ID =
 		#{id,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert" parameterType="extract.model.supplier.SupplierExtRelate">
+	<insert id="insert" parameterType="extract.model.supplier.SupplierExtractResult">
 		<!-- @mbggenerated -->
 		insert into T_SES_SMS_SUPPLIER_EXT_RELATE (ID, SUPPLIER_ID,
 		SUPPLIER_CONDITION_ID,
@@ -61,7 +61,7 @@
 		#{conTypeId,jdbcType=VARCHAR},
 		#{statusCount,jdbcType=DECIMAL},#{reviewType,jdbc=VARCHAR})
 	</insert>
-	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtRelate">
+	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtractResult">
 		<!-- @mbggenerated -->
 		insert into T_SES_SMS_SUPPLIER_EXT_RELATE
 		<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -154,7 +154,7 @@
 			</if>
 		</trim>
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtRelate">
+	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractResult">
 		<!-- @mbggenerated -->
 		update T_SES_SMS_SUPPLIER_EXT_RELATE
 		<set>
@@ -195,7 +195,7 @@
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierExtRelate">
+	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierExtractResult">
 		<!-- @mbggenerated -->
 		update T_SES_SMS_SUPPLIER_EXT_RELATE
 		set SUPPLIER_ID =
@@ -232,7 +232,7 @@
 
 	</select>
 
-	<select id="list" parameterType="extract.model.supplier.SupplierExtRelate"
+	<select id="list" parameterType="extract.model.supplier.SupplierExtractResult"
 		resultMap="BaseResultMap">
 		SELECT
 		pe.*
@@ -357,7 +357,7 @@
 		t1.OPERATING_TYPE = 0 )
 	</select>
 
-	<resultMap id="BaseMap" type="extract.model.supplier.SupplierExtRelate">
+	<resultMap id="BaseMap" type="extract.model.supplier.SupplierExtractResult">
 		<result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
 		<result column="SUPPLIER_TYPE_ID" jdbcType="VARCHAR" property="supplierTypeId" />
 	</resultMap>

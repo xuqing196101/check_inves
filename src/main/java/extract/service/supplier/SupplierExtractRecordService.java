@@ -9,7 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import ses.model.sms.Supplier;
-import extract.model.supplier.SupplierExtracts;
+import extract.model.supplier.SupplierExtractProjectInfo;
 
 /**
  * @Description: 供应商抽取记录
@@ -28,7 +28,7 @@ public interface SupplierExtractRecordService {
    * @param @param record      
    * @return void
    */
-  void insert(SupplierExtracts record);
+  void insert(SupplierExtractProjectInfo record);
 
   /**
    * @Description:获取集合
@@ -38,7 +38,7 @@ public interface SupplierExtractRecordService {
    * @param @return      
    * @return List<ExpExtractRecord>
    */
-  List<SupplierExtracts> listExtractRecord(SupplierExtracts expExtractRecord,Integer pageNum);
+  List<SupplierExtractProjectInfo> listExtractRecord(SupplierExtractProjectInfo expExtractRecord,Integer pageNum);
 
   /**
    * 
@@ -46,7 +46,7 @@ public interface SupplierExtractRecordService {
    *〈详细描述〉
    * @author Wang Wenshuai
    */
-  void update(SupplierExtracts extracts);
+  void update(SupplierExtractProjectInfo extracts);
 
   /**
    * 
@@ -70,9 +70,9 @@ public interface SupplierExtractRecordService {
   void updateTemporaryExpert(Supplier supplier, String loginName, String loginPwd,
       HttpServletRequest sq);
 
-  SupplierExtracts selectByPrimaryKey(String id);
+  SupplierExtractProjectInfo selectByPrimaryKey(String id);
   
 
-  List<SupplierExtracts> getList(int i);
+  List<SupplierExtractProjectInfo> getList(int i);
   
 }

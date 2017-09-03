@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="extract.dao.common.ExtractUserMapper">
+	<!-- <resultMap id="BaseResultMap" type="extract.model.common.ExtractUser">
+		@mbggenerated
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="EXTRACTS_ID" jdbcType="VARCHAR" property="extractsId" />
+		<result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+		  <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
+    <result column="COMPANY" jdbcType="VARCHAR" property="company" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="DUTIES" jdbcType="VARCHAR" property="duties" />
+	</resultMap> -->
+	<resultMap id="BaseResultMap" type="extract.model.common.ExtractUser">
+	<!-- @mbggenerated -->
+	<id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="COMPANY" jdbcType="VARCHAR" property="company" />
+    <result column="DUTY" jdbcType="VARCHAR" property="duty" />
+    <result column="RANK" jdbcType="VARCHAR" property="rank" />
+	</resultMap>
+
+
+
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		ID, EXTRACTS_ID, USER_ID, CREATED_AT, PROJECT_ID,UPDATED_AT,REL_NAME,COMPANY,PHONE,DUTIES
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_EXT_USER
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		<!-- @mbggenerated -->
+		delete from T_SES_SMS_SUPPLIER_EXT_USER
+		where ID =
+		#{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="extract.model.common.ExtractUser">
+		<!-- @mbggenerated -->
+		insert into T_SES_SMS_SUPPLIER_EXT_USER (ID, EXTRACTS_ID, USER_ID,
+		CREATED_AT, PROJECT_ID)
+		values (#{id,jdbcType=VARCHAR},
+		#{extractsId,jdbcType=VARCHAR},
+		#{userId,jdbcType=VARCHAR},
+		#{createdAt,jdbcType=TIMESTAMP}, #{projectId,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="extract.model.common.ExtractUser">
+		<!-- @mbggenerated -->
+		insert into T_SES_SMS_SUPPLIER_EXT_USER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="extractsId != null">
+				EXTRACTS_ID,
+			</if>
+			<if test="userId != null">
+				USER_ID,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
+			 <if test="updatedAt != null">
+			       UPDATED_AT,
+			</if>
+			 <if test="relName != null">
+			  REL_NAME,
+			</if>
+			 <if test="company != null">
+			  COMPANY,
+			</if>
+			 <if test="phone != null">
+			  PHONE,
+			</if>
+			<if test="duties != null">
+			    DUTIES,
+			</if>
+			<if test="recordId != null">
+			    RECORD_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="extractsId != null">
+				#{extractsId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			 <if test="updatedAt != null">
+          #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+       <if test="relName != null">
+      #{relName,jdbcType=VARCHAR},
+      </if>
+       <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+       <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+       <if test="duties != null">
+      #{duties,jdbcType=VARCHAR},
+      </if>
+       <if test="recordId != null">
+      #{recordId,jdbcType=VARCHAR},
+      </if>
+		</trim>
+		 <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select sys_guid() from dual
+    </selectKey>
+	</insert>
+	
+	
+	<update id="updateByPrimaryKeySelective" parameterType="extract.model.common.ExtractUser">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_SUPPLIER_EXT_USER
+		<set>
+			<if test="extractsId != null">
+				EXTRACTS_ID = #{extractsId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				USER_ID = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="extract.model.common.ExtractUser">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_SUPPLIER_EXT_USER
+		set EXTRACTS_ID =
+		#{extractsId,jdbcType=VARCHAR},
+		USER_ID = #{userId,jdbcType=VARCHAR},
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+		PROJECT_ID =
+		#{projectId,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="list" resultMap="BaseResultMap" parameterType="extract.model.common.ExtractUser">
+		  SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    T_SES_SMS_SUPPLIER_EXT_USER
+    WHERE
+    RECORD_ID =#{recordId}
+
+	</select>
+	<!-- 根据项目id 删除监督人员 -->
+	<delete id="deleteProjectId" parameterType="java.lang.String">
+		delete from
+		T_SES_SMS_SUPPLIER_EXT_USER
+		where PROJECT_ID =
+		#{projectId,jdbcType=VARCHAR}
+	</delete>
+	
+	 <!-- 批量插入 -->
+  <insert id="listInsert" parameterType="List">
+    INSERT INTO T_SES_SMS_SUPPLIER_EXT_USER
+    (PROJECT_ID,REL_NAME,COMPANY,PHONE,DUTIES)
+    <foreach collection="list" item="item" index="index"
+      separator="union" close=")" open="(">
+      select
+      #{item.projectId,jdbcType=VARCHAR},
+      #{item.relName,jdbcType=VARCHAR},
+      #{item.company,jdbcType=VARCHAR},
+      #{item.phone,jdbcType=VARCHAR},
+      #{item.duties,jdbcType=VARCHAR}
+      from
+      dual
+    </foreach>
+  </insert>
+  
+  <select id="getName" parameterType="java.lang.String" resultType="java.lang.String">
+  	select wm_concat(REL_NAME) from T_SES_SMS_SUPPLIER_EXT_USER where RECORD_ID =#{value}
+  </select>
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="extract.dao.common.ExtractUserMapper">
+  	SELECT * FROM T_SES_EXTRACT_USER WHERE IS_DELETE = 0 
+  	<if test="name != null and name != '' ">
+  		AND NAME LIKE concat(concat('%',#{name}),'%')
+  	</if>
+  	<if test="compary != null and compary != '' ">
+  		AND COMPARY LIKE concat(concat('%',#{compary}),'%')
+  	</if>
+  	<if test="duty != null and duty != '' ">
+  		AND DUTY LIKE concat(concat('%',#{duty}),'%')
+  	</if>
+  	<if test="rank != null and rank != '' ">
+  		AND RANK LIKE concat(concat('%',#{RANK}),'%')
+  	</if>
+  	
+  </select>
+  
+</mapper>

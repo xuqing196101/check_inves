@@ -1560,7 +1560,7 @@
 		set SCORE = #{score} where ID = #{id}
 	</update>
 	<!-- 供应商抽取集合 -->
-	<select id="listExtractionExpert" parameterType="extract.model.supplier.SupplierCondition"
+	<select id="listExtractionExpert" parameterType="extract.model.supplier.SupplierExtractCondition"
 		resultMap="findSupplierMap">
 		<!-- select * from(
 		select t1.typeId,t1.categoryId,t2.* from(

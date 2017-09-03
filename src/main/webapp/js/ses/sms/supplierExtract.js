@@ -25,6 +25,78 @@
         $("#sunCount").val(sun);
 
     }
+    
+    /**
+     * 项目信息地区选择
+     * @returns
+     */
+    function selectArea(obj){
+    	$(obj).next().empty();
+    	var city = "";
+    	var provinceId = $(obj).val();
+    	$.ajax({
+            type: "POST",
+            url: globalPath+"/area/find_by_parent_id.do",
+            data: {id: provinceId},
+            dataType: "json",
+            success: function (data) {
+            	for(var i=0;i<data.length;i++){
+            		city += "<option value="+data[i].id+">"+data[i].name+"</option>";
+            	}
+            	$(obj).next().append(city);
+            }
+        });
+    }
+    
+    /**
+     * 人员信息操作
+     */
+    
+    //增加
+    function addPerson(obj){
+    	var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();
+    	var tr = "<tr><td class='tc'><input type='checkbox'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input name='name' > </td><td class='tc'> <input name='compary' ></td><td class='tc'> <input name='duty'></td><td class='tc'> <input name='rank'></td></tr>";
+    	$(obj).parents("form").find("tbody").append(tr);
+    }
+    
+    //引用历史人员
+    function selectHistory(obj){
+    	//当前是抽取人员还是监督人员
+    	var personType = $(obj).parents("form").attr("id");
+    	//弹窗加载人员列表
+    	var iframeWin;
+        layer.open({
+            type: 2,
+            title: "引用历史人员",
+            shadeClose: true,
+            shade: 0.01,
+            area: ['430px', '400px'],
+            offset: '20px',
+            content: globalPath+'/SupplierExtracts/getPeronList.do?personType='+personType, //iframe的url
+            success: function (layero, index) {
+                iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+            },
+            btn: ['保存']
+            , yes: function () {
+                iframeWin.getChildren(cate);
+            }
+        });
+    	
+    }
+    
+    //删除
+    function delPerson(obj){
+    	$(obj).parents("form").find(":checked").each(function(){
+    		$(this).parents("tr").remove();
+    	});
+    }
+    
+    //全选全不选
+    function checkAll(obj){
+    	$(obj).parents("table").find(":checkbox").prop("checked",$(obj).is(':checked'));
+    }
+    
+    
     /**供应商地区*/
     function areas() {
         var areas = $("#area").find("option:selected").val();

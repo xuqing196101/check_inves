@@ -6,7 +6,7 @@ import java.util.List;
 import ses.model.sms.Supplier;
 import ses.util.MyAnnotation;
 
-public class SupplierExtRelate {
+public class SupplierExtractResult {
     
     /**
      * 供应商id
@@ -51,11 +51,11 @@ public class SupplierExtRelate {
 
 
 	
-    public SupplierExtRelate() {
+    public SupplierExtractResult() {
         super();
     }
 
-    public SupplierExtRelate(String id, Short operatingType, String reason,String[] packageId) {
+    public SupplierExtractResult(String id, Short operatingType, String reason,String[] packageId) {
         super();
         this.id = id;
         this.operatingType = operatingType;
@@ -63,14 +63,14 @@ public class SupplierExtRelate {
         this.packageId = packageId;
     }
 
-    public SupplierExtRelate(String id, Short operatingType,String[] packageId) {
+    public SupplierExtractResult(String id, Short operatingType,String[] packageId) {
         super();
         this.id = id;
         this.operatingType = operatingType;
         this.packageId = packageId;
     }
 
-    public SupplierExtRelate(String supplierConditionId) {
+    public SupplierExtractResult(String supplierConditionId) {
         super();
         this.supplierConditionId = supplierConditionId;
     }

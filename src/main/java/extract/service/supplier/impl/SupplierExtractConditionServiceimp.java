@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hamcrest.core.IsNot;
-import org.jsoup.select.Evaluator.IsEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,14 +25,13 @@ import bss.service.ppms.ProjectService;
 
 import com.github.pagehelper.PageHelper;
 
-import extract.dao.common.ExtractConditionRelationMapper;
+import extract.dao.supplier.ExtractConditionRelationMapper;
 import extract.dao.supplier.SupplierExtractConditionMapper;
 import extract.dao.supplier.SupplierExtractRelateResultMapper;
-import extract.model.common.ExtractConditionRelation;
+import extract.model.supplier.ExtractConditionRelation;
 import extract.model.supplier.SupplierConType;
-import extract.model.supplier.SupplierCondition;
+import extract.model.supplier.SupplierExtractCondition;
 import extract.service.supplier.SupplierExtractConditionService;
-import freemarker.core.ReturnInstruction.Return;
 
 
 /**
@@ -79,7 +76,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
    * @return void
    */
   @Override
-  public void insert(SupplierCondition condition){
+  public void insert(SupplierExtractCondition condition){
 	  condition.setCreatedAt(new Date());
     supplierConditionMapper.insertSelective(condition);
   }
@@ -92,7 +89,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
    * @param @param condition      
    * @return void
    */
-  public void update(SupplierCondition condition){
+  public void update(SupplierExtractCondition condition){
 	  
 	//存储地区
 	//extConditionAreaMapper.insertSupplierArea(condition);
@@ -112,7 +109,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
    * @param @return      
    * @return List<ExpExtCondition>
    */
-  public List<SupplierCondition> list(SupplierCondition condition,Integer pageNum){
+  public List<SupplierExtractCondition> list(SupplierExtractCondition condition,Integer pageNum){
     if(pageNum != null && pageNum!=0){
       PageHelper.startPage(pageNum,PropUtil.getIntegerProperty("pageSize"));
     }
@@ -129,7 +126,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
    * @return ExpExtCondition
    */
   @Override
-  public SupplierCondition show(String id) {
+  public SupplierExtractCondition show(String id) {
     return supplierConditionMapper.selectByPrimaryKey(id);
   }
 
@@ -175,7 +172,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
    * @see ses.service.sms.SupplierConditionService#selectLikeSupplier(ses.model.sms.SupplierCondition, ses.model.sms.SupplierConType)
    */
   @Override
-  public Map<String,Object> selectLikeSupplier(SupplierCondition condition, SupplierConType conType) {
+  public Map<String,Object> selectLikeSupplier(SupplierExtractCondition condition, SupplierConType conType) {
 	 Map<String, Object> map = new HashMap<>();
 	//   conType=condition.getSupplierConType();
 	/**
@@ -263,8 +260,8 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
    * @see ses.service.ems.ExpExtConditionService#isFinish()
    */
   @Override
-  public String isFinish(SupplierCondition condition) {
-    List<SupplierCondition> list = supplierConditionMapper.list(condition);
+  public String isFinish(SupplierExtractCondition condition) {
+    List<SupplierExtractCondition> list = supplierConditionMapper.list(condition);
     if (list != null && list.size() !=0 ){
       return SUCCESS;
     }else{
@@ -341,7 +338,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
    * 存储查询条件
    */
 	@Override
-	public void saveOrUpdateCondition(SupplierCondition condition,SupplierConType conType) {
+	public void saveOrUpdateCondition(SupplierExtractCondition condition,SupplierConType conType) {
 		if(StringUtils.isNotBlank(condition.getId())){
 			supplierConditionMapper.updateConditionByPrimaryKeySelective(condition);
 			//设置存储条件

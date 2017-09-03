@@ -52,7 +52,7 @@ import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
 import extract.dao.supplier.SupplierExtractUserMapper;
-import extract.model.supplier.SupplierExtUser;
+import extract.model.common.ExtractUser;
 import extract.service.supplier.SupplierExtractUserServicel;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -124,7 +124,7 @@ public class SupplierExtractUserServicelmp implements SupplierExtractUserService
    * @return List<ProjectSupervisor>
    */
   @Override
-  public List<SupplierExtUser> list(SupplierExtUser extSupervise) {
+  public List<ExtractUser> list(ExtractUser extSupervise) {
     return supplierExtUserMapper.list(extSupervise);
   }
 
@@ -142,7 +142,7 @@ public class SupplierExtractUserServicelmp implements SupplierExtractUserService
   }
 
   @Override
-  public void insert(SupplierExtUser record) {
+  public void insert(ExtractUser record) {
     supplierExtUserMapper.insertSelective(record);
   }
 
@@ -154,7 +154,7 @@ public class SupplierExtractUserServicelmp implements SupplierExtractUserService
    * @param listInsert
    */
   @Override
-  public void listInsert(List<SupplierExtUser> list){
+  public void listInsert(List<ExtractUser> list){
     supplierExtUserMapper.listInsert(list);
   }
 
@@ -163,7 +163,7 @@ public class SupplierExtractUserServicelmp implements SupplierExtractUserService
    * @see ses.service.sms.SupplierExtUserServicel#update(ses.model.sms.SupplierExtUser)
    */
   @Override
-  public void update(SupplierExtUser extUser) {
+  public void update(ExtractUser extUser) {
     supplierExtUserMapper.updateByPrimaryKeySelective(extUser);
   }
 

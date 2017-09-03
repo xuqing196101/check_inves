@@ -3,7 +3,7 @@ package extract.model.supplier;
 import java.util.Date;
 import java.util.List;
 
-public class SupplierCondition {
+public class SupplierExtractCondition {
 
 	
 	private SupplierConType supplierConType;
@@ -17,7 +17,7 @@ public class SupplierCondition {
     /**
      * 关联供应商
      */
-    private List<SupplierExtRelate> extRelatesList;
+    private List<SupplierExtractResult> extRelatesList;
 
     private List<String> supplierIds;
 
@@ -403,7 +403,7 @@ public class SupplierCondition {
     }
 
  
-    public SupplierCondition() {
+    public SupplierExtractCondition() {
         super();
     }
    
@@ -416,7 +416,7 @@ public class SupplierCondition {
      * @param levelTypeId 等级
      * @param extractNum 抽取数量
      */
-    public SupplierCondition(String supplierTypeCode, Short isMulticondition,
+    public SupplierExtractCondition(String supplierTypeCode, Short isMulticondition,
 			String categoryId, String levelTypeId,Short extractNum) {
 		super();
 		this.supplierTypeCode = supplierTypeCode;
@@ -426,20 +426,20 @@ public class SupplierCondition {
 		this.extractNum = extractNum;
 	}
 
-	public SupplierCondition(String id, String s) {
+	public SupplierExtractCondition(String id, String s) {
         super();
         this.id = id;
     }
 
 
-    public SupplierCondition(String id, Short status) {
+    public SupplierExtractCondition(String id, Short status) {
         super();
         this.id = id;
         this.status = status;
     }
 
 
-    public SupplierCondition(String projectId) {
+    public SupplierExtractCondition(String projectId) {
         super();
         this.projectId = projectId;
     }
@@ -447,14 +447,14 @@ public class SupplierCondition {
     /**
      * @return Returns the extRelatesList.
      */
-    public List<SupplierExtRelate> getExtRelatesList() {
+    public List<SupplierExtractResult> getExtRelatesList() {
         return extRelatesList;
     }
 
     /**
      * @param extRelatesList The extRelatesList to set.
      */
-    public void setExtRelatesList(List<SupplierExtRelate> extRelatesList) {
+    public void setExtRelatesList(List<SupplierExtractResult> extRelatesList) {
         this.extRelatesList = extRelatesList;
     }
 
