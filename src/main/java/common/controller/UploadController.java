@@ -195,7 +195,7 @@ public class UploadController {
             List<UploadFile> filesOther = uploadService.getFilesOther(businessId, typeId, sysKey);
             if (filesOther.size() >= Integer.parseInt(maxcount.toString())) {
                 return "error";
-            } else if (filesOther.size() + currentCount > Integer.parseInt(maxcount.toString())) {
+            } else if (filesOther.size() + currentCount >= Integer.parseInt(maxcount.toString())) {
                 return "error";
             }
         }
