@@ -313,7 +313,7 @@ function add_members() {
     'relName': '',
     'orgName': '',
     'duties': '',
-    'passWord': ''
+    // 'passWord': ''
   };
   $('#list_content').append('<tr>'
     +'<td class="text-center"><input name="id" type="checkbox" value="none" class="select_item"></td>'
@@ -323,8 +323,6 @@ function add_members() {
     +'<td class="text-center"><input type="text" name="duties" class="form-control w100p border0 m0"></td>'
     +'<td class="text-center"></td>'
   +'</tr>');
-  
-  console.log(list);
   
   // 弹窗方法
   // function reset() {
@@ -456,7 +454,6 @@ function del_members() {
       $(this).remove();
     }
   });
-  console.log(list);
   
   // 弹窗方法
   // var ids = select_ids.join(',');
@@ -566,65 +563,64 @@ function set_password() {
 
 // 设置新添加用户密码
 function set_newPassword() {
-  var is_select = 0;
-  var list_index = [];
-  var password = $('input[name=password]');  // 新密码
-  var password2 = $('input[name=password2]');  // 确认新密码
-  
-  $('#list_content .select_item').each(function (index) {
-    if ($(this).is(':checked')) {
-      is_select = 1;
-      list_index.push(index);
-    }
-  });
-  
-  if (is_select === 0) {
-    layer.msg('请至少选择一名专家', {
-      offset: '100px'
-    });
-  } else {
-    var index = layer.open({
-      title: ['设置新密码'],
-      shade: 0.3, //遮罩透明度
-      type : 1,
-      area : ['300px'], //宽高
-      content : $('#modal_setPwd'),
-      btn: ['确定', '取消'],
-      yes: function() {
-        if (password.val() != password2.val()) {
-          layer.msg('请确认两次密码一致！', {
-            offset: '100px'
-          });
-          password2.val('').focus();
-          return false;
-        } else {
-          for (var i in list_index) {
-            list[list_index[i]].passWord = password.val();
-          }
-          layer.msg('操作成功', {
-            offset: '100px'
-          });
-          for (var i in select_ids) {
-            $('#list_content .select_item').each(function () {
-              if (select_ids[i] === $(this).val()) {
-                $(this).prop('checked', false);
-                return false;
-              }
-            });
-          }
-          password.val('');
-          password2.val('');
-          layer.close(index);
-          console.log(list);
-        }
-      },
-      btn2: function() {
-        password.val('');
-        password2.val('');
-        layer.close(index);
-      }
-    });
-  }
+  // var is_select = 0;
+  // var list_index = [];
+  // var password = $('input[name=password]');  // 新密码
+  // var password2 = $('input[name=password2]');  // 确认新密码
+  // 
+  // $('#list_content .select_item').each(function (index) {
+  //   if ($(this).is(':checked')) {
+  //     is_select = 1;
+  //     list_index.push(index);
+  //   }
+  // });
+  // 
+  // if (is_select === 0) {
+  //   layer.msg('请至少选择一名专家', {
+  //     offset: '100px'
+  //   });
+  // } else {
+  //   var index = layer.open({
+  //     title: ['设置新密码'],
+  //     shade: 0.3, //遮罩透明度
+  //     type : 1,
+  //     area : ['300px'], //宽高
+  //     content : $('#modal_setPwd'),
+  //     btn: ['确定', '取消'],
+  //     yes: function() {
+  //       if (password.val() != password2.val()) {
+  //         layer.msg('请确认两次密码一致！', {
+  //           offset: '100px'
+  //         });
+  //         password2.val('').focus();
+  //         return false;
+  //       } else {
+  //         for (var i in list_index) {
+  //           list[list_index[i]].passWord = password.val();
+  //         }
+  //         layer.msg('操作成功', {
+  //           offset: '100px'
+  //         });
+  //         for (var i in select_ids) {
+  //           $('#list_content .select_item').each(function () {
+  //             if (select_ids[i] === $(this).val()) {
+  //               $(this).prop('checked', false);
+  //               return false;
+  //             }
+  //           });
+  //         }
+  //         password.val('');
+  //         password2.val('');
+  //         layer.close(index);
+  //       }
+  //     },
+  //     btn2: function() {
+  //       password.val('');
+  //       password2.val('');
+  //       layer.close(index);
+  //     }
+  //   });
+  // }
 }
 
 // 结束审核组成员配置
@@ -669,7 +665,6 @@ function save_editMembers() {
   });
   
   if (empty_sum === 0) {
-    console.log(list);
     layer.confirm('保存后无法再次添加，您确定要保存么？', {
       btn: ['确定', '取消']
     }, function () {
