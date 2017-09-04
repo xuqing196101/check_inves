@@ -3790,7 +3790,8 @@ public class SupplierAuditController extends BaseSupplierController {
 				}
 			}
 			
-			dataMap.put("supplierCategoryList",supplierCategoryList);			
+			dataMap.put("supplierCategoryList",supplierCategoryList);
+			dataMap.put("sc","1");
 			
 		}
 		
