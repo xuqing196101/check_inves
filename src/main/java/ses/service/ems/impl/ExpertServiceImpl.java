@@ -1158,6 +1158,18 @@ public class ExpertServiceImpl implements ExpertService {
 		
 		return mapper.findExpertAuditList(expert);
 	}
+	 /**
+     *〈简述〉
+     * 专家审核列表不分页
+     *〈详细描述〉
+     * @author ShiShuai
+     * @param expert
+     */
+	@Override
+	public List<Expert> findExpertAuditListNotPage(Expert expert) {
+		
+		return mapper.findExpertAuditList(expert);
+	}
 	public boolean checkMobile(String mobile,String id) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("mobile", mobile);

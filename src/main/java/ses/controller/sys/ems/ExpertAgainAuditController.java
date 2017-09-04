@@ -96,7 +96,9 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			pageNum = StaticVariables.DEFAULT_PAGE;
 		}
 		expert.setStatus("11");//查询待分配专家
+		boolean isPage=true;
 		if(batchIds != null){
+			isPage=false;
 			List<String> idsList = new ArrayList<String>();
 			String[] split = batchIds.split(",");
 			for (String string : split) {
@@ -106,17 +108,29 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			}
 			expert.setIds(idsList);
 		}
-		//查询列表
-		List < Expert > expertList = expertService.findExpertAuditList(expert, pageNum);
-		for (Expert e : expertList) {
-			SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd");
-			e.setUpdateTime(dateFormater.format(e.getUpdatedAt()));
+		
+		if(isPage){
+			//查询列表
+			List < Expert > expertList = expertService.findExpertAuditList(expert, pageNum);
+			for (Expert e : expertList) {
+				SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd");
+				e.setUpdateTime(dateFormater.format(e.getUpdatedAt()));
+			}
+			PageInfo< Expert > result = new PageInfo < Expert > (expertList);
+			img.setStatus(true);
+			img.setMessage("操作成功");
+			img.setObject(result);
+			super.writeJson(response, img);
+			return;
+		}else{
+			List<Expert> expertList = expertService.findExpertAuditListNotPage(expert);
+			img.setStatus(true);
+			img.setMessage("操作成功");
+			img.setObject(expertList);
+			super.writeJson(response, img);
+			return;
 		}
-		PageInfo< Expert > result = new PageInfo < Expert > (expertList);
-		img.setStatus(true);
-		img.setMessage("操作成功");
-		img.setObject(result);
-		super.writeJson(response, img);
+		
 	}
 	/*
 	 * 专家复审分配列表
