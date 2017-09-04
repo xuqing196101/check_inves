@@ -213,7 +213,7 @@
         <if test="orgName !=null and orgName !=''">
           and org.SHORT_NAME =#{orgName}
         </if>
-        ORDER BY T1.CREATED_AT DESC
+        ORDER BY T1.SUBMIT_AT DESC NULLS LAST
     </select>
 
     <select id="selectSecondAuditExpert" resultMap="BaseResultMap">
