@@ -152,11 +152,9 @@ public class PlanLookController extends BaseController {
 			collectPlan.setSign("12");
 			/*collectPlan.setStatus(null);*/
 		}else if(collectPlan.getStatus()==9){
-      collectPlan.setSign("9");
-      collectPlan.setStatus(null);
-    }
-		
-		
+		    collectPlan.setSign("9");
+		    collectPlan.setStatus(null);
+		}
 		
 		List<Role> roles = user.getRoles();
 		boolean bool=false;
@@ -179,23 +177,23 @@ public class PlanLookController extends BaseController {
 			collectPlan.setStatus(12);
 			model.addAttribute("inf", collectPlan);
 		}else{
-		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
-		PageInfo<CollectPlan> info = new PageInfo<>(list);
-		model.addAttribute("info", info);
-		if(collectPlan.getSign()!=null&&"9".equals(collectPlan.getSign())){
-		  collectPlan.setStatus(9);
-		}
-		model.addAttribute("inf", collectPlan);
+		    List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
+		    PageInfo<CollectPlan> info = new PageInfo<>(list);
+		    model.addAttribute("info", info);
+		    if(collectPlan.getSign()!=null&&"9".equals(collectPlan.getSign())){
+		        collectPlan.setStatus(9);
+		    }
+		    model.addAttribute("inf", collectPlan);
 		}
 		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
 		model.addAttribute("dic", dic);
 		
 		//只有采购管理部门才能操作
-    if("2".equals(user.getTypeName())){
-      model.addAttribute("auth", "show");
-    }else {
-      model.addAttribute("auth", "hidden");
-    }
+		if("2".equals(user.getTypeName())){
+		    model.addAttribute("auth", "show");
+		}else {
+		    model.addAttribute("auth", "hidden");
+		}
 		return "bss/pms/collect/planlist";
 	}
 	

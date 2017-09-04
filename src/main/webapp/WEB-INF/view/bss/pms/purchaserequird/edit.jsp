@@ -158,31 +158,19 @@
       }
 
       function changeType(obj) {
-        var defValue;
-        var org = $(obj).val();
-        var price = $(obj).parent().prev().prev().prev().prev().val();
-        if(price == "") {
-          var purchaseType = $(obj).find("option:selected").text(); //选中的文本
-          if($.trim(purchaseType) == "单一来源") {
-            $(obj).parent().next().find("input").removeAttr("readonly");
-          } else {
-            $(obj).parent().next().find("input").val("");
-            $(obj).parent().next().find("input").attr("readonly", "readonly");
-          }
-          var next = $(obj).parent().parent().nextAll();
-          var parent_id = $($(obj).parent().parent().children()[1]).children(":last").val();
-          for(var i = 0; i < next.length; i++) {
-            if(parent_id == $($(next[i]).children()[1]).children(":last").val()) {
-              break;
-            }
-
-            $($(next[i]).children()[11]).children(":last").val($(obj).val());
-            if($(obj).val() == "单一来源") {
-              $($(next[i]).children()[12]).find("input").removeAttr("readonly");
-            } else {
-              $($(next[i]).children()[12]).find("input").val("");
-              $($(next[i]).children()[12]).find("input").attr("readonly", "readonly");
-            }
+        var purchaseType = $(obj).find("option:selected").text(); //选中的文本
+        if($.trim(purchaseType) == "单一来源") {
+          $(obj).parent().next().find("input").removeAttr("readonly");
+        } else {
+          $(obj).parent().next().find("input").val("");
+          $(obj).parent().next().find("input").attr("readonly", "readonly");
+        }
+        var next = $(obj).parent().parent().nextAll();
+        var id = $($(obj).parent().parent().children()[1]).children(":first").val();
+        for(var i = 0; i < next.length; i++) {
+          if(id == $($(next[i]).children()[1]).children(":last").val()) {
+            var aa = $($(next[i]).children()[11]).children(":last").val($(obj).val());
+            changeType(aa);
           }
         }
       }
