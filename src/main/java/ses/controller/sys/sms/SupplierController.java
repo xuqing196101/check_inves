@@ -1550,7 +1550,8 @@ public class SupplierController extends BaseSupplierController {
 		List < SupplierItem > itemsList = new ArrayList < SupplierItem > ();
 		for(String type: typeIds) {
 			if(!type.equals("PROJECT")) {
-				itemsList.addAll(supplierItemService.findCategoryList(supplierId, type, null));
+				//itemsList.addAll(supplierItemService.findCategoryList(supplierId, type, null));
+				itemsList.addAll(supplierItemService.getItemList(supplierId, type, (byte)0, null));
 			}
 		}
 		// 实际上传数量
