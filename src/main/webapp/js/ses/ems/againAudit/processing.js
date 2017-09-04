@@ -306,6 +306,15 @@ function cancel_groupBatch() {
 
 // 添加审核组成员
 function add_members() {
+  var index = parseInt($('#list_content tr').length);
+  list[index] = {
+    'groupId': getUrlParam('groupId'),
+    'loginName': '',
+    'relName': '',
+    'orgName': '',
+    'duties': '',
+    'passWord': ''
+  };
   $('#list_content').append('<tr>'
     +'<td class="text-center"><input name="id" type="checkbox" value="none" class="select_item"></td>'
     +'<td class="text-center"><input type="text" name="loginName" class="form-control w100p border0 m0" onblur="checkOnly(this)"></td>'
@@ -314,6 +323,8 @@ function add_members() {
     +'<td class="text-center"><input type="text" name="duties" class="form-control w100p border0 m0"></td>'
     +'<td class="text-center"></td>'
   +'</tr>');
+  
+  console.log(list);
   
   // 弹窗方法
   // function reset() {
@@ -439,31 +450,40 @@ function add_members() {
 
 // 删除审核组成员
 function del_members() {
-  var ids = select_ids.join(',');
-  $.ajax({
-    type: 'POST',
-    dataType: 'json',
-    url: del_url,
-    data: {
-      ids: ids
-    },
-    success: function (data) {
-      layer.msg(data.message, {
-        offset: '100px'
-      });
-      $('#list_content').listConstructor({
-        url: list_url,
-        data: {
-          groupId: getUrlParam('groupId')
-        }
-      });
-    },
-    error: function (data) {
-      layer.msg(data.message, {
-        offset: '100px'
-      });
+  $('#list_content tr').each(function (index) {
+    if ($(this).find('.select_item').is(':checked')) {
+      list.splice(index, 1);
+      $(this).remove();
     }
   });
+  console.log(list);
+  
+  // 弹窗方法
+  // var ids = select_ids.join(',');
+  // $.ajax({
+  //   type: 'POST',
+  //   dataType: 'json',
+  //   url: del_url,
+  //   data: {
+  //     ids: ids
+  //   },
+  //   success: function (data) {
+  //     layer.msg(data.message, {
+  //       offset: '100px'
+  //     });
+  //     $('#list_content').listConstructor({
+  //       url: list_url,
+  //       data: {
+  //         groupId: getUrlParam('groupId')
+  //       }
+  //     });
+  //   },
+  //   error: function (data) {
+  //     layer.msg(data.message, {
+  //       offset: '100px'
+  //     });
+  //   }
+  // });
 }
 
 // 设置密码
@@ -517,6 +537,13 @@ function set_password() {
                 select_ids = [];
                 password.val('');
                 password2.val('');
+                $('[name=checkAll]').prop('checked', false);
+                $('#list_content').listConstructor({
+                  url: list_url,
+                  data: {
+                    groupId: getUrlParam('groupId')
+                  }
+                });
                 layer.close(index);
               } else {
                 layer.msg(data.message, {
@@ -537,63 +564,138 @@ function set_password() {
   }
 }
 
+// 设置新添加用户密码
+function set_newPassword() {
+  var is_select = 0;
+  var list_index = [];
+  var password = $('input[name=password]');  // 新密码
+  var password2 = $('input[name=password2]');  // 确认新密码
+  
+  $('#list_content .select_item').each(function (index) {
+    if ($(this).is(':checked')) {
+      is_select = 1;
+      list_index.push(index);
+    }
+  });
+  
+  if (is_select === 0) {
+    layer.msg('请至少选择一名专家', {
+      offset: '100px'
+    });
+  } else {
+    var index = layer.open({
+      title: ['设置新密码'],
+      shade: 0.3, //遮罩透明度
+      type : 1,
+      area : ['300px'], //宽高
+      content : $('#modal_setPwd'),
+      btn: ['确定', '取消'],
+      yes: function() {
+        if (password.val() != password2.val()) {
+          layer.msg('请确认两次密码一致！', {
+            offset: '100px'
+          });
+          password2.val('').focus();
+          return false;
+        } else {
+          for (var i in list_index) {
+            list[list_index[i]].passWord = password.val();
+          }
+          layer.msg('操作成功', {
+            offset: '100px'
+          });
+          for (var i in select_ids) {
+            $('#list_content .select_item').each(function () {
+              if (select_ids[i] === $(this).val()) {
+                $(this).prop('checked', false);
+                return false;
+              }
+            });
+          }
+          password.val('');
+          password2.val('');
+          layer.close(index);
+          console.log(list);
+        }
+      },
+      btn2: function() {
+        password.val('');
+        password2.val('');
+        layer.close(index);
+      }
+    });
+  }
+}
+
 // 结束审核组成员配置
 function save_editMembers() {
-  var list = [];  // 储存列表
+  var empty_sum = 0;
   
   $('#list_content tr').each(function (index) {
     if ($(this).find('input[name=loginName]').val() === '') {
-      $(this).find('input[name=loginName]').blur();
       layer.msg('用户名不能为空', {
         offset: '100px',
         time: 1000
       });
+      empty_sum = 1;
       return false;
     } else if ($(this).find('input[name=relName]').val() === '') {
-      $(this).find('input[name=relName]').blur();
       layer.msg('专家姓名不能为空', {
         offset: '100px',
         time: 1000
       });
+      empty_sum = 1;
       return false;
     } else if ($(this).find('input[name=orgName]').val() === '') {
-      $(this).find('input[name=orgName]').blur();
       layer.msg('单位不能为空', {
         offset: '100px',
         time: 1000
       });
+      empty_sum = 1;
       return false;
     } else if ($(this).find('input[name=duties]').val() === '') {
-      $(this).find('input[name=duties]').blur();
       layer.msg('职务不能为空', {
         offset: '100px',
         time: 1000
       });
+      empty_sum = 1;
       return false;
     }
     
-    list[index] = {'groupId': getUrlParam('groupId'), 'loginName': $(this).find('input[name=loginName]').val(), 'relName': $(this).find('input[name=relName]').val(), 'orgName': $(this).find('input[name=orgName]').val(), 'duties': $(this).find('input[name=duties]').val()};
+    list[index].loginName = $(this).find('input[name=loginName]').val();
+    list[index].relName = $(this).find('input[name=relName]').val();
+    list[index].orgName = $(this).find('input[name=orgName]').val();
+    list[index].duties = $(this).find('input[name=duties]').val();
   });
   
-  $.ajax({
-    type: 'POST',
-    dataType: 'json',
-    url: add_url,
-    data: {
-      list: list
-    },
-    success: function (data) {
-      layer.msg(data.message, {
-        offset: '100px'
+  if (empty_sum === 0) {
+    console.log(list);
+    layer.confirm('保存后无法再次添加，您确定要保存么？', {
+      btn: ['确定', '取消']
+    }, function () {
+      $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: add_url,
+        data: {
+          list: list
+        },
+        success: function (data) {
+          layer.msg(data.message, {
+            offset: '100px',
+            time: 2000
+          }, function () {
+            window.history.back();
+          });
+        },
+        error: function (data) {
+          layer.msg(data.message, {
+            offset: '100px'
+          });
+        }
       });
-      layer.close(index);
-    },
-    error: function (data) {
-      layer.msg(data.message, {
-        offset: '100px'
-      });
-    }
-  });
+    });
+  }
   
   // 弹窗方法
   // $.ajax({

@@ -14,7 +14,7 @@
         if (list_content.groupStatus == '1') {
           $('.btn_group_t').html('<button type="button" class="btn btn-windows add" onclick="add_members()">添加</button>'
             +'<button type="button" class="btn btn-windows delete" onclick="del_members()">删除</button>'
-            +'<button type="button" class="btn btn-windows setPwd" onclick="set_password()">设置密码</button>');
+            +'<button type="button" class="btn btn-windows setPwd" onclick="set_newPassword()">设置密码</button>');
           $('.btn_group_b').html('<button type="button" class="btn btn-windows save" onclick="save_editMembers()">保存</button>'
             +'<button type="button" class="btn btn-windows back " onclick="javascript:history.back()">返回</button>');
         } else {

@@ -45,7 +45,7 @@
     <div class="col-md-12 pl20 mt10 mb10 btn_group_t"></div>
     
     <div class="content table_box">
-      <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
+      <table class="table table-bordered table-condensed table-hover againAudit_table">
         <thead>
           <tr>
             <th class="info w50"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
@@ -126,6 +126,7 @@
     var usernameOnly_url = '${pageContext.request.contextPath}/expertAgainAudit/checkLoginName.do';  // 用户名唯一验证地址
     var save_url = '${pageContext.request.contextPath}/expertAgainAudit/preservationExpertReviewTeam.do';  // 结束审核组成员配置
     var select_ids = [];
+    var list = [];  // 保存新增数组
     
     $(function () {
       $('#list_content').listConstructor({
