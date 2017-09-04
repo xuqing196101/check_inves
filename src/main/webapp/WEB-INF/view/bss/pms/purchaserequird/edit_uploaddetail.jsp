@@ -34,14 +34,14 @@
 			name="list[${vs.index }].qualitStand" value="${obj.qualitStand}"
 			class=""></td>
 		<td><input type="text" class="item"
-			name="list[${vs.index }].item" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> value="${obj.item}"></td>
+			name="list[${vs.index }].item"  value="${obj.item}"></td>
 		<td><input type="hidden" value="${obj.id }"> <input
-			type="text" class="purchasecount" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> onblur='sum2(this)'
+			type="text" class="purchasecount" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> <c:if test="${obj.price!=''&&obj.price!=null}">  onblur='sum2(this)'</c:if>
 			name="list[${vs.index }].purchaseCount" onkeyup="checkNum(this,1)"
 			value="${obj.purchaseCount}"> <input type="hidden"
 			value="${obj.parentId }"></td>
 		<td><input type='hidden' value='${obj.id }'> <input
-			type="text" class="price" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> onblur='sum1(this)'
+			type="text" class="price" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if><c:if test="${obj.price!=''&&obj.price!=null}"> onblur='sum1(this)'</c:if>
 			name="list[${vs.index }].price" onkeyup="checkNum(this,2)"
 			value="${obj.price}"> <input type="hidden"
 			value="${obj.parentId }"></td>
@@ -87,6 +87,6 @@
 		</td>
 
 
-		<td><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
+		<td><button type="button" class="btn" onclick="deleteRow(this)">删除</button></td>
 	</tr>
 </c:forEach>

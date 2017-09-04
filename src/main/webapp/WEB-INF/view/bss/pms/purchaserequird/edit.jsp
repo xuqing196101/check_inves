@@ -73,8 +73,8 @@
             shade: 0.01
           });
         } else {
-          var purchaseCount = $(obj).val() - 0; //价钱
-          var price2 = $(obj).parent().prev().children(":last").prev().val() - 0; //数量
+          var purchaseCount = parseFloat($(obj).val()) - 0; //价钱
+          var price2 = parseFloat($(obj).parent().prev().children(":last").prev().val()) - 0; //数量
           var sum = purchaseCount * price2 / 10000;
           sum = sum.toFixed(2);
           $(obj).parent().next().children(":last").prev().val(sum);
@@ -299,9 +299,6 @@
         $("input[name='referenceNo']").val(refNo);
         $("input[name='planType']").val(type);
         $("input[name='mobile']").val(mobile);
-        $.each(delId, function(i, n) {
-          deleteRow(n);
-        });
         var jsonStr = [];
         $("#table tr").each(function(i) { //遍历Table的所有Row
           if(i > 0) { //&&i<=$("#listSize").val()
@@ -694,13 +691,17 @@
     	  $(tr).attr("attr","true");
     	  var tr7=$($(tr).children()[7]).children(":first").next();
     	  var tr8=$($(tr).children()[8]).children(":first").next();
-    	  var tr9=$($(tr).children()[9]).children(":first").next();
+    	  /* var tr9=$($(tr).children()[9]).children(":first").next(); */
     	  $(tr7).attr("readonly", "readonly");
+    	  $(tr7).removeAttr("onblur");
+    	  $(tr7).removeAttr("onkeyup");
     	  $(tr7).val("");
     	  $(tr8).attr("readonly", "readonly");
+    	  $(tr8).removeAttr("onblur");
+    	  $(tr8).removeAttr("onkeyup");
     	  $(tr8).val("");
-    	  $(tr9).attr("readonly", "readonly");
-    	  $(tr9).val("");
+    	  /* $(tr9).attr("readonly", "readonly");
+    	  $(tr9).val(""); */
       }
       //获取序号
       function getSeq(obj) {
@@ -1057,21 +1058,149 @@
           });
         }
       }
-
-      function deleteRow(id) {
-        $.ajax({
-          type: "POST",
-          url: "${pageContext.request.contextPath}/purchaser/deleteRequired.do",
-          data: {
-            "id": id
-          },
-          success: function(data) {},
-          error: function(message) {}
-        });
+      function deleteRowRequired(obj,status){
+    	  var trAll=$("#detailZeroRow tr");
+    	  if(trAll.length<=2){
+    		  layer.alert("至少保留两行！", {
+    	        offset: ['222px', '390px'],
+    	        shade: 0.01
+    	     });
+    	  }else{
+    		  var tr = $(obj).parent().parent();
+    		  var trId=$(tr).children(":first").next().children(":first").val();
+    		  var trPid=$(tr).children(":first").next().children(":last").val();
+    		  if(typeof($(tr).attr("attr"))!="undefined"){//父节点删除
+    			  var trNextAll=tr.nextAll();
+    			  var nextFlg=false;
+    			  for(var i=0;i<trNextAll.length;i++){
+    				  var tdNextId=$(trNextAll[i]).children(":first").next().children(":last").val();
+    			      if(trId==tdNextId){
+    			    	  nextFlg=true;
+    			    	  break;
+    			      }
+    			  }
+    			  if(nextFlg){//父节点下面有子节点的不允许删
+    				  layer.alert("不能删除父节点！", {
+			    	        offset: ['222px', '390px'],
+			    	        shade: 0.01
+			    	   });
+    			  }
+    		  }else{//删除子节点
+    			  var trNextPid=$(tr).next().children(":first").next().children(":last").val();
+    			  var trPrevPid=$(tr).prev().children(":first").next().children(":last").val();
+    			  if(trPid==trNextPid||trPid==trPrevPid){//说明字节点不是只有一个，删除当前节点，改变后面节点的序号
+    				  var trNextAll=tr.nextAll();
+        			for(var i=0;i<trNextAll.length;i++){
+        				var tdNextId=$(trNextAll[i]).children(":first").next().children(":last").val();
+    					  if(trPid==tdNextId){
+    						  var nextNumber=$(trNextAll[i]).children(":first").next().children(":first").next();
+    						  if(nextNumber.val().indexOf("（")>=0){//说明2,4,6级
+    							  var second = conChniese($(nextNumber).val());//2级
+    							  if(second){
+    								  var vals=$(nextNumber).val().substring(1,$(nextNumber).val().length-1);
+    								  var number=["一","二","三","四","五","六","七","八","九","十"];
+    								  num:
+    								  for(var j=0;j<number.length;j++){
+        							   if(vals==number[j]){
+        							      $(nextNumber).val("（"+number[j-1]+"）");
+          							    break num;
+        							   }
+    								  }
+    							  }
+    							  var fourth = conNum($(nextNumber).val());//4级
+    							  if(fourth){
+    								  var vals=$(nextNumber).val().substring(1,$(nextNumber).val().length-1);
+    								  $(nextNumber).val("（"+(parseInt(vals)-1)+"）");//重新赋值序号
+    							  }
+    							  var ifFifth = ifFifthNode($(nextNumber).val());//6级
+    							  if(ifFifth){
+    								  var vals=$(nextNumber).val().substring(1,$(nextNumber).val().length-1);
+    								  var number=["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    								  num:  
+    								  for(var j=0;j<number.length;j++){
+      							    	if(vals==number[j]){
+      							    		$(nextNumber).val("（"+number[j-1]+"）");
+      							    		break num;
+      							    	}
+      							    }
+    							  }
+    						  }else{//1,3,5级
+    							  var third = nums($(nextNumber).val());//3级
+    						    if(third){
+    						    	$(nextNumber).val(parseInt($(nextNumber).val())-1)//重新赋值序号
+    						    }
+    							  var fifth = eng($(nextNumber).val());//5级
+    							  if(fifth){
+    								  var number=["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    							    num:
+    								  for(var j=0;j<number.length;j++){
+    							    	if($(nextNumber).val()==number[j]){
+    							    		$(nextNumber).val(number[j-1]);
+    							    		break num;
+    							    	}
+    							    }
+    							  }
+    						  }
+    					  }
+    				  }
+        			if(status=="old"){
+        				ajaxDeleteRequired(trId);
+        			}
+        			var price;
+        			if(trPid!=trPrevPid){
+        				price=$($(tr).prev().children()[8]).children(":first").next();
+        			}else{
+        				price=$($(tr).next().children()[8]).children(":first").next();
+        			}
+    				  $(tr).remove();
+    				  sum1(price);
+    			  }else{//删除当前节点，把父节点的父节点的readOnly=false,并且删除tr上的attr=“true”
+    				    $(tr).prev().removeAttr("attr");
+    		    	  var tr7=$($(tr).prev().children()[7]).children(":first").next();
+    		    	  alert($(tr7).attr("name"))
+    		    	  var tr8=$($(tr).prev().children()[8]).children(":first").next();
+    		    	 /*  var tr9=$($(tr).prev().children()[9]).children(":first").next(); */
+    		    	  $(tr7).removeAttr("readonly");
+    		    	  $(tr7).attr("onblur","sum2(this)");
+    		    	  $(tr7).attr("onkeyup","checkNum(this,1)");
+    		    	  $(tr7).val("");
+    		    	  $(tr8).removeAttr("readonly");
+    		    	  $(tr8).attr("onblur","sum1(this)");
+    		    	  $(tr8).attr("onkeyup","checkNum(this,2)");
+    		    	  $(tr8).val("");
+    		    	  /* $(tr9).removeAttr("readonly");
+    		    	  $(tr9).val(""); */
+    		    	  if(status=="old"){
+    		    		  ajaxDeleteRequired(trId);
+          			}
+    		    	  $(tr).remove();
+    		    	  sum1(tr8);
+    			  }
+    			  
+    		  }
+    	  }
+      }
+      function ajaxDeleteRequired(id){
+    	  $.ajax({
+              type: "POST",
+              url: "${pageContext.request.contextPath}/purchaser/deleteRequired.do",
+              data: {
+                "id": id
+              },
+              success: function(data) {
+            	   if(data=="ok"){
+            		   layer.msg("节点删除成功");
+            	   }
+              },
+            }); 
+      }
+      function deleteRow(obj) {//删除导入的，或者新添加的
+    	  deleteRowRequired(obj,"new");
       }
 
-      function delRowIndex(obj) { //delobjId
-        var detailRow = document.getElementsByName("detailRow");
+      function delRowIndex(obj) { //删除原有的数据
+    	  deleteRowRequired(obj,"old");
+        /* var detailRow = document.getElementsByName("detailRow");
         var index = detailRow.length;
 
         var input = $(obj).prev().val();
@@ -1106,7 +1235,7 @@
           });
         }
         var cid = $(obj).parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().children(":last");
-        sum2(cid);
+        sum2(cid); */
       }
       //检索名字
       function listName(obj) {
@@ -1433,16 +1562,16 @@
                       <input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}" class="qualitstand">
                     </td>
                     <td><input type="hidden" name="ss" value="${obj.id }">
-                      <input type="text" name="list[${vs.index }].item" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> value="${obj.item}" class="item">
+                      <input type="text" name="list[${vs.index }].item"  value="${obj.item}" class="item">
                     </td>
                     <td>
                       <input type="hidden" name="ss" value="${obj.id }">
-                      <input maxlength="11" class="purchasecount" onblur="sum2(this);" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount" value="${obj.purchaseCount}" />
+                      <input maxlength="11" class="purchasecount"  <c:if test="${obj.price!=''&&obj.price!=null}">onblur="sum2(this);"</c:if> <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount" value="${obj.purchaseCount}" />
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </td>
                     <td class="tl w80">
                       <input type="hidden" name="ss" value="${obj.id }">
-                      <input maxlength="11" class="price" name="list[${vs.index }].price" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> onblur="sum1(this);" value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+                      <input maxlength="11" class="price" name="list[${vs.index }].price" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> <c:if test="${obj.price!=''&&obj.price!=null}">onblur="sum1(this);"</c:if> value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </td>
                     <td><input type="hidden" name="ss" value="${obj.id }">
@@ -1488,7 +1617,7 @@
                           <u:show showId="show_${vs.index}" businessId="${obj.id}" sysKey="2" typeId="${detailId}" />
                         </div>
                       </c:if> <input type="hidden" class="ptype" name="ptype" value="${obj.purchaseType}" /></td>
-                    <td class="tc w100"><input type="hidden" value="${obj.id}" /> <button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
+                    <td class="tc w100"><input type="hidden" value="${obj.id}" /> <button type="button" class="btn" onclick="delRowIndex(this);">删除</button></td>
 
                   </tr>
 

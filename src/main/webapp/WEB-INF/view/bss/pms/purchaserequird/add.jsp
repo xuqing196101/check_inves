@@ -487,13 +487,13 @@
     				    $(tr).prev().removeAttr("attr");
     		    	  var tr7=$($(tr).prev().children()[7]).children(":first").next();
     		    	  var tr8=$($(tr).prev().children()[8]).children(":first").next();
-    		    	  var tr9=$($(tr).prev().children()[9]).children(":first").next();
+    		    	  /* var tr9=$($(tr).prev().children()[9]).children(":first").next(); */
     		    	  $(tr7).removeAttr("readonly");
     		    	  $(tr7).val("");
     		    	  $(tr8).removeAttr("readonly");
     		    	  $(tr8).val("");
-    		    	  $(tr9).removeAttr("readonly");
-    		    	  $(tr9).val("");
+    		    	  /* $(tr9).removeAttr("readonly");
+    		    	  $(tr9).val(""); */
     		    	  $(tr).remove();
     			  }
     			  
@@ -529,7 +529,6 @@
         }); */
       }
       var index;
-
       function uploadExcel() {
         index = layer.open({
           type: 1, //page层
@@ -864,13 +863,13 @@
     	  $(tr).attr("attr","true");
     	  var tr7=$($(tr).children()[7]).children(":first").next();
     	  var tr8=$($(tr).children()[8]).children(":first").next();
-    	  var tr9=$($(tr).children()[9]).children(":first").next();
+    	  /* var tr9=$($(tr).children()[9]).children(":first").next(); */
     	  $(tr7).attr("readonly", "readonly");
     	  $(tr7).val("");
     	  $(tr8).attr("readonly", "readonly");
     	  $(tr8).val("");
-    	  $(tr9).attr("readonly", "readonly");
-    	  $(tr9).val("");
+    	  /* $(tr9).attr("readonly", "readonly");
+    	  $(tr9).val(""); */
       }
       //获取序号
       function getSeq(obj) {
