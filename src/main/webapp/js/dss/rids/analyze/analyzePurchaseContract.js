@@ -166,8 +166,8 @@ $(function () {
         }
     });
 
-    //
-    $.ajax({
+    //各产品类型签订采购合同数量
+    /*$.ajax({
         url: globalPath + "/resAnalyze/selectpurContractByProductType.do",
         type: "POST", // 请求方式
         dataType: "json", // 返回格式为json
@@ -189,7 +189,7 @@ $(function () {
                 //window.location.href = globalPath + "/project/selectByProject.html?purchaseType="+ele.id;
             });
         }
-    });
+    });*/
 });
 
 function findAllPurchaseContract(){
