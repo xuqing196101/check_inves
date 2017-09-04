@@ -1355,7 +1355,7 @@
         var five = eng(obj);
         //六级节点
         var six = conEng(obj);
-        if(one){
+        if (one) {
           node = 1;
         } else if (two) {
           node = 2;

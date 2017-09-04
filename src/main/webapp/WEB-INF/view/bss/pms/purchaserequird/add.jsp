@@ -400,10 +400,7 @@
       function delRowIndex(obj) {
     	  var trAll=$("#detailZeroRow tr");
     	  if(trAll.length<=2){
-    		  layer.alert("至少保留两行！", {
-    	        offset: ['222px', '390px'],
-    	        shade: 0.01
-    	     });
+    		  layer.msg("至少保留两行！");
     	  }else{
     		  var tr = $(obj).parent().parent();
     		  var trId=$(tr).children(":first").next().children(":first").val();
@@ -482,22 +479,37 @@
     						  }
     					  }
     				  }
+    				  var price;
+    				  if(trPid!=trPrevPid){
+    				    price=$($(tr).next().children()[8]).children(":first").next();
+    				  } else {
+    				     price=$($(tr).prev().children()[8]).children(":first").next();
+    				  }
+    				  
     				  $(tr).remove();
+    				  sum1(price);
     			  }else{//删除当前节点，把父节点的父节点的readOnly=false,并且删除tr上的attr=“true”
     				    $(tr).prev().removeAttr("attr");
     		    	  var tr7=$($(tr).prev().children()[7]).children(":first").next();
     		    	  var tr8=$($(tr).prev().children()[8]).children(":first").next();
     		    	  /* var tr9=$($(tr).prev().children()[9]).children(":first").next(); */
     		    	  $(tr7).removeAttr("readonly");
+    		    	  $(tr7).attr("onblur","sum2(this)");
+    		    	  $(tr7).attr("onkeyup","checkNum(this,1)");
     		    	  $(tr7).val("");
     		    	  $(tr8).removeAttr("readonly");
+    		    	  $(tr8).attr("onblur","sum1(this)");
+    		    	  $(tr8).attr("onkeyup","checkNum(this,2)");
     		    	  $(tr8).val("");
     		    	  /* $(tr9).removeAttr("readonly");
     		    	  $(tr9).val(""); */
+    		    	  var price=$($(tr).prev().children()[8]).children(":first").next();
     		    	  $(tr).remove();
+    		    	  sum1(price);
     			  }
     			  
     		  }
+    		  
     	  }
         /* var detailRow = document.getElementsByName("detailRow");
         var index = detailRow.length;
@@ -863,13 +875,14 @@
     	  $(tr).attr("attr","true");
     	  var tr7=$($(tr).children()[7]).children(":first").next();
     	  var tr8=$($(tr).children()[8]).children(":first").next();
-    	  /* var tr9=$($(tr).children()[9]).children(":first").next(); */
+        $(tr7).removeAttr("onblur");
+        $(tr7).removeAttr("onkeyup");
+        $(tr8).removeAttr("onblur");
+        $(tr8).removeAttr("onkeyup");
     	  $(tr7).attr("readonly", "readonly");
     	  $(tr7).val("");
     	  $(tr8).attr("readonly", "readonly");
     	  $(tr8).val("");
-    	  /* $(tr9).attr("readonly", "readonly");
-    	  $(tr9).val(""); */
       }
       //获取序号
       function getSeq(obj) {
