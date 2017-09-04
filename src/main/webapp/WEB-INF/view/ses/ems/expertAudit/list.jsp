@@ -83,6 +83,42 @@
           }
         }
       }
+      
+      //  全选操作
+      var selected = 0;
+      function checkAll(el) {
+        if ($(el).is(':checked')) {
+          $(el).parents('table').find('.select_item').each(function () {
+            $(this).prop('checked', true);
+            selected = $('.select_item').length;
+          });
+        } else {
+          $(el).parents('table').find('.select_item').each(function () {
+            $(this).prop('checked', false);
+            selected = 0;
+          });
+        }
+      }
+      // 绑定列表框点击事件，获取选中id集合
+      $(function () {
+        if ($('.select_item').length > 0) {
+          $('.select_item').bind('click', function () {
+            if ($(this).is(':checked')) {
+              selected++;
+            } else {
+              selected--;
+            }
+            
+            console.log(selected);
+            
+            if (selected === $('.select_item').length) {
+              $('[name=checkAll]').prop('checked', true);
+            } else {
+              $('[name=checkAll]').prop('checked', false);
+            }
+          });
+        }
+      })
     </script>
 
     <script type="text/javascript">
@@ -406,7 +442,7 @@
         <table class="table table-bordered table-condensed table-hover table-striped hand againAudit_table">
           <thead>
             <tr>
-              <th class="info w50">选择</th>
+              <th class="info w50"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
               <th class="info w50">序号</th>
               <th class="info">专家姓名</th>
               <th class="info w50">性别</th>
