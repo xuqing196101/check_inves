@@ -1550,7 +1550,8 @@ public class SupplierController extends BaseSupplierController {
 		List < SupplierItem > itemsList = new ArrayList < SupplierItem > ();
 		for(String type: typeIds) {
 			if(!type.equals("PROJECT")) {
-				itemsList.addAll(supplierItemService.findCategoryList(supplierId, type, null));
+				//itemsList.addAll(supplierItemService.findCategoryList(supplierId, type, null));
+				itemsList.addAll(supplierItemService.getItemList(supplierId, type, (byte)0, null));
 			}
 		}
 		// 实际上传数量
@@ -2648,27 +2649,29 @@ public class SupplierController extends BaseSupplierController {
 		List<SupplierAptitute> listSupplierAptitutes = supplierMatPro.getListSupplierAptitutes();
 		if (listSupplierAptitutes != null && listSupplierAptitutes.size() > 0) {
 		    outer: for (SupplierAptitute supplierAptitute : listSupplierAptitutes) {
-                boolean flag = false;
-                String certCode = "";
-                String parentCertCode = "";
-		        if (supplierAptitute.getCertName() != null && supplierAptitute.getCertCode() != null) {
-                    parentCertCode = "【";
-                    inner: for (SupplierCertEng supplierCertEng : listSupplierCertEngs) {
-                        if (supplierAptitute.getCertCode().equals(supplierCertEng.getCertCode())) {
-                            flag = true;
-                            break inner;
-                        }else{
-                            parentCertCode += supplierCertEng.getCertCode() + ",";
-                        }
-                    }
-                    if(!StringUtils.isEmpty(parentCertCode)) parentCertCode = parentCertCode.substring(0,parentCertCode.length()-1)+"】";
-                    certCode = "【"+supplierAptitute.getCertCode()+"】";
-                }
-		        if (!flag) {
-		            bool = false;
-                    model.addAttribute("eng_aptitutes", "证书编号"+certCode+"与资质（认证）证书"+parentCertCode+"不匹配！");
-                    break outer;
-		        }
+				if(supplierAptitute != null && supplierAptitute.getId() != null){
+					boolean flag = false;
+				    String certCode = "";
+				    String parentCertCode = "";
+				    if (supplierAptitute.getCertName() != null && supplierAptitute.getCertCode() != null) {
+				        parentCertCode = "【";
+				        inner: for (SupplierCertEng supplierCertEng : listSupplierCertEngs) {
+				            if (supplierAptitute.getCertCode().equals(supplierCertEng.getCertCode())) {
+				                flag = true;
+				                break inner;
+				            }else{
+				                parentCertCode += supplierCertEng.getCertCode() + ",";
+				            }
+				        }
+				        if(!StringUtils.isEmpty(parentCertCode)) parentCertCode = parentCertCode.substring(0,parentCertCode.length()-1)+"】";
+				        certCode = "【"+supplierAptitute.getCertCode()+"】";
+				    }
+				    if (!flag) {
+				        bool = false;
+				        model.addAttribute("eng_aptitutes", "证书编号"+certCode+"与资质（认证）证书"+parentCertCode+"不匹配！");
+				        break outer;
+				    }
+				}
 		    }
 		}
 		if(supplierMatPro.getBusinessScope()==null){

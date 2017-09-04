@@ -1074,13 +1074,14 @@
    <!-- 获取各类型需求金额 -->
    <select id="selectBudget" parameterType="java.lang.String" resultType="java.math.BigDecimal">
       SELECT
-			  SUM(BUDGET)
+			  SUM(T.BUDGET)
 			FROM
-			  T_BSS_PMS_PURCHASE_REQUIRED
+			  T_BSS_PMS_PURCHASE_REQUIRED T
 			WHERE
-			  PARENT_ID = '1'
-			AND HISTORY_STATUS = '0'
-			AND PLAN_TYPE = #{planType}
+			  T.PARENT_ID = '1'
+			AND T.HISTORY_STATUS = '0'
+			AND T.STATUS != 1 AND T.STATUS != 4
+			AND T.PLAN_TYPE = #{planType}
    </select>
    
    <!-- 获取需求总金额 -->

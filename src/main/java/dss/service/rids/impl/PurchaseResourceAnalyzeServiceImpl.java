@@ -131,7 +131,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	/**采购机构统计**/
 	private static final String AREA_ORG_NUM = "area_org_num";
 	// 设置缓存失效时间
-	private static final int EXPIRE_TIME = 600;
+	private static final int EXPIRE_TIME = 180;
 
 
 	/**

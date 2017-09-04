@@ -1938,7 +1938,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		supplierAudit.setSupplierId(supplierId);
 		supplierAudit.setIsDeleted(1);
 		// 查询退回修改的和未修改的进行更新
-		List<SupplierAudit> reasonsList = supplierAuditMapper.selectAuditRecords(supplierAudit, new Integer[]{1,4});
+		// 本来不查询品目审核记录的，但由于老数据的原因，加上状态为0的，可能包含品目的审核记录，在修改状态的时候直接改为“审核不通过(2)”
+		List<SupplierAudit> reasonsList = supplierAuditMapper.selectAuditRecords(supplierAudit, new Integer[]{0,1,4});
 		if(reasonsList != null && reasonsList.size() > 0){
 			for(SupplierAudit audit : reasonsList){
 				SupplierModify supplierModify = new SupplierModify();
@@ -2015,6 +2016,14 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 							}
 						}
 					}
+				}
+				if(auditType.startsWith("items_")){// 品目
+					// 更新状态
+					SupplierAudit supplierAuditUpdate = new SupplierAudit();
+					supplierAuditUpdate.setId(audit.getId());
+					supplierAuditUpdate.setReturnStatus(2);
+					result += supplierAuditMapper.updateByIdSelective(supplierAuditUpdate);
+					continue;
 				}
 				supplierModify.setBeforeField(auditField);
 				supplierModify.setRelationId(auditField);

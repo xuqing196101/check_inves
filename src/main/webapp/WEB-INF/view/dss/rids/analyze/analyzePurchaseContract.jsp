@@ -36,12 +36,12 @@
 			</h2>
 			<div id="purContractTotal" class="analyze"></div>
 		</ul>
-		<ul class="ul_list">
+		<%--<ul class="ul_list">
 			<h2 class="count_flow">
 				<span class="m-chart-icon"></span> 各产品类型签订采购合同数量
 			</h2>
 			<div id="purContractByProductType" class="analyze"></div>
-		</ul>
+		</ul>--%>
 	</div>
 </body>
 </html>
