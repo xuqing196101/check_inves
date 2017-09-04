@@ -724,6 +724,7 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
             }
             List<theSubject> theSubjects = subjectMapper.selectByPackagesId(oldId);
             for (theSubject ts : theSubjects) {
+                ts.setDetailId(map.get(ts.getDetailId()));
                 ts.setPackageId(newId);
                 subjectMapper.insertSelective(ts);
             }
@@ -1295,6 +1296,7 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
                     projectDetail.setPosition(advancedDetail.getPosition());
                 }
                 projectDetailMapper.insertSelective(projectDetail);
+                map.put(advancedDetail.getId(), projectDetail.getId());
             }
         }
     }

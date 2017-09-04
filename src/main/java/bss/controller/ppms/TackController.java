@@ -8,11 +8,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +30,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
@@ -40,56 +37,30 @@ import ses.service.bms.RoleServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
-import ses.util.WfUtil;
 
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedDetail;
-import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
-import bss.model.ppms.BidMethod;
-import bss.model.ppms.FlowDefine;
-import bss.model.ppms.FlowExecute;
-import bss.model.ppms.MarkTerm;
-import bss.model.ppms.Packages;
-import bss.model.ppms.ParamInterval;
 import bss.model.ppms.Project;
-import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
-import bss.model.ppms.ScoreModel;
 import bss.model.ppms.Task;
-import bss.model.prms.FirstAudit;
-import bss.model.prms.PackageFirstAudit;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.AdvancedDetailService;
-import bss.service.ppms.AdvancedPackageService;
 import bss.service.ppms.AdvancedProjectService;
-import bss.service.ppms.BidMethodService;
-import bss.service.ppms.FlowMangeService;
-import bss.service.ppms.MarkTermService;
-import bss.service.ppms.PackageService;
-import bss.service.ppms.ParamIntervalService;
-import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
-import bss.service.ppms.ScoreModelService;
 import bss.service.ppms.TaskService;
-import bss.service.prms.FirstAuditService;
-import bss.service.prms.PackageFirstAuditService;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
-import common.constant.Constant;
 import common.constant.StaticVariables;
-import common.model.UploadFile;
-import common.service.UploadService;
 
 /**
  * 
@@ -119,44 +90,13 @@ public class TackController extends BaseController{
 	@Autowired
 	private RoleServiceI roleService;
 	
-	@Autowired
-    private FirstAuditService service;
-    
-    @Autowired
-    private PackageFirstAuditService packageFirstAuditService;
-    
-    @Autowired
-    private BidMethodService bidMethodService;
-    
-    @Autowired
-    private MarkTermService markTermService;
-    
-    @Autowired
-    private ScoreModelService scoreModelService;
-    
-    @Autowired
-    private UploadService uploadService;
-    
     @Autowired
     private ProjectService projectService;
     
-    @Autowired
-    private ProjectDetailService projectDetailService;
-    
-    @Autowired
-    private AdvancedPackageService advancedPackageService;
-    
-    @Autowired
-    private PackageService packageService;
     
     @Autowired
     private PurchaseDetailService purchaseDetailService;
     
-    @Autowired
-    private FlowMangeService flowMangeService;    
-    
-    @Autowired
-    private ParamIntervalService intervalService;
 	/**
 	 * 
 	* @Title: listAll
