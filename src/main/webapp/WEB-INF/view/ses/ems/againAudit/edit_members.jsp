@@ -42,9 +42,7 @@
     <div class="headline-v2"><h2>配置审核组成员</h2></div>
     
     <!-- 表格开始-->
-    <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn btn-windows setPwd btn_group_t" onclick="set_password()">设置密码</button>
-    </div>
+    <div class="col-md-12 pl20 mt10 mb10 btn_group_t"></div>
     
     <div class="content table_box">
       <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
@@ -63,9 +61,7 @@
       <div id="pagediv" align="right"></div>
     </div>
     
-    <div class="col-md-12 pl20 mt10 mb10">
-      <button type="button" class="btn btn-windows back btn_group_b" onclick="javascript:history.back()">返回</button>
-    </div>
+    <div class="col-md-12 pl20 mt10 mb10 btn_group_b"></div>
       
   </div>
   <!-- 内容结束 -->
