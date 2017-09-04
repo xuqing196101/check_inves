@@ -317,7 +317,7 @@ function add_members() {
   };
   $('#list_content').append('<tr>'
     +'<td class="text-center"><input name="id" type="checkbox" value="none" class="select_item"></td>'
-    +'<td class="text-center"><input type="text" name="loginName" class="form-control w100p border0 m0" onblur="checkOnly(this)"></td>'
+    +'<td class="text-center"><input type="text" name="loginName" class="form-control w100p border0 m0" onblur="checkOnly(this)" placeholder="由6-20个字母或数字组成"></td>'
     +'<td class="text-center"><input type="text" name="relName" class="form-control w100p border0 m0"></td>'
     +'<td class="text-center"><input type="text" name="orgName" class="form-control w100p border0 m0"></td>'
     +'<td class="text-center"><input type="text" name="duties" class="form-control w100p border0 m0"></td>'

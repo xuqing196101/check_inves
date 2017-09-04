@@ -13,7 +13,6 @@
       data_new: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
-        console.log(data);
         
         if (typeof(list_content) != 'undefined') {
           $('#list_content').html('');
