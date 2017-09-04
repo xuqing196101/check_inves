@@ -414,39 +414,47 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	}
 
 	@Override
-	public ExpertAgainAuditImg addExpertReviewTeam(ExpertReviewTeam expertReviewTeam) {
+	public ExpertAgainAuditImg addExpertReviewTeam(List<Map<String, String>> e) {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		expertReviewTeam.setId(WfUtil.createUUID());
-		User user = new User();
-		user.setId(WfUtil.createUUID());
-		user.setLoginName(expertReviewTeam.getLoginName());
-		user.setRelName(expertReviewTeam.getRelName());
-		user.setOrgName(expertReviewTeam.getOrgName());
-		user.setDuties(expertReviewTeam.getDuties());
-		user.setCreatedAt(new Date());
-		user.setUpdatedAt(new Date());
-		user.setIsDeleted(0);
-		user.setTypeName("6");
-		user.setTypeId(expertReviewTeam.getId());
-		String ipAddressType = PropUtil.getProperty("ipAddressType");
-		user.setNetType(Integer.valueOf(ipAddressType));
-		userMapper.saveUser(user);
-		ExpertGroup expertGroup = new ExpertGroup();
-		expertGroup.setGroupId(expertReviewTeam.getGroupId());
-		List<ExpertGroup> group = expertGroupMapper.getGroup(expertGroup);
-		expertGroup=group.get(0);
-		expertReviewTeam.setBatchId(expertGroup.getBatchId());
-		expertReviewTeam.setUserId(user.getId());
-		expertReviewTeam.setCreatedAt(new Date());
-		expertReviewTeam.setUpdatedAt(new Date());
-		RoleUser roleUser = new RoleUser();
-		roleUser.setUserId(user.getId());
-		roleUser.setRoleId("2A47E9E432CF4E4DACED2BC099715BCC");
-		userMapper.saveUserRole(roleUser);
-		expertGroup.setStatus("2");
-		expertGroupMapper.updateStatus(expertGroup);
-		expertReviewTeamMapper.insert(expertReviewTeam);
+		for (Map<String, String> map : e) {
+			ExpertReviewTeam expertReviewTeam = new ExpertReviewTeam();
+			expertReviewTeam.setGroupId(map.get("groupId"));
+			expertReviewTeam.setLoginName(map.get("loginName"));
+			expertReviewTeam.setRelName(map.get("relName"));
+			expertReviewTeam.setOrgName(map.get("orgName"));
+			expertReviewTeam.setDuties(map.get("duties"));
+			expertReviewTeam.setId(WfUtil.createUUID());
+			User user = new User();
+			user.setId(WfUtil.createUUID());
+			user.setLoginName(expertReviewTeam.getLoginName());
+			user.setRelName(expertReviewTeam.getRelName());
+			user.setOrgName(expertReviewTeam.getOrgName());
+			user.setDuties(expertReviewTeam.getDuties());
+			user.setCreatedAt(new Date());
+			user.setUpdatedAt(new Date());
+			user.setIsDeleted(0);
+			user.setTypeName("6");
+			user.setTypeId(expertReviewTeam.getId());
+			String ipAddressType = PropUtil.getProperty("ipAddressType");
+			user.setNetType(Integer.valueOf(ipAddressType));
+			userMapper.saveUser(user);
+			ExpertGroup expertGroup = new ExpertGroup();
+			expertGroup.setGroupId(expertReviewTeam.getGroupId());
+			List<ExpertGroup> group = expertGroupMapper.getGroup(expertGroup);
+			expertGroup=group.get(0);
+			expertReviewTeam.setBatchId(expertGroup.getBatchId());
+			expertReviewTeam.setUserId(user.getId());
+			expertReviewTeam.setCreatedAt(new Date());
+			expertReviewTeam.setUpdatedAt(new Date());
+			RoleUser roleUser = new RoleUser();
+			roleUser.setUserId(user.getId());
+			roleUser.setRoleId("2A47E9E432CF4E4DACED2BC099715BCC");
+			userMapper.saveUserRole(roleUser);
+			expertGroup.setStatus("3");
+			expertGroupMapper.updateStatus(expertGroup);
+			expertReviewTeamMapper.insert(expertReviewTeam);
+		}
 		img.setStatus(true);
 		img.setMessage("操作成功");
 		return img;

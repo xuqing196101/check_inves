@@ -1,6 +1,8 @@
 package ses.service.ems;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertReviewTeam;
@@ -17,7 +19,7 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg delExpertGroupDetails(String ids);
 	ExpertAgainAuditImg checkComplete(String batchId);
 	ExpertAgainAuditImg findExpertReviewTeam(String groupId,Integer pageNum);
-	ExpertAgainAuditImg addExpertReviewTeam(ExpertReviewTeam expertReviewTeam);
+	ExpertAgainAuditImg addExpertReviewTeam(List<Map<String, String>> expertReviewTeam);
 	ExpertAgainAuditImg deleteExpertReviewTeam(String ids);
 	ExpertAgainAuditImg setUpPassword(String ids,String passWord);
 	ExpertAgainAuditImg checkLoginName(String loginName);

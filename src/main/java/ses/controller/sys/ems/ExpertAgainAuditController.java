@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +30,7 @@ import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
+import ses.model.ems.ExpertAgainAuditReviewTeamList;
 import ses.model.ems.ExpertReviewTeam;
 import ses.service.ems.ExpertAgainAuditService;
 import ses.service.ems.ExpertService;
@@ -473,8 +475,8 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	/*
 	 * 配置审核组成员
 	 * */
-	@RequestMapping("addExpertReviewTeam")
-	public void addExpertReviewTeam(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,ExpertReviewTeam e){
+	@RequestMapping("addExpertReviewTeam")//ExpertAgainAuditReviewTeamList
+	public void addExpertReviewTeam(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,ExpertAgainAuditReviewTeamList reviewTeamList){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		if(user==null){
 			img.setStatus(false);
@@ -488,38 +490,46 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		super.writeJson(response, img);
 		return;
 		}
-		if(e!=null){
-			if("".equals(e.getGroupId())){
-				img.setStatus(false);
-				img.setMessage("请选择您要配置的组");
-				super.writeJson(response, img);
-				return;
-			}
-			if("".equals(e.getLoginName())){
-				img.setStatus(false);
-				img.setMessage("用户名不能为空");
-				super.writeJson(response, img);
-				return;
-			}
-			if("".equals(e.getRelName())){
-				img.setStatus(false);
-				img.setMessage("专家姓名不能为空");
-				super.writeJson(response, img);
-				return;
-			}
-			if("".equals(e.getOrgName())){
-				img.setStatus(false);
-				img.setMessage("单位不能为空");
-				super.writeJson(response, img);
-				return;
-			}
-			if("".equals(e.getDuties())){
-				img.setStatus(false);
-				img.setMessage("职务不能为空");
-				super.writeJson(response, img);
-				return;
-			}
-			img=againAuditService.addExpertReviewTeam(e);
+		if(reviewTeamList.getList().size()<=0){
+			img.setStatus(false);
+			img.setMessage("操作有误");
+			super.writeJson(response, img);
+			return;
+		}
+		for (Map<String,String> e : reviewTeamList.getList()) {
+			if(e!=null){
+				if("".equals(e.get("groupId"))){
+					img.setStatus(false);
+					img.setMessage("请选择您要配置的组");
+					super.writeJson(response, img);
+					return;
+				}
+				if("".equals(e.get("loginName"))){
+					img.setStatus(false);
+					img.setMessage("用户名不能为空");
+					super.writeJson(response, img);
+					return;
+				}
+				if("".equals(e.get("relName"))){
+					img.setStatus(false);
+					img.setMessage("专家姓名不能为空");
+					super.writeJson(response, img);
+					return;
+				}
+				if("".equals(e.get("orgName"))){
+					img.setStatus(false);
+					img.setMessage("单位不能为空");
+					super.writeJson(response, img);
+					return;
+				}
+				if("".equals(e.get("duties"))){
+					img.setStatus(false);
+					img.setMessage("职务不能为空");
+					super.writeJson(response, img);
+					return;
+				}
+		}
+			img=againAuditService.addExpertReviewTeam(reviewTeamList.getList());
 			super.writeJson(response, img);
 			return;
 		}
