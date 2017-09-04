@@ -14,7 +14,7 @@
     <result column="PHONE" jdbcType="VARCHAR" property="phone" />
     <result column="DUTIES" jdbcType="VARCHAR" property="duties" />
 	</resultMap> -->
-	<resultMap id="BaseResultMap" type="extract.dao.common.SuperviseMapper">
+	<resultMap id="BaseResultMap" type="extract.model.common.Supervise">
 	<!-- @mbggenerated -->
 	<id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
@@ -201,8 +201,20 @@
   	select wm_concat(REL_NAME) from T_SES_SMS_SUPPLIER_EXT_USER where RECORD_ID =#{value}
   </select>
   
-  <select id="getList" resultMap="BaseResultMap">
+  <select id="getList" resultMap="BaseResultMap" parameterType="extract.model.common.Supervise">
   	SELECT * FROM T_SES_EXTRACT_SUPERVISE WHERE IS_DELETE = 0
+  	<if test="name != null and name != '' ">
+  		AND NAME LIKE concat(concat('%',#{name}),'%')
+  	</if>
+  	<if test="compary != null and compary != '' ">
+  		AND COMPARY LIKE concat(concat('%',#{compary}),'%')
+  	</if>
+  	<if test="duty != null and duty != '' ">
+  		AND DUTY LIKE concat(concat('%',#{duty}),'%')
+  	</if>
+  	<if test="rank != null and rank != '' ">
+  		AND RANK LIKE concat(concat('%',#{rank}),'%')
+  	</if>
   </select>
   
 </mapper>

@@ -26,6 +26,7 @@ import ses.model.ems.ExtConType;
 import ses.model.sms.Supplier;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.WfUtil;
 import bss.controller.base.BaseController;
@@ -94,6 +95,8 @@ public class ExtractSupplierController extends BaseController {
     @Autowired
     private SuperviseService superviseService;
     
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataServiceI;
     /**
      * @Description:获取项目集合
      *
@@ -502,23 +505,35 @@ public class ExtractSupplierController extends BaseController {
     }
     
     /**
-     * 引用历史人员
+     * 引用历史人员 跳转页面
      * @param packageId
      * @return
      */
-     @RequestMapping("/getPeronList")
-    public String getPeronList(Model model,String personType,ExtractUser user,Supervise suser){
-        if (personType != null && !"".equals(personType)) {
-        	if("extractUser".equals(personType)){
-    			model.addAttribute("persons", extractUserService.getList(user));
-    		}
-    		if("supervise".equals(personType)){
-    			model.addAttribute("persons", superviseService.getList(suser));
-    		}
-        }
+     @RequestMapping("/toPeronList")
+    public String toPeronList(Model model,String personType,ExtractUser user,Supervise suser){
         model.addAttribute("personType", personType);
         return "ses/sms/extract/person_list";
     }
+     
+     
+     /**
+      * 引用历史人员
+      * @param packageId
+      * @return
+      */
+     @RequestMapping("/getPeronList")
+     @ResponseBody
+     public String getPeronList(Model model,String personType,ExtractUser user,Supervise suser){
+    	  if (personType != null && !"".equals(personType)) {
+          	if("extractUser".equals(personType)){
+      			return JSON.toJSONString(extractUserService.getList(user));
+      		}
+      		if("supervise".equals(personType)){
+      			return JSON.toJSONString(superviseService.getList(suser));
+      		}
+          }
+		return "";
+     }
     
     
     
@@ -593,6 +608,21 @@ public class ExtractSupplierController extends BaseController {
     public String supplierType(String projectId){
         List<DictionaryData> supplierTypeList = conditionService.supplierTypeList(projectId);
         return JSON.toJSONString(supplierTypeList);
+    }
+    
+    
+    /**
+     *
+     *〈简述〉供应商类型
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/supplieType2")
+    public String supplierType2(String typeCode){
+    	List<DictionaryData> supplierTypeList = conditionService.supplierType(typeCode);
+    	return JSON.toJSONString(supplierTypeList);
     }
     
 }

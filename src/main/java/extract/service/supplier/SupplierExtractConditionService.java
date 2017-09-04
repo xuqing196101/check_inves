@@ -115,6 +115,8 @@ public interface SupplierExtractConditionService {
   
   void saveOrUpdateCondition(SupplierExtractCondition condition, SupplierConType conType);
 
+List<DictionaryData> supplierType(String typeCode);
+
 }
 
 

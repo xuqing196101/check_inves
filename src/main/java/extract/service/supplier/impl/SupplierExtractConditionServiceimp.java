@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
@@ -66,6 +67,10 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
   
   @Autowired
   private ExtractConditionRelationMapper extractConditionRelationMapper;//条件关联表
+  
+  @Autowired
+  private DictionaryDataMapper dictionaryDataMapper;
+  
   
   /**
    * @Description:添加
@@ -464,4 +469,12 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		
 		//
 	}
+
+@Override
+public List<DictionaryData> supplierType(String typeCode) {
+	if("GOODS".equals(typeCode)){
+		return dictionaryDataMapper.findByKind("8");
+	}
+	return dictionaryDataMapper.selectByCode(typeCode);
+}
 }

@@ -438,10 +438,10 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>项目类型</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <select name="projectType" class="col-md-12 col-sm-12 col-xs-6 p0">
-                          <option value="FC9528B2E74F4CB2A9E74735A8D6E90A" ${projectInfo.projectType == 'FC9528B2E74F4CB2A9E74735A8D6E90A' ? 'selected' : '' }>物资</option>
-                          <option value="3EC64C63FE15422EA100F58A4A872F4A" ${projectInfo.projectType == '3EC64C63FE15422EA100F58A4A872F4A' ? 'selected' : '' }>工程</option>
-                          <option value="E4E4220290A2489D8AE2C1CC4F46459B" ${projectInfo.projectType == 'E4E4220290A2489D8AE2C1CC4F46459B' ? 'selected' : '' }>服务</option>
+                     <select id="projectType" name="projectType" class="col-md-12 col-sm-12 col-xs-6 p0" onchange="loadSupplierType()">
+                          <option value="GOODS" ${projectInfo.projectType == 'GOODS' ? 'selected' : '' }>物资</option>
+                          <option value="PROJECT" ${projectInfo.projectType == 'PROJECT' ? 'selected' : '' }>工程</option>
+                          <option value="SERVICE" ${projectInfo.projectType == 'SERVICE' ? 'selected' : '' }>服务</option>
                      </select>
                      <span class="add-on">i</span>
                      <div class="cue" id="projectTypeError"></div>
@@ -493,12 +493,11 @@
 	<div class="container_box col-md-12 col-sm-12 col-xs-12">
 		 <h2 class="count_flow"><i>2</i>人员信息</h2>
 		 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span><b> 抽取人员:</b></span>
-		 <form action="addExtractUser.do" id="extractUser">
+		 <form action="" id="extractUser">
 		 <div class="col-md-12 col-sm-12 col-xs-12 tc">
 		 	<input type="button" class="btn list_btn" onclick="addPerson(this)" value="新增">
 		 	<input type="button" class="btn list_btn" onclick="delPerson(this)" value="删除">
 		 	<input type="button" class="btn list_btn" onclick="selectHistory(this)" value="引用历史人员">
-		 	<input type="submit" class="btn list_btn"  value="保存">
 		 </div>
 		  <table class="table table-bordered table-condensed table_input left_table">
               <thead>				
@@ -535,14 +534,14 @@
 		  <form action="" id="supervise">
 		  <div class="col-md-12 col-sm-12 col-xs-12 tc">
 		 	<input type="button" class="btn list_btn" onclick="addPerson(this)" value="新增">
-		 	<input type="button" class="btn list_btn" onclike="delPerson" value="删除">
-		 	<input type="button" class="btn list_btn" onclick="selectHistory()" value="引用历史人员">
-		  </div>
-		  <table class="table table-bordered table-condensed">
-               <thead>
+		 	<input type="button" class="btn list_btn" onclick="delPerson(this)" value="删除">
+		 	<input type="button" class="btn list_btn" onclick="selectHistory(this)" value="引用历史人员">
+		 </div>
+		  <table class="table table-bordered table-condensed table_input left_table">
+              <thead>				
 	              <tr>
-	                  <th class="info "><input type="checkbox" onclick="checkAll(this)"> </th>
-	                  <th class="info ">序号</th>
+	                  <th class="info"><input type="checkbox" onclick="checkAll(this)"> </th>
+	                  <th class="info">序号</th>
 	                  <th class="info" width="15%">姓名</th>
 	                  <th class="info" width="40%">单位</th>
 	                  <th class="info" width="15%">职务</th>
@@ -553,22 +552,22 @@
               <tr>
               	<td> <input type="checkbox"> </td>
               	<td> 1 </td>
-              	<td> <input name="name" type="text"> </td>
-              	<td> <input name="compary" type="text"> </td>
-              	<td> <input name="duty" type="text"> </td>
-              	<td> <input name="rank" type="text"> </td>
+              	<td> <input name="list[0].name" class='tc' type="text"> <span class="name_0_Error"></span> </td>
+              	<td> <input name="list[0].compary" type="text"> <span class="compary_0_Error"></span> </td>
+              	<td> <input name="list[0].duty" type="text">  <span class="duty_0_Error"></span></td>
+              	<td> <input name="list[0].rank" type="text">  <span class="rank_0_Error"></span></td>
               </tr>
               <tr>
               	<td> <input type="checkbox"> </td>
               	<td> 2 </td>
-              	<td> <input name="name" type="text"> </td>
-              	<td> <input name="compary" type="text"> </td>
-              	<td> <input name="duty" type="text"> </td>
-              	<td> <input name="rank" type="text"> </td>
+              	<td> <input name="list[1].name" type="text">  <span class="name_1_Error"></span></td>
+              	<td> <input name="list[1].compary" type="text">  <span class="compary_1_Error"></span></td>
+              	<td> <input name="list[1].duty" type="text">  <span class="duty_1_Error"></span></td>
+              	<td> <input name="list[1].rank" type="text"> <span class="rank_1_Error"></span> </td>
               </tr>
             </tbody>
-            </table>
-         </form> 
+          </table>
+       </form>      
 	</div>	
 	<!-- 条件开始 -->
 	<div class="container_box col-md-12 col-sm-12 col-xs-12">
@@ -610,10 +609,12 @@
                   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div
                           class="star_red">*</div>抽取类型：</span>
                   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                  		<input name="SupplierTypeCode" id="supplierTypeCode" type="hidden">
+                  		<%-- <input name="supplierTypeCode" id="supplierTypeCode" type="hidden">
                       <input id="supplierType" class="" type="text" readonly
                              value="${listCon.conTypes[0].supplierTypeName }" name="supplierTypeName"
-                             onclick="showSupplierType();"/>
+                             onclick="showSupplierType();"/> --%>
+                      <select id=supplierType name="supplierTypeCode" onchange="initCategoryAndLevel(this)">
+                      </select>
                       <span class="add-on">i</span>
                       <div class="cue" id="dCount"></div>
                   </div>

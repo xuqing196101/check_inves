@@ -1,6 +1,8 @@
  $(function () {
         loadAreaZtree();
-        loadTypeTree();
+        //loadTypeTree();
+        //查询条件中供应商类型
+        loadSupplierType();
         chane();//对人数进行计算
     });
     /**各类别人数变动后触发,用于统计输入总人数*/
@@ -55,7 +57,10 @@
     //增加
     function addPerson(obj){
     	var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();
-    	var tr = "<tr><td class='tc'><input type='checkbox'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input name='name' > </td><td class='tc'> <input name='compary' ></td><td class='tc'> <input name='duty'></td><td class='tc'> <input name='rank'></td></tr>";
+    	if(null==index ||''==index || "undefined"== index){
+			index=0;
+		}
+    	var tr = "<tr class='inp'><td class='tc'><input type='checkbox'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input name='name' > </td><td class='tc'> <input name='compary' ></td><td class='tc'> <input name='duty'></td><td class='tc'> <input name='rank'></td></tr>";
     	$(obj).parents("form").find("tbody").append(tr);
     }
     
@@ -72,13 +77,13 @@
             shade: 0.01,
             area: ['430px', '400px'],
             offset: '20px',
-            content: globalPath+'/SupplierExtracts/getPeronList.do?personType='+personType, //iframe的url
+            content: globalPath+'/SupplierExtracts/toPeronList.do?personType='+personType, //iframe的url
             success: function (layero, index) {
                 iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
             },
             btn: ['保存']
             , yes: function () {
-                iframeWin.getChildren(cate);
+                iframeWin.chosePerson(obj);
             }
         });
     	
@@ -86,9 +91,17 @@
     
     //删除
     function delPerson(obj){
-    	$(obj).parents("form").find(":checked").each(function(){
+    	$(obj).parents("form").find("tbody").find(":checked").each(function(){
     		$(this).parents("tr").remove();
     	});
+    	//更新序号
+    	var i=1;
+    	$(obj).parents("form").find("tbody").find("tr").each(function(){
+    		var o = $(this).find("td").eq(1).html(i++);
+    	});
+    	/*for ( var i = 1; i <= trs.length; i++) {
+			$(trs[i-1]).find("td :eq(1)").html(i);
+		}*/
     }
     
     //全选全不选
@@ -449,6 +462,82 @@
         $("body").bind("mousedown", onBodyDownSupplierType);
     } 
 	
+     //加载供应商类型下拉框
+     function loadSupplierType(){
+    	 var typeCode = $("#projectType").val();
+    	 if(null!=typeCode&&''!=typeCode){
+    		 $.ajax({
+ 	            type: "POST",
+ 	            async: false,
+ 	            url: globalPath+"/SupplierExtracts/supplieType2.do",
+ 	            dataType: "json",
+ 	            data:{typeCode:typeCode},
+ 	            success: function (data) {
+ 	            	$("#supplierType").empty();
+ 	            	initCategoryAndLevel(null);
+ 	            	if(data.length>1){
+        				$("#supplierType").append("<option value='"+data[0].code+","+data[1].code+"'> 不限 </option>");
+        			}
+            		for(var i=0;i<data.length;i++){
+            			$("#supplierType").append("<option value='"+data[i].code+"'> "+data[i].name+" </option>");
+            			showCategoryAndLevel(data[i].code);
+            		}
+ 	            }
+ 	        });
+    	 }
+     }
+     
+     //根据初始化 品目 等级div
+     function initCategoryAndLevel(obj){
+    	 var mycars=new Array("service","project","product","sales");
+    	 for ( var i=0;i<4;i++) {
+    		 $("#"+mycars[i]+"Count").addClass("dnone");
+    		 $("#"+mycars[i]+"Result").addClass("dnone");
+    		 $("#"+mycars[i]+"CategoryIds").val("");
+    		 $("#"+mycars[i]+"ExtractNum").val(0);
+    		 $("#"+mycars[i]).val("");
+		}
+    	if(null!=obj){
+    		var types = $(obj).val().split(",");
+    		for(var type in types ){
+    			showCategoryAndLevel(types[type]);
+    		}
+    	}
+     }
+     
+     //显示品目等级信息div
+     function showCategoryAndLevel(code){
+    	 if ('PROJECT' == code) {
+    		 //查询数量
+    		 //selectTypeCount("PROJECT");
+    		 $("#projectCount").removeClass("dnone");
+    		 //追加结果表
+    		 $("#projectResult").removeClass("dnone");
+    	 } else if ('SERVICE' == code) {
+    		 //selectTypeCount("SERVICE");
+    		 $("#serviceCount").removeClass("dnone");
+    		 //加载服务等级树
+    		 loadLevelTree("serviceLevelTree");
+    		 //追加结果表
+    		 $("#serviceResult").removeClass("dnone");
+    	 } else if ('PRODUCT' == code) {
+    		 //selectTypeCount("PRODUCT");
+    		 $("#productCount").removeClass("dnone");
+    		 //加载生产等级树
+    		 loadLevelTree("productLevelTree");
+    		 //追加结果表
+    		 $("#productResult").removeClass("dnone");
+    	 } else if ('SALES' == code) {
+    		 //selectTypeCount("SALES");
+    		 $("#salesCount").removeClass("dnone");
+    		 //销售等级树
+    		 loadLevelTree("salesLevelTree");
+    		 //追加结果表
+    		 $("#salesResult").removeClass("dnone");
+    	 }
+     }
+     
+     
 	//选择抽取类型
 	function choseType(obj){
 		$("#extCategoryNames").val("");
@@ -476,8 +565,10 @@
             enable: true,
             chkboxType: {
               "Y": "s",
-              "N": "s"
-            }
+              "N": "ps"
+            },
+            chkStyle : "checkbox" 
+           // autoCheckTrigger: true
           },
           data: {
             simpleData: {
@@ -492,6 +583,7 @@
           callback: {
                // beforeCheck: beforeClickArea,
                 onCheck: choseArea,
+                onAsyncSuccess:selectAllArea
           },
           view: {
                 dblClickExpand: false
@@ -510,21 +602,33 @@
         }).slideDown("fast");
          $("body").bind("mousedown", onBodyDownArea);
 	}
-	//获取选中节点地区
-	function choseArea(){
+	
+	//默认选中全国
+	function selectAllArea(){
 		var treeObj=$.fn.zTree.getZTreeObj("treeArea");
-        var areas=treeObj.getCheckedNodes(true);
+		treeObj.checkAllNodes(true);
+		showCheckArea(treeObj);
+		
+	}
+	
+	//地区树选中处理
+	function showCheckArea(treeObj){
+		var areas=treeObj.getCheckedNodes(true);
         //省，直辖市
        	var pids = "";
        	//二级 市 区
        	var ids = "";
        	var idArr = new Array();
        	var names = "";
+       	
        	for(var i=0; i<areas.length;i++){
        		if(areas[i].isParent){
 				pids += areas[i].id + ",";
 				names += areas[i].name + ",";
 				idArr.push(areas[i].id);
+				if(areas[i].id == "0"){
+					break;
+				}
        		}else{
        			var flag = true;
        			
@@ -540,11 +644,25 @@
        				names += areas[i].name + ",";
        			}
        		}
-		}
-       	
+       	}
 		$("#province").val(pids.substring(0,pids.lastIndexOf(",")));
 		$("#addressId").val(ids.substring(0,ids.lastIndexOf(",")));
 		$("#area").val(names.substring(0,names.lastIndexOf(",")));
+	}
+	
+	//递归取消父节点选中状态
+	function dischecked(treeNode,treeObj){
+		var node = treeNode.getParentNode();
+		if(null !=node){
+			treeObj.checkNode(node, false);
+			dischecked(node,treeObj);
+		}
+	}
+	//获取选中节点地区
+	function choseArea(event,treeId,treeNode){
+		var treeObj=$.fn.zTree.getZTreeObj("treeArea");
+		dischecked(treeNode,treeObj);
+		showCheckArea(treeObj);
 	}
 	
 	//地区树绑定事件

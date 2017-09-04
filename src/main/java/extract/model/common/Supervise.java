@@ -29,7 +29,7 @@ public class Supervise {
 	    
 	    @NotEmpty
 	    @Length(max=50)
-	    private String pank;
+	    private String rank;
 	   
 	    private Short isDelete;
 
@@ -89,12 +89,12 @@ public class Supervise {
 			this.compary = compary;
 		}
 
-		public String getPank() {
-			return pank;
+		public String getRank() {
+			return rank;
 		}
 
-		public void setPank(String pank) {
-			this.pank = pank;
+		public void setRank(String rank) {
+			this.rank = rank;
 		}
 
 		public Short getIsDelete() {

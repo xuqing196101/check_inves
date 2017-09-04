@@ -1,26 +1,34 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-  <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-  <%@ include file="../../../common.jsp"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-  <head>
-  </head>
-  <script type="text/javascript">
-  	
-  	
-  	
-  </script>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html class=" js cssanimations csstransitions" lang="en">
+<!--<![endif]-->
+<head>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<%@ include file="../../../common.jsp"%>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<link rel="stylesheet"
+    href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css"
+    type="text/css">
+
+<!-- Meta -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+  <script type="text/javascript" src="<%=request.getContextPath() %>/js/ses/sms/personList.js"></script></head>
   <body>
   	<form action="" method="post" >
   		姓名：<input name="name">
   		单位：<input name="compary">
   		职务：<input name="duty">
   		军衔：<input name="rank">
-  		<input type="submit" class="btn list_btn" value="查询">
+  		<input type="hidden" id="personType" value="${personType}">
+  		<input type="button" onclick="getPersonList()" class="btn list_btn" value="查询">
   		<input type="reset" class="btn list_btn" value="重置">
   	</form>
      <table class="table table-bordered table-condensed table_input left_table">
@@ -34,17 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                  <th class="info" width="15%">军衔</th>
 	              </tr>
               </thead>
-              <tbody>
-              <c:forEach var="p"  varStatus="v" items="${persons }">
-	              <tr>
-	              	<td> <input type="checkbox" value="${p.id }"> </td>
-	              	<td> ${v.count} </td>
-	              	<td> ${p.name} </td>
-	              	<td> ${p.compary} </td>
-	              	<td> ${p.duty} </td>
-	              	<td> ${p.rank}</td>
-	              </tr>
-              </c:forEach>
+              <tbody id="personList">
             </tbody>
           </table>
   </body>

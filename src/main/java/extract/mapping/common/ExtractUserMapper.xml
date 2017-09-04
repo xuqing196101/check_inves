@@ -213,7 +213,7 @@
   		AND DUTY LIKE concat(concat('%',#{duty}),'%')
   	</if>
   	<if test="rank != null and rank != '' ">
-  		AND RANK LIKE concat(concat('%',#{RANK}),'%')
+  		AND RANK LIKE concat(concat('%',#{rank}),'%')
   	</if>
   	
   </select>

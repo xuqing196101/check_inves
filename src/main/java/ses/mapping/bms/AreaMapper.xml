@@ -196,6 +196,6 @@
 		 	WHERE T.NAME LIKE CONCAT(CONCAT('%',#{name}), '%')
 	</select>
 	<select id="getTreeForExt" resultMap="resultForExt">
-		 select  id,parent_id,NAME,'ture' is_parent from T_SES_BMS_AREA where parent_id = '0' union all select id,parent_id,NAME,'false' IS_PARENT from T_SES_BMS_AREA  where parent_id in (select id from T_SES_BMS_AREA where parent_id = '0')  
+		 select  id,parent_id,NAME,'true' is_parent from T_SES_BMS_AREA where parent_id = '0' union all select id,parent_id,NAME,'false' IS_PARENT from T_SES_BMS_AREA  where parent_id in (select id from T_SES_BMS_AREA where parent_id = '0')  
 	</select>
 </mapper>
