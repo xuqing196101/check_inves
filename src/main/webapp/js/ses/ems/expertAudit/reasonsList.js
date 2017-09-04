@@ -27,7 +27,7 @@ $(function () {
         // 清空意见内容
         //$("#cate_result").val("");
         var selectedVal = $(this).val();
-        if(selectedVal == 0){
+        if(selectedVal == 5){
             $("#cate_result").html("不通过。");
             return;
         }

@@ -44,7 +44,7 @@
             	$("#reverse_of_six").css("display","block"); */
             }
             if($("#status").val() != '0'){
-            	$("#qualified").attr("disabled", true);
+            	/* $("#qualified").attr("disabled", true); */
             	$("#noQualified").attr("disabled", true);
             }
             check_opinion();
