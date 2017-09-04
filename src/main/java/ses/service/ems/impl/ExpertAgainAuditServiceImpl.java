@@ -396,6 +396,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		}
 		List<ExpertReviewTeam> list = expertReviewTeamMapper.getExpertReviewTeamList(expertReviewTeam);
 		for (ExpertReviewTeam e : list) {
+			System.out.println(e.getDuties());
 			if(e.getPassWord()!=null){
 				e.setPassWord("1");
 			}else{
@@ -430,7 +431,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			user.setLoginName(expertReviewTeam.getLoginName());
 			user.setRelName(expertReviewTeam.getRelName());
 			user.setOrgName(expertReviewTeam.getOrgName());
-			user.setDuties(expertReviewTeam.getDuties());
+			user.setDuties(map.get("duties"));
 			user.setCreatedAt(new Date());
 			user.setUpdatedAt(new Date());
 			user.setIsDeleted(0);
@@ -494,8 +495,8 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		String[] split = ids.split(",");
 		for (String id : split) {
 			ExpertReviewTeam expertReviewTeam = expertReviewTeamMapper.getExpertReviewTeam(id);
-			User user = new User();
-			user.setId(expertReviewTeam.getUserId());
+			List<User> list = userMapper.findById(expertReviewTeam.getUserId());
+			User user =list.get(0);
 			//生成15位随机码
 			String randomCode = generateString(15);
 			Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
