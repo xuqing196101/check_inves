@@ -109,8 +109,6 @@
               selected--;
             }
             
-            console.log(selected);
-            
             if (selected === $('.select_item').length) {
               $('[name=checkAll]').prop('checked', true);
             } else {
