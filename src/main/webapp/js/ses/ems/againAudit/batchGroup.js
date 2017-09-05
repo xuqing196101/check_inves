@@ -174,14 +174,13 @@
         jump: function(e, first) { //触发分页后的回调
           if(!first) { //一定要加此判断，否则初始时会无限刷新
             $("#pageNum").val(e.curr);
+            opts.data.pageNum = e.curr;
+            opts.data.status = '14';
             $.ajax({
               type: opts.type,
               dataType: opts.dataType,
               url: opts.url,
-              data: {
-                pageNum: e.curr,
-                status: '14'
-              },
+              data: opts.data,
               success: opts.success
             });
           }
