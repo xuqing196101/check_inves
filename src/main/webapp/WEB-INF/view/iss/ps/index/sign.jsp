@@ -59,7 +59,11 @@
     						  $("#spanPrompt").text("验证码不正确");
     						  $("#inputCode").val("");
     						layer.close(index);
-    					} else if (data.indexOf("errorlogin") >= 0) {
+    					} else if (data =='fsthxg'){
+    						$("#divPrompt").removeClass("hide");
+                            $("#spanPrompt").text("请耐心等待复审结束");
+                            layer.close(index);
+    					}else if (data.indexOf("errorlogin") >= 0) {
     						$("#divPrompt").removeClass("hide");
     						
     						var ms = "";

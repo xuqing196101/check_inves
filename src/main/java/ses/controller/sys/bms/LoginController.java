@@ -199,7 +199,10 @@ public class LoginController {
 	                          }else if (("5").equals(object)){
 	                            // 复审未通过状态
 	                            out.print("onceCheckNoPass");
-	                          } else if (("-2").equals(object)){
+	                          } else if (("10").equals(object)){
+		                            // 复审退回修改
+		                            out.print("fsthxg");
+		                      } else if (("-2").equals(object)){
 	                            // 审核预通过状态
 	                            out.print("prepass");
 	                          } else if (("-3").equals(object)){

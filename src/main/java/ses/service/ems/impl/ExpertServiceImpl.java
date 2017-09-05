@@ -421,6 +421,9 @@ public class ExpertServiceImpl implements ExpertService {
 				}else if(("8").equals(expert.getStatus())){
 					//复查不合格
 					map.put("expert", "reviewFailed");
+				}else if(("10").equals(expert.getStatus())){
+					//复审退回修改
+					map.put("expert", "10");
 				}else if(("11").equals(expert.getStatus()) || ("14").equals(expert.getStatus())){
 					//复审中的状态
 					map.put("expert", "inReview");
