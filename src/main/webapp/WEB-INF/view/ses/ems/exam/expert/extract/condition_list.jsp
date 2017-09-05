@@ -7,6 +7,44 @@
 <title>抽取列表</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertExtract/extract.js"></script>
+<script type="text/javascript">
+
+/** 全选全不选 */
+function selectAll(k){
+	 var checklist = document.getElementsByName ("chkItem"+k);
+	 var checkAll = document.getElementById("checkAll"+k);
+	   if(checkAll.checked){
+		   for(var i=0;i<checklist.length;i++)
+		   {
+		      checklist[i].checked = true;
+		   } 
+		 }else{
+		  for(var j=0;j<checklist.length;j++)
+		  {
+		     checklist[j].checked = false;
+		  }
+	 	}
+	}
+
+/** 单选 */
+function check(k){
+	 var count=0;
+	 var checklist = document.getElementsByName ("chkItem"+k);
+	 var checkAll = document.getElementById("checkAll"+k);
+	 for(var i=0;i<checklist.length;i++){
+		   if(checklist[i].checked == false){
+			   checkAll.checked = false;
+			   break;
+		   }
+		   for(var j=0;j<checklist.length;j++){
+				 if(checklist[j].checked == true){
+					   checkAll.checked = true;
+					   count++;
+				   }
+			 }
+	   }
+}
+</script>
 </head>
 
 <body>
@@ -138,15 +176,15 @@
 			<ul class="ul_list">
 				<h2 class="count_flow"><span class="red">*</span> 抽取人员</h2>
 				<div class="col-md-12 pl20 mt10">
-					<button class="btn btn-windows add" type="button" onclick="">新增</button>
-					<button class="btn btn-windows delete" type="button" onclick="">删除</button>
+					<button class="btn btn-windows add" type="button" onclick="addPerson(1)">新增</button>
+					<button class="btn btn-windows delete" type="button" onclick="deletePerson(1)">删除</button>
 					<button class="btn" type="button" onclick="">引用历史人员</button>
 				</div>
 				<div class="content table_box">
-					<table class="table table-bordered table-condensed table-hover table-striped">
+					<table class="table table-bordered table-condensed table-hover table-striped" id="extractPerson">
 						<thead>
 							<tr>
-								<th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+								<th class="w30 info"><input id="checkAll1" type="checkbox" onclick="selectAll(1)" /></th>
 								<th class="w50 info">序号</th>
 								<th class="info" width="19%">姓名</th>
 								<th class="info" width="35%">单位</th>
@@ -155,7 +193,7 @@
 							</tr>
 						</thead>
 							<tr>
-								<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
+								<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem1" value="" /></td>
 								<td class="tc">1</td>
 								<td><input value = ""></td>
 								<td><input value = ""></td>
@@ -163,7 +201,7 @@
 								<td><input value = ""></td>
 							</tr>
 							<tr>
-								<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
+								<td class="tc w30"><input onclick="check(1)" type="checkbox" name="chkItem1" value="" /></td>
 								<td class="tc">2</td>
 								<td><input value = ""></td>
 								<td><input value = "" width="100%"></td>
@@ -175,15 +213,15 @@
 				
 				<h2 class="count_flow"><span class="red">*</span> 监督人员</h2>
 				<div class="col-md-12 pl20 mt10">
-					<button class="btn btn-windows add" type="button" onclick="">新增</button>
-					<button class="btn btn-windows delete" type="button" onclick="">删除</button>
+					<button class="btn btn-windows add" type="button" onclick="addPerson(2)">新增</button>
+					<button class="btn btn-windows delete" type="button" onclick="deletePerson(2)">删除</button>
 					<button class="btn" type="button" onclick="">引用历史人员</button>
 				</div>
 				<div class="content table_box">
-					<table class="table table-bordered table-condensed table-hover table-striped">
+					<table class="table table-bordered table-condensed table-hover table-striped" id="supervisesPerson">
 						<thead>
 							<tr>
-								<th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+								<th class="w30 info"><input id="checkAll2" type="checkbox" onclick="selectAll(2)" /></th>
 								<th class="w50 info">序号</th>
 								<th class="info" width="19%">姓名</th>
 								<th class="info" width="35%">单位</th>
@@ -192,7 +230,7 @@
 							</tr>
 						</thead>
 							<tr>
-								<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
+								<td class="tc w30"><input onclick="check(2)" type="checkbox" name="chkItem2" value="" /></td>
 								<td class="tc">1</td>
 								<td><input value = ""></td>
 								<td><input value = ""></td>
@@ -204,11 +242,15 @@
 			</ul>
 			
 			<h2 class="count_flow"><i>3</i>抽取条件</h2>
+			<!--地区id -->
+			<input type="hidden" name="addressId" id="addressId">
+			<!-- 省 -->
+			<input type="hidden" name="province" id="province"/>
 			<ul class="ul_list">
 				<li class="col-md-3 col-sm-4 col-xs-12 pl15">
 					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 区域要求:</span>
 					<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-						<input class="span5" type="text"> <span class="add-on">i</span>
+						<input class="span5" type="text" readonly  id="area" onclick="showTree();"> <span class="add-on">i</span>
 						<div class="cue" id=""></div>
 					</div>
 				</li>
@@ -280,5 +322,11 @@
 			</ul>
 		</div>
 	</div>
+	
+<!-- 地区树 -->
+<div id="areaContent" class="levelTypeContent"
+     style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+    <ul  id="treeArea" class="ztree" style="margin-top:0;"></ul>
+</div>
 </body>
 </html>

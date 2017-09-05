@@ -2,6 +2,7 @@ package extract.controller.expert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -55,6 +56,9 @@ public class ExtractExpertController {
 		//查询项目类型
 		List<DictionaryData> projectTypeList = DictionaryDataUtil.find(6);
 		model.addAttribute("projectTypeList",projectTypeList);
+		//生成项目信息主键id
+		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("projectId",uuid);
 		return "ses/ems/exam/expert/extract/condition_list";
 	}
 	
