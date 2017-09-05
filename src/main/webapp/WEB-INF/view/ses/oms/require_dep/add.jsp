@@ -82,7 +82,7 @@
     	}
     	layer.open({
 			type : 2, //page层
-			area : [ '550px', '500px' ],
+			area : [ '750px', '550px' ],
 			title : title,
 			shade : 0.01, //遮罩透明度
 			moveType : 1, //拖拽风格，0是默认，1是传统拖动
