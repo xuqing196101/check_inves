@@ -198,7 +198,36 @@ public class ExpertAuditController{
 		//查询列表
 		List < Expert > expertList = expertService.findExpertAuditList(expert, pageNum);
 		PageInfo< Expert > result = new PageInfo < Expert > (expertList);
-		
+		 for(Expert exp: expertList) {
+	            DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(exp.getGender());
+	            exp.setGender(dictionaryData == null ? "" : dictionaryData.getName());
+	            StringBuffer expertType = new StringBuffer();
+	            if(exp.getExpertsTypeId() != null) {
+	                for(String typeId: exp.getExpertsTypeId().split(",")) {
+	                    DictionaryData data = dictionaryDataServiceI.getDictionaryData(typeId);
+	                    if(data != null){
+	                    	if(6 == data.getKind()) {
+	                            expertType.append(data.getName() + "技术、");
+	                        } else {
+	                            expertType.append(data.getName() + "、");
+	                        }
+	                    }
+	                    
+	                }
+	                if(expertType.length() > 0){
+	                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+	                	 exp.setExpertsTypeId(expertsType);
+	                }
+	            } else {
+	                exp.setExpertsTypeId("");
+	            }
+	            
+	          //专家来源
+	      		if(exp.getExpertsFrom() != null) {
+	      			DictionaryData expertsFrom = dictionaryDataServiceI.getDictionaryData(exp.getExpertsFrom());
+	      			exp.setExpertsFrom(expertsFrom.getName());
+	      		}
+	        }
 		model.addAttribute("result",result);
 		model.addAttribute("expertList", expertList);
 		if(expert.getSign() == 2 ){
