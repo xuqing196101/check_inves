@@ -86,7 +86,7 @@
 							return;
 						}
 					}
-					var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
+					var state = $("#" + id + "").parents("tr").find("td:last").text();//.trim();
 					state = trim(state);
 					/* var state = $("#"+id+"").text().trim(); */
 					var isExtract = $("#" + id + "_isExtract").text();
@@ -185,7 +185,7 @@
 				function publish(){
 			  	var id = $(":checkbox:checked").val();
 			  	var size = $(":checkbox:checked").size();
-					var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
+					var state = $("#" + id + "").parents("tr").find("td:last").text();//.trim();
 					state = trim(state);
 					if(size == 1){
 			  			if(state != "待审核" && state != "退回再审核" && state != "退回修改" && state != "审核未通过"){
@@ -202,7 +202,7 @@
 					       					$("#form1").submit();
 				       					}, 1000);
 			  	 	      		}else{
-			  	 	      			layer.msg('该供应商已发布过！', {	            
+			  	 	      			layer.msg('该供应商已发布过！', {
 							             shift: 6,
 							             offset:'100px'
 							          });
@@ -248,7 +248,7 @@
 			function downloadTable(str) {
 				var size = $(":checkbox:checked").size();
 				var id = $(":checkbox:checked").val();
-				var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
+				var state = $("#" + id + "").parents("tr").find("td:last").text();//.trim();
         state = trim(state);
 				if(size == 0) {
 					layer.msg("请选供应商 !", {offset: '100px',});
