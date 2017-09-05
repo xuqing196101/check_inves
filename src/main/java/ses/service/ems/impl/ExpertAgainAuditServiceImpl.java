@@ -104,7 +104,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		expertBatch.setBatchNumber(batchNumber);
 		expertBatch.setCreatedAt(new Date());
 		expertBatch.setUpdatedAt(new Date());
-		expertBatchMapper.insert(expertBatch);
+		
 		List<String> idsList = new ArrayList<String>();
 		Expert e = new Expert();
 		String[] split = ids.split(",");
@@ -116,12 +116,13 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		e.setIds(idsList);
 		List<Expert> list = expertMapper.findExpertByInList(e);
 		for (Expert ex : list) {
-			if("11".equals(ex.getStatus())){
+			if(!"11".equals(ex.getStatus())){
 				img.setStatus(true);
 				img.setMessage("请选择待分配专家");
 				return img;
 			}
 		}
+		expertBatchMapper.insert(expertBatch);
 		int count=1;
 		for (Expert expert : list) {
 			ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
