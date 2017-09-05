@@ -1096,6 +1096,9 @@
 									</w:p>
 								</w:tc>
 							</w:tr>
+							
+							
+							<#list expertList as ex >
 							<w:tr>
 								<w:tblPrEx>
 									<w:tblBorders>
@@ -1137,7 +1140,7 @@
 												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 												<w:sz w:val="18" />
 												<w:szCs w:val="18" /></w:rPr>
-											<w:t>${name}</w:t>
+											<w:t>${ex.name}</w:t>
 										</w:r>
 									</w:p>
 								</w:tc>
@@ -1164,7 +1167,7 @@
 												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 												<w:sz w:val="18" />
 												<w:szCs w:val="18" /></w:rPr>
-											<w:t>${company}</w:t>
+											<w:t>${ex.company}</w:t>
 										</w:r>
 									</w:p>
 								</w:tc>
@@ -1191,7 +1194,7 @@
 												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 												<w:sz w:val="18" />
 												<w:szCs w:val="18" /></w:rPr>
-											<w:t>${job}</w:t>
+											<w:t>${ex.job}</w:t>
 										</w:r>
 									</w:p>
 								</w:tc>
@@ -1213,6 +1216,7 @@
 									</w:p>
 								</w:tc>
 							</w:tr>
+							</#list>
 						</w:tbl>
 						<w:p>
 							<w:pPr>
