@@ -34,11 +34,18 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	@Override
 	public ExpertAuditOpinion selectByPrimaryKey(ExpertAuditOpinion expertAuditOpinion) {
 		List<ExpertAuditOpinion> list = mapper.selectByPrimaryKey(expertAuditOpinion);
-		if(list != null && list.size() > 0){
-			return list.get(0);
-		}else{
-			return null;
+//		if(list != null && list.size() > 0){
+//			 
+//		}else{
+//			return null;
+//		}
+		ExpertAuditOpinion eao=new ExpertAuditOpinion();
+		for(ExpertAuditOpinion ea:list){
+			if(ea.getOpinion()!=null){
+				 eao=ea;
+			}
 		}
+		return eao;
 	}
 
 	/**

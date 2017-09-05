@@ -158,6 +158,18 @@ public class ProductCatalog {
     	
     }
     
+	/**
+	 * 查看详情
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+    @RequestMapping(value = "/update", produces = "application/json;charset=UTF-8")
+    public Category update (String id) {
+        Category cate = categoryService.getCategoryQuaById(id);
+        return cate;
+    }
+	
     /**
      * 
      * Description: 根据id查询目录树

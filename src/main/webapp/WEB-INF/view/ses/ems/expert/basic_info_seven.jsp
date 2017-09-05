@@ -94,9 +94,10 @@
         function fun() {
         	var expertType=false;
         	$("input[type='checkbox']:checked").each(function(){
-        		  if($(this).next().val()=="true"){
+        		//alert($(this).parent().css("color"));
+        		   if($(this).parent().css("color")=="rgb(239, 0, 0)"){
         			 expertType=true;
-        		 };  
+        		 };   
         	});
         	if(expertType){
         		layer.msg("请取消被退回的专家类型 !");
@@ -778,13 +779,13 @@
                         <c:forEach items="${spList}" var="sp">
                             <span  <c:if test="${fn:contains(typeErrorField,sp.id)}">style="color: #ef0000;"  onmouseover="errorMsg('${sp.id}')"</c:if>  class="margin-left-30">
                             <input  type="checkbox"  onclick="checks(this)" name="chkItem_1" value="${sp.id}"/>${sp.name}技术 
-                            <input type="hidden" value="${fn:contains(typeErrorField,sp.id)}">
+                           
                             </span>
                         </c:forEach>
                         <c:forEach items="${jjList}" var="jj">
                             <span <c:if test="${fn:contains(typeErrorField,jj.id)}">style="color: #ef0000;"  onmouseover="errorMsg('${jj.id}')"</c:if> class="margin-left-30">
                             <input onclick="checks(this)"  type="checkbox" name="chkItem_2" value="${jj.id}"/>${jj.name} 
-                            <input type="hidden" value="${fn:contains(typeErrorField,sp.id)}">
+                            
                             </span>
                         </c:forEach>
                     </div>

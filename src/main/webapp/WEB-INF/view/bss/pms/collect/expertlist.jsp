@@ -162,6 +162,8 @@
         <form id="add_form" class="mb0" action="${pageContext.request.contextPath }/set/expert.html" method="post" >
           <input type="hidden" name="page" id="page">
           <input type="hidden" value="${type }"  name="type" >
+          <input type="hidden" value="${backAttr}"  name="backAttr" >
+          <input type="hidden" value="${backid }"  name="backid" >
           <ul class="demand_list">
             <li>
               <label class="fl"> 姓名：</label>

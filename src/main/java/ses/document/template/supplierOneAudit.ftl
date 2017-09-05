@@ -1313,7 +1313,7 @@
           </w:tr>
 		  </#list>
           </#if>
-          
+          <#if sc == "1" >
           <#list supplierCategoryList as supplierCategory>
           <w:tr wsp:rsidR="006B557B" wsp:rsidRPr="007324D4" wsp:rsidTr="008C654E">
             <w:tblPrEx>
@@ -1386,7 +1386,7 @@
             </w:tc>
           </w:tr>
 		  </#list>
-          
+          </#if>
           
           
           

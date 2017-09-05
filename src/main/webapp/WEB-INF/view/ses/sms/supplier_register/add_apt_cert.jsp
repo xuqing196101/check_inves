@@ -5,11 +5,11 @@
 <input type="checkbox" class="border0" value="${id}" />
 <input type="hidden" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].id" value="${id}">
 </td>
-<td class="tc"><input type="text" class="border0" maxlength="30" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certName"/></td>
-<td class="tc"><input type="text" class="border0" maxlength="150" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode"/></td>
+<td class="tc"><div class="w200"><input type="text" class="border0" maxlength="30" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certName"/></div></td>
+<td class="tc"><div class="w150"><input type="text" class="border0" maxlength="150" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode"/></div></td>
 <td class="tc">
-	<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" id="certType_select${certAptNumber }" title="cnjewfnAdd1" class="w100p border0" onchange="getAptLevel(this)">
-        <option value="">请选择</option>
+	<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" id="certType_${certAptNumber }" title="cnjewfn" class="w100p border0 certTypeSelect"  style="width:200px;border: none;" onchange="tempSave()">
+    <option value="">请选择</option>
 		<c:forEach items="${typeList}" var="type">
 			<option value="${type.id}">${type.name}</option>
 		</c:forEach>
@@ -19,7 +19,8 @@
 <td class="tc"><input type="text" class="border0" maxlength="80" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteSequence"/></td>
 <td class="tc"><input type="text" class="border0" maxlength="30" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType"/></td>
 <td class="tc">
-	<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" id="certGrade_addSelect${certAptNumber }" title="cnjewfnAdd2" class="w100p border0" onchange="tempSave()"></select>
+	<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" id="certGrade_${certAptNumber }" title="cnjewfnGrade" class="w100p border0" style="width:200px;border: none;" onchange="tempSave()"></select>
+	<input type="hidden" id="certLevel_${certAptNumber}" value="${aptitute.aptituteLevel}">
 </td>
 <td class="tc">
 	<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].isMajorFund" class="w100p border0" onchange="tempSave()">
@@ -27,68 +28,21 @@
 		<option value="0">否</option>
 	</select>
 	<script type="text/javascript">
-		var certAptNumber = ${certAptNumber}
-		$("#certType_select"+certAptNumber).each(function() {
-			var $obj = $(this);
-			$obj.combobox({
-				panelHeight : 240,
-				width : "200px",
-				onLoadSuccess: function() {
-					if ($('#aptitute_list_tbody_id').length > 0) {
-						$('#aptitute_list_tbody_id .textbox').each(function() {
-	            $(this).addClass('border0');
-	          });
-					}
-				},
-				onSelect : function(record) {
-					getAptLevelSelect(record);
-				},
-				onChange : function() {
-					var changeStatus = $obj.attr("id");
-					var changeStatusNum;
-					for(var i = 0;i < changeStatus.length;i++) {
-						if(changeStatus.charAt(i) > 0 && changeStatus.charAt(i) < 10) {
-							changeStatusNum = changeStatus.substr(i,changeStatus.length);
-							//changeStatusJudge = changeStatus.substr(0,i);
-							break;
-						}
-					}
-					getAptLevel($obj,"addBtn");
-				}
-			});
+		var certAptNumber = '${certAptNumber}';
+		
+		$("#certType_"+certAptNumber).combobox({
+			panelHeight : 240,
+			onSelect : function(record) {
+				getAptLevelSelect(record);
+			},
+			onChange : function() {
+				$("#certLevel_"+certAptNumber).val("");
+				getAptLevel($(this), true);
+			}
 		});
-		$("#certGrade_addSelect"+certAptNumber).each(function() {
-			var $obj = $(this);
-			$obj.combobox({
-				panelHeight : 240,
-				width : "200px",
-				onLoadSuccess: function() {
-          if ($('#aptitute_list_tbody_id').length > 0) {
-            $('#aptitute_list_tbody_id .textbox').each(function() {
-              $(this).addClass('border0');
-            });
-          }
-        },
-				onSelect : function(record) {
-					getAptLevelSelect(record);
-				},
-				onChange : function() {
-					var changeStatus = $obj.attr("id");
-					var changeStatusNum;
-					for(var i = 0;i < changeStatus.length;i++) {
-						if(changeStatus.charAt(i) > 0 && changeStatus.charAt(i) < 10) {
-							changeStatusNum = changeStatus.substr(i,changeStatus.length);
-							//changeStatusJudge = changeStatus.substr(0,i);
-							break;
-						}
-					}
-					getAptLevel($obj,"addBtn");
-				},
-				valueField: 'value',
-				textField: 'label',
-				data : []
-			});
-		});
+		
+		$("#certGrade_"+certAptNumber).combobox({});
+		
 	</script>
 </td>
 

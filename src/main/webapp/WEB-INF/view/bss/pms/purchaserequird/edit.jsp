@@ -47,10 +47,10 @@
 	
 	function referenceNO(){
         var referenceNO = $("#referenceNo").val();
-        if(referenceNO == ''){
+       /*  if(referenceNO == ''){
         	layer.msg("采购需求文号不能为空");
             return;
-        }        
+        }  */       
         $.ajax({
             url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
             data:{
@@ -359,6 +359,25 @@
                      layer.alert("需求文号不允许为空"); 
                      return false;
                 } */
+                $.ajax({
+                    async:false,
+                    url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
+                    data:{
+                        "referenceNO":$("#referenceNo").val()
+                    },
+                    success: function(data) {
+                        if(data.data >= 1){
+                            flags= false;
+                            $("#referenceNo").val("");
+                            layer.msg("采购需求文号已存在");
+                        }else{
+                            flags= true;
+                        }
+                    }
+                });
+               /*  if(!flags){
+                    return false;
+                }  */
 	    	   var dy=dyly();
 	    	   
 	    	  
@@ -449,41 +468,23 @@
                  } 
 	 			// return false;
 	 		//	var forms=$("#add_form").serializeArray();
-	 		
-	 		    $.ajax({
-                    url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
-                    data:{
-                        "referenceNO":$("#referenceNo").val()
-                    },
-                    success: function(data) {
-                        if(data.data >= 1){
-                            $("#referenceNo").val("");
-                            layer.msg("采购需求文号已存在");
-                        }else{
-                        	
-                        	 $.ajax({
-                                 type: "POST",
-                                 url: "${pageContext.request.contextPath}/purchaser/editdetail.do",
-                                 data: {"prList":JSON.stringify(jsonStr),
-                                     "planType":type,
-                                     "planNo":no,
-                                     "planName":name,
-                                     "recorderMobile":mobile,
-                                     "referenceNo":refNo,
-                                     "unqueId":uniqueId,
-                                     "enterPort":$("#enterPort").val()},
-                                 success: function (message) {
-                                      window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
-                                 },
-                                 error: function (message) {
-                                 }
-                             });
-                        	 
-                        }
-                    }
-                });
-                
-	 			 
+	 		   $.ajax({
+                   type: "POST",
+                   url: "${pageContext.request.contextPath}/purchaser/editdetail.do",
+                   data: {"prList":JSON.stringify(jsonStr),
+                       "planType":type,
+                       "planNo":no,
+                       "planName":name,
+                       "recorderMobile":mobile,
+                       "referenceNo":refNo,
+                       "unqueId":uniqueId,
+                       "enterPort":$("#enterPort").val()},
+                   success: function (message) {
+                        window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
+                   },
+                   error: function (message) {
+                   }
+               }); 
                  
 	    	 /* } */
 	    	 //$("#table").find("#edit_form").submit();
