@@ -73,7 +73,7 @@ function getCheckOpinionType(expertId){
             layer.close(index);
         }
     });*/
-    
+    var isGoodsServer = $("#isGoodsServer").val();
     $.ajax({
 		url:globalPath + "/expertAudit/findCategoryCount.do",
 		data: {
@@ -82,7 +82,12 @@ function getCheckOpinionType(expertId){
 		type: "post",
 		dataType: "json",
 		success: function(data) {
-			$("#cate_result").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+			if(isGoodsServer == "yes"){
+				//只有物资服务经济
+				$("#cate_result").html("同意入库。");
+			}else{
+				$("#cate_result").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+			}
 			// 关闭旋转图标
             layer.close(index);
 		}

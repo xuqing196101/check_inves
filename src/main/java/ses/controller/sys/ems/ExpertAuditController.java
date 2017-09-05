@@ -1642,6 +1642,17 @@ public class ExpertAuditController{
 
 		model.addAttribute("expertId", expertId);
 		model.addAttribute("auditOpinion", auditOpinion);
+		
+		
+		DictionaryData  dictionaryData = DictionaryDataUtil.get("GOODS_SERVER");
+		String expertTypeId = expert.getExpertsTypeId();
+		if(expertTypeId !=null && expertTypeId !=""){
+			if(expertTypeId.equals(dictionaryData.getId())){
+				model.addAttribute("isGoodsServer", "yes");
+			}else{
+				model.addAttribute("isGoodsServer", "no");
+			}
+		}
 		return "ses/ems/expertAudit/reasonsList";
 	}
 

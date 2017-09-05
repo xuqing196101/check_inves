@@ -629,6 +629,6 @@
   <input name="opinion" type="hidden"/>
   <input name="tableType" type="hidden" value=""/>
 </form>
-
+<input id="isGoodsServer" type="hidden" value="${isGoodsServer}"/>
 </body>
 </html>
