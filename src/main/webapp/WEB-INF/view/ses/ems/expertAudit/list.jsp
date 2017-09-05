@@ -85,7 +85,7 @@
       }
       
       //  全选操作
-      var selected = 0;
+     /*  var selected = 0;
       function checkAll(el) {
         if ($(el).is(':checked')) {
           $(el).parents('table').find('.select_item').each(function () {
@@ -98,9 +98,9 @@
             selected = 0;
           });
         }
-      }
+      } */
       // 绑定列表框点击事件，获取选中id集合
-      $(function () {
+      /* $(function () {
         if ($('.select_item').length > 0) {
           $('.select_item').bind('click', function () {
             if ($(this).is(':checked')) {
@@ -116,7 +116,7 @@
             }
           });
         }
-      })
+      }) */
     </script>
 
     <script type="text/javascript">
