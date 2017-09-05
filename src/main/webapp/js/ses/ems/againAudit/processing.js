@@ -565,11 +565,18 @@ function set_password() {
 function set_newPassword() {
   var is_select = 0;
   var list_index = [];
+  var empty_sum = 0;
   var password = $('input[name=password]');  // 新密码
   var password2 = $('input[name=password2]');  // 确认新密码
   
   $('#list_content .select_item').each(function (index) {
     if ($(this).is(':checked')) {
+      if ($(this).parents('tr').find('input[name=loginName]').val() === '' || $(this).parents('tr').find('input[name=relName]').val() === '' || $(this).parents('tr').find('input[name=orgName]').val() === '' || $(this).parents('tr').find('input[name=duties]').val() === '') {
+        empty_sum = 1;
+        is_select = 1;
+        return false;
+      }
+      
       is_select = 1;
       list_index.push(index);
     }
@@ -578,6 +585,11 @@ function set_newPassword() {
   if (is_select === 0) {
     layer.msg('请至少选择一名专家', {
       offset: '100px'
+    });
+  } else if (empty_sum === 1) {
+    layer.msg('请填写全部信息之后再设置密码', {
+      offset: '100px',
+      time: 1000
     });
   } else {
     var index = layer.open({
@@ -601,13 +613,13 @@ function set_newPassword() {
           // layer.msg('操作成功', {
           //   offset: '100px'
           // });
-          for (var i in select_ids) {
-            $('#list_content .select_item').each(function () {
-              if (select_ids[i] === $(this).val()) {
+          for (var i in list_index) {
+            $('#list_content .select_item').each(function (index) {
+              if (list_index[i] === index) {
                 $(this).prop('checked', false);
-                return false;
               }
             });
+            $('#list_content tr').eq(list_index[i]).find('td').eq(5).html('已设置密码');
           }
           password.val('');
           password2.val('');
