@@ -43,7 +43,7 @@
         if ($('.againAudit_table').find('.select_item').length > 0) {
 	        $('.againAudit_table').find('.select_item').each(function () {
 	          if ($(this).is(':checked')) {
-	        	  if ($("#" + $(this).val() + "").parents("tr").find("td").eq(11).text() == '初审合格') {
+	        	  if ($(this).parents("tr").find("td").eq(10).find('span').html() == '初审合格') {
 	        		  select_ids.push($(this).val());
 	        	  } else {
                 error_meg++;

@@ -155,7 +155,14 @@ function del_group(el) {
         ids: str_group_ids
       },
       success: function (data) {
-        init_list(list_url, newGroup_url);
+        console.log(data);
+        if (data.status) {
+          init_list(list_url, newGroup_url);
+        } else {
+          layer.msg(data.message, {
+            offset: '100px'
+          });
+        }
       }
     });
   } else {
