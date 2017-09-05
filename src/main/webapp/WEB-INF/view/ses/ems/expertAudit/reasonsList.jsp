@@ -43,7 +43,7 @@
             	/* $("#reverse_of_five_i").css("display","block");
             	$("#reverse_of_six").css("display","block"); */
             }
-            if($("#status").val() != '0'){
+            if($("#status").val() != '0' && $("#status").val() != '15' && $("#status").val() != '16'){
             	$("#qualified").attr("disabled", true);
             	$("#noQualified").attr("disabled", true);
             }
