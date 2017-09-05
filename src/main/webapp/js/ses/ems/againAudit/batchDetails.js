@@ -133,7 +133,7 @@
           }
         } else if (userType === '6') {
           $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
-            +'<button type="button" class="btn btn-windows input">下载复审表</button>');
+            +'<button type="button" onclick="downloadTable(2)" class="btn btn-windows input">下载复审表</button>');
           
           $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped againAudit_table">'
             +'<thead>'
@@ -232,7 +232,7 @@
                 list_content.list.list[i].auditAt = '';
               }
               
-              $('#list_content').append('<tr>'
+              $('#list_content').append('<tr><input id="'+ list_content.list.list[i].expertId +'" type="hidden">'
                 +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list.list[i].expertId +'" class="select_item"></td>'
                 +'<td class="text-center">'+ list_content.list.list[i].batchDetailsNumber +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].orgName +'</td>'
@@ -303,7 +303,7 @@
         });
       });
     }
-    
+  
     // 分页
     function laypageConstructor() {
       laypage({
