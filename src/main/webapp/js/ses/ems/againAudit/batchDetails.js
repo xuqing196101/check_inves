@@ -33,7 +33,7 @@
             +'    <th class="info w60">审核组</th>'
             +'    <th class="info w80">复审专家</th>'
             +'    <th class="info w80">审核状态</th>'
-            +'    <th class="info">审核时间</th>'
+            +'    <th class="info">复审时间</th>'
             +'  </tr>'
             +'</thead>'
             +'<tbody id="list_content"></tbody>'
@@ -75,11 +75,6 @@
                 list_content.list.list[i].status = '无产品专家';
               } else if (list_content.list.list[i].status === '14') {
                 list_content.list.list[i].status = '复审待分组专家';
-              }
-              
-              // 判断复审专家输出
-              if (list_content.list.list[i].status === '4' || list_content.list.list[i].status === '11' || list_content.list.list[i].status === '14') {
-                list_content.list.list[i].auditor = '';
               }
               
               if (typeof(list_content.list.list[i].batchDetailsNumber) === 'undefined') {
@@ -116,6 +111,12 @@
                 list_content.list.list[i].auditAt = '';
               }
               
+              // 判断复审专家输出
+              if (list_content.list.list[i].status === '4' || list_content.list.list[i].status === '11' || list_content.list.list[i].status === '14') {
+                list_content.list.list[i].auditor = '';
+                list_content.list.list[i].auditAt = '';
+              }
+              
               $('#list_content').append('<tr>'
                 +'<td class="text-center">'+ list_content.list.list[i].batchDetailsNumber +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].orgName +'</td>'
@@ -149,7 +150,7 @@
             +'    <th class="info w60">审核组</th>'
             +'    <th class="info w80">复审专家</th>'
             +'    <th class="info w80">审核状态</th>'
-            +'    <th class="info">审核时间</th>'
+            +'    <th class="info">复审时间</th>'
             +'  </tr>'
             +'</thead>'
             +'<tbody id="list_content"></tbody>'
@@ -196,6 +197,7 @@
               // 判断复审专家输出
               if (list_content.list.list[i].status === '4' || list_content.list.list[i].status === '11' || list_content.list.list[i].status === '14') {
                 list_content.list.list[i].auditor = '';
+                list_content.list.list[i].auditAt = '';
               }
               
               if (typeof(list_content.list.list[i].batchDetailsNumber) === 'undefined') {
