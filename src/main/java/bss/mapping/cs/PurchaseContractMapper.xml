@@ -60,6 +60,8 @@
     <result column="PROJECT_CODE" jdbcType="VARCHAR" property="projectCode"/> 
     <result column="MANUAL_TYPE" jdbcType="DECIMAL" property="manualType"/>
     <result column="FORMAL_AT" jdbcType="TIMESTAMP" property="formalAt" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
     <association property="supplier" column="SUPPLIER_DEP_NAME" select="ses.dao.sms.SupplierMapper.selectOne"/>
   </resultMap>
   
@@ -76,7 +78,7 @@
     SUPPLIER_UNITPOST_CODE, SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID,PROJECT_NAME,
     IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,DRAFT_GIT_AT,DRAFT_REVIEWED_AT,
     FORMAL_GIT_AT,FORMAL_REVIEWED_AT,IS_IMPORT,IS_DECLARE,PURCHASE_TYPE,PROJECT_ID,FINALLY_CLOSED,
-    BING_DEP_NAME,BING_CONTACT,BING_CONTACT_TELEPHONE,BING_CONTACT_ADDRESS,BING_UNITPOST_CODE,SUPPLIER_CHECK_IDS,PROJECT_CODE,MANUAL_TYPE,FORMAL_AT
+    BING_DEP_NAME,BING_CONTACT,BING_CONTACT_TELEPHONE,BING_CONTACT_ADDRESS,BING_UNITPOST_CODE,SUPPLIER_CHECK_IDS,PROJECT_CODE,MANUAL_TYPE,FORMAL_AT,ORG_ID,CREATE_ID
   </sql>
   <sql id="PurCon_BlOB_Column_List">
   	CONTENT
@@ -593,6 +595,12 @@
       <if test="formalAt != null">
         FORMAL_AT,
       </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+      <if test="createId != null">
+        CREATE_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -771,6 +779,12 @@
       </if>
        <if test="formalAt != null">
         #{formalAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgId != null">
+        #{orgId},
+      </if>
+      <if test="createId != null">
+        #{createId},
       </if>
     </trim>
   </insert>

@@ -157,6 +157,10 @@ public class PurchaseContract implements Serializable{
 	
 	private Supplier supplier;
 	
+	private String orgId;
+	
+	private String createId;
+	
 	private List<AfterSaleSer> afterSaleSers;
 	
 	public Supplier getSupplier() {
@@ -737,5 +741,21 @@ public class PurchaseContract implements Serializable{
 	public void setPurchaseDepShortName(String purchaseDepShortName) {
 		this.purchaseDepShortName = purchaseDepShortName;
 	}
+
+  public String getOrgId() {
+    return orgId;
+  }
+
+  public void setOrgId(String orgId) {
+    this.orgId = orgId;
+  }
+
+  public String getCreateId() {
+    return createId;
+  }
+
+  public void setCreateId(String createId) {
+    this.createId = createId;
+  }
 	
 }
