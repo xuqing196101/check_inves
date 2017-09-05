@@ -120,9 +120,17 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private String fromType;
     private String updateTime;
+    private String sort;
     
-    
-    public String getUpdateTime() {
+    public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
+	public String getUpdateTime() {
 		return updateTime;
 	}
 

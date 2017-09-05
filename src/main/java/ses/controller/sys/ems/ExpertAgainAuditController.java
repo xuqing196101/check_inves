@@ -96,6 +96,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			pageNum = StaticVariables.DEFAULT_PAGE;
 		}
 		expert.setStatus("11");//查询待分配专家
+		expert.setSort("1");
 		boolean isPage=true;
 		if(batchIds != null){
 			isPage=false;

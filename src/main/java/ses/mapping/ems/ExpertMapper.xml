@@ -1367,7 +1367,12 @@ resultMap="BaseResultMap">
                 #{id}
             </foreach>
         </if>
+        <if test="sort != null">
+        	 ORDER BY t1.UPDATED_AT ASC NULLS LAST
+        </if>
+        <if test="sort == null">
         ORDER BY t1.SUBMIT_AT ASC NULLS LAST
+        </if>
     </select>
 
 		<!-- 插入历史记录 -->
