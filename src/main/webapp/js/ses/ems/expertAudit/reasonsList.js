@@ -60,7 +60,7 @@ function getCheckOpinionType(expertId){
     });
     // 获取专家ID
     var expertId = $("#expertId").val();
-    $.ajax({
+/*    $.ajax({
         url:globalPath + "/expertAudit/selectChooseOrNoPassCate.do",
         data:{
             "id" : expertId
@@ -72,7 +72,21 @@ function getCheckOpinionType(expertId){
             // 关闭旋转图标
             layer.close(index);
         }
-    });
+    });*/
+    
+    $.ajax({
+		url:globalPath + "/expertAudit/findCategoryCount.do",
+		data: {
+			"expertId" : expertId
+		},
+		type: "post",
+		dataType: "json",
+		success: function(data) {
+			$("#cate_result").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+			// 关闭旋转图标
+            layer.close(index);
+		}
+	});
 }
 
 /**
