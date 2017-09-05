@@ -42,6 +42,12 @@
           if (typeof(list_content) != 'undefined') {
             $('#list_content').html('');
             for (var i in list_content.list.list) {
+              // 判断复审专家输出
+              if (list_content.list.list[i].status === '4' || list_content.list.list[i].status === '11' || list_content.list.list[i].status === '14') {
+                list_content.list.list[i].auditor = '';
+                list_content.list.list[i].auditAt = '';
+              }
+              
               // 判断状态输出
               if (list_content.list.list[i].status === '-3') {
                 list_content.list.list[i].status = '公示中';
@@ -111,12 +117,6 @@
                 list_content.list.list[i].auditAt = '';
               }
               
-              // 判断复审专家输出
-              if (list_content.list.list[i].status === '4' || list_content.list.list[i].status === '11' || list_content.list.list[i].status === '14') {
-                list_content.list.list[i].auditor = '';
-                list_content.list.list[i].auditAt = '';
-              }
-              
               $('#list_content').append('<tr>'
                 +'<td class="text-center">'+ list_content.list.list[i].batchDetailsNumber +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].orgName +'</td>'
@@ -159,6 +159,12 @@
           if (typeof(list_content) != 'undefined') {
             $('#list_content').html('');
             for (var i in list_content.list.list) {
+              // 判断复审专家输出
+              if (list_content.list.list[i].status === '4' || list_content.list.list[i].status === '11' || list_content.list.list[i].status === '14') {
+                list_content.list.list[i].auditor = '';
+                list_content.list.list[i].auditAt = '';
+              }
+              
               // 判断状态输出
               if (list_content.list.list[i].status === '-3') {
                 list_content.list.list[i].status = '公示中';
@@ -192,12 +198,6 @@
                 list_content.list.list[i].status = '无产品专家';
               } else if (list_content.list.list[i].status === '14') {
                 list_content.list.list[i].status = '复审待分组专家';
-              }
-              
-              // 判断复审专家输出
-              if (list_content.list.list[i].status === '4' || list_content.list.list[i].status === '11' || list_content.list.list[i].status === '14') {
-                list_content.list.list[i].auditor = '';
-                list_content.list.list[i].auditAt = '';
               }
               
               if (typeof(list_content.list.list[i].batchDetailsNumber) === 'undefined') {
