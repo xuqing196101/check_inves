@@ -124,6 +124,10 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			return;
 		}else{
 			List<Expert> expertList = expertService.findExpertAuditListNotPage(expert);
+			for (Expert e : expertList) {
+				SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd");
+				e.setUpdateTime(dateFormater.format(e.getUpdatedAt()));
+			}
 			img.setStatus(true);
 			img.setMessage("操作成功");
 			img.setObject(expertList);
