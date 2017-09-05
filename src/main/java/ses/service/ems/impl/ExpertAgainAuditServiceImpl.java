@@ -396,11 +396,13 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		}
 		List<ExpertReviewTeam> list = expertReviewTeamMapper.getExpertReviewTeamList(expertReviewTeam);
 		for (ExpertReviewTeam e : list) {
-			System.out.println(e.getDuties());
 			if(e.getPassWord()!=null){
 				e.setPassWord("1");
 			}else{
 				e.setPassWord("0");
+			}
+			if(e.getIsDeleted()==1){
+				e.setLoginName(e.getLoginName().substring(0, e.getLoginName().length()-21));
 			}
 		}
 		HashMap<String,Object> map = new HashMap<String,Object>();

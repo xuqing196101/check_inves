@@ -26,6 +26,19 @@ public class ExpertReviewTeam {
     private String loginName;
     /**密码*/
     private String passWord;
+    /** 
+     * 删除标识
+     * 0：未删除
+     * 1：删除
+     */
+    private Integer isDeleted;
+    
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 	public String getPassWord() {
 		return passWord;
 	}
