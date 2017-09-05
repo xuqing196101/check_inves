@@ -450,6 +450,16 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			user.setUpdatedAt(new Date());
 			user.setIsDeleted(0);
 			user.setTypeName("6");
+			if(map.get("passWord")!=null){
+				//生成15位随机码
+				String randomCode = generateString(15);
+				Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
+				// false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
+				md5.setEncodeHashAsBase64(false);     
+				String pwd = md5.encodePassword(map.get("passWord"), randomCode);
+				user.setPassword(pwd);
+				user.setRandomCode(randomCode);
+			}
 			user.setTypeId(expertReviewTeam.getId());
 			String ipAddressType = PropUtil.getProperty("ipAddressType");
 			user.setNetType(Integer.valueOf(ipAddressType));
