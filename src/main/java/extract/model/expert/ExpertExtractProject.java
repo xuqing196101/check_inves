@@ -2,39 +2,99 @@ package extract.model.expert;
 
 import java.util.Date;
 
+/**
+ * 
+ * Description: 专家抽取项目信息实体
+ * 
+ * @author zhang shubin
+ * @version 2016-9-7
+ * @since JDK1.7
+ */
 public class ExpertExtractProject {
+	
+	/*
+	 * 主键
+	 */
     private String id;
-
+    
+    /*
+	 * 项目名称
+	 */
     private String name;
-
+    
+    /*
+	 * 项目编号
+	 */
     private String code;
-
+    
+    /*
+	 * 采购方式
+	 */
     private String purchaseWay;
-
+    
+    /*
+	 * 包名
+	 */
     private String packageName;
-
+    
+    /*
+	 * 评审时间
+	 */
     private Date reviewTime;
-
+    
+    /*
+	 * 评审地点
+	 */
     private String reviewArea;
-
+    
+    /*
+	 * 项目类型
+	 */
     private String projectType;
-
+    
+    /*
+	 * 抽取地址
+	 */
     private String extractAddress;
-
+    
+    /*
+	 * 联系人
+	 */
     private String contactPerson;
-
+    
+    /*
+	 * 联系电话
+	 */
     private String contactNum;
-
+    
+    /*
+	 * 备注（其他要求）
+	 */
     private String remark;
-
+    
+    /*
+	 * 删除标识 1 删除 0 未删除
+	 */
     private Short isDeleted;
-
+    
+    /*
+	 * 创建时间
+	 */
     private Date createdAt;
-
+    
+    /*
+	 * 修改时间
+	 */
     private Date updatedAt;
-
+    
+    /*
+	 * 项目id
+	 */
     private String projectId;
-
+    
+    /*
+	 * 包id
+	 */
     private String packageId;
 
     public String getId() {

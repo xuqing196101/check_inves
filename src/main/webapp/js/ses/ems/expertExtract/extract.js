@@ -30,3 +30,20 @@ function functionArea() {
 		}
 	});
 }
+
+
+//人工抽取
+function artificial_extracting(){
+	$.ajax({
+		url : globalPath + "/extractExpert/saveProjectInfo.do",
+		data : $('#form').serialize(),
+		dataType : "json",
+		async : false,
+		success : function() {
+			layer.msg("操作成功", {offset: '100px'});
+		},
+		error: function () {
+            layer.msg("操作失败", {offset: '100px'});
+        }
+	});
+}
