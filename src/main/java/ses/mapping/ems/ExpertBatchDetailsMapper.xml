@@ -35,6 +35,7 @@
         T1.COUNT,
         T1.BATCH_NAME,
         T1.GROUP_NAME,
+        T1.GROUP_ID,
         T1.BATCH_ID,
         T2.REAL_NAME AS realName,<!-- 真实姓名 -->
         data.NAME AS gender,<!-- 性别 -->

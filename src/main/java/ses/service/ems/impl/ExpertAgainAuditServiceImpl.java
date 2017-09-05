@@ -330,6 +330,18 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		}
 		expertBatchDetails.setIds(idsList);
 		List<ExpertBatchDetails> batchDetailslist = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		if(batchDetailslist.size()>0){
+			if(batchDetailslist.get(0).getGroupId()!=null){
+				ExpertGroup expertGroup = new ExpertGroup();
+				expertGroup.setGroupId(batchDetailslist.get(0).getGroupId());
+				ExpertGroup group = expertGroupMapper.findGroup(expertGroup);
+				if(!"1".equals(group.getStatus())){
+					img.setStatus(false);
+					img.setMessage("当前组不能删除专家");
+					return img;
+				}
+			}
+		}
 		for (ExpertBatchDetails batchDetails : batchDetailslist) {
 			batchDetails.setGroupId("");
 			batchDetails.setGroupName("");
