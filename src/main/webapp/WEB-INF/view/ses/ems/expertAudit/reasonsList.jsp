@@ -81,7 +81,7 @@
         function shenhe(status) {
             var expertId = $("input[name='expertId']").val();
             if(status == null){
-            	var status = $(":radio:checked").val();
+            	var status = $(":radio:checked").val().trim();
             	if(status == null){
             		layer.msg("请选择意见", {offset: '100px'});
                 return true;
