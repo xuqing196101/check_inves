@@ -67,7 +67,7 @@
   <!-- 内容结束 -->
   
   <!-- 添加审核组成员弹出窗 -->
-  <div class="hide mt20" id="modal_addMembers">
+  <%-- <div class="hide mt20" id="modal_addMembers">
   <div class="form-horizontal w100p pl20 pr20 over_hideen">
     <div class="form-group">
       <label class="col-sm-3 text-right pt6">用户名</label>
@@ -94,7 +94,7 @@
       </div>
     </div>
   </div>
-  </div>
+  </div> --%>
   <!-- End 添加审核组成员弹出窗 -->
   
   <!-- 设置密码弹出窗 -->

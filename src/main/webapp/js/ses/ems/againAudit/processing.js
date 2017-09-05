@@ -155,7 +155,6 @@ function del_group(el) {
         ids: str_group_ids
       },
       success: function (data) {
-        console.log(data);
         if (data.status) {
           init_list(list_url, newGroup_url);
         } else {
@@ -320,7 +319,7 @@ function add_members() {
     'relName': '',
     'orgName': '',
     'duties': '',
-    // 'passWord': ''
+    'passWord': ''
   };
   $('#list_content').append('<tr>'
     +'<td class="text-center"><input name="id" type="checkbox" value="none" class="select_item"></td>'
@@ -618,14 +617,16 @@ function set_newPassword() {
           });
           password2.val('').focus();
           return false;
+        } else if (password.val().length < 6) {
+          layer.msg('请输入大于6位的密码！', {
+            offset: '100px'
+          });
+          password.val('').focus();
+          password2.val('');
+          return false;
         } else {
-          // for (var i in list_index) {
-          //   list[list_index[i]].passWord = password.val();
-          // }
-          // layer.msg('操作成功', {
-          //   offset: '100px'
-          // });
           for (var i in list_index) {
+            list[list_index[i]].passWord = password.val();
             $('#list_content .select_item').each(function (index) {
               if (list_index[i] === index) {
                 $(this).prop('checked', false);
@@ -633,6 +634,9 @@ function set_newPassword() {
             });
             $('#list_content tr').eq(list_index[i]).find('td').eq(5).html('已设置密码');
           }
+          layer.msg('操作成功', {
+            offset: '100px'
+          });
           password.val('');
           password2.val('');
           $('[name=checkAll]').prop('checked', false);
@@ -712,11 +716,6 @@ function save_editMembers() {
           }, function () {
             location.reload();
           });
-        },
-        error: function (data) {
-          layer.msg(data.message, {
-            offset: '100px'
-          });
         }
       });
     });
@@ -740,35 +739,51 @@ function save_editMembers() {
 
 // 检查用户名唯一性
 function checkOnly(el) {
-  if ($(el) != '') {
-    $.ajax({
-      type: 'POST',
-      dataType: 'json',
-      url: usernameOnly_url,
-      data: {
-        loginName: $(el).val()
-      },
-      success: function (data) {
-        if (data.status) {
-          $(el).removeAttr('style');
-          $(el).prop('placeholder', '请输入用户名');
-          is_only = 1;
-        } else {
-          if (data.message != '用户名不能为空') {
-            $(el).val('');
-            layer.msg(data.message, {
-              offset: '100px'
-            });
+  var is_only = 0;
+  var loginname = $('#list_content [name=loginName]');
+  if ($(el).val() != '') {
+    loginname.each(function (index) {
+      var _this = $(this);
+      var _index = index;
+      loginname.each(function (index) {
+        if (_index != index) {
+          if ($(this).val() != '') {
+            if ($(this).val() === _this.val()) {
+              $(this).val('');
+              is_only = 1;
+              return false;
+            }
           }
-          is_only = 0;
         }
-      },
-      error: function (data) {
-        layer.msg(data.message, {
-          offset: '100px'
-        });
-      }
+      });
     });
+    if (is_only === 1) {
+      layer.msg('用户名不能重复', {
+        offset: '100px'
+      });
+    } else {
+      $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: usernameOnly_url,
+        data: {
+          loginName: $(el).val()
+        },
+        success: function (data) {
+          if (data.status) {
+            $(el).removeAttr('style');
+            $(el).prop('placeholder', '请输入用户名');
+          } else {
+            if (data.message != '用户名不能为空') {
+              $(el).val('');
+              layer.msg(data.message, {
+                offset: '100px'
+              });
+            }
+          }
+        }
+      });
+    }
   }
 }
 
