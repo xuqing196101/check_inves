@@ -25,10 +25,10 @@ $(function () {
     
     $("input[name='selectOption']").bind("click", function(){
         // 清空意见内容
-        //$("#cate_result").val("");
+        $("#cate_result").html("");
         var selectedVal = $(this).val();
         if(selectedVal == 5){
-            $("#cate_result").html("不通过。");
+            $("#cate_result").html("预复审不合格 。");
             return;
         }
         // 判断意见是否已经获取，有的话不再发送请求
@@ -37,7 +37,10 @@ $(function () {
             $("#opinion").val(opinionBack);
             return;
         }*/
-        getCheckOpinionType(expertId);
+        if(selectedVal == -3){
+        	 getCheckOpinionType(expertId);
+        }
+       
     });
     // 判断复选框操作
     if(hiddenSelectOptionId != '' && hiddenSelectOptionId == 0){
@@ -246,16 +249,19 @@ function vartifyAuditCount(){
             }
         });
     }
-    // 判断审核意见
-    if(opinion == ''){
-        layer.msg("审核意见不能为空！");
-        flags = true;
-        return flags;
-    }
-    if(opinion.length > 1000){
-        layer.msg("审核意见不能超过1000字！");
-        flags = true;
-        return flags;
-    }
+    
+    // 只有<复审退回修改>才校验
+    if(checkVal == 10){
+    	if(opinion == ''){
+            layer.msg("审核意见不能为空！");
+            flags = true;
+            return flags;
+        }
+        if(opinion.length > 1000){
+            layer.msg("审核意见不能超过1000字！");
+            flags = true;
+            return flags;
+        }
+    } 
     return flags;
 }

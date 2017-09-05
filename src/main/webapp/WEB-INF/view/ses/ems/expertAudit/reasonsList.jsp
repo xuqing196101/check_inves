@@ -66,25 +66,15 @@
              }
              // 获取选择radio类型
              var selectOption = $("input[name='selectOption']:checked").val();
-             if (opinion != null && opinion != "") {
-                 if (opinion.length <= 200) {
-                     $.ajax({
-                         url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
-                         data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime,"flagAudit":selectOption},
-                         type: "POST",
-                         success: function () {
-                             $("#status").val(status);
-                             $("#form_shenhe").submit();
-                         }
-                     });
-                 } else {
-                     layer.msg("不能超过200字", {offset: '100px'});
-                     return true;
+             $.ajax({
+                 url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
+                 data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime,"flagAudit":selectOption},
+                 type: "POST",
+                 success: function () {
+                     $("#status").val(status);
+                     $("#form_shenhe").submit();
                  }
-             } else {
-                 layer.msg("请填写最终意见", {offset: '100px'});
-                 return true;
-             }
+             });
         }
         
         //提交审核
@@ -524,7 +514,7 @@
                           <div class="select_check" id="selectOptionId">
                            <input type="radio" id="qualified" name="selectOption" value="-3">预复审合格
                            <input type="radio"  name="selectOption" value="5">预复审不合格
-                           <input type="radio"  name="selectOption" value="10">复审退回修改
+                           <input type="radio"  name="selectOption" value="10">退回修改
                           </div>
                       </li>
                       <div><span type="text" name="cate_result" id="cate_result"></span></div>
