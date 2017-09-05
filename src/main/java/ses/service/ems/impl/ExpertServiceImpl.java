@@ -1145,7 +1145,6 @@ public class ExpertServiceImpl implements ExpertService {
      *〈简述〉
      * 专家审核列表
      *〈详细描述〉
-     * @author XuQing
      * @param expert
      */
 	@Override
@@ -1155,7 +1154,17 @@ public class ExpertServiceImpl implements ExpertService {
 			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		}
 		
+		//只搜索待初审状态
+		if("0".equals(expert.getStatus())){
+			expert.setAuditTemporary(0);
+		}
 		
+		//搜索初审中状态
+		if("first".equals(expert.getStatus())){
+			expert.setStatus("0");
+			expert.setAuditTemporary(1);
+		}
+
 		return mapper.findExpertAuditList(expert);
 	}
 	 /**

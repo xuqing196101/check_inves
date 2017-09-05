@@ -137,4 +137,15 @@
       SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=VARCHAR},
      where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 关联产品类别中间表查询等级 -->
+  <select id="selectLevelByItem" parameterType="ses.model.sms.SupplierItemLevel" resultMap="BaseResultMap">
+    SELECT
+		  T1.*
+		FROM
+		  T_SES_SMS_SUPPLIER_ITEM_LEVEL T1
+		LEFT JOIN T_SES_SMS_SUPPLIER_ITEM T2 ON T2.CATEGORY_ID = T1.CATEGORY_ID
+		WHERE
+		  T2. ID = #{id} AND T1.SUPPLIER_ID = #{supplierId}
+  </select>
 </mapper>

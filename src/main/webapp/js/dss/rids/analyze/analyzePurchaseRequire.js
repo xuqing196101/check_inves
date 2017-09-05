@@ -40,9 +40,9 @@ $(function () {
                         }
                     }
                 },
-                restore: {
+                /*restore: {
                     show: true
-                },
+                },*/
                 saveAsImage: {
                     show: true
                 }
@@ -87,9 +87,9 @@ $(function () {
                     show: true,
                     type: ['line', 'bar']
                 },
-                restore: {
+                /*restore: {
                     show: true
-                },
+                },*/
                 saveAsImage: {
                     show: true
                 }
@@ -97,14 +97,14 @@ $(function () {
             dataView: {show: true, readOnly: true},
         },
         calculable: true,
-        xAxis: [{
+        /*xAxis: [{
             axisLabel: {
                 interval: 0,
                 formatter: function (val) {
                     return val.split("").join("\n");
                 }
             }
-        }],
+        }],*/
         series: [
             {
                 name: "总金额",
@@ -181,9 +181,9 @@ $(function () {
                         }
                     }
                 },
-                restore: {
+                /*restore: {
                     show: true
-                },
+                },*/
                 saveAsImage: {
                     show: true
                 }

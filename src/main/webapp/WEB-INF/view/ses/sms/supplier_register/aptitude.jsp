@@ -273,7 +273,7 @@
 									</div>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE') and fn:length(serviceQua) > 0}">
-									<div class="tab-pane <c:if test="${divCount==0 } ">active in</c:if> fade height-300" id="tab-4">
+									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fade height-300" id="tab-4">
 										<h2 class="f16">
 							      	<font color="red">*</font> 上传服务资质文件
 										</h2>

@@ -147,7 +147,7 @@
 		}else{
 		var node = getCurrentRoot(nodes);
 		  $.ajax({
-			url:"${pageContext.request.contextPath}/category/update.do?id="+treeid,
+			url:"${pageContext.request.contextPath}/categorys/update.do?id="+treeid,
 			dataType:"json",
 			type:"POST",
 			success:function(cate){

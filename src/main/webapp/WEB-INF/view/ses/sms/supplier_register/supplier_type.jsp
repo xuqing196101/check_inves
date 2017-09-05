@@ -15,7 +15,9 @@
 .current {
 	cursor: pointer;
 }
-
+.textbox.combo {
+	border: 0px !important;
+}
 </style>
 <script type="text/javascript">
 	$().ready(function() {
@@ -1266,23 +1268,12 @@
 			var typeId = obj.val();
 			var currentText = obj.combobox("getText");
 			var allText = obj.combobox("getData");
-			/*
-				$("#certGrade_select").combobox({
-					valueField: 'label',
-					textField: 'value',
-					data: [{
-						"label" : "",
-						"value" : "",
-						"selected" : true
-					}]
-				});
-			*/
 			var objId = obj.attr("id");
 			var objIdNum = objId.replace("certType_","");
 			var selectedLevel = $("#certLevel_"+objIdNum).val();
 			if(isSelect){// 如果是选择下拉
-				$("[id='certGrade_select" + objIdNum + "']").combobox("clear");//清除选中值
-				$("[id='certGrade_select" + objIdNum + "']").combobox('loadData', {});//清空option
+				$("[id='certGrade_" + objIdNum + "']").combobox("clear");//清除选中值
+				$("[id='certGrade_" + objIdNum + "']").combobox('loadData', {});//清空option
 			}
 			if (typeId != null && typeId != "") {
 				$.ajax({
@@ -1290,7 +1281,7 @@
 					type:"POST",
 					data: {
 						"typeId": typeId,
-						"supplierId":supplierId,
+						"supplierId": supplierId,
 					},
 					dataType: "json",
 					success: function(data){
@@ -1334,13 +1325,13 @@
 						}
 						
 						if(flag_current == 0) {
-							$("[id='certGrade_select" + objIdNum + "']").combobox({
+							$("[id='certGrade_" + objIdNum + "']").combobox({
 								valueField: 'label',
 								textField: 'value',
 								data: easyuiData
 							});
 						} else {
-							$("[id='certGrade_select" + objIdNum + "']").combobox({
+							$("[id='certGrade_" + objIdNum + "']").combobox({
 								valueField: 'label',
 								textField: 'value',
 								data: ""
@@ -2334,7 +2325,7 @@
 																<!-- 
 																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()"></select>
 																 -->
-																<select id="certGrade_select${certAptNumber}" title="cnjewfnGrade" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" style="width:200px;border: none;">
+																<select id="certGrade_${certAptNumber}" title="cnjewfnGrade" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" style="width:200px;border: none;">
                                   <%-- <c:if test="${tempForShowOption eq 'go' }">
 																		<option selected="selected">${aptitute.aptituteLevel}</option>
 																	</c:if> --%>
@@ -2343,53 +2334,48 @@
 																</select>
 																<input type="hidden" id="certLevel_${certAptNumber}" value="${aptitute.aptituteLevel}">
 																<script type="text/javascript">
-																	var currSupplierSt = '${currSupplier.status}';
-																	$("select[title='cnjewfn']").each(function() {
-																		var options = {
+																	function initCombo(){
+																		var currSupplierSt = '${currSupplier.status}';
+																		var index = "${certAptNumber}";
+																		
+																		var obj_type = $("#certType_"+index);
+																		var options_type = {
 																			panelHeight : 240,
 																			onSelect : function(record) {
 																				getAptLevelSelect(record);
 																			},
 																			onChange : function() {
-																				var index = $obj.attr("id").replace("certType_","");
 																				$("#certLevel_"+index).val("");
-																				getAptLevel($obj, true);
+																				getAptLevel(obj_type, true);
 																			},
 																		};
 																		if(currSupplierSt == '2'){
-																			options.disabled = true;
+																			options_type.disabled = true;
 																			//$(this).parent("td").css("border") == '1px solid rgb(255, 0, 0)'
-																			if($(this).parent("td").attr("style") == 'border: 1px solid red;'){
-																				options.disabled = false;
+																			if(obj_type.parent("td").attr("style") == 'border: 1px solid red;'){
+																				options_type.disabled = false;
 																			}
 																		}
-																		var $obj = $(this);
-																		$obj.combobox(options);
-																	});
-																	$("select[title='cnjewfnGrade']").each(function() {
-																		var options = {
+																		obj_type.combobox(options_type);
+																		
+																		var obj_grade = $("#certGrade_"+index);
+																		var options_grade = {
 																			onChange : function() {
-                                          //console.log($obj.combobox("getText"));
-                                          //tempSave();
-                                      },
+	                                      //console.log($obj.combobox("getText"));
+	                                      //tempSave();
+	                                    },
 																		};
 																		if(currSupplierSt == '2'){
-																			options.disabled = true;
+																			options_grade.disabled = true;
 																			//$(this).parent("td").css("border") == '1px solid rgb(255, 0, 0)'
-																			if($(this).parent("td").attr("style") == 'border: 1px solid red;'){
-																				options.disabled = false;
+																			if(obj_grade.parent("td").attr("style") == 'border: 1px solid red;'){
+																				options_grade.disabled = false;
 																			}
 																		}
-																		var $obj = $(this);
-																		$obj.combobox(options);
-																	});
-																	var _obj${certAptNumber} = $("select[name='supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel']")
-                                   _obj${certAptNumber}.combobox({
-                                       /*onChange : function() {
-                                           var _text = _obj${certAptNumber}.combobox("getText");
-                                           $("input[name='supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel']").val(_text);
-                                       },*/
-                                   });
+																		obj_grade.combobox(options_grade);
+																	}
+																	
+																	initCombo();
 																</script>
 															</td>
 															<td class="tc"
@@ -2401,7 +2387,8 @@
 																		<c:if test="${aptitute.isMajorFund==1}"> selected="selected"</c:if>>是</option>
 																	<option value="0"
 																		<c:if test="${aptitute.isMajorFund==0}"> selected="selected"</c:if>>否</option>
-															</select></td>
+																</select>
+															</td>
 															
 															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200 fl">
@@ -2569,8 +2556,6 @@
 												value="${certSeNumber}">
 										</div>
 									</div>
-
-									<%-- </c:if> --%>
 
 								</div>
 								<input type="hidden" id="supplierTypes" name="supplierTypeIds" value="${currSupplier.supplierTypeIds }" />

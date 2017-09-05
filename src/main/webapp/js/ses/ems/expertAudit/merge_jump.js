@@ -23,7 +23,7 @@ function jump(str) {
     }
     if (str == "uploadApproveFile") {
         var flag = true;
-        if(status == -2 || status == 1){
+        if(status == -2 || status == 16 || status == 15){
             /*var expertId = $("#expertId").val();
             $.ajax({
                 url:globalPath + "/expertAudit/isHaveOpinion.do",

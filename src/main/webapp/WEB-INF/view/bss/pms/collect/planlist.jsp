@@ -290,7 +290,7 @@
         } else if(type == 4) {
           window.location.href = "${pageContext.request.contextPath }/look/audit.html?id=" + id + "&status=12";
         } else {
-          window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + type;
+          window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + type+ "&backAttr=" + 1;
         }
       }
 

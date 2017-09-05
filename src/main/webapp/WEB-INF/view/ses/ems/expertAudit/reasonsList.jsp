@@ -428,27 +428,27 @@
                     <tr>
                         <th class="info w30"><input type="checkbox" onclick="selectAll();" id="checkAll"></th>
                         <th class="info w50">序号</th>
-                        <th class="info">审批类型</th>
-                        <th class="info">审批字段</th>
-                        <th class="info">审批内容</th>
+                        <th class="info w80">审批类型</th>
+                        <th class="info w80">审批字段</th>
+                        <th class="info w200">审批内容</th>
                         <th class="info">审核理由</th>
-                        <th class="info">审核时间</th>
-                        <th class="info">状态</th>
+                        <th class="info w150">审核时间</th>
+                        <th class="info w100">状态</th>
                     </tr>
                     </thead>
                     <c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
                         <input id="auditId" value="${reasons.id}" type="hidden">
                         <tr>
-                            <td class="tc w30"><input type="checkbox" value="${reasons.id }" name="chkItem" id="${reasons.id}"></td>
-                            <td class="">${vs.index + 1}</td>
-                            <td class="">
+                            <td class="tc"><input type="checkbox" value="${reasons.id }" name="chkItem" id="${reasons.id}"></td>
+                            <td class="text-center">${vs.index + 1}</td>
+                            <td class="text-center">
                                 <c:if test="${reasons.suggestType eq 'one'}">基本信息</c:if>
                                     <%-- <c:if test="${reasons.suggestType eq 'two'}">经历经验</c:if> --%>
                                 <c:if test="${reasons.suggestType eq 'seven'}">专家类别</c:if>
                                 <c:if test="${reasons.suggestType eq 'six'}">参评类别</c:if>
                                 <c:if test="${reasons.suggestType eq 'five'}">承诺书和申请表</c:if>
                             </td>
-                            <td class="">${reasons.auditField }</td>
+                            <td class="text-center">${reasons.auditField }</td>
                             <td class="hand" title="${reasons.auditContent}">
                                 <c:if test="${fn:length (reasons.auditContent) > 30}">${fn:substring(reasons.auditContent,0,30)}...</c:if>
                                 <c:if test="${fn:length (reasons.auditContent) <= 30}">${reasons.auditContent}</c:if>

@@ -302,9 +302,9 @@
 					//layer.tips("录入人手机号不允许为空", "#mobile");
 				} else if($.trim(type) == ""){
 					 layer.alert("请选择物资类别"); 
-				}else if($.trim(refNo) == ""){
+				}/* else if($.trim(refNo) == ""){
                      layer.alert("采购需求文号不允许为空"); 
-                } 
+                } */ 
 			  	else if(!dy){
 					layer.alert("请填写供应商"); 
 				}
@@ -1505,7 +1505,7 @@
 						<%--
 	                    <button  class="btn btn-windows add" onclick="same()">添加同级</button>--%>
 	                    <button class="btn btn-windows input" onclick="down()">下载模板</button>
-						<button class="btn btn-windows input" onclick="uploadExcel();">导入</button>
+						<button class="btn btn-windows import" onclick="uploadExcel();">导入</button>
 						<button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
 						<button class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>
 					</div>

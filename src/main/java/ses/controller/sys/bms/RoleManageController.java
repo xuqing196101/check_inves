@@ -122,7 +122,7 @@ public class RoleManageController {
 				msg = "请填写角色名称";
 				count ++;
 			} 
-			if ("".equals(r.getCode()) || r.getCode() == null) {
+			if ("".equals(r.getCode().trim()) || r.getCode() == null) {
         if (count > 0) {
                   msg += "、唯一编码";
                   count ++;

@@ -55,7 +55,7 @@ public interface ExpertCategoryMapper {
      */
     ExpertCategory getCategoryByExpertId(@Param("expertId")String expertId, @Param("categoryId")String categoryId );
 
-	List<ExpertCategory> findByExpertId(String map);
+	List<ExpertCategory> findByExpertId(String expertId);
 
 	/**
 	 * 树删除非选中节点
