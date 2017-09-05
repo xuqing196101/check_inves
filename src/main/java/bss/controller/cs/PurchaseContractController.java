@@ -933,6 +933,8 @@ public class PurchaseContractController extends BaseSupplierController{
 			PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
 			if(pur==null){
 				//
+			  purCon.setCreateId(user.getId());
+        purCon.setOrgId(user.getOrg().getId());
 				purchaseContractService.insertSelective(purCon);
 			}else{
 				purchaseContractService.updateByPrimaryKeySelective(purCon);
@@ -1006,7 +1008,7 @@ public class PurchaseContractController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/addzancun")
-	public String addzancun(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
+	public String addzancun(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model,@CurrentUser User user) throws Exception{
 		String supcheckid = request.getParameter("supcheckid");
 		String ids = request.getParameter("ids");
 		String[] supcheckids = supcheckid.split(",");
@@ -1026,6 +1028,8 @@ public class PurchaseContractController extends BaseSupplierController{
 		purCon.setSupplierBankAccount(purCon.getSupplierBankAccount_string());
     purCon.setPurchaseBankAccount(purCon.getPurchaseBankAccount_string());
 		if(pur==null){
+		  purCon.setCreateId(user.getId());
+		  purCon.setOrgId(user.getOrg().getId());
 			purchaseContractService.insertSelective(purCon);
 		}else{
 			purchaseContractService.updateByPrimaryKeySelective(purCon);
@@ -2507,6 +2511,8 @@ public class PurchaseContractController extends BaseSupplierController{
             purCon.setSupplierCheckIds(supcheckid);
     		PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
     		if(pur==null){
+    		  purCon.setCreateId(user.getId());
+    		  purCon.setOrgId(user.getOrg().getId());
     			purchaseContractService.insertSelective(purCon);
     		}else{
     			purchaseContractService.updateByPrimaryKeySelective(purCon);
@@ -3034,6 +3040,8 @@ public class PurchaseContractController extends BaseSupplierController{
         		purCon.setManualType(1);
         		purCon.setStatus(0);
         		purCon.setPurchaseDepName(user.getOrg().getId());
+        		purCon.setCreateId(user.getId());
+            purCon.setOrgId(user.getOrg().getId());
         		purchaseContractService.insertSelective(purCon);
         		HashMap<String, Object> map=new HashMap<String, Object>();
         		map.put("projectId", projects.getId()); 
