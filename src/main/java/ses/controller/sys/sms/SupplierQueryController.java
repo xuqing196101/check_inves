@@ -779,6 +779,7 @@ public class SupplierQueryController extends BaseSupplierController {
                 }
             }
         }
+		SupplierItemLevel supplierItemLevel = new SupplierItemLevel();
 		for(SupplierCateTree cate: allTreeList) {
 			cate.setRootNode(cate.getRootNode() == null ? "" : cate.getRootNode());
 			cate.setFirstNode(cate.getFirstNode() == null ? "" : cate.getFirstNode());
@@ -792,6 +793,17 @@ public class SupplierQueryController extends BaseSupplierController {
 				typeName = "销售";
 			}
 			cate.setRootNode(cate.getRootNode() + typeName);
+			
+			//查询等级
+			/*if(supplierItem.getSupplierId() !=null && cate.getItemsId() !=null){
+				supplierItemLevel.setId(cate.getItemsId());
+				supplierItemLevel.setSupplierId(supplierItem.getSupplierId());
+				SupplierItemLevel selectLevelByItem = supplierItemLevelServer.selectLevelByItem(supplierItemLevel);
+				if(selectLevelByItem!=null){
+					cate.setDiyLevel(selectLevelByItem.getSupplierLevel());
+				}
+			}*/
+			
 		}
 		model.addAttribute("supplierId", supplierItem.getSupplierId());
 		model.addAttribute("supplierTypeRelateId", supplierItem.getSupplierTypeRelateId());

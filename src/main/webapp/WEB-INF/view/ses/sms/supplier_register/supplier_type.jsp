@@ -2350,10 +2350,10 @@
 																			},
 																		};
 																		if(currSupplierSt == '2'){
-																			options.disabled = true;
+																			options_type.disabled = true;
 																			//$(this).parent("td").css("border") == '1px solid rgb(255, 0, 0)'
 																			if(obj_type.parent("td").attr("style") == 'border: 1px solid red;'){
-																				options.disabled = false;
+																				options_type.disabled = false;
 																			}
 																		}
 																		obj_type.combobox(options_type);
@@ -2366,10 +2366,10 @@
 	                                    },
 																		};
 																		if(currSupplierSt == '2'){
-																			options.disabled = true;
+																			options_grade.disabled = true;
 																			//$(this).parent("td").css("border") == '1px solid rgb(255, 0, 0)'
 																			if(obj_grade.parent("td").attr("style") == 'border: 1px solid red;'){
-																				options.disabled = false;
+																				options_grade.disabled = false;
 																			}
 																		}
 																		obj_grade.combobox(options_grade);

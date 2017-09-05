@@ -2010,7 +2010,11 @@ public class ExpertAuditController{
          */
         List < ExpertAudit > reasonsList = new ArrayList<ExpertAudit>();
         List < ExpertAudit > categoryList = new ArrayList<ExpertAudit>();
+        //记录第二级审核结果
+        List<Boolean> list2 = new ArrayList<Boolean>();
+        //第三级
     	List<Boolean> list3 = new ArrayList<Boolean>();
+    	//第四级
     	List<Boolean> list4 = new ArrayList<Boolean>();
     	for (int i = itemsListAll.size()-1; i >= 0; i--) {
     		//查询未通过审核的产品
@@ -2036,8 +2040,23 @@ public class ExpertAuditController{
     		if(category == null && engCategory == null){
     			//判断专家类别的审核结果
     			if(flag){
-    				expertAudit1.setAuditField(cateTree.getRootNode());
-        			expertAudit1.setAuditReason("通过。");
+    				boolean ff = false;
+        			if(list2.size() > 0){
+        				for (boolean b : list3) {
+            				ff = ff | b; 
+            			}
+            			if(ff){
+            				expertAudit1.setAuditField(cateTree.getRootNode());
+    	        			expertAudit1.setAuditReason("通过。");
+            			}else{
+            				expertAudit1.setAuditField(cateTree.getRootNode());
+    	        			expertAudit1.setAuditReason("不通过。");
+            			}
+            			list2 = new ArrayList<Boolean>();
+            		}else{
+            			expertAudit1.setAuditField(cateTree.getRootNode());
+            			expertAudit1.setAuditReason("通过。");
+            		}
     			}else{
     				expertAudit1.setAuditField(cateTree.getRootNode());
         			expertAudit1.setAuditReason("不通过。原因：" +zjlbopinion);
@@ -2064,9 +2083,11 @@ public class ExpertAuditController{
                     				ff = ff | b; 
                     			}
                     			if(ff){
+                    				list2.add(false);
                     				expertAudit1.setAuditField(cateTree.getRootNode());
             	        			expertAudit1.setAuditReason("通过。");
                     			}else{
+                    				list2.add(true);
                     				expertAudit1.setAuditField(cateTree.getRootNode());
             	        			expertAudit1.setAuditReason("不通过。");
                     			}

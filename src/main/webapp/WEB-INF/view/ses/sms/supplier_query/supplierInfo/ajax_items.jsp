@@ -42,15 +42,18 @@
       <td class="info tc">大类</td>
       <td class="info tc">中类</td>
       <td class="info tc">小类</td>
+      <!-- <td class="info tc">等级</td> -->
       <td class="info tc">品种名称</td>
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
       <tr>
+        
         <td class="tc">${result.pageSize * (result.pageNum - 1) + vs.index + 1}</td>
 		    <td class="tc">${item.rootNode}</td>
 		    <td class="tl pl20">${item.firstNode}</td>
 		    <td class="tl pl20">${item.secondNode}</td>
 		    <td class="tl pl20">${item.thirdNode}</td>
+		    <%-- <td class="tl pl20">${item.diyLevel}</td> --%>
 		    <td class="tl pl20">${item.fourthNode}</td>
       </tr>
     </c:forEach>
