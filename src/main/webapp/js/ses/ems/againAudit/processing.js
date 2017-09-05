@@ -571,7 +571,12 @@ function set_newPassword() {
   
   $('#list_content .select_item').each(function (index) {
     if ($(this).is(':checked')) {
-      if ($(this).parents('tr').find('input[name=loginName]').val() === '' || $(this).parents('tr').find('input[name=relName]').val() === '' || $(this).parents('tr').find('input[name=orgName]').val() === '' || $(this).parents('tr').find('input[name=duties]').val() === '') {
+      var loginName = Trim($(this).parents('tr').find('input[name=loginName]').val(), 'g');
+      var relName = Trim($(this).parents('tr').find('input[name=relName]').val(), 'g');
+      var orgName = Trim($(this).parents('tr').find('input[name=orgName]').val(), 'g');
+      var duties = Trim($(this).parents('tr').find('input[name=duties]').val(), 'g');
+      
+      if (loginName === '' || relName === '' || orgName === '' || duties === '') {
         empty_sum = 1;
         is_select = 1;
         return false;
@@ -623,6 +628,7 @@ function set_newPassword() {
           }
           password.val('');
           password2.val('');
+          $('[name=checkAll]').prop('checked', false);
           layer.close(index);
         }
       },
@@ -640,28 +646,33 @@ function save_editMembers() {
   var empty_sum = 0;
   
   $('#list_content tr').each(function (index) {
-    if ($(this).find('input[name=loginName]').val() === '') {
+    var loginName = Trim($(this).find('input[name=loginName]').val(), 'g');
+    var relName = Trim($(this).find('input[name=relName]').val(), 'g');
+    var orgName = Trim($(this).find('input[name=orgName]').val(), 'g');
+    var duties = Trim($(this).find('input[name=duties]').val(), 'g');
+    
+    if (loginName === '') {
       layer.msg('用户名不能为空', {
         offset: '100px',
         time: 1000
       });
       empty_sum = 1;
       return false;
-    } else if ($(this).find('input[name=relName]').val() === '') {
+    } else if (relName === '') {
       layer.msg('专家姓名不能为空', {
         offset: '100px',
         time: 1000
       });
       empty_sum = 1;
       return false;
-    } else if ($(this).find('input[name=orgName]').val() === '') {
+    } else if (orgName === '') {
       layer.msg('单位不能为空', {
         offset: '100px',
         time: 1000
       });
       empty_sum = 1;
       return false;
-    } else if ($(this).find('input[name=duties]').val() === '') {
+    } else if (duties === '') {
       layer.msg('职务不能为空', {
         offset: '100px',
         time: 1000
@@ -670,10 +681,10 @@ function save_editMembers() {
       return false;
     }
     
-    list[index].loginName = $(this).find('input[name=loginName]').val();
-    list[index].relName = $(this).find('input[name=relName]').val();
-    list[index].orgName = $(this).find('input[name=orgName]').val();
-    list[index].duties = $(this).find('input[name=duties]').val();
+    list[index].loginName = loginName;
+    list[index].relName = relName;
+    list[index].orgName = orgName;
+    list[index].duties = duties;
   });
   
   if (empty_sum === 0) {
@@ -690,9 +701,9 @@ function save_editMembers() {
         success: function (data) {
           layer.msg(data.message, {
             offset: '100px',
-            time: 2000
+            time: 1000
           }, function () {
-            window.history.back();
+            location.reload();
           });
         },
         error: function (data) {
@@ -817,4 +828,14 @@ function checkAll(el) {
       }
     });
   }
+}
+
+// 去除空格
+function Trim(str, is_global) {
+  var result;
+  result = str.replace(/(^\s+)|(\s+$)/g,"");
+  if(is_global.toLowerCase()=="g") {
+    result = result.replace(/\s/g,"");
+  }
+  return result;
 }

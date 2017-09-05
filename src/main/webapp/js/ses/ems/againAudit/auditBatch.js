@@ -29,6 +29,41 @@
           } else {
             for (var i in list_content) {
               for (var ii in list_content[i].expertList) {
+                // 判断状态输出
+                if (list_content[i].expertList[ii].status === '-3') {
+                  list_content[i].expertList[ii].status = '公示中';
+                } else if (list_content[i].expertList[ii].status === '-2') {
+                  list_content[i].expertList[ii].status = '预复审结束';
+                } else if (list_content[i].expertList[ii].status === '-1') {
+                  list_content[i].expertList[ii].status = '暂存';
+                } else if (list_content[i].expertList[ii].status === '0') {
+                  list_content[i].expertList[ii].status = '待初审';
+                } else if (list_content[i].expertList[ii].status === '4') {
+                  if (list_content[i].expertList[ii].status === '4' && list_content[i].expertList[ii].auditTemporary === '4') {
+                    list_content[i].expertList[ii].status = '复审中';
+                  } else {
+                    list_content[i].expertList[ii].status = '待复审';
+                  }
+                } else if (list_content[i].expertList[ii].status === '5') {
+                  list_content[i].expertList[ii].status = '复审不合格';
+                } else if (list_content[i].expertList[ii].status === '6') {
+                  list_content[i].expertList[ii].status = '待复查';
+                } else if (list_content[i].expertList[ii].status === '7') {
+                  list_content[i].expertList[ii].status = '复查合格';
+                } else if (list_content[i].expertList[ii].status === '8') {
+                  list_content[i].expertList[ii].status = '复查不合格';
+                } else if (list_content[i].expertList[ii].status === '10') {
+                  list_content[i].expertList[ii].status = '复审退回修改';
+                } else if (list_content[i].expertList[ii].status === '11') {
+                  list_content[i].expertList[ii].status = '待分配';
+                } else if (list_content[i].expertList[ii].status === '12') {
+                  list_content[i].expertList[ii].status = '处罚中';
+                } else if (list_content[i].expertList[ii].status === '13') {
+                  list_content[i].expertList[ii].status = '无产品专家';
+                } else if (list_content[i].expertList[ii].status === '14') {
+                  list_content[i].expertList[ii].status = '复审待分组专家';
+                }
+                
                 if (typeof(list_content[i].expertList[ii].batchDetailsNumber) === 'undefined') {
                   list_content[i].expertList[ii].batchDetailsNumber = '';
                 }
@@ -58,7 +93,6 @@
                 }
                 
                 str_tr += '<tr>'
-                  +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content[i].expertList[ii].id +'" class="select_item"></td>'
                   +'<td class="text-center">'+ list_content[i].expertList[ii].batchDetailsNumber +'</td>'
                   +'<td class="text-center">'+ list_content[i].expertList[ii].orgName +'</td>'
                   +'<td class="text-center">'+ list_content[i].expertList[ii].realName +'</td>'
@@ -87,7 +121,6 @@
                     +'<table class="table table-bordered table-condensed table-hover table-striped groupBatch_table">'
                     +'  <thead>'
                     +'    <tr>'
-                    +'      <th class="info w50">选择</th>'
                     +'      <th class="info w100">批次编号</th>'
                     +'      <th class="info">采购机构</th>'
                     +'      <th class="info">专家姓名</th>'

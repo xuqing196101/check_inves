@@ -99,16 +99,16 @@
   
   <!-- 设置密码弹出窗 -->
   <div class="hide mt20" id="modal_setPwd">
-  <div class="form-horizontal w100p pl20 pr20 over_hideen">
+  <div class="form-horizontal w100p pl10 pr10 over_hideen">
     <div class="form-group">
-      <label class="col-sm-3 text-right pt6">新密码</label>
-      <div class="col-sm-9">
+      <label class="col-sm-4 text-right pt6">新密码</label>
+      <div class="col-sm-8">
         <input type="password" class="form-control w100p" name="password" placeholder="请输入新密码">
       </div>
     </div>
     <div class="form-group">
-      <label class="col-sm-3 text-right pt6">确认新密码</label>
-      <div class="col-sm-9">
+      <label class="col-sm-4 text-right pt6">确认新密码</label>
+      <div class="col-sm-8">
         <input type="password" class="form-control w100p" name="password2" placeholder="请再次输入密码确认">
       </div>
     </div>
