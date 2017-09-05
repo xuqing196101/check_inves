@@ -435,7 +435,7 @@ public class ExpertAuditController{
 		}
 		
 		
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("0") || "9".equals(expert.getStatus()) || expert.getStatus().equals("-2") ||  expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("0") || "10".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("-2") ||  expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
 			/**
 			 * 回显未通过的字段
 			 */
@@ -443,6 +443,10 @@ public class ExpertAuditController{
 			expertAudit.setExpertId(expertId);
 			expertAudit.setSuggestType("one");
 			expertAudit.setAuditFalg(sign);
+			//复审退回修改，初审时显示的是复审的审核信息
+			if("10".equals(expert.getStatus())){
+				expertAudit.setAuditFalg(2);
+			}
 			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAudit);
 			StringBuffer conditionStr = new StringBuffer();
 			if(!reasonsList.isEmpty()){
@@ -846,6 +850,11 @@ public class ExpertAuditController{
 		expertAuditFor.setExpertId(expertId);
 		expertAuditFor.setSuggestType("six");
 		expertAuditFor.setAuditFalg(sign);
+		//复审退回修改，初审时显示的是复审的审核信息
+		Expert expert = expertService.selectByPrimaryKey(expertId);
+		if("10".equals(expert.getStatus())){
+			expertAuditFor.setAuditFalg(2);
+		}
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
 		StringBuffer conditionStr = new StringBuffer();
 		for (ExpertAudit expertAudit2 : reasonsList) {
@@ -1141,11 +1150,16 @@ public class ExpertAuditController{
 		model.addAttribute("expertId", expertId);
 		model.addAttribute("status", expert.getStatus());
 		//回显不通过的字段
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "10".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
 			ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("five");
 			expertAuditFor.setAuditFalg(sign);
+			//复审退回修改，初审时显示的是复审的审核信息
+			if("10".equals(expert.getStatus())){
+				expertAuditFor.setAuditFalg(2);
+			}
+			
 			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
 			StringBuffer conditionStr = new StringBuffer();
 			if(!reasonsList.isEmpty()){
@@ -1387,7 +1401,7 @@ public class ExpertAuditController{
 		model.addAttribute("typeMap", typeMap);
 		
 		//回显不通过的字段
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "10".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
 			/*ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("seven");
@@ -1409,6 +1423,10 @@ public class ExpertAuditController{
 			expertAuditFor.setSuggestType("seven");
 			expertAuditFor.settype("1");
 			expertAuditFor.setAuditFalg(sign);
+			//复审退回修改，初审时显示的是复审的审核信息
+			if("10".equals(expert.getStatus())){
+				expertAudit.setAuditFalg(2);
+			}
 			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
 			
 			
@@ -1499,6 +1517,11 @@ public class ExpertAuditController{
 		model.addAttribute("sign", sign);
 		//List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
 		expertAudit.setAuditFalg(sign);
+		//复审退回修改，初审时显示的是复审的审核信息
+		Expert expert = expertService.selectByPrimaryKey(expertId);
+		if("10".equals(expert.getStatus())){
+			expertAudit.setAuditFalg(2);
+		}
 		expertAudit.setExpertId(expertId);
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAudit);
 		Map<String,Integer> map = new HashMap<String,Integer>();
@@ -1564,7 +1587,6 @@ public class ExpertAuditController{
 		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		int categoryCount=0;
 		model.addAttribute("qualified", true);
-		Expert expert = expertService.selectByPrimaryKey(expertId);
 		JdcgResult result = expertAuditService.selectAndVertifyAuditItem(expertId);
 		if(result.getStatus()==500){
 			model.addAttribute("qualified", false);
