@@ -1263,7 +1263,15 @@
             if(data.length > 0) {
               var html = "";
               for(var i = 0; i < data.length; i++) {
-                html += "<div style='width:178px;height:20px;' class='pointer' onmouseover='changeColor(this)' onclick='getValue(this)'>" + data[i].name + "</div>";
+            	  var name="";
+            	  var title="";
+            	  if(data[i].name.split("@").length>1){
+            		  name=data[i].name.split("@")[0];
+            		  title=data[i].name.split("@")[1];
+            	  }else{
+            		  name=data[i].name.split("@")[0];
+            	  }
+                html += "<div style='width:178px;height:20px;' class='pointer' onmouseover='changeColor(this)' onclick='getValue(this)' title='"+title+"'>" + name + "</div>";
               }
               $("#materialName").html(html);
               $("#materialName").removeClass("dnone");
