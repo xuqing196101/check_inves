@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ext.ExtConditionAreaMapper">
+ 
+<!--  <insert id="insertSupplierArea" parameterType="ses.model.sms.SupplierCondition">
+	INSERT INTO T_SES_EXT_TYPE_CATEGORY (SUPPLIER_TYPE_CODE,CATEGORY_ID,CONDITION_ID) VALUES 
+	<if test="SUPPLIER_TYPE_CODE =='PROJECT'.toString() ">
+		<foreach collection="provinces" separator="," item="ps">
+			(#{ps},NULL,#{ID})
+		</foreach>
+	</if>
+	<if test="addressId !=null and addressId !='' ">
+		<foreach collection="addressIds" separator="," item="ids">
+			(NULL,#{ids},#{ID})
+		</foreach>
+	</if>
+ </insert> -->
+</mapper>

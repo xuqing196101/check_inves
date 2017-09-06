@@ -13,10 +13,7 @@
              fileElementId: 'fileName', 
              dataType: "json", 
              success: function (data){ 
-            	 alert(data);
                if (data != null){ 
-            	   alert(1);
-            	   alert(data);
             	   if (data.success){
             		   loadData(data.obj);
             	   } else {
@@ -30,7 +27,6 @@
  	  }
  	  
  	  function loadData(data){
- 		  alert(data)
  		  if (data != null){
  			  for (var i =0;i<data.length;i++){
  				  

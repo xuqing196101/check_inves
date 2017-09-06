@@ -66,7 +66,7 @@
           async: {
             autoParam: ["id"],
             enable: true,
-            url: "${pageContext.request.contextPath}/SupplierExtracts/getTree.do?projectId=${projectId}",
+            url: "${pageContext.request.contextPath}/SupplierExtracts/getTree.do?supplierTypeCode=${supplierTypeCode}",
             otherParam: {
               categoryIds: "${categoryIds}",
             },
@@ -189,10 +189,12 @@
        var issatisfy=$('input[name="radio"]:checked ').val();
          
        if(cate!=null){
-           $(cate).val(names.substring(0,names.length-1));
-           $(cate).parent().parent().parent().parent().parent().find("#extCategoryNames").val(names.substring(0,names.length-1));
+           $(cate).val(names.substring(0,names.length-1));/* 将选中目录名称显示在输入框中 */
+           $(cate).parents("li").find(".isSatisfy").val(issatisfy);
+           $(cate).parents("li").find(".categoryId").val(ids.substring(0,ids.length-1));
+        /*    $(cate).parent().parent().parent().parent().parent().find("#extCategoryNames").val(names.substring(0,names.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#extCategoryId").val(ids.substring(0,ids.length-1));
-           $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val(issatisfy);
+           $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val(issatisfy); */
            
        }
 	             var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
@@ -212,14 +214,6 @@
 			method="post" id="form1">
 			<div>
 				<ul class="list-unstyled list-flow p0_20">
-					<input class="span2" name="id" type="hidden">
-<!-- 					<li class="col-md-6 p0 "> -->
-<!-- 				    	<span class="red textspan">*</span>抽取数量： -->
-<!-- 						<div class="input-append"> -->
-<!-- 							<input class="span2 w200" maxlength="3" id="extcount" value="10" name="title" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" -->
-<!--                                 onafterpaste="this.value=this.value.replace(/\D/g,'')"> -->
-<!-- 						</div> -->
-<!-- 					</li> -->
 					<li class="col-md-6  p0 ">
 						<div class="fl mr10">
 							<input type="radio" name="radio" id="radio" checked="checked"
@@ -236,29 +230,6 @@
 			</div>
 			 <div align="center"><input type="text" id="key" class="empty" > </div>
 			<div id="ztree" class="ztree margin-left-13"></div>
-<!-- 			<br /> -->
-<!-- 			<ul id="ultype" class="list-unstyled list-flow p0_20 dnone"> -->
-<!-- 				<li class="col-md-6 p0 "> -->
-<!-- 				<div  class="ml5 fl">供应商类型:</div> -->
-<!-- 					<div class="fl mr10"> -->
-<!-- 					  <input name="expertstypeid" class="fl"  id="xschecked"  type="checkbox" -->
-<!--                             value="SALES"> -->
-<!-- 						<div class="ml5 fl">销售型</div> -->
-<!-- 					</div> -->
-<!-- 					<div class="fl mr10"> -->
-<!-- 						<input name="expertstypeid" class="fl" type="checkbox" value="PRODUCT"> -->
-<!-- 						<div class="ml5 fl">生产型</div> -->
-<!-- 					</div> -->
-<!-- 					<div class="fl mr10 dnone"> -->
-<!--                         <input name="expertstypeid"  class="fl " id="gcchecked" type="checkbox" value="PROJECT"> -->
-<!--                         <div class="ml5 fl">工程</div> -->
-<!--                     </div> -->
-<!-- 				    <div class="fl mr10 dnone"> -->
-<!--                         <input name="expertstypeid" class="fl " id="fwchecked" type="checkbox" value="SERVICE"> -->
-<!--                         <div class="ml5 fl">服务</div> -->
-<!--                     </div> -->
-<!-- 				</li> -->
-<!-- 			</ul> -->
 		</form>
 	</div>
 </body>

@@ -25,9 +25,12 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import bss.dao.pms.CollectPurchaseMapper;
 import bss.dao.pms.PurchaseDetailMapper;
+import bss.dao.pms.PurchaseRequiredMapper;
 import bss.formbean.Line;
 import bss.formbean.Maps;
+import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
+import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseDetailService;
 
 @Service("purchaseDetailService")
@@ -44,6 +47,8 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
     
     @Autowired
     private OrgnizationMapper orgnizationMapper;
+    @Autowired
+    private PurchaseRequiredMapper purchaseRequiredMapper;
 
     @Override
     public void add(PurchaseDetail purchaseDetail) {
@@ -376,4 +381,68 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
       return purchaseDetailMapper.getUniquesByTask(projectId, unique, org);
     }
 
+    @Override
+    public void updatePurchaseDetailByPlanId(CollectPlan collectPlan,
+        String uniqueId) {
+      //需求编报id集合
+      String[] uId=uniqueId.split(",");
+      //获取计划parentId为1的需求部门
+      List<PurchaseDetail> departmentAndId = purchaseDetailMapper.getUniqueIdByParentId(collectPlan.getId());
+      PurchaseRequired purchaseRequired=null;
+      Map<String, String> oldDept=new HashMap<String, String>();
+      for(int i=0;i<uId.length;i++){
+        Boolean flg=true;
+        //查询需求明细部门名称
+        purchaseRequired=new PurchaseRequired();
+        purchaseRequired.setUniqueId(uId[i]);
+        purchaseRequired.setParentId("1");
+        List<PurchaseRequired> purchaseRequiredList = purchaseRequiredMapper.queryByUinuqe(purchaseRequired);
+        if(purchaseRequiredList.size()>0&&purchaseRequiredList!=null){
+          purchaseRequired=purchaseRequiredList.get(0);
+        }else{
+          purchaseRequired=null;
+        }
+        if(purchaseRequired!=null){
+          for (PurchaseDetail dId : departmentAndId) {
+            //需求parentId=1的明细和计划明细parentId=1的部门匹配
+            if(purchaseRequired.getDepartment().equals(dId.getDepartment())){//匹配上了部门
+              HashMap<String, Object> map=new HashMap<String, Object>();
+              map.put("parentId", dId.getId());
+              List<PurchaseDetail> pds = purchaseDetailMapper.getByMap(map);
+              if(pds.size()>0&&pds!=null){
+                PurchaseDetail purchaseDetail = pds.get(pds.size()-1);
+                if(purchaseDetail!=null){
+                  oldDept.put(purchaseRequired.getDepartment(), purchaseDetail.getSeq());
+                  String seq = oldDept.get(purchaseRequired.getDepartment());
+                  if(seq!=null){
+                    String seqNext =seqNext(seq);
+                    System.out.println(seqNext);
+                  }
+                }
+              }
+              flg=false;
+            }
+          }
+          if(flg){//没陪配上部门
+          }
+        }
+      }
+    }
+
+    
+    public String seqNext(String seq){
+      seq=seq.substring(1, seq.length()-1);
+      String seqNext="";
+      String[] seqs={"一","二","三","四","五","六","七","八","九","十"};
+      for (int i=0;i< seqs.length ;i++) {
+        if(seqs[i].equals(seq)){
+          seqNext=seqs[i+1];
+          break;
+        }
+      }
+      if(seqNext.length()>0){
+        seqNext="（"+seqNext+"）";
+      }
+      return seqNext;
+    }
 }

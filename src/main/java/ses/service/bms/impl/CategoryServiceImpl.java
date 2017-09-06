@@ -30,6 +30,7 @@ import ses.dao.bms.QualificationMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.sms.SupplierCateTree;
@@ -1179,4 +1180,39 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> getPListByCode(String code) {
 		return categoryMapper.selectPListByCode(code);
 	}
+
+	@Override
+	public List<CategoryTree> getTreeForExt(Category category,String supplierTypeCode) {
+		
+		List<CategoryTree> jList = new ArrayList<>();
+		if(category.getId()==null){
+	    	   category.setId(dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getId());
+	    }
+         List<Category> cateList= disTreeGoodsData(category.getId());
+         for(Category cate:cateList){
+             List<Category> cList= disTreeGoodsData(cate.getId());
+             CategoryTree ct=new CategoryTree();
+             if(!cList.isEmpty()){
+                 ct.setIsParent("true");
+             }else{
+                 ct.setIsParent("false");
+             }
+             ct.setId(cate.getId());
+             ct.setName(cate.getName());
+             ct.setpId(cate.getParentId());
+             ct.setKind(cate.getKind());
+             ct.setStatus(cate.getStatus());
+             jList.add(ct);
+         }
+		return jList;
+	}
+	
+	@Override
+	public List<DictionaryData> getEngAptitudeLevelByCategoryId(
+			String categoryId) {
+		Map<String, String[]> map = new HashMap<>();
+		map.put("categoryIds", categoryId.split(","));
+		return categoryQuaMapper.getEngAptitudeLevelByCategoryId(map);
+	}
+	
 }
