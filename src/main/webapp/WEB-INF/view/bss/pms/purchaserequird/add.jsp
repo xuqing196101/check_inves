@@ -578,7 +578,6 @@
           fileElementId: 'fileName',
           dataType: 'json',
           success: function(data) {
-        	  alert(JSON.stringify(data))
             var bool = true;
             var chars = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
             if(data == "0") {

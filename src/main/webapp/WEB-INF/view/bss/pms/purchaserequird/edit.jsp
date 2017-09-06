@@ -1145,7 +1145,6 @@
     			  }else{//删除当前节点，把父节点的父节点的readOnly=false,并且删除tr上的attr=“true”
     				    $(tr).prev().removeAttr("attr");
     		    	  var tr7=$($(tr).prev().children()[7]).children(":first").next();
-    		    	  alert($(tr7).attr("name"))
     		    	  var tr8=$($(tr).prev().children()[8]).children(":first").next();
     		    	 /*  var tr9=$($(tr).prev().children()[9]).children(":first").next(); */
     		    	  $(tr7).removeAttr("readonly");

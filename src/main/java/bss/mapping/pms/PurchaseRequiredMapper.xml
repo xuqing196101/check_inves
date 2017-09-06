@@ -952,7 +952,11 @@
 			<!--  <if test="isMaster != null">
 				and IS_MASTER = #{isMaster}
 			</if> -->
+			<if test="parentId!=null">
+			  and  PARENT_ID='1'
+		  </if>
 		</where>
+		
 		<if test="isMaster==null">
 			ORDER BY IS_MASTER
 		</if>
@@ -1188,5 +1192,4 @@
 		FROM T_BSS_PMS_PURCHASE_REQUIRED
 		WHERE ID=#{id}
 	</select>
-
 </mapper>

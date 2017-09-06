@@ -24,7 +24,7 @@
 										</td>
 										<td><input type="text" class="stand" name="list[${vs.index }].stand" value="${obj.stand}"></td>
 										<td><input type="text" class="qualitstand" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}" class=""></td>
-										<td><input type="text" class="item" name="list[${vs.index }].item" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> value="${obj.item}" ></td>
+										<td><input type="text" class="item" name="list[${vs.index }].item"  value="${obj.item}" ></td>
 										<td>
 											<input type="hidden"  value="${obj.id }" >
 										    <input type="text" class="purchasecount"  onblur='sum2(this)' <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> name="list[${vs.index }].purchaseCount" onkeyup="checkNum(this,1)" value="${obj.purchaseCount}" >
