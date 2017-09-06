@@ -360,11 +360,11 @@ public class ExcelUtil {
 	        				}
 	        			 }
 	        	
-	        			 if(cell.getColumnIndex()==10){
+	        			 if(cell.getColumnIndex()==11){
 	        				if(cell.getCellType()==1){
 	        					rq.setSupplier(cell.getStringCellValue());
 	        				}else if(cell.getCellType()!=3){
-	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，K错误";
+	        					 errMsg=String.valueOf(row.getRowNum()+1)+"L行列错误，非文本格式!";
 		        				 map.put("errMsg", errMsg);
 		        				 bool=false;
 	        				}else{
@@ -372,13 +372,13 @@ public class ExcelUtil {
 	        				}
 	        				 
 	        			 }
-	        			 if(cell.getColumnIndex()==11){
+	        			 if(cell.getColumnIndex()==10){
 	        				 if(cell.getCellType()==HSSFCell.CELL_TYPE_STRING){
 	        					 String str = cell.getStringCellValue();
 	        					 rq.setPurchaseType(str);
 	        					 continue;
 	        				 }else if(cell.getCellType()!=3){
-	        					 errMsg=String.valueOf(row.getRowNum()+1)+"L行列错误，非文本格式!";
+	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，K错误!";
 		        				 map.put("errMsg", errMsg); 
 		        				 bool=false;
 		        				 break;
