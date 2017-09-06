@@ -23,8 +23,7 @@
       function referenceNO() {
         var referenceNO = $("#referenceNo").val();
         if(referenceNO == '') {
-          layer.msg("采购需求文号不能为空");
-          return;
+          return fasle;
         }
         $.ajax({
           url: '${pageContext.request.contextPath}/purchaser/selectUniqueReferenceNO.do',
