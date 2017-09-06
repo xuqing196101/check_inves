@@ -72,8 +72,8 @@
             shade: 0.01
           });
         } else {
-          var purchaseCount = parseFloat($(obj).val()) - 0; //价钱
-          var price2 = parseFloat($(obj).parent().prev().children(":last").prev().val()) - 0; //数量
+          var purchaseCount = parseFloat($(obj).val()==""?0:$(obj).val()) - 0; //价钱
+          var price2 = parseFloat($(obj).parent().prev().children(":last").prev().val()==""?0:$(obj).parent().prev().children(":last").prev().val()) - 0; //数量
           var sum = purchaseCount * price2 / 10000;
           sum = sum.toFixed(2);
           $(obj).parent().next().children(":last").prev().val(sum);
@@ -232,12 +232,12 @@
            layer.alert("节点填写错误");
            return false;
         }
-    	  if($("#detailZeroRow tr").length <= 2) {
+    	  if($("#detailZeroRow tr").length < 2) {
               layer.alert("请添加需求明细！");
               return false;
             }else{
             	var tableTr=$("#detailZeroRow tr");
-            	for(var i = 2; i < tableTr.length; i++) {
+            	for(var i = 1; i < tableTr.length; i++) {
             		 if(typeof($(tableTr[i]).attr("attr"))=="undefined"){//获取子节点
             			  if(trimNull(i)){
             				  return false;
@@ -678,8 +678,10 @@
     	  $(tr).attr("attr","true");
     	  var tr7=$($(tr).children()[7]).children(":first").next();
     	  var tr8=$($(tr).children()[8]).children(":first").next();
+    	  var tr3=$($(tr).children()[3]).children(":first").children(":last");
     	  /* var tr9=$($(tr).children()[9]).children(":first").next(); */
     	  $(tr7).attr("readonly", "readonly");
+    	  $(tr3).removeAttr("onkeyup");
     	  $(tr7).removeAttr("onblur");
     	  $(tr7).removeAttr("onkeyup");
     	  $(tr7).val("");
@@ -718,20 +720,22 @@
                   parentAttr(list[i]);
                   same(obj, parentId);
                   var val=$(obj).val().substring(1,$(obj).val().length-1);
-                  var prevVal="";
-                  inter:
-                  for(var j = 0; j < list.length; j++){
-                	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
-                		  prevVal=$(list[j].children[1]).children(":last").prev().val();
-                		  break inter;
-                	  }
-                  }
-                  prevVal=prevVal.substring(1,prevVal.length-1);
-                  if(!numberTwo(prevVal,val)){
-                	  layer.msg("序号填写错误");
-                	  flgNumber=true;
-                	  return false;
-                  }
+                  if(val!="一"){
+	                  var prevVal="";
+	                  inter:
+	                  for(var j = 0; j < list.length; j++){
+	                	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	                		  prevVal=$(list[j].children[1]).children(":last").prev().val();
+	                		  break inter;
+	                	  }
+	                  }
+	                  prevVal=prevVal.substring(1,prevVal.length-1);
+	                  if(!numberTwo(prevVal,val)){
+	                	  layer.msg("序号填写错误");
+	                	  flgNumber=true;
+	                	  return false;
+	                  }
+                   }
                   break outer;
                 }
               }
@@ -1156,8 +1160,11 @@
     				    $(tr).prev().removeAttr("attr");
     		    	  var tr7=$($(tr).prev().children()[7]).children(":first").next();
     		    	  var tr8=$($(tr).prev().children()[8]).children(":first").next();
+    		    	  var tr3=$($(tr).prev().children()[3]).children(":first").children(":last");
     		    	 /*  var tr9=$($(tr).prev().children()[9]).children(":first").next(); */
     		    	  $(tr7).removeAttr("readonly");
+    		    	  $(tr3).attr("onkeyup","listName(this)");
+    		    	  $(tr3).after($("#materialName"))
     		    	  $(tr7).attr("onblur","sum2(this)");
     		    	  $(tr7).attr("onkeyup","checkNum(this,1)");
     		    	  $(tr7).val("");
