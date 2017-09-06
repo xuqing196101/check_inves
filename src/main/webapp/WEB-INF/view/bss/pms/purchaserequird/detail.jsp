@@ -19,7 +19,7 @@
 										
 										</td>
 										<td>
-											<input type="text"  class="m0 border0" name="list[${index }].goodsName" onkeyup="listName(this)" onblur="lossValue()" value="" />
+											<input type="text"  class="m0 border0" name="list[${index }].goodsName" onkeyup="listName(this)"  value="" />
 										</td>
 										<td><input type="text" class="stand" name="list[${index }].stand" value="${objs.stand}"></td>
 										<td><input type="text" class="qualitstand" name="list[${index }].qualitStand" value="" class=""></td>

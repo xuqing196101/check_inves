@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="extract.dao.supplier.SupplierExtractConditionMapper">
+	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierCondition">
+		<!-- @mbggenerated -->
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+		<result column="STATUS" jdbcType="DECIMAL" property="status" />
+		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+		<result column="EXPERTS_TYPE_ID" jdbcType="VARCHAR" property="expertsTypeId" />
+		<result column="TENDER_TIME" property="tenderTime" jdbcType="TIMESTAMP" />
+		<result column="RESPONSE_TIME" jdbcType="VARCHAR" property="responseTime" />
+		<result column="SUPPLIER_LEVEL" jdbcType="VARCHAR" property="supplierLevel" />
+		<result column="EXTRACT_ADDRESS" jdbcType="VARCHAR" property="extractAddress" />
+		<result column="ADDRESS_REASON" jdbcType="VARCHAR" property="addressReason" />
+		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
+		<result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+		<result column="ADDRESS_ID" jdbcType="VARCHAR" property="addressId" />
+	</resultMap>
+
+	<resultMap type="extract.model.supplier.SupplierCondition" id="BaseResultListMap"
+		extends="BaseResultMap">
+		<collection property="conTypes" column="ID"
+			ofType="extract.model.supplier.SupplierConType">
+			<id column="ctid" jdbcType="VARCHAR" property="id" />
+			<result column="SUPPLIER_TYPE_ID" jdbcType="DECIMAL" property="supplierTypeId" />
+			<result column="SUPPLIER_COUNT" jdbcType="DECIMAL" property="supplierCount" />
+			<result column="SUPPLIER_TYPE_NAME" jdbcType="VARCHAR"
+				property="supplierTypeName" />
+			<result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+			<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
+			<result column="IS_MULTICONDITION" jdbcType="DECIMAL"
+				property="isMulticondition" />
+			<association property="supplierType" column="SUPPLIER_TYPE_ID"
+				select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryCode"></association>
+		</collection>
+		<!-- 关联抽取过的供应商 -->
+		<collection property="extRelatesList" column="ID"
+			ofType="extract.model.supplier.SupplierExtRelate" select="ses.dao.sms.SupplierExtRelateMapper.getBuyConId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		ID, PROJECT_ID, STATUS, ADDRESS, EXPERTS_TYPE_ID, TENDER_TIME,
+		RESPONSE_TIME, SUPPLIER_LEVEL,
+		EXTRACT_ADDRESS,ADDRESS_REASON,CATEGORY_NAME,CATEGORY_ID,ADDRESS_ID
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIE_CONDITION
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		<!-- @mbggenerated -->
+		delete from T_SES_SMS_SUPPLIE_CONDITION
+		where ID =
+		#{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="extract.model.supplier.SupplierCondition">
+		<!-- @mbggenerated -->
+		insert into T_SES_SMS_SUPPLIE_CONDITION (ID, PROJECT_ID, STATUS,
+		ADDRESS, EXPERTS_TYPE_ID, TENDER_TIME,
+		RESPONSE_TIME, SUPPLIER_LEVEL,
+		EXTRACT_ADDRESS,ADDRESS_REASON,CATEGORY_NAME,CATEGORY_ID,ADDRESS_ID
+		)
+		values
+		(#{id,jdbcType=VARCHAR},
+		#{projectId,jdbcType=VARCHAR},
+		#{status,jdbcType=DECIMAL},
+		#{address,jdbcType=VARCHAR},
+		#{expertsTypeId,jdbcType=VARCHAR},
+		#{tenderTime,jdbcType=TIMESTAMP},
+		#{responseTime,jdbcType=VARCHAR},
+		#{supplierLevel,jdbcType=VARCHAR},
+		#{extractAddress,jdbcType=VARCHAR},
+		#{addressReason,jdbcType=VARCHAR},
+		#{categoryName,jdbcType=VARCHAR},
+		#{categoryId,jdbcType=VARCHAR},
+		#{addressId,jdbcType=VARCHAR},
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierCondition">
+
+		<!-- @mbggenerated -->
+		insert into T_SES_SMS_SUPPLIE_CONDITION
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="address != null">
+				ADDRESS,
+			</if>
+			<if test="expertsTypeId != null">
+				EXPERTS_TYPE_ID,
+			</if>
+			<if test="tenderTime != null">
+				TENDER_TIME,
+			</if>
+			<if test="responseTime != null">
+				RESPONSE_TIME,
+			</if>
+			<if test="supplierLevel != null">
+				SUPPLIER_LEVEL,
+			</if>
+			<if test="extractAddress != null">
+				EXTRACT_ADDRESS,
+			</if>
+			<if test="addressReason != null">
+				ADDRESS_REASON,
+			</if>
+			<if test="categoryName != null">
+				CATEGORY_NAME,
+			</if>
+			<if test="categoryId != null">
+				CATEGORY_ID,
+			</if>
+			<if test="addressId != null">
+				ADDRESS_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=DECIMAL},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="expertsTypeId != null">
+				#{expertsTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="tenderTime != null">
+				#{tenderTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="responseTime != null">
+				#{responseTime,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierLevel != null">
+				#{supplierLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="extractAddress != null">
+				#{extractAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="addressReason != null">
+				#{addressReason,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryName != null">
+				#{categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryId != null">
+				#{categoryId,jdbcType=VARCHAR},
+			</if>
+			<if test="addressId != null">
+				#{addressId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierCondition">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_SUPPLIE_CONDITION
+		<set>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=DECIMAL},
+			</if>
+			<if test="address != null">
+				ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="expertsTypeId != null">
+				EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="tenderTime != null">
+				TENDER_TIME = #{tenderTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="responseTime != null">
+				RESPONSE_TIME = #{responseTime,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierLevel != null">
+				SUPPLIER_LEVEL = #{supplierLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="extractAddress != null">
+				EXTRACT_ADDRESS = #{extractAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="addressReason != null">
+				ADDRESS_REASON = #{addressReason,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryName != null">
+				CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryId != null">
+				CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+			</if>
+			<if test="addressId != null">
+				ADDRESS_ID = #{addressId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where
+		<if test="id != null and id != '' ">
+			ID = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="projectId != null and projectId != ''">
+			PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+		</if>
+	</update>
+	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierCondition">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_SUPPLIE_CONDITION
+		set PROJECT_ID =
+		#{projectId,jdbcType=VARCHAR},
+		STATUS = #{status,jdbcType=DECIMAL},
+		ADDRESS = #{address,jdbcType=VARCHAR},
+		EXPERTS_TYPE_ID =
+		#{expertsTypeId,jdbcType=VARCHAR},
+		TENDER_TIME =
+		#{tenderTime,jdbcType=TIMESTAMP},
+		RESPONSE_TIME =
+		#{responseTime,jdbcType=VARCHAR},
+		SUPPLIER_LEVEL =
+		#{supplierLevel,jdbcType=VARCHAR},
+		EXTRACT_ADDRESS =
+		#{extractAddress,jdbcType=VARCHAR},
+		ADDRESS_ID =
+		#{addressId,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<sql id="condition">
+		where 1 = 1
+		<trim suffixOverrides=",">
+			<if test="projectId != null and projectId != '' ">
+				AND SC.PROJECT_ID=#{projectId}
+			</if>
+			<if test="id != null and id !='' ">
+				AND SC."ID"=#{id}
+			</if>
+			<if test="status != null and status != ''">
+				AND SC.STATUS=#{status}
+			</if>
+		</trim>
+		ORDER BY SC.CREATED_AT
+	</sql>
+
+
+
+	<select id="list" parameterType="extract.model.supplier.SupplierCondition"
+		resultMap="BaseResultListMap">
+		SELECT
+		sc.*, CT."ID" AS ctid,
+		CT.CATEGORY_NAME,CT.SUPPLIER_COUNT,CT.SUPPLIER_TYPE_NAME,CT.SUPPLIER_TYPE_ID,CT.CATEGORY_ID
+		,CT.IS_MULTICONDITION
+		FROM
+		T_SES_SMS_SUPPLIE_CONDITION sc
+		LEFT JOIN
+		T_SES_SMS_SUPPLIE_CON_TYPE ct ON
+		SC."ID"=CT.CONDITION_ID
+
+		<include refid="condition" />
+	</select>
+
+	<select id="selectByPackageId" parameterType="java.lang.String"
+		resultMap="BaseResultListMap">
+		SELECT
+		sc.*, CT."ID" AS ctid,
+		CT.CATEGORY_NAME,CT.SUPPLIER_COUNT,CT.SUPPLIER_TYPE_NAME,CT.SUPPLIER_TYPE_ID,CT.CATEGORY_ID
+		,CT.IS_MULTICONDITION
+		FROM
+		T_SES_SMS_SUPPLIE_CONDITION sc
+		LEFT JOIN
+		T_SES_SMS_SUPPLIE_CON_TYPE ct ON
+		SC."ID"=CT.CONDITION_ID WHERE
+		sc.PROJECT_ID=#{projectId}
+	</select>
+
+	<!--根据关联包id查询是否有未抽取的条件 -->
+	<select id="getCount" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		SELECT "COUNT"(*) FROM T_SES_SMS_SUPPLIE_CONDITION WHERE
+		PROJECT_ID=#{projectId} AND STATUS=1
+	</select>
+
+	<!-- 关联 -->
+	<select id="getExtractsByProjectId" parameterType="java.lang.String"
+		resultMap="BaseResultListMap">
+		SELECT
+		sc.*, CT."ID" AS ctid,
+		CT.CATEGORY_NAME,CT.SUPPLIER_COUNT,CT.SUPPLIER_TYPE_NAME,CT.SUPPLIER_TYPE_ID,CT.CATEGORY_ID
+		,CT.IS_MULTICONDITION
+		FROM
+		T_SES_SMS_SUPPLIE_CONDITION sc
+		LEFT JOIN
+		T_SES_SMS_SUPPLIE_CON_TYPE ct ON
+		SC."ID"=CT.CONDITION_ID where
+		sc.PROJECT_ID =#{projectId}
+	</select>
+	
+	<update id="updateConditionByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierCondition">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_SUPPLIE_CONDITION
+		<set>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=DECIMAL},
+			</if>
+			<if test="recordId != null">
+				RECORD_ID = #{recordId,jdbcType=VARCHAR},
+			</if>
+			<if test="areaName != null">
+				AREA_NAME = #{areaName,jdbcType=VARCHAR},
+			</if>
+			<if test="addressId != null">
+				ADDRESS_ID = #{addressId,jdbcType=VARCHAR},
+			</if>
+			<if test="addressReason != null">
+				ADDRESS_REASON = #{addressReason,jdbcType=VARCHAR},
+			</if>
+			<if test="province != null">
+				PROVINCE = #{province,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where
+		<if test="id != null and id != '' ">
+			ID = #{id,jdbcType=VARCHAR}
+		</if>
+	</update>
+	
+	<select id="getAreaInfoByConditionId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT * FROM T_SES_EXT_AREA_CONDITION WHERE CONDITION_ID = #{value}
+	</select>
+	<delete id="deleteAreaInfoByConditionId" parameterType="java.lang.String">
+		DELECT FROM T_SES_EXT_AREA_CONDITION WHERE CONDITION_ID = #{value}
+	</delete>
+	
+	<select id="getTypeInfoByMap" parameterType="map" resultMap="BaseResultMap">
+		SELECT * FROM T_SES_EXT_TYPE_CATEGORY WHERE CONDITION_ID = #{conditionId} AND TYPE_CODE = #{supplierTypeCode}
+	</select>
+	<delete id="deleteTypeInfoByMap" parameterType="map">
+		DELETE FROM T_SES_EXT_TYPE_CATEGORY WHERE CONDITION_ID = #{conditionId} AND TYPE_CODE = #{supplierTypeCode}
+	</delete>
+	<insert id="insertTypeInfo" parameterType="extract.model.supplier.SupplierCondition">
+		INSERT INTO T_SES_EXT_TYPE_CATEGORY (CONDITION_ID,TYPE_CODE,CATEGORY_ID,PRIVARY,BUSINESS_NATURE,LEVEL_TYPE_ID,TEMP) 
+		VALUES (#{id},
+		<choose>
+			<when test="supplierTypeCode !=null">
+				#{supplierTypeCode},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="categoryId !=null">
+				#{categoryId},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="privary !=null">
+				#{privary},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="businessNature !=null">
+				#{businessNature},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="levelTypeId !=null">
+				#{levelTypeId},
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="status !=null">
+				#{status}
+			</when>
+			<otherwise>
+				1
+			</otherwise>
+		</choose>
+		)
+	</insert>
+	
+</mapper>

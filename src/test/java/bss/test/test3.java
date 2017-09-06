@@ -1,9 +1,13 @@
 package bss.test;
 
+import org.junit.Test;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class test3 {
 
@@ -30,5 +34,16 @@ public class test3 {
 	        // 精确小数
 	        return Integer.parseInt(String.valueOf(betweenDays));
 	    }
+
+	    @Test
+	    public void test(){
+		List<String> list = new ArrayList<>();
+
+		List<String> aa = new ArrayList<>();
+		aa.addAll(list);
+
+			System.err.println(aa.size());
+
+		}
 
 }

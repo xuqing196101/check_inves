@@ -13,9 +13,6 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import common.annotation.CurrentUser;
-import common.utils.JdcgResult;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -24,20 +21,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bss.controller.base.BaseController;
-import bss.model.ppms.Packages;
-import bss.model.ppms.Project;
-import bss.model.ppms.SaleTender;
-import bss.service.ppms.FlowMangeService;
-import bss.service.ppms.PackageService;
-import bss.service.ppms.ProjectService;
-import bss.service.ppms.SaleTenderService;
-import bss.util.PropUtil;
-
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 import ses.dao.bms.DictionaryDataMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -45,12 +28,10 @@ import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
-import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExtConType;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
-import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierConType;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtPackage;
@@ -73,6 +54,20 @@ import ses.service.sms.SupplierExtractsService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
+import bss.controller.base.BaseController;
+import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
+import bss.model.ppms.SaleTender;
+import bss.service.ppms.FlowMangeService;
+import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectService;
+import bss.service.ppms.SaleTenderService;
+import bss.util.PropUtil;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 /**
  * @Description:供应商抽取记录
@@ -83,7 +78,7 @@ import ses.util.DictionaryDataUtil;
  */
 @Controller
 @Scope("prototype")
-@RequestMapping("/SupplierExtracts")
+@RequestMapping("/SupplierExtractsll")
 public class SupplierExtractsController extends BaseController {
     /**
      * 项目

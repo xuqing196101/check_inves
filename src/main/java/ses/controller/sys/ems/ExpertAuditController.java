@@ -2031,7 +2031,7 @@ public class ExpertAuditController{
         	supplierCateTree.setRootNodeCode(DictionaryDataUtil.getId("PROJECT"));
         	itemsListAll.add(supplierCateTree);
         	for(String typeId : expertTypeId){
-        		if(!typeId.equals(DictionaryDataUtil.getId("SERVICE")) && !typeId.equals(DictionaryDataUtil.getId("GOODS"))){
+        		if(!typeId.equals(DictionaryDataUtil.getId("SERVICE")) && !typeId.equals(DictionaryDataUtil.getId("GOODS")) && !typeId.equals(engInfoId)){
         			//顺序查询出所有的参评类别
         			if(typeId.equals(goodsProjectId)){
         				//如果为工程经济就转换成工程id
@@ -2065,6 +2065,51 @@ public class ExpertAuditController{
             }
         	firstNode = 0;
         }
+        
+        if(expertTypeId.contains(engInfoId)){
+        	num ++;
+        	SupplierCateTree supplierCateTree = new SupplierCateTree();
+        	supplierCateTree.setRootNode(toChinese(num)+"、工程专业");
+        	supplierCateTree.setItemsId(DictionaryDataUtil.getId("PROJECT"));
+        	supplierCateTree.setRootNodeCode(DictionaryDataUtil.getId("PROJECT"));
+        	itemsListAll.add(supplierCateTree);
+        	for(String typeId : expertTypeId){
+        		if(!typeId.equals(DictionaryDataUtil.getId("SERVICE")) && !typeId.equals(DictionaryDataUtil.getId("GOODS")) && !typeId.equals(goodsProjectId) &&!typeId.equals(engCodeId)){
+        			//顺序查询出所有的参评类别
+        			if(typeId.equals(goodsProjectId)){
+        				//如果为工程经济就转换成工程id
+        				typeId = engCodeId;
+        			}
+        			List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+        			for (SupplierCateTree sct : clist) {
+        				Map<String, Object> map = new HashMap<>();
+        				map.put("categoryId", sct.getItemsId());
+        				map.put("typeId", typeId);
+                		Integer sctCount = expertCategoryService.findCountParent(map);
+                		String str = "";
+                		if(sctCount == 1){
+                			firstNode ++;
+                			str = "（"+toChinese(firstNode)+"）";
+                			secondNode = 0;
+                			thirdNode = 0;
+                		}else if(sctCount == 2){
+                			secondNode ++;
+                			str = secondNode+".";
+                			thirdNode = 0;
+                		}else if(sctCount == 3){
+                			thirdNode ++;
+                			str = "（"+thirdNode+"）";
+                		}
+                		sct.setRootNode(str + sct.getRootNode());
+                		sct.setRootNodeCode(DictionaryDataUtil.getId("PROJECT"));
+					}
+        			itemsListAll.addAll(clist);
+        		}
+            }
+        	firstNode = 0;
+        }
+        
+        
         
         if(expertTypeId != null && expertTypeId.size() > 0){
         	for(String typeId : expertTypeId){
@@ -2148,7 +2193,7 @@ public class ExpertAuditController{
     			if(flag){
     				boolean ff = false;
         			if(list2.size() > 0){
-        				for (boolean b : list3) {
+        				for (boolean b : list2) {
             				ff = ff | b; 
             			}
             			if(ff){
@@ -2189,11 +2234,11 @@ public class ExpertAuditController{
                     				ff = ff | b; 
                     			}
                     			if(ff){
-                    				list2.add(false);
+                    				list2.add(true);
                     				expertAudit1.setAuditField(cateTree.getRootNode());
             	        			expertAudit1.setAuditReason("通过。");
                     			}else{
-                    				list2.add(true);
+                    				list2.add(false);
                     				expertAudit1.setAuditField(cateTree.getRootNode());
             	        			expertAudit1.setAuditReason("不通过。");
                     			}
