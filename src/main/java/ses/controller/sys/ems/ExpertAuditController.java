@@ -3171,7 +3171,16 @@ public class ExpertAuditController{
 		ExpertAudit expertAudit = new ExpertAudit();
 		expertAudit.setAuditFalg(1);
 		expertAudit.setExpertId(expertId);
-		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAudit);
+		List < ExpertAudit > reasonsList = new ArrayList<>();
+		if(expertAudit.getAuditFalg()==1){
+			expertAudit.setAuditFalg(666);//666为兼容老数据
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
+			expertAudit.setAuditFalg(1);
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
+		}else if(expertAudit.getAuditFalg()==2){
+			expertAudit.setAuditFalg(2);
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
+		}
 		if( reasonsList != null && reasonsList.size() > 0 ){
 			for (ExpertAudit e : reasonsList) {
 				if("six".equals(e.getSuggestType())){
