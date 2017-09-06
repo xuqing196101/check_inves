@@ -492,14 +492,15 @@
 	<!-- 人员信息开始-->
 	<div class="container_box col-md-12 col-sm-12 col-xs-12">
 		 <h2 class="count_flow"><i>2</i>人员信息</h2>
-		 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span><b> 抽取人员:</b></span>
+		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="star_red">*</span><b> 抽取人员:</b></span>
 		 <form action="" id="extractUser">
-		 <div class="col-md-12 col-sm-12 col-xs-12 tc">
-		 	<input type="button" class="btn list_btn" onclick="addPerson(this)" value="新增">
-		 	<input type="button" class="btn list_btn" onclick="delPerson(this)" value="删除">
-		 	<input type="button" class="btn list_btn" onclick="selectHistory(this)" value="引用历史人员">
+		 <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
+		 	<input type="button" class="btn btn-windows add" onclick="addPerson(this)" value="新增">
+		 	<input type="button" class="btn btn-windows delete" onclick="delPerson(this)" value="删除">
+		 	<input type="button" class="btn btn-windows input" onclick="selectHistory(this)" value="引用历史人员">
 		 </div>
-		  <table class="table table-bordered table-condensed table_input left_table">
+		 <div class="clear"></div>
+		  <table class="table table-bordered table-condensed table_input mt10">
               <thead>				
 	              <tr>
 	                  <th class="info"><input type="checkbox" onclick="checkAll(this)"> </th>
@@ -512,32 +513,33 @@
               </thead>
               <tbody>
               <tr>
-              	<td> <input type="checkbox"> </td>
-              	<td> 1 </td>
+              	<td class="tc"> <input type="checkbox"> </td>
+              	<td class="tc"> 1 </td>
               	<td> <input name="list[0].name" class='tc' type="text"> <span class="name_0_Error"></span> </td>
-              	<td> <input name="list[0].compary" type="text"> <span class="compary_0_Error"></span> </td>
+              	<td> <input name="list[0].compary" type="text" class="w100p"> <span class="compary_0_Error"></span> </td>
               	<td> <input name="list[0].duty" type="text">  <span class="duty_0_Error"></span></td>
               	<td> <input name="list[0].rank" type="text">  <span class="rank_0_Error"></span></td>
               </tr>
               <tr>
-              	<td> <input type="checkbox"> </td>
-              	<td> 2 </td>
+              	<td class="tc"> <input type="checkbox"> </td>
+              	<td class="tc"> 2 </td>
               	<td> <input name="list[1].name" type="text">  <span class="name_1_Error"></span></td>
-              	<td> <input name="list[1].compary" type="text">  <span class="compary_1_Error"></span></td>
+              	<td> <input name="list[1].compary" type="text" class="w100p">  <span class="compary_1_Error"></span></td>
               	<td> <input name="list[1].duty" type="text">  <span class="duty_1_Error"></span></td>
               	<td> <input name="list[1].rank" type="text"> <span class="rank_1_Error"></span> </td>
               </tr>
             </tbody>
           </table>
        </form>      
-		 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span><b> 监督人员:</b></span>
+		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="star_red">*</span><b> 监督人员:</b></span>
 		  <form action="" id="supervise">
-		  <div class="col-md-12 col-sm-12 col-xs-12 tc">
-		 	<input type="button" class="btn list_btn" onclick="addPerson(this)" value="新增">
-		 	<input type="button" class="btn list_btn" onclick="delPerson(this)" value="删除">
-		 	<input type="button" class="btn list_btn" onclick="selectHistory(this)" value="引用历史人员">
+		  <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
+		 	<input type="button" class="btn btn-windows add" onclick="addPerson(this)" value="新增">
+		 	<input type="button" class="btn btn-windows delete" onclick="delPerson(this)" value="删除">
+		 	<input type="button" class="btn btn-windows input" onclick="selectHistory(this)" value="引用历史人员">
 		 </div>
-		  <table class="table table-bordered table-condensed table_input left_table">
+		 <div class="clear"></div>
+		  <table class="table table-bordered table-condensed table_input mt10">
               <thead>				
 	              <tr>
 	                  <th class="info"><input type="checkbox" onclick="checkAll(this)"> </th>
@@ -550,18 +552,18 @@
               </thead>
               <tbody>
               <tr>
-              	<td> <input type="checkbox"> </td>
-              	<td> 1 </td>
+              	<td class="tc"> <input type="checkbox"> </td>
+              	<td class="tc"> 1 </td>
               	<td> <input name="list[0].name" class='tc' type="text"> <span class="name_0_Error"></span> </td>
-              	<td> <input name="list[0].compary" type="text"> <span class="compary_0_Error"></span> </td>
+              	<td> <input name="list[0].compary" type="text" class="w100p"> <span class="compary_0_Error"></span> </td>
               	<td> <input name="list[0].duty" type="text">  <span class="duty_0_Error"></span></td>
               	<td> <input name="list[0].rank" type="text">  <span class="rank_0_Error"></span></td>
               </tr>
               <tr>
-              	<td> <input type="checkbox"> </td>
-              	<td> 2 </td>
+              	<td class="tc"> <input type="checkbox"> </td>
+              	<td class="tc"> 2 </td>
               	<td> <input name="list[1].name" type="text">  <span class="name_1_Error"></span></td>
-              	<td> <input name="list[1].compary" type="text">  <span class="compary_1_Error"></span></td>
+              	<td> <input name="list[1].compary" type="text" class="w100p">  <span class="compary_1_Error"></span></td>
               	<td> <input name="list[1].duty" type="text">  <span class="duty_1_Error"></span></td>
               	<td> <input name="list[1].rank" type="text"> <span class="rank_1_Error"></span> </td>
               </tr>
@@ -613,7 +615,7 @@
                       <input id="supplierType" class="" type="text" readonly
                              value="${listCon.conTypes[0].supplierTypeName }" name="supplierTypeName"
                              onclick="showSupplierType();"/> --%>
-                      <select id=supplierType name="supplierTypeCode" onchange="initCategoryAndLevel(this)">
+                      <select id=supplierType name="supplierTypeCode" onchange="initCategoryAndLevel(this)" class="w100p">
                       </select>
                       <span class="add-on">i</span>
                       <div class="cue" id="dCount"></div>
@@ -683,7 +685,7 @@
 						<div class="cue">${loginPwdError}</div>
 					</div>
 				</li>
-               <li class="col-md-3 col-sm-3 col-xs-3 dnone clear" id="productCount">
+               <li class="col-md-3 col-sm-3 col-xs-3 dnone" id="productCount">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>生产品目：</span>
 					<!--  满足多个条件 -->
 					<input type="hidden" name="productIsMulticondition" class="isSatisfy">
@@ -694,6 +696,8 @@
 						<span class="add-on">i</span>
 						<div class="cue" id="dCategoryName"></div>
 					</div>
+					</li>
+					<li class="col-md-3 col-sm-3 col-xs-3">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>生产等级：</span>
 					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input type="hidden" name="productLevel" >
@@ -702,6 +706,8 @@
 						<span class="add-on">i</span>
 						<div class="cue" id="dCount"></div>
 					</div>
+					</li>
+					<li class="col-md-3 col-sm-3 col-xs-3">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input class="title col-md-12" id='productExtractNum' name="productExtractNum" onchange="chane();"
@@ -710,7 +716,7 @@
 						<div class="cue">${loginPwdError}</div>
 					</div>
 				</li>
-             <li class="col-md-3 col-sm-3 col-xs-3 dnone clear" id="salesCount">
+             <li class="col-md-3 col-sm-3 col-xs-3 dnone" id="salesCount">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>销售品目：</span>
 					<!--  满足多个条件 -->
 					<input type="hidden" name="salesIsMulticondition" class="isSatisfy">
@@ -721,6 +727,8 @@
 						<span class="add-on">i</span>
 						<div class="cue" id="dCategoryName"></div>
 					</div>
+					</li>
+					<li class="col-md-3 col-sm-3 col-xs-3">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>销售等级：</span>
 					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input type="hidden" name="salesLevel" >
@@ -729,6 +737,8 @@
 						<span class="add-on">i</span>
 						<div class="cue" id="dCount"></div>
 					</div>
+					</li>
+          <li class="col-md-3 col-sm-3 col-xs-3">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input class="title col-md-12" id='salesExtractNum' name="salesExtractNum" onchange="chane();"
