@@ -84,7 +84,7 @@ public interface SupplierExtractConditionService {
    * @param conType
    * @return
    */
-  Map<String,Object> selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType);
+  Map<String, Map<String, Object>> selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType);
 
   /**
    * 
@@ -115,7 +115,12 @@ public interface SupplierExtractConditionService {
   
   void saveOrUpdateCondition(SupplierExtractCondition condition, SupplierConType conType);
 
-List<DictionaryData> supplierType(String typeCode);
+  List<DictionaryData> supplierType(String typeCode);
+
+  Map<String, Object> selectLikeSupplierCount(SupplierExtractCondition condition,
+		SupplierConType conType);
+
+  List<DictionaryData> getBusinessNature();
 
 }
 

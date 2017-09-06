@@ -10,8 +10,14 @@ public class SupplierExtractCondition {
 
    private String recordId;
    
-   private String privary;
-   
+   /**
+    * 保密要求
+    */
+   private String isHavingConCert;
+  
+   /**
+    * 企业性质
+    */
    private String businessNature;
 
     /**
@@ -115,6 +121,10 @@ public class SupplierExtractCondition {
 
     private String areaName;
     
+    /**
+     * 境外分支
+     */
+    private String overseasBranch;
     /**
      * 创建时间
      */
@@ -670,12 +680,21 @@ public class SupplierExtractCondition {
 		this.areaName = areaName;
 	}
 
-	public String getPrivary() {
-		return privary;
+
+	public String getIsHavingConCert() {
+		return isHavingConCert;
 	}
 
-	public void setPrivary(String privary) {
-		this.privary = privary;
+	public void setIsHavingConCert(String isHavingConCert) {
+		this.isHavingConCert = isHavingConCert;
+	}
+
+	public String getOverseasBranch() {
+		return overseasBranch;
+	}
+
+	public void setOverseasBranch(String overseasBranch) {
+		this.overseasBranch = overseasBranch;
 	}
 
 	public String getBusinessNature() {

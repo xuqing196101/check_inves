@@ -450,5 +450,7 @@ import ses.model.sms.SupplierTypeTree;
 
 	public List<DictionaryData> getEngAptitudeLevelByCategoryId(String categoryId);
 
+	public List<DictionaryData> getQuaByCid(String categoryId);
+
 	
 }

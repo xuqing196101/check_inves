@@ -17,8 +17,6 @@
         <include refid="BASE_COLUMN_SQL" />
         FROM T_SES_BMS_QUALIFCATE_LEVEL
         WHERE  QUALIFCATION_ID = #{qualificationId,jdbcType=VARCHAR}
-
-
     </select>
     <!-- 保存 -->
     <insert id="save" parameterType="ses.model.bms.QualificationLevel" >
@@ -27,7 +25,15 @@
     </insert>
     
    <delete id="delete" parameterType="String">
-   delete from T_SES_BMS_QUALIFCATE_LEVEL  where QUALIFCATION_ID = #{qualificationId}
+   		delete from T_SES_BMS_QUALIFCATE_LEVEL  where QUALIFCATION_ID = #{qualificationId}
    </delete>
+   
+    <!-- <select id="getLevelByQid"  resultMap="ses.model.bms.DictionaryData">
+        SELECT D.* FROM T_SES_BMS_QUALIFCATE_LEVEL L LEFT JOIN T_SES_BMS_DICTIONARY_DATA WHERE L.GRADE = D.ID WHERE L.QUALIFCATION_ID IN 
+        <foreach collection="array" item="it" open="(" separator="," close=")">
+        	#{it}
+        </foreach>
+    </select> -->
+    
     
 </mapper>

@@ -107,5 +107,7 @@ public interface CategoryQuaMapper {
 
 	List<DictionaryData> getEngAptitudeLevelByCategoryId(
 			Map<String, String[]> map);
+
+	List<DictionaryData> getQuaByCid(String[] categoryIds);
 	
 }
