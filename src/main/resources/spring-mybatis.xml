@@ -97,7 +97,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="ses.dao.*, iss.dao.*,bss.dao.*,common.dao,synchro.dao,sums.dao.*,app.dao.*,extract.dao.*" />
+		<property name="basePackage" value="ses.dao.*, iss.dao.*,bss.dao.*,common.dao,synchro.dao,sums.dao.*,app.dao.*" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 

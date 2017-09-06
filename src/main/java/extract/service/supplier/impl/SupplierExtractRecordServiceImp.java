@@ -1,6 +1,6 @@
 /**
  * 
- */
+ *//*
 package extract.service.supplier.impl;
 
 import java.sql.Timestamp;
@@ -36,13 +36,13 @@ import extract.dao.supplier.SupplierExtractRecordMapper;
 import extract.model.supplier.SupplierExtracts;
 import extract.service.supplier.SupplierExtractRecordService;
 
-/**
+*//**
  * @Description:供应商抽取
  *	 
  * @author Wang Wenshuai
  * @date 2016年9月18日下午2:03:38
  * @since  JDK 1.7
- */
+ *//*
 @Service
 public class SupplierExtractRecordServiceImp implements SupplierExtractRecordService {
     @Autowired
@@ -61,28 +61,28 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     SaleTenderMapper saleTenderMapper;
     
 
-    /**
+    *//**
      * @Description:插入记录
      *
      * @author Wang Wenshuai
      * @version 2016年9月27日 下午4:32:28  
      * @param @param record      
      * @return void
-     */
+     *//*
     @Override
     public void insert(SupplierExtracts record) {
     	record.setCreatedAt(new Date());
         supplierExtractsMapper.insertSelective(record);
     }
 
-    /**
+    *//**
      * @Description:集合
      *
      * @author Wang Wenshuai
      * @version 2016年9月27日 下午4:32:28  
      * @param @param record      
      * @return void
-     */
+     *//*
     @Override
     public List<SupplierExtracts> listExtractRecord(
         SupplierExtracts expExtractRecord,Integer pageNum) {
@@ -92,26 +92,26 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
         return supplierExtractsMapper.list(expExtractRecord);
     }
 
-    /**
+    *//**
      * 
      *〈简述〉修改
      *〈详细描述〉
      * @author Wang Wenshuai
-     */
+     *//*
     @Override
     public void update(SupplierExtracts extracts) {
     	extracts.setExtractionTime(new Date());
         supplierExtractsMapper.updateByPrimaryKeySelective(extracts);
     }
     
-    /**
+    *//**
      * 
      *〈简述〉添加临时供应商
      *〈详细描述〉
      * @author Wang Wenshuai
      * @param expExtractRecordService
      * @return
-     */
+     *//*
     @Override
     public Map<String, String> addTemporaryExpert(Supplier suuplier, String projectId,
                                                   String packageId, String loginName,
@@ -155,16 +155,16 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
             Userrole userrole = new Userrole();
             userrole.setRoleId(listRole.get(0));
             userrole.setUserId(user);
-            /** 删除用户之前的菜单权限*/
+            *//** 删除用户之前的菜单权限*//*
             UserPreMenu userPreMenu = new UserPreMenu();
             userPreMenu.setUser(user);
             userServiceI.deleteUserMenu(userPreMenu);
-            /** 删除用户之前的角色信息*/
-            /** 给该用户初始化专家角色 */
+            *//** 删除用户之前的角色信息*//*
+            *//** 给该用户初始化专家角色 *//*
             userServiceI.saveRelativity(userrole);
             String[] roleIds = listRole.get(0).getId().split(",");
             List<String> listMenu = menuService.findByRids(roleIds);
-            /** 给用户初始化供应商菜单权限 */
+            *//** 给用户初始化供应商菜单权限 *//*
             for (String menuId : listMenu) {
                 UserPreMenu upm = new UserPreMenu();
                 PreMenu preMenu = menuService.get(menuId);
@@ -213,3 +213,4 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	}
 
 }
+*/

@@ -1,6 +1,6 @@
 /**
  * 
- */
+ *//*
 package extract.service.supplier.impl;
 
 import java.io.BufferedWriter;
@@ -58,13 +58,13 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
-/**
+*//**
  * @Description:监督人员
  *   
  * @author Wang Wenshuai
  * @version 2016年10月17日下午3:52:16
  * @since  JDK 1.7
- */
+ *//*
 @Service
 public class SupplierExtractUserServicelmp implements SupplierExtractUserServicel {
   @Autowired
@@ -115,27 +115,27 @@ public class SupplierExtractUserServicelmp implements SupplierExtractUserService
   @Autowired
   private AdvancedPackageMapper advancedPackageMapper;
 
-  /**
+  *//**
    * @Description:集合
    *
    * @author Wang Wenshuai
    * @version 2016年10月14日 下午7:34:06  
    * @param @return      
    * @return List<ProjectSupervisor>
-   */
+   *//*
   @Override
   public List<SupplierExtUser> list(SupplierExtUser extSupervise) {
     return supplierExtUserMapper.list(extSupervise);
   }
 
-  /**
+  *//**
    * @Description:根据项目id删除监督信息
    *
    * @author Wang Wenshuai
    * @version 2016年10月15日 下午7:05:15  
    * @param       
    * @return void
-   */
+   *//*
   @Override
   public void deleteProjectId(String prjectId) {
     supplierExtUserMapper.deleteProjectId(prjectId);
@@ -146,33 +146,33 @@ public class SupplierExtractUserServicelmp implements SupplierExtractUserService
     supplierExtUserMapper.insertSelective(record);
   }
 
-  /**
+  *//**
    * 
    *〈简述〉批量插入
    *〈详细描述〉
    * @author Wang Wenshuai
    * @param listInsert
-   */
+   *//*
   @Override
   public void listInsert(List<SupplierExtUser> list){
     supplierExtUserMapper.listInsert(list);
   }
 
-  /**
+  *//**
    * 修改
    * @see ses.service.sms.SupplierExtUserServicel#update(ses.model.sms.SupplierExtUser)
-   */
+   *//*
   @Override
   public void update(SupplierExtUser extUser) {
     supplierExtUserMapper.updateByPrimaryKeySelective(extUser);
   }
 
 
-  /**
+  *//**
    * 生成模板
    * @throws Exception 
    * @see ses.service.sms.SupplierExtUserServicel#downLoadBiddingDoc()
-   */
+   *//*
   @Override
   public String downLoadBiddingDoc(HttpServletRequest request,String projectId,int type,String suppliersID) throws Exception {
     Map<String, Object> datamap = new HashMap<>();
@@ -291,9 +291,9 @@ public class SupplierExtractUserServicelmp implements SupplierExtractUserService
 
 
     datamap.put("project", project);
-    /*selectById.remove(0);
     selectById.remove(0);
-    selectById.remove(0);*/
+    selectById.remove(0);
+    selectById.remove(0);
     //明细
     datamap.put("projectDetail", selectById);
     //资格性符合性
@@ -316,7 +316,7 @@ public class SupplierExtractUserServicelmp implements SupplierExtractUserService
   }
 
 
-  /**
+  *//**
    * 模型数据获取
    *〈简述〉
    *〈详细描述〉
@@ -324,7 +324,7 @@ public class SupplierExtractUserServicelmp implements SupplierExtractUserService
    * @param projectId
    * @param listScoreEconomy
    * @param listScoreTechnology
-   */
+   *//*
   private  List<MarkTerm> model(String TypeName,String projectId,String packageId) {
     List<MarkTerm> mtList = null;
     MarkTerm mt = new MarkTerm();
@@ -357,22 +357,22 @@ public class SupplierExtractUserServicelmp implements SupplierExtractUserService
     return mtList;
   }
 
-  /**
+  *//**
    * 获取对应ftl模板
    *〈简述〉
    *〈详细描述〉
    * @author Wang Wenshuai
    * @return ftl path
    * @param type :1( 拆包部分模板)  type:0(总模板)
-   */
+   *//*
   private String ftlName(String ftl,int type,int status){
 	   // 根据拆包需求   修改返回值 书写分包对应模板名
 	    String str = "";
 	    switch (ftl) {
-	    /***
+	    *//***
 	     * GkZB: 公开招标文件
 	     * 对应模板说明：总模板，包1（资格性和符合性审查），包2（经济和技术评审细则）
-	     */
+	     *//*
 	      case "GKZB":
 	    	  if(type==0){
 	    	      if(status == 0){
@@ -430,14 +430,14 @@ public class SupplierExtractUserServicelmp implements SupplierExtractUserService
 	    return str;
   }
 
-  /**
+  *//**
    * 
    *〈简述〉生成word
    *〈详细描述〉
    * @author myc
    * @param request {@link HttpServletRequest}
    * @return 文件名称
-   */
+   *//*
   private String productionDoc(HttpServletRequest request, Map<String,Object> dataMap,String ftlString){
     Configuration configuration = new Configuration();
     // 修改编码格式 
@@ -600,9 +600,9 @@ public class SupplierExtractUserServicelmp implements SupplierExtractUserService
         findMap.put("userId", find2.get(0).getId());
         List<PurchaseInfo> findPurchaseList = infoMapper.findPurchaseList(findMap);
         datamap.put("project", project);
-        /*selectById.remove(0);
         selectById.remove(0);
-        selectById.remove(0);*/
+        selectById.remove(0);
+        selectById.remove(0);
         //明细
         datamap.put("projectDetail", selectById);
         //资格性符合性
@@ -630,3 +630,4 @@ public class SupplierExtractUserServicelmp implements SupplierExtractUserService
 	}
 
 }
+*/

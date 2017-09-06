@@ -1,6 +1,6 @@
 /**
  * 
- */
+ *//*
 package extract.service.supplier.impl;
 
 import java.util.ArrayList;
@@ -37,19 +37,19 @@ import extract.service.supplier.SupplierExtractConditionService;
 import freemarker.core.ReturnInstruction.Return;
 
 
-/**
+*//**
  * @Description:
  *	 
  * @author Wang Wenshuai
  * @version 2016年9月28日上午10:39:57
  * @since  JDK 1.7
- */
+ *//*
 @Service
 public class SupplierExtractConditionServiceimp  implements SupplierExtractConditionService {
 
-  /** SCCUESS */
+  *//** SCCUESS *//*
   private static final String SUCCESS = "SUCCESS";
-  /** ERROR */
+  *//** ERROR *//*
   private static final String ERROR = "ERROR";
 
   @Autowired
@@ -70,28 +70,28 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
   @Autowired
   private ExtractConditionRelationMapper extractConditionRelationMapper;//条件关联表
   
-  /**
+  *//**
    * @Description:添加
    *
    * @author Wang Wenshuai
    * @version 2016年9月28日 上午10:35:49  
    * @param @param condition      
    * @return void
-   */
+   *//*
   @Override
   public void insert(SupplierCondition condition){
 	  condition.setCreatedAt(new Date());
     supplierConditionMapper.insertSelective(condition);
   }
 
-  /**
+  *//**
    * @Description:修改
    *
    * @author Wang Wenshuai
    * @version 2016年9月28日 上午10:36:05  
    * @param @param condition      
    * @return void
-   */
+   *//*
   public void update(SupplierCondition condition){
 	  
 	//存储地区
@@ -103,7 +103,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
     supplierConditionMapper.updateByPrimaryKeySelective(condition);
   }
 
-  /**
+  *//**
    * @Description:集合查询
    *
    * @author Wang Wenshuai
@@ -111,7 +111,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
    * @param @param condition
    * @param @return      
    * @return List<ExpExtCondition>
-   */
+   *//*
   public List<SupplierCondition> list(SupplierCondition condition,Integer pageNum){
     if(pageNum != null && pageNum!=0){
       PageHelper.startPage(pageNum,PropUtil.getIntegerProperty("pageSize"));
@@ -119,7 +119,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
     return supplierConditionMapper.list(condition);
   }
 
-  /**
+  *//**
    * @Description:获取单个
    *
    * @author Wang Wenshuai
@@ -127,20 +127,20 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
    * @param @param condition
    * @param @return      
    * @return ExpExtCondition
-   */
+   *//*
   @Override
   public SupplierCondition show(String id) {
     return supplierConditionMapper.selectByPrimaryKey(id);
   }
 
-  /**
+  *//**
    * 
    *〈简述〉更具关联包id查询是否有未抽取的条件
    *〈详细描述〉
    * @author Wang Wenshuai
    * @param id
    * @return
-   */
+   *//*
   @Override
   public String getCount(String[] packId) {
     String packageId = "";
@@ -160,27 +160,27 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 
   }
 
-  /**
+  *//**
    * 直接删除查询不出结果的查询条件
    * @return 
    * @see ses.service.sms.SupplierConditionService#delById(java.lang.String)
-   */
+   *//*
   @Override
   public Integer delById(String Id) {
     return supplierConditionMapper.deleteByPrimaryKey(Id);
   }
 
-  /**
+  *//**
    * 返回满足条件的供应商 并存储抽取条件
    * @see ses.service.sms.SupplierConditionService#selectLikeSupplier(ses.model.sms.SupplierCondition, ses.model.sms.SupplierConType)
-   */
+   *//*
   @Override
   public Map<String,Object> selectLikeSupplier(SupplierCondition condition, SupplierConType conType) {
 	 Map<String, Object> map = new HashMap<>();
 	//   conType=condition.getSupplierConType();
-	/**
+	*//**
 	 * 查询需要分类型
-	 */
+	 *//*
 	 
 	 
 	 //若是类型为空说明只对地区进行查询
@@ -246,22 +246,22 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
     
     
     //循环吧查询出的供应商集合insert到专家记录表和专家关联的表中
-    /*for (Supplier supplier2 : selectAllExpert) {
+    for (Supplier supplier2 : selectAllExpert) {
       Map<String, String> map=new HashMap<String, String>();
       map.put("supplierId", supplier2.getId());
       map.put("projectId",packId[0]);
       if(supplierExtRelateMapper.getSupplierId(map)==0){
         count++;
       }
-    }*/
+    }
   
   }
 
 
-  /**
+  *//**
    * 本次抽取是否完成
    * @see ses.service.ems.ExpExtConditionService#isFinish()
-   */
+   *//*
   @Override
   public String isFinish(SupplierCondition condition) {
     List<SupplierCondition> list = supplierConditionMapper.list(condition);
@@ -273,10 +273,10 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 
   }
 
-  /**
+  *//**
    * 供应商类型
    * @see ses.service.sms.SupplierConditionService#supplierTypeList()
-   */
+   *//*
   @Override
   public List<DictionaryData> supplierTypeList(String projectId) {
     
@@ -310,13 +310,13 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
     return supplierTypes;
   }
 
-  /**
+  *//**
    * 添加包信息
    *〈简述〉
    *〈详细描述〉
    * @author Wang Wenshuai
    * @return
-   */
+   *//*
   public String addPackage(String packagesName,String projectId){
     String packagesId = "";
     if (packagesName != null && !"".equals(packagesName)){
@@ -337,9 +337,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 
   }
 
-  /**
+  *//**
    * 存储查询条件
-   */
+   *//*
 	@Override
 	public void saveOrUpdateCondition(SupplierCondition condition,SupplierConType conType) {
 		if(StringUtils.isNotBlank(condition.getId())){
@@ -452,7 +452,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 				extractConditionRelationMapper.insertConditionRelation(list);
 			}
 		}
-	/*	//存储条件
+		//存储条件
 		Map<String,String> map = new HashMap<>();
 		map.put("conditionId", condition.getId());
 		map.put("supplierTypeCode",condition.getSupplierTypeCode());
@@ -463,8 +463,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		if(typeInfos.size()>0){
 			supplierConditionMapper.deleteTypeInfoByMap(map);
 		}
-		supplierConditionMapper.insertTypeInfo(condition);*/
+		supplierConditionMapper.insertTypeInfo(condition);
 		
 		//
 	}
 }
+*/

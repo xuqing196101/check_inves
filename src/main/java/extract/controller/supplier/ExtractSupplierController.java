@@ -1,4 +1,4 @@
-
+/*
 package extract.controller.supplier;
 
 import java.util.ArrayList;
@@ -49,31 +49,31 @@ import extract.service.supplier.SupplierExtractRelateResultService;
 import extract.service.supplier.SupplierExtractUserServicel;
 import extract.service.supplier.SupplierExtractRecordService;
 
-/**
+*//**
  * @Description:供应商抽取记录
  *
  * @author Wang Wenshuai
  * @date 2016年9月18日下午3:29:12
  * @since  JDK 1.7
- */
+ *//*
 @Controller
 @Scope("prototype")
 @RequestMapping("/SupplierExtracts")
 public class ExtractSupplierController extends BaseController {
-    /**
+    *//**
      * 项目
-     */
+     *//*
     @Autowired
     private ProjectService projectService;
-    /**
+    *//**
      * 包
-     */
+     *//*
     @Autowired
     private PackageService packagesService;
 
-    /**
+    *//**
      * 地区
-     */
+     *//*
     @Autowired
     private AreaServiceI areaService;
     @Autowired
@@ -90,7 +90,7 @@ public class ExtractSupplierController extends BaseController {
     private SupplierService supplierService;
     
 
-    /**
+    *//**
      * @Description:获取项目集合
      *
      * @author Wang Wenshuai
@@ -99,21 +99,21 @@ public class ExtractSupplierController extends BaseController {
      * @param  model
      * @param  project
      * @return String
-     */
+     *//*
     @RequestMapping("/projectList")
     public String list(Integer page, Model model, Project project){
     	List<SupplierExtracts> extractRecords = expExtractRecordService.getList(page == null?1:page);
     	model.addAttribute("info", new PageInfo<SupplierExtracts>(extractRecords));
         return "ses/sms/supplier_extracts/project_list";
     }
-    /**
+    *//**
      *@Description:条件查询集合 / 跳转抽取条件页面，准备抽取
      *
      * @author Wang Wenshuai
      * @version 2016年9月27日 下午6:03:40
      * @param  id 包id
      * @return String
-     */
+     *//*
     @RequestMapping("/Extraction")
    // public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId){
    public String listExtraction(@CurrentUser User user,Model model, SupplierExtracts eRecord,String conditionId){
@@ -162,7 +162,7 @@ public class ExtractSupplierController extends BaseController {
     	return "ses/sms/supplier_extracts/condition_list";
     }
 
-    /**
+    *//**
      *
      *〈简述〉
      *〈详细描述〉ajax 验证必填项
@@ -174,7 +174,7 @@ public class ExtractSupplierController extends BaseController {
      * @param sids
      * @param extAddress
      * @return
-     */
+     *//*
     @ResponseBody
     @RequestMapping("/validateAddExtraction")
     public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest sq,String[] packageId, String[] superviseId,Integer type){
@@ -300,14 +300,14 @@ public class ExtractSupplierController extends BaseController {
 
     }
 
-    /**
+    *//**
      *
      *〈简述〉根据项目id获取包信息
      *〈详细描述〉
      * @author Wang Wenshuai
      * @param projectId
      * @return
-     */
+     *//*
     @ResponseBody
     @RequestMapping("/getpackage")
     public String getPackage(String projectId){
@@ -320,14 +320,14 @@ public class ExtractSupplierController extends BaseController {
         return  JSON.toJSONString(findPackageById);
     }
 
-    /**
+    *//**
      * @Description:选择品目
      *
      * @author Wang Wenshuai
      * @version 2016年9月28日 上午9:48:28
      * @param @return
      * @return String
-     */
+     *//*
     @RequestMapping("/addHeading")
     public String addHeading(Model model, String[] id,String projectId,String supplierTypeCode){
         ExtConType extConType = null;
@@ -345,7 +345,7 @@ public class ExtractSupplierController extends BaseController {
         return "ses/sms/supplier_extracts/product";
     }
 
-    /**
+    *//**
      * @Description:保存结果
      *
      * @author Wang Wenshuai
@@ -353,7 +353,7 @@ public class ExtractSupplierController extends BaseController {
      * @param @param model
      * @param @return
      * @return String
-     */
+     *//*
     @ResponseBody
     @RequestMapping("/resultextract")
     public Object resultextract(Model model,SupplierExtRelate supplierExtRelate){
@@ -364,7 +364,7 @@ public class ExtractSupplierController extends BaseController {
 		return null;
     }
 
-    /**
+    *//**
      * @Description:供应商抽取记录集合
      *
      * @author Wang Wenshuai
@@ -372,7 +372,7 @@ public class ExtractSupplierController extends BaseController {
      * @param @param model
      * @param @return
      * @return String
-     */
+     *//*
     @RequestMapping("/resuleRecordlist")
     public String resuleRecord(Model model,SupplierExtracts se,String page){
         List<SupplierExtracts> listExtractRecord = expExtractRecordService.listExtractRecord(se,page!=null&&!page.equals("")?Integer.parseInt(page):1);
@@ -381,7 +381,7 @@ public class ExtractSupplierController extends BaseController {
         return "ses/sms/supplier_extracts/recordlist";
     }
 
-    /**
+    *//**
      * @Description:抽取记录
      *
      * @author Wang Wenshuai
@@ -390,7 +390,7 @@ public class ExtractSupplierController extends BaseController {
      * @param @param id
      * @param @return
      * @return String
-     */
+     *//*
     @RequestMapping("/showRecord")
     public String showRecord(Model model, String id,String projectId,String packageId,String typeclassId){
         model.addAttribute("typeclassId", typeclassId);
@@ -441,14 +441,14 @@ public class ExtractSupplierController extends BaseController {
         return "ses/sms/supplier_extracts/extract_supervise_word";
     }
 
-    /**
+    *//**
      * @Description: 获取市
      *
      * @author Wang Wenshuai
      * @date 2016年9月18日 下午4:16:35
      * @param @return
      * @return String
-     */
+     *//*
     @ResponseBody
     @RequestMapping("/city")
     public List<Area> city(Model model, String area){
@@ -456,13 +456,13 @@ public class ExtractSupplierController extends BaseController {
         return  areaService.getTree();
     }
 
-    /**
+    *//**
      * @Description:显示监督人员
      *
      * @author Wang Wenshuai
      * @version 2016年9月25日 09:49:56
      * @return String
-     */
+     *//*
     @RequestMapping("/showSupervise")
     public String showSupervise(Model model,String recordId){
         if (recordId != null && !"".equals(recordId)) {
@@ -486,13 +486,13 @@ public class ExtractSupplierController extends BaseController {
         return JSON.toJSONString(finish);
     }
 
-    /**
+    *//**
      * 
      * @Description:社会统一信用代码唯一校验
      * @author: Zhou Wei
      * @date: 2017年8月4日 下午2:16:01
      * @return: String
-     */
+     *//*
     
    @RequestMapping("/selectUniqueReferenceNO")
    @ResponseBody
@@ -502,13 +502,13 @@ public class ExtractSupplierController extends BaseController {
    }
     
     
-    /**
+    *//**
      *
      *〈简述〉获取品目树
      *〈详细描述〉
      * @author Wang Wenshuai
      * @return
-     */
+     *//*
     @ResponseBody
     @RequestMapping("/getTree")
     public String getTree(Category category,String projectId,String supplierTypeCode){
@@ -518,13 +518,13 @@ public class ExtractSupplierController extends BaseController {
 
     }
 
-    /**
+    *//**
      * @Description:弹出限制条件和类别抽取数量
      *
      * @author Wang Wenshuai
      * @version 2016年9月25日 09:49:56
      * @return String
-     */
+     *//*
     @RequestMapping("/reasonnumber")
     public String reasonNumber(Model model,String[] supplierTypeId,String addressReson,String eCount){
         model.addAttribute("supplierTypeCode", supplierTypeId);
@@ -533,13 +533,13 @@ public class ExtractSupplierController extends BaseController {
         return "ses/sms/supplier_extracts/reason_and_number";
     }
 
-    /**
+    *//**
      *
      *〈简述〉供应商类型
      *〈详细描述〉
      * @author Wang Wenshuai
      * @return
-     */
+     *//*
     @ResponseBody
     @RequestMapping("/supplieType")
     public String supplierType(String projectId){
@@ -548,3 +548,4 @@ public class ExtractSupplierController extends BaseController {
     }
     
 }
+*/

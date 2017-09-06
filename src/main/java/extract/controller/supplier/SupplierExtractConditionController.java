@@ -1,6 +1,6 @@
 /**
  * 
- */
+ *//*
 package extract.controller.supplier;
 
 import java.util.ArrayList;
@@ -38,13 +38,13 @@ import extract.service.supplier.SupplierExtractUserServicel;
 
 
 
-/**
+*//**
  * @Description:查询条件控制
  *	 
  * @author Wang Wenshuai
  * @version 2016年9月28日上午10:58:03
  * @since  JDK 1.7
- */
+ *//*
 @Controller
 @Scope("prototype")
 @RequestMapping("/SupplierCondition")
@@ -68,15 +68,15 @@ public class SupplierExtractConditionController {
 
     @Autowired
     private SupplierExtractRelateResultService extRelateService; //关联表
-    /**
+    *//**
      * @Description:保存查询条件
      *
      * @author Wang Wenshuai
      * @version 2016年9月28日 上午10:56:45  
      * @param @return      
      * @return String 
-     */
-   /* @ResponseBody
+     *//*
+    @ResponseBody
     @RequestMapping("/saveSupplierCondition")
     public String saveSupplierCondition(SupplierCondition condition,SupplierConType conType,HttpServletRequest sq,String typeclassId,String province){
         //获取选中的类型
@@ -229,10 +229,10 @@ public class SupplierExtractConditionController {
         }
 
         return JSON.toJSONString(map);
-    }*/
+    }
 
 
-    /**
+    *//**
      * 
      *〈简述〉返回满足条件的供应商个数
      *〈详细描述〉
@@ -242,7 +242,7 @@ public class SupplierExtractConditionController {
      * @param sq
      * @param typeclassId
      * @return
-     */
+     *//*
     @ResponseBody
     @RequestMapping("selectLikeSupplier")
     public String selectLikeSupplier(SupplierCondition condition,SupplierConType conType,HttpServletRequest sq,String province){
@@ -252,15 +252,15 @@ public class SupplierExtractConditionController {
 
 
 
-    /**
+    *//**
      * @Description:查询单个
      *
      * @author Wang Wenshuai
      * @version 2016年9月30日 下午1:59:22  
      * @param @return      
      * @return String
-     */
-   /* @RequestMapping("/showSupplierCondition")
+     *//*
+    @RequestMapping("/showSupplierCondition")
     public String showSupplierCondition(SupplierCondition condition,Model model,String cId,String typeclassId){
         List<Area> listArea = areaService.findTreeByPid("0",null);
         model.addAttribute("listArea", listArea);
@@ -281,22 +281,22 @@ public class SupplierExtractConditionController {
         }
 
         return "ses/sms/supplier_extracts/add_condition";
-    }*/
+    }
 
-    /**
+    *//**
      * @Description:修改
      *
      * @author Wang Wenshuai
      * @version 2016年9月30日 下午1:47:48  
      * @param @return      
      * @return String
-     */
+     *//*
     @RequestMapping("/updateCondition")
     public String updateCondition(){
 
         return null;
     }
-    /**
+    *//**
      * @Description:删除
      *
      * @author Wang Wenshuai
@@ -304,7 +304,7 @@ public class SupplierExtractConditionController {
      * @param @param delids
      * @param @return      
      * @return Object
-     */
+     *//*
 
     @RequestMapping("/dels")	
     public String dels(@RequestParam(value="delids",required = false)String delids){
@@ -315,3 +315,4 @@ public class SupplierExtractConditionController {
         return "sccuess";
     }
 }
+*/

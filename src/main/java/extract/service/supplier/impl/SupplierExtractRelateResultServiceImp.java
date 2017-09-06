@@ -1,6 +1,6 @@
 /**
  * 
- */
+ *//*
 package extract.service.supplier.impl;
 
 import java.util.ArrayList;
@@ -25,13 +25,13 @@ import extract.dao.supplier.SupplierExtractRecordMapper;
 import extract.model.supplier.SupplierExtRelate;
 import extract.service.supplier.SupplierExtractRelateResultService;
 
-/**
+*//**
  * @Description:供应商抽取关联
  *	 
  * @author Wang Wenshuai
  * @date 2016年9月20日下午4:17:22
  * @since  JDK 1.7
- */
+ *//*
 @Service
 public class SupplierExtractRelateResultServiceImp implements SupplierExtractRelateResultService {
   @Autowired
@@ -44,17 +44,17 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
   SupplierExtractRecordMapper supplierExtractsMapper;
   @Autowired
   private SupplierExtPackageMapper extPackageMapper;
-  /**
+  *//**
    * @Description:insert
    *
    * @author Wang Wenshuai
    * @version 2016年9月28日 下午4:12:09  
    * @param       
    * @return void
-   */
+   *//*
   @Override
   public String insert(String cId,String userid,String[] projectId,String conditionId) {
-    /*//获取查询条件
+    //获取查询条件
     List<SupplierCondition> list = conditionMapper.list(new SupplierCondition(cId, ""));
     if(list!=null&&list.size()!=0){
       SupplierCondition show=list.get(0);
@@ -118,17 +118,17 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 
       }
 
-    }*/
+    }
     return "";
   }
-  /**
+  *//**
    * @Description:集合展示
    *
    * @author Wang Wenshuai
    * @version 2016年9月28日 下午6:07:39  
    * @param @param projectExtract      
    * @return void
-   */
+   *//*
   @Override
   public List<SupplierExtRelate> list(SupplierExtRelate projectExtract,String page) {
     if(page!=null&&!"".equals(page))
@@ -136,14 +136,14 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
     return supplierExtRelateMapper.list(projectExtract);
 
   }
-  /**
+  *//**
    * @Description:修改操作状态
    *
    * @author Wang Wenshuai
    * @version 2016年9月28日 下午8:02:39  
    * @param @param projectExtract      
    * @return void
-   */
+   *//*
   @Override
   public void update(SupplierExtRelate projectExtract) {
     if(projectExtract != null && projectExtract.getPackageId() != null && projectExtract.getPackageId().length !=0 ){
@@ -191,20 +191,20 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 
   }
 
-  /**
+  *//**
    * @Description:获取单个对象
    *
    * @author Wang Wenshuai
    * @version 2016年9月28日 下午8:02:39  
    * @param @param projectExtract      
    * @return void
-   */
+   *//*
   @Override
   public SupplierExtRelate getSupplierExtRelate(String id) {
     return supplierExtRelateMapper.selectByPrimaryKey(id);
   }
 
-  /**
+  *//**
    * @Description:删除重复记录
    *
    * @author Wang Wenshuai
@@ -212,13 +212,13 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    * @param @param extract
    * @param @return      
    * @return List<ProjectExtract>
-   */
+   *//*
   @Override
   public void deleteData(Map map){
     supplierExtRelateMapper.deleteData(map);
   }
 
-  /**
+  *//**
    * @Description:当抽取数量满足时修改还未抽取的专家状态为1
    *
    * @author Wang Wenshuai
@@ -226,7 +226,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    * @param @param extract
    * @param @return      
    * @return List<ProjectExtract>
-   */
+   *//*
   @Override
   public void updateStatusCount(String type,String conTypeId){
     Map<String, String> map=new HashMap<String, String>();
@@ -235,10 +235,10 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
     supplierExtRelateMapper.updateStatusCount(map);
   }
 
-  /**
+  *//**
    * 删除未抽取的抽取信息
    * @see ses.service.sms.SupplierExtRelateService#del(java.lang.String)
-   */
+   *//*
   @Override
   public void del(String conditionId,String projectId,List<String> expertTypeIds,List<String> saveExpertTypeIds) {
     List<SupplierExtRelate> list = selectSupplierType(conditionId);
@@ -253,14 +253,14 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
     }
   }
 
-  /**
+  *//**
    * 
    *〈简述〉转换集合
    *〈详细描述〉
    * @author Wang Wenshuai
    * @param type
    * @return
-   */
+   *//*
   private List<String>  castList(String type,List<String> saveExpertTypeIds){
     List<String> list = null;
     if(type != null && !"".equals(type)){
@@ -278,19 +278,19 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 
   }
 
-  /**
+  *//**
    * 抽取完成后删除信息
-   */
+   *//*
   @Override
   public void delPe(String id) {
     // TODO Auto-generated method stub
     supplierExtRelateMapper.delPe(id);
   }
 
-  /**
+  *//**
    * 供应商类型
    * @see ses.service.sms.SupplierExtRelateService#selectSupplierType(java.lang.String)
-   */
+   *//*
   @Override
   public List<SupplierExtRelate> selectSupplierType(String conditionId) {
     return supplierExtRelateMapper.selectSupplierType(conditionId);
@@ -304,3 +304,4 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 }
 
 
+*/
