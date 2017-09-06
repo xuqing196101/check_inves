@@ -19,8 +19,9 @@
           //  var notCategoryNum=${notCategoryNum};
             var qualified=${qualified};
             if (num == 0) {
+            	 $("#tuihui").attr("disabled", true);
                 if('${status}' != -2 && '${status}' != -3){
-                    //$("#tuihui").attr("disabled", true);
+                   
                     //$("#butongguo").attr("disabled", true);
                     $("#tichu").attr("disabled", true);
                 }
