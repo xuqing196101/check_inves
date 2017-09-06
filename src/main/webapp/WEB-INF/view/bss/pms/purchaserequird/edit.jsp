@@ -1046,6 +1046,7 @@
         }
       }
       function deleteRowRequired(obj,status){
+    	  var id=[],seq=[];
     	  var trAll=$("#detailZeroRow tr");
     	  if(trAll.length<=2){
     		  layer.alert("至少保留两行！", {
@@ -1089,6 +1090,8 @@
     								  num:
     								  for(var j=0;j<number.length;j++){
         							   if(vals==number[j]){
+        								    id.push($(trNextAll[i]).children(":first").next().children(":first").val());
+        								    seq.push("（"+number[j-1]+"）");
         							      $(nextNumber).val("（"+number[j-1]+"）");
           							    break num;
         							   }
@@ -1097,6 +1100,8 @@
     							  var fourth = conNum($(nextNumber).val());//4级
     							  if(fourth){
     								  var vals=$(nextNumber).val().substring(1,$(nextNumber).val().length-1);
+    								  id.push($(trNextAll[i]).children(":first").next().children(":first").val());
+  								    seq.push("（"+(parseInt(vals)-1)+"）");
     								  $(nextNumber).val("（"+(parseInt(vals)-1)+"）");//重新赋值序号
     							  }
     							  var ifFifth = ifFifthNode($(nextNumber).val());//6级
@@ -1106,6 +1111,8 @@
     								  num:  
     								  for(var j=0;j<number.length;j++){
       							    	if(vals==number[j]){
+      							    		id.push($(trNextAll[i]).children(":first").next().children(":first").val());
+      	  								  seq.push("（"+number[j-1]+"）");
       							    		$(nextNumber).val("（"+number[j-1]+"）");
       							    		break num;
       							    	}
@@ -1114,6 +1121,8 @@
     						  }else{//1,3,5级
     							  var third = nums($(nextNumber).val());//3级
     						    if(third){
+    						    	id.push($(trNextAll[i]).children(":first").next().children(":first").val());
+	  								  seq.push(parseInt($(nextNumber).val())-1);
     						    	$(nextNumber).val(parseInt($(nextNumber).val())-1)//重新赋值序号
     						    }
     							  var fifth = eng($(nextNumber).val());//5级
@@ -1122,6 +1131,8 @@
     							    num:
     								  for(var j=0;j<number.length;j++){
     							    	if($(nextNumber).val()==number[j]){
+    							    		id.push($(trNextAll[i]).children(":first").next().children(":first").val());
+    		  								seq.push(number[j-1]);
     							    		$(nextNumber).val(number[j-1]);
     							    		break num;
     							    	}
@@ -1131,7 +1142,7 @@
     					  }
     				  }
         			if(status=="old"){
-        				ajaxDeleteRequired(trId);
+        				ajaxDeleteRequired(trId,id,seq);
         			}
         			var price;
         			if(trPid!=trPrevPid){
@@ -1157,7 +1168,7 @@
     		    	  /* $(tr9).removeAttr("readonly");
     		    	  $(tr9).val(""); */
     		    	  if(status=="old"){
-    		    		  ajaxDeleteRequired(trId);
+    		    		  ajaxDeleteRequired(trId,null,null);
           			}
     		    	  $(tr).remove();
     		    	  sum1(tr8);
@@ -1166,12 +1177,18 @@
     		  }
     	  }
       }
-      function ajaxDeleteRequired(id){
+      function ajaxDeleteRequired(id,ids,seqs){
+    	  if(ids!=null){
+    		  ids=ids.join(",");
+    		  seqs=seqs.join(",");
+    	  }
     	  $.ajax({
               type: "POST",
               url: "${pageContext.request.contextPath}/purchaser/deleteRequired.do",
               data: {
-                "id": id
+                "id": id,
+                "ids":ids,
+                "seqs":seqs
               },
               success: function(data) {
             	   if(data=="ok"){

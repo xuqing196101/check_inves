@@ -1474,7 +1474,17 @@ public class PurchaseRequiredController extends BaseController {
     }
     @RequestMapping("/deleteRequired")
     @ResponseBody
-    public String deleteRequired(String id){
+    public String deleteRequired(String id,String ids,String seqs){
+        if(ids!=null&&!"".equals(ids)){
+          String[] newId=ids.split(",");
+          String[] newSeq=seqs.split(",");
+          for(int i=0;i<newId.length;i++){
+            PurchaseRequired purchaseRequired=new PurchaseRequired();
+            purchaseRequired.setId(newId[i]);
+            purchaseRequired.setSeq(newSeq[i]);
+            purchaseRequiredService.updateByPrimaryKeySelective(purchaseRequired);
+          }
+        }
         purchaseRequiredService.delete(id);
         return "ok";
     }
