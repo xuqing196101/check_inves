@@ -3124,6 +3124,7 @@ public class ExpertAuditController{
     	if(allTreeList !=null && !allTreeList.isEmpty()){
     		Integer count=0;
     		for (ExpertAudit expertAudit : allTreeList) {
+    			expertAudit.setAuditFalg(null);
     			Integer num = expertAuditService.findByObj(expertAudit);
     			count+=num;
     			
