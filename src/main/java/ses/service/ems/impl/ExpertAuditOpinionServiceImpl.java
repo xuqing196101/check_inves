@@ -27,6 +27,14 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	
 	@Override
 	public void insertSelective(ExpertAuditOpinion expertAuditOpinion) {
+		// 拼接审核意见  例如:同意....+ HelloWorld
+		if(StringUtils.isNotEmpty(expertAuditOpinion.getCateResult())){
+			if(StringUtils.isEmpty(expertAuditOpinion.getOpinion())){
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult());
+			}else {
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult() + expertAuditOpinion.getOpinion());
+			}
+		}
 		mapper.insertSelective(expertAuditOpinion);
 		
 	}

@@ -68,9 +68,11 @@
              }
              // 获取选择radio类型
              var selectOption = $("input[name='selectOption']:checked").val();
+            // 审核意见通过。。
+            var cate_result = $("#cate_result").html();
              $.ajax({
                  url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
-                 data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime,"flagAudit":selectOption},
+                 data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime,"flagAudit":selectOption,"cateResult":cate_result},
                  type: "POST",
                  success: function () {
                      $("#status").val(status);

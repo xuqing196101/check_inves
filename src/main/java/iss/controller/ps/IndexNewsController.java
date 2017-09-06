@@ -2386,16 +2386,16 @@ public class IndexNewsController extends BaseSupplierController{
 	 * @since JDK1.7
 	 */
 	@RequestMapping("/indexExpPublicityItem")
-    public String indexExpPublicityItem(Model model, String expertId, Expert expert, String sign){
+    public String indexExpPublicityItem(Model model, String query_id_of_cate, Expert expert, String sign){
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 
-		expert = expertService.selectByPrimaryKey(expertId);
+		expert = expertService.selectByPrimaryKey(query_id_of_cate);
 
 		List <DictionaryData> allCategoryList = new ArrayList <> ();
 
 		// 查询审核通过的专家类型
-        List<String> stringList = expertCategoryService.selectCateByExpertId(expertId);
+        List<String> stringList = expertCategoryService.selectCateByExpertId(query_id_of_cate);
 
         // 获取专家类别
 		List < String > allTypeId = new ArrayList <> ();
@@ -2413,7 +2413,7 @@ public class IndexNewsController extends BaseSupplierController{
 		}
 		model.addAttribute("allCategoryList", allCategoryList);
 
-		model.addAttribute("expertId", expertId);
+		model.addAttribute("expertId", query_id_of_cate);
 
 		//查询品目类型id
 		String matCodeId=DictionaryDataUtil.getId("GOODS");
