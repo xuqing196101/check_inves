@@ -167,6 +167,7 @@ public class ExtractSupplierController extends BaseController {
     		//重新抽取  只携带项目信息
     	}
     	List<Area> province = areaService.findRootArea();
+    	model.addAttribute("businessNature", conditionService.getBusinessNature());
     	model.addAttribute("province", province);
     	return "ses/sms/supplier_extracts/condition_list";
     }
@@ -613,7 +614,7 @@ public class ExtractSupplierController extends BaseController {
     
     /**
      *
-     *〈简述〉供应商类型
+     *〈简述〉供应商类型 根据项目类型获取需要抽取的供应商类型
      *〈详细描述〉
      * @author Wang Wenshuai
      * @return

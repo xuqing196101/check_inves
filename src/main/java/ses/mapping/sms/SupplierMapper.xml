@@ -1559,6 +1559,54 @@
 		update T_SES_SMS_SUPPLIER
 		set SCORE = #{score} where ID = #{id}
 	</update>
+	
+	<!-- 供应商个数 -->
+	<select id="listExtractionExpertCount" parameterType="extract.model.supplier.SupplierExtractCondition" resultType="int">
+		SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER S
+		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
+			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
+			<choose>
+				<when test="supplierTypeCode == 'PROJECT'.toString()">
+					LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON E.SUPPLIER_ID = S.ID
+					LEFT JOIN T_SES_SMS_SUPPLIER_APTITUTE A ON A.MAT_ENG_ID = E.ID
+				</when>
+				<otherwise>
+					LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L ON S.ID = L.SUPPLIER_ID
+				</otherwise>
+			</choose>
+		</if>
+		WHERE IS_PROVISIONAL = 0 AND SUPPLIER_STATUS in ( 1,4,5,6,7,8) 
+		<!-- 查询地址 -->
+		<if test="addressId != null and addressId != '' ">
+			AND S.ADDRESS in 	<foreach collection="addressIds"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>
+		</if>
+		<!-- 查询类型 -->
+		<if test="supplierTypeCode !=null and supplierTypeCode != '' ">
+			 AND I.Supplier_Type_Relate_Id  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
+		</if>	 
+		<!-- 查询品目 -->
+		<if test="isMulticondition !=null and isMulticondition != ''">
+			<if test="isMulticondition == 1 and categoryId !=null and categoryId != '' ">
+				 AND I.CATEGORY_ID IN <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
+			</if>
+			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
+				 AND
+				 <trim prefix="(" suffixOverrides="AND" suffix=")">
+				 	 <foreach collection="categoryIds" item="cid" > I.CATEGORY_ID = #{cid} AND </foreach>
+				 </trim>
+			</if>
+		</if>
+		<if test="levelTypeId !=null and levelTypeId != '' ">
+			<choose>
+				<when test="supplierTypeCode == 'PROJECT'.toString()">
+					AND  A."APTITUTE_ LEVEL" IN  <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+				</when>
+				<otherwise>
+					AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+				</otherwise>
+			</choose>
+		</if>
+	</select>
 	<!-- 供应商抽取集合 -->
 	<select id="listExtractionExpert" parameterType="extract.model.supplier.SupplierExtractCondition"
 		resultMap="findSupplierMap">
@@ -1631,8 +1679,8 @@
 				</if>
 			</if>
 		</foreach> -->
-		
-		SELECT DISTINCT S.* FROM T_SES_SMS_SUPPLIER S
+		SELECT * FROM 
+		(SELECT DISTINCT S.* FROM T_SES_SMS_SUPPLIER S
 		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
 			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
 			<choose>
@@ -1652,7 +1700,7 @@
 		</if>
 		<!-- 查询类型 -->
 		<if test="supplierTypeCode !=null and supplierTypeCode != '' ">
-			 AND I.Supplier_Type_Relate_Id  = #{supplierTypeCode} 
+			 AND I.Supplier_Type_Relate_Id  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
 		</if>	 
 		<!-- 查询品目 -->
 		<if test="isMulticondition !=null and isMulticondition != ''">
@@ -1676,7 +1724,7 @@
 				</otherwise>
 			</choose>
 		</if>
-		ORDER BY dbms_random.value
+		ORDER BY dbms_random.random) WHERE ROWNUM = 1
 	</select>
 
 	<select id="findLoginName" resultType="String">

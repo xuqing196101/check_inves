@@ -24,4 +24,6 @@ public interface QualificationLevelService {
     public List<QualificationLevel> queryByQId(String qid);
     
     public void deleteByQuaId(String quaId);
+
+	public List<DictionaryData> getLevelByQid(String qid);
 }

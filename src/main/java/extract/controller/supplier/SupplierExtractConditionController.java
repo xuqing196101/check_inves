@@ -237,10 +237,28 @@ public class SupplierExtractConditionController {
      * @return
      */
     @ResponseBody
+    @RequestMapping("selectLikeSupplierCount")
+    public String selectLikeSupplierCount(SupplierExtractCondition condition,SupplierConType conType,HttpServletRequest sq,String province){
+        Map<String,Object> count = conditionService.selectLikeSupplierCount(condition,conType);
+        return JSON.toJSONString(count);
+    }
+    
+    /**
+     * 
+     *〈简述〉返回满足条件的供应商
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param condition
+     * @param conType
+     * @param sq
+     * @param typeclassId
+     * @return
+     */
+    @ResponseBody
     @RequestMapping("selectLikeSupplier")
     public String selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType,HttpServletRequest sq,String province){
-        Map<String,Object> count = conditionService.selectLikeSupplier(condition,conType);
-        return JSON.toJSONString(count);
+    	Map<String, Map<String, Object>> supplierList = conditionService.selectLikeSupplier(condition,conType);
+    	return JSON.toJSONString(supplierList);
     }
 
 

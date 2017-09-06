@@ -1214,5 +1214,11 @@ public class CategoryServiceImpl implements CategoryService {
 		map.put("categoryIds", categoryId.split(","));
 		return categoryQuaMapper.getEngAptitudeLevelByCategoryId(map);
 	}
+
+	@Override
+	public List<DictionaryData> getQuaByCid(String categoryId) {
+		String[] categoryIds = categoryId.split(",");
+		return categoryQuaMapper.getQuaByCid(categoryIds);
+	}
 	
 }

@@ -1,6 +1,8 @@
 package ses.dao.sms;
 
 import org.apache.ibatis.annotations.Param;
+
+import extract.model.supplier.SupplierExtractCondition;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierPublicity;
@@ -665,5 +667,7 @@ public interface SupplierMapper {
 	List<supplierExport> selectExpertNumberFormal(HashMap<String, Object> map);
 
 	List<Supplier> listExtractionExpert(SupplierCondition condition);
+
+	int listExtractionExpertCount(SupplierExtractCondition condition);
 
 }

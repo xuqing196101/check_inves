@@ -173,6 +173,10 @@ public class SupplierExtractProjectInfo {
     @NotEmpty
     private Date sellSite;
     
+    /**
+     * 其他要求
+     */
+    private String elseInfo;
     
     /**
      * 是否删除
@@ -481,6 +485,16 @@ public class SupplierExtractProjectInfo {
 
 	public void setPurchaseTypeName(String purchaseTypeName) {
 		this.purchaseTypeName = purchaseTypeName;
+	}
+
+
+	public String getElseInfo() {
+		return elseInfo;
+	}
+
+
+	public void setElseInfo(String elseInfo) {
+		this.elseInfo = elseInfo;
 	}
     
     

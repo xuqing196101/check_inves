@@ -298,7 +298,6 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 	@Override
 	public void saveResult(SupplierExtractResult supplierExtRelate) {
 		supplierExtRelate.setId(UUIDUtils.getUUID32());
-		supplierExtRelate.setCreatedAt(new Date());
 		supplierExtRelateMapper.insertSelective(supplierExtRelate);
 	}
 }

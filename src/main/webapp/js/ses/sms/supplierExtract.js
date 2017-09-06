@@ -163,36 +163,36 @@
             cache: true,
             type: "POST",
             dataType: "json",
-            url: globalPath+'/SupplierCondition/selectLikeSupplier.do',
+            url: globalPath+'/SupplierCondition/selectLikeSupplierCount.do',
             data: $('#form1').serialize(),// 你的formid
             async: false,
             success: function (data) {
             	if(null!=data){
-            		if(null!=data.products){
-            			var productCont = data.products.length;
+            		if(null!=data.PRODUCTCont){
+            			var productCont = data.PRODUCTCont;
             			$("#productResult").find("span:first").html(productCont);
             			//$(".productCount").html(productCont);
             			//window.sessionStorage.setIterm("products",data.products);
-            			products = data.products;
+            			//products = data.products;
             		}
-            		if(null!=data.services){
-            			var serviceCont = data.services.length;
+            		if(null!=data.SERCICEcount){
+            			var serviceCont = data.SERCICEcount;
             			$("#serviceResult").find("span:first").html(serviceCont);
             			//$(".serviceCount").html(serviceCont);
             			//window.sessionStorage.setIterm("services",data.services);
-            			services = data.services;
+            			//services = data.services;
             		}
-            		if(null!=data.sales){
-            			var salesCont = data.sales.length;
+            		if(null!=data.SALEScount){
+            			var salesCont = data.SALEScount;
             			$("#salesResult").find("span:first").html(salesCont);
             			//$(".salesCount").html(salesCont);
             			//window.sessionStorage.setIterm("sales",data.sales);
-            			sales = data.sales;
+            			//sales = data.sales;
             		}
-            		if(null!=data.projects){
-            			var projectCont = data.projects.length;
+            		if(null!=data.PROJECTcount){
+            			var projectCont = data.PROJECTcount;
             			$("#projectResult").find("span:first").html(projectCont);
-            			projects = data.projects;
+            			//projects = data.projects;
             		}
             	}else{
             		
@@ -306,17 +306,53 @@
     	var type =  $(obj).parents("div").attr("id").substring(0,$(obj).parents("div").attr("id").lastIndexOf("R"));
     	//需要判断能参加，满足后不再追加
     	var agreeCount=0;
-    	var IDName = 
+    	
     	$(obj).find("option:selected").each(function(){
     		if($(this).val()==1){
     			agreeCount++;
     		}
     	});
+    	
     	if($("#"+type+"ExtractNum").val()==agreeCount){
     		return true;
     	}
-    	var typeName;
+    	
     	var data;
+    	var projects;
+    	var products;
+    	var services;
+    	var sales;
+    	//去后台请求一条数据
+    	$.ajax({
+    		type: "POST",
+    		url: globalPath+'/SupplierCondition/selectLikeSupplier.do',
+    		data:  $('#form1').serialize(),
+    		dataType: "json",
+    		async:false,
+    		success: function (msg) {
+    			if(data.list.length>0){
+    				var su = msg.list;
+    				if(null !=su.PROJECT){
+    					projects =su.PROJECT;
+    				}
+    				if(null !=su.SERVICE){
+    					services = su.SERVICE;
+    				}
+    				if(null !=su.PRODUCT){
+    					products = su.PRODUCT;
+    				}
+    				if(null !=su.SALES){
+    					sales = su.SALES;
+    				}
+    				
+    				
+    			}
+    			
+    		}
+    	});
+    	
+    	var typeName;
+    	
     	if("project" == type){
     		data = projects;
     		typeName = "工程";
@@ -331,9 +367,9 @@
     		typeName = "服务";
     	}
     	
-    	var i = parseInt(num)+1;
+    	var i = 0;
     	var tex = "<tr class='cursor' typeCode='"+type.toUpperCase()+"' sid='"+data[i].id+"' index='"+i+"'>" +
-	   	 "<td class='tc' >"+(i+1)+"</td>" +
+	   	 "<td class='tc' >"+(parseInt(num)+2)+"</td>" +
 		 "<td class='tc'  >"+data[i].supplierName+"</td>" +
 	     "<td class='tc' >"+typeName+"</td>" +
 	     "<td class='tc' >"+data[i].contactName+"</td>" +
@@ -398,7 +434,8 @@
                 initTypeLevelId();
                 //若是工程类，需要根据品目去动态生成等级树
                 if(typeCode == "PROJECT"){
-                	loadprojectLevelTree();
+                	//加载资质类型
+                	loadQuaList();
                 }
                 selectLikeSupplier();
             }
@@ -796,6 +833,50 @@
     	$("#levelType").val("所有级别");
     }
     
+    //加载工程资质
+    function loadQuaList(){
+    	var cateId = $("#projectCategoryIds").val();
+    	
+    	var treeNodes; 
+		 var setting = {
+         async: {
+           enable: true, 
+           url: globalPath+"/category/getQuaByCid.do?categoryId="+cateId,
+           dataType: "json",
+           type: "post",
+         },
+         check: {
+           enable: true,
+           chkboxType: {
+             "Y": "s",
+             "N": "ps"
+           },
+           chkStyle : "checkbox" 
+          // autoCheckTrigger: true
+         },
+         data: {
+           simpleData: {
+             enable: true,
+             idKey: "id",
+             pIdKey: "parentId"
+           },
+           key: {
+				children: "nodes"
+			}
+         },
+         callback: {
+              // beforeCheck: beforeClickArea,
+               onCheck: choseArea,
+               //onAsyncSuccess:,
+         },
+         view: {
+               dblClickExpand: false
+         }        
+       };
+       treeArea = $.fn.zTree.init($("#quaTree"), setting, treeNodes);
+       checkAllNodes("quaTree");
+    }
+    
     //加载工程等级树
     function loadprojectLevelTree(){
     	var cateId = $("#projectCategoryIds").val();
@@ -823,7 +904,9 @@
         };
 		// $.post(globalPath+"/category/getEngLevelByCid.html",{categoryId:cateId,},function(data){zNodes = data},"json");
 		 $.ajax({
-		 	url:globalPath+"/category/getEngLevelByCid.do",
+		 	/*url:globalPath+"/category/getEngLevelByCid.do",//根据品目ID 获取资质等级
+		 	data:{categoryId:cateId},*/
+			url:globalPath+"/qualification/getLevelByQid.do",//根据资质编号ID 获取资质等级
 		 	data:{categoryId:cateId},
 		 	async:false,
 		 	dataType:"json",
@@ -885,19 +968,21 @@
 	                }
 	            },
 	            callback: {
+	            	//onAsyncSuccess:checkAllNodes(treeName),
 	                beforeClick: beforeClickLevel,
 	                onCheck: onCheckLevel
 	            }
 	        };
 	        var treeLevelType = $.fn.zTree.init($("#"+treeName), setting, zNodes);
 	        checkAllNodes(treeName);//选中所有节点
-	        onCheckLevel(treeName);//处理选中节点
+	       
     }
 	
 	//等级树加载完成后全选等级
 	function checkAllNodes(treeName){
 		var treeObj = $.fn.zTree.getZTreeObj(treeName);
 		treeObj.checkAllNodes(true);
+		onCheckLevel(treeName);//处理选中节点
 	}
 	
 	//展示等级树
@@ -926,6 +1011,18 @@
     	}
 	}
 	
+	//显示资质信息
+	function showQua(obj){
+		var levelType = $(obj);
+		var levelOffset = $(obj).offset();
+        	$("#quaContent").css({
+        		left: levelOffset.left + "px",
+        		top: levelOffset.top + levelType.outerHeight() + "px"
+        }).slideDown("fast");
+        	$("body").bind("mousedown", onBodyDownQua);
+	}
+	
+	
 	//触发函数判断是否隐藏等级树
     function onBodyDownProjectLevel(event) {
         if (!(event.target.nodeName == "SPAN")) {
@@ -947,6 +1044,11 @@
     		hideLevelType("serviceLevelContent");
     	}
     }
+    function onBodyDownQua(event){
+    	if (!(event.target.nodeName == "SPAN")) {
+    		hideLevelType("quaContent");
+    	}
+    }
     //隐藏等级树
     function hideLevelType(obj) {
         $("#"+obj).fadeOut("fast");
@@ -958,6 +1060,8 @@
         	$("body").unbind("mousedown", onBodyDownProjectLevel);
         }else if("productLevelContent"==obj){
         	$("body").unbind("mousedown", onBodyDownProductLevel);
+        }else if("quaContent"==obj){
+        	$("body").unbind("mousedown", onBodyDownQua);
         }
         selectLikeSupplier();
 
@@ -973,6 +1077,31 @@
     }
 
     //工程等级树被选中后
+    function onCheckLevel(obj) {
+    	var zTree = $.fn.zTree.getZTreeObj(obj);
+    	if(null == zTree){
+    		zTree = $.fn.zTree.getZTreeObj(obj.target.id);
+    		obj = obj.target.id;
+    	}
+    	
+    	var input = obj.substring(0,obj.lastIndexOf("T"));
+    	
+    	var nodes = zTree.getCheckedNodes(true);
+    	v = "";
+    	var rid = "";
+    	for (var i = 0, l = nodes.length; i < l; i++) {
+    		v += nodes[i].name + ",";
+    		rid += nodes[i].id + ",";
+    	}
+    	if (v.length > 0) v = v.substring(0, v.length - 1);
+    	if (rid.length > 0) rid = rid.substring(0, rid.length - 1);
+    	var levelTypeObj = $("#"+input);
+    	levelTypeObj.val(v);
+    	levelTypeObj.attr("title", v);
+    	$(levelTypeObj).parents("li").find("[name='"+input+"']").val(rid);
+    }
+    
+    //工程资质被选中后
     function onCheckLevel(obj) {
     	var zTree = $.fn.zTree.getZTreeObj(obj);
     	if(null == zTree){
@@ -1046,7 +1175,6 @@
      * 存储抽取结果
      */
     function ajaxs(objTr, reason,attend) {//obj:当前处理完成供应商信息、行  v:不能参加理由
-    	
     	var reviewType = objTr.attr("typeCode");
     	var reviewType = objTr.attr("typeCode");
     	var sid = objTr.attr("sid");
