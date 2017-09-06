@@ -60,7 +60,7 @@
     	if(null==index ||''==index || "undefined"== index){
 			index=0;
 		}
-    	var tr = "<tr class='inp'><td class='tc'><input type='checkbox'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input name='name' type='text'> </td><td class='tc'> <input name='compary' type='text' class='w100p'></td><td class='tc'> <input name='duty' type='text'></td><td class='tc'> <input name='rank' type='text'></td></tr>";
+    	var tr = "<tr class='inp'><td class='tc'><input type='checkbox'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input name='name' > </td><td class='tc'> <input name='compary' ></td><td class='tc'> <input name='duty'></td><td class='tc'> <input name='rank'></td></tr>";
     	$(obj).parents("form").find("tbody").append(tr);
     }
     
@@ -75,7 +75,7 @@
             title: "引用历史人员",
             shadeClose: true,
             shade: 0.01,
-            area: ['600px', '400px'],
+            area: ['430px', '400px'],
             offset: '20px',
             content: globalPath+'/SupplierExtracts/toPeronList.do?personType='+personType, //iframe的url
             success: function (layero, index) {
@@ -173,26 +173,26 @@
             			$("#productResult").find("span:first").html(productCont);
             			//$(".productCount").html(productCont);
             			//window.sessionStorage.setIterm("products",data.products);
-            			//products = data.products;
+            			products = productCont;
             		}
             		if(null!=data.SERCICEcount){
             			var serviceCont = data.SERCICEcount;
             			$("#serviceResult").find("span:first").html(serviceCont);
             			//$(".serviceCount").html(serviceCont);
             			//window.sessionStorage.setIterm("services",data.services);
-            			//services = data.services;
+            			services = serviceCont;
             		}
             		if(null!=data.SALEScount){
             			var salesCont = data.SALEScount;
             			$("#salesResult").find("span:first").html(salesCont);
             			//$(".salesCount").html(salesCont);
             			//window.sessionStorage.setIterm("sales",data.sales);
-            			//sales = data.sales;
+            			sales = salesCont
             		}
             		if(null!=data.PROJECTcount){
             			var projectCont = data.PROJECTcount;
             			$("#projectResult").find("span:first").html(projectCont);
-            			//projects = data.projects;
+            			projects = projectCont
             		}
             	}else{
             		
@@ -261,7 +261,7 @@
     	//获取到要抽取的数量
     	var projectExtractNum = $("#projectExtractNum").val();
     	if(projectExtractNum>0){
-    		if(projectExtractNum<=projects.length){
+    		if(projectExtractNum<=projects){
     			$("#projectResult").find("tbody").empty();
     			appendTd(-1,$("#projectResult").find("tbody"),null);
     		}else{
@@ -271,7 +271,7 @@
     	
     	var productExtractNum = $("#productExtractNum").val();
     	if(productExtractNum>0){
-    		if(productExtractNum<=products.length){
+    		if(productExtractNum<=products){
     			$("#productResult").find("tbody").empty();
     			appendTd(-1,$("#productResult").find("tbody"),null);
     		}else{
@@ -281,7 +281,7 @@
     	
     	var serviceExtractNum = $("#serviceExtractNum").val();
     	if(serviceExtractNum>0){
-    		if(serviceExtractNum<=services.length){
+    		if(serviceExtractNum<=services){
     			$("#serviceResult").find("tbody").empty();
     			appendTd(-1,$("#serviceResult").find("tbody"),null);
     		}else{
@@ -291,7 +291,7 @@
     	
     	var salesExtractNum = $("#salesExtractNum").val();
     	if(salesExtractNum>0){
-    		if(salesExtractNum<=sales.length){
+    		if(salesExtractNum<=sales){
     			$("#salesResult").find("tbody").empty();
     			appendTd(-1,$("#salesResult").find("tbody"),null);
     		}else{

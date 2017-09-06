@@ -1575,7 +1575,7 @@
 				</otherwise>
 			</choose>
 		</if>
-		WHERE IS_PROVISIONAL = 0 AND SUPPLIER_STATUS in ( 1,4,5,6,7,8) 
+		WHERE S.IS_PROVISIONAL = 0 AND S.SUPPLIER_STATUS in ( 1,4,5,6,7,8) 
 		<!-- 查询地址 -->
 		<if test="addressId != null and addressId != '' ">
 			AND S.ADDRESS in 	<foreach collection="addressIds"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>
@@ -1606,7 +1606,7 @@
 				</otherwise>
 			</choose>
 		</if>
-		<if test="supplierIds != null and supplier != '' ">
+		<if test="supplierIds != null ">
 			AND SUPPLIER_ID NOT IN
 			<foreach collection="supplierIds" open="(" item="sid" separator="," close=")">
 				#{sid}	
@@ -1661,7 +1661,7 @@
 				</otherwise>
 			</choose>
 		</if>
-		<if test="supplierIds != null and supplier != '' ">
+		<if test="supplierIds != null">
 			AND SUPPLIER_ID NOT IN
 			<foreach collection="supplierIds" open="(" item="sid" separator="," close=")">
 				#{sid}	
