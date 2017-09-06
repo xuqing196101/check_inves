@@ -3187,11 +3187,18 @@ public class ExpertAuditController{
 		}
 		map.put("all", all);
     	//不通过的
+		List<ExpertAudit> expertAuditList=new ArrayList<ExpertAudit>();
     	ExpertAudit expertAudit = new ExpertAudit();
 		expertAudit.setExpertId(expertId);
 		expertAudit.setSuggestType("six");
-		expertAudit.setAuditFalg(auditFalg);
-		List<ExpertAudit> expertAuditList = expertAuditService.getListByExpert(expertAudit);
+		expertAudit.setAuditFalg(666);//666标识为空的 用于兼容老数据问题
+		expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
+		expertAudit.setAuditFalg(1);
+		expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
+		if(auditFalg==2){
+			expertAudit.setAuditFalg(2);
+			expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
+		}
 	
 		Integer noPass = 0;
 		if(expertAuditList != null){
