@@ -77,7 +77,8 @@ function getCheckOpinionType(expertId){
     $.ajax({
 		url:globalPath + "/expertAudit/findCategoryCount.do",
 		data: {
-			"expertId" : expertId
+			"expertId" : expertId,
+			"auditFalg" : 2
 		},
 		type: "post",
 		dataType: "json",

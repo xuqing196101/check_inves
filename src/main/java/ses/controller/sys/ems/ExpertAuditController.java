@@ -3150,7 +3150,7 @@ public class ExpertAuditController{
      */
     @RequestMapping("/findCategoryCount")
     @ResponseBody
-    public String findCategoryCount(String expertId){
+    public String findCategoryCount(String expertId, Integer auditFalg){
     	Map<String, Integer> map = new HashMap<>();
     	//全部的产品
     	List<ExpertCategory> expertCategoryList = expertCategoryService.findByExpertId(expertId);
@@ -3190,6 +3190,7 @@ public class ExpertAuditController{
     	ExpertAudit expertAudit = new ExpertAudit();
 		expertAudit.setExpertId(expertId);
 		expertAudit.setSuggestType("six");
+		expertAudit.setAuditFalg(auditFalg);
 		List<ExpertAudit> expertAuditList = expertAuditService.getListByExpert(expertAudit);
 	
 		Integer noPass = 0;

@@ -242,7 +242,8 @@
 			$.ajax({
 				url: "${pageContext.request.contextPath}/expertAudit/findCategoryCount.do",
 				data: {
-					"expertId" : expertId
+					"expertId" : expertId,
+					"auditFalg" : 1
 				},
 				type: "post",
 				dataType: "json",
