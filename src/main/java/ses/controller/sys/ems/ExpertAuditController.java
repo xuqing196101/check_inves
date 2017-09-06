@@ -884,7 +884,16 @@ public class ExpertAuditController{
 		if("10".equals(expert.getStatus())){
 			expertAuditFor.setAuditFalg(2);
 		}
-		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
+		List < ExpertAudit > reasonsList = new ArrayList<>();
+		if(expertAuditFor.getAuditFalg()==1){
+			expertAuditFor.setAuditFalg(666);//666为兼容老数据
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAuditFor));
+			expertAuditFor.setAuditFalg(1);
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAuditFor));
+		}else if(expertAuditFor.getAuditFalg()==2){
+			expertAuditFor.setAuditFalg(2);
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAuditFor));
+		}
 		StringBuffer conditionStr = new StringBuffer();
 		for (ExpertAudit expertAudit2 : reasonsList) {
 			conditionStr.append(expertAudit2.getAuditFieldId() + ",");
@@ -1456,8 +1465,16 @@ public class ExpertAuditController{
 			if("10".equals(expert.getStatus())){
 				expertAudit.setAuditFalg(2);
 			}
-			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
-			
+			List < ExpertAudit > reasonsList = new ArrayList<>();
+			if(expertAuditFor.getAuditFalg()==1){
+				expertAuditFor.setAuditFalg(666);//666为兼容老数据
+				reasonsList.addAll(expertAuditService.getListByExpert(expertAuditFor));
+				expertAuditFor.setAuditFalg(1);
+				reasonsList.addAll(expertAuditService.getListByExpert(expertAuditFor));
+			}else if(expertAuditFor.getAuditFalg()==2){
+				expertAuditFor.setAuditFalg(2);
+				reasonsList.addAll(expertAuditService.getListByExpert(expertAuditFor));
+			}
 			
 			StringBuffer typeErrorField = new StringBuffer();
 			if(!reasonsList.isEmpty()){
@@ -1552,7 +1569,16 @@ public class ExpertAuditController{
 			expertAudit.setAuditFalg(2);
 		}
 		expertAudit.setExpertId(expertId);
-		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAudit);
+		List < ExpertAudit > reasonsList = new ArrayList<>();
+		if(expertAudit.getAuditFalg()==1){
+			expertAudit.setAuditFalg(666);//666为兼容老数据
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
+			expertAudit.setAuditFalg(1);
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
+		}else if(expertAudit.getAuditFalg()==2){
+			expertAudit.setAuditFalg(2);
+			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
+		}
 		Map<String,Integer> map = new HashMap<String,Integer>();
 		map.put("GOODS", 0);
 		map.put("PROJECT", 0);
