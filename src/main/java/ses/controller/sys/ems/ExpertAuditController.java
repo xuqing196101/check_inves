@@ -3121,8 +3121,10 @@ public class ExpertAuditController{
     	if( null == user){
     		return null;
     	}
+    	Integer status=null;
     	if(allTreeList !=null && !allTreeList.isEmpty()){
     		Integer count=0;
+    		status=allTreeList.get(0).getAuditFalg();
     		for (ExpertAudit expertAudit : allTreeList) {
     			expertAudit.setAuditFalg(null);
     			Integer num = expertAuditService.findByObj(expertAudit);
@@ -3142,6 +3144,7 @@ public class ExpertAuditController{
 			}else{
 
 		    	for (ExpertAudit expertAudit2 : allTreeList) {
+		    			expertAudit2.setAuditFalg(status);
 		    			expertAudit2.setAuditUserId(user.getId());
 		    			expertAudit2.setAuditUserName(user.getRelName());
 		    			//记录审核人

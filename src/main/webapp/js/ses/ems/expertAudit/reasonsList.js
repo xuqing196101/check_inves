@@ -270,8 +270,8 @@ function vartifyAuditCount(){
         });
     }
     
-    // 只有<复审退回修改>才校验
-    if(checkVal == 10){
+    // 只有<预复审不合格>才校验
+    if(checkVal == 5){
     	if(opinion == ''){
             layer.msg("审核意见不能为空！");
             flags = true;
