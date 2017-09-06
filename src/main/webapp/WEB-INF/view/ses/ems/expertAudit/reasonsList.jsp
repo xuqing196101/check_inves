@@ -155,7 +155,12 @@
                             	}
                             }
                        });
-                    	layer.close(index);
+                    	  layer.close(index);
+                    	  //保存信息
+                        tempSave();
+                        
+                        layer.close(index);
+                    	
                         return;
                     }
                     //提交审核
@@ -425,7 +430,7 @@
 
             <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
             <ul class="ul_list count_flow">
-              <c:if test="${status == 0 || status == 9 || status == 15 || status == 16 || status == 10 || status == -2 || (sign ==3 && status ==6) || status == 4}">
+              <c:if test="${status == 0 || status == 9 || status == 15 || status == 16 || status == 10 || status == -2 || (sign ==3 && status ==6) || status == 4 || status == 5}">
                 <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
               </c:if>  
                 <table class="table table-bordered table-condensed table-hover">
@@ -579,7 +584,7 @@
                     <input type="hidden" name="status" id="status" value="${status}"/>
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
                     <input name="sign" value="${sign}" type="hidden">
-                    <c:if test="${status eq '0' or status eq '9' or (sign eq '1' &&status eq '10')}">
+                    <c:if test="${status eq '0' or status eq '9' or (sign eq '1' && status eq '10') or (sign eq '1' && status eq '5')}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->
                        <!-- <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->

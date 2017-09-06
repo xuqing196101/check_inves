@@ -1565,7 +1565,7 @@ public class ExpertAuditController{
 		expertAudit.setAuditFalg(sign);
 		//复审退回修改，初审时显示的是复审的审核信息
 		Expert expert = expertService.selectByPrimaryKey(expertId);
-		if("10".equals(expert.getStatus())){
+		if("10".equals(expert.getStatus()) || "9".equals(expert.getStatus())){
 			expertAudit.setAuditFalg(2);
 		}
 		expertAudit.setExpertId(expertId);

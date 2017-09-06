@@ -22,7 +22,12 @@
       </li>
     </c:if>
     <li id="reverse_of_five" onclick="jump('reasonsList')">
-        <a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
+        <c:if test="${sign == 2}">
+          <a aria-expanded="false" href="#tab-1" data-toggle="tab">专家复审意见</a>
+        </c:if>
+        <c:if test="${sign == 3 || sign == 1}">
+          <a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
+        </c:if>
         <c:if test="${sign == 1 and (expert.status != 0 and status != 0 and expert.status != 3 and status != 3)}">
           <i id="reverse_of_five_i"></i>
         </c:if>

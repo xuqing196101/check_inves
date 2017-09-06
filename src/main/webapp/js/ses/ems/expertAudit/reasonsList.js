@@ -166,7 +166,7 @@ function tempSave(flag){
                 $("#form_id").submit();
             }else{
                 if(data.status == 200){
-                    layer.alert("暂存成功！");
+                    layer.msg("暂存成功！");
                 }
             }
             // 关闭旋转图标

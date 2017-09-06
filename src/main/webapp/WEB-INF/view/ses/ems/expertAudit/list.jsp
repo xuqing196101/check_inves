@@ -186,7 +186,7 @@
           var id = $(":checkbox:checked").val();
           var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
           state = trim(state);
-          if(state =="预初审合格" || state =="预初审不合格" || state == "复审预合格" || state == "初审合格" || state == "初审未合格" || state == "复审合格" || state == "复审不合格" || state == "复查合格" || state == "复查未合格") {
+          if(state =="预初审合格" || state =="预初审不合格" || state == "复审预合格" || state == "初审合格" || state == "初审未合格" || state == "复审合格" || state == "复查合格" || state == "复查未合格") {
             $("input[name='tableType']").val(str);
             $("input[name='expertId']").val(id);
             $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
@@ -489,6 +489,9 @@
               </c:if>
               <c:if test="${(sign == 1 and expert.status eq '9' and expert.auditTemporary ne '1')}">
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">退回再初审</span></td>
+              </c:if>
+              <c:if test="${sign == 1 and expert.status eq '5' }">
+                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">复审不合格</span></td>
               </c:if>
               <c:if test="${sign == 1 and expert.status eq '0' and expert.auditTemporary eq '1'}">
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">初审中</span></td>
