@@ -18,7 +18,7 @@
       total : "${list.total}",
       startRow : "${list.startRow}",
       endRow : "${list.endRow}",
-      groups : "${list.pages}" >= 1 ? 1 : "${list.pages}", //连续显示分页数
+      groups : "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
       curr : function() { 
         return "${list.pageNum}" == 0 ? 1: "${list.pageNum}";
       }(),

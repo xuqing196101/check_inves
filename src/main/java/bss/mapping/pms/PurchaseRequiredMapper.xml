@@ -952,7 +952,11 @@
 			<!--  <if test="isMaster != null">
 				and IS_MASTER = #{isMaster}
 			</if> -->
+			<if test="parentId!=null">
+			  and  PARENT_ID='1'
+		  </if>
 		</where>
+		
 		<if test="isMaster==null">
 			ORDER BY IS_MASTER
 		</if>
@@ -1181,7 +1185,7 @@
 	<select id="selectUniqueReferenceNO" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(T.ID)
 			FROM T_BSS_PMS_PURCHASE_REQUIRED T
-		   WHERE T.REFERENCE_NO = #{referenceNO} and parent_id='1'
+		   WHERE T.REFERENCE_NO = #{referenceNO} and T.PARENT_ID='1'
 	</select>
 
 	<!--根据ID查询-->
@@ -1191,5 +1195,4 @@
 		FROM T_BSS_PMS_PURCHASE_REQUIRED
 		WHERE ID=#{id}
 	</select>
-
 </mapper>

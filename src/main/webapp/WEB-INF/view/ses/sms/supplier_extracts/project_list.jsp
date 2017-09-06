@@ -90,8 +90,8 @@
             if (id.length > 1) {
                 layer.alert("只能选择一个", {offset: ['222px', '390px'], shade: 0.01});
             } else {
-
-                window.location.href = "${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?projectId=" + id + "&&typeclassId=${typeclassId}";
+				conditionId = $("#conditionId").val();
+                window.location.href = "${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id=" + id + "&&conditionId="+conditionId;
             }
         }
         function record() {
@@ -151,9 +151,16 @@
             <tr>
                 <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()" alt=""></th>
                 <th class="info w50">序号</th>
-                <th class="info" width="50%">项目名称</th>
-                <th class="info" width="25%">项目编号</th>
+                <th class="info" >项目名称</th>
+                <th class="info" >项目编号</th>
+                <th class="info" >包名</th>
+                <th class="info" >包号</th>
+                <th class="info" >项目编号</th>
                 <th class="info">采购方式</th>
+                <th class="info" >抽取方式</th>
+                <th class="info" >抽取人</th>
+                <th class="info" >抽取时间</th>
+                <th class="info" >抽取状态</th>
             </tr>
             </thead>
 
@@ -163,18 +170,21 @@
                 <tr style="cursor: pointer;">
                     <td class="tc w30">
                         <input type="hidden" value="${obj.status }"/>
+                        <input type="hidden" id="conditionId" value="${obj.conditionId }"/>
                         <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
                     </td>
                     <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-                    <td>${obj.name}</td>
+                    <td>${obj.projectName}</td>
                     <td>${obj.projectNumber}</td>
-                    <td class="tc">
-                        <c:forEach items="${kind}" var="kind">
-                            <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                        </c:forEach>
-                    </td>
+                    <td>${obj.projectNumber}</td>
+                    <td>${obj.projectNumber}</td>
+                    <td>${obj.projectNumber}</td>
+                    <td>${obj.projectNumber}</td>
+                    <td>${obj.extractTheWay==0?"语音抽取":"人工抽取"}</td>
+                    <td>${obj.projectNumber}</td>
+                    <td>${obj.createdAt}</td>
+                    <td>${obj.status==0?"暂存":"结束"}</td>
                 </tr>
-
             </c:forEach>
             </tbody>
         </table>

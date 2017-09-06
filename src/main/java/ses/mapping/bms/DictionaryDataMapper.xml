@@ -214,6 +214,13 @@
     where IS_DELETED = 0 
     and CODE = #{code,jdbcType=VARCHAR}
   </select>
+  <select id="selectByCode" parameterType="java.lang.String" resultMap="DictionaryDataMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_DICTIONARY_DATA 
+    where IS_DELETED = 0 
+    and CODE = #{code,jdbcType=VARCHAR}
+  </select>
   
   <!-- 6.根据code查询去除当前id的数据 -->
   <select id="findRepeat" parameterType="java.lang.String" resultMap="DictionaryDataMap">

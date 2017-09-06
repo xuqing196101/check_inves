@@ -74,17 +74,6 @@
         <input type="hidden" name="categoryName" id="extCategoryNames">
         <!--     品目id -->
         <input type='hidden' name='categoryId' id='extCategoryId'>
-        <!-- 货物 -->
-        <!--         <input type="hidden" name="goodsCount" id="goodsCount" > -->
-        <!--  物资 -->
-        <!--         <input type="hidden" name="projectCount" id="projectCount" > -->
-        <!--         服务 -->
-        <!--         <input type="hidden" name="serviceCount" id="serviceCount" > -->
-        <!--         物资生产 -->
-        <!--         <input type="hidden" name="productCount" id="productCount" > -->
-        <!--         物资销售 -->
-        <!--         <input type="hidden" name="salesCount" id="salesCount" > -->
-        <!--      限制地区理由-->
         <input type="hidden" name="addressReason" id="addressReason">
         <!--         省 -->
         <input type="hidden" name="province" id="province"/>
