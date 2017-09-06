@@ -9,6 +9,8 @@ $(function() {
 			});
 		}
 	});
+	//动态加载专家类别
+	loadExpertType();
 	//加载地区树
 	loadAreaZtree();
 });
@@ -111,6 +113,13 @@ function deletePerson(k){
 			layer.msg("请选择人员");
 		}
 	});
+}
+
+
+//加载专家类别
+function loadExpertType(){
+	var ww = $("#projectType option:selected").value();
+	layer.msg(ww);
 }
 
 //加载地区树形结构
