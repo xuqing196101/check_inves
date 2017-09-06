@@ -648,139 +648,148 @@
                       <div class="cue" id="countSupplier"></div>
                   </div>
               </li>
-
-               <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
-					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程品目：</span>
-					<!--  满足多个条件 -->
-					<input type="hidden" name="projectIsMulticondition" class="isSatisfy">
-					<input type="hidden" name="projectCategoryIds" id="projectCategoryIds" class="categoryId">
-					<div class="input-append input_group col-sm-12 col-xs-12 p0">
-						<input class="input_group " readonly  typeCode="PROJECT"
-							   value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
-						<span class="add-on">i</span>
-						<div class="cue" id="dCategoryName"></div>
-					</div>
-					</li>
-					<li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
-					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>工程资质：</span>
-					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
-						<input type="hidden" name="qua" >
-						<input type="text" readonly  id="quaName" treeHome="quaContent"
-							   value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showQua(this);"/>
-						<span class="add-on">i</span>
-						<div class="cue" id="dCount"></div>
-					</div>
-					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程等级：</span>
-					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
-						<input type="hidden" name="projectLevel" >
-						<input type="text" readonly  id="projectLevel" treeHome="projectLevelContent"
-							   value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
-						<span class="add-on">i</span>
-						<div class="cue" id="dCount"></div>
-					</div>
-					</li>
+              
+				<li class="clear"></li>
+				<li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程品目：</span>
+          <!--  满足多个条件 -->
+          <input type="hidden" name="projectIsMulticondition" class="isSatisfy">
+          <input type="hidden" name="projectCategoryIds" id="projectCategoryIds" class="categoryId">
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input class="input_group " readonly  typeCode="PROJECT"
+                 value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
+            <span class="add-on">i</span>
+            <div class="cue" id="dCategoryName"></div>
+          </div>
+          </li>
           <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
-					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 p0">
-						<input class="title col-md-12" id='projectExtractNum' name="projectExtractNum" onchange="chane();"
-							   maxlength="11" type="text">
-						<span class="add-on">i</span>
-						<div class="cue">${loginPwdError}</div>
-					</div>
-				</li>
-               <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
-					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>服务品目：</span>
-					<!--  满足多个条件 -->
-					<input type="hidden" name="serviceIsMulticondition" class="isSatisfy">
-					<input type="hidden" name="serviceCategoryIds" id="serviceCategoryIds" class="categoryId">
-					<div class="input-append input_group col-sm-12 col-xs-12 p0">
-						<input class="input_group " readonly  typeCode="SERVICE"
-							   value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
-						<span class="add-on">i</span>
-						<div class="cue" id="dCategoryName"></div>
-					</div>
-					</li>
-					<li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
-					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>服务等级：</span>
-					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
-						<input type="hidden" name="serviceLevel" >
-						<input type="text" readonly  id="serviceLevel" treeHome="serviceLevelContent"
-							   value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
-						<span class="add-on">i</span>
-						<div class="cue" id="dCount"></div>
-					</div>
-					</li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone clear serviceCount">
-					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 p0">
-						<input class="title col-md-12" id='serviceExtractNum' name="serviceExtractNum" onchange="chane();"
-							   maxlength="11" type="text">
-						<span class="add-on">i</span>
-						<div class="cue">${loginPwdError}</div>
-					</div>
-				</li>
-               <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
-					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>生产品目：</span>
-					<!--  满足多个条件 -->
-					<input type="hidden" name="productIsMulticondition" class="isSatisfy">
-					<input type="hidden" name="productCategoryIds" id="productCategoryIds" class="categoryId">
-					<div class="input-append input_group col-sm-12 col-xs-12 p0">
-						<input class="input_group " readonly  typeCode="PRODUCT"
-							   value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
-						<span class="add-on">i</span>
-						<div class="cue" id="dCategoryName"></div>
-					</div>
-					</li>
-					<li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
-					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>生产等级：</span>
-					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
-						<input type="hidden" name="productLevel" >
-						<input type="text" readonly  id="productLevel" treeHome="productLevelContent"
-							   value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
-						<span class="add-on">i</span>
-						<div class="cue" id="dCount"></div>
-					</div>
-					</li>
-					<li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
-					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 p0">
-						<input class="title col-md-12" id='productExtractNum' name="productExtractNum" onchange="chane();"
-							   maxlength="11" type="text">
-						<span class="add-on">i</span>
-						<div class="cue">${loginPwdError}</div>
-					</div>
-				</li>
-             <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
-					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>销售品目：</span>
-					<!--  满足多个条件 -->
-					<input type="hidden" name="salesIsMulticondition" class="isSatisfy">
-					<input type="hidden" name="salesCategoryIds" id="salesCategoryIds" class="categoryId">
-					<div class="input-append input_group col-sm-12 col-xs-12 p0">
-						<input class="input_group " readonly  typeCode="SALES"
-							   value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
-						<span class="add-on">i</span>
-						<div class="cue" id="dCategoryName"></div>
-					</div>
-					</li>
-					<li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
-					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>销售等级：</span>
-					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
-						<input type="hidden" name="salesLevel" >
-						<input type="text" readonly  id="salesLevel" treeHome="salesLevelContent"
-							   value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
-						<span class="add-on">i</span>
-						<div class="cue" id="dCount"></div>
-					</div>
-					</li>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>工程资质：</span>
+           <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input type="hidden" name="qua" >
+            <input type="text" readonly  id="quaName" treeHome="quaContent"
+                 value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showQua(this);"/>
+            <span class="add-on">i</span>
+            <div class="cue" id="dCount"></div>
+          </div>
+          </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程等级：</span>
+           <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input type="hidden" name="projectLevel" >
+            <input type="text" readonly  id="projectLevel" treeHome="projectLevelContent"
+                 value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
+            <span class="add-on">i</span>
+            <div class="cue" id="dCount"></div>
+          </div>
+          </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input class="title col-md-12" id='projectExtractNum' name="projectExtractNum" onchange="chane();"
+                 maxlength="11" type="text">
+            <span class="add-on">i</span>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+        
+        <li class="clear"></li>
+        <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>服务品目：</span>
+          <!--  满足多个条件 -->
+          <input type="hidden" name="serviceIsMulticondition" class="isSatisfy">
+          <input type="hidden" name="serviceCategoryIds" id="serviceCategoryIds" class="categoryId">
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input class="input_group " readonly  typeCode="SERVICE"
+                 value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
+            <span class="add-on">i</span>
+            <div class="cue" id="dCategoryName"></div>
+          </div>
+          </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>服务等级：</span>
+           <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input type="hidden" name="serviceLevel" >
+            <input type="text" readonly  id="serviceLevel" treeHome="serviceLevelContent"
+                 value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
+            <span class="add-on">i</span>
+            <div class="cue" id="dCount"></div>
+          </div>
+          </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input class="title col-md-12" id='serviceExtractNum' name="serviceExtractNum" onchange="chane();"
+                 maxlength="11" type="text">
+            <span class="add-on">i</span>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+        
+        <li class="clear"></li>
+        <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>生产品目：</span>
+          <!--  满足多个条件 -->
+          <input type="hidden" name="productIsMulticondition" class="isSatisfy">
+          <input type="hidden" name="productCategoryIds" id="productCategoryIds" class="categoryId">
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input class="input_group " readonly  typeCode="PRODUCT"
+                 value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
+            <span class="add-on">i</span>
+            <div class="cue" id="dCategoryName"></div>
+          </div>
+          </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>生产等级：</span>
+           <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input type="hidden" name="productLevel" >
+            <input type="text" readonly  id="productLevel" treeHome="productLevelContent"
+                 value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
+            <span class="add-on">i</span>
+            <div class="cue" id="dCount"></div>
+          </div>
+          </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input class="title col-md-12" id='productExtractNum' name="productExtractNum" onchange="chane();"
+                 maxlength="11" type="text">
+            <span class="add-on">i</span>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+        
+        <li class="clear"></li>
+        <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>销售品目：</span>
+          <!--  满足多个条件 -->
+          <input type="hidden" name="salesIsMulticondition" class="isSatisfy">
+          <input type="hidden" name="salesCategoryIds" id="salesCategoryIds" class="categoryId">
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input class="input_group " readonly  typeCode="SALES"
+                 value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
+            <span class="add-on">i</span>
+            <div class="cue" id="dCategoryName"></div>
+          </div>
+          </li>
           <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
-					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 p0">
-						<input class="title col-md-12" id='salesExtractNum' name="salesExtractNum" onchange="chane();"
-							   maxlength="11" type="text">
-						<span class="add-on">i</span>
-						<div class="cue">${loginPwdError}</div>
-					</div>
-				</li>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>销售等级：</span>
+           <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input type="hidden" name="salesLevel" >
+            <input type="text" readonly  id="salesLevel" treeHome="salesLevelContent"
+                 value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
+            <span class="add-on">i</span>
+            <div class="cue" id="dCount"></div>
+          </div>
+          </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input class="title col-md-12" id='salesExtractNum' name="salesExtractNum" onchange="chane();"
+                 maxlength="11" type="text">
+            <span class="add-on">i</span>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
           </ul>
           <div class="clear"></div>
 	         <div class="col-xs-12 tc mt20">
