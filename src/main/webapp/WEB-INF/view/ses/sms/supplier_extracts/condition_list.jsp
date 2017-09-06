@@ -355,7 +355,7 @@
         <!-- 包id  -->
         <%--           <input type="hidden" id="packageId" value="${packageId}" name="packageId"> --%>
          <h2 class="count_flow"><i>1</i>项目信息</h2>
-         <ul class="ul_list border0">
+         <ul class="ul_list border0 m0">
              <li class="col-md-3 col-sm-4 col-xs-12 pl15">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 项目名称:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -460,6 +460,30 @@
                         </select>
                      <span class="add-on">i</span>
                      <div class="cue" id="constructionProError"></div>
+                 </div>
+             </li>
+             <li class="col-md-3 col-sm-4 col-xs-12">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                     <input name="contactPerson" value="" type="text" >
+                     <span class="add-on">i</span>
+                     <div class="cue" id="sellSiteError"></div>
+                 </div>
+             </li>
+             <li class="col-md-3 col-sm-4 col-xs-12">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系电话</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                     <input name="contactNum" value="" type="text" >
+                     <span class="add-on">i</span>
+                     <div class="cue" id="sellSiteError"></div>
+                 </div>
+             </li>
+             <li class="col-md-3 col-sm-4 col-xs-12">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>其他要求</span>
+                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                     <input name="remark" value="" type="text" >
+                     <span class="add-on">i</span>
+                     <div class="cue" id="sellSiteError"></div>
                  </div>
              </li>
             <%--  <li class="col-md-3 col-sm-4 col-xs-12 ">
@@ -589,7 +613,7 @@
         <input type="hidden" name="province" id="province"/>
         <input type="hidden" name="" id="hiddentype">
           <h2 class="count_flow"><i>3</i>抽取条件</h2>
-          <ul class="ul_list" style="background-color: #fbfbfb">
+          <ul class="ul_list m0" style="background-color: #fbfbfb">
               <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div
                           class="star_red">*</div>所在地区：</span>
@@ -623,7 +647,7 @@
                   </div>
               </li>
 
-               <li class="col-md-3 col-sm-3 col-xs-3 dnone clear" id="projectCount">
+               <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程品目：</span>
 					<!--  满足多个条件 -->
 					<input type="hidden" name="projectIsMulticondition" class="isSatisfy">
@@ -634,6 +658,8 @@
 						<span class="add-on">i</span>
 						<div class="cue" id="dCategoryName"></div>
 					</div>
+					</li>
+					<li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程等级：</span>
 					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input type="hidden" name="projectLevel" >
@@ -642,6 +668,8 @@
 						<span class="add-on">i</span>
 						<div class="cue" id="dCount"></div>
 					</div>
+					</li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input class="title col-md-12" id='projectExtractNum' name="projectExtractNum" onchange="chane();"
@@ -650,7 +678,7 @@
 						<div class="cue">${loginPwdError}</div>
 					</div>
 				</li>
-               <li class="col-md-3 col-sm-3 col-xs-3 dnone clear" id="serviceCount">
+               <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>服务品目：</span>
 					<!--  满足多个条件 -->
 					<input type="hidden" name="serviceIsMulticondition" class="isSatisfy">
@@ -661,6 +689,8 @@
 						<span class="add-on">i</span>
 						<div class="cue" id="dCategoryName"></div>
 					</div>
+					</li>
+					<li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>服务等级：</span>
 					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input type="hidden" name="serviceLevel" >
@@ -669,6 +699,8 @@
 						<span class="add-on">i</span>
 						<div class="cue" id="dCount"></div>
 					</div>
+					</li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone clear serviceCount">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input class="title col-md-12" id='serviceExtractNum' name="serviceExtractNum" onchange="chane();"
@@ -677,7 +709,7 @@
 						<div class="cue">${loginPwdError}</div>
 					</div>
 				</li>
-               <li class="col-md-3 col-sm-3 col-xs-3 dnone" id="productCount">
+               <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>生产品目：</span>
 					<!--  满足多个条件 -->
 					<input type="hidden" name="productIsMulticondition" class="isSatisfy">
@@ -689,7 +721,7 @@
 						<div class="cue" id="dCategoryName"></div>
 					</div>
 					</li>
-					<li class="col-md-3 col-sm-3 col-xs-3">
+					<li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>生产等级：</span>
 					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input type="hidden" name="productLevel" >
@@ -699,7 +731,7 @@
 						<div class="cue" id="dCount"></div>
 					</div>
 					</li>
-					<li class="col-md-3 col-sm-3 col-xs-3">
+					<li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input class="title col-md-12" id='productExtractNum' name="productExtractNum" onchange="chane();"
@@ -708,7 +740,7 @@
 						<div class="cue">${loginPwdError}</div>
 					</div>
 				</li>
-             <li class="col-md-3 col-sm-3 col-xs-3 dnone" id="salesCount">
+             <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>销售品目：</span>
 					<!--  满足多个条件 -->
 					<input type="hidden" name="salesIsMulticondition" class="isSatisfy">
@@ -720,7 +752,7 @@
 						<div class="cue" id="dCategoryName"></div>
 					</div>
 					</li>
-					<li class="col-md-3 col-sm-3 col-xs-3">
+					<li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>销售等级：</span>
 					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input type="hidden" name="salesLevel" >
@@ -730,7 +762,7 @@
 						<div class="cue" id="dCount"></div>
 					</div>
 					</li>
-          <li class="col-md-3 col-sm-3 col-xs-3">
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input class="title col-md-12" id='salesExtractNum' name="salesExtractNum" onchange="chane();"
@@ -739,16 +771,13 @@
 						<div class="cue">${loginPwdError}</div>
 					</div>
 				</li>
-             
-             
-              <li class="col-md-12 col-sm-12 col-xs-12 tc">
-                  <div>
-                      <button class="btn " onclick="extractVerify();" type="button">抽取</button>
-                      <button class="btn  " onclick="finish();" type="button">完成抽取</button>
-                      <button class="btn " onclick="temporary();" type="button">暂存</button>
-                  </div>
-              </li>
           </ul>
+          <div class="clear"></div>
+	         <div class="col-xs-12 tc mt20">
+	           <button class="btn" onclick="extractVerify();" type="button">人工抽取</button>
+	           <button class="btn" onclick="finish();" type="button">自动抽取</button>
+	           <button class="btn" onclick="temporary();" type="button">重置</button>
+	         </div>
           </form>
           <!--=== Content Part ===-->
           </div>

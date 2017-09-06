@@ -547,26 +547,26 @@
     	 if ('PROJECT' == code) {
     		 //查询数量
     		 //selectTypeCount("PROJECT");
-    		 $("#projectCount").removeClass("dnone");
+    		 $(".projectCount").removeClass("dnone");
     		 //追加结果表
     		 $("#projectResult").removeClass("dnone");
     	 } else if ('SERVICE' == code) {
     		 //selectTypeCount("SERVICE");
-    		 $("#serviceCount").removeClass("dnone");
+    		 $(".serviceCount").removeClass("dnone");
     		 //加载服务等级树
     		 loadLevelTree("serviceLevelTree");
     		 //追加结果表
     		 $("#serviceResult").removeClass("dnone");
     	 } else if ('PRODUCT' == code) {
     		 //selectTypeCount("PRODUCT");
-    		 $("#productCount").removeClass("dnone");
+    		 $(".productCount").removeClass("dnone");
     		 //加载生产等级树
     		 loadLevelTree("productLevelTree");
     		 //追加结果表
     		 $("#productResult").removeClass("dnone");
     	 } else if ('SALES' == code) {
     		 //selectTypeCount("SALES");
-    		 $("#salesCount").removeClass("dnone");
+    		 $(".salesCount").removeClass("dnone");
     		 //销售等级树
     		 loadLevelTree("salesLevelTree");
     		 //追加结果表
@@ -740,10 +740,10 @@
         var rid = "";
         var codes = "";
         //设置隐藏展示
-        $("#projectCount").addClass("dnone");
-        $("#serviceCount").addClass("dnone");
-        $("#productCount").addClass("dnone");
-        $("#salesCount").addClass("dnone");
+        $(".projectCount").addClass("dnone");
+        $(".serviceCount").addClass("dnone");
+        $(".productCount").addClass("dnone");
+        $(".salesCount").addClass("dnone");
         
         $("#salesResult").addClass("dnone");
         $("#projectResult").addClass("dnone");
@@ -777,26 +777,26 @@
             if ('PROJECT' == nodes[i].code) {
             	//查询数量
             	//selectTypeCount("PROJECT");
-                $("#projectCount").removeClass("dnone");
+                $(".projectCount").removeClass("dnone");
               //追加结果表
                 $("#projectResult").removeClass("dnone");
             } else if ('SERVICE' == nodes[i].code) {
             	//selectTypeCount("SERVICE");
-                $("#serviceCount").removeClass("dnone");
+                $(".serviceCount").removeClass("dnone");
                 //加载服务等级树
                 loadLevelTree("serviceLevelTree");
                 //追加结果表
                 $("#serviceResult").removeClass("dnone");
             } else if ('PRODUCT' == nodes[i].code) {
             	//selectTypeCount("PRODUCT");
-                $("#productCount").removeClass("dnone");
+                $(".productCount").removeClass("dnone");
                 //加载生产等级树
                 loadLevelTree("productLevelTree");
               //追加结果表
                 $("#productResult").removeClass("dnone");
             } else if ('SALES' == nodes[i].code) {
             	//selectTypeCount("SALES");
-                $("#salesCount").removeClass("dnone");
+                $(".salesCount").removeClass("dnone");
                 //销售等级树
                 loadLevelTree("salesLevelTree");
               //追加结果表
