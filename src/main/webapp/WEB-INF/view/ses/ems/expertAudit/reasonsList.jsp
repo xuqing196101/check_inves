@@ -44,7 +44,7 @@
             	/* $("#reverse_of_five_i").css("display","block");
             	$("#reverse_of_six").css("display","block"); */
             }
-            if($("#status").val() == '-2'){
+            if($("#status").val() == '-2' && num == 0){
             	var expertId = $("input[name='expertId']").val();
             	getCheckOpinionType(expertId);
             }
