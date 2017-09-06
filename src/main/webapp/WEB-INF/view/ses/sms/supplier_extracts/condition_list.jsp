@@ -595,6 +595,8 @@
         <input type="hidden" name="addressId" id="addressId">
         <!--        项目id -->
         <input type="hidden" name="projectId" id="pid" value="${packageId}">
+        <!-- 记录id -->
+        <input type="hidden" name="recordId" id="pid" value="${projectInfo.id}">
         <!-- 地区 -->
         <input type="hidden" name="address" id="address">
 		<input type="hidden" name="id" value="${projectInfo.conditionId }">
@@ -660,6 +662,14 @@
 					</div>
 					</li>
 					<li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>工程资质：</span>
+					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input type="hidden" name="qua" >
+						<input type="text" readonly  id="quaName" treeHome="quaContent"
+							   value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showQua(this);"/>
+						<span class="add-on">i</span>
+						<div class="cue" id="dCount"></div>
+					</div>
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程等级：</span>
 					 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 						<input type="hidden" name="projectLevel" >
@@ -895,6 +905,11 @@
 <div id="salesLevelContent" class="levelTypeContent"
      style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
     <ul id="salesLevelTree" class="ztree" style="margin-top:0;"></ul>
+</div>
+<!-- 工程资质树 -->
+<div id="quaContent" class="levelTypeContent"
+     style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+    <ul id="quaTree" class="ztree" style="margin-top:0;"></ul>
 </div>
 
 </body>

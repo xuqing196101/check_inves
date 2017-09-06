@@ -1174,14 +1174,14 @@
     /**
      * 存储抽取结果
      */
-    function ajaxs(objTr, reason,attend) {//obj:当前处理完成供应商信息、行  v:不能参加理由
-    	var reviewType = objTr.attr("typeCode");
-    	var reviewType = objTr.attr("typeCode");
+    function ajaxs(objTr, reason,join) {//obj:当前处理完成供应商信息、行  v:不能参加理由
+    	var supplierType = objTr.attr("typeCode");
+    	var supplierType = objTr.attr("typeCode");
     	var sid = objTr.attr("sid");
     	$.ajax({
             type: "POST",
             url: globalPath+"/SupplierExtracts/resultextract.do",
-            data: {reason: reason, conditionId: "${condition.id}",supplierId:sid,reviewType:reviewType,attend:attend,recordId:"${projectInfo.id}"},
+            data: {reason: reason, conditionId: "${condition.id}",supplierId:sid,supplierType:supplierType,join:join,recordId:"${projectInfo.id}"},
             dataType: "json",
             success: function (data) {
             	

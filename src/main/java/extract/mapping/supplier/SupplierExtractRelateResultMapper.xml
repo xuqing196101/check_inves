@@ -61,8 +61,8 @@
 		#{conTypeId,jdbcType=VARCHAR},
 		#{statusCount,jdbcType=DECIMAL},#{reviewType,jdbc=VARCHAR})
 	</insert>
-	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtractResult">
-		<!-- @mbggenerated -->
+	<!-- <insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtractResult">
+		@mbggenerated
 		insert into T_SES_SMS_SUPPLIER_EXT_RELATE
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -148,6 +148,63 @@
 			</if>
 			<if test="attend != null">
 				#{attend,jdbcType=DECIMAL},
+			</if>
+			<if test="recordId != null">
+				#{recordId,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</insert> -->
+	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtractResult">
+		<!-- @mbggenerated -->
+		insert into T_SES_SMS_EXTRACT_RESULT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="conditionId != null">
+				CONDITION_ID,
+			</if>
+			
+			<if test="operatingType != null">
+				OPERATING_TYPE,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
+			<if test="reason != null">
+				REASON,
+			</if>
+			<if test="supplierType != null">
+				SUPPLIER_TYPE,
+			</if>
+			<if test="recordId != null">
+				RECORD_ID
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="conditionId != null">
+				#{conditionId,jdbcType=VARCHAR},
+			</if>
+			<if test="operatingType != null">
+				#{operatingType,jdbcType=DECIMAL},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="reason != null">
+				#{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierType != null">
+				#{supplierType,jdbcType=VARCHAR},
 			</if>
 			<if test="recordId != null">
 				#{recordId,jdbcType=VARCHAR}
@@ -377,8 +434,10 @@
 		t1.SUPPLIER_ID
 	</select>
 	
+	
+	<!-- 查询已经抽取到的供应商 -->
 	<select id="selectSupplierIdListByRecordId" parameterType="java.lang.String" resultType="java.lang.String">
-		SELECT SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_EXT_RELATE WHERE 
+		SELECT SUPPLIER_ID supplierIds FROM T_SES_SMS_EXTRACT_RESULT WHERE RECORD_ID = #{value}
 	</select>
 
 

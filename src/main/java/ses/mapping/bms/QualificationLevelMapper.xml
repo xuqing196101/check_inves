@@ -28,12 +28,12 @@
    		delete from T_SES_BMS_QUALIFCATE_LEVEL  where QUALIFCATION_ID = #{qualificationId}
    </delete>
    
-    <!-- <select id="getLevelByQid"  resultMap="ses.model.bms.DictionaryData">
+    <select id="getLevelByQid"  resultType="ses.model.bms.DictionaryData">
         SELECT D.* FROM T_SES_BMS_QUALIFCATE_LEVEL L LEFT JOIN T_SES_BMS_DICTIONARY_DATA WHERE L.GRADE = D.ID WHERE L.QUALIFCATION_ID IN 
         <foreach collection="array" item="it" open="(" separator="," close=")">
         	#{it}
         </foreach>
-    </select> -->
+    </select>
     
     
 </mapper>

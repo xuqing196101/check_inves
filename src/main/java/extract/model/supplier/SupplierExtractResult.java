@@ -32,7 +32,7 @@ public class SupplierExtractResult {
 	/**
 	 * 是否参加
 	 */
-	private Short attend;
+	private Short join;
 	
 	/**
 	 * 不参加理由
@@ -42,7 +42,7 @@ public class SupplierExtractResult {
 	/**
 	 * 供应商类型代码
 	 */
-	private String reviewType;
+	private String supplierType;
 	
 	/**
 	 * 反馈时间
@@ -490,18 +490,9 @@ public class SupplierExtractResult {
     }
 
     /**
-     * @return Returns the reviewType.
+     * @return Returns the supplierType.
      */
-    public String getReviewType() {
-        return reviewType;
-    }
-
-    /**
-     * @param reviewType The reviewType to set.
-     */
-    public void setReviewType(String reviewType) {
-        this.reviewType = reviewType;
-    }
+   
 
     /**
      * @return Returns the packageId.
@@ -510,7 +501,15 @@ public class SupplierExtractResult {
       return packageId;
     }
 
-    /**
+    public String getSupplierType() {
+		return supplierType;
+	}
+
+	public void setSupplierType(String supplierType) {
+		this.supplierType = supplierType;
+	}
+
+	/**
      * @param packageId The packageId to set.
      */
     public void setPackageId(String[] packageId) {
@@ -549,13 +548,13 @@ public class SupplierExtractResult {
 		this.recordId = recordId;
 	}
 
-
-	public Short getAttend() {
-		return attend;
+	
+	public Short getJoin() {
+		return join;
 	}
 
-	public void setAttend(Short attend) {
-		this.attend = attend;
+	public void setJoin(Short join) {
+		this.join = join;
 	}
 
 	public String getLevelTypeId() {

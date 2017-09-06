@@ -126,5 +126,10 @@ public interface SupplierExtractRelateResultMapper {
   List<SupplierExtractResult> selectSupplierType(String conditionId);
   
 
+  /**
+   * 查询已经抽取到的供应商
+   * @param recordId
+   * @return
+   */
   List<String> selectSupplierIdListByRecordId(String recordId);
 }

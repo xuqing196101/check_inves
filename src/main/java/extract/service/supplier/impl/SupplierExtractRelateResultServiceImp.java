@@ -146,7 +146,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    */
   @Override
   public void update(SupplierExtractResult projectExtract) {
-    if(projectExtract != null && projectExtract.getPackageId() != null && projectExtract.getPackageId().length !=0 ){
+   /* if(projectExtract != null && projectExtract.getPackageId() != null && projectExtract.getPackageId().length !=0 ){
       for (String packageId : projectExtract.getPackageId()) {
         if (!"".equals(packageId)){
           SupplierExtractResult pe = supplierExtRelateMapper.selectByPrimaryKey(projectExtract.getId());
@@ -187,7 +187,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
       }
 
     }
-    supplierExtRelateMapper.updateByPrimaryKeySelective(projectExtract);
+    supplierExtRelateMapper.updateByPrimaryKeySelective(projectExtract);*/
 
   }
 

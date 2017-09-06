@@ -25,7 +25,7 @@
     <result column="NET_TYPE" property="netType"/>
     <result column="ERROR_NUM" property="errorNum"/>
     <!-- 查询机构 -->
-    <!-- <association column="ORG_ID" property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById"/> -->
+    <association column="ORG_ID" property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById"/>
     <!-- 查询创建人 -->
     <association column="USER_ID" property="user" select="selectByPrimaryKey"/>
   </resultMap>

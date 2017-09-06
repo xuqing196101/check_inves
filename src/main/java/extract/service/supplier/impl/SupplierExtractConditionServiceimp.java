@@ -181,8 +181,13 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
   public Map<String, Map<String, Object>> selectLikeSupplier(SupplierExtractCondition condition, SupplierConType conType) {
 	  
 	 //去除已经抽取到的供应商
-	// supplierExtRelateMapper
-	  
+	 if(StringUtils.isNotEmpty(condition.getRecordId())){
+		 List<String> supplierIds = supplierExtRelateMapper.selectSupplierIdListByRecordId(condition.getRecordId());
+		 if(null != supplierIds){
+			 condition.setSupplierIds(supplierIds);
+		 }
+	 }
+	 
 	  
 	 Map<String, Object> list = new HashMap<>();
 	 Map<String, Object> count = new HashMap<>();
@@ -195,7 +200,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(condition);//getAllSupplier(null);
 		count.put("area",supplierMapper.listExtractionExpertCount(condition));
 		//存储
-			saveOrUpdateCondition(condition, conType);
+			saveOrUpdateCondition(condition, null);
 	}else if(condition.getSupplierTypeCodes().length>1){
 		//按类别查询
 		String[] supplierTypeCodes = condition.getSupplierTypeCodes();
@@ -204,11 +209,15 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(condition);
 			count.put(code+"Count", supplierMapper.listExtractionExpertCount(condition));
 			list.put(code, selectAllExpert);
+			//存储
+		  	saveOrUpdateCondition(condition, conType);
 		}
 	}else if(condition.getSupplierTypeCodes().length>0){
 		List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(condition);
 		count.put(condition.getSupplierTypeCode()+"Count", supplierMapper.listExtractionExpertCount(condition));
 		list.put(condition.getSupplierTypeCode(), selectAllExpert);
+		//存储
+	  	saveOrUpdateCondition(condition, conType);
 	}
 	    
 	if(StringUtils.isNotEmpty(conType.getProductCategoryIds())){
@@ -267,19 +276,6 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	map.put("count", count);
 	map.put("list", list);
 	return map;
-    //保存抽取结果
-    
-    
-    //循环吧查询出的供应商集合insert到专家记录表和专家关联的表中
-    /*for (Supplier supplier2 : selectAllExpert) {
-      Map<String, String> map=new HashMap<String, String>();
-      map.put("supplierId", supplier2.getId());
-      map.put("projectId",packId[0]);
-      if(supplierExtRelateMapper.getSupplierId(map)==0){
-        count++;
-      }
-    }*/
-  
   }
 
 

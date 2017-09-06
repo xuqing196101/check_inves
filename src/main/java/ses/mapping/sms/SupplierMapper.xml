@@ -1606,79 +1606,16 @@
 				</otherwise>
 			</choose>
 		</if>
+		<if test="supplierIds != null and supplier != '' ">
+			AND SUPPLIER_ID NOT IN
+			<foreach collection="supplierIds" open="(" item="sid" separator="," close=")">
+				#{sid}	
+			</foreach>
+		</if>
 	</select>
 	<!-- 供应商抽取集合 -->
 	<select id="listExtractionExpert" parameterType="extract.model.supplier.SupplierExtractCondition"
 		resultMap="findSupplierMap">
-		<!-- select * from(
-		select t1.typeId,t1.categoryId,t2.* from(
-		select id,wm_concat(DISTINCT(typeId)) as typeId ,min(CATEGORYID) as categoryId from (
-		SELECT
-		T1.*,t2.CATEGORY_ID as categoryId ,t3.SUPPLIER_TYPE_ID as typeId FROM
-		"T_SES_SMS_SUPPLIER" t1
-		left join T_SES_SMS_SUPPLIER_TYPE_RELATE
-		t3 on t1. ID = t3.SUPPLIER_ID
-		LEFT JOIN (
-		SELECT T1. ID, CATEGORY_ID
-		FROM "T_SES_SMS_SUPPLIER" t1
-		RIGHT JOIN T_SES_SMS_SUPPLIER_ITEM
-		t2 ON T1. ID = T2.SUPPLIER_ID
-		) t2 ON t1.id =t2.id
-		) GROUP BY id )t1
-		left JOIN T_SES_SMS_SUPPLIER t2 on t1.id=t2.id
-		) where 1=1
-		AND
-		IS_PROVISIONAL = 0 and ( SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5
-		or
-		SUPPLIER_STATUS = 7 )
-
-		<if test="addressId != null and addressId != '' ">
-			AND ADDRESS = #{addressId}
-		</if>
-		<if
-			test="addressId == null and  addressId != '' and addressSplit != null and addressSplit != '' ">
-			AND
-			<foreach collection="addressSplit" item="split" open="("
-				close=")" separator="OR">
-				ADDRESS = #{split}
-			</foreach>
-		</if>
-
-		<foreach item="item" collection="conTypes">
-			<if
-				test="item.arraySupplierTypeId !=null and item.arraySupplierTypeId != '' ">
-				AND
-				<foreach item="type" collection="item.arraySupplierTypeId"
-					open="(" close=")" separator="OR">
-					"INSTR"(typeId,
-					#{type})>0
-				</foreach>
-			</if>
-			<if
-				test="item.isMulticondition != null and item.isMulticondition != 0 and item.categorySplit != null">
-				<if test="item.isMulticondition==2">
-					<if test="item.categorySplit != null and item.categorySplit != ''">
-						AND (
-						<foreach item="category" index="index" collection="item.categorySplit"
-							open="" separator="AND" close="">
-							"INSTR"(categoryId, #{category})>0
-						</foreach>
-						)
-					</if>
-				</if>
-				<if test="item.isMulticondition==1">
-					<if test="item.categorySplit != null and item.categorySplit != ''">
-						AND (
-						<foreach item="category" index="index" collection="item.categorySplit"
-							open="" separator="OR" close="">
-							"INSTR"(categoryId, #{category})>0
-						</foreach>
-						)
-					</if>
-
-				</if>
-			</if>
-		</foreach> -->
 		SELECT * FROM 
 		(SELECT DISTINCT S.* FROM T_SES_SMS_SUPPLIER S
 		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
@@ -1723,6 +1660,12 @@
 					AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
 				</otherwise>
 			</choose>
+		</if>
+		<if test="supplierIds != null and supplier != '' ">
+			AND SUPPLIER_ID NOT IN
+			<foreach collection="supplierIds" open="(" item="sid" separator="," close=")">
+				#{sid}	
+			</foreach>
 		</if>
 		ORDER BY dbms_random.random) WHERE ROWNUM = 1
 	</select>
