@@ -26,12 +26,12 @@ var personType ;
             success: function (data) {
             	for(var i=0;i<data.length;i++){
             	 var tr = "<tr>"+
-		              "<td> <input type='checkbox' value="+data[i].id+"> </td>"+
-		              "<td> "+(i+1)+" </td>"+
-		              "<td> "+data[i].name+" </td>"+
-	              	  "<td>"+data[i].compary+" </td>"+
-	              	  "<td>"+data[i].duty+" </td>"+
-	              	  "<td> "+data[i].rank+"</td>"+
+		              "<td class='tc h30 lh30'> <input type='checkbox' value="+data[i].id+"> </td>"+
+		              "<td class='tc h30 lh30'> "+(i+1)+" </td>"+
+		              "<td class='tc h30 lh30'> "+data[i].name+" </td>"+
+	              	  "<td class='tc h30 lh30'>"+data[i].compary+" </td>"+
+	              	  "<td class='tc h30 lh30'>"+data[i].duty+" </td>"+
+	              	  "<td class='tc h30 lh30'> "+data[i].rank+"</td>"+
 		              "</tr>";
 		            $("tbody").append(tr);
             	}
@@ -41,11 +41,13 @@ var personType ;
   	 
         function chosePerson(obj){
         	//当前已添加的人员序号
-			var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();  	
-			if(null==index ||''==index || "undefined"== index){
-				index=0;
-			}
-			var j=1;
+			//var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();
+			//if(null==index ||''==index || "undefined"== index){
+			//	index=0;
+			//}
+        	var index = 0;
+			var j = 1;
+			var str = '';
 			$("#personList").find(":checked").each(function(){
 				//选中的复选框
 				 var checkbox_now = $(this);
@@ -82,11 +84,16 @@ var personType ;
 						}
 					}
 				}
-				tableTr.html(parseInt(index)+j);	
-				$(obj).parents("form").find("tbody").append($(this).parents("tr"));	
+				tableTr.html(parseInt(index)+j);
+				str += '<tr>'+$(this).parents("tr").html()+'</tr>';
 				j++;
 			});
 			
+			$(obj).parents("form").find("tbody tr").each(function() {
+				$(this).find('td').eq(1).html(j);
+				j++;
+			});
+			$(obj).parents("form").find("tbody").prepend(str);
 			var layerIndex = parent.layer.getFrameIndex(window.name); //获取窗口索引
 	        parent.layer.close(layerIndex);
         }

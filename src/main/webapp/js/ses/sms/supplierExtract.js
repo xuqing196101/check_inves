@@ -60,7 +60,7 @@
     	if(null==index ||''==index || "undefined"== index){
 			index=0;
 		}
-    	var tr = "<tr class='inp'><td class='tc'><input type='checkbox'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input name='name' > </td><td class='tc'> <input name='compary' ></td><td class='tc'> <input name='duty'></td><td class='tc'> <input name='rank'></td></tr>";
+    	var tr = "<tr class='inp'><td class='tc'><input type='checkbox'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input name='name' type='text'> </td><td class='tc'> <input name='compary' type='text' class='w100p'></td><td class='tc'> <input name='duty' type='text'></td><td class='tc'> <input name='rank' type='text'></td></tr>";
     	$(obj).parents("form").find("tbody").append(tr);
     }
     
@@ -75,7 +75,7 @@
             title: "引用历史人员",
             shadeClose: true,
             shade: 0.01,
-            area: ['430px', '400px'],
+            area: ['600px', '400px'],
             offset: '20px',
             content: globalPath+'/SupplierExtracts/toPeronList.do?personType='+personType, //iframe的url
             success: function (layero, index) {

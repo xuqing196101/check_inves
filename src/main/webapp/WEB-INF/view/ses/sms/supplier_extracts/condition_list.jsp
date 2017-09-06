@@ -515,7 +515,7 @@
               <tr>
               	<td class="tc"> <input type="checkbox"> </td>
               	<td class="tc"> 1 </td>
-              	<td> <input name="list[0].name" class='tc' type="text"> <span class="name_0_Error"></span> </td>
+              	<td> <input name="list[0].name" type="text"> <span class="name_0_Error"></span> </td>
               	<td> <input name="list[0].compary" type="text" class="w100p"> <span class="compary_0_Error"></span> </td>
               	<td> <input name="list[0].duty" type="text">  <span class="duty_0_Error"></span></td>
               	<td> <input name="list[0].rank" type="text">  <span class="rank_0_Error"></span></td>
@@ -554,18 +554,10 @@
               <tr>
               	<td class="tc"> <input type="checkbox"> </td>
               	<td class="tc"> 1 </td>
-              	<td> <input name="list[0].name" class='tc' type="text"> <span class="name_0_Error"></span> </td>
+              	<td> <input name="list[0].name" type="text"> <span class="name_0_Error"></span> </td>
               	<td> <input name="list[0].compary" type="text" class="w100p"> <span class="compary_0_Error"></span> </td>
               	<td> <input name="list[0].duty" type="text">  <span class="duty_0_Error"></span></td>
               	<td> <input name="list[0].rank" type="text">  <span class="rank_0_Error"></span></td>
-              </tr>
-              <tr>
-              	<td class="tc"> <input type="checkbox"> </td>
-              	<td class="tc"> 2 </td>
-              	<td> <input name="list[1].name" type="text">  <span class="name_1_Error"></span></td>
-              	<td> <input name="list[1].compary" type="text" class="w100p">  <span class="compary_1_Error"></span></td>
-              	<td> <input name="list[1].duty" type="text">  <span class="duty_1_Error"></span></td>
-              	<td> <input name="list[1].rank" type="text"> <span class="rank_1_Error"></span> </td>
               </tr>
             </tbody>
           </table>
