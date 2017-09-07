@@ -342,7 +342,7 @@
 <!-- 项目戳开始 -->
 <div class="container">
 <!-- 项目信息开始 -->
-<div class="container_box col-md-12 col-sm-12 col-xs-12">
+<div class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled">
     <form id="form">
         <!-- 监督人员 -->
         <input type="hidden" name="sids" id="sids" value="${userId}" />
@@ -665,9 +665,9 @@
           <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>工程资质：</span>
            <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input type="hidden" name="qua" >
+            <input type="hidden" name="qua" id="quaId" >
             <input type="text" readonly  id="quaName" treeHome="quaContent"
-                 value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showQua(this);"/>
+                 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" onclick="showQua(this);"/>
             <span class="add-on">i</span>
             <div class="cue" id="dCount"></div>
           </div>
