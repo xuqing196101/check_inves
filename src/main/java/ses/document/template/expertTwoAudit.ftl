@@ -14,9 +14,10 @@
 		<pkg:part pkg:name="/word/_rels/document.xml.rels" pkg:contentType="application/vnd.openxmlformats-package.relationships+xml">
 			<pkg:xmlData>
 				<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
-					<Relationship Id="rId5" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable" Target="fontTable.xml" />
-					<Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml" Target="../customXml/item1.xml" />
-					<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="theme/theme1.xml" />
+					<Relationship Id="rId6" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable" Target="fontTable.xml" />
+					<Relationship Id="rId5" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml" Target="../customXml/item1.xml" />
+					<Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="theme/theme1.xml" />
+					<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml" />
 					<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml" />
 					<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml" />
 				</Relationships>
@@ -1096,8 +1097,6 @@
 									</w:p>
 								</w:tc>
 							</w:tr>
-							
-							
 							<#list expertList as ex >
 							<w:tr>
 								<w:tblPrEx>
@@ -1244,8 +1243,10 @@
 							</w:r>
 						</w:p>
 						<w:sectPr>
+							<w:footerReference r:id="rId3" w:type="default" />
 							<w:pgSz w:w="11906" w:h="16838" />
 							<w:pgMar w:top="1440" w:right="1800" w:bottom="1440" w:left="1800" w:header="851" w:footer="992" w:gutter="0" />
+							<w:pgNumType w:fmt="decimal" />
 							<w:cols w:space="425" w:num="1" />
 							<w:docGrid w:type="lines" w:linePitch="312" w:charSpace="0" /></w:sectPr>
 					</w:body>
@@ -1265,6 +1266,9 @@
 					<customSectProps>
 						<customSectPr/>
 					</customSectProps>
+					<customShpExts>
+						<customShpInfo spid="_x0000_s2049" textRotate="1" />
+					</customShpExts>
 				</s:customData>
 			</pkg:xmlData>
 		</pkg:part>
@@ -1289,8 +1293,7 @@
 					<ScaleCrop>false</ScaleCrop>
 					<LinksUpToDate>false</LinksUpToDate>
 					<CharactersWithSpaces>359</CharactersWithSpaces>
-					<Application>WPS Office_10.1.0.6120_F1E327BC-269C-435d-A152-05C5408002CA</Application>
-					<DocSecurity>0</DocSecurity>
+					<Application>WPS Office_10.1.0.6749_F1E327BC-269C-435d-A152-05C5408002CA</Application>
 				</Properties>
 			</pkg:xmlData>
 		</pkg:part>
@@ -1300,7 +1303,7 @@
 					<dcterms:created xsi:type="dcterms:W3CDTF">2016-12-27T09:16:00Z</dcterms:created>
 					<dc:creator>NTKO</dc:creator>
 					<cp:lastModifiedBy>yggc</cp:lastModifiedBy>
-					<dcterms:modified xsi:type="dcterms:W3CDTF">2017-09-05T07:10:32Z</dcterms:modified>
+					<dcterms:modified xsi:type="dcterms:W3CDTF">2017-09-07T03:17:14Z</dcterms:modified>
 					<cp:revision>151</cp:revision>
 				</cp:coreProperties>
 			</pkg:xmlData>
@@ -1309,7 +1312,7 @@
 			<pkg:xmlData>
 				<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/custom-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">
 					<property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="2" name="KSOProductBuildVer">
-						<vt:lpwstr>2052-10.1.0.6120</vt:lpwstr>
+						<vt:lpwstr>2052-10.1.0.6749</vt:lpwstr>
 					</property>
 				</Properties>
 			</pkg:xmlData>
@@ -1418,6 +1421,68 @@
 				</w:fonts>
 			</pkg:xmlData>
 		</pkg:part>
+		<pkg:part pkg:name="/word/footer1.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml">
+			<pkg:xmlData>
+				<w:ftr xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:wpsCustomData="http://www.wps.cn/officeDocument/2013/wpsCustomData" mc:Ignorable="w14 w15 wp14">
+					<w:p>
+						<w:pPr>
+							<w:pStyle w:val="2" /></w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:sz w:val="18" /></w:rPr>
+							<w:pict>
+								<v:shape id="_x0000_s2049" o:spid="_x0000_s2049" o:spt="202" type="#_x0000_t202" style="position:absolute;left:0pt;margin-top:0pt;height:144pt;width:144pt;mso-position-horizontal:center;mso-position-horizontal-relative:margin;mso-wrap-style:none;z-index:251658240;mso-width-relative:page;mso-height-relative:page;" filled="f" stroked="f" coordsize="21600,21600">
+									<v:path/>
+									<v:fill on="f" focussize="0,0" />
+									<v:stroke on="f" />
+									<v:imagedata o:title="" />
+									<o:lock v:ext="edit" aspectratio="f" />
+									<v:textbox inset="0mm,0mm,0mm,0mm" style="mso-fit-shape-to-text:t;">
+										<w:txbxContent>
+											<w:p>
+												<w:pPr>
+													<w:pStyle w:val="2" />
+													<w:rPr>
+														<w:rFonts w:hint="eastAsia" w:eastAsia="宋体" />
+														<w:lang w:eastAsia="zh-CN" /></w:rPr>
+												</w:pPr>
+												<w:r>
+													<w:rPr>
+														<w:rFonts w:hint="eastAsia" />
+														<w:lang w:eastAsia="zh-CN" /></w:rPr>
+													<w:fldChar w:fldCharType="begin" /></w:r>
+												<w:r>
+													<w:rPr>
+														<w:rFonts w:hint="eastAsia" />
+														<w:lang w:eastAsia="zh-CN" /></w:rPr>
+													<w:instrText xml:space="preserve"> PAGE \* MERGEFORMAT </w:instrText>
+												</w:r>
+												<w:r>
+													<w:rPr>
+														<w:rFonts w:hint="eastAsia" />
+														<w:lang w:eastAsia="zh-CN" /></w:rPr>
+													<w:fldChar w:fldCharType="separate" /></w:r>
+												<w:r>
+													<w:rPr>
+														<w:rFonts w:hint="eastAsia" />
+														<w:lang w:eastAsia="zh-CN" /></w:rPr>
+													<w:t>1</w:t>
+												</w:r>
+												<w:r>
+													<w:rPr>
+														<w:rFonts w:hint="eastAsia" />
+														<w:lang w:eastAsia="zh-CN" /></w:rPr>
+													<w:fldChar w:fldCharType="end" /></w:r>
+											</w:p>
+										</w:txbxContent>
+									</v:textbox>
+								</v:shape>
+							</w:pict>
+						</w:r>
+					</w:p>
+				</w:ftr>
+			</pkg:xmlData>
+		</pkg:part>
 		<pkg:part pkg:name="/word/settings.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml">
 			<pkg:xmlData>
 				<w:settings xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:sl="http://schemas.openxmlformats.org/schemaLibrary/2006/main" mc:Ignorable="w14">
@@ -1430,16 +1495,34 @@
 					<w:displayHorizontalDrawingGridEvery w:val="0" />
 					<w:displayVerticalDrawingGridEvery w:val="2" />
 					<w:characterSpacingControl w:val="compressPunctuation" />
+					<w:hdrShapeDefaults>
+						<o:shapelayout v:ext="edit">
+							<o:idmap v:ext="edit" data="2" /></o:shapelayout>
+					</w:hdrShapeDefaults>
 					<w:compat>
+						<w:spaceForUL/>
 						<w:balanceSingleByteDoubleByteWidth/>
+						<w:ulTrailSpace/>
 						<w:doNotExpandShiftReturn/>
 						<w:adjustLineHeightInTable/>
 						<w:useFELayout/>
 						<w:useAltKinsokuLineBreakRules/>
+						<w:splitPgBreakAndParaMark/>
 						<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="11" /></w:compat>
 					<w:rsids>
 						<w:rsidRoot w:val="00000000" />
-						<w:rsid w:val="520C70C1" /></w:rsids>
+						<w:rsid w:val="69CD48B4" /></w:rsids>
+					<m:mathPr>
+						<m:brkBin m:val="before" />
+						<m:brkBinSub m:val="--" />
+						<m:smallFrac m:val="0" />
+						<m:dispDef/>
+						<m:lMargin m:val="0" />
+						<m:rMargin m:val="0" />
+						<m:defJc m:val="centerGroup" />
+						<m:wrapIndent m:val="1440" />
+						<m:intLim m:val="subSup" />
+						<m:naryLim m:val="undOvr" /></m:mathPr>
 					<w:themeFontLang w:val="en-US" w:eastAsia="zh-CN" />
 					<w:clrSchemeMapping w:bg1="light1" w:t1="dark1" w:bg2="light2" w:t2="dark2" w:accent1="accent1" w:accent2="accent2" w:accent3="accent3" w:accent4="accent4" w:accent5="accent5" w:accent6="accent6" w:hyperlink="hyperlink" w:followedHyperlink="followedHyperlink" />
 					<w:doNotIncludeSubdocsInStats/></w:settings>
@@ -1558,7 +1641,7 @@
 						<w:lsdException w:unhideWhenUsed="0" w:uiPriority="0" w:semiHidden="0" w:name="HTML Sample" />
 						<w:lsdException w:unhideWhenUsed="0" w:uiPriority="0" w:semiHidden="0" w:name="HTML Typewriter" />
 						<w:lsdException w:unhideWhenUsed="0" w:uiPriority="0" w:semiHidden="0" w:name="HTML Variable" />
-						<w:lsdException w:qFormat="1" w:unhideWhenUsed="0" w:uiPriority="0" w:name="Normal Table" />
+						<w:lsdException w:unhideWhenUsed="0" w:uiPriority="0" w:name="Normal Table" />
 						<w:lsdException w:unhideWhenUsed="0" w:uiPriority="0" w:semiHidden="0" w:name="annotation subject" />
 						<w:lsdException w:unhideWhenUsed="0" w:uiPriority="0" w:semiHidden="0" w:name="Table Simple 1" />
 						<w:lsdException w:unhideWhenUsed="0" w:uiPriority="0" w:semiHidden="0" w:name="Table Simple 2" />
@@ -1724,7 +1807,6 @@
 					<w:style w:type="table" w:default="1" w:styleId="5">
 						<w:name w:val="Normal Table" />
 						<w:semiHidden/>
-						<w:qFormat/>
 						<w:uiPriority w:val="0" />
 						<w:rPr>
 							<w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar-SA" /></w:rPr>
@@ -2020,8 +2102,7 @@
 							</a:bgFillStyleLst>
 						</a:fmtScheme>
 					</a:themeElements>
-					<a:objectDefaults/>
-					<a:extraClrSchemeLst/></a:theme>
+					<a:objectDefaults/></a:theme>
 			</pkg:xmlData>
 		</pkg:part>
 	</pkg:package>
