@@ -304,13 +304,13 @@
 									 var auditContent;
 									 var auditField;
 									 if(fourthNode != null && fourthNode !=""){
-										auditContent = fourthNode + "目录信息";
+										auditContent = firstNode+"/"+secondNode+"/"+thirdNode+"/"+fourthNode + "目录信息";
 										auditField = fourthNode;
 									 }else if(thirdNode !=null && thirdNode!=""){
-										auditContent = thirdNode + "目录信息";
+										auditContent = firstNode+"/"+secondNode+"/"+thirdNode + "目录信息";
 										auditField = thirdNode;
 									 }else if(secondNode !=null && secondNode !=""){
-										auditContent = secondNode + "目录信息";
+										auditContent = firstNode+"/"+secondNode + "目录信息";
 										auditField = secondNode;
 									 }else{
 										auditContent = firstNode + "目录信息";
