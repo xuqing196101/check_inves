@@ -57,7 +57,7 @@
         	var status = ${expert.status};
         	var sign = $("input[name='sign']").val();
         	//只能审核可以审核的状态
-        	if(status ==-2 || status == 0 || status == 9 || (sign ==3 && status ==6) || status ==4 || (sign ==1 && status ==10)){
+        	if(status ==-2 || status == 0|| status == 15|| status == 16 || status == 9 || (sign ==3 && status ==6) || status ==4 || (sign ==1 && status ==10)){
         		var expertId = $("#expertId").val();
             var auditField;
             var auditContent;
@@ -112,7 +112,7 @@
         	var status = ${expert.status};
           var sign = $("input[name='sign']").val();
           //只能审核可以审核的状态
-          if(status ==-2 || status == 0 || status == 9 || (sign ==3 && status ==6) || status ==4 || (sign ==1 && status ==10)){
+          if(status ==-2 || status == 0 || status == 15|| status == 16|| status == 9 || (sign ==3 && status ==6) || status ==4 || (sign ==1 && status ==10)){
             var expertId = $("#expertId").val();
             var showId = obj.id + "1";
 

@@ -464,7 +464,7 @@ public class ExpertAuditController{
 		}
 		
 		
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("0") || "10".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("-2") ||  expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("0") || "10".equals(expert.getStatus())|| "16".equals(expert.getStatus())|| "15".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("-2") ||  expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
 			/**
 			 * 回显未通过的字段
 			 */
@@ -1188,7 +1188,7 @@ public class ExpertAuditController{
 		model.addAttribute("expertId", expertId);
 		model.addAttribute("status", expert.getStatus());
 		//回显不通过的字段
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "10".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "10".equals(expert.getStatus())|| "15".equals(expert.getStatus())|| "16".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
 			ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("five");
@@ -1439,7 +1439,7 @@ public class ExpertAuditController{
 		model.addAttribute("typeMap", typeMap);
 		
 		//回显不通过的字段
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "10".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
+		if(expert.getStatus().equals("-3")||"15".equals(expert.getStatus())||"16".equals(expert.getStatus()) || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "10".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
 			/*ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("seven");
