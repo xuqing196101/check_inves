@@ -820,6 +820,16 @@ public class ExpertAuditController{
         }else {
             items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
         }
+        
+        if(sign == 2){
+        	Map<String, Object> map = new HashMap<String, Object>();
+        	map.put("pageNum", pageNum == null ? 1 : pageNum);
+        	map.put("expertId", expertId);
+        	map.put("typeId", typeId);
+        	map.put("auditFalg", 1);
+        	map.put("type", "six");
+        	items = expertCategoryService.findPassCateByExpertId(map);
+        }
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
         int count=0;
         if(items != null && !items.isEmpty()){
@@ -1859,7 +1869,6 @@ public class ExpertAuditController{
 
 	/**
 	 * @Title: deleteByIds
-	 * @author XuQing 
 	 * @date 2016-12-19 下午7:38:43  
 	 * @Description:批量移除审核问题
 	 * @param @param ids
@@ -1878,7 +1887,6 @@ public class ExpertAuditController{
 
 	/**
 	 * @Title: download
-	 * @author XuQing 
 	 * @date 2016-12-27 下午2:34:20  
 	 * @Description:word下载
 	 * @param @param expertId
@@ -3305,21 +3313,28 @@ public class ExpertAuditController{
     			all ++;
     		}
 		}
-		map.put("all", all);
+		
     	//不通过的
 		List<ExpertAudit> expertAuditList=new ArrayList<ExpertAudit>();
     	ExpertAudit expertAudit = new ExpertAudit();
 		expertAudit.setExpertId(expertId);
 		expertAudit.setSuggestType("six");
-		expertAudit.setAuditFalg(666);//666标识为空的 用于兼容老数据问题
-		expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
-		expertAudit.setAuditFalg(1);
-		expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
-		if(auditFalg==2){
+		if(auditFalg==1){
+			expertAudit.setAuditFalg(666);//666标识为空的 用于兼容老数据问题
+			expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
+			expertAudit.setAuditFalg(1);
+			expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
+		}else if(auditFalg==2){
+			expertAudit.setAuditFalg(666);//666标识为空的 用于兼容老数据问题
+			expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
+			expertAudit.setAuditFalg(1);
+			expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
+			all=all-expertAuditList.size();
+			expertAuditList.clear();
 			expertAudit.setAuditFalg(2);
 			expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
 		}
-	
+		map.put("all", all);
 		Integer noPass = 0;
 		if(expertAuditList != null){
 			noPass = expertAuditList.size();

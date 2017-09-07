@@ -154,4 +154,11 @@ public interface ExpertCategoryMapper {
      * @return
      */
     Integer findCountParent(Map<String,Object> map);
+    
+    /**
+     * 查询通过的类别（排除初审或复审中不通过的）
+     * @param map
+     * @return
+     */
+    List<ExpertCategory> findPassCateByExpertId(Map<String,Object> map);
 }
