@@ -13,35 +13,35 @@
         
         if (typeof(list_content) != 'undefined') {
           $('#list_content').html('');
-          for (var i in list_content.list) {
-            if (typeof(list_content.list[i].orgName) === 'undefined') {
-              list_content.list[i].orgName = '';
+          for (var i in list_content) {
+            if (typeof(list_content[i].orgName) === 'undefined') {
+              list_content[i].orgName = '';
             }
-            if (typeof(list_content.list[i].relName) === 'undefined') {
-              list_content.list[i].relName = '';
+            if (typeof(list_content[i].relName) === 'undefined') {
+              list_content[i].relName = '';
             }
-            if (typeof(list_content.list[i].sex) === 'undefined') {
-              list_content.list[i].sex = '';
+            if (typeof(list_content[i].sex) === 'undefined') {
+              list_content[i].sex = '';
             }
-            if (typeof(list_content.list[i].workUnit) === 'undefined') {
-              list_content.list[i].workUnit = '';
+            if (typeof(list_content[i].workUnit) === 'undefined') {
+              list_content[i].workUnit = '';
             }
-            if (typeof(list_content.list[i].professTechTitles) === 'undefined') {
-              list_content.list[i].professTechTitles = '';
+            if (typeof(list_content[i].professTechTitles) === 'undefined') {
+              list_content[i].professTechTitles = '';
             }
-            if (typeof(list_content.list[i].updateTime) === 'undefined') {
-              list_content.list[i].updateTime = '';
+            if (typeof(list_content[i].updateTime) === 'undefined') {
+              list_content[i].updateTime = '';
             }
             
             $('#list_content').append('<tr>'
-              +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.list[i].id +'" class="select_item"></td>'
+              +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content[i].id +'" class="select_item"></td>'
               +'<td class="text-center">'+ (parseInt(i) + 1) +'</td>'
-              +'<td>'+ list_content.list[i].orgName +'</td>'
-              +'<td>'+ list_content.list[i].relName +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].sex +'</td>'
-              +'<td>'+ list_content.list[i].workUnit +'</td>'
-              +'<td>'+ list_content.list[i].professTechTitles +'</td>'
-              +'<td class="text-center">'+ list_content.list[i].updateTime +'</td>'
+              +'<td>'+ list_content[i].orgName +'</td>'
+              +'<td>'+ list_content[i].relName +'</td>'
+              +'<td class="text-center">'+ list_content[i].sex +'</td>'
+              +'<td>'+ list_content[i].workUnit +'</td>'
+              +'<td>'+ list_content[i].professTechTitles +'</td>'
+              +'<td class="text-center">'+ list_content[i].updateTime +'</td>'
             +'</tr>');
           }
           
@@ -95,7 +95,7 @@
           }
           
           // 构造分页
-          laypageConstructor();
+          // laypageConstructor();
         }
       },
       error: function (data) {
@@ -122,34 +122,34 @@
     }
     
     // 分页
-    function laypageConstructor() {
-      laypage({
-        cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-        pages: list_content.pages, //总页数
-        skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-        skip: true, //是否开启跳页
-        total: list_content.total,
-        startRow: list_content.startRow,
-        endRow: list_content.endRow,
-        groups: list_content.pages >= 3 ? 3 : list_content.pages, //连续显示分页数
-        curr: function() { //合格url获取当前页，也可以同上（pages）方式获取
-          return list_content.pageNum;
-        }(),
-        jump: function(e, first) { //触发分页后的回调
-          if(!first) { //一定要加此判断，否则初始时会无限刷新
-            $("#pageNum").val(e.curr);
-            opts.data.pageNum = e.curr;
-            $.ajax({
-              type: opts.type,
-              dataType: opts.dataType,
-              url: opts.url,
-              data: opts.data,
-              success: opts.success
-            });
-          }
-        }
-      });
-    }
+//    function laypageConstructor() {
+//      laypage({
+//        cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+//        pages: list_content.pages, //总页数
+//        skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+//        skip: true, //是否开启跳页
+//        total: list_content.total,
+//        startRow: list_content.startRow,
+//        endRow: list_content.endRow,
+//        groups: list_content.pages >= 3 ? 3 : list_content.pages, //连续显示分页数
+//        curr: function() { //合格url获取当前页，也可以同上（pages）方式获取
+//          return list_content.pageNum;
+//        }(),
+//        jump: function(e, first) { //触发分页后的回调
+//          if(!first) { //一定要加此判断，否则初始时会无限刷新
+//            $("#pageNum").val(e.curr);
+//            opts.data.pageNum = e.curr;
+//            $.ajax({
+//              type: opts.type,
+//              dataType: opts.dataType,
+//              url: opts.url,
+//              data: opts.data,
+//              success: opts.success
+//            });
+//          }
+//        }
+//      });
+//    }
 
     return start();
   }

@@ -91,7 +91,6 @@
         </thead>
         <tbody id="list_content"></tbody>
       </table>
-      <div id="pagediv" align="right"></div>
     </div>
       
   </div>
