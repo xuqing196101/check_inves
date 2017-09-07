@@ -365,8 +365,8 @@ public class ExtractSupplierController extends BaseController {
      * @return String
      */
     @ResponseBody
-    @RequestMapping("/resultextract")
-    public Object resultextract(Model model,SupplierExtractResult supplierExtRelate){
+    @RequestMapping("/saveResult")
+    public Object saveResult(Model model,SupplierExtractResult supplierExtRelate){
     	
     	//保存抽取记录  供应商id  记录id 条件id  结果id 是否参加 不参加理由 供应商类型代码
     	//supplierExtRelate.setId(UUIDUtils.getUUID32());

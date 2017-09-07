@@ -178,8 +178,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
    * @see ses.service.sms.SupplierConditionService#selectLikeSupplier(ses.model.sms.SupplierCondition, ses.model.sms.SupplierConType)
    */
   @Override
-  public Map<String, Map<String, Object>> selectLikeSupplier(SupplierExtractCondition condition, SupplierConType conType) {
+  public Map<String, Map<String, Object>> selectLikeSupplier(SupplierExtractCondition condition, SupplierConType conType,int type) {
 	  
+	 //此方法为公共方法 查询满足供应商数量 和供应商抽取结果  0 表示查询数量 1 表示 抽取 
 	 //去除已经抽取到的供应商
 	 if(StringUtils.isNotEmpty(condition.getRecordId())){
 		 List<String> supplierIds = supplierExtRelateMapper.selectSupplierIdListByRecordId(condition.getRecordId());
@@ -197,27 +198,33 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	 
 	 //若是类型为空说明只对地区进行查询
 	if(StringUtils.isBlank(condition.getSupplierTypeCode())){
-		List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(condition);//getAllSupplier(null);
 		count.put("area",supplierMapper.listExtractionExpertCount(condition));
-		//存储
+		if(type == 1){
+			List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(condition);//getAllSupplier(null);
+			//存储
 			saveOrUpdateCondition(condition, null);
+		}
 	}else if(condition.getSupplierTypeCodes().length>1){
 		//按类别查询
 		String[] supplierTypeCodes = condition.getSupplierTypeCodes();
 		for (String code : supplierTypeCodes) {
 			condition.setSupplierTypeCode(code);
-			List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(condition);
 			count.put(code+"Count", supplierMapper.listExtractionExpertCount(condition));
-			list.put(code, selectAllExpert);
-			//存储
-		  	saveOrUpdateCondition(condition, conType);
+			if(type == 1){
+				List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(condition);
+				list.put(code, selectAllExpert);
+				//存储
+				saveOrUpdateCondition(condition, conType);
+			}
 		}
 	}else if(condition.getSupplierTypeCodes().length>0){
-		List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(condition);
 		count.put(condition.getSupplierTypeCode()+"Count", supplierMapper.listExtractionExpertCount(condition));
-		list.put(condition.getSupplierTypeCode(), selectAllExpert);
-		//存储
-	  	saveOrUpdateCondition(condition, conType);
+		if(type==1){
+			List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(condition);
+			list.put(condition.getSupplierTypeCode(), selectAllExpert);
+			//存储
+			saveOrUpdateCondition(condition, conType);
+		}
 	}
 	    
 	if(StringUtils.isNotEmpty(conType.getProductCategoryIds())){
@@ -227,11 +234,13 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		condition.setCategoryId(conType.getProductCategoryIds());
 		condition.setLevelTypeId(conType.getProductLevel());
 		condition.setExtractNum(conType.getProductExtractNum());
-	    List<Supplier> products = supplierMapper.listExtractionExpert(condition);
-	    list.put("PRODUCT", products);
-	    count.put("PRODUCTCount", supplierMapper.listExtractionExpertCount(condition));
-	  //存储
-	  	saveOrUpdateCondition(condition, conType);
+		count.put("PRODUCTCount", supplierMapper.listExtractionExpertCount(condition));
+		if(type == 1){
+			List<Supplier> products = supplierMapper.listExtractionExpert(condition);
+			list.put("PRODUCT", products);
+			//存储
+			saveOrUpdateCondition(condition, conType);
+		}
 	}
 	if(StringUtils.isNotEmpty(conType.getProjectCategoryIds())){
 		//SupplierCondition pjsc = new SupplierCondition("PROJECT", conType.getProjectIsMulticondition(), conType.getProjectCategoryIds(), conType.getProjectLevel());
@@ -240,11 +249,13 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		condition.setCategoryId(conType.getProjectCategoryIds());
 		condition.setLevelTypeId(conType.getProjectLevel());
 		condition.setExtractNum(conType.getProjectExtractNum());
-		List<Supplier> projects = supplierMapper.listExtractionExpert(condition);
-		list.put("PROJECT", projects);
-		 count.put("PROJECTCount", supplierMapper.listExtractionExpertCount(condition));
-	  //存储
-	  	saveOrUpdateCondition(condition, conType);
+		count.put("PROJECTCount", supplierMapper.listExtractionExpertCount(condition));
+		if(type == 1){
+			List<Supplier> projects = supplierMapper.listExtractionExpert(condition);
+			list.put("PROJECT", projects);
+			//存储
+			saveOrUpdateCondition(condition, conType);
+		}
 	}
 	if(StringUtils.isNotEmpty(conType.getSalesCategoryIds())){
 		//SupplierCondition sasc = new SupplierCondition("SALES", conType.getSaleIsMulticondition(), conType.getSaleCategoryIds(), conType.getSaleLevel());
@@ -253,11 +264,13 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		condition.setCategoryId(conType.getSalesCategoryIds());
 		condition.setLevelTypeId(conType.getSalesLevel());
 		condition.setExtractNum(conType.getSalesExtractNum());
-		List<Supplier> sales = supplierMapper.listExtractionExpert(condition);
-		list.put("SALES", sales);
-		 count.put("SALESCount", supplierMapper.listExtractionExpertCount(condition));
-	  //存储
-	  	saveOrUpdateCondition(condition, conType);
+		count.put("SALESCount", supplierMapper.listExtractionExpertCount(condition));
+		if(type == 1){
+			List<Supplier> sales = supplierMapper.listExtractionExpert(condition);
+			list.put("SALES", sales);
+			//存储
+			saveOrUpdateCondition(condition, conType);
+		}
 	}
 	if(StringUtils.isNotEmpty(conType.getServiceCategoryIds())){
 		//SupplierCondition svsc = new SupplierCondition("SERVICE", conType.getServiceIsMulticondition(), conType.getServiceCategoryIds(), conType.getServiceLevel());
@@ -266,11 +279,13 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		condition.setCategoryId(conType.getServiceCategoryIds());
 		condition.setLevelTypeId(conType.getServiceLevel());
 		condition.setExtractNum(conType.getServiceExtractNum());
-		List<Supplier> services = supplierMapper.listExtractionExpert(condition);
-		list.put("SERVICE", services.get(0));
-		 count.put("SERVICECount",supplierMapper.listExtractionExpertCount(condition));
-	  //存储
-	  	saveOrUpdateCondition(condition, conType);
+		count.put("SERVICECount",supplierMapper.listExtractionExpertCount(condition));
+		if(type == 1){
+			List<Supplier> services = supplierMapper.listExtractionExpert(condition);
+			list.put("SERVICE", services.get(0));
+			//存储
+			saveOrUpdateCondition(condition, conType);
+		}
 	}
 	
 	map.put("count", count);
@@ -368,7 +383,8 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			//设置存储条件
 			List<ExtractConditionRelation> list = new ArrayList<>();
 			String cid = condition.getId();
-			extractConditionRelationMapper.deleteConditionRelationByMap(condition.getId());
+			//删除上次查询条件
+			//extractConditionRelationMapper.deleteConditionRelationByMap(condition.getId());
 			//省份，直辖市
 			if(StringUtils.isNotEmpty(condition.getProvince())){
 				for (String province : condition.getProvinces()) {
@@ -473,20 +489,6 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 				extractConditionRelationMapper.insertConditionRelation(list);
 			}
 		}
-	/*	//存储条件
-		Map<String,String> map = new HashMap<>();
-		map.put("conditionId", condition.getId());
-		map.put("supplierTypeCode",condition.getSupplierTypeCode());
-		List<SupplierConType> typeInfos = new ArrayList<>() ;
-		if(StringUtils.isNotBlank(condition.getSupplierTypeCode())){
-			typeInfos = supplierConditionMapper.getTypeInfoByMap(map);
-		}
-		if(typeInfos.size()>0){
-			supplierConditionMapper.deleteTypeInfoByMap(map);
-		}
-		supplierConditionMapper.insertTypeInfo(condition);*/
-		
-		//
 	}
 
 	@Override
@@ -497,14 +499,21 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		return dictionaryDataMapper.selectByCode(typeCode);
 	}
 
+	/**
+	 * 查询满足供应商数量
+	 */
 	@Override
 	public Map<String, Object> selectLikeSupplierCount(
 			SupplierExtractCondition condition, SupplierConType conType) {
-		Map<String, Map<String, Object>> map = this.selectLikeSupplier(condition, conType);
+		Map<String, Map<String, Object>> map = this.selectLikeSupplier(condition, conType,0);
 		Map<String, Object> map2 = map.get("count");
 		return map2;
 	}
-
+	
+	
+	/**
+	 * 查询企业性质
+	 */
 	@Override
 	public List<DictionaryData> getBusinessNature() {
 		return dictionaryDataMapper.findByKind("32");

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="extract.dao.supplier.SupplierExtractConditionMapper">
-	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractCondition">
-		<!-- @mbggenerated -->
+	<!-- <resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractCondition">
+		@mbggenerated
 		<id column="ID" jdbcType="VARCHAR" property="id" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="STATUS" jdbcType="DECIMAL" property="status" />
@@ -16,6 +16,18 @@
 		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
 		<result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
 		<result column="ADDRESS_ID" jdbcType="VARCHAR" property="addressId" />
+	</resultMap> -->
+	<!-- 新条件表返回结果  -->
+	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractCondition">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+		<result column="STATUS" jdbcType="DECIMAL" property="status" />
+		<result column="AREA_NAME" jdbcType="VARCHAR" property="areaName" />
+		<result column="ADDRESS_REASON" jdbcType="VARCHAR" property="addressReason" />
+		<result column="BUSINESS_NATURE" jdbcType="VARCHAR" property="businessNature" />
+		<result column="IS_HAVING_CON_CERT" property="isHavingConCert" jdbcType="DECIMAL" />
+		<result column="OVERSEAS_BRANCH" jdbcType="DECIMAL" property="overseasBranch" />
+		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
 	</resultMap>
 
 	<resultMap type="extract.model.supplier.SupplierExtractCondition" id="BaseResultListMap"
@@ -40,27 +52,27 @@
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
-		ID, PROJECT_ID, STATUS, ADDRESS, EXPERTS_TYPE_ID, TENDER_TIME,
-		RESPONSE_TIME, SUPPLIER_LEVEL,
-		EXTRACT_ADDRESS,ADDRESS_REASON,CATEGORY_NAME,CATEGORY_ID,ADDRESS_ID
+		ID, PROJECT_ID, STATUS, AREA_NAME, ADDRESS_REASON, BUSINESS_NATURE,
+		BUSINESS_NATURE, IS_HAVING_CON_CERT,
+		OVERSEAS_BRANCH,CATEGORY_NAME
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		<!-- @mbggenerated -->
 		select
 		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIE_CONDITION
+		from T_SES_SMS_EXTRACT_CONDITION
 		where ID = #{id,jdbcType=VARCHAR}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		<!-- @mbggenerated -->
-		delete from T_SES_SMS_SUPPLIE_CONDITION
+		delete from T_SES_SMS_EXTRACT_CONDITION
 		where ID =
 		#{id,jdbcType=VARCHAR}
 	</delete>
 	<insert id="insert" parameterType="extract.model.supplier.SupplierExtractCondition">
 		<!-- @mbggenerated -->
-		insert into T_SES_SMS_SUPPLIE_CONDITION (ID, PROJECT_ID, STATUS,
+		insert into T_SES_SMS_EXTRACT_CONDITION (ID, PROJECT_ID, STATUS,
 		ADDRESS, EXPERTS_TYPE_ID, TENDER_TIME,
 		RESPONSE_TIME, SUPPLIER_LEVEL,
 		EXTRACT_ADDRESS,ADDRESS_REASON,CATEGORY_NAME,CATEGORY_ID,ADDRESS_ID
@@ -84,7 +96,7 @@
 	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtractCondition">
 
 		<!-- @mbggenerated -->
-		insert into T_SES_SMS_SUPPLIE_CONDITION
+		insert into T_SES_SMS_EXTRACT_CONDITION
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				ID,
@@ -173,7 +185,7 @@
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractCondition">
 		<!-- @mbggenerated -->
-		update T_SES_SMS_SUPPLIE_CONDITION
+		update T_SES_SMS_EXTRACT_CONDITION
 		<set>
 			<if test="status != null">
 				STATUS = #{status,jdbcType=DECIMAL},
@@ -219,7 +231,7 @@
 	</update>
 	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierExtractCondition">
 		<!-- @mbggenerated -->
-		update T_SES_SMS_SUPPLIE_CONDITION
+		update T_SES_SMS_EXTRACT_CONDITION
 		set PROJECT_ID =
 		#{projectId,jdbcType=VARCHAR},
 		STATUS = #{status,jdbcType=DECIMAL},
@@ -264,7 +276,7 @@
 		CT.CATEGORY_NAME,CT.SUPPLIER_COUNT,CT.SUPPLIER_TYPE_NAME,CT.SUPPLIER_TYPE_ID,CT.CATEGORY_ID
 		,CT.IS_MULTICONDITION
 		FROM
-		T_SES_SMS_SUPPLIE_CONDITION sc
+		T_SES_SMS_EXTRACT_CONDITION sc
 		LEFT JOIN
 		T_SES_SMS_SUPPLIE_CON_TYPE ct ON
 		SC."ID"=CT.CONDITION_ID
@@ -279,7 +291,7 @@
 		CT.CATEGORY_NAME,CT.SUPPLIER_COUNT,CT.SUPPLIER_TYPE_NAME,CT.SUPPLIER_TYPE_ID,CT.CATEGORY_ID
 		,CT.IS_MULTICONDITION
 		FROM
-		T_SES_SMS_SUPPLIE_CONDITION sc
+		T_SES_SMS_EXTRACT_CONDITION sc
 		LEFT JOIN
 		T_SES_SMS_SUPPLIE_CON_TYPE ct ON
 		SC."ID"=CT.CONDITION_ID WHERE
@@ -289,7 +301,7 @@
 	<!--根据关联包id查询是否有未抽取的条件 -->
 	<select id="getCount" resultType="java.lang.Integer"
 		parameterType="java.lang.String">
-		SELECT "COUNT"(*) FROM T_SES_SMS_SUPPLIE_CONDITION WHERE
+		SELECT "COUNT"(*) FROM T_SES_SMS_EXTRACT_CONDITION WHERE
 		PROJECT_ID=#{projectId} AND STATUS=1
 	</select>
 
@@ -301,7 +313,7 @@
 		CT.CATEGORY_NAME,CT.SUPPLIER_COUNT,CT.SUPPLIER_TYPE_NAME,CT.SUPPLIER_TYPE_ID,CT.CATEGORY_ID
 		,CT.IS_MULTICONDITION
 		FROM
-		T_SES_SMS_SUPPLIE_CONDITION sc
+		T_SES_SMS_EXTRACT_CONDITION sc
 		LEFT JOIN
 		T_SES_SMS_SUPPLIE_CON_TYPE ct ON
 		SC."ID"=CT.CONDITION_ID where
@@ -310,7 +322,7 @@
 	
 	<update id="updateConditionByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractCondition">
 		<!-- @mbggenerated -->
-		update T_SES_SMS_SUPPLIE_CONDITION
+		update T_SES_SMS_EXTRACT_CONDITION
 		<set>
 			<if test="status != null">
 				STATUS = #{status,jdbcType=DECIMAL},
@@ -321,14 +333,26 @@
 			<if test="areaName != null">
 				AREA_NAME = #{areaName,jdbcType=VARCHAR},
 			</if>
-			<if test="addressId != null">
-				ADDRESS_ID = #{addressId,jdbcType=VARCHAR},
-			</if>
 			<if test="addressReason != null">
 				ADDRESS_REASON = #{addressReason,jdbcType=VARCHAR},
 			</if>
-			<if test="province != null">
-				PROVINCE = #{province,jdbcType=VARCHAR},
+			<if test="areaName != null">
+				AREA_NAME = #{areaName,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryName != null">
+				CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="businessNature != null">
+				BUSINESS_NATURE = #{businessNature,jdbcType=VARCHAR},
+			</if>
+			<if test="isHavingConCert != null">
+				IS_HAVING_CON_CERT = #{isHavingConCert,jdbcType=DECIMAL},
+			</if>
+			<if test="overseasBranch != null">
+				OVERSEAS_BRANCH = #{overseasBranch,jdbcType=DECIMAL},
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where

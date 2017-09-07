@@ -32,18 +32,18 @@
 		<!-- @mbggenerated -->
 		select
 		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIER_EXT_RELATE
+		from T_SES_SMS_EXTRACT_RESULT
 		where ID = #{id,jdbcType=VARCHAR}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		<!-- @mbggenerated -->
-		delete from T_SES_SMS_SUPPLIER_EXT_RELATE
+		delete from T_SES_SMS_EXTRACT_RESULT
 		where ID =
 		#{id,jdbcType=VARCHAR}
 	</delete>
 	<insert id="insert" parameterType="extract.model.supplier.SupplierExtractResult">
 		<!-- @mbggenerated -->
-		insert into T_SES_SMS_SUPPLIER_EXT_RELATE (ID, SUPPLIER_ID,
+		insert into T_SES_SMS_EXTRACT_RESULT (ID, SUPPLIER_ID,
 		SUPPLIER_CONDITION_ID,
 		CREATED_AT, OPERATING_TYPE, IS_DELETED,
 		REASON,
@@ -63,7 +63,7 @@
 	</insert>
 	<!-- <insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtractResult">
 		@mbggenerated
-		insert into T_SES_SMS_SUPPLIER_EXT_RELATE
+		insert into T_SES_SMS_EXTRACT_RESULT
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				ID,
@@ -213,7 +213,7 @@
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractResult">
 		<!-- @mbggenerated -->
-		update T_SES_SMS_SUPPLIER_EXT_RELATE
+		update T_SES_SMS_EXTRACT_RESULT
 		<set>
 			<if test="supplierId != null">
 				SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
@@ -254,7 +254,7 @@
 	</update>
 	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierExtractResult">
 		<!-- @mbggenerated -->
-		update T_SES_SMS_SUPPLIER_EXT_RELATE
+		update T_SES_SMS_EXTRACT_RESULT
 		set SUPPLIER_ID =
 		#{supplierId,jdbcType=VARCHAR},
 		SUPPLIER_CONDITION_ID =
@@ -284,7 +284,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM
-		T_SES_SMS_SUPPLIER_EXT_RELATE WHERE PROJECT_ID =#{id} AND
+		T_SES_SMS_EXTRACT_RESULT WHERE PROJECT_ID =#{id} AND
 		OPERATING_TYPE =1
 
 	</select>
@@ -294,7 +294,7 @@
 		SELECT
 		pe.*
 		FROM
-		T_SES_SMS_SUPPLIER_EXT_RELATE pe
+		T_SES_SMS_EXTRACT_RESULT pe
 		INNER JOIN
 		T_SES_SMS_SUPPLIER ss ON PE.SUPPLIER_ID = ss."ID"
 		Where STATUS_COUNT=0
@@ -327,17 +327,17 @@
 	<!-- 删除重复数据 -->
 	<delete id="deleteData" parameterType="Map">
 		delete from
-		T_SES_SMS_SUPPLIER_EXT_RELATE
+		T_SES_SMS_EXTRACT_RESULT
 
 		where SUPPLIER_ID in (select SUPPLIER_ID
 		from
-		T_SES_SMS_SUPPLIER_EXT_RELATE group
+		T_SES_SMS_EXTRACT_RESULT group
 		by SUPPLIER_ID having
 		count(SUPPLIER_ID) >
 		1)
 
 		and rowid not in (select min(rowid) from
-		T_SES_SMS_SUPPLIER_EXT_RELATE
+		T_SES_SMS_EXTRACT_RESULT
 		group
 		by SUPPLIER_ID having
 		count(SUPPLIER_ID )>1)
@@ -349,7 +349,7 @@
 	<!-- 当抽取数量满足时修改还未抽取的专家状态为1 -->
 	<update id="updateStatusCount" parameterType="map">
 		UPDATE
-		T_SES_SMS_SUPPLIER_EXT_RELATE
+		T_SES_SMS_EXTRACT_RESULT
 		SET STATUS_COUNT = #{type}
 		WHERE
 		CON_TYPE_ID =
@@ -359,13 +359,13 @@
 	<!-- 包下是否已存在供应商 -->
 	<select id="getSupplierId" parameterType="Map" resultType="java.lang.Integer">
 		SELECT "COUNT"(SUPPLIER_ID) as count FROM
-		T_SES_SMS_SUPPLIER_EXT_RELATE WHERE
+		T_SES_SMS_EXTRACT_RESULT WHERE
 		SUPPLIER_ID=#{supplierId}
 		AND
 		PROJECT_ID=#{projectId}
 	</select>
 	<insert id="insertList" parameterType="java.util.List">
-		INSERT INTO T_SES_SMS_SUPPLIER_EXT_RELATE
+		INSERT INTO T_SES_SMS_EXTRACT_RESULT
 		(SUPPLIER_ID,SUPPLIER_CONDITION_ID,PROJECT_ID,CON_TYPE_ID)
 		<foreach collection="list" item="item" index="index"
 			separator="union" close=")" open="(">
@@ -383,7 +383,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM
-		T_SES_SMS_SUPPLIER_EXT_RELATE WHERE
+		T_SES_SMS_EXTRACT_RESULT WHERE
 		SUPPLIER_CONDITION_ID=#{supplierId} AND (OPERATING_TYPE =1 OR
 		OPERATING_TYPE =2 OR OPERATING_TYPE =3)
 	</select>
@@ -393,7 +393,7 @@
 		DELETE FROM ( SELECT
 		*
 		FROM
-		T_SES_SMS_SUPPLIER_EXT_RELATE
+		T_SES_SMS_EXTRACT_RESULT
 		WHERE PROJECT_ID
 		IN (SELECT "ID" FROM
 		T_BSS_PPMS_PACKAGE WHERE PROJECT_ID =
@@ -407,7 +407,7 @@
 	<select id="delPe" parameterType="java.lang.String">
 		DELETE FROM (
 		SELECT T1.* FROM
-		T_SES_SMS_SUPPLIER_EXT_RELATE t1 LEFT JOIN
+		T_SES_SMS_EXTRACT_RESULT t1 LEFT JOIN
 		T_BSS_PPMS_PACKAGE t2 ON
 		T1.PROJECT_ID=t2."ID" WHERE t2.PROJECT_ID
 		=#{projectId} AND
@@ -427,7 +427,7 @@
 		FROM
 		T_SES_SMS_SUPPLIER_TYPE_RELATE t1
 		INNER JOIN
-		T_SES_SMS_SUPPLIER_EXT_RELATE t2 ON t1.SUPPLIER_ID =
+		T_SES_SMS_EXTRACT_RESULT t2 ON t1.SUPPLIER_ID =
 		T2.SUPPLIER_ID
 		WHERE T2.SUPPLIER_CONDITION_ID =#{conditionId}
 		GROUP BY

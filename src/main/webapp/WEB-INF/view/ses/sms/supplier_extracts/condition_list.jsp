@@ -596,10 +596,10 @@
         <!--        项目id -->
         <input type="hidden" name="projectId" id="pid" value="${packageId}">
         <!-- 记录id -->
-        <input type="hidden" name="recordId" id="pid" value="${projectInfo.id}">
+        <input type="hidden" name="recordId" id="recordId" value="${projectInfo.id}">
         <!-- 地区 -->
         <input type="hidden" name="address" id="address">
-		<input type="hidden" name="id" value="${projectInfo.conditionId }">
+		<input type="hidden" id="conditionId" name="id" value="${projectInfo.conditionId }">
         <!-- 类型id -->
         <input type="hidden" name="supplierTypeId" id="supplierTypeId">
         <input type="hidden" name="expertsTypeId" id="expertsTypeId">

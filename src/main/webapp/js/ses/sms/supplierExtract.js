@@ -168,31 +168,31 @@
             async: false,
             success: function (data) {
             	if(null!=data){
-            		if(null!=data.PRODUCTCont){
-            			var productCont = data.PRODUCTCont;
-            			$("#productResult").find("span:first").html(productCont);
-            			//$(".productCount").html(productCont);
+            		if(null!=data.PRODUCTCount){
+            			var productCount = data.PRODUCTCount;
+            			$("#productResult").find("span:first").html(productCount);
+            			//$(".productCount").html(productCount);
             			//window.sessionStorage.setIterm("products",data.products);
-            			products = productCont;
+            			products = productCount;
             		}
-            		if(null!=data.SERCICEcount){
-            			var serviceCont = data.SERCICEcount;
-            			$("#serviceResult").find("span:first").html(serviceCont);
-            			//$(".serviceCount").html(serviceCont);
+            		if(null!=data.SERCICECount){
+            			var serviceCount = data.SERCICECount;
+            			$("#serviceResult").find("span:first").html(serviceCount);
+            			//$(".serviceCount").html(serviceCount);
             			//window.sessionStorage.setIterm("services",data.services);
-            			services = serviceCont;
+            			services = serviceCount;
             		}
-            		if(null!=data.SALEScount){
-            			var salesCont = data.SALEScount;
-            			$("#salesResult").find("span:first").html(salesCont);
-            			//$(".salesCount").html(salesCont);
+            		if(null!=data.SALESCount){
+            			var salesCount = data.SALESCount;
+            			$("#salesResult").find("span:first").html(salesCount);
+            			//$(".salesCount").html(salesCount);
             			//window.sessionStorage.setIterm("sales",data.sales);
-            			sales = salesCont
+            			sales = salesCountc;
             		}
-            		if(null!=data.PROJECTcount){
-            			var projectCont = data.PROJECTcount;
-            			$("#projectResult").find("span:first").html(projectCont);
-            			projects = projectCont
+            		if(null!=data.PROJECTCount){
+            			var projectCount = data.PROJECTCount;
+            			$("#projectResult").find("span:first").html(projectCount);
+            			projects = projectCount;
             		}
             	}else{
             		
@@ -330,7 +330,7 @@
     		dataType: "json",
     		async:false,
     		success: function (msg) {
-    			if(data.list.length>0){
+    			if(null != msg.list){
     				var su = msg.list;
     				if(null !=su.PROJECT){
     					projects =su.PROJECT;
@@ -344,8 +344,6 @@
     				if(null !=su.SALES){
     					sales = su.SALES;
     				}
-    				
-    				
     			}
     			
     		}
@@ -1157,9 +1155,14 @@
                     layer.close(index);
                     //select.options[0].selected = true;
                 	appendTd(req,obj,"不能参加");
+                	//删除
+                	$(objTr).remove();
+                	
                 });
             } else if(v == "1"){
-                select.disabled = true;
+                //select.disabled = true;
+            	$(select).parents("td").html("能参加");
+            	select.remove();
                 ajaxs(objTr, '',1);
             	appendTd(req,obj,"能参加");
             }else{
@@ -1175,16 +1178,20 @@
      * 存储抽取结果
      */
     function ajaxs(objTr, reason,join) {//obj:当前处理完成供应商信息、行  v:不能参加理由
+    	//成功通知次数
+    	var successCount = 0;
     	var supplierType = objTr.attr("typeCode");
     	var supplierType = objTr.attr("typeCode");
+    	var conditionId = $("#conditionId").val();
+    	var recordId = $("#recordId").val();
     	var sid = objTr.attr("sid");
     	$.ajax({
             type: "POST",
-            url: globalPath+"/SupplierExtracts/resultextract.do",
-            data: {reason: reason, conditionId: "${condition.id}",supplierId:sid,supplierType:supplierType,join:join,recordId:"${projectInfo.id}"},
+            url: globalPath+"/SupplierExtracts/saveResult.do",
+            data: {reason: reason, conditionId: conditionId,supplierId:sid,supplierType:supplierType,join:join,recordId:recordId},
             dataType: "json",
-            success: function (data) {
-            	
+            success: function () {
+            	successCount++;
             }
     	});
     }

@@ -1606,8 +1606,20 @@
 				</otherwise>
 			</choose>
 		</if>
-		<if test="supplierIds != null ">
-			AND SUPPLIER_ID NOT IN
+		<!-- 保密要求 -->
+		<if test="isHavingConCert">
+			AND S.IS_HAVING_CON_CERT = #{isHavingConCert}
+		</if>
+		<!-- 企业性质 -->
+		<if test="isHavingConCert">
+			AND S.BUSINESS_NATURE = #{businessNature}
+		</if>
+		<!-- 境外分支 -->
+		<if test="isHavingConCert">
+			AND S.OVERSEAS_BRANCH = #{overseasBranch}
+		</if>
+		<if test="supplierIds != null and supplierIds.size>0 ">
+			AND S.ID NOT IN
 			<foreach collection="supplierIds" open="(" item="sid" separator="," close=")">
 				#{sid}	
 			</foreach>
@@ -1616,7 +1628,7 @@
 	<!-- 供应商抽取集合 -->
 	<select id="listExtractionExpert" parameterType="extract.model.supplier.SupplierExtractCondition"
 		resultMap="findSupplierMap">
-		SELECT * FROM 
+		SELECT SP.* FROM 
 		(SELECT DISTINCT S.* FROM T_SES_SMS_SUPPLIER S
 		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
 			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
@@ -1630,7 +1642,7 @@
 				</otherwise>
 			</choose>
 		</if>
-		WHERE IS_PROVISIONAL = 0 AND SUPPLIER_STATUS in ( 1,4,5,6,7,8) 
+		WHERE S.IS_PROVISIONAL = 0 AND S.SUPPLIER_STATUS in ( 1,4,5,6,7,8) 
 		<!-- 查询地址 -->
 		<if test="addressId != null and addressId != '' ">
 			AND S.ADDRESS in 	<foreach collection="addressIds"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>
@@ -1661,13 +1673,25 @@
 				</otherwise>
 			</choose>
 		</if>
-		<if test="supplierIds != null">
-			AND SUPPLIER_ID NOT IN
+		<!-- 保密要求 -->
+		<if test="isHavingConCert">
+			AND S.IS_HAVING_CON_CERT = #{isHavingConCert}
+		</if>
+		<!-- 企业性质 -->
+		<if test="isHavingConCert">
+			AND S.BUSINESS_NATURE = #{businessNature}
+		</if>
+		<!-- 境外分支 -->
+		<if test="isHavingConCert">
+			AND S.OVERSEAS_BRANCH = #{overseasBranch}
+		</if>
+		<if test="supplierIds != null and supplierIds.size>0 ">
+			AND S.ID NOT IN
 			<foreach collection="supplierIds" open="(" item="sid" separator="," close=")">
 				#{sid}	
 			</foreach>
 		</if>
-		ORDER BY dbms_random.random) WHERE ROWNUM = 1
+		ORDER BY dbms_random.random) SP WHERE ROWNUM = 1
 	</select>
 
 	<select id="findLoginName" resultType="String">
