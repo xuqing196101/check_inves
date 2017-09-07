@@ -974,7 +974,7 @@ public class SupplierController_old extends BaseSupplierController {
 						supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
 					}
 					if(supplierType.equals("PROJECT")) {
-						supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+						supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
 					}
 					if(supplierType.equals("SERVICE")) {
 						supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
@@ -1030,7 +1030,7 @@ public class SupplierController_old extends BaseSupplierController {
                 if(s.equals("PROJECT")) {
                     project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
                     if(project == true) {
-                        supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+                        supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
                     }
                 }
                 if(s.equals("SERVICE")) {

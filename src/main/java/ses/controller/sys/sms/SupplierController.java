@@ -1332,7 +1332,7 @@ public class SupplierController extends BaseSupplierController {
 						supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
 					}
 					if(supplierType.equals("PROJECT")) {
-						supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+						supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
 					}
 					if(supplierType.equals("SERVICE")) {
 						supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
@@ -1389,7 +1389,7 @@ public class SupplierController extends BaseSupplierController {
                     	List<Area> areaList = areaService.findRootArea();
                         project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
                         if(project == true) {
-                            supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+                            supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
                         }
                     }
                     if(s.equals("SERVICE")) {
@@ -2725,32 +2725,32 @@ public class SupplierController extends BaseSupplierController {
 			}*/
 			Set<String> certTypeSet = new HashSet<>();
 			int certTypeCount = 0;
-			StringBuffer levelSb = new StringBuffer();
-			boolean levelBool = true;
+			/*StringBuffer levelSb = new StringBuffer();
+			boolean levelBool = true;*/
 			for (SupplierAptitute aptitude : aptitudeList) {
 				if(StringUtils.isNotBlank(aptitude.getCertType())){
 					certTypeSet.add(aptitude.getCertType());
 					certTypeCount++;
 					// 校验资质等级
-					Qualification qualification = qualificationService.getQualification(aptitude.getCertType());// 根据id查询资质类型
+					/*Qualification qualification = qualificationService.getQualification(aptitude.getCertType());// 根据id查询资质类型
 					if(qualification != null && StringUtils.isNotBlank(aptitude.getAptituteLevel())){
 						int countByQuaIdAndLevel = qualificationLevelService.countByQuaIdAndLevel(aptitude.getCertType(), aptitude.getAptituteLevel());
 						if(countByQuaIdAndLevel == 0){
-							levelSb.append(aptitude.getAptituteLevel() + ",");
+							levelSb.append(qualification.getName() + "-" + aptitude.getAptituteLevel() + ",");
 							levelBool = false;
 						}
-					}
+					}*/
 				}
 			}
 			if(certTypeSet.size() != certTypeCount){
 				model.addAttribute("eng_aptitutes", "资质类型重复！");
 				bool = false;
 			}
-			if(!levelBool){
+			/*if(!levelBool){
 				String levelStr = levelSb.substring(0, levelSb.lastIndexOf(","));
-				model.addAttribute("eng_aptitutes", "资质等级"+levelStr+"不存在！请选择");
+				model.addAttribute("eng_aptitutes", "资质等级"+"【"+levelStr+"】"+"不存在！请选择");
 				bool = false;
-			}
+			}*/
 		}
     	
 		return bool;
