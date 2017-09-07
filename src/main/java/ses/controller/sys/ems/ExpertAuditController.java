@@ -1799,13 +1799,16 @@ public class ExpertAuditController{
 		// 下载后的文件名
 		String downFileName = "";
 		if("1".equals(tableType)){
-			downFileName = new String("军队采购评审专家入库初审表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+			String name=expert.getRelName()+"入库初审表.doc";
+			downFileName = new String(name.getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
 		if("2".equals(tableType) || "0".equals(tableType)){
-			downFileName = new String("军队采购评审专家入库复审表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+			String name=expert.getRelName()+"入库复审表.doc";
+			downFileName = new String(name.getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
 		if("3".equals(tableType)){
-			downFileName = new String("军队采购评审专家入库复查表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+			String name=expert.getRelName()+"入库复查表.doc";
+			downFileName = new String(name.getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
 		response.setContentType("application/x-download");
 		return service.downloadFile(fileName, filePath, downFileName);
@@ -2456,6 +2459,7 @@ public class ExpertAuditController{
 		String fileName = "";
 		if("1".equals(tableType)){
 			newFileName = WordUtil.createWord(dataMap, "expertOneAudit.ftl", fileName, request);
+			
 			fileName = new String(("军队采购评审专家入库初审表.doc").getBytes("UTF-8"), "UTF-8");
 		}
 		if("2".equals(tableType) || "0".equals(tableType)){
