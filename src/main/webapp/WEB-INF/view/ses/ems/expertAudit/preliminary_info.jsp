@@ -114,8 +114,15 @@
           <ul class="ul_list">
              <li>
                <div class="select_check">
-                  <input type="radio"  disabled <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if>>初审合格
-                  <input type="radio"  disabled <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if>>初审不合格
+                 <c:if test="${sign == 1}">
+                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '-3'}">checked</c:if>>预复审合格
+                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '5'}">checked</c:if>>预复审不合格
+                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '10'}">checked</c:if>>退回修改
+                  </c:if>
+                  <c:if test="${sign == 2}">
+	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if>>初审合格
+	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if>>初审不合格
+                  </c:if>
                 </div>
               </li>
             <li class="mt10">

@@ -1565,9 +1565,9 @@ public class ExpertAuditController{
 		expertAudit.setAuditFalg(sign);
 		//复审退回修改，初审时显示的是复审的审核信息
 		Expert expert = expertService.selectByPrimaryKey(expertId);
-		if("10".equals(expert.getStatus()) || "9".equals(expert.getStatus())){
+		/*if("10".equals(expert.getStatus()) || "9".equals(expert.getStatus())){
 			expertAudit.setAuditFalg(2);
-		}
+		}*/
 		expertAudit.setExpertId(expertId);
 		List < ExpertAudit > reasonsList = new ArrayList<>();
 		if(expertAudit.getAuditFalg()==1){
@@ -3172,7 +3172,11 @@ public class ExpertAuditController{
 		
 		model.addAttribute("expertId", expertId);
 		ExpertAudit expertAudit = new ExpertAudit();
-		expertAudit.setAuditFalg(1);
+		if(sign == 1){
+			expertAudit.setAuditFalg(2);
+		}else if(sign == 2){
+			expertAudit.setAuditFalg(1);
+		}
 		expertAudit.setExpertId(expertId);
 		List < ExpertAudit > reasonsList = new ArrayList<>();
 		if(expertAudit.getAuditFalg()==1){
@@ -3212,7 +3216,11 @@ public class ExpertAuditController{
 		ExpertAuditOpinion selectEao = new ExpertAuditOpinion();
 		ExpertAuditOpinion auditOpinion = null;
 		selectEao.setExpertId(expertId);
-		selectEao.setFlagTime(0);
+		if(sign == 1){
+			selectEao.setFlagTime(1);
+		}else if(sign == 2){
+			selectEao.setFlagTime(0);
+		}
 		// 复审意见查询
 		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		model.addAttribute("auditOpinion", auditOpinion);
