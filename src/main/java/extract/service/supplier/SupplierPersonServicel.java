@@ -17,7 +17,7 @@ import extract.model.common.ExtractUser;
  * @version 2016年10月14日下午7:33:27
  * @since  JDK 1.7
  */
-public interface SupplierExtractUserServicel {
+public interface SupplierPersonServicel {
 	/**
 	 * @Description:集合
 	 *
@@ -92,5 +92,7 @@ public interface SupplierExtractUserServicel {
     String downLoadBiddingDocs(HttpServletRequest request,String projectId,int type,String suppliersID) throws Exception;
 
 	String getName(String id);
+
+	void add(ExtractUser extUser);
     
 }

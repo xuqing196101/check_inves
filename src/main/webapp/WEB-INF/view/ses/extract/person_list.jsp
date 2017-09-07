@@ -8,7 +8,7 @@
 <!--<![endif]-->
 <head>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="../../common.jsp"%>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css" type="text/css">
 <!-- Meta -->
@@ -44,7 +44,18 @@
 				<th class="info" width="15%">军衔</th>
 			</tr>
 		</thead>
-		<tbody id="personList"></tbody>
+		<tbody id="personList">
+		<c:forEach items="${personList }" var="pl" varStatus="v">
+			<tr>
+				<td class='tc h30 lh30'> <input type='checkbox' name='id' value="${pl.id }"> </td>
+		        <td class='tc h30 lh30'> ${v.count} </td>
+            	<td class='tc h30 lh30'> ${pl.name}</td>
+             	<td class='tc h30 lh30'>${pl.compary} </td>
+             	<td class='tc h30 lh30'>${pl.duty} </td>
+             	<td class='tc h30 lh30'> ${pl.rank}</td>
+		    </tr>
+		</c:forEach>
+		</tbody>
 	</table>
 	</div>
 </body>

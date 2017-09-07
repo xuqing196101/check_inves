@@ -66,7 +66,7 @@ $(function () {
     	if(null==index ||''==index || "undefined"== index){
 			index=0;
 		}
-    	var tr = "<tr class='inp'><td class='tc'><input type='checkbox'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input type='text' name='name' > </td><td class='tc'> <input type='text' name='compary' ></td><td class='tc'> <input type='text' name='duty'></td><td class='tc'> <input type='text' name='rank'></td></tr>";
+    	var tr = "<tr class='inp'><td class='tc'><input type='checkbox'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input type='text' name='name' > </td><td class='tc'> <input type='text' class='w100p' name='compary' ></td><td class='tc'> <input type='text' name='duty'></td><td class='tc'> <input type='text' name='rank'></td></tr>";
     	$(obj).parents("form").find("tbody").append(tr);
     }
     
@@ -83,7 +83,7 @@ $(function () {
             shade: 0.01,
             area: ['430px', '400px'],
             offset: '20px',
-            content: globalPath+'/SupplierExtracts/toPeronList.do?personType='+personType, //iframe的url
+            content: globalPath+'/'+personType+'/toPeronList.do?personType='+personType, //iframe的url
             success: function (layero, index) {
                 iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
             },
@@ -205,6 +205,8 @@ $(function () {
     }
     /**点击抽取--对参数进行校验*/
     function extractVerify() {
+    	//所有的必填项写一个class 验证必填 输入框要验证长度
+    	
         var eCount = $("#supplierCount").val();//抽取总数量
         $("#status").val(1);//修改状态为抽取中
         //获取每个类别的抽取数量
@@ -228,10 +230,7 @@ $(function () {
                 	$('.extractVerify_disabled input,.extractVerify_disabled select').each(function() {
                 		$(this).prop('disabled', true);
                 	});
-                	
-                	
-                	
-                	ext();
+                	extractSupplier();
                 }
             } else {
                 layer.msg("请输入有效人数(正整数)");
@@ -264,9 +263,18 @@ $(function () {
         });
     }
     /**点击抽取--当选择参加与否后保存状态*/
-    function ext() {
+    function extractSupplier() {
     	//selectLikeSupplier();
     	//获取到要抽取的数量
+    	//存储项目信息 人员信息
+    	/*$.ajax({
+            type: "POST",
+            url: globalPath+"/SupplierExtracts/savePerson.do",
+            data: 
+            dataType: "json",
+        });*/
+    	
+    	
     	var projectExtractNum = $("#projectExtractNum").val();
     	if(projectExtractNum>0){
     		if(projectExtractNum<=projects){
@@ -283,7 +291,7 @@ $(function () {
     			$("#productResult").find("tbody").empty();
     			appendTd(-1,$("#productResult").find("tbody"),null);
     		}else{
-    			alert("生产条件不满足");
+    			layer.msg("生产条件不满足");
     		}
     	}
     	
@@ -293,7 +301,7 @@ $(function () {
     			$("#serviceResult").find("tbody").empty();
     			appendTd(-1,$("#serviceResult").find("tbody"),null);
     		}else{
-    			alert("服务条件不满足");
+    			layer.msg("服务条件不满足");
     		}
     	}
     	
@@ -303,7 +311,7 @@ $(function () {
     			$("#salesResult").find("tbody").empty();
     			appendTd(-1,$("#salesResult").find("tbody"),null);
     		}else{
-    			alert("销售条件不满足");
+    			layer.msg("销售条件不满足");
     		}
     	}
     }
@@ -1181,7 +1189,7 @@ $(function () {
                     offset: [y, x],
                     title: '不参加理由'
                 }, function (value, index, elem) {
-                    ajaxs(objTr, value,2);
+                    saveResult(objTr, value,2);
                     layer.close(index);
                     //select.options[0].selected = true;
                 	appendTd(req,obj,"不能参加");
@@ -1193,7 +1201,7 @@ $(function () {
                 //select.disabled = true;
             	$(select).parents("td").html("能参加");
             	select.remove();
-                ajaxs(objTr, '',1);
+                saveResult(objTr, '',1);
             	appendTd(req,obj,"能参加");
             }else{
             	appendTd(req,obj,"待定");
@@ -1231,7 +1239,7 @@ $(function () {
                     offset: [y, x],
                     title: '不参加理由'
                 }, function (value, index, elem) {
-                    ajaxs(objTr, value,2);
+                    saveResult(objTr, value,2);
                     layer.close(index);
                     //select.options[0].selected = true;
                 	appendTd(req,obj,"不能参加");
@@ -1242,7 +1250,7 @@ $(function () {
             } else if(v == "1"){
                 //select.disabled = true;
             	if (objTr.siblings().length < (productExtractNum - 1)) {
-                    ajaxs(objTr, '',1);
+                    saveResult(objTr, '',1);
                 	appendTd(req,obj,"能参加");
             	}
             	$(select).parents("td").html("能参加");
@@ -1263,7 +1271,7 @@ $(function () {
     /**
      * 存储抽取结果
      */
-    function ajaxs(objTr, reason,join) {//obj:当前处理完成供应商信息、行  v:不能参加理由
+    function saveResult(objTr, reason,join) {//obj:当前处理完成供应商信息、行  v:不能参加理由
     	//成功通知次数
     	var successCount = 0;
     	var supplierType = objTr.attr("typeCode");

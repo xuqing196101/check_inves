@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import net.sf.json.util.NewBeanInstanceStrategy;
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -19,6 +17,8 @@ public class ExtractUser {
     private String recordId;
     
     private Date updatedAt;
+    
+    private String personType;
     
     @NotEmpty
     @Length(max=5)
@@ -119,6 +119,15 @@ public class ExtractUser {
 	public void setRank(String rank) {
 		this.rank = rank;
 	}
+
+	public String getPersonType() {
+		return personType;
+	}
+
+	public void setPersonType(String personType) {
+		this.personType = personType;
+	}
+	
 	
 	
 }

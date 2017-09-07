@@ -7,7 +7,7 @@ var personType ;
 	$(function() {
 		//人员类型
 		personType = $("#personType").val();
-  		getPersonList();
+  		//getPersonList();
   	}); 
   	
   	 //全选全不选
@@ -20,13 +20,13 @@ var personType ;
   		 $("tbody").empty();
   		$.ajax({
             type: "POST",
-            url: globalPath+"/SupplierExtracts/getPeronList.do?personType="+personType,
+            url: globalPath+"/"+personType+"/getPeronList.do?personType="+personType,
             data: $("form").serialize(),
             dataType: "json",
             success: function (data) {
             	for(var i=0;i<data.length;i++){
             	 var tr = "<tr>"+
-		              "<td class='tc h30 lh30'> <input type='checkbox' value="+data[i].id+"> </td>"+
+		              "<td class='tc h30 lh30'> <input type='checkbox' name='id' value="+data[i].id+"> </td>"+
 		              "<td class='tc h30 lh30'> "+(i+1)+" </td>"+
 		              "<td class='tc h30 lh30'> "+data[i].name+" </td>"+
 	              	  "<td class='tc h30 lh30'>"+data[i].compary+" </td>"+

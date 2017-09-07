@@ -27,7 +27,7 @@ import extract.model.supplier.SupplierExtractCondition;
 import extract.service.supplier.SupplierExtractConTypeService;
 import extract.service.supplier.SupplierExtractConditionService;
 import extract.service.supplier.SupplierExtractRelateResultService;
-import extract.service.supplier.SupplierExtractUserServicel;
+import extract.service.supplier.SupplierPersonServicel;
 
 
 
@@ -55,7 +55,7 @@ public class SupplierExtractConditionController {
     @Autowired
     private SupplierExtUserMapper userServicl;
     @Autowired
-    private SupplierExtractUserServicel extUserServicl;
+    private SupplierPersonServicel extUserServicl;
     @Autowired
     private ProjectService projectService;//项目
 

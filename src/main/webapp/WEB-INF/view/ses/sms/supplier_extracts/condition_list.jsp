@@ -517,8 +517,9 @@
 	<div class="container_box col-md-12 col-sm-12 col-xs-12">
 		 <h2 class="count_flow"><i>2</i>人员信息</h2>
 		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="star_red">*</span><b> 抽取人员:</b></span>
-		 <form action="" id="extractUser">
+		 <form action="<%=request.getContextPath() %>/SupplierExtracts/addPerson" id="extractUser">
 		 <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
+		 	<input type="hidden" value="extractUser" name="personType">
 		 	<input type="button" class="btn btn-windows add" onclick="addPerson(this)" value="新增">
 		 	<input type="button" class="btn btn-windows delete" onclick="delPerson(this)" value="删除">
 		 	<input type="button" class="btn btn-windows input" onclick="selectHistory(this)" value="引用历史人员">
@@ -556,8 +557,9 @@
           </table>
        </form>      
 		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="star_red">*</span><b> 监督人员:</b></span>
-		  <form action="" id="supervise">
+		  <form action="<%=request.getContextPath() %>/SupplierExtracts/addPerson" id="supervise">
 		  <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
+		 	 <input type="hidden" value="extractUser" name="supervise">
 		 	<input type="button" class="btn btn-windows add" onclick="addPerson(this)" value="新增">
 		 	<input type="button" class="btn btn-windows delete" onclick="delPerson(this)" value="删除">
 		 	<input type="button" class="btn btn-windows input" onclick="selectHistory(this)" value="引用历史人员">

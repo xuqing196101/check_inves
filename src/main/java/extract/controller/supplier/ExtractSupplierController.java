@@ -26,7 +26,6 @@ import ses.model.ems.ExtConType;
 import ses.model.sms.Supplier;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
-import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.WfUtil;
 import bss.controller.base.BaseController;
@@ -40,16 +39,13 @@ import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 
 import extract.model.common.ExtractUser;
-import extract.model.common.Supervise;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractProjectInfo;
 import extract.model.supplier.SupplierExtractResult;
-import extract.service.common.ExtractUserService;
-import extract.service.common.SuperviseService;
 import extract.service.supplier.SupplierExtractConditionService;
 import extract.service.supplier.SupplierExtractRecordService;
 import extract.service.supplier.SupplierExtractRelateResultService;
-import extract.service.supplier.SupplierExtractUserServicel;
+import extract.service.supplier.SupplierPersonServicel;
 
 /**
  * @Description:供应商抽取记录
@@ -85,18 +81,14 @@ public class ExtractSupplierController extends BaseController {
     @Autowired
     private SupplierExtractRecordService expExtractRecordService; //记录
     @Autowired
-    private SupplierExtractUserServicel extUserServicel; //监督人员
-    @Autowired
     private CategoryService categoryService; //品目
     @Autowired
     private SupplierService supplierService;
     @Autowired
-    private ExtractUserService extractUserService;
-    @Autowired
-    private SuperviseService superviseService;
+    private SupplierPersonServicel supplierPersonServicel;
     
-    @Autowired
-    private DictionaryDataServiceI dictionaryDataServiceI;
+    
+    
     /**
      * @Description:获取项目集合
      *
@@ -487,55 +479,28 @@ public class ExtractSupplierController extends BaseController {
     }*/
 
     /**
-     * 添加抽取人员
+     * 添加人员信息
      * @param packageId
      * @return
      */
-    @RequestMapping("addExtractUser")
+    @RequestMapping("addPerson")
     @ResponseBody
-    public List<FieldError> addExtractUser(@CurrentUser User user, Model model,@Valid ExtractUser extUser, BindingResult result){
+    public List<FieldError> addPersonType(@CurrentUser User user, Model model,@Valid ExtractUser extUser, BindingResult result){
 		if(result.hasErrors()){
 			List<FieldError> errors = result.getFieldErrors();
             for(FieldError fieldError:errors){
                // model.addAttribute(fieldError.getField()+"Error", fieldError.getDefaultMessage());
             }
             return errors; 
+            
+            supplierPersonServicel.add(extUser);
+            
 		}
 		return null;
     	
     }
     
-    /**
-     * 引用历史人员 跳转页面
-     * @param packageId
-     * @return
-     */
-     @RequestMapping("/toPeronList")
-    public String toPeronList(Model model,String personType,ExtractUser user,Supervise suser){
-        model.addAttribute("personType", personType);
-        return "ses/sms/extract/person_list";
-    }
      
-     
-     /**
-      * 引用历史人员
-      * @param packageId
-      * @return
-      */
-     @RequestMapping("/getPeronList")
-     @ResponseBody
-     public String getPeronList(Model model,String personType,ExtractUser user,Supervise suser){
-    	  if (personType != null && !"".equals(personType)) {
-          	if("extractUser".equals(personType)){
-      			return JSON.toJSONString(extractUserService.getList(user));
-      		}
-      		if("supervise".equals(personType)){
-      			return JSON.toJSONString(superviseService.getList(suser));
-      		}
-          }
-		return "";
-     }
-    
     
     
     @ResponseBody

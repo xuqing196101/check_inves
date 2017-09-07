@@ -53,7 +53,7 @@ import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
 import extract.dao.supplier.SupplierExtractUserMapper;
 import extract.model.common.ExtractUser;
-import extract.service.supplier.SupplierExtractUserServicel;
+import extract.service.supplier.SupplierPersonServicel;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -66,7 +66,7 @@ import freemarker.template.TemplateException;
  * @since  JDK 1.7
  */
 @Service
-public class SupplierExtractUserServicelmp implements SupplierExtractUserServicel {
+public class SupplierPersonServicelmp implements SupplierPersonServicel {
   @Autowired
   SupplierExtractUserMapper supplierExtUserMapper;
 
@@ -627,6 +627,12 @@ public class SupplierExtractUserServicelmp implements SupplierExtractUserService
 	@Override
 	public String getName(String recordId) {
 		return supplierExtUserMapper.getName(recordId);
+	}
+
+	@Override
+	public void add(ExtractUser extUser) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
