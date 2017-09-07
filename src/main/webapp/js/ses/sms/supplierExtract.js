@@ -526,7 +526,7 @@
      function initCategoryAndLevel(obj){
     	 var mycars=new Array("service","project","product","sales");
     	 for ( var i=0;i<4;i++) {
-    		 $("#"+mycars[i]+"Count").addClass("dnone");
+    		 $("."+mycars[i]+"Count").addClass("dnone");
     		 $("#"+mycars[i]+"Result").addClass("dnone");
     		 $("#"+mycars[i]+"CategoryIds").val("");
     		 $("#"+mycars[i]+"ExtractNum").val(0);
@@ -865,14 +865,16 @@
          callback: {
               // beforeCheck: beforeClickArea,
                onCheck: choseArea,
-               //onAsyncSuccess:,
+               onAsyncSuccess:checkAllNodes("quaTree")
          },
          view: {
                dblClickExpand: false
          }        
        };
-       treeArea = $.fn.zTree.init($("#quaTree"), setting, treeNodes);
-       checkAllNodes("quaTree");
+		 
+       var quaTree = $.fn.zTree.init($("#quaTree"), setting, treeNodes);
+       alert(quaTree);
+       
     }
     
     //加载工程等级树

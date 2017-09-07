@@ -178,9 +178,9 @@
 	    AND D.ID IS NOT NULL AND D.NAME IS NOT NULL ORDER BY D.POSITION ASC
     </select>
     
-    <select id="getQuaByCid" resultType="map">
+    <select id="getQuaByCid" parameterType="map" resultType="map">
     	 SELECT D.ID id,D.NAME name FROM T_SES_BMS_CATEGORY_QUA Q LEFT JOIN T_SES_BMS_QUALIFICATION D ON Q.QUA_ID = D.ID where Q.CATEGORY_ID IN 
-    	 <foreach collection="arrray" open="(" item="it" separator="," close=")">
+    	 <foreach collection="categoryIds" open="(" item="it" separator="," close=")">
     	 	#{it}
     	 </foreach>
     </select>

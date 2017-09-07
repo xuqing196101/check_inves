@@ -159,7 +159,7 @@
 		<include refid="Base_Column_List" />
 		from T_SES_SMS_SUPPLIER
 	</select>
-
+ 
 	<select id="selectOne" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select

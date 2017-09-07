@@ -1218,7 +1218,9 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<DictionaryData> getQuaByCid(String categoryId) {
 		String[] categoryIds = categoryId.split(",");
-		return categoryQuaMapper.getQuaByCid(categoryIds);
+		HashMap<String,String[]> hashMap = new HashMap<>();
+		hashMap.put("categoryIds", categoryId.split(","));
+		return categoryQuaMapper.getQuaByCid(hashMap);
 	}
 	
 }
