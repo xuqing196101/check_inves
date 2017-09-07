@@ -1678,8 +1678,10 @@ public class ExpertAuditController{
 				     map2.put("type", "six");
 					int passCount = expertCategoryService.selectPassCount(map2);
 					if(passCount<=0){
-						model.addAttribute("qualified", false);
-						break;
+						if(!"GOODS_SERVER".equals(data.getCode())){
+							model.addAttribute("qualified", false);
+							break;
+						}
 					}
 				}
 			}
