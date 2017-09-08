@@ -70,37 +70,43 @@
 
       //动态添加
       var flgNumber=false;
+      var flgg=false;
+      var indexCount=0;
       function aadd() {
-    	  if(flgNumber) {
+          if(flgNumber) {
               layer.alert("节点填写错误");
               return false;
-           }
-        var value = $("#xqbm").val();
-        var detailRow = document.getElementsByName("detailRow");
-        var index = detailRow.length;
-        var id = null;
-        $.ajax({
-          url: "${pageContext.request.contextPath}/templet/detail.html",
-          type: "post",
-          data: {
-            "index": index
-          },
-          success: function(data) {
-            $("#detailZeroRow").append(data);
-            indNum += 1;
-            init_web_upload();
-            var bool = $("input[name='import']").is(':checked');
-            if(bool == true) {
-              $("td[name='userNone']").attr("style", "");
-              $("th[name='userNone']").attr("style", "");
-            } else {
-              $("td[name='userNone']").attr("style", "display:none");
-              $("th[name='userNone']").attr("style", "display:none");
-            }
-
           }
-        });
+          if(!flgg){
+              var detailRow = document.getElementsByName("detailRow");
+              var index = detailRow.length;
+              indexCount=index;
+              flgg=true;
+          }else{
+              indexCount++;
+          }
+          $.ajax({
+              url: "${pageContext.request.contextPath}/templet/detail.html",
+              type: "post",
+              data: {
+                  "index": indexCount
+              },
+              success: function(data) {
+                  $("#detailZeroRow").append(data);
+                  indNum += 1;
+                  init_web_upload();
+                  var bool = $("input[name='import']").is(':checked');
+                  if(bool == true) {
+                      $("td[name='userNone']").attr("style", "");
+                      $("th[name='userNone']").attr("style", "");
+                  } else {
+                      $("td[name='userNone']").attr("style", "display:none");
+                      $("th[name='userNone']").attr("style", "display:none");
+                  }
+              }
+          });
       }
+
       function trimNull(i){
     	  var trimFlog=false;
     	  if($.trim($("input[name='list[" + i + "].goodsName']").val()) == "") {
