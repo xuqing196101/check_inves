@@ -6,7 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.User;
+
 import com.alibaba.fastjson.JSON;
+import common.annotation.CurrentUser;
 
 import extract.model.common.ExtractUser;
 import extract.service.common.ExtractUserService;
@@ -49,7 +52,7 @@ public class ExtractUserController {
      
      @RequestMapping("/addPerson")
      @ResponseBody
-     public void addPerson(ExtractUser user){
-    	 extractUserService.addPerson(user);
+     public void addPerson(ExtractUser user,@CurrentUser User user2){
+    	 extractUserService.addPerson(user,user2);
      }
 }

@@ -226,6 +226,8 @@
 	</foreach>
 	SELECT 1 FROM DUAL
   </insert>
-  
+  <select id="selectById" parameterType="java.lang.String" resultType="BaseResultMap">
+  	SELECT * FROM T_SES_EXTRACT_USER WHERE ID = #{value}
+  </select>
   
 </mapper>

@@ -295,11 +295,21 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
   public List<SupplierExtractResult> selectSupplierType(String conditionId) {
     return supplierExtRelateMapper.selectSupplierType(conditionId);
   }
+  
+  /**
+   * 存储结果
+   */
 	@Override
 	public void saveResult(SupplierExtractResult supplierExtRelate) {
 		supplierExtRelate.setId(UUIDUtils.getUUID32());
 		supplierExtRelateMapper.insertSelective(supplierExtRelate);
 	}
+	
+	/**
+	 * 删除待定
+	 */
+	
+	
 }
 
 

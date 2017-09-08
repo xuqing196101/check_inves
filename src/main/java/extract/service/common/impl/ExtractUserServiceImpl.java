@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.model.bms.User;
+
 import extract.dao.common.ExtractUserMapper;
 import extract.dao.common.PersonRelMapper;
 import extract.model.common.ExtractUser;
@@ -30,11 +32,12 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 	
 	
 	@Override
-	public void addPerson(ExtractUser extUser) {
+	public void addPerson(ExtractUser extUser,User user) {
 		if(StringUtils.isNotEmpty(extUser.getPersonType())){
 			HashMap<String, Object> map = new HashMap<>();
 			if(StringUtils.isNotEmpty(extUser.getId())){
 				String[] personId = extUser.getId().split(","); //引用的历史人员
+				personId[personId.length] = user.getId();
 				map.put("personIds", personId);
 			}
 			map.put("recordId", extUser.getRecordId());
@@ -48,6 +51,8 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 					if(extractUserMapper.getList(extractUser).size()<1){
 						arrayList.add(extractUser);
 					}
+					//查询当前登陆用户是否存在抽取人员表中
+					extractUserMapper.selectById(user.getId());
 				}
 				if(arrayList.size()>0){
 					extractUserMapper.insertSelectiveAll(arrayList);
