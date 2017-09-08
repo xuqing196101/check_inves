@@ -632,9 +632,9 @@
               <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
                   <div class="categories">
                       <ul class="list-unstyled">
-
+													<c:set var="supplierList" value="${my:getSupplierList()}"/>
                           <c:choose>
-                              <c:when test="${!empty my:getSupplierList()}">
+                              <c:when test="${!empty supplierList}">
                                   <table class="table table-bordered " >
                                       <thead>
                                       <tr >
@@ -644,7 +644,7 @@
                                       </tr>
                                       </thead>
                                       <tbody>
-                                      <c:forEach items="${my:getSupplierList()}" var="item" begin="0" end="5" step="1" varStatus="status" >
+                                      <c:forEach items="${supplierList}" var="item" begin="0" end="5" step="1" varStatus="status" >
                                           <tr>
                                               <td>${item.supplierName }</td>
                                               <td class="tc"></td>
@@ -848,8 +848,9 @@
             </div>
             <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
                 <div class="categories zhuanjia_list">
+                		<c:set var="expertList" value="${my:getExpertList()}"/>
                     <c:choose>
-                        <c:when test="${!empty my:getExpertList()}">
+                        <c:when test="${!empty expertList}">
                             <table class="table table-bordered " >
                                 <thead>
                                 <tr >
@@ -859,7 +860,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${my:getExpertList()}" var="item" begin="0" end="5" step="1" varStatus="status" >
+                                <c:forEach items="${expertList}" var="item" begin="0" end="5" step="1" varStatus="status" >
                                     <tr>
                                         <td>${item.relName }</td>
                                         <td class="tc"></td>
