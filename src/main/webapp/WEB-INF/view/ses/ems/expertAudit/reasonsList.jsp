@@ -46,7 +46,12 @@
             }
             if($("#status").val() == '-2'){
             	var expertId = $("input[name='expertId']").val();
-            	getCheckOpinionType(expertId);
+            	var checkVal = $("input:radio[name='selectOption']:checked").val();
+            	
+            	//预复审合格状态默认加载通过了xx,不通过xx
+            	if(checkVal == '-3'){
+            		getCheckOpinionType(expertId);
+            	}
             }
            /*   if($("#status").val() != '0' && $("#status").val() != '15' && $("#status").val() != '16' && $("#status").val() != '4'){
             	$("#qualified").attr("disabled", true);

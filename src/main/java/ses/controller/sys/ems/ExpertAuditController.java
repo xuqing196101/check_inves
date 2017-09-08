@@ -3321,18 +3321,12 @@ public class ExpertAuditController{
     	ExpertAudit expertAudit = new ExpertAudit();
 		expertAudit.setExpertId(expertId);
 		expertAudit.setSuggestType("six");
-		if(auditFalg==1){
-			expertAudit.setAuditFalg(666);//666标识为空的 用于兼容老数据问题
-			expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
-			expertAudit.setAuditFalg(1);
-			expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
-		}else if(auditFalg==2){
-			expertAudit.setAuditFalg(666);//666标识为空的 用于兼容老数据问题
-			expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
-			expertAudit.setAuditFalg(1);
-			expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
-			all=all-expertAuditList.size();
-			expertAuditList.clear();
+		
+		expertAudit.setAuditFalg(666);//666标识为空的 用于兼容老数据问题
+		expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
+		expertAudit.setAuditFalg(1);
+		expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
+		if(auditFalg==2){
 			expertAudit.setAuditFalg(2);
 			expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
 		}
