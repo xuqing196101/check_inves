@@ -31,9 +31,10 @@ public class SuperviseServiceImpl implements SuperviseService {
 	@Override
 	public void addPerson(Supervise user) {
 		if(StringUtils.isNotEmpty(user.getPersonType())){
+			String[] personId = null;
 			HashMap<String, Object> map = new HashMap<>();
 			if(StringUtils.isNotEmpty(user.getId())){
-				String[] personId = user.getId().split(","); //引用的历史人员
+				personId = user.getId().split(","); //引用的历史人员
 				map.put("personIds", personId);
 			}
 			map.put("recordId", user.getRecordId());
@@ -51,7 +52,9 @@ public class SuperviseServiceImpl implements SuperviseService {
 					superviseMapper.insertSelectiveAll(arrayList);
 				}
 			}
-			personRelMapper.insertRel(map);
+			if(personId.length>0 ||user.getList().size()>0){
+				personRelMapper.insertRel(map);
+			}
 		}
 	}
 

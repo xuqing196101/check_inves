@@ -34,16 +34,16 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 	@Override
 	public void addPerson(ExtractUser extUser,User user) {
 		if(StringUtils.isNotEmpty(extUser.getPersonType())){
+			String[] personId = null;
 			HashMap<String, Object> map = new HashMap<>();
 			if(StringUtils.isNotEmpty(extUser.getId())){
-				String[] personId = extUser.getId().split(","); //引用的历史人员
+				personId = extUser.getId().split(","); //引用的历史人员
 				personId[personId.length] = user.getId();
 				map.put("personIds", personId);
 			}
 			map.put("recordId", extUser.getRecordId());
 			map.put("personType", extUser.getPersonType());
 			if(extUser.getList().size()>0){
-				List<ExtractUser> list = extUser.getList();
 				ArrayList<ExtractUser> arrayList = new ArrayList<>();
 				//新添加人员
 				map.put("personList", extUser.getList());
@@ -58,7 +58,9 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 					extractUserMapper.insertSelectiveAll(arrayList);
 				}
 			}
-			personRelMapper.insertRel(map);
+			if(personId.length>0 ||extUser.getList().size()>0){
+				personRelMapper.insertRel(map);
+			}
 		}
 	}
 	
