@@ -479,7 +479,7 @@
                  </div>
              </li>
              <li class="col-md-3 col-sm-4 col-xs-12">
-                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>其他要求</span>
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red"></span>其他要求</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                      <input name="remark" value="" type="text" >
                      <span class="add-on">i</span>
@@ -594,7 +594,7 @@
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
                   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div
-                          class="star_red">*</div>抽取类型：</span>
+                          class="star_red">*</div>供应商类型：</span>
                   <div class="input-append input_group col-sm-12 col-xs-12 p0">
                   		<%-- <input name="supplierTypeCode" id="supplierTypeCode" type="hidden">
                       <input id="supplierType" class="" type="text" readonly
