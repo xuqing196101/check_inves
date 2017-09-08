@@ -618,7 +618,7 @@
               
 				<li class="clear"></li>
 				<li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程品目：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red"></span>工程品目：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="projectIsMulticondition" class="isSatisfy">
           <input type="hidden" name="projectCategoryIds" id="projectCategoryIds" class="categoryId">
@@ -640,7 +640,7 @@
           </div>
           </li>
           <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程等级：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red"></span>工程等级：</span>
            <div class="input-append input_group col-sm-12 col-xs-12 p0">
             <input type="hidden" name="projectLevel" >
             <input type="text" readonly  id="projectLevel" treeHome="projectLevelContent"
@@ -661,7 +661,7 @@
         
         <li class="clear"></li>
         <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>服务品目：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red"></span>服务品目：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="serviceIsMulticondition" class="isSatisfy">
           <input type="hidden" name="serviceCategoryIds" id="serviceCategoryIds" class="categoryId">
@@ -673,7 +673,7 @@
           </div>
           </li>
           <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>服务等级：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red"></span>服务等级：</span>
            <div class="input-append input_group col-sm-12 col-xs-12 p0">
             <input type="hidden" name="serviceLevel" >
             <input type="text" readonly  id="serviceLevel" treeHome="serviceLevelContent"
@@ -694,7 +694,7 @@
         
         <li class="clear"></li>
         <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>生产品目：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red"></span>生产品目：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="productIsMulticondition" class="isSatisfy">
           <input type="hidden" name="productCategoryIds" id="productCategoryIds" class="categoryId">
@@ -706,7 +706,7 @@
           </div>
           </li>
           <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>生产等级：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red"></span>生产等级：</span>
            <div class="input-append input_group col-sm-12 col-xs-12 p0">
             <input type="hidden" name="productLevel" >
             <input type="text" readonly  id="productLevel" treeHome="productLevelContent"
@@ -727,7 +727,7 @@
         
         <li class="clear"></li>
         <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>销售品目：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red"></span>销售品目：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="salesIsMulticondition" class="isSatisfy">
           <input type="hidden" name="salesCategoryIds" id="salesCategoryIds" class="categoryId">
@@ -739,7 +739,7 @@
           </div>
           </li>
           <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>销售等级：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red"></span>销售等级：</span>
            <div class="input-append input_group col-sm-12 col-xs-12 p0">
             <input type="hidden" name="salesLevel" >
             <input type="text" readonly  id="salesLevel" treeHome="salesLevelContent"
@@ -759,7 +759,7 @@
         </li>
         
           <li class="col-md-3 col-sm-3 col-xs-3 dnone elseInfo">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>企业性质：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red"></span>企业性质：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
                  <select name="businessNature" class="w100p">
                  	<option value="">不限</option>
@@ -771,7 +771,7 @@
           </div>
         </li>
           <li class="col-md-3 col-sm-3 col-xs-3 dnone else">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>保密要求：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red"></span>保密要求：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
            <select name="isHavingConCert" class="w100p">
                  	<option value="0">无</option>
@@ -781,7 +781,7 @@
           </div>
         </li>
           <li class="col-md-3 col-sm-3 col-xs-3 dnone else">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>境外分支：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red"></span>境外分支：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<select name="overseasBranch" class="w100p">
                  	<option value="1">有</option>
