@@ -87,6 +87,5 @@
 	<delete id="deleteByMatEngId" parameterType="String">
 	  delete from T_SES_SMS_SUPPLIER_REG_PERSON
 		where  MAT_ENG_ID = #{engId}
-			 
 	</delete>
 </mapper>

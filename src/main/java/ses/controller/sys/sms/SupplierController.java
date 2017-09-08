@@ -242,6 +242,7 @@ public class SupplierController extends BaseSupplierController {
      * @param model
      * @param suppId
      * @return
+     * @throws InterruptedException 
      */
     @RequestMapping("/supplierType")
     public String supplierType(Model model, String suppId){
@@ -979,25 +980,27 @@ public class SupplierController extends BaseSupplierController {
 	 * @param supplier
 	 */
 	private void initSupplierTypeConstants(Model model, Supplier supplier){
-		List < DictionaryData > list = DictionaryDataUtil.find(6);
-		if(list != null && !list.isEmpty()){
-			for(int i = 0; i < list.size(); i++) {
-				String code = list.get(i).getCode();
-				if(code.equals("GOODS")) {
-					list.remove(list.get(i));
+		List < DictionaryData > gcfwList = DictionaryDataUtil.find(6);// 物资/工程/服务
+		if(gcfwList != null && !gcfwList.isEmpty()){
+			for(int i = 0; i < gcfwList.size(); i++) {
+				DictionaryData dd = gcfwList.get(i);
+				String code = dd.getCode();
+				if(code.equals("GOODS")) {// 除去物资
+					gcfwList.remove(dd);
 				}
 			}
 		}
 		
-		model.addAttribute("supplieType", list);
-		List < DictionaryData > wlist = DictionaryDataUtil.find(8);
-		model.addAttribute("wlist", wlist);
+		model.addAttribute("gcfwList", gcfwList);
+		List < DictionaryData > scxsList = DictionaryDataUtil.find(8);// 物资生产/物资销售
+		model.addAttribute("scxsList", scxsList);
 		
 		//初始化供应商注册附件类型
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("rootArea", areaService.findRootArea());
-		List<Qualification> findList = qualificationService.findList(null, Integer.MAX_VALUE, null, 4);
+		//资质类型
+		List<Qualification> quaList = qualificationService.findList(null, Integer.MAX_VALUE, null, 4);
 		// 去掉下面的代码（只要后台维护的资质，不要供应商自己添加的资质）
 		/*List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, supplier.getId());
 		if(supplierQua != null && !supplierQua.isEmpty()){
@@ -1005,10 +1008,10 @@ public class SupplierController extends BaseSupplierController {
             	Qualification q = new Qualification();
             	q.setId(qua.getName());
             	q.setName(qua.getName());
-            	findList.add(q);
+            	quaList.add(q);
             }
 		}*/
-		model.addAttribute("typeList", findList);
+		model.addAttribute("quaList", quaList);
 		// 物资销售是否满足条件
 		//String isSalePass = isPass(supplier.getId(), "SALES");
 		String isSalePass = "1";
@@ -1322,8 +1325,9 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "/saveSupplierType", produces = "html/text;charset=UTF-8")
 	public String saveSupplierType(Supplier supplier, Model model) {
 		if(supplier != null) {
-			if(StringUtils.isNotBlank(supplier.getSupplierTypeIds())) {
-				String[] supplierTypeArray = supplier.getSupplierTypeIds().trim().split(",");
+			String supplierTypeIds = supplier.getSupplierTypeIds();
+			if(StringUtils.isNotBlank(supplierTypeIds)) {
+				String[] supplierTypeArray = supplierTypeIds.trim().split(",");
 				for(String supplierType: supplierTypeArray) {
 					if(supplierType.equals("PRODUCT")) {
 						supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
@@ -1338,8 +1342,8 @@ public class SupplierController extends BaseSupplierController {
 						supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
 					}
 				}
+				supplierTypeRelateService.saveSupplierTypeRelate(supplier);
 			}
-			supplierTypeRelateService.saveSupplierTypeRelate(supplier);
 		}
 		StringBuffer idSb = new StringBuffer();
 		idSb.append(supplierMatProService.getMatProIdBySupplierId(supplier.getId()) + ",");
@@ -1365,57 +1369,64 @@ public class SupplierController extends BaseSupplierController {
 		if(checkSupplier == null){
 			return null;
 		}
+		boolean type = true;
 		boolean sale = true;
 		boolean pro = true;
 		boolean server = true;
 		boolean project = true;
         try{
-        	String[] str = supplier.getSupplierTypeIds().trim().split(",");
-        	if(str != null && str.length > 0){
-        		for(String s: str) {
-                    if(s.equals("PRODUCT")) {
-                        pro = validatePro(request, supplier.getSupplierMatPro(), model);
-                        if(pro == true) {
-                            supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+        	String supplierTypeIds = supplier.getSupplierTypeIds();
+        	if(StringUtils.isNotBlank(supplierTypeIds)){
+        		String[] str = supplierTypeIds.trim().split(",");
+            	if(str != null && str.length > 0){
+            		for(String s: str) {
+                        if(s.equals("PRODUCT")) {
+                            pro = validatePro(request, supplier.getSupplierMatPro(), model);
+                            if(pro == true) {
+                                supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+                            }
+                        }
+                        if(s.equals("SALES")) {
+                            sale = validateSale(request, supplier.getSupplierMatSell(), model);
+                            if(sale == true) {
+                                supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+                            }
+                        }
+                        if(s.equals("PROJECT")) {
+                        	List<Area> areaList = areaService.findRootArea();
+                            project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
+                            if(project == true) {
+                                supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
+                            }
+                        }
+                        if(s.equals("SERVICE")) {
+                            server = validateServer(request, supplier.getSupplierMatSe(), model);
+                            if(server == true) {
+                                supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
+                            }
                         }
                     }
-                    if(s.equals("SALES")) {
-                        sale = validateSale(request, supplier.getSupplierMatSell(), model);
-                        if(sale == true) {
-                            supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
-                        }
-                    }
-                    if(s.equals("PROJECT")) {
-                    	List<Area> areaList = areaService.findRootArea();
-                        project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
-                        if(project == true) {
-                            supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
-                        }
-                    }
-                    if(s.equals("SERVICE")) {
-                        server = validateServer(request, supplier.getSupplierMatSe(), model);
-                        if(server == true) {
-                            supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
-                        }
-                    }
+        		}
+            	supplierTypeRelateService.saveSupplierTypeRelate(supplier);
+                if(old!=null&&old.equals("old")){
+                    supplierTypeRelateService.delete(supplier.getId(), "SALES");
                 }
-    		}
-            supplierTypeRelateService.saveSupplierTypeRelate(supplier);
-            if(old!=null&&old.equals("old")){
-                supplierTypeRelateService.delete(supplier.getId(), "SALES");
-            }
+        	}else{
+        		type = false;
+        	}
         }catch (Exception e){
 		    e.printStackTrace();
         }
 
-		if(pro == true && server == true && project == true && sale == true) {
+		if(type == true && pro == true && server == true && project == true && sale == true) {
 			model.addAttribute("suppId", supplier.getId());
 			return "redirect:/supplier/items.html";
 		} else {
+			model.addAttribute("type", type);
 			model.addAttribute("pro", pro);
-			model.addAttribute("server", server);
-			model.addAttribute("project", project);
 			model.addAttribute("sale", sale);
+			model.addAttribute("project", project);
+			model.addAttribute("server", server);
 			initSupplierTypeConstants(model, supplier);
 			initSupplierTypeAudit(model, checkSupplier);
 			returnSupplierTypeInfo(model, checkSupplier, supplier);
