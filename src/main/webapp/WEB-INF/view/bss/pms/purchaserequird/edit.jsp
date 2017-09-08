@@ -72,8 +72,8 @@
             shade: 0.01
           });
         } else {
-          var purchaseCount = parseFloat($(obj).val()) - 0; //价钱
-          var price2 = parseFloat($(obj).parent().prev().children(":last").prev().val()) - 0; //数量
+          var purchaseCount = parseFloat($(obj).val()==""?0:$(obj).val()) - 0; //价钱
+          var price2 = parseFloat($(obj).parent().prev().children(":last").prev().val()==""?0:$(obj).parent().prev().children(":last").prev().val()) - 0; //数量
           var sum = purchaseCount * price2 / 10000;
           sum = sum.toFixed(2);
           $(obj).parent().next().children(":last").prev().val(sum);
@@ -232,12 +232,12 @@
            layer.alert("节点填写错误");
            return false;
         }
-    	  if($("#detailZeroRow tr").length <= 2) {
+    	  if($("#detailZeroRow tr").length < 2) {
               layer.alert("请添加需求明细！");
               return false;
             }else{
             	var tableTr=$("#detailZeroRow tr");
-            	for(var i = 2; i < tableTr.length; i++) {
+            	for(var i = 1; i < tableTr.length; i++) {
             		 if(typeof($(tableTr[i]).attr("attr"))=="undefined"){//获取子节点
             			  if(trimNull(i)){
             				  return false;
@@ -678,8 +678,10 @@
     	  $(tr).attr("attr","true");
     	  var tr7=$($(tr).children()[7]).children(":first").next();
     	  var tr8=$($(tr).children()[8]).children(":first").next();
+    	  var tr3=$($(tr).children()[3]).children(":first").children(":last");
     	  /* var tr9=$($(tr).children()[9]).children(":first").next(); */
     	  $(tr7).attr("readonly", "readonly");
+    	  $(tr3).removeAttr("onkeyup");
     	  $(tr7).removeAttr("onblur");
     	  $(tr7).removeAttr("onkeyup");
     	  $(tr7).val("");
@@ -718,20 +720,22 @@
                   parentAttr(list[i]);
                   same(obj, parentId);
                   var val=$(obj).val().substring(1,$(obj).val().length-1);
-                  var prevVal="";
-                  inter:
-                  for(var j = 0; j < list.length; j++){
-                	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
-                		  prevVal=$(list[j].children[1]).children(":last").prev().val();
-                		  break inter;
-                	  }
-                  }
-                  prevVal=prevVal.substring(1,prevVal.length-1);
-                  if(!numberTwo(prevVal,val)){
-                	  layer.msg("序号填写错误");
-                	  flgNumber=true;
-                	  return false;
-                  }
+                  if(val!="一"){
+	                  var prevVal="";
+	                  inter:
+	                  for(var j = 0; j < list.length; j++){
+	                	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	                		  prevVal=$(list[j].children[1]).children(":last").prev().val();
+	                		  break inter;
+	                	  }
+	                  }
+	                  prevVal=prevVal.substring(1,prevVal.length-1);
+	                  if(!numberTwo(prevVal,val)){
+	                	  layer.msg("序号填写错误");
+	                	  flgNumber=true;
+	                	  return false;
+	                  }
+                   }
                   break outer;
                 }
               }
@@ -1046,6 +1050,7 @@
         }
       }
       function deleteRowRequired(obj,status){
+    	  var id=[],seq=[];
     	  var trAll=$("#detailZeroRow tr");
     	  if(trAll.length<=2){
     		  layer.alert("至少保留两行！", {
@@ -1089,6 +1094,8 @@
     								  num:
     								  for(var j=0;j<number.length;j++){
         							   if(vals==number[j]){
+        								    id.push($(trNextAll[i]).children(":first").next().children(":first").val());
+        								    seq.push("（"+number[j-1]+"）");
         							      $(nextNumber).val("（"+number[j-1]+"）");
           							    break num;
         							   }
@@ -1097,6 +1104,8 @@
     							  var fourth = conNum($(nextNumber).val());//4级
     							  if(fourth){
     								  var vals=$(nextNumber).val().substring(1,$(nextNumber).val().length-1);
+    								  id.push($(trNextAll[i]).children(":first").next().children(":first").val());
+  								    seq.push("（"+(parseInt(vals)-1)+"）");
     								  $(nextNumber).val("（"+(parseInt(vals)-1)+"）");//重新赋值序号
     							  }
     							  var ifFifth = ifFifthNode($(nextNumber).val());//6级
@@ -1106,6 +1115,8 @@
     								  num:  
     								  for(var j=0;j<number.length;j++){
       							    	if(vals==number[j]){
+      							    		id.push($(trNextAll[i]).children(":first").next().children(":first").val());
+      	  								  seq.push("（"+number[j-1]+"）");
       							    		$(nextNumber).val("（"+number[j-1]+"）");
       							    		break num;
       							    	}
@@ -1114,6 +1125,8 @@
     						  }else{//1,3,5级
     							  var third = nums($(nextNumber).val());//3级
     						    if(third){
+    						    	id.push($(trNextAll[i]).children(":first").next().children(":first").val());
+	  								  seq.push(parseInt($(nextNumber).val())-1);
     						    	$(nextNumber).val(parseInt($(nextNumber).val())-1)//重新赋值序号
     						    }
     							  var fifth = eng($(nextNumber).val());//5级
@@ -1122,6 +1135,8 @@
     							    num:
     								  for(var j=0;j<number.length;j++){
     							    	if($(nextNumber).val()==number[j]){
+    							    		id.push($(trNextAll[i]).children(":first").next().children(":first").val());
+    		  								seq.push(number[j-1]);
     							    		$(nextNumber).val(number[j-1]);
     							    		break num;
     							    	}
@@ -1131,7 +1146,7 @@
     					  }
     				  }
         			if(status=="old"){
-        				ajaxDeleteRequired(trId);
+        				ajaxDeleteRequired(trId,id,seq);
         			}
         			var price;
         			if(trPid!=trPrevPid){
@@ -1145,8 +1160,11 @@
     				    $(tr).prev().removeAttr("attr");
     		    	  var tr7=$($(tr).prev().children()[7]).children(":first").next();
     		    	  var tr8=$($(tr).prev().children()[8]).children(":first").next();
+    		    	  var tr3=$($(tr).prev().children()[3]).children(":first").children(":last");
     		    	 /*  var tr9=$($(tr).prev().children()[9]).children(":first").next(); */
     		    	  $(tr7).removeAttr("readonly");
+    		    	  $(tr3).attr("onkeyup","listName(this)");
+    		    	  $(tr3).after($("#materialName"))
     		    	  $(tr7).attr("onblur","sum2(this)");
     		    	  $(tr7).attr("onkeyup","checkNum(this,1)");
     		    	  $(tr7).val("");
@@ -1157,7 +1175,7 @@
     		    	  /* $(tr9).removeAttr("readonly");
     		    	  $(tr9).val(""); */
     		    	  if(status=="old"){
-    		    		  ajaxDeleteRequired(trId);
+    		    		  ajaxDeleteRequired(trId,null,null);
           			}
     		    	  $(tr).remove();
     		    	  sum1(tr8);
@@ -1166,12 +1184,18 @@
     		  }
     	  }
       }
-      function ajaxDeleteRequired(id){
+      function ajaxDeleteRequired(id,ids,seqs){
+    	  if(ids!=null){
+    		  ids=ids.join(",");
+    		  seqs=seqs.join(",");
+    	  }
     	  $.ajax({
               type: "POST",
               url: "${pageContext.request.contextPath}/purchaser/deleteRequired.do",
               data: {
-                "id": id
+                "id": id,
+                "ids":ids,
+                "seqs":seqs
               },
               success: function(data) {
             	   if(data=="ok"){
@@ -1239,7 +1263,15 @@
             if(data.length > 0) {
               var html = "";
               for(var i = 0; i < data.length; i++) {
-                html += "<div style='width:178px;height:20px;' class='pointer' onmouseover='changeColor(this)' onclick='getValue(this)'>" + data[i].name + "</div>";
+            	  var name="";
+            	  var title="";
+            	  if(data[i].name.split("@").length>1){
+            		  name=data[i].name.split("@")[0];
+            		  title=data[i].name.split("@")[1];
+            	  }else{
+            		  name=data[i].name.split("@")[0];
+            	  }
+                html += "<div style='width:178px;height:20px;' class='pointer' onmouseover='changeColor(this)' onclick='getValue(this)' title='"+title+"'>" + name + "</div>";
               }
               $("#materialName").html(html);
               $("#materialName").removeClass("dnone");

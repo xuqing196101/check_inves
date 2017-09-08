@@ -982,6 +982,10 @@ public class PurchaseRequiredController extends BaseController {
 			for (Category category : ca) {
 			  List<Category> findTreeByPid = categoryService.findTreeByPidIsPublish(category.getId());
 			  if(findTreeByPid==null||findTreeByPid.size()==0){
+			    Category ct = categoryService.selectByPrimaryKey(category.getParentId());
+			    if(ct!=null){
+			      category.setName(category.getName()+"@"+ct.getName());
+			    }
 			    list.add(category);
 			  }
       }
@@ -1474,7 +1478,17 @@ public class PurchaseRequiredController extends BaseController {
     }
     @RequestMapping("/deleteRequired")
     @ResponseBody
-    public String deleteRequired(String id){
+    public String deleteRequired(String id,String ids,String seqs){
+        if(ids!=null&&!"".equals(ids)){
+          String[] newId=ids.split(",");
+          String[] newSeq=seqs.split(",");
+          for(int i=0;i<newId.length;i++){
+            PurchaseRequired purchaseRequired=new PurchaseRequired();
+            purchaseRequired.setId(newId[i]);
+            purchaseRequired.setSeq(newSeq[i]);
+            purchaseRequiredService.updateByPrimaryKeySelective(purchaseRequired);
+          }
+        }
         purchaseRequiredService.delete(id);
         return "ok";
     }

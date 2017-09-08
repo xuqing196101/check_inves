@@ -70,37 +70,43 @@
 
       //动态添加
       var flgNumber=false;
+      var flgg=false;
+      var indexCount=0;
       function aadd() {
-    	  if(flgNumber) {
+          if(flgNumber) {
               layer.alert("节点填写错误");
               return false;
-           }
-        var value = $("#xqbm").val();
-        var detailRow = document.getElementsByName("detailRow");
-        var index = detailRow.length;
-        var id = null;
-        $.ajax({
-          url: "${pageContext.request.contextPath}/templet/detail.html",
-          type: "post",
-          data: {
-            "index": index
-          },
-          success: function(data) {
-            $("#detailZeroRow").append(data);
-            indNum += 1;
-            init_web_upload();
-            var bool = $("input[name='import']").is(':checked');
-            if(bool == true) {
-              $("td[name='userNone']").attr("style", "");
-              $("th[name='userNone']").attr("style", "");
-            } else {
-              $("td[name='userNone']").attr("style", "display:none");
-              $("th[name='userNone']").attr("style", "display:none");
-            }
-
           }
-        });
+          if(!flgg){
+              var detailRow = document.getElementsByName("detailRow");
+              var index = detailRow.length;
+              indexCount=index;
+              flgg=true;
+          }else{
+              indexCount++;
+          }
+          $.ajax({
+              url: "${pageContext.request.contextPath}/templet/detail.html",
+              type: "post",
+              data: {
+                  "index": indexCount
+              },
+              success: function(data) {
+                  $("#detailZeroRow").append(data);
+                  indNum += 1;
+                  init_web_upload();
+                  var bool = $("input[name='import']").is(':checked');
+                  if(bool == true) {
+                      $("td[name='userNone']").attr("style", "");
+                      $("th[name='userNone']").attr("style", "");
+                  } else {
+                      $("td[name='userNone']").attr("style", "display:none");
+                      $("th[name='userNone']").attr("style", "display:none");
+                  }
+              }
+          });
       }
+
       function trimNull(i){
     	  var trimFlog=false;
     	  if($.trim($("input[name='list[" + i + "].goodsName']").val()) == "") {
@@ -130,12 +136,12 @@
           layer.alert("节点填写错误");
           return false;
         }
-        if($("#detailZeroRow tr").length <= 2) {
+        if($("#detailZeroRow tr").length < 2) {
           layer.alert("请添加需求明细！");
           return false;
         }else{
         	var tableTr=$("#detailZeroRow tr");
-        	for(var i = 2; i < tableTr.length; i++) {
+        	for(var i = 1; i < tableTr.length; i++) {
         		 if(typeof($(tableTr[i]).attr("attr"))=="undefined"){//获取子节点
         			  if(trimNull(i)){
         				  return false;
@@ -234,7 +240,7 @@
             return;
           }
 
-          if($("#table").find("tr").length < 4) { //需求明细不添加不能添加
+          if($("#table").find("tr").length < 3) { //需求明细不添加不能添加
             layer.alert("需求明细不允许为空");
             //return false;
           } else {
@@ -372,7 +378,15 @@
             if(data.length > 0) {
               var html = "";
               for(var i = 0; i < data.length; i++) {
-                html += "<div style='width:178px;height:20px;' class='pointer' onmouseover='changeColor(this)' onclick='getValue(this)'>" + data[i].name + "</div>";
+            	  var name="";
+            	  var title="";
+            	  if(data[i].name.split("@").length>1){
+            		  name=data[i].name.split("@")[0];
+            		  title=data[i].name.split("@")[1];
+            	  }else{
+            		  name=data[i].name.split("@")[0];
+            	  }
+                html += "<div style='width:178px;height:20px;' class='pointer' onmouseover='changeColor(this)' onclick='getValue(this)' title='"+title+"'>" + name + "</div>";
               }
               $("#materialName").html(html);
               $("#materialName").removeClass("dnone");
@@ -492,8 +506,11 @@
     				    $(tr).prev().removeAttr("attr");
     		    	  var tr7=$($(tr).prev().children()[7]).children(":first").next();
     		    	  var tr8=$($(tr).prev().children()[8]).children(":first").next();
+    		    	  var tr3=$($(tr).prev().children()[3]).children(":first");
     		    	  /* var tr9=$($(tr).prev().children()[9]).children(":first").next(); */
     		    	  $(tr7).removeAttr("readonly");
+    		    	  $(tr3).attr("onkeyup","listName(this)");
+    		    	  $(tr3).after($("#materialName"));
     		    	  $(tr7).attr("onblur","sum2(this)");
     		    	  $(tr7).attr("onkeyup","checkNum(this,1)");
     		    	  $(tr7).val("");
@@ -873,9 +890,11 @@
       function parentAttr(tr){
     	  $(tr).attr("attr","true");
     	  var tr7=$($(tr).children()[7]).children(":first").next();
+    	  var tr3=$($(tr).children()[3]).children(":first");
     	  var tr8=$($(tr).children()[8]).children(":first").next();
         $(tr7).removeAttr("onblur");
         $(tr7).removeAttr("onkeyup");
+        $(tr3).removeAttr("onkeyup");
         $(tr8).removeAttr("onblur");
         $(tr8).removeAttr("onkeyup");
     	  $(tr7).attr("readonly", "readonly");
@@ -911,20 +930,22 @@
                       parentAttr(list[i]);
                       same(obj,parentId);
                       var val=$(obj).val().substring(1,$(obj).val().length-1);
-                      var prevVal="";
-                      inter:
-                      for(var j = 0; j < list.length; j++){
-                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
-                    		  prevVal=$(list[j].children[1]).children(":last").prev().val();
-                    		  break inter;
-                    	  }
-                      }
-                      prevVal=prevVal.substring(1,prevVal.length-1);
-                      if(!numberTwo(prevVal,val)){
-                    	  layer.msg("序号填写错误");
-                    	  flgNumber=true;
-                    	  return false;
-                      }
+                      if(val!="一"){
+	                      var prevVal="";
+	                      inter:
+	                      for(var j = 0; j < list.length; j++){
+	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	                    		  prevVal=$(list[j].children[1]).children(":last").prev().val();
+	                    		  break inter;
+	                    	  }
+	                      }
+	                      prevVal=prevVal.substring(1,prevVal.length-1);
+	                      if(!numberTwo(prevVal,val)){
+	                    	  layer.msg("序号填写错误");
+	                    	  flgNumber=true;
+	                    	  return false;
+	                      }
+	                     }
                       break outer;
                   }
                }
@@ -1358,7 +1379,7 @@
                         <input type="text" name="list[0].department" readonly="readonly" value="${orgName}" class="department">
                       </td>
                       <td>
-                        <input type="text" name="list[0].goodsName" onkeyup="listName(this)" class="goodsname" />
+                        <input type="text" name="list[0].goodsName"  class="goodsname" />
                       </td>
                       <td><input type="text" name="list[0].stand" class="stand"></td>
                       <td><input type="text" name="list[0].qualitStand" class="qualitstand"></td>

@@ -1799,13 +1799,16 @@ public class ExpertAuditController{
 		// 下载后的文件名
 		String downFileName = "";
 		if("1".equals(tableType)){
-			downFileName = new String("军队采购评审专家入库初审表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+			String name=expert.getRelName()+"入库初审表.doc";
+			downFileName = new String(name.getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
 		if("2".equals(tableType) || "0".equals(tableType)){
-			downFileName = new String("军队采购评审专家入库复审表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+			String name=expert.getRelName()+"入库复审表.doc";
+			downFileName = new String(name.getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
 		if("3".equals(tableType)){
-			downFileName = new String("军队采购评审专家入库复查表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+			String name=expert.getRelName()+"入库复查表.doc";
+			downFileName = new String(name.getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
 		response.setContentType("application/x-download");
 		return service.downloadFile(fileName, filePath, downFileName);
@@ -1959,7 +1962,7 @@ public class ExpertAuditController{
         	supplierCateTree.setRootNodeCode(DictionaryDataUtil.getId("PROJECT"));
         	itemsListAll.add(supplierCateTree);
         	for(String typeId : expertTypeId){
-        		if(!typeId.equals(DictionaryDataUtil.getId("SERVICE")) && !typeId.equals(DictionaryDataUtil.getId("GOODS"))){
+        		if(!typeId.equals(DictionaryDataUtil.getId("SERVICE")) && !typeId.equals(DictionaryDataUtil.getId("GOODS")) && !typeId.equals(engInfoId)){
         			//顺序查询出所有的参评类别
         			if(typeId.equals(goodsProjectId)){
         				//如果为工程经济就转换成工程id
@@ -1993,6 +1996,51 @@ public class ExpertAuditController{
             }
         	firstNode = 0;
         }
+        
+        if(expertTypeId.contains(engInfoId)){
+        	num ++;
+        	SupplierCateTree supplierCateTree = new SupplierCateTree();
+        	supplierCateTree.setRootNode(toChinese(num)+"、工程专业");
+        	supplierCateTree.setItemsId(DictionaryDataUtil.getId("PROJECT"));
+        	supplierCateTree.setRootNodeCode(DictionaryDataUtil.getId("PROJECT"));
+        	itemsListAll.add(supplierCateTree);
+        	for(String typeId : expertTypeId){
+        		if(!typeId.equals(DictionaryDataUtil.getId("SERVICE")) && !typeId.equals(DictionaryDataUtil.getId("GOODS")) && !typeId.equals(goodsProjectId) &&!typeId.equals(engCodeId)){
+        			//顺序查询出所有的参评类别
+        			if(typeId.equals(goodsProjectId)){
+        				//如果为工程经济就转换成工程id
+        				typeId = engCodeId;
+        			}
+        			List<SupplierCateTree> clist = expertCategoryService.findExpertCatrgory(expert.getId(), typeId);
+        			for (SupplierCateTree sct : clist) {
+        				Map<String, Object> map = new HashMap<>();
+        				map.put("categoryId", sct.getItemsId());
+        				map.put("typeId", typeId);
+                		Integer sctCount = expertCategoryService.findCountParent(map);
+                		String str = "";
+                		if(sctCount == 1){
+                			firstNode ++;
+                			str = "（"+toChinese(firstNode)+"）";
+                			secondNode = 0;
+                			thirdNode = 0;
+                		}else if(sctCount == 2){
+                			secondNode ++;
+                			str = secondNode+".";
+                			thirdNode = 0;
+                		}else if(sctCount == 3){
+                			thirdNode ++;
+                			str = "（"+thirdNode+"）";
+                		}
+                		sct.setRootNode(str + sct.getRootNode());
+                		sct.setRootNodeCode(DictionaryDataUtil.getId("PROJECT"));
+					}
+        			itemsListAll.addAll(clist);
+        		}
+            }
+        	firstNode = 0;
+        }
+        
+        
         
         if(expertTypeId != null && expertTypeId.size() > 0){
         	for(String typeId : expertTypeId){
@@ -2071,7 +2119,7 @@ public class ExpertAuditController{
     			if(flag){
     				boolean ff = false;
         			if(list2.size() > 0){
-        				for (boolean b : list3) {
+        				for (boolean b : list2) {
             				ff = ff | b; 
             			}
             			if(ff){
@@ -2112,11 +2160,11 @@ public class ExpertAuditController{
                     				ff = ff | b; 
                     			}
                     			if(ff){
-                    				list2.add(false);
+                    				list2.add(true);
                     				expertAudit1.setAuditField(cateTree.getRootNode());
             	        			expertAudit1.setAuditReason("通过。");
                     			}else{
-                    				list2.add(true);
+                    				list2.add(false);
                     				expertAudit1.setAuditField(cateTree.getRootNode());
             	        			expertAudit1.setAuditReason("不通过。");
                     			}
@@ -2411,6 +2459,7 @@ public class ExpertAuditController{
 		String fileName = "";
 		if("1".equals(tableType)){
 			newFileName = WordUtil.createWord(dataMap, "expertOneAudit.ftl", fileName, request);
+			
 			fileName = new String(("军队采购评审专家入库初审表.doc").getBytes("UTF-8"), "UTF-8");
 		}
 		if("2".equals(tableType) || "0".equals(tableType)){
