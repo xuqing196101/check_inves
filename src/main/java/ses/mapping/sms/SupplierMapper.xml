@@ -1611,11 +1611,11 @@
 			AND S.IS_HAVING_CON_CERT = #{isHavingConCert}
 		</if>
 		<!-- 企业性质 -->
-		<if test="isHavingConCert">
+		<if test="businessNature">
 			AND S.BUSINESS_NATURE = #{businessNature}
 		</if>
 		<!-- 境外分支 -->
-		<if test="isHavingConCert">
+		<if test="overseasBranch">
 			AND S.OVERSEAS_BRANCH = #{overseasBranch}
 		</if>
 		<if test="supplierIds != null and supplierIds.size>0 ">
@@ -1678,11 +1678,11 @@
 			AND S.IS_HAVING_CON_CERT = #{isHavingConCert}
 		</if>
 		<!-- 企业性质 -->
-		<if test="isHavingConCert">
+		<if test="businessNature">
 			AND S.BUSINESS_NATURE = #{businessNature}
 		</if>
 		<!-- 境外分支 -->
-		<if test="isHavingConCert">
+		<if test="overseasBranch">
 			AND S.OVERSEAS_BRANCH = #{overseasBranch}
 		</if>
 		<if test="supplierIds != null and supplierIds.size>0 ">

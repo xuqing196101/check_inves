@@ -579,6 +579,15 @@
                   	  <div class="cue" id="dCategoryName"></div>
                   </div>
               </li>
+               <li class="col-md-3 col-sm-6 col-xs-12  dnone">
+                  <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>限制地区理由：</span>
+                  <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="areaReson" id="areaReson" value=""
+                             type="text">
+                      <span class="add-on">i</span>
+                      <div class="cue" ></div>
+                  </div>
+              </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
                   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div
                           class="star_red">*</div>抽取类型：</span>
@@ -741,6 +750,38 @@
             <input class="title col-md-12" id='salesExtractNum' name="salesExtractNum" onchange="chane();"
                  maxlength="11" type="text">
             <span class="add-on">i</span>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+        
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone else">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>企业性质：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                 <select name="businessNature" class="w100p">
+                 <c:forEach items="${businessNature }" var="bu">
+                 	<option value="${bu.id }">${bu.name }</option>
+                 </c:forEach>
+                 </select>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone else">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>保密要求：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+           <select name="isHavingConCert" class="w100p">
+                 	<option value="0">无</option>
+                 	<option value="1">有</option>
+                 </select>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone else">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>境外分支：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			<select name="overseasBranch" class="w100p">
+                 	<option value="1">有</option>
+                 	<option value="0">无</option>
+                 </select>
             <div class="cue">${loginPwdError}</div>
           </div>
         </li>

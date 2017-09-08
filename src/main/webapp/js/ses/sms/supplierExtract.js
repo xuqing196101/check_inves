@@ -3,7 +3,7 @@ var projects;
 var services;
 var sales;*/
 
-
+var successCount = 1;
 $(function () {
         loadAreaZtree();
         //loadTypeTree();
@@ -322,7 +322,7 @@ $(function () {
     	if(projectExtractNum>0){
     		if(projectExtractNum<=projects){
     			$("#projectResult").find("tbody").empty();
-    			appendTd(-1,$("#projectResult").find("tbody"),null);
+    			appendTd(0,$("#projectResult").find("tbody"),null);
     		}else{
     			layer.msg("工程条件不满足");
     		}
@@ -332,7 +332,7 @@ $(function () {
     	if(productExtractNum>0){
     		if(productExtractNum<=products){
     			$("#productResult").find("tbody").empty();
-    			appendTd(-1,$("#productResult").find("tbody"),null);
+    			appendTd(0,$("#productResult").find("tbody"),null);
     		}else{
     			layer.msg("生产条件不满足");
     		}
@@ -342,7 +342,7 @@ $(function () {
     	if(serviceExtractNum>0){
     		if(serviceExtractNum<=services){
     			$("#serviceResult").find("tbody").empty();
-    			appendTd(-1,$("#serviceResult").find("tbody"),null);
+    			appendTd(0,$("#serviceResult").find("tbody"),null);
     		}else{
     			layer.msg("服务条件不满足");
     		}
@@ -352,7 +352,7 @@ $(function () {
     	if(salesExtractNum>0){
     		if(salesExtractNum<=sales){
     			$("#salesResult").find("tbody").empty();
-    			appendTd(-1,$("#salesResult").find("tbody"),null);
+    			appendTd(0,$("#salesResult").find("tbody"),null);
     		}else{
     			layer.msg("销售条件不满足");
     		}
@@ -372,8 +372,11 @@ $(function () {
     		}
     	});
     	
-    	if($("#"+type+"ExtractNum").val()==agreeCount){
-    		return true;
+    	if($("#"+type+"ExtractNum").val()==agreeCount ){
+    		return;
+    	}
+    	if($("#"+type+"ExtractNum").val()==$(obj).find("tr").length ){
+    		return;
     	}
     	
     	var data;
@@ -426,7 +429,7 @@ $(function () {
     	
     	var i = 0;
     	var tex = "<tr class='cursor' typeCode='"+type.toUpperCase()+"' sid='"+data[i].id+"' index='"+i+"'>" +
-	   	 "<td class='tc' >"+(parseInt(num)+2)+"</td>" +
+	   	 "<td class='tc' >"+(parseInt(num)+1)+"</td>" +
 		 "<td class='tc'  >"+data[i].supplierName+"</td>" +
 	     "<td class='tc' >"+typeName+"</td>" +
 	     "<td class='tc' >"+data[i].contactName+"</td>" +
@@ -435,6 +438,11 @@ $(function () {
 	     "<td class='tc' class='res'><select onchange='operation(this)'> <option value='0'>请选择</option> <option value='1'>能参加</option> <option value='2'>待定</option> <option value='3'>不能参加</option> </td>" +
 	     "</tr>";
     	$(obj).append(tex);
+    	//更新序号
+    	var i=1;
+    	$(obj).find("tr").each(function(){
+    		var o = $(this).find("td").eq(0).html(i++);
+    	});
     }
     
     /**暂存*/
@@ -721,7 +729,11 @@ $(function () {
 				names += areas[i].name + ",";
 				idArr.push(areas[i].id);
 				if(areas[i].id == "0"){
+					//隐藏地区限制理由
+					$("#areaReson").parents("li").addClass("dnone");
 					break;
+				}else{
+					$("#areaReson").parents("li").removeClass("dnone");
 				}
        		}else{
        			var flag = true;
@@ -1259,7 +1271,6 @@ $(function () {
     function operation(select) {
         var x, y;
         var oRect = select.getBoundingClientRect();
-        var productExtractNum = $('[name=productExtractNum]').val();
         x = oRect.left - 450;
         y = oRect.top - 150;
         layer.confirm('确定本次操作吗？', {
@@ -1269,7 +1280,7 @@ $(function () {
             var v = select.value;
             var obj = $(select).parents("tbody");
             var objTr = $(select).parents("tr");
-            var req = objTr.index();
+            var req = $(obj).find("tr:last").find("td:first").html();
             if (objTr.next().length > 0) {
             	req = obj.find('tr').last().index();
             }
@@ -1285,23 +1296,19 @@ $(function () {
                     saveResult(objTr, value,2);
                     layer.close(index);
                     //select.options[0].selected = true;
-                	appendTd(req,obj,"不能参加");
+                    $(objTr).remove();
+                	appendTd(parseInt(req)-1,obj,"不能参加");
                 	//删除
-                	$(objTr).remove();
                 	
                 });
             } else if(v == "1"){
                 //select.disabled = true;
-            	if (objTr.siblings().length < (productExtractNum - 1)) {
-                    saveResult(objTr, '',1);
-                	appendTd(req,obj,"能参加");
-            	}
+            	saveResult(objTr, '',1);
+            	appendTd(req,obj,"能参加");
             	$(select).parents("td").html("能参加");
             	select.remove();
             }else{
-            	if (objTr.siblings().length < (productExtractNum - 1)) {
-            		appendTd(req,obj,"待定");
-            	}
+    			appendTd(req,obj,"待定");
             }
         }, function (index) {
             layer.close(index);
@@ -1310,7 +1317,8 @@ $(function () {
     }
     
     
-
+    //存储成功
+    var successCount = 0;
     /**
      * 存储抽取结果
      */
