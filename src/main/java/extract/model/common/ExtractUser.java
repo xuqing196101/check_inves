@@ -20,6 +20,8 @@ public class ExtractUser {
     
     private String personType;
     
+    private String condditionId;
+    
     @NotEmpty
     @Length(max=5)
     private String name;
@@ -126,6 +128,14 @@ public class ExtractUser {
 
 	public void setPersonType(String personType) {
 		this.personType = personType;
+	}
+
+	public String getCondditionId() {
+		return condditionId;
+	}
+
+	public void setCondditionId(String condditionId) {
+		this.condditionId = condditionId;
 	}
 	
 	

@@ -8,4 +8,6 @@ public interface ExtractUserMapper {
 
 	List<ExtractUser> getList(ExtractUser user);
 
+	void insertSelectiveAll(List<ExtractUser> list);
+
 }

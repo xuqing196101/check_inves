@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="extract.dao.common.PersonRelMapper">
+
+	<insert id="insertRel" parameterType="map">
+		INSERT ALL
+		<if test="null!=personIds">
+			<foreach collection="personIds" item="item" separator="">
+			INTO T_SES_EXT_RECORD_REL_PERSON (RECORD_ID,PERSON_TYPE,PERSON_ID) VALUES
+			(#{recordId,jdbcType=VARCHAR},#{personType,jdbcType=VARCHAR},#{item,jdbcType=VARCHAR})
+		</foreach>
+		</if>
+		<if test="personList != null and personList.size()>0">
+			<foreach collection="personList" item="li" separator="">
+			INTO T_SES_EXT_RECORD_REL_PERSON (RECORD_ID,PERSON_TYPE,PERSON_ID) VALUES
+			(#{recordId,jdbcType=VARCHAR},#{personType,jdbcType=VARCHAR},#{li.id,jdbcType=VARCHAR})
+		</foreach>
+		</if>
+		
+		SELECT 1 FROM DUAL
+	</insert>	
+	
+	
+	<!-- 根据ID 和 属性名删除 -->
+	<delete id="deleteConditionRelationByMap" parameterType="java.lang.String">
+		DELETE FROM T_SES_SMS_EXTRACT_CONDITIONS WHERE CONDITION_ID = #{conditionId}
+	</delete>
+</mapper>

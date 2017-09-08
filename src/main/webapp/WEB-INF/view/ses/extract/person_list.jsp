@@ -47,7 +47,7 @@
 		<tbody id="personList">
 		<c:forEach items="${personList }" var="pl" varStatus="v">
 			<tr>
-				<td class='tc h30 lh30'> <input type='checkbox' name='id' value="${pl.id }"> </td>
+				<td class='tc h30 lh30'> <input type='checkbox' name='id' value="${pl.id }"> <input type="hidden" name='id' value="${pl.id }"></td>
 		        <td class='tc h30 lh30'> ${v.count} </td>
             	<td class='tc h30 lh30'> ${pl.name}</td>
              	<td class='tc h30 lh30'>${pl.compary} </td>

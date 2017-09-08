@@ -9,6 +9,13 @@ $(function () {
         //loadTypeTree();
         //查询条件中供应商类型
         loadSupplierType();
+        
+        for ( var i = 0; i < 2; i++) {
+			addPerson($("#eu"));
+			addPerson($("#su"));
+		}
+        
+        
         chane();//对人数进行计算
     });
     /**各类别人数变动后触发,用于统计输入总人数*/
@@ -33,6 +40,18 @@ $(function () {
         $("#sunCount").val(sun);
 
     }
+    
+    function uuid() {
+    	  var s = [];
+    	  var hexDigits = "0123456789abcdef";
+    	  for (var i = 0; i < 36; i++) {
+    	    s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    	  }
+    	  s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+    	  s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+    	  var uuid = s.join("");
+    	  return uuid;
+    	}
     
     /**
      * 项目信息地区选择
@@ -63,10 +82,18 @@ $(function () {
     //增加
     function addPerson(obj){
     	var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();
+    	var input = $(obj).parents("form").find("tr:last").find("td:first").find("input").prop("name");//.substring(4,6);//.attr("req");
+    	var req ;
+    	if(null==input ||''==input || "undefined"== input){
+    		req=0;
+    	}else{
+    		req = parseInt(input.substring(5,6)) + 1;
+    	}
     	if(null==index ||''==index || "undefined"== index){
 			index=0;
 		}
-    	var tr = "<tr class='inp'><td class='tc'><input type='checkbox'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input type='text' name='name' > </td><td class='tc'> <input type='text' class='w100p' name='compary' ></td><td class='tc'> <input type='text' name='duty'></td><td class='tc'> <input type='text' name='rank'></td></tr>";
+    	var id = uuid();//生成id
+    	var tr = "<tr class='inp'><td class='tc'><input type='checkbox' name='list["+req+"].id'  value='"+id+"'><input type='hidden' name='list["+req+"].id'  value='"+id+"'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input type='text' name='list["+req+"].name' > </td><td class='tc'> <input type='text' class='w100p' name='list["+req+"].compary' ></td><td class='tc'> <input type='text' name='list["+req+"].duty'></td><td class='tc'> <input type='text' name='list["+req+"].rank'></td></tr>";
     	$(obj).parents("form").find("tbody").append(tr);
     }
     
@@ -267,12 +294,28 @@ $(function () {
     	//selectLikeSupplier();
     	//获取到要抽取的数量
     	//存储项目信息 人员信息
-    	/*$.ajax({
-            type: "POST",
-            url: globalPath+"/SupplierExtracts/savePerson.do",
-            data: 
-            dataType: "json",
-        });*/
+    /*	$("#supervise").submit(function(){
+    		return false;
+    	});
+    	$("#extractUser").submit();*/
+    	$.ajax({
+    		type: "POST",
+    		url: $("#supervise").attr('action'),
+    		data:  $("#supervise").serialize(),
+    		dataType: "json",
+    		success: function (msg) {
+    			
+    		}
+    	});
+    	$.ajax({
+    		type: "POST",
+    		url: $("#extractUser").attr('action'),
+    		data:  $("#extractUser").serialize(),
+    		dataType: "json",
+    		success: function (msg) {
+    			
+    		}
+    	});
     	
     	
     	var projectExtractNum = $("#projectExtractNum").val();

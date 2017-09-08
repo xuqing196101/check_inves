@@ -1,5 +1,6 @@
 package extract.dao.supplier;
 
+import java.util.HashMap;
 import java.util.List;
 
 import extract.model.common.ExtractUser;
@@ -77,4 +78,6 @@ public interface SupplierExtractUserMapper {
     void listInsert(List<ExtractUser> listInsert);
 
 	String getName(String recordId);
+
+	void insertSelectiveByMap(HashMap<String, Object> map);
 }

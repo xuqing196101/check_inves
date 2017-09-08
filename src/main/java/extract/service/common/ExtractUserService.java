@@ -8,4 +8,6 @@ public interface ExtractUserService {
 
 	List<ExtractUser> getList(ExtractUser user);
 
+	void addPerson(ExtractUser user);
+
 }

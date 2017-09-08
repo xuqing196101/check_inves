@@ -8,4 +8,6 @@ public interface SuperviseService {
 
 	List<Supervise> getList(Supervise suser);
 
+	void addPerson(Supervise user);
+
 }

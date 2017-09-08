@@ -18,53 +18,53 @@ import extract.model.common.ExtractUser;
  * @since  JDK 1.7
  */
 public interface SupplierPersonServicel {
-	/**
+/*	*//**
 	 * @Description:集合
 	 *
 	 * @author Wang Wenshuai
 	 * @version 2016年10月14日 下午7:34:06  
 	 * @param @return      
 	 * @return List<ProjectSupervisor>
-	 */
+	 *//*
 	List<ExtractUser> list(ExtractUser extSupervise);
 	
-    /**
+    *//**
      * @Description:根据项目id删除监督信息
      *
      * @author Wang Wenshuai
      * @version 2016年10月15日 下午7:05:15  
      * @param       
      * @return void
-     */
+     *//*
     void deleteProjectId(String prjectId);
     
-    /**
+    *//**
      * 
      *〈简述〉插入
      *〈详细描述〉
      * @author Wang Wenshuai
-     */
+     *//*
     void insert(ExtractUser record);
     
-    /**
+    *//**
      * 
      *〈简述〉批量插入
      *〈详细描述〉
      * @author Wang Wenshuai
      * @param listInsert
-     */
+     *//*
     void listInsert(List<ExtractUser> listInsert);
     
-    /**
+    *//**
      * 
      *〈简述〉修改
      *〈详细描述〉
      * @author Wang Wenshuai
      * @param extUser
-     */
+     *//*
     void update(ExtractUser extUser);
     
-    /**
+    *//**
      * 
      *〈简述〉生成模板
      *〈详细描述〉
@@ -74,10 +74,10 @@ public interface SupplierPersonServicel {
      * @return
      * @throws Exception
      * @param type:区分类型 0 只是生成 总模板 1 生成分包模板
-     */
+     *//*
     String downLoadBiddingDoc(HttpServletRequest request,String projectId,int type,String suppliersID) throws Exception;
     
-    /**
+    *//**
      * 
      *〈预研生成模板〉
      *〈详细描述〉
@@ -88,11 +88,11 @@ public interface SupplierPersonServicel {
      * @param suppliersID
      * @return
      * @throws Exception
-     */
-    String downLoadBiddingDocs(HttpServletRequest request,String projectId,int type,String suppliersID) throws Exception;
+     *//*
+    String downLoadBiddingDocs(HttpServletRequest request,String projectId,int type,String suppliersID) throws Exception;*/
 
 	String getName(String id);
 
-	void add(ExtractUser extUser);
+	void addPerson(ExtractUser extUser);
     
 }

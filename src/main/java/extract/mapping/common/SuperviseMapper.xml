@@ -217,4 +217,14 @@
   	</if>
   </select>
   
+   
+  <insert id="insertSelectiveAll" parameterType="java.util.List">
+  	INSERT ALL
+	<foreach collection="list" item="item" separator="">
+		INTO T_SES_EXTRACT_SUPERVISE (ID,NAME,COMPARY,DUTY,RANK) VALUES
+		(#{item.id,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},#{item.compary,jdbcType=VARCHAR},#{item.duty,jdbcType=VARCHAR},#{item.rank,jdbcType=VARCHAR})
+	</foreach>
+	SELECT 1 FROM DUAL
+  </insert>
+  
 </mapper>

@@ -5,15 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,7 +34,6 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 
-import extract.model.common.ExtractUser;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractProjectInfo;
 import extract.model.supplier.SupplierExtractResult;
@@ -478,31 +473,6 @@ public class ExtractSupplierController extends BaseController {
         return "ses/sms/supplier_extracts/supervise_list";
     }*/
 
-    /**
-     * 添加人员信息
-     * @param packageId
-     * @return
-     */
-    @RequestMapping("addPerson")
-    @ResponseBody
-    public List<FieldError> addPersonType(@CurrentUser User user, Model model,@Valid ExtractUser extUser, BindingResult result){
-		if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-            for(FieldError fieldError:errors){
-               // model.addAttribute(fieldError.getField()+"Error", fieldError.getDefaultMessage());
-            }
-            return errors; 
-            
-            supplierPersonServicel.add(extUser);
-            
-		}
-		return null;
-    	
-    }
-    
-     
-    
-    
     @ResponseBody
     @RequestMapping("/isFinish")
     public String isFinish(String packageId){

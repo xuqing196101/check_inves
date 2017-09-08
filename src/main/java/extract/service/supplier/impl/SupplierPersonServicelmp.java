@@ -16,6 +16,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ import ses.service.bms.UserServiceI;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
+import ses.util.UUIDUtils;
 import bss.dao.ppms.AdvancedDetailMapper;
 import bss.dao.ppms.AdvancedPackageMapper;
 import bss.dao.ppms.AdvancedProjectMapper;
@@ -53,6 +55,8 @@ import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
 import extract.dao.supplier.SupplierExtractUserMapper;
 import extract.model.common.ExtractUser;
+import extract.service.common.ExtractUserService;
+import extract.service.common.SuperviseService;
 import extract.service.supplier.SupplierPersonServicel;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -67,7 +71,7 @@ import freemarker.template.TemplateException;
  */
 @Service
 public class SupplierPersonServicelmp implements SupplierPersonServicel {
-  @Autowired
+ /* @Autowired
   SupplierExtractUserMapper supplierExtUserMapper;
 
   @Autowired
@@ -113,8 +117,14 @@ public class SupplierPersonServicelmp implements SupplierPersonServicel {
   private AdvancedDetailMapper advancedDetailMapper;
   
   @Autowired
-  private AdvancedPackageMapper advancedPackageMapper;
+  private AdvancedPackageMapper advancedPackageMapper;*/
 
+  @Autowired 
+  private ExtractUserService extractUserService;
+  @Autowired
+  private SuperviseService SuperviseService;
+  @Autowired
+  private SupplierExtractUserMapper supplierExtractUserMapper;
   /**
    * @Description:集合
    *
@@ -123,19 +133,19 @@ public class SupplierPersonServicelmp implements SupplierPersonServicel {
    * @param @return      
    * @return List<ProjectSupervisor>
    */
-  @Override
+ /* @Override
   public List<ExtractUser> list(ExtractUser extSupervise) {
     return supplierExtUserMapper.list(extSupervise);
   }
 
-  /**
+  *//**
    * @Description:根据项目id删除监督信息
    *
    * @author Wang Wenshuai
    * @version 2016年10月15日 下午7:05:15  
    * @param       
    * @return void
-   */
+   *//*
   @Override
   public void deleteProjectId(String prjectId) {
     supplierExtUserMapper.deleteProjectId(prjectId);
@@ -146,33 +156,33 @@ public class SupplierPersonServicelmp implements SupplierPersonServicel {
     supplierExtUserMapper.insertSelective(record);
   }
 
-  /**
+  *//**
    * 
    *〈简述〉批量插入
    *〈详细描述〉
    * @author Wang Wenshuai
    * @param listInsert
-   */
+   *//*
   @Override
   public void listInsert(List<ExtractUser> list){
     supplierExtUserMapper.listInsert(list);
   }
 
-  /**
+  *//**
    * 修改
    * @see ses.service.sms.SupplierExtUserServicel#update(ses.model.sms.SupplierExtUser)
-   */
+   *//*
   @Override
   public void update(ExtractUser extUser) {
     supplierExtUserMapper.updateByPrimaryKeySelective(extUser);
   }
 
 
-  /**
+  *//**
    * 生成模板
    * @throws Exception 
    * @see ses.service.sms.SupplierExtUserServicel#downLoadBiddingDoc()
-   */
+   *//*
   @Override
   public String downLoadBiddingDoc(HttpServletRequest request,String projectId,int type,String suppliersID) throws Exception {
     Map<String, Object> datamap = new HashMap<>();
@@ -291,9 +301,9 @@ public class SupplierPersonServicelmp implements SupplierPersonServicel {
 
 
     datamap.put("project", project);
-    /*selectById.remove(0);
     selectById.remove(0);
-    selectById.remove(0);*/
+    selectById.remove(0);
+    selectById.remove(0);
     //明细
     datamap.put("projectDetail", selectById);
     //资格性符合性
@@ -316,7 +326,7 @@ public class SupplierPersonServicelmp implements SupplierPersonServicel {
   }
 
 
-  /**
+  *//**
    * 模型数据获取
    *〈简述〉
    *〈详细描述〉
@@ -324,7 +334,7 @@ public class SupplierPersonServicelmp implements SupplierPersonServicel {
    * @param projectId
    * @param listScoreEconomy
    * @param listScoreTechnology
-   */
+   *//*
   private  List<MarkTerm> model(String TypeName,String projectId,String packageId) {
     List<MarkTerm> mtList = null;
     MarkTerm mt = new MarkTerm();
@@ -357,22 +367,22 @@ public class SupplierPersonServicelmp implements SupplierPersonServicel {
     return mtList;
   }
 
-  /**
+  *//**
    * 获取对应ftl模板
    *〈简述〉
    *〈详细描述〉
    * @author Wang Wenshuai
    * @return ftl path
    * @param type :1( 拆包部分模板)  type:0(总模板)
-   */
+   *//*
   private String ftlName(String ftl,int type,int status){
 	   // 根据拆包需求   修改返回值 书写分包对应模板名
 	    String str = "";
 	    switch (ftl) {
-	    /***
+	    *//***
 	     * GkZB: 公开招标文件
 	     * 对应模板说明：总模板，包1（资格性和符合性审查），包2（经济和技术评审细则）
-	     */
+	     *//*
 	      case "GKZB":
 	    	  if(type==0){
 	    	      if(status == 0){
@@ -430,14 +440,14 @@ public class SupplierPersonServicelmp implements SupplierPersonServicel {
 	    return str;
   }
 
-  /**
+  *//**
    * 
    *〈简述〉生成word
    *〈详细描述〉
    * @author myc
    * @param request {@link HttpServletRequest}
    * @return 文件名称
-   */
+   *//*
   private String productionDoc(HttpServletRequest request, Map<String,Object> dataMap,String ftlString){
     Configuration configuration = new Configuration();
     // 修改编码格式 
@@ -600,9 +610,9 @@ public class SupplierPersonServicelmp implements SupplierPersonServicel {
         findMap.put("userId", find2.get(0).getId());
         List<PurchaseInfo> findPurchaseList = infoMapper.findPurchaseList(findMap);
         datamap.put("project", project);
-        /*selectById.remove(0);
         selectById.remove(0);
-        selectById.remove(0);*/
+        selectById.remove(0);
+        selectById.remove(0);
         //明细
         datamap.put("projectDetail", selectById);
         //资格性符合性
@@ -622,17 +632,32 @@ public class SupplierPersonServicelmp implements SupplierPersonServicel {
 
         return productionDoc(request, datamap,ftlName(findById2.getCode(),type,status));
       
-    }
+    }*/
 
 	@Override
 	public String getName(String recordId) {
-		return supplierExtUserMapper.getName(recordId);
+		return "";//supplierExtUserMapper.getName(recordId);
 	}
 
 	@Override
-	public void add(ExtractUser extUser) {
-		// TODO Auto-generated method stub
-		
+	public void addPerson(ExtractUser extUser) {
+		if(StringUtils.isNotEmpty(extUser.getPersonType()) && StringUtils.isNotEmpty(extUser.getId())){
+			String[] personId = extUser.getId().split(", "); //引用的历史人员
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("personId", personId);
+			if(extUser.getList().size()>0){
+				//新添加人员
+				map.put("personList", extUser.getList());
+			}
+			supplierExtractUserMapper.insertSelectiveByMap(map);
+			if("extractUser" == extUser.getPersonType()){
+				//
+				
+				
+			}else if("supervise" == extUser.getPersonType()){
+				
+			}
+		}
 	}
-
+	
 }

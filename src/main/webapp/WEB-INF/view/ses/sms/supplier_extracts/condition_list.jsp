@@ -114,7 +114,7 @@
             $("#package").addClass("spread");
         });
 
-        function add(type) {
+        /* function add(type) {
 
             var packageId=$("#packageId").val();
             var typeclassId = "${typeclassId}";
@@ -191,14 +191,14 @@
                 }
             });
 
-        }
+        } */
         /**抽取页面*/
         function opens(){
 
             window.location.href = '${pageContext.request.contextPath}/SupplierExtracts/addExtractions.html?projectId=' + pachageId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
         }
 
-        //选择监督人员
+       /*  //选择监督人员
         function supervise() {
             //  iframe层
             var iframeWin;
@@ -223,7 +223,7 @@
                     layer.closeAll();
                 }
             });
-        }
+        } */
     </script>
 
     <script type="text/javascript">
@@ -344,14 +344,10 @@
 <!-- 项目信息开始 -->
 <div class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled">
     <form id="form">
-        <!-- 监督人员 -->
-        <input type="hidden" name="sids" id="sids" value="${userId}" />
         <!-- 打开类型 -->
         <input type="hidden" value="${typeclassId}" name="typeclassId"/>
         <!-- 项目id  -->
         <input type="hidden" id="pId" value="${projectId}" name="id">
-        <!-- 监督人员id  -->
-        <input type="hidden" id="superviseId" value="${superviseId}" name="superviseId">
         <!-- 包id  -->
         <%--           <input type="hidden" id="packageId" value="${packageId}" name="packageId"> --%>
          <h2 class="count_flow"><i>1</i>项目信息</h2>
@@ -486,30 +482,6 @@
                      <div class="cue" id="sellSiteError"></div>
                  </div>
              </li>
-            <%--  <li class="col-md-3 col-sm-4 col-xs-12 ">
-                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red3">*</span> 开标日期:</span>
-                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="tenderTimeId" readonly="readonly"  name="bidDate" value="<fmt:formatDate value='${bidDate}'
-                             pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">
-                     <div class="cue" id="tenderTimeError"></div>
-                 </div>
-             </li>
-             <li class="col-md-3 col-sm-4 col-xs-12 ">
-                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 监督人员:</span>
-                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input readonly id="supervises" title="${supervises}" value="${supervises}" onclick="supervise();" type="text">
-                     <span class="add-on">i</span>
-                     <div class="cue" id="dSupervise"></div>
-                 </div>
-             </li>
-           <li class="col-md-3 col-sm-4 col-xs-12 ">
-                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="star_red">*</span> 抽取地区:</span>
-                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input id="extractionSites" name="extractionSites" value="${extractionSites}" type="text">
-                     <span class="add-on">i</span>
-                     <div class="cue" id="extractionSitesError"></div>
-                 </div>
-             </li> --%>
          </ul>
 	 </form>
 	</div><!-- 项目信息结束 -->
@@ -517,9 +489,10 @@
 	<div class="container_box col-md-12 col-sm-12 col-xs-12">
 		 <h2 class="count_flow"><i>2</i>人员信息</h2>
 		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="star_red">*</span><b> 抽取人员:</b></span>
-		 <form action="<%=request.getContextPath() %>/SupplierExtracts/addPerson" id="extractUser">
+		 <form action="<%=request.getContextPath() %>/extractUser/addPerson.html" onsubmit="return false" id="extractUser">
 		 <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
-		 	<input type="hidden" value="extractUser" name="personType">
+		 	<input type="hidden" value="extractUser" id="eu" name="personType">
+		 	<input type="hidden" name="recordId" value="${projectInfo.id }">
 		 	<input type="button" class="btn btn-windows add" onclick="addPerson(this)" value="新增">
 		 	<input type="button" class="btn btn-windows delete" onclick="delPerson(this)" value="删除">
 		 	<input type="button" class="btn btn-windows input" onclick="selectHistory(this)" value="引用历史人员">
@@ -537,29 +510,15 @@
 	              </tr>
               </thead>
               <tbody>
-              <tr>
-              	<td class="tc"> <input type="checkbox"> </td>
-              	<td class="tc"> 1 </td>
-              	<td> <input name="list[0].name" type="text"> <span class="name_0_Error"></span> </td>
-              	<td> <input name="list[0].compary" type="text" class="w100p"> <span class="compary_0_Error"></span> </td>
-              	<td> <input name="list[0].duty" type="text">  <span class="duty_0_Error"></span></td>
-              	<td> <input name="list[0].rank" type="text">  <span class="rank_0_Error"></span></td>
-              </tr>
-              <tr>
-              	<td class="tc"> <input type="checkbox"> </td>
-              	<td class="tc"> 2 </td>
-              	<td> <input name="list[1].name" type="text">  <span class="name_1_Error"></span></td>
-              	<td> <input name="list[1].compary" type="text" class="w100p">  <span class="compary_1_Error"></span></td>
-              	<td> <input name="list[1].duty" type="text">  <span class="duty_1_Error"></span></td>
-              	<td> <input name="list[1].rank" type="text"> <span class="rank_1_Error"></span> </td>
-              </tr>
+            
             </tbody>
           </table>
        </form>      
 		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="star_red">*</span><b> 监督人员:</b></span>
-		  <form action="<%=request.getContextPath() %>/SupplierExtracts/addPerson" id="supervise">
+		  <form action="<%=request.getContextPath() %>/supervise/addPerson.html" id="supervise"  onsubmit="return false" >
 		  <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
-		 	 <input type="hidden" value="extractUser" name="supervise">
+		  <input type="hidden" name="recordId" value="${projectInfo.id }">
+		 	 <input type="hidden" value="supervise" id="su" name="personType">
 		 	<input type="button" class="btn btn-windows add" onclick="addPerson(this)" value="新增">
 		 	<input type="button" class="btn btn-windows delete" onclick="delPerson(this)" value="删除">
 		 	<input type="button" class="btn btn-windows input" onclick="selectHistory(this)" value="引用历史人员">
@@ -577,14 +536,7 @@
 	              </tr>
               </thead>
               <tbody>
-              <tr>
-              	<td class="tc"> <input type="checkbox"> </td>
-              	<td class="tc"> 1 </td>
-              	<td> <input name="list[0].name" type="text"> <span class="name_0_Error"></span> </td>
-              	<td> <input name="list[0].compary" type="text" class="w100p"> <span class="compary_0_Error"></span> </td>
-              	<td> <input name="list[0].duty" type="text">  <span class="duty_0_Error"></span></td>
-              	<td> <input name="list[0].rank" type="text">  <span class="rank_0_Error"></span></td>
-              </tr>
+              
             </tbody>
           </table>
        </form>      

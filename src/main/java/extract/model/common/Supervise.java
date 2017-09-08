@@ -1,19 +1,25 @@
 package extract.model.common;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class Supervise {
-	
-	 private String id;
+		
+	    private String id;
 
 	    private Date createdAt;
 	   
 	    private String recordId;
 	    
 	    private Date updatedAt;
+	    
+	    private String personType;
+	    
+	    private String condditionId;
 	    
 	    @NotEmpty
 	    @Length(max=5)
@@ -32,6 +38,8 @@ public class Supervise {
 	    private String rank;
 	   
 	    private Short isDelete;
+	    
+	    private List<Supervise> list = new ArrayList<>();
 
 		public String getId() {
 			return id;
@@ -89,6 +97,15 @@ public class Supervise {
 			this.compary = compary;
 		}
 
+		public Short getIsDelete() {
+			return isDelete;
+		}
+
+		public void setIsDelete(Short isDelete) {
+			this.isDelete = isDelete;
+		}
+
+
 		public String getRank() {
 			return rank;
 		}
@@ -97,11 +114,28 @@ public class Supervise {
 			this.rank = rank;
 		}
 
-		public Short getIsDelete() {
-			return isDelete;
+		public String getPersonType() {
+			return personType;
 		}
 
-		public void setIsDelete(Short isDelete) {
-			this.isDelete = isDelete;
+		public void setPersonType(String personType) {
+			this.personType = personType;
 		}
+
+		public String getCondditionId() {
+			return condditionId;
+		}
+
+		public void setCondditionId(String condditionId) {
+			this.condditionId = condditionId;
+		}
+
+		public List<Supervise> getList() {
+			return list;
+		}
+
+		public void setList(List<Supervise> list) {
+			this.list = list;
+		}
+	 
 }

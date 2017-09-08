@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 
 import extract.model.common.ExtractUser;
-import extract.model.common.Supervise;
 import extract.service.common.ExtractUserService;
 
 @Controller
@@ -48,4 +47,9 @@ public class ExtractUserController {
 		return "";
      }
      
+     @RequestMapping("/addPerson")
+     @ResponseBody
+     public void addPerson(ExtractUser user){
+    	 extractUserService.addPerson(user);
+     }
 }
