@@ -156,6 +156,7 @@ public class ExtractSupplierController extends BaseController {
     	List<Area> province = areaService.findRootArea();
     	model.addAttribute("businessNature", conditionService.getBusinessNature());
     	model.addAttribute("province", province);
+    	model.addAttribute("address", areaService.findAreaByParentId(province.get(0).getId()));
     	return "ses/sms/supplier_extracts/condition_list";
     }
 

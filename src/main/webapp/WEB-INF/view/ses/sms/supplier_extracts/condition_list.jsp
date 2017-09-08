@@ -418,7 +418,9 @@
                             </c:forEach>
                         </select>
                         <select name="sellAddress" class="col-md-6 col-sm-6 col-xs-6 p0" id="sellAddress">
-                            <option value="" >选择地区</option>
+                       		 <c:forEach items="${address }" var="add">
+                                <option value="${add.id }">${add.name }</option>
+                       		 </c:forEach>
                         </select>
                      <div class="cue" id="sellAreaError"></div>
                  </div>
@@ -452,7 +454,9 @@
                             </c:forEach>
                         </select>
                         <select name="constructionAddr" class="col-md-6 col-sm-6 col-xs-6 p0" id="constructionAddr">
-                            <option value="" >选择地区</option>
+                           <c:forEach items="${address }" var="add">
+                                <option value="${add.id }">${add.name }</option>
+                       		 </c:forEach>
                         </select>
                      <span class="add-on">i</span>
                      <div class="cue" id="constructionProError"></div>
@@ -754,10 +758,11 @@
           </div>
         </li>
         
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone else">
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone elseInfo">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>企业性质：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
                  <select name="businessNature" class="w100p">
+                 	<option value="">不限</option>
                  <c:forEach items="${businessNature }" var="bu">
                  	<option value="${bu.id }">${bu.name }</option>
                  </c:forEach>
@@ -789,8 +794,8 @@
           <div class="clear"></div>
 	         <div class="col-xs-12 tc mt20">
 	           <button class="btn" onclick="extractVerify();" type="button">人工抽取</button>
-	           <button class="btn" onclick="finish();" type="button">自动抽取</button>
-	           <button class="btn" onclick="temporary();" type="button">重置</button>
+	           <button class="btn" type="button">自动抽取</button>
+	           <button class="btn"  type="reset">重置</button>
 	         </div>
           </form>
           <!--=== Content Part ===-->
