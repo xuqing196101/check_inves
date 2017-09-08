@@ -48,7 +48,7 @@
         } else {
           $("#user_id").val(id);
           $.ajax({
-            url: "${pageContext.request.contextPath}/set/addUser.html",
+            url: "${pageContext.request.contextPath}/set/addUserCanBack.html",
             type: "POST", //请求方式      
             data: $("#collected_form").serialize(),
             dataType: "json",
@@ -59,7 +59,7 @@
               } else {
                 var el = document.createElement("a");
                 document.body.appendChild(el);
-                el.href = "${pageContext.request.contextPath}/set/list.html?staff=" + result.auditStaff + "&id=" + cid + "&type=" + $("#type").val(); //url 是你得到的连接
+                el.href = "${pageContext.request.contextPath}/set/list.html?staff=" + result.auditStaff + "&id=" + cid + "&type=" + $("#type").val()+"&backAttr="+"${backAttr}" +"&backid="+"${backid}"; 
                 el.target = '_parent'; //指定在新窗口打开
                 el.click();
                 document.body.removeChild(el);
@@ -128,6 +128,8 @@
           <form id="add_form" class="mb0" action="${pageContext.request.contextPath }/set/user.html" method="post" >
             <input type="hidden" name="page" id="page">
             <input type="hidden" value="${type}"  name="type" >
+            <input type="hidden" value="${backAttr}"  name="backAttr" >
+            <input type="hidden" value="${backid }"  name="backid" >
             <ul class="demand_list">
               <li>
                 <label class="fl">姓名 ：</label>

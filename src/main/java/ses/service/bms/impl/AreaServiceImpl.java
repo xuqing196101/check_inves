@@ -281,4 +281,12 @@ public class AreaServiceImpl implements AreaServiceI {
 		return areaMapper.selectByName(name);
 	}
 
+	/**
+	 * 查询全部地区tree
+	 */
+	@Override
+	public List<Area> getTree() {
+		return areaMapper.getTreeForExt();
+	}
+
 }

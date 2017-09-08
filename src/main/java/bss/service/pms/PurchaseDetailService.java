@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
 
 
@@ -331,4 +332,11 @@ public interface PurchaseDetailService {
      * @return
      */
     public List<PurchaseDetail> getUniquesByTask(String projectId, String collectId, String id);
+    
+    /**
+     * 需求汇总，添加至已有计划方法
+     * @param collectPlan
+     * @param uniqueId
+     */
+    public void updatePurchaseDetailByPlanId(CollectPlan collectPlan,String uniqueId);
 }

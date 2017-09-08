@@ -661,7 +661,6 @@
 					},
 					async: false,
 					success: function(result) {
-					    alert(result);
 						layer.tips("修改前:" + result, "#" + showId, {
 							tips: 1
 						});

@@ -382,10 +382,10 @@ public class ExpertServiceImpl implements ExpertService {
 				if(expert.getIsSubmit().equals("0") && !expert.getIsBlack().equals("1") && !expert.getStatus().equals("3")){
 					//未提交
 					map.put("expert", "4");
-				} else if(expert.getStatus().equals("2")){
+				} else if(expert.getStatus().equals("2") || expert.getStatus().equals("16")){
 					//审核未通过
 					map.put("expert", "5");
-				} else if(expert.getStatus().equals("1")){
+				} else if(expert.getStatus().equals("1") || expert.getStatus().equals("15")){
 					//初审已通过，待复审
 					map.put("expert", "8");
 				} else if(expert.getIsBlack().equals("1")){
@@ -1139,7 +1139,6 @@ public class ExpertServiceImpl implements ExpertService {
      *〈简述〉
      * 专家审核列表
      *〈详细描述〉
-     * @author XuQing
      * @param expert
      */
 	@Override
@@ -1149,7 +1148,17 @@ public class ExpertServiceImpl implements ExpertService {
 			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		}
 		
+		//只搜索待初审状态
+		if("0".equals(expert.getStatus())){
+			expert.setAuditTemporary(0);
+		}
 		
+		//搜索初审中状态
+		if("first".equals(expert.getStatus())){
+			expert.setStatus("0");
+			expert.setAuditTemporary(1);
+		}
+
 		return mapper.findExpertAuditList(expert);
 	}
 	public boolean checkMobile(String mobile,String id) {

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="extract.dao.supplier.SupplierExtractConTypeMapper">
+	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierConType">
+		<!-- @mbggenerated -->
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="SUPPLIER_TYPE_ID" jdbcType="VARCHAR" property="supplierTypeId" />
+		<result column="SUPPLIER_COUNT" jdbcType="DECIMAL" property="supplierCount" />
+		<result column="SUPPLIER_TYPE_NAME" jdbcType="VARCHAR"
+			property="supplierTypeName" />
+		<result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
+		<result column="CONDITION_ID" jdbcType="VARCHAR" property="conditionId" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+		<result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
+		<result column="IS_MULTICONDITION" jdbcType="DECIMAL" property="isMulticondition" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		ID, SUPPLIER_TYPE_ID, SUPPLIER_COUNT, SUPPLIER_TYPE_NAME, CATEGORY_ID,
+		CATEGORY_NAME,
+		CONDITION_ID, CREATED_AT, IS_DELETE, IS_MULTICONDITION
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIE_CON_TYPE
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		<!-- @mbggenerated -->
+		delete from T_SES_SMS_SUPPLIE_CON_TYPE
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="extract.model.supplier.SupplierConType">
+		<!-- @mbggenerated -->
+		insert into T_SES_SMS_SUPPLIE_CON_TYPE (ID, SUPPLIER_TYPE_ID,
+		SUPPLIER_COUNT,
+		SUPPLIER_TYPE_NAME, CATEGORY_ID, CATEGORY_NAME,
+		CONDITION_ID, CREATED_AT, IS_DELETE,
+		IS_MULTICONDITION)
+		values (#{id,jdbcType=VARCHAR}, #{supplierTypeId,jdbcType=VARCHAR},
+		#{supplierCount,jdbcType=DECIMAL},
+		#{supplierTypeName,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR},
+		#{categoryName,jdbcType=VARCHAR},
+		#{conditionId,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=DECIMAL},
+		#{isMulticondition,jdbcType=DECIMAL})
+	</insert>
+	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierConType">
+		<!-- @mbggenerated -->
+		insert into T_SES_SMS_SUPPLIE_CON_TYPE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="supplierTypeId != null">
+				SUPPLIER_TYPE_ID,
+			</if>
+			<if test="supplierCount != null">
+				SUPPLIER_COUNT,
+			</if>
+			<if test="supplierTypeName != null">
+				SUPPLIER_TYPE_NAME,
+			</if>
+			<if test="categoryId != null">
+				CATEGORY_ID,
+			</if>
+			<if test="categoryName != null">
+				CATEGORY_NAME,
+			</if>
+			<if test="conditionId != null">
+				CONDITION_ID,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="isDelete != null">
+				IS_DELETE,
+			</if>
+			<if test="isMulticondition != null">
+				IS_MULTICONDITION,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierTypeId != null">
+				#{supplierTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierCount != null">
+				#{supplierCount,jdbcType=DECIMAL},
+			</if>
+			<if test="supplierTypeName != null">
+				#{supplierTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryId != null">
+				#{categoryId,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryName != null">
+				#{categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="conditionId != null">
+				#{conditionId,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=DECIMAL},
+			</if>
+			<if test="isMulticondition != null">
+				#{isMulticondition,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierConType">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_SUPPLIE_CON_TYPE
+		<set>
+			<if test="supplierTypeId != null">
+				SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierCount != null">
+				SUPPLIER_COUNT = #{supplierCount,jdbcType=DECIMAL},
+			</if>
+			<if test="supplierTypeName != null">
+				SUPPLIER_TYPE_NAME = #{supplierTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryId != null">
+				CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryName != null">
+				CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="conditionId != null">
+				CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDelete != null">
+				IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+			</if>
+			<if test="isMulticondition != null">
+				IS_MULTICONDITION = #{isMulticondition,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierConType">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_SUPPLIE_CON_TYPE
+		set SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=VARCHAR},
+		SUPPLIER_COUNT = #{supplierCount,jdbcType=DECIMAL},
+		SUPPLIER_TYPE_NAME = #{supplierTypeName,jdbcType=VARCHAR},
+		CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+		CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+		CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+		IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+		IS_MULTICONDITION = #{isMulticondition,jdbcType=DECIMAL}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<!-- 更具条件conditionId删除子 -->
+	<delete id="deleteConditionId" parameterType="java.lang.String">
+		<!-- @mbggenerated -->
+		delete from T_SES_SMS_SUPPLIE_CON_TYPE
+		where CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
+	</delete>
+
+	<select id="getSupplierTypeById" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+	  SELECT SUPPLIER_COUNT as counts FROM T_SES_SMS_SUPPLIE_CON_TYPE 
+		WHERE CONDITION_ID =#{conditionId} AND SUPPLIER_TYPE_ID = #{supplierTypeId}
+	</select>
+
+	<!-- 抽取数量总和 -->
+	<select id="getSum" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT "SUM"(SUPPLIER_COUNT) FROM T_SES_SMS_SUPPLIE_CON_TYPE WHERE
+		CONDITION_ID =#{conId}
+	</select>
+</mapper>

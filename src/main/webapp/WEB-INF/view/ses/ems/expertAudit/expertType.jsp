@@ -286,8 +286,12 @@
 						
 								<c:forEach items="${spList}" var="sp">
 									<span <c:if test="${fn:contains(editFields,sp.id)}">style="color:#FF8C00"</c:if>   class="margin-left-30 hand" <c:if test="${fn:contains(expertType,sp.id)}">onclick="reason('${sp.id}','${sp.name}技术');"</c:if>><input type="checkbox"  disabled="disabled"  name="chkItem_1" value="${sp.id}" />${sp.name}技术 </span>
-									<a class="b f18 ml10 red" id="${sp.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-									<c:if test="${fn:contains(typeErrorField,sp.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if> 
+									<a class="b f18 ml10 red" id="${sp.id}_show" 
+									<c:choose>
+	                  <c:when test="${fn:contains(typeErrorField,sp.id)}">style="visibility:initial"</c:when>
+	                  <c:otherwise>style="visibility:hidden"</c:otherwise>
+	                </c:choose>
+									><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 								</c:forEach>
 								<c:forEach items="${jjList}" var="jj">
 									<span  <c:if test="${fn:contains(editFields,jj.id)}">style="color:#FF8C00" </c:if>  class="margin-left-30 hand" <c:if test="${fn:contains(expertType,jj.id)}">onclick="reason('${jj.id}','${jj.name}');"</c:if>><input type="checkbox"  disabled="disabled" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
@@ -322,8 +326,12 @@
 										<li class="col-md-3 col-sm-6 col-xs-12">
 											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 hand" <c:if test="${fn:contains(fileModify, expertTitle.id)}"> style="border: 1px solid #FF8C00;"</c:if> onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="tieleFile" onclick="reasonFile(this,'${expertTitle.id}','tieleFile');">执业资格：</span>
 				             				<up:show showId="expter_${vs.index+1 }" delete="false" businessId="${expertTitle.id}" sysKey="${expertKey}" typeId="9"/>
-				          					<a style="visibility:hidden" id="${expertTitle.id}_tieleFile"><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-				           					<c:if test="${fn:contains(engErrorField,expertTitle.id.concat('_tieleFile'))}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+				          					<a 
+				          					<c:choose>
+					                    <c:when test="${fn:contains(engErrorField,expertTitle.id.concat('_tieleFile'))}">style="visibility:initial"</c:when>
+					                    <c:otherwise>style="visibility:hidden"</c:otherwise>
+					                  </c:choose>
+					                   id="${expertTitle.id}_tieleFile"><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 				           				</li>
 										<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得执业资格时间：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">

@@ -383,4 +383,11 @@ public interface PurchaseDetailMapper {
      * @return
      */
     List<Integer> groupByStatus(String uniqueId);
+    
+    /**
+     * 获取计划明细parentId为1的需求部门去重
+     * @param id
+     * @return
+     */
+    List<PurchaseDetail> getUniqueIdByParentId(String id);
 }

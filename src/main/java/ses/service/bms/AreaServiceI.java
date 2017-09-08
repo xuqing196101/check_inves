@@ -124,4 +124,6 @@ public interface AreaServiceI {
 	 * @return
 	 */
 	String selectByName(String name);
+
+	List<Area> getTree();
 }

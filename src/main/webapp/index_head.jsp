@@ -48,14 +48,14 @@
       dataType: "json",
       success: function(data) {
         if(data.data.loginName != null && data.status==200){
-          $("#welcome_words").html(data.data.loginName+"你好，欢迎来到军队采购网！");
+          $("#welcome_words").html(data.data.loginName+"你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/browser/index.html\" target=\"_blank\" class=\"red\" id=\"red\">【浏览器下载】</a>");
           $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>|<a id=\"my\" onclick=\"myInfo()\">我的信息</a><a href=\"${pageContext.request.contextPath}/login/loginOut.html\" id=\"exit\">&nbsp;|&nbsp;退出</a>")
           // 今日访问量
           $("#pvThisDay").text(data.data.dayNum);
           // 总访问量
           $("#pvTotal").text(data.data.totalCount);
         }else{
-          $("#welcome_words").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a>");
+          $("#welcome_words").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a><a href=\"${pageContext.request.contextPath}/browser/index.html\" target=\"_blank\" class=\"red\" id=\"red\">【浏览器下载】</a>");
           $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>");
           // 今日访问量
           $("#pvThisDay").text(data.data.dayNum);

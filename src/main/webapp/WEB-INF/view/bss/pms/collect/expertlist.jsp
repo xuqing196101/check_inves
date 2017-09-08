@@ -30,7 +30,7 @@
           }
         });
       });
-
+      //确定保存专家
       function closede() {
         var nature = parent.nature;
         var turn = parent.turns;
@@ -59,7 +59,7 @@
               } else {
                 var el = document.createElement("a");
                 document.body.appendChild(el);
-                el.href = "${pageContext.request.contextPath}/set/list.html?staff=" + result.auditStaff + "&id=" + cid + "&type=" + $("#type").val(); //url 是你得到的连接
+                el.href = "${pageContext.request.contextPath}/set/list.html?staff=" + result.auditStaff + "&id=" + cid + "&type=" + $("#type").val()+"&backAttr="+"${backAttr}" +"&backid="+"${backid}"; //url 是你得到的连接
                 el.target = '_parent'; //指定在新窗口打开
                 el.click();
                 document.body.removeChild(el);
@@ -162,6 +162,8 @@
         <form id="add_form" class="mb0" action="${pageContext.request.contextPath }/set/expert.html" method="post" >
           <input type="hidden" name="page" id="page">
           <input type="hidden" value="${type }"  name="type" >
+          <input type="hidden" value="${backAttr}"  name="backAttr" >
+          <input type="hidden" value="${backid }"  name="backid" >
           <ul class="demand_list">
             <li>
               <label class="fl"> 姓名：</label>

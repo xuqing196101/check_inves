@@ -333,9 +333,18 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	 * @since JDK1.7
 	 */
 	@Override
-	public JdcgResult selectUniqueReferenceNO(String referenceNO) {
-        Integer integer = purchaseRequiredMapper.selectUniqueReferenceNO(referenceNO);
-        return JdcgResult.ok(integer);
+	public JdcgResult selectUniqueReferenceNO(String referenceNO, String uniqueId) {
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("planNo", uniqueId);
+	    map.put("parentId", "1");
+	    List<PurchaseRequired> byMap = purchaseRequiredMapper.getByMap(map);
+	    if(byMap != null && !byMap.isEmpty()){
+	        if(!byMap.get(0).getReferenceNo().equals(referenceNO)){
+	            Integer integer = purchaseRequiredMapper.selectUniqueReferenceNO(referenceNO);
+	            return JdcgResult.ok(integer);
+	        }
+	    }
+	    return null;
 	}
 
 	/**
@@ -357,4 +366,15 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
         
         return purchaseRequiredMapper.connectByList(id);
     }
+    public void deletedList(String unqueId) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("planNo", unqueId);
+        List<PurchaseRequired> byMap = purchaseRequiredMapper.getByMap(map);
+        if(byMap != null && !byMap.isEmpty()){
+            for (PurchaseRequired purchaseRequired : byMap) {
+                purchaseRequiredMapper.deleteByPrimaryKey(purchaseRequired.getId());
+            }
+    
+    }
+}
 }

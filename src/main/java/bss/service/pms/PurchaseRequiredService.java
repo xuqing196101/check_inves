@@ -352,7 +352,7 @@ public interface PurchaseRequiredService {
 	 * @param
 	 * @since JDK1.7
 	 */
-	JdcgResult selectUniqueReferenceNO(String referenceNO);
+	JdcgResult selectUniqueReferenceNO(String referenceNO, String uniqueId);
 
 	/**
 	 *
@@ -374,4 +374,12 @@ public interface PurchaseRequiredService {
      * @return
      */
     List<PurchaseRequired> connectByList(String id);
+	/***
+	 * 
+	 *〈真删〉
+	 *〈详细描述〉
+	 * @author FengTian
+	 * @param list
+	 */
+	void deletedList(String unqueId);
 }

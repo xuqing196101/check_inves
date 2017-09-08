@@ -32,7 +32,7 @@ public class AuditPersonServiceImpl implements AuditPersonService{
 		auditPersonMapper.insertSelective(auditPerson);
 		
 	}
-
+	
 	@Override
 	public List<AuditPerson> query(AuditPerson auditPerson, Integer page) {
 		PageHelper.startPage(page,10);
@@ -66,6 +66,12 @@ public class AuditPersonServiceImpl implements AuditPersonService{
 	@Override
 	public void updateAuditStaffByCollectId(String collectId, String auditStaff) {
 		auditPersonMapper.updateAuditStaffByCollectId(collectId, auditStaff);
+	}
+
+	@Override
+	public void addAuditPer(AuditPerson auditPerson) {
+		auditPersonMapper.insertSelective(auditPerson);
+		
 	}
 
 }

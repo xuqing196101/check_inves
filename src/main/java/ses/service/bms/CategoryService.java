@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import common.bean.ResBean;
 import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
+import ses.model.bms.DictionaryData;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierTypeTree;
 
@@ -442,4 +444,11 @@ import ses.model.sms.SupplierTypeTree;
 	 * @return
 	 */
 	public List<Category> getPListByCode(String code);
+
+	public List<CategoryTree> getTreeForExt(Category category,
+			String supplierTypeCode);
+
+	public List<DictionaryData> getEngAptitudeLevelByCategoryId(String categoryId);
+
+	
 }

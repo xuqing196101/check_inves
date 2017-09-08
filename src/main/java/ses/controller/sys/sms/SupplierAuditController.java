@@ -2474,11 +2474,11 @@ public class SupplierAuditController extends BaseSupplierController {
 					cateTree=supplierAuditService.countCategoyrId(cateTree,supplierId,supplierType);
 					//是否有销售合同
 					cateTree=supplierService.contractCountCategoyrId(cateTree,supplierItem);
-					//封装 是否有审核 目录 和 销售 合同数据
-					cateTree=supplierAuditService.cateTreePotting(cateTree,supplierId);
 					// 合同是否修改
 					cateTree.setIsContractModified(supplierAuditService.isContractModified(supplierItem.getSupplierId(), supplierItem.getId()) ? (byte)1 : (byte)0);
                 }
+                //封装 是否有审核 目录 和 销售 合同数据
+                cateTree=supplierAuditService.cateTreePotting(cateTree,supplierId);
                 cateTreeList.add(cateTree);
             }
         }
@@ -3553,9 +3553,13 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		if("3".equals(tableType) || "0".equals(tableType)){
 			downFileName = new String("军队采购供应商审核表.doc".getBytes("UTF-8"), "iso-8859-1");
+			downFileName = supplier.getSupplierName() + ".doc";
+			downFileName = new String(downFileName.getBytes("UTF-8"), "iso-8859-1");
 		}
 		if("4".equals(tableType)){
 			downFileName = new String("军队采购供应商审核表.doc".getBytes("UTF-8"), "iso-8859-1");
+			downFileName = supplier.getSupplierName() + ".doc";
+			downFileName = new String(downFileName.getBytes("UTF-8"), "iso-8859-1");
 		}
 		response.setContentType("application/x-download");
 		return supplierAuditService.downloadFile(fileName, filePath, downFileName);
@@ -3790,7 +3794,8 @@ public class SupplierAuditController extends BaseSupplierController {
 				}
 			}
 			
-			dataMap.put("supplierCategoryList",supplierCategoryList);			
+			dataMap.put("supplierCategoryList",supplierCategoryList);
+			dataMap.put("sc","1");
 			
 		}
 		
@@ -4201,6 +4206,15 @@ public class SupplierAuditController extends BaseSupplierController {
 		return supplierAuditService.selectAuditNoPassItemCount(supplierId);
 	}
 	
+	/**
+	 * 
+	 * Description: 数字转化字母
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年8月29日
+	 * @param 
+	 * @return
+	 */
 	public String toEnglish(Integer num){
     	if(num > 0){
 	    	String a[] = {"","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
@@ -4208,8 +4222,10 @@ public class SupplierAuditController extends BaseSupplierController {
 	    		return a[num];
 	    	}else if(num % 26 == 0){
 	    		return a[num/26 - 1] + "z";
-	    	}else{
+	    	}else if(num % 26 <= 26){
 	    		return a[num/26] + a[num%26];
+	    	}else {
+	    		return "";
 	    	}
     	}else{
     		return "";

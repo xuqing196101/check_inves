@@ -4,21 +4,25 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpRequest;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -65,6 +69,8 @@ import bss.service.pms.UpdateFiledService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 import common.constant.StaticVariables;
 
 /***
@@ -117,11 +123,16 @@ public class AuditSetController {
 	@RequestMapping(value="/list")
 	public String set(Model model,Integer page,String id,HttpServletRequest request,String staff) throws UnsupportedEncodingException{
 		CollectPlan plan = collectPlanService.queryById(id);
-		String backAttr="";
-		if (request.getParameter("backAttr") !=null) {//判断请求由列表来还是由审核人员调整来
-			backAttr=id;
+			if (Integer.parseInt(request.getParameter("backAttr")) ==2){//判断请求由列表来还是由审核人员调整来
+				model.addAttribute("backid",id);
+			}
+		model.addAttribute("backAttr", request.getParameter("backAttr"));
+		model.addAttribute("status", request.getParameter("status"));
+		
+		List<String>ids=new ArrayList<>();
+		if (request.getSession().getAttribute("ids")==null) {
+			request.getSession().setAttribute("ids", ids);
 		}
-		model.addAttribute("backAttr", backAttr);
 		String type = "";
 		String auditRound="";
 		if(plan.getStatus()==1&&plan.getAuditTurn()!=null){
@@ -158,7 +169,31 @@ public class AuditSetController {
 		person.setCollectId(id);
 		person.setAuditRound(type);
 		List<AuditPerson> listAudit = auditPersonService.query(person, page==null?1:page);
+		/*Expert expert = new Expert();//判断审核人员是专家还是普通用户
+		expert.setStatus("7");
+		List<Expert> list= expertService.selectAllExpert(page==null?1:page, expert);
+		List<String> expIds = new ArrayList<>();
+		for (Expert exp : list) {
+			expIds.add(exp.getId());
+		}
+		List<AuditPerson>expAuditList = new ArrayList<>();
+		List<AuditPerson>auditPerList = new ArrayList<>();
+		if (listAudit.size()!=0) {
+		for (AuditPerson auditPerson : listAudit) {
+			
+				if (expIds.contains((Object)auditPerson.getUserId())) {//判断审核人员是专家还是普通用户
+					expAuditList.add(auditPerson);
+				}else{
+					auditPerList.add(auditPerson);
+				}
+			
+		}
+		}*/
 		PageInfo<AuditPerson> info = new PageInfo<>(listAudit);
+		/*PageInfo<AuditPerson>exPageInfo=new PageInfo<>(expAuditList);
+		PageInfo<AuditPerson>audPerInfo=new PageInfo<>(auditPerList);
+		model.addAttribute("expInfo", exPageInfo);
+		model.addAttribute("aupInfo", audPerInfo);*/
 		model.addAttribute("info", info);
 		model.addAttribute("auditRound", auditRound);
 		model.addAttribute("id", id);
@@ -259,8 +294,8 @@ public class AuditSetController {
 		collectPlanService.update(collectPlan);
 		auditPersonService.updateAuditStaffByCollectId(collectId,austa);
 		String id = "";
-		if (request.getParameter("backAttr") !="") {
-			id=request.getParameter("backAttr");
+		if (Integer.parseInt(request.getParameter("backAttr")) ==2) {
+			id=request.getParameter("backid");
 			return "redirect:/look/auditlook.html?id=" + id;
 		}
 		return "redirect:/look/list.html?";
@@ -281,13 +316,17 @@ public class AuditSetController {
 	@RequestMapping("/expert")
 	public String getExpert(Integer page,Expert expert,Model model,HttpServletRequest request,String satff){
 		String type = request.getParameter("type");
-		expert.setStatus("6");
+		expert.setStatus("7");
 		List<Expert> list = expertService.selectAllExpert(page==null?1:page, expert);
 		PageInfo<Expert> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("expert", expert);
 		model.addAttribute("type",type);
 		model.addAttribute("satff", satff);
+		if (Integer.parseInt(request.getParameter("backAttr")) ==2) {
+			model.addAttribute("backid", request.getParameter("backid"));
+		}
+		model.addAttribute("backAttr", request.getParameter("backAttr"));
 		return "bss/pms/collect/expertlist";
 	}
 	/**
@@ -310,8 +349,27 @@ public class AuditSetController {
 		model.addAttribute("info", info);
 		model.addAttribute("user", user);
 		model.addAttribute("type",type);
+		if (Integer.parseInt(request.getParameter("backAttr")) ==2) {
+			model.addAttribute("backid", request.getParameter("backid"));
+		}
+		model.addAttribute("backAttr", request.getParameter("backAttr"));
 		return "bss/pms/collect/userlist";
 	}
+	/**
+	 * 
+		 * @Title:clearSession 
+		 * @author: Zhou Wei
+		 * @date: 2017年8月29日 下午7:18:25
+		 * @Description: 清空审核人员暂存的session 
+		 * @return: String
+	 */
+	@RequestMapping("/clearSession")
+	@ResponseBody
+	public void clearSession(HttpServletRequest request){
+		List<String> ids = new ArrayList<>();
+		request.getSession().setAttribute("ids", ids);
+	}
+	
 	/**
 	 * 
 	* @Title: add
@@ -345,13 +403,34 @@ public class AuditSetController {
 	            auditPerson.setUnitName(expert.getWorkUnit());
 	            auditPerson.setUserId(expert.getId());
 	            auditPerson.setCreateDate(new Date());
-	            auditPersonService.add(auditPerson);
+	            String apId = setIdToSession(auditPerson, request.getSession());
+	            auditPerson.setId(apId);
+	            //auditPersonService.add(auditPerson);
+	            auditPersonService.addAuditPer(auditPerson);
 	            jsonObj.put("success", true);
 	        }
         }
 		jsonObj.put("auditStaff", auditPerson.getAuditStaff());
 		return jsonObj.toString();
 	}
+	/**
+	 * 
+		 * @Title: setIdToSession
+		 * @author: Zhou Wei
+		 * @date: 2017年8月29日 下午3:42:47
+		 * @Description:添加审核人员(用户和专家)设置ID并把ID放入session,用于返回删除  
+		 * @return: String
+	 */
+	private String setIdToSession(AuditPerson auditPerson,HttpSession session){
+		String id = UUID.randomUUID().toString().replaceAll("-", "");
+		auditPerson.setId(id);
+		List<String> ids = (List<String>) session.getAttribute("ids");
+		ids.add(id);
+		session.setAttribute("ids", ids);
+		return id;
+		
+	}
+	
 	/**
 	 * @throws UnsupportedEncodingException 
 	 * 
@@ -841,7 +920,7 @@ public class AuditSetController {
 	 */
 	@RequestMapping(value="/addUser",produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String addUser(AuditPerson auditPerson, String userId){
+	public String addUser(AuditPerson auditPerson, String userId,HttpServletRequest request){
 	    JSONObject jsonObject = new JSONObject();
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("auditRound", auditPerson.getAuditRound());
@@ -872,6 +951,50 @@ public class AuditSetController {
 		jsonObject.put("auditStaff", auditPerson.getAuditStaff());
 		return jsonObject.toString();
 	}
+	/**
+	 * 
+		 * @Title: addUserCanBack
+		 * @author: Zhou Wei
+		 * @date: 2017年8月29日 下午3:53:35
+		 * @Description: 添加审核人员-用户 
+		 * @return: String
+	 */
+	@RequestMapping(value="/addUserCanBack",produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String addUserCanBack(AuditPerson auditPerson, String userId,HttpServletRequest request){
+	    JSONObject jsonObject = new JSONObject();
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("auditRound", auditPerson.getAuditRound());
+        map.put("collectId", auditPerson.getCollectId());
+		String[] id = userId.split(StaticVariables.COMMA_SPLLIT);
+		for (int i = 0; i < id.length; i++ ) {
+		    User user = userServiceI.getUserById(id[i]);
+		    map.put("userId", user.getId());
+		    Integer num = auditPersonService.findUserByCondition(map);
+		    if(num == 1){
+		        jsonObject.put("user", user.getRelName());
+		        jsonObject.put("success", false);
+                break;
+	        } else {
+	            auditPerson.setName(user.getRelName());
+	            auditPerson.setMobile(user.getMobile());
+	            if(user.getOrg()!=null){
+	                if(StringUtils.isNotBlank(user.getOrg().getShortName())){
+	                    auditPerson.setUnitName(user.getOrg().getShortName());   
+	                }
+	            }
+	            auditPerson.setUserId(user.getId());
+	            auditPerson.setType(2);
+	            String apId = setIdToSession(auditPerson,request.getSession() );
+	            auditPerson.setId(apId);
+	            auditPersonService.addAuditPer(auditPerson);
+	            jsonObject.put("success", true);
+	        }
+        }
+		jsonObject.put("auditStaff", auditPerson.getAuditStaff());
+		return jsonObject.toString();
+	}
+	
 	
 	/**
 	 * 
@@ -931,6 +1054,10 @@ public class AuditSetController {
 				auditPersonService.add(auditPerson2);
 				map.put("staff", auditNature);
 			}
+			
+				List<String> ids = new ArrayList<>();
+				request.getSession().setAttribute("ids", ids);
+			
 			map.put("isErr", str);
 			map.put("status", 1);
 			return JSON.toJSONString(map);
@@ -951,6 +1078,18 @@ public class AuditSetController {
 	    }
 	    return "";
 	}
+	   
+	   @RequestMapping(value="/goBack")
+	   @ResponseBody
+	   public String goBack(HttpServletRequest request){
+		   List<String> ids = (List<String>) request.getSession().getAttribute("ids");
+		   for(String i:ids){
+			   auditPersonMapper.deleteByPrimaryKey(i);
+		   }
+		   List<String> newIds = new ArrayList<>();
+		   request.getSession().setAttribute("ids", newIds);
+		   return "ok";
+	   }
 	
 	   /**
 	    * 

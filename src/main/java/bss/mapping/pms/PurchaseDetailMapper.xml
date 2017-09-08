@@ -1153,5 +1153,7 @@
 				GROUP BY
 				  PROJECT_STATUS
 	  </select>
-    
+    <select id="getUniqueIdByParentId" parameterType="String" resultMap="PurchaseRequired_Map">
+    select DISTINCT DEPARTMENT,ID from T_BSS_PMS_PURCHASE_DETAIL where PARENT_ID='1' and HISTORY_STATUS='0'  and IS_DELETE='0' and UNIQUE_ID=#{uniqueId}
+    </select>
 </mapper>

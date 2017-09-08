@@ -213,7 +213,7 @@
         <if test="orgName !=null and orgName !=''">
           and org.SHORT_NAME =#{orgName}
         </if>
-        ORDER BY T1.CREATED_AT DESC
+        ORDER BY T1.SUBMIT_AT DESC NULLS LAST
     </select>
 
     <select id="selectSecondAuditExpert" resultMap="BaseResultMap">
@@ -1342,6 +1342,9 @@ resultMap="BaseResultMap">
         </if>
         <if test="status != null and status !=''">
             AND t1.STATUS = #{status}
+        </if>
+        <if test="auditTemporary != null">
+            AND t1.AUDIT_TEMPORARY = #{auditTemporary}
         </if>
         <if test="auditAt !=null and auditAt!=''">
         	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')

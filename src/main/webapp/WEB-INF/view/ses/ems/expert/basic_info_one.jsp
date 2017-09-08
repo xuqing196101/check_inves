@@ -79,11 +79,11 @@
 					});
 				}
 				//实时保存
-			$(function() {
+			/* $(function() {
 				$("input").bind("blur", submitformExpert);
 				$("select").bind("change", submitformExpert);
 				$("textarea").bind("blur", submitformExpert);
-			});
+			}); */
 			//校验军官证号
             function checkCardNumber(){
                 var idNumber = $("#idNumber").val();
@@ -993,6 +993,7 @@
 			}
 
 			function zc() {
+				submitformExpert();
 				layer.msg("已暂存");
 			}
 			//非空判断

@@ -38,9 +38,10 @@
 
 .w60 {
   width: 60px; }
-
+.w70 {
+  width: 70px!important; }
 .w80 {
-  width: 80px; }
+  width: 80px!important; }
 
 .w86 {
   width: 86px; }

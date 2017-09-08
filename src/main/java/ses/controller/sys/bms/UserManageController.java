@@ -285,7 +285,7 @@ public class UserManageController extends BaseController{
 //  		//校验密码是否为空
   		String password = user.getPassword();
   		System.out.println(password);
-  		if(password.equals(null) || password.equals("") || password ==null || password ==""){
+  		if(password.equals(null) || "".equals(password.trim()) || password ==null || password ==""){
   	  		model.addAttribute("user", user);
   				model.addAttribute("password_msg", "不能为空");
   				List<DictionaryData> genders = DictionaryDataUtil.find(13);
@@ -583,7 +583,7 @@ public class UserManageController extends BaseController{
   			model.addAttribute("roleName", request.getParameter("roleName"));
   			model.addAttribute("currPage",request.getParameter("currpage"));
   			model.addAttribute("typeName", u.getTypeName());
-  			
+  			model.addAttribute("origin", origin);
   			/*if (StringUtils.isNotBlank(origin)){
 			      DictionaryData dd =  DictionaryDataUtil.findById(u.getTypeName());
                 if (dd != null){
