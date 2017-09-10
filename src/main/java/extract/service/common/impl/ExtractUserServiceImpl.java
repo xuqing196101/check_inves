@@ -52,13 +52,15 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 						arrayList.add(extractUser);
 					}
 					//查询当前登陆用户是否存在抽取人员表中
-					extractUserMapper.selectById(user.getId());
+					if(extractUserMapper.selectById(user.getId()).size()<1){
+						arrayList.add(new ExtractUser(user.getId()));
+					}
 				}
 				if(arrayList.size()>0){
 					extractUserMapper.insertSelectiveAll(arrayList);
 				}
 			}
-			if(personId.length>0 ||extUser.getList().size()>0){
+			if(null!=personId ||null!=extUser.getList()){
 				personRelMapper.insertRel(map);
 			}
 		}

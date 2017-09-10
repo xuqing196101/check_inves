@@ -42,6 +42,17 @@ public class ExtractUser {
     
     private List<ExtractUser> list = new ArrayList<ExtractUser>();
 
+
+	public ExtractUser(String id) {
+		super();
+		this.id = id;
+	}
+
+	public ExtractUser() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getId() {
 		return id;
 	}

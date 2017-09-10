@@ -75,6 +75,20 @@ $(function () {
         });
     }
     
+    
+    function checkTime(){
+    	if(null != $("#sellBegin").val()){
+    		var startTime = new Date(Date.parse($("#sellBegin").val()));
+    		var endTime = new Date(Date.parse($("#sellEnd").val()));
+			if(startTime>=endTime){
+				layer.msg("结束时间不能小于起始时间");
+			}
+    	}else{
+    		layer.msg("请选择售领起始时间");
+    	}
+    }
+    
+    
     /**
      * 人员信息操作
      */

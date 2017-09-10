@@ -52,7 +52,7 @@ public class SuperviseServiceImpl implements SuperviseService {
 					superviseMapper.insertSelectiveAll(arrayList);
 				}
 			}
-			if(personId.length>0 ||user.getList().size()>0){
+			if(null!=personId ||null!=user.getList()){
 				personRelMapper.insertRel(map);
 			}
 		}
