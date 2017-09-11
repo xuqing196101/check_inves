@@ -25,17 +25,6 @@
                 type: "get",
                 dataType: "json",
                 success: function(res) {
-                  /* var ch=$("#tb_id").children();
-                  if(ch.length>1){
-                    for(var i=0;i<ch.length;i++){
-                       var tds=$(ch[i]).children()[0];
-                       if($(tds).children()[0]==obj){
-                         check($(tds).children()[0])
-                         break;
-                       }
-                    }
-                   
-                  } */
                   detailId = res.detailId;
                   var checkDoc = []; //保存被选中的节点
                   layui.each(res.data, function(index, item) {

@@ -90,6 +90,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 
 /**
@@ -528,10 +529,16 @@ public class ProjectController extends BaseController {
                   List<PurchaseDetail> lists = purchaseDetailService.getUniquesByTask(projectId, task.getCollectId(), user.getOrg().getId());
                   if(lists != null && lists.size() > 0){
                       for (PurchaseDetail purchaseDetail : lists) {
-                        DictionaryData findById = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
-                        if (findById != null) {
-                          purchaseDetail.setPurchaseType(findById.getName());
-                        }
+                    	  if (purchaseDetail.getPurchaseCount() == null) {
+                    		  purchaseDetail.setPurchaseType(null);
+                    	  } else {
+                    		  if (StringUtils.isNotBlank(purchaseDetail.getPurchaseType())) {
+                    			  DictionaryData findById = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
+                            	  if (findById != null) {
+                            		  purchaseDetail.setPurchaseType(findById.getName());
+                            	  }
+                    		  }
+                    	  }
                       }
                       /*for (PurchaseDetail purchaseDetail : lists) {
                         //判断是否被引用
@@ -2117,7 +2124,7 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/editPackName")
     @ResponseBody
-    public void editPackName(HttpServletRequest request){
+    public String editPackName(HttpServletRequest request){
         String name = request.getParameter("name");
         String id = request.getParameter("id");
         String projectId = request.getParameter("projectId");
@@ -2125,9 +2132,15 @@ public class ProjectController extends BaseController {
         Packages pk = new Packages();
         pk.setId(id);
         pk.setName(name);
-        pk.setPackageNumber(project.getProjectNumber() + "(" + name + ")");
+        String substring = name.substring(1,2);
+        if(Pattern.compile("^[0-9]*[1-9][0-9]*$").matcher(substring).matches()){
+        	pk.setPackageNumber(project.getProjectNumber() + "(" + substring + ")");
+		} else {
+			pk.setPackageNumber(project.getProjectNumber() + "(" + name + ")");
+		}
         pk.setUpdatedAt(new Date());
         packageService.updateByPrimaryKeySelective(pk);
+        return pk.getPackageNumber();
     }
     
     /**

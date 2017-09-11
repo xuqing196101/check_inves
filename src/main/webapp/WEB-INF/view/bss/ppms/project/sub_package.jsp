@@ -51,42 +51,70 @@
 
       //勾选明细
       function selectedBox(ele) {
-        var projectId = $("#projectId").val();
         var flag = $(ele).prop("checked");
-        var id = $(ele).val();
-        $.ajax({
-          url: "${pageContext.request.contextPath }/project/checkProjectDeail.do?id=" + id + "&projectId=" + projectId,
-          async: false, //请求是否异步，默认为异步
-          type: "post",
-          dataType: "json",
-          success: function(result) {
-            for(var i = 0; i < result.length; i++) {
-              $("input[name='info']").each(function() {
-                var v1 = result[i].id;
-                var v2 = $(this).val();
-                if(v1 == v2) {
-                  $(this).prop("checked", flag);
-                }
-              });
-            }
-          }
-        });
-        var count = 0;
-        var len = 0;
-        var info = document.getElementsByName("info");
-        var selectAll = document.getElementById("selectAll");
-        for(var i = 0; i < info.length; i++) {
-          if(info[i].checked == true) {
-            count++;
-          }
-          len++;
-        }
-        if(count == len) {
-          selectAll.checked = true;
+        var id = $(ele).next().val();
+        var pId = $(ele).prev().val();
+        if(flag) {
+          //递归选中父节点
+          checkedParent(pId);
+          //递归选中子节点
+          checkedChild(id);
         } else {
-          selectAll.checked = false;
+          //递归取消父节点选中
+          noCheckedParent(pId);
+          //递归取消子节点选中
+          noCheckedChild(id);
         }
       }
+      
+      
+      //递归取消父节点选中
+      function noCheckedParent(pId) {
+        //判断子节点是否全部没有选中
+        var isChecked = 0;
+        $("input[name='pId_" + pId + "']").each(function() {
+          var v = $(this).val();
+          if($(this).next().prop("checked") == true) {
+            isChecked = 1;
+          }
+        });
+        if(isChecked == 0) {
+          $("input[name='chkItem_" + pId + "']").each(function() {
+            $(this).prev().prop("checked", false);
+            var pId_v = $(this).prev().prev().val();
+            noCheckedParent(pId_v);
+          });
+        }
+      }
+      
+      //递归取消子节点选中
+      function noCheckedChild(id) {
+        //所有子节点取消选中
+        $("input[name='pId_" + id + "']").each(function() {
+          $(this).next().prop("checked", false);
+          var currId = $(this).next().next().val();
+          noCheckedChild(currId);
+        });
+      }
+
+      //递归选中父节点
+      function checkedParent(pId) {
+        $("input[name='chkItem_" + pId + "']").each(function() {
+          $(this).prev().prop("checked", true);
+          var pId_v = $(this).prev().prev().val();
+          checkedParent(pId_v);
+        });
+      }
+
+      //递归选中子节点
+      function checkedChild(id) {
+        $("input[name='pId_" + id + "']").each(function() {
+          $(this).next().prop("checked", true);
+          var currId = $(this).next().next().val();
+          checkedChild(currId);
+        });
+      }
+      
 
       //修改包名
       function edit(obj) {
@@ -104,9 +132,7 @@
         var projectId = $("#projectId").val();
         var name = $(obj).parent().prev().find($("span[name='packageName']")).find($("input[name='pack']")).val();
         if($.trim(name) == "" || name == null) {
-          layer.alert("包名不能为空", {
-            offset: ['30%', '40%']
-          });
+          layer.msg("包名不能为空");
           $(".layui-layer-shade").remove();
           return;
         } else {
@@ -115,10 +141,9 @@
             url: "${pageContext.request.contextPath }/project/editPackName.do?name=" + name + "&id=" + packageId + "&projectId=" + projectId,
             type: "post",
             success: function(data) {
-              layer.msg('修改成功', {
-                offset: ['45%', '50%']
-              });
+              layer.msg('修改成功');
               $(obj).parent().prev().find($("span[name='packageName']")).html(name);
+              $(obj).parent().prev().find($("span[name='packageNumber']")).html(data);
               $(obj).hide();
               $(obj).prev().show();
             }
@@ -230,48 +255,20 @@
       }
 
       //包下勾选明细
-      function selectedPackage(ele, number) {
-        /*var ids = "";
-        var pInfo = document.getElementsByName("info" + number);
-        for(var i = 0; i < pInfo.length; i++) {
-          if(pInfo[i].checked) {
-            ids += pInfo[i].value + ',';
-          }
-        }**/
-        var projectId = $("#projectId").val();
+      function selectedPackage(ele) {
         var flag = $(ele).prop("checked");
-        var id = $(ele).val();
-        $.ajax({
-          url: "${pageContext.request.contextPath }/project/checkProjectDeail.do?id=" + id + "&projectId=" + projectId,
-          type: "post",
-          async: false, //请求是否异步，默认为异步
-          dataType: "json",
-          success: function(result) {
-            for(var i = 0; i < result.length; i++) {
-              $("input[name='info" + number + "']").each(function() {
-                var v1 = result[i].id;
-                var v2 = $(this).val();
-                if(v1 == v2) {
-                  $(this).prop("checked", flag);
-                }
-              });
-            }
-          }
-        });
-        var count = 0;
-        var len = 0;
-        var info = document.getElementsByName("info" + number);
-        var selectAll = document.getElementById("selectAll" + number);
-        for(var i = 0; i < info.length; i++) {
-          if(info[i].checked == true) {
-            count++;
-          }
-          len++;
-        }
-        if(count == len) {
-          selectAll.checked = true;
+        var id = $(ele).next().val();
+        var pId = $(ele).prev().val();
+        if(flag) {
+          //递归选中父节点
+          checkedParent(pId);
+          //递归选中子节点
+          checkedChild(id);
         } else {
-          selectAll.checked = false;
+          //递归取消父节点选中
+          noCheckedParent(pId);
+          //递归取消子节点选中
+          noCheckedChild(id);
         }
       }
 
@@ -291,40 +288,19 @@
       }
 
       function selectedAddBox(ele) {
-        var projectId = $("#projectId").val();
         var flag = $(ele).prop("checked");
-        var id = $(ele).val();
-        $.ajax({
-          url: "${pageContext.request.contextPath }/project/checkProjectDeail.do?id=" + id + "&projectId=" + projectId,
-          async: false, //请求是否异步，默认为异步
-          type: "post",
-          dataType: "json",
-          success: function(result) {
-            for(var i = 0; i < result.length; i++) {
-              $("input[name='infoAdd']").each(function() {
-                var v1 = result[i].id;
-                var v2 = $(this).val();
-                if(v1 == v2) {
-                  $(this).prop("checked", flag);
-                }
-              });
-            }
-          }
-        });
-        var count = 0;
-        var len = 0;
-        var info = document.getElementsByName("infoAdd");
-        var selectAll = document.getElementById("selectAddAll");
-        for(var i = 0; i < info.length; i++) {
-          if(info[i].checked == true) {
-            count++;
-          }
-          len++;
-        }
-        if(count == len) {
-          selectAll.checked = true;
+        var id = $(ele).next().val();
+        var pId = $(ele).prev().val();
+        if(flag) {
+          //递归选中父节点
+          checkedParent(pId);
+          //递归选中子节点
+          checkedChild(id);
         } else {
-          selectAll.checked = false;
+          //递归取消父节点选中
+          noCheckedParent(pId);
+          //递归取消子节点选中
+          noCheckedChild(id);
         }
       }
 
@@ -590,7 +566,11 @@
             </thead>
             <c:forEach items="${list}" var="obj">
               <tr style="cursor: pointer;">
-                <td><div class="choose tc"><input type="checkbox" value="${obj.id }" name="info" onclick="selectedBox(this)"></div></td>
+                <td class="choose tc">
+                	<input type="hidden" name="pId_${obj.parentId}" value="${obj.parentId}" />
+                  <input type="checkbox" value="${obj.id}" name="info" onclick="selectedBox(this)">
+                  <input type="hidden" name="chkItem_${obj.requiredId}" value="${obj.requiredId}" />
+                </td>
                 <td><div class="seq">${obj.serialNumber }</div></td>
                 <td>
                   <div class="department">${obj.department }</div>
@@ -649,7 +629,7 @@
             <span class="f16 b">包名：</span>
             <span class="f14 blue" name="packageName">${pack.name }</span>
             <span class="f16 b">包号：</span>
-            <span class="f14 blue" name="packageName">${pack.packageNumber}</span>
+            <span class="f14 blue" name="packageNumber">${pack.packageNumber}</span>
           </div>
           <div class="col-md-6 col-sm-6 col-xs-12 tr p0 mb5" id="handle${p.index }">
             <input class="btn btn-windows edit" type="button" onclick="edit(this)" value="修改包名" />
@@ -682,7 +662,11 @@
             </thead>
             <c:forEach items="${pack.projectDetails}" var="obj">
               <tr>
-                <td><div class="choose"><input type="checkbox" name="info${p.index }" value="${obj.id }" onclick="selectedPackage(this,${p.index})" /></div></td>
+                <td class="choose">
+                	<input type="hidden" name="pId_${obj.parentId}${p.index}" value="${obj.parentId}${p.index}" />
+								  <input type="checkbox" name="info${p.index}" value="${obj.id}" onclick="selectedPackage(this)" />
+								  <input type="hidden" name="chkItem_${obj.requiredId}${p.index}" value="${obj.requiredId}${p.index}" />
+                </td>
                 <td><div class="seq">${obj.serialNumber }</div></td>
                 <td>
                   <div class="department">${obj.department }</div>
@@ -765,7 +749,11 @@
           </thead>
           <c:forEach items="${list}" var="obj">
             <tr>
-              <td><div class="choose"><input type="checkbox" value="${obj.id }" name="infoAdd" onclick="selectedAddBox(this)"></div></td>
+              <td class="choose">
+              	<input type="hidden" name="pId_${obj.parentId}add" value="${obj.parentId}add" />
+                <input type="checkbox" value="${obj.id}" name="infoAdd" onclick="selectedAddBox(this)">
+                <input type="hidden" name="chkItem_${obj.requiredId}add" value="${obj.requiredId}add" />
+              </td>
               <td><div class="seq">${obj.serialNumber }</div></td>
               <td>
                 <div class="department">${obj.department }</div>
