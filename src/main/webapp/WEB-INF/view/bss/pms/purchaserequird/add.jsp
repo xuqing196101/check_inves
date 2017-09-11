@@ -412,6 +412,7 @@
 
       //删除一行
       function delRowIndex(obj) {
+    	  flgNumber=false;
     	  var trAll=$("#detailZeroRow tr");
     	  if(trAll.length<=2){
     		  layer.msg("至少保留两行！");
@@ -499,6 +500,15 @@
     				  } else {
     				     price=$($(tr).prev().children()[8]).children(":first").next();
     				  }
+    				  var trNextAllNum=tr.nextAll();
+    				  if(trNextAllNum.length>0){
+	    				  for(var i=0;i<trNextAllNum.length;i++){
+	    					  $($(trNextAllNum[i]).children()[0]).text(parseInt($($(trNextAllNum[i]).children()[0]).text())-1);
+	    				  }
+	    				  indexCount=parseInt($($(trNextAllNum[trNextAllNum.length-1]).children()[0]).text())-1;
+    				  }else{
+    					  indexCount=parseInt($($(tr).children()[0]).text())-2;
+    				  }
     				  
     				  $(tr).remove();
     				  sum1(price);
@@ -521,6 +531,15 @@
     		    	  /* $(tr9).removeAttr("readonly");
     		    	  $(tr9).val(""); */
     		    	  var price=$($(tr).prev().children()[8]).children(":first").next();
+    		    	  var trNextAllNum=tr.nextAll();
+    		    	  if(trNextAllNum.length>0){
+		    				  for(var i=0;i<trNextAllNum.length;i++){
+		    					  $($(trNextAllNum[i]).children()[0]).text(parseInt($($(trNextAllNum[i]).children()[0]).text())-1);
+		    				  }
+	    				    indexCount=parseInt($($(trNextAllNum[trNextAllNum.length-1]).children()[0]).text())-1;
+	    				  }else{
+	    					  indexCount=parseInt($($(tr).children()[0]).text())-2;
+	    				  }
     		    	  $(tr).remove();
     		    	  sum1(price);
     			  }
@@ -945,6 +964,23 @@
 	                    	  flgNumber=true;
 	                    	  return false;
 	                      }
+	                     }else{
+	                    	 var ffg=true;
+	                    	 inter:
+	   	                      for(var j = 0; j < list.length; j++){
+	   	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	   	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+	   	                    			  ffg=false;
+	   	                    			  break inter;
+	   	                    		  }
+	   	                    		  
+	   	                    	  }
+	   	                      }
+                            if(!ffg){
+                              layer.msg("序号填写错误");
+	  	                    	  flgNumber=true;
+	  	                    	  return false;
+                            }
 	                     }
                       break outer;
                   }
@@ -981,6 +1017,23 @@
 	                    	  flgNumber=true;
 	                    	  return false;
 	                      }
+                     }else{
+                    	 var ffg=true;
+                    	 inter:
+   	                      for(var j = 0; j < list.length; j++){
+   	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+   	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+   	                    			  ffg=false;
+   	                    			  break inter;
+   	                    		  }
+   	                    		  
+   	                    	  }
+   	                      }
+                        if(!ffg){
+                          layer.msg("序号填写错误");
+  	                    	  flgNumber=true;
+  	                    	  return false;
+                        }
                      }
                       break outer;
                     }
@@ -1017,6 +1070,23 @@
 	                    	  flgNumber=true;
 	                    	  return false;
 	                      }
+                     }else{
+                    	 var ffg=true;
+                    	 inter:
+   	                      for(var j = 0; j < list.length; j++){
+   	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+   	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+   	                    			  ffg=false;
+   	                    			  break inter;
+   	                    		  }
+   	                    		  
+   	                    	  }
+   	                      }
+                        if(!ffg){
+                          layer.msg("序号填写错误");
+  	                    	  flgNumber=true;
+  	                    	  return false;
+                        }
                      }
                       break outer;
                     }
@@ -1055,6 +1125,23 @@
                     	  flgNumber=true;
                     	  return false;
                       }
+                 }else{
+                	 var ffg=true;
+                	 inter:
+	                      for(var j = 0; j < list.length; j++){
+	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+	                    			  ffg=false;
+	                    			  break inter;
+	                    		  }
+	                    		  
+	                    	  }
+	                      }
+                    if(!ffg){
+                      layer.msg("序号填写错误");
+	                    	  flgNumber=true;
+	                    	  return false;
+                    }
                  }
                   break outer;
                 }
@@ -1110,6 +1197,23 @@
 	                    	  flgNumber=true;
 	                    	  return false;
 	                      }
+                     }else{
+                    	 var ffg=true;
+                    	 inter:
+   	                      for(var j = 0; j < list.length; j++){
+   	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+   	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+   	                    			  ffg=false;
+   	                    			  break inter;
+   	                    		  }
+   	                    		  
+   	                    	  }
+   	                      }
+                        if(!ffg){
+                          layer.msg("序号填写错误");
+  	                    	  flgNumber=true;
+  	                    	  return false;
+                        }
                      }
                       break outer;
                     }

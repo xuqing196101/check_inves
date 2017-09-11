@@ -621,16 +621,26 @@
       }
 
       //动态添加
+      var flgg=false;
+      var indexCount=0;
       function aadd() {
-        var value = $("#xqbm").val();
-        var detailRow = document.getElementsByName("detailRow");
-        var index = detailRow.length;
-        var id = null;
+    	  if(flgNumber) {
+              layer.alert("节点填写错误");
+              return false;
+          }
+        if(!flgg){
+            var detailRow = document.getElementsByName("detailRow");
+            var index = detailRow.length;
+            indexCount=index;
+            flgg=true;
+        }else{
+            indexCount++;
+        }
         $.ajax({
           url: "${pageContext.request.contextPath}/templet/detail.html",
           type: "post",
           data: {
-            "index": index,
+            "index": indexCount,
             "type": "edit"
           },
           success: function(data) {
@@ -735,7 +745,24 @@
 	                	  flgNumber=true;
 	                	  return false;
 	                  }
-                   }
+                   }else{
+                  	 var ffg=true;
+                	      inter:
+	                      for(var j = 0; j < list.length; j++){
+	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+	                    			  ffg=false;
+	                    			  break inter;
+	                    		  }
+	                    		  
+	                    	  }
+	                      }
+                    if(!ffg){
+                      layer.msg("序号填写错误");
+	                    	  flgNumber=true;
+	                    	  return false;
+                    }
+                 }
                   break outer;
                 }
               }
@@ -771,6 +798,23 @@
 	                    	  flgNumber=true;
 	                    	  return false;
 	                      }
+                     }else{
+                    	 var ffg=true;
+                    	    inter:
+   	                      for(var j = 0; j < list.length; j++){
+   	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+   	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+   	                    			  ffg=false;
+   	                    			  break inter;
+   	                    		  }
+   	                    		  
+   	                    	  }
+   	                      }
+                        if(!ffg){
+                          layer.msg("序号填写错误");
+  	                    	  flgNumber=true;
+  	                    	  return false;
+                        }
                      }
                       break outer;
                     }
@@ -807,6 +851,23 @@
 	                    	  flgNumber=true;
 	                    	  return false;
 	                      }
+                     }else{
+                    	 var ffg=true;
+                    	    inter:
+   	                      for(var j = 0; j < list.length; j++){
+   	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+   	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+   	                    			  ffg=false;
+   	                    			  break inter;
+   	                    		  }
+   	                    		  
+   	                    	  }
+   	                      }
+                        if(!ffg){
+                          layer.msg("序号填写错误");
+  	                    	  flgNumber=true;
+  	                    	  return false;
+                        }
                      }
                       break outer;
                     }
@@ -845,6 +906,23 @@
                     	  flgNumber=true;
                     	  return false;
                       }
+                 }else{
+                	 var ffg=true;
+                	      inter:
+	                      for(var j = 0; j < list.length; j++){
+	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+	                    			  ffg=false;
+	                    			  break inter;
+	                    		  }
+	                    		  
+	                    	  }
+	                      }
+                    if(!ffg){
+                      layer.msg("序号填写错误");
+	                    	  flgNumber=true;
+	                    	  return false;
+                    }
                  }
                   break outer;
                 }
@@ -880,6 +958,23 @@
 	                    	  flgNumber=true;
 	                    	  return false;
 	                      }
+                     }else{
+                    	 var ffg=true;
+                    	    inter:
+   	                      for(var j = 0; j < list.length; j++){
+   	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+   	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+   	                    			  ffg=false;
+   	                    			  break inter;
+   	                    		  }
+   	                    		  
+   	                    	  }
+   	                      }
+                        if(!ffg){
+                          layer.msg("序号填写错误");
+  	                    	  flgNumber=true;
+  	                    	  return false;
+                        }
                      }
                       break outer;
                     }
@@ -1050,6 +1145,7 @@
         }
       }
       function deleteRowRequired(obj,status){
+    	  flgNumber=false;
     	  var id=[],seq=[];
     	  var trAll=$("#detailZeroRow tr");
     	  if(trAll.length<=2){
@@ -1154,6 +1250,15 @@
         			}else{
         				price=$($(tr).next().children()[8]).children(":first").next();
         			}
+        			var trNextAllNum=tr.nextAll();
+	  				  if(trNextAllNum.length>0){
+		    				  for(var i=0;i<trNextAllNum.length;i++){
+		    					  $($(trNextAllNum[i]).children()[0]).text(parseInt($($(trNextAllNum[i]).children()[0]).text())-1);
+		    				  }
+		    				  indexCount=parseInt($($(trNextAllNum[trNextAllNum.length-1]).children()[0]).text())-1;
+	  				  }else{
+	  					  indexCount=parseInt($($(tr).children()[0]).text())-2;
+	  				  }
     				  $(tr).remove();
     				  sum1(price);
     			  }else{//删除当前节点，把父节点的父节点的readOnly=false,并且删除tr上的attr=“true”
@@ -1177,6 +1282,16 @@
     		    	  if(status=="old"){
     		    		  ajaxDeleteRequired(trId,null,null);
           			}
+    		    	  var trNextAllNum=tr.nextAll();
+	    				  if(trNextAllNum.length>0){
+		    				  for(var i=0;i<trNextAllNum.length;i++){
+		    					  $($(trNextAllNum[i]).children()[0]).text(parseInt($($(trNextAllNum[i]).children()[0]).text())-1);
+		    				  }
+		    				  indexCount=parseInt($($(trNextAllNum[trNextAllNum.length-1]).children()[0]).text())-1;
+	    				  }else{
+	    					  indexCount=parseInt($($(tr).children()[0]).text())-2;
+	    				  }
+    				  
     		    	  $(tr).remove();
     		    	  sum1(tr8);
     			  }
@@ -1555,8 +1670,8 @@
               <tbody id="detailZeroRow">
                 <c:forEach items="${list }" var="obj" varStatus="vs">
                   <tr style="cursor: pointer;" name="detailRow"  <c:if test="${obj.price=='' || obj.price==null}">attr="true"</c:if> >
-                    <td>
-                      <div class="seq">${vs.index+1 }</div>
+                    <td class="tc">
+                      ${vs.index+1 }
                     </td>
                     <td class="tc">
                       <input type="hidden" id="id${vs.index}" name="list[${vs.index }].id" value="${obj.id }">
