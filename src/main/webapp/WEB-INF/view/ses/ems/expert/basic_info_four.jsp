@@ -41,16 +41,14 @@ session.setAttribute("tokenSession", tokenValue);
 				window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			}
 
-			function pre2(name, i, position) {
-				updateStepNumber("seven");
-				window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
-			}
-
 			function pre1(name, i, position) {
 				updateStepNumber("one");
 				window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			}
-
+			function pre7(name, i, position) {
+	            updateStepNumber("seven");
+	            window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
+	        }
 			//下载
 			function downloadTable() {
 				$("#formExpert").attr("action", "${pageContext.request.contextPath}/expert/download.html");
