@@ -1,17 +1,13 @@
 package ses.controller.sys.ems;
 
 import bss.formbean.PurchaseRequiredFormBean;
-
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.utils.JdcgResult;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.profiles.activation.SystemPropertyProfileActivator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.dao.ems.ExpertField;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -65,7 +60,6 @@ import ses.util.WordUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -80,7 +74,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 
@@ -821,7 +814,7 @@ public class ExpertAuditController{
             items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
         }
         
-        if(sign == 2){
+        if(sign != null && sign == 2){
         	Map<String, Object> map = new HashMap<String, Object>();
         	map.put("pageNum", pageNum == null ? 1 : pageNum);
         	map.put("expertId", expertId);
@@ -895,12 +888,12 @@ public class ExpertAuditController{
 			expertAuditFor.setAuditFalg(2);
 		}
 		List < ExpertAudit > reasonsList = new ArrayList<>();
-		if(expertAuditFor.getAuditFalg()==1){
+		if(expertAuditFor.getAuditFalg() != null && expertAuditFor.getAuditFalg()==1){
 			expertAuditFor.setAuditFalg(666);//666为兼容老数据
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAuditFor));
 			expertAuditFor.setAuditFalg(1);
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAuditFor));
-		}else if(expertAuditFor.getAuditFalg()==2){
+		}else if(expertAuditFor.getAuditFalg() != null && expertAuditFor.getAuditFalg()==2){
 			expertAuditFor.setAuditFalg(2);
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAuditFor));
 		}
