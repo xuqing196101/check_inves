@@ -192,7 +192,7 @@ public class MultiExportTask {
 			if(StringUtils.isNotBlank(startTime)){
 				startTime = DateUtils.getCalcelDate(startTime);
 				String endTime = DateUtils.getCurrentTime();
-				//供应商公示导出数据
+				//专家公示导出数据
 				outerExpertService.selectExpByPublictyOfExport(startTime, endTime);
 			}
 
