@@ -36,7 +36,7 @@ public class SupplierConstants {
 		/** 退回再审核 */
 		RETURN_AUDIT(9),
 		/** 预审核通过 */
-		PRE_AUDIT_PASS(-2),
+		PRE_AUDIT_PASSED(-2),
 		/** 公示中 */
 		PUBLICITY(-3);
 		
@@ -92,8 +92,52 @@ public class SupplierConstants {
 		STATUSMAP.put(Status.INVESTIGATE_PASSED.getValue(), "考察合格");
 		STATUSMAP.put(Status.INVESTIGATE_NOT_PASS.getValue(), "考察不合格");
 		STATUSMAP.put(Status.RETURN_AUDIT.getValue(), "退回再审核");
-		STATUSMAP.put(Status.PRE_AUDIT_PASS.getValue(), "预审核通过");
+		STATUSMAP.put(Status.PRE_AUDIT_PASSED.getValue(), "预审核通过");
 		STATUSMAP.put(Status.PUBLICITY.getValue(), "公示中");
+	}
+	
+	/** 注册拥有的状态 */
+	public final static Integer[] STATUS_TO_REGISTER = new Integer[]{
+		Status.TEMPORARY.getValue(),// 暂存
+		Status.RETURN.getValue()// 退回修改
+	};
+	
+	/** 审核拥有的状态 */
+	public final static Integer[] STATUS_TO_AUDIT = new Integer[]{
+		Status.PENDING_AUDIT.getValue(),// 待审核
+		Status.RETURN_AUDIT.getValue(),//退回再审核
+		Status.PRE_AUDIT_PASSED.getValue(),// 预审核通过
+		Status.PENDING_REVIEW.getValue()// 待复核
+	};
+	
+	/**
+	 * 是否注册拥有的状态
+	 * @param status
+	 * @return
+	 */
+	public static final boolean isStatusToRegister(final Integer status){
+		//return ArrayUtils.contains(SupplierConstants.STATUS_TO_REGISTER, status);
+		if(null == status){
+			return false;
+		}
+		return status == Status.TEMPORARY.getValue()
+			|| status == Status.RETURN.getValue();
+	}
+	
+	/**
+	 * 是否审核拥有的状态
+	 * @param status
+	 * @return
+	 */
+	public static final boolean isStatusToAudit(final Integer status){
+		//return ArrayUtils.contains(SupplierConstants.STATUS_TO_AUDIT, status);
+		if(null == status){
+			return false;
+		}
+		return status == Status.PENDING_AUDIT.getValue()
+			|| status == Status.RETURN_AUDIT.getValue()
+			|| status == Status.PRE_AUDIT_PASSED.getValue()
+			|| status == Status.PENDING_REVIEW.getValue();
 	}
 	
 	/** 供应商审核记录退回状态 */
@@ -107,7 +151,7 @@ public class SupplierConstants {
 	
 	public static void main(String[] args) {
 		for(Status status : Status.values()){
-			System.out.println(status.getValue()); 
+			System.out.println(status.getValue());
 		}
 	}
 }

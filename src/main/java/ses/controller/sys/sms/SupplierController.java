@@ -1374,49 +1374,49 @@ public class SupplierController extends BaseSupplierController {
 		boolean pro = true;
 		boolean server = true;
 		boolean project = true;
-        try{
-        	String supplierTypeIds = supplier.getSupplierTypeIds();
-        	if(StringUtils.isNotBlank(supplierTypeIds)){
-        		String[] str = supplierTypeIds.trim().split(",");
-            	if(str != null && str.length > 0){
-            		for(String s: str) {
-                        if(s.equals("PRODUCT")) {
-                            pro = validatePro(request, supplier.getSupplierMatPro(), model);
-                            if(pro == true) {
-                                supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
-                            }
-                        }
-                        if(s.equals("SALES")) {
-                            sale = validateSale(request, supplier.getSupplierMatSell(), model);
-                            if(sale == true) {
-                                supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
-                            }
-                        }
-                        if(s.equals("PROJECT")) {
-                        	List<Area> areaList = areaService.findRootArea();
-                            project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
-                            if(project == true) {
-                                supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
-                            }
-                        }
-                        if(s.equals("SERVICE")) {
-                            server = validateServer(request, supplier.getSupplierMatSe(), model);
-                            if(server == true) {
-                                supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
-                            }
-                        }
-                    }
-        		}
-            	supplierTypeRelateService.saveSupplierTypeRelate(supplier);
-                if(old!=null&&old.equals("old")){
-                    supplierTypeRelateService.delete(supplier.getId(), "SALES");
-                }
-        	}else{
-        		type = false;
-        	}
-        }catch (Exception e){
-		    e.printStackTrace();
-        }
+		try{
+			String supplierTypeIds = supplier.getSupplierTypeIds();
+			if(StringUtils.isNotBlank(supplierTypeIds)){
+				String[] str = supplierTypeIds.trim().split(",");
+				if(str != null && str.length > 0){
+					for(String s: str) {
+				        if(s.equals("PRODUCT")) {
+				            pro = validatePro(request, supplier.getSupplierMatPro(), model);
+				            if(pro == true) {
+				                supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+				            }
+				        }
+				        if(s.equals("SALES")) {
+				            sale = validateSale(request, supplier.getSupplierMatSell(), model);
+				            if(sale == true) {
+				                supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+				            }
+				        }
+				        if(s.equals("PROJECT")) {
+				        	List<Area> areaList = areaService.findRootArea();
+				            project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
+				            if(project == true) {
+				                supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
+				            }
+				        }
+				        if(s.equals("SERVICE")) {
+				            server = validateServer(request, supplier.getSupplierMatSe(), model);
+				            if(server == true) {
+				                supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
+				            }
+				        }
+				    }
+				}
+				supplierTypeRelateService.saveSupplierTypeRelate(supplier);
+				if(old!=null&&old.equals("old")){
+				    supplierTypeRelateService.delete(supplier.getId(), "SALES");
+				}
+			}else{
+				type = false;
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 
 		if(type == true && pro == true && server == true && project == true && sale == true) {
 			model.addAttribute("suppId", supplier.getId());
