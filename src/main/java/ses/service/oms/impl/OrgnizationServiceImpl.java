@@ -876,4 +876,9 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
   public List<Orgnization> findPurchaseOrgByPosition(HashMap<String, Object> map) {
     return orgniztionMapper.findPurchaseOrgByPosition(map);
   }
+
+@Override
+public List<Orgnization> findManageOfOrg(HashMap<String, Object> map) {
+	return orgniztionMapper.findManageOfOrg(map);
+}
 }

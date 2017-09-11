@@ -165,13 +165,19 @@
       
       //关联采购管理部门
       function addManageDept() {
-        var typeName = $("input[name='typeName']").val();
+    	  var str = document.getElementsByName("selectedItem");
+	   	  var qwe = "";
+	   	  for (var i = 0; i < str.length; i++) {
+  				qwe+=","+str[i].value;
+  		  } 
+    	  
+         var typeName = $("input[name='typeName']").val();
          layer.open({
           type: 2, 
           area : [ '750px', '550px' ],
           title: '关联采购管理部门',
           shadeClose: true,
-          content:"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName=" + typeName
+          content:"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName=" + typeName+'&notIds='+qwe
          });
       }
       
