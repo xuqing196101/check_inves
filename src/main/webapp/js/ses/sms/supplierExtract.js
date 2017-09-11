@@ -284,6 +284,7 @@ $(function () {
     		return false;
     	}
     	
+    	//验证抽取条件中数量是否正确
         var eCount = $("#supplierCount").val();//抽取总数量
         $("#status").val(1);//修改状态为抽取中
         //获取每个类别的抽取数量
@@ -304,9 +305,6 @@ $(function () {
                 if (parseInt(count) > parseInt(eCount)) {
                     layer.msg("数量不能大于总数量");
                 } else {
-                	$('.extractVerify_disabled input,.extractVerify_disabled select').each(function() {
-                		$(this).prop('readonly', true);
-                	});
                 	extractSupplier();
                 }
             } else {
@@ -342,6 +340,65 @@ $(function () {
     /**点击抽取--当选择参加与否后保存状态*/
     
     function extractSupplier() {
+    	
+    	
+    	var projectExtractNum = $("#projectExtractNum").val();
+    	if(projectExtractNum>0){
+    		if(projectExtractNum<=projects){
+    			$("#projectResult").find("tbody").empty();
+    			appendTd(0,$("#projectResult").find("tbody"),null);
+    		}else{
+    			layer.msg("工程条件不满足");
+    		}
+    	}else if(projectExtractNum==0){
+    		layer.msg("请输入工程抽取数量");
+    	}
+    	
+    	var productExtractNum = $("#productExtractNum").val();
+    	if(productExtractNum>0){
+    		if(productExtractNum<=products){
+    			$("#productResult").find("tbody").empty();
+    			appendTd(0,$("#productResult").find("tbody"),null);
+    		}else{
+    			layer.msg("生产条件不满足");
+    		}
+    	}else if(productExtractNum==0){
+    		layer.msg("请输入生产抽取数量");
+    	}
+    	
+    	var serviceExtractNum = $("#serviceExtractNum").val();
+    	if(serviceExtractNum>0){
+    		if(serviceExtractNum<=services){
+    			$("#serviceResult").find("tbody").empty();
+    			appendTd(0,$("#serviceResult").find("tbody"),null);
+    		}else{
+    			layer.msg("服务条件不满足");
+    		}
+    	}else if(serviceExtractNum==0){
+    		layer.msg("请输入服务抽取数量");
+    	}
+    	
+    	var salesExtractNum = $("#salesExtractNum").val();
+    	if(salesExtractNum>0){
+    		if(salesExtractNum<=sales){
+    			$("#salesResult").find("tbody").empty();
+    			appendTd(0,$("#salesResult").find("tbody"),null);
+    		}else{
+    			layer.msg("销售条件不满足");
+    		}
+    	}else if(salesExtractNum==0){
+    		layer.msg("请输入销售抽取数量");
+    	}
+    	
+    	//输入框设置只读
+    	$('.extractVerify_disabled input,.extractVerify_disabled select').each(function() {
+    		$(this).prop('readonly', true);
+    	});
+    	//按钮置灰
+    	$("[type='button']").each(function(){
+    		$(this).attr("disabled",true);
+    	});
+    	
     	//存储项目信息
     	$.ajax({
     		type: "POST",
@@ -372,46 +429,6 @@ $(function () {
     		}
     	});
     	
-    	
-    	var projectExtractNum = $("#projectExtractNum").val();
-    	if(projectExtractNum>0){
-    		if(projectExtractNum<=projects){
-    			$("#projectResult").find("tbody").empty();
-    			appendTd(0,$("#projectResult").find("tbody"),null);
-    		}else{
-    			layer.msg("工程条件不满足");
-    		}
-    	}
-    	
-    	var productExtractNum = $("#productExtractNum").val();
-    	if(productExtractNum>0){
-    		if(productExtractNum<=products){
-    			$("#productResult").find("tbody").empty();
-    			appendTd(0,$("#productResult").find("tbody"),null);
-    		}else{
-    			layer.msg("生产条件不满足");
-    		}
-    	}
-    	
-    	var serviceExtractNum = $("#serviceExtractNum").val();
-    	if(serviceExtractNum>0){
-    		if(serviceExtractNum<=services){
-    			$("#serviceResult").find("tbody").empty();
-    			appendTd(0,$("#serviceResult").find("tbody"),null);
-    		}else{
-    			layer.msg("服务条件不满足");
-    		}
-    	}
-    	
-    	var salesExtractNum = $("#salesExtractNum").val();
-    	if(salesExtractNum>0){
-    		if(salesExtractNum<=sales){
-    			$("#salesResult").find("tbody").empty();
-    			appendTd(0,$("#salesResult").find("tbody"),null);
-    		}else{
-    			layer.msg("销售条件不满足");
-    		}
-    	}
     }
     
     //显示结果   obj 是当前操作的行所在的tbody
@@ -651,7 +668,7 @@ $(function () {
     		 $("."+mycars[i]+"Count").addClass("dnone");
     		 $("#"+mycars[i]+"Result").addClass("dnone");
     		 $("#"+mycars[i]+"CategoryIds").val("");
-    		 $("#"+mycars[i]+"ExtractNum").val(0);
+    		 $("#"+mycars[i]+"ExtractNum").val("");
     		 $("#"+mycars[i]).val("");
 		}
     	if(null!=obj){
@@ -664,7 +681,7 @@ $(function () {
      
      //显示品目等级信息div
      function showCategoryAndLevel(code){
-    	 if ('PROJECT' == code) {
+    	 /*if ('PROJECT' == code) {
     		 //查询数量
     		 //selectTypeCount("PROJECT");
     		 $(".projectCount").removeClass("dnone");
@@ -691,7 +708,13 @@ $(function () {
     		 loadLevelTree("salesLevelTree");
     		 //追加结果表
     		 $("#salesResult").removeClass("dnone");
-    	 }
+    	 }*/
+    	 
+    	code = toLowerCase(code);
+    	 $("."+code+"Count").removeClass("dnone");
+		 //追加结果表
+		 $("#"+code+"Result").removeClass("dnone");
+		 $("#"+code+"ExtractNum").val("0");
      }
      
      

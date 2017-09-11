@@ -48,6 +48,10 @@
 <div class="container">
 <!-- 项目信息开始 -->
 <div class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled">
+<c:set value="false" var="flag"></c:set>
+<c:if test="${projectInfo.projectName !=null }">
+	<c:set var="flag" value="true"></c:set>
+</c:if>
     <form id="projectForm" action="<%=request.getContextPath() %>/SupplierExtracts/saveProjectInfo.do" method="post" >
         <!-- 打开类型 -->
       <%--   <input type="hidden" value="${typeclassId}" name="typeclassId" /> --%>
@@ -60,7 +64,7 @@
              <li class="col-md-3 col-sm-4 col-xs-12 pl15">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 项目名称:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input id="projectName" name="projectName"  value="${projectInfo.projectName}" type="text">
+                     <input id="projectName" name="projectName"  value="${projectInfo.projectName}"  readonly=${flag?"readonly":"" }   type="text">
                      <span class="add-on">i</span>
                      <div class="cue" id="projectNameError"></div>
                  </div>
@@ -68,7 +72,7 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 项目编号:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input id="projectNumber" name="projectCode" value="${projectInfo.projectCode}" type="text" >
+                     <input id="projectNumber" name="projectCode" value="${projectInfo.projectCode}" readonly=${flag?"readonly":"" } type="text" >
                      <span class="add-on">i</span>
                      <div class="cue" id="projectNumberError"></div>
                  </div>
@@ -77,23 +81,23 @@
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购方式:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
            			<c:if test="${projectInfo.purchaseType ==null }">
-                     	<select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0">
+                   	<select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0">
+                   	 	<option value="3CF3C643AE0A4499ADB15473106A7B80" >竞争性谈判</option>
+                        <option value="EF33590F956F4450A43C1B510EBA7923" >询价采购</option>
+                        <option value="209C109291F241D88188521A7F8FA308" >邀请招标</option>
+                     </select>
                     </c:if>
                    	<c:if test="${projectInfo.purchaseType !=null }">
-                		 <select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0" disabled="disabled">
-                   			<option value="${projectInfo.purchaseType}" selected="selected">${projectInfo.purchaseTypeName}</option>
+                		  <input id="purchaseType" name="purchaseType" value="${projectInfo.purchaseType}" readonly=${flag?"readonly":"" } type="text" >
                    	</c:if>
-                             <option value="3CF3C643AE0A4499ADB15473106A7B80" >竞争性谈判</option>
-                             <option value="EF33590F956F4450A43C1B510EBA7923" >询价采购</option>
-                             <option value="209C109291F241D88188521A7F8FA308" >邀请招标</option>
-                     </select>
+                            
                  	<div class="cue" id="purchaseTypeError"></div>
                  </div>
              </li>
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">包名(标段):</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input id="packageName" name="packageName" value="${projectInfo.projectCode}" type="text" >
+                     <input id="packageName" name="packageName" value="${projectInfo.projectCode}" readonly=${flag?"readonly":"" } type="text" >
                      <span class="add-on">i</span>
                      <div class="cue" id="packageNameError"></div>
                  </div>
@@ -141,11 +145,16 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>项目类型</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                 <c:if test="flag">
+                 	 <input id="projectType" name="projectType" value="${projectInfo.projectType }" type="text" >
+                 </c:if>
+                 <c:if test="flag">
                      <select id="projectType" name="projectType" class="col-md-12 col-sm-12 col-xs-6 p0" onchange="loadSupplierType()">
                           <option value="GOODS" ${projectInfo.projectType == 'GOODS' ? 'selected' : '' }>物资</option>
                           <option value="PROJECT" ${projectInfo.projectType == 'PROJECT' ? 'selected' : '' }>工程</option>
                           <option value="SERVICE" ${projectInfo.projectType == 'SERVICE' ? 'selected' : '' }>服务</option>
                      </select>
+                 </c:if>
                      <span class="add-on">i</span>
                      <div class="cue" id="projectTypeError"></div>
                  </div>
@@ -195,14 +204,14 @@
 	 </form>
 	</div><!-- 项目信息结束 -->
 	<!-- 人员信息开始-->
-	<div class="container_box col-md-12 col-sm-12 col-xs-12">
+	<div class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled">
 		 <h2 class="count_flow"><i>2</i>人员信息</h2>
 		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="red">*</span><b> 抽取人员:</b></span>
 		 <form action="<%=request.getContextPath() %>/extractUser/addPerson.html" onsubmit="return false" id="extractUser">
 		 <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
 		 	<input type="hidden" value="extractUser" id="eu" name="personType">
 		 	<input type="hidden" name="recordId" value="${projectInfo.id }">
-		 	<input type="button" class="btn btn-windows add" onclick="addPerson(this)" value="新增">
+		 	<input type="button" class="btn btn-windows add"  onclick="addPerson(this)" value="新增">
 		 	<input type="button" class="btn btn-windows delete" onclick="delPerson(this)" value="删除">
 		 	<input type="button" class="btn btn-windows input" onclick="selectHistory(this)" value="引用历史人员">
 		 </div>
@@ -251,7 +260,7 @@
        </form>      
 	</div>	
 	<!-- 条件开始 -->
-	<div class="container_box col-md-12 col-sm-12 col-xs-12">
+	<div class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled" >
     <form id="form1" method="post">
         <input id="sunCount" type="hidden">
         <!--    地區id -->
