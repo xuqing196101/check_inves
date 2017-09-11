@@ -13,6 +13,7 @@ import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.bms.QualificationService;
 import ses.service.sms.SMSProductLibService;
+import synchro.outer.back.service.expert.OuterExpertService;
 import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.util.Constant;
@@ -57,8 +58,14 @@ public class MultiExportTask {
     @Autowired
     private QualificationService qualificationService;
 
+    /**供应商导出Service**/
     @Autowired
 	private OuterSupplierService outerSupplierService;
+
+    /**专家导出Service**/
+    @Autowired
+    private OuterExpertService outerExpertService;
+
    /**
     * 内网定时处理方法
     */
@@ -157,13 +164,36 @@ public class MultiExportTask {
 		        	templateDownloadService.exportTemplateDownload(startTime, endTime, synchDate);
 		        }*/
 
+			/**
+			 *
+			 * Description: 供应商公示自动导出数据
+			 *
+			 * @author Easong
+			 * @version 2017/7/11
+			 * @since JDK1.7
+			 */
 			startTime = MultiTaskUril.getSynchDate(Constant.SYNCH_PUBLICITY_SUPPLIER,recordService);
 			if(StringUtils.isNotBlank(startTime)){
 				startTime = DateUtils.getCalcelDate(startTime);
 				String endTime = DateUtils.getCurrentTime();
-				Date synchDate = DateUtils.stringToTime(endTime);
 				//供应商公示导出数据
 				outerSupplierService.selectSupByPublictyOfExport(startTime, endTime);
+			}
+
+			/**
+			 *
+			 * Description: 专家公示自动导出数据
+			 *
+			 * @author Easong
+			 * @version 2017/9/11
+			 * @since JDK1.7
+			 */
+			startTime = MultiTaskUril.getSynchDate(Constant.SYNCH_PUBLICITY_EXPERT,recordService);
+			if(StringUtils.isNotBlank(startTime)){
+				startTime = DateUtils.getCalcelDate(startTime);
+				String endTime = DateUtils.getCurrentTime();
+				//供应商公示导出数据
+				outerExpertService.selectExpByPublictyOfExport(startTime, endTime);
 			}
 
 		}
