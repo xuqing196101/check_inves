@@ -72,7 +72,22 @@ public interface SupplierExtractRecordService {
 
   SupplierExtractProjectInfo selectByPrimaryKey(String id);
   
+  
+  
 
   List<SupplierExtractProjectInfo> getList(int i);
+
+  
+  void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo);
+  
+  /**
+   * @Description:插入记录
+   *
+   * @author Wang Wenshuai
+   * @version 2016年9月27日 下午4:32:28  
+   * @param @param record      
+   * @return void
+   */
+  void insertProjectInfo(SupplierExtractProjectInfo record);
   
 }

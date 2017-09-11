@@ -246,5 +246,139 @@
    <!--  <include refid="Base_Column_List" /> -->
     from T_SES_SMS_SUPPLIER_EXTRACTS E LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON E.PURCHASE_TYPE = D.ID 
   </select>
+
+
+	<!--抽取修改项目信息 -->
+   <update id="saveOrUpdateProjectInfo" parameterType="extract.model.supplier.SupplierExtractProjectInfo">
+   		UPDATE T_SES_SMS_EXTRACT_RECORD 
+   		<set>
+	   		<if test="projectId !=null and projectId !='' ">
+	   			PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="procurementDepId !=null and procurementDepId !='' ">
+	   			PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="projectCode !=null and projectCode !='' ">
+	   			PROJECT_CODE = #{projectCode,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="projectType !=null and projectType !='' ">
+	   			PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="packageName !=null and packageName !='' ">
+	   			PACKAGE_NAME = #{packageName,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="packageNumber !=null and packageNumber !='' ">
+	   			PACKAGE_NUMBER = #{packageNumber,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="status !=null and status !='' ">
+	   			STATUS = #{status,jdbcType=DECIMAL},
+	   		</if>
+	   		<if test="purchaseType !=null and purchaseType !='' ">
+	   			PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="constructionPro !=null and constructionPro !='' ">
+	   			CONSTRUCTION_PRO = #{constructionPro,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="constructionAddr !=null and constructionAddr !='' ">
+	   			CONSTRUCTION_ADDR = #{constructionAddr,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="sellBegin !=null and sellBegin !='' ">
+	   			SELL_BEGIN = #{sellBegin,jdbcType=DATE},
+	   		</if>
+	   		<if test="sellEnd !=null and sellEnd !='' ">
+	   			SELL_END = #{sellEnd,jdbcType=DATE},
+	   		</if>
+	   		<if test="sellAddress !=null and sellAddress !='' ">
+	   			SELL_ADDRESS = #{sellAddress,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="sellProvince !=null and sellProvince !='' ">
+	   			SELL_PROVINCE = #{sellProvince,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="sellSite !=null and sellSite !='' ">
+	   			SELL_SITE = #{sellSite,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="contactPerson !=null and contactPerson !='' ">
+	   			CONTACT_PERSON = #{contactPerson,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="conditionId !=null and conditionId !='' ">
+	   			CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="remark !=null and remark !='' ">
+	   			REMARK = #{remark,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="contactNum !=null and contactNum !='' ">
+	   			CONTACT_NUM = #{contactNum,jdbcType=VARCHAR}
+	   		</if>
+	   		<if test="extractTheWay">
+	   			 EXTRACT_THE_WAY = #{extractTheWay,jdbcType=DECIMAL},
+	   		</if>
+   		</set>
+   		WHERE ID = #{id}
+   </update> 
+    
+    <!-- 插入记录 -->
+    <insert id="insertProjectInfo" parameterType="extract.model.supplier.SupplierExtractProjectInfo">
+    	insert into T_SES_SMS_SUPPLIER_EXTRACTS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+       <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="projectName != null">
+        PROJECT_NAME,
+      </if>
+     <if test="projectCode != null">
+        PROJECT_CODE,
+      </if>
+       <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
+      <if test="packageName != null">
+        PACKAGE_NAME,
+      </if>
+      
+      <if test="procurementDepId != null">
+        PROCUREMENT_DEP_ID,
+      </if>
+      <if test="extractionTime != null">
+        EXTRACTION_TIME,
+      </if>
+      <if test="extractTheWay != null">
+        EXTRACT_THE_WAY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null">
+        #{projectCode,jdbcType=VARCHAR},
+      </if>
+       <if test="packageId != null">
+        #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageName != null">
+        #{packageName,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="procurementDepId != null">
+        #{procurementDepId,jdbcType=VARCHAR},
+      </if>
+      <if test="extractionTime != null">
+        #{extractionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extractTheWay != null">
+        #{extractTheWay,jdbcType=DECIMAL},
+      </if>
+    </trim>
+    </insert>
     
 </mapper>

@@ -22,7 +22,11 @@
 	
 	
 	<!-- 根据ID 和 属性名删除 -->
-	<delete id="deleteConditionRelationByMap" parameterType="java.lang.String">
-		DELETE FROM T_SES_SMS_EXTRACT_CONDITIONS WHERE CONDITION_ID = #{conditionId}
+	<delete id="deleteByRecordId" parameterType="java.lang.String">
+		DELETE FROM T_SES_EXT_RECORD_REL_PERSON WHERE RECORD_ID = #{value}
 	</delete>
+	
+	<select id="getPersonByRecord" parameterType="java.lang.String" resultType="extract.dao.common.PersonRelMapper">
+		SELECT * FROM T_SES_EXT_RECORD_REL_PERSON WHERE RECORD_ID = #{value}
+	</select>
 </mapper>

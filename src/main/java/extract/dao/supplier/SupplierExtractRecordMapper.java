@@ -60,4 +60,8 @@ public interface SupplierExtractRecordMapper {
 	Project getProjectInfoById(String id);
 
 	List<SupplierExtractProjectInfo> getList();
+
+	void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo);
+
+	void insertProjectInfo(SupplierExtractProjectInfo record);
 }

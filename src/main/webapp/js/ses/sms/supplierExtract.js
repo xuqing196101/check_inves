@@ -77,6 +77,15 @@ $(function () {
     
     
     function checkTime(){
+    	if(null != $("#sellEnd").val()){
+    		var startTime = new Date(Date.parse($("#sellBegin").val()));
+    		var endTime = new Date(Date.parse($("#sellEnd").val()));
+    		if(startTime>=endTime){
+    			layer.msg("结束时间不能小于起始时间");
+    		}
+    	}else{
+    		layer.msg("请选择售领起始时间");
+    	}
     	if(null != $("#sellBegin").val()){
     		var startTime = new Date(Date.parse($("#sellBegin").val()));
     		var endTime = new Date(Date.parse($("#sellEnd").val()));
@@ -245,8 +254,35 @@ $(function () {
         return false;
     }
     /**点击抽取--对参数进行校验*/
+    function checkEmpty(){
+    	var count = 0;
+    	$(".star_red").each(function(){
+    		$($(this).parents("li").find("input")).each(function(index, ele){
+    			$(ele).parents("li").find(".cue").html("");
+    			if(!ele.value){
+    				count++;
+    				$(ele).parents("li").find(".cue").html("不能为空");
+    			}
+    		});
+    		/*$($(this).parents("li").find("select")).each(function(index, ele){
+    			if(!ele.value){
+    				$(ele).parents("li").find(".cue").html("不能为空");
+    			}
+    		});*/
+    	});
+    	
+    	if(count>0){
+    		layer.msg("请检查所填信息是否完备");
+			return false;
+		}
+    	return true;
+    }
+    
     function extractVerify() {
     	//所有的必填项写一个class 验证必填 输入框要验证长度
+    	if(!checkEmpty()){
+    		return false;
+    	}
     	
         var eCount = $("#supplierCount").val();//抽取总数量
         $("#status").val(1);//修改状态为抽取中
@@ -269,7 +305,7 @@ $(function () {
                     layer.msg("数量不能大于总数量");
                 } else {
                 	$('.extractVerify_disabled input,.extractVerify_disabled select').each(function() {
-                		$(this).prop('disabled', true);
+                		$(this).prop('readonly', true);
                 	});
                 	extractSupplier();
                 }
@@ -304,14 +340,19 @@ $(function () {
         });
     }
     /**点击抽取--当选择参加与否后保存状态*/
+    
     function extractSupplier() {
-    	//selectLikeSupplier();
-    	//获取到要抽取的数量
-    	//存储项目信息 人员信息
-    /*	$("#supervise").submit(function(){
-    		return false;
+    	//存储项目信息
+    	$.ajax({
+    		type: "POST",
+    		url: $("#projectForm").attr('action'),
+    		data:$("#projectForm").serialize(),
+    		dataType: "text",
+    		success: function (msg) {
+    			
+    		}
     	});
-    	$("#extractUser").submit();*/
+    	//存储人员信息
     	$.ajax({
     		type: "POST",
     		url: $("#supervise").attr('action'),

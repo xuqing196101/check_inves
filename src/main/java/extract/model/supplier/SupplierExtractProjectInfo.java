@@ -43,7 +43,13 @@ public class SupplierExtractProjectInfo {
     @NotEmpty
     @Length(max=50)
 	private String projectNumber;
+    
+    private String contactPerson;
 
+    private String contactNum;
+    
+    private String remark ;
+    
     /**
      * <pre>
      * 项目名称
@@ -171,7 +177,7 @@ public class SupplierExtractProjectInfo {
      * 售领详细地址
      */
     @NotEmpty
-    private Date sellSite;
+    private String sellSite;
     
     /**
      * 其他要求
@@ -446,12 +452,13 @@ public class SupplierExtractProjectInfo {
 	}
 
 
-	public Date getSellSite() {
+	
+	public String getSellSite() {
 		return sellSite;
 	}
 
 
-	public void setSellSite(Date sellSite) {
+	public void setSellSite(String sellSite) {
 		this.sellSite = sellSite;
 	}
 
@@ -468,7 +475,6 @@ public class SupplierExtractProjectInfo {
 
 	public SupplierExtractProjectInfo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 
@@ -495,6 +501,36 @@ public class SupplierExtractProjectInfo {
 
 	public void setElseInfo(String elseInfo) {
 		this.elseInfo = elseInfo;
+	}
+
+
+	public String getRemark() {
+		return remark;
+	}
+
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+
+	public String getContactPerson() {
+		return contactPerson;
+	}
+
+
+	public void setContactPerson(String contactPerson) {
+		this.contactPerson = contactPerson;
+	}
+
+
+	public String getContactNum() {
+		return contactNum;
+	}
+
+
+	public void setContactNum(String contactNum) {
+		this.contactNum = contactNum;
 	}
     
     

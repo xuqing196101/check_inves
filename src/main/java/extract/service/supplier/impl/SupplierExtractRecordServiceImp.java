@@ -101,7 +101,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     @Override
     public void update(SupplierExtractProjectInfo extracts) {
     	extracts.setExtractionTime(new Date());
-        supplierExtractsMapper.updateByPrimaryKeySelective(extracts);
+        supplierExtractsMapper.saveOrUpdateProjectInfo(extracts);
     }
     
     /**
@@ -210,6 +210,16 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	public List<SupplierExtractProjectInfo> getList(int i) {
 		 PageHelper.startPage(i, PropUtil.getIntegerProperty("pageSize"));
 		return supplierExtractsMapper.getList();
+	}
+
+	@Override
+	public void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo) {
+		supplierExtractsMapper.saveOrUpdateProjectInfo(projectInfo);
+	}
+
+	@Override
+	public void insertProjectInfo(SupplierExtractProjectInfo record) {
+		supplierExtractsMapper.insertProjectInfo(record);
 	}
 
 }

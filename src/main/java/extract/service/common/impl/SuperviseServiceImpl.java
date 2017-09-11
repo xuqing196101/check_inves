@@ -48,11 +48,12 @@ public class SuperviseServiceImpl implements SuperviseService {
 						arrayList.add(supervise);
 					}
 				}
-				if(arrayList.size()>0){
+				/*if(arrayList.size()>0){
 					superviseMapper.insertSelectiveAll(arrayList);
-				}
+				}*/
 			}
 			if(null!=personId ||null!=user.getList()){
+				personRelMapper.deleteByRecordId(user.getRecordId());
 				personRelMapper.insertRel(map);
 			}
 		}

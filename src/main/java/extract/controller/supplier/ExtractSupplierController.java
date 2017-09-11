@@ -22,11 +22,14 @@ import ses.model.ems.ExtConType;
 import ses.model.sms.Supplier;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.WfUtil;
 import bss.controller.base.BaseController;
+import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
+import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 
@@ -81,8 +84,10 @@ public class ExtractSupplierController extends BaseController {
     private SupplierService supplierService;
     @Autowired
     private SupplierPersonServicel supplierPersonServicel;
-    
-    
+    @Autowired
+    private AdvancedProjectService advancedProjectService;
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataServiceI;
     
     /**
      * @Description:获取项目集合
@@ -111,7 +116,8 @@ public class ExtractSupplierController extends BaseController {
     @RequestMapping("/Extraction")
    // public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId){
    public String listExtraction(@CurrentUser User user,Model model, SupplierExtractProjectInfo eRecord,String conditionId){
-
+    	//两个入口 1.项目实施进入 2.直接进行抽取
+    	
     	if(StringUtils.isEmpty(conditionId)){
     		conditionId = WfUtil.createUUID();
     		//生成一条查询条件
@@ -130,13 +136,28 @@ public class ExtractSupplierController extends BaseController {
     	if(StringUtils.isBlank(eRecord.getId())){
     		String recordId = WfUtil.createUUID();
     		eRecord.setId(recordId);
-    		expExtractRecordService.insert(eRecord);
+    		expExtractRecordService.insertProjectInfo(eRecord);
     		model.addAttribute("recordId", recordId);
     		if(StringUtils.isNotBlank(eRecord.getProjectId())){
     			//说明是从项目实施进入 需要查询项目信息，生成一条记录，查询项目信息(包信息),条件id
-    			model.addAttribute("projectInfo", projectService.selectById(eRecord.getProjectId()));
+    			 AdvancedProject selectById = advancedProjectService.selectById(eRecord.getProjectId());
+    			 Project selectById2 = projectService.selectById(eRecord.getProjectId());
+    			 if(null != selectById){
+    				 eRecord.setProjectId(selectById.getId());
+        			 eRecord.setProjectName(selectById.getName());
+        			 eRecord.setProjectType(dictionaryDataServiceI.getDictionaryData(selectById.getPlanType()).getCode() );
+        			 eRecord.setProjectCode(selectById.getProjectNumber());
+    			 }else if(null!=selectById2){
+    				 eRecord.setProjectId(selectById2.getId());
+        			 eRecord.setProjectName(selectById2.getName());
+        			 eRecord.setProjectType(dictionaryDataServiceI.getDictionaryData(selectById2.getPlanType()).getCode());
+        			 eRecord.setProjectCode(selectById2.getProjectNumber());
+    			 }
+    			model.addAttribute("projectInfo", eRecord);
     			model.addAttribute("typeclassId", "hidden");
     		}else{
+    			eRecord.setProjectId(WfUtil.createUUID());
+    			model.addAttribute("projectInfo", eRecord);
     			//点击人工抽取
     			//model.addAttribute("purchaseTypes",DictionaryDataUtil.find(5));
     		}
@@ -380,66 +401,6 @@ public class ExtractSupplierController extends BaseController {
     }
 
     /**
-     * @Description:抽取记录
-     *
-     * @author Wang Wenshuai
-     * @version 2016年10月14日 下午7:29:36
-     * @param @param model
-     * @param @param id
-     * @param @return
-     * @return String
-     */
-    /*@RequestMapping("/showRecord")
-    public String showRecord(Model model, String id,String projectId,String packageId,String typeclassId){
-        model.addAttribute("typeclassId", typeclassId);
-        model.addAttribute("projectId", projectId);
-        model.addAttribute("packageId", packageId);
-        SupplierExtractProjectInfo showExpExtractRecord=null;
-        if (projectId != null && projectId != null){
-            //获取抽取记录
-            SupplierExtractProjectInfo extracts = new SupplierExtractProjectInfo();
-            extracts.setProjectId(projectId);
-            List<SupplierExtractProjectInfo> listExtractRecord = expExtractRecordService.listExtractRecord(extracts,0);
-            if(listExtractRecord != null && listExtractRecord.size() !=0){
-                showExpExtractRecord = listExtractRecord.get(0);
-                model.addAttribute("ExpExtractRecord", showExpExtractRecord);
-                //获取监督人员
-                List<ExtractUser>    listUser = extUserServicel.list(new ExtractUser(showExpExtractRecord.getProjectId()));
-                model.addAttribute("listUser", listUser);
-                //抽取条件
-                List<Packages> conList = packagesService.listExpExtCondition(showExpExtractRecord.getProjectId());
-                model.addAttribute("conditionList", conList);
-
-                if (packageId != null && !"".equals(packageId)){
-                    //已抽取
-                    String[] packageIds =  packageId.split(",");
-                    if(packageIds.length != 0 ){
-                        SupplierExtractCondition con = null;
-                        for (String pckId : packageIds) {
-                            if(pckId != null && !"".equals(pckId)){
-                                con = new SupplierExtractCondition();
-                                con.setProjectId(pckId);
-                                con.setStatus((short)2);
-                                conditionService.update(con);
-                            }
-                        }
-                    }
-                }
-
-            }
-
-        }else{
-            //获取抽取记录
-            List<SupplierExtractProjectInfo> listExtractRecord = expExtractRecordService.listExtractRecord(new SupplierExtractProjectInfo(id),0);
-            if(listExtractRecord != null && listExtractRecord.size() !=0){
-                showExpExtractRecord = listExtractRecord.get(0);
-                model.addAttribute("ExpExtractRecord", showExpExtractRecord);
-            }
-        }
-        return "ses/sms/supplier_extracts/extract_supervise_word";
-    }*/
-
-    /**
      * @Description: 获取市
      *
      * @author Wang Wenshuai
@@ -463,16 +424,6 @@ public class ExtractSupplierController extends BaseController {
      */
     
     
-   /* @RequestMapping("/showSupervise")
-    public String showSupervise(Model model,String recordId){
-        if (recordId != null && !"".equals(recordId)) {
-            model.addAttribute("recordId", recordId);
-            List<ExtractUser> list = extUserServicel.list(new ExtractUser(recordId));
-            model.addAttribute("list", list);
-        }
-        model.addAttribute("type", "supplier");
-        return "ses/sms/supplier_extracts/supervise_list";
-    }*/
 
     @ResponseBody
     @RequestMapping("/isFinish")
@@ -561,5 +512,23 @@ public class ExtractSupplierController extends BaseController {
     	List<DictionaryData> supplierTypeList = conditionService.supplierType(typeCode);
     	return JSON.toJSONString(supplierTypeList);
     }
+    
+    
+    
+    /**
+     *
+     *〈简述〉存储供应商抽取 项目信息
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/saveProjectInfo")
+    public String saveProjectInfo(SupplierExtractProjectInfo projectInfo){
+    	expExtractRecordService.saveOrUpdateProjectInfo(projectInfo);
+    	return "";
+    }
+    
+    
     
 }

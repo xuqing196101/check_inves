@@ -56,11 +56,12 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 						arrayList.add(new ExtractUser(user.getId()));
 					}
 				}
-				if(arrayList.size()>0){
+				/*if(arrayList.size()>0){
 					extractUserMapper.insertSelectiveAll(arrayList);
-				}
+				}*/
 			}
 			if(null!=personId ||null!=extUser.getList()){
+				personRelMapper.deleteByRecordId(extUser.getRecordId());
 				personRelMapper.insertRel(map);
 			}
 		}
