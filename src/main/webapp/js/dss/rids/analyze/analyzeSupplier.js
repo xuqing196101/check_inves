@@ -26,22 +26,19 @@ $(function() {
 					show : true,
 					readOnly : false,
                     optionToContent: function (opt) {
-                        let axisData = opt.series[0].data; //坐标数据
-                        let series = opt.series; //折线图数据
-                        let tdHeads = '<td  style="padding: 0 10px">类型</td>'; //表头
-                        let tdBodys = ''; //数据
-                        series.forEach(function (item) {
-                            //组装表头
-                            tdHeads += `<td style="padding: 0 10px">${item.name}</td>`;
-                        });
-                        let table = `<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>${tdHeads} </tr>`;
-                        for (let i = 0, l = axisData.length; i < l; i++) {
-                            for (let j = 0; j < series.length; j++) {
-                                //组装表数据
-                                tdBodys += `<td>${ series[j].data[i].value}</td>`;
+                        var axisData = opt.series[0].data; //坐标数据
+                        var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody>';
+                        table += "<tr>";
+                        for (var i = 0, l = axisData.length; i < l; i++) {
+                            table += '<td style="padding: 5px 30px 5px 30px;" class="bgdd">'+axisData[i].name+'</td>';
+                            table += "<td style='padding: 5px 30px 5px 30px;'><a href=\"javascript:;\" onclick=\"findSupplierCateType('"+axisData[i].name+"', '"+axisData[i].id+"')\">"+axisData[i].value+"</a></td>";
+                            if(i != 0 && (i+1) % 4 == 0){
+                                table += "</tr>";
+                                table += "<tr>";
                             }
-                            table += `<tr><td style="padding: 0 10px">${axisData[i].name}</td>${tdBodys}</tr>`;
-                            tdBodys = '';
+                            if(i % 4 != 0 && (i+1) == axisData.length){
+                                table += "</tr>";
+                            }
                         }
                         table += '</tbody></table>';
                         return table;
@@ -97,22 +94,19 @@ $(function() {
 					show : true,
 					readOnly : false,
                     optionToContent: function (opt) {
-                        let axisData = opt.series[0].data; //坐标数据
-                        let series = opt.series; //折线图数据
-                        let tdHeads = '<td  style="padding: 0 10px">类型</td>'; //表头
-                        let tdBodys = ''; //数据
-                        series.forEach(function (item) {
-                            //组装表头
-                            tdHeads += `<td style="padding: 0 10px">${item.name}</td>`;
-                        });
-                        let table = `<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody><tr>${tdHeads} </tr>`;
-                        for (let i = 0, l = axisData.length; i < l; i++) {
-                            for (let j = 0; j < series.length; j++) {
-                                //组装表数据
-                                tdBodys += `<td>${ series[j].data[i].value}</td>`;
+                        var axisData = opt.series[0].data; //坐标数据
+                        var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody>';
+                        table += "<tr>";
+                        for (var i = 0, l = axisData.length; i < l; i++) {
+                            table += '<td style="padding: 5px 30px 5px 30px;" class="bgdd">'+axisData[i].name+'</td>';
+                            table += "<td style='padding: 5px 30px 5px 30px;'><a href=\"javascript:;\" onclick=\"findSupplierNature('"+axisData[i].id+"')\">"+axisData[i].value+"</a></td>";
+                            if(i != 0 && (i+1) % 4 == 0){
+                                table += "</tr>";
+                                table += "<tr>";
                             }
-                            table += `<tr><td style="padding: 0 10px">${axisData[i].name}</td>${tdBodys}</tr>`;
-                            tdBodys = '';
+                            if(i % 4 != 0 && (i+1) == axisData.length){
+                                table += "</tr>";
+                            }
                         }
                         table += '</tbody></table>';
                         return table;
@@ -171,7 +165,7 @@ $(function() {
 				dataView : {
 					show : true,
 					readOnly : false,
-                    optionToContent: function (opt) {
+                    /*optionToContent: function (opt) {
                         let axisData = opt.series[0].data; //坐标数据
                         let series = opt.series; //折线图数据
                         let tdHeads = '<td  style="padding: 0 10px">采购机构</td>'; //表头
@@ -188,6 +182,24 @@ $(function() {
                             }
                             table += `<tr><td style="padding: 0 10px">${axisData[i].srcData.name}</td>${tdBodys}</tr>`;
                             tdBodys = '';
+                        }
+                        table += '</tbody></table>';
+                        return table;
+                    }*/
+                    optionToContent: function (opt) {
+                        var axisData = opt.series[0].data; //坐标数据
+                        var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody>';
+                        table += "<tr>";
+                        for (var i = 0, l = axisData.length; i < l; i++) {
+                            table += '<td style="padding: 5px 30px 5px 30px;" class="bgdd">'+axisData[i].srcData.name+'</td>';
+                            table += "<td style='padding: 5px 30px 5px 30px;'><a href=\"javascript:;\" onclick=\"findSupplierOrg('"+axisData[i].srcData.id+"', "+axisData[i].srcData.value+")\">"+axisData[i].srcData.value+"</a></td>";
+                            if(i != 0 && (i+1) % 4 == 0){
+                                table += "</tr>";
+                                table += "<tr>";
+                            }
+                            if(i % 4 != 0 && (i+1) == axisData.length){
+                                table += "</tr>";
+                            }
                         }
                         table += '</tbody></table>';
                         return table;
@@ -275,6 +287,9 @@ $(function() {
 			});
 		}
 	});
+
+
+
 	
 	// 供应商企业性质下的数量
 	$.ajax({
@@ -332,4 +347,18 @@ $(function() {
 
 function findAllSupplier(){
     window.location.href = globalPath + "/supplierQuery/readOnlyList.html?judge=5&sign=2";
+}
+
+function findSupplierCateType(name, id){
+    window.location.href = globalPath + "/supplierQuery/readOnlyList.html?supplierType="+name+"&supplierTypeIds="+id+"&judge=5&sign=2";
+}
+function findSupplierNature(id){
+    window.location.href = globalPath + "/supplierQuery/readOnlyList.html?businessNature="+id+"&judge=5&sign=2";
+}
+function findSupplierOrg(id, value){
+    if(value == 0){
+        layer.msg("该采购入库供应商数量为0");
+        return;
+    }
+    window.location.href = globalPath + "/supplierQuery/readOnlyList.html?orgId="+id+"&judge=5&sign=2";
 }
