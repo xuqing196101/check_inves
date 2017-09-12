@@ -1,8 +1,6 @@
 
 package extract.controller.supplier;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +17,6 @@ import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.ExtConType;
-import ses.model.sms.Supplier;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -27,7 +24,6 @@ import ses.service.sms.SupplierService;
 import ses.util.WfUtil;
 import bss.controller.base.BaseController;
 import bss.model.ppms.AdvancedProject;
-import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.PackageService;
@@ -61,11 +57,6 @@ public class ExtractSupplierController extends BaseController {
      */
     @Autowired
     private ProjectService projectService;
-    /**
-     * 包
-     */
-    @Autowired
-    private PackageService packagesService;
 
     /**
      * 地区
@@ -80,10 +71,6 @@ public class ExtractSupplierController extends BaseController {
     private SupplierExtractRecordService expExtractRecordService; //记录
     @Autowired
     private CategoryService categoryService; //品目
-    @Autowired
-    private SupplierService supplierService;
-    @Autowired
-    private SupplierPersonServicel supplierPersonServicel;
     @Autowired
     private AdvancedProjectService advancedProjectService;
     @Autowired
@@ -319,25 +306,7 @@ public class ExtractSupplierController extends BaseController {
 
     }*/
 
-    /**
-     *
-     *〈简述〉根据项目id获取包信息
-     *〈详细描述〉
-     * @author Wang Wenshuai
-     * @param projectId
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("/getpackage")
-    public String getPackage(String projectId){
-        List<Packages> findPackageById = new ArrayList<Packages>();
-        if(projectId != null && !"".equals(projectId)){
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("projectId",projectId);
-            findPackageById = packagesService.findPackageById(map);
-        }
-        return  JSON.toJSONString(findPackageById);
-    }
+   
 
     /**
      * @Description:选择品目
@@ -411,20 +380,10 @@ public class ExtractSupplierController extends BaseController {
     @ResponseBody
     @RequestMapping("/city")
     public List<Area> city(Model model, String area){
-
         return  areaService.getTree();
     }
 
-    /**
-     * @Description:显示监督人员
-     *
-     * @author Wang Wenshuai
-     * @version 2016年9月25日 09:49:56
-     * @return String
-     */
     
-    
-
     @ResponseBody
     @RequestMapping("/isFinish")
     public String isFinish(String packageId){
@@ -437,20 +396,7 @@ public class ExtractSupplierController extends BaseController {
         return JSON.toJSONString(finish);
     }
 
-    /**
-     * 
-     * @Description:社会统一信用代码唯一校验
-     * @author: Zhou Wei
-     * @date: 2017年8月4日 下午2:16:01
-     * @return: String
-     */
-    
-   @RequestMapping("/selectUniqueReferenceNO")
-   @ResponseBody
-	public Integer selectUniqueReferenceNO(Model model,Supplier supplier,String creditCode){
-	   Integer type = supplierService.CreditCode(creditCode);
-	   return  type;
-   }
+   
     
     
     /**
@@ -469,20 +415,7 @@ public class ExtractSupplierController extends BaseController {
 
     }
 
-    /**
-     * @Description:弹出限制条件和类别抽取数量
-     *
-     * @author Wang Wenshuai
-     * @version 2016年9月25日 09:49:56
-     * @return String
-     */
-    @RequestMapping("/reasonnumber")
-    public String reasonNumber(Model model,String[] supplierTypeId,String addressReson,String eCount){
-        model.addAttribute("supplierTypeCode", supplierTypeId);
-        model.addAttribute("addressReson", addressReson);
-        model.addAttribute("eCount", eCount);
-        return "ses/sms/supplier_extracts/reason_and_number";
-    }
+    
 
     /**
      *

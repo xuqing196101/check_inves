@@ -15,8 +15,11 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.sms.SupplierMapper;
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
+import ses.service.bms.CategoryService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import bss.model.ppms.Packages;
@@ -55,7 +58,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 
   @Autowired
   SupplierMapper supplierMapper;
-
+  
   @Autowired
   SupplierExtractRelateResultMapper supplierExtRelateMapper;
 
@@ -70,6 +73,10 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
   
   @Autowired
   private DictionaryDataMapper dictionaryDataMapper;
+  
+  @Autowired
+  private CategoryService categoryService;
+  
   
   
   /**
@@ -517,4 +524,49 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	public List<DictionaryData> getBusinessNature() {
 		return dictionaryDataMapper.findByKind("32");
 	}
+	
+	@Override
+	public List<CategoryTree> getTreeForExt(Category category,String supplierTypeCode) {
+		
+		List<CategoryTree> jList = new ArrayList<>();
+		if(category.getId()==null){
+	    	   category.setId(dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getId());
+	    }
+         List<Category> cateList= categoryService.disTreeGoodsData(category.getId());
+         for(Category cate:cateList){
+             List<Category> cList= categoryService.disTreeGoodsData(cate.getId());
+             CategoryTree ct=new CategoryTree();
+             if(!cList.isEmpty()){
+                 ct.setIsParent("true");
+             }else{
+                 ct.setIsParent("false");
+             }
+             ct.setId(cate.getId());
+             ct.setName(cate.getName());
+             ct.setpId(cate.getParentId());
+             ct.setKind(cate.getKind());
+             ct.setStatus(cate.getStatus());
+             jList.add(ct);
+         }
+		return jList;
+	}
+
+	@Override
+	public List<DictionaryData> getEngAptitudeLevelByCategoryId(
+			String categoryId) {
+		Map<String, String[]> map = new HashMap<>();
+		map.put("categoryIds", categoryId.split(","));
+		return supplierConditionMapper.getEngAptitudeLevelByCategoryId(map);
+	}
+
+	@Override
+	public List<DictionaryData> getQuaByCid(String categoryId) {
+		HashMap<String,String[]> hashMap = new HashMap<>();
+		hashMap.put("categoryIds", categoryId.split(","));
+		return supplierConditionMapper.getQuaByCid(hashMap);
+	}
+
+	
 }
+
+	

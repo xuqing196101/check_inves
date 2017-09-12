@@ -3,8 +3,9 @@ package extract.service.supplier;
 import java.util.List;
 import java.util.Map;
 
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
-import ses.model.sms.Supplier;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 
@@ -94,6 +95,8 @@ public interface SupplierExtractConditionService {
    * @return
    */
   String isFinish(SupplierExtractCondition condition);
+  
+  
   /**
    * 
    *〈简述〉获取供应商类型
@@ -104,14 +107,6 @@ public interface SupplierExtractConditionService {
    */
   List<DictionaryData>  supplierTypeList(String projectId);
 
-  /**
-   * 添加包信息
-   *〈简述〉
-   *〈详细描述〉
-   * @author Wang Wenshuai
-   * @return
-   */
-  String addPackage(String packagesName,String projectId);
   
   void saveOrUpdateCondition(SupplierExtractCondition condition, SupplierConType conType);
 
@@ -121,6 +116,33 @@ public interface SupplierExtractConditionService {
 		SupplierConType conType);
 
   List<DictionaryData> getBusinessNature();
+
+  /**
+   * 
+   * 功能： 获取品目树
+   *
+   * 作者：贾成祥
+   * 2017-9-12下午11:35:38
+   */
+  List<CategoryTree> getTreeForExt(Category category, String supplierTypeCode);
+
+  /**
+   * 
+   * 功能： 按品目查询资质等级
+   *
+   * 作者：贾成祥
+   * 2017-9-12下午11:49:26
+   */
+  List<DictionaryData> getEngAptitudeLevelByCategoryId(String categoryId);
+
+  /**
+   * 按品目查询资质信息
+   * 功能： 
+   *
+   * 作者：贾成祥
+   * 2017-9-12下午11:49:47
+   */
+  List<DictionaryData> getQuaByCid(String categoryId);
 
 }
 

@@ -1,7 +1,10 @@
 package extract.dao.supplier;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import ses.model.bms.DictionaryData;
 
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
@@ -82,6 +85,11 @@ public interface SupplierExtractConditionMapper {
 	void deleteTypeInfoByMap(Map<String, String> map);
 
 	void insertTypeInfo(SupplierExtractCondition condition);
+
+	List<DictionaryData> getEngAptitudeLevelByCategoryId(
+			Map<String, String[]> map);
+
+	List<DictionaryData> getQuaByCid(HashMap<String, String[]> hashMap);
 
 
 	
