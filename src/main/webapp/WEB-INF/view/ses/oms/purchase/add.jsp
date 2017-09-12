@@ -257,7 +257,17 @@ function onCheck(e, treeId, treeNode) {
 				}
     		})
     	})
-    	
+    	function  checkTime() {
+			var startTime=$("#startTime").val();
+			var start=new Date(startTime.replace("-", "/").replace("-", "/"));
+			var endTime=$("#endTime").val();
+			var end=new Date(endTime.replace("-", "/").replace("-", "/"));
+			if(end<start){  
+				$("#end_time_erromessage").html("截止日期应在开始日期之后");
+			} else{
+				$("#end_time_erromessage").html("");
+			}
+		}
 </script>
 </head>
 <body>
@@ -448,7 +458,7 @@ function onCheck(e, treeId, treeNode) {
 			<li class="col-md-3 col-sm-6 col-xs-12"> 
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购资质开始日期</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			    <input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" value="<fmt:formatDate value="${purchaseInfo.quaStartDate}" pattern="yyyy-MM-dd" />"/> 
+			    <input class="input_group" type="text" id="startTime" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" value="<fmt:formatDate value="${purchaseInfo.quaStartDate}" pattern="yyyy-MM-dd" />"/> 
 			    <div class="cue">${err_sDate}</div>
 			  </div>
 			</li>
@@ -456,8 +466,8 @@ function onCheck(e, treeId, treeNode) {
 			<li class="col-md-3 col-sm-6 col-xs-12"> 
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购资质截止日期</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			    <input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="quaEdndate" value="<fmt:formatDate value="${purchaseInfo.quaEdndate}" pattern="yyyy-MM-dd" />"   /> 
-			    <div class="cue">${err_eDate}</div>
+			    <input class="input_group" type="text" readonly="readonly" id="endTime" onClick="WdatePicker()" onblur="checkTime()"  name="quaEdndate" value="<fmt:formatDate value="${purchaseInfo.quaEdndate}" pattern="yyyy-MM-dd" />"   /> 
+			    <div id="end_time_erromessage" class="cue">${err_eDate}</div>
 			  </div>
 			</li>
 			

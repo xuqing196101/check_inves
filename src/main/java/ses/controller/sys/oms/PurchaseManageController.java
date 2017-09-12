@@ -3,6 +3,7 @@ package ses.controller.sys.oms;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
@@ -430,7 +431,7 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping("addPurchaseOrg")
-	public String addPurchaseOrg(Model model,Orgnization orgnization, Integer page,String qwe) {
+	public String addPurchaseOrg(Model model,Orgnization orgnization, Integer page, String qwe, String notIds) {
 		//每页显示十条
 	    if (page == null){
 	        page = 1;
@@ -446,7 +447,13 @@ public class PurchaseManageController {
 		map.put("name", orgnization.getName());
 		model.addAttribute("orgnization", orgnization);
 		model.addAttribute("qwe", qwe);
-		List<Orgnization> orgnizationList = orgnizationServiceI.findOrgnizationList(map);
+		//关联的管理部门id
+		if (notIds != null && !"".equals(notIds)) {
+			String[] notIdArry = notIds.substring(1).split(",");
+			map.put("notIds", notIdArry);
+		}
+		List<Orgnization> orgnizationList = orgnizationServiceI.findManageOfOrg(map);
+		//List<Orgnization> orgnizationList = orgnizationServiceI.findOrgnizationList(map);
 		model.addAttribute("list", new PageInfo<Orgnization>(orgnizationList));
 		return "ses/oms/require_dep/add_purchase_org";
 	}
@@ -1464,5 +1471,4 @@ public class PurchaseManageController {
 		model.addAttribute("kind", DictionaryDataUtil.find(26));//获取数据字典数据
 		return "dss/rids/list/purchaseDepList";
 	}
-	
 }

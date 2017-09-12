@@ -450,5 +450,11 @@ import ses.model.sms.SupplierTypeTree;
 
 	public List<DictionaryData> getEngAptitudeLevelByCategoryId(String categoryId);
 
+	/**
+	 * 根据itme中间表id查询categor
+	 * @param itemsId
+	 * @return
+	 */
+	Category selectCategoryByItemId (String itemsId);
 	
 }

@@ -88,7 +88,7 @@
 			moveType : 1, //拖拽风格，0是默认，1是传统拖动
 			shift : 1, //0-6的动画形式，-1不开启
 			shadeClose : true,
-			content : '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?typeName='+typeName+'&qwe='+qwe
+			content : '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?typeName='+typeName+'&qwe='+qwe+'&notIds='+qwe
 		 });
     }
    

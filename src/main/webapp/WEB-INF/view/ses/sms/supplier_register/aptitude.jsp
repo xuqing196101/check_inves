@@ -235,8 +235,14 @@
 														</td>
 													<!-- 资质等级 -->
 														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-															<input type="hidden" name="listSupplierItems[${vs.index}].level" id="listSupplierItems${vs.index}" value="${cate.level.id}" class="w80">
-															<input type="text" readonly="readonly" class="border0" value="${cate.level.name}" onload="getFileByCode(this, '${vs.index}', '3')">
+															<c:if test="${!empty cate.level}">
+																<input type="hidden" name="listSupplierItems[${vs.index}].level" id="listSupplierItems${vs.index}" value="${cate.level.id}" class="w80">
+																<input type="text" readonly="readonly" class="border0" value="${cate.level.name}" onload="getFileByCode(this, '${vs.index}', '3')">
+															</c:if>
+															<c:if test="${empty cate.level}">
+																<input type="hidden" name="listSupplierItems[${vs.index}].level" id="listSupplierItems${vs.index}" value="${cate.diyLevel}" class="w80">
+																<input type="text" readonly="readonly" class="border0" value="${cate.diyLevel}" onload="getFileByCode(this, '${vs.index}', '3')">
+															</c:if>
 														</td>
 														<c:if test="${currSupplier.status== -1 || currSupplier.status==2}">
 															<script>

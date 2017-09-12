@@ -201,4 +201,10 @@ public interface OrgnizationServiceI {
      * @return
      */
     public List<Orgnization> findPurchaseOrgByPosition(HashMap<String, Object> map);
+	/**
+	 * 查询管理部门，筛选已选过的
+	 * @param map
+	 * @return
+	 */
+	public List<Orgnization> findManageOfOrg(HashMap<String, Object> map);
 }

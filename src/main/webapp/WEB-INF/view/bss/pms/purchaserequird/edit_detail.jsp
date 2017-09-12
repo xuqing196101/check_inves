@@ -52,7 +52,7 @@
 		class="purchasetype" onchange="changeType(this)">
 			<option value="">请选择</option>
 			<c:forEach items="${list2 }" var="objd">
-				<option value="${objd.id }">${objd.name }</option>
+				<option value="${objd.name }">${objd.name }</option>
 
 			</c:forEach>
 	</select></td>
