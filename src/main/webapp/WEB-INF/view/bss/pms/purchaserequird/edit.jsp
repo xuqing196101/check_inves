@@ -1723,7 +1723,7 @@
                         class="purchasetype" id="select">
                         <option value="">请选择</option>
                         <c:forEach items="${kind}" var="kind">
-                          <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}
+                          <option value="${kind.name}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}
                           </option>
                         </c:forEach>
                       </select>
