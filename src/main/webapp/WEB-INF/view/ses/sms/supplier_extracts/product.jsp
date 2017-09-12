@@ -228,7 +228,6 @@
 				</ul>
 				<br />
 			</div>
-			 <div align="center"><input type="text" id="key" class="empty" > </div>
 			<div id="ztree" class="ztree margin-left-13"></div>
 		</form>
 	</div>

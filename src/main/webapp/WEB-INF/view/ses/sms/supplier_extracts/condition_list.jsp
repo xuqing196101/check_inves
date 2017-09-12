@@ -64,7 +64,7 @@
              <li class="col-md-3 col-sm-4 col-xs-12 pl15">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 项目名称:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input id="projectName" name="projectName"  value="${projectInfo.projectName}"  readonly=${flag?"readonly":"" }   type="text">
+                     <input id="projectName" name="projectName"  value="${projectInfo.projectName}" readonly= '${flag=="true"?"readonly":"555" }'   type="text">
                      <span class="add-on">i</span>
                      <div class="cue" id="projectNameError"></div>
                  </div>
@@ -88,7 +88,8 @@
                      </select>
                     </c:if>
                    	<c:if test="${projectInfo.purchaseType !=null }">
-                		  <input id="purchaseType" name="purchaseType" value="${projectInfo.purchaseType}" readonly=${flag?"readonly":"" } type="text" >
+                		  <input id="purchaseType" name="purchaseType" value="${projectInfo.purchaseType}" type="hidden" >
+                		  <input id="purchaseType" name="purchaseType" value="${projectInfo.purchaseTypeName}" readonly=${flag?"readonly":"" } type="text" >
                    	</c:if>
                             
                  	<div class="cue" id="purchaseTypeError"></div>
@@ -113,7 +114,7 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>售领采购文件结束时间:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});" onchange="checkTime()" id="sellEnd" readonly="readonly"  name="sellEnd" value="<fmt:formatDate value='${bidDate}'
+                     <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicking: checkTime()});" id="sellEnd" readonly="readonly"  name="sellEnd" value="<fmt:formatDate value='${bidDate}'
                              pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">
                      <div class="cue" id="sellEndError"></div>
                  </div>
@@ -145,10 +146,10 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>项目类型</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                 <c:if test="flag">
+                 <%-- <c:if test="${flag }">
                  	 <input id="projectType" name="projectType" value="${projectInfo.projectType }" type="text" >
-                 </c:if>
-                 <c:if test="flag">
+                 </c:if> --%>
+                 <c:if test="${flag }">
                      <select id="projectType" name="projectType" class="col-md-12 col-sm-12 col-xs-6 p0" onchange="loadSupplierType()">
                           <option value="GOODS" ${projectInfo.projectType == 'GOODS' ? 'selected' : '' }>物资</option>
                           <option value="PROJECT" ${projectInfo.projectType == 'PROJECT' ? 'selected' : '' }>工程</option>
@@ -206,7 +207,7 @@
 	<!-- 人员信息开始-->
 	<div class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled">
 		 <h2 class="count_flow"><i>2</i>人员信息</h2>
-		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="red">*</span><b> 抽取人员:</b></span>
+		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="red">*</span><b> 抽取人员:</b></span><span  class="red" id="eError"></span>
 		 <form action="<%=request.getContextPath() %>/extractUser/addPerson.html" onsubmit="return false" id="extractUser">
 		 <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
 		 	<input type="hidden" value="extractUser" id="eu" name="personType">
@@ -232,7 +233,7 @@
             </tbody>
           </table>
        </form>      
-		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="red">*</span><b> 监督人员:</b></span>
+		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="red">*</span><b> 监督人员:</b></span><span  class="red" id="sError"></span>
 		  <form action="<%=request.getContextPath() %>/supervise/addPerson.html" id="supervise"  onsubmit="return false" >
 		  <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
 		  <input type="hidden" name="recordId" value="${projectInfo.id }">
@@ -260,7 +261,7 @@
        </form>      
 	</div>	
 	<!-- 条件开始 -->
-	<div class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled" >
+	<div class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled" onmouseover="selectLikeSupplier()">
     <form id="form1" method="post">
         <input id="sunCount" type="hidden">
         <!--    地區id -->
@@ -330,7 +331,19 @@
                   </div>
               </li>
               
-				<li class="clear"></li>
+		<li class="clear"></li>
+		 <li class="dnone projectCount">
+          <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="projectCount">0</span>人</button></div>
+        	</li>
+				<li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input class="title col-md-12" id='projectExtractNum' name="projectExtractNum" 
+                 maxlength="11" type="text">
+            <span class="add-on">i</span>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
 				<li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工程品目：</span>
           <!--  满足多个条件 -->
@@ -363,17 +376,21 @@
             <div class="cue" id="dCount"></div>
           </div>
           </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+          
+        
+        <li class="clear"></li>
+         <li class="dnone serviceCount">
+          <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="serviceCount">0</span>人</button></div>
+        </li>
+         <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input class="title col-md-12" id='projectExtractNum' name="projectExtractNum" onchange="chane();"
+            <input class="title col-md-12" id='serviceExtractNum' name="serviceExtractNum" 
                  maxlength="11" type="text">
             <span class="add-on">i</span>
             <div class="cue">${loginPwdError}</div>
           </div>
         </li>
-        
-        <li class="clear"></li>
         <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">服务品目：</span>
           <!--  满足多个条件 -->
@@ -396,17 +413,21 @@
             <div class="cue" id="dCount"></div>
           </div>
           </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
+         
+        
+        <!-- <li class="clear"></li> -->
+        <li class="dnone productCount">
+          <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="productCount">0</span>人</button></div>
+        </li>
+         <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input class="title col-md-12" id='serviceExtractNum' name="serviceExtractNum" onchange="chane();"
+            <input class="title col-md-12" id='productExtractNum' name="productExtractNum"
                  maxlength="11" type="text">
             <span class="add-on">i</span>
             <div class="cue">${loginPwdError}</div>
           </div>
         </li>
-        
-        <li class="clear"></li>
         <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">生产品目：</span>
           <!--  满足多个条件 -->
@@ -429,18 +450,21 @@
             <div class="cue" id="dCount"></div>
           </div>
           </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
+        <li class="clear"></li>
+        <li class="dnone salesCount">
+          <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span  id="salesCount">0</span>人</button></div>
+        </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input class="title col-md-12" id='productExtractNum' name="productExtractNum" onchange="chane();"
+            <input class="title col-md-12" id='salesExtractNum' name="salesExtractNum" 
                  maxlength="11" type="text">
             <span class="add-on">i</span>
             <div class="cue">${loginPwdError}</div>
           </div>
         </li>
         
-        <li class="clear"></li>
-        <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
+	        <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">销售品目：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="salesIsMulticondition" class="isSatisfy">
@@ -462,15 +486,7 @@
             <div class="cue" id="dCount"></div>
           </div>
           </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
-          <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input class="title col-md-12" id='salesExtractNum' name="salesExtractNum" onchange="chane();"
-                 maxlength="11" type="text">
-            <span class="add-on">i</span>
-            <div class="cue">${loginPwdError}</div>
-          </div>
-        </li>
+        
         
           <li class="col-md-3 col-sm-3 col-xs-3 dnone elseInfo">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
@@ -514,10 +530,10 @@
           </form>
           <!--=== Content Part ===-->
           </div>
-          <div class="container_box col-md-12 col-sm-12 col-xs-12">
+          <div class="container_box col-md-12 col-sm-12 col-xs-12" id="result">
           <h2 class="count_flow"><i>4</i>抽取结果</h2>
 	         <div class="ul_list" id="projectResult">
-	          	<div align="center" id="countdnone" class="f26    ">满足条件共有<span class="f26 red" id="count">0</span>人</div>
+	          	<div align="left" id="countdnone" >工程供应商：确认参加的供应商为<span class="f26 red" id="count">0</span>人，确认不参加的有<span class="notJoin">0</span>人</div>
 	           	<!-- Begin Content -->
                  <table id="table" class="table table-bordered table-condensed">
                      <thead>
@@ -537,7 +553,7 @@
                 </table>
 			</div>
           <div class="ul_list dnone clear" id="serviceResult">
-          <div align="center" id="countdnone" class="f26">满足条件共有<span class="f26 red" id="count">0</span>人</div>
+          <div align="left" id="countdnone" >服务供应商：确认参加的供应商为<span class="f26 red" id="count">0</span>人，确认不参加的有<span class="notJoin">0</span>人</div>
            <!-- Begin Content -->
                   <table id="table" class="table table-bordered table-condensed">
                       <thead>
@@ -557,7 +573,7 @@
                  </table>
 			</div>
           <div class="ul_list dnone clear" id="productResult">
-          <div align="center" id="countdnone" class="f26    ">满足条件共有<span class="f26 red" id="count">0</span>人</div>
+          <div align="left" id="countdnone" >生产供应商：确认参加的供应商为<span class="f26 red" id="count">0</span>人，确认不参加的有<span class="notJoin">0</span>人</div>
            <!-- Begin Content -->
                   <table id="table" class="table table-bordered table-condensed">
                       <thead>
@@ -577,7 +593,7 @@
                  </table>
 			</div>
           <div class="ul_list dnone clear" id="salesResult">
-          <div align="center" id="countdnone" class="f26    ">满足条件共有<span class="f26 red" id="count">0</span>人</div>
+          <div align="left" id="countdnone" >销售供应商：确认参加的供应商为<span class="f26 red" id="count">0</span>人，确认不参加的有<span class="notJoin">0</span>人</div>
            <!-- Begin Content -->
                   <table id="table" class="table table-bordered table-condensed">
                       <thead>

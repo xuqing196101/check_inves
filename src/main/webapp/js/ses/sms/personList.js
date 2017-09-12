@@ -53,6 +53,7 @@ var personType ;
 				 var checkbox_now = $(this);
 				//人员类表中选中的每一行
 				var tableTr = $(this).parent().next();
+				var tableTrObj = $(this).parents("tr");
 				//判断是否输入信息是否有相同的，有则替换，无则继续添加
 				var list = $(obj).parents("form").find("tr");
 				for ( var i = 0; i < list.length; i++) {
@@ -60,28 +61,30 @@ var personType ;
 					//遍历form中的信息
 					if(checkbox_now.val() == $(p).find(":checkbox").val()){
 						return true;
-					}else if($(p).find(":checkbox").val() == null || $(p).find(":checkbox").val() == '' || $(p).find(":checkbox").val() == "undefined"){
+					}else{// if($(p).find(":checkbox").val() == null || $(p).find(":checkbox").val() == '' || $(p).find(":checkbox").val() == "undefined"){
 					
 						var count = 0;
-						if($(p).find("[name='name']").val() == tableTr.find("td :eq(2)").html()){
+						if($(p).find("[name='name']").val() == tableTrObj.find("td:eq(2)").html()){
 							count ++;
 						}
-						if($(p).find("[name='compary']").val() == tableTr.find("td :eq(3)").html()){
+						if($(p).find("[name='compary']").val() == tableTrObj.find("td:eq(3)").html()){
 							count ++;
 						}
-						if($(p).find("[name='duty']").val() == tableTr.find("td :eq(4)").html()){
+						if($(p).find("[name='duty']").val() == tableTrObj.find("td:eq(4)").html()){
 							count ++;
 						}
-						if($(p).find("[name='rank']").val() == tableTr.find("td :eq(5)").html()){
+						if($(p).find("[name='rank']").val() == tableTrObj.find("td:eq(5)").html()){
 							count ++;
 						}
 						
 						if(count == 4){
-							tableTr.find("td :eq(1)").html($(p).find("td :eq(1)").html());
+							break;
+							/*tableTr.find("td:eq(1)").html($(p).find("td:eq(1)").html());
 							$(this).after(tableTr);
-							$(this).remove();
-							return true;
+							//$(this).remove();
+							return true;*/
 						}
+						console.log(count);
 					}
 				}
 				tableTr.html(parseInt(index)+j);

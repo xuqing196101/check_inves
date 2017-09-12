@@ -3,6 +3,7 @@ var projects;
 var services;
 var sales;*/
 
+
 var successCount = 1;
 $(function () {
         loadAreaZtree();
@@ -12,34 +13,10 @@ $(function () {
         
         for ( var i = 0; i < 2; i++) {
 			addPerson($("#eu"));
-			addPerson($("#su"));
 		}
+        addPerson($("#su"));
         
-        
-        chane();//对人数进行计算
     });
-    /**各类别人数变动后触发,用于统计输入总人数*/
-    function chane() {
-        var sun = "0";
-        var projectCount = $("#project").val();
-        if (projectCount != null && projectCount != '') {
-            sun = parseInt(sun) + parseInt(projectCount);
-        }
-        var serviceCount = $("#service").val();
-        if (serviceCount != null && serviceCount != '') {
-            sun = parseInt(sun) + parseInt(serviceCount);
-        }
-        var productCount = $("#product").val();
-        if (productCount != null && productCount != '') {
-            sun = parseInt(sun) + parseInt(productCount);
-        }
-        var salesCount = $("#sales").val();
-        if (salesCount != null && salesCount != '') {
-            sun = parseInt(sun) + parseInt(salesCount);
-        }
-        $("#sunCount").val(sun);
-
-    }
     
     function uuid() {
     	  var s = [];
@@ -75,7 +52,7 @@ $(function () {
         });
     }
     
-    
+    //比较售领时间是否输入合理
     function checkTime(){
     	if(null != $("#sellEnd").val()){
     		var startTime = new Date(Date.parse($("#sellBegin").val()));
@@ -226,25 +203,25 @@ $(function () {
             	if(null!=data){
             		if(null!=data.PRODUCTCount){
             			products = data.PRODUCTCount;
-            			$("#productResult").find("span:first").html(products);
+            			$("#productCount").html(products);
             			//$(".productCount").html(productCount);
             			//window.sessionStorage.setIterm("products",data.products);
             		}
             		if(null!=data.SERVICECount){
             			services = data.SERVICECount;
-            			$("#serviceResult").find("span:first").html(services);
+            			$("#serviceCount").html(services);
             			//$(".serviceCount").html(serviceCount);
             			//window.sessionStorage.setIterm("services",data.services);
             		}
             		if(null!=data.SALESCount){
             			sales = data.SALESCount;
-            			$("#salesResult").find("span:first").html(sales);
+            			$("#salesCount").html(sales);
             			//$(".salesCount").html(salesCount);
             			//window.sessionStorage.setIterm("sales",data.sales);
             		}
             		if(null!=data.PROJECTCount){
             			projects = data.PROJECTCount;
-            			$("#projectResult").find("span:first").html(projects);
+            			$("#projectCount").html(projects);
             		}
             	}else{
             		
@@ -273,27 +250,49 @@ $(function () {
     	
     	if(count>0){
     		layer.msg("请检查所填信息是否完备");
-			return false;
 		}
-    	return true;
+    	
+    	//校验人员信息
+    	var count1 = 0;
+    	var count2 = 0;
+    	$("#eError").html("");
+    	$("#sError").html("");
+    	$("#extractUser").find("input").each(function(){
+    		if($(this).val().length<1){
+    			count1++;
+    		}
+    	});
+    	$("#supervise").find("input").each(function(){
+    		if($(this).val().length<1){
+    			count2++;
+    		}
+    	});
+    	if(count1>0){
+    		$("#eError").html("抽取人员信息必须填写完整");
+    		layer.msg("抽取人员信息必须填写完整");
+    	}
+    	if(count2>0){
+    		$("#sError").html("监督人员信息必须填写完整");
+    		layer.msg("监督人员信息必须填写完整");
+    	}
+    	return count+count1+count2;
     }
     
     function extractVerify() {
     	//所有的必填项写一个class 验证必填 输入框要验证长度
-    	if(!checkEmpty()){
+    	if(checkEmpty()>0){
     		return false;
     	}
-    	
     	//验证抽取条件中数量是否正确
         var eCount = $("#supplierCount").val();//抽取总数量
         $("#status").val(1);//修改状态为抽取中
         //获取每个类别的抽取数量
         if (positiveRegular(eCount)) {
             $("#countSupplier").text("");
-            var projectExtractNum = $("#projectExtractNum").val();
-            var productExtractNum = $("#productExtractNum").val();
-            var serviceExtractNum = $("#serviceExtractNum").val();
-            var salesExtractNum = $("#salesExtractNum").val();
+            var projectExtractNum = $("#projectExtractNum").val()==""?0:$("#projectExtractNum").val();
+            var productExtractNum = $("#productExtractNum").val()==""?0:$("#productExtractNum").val();
+            var serviceExtractNum = $("#serviceExtractNum").val()==""?0:$("#serviceExtractNum").val();
+            var salesExtractNum = $("#salesExtractNum").val()==""?0:$("#salesExtractNum").val();
             var count = parseInt(projectExtractNum)+parseInt(productExtractNum)+parseInt(serviceExtractNum)+parseInt(salesExtractNum);
            // var typeName = $("input[name='supplierTypeName']").attr('title');
            var typeName = $("#supplierType").val();
@@ -316,7 +315,7 @@ $(function () {
         return false;
     }
     /**点击抽取--判断是否完成本次抽取*/
-    function fax() {
+   /* function fax() {
         $.ajax({
             type: "POST",
             url: globalPath+"/SupplierExtracts/isFinish.do",
@@ -336,12 +335,12 @@ $(function () {
                 }
             }
         });
-    }
+    }*/
     /**点击抽取--当选择参加与否后保存状态*/
     
     function extractSupplier() {
     	
-    	
+    	formData = $('#form1').serialize();
     	var projectExtractNum = $("#projectExtractNum").val();
     	if(projectExtractNum>0){
     		if(projectExtractNum<=projects){
@@ -350,7 +349,7 @@ $(function () {
     		}else{
     			layer.msg("工程条件不满足");
     		}
-    	}else if(projectExtractNum==0){
+    	}else if(projectExtractNum=="0"){
     		layer.msg("请输入工程抽取数量");
     	}
     	
@@ -362,7 +361,7 @@ $(function () {
     		}else{
     			layer.msg("生产条件不满足");
     		}
-    	}else if(productExtractNum==0){
+    	}else if(productExtractNum=="0"){
     		layer.msg("请输入生产抽取数量");
     	}
     	
@@ -374,7 +373,7 @@ $(function () {
     		}else{
     			layer.msg("服务条件不满足");
     		}
-    	}else if(serviceExtractNum==0){
+    	}else if(serviceExtractNum=="0"){
     		layer.msg("请输入服务抽取数量");
     	}
     	
@@ -386,18 +385,9 @@ $(function () {
     		}else{
     			layer.msg("销售条件不满足");
     		}
-    	}else if(salesExtractNum==0){
+    	}else if(salesExtractNum=="0"){
     		layer.msg("请输入销售抽取数量");
     	}
-    	
-    	//输入框设置只读
-    	$('.extractVerify_disabled input,.extractVerify_disabled select').each(function() {
-    		$(this).prop('readonly', true);
-    	});
-    	//按钮置灰
-    	$("[type='button']").each(function(){
-    		$(this).attr("disabled",true);
-    	});
     	
     	//存储项目信息
     	$.ajax({
@@ -429,25 +419,35 @@ $(function () {
     		}
     	});
     	
+    	//输入框设置只读
+    	$('.extractVerify_disabled input,.extractVerify_disabled select').each(function() {
+    		$(this).prop('disabled', true);
+    	});
+    	//按钮置灰
+    	$("button").each(function(){
+    		$(this).attr("disabled",true);
+    	});
+    	
+    	
     }
     
     //显示结果   obj 是当前操作的行所在的tbody
     function appendTd(num,obj,result){
+    	
     	//获取类型
     	var type =  $(obj).parents("div").attr("id").substring(0,$(obj).parents("div").attr("id").lastIndexOf("R"));
     	//需要判断能参加，满足后不再追加
     	var agreeCount=0;
     	
-    	$(obj).find("option:selected").each(function(){
-    		if($(this).val()==1){
-    			agreeCount++;
-    		}
-    	});
+    	//计数  确认参加人数
+    	agreeCount = parseInt($(type+"ExtractNum").val())-$(obj).find("select").length;
     	
     	if($("#"+type+"ExtractNum").val()==agreeCount ){
-    		return;
+    		$("body").append("<button>结束</button>");
+    		return ;
     	}
     	if($("#"+type+"ExtractNum").val()==$(obj).find("tr").length ){
+    		$("#result").append("<button class='center btn' type='button'>结束</button>");
     		return;
     	}
     	
@@ -460,7 +460,7 @@ $(function () {
     	$.ajax({
     		type: "POST",
     		url: globalPath+'/SupplierCondition/selectLikeSupplier.do',
-    		data:  $('#form1').serialize(),
+    		data: formData ,
     		dataType: "json",
     		async:false,
     		success: function (msg) {
@@ -710,11 +710,14 @@ $(function () {
     		 $("#salesResult").removeClass("dnone");
     	 }*/
     	 
-    	code = toLowerCase(code);
+    	code = code.toLowerCase();
     	 $("."+code+"Count").removeClass("dnone");
 		 //追加结果表
 		 $("#"+code+"Result").removeClass("dnone");
 		 $("#"+code+"ExtractNum").val("0");
+		 if(code != "project"){
+			 loadLevelTree(code+"LevelTree");
+		 }
      }
      
      
@@ -1371,22 +1374,28 @@ $(function () {
                     offset: [y, x],
                     title: '不参加理由'
                 }, function (value, index, elem) {
+                	var notJoin = $(obj).parents("table").prev().find(".notJoin").html();
+                	$(obj).parents("table").prev().find(".notJoin").html(parseInt(notJoin)+1);
+                	//$(obj).prev().find(".notJoin").html(parseInt($(obj).panrents("table").prev().find(".notJoin").html())+1);
+                	
                     saveResult(objTr, value,2);
                     layer.close(index);
                     //select.options[0].selected = true;
                     $(objTr).remove();
                 	appendTd(parseInt(req)-1,obj,"不能参加");
                 	//删除
-                	
                 });
             } else if(v == "1"){
                 //select.disabled = true;
             	saveResult(objTr, '',1);
-            	appendTd(req,obj,"能参加");
+            	var yes = $(obj).parents("table").prev().find("span:first").html();
+            	$(obj).parents("table").prev().find("span:first").html(parseInt(yes)+1);
+            	$(select).remove();
             	$(select).parents("td").html("能参加");
-            	select.remove();
+            	appendTd(req,obj,"能参加");
             }else{
     			appendTd(req,obj,"待定");
+    			saveResult(objTr, '',1);
             }
         }, function (index) {
             layer.close(index);

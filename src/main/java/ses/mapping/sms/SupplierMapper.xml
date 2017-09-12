@@ -1607,17 +1607,17 @@
 			</choose>
 		</if>
 		<!-- 保密要求 -->
-	<!-- 	<if test="isHavingConCert">
+		<if test="isHavingConCert !=null and isHavingConCert != '' ">
 			AND S.IS_HAVING_CON_CERT = #{isHavingConCert}
 		</if>
-		企业性质
-		<if test="businessNature">
+		<!-- 企业性质 -->
+		<if test="businessNature !=null and businessNature != '' ">
 			AND S.BUSINESS_NATURE = #{businessNature}
 		</if>
-		境外分支
-		<if test="overseasBranch">
+		<!-- 境外分支 -->
+		<if test="overseasBranch !=null and overseasBranch != '' ">
 			AND S.OVERSEAS_BRANCH = #{overseasBranch}
-		</if> -->
+		</if>
 		<if test="supplierIds != null and supplierIds.size>0 ">
 			AND S.ID NOT IN
 			<foreach collection="supplierIds" open="(" item="sid" separator="," close=")">
@@ -1674,15 +1674,15 @@
 			</choose>
 		</if>
 		<!-- 保密要求 -->
-		<if test="isHavingConCert">
+		<if test="isHavingConCert !=null and isHavingConCert != '' ">
 			AND S.IS_HAVING_CON_CERT = #{isHavingConCert}
 		</if>
 		<!-- 企业性质 -->
-		<if test="businessNature">
+		<if test="businessNature !=null and businessNature != '' ">
 			AND S.BUSINESS_NATURE = #{businessNature}
 		</if>
 		<!-- 境外分支 -->
-		<if test="overseasBranch">
+		<if test="overseasBranch !=null and overseasBranch != '' ">
 			AND S.OVERSEAS_BRANCH = #{overseasBranch}
 		</if>
 		<if test="supplierIds != null and supplierIds.size>0 ">
