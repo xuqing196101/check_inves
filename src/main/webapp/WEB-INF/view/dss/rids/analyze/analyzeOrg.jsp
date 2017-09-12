@@ -61,8 +61,8 @@
                                     var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody>';
                                     table += "<tr>";
                                     for (var i = 0, l = axisData.length; i < l; i++) {
-                                        table += '<td style="padding: 5px 30px 5px 30px;" class="bgdd">'+axisData[i].name+'</td>';
-                                        table += "<td style='padding: 5px 30px 5px 30px;'><a href=\"javascript:;\" onclick=\"findByAreaName('"+axisData[i].id+"', "+axisData[i].value+")\">"+axisData[i].value+"</a></td>";
+                                        table += '<td class="bgdd analyze_resource">'+axisData[i].name+'</td>';
+                                        table += "<td class='analyze_resource'><a href=\"javascript:;\" onclick=\"findByAreaName('"+axisData[i].id+"', "+axisData[i].value+")\">"+axisData[i].value+"</a></td>";
                                         if(i != 0 && (i+1) % 4 == 0){
                                             table += "</tr>";
                                             table += "<tr>";

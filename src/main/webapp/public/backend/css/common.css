@@ -1044,3 +1044,7 @@ text-align:center;
  border-color:#FF0000!important;
 }
 .break-all { word-break: break-all; }
+
+.analyze_resource{
+  padding: 5px 30px 5px 30px;
+}
