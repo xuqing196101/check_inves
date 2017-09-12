@@ -227,7 +227,7 @@
     	  return trimFlog;
       }
       var flgNumber=false;
-      function submit() {
+      function submit(typ) {
     	  if(flgNumber) {
            layer.alert("节点填写错误");
            return false;
@@ -360,7 +360,12 @@
             "enterPort": $("#enterPort").val()
           },
           success: function(message) {
-            window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
+        	   if(typ==2){
+        		   window.history.back(-1);
+        	   }else{
+        		   window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
+        	   }
+            
           },
           error: function(message) {}
         });
@@ -1526,6 +1531,10 @@
         $(obj).parent().parent().children(":first").next().val($(obj).html());
         $(obj).parent().addClass("dnone");
       }
+      function go(){
+    	  submit(2);
+      	/* window.history.back(-1); */
+      }
     </script>
   </head>
 
@@ -1768,7 +1777,7 @@
           <input type="hidden" name="mobile" />
           <input type="hidden" name="referenceNo" />
           <input type="hidden" name="delobjId" />
-          <input class="btn btn-windows git" type="button" onclick="submit()" value="保存"><input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+          <input class="btn btn-windows git" type="button" onclick="submit('1')" value="保存"><input class="btn btn-windows back" value="返回" type="button" onclick="go();">
         </div>
 
       </div>
