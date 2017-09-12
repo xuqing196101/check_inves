@@ -288,9 +288,6 @@ $(function() {
 		}
 	});
 
-
-
-	
 	// 供应商企业性质下的数量
 	$.ajax({
 		url : globalPath + "/resAnalyze/analyzeSupplierByNature.do",
