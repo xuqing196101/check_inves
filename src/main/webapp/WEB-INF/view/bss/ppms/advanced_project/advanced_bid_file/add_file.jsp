@@ -107,7 +107,7 @@
 	            success:function(result){
 	              if(result == 'SUCCESS'){
 	                if(process != null && process == 1){
-	                  window.location.href = "${pageContext.request.contextPath}/AdAuditbidding/list.html";   
+	                  window.location.href = "${pageContext.request.contextPath}/Auditbidding/list.html";   
 	                }
 	                   $("#cgspan").addClass("dnone");
 	                    $("#cgdiv").addClass("dnone");

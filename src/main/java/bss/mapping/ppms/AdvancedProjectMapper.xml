@@ -37,7 +37,7 @@
     <result column="APPROVAL_TIME" property="approvalTime" jdbcType="TIMESTAMP" />
     <result column="REPLY_TIME" property="replyTime" jdbcType="TIMESTAMP" />
     <result column="DEMAND_FROM_TIME" property="demandFromTime" jdbcType="TIMESTAMP" />
-    <result column="IS_REHEARSE" property="IsRehearse"/>
+    <result column="IS_REHEARSE" property="isRehearse"/>
     <result column="CREATED_AT" property="createAt" jdbcType="TIMESTAMP" />
     <result column="START_TIME" property="startTime"  jdbcType="TIMESTAMP" />
     <result column="NOTICE_NEWS_TIME" property="noticeNewsTime" jdbcType="TIMESTAMP" />
@@ -798,6 +798,63 @@
        </if>
       </if>
       and (CONFIRM_FILE = 1 or CONFIRM_FILE = 2 or CONFIRM_FILE = 3 or CONFIRM_FILE = 4)
+      ORDER BY APPROVAL_TIME DESC
+  </select>
+  
+  <!-- 采购文件审核 -->
+  <select id="selectByAudit" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	SELECT
+			*
+		FROM
+			(
+				SELECT
+					s. ID,
+					s. NAME,
+					s.PROJECT_NUMBER,
+					s.STATUS,
+					s.PURCHASE_TYPE,
+					s .IS_PROVISIONAL,
+					s.APPROVAL_TIME,
+					s.PURCHASE_DEP_ID,
+					(SELECT REL_NAME FROM T_SES_BMS_USER WHERE "ID" = s.PRINCIPAL) AS PRINCIPAL,
+					s.CONFIRM_FILE,
+					'1' AS IS_REHEARSE
+				FROM
+					T_BSS_PPMS_PROJECTS s
+				UNION ALL
+					SELECT
+						T . ID,
+						T . NAME,
+						T .PROJECT_NUMBER,
+						T.STATUS,
+						T .PURCHASE_TYPE,
+						T .IS_PROVISIONAL,
+						T .APPROVAL_TIME,
+						T.PURCHASE_DEP_ID,
+						(SELECT REL_NAME FROM T_SES_BMS_USER WHERE "ID" = T.PRINCIPAL) AS PRINCIPAL,
+						T .CONFIRM_FILE,
+						'2' AS IS_REHEARSE
+					FROM
+						T_BSS_PPMS_ADVANCED_PROJECTS T
+			)
+		WHERE
+			1 = 1  AND IS_PROVISIONAL = 0 AND STATUS != '0'
+			<if test="name != null">
+       	and NAME like CONCAT(CONCAT('%', #{name}), '%')
+      </if>
+      <if test="confirmFile != null">
+        and CONFIRM_FILE = #{confirmFile}
+      </if>
+      <if test="purchaseDepId != null and purchaseDepId != ''">
+      	and PURCHASE_DEP_ID in (${purchaseDepId})
+      </if>
+      <if test="projectNumber != null">
+       	and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+      </if>
+      <if test="IsRehearse != null">
+       	and IS_REHEARSE = #{IsRehearse}
+      </if>
+			and (CONFIRM_FILE = 1 or CONFIRM_FILE = 2 or CONFIRM_FILE = 3 or CONFIRM_FILE = 4)
       ORDER BY APPROVAL_TIME DESC
   </select>
   

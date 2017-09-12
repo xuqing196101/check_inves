@@ -1562,4 +1562,10 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
         return firstAuditMap;
     }
 
+	@Override
+	public List<AdvancedProject> selectByAudit(HashMap<String, Object> map) {
+		
+		return advancedProjectMapper.selectByAudit(map);
+	}
+
 }

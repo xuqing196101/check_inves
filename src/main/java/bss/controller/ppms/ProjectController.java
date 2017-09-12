@@ -1152,22 +1152,22 @@ public class ProjectController extends BaseController {
     
     @RequestMapping("/viewIdss")
     public String viewIdss(Model model, String id,String projectId) {
-    		if(StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(id)){
-    			Project project = projectService.selectById(projectId);
-    			HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put("id", id);
-                map.put("projectId", project.getParentId());
-                List<ProjectDetail> list = detailService.selectByParent(map);
-                for (int i = 0; i < list.size(); i++ ) {
-                    if(list.get(i).getPrice() != null){
-                        list.remove(list.get(i));
-                    }
-                    list.get(i).setDetailStatus(0);
+    	if(StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(id)){
+			Project project = projectService.selectById(projectId);
+			HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("id", id);
+            map.put("projectId", project.getParentId());
+            List<ProjectDetail> list = detailService.selectByParent(map);
+            for (int i = 0; i < list.size(); i++ ) {
+                if(list.get(i).getPrice() != null){
+                    list.remove(list.get(i));
                 }
-                sorts(list);
-                model.addAttribute("lists", list);
-    		}
-            return "bss/ppms/project/view";
+                list.get(i).setPurchaseType(null);
+            }
+            sorts(list);
+            model.addAttribute("lists", list);
+		}
+        return "bss/ppms/project/view";
     }
 
     /**

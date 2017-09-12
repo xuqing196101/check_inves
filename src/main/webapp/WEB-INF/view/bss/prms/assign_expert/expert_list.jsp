@@ -395,7 +395,7 @@
 					},
 					success: function(data) {
 						if(data == "true"){
-							$("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/showEditTemporaryExpert.html?projectId="+projectId+"&&id="+id+"&&index="+index+"&&packageId="+packId);
+							$("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/showEditTemporaryExpert.html?projectId="+projectId+"&id="+id+"&index="+index+"&packageId="+packId);
 						}else if(data == "false"){
 							layer.alert("只能修改临时专家",{offset: ['222px', '390px'], shade:0.01});
 						}
@@ -427,7 +427,7 @@
         </h2>
         <input type="hidden" id="reviewTypeTds">
         <form id="save_sign"  method="post">
-        	<input name="projectId" type="hidden" value="${project.id}">
+        	<input name="projectId" type="hidden" id="projectId" value="${project.id}">
         	<input name="flowDefineId" type="hidden" value="${flowDefineId}"/>
         	<c:set var="listCount" value="0" />
 	        <c:forEach items="${packageList}" var="pack" varStatus="vs">

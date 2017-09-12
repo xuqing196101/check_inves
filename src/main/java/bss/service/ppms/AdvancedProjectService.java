@@ -204,4 +204,6 @@ public interface AdvancedProjectService {
     Boolean reflect(PurchaseDetail detail, AdvancedDetail advancedDetail);
     
     void quote(List<AdvancedDetail> list, String taskId);
+    
+    List<AdvancedProject> selectByAudit(HashMap<String, Object> map);
 }
