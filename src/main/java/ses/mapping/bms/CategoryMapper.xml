@@ -736,4 +736,15 @@
     ORDER BY CODE
   </select>
 	
+	
+	   <!-- 根据itme中间表id查询Categor -->
+	<select id="selectCategoryByItemId" parameterType="java.lang.String" resultMap="CategoryMap">
+    SELECT
+      t1.*
+    FROM
+      T_SES_BMS_CATEGORY T1  
+    LEFT JOIN T_SES_SMS_SUPPLIER_ITEM t2 ON T2.CATEGORY_ID = T1. ID
+    WHERE
+      T2.ID = #{id}
+  </select>
 </mapper>
