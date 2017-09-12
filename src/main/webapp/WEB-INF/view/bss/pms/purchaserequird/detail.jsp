@@ -70,8 +70,8 @@
 									     <td><input type="text" name="list[${index }].memo" value="" class="memo" ></td>
 									     <td>
 											   <div class="extrafile">
-													<u:upload id="pUp${index}" multiple="true" buttonName="上传文件"  businessId="${id}" sysKey="2" typeId="${attId}" auto="true" />
-													<u:show showId="pShow${index}" businessId="${id}" sysKey="2" typeId="${attId}" />
+													<u:upload id="pUp${uuId}" multiple="true" buttonName="上传文件"  businessId="${id}" sysKey="2" typeId="${attId}" auto="true" />
+													<u:show showId="pShow${uuId}" businessId="${id}" sysKey="2" typeId="${attId}" />
 											   </div>											
 										 </td>
 										

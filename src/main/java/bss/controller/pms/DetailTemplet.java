@@ -20,6 +20,7 @@ import ses.model.oms.PurchaseDep;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
+import ses.util.WfUtil;
 
 @Controller
 @RequestMapping("/templet")
@@ -71,6 +72,7 @@ public class DetailTemplet {
 		//
 		// List<Supplier> suppliers = purchaseRequiredService.queryAllSupplier();
 		// model.addAttribute("suppliers", suppliers);
+		model.addAttribute("uuId", WfUtil.createUUID());
 		return moeldeAndView;
 	}
 
