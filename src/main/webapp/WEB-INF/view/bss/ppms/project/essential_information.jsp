@@ -67,7 +67,6 @@
 	          shade: 0.01
           }, function(index) {
             layer.close(index);
-            debugger;
             var flag = true;
             var bidAddress = $("#bidAddress").val();
             var projectNumber = $("#projectNumber").val();//项目编号
@@ -75,6 +74,12 @@
             var supplierNumber = $("#supplierNumber").val();//供应商人数
             var purchaseType = "${findById.code}";//采购方式
             deadline = $("#deadline").val();//投标截止时间
+            bidAddress = $.trim(bidAddress);
+            projectNumber = $.trim(projectNumber);
+            name = $.trim(name);
+            supplierNumber = $.trim(supplierNumber);
+            purchaseType = $.trim(purchaseType);
+            deadline = $.trim(deadline);
             //表单验证
             if(!projectNumber){
               layer.tips("项目编号不能为空", "#projectNumber");
@@ -414,10 +419,22 @@
 
       }
 
-      function views(id) {
+      function views(typeId,id) {
         var projectId = "${project.id}";
         var a = "2";
-        openViewDIv(projectId, id, a, null, null);
+        $.ajax({
+        	type: "post",
+        	dataType: "text",
+        	url: "${pageContext.request.contextPath}/project/viewUploadId.html",
+        	data: {"id" : id},
+        	success: function(obj) {
+        		if(obj == "ok"){
+        			openViewDIv(projectId, typeId, a, id, null);
+        		} else {
+        			layer.msg("格式不对")
+        		}
+          }
+        });
       }
     </script>
   </head>

@@ -22,8 +22,8 @@ function loadUploadData(data, i, relName){
     var html = "<tr> "
             + " <td class='tc w30'><input type='checkbox' value="+data.id+" name='chkItem' onclick='check()'></td>"
             + " <td class='tc w50'>"+(i+1)+"</td>"
-            + " <td class='tl'><a href='javascript:void(0)' onclick=\"views('"+data.typeId+"')\">"+data.name+"</a></td>"
-            + " <td class='tl' onclick=\"views('"+data.typeId+"')\">"+relName+"</td>"
+            + " <td class='tl'><a href='javascript:void(0)' onclick=\"views('"+data.typeId+"','"+data.id+"')\">"+data.name+"</a></td>"
+            + " <td class='tl' onclick=\"views('"+data.typeId+"','"+data.id+"')\">"+relName+"</td>"
             + " <td>"+timestampToDate('yyyy-MM-dd hh:mm:ss', data.createDate)+"</td>"
             html += "</tr>";
     $("#loadUpload").append(html);

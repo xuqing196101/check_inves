@@ -221,6 +221,11 @@
 		}
 	});
 	}
+	
+	function cancels(){
+  		saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
+  		closelayer();
+	  }
   </script>
 </head>
 

@@ -30,6 +30,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
+import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -90,6 +91,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
@@ -1189,6 +1191,22 @@ public class ProjectController extends BaseController {
         }
         return JdcgResult.build(500, "附件不存在");
     }
+    
+    @RequestMapping("/viewUploadId")
+    @ResponseBody
+    public String viewUploadId(String id){
+    	UploadFile findById = uploadService.findById(id, Constant.TENDER_SYS_KEY);
+    	if (findById != null && StringUtils.isNotBlank(findById.getPath())) {
+    		findById.setPath(findById.getPath().substring(findById.getPath().indexOf("."),findById.getPath().length()));
+    	}
+    	Pattern pattern = Pattern.compile("[gif|jpg|jpeg|png|bmp|GIF|JPG|JPEG|PNG|BMP]");
+    	Matcher matcher = pattern.matcher(findById.getPath());
+    	if (matcher.find()) {
+    		return StaticVariables.SUCCESS;
+    	}
+    	return StaticVariables.FAILED;
+    }
+    
     /**
      * 〈递归选中〉 
      * 〈详细描述〉
