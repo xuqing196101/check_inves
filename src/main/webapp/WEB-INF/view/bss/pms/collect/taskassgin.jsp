@@ -119,18 +119,21 @@
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val()); 
 		}); 
-		checkAduitNo();
+		
 		if($.trim(name)==""){
 			layer.alert("请填写采购任务名称！", {
 				offset: ['222px', '390px'],
 				shade: 0.01
 			});
+			return  false;
 		} else if($.trim(no)==""){
 			layer.alert("请填写采购任务文号！", {
 				offset: ['222px', '390px'],
 				shade: 0.01
 			});
+			return  false;
 		}else{
+			  checkAduitNo();
 		  	$("#cid").val(id);
 		    $("#collect_form").submit();
 			  layer.close(index);  	

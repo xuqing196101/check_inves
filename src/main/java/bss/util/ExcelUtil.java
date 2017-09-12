@@ -449,12 +449,12 @@ public class ExcelUtil {
 	        			 
 						}
        			 if(rq.getPurchaseCount()!=null){
-     				if(rq.getQualitStand()==null||StringUtils.isBlank(rq.getQualitStand().trim())){
+     				/*if(rq.getQualitStand()==null||StringUtils.isBlank(rq.getQualitStand().trim())){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，质量技术参数不能为空";
 	        				 map.put("errMsg", errMsg);
 	        				 bool=false;
 	        				 break;
-     			  } 
+     			  } */
      		 }
 			 if(rq.getPurchaseCount()!=null){
      				if(rq.getGoodsName()==null||StringUtils.isBlank(rq.getGoodsName().trim())){
@@ -490,12 +490,12 @@ public class ExcelUtil {
      			  } 
      		 }
 			 if(rq.getPurchaseCount()!=null){
-     				if(rq.getDeliverDate()==null||StringUtils.isBlank(rq.getDeliverDate().trim())){
+     				/*if(rq.getDeliverDate()==null||StringUtils.isBlank(rq.getDeliverDate().trim())){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，交货期限不能为空";
 	        				 map.put("errMsg", errMsg);
 	        				 bool=false;
 	        				 break;
-     			  } 
+     			  } */
      		 }
 			 if(rq.getPurchaseCount()!=null){
      				if(rq.getPurchaseType()==null||StringUtils.isBlank(rq.getPurchaseType().trim())){
