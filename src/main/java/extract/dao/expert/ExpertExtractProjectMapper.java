@@ -11,6 +11,7 @@ import extract.model.expert.ExpertExtractProject;
  * @since JDK1.7
  */
 public interface ExpertExtractProjectMapper {
+
     int deleteByPrimaryKey(String id);
 
     int insert(ExpertExtractProject record);
@@ -21,7 +22,7 @@ public interface ExpertExtractProjectMapper {
      * 
      * @author zhang shubin
      * @data 2017年9月5日
-     * @param 
+     * @param
      * @return
      */
     int insertSelective(ExpertExtractProject record);

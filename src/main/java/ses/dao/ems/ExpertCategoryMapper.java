@@ -154,4 +154,15 @@ public interface ExpertCategoryMapper {
      * @return
      */
     Integer findCountParent(Map<String,Object> map);
+    
+    /**
+     * 
+     * Description: 根据品目查询符合条件的专家
+     * 
+     * @author zhang shubin
+     * @data 2017年9月10日
+     * @param 
+     * @return
+     */
+    List<String> selExpertByCategory(Map<String, Object> map);
 }

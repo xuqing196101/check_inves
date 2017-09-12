@@ -11,91 +11,101 @@ import java.util.Date;
  * @since JDK1.7
  */
 public class ExpertExtractProject {
-	
-	/*
-	 * 主键
-	 */
+
+    /**
+     * 主键
+     */
     private String id;
-    
-    /*
-	 * 项目名称
-	 */
-    private String name;
-    
-    /*
-	 * 项目编号
-	 */
+
+    /**
+     * 项目名称
+     */
+    private String projectName;
+
+    /**
+     * 项目编号
+     */
     private String code;
-    
-    /*
-	 * 采购方式
-	 */
+
+    /**
+     * 采购方式
+     */
     private String purchaseWay;
-    
-    /*
-	 * 包名
-	 */
+
+    /**
+     * 包名
+     */
     private String packageName;
-    
-    /*
-	 * 评审时间
-	 */
+
+    /**
+     * 评审时间
+     */
     private Date reviewTime;
-    
-    /*
-	 * 评审地点
-	 */
-    private String reviewArea;
-    
-    /*
-	 * 项目类型
-	 */
+
+    /**
+     * 评审地点-省/直辖市
+     */
+    private String reviewProvince;
+
+    /**
+     * 项目类型
+     */
     private String projectType;
-    
-    /*
-	 * 抽取地址
-	 */
+
+    /**
+     * 抽取地址
+     */
     private String extractAddress;
-    
-    /*
-	 * 联系人
-	 */
+
+    /**
+     * 联系人
+     */
     private String contactPerson;
-    
-    /*
-	 * 联系电话
-	 */
+
+    /**
+     * 联系电话
+     */
     private String contactNum;
-    
-    /*
-	 * 备注（其他要求）
-	 */
+
+    /**
+     * 备注（其他要求）
+     */
     private String remark;
-    
-    /*
-	 * 删除标识 1 删除 0 未删除
-	 */
+
+    /**
+     * 删除标识
+     */
     private Short isDeleted;
-    
-    /*
-	 * 创建时间
-	 */
+
+    /**
+     * 创建时间
+     */
     private Date createdAt;
-    
-    /*
-	 * 修改时间
-	 */
+
+    /**
+     * 修改时间
+     */
     private Date updatedAt;
-    
-    /*
-	 * 项目id
-	 */
+
+    /**
+     * 项目id
+     */
     private String projectId;
-    
-    /*
-	 * 包id
-	 */
+
+    /**
+     * 包id
+     */
     private String packageId;
+
+    /**
+     * 评审天数
+     */
+    private String reviewDays;
+
+    /**
+     * 评审地点-地市/区
+     */
+    private String reviewAddress;
 
     public String getId() {
         return id;
@@ -105,12 +115,12 @@ public class ExpertExtractProject {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getName() {
-        return name;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setProjectName(String projectName) {
+        this.projectName = projectName == null ? null : projectName.trim();
     }
 
     public String getCode() {
@@ -145,12 +155,12 @@ public class ExpertExtractProject {
         this.reviewTime = reviewTime;
     }
 
-    public String getReviewArea() {
-        return reviewArea;
+    public String getReviewProvince() {
+        return reviewProvince;
     }
 
-    public void setReviewArea(String reviewArea) {
-        this.reviewArea = reviewArea == null ? null : reviewArea.trim();
+    public void setReviewProvince(String reviewProvince) {
+        this.reviewProvince = reviewProvince == null ? null : reviewProvince.trim();
     }
 
     public String getProjectType() {
@@ -231,5 +241,21 @@ public class ExpertExtractProject {
 
     public void setPackageId(String packageId) {
         this.packageId = packageId == null ? null : packageId.trim();
+    }
+
+    public String getReviewDays() {
+        return reviewDays;
+    }
+
+    public void setReviewDays(String reviewDays) {
+        this.reviewDays = reviewDays == null ? null : reviewDays.trim();
+    }
+
+    public String getReviewAddress() {
+        return reviewAddress;
+    }
+
+    public void setReviewAddress(String reviewAddress) {
+        this.reviewAddress = reviewAddress == null ? null : reviewAddress.trim();
     }
 }

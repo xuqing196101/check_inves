@@ -1,6 +1,7 @@
 package ses.dao.ems;
 
 import org.apache.ibatis.annotations.Param;
+
 import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
@@ -404,4 +405,15 @@ public interface ExpertMapper {
      * @return
      */
     List<Expert> findExpertByBlacklist(Expert expert);
+    
+    /**
+     * 
+     * Description: 专家抽取根据条件查询专家
+     * 
+     * @author zhang shubin
+     * @data 2017年9月8日
+     * @param 
+     * @return
+     */
+    List<Expert> findExpertByExtract(Map<String, Object> map);
 }

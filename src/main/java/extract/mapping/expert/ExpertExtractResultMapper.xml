@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="extract.dao.expert.ExpertExtractResultMapper">
+  <resultMap id="BaseResultMap" type="extract.model.expert.ExpertExtractResult">
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="EXPERT_ID" property="expertId" jdbcType="VARCHAR" />
+    <result column="CONDITION_ID" property="conditionId" jdbcType="VARCHAR" />
+    <result column="REVIEW_TIME" property="reviewTime" jdbcType="VARCHAR" />
+    <result column="IS_JOIN" property="isJoin" jdbcType="DECIMAL" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PROJECT_ID, EXPERT_ID, CONDITION_ID, REVIEW_TIME, IS_JOIN, REASON, IS_DELETED,
+    CREATED_AT, UPDATED_AT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXTRACT_RESULT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_EMS_EXTRACT_RESULT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="extract.model.expert.ExpertExtractResult">
+    insert into T_SES_EMS_EXTRACT_RESULT (ID, PROJECT_ID, EXPERT_ID,
+    CONDITION_ID, REVIEW_TIME, IS_JOIN, REASON, IS_DELETED, CREATED_AT, UPDATED_AT)
+    values (#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
+    #{expertId,jdbcType=VARCHAR},
+    #{conditionId,jdbcType=VARCHAR}, #{reviewTime,jdbcType=VARCHAR}, #{isJoin,jdbcType=DECIMAL},
+    #{reason,jdbcType=VARCHAR},#{isDeleted,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP},
+      #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="extract.model.expert.ExpertExtractResult">
+    insert into T_SES_EMS_EXTRACT_RESULT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID,
+      </if>
+      <if test="conditionId != null">
+        CONDITION_ID,
+      </if>
+      <if test="reviewTime != null">
+        REVIEW_TIME,
+      </if>
+      <if test="isJoin != null">
+        IS_JOIN,
+      </if>
+      <if test="reason != null">
+        REASON,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionId != null">
+        #{conditionId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewTime != null">
+        #{reviewTime,jdbcType=VARCHAR},
+      </if>
+      <if test="isJoin != null">
+        #{isJoin,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="extract.model.expert.ExpertExtractResult">
+    update T_SES_EMS_EXTRACT_RESULT
+    <set>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID = #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionId != null">
+        CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewTime != null">
+        REVIEW_TIME = #{reviewTime,jdbcType=VARCHAR},
+      </if>
+      <if test="isJoin != null">
+        IS_JOIN = #{isJoin,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null">
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="extract.model.expert.ExpertExtractResult">
+    update T_SES_EMS_EXTRACT_RESULT
+    set PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+    EXPERT_ID = #{expertId,jdbcType=VARCHAR},
+    CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
+    REVIEW_TIME = #{reviewTime,jdbcType=VARCHAR},
+    IS_JOIN = #{isJoin,jdbcType=DECIMAL},
+    REASON = #{reason,jdbcType=VARCHAR},
+    IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+    CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+    UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -252,4 +252,6 @@ public interface EngCategoryMapper {
 
 
 	public List<Category> selectParentId(String parentId);
+	
+	public List<Category> findExtractTree();
 }

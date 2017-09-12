@@ -801,6 +801,10 @@
 border:1px solid #eeeeee;
 }
 
+.borderTS1 {
+	border-top: dashed 1px #CCC;
+}
+
 .borderb{
 	border:1px solid black;
 }

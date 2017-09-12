@@ -261,4 +261,19 @@
 		START WITH ID = #{categoryId}
 		CONNECT BY PRIOR PARENT_ID = ID
     </select>
+    
+    <!-- 根据产品类别查询符合条件的专家 -->
+    <select id="selExpertByCategory" parameterType="Map" resultType="String">
+    	SELECT 
+    		EXPERT_ID
+    	FROM
+    		T_SES_EMS_EXPERT_CATEGORY
+    	WHERE 1 = 1
+    	<if test="categoryId != null and categoryId != ''">
+			AND CATEGORY_ID = #{categoryId}
+	    </if>
+	    <if test="typeId != null and typeId != ''">
+			AND TYPE_ID = #{typeId}
+	    </if>
+    </select>
 </mapper>

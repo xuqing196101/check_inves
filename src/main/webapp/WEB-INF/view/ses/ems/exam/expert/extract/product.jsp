@@ -49,7 +49,7 @@
           async: {
             autoParam: ["id"],
             enable: true,
-            url: "${pageContext.request.contextPath}/ExpExtract/getTree.do?type=${type}",
+            url: "${pageContext.request.contextPath}/extractExpert/getTree.do?code=${type}",
             otherParam: {
               categoryIds: "${categoryIds}",
             },
@@ -164,13 +164,23 @@
        //是否满足
        var issatisfy=$('input[name="radio"]:checked ').val();
          
-       $(cate).val("");
+       /* $(cate).val("");
        $(cate).parent().parent().parent().parent().parent().find("#categoryId").val("");
        $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val("");
+       
        if(cate!=null && names != null && names != '' ){
            $(cate).val(names.substring(0,names.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#categoryId").val(ids.substring(0,ids.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val(issatisfy);
+       } */
+       if(cate!=null){
+           $(cate).val(names.substring(0,names.length-1));/* 将选中目录名称显示在输入框中 */
+           $(cate).parents("li").find(".isSatisfy").val(issatisfy);
+           $(cate).parents("li").find(".categoryId").val(ids.substring(0,ids.length-1));
+        /*    $(cate).parent().parent().parent().parent().parent().find("#extCategoryNames").val(names.substring(0,names.length-1));
+           $(cate).parent().parent().parent().parent().parent().find("#extCategoryId").val(ids.substring(0,ids.length-1));
+           $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val(issatisfy); */
+           
        }
        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
        parent.layer.close(index);
@@ -218,7 +228,7 @@
 				</ul>
 				
 			</div>
-			<div align="center"><input type="text" id="key" class="empty" > </div>
+			<!-- <div align="center"><input type="text" id="key" class="empty" > </div> -->
 			<div id="ztree" class="ztree margin-left-13" ></div>
 		</form>
 	</div>

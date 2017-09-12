@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="extract.dao.expert.ExpertExtractConditionMapper">
+  <resultMap id="BaseResultMap" type="extract.model.expert.ExpertExtractCondition">
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="AREA_NAME" property="areaName" jdbcType="VARCHAR" />
+    <result column="EXPERT_TYPE_ID" property="expertTypeId" jdbcType="VARCHAR" />
+    <result column="EXPERT_KIND_ID" property="expertKindId" jdbcType="VARCHAR" />
+    <result column="EXTRACT_NUM" property="extractNum" jdbcType="VARCHAR" />
+    <result column="IS_EXTRACT_ALTERNATE" property="isExtractAlternate" jdbcType="DECIMAL" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="ADDRESS_REASON" property="addressReason" jdbcType="VARCHAR" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, AREA_NAME, EXPERT_TYPE_ID, EXPERT_KIND_ID, EXTRACT_NUM,
+    IS_EXTRACT_ALTERNATE,
+    CREATED_AT, UPDATED_AT, IS_DELETED, ADDRESS_REASON, PROJECT_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+    parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXTRACT_CONDITION
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_EMS_EXTRACT_CONDITION
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="extract.model.expert.ExpertExtractCondition">
+    insert into T_SES_EMS_EXTRACT_CONDITION (ID, AREA_NAME,
+    EXPERT_TYPE_ID,
+    EXPERT_KIND_ID, EXTRACT_NUM, IS_EXTRACT_ALTERNATE,
+    CREATED_AT, UPDATED_AT, IS_DELETED,
+    ADDRESS_REASON, PROJECT_ID)
+    values (#{id,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR},
+    #{expertTypeId,jdbcType=VARCHAR},
+    #{expertKindId,jdbcType=VARCHAR}, #{extractNum,jdbcType=VARCHAR},
+    #{isExtractAlternate,jdbcType=DECIMAL},
+    #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},
+    #{isDeleted,jdbcType=DECIMAL},
+    #{addressReason,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="extract.model.expert.ExpertExtractCondition">
+    insert into T_SES_EMS_EXTRACT_CONDITION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="areaName != null">
+        AREA_NAME,
+      </if>
+      <if test="expertTypeId != null">
+        EXPERT_TYPE_ID,
+      </if>
+      <if test="expertKindId != null">
+        EXPERT_KIND_ID,
+      </if>
+      <if test="extractNum != null">
+        EXTRACT_NUM,
+      </if>
+      <if test="isExtractAlternate != null">
+        IS_EXTRACT_ALTERNATE,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="addressReason != null">
+        ADDRESS_REASON,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="expertTypeId != null">
+        #{expertTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertKindId != null">
+        #{expertKindId,jdbcType=VARCHAR},
+      </if>
+      <if test="extractNum != null">
+        #{extractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="isExtractAlternate != null">
+        #{isExtractAlternate,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="addressReason != null">
+        #{addressReason,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="extract.model.expert.ExpertExtractCondition">
+    update T_SES_EMS_EXTRACT_CONDITION
+    <set>
+      <if test="areaName != null">
+        AREA_NAME = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="expertTypeId != null">
+        EXPERT_TYPE_ID = #{expertTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertKindId != null">
+        EXPERT_KIND_ID = #{expertKindId,jdbcType=VARCHAR},
+      </if>
+      <if test="extractNum != null">
+        EXTRACT_NUM = #{extractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="isExtractAlternate != null">
+        IS_EXTRACT_ALTERNATE = #{isExtractAlternate,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="addressReason != null">
+        ADDRESS_REASON = #{addressReason,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="extract.model.expert.ExpertExtractCondition">
+    update T_SES_EMS_EXTRACT_CONDITION
+    set AREA_NAME = #{areaName,jdbcType=VARCHAR},
+    EXPERT_TYPE_ID = #{expertTypeId,jdbcType=VARCHAR},
+    EXPERT_KIND_ID = #{expertKindId,jdbcType=VARCHAR},
+    EXTRACT_NUM = #{extractNum,jdbcType=VARCHAR},
+    IS_EXTRACT_ALTERNATE = #{isExtractAlternate,jdbcType=DECIMAL},
+    CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+    UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+    IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+    ADDRESS_REASON = #{addressReason,jdbcType=VARCHAR},
+    PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

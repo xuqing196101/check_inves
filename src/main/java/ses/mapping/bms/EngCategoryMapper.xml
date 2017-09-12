@@ -488,4 +488,13 @@
 			AND CODE like  CONCAT(CONCAT('%', #{param2}), '%')
 		</if> 
 	</select>
+	
+	<select id="findExtractTree" resultMap="CateMap" flushCache="true">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_ENG_CATEGORY
+		WHERE IS_DELETED=0 
+		AND IS_PUBLISH = 0
+		ORDER BY CODE
+	</select>
 </mapper>

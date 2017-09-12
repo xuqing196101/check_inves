@@ -2562,4 +2562,33 @@ resultMap="BaseResultMap">
         ORDER BY CREATED_AT DESC
     </select>
 
+	<!-- 专家抽取根据条件查询专家 -->
+	<select id="findExpertByExtract" parameterType="Map" resultMap="BaseResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM 
+        	T_SES_EMS_EXPERT
+        WHERE 
+        	IS_DELETE = 0 AND STATUS in (1) AND IS_PROVISIONAL &lt;&gt; 1
+        <if test="size > 0">
+           AND ID IN 
+			<foreach item="item" index="index" collection="expertIds" open="(" separator="," close=")">  
+				#{item}  
+			</foreach>
+        </if>
+        <if test="expertsFrom != null and expertsFrom !=''">
+            AND EXPERTS_FROM = #{expertsFrom}
+        </if>
+		<if test="areaNames != null" >
+			AND ADDRESS IN 
+			<foreach item="item" index="index" collection="areaNames" open="(" separator="," close=")">  
+				#{item}  
+			</foreach>
+		</if>
+		<if test="expertsTypeId != null and expertsTypeId !=''">
+          AND instr(EXPERTS_TYPE_ID, #{expertsTypeId} ) > 0
+        </if>
+        ORDER BY dbms_random.random
+	</select>
+
 </mapper>
