@@ -45,7 +45,7 @@ var personType ;
 			//if(null==index ||''==index || "undefined"== index){
 			//	index=0;
 			//}
-    	var index = 0;
+    	var input_count = 0;
       var count = 0;
 			var j = 1;
 			var str = '';
@@ -59,16 +59,16 @@ var personType ;
             return false;
           } else {
             if ($(this).find('[name="list['+index+'].name"]').length > 0) {
-              if (Trim(_this.parents('tr').find('td').eq(2).html(), 'g') === Trim($(this).find('[name="list['+index+'].name"]').val(), 'g')) {
+              if (Trim(_this.parents('tr').find('td').eq(2).html(), 'g') === Trim($(this).find('td:eq(2) input').val(), 'g')) {
                 count++;
               }
-              if (Trim(_this.parents('tr').find('td').eq(3).html(), 'g') === Trim($(this).find('[name="list['+index+'].compary"]').val(), 'g')) {
+              if (Trim(_this.parents('tr').find('td').eq(3).html(), 'g') === Trim($(this).find('td:eq(3) input').val(), 'g')) {
                 count++;
               }
-              if (Trim(_this.parents('tr').find('td').eq(4).html(), 'g') === Trim($(this).find('[name="list['+index+'].duty"]').val(), 'g')) {
+              if (Trim(_this.parents('tr').find('td').eq(4).html(), 'g') === Trim($(this).find('td:eq(4) input').val(), 'g')) {
                 count++;
               }
-              if (Trim(_this.parents('tr').find('td').eq(5).html(), 'g') === Trim($(this).find('[name="list['+index+'].rank"]').val(), 'g')) {
+              if (Trim(_this.parents('tr').find('td').eq(5).html(), 'g') === Trim($(this).find('td:eq(5) input').val(), 'g')) {
                 count++;
               }
               if (count === 4) {
@@ -77,17 +77,61 @@ var personType ;
             }
           }
         });
-        if (count != 4) {
-          str += '<tr>'+ _this.parents("tr").html() +'</tr>';
+        if (count === 4) {
+          $(this).find('td:eq(2) input').css({
+            color: '#FF0000'
+          });
+          $(this).find('td:eq(3) input').css({
+            color: '#FF0000'
+          });
+          $(this).find('td:eq(4) input').css({
+            color: '#FF0000'
+          });
+          $(this).find('td:eq(5) input').css({
+            color: '#FF0000'
+          });
+          layer.msg("已有此人员！");
         }
+        str += '<tr>'+ _this.parents("tr").html() +'</tr>';
         count = 0;
 			});
-      
-			$(obj).parents("form").find("tbody").prepend(str);
-      $(obj).parents("form").find("tbody tr").each(function() {
-				$(this).find('td').eq(1).html(j);
-				j++;
-			});
+      if (str != '') {
+        var remove_num = 0;
+        var inputTrnum = 0;
+        var trNum = 0;
+        $(obj).parents("form").find("tbody tr").each(function () {
+          if ($(this).find('input[type=text]').length > 0) {
+            inputTrnum++;
+          }
+          trNum++;
+        });
+  			$(obj).parents("form").find("tbody").prepend(str);
+        if (inputTrnum === trNum) {
+          $(obj).parents("form").find("tbody tr").each(function(index) {
+            if ($(this).find('input[type=text]').length > 0) {
+              var name = Trim($(this).find('td:eq(2) input').val(), 'g');
+              var compary = Trim($(this).find('td:eq(3) input').val(), 'g');
+              var duty = Trim($(this).find('td:eq(4) input').val(), 'g');
+              var rank = Trim($(this).find('td:eq(5) input').val(), 'g');
+              if ($("#personList").find(":checked").length > remove_num) {
+                if (name === '' && compary === '' && duty === '' && rank === '') {
+                  $(this).next().find('input[type=text]').prop('name', 'list['+ input_count +'].name');
+                  $(this).next().find('input[type=text]').prop('name', 'list['+ input_count +'].compary');
+                  $(this).next().find('input[type=text]').prop('name', 'list['+ input_count +'].duty');
+                  $(this).next().find('input[type=text]').prop('name', 'list['+ input_count +'].rank');
+                  $(this).remove();
+                  remove_num++;
+                  input_count++;
+                }
+              }
+            }
+    			});
+        }
+        $(obj).parents("form").find("tbody tr").each(function() {
+          $(this).find('td').eq(1).html(j);
+  				j++;
+        });
+      }
 			var layerIndex = parent.layer.getFrameIndex(window.name); //获取窗口索引
       parent.layer.close(layerIndex);
     }
