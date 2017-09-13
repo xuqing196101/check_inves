@@ -80,20 +80,22 @@
           if(!flgg){
               var detailRow = document.getElementsByName("detailRow");
               var index = detailRow.length;
+              indNum=detailRow.length;
               indexCount=index;
               flgg=true;
           }else{
               indexCount++;
+              indNum++;
           }
           $.ajax({
               url: "${pageContext.request.contextPath}/templet/detail.html",
               type: "post",
               data: {
-                  "index": indexCount
+                  "index": indexCount,
+                  "indNum": indNum
               },
               success: function(data) {
                   $("#detailZeroRow").append(data);
-                  indNum += 1;
                   init_web_upload();
                   var bool = $("input[name='import']").is(':checked');
                   if(bool == true) {
@@ -107,24 +109,24 @@
           });
       }
 
-      function trimNull(i){
+      function trimNull(notAttrtr){
     	  var trimFlog=false;
-    	  if($.trim($("input[name='list[" + i + "].goodsName']").val()) == "") {
+    	  if($.trim($($(notAttrtr).children()[3]).children(":first").val()) == "") {
               layer.alert("需求明细中物资类别及物资名称不能为空");
               trimFlog=true;
-            } else if($.trim($("input[name='list[" + i + "].qualitStand']").val()) == "") {
+            } else if($.trim($($(notAttrtr).children()[5]).children(":first").val()) == "") {
               layer.alert("需求明细中质量技术标准不能为空");
               trimFlog=true;
-            } else if($.trim($("input[name='list[" + i + "].item']").val()) == "") {
+            } else if($.trim($($(notAttrtr).children()[6]).children(":first").val()) == "") {
               layer.alert("需求明细中计量单位不能为空");
               trimFlog=true;
-            } else if($.trim($("input[name='list[" + i + "].purchaseCount']").val()) == "") {
+            } else if($.trim($($(notAttrtr).children()[7]).children(":first").next().val()) == "") {
               layer.alert("需求明细中采购数量不能为空");
               trimFlog=true;
-            } else if($.trim($("input[name='list[" + i + "].price']").val()) == "") {
+            } else if($.trim($($(notAttrtr).children()[8]).children(":first").next().val()) == "") {
               layer.alert("需求明细中单价不能为空");
               trimFlog=true;
-            }else if($.trim($("select[name='list[" + i + "].purchaseType']").val()) == "") {
+            }else if($.trim($($(notAttrtr).children()[11]).children(":first").val()) == "") {
                 layer.alert("需求明细中采购方式不能为空");
                 trimFlog=true;
               }
@@ -143,7 +145,7 @@
         	var tableTr=$("#detailZeroRow tr");
         	for(var i = 1; i < tableTr.length; i++) {
         		 if(typeof($(tableTr[i]).attr("attr"))=="undefined"){//获取子节点
-        			  if(trimNull(i)){
+        			  if(trimNull(tableTr[i])){
         				  return false;
         				  break;
         			  }
