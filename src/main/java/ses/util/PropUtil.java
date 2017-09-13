@@ -1,6 +1,7 @@
 package ses.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
@@ -28,11 +29,26 @@ public class PropUtil {
 	 */
 	private static Properties getProperties(String file) {
 		file = file == null ? "config.properties" : file;
+		InputStream inputStream = null;
+		InputStreamReader streamReader = null;
 		try {
-			prop.load(new InputStreamReader(PropUtil.class.getClassLoader().getResourceAsStream(file),"UTF-8"));
+			inputStream = PropUtil.class.getClassLoader().getResourceAsStream(file);
+			streamReader = new InputStreamReader(inputStream,"UTF-8");
+			prop.load(streamReader);
 		} catch (IOException e) {
 			logger.error(e);
 			logger.error("初始化 Properties 失败");
+		} finally{
+			try {
+				if (inputStream != null) {
+					inputStream.close();
+				}
+				if (streamReader != null) {
+					streamReader.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return prop;
 	}

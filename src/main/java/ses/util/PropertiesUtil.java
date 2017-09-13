@@ -1,5 +1,7 @@
 package ses.util;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Properties;
 
@@ -31,11 +33,22 @@ public class PropertiesUtil implements Serializable {
 	private Properties cfg = new Properties();
 
 	public PropertiesUtil(String file) {
-		try {
-			cfg.load(PropertiesUtil.class.getClassLoader().getResourceAsStream(file));
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(e.getMessage(), e);
+		file = null;
+		if (file != null) {
+			InputStream inputStream = null;
+			try {
+				inputStream = PropertiesUtil.class.getClassLoader().getResourceAsStream(file);
+				cfg.load(inputStream);
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error(e.getMessage(), e);
+			} finally {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
