@@ -3760,7 +3760,7 @@ public class SupplierController extends BaseSupplierController {
 		if(supplier != null && supplier.getStatus() != null 
 				&& supplier.getStatus() != SupplierConstants.Status.TEMPORARY.getValue()
 				&& supplier.getStatus() != SupplierConstants.Status.RETURN.getValue()){
-			alertInfo("您现在的状态是："+SupplierConstants.STATUSMAP.get(supplier.getStatus()), request.getContextPath());
+			alertInfo("您现在的状态是："+SupplierConstants.STATUSMAP.get(supplier.getStatus()), request.getContextPath()+"/");
 			return null;
 		}
 		String referer = request.getHeader("referer");
