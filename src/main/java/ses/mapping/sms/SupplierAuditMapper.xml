@@ -494,32 +494,32 @@
             </if>
 	</select>
 
-  <!--查询基本信息的审核项数量-->
-   <select id="selectBasicInfoAuditItem" resultType="java.lang.Integer" parameterType="Map">
-     SELECT COUNT(T.ID)
-      FROM T_SES_SMS_SUPPLIER_AUDIT T
-     WHERE T.IS_DELETED = 0
-       <if test="supplierId != null and supplierId != ''">
-           AND T.SUPPLIER_ID = #{supplierId}
-       </if>
-       <if test="auditType != null and auditType != ''">
-           AND T.AUDIT_TYPE = #{auditType}
-       </if>
-   </select>
+		<!--查询基本信息的审核项数量-->
+		<select id="selectBasicInfoAuditItem" resultType="java.lang.Integer" parameterType="Map">
+			SELECT COUNT(T.ID)
+			FROM T_SES_SMS_SUPPLIER_AUDIT T
+			WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4)
+		     <if test="supplierId != null and supplierId != ''">
+		         AND T.SUPPLIER_ID = #{supplierId}
+		     </if>
+		     <if test="auditType != null and auditType != ''">
+		         AND T.AUDIT_TYPE = #{auditType}
+		     </if>
+		</select>
 
-  <select id="selectBySupIdAndType" resultMap="BaseResultMapChild" parameterType="Map">
-      SELECT T.AUDIT_FIELD, DA.CODE AS TYPE
-          FROM T_SES_SMS_SUPPLIER_AUDIT T
-          LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA
-          ON T.AUDIT_FIELD = DA.ID
-          WHERE T.IS_DELETED = 0
-          <if test="supplierId != null and supplierId != ''">
-              AND T.SUPPLIER_ID = #{supplierId}
-          </if>
-          <if test="auditType != null and auditType != ''">
-              AND T.AUDIT_TYPE = #{auditType}
-          </if>
-  </select>
+		<select id="selectBySupIdAndType" resultMap="BaseResultMapChild" parameterType="Map">
+			SELECT T.AUDIT_FIELD, DA.CODE AS TYPE
+			FROM T_SES_SMS_SUPPLIER_AUDIT T
+			LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA
+			ON T.AUDIT_FIELD = DA.ID
+			WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4)
+			<if test="supplierId != null and supplierId != ''">
+			    AND T.SUPPLIER_ID = #{supplierId}
+			</if>
+			<if test="auditType != null and auditType != ''">
+			    AND T.AUDIT_TYPE = #{auditType}
+			</if>
+		</select>
 
     <!-- 查询注册供应商不通过的小类 -->
     <select id="selectNoPassItem" resultMap="BaseResultMap" parameterType="Map">
@@ -539,19 +539,19 @@
 
     <!--查询基本信息的审核项数量-->
     <select id="selectBasicInfoAuditItemSingal" resultMap="BaseResultMap" parameterType="Map">
-        SELECT
-        <include refid="Base_Column_List" />
-        FROM T_SES_SMS_SUPPLIER_AUDIT T
-        WHERE T.IS_DELETED = 0
-        <if test="supplierId != null and supplierId != ''">
-            AND T.SUPPLIER_ID = #{supplierId}
-        </if>
-        <if test="auditField != null and auditField != ''">
-            AND T.AUDIT_FIELD = #{auditField}
-        </if>
-        <if test="auditType != null and auditType != ''">
-            AND T.AUDIT_TYPE = #{auditType}
-        </if>
+	    SELECT
+	    <include refid="Base_Column_List" />
+	    FROM T_SES_SMS_SUPPLIER_AUDIT T
+			WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4)
+	    <if test="supplierId != null and supplierId != ''">
+	        AND T.SUPPLIER_ID = #{supplierId}
+	    </if>
+	    <if test="auditField != null and auditField != ''">
+	        AND T.AUDIT_FIELD = #{auditField}
+	    </if>
+	    <if test="auditType != null and auditType != ''">
+	        AND T.AUDIT_TYPE = #{auditType}
+	    </if>
     </select>
 
 </mapper>
