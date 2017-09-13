@@ -122,7 +122,7 @@
 
         function findByAreaName(id,value){
             if(value == 0){
-                layer.msg("该地区没有入库专家");
+                layer.msg("暂无数据");
                 return;
             }
             window.location.href = "${pageContext.request.contextPath}/expertQuery/readOnlyList.html?address=" + id;

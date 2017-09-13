@@ -331,7 +331,7 @@ function findExpertNature(id){
 }
 function findExpertOrg(id, value){
     if(value == 0){
-        layer.msg("该采购入库专家数量为0");
+        layer.msg("暂无数据");
         return;
     }
     window.location.href = globalPath + "/expertQuery/readOnlyList.html?orgId=" + id;

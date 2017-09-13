@@ -354,7 +354,7 @@ function findSupplierNature(id){
 }
 function findSupplierOrg(id, value){
     if(value == 0){
-        layer.msg("该采购入库供应商数量为0");
+        layer.msg("暂无数据");
         return;
     }
     window.location.href = globalPath + "/supplierQuery/readOnlyList.html?orgId="+id+"&judge=5&sign=2";

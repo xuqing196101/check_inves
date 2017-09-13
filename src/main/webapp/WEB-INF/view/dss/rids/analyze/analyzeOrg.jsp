@@ -121,7 +121,7 @@
 
             function findByAreaName(id,value){
                 if(value == 0){
-                    layer.msg("该地区没有采购机构");
+                    layer.msg("暂无数据");
                     return;
                 }
                 window.location.href = "${pageContext.request.contextPath}/purchaseManage/readOnlyList.html?provinceId=" + id;
