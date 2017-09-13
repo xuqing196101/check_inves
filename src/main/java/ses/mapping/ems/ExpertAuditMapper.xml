@@ -75,6 +75,7 @@
     		and AUDIT_FALG = #{auditFalg}
     	</if>
      </if> 
+     ORDER BY DECODE (SUGGEST_TYPE,'one','1','seven','2','six','3','five','4'),AUDIT_AT ASC
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
