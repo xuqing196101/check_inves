@@ -407,6 +407,5 @@ function findPurPlanBudgetByManageOrg(id) {
 }
 
 function findPurPlanBudgetByOrg(id) {
-    alert();
     window.location.href = globalPath + "/taskassgin/viewPlan.html?orgnizationId=" + id;
 }
