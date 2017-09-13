@@ -455,7 +455,7 @@
 
 	<!-- 供应商个数 -->
 	<select id="listExtractionExpertCount" parameterType="extract.model.supplier.SupplierExtractCondition" resultType="int">
-		SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER S
+		SELECT COUNT(DISTINCT S.ID) FROM T_SES_SMS_SUPPLIER S
 		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
 			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
 			<choose>

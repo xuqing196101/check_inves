@@ -36,7 +36,7 @@ public class SupplierConType {
 	
 	private String salesCategoryIds;
 	private String salesLevel;
-	private Short saleIsMulticondition;
+	private Short salesIsMulticondition;
 	private Short salesExtractNum;
 	
 	/**
@@ -142,14 +142,6 @@ public class SupplierConType {
 		this.salesLevel = salesLevel;
 	}
 
-	public Short getSaleIsMulticondition() {
-		return saleIsMulticondition;
-	}
-
-	public void setSaleIsMulticondition(Short saleIsMulticondition) {
-		this.saleIsMulticondition = saleIsMulticondition;
-	}
-
 	public String getBusinessNature() {
 		return businessNature;
 	}
@@ -196,6 +188,14 @@ public class SupplierConType {
 
 	public void setSalesExtractNum(Short salesExtractNum) {
 		this.salesExtractNum = salesExtractNum;
+	}
+
+	public Short getSalesIsMulticondition() {
+		return salesIsMulticondition;
+	}
+
+	public void setSalesIsMulticondition(Short salesIsMulticondition) {
+		this.salesIsMulticondition = salesIsMulticondition;
 	}
 	
 	

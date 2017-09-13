@@ -3,6 +3,7 @@
  */
 package extract.service.supplier.impl;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.functions.Code;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -199,7 +201,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 
 	 
 	 //若是类型为空说明只对地区进行查询
-	if(StringUtils.isBlank(condition.getSupplierTypeCode())){
+	/*if(StringUtils.isBlank(condition.getSupplierTypeCode())){
 		count.put("area",supplierExtRelateMapper.listExtractionExpertCount(condition));
 		if(type == 1){
 			List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);//getAllSupplier(null);
@@ -229,9 +231,48 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			//存储
 			saveOrUpdateCondition(condition, conType);
 		}
+	}*/
+	 
+	Class<? extends SupplierConType> class1 = conType.getClass();
+	for (String typeCode : condition.getSupplierTypeCodes()) {
+		//首字母大写
+		char[] cs=typeCode.toLowerCase().toCharArray();
+        cs[0]-=32;
+        String code = String.valueOf(cs);
+		try {
+			Short mu = (Short)class1.getMethod("get"+code+"IsMulticondition").invoke(conType);
+			String cid = (String)class1.getMethod("get"+code+"CategoryIds").invoke(conType);
+			String le = (String)class1.getMethod("get"+code+"Level").invoke(conType);
+			Short en = (Short)class1.getMethod("get"+code+"ExtractNum").invoke(conType);
+			if(null != mu){
+				condition.setIsMulticondition(mu);
+			}
+			if(null != cid){
+				condition.setCategoryId(cid);
+			}
+			if(null != le){
+				condition.setLevelTypeId(le);
+			}
+			if(null != en){
+				condition.setExtractNum(en);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(type == 1){
+			List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
+			list.put(typeCode, selectAllExpert);
+			//存储
+			saveOrUpdateCondition(condition, conType);
+		}else{
+			condition.setSupplierTypeCode(typeCode);
+			count.put(typeCode+"Count", supplierExtRelateMapper.listExtractionExpertCount(condition));
+		}
+		
 	}
-	    
-	if(StringUtils.isNotEmpty(conType.getProductCategoryIds())){
+	
+	/*if(null != conType.getProductExtractNum()){
 		//SupplierCondition pdsc = new SupplierCondition("PRODUCT", conType.getProductIsMulticondition(), conType.getProductCategoryIds(), conType.getProductLevel());
 		condition.setSupplierTypeCode("PRODUCT");
 		condition.setIsMulticondition(conType.getProductIsMulticondition());
@@ -246,7 +287,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			saveOrUpdateCondition(condition, conType);
 		}
 	}
-	if(StringUtils.isNotEmpty(conType.getProjectCategoryIds())){
+	if(null!= conType.getProjectExtractNum()){
 		//SupplierCondition pjsc = new SupplierCondition("PROJECT", conType.getProjectIsMulticondition(), conType.getProjectCategoryIds(), conType.getProjectLevel());
 	    condition.setSupplierTypeCode("PROJECT");
 		condition.setIsMulticondition(conType.getProjectIsMulticondition());
@@ -261,7 +302,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			saveOrUpdateCondition(condition, conType);
 		}
 	}
-	if(StringUtils.isNotEmpty(conType.getSalesCategoryIds())){
+	if(null!=conType.getSalesExtractNum()){
 		//SupplierCondition sasc = new SupplierCondition("SALES", conType.getSaleIsMulticondition(), conType.getSaleCategoryIds(), conType.getSaleLevel());
 	    condition.setSupplierTypeCode("SALES");
 		condition.setIsMulticondition(conType.getSaleIsMulticondition());
@@ -276,7 +317,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			saveOrUpdateCondition(condition, conType);
 		}
 	}
-	if(StringUtils.isNotEmpty(conType.getServiceCategoryIds())){
+	if(null!=conType.getServiceExtractNum()){
 		//SupplierCondition svsc = new SupplierCondition("SERVICE", conType.getServiceIsMulticondition(), conType.getServiceCategoryIds(), conType.getServiceLevel());
 		condition.setSupplierTypeCode("SERVICE");
 		condition.setIsMulticondition(conType.getServiceIsMulticondition());
@@ -290,7 +331,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			//存储
 			saveOrUpdateCondition(condition, conType);
 		}
-	}
+	}*/
 	
 	map.put("count", count);
 	map.put("list", list);
@@ -485,8 +526,8 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 					list.add(new ExtractConditionRelation(cid,"saleExtractNum",conType.getSalesExtractNum().toString()));
 				}
 				//工程品目标志
-				if (null != conType.getSaleIsMulticondition()) {
-					list.add(new ExtractConditionRelation(cid,"saleIsMulticondition",conType.getSaleIsMulticondition().toString()));
+				if (null != conType.getSalesIsMulticondition()) {
+					list.add(new ExtractConditionRelation(cid,"saleIsMulticondition",conType.getSalesIsMulticondition().toString()));
 				}
 			}
 			if(list.size()>0){

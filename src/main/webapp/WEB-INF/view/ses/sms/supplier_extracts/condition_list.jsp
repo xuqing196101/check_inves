@@ -488,7 +488,7 @@
           </li>
         
         
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone elseInfo">
+          <li class="col-md-3 col-sm-3 col-xs-3 elseInfo">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
                  <select name="businessNature" class="w100p">
@@ -500,7 +500,7 @@
             <div class="cue">${loginPwdError}</div>
           </div>
         </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone else">
+          <li class="col-md-3 col-sm-3 col-xs-3 else">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">保密要求：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
            <select name="isHavingConCert" class="w100p">
@@ -510,7 +510,7 @@
             <div class="cue">${loginPwdError}</div>
           </div>
         </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone else">
+          <li class="col-md-3 col-sm-3 col-xs-3 else">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">境外分支：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<select name="overseasBranch" class="w100p">

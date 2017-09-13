@@ -15,9 +15,6 @@ $(function () {
 			addPerson($("#eu"));
 		}
         addPerson($("#su"));
-        
-        selectLikeSupplier();
-        
     });
     
     function uuid() {
@@ -85,6 +82,7 @@ $(function () {
     function addPerson(obj){
     	var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();
     	var input = $(obj).parents("form").find("tr:last").find("td:first").find("input").prop("name");//.substring(4,6);//.attr("req");
+    	console.log(input);
     	var req ;
     	if(null==input ||''==input || "undefined"== input){
     		req=0;
@@ -110,7 +108,7 @@ $(function () {
             title: "引用历史人员",
             shadeClose: true,
             shade: 0.01,
-            area: ['430px', '400px'],
+            area: ['600px', '400px'],
             offset: '20px',
             content: globalPath+'/'+personType+'/toPeronList.do?personType='+personType, //iframe的url
             success: function (layero, index) {
@@ -137,6 +135,20 @@ $(function () {
     	/*for ( var i = 1; i <= trs.length; i++) {
 			$(trs[i-1]).find("td :eq(1)").html(i);
 		}*/
+    	
+    	//修改inputlist序号
+    	var j = 0;
+    	$(obj).parents("form").find("tr").each(function(){
+    		if($(this).find("input[type='text']").length>0){
+    			$(this).find("td:eq(0) input[type=hidden]").prop('name', 'list['+j+'].id');
+    			$(this).find("td:eq(0) input[type=checkbox]").prop('name', 'list['+j+'].id');
+    			$(this).find("td:eq(2) input[type=text]").prop('name', 'list['+j+'].name');
+    			$(this).find("td:eq(3) input[type=text]").prop('name', 'list['+j+'].compary');
+    			$(this).find("td:eq(4) input[type=text]").prop('name', 'list['+j+'].duty');
+    			$(this).find("td:eq(5) input[type=text]").prop('name', 'list['+j+'].rank');
+    			j++;
+    		}
+    	});
     }
     
     //全选全不选
@@ -660,6 +672,7 @@ $(function () {
             		}
  	            }
  	        });
+    		 selectLikeSupplier();
     	 }
      }
      
