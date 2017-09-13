@@ -78,7 +78,7 @@ import common.annotation.CurrentUser;
  */
 @Controller
 @Scope("prototype")
-@RequestMapping("/SupplierExtracts")
+@RequestMapping("/SupplierExtractsll")
 public class SupplierExtractsController extends BaseController {
     /**
      * 项目
