@@ -1339,7 +1339,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);*/
 
-		Supplier supplier = supplierAuditService.supplierById(supplierId);
+//		Supplier supplier = supplierAuditService.supplierById(supplierId);
+		Supplier supplier = supplierService.selectById(supplierId);
 		if(supplier != null){
 			request.setAttribute("supplierStatus", supplier.getStatus());
 		}
@@ -1357,7 +1358,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		//文件
 		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-		request.setAttribute("suppliers", supplier);
+		request.setAttribute("supplier", supplier);
 
 		request.setAttribute("supplierId", supplierId);
 		request.getSession().removeAttribute("supplierId");
@@ -2148,10 +2149,10 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(null!=user){
 			org = user.getOrg();
 		}
-		if(user !=null && org !=null && "1".equals(org.getTypeName()) && "1".equals(supplier.getSign().toString())){
+		if(user != null && org != null && "1".equals(org.getTypeName()) && supplier.getSign() != null && supplier.getSign() == 1){
 			//判断用户是否登陆，本部门内查询初审，
 			PurchaseDep dep = purchaseOrgnizationService.selectByOrgId(org.getId());//查询当前部门
-			if(dep !=null){
+			if(dep != null){
 				supplier.setProcurementDepId(dep.getId());
 				//抽取时的机构
 				supplier.setExtractOrgid(dep.getId());
@@ -2159,7 +2160,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				supplier.setProcurementDepId("");
 				supplier.setExtractOrgid("");
 			}
-		}else if(user !=null && org !=null && "1".equals(org.getTypeName()) && ("2".equals(supplier.getSign().toString()) || "3".equals(supplier.getSign().toString()))){
+		}else if(user != null && org != null && "1".equals(org.getTypeName()) && supplier.getSign() != null && (supplier.getSign() == 2 || supplier.getSign() == 3)){
 			//用户是否登陆  在所有部门查询，复审   因为ExtractOrgid初始为null，为防止注入可以手动
 			supplier.setProcurementDepId(null);
 			supplier.setExtractOrgid(null);
@@ -2168,6 +2169,15 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplier.setExtractOrgid("");
 		}
 
+		// 审核中的状态
+		if(supplier.getStatus() != null){
+			if(supplier.getStatus() == -1){
+				supplier.setAuditTemporary(1);
+			}else{
+				supplier.setAuditTemporary(0);
+			}
+		}
+		
 		//查询列表
 		List < Supplier > supplierList = supplierAuditService.getAuditSupplierList(supplier, page);
 		
