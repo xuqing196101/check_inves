@@ -16,6 +16,8 @@ $(function () {
 		}
         addPerson($("#su"));
         
+        selectLikeSupplier();
+        
     });
     
     function uuid() {
@@ -988,7 +990,7 @@ $(function () {
     	var cateId = $("#projectCategoryIds").val();
     	var nodes ;
     	$.ajax({
-    		url:globalPath+"/category/getQuaByCid.do",
+    		url:globalPath+"/SupplierCondition/getQuaByCid.do",
              type: "POST",
              dataType: "json",
              async:false,
@@ -1062,7 +1064,7 @@ $(function () {
     	if(null==qid || ''==qid){
     		qid =$("#projectCategoryIds").val();
     		$.ajax({
-    			url:globalPath+"/category/getEngLevelByCid.do",//根据品目ID 获取资质等级
+    			url:globalPath+"/SupplierCondition/getEngLevelByCid.do",//根据品目ID 获取资质等级
     			data:{categoryId:qid},
     			//url:globalPath+"/qualification/getLevelByQid.do",//根据资质编号ID 获取资质等级
     			async:false,
@@ -1077,7 +1079,7 @@ $(function () {
     		$.ajax({
     			/*url:globalPath+"/category/getEngLevelByCid.do",//根据品目ID 获取资质等级
 		 	data:{categoryId:cateId},*/
-    			url:globalPath+"/qualification/getLevelByQid.do",//根据资质编号ID 获取资质等级
+    			url:globalPath+"/SupplierCondition/getLevelByQid.do",//根据资质编号ID 获取资质等级
     			data:{qid:qid},
     			async:false,
     			dataType:"json",

@@ -3,6 +3,9 @@ package extract.dao.supplier;
 import java.util.List;
 import java.util.Map;
 
+import ses.model.sms.Supplier;
+
+import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractResult;
 
 public interface SupplierExtractRelateResultMapper {
@@ -132,4 +135,10 @@ public interface SupplierExtractRelateResultMapper {
    * @return
    */
   List<String> selectSupplierIdListByRecordId(String recordId);
+
+
+  	Object listExtractionExpertCount(SupplierExtractCondition condition);
+
+
+  	List<Supplier> listExtractionExpert(SupplierExtractCondition condition);
 }

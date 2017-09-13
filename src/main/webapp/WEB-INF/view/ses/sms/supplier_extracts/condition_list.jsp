@@ -261,8 +261,8 @@
        </form>      
 	</div>	
 	<!-- 条件开始 -->
-	<div class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled" onmouseover="selectLikeSupplier()">
-    <form id="form1" method="post">
+	<div class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled" >
+    <form id="form1" method="post" >
         <input id="sunCount" type="hidden">
         <!--    地區id -->
         <input type="hidden" name="addressId" id="addressId">

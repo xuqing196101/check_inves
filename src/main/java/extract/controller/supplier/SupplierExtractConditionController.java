@@ -114,5 +114,17 @@ public class SupplierExtractConditionController {
    public List<DictionaryData> getQuaByCid(String categoryId){
    	return conditionService.getQuaByCid(categoryId);
    }
+   
+   /**
+    * 按资质查询资质等级
+    * @param qid
+    * @return
+    */
+   @RequestMapping("/getLevelByQid")
+   @ResponseBody
+   public String getLevelByQid(String qid){
+   	List<DictionaryData> list =  conditionService.getLevelByQid(qid);
+		return JSON.toJSONString(list);
+   }
 
 }

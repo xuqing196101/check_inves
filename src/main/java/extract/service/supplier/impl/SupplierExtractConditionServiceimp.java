@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.DictionaryDataMapper;
-import ses.dao.sms.SupplierMapper;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
@@ -56,9 +55,6 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
   @Autowired
   SupplierExtractConditionMapper supplierConditionMapper;
 
-  @Autowired
-  SupplierMapper supplierMapper;
-  
   @Autowired
   SupplierExtractRelateResultMapper supplierExtRelateMapper;
 
@@ -204,9 +200,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	 
 	 //若是类型为空说明只对地区进行查询
 	if(StringUtils.isBlank(condition.getSupplierTypeCode())){
-		count.put("area",supplierMapper.listExtractionExpertCount(condition));
+		count.put("area",supplierExtRelateMapper.listExtractionExpertCount(condition));
 		if(type == 1){
-			List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(condition);//getAllSupplier(null);
+			List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);//getAllSupplier(null);
 			//存储
 			saveOrUpdateCondition(condition, null);
 		}
@@ -214,19 +210,21 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		//按类别查询
 		String[] supplierTypeCodes = condition.getSupplierTypeCodes();
 		for (String code : supplierTypeCodes) {
-			condition.setSupplierTypeCode(code);
-			count.put(code+"Count", supplierMapper.listExtractionExpertCount(condition));
+			
 			if(type == 1){
-				List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(condition);
+				List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
 				list.put(code, selectAllExpert);
 				//存储
 				saveOrUpdateCondition(condition, conType);
+			}else{
+				count.put(code+"Count", supplierExtRelateMapper.listExtractionExpertCount(condition));
+				condition.setSupplierTypeCode(code);
 			}
 		}
 	}else if(condition.getSupplierTypeCodes().length>0){
-		count.put(condition.getSupplierTypeCode()+"Count", supplierMapper.listExtractionExpertCount(condition));
+		count.put(condition.getSupplierTypeCode()+"Count", supplierExtRelateMapper.listExtractionExpertCount(condition));
 		if(type==1){
-			List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(condition);
+			List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
 			list.put(condition.getSupplierTypeCode(), selectAllExpert);
 			//存储
 			saveOrUpdateCondition(condition, conType);
@@ -240,9 +238,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		condition.setCategoryId(conType.getProductCategoryIds());
 		condition.setLevelTypeId(conType.getProductLevel());
 		condition.setExtractNum(conType.getProductExtractNum());
-		count.put("PRODUCTCount", supplierMapper.listExtractionExpertCount(condition));
+		count.put("PRODUCTCount", supplierExtRelateMapper.listExtractionExpertCount(condition));
 		if(type == 1){
-			List<Supplier> products = supplierMapper.listExtractionExpert(condition);
+			List<Supplier> products = supplierExtRelateMapper.listExtractionExpert(condition);
 			list.put("PRODUCT", products);
 			//存储
 			saveOrUpdateCondition(condition, conType);
@@ -255,9 +253,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		condition.setCategoryId(conType.getProjectCategoryIds());
 		condition.setLevelTypeId(conType.getProjectLevel());
 		condition.setExtractNum(conType.getProjectExtractNum());
-		count.put("PROJECTCount", supplierMapper.listExtractionExpertCount(condition));
+		count.put("PROJECTCount", supplierExtRelateMapper.listExtractionExpertCount(condition));
 		if(type == 1){
-			List<Supplier> projects = supplierMapper.listExtractionExpert(condition);
+			List<Supplier> projects = supplierExtRelateMapper.listExtractionExpert(condition);
 			list.put("PROJECT", projects);
 			//存储
 			saveOrUpdateCondition(condition, conType);
@@ -270,9 +268,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		condition.setCategoryId(conType.getSalesCategoryIds());
 		condition.setLevelTypeId(conType.getSalesLevel());
 		condition.setExtractNum(conType.getSalesExtractNum());
-		count.put("SALESCount", supplierMapper.listExtractionExpertCount(condition));
+		count.put("SALESCount", supplierExtRelateMapper.listExtractionExpertCount(condition));
 		if(type == 1){
-			List<Supplier> sales = supplierMapper.listExtractionExpert(condition);
+			List<Supplier> sales = supplierExtRelateMapper.listExtractionExpert(condition);
 			list.put("SALES", sales);
 			//存储
 			saveOrUpdateCondition(condition, conType);
@@ -285,9 +283,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		condition.setCategoryId(conType.getServiceCategoryIds());
 		condition.setLevelTypeId(conType.getServiceLevel());
 		condition.setExtractNum(conType.getServiceExtractNum());
-		count.put("SERVICECount",supplierMapper.listExtractionExpertCount(condition));
+		count.put("SERVICECount",supplierExtRelateMapper.listExtractionExpertCount(condition));
 		if(type == 1){
-			List<Supplier> services = supplierMapper.listExtractionExpert(condition);
+			List<Supplier> services = supplierExtRelateMapper.listExtractionExpert(condition);
 			list.put("SERVICE", services.get(0));
 			//存储
 			saveOrUpdateCondition(condition, conType);
@@ -564,6 +562,11 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		HashMap<String,String[]> hashMap = new HashMap<>();
 		hashMap.put("categoryIds", categoryId.split(","));
 		return supplierConditionMapper.getQuaByCid(hashMap);
+	}
+
+	@Override
+	public List<DictionaryData> getLevelByQid(String qid) {
+		return  supplierConditionMapper.getLevelByQid(qid.split(","));
 	}
 
 	

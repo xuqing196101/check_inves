@@ -91,6 +91,8 @@ public interface SupplierExtractConditionMapper {
 
 	List<DictionaryData> getQuaByCid(HashMap<String, String[]> hashMap);
 
+	List<DictionaryData> getLevelByQid(String[] split);
+
 
 	
 }

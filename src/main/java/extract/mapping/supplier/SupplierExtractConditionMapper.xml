@@ -374,6 +374,8 @@
 	<delete id="deleteTypeInfoByMap" parameterType="map">
 		DELETE FROM T_SES_EXT_TYPE_CATEGORY WHERE CONDITION_ID = #{conditionId} AND TYPE_CODE = #{supplierTypeCode}
 	</delete>
+	
+	<!--  -->
 	<insert id="insertTypeInfo" parameterType="extract.model.supplier.SupplierExtractCondition">
 		INSERT INTO T_SES_EXT_TYPE_CATEGORY (CONDITION_ID,TYPE_CODE,CATEGORY_ID,PRIVARY,BUSINESS_NATURE,LEVEL_TYPE_ID,TEMP) 
 		VALUES (#{id},
@@ -428,7 +430,7 @@
 		)
 	</insert>
 	
-	
+	<!-- 按品目查询资质等级 -->
 	<select id="getEngAptitudeLevelByCategoryId" parameterType="map" resultType="ses.model.bms.DictionaryData">
     	SELECT DISTINCT D.ID,D.NAME,D.POSITION FROM T_SES_BMS_CATEGORY_QUA CQ LEFT JOIN T_SES_BMS_QUALIFCATE_LEVEL QL ON CQ.QUA_ID = QL.QUALIFCATION_ID LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON QL.GRADE = D.ID 
 	    WHERE CQ.CATEGORY_ID in 
@@ -436,13 +438,20 @@
 	    AND D.ID IS NOT NULL AND D.NAME IS NOT NULL ORDER BY D.POSITION ASC
     </select>
     
+    <!-- 按品目查询资质 -->
     <select id="getQuaByCid" parameterType="map" resultType="ses.model.bms.DictionaryData">
     	 SELECT D.id id,D.name name FROM T_SES_BMS_CATEGORY_QUA Q LEFT JOIN T_SES_BMS_QUALIFICATION D ON Q.QUA_ID = D.ID where Q.CATEGORY_ID IN 
     	 <foreach collection="categoryIds" open="(" item="it" separator="," close=")">
     	 	#{it}
     	 </foreach>
     </select>
-	
+    <!-- 根据资质查询资质等级 -->
+	<select id="getLevelByQid"  resultType="ses.model.bms.DictionaryData">
+        SELECT D.* FROM T_SES_BMS_QUALIFCATE_LEVEL L LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON L.GRADE = D.ID WHERE L.QUALIFCATION_ID IN 
+        <foreach collection="array" item="it" open="(" separator="," close=")">
+        	#{it}
+        </foreach>
+    </select>
 	
 	
 	

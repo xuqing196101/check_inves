@@ -144,6 +144,13 @@ public interface SupplierExtractConditionService {
    */
   List<DictionaryData> getQuaByCid(String categoryId);
 
+  /**
+   * 根据资质查询资质等级
+   * @param qid
+   * @return
+   */
+  List<DictionaryData> getLevelByQid(String qid);
+
 }
 
 
