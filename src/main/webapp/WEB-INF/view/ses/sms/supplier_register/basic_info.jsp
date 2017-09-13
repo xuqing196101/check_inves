@@ -405,7 +405,7 @@
 					"</select>" +
 					"</td>" +
 					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].identity' maxlength='18' onkeyup='validateIdentity(this)' onchange='validateIdentity(this)' value=''> </td>" +
-					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].shares' value=''></td>" +
+					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].shares' value='' onchange='checkNumsSale(this, 3)'></td>" +
 					"<td class='tc'><input type='text' style='border:0px;' class='proportion_vali txtTempSave' name='listSupplierStockholders[" + stocIndex + "].proportion' value='' onkeyup=\"value=value.replace(/[^\\d.]/g,'')\" onblur=\"validatePercentage2(this.value)\"> </td>" + "</tr>");
 
 				checkStockholdersID("input[name='listSupplierStockholders[" + stocIndex + "].identity']");
