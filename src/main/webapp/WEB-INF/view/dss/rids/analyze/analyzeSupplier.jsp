@@ -57,7 +57,25 @@
                         },
                         dataView: {
                             show: true,
-                            readOnly: false
+                            readOnly: false,
+                            optionToContent: function (opt) {
+                                var axisData = opt.series[0].data; //坐标数据
+                                var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody>';
+                                table += "<tr>";
+                                for (var i = 0, l = axisData.length; i < l; i++) {
+                                    table += '<td style="padding: 5px 30px 5px 30px;" class="bgdd">'+axisData[i].name+'</td>';
+                                    table += "<td style='padding: 5px 30px 5px 30px;'><a href=\"javascript:;\" onclick=\"findByAreaName('"+axisData[i].name+"', "+axisData[i].value+")\">"+axisData[i].value+"</a></td>";
+                                    if(i != 0 && (i+1) % 4 == 0){
+                                        table += "</tr>";
+                                        table += "<tr>";
+                                    }
+                                    if(i % 4 != 0 && (i+1) == axisData.length){
+                                        table += "</tr>";
+                                    }
+                                }
+                                table += '</tbody></table>';
+                                return table;
+                            }
                         },
                         /*restore: {
                             show: true
@@ -103,6 +121,14 @@
             });
 
         });
+
+        function findByAreaName(name,value){
+            if(value == 0){
+                layer.msg("暂无数据");
+                return;
+            }
+            window.location.href = "${pageContext.request.contextPath}/supplierQuery/readOnlyList.html?reqType=analyze&address=" + name + "&judge=5&sign=2";
+        }
     </script>
 </head>
 <body>

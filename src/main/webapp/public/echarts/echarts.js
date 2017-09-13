@@ -61770,8 +61770,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 
 	        closeButton.innerHTML = lang[1];
-	        refreshButton.innerHTML = lang[2];
-	        refreshButton.style.cssText = buttonStyle;
+	        //refreshButton.innerHTML = lang[2];
+	        //refreshButton.style.cssText = buttonStyle;
 	        closeButton.style.cssText = buttonStyle;
 
 	        !model.get('readOnly') && buttonContainer.appendChild(refreshButton);

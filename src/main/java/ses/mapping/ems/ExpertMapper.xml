@@ -1341,7 +1341,12 @@ resultMap="BaseResultMap">
             AND t1.REAL_NAME LIKE CONCAT(CONCAT('%', #{relName}), '%')
         </if>
         <if test="status != null and status !=''">
+        	<if test="status == 'trialEnd'">
+        	 AND t1.STATUS in ('15','16')
+        	</if>
+        	<if test="status != 'trialEnd'">
             AND t1.STATUS = #{status}
+            </if>
         </if>
         <if test="auditTemporary != null">
             AND t1.AUDIT_TEMPORARY = #{auditTemporary}

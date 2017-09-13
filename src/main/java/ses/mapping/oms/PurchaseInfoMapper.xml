@@ -303,7 +303,7 @@
 		      ON T.USER_ID = U.ID
 		   WHERE U.GENDER = #{typeId}
 		     AND T.IS_DELETED = 0
-		     AND U.IS_DELETED = 0
+		     <!--AND U.IS_DELETED = 0-->
 	</select>
 	
 	<!-- 查询采购人员总数量 -->
