@@ -46,40 +46,41 @@ var personType ;
 			//	index=0;
 			//}
     	var index = 0;
+      var count = 0;
 			var j = 1;
 			var str = '';
       var tableTrObj = $(obj).parents("form").find("tbody tr");
 			$("#personList").find(":checked").each(function() {
         var _this = $(this);
-        var count = 0;
         tableTrObj.each(function (index) {
           // 判断复选框中的value是否和现有的重复，重复代表为相同的一条数据
-          if (_this.val() === $(this).find(':checked').val()) {
-            conut = 4;
+          if (_this.val() === $(this).find('input[type=checkbox]').val()) {
+            count = 4;
             return false;
           } else {
-            if (Trim(_this.parents('tr').find('td').eq(2).html(), 'g') === Trim($(this).find('[name="list['+index+'].name"]').val(), 'g')) {
-              count++;
-            }
-            if (Trim(_this.parents('tr').find('td').eq(3).html(), 'g') === Trim($(this).find('[name="list['+index+'].compary"]').val(), 'g')) {
-              count++;
-            }
-            if (Trim(_this.parents('tr').find('td').eq(4).html(), 'g') === Trim($(this).find('[name="list['+index+'].duty"]').val(), 'g')) {
-              count++;
-            }
-            if (Trim(_this.parents('tr').find('td').eq(5).html(), 'g') === Trim($(this).find('[name="list['+index+'].rank"]').val(), 'g')) {
-              count++;
-            }
-            if (count === 4) {
-              return false;
+            if ($(this).find('[name="list['+index+'].name"]').length > 0) {
+              if (Trim(_this.parents('tr').find('td').eq(2).html(), 'g') === Trim($(this).find('[name="list['+index+'].name"]').val(), 'g')) {
+                count++;
+              }
+              if (Trim(_this.parents('tr').find('td').eq(3).html(), 'g') === Trim($(this).find('[name="list['+index+'].compary"]').val(), 'g')) {
+                count++;
+              }
+              if (Trim(_this.parents('tr').find('td').eq(4).html(), 'g') === Trim($(this).find('[name="list['+index+'].duty"]').val(), 'g')) {
+                count++;
+              }
+              if (Trim(_this.parents('tr').find('td').eq(5).html(), 'g') === Trim($(this).find('[name="list['+index+'].rank"]').val(), 'g')) {
+                count++;
+              }
+              if (count === 4) {
+                return false;
+              }
             }
           }
         });
-        // console.log(count);
         if (count != 4) {
-          // tableTrObj.html(parseInt(index)+j);
           str += '<tr>'+ _this.parents("tr").html() +'</tr>';
         }
+        count = 0;
 			});
       
 			$(obj).parents("form").find("tbody").prepend(str);
