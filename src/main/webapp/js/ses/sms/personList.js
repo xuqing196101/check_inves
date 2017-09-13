@@ -39,65 +39,64 @@ var personType ;
         });
   	} 
   	 
-        function chosePerson(obj){
-        	//当前已添加的人员序号
+    function chosePerson(obj) {
+    	//当前已添加的人员序号
 			//var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();
 			//if(null==index ||''==index || "undefined"== index){
 			//	index=0;
 			//}
-        	var index = 0;
+    	var index = 0;
 			var j = 1;
 			var str = '';
-			$("#personList").find(":checked").each(function(){
-				//选中的复选框
-				 var checkbox_now = $(this);
-				//人员类表中选中的每一行
-				var tableTr = $(this).parent().next();
-				var tableTrObj = $(this).parents("tr");
-				//判断是否输入信息是否有相同的，有则替换，无则继续添加
-				var list = $(obj).parents("form").find("tr");
-				for ( var i = 0; i < list.length; i++) {
-					var p = list[i];
-					//遍历form中的信息
-					if(checkbox_now.val() == $(p).find(":checkbox").val()){
-						return true;
-					}else{// if($(p).find(":checkbox").val() == null || $(p).find(":checkbox").val() == '' || $(p).find(":checkbox").val() == "undefined"){
-					
-						var count = 0;
-						if($(p).find("[name='name']").val() == tableTrObj.find("td:eq(2)").html()){
-							count ++;
-						}
-						if($(p).find("[name='compary']").val() == tableTrObj.find("td:eq(3)").html()){
-							count ++;
-						}
-						if($(p).find("[name='duty']").val() == tableTrObj.find("td:eq(4)").html()){
-							count ++;
-						}
-						if($(p).find("[name='rank']").val() == tableTrObj.find("td:eq(5)").html()){
-							count ++;
-						}
-						
-						if(count == 4){
-							break;
-							/*tableTr.find("td:eq(1)").html($(p).find("td:eq(1)").html());
-							$(this).after(tableTr);
-							//$(this).remove();
-							return true;*/
-						}
-						console.log(count);
-					}
-				}
-				tableTr.html(parseInt(index)+j);
-				str += '<tr>'+$(this).parents("tr").html()+'</tr>';
-				j++;
+      var tableTrObj = $(obj).parents("form").find("tbody tr");
+			$("#personList").find(":checked").each(function() {
+        var _this = $(this);
+        var count = 0;
+        tableTrObj.each(function (index) {
+          // 判断复选框中的value是否和现有的重复，重复代表为相同的一条数据
+          if (_this.val() === $(this).find(':checked').val()) {
+            conut = 4;
+            return false;
+          } else {
+            if (Trim(_this.parents('tr').find('td').eq(2).html(), 'g') === Trim($(this).find('[name="list['+index+'].name"]').val(), 'g')) {
+              count++;
+            }
+            if (Trim(_this.parents('tr').find('td').eq(3).html(), 'g') === Trim($(this).find('[name="list['+index+'].compary"]').val(), 'g')) {
+              count++;
+            }
+            if (Trim(_this.parents('tr').find('td').eq(4).html(), 'g') === Trim($(this).find('[name="list['+index+'].duty"]').val(), 'g')) {
+              count++;
+            }
+            if (Trim(_this.parents('tr').find('td').eq(5).html(), 'g') === Trim($(this).find('[name="list['+index+'].rank"]').val(), 'g')) {
+              count++;
+            }
+            if (count === 4) {
+              return false;
+            }
+          }
+        });
+        // console.log(count);
+        if (count != 4) {
+          // tableTrObj.html(parseInt(index)+j);
+          str += '<tr>'+ _this.parents("tr").html() +'</tr>';
+        }
 			});
-			
-			$(obj).parents("form").find("tbody tr").each(function() {
+      
+			$(obj).parents("form").find("tbody").prepend(str);
+      $(obj).parents("form").find("tbody tr").each(function() {
 				$(this).find('td').eq(1).html(j);
 				j++;
 			});
-			$(obj).parents("form").find("tbody").prepend(str);
 			var layerIndex = parent.layer.getFrameIndex(window.name); //获取窗口索引
-	        parent.layer.close(layerIndex);
-        }
-  	
+      parent.layer.close(layerIndex);
+    }
+    
+// 去除空格
+function Trim(str, is_global) {
+  var result;
+  result = str.replace(/(^\s+)|(\s+$)/g,"");
+  if(is_global.toLowerCase()=="g") {
+    result = result.replace(/\s/g,"");
+  }
+  return result;
+}
