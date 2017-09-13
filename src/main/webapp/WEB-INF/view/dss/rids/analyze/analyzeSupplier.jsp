@@ -124,7 +124,7 @@
 
         function findByAreaName(name,value){
             if(value == 0){
-                layer.msg("该地区没有入库供应商");
+                layer.msg("暂无数据");
                 return;
             }
             window.location.href = "${pageContext.request.contextPath}/supplierQuery/readOnlyList.html?reqType=analyze&address=" + name + "&judge=5&sign=2";

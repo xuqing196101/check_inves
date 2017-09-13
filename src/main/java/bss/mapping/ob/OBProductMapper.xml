@@ -484,7 +484,8 @@
   <!-- 验证产品名称唯一 -->
   <select id="yzProductName" resultType="Integer">
   	SELECT COUNT(ID) FROM T_BSS_OB_PRODUCT WHERE NAME = #{name,jdbcType=VARCHAR}
-  	AND IS_DELETED = 0 AND STATUS = 2
+  	AND IS_DELETED = 0
+      <!--AND STATUS = 2-->
   	<if test="id != null">
   		AND ID &lt;&gt; #{id,jdbcType=VARCHAR}
   	</if>
@@ -493,13 +494,14 @@
   <!-- 验证产品代码唯一 -->
   <select id="yzProductCode" resultType="Integer">
   	SELECT COUNT(ID) FROM T_BSS_OB_PRODUCT WHERE CODE = #{code,jdbcType=VARCHAR}
-  	AND IS_DELETED = 0 AND STATUS = 2
-  	<if test="id != null">
-  		AND ID &lt;&gt; #{id,jdbcType=VARCHAR}
-  	</if>
-  </select>
-  
-  <!-- 验证采购机构是否存在 -->
+  	AND IS_DELETED = 0
+    <!--AND STATUS = 2-->
+    <if test="id != null">
+        AND ID &lt;&gt; #{id,jdbcType=VARCHAR}
+    </if>
+</select>
+
+<!-- 验证采购机构是否存在 -->
   <select id="yzorg" resultType="Integer" parameterType="String">
   	SELECT COUNT(ID) FROM T_SES_OMS_ORG WHERE SHORT_NAME = #{shortName,jdbcType=VARCHAR}
   </select>
