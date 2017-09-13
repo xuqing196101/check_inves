@@ -491,7 +491,7 @@
           <li class="col-md-3 col-sm-3 col-xs-3 elseInfo">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                 <select name="businessNature" class="w100p">
+                 <select name="businessNature" class="w100p" onchange="selectLikeSupplier()">
                  	<option value="">不限</option>
                  <c:forEach items="${businessNature }" var="bu">
                  	<option value="${bu.id }">${bu.name }</option>
@@ -503,7 +503,7 @@
           <li class="col-md-3 col-sm-3 col-xs-3 else">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">保密要求：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-           <select name="isHavingConCert" class="w100p">
+           <select name="isHavingConCert" class="w100p" onchange="selectLikeSupplier()">
                  	<option value="0">无</option>
                  	<option value="1">有</option>
                  </select>
@@ -513,7 +513,7 @@
           <li class="col-md-3 col-sm-3 col-xs-3 else">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">境外分支：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<select name="overseasBranch" class="w100p">
+			<select name="overseasBranch" class="w100p" onchange="selectLikeSupplier()">
                  	<option value="1">有</option>
                  	<option value="0">无</option>
                  </select>

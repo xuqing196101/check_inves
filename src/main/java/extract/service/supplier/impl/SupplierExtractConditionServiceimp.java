@@ -234,7 +234,8 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	}*/
 	 
 	Class<? extends SupplierConType> class1 = conType.getClass();
-	for (String typeCode : condition.getSupplierTypeCodes()) {
+	String[] supplierTypeCodes  = condition.getSupplierTypeCodes();
+	for (String typeCode : supplierTypeCodes) {
 		//首字母大写
 		char[] cs=typeCode.toLowerCase().toCharArray();
         cs[0]-=32;

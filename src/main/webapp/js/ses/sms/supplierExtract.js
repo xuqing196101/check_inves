@@ -672,7 +672,6 @@ $(function () {
             		}
  	            }
  	        });
-    		 selectLikeSupplier();
     	 }
      }
      
@@ -733,6 +732,7 @@ $(function () {
 		 if(code != "project"){
 			 loadLevelTree(code+"LevelTree");
 		 }
+		 selectLikeSupplier();
      }
      
      
