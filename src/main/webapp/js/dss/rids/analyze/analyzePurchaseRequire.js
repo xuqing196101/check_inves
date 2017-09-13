@@ -26,7 +26,25 @@ $(function () {
                 },
                 dataView: {
                     show: true,
-                    readOnly: false
+                    readOnly: false,
+                    optionToContent: function (opt) {
+                        var axisData = opt.series[0].data; //坐标数据
+                        var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody>';
+                        table += "<tr>";
+                        for (var i = 0, l = axisData.length; i < l; i++) {
+                            table += '<td class="bgdd analyze_resource">'+axisData[i].name+'</td>';
+                            table += "<td class='analyze_resource'><a href=\"javascript:;\" onclick=\"findTypeRequireMoney('"+axisData[i].id+"')\">"+axisData[i].value+"</a></td>";
+                            if(i != 0 && (i+1) % 4 == 0){
+                                table += "</tr>";
+                                table += "<tr>";
+                            }
+                            if(i % 4 != 0 && (i+1) == axisData.length){
+                                table += "</tr>";
+                            }
+                        }
+                        table += '</tbody></table>';
+                        return table;
+                    }
                 },
                 magicType: {
                     show: true,
@@ -81,7 +99,25 @@ $(function () {
                 },
                 dataView: {
                     show: true,
-                    readOnly: false
+                    readOnly: false,
+                    optionToContent: function (opt) {
+                        var axisData = opt.series[0].data; //坐标数据
+                        var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody>';
+                        table += "<tr>";
+                        for (var i = 0, l = axisData.length; i < l; i++) {
+                            table += '<td class="bgdd analyze_resource">'+axisData[i].srcData.name+'</td>';
+                            table += "<td class='analyze_resource'><a href=\"javascript:;\" onclick=\"findNearFiveYearAllBudgetRequire('"+axisData[i].srcData.name+"', "+axisData[i].srcData.value+")\">"+axisData[i].srcData.value+"</a></td>";
+                            if(i != 0 && (i+1) % 4 == 0){
+                                table += "</tr>";
+                                table += "<tr>";
+                            }
+                            if(i % 4 != 0 && (i+1) == axisData.length){
+                                table += "</tr>";
+                            }
+                        }
+                        table += '</tbody></table>';
+                        return table;
+                    }
                 },
                 magicType: {
                     show: true,
@@ -167,7 +203,25 @@ $(function () {
                 },
                 dataView: {
                     show: true,
-                    readOnly: false
+                    readOnly: false,
+                    optionToContent: function (opt) {
+                        var axisData = opt.series[0].data; //坐标数据
+                        var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody>';
+                        table += "<tr>";
+                        for (var i = 0, l = axisData.length; i < l; i++) {
+                            table += '<td class="bgdd analyze_resource">'+axisData[i].name+'</td>';
+                            table += "<td class='analyze_resource'><a href=\"javascript:;\" onclick=\"findRequireMoneyByOrg('"+axisData[i].id+"')\">"+axisData[i].value+"</a></td>";
+                            if(i != 0 && (i+1) % 4 == 0){
+                                table += "</tr>";
+                                table += "<tr>";
+                            }
+                            if(i % 4 != 0 && (i+1) == axisData.length){
+                                table += "</tr>";
+                            }
+                        }
+                        table += '</tbody></table>';
+                        return table;
+                    }
                 },
                 magicType: {
                     show: true,
@@ -272,4 +326,20 @@ $(function () {
 
 function findAllPurchaseRequire() {
     window.location.href = globalPath + "/purchaser/viewDetamd.html";
+}
+
+function findNearFiveYearAllBudgetRequire(name, value){
+    if(value == 0){
+        layer.msg("暂无数据");
+        return;
+    }
+    window.location.href = globalPath + "/purchaser/viewDetamd.html?date=" + name;
+}
+
+function findTypeRequireMoney(id){
+    window.location.href = globalPath + "/purchaser/viewDetamd.html?planType=" + id;
+}
+
+function findRequireMoneyByOrg(id){
+    window.location.href = globalPath + "/purchaser/viewDetamd.html?orgId=" + id;
 }

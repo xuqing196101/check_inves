@@ -74,7 +74,7 @@ import ses.util.ValidateUtils;
  */
 @Controller
 @Scope("prototype")
-@RequestMapping("/SupplierCondition_old")
+@RequestMapping("/SupplierCondition")
 public class SupplierConditionController {
     @Autowired
     private SupplierConditionService conditionService;

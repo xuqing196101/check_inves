@@ -52,7 +52,7 @@
 		class="purchasetype" onchange="changeType(this)">
 			<option value="">请选择</option>
 			<c:forEach items="${list2 }" var="objd">
-				<option value="${objd.id }">${objd.name }</option>
+				<option value="${objd.name }">${objd.name }</option>
 
 			</c:forEach>
 	</select></td>
@@ -73,9 +73,9 @@
 		class="memo"></td>
 	<td>
 		<div class="extrafile">
-			<u:upload id="pUp${index}" multiple="true" buttonName="上传文件"
+			<u:upload id="pUp${uuId}" multiple="true" buttonName="上传文件"
 				businessId="${id}" sysKey="2" typeId="${attId}" auto="true" />
-			<u:show showId="pShow${index}" businessId="${id}" sysKey="2"
+			<u:show showId="pShow${uuId}" businessId="${id}" sysKey="2"
 				typeId="${attId}" />
 		</div>
 	</td>

@@ -72,7 +72,7 @@ public interface SupplierItemLevelServer {
 	List<SupplierItemLevel> findSupplierItemLevel(SupplierItemLevel supplier, Integer page, String categoryIds);
 	
 	/**
-     * 关联产品类别中间表查询等级
+     * 全部供应商查询，等级查询 
      * @param supplierItemLevel
      * @return
      */

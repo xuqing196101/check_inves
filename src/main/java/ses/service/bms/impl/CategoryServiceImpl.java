@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
@@ -1213,6 +1214,19 @@ public class CategoryServiceImpl implements CategoryService {
 		Map<String, String[]> map = new HashMap<>();
 		map.put("categoryIds", categoryId.split(","));
 		return categoryQuaMapper.getEngAptitudeLevelByCategoryId(map);
+	}
+
+	
+	
+	/**
+	 * 根据itme中间表id查询categor
+	 * @param itemsId
+	 * @return
+	 */
+	@Override
+	public Category selectCategoryByItemId(String itemsId) {
+		
+		return categoryMapper.selectCategoryByItemId(itemsId);
 	}
 	
 }

@@ -1485,7 +1485,7 @@ public class ExcelUtil {
         					String str = cell.getRichStringCellValue().toString().trim();
         					List<Category> list2 = excelUtil.categoryService.selectByCode(str);
         					if(null == list2 || list2.size() == 0){
-        						errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，目录不存在!";
+        						errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，不存在!";
 	        					 map.put("errMsg", errMsg);
 	        					 bool=false;
 		        				 break;
