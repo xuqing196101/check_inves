@@ -11,12 +11,13 @@
     <result column="CONDITION_ID" property="conditionId" jdbcType="VARCHAR" />
     <result column="EXPERT_TYPE_CODE" property="expertTypeCode" jdbcType="VARCHAR" />
     <result column="IS_SATISFY" property="isSatisfy" jdbcType="DECIMAL" />
+    <result column="ENG_IS_SATISFY" property="engIsSatisfy" jdbcType="DECIMAL" />
     <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, COUNT_PERSON, ENG_INFO, CATEGORY_IDS, TECHNICAL_TITLE,
+    ID, COUNT_PERSON, ENG_INFO, CATEGORY_IDS, TECHNICAL_TITLE,ENG_IS_SATISFY,
     ENG_QUALIFICATION, CONDITION_ID,
     EXPERT_TYPE_CODE, IS_SATISFY, IS_DELETED, CREATED_AT, UPDATED_AT
   </sql>
@@ -34,14 +35,14 @@
   <insert id="insert" parameterType="extract.model.expert.ExpertExtractTypeInfo">
     insert into T_SES_EMS_EXTRACT_TYPE_INFO (ID, COUNT_PERSON, ENG_INFO,
     CATEGORY_IDS, TECHNICAL_TITLE, ENG_QUALIFICATION,
-    CONDITION_ID, EXPERT_TYPE_CODE, IS_SATISFY, IS_DELETED, CREATED_AT, UPDATED_AT
+    CONDITION_ID, EXPERT_TYPE_CODE, IS_SATISFY, IS_DELETED, CREATED_AT, UPDATED_AT,ENG_IS_SATISFY
     )
     values (#{id,jdbcType=VARCHAR}, #{countPerson,jdbcType=DECIMAL},
     #{engInfo,jdbcType=VARCHAR},
     #{categoryIds,jdbcType=VARCHAR}, #{technicalTitle,jdbcType=VARCHAR},
     #{engQualification,jdbcType=VARCHAR},
     #{conditionId,jdbcType=VARCHAR}, #{expertTypeCode,jdbcType=VARCHAR}, #{isSatisfy,jdbcType=DECIMAL},
-    #{isDeleted,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+    #{isDeleted,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{engIsSatisfy,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="extract.model.expert.ExpertExtractTypeInfo">
     insert into T_SES_EMS_EXTRACT_TYPE_INFO
@@ -82,6 +83,9 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
+      <if test="engIsSatisfy != null">
+        ENG_IS_SATISFY,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -119,6 +123,9 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="engIsSatisfy != null">
+        #{engIsSatisfy,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -158,6 +165,9 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="engIsSatisfy != null">
+        ENG_IS_SATISFY = #{engIsSatisfy,jdbcType=DECIMAL},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -173,7 +183,8 @@
     IS_SATISFY = #{isSatisfy,jdbcType=DECIMAL},
     IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
     CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-    UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+    UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+    ENG_IS_SATISFY = #{engIsSatisfy,jdbcType=DECIMAL},
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

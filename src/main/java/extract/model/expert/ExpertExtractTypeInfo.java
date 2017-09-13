@@ -54,9 +54,14 @@ public class ExpertExtractTypeInfo {
     private String expertTypeCode;
 
     /**
-     * 是否同时满足
+     * 产品类别是否同时满足
      */
     private Short isSatisfy;
+    
+    /**
+     * 工程专业信息是否同时满足
+     */
+    private Short engIsSatisfy;
 
     /**
      * 删除标识
@@ -168,4 +173,13 @@ public class ExpertExtractTypeInfo {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public Short getEngIsSatisfy() {
+        return engIsSatisfy;
+	}
+
+    public void setEngIsSatisfy(Short engIsSatisfy) {
+        this.engIsSatisfy = engIsSatisfy;
+    }
+
 }

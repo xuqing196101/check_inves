@@ -104,9 +104,6 @@ function artificial_extracting(){
     });
 }
 function addTr(code,data){
-    /*$("#"+code+"_result").find("tbody").find("tr").each(function(){
-        $(this).remove();
-    });*/
     var info = "<tr>" +
     "<td class='w50 tc'>"+1+"</td>" +
     "<input value='"+coUndifined(data.id)+"'type='hidden'>" +

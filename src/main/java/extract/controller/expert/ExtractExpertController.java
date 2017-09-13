@@ -108,7 +108,7 @@ public class ExtractExpertController {
     
     /**
      * 
-     * Description: 保存项目信息
+     * Description: 保存抽取信息
      * 
      * @author zhang shubin
      * @data 2017年9月5日
@@ -119,11 +119,11 @@ public class ExtractExpertController {
     @RequestMapping("/saveProjectInfo")
     @ResponseBody
     public String saveProjectInfo(ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception{
-        
-        //添加项目基本信息
+        //保存项目基本信息
         expertExtractProjectService.save(expertExtractProject);
          //查询抽取结果信息
         Map<String, Object> result = expertExtractProjectService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
+        //保存抽取条件
         ExpertExtractCondition condition = expertExtractConditionService.save(expertExtractCondition,expertExtractCateInfo);
         result.put("conditionId", condition.getId());
         return JSON.toJSONString(result);

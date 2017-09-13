@@ -2577,6 +2577,13 @@ resultMap="BaseResultMap">
               #{item}  
             </foreach>
         </if>
+        <!-- 工程专业信息 -->
+        <if test="engSize > 0">
+          AND ID IN 
+            <foreach item="item" index="index" collection="expertEngIds" open="(" separator="," close=")">  
+              #{item}  
+            </foreach>
+        </if>
         <!-- 去掉已经抽取过的专家 -->
         <if test="notSize > 0">
            AND ID NOT IN 
@@ -2598,6 +2605,14 @@ resultMap="BaseResultMap">
         <!-- 专家类别 -->
         <if test="expertsTypeId != null and expertsTypeId !=''">
           AND instr(EXPERTS_TYPE_ID, #{expertsTypeId} ) > 0
+        </if>
+        <!-- 技术职称 -->
+        <if test="technical != null and technical !=''">
+          AND PROFESS_TECH_TITLES = #{technical}
+        </if>
+        <!-- 工程执业资格 -->
+        <if test="qualification != null and qualification !=''">
+          AND PROFESSIONAL = #{qualification}
         </if>
         ORDER BY dbms_random.random
   </select>

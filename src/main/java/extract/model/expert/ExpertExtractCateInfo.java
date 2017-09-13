@@ -15,6 +15,9 @@ public class ExpertExtractCateInfo {
 
     // 工程专业信息（工程专业）
     private String project_eng_info;
+    
+    // 是否同时满足工程专业信息条件（工程专业）
+    private String project_eng_isSatisfy;
 
     // 产品类别（工程专业）
     private String project_type;
@@ -33,6 +36,9 @@ public class ExpertExtractCateInfo {
 
     // 工程专业信息（工程经济）
     private String goods_project_eng_info;
+    
+    // 是否同时满足工程专业信息条件（工程专业）
+    private String goods_project_eng_isSatisfy;
 
     // 产品类别（工程经济）
     private String goods_project_type;
@@ -273,6 +279,22 @@ public class ExpertExtractCateInfo {
 
     public void setService_isSatisfy(String service_isSatisfy) {
         this.service_isSatisfy = service_isSatisfy;
+    }
+
+    public String getProject_eng_isSatisfy() {
+        return project_eng_isSatisfy;
+    }
+
+    public void setProject_eng_isSatisfy(String project_eng_isSatisfy) {
+        this.project_eng_isSatisfy = project_eng_isSatisfy;
+    }
+
+    public String getGoods_project_eng_isSatisfy() {
+        return goods_project_eng_isSatisfy;
+    }
+
+    public void setGoods_project_eng_isSatisfy(String goods_project_eng_isSatisfy) {
+        this.goods_project_eng_isSatisfy = goods_project_eng_isSatisfy;
     }
 
 }

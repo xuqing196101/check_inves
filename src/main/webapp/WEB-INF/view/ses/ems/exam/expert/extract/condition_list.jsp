@@ -389,7 +389,6 @@
         <!-- 工程经济 -->
         <div class="col-md-12 clear mt20 pt20 borderTS1 display-none" id="GOODS_PROJECT">
           <form id="GOODS_PROJECT_form">
-            <!-- <input class="span5" type="hidden" name="cateCode" value="GOODS_PROJECT"> -->
             <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="GOODS_PROJECT_count">0</span>人</button></div>
             <ul class="col-xs-10 p0">
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">

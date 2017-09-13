@@ -13,10 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.ems.ExpertBlackListMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
+import ses.model.ems.ExpertBlackList;
 import ses.util.DictionaryDataUtil;
 import extract.dao.expert.ExpertExtractProjectMapper;
 import extract.dao.expert.ExpertExtractResultMapper;
@@ -55,6 +57,10 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     //专家产品信息
     @Autowired
     private ExpertCategoryMapper expertCategoryMapper;
+    
+    //专家黑名单
+    @Autowired
+    private ExpertBlackListMapper expertBlackListMapper;
 
     /**
      * 保存信息
@@ -112,7 +118,6 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> resultMap = new HashMap<>();
         Class c = Class.forName("extract.model.expert.ExpertExtractCateInfo");
-        //Integer count = 0;
         //判断专家类型 地方  军队
         if(expertExtractCondition.getExpertTypeId() != null && !("0").equals(expertExtractCondition.getExpertTypeId())){
             map.put("expertsFrom", expertExtractCondition.getExpertTypeId());
@@ -123,7 +128,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             map.put("areaNames", areaNames);
         }
         //专家类别
-        if(expertExtractCondition.getExpertKindId() != null && expertExtractCondition.getExpertKindId().indexOf(",") >= 0){
+        if(expertExtractCondition.getExpertKindId() != null){
             String[] typeCodes = expertExtractCondition.getExpertKindId().split(",");
             for (String typeCode : typeCodes) {
                 if(DictionaryDataUtil.get(typeCode) != null){
@@ -152,67 +157,66 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                 }
                 map.put("expertIds",expertIds);
                 map.put("size",expertIds.size());
+                //工程特有
+                if(typeCode.indexOf("PROJECT") >= 0){
+                	Set<String> expertEngIds = new HashSet<>();
+                    //工程执业资格
+                    Field field2 = c.getDeclaredField(typeCode.toLowerCase()+"_qualification");
+                    field2.setAccessible(true); //设置些属性是可以访问的  
+                    String qualification = (String)field2.get(expertExtractCateInfo);
+                    map.put("qualification",qualification);
+                    //工程专业信息
+                    Field field3 = c.getDeclaredField(typeCode.toLowerCase()+"_eng_info");
+                    field3.setAccessible(true); //设置些属性是可以访问的  
+                    String engCategoryIds = (String)field3.get(expertExtractCateInfo);
+                    if(!"".equals(engCategoryIds)){
+                    	Field field4 = c.getDeclaredField(typeCode.toLowerCase()+"_eng_isSatisfy");
+                        field4.setAccessible(true); //设置些属性是可以访问的  
+                        String engIsSatisfy = (String)field4.get(expertExtractCateInfo);
+                        if(engIsSatisfy != null && engIsSatisfy.equals("1")){
+                            String[] categoryId = engCategoryIds.split(",");
+                            for (String str : categoryId) {
+                                Map<String, Object> cateMap = new HashMap<>();
+                                cateMap.put("categoryId", str);
+                                cateMap.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
+                                List<String> expertIdList = expertCategoryMapper.selExpertByCategory(cateMap);
+                                expertEngIds.addAll(expertIdList);
+                            }
+                        }
+                    }
+                    map.put("expertIds",expertEngIds);
+                    map.put("engSize",expertEngIds.size());
+                }
                 //筛选 去掉已经被抽过的专家
                 List<String> notExpertIds = new ArrayList<String>();
                 if(expertExtractCondition.getId() != null){
-                	List<String> findByConditionId = expertExtractResultMapper.findByConditionId(expertExtractCondition.getId());
-                	notExpertIds.addAll(findByConditionId);
+                    List<String> findByConditionId = expertExtractResultMapper.findByConditionId(expertExtractCondition.getId());
+                    notExpertIds.addAll(findByConditionId);
+                }
+                //筛选专家黑名单中的专家
+                List<ExpertBlackList> blackList = expertBlackListMapper.findAllBlackListExpert(0);
+                if(blackList != null && blackList.size() > 0){
+                    for (ExpertBlackList ebl : blackList) {
+                        if( !"".equals(ebl.getExpertId())){
+                            notExpertIds.add(ebl.getExpertId());
+                        }
+                    }
                 }
                 map.put("notExpertIds",notExpertIds);
                 map.put("notSize",notExpertIds.size());
+                //技术职称
+                Field field2 = c.getDeclaredField(typeCode.toLowerCase()+"_technical");
+                field2.setAccessible(true); //设置些属性是可以访问的  
+                String technical = (String)field2.get(expertExtractCateInfo);
+                map.put("technical",technical);
                 List<Expert> expertList = expertMapper.findExpertByExtract(map);
                 expertList = getExpertTypes(expertList);
-                /*if(expertList != null){
-                    count = expertList.size();
-                }*/
                 resultMap.put(typeCode, expertList);
             }
-        }else{
-            String typeCode = expertExtractCondition.getExpertKindId();
-            if(DictionaryDataUtil.get(typeCode) != null){
-                map.put("expertsTypeId", DictionaryDataUtil.get(typeCode).getId());
-            }
-            //附加产品目录
-            Set<String> expertIds = new HashSet<>();
-            Field field = c.getDeclaredField(typeCode.toLowerCase()+"_type");
-            field.setAccessible(true); //设置些属性是可以访问的  
-            String categoryIds = (String)field.get(expertExtractCateInfo);
-            if(categoryIds != null && !categoryIds.equals("")){
-                //1  满足某一条件  2同时满足多个产品目录条件
-                Field field2 = c.getDeclaredField(typeCode.toLowerCase()+"_isSatisfy");
-                field2.setAccessible(true); //设置些属性是可以访问的  
-                String isSatisfy = (String)field2.get(expertExtractCateInfo);
-                if(isSatisfy != null && isSatisfy.equals("1")){
-                    String[] categoryId = categoryIds.split(",");
-                    for (String str : categoryId) {
-                        Map<String, Object> cateMap = new HashMap<>();
-                        cateMap.put("categoryId", str);
-                        cateMap.put("typeId", DictionaryDataUtil.getId(typeCode));
-                        List<String> expertIdList = expertCategoryMapper.selExpertByCategory(cateMap);
-                        expertIds.addAll(expertIdList);
-                    }
-                }
-            }
-            map.put("expertIds",expertIds);
-            map.put("size",expertIds.size());
-            //筛选 去掉已经被抽过的专家
-            List<String> notExpertIds = new ArrayList<String>();
-            if(expertExtractCondition.getId() != null){
-            	List<String> findByConditionId = expertExtractResultMapper.findByConditionId(expertExtractCondition.getId());
-            	notExpertIds.addAll(findByConditionId);
-            }
-            map.put("notExpertIds",notExpertIds);
-            map.put("notSize",notExpertIds.size());
-            List<Expert> expertList = expertMapper.findExpertByExtract(map);
-            expertList = getExpertTypes(expertList);
-            /*if(expertList != null){
-                count = expertList.size();
-            }*/
-            resultMap.put(typeCode, expertList);
         }
         return resultMap;
     }
-    
+
     /**
      * 
      * Description: 转换专家类型

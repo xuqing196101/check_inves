@@ -99,7 +99,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
             field3.setAccessible(true); //设置些属性是可以访问的  
             String isS = (String)field3.get(expertExtractCateInfo);
             if(isS != null && !isS.equals("")){
-                Short isSatisfy = new Short((String)field3.get(expertExtractCateInfo));
+                Short isSatisfy = new Short(isS);
                 expertExtractTypeInfo.setIsSatisfy(isSatisfy);
             }
             //专家类别为工程
@@ -109,6 +109,14 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                 field5.setAccessible(true); //设置些属性是可以访问的  
                 String qualification = (String)field5.get(expertExtractCateInfo);
                 expertExtractTypeInfo.setEngQualification(qualification);
+                //是否同时满足工程专业信息
+                Field field6 = c.getDeclaredField(typeCode.toLowerCase()+"_eng_isSatisfy");
+                field6.setAccessible(true); //设置些属性是可以访问的  
+                String engIs = (String)field6.get(expertExtractCateInfo);
+                if(engIs != null && !engIs.equals("")){
+                    Short engIsSatisfy = new Short(engIs);
+                    expertExtractTypeInfo.setEngIsSatisfy(engIsSatisfy);
+                }
             }
             expertExtractTypeInfo.setCreatedAt(new Date());
             expertExtractTypeInfo.setUpdatedAt(new Date());
