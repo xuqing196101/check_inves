@@ -10,7 +10,7 @@
         <a aria-expanded="false" href="#tab-1" data-toggle="tab">专家类别</a><i></i>
     </li>
     <li id="reverse_of_three" onclick="jump('product')">
-        <a aria-expanded="false" href="#tab-1" data-toggle="tab">产品类别</a><i></i>
+        <a aria-expanded="false" href="#tab-1" data-toggle="tab">参评类别</a><i></i>
     </li>
     <li id="reverse_of_four" onclick="jump('expertFile')">
         <a aria-expanded="false" href="#tab-1" data-toggle="tab">承诺书和申请表</a><i></i>
