@@ -611,7 +611,7 @@
        $("#table2 tr").each(function(i){
            if(i > 0){
                var limit_price = $($(this).find("td").eq(2)).children(":first").val();
-               if(limit_price == 0){
+               if(limit_price != '' && limit_price == 0){
                    layer.alert("第" + i + "行限价不能为0");
                    flag = false;
                    return;
