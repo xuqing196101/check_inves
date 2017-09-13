@@ -33,7 +33,6 @@ public class PropertiesUtil implements Serializable {
 	private Properties cfg = new Properties();
 
 	public PropertiesUtil(String file) {
-		file = null;
 		if (file != null) {
 			InputStream inputStream = null;
 			try {
