@@ -18,6 +18,15 @@
 .textbox.combo {
 	border: 0px !important;
 }
+.cue_province {
+	position: absolute;
+	left: 265px;
+	top: 70px;
+	height: 25px;
+	line-height: 25px;
+	color: #ef0000;
+	font-size: 12px;
+}
 </style>
 <script type="text/javascript">
 	$().ready(function() {
@@ -2032,6 +2041,7 @@
 									    	  	<option value="${area.id}">${area.name}</option>
 										    	</c:forEach>
 										    </select>
+										    <div class="cue_province">${province}</div>
 										</div>
 										<ul class="list-unstyled overflow_h">
 											<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}"/>
@@ -2056,12 +2066,12 @@
 											<c:choose>
                        	<c:when test="${currSupplier.status==2 }">
                          	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
-                         </c:when>
-                         <c:otherwise>
-                           <button type="button" class="btn" onclick="openRegPerson()">新增</button>
-                         </c:otherwise>
-                       </c:choose>
-											 <button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
+                        </c:when>
+                        <c:otherwise>
+                          <button type="button" class="btn" onclick="openRegPerson()">新增</button>
+                        </c:otherwise>
+                      </c:choose>
+										 	<button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
 											<span class="red">${eng_persons }</span>
 										</div>
 										<div
