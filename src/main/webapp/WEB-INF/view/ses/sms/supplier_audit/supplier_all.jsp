@@ -387,10 +387,10 @@
 		        		<option <c:if test="${state == 9 }">selected</c:if> value="9">退回再审核</option>
 		        		<option <c:if test="${state == -1 }">selected</c:if> value="-1">审核中</option>
 		        		<option <c:if test="${state == -2 }">selected</c:if> value="-2">预审核结束</option>
-		            <option <c:if test="${state == -3 }">selected</c:if> value="-3">公示中</option>
-		            <option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
-		            <option <c:if test="${state == 2 }">selected</c:if> value="2">退回修改</option>
-		            <option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option>
+		           	<option <c:if test="${state == -3 }">selected</c:if> value="-3">公示中</option>
+		           	<option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
+		           	<option <c:if test="${state == 2 }">selected</c:if> value="2">退回修改</option>
+		           	<option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option>
 		        	</c:if>
 		        	<c:if test="${sign eq '2' }">
 		        		<option <c:if test="${state == 4 }">selected</c:if> value="4">待复核</option>

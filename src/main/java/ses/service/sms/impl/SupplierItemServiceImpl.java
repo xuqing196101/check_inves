@@ -793,12 +793,14 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			SupplierItemCategoryBean sic = new SupplierItemCategoryBean();
 			if (cate == null) {
 				DictionaryData data = DictionaryDataUtil.findById(item.getCategoryId());
-				sic.setId(data.getId());
-				sic.setParentId(data.getId());
-				sic.setName(data.getName());
+				if(data != null){
+					sic.setId(data.getId());
+					//sic.setParentId(data.getId());
+					sic.setName(data.getName());
+				}
 			} else {
 				//供应商中间表的id和资质证书的id
-				cate.setParentId(item.getId());
+				//cate.setParentId(item.getId());
 				BeanUtils.copyProperties(cate, sic);
 			}
 			sic.setItemId(item.getId());

@@ -66,7 +66,7 @@
     parent.document.getElementById("suppllier_name_input_id").value='';
   }
   
-  //关闭弹出层
+	//关闭弹出层
 	function closeDialog(){
 		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 		parent.layer.close(index);
