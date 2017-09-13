@@ -118,7 +118,7 @@
     
     //引入模板内容
     function loadTemplat(projectId, packageId){
-   	 	
+   	 	var flowDefineId = "${flowDefineId}";
     	var fatId = $("#fatId").val();
     	if (fatId != null && fatId != '') {
     		var index = layer.load(1, {
@@ -136,7 +136,7 @@
 	                }else{
 	                    var packageId = $("#packageId").val();
 	                    var projectId = $("#projectId").val();
-	                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+	                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
 	                    layer.closeAll();
 	                    layer.msg(result.msg,{offset: ['150px']});
 	                }

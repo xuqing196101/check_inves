@@ -398,29 +398,26 @@
     <h2 class="list_title">${packages.name}  经济技术审查项编辑</h2>
     <c:if test="${project.confirmFile != 1 && isView != 1}">
   <div class="search_detail ml0">
-	        <ul class="demand_list">
-	          <li>
-	             <label class="fl">所属产品目录：</label>
-								<div class="fl">
-								<div class="input_group w200">
+	        <div class="row">
+	          <div class="col-md-3 col-sm-5 col-xs-12 p0">
+	             <label class="col-xs-6 h30 lh30 tr">所属产品目录：</label>
+								<div class="col-xs-6">
 									<input id="cId" name="categoryId"  type="hidden" value="${categoryId}">
-									<input id="categorySel"  type="text" name="categoryName" readonly value="${categoryName}"  onclick="showCategory();" />
+									<input id="categorySel" class="w100p m0 p0" type="text" name="categoryName" readonly value="${categoryName}"  onclick="showCategory();" />
 								</div>
-								</div>
-		       </li>
-		       <li>
-		       <label class="fl">模板选择</label>
-		       </li>
-		       <li>
-					<select id="fatId" class="w180">
-		            </select>
-	           </li>
+		       </div>
+		       <div class="col-md-3 col-sm-5 col-xs-12 p0">
+		       <label class="col-xs-5 h30 lh30 tr">模板选择：</label>
+		       <div class="col-xs-7">
+		       <select id="fatId" class="w100p"></select>
+		       </div>
+		       </div>
 	           
 	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" id="loadTemp" class="btn">确定选择</button>
 	          <%--  <div class="pull-right">
 	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
 	           </div> --%>
-	        </ul>
+	        </div>
 	        <div class="clear"></div>
 	     </div>
 	    </c:if>

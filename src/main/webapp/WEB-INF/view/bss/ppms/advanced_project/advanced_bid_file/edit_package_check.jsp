@@ -118,6 +118,7 @@
     
     //引入模板内容
     function loadTemplat(projectId, packageId){
+    var flowDefineId = "${flowDefineId}";
       var index = layer.load(1, {
             shade: [0.2,'#BFBFBF'] //0.1透明度的白色背景
           });
@@ -134,7 +135,7 @@
 	                }else{
 	                    var packageId = $("#packageId").val();
 	                    var projectId = $("#projectId").val();
-	                    window.location.href = '${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+	                    window.location.href = '${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
 	                    layer.closeAll();
 	                    layer.msg(result.msg,{offset: ['150px']});
 	                }
