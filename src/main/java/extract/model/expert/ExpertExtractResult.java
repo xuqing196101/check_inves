@@ -38,7 +38,7 @@ public class ExpertExtractResult {
     private String reviewTime;
 
     /**
-     * 主键
+     * 是否参加 1 参加 2 待定3不参加
      */
     private Short isJoin;
 

@@ -1,6 +1,7 @@
 package extract.service.expert;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.DictionaryData;
 import extract.model.expert.ExpertExtractCateInfo;
@@ -49,5 +50,5 @@ public interface ExpertExtractProjectService {
      * @return
      * @throws Exception 
      */
-    String findExpertByExtract(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception;
+    Map<String, Object> findExpertByExtract(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception;
 }

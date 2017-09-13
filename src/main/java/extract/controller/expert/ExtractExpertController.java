@@ -2,6 +2,7 @@ package extract.controller.expert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,29 +46,27 @@ import extract.service.expert.ExpertExtractProjectService;
 @RequestMapping("/extractExpert")
 public class ExtractExpertController {
 
-    //专家抽取项目信息
+	/** 专家抽取项目信息 **/
     @Autowired
     private ExpertExtractProjectService expertExtractProjectService;
-    
-    //专家抽取条件信息
+
+    /** 专家抽取条件信息 **/
     @Autowired
     private ExpertExtractConditionService expertExtractConditionService;
-    
-    //地区
+
+    /** 地区 **/
     @Autowired
     private AreaServiceI areaService;
-    
+
+    /** 品目 **/
     @Autowired
-    private CategoryService categoryService; // 品目
-    
-    /**
-     * 工程专业
-     */
+    private CategoryService categoryService;
+
+    /** 工程专业 **/
     @Autowired
     private EngCategoryService engCategoryService;
-    /*
-     * 工程专业品目
-     */
+
+    /** 工程专业品目 **/
     @Autowired
     private EngCategoryMapper engCategoryMapper;
 
@@ -120,13 +119,14 @@ public class ExtractExpertController {
     @RequestMapping("/saveProjectInfo")
     @ResponseBody
     public String saveProjectInfo(ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception{
+        
         //添加项目基本信息
-    	expertExtractProjectService.save(expertExtractProject);
-    	 //查询抽取结果信息
-    	String result = expertExtractProjectService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
-    	//保存条件信息
-        expertExtractConditionService.save(expertExtractCondition,expertExtractCateInfo);
-        return result;
+        expertExtractProjectService.save(expertExtractProject);
+         //查询抽取结果信息
+        Map<String, Object> result = expertExtractProjectService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
+        ExpertExtractCondition condition = expertExtractConditionService.save(expertExtractCondition,expertExtractCateInfo);
+        result.put("conditionId", condition.getId());
+        return JSON.toJSONString(result);
     }
     
     /**
@@ -161,8 +161,26 @@ public class ExtractExpertController {
     @RequestMapping("/getCount")
     @ResponseBody
     public String getCount(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception{
-        String result = expertExtractProjectService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
-        return result;
+        Map<String, Object> result = expertExtractProjectService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
+        return JSON.toJSONString(result);
+    }
+    
+    /**
+     * 
+     * Description: 追加显示专家
+     * 
+     * @author zhang shubin
+     * @data 2017年9月12日
+     * @param 
+     * @return
+     * @throws Exception 
+     */
+    @RequestMapping("/getExpert")
+    @ResponseBody
+    public String getExpert(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo,String conId) throws Exception{
+        expertExtractCondition.setId(conId);
+        Map<String, Object> result = expertExtractProjectService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
+        return JSON.toJSONString(result);
     }
     
     /**

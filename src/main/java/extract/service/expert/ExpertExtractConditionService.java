@@ -24,5 +24,5 @@ public interface ExpertExtractConditionService {
      * @throws ClassNotFoundException 
      * @throws Exception 
      */
-    void save(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception;
+    ExpertExtractCondition save(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception;
 }

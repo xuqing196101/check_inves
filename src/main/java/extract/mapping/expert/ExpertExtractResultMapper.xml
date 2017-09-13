@@ -149,4 +149,22 @@
     UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 条件查询 -->
+  <select id="findByConditionIdExpertId" resultMap="BaseResultMap" parameterType="Map">
+    SELECT <include refid="Base_Column_List" />
+    FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0
+      <if test="expertId != null">
+         AND EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+      </if>
+      <if test="conditionId != null">
+        AND CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
+  <!-- 条件查询 -->
+  <select id="findByConditionId" resultType="String" parameterType="String">
+    SELECT EXPERT_ID FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0 AND CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>

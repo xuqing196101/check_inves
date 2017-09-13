@@ -18,10 +18,8 @@ import ses.dao.ems.ExpertMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.util.DictionaryDataUtil;
-
-import com.alibaba.fastjson.JSON;
-
 import extract.dao.expert.ExpertExtractProjectMapper;
+import extract.dao.expert.ExpertExtractResultMapper;
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
@@ -41,19 +39,26 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     //专家抽取项目信息
     @Autowired
     private ExpertExtractProjectMapper expertExtractProjectMapper;
+
+    //专家抽取结果
+    @Autowired
+    private ExpertExtractResultMapper expertExtractResultMapper;
     
     //数据字典
     @Autowired
     private DictionaryDataMapper dictionaryDataMapper;
-    
+
     //专家查询
     @Autowired
     private ExpertMapper expertMapper;
-    
+
     //专家产品信息
     @Autowired
     private ExpertCategoryMapper expertCategoryMapper;
-    
+
+    /**
+     * 保存信息
+     */
     @Override
     public int save(ExpertExtractProject expertExtractProject) {
         expertExtractProject.setCreatedAt(new Date());
@@ -103,7 +108,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
      */
     @Override
     @SuppressWarnings("rawtypes")
-    public String findExpertByExtract(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception {
+    public Map<String, Object> findExpertByExtract(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> resultMap = new HashMap<>();
         Class c = Class.forName("extract.model.expert.ExpertExtractCateInfo");
@@ -147,6 +152,14 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                 }
                 map.put("expertIds",expertIds);
                 map.put("size",expertIds.size());
+                //筛选 去掉已经被抽过的专家
+                List<String> notExpertIds = new ArrayList<String>();
+                if(expertExtractCondition.getId() != null){
+                	List<String> findByConditionId = expertExtractResultMapper.findByConditionId(expertExtractCondition.getId());
+                	notExpertIds.addAll(findByConditionId);
+                }
+                map.put("notExpertIds",notExpertIds);
+                map.put("notSize",notExpertIds.size());
                 List<Expert> expertList = expertMapper.findExpertByExtract(map);
                 expertList = getExpertTypes(expertList);
                 /*if(expertList != null){
@@ -182,6 +195,14 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             }
             map.put("expertIds",expertIds);
             map.put("size",expertIds.size());
+            //筛选 去掉已经被抽过的专家
+            List<String> notExpertIds = new ArrayList<String>();
+            if(expertExtractCondition.getId() != null){
+            	List<String> findByConditionId = expertExtractResultMapper.findByConditionId(expertExtractCondition.getId());
+            	notExpertIds.addAll(findByConditionId);
+            }
+            map.put("notExpertIds",notExpertIds);
+            map.put("notSize",notExpertIds.size());
             List<Expert> expertList = expertMapper.findExpertByExtract(map);
             expertList = getExpertTypes(expertList);
             /*if(expertList != null){
@@ -189,7 +210,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             }*/
             resultMap.put(typeCode, expertList);
         }
-        return JSON.toJSONString(resultMap);
+        return resultMap;
     }
     
     /**

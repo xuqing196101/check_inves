@@ -12,14 +12,14 @@ import extract.model.expert.ExtractCategory;
  */
 public interface ExtractCategoryMapper {
 
-	/**
-	 * 
-	 * Description: 新增
-	 * 
-	 * @author zhang shubin
-	 * @data 2017年9月11日
-	 * @param 
-	 * @return
-	 */
-	int insertSelective(ExtractCategory record);
+    /**
+     * 
+     * Description: 新增
+     * 
+     * @author zhang shubin
+     * @data 2017年9月11日
+     * @param 
+     * @return
+     */
+    int insertSelective(ExtractCategory record);
 }

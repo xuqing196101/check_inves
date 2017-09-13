@@ -28,66 +28,66 @@ import extract.service.expert.ExpertExtractConditionService;
  */
 @Service("expertExtractConditionService")
 public class ExpertExtractConditionServiceImpl implements ExpertExtractConditionService {
-    
-	//专家抽取条件
-	@Autowired
-    private ExpertExtractConditionMapper expertExtractConditionMapper;
-	
-	//抽取专家类型条件信息
-	@Autowired
-	private ExpertExtractTypeInfoMapper expertExtractTypeInfoMapper;
 
-	//专家抽取产品类别信息
-	@Autowired
-	private ExtractCategoryMapper extractCategoryMapper;
-    
-	/**
+    //专家抽取条件
+    @Autowired
+    private ExpertExtractConditionMapper expertExtractConditionMapper;
+
+    //抽取专家类型条件信息
+    @Autowired
+    private ExpertExtractTypeInfoMapper expertExtractTypeInfoMapper;
+
+    //专家抽取产品类别信息
+    @Autowired
+    private ExtractCategoryMapper extractCategoryMapper;
+
+    /**
      * 保存抽取条件
      * @throws ClassNotFoundException 
      * @throws SecurityException 
      * @throws NoSuchFieldException 
      */
     @Override
-    public void save(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception {
+    public ExpertExtractCondition save(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception {
         String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
         expertExtractCondition.setProjectId(expertExtractCondition.getId());
         expertExtractCondition.setId(uuid);
         String kind = expertExtractCondition.getExpertKindId();
         if(kind != null && kind.indexOf(",") >= 0){
-        	String[] typeCodes = kind.split(",");
+            String[] typeCodes = kind.split(",");
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < typeCodes.length; i++) {
-				if(i != 0){
-					sb.append(","+DictionaryDataUtil.getId(typeCodes[i]));
-				}else{
-					sb.append(DictionaryDataUtil.getId(typeCodes[i]));
-				}
-			}
+                if(i != 0){
+                    sb.append(","+DictionaryDataUtil.getId(typeCodes[i]));
+                }else{
+                    sb.append(DictionaryDataUtil.getId(typeCodes[i]));
+                }
+            }
             expertExtractCondition.setExpertKindId(sb.toString());
         }else{
-        	expertExtractCondition.setExpertKindId(DictionaryDataUtil.getId(kind));
+            expertExtractCondition.setExpertKindId(DictionaryDataUtil.getId(kind));
         }
         expertExtractCondition.setCreatedAt(new Date());
         expertExtractCondition.setUpdatedAt(new Date());
         expertExtractCondition.setIsDeleted((short) 0);
         expertExtractConditionMapper.insertSelective(expertExtractCondition);
         //插入品目条件信息
-		@SuppressWarnings("rawtypes")
-		Class c = Class.forName("extract.model.expert.ExpertExtractCateInfo");
-    	String[] typeCodes = kind.split(",");
-    	for (String typeCode : typeCodes) {
-    		ExpertExtractTypeInfo expertExtractTypeInfo = new ExpertExtractTypeInfo();
-    		String id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-    		expertExtractTypeInfo.setId(id);
-    		//获取总人数
-    		Field field1 = c.getDeclaredField(typeCode.toLowerCase()+"_i_count");
+        @SuppressWarnings("rawtypes")
+        Class c = Class.forName("extract.model.expert.ExpertExtractCateInfo");
+        String[] typeCodes = kind.split(",");
+        for (String typeCode : typeCodes) {
+            ExpertExtractTypeInfo expertExtractTypeInfo = new ExpertExtractTypeInfo();
+            String id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+            expertExtractTypeInfo.setId(id);
+            //获取总人数
+            Field field1 = c.getDeclaredField(typeCode.toLowerCase()+"_i_count");
             field1.setAccessible(true); //设置些属性是可以访问的  
             String sCount = (String)field1.get(expertExtractCateInfo);
             if(sCount != null && !sCount.equals("")){
-            	BigDecimal countPerson = new BigDecimal(sCount);
+                BigDecimal countPerson = new BigDecimal(sCount);
                 expertExtractTypeInfo.setCountPerson(countPerson);
             }
-    		//获取技术职称 
+            //获取技术职称 
             Field field2 = c.getDeclaredField(typeCode.toLowerCase()+"_technical");
             field2.setAccessible(true); //设置些属性是可以访问的  
             String technicalTitle = (String)field2.get(expertExtractCateInfo);
@@ -99,13 +99,13 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
             field3.setAccessible(true); //设置些属性是可以访问的  
             String isS = (String)field3.get(expertExtractCateInfo);
             if(isS != null && !isS.equals("")){
-            	Short isSatisfy = new Short((String)field3.get(expertExtractCateInfo));
-            	expertExtractTypeInfo.setIsSatisfy(isSatisfy);
+                Short isSatisfy = new Short((String)field3.get(expertExtractCateInfo));
+                expertExtractTypeInfo.setIsSatisfy(isSatisfy);
             }
             //专家类别为工程
             if(typeCode.indexOf("PROJECT") >= 0){
-            	//工程执业资格
-            	Field field5 = c.getDeclaredField(typeCode.toLowerCase()+"_qualification");
+                //工程执业资格
+                Field field5 = c.getDeclaredField(typeCode.toLowerCase()+"_qualification");
                 field5.setAccessible(true); //设置些属性是可以访问的  
                 String qualification = (String)field5.get(expertExtractCateInfo);
                 expertExtractTypeInfo.setEngQualification(qualification);
@@ -121,37 +121,38 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
             if(categoryIds != null && !categoryIds.equals("")){
                 String[] categoryId = categoryIds.split(",");
                 for (String str : categoryId) {
-                	ExtractCategory extractCategory = new ExtractCategory();
-            		String cid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-            		extractCategory.setId(cid);
-            		extractCategory.setConditionId(uuid);
-            		extractCategory.setCategoryId(str);
-            		extractCategory.setTypeId(DictionaryDataUtil.getId(typeCode));
-            		extractCategory.setIsDeleted((short) 0);
-            		extractCategoryMapper.insertSelective(extractCategory);
+                    ExtractCategory extractCategory = new ExtractCategory();
+                    String cid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+                    extractCategory.setId(cid);
+                    extractCategory.setConditionId(uuid);
+                    extractCategory.setCategoryId(str);
+                    extractCategory.setTypeId(DictionaryDataUtil.getId(typeCode));
+                    extractCategory.setIsDeleted((short) 0);
+                    extractCategoryMapper.insertSelective(extractCategory);
                 }
             }
             //专家类别为工程  工程特有的工程专业信息
             if(typeCode.indexOf("PROJECT") >= 0){
-            	//工程执业资格
-            	Field field6 = c.getDeclaredField(typeCode.toLowerCase()+"_eng_info");
+                //工程执业资格
+                Field field6 = c.getDeclaredField(typeCode.toLowerCase()+"_eng_info");
                 field6.setAccessible(true); //设置些属性是可以访问的  
                 String engInfo = (String)field6.get(expertExtractCateInfo);
                 if(!"".equals(engInfo)){
-                	String[] engInfoCategory = engInfo.split(",");
-                	for (String str : engInfoCategory) {
-                		ExtractCategory extractCategory = new ExtractCategory();
-                		String cid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-                		extractCategory.setId(cid);
-                		extractCategory.setConditionId(uuid);
-                		extractCategory.setCategoryId(str);
-                		extractCategory.setTypeId(DictionaryDataUtil.getId(typeCode));
-                		extractCategory.setIsDeleted((short) 0);
-                		extractCategory.setIsEng((short) 1);
-                		extractCategoryMapper.insertSelective(extractCategory);
-					}
+                    String[] engInfoCategory = engInfo.split(",");
+                    for (String str : engInfoCategory) {
+                        ExtractCategory extractCategory = new ExtractCategory();
+                        String cid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+                        extractCategory.setId(cid);
+                        extractCategory.setConditionId(uuid);
+                        extractCategory.setCategoryId(str);
+                        extractCategory.setTypeId(DictionaryDataUtil.getId(typeCode));
+                        extractCategory.setIsDeleted((short) 0);
+                        extractCategory.setIsEng((short) 1);
+                        extractCategoryMapper.insertSelective(extractCategory);
+                    }
                 }
             }
-    	}
+        }
+        return expertExtractCondition;
     }
 }
