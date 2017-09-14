@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.ResponseEntity;
+
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import extract.model.supplier.SupplierExtractProjectInfo;
 
@@ -78,7 +82,7 @@ public interface SupplierExtractRecordService {
   List<SupplierExtractProjectInfo> getList(int i);
 
   
-  void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo);
+  void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo, User user);
   
   /**
    * @Description:插入记录
@@ -89,5 +93,7 @@ public interface SupplierExtractRecordService {
    * @return void
    */
   void insertProjectInfo(SupplierExtractProjectInfo record);
+
+  ResponseEntity<byte[]> printRecord(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
   
 }

@@ -53,6 +53,7 @@
 	<c:set var="flag" value="true"></c:set>
 </c:if>
     <form id="projectForm" action="<%=request.getContextPath() %>/SupplierExtracts/saveProjectInfo.do" method="post" >
+    <input type="submit"> <input type="button" value="存储项目人员信息" onclick="submitInfo()">
         <!-- 打开类型 -->
       <%--   <input type="hidden" value="${typeclassId}" name="typeclassId" /> --%>
         <!-- 项目id  -->
@@ -82,7 +83,7 @@
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
            			<c:if test="${projectInfo.purchaseType ==null }">
                    	<select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0">
-                   	 	<option value="3CF3C643AE0A4499ADB15473106A7B80" >竞争性谈判</option>
+                   	 	<option value="3CF3C643AE0A4499ADB15473106A7B80" selected="selected">竞争性谈判</option>
                         <option value="EF33590F956F4450A43C1B510EBA7923" >询价采购</option>
                         <option value="209C109291F241D88188521A7F8FA308" >邀请招标</option>
                      </select>
@@ -123,13 +124,13 @@
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>售领地区</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                      <select class="col-md-6 col-sm-6 col-xs-6 p0" id="sellProvince" name="sellProvince" onchange="selectArea(this);">
-                            <c:forEach items="${province }" var="pro">
-                                    <option value="${pro.id }">${pro.name }</option>
+                            <c:forEach items="${province }" var="pro"  >
+                       		 	<option value="${pro.id }">${pro.name }</option>
                             </c:forEach>
                         </select>
                         <select name="sellAddress" class="col-md-6 col-sm-6 col-xs-6 p0" id="sellAddress">
-                       		 <c:forEach items="${address }" var="add">
-                                <option value="${add.id }">${add.name }</option>
+                       		 <c:forEach items="${address }" var="add" varStatus="v">
+                       		 	 <option value="${add.id }">${add.name }</option>
                        		 </c:forEach>
                         </select>
                      <div class="cue" id="sellAreaError"></div>
@@ -149,13 +150,11 @@
                  <%-- <c:if test="${flag }">
                  	 <input id="projectType" name="projectType" value="${projectInfo.projectType }" type="text" >
                  </c:if> --%>
-                 <c:if test="${flag }">
                      <select id="projectType" name="projectType" class="col-md-12 col-sm-12 col-xs-6 p0" onchange="loadSupplierType()">
                           <option value="GOODS" ${projectInfo.projectType == 'GOODS' ? 'selected' : '' }>物资</option>
                           <option value="PROJECT" ${projectInfo.projectType == 'PROJECT' ? 'selected' : '' }>工程</option>
                           <option value="SERVICE" ${projectInfo.projectType == 'SERVICE' ? 'selected' : '' }>服务</option>
                      </select>
-                 </c:if>
                      <span class="add-on">i</span>
                      <div class="cue" id="projectTypeError"></div>
                  </div>
@@ -188,7 +187,7 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系电话</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input name="contactNum" value="" type="text" >
+                     <input name="contactNum" value="" onchange="checkPhone()" type="text" >
                      <span class="add-on">i</span>
                      <div class="cue" id="contactNumError"></div>
                  </div>
@@ -263,15 +262,12 @@
 	<!-- 条件开始 -->
 	<div class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled" >
     <form id="form1" method="post" >
+    <input type="button" onclick="submitCondition()" value="提交条件">
         <input id="sunCount" type="hidden">
-        <!--    地區id -->
-        <input type="hidden" name="addressId" id="addressId">
         <!--        项目id -->
         <input type="hidden" name="projectId" id="pid" value="${packageId}">
         <!-- 记录id -->
         <input type="hidden" name="recordId" id="recordId" value="${projectInfo.id}">
-        <!-- 地区 -->
-        <input type="hidden" name="address" id="address">
 		<input type="hidden" id="conditionId" name="id" value="${projectInfo.conditionId }">
         <!-- 类型id -->
         <input type="hidden" name="supplierTypeId" id="supplierTypeId">
@@ -283,17 +279,16 @@
         <input type="hidden" name="categoryName" id="extCategoryNames">
         <!--     品目id -->
        <!--  <input type='hidden' name='categoryId' id='extCategoryId'> -->
-        <input type="hidden" name="addressReason" id="addressReason">
         <!--         省 -->
         <input type="hidden" name="province" id="province"/>
-        <input type="hidden" name="" id="hiddentype">
+        <input type="hidden" name="addressId" id="addressId">
           <h2 class="count_flow"><i>3</i>抽取条件</h2>
           <ul class="ul_list m0" style="background-color: #fbfbfb">
               <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div
                           class="star_red">*</div>所在地区：</span>
                   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                  	<input class="input_group " readonly  id="area" onclick="showTree();">
+                  	<input class="input_group " readonly name="areaName" id="area" onclick="showTree();">
                   	 <span class="add-on">i</span>
                   	  <div class="cue" id="dCategoryName"></div>
                   </div>
@@ -301,7 +296,7 @@
                <li class="col-md-3 col-sm-6 col-xs-12  dnone">
                   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>限制地区理由：</span>
                   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="areaReson" id="areaReson" value=""
+                      <input class="input_group" name="addressReason" id="areaReson" value=""
                              type="text">
                       <span class="add-on">i</span>
                       <div class="cue" ></div>
@@ -947,4 +942,66 @@
         }
     </script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/ses/sms/supplierExtract.js"></script>
+<script type="text/javascript">
+function submitInfo(){
+
+	//存储项目信息
+    	$.ajax({
+    		type: "POST",
+    		url: $("#projectForm").attr('action'),
+    		data:$("#projectForm").serialize(),
+    		dataType: "text",
+    		success: function (msg) {
+    			
+    		}
+    	});
+    	//存储人员信息
+    	$.ajax({
+    		type: "POST",
+    		url: $("#supervise").attr('action'),
+    		data:  $("#supervise").serialize(),
+    		dataType: "json",
+    		success: function (msg) {
+    			
+    		}
+    	});
+    	$.ajax({
+    		type: "POST",
+    		url: $("#extractUser").attr('action'),
+    		data:  $("#extractUser").serialize(),
+    		dataType: "json",
+    		success: function (msg) {
+    			
+    		}
+    	});
+}
+
+function submitCondition(){
+	$.ajax({
+    		type: "POST",
+    		url: globalPath+'/SupplierCondition/selectLikeSupplier.do',
+    		data: $('#form1').serialize() ,
+    		dataType: "json",
+    		async:false,
+    		success: function (msg) {
+    			if(null != msg.list){
+    				var su = msg.list;
+    				if(null !=su.PROJECT){
+    					projects =su.PROJECT;
+    				}
+    				if(null !=su.SERVICE){
+    					services = su.SERVICE;
+    				}
+    				if(null !=su.PRODUCT){
+    					products = su.PRODUCT;
+    				}
+    				if(null !=su.SALES){
+    					sales = su.SALES;
+    				}
+    			}
+    			
+    		}
+    	});
+}
+</script>
 </html>

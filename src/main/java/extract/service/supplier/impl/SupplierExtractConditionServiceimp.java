@@ -430,7 +430,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			List<ExtractConditionRelation> list = new ArrayList<>();
 			String cid = condition.getId();
 			//删除上次查询条件
-			//extractConditionRelationMapper.deleteConditionRelationByMap(condition.getId());
+			extractConditionRelationMapper.deleteConditionRelationByMap(condition.getId());
 			//省份，直辖市
 			if(StringUtils.isNotEmpty(condition.getProvince())){
 				for (String province : condition.getProvinces()) {
@@ -522,11 +522,11 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 				if (null != conType.getServiceIsMulticondition()) {
 					list.add(new ExtractConditionRelation(cid,"serviceIsMulticondition",conType.getServiceIsMulticondition().toString()));
 				}
-				//工程抽取数量
+				//销售抽取数量
 				if (null != conType.getSalesExtractNum()) {
-					list.add(new ExtractConditionRelation(cid,"saleExtractNum",conType.getSalesExtractNum().toString()));
+					list.add(new ExtractConditionRelation(cid,"salesExtractNum",conType.getSalesExtractNum().toString()));
 				}
-				//工程品目标志
+				//销售品目标志
 				if (null != conType.getSalesIsMulticondition()) {
 					list.add(new ExtractConditionRelation(cid,"saleIsMulticondition",conType.getSalesIsMulticondition().toString()));
 				}

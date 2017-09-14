@@ -4,7 +4,7 @@
 	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractResult">
 		<!-- @mbggenerated -->
 		<id column="ID" jdbcType="VARCHAR" property="id" />
-		<result column="SUPPLIER_CONDITION_ID" jdbcType="VARCHAR"
+		<result column="CONDITION_ID" jdbcType="VARCHAR"
 			property="supplierConditionId" />
 		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
 		<result column="OPERATING_TYPE" jdbcType="DECIMAL" property="operatingType" />
@@ -14,8 +14,10 @@
 		<result column="UPDATED_AT" jdbcType="VARCHAR" property="updatedAt" />
 		<result column="CON_TYPE_ID" jdbcType="VARCHAR" property="conTypeId" />
 		<result column="STATUS_COUNT" jdbcType="DECIMAL" property="statusCount" />
-		<result column="REVIEW_TYPE" jdbcType="VARCHAR" property="reviewType" />
-
+		<result column="MOBILE" property="mobile" />
+		<result column="JOIN" property="join" />
+		<result column="SUPPLIER_NAME" property="supplierName" />
+		<result column="CONTACT_TELEPHONE" property="contactTelephone" />
 		<!-- 供应商 -->
 		<!-- <association column="SUPPLIER_ID" property="supplier"
 			select="ses.dao.sms.SupplierMapper.selectByPrimaryKeyItem" /> -->
@@ -187,6 +189,9 @@
 			<if test="isDeleted != null">
 				IS_DELETED,
 			</if>
+			<if test="join != null">
+				JOIN,
+			</if>
 			<if test="reason != null">
 				REASON,
 			</if>
@@ -212,6 +217,9 @@
 			</if>
 			<if test="isDeleted != null">
 				#{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="join != null">
+				#{join,jdbcType=DECIMAL},
 			</if>
 			<if test="reason != null">
 				#{reason,jdbcType=VARCHAR},
@@ -587,5 +595,9 @@
 		ORDER BY dbms_random.random) SP WHERE ROWNUM = 1
 	</select>
 	
-
+	<!-- 详细抽取结果 -->
+	<select id="getSupplierListByRid" parameterType="map" resultMap="BaseResultMap">
+		SELECT DISTINCT R.JOIN,R.REASON,S.SUPPLIER_NAME,S.CONTACT_NAME,S.CONTACT_TELEPHONE FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
+		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}
+	</select>
 </mapper>

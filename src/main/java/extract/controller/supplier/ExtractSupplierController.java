@@ -1,13 +1,22 @@
 
 package extract.controller.supplier;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,13 +29,11 @@ import ses.model.ems.ExtConType;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
-import ses.service.sms.SupplierService;
 import ses.util.WfUtil;
 import bss.controller.base.BaseController;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.Project;
 import bss.service.ppms.AdvancedProjectService;
-import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
@@ -39,7 +46,6 @@ import extract.model.supplier.SupplierExtractResult;
 import extract.service.supplier.SupplierExtractConditionService;
 import extract.service.supplier.SupplierExtractRecordService;
 import extract.service.supplier.SupplierExtractRelateResultService;
-import extract.service.supplier.SupplierPersonServicel;
 
 /**
  * @Description:供应商抽取记录
@@ -75,6 +81,11 @@ public class ExtractSupplierController extends BaseController {
     private AdvancedProjectService advancedProjectService;
     @Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;
+    
+    @InitBinder
+	public void initBinder(ServletRequestDataBinder binder) {
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"), true));
+	}
     
     /**
      * @Description:获取项目集合
@@ -113,7 +124,6 @@ public class ExtractSupplierController extends BaseController {
     		conditionService.insert(supplierCondition);
     		//将conditionId 插入记录表
     		eRecord.setConditionId(conditionId);
-    		model.addAttribute("condition",supplierCondition);
     	}else{
     		//TUTO  抽取条件回显
 			model.addAttribute("condition",conditionService.show(conditionId));
@@ -124,7 +134,6 @@ public class ExtractSupplierController extends BaseController {
     		String recordId = WfUtil.createUUID();
     		eRecord.setId(recordId);
     		expExtractRecordService.insertProjectInfo(eRecord);
-    		model.addAttribute("recordId", recordId);
     		if(StringUtils.isNotBlank(eRecord.getProjectId())){
     			//说明是从项目实施进入 需要查询项目信息，生成一条记录，查询项目信息(包信息),条件id
     			 AdvancedProject selectById = advancedProjectService.selectById(eRecord.getProjectId());
@@ -452,15 +461,36 @@ public class ExtractSupplierController extends BaseController {
      *
      *〈简述〉存储供应商抽取 项目信息
      *〈详细描述〉
-     * @author Wang Wenshuai
+     * @author jcx
      * @return
      */
     @ResponseBody
     @RequestMapping("/saveProjectInfo")
-    public String saveProjectInfo(SupplierExtractProjectInfo projectInfo){
-    	expExtractRecordService.saveOrUpdateProjectInfo(projectInfo);
+    public String saveProjectInfo(SupplierExtractProjectInfo projectInfo,@CurrentUser User user){
+    	expExtractRecordService.saveOrUpdateProjectInfo(projectInfo,user);
     	return "";
     }
+    
+    
+    /**
+     *
+     *〈简述〉存储供应商抽取 项目信息
+     *〈详细描述〉
+     * @author jcx
+     * @return
+     */
+    @RequestMapping("/printRecord")
+    public ResponseEntity<byte[]> printRecord(String id,HttpServletRequest request, HttpServletResponse response){
+    	ResponseEntity<byte[]> printRecord = null;
+    	try {
+			printRecord = expExtractRecordService.printRecord(id,request,response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return printRecord;
+    }
+    
     
     
     

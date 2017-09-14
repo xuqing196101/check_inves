@@ -268,6 +268,7 @@ $(function () {
     	//校验人员信息
     	var count1 = 0;
     	var count2 = 0;
+    	var count3 = 0;
     	$("#eError").html("");
     	$("#sError").html("");
     	$("#extractUser").find("input").each(function(){
@@ -288,7 +289,15 @@ $(function () {
     		$("#sError").html("监督人员信息必须填写完整");
     		layer.msg("监督人员信息必须填写完整");
     	}
-    	return count+count1+count2;
+    	
+    	$("#contactNumError").html("");  
+        var phone = $("[name='contactNum']").val();
+        if(!(/^1[34578]\d{9}$/.test(phone))){ 
+            $("#contactNumError").html("手机号码有误，请重填");  
+            count3++;
+        }
+    	
+    	return count+count1+count2+count3;
     }
     
     function extractVerify() {
@@ -457,11 +466,11 @@ $(function () {
     	
     	if($("#"+type+"ExtractNum").val()==agreeCount ){
     		$("body").append("<button>结束</button>");
-    		return ;
+    		return false;
     	}
     	if($("#"+type+"ExtractNum").val()==$(obj).find("tr").length ){
     		$("#result").append("<button class='center btn' type='button'>结束</button>");
-    		return;
+    		return false;
     	}
     	
     	var data;
@@ -511,6 +520,9 @@ $(function () {
     		data = services;
     		typeName = "服务";
     	}
+    	if(null ==data || "undefined" ==data || data.length<1){
+    		return false;
+    	}
     	
     	var i = 0;
     	var tex = "<tr class='cursor' typeCode='"+type.toUpperCase()+"' sid='"+data[i].id+"' index='"+i+"'>" +
@@ -528,6 +540,8 @@ $(function () {
     	$(obj).find("tr").each(function(){
     		var o = $(this).find("td").eq(0).html(i++);
     	});
+    	
+    	return true;
     }
     
     /**暂存*/
@@ -1388,15 +1402,19 @@ $(function () {
                     offset: [y, x],
                     title: '不参加理由'
                 }, function (value, index, elem) {
+                	saveResult(objTr, value,2);
                 	var notJoin = $(obj).parents("table").prev().find(".notJoin").html();
                 	$(obj).parents("table").prev().find(".notJoin").html(parseInt(notJoin)+1);
                 	//$(obj).prev().find(".notJoin").html(parseInt($(obj).panrents("table").prev().find(".notJoin").html())+1);
-                	
-                    saveResult(objTr, value,2);
                     layer.close(index);
                     //select.options[0].selected = true;
                     $(objTr).remove();
-                	appendTd(parseInt(req)-1,obj,"不能参加");
+                	if(!appendTd(parseInt(req)-1,obj,"不能参加")){
+                		var i=1;
+                    	$(obj).find("tr").each(function(){
+                    		var o = $(this).find("td").eq(0).html(i++);
+                    	});
+                	}
                 	//删除
                 });
             } else if(v == "1"){
@@ -1404,12 +1422,13 @@ $(function () {
             	saveResult(objTr, '',1);
             	var yes = $(obj).parents("table").prev().find("span:first").html();
             	$(obj).parents("table").prev().find("span:first").html(parseInt(yes)+1);
-            	$(select).remove();
+            	//$(select).parents("td").empty();
             	$(select).parents("td").html("能参加");
             	appendTd(req,obj,"能参加");
             }else{
+            	saveResult(objTr, '',1);
+            	
     			appendTd(req,obj,"待定");
-    			saveResult(objTr, '',1);
             }
         }, function (index) {
             layer.close(index);
@@ -1436,6 +1455,7 @@ $(function () {
             url: globalPath+"/SupplierExtracts/saveResult.do",
             data: {reason: reason, conditionId: conditionId,supplierId:sid,supplierType:supplierType,join:join,recordId:recordId},
             dataType: "json",
+            async:false,
             success: function () {
             	successCount++;
             }

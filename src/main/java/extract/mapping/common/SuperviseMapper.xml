@@ -127,9 +127,6 @@
       #{recordId,jdbcType=VARCHAR},
       </if>
 		</trim>
-		 <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-      select sys_guid() from dual
-    </selectKey>
 	</insert>
 	
 	
@@ -226,5 +223,10 @@
 	</foreach>
 	SELECT 1 FROM DUAL
   </insert>
+  
+  <!-- 根据抽取记录查询监督人员集合 -->
+	<select id="getlistByRid" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT U.* FROM T_SES_EXTRACT_SUPERVISE U  LEFT JOIN T_SES_EXT_RECORD_REL_PERSON P ON P.PERSON_ID = U.ID WHERE P.PERSON_TYPE = 'supervise' AND P.IS_DELETE = '0' AND P.RECORD_ID = #{value}
+	</select>
   
 </mapper>

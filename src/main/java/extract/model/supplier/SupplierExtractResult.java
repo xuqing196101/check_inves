@@ -49,7 +49,6 @@ public class SupplierExtractResult {
 	 */
 	private Date createdAt;
 
-
 	
     public SupplierExtractResult() {
         super();

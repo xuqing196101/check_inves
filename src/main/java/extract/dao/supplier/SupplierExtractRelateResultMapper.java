@@ -1,5 +1,6 @@
 package extract.dao.supplier;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -141,4 +142,11 @@ public interface SupplierExtractRelateResultMapper {
 
 
   	List<Supplier> listExtractionExpert(SupplierExtractCondition condition);
+
+  	/**
+  	 * 记录id查询抽取到的详细供应商信息
+  	 * @param hashMap2
+  	 * @return
+  	 */
+	List<Supplier> getSupplierListByRid(HashMap<String, String> hashMap2);
 }

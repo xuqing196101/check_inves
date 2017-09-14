@@ -28,6 +28,7 @@
 		<result column="IS_HAVING_CON_CERT" property="isHavingConCert" jdbcType="DECIMAL" />
 		<result column="OVERSEAS_BRANCH" jdbcType="DECIMAL" property="overseasBranch" />
 		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
+		<result column="SUPPLIER_TYPE_CODE" jdbcType="VARCHAR" property="supplierTypeCode" />
 	</resultMap>
 
 	<resultMap type="extract.model.supplier.SupplierExtractCondition" id="BaseResultListMap"
@@ -179,9 +180,6 @@
 				#{addressId,jdbcType=VARCHAR},
 			</if>
 		</trim>
-		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-			select sys_guid() from dual
-		</selectKey>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractCondition">
 		<!-- @mbggenerated -->
@@ -320,6 +318,25 @@
 		sc.PROJECT_ID =#{projectId}
 	</select>
 	
+	
+	
+	<select id="getAreaInfoByConditionId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT * FROM T_SES_EXT_AREA_CONDITION WHERE CONDITION_ID = #{value}
+	</select>
+	<delete id="deleteAreaInfoByConditionId" parameterType="java.lang.String">
+		DELECT FROM T_SES_EXT_AREA_CONDITION WHERE CONDITION_ID = #{value}
+	</delete>
+	
+	<select id="getTypeInfoByMap" parameterType="map" resultMap="BaseResultMap">
+		SELECT * FROM T_SES_EXT_TYPE_CATEGORY WHERE CONDITION_ID = #{conditionId} AND TYPE_CODE = #{supplierTypeCode}
+	</select>
+	<delete id="deleteTypeInfoByMap" parameterType="map">
+		DELETE FROM T_SES_EXT_TYPE_CATEGORY WHERE CONDITION_ID = #{conditionId} AND TYPE_CODE = #{supplierTypeCode}
+	</delete>
+	
+	
+	
+	<!-- 修改条件 -->
 	<update id="updateConditionByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractCondition">
 		<!-- @mbggenerated -->
 		update T_SES_SMS_EXTRACT_CONDITION
@@ -339,8 +356,8 @@
 			<if test="areaName != null">
 				AREA_NAME = #{areaName,jdbcType=VARCHAR},
 			</if>
-			<if test="categoryName != null">
-				CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+			<if test="supplierTypeCode != null">
+				SUPPLIER_TYPE_CODE = #{supplierTypeCode,jdbcType=VARCHAR},
 			</if>
 			<if test="businessNature != null">
 				BUSINESS_NATURE = #{businessNature,jdbcType=VARCHAR},
@@ -361,19 +378,7 @@
 		</if>
 	</update>
 	
-	<select id="getAreaInfoByConditionId" parameterType="java.lang.String" resultMap="BaseResultMap">
-		SELECT * FROM T_SES_EXT_AREA_CONDITION WHERE CONDITION_ID = #{value}
-	</select>
-	<delete id="deleteAreaInfoByConditionId" parameterType="java.lang.String">
-		DELECT FROM T_SES_EXT_AREA_CONDITION WHERE CONDITION_ID = #{value}
-	</delete>
 	
-	<select id="getTypeInfoByMap" parameterType="map" resultMap="BaseResultMap">
-		SELECT * FROM T_SES_EXT_TYPE_CATEGORY WHERE CONDITION_ID = #{conditionId} AND TYPE_CODE = #{supplierTypeCode}
-	</select>
-	<delete id="deleteTypeInfoByMap" parameterType="map">
-		DELETE FROM T_SES_EXT_TYPE_CATEGORY WHERE CONDITION_ID = #{conditionId} AND TYPE_CODE = #{supplierTypeCode}
-	</delete>
 	
 	<!--  -->
 	<insert id="insertTypeInfo" parameterType="extract.model.supplier.SupplierExtractCondition">
@@ -452,7 +457,24 @@
         	#{it}
         </foreach>
     </select>
+    
+    <!-- 按记录id 查询条件 -->
+	<select id="getByRid" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT * FROM T_SES_SMS_EXTRACT_CONDITION WHERE RECORD_ID = #{value}
+	</select>
 	
-	
-	
+	<!-- 抽取条件品目名称集合 -->
+	<select id="getCategoryByList" parameterType="java.util.List" resultType="java.lang.String">
+		SELECT NAME FROM T_SES_BMS_CATEGORY WHERE ID IN 
+		<foreach collection="list" index="index" item="it" open="(" close=")" separator=",">
+			#{it}
+		</foreach>
+	</select>
+	<!-- 抽取条件工程资质等级名称集合 -->
+	<select id="getLevelByList" parameterType="java.util.List" resultType="java.lang.String">
+		SELECT NAME FROM T_SES_BMS_DICTIONARY_DATA WHERE ID IN 
+		<foreach collection="list" index="index" item="it" open="(" close=")" separator=",">
+			#{it}
+		</foreach>
+	</select>
 </mapper>

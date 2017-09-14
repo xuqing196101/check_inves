@@ -226,8 +226,15 @@
 	</foreach>
 	SELECT 1 FROM DUAL
   </insert>
+  
   <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
   	SELECT * FROM T_SES_EXTRACT_USER WHERE ID = #{value}
   </select>
-  
+	
+	<!-- 根据抽取记录查询抽取人员集合 -->
+	<select id="getlistByRid" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT U.* FROM T_SES_EXTRACT_USER U  LEFT JOIN T_SES_EXT_RECORD_REL_PERSON P ON P.PERSON_ID = U.ID WHERE P.PERSON_TYPE = 'extractUser' AND P.IS_DELETE = '0' AND P.RECORD_ID = #{value}
+	</select>
+
+
 </mapper>

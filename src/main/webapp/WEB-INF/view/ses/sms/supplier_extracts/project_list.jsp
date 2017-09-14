@@ -91,11 +91,23 @@
                 layer.alert("只能选择一个", {offset: ['222px', '390px'], shade: 0.01});
             } else {
 				conditionId = $("#conditionId").val();
-                window.location.href = "${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id=" + id + "&&conditionId="+conditionId;
+                window.location.href = "${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id=" + id + "&&conditionId=";
             }
         }
         function record() {
             location.href = '${pageContext.request.contextPath}/SupplierExtracts/resuleRecordlist.do';
+        }
+        function printRecord() {
+        	 var id = [];
+            $('input[name="chkItem"]:checked').each(function () {
+                id.push($(this).val());
+            });
+            if (id.length != 1) {
+                layer.alert("只能选择一个", {offset: ['222px', '390px'], shade: 0.01});
+            } else {
+				conditionId = $("#conditionId").val();
+                window.location.href = "${pageContext.request.contextPath}/SupplierExtracts/printRecord.html?id=" + id + "&&conditionId=";
+            }
         }
     </script>
 </head>
@@ -143,6 +155,9 @@
         <button class="btn"
                 onclick="record();">抽取记录
         </button>
+        <button class="btn"
+                onclick="printRecord();">下载抽取记录表
+        </button>
     </div>
     <div class="content table_box">
 
@@ -153,9 +168,8 @@
                 <th class="info w50">序号</th>
                 <th class="info" >项目名称</th>
                 <th class="info" >项目编号</th>
-                <th class="info" >包名</th>
-                <th class="info" >包号</th>
-                <th class="info" >项目编号</th>
+                <th class="info" >包名(标段)</th>
+                <th class="info" >项目类型</th>
                 <th class="info">采购方式</th>
                 <th class="info" >抽取方式</th>
                 <th class="info" >抽取人</th>
@@ -170,19 +184,18 @@
                 <tr style="cursor: pointer;">
                     <td class="tc w30">
                         <input type="hidden" value="${obj.status }"/>
-                        <input type="hidden" id="conditionId" value="${obj.conditionId }"/>
+                        <input type="hidden" id="conditionId" value="${obj.id }"/>
                         <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
                     </td>
                     <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
                     <td>${obj.projectName}</td>
-                    <td>${obj.projectNumber}</td>
-                    <td>${obj.projectNumber}</td>
-                    <td>${obj.projectNumber}</td>
-                    <td>${obj.projectNumber}</td>
-                    <td>${obj.projectNumber}</td>
+                    <td>${obj.projectCode}</td>
+                    <td>${obj.packageName}</td>
+                    <td>${obj.projectType}</td>
+                    <td>${obj.purchaseType}</td>
                     <td>${obj.extractTheWay==0?"语音抽取":"人工抽取"}</td>
-                    <td>${obj.projectNumber}</td>
-                    <td>${obj.createdAt}</td>
+                    <td>${obj.extractUser}</td>
+                    <td> <fmt:formatDate value="${obj.createdAt}" pattern="yyyy-M-d HH:mm:ss"/> </td>
                     <td>${obj.status==0?"暂存":"结束"}</td>
                 </tr>
             </c:forEach>

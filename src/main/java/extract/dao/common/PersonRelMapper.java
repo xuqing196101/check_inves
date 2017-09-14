@@ -13,5 +13,14 @@ public interface PersonRelMapper {
 
 	void deleteByRecordId(String recordId);
 
+	/**
+	 * 按记录id 查询抽取人员
+	 * @param id
+	 * @return
+	 */
+	String getlistByRid(String id);
+
+	void deleteByMap(HashMap<String, Object> map);
+
 	
 }

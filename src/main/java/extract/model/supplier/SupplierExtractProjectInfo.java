@@ -1,9 +1,12 @@
 package extract.model.supplier;
 
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import extract.model.common.ExtractUser;
 
 public class SupplierExtractProjectInfo {
 	
@@ -117,6 +120,7 @@ public class SupplierExtractProjectInfo {
      */
     private Date updatedAt;
     
+    private String extractUser;
     
     /**
      * <pre>
@@ -532,8 +536,17 @@ public class SupplierExtractProjectInfo {
 	public void setContactNum(String contactNum) {
 		this.contactNum = contactNum;
 	}
-    
-    
-    
+
+
+	public String getExtractUser() {
+		return extractUser;
+	}
+
+
+	public void setExtractUser(String extractUser) {
+		this.extractUser = extractUser;
+	}
+
+	
 	
 }

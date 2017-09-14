@@ -16,13 +16,14 @@
     <result column="PACKAGE_NAME" jdbcType="VARCHAR" property="packageName" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="PROJECT_CODE" jdbcType="VARCHAR" property="projectCode" />
+    <result column="PROJECT_TYPE" jdbcType="VARCHAR" property="projectType" />
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
     <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
     <result column="CONDITION_ID" jdbcType="VARCHAR" property="conditionId" />
     <result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType" />
     <result column="PURCHASE_TYPE_NAME" jdbcType="VARCHAR" property="purchaseTypeName" />
-       <!--  <association property="perpleUser"  column="EXTRACTS_PEOPLE"
-            select="ses.dao.bms.UserMapper.selectByPrimaryKey" /> -->
+    <result column="CONSTRUCTION_PRO" jdbcType="VARCHAR" property="constructionPro" />
+    <result column="CONSTRUCTION_ADDR" jdbcType="VARCHAR" property="constructionAddr" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -37,7 +38,8 @@
     <!--
     @mbggenerated
     -->
-    E.ID,E.CONDITION_ID,E.PROJECT_ID,E.STATUS,E.PROJECT_NAME,E.PROJECT_CODE,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.EXTRACT_THE_WAY,E.EXTRACTS_PEOPLE,E.PURCHASE_TYPE,E.TENDER_AT,D.NAME PURCHASE_TYPE_NAME
+    E.ID,E.PROJECT_NAME,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.PROJECT_ID,E.PROJECT_CODE,E.STATUS,E.CREATED_AT,
+   <!--  E.ID,E.CONDITION_ID,E.PROJECT_ID,E.STATUS,E.PROJECT_NAME,E.PROJECT_CODE,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.EXTRACT_THE_WAY,E.EXTRACTS_PEOPLE,E.PURCHASE_TYPE,E.TENDER_AT,D.NAME PURCHASE_TYPE_NAME -->
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--
@@ -242,13 +244,12 @@
     <!--
     @mbggenerated
     -->
-    select <include refid="project_info"></include>
-   <!--  <include refid="Base_Column_List" /> -->
-    from T_SES_SMS_SUPPLIER_EXTRACTS E LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON E.PURCHASE_TYPE = D.ID 
+    SELECT <include refid="project_info"/> D.NAME PURCHASE_TYPE,D1.NAME PROJECT_TYPE from T_SES_SMS_EXTRACT_RECORD E LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON E.PURCHASE_TYPE = D.ID  
+    LEFT JOIN T_SES_BMS_DICTIONARY_DATA D1 ON E.PROJECT_TYPE = D1.CODE WHERE E.EXTRACT_THE_WAY = '1' AND E.IS_DELETE = '0' ORDER BY E.CREATED_AT DESC
   </select>
 
 
-	<!--抽取修改项目信息 -->
+	<!--修改项目信息 -->
    <update id="saveOrUpdateProjectInfo" parameterType="extract.model.supplier.SupplierExtractProjectInfo">
    		UPDATE T_SES_SMS_EXTRACT_RECORD 
    		<set>
@@ -263,6 +264,9 @@
 	   		</if>
 	   		<if test="projectType !=null and projectType !='' ">
 	   			PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="projectName !=null and projectName !='' ">
+	   			PROJECT_NAME = #{projectName,jdbcType=VARCHAR},
 	   		</if>
 	   		<if test="packageName !=null and packageName !='' ">
 	   			PACKAGE_NAME = #{packageName,jdbcType=VARCHAR},
@@ -312,13 +316,16 @@
 	   		<if test="extractTheWay">
 	   			 EXTRACT_THE_WAY = #{extractTheWay,jdbcType=DECIMAL},
 	   		</if>
+	   		<if test="isDelete">
+	   			 IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+	   		</if>
    		</set>
    		WHERE ID = #{id}
    </update> 
     
     <!-- 插入记录 -->
     <insert id="insertProjectInfo" parameterType="extract.model.supplier.SupplierExtractProjectInfo">
-    	insert into T_SES_SMS_SUPPLIER_EXTRACTS
+    	insert into T_SES_SMS_EXTRACT_RECORD
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -380,5 +387,11 @@
       </if>
     </trim>
     </insert>
+    
+    <!-- 下载记录表需要的项目信息 -->
+    <select id="getProjectInfoById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    	SELECT R.* FROM T_SES_SMS_EXTRACT_RECORD R WHERE R.ID = #{value}
+    </select>
+    
     
 </mapper>

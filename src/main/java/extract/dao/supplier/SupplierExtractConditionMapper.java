@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import ses.model.bms.DictionaryData;
-
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 
@@ -92,6 +91,27 @@ public interface SupplierExtractConditionMapper {
 	List<DictionaryData> getQuaByCid(HashMap<String, String[]> hashMap);
 
 	List<DictionaryData> getLevelByQid(String[] split);
+
+	/**
+	 * 按记录id 查询抽取条件
+	 * @param id
+	 * @return
+	 */
+	SupplierExtractCondition getByRid(String id);
+
+	/**
+	 * 查询抽取品目名称集合
+	 * @param byMap2
+	 * @return
+	 */
+	List<String> getCategoryByList(List<String> byMap2);
+
+	/**
+	 * 查询工程资质集合
+	 * @param byMap
+	 * @return
+	 */
+	List<String> getLevelByList(List<String> byMap);
 
 
 	

@@ -148,6 +148,11 @@ public class ExtractUser {
 	public void setCondditionId(String condditionId) {
 		this.condditionId = condditionId;
 	}
+
+	@Override
+	public String toString() {
+		return "ExtractUser [name=" + name + "]";
+	}
 	
 	
 	

@@ -14,4 +14,9 @@
 	<delete id="deleteConditionRelationByMap" parameterType="java.lang.String">
 		DELETE FROM T_SES_SMS_EXTRACT_CONDITIONS WHERE CONDITION_ID = #{conditionId}
 	</delete>
+	
+	<!-- 按条件id 和 属性名查询 -->
+		<select id="getByMap" parameterType="map" resultType="java.lang.String">
+			SELECT PROPERTY_VALUE FROM T_SES_SMS_EXTRACT_CONDITIONS WHERE CONDITION_ID = #{conditionId} AND PROPERTY_NAME = #{propertyName}
+		</select>
 </mapper>

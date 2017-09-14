@@ -14,6 +14,13 @@ public class SupplierConType {
 	private String projectLevel;
 	private Short projectIsMulticondition;
 	private Short projectExtractNum;
+	private String quaId;
+	private String quaName;
+	private String projectIsHavingConCert;
+	private String projectBusinessNature;
+	private String projectOverseasBranch;
+	
+	
 	/**
 	 * 服务类型
 	 * 
@@ -22,6 +29,9 @@ public class SupplierConType {
 	private String serviceLevel;
 	private Short serviceIsMulticondition;
 	private Short serviceExtractNum;
+	private String serviceIsHavingConCert;
+	private String serviceBusinessNature;
+	private String serviceOverseasBranch;
 	
 	/**
 	 * 物资生产
@@ -30,6 +40,10 @@ public class SupplierConType {
 	private String productLevel;
 	private Short productIsMulticondition;
 	private Short productExtractNum;
+	private String productIsHavingConCert;
+	private String productBusinessNature;
+	private String productOverseasBranch;
+	
 	/**
 	 * 物资销售
 	 */
@@ -38,11 +52,11 @@ public class SupplierConType {
 	private String salesLevel;
 	private Short salesIsMulticondition;
 	private Short salesExtractNum;
+	private String salesIsHavingConCert;
+	private String salesBusinessNature;
+	private String salesOverseasBranch;
 	
-	/**
-	 * 企业性质
-	 */
-	private String businessNature;
+	
 
 	
 	
@@ -142,13 +156,6 @@ public class SupplierConType {
 		this.salesLevel = salesLevel;
 	}
 
-	public String getBusinessNature() {
-		return businessNature;
-	}
-
-	public void setBusinessNature(String businessNature) {
-		this.businessNature = businessNature;
-	}
 
 	public String getSupplierTypeCode() {
 		return supplierTypeCode;
@@ -197,10 +204,120 @@ public class SupplierConType {
 	public void setSalesIsMulticondition(Short salesIsMulticondition) {
 		this.salesIsMulticondition = salesIsMulticondition;
 	}
+
+	public String getQuaId() {
+		return quaId;
+	}
+
+	public void setQuaId(String quaId) {
+		this.quaId = quaId;
+	}
+
+	public String getQuaName() {
+		return quaName;
+	}
+
+	public void setQuaName(String quaName) {
+		this.quaName = quaName;
+	}
+
+	public String getProjectIsHavingConCert() {
+		return projectIsHavingConCert;
+	}
+
+	public void setProjectIsHavingConCert(String projectIsHavingConCert) {
+		this.projectIsHavingConCert = projectIsHavingConCert;
+	}
+
+	public String getProjectBusinessNature() {
+		return projectBusinessNature;
+	}
+
+	public void setProjectBusinessNature(String projectBusinessNature) {
+		this.projectBusinessNature = projectBusinessNature;
+	}
+
+	public String getProjectOverseasBranch() {
+		return projectOverseasBranch;
+	}
+
+	public void setProjectOverseasBranch(String projectOverseasBranch) {
+		this.projectOverseasBranch = projectOverseasBranch;
+	}
+
+	public String getServiceIsHavingConCert() {
+		return serviceIsHavingConCert;
+	}
+
+	public void setServiceIsHavingConCert(String serviceIsHavingConCert) {
+		this.serviceIsHavingConCert = serviceIsHavingConCert;
+	}
+
+	public String getServiceBusinessNature() {
+		return serviceBusinessNature;
+	}
+
+	public void setServiceBusinessNature(String serviceBusinessNature) {
+		this.serviceBusinessNature = serviceBusinessNature;
+	}
+
+	public String getServiceOverseasBranch() {
+		return serviceOverseasBranch;
+	}
+
+	public void setServiceOverseasBranch(String serviceOverseasBranch) {
+		this.serviceOverseasBranch = serviceOverseasBranch;
+	}
+
+	public String getProductIsHavingConCert() {
+		return productIsHavingConCert;
+	}
+
+	public void setProductIsHavingConCert(String productIsHavingConCert) {
+		this.productIsHavingConCert = productIsHavingConCert;
+	}
+
+	public String getProductBusinessNature() {
+		return productBusinessNature;
+	}
+
+	public void setProductBusinessNature(String productBusinessNature) {
+		this.productBusinessNature = productBusinessNature;
+	}
+
+	public String getProductOverseasBranch() {
+		return productOverseasBranch;
+	}
+
+	public void setProductOverseasBranch(String productOverseasBranch) {
+		this.productOverseasBranch = productOverseasBranch;
+	}
+
+	public String getSalesIsHavingConCert() {
+		return salesIsHavingConCert;
+	}
+
+	public void setSalesIsHavingConCert(String salesIsHavingConCert) {
+		this.salesIsHavingConCert = salesIsHavingConCert;
+	}
+
+	public String getSalesBusinessNature() {
+		return salesBusinessNature;
+	}
+
+	public void setSalesBusinessNature(String salesBusinessNature) {
+		this.salesBusinessNature = salesBusinessNature;
+	}
+
+	public String getSalesOverseasBranch() {
+		return salesOverseasBranch;
+	}
+
+	public void setSalesOverseasBranch(String salesOverseasBranch) {
+		this.salesOverseasBranch = salesOverseasBranch;
+	}
 	
 	
-	/**
-	 * 保密
-	 */
+	
 	
 }

@@ -2,7 +2,6 @@ package extract.dao.supplier;
 
 import java.util.List;
 
-import bss.model.ppms.Project;
 import extract.model.supplier.SupplierExtractProjectInfo;
 
 public interface SupplierExtractRecordMapper {
@@ -57,8 +56,18 @@ public interface SupplierExtractRecordMapper {
      */
     List<SupplierExtractProjectInfo> list(SupplierExtractProjectInfo record);
 
-	Project getProjectInfoById(String id);
+    
+    /**
+     * 下载记录表需要的项目信息
+     * @param id
+     * @return
+     */
+	SupplierExtractProjectInfo getProjectInfoById(String id);
 
+	/**
+	 * 抽取记录列表
+	 * @return
+	 */
 	List<SupplierExtractProjectInfo> getList();
 
 	void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo);

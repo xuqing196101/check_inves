@@ -12,4 +12,7 @@ public interface ExtractUserMapper {
 
 	List<ExtractUser> selectById(String id);
 
+	List<ExtractUser> getlistByRid(String recordId);
+
+
 }

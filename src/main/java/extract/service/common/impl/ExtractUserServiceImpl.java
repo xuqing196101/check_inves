@@ -37,31 +37,38 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 			String[] personId = null;
 			HashMap<String, Object> map = new HashMap<>();
 			if(StringUtils.isNotEmpty(extUser.getId())){
-				personId = extUser.getId().split(","); //引用的历史人员
-				personId[personId.length] = user.getId();
+				personId = (extUser.getId()+","+user.getId()).split(","); //引用的历史人员
 				map.put("personIds", personId);
 			}
 			map.put("recordId", extUser.getRecordId());
 			map.put("personType", extUser.getPersonType());
+			
+			ArrayList<ExtractUser> arrayList = new ArrayList<>();
+			//查询当前登陆用户是否存在抽取人员表中
+			if(extractUserMapper.selectById(user.getId()).size()<1){
+				ExtractUser extractUser = new ExtractUser();
+				extractUser.setId(user.getId());
+				extractUser.setDuty(user.getDuites());
+				extractUser.setRank("**");
+				extractUser.setCompary(user.getOrg().getName());
+				extractUser.setName(user.getRelName());
+				
+				arrayList.add(extractUser);
+			}
 			if(extUser.getList().size()>0){
-				ArrayList<ExtractUser> arrayList = new ArrayList<>();
 				//新添加人员
 				map.put("personList", extUser.getList());
 				for (ExtractUser extractUser : extUser.getList()) {
 					if(extractUserMapper.getList(extractUser).size()<1){
 						arrayList.add(extractUser);
 					}
-					//查询当前登陆用户是否存在抽取人员表中
-					if(extractUserMapper.selectById(user.getId()).size()<1){
-						arrayList.add(new ExtractUser(user.getId()));
-					}
 				}
-				/*if(arrayList.size()>0){
-					extractUserMapper.insertSelectiveAll(arrayList);
-				}*/
+			}
+			if(arrayList.size()>0){
+				extractUserMapper.insertSelectiveAll(arrayList);
 			}
 			if(null!=personId ||null!=extUser.getList()){
-				personRelMapper.deleteByRecordId(extUser.getRecordId());
+				personRelMapper.deleteByMap(map);
 				personRelMapper.insertRel(map);
 			}
 		}

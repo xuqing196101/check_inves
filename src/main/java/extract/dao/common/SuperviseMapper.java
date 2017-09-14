@@ -11,4 +11,6 @@ public interface SuperviseMapper {
 
 	void insertSelectiveAll(ArrayList<Supervise> arrayList);
 
+	List<Supervise> getlistByRid(String recordId);
+
 }
