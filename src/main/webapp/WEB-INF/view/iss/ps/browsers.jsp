@@ -121,12 +121,12 @@
 			  <p><a class="btn tc chrome" href="javascript:downloadBrowser('chrome_32');">使用Chrome浏览器(32位)</a></p>
 			</div>
 
-			<div class="bro_squre">
+			<%-- <div class="bro_squre">
 			  <p><img src="${pageContext.request.contextPath}/public/portal/images/ie11.png"/></p>
 			  <p><a class="btn tc internet" href="javascript:downloadBrowser('ie10_64');">升级到IE10(64位)</a></p>
 			  <p><a class="btn tc intel" href="javascript:downloadBrowser('ie11_32');">升级到IE11(32位)</a></p>
 			  <p><a class="btn tc intel" href="javascript:downloadBrowser('ie11_64');">升级到IE11(64位)</a></p>
-			</div>
+			</div> --%>
 	  </div>	
 	  <div class="brower_tip"><img src="${pageContext.request.contextPath}/public/portal/images/tips.png"/></div>
 	</div>
