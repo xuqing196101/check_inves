@@ -203,7 +203,7 @@
     </h2>
       <div class="col-md-12 pl20 mt10">
         <button class="btn btn-windows apply" onclick="start();" type="button">实施</button>
-        <button class="btn btn-windows edit" onclick="edit();">维护</button>
+       <!--  <button class="btn btn-windows edit" onclick="edit();">维护</button> -->
       </div>
       <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">

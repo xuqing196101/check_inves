@@ -241,7 +241,7 @@
 			                <div class="organization">
 				                <c:if test="${obj.purchaseCount!=null }">
 				                  <c:forEach items="${orga}" var="og" >
-				                  <c:if test="${og.orgId == obj.organization}">${og.name}</c:if>
+				                  <c:if test="${og.orgId == obj.organization}">${og.shortName}</c:if>
 				                </c:forEach>
 				                </c:if>
 			                 </div>

@@ -701,7 +701,6 @@ public class TerminationServiceImpl<V> implements TerminationService {
     Map<String, String>  scoreModelId=new HashMap<String, String>();
     insert_scoreModel(project, oldProjectId, mapId, markTermsId,
         scoreModelId);
-    
     insert_paramInterval(project, oldProjectId, mapId, scoreModelId);
     //采购文件
     String typeId = DictionaryDataUtil.getId("PROJECT_BID");

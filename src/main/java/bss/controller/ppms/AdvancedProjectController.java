@@ -432,25 +432,23 @@ public class AdvancedProjectController extends BaseController {
         }
         
         String[] planId = id.split(StaticVariables.COMMA_SPLLIT);
-        String fileNames = null;
+        HashSet<String> sets = new HashSet<>();
         if (planId.length > 0) {
 			for (String string : planId) {
-				UploadFile file = uploadService.findById(string, 2);
-				if (file != null && StringUtils.isNotBlank(file.getName())) {
-					if (fileNames == null) {
-						fileNames = file.getName();
-					} else {
-						fileNames += StaticVariables.COMMA_SPLLIT+file.getName();
-					}
+				List<UploadFile> list = uploadService.findBybusinessId(string, 2);
+				if (list != null && !list.isEmpty()) {
+					String substringBefore = StringUtils.substringBefore(list.get(0).getName(), ".");
+					sets.add(substringBefore);
 				}
 			}
 		}
+        String file = StringUtils.join(sets,",");
         
         // 文件存储地址
         String filePath = request.getSession().getServletContext()
                 .getRealPath("/WEB-INF/upload_file/");
         // 文件名称
-        String fileName = createWordMethod(user, projectNumber, proName, userNames, userphone, department,name, kindName, planNo, request);
+        String fileName = createWordMethod(user, projectNumber, proName, userNames, userphone, department,name, kindName, planNo, file, request);
         // 下载后的文件名
         String downFileName = new String("预研通知书.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
@@ -1149,7 +1147,7 @@ public class AdvancedProjectController extends BaseController {
      * @return: String
      * @throws Exception
      */
-    private String createWordMethod(User user, String projectNumber, String proName, String userNames,String userphone, String department, String name, String kindName, String planNo, HttpServletRequest request) throws Exception {
+    private String createWordMethod(User user, String projectNumber, String proName, String userNames,String userphone, String department, String name, String kindName, String planNo, String file, HttpServletRequest request) throws Exception {
         /** 用于组装word页面需要的数据 */
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("projectNumber", projectNumber == null ? "" : projectNumber);
@@ -1167,6 +1165,7 @@ public class AdvancedProjectController extends BaseController {
         dataMap.put("phone", user.getTelephone() == null ? "" : user.getTelephone());
         dataMap.put("agent", userNames == null ? "" : userNames);
         dataMap.put("Iphone", userphone == null ? "" : userphone);
+        dataMap.put("fileName", file == null ? "" : file);
         // 文件名称
         String fileName = new String(("预研通知书.doc").getBytes("UTF-8"),
                 "UTF-8");

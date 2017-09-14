@@ -107,7 +107,34 @@
                 }
               });
             } else {
-              accept(id);
+            	layer.confirm('您确定要受领吗?', {
+			          title: '提示',
+			          shade: 0.01
+			        },function(index) {
+			          layer.close(index);
+			          $.ajax({
+			            url: "${pageContext.request.contextPath}/task/startTask.do",
+			            data: "id=" + id,
+			            type: "post",
+			            dateType: "json",
+			            success: function() {
+			              layer.open({
+			            		type: 2, //page层
+			                area: ['800px', '500px'],
+			                title: '请上传项目批文',
+			                shade: 0.01, //遮罩透明度
+			                moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			                shift: 1, //0-6的动画形式，-1不开启
+			                shadeClose: true,
+			                content: '${pageContext.request.contextPath}/advancedProject/startProject.html?id=' + id,
+			              });
+			            },
+			            error: function() {
+			              layer.msg("受领失败");
+			            }
+			          });
+			         });
+            	
             }
           }
         }else if(id.length>1){
@@ -137,7 +164,8 @@
               window.setTimeout(function() {location.reload();}, 1000);
             },
             error: function() {
-              layer.msg("受领失败")}
+              layer.msg("受领失败");
+            }
           });
          });
       }
@@ -263,7 +291,7 @@
               <td>
                 <a href="javascript:void(0)" onclick="viewd('${obj.id}');">
                   <c:forEach items="${list2}" var="list" varStatus="vs">
-                    <c:if test="${obj.orgId eq list.id}">${list.name}</c:if>
+                    <c:if test="${obj.orgId eq list.id}">${list.shortName}</c:if>
                   </c:forEach>
                 </a>
               </td>

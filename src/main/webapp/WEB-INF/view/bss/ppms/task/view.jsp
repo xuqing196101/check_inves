@@ -55,14 +55,14 @@
                     <td>${task.name}</td>
                     <td class="bggrey">计划编号：</td>
                     <td>${task.documentNumber}</td>
-                    <c:if test="${projectId != null}">
+                    <c:if test="${projectId ne null}">
                       <td class="bggrey">预研通知书：</td>
                       <td><u:show showId="upload_id" groups="upload_ids" businessId="${projectId}" sysKey="2" delete="false" typeId="${advancedAdvice}" /></td>
                     </c:if>
                   </tr>
                 </tbody>
               </table>
-              <h2 class="count_flow jbxx">需求明细查看</h2>
+              <h2 class="count_flow jbxx">计划明细查看</h2>
 
               <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto" id="content">
                 <table id="table" class="table table-bordered table-condensed lockout">
@@ -88,7 +88,7 @@
                       </c:if>
                     </tr>
                   </thead>
-                  <c:if test="${lists != null}">
+                  <c:if test="${lists ne null}">
                     <c:forEach items="${lists}" var="obj" varStatus="vs">
                       <tr class="pointer">
                         <td><div class="seq">${obj.seq}</div></td>
@@ -125,7 +125,7 @@
                         <td>
                            <div class="organization">
                              <c:forEach items="${list2}" var="list">
-                               <c:if test="${obj.organization eq list.id}">${list.name}</c:if>
+                               <c:if test="${obj.organization eq list.id}">${list.shortName}</c:if>
                              </c:forEach>
                            </div>
                         </td>
@@ -157,7 +157,7 @@
                       </tr>
                     </c:forEach>
                   </c:if>
-                  <c:if test="${list != null}">
+                  <c:if test="${list ne null}">
                     <c:forEach items="${list}" var="obj" varStatus="vs">
                       <tr style="cursor: pointer;">
 			            <td><div class="seq">${obj.serialNumber}</div></td>
@@ -178,7 +178,7 @@
                         <td>
                           <c:forEach items="${list2}" var="list">
                             <c:if test="${obj.organization eq list.id}">
-                              <div class="organization">${list.name}</div>
+                              <div class="organization">${list.shortName}</div>
                             </c:if>
                           </c:forEach>
                         </td>

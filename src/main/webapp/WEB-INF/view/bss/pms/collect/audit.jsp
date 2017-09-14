@@ -876,7 +876,7 @@
 												<select   name="listDetail[${vs.index }].organization" onchange="orgChange(this)" class="organization">
 														<option value="空值" selected="selected" >请选择</option> 
 													<c:forEach items="${org }" var="ss">
-														<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
+														<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.shortName}</option>
 													</c:forEach>
 												</select>
 											 <input type="hidden"    name="history" value=""/>

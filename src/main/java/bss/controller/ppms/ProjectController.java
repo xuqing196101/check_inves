@@ -461,7 +461,7 @@ public class ProjectController extends BaseController {
          List<Task> taskList = taskservice.listByProjectTask(map);
          for (Task task : taskList) {
             Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(task.getOrgId());
-            task.setOrgId(orgnization.getName());
+            task.setOrgId(orgnization.getShortName());
          }
          model.addAttribute("list", new PageInfo<Task>(taskList));
          model.addAttribute("id", id);

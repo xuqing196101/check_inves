@@ -251,7 +251,7 @@
 					  	</li>
 			        <li>
 			          <label class="fl">采购管理部门：</label>
-			          <span><input type="text" name="orgName" id="orgName" value="${orgName }"/></span>
+			          <span><input type="text" name="orgName" id="orgName" value="${orgName}"/></span>
 			        </li>
 			        <li>
 			          <label class="fl">采购任务文号：</label>

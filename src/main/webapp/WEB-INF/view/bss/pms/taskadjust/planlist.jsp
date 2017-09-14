@@ -261,7 +261,7 @@
               <td>
                 <a href="javascript:void(0)" onclick="viewd('${obj.id}');">
                   <c:forEach items="${list2}" var="list" varStatus="vs">
-                    <c:if test="${obj.orgId eq list.id}">${list.name}</c:if>
+                    <c:if test="${obj.orgId eq list.id}">${list.shortName}</c:if>
                   </c:forEach>
                 </a>
               </td>
