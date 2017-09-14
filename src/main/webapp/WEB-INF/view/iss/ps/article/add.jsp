@@ -923,7 +923,7 @@
 						<span class="fl"><div class="star_red">*</div>图片上传：</span>
 						<div class="mb20 h30">
 							<u:upload id="artice_up" businessId="${articleId }"
-								sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
+								sysKey="${sysKey}" typeId="${attachTypeId }" exts="png,jpeg,jpg,bmp" auto="true" />
 							<u:show showId="artice_show" businessId="${articleId }"
 								sysKey="${sysKey}" typeId="${attachTypeId }" />
 							<div class="cue">${ERR_auditPic}</div>
