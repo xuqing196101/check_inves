@@ -75,7 +75,7 @@
 </script>
 </head>
 <body>
-  <input  class="btn btn-windows check" type="button" value="批量不通过" onclick="batchSelection();">
+  <input  class="btn btn-windows check" type="button" value="不通过" onclick="batchSelection();">
   <table class="table table-bordered table-hover m_table_fixed_border">
     <tr>
       <td class="w50 text-center"><input type="checkbox" id="checkAll" onclick="selectAll()"/></td>

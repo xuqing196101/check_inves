@@ -3219,6 +3219,12 @@ public class ExpertAuditController{
 			expertAudit.setAuditFalg(2);
 			reasonsList.addAll(expertAuditService.getListByExpert(expertAudit));
 		}
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("GOODS", 0);
+		map.put("PROJECT", 0);
+		map.put("SERVICE", 0);
+		map.put("ENG_INFO_ID", 0);
+		StringBuffer items=new StringBuffer();
 		if( reasonsList != null && reasonsList.size() > 0 ){
 			for (ExpertAudit e : reasonsList) {
 				if("six".equals(e.getSuggestType())){
@@ -3229,15 +3235,38 @@ public class ExpertAuditController{
 					}else{
 						tree = getTreeListByCategoryId(e.getAuditFieldId(), "ENG_INFO_ID");
 					}
-					if("GOODS".equals(tree.getRootNodeCode())){
-						e.setAuditField("物资品目信息");
-					}else if("PROJECT".equals(tree.getRootNodeCode())){
-						e.setAuditField("工程品目信息");
-					}else if("SERVICE".equals(tree.getRootNodeCode())){
-						e.setAuditField("服务品目信息");
-					}else if("ENG_INFO_ID".equals(tree.getRootNodeCode())){
-						e.setAuditField("工程专业属性");
+					String rootNode = tree.getRootNode();
+		        	String firstNode = tree.getFirstNode();
+		        	String secondNode = tree.getSecondNode();
+		        	String thirdNode=tree.getThirdNode();
+		        	if(rootNode !=null && rootNode !=""){
+		        		items.append(rootNode);
+		        	}
+		        	if(firstNode !=	null && firstNode !=""){
+		        		items.append("/" + firstNode); 
+		        	}
+		        	if(secondNode != null && secondNode !=""){
+		        		items.append("/" + secondNode); 
+		        	}
+		        	if(thirdNode != null && thirdNode !=""){
+		        		items.append("/" + thirdNode); 
+		        	}
+		
+					e.setAuditContent(items.toString());
+					items.setLength(0);
+					if(tree != null && tree.getRootNodeCode() != null){
+						map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
+						if("GOODS".equals(tree.getRootNodeCode())){
+							e.setAuditField("物资品目信息");
+						}else if("PROJECT".equals(tree.getRootNodeCode())){
+							e.setAuditField("工程品目信息");
+						}else if("SERVICE".equals(tree.getRootNodeCode())){
+							e.setAuditField("服务品目信息");
+						}else if("ENG_INFO_ID".equals(tree.getRootNodeCode())){
+							e.setAuditField("工程专业属性");
+						}
 					}
+					
 				}
 			}
 		}

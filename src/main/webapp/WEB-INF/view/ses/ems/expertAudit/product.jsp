@@ -200,25 +200,26 @@
 					$("#tbody_category").load(path);
 			};   
 			
+			//单个审核“不通过按钮”
 			function reason(firstNode, secondNode, thirdNode, fourthNode, id) {
 				var status = ${status};
-        var sign = $("input[name='sign']").val();
+				var sign = ${sign};
         //只能审核可以审核的状态
-        if(status ==-2 || status == 0|| status == 15|| status == 16 || (sign ==3 && status ==6) || status ==4 || (sign ==1 && status ==10)){
+        if(status ==-2 || status == 0 || status == 15|| status == 16 || status == 9 || (sign ==3 && status ==6) || status ==4 || (sign ==1 && status ==10)){
 					var auditContent;
 					var auditField;
 					var expertId = $("#expertId").val();
 					if(fourthNode != null && fourthNode !=""){
-						auditContent = fourthNode + "目录信息";
+						auditContent = firstNode+"/"+secondNode+"/"+thirdNode+"/"+fourthNode;
 						auditField = fourthNode;
 					}else if(thirdNode !=null && thirdNode!=""){
-						auditContent = thirdNode + "目录信息";
+						auditContent = firstNode+"/"+secondNode+"/"+thirdNode;
 						auditField = thirdNode;
 					}else if(secondNode !=null && secondNode !=""){
-						auditContent = secondNode + "目录信息";
+						auditContent = firstNode+"/"+secondNode;
 						auditField = secondNode;
 					}else{
-						auditContent = firstNode + "目录信息";
+						auditContent = firstNode;
 						auditField = firstNode;
 					}
 					
@@ -244,7 +245,8 @@
 											"expertId": expertId,
 											"auditField": auditField,
 											"auditContent": auditContent,
-											"auditFieldId": id
+											"auditFieldId": id,
+											"auditFalg" : sign
 										},
 										dataType: "json",
 										success: function(result) {
@@ -257,8 +259,9 @@
 											}
 										}
 									});
+									//隐藏通过按钮
 									$("#" + id + "_hidden").hide();
-									$("#" + id + "_show").show();
+					        $("#" + id + "_show").show();
 									layer.close(index);
 							}else{
 								layer.msg('不能为空！', {offset:'100px'});
@@ -267,6 +270,7 @@
 					}
 				}
 			
+			//批量审核
 			function batchSelection(){
 				var status = ${status};
 		        var sign = ${sign};
@@ -304,16 +308,16 @@
 									 var auditContent;
 									 var auditField;
 									 if(fourthNode != null && fourthNode !=""){
-										auditContent = firstNode+"/"+secondNode+"/"+thirdNode+"/"+fourthNode + "目录信息";
+										auditContent = firstNode+"/"+secondNode+"/"+thirdNode+"/"+fourthNode;
 										auditField = fourthNode;
 									 }else if(thirdNode !=null && thirdNode!=""){
-										auditContent = firstNode+"/"+secondNode+"/"+thirdNode + "目录信息";
+										auditContent = firstNode+"/"+secondNode+"/"+thirdNode;
 										auditField = thirdNode;
 									 }else if(secondNode !=null && secondNode !=""){
-										auditContent = firstNode+"/"+secondNode + "目录信息";
+										auditContent = firstNode+"/"+secondNode;
 										auditField = secondNode;
 									 }else{
-										auditContent = firstNode + "目录信息";
+										auditContent = firstNode;
 										auditField = firstNode;
 									 }
 									 var expAudit=new Object();
