@@ -44,7 +44,7 @@ function functionArea() {
         async : false,
         success : function(response) {
             $("#city").empty();
-            $("#city").append("<option value=''>选择地区</option>");
+            $("#city").append("<option value='0'>选择地区</option>");
             $.each(response, function(i, result) {
                 $("#city").append("<option value='" + result.id + "'>" + result.name + "</option>");
             });
@@ -55,6 +55,10 @@ function functionArea() {
 
 //人工抽取
 function artificial_extracting(){
+	if(!validationIsNull()){
+		return;
+	}
+	$("#isAuto").val(0);
     //项目信息
     var proRuestl_1 = $("#form").serializeJson();//数据序列化
     var param1 = $("#condition_form").serializeJson();
@@ -103,6 +107,89 @@ function artificial_extracting(){
         }
     });
 }
+
+//验证信息非空
+function validationIsNull(){
+	var flag = true;
+	//项目名称
+	var projectName = $("#projectName").val();
+	if(projectName == null || projectName == ""){
+		$("#err_projectName").html("项目名称不能为空");
+		flag = false;
+	}else if(strTrim(projectName).length > 100){
+		$("#err_projectName").html("不能超过100字");
+		flag = false;
+	}else{
+		$("#err_projectName").html("");
+	}
+	
+	//项目编号
+	var projectCode = $("#projectCode").val();
+	if(projectCode == null || projectCode == ""){
+		$("#err_code").html("项目编号不能为空");
+		flag = false;
+	}else if(strTrim(projectCode).length > 100){
+		$("#err_code").html("不能超过80字");
+		flag = false;
+	}else{
+		$("#err_code").html("");
+	}
+	//评审时间
+	var reviewTime = $("#reviewTime").val();
+	if(reviewTime == null){
+		$("#err_reviewTime").html("评审时间不能为空");
+		flag = false;
+	}else{
+		$("#err_reviewTime").html("");
+	}
+	//评审地点
+	var province = $("#province option:selected").val();
+	var city = $("#city option:selected").val();
+	if(province == '0' || city == '0'){
+		$("#err_aaa").html("请选择评审地点");
+		flag = false;
+	}else{
+		$("#err_aaa").html("");
+	}
+	//抽取地址
+	var extractAddress = $("#extractAddress").val();
+	if(extractAddress == null || extractAddress == ""){
+		$("#err_extractAddress").html("抽取地址不能为空");
+		flag = false;
+	}else if(strTrim(extractAddress).length > 100){
+		$("#err_extractAddress").html("不能超过100字");
+		flag = false;
+	}else{
+		$("#err_extractAddress").html("");
+	}
+	//联系人
+	var contactPerson = $("#contactPerson").val();
+	if(contactPerson == null || contactPerson == ""){
+		$("#err_contactPerson").html("联系人不能为空");
+		flag = false;
+	}else if(strTrim(contactPerson).length > 30){
+		$("#err_contactPerson").html("不能超过30字");
+		flag = false;
+	}else{
+		$("#err_contactPerson").html("");
+	}
+	//联系电话
+	var contactNum = $("#contactNum").val();
+	if(contactNum == null || contactNum == ""){
+		$("#err_contactNum").html("联系电话不能为空");
+		flag = false;
+	}else{
+		$("#err_contactNum").html("");
+	}
+	return flag;
+}
+
+//去除字符串前后的空格
+function strTrim(str){
+	return str.replace(/(^\s+)|(\s+$)/g, "");
+}
+
+//追加显示抽取结果
 function addTr(code,data){
     var info = "<tr>" +
     "<td class='w50 tc'>"+1+"</td>" +

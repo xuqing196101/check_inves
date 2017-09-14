@@ -21,13 +21,14 @@
     <result column="PACKAGE_ID" property="packageId" jdbcType="VARCHAR" />
     <result column="REVIEW_DAYS" property="reviewDays" jdbcType="VARCHAR" />
     <result column="REVIEW_ADDRESS" property="reviewAddress" jdbcType="VARCHAR" />
+    <result column="IS_AUTO" property="isAuto" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, PROJECT_NAME, CODE, PURCHASE_WAY, PACKAGE_NAME, REVIEW_TIME,
     REVIEW_PROVINCE,
     PROJECT_TYPE, EXTRACT_ADDRESS, CONTACT_PERSON, CONTACT_NUM, REMARK, IS_DELETED,
     CREATED_AT,
-    UPDATED_AT, PROJECT_ID, PACKAGE_ID, REVIEW_DAYS, REVIEW_ADDRESS
+    UPDATED_AT, PROJECT_ID, PACKAGE_ID, REVIEW_DAYS, REVIEW_ADDRESS, IS_AUTO
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
@@ -46,7 +47,7 @@
       CONTACT_PERSON, CONTACT_NUM, REMARK,
       IS_DELETED, CREATED_AT, UPDATED_AT,
       PROJECT_ID, PACKAGE_ID, REVIEW_DAYS,
-      REVIEW_ADDRESS)
+      REVIEW_ADDRESS, IS_AUTO)
     values (#{id,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR},
       #{code,jdbcType=VARCHAR},
       #{purchaseWay,jdbcType=VARCHAR}, #{packageName,jdbcType=VARCHAR}, #{reviewTime,jdbcType=TIMESTAMP},
@@ -56,7 +57,7 @@
       #{isDeleted,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP},
       #{updatedAt,jdbcType=TIMESTAMP},
       #{projectId,jdbcType=VARCHAR}, #{packageId,jdbcType=VARCHAR}, #{reviewDays,jdbcType=VARCHAR},
-      #{reviewAddress,jdbcType=VARCHAR})
+      #{reviewAddress,jdbcType=VARCHAR}, #{isAuto,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="extract.model.expert.ExpertExtractProject">
     insert into T_SES_EMS_PROJECT_EXTRACT_INFO
@@ -118,6 +119,9 @@
       <if test="reviewAddress != null">
         REVIEW_ADDRESS,
       </if>
+      <if test="isAuto != null">
+        IS_AUTO,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -176,6 +180,9 @@
       </if>
       <if test="reviewAddress != null">
         #{reviewAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="isAuto != null">
+        #{isAuto,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -236,6 +243,9 @@
       <if test="reviewAddress != null">
         REVIEW_ADDRESS = #{reviewAddress,jdbcType=VARCHAR},
       </if>
+      <if test="isAuto != null">
+        IS_AUTO = #{isAuto,jdbcType=DECIMAL},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -258,7 +268,32 @@
       PROJECT_ID = #{projectId,jdbcType=VARCHAR},
       PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
       REVIEW_DAYS = #{reviewDays,jdbcType=VARCHAR},
-      REVIEW_ADDRESS = #{reviewAddress,jdbcType=VARCHAR}
+      REVIEW_ADDRESS = #{reviewAddress,jdbcType=VARCHAR},
+      IS_AUTO = #{isAuto,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 条件查询所有 -->
+  <select id="findAll" resultMap="BaseResultMap" parameterType="Map">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_PROJECT_EXTRACT_INFO
+    where IS_DELETED = 0
+      <if test="projectName != null and projectName != ''">
+        AND PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%')
+      </if>
+      <if test="code != null and code != ''">
+        AND CODE like CONCAT(CONCAT('%', #{code}), '%')
+      </if>
+      <if test="purchaseWay != null and purchaseWay != ''">
+        AND PURCHASE_WAY = #{purchaseWay}
+      </if>
+      <if test="startTime != null and startTime != ''">
+        AND to_char(REVIEW_TIME,'yyyy-MM-dd hh24:mi:ss') &gt;= #{startTime,jdbcType=VARCHAR}
+      </if>
+      <if test="endTime != null and endTime != ''">
+        AND to_char(REVIEW_TIME,'yyyy-MM-dd hh24:mi:ss') &lt;= #{endTime,jdbcType=VARCHAR} 
+      </if>
+    ORDER BY CREATED_AT DESC
+  </select>
 </mapper>

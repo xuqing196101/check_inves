@@ -4,7 +4,7 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
-<title>抽取列表</title>
+<title>专家抽取</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertExtract/extract.js"></script>
 <script type="text/javascript">
@@ -13,7 +13,7 @@
 </head>
 <body>
   <!--面包屑导航开始-->
-  <c:if test="${typeclassId!=null && typeclassId !=''  }">
+  <%-- <c:if test="${typeclassId!=null && typeclassId !=''  }"> --%>
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
@@ -21,14 +21,14 @@
             href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')">首页</a></li>
           <li><a href="javascript:void(0);">支撑环境系统</a></li>
           <li><a href="javascript:void(0);">专家管理</a></li>
-          <li><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/ExpExtract/projectList.html?typeclassId=typeclassId')">专家抽取</a>
+          <li><a href="javascript:void(0);">专家抽取</a>
           </li>
-          <li class="active"><a href="javascript:void(0);">专家抽取列表</a></li>
+          <!-- <li class="active"><a href="javascript:void(0);">专家抽取列表</a></li> -->
         </ul>
         <div class="clear"></div>
       </div>
     </div>
-  </c:if>
+<%--   </c:if> --%>
 
   <!-- 项目戳开始 -->
   <div class="container">
@@ -37,21 +37,22 @@
       <form id="form">
         <h2 class="count_flow"><i>1</i>项目信息</h2>
         <input value = "${projectId}" type = "hidden" name = "id" id = "projectId">
+        <input type = "hidden" name = "isAuto" id = "isAuto">
         <ul class="ul_list">
           <li class="col-md-3 col-sm-4 col-xs-12 pl15">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 项目名称:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
               <input class="span5" id="projectName" name=projectName value="${name}" type="text">
               <span class="add-on">i</span>
-              <div class="cue" id=""></div>
+              <div class="cue" id="err_projectName"></div>
             </div>
           </li>
           <li class="col-md-3 col-sm-4 col-xs-12">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 项目编号:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" id="projectNumber" name="code" value="${code}" type="text">
+              <input class="span5" id="projectCode" name="code" value="${code}" type="text">
               <span class="add-on">i</span>
-              <div class="cue" id=""></div>
+              <div class="cue" id="err_code"></div>
             </div>
           </li>
           <li class="col-md-3 col-sm-4 col-xs-12 ">
@@ -76,21 +77,22 @@
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 评审时间:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
               <input class="col-md-12 col-sm-12 col-xs-6 p0" value="<fmt:formatDate value="${reviewTime }" pattern="yyyy-MM-dd" /> " name = "reviewTime" id = "reviewTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});" pattern='yyyy-MM-dd HH:mm:ss' type="text" readonly="readonly">
-              <div class="cue" id=""></div>
+              <div class="cue" id="err_reviewTime"></div>
             </div>
           </li>
           <li class="col-md-3 col-sm-4 col-xs-12">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 评审地点:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
               <select class="col-md-6 col-sm-6 col-xs-6 p0" onchange="functionArea()" id="province" name="reviewProvince">
-                <option value="">选择省</option>
+                <option value="0">选择省</option>
                 <c:forEach items="${areaTree}" var="map">
                   <option value="${map.id}">${map.name}</option>
                 </c:forEach>
               </select> 
               <select class="col-md-6 col-sm-6 col-xs-6 p0" id= "city" name = "reviewAddress">
-                <option value="">选择地区</option>
+                <option value="0">选择地区</option>
               </select>
+              <div class="cue" id="err_aaa"></div>
             </div>
           </li>
           <li class="col-md-3 col-sm-4 col-xs-12 ">
@@ -106,8 +108,8 @@
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 抽取地址:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" type="text" name="extractAddress" value="${extractAddress }"> <span class="add-on">i</span>
-              <div class="cue" id="extractionSitesError"></div>
+              <input class="span5" type="text" id="extractAddress" name="extractAddress" value="${extractAddress }"> <span class="add-on">i</span>
+              <div class="cue" id="err_extractAddress"></div>
             </div>
           </li>
           <li class="col-md-3 col-sm-4 col-xs-12 ">
@@ -125,16 +127,16 @@
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 联系人:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" type="text" name="contactPerson" value="${contactPerson }"> <span class="add-on">i</span>
-              <div class="cue" id="extractionSitesError"></div>
+              <input class="span5" type="text" id="contactPerson" name="contactPerson" value="${contactPerson }"> <span class="add-on">i</span>
+              <div class="cue" id="err_contactPerson"></div>
             </div>
           </li>
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 联系电话:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" type="text" name="contactNum" value="${contactNum }"> 
+              <input class="span5" type="text" id="contactNum" name="contactNum" value="${contactNum }"> 
               <span class="add-on">i</span>
-              <div class="cue" id="extractionSitesError"></div>
+              <div class="cue" id="err_contactNum"></div>
             </div>
           </li>
           <li class="col-md-3 col-sm-4 col-xs-12 ">

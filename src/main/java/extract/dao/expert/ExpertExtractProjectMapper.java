@@ -1,5 +1,8 @@
 package extract.dao.expert;
 
+import java.util.List;
+import java.util.Map;
+
 import extract.model.expert.ExpertExtractProject;
 
 /**
@@ -32,4 +35,15 @@ public interface ExpertExtractProjectMapper {
     int updateByPrimaryKeySelective(ExpertExtractProject record);
 
     int updateByPrimaryKey(ExpertExtractProject record);
+    
+    /**
+     * 
+     * Description: 条件查询所有
+     * 
+     * @author zhang shubin
+     * @data 2017年9月13日
+     * @param 
+     * @return
+     */
+    List<ExpertExtractProject> findAll(Map<String, Object> map);
 }

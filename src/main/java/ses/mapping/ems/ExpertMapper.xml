@@ -2612,7 +2612,7 @@ resultMap="BaseResultMap">
         </if>
         <!-- 工程执业资格 -->
         <if test="qualification != null and qualification !=''">
-          AND PROFESSIONAL = #{qualification}
+          AND instr(PROFESSIONAL, #{qualification} ) > 0
         </if>
         ORDER BY dbms_random.random
   </select>

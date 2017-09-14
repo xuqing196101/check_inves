@@ -76,7 +76,7 @@ public class ExtractExpertController {
 
     /**
      * 
-     * Description: 跳转专家人共抽取页面
+     * Description: 跳转专家人工抽取页面
      * 
      * @author zhang shubin
      * @data 2017年9月4日
@@ -122,7 +122,7 @@ public class ExtractExpertController {
         //保存项目基本信息
         expertExtractProjectService.save(expertExtractProject);
          //查询抽取结果信息
-        Map<String, Object> result = expertExtractProjectService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
+        Map<String, Object> result = expertExtractConditionService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
         //保存抽取条件
         ExpertExtractCondition condition = expertExtractConditionService.save(expertExtractCondition,expertExtractCateInfo);
         result.put("conditionId", condition.getId());
@@ -161,7 +161,7 @@ public class ExtractExpertController {
     @RequestMapping("/getCount")
     @ResponseBody
     public String getCount(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception{
-        Map<String, Object> result = expertExtractProjectService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
+        Map<String, Object> result = expertExtractConditionService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
         return JSON.toJSONString(result);
     }
     
@@ -179,7 +179,7 @@ public class ExtractExpertController {
     @ResponseBody
     public String getExpert(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo,String conId) throws Exception{
         expertExtractCondition.setId(conId);
-        Map<String, Object> result = expertExtractProjectService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
+        Map<String, Object> result = expertExtractConditionService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
         return JSON.toJSONString(result);
     }
     

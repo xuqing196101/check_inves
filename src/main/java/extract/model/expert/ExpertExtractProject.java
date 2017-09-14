@@ -106,6 +106,14 @@ public class ExpertExtractProject {
      * 评审地点-地市/区
      */
     private String reviewAddress;
+    
+    /**
+     * 抽取方式
+     * 1 自动抽取
+     * 0 人工抽取
+     */
+    private Short isAuto;
+
 
     public String getId() {
         return id;
@@ -257,5 +265,13 @@ public class ExpertExtractProject {
 
     public void setReviewAddress(String reviewAddress) {
         this.reviewAddress = reviewAddress == null ? null : reviewAddress.trim();
+    }
+
+    public Short getIsAuto() {
+        return isAuto;
+    }
+
+    public void setIsAuto(Short isAuto) {
+        this.isAuto = isAuto;
     }
 }

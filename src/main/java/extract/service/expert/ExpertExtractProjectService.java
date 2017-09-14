@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import ses.model.bms.DictionaryData;
-import extract.model.expert.ExpertExtractCateInfo;
-import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
 
 /**
@@ -42,13 +40,12 @@ public interface ExpertExtractProjectService {
     
     /**
      * 
-     * Description: 专家抽取查询专家
+     * Description: 条件查询抽取记录
      * 
      * @author zhang shubin
-     * @data 2017年9月8日
+     * @data 2017年9月13日
      * @param 
      * @return
-     * @throws Exception 
      */
-    Map<String, Object> findExpertByExtract(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception;
+    List<ExpertExtractProject> findAll(Map<String, Object> map ,ExpertExtractProject expertExtractProject);
 }

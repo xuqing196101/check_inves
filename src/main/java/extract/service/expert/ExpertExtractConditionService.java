@@ -1,5 +1,7 @@
 package extract.service.expert;
 
+import java.util.Map;
+
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 
@@ -25,4 +27,16 @@ public interface ExpertExtractConditionService {
      * @throws Exception 
      */
     ExpertExtractCondition save(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception;
+
+    /**
+     * 
+     * Description: 专家抽取查询专家
+     * 
+     * @author zhang shubin
+     * @data 2017年9月8日
+     * @param 
+     * @return
+     * @throws Exception 
+     */
+    Map<String, Object> findExpertByExtract(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception;
 }
