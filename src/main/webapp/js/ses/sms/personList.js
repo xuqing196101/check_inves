@@ -76,11 +76,10 @@ var personType ;
                 $(this).find('td:eq(3) input').val('');
                 $(this).find('td:eq(4) input').val('');
                 $(this).find('td:eq(5) input').val('');
-                alert('您输入的人员信息已存在，请重新填写');
-                // layer.msg('您输入的人员信息已存在，请重新填写', {
-                //   offset: '100px',
-                //   time: 1000
-                // });
+                layer.msg('您输入的人员信息已存在，请重新填写', {
+                  offset: '100px',
+                  time: 1000
+                });
                 return false;
               }
             }
