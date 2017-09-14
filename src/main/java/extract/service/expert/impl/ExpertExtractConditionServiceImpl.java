@@ -270,7 +270,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                             }
                         }
                     }
-                    map.put("expertIds",expertEngIds);
+                    map.put("expertEngIds",expertEngIds);
                     map.put("engSize",expertEngIds.size());
                 }
                 //筛选 去掉已经被抽过的专家

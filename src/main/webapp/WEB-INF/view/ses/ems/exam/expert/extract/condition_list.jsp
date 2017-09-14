@@ -42,7 +42,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12 pl15">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 项目名称:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" id="projectName" name=projectName value="${name}" type="text">
+              <input class="span5" id="projectName" name=projectName value="${projectName}" type="text">
               <span class="add-on">i</span>
               <div class="cue" id="err_projectName"></div>
             </div>
@@ -76,7 +76,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 评审时间:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="col-md-12 col-sm-12 col-xs-6 p0" value="<fmt:formatDate value="${reviewTime }" pattern="yyyy-MM-dd" /> " name = "reviewTime" id = "reviewTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});" pattern='yyyy-MM-dd HH:mm:ss' type="text" readonly="readonly">
+              <input class="col-md-12 col-sm-12 col-xs-6 p0" value="<fmt:formatDate value='${reviewTime }' pattern='yyyy-MM-dd' />" name = "reviewTime" id = "reviewTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});" pattern='yyyy-MM-dd HH:mm:ss' type="text" readonly="readonly">
               <div class="cue" id="err_reviewTime"></div>
             </div>
           </li>
@@ -319,8 +319,8 @@
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 抽取总人数:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" type="text" name="extractNum" onchange="getCount(this)"> <span class="add-on">i</span>
-              <div class="cue" id=""></div>
+              <input class="span5" type="text" name="extractNum" id="extractNum" onchange="getCount(this)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+              <div class="cue" id="err_extractNum"></div>
             </div>
           </li>
           <li class="col-md-3 col-sm-4 col-xs-12 ">
@@ -348,17 +348,17 @@
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 工程技术人数:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" typeCode="PROJECT" name="project_i_count"> <span class="add-on">i</span>
-                  <div class="cue" id=""></div>
+                  <input class="span5" type="text" typeCode="PROJECT" id="project_i_count" name="project_i_count" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+                  <div class="cue" id="err_project_i_count"></div>
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 工程专业信息:</span>
                 <input type="hidden" name="project_eng_isSatisfy" class="isSatisfy">
-                <input type="hidden" name="project_eng_info" class="categoryId">
+                <input type="hidden" name="project_eng_info" class="categoryId" id="project_eng_info">
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                   <input class="span5" type="text" readonly onclick="opens(this);" typeCode="ENG_INFO_ID" name=""> <span class="add-on">i</span>
-                  <div class="cue" id=""></div>
+                  <div class="cue" id="err_project_eng_info"></div>
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
@@ -396,17 +396,17 @@
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 工程经济人数:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="goods_project_i_count" typeCode="GOODS_PROJECT"> <span class="add-on">i</span>
-                  <div class="cue" id=""></div>
+                  <input class="span5" type="text" name="goods_project_i_count" id="goods_project_i_count" typeCode="GOODS_PROJECT" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+                  <div class="cue" id="err_goods_project_i_count"></div>
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 工程专业信息:</span>
                 <input type="hidden" name="goods_project_eng_isSatisfy" class="isSatisfy">
-                <input type="hidden" name="goods_project_eng_info" class="categoryId">
+                <input type="hidden" name="goods_project_eng_info" class="categoryId" id= "goods_project_eng_info">
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                   <input class="span5" type="text" readonly onclick="opens(this);" typeCode="ENG_INFO_ID" name=""> <span class="add-on">i</span>
-                  <div class="cue" id=""></div>
+                  <div class="cue" id="err_goods_project_eng_info"></div>
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
@@ -445,8 +445,8 @@
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 物资技术人数:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" typeCode="GOODS" name="goods_i_count"> <span class="add-on">i</span>
-                  <div class="cue" id=""></div>
+                  <input class="span5" type="text" typeCode="GOODS" id="goods_i_count" name="goods_i_count" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+                  <div class="cue" id="err_goods_i_count"></div>
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
@@ -478,8 +478,8 @@
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 物资服务经济人数:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="goods_server_i_count" typeCode="GOODS_SERVER"> <span class="add-on">i</span>
-                  <div class="cue" id=""></div>
+                  <input class="span5" type="text" name="goods_server_i_count" id="goods_server_i_count" typeCode="GOODS_SERVER" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+                  <div class="cue" id="err_goods_server_i_count"></div>
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
@@ -511,8 +511,8 @@
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 服务技术人数:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="service_i_count" typeCode="SERVICE"> <span class="add-on">i</span>
-                  <div class="cue" id=""></div>
+                  <input class="span5" type="text" name="service_i_count" id="service_i_count" typeCode="SERVICE" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+                  <div class="cue" id="err_service_i_count"></div>
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">

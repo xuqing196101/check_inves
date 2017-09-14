@@ -55,14 +55,14 @@ function functionArea() {
 
 //人工抽取
 function artificial_extracting(){
-	if(!validationIsNull()){
+	var code = $("#expertKind option:selected").val();
+	if(!validationIsNull(code)){
 		return;
 	}
 	$("#isAuto").val(0);
     //项目信息
     var proRuestl_1 = $("#form").serializeJson();//数据序列化
     var param1 = $("#condition_form").serializeJson();
-    var code = $("#expertKind option:selected").val();
     if(code.indexOf(",") >= 0){
         var strs = new Array(); //定义一数组 
         strs = code.split(","); //字符分割
@@ -109,7 +109,7 @@ function artificial_extracting(){
 }
 
 //验证信息非空
-function validationIsNull(){
+function validationIsNull(code){
 	var flag = true;
 	//项目名称
 	var projectName = $("#projectName").val();
@@ -136,7 +136,7 @@ function validationIsNull(){
 	}
 	//评审时间
 	var reviewTime = $("#reviewTime").val();
-	if(reviewTime == null){
+	if(reviewTime == null || reviewTime == ""){
 		$("#err_reviewTime").html("评审时间不能为空");
 		flag = false;
 	}else{
@@ -181,6 +181,37 @@ function validationIsNull(){
 	}else{
 		$("#err_contactNum").html("");
 	}
+	//抽取总人数
+	var extractNum = $("#extractNum").val();
+	if(extractNum == null || extractNum == ""){
+		$("#err_extractNum").html("抽取总人数不能为空");
+		flag = false;
+	}else{
+		$("#err_extractNum").html("");
+	}
+	//每个品目的人数
+    var strs = new Array(); //定义一数组 
+    strs = code.split(",");
+	for(var i=0; i<strs.length; i++){
+		var v = $("#"+strs[i].toLowerCase()+"_i_count").val();
+		if(v == null || v == ""){
+			$("#err_"+strs[i].toLowerCase()+"_i_count").html("人数不能为空");
+			flag = false;
+		}else{
+			$("#err_"+strs[i].toLowerCase()+"_i_count").html("");
+		}
+		//工程特有的工程专业信息验证
+		if(code.indexOf("PROJECT") >= 0){
+			var engInfo =  $("#"+strs[i].toLowerCase()+"_eng_info").val();
+			if(engInfo == null || engInfo == ""){
+				$("#err_"+strs[i].toLowerCase()+"_eng_info").html("工程专业信息不能为空");
+				flag = false;
+			}else{
+				$("#err_"+strs[i].toLowerCase()+"_eng_info").html("");
+			}
+		}
+	}
+	
 	return flag;
 }
 
