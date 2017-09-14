@@ -362,9 +362,9 @@ public class AdOpenBiddingController {
         //添加 purchaseOrgnizationServiceI.getByPurchaseDepId 方法
         List<PurchaseOrg> list = purchaseOrgnizationService.getByPurchaseDepId(orgId);
         for (PurchaseOrg purchaseOrg : list) {
-          if(userOrgId.equals(purchaseOrg.getOrgId())){
-            return true;
-          }
+        	if (StringUtils.equals(userOrgId, purchaseOrg.getOrgId())) {
+        		return true;
+			}
         }
         return false;
 

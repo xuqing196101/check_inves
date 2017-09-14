@@ -272,10 +272,10 @@ public class AdvancedProjectController extends BaseController {
     * @return
     */
     @RequestMapping("/transmit")
-    public String transmit(@CurrentUser User user, Model model, String organization, String ids, String projectNumber, String proName, String name, String documentNumber,String id, String department, String purchaseType){
+    public String transmit(@CurrentUser User user, HttpServletRequest request, Model model, String organization, String ids, String projectNumber, String proName, String name, String documentNumber,String id, String department, String purchaseType){
         //立项 
         AdvancedProject project = new AdvancedProject();
-        String planType = super.request.getParameter("planType");
+        String planType = request.getParameter("planType");
         project.setId(id);
         project.setName(proName);
         project.setProjectNumber(projectNumber);
@@ -410,7 +410,7 @@ public class AdvancedProjectController extends BaseController {
      */
     @RequestMapping("download")
     public ResponseEntity<byte[]> download(@CurrentUser User users, String projectNumber, String proName, String userId, String department, String orgId, String kindName,
-         String planNo, HttpServletRequest request) throws Exception {
+        String id, String planNo, HttpServletRequest request) throws Exception {
         User user = userService.getUserById(userId);
         String userNames = users.getRelName();
         String userphone = users.getMobile();
@@ -430,6 +430,21 @@ public class AdvancedProjectController extends BaseController {
                 }
             }
         }
+        
+        String[] planId = id.split(StaticVariables.COMMA_SPLLIT);
+        String fileNames = null;
+        if (planId.length > 0) {
+			for (String string : planId) {
+				UploadFile file = uploadService.findById(string, 2);
+				if (file != null && StringUtils.isNotBlank(file.getName())) {
+					if (fileNames == null) {
+						fileNames = file.getName();
+					} else {
+						fileNames += StaticVariables.COMMA_SPLLIT+file.getName();
+					}
+				}
+			}
+		}
         
         // 文件存储地址
         String filePath = request.getSession().getServletContext()
@@ -1139,7 +1154,9 @@ public class AdvancedProjectController extends BaseController {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("projectNumber", projectNumber == null ? "" : projectNumber);
         Date time = new Date();
-        dataMap.put("time",time == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(time));
+        String format = new SimpleDateFormat("yyyy年MM月dd日").format(time);
+        
+        dataMap.put("time",time == null ? "" : format);
         dataMap.put("department", department == null ? "" : department);
         dataMap.put("projectName", proName == null ? "" : proName);
         dataMap.put("planNo", planNo == null ? "" : planNo);

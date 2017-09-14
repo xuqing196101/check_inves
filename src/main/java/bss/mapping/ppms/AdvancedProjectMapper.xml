@@ -261,7 +261,7 @@
       <if test="demandFromTime != null">
         DEMAND_FROM_TIME,
       </if>
-      <if test="IsRehearse != null">
+      <if test="isRehearse != null">
         IS_REHEARSE,
       </if>
       <if test="createAt != null">
@@ -434,8 +434,8 @@
       <if test="demandFromTime != null">
         #{demandFromTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="IsRehearse != null">
-        #{IsRehearse},
+      <if test="isRehearse != null">
+        #{isRehearse},
       </if>
       <if test="createAt != null">
         #{createAt,jdbcType=TIMESTAMP},
@@ -609,8 +609,8 @@
       <if test="demandFromTime != null">
         DEMAND_FROM_TIME = #{demandFromTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="IsRehearse != null">
-        IS_REHEARSE = #{IsRehearse},
+      <if test="isRehearse != null">
+        IS_REHEARSE = #{isRehearse},
       </if>
       <if test="createAt != null">
         CREATED_AT = #{createAt,jdbcType=TIMESTAMP},
@@ -812,6 +812,7 @@
 					s. NAME,
 					s.PROJECT_NUMBER,
 					s.STATUS,
+					s.PARENT_ID,
 					s.PURCHASE_TYPE,
 					s .IS_PROVISIONAL,
 					s.APPROVAL_TIME,
@@ -827,6 +828,7 @@
 						T . NAME,
 						T .PROJECT_NUMBER,
 						T.STATUS,
+						T .PARENT_ID,
 						T .PURCHASE_TYPE,
 						T .IS_PROVISIONAL,
 						T .APPROVAL_TIME,
@@ -851,10 +853,11 @@
       <if test="projectNumber != null">
        	and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
       </if>
-      <if test="IsRehearse != null">
-       	and IS_REHEARSE = #{IsRehearse}
+      <if test="isRehearse != null">
+       	and IS_REHEARSE = #{isRehearse}
       </if>
 			and (CONFIRM_FILE = 1 or CONFIRM_FILE = 2 or CONFIRM_FILE = 3 or CONFIRM_FILE = 4)
+			and (PARENT_ID IS NULL OR PARENT_ID != '1')
       ORDER BY APPROVAL_TIME DESC
   </select>
   

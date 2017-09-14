@@ -2051,6 +2051,27 @@ public class OpenBiddingController extends BaseSupplierController{
     model.addAttribute("flag", flag);
     return "bss/ppms/open_bidding/bid_file/supplier_project";
   }
+  
+  @ResponseBody
+  @RequestMapping("/end")
+  public String end(String projectId){
+	  Project project = projectService.selectById(projectId);
+	  FlowDefine define = new FlowDefine();
+	  define.setCode("FSBS");
+	  define.setPurchaseTypeId(project.getPurchaseType());
+	  List<FlowDefine> find = flowMangeService.find(define);
+	  if (find != null && !find.isEmpty()) {
+		  FlowExecute flowExecute = new FlowExecute();
+		  flowExecute.setProjectId(projectId);
+		  flowExecute.setFlowDefineId(find.get(0).getId());
+		  flowExecute.setStatus(3);
+		  List<FlowExecute> list = flowMangeService.findFlowExecute(flowExecute);
+		  if (list != null && !list.isEmpty()) {
+			  return StaticVariables.SUCCESS;
+		  }
+	  }
+	  return StaticVariables.FAILED;
+  }
 
 
   /**

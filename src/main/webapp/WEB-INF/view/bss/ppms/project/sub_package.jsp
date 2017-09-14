@@ -143,7 +143,6 @@
             success: function(data) {
               layer.msg('修改成功');
               $(obj).parent().prev().find($("span[name='packageName']")).html(name);
-              $(obj).parent().prev().find($("span[name='packageNumber']")).html(data);
               $(obj).hide();
               $(obj).prev().show();
             }

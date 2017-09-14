@@ -80,6 +80,10 @@
       }
 
       function download() {
+      	var id = [];
+      	$("input[name^='chkItem_']:checked").each(function() {
+      		id.push($(this).val());
+        });
         var projectNumber = $("#projectNumber").val();
         var department = $("#department").val();
         var proName = $("#proName").val();
@@ -91,7 +95,7 @@
         });
         var kindName = $("#kindName").val();
         window.location.href = "${pageContext.request.contextPath}/advancedProject/download.html?projectNumber=" + projectNumber + "&department=" + department +
-          "&proName=" + proName + "&orgId=" + orgId + "&kindName=" + kindName + "&userId=" + userId + "&planNo=" + planNo;
+          "&proName=" + proName + "&orgId=" + orgId + "&kindName=" + kindName + "&userId=" + userId + "&planNo=" + planNo + "&id=" + id;
       }
 
       function upload() {

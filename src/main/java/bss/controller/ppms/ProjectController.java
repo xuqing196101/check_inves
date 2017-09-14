@@ -2150,12 +2150,12 @@ public class ProjectController extends BaseController {
         Packages pk = new Packages();
         pk.setId(id);
         pk.setName(name);
-        String substring = name.substring(1,2);
+        /*String substring = name.substring(1,2);
         if(Pattern.compile("^[0-9]*[1-9][0-9]*$").matcher(substring).matches()){
         	pk.setPackageNumber(project.getProjectNumber() + "(" + substring + ")");
 		} else {
 			pk.setPackageNumber(project.getProjectNumber() + "(" + name + ")");
-		}
+		}*/
         pk.setUpdatedAt(new Date());
         packageService.updateByPrimaryKeySelective(pk);
         return pk.getPackageNumber();

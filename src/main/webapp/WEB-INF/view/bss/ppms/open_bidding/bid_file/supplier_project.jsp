@@ -83,7 +83,9 @@
 						//console.log(jsonStr);
 					}
 					 var projectId = $("#projectId").val();
-					$.ajax({
+					 var ends = end(projectId);
+					 if(ends){
+					 	$.ajax({
 				        type: "POST",
 				        url: "${pageContext.request.contextPath}/open_bidding/isTurnUp.html?projectId=" + projectId,
 				        data: {isTurnUp:JSON.stringify(jsonStr)},
@@ -97,7 +99,25 @@
 				        	}
 				        },
 		    		  });
+					 } else {
+					 		layer.msg("发售标书环节未结束");
+					 }
 				});
+		}
+		
+		function end(id){
+			var bool = true;
+			$.ajax({
+				type: "post",
+				url: "${pageContext.request.contextPath}/open_bidding/end.html?projectId=" + id,
+				dataType: "text",
+				success: function (message) {
+					if(message != "ok"){
+						bool = false;
+					}
+				},
+			});
+			return bool;
 		}
 		
 		$(function(){
