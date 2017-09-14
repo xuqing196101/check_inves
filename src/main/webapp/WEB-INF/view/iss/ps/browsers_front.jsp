@@ -106,7 +106,6 @@
 	   <% } %>
 	   </div>
 	  <h2 class="show_tips">	
-		亲，您使用的浏览器版本过低，<br/>
 		为了正常访问，建议您升级或者下载以下浏览器。
 	  </h2>
 	  <div class="brower_box">
