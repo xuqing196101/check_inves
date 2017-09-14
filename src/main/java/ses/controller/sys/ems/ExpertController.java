@@ -3667,7 +3667,11 @@ public class ExpertController extends BaseController {
         dataMap.put("telephone", expert.getTelephone() == null ? "" : expert.getTelephone());
         dataMap.put("fax", expert.getFax() == null ? "" : expert.getFax());
         dataMap.put("email", expert.getEmail() == null ? "" : expert.getEmail());
-        StringBuffer categories = new StringBuffer();
+        //tringBuffer categories = new StringBuffer();
+        StringBuffer goods = new StringBuffer();
+        StringBuffer project = new StringBuffer();
+        StringBuffer service = new StringBuffer();
+        StringBuffer enginfoid = new StringBuffer();
         //        List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expert.getId(), null);
         List<ExpertCategory> categoriesTxt = getCategoriesTxt(expert.getId());
         ExpertAudit expertAudit = new ExpertAudit();
@@ -3687,21 +3691,62 @@ public class ExpertController extends BaseController {
         	}
             Category category= categoryService.selectByPrimaryKey(expertCategory.getCategoryId());
             if (category != null){
-                categories.append( category.getName());
-                categories.append(",");
+            	List<Category> node = getAllParentNode(category.getId(), null);
+            	 // 加入根节点
+                for(int i = 0; i < node.size(); i++) {
+                    DictionaryData rootNode = DictionaryDataUtil.findById(node.get(i).getId());
+                    if(rootNode != null) {
+                       if("GOODS".equals(rootNode.getCode())){
+                    	   goods.append(category.getName());
+                    	   goods.append(",");
+                       }
+                       if("PROJECT".equals(rootNode.getCode())){
+                    	   project.append(category.getName());
+                    	   project.append(",");
+                       }
+                       if("SERVICE".equals(rootNode.getCode())){
+                    	   service.append(category.getName());
+                    	   service.append(",");
+                       }
+                    }
+                }
+            /*    categories.append( category.getName());
+                categories.append(",");*/
             } else {
                 category = engCategoryService.selectByPrimaryKey(expertCategory.getCategoryId());
                 if(category != null){
-                    categories.append(category.getName());
-                    categories.append(",");
+                	enginfoid.append(category.getName());
+                	enginfoid.append(",");
+                   /* categories.append(category.getName());
+                    categories.append(",");*/
                 }
             }
         }
-        String productCategories = ""; 
+        /*String productCategories = ""; 
         if (categories.toString() != null && !"".equals(categories.toString())) {
             productCategories = categories.substring(0, categories.length() - 1);  
+        }*/
+        String goodsStr="";
+        String projectStr="";
+        String serviceStr="";
+        String enginfoidStr="";
+        if (goods.toString() != null && !"".equals(goods.toString())) {
+        	goodsStr = goods.substring(0, goods.length() - 1);  
         }
-        dataMap.put("productCategories", productCategories);
+        if (project.toString() != null && !"".equals(project.toString())) {
+        	projectStr = project.substring(0, project.length() - 1);  
+        }
+        if (service.toString() != null && !"".equals(service.toString())) {
+        	serviceStr = service.substring(0, service.length() - 1);  
+        }
+        if (enginfoid.toString() != null && !"".equals(enginfoid.toString())) {
+        	enginfoidStr = enginfoid.substring(0, enginfoid.length() - 1);  
+        }
+        dataMap.put("goodsStr", "".equals(goodsStr.toString())?"无":goodsStr);
+        dataMap.put("projectStr","".equals(projectStr.toString())?"无":projectStr);
+        dataMap.put("serviceStr","".equals(serviceStr.toString())?"无":serviceStr);
+        dataMap.put("enginfoidStr", "".equals(enginfoidStr.toString())?"无":enginfoidStr);
+       // dataMap.put("productCategories", productCategories);
         dataMap.put("jobExperiences", expert.getJobExperiences() == null ? "无" : expert.getJobExperiences());
         dataMap.put("academicAchievement", expert.getAcademicAchievement() == null ? "无" : expert.getAcademicAchievement());
         dataMap.put("reviewSituation", expert.getReviewSituation() == null ? "无" : expert.getReviewSituation());
@@ -3962,7 +4007,7 @@ public class ExpertController extends BaseController {
     		            code = "PROJECT";
     		            splExp[i]=DictionaryDataUtil.getId(code);
     		        }
-    				if (splExp[i].equals(expertCate.get(j).getCategoryId())) {
+    				if (splExp[i].equals(expertCate.get(j).getTypeId())) {
     					//stat += "1";
     					stat += 1;
     					break;

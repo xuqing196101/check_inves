@@ -386,8 +386,8 @@
 											<c:when test="${reasons.returnStatus == 3}">已修改</c:when>
 											<c:when test="${reasons.returnStatus == 4}">未修改</c:when>
 										</c:choose>
-										<!-- 若存在新审核的和已审核未修改的，则表示未通过 -->
-										<c:if test="${reasons.isDeleted == 0 || reasons.returnStatus == 4}">
+										<!-- 若存在新审核的和已审核未修改的，则表示未通过（产品审核不通过，可以预审核通过） -->
+										<c:if test="${(reasons.isDeleted == 0  && reasons.returnStatus != 2 )|| reasons.returnStatus == 4}">
 											<c:set var="isNotPass" value="1" />
 										</c:if>
 									</td>
@@ -402,8 +402,8 @@
 								<input name="supplierId" value="${supplierId}" type="hidden">
 								<span class="col-md-5 padding-left-5" ><a class="star_red">*</a>考察报告:</span>
 								<div style="margin-bottom: 25px">
-								  <u:upload id="inspect" businessId="${suppliers.id}" buttonName="上传考察报告" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" auto="true" /> 
-								  <u:show showId="inspect_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" />
+								  <u:upload id="inspect" businessId="${supplier.id}" buttonName="上传考察报告" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" auto="true" /> 
+								  <u:show showId="inspect_show" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" />
 								</div>
 							</li>
 						</ul>
@@ -431,10 +431,10 @@
 													<input type="radio" name="selectOption" value="0">预审核不通过 -->
 													<c:if test="${isNotPass == 0}">
 														<input type="radio" name="selectOption" value="1">预审核通过
-														<input type="radio" disabled="disabled" name="selectOption" value="0" title="没有审核不通过的项">预审核不通过
+														<input type="radio" disabled="disabled" name="selectOption" value="0" title="没有预审核不通过的项">预审核不通过
 													</c:if>
 													<c:if test="${isNotPass == 1}">
-														<input type="radio" disabled="disabled" name="selectOption" value="1" title="还有审核未通过的项">预审核通过
+														<input type="radio" disabled="disabled" name="selectOption" value="1" title="还有预审核未通过的项">预审核通过
 														<input type="radio" name="selectOption" value="0">预审核不通过
 													</c:if>
 												</c:when>

@@ -112,11 +112,13 @@ public class SupplierAptituteServiceImpl implements SupplierAptituteService {
 						if(apt.getCertCode().equals(cateTree.getCertCode()) && apt.getCertType().equals(cateTree.getQualificationType())){
 							cateTree.setProName(apt.getProfessType());
 							cateTree.setLevel(DictionaryDataUtil.findById(apt.getAptituteLevel()));
+							cateTree.setDiyLevel(apt.getAptituteLevel());
 							cateTree.setFileId(apt.getId());
 							break;
 						}else{
 							cateTree.setProName(null);
 							cateTree.setLevel(null);
+							cateTree.setDiyLevel(null);
 							cateTree.setFileId(null);
 						}
 					}

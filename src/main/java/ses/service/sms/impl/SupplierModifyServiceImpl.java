@@ -715,7 +715,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 							}
 							
 							//注册人姓名
-							if (h.getBeforeField().equals("regNumber") && !h.getBeforeContent().equals(regPerson.getRegNumber().toString())) {
+							if (h.getBeforeField().equals("regNumber") && !h.getBeforeContent().equals(regPerson.getRegNumber())) {
 								supplierModify.setBeforeField("regNumber");
 								supplierModify.setBeforeContent(h.getBeforeContent());
 								supplierModifyMapper.insertSelective(supplierModify);

@@ -1052,3 +1052,19 @@ text-align:center;
   }
 }
 .break-all { word-break: break-all; }
+
+.analyze_resource{
+  padding: 5px 30px 5px 30px;
+}
+.analyze_resource_div{
+    margin-left:10px;
+    overflow-y:scroll;
+    height:270px;
+}
+.analyze_resource_table{
+    height:600px;
+    margin-left:20px;
+    border-collapse:collapse;
+    font-size:14px;
+    text-align:center
+}

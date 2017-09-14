@@ -24,7 +24,25 @@ $(function () {
                 },
                 dataView: {
                     show: true,
-                    readOnly: false
+                    readOnly: false,
+                    optionToContent: function (opt) {
+                        var axisData = opt.series[0].data; //坐标数据
+                        var table = '<div class="analyze_resource_div"><table border="1" class="analyze_resource_table"><tbody>';
+                        table += "<tr>";
+                        for (var i = 0, l = axisData.length; i < l; i++) {
+                            table += '<td class="bgdd analyze_resource">'+axisData[i].srcData.name+'</td>';
+                            table += "<td class='analyze_resource'><a href=\"javascript:;\" onclick=\"findOrgMemNum('"+axisData[i].srcData.id+"', "+axisData[i].srcData.value+")\">"+axisData[i].srcData.value+"</a></td>";
+                            if(i != 0 && (i+1) % 4 == 0){
+                                table += "</tr>";
+                                table += "<tr>";
+                            }
+                            if(i % 4 != 0 && (i+1) == axisData.length){
+                                table += "</tr>";
+                            }
+                        }
+                        table += '</tbody></table></div>';
+                        return table;
+                    }
                 },
                 magicType: {
                     show: true,
@@ -114,7 +132,25 @@ $(function () {
                 },
                 dataView: {
                     show: true,
-                    readOnly: false
+                    readOnly: false,
+                    optionToContent: function (opt) {
+                        var axisData = opt.series[0].data; //坐标数据
+                        var table = '<div class="analyze_resource_div"><table border="1" class="analyze_resource_table"><tbody>';
+                        table += "<tr>";
+                        for (var i = 0, l = axisData.length; i < l; i++) {
+                            table += '<td class="bgdd analyze_resource">'+axisData[i].srcData.name+'</td>';
+                            table += "<td class='analyze_resource'><a href=\"javascript:;\" onclick=\"findNowYearOrgAcceptTaskMoney('"+axisData[i].srcData.id+"', "+axisData[i].srcData.value+")\">"+axisData[i].srcData.value+"</a></td>";
+                            if(i != 0 && (i+1) % 4 == 0){
+                                table += "</tr>";
+                                table += "<tr>";
+                            }
+                            if(i % 4 != 0 && (i+1) == axisData.length){
+                                table += "</tr>";
+                            }
+                        }
+                        table += '</tbody></table></div>';
+                        return table;
+                    }
                 },
                 magicType: {
                     show: true,
@@ -259,4 +295,20 @@ $(function () {
 });
 function findAllOrg(){
     window.location.href = globalPath + "/purchaseManage/readOnlyList.html";
+}
+
+function findOrgMemNum(id,value){
+    if(value == 0){
+        layer.msg("暂无数据");
+        return;
+    }
+    window.location.href = globalPath + "/purchase/readOnlyList.html?reqType=analyzeOrg&purchaseDepId=" + id;
+}
+
+function findNowYearOrgAcceptTaskMoney(id,value){
+    if(value == 0){
+        layer.msg("暂无数据");
+        return;
+    }
+    window.location.href = globalPath + "/purchaseManage/readOnlyList.html?orgId=" + id;
 }

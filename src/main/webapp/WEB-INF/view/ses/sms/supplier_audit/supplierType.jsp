@@ -393,11 +393,12 @@
 								$("#" + id + "_show1").removeClass('hidden');
 								$("#" + id + "_show2").removeClass('hidden');
 								layer.close(index);
-								}else{
-			      			layer.msg('不能为空！', {offset:'100px'});
-			      	}
-						});
-        }
+							}else{
+								layer.msg('不能为空！', {offset:'100px'});
+							}
+						}
+					);
+				}
 			}
 
 			//工程
@@ -800,23 +801,23 @@
 						<c:set value="0" var="liCountSell" />
 						<c:set value="0" var="liCountEng" />
 						<c:set value="0" var="liCountSer" />
-						<c:if test="${fn:contains(supplierTypeNames, '物资生产')}">
+						<c:if test="${fn:contains(supplierTypeCode, 'PRODUCT')}">
 							<li class="active">
 								<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型专业信息</a>
 								<c:set value="${liCountPro+1}" var="liCountPro"/>
 							</li>
 						</c:if>
-						<c:if test="${fn:contains(supplierTypeNames, '物资销售')}">
+						<c:if test="${fn:contains(supplierTypeCode, 'SALES')}">
 							<li class='<c:if test="${liCountPro == 0}">active  <c:set value="${liCountSell+1}" var="liCountSell"/></c:if>'>
 								<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型专业信息</a>
 							</li>
 						</c:if>
-						<c:if test="${fn:contains(supplierTypeNames, '工程')}">
+						<c:if test="${fn:contains(supplierTypeCode, 'PROJECT')}">
 							<li class='<c:if test="${liCountSell == 0 && liCountPro == 0}">active <c:set value="${liCountEng+1}" var="liCountEng"/></c:if>'>
 								<a aria-expanded="false" href="#tab-3" data-toggle="tab" onmouseup="init_web_upload_in('#tab-3')">工程专业信息</a>
 							</li>
 						</c:if>
-						<c:if test="${fn:contains(supplierTypeNames, '服务')}">
+						<c:if test="${fn:contains(supplierTypeCode, 'SERVICE')}">
 							<li class='<c:if test="${liCountSell == 0 && liCountPro == 0 && liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer"/></c:if>'>
 								<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务专业信息</a>
 							</li>
@@ -824,7 +825,7 @@
 					</ul>
 					<div class="count_flow">
 						<div class="tab-content padding-top-20" id="tab_content_div_id">
-							<c:if test="${fn:contains(supplierTypeNames, '生产')}">
+							<c:if test="${fn:contains(supplierTypeCode, 'PRODUCT')}">
 								<div class="tab-pane fade active in height-300" id="tab-1">
 								<%-- <h2 class="count_flow"><i>1</i>组织结构和人员</h2>
 									<ul class="ul_list count_flow">
@@ -1026,7 +1027,7 @@
 								</div>
 							</c:if>
 
-							<c:if test="${fn:contains(supplierTypeNames, '销售')}">
+							<c:if test="${fn:contains(supplierTypeCode, 'SALES')}">
 								<div class="tab-pane <c:if test="${liCountSell == 1}">active in</c:if> fade in height-200" id="tab-2">
 									<%-- <h2 class="count_flow"><i>1</i>供应商组织结构和人员</h2>
 									<ul class="ul_list">
@@ -1111,7 +1112,7 @@
 								</div>
 							</c:if>
 
-							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
+							<c:if test="${fn:contains(supplierTypeCode, 'PROJECT')}">
 								<div class="tab-pane <c:if test="${liCountEng == 1}">active in</c:if> fade height-200" id="tab-3">
 									<%-- <h2 class="count_flow"><i>1</i>组织结构和人员信息</h2>
 									<ul class="ul_list count_flow">
@@ -1189,7 +1190,7 @@
 									
 									<h2 class="count_flow"><i>2</i>承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</h2>
 									<ul class="ul_list">
-										<c:forEach items="${rootArea}" var="area" varStatus="st">
+										<c:forEach items="${areas}" var="area" varStatus="st">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'${area.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" 
 													<c:if test="${fn:contains(passedEngField,area.name)}">style="border: 1px solid red;"</c:if>
@@ -1372,7 +1373,7 @@
 								</div>
 							</c:if>
 							
-							<c:if test="${fn:contains(supplierTypeNames, '服务')}">
+							<c:if test="${fn:contains(supplierTypeCode, 'SERVICE')}">
 								<div class="tab-pane <c:if test="${liCountSer == 1}">active in</c:if> fade height-200" id="tab-4">
 									<%-- <h2 class="count_flow"><i>1</i>组织结构和人员信息</h2>
 									<ul class="ul_list">

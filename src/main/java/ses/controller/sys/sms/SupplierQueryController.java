@@ -757,7 +757,7 @@ public class SupplierQueryController extends BaseSupplierController {
 	 * @param supplierItem
 	 * @return
 	 */
-	@RequestMapping("/getCategories")
+    @RequestMapping("/getCategories")
 	public String getCategoryList(SupplierItem supplierItem, Model model, Integer pageNum, Integer status) {
 		// 查询已选中的节点信息
         List < SupplierItem > listSupplierItems = null;
@@ -794,13 +794,36 @@ public class SupplierQueryController extends BaseSupplierController {
 			}
 			cate.setRootNode(cate.getRootNode() + typeName);
 			
+			// 工程
+			/*String supplierTypeIds = supplierTypeRelateService.findBySupplier(supplierItem.getSupplierId());
+			String[] typeIds = supplierTypeIds.split(",");
+			boolean isEng = false;
+			for(String type: typeIds) {
+				if(type.equals("PROJECT")) {
+					isEng = true;
+					break;
+				}
+			}*/
+			
+			
 			//查询等级
 			/*if(supplierItem.getSupplierId() !=null && cate.getItemsId() !=null){
-				supplierItemLevel.setId(cate.getItemsId());
+				Category category = categoryService.selectCategoryByItemId(cate.getItemsId());
+				
 				supplierItemLevel.setSupplierId(supplierItem.getSupplierId());
+				supplierItemLevel.setSupplierTypeId(supplierItem.getSupplierTypeRelateId());
+				
+				//
+				if(category.getLevel() == 5){
+					supplierItemLevel.setCategoryId(category.getParentId());
+				}else{
+					supplierItemLevel.setCategoryId(category.getId());
+				}
 				SupplierItemLevel selectLevelByItem = supplierItemLevelServer.selectLevelByItem(supplierItemLevel);
+				
 				if(selectLevelByItem!=null){
 					cate.setDiyLevel(selectLevelByItem.getSupplierLevel());
+					
 				}
 			}*/
 			

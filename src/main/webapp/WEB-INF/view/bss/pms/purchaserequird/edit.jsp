@@ -176,7 +176,7 @@
 
       function supplierReadOnly(obj) {
         var dyly = "${DYLY}";
-        if($(obj).parent().prev().find("select").val() == dyly) {
+        if($(obj).parent().prev().find("select").val() == '单一来源') {
           $(obj).removeAttr("readonly");
         } else {
           $(obj).val("");
@@ -190,7 +190,7 @@
         $("#detailZeroRow tr").each(function(i) {
           if($(this).find("td:eq(8)").children(":first").next().val() != "") {
             var type = $(this).find("td:eq(11)").children(":last").val();
-            if($.trim(type) == dyly) { //单一来源
+            if($.trim(type) == '单一来源') { //单一来源
               var supp = $(this).find("td:eq(12)").children(":last").val();
               if($.trim(supp) == '') {
                 bool = false;
@@ -203,31 +203,31 @@
         return bool;
 
       }
-      function trimNull(i){
+      function trimNull(notAttrtr){
     	  var trimFlog=false;
-    	  if($.trim($("input[name='list[" + i + "].goodsName']").val()) == "") {
+    	  if($.trim($($(notAttrtr).children()[3]).children(":first").children(":first").next().val()) == "") {
               layer.alert("需求明细中物资类别及物资名称不能为空");
               trimFlog=true;
-            } else if($.trim($("input[name='list[" + i + "].qualitStand']").val()) == "") {
+            } else if($.trim($($(notAttrtr).children()[5]).children(":last").val()) == "") {
               layer.alert("需求明细中质量技术标准不能为空");
               trimFlog=true;
-            } else if($.trim($("input[name='list[" + i + "].item']").val()) == "") {
+            } else if($.trim($($(notAttrtr).children()[6]).children(":last").val()) == "") {
               layer.alert("需求明细中计量单位不能为空");
               trimFlog=true;
-            } else if($.trim($("input[name='list[" + i + "].purchaseCount']").val()) == "") {
+            } else if($.trim($($(notAttrtr).children()[7]).children(":first").next().val()) == "") {
               layer.alert("需求明细中采购数量不能为空");
               trimFlog=true;
-            } else if($.trim($("input[name='list[" + i + "].price']").val()) == "") {
+            } else if($.trim($($(notAttrtr).children()[8]).children(":first").next().val()) == "") {
               layer.alert("需求明细中单价不能为空");
               trimFlog=true;
-            }else if($.trim($("select[name='list[" + i + "].purchaseType']").val()) == "") {
+            }else if($.trim($($(notAttrtr).children()[11]).children(":first").val()) == "") {
                 layer.alert("需求明细中采购方式不能为空");
                 trimFlog=true;
               }
     	  return trimFlog;
       }
       var flgNumber=false;
-      function submit() {
+      function submit(typ) {
     	  if(flgNumber) {
            layer.alert("节点填写错误");
            return false;
@@ -239,7 +239,7 @@
             	var tableTr=$("#detailZeroRow tr");
             	for(var i = 1; i < tableTr.length; i++) {
             		 if(typeof($(tableTr[i]).attr("attr"))=="undefined"){//获取子节点
-            			  if(trimNull(i)){
+            			  if(trimNull(tableTr[i])){
             				  return false;
             				  break;
             			  }
@@ -360,7 +360,12 @@
             "enterPort": $("#enterPort").val()
           },
           success: function(message) {
-            window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
+        	   if(typ==2){
+        		   window.history.back(-1);
+        	   }else{
+        		   window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
+        	   }
+            
           },
           error: function(message) {}
         });
@@ -621,20 +626,35 @@
       }
 
       //动态添加
+      var indNum=2;
+      var flgg=false;
+      var indexCount=0;
       function aadd() {
-        var value = $("#xqbm").val();
-        var detailRow = document.getElementsByName("detailRow");
-        var index = detailRow.length;
-        var id = null;
+    	  if(flgNumber) {
+              layer.alert("节点填写错误");
+              return false;
+          }
+        if(!flgg){
+            var detailRow = document.getElementsByName("detailRow");
+            var index = detailRow.length;
+            indNum=detailRow.length;
+            indexCount=index;
+            flgg=true;
+        }else{
+            indexCount++;
+            indNum++;
+        }
         $.ajax({
           url: "${pageContext.request.contextPath}/templet/detail.html",
           type: "post",
           data: {
-            "index": index,
+            "index": indexCount,
+            "indNum": indNum,
             "type": "edit"
           },
           success: function(data) {
             $("#detailZeroRow").append(data);
+            indNum++;
             init_web_upload(); //加载附件上传按钮
             var bool = $("input[name='import']").is(':checked');
             if(bool == true) {
@@ -735,7 +755,24 @@
 	                	  flgNumber=true;
 	                	  return false;
 	                  }
-                   }
+                   }else{
+                  	 var ffg=true;
+                	      inter:
+	                      for(var j = 0; j < list.length; j++){
+	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+	                    			  ffg=false;
+	                    			  break inter;
+	                    		  }
+	                    		  
+	                    	  }
+	                      }
+                    if(!ffg){
+                      layer.msg("序号填写错误");
+	                    	  flgNumber=true;
+	                    	  return false;
+                    }
+                 }
                   break outer;
                 }
               }
@@ -771,6 +808,23 @@
 	                    	  flgNumber=true;
 	                    	  return false;
 	                      }
+                     }else{
+                    	 var ffg=true;
+                    	    inter:
+   	                      for(var j = 0; j < list.length; j++){
+   	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+   	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+   	                    			  ffg=false;
+   	                    			  break inter;
+   	                    		  }
+   	                    		  
+   	                    	  }
+   	                      }
+                        if(!ffg){
+                          layer.msg("序号填写错误");
+  	                    	  flgNumber=true;
+  	                    	  return false;
+                        }
                      }
                       break outer;
                     }
@@ -807,6 +861,23 @@
 	                    	  flgNumber=true;
 	                    	  return false;
 	                      }
+                     }else{
+                    	 var ffg=true;
+                    	    inter:
+   	                      for(var j = 0; j < list.length; j++){
+   	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+   	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+   	                    			  ffg=false;
+   	                    			  break inter;
+   	                    		  }
+   	                    		  
+   	                    	  }
+   	                      }
+                        if(!ffg){
+                          layer.msg("序号填写错误");
+  	                    	  flgNumber=true;
+  	                    	  return false;
+                        }
                      }
                       break outer;
                     }
@@ -845,6 +916,23 @@
                     	  flgNumber=true;
                     	  return false;
                       }
+                 }else{
+                	 var ffg=true;
+                	      inter:
+	                      for(var j = 0; j < list.length; j++){
+	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+	                    			  ffg=false;
+	                    			  break inter;
+	                    		  }
+	                    		  
+	                    	  }
+	                      }
+                    if(!ffg){
+                      layer.msg("序号填写错误");
+	                    	  flgNumber=true;
+	                    	  return false;
+                    }
                  }
                   break outer;
                 }
@@ -880,6 +968,23 @@
 	                    	  flgNumber=true;
 	                    	  return false;
 	                      }
+                     }else{
+                    	 var ffg=true;
+                    	    inter:
+   	                      for(var j = 0; j < list.length; j++){
+   	                    	  if($(obj).next().val()==$(list[j].children[1]).children(":last").val()){
+   	                    		  if($(obj).val()==$(list[j].children[1]).children(":first").next().val()){
+   	                    			  ffg=false;
+   	                    			  break inter;
+   	                    		  }
+   	                    		  
+   	                    	  }
+   	                      }
+                        if(!ffg){
+                          layer.msg("序号填写错误");
+  	                    	  flgNumber=true;
+  	                    	  return false;
+                        }
                      }
                       break outer;
                     }
@@ -1050,6 +1155,7 @@
         }
       }
       function deleteRowRequired(obj,status){
+    	  flgNumber=false;
     	  var id=[],seq=[];
     	  var trAll=$("#detailZeroRow tr");
     	  if(trAll.length<=2){
@@ -1154,6 +1260,15 @@
         			}else{
         				price=$($(tr).next().children()[8]).children(":first").next();
         			}
+        			var trNextAllNum=tr.nextAll();
+	  				  if(trNextAllNum.length>0){
+		    				  for(var i=0;i<trNextAllNum.length;i++){
+		    					  $($(trNextAllNum[i]).children()[0]).text(parseInt($($(trNextAllNum[i]).children()[0]).text())-1);
+		    				  }
+		    				  indexCount=parseInt($($(trNextAllNum[trNextAllNum.length-1]).children()[0]).text())-1;
+	  				  }else{
+	  					  indexCount=parseInt($($(tr).children()[0]).text())-2;
+	  				  }
     				  $(tr).remove();
     				  sum1(price);
     			  }else{//删除当前节点，把父节点的父节点的readOnly=false,并且删除tr上的attr=“true”
@@ -1177,6 +1292,16 @@
     		    	  if(status=="old"){
     		    		  ajaxDeleteRequired(trId,null,null);
           			}
+    		    	  var trNextAllNum=tr.nextAll();
+	    				  if(trNextAllNum.length>0){
+		    				  for(var i=0;i<trNextAllNum.length;i++){
+		    					  $($(trNextAllNum[i]).children()[0]).text(parseInt($($(trNextAllNum[i]).children()[0]).text())-1);
+		    				  }
+		    				  indexCount=parseInt($($(trNextAllNum[trNextAllNum.length-1]).children()[0]).text())-1;
+	    				  }else{
+	    					  indexCount=parseInt($($(tr).children()[0]).text())-2;
+	    				  }
+    				  
     		    	  $(tr).remove();
     		    	  sum1(tr8);
     			  }
@@ -1411,6 +1536,10 @@
         $(obj).parent().parent().children(":first").next().val($(obj).html());
         $(obj).parent().addClass("dnone");
       }
+      function go(){
+    	  submit(2);
+      	/* window.history.back(-1); */
+      }
     </script>
   </head>
 
@@ -1555,8 +1684,8 @@
               <tbody id="detailZeroRow">
                 <c:forEach items="${list }" var="obj" varStatus="vs">
                   <tr style="cursor: pointer;" name="detailRow"  <c:if test="${obj.price=='' || obj.price==null}">attr="true"</c:if> >
-                    <td>
-                      <div class="seq">${vs.index+1 }</div>
+                    <td class="tc">
+                      ${vs.index+1 }
                     </td>
                     <td class="tc">
                       <input type="hidden" id="id${vs.index}" name="list[${vs.index }].id" value="${obj.id }">
@@ -1602,13 +1731,12 @@
                     </td>
 
                     <td>
-                      <input type="hidden" name="ss" value="${obj.id}"/>
                       <select name="list[${vs.index }].purchaseType" <c:if test="${obj.price==null}"> onchange="changeType(this);" </c:if>
                         <c:if test="${obj.price!=null}"> onchange="ssl(this);" </c:if>
                         class="purchasetype" id="select">
                         <option value="">请选择</option>
                         <c:forEach items="${kind}" var="kind">
-                          <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}
+                          <option value="${kind.name}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}
                           </option>
                         </c:forEach>
                       </select>
@@ -1653,7 +1781,7 @@
           <input type="hidden" name="mobile" />
           <input type="hidden" name="referenceNo" />
           <input type="hidden" name="delobjId" />
-          <input class="btn btn-windows git" type="button" onclick="submit()" value="保存"><input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+          <input class="btn btn-windows git" type="button" onclick="submit('1')" value="保存"><input class="btn btn-windows back" value="返回" type="button" onclick="go();">
         </div>
 
       </div>

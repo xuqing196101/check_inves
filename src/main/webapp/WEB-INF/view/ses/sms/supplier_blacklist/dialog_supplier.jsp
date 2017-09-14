@@ -61,10 +61,16 @@
 	}
 	//清空选择
 	function clearRadio() {
-        $('input').removeAttr('checked');
-        parent.document.getElementById("suppi").value='';
-        parent.document.getElementById("suppllier_name_input_id").value='';
-    }
+    $('input').removeAttr('checked');
+    parent.document.getElementById("suppi").value='';
+    parent.document.getElementById("suppllier_name_input_id").value='';
+  }
+  
+	//关闭弹出层
+	function closeDialog(){
+		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+		parent.layer.close(index);
+	}
 </script>
 
 </head>
@@ -123,7 +129,8 @@
 				<div class="tc mb10">
 					<a class="btn btn-windows save" onclick="checkSupplier()">选择</a>
 					<input onclick="clearRadio()" class="btn" type="button" value="清空选择" />
-					<a target="_parent" class="btn btn-windows back" href="${pageContext.request.contextPath}/supplier_blacklist/add_supplier.html">返回</a>
+					<%-- <a target="_parent" class="btn btn-windows back" href="${pageContext.request.contextPath}/supplier_blacklist/add_supplier.html">返回</a> --%>
+					<a target="_parent" class="btn btn-windows back" onclick="closeDialog()">返回</a>
 				</div>
 			</div>
 			<form target="_parent" id="check_form_id" action="${pageContext.request.contextPath}/supplier_blacklist/add_supplier.html" method="post">

@@ -668,11 +668,11 @@ function reasonProjectRadio(tablerId,ind,auditField, auditFieldName,type,auditCo
 function zhancun(){
   var supplierId = $("#supplierId").val();
   $.ajax({
-    url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
+    url: globalPath+"/supplierAudit/temporaryAudit.do",
     dataType: "json",
     data:{supplierId : supplierId},
     success : function (result) {
-        layer.msg(result, {offset : [ '100px' ]});
+    	layer.msg(result, {offset : [ '100px' ]});
     },error : function(){
       layer.msg("暂存失败", {offset : [ '100px' ]});
     }

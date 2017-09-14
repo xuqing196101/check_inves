@@ -1197,6 +1197,7 @@
         T1.AUDITOR,
         T1.IS_PUBLISH,
         T1.SUPPLIER_STATUS,
+        T1.AUDIT_TEMPORARY,
         T1.PROCUREMENT_DEP_ID,
         wm_concat (T4.NAME || t3.NAME) AS addressName
       FROM
@@ -1207,7 +1208,7 @@
       WHERE
         1=1
       <if test="sign == 1">
-        and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3 or SUPPLIER_STATUS = -2 or SUPPLIER_STATUS =-3 or SUPPLIER_STATUS =9)
+        and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3 or SUPPLIER_STATUS = -2 or SUPPLIER_STATUS =-3 or SUPPLIER_STATUS = 9)
         <if test="procurementDepId !=null">
           and PROCUREMENT_DEP_ID = #{procurementDepId}
         </if>
@@ -1229,8 +1230,11 @@
       <if test="supplierName != null and supplierName !=''">
         AND SUPPLIER_NAME like CONCAT(CONCAT('%',#{supplierName}), '%')
       </if>
-      <if test="status != null">
+      <if test="status != null and status != -1">
         AND SUPPLIER_STATUS = #{status}
+      </if>
+      <if test="auditTemporary != null">
+        AND AUDIT_TEMPORARY = #{auditTemporary}
       </if>
       <if test="businessType != null and businessType !=''">
         AND BUSINESS_TYPE = #{businessType}
@@ -1252,6 +1256,7 @@
         T1.AUDITOR,
         T1.IS_PUBLISH,
         T1.SUPPLIER_STATUS,
+        T1.AUDIT_TEMPORARY,
         T1.PROCUREMENT_DEP_ID
       <!-- ORDER BY SUPPLIER_STATUS ASC, UPDATED_AT DESC -->
       <!-- ORDER BY AUDIT_DATE DESC NULLS LAST -->
