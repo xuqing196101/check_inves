@@ -470,7 +470,7 @@
 							    <div class="w160">${obj.memo }</div>
 							</td>
 							
-							<td class="p0">
+							<td class="tl">
 							<u:show showId="pShow${vs.index}"  delete="false" businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
 										<%-- 	<div class="w150">
 													<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />

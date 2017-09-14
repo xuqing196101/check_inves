@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
  
  <c:forEach items="${lists }" var="obj" varStatus="vs">
-  <tr name="detailRow" <c:if test="${obj.price==''||obj.price==null}">attr="true"</c:if>>
+  <tr name="detailRow" <c:if test="${(obj.price==''||obj.price==null)&&obj.price!=0}">attr="true"</c:if>>
   		<td class="tc">${vs.index+1}</td>
   
 				 						<td class="tc  p0">
@@ -12,7 +12,6 @@
 											<input type="hidden" name="list[${vs.index }].parentId"  value="${obj.parentId}">
 										</td>
 										<td class=" p0" >
-										
 									<%-- 	<input type="text" name="list[${vs.index }].department"   value="${obj.department}"> --%>
 										<%-- 	<input type="hidden" name="list[${vs.index }].department" value="${orgId }" > --%>
 								  			<input type="text"  name="list[${vs.index }].department" readonly="readonly" value="${shortName}"  class="m0 border0 w80" >
@@ -27,12 +26,12 @@
 										<td><input type="text" class="item" name="list[${vs.index }].item"  value="${obj.item}" ></td>
 										<td>
 											<input type="hidden"  value="${obj.id }" >
-										    <input type="text" class="purchasecount"  onblur='sum2(this)' <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if> name="list[${vs.index }].purchaseCount" onkeyup="checkNum(this,1)" value="${obj.purchaseCount}" >
+										    <input type="text" class="purchasecount"   <c:if test="${(obj.price==''||obj.price==null)&&obj.price!=0}">readonly="readonly" </c:if> <c:if test="${obj.price!=''&&obj.price!=null}">onblur='sum2(this)' </c:if> name="list[${vs.index }].purchaseCount" onkeyup="checkNum(this,1)" value="${obj.purchaseCount}" >
 											<input type="hidden"   value="${obj.parentId }" >
 										</td>
 										<td>
 											<input type='hidden'  value='${obj.id }' >
-											 <input type="text" class="price" <c:if test="${obj.price==''||obj.price==null}">readonly="readonly"</c:if>  onblur='sum1(this)' name="list[${vs.index }].price" onkeyup="checkNum(this,2)" value="${obj.price}" >
+											 <input type="text" class="price" <c:if test="${(obj.price==''||obj.price==null)&&obj.price!=0}">readonly="readonly"</c:if>  <c:if test="${obj.price!=''&&obj.price!=null}">onblur='sum1(this)' </c:if> name="list[${vs.index }].price" onkeyup="checkNum(this,2)" value="${obj.price}" >
 											<input type="hidden"   value="${obj.parentId }">
 										</td>
 										

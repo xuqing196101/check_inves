@@ -978,10 +978,10 @@ public class AuditSetController {
 	        } else {
 	            auditPerson.setName(user.getRelName());
 	            auditPerson.setMobile(user.getMobile());
-	            if(StringUtils.isNotBlank(user.getOrgName())){
-					auditPerson.setUnitName(user.getOrgName());
+	            if(user.getOrg()==null){
+					        auditPerson.setUnitName(user.getOrgName());
 	            } else {
-	                auditPerson.setUnitName(user.getOrg().getName());
+	                auditPerson.setUnitName(user.getOrg().getFullName());
 	            }
 	            auditPerson.setUserId(user.getId());
 	            auditPerson.setType(2);

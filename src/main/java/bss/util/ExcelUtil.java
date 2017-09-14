@@ -268,10 +268,12 @@ public class ExcelUtil {
 	        				  if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
 	        					 Double value = cell.getNumericCellValue();
 	        					 if(value==0){
-	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行，G列错误,采购数量不能为0！";
+	        						/* errMsg=String.valueOf(row.getRowNum()+1)+"行，G列错误,采购数量不能为0！";
 			        				 map.put("errMsg", errMsg);
 			        				 bool=false;
-			        				 break;
+			        				 break;*/
+	        					   rq.setPurchaseCount(new BigDecimal(0)); 
+                       continue;
 	        					 }
 	 	        				 if(value!=null){ 
 	 		        				 rq.setPurchaseCount(new BigDecimal(cell.getNumericCellValue())); 
@@ -288,12 +290,12 @@ public class ExcelUtil {
 	        			 if(cell.getColumnIndex()==7){
 	        				 boolean addMer = isAddMer(sheet,row.getRowNum(),cell.getColumnIndex());
 	        				 if(rq.getItem()!=null){
-	        					
+	        				   
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC||cell.getCellType()==HSSFCell.CELL_TYPE_FORMULA){
 			        				  rq.setPrice(new BigDecimal(cell.getNumericCellValue()));
 		        					 continue;
 		        				 }
-	        					 
+	                    
 //	        					 else  if(addMer==true){
 //	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行，H列错误,不能合并单元格！";
 //			        				 map.put("errMsg", errMsg); 
@@ -325,7 +327,7 @@ public class ExcelUtil {
 	        				 
 	        				 
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC||cell.getCellType()==HSSFCell.CELL_TYPE_FORMULA){
-		        					 rq.setBudget(new BigDecimal(cell.getNumericCellValue()));
+	        					   rq.setBudget(new BigDecimal(cell.getNumericCellValue()));
 		        					 continue;
 		        				 }
 	        					 if(cell.getCellType()!=3){

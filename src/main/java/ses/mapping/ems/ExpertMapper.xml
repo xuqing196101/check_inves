@@ -175,6 +175,7 @@
         T1.SUBMIT_AT,
         T1.AUDIT_AT,
         T1.COVER_NOTE,
+        T1.WORK_UNIT,
         T2.LOGIN_NAME AS loginName,
         org.SHORT_NAME AS orgName
       from

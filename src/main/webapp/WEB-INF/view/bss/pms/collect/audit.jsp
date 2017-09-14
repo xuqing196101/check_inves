@@ -905,9 +905,7 @@
 												<input type="hidden" class="ptype" name="ptype" value="${obj.purchaseType}"/>
 												<input type="hidden" class="org" name="org" value="${obj.organization}"/>
 												
-												<c:if test="${obj.purchaseCount!=null }">
 												  <a class="mt3 color7171C6" href='javascript:downFiles("${obj.id }");' > 下载</a>
-												</c:if>												
 							
 												<%-- <div class="w160">
 														<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />

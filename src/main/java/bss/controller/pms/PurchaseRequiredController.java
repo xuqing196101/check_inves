@@ -684,7 +684,7 @@ public class PurchaseRequiredController extends BaseController {
 
 		List<PurchaseRequired> list = purchaseRequiredService.getUnique(planNo);
 
-		String filedisplay = "明细.xls";
+		String filedisplay = list.get(0).getPlanName()+".xls";
 		response.addHeader("Content-Disposition",
 				"attachment;filename=" + new String(filedisplay.getBytes("gb2312"), "iso8859-1"));
 		HSSFWorkbook workbook = new HSSFWorkbook();
@@ -904,6 +904,7 @@ public class PurchaseRequiredController extends BaseController {
 		}
 		PageInfo<PurchaseOrg> list = new PageInfo<PurchaseOrg>(manages);
 		model.addAttribute("list", list);
+		model.addAttribute("name", name);
 		model.addAttribute("uniqueId", planNo);
 		return "bss/pms/purchaserequird/add_purchase_org";
 	}

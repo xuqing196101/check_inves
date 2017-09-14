@@ -109,25 +109,25 @@
           });
       }
 
-      function trimNull(notAttrtr){
+      function trimNull(notAttrtr,numb){
     	  var trimFlog=false;
     	  if($.trim($($(notAttrtr).children()[3]).children(":first").val()) == "") {
-              layer.alert("需求明细中物资类别及物资名称不能为空");
+              layer.alert("第"+(numb+1)+"行，需求明细中物资类别及物资名称不能为空");
               trimFlog=true;
-            } else if($.trim($($(notAttrtr).children()[5]).children(":first").val()) == "") {
-              layer.alert("需求明细中质量技术标准不能为空");
+            } /* else if($.trim($($(notAttrtr).children()[5]).children(":first").val()) == "") {
+              layer.alert("第"+(numb+1)+"行，需求明细中质量技术标准不能为空");
               trimFlog=true;
-            } else if($.trim($($(notAttrtr).children()[6]).children(":first").val()) == "") {
-              layer.alert("需求明细中计量单位不能为空");
+            }  */else if($.trim($($(notAttrtr).children()[6]).children(":first").val()) == "") {
+              layer.alert("第"+(numb+1)+"行，需求明细中计量单位不能为空");
               trimFlog=true;
             } else if($.trim($($(notAttrtr).children()[7]).children(":first").next().val()) == "") {
-              layer.alert("需求明细中采购数量不能为空");
+              layer.alert("第"+(numb+1)+"行，需求明细中采购数量不能为空");
               trimFlog=true;
             } else if($.trim($($(notAttrtr).children()[8]).children(":first").next().val()) == "") {
-              layer.alert("需求明细中单价不能为空");
+              layer.alert("第"+(numb+1)+"行，需求明细中单价不能为空");
               trimFlog=true;
             }else if($.trim($($(notAttrtr).children()[11]).children(":first").val()) == "") {
-                layer.alert("需求明细中采购方式不能为空");
+                layer.alert("第"+(numb+1)+"行，需求明细中采购方式不能为空");
                 trimFlog=true;
               }
     	  return trimFlog;
@@ -145,7 +145,7 @@
         	var tableTr=$("#detailZeroRow tr");
         	for(var i = 1; i < tableTr.length; i++) {
         		 if(typeof($(tableTr[i]).attr("attr"))=="undefined"){//获取子节点
-        			  if(trimNull(tableTr[i])){
+        			  if(trimNull(tableTr[i],i)){
         				  return false;
         				  break;
         			  }
@@ -214,7 +214,6 @@
               var goodsUse = $(this).find("td:eq(14)").children(":first").val();
               var useUnit = $(this).find("td:eq(15)").children(":first").val();
               var memo = $(this).find("td:eq(16)").children(":first").val();
-
               var json = {
                 "seq": seq,
                 "id": id,
@@ -665,7 +664,7 @@
                 shade: 0.01
               });
               //  layer.msg("上传成功");
-              // $("#jhmc").val(data[0].planName);
+              $("#jhmc").val(data[0].planName);
               $("#detailZeroRow").empty();
               var count = 1;
               $.ajax({
@@ -934,6 +933,9 @@
         var prev = $(obj).parent().parent().prev().find("td:eq(1)").children(":first").next().val();
         
         val = $.trim(val);
+        if(val=="一"){
+  		    return false;
+  	    }
         if(val){
           //判断是否有括号，如果有代表是二级，四级，六级节点
           var plural = ifBracket(val);
