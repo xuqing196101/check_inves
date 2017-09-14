@@ -22,14 +22,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.ems.ProjectExtractMapper;
+import ses.dao.oms.OrgnizationMapper;
 import ses.dao.sms.QuoteMapper;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.ems.ProjectExtract;
+import ses.model.oms.Orgnization;
 import ses.model.sms.Quote;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
@@ -131,6 +135,10 @@ public class TerminationServiceImpl<V> implements TerminationService {
   private PurchaseDetailMapper purchaseDetailMapper;
   @Autowired
   private ProjectExtractMapper  projectExtractMapper;
+  
+  @Autowired
+  private OrgnizationMapper orgnizationMapper;
+  
   @Override
   /*
    * (non-Javadoc)
@@ -903,7 +911,9 @@ public class TerminationServiceImpl<V> implements TerminationService {
     project.setStatus("8239AF4991F448A28FE1FE09F525FA3D");
     //project.setIsCharge(null);
     if(type!=null){
-      project.setPurchaseType("3CF3C643AE0A4499ADB15473106A7B80");
+    	Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(project.getPurchaseDepId());
+    	project.setSectorOfDemand(orgnization.getName());
+    	project.setPurchaseType("3CF3C643AE0A4499ADB15473106A7B80");
     }
     if("XMLX".equals(currFlowDefineId)){
       
