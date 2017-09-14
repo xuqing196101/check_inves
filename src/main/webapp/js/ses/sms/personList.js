@@ -55,10 +55,10 @@ var personType ;
         tableTrObj.each(function (index) {
           // 判断复选框中的value是否和现有的重复，重复代表为相同的一条数据
           if (_this.val() === $(this).find('input[type=checkbox]').val()) {
-            count = 4;
+            count = 5;
             return false;
           } else {
-            if ($(this).find('[name="list['+index+'].name"]').length > 0) {
+            if ($(this).find('td:eq(2) input').length > 0) {
               if (Trim(_this.parents('tr').find('td').eq(2).html(), 'g') === Trim($(this).find('td:eq(2) input').val(), 'g')) {
                 count++;
               }
@@ -72,29 +72,26 @@ var personType ;
                 count++;
               }
               if (count === 4) {
+                $(this).find('td:eq(2) input').val('');
+                $(this).find('td:eq(3) input').val('');
+                $(this).find('td:eq(4) input').val('');
+                $(this).find('td:eq(5) input').val('');
+                alert('您输入的人员信息已存在，请重新填写');
+                // layer.msg('您输入的人员信息已存在，请重新填写', {
+                //   offset: '100px',
+                //   time: 1000
+                // });
                 return false;
               }
             }
           }
         });
-        if (count === 4) {
-          $(this).find('td:eq(2) input').css({
-            color: '#FF0000'
-          });
-          $(this).find('td:eq(3) input').css({
-            color: '#FF0000'
-          });
-          $(this).find('td:eq(4) input').css({
-            color: '#FF0000'
-          });
-          $(this).find('td:eq(5) input').css({
-            color: '#FF0000'
-          });
-          layer.msg("已有此人员！");
+        if (count != 5) {
+          str += '<tr>'+ _this.parents("tr").html() +'</tr>';
         }
-        str += '<tr>'+ _this.parents("tr").html() +'</tr>';
         count = 0;
 			});
+      
       if (str != '') {
         var remove_num = 0;
         var inputTrnum = 0;

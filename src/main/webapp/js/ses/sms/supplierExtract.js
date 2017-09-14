@@ -82,7 +82,6 @@ $(function () {
     function addPerson(obj){
     	var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();
     	var input = $(obj).parents("form").find("tr:last").find("td:first").find("input").prop("name");//.substring(4,6);//.attr("req");
-    	console.log(input);
     	var req ;
     	if(null==input ||''==input || "undefined"== input){
     		req=0;
