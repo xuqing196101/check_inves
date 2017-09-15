@@ -408,7 +408,7 @@
     </li>
         
     <li class="clear"></li>
-    <li class="col-xs-12 borderTS1 mt10 pt10 dnone projectCount">
+    <li class="col-xs-12 borderTS1 mt10 pt10 dnone serviceCount">
       
       <div class="col-xs-2 p0">
         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">&nbsp;</span>
