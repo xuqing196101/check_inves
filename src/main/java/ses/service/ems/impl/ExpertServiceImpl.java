@@ -1503,7 +1503,7 @@ public class ExpertServiceImpl implements ExpertService {
 	}
 
 	/**
-	 * 首恶专家名录查询
+	 * 首页专家名录查询
 	 */
 	@Override
 	public List<Expert> selectIndexExpert(Integer pageNum,Map<String, Object> map) {

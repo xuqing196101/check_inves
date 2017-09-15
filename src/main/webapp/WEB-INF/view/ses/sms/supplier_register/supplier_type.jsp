@@ -18,6 +18,15 @@
 .textbox.combo {
 	border: 0px !important;
 }
+.cue_province {
+	position: absolute;
+	left: 265px;
+	top: 70px;
+	height: 25px;
+	line-height: 25px;
+	color: #ef0000;
+	font-size: 12px;
+}
 </style>
 <script type="text/javascript">
 	$().ready(function() {
@@ -1418,6 +1427,7 @@
 				"auditField" : auditField,
 				"auditType" : auditType
 			},
+			type : "post",
 			dataType : "json",
 			success : function(data) {
 				$(_this).attr("data-errorMsg", data.suggest);
@@ -2031,6 +2041,7 @@
 									    	  	<option value="${area.id}">${area.name}</option>
 										    	</c:forEach>
 										    </select>
+										    <div class="cue_province">${province}</div>
 										</div>
 										<ul class="list-unstyled overflow_h">
 											<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}"/>
@@ -2055,12 +2066,12 @@
 											<c:choose>
                        	<c:when test="${currSupplier.status==2 }">
                          	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
-                         </c:when>
-                         <c:otherwise>
-                           <button type="button" class="btn" onclick="openRegPerson()">新增</button>
-                         </c:otherwise>
-                       </c:choose>
-											 <button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
+                        </c:when>
+                        <c:otherwise>
+                          <button type="button" class="btn" onclick="openRegPerson()">新增</button>
+                        </c:otherwise>
+                      </c:choose>
+										 	<button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
 											<span class="red">${eng_persons }</span>
 										</div>
 										<div
@@ -2386,7 +2397,7 @@
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																<select
 																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].isMajorFund"
-																class="w100p border0" <c:if test="${!fn:contains(engPageField,'aptitute.id')&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if> >
+																class="w100p border0" <c:if test="${!fn:contains(engPageField,aptitute.id)&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if> >
 																	<option value="1"
 																		<c:if test="${aptitute.isMajorFund==1}"> selected="selected"</c:if>>是</option>
 																	<option value="0"

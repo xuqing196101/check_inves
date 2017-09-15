@@ -1602,8 +1602,8 @@ public class SupplierServiceImpl implements SupplierService {
 				List<CategoryQua> categoryQua = categoryQuaMapper.findListSupplier(
 						sic.getId(), quaType);
 				if (null != categoryQua
-						&& StringUtils.isNotBlank(sic.getParentId())) {
-					List<Qualification> qua = get(categoryQua, sic.getParentId());
+						&& StringUtils.isNotBlank(sic.getItemId())) {
+					List<Qualification> qua = get(categoryQua, sic.getItemId());
 					if (qua.size() != 0) {
 						newList.add(sicList.get(i));
 						quaBean.setCategoryId(sic.getId());

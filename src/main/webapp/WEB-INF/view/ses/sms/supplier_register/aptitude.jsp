@@ -268,7 +268,9 @@
 														<td class="tc"
 															<c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if> >
 															<div class="w110 fl">
-																<u:show showId="eng_show_${vs.index}" delete="false" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/>
+																<c:if test="${!empty cate.fileId}">
+																	<u:show showId="eng_show_${vs.index}" delete="false" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/>
+																</c:if>
 															</div>
 														</td>
 													</tr>

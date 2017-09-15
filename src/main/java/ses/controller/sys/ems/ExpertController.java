@@ -3988,7 +3988,7 @@ public class ExpertController extends BaseController {
     		            code = "PROJECT";
     		            splExp[i]=DictionaryDataUtil.getId(code);
     		        }
-    				if (splExp[i].equals(expertCate.get(j).getCategoryId())) {
+    				if (splExp[i].equals(expertCate.get(j).getTypeId())) {
     					//stat += "1";
     					stat += 1;
     					break;
