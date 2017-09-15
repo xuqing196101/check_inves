@@ -37,6 +37,10 @@ public class ExpertBatchDetails {
 	private String professTechTitles;
 	/**所属采购机构*/
 	private String orgName;
+	/**专家类型*/
+	private String expertsTypeId;
+	/**专家类别*/
+	private String expertsFrom;
 	/**审核人*/
 	private String auditor;
 	/**审核状态*/
@@ -49,6 +53,18 @@ public class ExpertBatchDetails {
 	private Date auditAt;
 	private List<String> ids;
 	
+	public String getExpertsTypeId() {
+		return expertsTypeId;
+	}
+	public void setExpertsTypeId(String expertsTypeId) {
+		this.expertsTypeId = expertsTypeId;
+	}
+	public String getExpertsFrom() {
+		return expertsFrom;
+	}
+	public void setExpertsFrom(String expertsFrom) {
+		this.expertsFrom = expertsFrom;
+	}
 	public List<String> getIds() {
 		return ids;
 	}

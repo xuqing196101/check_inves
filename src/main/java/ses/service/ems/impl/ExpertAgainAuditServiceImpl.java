@@ -15,12 +15,14 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertBatchMapper;
 import ses.dao.ems.ExpertGroupMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ExpertReviewTeamMapper;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.RoleUser;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
@@ -43,6 +45,8 @@ import ses.util.WfUtil;
 public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	@Autowired
 	private ExpertMapper expertMapper;
+	@Autowired
+	private DictionaryDataMapper dictionaryDataMapper;
 	@Autowired
 	private ExpertBatchMapper expertBatchMapper;
 	@Autowired
@@ -182,7 +186,36 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		if(list.size()>0){
 			map.put("batchId", list.get(0).getBatchId());
 			map.put("batchName", list.get(0).getBatchName());
+			for (ExpertBatchDetails e : list) {
+				StringBuffer expertType = new StringBuffer();
+	            if(e.getExpertsTypeId() != null) {
+	                for(String typeId: e.getExpertsTypeId().split(",")) {
+	                    DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeId);
+	                    if(data != null){
+	                    	if(6 == data.getKind()) {
+	                            expertType.append(data.getName() + "技术、");
+	                        } else {
+	                            expertType.append(data.getName() + "、");
+	                        }
+	                    }
+	                    
+	                }
+	                if(expertType.length() > 0){
+	                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+	                	 e.setExpertsTypeId(expertsType);
+	                }
+	            } else {
+	                e.setExpertsTypeId("");
+	            }
+	            
+	          //专家来源
+	      		if(e.getExpertsFrom() != null) {
+	      			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(e.getExpertsFrom());
+	      			e.setExpertsFrom(expertsFrom.getName());
+	      		}
+			}
 		}
+		
 		PageInfo< ExpertBatchDetails > result = new PageInfo < ExpertBatchDetails > (list);
 		map.put("list", result);
 		img.setStatus(true);
