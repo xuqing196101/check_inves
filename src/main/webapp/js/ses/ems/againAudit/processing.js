@@ -329,127 +329,6 @@ function add_members() {
     +'<td class="text-center"><input type="text" name="duties" class="form-control w100p border0 m0"></td>'
     +'<td class="text-center"></td>'
   +'</tr>');
-  
-  // 弹窗方法
-  // function reset() {
-  //   loginName.val('');
-  //   relName.val('');
-  //   orgName.val('');
-  //   duties.val('');
-  //   $('#list_content').listConstructor({
-  //     url: list_url,
-  //     data: {
-  //       groupId: getUrlParam('groupId')
-  //     }
-  //   });
-  //   $('input[name=loginName]').unbind();
-  //   $('input[name=loginName]').removeAttr('style');
-  //   $('input[name=loginName]').prop('placeholder', '请输入用户名');
-  // }
-  
-  // var index = layer.open({
-  //   title: ['添加审核组成员'],
-  //   shade: 0.3, //遮罩透明度
-  //   type : 1,
-  //   area : ['400px'], //宽高
-  //   content : $('#modal_addMembers'),
-  //   btn: ['确定', '取消'],
-  //   yes: function() {
-  //     if (loginName.val() === '') {
-  //       layer.msg('请填写用户名', {
-  //         offset: '100px'
-  //       });
-  //       return false;
-  //     } else if (is_only === 0) {
-  //       layer.msg('此用户名已注册，请换一个', {
-  //         offset: '100px'
-  //       });
-  //       return false;
-  //     } else if (relName.val() === '') {
-  //       layer.msg('请填写专家姓名', {
-  //         offset: '100px'
-  //       });
-  //       return false;
-  //     } else if (orgName.val() === '') {
-  //       layer.msg('请填写单位', {
-  //         offset: '100px'
-  //       });
-  //       return false;
-  //     } else if (duties.val() === '') {
-  //       layer.msg('请填写职务', {
-  //         offset: '100px'
-  //       });
-  //       return false;
-  //     } else {
-  //       $.ajax({
-  //         type: 'POST',
-  //         dataType: 'json',
-  //         url: add_url,
-  //         data: {
-  //           groupId: getUrlParam('groupId'),
-  //           loginName: loginName.val(),
-  //           relName: relName.val(),
-  //           orgName: orgName.val(),
-  //           duties: duties.val()
-  //         },
-  //         success: function (data) {
-  //           layer.msg(data.message, {
-  //             offset: '100px'
-  //           });
-  //           reset();
-  //           layer.close(index);
-  //         },
-  //         error: function (data) {
-  //           layer.msg(data.message, {
-  //             offset: '100px'
-  //           });
-  //         }
-  //       });
-  //     }
-  //   },
-  //   btn2: function() {
-  //     reset();
-  //     layer.close(index);
-  //   }
-  // });
-  
-  // layer.ready(function () {
-  //   $('input[name=loginName]').bind('blur', function () {
-  //     var _this = $(this);
-  //     
-  //     if (loginName != '') {
-  //       $.ajax({
-  //         type: 'POST',
-  //         dataType: 'json',
-  //         url: usernameOnly_url,
-  //         data: {
-  //           loginName: _this.val()
-  //         },
-  //         success: function (data) {
-  //           if (data.status) {
-  //             _this.removeAttr('style');
-  //             _this.prop('placeholder', '请输入用户名');
-  //             is_only = 1;
-  //           } else {
-  //             if (data.message != '用户名不能为空') {
-  //               _this.val('');
-  //               _this.css({
-  //                 borderColor: '#FF0000'
-  //               });
-  //               _this.prop('placeholder', data.message);
-  //             }
-  //             is_only = 0;
-  //           }
-  //         },
-  //         error: function (data) {
-  //           layer.msg(data.message, {
-  //             offset: '100px'
-  //           });
-  //         }
-  //       });
-  //     }
-  //   });
-  // });
 }
 
 // 删除审核组成员
@@ -460,33 +339,6 @@ function del_members() {
       $(this).remove();
     }
   });
-  
-  // 弹窗方法
-  // var ids = select_ids.join(',');
-  // $.ajax({
-  //   type: 'POST',
-  //   dataType: 'json',
-  //   url: del_url,
-  //   data: {
-  //     ids: ids
-  //   },
-  //   success: function (data) {
-  //     layer.msg(data.message, {
-  //       offset: '100px'
-  //     });
-  //     $('#list_content').listConstructor({
-  //       url: list_url,
-  //       data: {
-  //         groupId: getUrlParam('groupId')
-  //       }
-  //     });
-  //   },
-  //   error: function (data) {
-  //     layer.msg(data.message, {
-  //       offset: '100px'
-  //     });
-  //   }
-  // });
 }
 
 // 设置密码
@@ -720,21 +572,6 @@ function save_editMembers() {
       });
     });
   }
-  
-  // 弹窗方法
-  // $.ajax({
-  //   type: 'POST',
-  //   dataType: 'json',
-  //   url: save_url,
-  //   data: {
-  //     groupId: getUrlParam('groupId')
-  //   },
-  //   success: function (data) {
-  //     layer.msg(data.message, {
-  //       offset: '100px'
-  //     });
-  //   }
-  // });
 }
 
 // 检查用户名唯一性

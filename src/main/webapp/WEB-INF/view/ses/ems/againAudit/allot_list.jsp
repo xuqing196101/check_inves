@@ -84,6 +84,8 @@
             <th class="info">采购机构</th>
             <th class="info">专家姓名</th>
             <th class="info">性别</th>
+            <th class="info">专家类型</th>
+            <th class="info">专家类别</th>
             <th class="info">工作单位</th>
             <th class="info">专业职称</th>
             <th class="info">提交复审时间</th>

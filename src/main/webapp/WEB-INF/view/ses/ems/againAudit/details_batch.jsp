@@ -54,11 +54,10 @@
     </div>
       
   </div>
-   <form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
-          <input name="expertId" type="hidden" />
-          
-          <input name="tableType" type="hidden" value=""/>
-   </form>
+  <form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
+  <input name="expertId" type="hidden" />
+  <input name="tableType" type="hidden" value=""/>
+  </form>
   <!-- 内容结束 -->
   
   <script src="${pageContext.request.contextPath}/js/ses/ems/againAudit/batchDetails.js"></script>
@@ -86,7 +85,7 @@
     function jump_auditBatch() {
       window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/auditBatch.html?batchId='+getUrlParam('batchId');
     }
-  //下载
+    //下载
     function downloadTable(str) {
       var size = $(":checkbox:checked").size();
       if(size == 0) {
@@ -114,8 +113,8 @@
       }
     }
     function trim(str) { //删除左右两端的空格
-        return str.replace(/(^\s*)|(\s*$)/g, "");
-      }
+      return str.replace(/(^\s*)|(\s*$)/g, "");
+    }
   </script>
     
 </body>

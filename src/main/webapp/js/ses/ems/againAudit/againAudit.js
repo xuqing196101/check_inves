@@ -32,6 +32,12 @@
             if (typeof(list_content[i].updateTime) === 'undefined') {
               list_content[i].updateTime = '';
             }
+            if (typeof(list_content[i].expertsTypeId) === 'undefined') {
+              list_content[i].expertsTypeId = '';
+            }
+            if (typeof(list_content[i].expertsFrom) === 'undefined') {
+              list_content[i].expertsFrom = '';
+            }
             
             $('#list_content').append('<tr>'
               +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content[i].id +'" class="select_item"></td>'
@@ -39,6 +45,8 @@
               +'<td>'+ list_content[i].orgName +'</td>'
               +'<td>'+ list_content[i].relName +'</td>'
               +'<td class="text-center">'+ list_content[i].sex +'</td>'
+              +'<td>'+ list_content[i].expertsTypeId +'</td>'
+              +'<td class="text-center">'+ list_content[i].expertsFrom +'</td>'
               +'<td>'+ list_content[i].workUnit +'</td>'
               +'<td>'+ list_content[i].professTechTitles +'</td>'
               +'<td class="text-center">'+ list_content[i].updateTime +'</td>'

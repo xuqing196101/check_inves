@@ -13,26 +13,26 @@
         var userType = data.userType;
         
         $('#head_tit').html(list_content.batchName);
-        
+        console.log(userType);
         // 按钮判断
         if (userType === '4') {
           $('#btn_group').html('<button type="button" class="btn btn-windows group" onclick="jump_batchGroup()">批次分组</button>'
             +'<button type="button" class="btn btn-windows config" onclick="jump_auditBatch()">审核配置</button>'
             +'<button type="button" class="btn btn-windows apply">上传复审批准件</button>');
             
-          $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped againAudit_table">'
+          $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
             +'<thead>'
             +'  <tr>'
             +'    <th class="info w130">专家编号</th>'
             +'    <th class="info w100">采购机构</th>'
             +'    <th class="info">专家姓名</th>'
             +'    <th class="info w50">性别</th>'
-            +'    <th class="info w2500">工作单位</th>'
-            +'    <th class="info w80">专业职称</th>'
+            +'    <th class="info w80">专家类型</th>'
+            +'    <th class="info w80">专家类别</th>'
+            +'    <th class="info w250">工作单位</th>'
+            +'    <th class="info w120">专业职称(职务)</th>'
             +'    <th class="info w60">审核组</th>'
-            +'    <th class="info w80">复审专家</th>'
             +'    <th class="info w80">审核状态</th>'
-            +'    <th class="info">复审时间</th>'
             +'    <th class="info">操作</th>'
             +'  </tr>'
             +'</thead>'
@@ -42,6 +42,8 @@
           if (typeof(list_content) != 'undefined') {
             $('#list_content').html('');
             for (var i in list_content.list.list) {
+              var btn = '';
+              
               // 判断复审专家输出
               if (list_content.list.list[i].status === '4' || list_content.list.list[i].status === '11' || list_content.list.list[i].status === '14') {
                 list_content.list.list[i].auditor = '';
@@ -53,6 +55,7 @@
                 list_content.list.list[i].status = '公示中';
               } else if (list_content.list.list[i].status === '-2') {
                 list_content.list.list[i].status = '预复审结束';
+                btn = '<button type="button" class="btn" onclick="">下载复审表</button>';
               } else if (list_content.list.list[i].status === '-1') {
                 list_content.list.list[i].status = '暂存';
               } else if (list_content.list.list[i].status === '0') {
@@ -113,41 +116,49 @@
               if (typeof(list_content.list.list[i].auditAt) === 'undefined') {
                 list_content.list.list[i].auditAt = '';
               }
+              if (typeof(list_content.list.list[i].expertsTypeId) === 'undefined') {
+                list_content.list.list[i].expertsTypeId = '';
+              }
+              if (typeof(list_content.list.list[i].expertsFrom) === 'undefined') {
+                list_content.list.list[i].expertsFrom = '';
+              }
               
               $('#list_content').append('<tr>'
                 +'<td class="text-center">'+ list_content.list.list[i].batchDetailsNumber +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].orgName +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].realName +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].gender +'</td>'
+                +'<td class="text-center">'+ list_content.list.list[i].expertsTypeId +'</td>'
+                +'<td class="text-center">'+ list_content.list.list[i].expertsFrom +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].workUnit +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].professTechTitles +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].groupName +'</td>'
-                +'<td class="text-center">'+ list_content.list.list[i].auditor +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].status +'</td>'
-                +'<td class="text-center">'+ list_content.list.list[i].auditAt +'</td>'
-                +'<td class="text-center"></td>'
+                +'<td class="text-center">'+ btn +'</td>'
               +'</tr>');
             }
           }
         } else if (userType === '6') {
-          $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
-            +'<button type="button" onclick="downloadTable(2)" class="btn btn-windows input">下载复审表</button>');
+          // $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
+          //   +'<button type="button" onclick="downloadTable(2)" class="btn btn-windows input">下载复审表</button>');
           
-          $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped againAudit_table">'
+          $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>');
+          
+          $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
             +'<thead>'
             +'  <tr>'
             +'    <th class="info w50">选择</th>'
-            +'    <th class="info w130">批次编号</th>'
+            +'    <th class="info w130">专家编号</th>'
             +'    <th class="info w100">采购机构</th>'
             +'    <th class="info">专家姓名</th>'
             +'    <th class="info w50">性别</th>'
+            +'    <th class="info w80">专家类型</th>'
+            +'    <th class="info w80">专家类别</th>'
             +'    <th class="info w2500">工作单位</th>'
-            +'    <th class="info w80">专业职称</th>'
-            +'    <th class="info w100">提交复审时间</th>'
+            +'    <th class="info w80">专业职称(职务)</th>'
             +'    <th class="info w60">审核组</th>'
-            +'    <th class="info w80">复审专家</th>'
             +'    <th class="info w80">审核状态</th>'
-            +'    <th class="info">复审时间</th>'
+            +'    <th class="info">操作</th>'
             +'  </tr>'
             +'</thead>'
             +'<tbody id="list_content"></tbody>'
@@ -156,6 +167,8 @@
           if (typeof(list_content) != 'undefined') {
             $('#list_content').html('');
             for (var i in list_content.list.list) {
+              var btn = '';
+              
               // 判断复审专家输出
               if (list_content.list.list[i].status === '4' || list_content.list.list[i].status === '11' || list_content.list.list[i].status === '14') {
                 list_content.list.list[i].auditor = '';
@@ -167,6 +180,7 @@
                 list_content.list.list[i].status = '公示中';
               } else if (list_content.list.list[i].status === '-2') {
                 list_content.list.list[i].status = '预复审结束';
+                btn = '<button type="button" class="btn" onclick="">复审结束</button>';
               } else if (list_content.list.list[i].status === '-1') {
                 list_content.list.list[i].status = '暂存';
               } else if (list_content.list.list[i].status === '0') {
@@ -237,13 +251,13 @@
                 +'<td class="text-center">'+ list_content.list.list[i].orgName +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].realName +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].gender +'</td>'
+                +'<td class="text-center">'+ list_content.list.list[i].expertsTypeId +'</td>'
+                +'<td class="text-center">'+ list_content.list.list[i].expertsFrom +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].workUnit +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].professTechTitles +'</td>'
-                +'<td class="text-center">'+ list_content.list.list[i].updateTime +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].groupName +'</td>'
-                +'<td class="text-center">'+ list_content.list.list[i].auditor +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].status +'</td>'
-                +'<td class="text-center">'+ list_content.list.list[i].auditAt +'</td>'
+                +'<td class="text-center">'+ btn +'</td>'
               +'</tr>');
             }
           }

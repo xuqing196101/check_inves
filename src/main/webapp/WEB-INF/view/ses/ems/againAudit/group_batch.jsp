@@ -74,7 +74,8 @@
     
     <div class="text-center mt20">
       <button type="button" class="btn btn-windows save" onclick="finish_groupBatch()">完成</button>
-      <button type="button" class="btn btn-windows reset" onclick="cancel_groupBatch()">取消</button>
+      <%-- <button type="button" class="btn btn-windows reset" onclick="cancel_groupBatch()">取消</button> --%>
+      <button type="button" class="btn btn-windows reset" onclick="javascript:history.back()">返回</button>
     </div>
       
   </div>
