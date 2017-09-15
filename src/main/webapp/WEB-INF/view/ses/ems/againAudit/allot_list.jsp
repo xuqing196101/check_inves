@@ -105,7 +105,7 @@
           <input type="text" name="batchName" value="">
         </li>
         <li>
-          <label class="fl"><i class="red">*</i> 批次编号：</label>
+          <label class="fl"><i class="red">*</i> 专家编号规则：</label>
           <span>
             <input type="text" name="batchNumber" value="">
           </span>

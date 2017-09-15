@@ -23,17 +23,17 @@
           $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped againAudit_table">'
             +'<thead>'
             +'  <tr>'
-            +'    <th class="info w130">批次编号</th>'
+            +'    <th class="info w130">专家编号</th>'
             +'    <th class="info w100">采购机构</th>'
             +'    <th class="info">专家姓名</th>'
             +'    <th class="info w50">性别</th>'
             +'    <th class="info w2500">工作单位</th>'
             +'    <th class="info w80">专业职称</th>'
-            +'    <th class="info w100">提交复审时间</th>'
             +'    <th class="info w60">审核组</th>'
             +'    <th class="info w80">复审专家</th>'
             +'    <th class="info w80">审核状态</th>'
             +'    <th class="info">复审时间</th>'
+            +'    <th class="info">操作</th>'
             +'  </tr>'
             +'</thead>'
             +'<tbody id="list_content"></tbody>'
@@ -101,9 +101,6 @@
               if (typeof(list_content.list.list[i].professTechTitles) === 'undefined') {
                 list_content.list.list[i].professTechTitles = '';
               }
-              if (typeof(list_content.list.list[i].updateTime) === 'undefined') {
-                list_content.list.list[i].updateTime = '';
-              }
               if (typeof(list_content.list.list[i].groupName) === 'undefined') {
                 list_content.list.list[i].groupName = '';
               }
@@ -124,11 +121,11 @@
                 +'<td class="text-center">'+ list_content.list.list[i].gender +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].workUnit +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].professTechTitles +'</td>'
-                +'<td class="text-center">'+ list_content.list.list[i].updateTime +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].groupName +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].auditor +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].status +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].auditAt +'</td>'
+                +'<td class="text-center"></td>'
               +'</tr>');
             }
           }

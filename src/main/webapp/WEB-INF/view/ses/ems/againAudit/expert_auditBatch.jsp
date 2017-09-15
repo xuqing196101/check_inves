@@ -75,7 +75,7 @@
       <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
         <thead>
           <tr>
-            <th class="info w100">序号</th>
+            <th class="info w100">序号aa</th>
             <th class="info">批次名称</th>
             <th class="info">批次创建时间</th>
           </tr>

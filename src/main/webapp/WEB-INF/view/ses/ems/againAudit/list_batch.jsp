@@ -52,10 +52,6 @@
         <input type="hidden" name="sign" value="${sign }">
         <ul class="demand_list">
           <li>
-            <label class="fl">批次编号：</label>
-            <input type="text" name="batchNumber" value="${relName}">
-          </li>
-          <li>
             <label class="fl">批次名称：</label>
             <input type="text" name="batchName" value="${relName}">
           </li>
@@ -80,7 +76,6 @@
         <thead>
           <tr>
             <th class="info w100">序号</th>
-            <th class="info">批次编号</th>
             <th class="info">批次名称</th>
             <th class="info">批次创建时间</th>
           </tr>
