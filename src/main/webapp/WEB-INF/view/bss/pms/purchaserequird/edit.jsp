@@ -1269,6 +1269,8 @@
 	  				  }else{
 	  					  indexCount=parseInt($($(tr).children()[0]).text())-2;
 	  				  }
+	  				  var tr3=$($(tr).prev().children()[3]).children(":first").children(":last");
+	  				  $(tr3).after($("#materialName"));
     				  $(tr).remove();
     				  sum1(price);
     			  }else{//删除当前节点，把父节点的父节点的readOnly=false,并且删除tr上的attr=“true”

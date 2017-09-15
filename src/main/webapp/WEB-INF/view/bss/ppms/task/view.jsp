@@ -30,7 +30,7 @@
             <a href="javascript:jumppage('${pageContext.request.contextPath}/adjust/list.html');">采购任务调整</a>
           </li>
           <li class="active">
-            <a href="javascript:void(0)">查看采购计划</a>
+            <a href="javascript:void(0)">查看采购任务</a>
           </li>
         </ul>
         <div class="clear"></div>
@@ -51,9 +51,9 @@
               <table class="table table-bordered">
                 <tbody>
                   <tr>
-                    <td class="bggrey">计划名称：</td>
+                    <td class="bggrey">任务名称：</td>
                     <td>${task.name}</td>
-                    <td class="bggrey">计划编号：</td>
+                    <td class="bggrey">任务编号：</td>
                     <td>${task.documentNumber}</td>
                     <c:if test="${projectId ne null}">
                       <td class="bggrey">预研通知书：</td>
@@ -62,7 +62,7 @@
                   </tr>
                 </tbody>
               </table>
-              <h2 class="count_flow jbxx">计划明细查看</h2>
+              <h2 class="count_flow jbxx">任务明细查看</h2>
 
               <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto" id="content">
                 <table id="table" class="table table-bordered table-condensed lockout">

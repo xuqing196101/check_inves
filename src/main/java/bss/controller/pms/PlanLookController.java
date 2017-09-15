@@ -578,9 +578,9 @@ public class PlanLookController extends BaseController {
 	@RequestMapping("/report")
 	public String report(String id,Model model,String one,String two,String three){
 		List<PurchaseDetail> details = purchaseDetailService.getUnique(id,null,null);
-		String [] oneArray = new String[details.size()];
-		String [] twoArray = new String[details.size()];
-		String [] threeArray = new String[details.size()];
+		String [] oneArray =null;
+		String [] twoArray = null;
+		String [] threeArray = null;
 		if(one != null && !one.equals("")){
 			oneArray = one.split(",");
 		}
@@ -593,9 +593,15 @@ public class PlanLookController extends BaseController {
 		int i = 0;
 		if(details != null && details.size() > 0){
 			for(i = 0;i < details.size();i ++){
-				details.get(i).setOneAdvice(oneArray[i]);
-				details.get(i).setTwoAdvice(twoArray[i]);
-				details.get(i).setThreeAdvice(threeArray[i]);
+			  if(oneArray!=null&&oneArray.length>0){
+			    details.get(i).setOneAdvice(oneArray[i]);
+			  }
+				if(twoArray!=null){
+				  details.get(i).setTwoAdvice(twoArray[i]);
+				}
+				if(threeArray!=null){
+				  details.get(i).setThreeAdvice(threeArray[i]);
+				}
 			}
 		}
 		CollectPlan plan = collectPlanService.queryById(id);
@@ -842,7 +848,7 @@ public class PlanLookController extends BaseController {
 	@ResponseBody
 	public String excel(HttpServletRequest request,HttpServletResponse response,String uniqueId,String flag,String org,String dep) throws UnsupportedEncodingException{
     	List<PurchaseDetail> list = purchaseDetailService.getUnique(uniqueId,org,dep);
-		String filedisplay = "明细.xls";
+		String filedisplay = list.get(0).getPlanName()+"明细.xls";
 		response.addHeader("Content-Disposition", "attachment;filename="  + new String(filedisplay.getBytes("gb2312"), "iso8859-1"));
 		HSSFWorkbook workbook = new HSSFWorkbook();
 	     HSSFSheet sheet = workbook.createSheet("1"); 

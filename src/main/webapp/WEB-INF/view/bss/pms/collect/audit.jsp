@@ -255,8 +255,27 @@
 	 	     }  
         
         
-					
-					
+        function removeByValue(arr, val) {
+        	  for(var i=0; i<arr.length; i++) {
+        	    if(arr[i] == val) {
+        	      arr.splice(i, 1);
+        	      break;
+        	    }
+        	  }
+        	}
+					function splitRemove(index,tdVal2,histVal,eq){
+						var old=$("#audit_table tr:eq("+index+")").find("td:eq("+eq+")").children(":first").val();
+						var oldSplit=old.split("；");
+		    			 for(var h=0;h<oldSplit.length;h++){
+		    				 if(oldSplit[h]!=""){
+		    					 if(oldSplit[h].indexOf(tdVal2+"：由"+histVal+"变成")!=-1){
+		    						 removeByValue(oldSplit,oldSplit[h]);
+		    						 break;
+		    					 }
+		    				 }
+		    			 }
+		    			 $("#audit_table tr:eq("+index+")").find("td:eq("+eq+")").children(":first").val(oldSplit.join("；"));
+					}
 				// var defVal = obj.defaultValue;获得默认值
 				
 				function change(obj){
@@ -295,12 +314,13 @@
 			  	tdVal2=$.trim(tdVal2);
 			  	  if(tdVal2=="采购数量"){
 			  		var histVal = $(obj).val();
-		            var  hisId=$(obj).prev().val();
+		        var hisId=$(obj).prev().val();
 		    		var hisVal = obj.defaultValue;
 		    		if(histVal != hisVal) {
 		    			var hisTd= $(obj).parent().parent().children(":last");
 		    			$(hisTd).prev().children(":last").prev().val(hisId);
 		    		}else{
+		    			 splitRemove(index,tdVal2,histVal,0);
 		    			 $(obj).parent().parent().children(":last").prev().children(":last").prev().val("");
 		    		} 
 			  	 }else if(tdVal2=="单价（元）"){
@@ -310,17 +330,17 @@
 			    		if(histVal != hisVal) {
 			    			 $(obj).parent().parent().children(":last").prev().children(":last").val(hisId);
 			    		}else{
+			    			 splitRemove(index,tdVal2,histVal,0);
 			    			 $(obj).parent().parent().children(":last").prev().children(":last").val("");
 			    		} 
-				  	 }
-			  	  
-			  	 else 	if(tdVal2!="采购数量"&&tdVal2!="单价（元）"){
+				  	 }else 	if(tdVal2!="采购数量"&&tdVal2!="单价（元）"){
 			  		var histVal = $(obj).val();
 		            var  hisId=$(obj).prev().val();
 		    		var hisVal = obj.defaultValue;
 		    		if(histVal != hisVal) {
 		    			$(obj).next().val(hisId);
 		    		}else{
+		    			splitRemove(index,tdVal2,histVal,0);
 		    			$(obj).next().val("");
 		    		} 
 			  	 } 
@@ -449,6 +469,7 @@
 												  	 }
 												 
 											}else{
+												splitRemove(index,tdVal1.substring(0,tdVal1.length-1),defVal,0);
 												$(this).parent().next().val("");
 											} 
 							      	  			  //  $(this).attr("selected", "selected");  
@@ -570,6 +591,7 @@
 												  	 }
 												 
 											}else{
+												splitRemove(index,tdVal1.substring(0,tdVal1.length-1),defVal,0);
 												$(this).parent().next().val("");
 											} 
 							      	  		   }else{
@@ -641,14 +663,8 @@
 					for (var i = 0; i < size; i++){
 						var a= $("#oneId"+i).val();
 						if(typeof(a) != "undefined"){
-							if(a == ''){
-                                layer.alert("请完善审核意见", {
-                                    offset: ['30%', '40%']
-                                  });
-                                return;
-                            } 
 							if(i == 0){
-                                one = a;
+                                one = ""+a;
                             }else{
 								one += ","+a;
 							}

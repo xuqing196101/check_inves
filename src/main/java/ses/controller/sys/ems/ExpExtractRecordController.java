@@ -1301,13 +1301,17 @@ public class ExpExtractRecordController extends BaseController {
       model.addAttribute("packageIdError", "不能为空");
       type = 1;
     }
-      String validateIdCard = validateIdCard(expert.getIdCardNumber());
+      /*String validateIdCard = validateIdCard(expert.getIdCardNumber());
       if(!"success".equals(validateIdCard)){
           model.addAttribute("idCardNumberError", validateIdCard);
           type = 1;
-      }
+      }*/
+    /*if(expert.getIdCardNumber()==null||"".equals(expert.getIdCardNumber().trim())){
+      model.addAttribute("idCardNumberError", "身份证号不能为空");
+      type = 1;
+    }*/
 
-    if(expert.getIdCardNumber() != null && !"".equals(expert.getIdCardNumber())){
+    /*if(expert.getIdCardNumber() != null && !"".equals(expert.getIdCardNumber())){
         Map<String, Object> map = new HashMap<>();
     	map.put("idCardNumber", expert.getIdCardNumber());
    	  List<Expert> list = expertServices.yzCardNumber(map);
@@ -1316,7 +1320,7 @@ public class ExpExtractRecordController extends BaseController {
         type = 1;
       }
 
-    }
+    }*/
 
 
     if (type == 1){

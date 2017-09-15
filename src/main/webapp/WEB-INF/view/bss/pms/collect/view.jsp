@@ -471,11 +471,13 @@
 							</td>
 							
 							<td class="tl">
+							<div class="w100">
 							<u:show showId="pShow${vs.index}"  delete="false" businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-										<%-- 	<div class="w150">
+										<%-- 	
 													<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 													<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-											   </div> --%>	
+											   --%>	
+											   </div> 
 								<input type="hidden" name="s" value="${obj.organization}"/>
 											   
 							</td>
