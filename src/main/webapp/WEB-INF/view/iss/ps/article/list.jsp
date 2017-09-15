@@ -138,32 +138,32 @@
       function del() {
         var ids = [];
         var status = [];
-        var flag = true;
+        var flag = 0;
         $('input[name="chkItem"]:checked').each(function() {
           ids.push($(this).val());
           status.push($(this).parent().next().text());
         });
         if(ids.length > 0) {
-        for(var i=0;i<status.length;i++){
-        	if(status[i]=='1'||status=='2' ||status=='4'){
-        		flag=false;
-        	}
-        }
-        if(flag){
-          layer.confirm('您确定要删除吗?', {
-            title: '提示',
-            offset: ['222px', '360px'],
-            shade: 0.01
-          }, function(index) {
-            layer.close(index);
-            window.location.href = "${ pageContext.request.contextPath }/article/delete.html?ids=" + ids;
-          });
-        }else{
-        	layer.alert("只可删除暂存或者退回的信息", {
-                offset: ['180px', '200px'],
-                shade: 0.01,
-              });
-        }
+	        for(var i=0;i<status.length;i++){
+	        	if(status[i]=='1'|| status[i]=='2' ||status[i]=='4'){
+	        		flag += 1;
+	        	}
+	        }
+	        if(flag == 0){
+	          layer.confirm('您确定要删除吗?', {
+	            title: '提示',
+	            offset: ['222px', '360px'],
+	            shade: 0.01
+	          }, function(index) {
+	            layer.close(index);
+	            window.location.href = "${ pageContext.request.contextPath }/article/delete.html?ids=" + ids;
+	          });
+	        }else{
+	        	layer.alert("只可删除暂存或者退回的信息", {
+	                offset: ['180px', '200px'],
+	                shade: 0.01,
+	              });
+	        }
         } else {
           layer.alert("请选择要删除的信息", {
             offset: ['222px', '390px'],

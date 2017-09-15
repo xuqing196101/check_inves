@@ -80,6 +80,7 @@ $(function(){
                         <li class="col-md-6 col-sm-6 col-xs-6">
                             <div>
                                 <span class="fl">上传批准初审表：</span>
+                                <u:upload id="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true" multiple="true"/>
                                 <u:show showId="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${typeId }" delete = "false"/>
                             </div>
                         </li>

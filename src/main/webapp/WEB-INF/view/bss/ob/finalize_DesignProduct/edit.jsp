@@ -225,12 +225,9 @@ $(document).ready(function(){
 					if(data == 'success'){
 						window.location.href = "${pageContext.request.contextPath }/product/list.html";
 					}else{
-						
+                        layer.msg(data);
 					}
 				},
-				error: function() {
-					
-				}
 			});
 		  }else{
 		  layer.msg("只有资源服务中心才能操作");

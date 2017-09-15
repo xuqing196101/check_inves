@@ -210,8 +210,8 @@ public class LoginController {
                                     out.print("expertBlack");
                                 }
                             }else {
-                                // 实现单一登录 踢人效果
-                              /*if (null != SessionListener.sessionMap.get(u.getId())) {
+                              // 实现单一登录 踢人效果
+                              if (null != SessionListener.sessionMap.get(u.getId())) {
                                   // 第一次登录的用户session销毁
                                   // 将第一次登录用户的信息从map中移除
                                   forceLogoutUser(u.getId());
@@ -220,7 +220,7 @@ public class LoginController {
                               } else {
                                   // 以用户id为key键存入map中，以判断下一次登录的人
                                   SessionListener.sessionMap.put(u.getId(),req.getSession());
-                              }*/
+                              }
                             req.getSession().setAttribute("loginUser", u);
                             // loginLog记录
                             loginLog(u, req);
@@ -256,7 +256,7 @@ public class LoginController {
                             if ("success".equals(msg)) {
                                 req.getSession().setAttribute("loginSupplier", map.get("supplier"));
                                 // 实现单一登录 踢人效果
-                                /*if (null != SessionListener.sessionMap.get(u.getId())) {
+                                if (null != SessionListener.sessionMap.get(u.getId())) {
                                   // 第一次登录的用户session销毁
                                   // 将第一次登录用户的信息从map中移除
                                   forceLogoutUser(u.getId());
@@ -265,7 +265,7 @@ public class LoginController {
                                 } else {
                                   // 以用户id为key键存入map中，以判断下一次登录的人
                                   SessionListener.sessionMap.put(u.getId(),req.getSession());
-                                }*/
+                                }
                                 req.getSession().setAttribute("loginUser", u);
                                 // loginLog记录
                                 loginLog(u, req);
@@ -326,7 +326,7 @@ public class LoginController {
                       }
                     } else {*/
                       // 实现单一登录 踢人效果
-                      /*if ( null != SessionListener.sessionMap.get(u.getId())) {   
+                      if ( null != SessionListener.sessionMap.get(u.getId())) {   
                              //第一次登录的用户session销毁
                              //将第一次登录用户的信息从map中移除
                              forceLogoutUser(u.getId());
@@ -335,7 +335,7 @@ public class LoginController {
                       } else{      
                                //以用户id为key键存入map中，以判断下一次登录的人
                                SessionListener.sessionMap.put(u.getId(), req.getSession());
-                      }*/
+                      }
                       req.getSession().setAttribute("loginUser", u);
                       // loginLog记录
                       loginLog(u, req);
@@ -464,7 +464,10 @@ public class LoginController {
      */
     @RequestMapping("/loginOut")
     public String loginOut(@CurrentUser User user,HttpServletRequest re){
-    	re.getSession().invalidate();
+    	//re.getSession().invalidate();
+    	if(user != null){
+    		forceLogoutUser(user.getId());
+    	}
         return "redirect:/";
     }
     
@@ -493,6 +496,7 @@ public class LoginController {
                     jedis.del("spring:session:sessions:"+hs.getId());
                     jedis.quit();
                     jedis.disconnect();
+                    break;
                 }
             }
             // hs.invalidate();

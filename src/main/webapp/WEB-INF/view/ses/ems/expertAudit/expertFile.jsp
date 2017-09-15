@@ -36,7 +36,7 @@
 				var status = ${status};
         var sign = $("input[name='sign']").val();
         //只能审核可以审核的状态
-        if(status ==-2 || status == 0 || (sign ==2 && status ==1) || status ==6){
+        if(status ==-2 || status == 0 || (sign ==2 && status ==1) || status ==6 || (sign ==1 && status ==9)){
 				  var expertId = $("#expertId").val();
 				  var showId =  obj.id+"1";
 			    $("#"+obj.id+"").each(function() {
@@ -155,7 +155,7 @@
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12  add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
-					<c:if test="${status == -2 || status == 0 || (sign ==2 && status ==1) || status ==6}">
+					<c:if test="${status == -2 || status == 0 || (sign ==2 && status ==1) || status ==6 || (sign ==1 && status ==9)}">
 					  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
 					</c:if>
 					<a class="btn" type="button" onclick="nextStep();">下一步</a>
