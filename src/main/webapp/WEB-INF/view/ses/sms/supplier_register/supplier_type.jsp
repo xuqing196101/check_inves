@@ -2398,8 +2398,8 @@
                                   <%-- <c:if test="${tempForShowOption eq 'go' }">
 																		<option selected="selected">${aptitute.aptituteLevel}</option>
 																	</c:if> --%>
-																	<option selected="selected">${aptitute.aptituteLevel}</option>
-																	<c:set var="tempForShowOption" value="notgo"/>
+																	<%-- <option selected="selected">${aptitute.aptituteLevel}</option> --%>
+																	<%-- <c:set var="tempForShowOption" value="notgo"/> --%>
 																</select>
 																<input type="hidden" id="certLevel_${certAptNumber}" value="${aptitute.aptituteLevel}">
 																<script type="text/javascript">
