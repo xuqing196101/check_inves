@@ -5,11 +5,12 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.alibaba.fastjson.JSON;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.User;
 import ses.util.SessionListener;
+
+import com.alibaba.fastjson.JSON;
 import common.annotation.CurrentUser;
 
 /**
@@ -33,6 +34,7 @@ public class GetSessionController {
 	 * @param 
 	 * @return
 	 */
+	@ResponseBody
 	@RequestMapping("/getSessionMap")
 	public String getSessionMap(@CurrentUser User user){
 		Map<String, Object> map = new HashMap<String, Object>();
