@@ -52,7 +52,7 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
     @Override
     public boolean validateCertCode(SupplierCertEng supplierCertEng) {
         List<SupplierCertEng> validateCertCode = supplierCertEngMapper.validateCertCode(supplierCertEng.getCertCode());
-        if (null != validateCertCode && validateCertCode.size() == 1) {
+        /*if (null != validateCertCode && validateCertCode.size() == 1) {
             if (validateCertCode.get(0).getId().equals(supplierCertEng.getId())) {
                 return true;
             } else {
@@ -60,7 +60,19 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
             }
         } else {
             return false;
-        }
+        }*/
+		if(validateCertCode == null || validateCertCode.size() == 0){
+			return true;
+		}
+		if(validateCertCode.size() == 1){
+			if (validateCertCode.get(0).getId().equals(supplierCertEng.getId())) {
+		        return true;
+		    } else {
+		        return false;
+		    }
+		}else{
+			return false;
+		}
     }
 
     /**
