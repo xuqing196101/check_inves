@@ -8,13 +8,6 @@ import ses.model.sms.SupplierCertSell;
 
 public interface SupplierCertSellMapper {
     /**
-     * 根据主键删除数据库的记录
-     *
-     * @param id
-     */
-    int deleteByPrimaryKey(String id);
-
-    /**
      * 插入数据库记录
      *
      * @param record
@@ -60,9 +53,19 @@ public interface SupplierCertSellMapper {
      */
     List<SupplierCertSell> findCertSellBySupplierId(String supplierId);
     
-    void deleteById(String id);
-    
-    
-    
     List<SupplierCertSell> findCertSellByMatSellId(@Param("matSellId")String matSellId);
+
+    /**
+     * 根据主键删除数据库的记录
+     *
+     * @param id
+     */
+    int deleteByPrimaryKey(String id);
+    
+    /**
+     * 根据销售id删除
+     * @param matSellId
+     * @return
+     */
+	int deleteByMatSellId(String matSellId);
 }

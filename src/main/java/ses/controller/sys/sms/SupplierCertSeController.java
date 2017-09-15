@@ -143,14 +143,17 @@ public class SupplierCertSeController extends BaseSupplierController {
 	
 	/**
 	 * 异步删除服务资质证书
-	 * @param certSeIds
+	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(value = "delete_cert_se")
 	@ResponseBody
-	public String deleteCertSell(String certSeIds) {
-		supplierCertSeService.deleteCertSe(certSeIds);
-		return "ok";	
+	public String deleteCertSell(String ids) {
+		boolean isOk = supplierCertSeService.deleteCertSeByIds(ids);
+		if(isOk){
+        	return "ok";
+        }
+        return "fail";
 	}
 	
 	public void setCertSeUpload(HttpServletRequest request, SupplierCertServe supplierCertSe) throws IOException {

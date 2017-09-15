@@ -62,17 +62,20 @@ public class SupplierStockholderController extends BaseController{
 		return "redirect:../supplier/page_jump.html";
 	}
 	
+	/**
+	 * 异步删除股东信息
+	 * @param ids
+	 * @return
+	 */
 	@RequestMapping(value = "delete_stockholder")
 	@ResponseBody
-	public String deleteCertEng(HttpServletRequest request, String stockholderIds, String supplierId,Model model) {
-		supplierStockholderService.deleteStockholder(stockholderIds);
-		return "ok";
-		//Supplier supplier = supplierService.get(supplierId);
-		//request.getSession().setAttribute("currSupplier", supplier);
-		//return "ses/sms/supplier_register/basic_info";
+	public String deleteCertEng(String ids) {
+		boolean isOk = supplierStockholderService.deleteStockholderByIds(ids);
+		if(isOk){
+			return "ok";
+		}
+		return "fail";
 	}
-	
-	
 	
 	public Map<String,Object> valadateStock(SupplierStockholder stockholder){
 		Map<String,Object> map=new HashMap<String,Object>();

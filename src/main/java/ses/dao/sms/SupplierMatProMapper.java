@@ -4,13 +4,6 @@ import ses.model.sms.SupplierMatPro;
 
 public interface SupplierMatProMapper {
     /**
-     * 根据主键删除数据库的记录
-     *
-     * @param id
-     */
-    int deleteByPrimaryKey(String id);
-
-    /**
      * 插入数据库记录
      *
      * @param record
@@ -18,7 +11,7 @@ public interface SupplierMatProMapper {
     int insert(SupplierMatPro record);
 
     /**
-     *
+     * 插入数据库记录
      * @param record
      */
     int insertSelective(SupplierMatPro record);
@@ -31,7 +24,7 @@ public interface SupplierMatProMapper {
     SupplierMatPro selectByPrimaryKey(String id);
 
     /**
-     *
+     * 更新数据库记录
      * @param record
      */
     int updateByPrimaryKeySelective(SupplierMatPro record);
@@ -45,17 +38,18 @@ public interface SupplierMatProMapper {
     
     SupplierMatPro getMatProBySupplierId(String supplierId);
     
+    String findSupplierIdById(String id);
+    
     /**
-     * 
-    * @Title: deleteBySupplierId
-    * @Description: 根据供应商ID删除对应的信息
-    * author: Li Xiaoxiao 
-    * @param @param supplierId     
-    * @return void     
-    * @throws
+     * 根据主键删除数据库的记录
+     *
+     * @param id
      */
-    void deleteBySupplierId(String supplierId);
-    
-    
-    String findSupplierId (String cartProId);
+    int deleteByPrimaryKey(String id);
+    /**
+     * 根据供应商ID删除对应的信息
+     * @param supplierId
+     * @return
+     */
+    int deleteBySupplierId(String supplierId);
 }

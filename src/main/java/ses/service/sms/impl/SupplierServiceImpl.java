@@ -990,30 +990,32 @@ public class SupplierServiceImpl implements SupplierService {
 //       
 //        SupplierMatPro supplierMatPro = supplierMatProMapper.getMatProBySupplierId(supplierId);
 //        if(supplierMatPro != null){
-//        	 supplierCertProMapper.deleteByPrimaryKey(supplierMatPro.getId());
+//        	 supplierCertProMapper.deleteByMatProId(supplierMatPro.getId());
 //        }
 //        supplierMatProMapper.deleteBySupplierId(supplierId);
 //        
 //        SupplierMatSell matSell = supplierMatSellMapper.getMatSellBySupplierId(supplierId);
-//        if(matSell !=null){
-//        	supplierCertSellMapper.deleteByPrimaryKey(matSell.getId());
+//        if(matSell != null){
+//        	supplierCertSellMapper.deleteByMatSellId(matSell.getId());
 //        }
-//        supplierMatSellMapper.deleteByPrimaryKey(supplierId);
+//        supplierMatSellMapper.deleteBySupplierId(supplierId);
 //        
 //        SupplierMatEng matEng = supplierMatEngMapper.selectByPrimaryKey(supplierId);
 //        if(matEng !=null){
-//        	supplierCertEngMapper.deleteByPrimaryKey(matEng.getId());
+//        	supplierCertEngMapper.deleteByMatEngId(matEng.getId());
 //        	supplierRegPersonMapper.deleteByMatEngId(matEng.getId());
-//            supplierAptituteMapper.deleteByPrimaryKey(matEng.getId());
+//    		supplierAptituteMapper.deleteByMatEngId(matEng.getId());
 //        }
-//        supplierMatEngMapper.deleteByPrimaryKey(supplierId);
+//        supplierMatEngMapper.deleteBySupplierId(supplierId);
 //        
 //        SupplierMatServe matServe = supplierMatServeMapper.getMatSeBySupplierId(supplierId);
 //        if(matServe !=null){
-//        	 supplierCertServeMapper.deleteByPrimaryKey(matServe.getId());
-//             supplierMatServeMapper.deleteByPrimaryKey(matServe.getId());
+//        	supplierCertServeMapper.deleteByMatServeId(matServe.getId());
 //        }
+//        supplierMatServeMapper.deleteBySupplierId(supplierId);
+    
 //        supplierTypeRelateMapper.deleteBySupplierId(supplierId);
+//    
 //        List<SupplierItem> items= supplierItemMapper.getSupplierItem(supplierId);
 //        if(!items.isEmpty()){
 //        	for(SupplierItem s:items){
@@ -1300,14 +1302,14 @@ public class SupplierServiceImpl implements SupplierService {
 
   @Override
   public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map) {
-    PropertiesUtil config = new PropertiesUtil("config.properties");
+//    PropertiesUtil config = new PropertiesUtil("config.properties");
     PageHelper.startPage((Integer) map.get("page"), 20);
     return supplierMapper.selectSupplierNumber(map);
   }
 
   @Override
   public List<supplierExport> selectExpertNumber(HashMap<String, Object> map) {
-    PropertiesUtil config = new PropertiesUtil("config.properties");
+//    PropertiesUtil config = new PropertiesUtil("config.properties");
     PageHelper.startPage((Integer) map.get("pageEx"), 20);
     return supplierMapper.selectExpertNumber(map);
   }
@@ -1980,7 +1982,7 @@ public class SupplierServiceImpl implements SupplierService {
   @Override
   public List<supplierExport> selectSupplierNumberFormal(
       HashMap<String, Object> map) {
-    PropertiesUtil config = new PropertiesUtil("config.properties");
+//    PropertiesUtil config = new PropertiesUtil("config.properties");
     PageHelper.startPage((Integer) map.get("pageSupFormal"), 20);
     return  supplierMapper.selectSupplierNumberFormal(map);
   }
@@ -1988,7 +1990,7 @@ public class SupplierServiceImpl implements SupplierService {
   @Override
   public List<supplierExport> selectExpertNumberFormal(
       HashMap<String, Object> map) {
-    PropertiesUtil config = new PropertiesUtil("config.properties");
+//    PropertiesUtil config = new PropertiesUtil("config.properties");
     PageHelper.startPage((Integer) map.get("pageExpFormal"), 20);
     return supplierMapper.selectExpertNumberFormal(map);
   }

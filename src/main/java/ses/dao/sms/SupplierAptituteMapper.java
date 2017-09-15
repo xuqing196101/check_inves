@@ -8,13 +8,6 @@ import ses.model.sms.SupplierAptitute;
 
 public interface SupplierAptituteMapper {
     /**
-     * 根据主键删除数据库的记录
-     *
-     * @param id
-     */
-    int deleteByPrimaryKey(String id);
-
-    /**
      * 插入数据库记录
      *
      * @param record
@@ -22,7 +15,7 @@ public interface SupplierAptituteMapper {
     int insert(SupplierAptitute record);
 
     /**
-     *
+     * 插入数据库记录
      * @param record
      */
     int insertSelective(SupplierAptitute record);
@@ -35,7 +28,7 @@ public interface SupplierAptituteMapper {
     SupplierAptitute selectByPrimaryKey(String id);
 
     /**
-     *
+     * 更新数据库记录
      * @param record
      */
     int updateByPrimaryKeySelective(SupplierAptitute record);
@@ -60,25 +53,26 @@ public interface SupplierAptituteMapper {
      */
     List<SupplierAptitute> findAptituteBySupplierId(String supplierId);
     
-    
-    void deleteById(String id);
-    
     List<SupplierAptitute> quertByCodeAndName(@Param("certType")String certType,@Param("matEngId")String matEngId,@Param("code")String code,@Param("type")String type); 
     
+    List<String> quertProType(@Param("certType")String certType,@Param("matEngId")String matEngId,@Param("code")String code);
     
-    List<String> quertProType(@Param("certType")String certType,@Param("matEngId")String matEngId,@Param("code")String code); 
+    int selectByCertCode(String certCode);
     
     /**
-     * 
-    * @Title: deleteByMatEngId
-    * @Description: 根据对应的 
-    * author: Li Xiaoxiao 
-    * @param @param matEngId     
-    * @return void     
-    * @throws
+     * 根据主键删除数据库的记录
+     *
+     * @param id
      */
-    void deleteByMatEngId(@Param("matEngId")String matEngId);
-
-	int selectByCertCode(String certCode);
+    int deleteByPrimaryKey(String id);
     
+    /**
+     * @Title: deleteByMatEngId
+     * @Description: 根据工程id删除
+     * author: Li Xiaoxiao
+     * @param matEngId
+     * @return
+     */
+    int deleteByMatEngId(@Param("matEngId")String matEngId);
+
 }

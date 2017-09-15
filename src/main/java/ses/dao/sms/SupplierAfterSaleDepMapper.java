@@ -33,8 +33,9 @@ public interface SupplierAfterSaleDepMapper {
      * 根据主键ID删除
      *〈详细描述〉
      * @author WangHuijie
+     * @return 
      */
-    public void deleteByPrimaryKey(String id);
+    public int deleteByPrimaryKey(String id);
     
     /**
      *〈简述〉
@@ -43,7 +44,7 @@ public interface SupplierAfterSaleDepMapper {
      * @author WangHuijie
      * @param supplierAfterSaleDep
      */
-    public void insertSelective(SupplierAfterSaleDep supplierAfterSaleDep);
+    public int insertSelective(SupplierAfterSaleDep supplierAfterSaleDep);
     
     /**
      *〈简述〉
@@ -52,7 +53,7 @@ public interface SupplierAfterSaleDepMapper {
      * @author WangHuijie
      * @param supplierAfterSaleDep
      */
-    public void updateByPrimaryKeySelective(SupplierAfterSaleDep supplierAfterSaleDep);
+    public int updateByPrimaryKeySelective(SupplierAfterSaleDep supplierAfterSaleDep);
     
     /**
      *〈简述〉
@@ -63,14 +64,13 @@ public interface SupplierAfterSaleDepMapper {
      * @return
      */
     public List < SupplierAfterSaleDep > findAfterSaleDepBySupplierId(String supplierId);
+    
     /**
-     * 
-    * @Title: deleteBySupplierId
-    * @Description: 根据供应商I的删除所有的信息
-    * author: Li Xiaoxiao 
-    * @param @param supplierId     
-    * @return void     
-    * @throws
+     * @Title: deleteBySupplierId
+     * @Description: 根据供应商I的删除所有的信息
+     * author: Li Xiaoxiao
+     * @param @param supplierId
+     * @return
      */
-    public void deleteBySupplierId(@Param("supplierId")String supplierId);
+    public int deleteBySupplierId(@Param("supplierId")String supplierId);
 }

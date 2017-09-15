@@ -24,14 +24,6 @@
 		from T_SES_SMS_SUPPLIER_CERT_SERVE
 		where ID = #{id}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_CERT_SERVE
-		where MAT_SERVE_ID = #{id}
-	</delete>
-	<delete id="deleteById" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_CERT_SERVE
-		where ID = #{id}
-	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierCertServe">
 		insert into T_SES_SMS_SUPPLIER_CERT_SERVE (ID, MAT_SERVE_ID, NAME,
 		LEVEL_CERT, LICENCE_AUTHORITH, EXP_START_DATE,
@@ -179,10 +171,14 @@
             t2.SUPPLIER_ID = #{supplierId}
 	</select>
 	
-	<delete id="deleteByServer" >
+	<!-- 根据主键删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_CERT_SERVE
+		where ID = #{id}
+	</delete>
+	<!-- 根据服务id删除 -->
+	<delete id="deleteByMatServeId" >
 		delete from T_SES_SMS_SUPPLIER_CERT_SERVE
 		where MAT_SERVE_ID = #{matServeId}
 	</delete>
-	
-	
 </mapper>

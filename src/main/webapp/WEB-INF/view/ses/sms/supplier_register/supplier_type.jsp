@@ -193,10 +193,10 @@
 
 	//无提示实时暂存
 	function tempSave(ele) {
-		// 避免失去焦点实时保存和
+		// 避免失去焦点事件和按钮事件冲突
 		if(ele && ele.relatedTarget 
 			&& ele.relatedTarget.type == "button"
-			&& ($(ele.relatedTarget).text() == "暂存" || $(ele.relatedTarget).text() == "下一步")){
+			&& ($(ele.relatedTarget).text() != "上一步")){
 			return;
 		}
 		var id = [];
@@ -535,14 +535,23 @@
 									async: false,
 									type: "POST",
 									data: {
-										"regPersonIds": regPersonIds
+										"ids": regPersonIds
 									},
-									success: function(){
-										layer.msg("删除成功！");
-										$(checkboxs).each(function(index) {
-											var tr = $(this).parent().parent();
-											$(tr).remove();
-										});
+									success: function(data){
+										if(data=="ok"){
+										  layer.msg("删除成功！", {
+										    offset: '300px'
+										  });
+										  $(checkboxs).each(function(index) {
+										    var tr = $(this).parent().parent();
+										    $(tr).remove();
+										  });
+										}
+										if(data=="fail"){
+										  layer.msg("删除失败！", {
+										    offset: '300px'
+										  });
+										}
 									},
 									error: function(){
 										layer.msg("删除失败！");
@@ -550,7 +559,7 @@
 								});
 							});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -622,14 +631,23 @@
 						async: false,
 						type: "POST",
 						data: {
-							"aptituteIds": aptituteIds
+							"ids": aptituteIds
 						},
-						success: function(){
-							layer.msg("删除成功！");
-							$(checkboxs).each(function(index) {
-								var tr = $(this).parent().parent();
-								$(tr).remove();
-							});
+						success: function(data){
+							if(data=="ok"){
+							  layer.msg("删除成功！", {
+							    offset: '300px'
+							  });
+							  $(checkboxs).each(function(index) {
+							    var tr = $(this).parent().parent();
+							    $(tr).remove();
+							  });
+							}
+							if(data=="fail"){
+							  layer.msg("删除失败！", {
+							    offset: '300px'
+							  });
+							}
 						},
 						error: function(){
 							layer.msg("删除失败！");
@@ -637,7 +655,7 @@
 					});
 				});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -747,14 +765,23 @@
 							async: false,
 							type: "POST",
 							data: {
-								"certProIds": certProIds
+								"ids": certProIds
 							},
-							success: function(){
-								layer.msg("删除成功！");
-								$(checkboxs).each(function(index) {
-									var tr = $(this).parent().parent();
-									$(tr).remove();
-								});
+							success: function(data){
+								if(data=="ok"){
+								  layer.msg("删除成功！", {
+								    offset: '300px'
+								  });
+								  $(checkboxs).each(function(index) {
+								    var tr = $(this).parent().parent();
+								    $(tr).remove();
+								  });
+								}
+								if(data=="fail"){
+								  layer.msg("删除失败！", {
+								    offset: '300px'
+								  });
+								}
 							},
 							error: function(){
 								layer.msg("删除失败！");
@@ -835,14 +862,23 @@
 									async: false,
 									type: "POST",
 									data: {
-										"certSellIds": certSellIds
+										"ids": certSellIds
 									},
-									success: function(){
-										layer.msg("删除成功！");
-										$(checkboxs).each(function(index) {
-											var tr = $(this).parent().parent();
-											$(tr).remove();
-										});
+									success: function(data){
+										if(data=="ok"){
+										  layer.msg("删除成功！", {
+										    offset: '300px'
+										  });
+										  $(checkboxs).each(function(index) {
+										    var tr = $(this).parent().parent();
+										    $(tr).remove();
+										  });
+										}
+										if(data=="fail"){
+										  layer.msg("删除失败！", {
+										    offset: '300px'
+										  });
+										}
 									},
 									error: function(){
 										layer.msg("删除失败！");
@@ -850,7 +886,7 @@
 								});
 							});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -916,14 +952,23 @@
 									async: false,
 									type: "POST",
 									data: {
-										"certSeIds": certSeIds
+										"ids": certSeIds
 									},
-									success: function(){
-										layer.msg("删除成功！");
-										$(checkboxs).each(function(index) {
-											var tr = $(this).parent().parent();
-											$(tr).remove();
-										});
+									success: function(data){
+										if(data=="ok"){
+										  layer.msg("删除成功！", {
+										    offset: '300px'
+										  });
+										  $(checkboxs).each(function(index) {
+										    var tr = $(this).parent().parent();
+										    $(tr).remove();
+										  });
+										}
+										if(data=="fail"){
+										  layer.msg("删除失败！", {
+										    offset: '300px'
+										  });
+										}
 									},
 									error: function(){
 										layer.msg("删除失败！");
@@ -931,7 +976,7 @@
 								});
 							});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -1175,14 +1220,23 @@
 						async: false,
 						type: "POST",
 						data: {
-							"certEngIds": certEngIds
+							"ids": certEngIds
 						},
-						success: function(){
-							layer.msg("删除成功！");
-							$(checkboxs).each(function(index) {
-								var tr = $(this).parent().parent();
-								$(tr).remove();
-							});
+						success: function(data){
+							if(data=="ok"){
+							  layer.msg("删除成功！", {
+							    offset: '300px'
+							  });
+							  $(checkboxs).each(function(index) {
+							    var tr = $(this).parent().parent();
+							    $(tr).remove();
+							  });
+							}
+							if(data=="fail"){
+							  layer.msg("删除失败！", {
+							    offset: '300px'
+							  });
+							}
 						},
 						error: function(){
 							layer.msg("删除失败！");
@@ -1190,7 +1244,7 @@
 					});
 				});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});

@@ -2,8 +2,10 @@ package ses.service.sms.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import ses.dao.sms.SupplierCertServeMapper;
 import ses.model.sms.SupplierCertServe;
@@ -15,21 +17,14 @@ public class SupplierCertSeServiceImpl implements ses.service.sms.SupplierCertSe
 	private SupplierCertServeMapper supplierCertSeMapper;
 	
 	@Override
-	public void saveOrUpdateCertSe(SupplierCertServe supplierCertSe) {
+	public int saveOrUpdateCertSe(SupplierCertServe supplierCertSe) {
 //		String id = supplierCertSe.getId();
 //		if (id != null && !"".equals(id)) {
 //			supplierCertSeMapper.updateByPrimaryKeySelective(supplierCertSe);
 //		} else {
-			supplierCertSeMapper.insertSelective(supplierCertSe);
+			return supplierCertSeMapper.insertSelective(supplierCertSe);
 //		}
 
-	}
-
-	@Override
-	public void deleteCertSe(String certSeIds) {
-		for (String id : certSeIds.split(",")) {
-			supplierCertSeMapper.deleteById(id);
-		}
 	}
 
 	@Override
@@ -40,7 +35,32 @@ public class SupplierCertSeServiceImpl implements ses.service.sms.SupplierCertSe
 
 	@Override
 	public List<SupplierCertServe> queryServerId(String serverId) {
-		// TODO Auto-generated method stub
 		return supplierCertSeMapper.findCertSeBySupplierMatSeId(serverId);
+	}
+
+	@Override
+	public boolean deleteCertSeByIds(String ids) {
+		boolean isSuccess = false;
+	    try{
+            if(StringUtils.isNotBlank(ids)){
+                String[] idArray = ids.split(",");
+                int delCount = 0;
+                for(int i=0;i<idArray.length;i++){
+                    if(StringUtils.isNotBlank(idArray[i])){
+                        int key = supplierCertSeMapper.deleteByPrimaryKey(idArray[i]);
+                        if(key == 1){
+                            delCount++;
+                        }
+                    }
+                }
+                if(delCount==idArray.length){
+                    isSuccess = true;
+                }
+            }
+        }catch (Exception e){
+	        e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+        return isSuccess;
 	}
 }

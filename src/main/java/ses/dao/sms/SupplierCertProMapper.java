@@ -2,18 +2,9 @@ package ses.dao.sms;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import ses.model.sms.SupplierCertPro;
 
 public interface SupplierCertProMapper {
-    /**
-     * 根据主键删除数据库的记录
-     *
-     * @param id
-     */
-    int deleteByPrimaryKey(String id);
-
     /**
      * 插入数据库记录
      *
@@ -54,37 +45,34 @@ public interface SupplierCertProMapper {
      * @author Xu Qing
      * @date 2016-9-26 下午6:42:49  
      * @Description: 资质证书信息 
-     * @param @param id
+     * @param @param supplierId
      * @param @return      
      * @return List<SupplierCertPro>
      */
-    List<SupplierCertPro> findBySupplierId(String  id);
-    
-    
-    void deleteById(String id);
-    
+    List<SupplierCertPro> findBySupplierId(String supplierId);
     
     /**
-     * 
-     * 
-    * @Title: findCertProByProId
-    * @Description: 根据供应商生产类型Id查询证书
-    * author: Li Xiaoxiao 
-    * @param @param supplierMatProId
-    * @param @return     
-    * @return List<SupplierCertPro>     
-    * @throws
+     * @Title: findCertProByProId
+     * @Description: 根据供应商生产类型Id查询证书
+     * author: Li Xiaoxiao 
+     * @param @param supplierMatProId
+     * @param @return     
+     * @return List<SupplierCertPro>     
+     * @throws
      */
     List<SupplierCertPro> findCertProByProId(String matProId);
     
     /**
-     * 
-    * @Title: deleteByProId
-    * @Description: 供应商生产销售的ID 
-    * author: Li Xiaoxiao 
-    * @param @param id     
-    * @return void     
-    * @throws
+     * 根据主键删除数据库的记录
+     *
+     * @param id
      */
-    void deleteByProId(@Param("matProId")String id);
+    int deleteByPrimaryKey(String id);
+
+    /**
+     * 根据生产id删除
+     * @param matProId
+     * @return
+     */
+	int deleteByMatProId(String matProId);
 }
