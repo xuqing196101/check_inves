@@ -57,7 +57,6 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.beans.PropertyDescriptor;
@@ -1308,21 +1307,37 @@ public class ExpertAuditController{
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		
-		// 产品类型数据字典
-		List < DictionaryData > spList = DictionaryDataUtil.find(6);
-		model.addAttribute("spList", spList);
-		// 经济类型数据字典
-		List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
-		model.addAttribute("jjList", jjTypeList);
-		// 货物类型数据字典
-		List < DictionaryData > hwList = DictionaryDataUtil.find(8);
-		model.addAttribute("hwList", hwList);
-
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
 		
 		String type = expert.getExpertsTypeId();
 		model.addAttribute("expertType", type);
+		
+		// 产品类型数据字典
+		List < DictionaryData > spList = new ArrayList< DictionaryData >();
+		// 经济类型数据字典
+		List < DictionaryData > jjTypeList = new ArrayList< DictionaryData >();
+		if(!"".equals(type)){
+			for (DictionaryData dictionaryData : DictionaryDataUtil.find(6)) {
+				if(type.indexOf(dictionaryData.getId())>=0){
+					spList.add(dictionaryData);
+				}
+			}
+			for (DictionaryData dictionaryData : DictionaryDataUtil.find(19)) {
+				if(type.indexOf(dictionaryData.getId())>=0){
+					jjTypeList.add(dictionaryData);
+				}
+			}
+			
+		}
+		model.addAttribute("spList", spList);
+		
+		model.addAttribute("jjList", jjTypeList);
+		// 货物类型数据字典
+		List < DictionaryData > hwList = DictionaryDataUtil.find(8);
+		model.addAttribute("hwList", hwList);
+
+		
 		/*//工程下的执业资格
 		for(DictionaryData d : spList){
 			if(d.getCode().equals("PROJECT")){

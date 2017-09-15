@@ -702,6 +702,41 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 				}
 			}
 		}
+	}
+
+	@Override
+	public ExpertAgainAuditImg automaticGrouping(String batchId, int count) {
+		// TODO Auto-generated method stub
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+		expertBatchDetails.setStatus("14");
+		expertBatchDetails.setBatchId(batchId);
+		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+		if(list.size()>0){
+			int number=list.size()/count;
+			if(number>0){
+				int eCount=0;
+				String ids="";
+				for (ExpertBatchDetails e : list) {
+					ids=ids+e.getId()+",";
+					eCount++;
+					if(eCount==number){
+						expertGrouping(batchId, ids.substring(0, ids.length()-1));
+						ids="";
+						eCount=0;
+					}
+				}
+				img.setStatus(true);
+				img.setMessage("操作成功");
+			}else{
+				img.setStatus(false);
+				img.setMessage("当前批次剩余待分组专家不满足要求的分组数,请降低分组数量");
+			}
+		}else{
+			img.setStatus(false);
+			img.setMessage("当前批次剩余待分组专家不足,请手动分配");
+		}
+		return img;
 	} 
 	
 }

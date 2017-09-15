@@ -1,6 +1,5 @@
 package ses.controller.sys.ems;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,30 +7,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
-import net.sf.json.JSONObject;
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertAgainAuditReviewTeamList;
-import ses.model.ems.ExpertReviewTeam;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpertAgainAuditService;
 import ses.service.ems.ExpertService;
 
@@ -48,6 +38,8 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	private ExpertAgainAuditService againAuditService;
 	@Autowired
 	private ExpertService expertService;
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	/*
 	 * 提交复审
 	 * */
@@ -95,7 +87,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		if(pageNum == null) {
 			pageNum = StaticVariables.DEFAULT_PAGE;
 		}
-		expert.setStatus("11");//查询待分配专家
+		expert.setStatus("11");//查询待分配专家  
 		expert.setSort("1");
 		if(batchIds != null){
 			List<String> idsList = new ArrayList<String>();
@@ -111,6 +103,32 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		for (Expert e : expertList) {
 			SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd");
 			e.setUpdateTime(dateFormater.format(e.getUpdatedAt()));
+			StringBuffer expertType = new StringBuffer();
+            if(e.getExpertsTypeId() != null) {
+                for(String typeId: e.getExpertsTypeId().split(",")) {
+                    DictionaryData data = dictionaryDataServiceI.getDictionaryData(typeId);
+                    if(data != null){
+                    	if(6 == data.getKind()) {
+                            expertType.append(data.getName() + "技术、");
+                        } else {
+                            expertType.append(data.getName() + "、");
+                        }
+                    }
+                    
+                }
+                if(expertType.length() > 0){
+                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+                	 e.setExpertsTypeId(expertsType);
+                }
+            } else {
+                e.setExpertsTypeId("");
+            }
+            
+          //专家来源
+      		if(e.getExpertsFrom() != null) {
+      			DictionaryData expertsFrom = dictionaryDataServiceI.getDictionaryData(e.getExpertsFrom());
+      			e.setExpertsFrom(expertsFrom.getName());
+      		}
 		}
 		img.setStatus(true);
 		img.setMessage("操作成功");
@@ -737,6 +755,39 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 
 		}
 		img=againAuditService.checkGroupStatus(expertId);
+		super.writeJson(response, img);
+	}
+	/*
+	 * 批次自动分组
+	 * */
+	@RequestMapping("automaticGrouping")
+	public void automaticGrouping(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String batchId,int count) {
+		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		if(user==null){
+			img.setStatus(false);
+			img.setMessage("请登录");
+			super.writeJson(response, img);
+			return;
+		}
+		if(!"4".equals(user.getTypeName())){
+			img.setStatus(false);
+			img.setMessage("您的权限不足");
+			super.writeJson(response, img);
+			return;
+		}
+		if("".equals(batchId)){
+			img.setStatus(false);
+			img.setMessage("操作有误");
+			super.writeJson(response, img);
+			return;
+		}
+		if("".equals(count)||count<=0){
+			img.setStatus(false);
+			img.setMessage("分组数填写有误");
+			super.writeJson(response, img);
+			return;
+		}
+		img = againAuditService.automaticGrouping(batchId, count);
 		super.writeJson(response, img);
 	}
 }

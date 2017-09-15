@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import ses.model.ems.ExpertAgainAuditImg;
-import ses.model.ems.ExpertReviewTeam;
 
 public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg addAgainAudit(String ids);
@@ -28,4 +27,5 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg fingStayReviewExpertDetailsList(String userId,String batchId, Integer pageNum);
 	ExpertAgainAuditImg checkGroupStatus(String expertId);
 	void handleExpertReviewTeam(String expertId);
+	ExpertAgainAuditImg automaticGrouping(String batchId,int count);
 }
