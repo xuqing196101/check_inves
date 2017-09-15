@@ -43,9 +43,7 @@
     
     <!-- 专家分组 -->
     <div class="pl20" id="group_batch_box">
-      <div class="text-center">
-        正在获取数据中...
-      </div>
+      <div class="text-center">正在获取数据中...</div>
     </div>
     
     <div class="text-center mt20">

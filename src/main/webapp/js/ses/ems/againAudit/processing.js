@@ -869,3 +869,23 @@ function Trim(str, is_global) {
   }
   return result;
 }
+
+// 自动分组
+function auto_group() {
+  var count = $('#autoGroup_num').val();
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: autoGroup_url,
+    data:{
+      batchId: batch_id,
+      count: count
+    },
+    success: function (data) {
+      layer.msg(data.message, {
+        offset: '100px'
+      });
+      init_list(list_url, newGroup_url);
+    }
+  });
+}

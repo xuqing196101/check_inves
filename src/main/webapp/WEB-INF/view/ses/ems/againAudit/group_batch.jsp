@@ -45,6 +45,8 @@
     <div class="col-md-12 pl20 mt10 mb10">
       <button type="button" class="btn btn-windows add" onclick="add_batch()">创建新分组</button>
       <button type="button" class="btn btn-windows addTo" onclick="show_hasGroud()">添加至已有分组</button>
+      <span class="pl20">自动分为</span> <input type="text" name="" id="autoGroup_num" value="" class="m0 w50"> <span>组</span>
+      <button type="button" class="btn" onclick="auto_group()">自动分组</button>
     </div>
     
     <div class="content table_box">
@@ -92,6 +94,7 @@
     var getGroup_url = '${pageContext.request.contextPath}/expertAgainAudit/getGroups.do';  // 获取已有分组
     var addGroup_url = '${pageContext.request.contextPath}/expertAgainAudit/expertAddGroup.do';  // 添加到已有分组地址
     var finish_url = '${pageContext.request.contextPath}/expertAgainAudit/checkComplete.do';  // 完成校验地址
+    var autoGroup_url = '${pageContext.request.contextPath}/expertAgainAudit/automaticGrouping.do';  // 自动分组地址
     var select_ids = [];  // id集合
     var batch_id = '';  // 批次id
     var select_groupId = '';  // 选择的分组id
