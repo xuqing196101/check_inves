@@ -36,6 +36,14 @@
 <body>
     <c:if test="${type != '1'}">
   	<div class="col-md-12 p0">
+  	<h2 class="list_title">
+             审核结果：
+	 <c:if test="${project.confirmFile == 0}">采购文件未提交</c:if>
+	 <c:if test="${project.confirmFile == 1}">暂无审核结果</c:if>
+	 <c:if test="${project.confirmFile == 2}">审核退回</c:if>
+	 <c:if test="${project.confirmFile == 3}">审核通过</c:if>
+	 <c:if test="${project.confirmFile == 4}">修改报备</c:if>
+	 </h2>
 	   <ul class="flow_step">
 		     <li>
 			   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >01、资格性和符合性审查</a>
@@ -48,21 +56,6 @@
 			 <li>
 			   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}" >
 			     03、采购文件
-		         <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
-			     03、采购文件
-			     </c:if>
-			     <c:if test="${project.dictionary.code eq 'XJCG' }">
-			     03、询价文件
-			     </c:if>
-			     <c:if test="${project.dictionary.code eq 'YQZB' }">
-			     03、采购文件
-			     </c:if>
-			     <c:if test="${project.dictionary.code eq 'JZXTP' }">
-			     03、竞谈文件
-			     </c:if>
-			     <c:if test="${project.dictionary.code eq 'DYLY' }">
-			     03、单一来源文件
-			     </c:if> --%>
 			   </a>
 			   <i></i>
 			 </li>
@@ -72,14 +65,6 @@
 		</ul>
 	 </div>
 	 </c:if>
-     <h2 class="list_title">
-             审核结果：
-	 <c:if test="${project.confirmFile == 0}">采购文件未提交</c:if>
-	 <c:if test="${project.confirmFile == 1}">暂无审核结果</c:if>
-	 <c:if test="${project.confirmFile == 2}">审核退回</c:if>
-	 <c:if test="${project.confirmFile == 3}">审核通过</c:if>
-	 <c:if test="${project.confirmFile == 4}">修改报备</c:if>
-	 </h2>
 	<h2 onclick="ycDiv(this,'1')" class="count_flow spread hand">采购管理部门意见</h2>
 	<div class="p01 p0_40 clearfix">${reasons.pcReason}
 		<div class="clear mt10">

@@ -249,7 +249,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_FLOW_EXECUTE fe
-    where fe.STATUS != 0 
+    where fe.STATUS != 0 and fe.IS_DELETED = 0
       <if test="id != null and id != ''">
         and fe.ID = #{id} 
       </if>

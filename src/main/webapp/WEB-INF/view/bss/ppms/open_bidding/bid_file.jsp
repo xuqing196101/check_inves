@@ -181,6 +181,7 @@
   </head>
   <body>
      <div class="col-md-12 p0">
+     <h2 class="list_title">拟制符合性审查项</h2>
 	   <ul class="flow_step">
 	     <li class="active">
 		   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${projectId}&flowDefineId=${flowDefineId}" >01、资格性和符合性审查</a>
@@ -221,7 +222,7 @@
 		 </li>
 	   </ul>
 	 </div>
-	 <h2 class="list_title">拟制符合性审查项</h2>
+	 
 	 <input type="hidden" id="tipMsg" value="${msg}">
      <input type="hidden" id="projectId" value="${projectId}">
      <table class="table table-bordered table-condensed table-hover table-striped">
