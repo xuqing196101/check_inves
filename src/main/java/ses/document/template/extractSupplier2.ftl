@@ -1141,7 +1141,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.join!}</w:t>
+                    <w:t><#if tree.join ?? && tree.join==1>是<#else> 否 </#if></w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1165,7 +1165,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>{tree.reason!}</w:t>
+                    <w:t>${tree.reason!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1481,7 +1481,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.compty!}</w:t>
+                    <w:t>${tree.compary!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1861,7 +1861,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.compty!}</w:t>
+                    <w:t>${tree.compary!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -3721,7 +3721,7 @@
                       <w:bdr w:val="none" w:color="auto" w:sz="0" w:space="0"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>${tree.join!}</w:t>
+                    <w:t><#if tree.join ?? && tree.join==1>是<#else> 否 </#if></w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -3763,7 +3763,7 @@
                       <w:bdr w:val="none" w:color="auto" w:sz="0" w:space="0"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>{tree.reason!}</w:t>
+                    <w:t>${tree.reason!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -4260,7 +4260,7 @@
                       <w:bdr w:val="none" w:color="auto" w:sz="0" w:space="0"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>${tree.compty!}</w:t>
+                    <w:t>${tree.compary!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -4871,7 +4871,7 @@
                       <w:bdr w:val="none" w:color="auto" w:sz="0" w:space="0"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>${tree.compty!}</w:t>
+                    <w:t>${tree.compary!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>

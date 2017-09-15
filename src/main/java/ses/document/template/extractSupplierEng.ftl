@@ -209,114 +209,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${ProcurementDep}</w:t>
-                  </w:r>
-                </w:p>
-              </w:tc>
-            </w:tr>
-            <w:tr>
-              <w:tblPrEx>
-                <w:tblBorders>
-                  <w:top w:val="single" w:color="auto" w:sz="4" w:space="0"/>
-                  <w:left w:val="single" w:color="auto" w:sz="4" w:space="0"/>
-                  <w:bottom w:val="single" w:color="auto" w:sz="4" w:space="0"/>
-                  <w:right w:val="single" w:color="auto" w:sz="4" w:space="0"/>
-                  <w:insideH w:val="single" w:color="auto" w:sz="4" w:space="0"/>
-                  <w:insideV w:val="single" w:color="auto" w:sz="4" w:space="0"/>
-                </w:tblBorders>
-                <w:tblLayout w:type="fixed"/>
-                <w:tblCellMar>
-                  <w:top w:w="0" w:type="dxa"/>
-                  <w:left w:w="108" w:type="dxa"/>
-                  <w:bottom w:w="0" w:type="dxa"/>
-                  <w:right w:w="108" w:type="dxa"/>
-                </w:tblCellMar>
-              </w:tblPrEx>
-              <w:trPr>
-                <w:trHeight w:val="539" w:hRule="atLeast"/>
-                <w:jc w:val="center"/>
-              </w:trPr>
-              <w:tc>
-                <w:tcPr>
-                  <w:tcW w:w="1420" w:type="dxa"/>
-                  <w:gridSpan w:val="3"/>
-                  <w:tcBorders>
-                    <w:top w:val="single" w:color="auto" w:sz="4" w:space="0"/>
-                    <w:left w:val="single" w:color="auto" w:sz="4" w:space="0"/>
-                    <w:bottom w:val="single" w:color="auto" w:sz="4" w:space="0"/>
-                    <w:right w:val="single" w:color="auto" w:sz="4" w:space="0"/>
-                  </w:tcBorders>
-                  <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                  <w:vAlign w:val="center"/>
-                </w:tcPr>
-                <w:p>
-                  <w:pPr>
-                    <w:keepNext w:val="0"/>
-                    <w:keepLines w:val="0"/>
-                    <w:widowControl w:val="0"/>
-                    <w:suppressLineNumbers w:val="0"/>
-                    <w:spacing w:before="0" w:beforeAutospacing="0" w:after="0" w:afterAutospacing="0"/>
-                    <w:ind w:left="0" w:right="0"/>
-                    <w:jc w:val="center"/>
-                    <w:rPr>
-                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
-                      <w:kern w:val="2"/>
-                      <w:sz w:val="21"/>
-                      <w:szCs w:val="21"/>
-                      <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
-                    </w:rPr>
-                  </w:pPr>
-                  <w:r>
-                    <w:rPr>
-                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
-                      <w:kern w:val="2"/>
-                      <w:sz w:val="21"/>
-                      <w:szCs w:val="21"/>
-                      <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
-                    </w:rPr>
-                    <w:t>建设单位</w:t>
-                  </w:r>
-                </w:p>
-              </w:tc>
-              <w:tc>
-                <w:tcPr>
-                  <w:tcW w:w="7102" w:type="dxa"/>
-                  <w:gridSpan w:val="7"/>
-                  <w:tcBorders>
-                    <w:top w:val="single" w:color="auto" w:sz="4" w:space="0"/>
-                    <w:left w:val="nil"/>
-                    <w:bottom w:val="single" w:color="auto" w:sz="4" w:space="0"/>
-                    <w:right w:val="single" w:color="auto" w:sz="4" w:space="0"/>
-                  </w:tcBorders>
-                  <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                  <w:vAlign w:val="center"/>
-                </w:tcPr>
-                <w:p>
-                  <w:pPr>
-                    <w:keepNext w:val="0"/>
-                    <w:keepLines w:val="0"/>
-                    <w:widowControl w:val="0"/>
-                    <w:suppressLineNumbers w:val="0"/>
-                    <w:spacing w:before="0" w:beforeAutospacing="0" w:after="0" w:afterAutospacing="0"/>
-                    <w:ind w:left="0" w:right="0"/>
-                    <w:jc w:val="center"/>
-                    <w:rPr>
-                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
-                      <w:kern w:val="2"/>
-                      <w:sz w:val="21"/>
-                      <w:szCs w:val="21"/>
-                      <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
-                    </w:rPr>
-                  </w:pPr>
-                  <w:r>
-                    <w:rPr>
-                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
-                      <w:kern w:val="2"/>
-                      <w:sz w:val="21"/>
-                      <w:szCs w:val="21"/>
-                      <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
-                    </w:rPr>
-                    <w:t>${conCom}</w:t>
+                    <w:t>${ProcurementDep!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -423,7 +316,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${construction}</w:t>
+                    <w:t>${construction!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -530,7 +423,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${projectName}</w:t>
+                    <w:t>${projectName!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -617,7 +510,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${projectCode}</w:t>
+                    <w:t>${projectCode!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -723,7 +616,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${extractTime}</w:t>
+                    <w:t>${extractTime!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -806,7 +699,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${extractTheWay}</w:t>
+                    <w:t>${extractTheWay!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -911,7 +804,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>工程类别：${category}</w:t>
+                    <w:t>工程类别：${category!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1003,7 +896,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>供应商数量：${extractNum}家</w:t>
+                    <w:t>供应商数量：${extractNum!}家</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1095,7 +988,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>供应商资质等级：${quaLevel}</w:t>
+                    <w:t>供应商资质等级：${quaLevel!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1187,7 +1080,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>供应商地域：${areaName}</w:t>
+                    <w:t>供应商地域：${areaName!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1290,7 +1183,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${projectIsHavingConCert}</w:t>
+                    <w:t>${projectIsHavingConCert!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1394,7 +1287,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${projectBusinessNature}</w:t>
+                    <w:t>${projectBusinessNature!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1788,7 +1681,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree_index + 1}</w:t>
+                    <w:t>${tree_index + 1!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1830,7 +1723,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.supplierName}</w:t>
+                    <w:t>${tree.supplierName!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1872,7 +1765,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.contactName}</w:t>
+                    <w:t>${tree.contactName!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1913,7 +1806,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.contactTelephone}</w:t>
+                    <w:t>${tree.contactTelephone!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1954,7 +1847,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.join}</w:t>
+                    <w:t><#if tree.join ?? && tree.join==1>是<#else> 否 </#if></w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1995,7 +1888,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>{tree.reason}</w:t>
+                    <w:t>${tree.reason!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -2390,7 +2283,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree_index + 1}</w:t>
+                    <w:t>${tree_index + 1!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -2432,7 +2325,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.name}</w:t>
+                    <w:t>${tree.name!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -2474,7 +2367,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.compty}</w:t>
+                    <w:t>${tree.compary!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -2515,7 +2408,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.duty}</w:t>
+                    <w:t>${tree.duty!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -2556,19 +2449,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.</w:t>
-                  </w:r>
-                  <w:bookmarkStart w:id="0" w:name="_GoBack"/>
-                  <w:bookmarkEnd w:id="0"/>
-                  <w:r>
-                    <w:rPr>
-                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
-                      <w:kern w:val="2"/>
-                      <w:sz w:val="21"/>
-                      <w:szCs w:val="21"/>
-                      <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
-                    </w:rPr>
-                    <w:t>rank}</w:t>
+                    <w:t>${tree.rank!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -2991,7 +2872,7 @@
                       <w:sz w:val="21"/>
                       <w:szCs w:val="21"/>
                     </w:rPr>
-                    <w:t>${tree_index + 1}</w:t>
+                    <w:t>${tree_index + 1!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -3031,26 +2912,7 @@
                       <w:sz w:val="21"/>
                       <w:szCs w:val="21"/>
                     </w:rPr>
-                    <w:t>${</w:t>
-                  </w:r>
-                  <w:r>
-                    <w:rPr>
-                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
-                      <w:kern w:val="2"/>
-                      <w:sz w:val="21"/>
-                      <w:szCs w:val="21"/>
-                      <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
-                    </w:rPr>
-                    <w:t>tree.</w:t>
-                  </w:r>
-                  <w:r>
-                    <w:rPr>
-                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
-                      <w:kern w:val="2"/>
-                      <w:sz w:val="21"/>
-                      <w:szCs w:val="21"/>
-                    </w:rPr>
-                    <w:t>name}</w:t>
+                    <w:t>${tree.name!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -3090,26 +2952,7 @@
                       <w:sz w:val="21"/>
                       <w:szCs w:val="21"/>
                     </w:rPr>
-                    <w:t>${</w:t>
-                  </w:r>
-                  <w:r>
-                    <w:rPr>
-                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
-                      <w:kern w:val="2"/>
-                      <w:sz w:val="21"/>
-                      <w:szCs w:val="21"/>
-                      <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
-                    </w:rPr>
-                    <w:t>tree.</w:t>
-                  </w:r>
-                  <w:r>
-                    <w:rPr>
-                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
-                      <w:kern w:val="2"/>
-                      <w:sz w:val="21"/>
-                      <w:szCs w:val="21"/>
-                    </w:rPr>
-                    <w:t>compty}</w:t>
+                    <w:t>${tree.compary!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -3148,26 +2991,7 @@
                       <w:sz w:val="21"/>
                       <w:szCs w:val="21"/>
                     </w:rPr>
-                    <w:t>${</w:t>
-                  </w:r>
-                  <w:r>
-                    <w:rPr>
-                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
-                      <w:kern w:val="2"/>
-                      <w:sz w:val="21"/>
-                      <w:szCs w:val="21"/>
-                      <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
-                    </w:rPr>
-                    <w:t>tree.</w:t>
-                  </w:r>
-                  <w:r>
-                    <w:rPr>
-                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
-                      <w:kern w:val="2"/>
-                      <w:sz w:val="21"/>
-                      <w:szCs w:val="21"/>
-                    </w:rPr>
-                    <w:t>duty}</w:t>
+                    <w:t>${tree.duty!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -3206,26 +3030,7 @@
                       <w:sz w:val="21"/>
                       <w:szCs w:val="21"/>
                     </w:rPr>
-                    <w:t>${</w:t>
-                  </w:r>
-                  <w:r>
-                    <w:rPr>
-                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
-                      <w:kern w:val="2"/>
-                      <w:sz w:val="21"/>
-                      <w:szCs w:val="21"/>
-                      <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
-                    </w:rPr>
-                    <w:t>tree.</w:t>
-                  </w:r>
-                  <w:r>
-                    <w:rPr>
-                      <w:rFonts w:hint="eastAsia" w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="宋体" w:cs="Times New Roman"/>
-                      <w:kern w:val="2"/>
-                      <w:sz w:val="21"/>
-                      <w:szCs w:val="21"/>
-                    </w:rPr>
-                    <w:t>rank}</w:t>
+                    <w:t>${tree.rank!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>

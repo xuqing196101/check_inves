@@ -3,7 +3,6 @@
  */
 package extract.service.supplier.impl;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.formula.functions.Code;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -182,7 +180,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
    * @see ses.service.sms.SupplierConditionService#selectLikeSupplier(ses.model.sms.SupplierCondition, ses.model.sms.SupplierConType)
    */
   @Override
-  public Map<String, Map<String, Object>> selectLikeSupplier(SupplierExtractCondition condition, SupplierConType conType,int type) {
+  public Map<String, Object> selectLikeSupplier(SupplierExtractCondition condition, SupplierConType conType,int type) {
 	  
 	 //此方法为公共方法 查询满足供应商数量 和供应商抽取结果  0 表示查询数量 1 表示 抽取 
 	 //去除已经抽取到的供应商
@@ -196,7 +194,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	  
 	 Map<String, Object> list = new HashMap<>();
 	 Map<String, Object> count = new HashMap<>();
-	 Map<String, Map<String, Object>> map = new HashMap<>();
+	 Map<String, Object> map = new HashMap<>();
 	//   conType=condition.getSupplierConType();
 
 	 
@@ -245,6 +243,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			String cid = (String)class1.getMethod("get"+code+"CategoryIds").invoke(conType);
 			String le = (String)class1.getMethod("get"+code+"Level").invoke(conType);
 			Short en = (Short)class1.getMethod("get"+code+"ExtractNum").invoke(conType);
+			String ic = (String)class1.getMethod("get"+code+"IsHavingConCert").invoke(conType);
+			String bu = (String)class1.getMethod("get"+code+"BusinessNature").invoke(conType);
+			String ob = (String)class1.getMethod("get"+code+"OverseasBranch").invoke(conType);
 			if(null != mu){
 				condition.setIsMulticondition(mu);
 			}
@@ -257,19 +258,34 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			if(null != en){
 				condition.setExtractNum(en);
 			}
+			
+			if(null != ic){
+				condition.setIsHavingConCert(ic);
+			}
+			if(null != bu){
+				condition.setBusinessNature(bu);
+			}
+			if(null != ob){
+				condition.setOverseasBranch(ob);
+			}
+			if(type == 1){
+				if(null == en){
+					map.put(code+"ExtractNum", "不能为空");
+					return map;
+				}
+				
+				List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
+				list.put(typeCode, selectAllExpert);
+				//存储
+				saveOrUpdateCondition(condition, conType);
+			}else{
+				condition.setSupplierTypeCode(typeCode);
+				count.put(typeCode+"Count", supplierExtRelateMapper.listExtractionExpertCount(condition));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		if(type == 1){
-			List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
-			list.put(typeCode, selectAllExpert);
-			//存储
-			saveOrUpdateCondition(condition, conType);
-		}else{
-			condition.setSupplierTypeCode(typeCode);
-			count.put(typeCode+"Count", supplierExtRelateMapper.listExtractionExpertCount(condition));
-		}
 		
 	}
 	
@@ -449,7 +465,60 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 					list.add(new ExtractConditionRelation(cid, "supplierTypeCode", supplierTypeCode));
 				}
 			}
-			//工程品目
+			
+			Class<? extends SupplierConType> class1 = conType.getClass();
+			String[] supplierTypeCodes  = condition.getSupplierTypeCodes();
+			for (String typeCode : supplierTypeCodes) {
+				//首字母大写
+				String c = typeCode.toLowerCase();
+				char[] cs=c.toCharArray();
+		        cs[0]-=32;
+		        String code = String.valueOf(cs);
+				try {
+					String mu = class1.getMethod("get"+code+"IsMulticondition").invoke(conType).toString();
+					String cids = (String)class1.getMethod("get"+code+"CategoryIds").invoke(conType);
+					String le = (String)class1.getMethod("get"+code+"Level").invoke(conType);
+					String en = class1.getMethod("get"+code+"ExtractNum").invoke(conType).toString();
+					String ic = (String)class1.getMethod("get"+code+"IsHavingConCert").invoke(conType);
+					String bu = (String)class1.getMethod("get"+code+"BusinessNature").invoke(conType);
+					String ob = (String)class1.getMethod("get"+code+"OverseasBranch").invoke(conType);
+					if(null != mu){
+						list.add(new ExtractConditionRelation(cid,c+"IsMulticondition",mu));
+					}
+					if(null != cids){
+						for (String cId : cids.split(",")) {
+							list.add(new ExtractConditionRelation(cid, c+"CategoryId", cId));
+						}
+					}
+					if(null != le){
+						for (String lv : le.split(",")) {
+							list.add(new ExtractConditionRelation(cid, c+"Level", lv));
+						}
+					}
+					if(null != en){
+						list.add(new ExtractConditionRelation(cid,c+"ExtractNum",en));
+					}
+					if(null != ic){
+						list.add(new ExtractConditionRelation(cid,c+"IsHavingConCert",ic));
+					}
+					if(null != bu){
+						list.add(new ExtractConditionRelation(cid,c+"BusinessNature",StringUtils.isBlank(bu)?"0":bu));
+					}
+					if(null != ob){
+						list.add(new ExtractConditionRelation(cid,c+"OverseasBranch",ob));
+					}
+					
+				} catch (Exception e) {
+					e.getMessage();
+				}
+			}
+			
+			if(list.size()>0){
+				extractConditionRelationMapper.insertConditionRelation(list);
+			}
+			
+			
+			/*//工程品目
 			if(StringUtils.isNotEmpty(conType.getProjectCategoryIds())){
 				for (String projectCategoryId : conType.getProjectCategoryIds().split(",")) {
 					list.add(new ExtractConditionRelation(cid, "projectCategoryId", projectCategoryId));
@@ -530,10 +599,8 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 				if (null != conType.getSalesIsMulticondition()) {
 					list.add(new ExtractConditionRelation(cid,"saleIsMulticondition",conType.getSalesIsMulticondition().toString()));
 				}
-			}
-			if(list.size()>0){
-				extractConditionRelationMapper.insertConditionRelation(list);
-			}
+			}*/
+			
 		}
 	}
 
@@ -551,8 +618,8 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	@Override
 	public Map<String, Object> selectLikeSupplierCount(
 			SupplierExtractCondition condition, SupplierConType conType) {
-		Map<String, Map<String, Object>> map = this.selectLikeSupplier(condition, conType,0);
-		Map<String, Object> map2 = map.get("count");
+		Map<String, Object> map = this.selectLikeSupplier(condition, conType,0);
+		Map<String, Object> map2 = (Map<String, Object>) map.get("count");
 		return map2;
 	}
 	

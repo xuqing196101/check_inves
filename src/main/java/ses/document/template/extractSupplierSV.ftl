@@ -145,7 +145,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${ProcurementDep}</w:t>
+                    <w:t>${ProcurementDep!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -195,7 +195,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${construction}</w:t>
+                    <w:t>${construction!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -268,7 +268,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${projectName}</w:t>
+                    <w:t>${projectName!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -318,7 +318,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${projectCode}</w:t>
+                    <w:t>${projectCode!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -391,7 +391,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${extractTime}</w:t>
+                    <w:t>${extractTime!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -441,7 +441,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${extractTheWay}</w:t>
+                    <w:t>${extractTheWay!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -515,7 +515,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>产品类别：${category}</w:t>
+                    <w:t>产品类别：${category!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -581,7 +581,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>供应商数量：${extractNum}家</w:t>
+                    <w:t>供应商数量：${extractNum!}家</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -647,7 +647,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>供应商类型：${typeCode}</w:t>
+                    <w:t>供应商类型：${typeCode!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -713,7 +713,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>供应商地域：${areaName}</w:t>
+                    <w:t>供应商地域：${areaName!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -779,7 +779,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>供应商级别：${level}</w:t>
+                    <w:t>供应商级别：${level!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1044,7 +1044,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree_index + 1}</w:t>
+                    <w:t>${tree_index + 1!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1069,7 +1069,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.supplierName}</w:t>
+                    <w:t>${tree.supplierName!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1094,7 +1094,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.contactName}</w:t>
+                    <w:t>${tree.contactName!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1118,7 +1118,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.contactTelephone}</w:t>
+                    <w:t>${tree.contactTelephone!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1142,7 +1142,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.join}</w:t>
+                    <w:t><#if tree.join ?? && tree.join==1>是<#else> 否 </#if></w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1166,7 +1166,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>{tree.reason}</w:t>
+                    <w:t>${tree.reason!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1432,7 +1432,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree_index + 1}</w:t>
+                    <w:t>${tree_index + 1!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1457,7 +1457,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.name}</w:t>
+                    <w:t>${tree.name!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1482,7 +1482,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.compty}</w:t>
+                    <w:t>${tree.compary!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1506,7 +1506,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.duty}</w:t>
+                    <w:t>${tree.duty!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1530,7 +1530,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.rank}</w:t>
+                    <w:t>${tree.rank!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1812,7 +1812,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree_index + 1}</w:t>
+                    <w:t>${tree_index + 1!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1837,7 +1837,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.name}</w:t>
+                    <w:t>${tree.name!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1862,7 +1862,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.compty}</w:t>
+                    <w:t>${tree.compary!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1886,7 +1886,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.duty}</w:t>
+                    <w:t>${tree.duty!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1910,7 +1910,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.rank}</w:t>
+                    <w:t>${tree.rank!}</w:t>
                   </w:r>
                   <w:bookmarkStart w:id="0" w:name="_GoBack"/>
                   <w:bookmarkEnd w:id="0"/>

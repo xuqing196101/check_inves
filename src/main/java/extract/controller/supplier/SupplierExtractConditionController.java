@@ -74,7 +74,7 @@ public class SupplierExtractConditionController {
     @ResponseBody
     @RequestMapping("selectLikeSupplier")
     public String selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType,HttpServletRequest sq,String province){
-    	Map<String, Map<String, Object>> supplierList = conditionService.selectLikeSupplier(condition,conType,1);
+    	Map<String, Object> supplierList = conditionService.selectLikeSupplier(condition,conType,1);
     	return JSON.toJSONString(supplierList);
     }
 

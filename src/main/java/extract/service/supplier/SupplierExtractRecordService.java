@@ -79,7 +79,7 @@ public interface SupplierExtractRecordService {
   
   
 
-  List<SupplierExtractProjectInfo> getList(int i);
+  List<SupplierExtractProjectInfo> getList(int i, User user);
 
   
   void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo, User user);

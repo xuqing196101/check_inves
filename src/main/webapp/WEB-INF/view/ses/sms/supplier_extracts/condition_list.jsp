@@ -33,10 +33,7 @@
                     <a href="javascript:void(0);">供应商管理</a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/SupplierExtracts/projectList.html?typeclassId=${typeclassId}')">供应商抽取</a>
-                </li>
-                <li class="active">
-                    <a href="javascript:void(0);">供应商抽取列表</a>
+                    <a href="javascript:void(0);" <%-- onclick="jumppage('${pageContext.request.contextPath}/SupplierExtracts/projectList.html?typeclassId=${typeclassId}')" --%>>供应商抽取</a>
                 </li>
             </ul>
             <div class="clear"></div>
@@ -75,7 +72,7 @@
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                      <input id="projectNumber" name="projectCode" value="${projectInfo.projectCode}" readonly=${flag?"readonly":"" } type="text" >
                      <span class="add-on">i</span>
-                     <div class="cue" id="projectNumberError"></div>
+                     <div class="cue" id="projectCodeError"></div>
                  </div>
              </li>
              <li class="col-md-3 col-sm-4 col-xs-12">
@@ -187,7 +184,7 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系电话</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input name="contactNum" value="" onchange="checkPhone()" type="text" >
+                     <input name="contactNum" value=""  type="text" >
                      <span class="add-on">i</span>
                      <div class="cue" id="contactNumError"></div>
                  </div>
@@ -339,7 +336,42 @@
             <div class="cue">${loginPwdError}</div>
           </div>
         </li>
-				<li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+        
+        
+        
+        <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                 <select name="projectBusinessNature" class="w100p" onchange="selectLikeSupplier()">
+                 	<option value="">不限</option>
+                 <c:forEach items="${businessNature }" var="bu">
+                 	<option value="${bu.id }">${bu.name }</option>
+                 </c:forEach>
+                 </select>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">保密要求：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+           <select name="projectIsHavingConCert" class="w100p" onchange="selectLikeSupplier()">
+                 	<option value="0">无</option>
+                 	<option value="1">有</option>
+                 </select>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">境外分支：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			<select name="projectOverseasBranch" class="w100p" onchange="selectLikeSupplier()">
+                 	<option value="1">有</option>
+                 	<option value="0">无</option>
+                 </select>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+		<li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工程品目：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="projectIsMulticondition" class="isSatisfy">
@@ -373,7 +405,39 @@
           </li>
           
         
-        <li class="clear"></li>
+         <li class="clear"></li>
+        <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                 <select name="serviceBusinessNature" class="w100p" onchange="selectLikeSupplier()">
+                 	<option value="">不限</option>
+                 <c:forEach items="${businessNature }" var="bu">
+                 	<option value="${bu.id }">${bu.name }</option>
+                 </c:forEach>
+                 </select>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">保密要求：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+           <select name="serviceIsHavingConCert" class="w100p" onchange="selectLikeSupplier()">
+                 	<option value="0">无</option>
+                 	<option value="1">有</option>
+                 </select>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">境外分支：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			<select name="serviceOverseasBranch" class="w100p" onchange="selectLikeSupplier()">
+                 	<option value="1">有</option>
+                 	<option value="0">无</option>
+                 </select>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
          <li class="dnone serviceCount">
           <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="serviceCount">0</span>人</button></div>
         </li>
@@ -410,7 +474,39 @@
           </li>
          
         
-        <!-- <li class="clear"></li> -->
+        <li class="clear"></li>
+        <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                 <select name="productBusinessNature" class="w100p" onchange="selectLikeSupplier()">
+                 	<option value="">不限</option>
+                 <c:forEach items="${businessNature }" var="bu">
+                 	<option value="${bu.id }">${bu.name }</option>
+                 </c:forEach>
+                 </select>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">保密要求：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+           <select name="productIsHavingConCert" class="w100p" onchange="selectLikeSupplier()">
+                 	<option value="0">无</option>
+                 	<option value="1">有</option>
+                 </select>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">境外分支：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			<select name="productOverseasBranch" class="w100p" onchange="selectLikeSupplier()">
+                 	<option value="1">有</option>
+                 	<option value="0">无</option>
+                 </select>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
         <li class="dnone productCount">
           <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="productCount">0</span>人</button></div>
         </li>
@@ -445,7 +541,42 @@
             <div class="cue" id="dCount"></div>
           </div>
           </li>
+          
+          
+          
         <li class="clear"></li>
+        <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                 <select name="salesBusinessNature" class="w100p" onchange="selectLikeSupplier()">
+                 	<option value="">不限</option>
+                 <c:forEach items="${businessNature }" var="bu">
+                 	<option value="${bu.id }">${bu.name }</option>
+                 </c:forEach>
+                 </select>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">保密要求：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+           <select name="salesIsHavingConCert" class="w100p" onchange="selectLikeSupplier()">
+                 	<option value="0">无</option>
+                 	<option value="1">有</option>
+                 </select>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">境外分支：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			<select name="salesOverseasBranch" class="w100p" onchange="selectLikeSupplier()">
+                 	<option value="1">有</option>
+                 	<option value="0">无</option>
+                 </select>
+            <div class="cue">${loginPwdError}</div>
+          </div>
+        </li>
         <li class="dnone salesCount">
           <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span  id="salesCount">0</span>人</button></div>
         </li>
@@ -481,40 +612,6 @@
             <div class="cue" id="dCount"></div>
           </div>
           </li>
-        
-        
-          <li class="col-md-3 col-sm-3 col-xs-3 elseInfo">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
-          <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                 <select name="businessNature" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="">不限</option>
-                 <c:forEach items="${businessNature }" var="bu">
-                 	<option value="${bu.id }">${bu.name }</option>
-                 </c:forEach>
-                 </select>
-            <div class="cue">${loginPwdError}</div>
-          </div>
-        </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 else">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">保密要求：</span>
-          <div class="input-append input_group col-sm-12 col-xs-12 p0">
-           <select name="isHavingConCert" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="0">无</option>
-                 	<option value="1">有</option>
-                 </select>
-            <div class="cue">${loginPwdError}</div>
-          </div>
-        </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 else">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">境外分支：</span>
-          <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<select name="overseasBranch" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="1">有</option>
-                 	<option value="0">无</option>
-                 </select>
-            <div class="cue">${loginPwdError}</div>
-          </div>
-        </li>
           </ul>
           <div class="clear"></div>
 	         <div class="col-xs-12 tc mt20">
@@ -650,6 +747,9 @@
 <script type="text/javascript">
         /*分页  */
         $(function() {
+        
+        alert("conditionId == ${projectInfo.conditionId}");
+        alert("recordId == ${projectInfo.id}");
             laypage({
                 cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
                 pages: "${list.pages}", //总页数
@@ -950,13 +1050,16 @@ function submitInfo(){
     		type: "POST",
     		url: $("#projectForm").attr('action'),
     		data:$("#projectForm").serialize(),
-    		dataType: "text",
+    		dataType: "json",
     		success: function (msg) {
-    			
+    			for ( var k in msg) {
+					console.log(k);
+					$("#"+k+"Error").html(msg[k]);
+				}
     		}
     	});
     	//存储人员信息
-    	$.ajax({
+    /* 	$.ajax({
     		type: "POST",
     		url: $("#supervise").attr('action'),
     		data:  $("#supervise").serialize(),
@@ -973,7 +1076,7 @@ function submitInfo(){
     		success: function (msg) {
     			
     		}
-    	});
+    	}); */
 }
 
 function submitCondition(){

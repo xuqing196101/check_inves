@@ -85,7 +85,7 @@ public interface SupplierExtractConditionService {
    * @param conType
    * @return
    */
-  Map<String, Map<String, Object>> selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType,int type);
+  Map<String, Object> selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType,int type);
 
   /**
    * 

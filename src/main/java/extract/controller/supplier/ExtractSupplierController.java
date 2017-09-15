@@ -3,10 +3,12 @@ package extract.controller.supplier;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -98,8 +102,8 @@ public class ExtractSupplierController extends BaseController {
      * @return String
      */
     @RequestMapping("/projectList")
-    public String list(Integer page, Model model, Project project){
-    	List<SupplierExtractProjectInfo> extractRecords = expExtractRecordService.getList(page == null?1:page);
+    public String list(Integer page, Model model, Project project,@CurrentUser User user){
+    	List<SupplierExtractProjectInfo> extractRecords = expExtractRecordService.getList(page == null?1:page,user);
     	model.addAttribute("info", new PageInfo<SupplierExtractProjectInfo>(extractRecords));
         return "ses/sms/supplier_extracts/project_list";
     }
@@ -465,9 +469,19 @@ public class ExtractSupplierController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/saveProjectInfo")
-    public String saveProjectInfo(SupplierExtractProjectInfo projectInfo,@CurrentUser User user){
-    	expExtractRecordService.saveOrUpdateProjectInfo(projectInfo,user);
+    @RequestMapping("/saveProjectInfo" )
+    public String saveProjectInfo( @Valid  SupplierExtractProjectInfo projectInfo,BindingResult result,@CurrentUser User user){
+    	
+    	if(result.hasErrors()){
+    		List<FieldError> fieldErrors = result.getFieldErrors();
+    		HashMap<String, String> errMsg = new HashMap<>();
+    		for (FieldError fieldError : fieldErrors) {
+    			errMsg.put(fieldError.getField(), fieldError.getDefaultMessage());
+			}
+    		return JSON.toJSONString(errMsg);
+    	}
+    	
+    //	expExtractRecordService.saveOrUpdateProjectInfo(projectInfo,user);
     	return "";
     }
     

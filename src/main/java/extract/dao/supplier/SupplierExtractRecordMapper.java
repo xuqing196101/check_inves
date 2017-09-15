@@ -66,9 +66,10 @@ public interface SupplierExtractRecordMapper {
 
 	/**
 	 * 抽取记录列表
+	 * @param string 
 	 * @return
 	 */
-	List<SupplierExtractProjectInfo> getList();
+	List<SupplierExtractProjectInfo> getList(String orgId);
 
 	void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo);
 

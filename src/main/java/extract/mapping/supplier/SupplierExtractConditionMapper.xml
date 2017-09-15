@@ -353,9 +353,6 @@
 			<if test="addressReason != null">
 				ADDRESS_REASON = #{addressReason,jdbcType=VARCHAR},
 			</if>
-			<if test="areaName != null">
-				AREA_NAME = #{areaName,jdbcType=VARCHAR},
-			</if>
 			<if test="supplierTypeCode != null">
 				SUPPLIER_TYPE_CODE = #{supplierTypeCode,jdbcType=VARCHAR},
 			</if>
@@ -452,7 +449,7 @@
     </select>
     <!-- 根据资质查询资质等级 -->
 	<select id="getLevelByQid"  resultType="ses.model.bms.DictionaryData">
-        SELECT D.* FROM T_SES_BMS_QUALIFCATE_LEVEL L LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON L.GRADE = D.ID WHERE L.QUALIFCATION_ID IN 
+        SELECT D.* FROM T_SES_BMS_QUALIFCATE_LEVEL L RIGHT JOIN T_SES_BMS_DICTIONARY_DATA D ON L.GRADE = D.ID WHERE L.QUALIFCATION_ID IN 
         <foreach collection="array" item="it" open="(" separator="," close=")">
         	#{it}
         </foreach>

@@ -291,6 +291,7 @@ $(function () {
     	}
     	
     	$("#contactNumError").html("");  
+    	//校验手机
         var phone = $("[name='contactNum']").val();
         if(!(/^1[34578]\d{9}$/.test(phone))){ 
             $("#contactNumError").html("手机号码有误，请重填");  
@@ -361,7 +362,7 @@ $(function () {
     /**点击抽取--当选择参加与否后保存状态*/
     
     function extractSupplier() {
-    	
+    	var count = 0;
     	formData = $('#form1').serialize();
     	var projectExtractNum = $("#projectExtractNum").val();
     	if(projectExtractNum>0){
@@ -369,10 +370,10 @@ $(function () {
     			$("#projectResult").find("tbody").empty();
     			appendTd(0,$("#projectResult").find("tbody"),null);
     		}else{
-    			layer.msg("工程条件不满足");
+    			layer.msg("工程条件不满足");count++;
     		}
     	}else if(projectExtractNum=="0"){
-    		layer.msg("请输入工程抽取数量");
+    		layer.msg("请输入工程抽取数量");count++;
     	}
     	
     	var productExtractNum = $("#productExtractNum").val();
@@ -381,10 +382,10 @@ $(function () {
     			$("#productResult").find("tbody").empty();
     			appendTd(0,$("#productResult").find("tbody"),null);
     		}else{
-    			layer.msg("生产条件不满足");
+    			layer.msg("生产条件不满足");count++;
     		}
     	}else if(productExtractNum=="0"){
-    		layer.msg("请输入生产抽取数量");
+    		layer.msg("请输入生产抽取数量");count++;
     	}
     	
     	var serviceExtractNum = $("#serviceExtractNum").val();
@@ -393,10 +394,10 @@ $(function () {
     			$("#serviceResult").find("tbody").empty();
     			appendTd(0,$("#serviceResult").find("tbody"),null);
     		}else{
-    			layer.msg("服务条件不满足");
+    			layer.msg("服务条件不满足");count++;
     		}
     	}else if(serviceExtractNum=="0"){
-    		layer.msg("请输入服务抽取数量");
+    		layer.msg("请输入服务抽取数量");count++;
     	}
     	
     	var salesExtractNum = $("#salesExtractNum").val();
@@ -405,10 +406,15 @@ $(function () {
     			$("#salesResult").find("tbody").empty();
     			appendTd(0,$("#salesResult").find("tbody"),null);
     		}else{
-    			layer.msg("销售条件不满足");
+    			layer.msg("销售条件不满足");count++;
     		}
     	}else if(salesExtractNum=="0"){
-    		layer.msg("请输入销售抽取数量");
+    		layer.msg("请输入销售抽取数量");count++;
+    	}
+    	
+    	
+    	if(count>0){
+    		return false;
     	}
     	
     	//存储项目信息
@@ -1096,9 +1102,14 @@ $(function () {
     			async:false,
     			dataType:"json",
     			success:function(datas){
-    				var treeLevelType = $.fn.zTree.init($("#projectLevelTree"), setting, datas);
-    				checkAllNodes("projectLevelTree");//选中所有节点
-    				onCheckLevel("projectLevelTree");//处理选中节点
+    				if(null != datas && "undefind"!= datas && ''!=datas){
+    					
+    					var treeLevelType = $.fn.zTree.init($("#projectLevelTree"), setting, datas);
+    					checkAllNodes("projectLevelTree");//选中所有节点
+    					onCheckLevel("projectLevelTree");//处理选中节点
+    				}else{
+    					layer.msg("未能查询出结果");
+    				}
     			}
     		});
     	}else{
@@ -1110,9 +1121,14 @@ $(function () {
     			async:false,
     			dataType:"json",
     			success:function(datas){
-    				var treeLevelType = $.fn.zTree.init($("#projectLevelTree"), setting, datas);
-    				checkAllNodes("projectLevelTree");//选中所有节点
-    				onCheckLevel("projectLevelTree");//处理选中节点
+    					if(null != datas && "undefind"!= datas && ''!=datas){
+    					
+    						var treeLevelType = $.fn.zTree.init($("#projectLevelTree"), setting, datas);
+    						checkAllNodes("projectLevelTree");//选中所有节点
+    						onCheckLevel("projectLevelTree");//处理选中节点
+    				}else{
+    					layer.msg("未能查询出结果");
+    				}
     			}
     		});
     	}
@@ -1402,7 +1418,7 @@ $(function () {
                     offset: [y, x],
                     title: '不参加理由'
                 }, function (value, index, elem) {
-                	saveResult(objTr, value,2);
+                	saveResult(objTr, value,0);
                 	var notJoin = $(obj).parents("table").prev().find(".notJoin").html();
                 	$(obj).parents("table").prev().find(".notJoin").html(parseInt(notJoin)+1);
                 	//$(obj).prev().find(".notJoin").html(parseInt($(obj).panrents("table").prev().find(".notJoin").html())+1);
@@ -1426,7 +1442,7 @@ $(function () {
             	$(select).parents("td").html("能参加");
             	appendTd(req,obj,"能参加");
             }else{
-            	saveResult(objTr, '',1);
+            	saveResult(objTr, '',2);
             	
     			appendTd(req,obj,"待定");
             }

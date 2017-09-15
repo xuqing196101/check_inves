@@ -1,12 +1,15 @@
 package extract.model.supplier;
 
 import java.util.Date;
-import java.util.List;
+
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import extract.model.common.ExtractUser;
+
 
 public class SupplierExtractProjectInfo {
 	
@@ -23,7 +26,6 @@ public class SupplierExtractProjectInfo {
 	
 	@Length(max=50)
 	private String packageName;
-	@Length(max=50)
 	private String packageNumber;
 	
 	 /**
@@ -32,7 +34,8 @@ public class SupplierExtractProjectInfo {
      * 表字段 : T_SES_SMS_SUPPLIER_EXTRACTS.PROJECT_CODE
      * </pre>
      */
-	@Length(max=50)
+	@Length(min=1,max=50)
+	@NotEmpty
     private String projectCode;
 
     /**
@@ -44,13 +47,21 @@ public class SupplierExtractProjectInfo {
     private String projectId;
 	
     @NotEmpty
-    @Length(max=50)
+    @Length(min=1,max=50)
 	private String projectNumber;
     
+    /**
+     * 组织联系人
+     */
+    @NotEmpty
+    @Length(min=1,max=50)
     private String contactPerson;
 
+    @Pattern(regexp="^1[34578]\\d{9}$",message="格式不正确")
+    @Length(min=11,max=11,message="格式不正确")
     private String contactNum;
     
+    @Length(max=50)
     private String remark ;
     
     /**
@@ -60,7 +71,7 @@ public class SupplierExtractProjectInfo {
      * </pre>
      */
     @NotEmpty(message="不能为空")
-    @Length(max=12)
+    @Length(min=1,max=50)
     private String projectName;
 
     /**
@@ -160,12 +171,13 @@ public class SupplierExtractProjectInfo {
     /**
      * 售领起始时间
      */
-    @NotEmpty
+    @NotNull(message="不能为空")
     private Date sellBegin;
     /**
      * 售领结束时间
      */
-    @NotEmpty
+    @Future(message="日期不能小于当前日期")
+    @NotNull(message="不能为空")
     private Date sellEnd;
     /**
      * 售领省
@@ -181,6 +193,7 @@ public class SupplierExtractProjectInfo {
      * 售领详细地址
      */
     @NotEmpty
+    @Length(min=1,max=50)
     private String sellSite;
     
     /**

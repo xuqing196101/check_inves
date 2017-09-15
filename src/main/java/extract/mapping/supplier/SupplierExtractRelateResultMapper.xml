@@ -17,6 +17,7 @@
 		<result column="MOBILE" property="mobile" />
 		<result column="JOIN" property="join" />
 		<result column="SUPPLIER_NAME" property="supplierName" />
+		<result column="CONTACT_NAME" property="contactName" />
 		<result column="CONTACT_TELEPHONE" property="contactTelephone" />
 		<!-- 供应商 -->
 		<!-- <association column="SUPPLIER_ID" property="supplier"
@@ -598,6 +599,6 @@
 	<!-- 详细抽取结果 -->
 	<select id="getSupplierListByRid" parameterType="map" resultMap="BaseResultMap">
 		SELECT DISTINCT R.JOIN,R.REASON,S.SUPPLIER_NAME,S.CONTACT_NAME,S.CONTACT_TELEPHONE FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
-		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}
+		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}  AND R.JOIN IN (0,1,2) ORDER BY R.JOIN ASC
 	</select>
 </mapper>

@@ -3,6 +3,10 @@ package extract.model.supplier;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class SupplierExtractCondition {
 
 	
@@ -56,6 +60,7 @@ public class SupplierExtractCondition {
      * 表字段 : 
      * </pre>
      */
+    @NotNull
     private Short extractNum;
 
     /**
@@ -119,6 +124,7 @@ public class SupplierExtractCondition {
     
     private String[] provinces;
 
+    @NotEmpty
     private String areaName;
     
     /**

@@ -174,8 +174,8 @@
   function getChildren(cate){
       var Obj=$.fn.zTree.getZTreeObj("ztree");  
        var nodes=Obj.getCheckedNodes(true);  
-       var ids = new Array();
-       var names=new Array();
+       var ids  = "";
+       var names = "";
        for(var i=0;i<nodes.length;i++){ 
            if(!nodes[i].isParent){
           //获取选中节点的值  
@@ -189,9 +189,9 @@
        var issatisfy=$('input[name="radio"]:checked ').val();
          
        if(cate!=null){
-           $(cate).val(names.substring(0,names.length-1));/* 将选中目录名称显示在输入框中 */
+           $(cate).val(names.substring(0,names.lastIndexOf(",")));/* 将选中目录名称显示在输入框中 */
            $(cate).parents("li").find(".isSatisfy").val(issatisfy);
-           $(cate).parents("li").find(".categoryId").val(ids.substring(0,ids.length-1));
+           $(cate).parents("li").find(".categoryId").val(ids.substring(0,ids.lastIndexOf(",")));
         /*    $(cate).parent().parent().parent().parent().parent().find("#extCategoryNames").val(names.substring(0,names.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#extCategoryId").val(ids.substring(0,ids.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val(issatisfy); */
