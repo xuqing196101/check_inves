@@ -719,6 +719,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			int number=list.size()/count;
 			if(number>0){
 				int eCount=0;
+				int gCount=0;
 				String ids="";
 				for (ExpertBatchDetails e : list) {
 					ids=ids+e.getId()+",";
@@ -727,6 +728,10 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 						expertGrouping(batchId, ids.substring(0, ids.length()-1));
 						ids="";
 						eCount=0;
+						gCount++;
+						if(gCount==count){
+							break;
+						}
 					}
 				}
 				img.setStatus(true);
