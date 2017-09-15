@@ -1,8 +1,15 @@
 package extract.controller.common;
 
+import java.util.HashMap;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -52,7 +59,18 @@ public class ExtractUserController {
      
      @RequestMapping("/addPerson")
      @ResponseBody
-     public void addPerson(ExtractUser user,@CurrentUser User user2){
-    	 extractUserService.addPerson(user,user2);
+     public String addPerson( @Valid ExtractUser user,BindingResult result,@CurrentUser User user2){
+    	 
+    	 if(result.hasErrors()){
+    		 HashMap<String, String> hashMap = new HashMap<>();
+    		 List<FieldError> fieldErrors = result.getFieldErrors();
+    		 for (FieldError fieldError : fieldErrors) {
+				hashMap.put(fieldError.getField(), fieldError.getDefaultMessage());
+			}
+    		 return JSON.toJSONString(hashMap);
+    	 }
+    	 
+    	// extractUserService.addPerson(user,user2);
+		return null;
      }
 }

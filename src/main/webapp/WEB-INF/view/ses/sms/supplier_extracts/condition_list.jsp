@@ -204,7 +204,7 @@
 	<div class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled">
 		 <h2 class="count_flow"><i>2</i>人员信息</h2>
 		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="red">*</span><b> 抽取人员:</b></span><span  class="red" id="eError"></span>
-		 <form action="<%=request.getContextPath() %>/extractUser/addPerson.html" onsubmit="return false" id="extractUser">
+		 <form action="<%=request.getContextPath() %>/extractUser/addPerson.do" onsubmit="return false" id="extractUser">
 		 <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
 		 	<input type="hidden" value="extractUser" id="eu" name="personType">
 		 	<input type="hidden" name="recordId" value="${projectInfo.id }">
@@ -230,7 +230,7 @@
           </table>
        </form>      
 		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="red">*</span><b> 监督人员:</b></span><span  class="red" id="sError"></span>
-		  <form action="<%=request.getContextPath() %>/supervise/addPerson.html" id="supervise"  onsubmit="return false" >
+		  <form action="<%=request.getContextPath() %>/supervise/addPerson.do" id="supervise"  onsubmit="return false" >
 		  <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
 		  <input type="hidden" name="recordId" value="${projectInfo.id }">
 		 	 <input type="hidden" value="supervise" id="su" name="personType">
@@ -1046,7 +1046,7 @@
 function submitInfo(){
 
 	//存储项目信息
-    	$.ajax({
+    	/* $.ajax({
     		type: "POST",
     		url: $("#projectForm").attr('action'),
     		data:$("#projectForm").serialize(),
@@ -1057,26 +1057,40 @@ function submitInfo(){
 					$("#"+k+"Error").html(msg[k]);
 				}
     		}
-    	});
+    	}); */
     	//存储人员信息
-    /* 	$.ajax({
+    	alert();
+    	$.ajax({
     		type: "POST",
     		url: $("#supervise").attr('action'),
     		data:  $("#supervise").serialize(),
     		dataType: "json",
     		success: function (msg) {
-    			
+    			if(null !=msg){
+    				for ( var k in msg) {
+						$("#supervise").find("[name='"+k+"']").val(msg[k]);
+					}
+    			}
+    		},
+    		error:function(msg){
+    			console.log(msg);
     		}
     	});
+    	
+    	
     	$.ajax({
     		type: "POST",
     		url: $("#extractUser").attr('action'),
     		data:  $("#extractUser").serialize(),
     		dataType: "json",
     		success: function (msg) {
-    			
+    			if(null !=msg){
+    				for ( var k in msg) {
+						$("#extractUser").find("[name='"+k+"']").val(msg[k]);
+					}
+    			}
     		}
-    	}); */
+    	});
 }
 
 function submitCondition(){

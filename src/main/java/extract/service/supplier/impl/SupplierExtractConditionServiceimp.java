@@ -270,7 +270,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			}
 			if(type == 1){
 				if(null == en){
-					map.put(code+"ExtractNum", "不能为空");
+					map.put("error",code+"ExtractNum");
 					return map;
 				}
 				

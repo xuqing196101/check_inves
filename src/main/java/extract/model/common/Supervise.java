@@ -22,19 +22,19 @@ public class Supervise {
 	    private String condditionId;
 	    
 	    @NotEmpty
-	    @Length(max=5)
+	    @Length(min=1,max=5)
 	    private String name;
 	    
 	    @NotEmpty
-	    @Length(max=50)
+	    @Length(min=1,max=50)
 	    private String duty;
 	    
 	    @NotEmpty
-	    @Length(max=50)
+	    @Length(min=1,max=50)
 	    private String compary;
 	    
 	    @NotEmpty
-	    @Length(max=50)
+	    @Length(min=1,max=50)
 	    private String rank;
 	   
 	    private Short isDelete;

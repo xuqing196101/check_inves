@@ -507,7 +507,10 @@ $(function () {
     					sales = su.SALES;
     				}
     			}
-    			
+    			if(null!=msg.error){
+    				$("#"+msg.error+"Error").html("不能为空");
+    				return false;
+    			}
     		}
     	});
     	
