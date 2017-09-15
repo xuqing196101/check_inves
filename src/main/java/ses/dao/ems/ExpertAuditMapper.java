@@ -51,7 +51,7 @@ public interface ExpertAuditMapper {
       * @param @return      
       * @return ExpertAudit
      */
-    ExpertAudit selectByPrimaryKey(String id);
+    ExpertAudit selectByPrimaryKey(@Param("id") String id);
     /**
      * 
       * @Title: updateByPrimaryKeySelective
@@ -176,4 +176,8 @@ public interface ExpertAuditMapper {
      * @return
      */
     Integer selectRegExpCateCount(Map<String, Object> map);
+    
+    void deleteByExpertIdAndAuditFieldId (ExpertAudit expertAudit);
+    
+    ExpertAudit findAuditByExpertId (ExpertAudit expertAudit);
 }

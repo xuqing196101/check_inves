@@ -1,12 +1,15 @@
 package ses.controller.sys.ems;
 
 import bss.formbean.PurchaseRequiredFormBean;
+
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.utils.JdcgResult;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import ses.dao.ems.ExpertField;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -59,6 +63,7 @@ import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -796,6 +801,7 @@ public class ExpertAuditController{
 	 */
 	@RequestMapping("/getCategories")
 	public String getCategories(String expertId, String typeId, Model model, Integer pageNum, String flags , Integer sign) {
+		model.addAttribute("sign", sign);
 		String code = DictionaryDataUtil.findById(typeId).getCode();
         String flag = null;
         if (code != null && code.equals("GOODS_PROJECT")) {
@@ -813,7 +819,9 @@ public class ExpertAuditController{
             items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
         }
         
-        if(sign != null && sign == 2){
+        /*
+         //排除不通过项
+         if(sign != null && sign == 2){
         	Map<String, Object> map = new HashMap<String, Object>();
         	map.put("pageNum", pageNum == null ? 1 : pageNum);
         	map.put("expertId", expertId);
@@ -821,7 +829,7 @@ public class ExpertAuditController{
         	map.put("auditFalg", 1);
         	map.put("type", "six");
         	items = expertCategoryService.findPassCateByExpertId(map);
-        }
+        }*/
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
         int count=0;
         if(items != null && !items.isEmpty()){
@@ -855,6 +863,8 @@ public class ExpertAuditController{
                 allTreeList.add(cateTree);
             }
         }
+        
+        ExpertAudit expertAudit = new ExpertAudit();
         for(SupplierCateTree cate: allTreeList) {
             cate.setRootNode(cate.getRootNode() == null ? "" : cate.getRootNode());
             cate.setFirstNode(cate.getFirstNode() == null ? "" : cate.getFirstNode());
@@ -862,6 +872,14 @@ public class ExpertAuditController{
             cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
             cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
             cate.setRootNode(cate.getRootNode());
+            
+            expertAudit.setExpertId(expertId);
+            expertAudit.setSuggestType("six");
+            expertAudit.setAuditFieldId(cate.getItemsId());
+            ExpertAudit findAuditByExpertId = expertAuditService.findAuditByExpertId(expertAudit);
+            if(findAuditByExpertId !=null && findAuditByExpertId.getAuditReason() !=null){
+            	cate.setAuditReason(findAuditByExpertId.getAuditReason());
+            }
         }
         model.addAttribute("expertId", expertId);
         model.addAttribute("typeId", typeId);
@@ -3176,9 +3194,10 @@ public class ExpertAuditController{
     			Integer num = expertAuditService.findByObj(expertAudit);
     			count+=num;
     			
-    			//更新品目的状态
+    			//更新品目的状态(1不通过);
     			if(expertAudit.getAuditFieldId() !=null && expertAudit.getExpertId() !=null){
     				ExpertCategory expertCategory = new ExpertCategory();
+    				expertCategory.setAuditStatus(1);
     				expertCategory.setCategoryId(expertAudit.getAuditFieldId());
     				expertCategory.setExpertId(expertAudit.getExpertId());
     				expertCategoryService.updateAuditStatus(expertCategory);
@@ -3535,5 +3554,23 @@ public class ExpertAuditController{
 		}
 		}
 		return sb.toString();
+    }
+    
+    /**
+     * 参评类别撤销审核
+     * @param expertId
+     * @param categoryId
+     * @return 
+     * @return
+     */
+    @RequestMapping("/revokeCategoryAudit")
+    @ResponseBody
+    public JdcgResult revokeCategoryAudit (String expertId, String[] categoryIds, Integer sign){
+    	boolean revokeCategoryAudit = expertAuditService.revokeCategoryAudit(expertId, categoryIds, sign);
+		if(revokeCategoryAudit){
+			return new JdcgResult(500, "撤销成功", null);
+		}else{
+			return new JdcgResult(504, "撤销失败", null);
+		}
     }
 }

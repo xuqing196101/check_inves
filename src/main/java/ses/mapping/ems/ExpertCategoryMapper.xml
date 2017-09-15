@@ -226,7 +226,7 @@
       update 
         T_SES_EMS_EXPERT_CATEGORY 
       SET 
-        AUDIT_STATUS = 1 
+        AUDIT_STATUS = #{auditStatus} 
       WHERE 
         EXPERT_ID =#{expertId} and CATEGORY_ID =#{categoryId}
     </update>
@@ -286,5 +286,22 @@
 			AND C.EXPERT_ID = #{expertId}
 			AND C.LEVELS = '1'
 			AND C.TYPE_ID = #{typeId}
+    </select>
+    
+      <!--根据专家ID，品目ID类型查询  -->
+    <select id="selectCategoryByCategoryId" resultMap="BaseResultMap">
+	    select 
+	     <include refid="baseExpertSql"/>
+	    from T_SES_EMS_EXPERT_CATEGORY
+	      where EXPERT_ID = #{expertId}
+	    <if test="categoryId != null">
+	      and CATEGORY_ID = #{categoryId}
+	    </if>
+	    <if test="typeId != null">
+	      and TYPE_ID = #{typeId}
+	    </if>
+	    <if test="auditStatus != null">
+	      and AUDIT_STATUS = #{auditStatus} 
+	    </if>
     </select>
 </mapper>

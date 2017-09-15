@@ -401,6 +401,41 @@
            }
          });
        }
+			
+			
+			//撤销
+			function revokeCategoryAudit(){
+				var expertId = $("#expertId").val();
+				var sign = ${sign};
+				var categoryIds = [];
+        $('input[name="chkItem"]:checked').each(function () {
+          var index=$(this).val();
+          var itemsId =$("#itemsId"+index+"").val();
+          categoryIds.push(itemsId);
+         });
+        if(categoryIds.length > 0){
+        	$.ajax({
+            url: "${pageContext.request.contextPath}/expertAudit/revokeCategoryAudit.do",
+            type: "post",
+            traditional:true,
+            data:{"expertId" : expertId, "categoryIds" : categoryIds, "sign" : sign},
+            success : function(result){
+                layer.msg(result.msg, {offset : [ '100px' ]});
+                if(result.status == 500){
+                  window.setTimeout(function () {
+                      var action = "${pageContext.request.contextPath}/expertAudit/product.html";
+                      $("#form_id").attr("action", action);
+                      $("#form_id").submit();
+                  }, 1000);
+                }
+            }
+          });
+        }else{
+        	 layer.msg("请选择", {offset : [ '100px' ]});
+        }
+			}
+			
+			
 		</script>
 
 	</head>

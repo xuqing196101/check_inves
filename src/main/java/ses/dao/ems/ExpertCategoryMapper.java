@@ -161,4 +161,6 @@ public interface ExpertCategoryMapper {
      * @return
      */
     List<ExpertCategory> findPassCateByExpertId(Map<String,Object> map);
+    
+    ExpertCategory selectCategoryByCategoryId(ExpertCategory expertCategory);
 }
