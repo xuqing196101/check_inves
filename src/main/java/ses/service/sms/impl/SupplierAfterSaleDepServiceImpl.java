@@ -2,8 +2,10 @@ package ses.service.sms.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.model.sms.SupplierAfterSaleDep;
@@ -38,23 +40,11 @@ public class SupplierAfterSaleDepServiceImpl implements SupplierAfterSaleDepServ
      * @see ses.service.sms.SupplierAfterSaleDepService#saveOrUpdateAfterSaleDep(ses.model.sms.SupplierAfterSaleDep)
      */
     @Override
-    public void saveOrUpdateAfterSaleDep(SupplierAfterSaleDep supplierAfterSaleDep) {
+    public int saveOrUpdateAfterSaleDep(SupplierAfterSaleDep supplierAfterSaleDep) {
         if (supplierAfterSaleDep.getId() == null) {
-            supplierAfterSaleDepMapper.insertSelective(supplierAfterSaleDep);
+            return supplierAfterSaleDepMapper.insertSelective(supplierAfterSaleDep);
         } else {
-            supplierAfterSaleDepMapper.updateByPrimaryKeySelective(supplierAfterSaleDep);
-        }
-    }
-
-    /**
-     * @see ses.service.sms.SupplierAfterSaleDepService#deleteAfterSaleDep(java.lang.String)
-     */
-    @Override
-    public void deleteAfterSaleDep(String afterSaleDepIds) {
-        if (afterSaleDepIds != null) {
-            for (String id : afterSaleDepIds.split(",")) {
-                supplierAfterSaleDepMapper.deleteByPrimaryKey(id);
-            }
+            return supplierAfterSaleDepMapper.updateByPrimaryKeySelective(supplierAfterSaleDep);
         }
     }
 
@@ -62,6 +52,32 @@ public class SupplierAfterSaleDepServiceImpl implements SupplierAfterSaleDepServ
 	public List<SupplierAfterSaleDep> findAfterSaleDepBySupplierId(
 			String supplierId) {
 		return supplierAfterSaleDepMapper.findAfterSaleDepBySupplierId(supplierId);
+	}
+
+	@Override
+	public boolean deleteAfterSaleDepByIds(String ids) {
+		boolean isSuccess = false;
+	    try{
+            if(StringUtils.isNotBlank(ids)){
+                String[] idArray = ids.split(",");
+                int delCount = 0;
+                for(int i=0;i<idArray.length;i++){
+                    if(StringUtils.isNotBlank(idArray[i])){
+                        int key = supplierAfterSaleDepMapper.deleteByPrimaryKey(idArray[i]);
+                        if(key == 1){
+                            delCount++;
+                        }
+                    }
+                }
+                if(delCount==idArray.length){
+                    isSuccess = true;
+                }
+            }
+        }catch (Exception e){
+	        e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+        return isSuccess;
 	}
 
 }

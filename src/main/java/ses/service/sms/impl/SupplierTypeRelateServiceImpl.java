@@ -119,22 +119,22 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
             if(dlist!=null&&dlist.size()>0){
                 for(DictionaryData d:dlist){
                     if(d.getCode().equals("sc")){
-                        supplierMatProMapper.deleteByPrimaryKey(supplier.getId());
-                        supplierCertProMapper.deleteByPrimaryKey(supplier.getSupplierMatPro().getId());
+                        supplierMatProMapper.deleteBySupplierId(supplier.getId());
+                        supplierCertProMapper.deleteByMatProId(supplier.getSupplierMatPro().getId());
                     }
                     if(d.getCode().equals("xs")){
-                        supplierMatSellMapper.deleteByPrimaryKey(supplier.getId());
-                        supplierCertSellMapper.deleteByPrimaryKey(supplier.getSupplierMatSell().getId());
+                        supplierMatSellMapper.deleteBySupplierId(supplier.getId());
+                        supplierCertSellMapper.deleteByMatSellId(supplier.getSupplierMatSell().getId());
                     }
                     if(d.getCode().equals("gc")){
-                        supplierMatEngMapper.deleteByPrimaryKey(supplier.getId());
+                        supplierMatEngMapper.deleteBySupplierId(supplier.getId());
                         supplierRegPersonMapper.deleteByMatEngId(supplier.getSupplierMatEng().getId());
-                        supplierCertEngMapper.deleteByPrimaryKey(supplier.getSupplierMatEng().getId());
-                        supplierAptituteMapper.deleteByPrimaryKey(supplier.getSupplierMatEng().getId());
+                        supplierCertEngMapper.deleteByMatEngId(supplier.getSupplierMatEng().getId());
+                        supplierAptituteMapper.deleteByMatEngId(supplier.getSupplierMatEng().getId());
                     }
                     if(d.getCode().equals("fw")){
-                        supplierMatServeMapper.deleteByPrimaryKey(supplier.getId());
-                        supplierCertServeMapper.deleteByPrimaryKey(supplier.getSupplierMatSe().getId());
+                        supplierMatServeMapper.deleteBySupplierId(supplier.getId());
+                        supplierCertServeMapper.deleteByMatServeId(supplier.getSupplierMatSe().getId());
                     }
                 }
             }

@@ -32,10 +32,6 @@
 		from T_SES_SMS_SUPPLIER_APTITUTE
 		where ID = #{id}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_APTITUTE
-		where MAT_ENG_ID = #{id}
-	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierAptitute">
 		insert into T_SES_SMS_SUPPLIER_APTITUTE (ID, MAT_ENG_ID, CERT_TYPE,
 		CERT_CODE, APTITUTE_SEQUENCE, PROFESS_TYPE,
@@ -158,7 +154,6 @@
 				#{attachCert},
 			</if>
 		</trim>
-
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierAptitute">
 		update T_SES_SMS_SUPPLIER_APTITUTE
@@ -256,11 +251,6 @@
 		where
 		  t2.SUPPLIER_ID=#{supplierId}
   </select>
-  
-  	<delete id="deleteById" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_APTITUTE
-		where ID = #{id}
-	</delete>
 	
 	<select id="quertByCodeAndName" resultMap="BaseResultMap">
 		select
@@ -297,17 +287,20 @@
 		<if test="code !=null ">
 			and CERT_CODE=#{code}
 		</if>
-	
 	</select>
-	<delete id="deleteByMatEngId">
-	
-	delete from T_SES_SMS_SUPPLIER_APTITUTE
-		where mat_eng_id = #{matEngId}
-	</delete>
 	
 	<select id="selectByCertCode" parameterType="java.lang.String"  resultType="int">
 		SELECT COUNT(0) FROM T_SES_SMS_SUPPLIER_APTITUTE T WHERE T.CERT_CODE = #{certCode,jdbcType=VARCHAR}
 	</select>
 	
-	
+	<!-- 根据主键删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_APTITUTE
+		where ID = #{id}
+	</delete>
+	<!-- 根据工程id主键删除 -->
+	<delete id="deleteByMatEngId">
+		delete from T_SES_SMS_SUPPLIER_APTITUTE
+		where MAT_ENG_ID = #{matEngId}
+	</delete>
 </mapper>

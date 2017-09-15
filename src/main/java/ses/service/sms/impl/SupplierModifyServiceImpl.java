@@ -1108,7 +1108,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		 * 供应商类型
 		 */
 		//生产
-		String proSupplierId = supplierMatProMapper.findSupplierId(businessId);
+		String proSupplierId = supplierMatProMapper.findSupplierIdById(businessId);
 		if(proSupplierId !=null){
 			supplier = supplierService.selectById(proSupplierId);
 			if(supplier != null && supplier.getStatus() == 2){

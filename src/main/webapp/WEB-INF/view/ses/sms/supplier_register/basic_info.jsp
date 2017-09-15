@@ -480,21 +480,30 @@
 						async: false,
 						type: "POST",
 						data: {
-							"afterSaleDepIds": afterSaleDepIds,
+							"ids": afterSaleDepIds,
 						},
-						success: function(){
-							layer.msg("删除成功！");
-							$(checkboxs).each(function(index) {
-								var tr = $(this).parent().parent();
-								$(tr).remove();
-							});
+						success: function(data){
+							if(data=="ok"){
+							  layer.msg("删除成功！", {
+							    offset: '300px'
+							  });
+							  $(checkboxs).each(function(index) {
+							    var tr = $(this).parent().parent();
+							    $(tr).remove();
+							  });
+							}
+							if(data=="fail"){
+							  layer.msg("删除失败！", {
+							    offset: '300px'
+							  });
+							}
 						},
 						error: function(){
 							layer.msg("删除失败！");
 						}
 					});
 				} else {
-					layer.alert("请至少勾选一条记录 !", {
+					layer.alert("请至少勾选一条记录！", {
 						offset: '200px',
 						scrollbar: false,
 					});
@@ -559,15 +568,23 @@
 							async: false,
 							type: "POST",
 							data: {
-								"stockholderIds": stockholderIds,
-								"supplierId": supplierId
+								"ids": stockholderIds,
 							},
-							success: function(){
-								layer.msg("删除成功！");
-								$(checkboxs).each(function(index) {
-									var tr = $(this).parent().parent();
-									$(tr).remove();
-								});
+							success: function(data){
+								if(data=="ok"){
+								  layer.msg("删除成功！", {
+								    offset: '300px'
+								  });
+								  $(checkboxs).each(function(index) {
+								    var tr = $(this).parent().parent();
+								    $(tr).remove();
+								  });
+								}
+								if(data=="fail"){
+								  layer.msg("删除失败！", {
+								    offset: '300px'
+								  });
+								}
 							},
 							error: function(){
 								layer.msg("删除失败！");
@@ -578,7 +595,7 @@
 						layer.close(index);
 					});
 				} else {
-					layer.alert("请至少勾选一条记录 !", {
+					layer.alert("请至少勾选一条记录！", {
 						offset: '200px',
 						scrollbar: false,
 					});
@@ -881,11 +898,11 @@
             async: false,
             type: "POST",
             data: {
-              "id": addressIds
+              "ids": addressIds
             },
             success: function(data) {
               if(data=="ok"){
-                layer.msg("删除成功!", {
+                layer.msg("删除成功！", {
                   offset: '300px'
                 });
                 $(checkboxs).each(function(index) {
@@ -893,15 +910,20 @@
                   $(tr).remove();
                 });
               }
+              if(data=="fail"){
+                layer.msg("删除失败！", {
+                  offset: '300px'
+                });
+              }
             },
             error: function() {
-              layer.msg("删除失败!", {
+              layer.msg("删除失败！", {
                 offset: '300px'
               });
             }
         	});
         }else{
-          layer.alert("请至少勾选一条记录 !", {
+          layer.alert("请至少勾选一条记录！", {
             offset: '200px',
             scrollbar: false,
           });

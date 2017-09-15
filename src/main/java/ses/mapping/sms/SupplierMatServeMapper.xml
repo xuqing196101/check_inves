@@ -22,10 +22,6 @@
 		from T_SES_SMS_SUPPLIER_MAT_SERVE
 		where ID = #{id}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_MAT_SERVE
-		where SUPPLIER_ID = #{id}
-	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierMatServe">
 		insert into T_SES_SMS_SUPPLIER_MAT_SERVE (ID, SUPPLIER_ID, ORG_NAME,
 		TOTAL_PERSON, TOTAL_MANAGE, TOTAL_TECH,
@@ -146,7 +142,6 @@
 		<collection property="listSupplierCertSes" select="ses.dao.sms.SupplierCertServeMapper.findCertSeBySupplierMatSeId" column="ID"></collection>
 	</resultMap>
 	
-	
 	<select id="findSupplierIdById" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT
 			SUPPLIER_ID
@@ -156,4 +151,15 @@
 		WHERE
 			t1.ID = #{id}
 	</select>
+	
+	<!-- 根据主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_MAT_SERVE
+		where ID = #{id}
+	</delete>
+	<!-- 根据供应商ID删除对应的信息-->
+	<delete id="deleteBySupplierId" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_MAT_SERVE
+		where SUPPLIER_ID = #{supplierId}
+	</delete>
 </mapper>

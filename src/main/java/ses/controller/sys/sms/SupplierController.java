@@ -3340,14 +3340,17 @@ public class SupplierController extends BaseSupplierController {
 	 *〈简述〉异步删除供应商地址信息
 	 *〈详细描述〉
 	 * @author WangHuijie
-	 * @param id
+	 * @param ids
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping("/delAddress")
-	public String delAddress(String id) {
-        supplierAddressService.deleteAddressByIds(id);
-        return "ok";
+	public String delAddress(String ids) {
+        boolean isOk = supplierAddressService.deleteAddressByIds(ids);
+        if(isOk){
+        	return "ok";
+        }
+        return "fail";
 	}
 
 	/**
@@ -3475,8 +3478,12 @@ public class SupplierController extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping(value = "/deleteAfterSaleDep")
-    public void deleteCertEng(String afterSaleDepIds) {
-        supplierAfterSaleDepService.deleteAfterSaleDep(afterSaleDepIds);
+    public String deleteAfterSaleDep(String ids) {
+        boolean isOk = supplierAfterSaleDepService.deleteAfterSaleDepByIds(ids);
+        if(isOk){
+        	return "ok";
+        }
+        return "fail";
     }
     
     /**

@@ -33,16 +33,7 @@ public interface SupplierAfterSaleDepService {
      * @author WangHuijie
      * @param supplierAfterSaleDep
      */
-    public void saveOrUpdateAfterSaleDep(SupplierAfterSaleDep supplierAfterSaleDep);
-
-    /**
-     *〈简述〉
-     * 批量删除售后服务机构信息
-     *〈详细描述〉
-     * @author WangHuijie
-     * @param afterSaleDepIds
-     */
-    public void deleteAfterSaleDep(String afterSaleDepIds);
+    public int saveOrUpdateAfterSaleDep(SupplierAfterSaleDep supplierAfterSaleDep);
 
     /**
      * 根据供应商id查询售后服务机构
@@ -50,4 +41,11 @@ public interface SupplierAfterSaleDepService {
      * @return
      */
 	public List<SupplierAfterSaleDep> findAfterSaleDepBySupplierId(String supplierId);
+
+	/**
+	 * 批量删除售后服务机构信息
+	 * @param ids
+	 * @return
+	 */
+	public boolean deleteAfterSaleDepByIds(String ids);
 }
