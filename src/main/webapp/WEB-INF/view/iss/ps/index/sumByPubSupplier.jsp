@@ -73,11 +73,11 @@ function reset() {
 					</c:otherwise>
 		           	 </c:choose>
 		  			 <c:choose>
-		           	 <c:when test="${!empty status && fn:contains('5,7,9',status)}">
-		           	 	<option value="5,7,9" selected="selected">复核通过</option>
+		           	 <c:when test="${!empty status && fn:contains('5,7',status)}">
+		           	 	<option value="5,7" selected="selected">复核通过</option>
 		           	 </c:when>
 		           	  <c:otherwise>
-						<option value="5,7,9">复核通过</option>				       
+						<option value="5,7">复核通过</option>
 					</c:otherwise>
 		           	 </c:choose>
 		  			 <c:choose>
@@ -136,7 +136,7 @@ function reset() {
 						    <c:when test="${item.status == 4}">
 						          待复核
 						    </c:when> --%>
-						    <c:when test="${item.status == 5 or item.status == 7 or item.status == 9}">
+						    <c:when test="${item.status == 5 or item.status == 7}">
 						         复核通过
 						    </c:when>
 						    <%-- <c:when test="${item.status == 6}">
