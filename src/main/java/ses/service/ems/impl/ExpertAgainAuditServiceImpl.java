@@ -415,20 +415,24 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		}
 		List<ExpertReviewTeam> list = expertReviewTeamMapper.getExpertReviewTeamList(expertReviewTeam);
+		int password=0;
+		String userName="";
 		for (ExpertReviewTeam e : list) {
 			if(e.getPassWord()!=null){
-				e.setPassWord("1");
-			}else{
-				e.setPassWord("0");
+				password=1;
+				e.setPassWord(null);
 			}
 			if(e.getIsDeleted()==1){
 				e.setLoginName(e.getLoginName().substring(0, e.getLoginName().length()-21));
 			}
+			userName=e.getLoginName();
 		}
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		PageInfo< ExpertReviewTeam > result = new PageInfo < ExpertReviewTeam > (list);
 		map.put("groupId", groupId);
 		map.put("groupStatus", expertGroup.getStatus());
+		map.put("password", password);
+		map.put("userName", userName);
 		map.put("list", result);
 		img.setStatus(true);
 		img.setMessage("操作成功");
@@ -437,41 +441,40 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	}
 
 	@Override
-	public ExpertAgainAuditImg addExpertReviewTeam(List<Map<String, String>> e) {
+	public ExpertAgainAuditImg addExpertReviewTeam(String userName,String password,List<Map<String, String>> e) {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
+		User user = new User();
+		user.setId(WfUtil.createUUID());
+		user.setLoginName(userName);
+		user.setRelName(userName);
+		user.setCreatedAt(new Date());
+		user.setUpdatedAt(new Date());
+		user.setIsDeleted(0);
+		user.setTypeName("6");
+		if(password!=null){
+			//生成15位随机码
+			String randomCode = generateString(15);
+			Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
+			// false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
+			md5.setEncodeHashAsBase64(false);     
+			String pwd = md5.encodePassword(password, randomCode);
+			user.setPassword(pwd);
+			user.setRandomCode(randomCode);
+		}
+		//user.setTypeId(expertReviewTeam.getId());
+		String ipAddressType = PropUtil.getProperty("ipAddressType");
+		user.setNetType(Integer.valueOf(ipAddressType));
+		userMapper.saveUser(user);
 		for (Map<String, String> map : e) {
 			ExpertReviewTeam expertReviewTeam = new ExpertReviewTeam();
 			expertReviewTeam.setGroupId(map.get("groupId"));
-			expertReviewTeam.setLoginName(map.get("loginName"));
+			//expertReviewTeam.setLoginName(map.get("loginName"));
 			expertReviewTeam.setRelName(map.get("relName"));
 			expertReviewTeam.setOrgName(map.get("orgName"));
 			expertReviewTeam.setDuties(map.get("duties"));
 			expertReviewTeam.setId(WfUtil.createUUID());
-			User user = new User();
-			user.setId(WfUtil.createUUID());
-			user.setLoginName(expertReviewTeam.getLoginName());
-			user.setRelName(expertReviewTeam.getRelName());
-			user.setOrgName(expertReviewTeam.getOrgName());
-			user.setDuties(map.get("duties"));
-			user.setCreatedAt(new Date());
-			user.setUpdatedAt(new Date());
-			user.setIsDeleted(0);
-			user.setTypeName("6");
-			if(map.get("passWord")!=null){
-				//生成15位随机码
-				String randomCode = generateString(15);
-				Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
-				// false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
-				md5.setEncodeHashAsBase64(false);     
-				String pwd = md5.encodePassword(map.get("passWord"), randomCode);
-				user.setPassword(pwd);
-				user.setRandomCode(randomCode);
-			}
-			user.setTypeId(expertReviewTeam.getId());
-			String ipAddressType = PropUtil.getProperty("ipAddressType");
-			user.setNetType(Integer.valueOf(ipAddressType));
-			userMapper.saveUser(user);
+			
 			ExpertGroup expertGroup = new ExpertGroup();
 			expertGroup.setGroupId(expertReviewTeam.getGroupId());
 			List<ExpertGroup> group = expertGroupMapper.getGroup(expertGroup);

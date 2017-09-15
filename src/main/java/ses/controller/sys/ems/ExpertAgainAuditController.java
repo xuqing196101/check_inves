@@ -493,7 +493,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * 配置审核组成员
 	 * */
 	@RequestMapping("addExpertReviewTeam")//ExpertAgainAuditReviewTeamList
-	public void addExpertReviewTeam(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,ExpertAgainAuditReviewTeamList reviewTeamList){
+	public void addExpertReviewTeam(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String userName,String password,ExpertAgainAuditReviewTeamList reviewTeamList){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		if(user==null){
 			img.setStatus(false);
@@ -513,17 +513,17 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			super.writeJson(response, img);
 			return;
 		}
+		if("".equals(userName)){
+			img.setStatus(false);
+			img.setMessage("用户名不能为空");
+			super.writeJson(response, img);
+			return;
+		}
 		for (Map<String,String> e : reviewTeamList.getList()) {
 			if(e!=null){
 				if("".equals(e.get("groupId"))){
 					img.setStatus(false);
 					img.setMessage("请选择您要配置的组");
-					super.writeJson(response, img);
-					return;
-				}
-				if("".equals(e.get("loginName"))){
-					img.setStatus(false);
-					img.setMessage("用户名不能为空");
 					super.writeJson(response, img);
 					return;
 				}
@@ -546,7 +546,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 					return;
 				}
 		}
-			img=againAuditService.addExpertReviewTeam(reviewTeamList.getList());
+			img=againAuditService.addExpertReviewTeam(userName,password,reviewTeamList.getList());
 			super.writeJson(response, img);
 			return;
 		}
@@ -775,7 +775,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			super.writeJson(response, img);
 			return;
 		}
-		if("".equals(batchId)){
+		if(batchId==null){
 			img.setStatus(false);
 			img.setMessage("操作有误");
 			super.writeJson(response, img);
