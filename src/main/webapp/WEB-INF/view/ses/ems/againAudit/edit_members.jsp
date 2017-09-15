@@ -42,60 +42,45 @@
     <div class="headline-v2"><h2>配置审核组成员</h2></div>
     
     <!-- 表格开始-->
-    <div class="col-md-12 pl20 mt10 mb10 btn_group_t"></div>
+    <div class="col-md-12 pl20 mt10 mb10">
+      <span>审核组用户名：</span>
+      <input type="text" class="form-control m0" name="loginName" placeholder="请输入用户名" onblur="checkOnly(this)">
+      <button type="button" class="btn btn-windows setPwd" onclick="set_newPassword()" id="set_newPassword">设置密码</button>
+      <span id="pwd_msg" class="red"></span>
+    </div>
     
     <div class="content table_box">
       <table class="table table-bordered table-condensed table-hover againAudit_table">
         <thead>
           <tr>
-            <th class="info w50"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
-            <th class="info">用户名</th>
             <th class="info">专家姓名</th>
             <th class="info">单位</th>
             <th class="info">技术职称（职务）</th>
-            <th class="info">是否设置密码</th>
           </tr>
         </thead>
-        <tbody id="list_content"></tbody>
+        <tbody id="list_content">
+          <tr>
+            <td><input type="text" name="relName" class="form-control w100p border0 m0"></td>
+            <td><input type="text" name="orgName" class="form-control w100p border0 m0"></td>
+            <td><input type="text" name="duties" class="form-control w100p border0 m0"></td>
+          </tr>
+          <tr>
+            <td><input type="text" name="relName" class="form-control w100p border0 m0"></td>
+            <td><input type="text" name="orgName" class="form-control w100p border0 m0"></td>
+            <td><input type="text" name="duties" class="form-control w100p border0 m0"></td>
+          </tr>
+        </tbody>
       </table>
-      <div id="pagediv" align="right"></div>
+      <%-- <div id="pagediv" align="right"></div> --%>
     </div>
     
-    <div class="col-md-12 pl20 mt10 mb10 btn_group_b"></div>
+    <div class="col-md-12 pl20 mt10 mb10">
+      <button type="button" class="btn btn-windows save" onclick="save_editMembers()">保存</button>
+      <button type="button" class="btn btn-windows back " onclick="javascript:history.back()">返回</button>
+    </div>
       
   </div>
   <!-- 内容结束 -->
-  
-  <!-- 添加审核组成员弹出窗 -->
-  <%-- <div class="hide mt20" id="modal_addMembers">
-  <div class="form-horizontal w100p pl20 pr20 over_hideen">
-    <div class="form-group">
-      <label class="col-sm-3 text-right pt6">用户名</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control w100p" name="loginName" placeholder="请输入用户名">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-3 text-right pt6">专家姓名</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control w100p" name="relName" placeholder="请输入专家姓名">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-3 text-right pt6">单位</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control w100p" name="orgName" placeholder="请输入单位">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-3 text-right pt6">技术职称（职务）</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control w100p" name="duties" placeholder="请输入技术职称（职务）">
-      </div>
-    </div>
-  </div>
-  </div> --%>
-  <!-- End 添加审核组成员弹出窗 -->
   
   <!-- 设置密码弹出窗 -->
   <div class="hide mt20" id="modal_setPwd">
