@@ -105,6 +105,12 @@ public class ExpertReviewTeam {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	@Override
+	public String toString() {
+		return "ExpertReviewTeam [relName=" + relName + ", duties="
+				+ duties + ", orgName=" + orgName + ", loginName=" + loginName + ", passWord=" + passWord
+				+ ", isDeleted=" + isDeleted + "]";
+	}
 	
 	
 }

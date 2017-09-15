@@ -459,6 +459,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 				e.setLoginName(e.getLoginName().substring(0, e.getLoginName().length()-21));
 			}
 			userName=e.getLoginName();
+			System.out.println(e.toString());
 		}
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		PageInfo< ExpertReviewTeam > result = new PageInfo < ExpertReviewTeam > (list);

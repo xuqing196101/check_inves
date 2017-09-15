@@ -33,10 +33,10 @@
         T1.GROUP_ID,
         T1.CREATED_AT,
         T1.UPDATED_AT,
-        T2.REL_NAME AS relName,
+        T1.REL_NAME AS relName,
         T2.LOGIN_NAME AS loginName,
-        T2.ORG_NAME AS orgName,
-        T2.DUTIES AS duties,
+        T1.ORG_NAME AS orgName,
+        T1.DUTIES AS duties,
         T2.PASSWORD AS passWord,
         T2.IS_DELETED AS isDeleted
 		from T_SYS_EMS_EXPERT_REVIEWTEAM T1,T_SES_BMS_USER T2 where T1.USER_ID=T2.ID
@@ -47,9 +47,9 @@
     </select>
     <insert id="insert" parameterType="ses.model.ems.ExpertReviewTeam">
         insert into T_SYS_EMS_EXPERT_REVIEWTEAM
-        (ID,USER_ID,BATCH_ID,GROUP_ID,CREATED_AT,UPDATED_AT)
+        (ID,USER_ID,BATCH_ID,GROUP_ID,CREATED_AT,UPDATED_AT,REAL_NAME,ORG_NAME,DUTIES)
         values
-        (#{id}, #{userId},#{batchId},#{groupId}, #{createdAt}, #{updatedAt})
+        (#{id}, #{userId},#{batchId},#{groupId}, #{createdAt}, #{updatedAt},#{realName},#{orgName},#{duties})
     </insert>
    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
    		 delete from

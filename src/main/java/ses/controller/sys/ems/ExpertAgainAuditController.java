@@ -3,6 +3,7 @@ package ses.controller.sys.ems;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -21,9 +22,12 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertAgainAuditReviewTeamList;
+import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpertAgainAuditService;
 import ses.service.ems.ExpertService;
+import ses.service.oms.OrgnizationServiceI;
+import ses.util.DictionaryDataUtil;
 
 /**
  * <p>Title:ExpertAgainAuditController </p>
@@ -40,6 +44,8 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	private ExpertService expertService;
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
 	/*
 	 * 提交复审
 	 * */
@@ -130,9 +136,27 @@ public class ExpertAgainAuditController extends BaseSupplierController {
       			e.setExpertsFrom(expertsFrom.getName());
       		}
 		}
+		 // 查询数据字典中的专家来源配置数据
+        List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
+        // 查询数据字典中的专家类别数据
+        List < DictionaryData > jsTypeList = DictionaryDataUtil.find(6);
+        for(DictionaryData data: jsTypeList) {
+            data.setName(data.getName() + "技术");
+        }
+        List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
+        
+        //全部机构
+        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
+        
+        jsTypeList.addAll(jjTypeList);
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("expertList", expertList);
+        map.put("allOrg", allOrg);//全部采购机构
+        map.put("expTypeList", jsTypeList);//专家类型
+        map.put("lyTypeList", lyTypeList);//专家来源
 		img.setStatus(true);
 		img.setMessage("操作成功");
-		img.setObject(expertList);
+		img.setObject(map);
 		super.writeJson(response, img);
 	}
 	/*
