@@ -481,7 +481,7 @@
 
           </ul>
         </div>
-        <div class="padding-top-10 clear">
+        <%-- <div class="padding-top-10 clear">
           <h2 class="count_flow"><i>2</i>审核</h2>
           <ul class="ul_list mb20">
             <li class=" col-md-12 col-sm-12 col-xs-12">
@@ -490,7 +490,7 @@
                 <textarea class="h130 col-md-12 col-sm-12 col-xs-12" disabled="disabled" id="reason" name="reason" >${article.reason }</textarea>
               </div>
             </li>
-          </ul>
+          </ul> --%>
           <div class="col-md-12 tc">
             <input class="btn btn-windows back" value="返回" type="button" onclick="goBack();">
           </div>
