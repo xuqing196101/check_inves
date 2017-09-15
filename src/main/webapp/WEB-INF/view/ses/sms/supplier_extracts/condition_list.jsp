@@ -324,295 +324,318 @@
               </li>
               
 		<li class="clear"></li>
-		 <li class="dnone projectCount">
-          <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="projectCount">0</span>人</button></div>
-        	</li>
-				<li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+    <li class="col-xs-12 borderTS1 mt10 pt10 dnone projectCount">
+      
+      <div class="col-xs-2 p0">
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">&nbsp;</span>
+        <button class="btn" type="button">当前满足<span id="projectCount">0</span>人</button>
+      </div>
+      
+      <div class="col-xs-10">
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input class="title col-md-12" id='projectExtractNum' name="projectExtractNum" 
-                 maxlength="11" type="text">
-            <span class="add-on">i</span>
-            <div class="cue">${loginPwdError}</div>
+          <input class="title col-md-12" id='projectExtractNum' name="projectExtractNum" maxlength="11" type="text">
+          <span class="add-on">i</span>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-        
-        
-        
-        <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                 <select name="projectBusinessNature" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="">不限</option>
-                 <c:forEach items="${businessNature }" var="bu">
-                 	<option value="${bu.id }">${bu.name }</option>
-                 </c:forEach>
-                 </select>
-            <div class="cue">${loginPwdError}</div>
+          <select name="projectBusinessNature" class="w100p" onchange="selectLikeSupplier()">
+          <option value="">不限</option>
+          <c:forEach items="${businessNature }" var="bu">
+          <option value="${bu.id }">${bu.name }</option>
+          </c:forEach>
+          </select>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">保密要求：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-           <select name="projectIsHavingConCert" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="0">无</option>
-                 	<option value="1">有</option>
-                 </select>
-            <div class="cue">${loginPwdError}</div>
+          <select name="projectIsHavingConCert" class="w100p" onchange="selectLikeSupplier()">
+          <option value="0">无</option>
+          <option value="1">有</option>
+          </select>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">境外分支：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<select name="projectOverseasBranch" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="1">有</option>
-                 	<option value="0">无</option>
-                 </select>
-            <div class="cue">${loginPwdError}</div>
+          <select name="projectOverseasBranch" class="w100p" onchange="selectLikeSupplier()">
+          <option value="1">有</option>
+          <option value="0">无</option>
+          </select>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-		<li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工程品目：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="projectIsMulticondition" class="isSatisfy">
           <input type="hidden" name="projectCategoryIds" id="projectCategoryIds" class="categoryId">
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input class="input_group " readonly  typeCode="PROJECT"
-                 value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
-            <span class="add-on">i</span>
-            <div class="cue" id="dCategoryName"></div>
+          <input class="input_group " readonly  typeCode="PROJECT" value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
+          <span class="add-on">i</span>
+          <div class="cue" id="dCategoryName"></div>
           </div>
-          </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>工程资质：</span>
-           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input type="hidden" name="qua" id="quaId" >
-            <input type="text" readonly  id="quaName" treeHome="quaContent"
-                 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" onclick="showQua(this);"/>
-            <span class="add-on">i</span>
-            <div class="cue" id="dCount"></div>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+          <input type="hidden" name="qua" id="quaId" >
+          <input type="text" readonly  id="quaName" treeHome="quaContent"
+          value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" onclick="showQua(this);"/>
+          <span class="add-on">i</span>
+          <div class="cue" id="dCount"></div>
           </div>
-          </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone projectCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工程等级：</span>
-           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input type="hidden" name="projectLevel" >
-            <input type="text" readonly  id="projectLevel" treeHome="projectLevelContent"
-                 value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
-            <span class="add-on">i</span>
-            <div class="cue" id="dCount"></div>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+          <input type="hidden" name="projectLevel" >
+          <input type="text" readonly  id="projectLevel" treeHome="projectLevelContent"
+          value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
+          <span class="add-on">i</span>
+          <div class="cue" id="dCount"></div>
           </div>
-          </li>
-          
+        </div>
+      </div>
+    
+    </li>
         
-         <li class="clear"></li>
-        <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
+    <li class="clear"></li>
+    <li class="col-xs-12 borderTS1 mt10 pt10 dnone projectCount">
+      
+      <div class="col-xs-2 p0">
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">&nbsp;</span>
+        <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="serviceCount">0</span>人</button></div>
+      </div>
+      
+      <div class="col-xs-10">
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                 <select name="serviceBusinessNature" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="">不限</option>
-                 <c:forEach items="${businessNature }" var="bu">
-                 	<option value="${bu.id }">${bu.name }</option>
-                 </c:forEach>
-                 </select>
-            <div class="cue">${loginPwdError}</div>
+          <select name="serviceBusinessNature" class="w100p" onchange="selectLikeSupplier()">
+          <option value="">不限</option>
+          <c:forEach items="${businessNature }" var="bu">
+          <option value="${bu.id }">${bu.name }</option>
+          </c:forEach>
+          </select>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">保密要求：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-           <select name="serviceIsHavingConCert" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="0">无</option>
-                 	<option value="1">有</option>
-                 </select>
-            <div class="cue">${loginPwdError}</div>
+          <select name="serviceIsHavingConCert" class="w100p" onchange="selectLikeSupplier()">
+          <option value="0">无</option>
+          <option value="1">有</option>
+          </select>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">境外分支：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<select name="serviceOverseasBranch" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="1">有</option>
-                 	<option value="0">无</option>
-                 </select>
-            <div class="cue">${loginPwdError}</div>
+          <select name="serviceOverseasBranch" class="w100p" onchange="selectLikeSupplier()">
+          <option value="1">有</option>
+          <option value="0">无</option>
+          </select>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-         <li class="dnone serviceCount">
-          <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="serviceCount">0</span>人</button></div>
-        </li>
-         <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input class="title col-md-12" id='serviceExtractNum' name="serviceExtractNum" 
-                 maxlength="11" type="text">
-            <span class="add-on">i</span>
-            <div class="cue">${loginPwdError}</div>
+          <input class="title col-md-12" id='serviceExtractNum' name="serviceExtractNum" 
+          maxlength="11" type="text">
+          <span class="add-on">i</span>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-        <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">服务品目：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="serviceIsMulticondition" class="isSatisfy">
           <input type="hidden" name="serviceCategoryIds" id="serviceCategoryIds" class="categoryId">
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input class="input_group " readonly  typeCode="SERVICE"
-                 value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
-            <span class="add-on">i</span>
-            <div class="cue" id="dCategoryName"></div>
+          <input class="input_group " readonly  typeCode="SERVICE"
+          value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
+          <span class="add-on">i</span>
+          <div class="cue" id="dCategoryName"></div>
           </div>
-          </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone serviceCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">服务等级：</span>
-           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input type="hidden" name="serviceLevel" >
-            <input type="text" readonly  id="serviceLevel" treeHome="serviceLevelContent"
-                 value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
-            <span class="add-on">i</span>
-            <div class="cue" id="dCount"></div>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+          <input type="hidden" name="serviceLevel" >
+          <input type="text" readonly  id="serviceLevel" treeHome="serviceLevelContent"
+          value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
+          <span class="add-on">i</span>
+          <div class="cue" id="dCount"></div>
           </div>
-          </li>
-         
-        
-        <li class="clear"></li>
-        <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
+        </div>
+      </div>
+      
+    </li>
+    
+    <li class="clear"></li>
+    <li class="col-xs-12 borderTS1 mt10 pt10 dnone productCount">
+      
+      <div class="col-xs-2 p0">
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">&nbsp;</span>
+        <button class="btn" type="button">当前满足<span id="productCount">0</span>人</button>
+      </div>
+      
+      <div class="col-xs-10">
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                 <select name="productBusinessNature" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="">不限</option>
-                 <c:forEach items="${businessNature }" var="bu">
-                 	<option value="${bu.id }">${bu.name }</option>
-                 </c:forEach>
-                 </select>
+            <select name="productBusinessNature" class="w100p" onchange="selectLikeSupplier()">
+              <option value="">不限</option>
+              <c:forEach items="${businessNature }" var="bu">
+              <option value="${bu.id }">${bu.name }</option>
+              </c:forEach>
+            </select>
             <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">保密要求：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-           <select name="productIsHavingConCert" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="0">无</option>
-                 	<option value="1">有</option>
-                 </select>
-            <div class="cue">${loginPwdError}</div>
+          <select name="productIsHavingConCert" class="w100p" onchange="selectLikeSupplier()">
+          <option value="0">无</option>
+          <option value="1">有</option>
+          </select>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">境外分支：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<select name="productOverseasBranch" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="1">有</option>
-                 	<option value="0">无</option>
-                 </select>
-            <div class="cue">${loginPwdError}</div>
+          <select name="productOverseasBranch" class="w100p" onchange="selectLikeSupplier()">
+          <option value="1">有</option>
+          <option value="0">无</option>
+          </select>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-        <li class="dnone productCount">
-          <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="productCount">0</span>人</button></div>
-        </li>
-         <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input class="title col-md-12" id='productExtractNum' name="productExtractNum"
-                 maxlength="11" type="text">
-            <span class="add-on">i</span>
-            <div class="cue">${loginPwdError}</div>
+          <input class="title col-md-12" id='productExtractNum' name="productExtractNum"
+          maxlength="11" type="text">
+          <span class="add-on">i</span>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-        <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">生产品目：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="productIsMulticondition" class="isSatisfy">
           <input type="hidden" name="productCategoryIds" id="productCategoryIds" class="categoryId">
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input class="input_group " readonly  typeCode="PRODUCT"
-                 value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
-            <span class="add-on">i</span>
-            <div class="cue" id="dCategoryName"></div>
+          <input class="input_group " readonly  typeCode="PRODUCT"
+          value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
+          <span class="add-on">i</span>
+          <div class="cue" id="dCategoryName"></div>
           </div>
-          </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone productCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">生产等级：</span>
-           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input type="hidden" name="productLevel" >
-            <input type="text" readonly  id="productLevel" treeHome="productLevelContent"
-                 value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
-            <span class="add-on">i</span>
-            <div class="cue" id="dCount"></div>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+          <input type="hidden" name="productLevel" >
+          <input type="text" readonly  id="productLevel" treeHome="productLevelContent"
+          value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
+          <span class="add-on">i</span>
+          <div class="cue" id="dCount"></div>
           </div>
-          </li>
-          
-          
-          
-        <li class="clear"></li>
-        <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
+        </div>
+      <div>
+        
+    </li>
+    
+    <li class="clear"></li>
+    <li class="col-xs-12 borderTS1 mt10 pt10 dnone salesCount">
+      
+      <div class="col-xs-2 p0">
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">&nbsp;</span>
+        <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span  id="salesCount">0</span>人</button></div>
+      </div>
+      
+      <div class="col-xs-10">
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                 <select name="salesBusinessNature" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="">不限</option>
-                 <c:forEach items="${businessNature }" var="bu">
-                 	<option value="${bu.id }">${bu.name }</option>
-                 </c:forEach>
-                 </select>
-            <div class="cue">${loginPwdError}</div>
+          <select name="salesBusinessNature" class="w100p" onchange="selectLikeSupplier()">
+          <option value="">不限</option>
+          <c:forEach items="${businessNature }" var="bu">
+          <option value="${bu.id }">${bu.name }</option>
+          </c:forEach>
+          </select>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">保密要求：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-           <select name="salesIsHavingConCert" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="0">无</option>
-                 	<option value="1">有</option>
-                 </select>
-            <div class="cue">${loginPwdError}</div>
+          <select name="salesIsHavingConCert" class="w100p" onchange="selectLikeSupplier()">
+          <option value="0">无</option>
+          <option value="1">有</option>
+          </select>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">境外分支：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<select name="salesOverseasBranch" class="w100p" onchange="selectLikeSupplier()">
-                 	<option value="1">有</option>
-                 	<option value="0">无</option>
-                 </select>
-            <div class="cue">${loginPwdError}</div>
+          <select name="salesOverseasBranch" class="w100p" onchange="selectLikeSupplier()">
+          <option value="1">有</option>
+          <option value="0">无</option>
+          </select>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-        <li class="dnone salesCount">
-          <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span  id="salesCount">0</span>人</button></div>
-        </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input class="title col-md-12" id='salesExtractNum' name="salesExtractNum" 
-                 maxlength="11" type="text">
-            <span class="add-on">i</span>
-            <div class="cue">${loginPwdError}</div>
+          <input class="title col-md-12" id='salesExtractNum' name="salesExtractNum" 
+          maxlength="11" type="text">
+          <span class="add-on">i</span>
+          <div class="cue">${loginPwdError}</div>
           </div>
-        </li>
-        
-	        <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">销售品目：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="salesIsMulticondition" class="isSatisfy">
           <input type="hidden" name="salesCategoryIds" id="salesCategoryIds" class="categoryId">
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input class="input_group " readonly  typeCode="SALES"
-                 value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
-            <span class="add-on">i</span>
-            <div class="cue" id="dCategoryName"></div>
+          <input class="input_group " readonly  typeCode="SALES"
+          value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
+          <span class="add-on">i</span>
+          <div class="cue" id="dCategoryName"></div>
           </div>
-          </li>
-          <li class="col-md-3 col-sm-3 col-xs-3 dnone salesCount">
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">销售等级：</span>
-           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input type="hidden" name="salesLevel" >
-            <input type="text" readonly  id="salesLevel" treeHome="salesLevelContent"
-                 value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
-            <span class="add-on">i</span>
-            <div class="cue" id="dCount"></div>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+          <input type="hidden" name="salesLevel" >
+          <input type="text" readonly  id="salesLevel" treeHome="salesLevelContent"
+          value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
+          <span class="add-on">i</span>
+          <div class="cue" id="dCount"></div>
           </div>
-          </li>
-          </ul>
+        </div>
+      </div>
+      
+    </li>
+        </ul>
+          
           <div class="clear"></div>
 	         <div class="col-xs-12 tc mt20">
 	           <button class="btn" onclick="extractVerify();" type="button">人工抽取</button>
