@@ -1,7 +1,7 @@
-/*var products;
-var projects;
-var services;
-var sales;*/
+var products = 0;
+var projects = 0;
+var services = 0;
+var sales = 0;
 
 
 var successCount = 1;
@@ -213,7 +213,7 @@ $(function () {
             data: $('#form1').serialize(),// 你的formid
             async: false,
             success: function (data) {
-            	if(null!=data){
+            	if(null!=data && "" !=null){
             		if(null!=data.PRODUCTCount){
             			products = data.PRODUCTCount;
             			$("#productCount").html(products);
@@ -237,7 +237,7 @@ $(function () {
             			$("#projectCount").html(projects);
             		}
             	}else{
-            		
+            		//layer.msg("没有满足条件的供应商,检查抽取条件");
             	}
             }
         });
@@ -245,6 +245,12 @@ $(function () {
     }
     /**点击抽取--对参数进行校验*/
     function checkEmpty(){
+    	
+    	$(".cue").empty();
+    	$("#eError").empty();
+    	$("#sError").empty();
+    	$("#areaError").empty();
+    	
     	var count = 0;
     	$(".star_red").each(function(){
     		$($(this).parents("li").find("input")).each(function(index, ele){
@@ -254,12 +260,18 @@ $(function () {
     				$(ele).parents("li").find(".cue").html("不能为空");
     			}
     		});
+    		
     		/*$($(this).parents("li").find("select")).each(function(index, ele){
     			if(!ele.value){
     				$(ele).parents("li").find(".cue").html("不能为空");
     			}
     		});*/
     	});
+    	//限制地区理由是否填写
+		if("0"!=$("#province").val() && null ==$("#areaReson").val()){
+			$("#areaError"),html("不能为空");
+			count++;
+		}
     	
     	if(count>0){
     		layer.msg("请检查所填信息是否完备");
@@ -302,6 +314,8 @@ $(function () {
     }
     
     function extractVerify() {
+    	
+    	
     	//所有的必填项写一个class 验证必填 输入框要验证长度
     	if(checkEmpty()>0){
     		return false;
@@ -418,7 +432,7 @@ $(function () {
     	}
     	
     	//存储项目信息
-    	$.ajax({
+    	/*	$.ajax({
     		type: "POST",
     		url: $("#projectForm").attr('action'),
     		data:$("#projectForm").serialize(),
@@ -445,7 +459,60 @@ $(function () {
     		success: function (msg) {
     			
     		}
-    	});
+    	});*/
+    		
+    		//存储项目信息
+        	$.ajax({
+        		type: "POST",
+        		url: $("#projectForm").attr('action'),
+        		data:$("#projectForm").serialize(),
+        		dataType: "json",
+        		async:false,
+        		success: function (msg) {
+        			
+        			if(null!=msg){
+        				for ( var k in msg) {
+        					$("#"+k+"Error").html(msg[k]);
+        				}
+        				return false;
+        			}
+        		}
+        	});
+        	//存储人员信息
+        	alert();
+        	$.ajax({
+        		type: "POST",
+        		url: $("#supervise").attr('action'),
+        		data:  $("#supervise").serialize(),
+        		dataType: "json",
+        		async:false,
+        		success: function (msg) {
+        			if(null !=msg){
+        				for ( var k in msg) {
+    						$("#sError").html(msg[k]);
+    					}
+        				return false;
+        			}
+        		}
+        	});
+        	
+        	
+        	$.ajax({
+        		type: "POST",
+        		url: $("#extractUser").attr('action'),
+        		data:  $("#extractUser").serialize(),
+        		dataType: "json",
+        		async:false,
+        		success: function (msg) {
+        			if(null !=msg){
+        				for ( var k in msg) {
+    						$("#eError").html(msg[k]);
+    					}
+        				return false;
+        			}
+        		}
+        	});	
+    		
     	
     	//输入框设置只读
     	$('.extractVerify_disabled input,.extractVerify_disabled select').each(function() {
@@ -471,11 +538,11 @@ $(function () {
     	agreeCount = parseInt($(type+"ExtractNum").val())-$(obj).find("select").length;
     	
     	if($("#"+type+"ExtractNum").val()==agreeCount ){
-    		$("body").append("<button>结束</button>");
+    		$("#end").removeClass("dnone");
     		return false;
     	}
     	if($("#"+type+"ExtractNum").val()==$(obj).find("tr").length ){
-    		$("#result").append("<button class='center btn' type='button'>结束</button>");
+    		$("#end").removeClass("dnone");
     		return false;
     	}
     	
@@ -507,10 +574,14 @@ $(function () {
     					sales = su.SALES;
     				}
     			}
-    			if(null!=msg.error){
-    				$("#"+msg.error+"Error").html("不能为空");
-    				return false;
-    			}
+    			if(null !=msg){
+	    			$("#"+msg.error).html("不能为空");
+	    			return false;
+	    		}	
+	    		if(null !=msg){
+	    			$("#"+msg.error).html("不能为空");
+	    			return false;
+	    		}
     		}
     	});
     	
@@ -586,7 +657,9 @@ $(function () {
     	//获取类别
     	//var typeId = $("#supplierTypeId").val();
     	var typeCode = $(cate).attr("typeCode");
-    	cate.value = "";
+    	//重置资质tree
+    	loadQuaList("init");
+    	//cate.value = "";
         //  iframe层
         var iframeWin;
         layer.open({
@@ -692,6 +765,7 @@ $(function () {
             			$("#supplierType").append("<option value='"+data[i].code+"'> "+data[i].name+" </option>");
             			showCategoryAndLevel(data[i].code);
             		}
+            		selectLikeSupplier();
  	            }
  	        });
     	 }
@@ -707,11 +781,13 @@ $(function () {
     		 $("#"+mycars[i]+"ExtractNum").val("");
     		 $("#"+mycars[i]).val("");
 		}
+    	//obj 供应商类型
     	if(null!=obj){
     		var types = $(obj).val().split(",");
     		for(var type in types ){
     			showCategoryAndLevel(types[type]);
     		}
+    		selectLikeSupplier();
     	}
      }
      
@@ -754,7 +830,6 @@ $(function () {
 		 if(code != "project"){
 			 loadLevelTree(code+"LevelTree");
 		 }
-		 selectLikeSupplier();
      }
      
      
@@ -1021,9 +1096,12 @@ $(function () {
     }
     
     //加载工程资质
-    function loadQuaList(){
+    function loadQuaList(nodes){
+    	if(nodes=="init"){
+    		$("#quaTree").empty();
+    		return ;
+    	}
     	var cateId = $("#projectCategoryIds").val();
-    	var nodes ;
     	$.ajax({
     		url:globalPath+"/SupplierCondition/getQuaByCid.do",
              type: "POST",
@@ -1228,6 +1306,16 @@ $(function () {
     	}else{
     		layer.msg("请选择品目");
     	}
+	}
+	
+	function showQuaLevel(obj){
+		var quaId = $("#quaId").val();
+		if(null!=quaId&& ""!=quaId){
+			$("body").bind("mousedown", onBodyDownProjectLevel);
+		}else{
+			layer.msg("请选择工程资质");
+		}
+		
 	}
 	
 	//显示资质信息

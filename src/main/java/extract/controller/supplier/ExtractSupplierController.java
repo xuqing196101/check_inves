@@ -103,9 +103,12 @@ public class ExtractSupplierController extends BaseController {
      */
     @RequestMapping("/projectList")
     public String list(Integer page, Model model, Project project,@CurrentUser User user){
-    	List<SupplierExtractProjectInfo> extractRecords = expExtractRecordService.getList(page == null?1:page,user);
-    	model.addAttribute("info", new PageInfo<SupplierExtractProjectInfo>(extractRecords));
-        return "ses/sms/supplier_extracts/project_list";
+    	if(null!=user && "1".equals(user.getTypeName())){
+    		List<SupplierExtractProjectInfo> extractRecords = expExtractRecordService.getList(page == null?1:page,user);
+    		model.addAttribute("info", new PageInfo<SupplierExtractProjectInfo>(extractRecords));
+    		return "ses/sms/supplier_extracts/project_list";
+    	}
+    	return "redirect:/qualifyError.jsp";
     }
     /**
      *@Description:条件查询集合 / 跳转抽取条件页面，准备抽取
@@ -119,7 +122,9 @@ public class ExtractSupplierController extends BaseController {
    // public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId){
    public String listExtraction(@CurrentUser User user,Model model, SupplierExtractProjectInfo eRecord,String conditionId){
     	//两个入口 1.项目实施进入 2.直接进行抽取
-    	
+    	if(!(null!=user && "1".equals(user.getTypeName()))){
+    		return "redirect:/qualifyError.jsp";
+    	}
     	if(StringUtils.isEmpty(conditionId)){
     		conditionId = WfUtil.createUUID();
     		//生成一条查询条件

@@ -22,20 +22,20 @@ public class ExtractUser {
     
     private String condditionId;
     
-    @NotEmpty
-    @Length(min=1,max=5)
+    @NotEmpty(message="姓名不能为空")
+    @Length(min=1,max=5,message="姓名信息长度不能大于5")
     private String name;
     
-    @NotEmpty
-    @Length(min=1,max=50)
+    @NotEmpty(message="职务不能为空")
+    @Length(min=1,max=50,message="职务长度不能大于50")
     private String duty;
     
-    @NotEmpty
-    @Length(min=1,max=50)
+    @NotEmpty(message="公司信息不能为空")
+    @Length(min=1,max=50,message="公司信息长度不能大于50")
     private String compary;
     
-    @NotEmpty
-    @Length(min=1,max=50)
+    @NotEmpty(message="军衔不能为空")
+    @Length(min=1,max=50,message="军衔长度不能大于50")
     private String rank;
    
     private Short isDelete;

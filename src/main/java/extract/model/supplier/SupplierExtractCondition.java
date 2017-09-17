@@ -23,7 +23,16 @@ public class SupplierExtractCondition {
     * 企业性质
     */
    private String businessNature;
+   
+   /**
+    * 工程资质
+    */
 
+   private String[] quaIds;
+   
+   private String quaId;
+   
+   
     /**
      * 关联供应商
      */
@@ -711,5 +720,22 @@ public class SupplierExtractCondition {
 		this.businessNature = businessNature;
 	}
 
+	public String[] getQuaIds() {
+		return quaId.split(",");
+	}
+
+	public void setQuaIds(String[] quaIds) {
+		this.quaIds = quaIds;
+	}
+
+	public String getQuaId() {
+		return quaId;
+	}
+
+	public void setQuaId(String quaId) {
+		this.quaId = quaId;
+	}
+	
+	
 	
 }

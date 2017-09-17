@@ -181,6 +181,20 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
    */
   @Override
   public Map<String, Object> selectLikeSupplier(SupplierExtractCondition condition, SupplierConType conType,int type) {
+	
+	 Map<String, Object> list = new HashMap<>();
+	 Map<String, Object> count = new HashMap<>();
+	 Map<String, Object> map = new HashMap<>();
+	 map.put("count", count);
+	 map.put("list", list);
+	 if(StringUtils.isBlank(condition.getAreaName())){
+		 map.put("error", "areaNameError");
+		 return map;
+	 }
+	 if((!"0".equals(condition.getProvince()))&& StringUtils.isBlank(condition.getAddressReason())){
+		 map.put("error", "areaError");
+		 return map;
+	 }
 	  
 	 //此方法为公共方法 查询满足供应商数量 和供应商抽取结果  0 表示查询数量 1 表示 抽取 
 	 //去除已经抽取到的供应商
@@ -192,9 +206,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	 }
 	 
 	  
-	 Map<String, Object> list = new HashMap<>();
-	 Map<String, Object> count = new HashMap<>();
-	 Map<String, Object> map = new HashMap<>();
+	
 	//   conType=condition.getSupplierConType();
 
 	 
@@ -270,7 +282,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			}
 			if(type == 1){
 				if(null == en){
-					map.put("error",code+"ExtractNum");
+					map.put("error",code+"ExtractNumError");
 					return map;
 				}
 				
@@ -350,8 +362,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		}
 	}*/
 	
-	map.put("count", count);
-	map.put("list", list);
+	
 	return map;
   }
 

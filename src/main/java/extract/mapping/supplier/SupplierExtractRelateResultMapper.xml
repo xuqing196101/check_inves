@@ -498,6 +498,13 @@
 				 </trim>
 			</if>
 		</if>
+		<!-- 查询资质 -->
+		<if test="quaId !=null and quaId != '' ">
+			<if test="supplierTypeCode == 'PROJECT'.toString()">
+				AND  A.CERT_TYPE IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
+			</if>
+		</if>
+		<!-- 查询等级 -->
 		<if test="levelTypeId !=null and levelTypeId != '' ">
 			<choose>
 				<when test="supplierTypeCode == 'PROJECT'.toString()">

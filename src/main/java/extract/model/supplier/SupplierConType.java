@@ -1,6 +1,5 @@
 package extract.model.supplier;
 
-import javax.validation.constraints.NotNull;
 
 
 

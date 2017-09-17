@@ -50,7 +50,7 @@
 	<c:set var="flag" value="true"></c:set>
 </c:if>
     <form id="projectForm" action="<%=request.getContextPath() %>/SupplierExtracts/saveProjectInfo.do" method="post" >
-    <input type="submit"> <input type="button" value="存储项目人员信息" onclick="submitInfo()">
+    <input type="submit"> <input type="button" value="存储项目人员信息" onclick="submitInfo()"> <input onclick="showEndButton()" type="button" value="抽取完成">
         <!-- 打开类型 -->
       <%--   <input type="hidden" value="${typeclassId}" name="typeclassId" /> --%>
         <!-- 项目id  -->
@@ -287,7 +287,7 @@
                   <div class="input-append input_group col-sm-12 col-xs-12 p0">
                   	<input class="input_group " readonly name="areaName" id="area" onclick="showTree();">
                   	 <span class="add-on">i</span>
-                  	  <div class="cue" id="dCategoryName"></div>
+                  	  <div class="cue" id="areaNameError"></div>
                   </div>
               </li>
                <li class="col-md-3 col-sm-6 col-xs-12  dnone">
@@ -296,7 +296,7 @@
                       <input class="input_group" name="addressReason" id="areaReson" value=""
                              type="text">
                       <span class="add-on">i</span>
-                      <div class="cue" ></div>
+                      <div class="cue" id="areaError" ></div>
                   </div>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
@@ -337,7 +337,7 @@
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input class="title col-md-12" id='projectExtractNum' name="projectExtractNum" maxlength="11" type="text">
           <span class="add-on">i</span>
-          <div class="cue">${loginPwdError}</div>
+          <div class="cue" id=projectExtractNumError>${loginPwdError}</div>
           </div>
         </div>
         <div class="col-xs-3">
@@ -386,9 +386,21 @@
         <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>工程资质：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-          <input type="hidden" name="qua" id="quaId" >
+          
+          
+          <input type="hidden" name="quaId" id="quaId" >
           <input type="text" readonly  id="quaName" treeHome="quaContent"
-          value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" onclick="showQua(this);"/>
+         	 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" onclick="showQua(this);"/>
+         	 
+         <%--  <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" id="certType_select${certAptNumber }" title="cnjewfnAdd1" class="w100p border0" onchange="getAptLevel(this)">
+        	<option value="">请选择</option>
+			<c:forEach items="${typeList}" var="type">
+			<option value="${type.id}">${type.name}</option>
+			</c:forEach>
+		  </select>
+		  <input type="hidden" value="">  --%>
+		  
+		  
           <span class="add-on">i</span>
           <div class="cue" id="dCount"></div>
           </div>
@@ -398,7 +410,7 @@
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input type="hidden" name="projectLevel" >
           <input type="text" readonly  id="projectLevel" treeHome="projectLevelContent"
-          value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
+          value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showQuaLevel(this);"/>
           <span class="add-on">i</span>
           <div class="cue" id="dCount"></div>
           </div>
@@ -414,8 +426,16 @@
         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">&nbsp;</span>
         <div class="col-xs-2 p0"><button class="btn" type="button">当前满足<span id="serviceCount">0</span>人</button></div>
       </div>
-      
       <div class="col-xs-10">
+      <div class="col-xs-3">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+          <input class="title col-md-12" id='serviceExtractNum' name="serviceExtractNum" 
+          maxlength="11" type="text">
+          <span class="add-on">i</span>
+          <div class="cue" id="serviceExtractNumError">${loginPwdError}</div>
+          </div>
+        </div>
         <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
@@ -445,15 +465,6 @@
           <option value="1">有</option>
           <option value="0">无</option>
           </select>
-          <div class="cue">${loginPwdError}</div>
-          </div>
-        </div>
-        <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
-          <div class="input-append input_group col-sm-12 col-xs-12 p0">
-          <input class="title col-md-12" id='serviceExtractNum' name="serviceExtractNum" 
-          maxlength="11" type="text">
-          <span class="add-on">i</span>
           <div class="cue">${loginPwdError}</div>
           </div>
         </div>
@@ -492,6 +503,15 @@
       </div>
       
       <div class="col-xs-10">
+       <div class="col-xs-3">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+          <input class="title col-md-12" id='productExtractNum' name="productExtractNum"
+          maxlength="11" type="text">
+          <span class="add-on">i</span>
+          <div class="cue" id="productExtractNumError">${loginPwdError}</div>
+          </div>
+        </div>
         <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
@@ -524,15 +544,7 @@
           <div class="cue">${loginPwdError}</div>
           </div>
         </div>
-        <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
-          <div class="input-append input_group col-sm-12 col-xs-12 p0">
-          <input class="title col-md-12" id='productExtractNum' name="productExtractNum"
-          maxlength="11" type="text">
-          <span class="add-on">i</span>
-          <div class="cue">${loginPwdError}</div>
-          </div>
-        </div>
+       
         <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">生产品目：</span>
           <!--  满足多个条件 -->
@@ -568,6 +580,15 @@
       </div>
       
       <div class="col-xs-10">
+       <div class="col-xs-3">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+          <input class="title col-md-12" id='salesExtractNum' name="salesExtractNum" 
+          maxlength="11" type="text">
+          <span class="add-on">i</span>
+          <div class="cue" id="salesExtractNumError">${loginPwdError}</div>
+          </div>
+        </div>
         <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">企业性质：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
@@ -600,15 +621,7 @@
           <div class="cue">${loginPwdError}</div>
           </div>
         </div>
-        <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>供应商数量：</span>
-          <div class="input-append input_group col-sm-12 col-xs-12 p0">
-          <input class="title col-md-12" id='salesExtractNum' name="salesExtractNum" 
-          maxlength="11" type="text">
-          <span class="add-on">i</span>
-          <div class="cue">${loginPwdError}</div>
-          </div>
-        </div>
+       
         <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">销售品目：</span>
           <!--  满足多个条件 -->
@@ -727,6 +740,7 @@
                       </tbody>
                  </table>
 			</div>
+			<did class="col-xs-12 tc mt20 dnone" id="end"> <button class="center btn" onclick="alterEndInfo()">结束</button> </did>
 		</div>
 </div>
 <!-- 地区树 -->
@@ -767,309 +781,12 @@
 </div>
 
 </body>
-<script type="text/javascript">
-        /*分页  */
-        $(function() {
-        
-        alert("conditionId == ${projectInfo.conditionId}");
-        alert("recordId == ${projectInfo.id}");
-            laypage({
-                cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-                pages: "${list.pages}", //总页数
-                skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-                skip: true, //是否开启跳页
-                total: "${list.total}",
-                startRow: "${list.startRow}",
-                endRow: "${list.endRow}",
-                groups: "${list.pages}" >= 5 ? 5 : "${list.pages}", //连续显示分页数
-                curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
-
-                    return "${list.pageNum}";
-                }(),
-                jump: function(e, first) { //触发分页后的回调
-                    if(!first) { //一定要加此判断，否则初始时会无限刷新
-                        //location.href = '${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id=${projectId}&page='+e.curr;
-                    }
-                }
-            });
-
-            var typeclassId = "${typeclassId}";
-
-            if(typeclassId != null && typeclassId != "") {
-                $(".star_red").each(function(){
-                    for(var i = 2; i < 4; i++){
-                        $("#red"+i).addClass("dnone");
-                    }
-                });
-            } else {
-                for(var i = 0; i < 4; i++){
-                    $("#red"+i).addClass("dnone");
-                }
-            }
-
-
-            //获取包id
-            var projectId = "${projectId}";
-            if(projectId != null && projectId != '') {
-                $("#projectName").attr("readonly", true);
-                $("#projectNumber").attr("readonly", true);
-                $("#packageName").attr("readonly", true);
-                $("#tenderTimeId").attr("disabled", true);
-            } else {
-                $("#projectName").attr("readonly", false);
-                $("#projectNumber").attr("readonly", false);
-                $("#packageName").attr("readonly", false);
-                $("#tenderTimeId").attr("disabled", false);
-            }
-            var index = 0 ;
-            var divObj = $(".p0" + index);
-            $(divObj).removeClass("hide");
-            $("#package").removeClass("shrink");
-            $("#package").addClass("spread");
-            //对于采购机构人员进行判断
-            var isCurment = '${isCurment}';
-            if(isCurment == '1'){
-                $('.isCurment_div').removeClass('hide');
-                $('.isCurment_div').addClass('block');
-            }else if(isCurment == '0'){
-                $('.isCurment_div').removeClass('block');
-                $('.isCurment_div').addClass('hide');
-            }
-
-        });
-
-
-        function ycDiv(obj, index) {
-            if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
-                $(obj).removeClass("shrink");
-                $(obj).addClass("spread");
-            } else {
-                if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
-                    $(obj).removeClass("spread");
-                    $(obj).addClass("shrink");
-                }
-            }
-
-            var divObj = new Array();
-            divObj = $(".p0" + index);
-            for (var i =0; i < divObj.length; i++) {
-                if ($(divObj[i]).hasClass("p0"+index) && $(divObj[i]).hasClass("hide")) {
-                    $(divObj[i]).removeClass("hide");
-                } else {
-                    if ($(divObj[i]).hasClass("p0"+index)) {
-                        $(divObj[i]).addClass("hide");
-                    };
-                };
-            };
-        }
-        $(function() {
-            $("#statusBid").find("option[value='${statusBid}']").attr("selected", true);
-            var index=0;
-            var divObj = $(".p0" + index);
-            $(divObj).removeClass("hide");
-            $("#package").removeClass("shrink");
-            $("#package").addClass("spread");
-        });
-
-        /* function add(type) {
-
-            var packageId=$("#packageId").val();
-            var typeclassId = "${typeclassId}";
-            $.ajax({
-                cache: true,
-                type: "POST",
-                dataType: "json",
-                url: '${pageContext.request.contextPath}/SupplierExtracts/validateAddExtraction.do?type='+type,
-                data: $('#form').serialize(), // 你的formid
-                async: false,
-                success: function(data) {
-                    $("#projectNameError").text("");
-                    $("#projectNumberError").text("");
-                    $("#packageNameError").text("");
-                    $("#dSupervise").text("");
-                    $("#extractionSitesError").text("");
-                    var map = data;
-                    $("#projectNameError").text(map.projectNameError);
-                    $("#projectNumberError").text(map.projectNumberError);
-                    $("#packageNameError").text(map.packageNameError);
-                    $("#dSupervise").text(map.supervise);
-                    $("#extractionSitesError").text(map.extractionSitesError);
-                    var projectId = map.projectId;
-                    if(map.isSuccess=="false"){
-                        layer.alert(map.msg, {shade: 0.01});
-                        return false;
-                    }
-                    if(map.status != null && map.status != 0) {
-                        layer.confirm('上次抽取未完成，是否继续上次抽取？', {
-                            btn: ['确定','取消'], shade:0.01 //按钮
-                        }, function(){
-                            window.location.href = '${pageContext.request.contextPath}/SupplierExtracts/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
-                        }, function(){
-                            layer.closeAll();
-                        });
-                    }
-                    if(map.error == null && map.error != 'error'){
-                        if(map.sccuess == "SCCUESS") {
-                            window.location.href = '${pageContext.request.contextPath}/SupplierExtracts/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
-                        }else if(map.packageError != null && map.packageError != ''){
-                            layer.alert("请选择包", {
-                                shade: 0.01
-                            });
-                        }else if(typeclassId != null && typeclassId != ''){
-                            $("#projectId").val(projectId);
-                            $("#pId").val(projectId);
-                            if(map.type != null && map.type == '1'){
-                                var iframeWin;
-                                layer.open({
-                                    type: 2,
-                                    title: "选择包",
-                                    shadeClose: true,
-                                    shade: 0.01,
-                                    offset: '20px',
-                                    move: false,
-                                    area: ['50%', '50%'],
-                                    content: '${pageContext.request.contextPath}/SupplierExtracts/showPackage.do?projectId='+projectId,
-                                    success: function(layero, index) {
-                                        iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-                                    },
-                                    btn: ['保存', '关闭'],
-                                    yes: function() {
-                                        iframeWin.add();
-
-                                    },
-                                    btn2: function() {
-                                        layer.closeAll();
-                                    }
-                                });
-
-                            }
-                        }
-                    }
-                }
-            });
-
-        } */
-        /**抽取页面*/
-        function opens(){
-
-            window.location.href = '${pageContext.request.contextPath}/SupplierExtracts/addExtractions.html?projectId=' + pachageId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
-        }
-
-       /*  //选择监督人员
-        function supervise() {
-            //  iframe层
-            var iframeWin;
-            layer.open({
-                type: 2,
-                title: "选择监督人员",
-                shadeClose: true,
-                shade: 0.01,
-                offset: '20px',
-                move: false,
-                area: ['90%', '50%'],
-                content: '${pageContext.request.contextPath}/SupplierExtracts/showSupervise.do?projectId=${projectId}',
-                success: function(layero, index) {
-                    iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-                },
-                btn: ['保存', '关闭'],
-                yes: function() {
-                    iframeWin.add();
-
-                },
-                btn2: function() {
-                    layer.closeAll();
-                }
-            });
-        } */
-    </script>
-
-    <script type="text/javascript">
-        function showPackageType() {
-            var setting = {
-                check: {
-                    enable: true,
-                    chkboxType: {
-                        "Y": "",
-                        "N": ""
-                    }
-                },
-                view: {
-                    dblClickExpand: false
-                },
-                data: {
-                    simpleData: {
-                        enable: true,
-                        idKey: "id",
-                        pIdKey: "parentId"
-                    }
-                },
-                callback: {
-                    beforeClick: beforeClick,
-                    onCheck: onCheck
-                }
-            };
-            var projectId =$("#projectId").val();
-            $.ajax({
-                type: "GET",
-                async: false,
-                url: "${pageContext.request.contextPath}/SupplierExtracts/getpackage.do?projectId="+projectId,
-                dataType: "json",
-                success: function(zNodes) {
-                    tree = $.fn.zTree.init($("#treePackageType"), setting, zNodes);
-                    tree.expandAll(true); //全部展开
-                }
-            });
-            var cityObj = $("#packageName");
-            var cityOffset = $("#packageName").offset();
-            $("#packageContent").css({
-                left: cityOffset.left + "px",
-                top: cityOffset.top + cityObj.outerHeight() + "px"
-            }).slideDown("fast");
-            $("body").bind("mousedown", onBodyDownPackageType);
-        }
-
-        function onBodyDownPackageType(event) {
-            if(!(event.target.id == "menuBtn" || $(event.target).parents("#packageContent").length > 0)) {
-                hidePackageType();
-            }
-        }
-
-        function hidePackageType() {
-            $("#packageContent").fadeOut("fast");
-            $("body").unbind("mousedown", onBodyDownPackageType);
-
-        }
-
-        function beforeClick(treeId, treeNode) {
-            var zTree = $.fn.zTree.getZTreeObj("treePackageType");
-            zTree.checkNode(treeNode, !treeNode.checked, null, true);
-            return false;
-        }
-
-        function onCheck(e, treeId, treeNode) {
-            var zTree = $.fn.zTree.getZTreeObj("treePackageType"),
-                nodes = zTree.getCheckedNodes(true),
-                v = "";
-            var rid = "";
-            for(var i = 0, l = nodes.length; i < l; i++) {
-                v += nodes[i].name + ",";
-                rid += nodes[i].id + ",";
-            }
-            if(v.length > 0) v = v.substring(0, v.length - 1);
-            if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
-            var cityObj = $("#packageName");
-            cityObj.attr("value", v);
-            cityObj.attr("title", v);
-            $("#packageId").attr("value",rid);
-
-        }
-    </script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/ses/sms/supplierExtract.js"></script>
 <script type="text/javascript">
 function submitInfo(){
 
 	//存储项目信息
-    	/* $.ajax({
+    	$.ajax({
     		type: "POST",
     		url: $("#projectForm").attr('action'),
     		data:$("#projectForm").serialize(),
@@ -1080,7 +797,7 @@ function submitInfo(){
 					$("#"+k+"Error").html(msg[k]);
 				}
     		}
-    	}); */
+    	});
     	//存储人员信息
     	alert();
     	$.ajax({
@@ -1091,7 +808,7 @@ function submitInfo(){
     		success: function (msg) {
     			if(null !=msg){
     				for ( var k in msg) {
-						$("#supervise").find("[name='"+k+"']").val(msg[k]);
+						$("#sError").html(msg[k]);
 					}
     			}
     		},
@@ -1109,7 +826,7 @@ function submitInfo(){
     		success: function (msg) {
     			if(null !=msg){
     				for ( var k in msg) {
-						$("#extractUser").find("[name='"+k+"']").val(msg[k]);
+						$("#eError").html(msg[k]);
 					}
     			}
     		}
@@ -1139,9 +856,24 @@ function submitCondition(){
     					sales = su.SALES;
     				}
     			}
-    			
+	    		if(null !=msg){
+	    			$("#"+msg.error).html("不能为空");
+	    			return false;
+	    		}	
+	    		if(null !=msg){
+	    			$("#"+msg.error).html("不能为空");
+	    			return false;
+	    		}	
     		}
     	});
+}
+
+function showEndButton(){
+	$("#end").removeClass("dnone");
+}
+
+function alterEndInfo(){
+	layer.alert("是否需要发送短信至确认参加供应商");
 }
 </script>
 </html>
