@@ -11,45 +11,70 @@
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
         
+        if (is_init === 0) {
+          var str = '';
+          for (var orgName_i in list_content.allOrg) {
+            str += '<option value="'+ list_content.allOrg[orgName_i].shortName +'">'+ list_content.allOrg[orgName_i].shortName +'</option>';
+          }
+          $('[name=orgName]').html('<option value="">请选择</option>' + str);
+          str = '';
+          for (var expertsFrom_i in list_content.lyTypeList) {
+            str += '<option value="'+ list_content.lyTypeList[expertsFrom_i].name +'">'+ list_content.lyTypeList[expertsFrom_i].name +'</option>';
+          }
+          $('[name=expertsFrom]').html('<option value="">全部</option>' + str);
+          str = '';
+          for (var expertsTypeId_i in list_content.expTypeList) {
+            str += '<option value="'+ list_content.expTypeList[expertsTypeId_i].name +'">'+ list_content.expTypeList[expertsTypeId_i].name +'</option>';
+          }
+          $('[name=expertsTypeId]').html(str);
+          str = '';
+          $('[name=expertsTypeId]').select2({
+            placeholder: '全部',
+            closeOnSelect: false,
+            minimumResultsForSearch: -1
+          });
+        }
+        is_init ++;
+        
         if (typeof(list_content) != 'undefined') {
           $('#list_content').html('');
-          for (var i in list_content) {
-            if (typeof(list_content[i].orgName) === 'undefined') {
-              list_content[i].orgName = '';
+          for (var i in list_content.expertList) {
+            if (typeof(list_content.expertList[i].orgName) === 'undefined') {
+              list_content.expertList[i].orgName = '';
             }
-            if (typeof(list_content[i].relName) === 'undefined') {
-              list_content[i].relName = '';
+            if (typeof(list_content.expertList[i].relName) === 'undefined') {
+              list_content.expertList[i].relName = '';
             }
-            if (typeof(list_content[i].sex) === 'undefined') {
-              list_content[i].sex = '';
+            if (typeof(list_content.expertList[i].sex) === 'undefined') {
+              list_content.expertList[i].sex = '';
             }
-            if (typeof(list_content[i].workUnit) === 'undefined') {
-              list_content[i].workUnit = '';
+            if (typeof(list_content.expertList[i].workUnit) === 'undefined') {
+              list_content.expertList[i].workUnit = '';
             }
-            if (typeof(list_content[i].professTechTitles) === 'undefined') {
-              list_content[i].professTechTitles = '';
+            if (typeof(list_content.expertList[i].professTechTitles) === 'undefined') {
+              list_content.expertList[i].professTechTitles = '';
             }
-            if (typeof(list_content[i].updateTime) === 'undefined') {
-              list_content[i].updateTime = '';
+            if (typeof(list_content.expertList[i].auditAt) === 'undefined') {
+              list_content.expertList[i].auditAt = '';
             }
-            if (typeof(list_content[i].expertsTypeId) === 'undefined') {
-              list_content[i].expertsTypeId = '';
+            if (typeof(list_content.expertList[i].expertsTypeId) === 'undefined') {
+              list_content.expertList[i].expertsTypeId = '';
             }
-            if (typeof(list_content[i].expertsFrom) === 'undefined') {
-              list_content[i].expertsFrom = '';
+            if (typeof(list_content.expertList[i].expertsFrom) === 'undefined') {
+              list_content.expertList[i].expertsFrom = '';
             }
             
             $('#list_content').append('<tr>'
-              +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content[i].id +'" class="select_item"></td>'
+              +'<td class="text-center"><input name="id" type="checkbox" value="'+ list_content.expertList[i].id +'" class="select_item"></td>'
               +'<td class="text-center">'+ (parseInt(i) + 1) +'</td>'
-              +'<td>'+ list_content[i].orgName +'</td>'
-              +'<td>'+ list_content[i].relName +'</td>'
-              +'<td class="text-center">'+ list_content[i].sex +'</td>'
-              +'<td>'+ list_content[i].expertsTypeId +'</td>'
-              +'<td class="text-center">'+ list_content[i].expertsFrom +'</td>'
-              +'<td>'+ list_content[i].workUnit +'</td>'
-              +'<td>'+ list_content[i].professTechTitles +'</td>'
-              +'<td class="text-center">'+ list_content[i].updateTime +'</td>'
+              +'<td>'+ list_content.expertList[i].orgName +'</td>'
+              +'<td>'+ list_content.expertList[i].relName +'</td>'
+              +'<td class="text-center">'+ list_content.expertList[i].sex +'</td>'
+              +'<td>'+ list_content.expertList[i].expertsTypeId +'</td>'
+              +'<td class="text-center">'+ list_content.expertList[i].expertsFrom +'</td>'
+              +'<td>'+ list_content.expertList[i].workUnit +'</td>'
+              +'<td>'+ list_content.expertList[i].professTechTitles +'</td>'
+              +'<td class="text-center">'+ list_content.expertList[i].auditAt +'</td>'
             +'</tr>');
           }
           

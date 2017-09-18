@@ -1048,3 +1048,4 @@ text-align:center;
  border-color:#FF0000!important;
 }
 .break-all { word-break: break-all; }
+.select2-nosearch .select2-search-field { display: none; }

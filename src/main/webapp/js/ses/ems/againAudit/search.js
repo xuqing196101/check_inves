@@ -1,11 +1,18 @@
-// 搜索
+// 复审分配列表搜索
 function allotList_search() {
-  var relName = $('[name=relName]').val();  // 获取采购机构名称
-  var auditAt = $('[name=auditAt]').val();  // 获取提交复审时间
+  var orgName = $('[name=orgName] option:selected').val();  // 获取采购机构
+  var expertsFrom = $('[name=expertsFrom] option:selected').val();  // 获取专家类型
+  var expertsTypeId = $('[name=expertsTypeId]').val();  // 获取专家类别
+  if (expertsTypeId != null) {
+    expertsTypeId = expertsTypeId.join(',');
+  }
   $('#list_content').listConstructor({
     data: {
-      orgName: relName,
-      updatedAt: auditAt
+      orgName: orgName,
+      expertsFrom: expertsFrom,
+      expertsTypeId: expertsTypeId,
+      startTime: startTime,
+      endTime: endTime
     },
     url: list_url
   });

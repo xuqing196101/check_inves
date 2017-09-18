@@ -53,15 +53,28 @@
         <ul class="demand_list">
           <li>
             <label class="fl">采购机构：</label>
-            <input type="text" name="relName" value="${relName }">
+            <select class="w220" name="orgName"></select>
           </li>
           <li>
-            <label class="fl">提交复审时间：</label>
+            <label class="fl">初审合格时间：</label>
             <span>
-              <input id="auditAt" name="auditAt" class="Wdate w178 fl" value='<fmt:formatDate value="${auditAt}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()">
+              <input id="quaStartDate" name="quaStartDate" class="Wdate w220" type="text" value="" onfocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){quaStartDate.focus();},maxDate:'#F{$dp.$D(\'quaEdndate\')}'})">
+              <span>-</span>
+              <input id="quaEdndate" name="quaEdndate" value="" class="Wdate w220" type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'quaStartDate\')}'})">
             </span>
           </li>
-          <li>
+          <li class="mt10">
+            <label class="fl">专家类型：</label>
+            <select class="w220" name="expertsFrom"></select>
+          </li>
+          <li class="mt10 select2-nosearch">
+            <label class="fl">专家类别：</label>
+            <div class="fl w220">
+            <select multiple name="expertsTypeId">
+            </select>
+            </div>
+          </li>
+          <li class="mt10">
             <button type="button" class="btn mb5" onclick="allotList_search()">查询</button>
             <button type="reset" class="btn mb5">重置</button>
           </li>
@@ -88,7 +101,7 @@
             <th class="info">专家类别</th>
             <th class="info">工作单位</th>
             <th class="info">专业职称</th>
-            <th class="info">提交复审时间</th>
+            <th class="info">初审合格时间</th>
           </tr>
         </thead>
         <tbody id="list_content"></tbody>
@@ -122,7 +135,7 @@
           <th class="info w50">序号</th>
           <th class="info">专家姓名</th>
           <th class="info">专业职称</th>
-          <th class="info">提交复审时间</th>
+          <th class="info">初审合格时间</th>
         </tr>
       </thead>
       <tbody id="crb_content"></tbody>
@@ -137,12 +150,38 @@
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/againAuditList.do';  // 列表地址
     var batch_url = '${pageContext.request.contextPath}/expertAgainAudit/createBatch.do';  // 创建复审批次地址
     var select_ids = [];  // 选择的专家id集合
+    var is_init = 0;
+    // var str = '';
+    // var orgName = [];
+    // var expertsFrom = [];
+    // var expertsTypeId = [];
     
     $(function () {
       // 构建列表
       $('#list_content').listConstructor({
         url: list_url
       });
+      
+      // for (var orgName_i in orgName) {
+      //   str += '<option value="'+ orgName[orgName_i].shortName +'">'+ orgName[orgName_i].shortName +'</option>';
+      // }
+      // $('[name=orgName]').html('<option value="">请选择</option>' + str);
+      // str = '';
+      // for (var expertsFrom_i in expertsFrom) {
+      //   str += '<option value="'+ expertsFrom[expertsFrom_i].name +'">'+ expertsFrom[expertsFrom_i].name +'</option>';
+      // }
+      // $('[name=expertsFrom]').html('<option value="">全部</option>' + str);
+      // str = '';
+      // for (var expertsTypeId_i in expertsTypeId) {
+      //   str += '<option value="'+ expertsTypeId[expertsTypeId_i].name +'">'+ expertsTypeId[expertsTypeId_i].name +'</option>';
+      // }
+      // $('[name=expertsTypeId]').html('<option value="">全部</option>' + str);
+      // str = '';
+      // $('[name=expertsTypeId]').select2({
+      //   placeholder: '全部',
+      //   closeOnSelect: false,
+      //   minimumResultsForSearch: -1
+      // });
     });
   </script>
     
