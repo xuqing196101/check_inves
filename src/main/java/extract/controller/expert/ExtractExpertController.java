@@ -21,6 +21,7 @@ import ses.model.bms.AreaZtree;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.ems.Expert;
 import ses.model.ems.ExtConType;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -33,8 +34,10 @@ import com.alibaba.fastjson.JSON;
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
+import extract.model.expert.ExpertExtractResult;
 import extract.service.expert.ExpertExtractConditionService;
 import extract.service.expert.ExpertExtractProjectService;
+import extract.service.expert.ExpertExtractResultService;
 
 
 /**
@@ -77,6 +80,10 @@ public class ExtractExpertController {
     /** 字典 **/
     @Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;
+    
+    /** 专家抽取结果 **/
+    @Autowired
+    private ExpertExtractResultService expertExtractResultService;
 
     /**
      * 
@@ -125,10 +132,61 @@ public class ExtractExpertController {
     public String saveProjectInfo(ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception{
         //保存项目基本信息
         expertExtractProjectService.save(expertExtractProject);
-         //查询抽取结果信息
+        //查询抽取结果信息
         Map<String, Object> result = expertExtractConditionService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
         //保存抽取条件
         ExpertExtractCondition condition = expertExtractConditionService.save(expertExtractCondition,expertExtractCateInfo);
+        //判断是否保存候补专家
+        String[] typeCodes = expertExtractCondition.getExpertKindId().split(",");
+        StringBuffer codes = new StringBuffer();
+        for (int i = 0; i < typeCodes.length; i++) {
+			if(i == 0){
+				codes.append(DictionaryDataUtil.findById(typeCodes[i]) == null ? "" : DictionaryDataUtil.findById(typeCodes[i]).getCode());
+			}else{
+				codes.append(",");
+				codes.append(DictionaryDataUtil.findById(typeCodes[i]) == null ? "" : DictionaryDataUtil.findById(typeCodes[i]).getCode());
+			}
+		}
+        expertExtractCondition.setExpertKindId(codes.toString());
+        if(expertExtractCondition.getIsExtractAlternate() == 1){
+        	if(expertExtractCondition.getExpertKindId().indexOf(",") >= 0){
+        		//有两个专家类别
+        		for (String str : expertExtractCondition.getExpertKindId().split(",")) {
+        			Map<String, Object> result22 = expertExtractConditionService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
+					@SuppressWarnings("unchecked")
+					List<Expert> list = (List<Expert>)result22.get(str);
+					if(list != null && list.size() > 0){
+						ExpertExtractResult expertExtractResult = new ExpertExtractResult();
+						expertExtractResult.setIsAlternate((short)1);
+						expertExtractResult.setExpertId(list.get(0).getId());
+						expertExtractResult.setProjectId(expertExtractProject.getId());
+						expertExtractResult.setConditionId(condition.getId());
+						expertExtractResult.setReviewTime(expertExtractProject.getReviewTime());
+						expertExtractResult.setIsJoin((short)1);
+						expertExtractResult.setExpertCode(str);
+						expertExtractResultService.save(expertExtractResult);
+					}
+        		}
+        	}else{
+        		//有一个专家类别
+        		for(int i=0; i<2; i++){
+        			Map<String, Object> result22 = expertExtractConditionService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
+					@SuppressWarnings("unchecked")
+					List<Expert> list = (List<Expert>)result22.get(expertExtractCondition.getExpertKindId());
+					if(list != null && list.size() > 0){
+						ExpertExtractResult expertExtractResult = new ExpertExtractResult();
+						expertExtractResult.setIsAlternate((short)1);
+						expertExtractResult.setExpertId(list.get(0).getId());
+						expertExtractResult.setProjectId(expertExtractProject.getId());
+						expertExtractResult.setConditionId(condition.getId());
+						expertExtractResult.setReviewTime(expertExtractProject.getReviewTime());
+						expertExtractResult.setIsJoin((short)1);
+						expertExtractResult.setExpertCode(expertExtractCondition.getExpertKindId());
+						expertExtractResultService.save(expertExtractResult);
+					}
+        		}
+        	}
+        }
         result.put("conditionId", condition.getId());
         return JSON.toJSONString(result);
     }

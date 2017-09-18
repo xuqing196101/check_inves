@@ -283,8 +283,8 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                 List<ExpertBlackList> blackList = expertBlackListMapper.findAllBlackListExpert(0);
                 if(blackList != null && blackList.size() > 0){
                     for (ExpertBlackList ebl : blackList) {
-                        if( !"".equals(ebl.getExpertId())){
-                            notExpertIds.add(ebl.getExpertId());
+                        if(ebl.getExpertId() != null && !"".equals(ebl.getExpertId())){
+                        	notExpertIds.add(ebl.getExpertId());
                         }
                     }
                 }

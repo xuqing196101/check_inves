@@ -220,59 +220,60 @@
       <div class="container_box col-md-12 col-sm-12 col-xs-12">
       <div id="div_2">
         <h2 class="count_flow"><i>2</i>人员信息</h2>
-        <ul class="ul_list">
-          <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="star_red">*</span><b> 抽取人员:</b></span>
-          <form action="<%=request.getContextPath()%>/extractUser/addPerson.html" onsubmit="return false" id="extractUser">
-            <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
-              <input type="hidden" value="extractUser" id="eu" name="personType">
-              <input type="hidden" name="recordId" value="${projectInfo.id }"> 
-              <input type="button" class="btn btn-windows add" onclick="addPerson(this)" value="新增">
-              <input type="button" class="btn btn-windows delete" onclick="delPerson(this)" value="删除">
-              <input type="button" class="btn btn-windows input" onclick="selectHistory(this)" value="引用历史人员">
-            </div>
-            <div class="clear"></div>
-            <table class="table table-bordered table-condensed table_input mt10">
-              <thead>
-                <tr>
-                  <th class="info"><input type="checkbox" onclick="checkAll(this)"></th>
-                  <th class="info">序号</th>
-                  <th class="info" width="15%">姓名</th>
-                  <th class="info" width="40%">单位</th>
-                  <th class="info" width="15%">职务</th>
-                  <th class="info" width="15%">军衔</th>
-                </tr>
+		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="red">*</span><b> 抽取人员:</b></span><span  class="red" id="eError"></span>
+		 <form action="<%=request.getContextPath() %>/extractUser/addPerson.do" onsubmit="return false" id="extractUser">
+		 <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
+		 	<input type="hidden" value="extractUser" id="eu" name="personType">
+		 	<input type="hidden" name="recordId" value="${projectId}">
+		 	<input type="button" class="btn btn-windows add"  onclick="addPerson(this)" value="新增">
+		 	<input type="button" class="btn btn-windows delete" onclick="delPerson(this)" value="删除">
+		 	<input type="button" class="btn btn-windows input" onclick="selectHistory(this)" value="引用历史人员">
+		 </div>
+		 <div class="clear"></div>
+		  <table class="table table-bordered table-condensed table_input mt10">
+              <thead>				
+	              <tr>
+	                  <th class="info"><input type="checkbox" onclick="checkAll(this)"> </th>
+	                  <th class="info">序号</th>
+	                  <th class="info" width="15%">姓名</th>
+	                  <th class="info" width="40%">单位</th>
+	                  <th class="info" width="15%">职务</th>
+	                  <th class="info" width="15%">军衔</th>
+	              </tr>
               </thead>
-              <tbody></tbody>
-            </table>
-          </form>
-          <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="star_red">*</span><b> 监督人员:</b></span>
-          <form action="<%=request.getContextPath()%>/supervise/addPerson.html" id="supervise" onsubmit="return false">
-            <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
-              <input type="hidden" name="recordId" value="${projectInfo.id }">
-              <input type="hidden" value="supervise" id="su" name="personType">
-              <input type="button" class="btn btn-windows add" onclick="addPerson(this)" value="新增">
-              <input type="button" class="btn btn-windows delete" onclick="delPerson(this)" value="删除">
-              <input type="button" class="btn btn-windows input" onclick="selectHistory(this)" value="引用历史人员">
-            </div>
-            <div class="clear"></div>
-            <table
-              class="table table-bordered table-condensed table_input mt10">
-              <thead>
-                <tr>
-                  <th class="info"><input type="checkbox" onclick="checkAll(this)"></th>
-                  <th class="info">序号</th>
-                  <th class="info" width="15%">姓名</th>
-                  <th class="info" width="40%">单位</th>
-                  <th class="info" width="15%">职务</th>
-                  <th class="info" width="15%">军衔</th>
-                </tr>
+              <tbody>
+            
+            </tbody>
+          </table>
+       </form>      
+		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="red">*</span><b> 监督人员:</b></span><span  class="red" id="sError"></span>
+		  <form action="<%=request.getContextPath() %>/supervise/addPerson.do" id="supervise"  onsubmit="return false" >
+		  <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
+		  <input type="hidden" name="recordId" value="${projectId}">
+		 	 <input type="hidden" value="supervise" id="su" name="personType">
+		 	<input type="button" class="btn btn-windows add" onclick="addPerson(this)" value="新增">
+		 	<input type="button" class="btn btn-windows delete" onclick="delPerson(this)" value="删除">
+		 	<input type="button" class="btn btn-windows input" onclick="selectHistory(this)" value="引用历史人员">
+		 </div>
+		 <div class="clear"></div>
+		  <table class="table table-bordered table-condensed table_input mt10">
+              <thead>				
+	              <tr>
+	                  <th class="info"><input type="checkbox" onclick="checkAll(this)"> </th>
+	                  <th class="info">序号</th>
+	                  <th class="info" width="15%">姓名</th>
+	                  <th class="info" width="40%">单位</th>
+	                  <th class="info" width="15%">职务</th>
+	                  <th class="info" width="15%">军衔</th>
+	              </tr>
               </thead>
-              <tbody></tbody>
-            </table>
-          </form>
-        </ul>
+              <tbody>
+              
+            </tbody>
+          </table>
+       </form>
       </div>
-      </div>
+      </div><input type = "button" value = "wqe" onclick="savePerson()">
       <h2 class="count_flow"><i>3</i>抽取条件</h2>
       <div id="div_3">
       <!--地区id -->
@@ -319,7 +320,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 抽取总人数:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" type="text" name="extractNum" id="extractNum" onchange="getCount(this)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+              <input class="span5" type="text" name="extractNum" id="extractNum" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
               <div class="cue" id="err_extractNum"></div>
             </div>
           </li>
@@ -334,9 +335,7 @@
           </li>
           <li class="col-md-5 col-sm-5 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">&nbsp;</span>
-            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-            注：选择"是"，取完满足人数后，需要抽取两名候补专家
-            </div>
+            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">注：选择"是"，取完满足人数后，需要抽取两名候补专家</div>
           </li>
         </form>
         <!-- 工程技术 -->
@@ -348,7 +347,7 @@
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 工程技术人数:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" typeCode="PROJECT" id="project_i_count" name="project_i_count" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+                  <input class="span5" type="text" typeCode="PROJECT" id="project_i_count" name="project_i_count" onchange="vaCount(this)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
                   <div class="cue" id="err_project_i_count"></div>
                 </div>
               </li>
@@ -396,7 +395,7 @@
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 工程经济人数:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="goods_project_i_count" id="goods_project_i_count" typeCode="GOODS_PROJECT" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+                  <input class="span5" type="text" name="goods_project_i_count" id="goods_project_i_count" typeCode="GOODS_PROJECT" onchange="vaCount(this)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
                   <div class="cue" id="err_goods_project_i_count"></div>
                 </div>
               </li>
@@ -445,7 +444,7 @@
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 物资技术人数:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" typeCode="GOODS" id="goods_i_count" name="goods_i_count" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+                  <input class="span5" type="text" typeCode="GOODS" id="goods_i_count" name="goods_i_count" onchange="vaCount(this)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
                   <div class="cue" id="err_goods_i_count"></div>
                 </div>
               </li>
@@ -478,7 +477,7 @@
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 物资服务经济人数:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="goods_server_i_count" id="goods_server_i_count" typeCode="GOODS_SERVER" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+                  <input class="span5" type="text" name="goods_server_i_count" id="goods_server_i_count" typeCode="GOODS_SERVER" onchange="vaCount(this)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
                   <div class="cue" id="err_goods_server_i_count"></div>
                 </div>
               </li>
@@ -511,7 +510,7 @@
               <li class="col-md-3 col-sm-4 col-xs-12 pl15 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 服务技术人数:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="service_i_count" id="service_i_count" typeCode="SERVICE" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+                  <input class="span5" type="text" name="service_i_count" id="service_i_count" typeCode="SERVICE" onchange="vaCount(this)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
                   <div class="cue" id="err_service_i_count"></div>
                 </div>
               </li>

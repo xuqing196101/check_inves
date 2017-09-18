@@ -11,7 +11,7 @@ import java.util.Date;
  * @since JDK1.7
  */
 public class ExpertExtractResult {
-    
+
     /**
      * 主键
      */
@@ -35,7 +35,7 @@ public class ExpertExtractResult {
     /**
      * 评审时间
      */
-    private String reviewTime;
+    private Date reviewTime;
 
     /**
      * 是否参加 1 参加 2 待定3不参加
@@ -61,6 +61,24 @@ public class ExpertExtractResult {
      * 修改时间
      */
     private Date updatedAt;
+
+    /**
+     * 是否为候补专家
+     */
+    private Short isAlternate;
+
+    /**
+     * 专家类别
+     */
+    private String expertCode;
+
+    public String getExpertCode() {
+        return expertCode;
+    }
+
+    public void setExpertCode(String expertCode) {
+        this.expertCode = expertCode;
+    }
 
     public String getId() {
         return id;
@@ -94,12 +112,12 @@ public class ExpertExtractResult {
         this.conditionId = conditionId == null ? null : conditionId.trim();
     }
 
-    public String getReviewTime() {
+    public Date getReviewTime() {
         return reviewTime;
     }
 
-    public void setReviewTime(String reviewTime) {
-        this.reviewTime = reviewTime == null ? null : reviewTime.trim();
+    public void setReviewTime(Date reviewTime) {
+        this.reviewTime = reviewTime;
     }
 
     public Short getIsJoin() {
@@ -141,5 +159,13 @@ public class ExpertExtractResult {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-    
+
+    public Short getIsAlternate() {
+        return isAlternate;
+    }
+
+    public void setIsAlternate(Short isAlternate) {
+        this.isAlternate = isAlternate;
+    }
+
 }

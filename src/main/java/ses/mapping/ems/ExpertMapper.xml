@@ -2578,14 +2578,14 @@ resultMap="BaseResultMap">
             </foreach>
         </if>
         <!-- 工程专业信息 -->
-        <if test="engSize > 0">
+        <if test="engSize != null and engSize > 0">
           AND ID IN 
             <foreach item="item" index="index" collection="expertEngIds" open="(" separator="," close=")">  
               #{item}  
             </foreach>
         </if>
         <!-- 去掉已经抽取过的专家 -->
-        <if test="notSize > 0">
+        <if test="notSize != null and notSize > 0">
            AND ID NOT IN 
              <foreach item="item" index="index" collection="notExpertIds" open="(" separator="," close=")">  
                #{item}  

@@ -6,16 +6,18 @@
     <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
     <result column="EXPERT_ID" property="expertId" jdbcType="VARCHAR" />
     <result column="CONDITION_ID" property="conditionId" jdbcType="VARCHAR" />
-    <result column="REVIEW_TIME" property="reviewTime" jdbcType="VARCHAR" />
+    <result column="REVIEW_TIME" property="reviewTime" jdbcType="TIMESTAMP" />
     <result column="IS_JOIN" property="isJoin" jdbcType="DECIMAL" />
     <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="EXPERT_CODE" property="expertCode" jdbcType="VARCHAR" />
     <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="IS_ALTERNATE" property="isAlternate" jdbcType="DECIMAL" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, PROJECT_ID, EXPERT_ID, CONDITION_ID, REVIEW_TIME, IS_JOIN, REASON, IS_DELETED,
-    CREATED_AT, UPDATED_AT
+    CREATED_AT, UPDATED_AT,IS_ALTERNATE,EXPERT_CODE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
@@ -29,12 +31,12 @@
   </delete>
   <insert id="insert" parameterType="extract.model.expert.ExpertExtractResult">
     insert into T_SES_EMS_EXTRACT_RESULT (ID, PROJECT_ID, EXPERT_ID,
-    CONDITION_ID, REVIEW_TIME, IS_JOIN, REASON, IS_DELETED, CREATED_AT, UPDATED_AT)
+    CONDITION_ID, REVIEW_TIME, IS_JOIN, REASON, IS_DELETED, CREATED_AT, UPDATED_AT,IS_ALTERNATE,EXPERT_CODE)
     values (#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
     #{expertId,jdbcType=VARCHAR},
-    #{conditionId,jdbcType=VARCHAR}, #{reviewTime,jdbcType=VARCHAR}, #{isJoin,jdbcType=DECIMAL},
+    #{conditionId,jdbcType=VARCHAR}, #{reviewTime,jdbcType=TIMESTAMP}, #{isJoin,jdbcType=DECIMAL},
     #{reason,jdbcType=VARCHAR},#{isDeleted,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP},
-      #{updatedAt,jdbcType=TIMESTAMP})
+      #{updatedAt,jdbcType=TIMESTAMP},#{isAlternate,jdbcType=DECIMAL},#{expertCode,jdbcType=VARCHAR},)
   </insert>
   <insert id="insertSelective" parameterType="extract.model.expert.ExpertExtractResult">
     insert into T_SES_EMS_EXTRACT_RESULT
@@ -69,6 +71,12 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
+      <if test="isAlternate != null">
+        IS_ALTERNATE,
+      </if>
+      <if test="expertCode != null">
+        EXPERT_CODE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -84,7 +92,7 @@
         #{conditionId,jdbcType=VARCHAR},
       </if>
       <if test="reviewTime != null">
-        #{reviewTime,jdbcType=VARCHAR},
+        #{reviewTime,jdbcType=TIMESTAMP},
       </if>
       <if test="isJoin != null">
         #{isJoin,jdbcType=DECIMAL},
@@ -101,6 +109,12 @@
       <if test="updatedAt != null">
         #{updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="isAlternate != null">
+        #{isAlternate,jdbcType=DECIMAL},
+      </if>
+      <if test="expertCode != null">
+        #{expertCode,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="extract.model.expert.ExpertExtractResult">
@@ -116,7 +130,7 @@
         CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
       </if>
       <if test="reviewTime != null">
-        REVIEW_TIME = #{reviewTime,jdbcType=VARCHAR},
+        REVIEW_TIME = #{reviewTime,jdbcType=TIMESTAMP},
       </if>
       <if test="isJoin != null">
         IS_JOIN = #{isJoin,jdbcType=DECIMAL},
@@ -133,6 +147,12 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="isAlternate != null">
+        IS_ALTERNATE = #{isAlternate,jdbcType=DECIMAL},
+      </if>
+      <if test="expertCode != null">
+        EXPERT_CODE = #{expertCode,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -141,12 +161,14 @@
     set PROJECT_ID = #{projectId,jdbcType=VARCHAR},
     EXPERT_ID = #{expertId,jdbcType=VARCHAR},
     CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
-    REVIEW_TIME = #{reviewTime,jdbcType=VARCHAR},
+    REVIEW_TIME = #{reviewTime,jdbcType=TIMESTAMP},
     IS_JOIN = #{isJoin,jdbcType=DECIMAL},
     REASON = #{reason,jdbcType=VARCHAR},
     IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
     CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-    UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+    UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+    IS_ALTERNATE = #{isAlternate,jdbcType=DECIMAL},
+    EXPERT_CODE = #{expertCode,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   

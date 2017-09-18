@@ -7,9 +7,9 @@ $(function() {
 
     //加载审核人员
     for ( var i = 0; i < 2; i++) {
-        addPerson($("#eu"));
-        addPerson($("#su"));
-    }
+		addPerson($("#eu"));
+	}
+    addPerson($("#su"));
 });
 
 (function($){  
@@ -59,6 +59,7 @@ function artificial_extracting(){
 	if(!validationIsNull(code)){
 		return;
 	}
+	savePerson();
 	$("#isAuto").val(0);
     //项目信息
     var proRuestl_1 = $("#form").serializeJson();//数据序列化
@@ -181,23 +182,17 @@ function validationIsNull(code){
 	}else{
 		$("#err_contactNum").html("");
 	}
-	//抽取总人数
-	var extractNum = $("#extractNum").val();
-	if(extractNum == null || extractNum == ""){
-		$("#err_extractNum").html("抽取总人数不能为空");
-		flag = false;
-	}else{
-		$("#err_extractNum").html("");
-	}
 	//每个品目的人数
     var strs = new Array(); //定义一数组 
     strs = code.split(",");
+    var num = 0;
 	for(var i=0; i<strs.length; i++){
 		var v = $("#"+strs[i].toLowerCase()+"_i_count").val();
 		if(v == null || v == ""){
 			$("#err_"+strs[i].toLowerCase()+"_i_count").html("人数不能为空");
 			flag = false;
 		}else{
+			num += parseInt(coUndifined(v));
 			$("#err_"+strs[i].toLowerCase()+"_i_count").html("");
 		}
 		//工程特有的工程专业信息验证
@@ -211,7 +206,38 @@ function validationIsNull(code){
 			}
 		}
 	}
-	
+	//抽取总人数
+	var extractNum = $("#extractNum").val();
+	if(extractNum == null || extractNum == ""){
+		$("#err_extractNum").html("抽取总人数不能为空");
+		flag = false;
+	}else if(num > parseInt(coUndifined(extractNum))){
+		layer.msg("不能大于抽取总人数");
+		flag = false;
+	}else{
+		$("#err_extractNum").html("");
+	}
+	//人员校验
+	var count1 = 0;
+	var count2 = 0;
+	$("#extractUser").find("input").each(function(){
+		if($(this).val().length<1){
+			count1++;
+		}
+	});
+	$("#supervise").find("input").each(function(){
+		if($(this).val().length<1){
+			count2++;
+		}
+	});
+	if(count1 > 0){
+		flag = false;
+		$("#eError").html("抽取人员信息必须填写完整");
+	}
+	if(count2 > 0){
+		flag = false;
+		$("#sError").html("监督人员信息必须填写完整");
+	}
 	return flag;
 }
 
@@ -261,6 +287,8 @@ function isJoin(select){
     }
     var count = parseInt($("#"+code+"_result_count").text());
     var no = parseInt($("#"+code+"_result_no").text());
+    //当前类别输入的总人数
+    var codeCount = parseInt(coUndifined($("#"+code.toLowerCase()+"_i_count").val()));
     var x, y;
     var oRect = select.getBoundingClientRect();
     x = oRect.left - 450;
@@ -278,7 +306,7 @@ function isJoin(select){
                 title: '不参加理由'
             }, function (value, index, elem) {
                 layer.close(index);
-                saveResult($(select).parents("tr").find("input").first().val(),value,v);
+                saveResult($(select).parents("tr").find("input").first().val(),value,v,code);
                 $(select).parent().parent().remove();
                 $("#"+code+"_result_no").text(no + 1);
                 if(flag){
@@ -291,12 +319,16 @@ function isJoin(select){
                 }
             });
         }else if(v == "1"){
-            saveResult($(select).parents("tr").find("input").first().val(),"",v);
+            saveResult($(select).parents("tr").find("input").first().val(),"",v,code);
             $(select).parents("td").html("能参加");
             $(select).remove();
             $("#"+code+"_result_count").text(count + 1);
             if(flag){
-                getExpert(code);
+            	//验证如果人数满足条件  就不在追加显示了
+            	var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
+            	if(ww < codeCount){
+            		getExpert(code);
+            	}
             }else{
                 var i=0;
                 $("#"+code+"_result").find("tr").each(function(){
@@ -304,9 +336,13 @@ function isJoin(select){
                 });
             }
         }else if(v == "2"){
-            saveResult($(select).parents("tr").find("input").first().val(),"",v);
+            saveResult($(select).parents("tr").find("input").first().val(),"",v,code);
             if(flag){
-                getExpert(code);
+            	//验证如果人数满足条件  就不在追加显示了
+            	var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
+            	if(ww < codeCount){
+            		getExpert(code);
+            	}
             }else{
                 var i=0;
                 $("#"+code+"_result").find("tr").each(function(){
@@ -322,7 +358,7 @@ function isJoin(select){
 
 
 //保存抽取结果
-function saveResult(expertId,value,join){
+function saveResult(expertId,value,join,code){
     var conditionId = $("#conditionId").val();
     var projectId = $("#projectId").val();
     var reviewTime = $("#reviewTime").val();
@@ -334,7 +370,8 @@ function saveResult(expertId,value,join){
             "reason" : value,
             "isJoin" : join,
             "reviewTime" : reviewTime,
-            "expertId" : expertId
+            "expertId" : expertId,
+            "expertCode" : code
         },
         dataType : "json",
         async : false,
@@ -546,6 +583,11 @@ function getCount(cate){
             for(var key in data){
                 if(key != "conditionId"){
                     $("#"+key+"_count").text(data[key].length);
+                    if(data[key].length == 0){
+                    	$("#"+key+"_count").parent().css({backgroundColor: 'red'});
+                    }else{
+                    	$("#"+key+"_count").parent().css({backgroundColor: '#2c9fa6'});
+                    }
                 }
             }
         },
@@ -555,7 +597,33 @@ function getCount(cate){
     });
 }
 
-
+//抽取人数限制
+function vaCount(cate){
+	var count = $("#extractNum").val();
+	if(coUndifined(count) == ""){
+		layer.msg("请先输入抽取总人数");
+		return;
+	}
+	var v = $(cate).val();
+	if(coUndifined(v) == ""){
+		return;
+	}
+	if(parseInt(v) > parseInt(count)){
+		layer.msg("不能大于抽取总人数");
+		return;
+	}
+	var code = $("#expertKind option:selected").val();
+	var strs = new Array(); //定义一数组 
+    strs = code.split(",");
+    var num = 0;
+    for (var i = 0; i < strs.length; i++) {
+    	num += parseInt(coUndifined($("#"+strs[i].toLowerCase()+"_i_count").val()));
+	}
+	if(num > parseInt(count)){
+		layer.msg("不能大于抽取总人数");
+		return;
+	}
+}
 /**展示品目*/
 function opens(cate) {
     var typeCode = $(cate).attr("typeCode");
@@ -731,34 +799,34 @@ function hideArea() {
 
 //增加
 function addPerson(obj){
-    var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();
-    var input = $(obj).parents("form").find("tr:last").find("td:first").find("input").prop("name");//.substring(4,6);//.attr("req");
-    var req ;
-    if(null==input ||''==input || "undefined"== input){
-        req=0;
-    }else{
-        req = parseInt(input.substring(5,6)) + 1;
-    }
-    if(null==index ||''==index || "undefined"== index){
-        index=0;
-    }
-    var id = uuid();//生成id
-    var tr = "<tr class='inp'><td class='tc'><input type='checkbox' name='list["+req+"].id'  value='"+id+"'><input type='hidden' name='list["+req+"].id'  value='"+id+"'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input type='text' name='list["+req+"].name' > </td><td class='tc'> <input type='text' class='w100p' name='list["+req+"].compary' ></td><td class='tc'> <input type='text' name='list["+req+"].duty'></td><td class='tc'> <input type='text' name='list["+req+"].rank'></td></tr>";
-    $(obj).parents("form").find("tbody").append(tr);
+	var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();
+	var input = $(obj).parents("form").find("tr:last").find("td:first").find("input").prop("name");//.substring(4,6);//.attr("req");
+	var req ;
+	if(null==input ||''==input || "undefined"== input){
+		req=0;
+	}else{
+		req = parseInt(input.substring(5,6)) + 1;
+	}
+	if(null==index ||''==index || "undefined"== index){
+		index=0;
+	}
+	var id = uuid();//生成id
+	var tr = "<tr class='inp'><td class='tc'><input type='checkbox' name='list["+req+"].id'  value='"+id+"'><input type='hidden' name='list["+req+"].id'  value='"+id+"'></td><td class='tc'> "+(parseInt(index)+1)+" </td><td class='tc'> <input type='text' name='list["+req+"].name' > </td><td class='tc'> <input type='text' class='w100p' name='list["+req+"].compary' ></td><td class='tc'> <input type='text' name='list["+req+"].duty'></td><td class='tc'> <input type='text' name='list["+req+"].rank'></td></tr>";
+	$(obj).parents("form").find("tbody").append(tr);
 }
 
 //引用历史人员
 function selectHistory(obj){
-    //当前是抽取人员还是监督人员
-    var personType = $(obj).parents("form").attr("id");
-    //弹窗加载人员列表
-    var iframeWin;
+	//当前是抽取人员还是监督人员
+	var personType = $(obj).parents("form").attr("id");
+	//弹窗加载人员列表
+	var iframeWin;
     layer.open({
         type: 2,
         title: "引用历史人员",
         shadeClose: true,
         shade: 0.01,
-        area: ['430px', '400px'],
+        area: ['600px', '400px'],
         offset: '20px',
         content: globalPath+'/'+personType+'/toPeronList.do?personType='+personType, //iframe的url
         success: function (layero, index) {
@@ -769,29 +837,76 @@ function selectHistory(obj){
             iframeWin.chosePerson(obj);
         }
     });
-    
+	
 }
 
 //删除
 function delPerson(obj){
-    $(obj).parents("form").find("tbody").find(":checked").each(function(){
-        $(this).parents("tr").remove();
-    });
-    //更新序号
-    var i=1;
-    $(obj).parents("form").find("tbody").find("tr").each(function(){
-        var o = $(this).find("td").eq(1).html(i++);
-    });
-    /*for ( var i = 1; i <= trs.length; i++) {
-        $(trs[i-1]).find("td :eq(1)").html(i);
-    }*/
+	$(obj).parents("form").find("tbody").find(":checked").each(function(){
+		$(this).parents("tr").remove();
+	});
+	//更新序号
+	var i=1;
+	$(obj).parents("form").find("tbody").find("tr").each(function(){
+		var o = $(this).find("td").eq(1).html(i++);
+	});
+	/*for ( var i = 1; i <= trs.length; i++) {
+		$(trs[i-1]).find("td :eq(1)").html(i);
+	}*/
+	
+	//修改inputlist序号
+	var j = 0;
+	$(obj).parents("form").find("tr").each(function(){
+		if($(this).find("input[type='text']").length>0){
+			$(this).find("td:eq(0) input[type=hidden]").prop('name', 'list['+j+'].id');
+			$(this).find("td:eq(0) input[type=checkbox]").prop('name', 'list['+j+'].id');
+			$(this).find("td:eq(2) input[type=text]").prop('name', 'list['+j+'].name');
+			$(this).find("td:eq(3) input[type=text]").prop('name', 'list['+j+'].compary');
+			$(this).find("td:eq(4) input[type=text]").prop('name', 'list['+j+'].duty');
+			$(this).find("td:eq(5) input[type=text]").prop('name', 'list['+j+'].rank');
+			j++;
+		}
+	});
 }
 
 //全选全不选
 function checkAll(obj){
-    $(obj).parents("table").find(":checkbox").prop("checked",$(obj).is(':checked'));
+	$(obj).parents("table").find(":checkbox").prop("checked",$(obj).is(':checked'));
 }
 
+
+function savePerson(){
+	//存储人员信息
+	$.ajax({
+		type: "POST",
+		url: $("#supervise").attr('action'),
+		data:  $("#supervise").serialize(),
+		dataType: "json",
+		async:false,
+		success: function (msg) {
+			if(null !=msg){
+				for ( var k in msg) {
+					$("#supervise").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
+				}
+			}
+		}
+	});
+	
+	$.ajax({
+		type: "POST",
+		url: $("#extractUser").attr('action'),
+		data:  $("#extractUser").serialize(),
+		dataType: "json",
+		async:false,
+		success: function (msg) {
+			if(null !=msg){
+				for ( var k in msg) {
+					$("#extractUser").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
+				}
+			}
+		}
+	});	
+}
 //生成uuid
 function uuid() {
     var s = [];
