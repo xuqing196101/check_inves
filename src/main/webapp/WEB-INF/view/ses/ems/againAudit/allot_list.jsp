@@ -58,9 +58,9 @@
           <li>
             <label class="fl">初审合格时间：</label>
             <span>
-              <input id="quaStartDate" name="quaStartDate" class="Wdate w220" type="text" value="" onfocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){quaStartDate.focus();},maxDate:'#F{$dp.$D(\'quaEdndate\')}'})">
+              <input id="startTime" name="startTime" class="Wdate w220" type="text" value="" onfocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){startTime.focus();},maxDate:'#F{$dp.$D(\'endTime\')}'})">
               <span>-</span>
-              <input id="quaEdndate" name="quaEdndate" value="" class="Wdate w220" type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'quaStartDate\')}'})">
+              <input id="endTime" name="endTime" value="" class="Wdate w220" type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'startTime\')}'})">
             </span>
           </li>
           <li class="mt10">
@@ -76,7 +76,7 @@
           </li>
           <li class="mt10">
             <button type="button" class="btn mb5" onclick="allotList_search()">查询</button>
-            <button type="reset" class="btn mb5">重置</button>
+            <button type="reset" class="btn mb5" id="againAudit_reset">重置</button>
           </li>
         </ul>
         <div class="clear"></div>
@@ -151,10 +151,6 @@
     var batch_url = '${pageContext.request.contextPath}/expertAgainAudit/createBatch.do';  // 创建复审批次地址
     var select_ids = [];  // 选择的专家id集合
     var is_init = 0;
-    // var str = '';
-    // var orgName = [];
-    // var expertsFrom = [];
-    // var expertsTypeId = [];
     
     $(function () {
       // 构建列表
@@ -162,26 +158,9 @@
         url: list_url
       });
       
-      // for (var orgName_i in orgName) {
-      //   str += '<option value="'+ orgName[orgName_i].shortName +'">'+ orgName[orgName_i].shortName +'</option>';
-      // }
-      // $('[name=orgName]').html('<option value="">请选择</option>' + str);
-      // str = '';
-      // for (var expertsFrom_i in expertsFrom) {
-      //   str += '<option value="'+ expertsFrom[expertsFrom_i].name +'">'+ expertsFrom[expertsFrom_i].name +'</option>';
-      // }
-      // $('[name=expertsFrom]').html('<option value="">全部</option>' + str);
-      // str = '';
-      // for (var expertsTypeId_i in expertsTypeId) {
-      //   str += '<option value="'+ expertsTypeId[expertsTypeId_i].name +'">'+ expertsTypeId[expertsTypeId_i].name +'</option>';
-      // }
-      // $('[name=expertsTypeId]').html('<option value="">全部</option>' + str);
-      // str = '';
-      // $('[name=expertsTypeId]').select2({
-      //   placeholder: '全部',
-      //   closeOnSelect: false,
-      //   minimumResultsForSearch: -1
-      // });
+      $('#againAudit_reset').on('click', function () {
+        $('[name=expertsTypeId]').select2('val', '');
+      });
     });
   </script>
     

@@ -13,7 +13,6 @@
         var userType = data.userType;
         
         $('#head_tit').html(list_content.batchName);
-        console.log(userType);
         // 按钮判断
         if (userType === '4') {
           $('#btn_group').html('<button type="button" class="btn btn-windows group" onclick="jump_batchGroup()">批次分组</button>'

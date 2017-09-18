@@ -343,86 +343,6 @@ function del_members() {
 
 // 设置密码
 function set_password() {
-  var ids = select_ids.join(',');
-  var password = $('input[name=password]');  // 新密码
-  var password2 = $('input[name=password2]');  // 确认新密码
-  
-  if (ids === '') {
-    layer.msg('请至少选择一名专家', {
-      offset: '100px'
-    });
-  } else {
-    var index = layer.open({
-      title: ['设置新密码'],
-      shade: 0.3, //遮罩透明度
-      type : 1,
-      area : ['300px'], //宽高
-      content : $('#modal_setPwd'),
-      btn: ['确定', '取消'],
-      yes: function() {
-        if (password.val() != password2.val()) {
-          layer.msg('请确认两次密码一致！', {
-            offset: '100px'
-          });
-          password2.val('').focus();
-          return false;
-        } else {
-          $.ajax({
-            type: 'POST',
-            dataType: 'json',
-            url: setPwd_url,
-            data: {
-              ids: ids,
-              password: password.val(),
-              password2: password2.val()
-            },
-            success: function (data) {
-              if (data.status) {
-                layer.msg(data.message, {
-                  offset: '100px'
-                });
-                for (var i in select_ids) {
-                  $('#list_content .select_item').each(function () {
-                    if (select_ids[i] === $(this).val()) {
-                      $(this).prop('checked', false);
-                      return false;
-                    }
-                  });
-                }
-                select_ids = [];
-                password.val('');
-                password2.val('');
-                $('[name=checkAll]').prop('checked', false);
-                $('#list_content').listConstructor({
-                  url: list_url,
-                  data: {
-                    groupId: getUrlParam('groupId')
-                  }
-                });
-                layer.close(index);
-              } else {
-                layer.msg(data.message, {
-                  offset: '100px'
-                });
-                return false;
-              }
-            }
-          });
-        }
-      },
-      btn2: function() {
-        password.val('');
-        password2.val('');
-        layer.close(index);
-      }
-    });
-  }
-}
-
-// 设置新添加用户密码
-function set_passWord() {
-  var list_index = [];
-  var empty_sum = 0;
   var password = $('input[name=password]');  // 新密码
   var password2 = $('input[name=password2]');  // 确认新密码
   
@@ -448,21 +368,31 @@ function set_passWord() {
         password2.val('');
         return false;
       } else {
-        for (var i in list_index) {
-          list[list_index[i]].passWord = password.val();
-          $('#list_content .select_item').each(function (index) {
-            if (list_index[i] === index) {
-              $(this).prop('checked', false);
+        $.ajax({
+          type: 'POST',
+          dataType: 'json',
+          url: setPwd_url,
+          data: {
+            password: password.val(),
+            password2: password2.val()
+          },
+          success: function (data) {
+            if (data.status) {
+              layer.msg(data.message, {
+                offset: '100px'
+              });
+              password.val('');
+              password2.val('');
+              layer.close(index);
+              location.reload();
+            } else {
+              layer.msg(data.message, {
+                offset: '100px'
+              });
+              return false;
             }
-          });
-          $('#list_content tr').eq(list_index[i]).find('td').eq(5).html('已设置密码');
-        }
-        layer.msg('操作成功', {
-          offset: '100px'
+          }
         });
-        password.val('');
-        password2.val('');
-        layer.close(index);
       }
     },
     btn2: function() {
@@ -472,6 +402,60 @@ function set_passWord() {
     }
   });
 }
+
+// 设置新添加用户密码
+// function set_newPassword() {
+//   var list_index = [];
+//   var empty_sum = 0;
+//   var password = $('input[name=password]');  // 新密码
+//   var password2 = $('input[name=password2]');  // 确认新密码
+//   
+//   var index = layer.open({
+//     title: ['设置新密码'],
+//     shade: 0.3, //遮罩透明度
+//     type : 1,
+//     area : ['300px'], //宽高
+//     content : $('#modal_setPwd'),
+//     btn: ['确定', '取消'],
+//     yes: function() {
+//       if (password.val() != password2.val()) {
+//         layer.msg('请确认两次密码一致！', {
+//           offset: '100px'
+//         });
+//         password2.val('').focus();
+//         return false;
+//       } else if (password.val().length < 6) {
+//         layer.msg('请输入大于6位的密码！', {
+//           offset: '100px'
+//         });
+//         password.val('').focus();
+//         password2.val('');
+//         return false;
+//       } else {
+//         for (var i in list_index) {
+//           list[list_index[i]].passWord = password.val();
+//           $('#list_content .select_item').each(function (index) {
+//             if (list_index[i] === index) {
+//               $(this).prop('checked', false);
+//             }
+//           });
+//           $('#list_content tr').eq(list_index[i]).find('td').eq(5).html('已设置密码');
+//         }
+//         layer.msg('操作成功', {
+//           offset: '100px'
+//         });
+//         password.val('');
+//         password2.val('');
+//         layer.close(index);
+//       }
+//     },
+//     btn2: function() {
+//       password.val('');
+//       password2.val('');
+//       layer.close(index);
+//     }
+//   });
+// }
 
 // 结束审核组成员配置
 function save_editMembers() {

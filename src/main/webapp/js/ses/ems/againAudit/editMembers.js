@@ -17,7 +17,7 @@
             if (list_content.password === 0) {
               $('#pwd_msg').html('密码未设置');
             } else {
-              $('#set_newPassword').prop('disabled', true);
+              $('#set_password').prop('disabled', true);
             }
             
             // 判断用户名是否已有

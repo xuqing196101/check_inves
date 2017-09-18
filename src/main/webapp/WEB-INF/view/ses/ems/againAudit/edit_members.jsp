@@ -45,7 +45,7 @@
     <div class="col-md-12 pl20 mt10 mb10">
       <span>审核组用户名：</span>
       <input type="text" class="form-control m0" name="loginName" placeholder="请输入用户名" onblur="checkOnly(this)">
-      <button type="button" class="btn btn-windows setPwd" onclick="set_newPassword()" id="set_newPassword">设置密码</button>
+      <button type="button" class="btn btn-windows setPwd" onclick="set_password()" id="set_password">设置密码</button>
       <span id="pwd_msg" class="red"></span>
     </div>
     
