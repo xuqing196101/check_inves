@@ -1204,13 +1204,13 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	@RequestMapping("auditReasons")
 	@ResponseBody
-	public JdcgResult auditReasons(SupplierAudit supplierAudit, HttpServletRequest request, HttpServletResponse response, Supplier supplier) throws IOException {
+	public JdcgResult auditReasons(SupplierAudit supplierAudit, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		User user = (User) request.getSession().getAttribute("loginUser");
 		if(user ==null){
 			return null;
 		}
 		String id = supplierAudit.getSupplierId();
-		supplier = supplierAuditService.supplierById(id);
+		Supplier supplier = supplierAuditService.supplierById(id);
 
 		supplierAudit.setStatus(supplier.getStatus());
 		supplierAudit.setCreatedAt(new Date());

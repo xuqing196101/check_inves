@@ -327,7 +327,7 @@
 					<h2 class="count_flow"><i>1</i>审核汇总信息</h2>
 					<div class="ul_list count_flow">
 						<c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 4 or (sign == 3 and supplierStatus == 5)}">
-						  <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
+						  <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>
 						</c:if>
 						<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 							<thead>
