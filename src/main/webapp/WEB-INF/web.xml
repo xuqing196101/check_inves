@@ -45,7 +45,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-
+	<!--spring整合redis实现session共享过滤器配置-->
 	<filter>
 		<filter-name>springSessionRepositoryFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
