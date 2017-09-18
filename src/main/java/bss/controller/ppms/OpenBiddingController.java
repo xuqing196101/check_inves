@@ -545,7 +545,7 @@ public class OpenBiddingController extends BaseSupplierController{
     if(project.getPurchaseType().equals(id)){
       return makeNotices(user, projectId, PURCHASE_NOTICE, model, flowDefineId);
     }else{
-      return makeNotice(projectId, PURCHASE_NOTICE, model, flowDefineId);
+      return makeNotice(user, projectId, PURCHASE_NOTICE, model, flowDefineId);
     }
 
   }
@@ -733,7 +733,7 @@ public class OpenBiddingController extends BaseSupplierController{
    * @return 
    */
   @RequestMapping("/winNotice")
-  public String winNotice(String projectId, Model model, String flowDefineId){
+  public String winNotice(@CurrentUser User user, String projectId, Model model, String flowDefineId){
     Project project = projectService.selectById(projectId);
     if (project != null) {
         DictionaryData dictionaryData = DictionaryDataUtil.findById(project.getPlanType());
@@ -741,7 +741,7 @@ public class OpenBiddingController extends BaseSupplierController{
           model.addAttribute("rootCode", dictionaryData.getCode());
         }
     }
-    return makeNotice(projectId, WIN_NOTICE, model, flowDefineId);
+    return makeNotice(user, projectId, WIN_NOTICE, model, flowDefineId);
   }
 
   @RequestMapping("/showTime")
@@ -2868,7 +2868,7 @@ public class OpenBiddingController extends BaseSupplierController{
    * @param model
    * @return
    */
-  public String makeNotice(String projectId, String noticeType, Model model, String flowDefineId){
+  public String makeNotice(User user, String projectId, String noticeType, Model model, String flowDefineId){
     Project project = projectService.selectById(projectId);
     ArticleType articleType = new ArticleType();
     Article article = new Article();
@@ -3121,6 +3121,18 @@ public class OpenBiddingController extends BaseSupplierController{
         getDefaultTemplate(projectId, model, WIN_NOTICE);
       }
     }
+    FlowExecute flowExecute = new FlowExecute();
+    flowExecute.setFlowDefineId(flowDefineId);
+    flowExecute.setProjectId(projectId);
+    List<FlowExecute> findFlowExecute = flowMangeService.findFlowExecute(flowExecute);
+    if (findFlowExecute != null && !findFlowExecute.isEmpty()) {
+		for (FlowExecute flowExecute2 : findFlowExecute) {
+			if (!StringUtils.equals(user.getId(), flowExecute2.getOperatorId())) {
+				model.addAttribute("operatorId", 1);
+				break;
+			}
+		}
+	}
     Article art = new Article();
     article.setProjectId(projectId);
     //查询公告列表中是否有该项目的招标公告

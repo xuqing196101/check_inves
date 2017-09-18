@@ -94,7 +94,6 @@
     function finish() {
       layer.confirm('确定之后不可修改，是否确定？', {
         btn: ['确定', '取消'],
-        offset: ['100px', '300px'],
         shade: 0.01
       }, function(index) {
         $.ajax({
@@ -103,7 +102,7 @@
           dataType: "json",
           success: function(data) {
             if(data == "SCCUESS") {
-              window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}&&flowDefineId=${flowDefineId}&&isFinish=1';
+              window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}&flowDefineId=${flowDefineId}&isFinish=1';
             } else {
               layer.alert("请选择中标供应商", {
                 offset: ['100', '300px'],

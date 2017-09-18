@@ -212,7 +212,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <div class="col-md-12 col-sm-12 col-xs-12 pl20 mt10">
         <input class="btn fl" value="评审" type="button" onclick="review()">
       </div>
-      <div class="container margin-top-5">
+      <div class="col-md-12 col-sm-12 col-xs-12 pl20 mt10">
        <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>

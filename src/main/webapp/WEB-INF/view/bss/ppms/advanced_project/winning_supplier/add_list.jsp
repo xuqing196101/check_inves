@@ -119,7 +119,9 @@
           if($(this).parent().parent().find(":input[name='goodsName']").val() == null || $(this).parent().parent().find(":input[name='goodsName']").val() == "") {
             validateFlag = "goodsName";
           }
-          if($(this).parent().parent().find(":input[name='unitPrice']").val() == null || $(this).parent().parent().find(":input[name='unitPrice']").val() == "") {
+          var unitPrices = $(this).parent().parent().find(":input[name='unitPrice']").val();
+          unitPrices = $.trim(unitPrices);
+          if(unitPrices == null || unitPrices == "") {
             validateFlag = "unitPrice";
           }
 

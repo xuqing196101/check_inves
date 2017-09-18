@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
@@ -70,7 +72,7 @@ public class FirstAuditController {
 	  * @return String
 	 */
 	@RequestMapping("/toAdd")
-	public String toAdd(String projectId, Model model, String flowDefineId, String msg){
+	public String toAdd(@CurrentUser User user, String projectId, Model model, String flowDefineId, String msg){
 		try {
 		    Project project = projectService.selectById(projectId);
 		    HashMap<String, Object> map = new HashMap<String, Object>();
@@ -87,9 +89,11 @@ public class FirstAuditController {
               }
               //是否维护符合性审查项
               if (fas == null || fas.size() <= 0) {
-                packages2.setIsEditFirst(0);
+            	  project.setStatus(DictionaryDataUtil.getId("ZBWJNZZ"));
+            	  packages2.setIsEditFirst(0);
               } else {
-                packages2.setIsEditFirst(1);
+            	  
+            	  packages2.setIsEditFirst(1);
               }
             }
             //查询项目下所有的符合性审查项
@@ -106,7 +110,7 @@ public class FirstAuditController {
             List<FlowExecute> executes = flowMangeService.findFlowExecute(flowExecute);
             if(executes != null && executes.size() > 0){
                 for (FlowExecute flowExecute2 : executes) {
-                    if(flowExecute2.getStatus() == 3){
+                    if(!StringUtils.equals(user.getId(), flowExecute2.getOperatorId()) || flowExecute2.getStatus() == 3){
                         project.setConfirmFile(1);
                         break;
                     }

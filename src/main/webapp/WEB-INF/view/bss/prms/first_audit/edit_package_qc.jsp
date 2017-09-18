@@ -370,16 +370,15 @@
 		       </li>
 		       <li>
 	            <label class="fl">模板选择</label>
-	            </li>
-	            <li>
-					<select id="fatId" class="w180">
+	            <select id="fatId" class="w180">
 		               <%-- <c:forEach items="${firstAuditTemplats}" var="fat">
 		                    <option value="${fat.id}">${fat.name}</option>
 		                </c:forEach> --%>
 		            </select>
-	           </li>
-	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定选择</button>
+	            </li>
+	           
 	           <div class="pull-right">
+	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定选择</button>
 	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入包模板</button>
 	           </div>
 	        </ul>

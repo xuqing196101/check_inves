@@ -501,12 +501,19 @@ public class ProjectServiceImpl implements ProjectService {
               String typeId = DictionaryDataUtil.getId("PROJECT_BID");
               List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
               if(files != null && files.size() > 0){
-                  jsonObj.put("success", true);
+            	  Project project = projectMapper.selectProjectByPrimaryKey(projectId);
+            	  if (project != null && project.getConfirmFile() == 3) {
+            		  jsonObj.put("success", true);
+            	  } else {
+            		  jsonObj.put("success", false);
+                      jsonObj.put("msgs", "请审核采购文件");
+            	  }
+                  
               } else {
                   jsonObj.put("success", false);
-                  jsonObj.put("msgs", "请完善信息");
+                  jsonObj.put("msgs", "请上传采购文件");
               }
-
+              
             }else {
                 jsonObj.put("success", true);
             }

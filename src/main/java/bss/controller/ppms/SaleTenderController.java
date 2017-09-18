@@ -195,7 +195,6 @@ public class SaleTenderController {
     }
     DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
     model.addAttribute("status", findById.getCode());
-    model.addAttribute("kind", DictionaryDataUtil.find(5));
     model.addAttribute("packageList", lists);
     model.addAttribute("project", project);
     model.addAttribute("supplierName",supplierName);

@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.oms.util.CommonConstant;
 import ses.model.oms.util.Ztree;
@@ -59,6 +61,7 @@ import bss.service.prms.FirstAuditTemplatService;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 /**
  * 
  * 版权：(C) 版权所有 
@@ -849,7 +852,7 @@ public class IntelligentScoringController extends BaseController{
 	
 	
 	@RequestMapping("packageList")
-	public String packageList(@ModelAttribute Packages packages,Model model,HttpServletRequest request,String flowDefineId, String msg){
+	public String packageList(@CurrentUser User user, @ModelAttribute Packages packages,Model model,HttpServletRequest request,String flowDefineId, String msg){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("projectId", packages.getProjectId());
 		Project project = projectService.selectById(packages.getProjectId());
@@ -912,7 +915,7 @@ public class IntelligentScoringController extends BaseController{
         List<FlowExecute> executes = flowMangeService.findFlowExecute(flowExecute);
         if(executes != null && executes.size() > 0){
             for (FlowExecute flowExecute2 : executes) {
-                if(flowExecute2.getStatus() == 3){
+                if(!StringUtils.equals(user.getId(), flowExecute2.getOperatorId()) || flowExecute2.getStatus() == 3){
                     project.setConfirmFile(1);
                     break;
                 }

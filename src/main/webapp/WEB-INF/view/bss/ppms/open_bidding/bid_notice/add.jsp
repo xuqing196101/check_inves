@@ -16,6 +16,10 @@
 				$(this).hide();
             }); 
             $("#a").hide();
+            $("input[type='radio']").each(function(){
+            	$(this).attr("disabled",true); 
+            });
+            $("input[name='categoryName']").attr("disabled",true); 
 		}
     })  
     
@@ -409,7 +413,7 @@
 					<div class="star_red">*</div>发布范围：
 				</span>
 				<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
-		            <label class="fl margin-bottom-0"><input type="radio" name="ranges" value="0">内网</label>
+		            <label class="fl margin-bottom-0"><input type="radio" name="ranges"  value="0">内网</label>
 		            <label class="ml30 fl"><input type="radio" name="ranges" value="2" >内外网</label>
 				</div>
 			</li>
@@ -419,7 +423,7 @@
 				</span>
 				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
 					<input id="cId" name="categoryIds"  type="hidden" value="${categoryIds}">
-			        <input id="categorySel"  type="text" name="categoryName" readonly value="${categoryNames}"  onclick="showCategory('${articleId}');" />
+			        <input id="categorySel"  type="text" name="categoryName"  readonly value="${categoryNames}"  onclick="showCategory('${articleId}');" />
 					<div class="drop_up" onclick="showCategory('${articleId}');">
 					    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
 			        </div>
@@ -443,7 +447,8 @@
                           <%-- 上传附件： 
              <u:upload id="a" groups="a,c" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
              <u:show  showId="b" groups="b,d,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/> --%>
-     				
+     			<c:if test="${operatorId eq null}">
+     			
      		  <li class="col-md-3 col-sm-6 col-xs-12 pl15 mt5">
 	              <span class="fl" >公告附件：</span>
 	               <u:upload id="a" groups="a,c,e"  buttonName="上传附件" businessId="${articleId}" multiple="true" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
@@ -459,6 +464,7 @@
 	                <u:upload id="e" exts="png,jpeg,jpg,bmp" groups="a,c,f" multiple="true" businessId="${articleId}"  sysKey="${sysKey}" typeId="${security}" auto="true" />
                   <u:show  showId="f"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${security}"/>
               </li>
+              </c:if>	
            </ul>
                   <!-- 按钮 -->
         <div class="w100p tc fl">

@@ -180,7 +180,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
    * @see ses.service.sms.SupplierExtUserServicel#downLoadBiddingDoc()
    */
   @Override
-  public String downLoadBiddingDoc(HttpServletRequest request,String projectId,int type,String suppliersID) throws Exception {
+  public String downLoadBiddingDoc(HttpServletRequest request,String projectId,int type,String suppliersID,Object...param) throws Exception {
     Map<String, Object> datamap = new HashMap<>();
     //经济评审
     List<MarkTerm> listScoreEconomy = new ArrayList<MarkTerm>();

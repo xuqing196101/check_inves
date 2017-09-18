@@ -125,7 +125,9 @@
             shade: 0.01
           });
         } else {
-          layer.open({
+        	var bool = verify();
+        	if(bool){
+        		layer.open({
             type: 2, //page层
             area: ['80%', '300px'],
             title: '下达',
@@ -136,9 +138,35 @@
             content: '${pageContext.request.contextPath}/advancedProject/attachment.html?proName=' + proName +
                     '&projectNumber=' + projectNumber + '&department=' + department + '&purchaseType=' + purchaseType + '&ids=' + ids + '&planType=' + planType + '&organization=' + organization,
             });
+        	} else {
+        		$("#sps").html("项目编号已存在").css('color', 'red');
+        		$("#projectNumber").focus();
+        	}
+          
           
         }
 
+      }
+      
+      function verify() {
+      	var bool = true;
+        var projectNumber = $("#projectNumber").val();
+        $.ajax({
+          url: "${pageContext.request.contextPath}/advancedProject/verify.html",
+          type: "post",
+          data: {"projectNumber" : projectNumber},
+          dataType: "text",
+          async: false,
+          success: function(data) {
+          		if(data == "false"){
+          			$("#sps").html("项目编号已存在").css('color', 'red');
+          			bool = false;
+          		} else {
+          			$("#sps").html("");
+          		}
+          },
+        });
+        return bool;
       }
 
       function goBack() {
@@ -188,9 +216,9 @@
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>预研项目编号</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                <input id="projectNumber" type="text" class="input_group" name="projectNumber" />
+                <input id="projectNumber" type="text" class="input_group" name="projectNumber" onblur="verify();"/>
                 <span class="add-on">i</span>
-                <div class="cue">${ERR_projectNumber}</div>
+                <div class="cue" id="sps">${ERR_projectNumber}</div>
               </div>
             </li>
           </ul>

@@ -2145,8 +2145,6 @@ public class ProjectController extends BaseController {
     public String editPackName(HttpServletRequest request){
         String name = request.getParameter("name");
         String id = request.getParameter("id");
-        String projectId = request.getParameter("projectId");
-        Project project = projectService.selectById(projectId);
         Packages pk = new Packages();
         pk.setId(id);
         pk.setName(name);
@@ -3617,9 +3615,9 @@ public class ProjectController extends BaseController {
         		if(viewDetail != null && viewDetail.size() > 0){
         			List<ProjectDetail> showDetail = detailService.showDetail(viewDetail, projectId);
         			if(showDetail != null && showDetail.size() > 0){
-        				List<ProjectDetail> details = paixu(showDetail,projectId);
-        				sorts(details);
-        				model.addAttribute("list", details);
+        				//List<ProjectDetail> details = paixu(showDetail,projectId);
+        				sorts(showDetail);
+        				model.addAttribute("list", showDetail);
         			}
         			//查询包
     				HashMap<String, Object> map = new HashMap<>();
@@ -3633,9 +3631,9 @@ public class ProjectController extends BaseController {
     		                if(detailList != null && detailList.size() > 0){
     		                	List<ProjectDetail> showPackDetail = detailService.showPackDetail(detailList, projectId);
     		                	if(showPackDetail != null && showPackDetail.size() > 0){
-    		                		List<ProjectDetail> projectDetails = paixu(showPackDetail,projectId);
-    		                		sorts(projectDetails);
-    		                		ps.setProjectDetails(projectDetails);
+    		                		//List<ProjectDetail> projectDetails = paixu(showPackDetail,projectId);
+    		                		sorts(showPackDetail);
+    		                		ps.setProjectDetails(showPackDetail);
     		                	}
     		                }
 						}

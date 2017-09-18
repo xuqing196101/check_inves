@@ -101,25 +101,25 @@
       }
 
       
-      var flag = true;
-      function verify(ele) {
-        var projectNumber = $(ele).val();
+       function verify() {
+      	var bool = true;
+        var projectNumber = $("#projectNumber").val();
         $.ajax({
           url: "${pageContext.request.contextPath}/project/verify.html",
           type: "post",
-          data: "projectNumber=" + projectNumber,
-          dataType: "json",
+          data: {"projectNumber" : projectNumber},
+          dataType: "text",
+          async: false,
           success: function(data) {
-            var datas = eval("(" + data + ")");
-            if(datas == false) {
-              $("#sps").html("项目编号已存在").css('color', 'red');
-              flag = false;
-            } else {
-              $("#sps").html("");
-              flag = true;
-            }
+          		if(data == "false"){
+          			$("#sps").html("项目编号已存在").css('color', 'red');
+          			bool = false;
+          		} else {
+          			$("#sps").html("");
+          		}
           },
         });
+        return bool;
       }
 
       function nextStep() {
@@ -133,10 +133,7 @@
         chkItems = $.trim(chkItems);
         name = $.trim(name);
         projectNumber = $.trim(projectNumber);
-        if(flag == false){
-          //$("#sps").html("项目编号已存在").css('color', 'red');
-          $("#projectNumber").focus();
-        }else if(name == "") {
+        if(name == "") {
           layer.tips("项目名称不允许为空", "#name");
           $("#name").focus();
         } else if(projectNumber == "") {
@@ -145,30 +142,22 @@
         }else if(!chkItems){
           layer.alert("请选择明细");
         } else {
-          $.ajax({
-          url: "${pageContext.request.contextPath}/project/verifyType.html",
-          type: "post",
-          data: "chkItems=" + ids,
-          dataType: "json",
-          success: function(data) {
-            var datas = eval("(" + data + ")");
-            if(datas == false) {
-              layer.alert("采购方式不一样，请重新选择！");
-            } else {
-              layer.open({
-                    type: 2, //page层
-                    area: ['800px', '500px'],
-                    title: '请上传项目批文',
-                    shade: 0.01, //遮罩透明度
-                    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-                    shift: 1, //0-6的动画形式，-1不开启
-                    shadeClose: true,
-                    content: '${pageContext.request.contextPath}/project/nextStep.html?id=${id}'+ '&name=' + name + '&projectNumber=' + projectNumber+'&checkId='+ids,
-               });
-            }
-          },
-        });
-		      
+        	var bool = verify();
+        	if(bool){
+        		layer.open({
+	             type: 2, //page层
+	             area: ['800px', '500px'],
+	             title: '请上传项目批文',
+	             shade: 0.01, //遮罩透明度
+	             moveType: 1, //拖拽风格，0是默认，1是传统拖动
+	             shift: 1, //0-6的动画形式，-1不开启
+	             shadeClose: true,
+	             content: '${pageContext.request.contextPath}/project/nextStep.html?id=${id}'+ '&name=' + name + '&projectNumber=' + projectNumber+'&checkId='+ids,
+	          });
+        	} else {
+        		$("#sps").html("项目编号已存在").css('color', 'red');
+        		$("#projectNumber").focus();
+        	}
         }
       }
       

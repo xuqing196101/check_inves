@@ -681,7 +681,12 @@
             <div class="margin-bottom-0  categories">
               <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
                 <div>报批文件：</div>
-                <u:show showId="upload_id" groups="upload123,upload_id" delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}" />
+                <c:if test="${project.parentId ne null}">
+                	<u:show showId="upload_id" groups="upload123,upload_id" delete="false" businessId="${project.parentId}" sysKey="2" typeId="${dataIds}" />
+                </c:if>
+                <c:if test="${project.parentId eq null}">
+                	<u:show showId="upload_id" groups="upload123,upload_id" delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}" />
+                </c:if>
               </form>
             </div>
           </div>

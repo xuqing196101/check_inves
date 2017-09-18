@@ -1260,19 +1260,23 @@ public class ExpExtractRecordController extends BaseController {
     if (result.hasErrors()){
       type = 1;
     }
-    if (loginName == null || "".equals(loginName)){
+    if (StringUtils.isBlank(loginName)){
       model.addAttribute("loginNameError", "不能为空");
       /*if (loginName == null || !loginName.matches("^\\w{6,20}$")) {
         model.addAttribute("loginNameError", "登录名由6-20位字母数字和下划线组成 !");
       }*/
       type = 1;
     }else{
-      //校验用户名是否存在
-      List<User> users = userService.findByLoginName(loginName);
-      if (users.size() > 0){
-        type = 1;
-        model.addAttribute("loginNameError", "用户名已存在");
-      }
+    	if (!loginName.matches("^\\w{6,20}$")) {
+            model.addAttribute("loginNameError", "登录名由6-20位字母数字和下划线组成 !");
+        } else {
+        	//校验用户名是否存在
+            List<User> users = userService.findByLoginName(loginName);
+            if (users.size() > 0){
+              type = 1;
+              model.addAttribute("loginNameError", "用户名已存在");
+            }
+        }
     }
     if(StringUtils.isEmpty(mobile)){
         model.addAttribute("mobile", "不能为空");

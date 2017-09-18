@@ -12,6 +12,7 @@ import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -142,13 +143,19 @@ public class WinningSupplierController extends BaseController {
    */
   @RequestMapping("/selectSupplier")
   public String selectWinningSupplier(Model model, String projectId, String flowDefineId){
+	  int num = 0;
     List<Packages> packList = packageService.listSupplierCheckPass(projectId);
     for(Packages pg:packList){
+    	
       Packages ps = packageService.selectByPrimaryKeyId(pg.getId());
       if(ps!=null&&ps.getProjectStatus()!=null){
         DictionaryData ds = DictionaryDataUtil.findById(ps.getProjectStatus());
         pg.setProjectStatus(ds.getCode());
+         if (!StringUtils.equals(ds.getCode(), "ZJZXTP")) {
+			num++;
+		}
       }
+      
     }
     model.addAttribute("packList", packList);
     model.addAttribute("projectId", projectId);
@@ -157,7 +164,7 @@ public class WinningSupplierController extends BaseController {
     DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
     //获取已有中标供应商的包组
     String[] packcount = checkPassService.selectWonBid(projectId);
-    if (packList.size() != packcount.length){
+    if (num != packcount.length){
       model.addAttribute("error", ERROR);
     }
     model.addAttribute("kind", findById.getCode());
@@ -808,8 +815,15 @@ public class WinningSupplierController extends BaseController {
     map.put("projectId", projectId);
     List<Packages> findPackageById = packageService.findPackageById(map);
     //对比
+    int num = 0;
     if (findPackageById != null && findPackageById.size() != ZERO){
-      if (findPackageById.size() != packList.length){
+    	for (Packages packages : findPackageById) {
+    		DictionaryData data = DictionaryDataUtil.findById(packages.getProjectStatus());
+			if (!StringUtils.equals(data.getCode(), "ZJZXTP")) {
+				num++;
+			}
+		}
+      if (num != packList.length){
         return JSON.toJSONString(ERROR);
       } else {
         flowMangeService.flowExe(sq, flowDefineId, projectId, 1);

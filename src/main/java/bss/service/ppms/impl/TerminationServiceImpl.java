@@ -902,6 +902,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
     project.setCreateAt(new Date());
     project.setName(project.getName()+title);
     project.setProjectNumber(project.getProjectNumber()+title);
+    project.setConfirmFile(null);
     //project.setSupplierNumber(null);
     //project.setDeadline(null);
     //project.setBidDate(null);

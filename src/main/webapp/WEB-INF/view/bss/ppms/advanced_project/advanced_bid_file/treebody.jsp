@@ -661,7 +661,18 @@ function judge(index) {
   
   
   function associate(){
+  	if(!checkSpace("评审指标名称",$("#name").val())){
+			return false;
+		}
+		if(!checkSpace("评审指标内容及规则说明",$("#reviewContent").val())){
+			return false;
+		}
     var text = $("#show_table").find("tr").eq("1").find("td:last").text();
+    var aa = $("#show_table").find("tr").eq("1").find("td:last").prev().text();
+		if(aa == null || aa == ''){
+			layer.msg("该项内容为必填项");
+			return;
+		}
     if (text == '删除') {
       var result = "";
       var standardScore = 0;
