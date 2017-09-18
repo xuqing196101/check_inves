@@ -461,6 +461,10 @@
 	<select id="selectSupplierIdListByRecordId" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT SUPPLIER_ID supplierIds FROM T_SES_SMS_EXTRACT_RESULT WHERE RECORD_ID = #{value}
 	</select>
+	<!-- 查询本项目已经抽取到的供应商 -->
+	<select id="selectSupplierIdListByProjectId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT DISTINCT R.SUPPLIER_ID supplierIds FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_EXTRACT_RECORD E ON R.RECORD_ID = E.ID  WHERE E.PROJECT_ID = #{value}
+	</select>
 
 	<!-- 供应商个数 -->
 	<select id="listExtractionExpertCount" parameterType="extract.model.supplier.SupplierExtractCondition" resultType="int">

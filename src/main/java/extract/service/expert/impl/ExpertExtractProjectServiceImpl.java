@@ -5,7 +5,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.AreaMapper;
@@ -128,4 +132,23 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 		}
 		return list;
 	}
+
+
+	@Override
+	public ResponseEntity<byte[]> printRecord(String id,
+			HttpServletRequest request, HttpServletResponse response) {
+		//根据记录id 查询项目信息不同供应商类别打印两个记录表
+		Map<String, Object> info = selectExtractInfo(id);
+		
+		return null;
+	}
+
+
+	private Map<String, Object> selectExtractInfo(String id) {
+		
+		
+		
+		return null;
+	}
+	
 }

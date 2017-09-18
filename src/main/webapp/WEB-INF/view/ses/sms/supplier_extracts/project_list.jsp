@@ -148,12 +148,12 @@
         </form>
     </h2>
     <div class="col-md-12 pl20 mt10">
-        <button class="btn"
+        <!-- <button class="btn"
                 onclick="opens();">人工抽取
         </button>
         <button class="btn"
                 onclick="record();">抽取记录
-        </button>
+        </button> -->
         <button class="btn"
                 onclick="printRecord();">下载抽取记录表
         </button>

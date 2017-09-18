@@ -198,7 +198,14 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	  
 	 //此方法为公共方法 查询满足供应商数量 和供应商抽取结果  0 表示查询数量 1 表示 抽取 
 	 //去除已经抽取到的供应商
-	 if(StringUtils.isNotEmpty(condition.getRecordId())){
+	 if(StringUtils.isNotBlank(condition.getProjectId())){
+		 
+		 List<String> supplierIds = supplierExtRelateMapper.selectSupplierIdListByProjectId(condition.getProjectId());
+		 if(null != supplierIds){
+			 condition.setSupplierIds(supplierIds);
+		 }
+		 
+	 }else if(StringUtils.isNotEmpty(condition.getRecordId())){
 		 List<String> supplierIds = supplierExtRelateMapper.selectSupplierIdListByRecordId(condition.getRecordId());
 		 if(null != supplierIds){
 			 condition.setSupplierIds(supplierIds);

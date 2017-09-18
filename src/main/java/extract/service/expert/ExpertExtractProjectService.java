@@ -3,6 +3,11 @@ package extract.service.expert;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.ResponseEntity;
+
 import ses.model.bms.DictionaryData;
 import extract.model.expert.ExpertExtractProject;
 
@@ -48,4 +53,21 @@ public interface ExpertExtractProjectService {
      * @return
      */
     List<ExpertExtractProject> findAll(Map<String, Object> map ,ExpertExtractProject expertExtractProject);
+    
+    /**
+     * 
+     * Description: 下载抽取记录表
+     * 
+     * @author jia chengxiang
+     * @param response 
+     * @param request 
+     * @param id 
+     * @data 2017年9月18日
+     * @param 
+     * @return
+     */
+    ResponseEntity<byte[]> printRecord(String id, HttpServletRequest request, HttpServletResponse response);
+    
+    
+    
 }

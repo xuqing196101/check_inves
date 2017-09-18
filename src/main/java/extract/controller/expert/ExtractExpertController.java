@@ -5,8 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -278,5 +282,18 @@ public class ExtractExpertController {
             }
             return JSON.toJSONString(allCategories);
         }
+    }
+    
+    
+    @RequestMapping("/printRecord")
+    public ResponseEntity<byte[]> printRecord(String id,HttpServletRequest request, HttpServletResponse response){
+    	ResponseEntity<byte[]> printRecord = null;
+    	try {
+			printRecord = expertExtractProjectService.printRecord(id,request,response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return printRecord;
     }
 }

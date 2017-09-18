@@ -149,4 +149,12 @@ public interface SupplierExtractRelateResultMapper {
   	 * @return
   	 */
 	List<Supplier> getSupplierListByRid(HashMap<String, String> hashMap2);
+	
+	
+	/**
+	 * 查询该项目已经联系过的供应商
+	 * @param projectId
+	 * @return
+	 */
+	List<String> selectSupplierIdListByProjectId(String projectId);
 }

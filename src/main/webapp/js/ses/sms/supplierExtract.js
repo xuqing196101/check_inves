@@ -381,7 +381,6 @@ $(function () {
     	
     	var flag = 0;
 		//存储项目信息
-    	alert("0");
     	$.ajax({
     		type: "POST",
     		url: $("#projectForm").attr('action'),
@@ -396,11 +395,9 @@ $(function () {
     					$("#"+k+"Error").html(msg[k]);
     				}
     			}
-    			alert("6");
     		}
     	});
     	//存储人员信息
-    	alert("1");
     	$.ajax({
     		type: "POST",
     		url: $("#supervise").attr('action'),
@@ -414,11 +411,9 @@ $(function () {
     					$("#supervise").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
 					}
     			}
-    			alert("7");
     		}
     	});
     	
-    	alert("2");
     	$.ajax({
     		type: "POST",
     		url: $("#extractUser").attr('action'),
@@ -432,12 +427,9 @@ $(function () {
     					$("#extractUser").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
 					}
     			}
-    			alert("8");
     		}
     	});	
 		
-    	alert("3");
-    	alert(flag);
 	    if(flag!=0){
 	    	layer.msg("存在错误信息，检查及修改");
 	    	return false;
@@ -1116,17 +1108,19 @@ $(function () {
     		$("#quaTree").empty();
     		return ;
     	}
-    	var cateId = $("#projectCategoryIds").val();
-    	$.ajax({
-    		url:globalPath+"/SupplierCondition/getQuaByCid.do",
-             type: "POST",
-             dataType: "json",
-             async:false,
-             data:{categoryId:cateId},
-             success:function(count){
-            	 nodes = count;
-             }
-    	});
+    	if(nodes==null){
+    		var cateId = $("#projectCategoryIds").val();
+    		$.ajax({
+    			url:globalPath+"/SupplierCondition/getQuaByCid.do",
+    			type: "POST",
+    			dataType: "json",
+    			async:false,
+    			data:{categoryId:cateId},
+    			success:function(count){
+    				nodes = count;
+    			}
+    		});
+    	}
     	
     	
 		 var setting = {
@@ -1300,30 +1294,44 @@ $(function () {
 	//展示等级树
 	function showLevel(obj){
 		var cateId = $(obj).parents("li").find(".categoryId").val();
-    	if(cateId !="undefined" && cateId != ""){
-	        var levelType = $(obj);
-	        var treeHome = levelType.attr("treeHome");
-	        var levelOffset = $(obj).offset();
-	        $("#"+treeHome).css({
-	            left: levelOffset.left + "px",
-	            top: levelOffset.top + levelType.outerHeight() + "px"
-	        }).slideDown("fast");
-	        var LevelType =  $(obj).attr("id");
-	        if("projectLevel" == LevelType){
-	        	$("body").bind("mousedown", onBodyDownProjectLevel);
-	        }else  if("productLevel" == LevelType){
-	        	$("body").bind("mousedown", onBodyDownProductLevel);
-	        }else  if("salesLevel" == LevelType){
-	        	$("body").bind("mousedown", onBodyDownSalesLevel);
-	        }else  if("serviceLevel" == LevelType){
-	        	$("body").bind("mousedown", onBodyDownServiceLevel);
-	        }
-    	}else{
-    		layer.msg("请选择品目");
-    	}
+		var levelType = $(obj);
+        var treeHome = levelType.attr("treeHome");
+        var levelOffset = $(obj).offset();
+        var LevelType =  $(obj).attr("id");
+        
+        if($(obj).attr("id")=="projectLevel"){
+        	var quaId = $("#quaId").val();
+        	if(null!=quaId&& ""!=quaId){
+        		$("#"+treeHome).css({
+                    left: levelOffset.left + "px",
+                    top: levelOffset.top + levelType.outerHeight() + "px"
+                }).slideDown("fast");
+        		$("body").bind("mousedown", onBodyDownProjectLevel);
+        	}else{
+        		layer.msg("请选择工程资质");
+        	}
+        }else{
+        	//if(cateId !="undefined" && cateId != ""){
+        		$("#"+treeHome).css({
+                    left: levelOffset.left + "px",
+                    top: levelOffset.top + levelType.outerHeight() + "px"
+                }).slideDown("fast");
+        		if("productLevel" == LevelType){
+        			$("body").bind("mousedown", onBodyDownProductLevel);
+        		}else  if("salesLevel" == LevelType){
+        			$("body").bind("mousedown", onBodyDownSalesLevel);
+        		}else  if("serviceLevel" == LevelType){
+        			$("body").bind("mousedown", onBodyDownServiceLevel);
+        		}
+        	//}else{
+        	//	layer.msg("请选择品目");
+        	//}
+        }
+        
 	}
 	
-	function showQuaLevel(obj){
+	//展示资质等级
+	/*function showQuaLevel(obj){
 		var quaId = $("#quaId").val();
 		if(null!=quaId&& ""!=quaId){
 			$("body").bind("mousedown", onBodyDownProjectLevel);
@@ -1331,7 +1339,7 @@ $(function () {
 			layer.msg("请选择工程资质");
 		}
 		
-	}
+	}*/
 	
 	//显示资质信息
 	function showQua(obj){

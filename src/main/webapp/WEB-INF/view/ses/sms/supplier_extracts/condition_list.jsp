@@ -50,11 +50,11 @@
 	<c:set var="flag" value="true"></c:set>
 </c:if>
     <form id="projectForm" action="<%=request.getContextPath() %>/SupplierExtracts/saveProjectInfo.do" method="post" >
-    <input type="submit"> <input type="button" value="存储项目人员信息" onclick="submitInfo()"> <input onclick="showEndButton()" type="button" value="抽取完成">
+   <!--  <input type="submit"> <input type="button" value="存储项目人员信息" onclick="submitInfo()"> <input onclick="showEndButton()" type="button" value="抽取完成"> -->
         <!-- 打开类型 -->
       <%--   <input type="hidden" value="${typeclassId}" name="typeclassId" /> --%>
         <!-- 项目id  -->
-        <input type="hidden" id="pojectId" value="${projctInfo.projectId}" name="pojectId">
+        <input type="hidden" id="projectId" value="${projectInfo.projectId }" name="projectId">
         <!-- 记录id -->
         <input type="hidden" value="${projectInfo.id}" name="id">
          <h2 class="count_flow"><i>1</i>项目信息</h2>
@@ -62,7 +62,7 @@
              <li class="col-md-3 col-sm-4 col-xs-12 pl15">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 项目名称:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input id="projectName" name="projectName"  value="${projectInfo.projectName}" <%-- readonly= '${flag=="true"?"readonly":"555" }'   --%> type="text">
+                     <input id="projectName" name="projectName"  value="${projectInfo.projectName}" ${flag?"readonly":"" } type="text">
                      <span class="add-on">i</span>
                      <div class="cue" id="projectNameError"></div>
                  </div>
@@ -79,7 +79,7 @@
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购方式:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
            			<c:if test="${projectInfo.purchaseType ==null }">
-                   	<select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0">
+                   	<select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0" ${flag?"readonly":"" }>
                    	 	<option value="3CF3C643AE0A4499ADB15473106A7B80" selected="selected">竞争性谈判</option>
                         <option value="EF33590F956F4450A43C1B510EBA7923" >询价采购</option>
                         <option value="209C109291F241D88188521A7F8FA308" >邀请招标</option>
@@ -259,10 +259,10 @@
 	<!-- 条件开始 -->
 	<div class="container_box col-md-12 col-sm-12 col-xs-12 extractVerify_disabled" >
     <form id="form1" method="post" >
-    <input type="button" onclick="submitCondition()" value="提交条件">
+    <!-- <input type="button" onclick="submitCondition()" value="提交条件"> -->
         <input id="sunCount" type="hidden">
         <!--        项目id -->
-        <input type="hidden" name="projectId" id="pid" value="${packageId}">
+         <input type="hidden" id="projectId" value="${projectInfo.projectId }" name="projectId">
         <!-- 记录id -->
         <input type="hidden" name="recordId" id="recordId" value="${projectInfo.id}">
 		<input type="hidden" id="conditionId" name="id" value="${projectInfo.conditionId }">
@@ -389,8 +389,8 @@
           
           
           <input type="hidden" name="quaId" id="quaId" >
-          <input type="text" readonly  id="quaName" treeHome="quaContent"
-         	 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" onclick="showQua(this);"/>
+          <input type="text"  id="quaName" treeHome="quaContent"
+         	 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" onkeypress="selectQua()" onfocus="showQua(this);"/>
          	 
          <%--  <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" id="certType_select${certAptNumber }" title="cnjewfnAdd1" class="w100p border0" onchange="getAptLevel(this)">
         	<option value="">请选择</option>
@@ -410,7 +410,7 @@
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input type="hidden" name="projectLevel" >
           <input type="text" readonly  id="projectLevel" treeHome="projectLevelContent"
-          value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showQuaLevel(this);"/>
+          value="${listCon.supplierLevel == null? '所有级别':listCon.supplierLevel}" onclick="showLevel(this);"/>
           <span class="add-on">i</span>
           <div class="cue" id="dCount"></div>
           </div>
@@ -868,12 +868,61 @@ function submitCondition(){
     	});
 }
 
-function showEndButton(){
-	$("#end").removeClass("dnone");
-}
+/* function selectQua(){
+	
+	var name =$("#quaName").val();
+	alert(name);
+	$.ajax({
+    		type: "POST",
+    		url: globalPath+"/qualification/list.do",
+    		data:  {name:name,type:4},
+    		dataType: "json",
+    		success: function (msg) {
+    			if(null !=msg){
+    				//console.log(msg);
+    				console.log(1);
+    				
+    			}
+    		}
+    	});
+	
+	//loadQuaList();
+} */
 
-function alterEndInfo(){
-	layer.alert("是否需要发送短信至确认参加供应商");
-}
+	$("#quaName").change(function(){
+		var name = $(this).val();
+		if(""!=name && null!=name){
+			$.ajax({
+	    		type: "POST",
+	    		url: globalPath+"/qualification/list.do",
+	    		data:  {name:name,type:4},
+	    		dataType: "json",
+	    		success: function (msg) {
+	    			if(null !=msg){
+	    				//console.log(msg);
+	    				loadQuaList(msg.obj.list);
+	    			}
+	    		}
+	    	});
+		}else{
+			$("#quaId").val("");
+			$("[name='projectLevel']").val("");
+			$("#projectLevel").val("全部等级");
+			$("#quaName").val("全部资质");
+		}
+	});
+
+	function showEndButton(){
+		$("#end").removeClass("dnone");
+	}
+
+	function alterEndInfo(){
+		layer.alert("是否需要发送短信至确认参加供应商");
+		var index = layer.alert("完成抽取,打印记录表",function(){
+			window.location.href = "/zhbj/SupplierExtracts/printRecord.html?id="+$("[name='recordId']").val();
+			layer.close(index);
+			// 
+		});
+	}
 </script>
 </html>

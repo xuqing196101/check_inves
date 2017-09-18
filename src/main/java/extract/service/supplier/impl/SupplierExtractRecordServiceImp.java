@@ -338,6 +338,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	}
 
 	private Map<String, Object> selectExtractInfo(String recordId) {
+		
 		SupplierExtractProjectInfo projectInfo = supplierExtractsMapper.getProjectInfoById(recordId);
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
 		
