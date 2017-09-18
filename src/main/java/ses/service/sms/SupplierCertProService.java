@@ -18,4 +18,15 @@ public interface SupplierCertProService {
 	 * @return
 	 */
 	public boolean deleteCertProByIds(String ids);
+	
+	/**
+	 * 
+	 * Description: 查询质量管理体系认证证书审核id
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年9月15日
+	 * @param 
+	 * @return
+	 */
+	public String findCertProByProIdAndName(String proId);
 }

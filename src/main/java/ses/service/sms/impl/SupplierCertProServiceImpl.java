@@ -65,5 +65,19 @@ public class SupplierCertProServiceImpl implements SupplierCertProService {
         return isSuccess;
 	}
 	
+	@Override
+	public String findCertProByProIdAndName(String proId){
+		if(proId == null){
+			List<SupplierCertPro> list = supplierCertProMapper.findCertProByProIdAndName(proId, "质量管理体系认证证书");
+			if(list != null && list.size() > 0 && list.get(0) != null){
+				return list.get(0).getId();
+			}else{
+				return null;
+			}
+		}else{
+			return null;
+		}
+		
+	}
 
 }
