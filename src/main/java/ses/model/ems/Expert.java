@@ -498,8 +498,28 @@ public class Expert extends ExpertHistory implements Serializable {
     private List<ExpertAuditFileModify> expertAuditFileModifyList = new ArrayList<ExpertAuditFileModify>();
     //步骤（用于区分第一步和其他几步）
     private String step;
+    
+    private Date startTime;
+    private Date endTime;
+    
 
-    /**
+    public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	/**
      * 审核意见附件
      **/
     private String auditOpinionAttach;

@@ -1372,6 +1372,12 @@ resultMap="BaseResultMap">
         <if test="auditAt !=null and auditAt!=''">
         	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
         </if>
+        <if test="startTime !=null and startTime!=''">
+        	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD')>= TO_CHAR(#{startTime},'YY-MM-DD')
+        </if>
+        <if test="endTime != null and endTime != ''">
+        	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD')<= TO_CHAR(#{endTime},'YY-MM-DD')
+        </if>
        <if test="ids != null">
             <foreach collection="ids" item="id" open="and t1.ID in ("
                      close=")" separator=",">
