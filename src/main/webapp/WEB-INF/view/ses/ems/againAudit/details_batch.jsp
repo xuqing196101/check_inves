@@ -86,14 +86,7 @@
       window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/auditBatch.html?batchId='+getUrlParam('batchId');
     }
     //下载
-    function downloadTable(str) {
-      var size = $(":checkbox:checked").size();
-      if(size == 0) {
-        layer.msg("请选择专家 !", {
-          offset: '100px',
-        });
-      } else if(size == 1) {
-        var id = $(":checkbox:checked").val();
+    function downloadTable(id) {
         var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
         if(state =="预复审结束" || state =="公示中" || state == "复审预合格" ||state == "复审合格" || state == "复审不合格"|| state == "复审退回修改" || state == "复查合格" || state == "复查未合格") {
@@ -106,11 +99,6 @@
             offset: '100px',
           });
         }
-      } else if(size > 1) {
-        layer.msg("只能选择一条 !", {
-          offset: '100px',
-        });
-      }
     }
     function trim(str) { //删除左右两端的空格
       return str.replace(/(^\s*)|(\s*$)/g, "");
