@@ -60,7 +60,7 @@ jQuery.validator.addMethod("isBankCard", function(value, element) {
 }, "请输入正确的银行卡卡号"); 
 
 function isURL(str_url){
-	var strRegex = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+	var strRegex = /((http|ftp|https):\/\/)?[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
     /*var strRegex = "^((https|http|ftp|rtsp|mms)?://)"
     + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //ftp的user@
     + "(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP形式的URL- 199.194.52.184
@@ -70,8 +70,9 @@ function isURL(str_url){
     + "[a-z]{2,6})" // first level domain- .com or .museum
     + "(:[0-9]{1,4})?" // 端口- :80
     + "((/?)|" // a slash isn't required if there is no file name
-    + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
-    var re = new RegExp(strRegex);*/
+    + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";*/
+    //strRegex = /^((https|http|ftp|rtsp|mms)?:\/\/)?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?(([0-9]{1,3}\.){3}[0-9]{1,3}|([0-9a-z_!~*'()-]+\.)*([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\.[a-z]{2,6})(:[0-9]{1,4})?((\/?)|(\/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+\/?)$/;
+    var re = new RegExp(strRegex);
     //re.test()
     if (strRegex.test(str_url)){
         return (true);
