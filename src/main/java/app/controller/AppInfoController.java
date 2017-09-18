@@ -24,7 +24,6 @@ import common.constant.Constant;
 /**
  * 
  * Description: App版本管理Controller
- * 
  * @author zhang shubin
  * @version 2016-9-7
  * @since JDK1.7
