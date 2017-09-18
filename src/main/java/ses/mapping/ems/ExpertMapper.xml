@@ -1349,6 +1349,12 @@ resultMap="BaseResultMap">
         <if test="orgName != null and orgName !=''">
             AND org.SHORT_NAME LIKE CONCAT(CONCAT('%', #{orgName}), '%')
         </if>
+        <if test="expertsFrom != null and expertsFrom !=''">
+        	 AND t1.EXPERTS_FROM = #{expertsFrom}
+        </if>
+        <if test="expertsTypeId != null and expertsTypeId !=''">
+        	 AND t1.EXPERTS_TYPE_ID LIKE CONCAT(CONCAT('%', #{expertsTypeId}), '%')
+        </if>
         <if test="status != null and status !=''">
         	<if test="status == 'trialEnd'">
         	 AND t1.STATUS in ('15','16')
