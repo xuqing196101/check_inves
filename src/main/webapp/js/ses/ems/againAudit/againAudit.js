@@ -19,7 +19,7 @@
           $('[name=orgName]').html('<option value="">请选择</option>' + str);
           str = '';
           for (var expertsFrom_i in list_content.lyTypeList) {
-            str += '<option value="'+ list_content.lyTypeList[expertsFrom_i].name +'">'+ list_content.lyTypeList[expertsFrom_i].name +'</option>';
+            str += '<option value="'+ list_content.lyTypeList[expertsFrom_i].id +'">'+ list_content.lyTypeList[expertsFrom_i].name +'</option>';
           }
           $('[name=expertsFrom]').html('<option value="">全部</option>' + str);
           str = '';

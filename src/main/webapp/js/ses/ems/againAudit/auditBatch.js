@@ -11,7 +11,7 @@
       success: function (data) {
         var str = '';
         var str_tr = '';
-        var groupStatus = ['（待配置）','（配置中）','（配置完成）'];
+        var groupStatus = ['（待配置）','（配置中）'];
         var groupStatus_str = '';
         list_content = data.object;  // 储存所需数据到变量
         
@@ -109,7 +109,7 @@
               } else if (list_content[i].groupStatus === '2') {
                 groupStatus_str = groupStatus[1];
               } else if (list_content[i].groupStatus === '3') {
-                groupStatus_str = groupStatus[2];
+                groupStatus_str = '（审核组成员：' + list_content[i].team.replace(/,/g, '、') + '）';
               } else {
                 groupStatus_str = '';
               }

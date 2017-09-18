@@ -373,6 +373,7 @@ function set_password() {
           dataType: 'json',
           url: setPwd_url,
           data: {
+            groupId: getUrlParam('groupId'),
             password: password.val(),
             password2: password2.val()
           },
