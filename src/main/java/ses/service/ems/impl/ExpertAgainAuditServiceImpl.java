@@ -557,12 +557,15 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	}
 
 	@Override
-	public ExpertAgainAuditImg setUpPassword(String ids,String passWord) {
+	public ExpertAgainAuditImg setUpPassword(String groupId,String passWord) {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
-		String[] split = ids.split(",");
-		for (String id : split) {
-			ExpertReviewTeam expertReviewTeam = expertReviewTeamMapper.getExpertReviewTeam(id);
+		//String[] split = ids.split(",");
+		ExpertReviewTeam expertReviewTeam=new ExpertReviewTeam();
+		expertReviewTeam.setGroupId(groupId);
+		List<ExpertReviewTeam> reviewTeamList = expertReviewTeamMapper.getExpertReviewTeamList(expertReviewTeam);
+		if(reviewTeamList.size()>0){
+			expertReviewTeam=reviewTeamList.get(0);
 			List<User> list = userMapper.findById(expertReviewTeam.getUserId());
 			User user =list.get(0);
 			//生成15位随机码

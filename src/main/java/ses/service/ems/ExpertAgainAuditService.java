@@ -20,7 +20,7 @@ public interface ExpertAgainAuditService {
 	ExpertAgainAuditImg findExpertReviewTeam(String groupId,Integer pageNum);
 	ExpertAgainAuditImg addExpertReviewTeam(String userName,String password,List<Map<String, String>> expertReviewTeam);
 	ExpertAgainAuditImg deleteExpertReviewTeam(String ids);
-	ExpertAgainAuditImg setUpPassword(String ids,String passWord);
+	ExpertAgainAuditImg setUpPassword(String groupId,String passWord);
 	ExpertAgainAuditImg checkLoginName(String loginName);
 	ExpertAgainAuditImg preservationExpertReviewTeam(String groupId);
 	ExpertAgainAuditImg fingStayReviewExpertList(String userId,String batchName,Date createdAt, Integer pageNum);

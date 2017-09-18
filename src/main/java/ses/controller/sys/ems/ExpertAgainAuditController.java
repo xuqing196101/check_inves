@@ -644,7 +644,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	 * 设置密码
 	 * */
 	@RequestMapping("setUpPassword")
-	public void setUpPassword(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String ids,String password,String password2){
+	public void setUpPassword(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response,String groupId,String password,String password2){
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		if(user==null){
 			img.setStatus(false);
@@ -658,9 +658,9 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		super.writeJson(response, img);
 		return;
 		};
-		if(ids == null){
+		if(groupId == null){
 			img.setStatus(false);
-			img.setMessage("请选择审核组成员");
+			img.setMessage("操作有误");
 			super.writeJson(response, img);
 			return;
 		}
@@ -687,7 +687,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
         	super.writeJson(response, img);
         	return;
         }
-		img=againAuditService.setUpPassword(ids, password);
+		img=againAuditService.setUpPassword(groupId, password);
 		super.writeJson(response, img);
 	}
 	/*
