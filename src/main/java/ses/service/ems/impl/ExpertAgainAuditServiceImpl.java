@@ -345,6 +345,16 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			map.put("id", group.getGroupId());
 			map.put("name", group.getGroupName());
 			map.put("groupStatus", group.getStatus());
+			if("3".equals(group.getStatus())){
+				ExpertReviewTeam expertReviewTeam = new ExpertReviewTeam();
+				expertReviewTeam.setGroupId(group.getGroupId());
+				List<ExpertReviewTeam> teamList = expertReviewTeamMapper.getExpertReviewTeamList(expertReviewTeam);
+				String team="";
+				for (ExpertReviewTeam t : teamList) {
+					team=team+t.getRelName()+",";
+				}
+				map.put("team", team.subSequence(0, team.length()-1));
+			}
 			ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 			expertBatchDetails.setGroupId(group.getGroupId());
 			List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
