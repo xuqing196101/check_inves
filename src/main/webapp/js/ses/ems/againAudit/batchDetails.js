@@ -54,7 +54,7 @@
                 list_content.list.list[i].status = '公示中';
               } else if (list_content.list.list[i].status === '-2') {
                 list_content.list.list[i].status = '预复审结束';
-                btn = '<button type="button" class="btn" onclick="">下载复审表</button>';
+                btn = '<button type="button" class="btn" onclick="downloadTable(\''+ list_content.list.list[i].expertId +'\')">下载复审表</button>';
               } else if (list_content.list.list[i].status === '-1') {
                 list_content.list.list[i].status = '暂存';
               } else if (list_content.list.list[i].status === '0') {
@@ -122,7 +122,7 @@
                 list_content.list.list[i].expertsFrom = '';
               }
               
-              $('#list_content').append('<tr>'
+              $('#list_content').append('<tr><input id="'+ list_content.list.list[i].expertId +'" type="hidden">'
                 +'<td class="text-center">'+ list_content.list.list[i].batchDetailsNumber +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].orgName +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].realName +'</td>'

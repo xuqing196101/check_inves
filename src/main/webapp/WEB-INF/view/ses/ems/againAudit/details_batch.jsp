@@ -87,10 +87,10 @@
     }
     //下载
     function downloadTable(id) {
-        var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
+        var state = $("#" + id + "").parent("tr").find("td").eq(9).text(); //.trim();
         state = trim(state);
         if(state =="预复审结束" || state =="公示中" || state == "复审预合格" ||state == "复审合格" || state == "复审不合格"|| state == "复审退回修改" || state == "复查合格" || state == "复查未合格") {
-          $("input[name='tableType']").val(str);
+          $("input[name='tableType']").val('2');
           $("input[name='expertId']").val(id);
           $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
           $("#form_id").submit();
