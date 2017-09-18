@@ -736,6 +736,9 @@ public class SupplierExtractCondition {
 		this.quaId = quaId;
 	}
 	
+	public int getCsize(){
+		return this.getCategoryIds().length;
+	}
 	
 	
 }

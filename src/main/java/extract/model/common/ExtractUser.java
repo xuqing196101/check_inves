@@ -22,19 +22,19 @@ public class ExtractUser {
     
     private String condditionId;
     
-    @NotEmpty(message="姓名不能为空")
+    /*@NotEmpty(message="姓名不能为空")*/
     @Length(min=1,max=5,message="姓名信息长度不能大于5")
     private String name;
     
-    @NotEmpty(message="职务不能为空")
+    /*@NotEmpty(message="职务不能为空")*/
     @Length(min=1,max=50,message="职务长度不能大于50")
     private String duty;
     
-    @NotEmpty(message="公司信息不能为空")
+   /* @NotEmpty(message="公司信息不能为空")*/
     @Length(min=1,max=50,message="公司信息长度不能大于50")
     private String compary;
     
-    @NotEmpty(message="军衔不能为空")
+    /*@NotEmpty(message="军衔不能为空")*/
     @Length(min=1,max=50,message="军衔长度不能大于50")
     private String rank;
    

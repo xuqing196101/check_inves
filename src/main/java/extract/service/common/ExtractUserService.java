@@ -1,6 +1,7 @@
 package extract.service.common;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.User;
 
@@ -10,6 +11,6 @@ public interface ExtractUserService {
 
 	List<ExtractUser> getList(ExtractUser user);
 
-	void addPerson(ExtractUser user, User user2);
+	Map<String, String> addPerson(ExtractUser user, User user2);
 
 }

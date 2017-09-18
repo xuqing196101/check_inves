@@ -46,8 +46,7 @@ public class SupplierExtractProjectInfo {
      */
     private String projectId;
 	
-    @NotEmpty
-    @Length(min=1,max=50)
+   
 	private String projectNumber;
     
     /**

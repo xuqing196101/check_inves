@@ -492,10 +492,13 @@
 				 AND I.CATEGORY_ID IN <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
 			</if>
 			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
-				 AND
+				AND S.ID IN (SELECT  I.SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM I WHERE I.CATEGORY_ID IN 
+				<foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
+				 GROUP BY I.SUPPLIER_ID  HAVING COUNT(1) = #{csize})
+				<!--  AND
 				 <trim prefix="(" suffixOverrides="AND" suffix=")">
 				 	 <foreach collection="categoryIds" item="cid" > I.CATEGORY_ID = #{cid} AND </foreach>
-				 </trim>
+				 </trim> -->
 			</if>
 		</if>
 		<!-- 查询资质 -->
@@ -570,6 +573,12 @@
 				 <trim prefix="(" suffixOverrides="AND" suffix=")">
 				 	 <foreach collection="categoryIds" item="cid" > I.CATEGORY_ID = #{cid} AND </foreach>
 				 </trim>
+			</if>
+		</if>
+		<!-- 查询资质 -->
+		<if test="quaId !=null and quaId != '' ">
+			<if test="supplierTypeCode == 'PROJECT'.toString()">
+				AND  A.CERT_TYPE IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
 			</if>
 		</if>
 		<if test="levelTypeId !=null and levelTypeId != '' ">

@@ -62,7 +62,7 @@
              <li class="col-md-3 col-sm-4 col-xs-12 pl15">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 项目名称:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input id="projectName" name="projectName"  value="${projectInfo.projectName}" readonly= '${flag=="true"?"readonly":"555" }'   type="text">
+                     <input id="projectName" name="projectName"  value="${projectInfo.projectName}" <%-- readonly= '${flag=="true"?"readonly":"555" }'   --%> type="text">
                      <span class="add-on">i</span>
                      <div class="cue" id="projectNameError"></div>
                  </div>
@@ -70,7 +70,7 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 项目编号:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input id="projectNumber" name="projectCode" value="${projectInfo.projectCode}" readonly=${flag?"readonly":"" } type="text" >
+                     <input id="projectNumber" name="projectCode" value="${projectInfo.projectCode}" ${flag?"readonly":"" } type="text" >
                      <span class="add-on">i</span>
                      <div class="cue" id="projectCodeError"></div>
                  </div>
@@ -96,7 +96,7 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">包名(标段):</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input id="packageName" name="packageName" value="${projectInfo.projectCode}" readonly=${flag?"readonly":"" } type="text" >
+                     <input id="packageName" name="packageName" value="${projectInfo.projectCode}" ${flag?"readonly":"" } type="text" >
                      <span class="add-on">i</span>
                      <div class="cue" id="packageNameError"></div>
                  </div>
@@ -651,9 +651,9 @@
           
           <div class="clear"></div>
 	         <div class="col-xs-12 tc mt20">
-	           <button class="btn" onclick="extractVerify();" type="button">人工抽取</button>
-	           <button class="btn" type="button">自动抽取</button>
-	           <button class="btn"  type="reset">重置</button>
+	           <button class="btn bu" onclick="extractVerify();" type="button">人工抽取</button>
+	           <button class="btn bu" type="button">自动抽取</button>
+	           <button class="btn bu"  type="reset">重置</button>
 	         </div>
           </form>
           <!--=== Content Part ===-->
@@ -786,7 +786,7 @@
 function submitInfo(){
 
 	//存储项目信息
-    	$.ajax({
+    /* 	$.ajax({
     		type: "POST",
     		url: $("#projectForm").attr('action'),
     		data:$("#projectForm").serialize(),
@@ -797,7 +797,7 @@ function submitInfo(){
 					$("#"+k+"Error").html(msg[k]);
 				}
     		}
-    	});
+    	}); */
     	//存储人员信息
     	alert();
     	$.ajax({
@@ -808,7 +808,7 @@ function submitInfo(){
     		success: function (msg) {
     			if(null !=msg){
     				for ( var k in msg) {
-						$("#sError").html(msg[k]);
+						$("#supervise").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
 					}
     			}
     		},
@@ -826,7 +826,7 @@ function submitInfo(){
     		success: function (msg) {
     			if(null !=msg){
     				for ( var k in msg) {
-						$("#eError").html(msg[k]);
+						$("#extractUser").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
 					}
     			}
     		}

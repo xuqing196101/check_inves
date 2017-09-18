@@ -486,36 +486,36 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		        cs[0]-=32;
 		        String code = String.valueOf(cs);
 				try {
-					String mu = class1.getMethod("get"+code+"IsMulticondition").invoke(conType).toString();
+					Short mu = (Short)class1.getMethod("get"+code+"IsMulticondition").invoke(conType);
 					String cids = (String)class1.getMethod("get"+code+"CategoryIds").invoke(conType);
 					String le = (String)class1.getMethod("get"+code+"Level").invoke(conType);
-					String en = class1.getMethod("get"+code+"ExtractNum").invoke(conType).toString();
+					Short en = (Short)class1.getMethod("get"+code+"ExtractNum").invoke(conType);
 					String ic = (String)class1.getMethod("get"+code+"IsHavingConCert").invoke(conType);
 					String bu = (String)class1.getMethod("get"+code+"BusinessNature").invoke(conType);
 					String ob = (String)class1.getMethod("get"+code+"OverseasBranch").invoke(conType);
 					if(null != mu){
-						list.add(new ExtractConditionRelation(cid,c+"IsMulticondition",mu));
+						list.add(new ExtractConditionRelation(cid,c+"IsMulticondition",mu.toString()));
 					}
-					if(null != cids){
+					if(StringUtils.isNotBlank(cids)){
 						for (String cId : cids.split(",")) {
 							list.add(new ExtractConditionRelation(cid, c+"CategoryId", cId));
 						}
 					}
-					if(null != le){
+					if(StringUtils.isNotBlank(le)){
 						for (String lv : le.split(",")) {
 							list.add(new ExtractConditionRelation(cid, c+"Level", lv));
 						}
 					}
-					if(null != en){
-						list.add(new ExtractConditionRelation(cid,c+"ExtractNum",en));
+					if(null !=en){
+						list.add(new ExtractConditionRelation(cid,c+"ExtractNum",en.toString()));
 					}
-					if(null != ic){
+					if(StringUtils.isNotBlank(ic)){
 						list.add(new ExtractConditionRelation(cid,c+"IsHavingConCert",ic));
 					}
-					if(null != bu){
+					if(StringUtils.isNotBlank(bu)){
 						list.add(new ExtractConditionRelation(cid,c+"BusinessNature",StringUtils.isBlank(bu)?"0":bu));
 					}
-					if(null != ob){
+					if(StringUtils.isNotBlank(ob)){
 						list.add(new ExtractConditionRelation(cid,c+"OverseasBranch",ob));
 					}
 					

@@ -2,6 +2,7 @@ package extract.controller.common;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -70,7 +71,7 @@ public class ExtractUserController {
     		 return JSON.toJSONString(hashMap);
     	 }
     	 
-    	// extractUserService.addPerson(user,user2);
-		return null;
+    	Map<String, String> error = extractUserService.addPerson(user,user2);
+		return JSON.toJSONString(error);
      }
 }

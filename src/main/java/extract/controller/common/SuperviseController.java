@@ -50,8 +50,8 @@ public class SuperviseController {
 			}
     		 return JSON.toJSONString(err);
     	 }
-    	 //superviseService.addPerson(user);
-		return null;
+    	HashMap<String, String> addPerson = superviseService.addPerson(user);
+		return JSON.toJSONString(addPerson);
      }
 	
 	

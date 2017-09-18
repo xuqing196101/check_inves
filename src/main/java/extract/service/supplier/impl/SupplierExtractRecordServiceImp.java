@@ -519,12 +519,17 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 				
 			}else{
 				//供应商类型
-				map.put("typeCode",dictionaryDataMapper.selectByCode(projectCode).get(0).getName());
-				
+				map.put("typeCode",dictionaryDataMapper.selectByCode(condition.getSupplierTypeCode()).get(0).getName());
+				String supplierTypeCode = condition.getSupplierTypeCode();
+				c=supplierTypeCode.toLowerCase();
 				//类别
 				hashMap.put("propertyName", c+"CategoryId");
 				List<String> byMap2 = conditionRelationMapper.getByMap(hashMap);
-				List<String> list = conditionMapper.getCategoryByList(byMap2);
+				List<String> list = null;
+				if(null != byMap2 && byMap2.size()>0){
+					
+					list= conditionMapper.getCategoryByList(byMap2);
+				}
 				if(null != list && list.size()>0){
 					temp = "";
 					for (String string : list) {
@@ -564,7 +569,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 				//抽取结果
 				HashMap<String,String> hashMap2 = new HashMap<>();
 				hashMap2.put("recordId", recordId);
-				hashMap2.put("supplierType",projectCode);
+				hashMap2.put("supplierType",supplierTypeCode);
 				map.put("result", conMapper.getSupplierListByRid(hashMap2));
 			}
 		}

@@ -314,7 +314,9 @@ $(function () {
     }
     
     function extractVerify() {
-    	
+    	//清空错误提示
+    	$("#extractUser").find("span").remove();
+    	$("#supervise").find("span").remove();
     	
     	//所有的必填项写一个class 验证必填 输入框要验证长度
     	if(checkEmpty()>0){
@@ -376,6 +378,71 @@ $(function () {
     /**点击抽取--当选择参加与否后保存状态*/
     
     function extractSupplier() {
+    	
+    	var flag = 0;
+		//存储项目信息
+    	alert("0");
+    	$.ajax({
+    		type: "POST",
+    		url: $("#projectForm").attr('action'),
+    		data:$("#projectForm").serialize(),
+    		dataType: "json",
+    		async:false,
+    		success: function (msg) {
+    			
+    			if(null!=msg && "" !=msg){
+    				flag ++;
+    				for ( var k in msg) {
+    					$("#"+k+"Error").html(msg[k]);
+    				}
+    			}
+    			alert("6");
+    		}
+    	});
+    	//存储人员信息
+    	alert("1");
+    	$.ajax({
+    		type: "POST",
+    		url: $("#supervise").attr('action'),
+    		data:  $("#supervise").serialize(),
+    		dataType: "json",
+    		async:false,
+    		success: function (msg) {
+    			if(null !=msg){
+    				flag++;
+    				for ( var k in msg) {
+    					$("#supervise").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
+					}
+    			}
+    			alert("7");
+    		}
+    	});
+    	
+    	alert("2");
+    	$.ajax({
+    		type: "POST",
+    		url: $("#extractUser").attr('action'),
+    		data:  $("#extractUser").serialize(),
+    		dataType: "json",
+    		async:false,
+    		success: function (msg) {
+    			if(null !=msg){
+    				flag++;
+    				for ( var k in msg) {
+    					$("#extractUser").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
+					}
+    			}
+    			alert("8");
+    		}
+    	});	
+		
+    	alert("3");
+    	alert(flag);
+	    if(flag!=0){
+	    	layer.msg("存在错误信息，检查及修改");
+	    	return false;
+		}
+    	
     	var count = 0;
     	formData = $('#form1').serialize();
     	var projectExtractNum = $("#projectExtractNum").val();
@@ -431,6 +498,16 @@ $(function () {
     		return false;
     	}
     	
+    	//输入框设置只读
+    	$('.extractVerify_disabled input,.extractVerify_disabled select').each(function() {
+    		$(this).prop('disabled', true);
+    	});
+    	//按钮置灰
+    		
+		$(".bu").each(function(){
+			$(this).attr("disabled",true);
+		});
+    	
     	//存储项目信息
     	/*	$.ajax({
     		type: "POST",
@@ -461,69 +538,6 @@ $(function () {
     		}
     	});*/
     		
-    		//存储项目信息
-        	$.ajax({
-        		type: "POST",
-        		url: $("#projectForm").attr('action'),
-        		data:$("#projectForm").serialize(),
-        		dataType: "json",
-        		async:false,
-        		success: function (msg) {
-        			
-        			if(null!=msg){
-        				for ( var k in msg) {
-        					$("#"+k+"Error").html(msg[k]);
-        				}
-        				return false;
-        			}
-        		}
-        	});
-        	//存储人员信息
-        	alert();
-        	$.ajax({
-        		type: "POST",
-        		url: $("#supervise").attr('action'),
-        		data:  $("#supervise").serialize(),
-        		dataType: "json",
-        		async:false,
-        		success: function (msg) {
-        			if(null !=msg){
-        				for ( var k in msg) {
-    						$("#sError").html(msg[k]);
-    					}
-        				return false;
-        			}
-        		}
-        	});
-        	
-        	
-        	$.ajax({
-        		type: "POST",
-        		url: $("#extractUser").attr('action'),
-        		data:  $("#extractUser").serialize(),
-        		dataType: "json",
-        		async:false,
-        		success: function (msg) {
-        			if(null !=msg){
-        				for ( var k in msg) {
-    						$("#eError").html(msg[k]);
-    					}
-        				return false;
-        			}
-        		}
-        	});	
-    		
-    	
-    	//输入框设置只读
-    	$('.extractVerify_disabled input,.extractVerify_disabled select').each(function() {
-    		$(this).prop('disabled', true);
-    	});
-    	//按钮置灰
-    	$("button").each(function(){
-    		$(this).attr("disabled",true);
-    	});
-    	
-    	
     }
     
     //显示结果   obj 是当前操作的行所在的tbody
@@ -686,7 +700,8 @@ $(function () {
                 selectLikeSupplier();
             }
             , btn2: function () {
-                opens();
+            	$(cate).parents("li").find(".categoryId").val("");
+                $(cate).val("");
             }
         });
     }

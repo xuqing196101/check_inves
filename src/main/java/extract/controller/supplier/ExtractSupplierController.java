@@ -142,6 +142,7 @@ public class ExtractSupplierController extends BaseController {
     	if(StringUtils.isBlank(eRecord.getId())){
     		String recordId = WfUtil.createUUID();
     		eRecord.setId(recordId);
+    		eRecord.setProcurementDepId(user.getOrg().getId());
     		expExtractRecordService.insertProjectInfo(eRecord);
     		if(StringUtils.isNotBlank(eRecord.getProjectId())){
     			//说明是从项目实施进入 需要查询项目信息，生成一条记录，查询项目信息(包信息),条件id
@@ -486,8 +487,8 @@ public class ExtractSupplierController extends BaseController {
     		return JSON.toJSONString(errMsg);
     	}
     	
-    //	expExtractRecordService.saveOrUpdateProjectInfo(projectInfo,user);
-    	return "";
+    	expExtractRecordService.saveOrUpdateProjectInfo(projectInfo,user);
+    	return JSON.toJSONString(null);
     }
     
     

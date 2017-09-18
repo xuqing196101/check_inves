@@ -3,8 +3,10 @@ package extract.service.common.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +34,7 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 	
 	
 	@Override
-	public void addPerson(ExtractUser extUser,User user) {
+	public Map<String, String> addPerson(ExtractUser extUser,User user) {
 		if(StringUtils.isNotEmpty(extUser.getPersonType())){
 			String[] personId = null;
 			HashMap<String, Object> map = new HashMap<>();
@@ -59,9 +61,32 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 			if(extUser.getList().size()>0){
 				//新添加人员
 				map.put("personList", extUser.getList());
+				HashMap<String, String> error = new HashMap<>();
+				int count = 0;
+				int i =0;
 				for (ExtractUser extractUser : extUser.getList()) {
-					if(extractUserMapper.getList(extractUser).size()<1){
+					if(StringUtils.isBlank(extractUser.getName())|| extractUser.getName().length()>5){
+						error.put("list["+i+"].name", "姓名不能为空且长度小于5");
+						count++;
+					}if(StringUtils.isBlank(extractUser.getDuty())||extractUser.getDuty().length()>50){
+						error.put("list["+i+"].duty", "职务不能为空且长度小于50");
+						count++;
+					}if(StringUtils.isBlank(extractUser.getCompary())||extractUser.getCompary().length()>50){
+						error.put("list["+i+"].compary", "公司不能为空且长度小于50");
+						count++;
+					}if(StringUtils.isBlank(extractUser.getRank())||extractUser.getRank().length()>50){
+						error.put("list["+i+"].rank", "军衔不能为空且长度小于50");
+						count++;
+					}
+					i++;
+					if(count>0){
+						return error;
+					}
+					List<ExtractUser> list = extractUserMapper.getList(extractUser);
+					if(list.size()<1){
 						arrayList.add(extractUser);
+					}else {
+						extractUser.setId(list.get(0).getId());
 					}
 				}
 			}
@@ -73,6 +98,7 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 				personRelMapper.insertRel(map);
 			}
 		}
+		return null;
 	}
 	
 }
