@@ -3629,4 +3629,79 @@ public class ExpertAuditController{
 		todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
 		return new JdcgResult(200);
     }
+    
+    /**
+     * 审核汇总页
+     * @param model
+     * @param expertId
+     * @param sign
+     * @return
+     */
+    @RequestMapping(value = "/auditSummary")
+    public String auditSummary(Model model, String expertId, Integer sign){
+    	//初审复审标识（1初审，3复查，2复审）
+		model.addAttribute("sign", sign);
+		
+		model.addAttribute("expertId", expertId);
+		ExpertAudit expertAudit = new ExpertAudit();
+		expertAudit.setExpertId(expertId);
+		expertAudit.setAuditFalg(2);
+		List<ExpertAudit> reasonsList = expertAuditService.getListByExpert(expertAudit);
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("GOODS", 0);
+		map.put("PROJECT", 0);
+		map.put("SERVICE", 0);
+		map.put("ENG_INFO_ID", 0);
+		StringBuffer items=new StringBuffer();
+		if( reasonsList != null && reasonsList.size() > 0 ){
+			for (ExpertAudit e : reasonsList) {
+				if("six".equals(e.getSuggestType())){
+					SupplierCateTree tree =null;
+					Category category = categoryService.findById(e.getAuditFieldId());
+					if(category != null){
+						tree = getTreeListByCategoryId(category.getId(), null);
+					}else{
+						tree = getTreeListByCategoryId(e.getAuditFieldId(), "ENG_INFO_ID");
+					}
+					String rootNode = tree.getRootNode();
+		        	String firstNode = tree.getFirstNode();
+		        	String secondNode = tree.getSecondNode();
+		        	String thirdNode=tree.getThirdNode();
+		        	if(rootNode !=null && rootNode !=""){
+		        		items.append(rootNode);
+		        	}
+		        	if(firstNode !=	null && firstNode !=""){
+		        		items.append("/" + firstNode); 
+		        	}
+		        	if(secondNode != null && secondNode !=""){
+		        		items.append("/" + secondNode); 
+		        	}
+		        	if(thirdNode != null && thirdNode !=""){
+		        		items.append("/" + thirdNode); 
+		        	}
+		
+					e.setAuditContent(items.toString());
+					items.setLength(0);
+					if(tree != null && tree.getRootNodeCode() != null){
+						map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
+						if("GOODS".equals(tree.getRootNodeCode())){
+							e.setAuditField("物资品目信息");
+						}else if("PROJECT".equals(tree.getRootNodeCode())){
+							e.setAuditField("工程品目信息");
+						}else if("SERVICE".equals(tree.getRootNodeCode())){
+							e.setAuditField("服务品目信息");
+						}else if("ENG_INFO_ID".equals(tree.getRootNodeCode())){
+							e.setAuditField("工程专业属性");
+						}
+					}
+					
+				}
+			}
+		}
+		model.addAttribute("reasonsList", reasonsList);
+		
+		Expert expert = expertService.selectByPrimaryKey(expertId);
+		model.addAttribute("status", expert.getStatus());
+    	return "ses/ems/expertAudit/audit_summary";
+    }
 }

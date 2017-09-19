@@ -18,6 +18,9 @@ function jump(str) {
     if (str == "preliminaryInfo") {
     	action = globalPath + "/expertAudit/preliminaryInfo.html";
     }
+    if (str == "auditSummary") {
+    	action = globalPath + "/expertAudit/auditSummary.html";
+    }
     if (str == "reasonsList") {
         action = globalPath + "/expertAudit/reasonsList.html";
     }
