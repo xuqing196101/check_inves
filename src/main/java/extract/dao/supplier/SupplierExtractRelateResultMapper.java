@@ -122,7 +122,7 @@ public interface SupplierExtractRelateResultMapper {
 
   /**
    * 
-   *〈简述〉查询抽取供应商类型
+   *〈简述〉查询抽取供应商
    *〈详细描述〉
    * @author Wang Wenshuai
    * @return

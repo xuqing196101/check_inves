@@ -5,7 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,4 +62,24 @@ public class ExtractExpertRecordController {
         model.addAttribute("endTime",endTime);
 		return "ses/ems/exam/expert/extract/project_list";
 	}
+	
+	/**
+	 * 下载记录表
+	 * @param id
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	 @RequestMapping("/printRecord")
+     public ResponseEntity<byte[]> printRecord(String id,HttpServletRequest request, HttpServletResponse response){
+    	ResponseEntity<byte[]> printRecord = null;
+    	try {
+			printRecord = expertExtractProjectService.printRecord(id,request,response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return printRecord;
+     }
+	
 }

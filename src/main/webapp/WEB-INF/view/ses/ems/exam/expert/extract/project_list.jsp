@@ -65,7 +65,16 @@
   
   /* 下载抽取记录表 */
   function download(){
-    alert("download");
+    var id = [];
+        $('input[name="chkItem"]:checked').each(function () {
+            id.push($(this).val());
+        });
+        if (id.length != 1) {
+            layer.alert("只能选择一个", {offset: ['222px', '390px'], shade: 0.01});
+        } else {
+		conditionId = $("#conditionId").val();
+           window.location.href = "${pageContext.request.contextPath}/extractExpertRecord/printRecord.html?id=" + id + "&&conditionId=";
+        }
   }
 </script>
 </head>

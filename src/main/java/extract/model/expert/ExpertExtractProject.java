@@ -286,6 +286,6 @@ public class ExpertExtractProject {
 	}
 
 	public String getProcurementDepId() {
-		return null;
+		return this.procurementDepId;
 	}
 }

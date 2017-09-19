@@ -205,6 +205,10 @@
 //       $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("10");
   }
   
+  function showTitle(){
+  	layer.alert("您选择的是与关系");
+  }
+  
 </script>
 </head>
 <body>
@@ -216,12 +220,12 @@
 				<ul class="list-unstyled list-flow p0_20">
 					<li class="col-md-6  p0 ">
 						<div class="fl mr10">
-							<input type="radio" name="radio" id="radio" checked="checked"
+							<input type="radio" name="radio" checked="checked"
 								value="1" class="fl" />
 							<div class="ml5 fl">满足某一产品条件即可</div>
 						</div>
 						<div class="fl mr10">
-							<input type="radio" name="radio" id="radio" value="2" class="fl" />
+							<input type="radio" name="radio"  value="2" class="fl"  onclick="showTitle()"/>
 							<div class="ml5 fl">同时满足多个产品条件</div>
 						</div>
 					</li>

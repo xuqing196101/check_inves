@@ -1,5 +1,7 @@
 package extract.dao.expert;
 
+import java.util.List;
+
 import extract.model.expert.ExpertExtractTypeInfo;
 
 /**
@@ -23,4 +25,6 @@ public interface ExpertExtractTypeInfoMapper {
     int updateByPrimaryKeySelective(ExpertExtractTypeInfo record);
 
     int updateByPrimaryKey(ExpertExtractTypeInfo record);
+
+	List<ExpertExtractTypeInfo> selectByTypeInfo(ExpertExtractTypeInfo expertExtractTypeInfo);
 }

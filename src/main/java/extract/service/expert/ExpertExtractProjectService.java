@@ -65,8 +65,9 @@ public interface ExpertExtractProjectService {
      * @data 2017年9月18日
      * @param 
      * @return
+     * @throws Exception 
      */
-    ResponseEntity<byte[]> printRecord(String id, HttpServletRequest request, HttpServletResponse response);
+    ResponseEntity<byte[]> printRecord(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
     
     
     

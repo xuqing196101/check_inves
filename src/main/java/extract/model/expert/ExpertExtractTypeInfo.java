@@ -182,4 +182,21 @@ public class ExpertExtractTypeInfo {
         this.engIsSatisfy = engIsSatisfy;
     }
 
+	public ExpertExtractTypeInfo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * 
+	 * @param conditionId
+	 * @param expertTypeCode
+	 */
+	public ExpertExtractTypeInfo(String conditionId, String expertTypeCode) {
+		super();
+		this.conditionId = conditionId;
+		this.expertTypeCode = expertTypeCode;
+	}
+
+    
 }

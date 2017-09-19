@@ -187,4 +187,17 @@
     ENG_IS_SATISFY = #{engIsSatisfy,jdbcType=DECIMAL},
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="selectByTypeInfo" parameterType="extract.model.expert.ExpertExtractTypeInfo" resultMap="BaseResultMap">
+	SELECT * FROM T_SES_EMS_EXTRACT_TYPE_INFO I 
+	<where>
+		<if test="conditionId !=null">
+		 	I.CONDITION_ID = #{conditionId}
+		</if>
+		<if test="expertTypeCode !=null">
+		 	AND	I.EXPERT_TYPE_CODE = #{expertTypeCode} 
+		</if>
+	</where>
+  </select>
+  
 </mapper>

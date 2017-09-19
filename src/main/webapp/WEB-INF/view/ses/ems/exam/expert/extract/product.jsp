@@ -204,6 +204,10 @@
               x[0].checked=true;  
    
  }
+ 
+ function showTitle(){
+  	layer.alert("您选择的是与关系");
+  }
 </script>
 </head>
 <body>
@@ -221,7 +225,7 @@
 							<div class="ml5 fl">满足某一产品条件即可</div>
 						</div>
 						<div class="fl mr10">
-							<input type="radio" name="radio" id="radio" value="2" class="fl" />
+							<input type="radio" name="radio" id="radio" value="2"  onclick="showTitle()" class="fl" />
 							<div class="ml5 fl">同时满足多个产品条件</div>
 						</div>
 					</li>

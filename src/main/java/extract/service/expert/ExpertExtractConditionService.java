@@ -1,5 +1,6 @@
 package extract.service.expert;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import extract.model.expert.ExpertExtractCateInfo;
@@ -39,4 +40,11 @@ public interface ExpertExtractConditionService {
      * @throws Exception 
      */
     Map<String, Object> findExpertByExtract(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception;
+
+    /**
+     * 条件查询
+     * @param cmap
+     * @return
+     */
+	ExpertExtractCondition getByMap(HashMap<Object, Object> cmap);
 }

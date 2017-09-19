@@ -343,15 +343,4 @@ public class ExtractExpertController {
     }
     
     
-    @RequestMapping("/printRecord")
-    public ResponseEntity<byte[]> printRecord(String id,HttpServletRequest request, HttpServletResponse response){
-    	ResponseEntity<byte[]> printRecord = null;
-    	try {
-			printRecord = expertExtractProjectService.printRecord(id,request,response);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	return printRecord;
-    }
 }

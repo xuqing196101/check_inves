@@ -48,4 +48,18 @@ public interface ExpertExtractResultMapper {
      * @return
      */
     List<String> findByConditionId(String conditionId);
+
+    /**
+     * 查询详细抽取结果
+     * @param id
+     * @return
+     */
+	List<ExpertExtractResult> getResultListByrecordId(String id);
+
+	/**
+	 * 查询候补专家
+	 * @param id
+	 * @return
+	 */
+	List<ExpertExtractResult> getBackExpertListByrecordId(String id);
 }

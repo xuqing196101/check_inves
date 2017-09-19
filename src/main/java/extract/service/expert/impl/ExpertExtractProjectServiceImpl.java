@@ -1,5 +1,6 @@
 package extract.service.expert.impl;
 
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,25 +11,35 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.AreaMapper;
+import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.Area;
+import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
+import ses.model.oms.Orgnization;
+import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
+import ses.util.WordUtil;
 
 import com.github.pagehelper.PageHelper;
 
 import extract.dao.common.ExtractUserMapper;
 import extract.dao.common.SuperviseMapper;
+import extract.dao.expert.ExpertExtractConditionMapper;
 import extract.dao.expert.ExpertExtractProjectMapper;
+import extract.dao.expert.ExpertExtractResultMapper;
+import extract.dao.expert.ExpertExtractTypeInfoMapper;
+import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
-import extract.model.supplier.SupplierExtractCondition;
+import extract.model.expert.ExpertExtractTypeInfo;
 import extract.service.expert.ExpertExtractConditionService;
 import extract.service.expert.ExpertExtractProjectService;
 
@@ -64,10 +75,34 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     private OrgnizationMapper orgnizationMapper;
 	
 	@Autowired
+    private ExpertService service;
+	
+	@Autowired
+	private CategoryMapper categoryMapper;
+	
+	
+	/**
+	 * 人员信息
+	 */
+	@Autowired
     private ExtractUserMapper userMapper;
     @Autowired
     private SuperviseMapper superviseMapper;
 	
+    //抽取条件
+    @Autowired
+    private ExpertExtractConditionMapper expertExtractConditionMapper;
+    
+    
+    @Autowired
+    private ExpertExtractTypeInfoMapper typeInfoMapper;
+    
+    
+    @Autowired
+    private ExpertExtractResultMapper resultMapper;
+    
+    
+    
     /**
      * 保存信息
      */
@@ -156,14 +191,52 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 
 	@Override
 	public ResponseEntity<byte[]> printRecord(String id,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//根据记录id 查询项目信息不同供应商类别打印两个记录表
 		Map<String, Object> info = selectExtractInfo(id);
 		
-		//expertExtractConditionService.selectByProjectId(id);
-		
-		
-		return null;
+		  // 文件存储地址
+        String filePath = request.getSession().getServletContext()
+            .getRealPath("/WEB-INF/upload_file/");
+        // 文件名称
+        String name ;
+        if("PROJECT".equals(info.get("projectTypeCode"))){
+        	 name = new String(("军队供应商抽取记录表(工程类).doc").getBytes("UTF-8"),
+        	            "UTF-8");
+        }else{
+        	 name = new String(("军队供应商抽取记录表(物资服务类).doc").getBytes("UTF-8"),
+        	            "UTF-8");
+        }
+       
+//	        Supplier supplier = JSON.parseObject(supplierJson, Supplier.class);
+        /** 创建word文件 **/
+        String fileName;
+        if("PROJECT".equals(info.get("projectTypeCode"))){
+        	 fileName = WordUtil.createWord(info, "extractExpertEng.ftl",
+        	            name, request);
+        }else{
+        	 fileName = WordUtil.createWord(info, "extractExpert.ftl",
+        	            name, request);
+        }
+       
+//	        String fileName = WordUtil.createWord(supplier, "test2.ftl",
+//	        		name, request);
+        // 下载后的文件名
+        String downFileName;
+        if("PROJECT".equals(info.get("projectTypeCode"))){
+        	downFileName = "军队采购评审专家抽取记录表(工程类).doc";
+        }else{
+        	downFileName = "军队供采购评审专家取记录表(物资服务类).doc";
+        }
+      
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            downFileName = URLEncoder.encode(downFileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            downFileName = new String(downFileName.getBytes("UTF-8"), "ISO8859-1");
+        }
+        return service.downloadFile(fileName, filePath, downFileName);
 	}
 
 
@@ -171,12 +244,20 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 		ExpertExtractProject projectInfo = expertExtractProjectMapper.selectByPrimaryKey(id);
 		//日期格式化
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+		String temp = "";
+		//条件
+		HashMap<Object, Object> cmap = new HashMap<>();
+		cmap.put("recordId", id);
+		ExpertExtractCondition condition = expertExtractConditionService.getByMap(cmap);
 		
-		String projectCode = projectInfo.getProjectType();
 		Map<String, Object> map = new HashMap<>();
 		
 		//采购机构
-		map.put("ProcurementDep",orgnizationMapper.findOrgByPrimaryKey(projectInfo.getProcurementDepId()).getName());
+		if(StringUtils.isNotBlank(projectInfo.getProcurementDepId())){
+			Orgnization findOrgByPrimaryKey = orgnizationMapper.findOrgByPrimaryKey(projectInfo.getProcurementDepId());
+			if(null!=findOrgByPrimaryKey);
+			map.put("ProcurementDep",findOrgByPrimaryKey.getName());
+		}
 		
 		//抽取地点
 		map.put("construction", projectInfo.getExtractAddress());
@@ -194,15 +275,113 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 		map.put("projectName", projectInfo.getProjectName());
 		
 		//供应商地域
+		if(condition.getAreaName().equals("0")){
+			map.put("areaName", "全国");
+		}else{
+			String[] split = condition.getAreaName().split(",");
+			temp = "";
+			for (String string : split) {
+				temp += areaMapper.selectById(id).getName()+",";
+			}
+			map.put("areaName", temp.substring(temp.lastIndexOf(",")));
+		}
+		
 		//map.put("areaName", condition.getAreaName()==0?"全国":"");
 		
 		
 		//人员信息
 		map.put("extractUsers",  userMapper.getlistByRid(projectInfo.getId()));
 		map.put("supervises",  superviseMapper.getlistByRid(projectInfo.getId()));
-				
+			
+		DictionaryData typeData = DictionaryDataUtil.findById(projectInfo.getProjectType());
+		String typeCode = typeData==null?"":typeData.getCode();
+		map.put("projectTypeCode", typeCode);
 		
-		return null;
+		//抽取条件
+		//总人数
+		map.put("anum", condition.getExtractNum());
+		
+		
+		List<ExpertExtractTypeInfo> extractTypeInfo = typeInfoMapper.selectByTypeInfo(new ExpertExtractTypeInfo(condition.getId(),null));
+		if(null !=extractTypeInfo){
+			for (ExpertExtractTypeInfo e : extractTypeInfo) {
+				if(StringUtils.isNotBlank(e.getExpertTypeCode())){
+					String expertTypeCode = e.getExpertTypeCode();
+					if(expertTypeCode.split("_").length>0){
+						//经济专家人数
+						map.put("gnum", e.getCountPerson());
+						
+						//职称
+						map.put("tzc", e.getTechnicalTitle());
+						//产品类别
+						String cids = e.getCategoryIds();
+						temp = "";
+						if(StringUtils.isNotBlank(cids)){
+							String[] split = cids.split(",");
+							for (String cid : split) {
+								Category cate = categoryMapper.findById(cid);
+								if(null!=cate){
+									temp += cate.getName()+",";
+								}
+							}
+							temp = temp.substring(temp.lastIndexOf(","));
+						}else{
+							temp = "不限类别";
+						}
+						map.put("areaName",temp );
+					}else{
+						//技术专家
+						map.put("tnum", e.getCountPerson());
+						
+						//职称
+						map.put("gzc", e.getTechnicalTitle());
+						
+						//产品类别
+						String cids = e.getCategoryIds();
+						temp = "";
+						if(StringUtils.isNotBlank(cids)){
+							String[] split = cids.split(",");
+							for (String cid : split) {
+								Category cate = categoryMapper.findById(cid);
+								if(null!=cate){
+									temp += cate.getName()+",";
+								}
+							}
+							temp = temp.substring(temp.lastIndexOf(","));
+						}else{
+							temp = "不限类别";
+						}
+						map.put("areaName",temp );
+					}
+				}
+			}
+			
+		}
+		
+		/*//高级
+		
+		map.put("gj", "");
+		//中级
+		
+		map.put("zj", "");
+		//其他
+		
+		map.put("el", "");*/
+		
+		//工程类
+		/*if("PROJECT".equals(typeCode)){
+			//执业资格
+			
+		}*/
+		
+		
+		
+		//结果
+		//TODO 类别字段
+		map.put("result", resultMapper.getResultListByrecordId(id));
+		//TODO
+		map.put("back", resultMapper.getBackExpertListByrecordId(id));
+		return map;
 	}
 	
 }

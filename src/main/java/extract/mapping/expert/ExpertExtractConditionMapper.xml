@@ -167,4 +167,15 @@
     PROJECT_ID = #{projectId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="getByMap" parameterType="map" resultMap="BaseResultMap">
+  	SELECT * FROM T_SES_EMS_EXTRACT_CONDITION C 
+  	<where>
+	  	<if test="recordId!=null">
+	  	 	C.PROJECT_ID = #{recordId}
+	  	</if>
+  	</where>
+  </select>
+  
+  
 </mapper>

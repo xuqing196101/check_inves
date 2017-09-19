@@ -1,6 +1,9 @@
 package extract.model.expert;
 
+import java.io.Serializable;
 import java.util.Date;
+
+import ses.model.ems.Expert;
 
 /**
  * 
@@ -10,9 +13,14 @@ import java.util.Date;
  * @version 2016-9-7
  * @since JDK1.7
  */
-public class ExpertExtractResult {
+public class ExpertExtractResult extends Expert implements Serializable {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * 主键
      */
     private String id;

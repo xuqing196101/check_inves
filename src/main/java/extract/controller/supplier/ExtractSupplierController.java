@@ -187,145 +187,6 @@ public class ExtractSupplierController extends BaseController {
     	return "ses/sms/supplier_extracts/condition_list";
     }
 
-    /**
-     *
-     *〈简述〉
-     *〈详细描述〉ajax 验证必填项
-     * @author Wang Wenshuai
-     * @param model
-     * @param project
-     * @param packageName
-     * @param typeclassId
-     * @param sids
-     * @param extAddress
-     * @return
-     */
-    /*@ResponseBody
-    @RequestMapping("/validateAddExtraction")
-    public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest sq,String[] packageId, String[] superviseId,Integer type){
-
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("type", type.toString());
-
-        //后台数据校验
-        int count=0;
-        if (project.getName() == null || "".equals(project.getName())){
-            map.put("projectNameError", "不能为空");
-            count = 1;
-        }
-
-        if (project.getProjectNumber() == null || "".equals(project.getProjectNumber())){
-            map.put("projectNumberError", "不能为空");
-            count = 1;
-        }
-
-        if (extractionSites == null ||  "".equals(extractionSites)){
-            map.put("extractionSitesError", "不能为空");
-            count=1;
-        }
-        //独立
-        if(typeclassId != null && !"".equals(typeclassId)){
-            if(superviseId == null || superviseId.length == 0){
-                map.put("supervise", "不能为空");
-                count = 1;
-            }
-        }else{
-            List<ExtractUser> list = extUserServicel.list(new ExtractUser(project.getId()));
-            if (list == null || list.size() == 0 || "".equals(project.getId())){
-                map.put("supervise", "不能为空");
-                count = 1;
-            }
-        }
-        if(type == null || type != 1){
-            if(packageId == null || packageId.length == 0 ){
-                map.put("packageError", "不能为空");
-                count = 1;
-            }
-        }
-
-        if (count == 1){
-            if(type == 2 && map.get("packageError") != null && !"".equals(map.get("packageError"))){
-            }else{
-                map.put("error", "error");
-            }
-            return JSON.toJSONString(map);
-
-        }else if(type != null && 1 == type && project.getId() != null && !"".equals(project.getId()) ){//只是类型是1的
-            map.put("typeclassId", typeclassId);
-            if(project != null && project.getId() != null && !"".equals(project.getId())){
-                map.put("projectId", project.getId());
-            }
-            return JSON.toJSONString(map);
-        } else {
-            try{
-                //真实的项目id
-                String projectId = project.getId();
-                if (project.getId() == null || "".equals(project.getId())) {
-                    // 创建一个临时项目临时包
-                    project.setIsProvisional(1);
-                    projectService.add(project);
-                    projectId = project.getId();
-                    project.setId(projectId);
-                    //修改监督人员
-                    if (superviseId != null && superviseId.length != 0) {
-                        for (String id : superviseId) {
-                            ExtractUser extUser = new ExtractUser();
-                            extUser.setProjectId(projectId);
-                            extUser.setId(id);
-                            extUserServicel.update(extUser);
-                        }
-                    }
-                }
-                //抽取地址
-                if (extractionSites != null && !"".equals(extractionSites)){
-                    SupplierExtractProjectInfo supplierExtracts = new SupplierExtractProjectInfo();
-                    supplierExtracts.setProjectId(projectId);
-                    PageHelper.startPage(1, 1);
-                    //查询抽取记录
-                    List<SupplierExtractProjectInfo> listSe = expExtractRecordService.listExtractRecord(supplierExtracts,0);
-                    //设置抽取地点
-                    supplierExtracts.setExtractionSites(extractionSites);
-                    User user = (User) sq.getSession().getAttribute("loginUser");
-                    if(user != null ){
-                    	//设置抽取人员
-                        //supplierExtracts.setExtractsPeople(user.getId());
-                    }
-                    if (listSe != null && listSe.size() != 0){
-                        supplierExtracts.setId(listSe.get(0).getId());
-                        expExtractRecordService.update(supplierExtracts);
-                    } else {
-                        supplierExtracts.setProjectCode(project.getProjectNumber());
-                        supplierExtracts.setProjectName(project.getName());
-                        supplierExtracts.setExtractionTime(new Date());
-                        expExtractRecordService.insert(supplierExtracts);
-                    }
-                }
-                //获取抽取条件状态，未抽取不能在抽取
-                map.put("projectId", project.getId());
-                if(packageId != null && !"".equals(packageId) && packageId.length != 0){
-                	//通过项目分包Id 查询未完成抽取包id
-                    String count2 = conditionService.getCount(packageId);
-                    if (count2 != null && !"".equals(count2)){
-                        map.put("status", "1");
-                        map.put("packageId", count2);
-                    } else {
-                        map.put("sccuess", "SCCUESS");
-                    }
-
-                }
-            }catch (Exception ex){
-                map.put("isSuccess","false");
-                map.put("msg","数据更新异常");
-                ex.printStackTrace();
-            }
-
-        }
-        return JSON.toJSONString(map);
-
-
-    }*/
-
-   
 
     /**
      * @Description:选择品目
@@ -403,21 +264,6 @@ public class ExtractSupplierController extends BaseController {
     }
 
     
-    @ResponseBody
-    @RequestMapping("/isFinish")
-    public String isFinish(String packageId){
-        //获取查询条件类型
-        SupplierExtractCondition condition = new SupplierExtractCondition();
-        condition.setProjectId(packageId);
-        condition.setStatus((short)1);
-        String finish = conditionService.isFinish(condition);
-
-        return JSON.toJSONString(finish);
-    }
-
-   
-    
-    
     /**
      *
      *〈简述〉获取品目树
@@ -494,7 +340,7 @@ public class ExtractSupplierController extends BaseController {
     
     /**
      *
-     *〈简述〉存储供应商抽取 项目信息
+     *〈简述〉下载记录表
      *〈详细描述〉
      * @author jcx
      * @return

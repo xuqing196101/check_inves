@@ -336,4 +336,9 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
         }
         return expertList;
     }
+
+	@Override
+	public ExpertExtractCondition getByMap(HashMap<Object, Object> cmap) {
+		return expertExtractConditionMapper.getByMap(cmap);
+	}
 }

@@ -1,5 +1,7 @@
 package extract.dao.expert;
 
+import java.util.HashMap;
+
 import extract.model.expert.ExpertExtractCondition;
 
 /**
@@ -23,4 +25,6 @@ public interface ExpertExtractConditionMapper {
     int updateByPrimaryKeySelective(ExpertExtractCondition record);
 
     int updateByPrimaryKey(ExpertExtractCondition record);
+
+	ExpertExtractCondition getByMap(HashMap<Object, Object> cmap);
 }

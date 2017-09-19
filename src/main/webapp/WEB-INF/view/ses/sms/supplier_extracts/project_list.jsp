@@ -98,7 +98,7 @@
             location.href = '${pageContext.request.contextPath}/SupplierExtracts/resuleRecordlist.do';
         }
         function printRecord() {
-        	 var id = [];
+        	var id = [];
             $('input[name="chkItem"]:checked').each(function () {
                 id.push($(this).val());
             });
