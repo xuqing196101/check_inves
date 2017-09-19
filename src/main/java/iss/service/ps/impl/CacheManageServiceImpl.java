@@ -239,10 +239,10 @@ public class CacheManageServiceImpl implements CacheManageService {
      */
     @Override
     public JdcgResult getPVDate(User user) {
-        Object object = null;
+        /*Object object = null;
         if (user != null) {
             object = SessionListener.sessionMap.get(user.getId());
-        }
+        }*/
         // 获取jedis
         Jedis jedis = null;
         // 获取计数查询实体
@@ -261,7 +261,7 @@ public class CacheManageServiceImpl implements CacheManageService {
             // 获取总访问量
             pvTotal = jedis.get(C_PV_TOTAL_KEY);
             systemPVVO.setTotalCount(new BigDecimal(pvTotal));
-            if (object != null) {
+            if (user != null) {
                 systemPVVO.setLoginName(user.getLoginName());
             }
             return JdcgResult.ok(systemPVVO);
@@ -287,7 +287,7 @@ public class CacheManageServiceImpl implements CacheManageService {
         }
         systemPVVO.setTotalCount(pvTotalCount);
 
-        if (object != null) {
+        if (user != null) {
             systemPVVO.setLoginName(user.getLoginName());
         }
         return JdcgResult.ok(systemPVVO);
