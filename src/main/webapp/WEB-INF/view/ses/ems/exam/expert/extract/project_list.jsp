@@ -76,6 +76,16 @@
            window.location.href = "${pageContext.request.contextPath}/extractExpertRecord/printRecord.html?id=" + id + "&&conditionId=";
         }
   }
+  
+  /* 重置 */
+  function form_reset(){
+    $("#form1").find("input").val("");
+    var SelectArr = $("#form1").find("select");
+    for (var i = 0; i < SelectArr.length; i++) {
+      SelectArr[i].options[0].selected = true; 
+    }
+    $("#page").val("1");
+  }
 </script>
 </head>
 
@@ -94,7 +104,7 @@
   </div>
   <!-- 项目列表开始-->
   <div class="container">
-    <div class="headline-v2"><h2>项目列表</h2></div>
+    <div class="headline-v2"><h2>抽取记录列表</h2></div>
     <!-- 项目戳开始 -->
     <h2 class="search_detail">
       <form action="${pageContext.request.contextPath}/extractExpertRecord/getRecordList.html" id="form1" method="post" class="mb0">
@@ -126,7 +136,7 @@
             <input id="endTime" name="endTime" type="text" value="${endTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" readonly="readonly">
           </li>
           <button class="btn fl mt1" type="submit">查询</button>
-          <button type="button" class="btn fl mt1" onclick="reset()">重置</button>
+          <button type="button" class="btn fl mt1" onclick="form_reset()">重置</button>
         </ul>
         <div class="clear"></div>
       </form>
@@ -165,12 +175,22 @@
               <c:if test="${obj.isAuto == 1 }">自动抽取</c:if>
               <c:if test="${obj.isAuto == 0 }">人工抽取</c:if>
             </td>
-            <td class="tc w120">${obj.reviewAddress }</td>
-            <td class=" w90">抽取人</td>
+            <td class="tc w120" title="${obj.reviewAddress }">
+              <c:if test="${fn:length(obj.reviewAddress) > 7 }">${fn:substring(obj.reviewAddress, 0, 7)}...</c:if>
+              <c:if test="${fn:length(obj.reviewAddress) <= 7 }">${obj.reviewAddress }</c:if>
+            </td>
+            <td class="tc w90" title="${obj.extractPerson }">
+              <c:if test="${fn:length(obj.extractPerson) > 4 }">${fn:substring(obj.extractPerson, 0, 4)}...</c:if>
+              <c:if test="${fn:length(obj.extractPerson) <= 4 }">${obj.extractPerson }</c:if>
+            </td>
             <td class="tc w150"><!-- reviewTime -->
               <fmt:formatDate value="${obj.createdAt }" pattern="yyyy/MM/dd HH:mm:ss" />
             </td>
-            <td class="tc w90">抽取状态</td>
+            <td class="tc w90">
+              <c:if test="${obj.status == '0' }">未开始</c:if>
+              <c:if test="${obj.status == '1' }">抽取中</c:if>
+              <c:if test="${obj.status == '2' }">抽取结束</c:if>
+            </td>
           </tr>
         </c:forEach>
       </table>

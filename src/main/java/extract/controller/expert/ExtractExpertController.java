@@ -21,6 +21,7 @@ import ses.model.bms.AreaZtree;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExtConType;
 import ses.service.bms.AreaServiceI;
@@ -30,6 +31,7 @@ import ses.service.bms.EngCategoryService;
 import ses.util.DictionaryDataUtil;
 
 import com.alibaba.fastjson.JSON;
+import common.annotation.CurrentUser;
 
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
@@ -95,26 +97,37 @@ public class ExtractExpertController {
      * @return
      */
     @RequestMapping("/toExpertExtract")
-    public String toExpertExtract(Model model){
-        //采购方式
-        List<DictionaryData> purchaseWayList = new ArrayList<>();
-        purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
-        purchaseWayList.add(DictionaryDataUtil.get("XJCG"));
-        purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
-        model.addAttribute("purchaseWayList",purchaseWayList);
-        //项目类型
-        List<DictionaryData> projectTypeList = DictionaryDataUtil.find(6);
-        model.addAttribute("projectTypeList",projectTypeList);
-        //生成项目信息主键id
-        String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-        model.addAttribute("projectId",uuid);
-        //专家类型
-        List<DictionaryData> expertTypeList = DictionaryDataUtil.find(12);
-        model.addAttribute("expertTypeList",expertTypeList);
-        //加载地区省
-        List<AreaZtree> areaTree = areaService.getTreeList(null,null);
-        model.addAttribute("areaTree",areaTree);
-        return "ses/ems/exam/expert/extract/condition_list";
+    public String toExpertExtract(@CurrentUser User user,Model model){
+        //权限验证   资源服务中心   采购机构  可以抽取
+    	String authType = null;
+        if(null != user && ("4".equals(user.getTypeName()) || "1".equals(user.getTypeName()))){
+        	authType = user.getTypeName();
+        	//采购方式
+            List<DictionaryData> purchaseWayList = DictionaryDataUtil.find(5);
+            if(purchaseWayList != null && purchaseWayList.size() > 0){
+            	 for (DictionaryData dictionaryData : purchaseWayList) {
+         			if("XJCG".equals(dictionaryData.getCode())){
+         				dictionaryData.setName("询价");
+         			}
+         		}
+            }
+            model.addAttribute("purchaseWayList",purchaseWayList);
+            //项目类型
+            List<DictionaryData> projectTypeList = DictionaryDataUtil.find(6);
+            model.addAttribute("projectTypeList",projectTypeList);
+            //生成项目信息主键id
+            String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+            model.addAttribute("projectId",uuid);
+            //专家类型
+            List<DictionaryData> expertTypeList = DictionaryDataUtil.find(12);
+            model.addAttribute("expertTypeList",expertTypeList);
+            //加载地区省
+            List<AreaZtree> areaTree = areaService.getTreeList(null,null);
+            model.addAttribute("areaTree",areaTree);
+            model.addAttribute("authType",authType);
+            return "ses/ems/exam/expert/extract/condition_list";
+        }
+        return "redirect:/qualifyError.jsp";
     }
     
     /**
@@ -129,9 +142,9 @@ public class ExtractExpertController {
      */
     @RequestMapping("/saveProjectInfo")
     @ResponseBody
-    public String saveProjectInfo(ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception{
+    public String saveProjectInfo(@CurrentUser User user,ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception{
         //保存项目基本信息
-        expertExtractProjectService.save(expertExtractProject);
+        expertExtractProjectService.save(expertExtractProject,user);
         //查询抽取结果信息
         Map<String, Object> result = expertExtractConditionService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
         //保存抽取条件
@@ -343,4 +356,39 @@ public class ExtractExpertController {
     }
     
     
+    /**
+     * 
+     * Description:下载记录表 
+     * 
+     * @author jia chengxiang
+     * @data 2017年9月19日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/printRecord")
+    public ResponseEntity<byte[]> printRecord(String id,HttpServletRequest request, HttpServletResponse response){
+    	ResponseEntity<byte[]> printRecord = null;
+    	try {
+			printRecord = expertExtractProjectService.printRecord(id,request,response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return printRecord;
+    }
+    
+    /**
+     * 
+     * Description: 验证项目编码唯一
+     * 
+     * @author zhang shubin
+     * @data 2017年9月19日
+     * @param 
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/vaProjectCode")
+    public String vaProjectCode(String code){
+        return expertExtractProjectService.vaProjectCode(code);
+    }
 }

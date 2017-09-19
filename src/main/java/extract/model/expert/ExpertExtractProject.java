@@ -106,20 +106,43 @@ public class ExpertExtractProject {
      * 评审地点-地市/区
      */
     private String reviewAddress;
-    
+
     /**
-     * 抽取方式
-     * 1 自动抽取
-     * 0 人工抽取
+     * 抽取方式 1 自动抽取 0 人工抽取
      */
     private Short isAuto;
 
     /**
      * 采购机构
-     * 
      */
     private String procurementDepId;
+
+    /**
+     * 抽取状态
+     */
+    private String status;
     
+    /**
+     * 抽取人员
+     */
+    private String extractPerson;
+
+    public String getExtractPerson() {
+        return extractPerson;
+    }
+
+    public void setExtractPerson(String extractPerson) {
+        this.extractPerson = extractPerson;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getId() {
         return id;
     }
@@ -173,7 +196,8 @@ public class ExpertExtractProject {
     }
 
     public void setReviewProvince(String reviewProvince) {
-        this.reviewProvince = reviewProvince == null ? null : reviewProvince.trim();
+        this.reviewProvince = reviewProvince == null ? null : reviewProvince
+                .trim();
     }
 
     public String getProjectType() {
@@ -189,7 +213,8 @@ public class ExpertExtractProject {
     }
 
     public void setExtractAddress(String extractAddress) {
-        this.extractAddress = extractAddress == null ? null : extractAddress.trim();
+        this.extractAddress = extractAddress == null ? null : extractAddress
+                .trim();
     }
 
     public String getContactPerson() {
@@ -197,7 +222,8 @@ public class ExpertExtractProject {
     }
 
     public void setContactPerson(String contactPerson) {
-        this.contactPerson = contactPerson == null ? null : contactPerson.trim();
+        this.contactPerson = contactPerson == null ? null : contactPerson
+                .trim();
     }
 
     public String getContactNum() {
@@ -280,12 +306,12 @@ public class ExpertExtractProject {
         this.isAuto = isAuto;
     }
 
-    
+	public String getProcurementDepId() {
+		return procurementDepId;
+	}
+
 	public void setProcurementDepId(String procurementDepId) {
 		this.procurementDepId = procurementDepId;
 	}
 
-	public String getProcurementDepId() {
-		return this.procurementDepId;
-	}
 }

@@ -2,6 +2,8 @@ package extract.dao.common;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import extract.model.common.ExtractUser;
 
 public interface ExtractUserMapper {
@@ -14,5 +16,6 @@ public interface ExtractUserMapper {
 
 	List<ExtractUser> getlistByRid(String recordId);
 
+	List<String> getUnameByprojectId(@Param("projectId")String projectId);
 
 }

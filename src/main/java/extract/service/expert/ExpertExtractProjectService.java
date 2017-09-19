@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import extract.model.expert.ExpertExtractProject;
 
 /**
@@ -30,7 +31,7 @@ public interface ExpertExtractProjectService {
      * @param 
      * @return
      */
-    int save(ExpertExtractProject expertExtractProject);
+    int save(ExpertExtractProject expertExtractProject,User user);
     
     /**
      * 
@@ -69,6 +70,14 @@ public interface ExpertExtractProjectService {
      */
     ResponseEntity<byte[]> printRecord(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
     
-    
-    
+    /**
+     * 
+     * Description: 项目编号唯一验证 
+     * 
+     * @author zhang shubin
+     * @data 2017年9月19日
+     * @param 
+     * @return
+     */
+    String vaProjectCode(String code);
 }

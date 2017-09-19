@@ -3,6 +3,8 @@ package extract.dao.expert;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import extract.model.expert.ExpertExtractProject;
 
 /**
@@ -46,4 +48,15 @@ public interface ExpertExtractProjectMapper {
      * @return
      */
     List<ExpertExtractProject> findAll(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 项目编号唯一验证 
+     * 
+     * @author zhang shubin
+     * @data 2017年9月19日
+     * @param 
+     * @return
+     */
+    int vaProjectCode(@Param("code")String code);
 }

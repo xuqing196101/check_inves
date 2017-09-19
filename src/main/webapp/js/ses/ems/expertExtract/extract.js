@@ -35,6 +35,11 @@ $(function() {
 // 加载地区
 function functionArea() {
     var parentId = $("#province").val();
+    if(parentId == '0'){
+    	$("#city").empty();
+        $("#city").append("<option value='0'>选择地区</option>");
+        return;
+    }
     $.ajax({
         url : globalPath + "/area/find_by_parent_id.do",
         data : {
@@ -117,9 +122,11 @@ function validationIsNull(code){
 	if(projectName == null || projectName == ""){
 		$("#err_projectName").html("项目名称不能为空");
 		flag = false;
+		layer.msg("项目信息填写有误");
 	}else if(strTrim(projectName).length > 100){
 		$("#err_projectName").html("不能超过100字");
 		flag = false;
+		layer.msg("项目信息填写有误");
 	}else{
 		$("#err_projectName").html("");
 	}
@@ -129,17 +136,38 @@ function validationIsNull(code){
 	if(projectCode == null || projectCode == ""){
 		$("#err_code").html("项目编号不能为空");
 		flag = false;
+		layer.msg("项目信息填写有误");
 	}else if(strTrim(projectCode).length > 100){
 		$("#err_code").html("不能超过80字");
 		flag = false;
+		layer.msg("项目信息填写有误");
 	}else{
-		$("#err_code").html("");
+		// 验证项目编号重复校验
+		$.ajax({
+			url : globalPath + "/extractExpert/vaProjectCode.do",
+			data : {
+				"code" : projectCode
+			},
+			dataType : "json",
+			async : false,
+			type : "POST",
+			success : function(data) {
+				if(data.status == "no"){
+					$("#err_code").html("项目编号已被使用");
+					flag = false;
+					layer.msg("项目信息填写有误");
+				}else{
+					$("#err_code").html("");
+				}
+			}
+		});
 	}
-	//评审时间
+	// 评审时间
 	var reviewTime = $("#reviewTime").val();
 	if(reviewTime == null || reviewTime == ""){
 		$("#err_reviewTime").html("评审时间不能为空");
 		flag = false;
+		layer.msg("项目信息填写有误");
 	}else{
 		$("#err_reviewTime").html("");
 	}
@@ -149,6 +177,7 @@ function validationIsNull(code){
 	if(province == '0' || city == '0'){
 		$("#err_aaa").html("请选择评审地点");
 		flag = false;
+		layer.msg("项目信息填写有误");
 	}else{
 		$("#err_aaa").html("");
 	}
@@ -157,20 +186,38 @@ function validationIsNull(code){
 	if(extractAddress == null || extractAddress == ""){
 		$("#err_extractAddress").html("抽取地址不能为空");
 		flag = false;
+		layer.msg("项目信息填写有误");
 	}else if(strTrim(extractAddress).length > 100){
 		$("#err_extractAddress").html("不能超过100字");
 		flag = false;
+		layer.msg("项目信息填写有误");
 	}else{
 		$("#err_extractAddress").html("");
 	}
+	//评审详细地址
+	var reviewSite = $("#reviewSite").val();
+	if(reviewSite == null || reviewSite == ""){
+		$("#err_reviewSite").html("评审详细地址不能为空");
+		flag = false;
+		layer.msg("项目信息填写有误");
+	}else if(strTrim(reviewSite).length > 100){
+		$("#err_reviewSite").html("不能超过100字");
+		flag = false;
+		layer.msg("项目信息填写有误");
+	}else{
+		$("#err_reviewSite").html("");
+	}
+	
 	//联系人
 	var contactPerson = $("#contactPerson").val();
 	if(contactPerson == null || contactPerson == ""){
 		$("#err_contactPerson").html("联系人不能为空");
 		flag = false;
+		layer.msg("项目信息填写有误");
 	}else if(strTrim(contactPerson).length > 30){
 		$("#err_contactPerson").html("不能超过30字");
 		flag = false;
+		layer.msg("项目信息填写有误");
 	}else{
 		$("#err_contactPerson").html("");
 	}
@@ -179,6 +226,7 @@ function validationIsNull(code){
 	if(contactNum == null || contactNum == ""){
 		$("#err_contactNum").html("联系电话不能为空");
 		flag = false;
+		layer.msg("项目信息填写有误");
 	}else{
 		$("#err_contactNum").html("");
 	}
@@ -187,10 +235,17 @@ function validationIsNull(code){
     strs = code.split(",");
     var num = 0;
 	for(var i=0; i<strs.length; i++){
+		if($("#"+strs[i]+"_count").text() == 0){
+			layer.msg("当前满足条件人数不足");
+			flag = false;
+		}
 		var v = $("#"+strs[i].toLowerCase()+"_i_count").val();
 		if(v == null || v == ""){
 			$("#err_"+strs[i].toLowerCase()+"_i_count").html("人数不能为空");
 			flag = false;
+		}else if(parseInt(v) > parseInt($("#"+strs[i]+"_count").text())){
+			flag = false;
+			$("#err_"+strs[i].toLowerCase()+"_i_count").html("当前符合条件人数不足");
 		}else{
 			num += parseInt(coUndifined(v));
 			$("#err_"+strs[i].toLowerCase()+"_i_count").html("");
@@ -237,6 +292,15 @@ function validationIsNull(code){
 	if(count2 > 0){
 		flag = false;
 		$("#sError").html("监督人员信息必须填写完整");
+	}
+	//区域限制理由
+	var provincesel = $("#provincesel").val();
+	if(provincesel != '0'){
+		var xzReason = $("#xzReason").val();
+		if(xzReason == null || xzReason == ""){
+			flag = false;
+			$("#err_addressReason").html("区域限制理由不能为空");
+		}
 	}
 	return flag;
 }
@@ -427,7 +491,6 @@ function getExpert(resultCode){
     });
 }
 
-
 // 将undefined转换为空字符串
 function coUndifined(v){
     if (typeof (v) == "undefined") {
@@ -436,69 +499,6 @@ function coUndifined(v){
         return v;
     }
 }
-//添加人员信息
-/*function addPerson(k){
-    if(k == 1){
-        //添加抽取人员
-        var i = parseInt($("#extractPerson").find('tr').last().children("td").eq(1).text()) + 1;
-        var info = "<tr>"+
-        "<td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem1' value='' /></td>"+
-        "<td class='tc'>"+i+"</td>"+
-        "<td><input value = ''></td>"+
-        "<td><input value = ''></td>"+
-        "<td><input value = ''></td>"+
-        "<td><input value = ''></td>"+
-        "</tr>";
-        $("#extractPerson").append(info);
-    }else if(k == 2){
-        //添加监督人员
-        var i = parseInt($("#supervisesPerson").find('tr').last().children("td").eq(1).text()) + 1;
-        var info = "<tr>"+
-        "<td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem2' value='' /></td>"+
-        "<td class='tc'>"+i+"</td>"+
-        "<td><input value = ''></td>"+
-        "<td><input value = ''></td>"+
-        "<td><input value = ''></td>"+
-        "<td><input value = ''></td>"+
-        "</tr>";
-        $("#supervisesPerson").append(info);
-    }
-}
-
-//删除人员信息
-function deletePerson(k){
-    layer.confirm('您确定要删除吗?', {
-        title: '提示',
-        offset: ['222px', '360px'],
-        shade: 0.01
-    }, function(index) {
-        layer.close(index);
-        var count = 0;
-        var value = 0;
-        $('input:checkbox[name=chkItem'+k+']:checked').each(function(){
-            if(count == 0){
-                value = parseInt($(this).parent().next().text());
-            }
-            count ++;
-            $(this).parent().parent().remove();
-        });
-        if(count != 0){
-            var id = "extractPerson";
-            if(k == 2){
-                id = "supervisesPerson";
-            }
-            $("#"+id).find('tr').each(function(t){
-                if(parseInt($("#"+id).find('tr').eq(t).children("td").eq(1).text()) > value){
-                    $("#"+id).find('tr').eq(t).children("td").eq(1).text(value);
-                    value ++;
-                }
-            });
-        }else{
-            layer.msg("请选择人员");
-        }
-    });
-}*/
-
 
 //加载专家类别
 function loadExpertKind(){
@@ -527,7 +527,9 @@ function loadExpertKind(){
             }
             $("#expertKind").append("<option value='"+va+"'>不限</option>");
             for(var i = 0; i < data.length; i++){
-                $("#expertKind").append("<option value="+data[i].code+">"+data[i].name+"</option>");
+            	if(data[i].code != "GOODS_PROJECT" && data[i].code != "GOODS_SERVER"){
+            		$("#expertKind").append("<option value="+data[i].code+">"+data[i].name+"</option>");
+            	}
                 $("#"+data[i].code).removeClass("display-none");
             }
         },
@@ -757,7 +759,7 @@ function showCheckArea(treeObj){
     $("#area").val(names.substring(0,names.lastIndexOf(",")));
     //判断全国  隐藏限制理由输入框
     if($("#provincesel").val() == 0){
-        $("#addressReason").val("");
+        $("#xzReason").val("");
         $("#addressReason").addClass("display-none");
     }else{
         $("#addressReason").removeClass("display-none");
@@ -907,6 +909,20 @@ function savePerson(){
 		}
 	});	
 }
+
+//重置抽取条件
+function extractReset(){
+	$("#div_3").find("input").val("");
+	var SelectArr = $("#div_3").find("select");
+	for (var i = 0; i < SelectArr.length; i++) {
+		SelectArr[i].options[0].selected = true; 
+		}
+	changeKind();
+	loadAreaZtree();
+}
+
+
+
 //生成uuid
 function uuid() {
     var s = [];

@@ -20,8 +20,8 @@ import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
 
 import com.github.pagehelper.PageInfo;
-import common.annotation.CurrentUser;
 
+import common.annotation.CurrentUser;
 import extract.model.expert.ExpertExtractProject;
 import extract.service.expert.ExpertExtractProjectService;
 
@@ -44,23 +44,33 @@ public class ExtractExpertRecordController {
 	 */
 	@RequestMapping("/getRecordList")
 	public String getRecordList(@CurrentUser User user, Model model, @RequestParam(defaultValue="1")Integer page,String startTime,String endTime,ExpertExtractProject expertExtractProject){
-		Map<String, Object> map = new HashMap<>();
-		map.put("page", page);
-		map.put("startTime", null == startTime ? "" : startTime.trim());
-		map.put("endTime", null == endTime ? "" : endTime.trim());
-		List<ExpertExtractProject> list = expertExtractProjectService.findAll(map,expertExtractProject);
-		PageInfo<ExpertExtractProject> info = new PageInfo<>(list);
-		model.addAttribute("info",info);
-		//采购方式
-        List<DictionaryData> purchaseWayList = new ArrayList<>();
-        purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
-        purchaseWayList.add(DictionaryDataUtil.get("XJCG"));
-        purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
-        model.addAttribute("purchaseWayList",purchaseWayList);
-        model.addAttribute("project",expertExtractProject);
-        model.addAttribute("startTime",startTime);
-        model.addAttribute("endTime",endTime);
-		return "ses/ems/exam/expert/extract/project_list";
+		//声明标识是否是资源服务中心
+		String authType = null;
+        if(null != user && ("4".equals(user.getTypeName()) || "1".equals(user.getTypeName()))){
+        	authType = user.getTypeName();
+        	Map<String, Object> map = new HashMap<>();
+        	if(authType.equals("1")){
+        		map.put("procurementDepId",user.getOrg().getId());
+        	}
+    		map.put("page", page);
+    		map.put("startTime", null == startTime ? "" : startTime.trim());
+    		map.put("endTime", null == endTime ? "" : endTime.trim());
+    		List<ExpertExtractProject> list = expertExtractProjectService.findAll(map,expertExtractProject);
+    		PageInfo<ExpertExtractProject> info = new PageInfo<>(list);
+    		model.addAttribute("info",info);
+    		//采购方式
+            List<DictionaryData> purchaseWayList = new ArrayList<>();
+            purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
+            purchaseWayList.add(DictionaryDataUtil.get("XJCG"));
+            purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
+            model.addAttribute("purchaseWayList",purchaseWayList);
+            model.addAttribute("project",expertExtractProject);
+            model.addAttribute("startTime",startTime);
+            model.addAttribute("endTime",endTime);
+            model.addAttribute("authType",authType);
+    		return "ses/ems/exam/expert/extract/project_list";
+        }
+        return "redirect:/qualifyError.jsp";
 	}
 	
 	/**

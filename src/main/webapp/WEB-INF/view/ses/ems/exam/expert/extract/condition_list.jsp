@@ -96,6 +96,13 @@
             </div>
           </li>
           <li class="col-md-3 col-sm-4 col-xs-12 ">
+            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 评审详细地址:</span>
+            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+              <input class="span5" type="text" id="reviewSite" name="reviewSite" value="${reviewSite }" maxlength="100"> <span class="add-on">i</span>
+              <div class="cue" id="err_reviewSite"></div>
+            </div>
+          </li>
+          <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 项目类型:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
               <select class="col-md-12 col-sm-12 col-xs-12 p0" name="projectType" id="projectType" onchange="loadExpertKind()">
@@ -149,74 +156,6 @@
         </ul>
       </form>
       </div>
-      <!-- <h2 class="count_flow"><i>2</i>人员信息</h2>
-      <ul class="ul_list">
-        <h2 class="count_flow"><span class="red">*</span> 抽取人员</h2>
-        <div class="col-md-12 pl20 mt10">
-          <button class="btn btn-windows add" type="button" onclick="addPerson(1)">新增</button>
-          <button class="btn btn-windows delete" type="button" onclick="deletePerson(1)">删除</button>
-          <button class="btn" type="button" onclick="">引用历史人员</button>
-        </div>
-        <div class="content table_box">
-          <table class="table table-bordered table-condensed table-hover table-striped" id="extractPerson">
-            <thead>
-              <tr>
-                <th class="w30 info"><input id="checkAll1" type="checkbox" onclick="selectAll(1)" /></th>
-                <th class="w50 info">序号</th>
-                <th class="info" width="19%">姓名</th>
-                <th class="info" width="35%">单位</th>
-                <th class="info" width="19%">职务</th>
-                <th class="info" width="19%">军衔</th>
-              </tr>
-            </thead>
-              <tr>
-                <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem1" value="" /></td>
-                <td class="tc">1</td>
-                <td><input value = ""></td>
-                <td><input value = ""></td>
-                <td><input value = ""></td>
-                <td><input value = ""></td>
-              </tr>
-              <tr>
-                <td class="tc w30"><input onclick="check(1)" type="checkbox" name="chkItem1" value="" /></td>
-                <td class="tc">2</td>
-                <td><input value = ""></td>
-                <td><input value = "" width="100%"></td>
-                <td><input value = ""></td>
-                <td><input value = ""></td>
-              </tr>
-          </table>
-        </div>
-        
-        <h2 class="count_flow"><span class="red">*</span> 监督人员</h2>
-        <div class="col-md-12 pl20 mt10">
-          <button class="btn btn-windows add" type="button" onclick="addPerson(2)">新增</button>
-          <button class="btn btn-windows delete" type="button" onclick="deletePerson(2)">删除</button>
-          <button class="btn" type="button" onclick="">引用历史人员</button>
-        </div>
-        <div class="content table_box">
-          <table class="table table-bordered table-condensed table-hover table-striped" id="supervisesPerson">
-            <thead>
-              <tr>
-                <th class="w30 info"><input id="checkAll2" type="checkbox" onclick="selectAll(2)" /></th>
-                <th class="w50 info">序号</th>
-                <th class="info" width="19%">姓名</th>
-                <th class="info" width="35%">单位</th>
-                <th class="info" width="19%">职务</th>
-                <th class="info" width="19%">军衔</th>
-              </tr>
-            </thead>
-              <tr>
-                <td class="tc w30"><input onclick="check(2)" type="checkbox" name="chkItem2" value="" /></td>
-                <td class="tc">1</td>
-                <td><input value = ""></td>
-                <td><input value = ""></td>
-                <td><input value = ""></td>
-                <td><input value = ""></td>
-              </tr>
-          </table>
-        </div>
-      </ul> -->
       <div class="container_box col-md-12 col-sm-12 col-xs-12">
       <div id="div_2">
         <h2 class="count_flow"><i>2</i>人员信息</h2>
@@ -290,14 +229,6 @@
               <div class="cue" id=""></div>
             </div>
           </li>
-          <li class="col-md-3 col-sm-4 col-xs-12 display-none" id="addressReason">
-            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 区域限制理由:</span>
-            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" type="text" maxlength="100" name="addressReason">
-              <span class="add-on">i</span><span class="input-tip">最多100字</span>
-              <div class="cue" id=""></div>
-            </div>
-          </li>
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 专家类型:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -337,6 +268,16 @@
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">&nbsp;</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">注：选择"是"，取完满足人数后，需要抽取两名候补专家</div>
           </li>
+          <li class="clear"></li>
+          <li class="col-md-12 col-sm-12 col-xs-12 " id="addressReason"><!-- display-none -->
+            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 区域限制理由:</span>
+            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+              <!-- <input class="span5" type="text" maxlength="100" name="addressReason" id="xzReason">
+              <span class="add-on">i</span><span class="input-tip">最多100字</span> -->
+              <textarea class="w100p h100 resizen" maxlength="500" name="addressReason" id="xzReason"></textarea>
+              <div class="cue" id="err_addressReason"></div>
+            </div>
+          </li>
         </form>
         <!-- 工程技术 -->
         <div class="col-md-12 clear mt20 pt20 borderTS1 display-none" id="PROJECT">
@@ -361,7 +302,7 @@
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
-                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 产品类别:</span>
+                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 参评类别:</span>
                 <input type="hidden" name="project_isSatisfy" class="isSatisfy">
                 <input type="hidden" name="project_type" class="categoryId">
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -409,7 +350,7 @@
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
-                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 产品类别:</span>
+                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 参评类别:</span>
                 <input type="hidden" name="goods_project_isSatisfy" class="isSatisfy">
                 <input type="hidden" name="goods_project_type" class="categoryId">
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -449,7 +390,7 @@
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
-                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 产品类别:</span>
+                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 参评类别:</span>
                 <input type="hidden" name="goods_isSatisfy" class="isSatisfy">
                 <input type="hidden" name="goods_type" class="categoryId">
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -481,7 +422,7 @@
                   <div class="cue" id="err_goods_server_i_count"></div>
                 </div>
               </li>
-              <li class="col-md-3 col-sm-4 col-xs-12 list-style">
+              <!-- <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 产品类别:</span>
                 <input type="hidden" name="goods_server_isSatisfy" class="isSatisfy">
                 <input type="hidden" name="goods_server_type" class="categoryId">
@@ -496,7 +437,7 @@
                   <input class="span5" type="text" name="goods_server_technical" onchange="getCount(this)" typeCode="GOODS_SERVER"> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
                 </div>
-              </li>
+              </li> -->
             </ul>
             <div class="clear"></div>
           </form>
@@ -515,7 +456,7 @@
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
-                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 产品类别:</span>
+                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 参评类别:</span>
                 <input type="hidden" name="service_isSatisfy" class="isSatisfy">
                 <input type="hidden" name="service_type" class="categoryId">
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -526,7 +467,7 @@
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 技术职称:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="service_technical" onchange="getCount(this)" typeCode="SERVICE"> <span class="add-on">i</span>
+                  <input class="span5" type="text" name="service_technical"  typeCode="SERVICE"> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
                 </div>
               </li>
@@ -538,7 +479,7 @@
         <div class="col-md-12 clear tc mt10">
           <button class="btn" type="button" onclick="artificial_extracting()" id="artificial">人工抽取</button>
           <button class="btn" type="button" onclick="" id="auto">自动抽取</button>
-          <button class="btn" type="button" onclick="" id="reset">重置</button>
+          <button class="btn" type="button" onclick="extractReset()" id="reset">重置</button>
         </div>
         <div class="clear"></div>
       </ul>

@@ -23,12 +23,14 @@ import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
 import extract.dao.common.ExtractUserMapper;
@@ -88,6 +90,10 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     private ExtractUserMapper userMapper;
     @Autowired
     private SuperviseMapper superviseMapper;
+    
+    //抽取人员
+    @Autowired
+    private ExtractUserMapper extractUserMapper;
 	
     //抽取条件
     @Autowired
@@ -107,10 +113,14 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
      * 保存信息
      */
     @Override
-    public int save(ExpertExtractProject expertExtractProject) {
+    public int save(ExpertExtractProject expertExtractProject,User user) {
         expertExtractProject.setCreatedAt(new Date());
         expertExtractProject.setUpdatedAt(new Date());
         expertExtractProject.setIsDeleted((short) 0);
+        expertExtractProject.setStatus("1");
+        if(user != null){
+        	expertExtractProject.setProcurementDepId(user.getOrg().getId());
+        }
         return expertExtractProjectMapper.insertSelective(expertExtractProject);
     }
 
@@ -183,6 +193,20 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 						expertExtractProject.setReviewAddress(area1.getName() + "/" + area2.getName());
 					}
 				}
+				//抽取人员
+				List<String> userList = extractUserMapper.getUnameByprojectId(expertExtractProject.getId());
+				StringBuffer sb = new StringBuffer();
+				if(userList != null && userList.size() > 0){
+					for (int i = 0; i < userList.size(); i++) {
+						if(i == 0){
+							sb.append(userList.get(i));
+						}else{
+							sb.append(",");
+							sb.append(userList.get(i));
+						}
+					}
+				}
+				expertExtractProject.setExtractPerson(sb.toString());
 			}
 		}
 		return list;
@@ -280,8 +304,8 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 		}else{
 			String[] split = condition.getAreaName().split(",");
 			temp = "";
-			for (String string : split) {
-				temp += areaMapper.selectById(id).getName()+",";
+			for (String str : split) {
+				temp += areaMapper.selectById(str).getName()+",";
 			}
 			map.put("areaName", temp.substring(temp.lastIndexOf(",")));
 		}
@@ -382,6 +406,20 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 		//TODO
 		map.put("back", resultMapper.getBackExpertListByrecordId(id));
 		return map;
+	}
+
+
+	@Override
+	public String vaProjectCode(String code) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int v = expertExtractProjectMapper.vaProjectCode(code);
+		if(v > 0){
+			//已经存在
+			map.put("status", "no");
+		}else{
+			map.put("status", "yes");
+		}
+		return JSON.toJSONString(map);
 	}
 	
 }
