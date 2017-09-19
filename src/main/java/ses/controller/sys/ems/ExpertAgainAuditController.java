@@ -108,7 +108,9 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		List<Expert> expertList = expertService.findExpertAuditListNotPage(expert);
 		for (Expert e : expertList) {
 			SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd");
-			e.setUpdateTime(dateFormater.format(e.getAuditAt()));
+			if(e.getAuditAt() !=null){
+				e.setUpdateTime(dateFormater.format(e.getAuditAt()));
+			}
 			StringBuffer expertType = new StringBuffer();
             if(e.getExpertsTypeId() != null) {
                 for(String typeId: e.getExpertsTypeId().split(",")) {
