@@ -273,7 +273,7 @@
           </table>
        </form>
       </div>
-      </div><input type = "button" value = "wqe" onclick="savePerson()">
+      </div>
       <h2 class="count_flow"><i>3</i>抽取条件</h2>
       <div id="div_3">
       <!--地区id -->
