@@ -93,7 +93,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		if(pageNum == null) {
 			pageNum = StaticVariables.DEFAULT_PAGE;
 		}
-		expert.setStatus("11");//查询待分配专家  
+		expert.setStatus("1");//查询初审合格专家  
 		expert.setSort("1");
 		if(batchIds != null){
 			List<String> idsList = new ArrayList<String>();
@@ -108,7 +108,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		List<Expert> expertList = expertService.findExpertAuditListNotPage(expert);
 		for (Expert e : expertList) {
 			SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd");
-			e.setUpdateTime(dateFormater.format(e.getUpdatedAt()));
+			e.setUpdateTime(dateFormater.format(e.getAuditAt()));
 			StringBuffer expertType = new StringBuffer();
             if(e.getExpertsTypeId() != null) {
                 for(String typeId: e.getExpertsTypeId().split(",")) {
