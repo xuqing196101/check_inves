@@ -10,7 +10,6 @@
       data: {},
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
-        
         if (is_init === 0) {
           var str = '';
           for (var orgName_i in list_content.allOrg) {
@@ -24,7 +23,7 @@
           $('[name=expertsFrom]').html('<option value="">全部</option>' + str);
           str = '';
           for (var expertsTypeId_i in list_content.expTypeList) {
-            str += '<option value="'+ list_content.expTypeList[expertsTypeId_i].name +'">'+ list_content.expTypeList[expertsTypeId_i].name +'</option>';
+            str += '<option value="'+ list_content.expTypeList[expertsTypeId_i].id +'">'+ list_content.expTypeList[expertsTypeId_i].name +'</option>';
           }
           $('[name=expertsTypeId]').html(str);
           str = '';
@@ -54,8 +53,8 @@
             if (typeof(list_content.expertList[i].professTechTitles) === 'undefined') {
               list_content.expertList[i].professTechTitles = '';
             }
-            if (typeof(list_content.expertList[i].auditAt) === 'undefined') {
-              list_content.expertList[i].auditAt = '';
+            if (typeof(list_content.expertList[i].updateTime) === 'undefined') {
+              list_content.expertList[i].updateTime = '';
             }
             if (typeof(list_content.expertList[i].expertsTypeId) === 'undefined') {
               list_content.expertList[i].expertsTypeId = '';
@@ -74,7 +73,7 @@
               +'<td class="text-center">'+ list_content.expertList[i].expertsFrom +'</td>'
               +'<td>'+ list_content.expertList[i].workUnit +'</td>'
               +'<td>'+ list_content.expertList[i].professTechTitles +'</td>'
-              +'<td class="text-center">'+ list_content.expertList[i].auditAt +'</td>'
+              +'<td class="text-center">'+ list_content.expertList[i].updateTime +'</td>'
             +'</tr>');
           }
           

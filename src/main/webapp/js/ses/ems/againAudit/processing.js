@@ -19,21 +19,21 @@ function create_review_batches() {
       success: function (data) {
         var str = '';
         var list_content = data.object;
-        for (var i in list_content) {
-          if (typeof(list_content[i].relName) === 'undefined') {
-            list_content[i].relName = '';
+        for (var i in list_content.expertList) {
+          if (typeof(list_content.expertList[i].relName) === 'undefined') {
+            list_content.expertList[i].relName = '';
           }
-          if (typeof(list_content[i].professTechTitles) === 'undefined') {
-            list_content[i].professTechTitles = '';
+          if (typeof(list_content.expertList[i].professTechTitles) === 'undefined') {
+            list_content.expertList[i].professTechTitles = '';
           }
-          if (typeof(list_content[i].auditAt) === 'undefined') {
-            list_content[i].auditAt = '';
+          if (typeof(list_content.expertList[i].updateTime) === 'undefined') {
+            list_content.expertList[i].updateTime = '';
           }
           str += '<tr>'
             +'<td class="text-center">'+ (parseInt(i) + 1) +'</td>'
-            +'<td class="text-center">'+ list_content[i].relName +'</td>'
-            +'<td class="text-center">'+ list_content[i].professTechTitles +'</td>'
-            +'<td class="text-center">'+ list_content[i].auditAt +'</td>'
+            +'<td class="text-center">'+ list_content.expertList[i].relName +'</td>'
+            +'<td class="text-center">'+ list_content.expertList[i].professTechTitles +'</td>'
+            +'<td class="text-center">'+ list_content.expertList[i].updateTime +'</td>'
           +'</tr>';
         }
         $('#crb_content').html(str);
