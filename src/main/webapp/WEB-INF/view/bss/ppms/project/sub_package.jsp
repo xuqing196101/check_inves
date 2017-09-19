@@ -572,7 +572,9 @@
                 </td>
                 <td><div class="seq">${obj.serialNumber }</div></td>
                 <td>
+                	<c:if test="${obj.price eq null || obj.purchaseCount eq null}">
                   <div class="department">${obj.department }</div>
+                  </c:if>
                 </td>
                 <td>
                   <div class="goodsname">${obj.goodsName}</div>
@@ -600,15 +602,11 @@
                 </td>
                 <td>
                   <div class="purchasetype">
-                    <c:choose>
-                      <c:when test="${obj.detailStatus==0 }">
-                      </c:when>
-                      <c:otherwise>
+                  	<c:if test="${obj.price ne null && obj.purchaseCount ne null}">
                         <c:forEach items="${kind}" var="kind">
-                          <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                          <c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
                         </c:forEach>
-                      </c:otherwise>
-                    </c:choose>
+                     </c:if>
                   </div>
                 </td>
                 <td>
@@ -668,7 +666,9 @@
                 </td>
                 <td><div class="seq">${obj.serialNumber }</div></td>
                 <td>
-                  <div class="department">${obj.department }</div>
+                	<c:if test="${obj.price eq null || obj.purchaseCount eq null}">
+                  	<div class="department">${obj.department }</div>
+                  </c:if>
                 </td>
                 <td>
                   <div class="goodsname">${obj.goodsName}</div>
@@ -690,15 +690,11 @@
                 </td>
                 <td>
                   <div class="purchasetype">
-                    <c:choose>
-                      <c:when test="${obj.detailStatus==0 }">
-                      </c:when>
-                      <c:otherwise>
+                  	<c:if test="${obj.price ne null && obj.purchaseCount ne null}">
                         <c:forEach items="${kind}" var="kind">
-                          <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                          <c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
                         </c:forEach>
-                      </c:otherwise>
-                    </c:choose>
+                     </c:if>
                   </div>
                 </td>
                 <td>
@@ -755,7 +751,9 @@
               </td>
               <td><div class="seq">${obj.serialNumber }</div></td>
               <td>
-                <div class="department">${obj.department }</div>
+              	<c:if test="${obj.price eq null || obj.purchaseCount eq null}">
+                	<div class="department">${obj.department }</div>
+                </c:if>
               </td>
               <td>
                 <div class="goodsname">${obj.goodsName}</div>
@@ -777,15 +775,11 @@
               </td>
               <td>
                 <div class="purchasetype">
-                  <c:choose>
-                    <c:when test="${obj.detailStatus==0 }">
-                    </c:when>
-                    <c:otherwise>
+                	<c:if test="${obj.price ne null && obj.purchaseCount ne null}">
                       <c:forEach items="${kind}" var="kind">
-                        <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                        <c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
                       </c:forEach>
-                    </c:otherwise>
-                  </c:choose>
+                   </c:if>
                 </div>
               </td>
               <td>

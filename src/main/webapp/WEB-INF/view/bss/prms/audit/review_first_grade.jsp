@@ -309,7 +309,7 @@ $(document).ready(function () {
 		   	      <th class="tc w80" rowspan="2">评审指标</th>
 		   	      <th class="tc w30" rowspan="2">标准<br/>分值</th>
 			      <c:forEach items="${supplierList}" var="supplier">
-				      <th colspan="2" class="tc">${supplier.suppliers.supplierName}</th>
+				      <th colspan="2" class="tc">${supplier.supplierName}</th>
 				    </c:forEach>
 			  </tr>
 			  <tr>

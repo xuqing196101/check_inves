@@ -680,11 +680,6 @@ function judge(index) {
 		}
 		
 		var text = $("#show_table").find("tr").eq("1").find("td:last").text();
-		var aa = $("#show_table").find("tr").eq("1").find("td:last").prev().text();
-		if(aa == null || aa == ''){
-			layer.msg("该项内容为必填项");
-			return;
-		}
 		if (text == '添加一行') {
 			layer.msg("请至少添加一行");
 			return;
