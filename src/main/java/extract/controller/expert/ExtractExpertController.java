@@ -23,7 +23,6 @@ import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
-import ses.model.ems.ExtConType;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -31,8 +30,8 @@ import ses.service.bms.EngCategoryService;
 import ses.util.DictionaryDataUtil;
 
 import com.alibaba.fastjson.JSON;
-import common.annotation.CurrentUser;
 
+import common.annotation.CurrentUser;
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
@@ -55,7 +54,7 @@ import extract.service.expert.ExpertExtractResultService;
 @RequestMapping("/extractExpert")
 public class ExtractExpertController {
 
-	/** 专家抽取项目信息 **/
+    /** 专家抽取项目信息 **/
     @Autowired
     private ExpertExtractProjectService expertExtractProjectService;
 
@@ -99,17 +98,17 @@ public class ExtractExpertController {
     @RequestMapping("/toExpertExtract")
     public String toExpertExtract(@CurrentUser User user,Model model){
         //权限验证   资源服务中心   采购机构  可以抽取
-    	String authType = null;
+        String authType = null;
         if(null != user && ("4".equals(user.getTypeName()) || "1".equals(user.getTypeName()))){
-        	authType = user.getTypeName();
-        	//采购方式
+            authType = user.getTypeName();
+            //采购方式
             List<DictionaryData> purchaseWayList = DictionaryDataUtil.find(5);
             if(purchaseWayList != null && purchaseWayList.size() > 0){
-            	 for (DictionaryData dictionaryData : purchaseWayList) {
-         			if("XJCG".equals(dictionaryData.getCode())){
-         				dictionaryData.setName("询价");
-         			}
-         		}
+                 for (DictionaryData dictionaryData : purchaseWayList) {
+                     if("XJCG".equals(dictionaryData.getCode())){
+                         dictionaryData.setName("询价");
+                     }
+                 }
             }
             model.addAttribute("purchaseWayList",purchaseWayList);
             //项目类型
@@ -153,52 +152,52 @@ public class ExtractExpertController {
         String[] typeCodes = expertExtractCondition.getExpertKindId().split(",");
         StringBuffer codes = new StringBuffer();
         for (int i = 0; i < typeCodes.length; i++) {
-			if(i == 0){
-				codes.append(DictionaryDataUtil.findById(typeCodes[i]) == null ? "" : DictionaryDataUtil.findById(typeCodes[i]).getCode());
-			}else{
-				codes.append(",");
-				codes.append(DictionaryDataUtil.findById(typeCodes[i]) == null ? "" : DictionaryDataUtil.findById(typeCodes[i]).getCode());
-			}
-		}
+            if(i == 0){
+                codes.append(DictionaryDataUtil.findById(typeCodes[i]) == null ? "" : DictionaryDataUtil.findById(typeCodes[i]).getCode());
+            }else{
+                codes.append(",");
+                codes.append(DictionaryDataUtil.findById(typeCodes[i]) == null ? "" : DictionaryDataUtil.findById(typeCodes[i]).getCode());
+            }
+        }
         expertExtractCondition.setExpertKindId(codes.toString());
         if(expertExtractCondition.getIsExtractAlternate() == 1){
-        	if(expertExtractCondition.getExpertKindId().indexOf(",") >= 0){
-        		//有两个专家类别
-        		for (String str : expertExtractCondition.getExpertKindId().split(",")) {
-        			Map<String, Object> result22 = expertExtractConditionService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
-					@SuppressWarnings("unchecked")
-					List<Expert> list = (List<Expert>)result22.get(str);
-					if(list != null && list.size() > 0){
-						ExpertExtractResult expertExtractResult = new ExpertExtractResult();
-						expertExtractResult.setIsAlternate((short)1);
-						expertExtractResult.setExpertId(list.get(0).getId());
-						expertExtractResult.setProjectId(expertExtractProject.getId());
-						expertExtractResult.setConditionId(condition.getId());
-						expertExtractResult.setReviewTime(expertExtractProject.getReviewTime());
-						expertExtractResult.setIsJoin((short)1);
-						expertExtractResult.setExpertCode(str);
-						expertExtractResultService.save(expertExtractResult);
-					}
-        		}
-        	}else{
-        		//有一个专家类别
-        		for(int i=0; i<2; i++){
-        			Map<String, Object> result22 = expertExtractConditionService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
-					@SuppressWarnings("unchecked")
-					List<Expert> list = (List<Expert>)result22.get(expertExtractCondition.getExpertKindId());
-					if(list != null && list.size() > 0){
-						ExpertExtractResult expertExtractResult = new ExpertExtractResult();
-						expertExtractResult.setIsAlternate((short)1);
-						expertExtractResult.setExpertId(list.get(0).getId());
-						expertExtractResult.setProjectId(expertExtractProject.getId());
-						expertExtractResult.setConditionId(condition.getId());
-						expertExtractResult.setReviewTime(expertExtractProject.getReviewTime());
-						expertExtractResult.setIsJoin((short)1);
-						expertExtractResult.setExpertCode(expertExtractCondition.getExpertKindId());
-						expertExtractResultService.save(expertExtractResult);
-					}
-        		}
-        	}
+            if(expertExtractCondition.getExpertKindId().indexOf(",") >= 0){
+                //有两个专家类别
+                for (String str : expertExtractCondition.getExpertKindId().split(",")) {
+                    Map<String, Object> result22 = expertExtractConditionService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
+                    @SuppressWarnings("unchecked")
+                    List<Expert> list = (List<Expert>)result22.get(str);
+                    if(list != null && list.size() > 0){
+                        ExpertExtractResult expertExtractResult = new ExpertExtractResult();
+                        expertExtractResult.setIsAlternate((short)1);
+                        expertExtractResult.setExpertId(list.get(0).getId());
+                        expertExtractResult.setProjectId(expertExtractProject.getId());
+                        expertExtractResult.setConditionId(condition.getId());
+                        expertExtractResult.setReviewTime(expertExtractProject.getReviewTime());
+                        expertExtractResult.setIsJoin((short)1);
+                        expertExtractResult.setExpertCode(str);
+                        expertExtractResultService.save(expertExtractResult);
+                    }
+                }
+            }else{
+                //有一个专家类别
+                for(int i=0; i<2; i++){
+                    Map<String, Object> result22 = expertExtractConditionService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
+                    @SuppressWarnings("unchecked")
+                    List<Expert> list = (List<Expert>)result22.get(expertExtractCondition.getExpertKindId());
+                    if(list != null && list.size() > 0){
+                        ExpertExtractResult expertExtractResult = new ExpertExtractResult();
+                        expertExtractResult.setIsAlternate((short)1);
+                        expertExtractResult.setExpertId(list.get(0).getId());
+                        expertExtractResult.setProjectId(expertExtractProject.getId());
+                        expertExtractResult.setConditionId(condition.getId());
+                        expertExtractResult.setReviewTime(expertExtractProject.getReviewTime());
+                        expertExtractResult.setIsJoin((short)1);
+                        expertExtractResult.setExpertCode(expertExtractCondition.getExpertKindId());
+                        expertExtractResultService.save(expertExtractResult);
+                    }
+                }
+            }
         }
         result.put("conditionId", condition.getId());
         return JSON.toJSONString(result);
@@ -268,16 +267,9 @@ public class ExtractExpertController {
      * @return
      */
     @RequestMapping("/addHeading")
-    public String addHeading(Model model, String[] id, String type) {
-        ExtConType extConType = null;
-        if (id != null && id.length != 0) {
-            extConType = new ExtConType();
-            extConType.setCategoryId(id[0]);
-            extConType.setExpertsCount(Integer.parseInt(id[2]));
-            extConType.setExpertsQualification(id[3]);
-        }
+    public String addHeading(Model model, String id, String type) {
         model.addAttribute("type", type);
-        model.addAttribute("extConType", extConType);
+        model.addAttribute("ids", id);
         return "ses/ems/exam/expert/extract/product";
     }
     
@@ -290,12 +282,19 @@ public class ExtractExpertController {
      */
     @ResponseBody
     @RequestMapping("/getTree")
-    public String getTree(String code,Category category) {
+    public String getTree(String code,Category category,String ids) {
         if (code != null && code.equals("GOODS_PROJECT")) {
             code = "PROJECT";
         }
         if(code.equals("GOODS_SERVER")){
             return "";
+        }
+        List<String> idList = new ArrayList<>();
+        if(ids != null && !ids.equals("")){
+        	String[] split = ids.split(",");
+            for (String str : split) {
+            	idList.add(str);
+    		}
         }
         String categoryId = DictionaryDataUtil.getId(code);
         if (code != null && code.equals("ENG_INFO_ID")) {
@@ -306,6 +305,8 @@ public class ExtractExpertController {
                 ct.setName(parent.getName());
                 ct.setId(parent.getId());
                 ct.setIsParent("true");
+                // 设置是否被选中
+                /*ct.setChecked(expertExtractProjectService.isChecked(idList,code));*/
                 allCategories.add(ct);
             } else {
                 List < Category > tempNodes = engCategoryService.findPublishTree(category.getId(), null);
@@ -320,6 +321,8 @@ public class ExtractExpertController {
                         if(nodesList != null && nodesList.size() > 0) {
                             ct.setIsParent("true");
                         }
+                        // 设置是否被选中
+                        /*ct.setChecked(expertExtractProjectService.isChecked(idList,code));*/
                         allCategories.add(ct);
                     }
                 }
@@ -347,6 +350,8 @@ public class ExtractExpertController {
                         if(nodesList != null && nodesList.size() > 0) {
                             ct.setIsParent("true");
                         }
+                        // 设置是否被选中
+                        /*ct.setChecked(expertExtractProjectService.isChecked(idList,code));*/
                         allCategories.add(ct);
                     }
                 }
@@ -367,14 +372,14 @@ public class ExtractExpertController {
      */
     @RequestMapping("/printRecord")
     public ResponseEntity<byte[]> printRecord(String id,HttpServletRequest request, HttpServletResponse response){
-    	ResponseEntity<byte[]> printRecord = null;
-    	try {
-			printRecord = expertExtractProjectService.printRecord(id,request,response);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	return printRecord;
+        ResponseEntity<byte[]> printRecord = null;
+        try {
+            printRecord = expertExtractProjectService.printRecord(id,request,response);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return printRecord;
     }
     
     /**
@@ -391,4 +396,5 @@ public class ExtractExpertController {
     public String vaProjectCode(String code){
         return expertExtractProjectService.vaProjectCode(code);
     }
+
 }

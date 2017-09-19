@@ -13,7 +13,7 @@ $(function() {
 });
 
 (function($){  
-    $.fn.serializeJson=function(){  
+    $.fn.serializeJson=function(){
         var serializeObj={};  
         var array = this.serializeArray();  
         //var str = this.serialize();  
@@ -629,6 +629,7 @@ function vaCount(cate){
 /**展示品目*/
 function opens(cate) {
     var typeCode = $(cate).attr("typeCode");
+    var ids = coUndifined($("#"+typeCode.toLowerCase()+"_type").val());
     //获取类别
     cate.value = "";
     //  iframe层
@@ -640,8 +641,7 @@ function opens(cate) {
         shade: 0.01,
         area: ['430px', '400px'],
         offset: '20px',
-        content: globalPath+'/extractExpert/addHeading.do?type='+typeCode, //iframe的url
-        //content: globalPath+'/supplier/category_type.do?code='+supplierCode, 
+        content: globalPath+'/extractExpert/addHeading.do?type='+typeCode+'&&id='+ids, //iframe的url
         success: function (layero, index) {
             iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
         },

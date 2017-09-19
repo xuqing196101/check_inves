@@ -303,8 +303,8 @@
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 参评类别:</span>
-                <input type="hidden" name="project_isSatisfy" class="isSatisfy">
-                <input type="hidden" name="project_type" class="categoryId">
+                <input type="hidden" name="project_isSatisfy" class="isSatisfy" id="project_isSatisfy">
+                <input type="hidden" name="project_type" class="categoryId"  id="project_type">
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                   <input class="span5" type="text" readonly onclick="opens(this);" typeCode="PROJECT"> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
@@ -351,8 +351,8 @@
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 参评类别:</span>
-                <input type="hidden" name="goods_project_isSatisfy" class="isSatisfy">
-                <input type="hidden" name="goods_project_type" class="categoryId">
+                <input type="hidden" name="goods_project_isSatisfy" class="isSatisfy" id="goods_project_isSatisfy">
+                <input type="hidden" name="goods_project_type" class="categoryId" id="goods_project_type">
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                   <input class="span5" type="text" readonly onclick="opens(this);" typeCode="GOODS_PROJECT" name=""> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
@@ -391,8 +391,8 @@
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 参评类别:</span>
-                <input type="hidden" name="goods_isSatisfy" class="isSatisfy">
-                <input type="hidden" name="goods_type" class="categoryId">
+                <input type="hidden" name="goods_isSatisfy" id= "goods_isSatisfy" class="isSatisfy">
+                <input type="hidden" name="goods_type" id="goods_type" class="categoryId">
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                   <input class="span5" type="text" readonly onclick="opens(this);" typeCode="GOODS" name=""> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
@@ -457,8 +457,8 @@
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 参评类别:</span>
-                <input type="hidden" name="service_isSatisfy" class="isSatisfy">
-                <input type="hidden" name="service_type" class="categoryId">
+                <input type="hidden" name="service_isSatisfy" class="isSatisfy" id="service_isSatisfy">
+                <input type="hidden" name="service_type" class="categoryId" id="service_type">
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                   <input class="span5" type="text" readonly onclick="opens(this);" typeCode="SERVICE" name=""> <span class="add-on">i</span>
                   <div class="cue" id=""></div>

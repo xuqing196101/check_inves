@@ -49,7 +49,7 @@
           async: {
             autoParam: ["id"],
             enable: true,
-            url: "${pageContext.request.contextPath}/extractExpert/getTree.do?code=${type}",
+            url: "${pageContext.request.contextPath}/extractExpert/getTree.do?code=${type}&&ids=${ids}",
             otherParam: {
               categoryIds: "${categoryIds}",
             },

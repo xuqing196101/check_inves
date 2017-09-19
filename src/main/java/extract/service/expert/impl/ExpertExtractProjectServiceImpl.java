@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.bms.EngCategoryMapper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -82,7 +83,8 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 	@Autowired
 	private CategoryMapper categoryMapper;
 	
-	
+	@Autowired
+	private EngCategoryMapper engCategoryMapper;
 	/**
 	 * 人员信息
 	 */
@@ -307,7 +309,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 			for (String str : split) {
 				temp += areaMapper.selectById(str).getName()+",";
 			}
-			map.put("areaName", temp.substring(temp.lastIndexOf(",")));
+			map.put("areaName", temp.substring(0,temp.lastIndexOf(",")));
 		}
 		
 		//map.put("areaName", condition.getAreaName()==0?"全国":"");
@@ -348,7 +350,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 									temp += cate.getName()+",";
 								}
 							}
-							temp = temp.substring(temp.lastIndexOf(","));
+							temp = temp.substring(0,temp.lastIndexOf(","));
 						}else{
 							temp = "不限类别";
 						}
@@ -371,7 +373,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 									temp += cate.getName()+",";
 								}
 							}
-							temp = temp.substring(temp.lastIndexOf(","));
+							temp = temp.substring(0,temp.lastIndexOf(","));
 						}else{
 							temp = "不限类别";
 						}
@@ -422,4 +424,45 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 		return JSON.toJSONString(map);
 	}
 	
+	/**
+	 * 
+	 * Description: 判断节点是否被选中
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年9月19日
+	 * @param 
+	 * @return
+	 */
+	@Override
+    public boolean isChecked(List<String> allCategoryList,String typeCode) {
+        int count = 0;
+        if (allCategoryList != null && allCategoryList.size() > 0) {
+            for (String categoryId : allCategoryList) {
+                if (!typeCode.equals("ENG_INFO_ID")) {
+                    Category data = categoryMapper.findById(categoryId);
+                    List<Category> findPublishTree = categoryMapper.findPublishTree(categoryId,null);
+                    if (findPublishTree.size() == 0) {
+                        count++;
+                    } else if (data != null && data.getCode().length() == 7) {
+                        count++;
+                    }
+                } else {
+                    Category data = engCategoryMapper.findById(categoryId);
+                    List<Category> findPublishTree = engCategoryMapper.findPublishTree(categoryId,null);
+                    if (findPublishTree.size() == 0) {
+                        count++;
+                    } else if (data != null && data.getCode().length() == 7) {
+                        count++;
+                    }
+                }
+            }
+            int notCount = 0;
+            if (count > notCount) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 }
