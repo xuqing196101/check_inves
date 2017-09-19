@@ -1,7 +1,9 @@
 package extract.service.expert.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.util.DictionaryDataUtil;
@@ -21,8 +24,12 @@ import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
 
+import extract.dao.common.ExtractUserMapper;
+import extract.dao.common.SuperviseMapper;
 import extract.dao.expert.ExpertExtractProjectMapper;
 import extract.model.expert.ExpertExtractProject;
+import extract.model.supplier.SupplierExtractCondition;
+import extract.service.expert.ExpertExtractConditionService;
 import extract.service.expert.ExpertExtractProjectService;
 
 /**
@@ -47,7 +54,20 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     //地区
 	@Autowired
 	private AreaMapper areaMapper;
+	
+	//条件
+	@Autowired
+	private ExpertExtractConditionService expertExtractConditionService;
 
+	//机构
+	@Autowired
+    private OrgnizationMapper orgnizationMapper;
+	
+	@Autowired
+    private ExtractUserMapper userMapper;
+    @Autowired
+    private SuperviseMapper superviseMapper;
+	
     /**
      * 保存信息
      */
@@ -140,13 +160,47 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 		//根据记录id 查询项目信息不同供应商类别打印两个记录表
 		Map<String, Object> info = selectExtractInfo(id);
 		
+		//expertExtractConditionService.selectByProjectId(id);
+		
+		
 		return null;
 	}
 
 
 	private Map<String, Object> selectExtractInfo(String id) {
+		ExpertExtractProject projectInfo = expertExtractProjectMapper.selectByPrimaryKey(id);
+		//日期格式化
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+		
+		String projectCode = projectInfo.getProjectType();
+		Map<String, Object> map = new HashMap<>();
+		
+		//采购机构
+		map.put("ProcurementDep",orgnizationMapper.findOrgByPrimaryKey(projectInfo.getProcurementDepId()).getName());
+		
+		//抽取地点
+		map.put("construction", projectInfo.getExtractAddress());
+		
+		//抽取时间
+		map.put("extractTime", simpleDateFormat.format(projectInfo.getCreatedAt()));
+		
+		//项目编号
+		map.put("projectCode", projectInfo.getCode());
+		
+		//抽取方式
+		map.put("extractTheWay", projectInfo.getIsAuto()==0?"自动抽取":"人工抽取");
+		
+		//项目名称
+		map.put("projectName", projectInfo.getProjectName());
+		
+		//供应商地域
+		//map.put("areaName", condition.getAreaName()==0?"全国":"");
 		
 		
+		//人员信息
+		map.put("extractUsers",  userMapper.getlistByRid(projectInfo.getId()));
+		map.put("supervises",  superviseMapper.getlistByRid(projectInfo.getId()));
+				
 		
 		return null;
 	}

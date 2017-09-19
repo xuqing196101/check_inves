@@ -114,7 +114,12 @@ public class ExpertExtractProject {
      */
     private Short isAuto;
 
-
+    /**
+     * 采购机构
+     * 
+     */
+    private String procurementDepId;
+    
     public String getId() {
         return id;
     }
@@ -274,4 +279,13 @@ public class ExpertExtractProject {
     public void setIsAuto(Short isAuto) {
         this.isAuto = isAuto;
     }
+
+    
+	public void setProcurementDepId(String procurementDepId) {
+		this.procurementDepId = procurementDepId;
+	}
+
+	public String getProcurementDepId() {
+		return null;
+	}
 }

@@ -380,8 +380,8 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		
 		
 		//人员信息
-			map.put("extractUsers",  userMapper.getlistByRid(recordId));
-			map.put("supervises",  superviseMapper.getlistByRid(recordId));
+		map.put("extractUsers",  userMapper.getlistByRid(recordId));
+		map.put("supervises",  superviseMapper.getlistByRid(recordId));
 		
 		
 		
