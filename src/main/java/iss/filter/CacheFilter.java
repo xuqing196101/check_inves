@@ -200,7 +200,6 @@ public class CacheFilter implements Filter {
             if (jedis != null) {
                 JedisUtils.returnResourceOfFactory(jedis);
             }
-
         }
         resp.setContentType("text/html; charset=utf-8");
         resp.getWriter().print(html);
