@@ -179,7 +179,7 @@
                 list_content.list.list[i].status = '公示中';
               } else if (list_content.list.list[i].status === '-2') {
                 list_content.list.list[i].status = '预复审结束';
-                btn = '<button type="button" class="btn" onclick="">复审结束</button>';
+                btn = '<button type="button" class="btn" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">复审结束</button>';
               } else if (list_content.list.list[i].status === '-1') {
                 list_content.list.list[i].status = '暂存';
               } else if (list_content.list.list[i].status === '0') {

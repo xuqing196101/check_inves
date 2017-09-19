@@ -103,6 +103,24 @@
     function trim(str) { //删除左右两端的空格
       return str.replace(/(^\s*)|(\s*$)/g, "");
     }
+    
+    //复审结束
+    function reviewEnd(expertId){
+    	$.ajax({
+        url: "${pageContext.request.contextPath}/expertAudit/reviewEnd.do",
+        data: {"expertId" : expertId, "sign" : "2"},
+        success: function (data) {
+          if(data.status == 200){
+        	  layer.msg("操作成功",{offset:'100px'});
+        	  window.setTimeout(function(){
+        		  window.location.reload();
+        	  },1000);
+          }
+        },error: function(){
+        	layer.msg("操作失败",{offset:'100px'});
+        }
+      });
+    }
   </script>
     
 </body>

@@ -10,7 +10,7 @@ $(function () {
     $("input[name='selectOption'][value='"+hiddenSelectOptionId+"']").prop("checked",true);
     // 预复审合格状态
     if(status == -2 || status == -3 || status == 5 || (sign ==2 && status == 6)){
-        $("#checkWord").show();
+        /*$("#checkWord").show();*/
         // 审核状态为5（复审不合格）或者-3（公示中）的意见不可更改
         if(status == -3 ||status == 5 || (sign ==2 && status == 6)){
             $("input[name='selectOption']").prop("disabled",true);
@@ -125,18 +125,16 @@ function nextStep() {
 /**
  * 审核汇总暂存
  */
-function tempSave(flag){
+function tempSave(){
     // 获取审核意见
     var opinion  = $("#opinion").val();
     // 获取选择radio类型
     var selectOption = $("input[name='selectOption']:checked").val();
-
-    if(flag == 1){
-        var flags = vartifyAuditCount();
-        if(flags){
-            return;
-        }
-        // 判断附件是否下载
+	var flags = vartifyAuditCount();
+	if(flags){
+	    return;
+	}
+     /*   // 判断附件是否下载
         var downloadAttachFile = $("#downloadAttachFile").val();
         if(downloadAttachFile == ''){
             layer.msg("请下载审批表！");
@@ -149,7 +147,7 @@ function tempSave(flag){
     var index = layer.load(0, {
         shade : [ 0.1, '#fff' ],
         offset : [ '40%', '50%' ]
-    });
+    });*/
     // 将审核意见表单赋值
     $("#opinionId").val(opinion);
     $("#flagTime").val(1);
@@ -166,7 +164,7 @@ function tempSave(flag){
                 $("#form_id").submit();
             }else{
                 if(data.status == 200){
-                    /*layer.msg("暂存成功！");*/
+                  layer.msg("暂存成功！");
                 }
             }
             // 关闭旋转图标

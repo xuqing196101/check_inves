@@ -689,7 +689,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 				//删除审核信息
 				mapper.deleteByExpertIdAndAuditFieldId(expertAudit);
 				
-				//跟新category中间表审核状态
+				//更新category中间表审核状态
 				expertCategory.setAuditStatus(0);
 				expertCategoryMapper.updateAuditStatus(expertCategory);
 			}

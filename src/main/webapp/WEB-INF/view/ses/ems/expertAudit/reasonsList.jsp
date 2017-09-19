@@ -396,6 +396,57 @@
         });
     }
 </script>
+
+<script type="text/javascript">
+  <!--预复审结束-->
+	function preReviewEnd(status){
+	  var expertId = $("input[name='expertId']").val();
+     if(status == null){
+       var status = $(":radio:checked").val().trim();
+       if(status == null){
+         layer.msg("请选择意见", {offset: '100px'});
+         return true;
+       }
+     }
+     $("#status").val(status);
+     
+      //校验
+     var flag = vartifyAuditCount();
+     if(flag){
+         return;
+     }
+     
+      $.ajax({
+            url: "${pageContext.request.contextPath}/expertAudit/updateStatusOfPublictity.do",
+            data: $("#form_shenhe").serialize(),
+            success: function (data) {
+              if(data.status == 200){
+                  $("#expertStatus").val(data.data);
+              }
+            }
+       });
+       // 获取审核意见
+       var opinion  = $("#opinion").val();
+       // 获取选择radio类型
+       var selectOption = $("input[name='selectOption']:checked").val();
+       // 将审核意见表单赋值
+       $("#opinionId").val(opinion);
+       $("#flagTime").val(1);
+       $("#flagAudit").val(selectOption);
+       $.ajax({
+           url:globalPath + "/expertAudit/saveAuditOpinion.do",
+           type: "POST",
+           data:$("#opinionForm").serialize(),
+           dataType:"json",
+           success:function (data) {
+         	  if(data.status == 200){
+         		  location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html";
+               }
+           }
+       });
+	}
+
+</script>
 </head>
 
 <body>
@@ -542,20 +593,20 @@
                   </ul>
               </div>
               <!-- 审核公示扫描件上传 -->
-              <div class="display-none" id="checkWord">
+              <%-- <div class="display-none" id="checkWord">
                   <h2 class="count_flow"><i>3</i>专家审批表</h2>
                   <ul class="ul_list">
                           <li class="col-md-6 col-sm-6 col-xs-6">
                               <span class="fl">下载入库复审表：</span>
                               <a href="javascript:;" onclick="downloadTable(0)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
                           </li>
-                         <%-- <li class="col-md-6 col-sm-6 col-xs-6">
+                         <li class="col-md-6 col-sm-6 col-xs-6">
                              <div>
                                <span class="fl">专家审批表：</span>
                                  <u:show showId="pic_checkword" businessId="${ expert.auditOpinionAttach }" sysKey="${ sysKey }" typeId="${typeId }" delete="false" />
                              </div>
-                            </li>--%>
-                      <%--<c:if test="${ status == -3 }">
+                            </li>
+                      <c:if test="${ status == -3 }">
                               <li class="col-md-6 col-sm-6 col-xs-6">
                                   <span class="fl">下载入库复审表：</span>
                                   <a href="javascript:;" onclick="downloadTable(2)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
@@ -569,9 +620,9 @@
                                     <u:show showId="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${typeId }" />
                                 </div>
                               </li>
-                      </c:if>--%>
+                      </c:if>
                   </ul>
-              </div>
+              </div> --%>
               <input type="hidden" value="${auditOpinion.flagAudit}" id="hiddenSelectOptionId" />
               <form id="opinionForm" method="post">
                   <input name="id" value="${auditOpinion.id}" type="hidden">
@@ -608,23 +659,21 @@
                     <c:if test = "${status == '1' || status == '2' && sign eq '1'}" >
                     	<a id="nextStep" class="btn" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
-                    <c:if test="${status eq '4' && sign eq '2'}">
+                    <c:if test="${status eq '4' && sign eq '2' || status eq '-2'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(4);" value="复审合格 " id="tongguo">
                         <input class="btn btn-windows cancel" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu"> -->
                         <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui"> -->
-                        <input class="btn btn-windows end"  type="button" onclick="shenhe(-2)" value="预复审结束" id="tongguo">
-                        <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5 display-none" onclick="tempSave();">暂存</a>
+                        <input class="btn btn-windows end"  type="button" onclick="preReviewEnd(-2)" value="预复审结束" id="tongguo">
+                        <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
                         <!-- <a id="nextStep" class="btn display-none" type="button" onclick="nextStep();">下一步</a> -->
                     </c:if>
-                    <input class="btn btn-windows end" type="button" onclick="shenhe()" value="复审结束" id="fushengEnd">
+                    <%-- <input class="btn btn-windows end" type="button" onclick="shenhe()" value="复审结束" id="fushengEnd">
                     <c:if test="${status eq '-2' || status == '-3' || status == '4' || status == '5'}">
                         <c:if test="${status == '-2'}">
                           <a id="tempSave" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tempSave();">暂存</a>
                            <input class="btn btn-windows end"  type="button" onclick="shenhe()" value="复审结束">
                         </c:if>
-                       
-                        <!-- <a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a> -->
-                    </c:if>
+                    </c:if> --%>
                     <c:if test="${sign eq '3' and status eq '6'}">
                         <input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复查合格 " id="tongguo">
                         <input class="btn btn-windows cancel" type="button" onclick="shenhe(8);" value="复查不合格" id="tichu">

@@ -11,6 +11,7 @@ import common.constant.StaticVariables;
 import common.utils.JdcgResult;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.record.PageBreakRecord.Break;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -61,6 +62,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -1863,7 +1865,6 @@ public class ExpertAuditController{
 	      }
 			if(sign==2){
 				expertAgainAuditService.handleExpertReviewTeam(expertId);
-				return "/ses/ems/againAudit/list_batch";
 			}
 		return "redirect:list.html";
 	}
@@ -3572,5 +3573,60 @@ public class ExpertAuditController{
 		}else{
 			return new JdcgResult(504, "撤销失败", null);
 		}
+    }
+    
+    /**
+     * 复审结束
+     * @param user
+     * @param expertId
+     * @return 
+     * @return 
+     * @return 
+     */
+    @RequestMapping("/reviewEnd")
+    @ResponseBody
+    public JdcgResult reviewEnd(@CurrentUser User user, String expertId, Integer sign){
+    	// 查询审核意见
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		expertAuditOpinion.setExpertId(expertId);
+		expertAuditOpinion.setFlagTime(1);
+		expertAuditOpinion = expertAuditOpinionService.selectByExpertId(expertAuditOpinion);
+		
+		//更新专家状态
+		Expert expert = new Expert();
+		expert.setId(expertId);
+		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
+			if(expertAuditOpinion.getFlagAudit() == -3){
+				//预复审合格
+				expert.setStatus("-3");
+			}
+			if(expertAuditOpinion.getFlagAudit() == 5){
+				//复审不合格
+				expert.setStatus("5");
+				
+			}
+			if(expertAuditOpinion.getFlagAudit() == 10){
+				//复审退回修改
+				expert.setStatus("10");
+			}
+		}
+		/*expert.setSign(sign);
+		expert.setId(expertId);
+		updateStatus(user, expert, null, null, null);*/
+		//提交审核，更新状态
+		expert.setAuditAt(new Date());
+		
+		//审核人
+		expert.setAuditor(user.getRelName());
+		//还原暂存状态
+		expert.setAuditTemporary(0);
+		// 设置修改时间
+		expert.setUpdatedAt(new Date());
+		expertService.updateByPrimaryKeySelective(expert);
+		/*expert = expertService.selectByPrimaryKey(expertId);
+		String status = expert.getStatus();*/
+		//完成待办
+		todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
+		return new JdcgResult(200);
     }
 }
