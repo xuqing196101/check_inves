@@ -24,6 +24,7 @@ import ses.service.bms.TodosService;
 import ses.service.sms.SupplierAuditService;
 import ses.util.PropertiesUtil;
 import bss.dao.ppms.AdvancedDetailMapper;
+import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.SupplierCheckPassMapper;
 import bss.dao.ppms.theSubjectMapper;
 import bss.model.ppms.AdvancedDetail;
@@ -62,6 +63,9 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
   
   @Autowired
   private BidMethodService bidMethodService;
+  
+  @Autowired
+  private ProjectDetailMapper projectDetailMapper;
 
   /**
    * 
@@ -312,6 +316,19 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
                             continue;
                         }
                     }
+                } else {
+                	List<ProjectDetail> projectDetails = projectDetailMapper.selectByPackageId(pass.getPackageId());
+                	if (projectDetails != null && !projectDetails.isEmpty()) {
+						for (ProjectDetail projectDetail : projectDetails) {
+	                        BigDecimal decimal = new BigDecimal(ratios[i]);
+	                        BigDecimal multiply = new BigDecimal(projectDetail.getPurchaseCount()).multiply(decimal);
+	                        BigDecimal divide = multiply.divide(new BigDecimal("100"));
+	                        if(new BigDecimal(divide.intValue()).compareTo(divide) != 0){
+	                            flag = false;
+	                            continue;
+	                        }
+						}
+					}
                 }
             }
         }

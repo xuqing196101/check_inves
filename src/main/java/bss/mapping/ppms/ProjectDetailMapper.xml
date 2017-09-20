@@ -439,7 +439,7 @@
 				T_BSS_PPMS_PROJECTS_DETAIL
 			WHERE PACKAGE_ID = #{packageId}
     </select>
-    <select id="selectByPackageId" parameterType="java.lang.Object" resultType="bss.model.ppms.ProjectDetail">
+    <select id="selectByPackageId" parameterType="java.lang.Object" resultMap="BaseResultMap">
     	SELECT
 				<include refid="Base_Column_List" />
 			FROM
