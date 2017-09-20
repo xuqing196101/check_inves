@@ -908,16 +908,18 @@ public class TerminationServiceImpl<V> implements TerminationService {
     //project.setBidDate(null);
     //project.setBidAddress(null);
     //project.setStartTime(null);
-    project.setStatus("8239AF4991F448A28FE1FE09F525FA3D");
+    project.setStatus("7703D9E38D054D7B9D9EA5CA3F3C76A6");
     //project.setIsCharge(null);
     if(type!=null){
     	Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(project.getPurchaseDepId());
     	project.setSectorOfDemand(orgnization.getName());
     	project.setPurchaseType("3CF3C643AE0A4499ADB15473106A7B80");
+    	
     }
     if("XMLX".equals(currFlowDefineId)){
       
     }else if("XMFB".equals(currFlowDefineId)){
+      project.setStatus("8239AF4991F448A28FE1FE09F525FA3D");
       project.setParentId("1");
     }else{
       
