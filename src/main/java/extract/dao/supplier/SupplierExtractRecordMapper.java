@@ -33,7 +33,7 @@ public interface SupplierExtractRecordMapper {
     SupplierExtractProjectInfo selectByPrimaryKey(String id);
 
     /**
-     *
+     *	动态修改项目记录表
      * @param record
      */
     int updateByPrimaryKeySelective(SupplierExtractProjectInfo record);
@@ -69,9 +69,16 @@ public interface SupplierExtractRecordMapper {
 	 * @param string 
 	 * @return
 	 */
-	List<SupplierExtractProjectInfo> getList(String orgId);
+	List<SupplierExtractProjectInfo> getList(SupplierExtractProjectInfo project);
 
 	void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo);
 
 	void insertProjectInfo(SupplierExtractProjectInfo record);
+	
+	/**
+	 * 模糊查询项目信息
+	 * @param p
+	 * @return
+	 */
+	List<SupplierExtractProjectInfo> getListByMap(SupplierExtractProjectInfo p);
 }

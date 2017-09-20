@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -37,6 +38,7 @@ import ses.util.PropUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 import bss.dao.ppms.SaleTenderMapper;
+import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
 
 import com.github.pagehelper.PageHelper;
@@ -48,6 +50,7 @@ import extract.dao.supplier.ExtractConditionRelationMapper;
 import extract.dao.supplier.SupplierExtractConditionMapper;
 import extract.dao.supplier.SupplierExtractRecordMapper;
 import extract.dao.supplier.SupplierExtractRelateResultMapper;
+import extract.model.common.ExtractUser;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractProjectInfo;
 import extract.service.supplier.SupplierExtractRecordService;
@@ -149,118 +152,38 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
         supplierExtractsMapper.saveOrUpdateProjectInfo(extracts);
     }
     
-    /**
-     * 
-     *〈简述〉添加临时供应商
-     *〈详细描述〉
-     * @author Wang Wenshuai
-     * @param expExtractRecordService
-     * @return
-     */
-    @Override
-    public Map<String, String> addTemporaryExpert(Supplier suuplier, String projectId,
-                                                  String packageId, String loginName,
-                                                  String loginPwd, HttpServletRequest request) {
-
-        Map<String, String> map=new HashMap<String, String>();
-        //插入供应商表一条数据
-        String uuId=WfUtil.createUUID();
-        suuplier.setId(uuId);
-        suuplier.setIsProvisional(new Short("1"));
-        suuplier.setCreatedAt(new Timestamp(new Date().getTime()));
-        suuplier.setStatus(5);
-        supplierMapper.insertSelective(suuplier);
-        //插入供应商关联表
-        SaleTender saleTender = new SaleTender();
-        saleTender.setSupplierId(uuId);
-        saleTender.setStatusBid((short)2);
-        saleTender.setPackages(packageId);
-        saleTender.setProjectId(projectId);
-        User users = (User) request.getSession().getAttribute("loginUser");
-        if(users != null){
-            saleTender.setUserId(users.getId());
-        }
-      
-        saleTenderMapper.insertSelective(saleTender);
-      
-        //插入登录表
-        User user = new User();
-        user.setLoginName(loginName);
-        user.setTypeId(uuId);
-        user.setPassword(loginPwd);
-        user.setOrgName(suuplier.getSupplierName());
-        user.setRelName(suuplier.getArmyBusinessName());
-        user.setMobile(suuplier.getArmyBuinessTelephone());
-        userServiceI.save(user, null);
-        //新增权限
-        Role role = new Role();
-        role.setCode("SUPPLIER_R");
-        List<Role> listRole = roleService.find(role);
-        if (listRole != null && listRole.size() > 0) {
-            Userrole userrole = new Userrole();
-            userrole.setRoleId(listRole.get(0));
-            userrole.setUserId(user);
-            /** 删除用户之前的菜单权限*/
-            UserPreMenu userPreMenu = new UserPreMenu();
-            userPreMenu.setUser(user);
-            userServiceI.deleteUserMenu(userPreMenu);
-            /** 删除用户之前的角色信息*/
-            /** 给该用户初始化专家角色 */
-            userServiceI.saveRelativity(userrole);
-            String[] roleIds = listRole.get(0).getId().split(",");
-            List<String> listMenu = menuService.findByRids(roleIds);
-            /** 给用户初始化供应商菜单权限 */
-            for (String menuId : listMenu) {
-                UserPreMenu upm = new UserPreMenu();
-                PreMenu preMenu = menuService.get(menuId);
-                upm.setPreMenu(preMenu);
-                upm.setUser(user);
-                userServiceI.saveUserMenu(upm);
-            }
-        }
-
-        map.put("sccuess", "sccuess");
-        return map;
-    
-    }
-
-    @Override
-    public void updateTemporaryExpert(Supplier supplier, String loginName, String loginPwd,
-        HttpServletRequest sq) {
-        supplier.setUpdatedAt(new Date());
-        supplier.setLoginName(loginName);
-        User user = userServiceI.findByTypeId(supplier.getId());
-        user.setLoginName(loginName);
-        if (loginPwd != null && !"".equals(loginPwd)) {
-            Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
-            // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
-            md5.setEncodeHashAsBase64(false);     
-            String pwd = md5.encodePassword(loginPwd, user.getRandomCode());
-            user.setPassword(pwd);
-            supplier.setPassword(pwd);
-        }
-        supplierMapper.updateByPrimaryKeySelective(supplier);
-        user.setOrgName(supplier.getSupplierName());
-        user.setRelName(supplier.getArmyBusinessName());
-        user.setMobile(supplier.getArmyBuinessTelephone());
-        userServiceI.update(user);
-    }
 
 	@Override
 	public SupplierExtractProjectInfo selectByPrimaryKey(String id) {
 		return supplierExtractsMapper.selectByPrimaryKey(id);
 	}
 
+	/**
+	 * 抽取记录列表
+	 */
 	@Override
-	public List<SupplierExtractProjectInfo> getList(int i,User user) {
+	public List<SupplierExtractProjectInfo> getList(int i,User user,SupplierExtractProjectInfo project) {
 		 PageHelper.startPage(i, PropUtil.getIntegerProperty("pageSize"));
-		 List<SupplierExtractProjectInfo> list = supplierExtractsMapper.getList(user.getOrg().getId());
-		/* for (int j = 0; j < list.size(); j++) {
-			list.get(j).setExtractUser(personRelMapper.getlistByRid(list.get(j).getId()));
-		}*/
+		 
+		 project.setProcurementDepId(user.getOrg().getId());
+		 
+		 List<SupplierExtractProjectInfo> list = supplierExtractsMapper.getList(project);
+		for (SupplierExtractProjectInfo projectInfo : list) {
+			String temp = "";
+			List<ExtractUser> getlistByRid = userMapper.getlistByRid(projectInfo.getId());
+			for (ExtractUser e : getlistByRid) {
+				temp += e.getName()+",";
+			}
+			if(StringUtils.isNotBlank(temp)){
+				projectInfo.setExtractUser(temp.substring(0,temp.lastIndexOf(",")));
+			}
+		}
 		return list;
 	}
 
+	/**
+	 * 修改项目信息
+	 */
 	@Override
 	public void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo,User user) {
 		projectInfo.setProcurementDepId(user.getOrg().getId());//存储采购机构
@@ -283,6 +206,13 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	@Override
 	public ResponseEntity<byte[]> printRecord(String id, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		
+		//将项目状态变为抽取结束
+		SupplierExtractProjectInfo p = new SupplierExtractProjectInfo(id);
+		p.setStatus((short) 1);
+		supplierExtractsMapper.saveOrUpdateProjectInfo(p);
+		
+		
 		//根据记录id 查询项目信息不同供应商类别打印两个记录表
 		Map<String, Object> info = selectExtractInfo(id);
 		
@@ -575,6 +505,17 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			}
 		}
 		return map;
+	}
+
+	/**
+	 * 校验项目编号唯一
+	 */
+	@Override
+	public List<SupplierExtractProjectInfo> checkSoleProjectCdoe(
+			String projectCode) {
+		SupplierExtractProjectInfo p = new SupplierExtractProjectInfo();
+		p.setProjectCode(projectCode);
+		return supplierExtractsMapper.getListByMap(p);
 	}
 
 }

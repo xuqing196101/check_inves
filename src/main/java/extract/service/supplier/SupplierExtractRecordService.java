@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
 
+import bss.model.ppms.Project;
+
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import extract.model.supplier.SupplierExtractProjectInfo;
@@ -52,34 +54,13 @@ public interface SupplierExtractRecordService {
    */
   void update(SupplierExtractProjectInfo extracts);
 
-  /**
-   * 
-   *〈简述〉添加临时供应商
-   *〈详细描述〉
-   * @author Wang Wenshuai
-   * @param expExtractRecordService
-   * @return
-   */
-  Map<String, String> addTemporaryExpert(Supplier supplier,String projectId,String packageId,String loginName,String loginPwd,HttpServletRequest request);
-
-  /**
-   *〈简述〉修改临时供应商
-   *〈详细描述〉
-   * @author Ye MaoLin
-   * @param supplier
-   * @param loginName
-   * @param loginPwd
-   * @param sq
-   */
-  void updateTemporaryExpert(Supplier supplier, String loginName, String loginPwd,
-      HttpServletRequest sq);
 
   SupplierExtractProjectInfo selectByPrimaryKey(String id);
   
   
   
 
-  List<SupplierExtractProjectInfo> getList(int i, User user);
+  List<SupplierExtractProjectInfo> getList(int i, User user, SupplierExtractProjectInfo project);
 
   
   void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo, User user);
@@ -95,5 +76,8 @@ public interface SupplierExtractRecordService {
   void insertProjectInfo(SupplierExtractProjectInfo record);
 
   ResponseEntity<byte[]> printRecord(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+  
+  List<SupplierExtractProjectInfo> checkSoleProjectCdoe(String projectCode);
   
 }

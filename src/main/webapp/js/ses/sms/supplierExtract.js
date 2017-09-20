@@ -5,6 +5,7 @@ var sales = 0;
 
 
 var successCount = 1;
+var proError = 0;
 $(function () {
         loadAreaZtree();
         //loadTypeTree();
@@ -51,6 +52,30 @@ $(function () {
         });
     }
     
+    /**
+     * 项目编号唯一校验
+     * @param obj
+     */
+    function checkSole(obj){
+		var projectCode = $(obj).val();
+		$.ajax({
+    		type: "POST",
+    		url: globalPath+"/SupplierExtracts/checkSole.do",
+    		data:  {projectCode:projectCode},
+    		dataType: "json",
+    		success: function (msg) {
+    			if(msg>0){
+    				$("#projectCodeError").html("该项目编号已存在");
+    				proError ++;
+    			}else{
+    				$("#projectCodeError").html("");
+    				proError = 0;
+    			}
+    		}
+    	});
+	}
+    
+    
     //比较售领时间是否输入合理
     function checkTime(){
     	if(null != $("#sellEnd").val()){
@@ -58,6 +83,7 @@ $(function () {
     		var endTime = new Date(Date.parse($("#sellEnd").val()));
     		if(startTime>=endTime){
     			layer.msg("结束时间不能小于起始时间");
+    			$("#sellEnd").val("");
     		}
     	}else{
     		layer.msg("请选择售领起始时间");
@@ -67,6 +93,7 @@ $(function () {
     		var endTime = new Date(Date.parse($("#sellEnd").val()));
 			if(startTime>=endTime){
 				layer.msg("结束时间不能小于起始时间");
+				$("#sellEnd").val("");
 			}
     	}else{
     		layer.msg("请选择售领起始时间");
@@ -246,7 +273,7 @@ $(function () {
     /**点击抽取--对参数进行校验*/
     function checkEmpty(){
     	
-    	$(".cue").empty();
+    	//$(".cue").empty();
     	$("#eError").empty();
     	$("#sError").empty();
     	$("#areaError").empty();
@@ -258,6 +285,8 @@ $(function () {
     			if(!ele.value){
     				count++;
     				$(ele).parents("li").find(".cue").html("不能为空");
+    			}else{
+    				$(ele).parents("li").find(".cue").html("");
     			}
     		});
     		
@@ -268,9 +297,11 @@ $(function () {
     		});*/
     	});
     	//限制地区理由是否填写
-		if("0"!=$("#province").val() && null ==$("#areaReson").val()){
-			$("#areaError"),html("不能为空");
+		if("0"!=$("#province").val() && (null ==$("#areaReson").val() ||""==$("#areaReson").val())){
+			$("#areaError").html("不能为空");
 			count++;
+		}else{
+			$("#areaReson").val("");
 		}
     	
     	if(count>0){
@@ -288,18 +319,27 @@ $(function () {
     			count1++;
     		}
     	});
+    	
+    	
     	$("#supervise").find("input").each(function(){
     		if($(this).val().length<1){
     			count2++;
     		}
     	});
+    	
+    	if($("#extractUser").find("tr").length<3){
+    		count1++;
+    	}
+    	if($("#supervise").find("tr").length<2){
+    		count2++;
+    	}
     	if(count1>0){
-    		$("#eError").html("抽取人员信息必须填写完整");
-    		layer.msg("抽取人员信息必须填写完整");
+    		$("#eError").html("抽取人员必须两人以上且信息必须填写完整");
+    		layer.msg("抽取人员必须两人以上且信息必须填写完整");
     	}
     	if(count2>0){
-    		$("#sError").html("监督人员信息必须填写完整");
-    		layer.msg("监督人员信息必须填写完整");
+    		$("#sError").html("监督人员必填且必须填写完整");
+    		layer.msg("监督人员必填且必须填写完整");
     	}
     	
     	$("#contactNumError").html("");  
@@ -319,7 +359,7 @@ $(function () {
     	$("#supervise").find("span").remove();
     	
     	//所有的必填项写一个class 验证必填 输入框要验证长度
-    	if(checkEmpty()>0){
+    	if(checkEmpty()+proError>0){
     		return false;
     	}
     	//验证抽取条件中数量是否正确
@@ -694,6 +734,7 @@ $(function () {
             , btn2: function () {
             	$(cate).parents("li").find(".categoryId").val("");
                 $(cate).val("");
+                selectLikeSupplier();
             }
         });
     }

@@ -2,9 +2,11 @@
 package extract.controller.supplier;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +35,7 @@ import ses.model.ems.ExtConType;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import bss.controller.base.BaseController;
 import bss.model.ppms.AdvancedProject;
@@ -102,9 +105,23 @@ public class ExtractSupplierController extends BaseController {
      * @return String
      */
     @RequestMapping("/projectList")
-    public String list(Integer page, Model model, Project project,@CurrentUser User user){
+    public String list(Integer page, Model model, SupplierExtractProjectInfo project,@CurrentUser User user,String startTime,String endTime){
     	if(null!=user && "1".equals(user.getTypeName())){
-    		List<SupplierExtractProjectInfo> extractRecords = expExtractRecordService.getList(page == null?1:page,user);
+    		Map<String, Object> map = new HashMap<>();
+    		map.put("page", page);
+    		map.put("startTime", null == startTime ? "" : startTime.trim());
+    		map.put("endTime", null == endTime ? "" : endTime.trim());
+    		
+    		//采购方式
+            List<DictionaryData> purchaseWayList = new ArrayList<>();
+            purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
+            purchaseWayList.add(DictionaryDataUtil.get("XJCG"));
+            purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
+            model.addAttribute("purchaseTypeList",purchaseWayList);
+            model.addAttribute("startTime",startTime);
+            model.addAttribute("endTime",endTime);
+            model.addAttribute("project",project);
+            List<SupplierExtractProjectInfo> extractRecords = expExtractRecordService.getList(page == null?1:page,user,project);
     		model.addAttribute("info", new PageInfo<SupplierExtractProjectInfo>(extractRecords));
     		return "ses/sms/supplier_extracts/project_list";
     	}
@@ -355,6 +372,21 @@ public class ExtractSupplierController extends BaseController {
 			e.printStackTrace();
 		}
     	return printRecord;
+    }
+    
+    /**
+     *
+     *〈简述〉校验项目编号唯一
+     *〈详细描述〉
+     * @author jcx
+     * @return
+     */
+    @RequestMapping("/checkSole")
+    @ResponseBody
+    public int checkSole(String projectCode){
+    	List<SupplierExtractProjectInfo> extractRecords = expExtractRecordService.checkSoleProjectCdoe(projectCode);
+    	
+    	return extractRecords.size();
     }
     
     

@@ -133,18 +133,39 @@
     <!-- 项目戳开始 -->
     <h2 class="search_detail">
         <form action="${pageContext.request.contextPath}/SupplierExtracts/projectList.html" id="form1" method="post" class="mb0">
-            <ul class="demand_list">
-                <input type="hidden" name="typeclassId" value="${typeclassId}"/>
-                <li class="fl">
-                    <label class="fl">项目名称：</label><input type="hidden" name="page" id="page"><input type="text" name="name" id="proName" value="${projects.name }"/>
-                </li>
-                <li class="fl">
-                    <span><label class="fl">项目编号：</label><input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }"/></span>
-                </li>
-                <button class="btn fl mt1" type="submit">查询</button>
-                <button type="button" class="btn fl mt1 channelBtn" onclick="resetQuery();">重置</button>
-            </ul>
-            <div class="clear"></div>
+            <input type="hidden" name="page" id="page" value="1">
+	        <ul class="demand_list">
+	          <li>
+	            <label>项目名称：</label>
+	            <input type="text" name="projectName" id="projectName" value="${project.projectName }" />
+	          </li>
+	          <li>
+	            <label class="fl">项目编号：</label>
+	            <input type="text" name="projectCode" id="projectCode" value="${project.projectCode }" />
+	          </li>
+	          <li>
+	            <label class="fl">采购方式：</label>
+	            <select class="w178" name="purchaseType">
+	              <option value="" <c:if test="${project.purchaseType == '' }">selected="selected"</c:if> >全部</option>
+	              <c:forEach items="${purchaseTypeList}" var="map">
+	                <option value="${map.id}" <c:if test="${project.purchaseType == map.id }">selected="selected"</c:if> >${map.name}</option>
+	              </c:forEach>
+	            </select>
+	          </li>
+	          <li>
+	            <label class="fl">起始时间：</label>
+	            <input id="startTime" name="startTime" type="text" value="${startTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" readonly="readonly">
+	          </li>
+	          <li>
+	            <label class="fl">结束时间：</label>
+	            <input id="endTime" name="endTime" type="text" value="${endTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" readonly="readonly">
+	          </li>
+	          <li>
+		          <button class="btn fl mt1" type="submit">查询</button>
+		          <button type="button" class="btn fl mt1" onclick="form_reset()">重置</button>
+	          </li>
+	        </ul>
+	        <div class="clear"></div>
         </form>
     </h2>
     <div class="col-md-12 pl20 mt10">
@@ -195,7 +216,7 @@
                     <td>${obj.extractTheWay==0?"语音抽取":"人工抽取"}</td>
                     <td>${obj.extractUser}</td>
                     <td> <fmt:formatDate value="${obj.createdAt}" pattern="yyyy-M-d HH:mm:ss"/> </td>
-                    <td>${obj.status==0?"暂存":"结束"}</td>
+                    <td>${obj.status==1?"结束":"暂存"}</td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -212,4 +233,13 @@
         $("#proName").val("");
         window.location.href = "${pageContext.request.contextPath}/SupplierExtracts/projectList.html?typeclassId=${typeclassId}";
     })
+    /* 重置 */
+  function form_reset(){
+    $("#form1").find("input").val("");
+    var SelectArr = $("#form1").find("select");
+    for (var i = 0; i < SelectArr.length; i++) {
+      SelectArr[i].options[0].selected = true; 
+    }
+    $("#page").val("1");
+  }
 </script>

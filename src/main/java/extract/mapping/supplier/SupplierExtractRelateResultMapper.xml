@@ -620,6 +620,6 @@
 	<!-- 0 不能参加，1能参加 -->
 	<select id="getSupplierListByRid" parameterType="map" resultMap="BaseResultMap">
 		SELECT DISTINCT R.JOIN,R.REASON,S.SUPPLIER_NAME,S.CONTACT_NAME,S.CONTACT_TELEPHONE FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
-		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}  AND R.JOIN IN (0,1) ORDER BY R.JOIN ASC
+		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}  AND R.JOIN IN (0,1) ORDER BY R.JOIN DESC
 	</select>
 </mapper>

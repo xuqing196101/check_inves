@@ -130,6 +130,9 @@ public class SupplierExtractProjectInfo {
      */
     private Date updatedAt;
     
+    /**
+     * 抽取人员
+     */
     private String extractUser;
     
     /**
@@ -205,6 +208,18 @@ public class SupplierExtractProjectInfo {
      */
     private Short isDelete;
 
+    /**
+     * 搜索用起始时间
+     */
+    private String startTime;
+    /**
+     * 搜索用结束时间
+     */
+    private String endTime;
+    
+    /**
+     * 
+     */
     
     private String purchaseTypeName;
 
@@ -557,6 +572,26 @@ public class SupplierExtractProjectInfo {
 
 	public void setExtractUser(String extractUser) {
 		this.extractUser = extractUser;
+	}
+
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
 
 	

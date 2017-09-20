@@ -50,6 +50,7 @@
 	<c:set var="flag" value="true"></c:set>
 </c:if>
     <form id="projectForm" action="<%=request.getContextPath() %>/SupplierExtracts/saveProjectInfo.do" method="post" >
+    <input type="button" value="人員必填" onclick="person()">
    <!--  <input type="submit"> <input type="button" value="存储项目人员信息" onclick="submitInfo()"> <input onclick="showEndButton()" type="button" value="抽取完成"> -->
         <!-- 打开类型 -->
       <%--   <input type="hidden" value="${typeclassId}" name="typeclassId" /> --%>
@@ -70,7 +71,7 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 项目编号:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input id="projectNumber" name="projectCode" value="${projectInfo.projectCode}" ${flag?"readonly":"" } type="text" >
+                     <input id="projectNumber" name="projectCode" value="${projectInfo.projectCode}" ${flag?"readonly":"" } type="text" onchange="checkSole(this)" >
                      <span class="add-on">i</span>
                      <div class="cue" id="projectCodeError"></div>
                  </div>
@@ -80,7 +81,7 @@
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
            			<c:if test="${projectInfo.purchaseType ==null }">
                    	<select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0" ${flag?"readonly":"" }>
-                   	 	<option value="3CF3C643AE0A4499ADB15473106A7B80" selected="selected">竞争性谈判</option>
+                   	 	<option value="3CF3C643AE0A4499ADB15473106A7B80" >竞争性谈判</option>
                         <option value="EF33590F956F4450A43C1B510EBA7923" >询价采购</option>
                         <option value="209C109291F241D88188521A7F8FA308" >邀请招标</option>
                      </select>
@@ -740,7 +741,7 @@
                       </tbody>
                  </table>
 			</div>
-			<did class="col-xs-12 tc mt20 dnone" id="end"> <button class="center btn" onclick="alterEndInfo()">结束</button> </did>
+			<did class="col-xs-12 tc mt20 dnone" id="end"> <button class="center btn"  onclick="alterEndInfo(this)">结束</button> </did>
 		</div>
 </div>
 <!-- 地区树 -->
@@ -775,7 +776,7 @@
     <ul id="salesLevelTree" class="ztree" style="margin-top:0;"></ul>
 </div>
 <!-- 工程资质树 -->
-<div id="quaContent" class="levelTypeContent"
+<div id="quaContent" class="levelTypeContent" 
      style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
     <ul id="quaTree" class="ztree" style="margin-top:0;"></ul>
 </div>
@@ -916,13 +917,17 @@ function submitCondition(){
 		$("#end").removeClass("dnone");
 	}
 
-	function alterEndInfo(){
+	function alterEndInfo(obj){
 		layer.alert("是否需要发送短信至确认参加供应商");
 		var index = layer.alert("完成抽取,打印记录表",function(){
 			window.location.href = "/zhbj/SupplierExtracts/printRecord.html?id="+$("[name='recordId']").val();
+			$(obj).prop("disabled",true);
 			layer.close(index);
 			// 
 		});
+	}
+	
+	function person(){
 	}
 </script>
 </html>

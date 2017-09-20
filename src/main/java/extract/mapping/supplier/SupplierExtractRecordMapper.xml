@@ -38,7 +38,7 @@
     <!--
     @mbggenerated
     -->
-    E.ID,E.PROJECT_NAME,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.PROJECT_ID,E.PROJECT_CODE,E.STATUS,E.CREATED_AT,
+    E.ID,E.PROJECT_NAME,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.PROJECT_ID,E.PROJECT_CODE,E.STATUS,E.CREATED_AT
    <!--  E.ID,E.CONDITION_ID,E.PROJECT_ID,E.STATUS,E.PROJECT_NAME,E.PROJECT_CODE,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.EXTRACT_THE_WAY,E.EXTRACTS_PEOPLE,E.PURCHASE_TYPE,E.TENDER_AT,D.NAME PURCHASE_TYPE_NAME -->
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -198,6 +198,9 @@
       <if test="tenderAt != null">
         TENDER_AT = #{tenderAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
       <if test="conditionId != null">
         CONDITION_ID = #{conditionId,jdbcType=TIMESTAMP},
       </if>
@@ -240,14 +243,61 @@
             AND ID = #{id,jdbcType=VARCHAR}
         </if>
     </select>
-    <select id="getList" parameterType="java.lang.String" resultMap="BaseResultMap">
+    
+    <!-- 抽取记录表（结束） -->
+    <select id="getList" parameterType="extract.model.supplier.SupplierExtractProjectInfo" resultMap="BaseResultMap">
     <!--
     @mbggenerated
     -->
-    SELECT <include refid="project_info"/> D.NAME PURCHASE_TYPE,D1.NAME PROJECT_TYPE from T_SES_SMS_EXTRACT_RECORD E LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON E.PURCHASE_TYPE = D.ID  
-    LEFT JOIN T_SES_BMS_DICTIONARY_DATA D1 ON E.PROJECT_TYPE = D1.CODE WHERE E.EXTRACT_THE_WAY = '1' AND E.IS_DELETE = '0' AND E.PROCUREMENT_DEP_ID = #{value}   ORDER BY E.CREATED_AT DESC
+    SELECT <include refid="project_info"/> ,D.NAME PURCHASE_TYPE,D1.NAME PROJECT_TYPE from T_SES_SMS_EXTRACT_RECORD E LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON E.PURCHASE_TYPE = D.ID  
+    LEFT JOIN T_SES_BMS_DICTIONARY_DATA D1 ON E.PROJECT_TYPE = D1.CODE WHERE E.EXTRACT_THE_WAY = '1' AND E.STATUS = '1' AND E.IS_DELETE = '0' 
+   	  <if test="procurementDepId != null and procurementDepId != ''">
+    	AND E.PROCUREMENT_DEP_ID = #{procurementDepId}  
+      </if>
+   	  <if test="projectName != null and projectName != ''">
+        AND E.PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%')
+      </if>
+      <if test="projectCode != null and projectCode != ''">
+        AND E.PROJECT_CODE like CONCAT(CONCAT('%', #{projectCode}), '%')
+      </if>
+      <if test="purchaseType != null and purchaseType != ''">
+        AND E.PURCHASE_TYPE = #{purchaseType}
+      </if>
+      <if test="startTime != null and startTime != ''">
+        AND E.CREATED_AT &gt;= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+      </if>
+      <if test="endTime != null and endTime != ''">
+        AND E.CREATED_AT  &lt;= to_date(#{endTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+      </if>
+     ORDER BY E.CREATED_AT DESC
   </select>
 
+	<!-- 查询项目信息 -->
+	<select id="getListByMap" parameterType="extract.model.supplier.SupplierExtractProjectInfo" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    SELECT <include refid="project_info"/>  from T_SES_SMS_EXTRACT_RECORD E  WHERE E.EXTRACT_THE_WAY = '1'  AND E.IS_DELETE = '0' 
+   	  <if test="procurementDepId != null and procurementDepId != ''">
+    	AND E.PROCUREMENT_DEP_ID = #{procurementDepId}  
+      </if>
+   	  <if test="projectName != null and projectName != ''">
+        AND E.PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%')
+      </if>
+      <if test="projectCode != null and projectCode != ''">
+        AND E.PROJECT_CODE like CONCAT(CONCAT('%', #{projectCode}), '%')
+      </if>
+      <if test="purchaseType != null and purchaseType != ''">
+        AND E.PURCHASE_TYPE = #{purchaseType}
+      </if>
+      <if test="startTime != null and startTime != ''">
+        AND E.CREATED_AT &gt;= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+      </if>
+      <if test="endTime != null and endTime != ''">
+        AND E.CREATED_AT  &lt;= to_date(#{endTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+      </if>
+     ORDER BY E.CREATED_AT DESC
+ 	 </select>
 
 	<!--修改项目信息 -->
    <update id="saveOrUpdateProjectInfo" parameterType="extract.model.supplier.SupplierExtractProjectInfo">

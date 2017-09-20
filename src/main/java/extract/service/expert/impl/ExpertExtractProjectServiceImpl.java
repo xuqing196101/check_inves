@@ -218,6 +218,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 	@Override
 	public ResponseEntity<byte[]> printRecord(String id,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
 		//根据记录id 查询项目信息不同供应商类别打印两个记录表
 		Map<String, Object> info = selectExtractInfo(id);
 		
