@@ -122,11 +122,11 @@ function validationIsNull(code){
 	if(projectName == null || projectName == ""){
 		$("#err_projectName").html("项目名称不能为空");
 		flag = false;
-		layer.msg("项目信息填写有误");
+		layer.msg("请完善项目信息");
 	}else if(strTrim(projectName).length > 100){
 		$("#err_projectName").html("不能超过100字");
 		flag = false;
-		layer.msg("项目信息填写有误");
+		layer.msg("请完善项目信息");
 	}else{
 		$("#err_projectName").html("");
 	}
@@ -136,11 +136,11 @@ function validationIsNull(code){
 	if(projectCode == null || projectCode == ""){
 		$("#err_code").html("项目编号不能为空");
 		flag = false;
-		layer.msg("项目信息填写有误");
+		layer.msg("请完善项目信息");
 	}else if(strTrim(projectCode).length > 100){
 		$("#err_code").html("不能超过80字");
 		flag = false;
-		layer.msg("项目信息填写有误");
+		layer.msg("请完善项目信息");
 	}else{
 		// 验证项目编号重复校验
 		$.ajax({
@@ -155,7 +155,7 @@ function validationIsNull(code){
 				if(data.status == "no"){
 					$("#err_code").html("项目编号已被使用");
 					flag = false;
-					layer.msg("项目信息填写有误");
+					layer.msg("请完善项目信息");
 				}else{
 					$("#err_code").html("");
 				}
@@ -167,7 +167,7 @@ function validationIsNull(code){
 	if(reviewTime == null || reviewTime == ""){
 		$("#err_reviewTime").html("评审时间不能为空");
 		flag = false;
-		layer.msg("项目信息填写有误");
+		layer.msg("请完善项目信息");
 	}else{
 		$("#err_reviewTime").html("");
 	}
@@ -177,7 +177,7 @@ function validationIsNull(code){
 	if(province == '0' || city == '0'){
 		$("#err_aaa").html("请选择评审地点");
 		flag = false;
-		layer.msg("项目信息填写有误");
+		layer.msg("请完善项目信息");
 	}else{
 		$("#err_aaa").html("");
 	}
@@ -186,11 +186,11 @@ function validationIsNull(code){
 	if(extractAddress == null || extractAddress == ""){
 		$("#err_extractAddress").html("抽取地址不能为空");
 		flag = false;
-		layer.msg("项目信息填写有误");
+		layer.msg("请完善项目信息");
 	}else if(strTrim(extractAddress).length > 100){
 		$("#err_extractAddress").html("不能超过100字");
 		flag = false;
-		layer.msg("项目信息填写有误");
+		layer.msg("请完善项目信息");
 	}else{
 		$("#err_extractAddress").html("");
 	}
@@ -199,11 +199,11 @@ function validationIsNull(code){
 	if(reviewSite == null || reviewSite == ""){
 		$("#err_reviewSite").html("评审详细地址不能为空");
 		flag = false;
-		layer.msg("项目信息填写有误");
+		layer.msg("请完善项目信息");
 	}else if(strTrim(reviewSite).length > 100){
 		$("#err_reviewSite").html("不能超过100字");
 		flag = false;
-		layer.msg("项目信息填写有误");
+		layer.msg("请完善项目信息");
 	}else{
 		$("#err_reviewSite").html("");
 	}
@@ -213,11 +213,11 @@ function validationIsNull(code){
 	if(contactPerson == null || contactPerson == ""){
 		$("#err_contactPerson").html("联系人不能为空");
 		flag = false;
-		layer.msg("项目信息填写有误");
+		layer.msg("请完善项目信息");
 	}else if(strTrim(contactPerson).length > 30){
 		$("#err_contactPerson").html("不能超过30字");
 		flag = false;
-		layer.msg("项目信息填写有误");
+		layer.msg("请完善项目信息");
 	}else{
 		$("#err_contactPerson").html("");
 	}
@@ -226,7 +226,7 @@ function validationIsNull(code){
 	if(contactNum == null || contactNum == ""){
 		$("#err_contactNum").html("联系电话不能为空");
 		flag = false;
-		layer.msg("项目信息填写有误");
+		layer.msg("请完善项目信息");
 	}else{
 		$("#err_contactNum").html("");
 	}
@@ -285,13 +285,25 @@ function validationIsNull(code){
 			count2++;
 		}
 	});
+	if($("#extractUser").find("tr").length<3){
+		count1++;
+	}
+	if($("#supervise").find("tr").length<2){
+		count2++;
+	}
 	if(count1 > 0){
 		flag = false;
 		$("#eError").html("抽取人员信息必须填写完整");
+		layer.msg("请完善人员信息");
+	}else{
+		$("#eError").html("");
 	}
 	if(count2 > 0){
 		flag = false;
 		$("#sError").html("监督人员信息必须填写完整");
+		layer.msg("请完善人员信息");
+	}else{
+		$("#sError").html("");
 	}
 	//区域限制理由
 	var provincesel = $("#provincesel").val();
@@ -630,6 +642,7 @@ function vaCount(cate){
 function opens(cate) {
     var typeCode = $(cate).attr("typeCode");
     var ids = coUndifined($("#"+typeCode.toLowerCase()+"_type").val());
+    var isSatisfy = coUndifined($("#"+typeCode.toLowerCase()+"_isSatisfy").val());
     //获取类别
     cate.value = "";
     //  iframe层
@@ -641,7 +654,7 @@ function opens(cate) {
         shade: 0.01,
         area: ['430px', '400px'],
         offset: '20px',
-        content: globalPath+'/extractExpert/addHeading.do?type='+typeCode+'&&id='+ids, //iframe的url
+        content: globalPath+'/extractExpert/addHeading.do?type='+typeCode+'&&id='+ids+'&&isSatisfy='+isSatisfy, //iframe的url
         success: function (layero, index) {
             iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
         },
@@ -886,14 +899,22 @@ function savePerson(){
 		dataType: "json",
 		async:false,
 		success: function (msg) {
+			$("#supervise").find("span").empty();
 			if(null !=msg){
+				flag++;
 				for ( var k in msg) {
-					$("#supervise").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
+					if("All"!=k){
+						$("#supervise").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
+					}else{
+						$("#sError").html(msg[k]);
+					}
 				}
+			}else{
+				$("#sError").empty();
 			}
 		}
 	});
-	
+
 	$.ajax({
 		type: "POST",
 		url: $("#extractUser").attr('action'),
@@ -901,13 +922,21 @@ function savePerson(){
 		dataType: "json",
 		async:false,
 		success: function (msg) {
+			$("#extractUser").find("span").empty();
 			if(null !=msg){
+				flag++;
 				for ( var k in msg) {
-					$("#extractUser").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
+					if("All"==k){
+						$("#eError").html(msg[k]);
+					}else{
+						$("#extractUser").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
+					}
 				}
+			}else{
+				$("#eError").empty();
 			}
 		}
-	});	
+	});
 }
 
 //重置抽取条件

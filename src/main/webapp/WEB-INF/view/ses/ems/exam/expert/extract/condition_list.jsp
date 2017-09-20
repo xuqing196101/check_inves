@@ -156,9 +156,9 @@
         </ul>
       </form>
       </div>
-      <div class="container_box col-md-12 col-sm-12 col-xs-12">
+      <h2 class="count_flow"><i>2</i>人员信息</h2>
       <div id="div_2">
-        <h2 class="count_flow"><i>2</i>人员信息</h2>
+        <ul class="ul_list">
 		 <span class="col-md-12 col-sm-12 col-xs-12 p0"><span class="red">*</span><b> 抽取人员:</b></span><span  class="red" id="eError"></span>
 		 <form action="<%=request.getContextPath() %>/extractUser/addPerson.do" onsubmit="return false" id="extractUser">
 		 <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
@@ -189,7 +189,7 @@
 		  <form action="<%=request.getContextPath() %>/supervise/addPerson.do" id="supervise"  onsubmit="return false" >
 		  <div class="col-md-12 col-sm-12 col-xs-12 p0 mt10">
 		  <input type="hidden" name="recordId" value="${projectId}">
-		 	 <input type="hidden" value="supervise" id="su" name="personType">
+		 	<input type="hidden" value="supervise" id="su" name="personType">
 		 	<input type="button" class="btn btn-windows add" onclick="addPerson(this)" value="新增">
 		 	<input type="button" class="btn btn-windows delete" onclick="delPerson(this)" value="删除">
 		 	<input type="button" class="btn btn-windows input" onclick="selectHistory(this)" value="引用历史人员">
@@ -211,7 +211,7 @@
             </tbody>
           </table>
        </form>
-      </div>
+       </ul>
       </div>
       <h2 class="count_flow"><i>3</i>抽取条件</h2>
       <div id="div_3">

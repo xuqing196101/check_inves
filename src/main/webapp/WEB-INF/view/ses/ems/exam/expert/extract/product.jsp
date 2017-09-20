@@ -220,12 +220,16 @@
 					<input class="span2" name="id" type="hidden">
 					<li class="col-md-6  p0 " id="liradio">
 						<div class="fl mr10">
-							<input type="radio" name="radio" id="radio" checked="checked"
+							<input type="radio" name="radio" id="radio" 
+								<c:if test="${isSatisfy == null || isSatisfy !='2'}">checked="checked" </c:if>
+								
 								value="1" class="fl" />
 							<div class="ml5 fl">满足某一产品条件即可</div>
 						</div>
 						<div class="fl mr10">
-							<input type="radio" name="radio" id="radio" value="2"  onclick="showTitle()" class="fl" />
+							<input type="radio" name="radio" id="radio" value="2"
+								<c:if test="${isSatisfy!=null && isSatisfy =='2'}">checked="checked"</c:if>
+								onclick="showTitle()" class="fl" />
 							<div class="ml5 fl">同时满足多个产品条件</div>
 						</div>
 					</li>

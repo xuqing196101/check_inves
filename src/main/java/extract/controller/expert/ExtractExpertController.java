@@ -267,9 +267,10 @@ public class ExtractExpertController {
      * @return
      */
     @RequestMapping("/addHeading")
-    public String addHeading(Model model, String id, String type) {
+    public String addHeading(Model model, String id, String type,String isSatisfy) {
         model.addAttribute("type", type);
         model.addAttribute("ids", id);
+        model.addAttribute("isSatisfy", isSatisfy);
         return "ses/ems/exam/expert/extract/product";
     }
     

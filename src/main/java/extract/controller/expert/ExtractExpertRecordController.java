@@ -1,6 +1,5 @@
 package extract.controller.expert;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +19,8 @@ import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
 
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
+
 import extract.model.expert.ExpertExtractProject;
 import extract.service.expert.ExpertExtractProjectService;
 
@@ -59,10 +58,14 @@ public class ExtractExpertRecordController {
     		PageInfo<ExpertExtractProject> info = new PageInfo<>(list);
     		model.addAttribute("info",info);
     		//采购方式
-            List<DictionaryData> purchaseWayList = new ArrayList<>();
-            purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
-            purchaseWayList.add(DictionaryDataUtil.get("XJCG"));
-            purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
+            List<DictionaryData> purchaseWayList = DictionaryDataUtil.find(5);
+            if(purchaseWayList != null && purchaseWayList.size() > 0){
+                 for (DictionaryData dictionaryData : purchaseWayList) {
+                     if("XJCG".equals(dictionaryData.getCode())){
+                         dictionaryData.setName("询价");
+                     }
+                 }
+            }
             model.addAttribute("purchaseWayList",purchaseWayList);
             model.addAttribute("project",expertExtractProject);
             model.addAttribute("startTime",startTime);
