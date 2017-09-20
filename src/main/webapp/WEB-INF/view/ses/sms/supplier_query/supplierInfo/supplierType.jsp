@@ -303,7 +303,7 @@
 
 												<h2 class="count_flow"><i>2</i>承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</h2>
 												<ul class="ul_list">
-													<c:forEach items="${rootArea}" var="area" varStatus="st">
+													<c:forEach items="${areas}" var="area" varStatus="st">
 														<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 															<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'${area.name}');">${area.name}：</span>
 															<u:show showId="area_show_${st.index+1}" delete="false" businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />

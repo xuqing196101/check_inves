@@ -2062,19 +2062,23 @@ public class SupplierQueryController extends BaseSupplierController {
    				request.setAttribute("listRegPerson", listSupplierRegPersons);
    			}
    			
-   			//承揽业务范围
-   			List<Area> listArea= areaService.findRootArea();
-   			SupplierDictionaryData dictionary = dictionaryDataServiceI.getSupplierDictionary();
-   			String typeId =  dictionary.getSupplierProContract();
-   			List<Area> existenceArea = new ArrayList<>();
-   			for(Area area : listArea){
-   				String businessId = supplierId + "_" + area.getId();
-   				List<UploadFile> listUpload = uploadService.getFilesOther(businessId, typeId, "1");
-   				if(!listUpload.isEmpty()){
-   					existenceArea.add(area);
-   				}
-   			}
-   			request.setAttribute("rootArea", existenceArea);
+			//承揽业务范围
+			String businessScope = supplierMatEng.getBusinessScope();
+			if(StringUtils.isNotBlank(businessScope)){
+//				SupplierDictionaryData dictionary = dictionaryDataServiceI.getSupplierDictionary();
+//				String typeId =  dictionary.getSupplierProContract();
+				List<Area> existenceArea = new ArrayList<>();
+				String[] areaIds = businessScope.split(",");
+				for(String areaId : areaIds){
+//					String businessId = supplierId + "_" + areaId;
+//					List<UploadFile> listUpload = uploadService.getFilesOther(businessId, typeId, "1");
+//					if(!listUpload.isEmpty()){
+						Area area = areaService.listById(areaId);
+						existenceArea.add(area);
+//					}
+				}
+				request.setAttribute("areas", existenceArea);
+			}
    		}
    		
    		
