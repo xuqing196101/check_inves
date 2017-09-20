@@ -975,8 +975,8 @@ function displayEnd(){
     	}
     	//判断列表里面是否还有待定人员
     	var s = $("#"+strs[i]+"_result").children("tbody").find("select");
-        for (var i = 0; i < s.length; i++) {
-            if(s[i].value == '2'){
+        for (var j = 0; j < s.length; j++) {
+            if(s[j].value == '2'){
             	flag &= false;
             }
         }
