@@ -326,4 +326,11 @@
   <select id="vaProjectCode" parameterType="String" resultType="Integer">
     SELECT COUNT(ID) FROM T_SES_EMS_PROJECT_EXTRACT_INFO WHERE IS_DELETED = 0 AND CODE = #{code}
   </select>
+  
+  <!-- 修改项目抽取状态 -->
+  <update id="updataStatus" parameterType="Map">
+    UPDATE T_SES_EMS_PROJECT_EXTRACT_INFO
+    SET STATUS = #{status,jdbcType=VARCHAR}
+    WHERE ID = #{projectId,jdbcType=VARCHAR}
+  </update>
 </mapper>

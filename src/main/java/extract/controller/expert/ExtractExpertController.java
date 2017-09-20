@@ -30,8 +30,8 @@ import ses.service.bms.EngCategoryService;
 import ses.util.DictionaryDataUtil;
 
 import com.alibaba.fastjson.JSON;
-
 import common.annotation.CurrentUser;
+
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
@@ -255,6 +255,26 @@ public class ExtractExpertController {
         expertExtractCondition.setId(conId);
         Map<String, Object> result = expertExtractConditionService.findExpertByExtract(expertExtractCondition,expertExtractCateInfo);
         return JSON.toJSONString(result);
+    }
+    
+    /**
+     * 
+     * Description: 专家抽取结束
+     * 
+     * @author zhang shubin
+     * @data 2017年9月20日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/extractEnd")
+    @ResponseBody
+    public String extractEnd(String projectId){
+    	int v = expertExtractProjectService.updataStatus(projectId);
+    	if(v > 0){
+    		return JSON.toJSONString("yes");
+    	}else{
+    		return JSON.toJSONString("no");
+    	}
     }
     
     /**

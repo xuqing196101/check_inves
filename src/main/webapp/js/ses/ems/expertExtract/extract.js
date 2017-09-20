@@ -387,6 +387,8 @@ function isJoin(select){
                 $("#"+code+"_result_no").text(no + 1);
                 if(flag){
                     getExpert(code);
+                    //判断是否要显示结束按钮
+                    displayEnd();
                 }else{
                     var i=0;
                     $("#"+code+"_result").find("tr").each(function(){
@@ -405,6 +407,7 @@ function isJoin(select){
             	if(ww < codeCount){
             		getExpert(code);
             	}
+            	displayEnd();
             }else{
                 var i=0;
                 $("#"+code+"_result").find("tr").each(function(){
@@ -419,6 +422,8 @@ function isJoin(select){
             	if(ww < codeCount){
             		getExpert(code);
             	}
+        		//判断是否要显示结束按钮
+        		displayEnd();
             }else{
                 var i=0;
                 $("#"+code+"_result").find("tr").each(function(){
@@ -950,8 +955,123 @@ function extractReset(){
 	loadAreaZtree();
 }
 
+//显示结束按钮
+function displayEnd(){
+	//判断专家抽取结果是否满足条件
+	//能参加的人数等于选择的人数
+	var code = $("#expertKind option:selected").val();
+	var strs = new Array(); //定义一数组 
+    strs = code.split(",");
+    var flag = true;
+    for (var i = 0; i < strs.length; i++) {
+    	//选择的人数
+    	var count = parseInt(coUndifined($("#"+strs[i].toLowerCase()+"_i_count").val()));
+    	//确认参加的人数
+    	var join = parseInt(coUndifined($("#"+strs[i]+"_result_count").text()));
+    	if(count != join){
+    		if(isHaveExpert(strs[i])){
+    			flag &= false;
+    		}
+    	}
+    	//判断列表里面是否还有待定人员
+    	var s = $("#"+strs[i]+"_result").children("tbody").find("select");
+        for (var i = 0; i < s.length; i++) {
+            if(s[i].value == '2'){
+            	flag &= false;
+            }
+        }
+	}
+	if(flag){
+		$("#endButton").removeClass("display-none");
+	}else{
+		$("#endButton").addClass("display-none");
+	}
+}
 
+//判断是否还有满足条件的专家
+function isHaveExpert(resultCode){
+    $("#div_1").find("input").attr("disabled",false);
+    $("#div_1 select").attr("disabled",false);
+    $("#div_2 ").find("input").attr("disabled",false);
+    $("#div_2 select").attr("disabled",false);
+    $("#div_3").find("input").attr("disabled",false);
+    $("#div_3 select").attr("disabled",false);
+    //项目信息
+    var param1 = $("#condition_form").serializeJson();
+    var code = $("#expertKind option:selected").val();
+    if(code.indexOf(",") >= 0){
+        var strs = new Array(); //定义一数组 
+        strs = code.split(","); //字符分割
+        if(strs.length == 2){
+            var param2 = $("#"+strs[0]+"_form").serializeJson();
+            var param3 = $("#"+strs[1]+"_form").serializeJson();
+            result = $.extend({},param2,param3,param1);
+        }
+    }else{
+        var param2 = $("#"+code+"_form").serializeJson();
+        result = $.extend({},param2,param1);
+    }
+    $("#div_1").find("input").attr("disabled",true);
+    $("#div_1 select").attr("disabled",true);
+    $("#div_2 ").find("input").attr("disabled",true);
+    $("#div_2 select").attr("disabled",true);
+    $("#div_3").find("input").attr("disabled",true);
+    $("#div_3 select").attr("disabled",true);
+    var flag = true;
+    $.ajax({
+        url : globalPath + "/extractExpert/getExpert.do",
+        data : result,
+        dataType : "json",
+        async : false,
+        type : "POST",
+        success : function(data) {
+            for(var key in data){
+                if(key == resultCode){
+                	if(data[key] != null && data[key].length > 0){
+                		flag = true;
+                	}else{
+                		flag = false;
+                	}
+                }
+            }
+        },
+    });
+    return flag;
+}
 
+/**
+ * 抽取结束
+ */
+function extract_end(obj){
+	var projectId = $("#projectId").val();
+	$.ajax({
+        url : globalPath + "/extractExpert/extractEnd.do",
+        data : {
+            "projectId" : projectId
+        },
+        dataType : "json",
+        async : false,
+        type : "POST",
+        success : function(data) {
+           if(data == "yes"){
+        	   alterEndInfo(obj);
+           }else{
+        	   layer.msg("结束失败");
+           }
+        }
+    });
+}
+
+//打印结果表
+function alterEndInfo(obj){
+	var projectId = $("#projectId").val();
+	layer.alert("是否需要发送短信至确认参加供应商");
+	var index = layer.alert("完成抽取,打印记录表",function(){
+		window.location.href = globalPath+"/extractExpertRecord/printRecord.html?id="+projectId;
+		$(obj).prop("disabled",true);
+		layer.close(index);
+	});
+}
 //生成uuid
 function uuid() {
     var s = [];

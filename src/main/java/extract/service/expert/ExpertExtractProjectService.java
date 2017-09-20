@@ -91,4 +91,15 @@ public interface ExpertExtractProjectService {
      * @return
      */
     boolean isChecked(List<String> list,String typeCode);
+    
+    /**
+     * 
+     * Description: 修改项目抽取状态
+     * 
+     * @author zhang shubin
+     * @data 2017年9月20日
+     * @param 
+     * @return
+     */
+    int updataStatus(String projectId);
 }

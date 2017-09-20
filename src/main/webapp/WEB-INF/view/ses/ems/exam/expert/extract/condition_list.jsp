@@ -269,7 +269,7 @@
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">注：选择"是"，取完满足人数后，需要抽取两名候补专家</div>
           </li>
           <li class="clear"></li>
-          <li class="col-md-12 col-sm-12 col-xs-12 " id="addressReason"><!-- display-none -->
+          <li class="col-md-12 col-sm-12 col-xs-12 display-none" id="addressReason">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 区域限制理由:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
               <!-- <input class="span5" type="text" maxlength="100" name="addressReason" id="xzReason">
@@ -475,7 +475,6 @@
             <div class="clear"></div>
           </form>
         </div>
-
         <div class="col-md-12 clear tc mt10">
           <button class="btn" type="button" onclick="artificial_extracting()" id="artificial">人工抽取</button>
           <button class="btn" type="button" onclick="" id="auto">自动抽取</button>
@@ -600,6 +599,12 @@
         </ul>
       </div>
     </div>
+    <div class="col-md-12 clear tc mt10">
+      <div id="endButton" class="display-none">
+        <button class="btn" type="button" onclick="extract_end()">抽取结束</button>
+      </div>
+    </div>
+    <div class="clear"></div>
   </div>
 
   <!-- 地区树 -->

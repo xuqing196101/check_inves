@@ -466,4 +466,16 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         }
         return false;
     }
+
+    /**
+     * 修改项目抽取状态
+     */
+	@Override
+	public int updataStatus(String projectId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectId", projectId);
+		map.put("status", "2");
+		int v = expertExtractProjectMapper.updataStatus(map);
+		return v;
+	}
 }

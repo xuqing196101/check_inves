@@ -59,4 +59,15 @@ public interface ExpertExtractProjectMapper {
      * @return
      */
     int vaProjectCode(@Param("code")String code);
+    
+    /**
+     * 
+     * Description: 修改项目抽取状态
+     * 
+     * @author zhang shubin
+     * @data 2017年9月20日
+     * @param 
+     * @return
+     */
+    int updataStatus(Map<String, Object> map);
 }
