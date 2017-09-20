@@ -137,10 +137,6 @@ function validationIsNull(code){
 		$("#err_code").html("项目编号不能为空");
 		flag = false;
 		layer.msg("请完善项目信息");
-	}else if(strTrim(projectCode).length > 100){
-		$("#err_code").html("不能超过80字");
-		flag = false;
-		layer.msg("请完善项目信息");
 	}else{
 		// 验证项目编号重复校验
 		$.ajax({
@@ -261,6 +257,14 @@ function validationIsNull(code){
 			}
 		}
 	}
+	//区域要求
+	var provincesel = coUndifined($("#provincesel").val());
+	if(provincesel == null || provincesel == ""){
+		$("#err_provincesel").html("区域要求不能为空");
+		flag = false;
+	}else{
+		$("#err_provincesel").html("");
+	}
 	//抽取总人数
 	var extractNum = $("#extractNum").val();
 	if(extractNum == null || extractNum == ""){
@@ -379,7 +383,7 @@ function isJoin(select){
                 formType: 2,
                 shade: 0.01,
                 offset: [y, x],
-                title: '不参加理由'
+                title: '*不参加理由'
             }, function (value, index, elem) {
                 layer.close(index);
                 saveResult($(select).parents("tr").find("input").first().val(),value,v,code);
@@ -950,7 +954,17 @@ function extractReset(){
 	var SelectArr = $("#div_3").find("select");
 	for (var i = 0; i < SelectArr.length; i++) {
 		SelectArr[i].options[0].selected = true; 
-		}
+	}
+	//清空校验提示信息
+	$("#err_provincesel").html("");
+	$("#err_extractNum").html("");
+	$("#err_project_i_count").html("");
+	$("#err_project_eng_info").html("");
+	$("#err_goods_project_i_count").html("");
+	$("#err_goods_project_eng_info").html("");
+	$("#err_goods_i_count").html("");
+	$("#err_goods_server_i_count").html("");
+	$("#err_service_i_count").html("");
 	changeKind();
 	loadAreaZtree();
 }
@@ -1042,7 +1056,7 @@ function isHaveExpert(resultCode){
 /**
  * 抽取结束
  */
-function extract_end(obj){
+function extract_end(){
 	var projectId = $("#projectId").val();
 	$.ajax({
         url : globalPath + "/extractExpert/extractEnd.do",
@@ -1054,7 +1068,7 @@ function extract_end(obj){
         type : "POST",
         success : function(data) {
            if(data == "yes"){
-        	   alterEndInfo(obj);
+        	   alterEndInfo();
            }else{
         	   layer.msg("结束失败");
            }
@@ -1068,7 +1082,7 @@ function alterEndInfo(obj){
 	layer.alert("是否需要发送短信至确认参加供应商");
 	var index = layer.alert("完成抽取,打印记录表",function(){
 		window.location.href = globalPath+"/extractExpertRecord/printRecord.html?id="+projectId;
-		$(obj).prop("disabled",true);
+		$("#extractEnd").prop("disabled",true);
 		layer.close(index);
 	});
 }
@@ -1083,4 +1097,32 @@ function uuid() {
     s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
     var uuid = s.join("");
     return uuid;
+}
+
+//验证项目编号
+function vaCode(){
+	var projectCode = $("#projectCode").val();
+	if(projectCode == null || projectCode == ""){
+		$("#err_code").html("项目编号不能为空");
+	}else{
+		// 验证项目编号重复校验
+		$.ajax({
+			url : globalPath + "/extractExpert/vaProjectCode.do",
+			data : {
+				"code" : projectCode
+			},
+			dataType : "json",
+			async : false,
+			type : "POST",
+			success : function(data) {
+				if(data.status == "no"){
+					$("#err_code").html("项目编号已被使用");
+					flag = false;
+					layer.msg("请完善项目信息");
+				}else{
+					$("#err_code").html("");
+				}
+			}
+		});
+	}
 }

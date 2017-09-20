@@ -478,4 +478,12 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 		int v = expertExtractProjectMapper.updataStatus(map);
 		return v;
 	}
+
+	/**
+	 * 根据主键查询
+	 */
+	@Override
+	public ExpertExtractProject selectByPrimaryKey(String id) {
+		return expertExtractProjectMapper.selectByPrimaryKey(id);
+	}
 }

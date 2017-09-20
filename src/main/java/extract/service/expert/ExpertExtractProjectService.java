@@ -102,4 +102,15 @@ public interface ExpertExtractProjectService {
      * @return
      */
     int updataStatus(String projectId);
+    
+    /**
+     * 
+     * Description: 根据主键查询
+     * 
+     * @author zhang shubin
+     * @data 2017年9月20日
+     * @param 
+     * @return
+     */
+    ExpertExtractProject selectByPrimaryKey(String id);
 }

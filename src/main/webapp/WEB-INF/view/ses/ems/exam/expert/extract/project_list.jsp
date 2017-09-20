@@ -72,8 +72,29 @@
         if (id.length != 1) {
             layer.alert("只能选择一个", {offset: ['222px', '390px'], shade: 0.01});
         } else {
-		conditionId = $("#conditionId").val();
-           window.location.href = "${pageContext.request.contextPath}/extractExpertRecord/printRecord.html?id=" + id + "&&conditionId=";
+        	/* var flag = true;
+        	$.ajax({
+                url : "${pageContext.request.contextPath}/extractExpertRecord/selReviewTime.do",
+                data : {
+                    "id" : id
+                },
+                dataType : "json",
+                async : false,
+                type : "POST",
+                success : function(data) {
+                   if(data == "yes"){
+                	   flag = true;
+                   }else{
+                	   flag = false;
+                   }
+                }
+            }); */
+        	//if(flag){
+				conditionId = $("#conditionId").val();
+				window.location.href = "${pageContext.request.contextPath}/extractExpertRecord/printRecord.html?id=" + id + "&&conditionId=";
+        	//}else{
+        	//	layer.alert("评审时间未满足半个小时", {offset: ['222px', '390px'], shade: 0.01});
+        	//}
         }
   }
   

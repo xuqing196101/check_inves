@@ -42,7 +42,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12 pl15">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 项目名称:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" id="projectName" name=projectName value="${projectName}" type="text">
+              <input class="span5" id="projectName" name=projectName value="${projectName}" type="text" >
               <span class="add-on">i</span>
               <div class="cue" id="err_projectName"></div>
             </div>
@@ -50,7 +50,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 项目编号:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" id="projectCode" name="code" value="${code}" type="text">
+              <input class="span5" id="projectCode" name="code" value="${code}" type="text" onblur="vaCode()" maxlength="80">
               <span class="add-on">i</span>
               <div class="cue" id="err_code"></div>
             </div>
@@ -76,7 +76,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 评审时间:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="col-md-12 col-sm-12 col-xs-6 p0" value="<fmt:formatDate value='${reviewTime }' pattern='yyyy-MM-dd' />" name = "reviewTime" id = "reviewTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});" pattern='yyyy-MM-dd HH:mm:ss' type="text" readonly="readonly">
+              <input class="col-md-12 col-sm-12 col-xs-6 p0" value="<fmt:formatDate value='${reviewTime }' pattern='yyyy-MM-dd HH:mm:ss' />" name = "reviewTime" id = "reviewTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-{%d+1}'});" pattern='yyyy-MM-dd HH:mm:ss' type="text" readonly="readonly">
               <div class="cue" id="err_reviewTime"></div>
             </div>
           </li>
@@ -226,7 +226,7 @@
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 区域要求:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
               <input class="span5" type="text" readonly id="area" onclick="showTree();"> <span class="add-on">i</span>
-              <div class="cue" id=""></div>
+              <div class="cue" id="err_provincesel"></div>
             </div>
           </li>
           <li class="col-md-3 col-sm-4 col-xs-12 ">
@@ -601,7 +601,7 @@
     </div>
     <div class="col-md-12 clear tc mt10">
       <div id="endButton" class="display-none">
-        <button class="btn" type="button" onclick="extract_end()">抽取结束</button>
+        <button class="btn" type="button" onclick="extract_end()" id="extractEnd">抽取结束</button>
       </div>
     </div>
     <div class="clear"></div>
