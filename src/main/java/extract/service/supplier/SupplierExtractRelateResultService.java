@@ -70,7 +70,7 @@ public interface SupplierExtractRelateResultService {
   /**
    * @Description:当抽取数量满足时修改还未抽取的供应商状态为1
    *
-   * @author Wang Wenshuai
+   * @author Jia Chengxiang
    * @version 2016年9月28日 下午6:09:52  
    * @param @param extract
    * @param @return      

@@ -6,6 +6,7 @@ package extract.service.supplier.impl;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -109,43 +110,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     private OrgnizationMapper orgnizationMapper;
     
 
-    /**
-     * @Description:插入记录
-     *
-     * @author Wang Wenshuai
-     * @version 2016年9月27日 下午4:32:28  
-     * @param @param record      
-     * @return void
-     */
-    @Override
-    public void insert(SupplierExtractProjectInfo record) {
-    	record.setCreatedAt(new Date());
-        supplierExtractsMapper.insertSelective(record);
-    }
 
-    /**
-     * @Description:集合
-     *
-     * @author Wang Wenshuai
-     * @version 2016年9月27日 下午4:32:28  
-     * @param @param record      
-     * @return void
-     */
-    @Override
-    public List<SupplierExtractProjectInfo> listExtractRecord(
-        SupplierExtractProjectInfo expExtractRecord,Integer pageNum) {
-        if(pageNum!=0){
-            PageHelper.startPage(pageNum, 10);
-        }
-        return supplierExtractsMapper.list(expExtractRecord);
-    }
-
-    /**
-     * 
-     *〈简述〉修改
-     *〈详细描述〉
-     * @author Wang Wenshuai
-     */
     @Override
     public void update(SupplierExtractProjectInfo extracts) {
     	extracts.setExtractionTime(new Date());
@@ -158,16 +123,19 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		return supplierExtractsMapper.selectByPrimaryKey(id);
 	}
 
-	/**
-	 * 抽取记录列表
-	 */
+	
 	@Override
 	public List<SupplierExtractProjectInfo> getList(int i,User user,SupplierExtractProjectInfo project) {
 		 PageHelper.startPage(i, PropUtil.getIntegerProperty("pageSize"));
 		 
 		 project.setProcurementDepId(user.getOrg().getId());
-		 
-		 List<SupplierExtractProjectInfo> list = supplierExtractsMapper.getList(project);
+		 List<SupplierExtractProjectInfo> list = new ArrayList<>();
+		 if("1".equals(user.getTypeName())){
+			list = supplierExtractsMapper.getList(project);
+		 }else if("4".equals(user.getTypeName())){
+			 project.setProcurementDepId(null);
+			 list = supplierExtractsMapper.getList(project);
+		 }
 		for (SupplierExtractProjectInfo projectInfo : list) {
 			String temp = "";
 			List<ExtractUser> getlistByRid = userMapper.getlistByRid(projectInfo.getId());
@@ -291,7 +259,9 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		map.put("ProcurementDep",orgnizationMapper.findOrgByPrimaryKey(projectInfo.getProcurementDepId()).getName());
 		
 		//项目实施地点
-		map.put("construction", areaMapper.selectById(projectInfo.getConstructionPro()).getName() + areaMapper.selectById(projectInfo.getConstructionAddr()).getName());
+		if(StringUtils.isNotBlank(projectInfo.getConstructionPro())){
+			map.put("construction", areaMapper.selectById(projectInfo.getConstructionPro()).getName() + areaMapper.selectById(projectInfo.getConstructionAddr()).getName());
+		}
 		
 		//抽取时间
 		map.put("extractTime", simpleDateFormat.format(projectInfo.getCreatedAt()));
@@ -377,7 +347,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 				
 				map.put("projectIsHavingConCert",byMap3.get(0).equals("0")?"无":"有" );
 			}else{
-				map.put("projectIsHavingConCert", "");
+				map.put("projectIsHavingConCert", "不限");
 			}
 			
 			//企业性质

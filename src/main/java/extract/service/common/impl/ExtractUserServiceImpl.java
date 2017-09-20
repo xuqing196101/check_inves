@@ -32,7 +32,7 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 	
 	
 	@Override
-	public Map<String, String> addPerson(ExtractUser extUser,User user) {
+	public Map<String, String> addPerson(ExtractUser extUser) {
 		
 		HashMap<String, String> error = new HashMap<>();
 		
@@ -66,6 +66,7 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 				int count = 0;
 				int i =0;
 				for (ExtractUser extractUser : extUser.getList()) {
+					extractUser.setOrgId(extUser.getOrgId());
 					if(StringUtils.isBlank(extractUser.getName())|| extractUser.getName().length()>5){
 						error.put("list["+i+"].name", "姓名不能为空且长度小于5");
 						count++;

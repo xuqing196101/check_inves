@@ -252,7 +252,7 @@
   </select>
   
   <!-- 下载抽取结果 -->
-  <select id="getResultListByrecordId" parameterType="java.lang.String" resultType="extract.model.expert.ExpertExtractResult">
+  <select id="getResultListByrecordId" parameterType="java.lang.String" resultMap="expertInfo">
   	SELECT E.REAL_NAME,E.ID_CARD_NUMBER,E.Profess_Tech_Titles,E.MAJOR,E.PROFESSIONAL,E.Mobile,R.IS_JOIN,R.REASON from T_SES_EMS_EXTRACT_RESULT R LEFT JOIN T_SES_EMS_EXPERT E ON R.EXPERT_ID = E.ID
  	WHERE R.PROJECT_ID = #{value} AND R.IS_JOIN IN (1，3)  ORDER BY R.IS_JOIN ASC
   </select>

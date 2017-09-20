@@ -3,7 +3,7 @@ package extract.model.expert;
 import java.io.Serializable;
 import java.util.Date;
 
-import ses.model.ems.Expert;
+import ses.model.ems.ExpertHistory;
 
 /**
  * 
@@ -13,7 +13,7 @@ import ses.model.ems.Expert;
  * @version 2016-9-7
  * @since JDK1.7
  */
-public class ExpertExtractResult extends Expert implements Serializable {
+public class ExpertExtractResult extends ExpertHistory implements Serializable {
 
     /**
 	 * 

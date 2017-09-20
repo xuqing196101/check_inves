@@ -58,8 +58,16 @@ public class SupplierConType {
 	private String salesOverseasBranch;
 	
 	
-
-	
+	/**
+	 * 不限
+	 */
+	private String goodsCategoryIds;
+	private String goodsLevel;
+	private Short goodsIsMulticondition;
+	private Short goodsExtractNum;
+	private String goodsIsHavingConCert;
+	private String goodsBusinessNature;
+	private String goodsOverseasBranch;
 	
 	
 	
@@ -317,8 +325,62 @@ public class SupplierConType {
 	public void setSalesOverseasBranch(String salesOverseasBranch) {
 		this.salesOverseasBranch = salesOverseasBranch;
 	}
-	
-	
+
+	public String getGoodsCategoryIds() {
+		return goodsCategoryIds;
+	}
+
+	public void setGoodsCategoryIds(String goodsCategoryIds) {
+		this.goodsCategoryIds = goodsCategoryIds;
+	}
+
+	public String getGoodsLevel() {
+		return goodsLevel;
+	}
+
+	public void setGoodsLevel(String goodsLevel) {
+		this.goodsLevel = goodsLevel;
+	}
+
+	public Short getGoodsIsMulticondition() {
+		return goodsIsMulticondition;
+	}
+
+	public void setGoodsIsMulticondition(Short goodsIsMulticondition) {
+		this.goodsIsMulticondition = goodsIsMulticondition;
+	}
+
+	public Short getGoodsExtractNum() {
+		return goodsExtractNum;
+	}
+
+	public void setGoodsExtractNum(Short goodsExtractNum) {
+		this.goodsExtractNum = goodsExtractNum;
+	}
+
+	public String getGoodsIsHavingConCert() {
+		return goodsIsHavingConCert;
+	}
+
+	public void setGoodsIsHavingConCert(String goodsIsHavingConCert) {
+		this.goodsIsHavingConCert = goodsIsHavingConCert;
+	}
+
+	public String getGoodsBusinessNature() {
+		return goodsBusinessNature;
+	}
+
+	public void setGoodsBusinessNature(String goodsBusinessNature) {
+		this.goodsBusinessNature = goodsBusinessNature;
+	}
+
+	public String getGoodsOverseasBranch() {
+		return goodsOverseasBranch;
+	}
+
+	public void setGoodsOverseasBranch(String goodsOverseasBranch) {
+		this.goodsOverseasBranch = goodsOverseasBranch;
+	}
 	
 	
 }

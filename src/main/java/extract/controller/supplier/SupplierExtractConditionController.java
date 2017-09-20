@@ -25,18 +25,18 @@ import extract.model.supplier.SupplierExtractCondition;
 import extract.service.supplier.SupplierExtractConditionService;
 
 
-
-/**
- * @Description:查询条件控制
- *	 
- * @author Wang Wenshuai
- * @version 2016年9月28日上午10:58:03
- * @since  JDK 1.7
- */
-@Controller
-@Scope("prototype")
-@RequestMapping("/SupplierCondition")
-public class SupplierExtractConditionController {
+	
+	/**
+	 * @Description:查询条件控制
+	 *	 
+	 * @author jia chengxiang
+	 * @version 2016年9月28日上午10:58:03
+	 * @since  JDK 1.7
+	 */
+	@Controller
+	@Scope("prototype")
+	@RequestMapping("/SupplierCondition")
+	public class SupplierExtractConditionController {
     @Autowired
     private SupplierExtractConditionService conditionService;
 
@@ -46,7 +46,7 @@ public class SupplierExtractConditionController {
      * 
      *〈简述〉返回满足条件的供应商个数
      *〈详细描述〉
-     * @author Wang Wenshuai
+     * @author Jia Chengxaing
      * @param condition
      * @param conType
      * @param sq
@@ -64,7 +64,7 @@ public class SupplierExtractConditionController {
      * 
      *〈简述〉返回满足条件的供应商
      *〈详细描述〉
-     * @author Wang Wenshuai
+     * @author Jia Chengxaing
      * @param condition
      * @param conType
      * @param sq
@@ -82,7 +82,7 @@ public class SupplierExtractConditionController {
     *
     *〈简述〉获取品目树
     *〈详细描述〉
-    * @author Wang Wenshuai
+    * @author Jia Chengxaing
     * @return
     */
    @ResponseBody
@@ -96,7 +96,7 @@ public class SupplierExtractConditionController {
    
    /**
     * 根据工程品目ID 查询资质等级 
-    * @author Jia chegnxiang
+    * @author Jia Chengxaing
     */
    @RequestMapping("/getEngLevelByCid")
    @ResponseBody
@@ -107,7 +107,7 @@ public class SupplierExtractConditionController {
    
    /**
     * 根据工程品目ID 查询工程资质
-    * @author Jia chegnxiang
+    * @author Jia Chengxaing
     */
    @RequestMapping("/getQuaByCid")
    @ResponseBody

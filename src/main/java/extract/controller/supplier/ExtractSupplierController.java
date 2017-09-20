@@ -95,9 +95,9 @@ public class ExtractSupplierController extends BaseController {
 	}
     
     /**
-     * @Description:获取项目集合
+     * @Description:获取抽取记录集合
      *
-     * @author Wang Wenshuai
+     * @author jia chengxiang
      * @version 2016年9月27日 下午4:38:31
      * @param  page
      * @param  model
@@ -106,7 +106,7 @@ public class ExtractSupplierController extends BaseController {
      */
     @RequestMapping("/projectList")
     public String list(Integer page, Model model, SupplierExtractProjectInfo project,@CurrentUser User user,String startTime,String endTime){
-    	if(null!=user && "1".equals(user.getTypeName())){
+    	if(null!=user && ("1".equals(user.getTypeName()) || "4".equals(user.getTypeName())) ){
     		Map<String, Object> map = new HashMap<>();
     		map.put("page", page);
     		map.put("startTime", null == startTime ? "" : startTime.trim());
@@ -114,9 +114,11 @@ public class ExtractSupplierController extends BaseController {
     		
     		//采购方式
             List<DictionaryData> purchaseWayList = new ArrayList<>();
-            purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
-            purchaseWayList.add(DictionaryDataUtil.get("XJCG"));
+            DictionaryData dictionaryData = DictionaryDataUtil.get("XJCG");
+            dictionaryData.setName("询价");
+            purchaseWayList.add(dictionaryData);
             purchaseWayList.add(DictionaryDataUtil.get("YQZB"));
+            purchaseWayList.add(DictionaryDataUtil.get("JZXTP"));
             model.addAttribute("purchaseTypeList",purchaseWayList);
             model.addAttribute("startTime",startTime);
             model.addAttribute("endTime",endTime);
@@ -127,10 +129,12 @@ public class ExtractSupplierController extends BaseController {
     	}
     	return "redirect:/qualifyError.jsp";
     }
+    
+    
     /**
      *@Description:条件查询集合 / 跳转抽取条件页面，准备抽取
      *
-     * @author Wang Wenshuai
+     * @author jia chengxiang
      * @version 2016年9月27日 下午6:03:40
      * @param  id 包id
      * @return String
@@ -200,7 +204,7 @@ public class ExtractSupplierController extends BaseController {
     	List<Area> province = areaService.findRootArea();
     	model.addAttribute("businessNature", conditionService.getBusinessNature());
     	model.addAttribute("province", province);
-    	model.addAttribute("address", areaService.findAreaByParentId(province.get(0).getId()));
+    	//model.addAttribute("address", areaService.findAreaByParentId(province.get(0).getId()));
     	return "ses/sms/supplier_extracts/condition_list";
     }
 
@@ -233,7 +237,7 @@ public class ExtractSupplierController extends BaseController {
     /**
      * @Description:保存结果
      *
-     * @author Wang Wenshuai
+     * @author jia chegnxiang
      * @date 2016年9月19日 下午2:31:46
      * @param @param model
      * @param @return
@@ -249,27 +253,12 @@ public class ExtractSupplierController extends BaseController {
 		return null;
     }
 
-    /**
-     * @Description:供应商抽取记录集合
-     *
-     * @author Wang Wenshuai
-     * @version 2016年9月29日 下午2:11:25
-     * @param @param model
-     * @param @return
-     * @return String
-     */
-    @RequestMapping("/resuleRecordlist")
-    public String resuleRecord(Model model,SupplierExtractProjectInfo se,String page){
-        List<SupplierExtractProjectInfo> listExtractRecord = expExtractRecordService.listExtractRecord(se,page!=null&&!page.equals("")?Integer.parseInt(page):1);
-        model.addAttribute("extractslist", new PageInfo<SupplierExtractProjectInfo>(listExtractRecord));
-        model.addAttribute("se", se);
-        return "ses/sms/supplier_extracts/recordlist";
-    }
+   
 
     /**
      * @Description: 获取市
      *
-     * @author Wang Wenshuai
+     * @author Jia chegnxiang
      * @date 2016年9月18日 下午4:16:35
      * @param @return
      * @return String
@@ -285,7 +274,7 @@ public class ExtractSupplierController extends BaseController {
      *
      *〈简述〉获取品目树
      *〈详细描述〉
-     * @author Wang Wenshuai
+     * @author Jia chengxiang
      * @return
      */
     @ResponseBody
@@ -303,7 +292,7 @@ public class ExtractSupplierController extends BaseController {
      *
      *〈简述〉供应商类型
      *〈详细描述〉
-     * @author Wang Wenshuai
+     * @author jia chengxiang
      * @return
      */
     @ResponseBody
@@ -318,7 +307,7 @@ public class ExtractSupplierController extends BaseController {
      *
      *〈简述〉供应商类型 根据项目类型获取需要抽取的供应商类型
      *〈详细描述〉
-     * @author Wang Wenshuai
+     * @author jia chengxiang
      * @return
      */
     @ResponseBody

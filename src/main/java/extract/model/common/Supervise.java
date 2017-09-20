@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
-
 public class Supervise {
 		
 	    private String id;
@@ -20,6 +17,8 @@ public class Supervise {
 	    private String personType;
 	    
 	    private String condditionId;
+	    
+	    private String orgId;
 	    
 	    /*@NotEmpty(message="姓名不能为空")
 	    @Length(min=1,max=5,message="姓名信息长度不能大于5")*/
@@ -136,6 +135,14 @@ public class Supervise {
 
 		public void setList(List<Supervise> list) {
 			this.list = list;
+		}
+
+		public String getOrgId() {
+			return orgId;
+		}
+
+		public void setOrgId(String orgId) {
+			this.orgId = orgId;
 		}
 	 
 }

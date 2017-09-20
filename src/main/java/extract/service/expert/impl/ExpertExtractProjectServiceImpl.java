@@ -339,7 +339,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 						map.put("gnum", e.getCountPerson());
 						
 						//职称
-						map.put("tzc", e.getTechnicalTitle());
+						map.put("tzc", StringUtils.isBlank(e.getTechnicalTitle())?"不限":e.getTechnicalTitle());
 						//产品类别
 						String cids = e.getCategoryIds();
 						temp = "";
@@ -355,13 +355,13 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 						}else{
 							temp = "不限类别";
 						}
-						map.put("areaName",temp );
+						map.put("category",temp );
 					}else{
 						//技术专家
 						map.put("tnum", e.getCountPerson());
 						
 						//职称
-						map.put("gzc", e.getTechnicalTitle());
+						map.put("gzc",StringUtils.isBlank(e.getTechnicalTitle())?"不限":e.getTechnicalTitle());
 						
 						//产品类别
 						String cids = e.getCategoryIds();
@@ -378,35 +378,15 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 						}else{
 							temp = "不限类别";
 						}
-						map.put("areaName",temp );
+						map.put("category",temp );
 					}
 				}
 			}
 			
 		}
 		
-		/*//高级
-		
-		map.put("gj", "");
-		//中级
-		
-		map.put("zj", "");
-		//其他
-		
-		map.put("el", "");*/
-		
-		//工程类
-		/*if("PROJECT".equals(typeCode)){
-			//执业资格
-			
-		}*/
-		
-		
-		
 		//结果
-		//TODO 类别字段
 		map.put("result", resultMapper.getResultListByrecordId(id));
-		//TODO
 		map.put("back", resultMapper.getBackExpertListByrecordId(id));
 		return map;
 	}

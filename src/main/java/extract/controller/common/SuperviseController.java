@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +14,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
+import ses.model.bms.User;
 
-import extract.model.common.ExtractUser;
+import com.alibaba.fastjson.JSON;
+import common.annotation.CurrentUser;
+
 import extract.model.common.Supervise;
 import extract.service.common.SuperviseService;
 
@@ -33,9 +36,15 @@ public class SuperviseController {
      * @return
      */
      @RequestMapping("/toPeronList")
-    public String toPeronList(Model model,String personType,Supervise suser){
-        model.addAttribute("personType", personType);
-        model.addAttribute("personList", superviseService.getList(suser));
+    public String toPeronList(Model model,String personType,Supervise suser,@CurrentUser User user2){
+    	 if("supervise".equals(personType) && null !=user2){
+       		String orgId = user2.getOrg().getId();
+       		if(StringUtils.isNotBlank(orgId)){
+       			suser.setOrgId(orgId);
+       			model.addAttribute("personType", personType);
+       			model.addAttribute("personList", superviseService.getList(suser));
+       		}
+   		}
         return "ses/extract/person_list";
     }
      
@@ -46,10 +55,14 @@ public class SuperviseController {
       */
      @RequestMapping("/getPeronList")
      @ResponseBody
-     public String getPeronList(Model model,String personType,Supervise user){
+     public String getPeronList(Model model,String personType,Supervise user,@CurrentUser User user2){
     	  if (personType != null && !"".equals(personType)) {
-          	if("supervise".equals(personType)){
-      			return JSON.toJSONString(superviseService.getList(user));
+          	if("supervise".equals(personType) && null !=user2){
+          		String orgId = user2.getOrg().getId();
+          		if(StringUtils.isNotBlank(orgId)){
+          			user.setOrgId(orgId);
+          			return JSON.toJSONString(superviseService.getList(user));
+          		}
       		}
           }
 		return "";
@@ -57,7 +70,7 @@ public class SuperviseController {
      
      @RequestMapping("/addPerson")
      @ResponseBody
-     public String addPerson(@Valid Supervise user,BindingResult result){
+     public String addPerson(@Valid Supervise user,BindingResult result,@CurrentUser User user2){
     	 
     	 if(result.hasErrors()){
     		 HashMap<String, String> err = new HashMap<>();
@@ -67,7 +80,14 @@ public class SuperviseController {
 			}
     		 return JSON.toJSONString(err);
     	 }
-    	HashMap<String, String> addPerson = superviseService.addPerson(user);
+    	 HashMap<String, String> addPerson = null;
+    	if(null!= user2){
+    		String orgId = user2.getOrg().getId();
+    		if(StringUtils.isNotBlank(orgId)){
+    			user.setOrgId(orgId);
+    			addPerson = superviseService.addPerson(user);
+    		}
+    	} 
 		return JSON.toJSONString(addPerson);
      }
 	

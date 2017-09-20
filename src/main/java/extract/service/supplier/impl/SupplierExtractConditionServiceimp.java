@@ -47,8 +47,6 @@ import extract.service.supplier.SupplierExtractConditionService;
 @Service
 public class SupplierExtractConditionServiceimp  implements SupplierExtractConditionService {
 
-  /** SCCUESS */
-  private static final String SUCCESS = "SUCCESS";
   /** ERROR */
   private static final String ERROR = "ERROR";
 
@@ -138,42 +136,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
     return supplierConditionMapper.selectByPrimaryKey(id);
   }
 
-  /**
-   * 
-   *〈简述〉更具关联包id查询是否有未抽取的条件
-   *〈详细描述〉
-   * @author Wang Wenshuai
-   * @param id
-   * @return
-   */
-  @Override
-  public String getCount(String[] packId) {
-    String packageId = "";
-    Packages pack = new Packages();
-    pack.setId(packId[0]);
-    List<Packages> find = packageService.find(pack);
-    HashMap<String, Object> map = new HashMap<String, Object>();
-    map.put("projectId",find.get(0).getProjectId());
-    List<Packages> findPackageById = packageService.findPackageById(map);
-    for (Packages packages : findPackageById) {
-      Integer count = supplierConditionMapper.getCount(packages.getId());
-      if(count > 0 ){
-        packageId += packages.getId()+ ",";
-      }
-    }
-    return packageId;
 
-  }
-
-  /**
-   * 直接删除查询不出结果的查询条件
-   * @return 
-   * @see ses.service.sms.SupplierConditionService#delById(java.lang.String)
-   */
-  @Override
-  public Integer delById(String Id) {
-    return supplierConditionMapper.deleteByPrimaryKey(Id);
-  }
 
   /**
    * 返回满足条件的供应商 并存储抽取条件
@@ -187,17 +150,20 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	 Map<String, Object> map = new HashMap<>();
 	 map.put("count", count);
 	 map.put("list", list);
-	 if(StringUtils.isBlank(condition.getAreaName())){
-		 map.put("error", "areaNameError");
-		 return map;
-	 }
-	 if((!"0".equals(condition.getProvince()))&& StringUtils.isBlank(condition.getAddressReason())){
-		 map.put("error", "areaError");
-		 return map;
+	 if(1==type){
+		 if(StringUtils.isBlank(condition.getAreaName())){
+			 map.put("error", "areaNameError");
+			 return map;
+		 }
+		 if((!"0".equals(condition.getProvince()))&& StringUtils.isBlank(condition.getAddressReason())){
+			 map.put("error", "areaError");
+			 return map;
+		 }
 	 }
 	  
 	 //此方法为公共方法 查询满足供应商数量 和供应商抽取结果  0 表示查询数量 1 表示 抽取 
 	 //去除已经抽取到的供应商
+	
 	 if(StringUtils.isNotBlank(condition.getProjectId())){
 		 
 		 List<String> supplierIds = supplierExtRelateMapper.selectSupplierIdListByProjectId(condition.getProjectId());
@@ -251,8 +217,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	}*/
 	 
 	Class<? extends SupplierConType> class1 = conType.getClass();
-	String[] supplierTypeCodes  = condition.getSupplierTypeCodes();
-	for (String typeCode : supplierTypeCodes) {
+	String supplierTypeCode  = condition.getSupplierTypeCode();
+	String typeCode = condition.getSupplierTypeCode();
+	//for (String typeCode : supplierTypeCodes) {
 		//首字母大写
 		char[] cs=typeCode.toLowerCase().toCharArray();
         cs[0]-=32;
@@ -278,14 +245,18 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 				condition.setExtractNum(en);
 			}
 			
-			if(null != ic){
+			if(StringUtils.isNotBlank(ic)){
 				condition.setIsHavingConCert(ic);
 			}
 			if(null != bu){
 				condition.setBusinessNature(bu);
 			}
-			if(null != ob){
+			if(StringUtils.isNotBlank(ob)){
 				condition.setOverseasBranch(ob);
+			}
+			if("GOODS".equals(condition.getSupplierTypeCode())){
+				condition.setSupplierTypeCode("PRODUCT,SALES");
+				typeCode = "GOODS";
 			}
 			if(type == 1){
 				if(null == en){
@@ -294,11 +265,23 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 				}
 				
 				List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
+				String sid = selectAllExpert.get(0).getId();
+				List<String> typeCodeList = supplierExtRelateMapper.selectTypeCodeBySid(sid);
+				String temp = "";
+				for (String s : typeCodeList) {
+					temp += ","+ dictionaryDataMapper.selectByCode(s).get(0).getName();
+				}
+				selectAllExpert.get(0).setSupplierType(temp.substring(1));
+				
 				list.put(typeCode, selectAllExpert);
 				//存储
-				saveOrUpdateCondition(condition, conType);
+				if("GOODS".equals(supplierTypeCode)){
+					condition.setSupplierTypeCode(supplierTypeCode);
+					saveOrUpdateCondition(condition, conType);
+				}else{
+					saveOrUpdateCondition(condition, conType);
+				}
 			}else{
-				condition.setSupplierTypeCode(typeCode);
 				count.put(typeCode+"Count", supplierExtRelateMapper.listExtractionExpertCount(condition));
 			}
 		} catch (Exception e) {
@@ -306,7 +289,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		}
 		
 		
-	}
+	//}
 	
 	/*if(null != conType.getProductExtractNum()){
 		//SupplierCondition pdsc = new SupplierCondition("PRODUCT", conType.getProductIsMulticondition(), conType.getProductCategoryIds(), conType.getProductLevel());
@@ -373,21 +356,6 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	return map;
   }
 
-
-  /**
-   * 本次抽取是否完成
-   * @see ses.service.ems.ExpExtConditionService#isFinish()
-   */
-  @Override
-  public String isFinish(SupplierExtractCondition condition) {
-    List<SupplierExtractCondition> list = supplierConditionMapper.list(condition);
-    if (list != null && list.size() !=0 ){
-      return SUCCESS;
-    }else{
-      return ERROR;
-    }
-
-  }
 
   /**
    * 供应商类型
@@ -637,6 +605,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	public Map<String, Object> selectLikeSupplierCount(
 			SupplierExtractCondition condition, SupplierConType conType) {
 		Map<String, Object> map = this.selectLikeSupplier(condition, conType,0);
+		@SuppressWarnings("unchecked")
 		Map<String, Object> map2 = (Map<String, Object>) map.get("count");
 		return map2;
 	}

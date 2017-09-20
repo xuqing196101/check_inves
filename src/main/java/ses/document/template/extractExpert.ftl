@@ -2336,7 +2336,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.compty!}</w:t>
+                    <w:t>${tree.compary!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -2789,7 +2789,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.compty!}</w:t>
+                    <w:t>${tree.compary!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>

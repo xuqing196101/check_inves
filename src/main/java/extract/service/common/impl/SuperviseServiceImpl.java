@@ -47,17 +47,18 @@ public class SuperviseServiceImpl implements SuperviseService {
 				
 				int count = 0;
 				int i = 0;
-				for (Supervise extractUser : user.getList()) {
-					if(StringUtils.isBlank(extractUser.getName())|| extractUser.getName().length()>5){
+				for (Supervise suer : user.getList()) {
+					suer.setOrgId(user.getOrgId());
+					if(StringUtils.isBlank(suer.getName())|| suer.getName().length()>5){
 						error.put("list["+i+"].name", "姓名不能为空且长度小于5");
 						count++;
-					}if(StringUtils.isBlank(extractUser.getDuty())||extractUser.getDuty().length()>50){
+					}if(StringUtils.isBlank(suer.getDuty())||suer.getDuty().length()>50){
 						error.put("list["+i+"].duty", "职务不能为空且长度小于50");
 						count++;
-					}if(StringUtils.isBlank(extractUser.getCompary())||extractUser.getCompary().length()>50){
+					}if(StringUtils.isBlank(suer.getCompary())||suer.getCompary().length()>50){
 						error.put("list["+i+"].compary", "公司不能为空且长度小于50");
 						count++;
-					}if(StringUtils.isBlank(extractUser.getRank())||extractUser.getRank().length()>50){
+					}if(StringUtils.isBlank(suer.getRank())||suer.getRank().length()>50){
 						error.put("list["+i+"].rank", "军衔不能为空且长度小于50");
 						count++;
 					}
@@ -65,8 +66,8 @@ public class SuperviseServiceImpl implements SuperviseService {
 					if(count>0){
 						return error;
 					}
-					if(superviseMapper.getList(extractUser).size()<1){
-						arrayList.add(extractUser);
+					if(superviseMapper.getList(suer).size()<1){
+						arrayList.add(suer);
 					}
 				}
 				

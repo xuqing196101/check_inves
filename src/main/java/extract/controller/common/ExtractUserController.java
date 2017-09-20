@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,9 +36,17 @@ public class ExtractUserController {
      * @return
      */
      @RequestMapping("/toPeronList")
-    public String toPeronList(Model model,String personType,ExtractUser user){
-        model.addAttribute("personType", personType);
-        model.addAttribute("personList", extractUserService.getList(user));
+    public String toPeronList(Model model,String personType,ExtractUser user,@CurrentUser User user2){
+    	 if (personType != null && !"".equals(personType)) {
+           	if("extractUser".equals(personType) && null !=user2){
+           		String orgId = user2.getOrg().getId();
+           		if(StringUtils.isNotBlank(orgId)){
+           			user.setOrgId(orgId);
+           			model.addAttribute("personType", personType);
+           			model.addAttribute("personList", extractUserService.getList(user));
+           		}
+       		}
+           }
         return "/ses/extract/person_list";
     }
      
@@ -49,10 +58,14 @@ public class ExtractUserController {
       */
      @RequestMapping("/getPeronList")
      @ResponseBody
-     public String getPeronList(Model model,String personType,ExtractUser user){
+     public String getPeronList(Model model,String personType,ExtractUser user, @CurrentUser User user2){
     	  if (personType != null && !"".equals(personType)) {
-          	if("extractUser".equals(personType)){
-      			return JSON.toJSONString(extractUserService.getList(user));
+          	if("extractUser".equals(personType) && null !=user2){
+          		String orgId = user2.getOrg().getId();
+          		if(StringUtils.isNotBlank(orgId)){
+          			user.setOrgId(orgId);
+          			return JSON.toJSONString(extractUserService.getList(user));
+          		}
       		}
           }
 		return "";
@@ -71,7 +84,18 @@ public class ExtractUserController {
     		 return JSON.toJSONString(hashMap);
     	 }
     	 
-    	Map<String, String> error = extractUserService.addPerson(user,user2);
+    	Map<String, String> error = null;;
+    	
+    	if(null !=user2){
+    		String orgId = user2.getOrg().getId();
+    		if(StringUtils.isNotBlank(orgId)){
+    			user.setOrgId(orgId);
+    			error = extractUserService.addPerson(user);
+    		}
+    	}
+    	
+    	
+    	
 		return JSON.toJSONString(error);
      }
 }

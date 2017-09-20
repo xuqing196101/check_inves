@@ -3117,7 +3117,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.compty!}</w:t>
+                    <w:t>${tree.compary!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -3714,7 +3714,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>${tree.compty!}</w:t>
+                    <w:t>${tree.compary!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>

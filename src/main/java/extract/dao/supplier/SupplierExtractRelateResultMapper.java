@@ -157,4 +157,15 @@ public interface SupplierExtractRelateResultMapper {
 	 * @return
 	 */
 	List<String> selectSupplierIdListByProjectId(String projectId);
+
+	/**
+	 * 查询供应商类型 返回typeCode
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-9-20下午11:55:13
+	 * @param sid
+	 * @return
+	 */
+	List<String> selectTypeCodeBySid(String sid);
 }

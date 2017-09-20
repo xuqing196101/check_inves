@@ -382,26 +382,6 @@ public class ExtractExpertController {
     }
     
     
-    /**
-     * 
-     * Description:下载记录表 
-     * 
-     * @author jia chengxiang
-     * @data 2017年9月19日
-     * @param 
-     * @return
-     */
-    @RequestMapping("/printRecord")
-    public ResponseEntity<byte[]> printRecord(String id,HttpServletRequest request, HttpServletResponse response){
-        ResponseEntity<byte[]> printRecord = null;
-        try {
-            printRecord = expertExtractProjectService.printRecord(id,request,response);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return printRecord;
-    }
     
     /**
      * 

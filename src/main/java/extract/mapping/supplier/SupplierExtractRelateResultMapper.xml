@@ -27,6 +27,7 @@
 		<id column="ID" property="id" />
 		<result column="MOBILE" property="mobile" />
 		<result column="SUPPLIER_NAME" property="supplierName" />
+		<result column="SUPPLIER_TYPE_ID" property="supplierTypeId" />
 		<result column="BUSINESS_TYPE" property="businessType" />
 		<result column="BUSINESS_CERT" property="businessCert" />
 		<result column="CONTACT_NAME" property="contactName" />
@@ -573,10 +574,13 @@
 				 AND I.CATEGORY_ID IN <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
 			</if>
 			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
-				 AND
+				AND S.ID IN (SELECT  I.SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM I WHERE I.CATEGORY_ID IN 
+				<foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
+				 GROUP BY I.SUPPLIER_ID  HAVING COUNT(1) = #{csize})
+				<!--  AND
 				 <trim prefix="(" suffixOverrides="AND" suffix=")">
 				 	 <foreach collection="categoryIds" item="cid" > I.CATEGORY_ID = #{cid} AND </foreach>
-				 </trim>
+				 </trim> -->
 			</if>
 		</if>
 		<!-- 查询资质 -->
@@ -621,5 +625,11 @@
 	<select id="getSupplierListByRid" parameterType="map" resultMap="BaseResultMap">
 		SELECT DISTINCT R.JOIN,R.REASON,S.SUPPLIER_NAME,S.CONTACT_NAME,S.CONTACT_TELEPHONE FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
 		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}  AND R.JOIN IN (0,1) ORDER BY R.JOIN DESC
+	</select>
+	
+	
+	<!-- 查询供应商类型 -->
+	<select id="selectTypeCodeBySid" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT I.SUPPLIER_TYPE_RELATE_ID  FROM T_SES_SMS_SUPPLIER_ITEM I WHERE I.SUPPLIER_ID = #{value}  GROUP BY I.SUPPLIER_TYPE_RELATE_ID
 	</select>
 </mapper>
