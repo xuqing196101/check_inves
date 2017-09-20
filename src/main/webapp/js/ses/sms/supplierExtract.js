@@ -4,6 +4,32 @@ var services = 0;
 var sales = 0;
 
 
+function person(){
+	$.ajax({
+		type: "POST",
+		url: $("#supervise").attr('action'),
+		data:  $("#supervise").serialize(),
+		dataType: "json",
+		async:false,
+		success: function (msg) {
+			$("#supervise").find("span").empty();
+			if(null !=msg){
+				//flag++;
+				for ( var k in msg) {
+					if("All"!=k){
+						$("#supervise").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
+					}else{
+						$("#sError").html(msg[k]);
+					}
+				}
+			}else{
+				$("#sError").empty();
+			}
+		}
+	});
+	
+}
+
 var successCount = 1;
 var proError = 0;
 $(function () {
@@ -274,8 +300,8 @@ $(function () {
     function checkEmpty(){
     	
     	//$(".cue").empty();
-    	$("#eError").empty();
-    	$("#sError").empty();
+    	/*$("#eError").empty();
+    	$("#sError").empty();*/
     	$("#areaError").empty();
     	
     	var count = 0;
@@ -445,11 +471,18 @@ $(function () {
     		dataType: "json",
     		async:false,
     		success: function (msg) {
+    			$("#supervise").find("span").empty();
     			if(null !=msg){
     				flag++;
     				for ( var k in msg) {
-    					$("#supervise").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
+    					if("All"!=k){
+    						$("#supervise").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
+    					}else{
+    						$("#sError").html(msg[k]);
+    					}
 					}
+    			}else{
+    				$("#sError").empty();
     			}
     		}
     	});
@@ -461,11 +494,18 @@ $(function () {
     		dataType: "json",
     		async:false,
     		success: function (msg) {
+    			$("#extractUser").find("span").empty();
     			if(null !=msg){
     				flag++;
     				for ( var k in msg) {
-    					$("#extractUser").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
-					}
+    					if("All"==k){
+    						$("#eError").html(msg[k]);
+    					}else{
+    						$("#extractUser").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
+    					}
+    				}
+    			}else{
+    				$("#eError").empty();
     			}
     		}
     	});	

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import extract.dao.common.PersonRelMapper;
 import extract.dao.common.SuperviseMapper;
-import extract.model.common.ExtractUser;
 import extract.model.common.Supervise;
 import extract.service.common.SuperviseService;
 
@@ -31,6 +30,7 @@ public class SuperviseServiceImpl implements SuperviseService {
 
 	@Override
 	public HashMap<String, String> addPerson(Supervise user) {
+		HashMap<String, String> error = new HashMap<>();
 		if(StringUtils.isNotEmpty(user.getPersonType())){
 			String[] personId = null;
 			HashMap<String, Object> map = new HashMap<>();
@@ -44,7 +44,7 @@ public class SuperviseServiceImpl implements SuperviseService {
 			if(user.getList().size()>0){
 				//新添加人员
 				map.put("personList", user.getList());
-				HashMap<String, String> error = new HashMap<>();
+				
 				int count = 0;
 				int i = 0;
 				for (Supervise extractUser : user.getList()) {
@@ -84,9 +84,12 @@ public class SuperviseServiceImpl implements SuperviseService {
 			if(arrayList.size()>0){
 				superviseMapper.insertSelectiveAll(arrayList);
 			}
-			if(null!=personId ||null!=user.getList()){
+			if(null!=personId ||user.getList().size()>0){
 				personRelMapper.deleteByMap(map);
 				personRelMapper.insertRel(map);
+			}else{
+				error.put("All", "人员信息有误，抽取人员至少两人，且各信息必须完整");
+				return error;
 			}
 		}
 		return null;

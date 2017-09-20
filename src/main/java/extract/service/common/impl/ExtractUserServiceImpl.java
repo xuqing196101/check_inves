@@ -6,12 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.model.bms.User;
-
 import extract.dao.common.ExtractUserMapper;
 import extract.dao.common.PersonRelMapper;
 import extract.model.common.ExtractUser;
@@ -35,6 +33,9 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 	
 	@Override
 	public Map<String, String> addPerson(ExtractUser extUser,User user) {
+		
+		HashMap<String, String> error = new HashMap<>();
+		
 		if(StringUtils.isNotEmpty(extUser.getPersonType())){
 			String[] personId = null;
 			HashMap<String, Object> map = new HashMap<>();
@@ -61,7 +62,7 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 			if(extUser.getList().size()>0){
 				//新添加人员
 				map.put("personList", extUser.getList());
-				HashMap<String, String> error = new HashMap<>();
+				
 				int count = 0;
 				int i =0;
 				for (ExtractUser extractUser : extUser.getList()) {
@@ -93,9 +94,12 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 			if(arrayList.size()>0){
 				extractUserMapper.insertSelectiveAll(arrayList);
 			}
-			if(null!=personId ||null!=extUser.getList()){
+			if(null!=personId ||extUser.getList().size()>0){
 				personRelMapper.deleteByMap(map);
 				personRelMapper.insertRel(map);
+			}else{
+				error.put("All", "人员信息有误，抽取人员至少两人，且各信息必须完整");
+				return error;
 			}
 		}
 		return null;

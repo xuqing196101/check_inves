@@ -800,26 +800,30 @@ function submitInfo(){
     		}
     	}); */
     	//存储人员信息
-    	alert();
     	$.ajax({
     		type: "POST",
     		url: $("#supervise").attr('action'),
     		data:  $("#supervise").serialize(),
     		dataType: "json",
+    		async:false,
     		success: function (msg) {
     			if(null !=msg){
+    				flag++;
     				for ( var k in msg) {
-						$("#supervise").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
+    					if("All"!=k){
+    						$("#supervise").find("[name='"+k+"']").parent().append("<span class='red'>"+msg[k]+"</span>");
+    					}else{
+    						$("#eError").html(msg[k]);
+    					}
 					}
+    			}else{
+    				$("#eError").empty();
     			}
-    		},
-    		error:function(msg){
-    			console.log(msg);
     		}
     	});
     	
     	
-    	$.ajax({
+    	/* $.ajax({
     		type: "POST",
     		url: $("#extractUser").attr('action'),
     		data:  $("#extractUser").serialize(),
@@ -831,7 +835,7 @@ function submitInfo(){
 					}
     			}
     		}
-    	});
+    	}); */
 }
 
 function submitCondition(){
@@ -920,14 +924,12 @@ function submitCondition(){
 	function alterEndInfo(obj){
 		layer.alert("是否需要发送短信至确认参加供应商");
 		var index = layer.alert("完成抽取,打印记录表",function(){
-			window.location.href = "/zhbj/SupplierExtracts/printRecord.html?id="+$("[name='recordId']").val();
+			window.location.href = globalPath+"/SupplierExtracts/printRecord.html?id="+$("[name='recordId']").val();
 			$(obj).prop("disabled",true);
 			layer.close(index);
 			// 
 		});
 	}
 	
-	function person(){
-	}
 </script>
 </html>

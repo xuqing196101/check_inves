@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 
+import extract.model.common.ExtractUser;
 import extract.model.common.Supervise;
 import extract.service.common.SuperviseService;
 
@@ -37,6 +38,22 @@ public class SuperviseController {
         model.addAttribute("personList", superviseService.getList(suser));
         return "ses/extract/person_list";
     }
+     
+     /**
+      * 引用历史人员
+      * @param packageId
+      * @return
+      */
+     @RequestMapping("/getPeronList")
+     @ResponseBody
+     public String getPeronList(Model model,String personType,Supervise user){
+    	  if (personType != null && !"".equals(personType)) {
+          	if("supervise".equals(personType)){
+      			return JSON.toJSONString(superviseService.getList(user));
+      		}
+          }
+		return "";
+     }
      
      @RequestMapping("/addPerson")
      @ResponseBody
