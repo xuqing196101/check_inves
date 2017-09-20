@@ -4000,7 +4000,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				dataMap.put("isData","no");
 				auditReasons.append("通过。");
 			}
-			dataMap.put("auditList",auditList);
+			//dataMap.put("auditList",auditList);
 			dataMap.put("auditReasons", auditReasons.toString());
 			if("0".equals(tableType)){
 				//公示的最终意见
@@ -4072,6 +4072,7 @@ public class SupplierAuditController extends BaseSupplierController {
 					SupplierCategoryOpinion supplierCategoryOpinion = new SupplierCategoryOpinion();
 					supplierCategoryOpinion.setCategoryName(expertAuditController.toChinese(num)+"、"+typeName);
 					supplierCategoryOpinion.setCategoryId(DictionaryDataUtil.getId(str));
+					supplierCategoryOpinion.setType(str);
 					supplierCategoryList.add(supplierCategoryOpinion);
 					Map<String, Object> map = new HashMap<>();
 					map.put("supplierId", supplier.getId());
@@ -4110,23 +4111,39 @@ public class SupplierAuditController extends BaseSupplierController {
 					supplierCategoryList.addAll(supplierCList);
 				}
 			}
+
 			//拼接产品类别审核意见
+			// 记录不通过的类型
+			String noPassType = "";
+			// 判断小类全部不通过时，大类也不通过，否则反之
 			for (SupplierCategoryOpinion sco : supplierCategoryList) {
 				SupplierAudit supplierAudit11 = new SupplierAudit();
 				supplierAudit11.setSupplierId(supplier.getId());
 				supplierAudit11.setAuditField(sco.getCategoryId());
-				if(sco.getType() != null && sco.getType().equals("PRODUCT")){
+				if(sco.getParentId() != null && sco.getType() != null && sco.getType().equals("PRODUCT")){
 					supplierAudit11.setAuditType("items_product_page");
 				}
-				if(sco.getType() != null && sco.getType().equals("SALES")){
+				if(sco.getParentId() != null && sco.getType() != null && sco.getType().equals("SALES")){
 					supplierAudit11.setAuditType("items_sales_page");
 				}
 				List<SupplierAudit> suList = supplierAuditService.selectByPrimaryKey(supplierAudit11);
-				if(suList != null && suList.size() > 0){
-					sco.setOpinion("不通过。原因：" + suList.get(0).getSuggest());
-				}else{
-					sco.setOpinion("通过");
+				// 如果不包含类型则说明是供应商类型
+				if(StringUtils.isEmpty(sco.getParentId()) && suList != null && !suList.isEmpty()){
+                    DictionaryData dictionaryData = DictionaryDataUtil.findById(sco.getCategoryId());
+                    if(dictionaryData != null){
+                        noPassType = dictionaryData.getCode();
+                    }
+                    // 设置类型不通过
+                    sco.setOpinion("不通过。原因：" + suList.get(0).getSuggest());
+                    continue;
 				}
+				if(noPassType.equals(sco.getType())){
+                    sco.setOpinion("不通过");
+                }else if(suList != null && !suList.isEmpty()){
+                    sco.setOpinion("不通过。原因：" + suList.get(0).getSuggest());
+                } else {
+                    sco.setOpinion("通过");
+                }
 			}
 			
 			dataMap.put("supplierCategoryList",supplierCategoryList);

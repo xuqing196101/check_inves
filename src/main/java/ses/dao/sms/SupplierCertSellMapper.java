@@ -1,10 +1,9 @@
 package ses.dao.sms;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
-
 import ses.model.sms.SupplierCertSell;
+
+import java.util.List;
 
 public interface SupplierCertSellMapper {
     /**
@@ -40,7 +39,7 @@ public interface SupplierCertSellMapper {
      */
     int updateByPrimaryKey(SupplierCertSell record);
     
-    List<SupplierCertSell> findCertSellBySupplierMatSellId(@Param("supplierMatSellId")String supplierMatSellId);
+    List<SupplierCertSell> findCertSellBySuppliermatSellId(@Param("supplierMatSellId")String supplierMatSellId);
     
     /**
      * @Title: findCertSellBySupplierId
