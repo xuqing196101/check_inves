@@ -166,14 +166,17 @@ public class SupplierAptituteController extends BaseSupplierController {
 	
 	/**
 	 * 异步删除工程资质证书详细信息
-	 * @param aptituteIds
+	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(value = "delete_aptitute")
 	@ResponseBody
-	public String deleteAptitute(String aptituteIds) {
-		supplierAptituteService.deleteAptitute(aptituteIds);
-		return "ok";	
+	public String deleteAptitute(String ids) {
+		boolean isOk = supplierAptituteService.deleteAptituteByIds(ids);
+		if(isOk){
+			return "ok";
+		}
+		return "fail";	
 	}
 	
 	/**

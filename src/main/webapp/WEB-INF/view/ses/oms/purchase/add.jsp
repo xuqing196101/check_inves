@@ -196,10 +196,10 @@ function onCheck(e, treeId, treeNode) {
 		
 		function save(){
 		  	$("#formID").validForm();
-		  	if ($("#password1").val().indexOf(" ")!=-1 || $("#password2").val().indexOf(" ")!=-1) {
+		  	if ($("#password1").val() == null || $("#password1").val() == "" || $("#password1").val().indexOf(" ")!=-1 || $("#password2").val().indexOf(" ")!=-1) {
 				$("#password1").val("");
 				$("#password2").val("");
-				$("#pwd1").html("不能有空格").css('color','red');
+				$("#pwd1").html("不能有空").css('color','red');
                 flag=1;
                 return false;
 			} else {

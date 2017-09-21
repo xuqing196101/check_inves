@@ -102,14 +102,17 @@ public class SupplierRegPersonController extends BaseController{
 	
 	/**
 	 * 异步删除注册资质人员信息
-	 * @param regPersonIds
+	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(value = "delete_reg_person")
 	@ResponseBody
-	public String deleteRegPerson(String regPersonIds) {
-		supplierRegPersonService.deleteRegPerson(regPersonIds);
-		return "ok";	
+	public String deleteRegPerson(String ids) {
+		boolean isOk = supplierRegPersonService.deleteRegPersonByIds(ids);
+		if(isOk){
+			return "ok";
+		}
+		return "fail";	
 	}
 	
 	public Map<String,Object>  validateRegPerson( SupplierRegPerson supplierRegPerson){

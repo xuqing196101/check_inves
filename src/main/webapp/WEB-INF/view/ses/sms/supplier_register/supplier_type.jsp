@@ -18,6 +18,15 @@
 .textbox.combo {
 	border: 0px !important;
 }
+.cue_province {
+	position: absolute;
+	left: 265px;
+	top: 70px;
+	height: 25px;
+	line-height: 25px;
+	color: #ef0000;
+	font-size: 12px;
+}
 </style>
 <script type="text/javascript">
 	$().ready(function() {
@@ -184,10 +193,10 @@
 
 	//无提示实时暂存
 	function tempSave(ele) {
-		// 避免失去焦点实时保存和
+		// 避免失去焦点事件和按钮事件冲突
 		if(ele && ele.relatedTarget 
 			&& ele.relatedTarget.type == "button"
-			&& ($(ele.relatedTarget).text() == "暂存" || $(ele.relatedTarget).text() == "下一步")){
+			&& ($(ele.relatedTarget).text() != "上一步")){
 			return;
 		}
 		var id = [];
@@ -526,14 +535,23 @@
 									async: false,
 									type: "POST",
 									data: {
-										"regPersonIds": regPersonIds
+										"ids": regPersonIds
 									},
-									success: function(){
-										layer.msg("删除成功！");
-										$(checkboxs).each(function(index) {
-											var tr = $(this).parent().parent();
-											$(tr).remove();
-										});
+									success: function(data){
+										if(data=="ok"){
+										  layer.msg("删除成功！", {
+										    offset: '300px'
+										  });
+										  $(checkboxs).each(function(index) {
+										    var tr = $(this).parent().parent();
+										    $(tr).remove();
+										  });
+										}
+										if(data=="fail"){
+										  layer.msg("删除失败！", {
+										    offset: '300px'
+										  });
+										}
 									},
 									error: function(){
 										layer.msg("删除失败！");
@@ -541,7 +559,7 @@
 								});
 							});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -613,14 +631,23 @@
 						async: false,
 						type: "POST",
 						data: {
-							"aptituteIds": aptituteIds
+							"ids": aptituteIds
 						},
-						success: function(){
-							layer.msg("删除成功！");
-							$(checkboxs).each(function(index) {
-								var tr = $(this).parent().parent();
-								$(tr).remove();
-							});
+						success: function(data){
+							if(data=="ok"){
+							  layer.msg("删除成功！", {
+							    offset: '300px'
+							  });
+							  $(checkboxs).each(function(index) {
+							    var tr = $(this).parent().parent();
+							    $(tr).remove();
+							  });
+							}
+							if(data=="fail"){
+							  layer.msg("删除失败！", {
+							    offset: '300px'
+							  });
+							}
 						},
 						error: function(){
 							layer.msg("删除失败！");
@@ -628,7 +655,7 @@
 					});
 				});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -738,14 +765,23 @@
 							async: false,
 							type: "POST",
 							data: {
-								"certProIds": certProIds
+								"ids": certProIds
 							},
-							success: function(){
-								layer.msg("删除成功！");
-								$(checkboxs).each(function(index) {
-									var tr = $(this).parent().parent();
-									$(tr).remove();
-								});
+							success: function(data){
+								if(data=="ok"){
+								  layer.msg("删除成功！", {
+								    offset: '300px'
+								  });
+								  $(checkboxs).each(function(index) {
+								    var tr = $(this).parent().parent();
+								    $(tr).remove();
+								  });
+								}
+								if(data=="fail"){
+								  layer.msg("删除失败！", {
+								    offset: '300px'
+								  });
+								}
 							},
 							error: function(){
 								layer.msg("删除失败！");
@@ -826,14 +862,23 @@
 									async: false,
 									type: "POST",
 									data: {
-										"certSellIds": certSellIds
+										"ids": certSellIds
 									},
-									success: function(){
-										layer.msg("删除成功！");
-										$(checkboxs).each(function(index) {
-											var tr = $(this).parent().parent();
-											$(tr).remove();
-										});
+									success: function(data){
+										if(data=="ok"){
+										  layer.msg("删除成功！", {
+										    offset: '300px'
+										  });
+										  $(checkboxs).each(function(index) {
+										    var tr = $(this).parent().parent();
+										    $(tr).remove();
+										  });
+										}
+										if(data=="fail"){
+										  layer.msg("删除失败！", {
+										    offset: '300px'
+										  });
+										}
 									},
 									error: function(){
 										layer.msg("删除失败！");
@@ -841,7 +886,7 @@
 								});
 							});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -907,14 +952,23 @@
 									async: false,
 									type: "POST",
 									data: {
-										"certSeIds": certSeIds
+										"ids": certSeIds
 									},
-									success: function(){
-										layer.msg("删除成功！");
-										$(checkboxs).each(function(index) {
-											var tr = $(this).parent().parent();
-											$(tr).remove();
-										});
+									success: function(data){
+										if(data=="ok"){
+										  layer.msg("删除成功！", {
+										    offset: '300px'
+										  });
+										  $(checkboxs).each(function(index) {
+										    var tr = $(this).parent().parent();
+										    $(tr).remove();
+										  });
+										}
+										if(data=="fail"){
+										  layer.msg("删除失败！", {
+										    offset: '300px'
+										  });
+										}
 									},
 									error: function(){
 										layer.msg("删除失败！");
@@ -922,7 +976,7 @@
 								});
 							});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -1166,14 +1220,23 @@
 						async: false,
 						type: "POST",
 						data: {
-							"certEngIds": certEngIds
+							"ids": certEngIds
 						},
-						success: function(){
-							layer.msg("删除成功！");
-							$(checkboxs).each(function(index) {
-								var tr = $(this).parent().parent();
-								$(tr).remove();
-							});
+						success: function(data){
+							if(data=="ok"){
+							  layer.msg("删除成功！", {
+							    offset: '300px'
+							  });
+							  $(checkboxs).each(function(index) {
+							    var tr = $(this).parent().parent();
+							    $(tr).remove();
+							  });
+							}
+							if(data=="fail"){
+							  layer.msg("删除失败！", {
+							    offset: '300px'
+							  });
+							}
 						},
 						error: function(){
 							layer.msg("删除失败！");
@@ -1181,7 +1244,7 @@
 					});
 				});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -1418,6 +1481,7 @@
 				"auditField" : auditField,
 				"auditType" : auditType
 			},
+			type : "post",
 			dataType : "json",
 			success : function(data) {
 				$(_this).attr("data-errorMsg", data.suggest);
@@ -2031,6 +2095,7 @@
 									    	  	<option value="${area.id}">${area.name}</option>
 										    	</c:forEach>
 										    </select>
+										    <div class="cue_province">${province}</div>
 										</div>
 										<ul class="list-unstyled overflow_h">
 											<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}"/>
@@ -2055,12 +2120,12 @@
 											<c:choose>
                        	<c:when test="${currSupplier.status==2 }">
                          	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
-                         </c:when>
-                         <c:otherwise>
-                           <button type="button" class="btn" onclick="openRegPerson()">新增</button>
-                         </c:otherwise>
-                       </c:choose>
-											 <button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
+                        </c:when>
+                        <c:otherwise>
+                          <button type="button" class="btn" onclick="openRegPerson()">新增</button>
+                        </c:otherwise>
+                      </c:choose>
+										 	<button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
 											<span class="red">${eng_persons }</span>
 										</div>
 										<div
@@ -2333,8 +2398,8 @@
                                   <%-- <c:if test="${tempForShowOption eq 'go' }">
 																		<option selected="selected">${aptitute.aptituteLevel}</option>
 																	</c:if> --%>
-																	<option selected="selected">${aptitute.aptituteLevel}</option>
-																	<c:set var="tempForShowOption" value="notgo"/>
+																	<%-- <option selected="selected">${aptitute.aptituteLevel}</option> --%>
+																	<%-- <c:set var="tempForShowOption" value="notgo"/> --%>
 																</select>
 																<input type="hidden" id="certLevel_${certAptNumber}" value="${aptitute.aptituteLevel}">
 																<script type="text/javascript">
@@ -2386,7 +2451,7 @@
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																<select
 																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].isMajorFund"
-																class="w100p border0" <c:if test="${!fn:contains(engPageField,'aptitute.id')&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if> >
+																class="w100p border0" <c:if test="${!fn:contains(engPageField,aptitute.id)&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if> >
 																	<option value="1"
 																		<c:if test="${aptitute.isMajorFund==1}"> selected="selected"</c:if>>是</option>
 																	<option value="0"

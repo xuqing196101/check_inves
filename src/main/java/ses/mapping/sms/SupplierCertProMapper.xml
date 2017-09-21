@@ -24,10 +24,6 @@
 		from T_SES_SMS_SUPPLIER_CERT_PRO
 		where ID = #{id}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_CERT_PRO
-		where MAT_PRO_ID = #{id}
-	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierCertPro">
 		insert into T_SES_SMS_SUPPLIER_CERT_PRO (ID, MAT_PRO_ID, NAME,
 		LEVEL_CERT, LICENCE_AUTHORITH, EXP_START_DATE,
@@ -159,7 +155,6 @@
 			MAT_PRO_ID = #{supplierMatProId}
 	</select>
 	
-	
 	<!-- 资质证书信息 -->
 	<select id="findBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
@@ -179,23 +174,31 @@
 		where
 		    T2.SUPPLIER_ID = #{supplierId}
   </select>
-  
-  
-  	<delete id="deleteById" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_CERT_PRO
-		where ID = #{id}
-	</delete>
 	
-		<select id="findCertProByProId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	<select id="findCertProByProId" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from T_SES_SMS_SUPPLIER_CERT_PRO
 		where MAT_PRO_ID = #{matProId}
 	</select>
 	
-	<delete id="deleteByProId" parameterType="java.lang.String">
+	<!-- 根据主键删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_CERT_PRO
+		where ID = #{id}
+	</delete>
+	<!-- 根据生产id删除 -->
+	<delete id="deleteByMatProId" parameterType="java.lang.String">
 		delete from T_SES_SMS_SUPPLIER_CERT_PRO
 		where MAT_PRO_ID = #{matProId}
 	</delete>
+	
+	<select id="findCertProByProIdAndName" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_CERT_PRO
+		where MAT_PRO_ID = #{matProId}
+		and NAME = #{name}
+	</select>
 	
 </mapper>

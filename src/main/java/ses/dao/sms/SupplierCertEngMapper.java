@@ -9,13 +9,6 @@ import ses.model.sms.SupplierCertEng;
 
 public interface SupplierCertEngMapper {
     /**
-     * 根据主键删除数据库的记录
-     *
-     * @param id
-     */
-    int deleteByPrimaryKey(String id);
-
-    /**
      * 插入数据库记录
      *
      * @param record
@@ -23,7 +16,7 @@ public interface SupplierCertEngMapper {
     int insert(SupplierCertEng record);
 
     /**
-     *
+     * 插入数据库记录
      * @param record
      */
     int insertSelective(SupplierCertEng record);
@@ -36,7 +29,7 @@ public interface SupplierCertEngMapper {
     SupplierCertEng selectByPrimaryKey(String id);
 
     /**
-     *
+     * 更新数据库记录
      * @param record
      */
     int updateByPrimaryKeySelective(SupplierCertEng record);
@@ -60,8 +53,6 @@ public interface SupplierCertEngMapper {
      * @return List<SupplierCertEng>
      */
     List<SupplierCertEng> findCertEngBySupplierId(String supplierId);
-    
-    void deleteById(String id);
     
     /**
      *〈简述〉
@@ -95,13 +86,18 @@ public interface SupplierCertEngMapper {
     Map<String, String> getLevel(String typeId, String certCode, String supplierId);
     
     /**
-     * 
-    * @Title: deleteByMatEngId
-    * @Description: 根据工程ID删除 
-    * author: Li Xiaoxiao 
-    * @param @param matEngId     
-    * @return void     
-    * @throws
+     * 根据主键删除数据库的记录
+     *
+     * @param id
      */
-    void deleteByMatEngId(@Param("matEngId")String matEngId);
+    int deleteByPrimaryKey(String id);
+    
+    /**
+     * @Title: deleteByMatEngId
+     * @Description: 根据工程ID删除
+     * author: Li Xiaoxiao
+     * @param @param matEngId
+     * @return
+     */
+    int deleteByMatEngId(@Param("matEngId")String matEngId);
 }

@@ -12,10 +12,8 @@ import ses.model.sms.SupplierStockholder;
  */
 public interface SupplierStockholderService {
 	
-	public void saveOrUpdateStockholder(SupplierStockholder supplierStockholder);
+	public int saveOrUpdateStockholder(SupplierStockholder supplierStockholder);
 
-	public void deleteStockholder(String stockholderIds);
-	
 	SupplierStockholder queryById(String id);
 
 	/**
@@ -24,4 +22,11 @@ public interface SupplierStockholderService {
 	 * @return
 	 */
 	public List<SupplierStockholder> findStockholderBySupplierId(String supplierId);
+
+	/**
+	 * 批量删除股东信息
+	 * @param ids
+	 * @return
+	 */
+	public boolean deleteStockholderByIds(String ids);
 }

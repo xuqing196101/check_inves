@@ -2,18 +2,9 @@ package ses.dao.sms;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import ses.model.sms.SupplierCertServe;
 
 public interface SupplierCertServeMapper {
-    /**
-     * 根据主键删除数据库的记录
-     *
-     * @param id
-     */
-    int deleteByPrimaryKey(String id);
-
     /**
      * 插入数据库记录
      *
@@ -60,19 +51,19 @@ public interface SupplierCertServeMapper {
      */
     List<SupplierCertServe> findCertSeBySupplierId(String supplierId);
     
-    void deleteById(String id);
-    
-    
     /**
-     * 
-    * @Title: deleteByServer
-    * @Description:根据服务ID删除对应的shuju
-    * author: Li Xiaoxiao 
-    * @param @param matEngId     
-    * @return void     
-    * @throws
+     * 根据主键删除数据库的记录
+     *
+     * @param id
      */
-    void deleteByServer(@Param("matServeId")String matServeId);
+    int deleteByPrimaryKey(String id);
+
+    /**
+     * 根据服务id删除
+     * @param matServeId
+     * @return
+     */
+	int deleteByMatServeId(String matServeId);
     
     
 }

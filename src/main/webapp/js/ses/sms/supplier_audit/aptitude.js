@@ -376,6 +376,26 @@ function isAudit(tablerId,wzType){
 	});
 	return showin;
 }
+// 判断当前目录是否已经审核
+function isCurrentAudit(tablerId,ind){
+	var isCurrentAudit = 0;
+	var typeId = $("#"+tablerId+" #typeId"+ind).val();
+	switch (typeId) {
+	case 'PRODUCT':
+		isCurrentAudit = parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
+		break;
+	case 'SALES':
+		isCurrentAudit = parseInt($("#"+tablerId+" #setIsItemsSalesPageAudit"+ind+"").val());
+		break;
+	case 'PROJECT':
+		isCurrentAudit = parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
+		break;
+	case 'SERVICE':
+		isCurrentAudit = parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
+		break;
+	}
+	return isCurrentAudit == 0 ? false : true;
+}
 // 判断显示相关内容 合同
 function onContractShow(tablerId,ind,rootNode,itemId,id,secondNode,secondNodeId){
 	showFrame(tablerId,ind,rootNode+"-销售合同信息",itemId,2,id,secondNode,secondNodeId);
@@ -407,6 +427,10 @@ function isShow(tablerId,ind,count,type,rootNode,itemId,supplierItemid,secondNod
 }
 // 弹出框
 function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
+	if(isCurrentAudit(tablerId,ind)){
+		layer.msg("此产品目录已经审核不通过！");
+		return;
+	}
 	var supplierStatus= $("input[name='supplierStatus']").val();
     var sign = $("input[name='sign']").val();
 	    // 只有审核的状态能审核
@@ -668,11 +692,11 @@ function reasonProjectRadio(tablerId,ind,auditField, auditFieldName,type,auditCo
 function zhancun(){
   var supplierId = $("#supplierId").val();
   $.ajax({
-    url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
+    url: globalPath+"/supplierAudit/temporaryAudit.do",
     dataType: "json",
     data:{supplierId : supplierId},
     success : function (result) {
-        layer.msg(result, {offset : [ '100px' ]});
+    	layer.msg(result, {offset : [ '100px' ]});
     },error : function(){
       layer.msg("暂存失败", {offset : [ '100px' ]});
     }

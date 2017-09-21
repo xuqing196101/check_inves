@@ -482,26 +482,6 @@ public class SupplierController extends BaseSupplierController {
     	return "ses/sms/supplier_register/template_upload";
     }
 
-	/**
-	 * 查看上传承诺书和申请表
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping("/show_template_upload")
-	public String show_template_upload(Model model, String supplierId,Integer person, Integer judge,Integer sign){
-
-		if(StringUtils.isBlank(supplierId)){
-			return "ses/sms/supplier_query/supplierInfo/template_upload";
-		}
-		Supplier supplier = supplierService.selectById(supplierId);
-		initUploadConstants(model, supplier);
-		initUploadAudit(model, supplier);
-		model.addAttribute("person",person);
-		model.addAttribute("supplierId",supplierId);
-		model.addAttribute("judge",judge);
-		model.addAttribute("sign",sign);
-		return "ses/sms/supplier_query/supplierInfo/template_upload";
-	}
     /**
      * 供应商注册步骤
      * @param step
@@ -1374,49 +1354,49 @@ public class SupplierController extends BaseSupplierController {
 		boolean pro = true;
 		boolean server = true;
 		boolean project = true;
-        try{
-        	String supplierTypeIds = supplier.getSupplierTypeIds();
-        	if(StringUtils.isNotBlank(supplierTypeIds)){
-        		String[] str = supplierTypeIds.trim().split(",");
-            	if(str != null && str.length > 0){
-            		for(String s: str) {
-                        if(s.equals("PRODUCT")) {
-                            pro = validatePro(request, supplier.getSupplierMatPro(), model);
-                            if(pro == true) {
-                                supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
-                            }
-                        }
-                        if(s.equals("SALES")) {
-                            sale = validateSale(request, supplier.getSupplierMatSell(), model);
-                            if(sale == true) {
-                                supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
-                            }
-                        }
-                        if(s.equals("PROJECT")) {
-                        	List<Area> areaList = areaService.findRootArea();
-                            project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
-                            if(project == true) {
-                                supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
-                            }
-                        }
-                        if(s.equals("SERVICE")) {
-                            server = validateServer(request, supplier.getSupplierMatSe(), model);
-                            if(server == true) {
-                                supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
-                            }
-                        }
-                    }
-        		}
-            	supplierTypeRelateService.saveSupplierTypeRelate(supplier);
-                if(old!=null&&old.equals("old")){
-                    supplierTypeRelateService.delete(supplier.getId(), "SALES");
-                }
-        	}else{
-        		type = false;
-        	}
-        }catch (Exception e){
-		    e.printStackTrace();
-        }
+		try{
+			String supplierTypeIds = supplier.getSupplierTypeIds();
+			if(StringUtils.isNotBlank(supplierTypeIds)){
+				String[] str = supplierTypeIds.trim().split(",");
+				if(str != null && str.length > 0){
+					for(String s: str) {
+				        if(s.equals("PRODUCT")) {
+				            pro = validatePro(request, supplier.getSupplierMatPro(), model);
+				            if(pro == true) {
+				                supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+				            }
+				        }
+				        if(s.equals("SALES")) {
+				            sale = validateSale(request, supplier.getSupplierMatSell(), model);
+				            if(sale == true) {
+				                supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+				            }
+				        }
+				        if(s.equals("PROJECT")) {
+				        	List<Area> areaList = areaService.findRootArea();
+				            project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
+				            if(project == true) {
+				                supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
+				            }
+				        }
+				        if(s.equals("SERVICE")) {
+				            server = validateServer(request, supplier.getSupplierMatSe(), model);
+				            if(server == true) {
+				                supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
+				            }
+				        }
+				    }
+				}
+				supplierTypeRelateService.saveSupplierTypeRelate(supplier);
+				if(old!=null&&old.equals("old")){
+				    supplierTypeRelateService.delete(supplier.getId(), "SALES");
+				}
+			}else{
+				type = false;
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 
 		if(type == true && pro == true && server == true && project == true && sale == true) {
 			model.addAttribute("suppId", supplier.getId());
@@ -3340,14 +3320,17 @@ public class SupplierController extends BaseSupplierController {
 	 *〈简述〉异步删除供应商地址信息
 	 *〈详细描述〉
 	 * @author WangHuijie
-	 * @param id
+	 * @param ids
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping("/delAddress")
-	public String delAddress(String id) {
-        supplierAddressService.deleteAddressByIds(id);
-        return "ok";
+	public String delAddress(String ids) {
+        boolean isOk = supplierAddressService.deleteAddressByIds(ids);
+        if(isOk){
+        	return "ok";
+        }
+        return "fail";
 	}
 
 	/**
@@ -3475,8 +3458,12 @@ public class SupplierController extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping(value = "/deleteAfterSaleDep")
-    public void deleteCertEng(String afterSaleDepIds) {
-        supplierAfterSaleDepService.deleteAfterSaleDep(afterSaleDepIds);
+    public String deleteAfterSaleDep(String ids) {
+        boolean isOk = supplierAfterSaleDepService.deleteAfterSaleDepByIds(ids);
+        if(isOk){
+        	return "ok";
+        }
+        return "fail";
     }
     
     /**
@@ -3760,7 +3747,7 @@ public class SupplierController extends BaseSupplierController {
 		if(supplier != null && supplier.getStatus() != null 
 				&& supplier.getStatus() != SupplierConstants.Status.TEMPORARY.getValue()
 				&& supplier.getStatus() != SupplierConstants.Status.RETURN.getValue()){
-			alertInfo("您现在的状态是："+SupplierConstants.STATUSMAP.get(supplier.getStatus()), request.getContextPath());
+			alertInfo("您现在的状态是："+SupplierConstants.STATUSMAP.get(supplier.getStatus()), request.getContextPath()+"/");
 			return null;
 		}
 		String referer = request.getHeader("referer");

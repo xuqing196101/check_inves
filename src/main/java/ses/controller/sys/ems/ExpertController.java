@@ -3988,7 +3988,7 @@ public class ExpertController extends BaseController {
     		            code = "PROJECT";
     		            splExp[i]=DictionaryDataUtil.getId(code);
     		        }
-    				if (splExp[i].equals(expertCate.get(j).getCategoryId())) {
+    				if (splExp[i].equals(expertCate.get(j).getTypeId())) {
     					//stat += "1";
     					stat += 1;
     					break;
@@ -4806,9 +4806,11 @@ public class ExpertController extends BaseController {
                 String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
                 String pId = DictionaryDataUtil.getId("PROJECT");
                 for(String id:ids){
-                	if(expert.getIsTitle()!=1){
-                		expertTitleService.deleteExpertType(expert.getId(), id);
-                		continue;
+                	if(expert.getIsTitle()!=null){
+                		if(expert.getIsTitle()!=1){
+                    		expertTitleService.deleteExpertType(expert.getId(), id);
+                    		continue;
+                    	}
                 	}
                     if(id.equals(pId)){
                         expertTitleService.addBatch(expert.getTitles(),id);

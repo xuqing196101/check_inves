@@ -432,7 +432,7 @@ public class ExpertAuditController{
 		model.addAttribute("expertId", expertId);
 		//  判断当前状态如果为退回修改则比较两次的信息
 		// 判断有没有进行修改
-		if(expert.getStatus() != null || expert.getStatus().equals("0")) {
+		if(expert.getStatus().equals("0") || "9".equals(expert.getStatus())) {
 			ExpertHistory oldExpert = service.selectOldExpertById(expertId);
 			if(oldExpert != null) {
 				Map < String, Object > compareMap = compareExpert(oldExpert, (ExpertHistory) expert);
@@ -458,7 +458,7 @@ public class ExpertAuditController{
 		}
 		
 		
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("0") || expert.getStatus().equals("-2") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("0") || expert.getStatus().equals("-2") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6") || "9".equals(expert.getStatus())){
 			/**
 			 * 回显未通过的字段
 			 */
@@ -475,7 +475,7 @@ public class ExpertAuditController{
 			model.addAttribute("conditionStr", conditionStr);
 		}
 		
-		if( expert.getStatus().equals("0")){
+		if( expert.getStatus().equals("0") || "9".equals(expert.getStatus())){
 			/**
 			 * 附件退回修改
 			 */
@@ -1164,7 +1164,7 @@ public class ExpertAuditController{
 		model.addAttribute("expertId", expertId);
 		model.addAttribute("status", expert.getStatus());
 		//回显不通过的字段
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6") || "9".equals(expert.getStatus())){
 			ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("five");
@@ -1303,7 +1303,7 @@ public class ExpertAuditController{
 		/**
 		 * 修改前的专家类型
 		 */
-		if(expert.getStatus() != null && expert.getStatus().equals("0")) {
+		if(expert.getStatus() != null && expert.getStatus().equals("0") || "9".equals(expert.getStatus())) {
 			StringBuffer editFields = new StringBuffer();
 			
 			//历史表里记录的类型（修改前的专家类型）
@@ -1410,7 +1410,7 @@ public class ExpertAuditController{
 		model.addAttribute("typeMap", typeMap);
 		
 		//回显不通过的字段
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6") || "9".equals(expert.getStatus())){
 			/*ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("seven");
@@ -1456,7 +1456,7 @@ public class ExpertAuditController{
 			}
 		}
 		
-		if( expert.getStatus().equals("0")){
+		if( expert.getStatus().equals("0") || "9".equals(expert.getStatus())){
 			/**
 			 * 附件退回修改
 			 */
@@ -1588,6 +1588,40 @@ public class ExpertAuditController{
 		JdcgResult result = expertAuditService.selectAndVertifyAuditItem(expertId);
 		if(result.getStatus()==500){
 			model.addAttribute("qualified", false);
+		}else{
+			String[] split = expert.getExpertsTypeId().split(",");
+			for (String string : split) {
+				DictionaryData data = DictionaryDataUtil.findById(string);
+				if("PROJECT".equals(data.getCode())||"GOODS_PROJECT".equals(data.getCode())){
+					Map<String,Object> map2 = new HashMap<String,Object>();
+					 map2.put("expertId", expertId);
+				     map2.put("typeId", DictionaryDataUtil.getId("PROJECT"));
+				     map2.put("type", "six");
+					int passCount = expertCategoryService.selectPassCount(map2);
+					if(passCount<=0){
+						model.addAttribute("qualified", false);
+						break;
+					}
+					map2.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
+					passCount= expertCategoryService.selectPassCount(map2);
+					if(passCount<=0){
+						model.addAttribute("qualified", false);
+						break;
+					}
+				}else{
+					Map<String,Object> map2 = new HashMap<String,Object>();
+					 map2.put("expertId", expertId);
+				     map2.put("typeId", string);
+				     map2.put("type", "six");
+					int passCount = expertCategoryService.selectPassCount(map2);
+					if(passCount<=0){
+						if(!"GOODS_SERVER".equals(data.getCode())){
+							model.addAttribute("qualified", false);
+							break;
+						}
+					}
+				}
+			}
 		}
 		/*for (Entry<String, Integer> entry : map.entrySet()) {  
 			  categoryCount+=entry.getValue();

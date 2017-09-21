@@ -3142,8 +3142,12 @@ public class SupplierController_old extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping(value = "/deleteAfterSaleDep")
-    public void deleteCertEng(String afterSaleDepIds) {
-        supplierAfterSaleDepService.deleteAfterSaleDep(afterSaleDepIds);
+    public String deleteCertEng(String ids) {
+    	boolean isOk = supplierAfterSaleDepService.deleteAfterSaleDepByIds(ids);
+        if(isOk){
+        	return "ok";
+        }
+        return "fail";
     }
     
     /**
