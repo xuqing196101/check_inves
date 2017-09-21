@@ -6,8 +6,6 @@ import common.constant.StaticVariables;
 import common.service.UploadService;
 import common.utils.DateUtils;
 import common.utils.JdcgResult;
-import common.utils.ListSortUtil;
-
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
@@ -81,10 +77,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 /**
@@ -2046,6 +2040,11 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public List<SupplierItem> selectSupplierItemByType(Map<String, Object> map) {
+		return supplierItemMapper.selectCountBySupTypeList(map);
 	}
 
 	private boolean isEngAptitudeModified(SupplierItem supplierItem, SupplierAptitute aptitude) {

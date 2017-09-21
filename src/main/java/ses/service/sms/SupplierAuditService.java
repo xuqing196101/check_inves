@@ -13,6 +13,7 @@ import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatServe;
@@ -541,5 +542,7 @@ public interface SupplierAuditService {
 	 * @return
 	 */
 	int updateReturnStatus(String supplierId);
+
+	List<SupplierItem> selectSupplierItemByType(Map<String, Object> map);
 
 }

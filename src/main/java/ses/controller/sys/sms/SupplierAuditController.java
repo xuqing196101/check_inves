@@ -1,23 +1,15 @@
 package ses.controller.sys.sms;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import bss.formbean.PurchaseRequiredFormBean;
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.service.UploadService;
+import common.utils.JdcgResult;
+import common.utils.ListSortUtil;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -31,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
 import ses.constants.SupplierConstants;
 import ses.controller.sys.ems.ExpertAuditController;
 import ses.dao.sms.SupplierCertServeMapper;
@@ -106,17 +97,23 @@ import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.SupplierLevelUtil;
 import ses.util.WordUtil;
-import bss.formbean.PurchaseRequiredFormBean;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.service.UploadService;
-import common.utils.JdcgResult;
-import common.utils.ListSortUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>Title:SupplierAuditController </p>
@@ -4019,7 +4016,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				dataMap.put("opinion","无");
 			}
 			
-			
+			// 获取供应商选择类型和目录关系
 			List<SupplierCategoryOpinion> supplierCategoryList = new ArrayList<>();
 			Integer num = 1;
 	        Integer firstNode = 0;
@@ -4030,28 +4027,12 @@ public class SupplierAuditController extends BaseSupplierController {
 			//查询供应商类型
 	        ExpertAuditController expertAuditController = new ExpertAuditController();
 			List<String> supplierTypeRelateList = supplierTypeRelateService.findTypeBySupplierId(supplier.getId());
-			List<String> typeIdList = new ArrayList<>();
-			if(supplierTypeRelateList != null && supplierTypeRelateList.size() > 0){
-				if(supplierTypeRelateList.contains("PRODUCT")){
-					//PRODUCT 物资生产
-					typeIdList.add("PRODUCT");
-				}
-				if(supplierTypeRelateList.contains("SALES")){
-					//SALES 物资销售
-					typeIdList.add("SALES");
-				}
-				if(supplierTypeRelateList.contains("PROJECT")){
-					//PROJECT 工程
-					typeIdList.add("PROJECT");
-				}
-				if(supplierTypeRelateList.contains("SERVICE")){
-					//SERVICE 服务
-					typeIdList.add("SERVICE");
-				}
-			}
 			//查询所有的产品类别
-			if(typeIdList != null && typeIdList.size() > 0){
-				for (String str : typeIdList) {
+            // 定义小类全部不通过类型自然不同过（不通过类型封装）
+            StringBuffer noPassTypeSB = new StringBuffer();
+            Map<String ,Object> selectMap = new HashedMap();
+			if(supplierTypeRelateList != null && !supplierTypeRelateList.isEmpty()){
+				for (String str : supplierTypeRelateList) {
 					String typeName = "";
 					String typeId = "" ;
 					if(str.equals("PRODUCT") || str.equals("SALES")){
@@ -4109,9 +4090,38 @@ public class SupplierAuditController extends BaseSupplierController {
 					}
         			firstNode = 0;
 					supplierCategoryList.addAll(supplierCList);
-				}
-			}
 
+					// 查询供应商选择的所有小类
+                    // 定义不通过数量
+                    int noPassCount = 0;
+					selectMap.put("supplierId", supplier.getId());
+					selectMap.put("type", str);
+                    List<SupplierItem> supplierItems = supplierAuditService.selectSupplierItemByType(selectMap);
+                    SupplierAudit supplierAudit1 = null;
+                    List<SupplierAudit> suList;
+                    if(supplierItems != null && !supplierItems.isEmpty()){
+                        for (SupplierItem supplierItem : supplierItems){
+                            // 遍历查询是否存在不同过的小类
+                            supplierAudit1 = new SupplierAudit();
+                            supplierAudit1.setSupplierId(supplier.getId());
+                            supplierAudit1.setAuditField(supplierItem.getCategoryId());
+                            if (str.equals("SALES")) {
+                                supplierAudit1.setAuditType("items_sales_page");
+                            } else{
+                                supplierAudit1.setAuditType("items_product_page");
+                            }
+                            suList = supplierAuditService.selectByPrimaryKey(supplierAudit1);
+                            if(suList != null && !suList.isEmpty()){
+                                noPassCount ++;
+                            }
+                        }
+                        if(noPassCount == supplierItems.size()){
+                            noPassTypeSB.append(str + ",");
+                        }
+                    }
+                    selectMap.clear();
+                }
+			}
 			//拼接产品类别审核意见
 			// 记录不通过的类型
 			String noPassType = "";
@@ -4126,7 +4136,18 @@ public class SupplierAuditController extends BaseSupplierController {
 				if(sco.getParentId() != null && sco.getType() != null && sco.getType().equals("SALES")){
 					supplierAudit11.setAuditType("items_sales_page");
 				}
-				List<SupplierAudit> suList = supplierAuditService.selectByPrimaryKey(supplierAudit11);
+                List<SupplierAudit> suList;
+				// 小类全部不通过的情况
+				if(noPassTypeSB.toString().contains(sco.getType())){
+                    suList = supplierAuditService.selectByPrimaryKey(supplierAudit11);
+                    if(suList != null && !suList.isEmpty()){
+                        sco.setOpinion("不通过。原因：" + suList.get(0).getSuggest());
+                    }else{
+                        sco.setOpinion("不通过。");
+                    }
+                    continue;
+                }
+				suList = supplierAuditService.selectByPrimaryKey(supplierAudit11);
 				// 如果不包含类型则说明是供应商类型
 				if(StringUtils.isEmpty(sco.getParentId()) && suList != null && !suList.isEmpty()){
                     DictionaryData dictionaryData = DictionaryDataUtil.findById(sco.getCategoryId());
@@ -4138,11 +4159,11 @@ public class SupplierAuditController extends BaseSupplierController {
                     continue;
 				}
 				if(noPassType.equals(sco.getType())){
-                    sco.setOpinion("不通过");
+                    sco.setOpinion("不通过。");
                 }else if(suList != null && !suList.isEmpty()){
                     sco.setOpinion("不通过。原因：" + suList.get(0).getSuggest());
                 } else {
-                    sco.setOpinion("通过");
+                    sco.setOpinion("通过。");
                 }
 			}
 			
