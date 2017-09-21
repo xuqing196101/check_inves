@@ -55,13 +55,13 @@ public class SupplierTypeServiceImpl implements SupplierTypeService {
 //		List<SupplierTypeRelate> listSupplierTypeIds = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(supplierId);
 		
 		List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
-		for (DictionaryData dd : ldlist1) {
+		for (DictionaryData dd : ldlist2) {
 			SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
 			supplierTypeTree.setId(dd.getCode());
 			supplierTypeTree.setName(dd.getName());
 			listSupplierTypeTrees.add(supplierTypeTree);
 		}
-		for (DictionaryData dd : ldlist2) {
+		for (DictionaryData dd : ldlist1) {
 			SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
 			supplierTypeTree.setId(dd.getCode());
 			supplierTypeTree.setName(dd.getName());
