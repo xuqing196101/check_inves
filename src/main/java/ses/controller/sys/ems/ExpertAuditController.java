@@ -1940,6 +1940,12 @@ public class ExpertAuditController{
 		}
 		if("2".equals(tableType) || "0".equals(tableType)){
 			downFileName = new String("军队采购评审专家入库复审表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+			
+			//记录复审下载过附件
+			ExpertAuditOpinion expertAuditOpinion =new ExpertAuditOpinion();
+			expertAuditOpinion.setExpertId(expertId);
+			expertAuditOpinion.setFlagTime(1);
+			expertAuditOpinionService.updateIsDownloadAttch(expertAuditOpinion);
 		}
 		if("3".equals(tableType)){
 			downFileName = new String("军队采购评审专家入库复查表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题

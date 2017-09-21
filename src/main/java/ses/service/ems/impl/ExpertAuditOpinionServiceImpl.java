@@ -119,4 +119,13 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 		mapper.updateIsDownload(expertId);
 	}
 
+	/**
+	 * 记录复审已下载过附件
+	 */
+	@Override
+	public void updateIsDownloadAttch(ExpertAuditOpinion expertAuditOpinion) {
+		mapper.updateIsDownloadAttch(expertAuditOpinion);
+		
+	}
+
 }

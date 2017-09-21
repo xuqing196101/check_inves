@@ -17,6 +17,7 @@ import com.github.pagehelper.PageInfo;
 
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.UserMapper;
+import ses.dao.ems.ExpertAuditOpinionMapper;
 import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertBatchMapper;
 import ses.dao.ems.ExpertGroupMapper;
@@ -27,6 +28,7 @@ import ses.model.bms.RoleUser;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
+import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertBatch;
 import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertGroup;
@@ -57,7 +59,8 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	private ExpertReviewTeamMapper expertReviewTeamMapper;
 	@Autowired
 	private UserMapper userMapper;
-	
+	@Autowired
+	private ExpertAuditOpinionMapper expertAuditOpinionMapper;
 	public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	@Override
 	public ExpertAgainAuditImg addAgainAudit(String ids) {
@@ -686,6 +689,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		expertBatchDetails.setGroupId(findExpertReviewTeam.getGroupId());
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
 		Map<String,Object> map = new HashMap<String,Object>();
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 		if(list.size()>0){
 			map.put("batchId", list.get(0).getBatchId());
 			map.put("batchName", list.get(0).getBatchName());
@@ -716,9 +720,18 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 	      			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(e.getExpertsFrom());
 	      			e.setExpertsFrom(expertsFrom.getName());
 	      		}
-			
+	      		
+	      		//查询附件是否被下载
+	      		expertAuditOpinion.setExpertId(e.getExpertId());
+	      		expertAuditOpinion.setFlagTime(1);
+	    		ExpertAuditOpinion selectByExpertId = expertAuditOpinionMapper.selectByExpertId(expertAuditOpinion);
+	    		if(selectByExpertId != null && selectByExpertId.getIsDownLoadAttch() != null && selectByExpertId.getIsDownLoadAttch() == 1){
+	    			e.setIsDownload(1);
+	    		}else{
+	    			e.setIsDownload(0);
+	    		}
 			}
-		}
+		}		
 		PageInfo< ExpertBatchDetails > result = new PageInfo < ExpertBatchDetails > (list);
 		map.put("list", result);
 		img.setStatus(true);
