@@ -2209,7 +2209,7 @@ resultMap="BaseResultMap">
 		  ON A.PARENT_ID = AREA.ID
     LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T1.PURCHASE_DEP_ID = dep.ID
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
-    where (T1.STATUS = 4 or T1.STATUS = 5 or T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 8)
+    where (T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 13)
     AND T1.IS_PROVISIONAL = '0'
     AND T1.IS_DELETE = 0
     <if test="relName != null and relName !=''">
