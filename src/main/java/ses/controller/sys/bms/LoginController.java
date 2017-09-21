@@ -1,15 +1,10 @@
 package ses.controller.sys.bms;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.service.LoginLogService;
+import common.utils.AuthUtil;
+import common.utils.JedisUtils;
+import common.utils.RSAEncrypt;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +14,6 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import redis.clients.jedis.Jedis;
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
@@ -41,12 +35,15 @@ import ses.service.sms.SupplierService;
 import ses.util.PropUtil;
 import ses.util.SessionListener;
 
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.service.LoginLogService;
-import common.utils.AuthUtil;
-import common.utils.JedisUtils;
-import common.utils.RSAEncrypt;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * <p>Title:LoginController </p>
  * <p>Description: 用户登录</p>
@@ -211,7 +208,7 @@ public class LoginController {
                                 }
                             }else {
                               // 实现单一登录 踢人效果
-                              if (null != SessionListener.sessionMap.get(u.getId())) {
+                              /*if (null != SessionListener.sessionMap.get(u.getId())) {
                                   // 第一次登录的用户session销毁
                                   // 将第一次登录用户的信息从map中移除
                                   forceLogoutUser(u.getId());
@@ -220,7 +217,7 @@ public class LoginController {
                               } else {
                                   // 以用户id为key键存入map中，以判断下一次登录的人
                                   SessionListener.sessionMap.put(u.getId(),req.getSession());
-                              }
+                              }*/
                             req.getSession().setAttribute("loginUser", u);
                             // loginLog记录
                             loginLog(u, req);
@@ -256,7 +253,7 @@ public class LoginController {
                             if ("success".equals(msg)) {
                                 req.getSession().setAttribute("loginSupplier", map.get("supplier"));
                                 // 实现单一登录 踢人效果
-                                if (null != SessionListener.sessionMap.get(u.getId())) {
+                                /*if (null != SessionListener.sessionMap.get(u.getId())) {
                                   // 第一次登录的用户session销毁
                                   // 将第一次登录用户的信息从map中移除
                                   forceLogoutUser(u.getId());
@@ -265,7 +262,7 @@ public class LoginController {
                                 } else {
                                   // 以用户id为key键存入map中，以判断下一次登录的人
                                   SessionListener.sessionMap.put(u.getId(),req.getSession());
-                                }
+                                }*/
                                 req.getSession().setAttribute("loginUser", u);
                                 // loginLog记录
                                 loginLog(u, req);
@@ -326,7 +323,7 @@ public class LoginController {
                       }
                     } else {*/
                       // 实现单一登录 踢人效果
-                      if ( null != SessionListener.sessionMap.get(u.getId())) {   
+                      /*if ( null != SessionListener.sessionMap.get(u.getId())) {
                              //第一次登录的用户session销毁
                              //将第一次登录用户的信息从map中移除
                              forceLogoutUser(u.getId());
@@ -335,7 +332,7 @@ public class LoginController {
                       } else{      
                                //以用户id为key键存入map中，以判断下一次登录的人
                                SessionListener.sessionMap.put(u.getId(), req.getSession());
-                      }
+                      }*/
                       req.getSession().setAttribute("loginUser", u);
                       // loginLog记录
                       loginLog(u, req);
@@ -464,10 +461,10 @@ public class LoginController {
      */
     @RequestMapping("/loginOut")
     public String loginOut(@CurrentUser User user,HttpServletRequest re){
-    	//re.getSession().invalidate();
-    	if(user != null){
+    	re.getSession().invalidate();
+    	/*if(user != null){
     		forceLogoutUser(user.getId());
-    	}
+    	}*/
         return "redirect:/";
     }
     
@@ -481,25 +478,32 @@ public class LoginController {
      * @return
      */
     public synchronized void forceLogoutUser(String id) {
-        // 删除单一登录中记录的变量
-        if (SessionListener.sessionMap.get(id) != null) {
-            HttpSession hs = (HttpSession) SessionListener.sessionMap.get(id);
-            SessionListener.sessionMap.remove(id);
-            @SuppressWarnings("rawtypes")
-            Enumeration e = hs.getAttributeNames();
-            while (e.hasMoreElements()) {
-                String sessionName = (String) e.nextElement();
-                if(sessionName.equals("loginUser")){
-                    // 清空session
-                    hs.removeAttribute(sessionName);
-                    Jedis jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
-                    jedis.del("spring:session:sessions:"+hs.getId());
-                    jedis.quit();
-                    jedis.disconnect();
-                    break;
+        Jedis jedis = null;
+        try {
+            // 删除单一登录中记录的变量
+            if (SessionListener.sessionMap.get(id) != null) {
+                HttpSession hs = (HttpSession) SessionListener.sessionMap.get(id);
+                SessionListener.sessionMap.remove(id);
+                @SuppressWarnings("rawtypes")
+                Enumeration e = hs.getAttributeNames();
+                while (e.hasMoreElements()) {
+                    String sessionName = (String) e.nextElement();
+                    if(sessionName.equals("loginUser")){
+                        // 清空session
+                        hs.removeAttribute(sessionName);
+                        jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
+                        jedis.del("spring:session:sessions:"+hs.getId());
+                        break;
+                    }
                 }
+                // hs.invalidate();
             }
-            // hs.invalidate();
+        } catch (Exception e){
+            logger.debug(e.getLocalizedMessage());
+        } finally {
+            if(jedis != null){
+                JedisUtils.returnResourceOfFactory(jedis);
+            }
         }
     }
 }

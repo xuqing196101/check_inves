@@ -1958,19 +1958,25 @@ public class SupplierQueryController extends BaseSupplierController {
    		//供应商类code
    		List < SupplierTypeRelate > typeIds = supplierTypeRelateService.queryBySupplier(supplierId);
    		String supplierTypeCode = "";
-   		for(SupplierTypeRelate s: typeIds) {
-   			supplierTypeCode += s.getSupplierTypeId() + ",";
+   		if(!typeIds.isEmpty() && typeIds.size()>0){
+   			for(SupplierTypeRelate s: typeIds) {
+   	   			supplierTypeCode += s.getSupplierTypeId() + ",";
+   	   		}
    		}
+   		
    		request.setAttribute("supplierTypeCode", supplierTypeCode);
    		
    		
    		List < DictionaryData > list = DictionaryDataUtil.find(6);
-   		for(int i = 0; i < list.size(); i++) {
-   			String code = list.get(i).getCode();
-   			if(code.equals("GOODS")) {
-   				list.remove(list.get(i));
-   			}
+   		if(!list.isEmpty() && list.size()>0){
+   			for(int i = 0; i < list.size(); i++) {
+   	   			String code = list.get(i).getCode();
+   	   			if(code.equals("GOODS")) {
+   	   				list.remove(list.get(i));
+   	   			}
+   	   		}
    		}
+   		
    		request.setAttribute("supplieType", list);
    		
    		List < DictionaryData > wlist = DictionaryDataUtil.find(8);
@@ -1981,13 +1987,16 @@ public class SupplierQueryController extends BaseSupplierController {
    		 */
    		//资质资格证书信息
    		List < SupplierCertPro > materialProduction = supplierAuditService.findBySupplierId(supplierId);
-   		for(int i = 0; i < materialProduction.size() - 1; i++) {
-   			for(int j = materialProduction.size() - 1; j > i; j--) {
-   				if(materialProduction.get(j).getId().equals(materialProduction.get(i).getId())) {
-   					materialProduction.remove(j);
-   				}
-   			}
+   		if(!materialProduction.isEmpty() && materialProduction.size()>0){
+   			for(int i = 0; i < materialProduction.size() - 1; i++) {
+   	   			for(int j = materialProduction.size() - 1; j > i; j--) {
+   	   				if(materialProduction.get(j).getId().equals(materialProduction.get(i).getId())) {
+   	   					materialProduction.remove(j);
+   	   				}
+   	   			}
+   	   		}
    		}
+   		
    		supplierMatPro = supplierService.get(supplierId).getSupplierMatPro();
    		request.setAttribute("supplierTypeNames", supplierTypeName);
    		request.setAttribute("materialProduction", materialProduction);
@@ -2000,13 +2009,16 @@ public class SupplierQueryController extends BaseSupplierController {
    		 */
    		//资质资格证书
    		List < SupplierCertSell > supplierCertSell = supplierAuditService.findCertSellBySupplierId(supplierId);
-   		for(int i = 0; i < supplierCertSell.size() - 1; i++) {
-   			for(int j = supplierCertSell.size() - 1; j > i; j--) {
-   				if(supplierCertSell.get(j).getId().equals(supplierCertSell.get(i).getId())) {
-   					supplierCertSell.remove(j);
-   				}
-   			}
+   		if(!supplierCertSell.isEmpty() && supplierCertSell.size()>0){
+   			for(int i = 0; i < supplierCertSell.size() - 1; i++) {
+   	   			for(int j = supplierCertSell.size() - 1; j > i; j--) {
+   	   				if(supplierCertSell.get(j).getId().equals(supplierCertSell.get(i).getId())) {
+   	   					supplierCertSell.remove(j);
+   	   				}
+   	   			}
+   	   		}
    		}
+   		
    		//供应商组织机构和人员
    		supplierMatSell = supplierService.get(supplierId).getSupplierMatSell();
    		request.setAttribute("supplierTypeNames", supplierTypeName);
@@ -2020,33 +2032,42 @@ public class SupplierQueryController extends BaseSupplierController {
    		if(supplierId != null) {
    			//资质资格证书信息
    			List < SupplierCertEng > supplierCertEng = supplierAuditService.findCertEngBySupplierId(supplierId);
-   			for(int i = 0; i < supplierCertEng.size() - 1; i++) {
-   				for(int j = supplierCertEng.size() - 1; j > i; j--) {
-   					if(supplierCertEng.get(j).getId().equals(supplierCertEng.get(i).getId())) {
-   						supplierCertEng.remove(j);
-   					}
-   				}
+   			if(!supplierCertEng.isEmpty() && supplierCertEng.size()>0){
+   				for(int i = 0; i < supplierCertEng.size() - 1; i++) {
+   	   				for(int j = supplierCertEng.size() - 1; j > i; j--) {
+   	   					if(supplierCertEng.get(j).getId().equals(supplierCertEng.get(i).getId())) {
+   	   						supplierCertEng.remove(j);
+   	   					}
+   	   				}
+   	   			}
    			}
+   			
    			request.setAttribute("supplierCertEng", supplierCertEng);
 
    			//资质资格信息
    			List < SupplierAptitute > supplierAptitute = supplierAuditService.findAptituteBySupplierId(supplierId);
-   			for(int i = 0; i < supplierAptitute.size() - 1; i++) {
-   				for(int j = supplierAptitute.size() - 1; j > i; j--) {
-   					if(supplierAptitute.get(j).getId().equals(supplierAptitute.get(i).getId())) {
-   						supplierAptitute.remove(j);
-   					}
-   				}
+   			if(!supplierAptitute.isEmpty() && supplierAptitute.size()>0){
+   				for(int i = 0; i < supplierAptitute.size() - 1; i++) {
+   	   				for(int j = supplierAptitute.size() - 1; j > i; j--) {
+   	   					if(supplierAptitute.get(j).getId().equals(supplierAptitute.get(i).getId())) {
+   	   						supplierAptitute.remove(j);
+   	   					}
+   	   				}
+   	   			}
    			}
+   			
    			//资质登记
    			List < DictionaryData > businessList = DictionaryDataUtil.find(31);
-   			for(DictionaryData data : businessList){
-   				for(SupplierAptitute a:supplierAptitute){
-   					if(data.getId().equals(a.getAptituteLevel())){
-   						a.setAptituteLevel(data.getName());
-   					}
-   				}
+   			if(!businessList.isEmpty() && businessList.size()>0){
+   				for(DictionaryData data : businessList){
+   	   				for(SupplierAptitute a:supplierAptitute){
+   	   					if(data.getId().equals(a.getAptituteLevel())){
+   	   						a.setAptituteLevel(data.getName());
+   	   					}
+   	   				}
+   	   			}
    			}
+   			
    			//资质类型
    			request.setAttribute("typeList", qualificationService.findList(null, Integer.MAX_VALUE,null, 4));
    			request.setAttribute("supplierAptitutes", supplierAptitute);
@@ -2067,13 +2088,16 @@ public class SupplierQueryController extends BaseSupplierController {
    			SupplierDictionaryData dictionary = dictionaryDataServiceI.getSupplierDictionary();
    			String typeId =  dictionary.getSupplierProContract();
    			List<Area> existenceArea = new ArrayList<>();
-   			for(Area area : listArea){
-   				String businessId = supplierId + "_" + area.getId();
-   				List<UploadFile> listUpload = uploadService.getFilesOther(businessId, typeId, "1");
-   				if(!listUpload.isEmpty()){
-   					existenceArea.add(area);
-   				}
+   			if(!listArea.isEmpty() && listArea.size()>0){
+   				for(Area area : listArea){
+   	   				String businessId = supplierId + "_" + area.getId();
+   	   				List<UploadFile> listUpload = uploadService.getFilesOther(businessId, typeId, "1");
+   	   				if(!listUpload.isEmpty()){
+   	   					existenceArea.add(area);
+   	   				}
+   	   			}
    			}
+   			
    			request.setAttribute("rootArea", existenceArea);
    		}
    		
@@ -2083,12 +2107,14 @@ public class SupplierQueryController extends BaseSupplierController {
    		 */
    		//资质证书信息
    		List < SupplierCertServe > supplierCertSe = supplierAuditService.findCertSeBySupplierId(supplierId);
-   		for(int i = 0; i < supplierCertSe.size() - 1; i++) {
-   			for(int j = supplierCertSe.size() - 1; j > i; j--) {
-   				if(supplierCertSe.get(j).getId().equals(supplierCertSe.get(i).getId())) {
-   					supplierCertSe.remove(j);
-   				}
-   			}
+   		if(!supplierCertSe.isEmpty() && supplierCertSe.size()>0){
+   			for(int i = 0; i < supplierCertSe.size() - 1; i++) {
+   	   			for(int j = supplierCertSe.size() - 1; j > i; j--) {
+   	   				if(supplierCertSe.get(j).getId().equals(supplierCertSe.get(i).getId())) {
+   	   					supplierCertSe.remove(j);
+   	   				}
+   	   			}
+   	   		}
    		}
    		request.setAttribute("supplierCertSes", supplierCertSe);
    		//组织结构和人员

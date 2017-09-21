@@ -2,6 +2,8 @@ package ses.dao.sms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierCertPro;
 
 public interface SupplierCertProMapper {
@@ -75,4 +77,15 @@ public interface SupplierCertProMapper {
      * @return
      */
 	int deleteByMatProId(String matProId);
+	
+	/**
+	 * 根据id和名字查询质量管理体系认证证书
+	 * Description: 
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年9月15日
+	 * @param 
+	 * @return
+	 */
+	List<SupplierCertPro> findCertProByProIdAndName(@Param("matProId")String matProId ,@Param("name")String name);
 }

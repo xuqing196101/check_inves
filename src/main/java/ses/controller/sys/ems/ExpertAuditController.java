@@ -1588,6 +1588,40 @@ public class ExpertAuditController{
 		JdcgResult result = expertAuditService.selectAndVertifyAuditItem(expertId);
 		if(result.getStatus()==500){
 			model.addAttribute("qualified", false);
+		}else{
+			String[] split = expert.getExpertsTypeId().split(",");
+			for (String string : split) {
+				DictionaryData data = DictionaryDataUtil.findById(string);
+				if("PROJECT".equals(data.getCode())||"GOODS_PROJECT".equals(data.getCode())){
+					Map<String,Object> map2 = new HashMap<String,Object>();
+					 map2.put("expertId", expertId);
+				     map2.put("typeId", DictionaryDataUtil.getId("PROJECT"));
+				     map2.put("type", "six");
+					int passCount = expertCategoryService.selectPassCount(map2);
+					if(passCount<=0){
+						model.addAttribute("qualified", false);
+						break;
+					}
+					map2.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
+					passCount= expertCategoryService.selectPassCount(map2);
+					if(passCount<=0){
+						model.addAttribute("qualified", false);
+						break;
+					}
+				}else{
+					Map<String,Object> map2 = new HashMap<String,Object>();
+					 map2.put("expertId", expertId);
+				     map2.put("typeId", string);
+				     map2.put("type", "six");
+					int passCount = expertCategoryService.selectPassCount(map2);
+					if(passCount<=0){
+						if(!"GOODS_SERVER".equals(data.getCode())){
+							model.addAttribute("qualified", false);
+							break;
+						}
+					}
+				}
+			}
 		}
 		/*for (Entry<String, Integer> entry : map.entrySet()) {  
 			  categoryCount+=entry.getValue();
