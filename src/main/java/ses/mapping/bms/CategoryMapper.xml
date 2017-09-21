@@ -747,7 +747,7 @@
     LEFT JOIN T_SES_SMS_SUPPLIER_ITEM t2 ON T2.CATEGORY_ID = T1. ID
     WHERE
       T2.ID = #{id}
-
+</select>
 	<!-- 根据父节点查询四级以上的品目id -->
   <select id="selExtractCategory" parameterType="String" resultType="String">
     SELECT s.ID from (
