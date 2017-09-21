@@ -187,7 +187,7 @@ public interface SupplierMapper {
      * @param @return      
      * @return Supplier
      */
-    void updateStatus(Supplier record);
+    int updateStatus(Supplier record);
 
     int updateSupplierProcurementDep(Supplier supplier);
 
@@ -431,7 +431,6 @@ public interface SupplierMapper {
      * @date 2017-4-11 下午3:08:59  
      * @Description:注销列表
      * @param @param supplier      
-     * @return void
      */
     List<Supplier> findLogoutList(Supplier supplier);
     

@@ -35,7 +35,7 @@ public class SupplierCertSellServiceImpl implements ses.service.sms.SupplierCert
 
 	@Override
 	public List<SupplierCertSell> queryBySaleId(String saleId) {
-		return supplierCertSellMapper.findCertSellBySupplierMatSellId(saleId);
+		return supplierCertSellMapper.findCertSellBySuppliermatSellId(saleId);
 	}
 
 	@Override
