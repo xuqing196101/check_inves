@@ -758,12 +758,12 @@
                      <thead>
                      <tr>
                          <th class="info w50">序号</th>
-                         <th class="info" width="15%">供应商名称</th>
-                         <th class="info" width="15%">类型</th>
-                         <th class="info" width="15%">联系人名称</th>
-                         <th class="info" width="18%">联系人电话</th>
-                         <th class="info" width="18%">联系人手机</th>
-                         <th class="info">操作</th>
+                         <th class="info">供应商名称</th>
+                         <th class="info w120">类型</th>
+                         <th class="info w100">联系人名称</th>
+                         <th class="info w100">联系人电话</th>
+                         <th class="info w120">联系人手机</th>
+                         <th class="info w100">操作</th>
                      </tr>
                      </thead>
                      <tbody>
@@ -777,13 +777,13 @@
                   <table id="table" class="table table-bordered table-condensed">
                       <thead>
                       <tr>
-                          <th class="info w50">序号</th>
-                          <th class="info" width="15%">供应商名称</th>
-                          <th class="info" width="15%">类型</th>
-                          <th class="info" width="15%">联系人名称</th>
-                          <th class="info" width="18%">联系人电话</th>
-                          <th class="info" width="18%">联系人手机</th>
-                          <th class="info">操作</th>
+                        <th class="info w50">序号</th>
+                        <th class="info">供应商名称</th>
+                        <th class="info w120">类型</th>
+                        <th class="info w100">联系人名称</th>
+                        <th class="info w100">联系人电话</th>
+                        <th class="info w120">联系人手机</th>
+                        <th class="info w100">操作</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -797,13 +797,13 @@
                   <table id="table" class="table table-bordered table-condensed">
                       <thead>
                       <tr>
-                          <th class="info w50">序号</th>
-                          <th class="info" width="15%">供应商名称</th>
-                          <th class="info" width="15%">类型</th>
-                          <th class="info" width="15%">联系人名称</th>
-                          <th class="info" width="18%">联系人电话</th>
-                          <th class="info" width="18%">联系人手机</th>
-                          <th class="info">操作</th>
+                        <th class="info w50">序号</th>
+                        <th class="info">供应商名称</th>
+                        <th class="info w120">类型</th>
+                        <th class="info w100">联系人名称</th>
+                        <th class="info w100">联系人电话</th>
+                        <th class="info w120">联系人手机</th>
+                        <th class="info w100">操作</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -817,13 +817,13 @@
                   <table id="table" class="table table-bordered table-condensed">
                       <thead>
                       <tr>
-                          <th class="info w50">序号</th>
-                          <th class="info" width="15%">供应商名称</th>
-                          <th class="info" width="15%">类型</th>
-                          <th class="info" width="15%">联系人名称</th>
-                          <th class="info" width="18%">联系人电话</th>
-                          <th class="info" width="18%">联系人手机</th>
-                          <th class="info">操作</th>
+                        <th class="info w50">序号</th>
+                        <th class="info">供应商名称</th>
+                        <th class="info w120">类型</th>
+                        <th class="info w100">联系人名称</th>
+                        <th class="info w100">联系人电话</th>
+                        <th class="info w120">联系人手机</th>
+                        <th class="info w100">操作</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -837,13 +837,13 @@
                   <table id="table" class="table table-bordered table-condensed">
                       <thead>
                       <tr>
-                          <th class="info w50">序号</th>
-                          <th class="info" width="15%">供应商名称</th>
-                          <th class="info" width="15%">类型</th>
-                          <th class="info" width="15%">联系人名称</th>
-                          <th class="info" width="18%">联系人电话</th>
-                          <th class="info" width="18%">联系人手机</th>
-                          <th class="info">操作</th>
+                        <th class="info w50">序号</th>
+                        <th class="info">供应商名称</th>
+                        <th class="info w120">类型</th>
+                        <th class="info w100">联系人名称</th>
+                        <th class="info w100">联系人电话</th>
+                        <th class="info w120">联系人手机</th>
+                        <th class="info w100">操作</th>
                       </tr>
                       </thead>
                       <tbody>
