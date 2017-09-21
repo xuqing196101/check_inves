@@ -259,9 +259,11 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		map.put("ProcurementDep",orgnizationMapper.findOrgByPrimaryKey(projectInfo.getProcurementDepId()).getName());
 		
 		//项目实施地点
-		if(StringUtils.isNotBlank(projectInfo.getConstructionPro())){
+		/*if(StringUtils.isNotBlank(projectInfo.getExtractionSites())){
 			map.put("construction", areaMapper.selectById(projectInfo.getConstructionPro()).getName() + areaMapper.selectById(projectInfo.getConstructionAddr()).getName());
-		}
+		}*/
+		//抽取地点
+		map.put("construction", projectInfo.getExtractionSites());
 		
 		//抽取时间
 		map.put("extractTime", simpleDateFormat.format(projectInfo.getCreatedAt()));

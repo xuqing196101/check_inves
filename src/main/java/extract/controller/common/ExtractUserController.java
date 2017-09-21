@@ -37,14 +37,19 @@ public class ExtractUserController {
      */
      @RequestMapping("/toPeronList")
     public String toPeronList(Model model,String personType,ExtractUser user,@CurrentUser User user2){
+    	 //权限是资源服务中心和采购机构
     	 if (personType != null && !"".equals(personType)) {
-           	if("extractUser".equals(personType) && null !=user2){
+           	if("extractUser".equals(personType) && null !=user2 && user2.getTypeName().equals("1")){
            		String orgId = user2.getOrg().getId();
            		if(StringUtils.isNotBlank(orgId)){
            			user.setOrgId(orgId);
            			model.addAttribute("personType", personType);
            			model.addAttribute("personList", extractUserService.getList(user));
            		}
+       		}else if("4".equals(user2.getTypeName())){
+       			user.setOrgId(user2.getTypeName());
+       			model.addAttribute("personType", personType);
+       			model.addAttribute("personList", extractUserService.getList(user));
        		}
            }
         return "/ses/extract/person_list";
@@ -86,12 +91,15 @@ public class ExtractUserController {
     	 
     	Map<String, String> error = null;;
     	
-    	if(null !=user2){
+    	if(null !=user2 && user2.getTypeName().equals("1")){
     		String orgId = user2.getOrg().getId();
     		if(StringUtils.isNotBlank(orgId)){
     			user.setOrgId(orgId);
     			error = extractUserService.addPerson(user);
     		}
+    	}else if(user2.getTypeName().equals("4")){
+    		user.setOrgId("4");
+			error = extractUserService.addPerson(user);
     	}
     	
     	

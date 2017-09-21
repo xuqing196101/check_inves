@@ -28,10 +28,10 @@ var personType ;
             	 var tr = "<tr>"+
 		              "<td class='tc h30 lh30'> <input type='checkbox' name='id' value="+data[i].id+"> </td>"+
 		              "<td class='tc h30 lh30'> "+(i+1)+" </td>"+
-		              "<td class='tc h30 lh30'> "+data[i].name+" </td>"+
-	              	  "<td class='tc h30 lh30'>"+data[i].compary+" </td>"+
-	              	  "<td class='tc h30 lh30'>"+data[i].duty+" </td>"+
-	              	  "<td class='tc h30 lh30'> "+data[i].rank+"</td>"+
+		              "<td class='h30 lh30'> "+data[i].name+" </td>"+
+	              	  "<td class='h30 lh30'>"+data[i].compary+" </td>"+
+	              	  "<td class='h30 lh30'>"+data[i].duty+" </td>"+
+	              	  "<td class='h30 lh30'> "+data[i].rank+"</td>"+
 		              "</tr>";
 		            $("tbody").append(tr);
             	}

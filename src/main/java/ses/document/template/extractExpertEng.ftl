@@ -2117,7 +2117,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.isJoin!}</w:t>
+                    <w:t><#if tree.isJoin ?? && tree.isJoin==1>是<#else> 否 </#if></w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -2549,7 +2549,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>${tree.isJoin!}</w:t>
+                    <w:t><#if tree.isJoin ?? && tree.isJoin==1>是<#else> 否 </#if></w:t>
                   </w:r>
                 </w:p>
               </w:tc>

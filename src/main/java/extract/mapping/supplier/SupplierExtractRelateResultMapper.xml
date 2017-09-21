@@ -471,7 +471,9 @@
 	<select id="listExtractionExpertCount" parameterType="extract.model.supplier.SupplierExtractCondition" resultType="int">
 		SELECT COUNT(DISTINCT S.ID) FROM T_SES_SMS_SUPPLIER S
 		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
+			LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T ON T.SUPPLIER_ID = S.ID
 			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
+			
 			<choose>
 				<when test="supplierTypeCode == 'PROJECT'.toString()">
 					LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON E.SUPPLIER_ID = S.ID
@@ -482,14 +484,18 @@
 				</otherwise>
 			</choose>
 		</if>
-		WHERE S.IS_PROVISIONAL = 0 AND S.SUPPLIER_STATUS in ( 1,4,5,6,7,8) 
+		WHERE S.IS_PROVISIONAL = 0 AND S.IS_DELETED = 0 AND S.SUPPLIER_STATUS in ( 1,4,5,6,7,8) 
 		<!-- 查询地址 -->
+		<!-- <if test="province != null and province != '' ">
+			AND S.ADDRESS in (SELECT AREA.ID from T_SES_BMS_AREA AREA WHERE AREA.PARENT_ID IN	<foreach collection="provinces"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>)
+		</if> -->
 		<if test="addressId != null and addressId != '' ">
 			AND S.ADDRESS in 	<foreach collection="addressIds"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>
 		</if>
 		<!-- 查询类型 -->
 		<if test="supplierTypeCode !=null and supplierTypeCode != '' ">
-			 AND I.Supplier_Type_Relate_Id  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
+			<!--  AND I.Supplier_Type_Relate_Id  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach>  -->
+			 AND T.SUPPLIER_TYPE_ID  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
 		</if>	 
 		<!-- 查询品目 -->
 		<if test="isMulticondition !=null and isMulticondition != ''">
@@ -559,14 +565,15 @@
 				</otherwise>
 			</choose>
 		</if>
-		WHERE S.IS_PROVISIONAL = 0 AND S.SUPPLIER_STATUS in ( 1,4,5,6,7,8) 
+		WHERE S.IS_PROVISIONAL = 0 AND S.IS_DELETED = 0 AND S.SUPPLIER_STATUS in ( 1,4,5,6,7,8) 
 		<!-- 查询地址 -->
 		<if test="addressId != null and addressId != '' ">
 			AND S.ADDRESS in 	<foreach collection="addressIds"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>
 		</if>
 		<!-- 查询类型 -->
 		<if test="supplierTypeCode !=null and supplierTypeCode != '' ">
-			 AND I.Supplier_Type_Relate_Id  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
+			<!--  AND I.Supplier_Type_Relate_Id  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach>  -->
+			 AND T.SUPPLIER_TYPE_ID  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
 		</if>	 
 		<!-- 查询品目 -->
 		<if test="isMulticondition !=null and isMulticondition != ''">

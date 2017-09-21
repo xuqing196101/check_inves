@@ -37,13 +37,17 @@ public class SuperviseController {
      */
      @RequestMapping("/toPeronList")
     public String toPeronList(Model model,String personType,Supervise suser,@CurrentUser User user2){
-    	 if("supervise".equals(personType) && null !=user2){
+    	 if("supervise".equals(personType) && null !=user2 && user2.getTypeName().equals("1")){
        		String orgId = user2.getOrg().getId();
        		if(StringUtils.isNotBlank(orgId)){
        			suser.setOrgId(orgId);
        			model.addAttribute("personType", personType);
        			model.addAttribute("personList", superviseService.getList(suser));
        		}
+   		}else if(user2.getTypeName().equals("4")){
+   			suser.setOrgId("4");
+   			model.addAttribute("personType", personType);
+   			model.addAttribute("personList", superviseService.getList(suser));
    		}
         return "ses/extract/person_list";
     }
@@ -81,13 +85,16 @@ public class SuperviseController {
     		 return JSON.toJSONString(err);
     	 }
     	 HashMap<String, String> addPerson = null;
-    	if(null!= user2){
+    	if(null!= user2 && user2.getTypeName().equals("1")){
     		String orgId = user2.getOrg().getId();
     		if(StringUtils.isNotBlank(orgId)){
     			user.setOrgId(orgId);
     			addPerson = superviseService.addPerson(user);
     		}
-    	} 
+    	}else if(user2.getTypeName().equals("4")){
+			user.setOrgId("4");
+			addPerson = superviseService.addPerson(user);
+    	}
 		return JSON.toJSONString(addPerson);
      }
 	

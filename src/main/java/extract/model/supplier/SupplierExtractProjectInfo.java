@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -56,8 +55,9 @@ public class SupplierExtractProjectInfo {
     @Length(min=1,max=50)
     private String contactPerson;
 
-    @Pattern(regexp="^1[34578]\\d{9}$",message="格式不正确")
-    @Length(min=11,max=11,message="格式不正确")
+   /* @Pattern(regexp="^1[34578]\\d{9}$",message="格式不正确")
+    @Length(min=11,max=11,message="格式不正确")*/
+    @NotNull
     private String contactNum;
     
     @Length(max=50)
@@ -100,6 +100,8 @@ public class SupplierExtractProjectInfo {
      * 表字段 : T_SES_SMS_SUPPLIER_EXTRACTS.EXTRACTION_SITES
      * </pre>
      */
+    @NotNull
+    @Length(min=1,max=50)
     private String extractionSites;
 
     /**

@@ -354,7 +354,7 @@ $(function () {
 		}
     	
     	if(count>0){
-    		layer.msg("请检查所填信息是否完备");
+    		layer.msg("存在错误信息，检查及修改");
 		}
     	
     	//校验人员信息
@@ -393,6 +393,11 @@ $(function () {
     	
     	$("#contactNumError").html("");  
     	//校验手机
+    	var phone = $("[name='contactNum']").val();
+        if(!phone){ 
+            $("#contactNumError").html("不能为空");  
+            count3++;
+        }
         /*var phone = $("[name='contactNum']").val();
         if(!(/^1[34578]\d{9}$/.test(phone))){ 
             $("#contactNumError").html("手机号码有误，请重填");  

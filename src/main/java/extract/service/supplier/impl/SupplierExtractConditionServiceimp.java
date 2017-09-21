@@ -9,11 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.bms.AreaMapper;
 import ses.dao.bms.DictionaryDataMapper;
+import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
@@ -70,6 +73,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
   
   @Autowired
   private CategoryService categoryService;
+  
+  @Autowired
+  private AreaMapper areaMapper;
   
   
   
@@ -219,6 +225,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	Class<? extends SupplierConType> class1 = conType.getClass();
 	String supplierTypeCode  = condition.getSupplierTypeCode();
 	String typeCode = condition.getSupplierTypeCode();
+	String addressId = condition.getAddressId();
 	//for (String typeCode : supplierTypeCodes) {
 		//首字母大写
 		char[] cs=typeCode.toLowerCase().toCharArray();
@@ -254,10 +261,30 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			if(StringUtils.isNotBlank(ob)){
 				condition.setOverseasBranch(ob);
 			}
-			if("GOODS".equals(condition.getSupplierTypeCode())){
-				condition.setSupplierTypeCode("PRODUCT,SALES");
-				typeCode = "GOODS";
+			
+			//condition查询和存储不是条件不一样，再创建一个用来存储
+			/*SupplierExtractCondition ct = new SupplierExtractCondition();
+			BeanUtils.copyProperties(ct, condition);*/
+			
+			//处理地区查询条件
+			if(StringUtils.isNotBlank(condition.getProvince()) && !"0".equals(condition.getProvince())){
+				String addr = "";
+				for (String pro : condition.getProvinces()) {
+					List<Area> areas = areaMapper.findAreaByParentId(pro);
+					for (Area area : areas) {
+						addr += ","+area.getId();
+					}
+				}
+				addressId = StringUtils.isNotBlank(condition.getAddressId())?condition.getAddressId()+addr:addr.substring(1);
+				condition.setAddressId(addressId);
 			}
+			
+			//物资类 不限查询   需要将物资下的一起查询
+			if("GOODS".equals(supplierTypeCode)){
+				condition.setSupplierTypeCode("PRODUCT,SALES");
+			}
+			
+			
 			if(type == 1){
 				if(null == en){
 					map.put("error",code+"ExtractNumError");
@@ -275,6 +302,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 				
 				list.put(typeCode, selectAllExpert);
 				//存储
+				condition.setAddressId(addressId);
 				if("GOODS".equals(supplierTypeCode)){
 					condition.setSupplierTypeCode(supplierTypeCode);
 					saveOrUpdateCondition(condition, conType);
