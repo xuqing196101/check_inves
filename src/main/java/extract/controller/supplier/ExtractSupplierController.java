@@ -63,7 +63,7 @@ import extract.service.supplier.SupplierExtractRelateResultService;
  */
 @Controller
 @Scope("prototype")
-@RequestMapping("/SupplierExtracts")
+@RequestMapping("/SupplierExtracts_new")
 public class ExtractSupplierController extends BaseController {
     /**
      * 项目
@@ -130,7 +130,6 @@ public class ExtractSupplierController extends BaseController {
     	return "redirect:/qualifyError.jsp";
     }
     
-    
     /**
      *@Description:条件查询集合 / 跳转抽取条件页面，准备抽取
      *
@@ -164,7 +163,9 @@ public class ExtractSupplierController extends BaseController {
     		String recordId = WfUtil.createUUID();
     		eRecord.setId(recordId);
     		eRecord.setProcurementDepId(user.getOrg().getId());
+    		
     		expExtractRecordService.insertProjectInfo(eRecord);
+    		
     		if(StringUtils.isNotBlank(eRecord.getProjectId())){
     			//说明是从项目实施进入 需要查询项目信息，生成一条记录，查询项目信息(包信息),条件id
     			 AdvancedProject selectById = advancedProjectService.selectById(eRecord.getProjectId());
@@ -253,7 +254,6 @@ public class ExtractSupplierController extends BaseController {
 		return null;
     }
 
-   
 
     /**
      * @Description: 获取市

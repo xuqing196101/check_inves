@@ -8,7 +8,7 @@
     .dataType {
       width: 200px;
       float: left;
-      padding-right: 25px;
+      padding-right: 10px;
       min-width: 50px;
     }
   </style>

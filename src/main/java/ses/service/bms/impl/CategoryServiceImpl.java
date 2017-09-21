@@ -16,6 +16,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.DictionaryDataMapper;
@@ -1222,6 +1225,17 @@ public class CategoryServiceImpl implements CategoryService {
 		HashMap<String,String[]> hashMap = new HashMap<>();
 		hashMap.put("categoryIds", categoryId.split(","));
 		return categoryQuaMapper.getQuaByCid(hashMap);
+	
+	}
+	/**
+	 * 根据itme中间表id查询categor
+	 * @param itemsId
+	 * @return
+	 */
+	@Override
+	public Category selectCategoryByItemId(String itemsId) {
+		
+		return categoryMapper.selectCategoryByItemId(itemsId);
 	}
 	
 }

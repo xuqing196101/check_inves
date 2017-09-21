@@ -213,7 +213,7 @@
         <if test="orgName !=null and orgName !=''">
           and org.SHORT_NAME =#{orgName}
         </if>
-        ORDER BY T1.CREATED_AT DESC
+        ORDER BY T1.SUBMIT_AT DESC NULLS LAST
     </select>
 
     <select id="selectSecondAuditExpert" resultMap="BaseResultMap">
@@ -1234,7 +1234,7 @@ resultMap="BaseResultMap">
     <select id="validateIdCardNumber" parameterType="java.lang.String"
             resultMap="BaseResultMap">
         SELECT ID FROM T_SES_EMS_EXPERT
-        WHERE IS_DELETE = 0 AND ID_CARD_NUMBER = #{param1}
+        WHERE IS_DELETE = 0 AND IS_PROVISIONAL=0 AND ID_CARD_NUMBER = #{param1}
         <if test="param2 != null and param2 != '' ">
             AND ID != #{param2}
         </if>
@@ -1341,7 +1341,15 @@ resultMap="BaseResultMap">
             AND t1.REAL_NAME LIKE CONCAT(CONCAT('%', #{relName}), '%')
         </if>
         <if test="status != null and status !=''">
+        	<if test="status == 'trialEnd'">
+        	 AND t1.STATUS in ('15','16')
+        	</if>
+        	<if test="status != 'trialEnd'">
             AND t1.STATUS = #{status}
+            </if>
+        </if>
+        <if test="auditTemporary != null">
+            AND t1.AUDIT_TEMPORARY = #{auditTemporary}
         </if>
         <if test="auditAt !=null and auditAt!=''">
         	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')

@@ -91,11 +91,11 @@
                 layer.alert("只能选择一个", {offset: ['222px', '390px'], shade: 0.01});
             } else {
 				conditionId = $("#conditionId").val();
-                window.location.href = "${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id=" + id + "&&conditionId=";
+                window.location.href = "${pageContext.request.contextPath}/SupplierExtracts_new/Extraction.html?id=" + id + "&&conditionId=";
             }
         }
         function record() {
-            location.href = '${pageContext.request.contextPath}/SupplierExtracts/resuleRecordlist.do';
+            location.href = '${pageContext.request.contextPath}/SupplierExtracts_new/resuleRecordlist.do';
         }
         function printRecord() {
         	var id = [];
@@ -106,7 +106,7 @@
                 layer.alert("只能选择一个", {offset: ['222px', '390px'], shade: 0.01});
             } else {
 				conditionId = $("#conditionId").val();
-                window.location.href = "${pageContext.request.contextPath}/SupplierExtracts/printRecord.html?id=" + id + "&&conditionId=";
+                window.location.href = "${pageContext.request.contextPath}/SupplierExtracts_new/printRecord.html?id=" + id + "&&conditionId=";
             }
         }
     </script>
@@ -120,7 +120,7 @@
             <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
             <li><a href="javascript:void(0);">支撑环境系统</a></li>
             <li><a href="javascript:void(0);">供应商管理</a></li>
-            <li><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/SupplierExtracts/projectList.html?typeclassId=${typeclassId}')">供应商抽取记录</a></li>
+            <li><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/SupplierExtracts_new/projectList.html?typeclassId=${typeclassId}')">供应商抽取记录</a></li>
         </ul>
         <div class="clear"></div>
     </div>
@@ -132,7 +132,7 @@
     </div>
     <!-- 项目戳开始 -->
     <h2 class="search_detail">
-        <form action="${pageContext.request.contextPath}/SupplierExtracts/projectList.html" id="form1" method="post" class="mb0">
+        <form action="${pageContext.request.contextPath}/SupplierExtracts_new/projectList.html" id="form1" method="post" class="mb0">
             <input type="hidden" name="page" id="page" value="1">
 	        <ul class="demand_list">
 	          <li>
@@ -231,7 +231,7 @@
     $(".channelBtn").click(function () {
         $("#projectNumber").val("");
         $("#proName").val("");
-        window.location.href = "${pageContext.request.contextPath}/SupplierExtracts/projectList.html?typeclassId=${typeclassId}";
+        window.location.href = "${pageContext.request.contextPath}/SupplierExtracts_new/projectList.html?typeclassId=${typeclassId}";
     })
     /* 重置 */
   function form_reset(){

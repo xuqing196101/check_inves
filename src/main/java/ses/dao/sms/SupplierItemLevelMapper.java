@@ -52,4 +52,11 @@ public interface SupplierItemLevelMapper {
     int updateByPrimaryKeyBySupplierIdTypeID(SupplierItemLevel record);
 
     int updateByPrimaryKey(SupplierItemLevel record);
+    
+    /**
+     * 全部供应商查询，等级查询 
+     * @param supplierItemLevel
+     * @return
+     */
+    SupplierItemLevel selectLevelByItem(SupplierItemLevel supplierItemLevel);
 }

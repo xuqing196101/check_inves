@@ -5,10 +5,8 @@ import java.util.List;
 import ses.model.sms.SupplierCertEng;
 
 public interface SupplierCertEngService {
-	public void saveOrUpdateCertEng(SupplierCertEng supplierCertEng);
+	public int saveOrUpdateCertEng(SupplierCertEng supplierCertEng);
 
-	public void deleteCertEng(String certEngIds);
-	
 	public SupplierCertEng queryById(String id);
 	
 	
@@ -54,4 +52,11 @@ public interface SupplierCertEngService {
 	 * @return
 	 */
 	public List<SupplierCertEng> findCertEngBySupplierId(String supplierId);
+
+	/**
+	 * 批量删除工程资质证书
+	 * @param ids
+	 * @return
+	 */
+	public boolean deleteCertEngByIds(String ids);
 }

@@ -50,6 +50,15 @@ public class BrowserController {
 	}
 	
 	/**
+	 * 门户下载浏览器
+	 * @return
+	 */
+	@RequestMapping("/indexFront")
+	public String indexFront(){
+		return "/iss/ps/browsers_front";
+	}
+	
+	/**
 	 * 
 	 *〈简述〉文件下载
 	 *〈详细描述〉

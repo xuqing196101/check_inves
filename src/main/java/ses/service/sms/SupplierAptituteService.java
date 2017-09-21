@@ -6,10 +6,8 @@ import java.util.Map;
 import ses.model.sms.SupplierAptitute;
 
 public interface SupplierAptituteService {
-	public void saveOrUpdateAptitute(SupplierAptitute supplierAptitute);
+	public int saveOrUpdateAptitute(SupplierAptitute supplierAptitute);
 
-	public void deleteAptitute(String aptituteIds);
-	
 	public SupplierAptitute queryById(String id);
 	
 	List<SupplierAptitute> queryByAptitute(String projectId);
@@ -21,4 +19,11 @@ public interface SupplierAptituteService {
 	public int selectByCertCode(String certCode);
 
 	public Map<String, Object> getEngAptitute(String suppId);
+
+	/**
+	 * 批量删除工程资质证书详细信息
+	 * @param ids
+	 * @return
+	 */
+	public boolean deleteAptituteByIds(String ids);
 }

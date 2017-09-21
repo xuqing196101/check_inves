@@ -43,9 +43,9 @@ public class QualificationLevelServiceImpl  implements QualificationLevelService
 		
 	}
 	@Override
-	public List<DictionaryData> getByQuaId(String id) {
+	public List<DictionaryData> getByQuaId(String quaId) {
 		List<DictionaryData> lis1=new ArrayList<DictionaryData>();
-		List<QualificationLevel> list = qualificationLevelMapper.findList(id);
+		List<QualificationLevel> list = qualificationLevelMapper.findList(quaId);
 		for(QualificationLevel q:list){
 			DictionaryData data = DictionaryDataUtil.findById(q.getGrade());
 			lis1.add(data);
@@ -71,5 +71,8 @@ public class QualificationLevelServiceImpl  implements QualificationLevelService
 	public List<DictionaryData> getLevelByQid(String qid) {
 		
 		return qualificationLevelMapper.getLevelByQid(qid.split(","));
+	}
+	public int countByQuaIdAndLevel(String quaId, String level) {
+		return qualificationLevelMapper.countByQuaIdAndLevel(quaId, level);
 	}
 }

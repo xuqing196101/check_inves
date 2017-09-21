@@ -110,7 +110,6 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     private OrgnizationMapper orgnizationMapper;
     
 
-
     @Override
     public void update(SupplierExtractProjectInfo extracts) {
     	extracts.setExtractionTime(new Date());

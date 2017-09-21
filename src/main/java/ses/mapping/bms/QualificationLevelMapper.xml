@@ -34,6 +34,11 @@
         	#{it}
         </foreach>
     </select>
-    
+   
+		<!-- 根据资质id和等级统计数量 -->
+		<select id="countByQuaIdAndLevel" resultType="int">
+			select count(*) from T_SES_BMS_QUALIFCATE_LEVEL
+			where QUALIFCATION_ID = #{quaId} and GRADE = #{level}
+		</select>
     
 </mapper>

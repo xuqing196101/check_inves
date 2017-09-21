@@ -554,6 +554,7 @@
 		SELECT SP.* FROM 
 		(SELECT DISTINCT S.* FROM T_SES_SMS_SUPPLIER S
 		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
+		  LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T ON T.SUPPLIER_ID = S.ID
 			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
 			<choose>
 				<when test="supplierTypeCode == 'PROJECT'.toString()">

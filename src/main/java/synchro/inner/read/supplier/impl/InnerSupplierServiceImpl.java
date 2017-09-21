@@ -275,31 +275,29 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     	   }
     	   if(supplier.getSupplierMatPro()!=null){
     		   SupplierMatPro matPro = supplierMatProMapper.getMatProBySupplierId(supplier.getId());
-	    		   if(matPro==null){
-	    			   supplierMatProMapper.insertSelective(supplier.getSupplierMatPro());
-	    		   } 
-	    		   if(matPro!=null){
-	    			   supplierMatProMapper.updateByPrimaryKeySelective(supplier.getSupplierMatPro());
-	    			   supplierCertProMapper.deleteByProId(matPro.getId()); //删除生产证书
-	    		   }
-    		   		if(supplier.getSupplierMatPro().getListSupplierCertPros().size()>0){
-    		   			for(SupplierCertPro sc:supplier.getSupplierMatPro().getListSupplierCertPros()){
-//    		   				if(sc.getFileList().size()>0){
-//    		   				 for(UploadFile uf:sc.getFileList()){
-//    	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
-//    	    	    			   fileUploadMapper.insertFile(uf);
-//    	    	    		   }
-//    		   				}
-    		   				SupplierCertPro certPro = supplierCertProMapper.selectByPrimaryKey(sc.getId());
-    		   				if(certPro==null){
-    		   					supplierCertProMapper.insertSelective(sc);
-    		   				}else{
-    		   					supplierCertProMapper.updateByPrimaryKeySelective(certPro);
-    		   				}
-    		   			
-    		   			}
-    		   		}
-    		   		
+    		   if(matPro==null){
+    			   supplierMatProMapper.insertSelective(supplier.getSupplierMatPro());
+    		   } 
+    		   if(matPro!=null){
+    			   supplierMatProMapper.updateByPrimaryKeySelective(supplier.getSupplierMatPro());
+    			   supplierCertProMapper.deleteByMatProId(matPro.getId()); //删除生产证书
+    		   }
+    		   if(supplier.getSupplierMatPro().getListSupplierCertPros().size()>0){
+    			   for(SupplierCertPro sc:supplier.getSupplierMatPro().getListSupplierCertPros()){
+    				   /*if(sc.getFileList().size()>0){
+    					   for(UploadFile uf:sc.getFileList()){
+    						   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+    						   fileUploadMapper.insertFile(uf);
+    					   }
+    				   }*/
+    				   SupplierCertPro certPro = supplierCertProMapper.selectByPrimaryKey(sc.getId());
+    				   if(certPro==null){
+    					   supplierCertProMapper.insertSelective(sc);
+    				   }else{
+    					   supplierCertProMapper.updateByPrimaryKeySelective(certPro);
+    				   }
+    			   }
+    		   }
     	   }
     	   
     	   if(supplier.getSupplierMatSell()!=null){
@@ -309,7 +307,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   }
     		   if(matSell!=null){
     			   supplierMatSellMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSell());
-    			   supplierCertSellMapper.deleteById(matSell.getId());//删除供应商销售证书
+    			   supplierCertSellMapper.deleteByMatSellId(matSell.getId());//删除供应商销售证书
     		   }
     		  
     		   if(supplier.getSupplierMatSell().getListSupplierCertSells().size()>0){
@@ -382,7 +380,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     			   supplierMatServeMapper.insertSelective(supplier.getSupplierMatSe());
     		   }else if(serve!=null){
     			   supplierMatServeMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSe());
-    			   supplierCertServeMapper.deleteByServer(serve.getId());
+    			   supplierCertServeMapper.deleteByMatServeId(serve.getId());
     			   
     			   //删除服务的相关帧数
     		   }

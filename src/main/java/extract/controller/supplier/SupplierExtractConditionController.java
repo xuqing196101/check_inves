@@ -35,7 +35,7 @@ import extract.service.supplier.SupplierExtractConditionService;
 	 */
 	@Controller
 	@Scope("prototype")
-	@RequestMapping("/SupplierCondition")
+	@RequestMapping("/SupplierCondition_new")
 	public class SupplierExtractConditionController {
     @Autowired
     private SupplierExtractConditionService conditionService;

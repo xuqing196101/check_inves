@@ -262,21 +262,21 @@
 					<button class="btn btn-windows edit"   type="button" onclick="purchaseStash('终止','资质终止','2')">资质终止</button>
 			</div>
 			<div class="content table_box">
-                <table class="table table-bordered table-condensed table-hover table-striped">
+                <table class="table table-bordered table-condensed table-hover table-striped break-all">
 							<thead>
 								<tr>
 									<th class="info w30"><input id="checkAll" type="checkbox"
 										onclick="selectAll()" />
 									</th>
 									<th class="info w50">序号</th>
-									<th class="info">采购机构名称</th>
-									<th class="info">邮编</th>
-									<th class="info">单位地址</th>
-									<th class="info">采购业务范围</th>
-									<th class="info">采购资质编号</th>
-									<th class="info">采购业务等级</th>
-									<th class="info">采购资质范围</th>
-									<th class="info">资质状态</th>
+									<th class="info w150">采购机构名称</th>
+									<th class="info w80">邮编</th>
+									<th class="info w120">单位地址</th>
+									<th class="info w120">采购业务范围</th>
+									<th class="info w120">采购资质编号</th>
+									<th class="info w120">采购业务等级</th>
+									<th class="info w120">采购资质范围</th>
+									<th class="info w120">资质状态</th>
 								</tr>
 							</thead>
 							<c:if test="${authType == 4}">

@@ -15,9 +15,7 @@ public interface QualificationLevelService {
 
     public void save(String id,String qualificationId,String grade);
 
-
-    
-    public List<DictionaryData> getByQuaId(String id);
+    public List<DictionaryData> getByQuaId(String quaId);
     
     public void add(QualificationLevel qualificationLevel);
     
@@ -26,4 +24,11 @@ public interface QualificationLevelService {
     public void deleteByQuaId(String quaId);
 
 	public List<DictionaryData> getLevelByQid(String qid);
+    /**
+     * 根据资质id和等级统计数量
+     * @param quaId
+     * @param level
+     * @return
+     */
+	public int countByQuaIdAndLevel(String quaId, String level);
 }

@@ -24,7 +24,25 @@ $(function () {
                 },
                 dataView: {
                     show: true,
-                    readOnly: false
+                    readOnly: false,
+                    optionToContent: function (opt) {
+                        var axisData = opt.series[0].data; //坐标数据
+                        var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody>';
+                        table += "<tr>";
+                        for (var i = 0, l = axisData.length; i < l; i++) {
+                            table += '<td class="bgdd analyze_resource">'+axisData[i].name+'</td>';
+                            table += "<td class='analyze_resource'><a href=\"javascript:;\" onclick=\"findMenCount('"+axisData[i].id+"')\">"+axisData[i].value+"</a></td>";
+                            if(i != 0 && (i+1) % 4 == 0){
+                                table += "</tr>";
+                                table += "<tr>";
+                            }
+                            if(i % 4 != 0 && (i+1) == axisData.length){
+                                table += "</tr>";
+                            }
+                        }
+                        table += '</tbody></table>';
+                        return table;
+                    }
                 },
                 magicType: {
                     show: true,
@@ -38,9 +56,9 @@ $(function () {
                         }
                     }
                 },
-                restore: {
+                /*restore: {
                     show: true
-                },
+                },*/
                 saveAsImage: {
                     show: true
                 }
@@ -77,15 +95,33 @@ $(function () {
                 },
                 dataView: {
                     show: true,
-                    readOnly: false
+                    readOnly: false,
+                    optionToContent: function (opt) {
+                        var axisData = opt.series[0].data; //坐标数据
+                        var table = '<div class="analyze_resource_div"><table border="1" class="analyze_resource_table"><tbody>';
+                        table += "<tr>";
+                        for (var i = 0, l = axisData.length; i < l; i++) {
+                            table += '<td class="bgdd analyze_resource">'+axisData[i].srcData.name+'</td>';
+                            table += "<td class='analyze_resource'><a href=\"javascript:;\" onclick=\"findByCondition('"+axisData[i].srcData.id+"', "+axisData[i].srcData.value+")\">"+axisData[i].srcData.value+"</a></td>";
+                            if(i != 0 && (i+1) % 4 == 0){
+                                table += "</tr>";
+                                table += "<tr>";
+                            }
+                            if(i % 4 != 0 && (i+1) == axisData.length){
+                                table += "</tr>";
+                            }
+                        }
+                        table += '</tbody></table></div>';
+                        return table;
+                    }
                 },
                 magicType: {
                     show: true,
                     type: ['line', 'bar']
                 },
-                restore: {
+                /*restore: {
                     show: true
-                },
+                },*/
                 saveAsImage: {
                     show: true
                 }
@@ -137,6 +173,78 @@ $(function () {
             }
         ]
 
+    };
+
+    // 各类型数量
+    optionCateTypeCopy = {
+        title: {
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: {
+                    show: true
+                },
+                myTool: {
+                    show: true,
+                    title: '查询所有',
+                    icon: 'image://' + globalPath + '/public/backend/images/pie.png',
+                    onclick: function () {
+                        findAllPurchaseMember();
+                    }
+                },
+                dataView: {
+                    show: true,
+                    readOnly: false,
+                    optionToContent: function (opt) {
+                        console.log(opt);
+                        var axisData = opt.series[0].data; //坐标数据
+                        var table = '<table border="1" style="margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center"><tbody>';
+                        table += "<tr>";
+                        for (var i = 0, l = axisData.length; i < l; i++) {
+                            table += '<td class="bgdd analyze_resource">'+axisData[i].name+'</td>';
+                            table += "<td class='analyze_resource'><a href=\"javascript:;\" onclick=\"findMenCountCopy('"+axisData[i].id+"')\">"+axisData[i].value+"</a></td>";
+                            if(i != 0 && (i+1) % 4 == 0){
+                                table += "</tr>";
+                                table += "<tr>";
+                            }
+                            if(i % 4 != 0 && (i+1) == axisData.length){
+                                table += "</tr>";
+                            }
+                        }
+                        table += '</tbody></table>';
+                        return table;
+                    }
+                },
+                magicType: {
+                    show: true,
+                    type: ['pie', 'funnel'],
+                    option: {
+                        funnel: {
+                            x: '25%',
+                            width: '50%',
+                            funnelAlign: 'left',
+                            max: 1548
+                        }
+                    }
+                },
+                /*restore: {
+                 show: true
+                 },*/
+                saveAsImage: {
+                    show: true
+                }
+            }
+        },
+        calculable: true,
+        series: [{
+            name: '人员数量',
+        }]
     };
 
     // 各类型人员数量
@@ -202,7 +310,7 @@ $(function () {
                 groupField: 'group',
                 chartType: 'pie',
                 customEchartsOptions: function (res, dataList, option) {
-                    return optionCateType;
+                    return optionCateTypeCopy;
                 }
             });
             // 获取echart对应的对象
@@ -216,4 +324,20 @@ $(function () {
 
 function findAllPurchaseMember(){
     window.location.href = globalPath + "/purchase/readOnlyList.html";
+}
+
+function findMenCount(id){
+    window.location.href = globalPath + "/purchase/readOnlyList.html?purcahserType=" + id;
+}
+
+function findByCondition(id,value){
+    if(value == 0){
+        layer.msg("暂无数据");
+        return;
+    }
+    window.location.href = globalPath + "/purchase/readOnlyList.html?purchaseDepId=" + id;
+}
+
+function findMenCountCopy(id){
+    window.location.href = globalPath + "/purchase/readOnlyList.html?gender=" + id;
 }

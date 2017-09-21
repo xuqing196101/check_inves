@@ -179,7 +179,7 @@ public interface SupplierAuditService {
      * @param @param supplierId      
      * @return void
      */
-    void updateStatus (Supplier supplier);
+    int updateStatus(Supplier supplier);
     
     /**
      * @Title: getCount

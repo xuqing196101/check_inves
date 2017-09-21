@@ -164,7 +164,7 @@
 	   			REMARK = #{remark,jdbcType=VARCHAR},
 	   		</if>
 	   		<if test="contactNum !=null and contactNum !='' ">
-	   			CONTACT_NUM = #{contactNum,jdbcType=VARCHAR}
+	   			CONTACT_NUM = #{contactNum,jdbcType=VARCHAR},
 	   		</if>
 	   		<if test="extractTheWay !=null and extractTheWay!='' ">
 	   			 EXTRACT_THE_WAY = #{extractTheWay,jdbcType=DECIMAL},

@@ -48,14 +48,14 @@
       dataType: "json",
       success: function(data) {
         if(data.data.loginName != null && data.status==200){
-          $("#welcome_words").html(data.data.loginName+"你好，欢迎来到军队采购网！");
+          $("#welcome_words").html(data.data.loginName+"你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/browser/indexFront.html\" target=\"_blank\" class=\"red\" id=\"red\">【浏览器下载】</a>");
           $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>|<a id=\"my\" onclick=\"myInfo()\">我的信息</a><a href=\"${pageContext.request.contextPath}/login/loginOut.html\" id=\"exit\">&nbsp;|&nbsp;退出</a>")
           // 今日访问量
           $("#pvThisDay").text(data.data.dayNum);
           // 总访问量
           $("#pvTotal").text(data.data.totalCount);
         }else{
-          $("#welcome_words").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a>");
+          $("#welcome_words").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a><a href=\"${pageContext.request.contextPath}/browser/indexFront.html\" target=\"_blank\" class=\"red\" id=\"red\">【浏览器下载】</a>");
           $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>");
           // 今日访问量
           $("#pvThisDay").text(data.data.dayNum);
@@ -632,9 +632,9 @@
               <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
                   <div class="categories">
                       <ul class="list-unstyled">
-
+													<c:set var="supplierList" value="${my:getSupplierList()}"/>
                           <c:choose>
-                              <c:when test="${!empty my:getSupplierList()}">
+                              <c:when test="${!empty supplierList}">
                                   <table class="table table-bordered " >
                                       <thead>
                                       <tr >
@@ -644,7 +644,7 @@
                                       </tr>
                                       </thead>
                                       <tbody>
-                                      <c:forEach items="${my:getSupplierList()}" var="item" begin="0" end="5" step="1" varStatus="status" >
+                                      <c:forEach items="${supplierList}" var="item" begin="0" end="5" step="1" varStatus="status" >
                                           <tr>
                                               <td>${item.supplierName }</td>
                                               <td class="tc"></td>
@@ -848,8 +848,9 @@
             </div>
             <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
                 <div class="categories zhuanjia_list">
+                		<c:set var="expertList" value="${my:getExpertList()}"/>
                     <c:choose>
-                        <c:when test="${!empty my:getExpertList()}">
+                        <c:when test="${!empty expertList}">
                             <table class="table table-bordered " >
                                 <thead>
                                 <tr >
@@ -859,7 +860,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${my:getExpertList()}" var="item" begin="0" end="5" step="1" varStatus="status" >
+                                <c:forEach items="${expertList}" var="item" begin="0" end="5" step="1" varStatus="status" >
                                     <tr>
                                         <td>${item.relName }</td>
                                         <td class="tc"></td>

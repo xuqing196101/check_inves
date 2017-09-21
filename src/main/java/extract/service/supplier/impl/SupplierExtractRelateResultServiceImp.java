@@ -52,9 +52,10 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    * @param       
    * @return void
    */
-  @Override
-  public String insert(String cId,String userid,String[] projectId,String conditionId) {
-    /*//获取查询条件
+  
+  /*@Override
+   * public String insert(String cId,String userid,String[] projectId,String conditionId) {
+    //获取查询条件
     List<SupplierCondition> list = conditionMapper.list(new SupplierCondition(cId, ""));
     if(list!=null&&list.size()!=0){
       SupplierCondition show=list.get(0);
@@ -118,9 +119,9 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 
       }
 
-    }*/
+    }
     return "";
-  }
+  }*/
   /**
    * @Description:集合展示
    *
@@ -304,6 +305,12 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 		supplierExtRelate.setId(UUIDUtils.getUUID32());
 		supplierExtRelateMapper.insertSelective(supplierExtRelate);
 	}
+  @Override
+  public String insert(String cId, String userId, String[] projectId,
+      String conditionId) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 	
 	/**
 	 * 删除待定

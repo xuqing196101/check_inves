@@ -22,10 +22,6 @@
 		from T_SES_SMS_SUPPLIER_MAT_SELL
 		where ID = #{id}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_MAT_SELL
-		where SUPPLIER_ID = #{id}
-	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierMatSell">
 		insert into T_SES_SMS_SUPPLIER_MAT_SELL (ID, SUPPLIER_ID, ORG_NAME,
 		TOTAL_PERSON, TOTAL_MANAGE, TOTAL_TECH,
@@ -155,5 +151,16 @@
 		WHERE
 			t1.ID = #{id}
 	</select>
+	
+	<!-- 根据主键删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_MAT_SELL
+		where ID = #{id}
+	</delete>
+	<!-- 根据供应商id删除 -->
+	<delete id="deleteBySupplierId" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_MAT_SELL
+		where SUPPLIER_ID = #{supplierId}
+	</delete>
 	
 </mapper>

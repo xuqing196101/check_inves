@@ -1235,21 +1235,24 @@ public class PlanSupervisionController {
                         HashMap<String, Object> maps = new HashMap<>();
                         maps.put("projectId", advancedProject.getId());
                         List<ProjectTask> queryByNo = projectTaskService.queryByNo(maps);
-                        Task task = taskService.selectById(queryByNo.get(0).getTaskId());
-                        if(task != null){
-                            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(task.getOrgId());
-                            Orgnization org = orgnizationService.getOrgByPrimaryKey(task.getPurchaseId());
-                            User user = userService.getUserById(task.getCreaterId());
-                            if(StringUtils.isNotBlank(task.getUserId())){
-                                User users = userService.getUserById(task.getUserId());
-                                task.setUserId(users.getRelName());
+                        if(queryByNo != null && !queryByNo.isEmpty()){
+                            Task task = taskService.selectById(queryByNo.get(0).getTaskId());
+                            if(task != null){
+                                Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(task.getOrgId());
+                                Orgnization org = orgnizationService.getOrgByPrimaryKey(task.getPurchaseId());
+                                User user = userService.getUserById(task.getCreaterId());
+                                if(StringUtils.isNotBlank(task.getUserId())){
+                                    User users = userService.getUserById(task.getUserId());
+                                    task.setUserId(users.getRelName());
+                                }
+                                task.setPurchaseId(org.getShortName());
+                                task.setOrgName(orgnization.getShortName());
+                                task.setCreaterId(user.getRelName());
+                                
+                                model.addAttribute("tasks", task);
                             }
-                            task.setPurchaseId(org.getShortName());
-                            task.setOrgName(orgnization.getShortName());
-                            task.setCreaterId(user.getRelName());
-                            
-                            model.addAttribute("tasks", task);
                         }
+                        
                         
                         //预研项目
                         if(StringUtils.isNotBlank(advancedProject.getPurchaseDepId())){

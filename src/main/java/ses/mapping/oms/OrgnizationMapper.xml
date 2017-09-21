@@ -1079,6 +1079,7 @@
 		 WHERE O.TYPE_NAME = 1
 		   AND O.IS_DELETED = 0
 		   AND PD.IS_DELETED = 0
+		   AND PD.IS_AUDIT_SUPPLIER = 1
 		 GROUP BY O.SHORT_NAME, O.ID
 	</select>
 	
@@ -1098,6 +1099,7 @@
 		   WHERE O.TYPE_NAME = 1
 		     AND O.IS_DELETED = 0
 		     AND PD.IS_DELETED = 0
+		     AND PD.IS_AUDIT_SUPPLIER = 1
 		   GROUP BY O.SHORT_NAME, O.ID,
 		   O.CREATED_AT ORDER BY O.CREATED_AT DESC
 	</select>
@@ -1271,5 +1273,80 @@
 			and d.CITY_ID = #{cityId}
 		</if>
       ORDER BY d.POSITION ASC
+	</select>
+	
+	<!-- 根据id查部门过滤掉已选管理部门 -->
+	<select id="findManageOfOrg" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization">
+			   select d.id  as id,
+		       d.NAME         as name,
+		       d.TYPE_NAME       as typeName,
+		       d.ADDRESS   as address,
+		       d.MOBILE    as mobile,
+		       d.POST_CODE  as postCode,
+		       d.ORG_CODE   as orgCode,
+		       d.TELEPHONE  as telephone,
+		       d.AREA_ID    as areaId,
+		       d.DETAIL_ADDR  as detailAddr,
+		       d.fax          as fax,
+		       d.WEBSITE      as website,
+		       d.PRINCINPAL   as princinpal,
+		       d.PRINCINPAL_ID_CARD  as princinpalIdCard,
+		       d.NATURE       as nature,
+		       d.SHORT_NAME as shortName,
+		       d.PARENT_ID     as parentId,
+		       d.PARENT_NAME      as parentName,
+		       d.PROVINCE_ID      as provinceId,
+		       d.CITY_ID          as cityId,
+		       d.ORG_LEVEL       as orgLevel,
+		       d.IS_DELETED       as isDeleted,
+		       d.DEP_ID       as depId,
+		       d.IS_ROOT         as isRoot,
+		       d.EMAIL      as email,
+		       d.CONTACT_NAME      as contactName,
+           	   d.CONTACT_MOBILE     as contactMobile,
+		       a.NAME as provinceName,
+		       d.Full_NAME as fullName
+		  from T_SES_OMS_ORG     d
+		  left join T_SES_BMS_AREA a
+		  on d.province_id = a.id
+		 <!-- LEFT JOIN T_SES_OMS_ORG dd on d.PARENT_ID=DD.id-->
+		 where d.is_deleted=0
+		 <if test="id != null and id != ''">
+			and d.id= #{id}
+		</if>
+		 <if test="pid != null and pid != ''">
+			and d.PARENT_ID= #{pid}
+		</if>
+		<if test="isroot != null and isroot != ''">
+			and d.PARENT_ID is null
+		</if>
+		<if test="typeName != null">
+			and d.TYPE_NAME= #{typeName}
+		</if> 
+		<if test="requireDepId != null and requireDepId != ''">
+			and d.REQUIRE_DEP_ID= #{requireDepId}
+		</if> 
+		<if test="name != null and name != ''">
+			and d.name like CONCAT(CONCAT('%', #{name}), '%')
+		</if>
+		<if test="notName != null and notName != ''">
+			and a.name not like  CONCAT(CONCAT('%', #{notName}), '%')
+		</if>
+		<if test="isName != null and isName != ''">
+			and a.name like CONCAT(CONCAT('%', #{isName}), '%')
+		</if>
+		<if test="provinceId != null and provinceId != ''">
+			and d.PROVINCE_ID = #{provinceId}
+		</if>
+		<if test="cityId != null and cityId != ''">
+			and d.CITY_ID = #{cityId}
+		</if>
+		<if test="notIds != null and notIds != ''">
+			and d.ID NOT IN
+			<foreach item="item" index="index" collection="notIds" open="(" separator="," close=")">  
+	   	     	#{item}  
+	 	    </foreach>
+		</if>
+		ORDER BY d.CREATED_AT DESC
 	</select>
 </mapper>

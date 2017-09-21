@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import ses.constants.SupplierConstants;
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
@@ -240,6 +242,7 @@ public class SupplierController extends BaseSupplierController {
      * @param model
      * @param suppId
      * @return
+     * @throws InterruptedException 
      */
     @RequestMapping("/supplierType")
     public String supplierType(Model model, String suppId){
@@ -479,26 +482,6 @@ public class SupplierController extends BaseSupplierController {
     	return "ses/sms/supplier_register/template_upload";
     }
 
-	/**
-	 * 查看上传承诺书和申请表
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping("/show_template_upload")
-	public String show_template_upload(Model model, String supplierId,Integer person, Integer judge,Integer sign){
-
-		if(StringUtils.isBlank(supplierId)){
-			return "ses/sms/supplier_query/supplierInfo/template_upload";
-		}
-		Supplier supplier = supplierService.selectById(supplierId);
-		initUploadConstants(model, supplier);
-		initUploadAudit(model, supplier);
-		model.addAttribute("person",person);
-		model.addAttribute("supplierId",supplierId);
-		model.addAttribute("judge",judge);
-		model.addAttribute("sign",sign);
-		return "ses/sms/supplier_query/supplierInfo/template_upload";
-	}
     /**
      * 供应商注册步骤
      * @param step
@@ -977,35 +960,38 @@ public class SupplierController extends BaseSupplierController {
 	 * @param supplier
 	 */
 	private void initSupplierTypeConstants(Model model, Supplier supplier){
-		List < DictionaryData > list = DictionaryDataUtil.find(6);
-		if(list != null && !list.isEmpty()){
-			for(int i = 0; i < list.size(); i++) {
-				String code = list.get(i).getCode();
-				if(code.equals("GOODS")) {
-					list.remove(list.get(i));
+		List < DictionaryData > gcfwList = DictionaryDataUtil.find(6);// 物资/工程/服务
+		if(gcfwList != null && !gcfwList.isEmpty()){
+			for(int i = 0; i < gcfwList.size(); i++) {
+				DictionaryData dd = gcfwList.get(i);
+				String code = dd.getCode();
+				if(code.equals("GOODS")) {// 除去物资
+					gcfwList.remove(dd);
 				}
 			}
 		}
 		
-		model.addAttribute("supplieType", list);
-		List < DictionaryData > wlist = DictionaryDataUtil.find(8);
-		model.addAttribute("wlist", wlist);
+		model.addAttribute("gcfwList", gcfwList);
+		List < DictionaryData > scxsList = DictionaryDataUtil.find(8);// 物资生产/物资销售
+		model.addAttribute("scxsList", scxsList);
 		
 		//初始化供应商注册附件类型
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("rootArea", areaService.findRootArea());
-		List<Qualification> findList = qualificationService.findList(null, Integer.MAX_VALUE, null, 4);
-		List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, supplier.getId());
+		//资质类型
+		List<Qualification> quaList = qualificationService.findList(null, Integer.MAX_VALUE, null, 4);
+		// 去掉下面的代码（只要后台维护的资质，不要供应商自己添加的资质）
+		/*List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, supplier.getId());
 		if(supplierQua != null && !supplierQua.isEmpty()){
 			for(SupplierPorjectQua qua : supplierQua){
             	Qualification q = new Qualification();
             	q.setId(qua.getName());
             	q.setName(qua.getName());
-            	findList.add(q);
+            	quaList.add(q);
             }
-		}
-		model.addAttribute("typeList", findList);
+		}*/
+		model.addAttribute("quaList", quaList);
 		// 物资销售是否满足条件
 		//String isSalePass = isPass(supplier.getId(), "SALES");
 		String isSalePass = "1";
@@ -1087,7 +1073,7 @@ public class SupplierController extends BaseSupplierController {
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplier.getId());
 			supplierAudit.setAuditType("basic_page");
-			List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});
+			List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 
 			StringBuffer errorField = new StringBuffer();
 			for(SupplierAudit audit: auditLists) {
@@ -1110,7 +1096,7 @@ public class SupplierController extends BaseSupplierController {
 			//供应商勾选的类型
 			StringBuffer typePageField = new StringBuffer();
 			supplierAudit.setAuditType("supplierType_page");
-			List < SupplierAudit > typeAuditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});;
+			List < SupplierAudit > typeAuditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			if(typeAuditList != null && !typeAuditList.isEmpty()){
 				for(SupplierAudit audit: typeAuditList) {
 					typePageField.append(audit.getAuditField() + ",");
@@ -1121,7 +1107,7 @@ public class SupplierController extends BaseSupplierController {
 			//生产
 			StringBuffer proPageField = new StringBuffer();
 			supplierAudit.setAuditType("mat_pro_page");
-			List < SupplierAudit > proAuditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});;
+			List < SupplierAudit > proAuditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			if(proAuditList != null && !proAuditList.isEmpty()){
 				for(SupplierAudit audit: proAuditList) {
 					proPageField.append(audit.getAuditField() + ",");
@@ -1131,7 +1117,7 @@ public class SupplierController extends BaseSupplierController {
 			//销售
 			StringBuffer sellPageField = new StringBuffer();
 			supplierAudit.setAuditType("mat_sell_page");
-			List < SupplierAudit > sellAuditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});;
+			List < SupplierAudit > sellAuditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			if(sellAuditList != null && !sellAuditList.isEmpty()){
 				for(SupplierAudit audit: sellAuditList) {
 					sellPageField.append(audit.getAuditField() + ",");
@@ -1141,7 +1127,7 @@ public class SupplierController extends BaseSupplierController {
 			//工程
 			StringBuffer engPageField = new StringBuffer();
 			supplierAudit.setAuditType("mat_eng_page");
-			List < SupplierAudit > engAuditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});;
+			List < SupplierAudit > engAuditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			if(engAuditList != null && !engAuditList.isEmpty()){
 				for(SupplierAudit audit: engAuditList) {
 					engPageField.append(audit.getAuditField() + ",");
@@ -1151,7 +1137,7 @@ public class SupplierController extends BaseSupplierController {
 			//服务
 			StringBuffer servePageField = new StringBuffer();
 			supplierAudit.setAuditType("mat_serve_page");
-			List < SupplierAudit > serveAuditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});;
+			List < SupplierAudit > serveAuditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			if(serveAuditList != null && !serveAuditList.isEmpty()){
 				for(SupplierAudit audit: serveAuditList) {
 					servePageField.append(audit.getAuditField() + ",");
@@ -1171,7 +1157,7 @@ public class SupplierController extends BaseSupplierController {
 			SupplierAudit s = new SupplierAudit();
 			s.setSupplierId(supplier.getId());
 			s.setAuditType("download_page");
-			List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, new Integer[]{1,2,4});;
+			List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, SupplierConstants.AUDIT_RETURN_STATUS);
 			StringBuffer errorField = new StringBuffer();
 			for(SupplierAudit audit: auditLists) {
 				errorField.append(audit.getAuditField() + ",");
@@ -1205,7 +1191,7 @@ public class SupplierController extends BaseSupplierController {
 						s.setAuditType(ses.util.Constant.APTITUDE_PRODUCT_PAGE);
 					}
 					auditTypeMap.put(typeId, s.getAuditType());
-					List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, new Integer[]{1,2,4});;
+					List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, SupplierConstants.AUDIT_RETURN_STATUS);
 
 					for(SupplierAudit audit: auditLists) {
 						errorField.append(audit.getAuditField() + ",");
@@ -1319,8 +1305,9 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "/saveSupplierType", produces = "html/text;charset=UTF-8")
 	public String saveSupplierType(Supplier supplier, Model model) {
 		if(supplier != null) {
-			if(StringUtils.isNotBlank(supplier.getSupplierTypeIds())) {
-				String[] supplierTypeArray = supplier.getSupplierTypeIds().trim().split(",");
+			String supplierTypeIds = supplier.getSupplierTypeIds();
+			if(StringUtils.isNotBlank(supplierTypeIds)) {
+				String[] supplierTypeArray = supplierTypeIds.trim().split(",");
 				for(String supplierType: supplierTypeArray) {
 					if(supplierType.equals("PRODUCT")) {
 						supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
@@ -1329,14 +1316,14 @@ public class SupplierController extends BaseSupplierController {
 						supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
 					}
 					if(supplierType.equals("PROJECT")) {
-						supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+						supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
 					}
 					if(supplierType.equals("SERVICE")) {
 						supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
 					}
 				}
+				supplierTypeRelateService.saveSupplierTypeRelate(supplier);
 			}
-			supplierTypeRelateService.saveSupplierTypeRelate(supplier);
 		}
 		StringBuffer idSb = new StringBuffer();
 		idSb.append(supplierMatProService.getMatProIdBySupplierId(supplier.getId()) + ",");
@@ -1362,57 +1349,64 @@ public class SupplierController extends BaseSupplierController {
 		if(checkSupplier == null){
 			return null;
 		}
+		boolean type = true;
 		boolean sale = true;
 		boolean pro = true;
 		boolean server = true;
 		boolean project = true;
-        try{
-        	String[] str = supplier.getSupplierTypeIds().trim().split(",");
-        	if(str != null && str.length > 0){
-        		for(String s: str) {
-                    if(s.equals("PRODUCT")) {
-                        pro = validatePro(request, supplier.getSupplierMatPro(), model);
-                        if(pro == true) {
-                            supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
-                        }
-                    }
-                    if(s.equals("SALES")) {
-                        sale = validateSale(request, supplier.getSupplierMatSell(), model);
-                        if(sale == true) {
-                            supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
-                        }
-                    }
-                    if(s.equals("PROJECT")) {
-                    	List<Area> areaList = areaService.findRootArea();
-                        project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
-                        if(project == true) {
-                            supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
-                        }
-                    }
-                    if(s.equals("SERVICE")) {
-                        server = validateServer(request, supplier.getSupplierMatSe(), model);
-                        if(server == true) {
-                            supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
-                        }
-                    }
-                }
-    		}
-            supplierTypeRelateService.saveSupplierTypeRelate(supplier);
-            if(old!=null&&old.equals("old")){
-                supplierTypeRelateService.delete(supplier.getId(), "SALES");
-            }
-        }catch (Exception e){
-		    e.printStackTrace();
-        }
+		try{
+			String supplierTypeIds = supplier.getSupplierTypeIds();
+			if(StringUtils.isNotBlank(supplierTypeIds)){
+				String[] str = supplierTypeIds.trim().split(",");
+				if(str != null && str.length > 0){
+					for(String s: str) {
+				        if(s.equals("PRODUCT")) {
+				            pro = validatePro(request, supplier.getSupplierMatPro(), model);
+				            if(pro == true) {
+				                supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+				            }
+				        }
+				        if(s.equals("SALES")) {
+				            sale = validateSale(request, supplier.getSupplierMatSell(), model);
+				            if(sale == true) {
+				                supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+				            }
+				        }
+				        if(s.equals("PROJECT")) {
+				        	List<Area> areaList = areaService.findRootArea();
+				            project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
+				            if(project == true) {
+				                supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
+				            }
+				        }
+				        if(s.equals("SERVICE")) {
+				            server = validateServer(request, supplier.getSupplierMatSe(), model);
+				            if(server == true) {
+				                supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
+				            }
+				        }
+				    }
+				}
+				supplierTypeRelateService.saveSupplierTypeRelate(supplier);
+				if(old!=null&&old.equals("old")){
+				    supplierTypeRelateService.delete(supplier.getId(), "SALES");
+				}
+			}else{
+				type = false;
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 
-		if(pro == true && server == true && project == true && sale == true) {
+		if(type == true && pro == true && server == true && project == true && sale == true) {
 			model.addAttribute("suppId", supplier.getId());
 			return "redirect:/supplier/items.html";
 		} else {
+			model.addAttribute("type", type);
 			model.addAttribute("pro", pro);
-			model.addAttribute("server", server);
-			model.addAttribute("project", project);
 			model.addAttribute("sale", sale);
+			model.addAttribute("project", project);
+			model.addAttribute("server", server);
 			initSupplierTypeConstants(model, supplier);
 			initSupplierTypeAudit(model, checkSupplier);
 			returnSupplierTypeInfo(model, checkSupplier, supplier);
@@ -1547,7 +1541,8 @@ public class SupplierController extends BaseSupplierController {
 		List < SupplierItem > itemsList = new ArrayList < SupplierItem > ();
 		for(String type: typeIds) {
 			if(!type.equals("PROJECT")) {
-				itemsList.addAll(supplierItemService.findCategoryList(supplierId, type, null));
+				//itemsList.addAll(supplierItemService.findCategoryList(supplierId, type, null));
+				itemsList.addAll(supplierItemService.getItemList(supplierId, type, (byte)0, null));
 			}
 		}
 		// 实际上传数量
@@ -2645,27 +2640,29 @@ public class SupplierController extends BaseSupplierController {
 		List<SupplierAptitute> listSupplierAptitutes = supplierMatPro.getListSupplierAptitutes();
 		if (listSupplierAptitutes != null && listSupplierAptitutes.size() > 0) {
 		    outer: for (SupplierAptitute supplierAptitute : listSupplierAptitutes) {
-                boolean flag = false;
-                String certCode = "";
-                String parentCertCode = "";
-		        if (supplierAptitute.getCertName() != null && supplierAptitute.getCertCode() != null) {
-                    parentCertCode = "【";
-                    inner: for (SupplierCertEng supplierCertEng : listSupplierCertEngs) {
-                        if (supplierAptitute.getCertCode().equals(supplierCertEng.getCertCode())) {
-                            flag = true;
-                            break inner;
-                        }else{
-                            parentCertCode += supplierCertEng.getCertCode() + ",";
-                        }
-                    }
-                    if(!StringUtils.isEmpty(parentCertCode)) parentCertCode = parentCertCode.substring(0,parentCertCode.length()-1)+"】";
-                    certCode = "【"+supplierAptitute.getCertCode()+"】";
-                }
-		        if (!flag) {
-		            bool = false;
-                    model.addAttribute("eng_aptitutes", "证书编号"+certCode+"与资质（认证）证书"+parentCertCode+"不匹配！");
-                    break outer;
-		        }
+				if(supplierAptitute != null && supplierAptitute.getId() != null){
+					boolean flag = false;
+				    String certCode = "";
+				    String parentCertCode = "";
+				    if (supplierAptitute.getCertName() != null && supplierAptitute.getCertCode() != null) {
+				        parentCertCode = "【";
+				        inner: for (SupplierCertEng supplierCertEng : listSupplierCertEngs) {
+				            if (supplierAptitute.getCertCode().equals(supplierCertEng.getCertCode())) {
+				                flag = true;
+				                break inner;
+				            }else{
+				                parentCertCode += supplierCertEng.getCertCode() + ",";
+				            }
+				        }
+				        if(!StringUtils.isEmpty(parentCertCode)) parentCertCode = parentCertCode.substring(0,parentCertCode.length()-1)+"】";
+				        certCode = "【"+supplierAptitute.getCertCode()+"】";
+				    }
+				    if (!flag) {
+				        bool = false;
+				        model.addAttribute("eng_aptitutes", "证书编号"+certCode+"与资质（认证）证书"+parentCertCode+"不匹配！");
+				        break outer;
+				    }
+				}
 		    }
 		}
 		if(supplierMatPro.getBusinessScope()==null){
@@ -2698,7 +2695,7 @@ public class SupplierController extends BaseSupplierController {
 	            }
             }
 		    if(codeSet.size() != codeCount){
-		    	model.addAttribute("eng_cert", "证书编号重复!");
+		    	model.addAttribute("eng_cert", "证书编号重复！");
                 bool = false;
 		    }
 		}
@@ -2714,21 +2711,37 @@ public class SupplierController extends BaseSupplierController {
 				}
 			}
 			if(codeSet.size() != codeCount){
-				model.addAttribute("eng_aptitutes", "证书编号重复!");
+				model.addAttribute("eng_aptitutes", "证书编号重复！");
 				bool = false;
 			}*/
 			Set<String> certTypeSet = new HashSet<>();
 			int certTypeCount = 0;
+			/*StringBuffer levelSb = new StringBuffer();
+			boolean levelBool = true;*/
 			for (SupplierAptitute aptitude : aptitudeList) {
 				if(StringUtils.isNotBlank(aptitude.getCertType())){
 					certTypeSet.add(aptitude.getCertType());
 					certTypeCount++;
+					// 校验资质等级
+					/*Qualification qualification = qualificationService.getQualification(aptitude.getCertType());// 根据id查询资质类型
+					if(qualification != null && StringUtils.isNotBlank(aptitude.getAptituteLevel())){
+						int countByQuaIdAndLevel = qualificationLevelService.countByQuaIdAndLevel(aptitude.getCertType(), aptitude.getAptituteLevel());
+						if(countByQuaIdAndLevel == 0){
+							levelSb.append(qualification.getName() + "-" + aptitude.getAptituteLevel() + ",");
+							levelBool = false;
+						}
+					}*/
 				}
 			}
 			if(certTypeSet.size() != certTypeCount){
-				model.addAttribute("eng_aptitutes", "资质类型重复!");
+				model.addAttribute("eng_aptitutes", "资质类型重复！");
 				bool = false;
 			}
+			/*if(!levelBool){
+				String levelStr = levelSb.substring(0, levelSb.lastIndexOf(","));
+				model.addAttribute("eng_aptitutes", "资质等级"+"【"+levelStr+"】"+"不存在！请选择");
+				bool = false;
+			}*/
 		}
     	
 		return bool;
@@ -3085,7 +3098,7 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "/audit", produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String auditMsg(SupplierAudit supplierAudit) {
-		List < SupplierAudit > list = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});;
+		List < SupplierAudit > list = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 		if(list != null && list.size() > 0){
 			return JSON.toJSONString(list.get(0));
 		}
@@ -3096,7 +3109,7 @@ public class SupplierController extends BaseSupplierController {
 		List < String > list = new LinkedList < String > ();
 		SupplierAudit supplierAudit = new SupplierAudit();
 		supplierAudit.setSupplierId(id);
-		List < SupplierAudit > audit = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});;
+		List < SupplierAudit > audit = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 		for(SupplierAudit s: audit) {
 			list.add(s.getAuditField());
 		}
@@ -3195,7 +3208,7 @@ public class SupplierController extends BaseSupplierController {
 			if(ses.util.Constant.SUPPLIER_SALES.equals(supplierTypeId)){
 				s.setAuditType(ses.util.Constant.CONTRACT_SALES_PAGE);
 			}
-			List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, new Integer[]{1,2,4});;
+			List < SupplierAudit > auditLists = supplierAuditService.getAuditRecords(s, SupplierConstants.AUDIT_RETURN_STATUS);
 
 			StringBuffer errorField = new StringBuffer();
 			for(SupplierAudit audit: auditLists) {
@@ -3307,14 +3320,17 @@ public class SupplierController extends BaseSupplierController {
 	 *〈简述〉异步删除供应商地址信息
 	 *〈详细描述〉
 	 * @author WangHuijie
-	 * @param id
+	 * @param ids
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping("/delAddress")
-	public String delAddress(String id) {
-        supplierAddressService.deleteAddressByIds(id);
-        return "ok";
+	public String delAddress(String ids) {
+        boolean isOk = supplierAddressService.deleteAddressByIds(ids);
+        if(isOk){
+        	return "ok";
+        }
+        return "fail";
 	}
 
 	/**
@@ -3442,8 +3458,12 @@ public class SupplierController extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping(value = "/deleteAfterSaleDep")
-    public void deleteCertEng(String afterSaleDepIds) {
-        supplierAfterSaleDepService.deleteAfterSaleDep(afterSaleDepIds);
+    public String deleteAfterSaleDep(String ids) {
+        boolean isOk = supplierAfterSaleDepService.deleteAfterSaleDepByIds(ids);
+        if(isOk){
+        	return "ok";
+        }
+        return "fail";
     }
     
     /**
@@ -3683,40 +3703,32 @@ public class SupplierController extends BaseSupplierController {
         printOutMsg(response, builder.toString());
     }
     
-    /*private boolean checkSupplier(String suppId){
-		String referer = request.getHeader("referer");
-		if(referer == null){// 如果是浏览器地址栏直接访问，则跳转至基本信息
-			String basicInfoUrl = request.getContextPath() + "/supplier/basicInfo.html?suppId="+suppId;
-			printOutMsg(response, "<script>location.href='"+basicInfoUrl+"';</script>");
-			return false;
-		}
-		if(suppId == null){
-			alertLogin("供应商不存在！");
-			return false;
-		}
-		Supplier supplier = supplierService.selectById(suppId);
-		if(supplier == null){
-			alertLogin("供应商不存在！");
-			return false;
-		}
-		// 非登录供应商访问
-		Object loginName = session.getAttribute("loginName");
-		if(loginName == null){
-			alertLogin("请登录！");
-			return false;
-		}
-		if(supplier != null && !supplier.getLoginName().equals(loginName)){
-			alertLogin("您无权访问！");
-			return false;
-		}
-		return true;
-    }*/
+    private void alertInfo(String msg, String url){
+    	StringBuilder builder = new StringBuilder();
+    	builder.append("<HTML><HEAD>");
+    	builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/backend/js/jquery.min.js'></script>");
+    	builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/layer/layer.js'></script>");
+    	builder.append("<link href='"+request.getContextPath()+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+    	builder.append("</HEAD>");
+    	builder.append("<script type=\"text/javascript\">"); 
+    	builder.append("$(function() {");
+    	//builder.append("layer.confirm('您未登录，请登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
+    	builder.append("layer.alert('"+msg+"',{ closeBtn: 0,title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
+    	builder.append("window.top.location.href='"); 
+    	builder.append(url);  
+    	builder.append("';"); 
+    	builder.append("});");
+    	builder.append("});");
+    	builder.append("</script>");  
+    	builder.append("<BODY><div style='width:1000px; height: 1000px;'></div></BODY></HTML>");
+    	printOutMsg(response, builder.toString());
+    }
     
     private Supplier checkSupplier(String suppId){
-		String referer = request.getHeader("referer");
-		if(referer == null){// 如果是浏览器地址栏直接访问，则跳转至基本信息
-			String basicInfoUrl = request.getContextPath() + "/supplier/basicInfo.html?suppId="+suppId;
-			printOutMsg(response, "<script>location.href='"+basicInfoUrl+"';</script>");
+		// 非登录供应商访问
+		Object loginName = session.getAttribute("loginName");
+		if(loginName == null){
+			alertLogin("请登录！");
 			return null;
 		}
 		if(suppId == null){
@@ -3728,14 +3740,20 @@ public class SupplierController extends BaseSupplierController {
 			alertLogin("供应商不存在！");
 			return null;
 		}
-		// 非登录供应商访问
-		Object loginName = session.getAttribute("loginName");
-		if(loginName == null){
-			alertLogin("请登录！");
-			return null;
-		}
 		if(supplier != null && !supplier.getLoginName().equals(loginName)){
 			alertLogin("您无权访问！");
+			return null;
+		}
+		if(supplier != null && supplier.getStatus() != null 
+				&& supplier.getStatus() != SupplierConstants.Status.TEMPORARY.getValue()
+				&& supplier.getStatus() != SupplierConstants.Status.RETURN.getValue()){
+			alertInfo("您现在的状态是："+SupplierConstants.STATUSMAP.get(supplier.getStatus()), request.getContextPath()+"/");
+			return null;
+		}
+		String referer = request.getHeader("referer");
+		if(referer == null){// 如果是浏览器地址栏直接访问，则跳转至基本信息
+			String basicInfoUrl = request.getContextPath() + "/supplier/basicInfo.html?suppId="+suppId;
+			printOutMsg(response, "<script>location.href='"+basicInfoUrl+"';</script>");
 			return null;
 		}
 		return supplier;

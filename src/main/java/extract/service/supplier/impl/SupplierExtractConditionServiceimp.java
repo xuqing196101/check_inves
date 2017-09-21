@@ -695,5 +695,3 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 
 	
 }
-
-	

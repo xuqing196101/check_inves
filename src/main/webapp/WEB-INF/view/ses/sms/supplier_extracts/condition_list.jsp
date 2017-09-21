@@ -33,7 +33,7 @@
                     <a href="javascript:void(0);">供应商管理</a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);" <%-- onclick="jumppage('${pageContext.request.contextPath}/SupplierExtracts/projectList.html?typeclassId=${typeclassId}')" --%>>供应商抽取</a>
+                    <a href="javascript:void(0);" <%-- onclick="jumppage('${pageContext.request.contextPath}/SupplierExtracts_new/projectList.html?typeclassId=${typeclassId}')" --%>>供应商抽取</a>
                 </li>
             </ul>
             <div class="clear"></div>
@@ -49,8 +49,8 @@
 <c:if test="${projectInfo.projectName !=null }">
 	<c:set var="flag" value="true"></c:set>
 </c:if>
-    <form id="projectForm" action="<%=request.getContextPath() %>/SupplierExtracts/saveProjectInfo.do" method="post" >
-   <!--  <input type="submit"> <input type="button" value="存储项目人员信息" onclick="submitInfo()"> <input onclick="showEndButton()" type="button" value="抽取完成"> -->
+    <form id="projectForm" action="<%=request.getContextPath() %>/SupplierExtracts_new/saveProjectInfo.do" method="post" >
+    <input type="submit" value="提交"> <input type="button" value="存储项目人员信息" onclick="submitInfo()"> <input onclick="showEndButton()" type="button" value="抽取完成">
         <!-- 打开类型 -->
       <%--   <input type="hidden" value="${typeclassId}" name="typeclassId" /> --%>
         <!-- 项目id  -->
@@ -963,7 +963,7 @@
 	function submitCondition(){
 		$.ajax({
     		type: "POST",
-    		url: globalPath+'/SupplierCondition/selectLikeSupplier.do',
+    		url: globalPath+'/SupplierCondition_new/selectLikeSupplier.do',
     		data: $('#form1').serialize() ,
     		dataType: "json",
     		async:false,
@@ -1027,9 +1027,9 @@
 	function alterEndInfo(obj){
 		layer.alert("是否需要发送短信至确认参加供应商");
 		var index = layer.alert("完成抽取,打印记录表",function(){
-			window.location.href = globalPath+"/SupplierExtracts/printRecord.html?id="+$("[name='recordId']").val();
+			window.location.href = globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val();
 			$(obj).prop("disabled",true);
-			//window.location.href = globalPath+"/SupplierExtracts/projectList.html";
+			//window.location.href = globalPath+"/SupplierExtracts_new/projectList.html";
 			layer.close(index);
 			// 
 		});

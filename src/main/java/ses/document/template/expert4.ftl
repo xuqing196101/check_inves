@@ -890,7 +890,11 @@ style='font-size:22.0pt;font-family:方正小标宋简体;mso-hansi-font-family:
   mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:112.1pt'>
   <p class=MsoNormal align=left style='text-align:left;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span lang=EN-US style='font-family:宋体'>${productCategories}
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-family:宋体'>
+  <#if goodsStr!='无'><p><span lang=EN-US style='font-family:宋体'>物资参评类别：${goodsStr}</span></p></#if>
+  <#if projectStr!='无'><p><span lang=EN-US style='font-family:宋体'>工程参评类别：${projectStr}</span></p></#if>
+  <#if enginfoidStr!='无'><p><span lang=EN-US style='font-family:宋体'>工程专业属性：${enginfoidStr}</span></p></#if>
+  <#if serviceStr!='无'><p><span lang=EN-US style='font-family:宋体'>服务参评类别：${serviceStr}</span></p></#if>
   <o:p></o:p></span></p>
   </td>
  </tr>

@@ -143,11 +143,11 @@
 		var categoryLevel = $("#categoryLevel").val();
 		var standardModel = $("#standardModel").val();
 		var qualityTechnicalStandard = $("#qualityTechnicalStandard").val();
-		if(code == null || code == ""){
+		if(code == null || code == "" || $.trim(code) == ''){
 			$("#pcode").html("产品代码不能为空");
 			return;
 		}
-		if(name == null || name == ""){
+		if(name == null || name == "" || $.trim(name) == ''){
 			$("#pname").html("产品名称不能为空");
 			return;
 		}
@@ -185,11 +185,8 @@
 					if(data == 'success'){
 						window.location.href = "${pageContext.request.contextPath }/product/list.html";
 					}else{
-						
+						layer.msg(data);
 					}
-				},
-				error: function() {
-					
 				}
 			});
 		}

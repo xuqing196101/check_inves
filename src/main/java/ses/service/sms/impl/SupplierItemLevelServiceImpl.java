@@ -129,6 +129,16 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 	public int deleteItemLevel(String categoryId,String supplierTypeId) {
 		return supplierItemLevelMapper.deleteByCategoryIdType(categoryId, supplierTypeId);
 	}
+
+	/**
+     * 全部供应商查询，等级查询 
+     * @param supplierItemLevel
+     * @return
+     */
+	@Override
+	public SupplierItemLevel selectLevelByItem(SupplierItemLevel supplierItemLevel) {
+		return supplierItemLevelMapper.selectLevelByItem(supplierItemLevel);
+	}
 	
 
 }

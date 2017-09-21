@@ -16,7 +16,7 @@
     <link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
     <script src="${pageContext.request.contextPath}/public/backend/js/jquery.min.js"></script>
-    <%@ include file="/WEB-INF/view/common.jsp" %>
+    <%@ include file="/WEB-INF/view/loginCommon.jsp" %>
     <script type="text/javascript">
 
   

@@ -38,9 +38,9 @@ $(function () {
                         }
                     }
                 },
-                restore: {
+                /*restore: {
                     show: true
-                },
+                },*/
                 saveAsImage: {
                     show: true
                 }
@@ -77,15 +77,33 @@ $(function () {
                 },
                 dataView: {
                     show: true,
-                    readOnly: false
+                    readOnly: false,
+                    optionToContent: function (opt) {
+                        var axisData = opt.series[0].data; //坐标数据
+                        var bxisData = opt.series[1].data; //坐标数据
+                        var table = '<div class="analyze_resource_div"><table border="1" class="analyze_resource_table"><tbody>';
+                        table += "<tr>";
+                        table += "<td class='bgdd analyze_resource'>采购机构</td>";
+                        table += "<td class='bgdd analyze_resource'>合同总金额</td>";
+                        table += "<td class='bgdd analyze_resource'>合同数量</td>";
+                        for (var i = 0, l = axisData.length; i < l; i++) {
+                            table += '<tr>';
+                            table += '<td class="bgdd analyze_resource">'+axisData[i].srcData.name+'</td>';
+                            table += "<td class='analyze_resource'><a href=\"javascript:;\" onclick=\"findPurContractTotal('"+axisData[i].srcData.id+"', "+axisData[i].srcData.value+")\">"+axisData[i].srcData.value+"</a></td>";
+                            table += "<td class='analyze_resource'><a href=\"javascript:;\" onclick=\"findPurContractTotal('"+axisData[i].srcData.id+"', "+axisData[i].srcData.value+")\">"+bxisData[i].srcData.value+"</a></td>";
+                            table += '</tr>';
+                        }
+                        table += '</tbody></table></div>';
+                        return table;
+                    }
                 },
                 magicType: {
                     show: true,
                     type: ['line', 'bar']
                 },
-                restore: {
+                /*restore: {
                     show: true
-                },
+                },*/
                 saveAsImage: {
                     show: true
                 }
@@ -166,8 +184,8 @@ $(function () {
         }
     });
 
-    //
-    $.ajax({
+    //各产品类型签订采购合同数量
+    /*$.ajax({
         url: globalPath + "/resAnalyze/selectpurContractByProductType.do",
         type: "POST", // 请求方式
         dataType: "json", // 返回格式为json
@@ -189,9 +207,17 @@ $(function () {
                 //window.location.href = globalPath + "/project/selectByProject.html?purchaseType="+ele.id;
             });
         }
-    });
+    });*/
 });
 
 function findAllPurchaseContract(){
     window.location.href = globalPath + "/purchaseContract/readOnlyList.html?status=2";
+}
+
+function findPurContractTotal(id, value){
+    if(value == 0){
+        layer.msg("暂无数据");
+        return;
+    }
+    window.location.href = globalPath + "/purchaseContract/readOnlyList.html?status=2&purchaseDepName=" + id;
 }

@@ -86,7 +86,7 @@
 							return;
 						}
 					}
-					var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
+					var state = $("#" + id + "").parents("tr").find("td:last").text();//.trim();
 					state = trim(state);
 					/* var state = $("#"+id+"").text().trim(); */
 					var isExtract = $("#" + id + "_isExtract").text();
@@ -185,7 +185,7 @@
 				function publish(){
 			  	var id = $(":checkbox:checked").val();
 			  	var size = $(":checkbox:checked").size();
-					var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
+					var state = $("#" + id + "").parents("tr").find("td:last").text();//.trim();
 					state = trim(state);
 					if(size == 1){
 			  			if(state != "待审核" && state != "退回再审核" && state != "退回修改" && state != "审核未通过"){
@@ -202,7 +202,7 @@
 					       					$("#form1").submit();
 				       					}, 1000);
 			  	 	      		}else{
-			  	 	      			layer.msg('该供应商已发布过！', {	            
+			  	 	      			layer.msg('该供应商已发布过！', {
 							             shift: 6,
 							             offset:'100px'
 							          });
@@ -248,7 +248,7 @@
 			function downloadTable(str) {
 				var size = $(":checkbox:checked").size();
 				var id = $(":checkbox:checked").val();
-				var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
+				var state = $("#" + id + "").parents("tr").find("td:last").text();//.trim();
         state = trim(state);
 				if(size == 0) {
 					layer.msg("请选供应商 !", {offset: '100px',});
@@ -385,11 +385,12 @@
 		        	<c:if test="${sign eq '1' }">
 		        		<option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
 		        		<option <c:if test="${state == 9 }">selected</c:if> value="9">退回再审核</option>
+		        		<option <c:if test="${state == -1 }">selected</c:if> value="-1">审核中</option>
 		        		<option <c:if test="${state == -2 }">selected</c:if> value="-2">预审核结束</option>
-		            <option <c:if test="${state == -3 }">selected</c:if> value="-3">公示中</option>
-		            <option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
-		            <option <c:if test="${state == 2 }">selected</c:if> value="2">退回修改</option>
-		            <option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option>
+		           	<option <c:if test="${state == -3 }">selected</c:if> value="-3">公示中</option>
+		           	<option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
+		           	<option <c:if test="${state == 2 }">selected</c:if> value="2">退回修改</option>
+		           	<option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option>
 		        	</c:if>
 		        	<c:if test="${sign eq '2' }">
 		        		<option <c:if test="${state == 4 }">selected</c:if> value="4">待复核</option>
@@ -469,7 +470,7 @@
 							<tr>
 								<th class="info w50">选择</th>
 								<th class="info w50">序号</th>
-								<th class="info">供应商名称</th>
+								<!-- <th class="info">供应商名称</th>
 								<th class="info">手机号</th>
 								<th class="info">企业类型</th>
 								<th class="info">企业性质</th>
@@ -477,6 +478,13 @@
 								<th class="info">提交时间</th>
 								<th class="info">审核人</th>
 								<th class="info">发布</th>
+								<th class="info">状态</th> -->
+								<th class="info">供应商名称</th>
+								<th class="info">供应商类型</th>
+								<th class="info">企业性质</th>
+								<th class="info">提交时间</th>
+								<th class="info">审核时间</th>
+								<th class="info">审核人</th>
 								<th class="info">状态</th>
 							</tr>
 						</thead>
@@ -485,33 +493,33 @@
 								<td class="tc w30"><input name="id" type="checkbox" value="${list.id}"></td>
 								<td class="tc w50" onclick="shenhe('${list.id }');">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
 								<td class="tl"><a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a></td>
-								<td class="tc" onclick="shenhe('${list.id }');">${list.mobile }</td>
+								<%-- <td class="tc" onclick="shenhe('${list.id }');">${list.mobile }</td> --%>
 								<td class="tl" onclick="shenhe('${list.id }');">${list.supplierTypeNames}</td>
 								<td class="tc" onclick="shenhe('${list.id }');">${list.businessNature}</td>
-								<td class="tc" onclick="shenhe('${list.id }');">
-									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
-								</td>
 								<td class="tc">
                   <fmt:formatDate value="${list.submitAt}" pattern="yyyy-MM-dd" />
                 </td>
+                <td class="tc" onclick="shenhe('${list.id }');">
+									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
+								</td>
 								<td class="tc" onclick="shenhe('${list.id }');">
 								  <c:choose>
 			              <c:when test="${list.auditor ==null or list.auditor == ''}">无</c:when>
 			              <c:otherwise>${list.auditor}</c:otherwise>
 			            </c:choose>
 								</td>
-								<td class="tc" onclick="shenhe('${list.id }');">
+								<%-- <td class="tc" onclick="shenhe('${list.id }');">
 									<c:if test="${list.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
 									<c:if test="${list.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>
-								</td>
+								</td> --%>
 								<td class="tc" id="${list.id}" onclick="shenhe('${list.id }');">
 									<c:if test="${list.status == 0 and list.auditTemporary != 1}"><span class="label rounded-2x label-u">待审核</span></c:if>
-									<c:if test="${list.status == 0 and list.auditTemporary == 1}"><span class="label rounded-2x label-u">审核中</span></c:if>
+									<c:if test="${list.status == 9 and list.auditTemporary != 1}"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
+									<c:if test="${(list.status == 0 or list.status == 9) and list.auditTemporary == 1}"><span class="label rounded-2x label-u">审核中</span></c:if>
 									<c:if test="${list.status == -3}"><span class="label rounded-2x label-dark">公示中</span></c:if>
 									<c:if test="${list.status == -2}"><span class="label rounded-2x label-u">预审核结束</span></c:if>
 									<c:if test="${list.status == 1}"><span class="label rounded-2x label-dark">审核通过</span></c:if>
 									<c:if test="${list.status == 2}"><span class="label rounded-2x label-dark">退回修改</span></c:if>
-									<c:if test="${list.status == 9}"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
 									<c:if test="${list.status == 3}"><span class="label rounded-2x label-dark">审核未通过</span></c:if>
 									<c:if test="${list.status == 4 and list.auditTemporary != 2}"><span class="label rounded-2x label-u">待复核</span></c:if>
 									<c:if test="${list.status == 4 and list.auditTemporary == 2}"><span class="label rounded-2x label-u">复核中</span></c:if>

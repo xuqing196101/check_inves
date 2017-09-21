@@ -91,7 +91,7 @@ $(function () {
 		var projectCode = $(obj).val();
 		$.ajax({
     		type: "POST",
-    		url: globalPath+"/SupplierExtracts/checkSole.do",
+    		url: globalPath+"/SupplierExtracts_new/checkSole.do",
     		data:  {projectCode:projectCode},
     		dataType: "json",
     		success: function (msg) {
@@ -219,7 +219,7 @@ $(function () {
         var areas = $("#area").find("option:selected").val();
         $.ajax({
             type: "POST",
-            url: globalPath+"/SupplierExtracts/city.do",
+            url: globalPath+"/SupplierExtracts_new/city.do",
             data: {area: areas},
             dataType: "json",
             success: function (data) {
@@ -269,7 +269,7 @@ $(function () {
             cache: true,
             type: "POST",
             dataType: "json",
-            url: globalPath+'/SupplierCondition/selectLikeSupplierCount.do',
+            url: globalPath+'/SupplierCondition_new/selectLikeSupplierCount.do',
             data: $('#form1').serialize(),// 你的formid
             async: false,
             success: function (data) {
@@ -470,7 +470,7 @@ $(function () {
    /* function fax() {
         $.ajax({
             type: "POST",
-            url: globalPath+"/SupplierExtracts/isFinish.do",
+            url: globalPath+"/SupplierExtracts_new/isFinish.do",
             data: {packageId: "${packageId}"},
             dataType: "json",
             success: function (data) {
@@ -706,7 +706,7 @@ $(function () {
     	//去后台请求一条数据
     	$.ajax({
     		type: "POST",
-    		url: globalPath+'/SupplierCondition/selectLikeSupplier.do',
+    		url: globalPath+'/SupplierCondition_new/selectLikeSupplier.do',
     		data: formData ,
     		dataType: "json",
     		async:false,
@@ -791,7 +791,7 @@ $(function () {
              cache: true,
              type: "POST",
              dataType: "json",
-             url: globalPath+'/SupplierCondition/saveSupplierCondition.do',
+             url: globalPath+'/SupplierCondition_new/saveSupplierCondition_new.do',
              data: $('#form').serialize(),// 你的formid
              success: function (data) {
             	 if(status == 1){
@@ -806,9 +806,9 @@ $(function () {
         layer.confirm('是否需要打印', {
             btn: ['打印', '取消'], offset: ['40%', '40%'], shade: 0.01
         }, function (index) {
-            window.location.href = globalPath+"/SupplierExtracts/showRecord.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+            window.location.href = globalPath+"/SupplierExtracts_new/showRecord.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
         }, function (index) {
-            window.location.href = globalPath+"/SupplierExtracts/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+            window.location.href = globalPath+"/SupplierExtracts_new/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
             layer.close(index);
         });
     }
@@ -829,7 +829,7 @@ $(function () {
             shade: 0.01,
             area: ['430px', '400px'],
             offset: '20px',
-            content: globalPath+'/SupplierExtracts/addHeading.do?supplierTypeCode='+typeCode, //iframe的url
+            content: globalPath+'/SupplierExtracts_new/addHeading.do?supplierTypeCode='+typeCode, //iframe的url
             //content: globalPath+'/supplier/category_type.do?code='+supplierCode, 
             success: function (layero, index) {
                 iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
@@ -881,7 +881,7 @@ $(function () {
     	        $.ajax({
     	            type: "POST",
     	            async: false,
-    	            url: globalPath+"/SupplierExtracts/supplieType.do",
+    	            url: globalPath+"/SupplierExtracts_new/supplieType.do",
     	            dataType: "json",
     	            data:{projectId:projectId},
     	            success: function (zNodes) {
@@ -922,7 +922,7 @@ $(function () {
     		 $.ajax({
  	            type: "POST",
  	            async: false,
- 	            url: globalPath+"/SupplierExtracts/supplieType2.do",
+ 	            url: globalPath+"/SupplierExtracts_new/supplieType2.do",
  	            dataType: "json",
  	            data:{typeCode:typeCode},
  	            success: function (data) {
@@ -1027,7 +1027,7 @@ $(function () {
           async: {
             autoParam: ["id=area"],
             enable: true, 
-            url: globalPath+"/SupplierExtracts/city.do",
+            url: globalPath+"/SupplierExtracts_new/city.do",
             dataType: "json",
             type: "post",
           },
@@ -1255,7 +1255,7 @@ $(function () {
     //查询类别数量
     function selectTypeCount(code){
     	$.ajax({
-    		url:globalPath+'/SupplierCondition/selectLikeSupplier.do',
+    		url:globalPath+'/SupplierCondition_new/selectLikeSupplier.do',
              type: "POST",
              dataType: "json",
              data:{supplierTypeCode:code,type:"count"},
@@ -1281,7 +1281,7 @@ $(function () {
     	if(nodes==null){
     		var cateId = $("#projectCategoryIds").val();
     		$.ajax({
-    			url:globalPath+"/SupplierCondition/getQuaByCid.do",
+    			url:globalPath+"/SupplierCondition_new/getQuaByCid.do",
     			type: "POST",
     			dataType: "json",
     			async:false,
@@ -1357,7 +1357,7 @@ $(function () {
     		qid =$("#projectCategoryIds").val();
     		if(null!=qid&&""!=qid){
     			$.ajax({
-    				url:globalPath+"/SupplierCondition/getEngLevelByCid.do",//根据品目ID 获取资质等级
+    				url:globalPath+"/SupplierCondition_new/getEngLevelByCid.do",//根据品目ID 获取资质等级
     				data:{categoryId:qid},
     				//url:globalPath+"/qualification/getLevelByQid.do",//根据资质编号ID 获取资质等级
     				async:false,
@@ -1378,7 +1378,7 @@ $(function () {
     		$.ajax({
     			/*url:globalPath+"/category/getEngLevelByCid.do",//根据品目ID 获取资质等级
 		 	data:{categoryId:cateId},*/
-    			url:globalPath+"/SupplierCondition/getLevelByQid.do",//根据资质编号ID 获取资质等级
+    			url:globalPath+"/SupplierCondition_new/getLevelByQid.do",//根据资质编号ID 获取资质等级
     			data:{qid:qid},
     			async:false,
     			dataType:"json",
@@ -1765,7 +1765,7 @@ $(function () {
     	var sid = objTr.attr("sid");
     	$.ajax({
             type: "POST",
-            url: globalPath+"/SupplierExtracts/saveResult.do",
+            url: globalPath+"/SupplierExtracts_new/saveResult.do",
             data: {reason: reason, conditionId: conditionId,supplierId:sid,supplierType:supplierType,join:join,recordId:recordId},
             dataType: "json",
             async:false,

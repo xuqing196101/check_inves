@@ -1,19 +1,11 @@
 package ses.dao.sms;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
-
 import ses.model.sms.SupplierCertSell;
 
-public interface SupplierCertSellMapper {
-    /**
-     * 根据主键删除数据库的记录
-     *
-     * @param id
-     */
-    int deleteByPrimaryKey(String id);
+import java.util.List;
 
+public interface SupplierCertSellMapper {
     /**
      * 插入数据库记录
      *
@@ -47,7 +39,7 @@ public interface SupplierCertSellMapper {
      */
     int updateByPrimaryKey(SupplierCertSell record);
     
-    List<SupplierCertSell> findCertSellBySupplierMatSellId(@Param("supplierMatSellId")String supplierMatSellId);
+    List<SupplierCertSell> findCertSellBySuppliermatSellId(@Param("supplierMatSellId")String supplierMatSellId);
     
     /**
      * @Title: findCertSellBySupplierId
@@ -60,9 +52,19 @@ public interface SupplierCertSellMapper {
      */
     List<SupplierCertSell> findCertSellBySupplierId(String supplierId);
     
-    void deleteById(String id);
-    
-    
-    
     List<SupplierCertSell> findCertSellByMatSellId(@Param("matSellId")String matSellId);
+
+    /**
+     * 根据主键删除数据库的记录
+     *
+     * @param id
+     */
+    int deleteByPrimaryKey(String id);
+    
+    /**
+     * 根据销售id删除
+     * @param matSellId
+     * @return
+     */
+	int deleteByMatSellId(String matSellId);
 }

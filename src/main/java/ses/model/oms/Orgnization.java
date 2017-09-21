@@ -32,7 +32,6 @@ public class Orgnization implements Serializable {
     private String orgCode;
 
     
-    @NotBlank(message="电话不能为空") 
     private String telephone;
 
     private String areaId;

@@ -8,13 +8,6 @@ import ses.model.sms.SupplierRegPerson;
 
 public interface SupplierRegPersonMapper {
     /**
-     * 根据主键删除数据库的记录
-     *
-     * @param id
-     */
-    int deleteByPrimaryKey(String id);
-
-    /**
      * 插入数据库记录
      *
      * @param record
@@ -22,7 +15,7 @@ public interface SupplierRegPersonMapper {
     int insert(SupplierRegPerson record);
 
     /**
-     *
+     * 插入数据库记录
      * @param record
      */
     int insertSelective(SupplierRegPerson record);
@@ -35,7 +28,7 @@ public interface SupplierRegPersonMapper {
     SupplierRegPerson selectByPrimaryKey(String id);
 
     /**
-     *
+     * 更新数据库记录
      * @param record
      */
     int updateByPrimaryKeySelective(SupplierRegPerson record);
@@ -49,16 +42,19 @@ public interface SupplierRegPersonMapper {
     
     List<SupplierRegPerson> findRegPersonByMatEngId(String supplierMatEngId);
     
-    void deleteById(String id);
+    /**
+     * 根据主键删除数据库的记录
+     *
+     * @param id
+     */
+    int deleteByPrimaryKey(String id);
     
     /**
-     * 
-    * @Title: deleteByMatEngId
-    * @Description: 根据工程信息ID删除
-    * author: Li Xiaoxiao 
-    * @param @param engId     
-    * @return void     
-    * @throws
+     * @Title: deleteByMatEngId
+     * @Description: 根据工程信息ID删除
+     * author: Li Xiaoxiao
+     * @param engId
+     * @return
      */
-    void deleteByMatEngId(@Param("engId")String engId);
+    int deleteByMatEngId(@Param("matEngId")String matEngId);
 }

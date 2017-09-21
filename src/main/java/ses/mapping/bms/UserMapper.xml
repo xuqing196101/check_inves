@@ -667,6 +667,7 @@
     LEFT JOIN T_SES_BMS_ROLE t3 on T2.ROLE_ID = t3.ID
     WHERE
     u.TYPE_NAME IS NOT NULL
+    AND u.TYPE_NAME != '6'
     <!-- t3.CODE != 'SUPPLIER_R'
     AND t3.CODE != 'EXPERT_R'
     AND t3.CODE != 'IMPORT_AGENT_R' -->
