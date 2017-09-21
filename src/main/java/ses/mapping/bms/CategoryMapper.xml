@@ -736,6 +736,7 @@
     ORDER BY CODE
   </select>
 	
+
 	
 	   <!-- 根据itme中间表id查询Categor -->
 	<select id="selectCategoryByItemId" parameterType="java.lang.String" resultMap="CategoryMap">
@@ -746,5 +747,12 @@
     LEFT JOIN T_SES_SMS_SUPPLIER_ITEM t2 ON T2.CATEGORY_ID = T1. ID
     WHERE
       T2.ID = #{id}
+
+	<!-- 根据父节点查询四级以上的品目id -->
+  <select id="selExtractCategory" parameterType="String" resultType="String">
+    SELECT s.ID from (
+		SELECT t.ID,LEVEL as l
+		 FROM T_SES_BMS_CATEGORY t WHERE  t.IS_DELETED = 0 START WITH 
+         t.parent_id=#{pId} CONNECT BY PRIOR t.ID=t.parent_id  order by t.code )s where s.l &lt; 5
   </select>
 </mapper>

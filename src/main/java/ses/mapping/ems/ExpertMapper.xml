@@ -2604,7 +2604,7 @@ resultMap="BaseResultMap">
           AND EXPERTS_FROM = #{expertsFrom}
         </if>
         <!-- 区域要求 -->
-        <if test="areaNames != null" >
+        <if test="areaSize != null and areaSize > 0" >
           AND ADDRESS IN 
             <foreach item="item" index="index" collection="areaNames" open="(" separator="," close=")">  
               #{item}  

@@ -5,42 +5,10 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 <script type="text/javascript">
-  /*   var datas;
-    var treeObj;
-  $(function(){
-	  var setting={
-              async:{
-                          autoParam:["id"],
-                          enable:true,
-                          url:"${pageContext.request.contextPath}/ExpExtract/getTree.do?type=${type}",
-                          dataType:"json",
-                          type:"post",
-                      },
-                      callback:{
-                          onClick:zTreeOnClick,//点击节点触发的事件
-                          
-                      }, 
-                      data:{
-                          simpleData:{
-                              enable:true,
-                              idKey:"id",
-                              pIdKey:"pId",
-                              rootPId:0,
-                          }
-                      },
-                     check:{
-                          chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
-                          chkStyle:"checkbox", 
-                          enable: true
-                     }
-        };
-	     treeObj=$.fn.zTree.init($("#ztree"),setting,datas);	     
-	     var Obj=$.fn.zTree.getZTreeObj("ztree");  
-    }); */
-    
     var key;
+    var zTreeObj;
     $(function() {
-      var zTreeObj;
+      
       var zNodes;
       loadZtree();
 
@@ -53,14 +21,15 @@
             otherParam: {
               categoryIds: "${categoryIds}",
             },
+            dataFilter: ajaxDataFilter,
             dataType: "json",
             type: "post",
           },
           check: {
             enable: true,
             chkboxType: {
-              "Y": "s",
-              "N": "s"
+              "Y": "ps",
+              "N": "ps"
             }
           },
           data: {
@@ -83,6 +52,16 @@
       }
     });
 
+function ajaxDataFilter(treeId, parentNode, responseData){
+	if(responseData[0].name!="物资" && responseData[0].name!="工程" && responseData[0].name!="服务"){
+         if(parentNode.checked==true){
+        	 for(var i=0;i<responseData.length;i++){
+        		 responseData[i].checked=true;
+        	 }
+         }
+	}
+	return responseData;
+}
     function focusKey(e) {
       if(key.hasClass("empty")) {
         key.removeClass("empty");
@@ -125,7 +104,7 @@
         zTree.updateNode(nodeList[i]);
       }
     }
-
+	
     function getFontCss(treeId, treeNode) {
       return(!!treeNode.highlight) ? {
         color: "#A60000",
@@ -147,6 +126,12 @@
   function zTreeOnClick(event,treeId,treeNode){
       treeid=treeNode.id;
   }
+
+  function onloadChildrens(treeId, treeNode) {
+    //alert("befor");
+    return true;
+  };
+
   //获取选中子节点id
   function getChildren(cate){
       var Obj=$.fn.zTree.getZTreeObj("ztree");  
@@ -204,10 +189,7 @@
               x[0].checked=true;  
    
  }
- 
- function showTitle(){
-  	layer.alert("您选择的是与关系");
-  }
+
 </script>
 </head>
 <body>
@@ -229,7 +211,7 @@
 						<div class="fl mr10">
 							<input type="radio" name="radio" id="radio" value="2"
 								<c:if test="${isSatisfy!=null && isSatisfy =='2'}">checked="checked"</c:if>
-								onclick="showTitle()" class="fl" />
+								 class="fl" />
 							<div class="ml5 fl">同时满足多个产品条件</div>
 						</div>
 					</li>

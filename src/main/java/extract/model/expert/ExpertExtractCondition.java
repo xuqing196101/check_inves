@@ -66,6 +66,19 @@ public class ExpertExtractCondition {
      * 关联抽取项目信息表id
      */
     private String projectId;
+    
+    /**
+     * 地区ID
+     */
+    private String addressId;
+     
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
+    }
 
     public String getId() {
         return id;

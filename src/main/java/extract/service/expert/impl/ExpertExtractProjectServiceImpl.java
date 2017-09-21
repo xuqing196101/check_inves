@@ -184,6 +184,9 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 				String purchaseWay = expertExtractProject.getPurchaseWay();
 				if(purchaseWay != null){
 					expertExtractProject.setPurchaseWay(DictionaryDataUtil.findById(purchaseWay) == null ? "" : DictionaryDataUtil.findById(purchaseWay).getName());
+					if(expertExtractProject.getPurchaseWay().equals("询价采购")){
+						expertExtractProject.setPurchaseWay("询价");
+					}
 				}
 				//评审地点
 				String reviewProvince = expertExtractProject.getReviewProvince();

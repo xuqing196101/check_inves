@@ -2,7 +2,10 @@ package extract.service.expert.impl;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,9 +17,11 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.bms.AreaMapper;
 import ses.dao.ems.ExpertBlackListMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
+import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
@@ -27,6 +32,7 @@ import extract.dao.expert.ExpertExtractTypeInfoMapper;
 import extract.dao.expert.ExtractCategoryMapper;
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
+import extract.model.expert.ExpertExtractProject;
 import extract.model.expert.ExpertExtractTypeInfo;
 import extract.model.expert.ExtractCategory;
 import extract.service.expert.ExpertExtractConditionService;
@@ -70,6 +76,10 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
     @Autowired
     private ExpertMapper expertMapper;
 
+    //地区
+	@Autowired
+	private AreaMapper areaMapper;
+	
     /**
      * 保存抽取条件
      * @throws ClassNotFoundException 
@@ -166,6 +176,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                     extractCategory.setTypeId(DictionaryDataUtil.getId(typeCode));
                     extractCategory.setIsDeleted((short) 0);
                     extractCategoryMapper.insertSelective(extractCategory);
+                    //如果选择的为父节点  要查询出子节点
                 }
             }
             //专家类别为工程  工程特有的工程专业信息
@@ -200,7 +211,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
      */
     @Override
     @SuppressWarnings("rawtypes")
-    public Map<String, Object> findExpertByExtract(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception {
+    public Map<String, Object> findExpertByExtract(ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> resultMap = new HashMap<>();
         Class c = Class.forName("extract.model.expert.ExpertExtractCateInfo");
@@ -209,9 +220,27 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
             map.put("expertsFrom", expertExtractCondition.getExpertTypeId());
         }
         //区域要求
-        if(expertExtractCondition.getAreaName() != null && !("0").equals(expertExtractCondition.getAreaName()) && !("").equals(expertExtractCondition.getAreaName())){
-            String[] areaNames = expertExtractCondition.getAreaName().split(",");
-            map.put("areaNames", areaNames);
+        Set<String> areaNames = new HashSet<>();
+        if(!("0").equals(expertExtractCondition.getAreaName())){
+        	if(!"".equals(expertExtractCondition.getAddressId())){
+        		String[] cids = expertExtractCondition.getAddressId().split(",");
+        		for (String str : cids) {
+        			areaNames.add(str);
+        		}
+        	}
+        	if(!"".equals(expertExtractCondition.getAreaName())){
+        		String[] pids = expertExtractCondition.getAreaName().split(",");
+        		for (String str : pids) {
+        			List<Area> list = areaMapper.findAreaByParentId(str);
+        			if(list != null && list.size() > 0){
+        				for (Area area : list) {
+        					areaNames.add(area.getId());
+    					}
+        			}
+        		}
+        	}
+        	map.put("areaNames", areaNames);
+        	map.put("areaSize", areaNames.size());
         }
         //专家类别
         if(expertExtractCondition.getExpertKindId() != null){
@@ -288,6 +317,18 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                         }
                     }
                 }
+                //筛选掉评审时间冲突的专家
+                //获取当前的评审时间
+               /* Date startTime = expertExtractProject.getReviewTime();
+                int days = Integer.parseInt(expertExtractProject.getReviewDays());
+                plusDay(days, startTime) 
+                
+                
+                
+                
+                
+                
+                */
                 map.put("notExpertIds",notExpertIds);
                 map.put("notSize",notExpertIds.size());
                 //技术职称
@@ -340,5 +381,25 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
 	@Override
 	public ExpertExtractCondition getByMap(HashMap<Object, Object> cmap) {
 		return expertExtractConditionMapper.getByMap(cmap);
+	}
+	
+	/**
+	 * 
+	 * Description: 日期加上指定的天数
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年9月21日
+	 * @param 
+	 * @return
+	 */
+	public String plusDay(int num, String newDate) throws ParseException {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date currdate = format.parse(newDate);
+		Calendar ca = Calendar.getInstance();
+		ca.add(Calendar.DATE, num);// num为增加的天数，可以改变的
+		currdate = ca.getTime();
+		String enddate = format.format(currdate);
+		System.out.println("增加天数以后的日期：" + enddate);
+		return enddate;
 	}
 }

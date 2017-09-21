@@ -5,6 +5,7 @@ import java.util.Map;
 
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
+import extract.model.expert.ExpertExtractProject;
 
 /**
  * 
@@ -39,7 +40,7 @@ public interface ExpertExtractConditionService {
      * @return
      * @throws Exception 
      */
-    Map<String, Object> findExpertByExtract(ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception;
+    Map<String, Object> findExpertByExtract(ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception;
 
     /**
      * 条件查询

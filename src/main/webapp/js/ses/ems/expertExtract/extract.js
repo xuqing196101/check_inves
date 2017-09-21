@@ -232,16 +232,20 @@ function validationIsNull(code){
     var num = 0;
 	for(var i=0; i<strs.length; i++){
 		if($("#"+strs[i]+"_count").text() == 0){
-			layer.msg("当前满足条件人数不足");
+			layer.msg("人数不足，无法抽取");
 			flag = false;
 		}
 		var v = $("#"+strs[i].toLowerCase()+"_i_count").val();
 		if(v == null || v == ""){
 			$("#err_"+strs[i].toLowerCase()+"_i_count").html("人数不能为空");
 			flag = false;
+		}else if(parseInt(v) <= 0){
+			$("#err_"+strs[i].toLowerCase()+"_i_count").html("人数必须大于0");
+			flag = false;
 		}else if(parseInt(v) > parseInt($("#"+strs[i]+"_count").text())){
 			flag = false;
 			$("#err_"+strs[i].toLowerCase()+"_i_count").html("当前符合条件人数不足");
+			layer.msg("人数不足，无法抽取");
 		}else{
 			num += parseInt(coUndifined(v));
 			$("#err_"+strs[i].toLowerCase()+"_i_count").html("");
@@ -269,6 +273,9 @@ function validationIsNull(code){
 	var extractNum = $("#extractNum").val();
 	if(extractNum == null || extractNum == ""){
 		$("#err_extractNum").html("抽取总人数不能为空");
+		flag = false;
+	}else if(parseInt(coUndifined(extractNum)) <= 0){
+		$("#err_extractNum").html("抽取总人数必须大于0");
 		flag = false;
 	}else if(num > parseInt(coUndifined(extractNum))){
 		layer.msg("不能大于抽取总人数");
@@ -383,7 +390,9 @@ function isJoin(select){
                 formType: 2,
                 shade: 0.01,
                 offset: [y, x],
-                title: '*不参加理由'
+                btn: ['确定'],
+                closeBtn: 0,
+                title: '<span class="red">*</span>不参加理由'
             }, function (value, index, elem) {
                 layer.close(index);
                 saveResult($(select).parents("tr").find("input").first().val(),value,v,code);
@@ -476,6 +485,7 @@ function getExpert(resultCode){
     $("#div_3").find("input").attr("disabled",false);
     $("#div_3 select").attr("disabled",false);
     //项目信息
+    var proRuestl_1 = $("#form").serializeJson();//数据序列化
     var param1 = $("#condition_form").serializeJson();
     var code = $("#expertKind option:selected").val();
     if(code.indexOf(",") >= 0){
@@ -484,11 +494,11 @@ function getExpert(resultCode){
         if(strs.length == 2){
             var param2 = $("#"+strs[0]+"_form").serializeJson();
             var param3 = $("#"+strs[1]+"_form").serializeJson();
-            result = $.extend({},param2,param3,param1);
+            result = $.extend({},param2,param3,param1,proRuestl_1);
         }
     }else{
         var param2 = $("#"+code+"_form").serializeJson();
-        result = $.extend({},param2,param1);
+        result = $.extend({},param2,param1,proRuestl_1);
     }
     $("#div_1").find("input").attr("disabled",true);
     $("#div_1 select").attr("disabled",true);
@@ -581,6 +591,8 @@ function changeKind(){
 
 //查询符合条件的专家数量
 function getCount(cate){
+	//项目信息
+    var proRuestl_1 = $("#form").serializeJson();//数据序列化
     var param1 = $("#condition_form").serializeJson();
     var code = $("#expertKind option:selected").val();
     if(code.indexOf(",") >= 0){
@@ -590,11 +602,11 @@ function getCount(cate){
         if(strs.length == 2){
             var param2 = $("#"+strs[0]+"_form").serializeJson();
             var param3 = $("#"+strs[1]+"_form").serializeJson();
-            result = $.extend({},param2,param3,param1);
+            result = $.extend({},param2,param3,param1,proRuestl_1);
         }
     }else{
         var param2 = $("#"+code+"_form").serializeJson();
-        result = $.extend({},param2,param1);
+        result = $.extend({},param2,param1,proRuestl_1);
     }
     $.ajax({
         url : globalPath + "/extractExpert/getCount.do",
@@ -671,11 +683,9 @@ function opens(cate) {
         , yes: function () {
             iframeWin.getChildren(cate);
             getCount(cate);
-            //initTypeLevelId();
-            //selectLikeSupplier();
         }
         , btn2: function () {
-            opens();
+            opens(cate);
         }
     });
 }
@@ -900,6 +910,7 @@ function checkAll(obj){
 
 
 function savePerson(){
+	var flag = 0;
 	//存储人员信息
 	$.ajax({
 		type: "POST",
@@ -1011,6 +1022,7 @@ function isHaveExpert(resultCode){
     $("#div_3").find("input").attr("disabled",false);
     $("#div_3 select").attr("disabled",false);
     //项目信息
+    var proRuestl_1 = $("#form").serializeJson();//数据序列化
     var param1 = $("#condition_form").serializeJson();
     var code = $("#expertKind option:selected").val();
     if(code.indexOf(",") >= 0){
@@ -1019,11 +1031,11 @@ function isHaveExpert(resultCode){
         if(strs.length == 2){
             var param2 = $("#"+strs[0]+"_form").serializeJson();
             var param3 = $("#"+strs[1]+"_form").serializeJson();
-            result = $.extend({},param2,param3,param1);
+            result = $.extend({},param2,param3,param1,proRuestl_1);
         }
     }else{
         var param2 = $("#"+code+"_form").serializeJson();
-        result = $.extend({},param2,param1);
+        result = $.extend({},param2,param1,proRuestl_1);
     }
     $("#div_1").find("input").attr("disabled",true);
     $("#div_1 select").attr("disabled",true);
@@ -1057,12 +1069,37 @@ function isHaveExpert(resultCode){
  * 抽取结束
  */
 function extract_end(){
-	var projectId = $("#projectId").val();
+	$("#div_1").find("input").attr("disabled",false);
+    $("#div_1 select").attr("disabled",false);
+    $("#div_2 ").find("input").attr("disabled",false);
+    $("#div_2 select").attr("disabled",false);
+    $("#div_3").find("input").attr("disabled",false);
+    $("#div_3 select").attr("disabled",false);
+    //项目信息
+    var proRuestl_1 = $("#form").serializeJson();//数据序列化
+    var param1 = $("#condition_form").serializeJson();
+    var code = $("#expertKind option:selected").val();
+    if(code.indexOf(",") >= 0){
+        var strs = new Array(); //定义一数组 
+        strs = code.split(","); //字符分割
+        if(strs.length == 2){
+            var param2 = $("#"+strs[0]+"_form").serializeJson();
+            var param3 = $("#"+strs[1]+"_form").serializeJson();
+            result = $.extend({},param2,param3,param1,proRuestl_1);
+        }
+    }else{
+        var param2 = $("#"+code+"_form").serializeJson();
+        result = $.extend({},param2,param1,proRuestl_1);
+    }
+    $("#div_1").find("input").attr("disabled",true);
+    $("#div_1 select").attr("disabled",true);
+    $("#div_2 ").find("input").attr("disabled",true);
+    $("#div_2 select").attr("disabled",true);
+    $("#div_3").find("input").attr("disabled",true);
+    $("#div_3 select").attr("disabled",true);
 	$.ajax({
         url : globalPath + "/extractExpert/extractEnd.do",
-        data : {
-            "projectId" : projectId
-        },
+        data : result,
         dataType : "json",
         async : false,
         type : "POST",
@@ -1126,3 +1163,11 @@ function vaCode(){
 		});
 	}
 }
+
+//文本编译器计数
+function size(par) { 
+	var max = 500; 
+	if (par.value.length < max) 
+	var str = max - par.value.length;
+	$("#textCount").html(str.toString()); 
+	} 

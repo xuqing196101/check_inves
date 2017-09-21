@@ -497,4 +497,12 @@
 		AND IS_PUBLISH = 0
 		ORDER BY CODE
 	</select>
+	
+	<!-- 根据父节点查询四级以上的品目id -->
+    <select id="selExtractCategory" parameterType="String" resultType="String">
+      SELECT s.ID from (
+		SELECT t.ID,LEVEL as l
+		 FROM T_SES_BMS_ENG_CATEGORY t WHERE  t.IS_DELETED = 0 START WITH 
+         t.parent_id=#{pId} CONNECT BY PRIOR t.ID=t.parent_id  order by t.code )s where s.l &lt; 5
+    </select>
 </mapper>

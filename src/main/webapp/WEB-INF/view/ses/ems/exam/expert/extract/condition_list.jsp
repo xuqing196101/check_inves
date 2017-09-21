@@ -84,7 +84,7 @@
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 评审地点:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
               <select class="col-md-6 col-sm-6 col-xs-6 p0" onchange="functionArea()" id="province" name="reviewProvince">
-                <option value="0">选择省</option>
+                <option value="0">选择省/市</option>
                 <c:forEach items="${areaTree}" var="map">
                   <option value="${map.id}">${map.name}</option>
                 </c:forEach>
@@ -216,12 +216,12 @@
       <h2 class="count_flow"><i>3</i>抽取条件</h2>
       <div id="div_3">
       <!--地区id -->
-      <input type="hidden" name="addressId" id="addressId">
       <!-- 省 -->
       <ul class="ul_list">
         <form id="condition_form">
         <input type = "hidden" id = "conditionId" name = "conId">
         <input type="hidden" name="areaName" id="provincesel"/>
+        <input type="hidden" name="addressId" id="addressId">
           <li class="col-md-3 col-sm-4 col-xs-12 pl15">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 区域要求:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -274,7 +274,8 @@
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
               <!-- <input class="span5" type="text" maxlength="100" name="addressReason" id="xzReason">
               <span class="add-on">i</span><span class="input-tip">最多100字</span> -->
-              <textarea class="w100p h100 resizen" maxlength="500" name="addressReason" id="xzReason"></textarea>
+              <textarea class="w100p h100 resizen" maxlength="500" name="addressReason" id="xzReason" onkeyup="size(this);"></textarea>
+              <small>字数：500. 剩余：<span id="textCount">500</span>.</small>
               <div class="cue" id="err_addressReason"></div>
             </div>
           </li>
@@ -430,14 +431,14 @@
                   <input class="span5" type="text" readonly onclick="opens(this);" typeCode="GOODS_SERVER" name=""> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
                 </div>
-              </li>
+              </li> -->
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 技术职称:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                   <input class="span5" type="text" name="goods_server_technical" onchange="getCount(this)" typeCode="GOODS_SERVER"> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
                 </div>
-              </li> -->
+              </li>
             </ul>
             <div class="clear"></div>
           </form>
@@ -488,20 +489,20 @@
         <ul class="ul_list">
           <!-- 物资技术 -->
           <div class="display-none" id="GOODS_h">
-            <h2 class="count_flow">物资技术：确认参加的专家共有<span id="GOODS_result_count">0</span>位，确认不参加的专家共有<span id="GOODS_result_no">0</span>位</h2>
+            <h2 class="count_flow">物资技术：确认参加的专家共有<span id="GOODS_result_count" class="f26 red">0</span>位，确认不参加的专家共有<span id="GOODS_result_no">0</span>位</h2>
             <div class="content">
               <table class="table table-bordered table-condensed table-hover table-striped" id="GOODS_result">
                 <thead>
                   <tr>
                     <th class="w50 info">序号</th>
-                    <th class="info w120">专家姓名</th>
-                    <th class="info w120">联系电话</th>
+                    <th class="info w100">专家姓名</th>
+                    <th class="info w100">联系电话</th>
                     <th class="info w120">专家类别</th>
                     <th class="info">工作单位名称</th>
                     <th class="info w140">技术职称（职务）</th>
-                    <th class="info w120">职业资格</th>
-                    <th class="info w120">备注</th>
-                    <th class="info w120">操作</th>
+                    <th class="info w100">执业资格</th>
+                    <th class="info w80">备注</th>
+                    <th class="info w100">操作</th>
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -510,20 +511,20 @@
           </div>
           <!-- 物资服务经济 -->
           <div class="display-none" id="GOODS_SERVER_h">
-            <h2 class="count_flow">物资服务经济：确认参加的专家共有<span id="GOODS_SERVER_result_count">0</span>位，确认不参加的专家共有<span id="GOODS_SERVER_result_no">0</span>位</h2>
+            <h2 class="count_flow">物资服务经济：确认参加的专家共有<span id="GOODS_SERVER_result_count" class="f26 red">0</span>位，确认不参加的专家共有<span id="GOODS_SERVER_result_no">0</span>位</h2>
             <div class="content">
               <table class="table table-bordered table-condensed table-hover table-striped" id="GOODS_SERVER_result">
                 <thead>
                   <tr>
                     <th class="w50 info">序号</th>
-                    <th class="info w120">专家姓名</th>
-                    <th class="info w120">联系电话</th>
+                    <th class="info w100">专家姓名</th>
+                    <th class="info w100">联系电话</th>
                     <th class="info w120">专家类别</th>
                     <th class="info">工作单位名称</th>
-                    <th class="info w120">技术职称（职务）</th>
-                    <th class="info w120">执业资格</th>
-                    <th class="info w120">备注</th>
-                    <th class="info w120">操作</th>
+                    <th class="info w140">技术职称（职务）</th>
+                    <th class="info w100">执业资格</th>
+                    <th class="info w80">备注</th>
+                    <th class="info w100">操作</th>
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -532,20 +533,20 @@
           </div>
           <!-- 工程技术 -->
           <div class="display-none" id="PROJECT_h">
-            <h2 class="count_flow">工程技术：确认参加的专家共有<span id="PROJECT_result_count">0</span>位，确认不参加的专家共有<span id="PROJECT_result_no">0</span>位</h2>
+            <h2 class="count_flow">工程技术：确认参加的专家共有<span id="PROJECT_result_count" class="f26 red">0</span>位，确认不参加的专家共有<span id="PROJECT_result_no">0</span>位</h2>
             <div class="content">
               <table class="table table-bordered table-condensed table-hover table-striped" id="PROJECT_result">
                 <thead>
                   <tr>
                     <th class="w50 info">序号</th>
-                    <th class="info w120">专家姓名</th>
-                    <th class="info w120">联系电话</th>
+                    <th class="info w100">专家姓名</th>
+                    <th class="info w100">联系电话</th>
                     <th class="info w120">专家类别</th>
                     <th class="info">工作单位名称</th>
-                    <th class="info w120">技术职称（职务）</th>
-                    <th class="info w120">执业资格</th>
-                    <th class="info w120">备注</th>
-                    <th class="info w120">操作</th>
+                    <th class="info w140">技术职称（职务）</th>
+                    <th class="info w100">执业资格</th>
+                    <th class="info w80">备注</th>
+                    <th class="info w100">操作</th>
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -554,20 +555,20 @@
           </div>
           <!-- 工程经济 -->
           <div class="display-none" id="GOODS_PROJECT_h">
-            <h2 class="count_flow">工程经济：确认参加的专家共有<span id="GOODS_PROJECT_result_count">0</span>位，确认不参加的专家共有<span id="GOODS_PROJECT_result_no">0</span>位</h2>
+            <h2 class="count_flow">工程经济：确认参加的专家共有<span id="GOODS_PROJECT_result_count" class="f26 red">0</span>位，确认不参加的专家共有<span id="GOODS_PROJECT_result_no">0</span>位</h2>
             <div class="content">
               <table class="table table-bordered table-condensed table-hover table-striped" id="GOODS_PROJECT_result">
                 <thead>
                   <tr>
                     <th class="w50 info">序号</th>
-                    <th class="info w120">专家姓名</th>
-                    <th class="info w120">联系电话</th>
+                    <th class="info w100">专家姓名</th>
+                    <th class="info w100">联系电话</th>
                     <th class="info w120">专家类别</th>
                     <th class="info">工作单位名称</th>
-                    <th class="info w120">技术职称（职务）</th>
-                    <th class="info w120">执业资格</th>
-                    <th class="info w120">备注</th>
-                    <th class="info w120">操作</th>
+                    <th class="info w140">技术职称（职务）</th>
+                    <th class="info w100">执业资格</th>
+                    <th class="info w80">备注</th>
+                    <th class="info w100">操作</th>
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -576,20 +577,20 @@
           </div>
           <!-- 服务 -->
           <div class="display-none" id="SERVICE_h">
-            <h2 class="count_flow">服务技术：确认参加的专家共有<span id="SERVICE_result_count">0</span>位，确认不参加的专家共有<span id="SERVICE_result_no">0</span>位</h2>
+            <h2 class="count_flow">服务技术：确认参加的专家共有<span id="SERVICE_result_count" class="f26 red">0</span>位，确认不参加的专家共有<span id="SERVICE_result_no">0</span>位</h2>
             <div class="content">
               <table class="table table-bordered table-condensed table-hover table-striped" id="SERVICE_result">
                 <thead>
                   <tr>
                     <th class="w50 info">序号</th>
-                    <th class="info w120">专家姓名</th>
-                    <th class="info w120">联系电话</th>
+                    <th class="info w100">专家姓名</th>
+                    <th class="info w100">联系电话</th>
                     <th class="info w120">专家类别</th>
                     <th class="info">工作单位名称</th>
-                    <th class="info w120">技术职称（职务）</th>
-                    <th class="info w120">执业资格</th>
-                    <th class="info w120">备注</th>
-                    <th class="info w120">操作</th>
+                    <th class="info w140">技术职称（职务）</th>
+                    <th class="info w100">执业资格</th>
+                    <th class="info w80">备注</th>
+                    <th class="info w100">操作</th>
                   </tr>
                 </thead>
                 <tbody></tbody>

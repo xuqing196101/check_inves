@@ -390,4 +390,15 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	Category selectCategoryByItemId (String itemsId);
+
+	/**
+	 * 
+	 * Description: 根据父节点查询四级以上的品目id
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年9月21日
+	 * @param 
+	 * @return
+	 */
+	public List<String> selExtractCategory(String pId);
 }

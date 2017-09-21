@@ -1,9 +1,11 @@
 package extract.controller.expert;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
-import bss.echarts.Data;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -113,11 +115,11 @@ public class ExtractExpertRecordController {
 		ExpertExtractProject expertExtractProject = expertExtractProjectService.selectByPrimaryKey(id);
 		Date reviewTime = expertExtractProject.getReviewTime();
 		//判断评审时间是否满足下载条件   评审时间开始半个小时之后
-		/*reviewTime + 30分钟   < new Data();
-		long l = 
-		reviewTime.getTime() + calender
-		*/
-		
-		return "";
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
+		Calendar cal2=Calendar.getInstance(); 
+		cal2.setTime(reviewTime);
+		cal2.add(Calendar.MINUTE, 15);
+		int v = calendar.compareTo(cal2);
+		return JSON.toJSONString(v);
 	}
 }

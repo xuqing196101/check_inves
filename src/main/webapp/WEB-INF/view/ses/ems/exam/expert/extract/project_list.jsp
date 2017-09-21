@@ -65,14 +65,13 @@
   
   /* 下载抽取记录表 */
   function download(){
-    var id = [];
-        $('input[name="chkItem"]:checked').each(function () {
-            id.push($(this).val());
-        });
-        if (id.length != 1) {
-            layer.alert("只能选择一个", {offset: ['222px', '390px'], shade: 0.01});
-        } else {
-        	/* var flag = true;
+	var id = [];
+	$('input[name="chkItem"]:checked').each(function() {
+		id.push($(this).val());
+	});
+	if(id.length == 1) {
+		if($("#"+id).html().replace(/\s+/g,"") == "抽取结束" ){
+			var flag = true;
         	$.ajax({
                 url : "${pageContext.request.contextPath}/extractExpertRecord/selReviewTime.do",
                 data : {
@@ -82,31 +81,47 @@
                 async : false,
                 type : "POST",
                 success : function(data) {
-                   if(data == "yes"){
+                   if(data == "-1"){
                 	   flag = true;
                    }else{
                 	   flag = false;
                    }
                 }
-            }); */
-        	//if(flag){
+            });
+        	if(flag){
 				conditionId = $("#conditionId").val();
 				window.location.href = "${pageContext.request.contextPath}/extractExpertRecord/printRecord.html?id=" + id + "&&conditionId=";
-        	//}else{
-        	//	layer.alert("评审时间未满足半个小时", {offset: ['222px', '390px'], shade: 0.01});
-        	//}
-        }
-  }
+        	}else{
+        		layer.alert("评审时间未满足半个小时", {offset: ['222px', '390px'], shade: 0.01});
+        	}
+		}else{
+			layer.alert("只能下载抽取结束的项目记录表", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+		}
+	} else if(id.length > 1) {
+		layer.alert("只能选择一个", {
+			offset: ['222px', '390px'],
+			shade: 0.01
+		});
+	} else {
+		layer.alert("请选择一个项目", {
+			offset: ['222px', '390px'],
+			shade: 0.01
+		});
+	}
+}
   
-  /* 重置 */
-  function form_reset(){
-    $("#form1").find("input").val("");
-    var SelectArr = $("#form1").find("select");
-    for (var i = 0; i < SelectArr.length; i++) {
-      SelectArr[i].options[0].selected = true; 
-    }
-    $("#page").val("1");
+/* 重置 */
+function form_reset(){
+  $("#form1").find("input").val("");
+  var SelectArr = $("#form1").find("select");
+  for (var i = 0; i < SelectArr.length; i++) {
+    SelectArr[i].options[0].selected = true; 
   }
+  $("#page").val("1");
+}
 </script>
 </head>
 
@@ -207,7 +222,7 @@
             <td class="tc w150"><!-- reviewTime -->
               <fmt:formatDate value="${obj.createdAt }" pattern="yyyy/MM/dd HH:mm:ss" />
             </td>
-            <td class="tc w90">
+            <td class="tc w90" id="${obj.id }">
               <c:if test="${obj.status == '0' }">未开始</c:if>
               <c:if test="${obj.status == '1' }">抽取中</c:if>
               <c:if test="${obj.status == '2' }">抽取结束</c:if>
