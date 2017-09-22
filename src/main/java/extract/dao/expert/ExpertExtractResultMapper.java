@@ -62,4 +62,16 @@ public interface ExpertExtractResultMapper {
 	 * @return
 	 */
 	List<ExpertExtractResult> getBackExpertListByrecordId(String id);
+	
+	/**
+	 * 
+	 * Description: 查询所有
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年9月21日
+	 * @param 
+	 * @return
+	 */
+	List<ExpertExtractResult> findAll();
+	
 }

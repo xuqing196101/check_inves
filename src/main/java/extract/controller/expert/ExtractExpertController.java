@@ -5,12 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -184,7 +180,7 @@ public class ExtractExpertController {
     @RequestMapping("/getCount")
     @ResponseBody
     public String getCount(ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception{
-    	Map<String, Object> result = expertExtractConditionService.findExpertByExtract(expertExtractProject,expertExtractCondition,expertExtractCateInfo);
+        Map<String, Object> result = expertExtractConditionService.findExpertByExtract(expertExtractProject,expertExtractCondition,expertExtractCateInfo);
         return JSON.toJSONString(result);
     }
     
@@ -219,8 +215,8 @@ public class ExtractExpertController {
     @RequestMapping("/extractEnd")
     @ResponseBody
     public String extractEnd(ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo,String conId) throws Exception{
-    	//判断是否保存候补专家
-    	expertExtractCondition.setId(conId);
+        //判断是否保存候补专家
+        expertExtractCondition.setId(conId);
         expertExtractCondition.setExpertKindId(expertExtractCondition.getExpertKindId());
         if(expertExtractCondition.getIsExtractAlternate() == 1){
             if(expertExtractCondition.getExpertKindId().indexOf(",") >= 0){
@@ -261,13 +257,10 @@ public class ExtractExpertController {
                 }
             }
         }
-    	//修改项目抽取状态
-    	int v = expertExtractProjectService.updataStatus(expertExtractProject.getId());
-    	if(v > 0){
-    		return JSON.toJSONString("yes");
-    	}else{
-    		return JSON.toJSONString("no");
-    	}
+        // 修改项目抽取状态
+        expertExtractProjectService.updataStatus(expertExtractProject.getId());
+        String jsonString = JSON.toJSONString("success");
+        return jsonString;
     }
     
     /**
@@ -305,14 +298,16 @@ public class ExtractExpertController {
         }
         List<String> idList = new ArrayList<>();
         if(ids != null && !ids.equals("")){
-        	String[] split = ids.split(",");
+            String[] split = ids.split(",");
             for (String str : split) {
-            	idList.add(str);
-    		}
+                idList.add(str);
+            }
         }
         String categoryId = DictionaryDataUtil.getId(code);
-        if (code != null && code.equals("ENG_INFO_ID")) {
+        if (code != null && code.indexOf("ENG_INFO_ID") > 0) {
+        	categoryId = DictionaryDataUtil.getId("ENG_INFO_ID");
             List < CategoryTree > allCategories = new ArrayList < CategoryTree > ();
+            String typeIds = code.split(",")[0];
             if(category.getId() == null) {
                 DictionaryData parent = dictionaryDataServiceI.getDictionaryData(categoryId);
                 CategoryTree ct = new CategoryTree();
@@ -324,8 +319,33 @@ public class ExtractExpertController {
                 allCategories.add(ct);
             } else {
                 List < Category > tempNodes = engCategoryService.findPublishTree(category.getId(), null);
-                if(tempNodes != null && tempNodes.size() > 0) {
-                    for(Category ca: tempNodes) {
+                List < Category > childNodes = new ArrayList<Category>();
+                int count = 0;
+                if (typeIds != null && !typeIds.equals("")) {
+                    String[] tIds = typeIds.split(",");
+                    for (String typeId : tIds) {
+                        if (typeId.equals("GOODS_PROJECT")) {
+                            count++;
+                            for (Category cate : tempNodes) {
+                                if (cate.getExpertType() != null && cate.getExpertType().equals("0")) {
+                                    childNodes.add(cate);
+                                }
+                            }
+                        } else if (typeId.equals("PROJECT")) {
+                            count++;
+                            for (Category cate : tempNodes) {
+                                if (cate.getExpertType() != null && cate.getExpertType().equals("1")) {
+                                    childNodes.add(cate);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (count == 2) {
+                	childNodes = tempNodes;
+                }
+                if(childNodes != null && childNodes.size() > 0) {
+                    for(Category ca: childNodes) {
                         CategoryTree ct = new CategoryTree();
                         ct.setName(ca.getName());
                         ct.setId(ca.getId());
@@ -335,8 +355,13 @@ public class ExtractExpertController {
                         if(nodesList != null && nodesList.size() > 0) {
                             ct.setIsParent("true");
                         }
-                        // 设置是否被选中
-                        /*ct.setChecked(expertExtractProjectService.isChecked(idList,code));*/
+                        // 判断是否被选中
+                        /*if(category.getCode().length()>=7){
+                        	ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null,auditList,null));
+                        }else{
+                        	ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null,auditList,ct.getIsParent()));
+                        }*/
+                        //
                         allCategories.add(ct);
                     }
                 }

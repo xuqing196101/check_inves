@@ -298,7 +298,7 @@
                 <input type="hidden" name="project_eng_isSatisfy" class="isSatisfy">
                 <input type="hidden" name="project_eng_info" class="categoryId" id="project_eng_info">
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" readonly onclick="opens(this);" typeCode="ENG_INFO_ID" name=""> <span class="add-on">i</span>
+                  <input class="span5" type="text" readonly onclick="opens(this);" typeCode="PROJECT,ENG_INFO_ID" name=""> <span class="add-on">i</span>
                   <div class="cue" id="err_project_eng_info"></div>
                 </div>
               </li>
@@ -346,7 +346,7 @@
                 <input type="hidden" name="goods_project_eng_isSatisfy" class="isSatisfy">
                 <input type="hidden" name="goods_project_eng_info" class="categoryId" id= "goods_project_eng_info">
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" readonly onclick="opens(this);" typeCode="ENG_INFO_ID" name=""> <span class="add-on">i</span>
+                  <input class="span5" type="text" readonly onclick="opens(this);" typeCode="GOODS_PROJECT,ENG_INFO_ID" name=""> <span class="add-on">i</span>
                   <div class="cue" id="err_goods_project_eng_info"></div>
                 </div>
               </li>

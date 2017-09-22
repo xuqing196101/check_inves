@@ -28,8 +28,8 @@
           check: {
             enable: true,
             chkboxType: {
-              "Y": "ps",
-              "N": "ps"
+              "Y": "s",
+              "N": "s"
             }
           },
           data: {
@@ -140,7 +140,7 @@ function ajaxDataFilter(treeId, parentNode, responseData){
        var names=new Array();
   
        for(var i=0;i<nodes.length;i++){ 
-           if(!nodes[i].isParent){
+           if(nodes[i].level != 0){
           //获取选中节点的值  
            ids+=nodes[i].id+","; 
            names+=nodes[i].name+",";

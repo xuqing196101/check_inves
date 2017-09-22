@@ -699,7 +699,7 @@ function loadAreaZtree(){
       async: {
         autoParam: ["id=area"],
         enable: true, 
-        url: globalPath+"/SupplierExtracts/city.do",
+        url: globalPath+"/SupplierExtracts_new/city.do",
         dataType: "json",
         type: "post",
       },
@@ -1104,11 +1104,9 @@ function extract_end(){
         async : false,
         type : "POST",
         success : function(data) {
-           if(data == "yes"){
-        	   alterEndInfo();
-           }else{
-        	   layer.msg("结束失败");
-           }
+        	if(data == "success"){
+        		alterEndInfo();
+        	}
         }
     });
 }

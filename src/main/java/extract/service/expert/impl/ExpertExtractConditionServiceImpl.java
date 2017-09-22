@@ -27,12 +27,14 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.util.DictionaryDataUtil;
 import extract.dao.expert.ExpertExtractConditionMapper;
+import extract.dao.expert.ExpertExtractProjectMapper;
 import extract.dao.expert.ExpertExtractResultMapper;
 import extract.dao.expert.ExpertExtractTypeInfoMapper;
 import extract.dao.expert.ExtractCategoryMapper;
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
+import extract.model.expert.ExpertExtractResult;
 import extract.model.expert.ExpertExtractTypeInfo;
 import extract.model.expert.ExtractCategory;
 import extract.service.expert.ExpertExtractConditionService;
@@ -79,6 +81,9 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
     //地区
 	@Autowired
 	private AreaMapper areaMapper;
+	
+	@Autowired
+	private ExpertExtractProjectMapper expertExtractProjectMapper;
 	
     /**
      * 保存抽取条件
@@ -319,16 +324,30 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                 }
                 //筛选掉评审时间冲突的专家
                 //获取当前的评审时间
-               /* Date startTime = expertExtractProject.getReviewTime();
-                int days = Integer.parseInt(expertExtractProject.getReviewDays());
-                plusDay(days, startTime) 
+/*                Date startTime = expertExtractProject.getReviewTime();
+                int days = 0;
+                if(expertExtractProject.getReviewDays() != null){
+                	days = Integer.parseInt(expertExtractProject.getReviewDays());
+                }
+                if(startTime != null && days != 0){
+                	Date endTime = plusDay(days, startTime);
+                	List<ExpertExtractResult> allList = expertExtractResultMapper.findAll();
+                    if(allList != null && allList.size() > 0){
+                    	for (ExpertExtractResult expertExtractResult : allList) {
+        					ExpertExtractProject extractProject = expertExtractProjectMapper.selectByPrimaryKey(expertExtractResult.getProjectId());
+        					if(extractProject != null){
+        						Date resStartTime = extractProject.getReviewTime();
+        						int resDays = Integer.parseInt(extractProject.getReviewDays());
+        						Date resEndTime = plusDay(resDays, resStartTime);
+        						boolean flag = startTime.before(resStartTime) && endTime.before(resStartTime) || startTime.after(resEndTime) && endTime.after(resEndTime);
+        						if(!flag){
+        							notExpertIds.add(expertExtractResult.getExpertId());
+        						}
+        					}
+        				}
+                    }
+                }*/
                 
-                
-                
-                
-                
-                
-                */
                 map.put("notExpertIds",notExpertIds);
                 map.put("notSize",notExpertIds.size());
                 //技术职称
@@ -392,14 +411,13 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
 	 * @param 
 	 * @return
 	 */
-	public String plusDay(int num, String newDate) throws ParseException {
+	public Date plusDay(int num, Date currdate) throws ParseException {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date currdate = format.parse(newDate);
 		Calendar ca = Calendar.getInstance();
 		ca.add(Calendar.DATE, num);// num为增加的天数，可以改变的
 		currdate = ca.getTime();
 		String enddate = format.format(currdate);
-		System.out.println("增加天数以后的日期：" + enddate);
-		return enddate;
+		Date re = format.parse(enddate);
+		return re;
 	}
 }

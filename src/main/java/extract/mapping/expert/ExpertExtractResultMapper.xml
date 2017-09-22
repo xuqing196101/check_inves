@@ -262,5 +262,10 @@
  	WHERE R.PROJECT_ID =#{value} AND R.IS_ALTERNATE = 1
   </select>
   
+  <select id="findAll" resultMap="BaseResultMap">
+  	select
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXTRACT_RESULT
+  </select>
   
 </mapper>
