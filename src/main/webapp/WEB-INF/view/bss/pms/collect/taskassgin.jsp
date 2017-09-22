@@ -133,10 +133,15 @@
 			});
 			return  false;
 		}else{
-			  checkAduitNo();
-		  	$("#cid").val(id);
-		    $("#collect_form").submit();
-			  layer.close(index);  	
+			  if(checkAduitNo()){
+				  layer.alert("采购任务文号已存在");
+				  return false;
+			  }else{
+				  $("#cid").val(id);
+				  $("#collect_form").submit();
+					layer.close(index); 
+				  
+			  }
 		}
 	  
 	}
@@ -190,20 +195,22 @@
 		}
 	}
 	function checkAduitNo(){
+		var flgg=false;
 		var aduitNo = $("#aduit_No").val();
 		$.ajax({
             url: "${pageContext.request.contextPath}/taskassgin/checkAuditNo.html",
             data:{
                 "documentNumber":aduitNo
             },
+            async:false,
             success: function(data) {
                 if(data=="exist"){
                 	$("#aduit_No").val("");
-                    layer.alert("采购任务文号已存在");
-                    return false;
+                    flgg=true;
                 }
             }
         });
+		return flgg;
 		
 	}
 	
@@ -335,7 +342,7 @@
 	       <div class="col-md-6 col-sm-6 col-xs-6">
 	       		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购任务文号:</span>
 	       		<div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
-	       			<input id="aduit_No" onblur="checkAduitNo()" type="text" name="documentNumber" value="">
+	       			<input id="aduit_No"  type="text" name="documentNumber" value="">
 	       		</div>
 	       </div>
 	       

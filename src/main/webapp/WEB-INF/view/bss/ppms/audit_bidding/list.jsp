@@ -64,7 +64,24 @@
 					}
 				}
 			}
-
+      function view(id){
+    	  $.ajax({
+				type: "GET",
+				dataType: "text",
+				url: "${pageContext.request.contextPath}/Auditbidding/auditProject.html?projectId=" + id,
+				success: function(result) {
+					if(result != null){
+						if(result == '1'){
+							window.location.href = "${pageContext.request.contextPath}/open_bidding/bidFile.html?id=" + id + "&process=1";
+						} else {
+							window.location.href = "${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=" + id + "&process=1";
+						}
+					} else {
+						layer.msg("失败");
+					}
+				}
+			});
+      }
 
 			//审核
 			function audit() {
@@ -188,9 +205,9 @@
 	  </form>
     </h2>
 			<c:if test="${auth eq 'show'}">
-				<div class="col-md-12 pl20 mt10">
+				<!-- <div class="col-md-12 pl20 mt10">
 					<button class="btn btn-windows apply" onclick="audit();" type="button">审核</button>
-				</div>
+				</div> -->
 				<div class="content table_box">
 					<table class="table table-bordered table-condensed table-hover table-striped">
 						<thead>
@@ -215,12 +232,12 @@
 										<input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
 									</td>
 									<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-									<td class="tl" title="${obj.name}">
+									<td class="tl" title="${obj.name}" >
 										<c:if test="${fn:length(obj.name)>20}">
-											${fn:substring(obj.name,0,20)}...
+											<a onclick="view('${obj.id}')">${fn:substring(obj.name,0,20)}...</a>
 										</c:if>
 										<c:if test="${fn:length(obj.name)<=20}">
-											${obj.name}
+											<a onclick="view('${obj.id}')">${obj.name}</a>
 										</c:if>
 									</td>
 									<td class="tl">${obj.projectNumber}</td>
