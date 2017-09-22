@@ -755,4 +755,12 @@
 		 FROM T_SES_BMS_CATEGORY t WHERE  t.IS_DELETED = 0 START WITH 
          t.parent_id=#{pId} CONNECT BY PRIOR t.ID=t.parent_id  order by t.code )s where s.l &lt; 5
   </select>
+  
+  <!-- 根据pid查询生成公开状态树 -->
+	<select id="findpublishTreeByPid" parameterType="Object" resultMap="CateMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_CATEGORY
+		where IS_DELETED=0 AND IS_PUBLISH = 0 and PARENT_ID=#{id} order by CODE
+	</select>
 </mapper>

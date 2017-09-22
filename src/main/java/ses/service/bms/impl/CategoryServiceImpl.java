@@ -1192,9 +1192,9 @@ public class CategoryServiceImpl implements CategoryService {
 		if(category.getId()==null){
 	    	   category.setId(dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getId());
 	    }
-         List<Category> cateList= disTreeGoodsData(category.getId());
+         List<Category> cateList= getCateTreeForExt(category.getId());
          for(Category cate:cateList){
-             List<Category> cList= disTreeGoodsData(cate.getId());
+             List<Category> cList= getCateTreeForExt(cate.getId());
              CategoryTree ct=new CategoryTree();
              if(!cList.isEmpty()){
                  ct.setIsParent("true");
@@ -1238,4 +1238,24 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryMapper.selectCategoryByItemId(itemsId);
 	}
 	
+	/**
+	 * 显示物资类品目树
+	 */
+	public List<Category> getCateTreeForExt(String id) {
+		List<Category> cateList=null;
+		//物质生产   1/3
+		if(SupplierToolUtil.PRODUCT_ID.equals(id) ){
+			cateList=findPublishTree(SupplierToolUtil.GOODS_ID, 1);
+		}else if(SupplierToolUtil.SALES_ID.equals(id)){
+			//物质销售  3/2
+			cateList=findPublishTree(SupplierToolUtil.GOODS_ID, 2);
+		}else{
+			cateList=findpublishTreeByPid(id);
+		}
+		return cateList;
+	}
+
+	private List<Category> findpublishTreeByPid(String id) {
+		return categoryMapper.findpublishTreeByPid(id);
+	}
 }

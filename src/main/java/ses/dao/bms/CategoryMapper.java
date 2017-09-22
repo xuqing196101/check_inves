@@ -401,4 +401,7 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	public List<String> selExtractCategory(String pId);
+
+
+	public List<Category> findpublishTreeByPid(String id);
 }
