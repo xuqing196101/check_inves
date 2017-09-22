@@ -1433,7 +1433,8 @@ public class SupplierController extends BaseSupplierController {
 		if(supplierTypeIds != null && supplierTypeIds.trim().length()!=0){
 			String[] types = supplierTypeIds.split(",");
 			for(String s:types){
-				List<SupplierItem> items = supplierItemService.queryBySupplierAndType(supplierId, s);
+//				List<SupplierItem> items = supplierItemService.queryBySupplierAndType(supplierId, s);
+				List<SupplierItem> items = supplierItemService.getItemList(supplierId, s, (byte)0, null);
 				if(items!=null&&items.size()<=1&&s.equals("PRODUCT")){
 					model.addAttribute("productError", "productError");
 					bool = false;
