@@ -932,7 +932,7 @@
      style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
     <ul id="Tree" class="ztree" style="margin-top:0;"></ul>
 </div>
-<!-- 生产等级树 -->
+<!-- 物资服务等级树 -->
 <div id="goodsLevelContent" class="levelTypeContent"
      style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
     <ul id="goodsLevelTree" class="ztree" style="margin-top:0;"></ul>

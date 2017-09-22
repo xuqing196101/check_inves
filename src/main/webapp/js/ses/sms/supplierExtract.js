@@ -1272,7 +1272,7 @@ $(function () {
     	$("#levelType").val("所有级别");
     }
     
-    //加载工程资质
+    //加载资质信息
     function loadQuaList(nodes){
     	//获取当前供应商code
     	code = $("#supplierType").val();
@@ -1322,9 +1322,14 @@ $(function () {
              onCheck: choseQua
          }
        };
-		 
-       var quaTree = $.fn.zTree.init($("#quaTree"), setting,nodes);
-       var treeObj = $.fn.zTree.getZTreeObj("quaTree");
+	
+	   if(code == "PROJECT"){
+		   var quaTree = $.fn.zTree.init($("#quaTree"), setting,nodes);
+		   var treeObj = $.fn.zTree.getZTreeObj("quaTree");
+	   }else{
+		   var quaTree = $.fn.zTree.init($("#"+code.toLowerCase()+"quaTree"), setting,nodes);
+		   var treeObj = $.fn.zTree.getZTreeObj(code.toLowerCase()+"quaTree");
+	   }
        //treeObj.checkAllNodes(true);
        //choseQua('',"quaTree",'');
     }
