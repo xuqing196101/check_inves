@@ -109,9 +109,9 @@ public class SupplierItemController extends BaseController {
 		SupplierAudit s = new SupplierAudit();
 		s.setSupplierId(supplierItem.getSupplierId());
 		//s.setAuditType("items_page");
-		s.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
+		s.setAuditType(ses.util.Constant.ITEMS_PRODUCT_PAGE);
 		if(ses.util.Constant.SUPPLIER_PRODUCT.equals(supplierItem.getSupplierTypeRelateId())){
-			s.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
+			s.setAuditType(ses.util.Constant.ITEMS_PRODUCT_PAGE);
 		}
 		if(ses.util.Constant.SUPPLIER_SALES.equals(supplierItem.getSupplierTypeRelateId())){
 			s.setAuditType(ses.util.Constant.ITEMS_SALES_PAGE);

@@ -544,5 +544,16 @@ public interface SupplierAuditService {
 	int updateReturnStatus(String supplierId);
 
 	List<SupplierItem> selectSupplierItemByType(Map<String, Object> map);
+	/**
+	 * 批量审核合同
+	 * @param userId
+	 * @param supplierId
+	 * @param supplierTypeId
+	 * @param suggest
+	 * @param itemIds
+	 * @return
+	 */
+	JdcgResult auditContractMuti(String userId, String supplierId,
+			String supplierTypeId, String suggest, String itemIds);
 
 }
