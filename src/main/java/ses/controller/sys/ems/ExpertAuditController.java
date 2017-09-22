@@ -1591,7 +1591,23 @@ public class ExpertAuditController{
 			model.addAttribute("message", result.getMsg());
 		}else{
 			String[] split = expert.getExpertsTypeId().split(",");
+			ExpertAudit audit = new ExpertAudit();
+			audit.setExpertId(expertId);
+			audit.setSuggestType("seven");
+			audit.settype("1");
+			List<ExpertAudit> list = expertAuditService.getListByExpert(expertAudit);
+			
 			for (String string : split) {
+				boolean s=false;
+				for (ExpertAudit a : list) {
+					if(string.equals(a.getAuditFieldId())){
+						s=true;
+						break;
+					}
+				}
+				if(s){
+					continue;
+				}
 				DictionaryData data = DictionaryDataUtil.findById(string);
 				if("PROJECT".equals(data.getCode())||"GOODS_PROJECT".equals(data.getCode())){
 					Map<String,Object> map2 = new HashMap<String,Object>();
