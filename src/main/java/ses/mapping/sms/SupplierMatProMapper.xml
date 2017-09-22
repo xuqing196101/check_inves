@@ -299,7 +299,7 @@
 		<collection property="listSupplierCertPros" column="ID" select="ses.dao.sms.SupplierCertProMapper.findCertProBySupplierMatProId" />
 	</resultMap>
 	
-	<select id="findSupplierId" parameterType="java.lang.String" resultType="java.lang.String">
+	<select id="findSupplierIdById" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT
 			t1.SUPPLIER_ID
 		FROM
