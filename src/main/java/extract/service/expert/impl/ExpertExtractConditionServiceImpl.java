@@ -34,7 +34,6 @@ import extract.dao.expert.ExtractCategoryMapper;
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
-import extract.model.expert.ExpertExtractResult;
 import extract.model.expert.ExpertExtractTypeInfo;
 import extract.model.expert.ExtractCategory;
 import extract.service.expert.ExpertExtractConditionService;
@@ -275,16 +274,19 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                         }
                     }
                 }
-                map.put("expertIds",expertIds);
-                map.put("size",expertIds.size());
                 //工程特有
                 if(typeCode.indexOf("PROJECT") >= 0){
-                	Set<String> expertEngIds = new HashSet<>();
                     //工程执业资格
                     Field field2 = c.getDeclaredField(typeCode.toLowerCase()+"_qualification");
                     field2.setAccessible(true); //设置些属性是可以访问的  
                     String qualification = (String)field2.get(expertExtractCateInfo);
-                    map.put("qualification",qualification);
+                    //map.put("qualification",qualification);
+                    if(qualification != null && !qualification.equals("")){
+                    	List<String> titleList = expertExtractConditionMapper.findExpertBytypeIdTitle(qualification, DictionaryDataUtil.getId(typeCode));
+                    	if(titleList != null && titleList.size() > 0){
+                    		expertIds.addAll(titleList);
+                    	}
+                    }
                     //工程专业信息
                     Field field3 = c.getDeclaredField(typeCode.toLowerCase()+"_eng_info");
                     field3.setAccessible(true); //设置些属性是可以访问的  
@@ -300,13 +302,13 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                                 cateMap.put("categoryId", str);
                                 cateMap.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
                                 List<String> expertIdList = expertCategoryMapper.selExpertByCategory(cateMap);
-                                expertEngIds.addAll(expertIdList);
+                                expertIds.addAll(expertIdList);
                             }
                         }
                     }
-                    map.put("expertEngIds",expertEngIds);
-                    map.put("engSize",expertEngIds.size());
                 }
+                map.put("expertIds",expertIds);
+                map.put("size",expertIds.size());
                 //筛选 去掉已经被抽过的专家
                 List<String> notExpertIds = new ArrayList<String>();
                 if(expertExtractCondition.getId() != null){

@@ -1112,12 +1112,13 @@ function extract_end(){
 }
 
 //打印结果表
-function alterEndInfo(obj){
+function alterEndInfo(){
 	var projectId = $("#projectId").val();
 	layer.alert("是否需要发送短信至确认参加供应商");
 	var index = layer.alert("完成抽取,打印记录表",function(){
-		window.location.href = globalPath+"/extractExpertRecord/printRecord.html?id="+projectId;
+		window.open(globalPath+"/extractExpertRecord/printRecord.html?id="+projectId,"下载抽取表");
 		$("#extractEnd").prop("disabled",true);
+		window.location.href=globalPath+"/extractExpertRecord/getRecordList.html";
 		layer.close(index);
 	});
 }

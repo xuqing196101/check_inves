@@ -177,5 +177,13 @@
   	</where>
   </select>
   
-  
+  <!-- 根据职业资格查询专家 -->
+  <select id="findExpertBytypeIdTitle" resultType="String">
+    SELECT 
+      EXPERT_ID 
+    FROM
+      T_SES_EMS_EXPERT_TITLE 
+    WHERE 
+      QUALIFCATION_TITLE = #{qualifcationTitle} AND EXPERT_TYPE_ID = #{typeId}
+  </select>
 </mapper>
