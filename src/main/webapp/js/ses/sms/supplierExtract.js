@@ -1274,6 +1274,9 @@ $(function () {
     
     //加载工程资质
     function loadQuaList(nodes){
+    	//获取当前供应商code
+    	code = $("#supplierType").val();
+    	
     	if(nodes=="init"){
     		$("#quaTree").empty();
     		return ;
@@ -1285,7 +1288,7 @@ $(function () {
     			type: "POST",
     			dataType: "json",
     			async:false,
-    			data:{categoryId:cateId},
+    			data:{categoryId:cateId,supplierTypeCode:code},
     			success:function(count){
     				nodes = count;
     			}
@@ -1521,6 +1524,8 @@ $(function () {
 	
 	//显示资质信息
 	function showQua(obj){
+		
+		
 		var levelType = $(obj);
 		var levelOffset = $(obj).offset();
         	$("#quaContent").css({

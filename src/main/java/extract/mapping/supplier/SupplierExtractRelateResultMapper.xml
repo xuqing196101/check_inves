@@ -503,9 +503,9 @@
 				 AND I.CATEGORY_ID IN <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
 			</if>
 			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
-				AND S.ID IN (SELECT  I.SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM I WHERE I.CATEGORY_ID IN 
+				AND S.ID IN (SELECT  IT.SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM IT WHERE IT.CATEGORY_ID IN 
 				<foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
-				 GROUP BY I.SUPPLIER_ID  HAVING COUNT(1) = #{csize})
+				 GROUP BY IT.SUPPLIER_ID  HAVING COUNT(1) = #{csize})
 				<!--  AND
 				 <trim prefix="(" suffixOverrides="AND" suffix=")">
 				 	 <foreach collection="categoryIds" item="cid" > I.CATEGORY_ID = #{cid} AND </foreach>

@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
+
 
 public interface SupplierExtractConditionMapper {
     /**
@@ -112,6 +114,8 @@ public interface SupplierExtractConditionMapper {
 	 * @return
 	 */
 	List<String> getLevelByList(List<String> byMap);
+
+	List<Category> checkParentCate(String cid);
 
 
 	

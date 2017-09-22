@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,7 +75,6 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
   
   @Autowired
   private AreaMapper areaMapper;
-  
   
   
   /**
@@ -682,9 +680,17 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	}
 
 	@Override
-	public List<DictionaryData> getQuaByCid(String categoryId) {
+	public List<DictionaryData> getQuaByCid(String categoryId ,String code) {
 		HashMap<String,String[]> hashMap = new HashMap<>();
-		hashMap.put("categoryIds", categoryId.split(","));
+		if("PROJECT".equals(code)){
+			String[] checkParentCate = checkParentCate(categoryId);
+			if(null == checkParentCate ){
+				return null;
+			}
+			hashMap.put("categoryIds",checkParentCate);
+		}else{
+			hashMap.put("categoryIds",categoryId.split(","));
+		}
 		return supplierConditionMapper.getQuaByCid(hashMap);
 	}
 
@@ -693,5 +699,29 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		return  supplierConditionMapper.getLevelByQid(qid.split(","));
 	}
 
-	
+	/**
+	 * 
+	 * <简述> 根据选择的品目id查询父节点 判断是否是工程勘察 或者设计
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-9-22下午3:53:02
+	 * @return
+	 */
+	public String[] checkParentCate(String categoryIds) {
+		// 递归获取所有父节点
+		
+		String[] cate = null;
+		if(StringUtils.isNotBlank(categoryIds)){
+			for (String cid : categoryIds.split(",")) {
+				List<Category> checkParentCate = supplierConditionMapper.checkParentCate(cid);
+				if("B02".equals(checkParentCate.get(0).getCode())||"B03".equals(checkParentCate.get(0).getCode())){
+					cate = new String[checkParentCate.size()];
+					for (int i = 0; i < checkParentCate.size(); i++) {
+						cate[i]=checkParentCate.get(i).getId();
+					}
+				}
+			}
+		}
+		return cate;
+	}
 }

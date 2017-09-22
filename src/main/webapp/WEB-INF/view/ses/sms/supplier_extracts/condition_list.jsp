@@ -399,21 +399,9 @@
         <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>工程资质：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-          
-          
           <input type="hidden" name="quaId" id="quaId" >
           <input type="text"  id="quaName" treeHome="quaContent"
          	 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}"  onclick="showQua(this);"/>
-         	 
-         <%--  <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" id="certType_select${certAptNumber }" title="cnjewfnAdd1" class="w100p border0" onchange="getAptLevel(this)">
-        	<option value="">请选择</option>
-			<c:forEach items="${typeList}" var="type">
-			<option value="${type.id}">${type.name}</option>
-			</c:forEach>
-		  </select>
-		  <input type="hidden" value="">  --%>
-		  
-		  
           <span class="add-on">i</span>
           <div class="cue" id="dCount"></div>
           </div>
@@ -496,6 +484,16 @@
           </div>
         </div>
         <div class="col-xs-3">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>资质信息：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+          <input type="hidden" name="serviceQuaId" id="serviceQuaId" >
+          <input type="text"  id="serviceQuaName" treeHome="serviceQuaContent"
+         	 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}"  onclick="showQua(this);"/>
+          <span class="add-on">i</span>
+          <div class="cue" id="dCount"></div>
+          </div>
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">供应商等级：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input type="hidden" name="serviceLevel" >
@@ -572,6 +570,16 @@
           value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
           <span class="add-on">i</span>
           <div class="cue" id="dCategoryName"></div>
+          </div>
+        </div>
+        <div class="col-xs-3">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>资质信息：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+          <input type="hidden" name="productQuaId" id="productQuaId" >
+          <input type="text"  id="productQuaName" treeHome="productQuaContent"
+         	 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}"  onclick="showQua(this);"/>
+          <span class="add-on">i</span>
+          <div class="cue" id="dCount"></div>
           </div>
         </div>
         <div class="col-xs-3">
@@ -654,6 +662,16 @@
           </div>
         </div>
         <div class="col-xs-3">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>资质信息：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+          <input type="hidden" name="goodsQuaId" id="goodsQuaId" >
+          <input type="text"  id="goodsQuaName" treeHome="goodsQuaContent"
+         	 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}"  onclick="showQua(this);"/>
+          <span class="add-on">i</span>
+          <div class="cue" id="dCount"></div>
+          </div>
+        </div>
+        <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">供应商等级：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input type="hidden" name="goodsLevel" >
@@ -731,6 +749,17 @@
           value="${listCon.conTypes[0].categoryName}" onclick="opens(this);" type="text">
           <span class="add-on">i</span>
           <div class="cue" id="dCategoryName"></div>
+          </div>
+        </div>
+        
+        <div class="col-xs-3">
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>资质信息：</span>
+          <div class="input-append input_group col-sm-12 col-xs-12 p0">
+          <input type="hidden" name="salesQuaId" id="salesQuaId" >
+          <input type="text"  id="salesQuaName" treeHome="salesQuaContent"
+         	 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}"  onclick="showQua(this);"/>
+          <span class="add-on">i</span>
+          <div class="cue" id="dCount"></div>
           </div>
         </div>
         <div class="col-xs-3">
@@ -898,6 +927,11 @@
      style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
     <ul id="quaTree" class="ztree" style="margin-top:0;"></ul>
 </div>
+<!-- 非工程资质树资质树 -->
+<div id="goodsContent" class="levelTypeContent" 
+     style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+    <ul id="Tree" class="ztree" style="margin-top:0;"></ul>
+</div>
 <!-- 生产等级树 -->
 <div id="goodsLevelContent" class="levelTypeContent"
      style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
@@ -1034,6 +1068,8 @@
 			// 
 		});
 	}
+	
+	
 	
 </script>
 </html>

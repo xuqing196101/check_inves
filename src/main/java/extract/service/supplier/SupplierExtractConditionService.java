@@ -136,7 +136,7 @@ public interface SupplierExtractConditionService {
    * 作者：贾成祥
    * 2017-9-12下午11:49:47
    */
-  List<DictionaryData> getQuaByCid(String categoryId);
+  List<DictionaryData> getQuaByCid(String categoryId,String code);
 
   /**
    * 根据资质查询资质等级

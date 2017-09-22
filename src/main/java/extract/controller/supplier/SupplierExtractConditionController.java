@@ -106,13 +106,13 @@ import extract.service.supplier.SupplierExtractConditionService;
    
    
    /**
-    * 根据工程品目ID 查询工程资质
+    * 根据工程品目ID 查询资质信息
     * @author Jia Chengxaing
     */
    @RequestMapping("/getQuaByCid")
    @ResponseBody
-   public List<DictionaryData> getQuaByCid(String categoryId){
-   	return conditionService.getQuaByCid(categoryId);
+   public List<DictionaryData> getQuaByCid(String categoryId,String supplierTypeCode){
+   	return conditionService.getQuaByCid(categoryId,supplierTypeCode);
    }
    
    /**
