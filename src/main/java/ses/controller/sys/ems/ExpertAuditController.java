@@ -1909,8 +1909,21 @@ public class ExpertAuditController{
 			ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 			expertAuditOpinion.setExpertId(expert.getId());
 			expertAuditOpinion = expertAuditOpinionService.selectByPrimaryKey(expertAuditOpinion);
+			//拼接参评类别审核意见
+			String count = findCategoryCount(expert.getId());
+			Map<String, Object> remap = JSON.parseObject(count); 
+			String categoryReason = "";
+			if("1".equals(expert.getStatus())){
+				categoryReason = "审核通过，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
+			}else if("2".equals(expert.getStatus())){
+				categoryReason = "审核未通过";
+			}else if("15".equals(expert.getStatus())){
+				categoryReason = "预审核通过，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
+			}else if("16".equals(expert.getStatus())){
+				categoryReason = "预审核未通过";
+			}
 			if(expertAuditOpinion !=null){
-				dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? "无" : expertAuditOpinion.getOpinion());
+				dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? categoryReason : expertAuditOpinion.getOpinion()+categoryReason);
 			}
 			else{
 				dataMap.put("reason", "无");
