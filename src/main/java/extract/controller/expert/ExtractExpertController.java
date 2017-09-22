@@ -296,13 +296,14 @@ public class ExtractExpertController {
         if(code.equals("GOODS_SERVER")){
             return "";
         }
-        List<String> idList = new ArrayList<>();
+        String[] cheIds = ids.split(",");
+        /*List<String> idList = new ArrayList<>();
         if(ids != null && !ids.equals("")){
             String[] split = ids.split(",");
             for (String str : split) {
                 idList.add(str);
             }
-        }
+        }*/
         String categoryId = DictionaryDataUtil.getId(code);
         if (code != null && code.indexOf("ENG_INFO_ID") > 0) {
         	categoryId = DictionaryDataUtil.getId("ENG_INFO_ID");
@@ -314,8 +315,6 @@ public class ExtractExpertController {
                 ct.setName(parent.getName());
                 ct.setId(parent.getId());
                 ct.setIsParent("true");
-                // 设置是否被选中
-                /*ct.setChecked(expertExtractProjectService.isChecked(idList,code));*/
                 allCategories.add(ct);
             } else {
                 List < Category > tempNodes = engCategoryService.findPublishTree(category.getId(), null);
@@ -356,12 +355,7 @@ public class ExtractExpertController {
                             ct.setIsParent("true");
                         }
                         // 判断是否被选中
-                        /*if(category.getCode().length()>=7){
-                        	ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null,auditList,null));
-                        }else{
-                        	ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null,auditList,ct.getIsParent()));
-                        }*/
-                        //
+                        ct.setChecked(isChecked(cheIds,ca.getId()));
                         allCategories.add(ct);
                     }
                 }
@@ -389,8 +383,8 @@ public class ExtractExpertController {
                         if(nodesList != null && nodesList.size() > 0) {
                             ct.setIsParent("true");
                         }
-                        // 设置是否被选中
-                        /*ct.setChecked(expertExtractProjectService.isChecked(idList,code));*/
+                     // 判断是否被选中
+                        ct.setChecked(isChecked(cheIds,ca.getId()));
                         allCategories.add(ct);
                     }
                 }
@@ -415,5 +409,25 @@ public class ExtractExpertController {
     public String vaProjectCode(String code){
         return expertExtractProjectService.vaProjectCode(code);
     }
+    
+    /**
+     * 
+     * Description: 判断是否被选中
+     * 
+     * @author zhang shubin
+     * @data 2017年9月22日
+     * @param 
+     * @return
+     */
+    public boolean isChecked(String[] allCategoryList,String typeCode) {
+    	if(allCategoryList != null && allCategoryList.length > 0){
+    		for (String s : allCategoryList) {
+    			if (s.equals(typeCode)){
+    				return true;
+    			}
+    		}
+    	}
+        return false;
+	}
 
 }

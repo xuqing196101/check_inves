@@ -165,4 +165,16 @@ public interface ExpertCategoryMapper {
      * @return
      */
     List<String> selExpertByCategory(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 根据品目查询符合条件的专家 (满足所有品目条件)
+     * 
+     * @author zhang shubin
+     * @data 2017年9月10日
+     * @param 
+     * @return
+     */
+    List<String> selExpertByAll(Map<String, Object> map);
+
 }

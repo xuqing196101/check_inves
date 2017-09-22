@@ -83,17 +83,6 @@ public interface ExpertExtractProjectService {
     
     /**
      * 
-     * Description: 判断目录节点是否被选中
-     * 
-     * @author zhang shubin
-     * @data 2017年9月19日
-     * @param 
-     * @return
-     */
-    boolean isChecked(List<String> list,String typeCode);
-    
-    /**
-     * 
      * Description: 修改项目抽取状态
      * 
      * @author zhang shubin

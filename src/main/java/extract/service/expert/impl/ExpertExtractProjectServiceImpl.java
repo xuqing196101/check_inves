@@ -408,48 +408,6 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 		return JSON.toJSONString(map);
 	}
 	
-	/**
-	 * 
-	 * Description: 判断节点是否被选中
-	 * 
-	 * @author zhang shubin
-	 * @data 2017年9月19日
-	 * @param 
-	 * @return
-	 */
-	@Override
-    public boolean isChecked(List<String> allCategoryList,String typeCode) {
-        int count = 0;
-        if (allCategoryList != null && allCategoryList.size() > 0) {
-            for (String categoryId : allCategoryList) {
-                if (!typeCode.equals("ENG_INFO_ID")) {
-                    Category data = categoryMapper.findById(categoryId);
-                    List<Category> findPublishTree = categoryMapper.findPublishTree(categoryId,null);
-                    if (findPublishTree.size() == 0) {
-                        count++;
-                    } else if (data != null && data.getCode().length() == 7) {
-                        count++;
-                    }
-                } else {
-                    Category data = engCategoryMapper.findById(categoryId);
-                    List<Category> findPublishTree = engCategoryMapper.findPublishTree(categoryId,null);
-                    if (findPublishTree.size() == 0) {
-                        count++;
-                    } else if (data != null && data.getCode().length() == 7) {
-                        count++;
-                    }
-                }
-            }
-            int notCount = 0;
-            if (count > notCount) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
-    }
-
     /**
      * 修改项目抽取状态
      */

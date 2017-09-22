@@ -2613,5 +2613,4 @@ resultMap="BaseResultMap">
         </if>
         ORDER BY dbms_random.random
   </select>
-
 </mapper>
