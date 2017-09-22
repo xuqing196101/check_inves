@@ -493,6 +493,7 @@
 								+ "</tr>");
 		certPersonNumber++;
 		$("#certPersonNumber").val(certPersonNumber);
+		tempSave();
 	}
 
 	function deleteRegPerson() {
@@ -580,6 +581,7 @@
 			success : function(data) {
 				$("#aptitute_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certAptNumber++;
@@ -679,6 +681,7 @@
 			success : function(data) {
 				$("#cert_pro_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certProNumber++;
@@ -817,6 +820,7 @@
 			success : function(data) {
 				$("#cert_sell_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certSaleNumber++;
@@ -907,6 +911,7 @@
 			success : function(data) {
 				$("#cert_se_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certSeNumber++;
@@ -1169,6 +1174,7 @@
 			success : function(data) {
 				$("#cert_eng_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certEngNumber++;
