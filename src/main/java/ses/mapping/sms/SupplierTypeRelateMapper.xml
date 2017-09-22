@@ -149,11 +149,12 @@
 	<!-- 查询供应商所有的参评类别 -->
 	<select id="findSupplierCategoryByTypeId" parameterType="Map" resultMap="CategoryMap">
 		SELECT * FROM (
-			SELECT ID,PARENT_ID,NAME FROM
+			SELECT ID,PARENT_ID,NAME, CODE FROM
 				T_SES_BMS_CATEGORY
-			WHERE ID IN (SELECT CATEGORY_ID AS ID FROM T_SES_SMS_SUPPLIER_ITEM  WHERE SUPPLIER_ID = #{supplierId} AND SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId})
+			WHERE ID IN (SELECT CATEGORY_ID AS ID FROM T_SES_SMS_SUPPLIER_ITEM  WHERE SUPPLIER_ID = #{supplierId} AND SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId}
+			)
 		)
-		START WITH PARENT_ID = #{typeId} CONNECT BY PRIOR ID = PARENT_ID
+		START WITH PARENT_ID = #{typeId} CONNECT BY PRIOR ID = PARENT_ID ORDER BY CODE
 	</select>
 	
 </mapper>

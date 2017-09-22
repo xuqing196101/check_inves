@@ -6,8 +6,6 @@ import common.constant.StaticVariables;
 import common.service.UploadService;
 import common.utils.DateUtils;
 import common.utils.JdcgResult;
-import common.utils.ListSortUtil;
-
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
@@ -81,10 +77,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 /**
@@ -452,9 +446,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
      * @return void
      */
 	@Override
-	public void updateStatus(Supplier supplier) {
-		supplierMapper.updateStatus(supplier);
-		
+	public int updateStatus(Supplier supplier) {
+		return supplierMapper.updateStatus(supplier);
 	}
 	
 	/**
@@ -468,7 +461,6 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
      */
 	@Override
 	public Integer getCount(Supplier supplier) {
-		
 		return supplierMapper.getCount(supplier);
 	}
 	
@@ -1947,105 +1939,112 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 				//supplierModify.setModifyType(audit.getAuditType());
 				String auditType = audit.getAuditType();
 				String auditField = audit.getAuditField();
-				auditField = auditField.replaceAll("_file", "");// 财务附件
-				auditField = auditField.replaceAll("_info", "");// 财务信息
-				if("mat_eng_page".equals(auditType)){// 承揽业务范围
-					String areaId = areaServiceI.selectByName(auditField);
-					if(areaId != null){
-						auditField = areaId;
+				if(auditType != null && auditField != null){
+					auditField = auditField.replaceAll("_file", "");// 财务附件
+					auditField = auditField.replaceAll("_info", "");// 财务信息
+					if("mat_eng_page".equals(auditType)){// 承揽业务范围
+						String areaId = areaServiceI.selectByName(auditField);
+						if(areaId != null){
+							auditField = areaId;
+						}
 					}
-				}
-				if("supplierPledge".equals(auditField)){// 供应商承诺书
-					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierPledge();
-				}
-				if("supplierRegList".equals(auditField)){// 供应商入库申请表
-					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierRegList();
-				}
-				if("supplierConAch".equals(auditField)){// 承包合同主要页及保密协议
-					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierConAch();
-				}
-				if("supplierBank".equals(auditField)){// 基本账户开户许可证
-					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBank();
-				}
-				if("businessCert".equals(auditField)){// 营业执照
-					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBusinessCert();
-				}
-				if("supplierIdentityUp".equals(auditField)){// 身份证复印件
-					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierIdentityUp();
-				}
-				if("taxCert".equals(auditField)){// 近三个月完税凭证
-					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierTaxCert();
-				}
-				if("billCert".equals(auditField)){// 近三年银行基本账户年末对账单
-					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBillCert();
-				}
-				if("securityCert".equals(auditField)){// 近三个月缴纳社会保险金凭证
-					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierSecurityCert();
-				}
-				if("supplierBearchCert".equals(auditField)){// 保密资格证书
-					auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBearchCert();
-				}
-				if(auditType.startsWith("contract_")){// 合同
-					String[] fieldAry = auditField.split("_");
-					if(fieldAry != null && fieldAry.length > 1){
-						auditField = fieldAry[1];
+					if("supplierPledge".equals(auditField)){// 供应商承诺书
+						auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierPledge();
 					}
-				}
-				if(auditType.startsWith("aptitude_")){// 资质
-					String[] fieldAry = auditField.split("_");
-					if(fieldAry != null && fieldAry.length > 1){
-						String itemId = fieldAry[0];// 品目id
-						String quaId = fieldAry[1];// 资质文件id
-						SupplierItem item = supplierItemService.selectByPrimaryKey(itemId);
-						if(item != null){
-							String catId = item.getCategoryId();
-							Category cate = categoryService.selectByPrimaryKey(catId);
-							String flag = "";
-							if(cate == null){
-								DictionaryData data = DictionaryDataUtil.findById(catId);
-								flag = data.getId();
-							}else{
-								flag = item.getId();
-							}
-							CategoryQua cq = new CategoryQua();
-							cq.setCategoryId(catId);
-							cq.setQuaId(quaId);
-							List<CategoryQua> cqList = categoryQuaMapper.selectCategoryQuaList(cq);
-							if(cqList != null && cqList.size() > 0){
-								auditField = flag + cqList.get(0).getId();
+					if("supplierRegList".equals(auditField)){// 供应商入库申请表
+						auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierRegList();
+					}
+					if("supplierConAch".equals(auditField)){// 承包合同主要页及保密协议
+						auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierConAch();
+					}
+					if("supplierBank".equals(auditField)){// 基本账户开户许可证
+						auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBank();
+					}
+					if("businessCert".equals(auditField)){// 营业执照
+						auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBusinessCert();
+					}
+					if("supplierIdentityUp".equals(auditField)){// 身份证复印件
+						auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierIdentityUp();
+					}
+					if("taxCert".equals(auditField)){// 近三个月完税凭证
+						auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierTaxCert();
+					}
+					if("billCert".equals(auditField)){// 近三年银行基本账户年末对账单
+						auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBillCert();
+					}
+					if("securityCert".equals(auditField)){// 近三个月缴纳社会保险金凭证
+						auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierSecurityCert();
+					}
+					if("supplierBearchCert".equals(auditField)){// 保密资格证书
+						auditField = dictionaryDataServiceI.getSupplierDictionary().getSupplierBearchCert();
+					}
+					if(auditType.startsWith("contract_")){// 合同
+						String[] fieldAry = auditField.split("_");
+						if(fieldAry != null && fieldAry.length > 1){
+							auditField = fieldAry[1];
+						}
+					}
+					if(auditType.startsWith("aptitude_")){// 资质
+						String[] fieldAry = auditField.split("_");
+						if(fieldAry != null && fieldAry.length > 1){
+							String itemId = fieldAry[0];// 品目id
+							String quaId = fieldAry[1];// 资质文件id
+							SupplierItem item = supplierItemService.selectByPrimaryKey(itemId);
+							if(item != null){
+								String catId = item.getCategoryId();
+								Category cate = categoryService.selectByPrimaryKey(catId);
+								String flag = "";
+								if(cate == null){
+									DictionaryData data = DictionaryDataUtil.findById(catId);
+									flag = data.getId();
+								}else{
+									flag = item.getId();
+								}
+								CategoryQua cq = new CategoryQua();
+								cq.setCategoryId(catId);
+								cq.setQuaId(quaId);
+								List<CategoryQua> cqList = categoryQuaMapper.selectCategoryQuaList(cq);
+								if(cqList != null && cqList.size() > 0){
+									auditField = flag + cqList.get(0).getId();
+								}
 							}
 						}
 					}
-				}
-				if(auditType.startsWith("items_")){// 品目
+					if(auditType.startsWith("items_")){// 品目
+						// 更新状态
+						SupplierAudit supplierAuditUpdate = new SupplierAudit();
+						supplierAuditUpdate.setId(audit.getId());
+						supplierAuditUpdate.setReturnStatus(2);
+						result += supplierAuditMapper.updateByIdSelective(supplierAuditUpdate);
+						continue;
+					}
+					supplierModify.setBeforeField(auditField);
+					supplierModify.setRelationId(auditField);
+					int modifyCount = supplierModifyService.countBySupplierId(supplierModify);
 					// 更新状态
 					SupplierAudit supplierAuditUpdate = new SupplierAudit();
 					supplierAuditUpdate.setId(audit.getId());
-					supplierAuditUpdate.setReturnStatus(2);
-					result += supplierAuditMapper.updateByIdSelective(supplierAuditUpdate);
-					continue;
-				}
-				supplierModify.setBeforeField(auditField);
-				supplierModify.setRelationId(auditField);
-				int modifyCount = supplierModifyService.countBySupplierId(supplierModify);
-				// 更新状态
-				SupplierAudit supplierAuditUpdate = new SupplierAudit();
-				supplierAuditUpdate.setId(audit.getId());
-				Integer rs = audit.getReturnStatus();
-				if(modifyCount > 0){
-					if(rs != null && rs != 3){
-						supplierAuditUpdate.setReturnStatus(3);
-						result += supplierAuditMapper.updateByIdSelective(supplierAuditUpdate);
-					}
-				}else{
-					if(rs != null && rs != 4){
-						supplierAuditUpdate.setReturnStatus(4);
-						result += supplierAuditMapper.updateByIdSelective(supplierAuditUpdate);
+					Integer rs = audit.getReturnStatus();
+					if(modifyCount > 0){
+						if(rs != null && rs != 3){
+							supplierAuditUpdate.setReturnStatus(3);
+							result += supplierAuditMapper.updateByIdSelective(supplierAuditUpdate);
+						}
+					}else{
+						if(rs != null && rs != 4){
+							supplierAuditUpdate.setReturnStatus(4);
+							result += supplierAuditMapper.updateByIdSelective(supplierAuditUpdate);
+						}
 					}
 				}
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public List<SupplierItem> selectSupplierItemByType(Map<String, Object> map) {
+		return supplierItemMapper.selectCountBySupTypeList(map);
 	}
 
 	private boolean isEngAptitudeModified(SupplierItem supplierItem, SupplierAptitute aptitude) {
