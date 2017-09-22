@@ -31,7 +31,9 @@
                 	if(qualified){
                 		$("#qualified").attr("disabled", false);
                 	}else{
+                		var mes='${message}';
                 		$("#qualified").attr("disabled", true);
+                		$("#check_opinion").html("<span class='red'>"+mes+"</span>");
                 	}
                 /* }else{
                 	$("#qualified").attr("disabled", true);
