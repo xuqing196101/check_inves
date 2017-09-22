@@ -34,7 +34,6 @@ import extract.dao.expert.ExtractCategoryMapper;
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
-import extract.model.expert.ExpertExtractResult;
 import extract.model.expert.ExpertExtractTypeInfo;
 import extract.model.expert.ExtractCategory;
 import extract.service.expert.ExpertExtractConditionService;

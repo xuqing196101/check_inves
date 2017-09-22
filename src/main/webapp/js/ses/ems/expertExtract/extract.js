@@ -1171,4 +1171,4 @@ function size(par) {
 	if (par.value.length < max) 
 	var str = max - par.value.length;
 	$("#textCount").html(str.toString()); 
-	} 
+} 

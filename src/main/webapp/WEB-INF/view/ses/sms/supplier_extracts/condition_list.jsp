@@ -4,7 +4,7 @@
 <html>
 <head>
     <%@ include file="../../../common.jsp"%>
-    <title>任务管理</title>
+    <title>供应商抽取</title>
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
@@ -50,7 +50,7 @@
 	<c:set var="flag" value="true"></c:set>
 </c:if>
     <form id="projectForm" action="<%=request.getContextPath() %>/SupplierExtracts_new/saveProjectInfo.do" method="post" >
-    <input type="submit" value="提交"> <input type="button" value="存储项目人员信息" onclick="submitInfo()"> <input onclick="showEndButton()" type="button" value="抽取完成">
+    <!-- <input type="submit" value="提交"> <input type="button" value="存储项目人员信息" onclick="submitInfo()"> <input onclick="showEndButton()" type="button" value="抽取完成"> -->
         <!-- 打开类型 -->
       <%--   <input type="hidden" value="${typeclassId}" name="typeclassId" /> --%>
         <!-- 项目id  -->
@@ -80,9 +80,9 @@
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
            			<c:if test="${projectInfo.purchaseType ==null }">
                    	<select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0" ${flag?"readonly":"" }>
-                        <option value="EF33590F956F4450A43C1B510EBA7923" >询价</option>
-                        <option value="209C109291F241D88188521A7F8FA308" >邀请招标</option>
-                   	 	<option value="3CF3C643AE0A4499ADB15473106A7B80" >竞争性谈判</option>
+                      <c:forEach items="${purchaseTypeList}" var="map">
+                        <option value="${map.id}">${map.name}</option>
+                      </c:forEach>
                      </select>
                     </c:if>
                    	<c:if test="${projectInfo.purchaseType !=null }">
@@ -104,7 +104,7 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>售领采购文件起始时间:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});" onchange="checkTime()"  id="sellBegin" readonly="readonly"  name="sellBegin" value="<fmt:formatDate value='${project}'
+                     <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-%d'});" onchange="checkTime()"  id="sellBegin" readonly="readonly"  name="sellBegin" value="<fmt:formatDate value='${project}'
                              pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">
                      <div class="cue" id="sellBeginError"></div>
                  </div>
@@ -112,7 +112,7 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>售领采购文件结束时间:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicking: checkTime()});" id="sellEnd" readonly="readonly"  name="sellEnd" value="<fmt:formatDate value='${bidDate}'
+                     <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicking: checkTime(),minDate:'%y-%M-%d'});" id="sellEnd" readonly="readonly"  name="sellEnd" value="<fmt:formatDate value='${bidDate}'
                              pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">
                      <div class="cue" id="sellEndError"></div>
                  </div>
@@ -299,15 +299,6 @@
                   	  <div class="cue" id="areaNameError"></div>
                   </div>
               </li>
-               <li class="col-md-3 col-sm-6 col-xs-12  dnone">
-                  <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>限制地区理由：</span>
-                  <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="addressReason" id="areaReson" value=""
-                             type="text">
-                      <span class="add-on">i</span>
-                      <div class="cue" id="areaError" ></div>
-                  </div>
-              </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
                   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div
                           class="star_red">*</div>供应商类型：</span>
@@ -342,6 +333,15 @@
           <div class="cue" id=projectExtractNumError>${loginPwdError}</div>
         </div>
     </li>
+    <li class="clear"></li>
+      <li class="col-md-12 col-sm-12 col-xs-12 dnone">
+        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 限制地区理由:</span>
+        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+          <textarea class="w100p h100 resizen" maxlength="500" name="addressReason" id="areaReson" onkeyup="size(this);"></textarea>
+          <small>字数：500. 剩余：<span id="textCount">500</span>.</small>
+          <div class="cue" id="areaError"></div>
+        </div>
+     </li>
 	<li class="clear"></li>
     <li class="col-xs-12 borderTS1 mt10 pt10 dnone projectCount">
       
@@ -1061,9 +1061,9 @@
 	function alterEndInfo(obj){
 		layer.alert("是否需要发送短信至确认参加供应商");
 		var index = layer.alert("完成抽取,打印记录表",function(){
-			window.location.href = globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val();
+			window.open(globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val());
 			$(obj).prop("disabled",true);
-			//window.location.href = globalPath+"/SupplierExtracts_new/projectList.html";
+			window.location.href = globalPath+"/SupplierExtracts_new/projectList.html";
 			layer.close(index);
 			// 
 		});

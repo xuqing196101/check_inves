@@ -124,7 +124,7 @@ public class ExtractSupplierController extends BaseController {
             model.addAttribute("endTime",endTime);
             model.addAttribute("project",project);
             List<SupplierExtractProjectInfo> extractRecords = expExtractRecordService.getList(page == null?1:page,user,project);
-    		model.addAttribute("info", new PageInfo<SupplierExtractProjectInfo>(extractRecords));
+            model.addAttribute("info", new PageInfo<SupplierExtractProjectInfo>(extractRecords));
     		return "ses/sms/supplier_extracts/project_list";
     	}
     	return "redirect:/qualifyError.jsp";
@@ -205,6 +205,14 @@ public class ExtractSupplierController extends BaseController {
     	List<Area> province = areaService.findRootArea();
     	model.addAttribute("businessNature", conditionService.getBusinessNature());
     	model.addAttribute("province", province);
+    	//加载采购方式
+    	List<DictionaryData> purchaseTypeList = new ArrayList<>();
+    	DictionaryData xj = DictionaryDataUtil.get("XJCG");
+    	xj.setName("询价");
+    	purchaseTypeList.add(xj);
+    	purchaseTypeList.add(DictionaryDataUtil.get("YQZB"));
+    	purchaseTypeList.add(DictionaryDataUtil.get("JZXTP"));
+    	model.addAttribute("purchaseTypeList", purchaseTypeList);
     	//model.addAttribute("address", areaService.findAreaByParentId(province.get(0).getId()));
     	return "ses/sms/supplier_extracts/condition_list";
     }

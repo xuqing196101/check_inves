@@ -144,6 +144,9 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			if(StringUtils.isNotBlank(temp)){
 				projectInfo.setExtractUser(temp.substring(0,temp.lastIndexOf(",")));
 			}
+			if(projectInfo != null && projectInfo.getPurchaseType() != null && projectInfo.getPurchaseType().equals("询价采购")){
+				projectInfo.setPurchaseType("询价");
+			}
 		}
 		return list;
 	}

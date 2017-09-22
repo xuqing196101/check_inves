@@ -69,12 +69,19 @@ $(function () {
     function selectArea(obj){
     	var city = "";
     	var provinceId = $(obj).val();
+    	if(provinceId == ''){
+    		$(obj).next().empty();
+    		$(obj).next().append("<option value=''>选择地区</option>");
+            return;
+    	}
     	$.ajax({
             type: "POST",
             url: globalPath+"/area/find_by_parent_id.do",
             data: {id: provinceId},
             dataType: "json",
             success: function (data) {
+            	$(obj).next().empty();
+            	$(obj).next().append("<option value=''>选择地区</option>");
             	for(var i=0;i<data.length;i++){
             		city += "<option value="+data[i].id+">"+data[i].name+"</option>";
             	}
@@ -1784,3 +1791,12 @@ $(function () {
             }
     	});
     }
+    
+    
+  //文本编译器计数
+    function size(par) { 
+    	var max = 500; 
+    	if (par.value.length < max) 
+    	var str = max - par.value.length;
+    	$("#textCount").html(str.toString()); 
+    } 
