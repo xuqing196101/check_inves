@@ -224,7 +224,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>名称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="name" maxlength="8" value="${orgnization.name}" type="text" onblur="verify(this);" required  maxlength="100"> 
+			  <input class="input_group" name="name" maxlength="100" value="${orgnization.name}" type="text" onblur="verify(this);" required  maxlength="100"> 
 			  <span class="add-on">i</span>
 			  <div class="cue" id="sps"><sf:errors path="name"/></div>
 			</div>
