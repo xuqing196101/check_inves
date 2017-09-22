@@ -48,7 +48,8 @@
         T2.STATUS AS status, <!-- 审核状态 -->
         T2.EXPERTS_TYPE_ID AS expertsTypeId,<!-- 专家类型 -->
         T2.EXPERTS_FROM AS expertsFrom,<!-- 专家类别 -->
-        T2.AUDIT_TEMPORARY AS auditTemporary
+        T2.AUDIT_TEMPORARY AS auditTemporary,
+        T2.IS_REVIEW_END AS isReviewEnd
         from 
         T_SYS_EMS_EXPERT_BATCH_DETAILS T1
 		LEFT JOIN T_SES_EMS_EXPERT T2 ON T1.EXPERT_ID=T2.ID 

@@ -69,6 +69,7 @@
 				<result column="AUDITOR" property="auditor" />
 				<result column="AUDIT_TEMPORARY" property="auditTemporary" />
 				<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
+				<result column="IS_REVIEW_END" property="isReviewEnd" />
     </resultMap>
     
     <!-- 统计Analyze关系映射 -->
@@ -115,7 +116,8 @@
         PROFESSIONAL,
         TIME_PROFESSIONAL,
         IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE,TEACH_TITLE, EXTRACT_ORGID, AUDITOR,
-        AUDIT_OPINION_ATTACH
+        AUDIT_OPINION_ATTACH,
+        IS_REVIEW_END
     </sql>
     <sql id="Column_List">
         e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -859,6 +861,9 @@ resultMap="BaseResultMap">
             </if>
             <if test="auditOpinionAttach != null">
                 AUDIT_OPINION_ATTACH = #{auditOpinionAttach},
+            </if>
+            <if test="isReviewEnd != null">
+                IS_REVIEW_END = #{isReviewEnd},
             </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}

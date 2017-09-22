@@ -87,7 +87,7 @@
     }
     //下载
     function downloadTable(id) {
-        var state = $("#" + id + "").parent("tr").find("td").eq(9).text(); //.trim();
+        var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
         if(state =="预复审结束" || state =="公示中" || state == "复审预合格" ||state == "复审合格" || state == "复审不合格"|| state == "复审退回修改" || state == "复查合格" || state == "复查未合格") {
           $("input[name='tableType']").val('2');
@@ -104,11 +104,47 @@
       return str.replace(/(^\s*)|(\s*$)/g, "");
     }
     
-    //复审结束
+    /** 全选全不选 */
+    function selectAll(){
+       var checklist = document.getElementsByName ("chkItem");
+       var checkAll = document.getElementById("checkAll");
+       if(checkAll.checked){
+           for(var i=0;i<checklist.length;i++)
+           {
+              checklist[i].checked = true;
+           } 
+         }else{
+          for(var j=0;j<checklist.length;j++)
+          {
+             checklist[j].checked = false;
+          }
+       }
+    }
+    
+    /** 单选 */
+    function check(){
+       var count=0;
+       var checklist = document.getElementsByName ("chkItem");
+       var checkAll = document.getElementById("checkAll");
+       for(var i=0;i<checklist.length;i++){
+           if(checklist[i].checked == false){
+             checkAll.checked = false;
+             break;
+           }
+           for(var j=0;j<checklist.length;j++){
+             if(checklist[j].checked == true){
+                 checkAll.checked = true;
+                 count++;
+               }
+           }
+         }
+    }
+    
+    //复审结束（审核专家操作）
     function reviewEnd(expertId){
     	$.ajax({
-        url: "${pageContext.request.contextPath}/expertAudit/reviewEnd.do",
-        data: {"expertId" : expertId, "sign" : "2"},
+        url: "${pageContext.request.contextPath}/expertAgainAudit/reviewEnd.do",
+        data: {"expertId" : expertId},
         success: function (data) {
           if(data.status == 200){
         	  layer.msg("操作成功",{offset:'100px'});
@@ -120,6 +156,45 @@
         	layer.msg("操作失败",{offset:'100px'});
         }
       });
+    }
+    
+    //复审确认（资源服务中心）
+    function reviewConfirm(){
+    	var ids = [];
+    	var flag = true;
+    	$('input[type="checkbox"]:checked').each(function() {
+        var id = $(this).val();
+       	var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
+        state = trim(state);
+        if(state == "复审结束"){
+        	ids.push(id);
+        }else{
+        	flag = false;
+        }
+      });
+    	if(flag){
+    		$.ajax({
+ 	        url: "${pageContext.request.contextPath}/expertAgainAudit/reviewConfirm.do",
+ 	        data: {"expertIds" : ids},
+ 	        type: "post",
+ 	        traditional:true,
+ 	        success: function (data) {
+ 	          if(data.status == 500){
+ 	            layer.msg("操作成功",{offset:'100px'});
+ 	            window.setTimeout(function(){
+ 	              window.location.reload();
+ 	            },1000);
+ 	          }
+ 	          if(data.status == 503){
+ 	            layer.msg("请选择复审结束的专家",{offset:'100px'});
+ 	          }
+ 	        },error: function(){
+ 	          layer.msg("操作失败",{offset:'100px'});
+ 	        }
+ 	      });
+    	}else{
+    		layer.msg("请选择复审结束的专家",{offset:'100px'});
+    	}
     }
   </script>
     

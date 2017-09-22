@@ -467,6 +467,8 @@ public class Expert extends ExpertHistory implements Serializable {
     private String auditor;//审核人
 
     private Integer auditTemporary; //审核暂存状态0；未暂存，1：审核中，2：复审中，3复查中）
+    
+    private Integer isReviewEnd;//是否复审结束（1是）
 
     /**
      * 专家提交审核时间
@@ -1109,4 +1111,13 @@ public class Expert extends ExpertHistory implements Serializable {
     public void setExpertAuditOpinion(ExpertAuditOpinion expertAuditOpinion) {
         this.expertAuditOpinion = expertAuditOpinion;
     }
+
+	public Integer getIsReviewEnd() {
+		return isReviewEnd;
+	}
+
+	public void setIsReviewEnd(Integer isReviewEnd) {
+		this.isReviewEnd = isReviewEnd;
+	}
+    
 }

@@ -54,6 +54,8 @@ public class ExpertBatchDetails {
 	private List<String> ids;
 	/**是否下载附件(0否，1是)*/
 	private Integer isDownload;
+	/**是否复审（1是）结束*/
+	private Integer isReviewEnd;
 	public String getExpertsTypeId() {
 		return expertsTypeId;
 	}
@@ -203,6 +205,12 @@ public class ExpertBatchDetails {
 	}
 	public void setIsDownload(Integer isDownload) {
 		this.isDownload = isDownload;
+	}
+	public Integer getIsReviewEnd() {
+		return isReviewEnd;
+	}
+	public void setIsReviewEnd(Integer isReviewEnd) {
+		this.isReviewEnd = isReviewEnd;
 	}
 	
 	

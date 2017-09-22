@@ -2883,7 +2883,6 @@ public class ExpertAuditController{
 	
 	/**
 	 * @Title: signature
-	 * @author XuQing 
 	 * @date 2017-4-3 下午12:18:11  
 	 * @Description:添加签字人员校验唯一
 	 * @param @param signature      
@@ -2928,7 +2927,6 @@ public class ExpertAuditController{
     
 	/**
 	 * @Title: saveSignature
-	 * @author XuQing 
 	 * @date 2017-4-6 下午1:17:20  
 	 * @Description:复审表添加签字人员
 	 * @param @param purchaseRequiredFormBean
@@ -3581,60 +3579,7 @@ public class ExpertAuditController{
 		}
     }
     
-    /**
-     * 复审结束
-     * @param user
-     * @param expertId
-     * @return 
-     * @return 
-     * @return 
-     */
-    @RequestMapping("/reviewEnd")
-    @ResponseBody
-    public JdcgResult reviewEnd(@CurrentUser User user, String expertId, Integer sign){
-    	// 查询审核意见
-		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
-		expertAuditOpinion.setExpertId(expertId);
-		expertAuditOpinion.setFlagTime(1);
-		expertAuditOpinion = expertAuditOpinionService.selectByExpertId(expertAuditOpinion);
-		
-		//更新专家状态
-		Expert expert = new Expert();
-		expert.setId(expertId);
-		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
-			if(expertAuditOpinion.getFlagAudit() == -3){
-				//预复审合格
-				expert.setStatus("-3");
-			}
-			if(expertAuditOpinion.getFlagAudit() == 5){
-				//复审不合格
-				expert.setStatus("5");
-				
-			}
-			if(expertAuditOpinion.getFlagAudit() == 10){
-				//复审退回修改
-				expert.setStatus("10");
-			}
-		}
-		/*expert.setSign(sign);
-		expert.setId(expertId);
-		updateStatus(user, expert, null, null, null);*/
-		//提交审核，更新状态
-		expert.setAuditAt(new Date());
-		
-		//审核人
-		expert.setAuditor(user.getRelName());
-		//还原暂存状态
-		expert.setAuditTemporary(0);
-		// 设置修改时间
-		expert.setUpdatedAt(new Date());
-		expertService.updateByPrimaryKeySelective(expert);
-		/*expert = expertService.selectByPrimaryKey(expertId);
-		String status = expert.getStatus();*/
-		//完成待办
-		todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
-		return new JdcgResult(200);
-    }
+    
     
     /**
      * 审核汇总页

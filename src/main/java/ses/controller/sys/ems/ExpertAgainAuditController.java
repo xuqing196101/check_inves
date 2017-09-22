@@ -8,23 +8,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAgainAuditImg;
 import ses.model.ems.ExpertAgainAuditReviewTeamList;
+import ses.model.ems.ExpertAuditOpinion;
 import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.TodosService;
 import ses.service.ems.ExpertAgainAuditService;
+import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
@@ -46,6 +54,10 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;
+	@Autowired
+	private TodosService todosService; //待办
+	@Autowired
+	private ExpertAuditOpinionService expertAuditOpinionService;
 	/*
 	 * 提交复审
 	 * */
@@ -816,4 +828,85 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		img = againAuditService.automaticGrouping(batchId, count);
 		super.writeJson(response, img);
 	}
+	
+	
+	/**
+     * 复审结束（审核专家操作）
+     * @param user
+     * @param expertId
+     * @return 
+     * @return 
+     * @return 
+     */
+	@RequestMapping("/reviewEnd")
+	@ResponseBody
+	public JdcgResult reviewEnd(@CurrentUser User user, String expertId){
+		Expert expert = new Expert();
+		expert.setId(expertId);
+		//提交审核，更新状态
+		expert.setAuditAt(new Date());
+		
+		//审核人
+		expert.setAuditor(user.getRelName());
+		//还原暂存状态
+		expert.setAuditTemporary(0);
+		// 设置修改时间
+		expert.setUpdatedAt(new Date());
+		//复审结束标识
+		expert.setIsReviewEnd(1);
+		expertService.updateByPrimaryKeySelective(expert);
+		
+		return new JdcgResult(200);
+	}
+	
+	
+	/**
+     * 复审确认（资源服务中心操作）
+     * @param user
+     * @param expertId
+     * @return 
+     * @return 
+     * @return 
+     */
+    @RequestMapping("/reviewConfirm")
+    @ResponseBody
+    public JdcgResult reviewConfirm(@CurrentUser User user, String[] expertIds){
+    	JdcgResult jdcgResult = new JdcgResult();
+    	for(int i=0; i < expertIds.length; i++){
+    			// 查询审核意见
+        		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+        		expertAuditOpinion.setExpertId(expertIds[i]);
+        		expertAuditOpinion.setFlagTime(1);
+        		expertAuditOpinion = expertAuditOpinionService.selectByExpertId(expertAuditOpinion);
+        		
+        		Expert expertInfo = expertService.selectByPrimaryKey(expertIds[i]);
+        		if(expertInfo.getIsReviewEnd() !=null && expertInfo.getIsReviewEnd() == 1 && "-2".equals(expertInfo.getStatus())){
+        			//更新专家状态
+            		Expert expert = new Expert();
+            		expert.setId(expertIds[i]);
+            		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
+            			if(expertAuditOpinion.getFlagAudit() == -3){
+            				//预复审合格
+            				expert.setStatus("-3");
+            			}
+            			if(expertAuditOpinion.getFlagAudit() == 5){
+            				//复审不合格
+            				expert.setStatus("5");
+            				
+            			}
+            			if(expertAuditOpinion.getFlagAudit() == 10){
+            				//复审退回修改
+            				expert.setStatus("10");
+            			}
+            		}
+            		expertService.updateByPrimaryKeySelective(expert);
+            		//完成待办
+            		todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertIds[i]);
+            		jdcgResult.setStatus(500);
+        		}else{
+        			jdcgResult.setStatus(503);
+        		}
+    		}
+    	return jdcgResult;
+    }
 }
