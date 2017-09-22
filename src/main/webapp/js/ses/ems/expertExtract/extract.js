@@ -590,13 +590,13 @@ function changeKind(){
 }
 
 //查询符合条件的专家数量
-function getCount(cate){
+function getCount(){
 	//项目信息
     var proRuestl_1 = $("#form").serializeJson();//数据序列化
     var param1 = $("#condition_form").serializeJson();
     var code = $("#expertKind option:selected").val();
     if(code.indexOf(",") >= 0){
-        cateCode = $(cate).attr("typeCode");
+        //cateCode = $(cate).attr("typeCode");
         var strs = new Array(); //定义一数组 
         strs = code.split(","); //字符分割
         if(strs.length == 2){
@@ -658,6 +658,7 @@ function vaCount(cate){
 		layer.msg("不能大于抽取总人数");
 		return;
 	}
+	changeKind();
 }
 /**展示品目*/
 function opens(cate) {
@@ -675,6 +676,7 @@ function opens(cate) {
         shade: 0.01,
         area: ['430px', '400px'],
         offset: '20px',
+        skin: "aabbcc",
         content: globalPath+'/extractExpert/addHeading.do?type='+typeCode+'&&id='+ids+'&&isSatisfy='+isSatisfy, //iframe的url
         success: function (layero, index) {
             iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
@@ -682,7 +684,7 @@ function opens(cate) {
         btn: ['保存', '重置']
         , yes: function () {
             iframeWin.getChildren(cate);
-            getCount(cate);
+            getCount();
         }
         , btn2: function () {
             opens(cate);

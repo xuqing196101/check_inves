@@ -34,6 +34,7 @@ import extract.dao.expert.ExtractCategoryMapper;
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
+import extract.model.expert.ExpertExtractResult;
 import extract.model.expert.ExpertExtractTypeInfo;
 import extract.model.expert.ExtractCategory;
 import extract.service.expert.ExpertExtractConditionService;
@@ -262,8 +263,8 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                     //1  满足某一条件  2同时满足多个产品目录条件
                     Field field2 = c.getDeclaredField(typeCode.toLowerCase()+"_isSatisfy");
                     field2.setAccessible(true); //设置些属性是可以访问的  
-                    String isSatisfy = (String)field2.get(expertExtractCateInfo);
-                    if(isSatisfy != null && isSatisfy.equals("1")){
+                    //String isSatisfy = (String)field2.get(expertExtractCateInfo);
+                    //if(isSatisfy != null && isSatisfy.equals("1")){
                         String[] categoryId = categoryIds.split(",");
                         for (String str : categoryId) {
                             Map<String, Object> cateMap = new HashMap<>();
@@ -273,7 +274,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                             expertIds.addAll(expertIdList);
                         }
                     }
-                }
+                //}
                 //工程特有
                 if(typeCode.indexOf("PROJECT") >= 0){
                     //工程执业资格
@@ -304,6 +305,8 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                                 List<String> expertIdList = expertCategoryMapper.selExpertByCategory(cateMap);
                                 expertIds.addAll(expertIdList);
                             }
+                        }else if(engIsSatisfy != null && engIsSatisfy.equals("2")){
+                        	
                         }
                     }
                 }
@@ -326,7 +329,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                 }
                 //筛选掉评审时间冲突的专家
                 //获取当前的评审时间
-/*                Date startTime = expertExtractProject.getReviewTime();
+                Date startTime = expertExtractProject.getReviewTime();
                 int days = 0;
                 if(expertExtractProject.getReviewDays() != null){
                 	days = Integer.parseInt(expertExtractProject.getReviewDays());
@@ -348,7 +351,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
         					}
         				}
                     }
-                }*/
+                }
                 
                 map.put("notExpertIds",notExpertIds);
                 map.put("notSize",notExpertIds.size());

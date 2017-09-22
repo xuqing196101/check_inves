@@ -7,9 +7,12 @@
 <title>专家抽取</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertExtract/extract.js"></script>
-<script type="text/javascript">
+<style type="text/css">
+	.aabbcc a.layui-layer-btn1:hover{
+		color: #333 !important;
+	}
 
-</script>
+</style>
 </head>
 <body>
   <!--面包屑导航开始-->
@@ -232,7 +235,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 专家类型:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <select class="col-md-12 col-sm-12 col-xs-12 p0" name="expertTypeId" onchange="getCount(this)">
+              <select class="col-md-12 col-sm-12 col-xs-12 p0" name="expertTypeId" onchange="getCount()">
                 <option value="0">不限</option>
                 <c:forEach items="${expertTypeList}" var="map">
                   <option value="${map.id}">${map.name}</option>
@@ -251,14 +254,14 @@
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 抽取总人数:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" type="text" name="extractNum" id="extractNum" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
+              <input class="span5" type="text" name="extractNum" id="extractNum" onchange="getCount()" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> <span class="add-on">i</span>
               <div class="cue" id="err_extractNum"></div>
             </div>
           </li>
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 是否抽取候补专家:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <select class="col-md-12 col-sm-12 col-xs-12 p0" name="isExtractAlternate" onchange="getCount(this)">
+              <select class="col-md-12 col-sm-12 col-xs-12 p0" name="isExtractAlternate">
                 <option value="0">否</option>
                 <option value="1">是</option>
               </select>
@@ -314,14 +317,14 @@
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 技术职称:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="project_technical" onchange="getCount(this)" typeCode="PROJECT"> <span class="add-on">i</span>
+                  <input class="span5" type="text" name="project_technical" onchange="getCount()" typeCode="PROJECT"> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 工程执业资格:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="project_qualification" onchange="getCount(this)" typeCode="PROJECT"> <span class="add-on">i</span>
+                  <input class="span5" type="text" name="project_qualification" onchange="getCount()" typeCode="PROJECT"> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
                 </div>
               </li>
@@ -362,14 +365,14 @@
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 技术职称:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="goods_project_technical" onchange="getCount(this)" typeCode="GOODS_PROJECT"> <span class="add-on">i</span>
+                  <input class="span5" type="text" name="goods_project_technical" onchange="getCount()" typeCode="GOODS_PROJECT"> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
                 </div>
               </li>
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 工程执业资格:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="goods_project_qualification" onchange="getCount(this)" typeCode="GOODS_PROJECT"> <span class="add-on">i</span>
+                  <input class="span5" type="text" name="goods_project_qualification" onchange="getCount()" typeCode="GOODS_PROJECT"> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
                 </div>
               </li>
@@ -402,7 +405,7 @@
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 技术职称:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" onchange="getCount(this)" typeCode="GOODS" name="goods_technical"> <span class="add-on">i</span>
+                  <input class="span5" type="text" onchange="getCount()" typeCode="GOODS" name="goods_technical"> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
                 </div>
               </li>
@@ -435,7 +438,7 @@
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 技术职称:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="goods_server_technical" onchange="getCount(this)" typeCode="GOODS_SERVER"> <span class="add-on">i</span>
+                  <input class="span5" type="text" name="goods_server_technical" onchange="getCount()" typeCode="GOODS_SERVER"> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
                 </div>
               </li>
@@ -468,7 +471,7 @@
               <li class="col-md-3 col-sm-4 col-xs-12 list-style">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red"></span> 技术职称:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="span5" type="text" name="service_technical"  typeCode="SERVICE"> <span class="add-on">i</span>
+                  <input class="span5" type="text" name="service_technical" onchange="getCount()" typeCode="SERVICE"> <span class="add-on">i</span>
                   <div class="cue" id=""></div>
                 </div>
               </li>
