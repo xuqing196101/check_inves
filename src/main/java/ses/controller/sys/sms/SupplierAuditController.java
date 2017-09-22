@@ -1297,10 +1297,10 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("auditReasonsMulti")
 	@ResponseBody
-	public JdcgResult auditReasonsMulti(@RequestBody List<SupplierAudit> supplierAuditList,HttpServletRequest request) throws IOException {
+	public JdcgResult auditReasonsMulti(@RequestBody List<SupplierAudit> supplierAuditList) {
 		User user = (User) request.getSession().getAttribute("loginUser");
-		if(user ==null){
-			return null;
+		if(user == null){
+			return new JdcgResult(501, "登录超时", null);
 		}
 		if(null != supplierAuditList && !supplierAuditList.isEmpty()){
 			String suggest=supplierAuditList.get(0).getSuggest().trim();
@@ -1313,14 +1313,14 @@ public class SupplierAuditController extends BaseSupplierController {
 			List<SupplierAudit> alist=supplierAuditService.findByTypeId(audit);
 			alist.retainAll(supplierAuditList);
 			if(null != alist && !alist.isEmpty()){
-				return new JdcgResult(503, "选择中存在已审核,不可重复审核", null);
+				return new JdcgResult(503, "选择中存在已审核，不可重复审核", null);
 			}else{
-				Supplier supplier=null;
+				String supplierId = supplierAuditList.get(0).getSupplierId();
+				Supplier supplier = supplierService.selectById(supplierId);
+				Date date = new Date();
 				for (SupplierAudit audit2 : supplierAuditList) {
-					String id = supplierAuditList.get(0).getSupplierId();
-					supplier = supplierAuditService.supplierById(id);
 					audit2.setStatus(supplier.getStatus());
-					audit2.setCreatedAt(new Date());
+					audit2.setCreatedAt(date);
 					audit2.setUserId(user.getId());
 					// 设置默认退回状态
 					if(audit2.getAuditType() != null && audit2.getAuditType().startsWith("items_")){
@@ -1341,7 +1341,34 @@ public class SupplierAuditController extends BaseSupplierController {
 			return new JdcgResult(504, "参数错误", null);
 		}
 	}
-
+	
+	/**
+	 * 批量审核合同
+	 * @param supplierId
+	 * @param supplierTypeId
+	 * @param suggest
+	 * @param itemIds
+	 * @return
+	 */
+	@RequestMapping("auditContractMuti")
+	@ResponseBody
+	public JdcgResult auditContractMuti(String supplierId, String supplierTypeId, String suggest, String itemIds){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		if(user == null){
+			return new JdcgResult(501, "登录超时", null);
+		}
+		if(StringUtils.isBlank(supplierId) || StringUtils.isBlank(supplierTypeId) || StringUtils.isBlank(itemIds)){
+			return new JdcgResult(504, "参数错误", null);
+		}
+		if(StringUtils.isBlank(suggest)){
+			return new JdcgResult(504, "审核内容不能为空", null);
+		}
+		if(suggest.trim().length() > 900){
+			return new JdcgResult(504, "审核内容长度过长", null);
+		}
+		return supplierAuditService.auditContractMuti(user.getId(), supplierId, supplierTypeId, suggest, itemIds);
+	}
+	
 	/**
 	 * @Title: reasonsList
 	 * @author Xu Qing

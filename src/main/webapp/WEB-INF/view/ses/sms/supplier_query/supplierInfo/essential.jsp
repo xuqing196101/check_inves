@@ -142,7 +142,8 @@
                 <tbody>
                   <tr>
                     <td class="bggrey" width="20%">营业执照登记类型：</td>
-                    <td onmouseover="out('${suppliers.businessType }')">${suppliers.businessType}</td>
+                    <%-- <td onmouseover="out('${suppliers.businessType }')">${suppliers.businessType}</td> --%>
+                    <td width="30%">${suppliers.businessType}</td>
                     <td class="bggrey" width="20%">统一社会信用代码：</td>
                     <td width="30%">${suppliers.creditCode } </td>
 

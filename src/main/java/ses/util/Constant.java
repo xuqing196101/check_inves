@@ -13,7 +13,7 @@ public class Constant {
 	//供应商审核 资质文件工程上传 字典 code SUPPLIER_ENG_CERT
 	public static final String SUPPLIER_ENG_CERT="SUPPLIER_ENG_CERT";
 	//供应商审核 记录 物资生产 目录标识
-	public static final String ITMES_PRODUCT_PAGE="items_product_page";
+	public static final String ITEMS_PRODUCT_PAGE="items_product_page";
 	//供应商审核 记录 物资销售 目录标识
 	public static final String ITEMS_SALES_PAGE="items_sales_page";
 	//供应商审核 记录 物资生产  销售合同标识
