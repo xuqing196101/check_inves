@@ -28,7 +28,7 @@
               async:{
                           autoParam:["id"],
                           enable:true,
-                          url:"${pageContext.request.contextPath}/SupplierExtracts/getTree.do?projectId=${projectId}",
+                          url:"${pageContext.request.contextPath}/SupplierExtracts_new/getTree.do?projectId=${projectId}",
                           dataType:"json",
                           type:"post",
                       },
@@ -66,7 +66,7 @@
           async: {
             autoParam: ["id"],
             enable: true,
-            url: "${pageContext.request.contextPath}/SupplierExtracts/getTree.do?supplierTypeCode=${supplierTypeCode}",
+            url: "${pageContext.request.contextPath}/SupplierExtracts_new/getTree.do?supplierTypeCode=${supplierTypeCode}",
             otherParam: {
               categoryIds: "${categoryIds}",
             },
@@ -214,7 +214,7 @@
 <body>
 	<!-- 修改订列表开始-->
 	<div class="container margin-top-30">
-		<form action="${pageContext.request.contextPath}/SupplierExtracts/listSupplier.do"
+		<form action="${pageContext.request.contextPath}/SupplierExtracts_new/listSupplier.do"
 			method="post" id="form1">
 			<div>
 				<ul class="list-unstyled list-flow p0_20">
