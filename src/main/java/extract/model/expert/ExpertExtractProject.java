@@ -2,6 +2,8 @@ package extract.model.expert;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * 
  * Description: 专家抽取项目信息实体
@@ -40,6 +42,7 @@ public class ExpertExtractProject {
     /**
      * 评审时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reviewTime;
 
     /**
