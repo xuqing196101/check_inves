@@ -60,6 +60,7 @@ function functionArea() {
 
 //人工抽取
 function artificial_extracting(){
+	getCount();
 	var code = $("#expertKind option:selected").val();
 	if(!validationIsNull(code)){
 		return;
