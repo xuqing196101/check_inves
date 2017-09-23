@@ -263,9 +263,10 @@
   </select>
   
   <select id="findAll" resultMap="BaseResultMap">
-  	select
+  	SELECT
     <include refid="Base_Column_List" />
-    from T_SES_EMS_EXTRACT_RESULT
+    FROM T_SES_EMS_EXTRACT_RESULT 
+    WHERE IS_JOIN = 1
   </select>
   
 </mapper>

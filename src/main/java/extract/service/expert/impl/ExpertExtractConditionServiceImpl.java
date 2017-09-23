@@ -3,7 +3,6 @@ package extract.service.expert.impl;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,6 +33,7 @@ import extract.dao.expert.ExtractCategoryMapper;
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
+import extract.model.expert.ExpertExtractResult;
 import extract.model.expert.ExpertExtractTypeInfo;
 import extract.model.expert.ExtractCategory;
 import extract.service.expert.ExpertExtractConditionService;
@@ -340,7 +340,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                 }
                 //筛选掉评审时间冲突的专家
                 //获取当前的评审时间
-                /*Date startTime = expertExtractProject.getReviewTime();
+                Date startTime = expertExtractProject.getReviewTime();
                 int days = 0;
                 if(expertExtractProject.getReviewDays() != null){
                     days = Integer.parseInt(expertExtractProject.getReviewDays());
@@ -362,7 +362,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                             }
                         }
                     }
-                }*/
+                }
                 
                 map.put("notExpertIds",notExpertIds);
                 map.put("notSize",notExpertIds.size());
@@ -428,12 +428,10 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
      * @return
      */
     public Date plusDay(int num, Date currdate) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar ca = Calendar.getInstance();
+        ca.setTime(currdate);
         ca.add(Calendar.DATE, num);// num为增加的天数，可以改变的
         currdate = ca.getTime();
-        String enddate = format.format(currdate);
-        Date re = format.parse(enddate);
-        return re;
+        return currdate;
     }
 }
