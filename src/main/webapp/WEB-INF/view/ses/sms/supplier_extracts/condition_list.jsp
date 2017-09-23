@@ -928,11 +928,11 @@
     <ul id="quaTree" class="ztree" style="margin-top:0;"></ul>
 </div>
 <!-- 非工程资质树资质树 -->
-<div id="goodsContent" class="levelTypeContent" 
+<div id="goodsQuaContent" class="levelTypeContent"  onblur="hiddenQua()"
      style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
     <ul id="Tree" class="ztree" style="margin-top:0;"></ul>
 </div>
-<!-- 物资服务等级树 -->
+<!-- 物资等级树 -->
 <div id="goodsLevelContent" class="levelTypeContent"
      style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
     <ul id="goodsLevelTree" class="ztree" style="margin-top:0;"></ul>

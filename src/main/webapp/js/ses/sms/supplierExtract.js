@@ -846,10 +846,10 @@ $(function () {
                 iframeWin.getChildren(cate);
                 initTypeLevelId();
                 //若是工程类，需要根据品目去动态生成等级树
-                if(typeCode == "PROJECT"){
+                //if(typeCode == "PROJECT"){
                 	//加载资质类型
-                	loadQuaList();
-                }
+                	loadQuaList(null);
+               // }
                 selectLikeSupplier();
             }
             , btn2: function () {
@@ -1001,8 +1001,9 @@ $(function () {
     		 //追加结果表
     		 $("#salesResult").removeClass("dnone");
     	 }*/
-    	 
-    	code = code.toLowerCase();
+    	var typeCode = $("#supplierType").val();
+    	code = typeCode.toLowerCase();
+    	
     	$("#extractNumber").find("input").attr("id",code+"ExtractNum");
     	$("#extractNumber").find("input").attr("name",code+"ExtractNum");
     	 $("."+code+"Count").removeClass("dnone");
@@ -1282,14 +1283,27 @@ $(function () {
     //加载资质信息
     function loadQuaList(nodes){
     	//获取当前供应商code
-    	code = $("#supplierType").val();
+    	code = $("#supplierType").val().toLowerCase();
     	
     	if(nodes=="init"){
     		$("#quaTree").empty();
+    		var arr = new Array("service","product","sales","goods");
+    		for ( var k in arr) {
+				
+    			$("#"+arr[k]+"QuaName").val("");
+    			$("#"+arr[k]+"QuaId").val("");
+			}
     		return ;
     	}
     	if(nodes==null){
-    		var cateId = $("#projectCategoryIds").val();
+    		var cateId ;
+    		if("project"!=code){
+    			$("#goodsQuaContent").find("ul").prop("id",code+"QuaTree");
+    			cateId = $("#"+code+"CategoryIds").val();
+    		}else{
+    			cateId = $("#projectCategoryIds").val();
+    		}
+    		
     		$.ajax({
     			url:globalPath+"/SupplierCondition_new/getQuaByCid.do",
     			type: "POST",
@@ -1330,12 +1344,12 @@ $(function () {
          }
        };
 	
-	   if(code == "PROJECT"){
+	   if(code == "project"){
 		   var quaTree = $.fn.zTree.init($("#quaTree"), setting,nodes);
-		   var treeObj = $.fn.zTree.getZTreeObj("quaTree");
+		  // var treeObj = $.fn.zTree.getZTreeObj("quaTree");
 	   }else{
-		   var quaTree = $.fn.zTree.init($("#"+code.toLowerCase()+"quaTree"), setting,nodes);
-		   var treeObj = $.fn.zTree.getZTreeObj(code.toLowerCase()+"quaTree");
+		   var quaTree = $.fn.zTree.init($("#"+code+"QuaTree"), setting,nodes);
+		   //var treeObj = $.fn.zTree.getZTreeObj(code+"QuaTree");
 	   }
        //treeObj.checkAllNodes(true);
        //choseQua('',"quaTree",'');
@@ -1536,15 +1550,22 @@ $(function () {
 	
 	//显示资质信息
 	function showQua(obj){
-		
-		
 		var levelType = $(obj);
-		var levelOffset = $(obj).offset();
-        	$("#quaContent").css({
-        		left: levelOffset.left + "px",
-        		top: levelOffset.top + levelType.outerHeight() + "px"
-        }).slideDown("fast");
-        	$("body").bind("mousedown", onBodyDownQua);
+		var treeHome = $(levelType).attr("treeHome");
+			var levelOffset = $(obj).offset();
+			if("quaContent"==treeHome){
+				$("#quaContent").css({
+				left: levelOffset.left + "px",
+				top: levelOffset.top + levelType.outerHeight() + "px"
+				}).slideDown("fast");
+				$("body").bind("mousedown", onBodyDownQua);
+			}else{
+				$("#goodsQuaContent").css({
+					left: levelOffset.left + "px",
+					top: levelOffset.top + levelType.outerHeight() + "px"
+					}).slideDown("fast");
+				$("body").bind("mousedown", onBodyDownElseQua);
+			}
 	}
 	
 	
@@ -1579,21 +1600,37 @@ $(function () {
     		hideLevelType("quaContent");
     	}
     }
+    function onBodyDownElseQua(event){
+    	if (!(event.target.nodeName == "SPAN")) {
+    		hideLevelType("goodsQuaContent");
+    	}
+    }
     //隐藏等级树
     function hideLevelType(obj) {
         $("#"+obj).fadeOut("fast");
         if("serviceLevelContent"==obj){
         	$("body").unbind("mousedown", onBodyDownServiceLevel);
+        	selectLikeSupplier();
         }else if("salesLevelContent"==obj){
         	$("body").unbind("mousedown", onBodyDownSalesLevel);
+        	selectLikeSupplier();
         }else if("projectLevelContent"==obj){
         	$("body").unbind("mousedown", onBodyDownProjectLevel);
+        	selectLikeSupplier();
         }else if("productLevelContent"==obj){
         	$("body").unbind("mousedown", onBodyDownProductLevel);
+        	selectLikeSupplier();
         }else if("quaContent"==obj){
         	$("body").unbind("mousedown", onBodyDownQua);
+        	selectLikeSupplier();
+        }else if("goodsLevelContent"==obj){
+        	$("body").unbind("mousedown", onBodyDownGoodsLevel);
+        	selectLikeSupplier();
+        }else if("goodsQuaContent"==obj){
+        	$("body").unbind("mousedown", onBodyDownElseQua);
+        	selectLikeSupplier();
         }
-        selectLikeSupplier();
+        //selectLikeSupplier();
 
     }
 
@@ -1649,10 +1686,15 @@ $(function () {
     		}
     		if (v.length > 0) v = v.substring(0, v.length - 1);
     		if (rid.length > 0) rid = rid.substring(0, rid.length - 1);
-    		$("#quaId").val(rid);
-    		$("#quaName").val(v);
     		//加载资质等级
-    		loadprojectLevelTree();
+    		if("project"==code){
+    			$("#quaId").val(rid);
+    			$("#quaName").val(v);
+    			loadprojectLevelTree();
+    		}else{
+    			$("#"+code+"QuaId").val(rid);
+    			$("#"+code+"QuaName").val(v);
+    		}
     	}
     }
     
