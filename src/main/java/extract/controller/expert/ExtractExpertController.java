@@ -306,7 +306,7 @@ public class ExtractExpertController {
         }*/
         String categoryId = DictionaryDataUtil.getId(code);
         if (code != null && code.indexOf("ENG_INFO_ID") > 0) {
-        	categoryId = DictionaryDataUtil.getId("ENG_INFO_ID");
+            categoryId = DictionaryDataUtil.getId("ENG_INFO_ID");
             List < CategoryTree > allCategories = new ArrayList < CategoryTree > ();
             String typeIds = code.split(",")[0];
             if(category.getId() == null) {
@@ -341,7 +341,7 @@ public class ExtractExpertController {
                     }
                 }
                 if (count == 2) {
-                	childNodes = tempNodes;
+                    childNodes = tempNodes;
                 }
                 if(childNodes != null && childNodes.size() > 0) {
                     for(Category ca: childNodes) {
@@ -420,14 +420,14 @@ public class ExtractExpertController {
      * @return
      */
     public boolean isChecked(String[] allCategoryList,String typeCode) {
-    	if(allCategoryList != null && allCategoryList.length > 0){
-    		for (String s : allCategoryList) {
-    			if (s.equals(typeCode)){
-    				return true;
-    			}
-    		}
-    	}
+        if(allCategoryList != null && allCategoryList.length > 0){
+            for (String s : allCategoryList) {
+                if (s.equals(typeCode)){
+                    return true;
+                }
+            }
+        }
         return false;
-	}
+    }
 
 }

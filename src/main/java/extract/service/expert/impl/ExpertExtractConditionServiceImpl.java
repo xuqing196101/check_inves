@@ -78,12 +78,12 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
     private ExpertMapper expertMapper;
 
     //地区
-	@Autowired
-	private AreaMapper areaMapper;
-	
-	@Autowired
-	private ExpertExtractProjectMapper expertExtractProjectMapper;
-	
+    @Autowired
+    private AreaMapper areaMapper;
+    
+    @Autowired
+    private ExpertExtractProjectMapper expertExtractProjectMapper;
+    
     /**
      * 保存抽取条件
      * @throws ClassNotFoundException 
@@ -226,25 +226,25 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
         //区域要求
         Set<String> areaNames = new HashSet<>();
         if(!("0").equals(expertExtractCondition.getAreaName())){
-        	if(!"".equals(expertExtractCondition.getAddressId())){
-        		String[] cids = expertExtractCondition.getAddressId().split(",");
-        		for (String str : cids) {
-        			areaNames.add(str);
-        		}
-        	}
-        	if(!"".equals(expertExtractCondition.getAreaName())){
-        		String[] pids = expertExtractCondition.getAreaName().split(",");
-        		for (String str : pids) {
-        			List<Area> list = areaMapper.findAreaByParentId(str);
-        			if(list != null && list.size() > 0){
-        				for (Area area : list) {
-        					areaNames.add(area.getId());
-    					}
-        			}
-        		}
-        	}
-        	map.put("areaNames", areaNames);
-        	map.put("areaSize", areaNames.size());
+            if(!"".equals(expertExtractCondition.getAddressId())){
+                String[] cids = expertExtractCondition.getAddressId().split(",");
+                for (String str : cids) {
+                    areaNames.add(str);
+                }
+            }
+            if(!"".equals(expertExtractCondition.getAreaName())){
+                String[] pids = expertExtractCondition.getAreaName().split(",");
+                for (String str : pids) {
+                    List<Area> list = areaMapper.findAreaByParentId(str);
+                    if(list != null && list.size() > 0){
+                        for (Area area : list) {
+                            areaNames.add(area.getId());
+                        }
+                    }
+                }
+            }
+            map.put("areaNames", areaNames);
+            map.put("areaSize", areaNames.size());
         }
         //专家类别
         if(expertExtractCondition.getExpertKindId() != null){
@@ -273,12 +273,12 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                             expertIds.addAll(expertIdList);
                         }
                     }else if(isSatisfy != null && isSatisfy.equals("2")){
-                    	String[] categoryId = categoryIds.split(",");
-                    	Map<String, Object> idMap = new HashMap<String, Object>();
-                    	idMap.put("ids", categoryId);
-                    	idMap.put("idSize", categoryId.length);
-                    	idMap.put("typeId", DictionaryDataUtil.getId(typeCode));
-                    	expertIds.addAll(expertCategoryMapper.selExpertByAll(idMap));
+                        String[] categoryId = categoryIds.split(",");
+                        Map<String, Object> idMap = new HashMap<String, Object>();
+                        idMap.put("ids", categoryId);
+                        idMap.put("idSize", categoryId.length);
+                        idMap.put("typeId", DictionaryDataUtil.getId(typeCode));
+                        expertIds.addAll(expertCategoryMapper.selExpertByAll(idMap));
                     }
                 }
                 //工程特有
@@ -289,17 +289,17 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                     String qualification = (String)field2.get(expertExtractCateInfo);
                     //map.put("qualification",qualification);
                     if(qualification != null && !qualification.equals("")){
-                    	List<String> titleList = expertExtractConditionMapper.findExpertBytypeIdTitle(qualification, DictionaryDataUtil.getId(typeCode));
-                    	if(titleList != null && titleList.size() > 0){
-                    		expertIds.addAll(titleList);
-                    	}
+                        List<String> titleList = expertExtractConditionMapper.findExpertBytypeIdTitle(qualification, DictionaryDataUtil.getId(typeCode));
+                        if(titleList != null && titleList.size() > 0){
+                            expertIds.addAll(titleList);
+                        }
                     }
                     //工程专业信息
                     Field field3 = c.getDeclaredField(typeCode.toLowerCase()+"_eng_info");
                     field3.setAccessible(true); //设置些属性是可以访问的  
                     String engCategoryIds = (String)field3.get(expertExtractCateInfo);
                     if(!"".equals(engCategoryIds)){
-                    	Field field4 = c.getDeclaredField(typeCode.toLowerCase()+"_eng_isSatisfy");
+                        Field field4 = c.getDeclaredField(typeCode.toLowerCase()+"_eng_isSatisfy");
                         field4.setAccessible(true); //设置些属性是可以访问的  
                         String engIsSatisfy = (String)field4.get(expertExtractCateInfo);
                         if(engIsSatisfy != null && engIsSatisfy.equals("1")){
@@ -312,12 +312,12 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                                 expertIds.addAll(expertIdList);
                             }
                         }else if(engIsSatisfy != null && engIsSatisfy.equals("2")){
-                        	String[] categoryId = engCategoryIds.split(",");
-                        	Map<String, Object> idMap = new HashMap<String, Object>();
-                        	idMap.put("ids", categoryId);
-                        	idMap.put("idSize", categoryId.length);
-                        	idMap.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
-                        	expertIds.addAll(expertCategoryMapper.selExpertByAll(idMap));
+                            String[] categoryId = engCategoryIds.split(",");
+                            Map<String, Object> idMap = new HashMap<String, Object>();
+                            idMap.put("ids", categoryId);
+                            idMap.put("idSize", categoryId.length);
+                            idMap.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
+                            expertIds.addAll(expertCategoryMapper.selExpertByAll(idMap));
                         }
                     }
                 }
@@ -334,7 +334,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                 if(blackList != null && blackList.size() > 0){
                     for (ExpertBlackList ebl : blackList) {
                         if(ebl.getExpertId() != null && !"".equals(ebl.getExpertId())){
-                        	notExpertIds.add(ebl.getExpertId());
+                            notExpertIds.add(ebl.getExpertId());
                         }
                     }
                 }
@@ -343,24 +343,24 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                 /*Date startTime = expertExtractProject.getReviewTime();
                 int days = 0;
                 if(expertExtractProject.getReviewDays() != null){
-                	days = Integer.parseInt(expertExtractProject.getReviewDays());
+                    days = Integer.parseInt(expertExtractProject.getReviewDays());
                 }
                 if(startTime != null && days != 0){
-                	Date endTime = plusDay(days, startTime);
-                	List<ExpertExtractResult> allList = expertExtractResultMapper.findAll();
+                    Date endTime = plusDay(days, startTime);
+                    List<ExpertExtractResult> allList = expertExtractResultMapper.findAll();
                     if(allList != null && allList.size() > 0){
-                    	for (ExpertExtractResult expertExtractResult : allList) {
-        					ExpertExtractProject extractProject = expertExtractProjectMapper.selectByPrimaryKey(expertExtractResult.getProjectId());
-        					if(extractProject != null){
-        						Date resStartTime = extractProject.getReviewTime();
-        						int resDays = Integer.parseInt(extractProject.getReviewDays());
-        						Date resEndTime = plusDay(resDays, resStartTime);
-        						boolean flag = startTime.before(resStartTime) && endTime.before(resStartTime) || startTime.after(resEndTime) && endTime.after(resEndTime);
-        						if(!flag){
-        							notExpertIds.add(expertExtractResult.getExpertId());
-        						}
-        					}
-        				}
+                        for (ExpertExtractResult expertExtractResult : allList) {
+                            ExpertExtractProject extractProject = expertExtractProjectMapper.selectByPrimaryKey(expertExtractResult.getProjectId());
+                            if(extractProject != null){
+                                Date resStartTime = extractProject.getReviewTime();
+                                int resDays = Integer.parseInt(extractProject.getReviewDays());
+                                Date resEndTime = plusDay(resDays, resStartTime);
+                                boolean flag = startTime.before(resStartTime) && endTime.before(resStartTime) || startTime.after(resEndTime) && endTime.after(resEndTime);
+                                if(!flag){
+                                    notExpertIds.add(expertExtractResult.getExpertId());
+                                }
+                            }
+                        }
                     }
                 }*/
                 
@@ -413,27 +413,27 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
         return expertList;
     }
 
-	@Override
-	public ExpertExtractCondition getByMap(HashMap<Object, Object> cmap) {
-		return expertExtractConditionMapper.getByMap(cmap);
-	}
-	
-	/**
-	 * 
-	 * Description: 日期加上指定的天数
-	 * 
-	 * @author zhang shubin
-	 * @data 2017年9月21日
-	 * @param 
-	 * @return
-	 */
-	public Date plusDay(int num, Date currdate) throws ParseException {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Calendar ca = Calendar.getInstance();
-		ca.add(Calendar.DATE, num);// num为增加的天数，可以改变的
-		currdate = ca.getTime();
-		String enddate = format.format(currdate);
-		Date re = format.parse(enddate);
-		return re;
-	}
+    @Override
+    public ExpertExtractCondition getByMap(HashMap<Object, Object> cmap) {
+        return expertExtractConditionMapper.getByMap(cmap);
+    }
+    
+    /**
+     * 
+     * Description: 日期加上指定的天数
+     * 
+     * @author zhang shubin
+     * @data 2017年9月21日
+     * @param 
+     * @return
+     */
+    public Date plusDay(int num, Date currdate) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar ca = Calendar.getInstance();
+        ca.add(Calendar.DATE, num);// num为增加的天数，可以改变的
+        currdate = ca.getTime();
+        String enddate = format.format(currdate);
+        Date re = format.parse(enddate);
+        return re;
+    }
 }

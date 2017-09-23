@@ -26,5 +26,5 @@ public interface ExpertExtractTypeInfoMapper {
 
     int updateByPrimaryKey(ExpertExtractTypeInfo record);
 
-	List<ExpertExtractTypeInfo> selectByTypeInfo(ExpertExtractTypeInfo expertExtractTypeInfo);
+    List<ExpertExtractTypeInfo> selectByTypeInfo(ExpertExtractTypeInfo expertExtractTypeInfo);
 }

@@ -29,9 +29,9 @@ public interface ExpertExtractConditionMapper {
 
     int updateByPrimaryKey(ExpertExtractCondition record);
 
-	ExpertExtractCondition getByMap(HashMap<Object, Object> cmap);
-	
-	/**
+    ExpertExtractCondition getByMap(HashMap<Object, Object> cmap);
+    
+    /**
      * 
      * Description: 根据职业资格和专家类别查询符合条件的专家
      * 
