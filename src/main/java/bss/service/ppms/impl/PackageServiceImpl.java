@@ -266,10 +266,10 @@ public class PackageServiceImpl implements PackageService{
 			//添加一个子项目
 			Project newProject = new Project();
 			if(StringUtils.isNotBlank(project.getName())){
-				newProject.setName(project.getName()+"(第"+packageName+"包)");
+				newProject.setName(project.getName()+"（第"+packageName+"包）");
 			}
 			if(StringUtils.isNotBlank(project.getProjectNumber())){
-				newProject.setProjectNumber(project.getProjectNumber() + "(" + packageName + ")");
+				newProject.setProjectNumber(project.getProjectNumber() + "（" + packageName + "）");
 			}
 			if(StringUtils.isNotBlank(project.getPrincipal())){
 				newProject.setPrincipal(project.getPrincipal());

@@ -30,5 +30,12 @@ public interface FlowDefineMapper {
     * @return List<FlowDefine>
      */
     List<FlowDefine> viewFlow(HashMap<String, Object> map);
+    
+    /**
+     * 获取竞争性谈判的流程
+     * @param map
+     * @return
+     */
+    List<FlowDefine> getJzxtp(HashMap<String, Object> map);
 
 }

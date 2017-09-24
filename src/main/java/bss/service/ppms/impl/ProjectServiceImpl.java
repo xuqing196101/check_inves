@@ -241,7 +241,13 @@ public class ProjectServiceImpl implements ProjectService {
 	      List<FlowExecute> execute0s = flowExecuteMapper.findList(execute0);
 	      FlowDefine fd0 = new FlowDefine();
 	      fd0.setIsDeleted(0);
-	      fd0.setPurchaseTypeId(project.getPurchaseType());
+	      String purchaseType="";
+	      if(project.getPurchaseNewType()!=null){
+	        purchaseType=project.getPurchaseNewType();
+	      }else{
+	        purchaseType=project.getPurchaseType();
+	      }
+	      fd0.setPurchaseTypeId(purchaseType);
 	      List<FlowDefine> fds = flowDefineMapper.findList(fd0);
 	      //如果当前项目没有初始化各环节经办人,或者初始化的环节不够
 	      if (execute0s == null || execute0s.size() < fds.size()) {
@@ -261,7 +267,7 @@ public class ProjectServiceImpl implements ProjectService {
 	          }
 	          flowExecute.setIsDeleted(0);
 	          FlowDefine flowDefine = new FlowDefine();
-	          flowDefine.setPurchaseTypeId(project.getPurchaseType());
+	          flowDefine.setPurchaseTypeId(purchaseType);
 	          flowDefine.setIsDeleted(0);
 	          List<FlowDefine> flowDefines = flowDefineMapper.findList(flowDefine);
 	          for (FlowDefine fd : flowDefines) {
@@ -278,7 +284,7 @@ public class ProjectServiceImpl implements ProjectService {
 	          //默认进来第一环节
 	          FlowDefine define = new FlowDefine();
 	          define.setIsDeleted(0);
-	          define.setPurchaseTypeId(project.getPurchaseType());
+	          define.setPurchaseTypeId(purchaseType);
 	          define.setStep(1);
 	          List<FlowDefine> defines = flowDefineMapper.findList(define);
 	          if (defines != null && defines.size() > 0) {

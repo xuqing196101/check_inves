@@ -143,6 +143,8 @@ public class Project {
     
     private String relationId;
     
+    private String purchaseNewType;
+    
     /**
      * @return Returns the auditReason.
      */
@@ -691,6 +693,14 @@ public class Project {
 
   public void setRelationId(String relationId) {
     this.relationId = relationId;
+  }
+
+  public String getPurchaseNewType() {
+    return purchaseNewType;
+  }
+
+  public void setPurchaseNewType(String purchaseNewType) {
+    this.purchaseNewType = purchaseNewType;
   }
 
 	

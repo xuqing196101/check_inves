@@ -253,22 +253,40 @@ public class TerminationServiceImpl<V> implements TerminationService {
       insertDetail(packagesId,projectId, project, mapId);
       //获取当前流程以前的所有步骤并复制一份
       FlowDefine define=new FlowDefine();
-      define.setId(currFlowDefineId);
-      define.setUrl("gtl");
-      List<FlowDefine> flowDefines = flowDefineMapper.getFlow(define);
+      List<FlowDefine> flowDefines=null;
+      if(type!=null){
+        FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
+        HashMap<String, Object> hashMap=new HashMap<String, Object>();
+        hashMap.put("code", flowDefine.getCode());
+        hashMap.put("id", "3CF3C643AE0A4499ADB15473106A7B80");
+        flowDefines=flowDefineMapper.getJzxtp(hashMap);
+      }else{
+        define.setId(currFlowDefineId);
+        define.setUrl("gt");
+        flowDefines = flowDefineMapper.getFlow(define);
+      }
       Map<String, Map<String, Object>> IsTurnUpMap=new HashMap<String, Map<String, Object>>();
       Map<String, String> firstAuditIdMap=new HashMap<String, String>();
       for(FlowDefine flw:flowDefines){
-        /*FlowExecute temp=new FlowExecute();
-        temp.setFlowDefineId(flw.getId());
-        temp.setProjectId(projectId);
-        List<FlowExecute> findExecuteds = flowExecuteMapper.findExecutedByProjectIdAndFlowId(temp);
-        if(findExecuteds!=null&&findExecuteds.size()>0){
-          FlowExecute flowExecute = findExecuteds.get(0);
-          flowExecute.setId(WfUtil.createUUID());
-          flowExecute.setProjectId(project.getId());
-          flowExecuteMapper.insert(flowExecute);
-        }*/
+        if(type!=null){
+          FlowDefine define1=new FlowDefine();
+          define1.setPurchaseTypeId(project.getPurchaseType());
+          define1.setCode(flw.getCode());
+          List<FlowDefine> findList = flowDefineMapper.findList(define1);
+          if(findList!=null&&findList.size()>0){
+            FlowExecute temp=new FlowExecute();
+            temp.setFlowDefineId(findList.get(0).getId());
+            temp.setProjectId(projectId);
+            List<FlowExecute> findExecuteds = flowExecuteMapper.findExecutedByProjectIdAndFlowId(temp);
+            if(findExecuteds!=null&&findExecuteds.size()>0){
+              FlowExecute flowExecute = findExecuteds.get(0);
+              flowExecute.setId(WfUtil.createUUID());
+              flowExecute.setFlowDefineId(flw.getId());
+              flowExecute.setProjectId(project.getId());
+              flowExecuteMapper.insert(flowExecute);
+            }
+          }
+        }
         flowDefine(flw,mapId,project,projectId,IsTurnUpMap,firstAuditIdMap);
        }
       }
@@ -900,8 +918,9 @@ public class TerminationServiceImpl<V> implements TerminationService {
     Project project = projectMapper.selectProjectByPrimaryKey(projectId);
     project.setRelationId(project.getId());
     project.setCreateAt(new Date());
-    project.setName(project.getName()+title);
-    project.setProjectNumber(project.getProjectNumber()+title);
+    project.setName(project.getName().substring(0,project.getName().lastIndexOf("（"))+title);
+    
+    project.setProjectNumber(project.getProjectNumber().substring(0,project.getProjectNumber().lastIndexOf("（"))+title);
     project.setConfirmFile(null);
     //project.setSupplierNumber(null);
     //project.setDeadline(null);
@@ -913,7 +932,8 @@ public class TerminationServiceImpl<V> implements TerminationService {
     if(type!=null){
     	Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(project.getPurchaseDepId());
     	project.setSectorOfDemand(orgnization.getName());
-    	project.setPurchaseType("3CF3C643AE0A4499ADB15473106A7B80");
+    	/*project.setPurchaseType("3CF3C643AE0A4499ADB15473106A7B80");*/
+    	project.setPurchaseNewType("3CF3C643AE0A4499ADB15473106A7B80");
     	
     }
     if("XMLX".equals(currFlowDefineId)){
@@ -942,9 +962,9 @@ public class TerminationServiceImpl<V> implements TerminationService {
       }
     }
     if(flg){
-      title="(第"+number.get(0)+"-"+number.get(number.size()-1)+"包)";
+      title="（第"+number.get(0)+"-"+number.get(number.size()-1)+"包）";
     }else{
-      title="(第"+StringUtils.join(number,",")+"包)";
+      title="（第"+StringUtils.join(number,",")+"包）";
     }
     return title;
   }

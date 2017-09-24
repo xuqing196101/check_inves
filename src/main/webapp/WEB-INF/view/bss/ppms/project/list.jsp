@@ -269,6 +269,9 @@
                   <c:forEach items="${kind}" var="kind">
                     <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                   </c:forEach>
+                  <c:if test="${obj.purchaseNewType !='' && obj.purchaseNewType !=null }">
+                  (转${obj.purchaseNewType })
+                  </c:if>
                 </td>
                 <td class="tc" onclick="view('${obj.id}')">
                   <fmt:formatDate type='date' value='${obj.createAt}' pattern=" yyyy-MM-dd HH:mm:ss " />

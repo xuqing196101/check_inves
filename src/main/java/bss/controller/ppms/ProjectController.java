@@ -230,6 +230,10 @@ public class ProjectController extends BaseController {
                 for (int i = 0; i < list.size(); i++ ) {
                     try {
                         User contractor = userService.getUserById(list.get(i).getPrincipal());
+                        if(list.get(i).getPurchaseNewType()!=null){
+                          DictionaryData findById = DictionaryDataUtil.findById(list.get(i).getPurchaseNewType());
+                          list.get(i).setPurchaseNewType(findById.getName());
+                        }
                         list.get(i).setProjectContractor(contractor.getRelName());
                     } catch (Exception e) {
                         list.get(i).setProjectContractor("");
@@ -2275,7 +2279,13 @@ public class ProjectController extends BaseController {
         model.addAttribute("project", project);
         model.addAttribute("page", page);
         model.addAttribute("type", type);
-        HashMap<String, Object> map = projectService.getFlowDefine(project.getPurchaseType(), id);
+        String purchaseType="";
+        if(project.getPurchaseNewType()!=null){
+          purchaseType=project.getPurchaseNewType();
+        }else{
+          purchaseType= project.getPurchaseType();
+        }
+        HashMap<String, Object> map = projectService.getFlowDefine(purchaseType, id);
         model.addAttribute("fds", map.get("fds"));
         model.addAttribute("url", map.get("url"));
         System.out.println(map.get("url"));

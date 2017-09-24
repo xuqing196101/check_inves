@@ -215,4 +215,11 @@
    		where IS_DELETED = 0 
     	AND ID = #{id,jdbcType=VARCHAR})  order by STEP ASC
   </select>
+  
+  <select id="getJzxtp" parameterType="java.util.Map" resultMap="FlowDefineResult">
+  SELECT * from T_BSS_PPMS_FLOW_DEFINE where 
+  PURCHASE_TYPE_ID=#{id} and IS_DELETED=0 and 
+  step<![CDATA[<= ]]>(select step from T_BSS_PPMS_FLOW_DEFINE where 
+  PURCHASE_TYPE_ID=#{id} and code=#{code} ) order by STEP asc
+  </select>
 </mapper>
