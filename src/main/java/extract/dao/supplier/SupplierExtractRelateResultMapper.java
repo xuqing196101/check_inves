@@ -1,5 +1,6 @@
 package extract.dao.supplier;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -168,4 +169,8 @@ public interface SupplierExtractRelateResultMapper {
 	 * @return
 	 */
 	List<String> selectTypeCodeBySid(String sid);
+
+	void insertAdv(ArrayList<SupplierExtractResult> arrayList);
+
+	void insertRel(ArrayList<SupplierExtractResult> arrayList);
 }
