@@ -203,6 +203,17 @@ public class SupplierExtractsController extends BaseController {
     @RequestMapping("/Extraction")
     public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId){
       Project project = projectService.selectById(projectId);
+      HashMap<String, Object> map=new HashMap<String, Object>();
+      map.put("projectId", project.getId());
+      List<Packages> packs = packagesService.selectByProjectKey(map);
+      String packsId="";
+      for(Packages packages:packs){
+        packsId+=packages.getId()+",";
+      }
+      if(packsId.endsWith(",")){
+        packsId=packsId.substring(0,packsId.lastIndexOf(","));
+      }
+      
       if(project!=null){
         if(project.getPurchaseType()!=null){
           DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
@@ -212,6 +223,7 @@ public class SupplierExtractsController extends BaseController {
         }
       }
       model.addAttribute("project", project);
+      model.addAttribute("packsId", packsId);
         /*if (packageId != null && !"".equals(packageId)){
             //已抽取
             String[] packageIds =  packageId.split(",");

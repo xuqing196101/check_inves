@@ -14,9 +14,6 @@
         function extractVerify(projectId,packageIds){
         	window.open("${pageContext.request.contextPath}/SupplierExtracts_new/Extraction.html?projectId="+projectId+"&packageId="+packageIds+"&projectType=relPro");
         }
-        function ddd(){
-        	alert(1);
-        }
     </script>
 <body>
 <!-- 项目戳开始 -->
@@ -65,7 +62,7 @@
           <ul class="ul_list" style="background-color: #fbfbfb">
               <li class="col-md-12 col-sm-12 col-xs-12 tc">
                   <div>
-                      <button class="btn " onclick="extractVerify('${project.id}','${packageId}');" type="button">抽取</button>
+                      <button class="btn " onclick="extractVerify('${project.id}','${packsId}');" type="button">抽取</button>
                       <button class="btn  " onclick="finish();" type="button">完成抽取</button>
                       <button class="btn " onclick="temporary();" type="button">暂存</button>
                   </div>
