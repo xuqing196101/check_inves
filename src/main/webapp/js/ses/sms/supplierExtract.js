@@ -1853,7 +1853,6 @@ $(function () {
     	var supplierType = objTr.attr("typeCode");
     	var conditionId = $("#conditionId").val();
     	var recordId = $("#recordId").val();
-    	var projectType = $("#projectType").val();
     	var packageId = $("#packageId").val();
     	var sid = objTr.attr("sid");
     	$.ajax({
