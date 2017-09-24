@@ -814,5 +814,93 @@
 	</insert>
 	
 	
+	<!-- 存储进真实项目 -->
+	<insert id="insertRel" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT ALL
+        <foreach item="t" index="index" collection="list">
+        INTO T_SES_SMS_SUPPLIER_EXT_RELATE
+           <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="t.id != null">
+				ID,
+			</if>
+			<if test="t.supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="t.conditionId != null">
+				SUPPLIER_CONDITION_ID,
+			</if>
+			<if test="t.createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="t.join != null">
+				OPERATING_TYPE,
+			</if>
+			<if test="t.isDeleted != null">
+				IS_DELETED,
+			</if>
+			<if test="t.reason != null">
+				REASON,
+			</if>
+			<if test="t.packageId != null">
+				PROJECT_ID,
+			</if>
+			<if test="t.updatedAt != null">
+				UPDATED_AT,
+			</if>
+			<!-- <if test="conTypeId != null">
+				CON_TYPE_ID,
+			</if> -->
+			<if test="t.status != null">
+				STATUS_COUNT,
+			</if>
+			<if test="t.projectType != null">
+				REVIEW_TYPE,
+			</if>
+
+		</trim>
+         VALUES
+       <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="t.id != null">
+				#{t.id,jdbcType=VARCHAR},
+			</if>
+			<if test="t.supplierId != null">
+				#{t.supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.conditionId != null">
+				#{t.conditionId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.createdAt != null">
+				#{t.createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="t.join != null">
+				#{t.join,jdbcType=DECIMAL},
+			</if>
+			<if test="t.isDeleted != null">
+				#{t.isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="t.reason != null">
+				#{t.reason,jdbcType=VARCHAR},
+			</if>
+			<if test="t.packageId != null">
+				#{t.packageId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.updatedAt != null">
+				#{t.updatedAt,jdbcType=VARCHAR},
+			</if>
+			<!-- <if test="conTypeId != null">
+				#{conTypeId,jdbcType=VARCHAR},
+			</if> -->
+			<if test="t.status != null">
+				#{t.status,jdbcType=DECIMAL},
+			</if>
+			<if test="t.projectType != null">
+				#{t.projectType,jdbcType=VARCHAR},
+			</if>
+		</trim>
+        </foreach>
+        SELECT 1 FROM DUAL
+	</insert>
+	
+	
 	
 </mapper>

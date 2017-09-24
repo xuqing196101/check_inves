@@ -692,16 +692,16 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	@Override
 	public List<DictionaryData> getQuaByCid(String categoryId ,String code) {
 		HashMap<String,String[]> hashMap = new HashMap<>();
-		if("PROJECT".equals(code)){
-			String[] checkParentCate = checkParentCate(categoryId);
-			if(null == checkParentCate ){
-				return null;
+		if(StringUtils.isNotBlank(categoryId)){
+			if("PROJECT".equals(code)){
+				String[] checkParentCate = checkParentCate(categoryId);
+				hashMap.put("categoryIds",checkParentCate);
+			}else{
+				hashMap.put("categoryIds",categoryId.split(","));
 			}
-			hashMap.put("categoryIds",checkParentCate);
-		}else{
-			hashMap.put("categoryIds",categoryId.split(","));
+			return supplierConditionMapper.getQuaByCid(hashMap);
 		}
-		return supplierConditionMapper.getQuaByCid(hashMap);
+		return null;
 	}
 
 	@Override

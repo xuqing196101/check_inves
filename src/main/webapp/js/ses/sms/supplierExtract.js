@@ -1331,7 +1331,9 @@ $(function () {
     	
     	
     	nodes = ajaxDataFilter(nodes);
-    	
+    	if(!nodes){
+    		return ;
+    	}
     	
     	var setting = {
          check: {

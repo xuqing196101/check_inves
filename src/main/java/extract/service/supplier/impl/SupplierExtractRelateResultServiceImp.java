@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import ses.dao.sms.SupplierExtPackageMapper;
 import ses.dao.sms.SupplierExtRelateMapper;
 import ses.dao.sms.SupplierMapper;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.UUIDUtils;
 
@@ -316,10 +317,10 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 		
 		switch (projectType) {
 		case "advPro":
-			extRelateMapper.insertAdv(arrayList);
+			supplierExtRelateMapper.insertAdv(arrayList);
 			break;
 		case "relPro":
-			extRelateMapper.insertRel(arrayList);
+			supplierExtRelateMapper.insertRel(arrayList);
 			break;
 
 		default:
