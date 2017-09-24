@@ -202,8 +202,17 @@ public class SupplierExtractsController extends BaseController {
      */
     @RequestMapping("/Extraction")
     public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId){
-
-        if (packageId != null && !"".equals(packageId)){
+      Project project = projectService.selectById(projectId);
+      if(project!=null){
+        if(project.getPurchaseType()!=null){
+          DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+          if(findById!=null){
+            project.setPurchaseType(findById.getName());
+          }
+        }
+      }
+      model.addAttribute("project", project);
+        /*if (packageId != null && !"".equals(packageId)){
             //已抽取
             String[] packageIds =  packageId.split(",");
             if(packageIds.length != 0 ){
@@ -290,8 +299,8 @@ public class SupplierExtractsController extends BaseController {
         if(!StringUtils.isEmpty(typeclassId)){
             isCurment = "1";
         }
-        model.addAttribute("isCurment", isCurment);
-        return "ses/sms/supplier_extracts/condition_list";
+        model.addAttribute("isCurment", isCurment);*/
+        return "ses/sms/supplier_extracts/supplier_list";
     }
 
     /**

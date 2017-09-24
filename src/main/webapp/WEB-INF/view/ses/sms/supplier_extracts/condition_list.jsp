@@ -891,6 +891,7 @@
                  </table>
 			</div>
 			<did class="col-xs-12 tc mt20 dnone" id="end"> <button class="center btn"  onclick="alterEndInfo(this)">结束</button> </did>
+		<input type="button" value="测试" onclick="ref();"/>
 		</div>
 </div>
 <!-- 地区树 -->
@@ -1076,6 +1077,9 @@
 	}
 	
 	
-	
+	function ref(){
+		var tbody=window.opener.document.getElementById("tbody");
+		$(tbody).append("<tr><td>1323</td></tr>")
+	}
 </script>
 </html>
