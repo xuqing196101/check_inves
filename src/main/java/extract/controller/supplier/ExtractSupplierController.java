@@ -140,8 +140,10 @@ public class ExtractSupplierController extends BaseController {
      */
     @RequestMapping("/Extraction")
    // public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId){
-   public String listExtraction(@CurrentUser User user,Model model, SupplierExtractProjectInfo eRecord,String conditionId){
+   public String listExtraction(@CurrentUser User user,Model model, SupplierExtractProjectInfo eRecord,String conditionId,String projectType){
     	//两个入口 1.项目实施进入 2.直接进行抽取
+    	
+    	
     	if(!(null!=user && "1".equals(user.getTypeName()))){
     		return "redirect:/qualifyError.jsp";
     	}
@@ -166,29 +168,29 @@ public class ExtractSupplierController extends BaseController {
     		
     		expExtractRecordService.insertProjectInfo(eRecord);
     		
-    		if(StringUtils.isNotBlank(eRecord.getProjectId())){
-    			//说明是从项目实施进入 需要查询项目信息，生成一条记录，查询项目信息(包信息),条件id
+    		if("advPro".equals(projectType)){
+    			//预研进入
     			 AdvancedProject selectById = advancedProjectService.selectById(eRecord.getProjectId());
-    			 Project selectById2 = projectService.selectById(eRecord.getProjectId());
-    			 if(null != selectById){
-    				 eRecord.setProjectId(selectById.getId());
-        			 eRecord.setProjectName(selectById.getName());
-        			 eRecord.setProjectType(dictionaryDataServiceI.getDictionaryData(selectById.getPlanType()).getCode() );
-        			 eRecord.setProjectCode(selectById.getProjectNumber());
-    			 }else if(null!=selectById2){
-    				 eRecord.setProjectId(selectById2.getId());
-        			 eRecord.setProjectName(selectById2.getName());
-        			 eRecord.setProjectType(dictionaryDataServiceI.getDictionaryData(selectById2.getPlanType()).getCode());
-        			 eRecord.setProjectCode(selectById2.getProjectNumber());
-    			 }
-    			model.addAttribute("projectInfo", eRecord);
-    			model.addAttribute("typeclassId", "hidden");
-    		}else{
-    			eRecord.setProjectId(WfUtil.createUUID());
-    			model.addAttribute("projectInfo", eRecord);
-    			//点击人工抽取
-    			//model.addAttribute("purchaseTypes",DictionaryDataUtil.find(5));
-    		}
+    			 eRecord.setProjectId(selectById.getId());
+    			 eRecord.setProjectName(selectById.getName());
+    			 eRecord.setProjectType(dictionaryDataServiceI.getDictionaryData(selectById.getPlanType()).getCode() );
+    			 eRecord.setProjectCode(selectById.getProjectNumber());
+        	}else if("relPro".equals(projectType)){
+        		//真实项目
+        		Project selectById2 = projectService.selectById(eRecord.getProjectId());
+        		eRecord.setProjectId(selectById2.getId());
+   			 	eRecord.setProjectName(selectById2.getName());
+   			 	eRecord.setProjectType(dictionaryDataServiceI.getDictionaryData(selectById2.getPlanType()).getCode());
+   			 	eRecord.setProjectCode(selectById2.getProjectNumber());
+        	}else{
+        		//随机抽取
+        		
+        		
+        	}
+    		model.addAttribute("projectType", projectType);
+    		model.addAttribute("projectInfo", eRecord);
+			model.addAttribute("typeclassId", "hidden");
+    		
     		
     	}else if(StringUtils.isNotBlank(eRecord.getId())){
     		
@@ -254,11 +256,11 @@ public class ExtractSupplierController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/saveResult")
-    public Object saveResult(Model model,SupplierExtractResult supplierExtRelate){
+    public Object saveResult(Model model,SupplierExtractResult supplierExtRelate,String projectType){
     	
     	//保存抽取记录  供应商id  记录id 条件id  结果id 是否参加 不参加理由 供应商类型代码
     	//supplierExtRelate.setId(UUIDUtils.getUUID32());
-    	extRelateService.saveResult(supplierExtRelate);
+    	extRelateService.saveResult(supplierExtRelate,projectType);
 		return null;
     }
 

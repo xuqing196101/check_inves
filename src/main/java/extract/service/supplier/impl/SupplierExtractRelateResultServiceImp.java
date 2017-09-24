@@ -4,7 +4,6 @@
 package extract.service.supplier.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierExtPackageMapper;
+import ses.dao.sms.SupplierExtRelateMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.util.PropUtil;
 import ses.util.UUIDUtils;
@@ -20,8 +20,8 @@ import ses.util.UUIDUtils;
 import com.github.pagehelper.PageHelper;
 
 import extract.dao.supplier.SupplierExtractConditionMapper;
-import extract.dao.supplier.SupplierExtractRelateResultMapper;
 import extract.dao.supplier.SupplierExtractRecordMapper;
+import extract.dao.supplier.SupplierExtractRelateResultMapper;
 import extract.model.supplier.SupplierExtractResult;
 import extract.service.supplier.SupplierExtractRelateResultService;
 
@@ -44,6 +44,9 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
   SupplierExtractRecordMapper supplierExtractsMapper;
   @Autowired
   private SupplierExtPackageMapper extPackageMapper;
+  
+  @Autowired
+  private SupplierExtRelateMapper extRelateMapper;
   /**
    * @Description:insert
    *
@@ -242,7 +245,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    */
   @Override
   public void del(String conditionId,String projectId,List<String> expertTypeIds,List<String> saveExpertTypeIds) {
-    List<SupplierExtractResult> list = selectSupplierType(conditionId);
+   /* List<SupplierExtractResult> list = selectSupplierType(conditionId);
     for (SupplierExtractResult supplierExtRelate : list) {
       boolean containsAll = expertTypeIds.containsAll(castList(supplierExtRelate.getSupplierTypeId(),saveExpertTypeIds));
       if(containsAll){
@@ -251,7 +254,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
         map.put("supplierId",supplierExtRelate.getSupplierId());
         supplierExtRelateMapper.del(map);
       }
-    }
+    }*/
   }
 
   /**
@@ -301,14 +304,32 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    * 存储结果
    */
 	@Override
-	public void saveResult(SupplierExtractResult supplierExtRelate) {
-		supplierExtRelate.setId(UUIDUtils.getUUID32());
-		supplierExtRelateMapper.insertSelective(supplierExtRelate);
+	public void saveResult(SupplierExtractResult supplierExtRelate,String projectType) {
+		
+		ArrayList<SupplierExtractResult> arrayList = new ArrayList<>();
+		String[] packageIds = supplierExtRelate.getPackageIds();
+		for (String packageId : packageIds) {
+			supplierExtRelate.setId(UUIDUtils.getUUID32());
+			supplierExtRelate.setPackageId(packageId);
+			arrayList.add(supplierExtRelate);
+		}
+		
+		switch (projectType) {
+		case "advPro":
+			extRelateMapper.insertAdv(arrayList);
+			break;
+		case "relPro":
+			extRelateMapper.insertRel(arrayList);
+			break;
+
+		default:
+			supplierExtRelateMapper.insertSelective(supplierExtRelate);
+			break;
+		}
 	}
   @Override
   public String insert(String cId, String userId, String[] projectId,
       String conditionId) {
-    // TODO Auto-generated method stub
     return null;
   }
 	

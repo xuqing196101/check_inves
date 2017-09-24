@@ -6,6 +6,7 @@ import java.util.Map;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 
@@ -144,6 +145,18 @@ public interface SupplierExtractConditionService {
    * @return
    */
   List<DictionaryData> getLevelByQid(String qid);
+
+
+  /**
+   * 模糊查询供应商资质
+   * <简述> 
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-9-23下午12:37:35
+   * @param name
+   * @return
+   */
+  List<Qualification> qualificationList(String name);
 
 }
 

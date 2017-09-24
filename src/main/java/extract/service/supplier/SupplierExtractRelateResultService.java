@@ -102,6 +102,6 @@ public interface SupplierExtractRelateResultService {
    */
   List<SupplierExtractResult> selectSupplierType(String conditionId);
 
-  void saveResult(SupplierExtractResult supplierExtRelate);
+  void saveResult(SupplierExtractResult supplierExtRelate, String projectType);
 
 }

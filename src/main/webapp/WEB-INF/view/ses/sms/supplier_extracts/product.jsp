@@ -225,7 +225,7 @@
 							<div class="ml5 fl">满足某一产品条件即可</div>
 						</div>
 						<div class="fl mr10">
-							<input type="radio" name="radio"  value="2" class="fl"  onclick="showTitle()"/>
+							<input type="radio" name="radio"  value="2" class="fl"/>
 							<div class="ml5 fl">同时满足多个产品条件</div>
 						</div>
 					</li>

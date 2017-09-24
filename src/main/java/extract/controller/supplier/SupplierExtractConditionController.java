@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -17,8 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.bean.ResponseBean;
 
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
@@ -125,6 +129,29 @@ import extract.service.supplier.SupplierExtractConditionService;
    public String getLevelByQid(String qid){
    	List<DictionaryData> list =  conditionService.getLevelByQid(qid);
 		return JSON.toJSONString(list);
+   }
+   
+   /**
+    * 
+    * <简述> 模糊查询资质
+    *
+    * @author Jia Chengxiang
+    * @dateTime 2017-9-23下午12:32:38
+    * @param page
+    * @param name
+    * @param type
+    * @param ids
+    * @return
+    */
+   @ResponseBody
+   @RequestMapping("/qualificationList")
+   public ResponseBean list(String name){
+       
+       ResponseBean res = new ResponseBean();
+           List<Qualification> list = conditionService.qualificationList(name);
+           res.setSuccess(true);
+           res.setObj(list);
+      return res;
    }
 
 }

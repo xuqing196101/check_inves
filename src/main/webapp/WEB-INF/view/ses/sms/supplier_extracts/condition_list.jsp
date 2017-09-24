@@ -55,6 +55,8 @@
       <%--   <input type="hidden" value="${typeclassId}" name="typeclassId" /> --%>
         <!-- 项目id  -->
         <input type="hidden" id="projectId" value="${projectInfo.projectId }" name="projectId">
+        <!-- 包id  -->
+        <input type="hidden" id="packageId" value="${projectInfo.packageId }" name="packageId">
         <!-- 记录id -->
         <input type="hidden" value="${projectInfo.id}" name="id">
          <h2 class="count_flow"><i>1</i>项目信息</h2>
@@ -399,9 +401,9 @@
         <div class="col-xs-3">
           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>工程资质：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-          <input type="hidden" name="quaId" id="quaId" >
-          <input type="text"  id="quaName" treeHome="quaContent"
-         	 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}"  onclick="showQua(this);"/>
+          <input type="hidden" name="projectQuaId" id="projectQuaId" >
+          <input type="text"  id="projectQuaName" treeHome="projectQuaContent"
+         	 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" onkeyup="selectQua()"  onclick="showQua(this);"/>
           <span class="add-on">i</span>
           <div class="cue" id="dCount"></div>
           </div>
@@ -781,7 +783,7 @@
 	         <div class="col-xs-12 tc mt20">
 	           <button class="btn bu" onclick="extractVerify();" type="button">人工抽取</button>
 	           <button class="btn bu" type="button">自动抽取</button>
-	           <button class="btn bu"  type="reset">重置</button>
+	           <button class="btn bu"  type="button" onclick="resetCondition(this)">重置</button>
 	         </div>
           </form>
           <!--=== Content Part ===-->
@@ -923,9 +925,9 @@
     <ul id="salesLevelTree" class="ztree" style="margin-top:0;"></ul>
 </div>
 <!-- 工程资质树 -->
-<div id="quaContent" class="levelTypeContent" 
+<div id="projectQuaContent" class="levelTypeContent" 
      style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-    <ul id="quaTree" class="ztree" style="margin-top:0;"></ul>
+    <ul id="projectQuaTree" class="ztree" style="margin-top:0;"></ul>
 </div>
 <!-- 非工程资质树资质树 -->
 <div id="goodsQuaContent" class="levelTypeContent"  onblur="hiddenQua()"
@@ -940,6 +942,10 @@
 </body>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/ses/sms/supplierExtract.js"></script>
 <script type="text/javascript">
+	var projectType = "${projectType}";
+	
+	
+	
 	function submitInfo(){
 
 	//存储项目信息

@@ -15,10 +15,12 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.bms.QualificationMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
 import ses.util.DictionaryDataUtil;
@@ -76,6 +78,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
   @Autowired
   private AreaMapper areaMapper;
   
+  /** 资质Mapper **/
+  @Autowired
+  private QualificationMapper mapper;
   
   /**
    * @Description:添加
@@ -237,6 +242,8 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			String ic = (String)class1.getMethod("get"+code+"IsHavingConCert").invoke(conType);
 			String bu = (String)class1.getMethod("get"+code+"BusinessNature").invoke(conType);
 			String ob = (String)class1.getMethod("get"+code+"OverseasBranch").invoke(conType);
+			String qid = (String)class1.getMethod("get"+code+"QuaId").invoke(conType);
+			String qname = (String)class1.getMethod("get"+code+"QuaName").invoke(conType);
 			if(null != mu){
 				condition.setIsMulticondition(mu);
 			}
@@ -258,6 +265,8 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			}
 			if(StringUtils.isNotBlank(ob)){
 				condition.setOverseasBranch(ob);
+			}if(StringUtils.isNotBlank(qid)){
+				condition.setQuaId(qid);
 			}
 			
 			//condition查询和存储不是条件不一样，再创建一个用来存储
@@ -273,7 +282,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 						addr += ","+area.getId();
 					}
 				}
-				addressId = StringUtils.isNotBlank(condition.getAddressId())?condition.getAddressId()+addr:addr.substring(1);
+				addressId = StringUtils.isNotBlank(condition.getAddressId())?condition.getAddressId()+addr:StringUtils.isNotBlank(addr)?addr.substring(1):"";
 				condition.setAddressId(addressId);
 			}
 			
@@ -296,7 +305,8 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 				for (String s : typeCodeList) {
 					temp += ","+ dictionaryDataMapper.selectByCode(s).get(0).getName();
 				}
-				selectAllExpert.get(0).setSupplierType(temp.substring(1));
+			    
+				selectAllExpert.get(0).setSupplierType(StringUtils.isNotBlank(temp)?temp.substring(1):"");
 				
 				list.put(typeCode, selectAllExpert);
 				//存储
@@ -723,5 +733,11 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			}
 		}
 		return cate;
+	}
+
+	@Override
+	public List<Qualification> qualificationList(String name) {
+		
+		return mapper.findList(name, null);
 	}
 }

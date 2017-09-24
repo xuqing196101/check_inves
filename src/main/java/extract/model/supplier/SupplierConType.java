@@ -15,11 +15,12 @@ public class SupplierConType {
 	private String projectLevel;
 	private Short projectIsMulticondition;
 	private Short projectExtractNum;
-	private String quaId;
-	private String quaName;
+	private String projectQuaId;
+	private String projectQuaName;
 	private String projectIsHavingConCert;
 	private String projectBusinessNature;
 	private String projectOverseasBranch;
+
 	
 	
 	/**
@@ -33,6 +34,8 @@ public class SupplierConType {
 	private String serviceIsHavingConCert;
 	private String serviceBusinessNature;
 	private String serviceOverseasBranch;
+	private String serviceQuaId;
+	private String serviceQuaName;
 	
 	/**
 	 * 物资生产
@@ -44,6 +47,8 @@ public class SupplierConType {
 	private String productIsHavingConCert;
 	private String productBusinessNature;
 	private String productOverseasBranch;
+	private String productQuaId;
+	private String productQuaName;
 	
 	/**
 	 * 物资销售
@@ -56,6 +61,8 @@ public class SupplierConType {
 	private String salesIsHavingConCert;
 	private String salesBusinessNature;
 	private String salesOverseasBranch;
+	private String salesQuaId;
+	private String salesQuaName;
 	
 	
 	/**
@@ -68,6 +75,9 @@ public class SupplierConType {
 	private String goodsIsHavingConCert;
 	private String goodsBusinessNature;
 	private String goodsOverseasBranch;
+	private String goodsQuaId;
+	private String goodsQuaName;
+	
 	
 	
 	
@@ -214,20 +224,22 @@ public class SupplierConType {
 		this.salesIsMulticondition = salesIsMulticondition;
 	}
 
-	public String getQuaId() {
-		return quaId;
+	
+
+	public String getProjectQuaId() {
+		return projectQuaId;
 	}
 
-	public void setQuaId(String quaId) {
-		this.quaId = quaId;
+	public void setProjectQuaId(String projectQuaId) {
+		this.projectQuaId = projectQuaId;
 	}
 
-	public String getQuaName() {
-		return quaName;
+	public String getProjectQuaName() {
+		return projectQuaName;
 	}
 
-	public void setQuaName(String quaName) {
-		this.quaName = quaName;
+	public void setProjectQuaName(String projectQuaName) {
+		this.projectQuaName = projectQuaName;
 	}
 
 	public String getProjectIsHavingConCert() {
@@ -380,6 +392,70 @@ public class SupplierConType {
 
 	public void setGoodsOverseasBranch(String goodsOverseasBranch) {
 		this.goodsOverseasBranch = goodsOverseasBranch;
+	}
+
+	public String getServiceQuaId() {
+		return serviceQuaId;
+	}
+
+	public void setServiceQuaId(String serviceQuaId) {
+		this.serviceQuaId = serviceQuaId;
+	}
+
+	public String getServiceQuaName() {
+		return serviceQuaName;
+	}
+
+	public void setServiceQuaName(String serviceQuaName) {
+		this.serviceQuaName = serviceQuaName;
+	}
+
+	public String getProductQuaId() {
+		return productQuaId;
+	}
+
+	public void setProductQuaId(String productQuaId) {
+		this.productQuaId = productQuaId;
+	}
+
+	public String getProductQuaName() {
+		return productQuaName;
+	}
+
+	public void setProductQuaName(String productQuaName) {
+		this.productQuaName = productQuaName;
+	}
+
+	public String getSalesQuaId() {
+		return salesQuaId;
+	}
+
+	public void setSalesQuaId(String salesQuaId) {
+		this.salesQuaId = salesQuaId;
+	}
+
+	public String getSalesQuaName() {
+		return salesQuaName;
+	}
+
+	public void setSalesQuaName(String salesQuaName) {
+		this.salesQuaName = salesQuaName;
+	}
+
+	public String getGoodsQuaId() {
+		return goodsQuaId;
+	}
+
+	public void setGoodsQuaId(String goodsQuaId) {
+		this.goodsQuaId = goodsQuaId;
+	}
+
+	public String getGoodsQuaName() {
+		return goodsQuaName;
+	}
+
+	public void setGoodsQuaName(String goodsQuaName) {
+		this.goodsQuaName = goodsQuaName;
 	}
 	
 	
