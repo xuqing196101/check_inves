@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="extract.dao.expert.ExpertExtractResultMapper">
+  <resultMap id="BaseResultMap" type="extract.model.expert.ExpertExtractResult">
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="EXPERT_ID" property="expertId" jdbcType="VARCHAR" />
+    <result column="CONDITION_ID" property="conditionId" jdbcType="VARCHAR" />
+    <result column="REVIEW_TIME" property="reviewTime" jdbcType="TIMESTAMP" />
+    <result column="IS_JOIN" property="isJoin" jdbcType="DECIMAL" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="EXPERT_CODE" property="expertCode" jdbcType="VARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="IS_ALTERNATE" property="isAlternate" jdbcType="DECIMAL" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap type="extract.model.expert.ExpertExtractResult" id="expertInfo" extends="BaseResultMap">
+        <result column="IS_SUBMIT" jdbcType="VARCHAR" property="isSubmit" />
+        <result column="IS_DO" jdbcType="VARCHAR" property="isDo" />
+        <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
+        <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="SUBMIT_AT" jdbcType="TIMESTAMP" property="submitAt" />
+        <result column="GENDER" jdbcType="CHAR" property="gender" />
+        <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+        <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+        <result column="ID_CARD_NUMBER" jdbcType="VARCHAR" property="idCardNumber" />
+        <result column="COVER_NOTE" jdbcType="VARCHAR" property="coverNote" />
+        <result column="PRODUCT_CATEGORIES" jdbcType="VARCHAR"
+                property="productCategories" />
+        <result column="ACADEMIC_ACHIEVEMENT" jdbcType="VARCHAR"
+                property="academicAchievement" />
+        <result column="REVIEW_SITUATION" jdbcType="VARCHAR" property="reviewSituation" />
+        <result column="AVOIDANCE_SITUATION" jdbcType="VARCHAR"
+                property="avoidanceSituation" />
+        <result column="BIRTHDAY" jdbcType="TIMESTAMP" property="birthday" />
+        <result column="ID_NUMBER" jdbcType="VARCHAR" property="idNumber" />
+        <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+        <result column="JOB_EXPERIENCES" jdbcType="VARCHAR" property="jobExperiences" />
+        <result column="ID_TYPE" jdbcType="VARCHAR" property="idType" />
+        <result column="EXPERTS_FROM" jdbcType="VARCHAR" property="expertsFrom" />
+        <result column="POLITICS_STATUS" jdbcType="VARCHAR" property="politicsStatus" />
+        <result column="NATION" jdbcType="VARCHAR" property="nation" />
+        <result column="GRADUATE_SCHOOL" jdbcType="VARCHAR" property="graduateSchool" />
+        <result column="LAST_EDUCATION" jdbcType="VARCHAR" property="hightEducation" />
+        <result column="MAJOR" jdbcType="VARCHAR" property="major" />
+        <result column="WORK_UNIT" jdbcType="VARCHAR" property="workUnit" />
+        <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
+        <result column="FAX" jdbcType="VARCHAR" property="fax" />
+        <result column="MAKE_TECH_DATE" jdbcType="TIMESTAMP" property="makeTechDate" />
+        <result column="HEALTH_STATE" jdbcType="VARCHAR" property="healthState" />
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+        <result column="PROFESS_TECH_TITLES" jdbcType="VARCHAR"
+                property="professTechTitles" />
+        <result column="TIME_TO_WORK" jdbcType="TIMESTAMP" property="timeToWork" />
+        <result column="TIME_START_WORK" jdbcType="TIMESTAMP" property="timeStartWork" />
+        <result column="UNIT_ADDRESS" jdbcType="VARCHAR" property="unitAddress" />
+        <result column="POST_CODE" jdbcType="VARCHAR" property="postCode" />
+        <result column="DEGREE" jdbcType="VARCHAR" property="degree" />
+        <result column="AT_DUTY" jdbcType="VARCHAR" property="atDuty" />
+        <result column="EXPERTS_TYPE_ID" jdbcType="VARCHAR" property="expertsTypeId" />
+        <result column="PURCHASE_DEP_ID" jdbcType="VARCHAR" property="purchaseDepId" />
+        <result column="STATUS" property="status" />
+        <result column="IS_BLACK" jdbcType="CHAR" property="isBlack" />
+        <result column="HONESTY_SCORE" jdbcType="DECIMAL" property="honestyScore" />
+        <result column="REAL_NAME" jdbcType="VARCHAR" property="relName" />
+        <result column="IS_PASS" jdbcType="DECIMAL" property="isPass" />
+        <result column="IS_PROVISIONAL" jdbcType="DECIMAL" property="isProvisional" />
+        <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+        <result column="STEP_NUMBER" jdbcType="VARCHAR" property="stepNumber" />
+        <result column="AUDIT_AT" jdbcType="TIMESTAMP" property="auditAt" />
+        <result column="IS_REFERENCE_LETTER" jdbcType="CHAR" property="isReferenceLftter" />
+        <result column="PROFESSIONAL" jdbcType="VARCHAR"  property="professional" />
+        <result column="TIME_PROFESSIONAL" jdbcType="TIMESTAMP" property="timeProfessional" />
+        <result column="IS_PUBLISH" jdbcType="DECIMAL" property="isPublish" />
+        <result column="IS_ADD_EXPERT" jdbcType="DECIMAL" property="isAddExpert" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, PROJECT_ID, EXPERT_ID, CONDITION_ID, REVIEW_TIME, IS_JOIN, REASON, IS_DELETED,
+    CREATED_AT, UPDATED_AT,IS_ALTERNATE,EXPERT_CODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXTRACT_RESULT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_EMS_EXTRACT_RESULT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="extract.model.expert.ExpertExtractResult">
+    insert into T_SES_EMS_EXTRACT_RESULT (ID, PROJECT_ID, EXPERT_ID,
+    CONDITION_ID, REVIEW_TIME, IS_JOIN, REASON, IS_DELETED, CREATED_AT, UPDATED_AT,IS_ALTERNATE,EXPERT_CODE)
+    values (#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
+    #{expertId,jdbcType=VARCHAR},
+    #{conditionId,jdbcType=VARCHAR}, #{reviewTime,jdbcType=TIMESTAMP}, #{isJoin,jdbcType=DECIMAL},
+    #{reason,jdbcType=VARCHAR},#{isDeleted,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP},
+      #{updatedAt,jdbcType=TIMESTAMP},#{isAlternate,jdbcType=DECIMAL},#{expertCode,jdbcType=VARCHAR},)
+  </insert>
+  <insert id="insertSelective" parameterType="extract.model.expert.ExpertExtractResult">
+    insert into T_SES_EMS_EXTRACT_RESULT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID,
+      </if>
+      <if test="conditionId != null">
+        CONDITION_ID,
+      </if>
+      <if test="reviewTime != null">
+        REVIEW_TIME,
+      </if>
+      <if test="isJoin != null">
+        IS_JOIN,
+      </if>
+      <if test="reason != null">
+        REASON,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="isAlternate != null">
+        IS_ALTERNATE,
+      </if>
+      <if test="expertCode != null">
+        EXPERT_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionId != null">
+        #{conditionId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewTime != null">
+        #{reviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isJoin != null">
+        #{isJoin,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isAlternate != null">
+        #{isAlternate,jdbcType=DECIMAL},
+      </if>
+      <if test="expertCode != null">
+        #{expertCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="extract.model.expert.ExpertExtractResult">
+    update T_SES_EMS_EXTRACT_RESULT
+    <set>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID = #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionId != null">
+        CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewTime != null">
+        REVIEW_TIME = #{reviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isJoin != null">
+        IS_JOIN = #{isJoin,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null">
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isAlternate != null">
+        IS_ALTERNATE = #{isAlternate,jdbcType=DECIMAL},
+      </if>
+      <if test="expertCode != null">
+        EXPERT_CODE = #{expertCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="extract.model.expert.ExpertExtractResult">
+    update T_SES_EMS_EXTRACT_RESULT
+    set PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+    EXPERT_ID = #{expertId,jdbcType=VARCHAR},
+    CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
+    REVIEW_TIME = #{reviewTime,jdbcType=TIMESTAMP},
+    IS_JOIN = #{isJoin,jdbcType=DECIMAL},
+    REASON = #{reason,jdbcType=VARCHAR},
+    IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+    CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+    UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+    IS_ALTERNATE = #{isAlternate,jdbcType=DECIMAL},
+    EXPERT_CODE = #{expertCode,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 条件查询 -->
+  <select id="findByConditionIdExpertId" resultMap="BaseResultMap" parameterType="Map">
+    SELECT <include refid="Base_Column_List" />
+    FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0
+      <if test="expertId != null">
+         AND EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+      </if>
+      <if test="conditionId != null">
+        AND CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
+  <!-- 条件查询 -->
+  <select id="findByConditionId" resultType="String" parameterType="String">
+    SELECT EXPERT_ID FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0 AND CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 下载抽取结果 -->
+  <select id="getResultListByrecordId" parameterType="java.lang.String" resultMap="expertInfo">
+    SELECT E.REAL_NAME,E.ID_CARD_NUMBER,E.Profess_Tech_Titles,E.MAJOR,E.PROFESSIONAL,E.Mobile,R.IS_JOIN,R.REASON,R.EXPERT_CODE from T_SES_EMS_EXTRACT_RESULT R LEFT JOIN T_SES_EMS_EXPERT E ON R.EXPERT_ID = E.ID
+    WHERE R.PROJECT_ID = #{value} AND R.IS_JOIN IN (1，3) AND R.IS_ALTERNATE IS NULL ORDER BY R.IS_JOIN ASC
+  </select>
+  
+  <select id="getBackExpertListByrecordId" parameterType="java.lang.String" resultMap="expertInfo">
+  	SELECT E.REAL_NAME,E.ID_CARD_NUMBER,E.Profess_Tech_Titles,E.MAJOR,E.PROFESSIONAL,E.Mobile,R.IS_JOIN,R.REASON,R.EXPERT_CODE from T_SES_EMS_EXTRACT_RESULT R LEFT JOIN T_SES_EMS_EXPERT E ON R.EXPERT_ID = E.ID
+ 	WHERE R.PROJECT_ID =#{value} AND R.IS_ALTERNATE = 1
+  </select>
+  
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT
+    <include refid="Base_Column_List" />
+    FROM T_SES_EMS_EXTRACT_RESULT 
+    WHERE IS_JOIN = 1
+  </select>
+  
+</mapper>

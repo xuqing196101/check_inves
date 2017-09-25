@@ -1,37 +1,39 @@
 /**
  * 
- *//*
+ */
 package extract.service.supplier.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierExtPackageMapper;
+import ses.dao.sms.SupplierExtRelateMapper;
 import ses.dao.sms.SupplierMapper;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.UUIDUtils;
 
 import com.github.pagehelper.PageHelper;
 
 import extract.dao.supplier.SupplierExtractConditionMapper;
-import extract.dao.supplier.SupplierExtractRelateResultMapper;
 import extract.dao.supplier.SupplierExtractRecordMapper;
-import extract.model.supplier.SupplierExtRelate;
+import extract.dao.supplier.SupplierExtractRelateResultMapper;
+import extract.model.supplier.SupplierExtractResult;
 import extract.service.supplier.SupplierExtractRelateResultService;
 
-*//**
+/**
  * @Description:供应商抽取关联
  *	 
  * @author Wang Wenshuai
  * @date 2016年9月20日下午4:17:22
  * @since  JDK 1.7
- *//*
+ */
 @Service
 public class SupplierExtractRelateResultServiceImp implements SupplierExtractRelateResultService {
   @Autowired
@@ -44,16 +46,20 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
   SupplierExtractRecordMapper supplierExtractsMapper;
   @Autowired
   private SupplierExtPackageMapper extPackageMapper;
-  *//**
+  
+  @Autowired
+  private SupplierExtRelateMapper extRelateMapper;
+  /**
    * @Description:insert
    *
    * @author Wang Wenshuai
    * @version 2016年9月28日 下午4:12:09  
    * @param       
    * @return void
-   *//*
-  @Override
-  public String insert(String cId,String userid,String[] projectId,String conditionId) {
+   */
+  
+  /*@Override
+   * public String insert(String cId,String userid,String[] projectId,String conditionId) {
     //获取查询条件
     List<SupplierCondition> list = conditionMapper.list(new SupplierCondition(cId, ""));
     if(list!=null&&list.size()!=0){
@@ -120,42 +126,42 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 
     }
     return "";
-  }
-  *//**
+  }*/
+  /**
    * @Description:集合展示
    *
    * @author Wang Wenshuai
    * @version 2016年9月28日 下午6:07:39  
    * @param @param projectExtract      
    * @return void
-   *//*
+   */
   @Override
-  public List<SupplierExtRelate> list(SupplierExtRelate projectExtract,String page) {
+  public List<SupplierExtractResult> list(SupplierExtractResult projectExtract,String page) {
     if(page!=null&&!"".equals(page))
       PageHelper.startPage(Integer.valueOf(page), PropUtil.getIntegerProperty("pageSize"));
     return supplierExtRelateMapper.list(projectExtract);
 
   }
-  *//**
+  /**
    * @Description:修改操作状态
    *
    * @author Wang Wenshuai
    * @version 2016年9月28日 下午8:02:39  
    * @param @param projectExtract      
    * @return void
-   *//*
+   */
   @Override
-  public void update(SupplierExtRelate projectExtract) {
-    if(projectExtract != null && projectExtract.getPackageId() != null && projectExtract.getPackageId().length !=0 ){
+  public void update(SupplierExtractResult projectExtract) {
+   /* if(projectExtract != null && projectExtract.getPackageId() != null && projectExtract.getPackageId().length !=0 ){
       for (String packageId : projectExtract.getPackageId()) {
         if (!"".equals(packageId)){
-          SupplierExtRelate pe = supplierExtRelateMapper.selectByPrimaryKey(projectExtract.getId());
+          SupplierExtractResult pe = supplierExtRelateMapper.selectByPrimaryKey(projectExtract.getId());
           if(pe != null){
             if(packageId != pe.getProjectId()){
-              SupplierExtRelate extract = new SupplierExtRelate();
+              SupplierExtractResult extract = new SupplierExtractResult();
               extract.setProjectId(packageId);
               extract.setSupplierId(pe.getSupplier().getId());
-              List<SupplierExtRelate> list = supplierExtRelateMapper.list(extract);
+              List<SupplierExtractResult> list = supplierExtRelateMapper.list(extract);
               if(list != null && list.size() != 0){
                 list.get(0).setOperatingType(projectExtract.getOperatingType());
                 list.get(0).setReviewType(pe.getReviewType());
@@ -165,7 +171,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
                 }
                 supplierExtRelateMapper.updateByPrimaryKeySelective(list.get(0));
               }else{
-                SupplierExtRelate pext = new SupplierExtRelate();
+                SupplierExtractResult pext = new SupplierExtractResult();
                 pext.setSupplierId(pe.getSupplier().getId());
                 pext.setProjectId(packageId);
 
@@ -187,24 +193,24 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
       }
 
     }
-    supplierExtRelateMapper.updateByPrimaryKeySelective(projectExtract);
+    supplierExtRelateMapper.updateByPrimaryKeySelective(projectExtract);*/
 
   }
 
-  *//**
+  /**
    * @Description:获取单个对象
    *
    * @author Wang Wenshuai
    * @version 2016年9月28日 下午8:02:39  
    * @param @param projectExtract      
    * @return void
-   *//*
+   */
   @Override
-  public SupplierExtRelate getSupplierExtRelate(String id) {
+  public SupplierExtractResult getSupplierExtRelate(String id) {
     return supplierExtRelateMapper.selectByPrimaryKey(id);
   }
 
-  *//**
+  /**
    * @Description:删除重复记录
    *
    * @author Wang Wenshuai
@@ -212,13 +218,13 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    * @param @param extract
    * @param @return      
    * @return List<ProjectExtract>
-   *//*
+   */
   @Override
   public void deleteData(Map map){
     supplierExtRelateMapper.deleteData(map);
   }
 
-  *//**
+  /**
    * @Description:当抽取数量满足时修改还未抽取的专家状态为1
    *
    * @author Wang Wenshuai
@@ -226,7 +232,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    * @param @param extract
    * @param @return      
    * @return List<ProjectExtract>
-   *//*
+   */
   @Override
   public void updateStatusCount(String type,String conTypeId){
     Map<String, String> map=new HashMap<String, String>();
@@ -235,14 +241,14 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
     supplierExtRelateMapper.updateStatusCount(map);
   }
 
-  *//**
+  /**
    * 删除未抽取的抽取信息
    * @see ses.service.sms.SupplierExtRelateService#del(java.lang.String)
-   *//*
+   */
   @Override
   public void del(String conditionId,String projectId,List<String> expertTypeIds,List<String> saveExpertTypeIds) {
-    List<SupplierExtRelate> list = selectSupplierType(conditionId);
-    for (SupplierExtRelate supplierExtRelate : list) {
+   /* List<SupplierExtractResult> list = selectSupplierType(conditionId);
+    for (SupplierExtractResult supplierExtRelate : list) {
       boolean containsAll = expertTypeIds.containsAll(castList(supplierExtRelate.getSupplierTypeId(),saveExpertTypeIds));
       if(containsAll){
         Map<String, Object> map = new HashMap<String, Object>();
@@ -250,17 +256,17 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
         map.put("supplierId",supplierExtRelate.getSupplierId());
         supplierExtRelateMapper.del(map);
       }
-    }
+    }*/
   }
 
-  *//**
+  /**
    * 
    *〈简述〉转换集合
    *〈详细描述〉
    * @author Wang Wenshuai
    * @param type
    * @return
-   *//*
+   */
   private List<String>  castList(String type,List<String> saveExpertTypeIds){
     List<String> list = null;
     if(type != null && !"".equals(type)){
@@ -278,30 +284,63 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 
   }
 
-  *//**
+  /**
    * 抽取完成后删除信息
-   *//*
+   */
   @Override
   public void delPe(String id) {
     // TODO Auto-generated method stub
     supplierExtRelateMapper.delPe(id);
   }
 
-  *//**
+  /**
    * 供应商类型
    * @see ses.service.sms.SupplierExtRelateService#selectSupplierType(java.lang.String)
-   *//*
+   */
   @Override
-  public List<SupplierExtRelate> selectSupplierType(String conditionId) {
+  public List<SupplierExtractResult> selectSupplierType(String conditionId) {
     return supplierExtRelateMapper.selectSupplierType(conditionId);
   }
+  
+  /**
+   * 存储结果
+   */
 	@Override
-	public void saveResult(SupplierExtRelate supplierExtRelate) {
-		supplierExtRelate.setId(UUIDUtils.getUUID32());
-		supplierExtRelate.setCreatedAt(new Date());
-		supplierExtRelateMapper.insertSelective(supplierExtRelate);
+	public void saveResult(SupplierExtractResult supplierExtRelate,String projectType) {
+		
+		ArrayList<SupplierExtractResult> arrayList = new ArrayList<>();
+		String[] packageIds = supplierExtRelate.getPackageIds();
+		if(null!=packageIds){
+			for (String packageId : packageIds) {
+				supplierExtRelate.setId(UUIDUtils.getUUID32());
+				supplierExtRelate.setPackageId(packageId);
+				arrayList.add(supplierExtRelate);
+			}
+		}
+		if("advPro".equals(projectType) && arrayList.size()>0){
+			supplierExtRelateMapper.insertAdv(arrayList);
+			return;
+		}else if("relPro".equals(projectType)&& arrayList.size()>0){
+			supplierExtRelateMapper.insertRel(arrayList);
+			return;
+		}else if(StringUtils.isBlank(projectType)){
+			supplierExtRelate.setId(UUIDUtils.getUUID32());
+			supplierExtRelateMapper.insertSelective(supplierExtRelate);
+			return;
+		}
+		
 	}
+  @Override
+  public String insert(String cId, String userId, String[] projectId,
+      String conditionId) {
+    return null;
+  }
+	
+	/**
+	 * 删除待定
+	 */
+	
+	
 }
 
 
-*/

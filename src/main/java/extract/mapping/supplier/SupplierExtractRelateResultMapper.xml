@@ -1,25 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="extract.dao.supplier.SupplierExtractRelateResultMapper">
-	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtRelate">
+	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractResult">
 		<!-- @mbggenerated -->
 		<id column="ID" jdbcType="VARCHAR" property="id" />
-		<result column="SUPPLIER_CONDITION_ID" jdbcType="VARCHAR"
+		<result column="CONDITION_ID" jdbcType="VARCHAR"
 			property="supplierConditionId" />
 		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
-		<result column="OPERATING_TYPE" jdbcType="DECIMAL" property="operatingType" />
 		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
 		<result column="REASON" jdbcType="VARCHAR" property="reason" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="UPDATED_AT" jdbcType="VARCHAR" property="updatedAt" />
 		<result column="CON_TYPE_ID" jdbcType="VARCHAR" property="conTypeId" />
 		<result column="STATUS_COUNT" jdbcType="DECIMAL" property="statusCount" />
-		<result column="REVIEW_TYPE" jdbcType="VARCHAR" property="reviewType" />
-
+		<result column="MOBILE" property="mobile" />
+		<result column="JOIN" property="join" />
+		<result column="SUPPLIER_NAME" property="supplierName" />
+		<result column="ARMY_BUSINESS_NAME" property="armyBusinessName" />
+		<result column="ARMY_BUSINESS_TELEPHONE" property="armyBuinessTelephone" />
 		<!-- 供应商 -->
-		<association column="SUPPLIER_ID" property="supplier"
-			select="ses.dao.sms.SupplierMapper.selectByPrimaryKeyItem" />
+		<!-- <association column="SUPPLIER_ID" property="supplier"
+			select="ses.dao.sms.SupplierMapper.selectByPrimaryKeyItem" /> -->
 	</resultMap>
+	<resultMap id="findSupplierMap" type="ses.model.sms.Supplier">
+		<id column="ID" property="id" />
+		<result column="MOBILE" property="mobile" />
+		<result column="SUPPLIER_NAME" property="supplierName" />
+		<result column="SUPPLIER_TYPE_ID" property="supplierTypeId" />
+		<result column="BUSINESS_TYPE" property="businessType" />
+		<result column="BUSINESS_CERT" property="businessCert" />
+		<result column="CONTACT_NAME" property="contactName" />
+		<result column="CONTACT_TELEPHONE" property="contactTelephone" />
+		<result column="CONTACT_MOBILE" property="contactMobile" />
+		<result column="CONTACT_EMAIL" property="contactEmail" />
+		<result column="CONTACT_ADDRESS" property="contactAddress" />
+		<result column="ARMY_BUSINESS_NAME" property="armyBusinessName" />
+		<result column="ARMY_BUSINESS_MOBILE" property="armyBuinessMobile" />
+		<result column="ARMY_BUSINESS_TELEPHONE" property="armyBuinessTelephone" />
+	</resultMap>
+	
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
 		ID, SUPPLIER_ID, SUPPLIER_CONDITION_ID, CREATED_AT, OPERATING_TYPE,
@@ -32,18 +51,18 @@
 		<!-- @mbggenerated -->
 		select
 		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIER_EXT_RELATE
+		from T_SES_SMS_EXTRACT_RESULT
 		where ID = #{id,jdbcType=VARCHAR}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		<!-- @mbggenerated -->
-		delete from T_SES_SMS_SUPPLIER_EXT_RELATE
+		delete from T_SES_SMS_EXTRACT_RESULT
 		where ID =
 		#{id,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert" parameterType="extract.model.supplier.SupplierExtRelate">
+	<insert id="insert" parameterType="extract.model.supplier.SupplierExtractResult">
 		<!-- @mbggenerated -->
-		insert into T_SES_SMS_SUPPLIER_EXT_RELATE (ID, SUPPLIER_ID,
+		insert into T_SES_SMS_EXTRACT_RESULT (ID, SUPPLIER_ID,
 		SUPPLIER_CONDITION_ID,
 		CREATED_AT, OPERATING_TYPE, IS_DELETED,
 		REASON,
@@ -61,9 +80,9 @@
 		#{conTypeId,jdbcType=VARCHAR},
 		#{statusCount,jdbcType=DECIMAL},#{reviewType,jdbc=VARCHAR})
 	</insert>
-	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtRelate">
-		<!-- @mbggenerated -->
-		insert into T_SES_SMS_SUPPLIER_EXT_RELATE
+	<!-- <insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtractResult">
+		@mbggenerated
+		insert into T_SES_SMS_EXTRACT_RESULT
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				ID,
@@ -153,10 +172,66 @@
 				#{recordId,jdbcType=VARCHAR}
 			</if>
 		</trim>
-	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtRelate">
+	</insert> -->
+	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtractResult">
 		<!-- @mbggenerated -->
-		update T_SES_SMS_SUPPLIER_EXT_RELATE
+		insert into T_SES_SMS_EXTRACT_RESULT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="conditionId != null">
+				CONDITION_ID,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
+			<if test="join != null">
+				JOIN,
+			</if>
+			<if test="reason != null">
+				REASON,
+			</if>
+			<if test="supplierType != null">
+				SUPPLIER_TYPE,
+			</if>
+			<if test="recordId != null">
+				RECORD_ID
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="conditionId != null">
+				#{conditionId,jdbcType=VARCHAR},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="join != null">
+				#{join,jdbcType=DECIMAL},
+			</if>
+			<if test="reason != null">
+				#{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierType != null">
+				#{supplierType,jdbcType=VARCHAR},
+			</if>
+			<if test="recordId != null">
+				#{recordId,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractResult">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_EXTRACT_RESULT
 		<set>
 			<if test="supplierId != null">
 				SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
@@ -195,9 +270,9 @@
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierExtRelate">
+	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierExtractResult">
 		<!-- @mbggenerated -->
-		update T_SES_SMS_SUPPLIER_EXT_RELATE
+		update T_SES_SMS_EXTRACT_RESULT
 		set SUPPLIER_ID =
 		#{supplierId,jdbcType=VARCHAR},
 		SUPPLIER_CONDITION_ID =
@@ -227,17 +302,17 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM
-		T_SES_SMS_SUPPLIER_EXT_RELATE WHERE PROJECT_ID =#{id} AND
+		T_SES_SMS_EXTRACT_RESULT WHERE PROJECT_ID =#{id} AND
 		OPERATING_TYPE =1
 
 	</select>
 
-	<select id="list" parameterType="extract.model.supplier.SupplierExtRelate"
+	<select id="list" parameterType="extract.model.supplier.SupplierExtractResult"
 		resultMap="BaseResultMap">
 		SELECT
 		pe.*
 		FROM
-		T_SES_SMS_SUPPLIER_EXT_RELATE pe
+		T_SES_SMS_EXTRACT_RESULT pe
 		INNER JOIN
 		T_SES_SMS_SUPPLIER ss ON PE.SUPPLIER_ID = ss."ID"
 		Where STATUS_COUNT=0
@@ -270,17 +345,17 @@
 	<!-- 删除重复数据 -->
 	<delete id="deleteData" parameterType="Map">
 		delete from
-		T_SES_SMS_SUPPLIER_EXT_RELATE
+		T_SES_SMS_EXTRACT_RESULT
 
 		where SUPPLIER_ID in (select SUPPLIER_ID
 		from
-		T_SES_SMS_SUPPLIER_EXT_RELATE group
+		T_SES_SMS_EXTRACT_RESULT group
 		by SUPPLIER_ID having
 		count(SUPPLIER_ID) >
 		1)
 
 		and rowid not in (select min(rowid) from
-		T_SES_SMS_SUPPLIER_EXT_RELATE
+		T_SES_SMS_EXTRACT_RESULT
 		group
 		by SUPPLIER_ID having
 		count(SUPPLIER_ID )>1)
@@ -292,7 +367,7 @@
 	<!-- 当抽取数量满足时修改还未抽取的专家状态为1 -->
 	<update id="updateStatusCount" parameterType="map">
 		UPDATE
-		T_SES_SMS_SUPPLIER_EXT_RELATE
+		T_SES_SMS_EXTRACT_RESULT
 		SET STATUS_COUNT = #{type}
 		WHERE
 		CON_TYPE_ID =
@@ -302,13 +377,13 @@
 	<!-- 包下是否已存在供应商 -->
 	<select id="getSupplierId" parameterType="Map" resultType="java.lang.Integer">
 		SELECT "COUNT"(SUPPLIER_ID) as count FROM
-		T_SES_SMS_SUPPLIER_EXT_RELATE WHERE
+		T_SES_SMS_EXTRACT_RESULT WHERE
 		SUPPLIER_ID=#{supplierId}
 		AND
 		PROJECT_ID=#{projectId}
 	</select>
 	<insert id="insertList" parameterType="java.util.List">
-		INSERT INTO T_SES_SMS_SUPPLIER_EXT_RELATE
+		INSERT INTO T_SES_SMS_EXTRACT_RESULT
 		(SUPPLIER_ID,SUPPLIER_CONDITION_ID,PROJECT_ID,CON_TYPE_ID)
 		<foreach collection="list" item="item" index="index"
 			separator="union" close=")" open="(">
@@ -326,7 +401,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM
-		T_SES_SMS_SUPPLIER_EXT_RELATE WHERE
+		T_SES_SMS_EXTRACT_RESULT WHERE
 		SUPPLIER_CONDITION_ID=#{supplierId} AND (OPERATING_TYPE =1 OR
 		OPERATING_TYPE =2 OR OPERATING_TYPE =3)
 	</select>
@@ -336,7 +411,7 @@
 		DELETE FROM ( SELECT
 		*
 		FROM
-		T_SES_SMS_SUPPLIER_EXT_RELATE
+		T_SES_SMS_EXTRACT_RESULT
 		WHERE PROJECT_ID
 		IN (SELECT "ID" FROM
 		T_BSS_PPMS_PACKAGE WHERE PROJECT_ID =
@@ -350,14 +425,14 @@
 	<select id="delPe" parameterType="java.lang.String">
 		DELETE FROM (
 		SELECT T1.* FROM
-		T_SES_SMS_SUPPLIER_EXT_RELATE t1 LEFT JOIN
+		T_SES_SMS_EXTRACT_RESULT t1 LEFT JOIN
 		T_BSS_PPMS_PACKAGE t2 ON
 		T1.PROJECT_ID=t2."ID" WHERE t2.PROJECT_ID
 		=#{projectId} AND
 		t1.OPERATING_TYPE = 0 )
 	</select>
 
-	<resultMap id="BaseMap" type="extract.model.supplier.SupplierExtRelate">
+	<resultMap id="BaseMap" type="extract.model.supplier.SupplierExtractResult">
 		<result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
 		<result column="SUPPLIER_TYPE_ID" jdbcType="VARCHAR" property="supplierTypeId" />
 	</resultMap>
@@ -370,17 +445,377 @@
 		FROM
 		T_SES_SMS_SUPPLIER_TYPE_RELATE t1
 		INNER JOIN
-		T_SES_SMS_SUPPLIER_EXT_RELATE t2 ON t1.SUPPLIER_ID =
+		T_SES_SMS_EXTRACT_RESULT t2 ON t1.SUPPLIER_ID =
 		T2.SUPPLIER_ID
 		WHERE T2.SUPPLIER_CONDITION_ID =#{conditionId}
 		GROUP BY
 		t1.SUPPLIER_ID
 	</select>
 	
+	
+	<!-- 查询已经抽取到的供应商 -->
 	<select id="selectSupplierIdListByRecordId" parameterType="java.lang.String" resultType="java.lang.String">
-		SELECT SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_EXT_RELATE WHERE 
+		SELECT SUPPLIER_ID supplierIds FROM T_SES_SMS_EXTRACT_RESULT WHERE RECORD_ID = #{value}
+	</select>
+	<!-- 查询本项目已经抽取到的供应商 -->
+	<select id="selectSupplierIdListByProjectId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT DISTINCT R.SUPPLIER_ID supplierIds FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_EXTRACT_RECORD E ON R.RECORD_ID = E.ID  WHERE E.PROJECT_ID = #{value}
 	</select>
 
+	<!-- 供应商个数 -->
+	<select id="listExtractionExpertCount" parameterType="extract.model.supplier.SupplierExtractCondition" resultType="int">
+		SELECT COUNT(DISTINCT S.ID) FROM T_SES_SMS_SUPPLIER S
+		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
+			LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T ON T.SUPPLIER_ID = S.ID
+			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
+			LEFT JOIN T_SES_BMS_CATEGORY_QUA QUA ON I.CATEGORY_ID = QUA.CATEGORY_ID
+			
+			<choose>
+				<when test="supplierTypeCode == 'PROJECT'.toString()">
+					LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON E.SUPPLIER_ID = S.ID
+					LEFT JOIN T_SES_SMS_SUPPLIER_APTITUTE A ON A.MAT_ENG_ID = E.ID
+				</when>
+				<otherwise>
+					LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L ON S.ID = L.SUPPLIER_ID
+				</otherwise>
+			</choose>
+		</if>
+		WHERE S.IS_PROVISIONAL = 0 AND S.IS_DELETED = 0 AND S.SUPPLIER_STATUS in ( 1,4,5,6,7,8) 
+		<!-- 查询地址 -->
+		<!-- <if test="province != null and province != '' ">
+			AND S.ADDRESS in (SELECT AREA.ID from T_SES_BMS_AREA AREA WHERE AREA.PARENT_ID IN	<foreach collection="provinces"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>)
+		</if> -->
+		<if test="addressId != null and addressId != '' ">
+			AND S.ADDRESS in 	<foreach collection="addressIds"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>
+		</if>
+		<!-- 查询类型 -->
+		<if test="supplierTypeCode !=null and supplierTypeCode != '' ">
+			<!--  AND I.Supplier_Type_Relate_Id  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach>  -->
+			 AND T.SUPPLIER_TYPE_ID  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
+		</if>	 
+		<!-- 查询品目 -->
+		<if test="isMulticondition !=null and isMulticondition != ''">
+			<if test="isMulticondition == 1 and categoryId !=null and categoryId != '' ">
+				 AND I.CATEGORY_ID IN <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
+			</if>
+			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
+				AND S.ID IN (SELECT  IT.SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM IT WHERE IT.CATEGORY_ID IN 
+				<foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
+				 GROUP BY IT.SUPPLIER_ID  HAVING COUNT(1) = #{csize})
+				<!--  AND
+				 <trim prefix="(" suffixOverrides="AND" suffix=")">
+				 	 <foreach collection="categoryIds" item="cid" > I.CATEGORY_ID = #{cid} AND </foreach>
+				 </trim> -->
+			</if>
+		</if>
+		<!-- 查询资质 -->
+		<if test="quaId !=null and quaId != '' ">
+			<if test="supplierTypeCode == 'PROJECT'.toString()">
+				AND  A.CERT_TYPE IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
+			</if>
+			<if test="supplierTypeCode != 'PROJECT'.toString()">
+				AND  QUA.QUA_ID IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
+			</if>
+		</if>
+		<!-- 查询等级 -->
+		<if test="levelTypeId !=null and levelTypeId != '' ">
+			<choose>
+				<when test="supplierTypeCode == 'PROJECT'.toString()">
+					AND  A."APTITUTE_ LEVEL" IN  <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+				</when>
+				<otherwise>
+					AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+				</otherwise>
+			</choose>
+		</if>
+		<!-- 保密要求 -->
+		<if test="isHavingConCert !=null and isHavingConCert != '' ">
+			AND S.IS_HAVING_CON_CERT = #{isHavingConCert}
+		</if>
+		<!-- 企业性质 -->
+		<if test="businessNature !=null and businessNature != '' ">
+			AND S.BUSINESS_NATURE = #{businessNature}
+		</if>
+		<!-- 境外分支 -->
+		<if test="overseasBranch !=null and overseasBranch != '' ">
+			AND S.OVERSEAS_BRANCH = #{overseasBranch}
+		</if>
+		<if test="supplierIds != null and supplierIds.size>0 ">
+			AND S.ID NOT IN
+			<foreach collection="supplierIds" open="(" item="sid" separator="," close=")">
+				#{sid}	
+			</foreach>
+		</if>
+	</select>
+	<!-- 供应商抽取集合 -->
+	<select id="listExtractionExpert" parameterType="extract.model.supplier.SupplierExtractCondition"
+		resultMap="findSupplierMap">
+		SELECT SP.* FROM 
+		(SELECT DISTINCT S.* FROM T_SES_SMS_SUPPLIER S
+		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
+			LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T ON T.SUPPLIER_ID = S.ID
+			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
+			LEFT JOIN T_SES_BMS_CATEGORY_QUA QUA ON I.CATEGORY_ID = QUA.CATEGORY_ID
+			<choose>
+				<when test="supplierTypeCode == 'PROJECT'.toString()">
+					LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON E.SUPPLIER_ID = S.ID
+					LEFT JOIN T_SES_SMS_SUPPLIER_APTITUTE A ON A.MAT_ENG_ID = E.ID
+				</when>
+				<otherwise>
+					LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL L ON S.ID = L.SUPPLIER_ID
+				</otherwise>
+			</choose>
+		</if>
+		WHERE S.IS_PROVISIONAL = 0 AND S.IS_DELETED = 0 AND S.SUPPLIER_STATUS in ( 1,4,5,6,7,8) 
+		<!-- 查询地址 -->
+		<if test="addressId != null and addressId != '' ">
+			AND S.ADDRESS in 	<foreach collection="addressIds"  open="(" item="index" close=")" separator=",">	#{index}	</foreach>
+		</if>
+		<!-- 查询类型 -->
+		<if test="supplierTypeCode !=null and supplierTypeCode != '' ">
+			<!--  AND I.Supplier_Type_Relate_Id  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach>  -->
+			 AND T.SUPPLIER_TYPE_ID  IN  <foreach collection="supplierTypeCodes" open="(" separator="," item="code" close=")"> #{code} </foreach> 
+		</if>	 
+		<!-- 查询品目 -->
+		<if test="isMulticondition !=null and isMulticondition != ''">
+			<if test="isMulticondition == 1 and categoryId !=null and categoryId != '' ">
+				 AND I.CATEGORY_ID IN <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
+			</if>
+			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
+				AND S.ID IN (SELECT  I.SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM I WHERE I.CATEGORY_ID IN 
+				<foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
+				 GROUP BY I.SUPPLIER_ID  HAVING COUNT(1) = #{csize})
+				<!--  AND
+				 <trim prefix="(" suffixOverrides="AND" suffix=")">
+				 	 <foreach collection="categoryIds" item="cid" > I.CATEGORY_ID = #{cid} AND </foreach>
+				 </trim> -->
+			</if>
+		</if>
+		<!-- 查询资质 -->
+		<if test="quaId !=null and quaId != '' ">
+			<if test="supplierTypeCode == 'PROJECT'.toString()">
+				AND  A.CERT_TYPE IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
+			</if>
+			<if test="supplierTypeCode != 'PROJECT'.toString()">
+				AND  QUA.QUA_ID IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
+			</if>
+		</if>
+		<!-- 查询等级 -->
+		<if test="levelTypeId !=null and levelTypeId != '' ">
+			<choose>
+				<when test="supplierTypeCode == 'PROJECT'.toString()">
+					AND  A."APTITUTE_ LEVEL" IN  <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+				</when>
+				<otherwise>
+					AND L.SUPPLIER_LEVEL IN <foreach collection="levelTypeIds" item="lid" open="(" close=")" separator=","> #{lid}  </foreach>
+				</otherwise>
+			</choose>
+		</if>
+		<!-- 保密要求 -->
+		<if test="isHavingConCert !=null and isHavingConCert != '' ">
+			AND S.IS_HAVING_CON_CERT = #{isHavingConCert}
+		</if>
+		<!-- 企业性质 -->
+		<if test="businessNature !=null and businessNature != '' ">
+			AND S.BUSINESS_NATURE = #{businessNature}
+		</if>
+		<!-- 境外分支 -->
+		<if test="overseasBranch !=null and overseasBranch != '' ">
+			AND S.OVERSEAS_BRANCH = #{overseasBranch}
+		</if>
+		<if test="supplierIds != null and supplierIds.size>0 ">
+			AND S.ID NOT IN
+			<foreach collection="supplierIds" open="(" item="sid" separator="," close=")">
+				#{sid}	
+			</foreach>
+		</if>
+		ORDER BY dbms_random.random) SP WHERE ROWNUM = 1
+	</select>
+	
+	<!-- 详细抽取结果 -->
+	<!-- 0 不能参加，1能参加 -->
+	<select id="getSupplierListByRid" parameterType="map" resultMap="BaseResultMap">
+		SELECT DISTINCT R.JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
+		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}  AND R.JOIN IN (0,1) ORDER BY R.JOIN DESC
+	</select>
+	
+	
+	<!-- 查询供应商类型 -->
+	<select id="selectTypeCodeBySid" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT I.SUPPLIER_TYPE_RELATE_ID  FROM T_SES_SMS_SUPPLIER_ITEM I WHERE I.SUPPLIER_ID = #{value}  GROUP BY I.SUPPLIER_TYPE_RELATE_ID
+	</select>
+	
+	<!-- 存储进预研项目 -->
+	<insert id="insertAdv" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT ALL
+        <foreach item="t" index="index" collection="list">
+        INTO T_SES_SMS_SUPPLIER_EXT_RELATE
+           <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="t.id != null">
+				ID,
+			</if>
+			<if test="t.supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="t.conditionId != null">
+				SUPPLIER_CONDITION_ID,
+			</if>
+			<if test="t.createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="t.join != null">
+				OPERATING_TYPE,
+			</if>
+			<if test="t.isDeleted != null">
+				IS_DELETED,
+			</if>
+			<if test="t.reason != null">
+				REASON,
+			</if>
+			<if test="t.packageId != null">
+				PROJECT_ID,
+			</if>
+			<if test="t.updatedAt != null">
+				UPDATED_AT,
+			</if>
+			<!-- <if test="conTypeId != null">
+				CON_TYPE_ID,
+			</if> -->
+			<if test="t.status != null">
+				STATUS_COUNT,
+			</if>
+			<if test="t.projectType != null">
+				REVIEW_TYPE,
+			</if>
 
+		</trim>
+         VALUES
+       <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="t.id != null">
+				#{t.id,jdbcType=VARCHAR},
+			</if>
+			<if test="t.supplierId != null">
+				#{t.supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.conditionId != null">
+				#{t.conditionId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.createdAt != null">
+				#{t.createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="t.join != null">
+				#{t.join,jdbcType=DECIMAL},
+			</if>
+			<if test="t.isDeleted != null">
+				#{t.isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="t.reason != null">
+				#{t.reason,jdbcType=VARCHAR},
+			</if>
+			<if test="t.packageId != null">
+				#{t.packageId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.updatedAt != null">
+				#{t.updatedAt,jdbcType=VARCHAR},
+			</if>
+			<!-- <if test="conTypeId != null">
+				#{conTypeId,jdbcType=VARCHAR},
+			</if> -->
+			<if test="t.status != null">
+				#{t.status,jdbcType=DECIMAL},
+			</if>
+			<if test="t.projectType != null">
+				#{t.projectType,jdbcType=VARCHAR},
+			</if>
+		</trim>
+        </foreach>
+        SELECT 1 FROM DUAL
+	
+	
+	</insert>
+	
+	
+	<!-- 存储进真实项目 -->
+	<insert id="insertRel" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT ALL
+        <foreach item="t" index="index" collection="list">
+        INTO T_SES_SMS_SUPPLIER_EXT_RELATE
+           <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="t.id != null">
+				ID,
+			</if>
+			<if test="t.supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="t.conditionId != null">
+				SUPPLIER_CONDITION_ID,
+			</if>
+			<if test="t.createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="t.join != null">
+				OPERATING_TYPE,
+			</if>
+			<if test="t.isDeleted != null">
+				IS_DELETED,
+			</if>
+			<if test="t.reason != null">
+				REASON,
+			</if>
+			<if test="t.packageId != null">
+				PROJECT_ID,
+			</if>
+			<if test="t.updatedAt != null">
+				UPDATED_AT,
+			</if>
+			<if test="t.status != null">
+				STATUS_COUNT,
+			</if>
+			<if test="t.projectType != null">
+				REVIEW_TYPE,
+			</if>
 
+		</trim>
+         VALUES
+       <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="t.id != null">
+				#{t.id,jdbcType=VARCHAR},
+			</if>
+			<if test="t.supplierId != null">
+				#{t.supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.conditionId != null">
+				#{t.conditionId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.createdAt != null">
+				#{t.createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="t.join != null">
+				#{t.join,jdbcType=DECIMAL},
+			</if>
+			<if test="t.isDeleted != null">
+				#{t.isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="t.reason != null">
+				#{t.reason,jdbcType=VARCHAR},
+			</if>
+			<if test="t.packageId != null">
+				#{t.packageId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.updatedAt != null">
+				#{t.updatedAt,jdbcType=VARCHAR},
+			</if>
+			<if test="t.status != null">
+				#{t.status,jdbcType=DECIMAL},
+			</if>
+			<if test="t.projectType != null">
+				#{t.projectType,jdbcType=VARCHAR},
+			</if>
+		</trim>
+        </foreach>
+        SELECT 1 FROM DUAL
+	</insert>
+	
+	
+	
 </mapper>

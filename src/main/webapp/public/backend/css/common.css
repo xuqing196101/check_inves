@@ -802,6 +802,10 @@
 border:1px solid #eeeeee;
 }
 
+.borderTS1 {
+	border-top: dashed 1px #CCC;
+}
+
 .borderb{
 	border:1px solid black;
 }
@@ -1044,6 +1048,7 @@ text-align:center;
  border-color:#FF0000!important;
 }
 .break-all { word-break: break-all; }
+.resizen { resize: none; }
 
 .analyze_resource{
   padding: 5px 30px 5px 30px;

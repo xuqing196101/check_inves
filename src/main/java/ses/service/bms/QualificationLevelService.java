@@ -23,6 +23,7 @@ public interface QualificationLevelService {
     
     public void deleteByQuaId(String quaId);
 
+	public List<DictionaryData> getLevelByQid(String qid);
     /**
      * 根据资质id和等级统计数量
      * @param quaId

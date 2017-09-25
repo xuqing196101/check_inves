@@ -4,12 +4,14 @@
 package extract.service.supplier;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import ses.model.sms.Supplier;
-import extract.model.supplier.SupplierExtracts;
+import org.springframework.http.ResponseEntity;
+
+import ses.model.bms.User;
+import extract.model.supplier.SupplierExtractProjectInfo;
 
 /**
  * @Description: 供应商抽取记录
@@ -20,59 +22,81 @@ import extract.model.supplier.SupplierExtracts;
  */
 public interface SupplierExtractRecordService {
 
-  /**
-   * @Description:插入记录
-   *
-   * @author Wang Wenshuai
-   * @version 2016年9月27日 下午4:32:28  
-   * @param @param record      
-   * @return void
-   */
-  void insert(SupplierExtracts record);
 
-  /**
-   * @Description:获取集合
-   *
-   * @author Wang Wenshuai
-   * @version 2016年9月27日 下午4:33:36  
-   * @param @return      
-   * @return List<ExpExtractRecord>
-   */
-  List<SupplierExtracts> listExtractRecord(SupplierExtracts expExtractRecord,Integer pageNum);
+
+ 
 
   /**
    * 
    *〈简述〉修改
    *〈详细描述〉
-   * @author Wang Wenshuai
+   * @author Jia Chengxiang
    */
-  void update(SupplierExtracts extracts);
+  void update(SupplierExtractProjectInfo extracts);
+
+  /**
+   * 查询是否存在项目记录
+   * @param id
+   * @return
+   * @author Jia Chengxiang
+   */
+  SupplierExtractProjectInfo selectByPrimaryKey(String id);
+  
+  /**
+   * 
+   * <简述>  抽取记录列表 查询结束状态
+   *
+   * @author Jia Chengxiang
+   * @param i
+   * @param user
+   * @param project
+   * @return
+   */
+  List<SupplierExtractProjectInfo> getList(int i, User user, SupplierExtractProjectInfo project);
 
   /**
    * 
-   *〈简述〉添加临时供应商
-   *〈详细描述〉
-   * @author Wang Wenshuai
-   * @param expExtractRecordService
-   * @return
+   * <简述>保存项目信息 
+   *
+   * @author Jia Chengxiang
+   * @param projectInfo
+   * @param user
    */
-  Map<String, String> addTemporaryExpert(Supplier supplier,String projectId,String packageId,String loginName,String loginPwd,HttpServletRequest request);
+  void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo, User user);
+  
+  /**
+   * @Description:插入记录
+   *
+   * @author Jia Chengxiang
+   * @version 2016年9月27日 下午4:32:28  
+   * @param @param record      
+   * @return void
+   */
+  void insertProjectInfo(SupplierExtractProjectInfo record);
 
   /**
-   *〈简述〉修改临时供应商
-   *〈详细描述〉
-   * @author Ye MaoLin
-   * @param supplier
-   * @param loginName
-   * @param loginPwd
-   * @param sq
+   * 
+   * <简述>  下载记录表
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-9-20下午1:20:41
+   * @param id
+   * @param request
+   * @param response
+   * @return
+   * @throws Exception
    */
-  void updateTemporaryExpert(Supplier supplier, String loginName, String loginPwd,
-      HttpServletRequest sq);
+  ResponseEntity<byte[]> printRecord(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-  SupplierExtracts selectByPrimaryKey(String id);
-  
-
-  List<SupplierExtracts> getList(int i);
+  /**
+   * 
+   * <简述>校验唯一项目编号 
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-9-20下午1:20:57
+   * @param projectCode
+   * @return
+   */
+  List<SupplierExtractProjectInfo> checkSoleProjectCdoe(String projectCode);
   
 }

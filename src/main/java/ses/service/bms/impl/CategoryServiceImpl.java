@@ -19,11 +19,6 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
-import common.bean.ResBean;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.model.UploadFile;
-import common.service.UploadService;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.DictionaryDataMapper;
@@ -45,6 +40,14 @@ import ses.util.SupplierToolUtil;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import common.bean.ResBean;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 /**
  * 
@@ -1189,9 +1192,9 @@ public class CategoryServiceImpl implements CategoryService {
 		if(category.getId()==null){
 	    	   category.setId(dictionaryDataMapper.selectByCode(supplierTypeCode).get(0).getId());
 	    }
-         List<Category> cateList= disTreeGoodsData(category.getId());
+         List<Category> cateList= getCateTreeForExt(category.getId());
          for(Category cate:cateList){
-             List<Category> cList= disTreeGoodsData(cate.getId());
+             List<Category> cList= getCateTreeForExt(cate.getId());
              CategoryTree ct=new CategoryTree();
              if(!cList.isEmpty()){
                  ct.setIsParent("true");
@@ -1216,8 +1219,14 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryQuaMapper.getEngAptitudeLevelByCategoryId(map);
 	}
 
+	@Override
+	public List<DictionaryData> getQuaByCid(String categoryId) {
+		String[] categoryIds = categoryId.split(",");
+		HashMap<String,String[]> hashMap = new HashMap<>();
+		hashMap.put("categoryIds", categoryId.split(","));
+		return categoryQuaMapper.getQuaByCid(hashMap);
 	
-	
+	}
 	/**
 	 * 根据itme中间表id查询categor
 	 * @param itemsId
@@ -1229,4 +1238,24 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryMapper.selectCategoryByItemId(itemsId);
 	}
 	
+	/**
+	 * 显示物资类品目树
+	 */
+	public List<Category> getCateTreeForExt(String id) {
+		List<Category> cateList=null;
+		//物质生产   1/3
+		if(SupplierToolUtil.PRODUCT_ID.equals(id) ){
+			cateList=findPublishTree(SupplierToolUtil.GOODS_ID, 1);
+		}else if(SupplierToolUtil.SALES_ID.equals(id)){
+			//物质销售  3/2
+			cateList=findPublishTree(SupplierToolUtil.GOODS_ID, 2);
+		}else{
+			cateList=findpublishTreeByPid(id);
+		}
+		return cateList;
+	}
+
+	private List<Category> findpublishTreeByPid(String id) {
+		return categoryMapper.findpublishTreeByPid(id);
+	}
 }

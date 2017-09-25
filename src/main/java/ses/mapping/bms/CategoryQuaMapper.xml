@@ -177,4 +177,14 @@
 	    <foreach collection="categoryIds" open="(" item="cid" separator="," close=")" > #{cid} </foreach>
 	    AND D.ID IS NOT NULL AND D.NAME IS NOT NULL ORDER BY D.POSITION ASC
     </select>
+    
+    <select id="getQuaByCid" parameterType="map" resultType="ses.model.bms.DictionaryData">
+    	 SELECT D.id id,D.name name FROM T_SES_BMS_CATEGORY_QUA Q LEFT JOIN T_SES_BMS_QUALIFICATION D ON Q.QUA_ID = D.ID where Q.CATEGORY_ID IN 
+    	 <foreach collection="categoryIds" open="(" item="it" separator="," close=")">
+    	 	#{it}
+    	 </foreach>
+    </select>
+    
+    
+    
 </mapper>

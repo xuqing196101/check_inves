@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="extract.dao.common.PersonRelMapper">
+
+	<!-- 中间关系表添加数据 -->
+	<insert id="insertRel" parameterType="map">
+		INSERT ALL
+		<if test="null!=personIds">
+			<foreach collection="personIds" item="item" separator="">
+			INTO T_SES_EXT_RECORD_REL_PERSON (RECORD_ID,PERSON_TYPE,PERSON_ID) VALUES
+			(#{recordId,jdbcType=VARCHAR},#{personType,jdbcType=VARCHAR},#{item,jdbcType=VARCHAR})
+		</foreach>
+		</if>
+		<if test="personList != null and personList.size()>0">
+			<foreach collection="personList" item="li" separator="">
+			INTO T_SES_EXT_RECORD_REL_PERSON (RECORD_ID,PERSON_TYPE,PERSON_ID) VALUES
+			(#{recordId,jdbcType=VARCHAR},#{personType,jdbcType=VARCHAR},#{li.id,jdbcType=VARCHAR})
+		</foreach>
+		</if>
+		
+		SELECT 1 FROM DUAL
+	</insert>	
+	
+	
+	<!-- 根据ID删除-->
+	<delete id="deleteByRecordId" parameterType="java.lang.String">
+		DELETE FROM T_SES_EXT_RECORD_REL_PERSON WHERE RECORD_ID = #{value}
+	</delete>
+	<!-- 根据ID删除和属性名-->
+	<delete id="deleteByMap" parameterType="map">
+		DELETE FROM T_SES_EXT_RECORD_REL_PERSON WHERE RECORD_ID = #{recordId} AND PERSON_TYPE = #{personType}
+	</delete>
+	
+	<select id="getPersonByRecord" parameterType="java.lang.String" resultType="extract.model.common.ExtractUser">
+		SELECT * FROM T_SES_EXT_RECORD_REL_PERSON WHERE RECORD_ID = #{value}
+	</select>
+	
+	
+	<select id="getlistByRid" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT wm_concat(U.NAME) FROM T_SES_EXTRACT_USER U  LEFT JOIN T_SES_EXT_RECORD_REL_PERSON P ON P.PERSON_ID = U.ID WHERE P.PERSON_TYPE = 'extractUser' AND P.IS_DELETE = '0' AND P.RECORD_ID = #{value}
+	</select>
+</mapper>

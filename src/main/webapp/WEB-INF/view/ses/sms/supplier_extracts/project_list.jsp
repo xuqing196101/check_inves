@@ -91,11 +91,23 @@
                 layer.alert("只能选择一个", {offset: ['222px', '390px'], shade: 0.01});
             } else {
 				conditionId = $("#conditionId").val();
-                window.location.href = "${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id=" + id + "&&conditionId="+conditionId;
+                window.location.href = "${pageContext.request.contextPath}/SupplierExtracts_new/Extraction.html?id=" + id + "&&conditionId=";
             }
         }
         function record() {
-            location.href = '${pageContext.request.contextPath}/SupplierExtracts/resuleRecordlist.do';
+            location.href = '${pageContext.request.contextPath}/SupplierExtracts_new/resuleRecordlist.do';
+        }
+        function printRecord() {
+        	var id = [];
+            $('input[name="chkItem"]:checked').each(function () {
+                id.push($(this).val());
+            });
+            if (id.length != 1) {
+                layer.alert("只能选择一个", {offset: ['222px', '390px'], shade: 0.01});
+            } else {
+				conditionId = $("#conditionId").val();
+                window.location.href = "${pageContext.request.contextPath}/SupplierExtracts_new/printRecord.html?id=" + id + "&&conditionId=";
+            }
         }
     </script>
 </head>
@@ -108,8 +120,7 @@
             <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
             <li><a href="javascript:void(0);">支撑环境系统</a></li>
             <li><a href="javascript:void(0);">供应商管理</a></li>
-            <li><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/SupplierExtracts/projectList.html?typeclassId=${typeclassId}')">供应商抽取</a></li>
-            <li class="active"><a href="javascript:void(0);">抽取项目</a></li>
+            <li><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/SupplierExtracts_new/projectList.html?typeclassId=${typeclassId}')">供应商抽取记录</a></li>
         </ul>
         <div class="clear"></div>
     </div>
@@ -121,27 +132,51 @@
     </div>
     <!-- 项目戳开始 -->
     <h2 class="search_detail">
-        <form action="${pageContext.request.contextPath}/SupplierExtracts/projectList.html" id="form1" method="post" class="mb0">
-            <ul class="demand_list">
-                <input type="hidden" name="typeclassId" value="${typeclassId}"/>
-                <li class="fl">
-                    <label class="fl">项目名称：</label><input type="hidden" name="page" id="page"><input type="text" name="name" id="proName" value="${projects.name }"/>
-                </li>
-                <li class="fl">
-                    <span><label class="fl">项目编号：</label><input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }"/></span>
-                </li>
-                <button class="btn fl mt1" type="submit">查询</button>
-                <button type="button" class="btn fl mt1 channelBtn" onclick="resetQuery();">重置</button>
-            </ul>
-            <div class="clear"></div>
+        <form action="${pageContext.request.contextPath}/SupplierExtracts_new/projectList.html" id="form1" method="post" class="mb0">
+            <input type="hidden" name="page" id="page" value="1">
+	        <ul class="demand_list">
+	          <li>
+	            <label>项目名称：</label>
+	            <input type="text" name="projectName" id="projectName" value="${project.projectName }" />
+	          </li>
+	          <li>
+	            <label class="fl">项目编号：</label>
+	            <input type="text" name="projectCode" id="projectCode" value="${project.projectCode }" />
+	          </li>
+	          <li>
+	            <label class="fl">采购方式：</label>
+	            <select class="w178" name="purchaseType">
+	              <option value="" <c:if test="${project.purchaseType == '' }">selected="selected"</c:if> >全部</option>
+	              <c:forEach items="${purchaseTypeList}" var="map">
+	                <option value="${map.id}" <c:if test="${project.purchaseType == map.id }">selected="selected"</c:if> >${map.name}</option>
+	              </c:forEach>
+	            </select>
+	          </li>
+	          <li>
+	            <label class="fl">起始时间：</label>
+	            <input id="startTime" name="startTime" type="text" value="${startTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" readonly="readonly">
+	          </li>
+	          <li>
+	            <label class="fl">结束时间：</label>
+	            <input id="endTime" name="endTime" type="text" value="${endTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" readonly="readonly">
+	          </li>
+	          <li>
+		          <button class="btn fl mt1" type="submit">查询</button>
+		          <button type="button" class="btn fl mt1" onclick="form_reset()">重置</button>
+	          </li>
+	        </ul>
+	        <div class="clear"></div>
         </form>
     </h2>
     <div class="col-md-12 pl20 mt10">
-        <button class="btn"
+        <!-- <button class="btn"
                 onclick="opens();">人工抽取
         </button>
         <button class="btn"
                 onclick="record();">抽取记录
+        </button> -->
+        <button class="btn"
+                onclick="printRecord();">下载抽取记录表
         </button>
     </div>
     <div class="content table_box">
@@ -153,9 +188,8 @@
                 <th class="info w50">序号</th>
                 <th class="info" >项目名称</th>
                 <th class="info" >项目编号</th>
-                <th class="info" >包名</th>
-                <th class="info" >包号</th>
-                <th class="info" >项目编号</th>
+                <th class="info" >包名(标段)</th>
+                <th class="info" >项目类型</th>
                 <th class="info">采购方式</th>
                 <th class="info" >抽取方式</th>
                 <th class="info" >抽取人</th>
@@ -170,20 +204,19 @@
                 <tr style="cursor: pointer;">
                     <td class="tc w30">
                         <input type="hidden" value="${obj.status }"/>
-                        <input type="hidden" id="conditionId" value="${obj.conditionId }"/>
+                        <input type="hidden" id="conditionId" value="${obj.id }"/>
                         <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
                     </td>
                     <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
                     <td>${obj.projectName}</td>
-                    <td>${obj.projectNumber}</td>
-                    <td>${obj.projectNumber}</td>
-                    <td>${obj.projectNumber}</td>
-                    <td>${obj.projectNumber}</td>
-                    <td>${obj.projectNumber}</td>
+                    <td>${obj.projectCode}</td>
+                    <td>${obj.packageName}</td>
+                    <td>${obj.projectType}</td>
+                    <td>${obj.purchaseType}</td>
                     <td>${obj.extractTheWay==0?"语音抽取":"人工抽取"}</td>
-                    <td>${obj.projectNumber}</td>
-                    <td>${obj.createdAt}</td>
-                    <td>${obj.status==0?"暂存":"结束"}</td>
+                    <td>${obj.extractUser}</td>
+                    <td> <fmt:formatDate value="${obj.createdAt}" pattern="yyyy-M-d HH:mm:ss"/> </td>
+                    <td>${obj.status==1?"结束":"暂存"}</td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -198,6 +231,15 @@
     $(".channelBtn").click(function () {
         $("#projectNumber").val("");
         $("#proName").val("");
-        window.location.href = "${pageContext.request.contextPath}/SupplierExtracts/projectList.html?typeclassId=${typeclassId}";
+        window.location.href = "${pageContext.request.contextPath}/SupplierExtracts_new/projectList.html?typeclassId=${typeclassId}";
     })
+    /* 重置 */
+  function form_reset(){
+    $("#form1").find("input").val("");
+    var SelectArr = $("#form1").find("select");
+    for (var i = 0; i < SelectArr.length; i++) {
+      SelectArr[i].options[0].selected = true; 
+    }
+    $("#page").val("1");
+  }
 </script>

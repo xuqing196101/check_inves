@@ -28,7 +28,7 @@
               async:{
                           autoParam:["id"],
                           enable:true,
-                          url:"${pageContext.request.contextPath}/SupplierExtracts/getTree.do?projectId=${projectId}",
+                          url:"${pageContext.request.contextPath}/SupplierExtracts_new/getTree.do?projectId=${projectId}",
                           dataType:"json",
                           type:"post",
                       },
@@ -66,7 +66,7 @@
           async: {
             autoParam: ["id"],
             enable: true,
-            url: "${pageContext.request.contextPath}/SupplierExtracts/getTree.do?supplierTypeCode=${supplierTypeCode}",
+            url: "${pageContext.request.contextPath}/SupplierExtracts_new/getTree.do?supplierTypeCode=${supplierTypeCode}",
             otherParam: {
               categoryIds: "${categoryIds}",
             },
@@ -174,8 +174,8 @@
   function getChildren(cate){
       var Obj=$.fn.zTree.getZTreeObj("ztree");  
        var nodes=Obj.getCheckedNodes(true);  
-       var ids = new Array();
-       var names=new Array();
+       var ids  = "";
+       var names = "";
        for(var i=0;i<nodes.length;i++){ 
            if(!nodes[i].isParent){
           //获取选中节点的值  
@@ -189,9 +189,9 @@
        var issatisfy=$('input[name="radio"]:checked ').val();
          
        if(cate!=null){
-           $(cate).val(names.substring(0,names.length-1));/* 将选中目录名称显示在输入框中 */
+           $(cate).val(names.substring(0,names.lastIndexOf(",")));/* 将选中目录名称显示在输入框中 */
            $(cate).parents("li").find(".isSatisfy").val(issatisfy);
-           $(cate).parents("li").find(".categoryId").val(ids.substring(0,ids.length-1));
+           $(cate).parents("li").find(".categoryId").val(ids.substring(0,ids.lastIndexOf(",")));
         /*    $(cate).parent().parent().parent().parent().parent().find("#extCategoryNames").val(names.substring(0,names.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#extCategoryId").val(ids.substring(0,ids.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val(issatisfy); */
@@ -205,30 +205,33 @@
 //       $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("10");
   }
   
+  function showTitle(){
+  	layer.alert("您选择的是与关系");
+  }
+  
 </script>
 </head>
 <body>
 	<!-- 修改订列表开始-->
 	<div class="container margin-top-30">
-		<form action="${pageContext.request.contextPath}/SupplierExtracts/listSupplier.do"
+		<form action="${pageContext.request.contextPath}/SupplierExtracts_new/listSupplier.do"
 			method="post" id="form1">
 			<div>
 				<ul class="list-unstyled list-flow p0_20">
 					<li class="col-md-6  p0 ">
 						<div class="fl mr10">
-							<input type="radio" name="radio" id="radio" checked="checked"
+							<input type="radio" name="radio" checked="checked"
 								value="1" class="fl" />
 							<div class="ml5 fl">满足某一产品条件即可</div>
 						</div>
 						<div class="fl mr10">
-							<input type="radio" name="radio" id="radio" value="2" class="fl" />
+							<input type="radio" name="radio"  value="2" class="fl"/>
 							<div class="ml5 fl">同时满足多个产品条件</div>
 						</div>
 					</li>
 				</ul>
 				<br />
 			</div>
-			 <div align="center"><input type="text" id="key" class="empty" > </div>
 			<div id="ztree" class="ztree margin-left-13"></div>
 		</form>
 	</div>

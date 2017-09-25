@@ -68,6 +68,10 @@ public class QualificationLevelServiceImpl  implements QualificationLevelService
 		qualificationLevelMapper.delete(quaId);
 	}
 	@Override
+	public List<DictionaryData> getLevelByQid(String qid) {
+		
+		return qualificationLevelMapper.getLevelByQid(qid.split(","));
+	}
 	public int countByQuaIdAndLevel(String quaId, String level) {
 		return qualificationLevelMapper.countByQuaIdAndLevel(quaId, level);
 	}
