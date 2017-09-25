@@ -540,7 +540,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${code!}</w:t>
+                    <w:t>${projectCode!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -647,7 +647,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${createdAt!}</w:t>
+                    <w:t>${extractTime!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -929,7 +929,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>参评类别：${category!}</w:t>
+                    <w:t>参评类别：经济：${jjcategory!}  技术：${jscategory!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>

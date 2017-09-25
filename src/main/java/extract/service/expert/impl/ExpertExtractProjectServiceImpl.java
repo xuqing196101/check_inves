@@ -40,6 +40,7 @@ import extract.dao.expert.ExpertExtractConditionMapper;
 import extract.dao.expert.ExpertExtractProjectMapper;
 import extract.dao.expert.ExpertExtractResultMapper;
 import extract.dao.expert.ExpertExtractTypeInfoMapper;
+import extract.dao.expert.ExtractCategoryMapper;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
 import extract.model.expert.ExpertExtractResult;
@@ -110,7 +111,8 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     @Autowired
     private ExpertExtractResultMapper resultMapper;
     
-    
+    @Autowired
+    private ExtractCategoryMapper extractCategoryMapper;
     
     /**
      * 保存信息
@@ -333,11 +335,10 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                         //职称
                         map.put("tzc", StringUtils.isBlank(e.getTechnicalTitle())?"不限":e.getTechnicalTitle());
                         //产品类别
-                        String cids = e.getCategoryIds();
+                        List<String> clist = extractCategoryMapper.selByConditionId(e.getConditionId(),DictionaryDataUtil.getId(expertTypeCode));
                         temp = "";
-                        if(StringUtils.isNotBlank(cids)){
-                            String[] split = cids.split(",");
-                            for (String cid : split) {
+                        if(clist != null && clist.size() > 0){
+                            for (String cid : clist) {
                                 Category cate = categoryMapper.findById(cid);
                                 if(null!=cate){
                                     temp += cate.getName()+",";
@@ -347,7 +348,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                         }else{
                             temp = "不限类别";
                         }
-                        map.put("category",temp );
+                        map.put("jjcategory",temp );
                     }else{
                         //技术专家
                         map.put("tnum", e.getCountPerson());
@@ -356,11 +357,10 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                         map.put("gzc",StringUtils.isBlank(e.getTechnicalTitle())?"不限":e.getTechnicalTitle());
                         
                         //产品类别
-                        String cids = e.getCategoryIds();
+                        List<String> clist = extractCategoryMapper.selByConditionId(e.getConditionId(),DictionaryDataUtil.getId(expertTypeCode));
                         temp = "";
-                        if(StringUtils.isNotBlank(cids)){
-                            String[] split = cids.split(",");
-                            for (String cid : split) {
+                        if(clist != null && clist.size() > 0){
+                            for (String cid : clist) {
                                 Category cate = categoryMapper.findById(cid);
                                 if(null!=cate){
                                     temp += cate.getName()+",";
@@ -370,7 +370,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                         }else{
                             temp = "不限类别";
                         }
-                        map.put("category",temp );
+                        map.put("jscategory",temp );
                     }
                 }
             }

@@ -2585,6 +2585,21 @@ resultMap="BaseResultMap">
               #{item}  
             </foreach>
         </if>
+        <!-- 工程特有 -->
+        <!-- 工程执业资格 -->
+        <if test="qualificationListSize > 0">
+          AND ID IN 
+            <foreach item="item" index="index" collection="qualificationList" open="(" separator="," close=")">  
+              #{item}  
+            </foreach>
+        </if>
+        <!-- 工程专业信息 -->
+        <if test="gcListSize > 0">
+          AND ID IN 
+            <foreach item="item" index="index" collection="gcList" open="(" separator="," close=")">  
+              #{item}  
+            </foreach>
+        </if>
         <!-- 去掉已经抽取过的专家 -->
         <if test="notSize != null and notSize > 0">
            AND ID NOT IN 

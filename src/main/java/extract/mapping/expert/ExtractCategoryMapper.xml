@@ -54,4 +54,9 @@
       </if>
     </trim>
   </insert>
+  
+  <!-- 根据抽取条件id查询参评类别 -->
+  <select id="selByConditionId" parameterType="String" resultType="String">
+    SELECT CATEGORY_ID FROM T_SES_EMS_EXTRACT_CATEGORY WHERE CONDITION_ID = #{conditionId} AND TYPE_ID = #{typeId} AND IS_ENG = 0
+  </select>
 </mapper>

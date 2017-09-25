@@ -281,20 +281,26 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                         expertIds.addAll(expertCategoryMapper.selExpertByAll(idMap));
                     }
                 }
+                map.put("expertIds",expertIds);
+                map.put("size",expertIds.size());
                 //工程特有
+                
                 if(typeCode.indexOf("PROJECT") >= 0){
                     //工程执业资格
                     Field field2 = c.getDeclaredField(typeCode.toLowerCase()+"_qualification");
                     field2.setAccessible(true); //设置些属性是可以访问的  
                     String qualification = (String)field2.get(expertExtractCateInfo);
-                    //map.put("qualification",qualification);
+                    Set<String> qualificationList = new HashSet<>();
                     if(qualification != null && !qualification.equals("")){
                         List<String> titleList = expertExtractConditionMapper.findExpertBytypeIdTitle(qualification, DictionaryDataUtil.getId(typeCode));
                         if(titleList != null && titleList.size() > 0){
-                            expertIds.addAll(titleList);
+                        	qualificationList.addAll(titleList);
                         }
                     }
+                    map.put("qualificationList",qualificationList);
+                    map.put("qualificationListSize",qualificationList.size());
                     //工程专业信息
+                    Set<String> gcList = new HashSet<>();
                     Field field3 = c.getDeclaredField(typeCode.toLowerCase()+"_eng_info");
                     field3.setAccessible(true); //设置些属性是可以访问的  
                     String engCategoryIds = (String)field3.get(expertExtractCateInfo);
@@ -309,7 +315,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                                 cateMap.put("categoryId", str);
                                 cateMap.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
                                 List<String> expertIdList = expertCategoryMapper.selExpertByCategory(cateMap);
-                                expertIds.addAll(expertIdList);
+                                gcList.addAll(expertIdList);
                             }
                         }else if(engIsSatisfy != null && engIsSatisfy.equals("2")){
                             String[] categoryId = engCategoryIds.split(",");
@@ -317,12 +323,12 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                             idMap.put("ids", categoryId);
                             idMap.put("idSize", categoryId.length);
                             idMap.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
-                            expertIds.addAll(expertCategoryMapper.selExpertByAll(idMap));
+                            gcList.addAll(expertCategoryMapper.selExpertByAll(idMap));
                         }
                     }
+                    map.put("gcList",gcList);
+                    map.put("gcListSize",gcList.size());
                 }
-                map.put("expertIds",expertIds);
-                map.put("size",expertIds.size());
                 //筛选 去掉已经被抽过的专家
                 List<String> notExpertIds = new ArrayList<String>();
                 if(expertExtractCondition.getId() != null){
