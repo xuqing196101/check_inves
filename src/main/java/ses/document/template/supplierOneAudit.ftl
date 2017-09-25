@@ -54,7 +54,7 @@
 								<w:rPr>
 									<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 									<w:sz w:val="24" /></w:rPr>
-								<w:t>采购机构名称（盖章）：</w:t>
+								<w:t>采购机构名称（盖章）：${orgFullName}</w:t>
 							</w:r>
 						</w:p>
 						<w:tbl>

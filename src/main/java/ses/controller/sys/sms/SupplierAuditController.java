@@ -72,6 +72,7 @@ import ses.service.bms.EngCategoryService;
 import ses.service.bms.QualificationService;
 import ses.service.bms.TodosService;
 import ses.service.ems.ExpertCategoryService;
+import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAptituteService;
@@ -252,6 +253,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	//服务资质证书
 	@Autowired
 	private SupplierCertServeMapper supplierCertServeMapper;
+
+	@Autowired
+	private PurChaseDepOrgService purChaseDepOrgService;
 	
 	/**
 	 * @Title: essentialInformation
@@ -3622,7 +3626,13 @@ public class SupplierAuditController extends BaseSupplierController {
 		Date date = new Date();
 	    SimpleDateFormat format = new SimpleDateFormat("yyyy 年 MM 月 dd 日");
 		dataMap.put("date", format.format(date));
-		
+
+		Map<String, Object> selMap = new HashedMap();
+		// 采购机构全称
+		selMap.put("purchaseDepId", supplier.getProcurementDepId());
+		String orgFullName = purChaseDepOrgService.selectOrgFullNameByPurchaseDepId(selMap);
+		dataMap.put("orgFullName", orgFullName);
+
 		//供应商名称
 		dataMap.put("supplierName", supplier.getSupplierName() == null ? "" : supplier.getSupplierName());
 		if(tableType.equals("1")){
