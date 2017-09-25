@@ -556,4 +556,12 @@ public interface SupplierAuditService {
 	JdcgResult auditContractMuti(String userId, String supplierId,
 			String supplierTypeId, String suggest, String itemIds);
 
+	/**
+	 * 更新审核记录的退回状态
+	 * @param ids
+	 * @param status
+	 * @return
+	 */
+	JdcgResult updateReturnStatus(String ids, Integer status);
+
 }

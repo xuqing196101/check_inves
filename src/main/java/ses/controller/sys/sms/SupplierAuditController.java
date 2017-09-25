@@ -11,6 +11,7 @@ import common.utils.JdcgResult;
 import common.utils.ListSortUtil;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
@@ -4614,6 +4615,25 @@ public class SupplierAuditController extends BaseSupplierController {
     	 */
 		// 点击审核不通过复选框时判断
 		return supplierAuditService.selectAuditNoPassItemCount(supplierId);
+	}
+	
+	/**
+	 * 更改审核记录状态
+	 * @param ids
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping("/updateReturnStatus")
+	@ResponseBody
+	public JdcgResult updateReturnStatus(String ids, Integer status){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		if(user == null){
+			return new JdcgResult(501, "登录超时", null);
+		}
+		if(StringUtils.isBlank(ids) || status == null || (status != 1 && status != 3 && status != 4)){
+			return new JdcgResult(504, "参数错误", null);
+		}
+		return supplierAuditService.updateReturnStatus(ids, status);
 	}
 	
 	/**

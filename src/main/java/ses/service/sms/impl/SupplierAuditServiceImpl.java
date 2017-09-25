@@ -2237,4 +2237,31 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		return info;
 	}
 
+	@Override
+	public JdcgResult updateReturnStatus(String ids, Integer status) {
+		int result = 0;
+		if(StringUtils.isNotBlank(ids)){
+			String[] idAry = ids.split(",");
+			for(String id : idAry){
+				SupplierAudit supplierAuditById = supplierAuditMapper.selectById(id);
+				if(supplierAuditById != null && supplierAuditById.getReturnStatus() != null && supplierAuditById.getReturnStatus() == 2){
+					return new JdcgResult(503, "选择中存在审核不通过的产品目录", null);
+				}
+				if(supplierAuditById != null && supplierAuditById.getAuditType() != null && supplierAuditById.getAuditType().startsWith("items_")){
+					return new JdcgResult(503, "选择中存在审核不通过的产品目录", null);
+				}
+				SupplierAudit supplierAudit = new SupplierAudit();
+				supplierAudit.setId(id);
+				supplierAudit.setReturnStatus(status);
+				result += supplierAuditMapper.updateByIdSelective(supplierAudit);
+			}
+			if(result > 0){
+				return new JdcgResult(500, "更新成功", null);
+			}else{
+				return new JdcgResult(502, "更新失败", null);
+			}
+		}
+		return null;
+	}
+
 }
