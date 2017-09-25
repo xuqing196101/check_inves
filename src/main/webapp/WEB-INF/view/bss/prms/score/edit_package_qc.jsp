@@ -176,7 +176,7 @@
             shift: 1, //0-6的动画形式，-1不开启
             offset: '20px',
             shadeClose: false,
-            content: '${pageContext.request.contextPath}/firstAudit/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId
+            content: '${pageContext.request.contextPath}/intelligentScore/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId
           });
     	
     }
@@ -414,9 +414,8 @@
 		       </div>
 	           
 	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" id="loadTemp" class="btn">确定选择</button>
-	          <%--  <div class="pull-right">
+	           
 	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
-	           </div> --%>
 	        </div>
 	        <div class="clear"></div>
 	     </div>

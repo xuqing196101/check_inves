@@ -452,6 +452,7 @@
 			              <tr>
 			                <th class="info w50"><input id="checkAllExpert${vs.index}" type="checkbox" onclick="selectAll('${vs.index}')" /></th>
 			                <th class="info w50">序号</th>
+			                <th class="info">用户名</th>
 			                <th class="info">专家姓名</th>
 			                <th class="info">专家类别</th>
 			                <th class="info">是否组长</th>
@@ -471,8 +472,11 @@
 		            			<td class="tc opinter w50">
 		            				<input type="checkbox" value="${projectExtract.expert.id}" name="chkItemExpert${vs.index}" onclick="check('${vs.index}')">
 		            				<input type="hidden" name="packageExperts[${listCount}].expertId" value="${projectExtract.expert.id}">
-								</td>
+											</td>
 		            			<td class="tc">${v.index+1}</td>
+		            			<td>
+		            				${projectExtract.expertId}
+		            			</td>
 		            			<td>
 		            				${projectExtract.expert.relName}
 		            			</td>
@@ -485,12 +489,8 @@
 				                  </c:forEach>
 		                		</td>
 				                <td class="tc">
-				                <c:if test="${projectExtract.expert.id == peeid }">
-				                	 是
-				                </c:if>
-				                <c:if test="${projectExtract.expert.id != peeid }">
-                                     否
-                                </c:if>
+					                <c:if test="${projectExtract.expert.id eq peeid }">是</c:if>
+					                <c:if test="${projectExtract.expert.id ne peeid }">否</c:if>
 				                </td>
 			                    <input type="hidden" name="packageExperts[${listCount}].isGroupLeader" value="0" >
 				                <td>

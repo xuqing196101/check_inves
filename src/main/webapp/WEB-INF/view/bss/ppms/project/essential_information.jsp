@@ -97,8 +97,8 @@
 	              flag = false;
 	            }
             } else {
-               if(supplierNumber < 0) {
-                layer.tips("供应商人数输入不正确", "#supplierNumber");
+               if(supplierNumber >= 3) {
+                layer.tips("供应商人数大于2人", "#supplierNumber");
                 flag = false;
               } 
             }

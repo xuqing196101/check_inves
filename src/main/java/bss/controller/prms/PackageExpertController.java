@@ -192,6 +192,15 @@ public class PackageExpertController {
         map2.put("projectId", projectId);
         List<PackageExpert> expertSigneds = packageExpertService.selectList(map2);
         if (expertSigneds != null && expertSigneds.size() > 0) {
+        	User user = null;
+        	for (PackageExpert packageExpert : expertSigneds) {
+        		user = new User();
+        		user.setTypeId(packageExpert.getExpert().getId());
+				List<User> queryByList = userService.queryByList(user);
+				if (queryByList != null && !queryByList.isEmpty()) {
+					packageExpert.setExpertId(queryByList.get(0).getLoginName());
+				}
+			}
           // 项目分包信息
           HashMap<String, Object> pack = new HashMap<String, Object>();
           pack.put("projectId", projectId);

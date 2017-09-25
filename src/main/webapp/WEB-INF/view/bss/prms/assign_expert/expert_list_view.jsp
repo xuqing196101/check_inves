@@ -134,7 +134,8 @@
 	              <tr>
 	                <th class="info w50"><input id="checkAllExpert${vs.index}" type="checkbox" onclick="selectAll('${vs.index}')" /></th>
 	                <th class="info w50">序号</th>
-	                <th class="info">专家姓名</th>
+	                <th class="info">用户名</th>
+	                <th class="info w70">专家姓名</th>
 	                <th class="info">专家类别</th>
 	                <th class="info">是否组长</th>
 	                <th class="info">是否到场</th>
@@ -146,13 +147,16 @@
             	<tbody>
             		<c:set var="count" value="0"/>
             		<c:forEach items="${expertSigneds}" var="packageExpert" varStatus="v">
-            		<c:if test="${pack.id == packageExpert.packageId}">
+            		<c:if test="${pack.id eq packageExpert.packageId}">
             		<c:set var="count" value="${count+1}"/>
             		<tr>
             			<td class="tc opinter w50">
             				<input type="checkbox" value="${packageExpert.expert.id}" name="chkItemExpert${vs.index}" onclick="check('${vs.index}')">
 						</td>
             			<td class="tc">${count}</td>
+            			<td>
+		            				${packageExpert.expertId}
+		            			</td>
             			<td>
             				${packageExpert.expert.relName}
             			</td>
