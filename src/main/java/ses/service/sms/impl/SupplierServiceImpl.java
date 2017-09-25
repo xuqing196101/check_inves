@@ -405,12 +405,12 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setLevelScoreSales(SupplierLevelUtil.getScore(supplier.getId(), "SALES"));
         supplier.setLevelScoreService(SupplierLevelUtil.getScore(supplier.getId(), "SERVICE"));*/
         
-        /*if(supplier.getWebsite()==null){
-            supplier.setWebsite("");
-        }*/
-        if(supplier.getBranchName()==null){
-            supplier.setBranchName("0");
-        }
+	  if(supplier.getWebsite()==null){
+		supplier.setWebsite("");
+	  }
+	  if(supplier.getBranchName()==null){
+		supplier.setBranchName("0");
+	  }
 
       supplierMapper.updateByPrimaryKeySelective(supplier);
 
