@@ -2649,8 +2649,8 @@
 										<w:r>
 											<w:rPr>
 												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
-												<w:sz w:val="18" />
-												<w:szCs w:val="18" /></w:rPr>
+												<w:sz w:val="21" />
+												<w:szCs w:val="21" /></w:rPr>
 											<w:t>${auditReasons}</w:t>
 										</w:r>
 									</w:p>

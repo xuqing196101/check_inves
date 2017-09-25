@@ -410,7 +410,8 @@
 
 				checkStockholdersID("input[name='listSupplierStockholders[" + stocIndex + "].identity']");
 				toTempSave("input[name='listSupplierStockholders[" + stocIndex + "].proportion']");
-
+				tempSave();
+				
 				stocIndex++;
 				$("#stockIndex").val(stocIndex);
 			}
@@ -446,6 +447,8 @@
 
 				afterSaleIndex++;
 				$("#afterSaleIndex").val(afterSaleIndex);
+				
+				tempSave();
 			}
 			
 			function deleteAfterSaleDep() {
@@ -848,9 +851,8 @@
 				});
 				
 			}
-			function increaseAddHouseAddress(obj) {
+			function increaseAddHouseAddress() {
 				var ind = $("#certSaleNumber").val();
-				var li = $(obj).parent().parent();
         $.ajax({
           url : "${pageContext.request.contextPath}/supplier/addAddress.do",
           async : false,
@@ -863,6 +865,7 @@
             init_web_upload();
             ind++;
             $("#certSaleNumber").val(ind);
+            tempSave();
           }
         });
 			}
