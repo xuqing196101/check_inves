@@ -42,6 +42,7 @@ import extract.dao.expert.ExpertExtractResultMapper;
 import extract.dao.expert.ExpertExtractTypeInfoMapper;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
+import extract.model.expert.ExpertExtractResult;
 import extract.model.expert.ExpertExtractTypeInfo;
 import extract.service.expert.ExpertExtractConditionService;
 import extract.service.expert.ExpertExtractProjectService;
@@ -240,8 +241,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 			fileName = WordUtil.createWord(info, "extractExpert.ftl", name,request);
 		}
 
-		// String fileName = WordUtil.createWord(supplier, "test2.ftl",
-		// name, request);
+		// String fileName = WordUtil.createWord(supplier, "test2.ftl", name, request);
 		// 下载后的文件名
 		String downFileName;
 		if ("PROJECT".equals(info.get("projectTypeCode"))) {
@@ -290,7 +290,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         map.put("projectCode", projectInfo.getCode());
         
         //抽取方式
-        map.put("extractTheWay", projectInfo.getIsAuto()==0?"自动抽取":"人工抽取");
+        map.put("extractTheWay", projectInfo.getIsAuto()==0?"人工抽取":"自动抽取");
         
         //项目名称
         map.put("projectName", projectInfo.getProjectName());
@@ -326,7 +326,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             for (ExpertExtractTypeInfo e : extractTypeInfo) {
                 if(StringUtils.isNotBlank(e.getExpertTypeCode())){
                     String expertTypeCode = e.getExpertTypeCode();
-                    if(expertTypeCode.split("_").length>0){
+                    if(expertTypeCode.indexOf("_") != -1){
                         //经济专家人数
                         map.put("gnum", e.getCountPerson());
                         
@@ -378,8 +378,22 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         }
 
         //结果
-        map.put("result", resultMapper.getResultListByrecordId(id));
-        map.put("back", resultMapper.getBackExpertListByrecordId(id));
+        List<ExpertExtractResult> resultList = resultMapper.getResultListByrecordId(id);
+        for (ExpertExtractResult expertExtractResult : resultList) {
+        	if(expertExtractResult.getExpertCode() != null){
+        		String typeName = DictionaryDataUtil.get(expertExtractResult.getExpertCode()) == null ? "" : DictionaryDataUtil.get(expertExtractResult.getExpertCode()).getName();
+        		expertExtractResult.setExpertCode(typeName);
+        	}
+		}
+        List<ExpertExtractResult> backList = resultMapper.getBackExpertListByrecordId(id);
+        for (ExpertExtractResult expertExtractResult : backList) {
+        	if(expertExtractResult.getExpertCode() != null){
+        		String typeName = DictionaryDataUtil.get(expertExtractResult.getExpertCode()) == null ? "" : DictionaryDataUtil.get(expertExtractResult.getExpertCode()).getName();
+        		expertExtractResult.setExpertCode(typeName);
+        	}
+		}
+        map.put("result", resultList);
+        map.put("back", backList);
         return map;
     }
 

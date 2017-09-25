@@ -41,7 +41,10 @@
           },
           view: {
             fontCss: getFontCss
-          }
+          },
+			callback: {
+				onCheck: onCheck
+			}
         };
         zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
         key = $("#key");
@@ -52,6 +55,13 @@
       }
     });
 
+    
+    function onCheck(e, treeId, treeNode) {
+    	var index = parent.layer.load(2);
+    	parent.layer.close(index);
+	};
+    
+    
 function ajaxDataFilter(treeId, parentNode, responseData){
 	if(responseData[0].name!="物资" && responseData[0].name!="工程" && responseData[0].name!="服务"){
          if(parentNode.checked==true){
@@ -199,6 +209,7 @@ function ajaxDataFilter(treeId, parentNode, responseData){
 			method="post">
 			<div>
 				<ul class="list-unstyled list-flow p0_20">
+			
 					<input class="span2" name="id" type="hidden">
 					<li class="col-md-6  p0 " id="liradio">
 						<div class="fl mr10">

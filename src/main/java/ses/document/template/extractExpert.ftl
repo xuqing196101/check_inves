@@ -720,7 +720,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>专业类别：${category!}</w:t>
+                    <w:t>参评类别：${category!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -880,7 +880,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tzc!} ${gzc!}</w:t>
+                    <w:t>技术专家：${gzc!} 经济专家：${tzc!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1486,7 +1486,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>${tree.type!}</w:t>
+                    <w:t>${tree.expertCode!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1833,7 +1833,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>${tree.type!}</w:t>
+                    <w:t>${tree.expertCode!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>

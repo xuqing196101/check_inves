@@ -75,7 +75,7 @@
         	$.ajax({
                 url : "${pageContext.request.contextPath}/extractExpertRecord/selReviewTime.do",
                 data : {
-                    "id" : id
+                    "id" : id[0]
                 },
                 dataType : "json",
                 async : false,
