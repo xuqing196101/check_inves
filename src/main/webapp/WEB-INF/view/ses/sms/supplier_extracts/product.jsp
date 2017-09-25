@@ -71,6 +71,7 @@
               categoryIds: "${categoryIds}",
             },
             dataType: "json",
+            dataFilter: ajaxDataFilter,
             type: "post",
           },
           check: {
@@ -99,7 +100,17 @@
           .bind("input", searchNode);
       }
     });
-
+//选中父节点，勾选子节点
+  function ajaxDataFilter(treeId, parentNode, responseData){
+	if(typeof(parentNode)!="undefined"){
+		if(parentNode.checked==true){
+        	 for(var i=0;i<responseData.length;i++){
+        		 responseData[i].checked=true;
+        	 }
+        }
+	}
+		return responseData;
+	}
     function focusKey(e) {
       if(key.hasClass("empty")) {
         key.removeClass("empty");
@@ -208,6 +219,9 @@
   function showTitle(){
   	layer.alert("您选择的是与关系");
   }
+  
+  
+  
   
 </script>
 </head>

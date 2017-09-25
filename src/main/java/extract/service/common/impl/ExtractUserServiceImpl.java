@@ -95,7 +95,9 @@ public class ExtractUserServiceImpl implements ExtractUserService {
 			if(arrayList.size()>0){
 				extractUserMapper.insertSelectiveAll(arrayList);
 			}
-			if(null!=personId ||extUser.getList().size()>0){
+			int countPerson = 0;
+			countPerson = null==personId?0:personId.length + extUser.getList().size()>0?extUser.getList().size():0;
+			if(countPerson>0){
 				personRelMapper.deleteByMap(map);
 				personRelMapper.insertRel(map);
 			}else{

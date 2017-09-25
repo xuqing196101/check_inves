@@ -776,7 +776,6 @@
 			</if>
 
 		</trim>
-         VALUES
        <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="t.id != null">
 				#{t.id,jdbcType=VARCHAR},
