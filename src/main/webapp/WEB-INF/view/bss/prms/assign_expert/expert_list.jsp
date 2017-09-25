@@ -158,27 +158,27 @@
          if(id.length == 1){
          	 var trObj = obj.parent().parent();	
          	 var tdArr = trObj.children();
-         	 var inputObj = tdArr.eq(7).next();//组长列
+         	 var inputObj = tdArr.eq(8).next();//组长列
          	 inputObj.val(1);
-         	 tdArr.eq(7).html("是");
+         	 tdArr.eq(8).html("是");
          	 
          	   
          	 var groupName = "";
-         	 groupName = tdArr.eq(5).find("input").val();
+         	 groupName = tdArr.eq(6).find("input").val();
          	 //选择临时专家为组长时时
          	 if (typeof(groupName) == "undefined") {
-				groupName = tdArr.eq(5).html();
+				groupName = tdArr.eq(6).html();
 			 }
          	 layer.msg(groupName+"已设为【"+packageName+"】组长",{offset: '50px'});
          	 //未被选中的全置为否
          	 $('input[name="chkItemExpert'+index+'"]').not("input:checked").each(function(){ 
          	 	var trObj = $(this).parent().parent();	
 	         	var tdArr = trObj.children();
-	         	var inputObj = tdArr.eq(7).next();//组长列
+	         	var inputObj = tdArr.eq(8).next();//组长列
 	         	inputObj.val(0);
-	         	tdArr.eq(7).html("否");
+	         	tdArr.eq(8).html("否");
          	 });
-         	 var packId = tdArr.eq(3).children("input:first-child").val();
+         	 var packId = tdArr.eq(4).children("input:first-child").val();
          	$.ajax({
                 url: "${pageContext.request.contextPath}/packageExpert/isGroupLeader.html",
                 type: "POST",
