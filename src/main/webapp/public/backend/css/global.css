@@ -535,7 +535,8 @@ a.thumbnail {
 }
 
 .select_common{
-    display: inline-block;
+    /* display: inline-block; */
+    display: table;
     white-space: nowrap;
     vertical-align: middle;
     position:relative;
