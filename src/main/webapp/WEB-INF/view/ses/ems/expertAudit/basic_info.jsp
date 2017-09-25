@@ -401,7 +401,7 @@
                     </c:if>
                     <c:if test="${expert.coverNote eq '2'}">
                         <li class="col-md-3 col-sm-6 col-xs-12">
-                            <span <c:if test="${fn:contains(fileModify,'1')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-xs-12 col-sm-12 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">退休证书或退休证明：</span>
+                            <span <c:if test="${fn:contains(fileModify,'2')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-xs-12 col-sm-12 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">退休证书或退休证明：</span>
                             <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
                                 <up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="2"/>
                                 <a style="visibility:hidden" id="coverNoteFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
