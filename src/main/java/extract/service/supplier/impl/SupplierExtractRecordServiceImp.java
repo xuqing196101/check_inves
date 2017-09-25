@@ -54,6 +54,7 @@ import extract.dao.supplier.SupplierExtractRelateResultMapper;
 import extract.model.common.ExtractUser;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractProjectInfo;
+import extract.model.supplier.SupplierExtractResult;
 import extract.service.supplier.SupplierExtractRecordService;
 
 /**
@@ -475,6 +476,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 				HashMap<String,String> hashMap2 = new HashMap<>();
 				hashMap2.put("recordId", recordId);
 				hashMap2.put("supplierType",supplierTypeCode);
+				List<SupplierExtractResult> supplierListByRid = conMapper.getSupplierListByRid(hashMap2);
 				map.put("result", conMapper.getSupplierListByRid(hashMap2));
 			}
 		}

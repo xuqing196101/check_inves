@@ -1093,7 +1093,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.contactName!}</w:t>
+                    <w:t>${tree.armyBuinessName!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1117,7 +1117,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.contactTelephone!}</w:t>
+                    <w:t>${tree.armyBuinessTelephone!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -3637,7 +3637,7 @@
                       <w:bdr w:val="none" w:color="auto" w:sz="0" w:space="0"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>${tree.contactName!}</w:t>
+                    <w:t>${tree.armyBuinessName!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -3679,7 +3679,7 @@
                       <w:bdr w:val="none" w:color="auto" w:sz="0" w:space="0"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>${tree.contactTelephone!}</w:t>
+                    <w:t>${tree.armyBuinessTelephone!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>

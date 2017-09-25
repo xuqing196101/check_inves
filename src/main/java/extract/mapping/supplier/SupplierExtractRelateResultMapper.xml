@@ -7,7 +7,6 @@
 		<result column="CONDITION_ID" jdbcType="VARCHAR"
 			property="supplierConditionId" />
 		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
-		<result column="OPERATING_TYPE" jdbcType="DECIMAL" property="operatingType" />
 		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
 		<result column="REASON" jdbcType="VARCHAR" property="reason" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
@@ -17,8 +16,8 @@
 		<result column="MOBILE" property="mobile" />
 		<result column="JOIN" property="join" />
 		<result column="SUPPLIER_NAME" property="supplierName" />
-		<result column="CONTACT_NAME" property="contactName" />
-		<result column="CONTACT_TELEPHONE" property="contactTelephone" />
+		<result column="ARMY_BUSINESS_NAME" property="armyBusinessName" />
+		<result column="ARMY_BUSINESS_TELEPHONE" property="armyBuinessTelephone" />
 		<!-- 供应商 -->
 		<!-- <association column="SUPPLIER_ID" property="supplier"
 			select="ses.dao.sms.SupplierMapper.selectByPrimaryKeyItem" /> -->
@@ -35,6 +34,9 @@
 		<result column="CONTACT_MOBILE" property="contactMobile" />
 		<result column="CONTACT_EMAIL" property="contactEmail" />
 		<result column="CONTACT_ADDRESS" property="contactAddress" />
+		<result column="ARMY_BUSINESS_NAME" property="armyBusinessName" />
+		<result column="ARMY_BUSINESS_MOBILE" property="armyBuinessMobile" />
+		<result column="ARMY_BUSINESS_TELEPHONE" property="armyBuinessTelephone" />
 	</resultMap>
 	
 	<sql id="Base_Column_List">
@@ -184,10 +186,6 @@
 			<if test="conditionId != null">
 				CONDITION_ID,
 			</if>
-			
-			<if test="operatingType != null">
-				OPERATING_TYPE,
-			</if>
 			<if test="isDeleted != null">
 				IS_DELETED,
 			</if>
@@ -213,9 +211,6 @@
 			</if>
 			<if test="conditionId != null">
 				#{conditionId,jdbcType=VARCHAR},
-			</if>
-			<if test="operatingType != null">
-				#{operatingType,jdbcType=DECIMAL},
 			</if>
 			<if test="isDeleted != null">
 				#{isDeleted,jdbcType=DECIMAL},
@@ -558,8 +553,9 @@
 		SELECT SP.* FROM 
 		(SELECT DISTINCT S.* FROM T_SES_SMS_SUPPLIER S
 		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
-		  LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T ON T.SUPPLIER_ID = S.ID
+			LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T ON T.SUPPLIER_ID = S.ID
 			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
+			LEFT JOIN T_SES_BMS_CATEGORY_QUA QUA ON I.CATEGORY_ID = QUA.CATEGORY_ID
 			<choose>
 				<when test="supplierTypeCode == 'PROJECT'.toString()">
 					LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON E.SUPPLIER_ID = S.ID
@@ -600,7 +596,11 @@
 			<if test="supplierTypeCode == 'PROJECT'.toString()">
 				AND  A.CERT_TYPE IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
 			</if>
+			<if test="supplierTypeCode != 'PROJECT'.toString()">
+				AND  QUA.QUA_ID IN  <foreach collection="quaIds" item="qid" open="(" close=")" separator=","> #{qid}  </foreach>
+			</if>
 		</if>
+		<!-- 查询等级 -->
 		<if test="levelTypeId !=null and levelTypeId != '' ">
 			<choose>
 				<when test="supplierTypeCode == 'PROJECT'.toString()">
@@ -635,7 +635,7 @@
 	<!-- 详细抽取结果 -->
 	<!-- 0 不能参加，1能参加 -->
 	<select id="getSupplierListByRid" parameterType="map" resultMap="BaseResultMap">
-		SELECT DISTINCT R.JOIN,R.REASON,S.SUPPLIER_NAME,S.CONTACT_NAME,S.CONTACT_TELEPHONE FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
+		SELECT DISTINCT R.JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE FROM T_SES_SMS_EXTRACT_RESULT R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
 		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}  AND R.JOIN IN (0,1) ORDER BY R.JOIN DESC
 	</select>
 	
@@ -732,85 +732,6 @@
         SELECT 1 FROM DUAL
 	
 	
-		<!--  -->
-		<!-- insert into T_SES_SMS_SUPPLIER_EXT_RELATE
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				ID,
-			</if>
-			<if test="supplierId != null">
-				SUPPLIER_ID,
-			</if>
-			<if test="conditionId != null">
-				SUPPLIER_CONDITION_ID,
-			</if>
-			<if test="createdAt != null">
-				CREATED_AT,
-			</if>
-			<if test="join != null">
-				OPERATING_TYPE,
-			</if>
-			<if test="isDeleted != null">
-				IS_DELETED,
-			</if>
-			<if test="reason != null">
-				REASON,
-			</if>
-			<if test="packageId != null">
-				PROJECT_ID,
-			</if>
-			<if test="updatedAt != null">
-				UPDATED_AT,
-			</if>
-			<if test="conTypeId != null">
-				CON_TYPE_ID,
-			</if>
-			<if test="status != null">
-				STATUS_COUNT,
-			</if>
-			<if test="projectType != null">
-				REVIEW_TYPE,
-			</if>
-
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				#{id,jdbcType=VARCHAR},
-			</if>
-			<if test="supplierId != null">
-				#{supplierId,jdbcType=VARCHAR},
-			</if>
-			<if test="conditionId != null">
-				#{conditionId,jdbcType=VARCHAR},
-			</if>
-			<if test="createdAt != null">
-				#{createdAt,jdbcType=TIMESTAMP},
-			</if>
-			<if test="join != null">
-				#{join,jdbcType=DECIMAL},
-			</if>
-			<if test="isDeleted != null">
-				#{isDeleted,jdbcType=DECIMAL},
-			</if>
-			<if test="reason != null">
-				#{reason,jdbcType=VARCHAR},
-			</if>
-			<if test="packageId != null">
-				#{packageId,jdbcType=VARCHAR},
-			</if>
-			<if test="updatedAt != null">
-				#{updatedAt,jdbcType=VARCHAR},
-			</if>
-			<if test="conTypeId != null">
-				#{conTypeId,jdbcType=VARCHAR},
-			</if>
-			<if test="status != null">
-				#{status,jdbcType=DECIMAL},
-			</if>
-			<if test="projectType != null">
-				#{projectType,jdbcType=VARCHAR},
-			</if>
-		</trim> --> 
 	</insert>
 	
 	

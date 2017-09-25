@@ -149,7 +149,7 @@ public interface SupplierExtractRelateResultMapper {
   	 * @param hashMap2
   	 * @return
   	 */
-	List<Supplier> getSupplierListByRid(HashMap<String, String> hashMap2);
+	List<SupplierExtractResult> getSupplierListByRid(HashMap<String, String> hashMap2);
 	
 	
 	/**
