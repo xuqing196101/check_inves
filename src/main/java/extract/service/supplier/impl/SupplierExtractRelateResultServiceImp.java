@@ -309,24 +309,22 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 		
 		ArrayList<SupplierExtractResult> arrayList = new ArrayList<>();
 		String[] packageIds = supplierExtRelate.getPackageIds();
-		for (String packageId : packageIds) {
+		if(null!=packageIds){
+			for (String packageId : packageIds) {
+				supplierExtRelate.setId(UUIDUtils.getUUID32());
+				supplierExtRelate.setPackageId(packageId);
+				arrayList.add(supplierExtRelate);
+			}
+		}
+		if("advPro".equals(projectType)){
+			supplierExtRelateMapper.insertAdv(arrayList);
+		}else if("relPro".equals(projectType)){
+			supplierExtRelateMapper.insertRel(arrayList);
+		}else{
 			supplierExtRelate.setId(UUIDUtils.getUUID32());
-			supplierExtRelate.setPackageId(packageId);
-			arrayList.add(supplierExtRelate);
+			supplierExtRelateMapper.insertSelective(supplierExtRelate);
 		}
 		
-		switch (projectType) {
-		case "advPro":
-			supplierExtRelateMapper.insertAdv(arrayList);
-			break;
-		case "relPro":
-			supplierExtRelateMapper.insertRel(arrayList);
-			break;
-
-		default:
-			supplierExtRelateMapper.insertSelective(supplierExtRelate);
-			break;
-		}
 	}
   @Override
   public String insert(String cId, String userId, String[] projectId,

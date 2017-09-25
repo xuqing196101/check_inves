@@ -1,12 +1,6 @@
 package extract.model.supplier;
 
 import java.util.Date;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-
-import ses.model.sms.Supplier;
-import ses.util.MyAnnotation;
 
 public class SupplierExtractResult {
     
@@ -41,10 +35,14 @@ public class SupplierExtractResult {
 	 */
 	private String reason;
 	
+	private String updatedAt;
+	
 	/**
 	 * 供应商类型代码
 	 */
 	private String supplierType;
+	
+	private Short isDeleted;
 	
 	/**
 	 * 反馈时间
@@ -56,6 +54,22 @@ public class SupplierExtractResult {
 	private String packageId;
 	
 	private String[] packageIds;
+	
+	private String supplierName;
+	
+	//联系人姓名
+	private String contactName;
+	
+	//联系人电话
+	private String contactTelephone;
+	
+	//联系人姓名
+	private String armyBusinessName;
+	
+	//联系人电话
+	private String armyBuinessTelephone;
+	
+	
 
 	public String getSupplierId() {
 		return supplierId;
@@ -105,12 +119,28 @@ public class SupplierExtractResult {
 		this.reason = reason;
 	}
 
+	public String getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(String updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
 	public String getSupplierType() {
 		return supplierType;
 	}
 
 	public void setSupplierType(String supplierType) {
 		this.supplierType = supplierType;
+	}
+
+	public Short getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Short isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	public Date getCreatedAt() {
@@ -138,13 +168,56 @@ public class SupplierExtractResult {
 	}
 
 	public String[] getPackageIds() {
-		
-		return StringUtils.isNotBlank(packageId)?this.packageId.split(","):null;
+		return packageIds;
 	}
 
 	public void setPackageIds(String[] packageIds) {
 		this.packageIds = packageIds;
 	}
+
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
+
+	public String getContactName() {
+		return contactName;
+	}
+
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
+
+	public String getContactTelephone() {
+		return contactTelephone;
+	}
+
+	public void setContactTelephone(String contactTelephone) {
+		this.contactTelephone = contactTelephone;
+	}
+
+	public String getArmyBusinessName() {
+		return armyBusinessName;
+	}
+
+	public void setArmyBusinessName(String armyBusinessName) {
+		this.armyBusinessName = armyBusinessName;
+	}
+
+	public String getArmyBuinessTelephone() {
+		return armyBuinessTelephone;
+	}
+
+	public void setArmyBuinessTelephone(String armyBuinessTelephone) {
+		this.armyBuinessTelephone = armyBuinessTelephone;
+	}
+
+
+	
   
+	
 	
 }

@@ -1094,7 +1094,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.contactName!}</w:t>
+                    <w:t>${tree.armyBusinessName!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1118,7 +1118,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.contactTelephone!}</w:t>
+                    <w:t>${tree.armyBuinessTelephone!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>

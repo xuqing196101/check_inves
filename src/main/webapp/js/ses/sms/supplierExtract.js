@@ -748,7 +748,7 @@ $(function () {
     			}
     			if(null !=msg){
 	    			$("#"+msg.error).html("不能为空");
-	    			return false;
+	    			flag = false;
 	    		}
     		}
     	});
@@ -785,13 +785,25 @@ $(function () {
     	}
     	
     	var i = 0;
+    	var armyBuinessTelephone = "";
+    	if(data[i].armyBuinessTelephone){
+    		armyBuinessTelephone = data[i].armyBuinessTelephone;
+    	}
+    	var armyBuinessMobile = "";
+    	if(data[i].armyBuinessMobile){
+    		armyBuinessMobile = data[i].armyBuinessMobile;
+    	}
+    	var armyBusinessName = "";
+    	if(data[i].armyBusinessName){
+    		armyBusinessName = data[i].armyBusinessName;
+    	}
     	var tex = "<tr class='cursor' typeCode='"+type.toUpperCase()+"' sid='"+data[i].id+"' index='"+i+"'>" +
 	   	 "<td class='tc' >"+(parseInt(num)+1)+"</td>" +
 		 "<td class='tc'  >"+data[i].supplierName+"</td>" +
 	     "<td class='tc' >"+typeName+"</td>" +
-	     "<td class='tc' >"+data[i].contactName+"</td>" +
-	     "<td class='tc' >"+data[i].contactMobile+"</td>" +
-	     "<td class='tc' >"+data[i].contactTelephone+"</td>" +
+	     "<td class='tc' >"+armyBusinessName+"</td>" +
+	     "<td class='tc' >"+armyBuinessMobile+"</td>" +
+	     "<td class='tc' >"+armyBuinessTelephone+"</td>" +
 	     "<td class='tc' class='res'><select onchange='operation(this)'> <option value='0'>请选择</option> <option value='1'>能参加</option> <option value='2'>待定</option> <option value='3'>不能参加</option> </td>" +
 	     "</tr>";
     	$(obj).append(tex);

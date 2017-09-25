@@ -1765,7 +1765,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.contactName!}</w:t>
+                    <w:t>${tree.armyBusinessName!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1806,7 +1806,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${tree.contactTelephone!}</w:t>
+                    <w:t>${tree.armyBuinessTelephone!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
