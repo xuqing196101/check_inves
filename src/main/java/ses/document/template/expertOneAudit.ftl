@@ -55,7 +55,7 @@
 								<w:rPr>
 									<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 									<w:sz w:val="24" /></w:rPr>
-								<w:t>采购机构名称（盖章）：</w:t>
+								<w:t>采购机构名称（盖章）：${depName}</w:t>
 							</w:r>
 						</w:p>
 						<w:tbl>
@@ -1910,87 +1910,9 @@
 										</w:r>
 										<w:r>
 											<w:rPr>
-												<w:rFonts w:hint="default" w:ascii="宋体" w:hAnsi="宋体" />
-												<w:szCs w:val="21" /></w:rPr>
-											<w:t xml:space="preserve"> </w:t>
-										</w:r>
-										<w:r>
-											<w:rPr>
-												<w:rFonts w:hint="default" w:ascii="宋体" w:hAnsi="宋体" />
-												<w:szCs w:val="21" /></w:rPr>
-											<w:t xml:space="preserve"> </w:t>
-										</w:r>
-										<w:r>
-											<w:rPr>
-												<w:rFonts w:hint="default" w:ascii="宋体" w:hAnsi="宋体" />
-												<w:szCs w:val="21" /></w:rPr>
-											<w:t xml:space="preserve"> </w:t>
-										</w:r>
-										<w:r>
-											<w:rPr>
 												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 												<w:szCs w:val="21" /></w:rPr>
-											<w:t>年</w:t>
-										</w:r>
-										<w:r>
-											<w:rPr>
-												<w:rFonts w:hint="default" w:ascii="宋体" w:hAnsi="宋体" />
-												<w:szCs w:val="21" /></w:rPr>
-											<w:t xml:space="preserve"> </w:t>
-										</w:r>
-										<w:r>
-											<w:rPr>
-												<w:rFonts w:hint="default" w:ascii="宋体" w:hAnsi="宋体" />
-												<w:szCs w:val="21" /></w:rPr>
-											<w:t xml:space="preserve"> </w:t>
-										</w:r>
-										<w:r>
-											<w:rPr>
-												<w:rFonts w:hint="default" w:ascii="宋体" w:hAnsi="宋体" />
-												<w:szCs w:val="21" /></w:rPr>
-											<w:t xml:space="preserve"> </w:t>
-										</w:r>
-										<w:r>
-											<w:rPr>
-												<w:rFonts w:hint="default" w:ascii="宋体" w:hAnsi="宋体" />
-												<w:szCs w:val="21" /></w:rPr>
-											<w:t xml:space="preserve"> </w:t>
-										</w:r>
-										<w:r>
-											<w:rPr>
-												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
-												<w:szCs w:val="21" /></w:rPr>
-											<w:t>月</w:t>
-										</w:r>
-										<w:r>
-											<w:rPr>
-												<w:rFonts w:hint="default" w:ascii="宋体" w:hAnsi="宋体" />
-												<w:szCs w:val="21" /></w:rPr>
-											<w:t xml:space="preserve"> </w:t>
-										</w:r>
-										<w:r>
-											<w:rPr>
-												<w:rFonts w:hint="default" w:ascii="宋体" w:hAnsi="宋体" />
-												<w:szCs w:val="21" /></w:rPr>
-											<w:t xml:space="preserve"> </w:t>
-										</w:r>
-										<w:r>
-											<w:rPr>
-												<w:rFonts w:hint="default" w:ascii="宋体" w:hAnsi="宋体" />
-												<w:szCs w:val="21" /></w:rPr>
-											<w:t xml:space="preserve"> </w:t>
-										</w:r>
-										<w:r>
-											<w:rPr>
-												<w:rFonts w:hint="default" w:ascii="宋体" w:hAnsi="宋体" />
-												<w:szCs w:val="21" /></w:rPr>
-											<w:t xml:space="preserve"> </w:t>
-										</w:r>
-										<w:r>
-											<w:rPr>
-												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
-												<w:szCs w:val="21" /></w:rPr>
-											<w:t>日</w:t>
+											<w:t>${auditTime}</w:t>
 										</w:r>
 									</w:p>
 								</w:tc>
