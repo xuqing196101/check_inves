@@ -12,6 +12,11 @@
 		color: #333 !important;
 	}
 
+	.textAreafont{
+		line-height: 25px;
+		color: #ef0000;
+		font-size: 12px;
+	}
 </style>
 </head>
 <body>
@@ -279,7 +284,7 @@
               <span class="add-on">i</span><span class="input-tip">最多100字</span> -->
               <textarea class="w100p h100 resizen" maxlength="500" name="addressReason" id="xzReason" onkeyup="size(this);"></textarea>
               <small>字数：500. 剩余：<span id="textCount">500</span>.</small>
-              <div class="cue" id="err_addressReason"></div>
+              <div class="textAreafont" id="err_addressReason"></div>
             </div>
           </li>
         </form>
