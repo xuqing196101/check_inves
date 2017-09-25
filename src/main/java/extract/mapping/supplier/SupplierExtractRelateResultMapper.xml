@@ -768,9 +768,6 @@
 			<if test="t.updatedAt != null">
 				UPDATED_AT,
 			</if>
-			<!-- <if test="conTypeId != null">
-				CON_TYPE_ID,
-			</if> -->
 			<if test="t.status != null">
 				STATUS_COUNT,
 			</if>
@@ -808,9 +805,6 @@
 			<if test="t.updatedAt != null">
 				#{t.updatedAt,jdbcType=VARCHAR},
 			</if>
-			<!-- <if test="conTypeId != null">
-				#{conTypeId,jdbcType=VARCHAR},
-			</if> -->
 			<if test="t.status != null">
 				#{t.status,jdbcType=DECIMAL},
 			</if>

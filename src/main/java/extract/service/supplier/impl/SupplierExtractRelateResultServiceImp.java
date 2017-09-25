@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -316,13 +317,16 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 				arrayList.add(supplierExtRelate);
 			}
 		}
-		if("advPro".equals(projectType)){
+		if("advPro".equals(projectType) && arrayList.size()>0){
 			supplierExtRelateMapper.insertAdv(arrayList);
-		}else if("relPro".equals(projectType)){
+			return;
+		}else if("relPro".equals(projectType)&& arrayList.size()>0){
 			supplierExtRelateMapper.insertRel(arrayList);
-		}else{
+			return;
+		}else if(StringUtils.isBlank(projectType)){
 			supplierExtRelate.setId(UUIDUtils.getUUID32());
 			supplierExtRelateMapper.insertSelective(supplierExtRelate);
+			return;
 		}
 		
 	}

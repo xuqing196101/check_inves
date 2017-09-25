@@ -83,7 +83,7 @@
                          <th class="info" width="18%">联系人手机</th>
                      </tr>
                      </thead>
-                     <tbody id="tbody">
+                     <tbody id="supplierList">
                       
                      </tbody>
                 </table>

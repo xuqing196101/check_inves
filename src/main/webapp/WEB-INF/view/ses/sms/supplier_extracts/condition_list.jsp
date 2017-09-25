@@ -80,7 +80,7 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购方式:</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-           			<c:if test="${projectInfo.purchaseType ==null }">
+           			<c:if test="${projectInfo.purchaseType ==null}">
                    	<select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0" ${flag?"readonly":"" }>
                       <c:forEach items="${purchaseTypeList}" var="map">
                         <option value="${map.id}">${map.name}</option>
@@ -891,7 +891,6 @@
                  </table>
 			</div>
 			<did class="col-xs-12 tc mt20 dnone" id="end"> <button class="center btn"  onclick="alterEndInfo(this)">结束</button> </did>
-		<input type="button" value="测试" onclick="ref();"/>
 		</div>
 </div>
 <!-- 地区树 -->
@@ -1076,10 +1075,5 @@
 		});
 	}
 	
-	
-	function ref(){
-		var tbody=window.opener.document.getElementById("tbody");
-		$(tbody).append("<tr><td>1323</td></tr>")
-	}
 </script>
 </html>

@@ -171,16 +171,22 @@ public class ExtractSupplierController extends BaseController {
     		if("advPro".equals(projectType)){
     			//预研进入
     			 AdvancedProject selectById = advancedProjectService.selectById(eRecord.getProjectId());
+    			 DictionaryData purchaseType = dictionaryDataServiceI.getDictionaryData(selectById.getPurchaseType());
     			 eRecord.setProjectId(selectById.getId());
     			 eRecord.setProjectName(selectById.getName());
     			 eRecord.setProjectType(dictionaryDataServiceI.getDictionaryData(selectById.getPlanType()).getCode() );
+    			 eRecord.setPurchaseType(null !=purchaseType?purchaseType.getId():"");
+    			 eRecord.setPurchaseTypeName(null !=purchaseType?purchaseType.getName():"");
     			 eRecord.setProjectCode(selectById.getProjectNumber());
         	}else if("relPro".equals(projectType)){
         		//真实项目
         		Project selectById2 = projectService.selectById(eRecord.getProjectId());
+        		DictionaryData purchaseType = dictionaryDataServiceI.getDictionaryData(selectById2.getPurchaseType());
         		eRecord.setProjectId(selectById2.getId());
    			 	eRecord.setProjectName(selectById2.getName());
    			 	eRecord.setProjectType(dictionaryDataServiceI.getDictionaryData(selectById2.getPlanType()).getCode());
+   			 	eRecord.setPurchaseType(null !=purchaseType?purchaseType.getId():"");
+   			 	eRecord.setPurchaseTypeName(null !=purchaseType?purchaseType.getName():"");
    			 	eRecord.setProjectCode(selectById2.getProjectNumber());
         	}else{
         		//随机抽取

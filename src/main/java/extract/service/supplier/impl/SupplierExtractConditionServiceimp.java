@@ -693,7 +693,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	public List<DictionaryData> getQuaByCid(String categoryId ,String code) {
 		HashMap<String,String[]> hashMap = new HashMap<>();
 		if(StringUtils.isNotBlank(categoryId)){
-			if("PROJECT".equals(code)){
+			if("project".equals(code)){
 				String[] checkParentCate = checkParentCate(categoryId);
 				hashMap.put("categoryIds",checkParentCate);
 			}else{

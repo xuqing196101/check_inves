@@ -429,6 +429,9 @@ $(function () {
     	
     	//所有的必填项写一个class 验证必填 输入框要验证长度
     	if(checkEmpty()+proError>0){
+    		if(proError>0){
+    			layer.msg("项目编号已存在");
+    		}
     		return false;
     	}
     	$("#status").val(1);//修改状态为抽取中
@@ -815,6 +818,15 @@ $(function () {
     	
     	return true;
     }
+    
+    
+    /**
+     * 追加结果到项目实施页面
+     */
+    function appendParent(obj){
+		var tbody=window.opener.document.getElementById("supplierList");
+		$(tbody).append(obj);
+	}
     
     /**暂存*/
     function temporary(status) {
@@ -1324,10 +1336,8 @@ $(function () {
     		var cateId ;
     		if("project"!=code){
     			$("#goodsQuaContent").find("ul").prop("id",code+"QuaTree");
-    		}else{
-    			cateId = $("#"+code+"CategoryIds").val();
     		}
-    		
+    		cateId = $("#"+code+"CategoryIds").val();
     		
     		$.ajax({
     			url:globalPath+"/SupplierCondition_new/getQuaByCid.do",
@@ -1645,7 +1655,7 @@ $(function () {
     }
     function onBodyDownQua(event){
     	if (!(event.target.nodeName == "SPAN")) {
-    		hideLevelType("quaContent");
+    		hideLevelType("projectQuaContent");
     	}
     }
     function onBodyDownElseQua(event){
@@ -1668,7 +1678,7 @@ $(function () {
         }else if("productLevelContent"==obj){
         	$("body").unbind("mousedown", onBodyDownProductLevel);
         	selectLikeSupplier();
-        }else if("quaContent"==obj){
+        }else if("projectQuaContent"==obj){
         	$("body").unbind("mousedown", onBodyDownQua);
         	selectLikeSupplier();
         }else if("goodsLevelContent"==obj){
@@ -1836,7 +1846,8 @@ $(function () {
                 });
             } else if(v == "1"){
                 //select.disabled = true;
-            	saveResult(objTr, '',1);
+            	var parentsTr = objTr;
+            	saveResult(parentsTr, '',1);
             	var yes = $(obj).parents("table").prev().find("span:first").html();
             	$(obj).parents("table").prev().find("span:first").html(parseInt(yes)+1);
             	//$(select).parents("td").empty();
@@ -1877,6 +1888,19 @@ $(function () {
             	successCount++;
             }
     	});
+    	
+    	//追加到项目实施页面
+    	
+    	if(projectType){
+    		
+    		
+    		//本页面
+    		//$(objTr).parents("tbody").append(objTr);
+    		var parentsTr = $(objTr).clone();
+    		$(parentsTr).find("td:last").remove();
+    		appendParent(parentsTr);
+    	}
+    	
     }
     
     
