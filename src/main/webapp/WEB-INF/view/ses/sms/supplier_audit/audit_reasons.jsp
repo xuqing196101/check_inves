@@ -256,55 +256,55 @@
             }
         }
         
-        //去改状态
-        function toUpdateStatus(){
-          var ids = [];
-          $('input[name="chkItem"]:checked').each(function(){
-              ids.push($(this).val());
-          });
-          if(ids.length > 0){
-          	$("#auditStatusRadio").fadeIn().css("display","inline");
-          }else{
-              layer.alert("请选择需要修改状态的信息！",{offset:'100px'});
-          }
-        }
-        //改状态
-        function updateStatus(status){
-          var ids = [];
-          $('input[name="chkItem"]:checked').each(function(){
-          	ids.push($(this).val());
-          });
-          if(ids.length > 0){
-          	layer.confirm('您确定要更改状态吗？', {title:'提示！',offset: ['200px']}, function(index){
+				//去改状态
+				function toUpdateStatus(){
+					var ids = [];
+					$('input[name="chkItem"]:checked').each(function(){
+						ids.push($(this).val());
+					});
+					if(ids.length > 0){
+						$("#auditStatusRadio").fadeIn().css("display","inline");
+					}else{
+						layer.alert("请选择需要修改状态的信息！",{offset:'100px'});
+					}
+				}
+				//改状态
+				function updateStatus(status){
+					var ids = [];
+					$('input[name="chkItem"]:checked').each(function(){
+						ids.push($(this).val());
+					});
+					if(ids.length > 0){
+						layer.confirm('您确定要更改状态吗？', {title:'提示！',offset: ['200px']}, function(index){
 							layer.close(index);
 							$.ajax({
 								url:"${pageContext.request.contextPath}/supplierAudit/updateReturnStatus.do",
-						   	type:"post",
-						   	data:{
-							   	ids: ids.join(","),
-							   	status: status
-						   	},
-					   		dataType: "json",
-						   	success:function(result){
-					     		if(result && result.status == 500){
+								type:"post",
+								data:{
+									ids: ids.join(","),
+									status: status
+								},
+								dataType: "json",
+								success:function(result){
+									if(result && result.status == 500){
 										layer.msg(result.msg, {offset : '100px'});
-						       	$('input[name="chkItem"]:checked').each(function(){
-								    	$(this).parents("tr").find("td:last").text(getStatusText(status));
+										$('input[name="chkItem"]:checked').each(function(){
+											$(this).parents("tr").find("td:last").text(getStatusText(status));
 									 	});
 							 			$("input[type='radio'][name='auditStatus']").attr("checked", false);
-						     	}else{
-							     	layer.msg(result.msg, {offset : '100px'});
-						     	}
-						   	},
-						   	error: function(message){
-						     	layer.msg("更新失败！", {offset : '100px'});
+									}else{
+										layer.msg(result.msg, {offset : '100px'});
+									}
+								},
+								error: function(message){
+									layer.msg("更新失败！", {offset : '100px'});
 								}
 							});
-	          });
-          }else{
-            layer.alert("请选择需要修改状态的信息！",{offset:'100px'});
-          }
-        }
+						});
+					}else{
+						layer.alert("请选择需要修改状态的信息！",{offset:'100px'});
+					}
+				}
         
         function getStatusText(status){
         	var text = "";
