@@ -140,7 +140,7 @@ public class ExtractSupplierController extends BaseController {
      */
     @RequestMapping("/Extraction")
    // public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId){
-   public String listExtraction(@CurrentUser User user,Model model, SupplierExtractProjectInfo eRecord,String conditionId,String projectType){
+   public String listExtraction(@CurrentUser User user,Model model, SupplierExtractProjectInfo eRecord,String conditionId){
     	//两个入口 1.项目实施进入 2.直接进行抽取
     	
     	
@@ -168,7 +168,7 @@ public class ExtractSupplierController extends BaseController {
     		
     		expExtractRecordService.insertProjectInfo(eRecord);
     		
-    		if("advPro".equals(projectType)){
+    		if("advPro".equals(eRecord.getProjectInto())){
     			//预研进入
     			 AdvancedProject selectById = advancedProjectService.selectById(eRecord.getProjectId());
     			 DictionaryData purchaseType = dictionaryDataServiceI.getDictionaryData(selectById.getPurchaseType());
@@ -178,7 +178,7 @@ public class ExtractSupplierController extends BaseController {
     			 eRecord.setPurchaseType(null !=purchaseType?purchaseType.getId():"");
     			 eRecord.setPurchaseTypeName(null !=purchaseType?purchaseType.getName():"");
     			 eRecord.setProjectCode(selectById.getProjectNumber());
-        	}else if("relPro".equals(projectType)){
+        	}else if("relPro".equals(eRecord.getProjectInto())){
         		//真实项目
         		Project selectById2 = projectService.selectById(eRecord.getProjectId());
         		DictionaryData purchaseType = dictionaryDataServiceI.getDictionaryData(selectById2.getPurchaseType());
@@ -193,7 +193,6 @@ public class ExtractSupplierController extends BaseController {
         		
         		
         	}
-    		model.addAttribute("projectType", projectType);
     		model.addAttribute("projectInfo", eRecord);
 			model.addAttribute("typeclassId", "hidden");
     		
@@ -235,18 +234,17 @@ public class ExtractSupplierController extends BaseController {
      * @return String
      */
     @RequestMapping("/addHeading")
-    public String addHeading(Model model, String[] id,String projectId,String supplierTypeCode){
+    public String addHeading(Model model, String categoryId,String projectId,String supplierTypeCode){
         ExtConType extConType = null;
-        if (id != null && id.length != 0){
+       /* if (id != null && id.length != 0){
             extConType = new ExtConType();
             extConType.setCategoryId(id[0]);
             extConType.setExpertsCount(Integer.parseInt(id[2]));
             extConType.setExpertsQualification(id[3]);
-        }
+        }*/
         //        List<DictionaryData> find = DictionaryDataUtil.find(8);
-        model.addAttribute("extConType", extConType);
+        model.addAttribute("categoryId", categoryId);
         //        supplierExtPackageServicel.list(sExtPackage, page);
-        model.addAttribute("projectId", projectId);
         model.addAttribute("supplierTypeCode", supplierTypeCode);
         return "ses/sms/supplier_extracts/product";
     }
@@ -295,9 +293,9 @@ public class ExtractSupplierController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/getTree")
-    public String getTree(Category category,String projectId,String supplierTypeCode){
+    public String getTree(Category category,String projectId,String supplierTypeCode,String categoryId){
    	 //获取字典表中的根数据
-    	List<CategoryTree> jList = 	categoryService.getTreeForExt(category,supplierTypeCode);
+    	List<CategoryTree> jList = 	categoryService.getTreeForExt(category,supplierTypeCode,categoryId);
         return JSON.toJSONString(jList);
 
     }
@@ -368,10 +366,10 @@ public class ExtractSupplierController extends BaseController {
      * @return
      */
     @RequestMapping("/printRecord")
-    public ResponseEntity<byte[]> printRecord(String id,HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<byte[]> printRecord(String id,HttpServletRequest request, HttpServletResponse response,String projectInto){
     	ResponseEntity<byte[]> printRecord = null;
     	try {
-			printRecord = expExtractRecordService.printRecord(id,request,response);
+			printRecord = expExtractRecordService.printRecord(id,request,response,projectInto);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

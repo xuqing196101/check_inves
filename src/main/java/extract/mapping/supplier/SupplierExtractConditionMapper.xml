@@ -474,8 +474,18 @@
 			#{it}
 		</foreach>
 	</select>
-	
+	<!-- 工程遍历品目父节点 -->
 	<select id="checkParentCate" parameterType="java.lang.String" resultType="ses.model.bms.Category">
-		select s.* from ( select t.*,level from T_SES_BMS_CATEGORY t START WITH  T.id =  #{value} CONNECT BY PRIOR T.PARENT_ID=T.ID order by level desc ) s 
+		select s.* from ( select t.*,level from T_SES_BMS_CATEGORY t START WITH  T.id =  #{value} CONNECT BY PRIOR T.PARENT_ID=T.ID order by level desc ) s  where s.is_publish = 0
 	</select>
+	
+	<!-- 遍历品目末节点 -->
+	<select id="seleselectChildCate" parameterType="java.util.List" resultType="java.lang.String">
+		select distinct s.id from ( select t.*,level from T_SES_BMS_CATEGORY t START WITH  T.id in 
+		<foreach collection="array" open="(" close=")" separator="," index="index" item="item">
+			#{item}
+		</foreach>
+		CONNECT BY PRIOR T.id=T.PARENT_ID order by level desc ) s where s.is_publish = 0 and (s.is_parent is null or s.is_parent = 'false')
+	</select>
+	
 </mapper>

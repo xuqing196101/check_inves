@@ -114,7 +114,7 @@ public class SupplierExtractProjectInfo {
 
     private Short status;
     
-    
+    private String projectInto;
 
     /**
      * <pre>
@@ -596,6 +596,17 @@ public class SupplierExtractProjectInfo {
 		this.endTime = endTime;
 	}
 
+
+	public String getProjectInto() {
+		return projectInto;
+	}
+
+
+	public void setProjectInto(String projectInto) {
+		this.projectInto = projectInto;
+	}
+
+	
 	
 	
 }

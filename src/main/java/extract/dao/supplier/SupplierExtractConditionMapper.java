@@ -3,6 +3,7 @@ package extract.dao.supplier;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
@@ -116,6 +117,8 @@ public interface SupplierExtractConditionMapper {
 	List<String> getLevelByList(List<String> byMap);
 
 	List<Category> checkParentCate(String cid);
+
+	Set<String> seleselectChildCate(String[] split);
 
 
 	

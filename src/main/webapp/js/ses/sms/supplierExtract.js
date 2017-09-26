@@ -293,7 +293,13 @@ $(function () {
             		for ( var k in data) {
             			;
             			if(k.substring(0,k.lastIndexOf("C")) == typeCode){
+            				
             				scount = data[k];
+            				if(parseInt(scount)==0){
+            					$("#"+code+"Count").parents("button").prop("style","background-color: red;");
+            				}else{
+            					$("#"+code+"Count").parents("button").removeAttr("style");
+            				}
             				$("#"+code+"Count").html(scount);
             			}
 					}
@@ -580,6 +586,22 @@ $(function () {
 	    	return false;
 		}
 	    formData = $('#form1').serialize();
+	    
+	    //存储条件
+	    $.ajax({
+    		type: "POST",
+    		url: globalPath+"/SupplierCondition_new/saveCondition.html",
+    		data:  formData,
+    		dataType: "json",
+    		async:false,
+    		success: function (msg) {
+    		}
+    	});	
+	    
+	    //显示抽取结果表
+	    $("#result").removeClass("dnone");
+	    $("#"+code+"Result").removeClass("dnone");
+	    //追加抽取结果
 	    appendTd(0,$("#"+code+"Result").find("tbody"),null);
 	   
     	/*var count = 0;
@@ -695,6 +717,18 @@ $(function () {
     function appendTd(num,obj,result){
     	var flag = false;
     	
+    	//只能有一个请选择
+    	$(obj).find("select").each(function(){
+    		if($(this).val()==0){
+    			flag = true;
+    			return ;
+    		}
+    	});
+    	
+    	if(flag){
+    		return;
+    	}
+    	
     	//获取类型
     	var type =  $(obj).parents("div").attr("id").substring(0,$(obj).parents("div").attr("id").lastIndexOf("R"));
     	//需要判断能参加，满足后不再追加
@@ -801,13 +835,13 @@ $(function () {
     		armyBusinessName = data[i].armyBusinessName;
     	}
     	var tex = "<tr class='cursor' typeCode='"+type.toUpperCase()+"' sid='"+data[i].id+"' index='"+i+"'>" +
-	   	 "<td class='tc' >"+(parseInt(num)+1)+"</td>" +
-		 "<td class='tc'  >"+data[i].supplierName+"</td>" +
-	     "<td class='tc' >"+typeName+"</td>" +
-	     "<td class='tc' >"+armyBusinessName+"</td>" +
-	     "<td class='tc' >"+armyBuinessMobile+"</td>" +
-	     "<td class='tc' >"+armyBuinessTelephone+"</td>" +
-	     "<td class='tc' class='res'><select onchange='operation(this)'> <option value='0'>请选择</option> <option value='1'>能参加</option> <option value='2'>待定</option> <option value='3'>不能参加</option> </td>" +
+	   	 "<td  >"+(parseInt(num)+1)+"</td>" +
+		 "<td   >"+data[i].supplierName+"</td>" +
+	     "<td  >"+typeName+"</td>" +
+	     "<td >"+armyBusinessName+"</td>" +
+	     "<td  >"+armyBuinessMobile+"</td>" +
+	     "<td  >"+armyBuinessTelephone+"</td>" +
+	     "<td  class='res'><select onchange='operation(this)'> <option value='0'>请选择</option> <option value='1'>能参加</option> <option value='2'>待定</option> <option value='3'>不能参加</option> </td>" +
 	     "</tr>";
     	$(obj).append(tex);
     	//更新序号
@@ -825,6 +859,13 @@ $(function () {
      */
     function appendParent(obj){
 		var tbody=window.opener.document.getElementById("supplierList");
+		var index = $(tbody).find("tr:last").find("td:first").html();
+		if(index){
+			index ++;
+		}else{
+			index = 1;
+		}
+		$(obj).find("td:first").html(index);
 		$(tbody).append(obj);
 	}
     
@@ -866,6 +907,13 @@ $(function () {
     	//cate.value = "";
         //  iframe层
         var iframeWin;
+        var categoryId = $("#"+code+"CategoryIds").val();
+        var parentId = $(cate).prev(".parentId");
+        if(parentId.length<=0){
+        	$(cate).before("<input class='parentId' type='hidden' name='"+code+"ParentId'>");
+        }else if($(parentId).val()){
+        	categoryId += ","+ $(parentId).val();
+        }
         layer.open({
             type: 2,
             title: "选择条件",
@@ -873,7 +921,7 @@ $(function () {
             shade: 0.01,
             area: ['430px', '400px'],
             offset: '20px',
-            content: globalPath+'/SupplierExtracts_new/addHeading.do?supplierTypeCode='+typeCode, //iframe的url
+            content: globalPath+'/SupplierExtracts_new/addHeading.do?supplierTypeCode='+typeCode+'&categoryId='+categoryId, //iframe的url
             //content: globalPath+'/supplier/category_type.do?code='+supplierCode, 
             success: function (layero, index) {
                 iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
@@ -885,12 +933,14 @@ $(function () {
                 //若是工程类，需要根据品目去动态生成等级树
                 //if(typeCode == "PROJECT"){
                 	//加载资质类型
+                	emptyQuaInfo(code);
                 	loadQuaList(null);
                // }
                 selectLikeSupplier();
             }
             , btn2: function () {
             	$(cate).parents("li").find(".categoryId").val("");
+            	$(cate).parents("li").find(".parentId").val("");
                 $(cate).val("");
                 selectLikeSupplier();
             }
@@ -991,6 +1041,7 @@ $(function () {
     	 var mycars=new Array("service","project","product","sales","goods");
     	 for ( var i=0;i<5;i++) {
     		 $("."+mycars[i]+"Count").addClass("dnone");
+    		 $("#result").addClass("dnone");
     		 $("#"+mycars[i]+"Result").addClass("dnone");
     		// $("#"+mycars[i]+"CategoryIds").val("");
     		 $("#"+mycars[i]+"ExtractNum").val("");
@@ -1004,7 +1055,6 @@ $(function () {
     		}*/
     		var type = $(obj).val();
     		showCategoryAndLevel(type);
-    		 loadQuaList();
     		selectLikeSupplier();
     	}
      }
@@ -1046,7 +1096,7 @@ $(function () {
     	$("#extractNumber").find("input").attr("name",code+"ExtractNum");
     	 $("."+code+"Count").removeClass("dnone");
 		 //追加结果表
-		 $("#"+code+"Result").removeClass("dnone");
+		// $("#"+code+"Result").removeClass("dnone");
 		 //$("#"+code+"ExtractNum").val("0");
 		 /*if(code != "project"){
 			 loadLevelTree(code+"LevelTree");
@@ -1332,19 +1382,19 @@ $(function () {
     	code = $("#supplierType").val().toLowerCase();
     	
     	if(nodes==null){
-    		emptyQuaInfo(code);
-    		var cateId ;
+    		//emptyQuaInfo(code);
     		if("project"!=code){
     			$("#goodsQuaContent").find("ul").prop("id",code+"QuaTree");
     		}
-    		cateId = $("#"+code+"CategoryIds").val();
+    		var cateId = $("#"+code+"CategoryIds").val();
+    		var parentId = $("[name='"+code+"ParentId']").val();
     		
     		$.ajax({
     			url:globalPath+"/SupplierCondition_new/getQuaByCid.do",
     			type: "POST",
     			dataType: "json",
     			async:false,
-    			data:{categoryId:cateId,supplierTypeCode:code},
+    			data:{categoryId:cateId,supplierTypeCode:code,parentId:parentId},
     			success:function(data){
     				nodes = data;
     			}
@@ -1353,9 +1403,9 @@ $(function () {
     	
     	
     	nodes = ajaxDataFilter(nodes);
-    	if(!nodes){
+    	/*if(!nodes){
     		return ;
-    	}
+    	}*/
     	
     	var setting = {
          check: {
@@ -1827,13 +1877,17 @@ $(function () {
                     formType: 2,
                     shade: 0.01,
                     offset: [y, x],
-                    title: '不参加理由'
+                    title: ['*  不参加理由','color:red'],
+                    btn:'确定',
+                    closeBtn: 0
                 }, function (value, index, elem) {
                 	saveResult(objTr, value,0);
                 	var notJoin = $(obj).parents("table").prev().find(".notJoin").html();
                 	$(obj).parents("table").prev().find(".notJoin").html(parseInt(notJoin)+1);
                 	//$(obj).prev().find(".notJoin").html(parseInt($(obj).panrents("table").prev().find(".notJoin").html())+1);
-                    layer.close(index);
+                	if(value){
+                		layer.close(index);
+                	}
                     //select.options[0].selected = true;
                     $(objTr).remove();
                 	if(!appendTd(parseInt(req)-1,obj,"不能参加")){
@@ -1892,16 +1946,16 @@ $(function () {
     	//追加到项目实施页面
     	
     	if(projectType){
-    		
-    		
-    		//本页面
-    		//$(objTr).parents("tbody").append(objTr);
     		var parentsTr = $(objTr).clone();
     		$(parentsTr).find("td:last").remove();
     		appendParent(parentsTr);
     	}
     	
     }
+    
+    
+    
+    
     
     
   //文本编译器计数

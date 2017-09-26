@@ -12,6 +12,7 @@ public class SupplierConType {
 	 * 工程类型
 	 */
 	private String projectCategoryIds;
+	private String projectParentId;
 	private String projectLevel;
 	private Short projectIsMulticondition;
 	private Short projectExtractNum;
@@ -28,6 +29,7 @@ public class SupplierConType {
 	 * 
 	 */
 	private String serviceCategoryIds;
+	private String serviceParentId;
 	private String serviceLevel;
 	private Short serviceIsMulticondition;
 	private Short serviceExtractNum;
@@ -41,6 +43,7 @@ public class SupplierConType {
 	 * 物资生产
 	 */
 	private String productCategoryIds;
+	private String productParentId;
 	private String productLevel;
 	private Short productIsMulticondition;
 	private Short productExtractNum;
@@ -55,6 +58,7 @@ public class SupplierConType {
 	 */
 	
 	private String salesCategoryIds;
+	private String salesParentId;
 	private String salesLevel;
 	private Short salesIsMulticondition;
 	private Short salesExtractNum;
@@ -69,6 +73,7 @@ public class SupplierConType {
 	 * 不限
 	 */
 	private String goodsCategoryIds;
+	private String goodsParentId;
 	private String goodsLevel;
 	private Short goodsIsMulticondition;
 	private Short goodsExtractNum;
@@ -456,6 +461,46 @@ public class SupplierConType {
 
 	public void setGoodsQuaName(String goodsQuaName) {
 		this.goodsQuaName = goodsQuaName;
+	}
+
+	public String getProjectParentId() {
+		return projectParentId;
+	}
+
+	public void setProjectParentId(String projectParentId) {
+		this.projectParentId = projectParentId;
+	}
+
+	public String getServiceParentId() {
+		return serviceParentId;
+	}
+
+	public void setServiceParentId(String serviceParentId) {
+		this.serviceParentId = serviceParentId;
+	}
+
+	public String getProductParentId() {
+		return productParentId;
+	}
+
+	public void setProductParentId(String productParentId) {
+		this.productParentId = productParentId;
+	}
+
+	public String getSalesParentId() {
+		return salesParentId;
+	}
+
+	public void setSalesParentId(String salesParentId) {
+		this.salesParentId = salesParentId;
+	}
+
+	public String getGoodsParentId() {
+		return goodsParentId;
+	}
+
+	public void setGoodsParentId(String goodsParentId) {
+		this.goodsParentId = goodsParentId;
 	}
 	
 	

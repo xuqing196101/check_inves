@@ -7,7 +7,7 @@ import extract.model.supplier.ExtractConditionRelation;
 
 public interface ExtractConditionRelationMapper {
 
-	void insertConditionRelation(List<ExtractConditionRelation> list);
+	int insertConditionRelation(List<ExtractConditionRelation> list);
 
 	void deleteConditionRelationByMap(String id);
 

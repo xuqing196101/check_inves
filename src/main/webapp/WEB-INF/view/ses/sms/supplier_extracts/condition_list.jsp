@@ -50,7 +50,7 @@
 	<c:set var="flag" value="true"></c:set>
 </c:if>
     <form id="projectForm" action="<%=request.getContextPath() %>/SupplierExtracts_new/saveProjectInfo.do" method="post" >
-    <input type="submit" value="提交"> <input type="button" value="存储项目人员信息" onclick="submitInfo()"> <input onclick="showEndButton()" type="button" value="抽取完成">
+   <!--  <input type="submit" value="提交"> <input type="button" value="存储项目人员信息" onclick="submitInfo()"> <input onclick="showEndButton()" type="button" value="抽取完成"> -->
         <!-- 打开类型 -->
       <%--   <input type="hidden" value="${typeclassId}" name="typeclassId" /> --%>
         <!-- 项目id  -->
@@ -288,7 +288,7 @@
         <!--     品目id -->
        <!--  <input type='hidden' name='categoryId' id='extCategoryId'> -->
         <!--         省 -->
-        <input type="hidden" name="province" id="province"/>
+        <input type="hidden" name="province" id="province" value="0"/>
         <input type="hidden" name="addressId" id="addressId">
           <h2 class="count_flow"><i>3</i>抽取条件</h2>
           <ul class="ul_list m0" style="background-color: #fbfbfb">
@@ -942,7 +942,7 @@
 </body>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/ses/sms/supplierExtract.js"></script>
 <script type="text/javascript">
-	var projectType = "${projectType}";
+	var projectType = "${projectInfo.projectInto}";
 	
 	
 	

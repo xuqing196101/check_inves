@@ -75,8 +75,9 @@ public interface SupplierExtractConditionService {
    * @dateTime 2017-9-20下午1:27:50
    * @param condition
    * @param conType
+ * @return 
    */
-  void saveOrUpdateCondition(SupplierExtractCondition condition, SupplierConType conType);
+  int saveOrUpdateCondition(SupplierExtractCondition condition, SupplierConType conType);
 
   /**
    * 查询供应商类型
@@ -136,8 +137,9 @@ public interface SupplierExtractConditionService {
    *
    * 作者：贾成祥
    * 2017-9-12下午11:49:47
+ * @param parentId 
    */
-  List<DictionaryData> getQuaByCid(String categoryId,String code);
+  List<DictionaryData> getQuaByCid(String categoryId,String code, String parentId);
 
   /**
    * 根据资质查询资质等级

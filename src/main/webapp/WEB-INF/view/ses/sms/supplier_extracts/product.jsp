@@ -60,13 +60,14 @@
       var zTreeObj;
       var zNodes;
       loadZtree();
-
+		
+	  
       function loadZtree() {
         var setting = {
           async: {
             autoParam: ["id"],
             enable: true,
-            url: "${pageContext.request.contextPath}/SupplierExtracts_new/getTree.do?supplierTypeCode=${supplierTypeCode}",
+            url: "${pageContext.request.contextPath}/SupplierExtracts_new/getTree.do?supplierTypeCode=${supplierTypeCode}&categoryId=${categoryId}",
             otherParam: {
               categoryIds: "${categoryIds}",
             },
@@ -99,7 +100,9 @@
           .bind("propertychange", searchNode)
           .bind("input", searchNode);
       }
+      
     });
+    
 //选中父节点，勾选子节点
   function ajaxDataFilter(treeId, parentNode, responseData){
 	if(typeof(parentNode)!="undefined"){
@@ -187,29 +190,34 @@
        var nodes=Obj.getCheckedNodes(true);  
        var ids  = "";
        var names = "";
+       var parentId = "";
+       var parentName="";
        for(var i=0;i<nodes.length;i++){ 
            if(!nodes[i].isParent){
           //获取选中节点的值  
-           ids+=nodes[i].id+","; 
-           names+=nodes[i].name+",";
+          	 ids+=nodes[i].id+","; 
+          	 names+=nodes[i].name+",";
+           }else{
+           		parentId += nodes[i].id+",";
+           		parentName+=nodes[i].name+",";
            }
        } 
-        //专家类型
-        parent.$("#exttypeid").val();
         //是否满足
        var issatisfy=$('input[name="radio"]:checked ').val();
-         
+       var cname = parentName+names;
        if(cate!=null){
-           $(cate).val(names.substring(0,names.lastIndexOf(",")));/* 将选中目录名称显示在输入框中 */
+           $(cate).val(cname.substring(0,cname.lastIndexOf(",")));/* 将选中目录名称显示在输入框中 */
            $(cate).parents("li").find(".isSatisfy").val(issatisfy);
            $(cate).parents("li").find(".categoryId").val(ids.substring(0,ids.lastIndexOf(",")));
+           $(cate).parents("li").find(".parentId").val(parentId.substring(0,parentId.lastIndexOf(",")));
+           
         /*    $(cate).parent().parent().parent().parent().parent().find("#extCategoryNames").val(names.substring(0,names.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#extCategoryId").val(ids.substring(0,ids.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val(issatisfy); */
            
        }
-	             var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-	             parent.layer.close(index);
+       var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+       parent.layer.close(index);
   }     
   function resetQuery(){
 	  alert("sds");

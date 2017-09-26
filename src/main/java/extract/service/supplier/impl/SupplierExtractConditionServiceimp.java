@@ -4,10 +4,12 @@
 package extract.service.supplier.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -189,41 +191,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	 
 	  
 	
-	//   conType=condition.getSupplierConType();
-
-	 
-	 //若是类型为空说明只对地区进行查询
-	/*if(StringUtils.isBlank(condition.getSupplierTypeCode())){
-		count.put("area",supplierExtRelateMapper.listExtractionExpertCount(condition));
-		if(type == 1){
-			List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);//getAllSupplier(null);
-			//存储
-			saveOrUpdateCondition(condition, null);
-		}
-	}else if(condition.getSupplierTypeCodes().length>1){
-		//按类别查询
-		String[] supplierTypeCodes = condition.getSupplierTypeCodes();
-		for (String code : supplierTypeCodes) {
-			
-			if(type == 1){
-				List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
-				list.put(code, selectAllExpert);
-				//存储
-				saveOrUpdateCondition(condition, conType);
-			}else{
-				count.put(code+"Count", supplierExtRelateMapper.listExtractionExpertCount(condition));
-				condition.setSupplierTypeCode(code);
-			}
-		}
-	}else if(condition.getSupplierTypeCodes().length>0){
-		count.put(condition.getSupplierTypeCode()+"Count", supplierExtRelateMapper.listExtractionExpertCount(condition));
-		if(type==1){
-			List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
-			list.put(condition.getSupplierTypeCode(), selectAllExpert);
-			//存储
-			saveOrUpdateCondition(condition, conType);
-		}
-	}*/
+	
 	 
 	Class<? extends SupplierConType> class1 = conType.getClass();
 	String supplierTypeCode  = condition.getSupplierTypeCode();
@@ -237,6 +205,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		try {
 			Short mu = (Short)class1.getMethod("get"+code+"IsMulticondition").invoke(conType);
 			String cid = (String)class1.getMethod("get"+code+"CategoryIds").invoke(conType);
+			String pid = (String)class1.getMethod("get"+code+"ParentId").invoke(conType);
 			String le = (String)class1.getMethod("get"+code+"Level").invoke(conType);
 			Short en = (Short)class1.getMethod("get"+code+"ExtractNum").invoke(conType);
 			String ic = (String)class1.getMethod("get"+code+"IsHavingConCert").invoke(conType);
@@ -247,10 +216,18 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			if(null != mu){
 				condition.setIsMulticondition(mu);
 			}
-			if(null != cid){
+			if(StringUtils.isNotBlank(cid)){
 				condition.setCategoryId(cid);
 			}
-			if(null != le){
+			//若勾选了父节点
+			if(StringUtils.isNotBlank(pid)){
+				//遍历出全部的其下的末级节点，去重拼进categoryId
+				cid = this.selectChild(pid,cid);
+				
+				condition.setCategoryId(cid);
+			}
+			
+			if(StringUtils.isNotBlank(le)){
 				condition.setLevelTypeId(le);
 			}
 			if(null != en){
@@ -260,7 +237,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			if(StringUtils.isNotBlank(ic)){
 				condition.setIsHavingConCert(ic);
 			}
-			if(null != bu){
+			if(StringUtils.isNotBlank(bu)){
 				condition.setBusinessNature(bu);
 			}
 			if(StringUtils.isNotBlank(ob)){
@@ -284,6 +261,8 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 				}
 				addressId = StringUtils.isNotBlank(condition.getAddressId())?condition.getAddressId()+addr:StringUtils.isNotBlank(addr)?addr.substring(1):"";
 				condition.setAddressId(addressId);
+			}else if(StringUtils.isBlank(condition.getProvince()) && StringUtils.isBlank(condition.getAddressId())){
+				condition.setAddressId("null");
 			}
 			
 			//物资类 不限查询   需要将物资下的一起查询
@@ -299,101 +278,41 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 				}
 				
 				List<Supplier> selectAllExpert = supplierExtRelateMapper.listExtractionExpert(condition);
-				String sid = selectAllExpert.get(0).getId();
+				
+				for (Supplier supplier : selectAllExpert) {
+					supplier.setSupplierType(dictionaryDataMapper.selectByCode(supplier.getSupplierTypeId()).get(0).getName());
+				}
+				
+				
+				/*String sid = selectAllExpert.get(0).getId();
 				List<String> typeCodeList = supplierExtRelateMapper.selectTypeCodeBySid(sid);
 				String temp = "";
 				for (String s : typeCodeList) {
 					temp += ","+ dictionaryDataMapper.selectByCode(s).get(0).getName();
 				}
 			    
-				selectAllExpert.get(0).setSupplierType(StringUtils.isNotBlank(temp)?temp.substring(1):"");
+				selectAllExpert.get(0).setSupplierType(StringUtils.isNotBlank(temp)?temp.substring(1):"");*/
 				
 				list.put(typeCode, selectAllExpert);
-				//存储
-				condition.setAddressId(addressId);
-				if("GOODS".equals(supplierTypeCode)){
-					condition.setSupplierTypeCode(supplierTypeCode);
-					saveOrUpdateCondition(condition, conType);
-				}else{
-					saveOrUpdateCondition(condition, conType);
-				}
 			}else{
 				count.put(typeCode+"Count", supplierExtRelateMapper.listExtractionExpertCount(condition));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-	//}
-	
-	/*if(null != conType.getProductExtractNum()){
-		//SupplierCondition pdsc = new SupplierCondition("PRODUCT", conType.getProductIsMulticondition(), conType.getProductCategoryIds(), conType.getProductLevel());
-		condition.setSupplierTypeCode("PRODUCT");
-		condition.setIsMulticondition(conType.getProductIsMulticondition());
-		condition.setCategoryId(conType.getProductCategoryIds());
-		condition.setLevelTypeId(conType.getProductLevel());
-		condition.setExtractNum(conType.getProductExtractNum());
-		count.put("PRODUCTCount", supplierExtRelateMapper.listExtractionExpertCount(condition));
-		if(type == 1){
-			List<Supplier> products = supplierExtRelateMapper.listExtractionExpert(condition);
-			list.put("PRODUCT", products);
-			//存储
-			saveOrUpdateCondition(condition, conType);
-		}
-	}
-	if(null!= conType.getProjectExtractNum()){
-		//SupplierCondition pjsc = new SupplierCondition("PROJECT", conType.getProjectIsMulticondition(), conType.getProjectCategoryIds(), conType.getProjectLevel());
-	    condition.setSupplierTypeCode("PROJECT");
-		condition.setIsMulticondition(conType.getProjectIsMulticondition());
-		condition.setCategoryId(conType.getProjectCategoryIds());
-		condition.setLevelTypeId(conType.getProjectLevel());
-		condition.setExtractNum(conType.getProjectExtractNum());
-		count.put("PROJECTCount", supplierExtRelateMapper.listExtractionExpertCount(condition));
-		if(type == 1){
-			List<Supplier> projects = supplierExtRelateMapper.listExtractionExpert(condition);
-			list.put("PROJECT", projects);
-			//存储
-			saveOrUpdateCondition(condition, conType);
-		}
-	}
-	if(null!=conType.getSalesExtractNum()){
-		//SupplierCondition sasc = new SupplierCondition("SALES", conType.getSaleIsMulticondition(), conType.getSaleCategoryIds(), conType.getSaleLevel());
-	    condition.setSupplierTypeCode("SALES");
-		condition.setIsMulticondition(conType.getSaleIsMulticondition());
-		condition.setCategoryId(conType.getSalesCategoryIds());
-		condition.setLevelTypeId(conType.getSalesLevel());
-		condition.setExtractNum(conType.getSalesExtractNum());
-		count.put("SALESCount", supplierExtRelateMapper.listExtractionExpertCount(condition));
-		if(type == 1){
-			List<Supplier> sales = supplierExtRelateMapper.listExtractionExpert(condition);
-			list.put("SALES", sales);
-			//存储
-			saveOrUpdateCondition(condition, conType);
-		}
-	}
-	if(null!=conType.getServiceExtractNum()){
-		//SupplierCondition svsc = new SupplierCondition("SERVICE", conType.getServiceIsMulticondition(), conType.getServiceCategoryIds(), conType.getServiceLevel());
-		condition.setSupplierTypeCode("SERVICE");
-		condition.setIsMulticondition(conType.getServiceIsMulticondition());
-		condition.setCategoryId(conType.getServiceCategoryIds());
-		condition.setLevelTypeId(conType.getServiceLevel());
-		condition.setExtractNum(conType.getServiceExtractNum());
-		count.put("SERVICECount",supplierExtRelateMapper.listExtractionExpertCount(condition));
-		if(type == 1){
-			List<Supplier> services = supplierExtRelateMapper.listExtractionExpert(condition);
-			list.put("SERVICE", services.get(0));
-			//存储
-			saveOrUpdateCondition(condition, conType);
-		}
-	}*/
-	
-	
 	return map;
   }
 
 
-  /**
+  private String selectChild(String pid, String cid) {
+	Set<String> cateSet = supplierConditionMapper.seleselectChildCate(pid.split(","));
+	if(StringUtils.isNotBlank(cid)){
+		cateSet.addAll(Arrays.asList(cid.split(",")));
+	}
+	return StringUtils.join(cateSet.toArray(),",");
+  }
+
+/**
    * 供应商类型
    * @see ses.service.sms.SupplierConditionService#supplierTypeList()
    */
@@ -461,7 +380,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
    * 存储查询条件
    */
 	@Override
-	public void saveOrUpdateCondition(SupplierExtractCondition condition,SupplierConType conType) {
+	public int saveOrUpdateCondition(SupplierExtractCondition condition,SupplierConType conType) {
 		if(StringUtils.isNotBlank(condition.getId())){
 			supplierConditionMapper.updateConditionByPrimaryKeySelective(condition);
 			//设置存储条件
@@ -536,94 +455,10 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			}
 			
 			if(list.size()>0){
-				extractConditionRelationMapper.insertConditionRelation(list);
+				return extractConditionRelationMapper.insertConditionRelation(list);
 			}
-			
-			
-			/*//工程品目
-			if(StringUtils.isNotEmpty(conType.getProjectCategoryIds())){
-				for (String projectCategoryId : conType.getProjectCategoryIds().split(",")) {
-					list.add(new ExtractConditionRelation(cid, "projectCategoryId", projectCategoryId));
-				}
-			}
-			//销售品目
-			if(StringUtils.isNotEmpty(conType.getSalesCategoryIds())){
-				for (String salesCategoryId : conType.getSalesCategoryIds().split(",")) {
-					list.add(new ExtractConditionRelation(cid, "salesCategoryId", salesCategoryId));
-				}
-			}
-			//服务品目
-			if(StringUtils.isNotEmpty(conType.getServiceCategoryIds())){
-				for (String serviceCategoryId : conType.getServiceCategoryIds().split(",")) {
-					list.add(new ExtractConditionRelation(cid, "serviceCategoryId", serviceCategoryId));
-				}
-			}
-			//生产品目
-			if(StringUtils.isNotEmpty(conType.getProductCategoryIds())){
-				for (String productCategoryId : conType.getProductCategoryIds().split(",")) {
-					list.add(new ExtractConditionRelation(cid, "productCategoryId", productCategoryId));
-				}
-			}
-			//工程等级
-			if(StringUtils.isNotEmpty(conType.getProjectLevel())){
-				for (String projectLevel : conType.getProjectLevel().split(",")) {
-					list.add(new ExtractConditionRelation(cid, "projectLevel", projectLevel));
-				}
-			}
-			//销售等级
-			if(StringUtils.isNotEmpty(conType.getSalesLevel())){
-				for (String salesLevel : conType.getSalesLevel().split(",")) {
-					list.add(new ExtractConditionRelation(cid, "salesLevel", salesLevel));
-				}
-			}
-			//服务等级
-			if(StringUtils.isNotEmpty(conType.getServiceLevel())){
-				for (String serviceLevel : conType.getServiceLevel().split(",")) {
-					list.add(new ExtractConditionRelation(cid, "serviceLevel", serviceLevel));
-				}
-			}
-			//生产等级
-			if(StringUtils.isNotEmpty(conType.getProductLevel())){
-				for (String productLevel : conType.getProductLevel().split(",")) {
-					list.add(new ExtractConditionRelation(cid, "productLevel", productLevel));
-				}
-			}
-			//工程抽取数量
-			if(null!=conType){
-				if (null != conType.getProjectExtractNum()) {
-					list.add(new ExtractConditionRelation(cid,"projectExtractNum",conType.getProjectExtractNum().toString()));
-				}
-				//工程品目标志
-				if (null != conType.getProjectIsMulticondition()) {
-					list.add(new ExtractConditionRelation(cid,"projectIsMulticondition",conType.getProjectIsMulticondition().toString()));
-				}
-				//生产抽取数量
-				if (null != conType.getProductExtractNum()) {
-					list.add(new ExtractConditionRelation(cid,"productExtractNum",conType.getProductExtractNum().toString()));
-				}
-				//生产目标志
-				if (null != conType.getProductIsMulticondition()) {
-					list.add(new ExtractConditionRelation(cid,"productIsMulticondition",conType.getProductIsMulticondition().toString()));
-				}
-				//服务抽取数量
-				if (null != conType.getServiceExtractNum()) {
-					list.add(new ExtractConditionRelation(cid,"serviceExtractNum",conType.getServiceExtractNum().toString()));
-				}
-				//服务品目标志
-				if (null != conType.getServiceIsMulticondition()) {
-					list.add(new ExtractConditionRelation(cid,"serviceIsMulticondition",conType.getServiceIsMulticondition().toString()));
-				}
-				//销售抽取数量
-				if (null != conType.getSalesExtractNum()) {
-					list.add(new ExtractConditionRelation(cid,"salesExtractNum",conType.getSalesExtractNum().toString()));
-				}
-				//销售品目标志
-				if (null != conType.getSalesIsMulticondition()) {
-					list.add(new ExtractConditionRelation(cid,"saleIsMulticondition",conType.getSalesIsMulticondition().toString()));
-				}
-			}*/
-			
 		}
+		return 0;
 	}
 
 	@Override
@@ -690,7 +525,13 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	}
 
 	@Override
-	public List<DictionaryData> getQuaByCid(String categoryId ,String code) {
+	public List<DictionaryData> getQuaByCid(String categoryId ,String code,String parentId) {
+		
+		if(StringUtils.isNotBlank(parentId)){
+			
+			categoryId = this.selectChild(parentId, categoryId);
+		}
+		
 		HashMap<String,String[]> hashMap = new HashMap<>();
 		if(StringUtils.isNotBlank(categoryId)){
 			if("project".equals(code)){
