@@ -185,7 +185,7 @@ public interface ExpertMapper {
      * @param createDate 创建日期
      * @return 专家集合
      */
-    List<Expert> getCommitExpertByDate(@Param("startDate")String startDate,@Param("endDate")String endDate);
+    List<Expert> getCommitExpertByDate(@Param("startDate")String startDate,@Param("endDate")String endDate,@Param("netType")String netType);
     
 
     /**
