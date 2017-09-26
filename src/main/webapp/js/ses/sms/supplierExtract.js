@@ -867,6 +867,7 @@ $(function () {
 			index = 1;
 		}
 		$(obj).find("td:first").html(index);
+		$(obj).find("td:first").after("<td>"+packageName+"</td>");
 		$(tbody).append(obj);
 	}
     
@@ -1879,7 +1880,7 @@ $(function () {
                     formType: 2,
                     shade: 0.01,
                     offset: [y, x],
-                    title: ['*  不参加理由','color:red'],
+                    title: ['<span class="red">*<span>  不参加理由'],
                     btn:'确定',
                     closeBtn: 0
                 }, function (value, index, elem) {
@@ -1911,7 +1912,6 @@ $(function () {
             	appendTd(req,obj,"能参加");
             }else{
             	saveResult(objTr, '',2);
-            	
     			appendTd(req,obj,"待定");
             }
         }, function (index) {
@@ -1947,7 +1947,7 @@ $(function () {
     	
     	//追加到项目实施页面
     	
-    	if(projectType){
+    	if(projectType && join==1){
     		var parentsTr = $(objTr).clone();
     		$(parentsTr).find("td:last").remove();
     		appendParent(parentsTr);
