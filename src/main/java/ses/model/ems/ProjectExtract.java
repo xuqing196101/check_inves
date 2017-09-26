@@ -105,6 +105,8 @@ public class ProjectExtract {
     private Expert expert;
 
     private List<ExtConType> conType;
+    
+    private String packageName;
 
     /**
      * <pre>
@@ -129,6 +131,15 @@ public class ProjectExtract {
      */
     public void setId(String id) {
         this.id = id == null ? null : id.trim();
+    }
+    
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
     /**
