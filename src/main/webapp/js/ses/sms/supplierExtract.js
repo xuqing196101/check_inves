@@ -150,7 +150,6 @@ $(function () {
     	var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();
     	var input = $(obj).parents("form").find("tr:last").find("td:first").find("input").prop("name");//.substring(4,6);//.attr("req");
     	var req ;
-			console.log(input);
     	if(null==input ||''==input || "undefined"== input){
     		req=0;
     	}else{
