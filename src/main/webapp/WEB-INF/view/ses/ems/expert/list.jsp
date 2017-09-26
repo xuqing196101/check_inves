@@ -485,7 +485,7 @@
               <th class="info w90">审核日期</th>
               <th class="info">手机</th>
               <!-- <th class="info">积分</th> -->
-              <th class="info">审核状态</th>
+              <th class="info">专家状态</th>
               <th class="info">专家类型</th>
               <th class="info">采购机构</th>
             </tr>
