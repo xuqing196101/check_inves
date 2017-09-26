@@ -115,6 +115,8 @@ public class SupplierExtractProjectInfo {
     private Short status;
     
     private String projectInto;
+    
+    private String projectTypeName;
 
     /**
      * <pre>
@@ -604,6 +606,16 @@ public class SupplierExtractProjectInfo {
 
 	public void setProjectInto(String projectInto) {
 		this.projectInto = projectInto;
+	}
+
+
+	public String getProjectTypeName() {
+		return projectTypeName;
+	}
+
+
+	public void setProjectTypeName(String projectTypeName) {
+		this.projectTypeName = projectTypeName;
 	}
 
 	

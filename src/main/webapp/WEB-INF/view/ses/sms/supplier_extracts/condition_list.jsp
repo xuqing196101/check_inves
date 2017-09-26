@@ -151,14 +151,17 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>项目类型</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                 <%-- <c:if test="${flag }">
-                 	 <input id="projectType" name="projectType" value="${projectInfo.projectType }" type="text" >
-                 </c:if> --%>
+                 <c:if test="${flag }">
+                 	 <input name="projectType" value="${projectInfo.projectType }" ${flag?"readonly":"" } type="text" >
+                 	 <input value="${projectInfo.projectTypeName }" type="text" >
+                 </c:if>
+                 <c:if test="${!flag }">
                      <select id="projectType" name="projectType" class="col-md-12 col-sm-12 col-xs-6 p0" onchange="loadSupplierType()">
                           <option value="GOODS" ${projectInfo.projectType == 'GOODS' ? 'selected' : '' }>物资</option>
                           <option value="PROJECT" ${projectInfo.projectType == 'PROJECT' ? 'selected' : '' }>工程</option>
                           <option value="SERVICE" ${projectInfo.projectType == 'SERVICE' ? 'selected' : '' }>服务</option>
                      </select>
+                 </c:if>
                      <span class="add-on">i</span>
                      <div class="cue" id="projectTypeError"></div>
                  </div>
