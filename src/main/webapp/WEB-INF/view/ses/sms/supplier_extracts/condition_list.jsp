@@ -12,6 +12,12 @@
     <meta http-equiv="description" content="This is my page">
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css" type="text/css">
+    
+    <style>
+      .layer-default .layui-layer-btn a.layui-layer-btn1:hover {
+        color: #333 !important;
+      }
+    </style>
 
 </head>
 <body>
@@ -798,7 +804,7 @@
                      <tr>
                          <th class="info w50">序号</th>
                          <th class="info">供应商名称</th>
-                         <th class="info w120">类型</th>
+                         <th class="info w250">类型</th>
                          <th class="info w100">联系人名称</th>
                          <th class="info w100">联系人电话</th>
                          <th class="info w120">联系人手机</th>
@@ -818,7 +824,7 @@
                       <tr>
                         <th class="info w50">序号</th>
                         <th class="info">供应商名称</th>
-                        <th class="info w120">类型</th>
+                        <th class="info w250">类型</th>
                         <th class="info w100">联系人名称</th>
                         <th class="info w100">联系人电话</th>
                         <th class="info w120">联系人手机</th>
@@ -838,7 +844,7 @@
                       <tr>
                         <th class="info w50">序号</th>
                         <th class="info">供应商名称</th>
-                        <th class="info w120">类型</th>
+                        <th class="info w250">类型</th>
                         <th class="info w100">联系人名称</th>
                         <th class="info w100">联系人电话</th>
                         <th class="info w120">联系人手机</th>
@@ -858,7 +864,7 @@
                       <tr>
                         <th class="info w50">序号</th>
                         <th class="info">供应商名称</th>
-                        <th class="info w120">类型</th>
+                        <th class="info w250">类型</th>
                         <th class="info w100">联系人名称</th>
                         <th class="info w100">联系人电话</th>
                         <th class="info w120">联系人手机</th>
@@ -878,7 +884,7 @@
                       <tr>
                         <th class="info w50">序号</th>
                         <th class="info">供应商名称</th>
-                        <th class="info w120">类型</th>
+                        <th class="info w250">类型</th>
                         <th class="info w100">联系人名称</th>
                         <th class="info w100">联系人电话</th>
                         <th class="info w120">联系人手机</th>

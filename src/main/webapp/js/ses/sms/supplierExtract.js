@@ -150,6 +150,7 @@ $(function () {
     	var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();
     	var input = $(obj).parents("form").find("tr:last").find("td:first").find("input").prop("name");//.substring(4,6);//.attr("req");
     	var req ;
+			console.log(input);
     	if(null==input ||''==input || "undefined"== input){
     		req=0;
     	}else{
@@ -243,6 +244,7 @@ $(function () {
                     layer.prompt({
                         formType: 2,
                         shade: 0.01,
+                        skin: 'layer-default',
                         title: '限制地区原因',
                         btn: ['确定', '取消'],
                         cancel: function (index, layero) {
@@ -889,7 +891,7 @@ $(function () {
     /**完成所有抽取后执行**/
     function finish() {
         layer.confirm('是否需要打印', {
-            btn: ['打印', '取消'], offset: ['40%', '40%'], shade: 0.01
+            btn: ['打印', '取消'], offset: ['40%', '40%'], shade: 0.01, skin: 'layer-default'
         }, function (index) {
             window.location.href = globalPath+"/SupplierExtracts_new/showRecord.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
         }, function (index) {
@@ -920,6 +922,7 @@ $(function () {
             shadeClose: true,
             shade: 0.01,
             area: ['430px', '400px'],
+            skin: 'layer-default',
             offset: '20px',
             content: globalPath+'/SupplierExtracts_new/addHeading.do?supplierTypeCode='+typeCode+'&categoryId='+categoryId, //iframe的url
             //content: globalPath+'/supplier/category_type.do?code='+supplierCode, 
@@ -1860,7 +1863,7 @@ $(function () {
         x = oRect.left - 450;
         y = oRect.top - 150;
         layer.confirm('确定本次操作吗？', {
-            btn: ['确定', '取消'], shade: 0.01
+            btn: ['确定', '取消'], shade: 0.01, skin: 'layer-default'
         }, function (index) {
             var strs = new Array();
             var v = select.value;
