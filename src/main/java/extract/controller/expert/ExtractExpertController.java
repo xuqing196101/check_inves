@@ -24,10 +24,14 @@ import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.EngCategoryService;
 import ses.util.DictionaryDataUtil;
+import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.Project;
+import bss.service.ppms.AdvancedProjectService;
+import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
-
 import common.annotation.CurrentUser;
+
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
@@ -81,6 +85,14 @@ public class ExtractExpertController {
     /** 专家抽取结果 **/
     @Autowired
     private ExpertExtractResultService expertExtractResultService;
+    
+    /** 预研 **/
+    @Autowired
+    private AdvancedProjectService advancedProjectService;
+    
+    /** 项目 **/
+    @Autowired
+    private ProjectService projectService;
 
     /**
      * 
@@ -92,8 +104,8 @@ public class ExtractExpertController {
      * @return
      */
     @RequestMapping("/toExpertExtract")
-    public String toExpertExtract(@CurrentUser User user,Model model){
-        //权限验证   资源服务中心   采购机构  可以抽取
+    public String toExpertExtract(@CurrentUser User user,Model model,String projectId,String projectInto,String packageId){
+        //权限验证  资源服务中心  采购机构  可以抽取
         String authType = null;
         if(null != user && ("4".equals(user.getTypeName()) || "1".equals(user.getTypeName()))){
             authType = user.getTypeName();
@@ -120,7 +132,31 @@ public class ExtractExpertController {
             List<AreaZtree> areaTree = areaService.getTreeList(null,null);
             model.addAttribute("areaTree",areaTree);
             model.addAttribute("authType",authType);
-            return "ses/ems/exam/expert/extract/condition_list";
+            //从项目实施进入  需要自动带入项目信息
+            if(projectId != null && projectInto != null && packageId != null){
+            	ExpertExtractProject expertExtractProject = new ExpertExtractProject();
+            	expertExtractProject.setProjectId(projectId);
+            	expertExtractProject.setPackageId(packageId);
+            	if("advPro".equals(projectInto)){
+        			//预研进入
+        			AdvancedProject advancedProject = advancedProjectService.selectById(projectId);
+        			expertExtractProject.setProjectName(advancedProject.getName());
+        			expertExtractProject.setCode(advancedProject.getProjectNumber());
+        			expertExtractProject.setProjectType(advancedProject.getPlanType());
+        			expertExtractProject.setPurchaseWay(advancedProject.getPurchaseType());
+            	}else if("relPro".equals(projectInto)){
+            		//真实项目
+            		Project project = projectService.selectById(projectId);
+            		expertExtractProject.setProjectName(project.getName());
+            		expertExtractProject.setCode(project.getProjectNumber());
+            		expertExtractProject.setProjectType(project.getPlanType());
+            		expertExtractProject.setPurchaseWay(project.getPurchaseType());
+            	}else{
+            		//随机抽取
+            	}
+        		model.addAttribute("expertExtractProject", expertExtractProject);
+            }
+            return "ses/ems/exam/expert/extract/expertExtract";
         }
         return "redirect:/qualifyError.jsp";
     }

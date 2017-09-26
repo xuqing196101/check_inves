@@ -300,7 +300,7 @@
     SELECT
     <include refid="Base_Column_List" />
     FROM T_SES_EMS_PROJECT_EXTRACT_INFO
-    WHERE IS_DELETED = 0
+    WHERE IS_DELETED = 0 AND STATUS = 2
       <if test="projectName != null and projectName != ''">
         AND PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%')
       </if>
