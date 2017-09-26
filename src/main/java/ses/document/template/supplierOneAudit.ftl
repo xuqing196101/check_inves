@@ -2767,7 +2767,7 @@
 											<w:rPr>
 												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 												<w:szCs w:val="21" /></w:rPr>
-											<w:t>（系统自动生成编号，最后）审核最终意见</w:t>
+											<w:t>审核最终意见</w:t>
 										</w:r>
 									</w:p>
 								</w:tc>
