@@ -151,6 +151,27 @@ public interface SupplierExtractRelateResultMapper {
   	 */
 	List<SupplierExtractResult> getSupplierListByRid(HashMap<String, String> hashMap2);
 	
+	/**
+	 * 
+	 * <简述>查询真实项目抽取结果 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-9-26上午4:39:34
+	 * @param hashMap2
+	 * @return
+	 */
+	List<SupplierExtractResult> getSupplierListByRidForRel(HashMap<String, String> hashMap2);
+	
+	/**
+	 * 查询预言项目抽取结果
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-9-26上午4:40:03
+	 * @param hashMap2
+	 * @return
+	 */
+	List<SupplierExtractResult> getSupplierListByRidForAdv(HashMap<String, String> hashMap2);
 	
 	/**
 	 * 查询该项目已经联系过的供应商
@@ -173,4 +194,6 @@ public interface SupplierExtractRelateResultMapper {
 	void insertAdv(ArrayList<SupplierExtractResult> arrayList);
 
 	void insertRel(ArrayList<SupplierExtractResult> arrayList);
+
+	
 }

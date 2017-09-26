@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierExtPackageMapper;
 import ses.dao.sms.SupplierExtRelateMapper;
 import ses.dao.sms.SupplierMapper;
-import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.UUIDUtils;
 
@@ -267,6 +267,7 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
    * @param type
    * @return
    */
+  @SuppressWarnings("unused")
   private List<String>  castList(String type,List<String> saveExpertTypeIds){
     List<String> list = null;
     if(type != null && !"".equals(type)){
@@ -312,9 +313,15 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 		String[] packageIds = supplierExtRelate.getPackageIds();
 		if(null!=packageIds){
 			for (String packageId : packageIds) {
-				supplierExtRelate.setId(UUIDUtils.getUUID32());
-				supplierExtRelate.setPackageId(packageId);
-				arrayList.add(supplierExtRelate);
+				SupplierExtractResult supplierExtractResult = new SupplierExtractResult();
+				try {
+					BeanUtils.copyProperties(supplierExtRelate,supplierExtractResult,new String[] {"serialVersionUID"});
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				supplierExtractResult.setId(UUIDUtils.getUUID32());
+				supplierExtractResult.setPackageId(packageId);
+				arrayList.add(supplierExtractResult);
 			}
 		}
 		if("advPro".equals(projectType) && arrayList.size()>0){

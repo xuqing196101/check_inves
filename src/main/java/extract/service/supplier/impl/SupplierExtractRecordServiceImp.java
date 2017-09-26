@@ -176,7 +176,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	 */
 	@Override
 	public ResponseEntity<byte[]> printRecord(String id, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+			HttpServletResponse response,String projectInto) throws Exception {
 		
 		//将项目状态变为抽取结束
 		SupplierExtractProjectInfo p = new SupplierExtractProjectInfo(id);
@@ -185,7 +185,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		
 		
 		//根据记录id 查询项目信息不同供应商类别打印两个记录表
-		Map<String, Object> info = selectExtractInfo(id);
+		Map<String, Object> info = selectExtractInfo(id,projectInto);
 		
 		if(null==info){
 			return null;
@@ -238,7 +238,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
         return service.downloadFile(fileName, filePath, downFileName);
 	}
 
-	private Map<String, Object> selectExtractInfo(String recordId) {
+	private Map<String, Object> selectExtractInfo(String recordId, String projectInto) {
 		
 		SupplierExtractProjectInfo projectInfo = supplierExtractsMapper.getProjectInfoById(recordId);
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
@@ -340,10 +340,16 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			map.put("quaLevel", temp);
 			
 			//抽取结果
-			HashMap<String,String> hashMap2 = new HashMap<>();
+		/*	HashMap<String,String> hashMap2 = new HashMap<>();
 			hashMap2.put("recordId", recordId);
 			hashMap2.put("supplierType",projectCode);
-			map.put("result", conMapper.getSupplierListByRid(hashMap2));
+			if("relPor".equals(projectInto)){
+				map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
+			}else if("advPro".equals(projectInto)){
+				map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
+			}else{
+				map.put("result", conMapper.getSupplierListByRid(hashMap2));
+			}*/
 			
 			//保密要求
 			hashMap.put("propertyName", c+"IsHavingConCert");
@@ -473,13 +479,26 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 				map.put("level",temp);
 				
 				//抽取结果
-				HashMap<String,String> hashMap2 = new HashMap<>();
+				/*HashMap<String,String> hashMap2 = new HashMap<>();
 				hashMap2.put("recordId", recordId);
 				hashMap2.put("supplierType",supplierTypeCode);
 				List<SupplierExtractResult> supplierListByRid = conMapper.getSupplierListByRid(hashMap2);
-				map.put("result", conMapper.getSupplierListByRid(hashMap2));
+				map.put("result", conMapper.getSupplierListByRid(hashMap2));*/
 			}
 		}
+		
+		//抽取结果
+			HashMap<String,String> hashMap2 = new HashMap<>();
+			hashMap2.put("recordId", recordId);
+			hashMap2.put("supplierType",projectCode);
+			if("relPor".equals(projectInto)){
+				map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
+			}else if("advPro".equals(projectInto)){
+				map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
+			}else{
+				map.put("result", conMapper.getSupplierListByRid(hashMap2));
+			}
+		
 		return map;
 	}
 

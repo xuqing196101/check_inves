@@ -2,6 +2,8 @@ package extract.model.supplier;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class SupplierExtractResult {
     
     /**
@@ -69,7 +71,7 @@ public class SupplierExtractResult {
 	//联系人电话
 	private String armyBuinessTelephone;
 	
-	
+	private Short status;
 
 	public String getSupplierId() {
 		return supplierId;
@@ -168,7 +170,7 @@ public class SupplierExtractResult {
 	}
 
 	public String[] getPackageIds() {
-		return packageIds;
+		return StringUtils.isNotBlank(packageId)?packageId.split(","):null;
 	}
 
 	public void setPackageIds(String[] packageIds) {
@@ -213,6 +215,14 @@ public class SupplierExtractResult {
 
 	public void setArmyBuinessTelephone(String armyBuinessTelephone) {
 		this.armyBuinessTelephone = armyBuinessTelephone;
+	}
+
+	public Short getStatus() {
+		return status;
+	}
+
+	public void setStatus(Short status) {
+		this.status = status;
 	}
 
 

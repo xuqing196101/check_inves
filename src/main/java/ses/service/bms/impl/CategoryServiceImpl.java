@@ -1186,7 +1186,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<CategoryTree> getTreeForExt(Category category,String supplierTypeCode) {
+	public List<CategoryTree> getTreeForExt(Category category,String supplierTypeCode,String categoryId) {
 		
 		List<CategoryTree> jList = new ArrayList<>();
 		if(category.getId()==null){
@@ -1206,6 +1206,13 @@ public class CategoryServiceImpl implements CategoryService {
              ct.setpId(cate.getParentId());
              ct.setKind(cate.getKind());
              ct.setStatus(cate.getStatus());
+             if(StringUtils.isNotBlank(categoryId)){
+            	 for (String cid : categoryId.split(",")) {
+					if(ct.getId().equals(cid)){
+						ct.setChecked(true);
+					}
+				}
+             }
              jList.add(ct);
          }
 		return jList;

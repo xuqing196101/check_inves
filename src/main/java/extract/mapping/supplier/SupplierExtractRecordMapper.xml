@@ -53,7 +53,7 @@
     @mbggenerated
     -->
     SELECT <include refid="project_info"/> ,D.NAME PURCHASE_TYPE,D1.NAME PROJECT_TYPE from T_SES_SMS_EXTRACT_RECORD E LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON E.PURCHASE_TYPE = D.ID  
-    LEFT JOIN T_SES_BMS_DICTIONARY_DATA D1 ON E.PROJECT_TYPE = D1.CODE WHERE E.EXTRACT_THE_WAY = '1' AND E.STATUS = '1' AND E.IS_DELETE = '0' 
+    LEFT JOIN T_SES_BMS_DICTIONARY_DATA D1 ON E.PROJECT_TYPE = D1.CODE WHERE E.EXTRACT_THE_WAY = '1' <!-- AND E.STATUS = '1' --> AND E.IS_DELETE = '0' AND PROJECT_INTO IS NULL
    	  <if test="procurementDepId != null and procurementDepId != ''">
     	AND E.PROCUREMENT_DEP_ID = #{procurementDepId}  
       </if>
@@ -214,6 +214,12 @@
       <if test="extractTheWay != null">
         EXTRACT_THE_WAY,
       </if>
+      <if test="projectType != null">
+        PROJECT_TYPE,
+      </if>
+      <if test="projectInto != null">
+        PROJECT_INTO,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -246,6 +252,12 @@
       </if>
       <if test="extractTheWay != null">
         #{extractTheWay,jdbcType=DECIMAL},
+      </if>
+       <if test="projectType != null">
+        #{projectType,jdbcType=VARCHAR},
+      </if>
+       <if test="projectInto != null">
+       	#{projectInto,jdbcType=VARCHAR},
       </if>
     </trim>
     </insert>

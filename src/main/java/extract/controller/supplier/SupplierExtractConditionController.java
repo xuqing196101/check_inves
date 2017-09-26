@@ -115,8 +115,8 @@ import extract.service.supplier.SupplierExtractConditionService;
     */
    @RequestMapping("/getQuaByCid")
    @ResponseBody
-   public List<DictionaryData> getQuaByCid(String categoryId,String supplierTypeCode){
-   	return conditionService.getQuaByCid(categoryId,supplierTypeCode);
+   public List<DictionaryData> getQuaByCid(String categoryId,String supplierTypeCode,String parentId){
+   	return conditionService.getQuaByCid(categoryId,supplierTypeCode,parentId);
    }
    
    /**
@@ -152,6 +152,26 @@ import extract.service.supplier.SupplierExtractConditionService;
            res.setSuccess(true);
            res.setObj(list);
       return res;
+   }
+   
+   
+   /**
+    * 
+    * <简述> 存储抽取条件
+    *
+    * @author Jia Chengxiang
+    * @dateTime 2017-9-23下午12:32:38
+    * @param page
+    * @param name
+    * @param type
+    * @param ids
+    * @return
+    */
+   @ResponseBody
+   @RequestMapping("/saveCondition")
+   public String saveCondition( SupplierExtractCondition condition, SupplierConType conType){
+	   int status = conditionService.saveOrUpdateCondition(condition,conType);
+	   return JSON.toJSONString(status);
    }
 
 }

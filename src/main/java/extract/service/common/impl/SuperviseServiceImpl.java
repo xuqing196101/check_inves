@@ -89,7 +89,7 @@ public class SuperviseServiceImpl implements SuperviseService {
 				personRelMapper.deleteByMap(map);
 				personRelMapper.insertRel(map);
 			}else{
-				error.put("All", "人员信息有误，抽取人员至少两人，且各信息必须完整");
+				error.put("All", "人员信息有误，监督人员至少一人，且各信息必须完整");
 				return error;
 			}
 		}

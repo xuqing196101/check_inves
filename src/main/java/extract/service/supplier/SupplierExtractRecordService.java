@@ -83,10 +83,11 @@ public interface SupplierExtractRecordService {
    * @param id
    * @param request
    * @param response
+ * @param projectInto 
    * @return
    * @throws Exception
    */
-  ResponseEntity<byte[]> printRecord(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+  ResponseEntity<byte[]> printRecord(String id, HttpServletRequest request, HttpServletResponse response, String projectInto) throws Exception;
 
   /**
    * 

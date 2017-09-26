@@ -551,7 +551,7 @@
 	<select id="listExtractionExpert" parameterType="extract.model.supplier.SupplierExtractCondition"
 		resultMap="findSupplierMap">
 		SELECT SP.* FROM 
-		(SELECT DISTINCT S.* FROM T_SES_SMS_SUPPLIER S
+		(SELECT DISTINCT S.ID,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_MOBILE,S.ARMY_BUSINESS_TELEPHONE,T.SUPPLIER_TYPE_ID  FROM T_SES_SMS_SUPPLIER S
 		<if test="supplierTypeCode !=null and supplierTypeCode !='' ">
 			LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T ON T.SUPPLIER_ID = S.ID
 			LEFT JOIN T_SES_SMS_SUPPLIER_ITEM I ON I.SUPPLIER_ID = S.ID
@@ -640,6 +640,22 @@
 	</select>
 	
 	
+	<!-- 真实抽取结果 -->
+	<!-- 0 不能参加，1能参加 -->
+	<select id="getSupplierListByRidForRel" parameterType="map" resultMap="BaseResultMap">
+		SELECT DISTINCT R.OPERATING_TYPE JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE FROM T_SES_SMS_SUPPLIER_EXT_RELATE R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
+		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}  AND R.OPERATING_TYPE IN (0,1) ORDER BY R.JOIN DESC
+	</select>
+	
+	
+	<!-- 预研抽取结果 -->
+	<!-- 0 不能参加，1能参加 -->
+	<select id="getSupplierListByRidForAdv" parameterType="map" resultMap="BaseResultMap">
+		SELECT DISTINCT R.OPERATING_TYPE JOIN,R.REASON,S.SUPPLIER_NAME,S.ARMY_BUSINESS_NAME,S.ARMY_BUSINESS_TELEPHONE FROM T_SES_SMS_SUPPLIER_EXT_RELATE R LEFT JOIN T_SES_SMS_SUPPLIER S ON R.SUPPLIER_ID = S.ID 
+		WHERE R.RECORD_ID = #{recordId} AND R.SUPPLIER_TYPE = #{supplierType}  AND R.OPERATING_TYPE IN (0,1) ORDER BY R.JOIN DESC
+	</select>
+	
+	
 	<!-- 查询供应商类型 -->
 	<select id="selectTypeCodeBySid" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT I.SUPPLIER_TYPE_RELATE_ID  FROM T_SES_SMS_SUPPLIER_ITEM I WHERE I.SUPPLIER_ID = #{value}  GROUP BY I.SUPPLIER_TYPE_RELATE_ID
@@ -659,6 +675,9 @@
 			</if>
 			<if test="t.conditionId != null">
 				SUPPLIER_CONDITION_ID,
+			</if>
+			<if test="t.recordId != null">
+				RECORD_ID,
 			</if>
 			<if test="t.createdAt != null">
 				CREATED_AT,
@@ -689,7 +708,6 @@
 			</if>
 
 		</trim>
-         VALUES
        <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="t.id != null">
 				#{t.id,jdbcType=VARCHAR},
@@ -699,6 +717,9 @@
 			</if>
 			<if test="t.conditionId != null">
 				#{t.conditionId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.recordId != null">
+				#{t.t.recordId,jdbcType=VARCHAR},
 			</if>
 			<if test="t.createdAt != null">
 				#{t.createdAt,jdbcType=TIMESTAMP},
@@ -750,6 +771,9 @@
 			<if test="t.conditionId != null">
 				SUPPLIER_CONDITION_ID,
 			</if>
+			<if test="t.recordId != null">
+				RECORD_ID,
+			</if>
 			<if test="t.createdAt != null">
 				CREATED_AT,
 			</if>
@@ -776,7 +800,6 @@
 			</if>
 
 		</trim>
-         VALUES
        <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="t.id != null">
 				#{t.id,jdbcType=VARCHAR},
@@ -786,6 +809,9 @@
 			</if>
 			<if test="t.conditionId != null">
 				#{t.conditionId,jdbcType=VARCHAR},
+			</if>
+			<if test="t.recordId != null">
+				#{t.recordId,jdbcType=VARCHAR},
 			</if>
 			<if test="t.createdAt != null">
 				#{t.createdAt,jdbcType=TIMESTAMP},

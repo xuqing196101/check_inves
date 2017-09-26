@@ -216,7 +216,7 @@
                     <td>${obj.extractTheWay==0?"语音抽取":"人工抽取"}</td>
                     <td>${obj.extractUser}</td>
                     <td> <fmt:formatDate value="${obj.createdAt}" pattern="yyyy-M-d HH:mm:ss"/> </td>
-                    <td>${obj.status==1?"结束":"暂存"}</td>
+                    <td>${obj.status==1?"结束":"抽取中"}</td>
                 </tr>
             </c:forEach>
             </tbody>
