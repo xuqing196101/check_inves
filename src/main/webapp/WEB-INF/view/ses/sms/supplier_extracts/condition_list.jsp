@@ -56,7 +56,7 @@
 	<c:set var="flag" value="true"></c:set>
 </c:if>
     <form id="projectForm" action="<%=request.getContextPath() %>/SupplierExtracts_new/saveProjectInfo.do" method="post" >
-   <!--  <input type="submit" value="提交"> <input type="button" value="存储项目人员信息" onclick="submitInfo()"> <input onclick="showEndButton()" type="button" value="抽取完成"> -->
+    <!-- <input type="submit" value="提交"> <input type="button" value="存储项目人员信息" onclick="submitInfo()"> <input onclick="alterEndInfo()" type="button" value="抽取完成"> -->
         <!-- 打开类型 -->
       <%--   <input type="hidden" value="${typeclassId}" name="typeclassId" /> --%>
         <!-- 项目id  -->
@@ -1072,7 +1072,7 @@
 	function showEndButton(){
 		$("#end").removeClass("dnone");
 	}
-
+	
 	
 	
 </script>

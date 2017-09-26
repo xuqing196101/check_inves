@@ -340,7 +340,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			map.put("quaLevel", temp);
 			
 			//抽取结果
-		/*	HashMap<String,String> hashMap2 = new HashMap<>();
+			HashMap<String,String> hashMap2 = new HashMap<>();
 			hashMap2.put("recordId", recordId);
 			hashMap2.put("supplierType",projectCode);
 			if("relPor".equals(projectInto)){
@@ -349,7 +349,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 				map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
 			}else{
 				map.put("result", conMapper.getSupplierListByRid(hashMap2));
-			}*/
+			}
 			
 			//保密要求
 			hashMap.put("propertyName", c+"IsHavingConCert");
@@ -479,25 +479,25 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 				map.put("level",temp);
 				
 				//抽取结果
+				HashMap<String,String> hashMap2 = new HashMap<>();
+				hashMap2.put("recordId", recordId);
+				hashMap2.put("supplierType",supplierTypeCode);
+				if("relPro".equals(projectInto)){
+					map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
+				}else if("advPro".equals(projectInto)){
+					map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
+				}else{
+					map.put("result", conMapper.getSupplierListByRid(hashMap2));
+				}
+
+				
 				/*HashMap<String,String> hashMap2 = new HashMap<>();
 				hashMap2.put("recordId", recordId);
 				hashMap2.put("supplierType",supplierTypeCode);
-				List<SupplierExtractResult> supplierListByRid = conMapper.getSupplierListByRid(hashMap2);
+				//List<SupplierExtractResult> supplierListByRid = conMapper.getSupplierListByRid(hashMap2);
 				map.put("result", conMapper.getSupplierListByRid(hashMap2));*/
 			}
 		}
-		
-		//抽取结果
-			HashMap<String,String> hashMap2 = new HashMap<>();
-			hashMap2.put("recordId", recordId);
-			hashMap2.put("supplierType",projectCode);
-			if("relPor".equals(projectInto)){
-				map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
-			}else if("advPro".equals(projectInto)){
-				map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));
-			}else{
-				map.put("result", conMapper.getSupplierListByRid(hashMap2));
-			}
 		
 		return map;
 	}
