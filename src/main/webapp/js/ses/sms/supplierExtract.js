@@ -716,6 +716,7 @@ $(function () {
     
     //显示结果   obj 是当前操作的行所在的tbody
     function appendTd(num,obj,result){
+    	document.getElementById('end').scrollIntoView();
     	var flag = false;
     	
     	//只能有一个请选择
@@ -1959,9 +1960,13 @@ $(function () {
     function alterEndInfo(obj){
 		layer.alert("是否需要发送短信至确认参加供应商");
 		var index = layer.alert("完成抽取,打印记录表",function(){
-			window.open(globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val())+"&projectInto="+projectType;
+			window.open(globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val()+"&projectInto="+projectType);
 			$(obj).prop("disabled",true);
-			window.location.href = globalPath+"/SupplierExtracts_new/projectList.html";
+			if(projectType){
+				window.open("","_self").close();
+			}else{
+				window.location.href = globalPath+"/SupplierExtracts_new/projectList.html";
+			}
 			layer.close(index);
 			// 
 		});

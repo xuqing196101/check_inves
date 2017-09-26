@@ -367,7 +367,7 @@ public class ExtractSupplierController extends BaseController {
      * @author jcx
      * @return
      */
-    @RequestMapping("/printRecord")
+    @RequestMapping("/printRecord")																						
     public ResponseEntity<byte[]> printRecord(String id,HttpServletRequest request, HttpServletResponse response,String projectInto){
     	ResponseEntity<byte[]> printRecord = null;
     	try {

@@ -56,7 +56,7 @@
 	<c:set var="flag" value="true"></c:set>
 </c:if>
     <form id="projectForm" action="<%=request.getContextPath() %>/SupplierExtracts_new/saveProjectInfo.do" method="post" >
-   <!--  <input type="submit" value="提交"> <input type="button" value="存储项目人员信息" onclick="submitInfo()"> <input onclick="showEndButton()" type="button" value="抽取完成"> -->
+    <!-- <input type="submit" value="提交"> <input type="button" value="存储项目人员信息" onclick="submitInfo()"> <input onclick="alterEndInfo()" type="button" value="抽取完成"> -->
         <!-- 打开类型 -->
       <%--   <input type="hidden" value="${typeclassId}" name="typeclassId" /> --%>
         <!-- 项目id  -->
@@ -152,8 +152,8 @@
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>项目类型</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                  <c:if test="${flag }">
-                 	 <input id="projectType" name="projectType" value="${projectInfo.projectType }" ${flag?"readonly":"" } type="hidden" >
-                 	 <input value="${projectInfo.projectTypeName }" type="text" >
+                 	 <input id="projectType" name="projectType" value="${projectInfo.projectType }" type="hidden" >
+                 	 <input value="${projectInfo.projectTypeName }"  ${flag?"readonly":"" } type="text" >
                  </c:if>
                  <c:if test="${!flag }">
                      <select id="projectType" name="projectType" class="col-md-12 col-sm-12 col-xs-6 p0" onchange="loadSupplierType()">
@@ -899,7 +899,7 @@
                       </tbody>
                  </table>
 			</div>
-			<did class="col-xs-12 tc mt20 dnone" id="end"> <button class="center btn"  onclick="alterEndInfo(this)">结束</button> </did>
+			<did class="col-xs-12 tc mt20 dnone" name="end" id="end"> <button class="center btn"  onclick="alterEndInfo(this)">结束</button> </did>
 		</div>
 </div>
 <!-- 地区树 -->
@@ -1072,7 +1072,7 @@
 	function showEndButton(){
 		$("#end").removeClass("dnone");
 	}
-
+	
 	
 	
 </script>

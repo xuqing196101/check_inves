@@ -536,7 +536,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		if(StringUtils.isNotBlank(categoryId)){
 			if("project".equals(code)){
 				String[] checkParentCate = checkParentCate(categoryId);
-				hashMap.put("categoryIds",checkParentCate);
+				hashMap.put("categoryIds",null !=checkParentCate?checkParentCate:categoryId.split(","));
 			}else{
 				hashMap.put("categoryIds",categoryId.split(","));
 			}
