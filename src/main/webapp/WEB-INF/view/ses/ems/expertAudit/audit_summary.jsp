@@ -68,7 +68,7 @@
                         if (result.msg == "yes") {
                             layer.msg("删除成功!", {offset: '100px'});
                             window.setTimeout(function () {
-                                var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
+                                var action = "${pageContext.request.contextPath}/expertAudit/auditSummary.html";
                                 $("#form_id").attr("action", action);
                                 $("#form_id").submit();
                             }, 1000);
