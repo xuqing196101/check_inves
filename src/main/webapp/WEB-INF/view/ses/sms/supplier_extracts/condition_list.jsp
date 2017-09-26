@@ -12,6 +12,12 @@
     <meta http-equiv="description" content="This is my page">
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css" type="text/css">
+    
+    <style>
+      .layer-default .layui-layer-btn a.layui-layer-btn1:hover {
+        color: #333 !important;
+      }
+    </style>
 
 </head>
 <body>
@@ -145,14 +151,17 @@
              <li class="col-md-3 col-sm-4 col-xs-12">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>项目类型</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                 <%-- <c:if test="${flag }">
-                 	 <input id="projectType" name="projectType" value="${projectInfo.projectType }" type="text" >
-                 </c:if> --%>
+                 <c:if test="${flag }">
+                 	 <input name="projectType" value="${projectInfo.projectType }" ${flag?"readonly":"" } type="text" >
+                 	 <input value="${projectInfo.projectTypeName }" type="text" >
+                 </c:if>
+                 <c:if test="${!flag }">
                      <select id="projectType" name="projectType" class="col-md-12 col-sm-12 col-xs-6 p0" onchange="loadSupplierType()">
                           <option value="GOODS" ${projectInfo.projectType == 'GOODS' ? 'selected' : '' }>物资</option>
                           <option value="PROJECT" ${projectInfo.projectType == 'PROJECT' ? 'selected' : '' }>工程</option>
                           <option value="SERVICE" ${projectInfo.projectType == 'SERVICE' ? 'selected' : '' }>服务</option>
                      </select>
+                 </c:if>
                      <span class="add-on">i</span>
                      <div class="cue" id="projectTypeError"></div>
                  </div>
@@ -798,7 +807,7 @@
                      <tr>
                          <th class="info w50">序号</th>
                          <th class="info">供应商名称</th>
-                         <th class="info w120">类型</th>
+                         <th class="info w250">类型</th>
                          <th class="info w100">联系人名称</th>
                          <th class="info w100">联系人电话</th>
                          <th class="info w120">联系人手机</th>
@@ -818,7 +827,7 @@
                       <tr>
                         <th class="info w50">序号</th>
                         <th class="info">供应商名称</th>
-                        <th class="info w120">类型</th>
+                        <th class="info w250">类型</th>
                         <th class="info w100">联系人名称</th>
                         <th class="info w100">联系人电话</th>
                         <th class="info w120">联系人手机</th>
@@ -838,7 +847,7 @@
                       <tr>
                         <th class="info w50">序号</th>
                         <th class="info">供应商名称</th>
-                        <th class="info w120">类型</th>
+                        <th class="info w250">类型</th>
                         <th class="info w100">联系人名称</th>
                         <th class="info w100">联系人电话</th>
                         <th class="info w120">联系人手机</th>
@@ -858,7 +867,7 @@
                       <tr>
                         <th class="info w50">序号</th>
                         <th class="info">供应商名称</th>
-                        <th class="info w120">类型</th>
+                        <th class="info w250">类型</th>
                         <th class="info w100">联系人名称</th>
                         <th class="info w100">联系人电话</th>
                         <th class="info w120">联系人手机</th>
@@ -878,7 +887,7 @@
                       <tr>
                         <th class="info w50">序号</th>
                         <th class="info">供应商名称</th>
-                        <th class="info w120">类型</th>
+                        <th class="info w250">类型</th>
                         <th class="info w100">联系人名称</th>
                         <th class="info w100">联系人电话</th>
                         <th class="info w120">联系人手机</th>
@@ -943,6 +952,7 @@
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/ses/sms/supplierExtract.js"></script>
 <script type="text/javascript">
 	var projectType = "${projectInfo.projectInto}";
+	var packageName = "${projectInfo.packageName}";
 	
 	
 	

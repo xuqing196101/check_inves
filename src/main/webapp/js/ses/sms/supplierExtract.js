@@ -243,6 +243,7 @@ $(function () {
                     layer.prompt({
                         formType: 2,
                         shade: 0.01,
+                        skin: 'layer-default',
                         title: '限制地区原因',
                         btn: ['确定', '取消'],
                         cancel: function (index, layero) {
@@ -866,6 +867,7 @@ $(function () {
 			index = 1;
 		}
 		$(obj).find("td:first").html(index);
+		$(obj).find("td:first").after("<td>"+packageName+"</td>");
 		$(tbody).append(obj);
 	}
     
@@ -889,7 +891,7 @@ $(function () {
     /**完成所有抽取后执行**/
     function finish() {
         layer.confirm('是否需要打印', {
-            btn: ['打印', '取消'], offset: ['40%', '40%'], shade: 0.01
+            btn: ['打印', '取消'], offset: ['40%', '40%'], shade: 0.01, skin: 'layer-default'
         }, function (index) {
             window.location.href = globalPath+"/SupplierExtracts_new/showRecord.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
         }, function (index) {
@@ -920,6 +922,7 @@ $(function () {
             shadeClose: true,
             shade: 0.01,
             area: ['430px', '400px'],
+            skin: 'layer-default',
             offset: '20px',
             content: globalPath+'/SupplierExtracts_new/addHeading.do?supplierTypeCode='+typeCode+'&categoryId='+categoryId, //iframe的url
             //content: globalPath+'/supplier/category_type.do?code='+supplierCode, 
@@ -1860,7 +1863,7 @@ $(function () {
         x = oRect.left - 450;
         y = oRect.top - 150;
         layer.confirm('确定本次操作吗？', {
-            btn: ['确定', '取消'], shade: 0.01
+            btn: ['确定', '取消'], shade: 0.01, skin: 'layer-default'
         }, function (index) {
             var strs = new Array();
             var v = select.value;
@@ -1877,7 +1880,7 @@ $(function () {
                     formType: 2,
                     shade: 0.01,
                     offset: [y, x],
-                    title: ['*  不参加理由','color:red'],
+                    title: ['<span class="red">*<span>  不参加理由'],
                     btn:'确定',
                     closeBtn: 0
                 }, function (value, index, elem) {
@@ -1909,7 +1912,6 @@ $(function () {
             	appendTd(req,obj,"能参加");
             }else{
             	saveResult(objTr, '',2);
-            	
     			appendTd(req,obj,"待定");
             }
         }, function (index) {
@@ -1945,7 +1947,7 @@ $(function () {
     	
     	//追加到项目实施页面
     	
-    	if(projectType){
+    	if(projectType && join==1){
     		var parentsTr = $(objTr).clone();
     		$(parentsTr).find("td:last").remove();
     		appendParent(parentsTr);

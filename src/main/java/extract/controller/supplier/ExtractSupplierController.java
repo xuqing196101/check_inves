@@ -174,7 +174,8 @@ public class ExtractSupplierController extends BaseController {
     			 DictionaryData purchaseType = dictionaryDataServiceI.getDictionaryData(selectById.getPurchaseType());
     			 eRecord.setProjectId(selectById.getId());
     			 eRecord.setProjectName(selectById.getName());
-    			 eRecord.setProjectType(dictionaryDataServiceI.getDictionaryData(selectById.getPlanType()).getCode() );
+    			 eRecord.setProjectType(selectById.getPlanType());
+    			 eRecord.setProjectTypeName(dictionaryDataServiceI.getDictionaryData(selectById.getPlanType()).getCode() );
     			 eRecord.setPurchaseType(null !=purchaseType?purchaseType.getId():"");
     			 eRecord.setPurchaseTypeName(null !=purchaseType?purchaseType.getName():"");
     			 eRecord.setProjectCode(selectById.getProjectNumber());
@@ -184,7 +185,8 @@ public class ExtractSupplierController extends BaseController {
         		DictionaryData purchaseType = dictionaryDataServiceI.getDictionaryData(selectById2.getPurchaseType());
         		eRecord.setProjectId(selectById2.getId());
    			 	eRecord.setProjectName(selectById2.getName());
-   			 	eRecord.setProjectType(dictionaryDataServiceI.getDictionaryData(selectById2.getPlanType()).getCode());
+   			 	eRecord.setProjectType(selectById2.getPlanType());
+   			 	eRecord.setProjectTypeName(dictionaryDataServiceI.getDictionaryData(selectById2.getPlanType()).getCode());
    			 	eRecord.setPurchaseType(null !=purchaseType?purchaseType.getId():"");
    			 	eRecord.setPurchaseTypeName(null !=purchaseType?purchaseType.getName():"");
    			 	eRecord.setProjectCode(selectById2.getProjectNumber());

@@ -111,6 +111,8 @@ var personType ;
               var rank = Trim($(this).find('td:eq(5) input').val(), 'g');
               if ($("#personList").find(":checked").length > remove_num) {
                 if (name === '' && compary === '' && duty === '' && rank === '') {
+                  $(this).next().find('input[type=checkbox]').eq(0).prop('name', 'list['+ input_count +'].id');
+                  $(this).next().find('input[type=hidden]').eq(0).prop('name', 'list['+ input_count +'].id');
                   $(this).next().find('input[type=text]').eq(0).prop('name', 'list['+ input_count +'].name');
                   $(this).next().find('input[type=text]').eq(1).prop('name', 'list['+ input_count +'].compary');
                   $(this).next().find('input[type=text]').eq(2).prop('name', 'list['+ input_count +'].duty');
