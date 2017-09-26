@@ -34,6 +34,7 @@ import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertGroup;
 import ses.model.ems.ExpertReviewTeam;
 import ses.service.ems.ExpertAgainAuditService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
@@ -693,6 +694,15 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		if(list.size()>0){
 			map.put("batchId", list.get(0).getBatchId());
 			map.put("batchName", list.get(0).getBatchName());
+			// 供应商系统key文件上传key
+			Integer sysKey = common.constant.Constant.EXPERT_SYS_KEY;
+			// 定义文件上传类型
+			DictionaryData dictionaryData = DictionaryDataUtil
+					.get(synchro.util.Constant.EXPERT_REVIEW_APPROVE);
+			if (dictionaryData != null) {
+				map.put("typeId", dictionaryData.getId());
+			}
+			map.put("sysKey", sysKey);
 			for (ExpertBatchDetails e : list) {
 				StringBuffer expertType = new StringBuffer();
 	            if(e.getExpertsTypeId() != null) {

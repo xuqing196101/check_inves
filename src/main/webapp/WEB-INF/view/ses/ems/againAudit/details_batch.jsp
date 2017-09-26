@@ -4,6 +4,7 @@
 <html>
 <head>
   <%@ include file="/WEB-INF/view/common.jsp" %>
+  <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
 </head>
 <body>
 
@@ -42,7 +43,11 @@
     <div class="headline-v2"><h2 id="head_tit"></h2></div>
     
     <!-- 表格开始-->
-    <div class="col-md-12 pl20 mt10 mb10" id="btn_group"></div>
+   
+    <div class="col-md-12 pl20 mt10 mb10" id="btn_group">
+    <u:upload id="pic_checkword" businessId="1" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" buttonName="上传彩色扫描件" auto="true" multiple="true"/>
+    <u:show showId="pic_checkword" businessId="1" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" />
+    </div>
     
     <div class="content table_box">
       <div id="table_content"></div>
