@@ -130,10 +130,12 @@
         //还原select下拉列表只需要这一句
         $("#expertsFrom option:selected").removeAttr("selected");
         $("#status option:selected").removeAttr("selected");
-        $("#expertsTypeId option:selected").removeAttr("selected");
+        /* $("#expertsTypeId option:selected").removeAttr("selected"); */
         $("#mobile").attr("value", "");
         $("#graduateSchool").val("");
         $("#idCardNumber").val("");
+        $("#expertType").val("");
+        $("#expertTypeIds").val("");
         $("#orgName option:selected").removeAttr("selected");
         $("#formSearch").submit();
       }
@@ -248,6 +250,91 @@
         }
       };
     </script>
+    <script type="text/javascript">
+    function showExpertType() {
+        var setting = {
+          check: {
+            enable: true,
+            chkboxType: {
+              "Y": "",
+              "N": ""
+            }
+          },
+          view: {
+            dblClickExpand: false
+          },
+          data: {
+            simpleData: {
+              enable: true,
+              idKey: "id",
+              pIdKey: "parentId"
+            }
+          },
+          callback: {
+            beforeClick: beforeClick,
+            onCheck: onCheck
+          }
+        };
+
+        $.ajax({
+          type: "GET",
+          async: false,
+          url: "${pageContext.request.contextPath}/expert/experType.do",
+          dataType: "json",
+          success: function(zNodes) {
+            for(var i = 0; i < zNodes.length; i++) {
+              if(zNodes[i].isParent) {
+              } else {
+                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
+              }
+            }
+            tree = $.fn.zTree.init($("#treeExpertType"), setting, zNodes);
+            tree.expandAll(true); //全部展开
+          }
+        });
+        var cityObj = $("#expertType");
+        var cityOffset = $("#expertType").offset();
+        $("#expertTypeContent").css({
+          left: cityOffset.left + "px",
+          top: cityOffset.top + cityObj.outerHeight() + "px"
+        }).slideDown("fast");
+        $("body").bind("mousedown", onBodyDownexpertType);
+      }
+
+      function hideexpertType() {
+        $("#expertTypeContent").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDownexpertType);
+
+      }
+
+      function onBodyDownexpertType(event) {
+        if(!(event.target.id == "menuBtn" || $(event.target).parents("#expertTypeContent").length > 0)) {
+          hideexpertType();
+        }
+      }
+    
+      function beforeClick(treeId, treeNode) {
+          var zTree = $.fn.zTree.getZTreeObj("treeExpertType");
+          zTree.checkNode(treeNode, !treeNode.checked, null, true);
+          return false;
+        }
+
+        function onCheck(e, treeId, treeNode) {
+          var zTree = $.fn.zTree.getZTreeObj("treeExpertType"),
+            nodes = zTree.getCheckedNodes(true),
+            v = "";
+          var rid = "";
+          for(var i = 0, l = nodes.length; i < l; i++) {
+            v += nodes[i].name + ",";
+            rid += nodes[i].id + ",";
+          }
+          if(v.length > 0) v = v.substring(0, v.length - 1);
+          if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
+          var cityObj = $("#expertType");
+          cityObj.attr("value", v);
+          $("#expertTypeIds").val(rid);
+        }
+    </script>
   </head>
 
   <body>
@@ -271,6 +358,14 @@
         <div class="clear"></div>
       </div>
     </div>
+    
+    <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+	    <input type="text" id="key" value="" class="empty" /><br/>
+	    <ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
+	  </div>
+	  <div id="expertTypeContent" class="expertTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+	    <ul id="treeExpertType" class="ztree" style="margin-top:0;"></ul>
+	  </div>
     <!-- 我的订单页面开始-->
     <div class="container">
       <div class="headline-v2">
@@ -298,7 +393,6 @@
             </select>          
           </span>
         </li>
-        
         <li>
           <label class="fl">审核状态：</label>
           <span class="fl">
@@ -340,7 +434,7 @@
           <label class="fl">毕业院校：</label><span><input class="w220"type="text" id="graduateSchool" name="graduateSchool" value="${expert.graduateSchool }"></span>
         </li> --%>
         
-        <li>
+        <%-- <li>
           <label class="fl">专家类别：</label>
           <span class="fl">
             <select name="expertsTypeId" id="expertsTypeId" class="w220">
@@ -350,7 +444,13 @@
               </c:forEach>          
             </select>
           </span>
+        </li> --%>
+        
+        <li>
+          <label class="fl">专家类别：</label><span><input  class="w220" id="expertType" class="span2 mt5" type="text" name="expertType"  readonly value="${expertType}" onclick="showExpertType();" />
+          <input   type="hidden" name="expertTypeIds"  id="expertTypeIds" value="${expertTypeIds}" /></span>
         </li>
+        <li>
       </ul>
       <div class="col-md-12 clear tc mt10">
         <input class="btn mt1"  value="查询" type="submit">
