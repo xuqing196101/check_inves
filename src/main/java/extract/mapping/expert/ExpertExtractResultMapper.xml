@@ -77,6 +77,22 @@
         <result column="IS_ADD_EXPERT" jdbcType="DECIMAL" property="isAddExpert" />
   </resultMap>
   
+  <resultMap id="projectMap" type="ses.model.ems.ProjectExtract">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="EXPERT_CONDITION_ID" jdbcType="VARCHAR" property="expertConditionId" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="OPERATING_TYPE" jdbcType="DECIMAL" property="operatingType" />
+    <result column="REASON" jdbcType="VARCHAR" property="reason" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <result column="CON_TYPE_ID" jdbcType="VARCHAR" property="conTypeId" />
+    <result column="STATUS_COUNT" jdbcType="DECIMAL" property="statusCount" />
+    <result column="IS_PROVISIONAL" jdbcType="DECIMAL" property="isProvisional" />
+    <result column="REVIEW_TYPE" jdbcType="DECIMAL" property="reviewType" />
+    <!-- 专家 -->
+    <association column="EXPERT_ID" property="expert" select="ses.dao.ems.ExpertMapper.selectByPrimaryKey" />
+  </resultMap>
   <sql id="Base_Column_List">
     ID, PROJECT_ID, EXPERT_ID, CONDITION_ID, REVIEW_TIME, IS_JOIN, REASON, IS_DELETED,
     CREATED_AT, UPDATED_AT,IS_ALTERNATE,EXPERT_CODE
@@ -254,19 +270,155 @@
   <!-- 下载抽取结果 -->
   <select id="getResultListByrecordId" parameterType="java.lang.String" resultMap="expertInfo">
     SELECT E.REAL_NAME,E.ID_CARD_NUMBER,E.Profess_Tech_Titles,E.MAJOR,E.PROFESSIONAL,E.Mobile,R.IS_JOIN,R.REASON,R.EXPERT_CODE from T_SES_EMS_EXTRACT_RESULT R LEFT JOIN T_SES_EMS_EXPERT E ON R.EXPERT_ID = E.ID
-    WHERE R.PROJECT_ID = #{value} AND R.IS_JOIN IN (1，3) AND R.IS_ALTERNATE IS NULL ORDER BY R.IS_JOIN ASC
+    WHERE R.PROJECT_ID = #{value} AND R.IS_JOIN IN (1,3) AND R.IS_ALTERNATE IS NULL ORDER BY R.IS_JOIN ASC
   </select>
   
   <select id="getBackExpertListByrecordId" parameterType="java.lang.String" resultMap="expertInfo">
-  	SELECT E.REAL_NAME,E.ID_CARD_NUMBER,E.Profess_Tech_Titles,E.MAJOR,E.PROFESSIONAL,E.Mobile,R.IS_JOIN,R.REASON,R.EXPERT_CODE from T_SES_EMS_EXTRACT_RESULT R LEFT JOIN T_SES_EMS_EXPERT E ON R.EXPERT_ID = E.ID
- 	WHERE R.PROJECT_ID =#{value} AND R.IS_ALTERNATE = 1
+    SELECT E.REAL_NAME,E.ID_CARD_NUMBER,E.Profess_Tech_Titles,E.MAJOR,E.PROFESSIONAL,E.Mobile,R.IS_JOIN,R.REASON,R.EXPERT_CODE from T_SES_EMS_EXTRACT_RESULT R LEFT JOIN T_SES_EMS_EXPERT E ON R.EXPERT_ID = E.ID
+   WHERE R.PROJECT_ID =#{value} AND R.IS_ALTERNATE = 1
   </select>
   
   <select id="findAll" resultMap="BaseResultMap">
-  	SELECT
+    SELECT
     <include refid="Base_Column_List" />
     FROM T_SES_EMS_EXTRACT_RESULT 
     WHERE IS_JOIN = 1
   </select>
   
+  <!-- 项目实施部分查询抽取结果是否存在 -->
+  <select id="findByPackageId" resultMap="projectMap" parameterType="Map">
+    SELECT * FROM T_SES_EMS_PROJECT_EXTRACT WHERE PROJECT_ID = #{packageId} AND EXPERT_ID = #{expertId}
+  </select>
+  
+  <!-- 新增结果数据（项目实施） -->
+  <insert id="insertProject" parameterType="ses.model.ems.ProjectExtract">
+    insert into T_SES_EMS_PROJECT_EXTRACT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="expertConditionId != null">
+        EXPERT_CONDITION_ID,
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="operatingType != null">
+        OPERATING_TYPE,
+      </if>
+      <if test="reason != null">
+        REASON,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="conTypeId != null">
+        CON_TYPE_ID,
+      </if>
+      <if test="statusCount != null">
+        STATUS_COUNT,
+      </if>
+      <if test="isProvisional != null">
+        IS_PROVISIONAL,
+      </if>
+      <if test="reviewType != null">
+        REVIEW_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertConditionId != null">
+        #{expertConditionId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatingType != null">
+        #{operatingType,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="conTypeId != null">
+        #{conTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="statusCount != null">
+        #{statusCount,jdbcType=DECIMAL},
+      </if>
+      <if test="isProvisional != null">
+        #{isProvisional,jdbcType=DECIMAL},
+      </if>
+      <if test="reviewType != null">
+        #{reviewType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 修改结果数据（项目实施） -->
+  <update id="updateProject" parameterType="ses.model.ems.ProjectExtract">
+    update T_SES_EMS_PROJECT_EXTRACT
+    <set>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertConditionId != null">
+        EXPERT_CONDITION_ID =
+        #{expertConditionId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID = #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatingType != null">
+        OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL},
+      </if>
+      <if test="reason != null">
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="conTypeId != null">
+        CON_TYPE_ID = #{conTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="statusCount != null">
+        STATUS_COUNT = #{statusCount,jdbcType=DECIMAL},
+      </if>
+      <if test="isProvisional != null">
+        IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
+      </if>
+      <if test="reviewType != null">
+        REVIEW_TYPE = #{reviewType,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
 </mapper>

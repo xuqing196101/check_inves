@@ -3,6 +3,7 @@ package extract.dao.expert;
 import java.util.List;
 import java.util.Map;
 
+import ses.model.ems.ProjectExtract;
 import extract.model.expert.ExpertExtractResult;
 
 /**
@@ -74,4 +75,36 @@ public interface ExpertExtractResultMapper {
      */
     List<ExpertExtractResult> findAll();
     
+    /**
+     * 
+     * Description: 项目实施部分查询抽取结果是否存在
+     * 
+     * @author zhang shubin
+     * @data 2017年9月26日
+     * @param 
+     * @return
+     */
+    List<ProjectExtract> findByPackageId(Map<String , Object> map);
+    
+    /**
+     * 
+     * Description: 新增结果数据（项目实施）
+     * 
+     * @author zhang shubin
+     * @data 2017年9月26日
+     * @param 
+     * @return
+     */
+    int insertProject(ProjectExtract projectExtract);
+    
+    /**
+     * 
+     * Description: 修改结果数据（项目实施）
+     * 
+     * @author zhang shubin
+     * @data 2017年9月26日
+     * @param 
+     * @return
+     */
+    int updateProject(ProjectExtract projectExtract);
 }

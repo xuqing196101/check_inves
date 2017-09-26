@@ -78,7 +78,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> 包名（标段）:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" id="" name="packageName" value="${packageName}" type="text">
+              <input class="span5" id="" name="packageName" value="${packageName}" <c:if test="${expertExtractProject != null }">disabled="disabled"</c:if> type="text">
               <span class="add-on">i</span>
               <div class="cue" id=""></div>
             </div>
