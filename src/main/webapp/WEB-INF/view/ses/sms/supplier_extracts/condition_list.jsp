@@ -152,7 +152,7 @@
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>项目类型</span>
                  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                  <c:if test="${flag }">
-                 	 <input  name="projectType" value="${projectInfo.projectType }" ${flag?"readonly":"" } type="hidden" >
+                 	 <input id="projectType" name="projectType" value="${projectInfo.projectType }" ${flag?"readonly":"" } type="hidden" >
                  	 <input value="${projectInfo.projectTypeName }" type="text" >
                  </c:if>
                  <c:if test="${!flag }">
@@ -1073,16 +1073,7 @@
 		$("#end").removeClass("dnone");
 	}
 
-	function alterEndInfo(obj){
-		layer.alert("是否需要发送短信至确认参加供应商");
-		var index = layer.alert("完成抽取,打印记录表",function(){
-			window.open(globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val());
-			$(obj).prop("disabled",true);
-			window.location.href = globalPath+"/SupplierExtracts_new/projectList.html";
-			layer.close(index);
-			// 
-		});
-	}
+	
 	
 </script>
 </html>

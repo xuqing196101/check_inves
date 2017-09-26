@@ -1955,8 +1955,17 @@ $(function () {
     	
     }
     
-    
-    
+    //点击结束
+    function alterEndInfo(obj){
+		layer.alert("是否需要发送短信至确认参加供应商");
+		var index = layer.alert("完成抽取,打印记录表",function(){
+			window.open(globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val())+"&projectInto="+projectType;
+			$(obj).prop("disabled",true);
+			window.location.href = globalPath+"/SupplierExtracts_new/projectList.html";
+			layer.close(index);
+			// 
+		});
+	}
     
     
     
