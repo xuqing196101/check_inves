@@ -376,8 +376,7 @@
 	</select>
 
 
-	<select id="findExtractByExpertId" parameterType="ses.model.ems.ProjectExtract"
-		resultMap="BaseResultMap">
+	<select id="findExtractByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
 		*
 		from

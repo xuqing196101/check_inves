@@ -12,6 +12,16 @@
     <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
     <meta http-equiv="description" content="This is my page">
     <script type="text/javascript">
+      $(function() {
+        //获取查看或操作权限
+        var isOperate = $('#isOperate', window.parent.document).val();
+        if(isOperate == 0) {
+          //只具有查看权限，隐藏操作按钮
+          $(":button").each(function() {
+            $(this).hide();
+          });
+        }
+      });
       function showPackageType() {
         var setting = {
           check: {

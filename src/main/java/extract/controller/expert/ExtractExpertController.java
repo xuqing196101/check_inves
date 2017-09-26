@@ -104,7 +104,7 @@ public class ExtractExpertController {
      * @return
      */
     @RequestMapping("/toExpertExtract")
-    public String toExpertExtract(@CurrentUser User user,Model model,String projectId,String projectInto,String packageId){
+    public String toExpertExtract(@CurrentUser User user,Model model,String projectId,String projectInto,String packageId,String packageName){
         //权限验证  资源服务中心  采购机构  可以抽取
         String authType = null;
         if(null != user && ("4".equals(user.getTypeName()) || "1".equals(user.getTypeName()))){
@@ -155,6 +155,7 @@ public class ExtractExpertController {
             		//随机抽取
             	}
         		model.addAttribute("expertExtractProject", expertExtractProject);
+        		model.addAttribute("packageName", packageName);
             }
             return "ses/ems/exam/expert/extract/expertExtract";
         }
@@ -174,7 +175,7 @@ public class ExtractExpertController {
     @RequestMapping("/saveProjectInfo")
     @ResponseBody
     public String saveProjectInfo(@CurrentUser User user,ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception{
-        //保存项目基本信息
+    	//保存项目基本信息
         expertExtractProjectService.save(expertExtractProject,user);
         //查询抽取结果信息
         Map<String, Object> result = expertExtractConditionService.findExpertByExtract(expertExtractProject,expertExtractCondition,expertExtractCateInfo);

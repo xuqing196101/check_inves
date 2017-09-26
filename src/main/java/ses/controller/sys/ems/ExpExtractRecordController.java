@@ -13,6 +13,8 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
+import common.constant.StaticVariables;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -37,6 +39,7 @@ import ses.model.ems.ExtConType;
 import ses.model.ems.ProExtSupervise;
 import ses.model.ems.ProjectExtract;
 import ses.model.oms.Orgnization;
+import ses.model.sms.SupplierExtRelate;
 import ses.model.sms.SupplierExtUser;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.AreaServiceI;
@@ -125,10 +128,6 @@ public class ExpExtractRecordController extends BaseController {
   @Autowired
   private DictionaryDataServiceI dictionaryDataServiceI; 
   @Autowired
-  private DictionaryDataMapper dictionaryDataMapper; //
-  @Autowired
-  private SupplierTypeService supplierTypeService;// 供应商类型
-  @Autowired
   private UserServiceI userService;
   @Autowired
   private FlowMangeService flowMangeService;//环节
@@ -150,6 +149,9 @@ public class ExpExtractRecordController extends BaseController {
   private SupplierExtUserServicel extUserServicel; //监督人员
   @Autowired
   private OrgnizationServiceI orgnizationService;
+  
+  @Autowired
+  private ProjectExtractService projectExtractService;
 
   /**
    * 
@@ -204,132 +206,79 @@ public class ExpExtractRecordController extends BaseController {
     model.addAttribute("typeclassId", typeclassId);
     return "ses/ems/exam/expert/extract/project_list";
   }
+
   /**
-   * @Description:条件查询集合
-   *
-   * @author Wang Wenshuai
-   * @version 2016年9月27日 下午6:03:40  
-   * @param @param id
-   * @param @return      
-   * @return String
+   * 
+   *〈简述〉专家抽取
+   *〈详细描述〉
+   * @author FengTian
+   * @param model
+   * @param projectId
+   * @return
    */
   @RequestMapping("/Extraction")  
-  public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId){
-    if (packageId != null && !"".equals(packageId)){
-      //已抽取
-      String[] packageIds =  packageId.split(",");
-      if(packageIds.length != 0 ){
-        ExpExtCondition con = null;
-        for (String pckId : packageIds) {
-          if(pckId != null && !"".equals(pckId)){
-            con = new ExpExtCondition();
-            con.setProjectId(pckId);
-            con.setStatus((short)2);
-            conditionService.update(con);
+  public String listExtraction(Model model, String projectId){
+      if (StringUtils.isNotBlank(projectId)) {
+          Project project = projectService.selectById(projectId);
+          if(project != null && StringUtils.isNotBlank(project.getPurchaseType())){
+              DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+              if(findById != null){
+                  project.setPurchaseType(findById.getName());
+              }
+              model.addAttribute("project", project);
           }
-        }
-      }
-    }
-
-    List<Area> listArea = areaService.findTreeByPid("0",null);
-    model.addAttribute("listArea", listArea);
-    model.addAttribute("typeclassId",typeclassId);
-
-    if (projectId != null && !"".equals(projectId)){
-      //修改流程
-      /*Project projectNew = new Project();
-      projectNew.setId(projectId);
-      projectNew.setStatus(DictionaryDataUtil.getId("CQPSZJZ"));
-      projectService.update(projectNew);*/
-      //专家类型
-      model.addAttribute("ddList", expExtractRecordService.ddList());
-      //根据包获取抽取出的专家
-      List<Packages> listResultExpert = packagesService.listProjectExtract(projectId);
-      model.addAttribute("listResultExpert", listResultExpert);
-      //专家抽取记录
-      ExpExtractRecord record = new ExpExtractRecord();
-      record.setProjectId(projectId);
-      List<ExpExtractRecord> listSe = expExtractRecordService.listExtractRecord(record,0);
-      if (listSe != null && listSe.size() != 0){
-        //抽取地区
-        model.addAttribute("extractionSites", listSe.get(0).getExtractionSites());
-        //响应时间
-        String[] atime = listSe.get(0).getResponseTime() != null ? listSe.get(0).getResponseTime().split(","):null;
-        if (atime != null && atime.length >= 2){
-          model.addAttribute("minute", atime[0]);
-          model.addAttribute("hour", atime[1]);
-        }
-      }
-
-      //获取监督人员
-      List<ProExtSupervise>  listUser = projectSupervisorServicel.list(new ProExtSupervise(projectId));
-      model.addAttribute("listUser", listUser);
-      String userName = "";
-      String superviseId = "";
-      if (listUser != null && listUser.size() != 0){
-        for (ProExtSupervise ps : listUser) {
-          if (ps != null ){
-            userName += ps.getRelName()+ ",";
-            superviseId += ps.getId()+",";
+          //根据包获取抽取出的专家
+          List<Packages> listResultExpert = packagesService.listProjectExtract(projectId);
+          if (listResultExpert != null && !listResultExpert.isEmpty()) {
+              List<ProjectExtract> extracts = new ArrayList<ProjectExtract>();
+              for (Packages packages : listResultExpert) {
+                  extracts.addAll(packages.getListProjectExtract());
+              }
+              if (extracts != null && !extracts.isEmpty()) {
+                  for (int i = 0; i < extracts.size()-1; i++) {
+                      ProjectExtract st = extracts.get(i);
+                      for (int j = extracts.size()-1; j > i; j--) {
+                          ProjectExtract st2 = extracts.get(j);
+                          if (st.getExpert().getId().equals(st2.getExpert().getId())) {
+                              extracts.remove(st2);
+                          }
+                      }
+                  }
+                  for (ProjectExtract extRelate : extracts) {
+                      String packageName = "";
+                      //该供应商参与的包
+                      List<ProjectExtract> list2 = projectExtractService.findExtractByExpertId(extRelate.getExpert().getId());
+                      if (list2 != null && list2.size() > 0) {
+                          for (int i = 0; i < list2.size(); i++) {
+                              Packages packages = packagesService.selectByPrimaryKeyId(list2.get(i).getProjectId());
+                              String[] typeId = list2.get(i).getExpert().getExpertsTypeId().split(StaticVariables.COMMA_SPLLIT);
+                              String typeName = "";
+                              for (String string : typeId) {
+                                  String name = DictionaryDataUtil.findById(string).getName();
+                                  if (typeName == "") {
+                                      typeName = name;
+                                  } else {
+                                      typeName += ","+name;
+                                  }
+                              }
+                              StringUtils.join(typeId, StaticVariables.COMMA_SPLLIT);
+                              list2.get(i).getExpert().setExpertsTypeId(typeName);
+                              if (packages != null) {
+                                  String pName = packages.getName();
+                                  if (i == 0) {
+                                      packageName += pName;
+                                  } else {
+                                      packageName += ","+pName;
+                                  }
+                              }
+                          }
+                      }
+                      extRelate.setPackageName(packageName);
+                  }
+                  model.addAttribute("extRelates", extracts);
+              }
           }
-        }
-        if(!"".equals(userName)){
-          model.addAttribute("userName", userName.substring(0, userName.length()-1));
-        }
-        if(!StringUtils.isEmpty(superviseId)){
-            model.addAttribute("superviseId", superviseId.substring(0, superviseId.length()-1));
-
-        }
       }
-
-      //获取项目信息
-      Project project = projectService.selectById(projectId);
-      if (project != null){
-        if (project.getBidDate() != null && !"".equals(project.getBidDate()) ){
-          Long currentTime = System.currentTimeMillis();
-          Long currentBidDate = project.getBidDate().getTime()-(30*60*1000);
-          if (currentTime > currentBidDate){
-            model.addAttribute("typeId", 1);
-          }else{
-            model.addAttribute("typeId", 0);
-          }
-        }
-        model.addAttribute("projectId", project.getId());
-        model.addAttribute("projectName", project.getName());
-        model.addAttribute("projectNumber", project.getProjectNumber());
-        model.addAttribute("bidDate", project.getBidDate());
-        //获取采购方式
-        List<DictionaryData>  dictionaryData = new ArrayList<DictionaryData>();
-        dictionaryData.add(dictionaryDataServiceI.getDictionaryData(project.getPurchaseType()));
-        model.addAttribute("findByMap", dictionaryData);
-      }
-
-      //条件集合
-      List<ExpExtCondition> listCon = conditionService.list(new ExpExtCondition(projectId), page == null ? 1 : Integer.valueOf(page));
-      model.addAttribute("list", new PageInfo<ExpExtCondition>(listCon));
-
-    } else {
-      Map<String, Object> map = new HashMap<String, Object>();
-      String[] str = {"YQZB", "DYLY", "JZXTP", "XJCG", "GKZB"};
-      map.put("strs", str);
-      List<DictionaryData> findByMap = dictionaryDataMapper.findByMap(map);
-      model.addAttribute("findByMap", findByMap);
-    }
-    List<DictionaryData> find = DictionaryDataUtil.find(12);
-    model.addAttribute("stemFrom", find);
-    String isCurment = "0";//是否为采购机构人员,默认:0-不是
-    //根据当前用户获取机构信息
-    if(null != user && null != user.getOrg()){
-      Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(user.getOrg().getId());
-      if(null != orgnization && null!=orgnization.getTypeName() && orgnization.getTypeName().equals("1")){
-          isCurment = "1";
-      }
-    }
-    //如果不是本系统也就是菜单下进行抽取,则不作判断(设为1-是通过判断)
-    if(!StringUtils.isEmpty(typeclassId)){
-      isCurment = "1";
-    }
-    model.addAttribute("isCurment", isCurment);
     return "ses/ems/exam/expert/extract/condition_list";
   }
   /**
