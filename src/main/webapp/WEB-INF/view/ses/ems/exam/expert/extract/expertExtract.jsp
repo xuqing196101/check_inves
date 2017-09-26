@@ -68,7 +68,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 采购方式:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <select class="col-md-12 col-sm-12 col-xs-12 p0" name="purchaseWay" <c:if test="${expertExtractProject != null }">disabled="disabled"</c:if>>
+              <select class="col-md-12 col-sm-12 col-xs-12 p0" name="purchaseWay" id="purchaseWay" <c:if test="${expertExtractProject != null }">disabled="disabled"</c:if>>
                 <c:forEach items="${purchaseWayList}" var="map">
                   <option value="${map.id}" <c:if test="${map.id == expertExtractProject.purchaseWay }">selected="selected"</c:if> >${map.name}</option>
                 </c:forEach>
@@ -78,7 +78,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> 包名（标段）:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <input class="span5" id="" name="packageName" value="${packageName}" <c:if test="${expertExtractProject != null }">disabled="disabled"</c:if> type="text">
+              <input class="span5" id="packageName" name="packageName" value="${packageName}" <c:if test="${expertExtractProject != null }">disabled="disabled"</c:if> type="text">
               <span class="add-on">i</span>
               <div class="cue" id=""></div>
             </div>

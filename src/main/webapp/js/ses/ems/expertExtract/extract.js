@@ -61,6 +61,11 @@ function functionArea() {
 //人工抽取
 function artificial_extracting(){
 	getCount();
+	$("#projectName").attr("disabled",false);
+	$("#projectCode").attr("disabled",false);
+	$("#purchaseWay").attr("disabled",false);
+	$("#packageName").attr("disabled",false);
+	$("#projectType").attr("disabled",false);
 	var code = $("#expertKind option:selected").val();
 	if(!validationIsNull(code)){
 		return;
@@ -360,6 +365,30 @@ function addTr(code,data){
     });
 }
 
+/**
+ * 追加结果到项目实施页面name,type,tel
+ */
+function appendParent(name,type,tel){
+	$("#packageName").attr("disabled",false);
+	var packageName = $("#packageName").val();
+	$("#packageName").attr("disabled",true);
+	var tbody=window.opener.document.getElementById("supplierList");
+	var index = $(tbody).find("tr:last").find("td:first").html();
+	if(index){
+		index ++;
+	}else{
+		index = 1;
+	}
+	var info = "<tr>" +
+    "<td class='tc'>"+index+"</td>" +
+    "<td class='tc'>"+packageName+"</td>" +
+    "<td class='tc'>"+name+"</td>" +
+    "<td class='tc'>"+type+"</td>" +
+    "<td class='tc'>"+tel+"</td>" +
+    "</tr>";
+	$(tbody).append(info);
+}
+
 //是否参加
 function isJoin(select){
     //获取table的ID
@@ -412,6 +441,10 @@ function isJoin(select){
             });
         }else if(v == "1"){
             saveResult($(select).parents("tr").find("input").first().val(),"",v,code);
+            var name = $(select).parents("tr").find("td:eq(1)").html();
+            var tel = $(select).parents("tr").find("td:eq(2)").html();
+            var type = $(select).parents("tr").find("td:eq(3)").html();
+            appendParent(name,type,tel);
             $(select).parents("td").html("能参加");
             $(select).remove();
             $("#"+code+"_result_count").text(count + 1);
@@ -472,7 +505,7 @@ function saveResult(expertId,value,join,code){
         async : false,
         type : "POST",
         success : function() {
-            layer.msg("操作成功");
+        	var packageId = $("#packageId").val();
         }
     });
 }

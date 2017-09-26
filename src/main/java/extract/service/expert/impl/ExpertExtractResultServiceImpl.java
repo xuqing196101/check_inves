@@ -65,7 +65,7 @@ public class ExpertExtractResultServiceImpl implements ExpertExtractResultServic
         		Map<String, Object> proMap = new HashMap<>();
                 proMap.put("packageId", packageId);
                 proMap.put("expertId", expertExtractResult.getExpertId());
-                List<ProjectExtract> proList = expertExtractResultMapper.findByPackageId(map);
+                List<ProjectExtract> proList = expertExtractResultMapper.findByPackageId(proMap);
                 ProjectExtract projectExtract = new ProjectExtract();
                 if(proList != null && proList.size() > 0){
                 	//修改
@@ -77,6 +77,7 @@ public class ExpertExtractResultServiceImpl implements ExpertExtractResultServic
                 	projectExtract.setReviewType(expertExtractResult.getExpertCode());
                 	projectExtract.setOperatingType(expertExtractResult.getIsJoin());
                 	projectExtract.setIsProvisional(expertExtractResult.getIsAlternate());
+                	projectExtract.setExpertConditionId(expertExtractResult.getConditionId());
                 	expertExtractResultMapper.updateProject(projectExtract);
                 }else{
                 	//新增
@@ -91,6 +92,7 @@ public class ExpertExtractResultServiceImpl implements ExpertExtractResultServic
                 	projectExtract.setReviewType(expertExtractResult.getExpertCode());
                 	projectExtract.setOperatingType(expertExtractResult.getIsJoin());
                 	projectExtract.setIsProvisional(expertExtractResult.getIsAlternate());
+                	projectExtract.setExpertConditionId(expertExtractResult.getConditionId());
                 	expertExtractResultMapper.insertProject(projectExtract);
                 }
             }
