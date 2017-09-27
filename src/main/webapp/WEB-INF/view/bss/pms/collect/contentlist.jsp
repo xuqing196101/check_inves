@@ -4,9 +4,6 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
-<link href="${pageContext.request.contextPath }/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
-
- 
   <script type="text/javascript">
 
 

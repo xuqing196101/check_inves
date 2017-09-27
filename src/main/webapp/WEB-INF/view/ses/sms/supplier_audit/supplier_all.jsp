@@ -255,7 +255,7 @@
 				}else if(size > 1){
 					layer.msg("只能选择一项 !", {offset: '100px',});
 				}else{
-				  if(state == "预审核结束" || state == "审核通过" || state == "退回修改" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state=="合格" || state=="不合格"){
+				  if(state == "预审核结束" || state == "公示中" || state == "审核通过" || state == "退回修改" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state=="合格" || state=="不合格"){
 				    var id = $(":checkbox:checked").val();
 	          $("input[name='supplierId']").val(id);
 	          $("input[name='tableType']").val(str);

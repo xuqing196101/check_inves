@@ -609,7 +609,11 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
                 return JdcgResult.build(500, "类别不能全部为不通过项");
             }
         }
-
+        map.put("regType",Constant.EXPERT_BASIC_BOOK_FLAG);
+        count = expertAuditMapper.selectRegExpCateCount(map);
+        if(count>0){
+        	return JdcgResult.build(500, "专家承诺书和申请表有不通过项");
+        }
         // 判断产品类别
         ExpertPublicity expertPublicity = new ExpertPublicity();
         expertPublicity.setId(expertId);

@@ -1,17 +1,16 @@
 package ses.service.oms.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import ses.dao.oms.PurchaseDepMapper;
 import ses.dao.oms.PurchaseOrgMapper;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
 import ses.service.oms.PurChaseDepOrgService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 @Service("purChaseDepOrgService")
 public class PurChaseDepOrgServiceImpl implements PurChaseDepOrgService{
   @Autowired
@@ -65,4 +64,17 @@ public List<PurchaseDep> getDep() {
 		return purchaseDepMapper.findAllOrg();
 	}
 
+	/**
+	 *
+	 * Description: 根据供应商表中的（PROCUREMENT_DEP_ID）字段查询采购机构全称
+	 *
+	 * @author Easong
+	 * @version 2017/9/25
+	 * @param 
+	 * @since JDK1.7
+	 */
+    @Override
+    public String selectOrgFullNameByPurchaseDepId(Map<String, Object> map) {
+        return purchaseDepMapper.selectOrgFullNameByPurchaseDepId(map);
+    }
 }

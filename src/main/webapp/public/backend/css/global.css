@@ -426,7 +426,7 @@ p, li, li a, label {
     border-color: rgb(214, 204, 204) !important;
     border-image:  !important;
     padding: 20px 20px 10px !important;
-    width:100%;
+    width:99%;
     float: left;
 }
 
@@ -535,7 +535,8 @@ a.thumbnail {
 }
 
 .select_common{
-    display: inline-block;
+    /* display: inline-block; */
+    display: table;
     white-space: nowrap;
     vertical-align: middle;
     position:relative;
