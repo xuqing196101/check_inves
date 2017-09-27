@@ -1890,7 +1890,11 @@ public class ExpertAuditController{
 		//审核时间
 		//日期格式化
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
-		dataMap.put("auditTime", simpleDateFormat.format(expert.getAuditAt()));
+		if(expert.getAuditAt() == null){
+			dataMap.put("auditTime", "    年    月    日");
+		}else{
+			dataMap.put("auditTime", simpleDateFormat.format(expert.getAuditAt()));
+		}
 		dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
 		String sex = expert.getGender();
 		DictionaryData gender = dictionaryDataServiceI.getDictionaryData(sex);
@@ -1913,7 +1917,7 @@ public class ExpertAuditController{
 				expertAudit.settype("1");
 				List<ExpertAudit> expertauList = expertAuditService.selectFailByExpertId(expertAudit);
 				if(expertauList != null && expertauList.size() > 0){
-					expertType.append("");
+					expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
 				}else{
 					expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
 				}
