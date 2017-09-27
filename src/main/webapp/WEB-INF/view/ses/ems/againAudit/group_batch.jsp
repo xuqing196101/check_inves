@@ -60,7 +60,7 @@
             <th class="info w50">性别</th>
             <th class="info w300">工作单位</th>
             <th class="info w100">专业职称</th>
-            <th class="info w150">提交复审时间</th>
+            <th class="info w150">初审时间</th>
           </tr>
         </thead>
         <tbody id="list_content"></tbody>
