@@ -218,10 +218,21 @@ public class PackageExpertController {
         } else {
           List<Packages> packages = packageService.listProjectExtract(projectId);
           for(Packages pa:packages){
-            DictionaryData dd = DictionaryDataUtil.findById(pa.getProjectStatus());
-            if(dd!=null){
-              pa.setProjectStatus(dd.getCode());
-            }
+        	  List<ProjectExtract> listProjectExtract = pa.getListProjectExtract();
+        	  if (listProjectExtract != null && !listProjectExtract.isEmpty()) {
+        		  for (ProjectExtract projectExtract : listProjectExtract) {
+        			  User user = new User();
+        			  user.setTypeId(projectExtract.getExpert().getId());
+        			  List<User> queryByList = userService.queryByList(user);
+        			  if (queryByList != null && !queryByList.isEmpty()) {
+        				  projectExtract.setExpertId(queryByList.get(0).getLoginName());
+        			  }
+        		  }
+        	  }
+        	  DictionaryData dd = DictionaryDataUtil.findById(pa.getProjectStatus());
+        	  if(dd != null){
+        		  pa.setProjectStatus(dd.getCode());
+        	  }
           }
           model.addAttribute("isEndSigin", "0");
           // 包信息

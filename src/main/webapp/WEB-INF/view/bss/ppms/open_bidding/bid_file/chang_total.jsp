@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE HTML>
 
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
@@ -52,7 +51,7 @@
 				var isGiveUp = $(allTable[i].rows).eq(j).find("td").eq("4").find("select").val();
 				var reg = /^\d+\.?\d*$/;
 			    if (isGiveUp == "2" && auditReason == "") {
-					layer.msg("必须填写放弃原因",{offset: ['25%', '25%']});
+					layer.msg("必须填写放弃原因");
 					return;
 				}
 				if (isGiveUp == "" || isGiveUp == undefined) {
@@ -145,18 +144,22 @@
 				});
 		}
 	}
-	function checkTotal(){
-		var total = $("input[name='total']").val();
-		if(total == 0){
-			 layer.msg("总价不合法,请重新输入")	
-			 $("input[name='total']").val("")
+	function checkTotal(obj){
+		var total = $(obj).val();
+		total = total.trim();
+		if(total){
+			if(total == '0'){
+				layer.msg("总价不合法,请重新输入");
+			}
+		} else {
+			layer.msg("总价不能为空");
 		}
 	}
-	function checkPaymentDate(){
-        var paymentDate = $("input[name='paymentDate']").val();
-        if($.trim(paymentDate) == ""){
-        	layer.msg("交货期限不合法,请重新输入")   
-            $("input[name='paymentDate']").val("")
+	function checkPaymentDate(obj){
+        var paymentDate = $(obj).val();
+        paymentDate = $.trim(paymentDate);
+        if(paymentDate == ""){
+        	layer.msg("交货期限不合法,请重新输入");
         }
     }
 </script>
@@ -165,6 +168,7 @@
 <div id="showDiv" class="clear">
 <c:if test="${not empty count}">
 <h2 class="tc">第${count + 1}轮报价</h2>
+<p class="red">如果本次报价供应商不进行报价，总价为上次报价的金额</p>
 </c:if>
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
@@ -206,8 +210,8 @@
 			    		<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}','${flowDefineId}')" />
 				    </td>
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
-					<td class="tc"><input name="total" onblur="checkTotal()" maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/></td>
-					<td class="tc"><input type="text" onblur="checkPaymentDate()" name="paymentDate"/></td>
+					<td class="tc"><input name="total" onblur="checkTotal(this)" maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/></td>
+					<td class="tc"><input type="text" onblur="checkPaymentDate(this)" name="paymentDate"/></td>
 					<c:if test="${not empty count}">
 					<td class="tc">
 							<select onchange="show(this)">

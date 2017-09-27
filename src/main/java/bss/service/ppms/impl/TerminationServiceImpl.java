@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import ses.dao.bms.DictionaryDataMapper;
@@ -140,12 +141,8 @@ public class TerminationServiceImpl<V> implements TerminationService {
   private OrgnizationMapper orgnizationMapper;
   
   @Override
-  /*
-   * (non-Javadoc)
-   * @see bss.service.ppms.TerminationService#updateTermination(java.lang.String包的id集合, java.lang.String项目id，java.lang.String流程id)
-   */
   public void updateTermination(String packagesId, String projectId,String currFlowDefineId,String oldCurrFlowDefineId,String type) {
-    String[] packId=packagesId.split(",");
+    String[] packId=packagesId.split(StaticVariables.COMMA_SPLLIT);
     Map<String, Integer> mapOrder=new HashMap<String, Integer>();
     List<Integer> number=new ArrayList<Integer>();
     HashMap<String, Object> map=new HashMap<String, Object>();
@@ -887,10 +884,10 @@ public class TerminationServiceImpl<V> implements TerminationService {
       for(int i=0;i<split.length;i++){
         Packages pg = packageMapper.selectByPrimaryKeyId(split[i]);
         if(type!=null){
-          pg.setProjectStatus("FC0D62C307844E7693238E58C0B0610D");
+          pg.setProjectStatus(DictionaryDataUtil.getId("ZJZXTP"));
           pg.setEditFlowId(currFlowDefineId);
         }else{
-          pg.setProjectStatus("F0EAF1136F7E4E8A8BDA6561AE8B4390");
+          pg.setProjectStatus(DictionaryDataUtil.getId("YZZ"));
           pg.setOldFlowId(oldCurrFlowDefineId);
         }
         
@@ -902,7 +899,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
           pg.setUpdatedAt(null);
           pg.setOldFlowId(null);
           if(type!=null){
-            pg.setPurchaseType("3CF3C643AE0A4499ADB15473106A7B80");
+            pg.setPurchaseType(DictionaryDataUtil.getId("JZXTP"));
           }else{
             pg.setNewFlowId(currFlowDefineId);
           }
@@ -927,19 +924,19 @@ public class TerminationServiceImpl<V> implements TerminationService {
     //project.setBidDate(null);
     //project.setBidAddress(null);
     //project.setStartTime(null);
-    project.setStatus("7703D9E38D054D7B9D9EA5CA3F3C76A6");
+    project.setStatus(DictionaryDataUtil.getId("FBWC"));
     //project.setIsCharge(null);
     if(type!=null){
     	Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(project.getPurchaseDepId());
     	project.setSectorOfDemand(orgnization.getName());
     	/*project.setPurchaseType("3CF3C643AE0A4499ADB15473106A7B80");*/
-    	project.setPurchaseNewType("3CF3C643AE0A4499ADB15473106A7B80");
+    	project.setPurchaseNewType(DictionaryDataUtil.getId("JZXTP"));
     	
     }
     if("XMLX".equals(currFlowDefineId)){
       
     }else if("XMFB".equals(currFlowDefineId)){
-      project.setStatus("8239AF4991F448A28FE1FE09F525FA3D");
+      project.setStatus(DictionaryDataUtil.getId("YJLX"));
       project.setParentId("1");
     }else{
       
