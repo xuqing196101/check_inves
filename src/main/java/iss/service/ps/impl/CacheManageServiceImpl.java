@@ -1,9 +1,24 @@
 package iss.service.ps.impl;
 
+import common.dao.SystemPVMapper;
+import common.model.SystemPV;
+import common.model.SystemPVVO;
+import common.utils.DateUtils;
+import common.utils.JdcgResult;
+import common.utils.JedisUtils;
 import iss.filter.CacheFilter;
 import iss.model.ps.Cache;
 import iss.model.ps.Page;
 import iss.service.ps.CacheManageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
+import ses.model.bms.User;
+import ses.util.PropertiesUtil;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -11,25 +26,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.stereotype.Service;
-
-import redis.clients.jedis.Jedis;
-import ses.model.bms.User;
-import ses.util.PropertiesUtil;
-import ses.util.SessionListener;
-
-import common.dao.SystemPVMapper;
-import common.model.SystemPV;
-import common.model.SystemPVVO;
-import common.utils.DateUtils;
-import common.utils.JdcgResult;
-import common.utils.JedisUtils;
 
 /**
  * Description:缓存管理接口的实现
@@ -151,15 +147,14 @@ public class CacheManageServiceImpl implements CacheManageService {
         } finally {
             // 释放资源
             if (jedis != null) {
-                jedis.quit();
-                jedis.disconnect();
+                JedisUtils.returnResourceOfFactory(jedis);
             }
         }
         return info;
     }
 
     /**
-     * Description:清除缓存
+     * Description:根据键和类型清除缓存
      *
      * @param cacheKey
      * @param cacheType
@@ -180,19 +175,20 @@ public class CacheManageServiceImpl implements CacheManageService {
             }
             // 存在--执行删除
             JedisUtils.del(cacheKey, jedis);
-            return JdcgResult.ok("清除缓存成功！");
+            return JdcgResult.ok("清除成功！");
 
         } catch (Exception e) {
             log.info("redis连接异常...");
-            return JdcgResult.ok("缓存清除失败！");
+            return JdcgResult.ok("清除失败！");
         } finally {
             // 释放资源
             if (jedis != null) {
-                jedis.quit();
-                jedis.disconnect();
+                JedisUtils.returnResourceOfFactory(jedis);
             }
         }
     }
+
+
 
     /**
      * Description:通过key获取value
@@ -223,11 +219,36 @@ public class CacheManageServiceImpl implements CacheManageService {
         } finally {
             // 释放资源
             if (jedis != null) {
-                jedis.quit();
-                jedis.disconnect();
+                JedisUtils.returnResourceOfFactory(jedis);
             }
         }
         return cache;
+    }
+
+    /**
+     *
+     * Description:清空所有缓存
+     *
+     * @author Easong
+     * @version 2017/9/27
+     * @param []
+     * @since JDK1.7
+     */
+    @Override
+    public JdcgResult clearAllCache() {
+        Jedis jedis = null;
+        try {
+            jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
+            jedis.flushAll();
+            return JdcgResult.ok("清除成功");
+        } catch (Exception e) {
+            log.info("redis连接异常...");
+        } finally {
+            if (jedis != null) {
+                JedisUtils.returnResourceOfFactory(jedis);
+            }
+        }
+        return JdcgResult.build(500, "清除失败！");
     }
 
     /**
