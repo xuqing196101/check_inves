@@ -368,7 +368,7 @@ $(function () {
     		});
     	});
     	//限制地区理由是否填写
-		if("0"!=$("#province").val() && (null ==$("#areaReson").val() ||""==$("#areaReson").val())){
+		if("0"!=$("#province").val() && (null ==$("#areaReson").val() ||""==$("#areaReson").val().replace(/(^\s*)|(\s*$)/g, ""))){
 			$("#areaError").html("不能为空");
 			count++;
 		}else{

@@ -17,6 +17,12 @@
       .layer-default .layui-layer-btn a.layui-layer-btn1:hover {
         color: #333 !important;
       }
+      
+      .textAreafont{
+		line-height: 25px;
+		color: #ef0000;
+		font-size: 12px;
+	}
     </style>
 
 </head>
@@ -350,7 +356,7 @@
         <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
           <textarea class="w100p h100 resizen" maxlength="500" name="addressReason" id="areaReson" onkeyup="size(this);"></textarea>
           <small>字数：500. 剩余：<span id="textCount">500</span>.</small>
-          <div class="cue" id="areaError"></div>
+          <div class="textAreafont" id="areaError"></div>
         </div>
      </li>
 	<li class="clear"></li>
