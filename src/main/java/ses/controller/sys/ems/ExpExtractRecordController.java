@@ -251,8 +251,8 @@ public class ExpExtractRecordController extends BaseController {
                       if (list2 != null && list2.size() > 0) {
                           for (int i = 0; i < list2.size(); i++) {
                               Packages packages = packagesService.selectByPrimaryKeyId(list2.get(i).getProjectId());
-                              String[] typeId = list2.get(i).getExpert().getExpertsTypeId().split(StaticVariables.COMMA_SPLLIT);
-                              String typeName = "";
+                              //String[] typeId = list2.get(i).getExpert().getExpertsTypeId().split(StaticVariables.COMMA_SPLLIT);
+                              /*String typeName = "";
                               for (String string : typeId) {
                                   String name = DictionaryDataUtil.findById(string).getName();
                                   if (typeName == "") {
@@ -261,8 +261,8 @@ public class ExpExtractRecordController extends BaseController {
                                       typeName += ","+name;
                                   }
                               }
-                              StringUtils.join(typeId, StaticVariables.COMMA_SPLLIT);
-                              list2.get(i).getExpert().setExpertsTypeId(typeName);
+                              StringUtils.join(typeName, StaticVariables.COMMA_SPLLIT);*/
+                              list2.get(i).getExpert().setExpertsTypeId(null);
                               if (packages != null) {
                                   String pName = packages.getName();
                                   if (i == 0) {
