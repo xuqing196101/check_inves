@@ -10,7 +10,7 @@
     <%-- <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertExtract/extract.js"></script> --%>
   </head>
   <script type="text/javascript">
-      /* $(function() {
+      $(function() {
         //获取查看或操作权限
         var isOperate = $('#isOperate', window.parent.document).val();
         if(isOperate == 0) {
@@ -19,7 +19,7 @@
             $(this).hide();
           });
         }
-      }); */
+      });
       function showPackageType() {
         var setting = {
           check: {
