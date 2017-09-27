@@ -545,10 +545,12 @@
               <c:if test="${sign == 3 and expert.status eq '8' }">
                 <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查未合格</span></td>
               </c:if>
-              <%-- <td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');" hidden>
+              
+              <!-- 下面不能注释掉，不然审核获取不了状态 -->
+              <td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');" hidden>
                 <c:if test="${expert.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
                 <c:if test="${expert.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>
-              </td> --%>
+              </td>
             </tr>
           </c:forEach>
         </table>
