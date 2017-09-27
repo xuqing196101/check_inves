@@ -26,27 +26,28 @@
             paddingBottom: 4
           });
 
-          $('.pic_upload').before('<button type="button" class="btn btn-windows group" onclick="jump_batchGroup()">批次分组</button>'
-            +'<button type="button" class="btn btn-windows config" onclick="jump_auditBatch()">审核配置</button>'
-            +'<button type="button" class="btn btn-windows apply" onclick="reviewConfirm()">批准</button>'
-          );
-
+          if ($('.pic_upload').siblings('button').length <= 0) {
+            $('.pic_upload').before('<button type="button" class="btn btn-windows group" onclick="jump_batchGroup()">批次分组</button>'
+              +'<button type="button" class="btn btn-windows config" onclick="jump_auditBatch()">审核配置</button>'
+              +'<button type="button" class="btn btn-windows apply" onclick="reviewConfirm()">批准</button>'
+            );
+          }
             
           $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
             +'<thead>'
             +'  <tr>'
-            +'    <th class="info w50"><input type="checkbox" onclick="selectAll();" id="checkAll"></th>'
+            +'    <th class="info w30"><input type="checkbox" onclick="selectAll();" id="checkAll"></th>'
             +'    <th class="info w130">专家编号</th>'
             +'    <th class="info w100">采购机构</th>'
-            +'    <th class="info">专家姓名</th>'
+            +'    <th class="info w100">专家姓名</th>'
             +'    <th class="info w50">性别</th>'
             +'    <th class="info w80">专家类型</th>'
             +'    <th class="info w80">专家类别</th>'
-            +'    <th class="info w250">工作单位</th>'
+            +'    <th class="info">工作单位</th>'
             +'    <th class="info w120">专业职称(职务)</th>'
             +'    <th class="info w60">审核组</th>'
             +'    <th class="info w80">审核状态</th>'
-            +'    <th class="info ">操作</th>'
+            +'    <th class="info w100">操作</th>'
             +'  </tr>'
             +'</thead>'
             +'<tbody id="list_content"></tbody>'
@@ -73,6 +74,8 @@
             	list_content.list.list[i].status = '复审结束';
               } else if (list_content.list.list[i].status === '-1') {
                 list_content.list.list[i].status = '暂存';
+              } else if (list_content.list.list[i].status === '1') {
+                list_content.list.list[i].status = '初审合格';
               } else if (list_content.list.list[i].status === '0') {
                 list_content.list.list[i].status = '待初审';
               } else if (list_content.list.list[i].status === '4') {
@@ -163,7 +166,7 @@
           $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
             +'<thead>'
             +'  <tr>'
-            +'    <th class="info w40">选择</th>'
+            +'    <th class="info w30">选择</th>'
             +'    <th class="info w100">专家编号</th>'
             +'    <th class="info w100">采购机构</th>'
             +'    <th class="info w80">专家姓名</th>'
@@ -203,6 +206,8 @@
                   list_content.list.list[i].status = '复审结束';
               }else if (list_content.list.list[i].status === '-1') {
                 list_content.list.list[i].status = '暂存';
+              } else if (list_content.list.list[i].status === '1') {
+                list_content.list.list[i].status = '初审合格';
               } else if (list_content.list.list[i].status === '0') {
                 list_content.list.list[i].status = '待初审';
               } else if (list_content.list.list[i].status === '4') {
