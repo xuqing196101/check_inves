@@ -284,7 +284,6 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                 map.put("expertIds",expertIds);
                 map.put("size",expertIds.size());
                 //工程特有
-                
                 if(typeCode.indexOf("PROJECT") >= 0){
                     //工程执业资格
                     Field field2 = c.getDeclaredField(typeCode.toLowerCase()+"_qualification");

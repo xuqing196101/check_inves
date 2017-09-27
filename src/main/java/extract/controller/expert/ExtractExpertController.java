@@ -18,7 +18,6 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
-import ses.model.ems.Expert;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -35,7 +34,6 @@ import common.annotation.CurrentUser;
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
-import extract.model.expert.ExpertExtractResult;
 import extract.service.expert.ExpertExtractConditionService;
 import extract.service.expert.ExpertExtractProjectService;
 import extract.service.expert.ExpertExtractResultService;
@@ -252,48 +250,6 @@ public class ExtractExpertController {
     @RequestMapping("/extractEnd")
     @ResponseBody
     public String extractEnd(ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo,String conId) throws Exception{
-        //判断是否保存候补专家
-        expertExtractCondition.setId(conId);
-        expertExtractCondition.setExpertKindId(expertExtractCondition.getExpertKindId());
-        if(expertExtractCondition.getIsExtractAlternate() == 1){
-            if(expertExtractCondition.getExpertKindId().indexOf(",") >= 0){
-                //有两个专家类别
-                for (String str : expertExtractCondition.getExpertKindId().split(",")) {
-                    Map<String, Object> result22 = expertExtractConditionService.findExpertByExtract(expertExtractProject,expertExtractCondition,expertExtractCateInfo);
-                    @SuppressWarnings("unchecked")
-                    List<Expert> list = (List<Expert>)result22.get(str);
-                    if(list != null && list.size() > 0){
-                        ExpertExtractResult expertExtractResult = new ExpertExtractResult();
-                        expertExtractResult.setIsAlternate((short)1);
-                        expertExtractResult.setExpertId(list.get(0).getId());
-                        expertExtractResult.setProjectId(expertExtractProject.getId());
-                        expertExtractResult.setConditionId(conId);
-                        expertExtractResult.setReviewTime(expertExtractProject.getReviewTime());
-                        expertExtractResult.setIsJoin((short)1);
-                        expertExtractResult.setExpertCode(str);
-                        expertExtractResultService.save(expertExtractResult);
-                    }
-                }
-            }else{
-                //有一个专家类别
-                for(int i=0; i<2; i++){
-                    Map<String, Object> result22 = expertExtractConditionService.findExpertByExtract(expertExtractProject,expertExtractCondition,expertExtractCateInfo);
-                    @SuppressWarnings("unchecked")
-                    List<Expert> list = (List<Expert>)result22.get(expertExtractCondition.getExpertKindId());
-                    if(list != null && list.size() > 0){
-                        ExpertExtractResult expertExtractResult = new ExpertExtractResult();
-                        expertExtractResult.setIsAlternate((short)1);
-                        expertExtractResult.setExpertId(list.get(0).getId());
-                        expertExtractResult.setProjectId(expertExtractProject.getId());
-                        expertExtractResult.setConditionId(conId);
-                        expertExtractResult.setReviewTime(expertExtractProject.getReviewTime());
-                        expertExtractResult.setIsJoin((short)1);
-                        expertExtractResult.setExpertCode(expertExtractCondition.getExpertKindId());
-                        expertExtractResultService.save(expertExtractResult);
-                    }
-                }
-            }
-        }
         // 修改项目抽取状态
         expertExtractProjectService.updataStatus(expertExtractProject.getId());
         String jsonString = JSON.toJSONString("success");

@@ -341,6 +341,23 @@ function strTrim(str){
 
 //追加显示抽取结果
 function addTr(code,data){
+	var remark = "";
+	//判断候补专家的数量
+	var isExtractAlternate = $("#isExtractAlternate  option:selected").val();
+	var vv = false;
+	if(isExtractAlternate == "1"){
+		vv = true;
+	}
+    var count = $("#"+code+"_result").find("tr:last").find("td:eq(0)").html();
+    if (typeof (count) == "undefined"){
+		count = 0;
+	}else{
+		count = parseInt(count);
+	}
+    var codeCount = parseInt(coUndifined($("#"+code.toLowerCase()+"_i_count").val()));
+    if(vv && count >= codeCount){
+    	remark = "候补";
+    }
     var info = "<tr>" +
     "<td class='w50 tc'>"+1+"</td>" +
     "<input value='"+coUndifined(data.id)+"'type='hidden'>" +
@@ -350,7 +367,7 @@ function addTr(code,data){
     "<td>"+coUndifined(data.workUnit)+"</td>" +
     "<td>"+coUndifined(data.professTechTitles)+"</td>" +
     "<td>"+coUndifined(data.professional)+"</td>" +
-    "<td>"+coUndifined(data.remarks)+"</td>" +
+    "<td class='tc'>"+remark+"</td>" +
     "<td class='tc res'><select class='col-md-12 col-sm-12 col-xs-12 p0' onchange='isJoin(this)'>" +
         "<option value='0'>请选择</option>" +
         "<option value='1'>能参加</option>" +
@@ -369,28 +386,46 @@ function addTr(code,data){
  * 追加结果到项目实施页面name,type,tel
  */
 function appendParent(name,type,tel){
-    $("#packageName").attr("disabled",false);
-    var packageName = $("#packageName").val();
-    $("#packageName").attr("disabled",true);
-    var tbody=window.opener.document.getElementById("supplierList");
-    var index = $(tbody).find("tr:last").find("td:first").html();
-    if(index){
-        index ++;
-    }else{
-        index = 1;
-    }
-    var info = "<tr>" +
-    "<td class='tc'>"+index+"</td>" +
-    "<td class='tc'>"+packageName+"</td>" +
-    "<td class='tc'>"+name+"</td>" +
-    "<td class='tc'>"+type+"</td>" +
-    "<td class='tc'>"+tel+"</td>" +
-    "</tr>";
-    $(tbody).append(info);
+	var packageId = $("#packageId").val();
+	if(packageId != null && packageId != ""){
+		$("#packageName").attr("disabled",false);
+	    var packageName = $("#packageName").val();
+	    $("#packageName").attr("disabled",true);
+	    var tbody=window.opener.document.getElementById("supplierList");
+	    var index = $(tbody).find("tr:last").find("td:first").html();
+	    if(index){
+	        index ++;
+	    }else{
+	        index = 1;
+	    }
+	    var info = "<tr>" +
+	    "<td class='tc'>"+index+"</td>" +
+	    "<td class='tc'>"+packageName+"</td>" +
+	    "<td class='tc'>"+name+"</td>" +
+	    "<td class='tc'>"+type+"</td>" +
+	    "<td class='tc'>"+tel+"</td>" +
+	    "</tr>";
+	    $(tbody).append(info);
+	}
 }
 
 //是否参加
 function isJoin(select){
+	//判断候补专家的数量
+	var isExtractAlternate = $("#isExtractAlternate option:selected").val();
+	var vv = false;
+	if(isExtractAlternate == "1"){
+		vv = true;
+	}
+	var vvcode = $("#expertKind option:selected").val();
+    var vvstrs = new Array(); //定义一数组 
+    vvstrs = vvcode.split(",");
+    var hb = 0;
+    if(vvstrs.length == 1 && vv){
+    	hb = 2;
+    }else if(vvstrs.length == 2 && vv){
+    	hb = 1;
+    }
     //获取table的ID
     var id = $(select).parent().parent().parent().parent().attr("id");
     //获取当前专家类别
@@ -425,7 +460,7 @@ function isJoin(select){
                 title: '<span class="red">*</span>不参加理由'
             }, function (value, index, elem) {
                 layer.close(index);
-                saveResult($(select).parents("tr").find("input").first().val(),value,v,code);
+                saveResult($(select).parents("tr").find("input").first().val(),value,v,code,select);
                 $(select).parent().parent().remove();
                 $("#"+code+"_result_no").text(no + 1);
                 if(flag){
@@ -440,7 +475,7 @@ function isJoin(select){
                 }
             });
         }else if(v == "1"){
-            saveResult($(select).parents("tr").find("input").first().val(),"",v,code);
+            saveResult($(select).parents("tr").find("input").first().val(),"",v,code,select);
             var name = $(select).parents("tr").find("td:eq(1)").html();
             var tel = $(select).parents("tr").find("td:eq(2)").html();
             var type = $(select).parents("tr").find("td:eq(3)").html();
@@ -451,7 +486,7 @@ function isJoin(select){
             if(flag){
                 //验证如果人数满足条件  就不在追加显示了
                 var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
-                if(ww < codeCount){
+                if(ww < codeCount + hb){
                     getExpert(code);
                 }
                 displayEnd();
@@ -462,11 +497,11 @@ function isJoin(select){
                 });
             }
         }else if(v == "2"){
-            saveResult($(select).parents("tr").find("input").first().val(),"",v,code);
+            saveResult($(select).parents("tr").find("input").first().val(),"",v,code,select);
             if(flag){
                 //验证如果人数满足条件  就不在追加显示了
                 var ww = parseInt(coUndifined($("#"+id).children("tbody").find("tr").length));
-                if(ww < codeCount){
+                if(ww < codeCount + hb){
                     getExpert(code);
                 }
                 //判断是否要显示结束按钮
@@ -486,7 +521,28 @@ function isJoin(select){
 
 
 //保存抽取结果
-function saveResult(expertId,value,join,code){
+function saveResult(expertId,value,join,code,select){
+	var isAlternate = null;
+	//判断候补专家的数量
+	var isExtractAlternate = $("#isExtractAlternate  option:selected").val();
+	var vv = false;
+	if(isExtractAlternate == "1"){
+		vv = true;
+	}
+	var count = $("#"+code+"_result").find("tr:last").find("td:eq(0)").html();
+	if (typeof (count) == "undefined"){
+		count = 0;
+	}else{
+		count = parseInt(count);
+	}
+    var codeCount = parseInt(coUndifined($("#"+code.toLowerCase()+"_i_count").val()));
+    if(vv && count > codeCount){
+    	isAlternate = 1;
+    }
+    var las = coUndifined($(select).parent().prev().html());
+    if(las != "候补"){
+    	isAlternate = null;
+    }
     var conditionId = $("#conditionId").val();
     var projectId = $("#projectId").val();
     var reviewTime = $("#reviewTime").val();
@@ -499,7 +555,8 @@ function saveResult(expertId,value,join,code){
             "isJoin" : join,
             "reviewTime" : reviewTime,
             "expertId" : expertId,
-            "expertCode" : code
+            "expertCode" : code,
+            "isAlternate" : isAlternate
         },
         dataType : "json",
         async : false,
@@ -1018,7 +1075,12 @@ function extractReset(){
 
 //显示结束按钮
 function displayEnd(){
-    //判断专家抽取结果是否满足条件
+	var isExtractAlternate = $("#isExtractAlternate  option:selected").val();
+	var vv = false;
+	if(isExtractAlternate == "1"){
+		vv = true;
+	}
+	//判断专家抽取结果是否满足条件
     //能参加的人数等于选择的人数
     var code = $("#expertKind option:selected").val();
     var strs = new Array(); //定义一数组 
@@ -1026,7 +1088,14 @@ function displayEnd(){
     var flag = true;
     for (var i = 0; i < strs.length; i++) {
         //选择的人数
-        var count = parseInt(coUndifined($("#"+strs[i].toLowerCase()+"_i_count").val()));
+    	var count = 0;
+    	if(vv && strs.length == 1){
+    		count = parseInt(coUndifined($("#"+strs[i].toLowerCase()+"_i_count").val())) + 2;
+    	}else if(vv && strs.length == 2){
+    		count = parseInt(coUndifined($("#"+strs[i].toLowerCase()+"_i_count").val())) + 1;
+    	}else{
+    		count = parseInt(coUndifined($("#"+strs[i].toLowerCase()+"_i_count").val()));
+    	}
         //确认参加的人数
         var join = parseInt(coUndifined($("#"+strs[i]+"_result_count").text()));
         if(count != join){
@@ -1149,13 +1218,13 @@ function extract_end(){
 
 //打印结果表
 function alterEndInfo(){
-    var packageId = '${expertExtractProject.packageId}';
+    var packageId = $("#packageId").val();
     var projectId = $("#projectId").val();
     layer.alert("是否需要发送短信至确认参加供应商");
     var index = layer.alert("完成抽取,打印记录表",function(){
         window.open(globalPath+"/extractExpertRecord/printRecord.html?id="+projectId,"下载抽取表");
         $("#extractEnd").prop("disabled",true);
-        if(packageId == null){
+        if(packageId == null || packageId == ""){
             window.location.href=globalPath+"/extractExpertRecord/getRecordList.html";
         }else{
             window.open("","_self").close();

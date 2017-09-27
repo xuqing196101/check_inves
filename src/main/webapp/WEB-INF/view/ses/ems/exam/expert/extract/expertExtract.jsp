@@ -268,7 +268,7 @@
           <li class="col-md-3 col-sm-4 col-xs-12 ">
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 是否抽取候补专家:</span>
             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              <select class="col-md-12 col-sm-12 col-xs-12 p0" name="isExtractAlternate">
+              <select class="col-md-12 col-sm-12 col-xs-12 p0" name="isExtractAlternate" id="isExtractAlternate">
                 <option value="0">否</option>
                 <option value="1">是</option>
               </select>

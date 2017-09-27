@@ -311,10 +311,10 @@
         AND PURCHASE_WAY = #{purchaseWay}
       </if>
       <if test="startTime != null and startTime != ''">
-        AND to_char(REVIEW_TIME,'yyyy-MM-dd hh24:mi:ss') &gt;= #{startTime,jdbcType=VARCHAR}
+        AND to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &gt;= #{startTime,jdbcType=VARCHAR}
       </if>
       <if test="endTime != null and endTime != ''">
-        AND to_char(REVIEW_TIME,'yyyy-MM-dd hh24:mi:ss') &lt;= #{endTime,jdbcType=VARCHAR} 
+        AND to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{endTime,jdbcType=VARCHAR} 
       </if>
       <if test="procurementDepId != null and procurementDepId != ''">
         AND PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR}
