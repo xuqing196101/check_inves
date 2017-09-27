@@ -166,7 +166,7 @@
           $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
             +'<thead>'
             +'  <tr>'
-            +'    <th class="info w30">选择</th>'
+            +'    <th class="info w30"></th>'
             +'    <th class="info w100">专家编号</th>'
             +'    <th class="info w100">采购机构</th>'
             +'    <th class="info w80">专家姓名</th>'
