@@ -449,6 +449,12 @@
        AND T.SUGGEST_TYPE=#{regType, jdbcType=VARCHAR}
      </if>
      <if test="auditFalg != '' and auditFalg != null">
+      <if test="auditFalg == 0">
+        and AUDIT_FALG != 2
+      </if>
+      <if test="auditFalg != 0">
+        and AUDIT_FALG = #{auditFalg}
+      </if>
       and AUDIT_FALG = #{auditFalg}
     </if>
      AND T.IS_DELETED = 0

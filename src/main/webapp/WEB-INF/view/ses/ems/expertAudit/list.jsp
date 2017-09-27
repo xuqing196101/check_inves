@@ -83,7 +83,6 @@
       //     }
       //   }
       // }
->>>>>>> Stashed changes
       
       //  全选操作
      /*  var selected = 0;
@@ -145,7 +144,7 @@
         var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
         var sign= ${sign};
-        if((sign == 2 && state == "复审退回修改") || state == "公示中" ||state == "初审合格(待复审)" || state == "初审未合格" || state == "退回修改" || state == "初审退回" || state == "复查合格" || state == "复查未合格" || state == "复审合格" || state == "复审不合格") {
+        if((sign == 2 && state == "复审退回修改") || state == "公示中" ||state == "初审合格(待复审)" || state == "初审未合格" || state == "退回修改" || state == "初审退回" || state == "复查合格" || state == "复查未合格" || state == "复审合格" ) {
           layer.msg("请选择待审核项 !", {
             offset: '100px',
           });

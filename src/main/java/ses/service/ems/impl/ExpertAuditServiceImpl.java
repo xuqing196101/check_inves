@@ -603,9 +603,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
         // 判断基本信息是否存在审核未通过项
         Map<String, Object> map = new HashedMap();
         map.put("expertId",expertId);
-        if(auditFalg==2){
-        	map.put("auditFalg",auditFalg);
-        }
+        map.put("auditFalg",auditFalg);
         
         map.put("regType", Constant.EXPERT_BASIC_INFO_ITEM_FLAG);
         Integer count;
