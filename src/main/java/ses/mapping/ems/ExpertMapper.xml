@@ -2577,7 +2577,7 @@ resultMap="BaseResultMap">
         FROM 
           T_SES_EMS_EXPERT
         WHERE 
-          IS_DELETE = 0 AND STATUS in (6) AND IS_PROVISIONAL &lt;&gt; 1
+          IS_DELETE = 0 AND STATUS in (6,7) AND IS_PROVISIONAL &lt;&gt; 1
         <!-- 查询品目包含的专家 -->
         <if test="size > 0">
           AND ID IN 
