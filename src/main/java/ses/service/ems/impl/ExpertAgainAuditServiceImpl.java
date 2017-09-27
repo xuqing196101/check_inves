@@ -663,9 +663,14 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		if(pageNum != null){
 			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		}
-		ExpertReviewTeam findExpertReviewTeam = expertReviewTeamMapper.findExpertReviewTeam(userId);
+		List<ExpertReviewTeam> findExpertReviewTeam = expertReviewTeamMapper.findExpertReviewTeam(userId);
+		if(findExpertReviewTeam.size()<0){
+			img.setStatus(true);
+			img.setMessage("操作有有误");
+			return img;
+		}
 		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("batchId", findExpertReviewTeam.getBatchId());
+		map.put("batchId", findExpertReviewTeam.get(0).getBatchId());
 		map.put("batchName", batchName);
 		map.put("createdAt", createdAt);
 		List<ExpertBatch> list = expertBatchMapper.getAllExpertBatch(map);
@@ -684,10 +689,15 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		if(pageNum != null){
 			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		}
-		ExpertReviewTeam findExpertReviewTeam = expertReviewTeamMapper.findExpertReviewTeam(userId);
+		List<ExpertReviewTeam> findExpertReviewTeam = expertReviewTeamMapper.findExpertReviewTeam(userId);
+		if(findExpertReviewTeam.size()<0){
+			img.setStatus(true);
+			img.setMessage("操作有有误");
+			return img;
+		}
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setBatchId(batchId);
-		expertBatchDetails.setGroupId(findExpertReviewTeam.getGroupId());
+		expertBatchDetails.setGroupId(findExpertReviewTeam.get(0).getGroupId());
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
 		Map<String,Object> map = new HashMap<String,Object>();
 		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
