@@ -21,7 +21,13 @@
      
       //下一步
       function nextStep() {
-        var action = "${pageContext.request.contextPath}/expertAudit/auditSummary.html";
+    	  var status = $("input[name='status']").val();
+        var sign = $("input[name='sign']").val();
+    	  if(sign == 2){
+    		  var action = "${pageContext.request.contextPath}/expertAudit/auditSummary.html";
+    	  }else if(sign == 1 && status == 10){
+    		  var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
+    	  }
         $("#form_id").attr("action", action);
         $("#form_id").submit();
       }

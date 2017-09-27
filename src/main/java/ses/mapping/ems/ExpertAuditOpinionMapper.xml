@@ -139,4 +139,15 @@
   <update id="updateIsDownloadAttch" parameterType="ses.model.ems.ExpertAuditOpinion">
   	UPDATE T_SES_EMS_EXPERT_AUDIT_OPINION SET IS_DOWNLOAD_ATTCH = 1 WHERE EXPERT_ID = #{expertId} AND FLAG_TIME = #{flagTime}
   </update>
+  
+  <delete id="deleteByExpertId" parameterType="ses.model.ems.ExpertAuditOpinion">
+    delete from T_SES_EMS_EXPERT_AUDIT_OPINION
+    where EXPERT_ID = #{expertId}
+    <if test="flagTime != null" >
+      FLAG_TIME = #{flagTime,jdbcType=DECIMAL},
+    </if>
+    <if test="flagAudit != null" >
+      FLAG_AUDIT = #{flagAudit,jdbcType=DECIMAL},
+    </if>
+  </delete>
 </mapper>

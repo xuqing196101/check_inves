@@ -70,4 +70,6 @@ public interface ExpertAuditOpinionService {
 	 * @param expertAuditOpinion
 	 */
 	void updateIsDownloadAttch(ExpertAuditOpinion expertAuditOpinion);
+	
+	void deleteByExpertId(ExpertAuditOpinion expertAuditOpinion);
 }

@@ -82,4 +82,6 @@ public interface ExpertAuditOpinionMapper {
      * @param expertId
      */
     void updateIsDownloadAttch(ExpertAuditOpinion expertAuditOpinion);
+    
+    void deleteByExpertId(ExpertAuditOpinion expertAuditOpinion);
 }

@@ -102,6 +102,8 @@ function lastStep() {
 	var sign = $("input[name='sign']").val();
 	if(sign == 2){
 		var action = globalPath + "/expertAudit/auditSummary.html";
+	}else if(sign == 1 && status == 10){
+		var action = globalPath + "/expertAudit/preliminaryInfo.html";
 	}else{
 		var action = globalPath + "/expertAudit/expertFile.html";
 	}

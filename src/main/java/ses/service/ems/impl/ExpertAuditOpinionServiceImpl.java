@@ -128,4 +128,10 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 		
 	}
 
+	@Override
+	public void deleteByExpertId(ExpertAuditOpinion expertAuditOpinion) {
+		mapper.deleteByExpertId(expertAuditOpinion);
+		
+	}
+
 }
