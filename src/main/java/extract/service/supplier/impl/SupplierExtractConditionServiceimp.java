@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.QualificationMapper;
+import ses.dao.sms.SupplierBlacklistMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -85,6 +86,10 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
   /** 资质Mapper **/
   @Autowired
   private QualificationMapper mapper;
+  
+  /** 供应商黑名单 **/
+  @Autowired
+  private SupplierBlacklistMapper supplierBlacklistMapper;
   
   /**
    * @Description:添加
@@ -191,10 +196,16 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		 }
 	 }
 	 
-	  
-	
-	
-	 
+	 //筛选掉供应商黑名单中数据
+	List<String> notList = new ArrayList<>();
+	List<String> supplierblackList = supplierBlacklistMapper.findExtractList();
+	if(condition.getSupplierIds() != null){
+		notList.addAll(condition.getSupplierIds());
+	}
+	if(supplierblackList != null && supplierblackList.size() > 0){
+		notList.addAll(supplierblackList);
+	}
+	condition.setSupplierIds(notList);
 	Class<? extends SupplierConType> class1 = conType.getClass();
 	String supplierTypeCode  = condition.getSupplierTypeCode();
 	String typeCode = condition.getSupplierTypeCode();

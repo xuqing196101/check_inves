@@ -21,7 +21,7 @@
 </head>
 <body>
   <!--面包屑导航开始-->
-  <%-- <c:if test="${typeclassId!=null && typeclassId !=''  }"> --%>
+  <c:if test="${expertExtractProject.projectId == null || expertExtractProject.projectId == ''}">
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
@@ -31,12 +31,11 @@
           <li><a href="javascript:void(0);">专家管理</a></li>
           <li><a href="javascript:void(0);">专家抽取</a>
           </li>
-          <!-- <li class="active"><a href="javascript:void(0);">专家抽取列表</a></li> -->
         </ul>
         <div class="clear"></div>
       </div>
     </div>
-<%--   </c:if> --%>
+</c:if>
 
   <!-- 项目戳开始 -->
   <div class="container">

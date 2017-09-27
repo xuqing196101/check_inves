@@ -1275,8 +1275,9 @@ function vaCode(){
 
 //文本编译器计数
 function size(par) { 
-    var max = 500; 
+    var max = 500;
+    var str = 0;
     if (par.value.length < max) 
-    var str = max - par.value.length;
+    str = max - par.value.length;
     $("#textCount").html(str.toString()); 
 } 
