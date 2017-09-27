@@ -56,7 +56,7 @@
     
     <div class="content table_box">
       <div id="table_content"></div>
-      <div id="pagediv" align="right"></div>
+      <%-- <div id="pagediv" align="right"></div> --%>
     </div>
     
     <div class="mt20 pl20 text-center">
