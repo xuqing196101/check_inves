@@ -45,6 +45,7 @@
                     list_content[i].expertList[ii].status = '复审中';
                   } else {
                     list_content[i].expertList[ii].status = '待复审';
+                    list_content[i].expertList[ii].updateTime = '';
                   }
                 } else if (list_content[i].expertList[ii].status === '5') {
                   list_content[i].expertList[ii].status = '复审不合格';
