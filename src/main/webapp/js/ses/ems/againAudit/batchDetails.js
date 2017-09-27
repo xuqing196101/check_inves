@@ -17,11 +17,13 @@
         if (userType === '4') {
           $('#btn_group').html('<button type="button" class="btn btn-windows group" onclick="jump_batchGroup()">批次分组</button>'
             +'<button type="button" class="btn btn-windows config" onclick="jump_auditBatch()">审核配置</button>'
-            +'<button type="button" class="btn btn-windows apply">上传复审批准件</button>');
+            +'<button type="button" class="btn btn-windows apply">上传复审批准件</button>'
+            +'<button type="button" class="btn btn-windows apply" onclick="reviewConfirm()">确认</button>');
             
           $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
             +'<thead>'
             +'  <tr>'
+            +'    <th class="info w50"><input type="checkbox" onclick="selectAll();" id="checkAll"></th>'
             +'    <th class="info w130">专家编号</th>'
             +'    <th class="info w100">采购机构</th>'
             +'    <th class="info">专家姓名</th>'
@@ -32,7 +34,7 @@
             +'    <th class="info w120">专业职称(职务)</th>'
             +'    <th class="info w60">审核组</th>'
             +'    <th class="info w80">审核状态</th>'
-            +'    <th class="info">操作</th>'
+            +'    <th class="info ">操作</th>'
             +'  </tr>'
             +'</thead>'
             +'<tbody id="list_content"></tbody>'
@@ -52,9 +54,11 @@
               // 判断状态输出
               if (list_content.list.list[i].status === '-3') {
                 list_content.list.list[i].status = '公示中';
-              } else if (list_content.list.list[i].status === '-2') {
+              } else if (list_content.list.list[i].status === '-2' && list_content.list.list[i].isReviewEnd != 1) {
                 list_content.list.list[i].status = '预复审结束';
                 btn = '<button type="button" class="btn" onclick="downloadTable(\''+ list_content.list.list[i].expertId +'\')">下载复审表</button>';
+              } else if (list_content.list.list[i].status === '-2' && list_content.list.list[i].isReviewEnd == 1) {
+            	list_content.list.list[i].status = '复审结束';
               } else if (list_content.list.list[i].status === '-1') {
                 list_content.list.list[i].status = '暂存';
               } else if (list_content.list.list[i].status === '0') {
@@ -123,6 +127,7 @@
               }
               
               $('#list_content').append('<tr><input id="'+ list_content.list.list[i].expertId +'" type="hidden">'
+            	+'<td class="text-center"><input name="chkItem" type="checkbox" onclick="check();" value="'+ list_content.list.list[i].expertId +'" class="select_item"></td>'
                 +'<td class="text-center">'+ list_content.list.list[i].batchDetailsNumber +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].orgName +'</td>'
                 +'<td class="text-center">'+ list_content.list.list[i].realName +'</td>'
@@ -177,10 +182,14 @@
               // 判断状态输出
               if (list_content.list.list[i].status === '-3') {
                 list_content.list.list[i].status = '公示中';
-              } else if (list_content.list.list[i].status === '-2') {
+              } else if (list_content.list.list[i].status === '-2'&& list_content.list.list[i].isReviewEnd != 1) {
                 list_content.list.list[i].status = '预复审结束';
-                btn = '<button type="button" class="btn" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">复审结束</button>';
-              } else if (list_content.list.list[i].status === '-1') {
+                if(list_content.list.list[i].isDownload == 1 && list_content.list.list[i].isReviewEnd != 1){
+                	btn = '<button type="button" class="btn" onclick="reviewEnd(\''+ list_content.list.list[i].expertId +'\');">复审结束</button>';
+                }
+              }else if (list_content.list.list[i].status === '-2' && list_content.list.list[i].isReviewEnd == 1) {
+                  list_content.list.list[i].status = '复审结束';
+              }else if (list_content.list.list[i].status === '-1') {
                 list_content.list.list[i].status = '暂存';
               } else if (list_content.list.list[i].status === '0') {
                 list_content.list.list[i].status = '待初审';

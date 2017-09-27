@@ -396,27 +396,28 @@ public class Expert extends ExpertHistory implements Serializable {
      */
     private String purchaseDepId;
     /**
-     * -3 公示中
-     * -2 预复审结束
-     * -1 暂存
-     * 0 待初审
-     * 1 初审合格
-     * 2 初审不合格
-     * 3 初审退回修改
-     * 4 待复审
-     * 5 复审不合格
-     * 6 待复查
-     * 7 复查合格
-     * 8 复查不合格
-     * 9 初审退回再审核
-     * 10 复审退回修改
-     * 11 待分配
-     * 12 处罚中
-     * 13 无产品专家
-     * 14复审待分组专家
-     * # 初审中（AUDIT_TEMPORARY  1：初审中）
-     * # 复查中（AUDIT_TEMPORARY  3：复查中）
-     * # 复审中（AUDIT_TEMPORARY  2：复审中）
+     * 添加时间：2017/09/19
+     -3 公示中
+	 -2 预复审结束
+	 -1 暂存
+	 0 待初审
+	 1 初审合格
+	 2 初审不合格
+	 3 初审退回修改
+	 4 待复审
+	 5 复审不合格
+	 6 待复查  *
+	 7 复查合格 *
+	 8 复查不合格
+	 9 初审退回再审核
+	 10 复审退回修改
+	 11 待分配
+	 12 处罚中
+	 13 无产品专家 *      
+	 14 复审待分组专家
+	 15 预初审合格
+	 16 预初审不合格
+	 17 资料不全
      */
     private String status;
     /**
@@ -466,6 +467,8 @@ public class Expert extends ExpertHistory implements Serializable {
     private String auditor;//审核人
 
     private Integer auditTemporary; //审核暂存状态0；未暂存，1：审核中，2：复审中，3复查中）
+    
+    private Integer isReviewEnd;//是否复审结束（1是）
 
     /**
      * 专家提交审核时间
@@ -1108,4 +1111,13 @@ public class Expert extends ExpertHistory implements Serializable {
     public void setExpertAuditOpinion(ExpertAuditOpinion expertAuditOpinion) {
         this.expertAuditOpinion = expertAuditOpinion;
     }
+
+	public Integer getIsReviewEnd() {
+		return isReviewEnd;
+	}
+
+	public void setIsReviewEnd(Integer isReviewEnd) {
+		this.isReviewEnd = isReviewEnd;
+	}
+    
 }

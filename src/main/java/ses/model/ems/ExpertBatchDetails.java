@@ -52,7 +52,10 @@ public class ExpertBatchDetails {
 	/**复审时间*/
 	private Date auditAt;
 	private List<String> ids;
-	
+	/**是否下载附件(0否，1是)*/
+	private Integer isDownload;
+	/**是否复审（1是）结束*/
+	private Integer isReviewEnd;
 	public String getExpertsTypeId() {
 		return expertsTypeId;
 	}
@@ -196,6 +199,18 @@ public class ExpertBatchDetails {
 	}
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	public Integer getIsDownload() {
+		return isDownload;
+	}
+	public void setIsDownload(Integer isDownload) {
+		this.isDownload = isDownload;
+	}
+	public Integer getIsReviewEnd() {
+		return isReviewEnd;
+	}
+	public void setIsReviewEnd(Integer isReviewEnd) {
+		this.isReviewEnd = isReviewEnd;
 	}
 	
 	

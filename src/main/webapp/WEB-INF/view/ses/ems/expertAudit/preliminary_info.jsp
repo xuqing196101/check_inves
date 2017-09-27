@@ -21,7 +21,7 @@
      
       //下一步
       function nextStep() {
-        var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
+        var action = "${pageContext.request.contextPath}/expertAudit/auditSummary.html";
         $("#form_id").attr("action", action);
         $("#form_id").submit();
       }

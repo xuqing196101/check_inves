@@ -352,6 +352,9 @@
 											var sp=ids.split(",");
 											for ( var s in sp) {
 												$("td[name='itemtd"+sp[s]+"']").css('border-color', '#FF0000');
+												
+												//为撤销按钮做校验用的
+												$('input[name=del'+sp[s]+']').val(sp[s]);
 											}
 											 
 										}else{
@@ -408,36 +411,43 @@
 				var expertId = $("#expertId").val();
 				var sign = ${sign};
 				var categoryIds = [];
+				var falg = true;
         $('input[name="chkItem"]:checked').each(function () {
           var index=$(this).val();
           var itemsId =$("#itemsId"+index+"").val();
           categoryIds.push(itemsId);
+          
+          ii = $('input[name=del'+itemsId+']').val();
+          if(ii != itemsId){
+              falg = false;
+            }
          });
         if(categoryIds.length > 0){
-        	$.ajax({
-            url: "${pageContext.request.contextPath}/expertAudit/revokeCategoryAudit.do",
-            type: "post",
-            traditional:true,
-            data:{"expertId" : expertId, "categoryIds" : categoryIds, "sign" : sign},
-            success : function(result){
+        	if(falg){
+        		$.ajax({
+              url: "${pageContext.request.contextPath}/expertAudit/revokeCategoryAudit.do",
+              type: "post",
+              traditional:true,
+              data:{"expertId" : expertId, "categoryIds" : categoryIds, "sign" : sign},
+              success : function(result){
                 layer.msg(result.msg, {offset : [ '100px' ]});
                 if(result.status == 500){
                   window.setTimeout(function () {
-                      var action = "${pageContext.request.contextPath}/expertAudit/product.html";
-                      $("#form_id").attr("action", action);
-                      $("#form_id").submit();
+                    var action = "${pageContext.request.contextPath}/expertAudit/product.html";
+                    $("#form_id").attr("action", action);
+                    $("#form_id").submit();
                   }, 1000);
                 }
-            }
-          });
+              }
+            });
+        	}else{
+            layer.msg("请选择复审过的", {offset : [ '100px' ]});
+          }
         }else{
         	 layer.msg("请选择", {offset : [ '100px' ]});
         }
 			}
-			
-			
 		</script>
-
 	</head>
 
 	<body >

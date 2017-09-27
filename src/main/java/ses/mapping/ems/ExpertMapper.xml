@@ -69,6 +69,7 @@
 				<result column="AUDITOR" property="auditor" />
 				<result column="AUDIT_TEMPORARY" property="auditTemporary" />
 				<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
+				<result column="IS_REVIEW_END" property="isReviewEnd" />
     </resultMap>
     
     <!-- 统计Analyze关系映射 -->
@@ -115,7 +116,8 @@
         PROFESSIONAL,
         TIME_PROFESSIONAL,
         IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE,TEACH_TITLE, EXTRACT_ORGID, AUDITOR,
-        AUDIT_OPINION_ATTACH
+        AUDIT_OPINION_ATTACH,
+        IS_REVIEW_END
     </sql>
     <sql id="Column_List">
         e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -859,6 +861,9 @@ resultMap="BaseResultMap">
             </if>
             <if test="auditOpinionAttach != null">
                 AUDIT_OPINION_ATTACH = #{auditOpinionAttach},
+            </if>
+            <if test="isReviewEnd != null">
+                IS_REVIEW_END = #{isReviewEnd},
             </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}
@@ -2209,7 +2214,7 @@ resultMap="BaseResultMap">
 		  ON A.PARENT_ID = AREA.ID
     LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T1.PURCHASE_DEP_ID = dep.ID
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
-    where (T1.STATUS = 4 or T1.STATUS = 5 or T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 8)
+    where (T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 13)
     AND T1.IS_PROVISIONAL = '0'
     AND T1.IS_DELETE = 0
     <if test="relName != null and relName !=''">

@@ -875,12 +875,15 @@ public class ExpertAuditController{
             cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
             cate.setRootNode(cate.getRootNode());
             
-            expertAudit.setExpertId(expertId);
-            expertAudit.setSuggestType("six");
-            expertAudit.setAuditFieldId(cate.getItemsId());
-            ExpertAudit findAuditByExpertId = expertAuditService.findAuditByExpertId(expertAudit);
-            if(findAuditByExpertId !=null && findAuditByExpertId.getAuditReason() !=null){
-            	cate.setAuditReason(findAuditByExpertId.getAuditReason());
+            if(sign==2){
+            	expertAudit.setExpertId(expertId);
+                expertAudit.setSuggestType("six");
+                expertAudit.setAuditFalg(1);
+                expertAudit.setAuditFieldId(cate.getItemsId());
+                ExpertAudit findAuditByExpertId = expertAuditService.findAuditByExpertId(expertAudit);
+                if(findAuditByExpertId !=null && findAuditByExpertId.getAuditReason() !=null){
+                	cate.setAuditReason(findAuditByExpertId.getAuditReason());
+                }
             }
         }
         model.addAttribute("expertId", expertId);
@@ -1940,6 +1943,12 @@ public class ExpertAuditController{
 		}
 		if("2".equals(tableType) || "0".equals(tableType)){
 			downFileName = new String("军队采购评审专家入库复审表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+			
+			//记录复审下载过附件
+			ExpertAuditOpinion expertAuditOpinion =new ExpertAuditOpinion();
+			expertAuditOpinion.setExpertId(expertId);
+			expertAuditOpinion.setFlagTime(1);
+			expertAuditOpinionService.updateIsDownloadAttch(expertAuditOpinion);
 		}
 		if("3".equals(tableType)){
 			downFileName = new String("军队采购评审专家入库复查表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
@@ -2877,7 +2886,6 @@ public class ExpertAuditController{
 	
 	/**
 	 * @Title: signature
-	 * @author XuQing 
 	 * @date 2017-4-3 下午12:18:11  
 	 * @Description:添加签字人员校验唯一
 	 * @param @param signature      
@@ -2922,7 +2930,6 @@ public class ExpertAuditController{
     
 	/**
 	 * @Title: saveSignature
-	 * @author XuQing 
 	 * @date 2017-4-6 下午1:17:20  
 	 * @Description:复审表添加签字人员
 	 * @param @param purchaseRequiredFormBean
@@ -3575,58 +3582,80 @@ public class ExpertAuditController{
 		}
     }
     
+    
+    
     /**
-     * 复审结束
-     * @param user
+     * 审核汇总页
+     * @param model
      * @param expertId
-     * @return 
-     * @return 
-     * @return 
+     * @param sign
+     * @return
      */
-    @RequestMapping("/reviewEnd")
-    @ResponseBody
-    public JdcgResult reviewEnd(@CurrentUser User user, String expertId, Integer sign){
-    	// 查询审核意见
-		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
-		expertAuditOpinion.setExpertId(expertId);
-		expertAuditOpinion.setFlagTime(1);
-		expertAuditOpinion = expertAuditOpinionService.selectByExpertId(expertAuditOpinion);
+    @RequestMapping(value = "/auditSummary")
+    public String auditSummary(Model model, String expertId, Integer sign){
+    	//初审复审标识（1初审，3复查，2复审）
+		model.addAttribute("sign", sign);
 		
-		//更新专家状态
-		Expert expert = new Expert();
-		expert.setId(expertId);
-		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
-			if(expertAuditOpinion.getFlagAudit() == -3){
-				//预复审合格
-				expert.setStatus("-3");
-			}
-			if(expertAuditOpinion.getFlagAudit() == 5){
-				//复审不合格
-				expert.setStatus("5");
-				
-			}
-			if(expertAuditOpinion.getFlagAudit() == 10){
-				//复审退回修改
-				expert.setStatus("10");
+		model.addAttribute("expertId", expertId);
+		ExpertAudit expertAudit = new ExpertAudit();
+		expertAudit.setExpertId(expertId);
+		expertAudit.setAuditFalg(2);
+		List<ExpertAudit> reasonsList = expertAuditService.getListByExpert(expertAudit);
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("GOODS", 0);
+		map.put("PROJECT", 0);
+		map.put("SERVICE", 0);
+		map.put("ENG_INFO_ID", 0);
+		StringBuffer items=new StringBuffer();
+		if( reasonsList != null && reasonsList.size() > 0 ){
+			for (ExpertAudit e : reasonsList) {
+				if("six".equals(e.getSuggestType())){
+					SupplierCateTree tree =null;
+					Category category = categoryService.findById(e.getAuditFieldId());
+					if(category != null){
+						tree = getTreeListByCategoryId(category.getId(), null);
+					}else{
+						tree = getTreeListByCategoryId(e.getAuditFieldId(), "ENG_INFO_ID");
+					}
+					String rootNode = tree.getRootNode();
+		        	String firstNode = tree.getFirstNode();
+		        	String secondNode = tree.getSecondNode();
+		        	String thirdNode=tree.getThirdNode();
+		        	if(rootNode !=null && rootNode !=""){
+		        		items.append(rootNode);
+		        	}
+		        	if(firstNode !=	null && firstNode !=""){
+		        		items.append("/" + firstNode); 
+		        	}
+		        	if(secondNode != null && secondNode !=""){
+		        		items.append("/" + secondNode); 
+		        	}
+		        	if(thirdNode != null && thirdNode !=""){
+		        		items.append("/" + thirdNode); 
+		        	}
+		
+					e.setAuditContent(items.toString());
+					items.setLength(0);
+					if(tree != null && tree.getRootNodeCode() != null){
+						map.put(tree.getRootNodeCode(), map.get(tree.getRootNodeCode())+1);
+						if("GOODS".equals(tree.getRootNodeCode())){
+							e.setAuditField("物资品目信息");
+						}else if("PROJECT".equals(tree.getRootNodeCode())){
+							e.setAuditField("工程品目信息");
+						}else if("SERVICE".equals(tree.getRootNodeCode())){
+							e.setAuditField("服务品目信息");
+						}else if("ENG_INFO_ID".equals(tree.getRootNodeCode())){
+							e.setAuditField("工程专业属性");
+						}
+					}
+					
+				}
 			}
 		}
-		/*expert.setSign(sign);
-		expert.setId(expertId);
-		updateStatus(user, expert, null, null, null);*/
-		//提交审核，更新状态
-		expert.setAuditAt(new Date());
+		model.addAttribute("reasonsList", reasonsList);
 		
-		//审核人
-		expert.setAuditor(user.getRelName());
-		//还原暂存状态
-		expert.setAuditTemporary(0);
-		// 设置修改时间
-		expert.setUpdatedAt(new Date());
-		expertService.updateByPrimaryKeySelective(expert);
-		/*expert = expertService.selectByPrimaryKey(expertId);
-		String status = expert.getStatus();*/
-		//完成待办
-		todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
-		return new JdcgResult(200);
+		Expert expert = expertService.selectByPrimaryKey(expertId);
+		model.addAttribute("status", expert.getStatus());
+    	return "ses/ems/expertAudit/audit_summary";
     }
 }

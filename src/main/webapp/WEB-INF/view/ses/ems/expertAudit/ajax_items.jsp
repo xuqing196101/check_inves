@@ -112,6 +112,8 @@
 		    <c:if test="${sign == 2}">
 		      <td>${item.auditReason}</td>
 		    </c:if>
+		    <c:if test="${fn:contains(conditionStr,item.itemsId)}"><input type="hidden" name="del${item.itemsId}" value="${item.itemsId}"/></c:if>
+		    <input type="hidden" name="del${item.itemsId}" value=""/>
 		   <%--  <td class="tl pl20">${item.fourthNode}</td> --%>
 		    <%-- <td class="tc w50 hand">
 					<a onclick="reason('${item.firstNode}','${item.secondNode}','${item.thirdNode}','${item.fourthNode}','${item.itemsId}');"  id="${item.itemsId}_hidden" class="editItem"><c:if test="${!fn:contains(conditionStr,item.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if> <c:if test="${fn:contains(conditionStr,item.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></a>

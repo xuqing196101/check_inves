@@ -317,45 +317,72 @@
 									<span class="label rounded-2x label-u">正常</span>
 								</c:if>
 							</td>
-							<td class="tl w120" id="${list.id}">
-								<c:if test="${list.status eq '4' and list.isProvisional eq '1'}">
-									<span class="label rounded-2x label-dark">临时</span>
+							<td class="tc" id="${list.id}">
+							  <c:if test="${list.status eq '-3'}">
+                  <span class="label rounded-2x label-dark">公示中</span>
+                </c:if>
+								<c:if test="${list.isProvisional eq '1'}">
+                  <span class="label rounded-2x label-u">临时</span>
+                </c:if>
+								<c:if test="${list.status eq '-2'}">
+									<span class="label rounded-2x label-dark">预复审结束</span>
 								</c:if>
 								<c:if test="${list.status eq '-1' and list.isSubmit eq '0'}">
-									<span class="label rounded-2x label-dark">暂存</span>
+									<span class="label rounded-2x label-u">暂存</span>
 								</c:if>
 								<c:if test="${list.status eq '0' }">
-									<span class="label rounded-2x label-dark">待初审</span>
+									<span class="label rounded-2x label-u">待初审</span>
 								</c:if>
 								<c:if test="${list.status eq '1' }">
-									<span class="label rounded-2x label-u">初审合格</span>
+									<span class="label rounded-2x label-dark">初审合格</span>
 								</c:if>
 								<c:if test="${list.status eq '2' }">
 									<span class="label rounded-2x label-dark">初审未合格</span>
 								</c:if>
 								<c:if test="${list.status eq '3' }">
-									<span class="label rounded-2x label-dark">退回修改</span>
-								</c:if>
-								<c:if test="${list.status eq '-3'}">
-									<span class="label rounded-2x label-dark">公示中</span>
-								</c:if>
-								<c:if test="${list.status eq '-2'}">
-									<span class="label rounded-2x label-dark">预复审合格</span>
+									<span class="label rounded-2x label-u">退回修改</span>
 								</c:if>
 								<c:if test="${list.status eq '4' and list.isProvisional eq '0'}">
-									<span class="label rounded-2x label-u">复审合格</span>
+									<span class="label rounded-2x label-dark">待复审</span>
 								</c:if>
-								<c:if test="${e.status eq '5' }">
-									<span class="label rounded-2x label-dark">复审未合格</span>
+								<c:if test="${list.status eq '5' }">
+									<span class="label rounded-2x label-dark">复审不合格</span>
 								</c:if>
 								<c:if test="${list.status eq '6' }">
 									<span class="label rounded-2x label-dark">待复查</span>
 								</c:if>
 								<c:if test="${list.status eq '7' }">
-									<span class="label rounded-2x label-u">复查合格</span>
+									<span class="label rounded-2x label-dark">复查合格</span>
 								</c:if>
 								<c:if test="${list.status eq '8' }">
-									<span class="label rounded-2x label-dark">复查未合格</span>
+									<span class="label rounded-2x label-dark">复查不合格</span>
+								</c:if>
+								<c:if test="${list.status eq '9' }">
+									<span class="label rounded-2x label-dark">初审退回再审核</span>
+								</c:if>
+								<c:if test="${list.status eq '10' }">
+									<span class="label rounded-2x label-dark">复审退回修改</span>
+								</c:if>
+								<c:if test="${list.status eq '11' }">
+									<span class="label rounded-2x label-dark">待分配</span>
+								</c:if>
+								<c:if test="${list.status eq '12' }">
+									<span class="label rounded-2x label-dark">处罚中</span>
+								</c:if>
+								<c:if test="${list.status eq '13' }">
+									<span class="label rounded-2x label-dark">无产品专家</span>
+								</c:if>
+								<c:if test="${list.status eq '14' }">
+									<span class="label rounded-2x label-dark">复审待分组专家</span>
+								</c:if>
+								<c:if test="${list.status eq '15' }">
+									<span class="label rounded-2x label-dark">预初审合格</span>
+								</c:if>
+								<c:if test="${list.status eq '16' }">
+									<span class="label rounded-2x label-dark">预初审不合格</span>
+								</c:if>
+								<c:if test="${list.status eq '17' }">
+									<span class="label rounded-2x label-dark">资料不全</span>
 								</c:if>
 							</td>
 							<td class="tc">${list.fromType }</td>

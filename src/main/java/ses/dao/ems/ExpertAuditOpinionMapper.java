@@ -76,4 +76,10 @@ public interface ExpertAuditOpinionMapper {
      * @return
      */
     void updateIsDownload(String expertId);
+    
+    /**
+     * 记录复审已下载过附件
+     * @param expertId
+     */
+    void updateIsDownloadAttch(ExpertAuditOpinion expertAuditOpinion);
 }

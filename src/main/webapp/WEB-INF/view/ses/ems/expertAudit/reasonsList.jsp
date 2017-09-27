@@ -486,7 +486,8 @@
     <div class="content">
         <div class="col-md-12 tab-v2 job-content">
             <%@include file="/WEB-INF/view/ses/ems/expertAudit/common_jump.jsp" %>
-
+            
+            <c:if test="${sign == 1 || sign == 3}">
             <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
             <ul class="ul_list count_flow">
               <c:if test="${status == 0 || status == 9 || status == 15 || status == 16 || status == 10 || status == -2 || (sign ==3 && status ==6) || status == 4 || status == 5}">
@@ -539,6 +540,7 @@
                     </c:forEach>
                 </table>
             </ul>
+            </c:if>
             <c:if test="${sign == 1 or sign == 3}">
               <div class="clear"></div>
               <h2 class="count_flow mt0"><i>2</i>最终意见</h2>

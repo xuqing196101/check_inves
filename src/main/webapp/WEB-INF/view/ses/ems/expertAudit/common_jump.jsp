@@ -20,6 +20,10 @@
           <a aria-expanded="false" href="#tab-1" data-toggle="tab">采购机构初审意见</a><i></i>
           <i id="reverse_of_seven_i"></i>
       </li>
+      <li id="reverse_of_eight" onclick="jump('auditSummary')">
+          <a aria-expanded="false" href="#tab-1" data-toggle="tab">复审汇总信息</a><i></i>
+          <i id="reverse_of_eight_i"></i>
+      </li>
     </c:if>
     <c:if test="${sign == 1 and (expert.status == 10 or status == 10 or expert.status == 5 or status == 5)}">
       <li id="reverse_of_seven" onclick="jump('preliminaryInfo')">

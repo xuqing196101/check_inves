@@ -101,7 +101,7 @@ function getCheckOpinionType(expertId){
 function lastStep() {
 	var sign = $("input[name='sign']").val();
 	if(sign == 2){
-		var action = globalPath + "/expertAudit/preliminaryInfo.html";
+		var action = globalPath + "/expertAudit/auditSummary.html";
 	}else{
 		var action = globalPath + "/expertAudit/expertFile.html";
 	}
