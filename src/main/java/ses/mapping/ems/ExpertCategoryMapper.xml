@@ -275,6 +275,9 @@
       <if test="typeId != null and typeId != ''">
         AND TYPE_ID = #{typeId}
       </if>
+      <if test="engType != null and engType != ''">
+        AND ENGIN_TYPE = #{engType}
+      </if>
     </select>
     
     <!-- 根据品目查询符合条件的专家 (满足所有品目条件) -->
@@ -284,7 +287,11 @@
       FROM
         T_SES_EMS_EXPERT_CATEGORY
       WHERE
-        TYPE_ID = #{typeId} AND CATEGORY_ID IN
+        TYPE_ID = #{typeId}
+        <if test="engType != null and engType != ''">
+          AND ENGIN_TYPE = #{engType}
+        </if>
+         AND CATEGORY_ID IN
         <foreach collection="ids" open="(" separator="," item="cid" close=")">
           #{cid}
         </foreach>

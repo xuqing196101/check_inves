@@ -267,17 +267,39 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                         String[] categoryId = categoryIds.split(",");
                         for (String str : categoryId) {
                             Map<String, Object> cateMap = new HashMap<>();
-                            cateMap.put("categoryId", str);
-                            cateMap.put("typeId", DictionaryDataUtil.getId(typeCode));
+                            if("PROJECT".equals(typeCode)){
+                            	cateMap.put("engType", "1");
+                            	cateMap.put("categoryId", str);
+                            	cateMap.put("typeId", DictionaryDataUtil.getId(typeCode));
+                            }else if("GOODS_PROJECT".equals(typeCode)){
+                            	cateMap.put("engType", "2");
+                            	cateMap.put("categoryId", str);
+                            	cateMap.put("typeId", DictionaryDataUtil.getId("PROJECT"));
+                            }else{
+                            	cateMap.put("categoryId", str);
+                            	cateMap.put("typeId", DictionaryDataUtil.getId(typeCode));
+                            }
                             List<String> expertIdList = expertCategoryMapper.selExpertByCategory(cateMap);
                             expertIds.addAll(expertIdList);
                         }
                     }else if(isSatisfy != null && isSatisfy.equals("2")){
                         String[] categoryId = categoryIds.split(",");
                         Map<String, Object> idMap = new HashMap<String, Object>();
-                        idMap.put("ids", categoryId);
-                        idMap.put("idSize", categoryId.length);
-                        idMap.put("typeId", DictionaryDataUtil.getId(typeCode));
+                        if("PROJECT".equals(typeCode)){
+                        	idMap.put("engType", "1");
+                        	idMap.put("ids", categoryId);
+                            idMap.put("idSize", categoryId.length);
+                            idMap.put("typeId", DictionaryDataUtil.getId("PROJECT"));
+                        }else if("GOODS_PROJECT".equals(typeCode)){
+                        	idMap.put("engType", "2");
+                        	idMap.put("ids", categoryId);
+                            idMap.put("idSize", categoryId.length);
+                            idMap.put("typeId", DictionaryDataUtil.getId("PROJECT"));
+                        }else{
+                        	idMap.put("ids", categoryId);
+                            idMap.put("idSize", categoryId.length);
+                            idMap.put("typeId", DictionaryDataUtil.getId(typeCode));
+                        }
                         expertIds.addAll(expertCategoryMapper.selExpertByAll(idMap));
                     }
                     if(expertIds.size() == 0){
