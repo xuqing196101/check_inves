@@ -92,16 +92,16 @@
       <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
         <thead>
           <tr>
-            <th class="info w50"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
-            <th class="info w100">序号</th>
-            <th class="info">采购机构</th>
-            <th class="info">专家姓名</th>
-            <th class="info">性别</th>
+            <th class="info w30"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
+            <th class="info w50">序号</th>
+            <th class="info w100">采购机构</th>
+            <th class="info w100">专家姓名</th>
+            <th class="info w50">性别</th>
             <th class="info">专家类型</th>
-            <th class="info">专家类别</th>
-            <th class="info">工作单位</th>
-            <th class="info">专业职称</th>
-            <th class="info">初审合格时间</th>
+            <th class="info w80">专家类别</th>
+            <th class="info w120">工作单位</th>
+            <th class="info w120">专业职称</th>
+            <th class="info w120">初审合格时间</th>
           </tr>
         </thead>
         <tbody id="list_content"></tbody>

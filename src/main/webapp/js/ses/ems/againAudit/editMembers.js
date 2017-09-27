@@ -12,12 +12,17 @@
         if (data.status) {
           list_content = data.object;  // 储存所需数据到变量
           
+          if (list_content.groupStatus === '3') {
+            $('#set_password').show();
+            $('#btn_save').hide();
+          } else {
+            $('#set_password').hide();
+          }
+          
           if (list_content.list.list.length > 0) {
             // 判断是否显示密码已设置信息
             if (list_content.password === 0) {
               $('#pwd_msg').html('密码未设置');
-            } else {
-              $('#set_password').prop('disabled', true);
             }
             
             // 判断用户名是否已有

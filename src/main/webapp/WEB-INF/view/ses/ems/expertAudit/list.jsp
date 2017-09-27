@@ -29,60 +29,61 @@
       });
       
       // 复审选择事件
-      $(function () {
-        var sign= ${sign};
-        if (sign == 1) {
-          $('#btn_group').append('<a class="btn btn-windows git" onclick="againAudit_select()" href="javascript:void(0)">提交复审</a>');
-        }
-      });
-      function againAudit_select() {
-        var select_ids = [];  // 储存id的数组
-        var ids = '';
-        var error_meg = 0;
-        var expert_mun = 0;
-        if ($('.againAudit_table').find('.select_item').length > 0) {
-	        $('.againAudit_table').find('.select_item').each(function () {
-	          if ($(this).is(':checked')) {
-	        	  if ($(this).parents("tr").find("td").eq(10).find('span').html() == '初审合格(待复审)') {
-	        		  select_ids.push($(this).val());
-	        	  } else {
-                error_meg++;
-	        	  }
-              expert_mun++;
-	          }
-	        });
-          
-          if (expert_mun <= 0) {
-            layer.msg("请至少选择一个专家 !", {
-              offset: '100px'
-            });
-            return false;
-          } else if (error_meg > 0) {
-            layer.msg("请选择初审合格的专家 !", {
-              offset: '100px'
-            });
-            return false;
-          } else {
-            ids = select_ids.join(',');
-  	        $.ajax({
-  	          type: 'POST',
-  	          dataType: 'text',
-  	          url: '${pageContext.request.contextPath}/expertAgainAudit/addAgainAudit.do',
-  	          data: {
-  	            ids: ids
-  	          },
-  	          success: function (data) {
-                layer.msg('操作成功！', {
-	        			  offset: '100px',
-                  time: 1000
-                }, function () {
-                  window.location.reload();
-                });
-  	          }
-  	        });
-          }
-        }
-      }
+      // $(function () {
+      //   var sign= ${sign};
+      //   if (sign == 1) {
+      //     $('#btn_group').append('<a class="btn btn-windows git" onclick="againAudit_select()" href="javascript:void(0)">提交复审</a>');
+      //   }
+      // });
+      // function againAudit_select() {
+      //   var select_ids = [];  // 储存id的数组
+      //   var ids = '';
+      //   var error_meg = 0;
+      //   var expert_mun = 0;
+      //   if ($('.againAudit_table').find('.select_item').length > 0) {
+	    //     $('.againAudit_table').find('.select_item').each(function () {
+	    //       if ($(this).is(':checked')) {
+	    //     	  if ($(this).parents("tr").find("td").eq(10).find('span').html() == '初审合格') {
+	    //     		  select_ids.push($(this).val());
+	    //     	  } else {
+      //           error_meg++;
+	    //     	  }
+      //         expert_mun++;
+	    //       }
+	    //     });
+      //     
+      //     if (expert_mun <= 0) {
+      //       layer.msg("请至少选择一个专家 !", {
+      //         offset: '100px'
+      //       });
+      //       return false;
+      //     } else if (error_meg > 0) {
+      //       layer.msg("请选择初审合格的专家 !", {
+      //         offset: '100px'
+      //       });
+      //       return false;
+      //     } else {
+      //       ids = select_ids.join(',');
+  	  //       $.ajax({
+  	  //         type: 'POST',
+  	  //         dataType: 'text',
+  	  //         url: '${pageContext.request.contextPath}/expertAgainAudit/addAgainAudit.do',
+  	  //         data: {
+  	  //           ids: ids
+  	  //         },
+  	  //         success: function (data) {
+      //           layer.msg('操作成功！', {
+	    //     			  offset: '100px',
+      //             time: 1000
+      //           }, function () {
+      //             window.location.reload();
+      //           });
+  	  //         }
+  	  //       });
+      //     }
+      //   }
+      // }
+>>>>>>> Stashed changes
       
       //  全选操作
      /*  var selected = 0;

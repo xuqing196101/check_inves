@@ -1989,3 +1989,12 @@ table.lockout .extrafile{
 			color: #FFF;
 			margin-right: 10px;
 		}
+		
+/* 专家复审-列表详情-上传彩色扫描件 */
+.pic_upload > div {
+	float: left;
+}
+.pic_upload .uploadFiles {
+	overflow: hidden;
+	padding: 0;
+}
