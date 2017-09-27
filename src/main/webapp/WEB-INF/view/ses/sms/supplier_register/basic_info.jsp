@@ -1579,7 +1579,7 @@
 							<legend>资质资信</legend>
 							<ul class="list-unstyled f14">
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25 pl10">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月完税凭证</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月完税凭证</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0"
 										<c:if test="${fn:contains(audit,'taxCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'taxCert')"</c:if>>
 										<c:if test="${(fn:contains(audit,'taxCert')&&currSupplier.status==2 )||(currSupplier.status==-1 || currSupplier.status==1)}"> <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="taxcert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /></c:if>
@@ -1590,7 +1590,7 @@
 								</li>
 
 								<li id="bill_li_id" class="col-md-6 col-sm-6 col-xs-12 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年银行基本账户年末对账单</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年银行基本账户年末对账单</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0"
 										<c:if test="${fn:contains(audit,'billCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'billCert')"</c:if>>
 										<c:if test="${(fn:contains(audit,'billCert')&&currSupplier.status==2 )|| currSupplier.status==-1 || currSupplier.status==1}">	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="billcert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /></c:if>
@@ -1601,7 +1601,7 @@
 								</li>
 
 								<li id="security_li_id" class="col-md-6 col-sm-6 col-xs-12 mb25 h30">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月缴纳社会保险金凭证</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月缴纳社会保险金凭证</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0"
 										<c:if test="${fn:contains(audit,'securityCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'securityCert')"</c:if>>
 										<c:if test="${(fn:contains(audit,'securityCert')&&currSupplier.status==2) || currSupplier.status==-1 || currSupplier.status==1}">	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="curitycert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /></c:if>
@@ -1612,7 +1612,7 @@
 								</li>
 
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年内有无重大违法记录</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年内有无重大违法记录</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0 h30">
 										<select name="isIllegal" id="isIllegal" class="fl mr10 w120"
 											<c:if test="${fn:contains(audit,'isIllegal')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'isIllegal')"</c:if>>
@@ -1624,7 +1624,7 @@
 									</div>
 								</li>
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 国家或军队保密资格证书</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 国家或军队保密资格证书</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0 h30">
 										<select name="isHavingConCert" id="isHavingConCert" onchange="dis_bearch(this)" class="fl mr10 w120"
 											<c:if test="${fn:contains(audit,'isHavingConCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'isHavingConCert')"</c:if>>
@@ -1636,7 +1636,7 @@
 									</div>
 								</li>
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25" id="bearchCertDiv">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 保密资格证书</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 保密资格证书</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0"
 										<c:if test="${fn:contains(audit,'supplierBearchCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierBearchCert')"</c:if>>
 										<c:if test="${(fn:contains(audit,'supplierBearchCert')&&currSupplier.status==2 ) || currSupplier.status==-1 || currSupplier.status==1}"> 	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /></c:if>
