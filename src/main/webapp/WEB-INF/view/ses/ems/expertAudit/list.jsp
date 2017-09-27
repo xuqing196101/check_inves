@@ -43,7 +43,7 @@
         if ($('.againAudit_table').find('.select_item').length > 0) {
 	        $('.againAudit_table').find('.select_item').each(function () {
 	          if ($(this).is(':checked')) {
-	        	  if ($(this).parents("tr").find("td").eq(10).find('span').html() == '初审合格') {
+	        	  if ($(this).parents("tr").find("td").eq(10).find('span').html() == '初审合格(待复审)') {
 	        		  select_ids.push($(this).val());
 	        	  } else {
                 error_meg++;
@@ -144,7 +144,7 @@
         var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
         var sign= ${sign};
-        if((sign == 2 && state == "复审退回修改") || state == "公示中" ||state == "初审合格" || state == "初审未合格" || state == "退回修改" || state == "初审退回" || state == "复查合格" || state == "复查未合格" || state == "复审合格" || state == "复审不合格") {
+        if((sign == 2 && state == "复审退回修改") || state == "公示中" ||state == "初审合格(待复审)" || state == "初审未合格" || state == "退回修改" || state == "初审退回" || state == "复查合格" || state == "复查未合格" || state == "复审合格" || state == "复审不合格") {
           layer.msg("请选择待审核项 !", {
             offset: '100px',
           });
@@ -186,7 +186,7 @@
           var id = $(":checkbox:checked").val();
           var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
           state = trim(state);
-          if(state =="预初审合格" || state =="预初审不合格" || state == "复审预合格" || state == "初审合格" || state == "初审未合格" || state == "复审合格" || state == "复查合格" || state == "复查未合格") {
+          if(state =="预初审合格" || state =="预初审不合格" || state == "复审预合格" || state == "初审合格(待复审)" || state == "初审未合格" || state == "复审合格" || state == "复查合格" || state == "复查未合格") {
             $("input[name='tableType']").val(str);
             $("input[name='expertId']").val(id);
             $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
@@ -383,7 +383,7 @@
                   <option <c:if test="${state eq '0'}">selected</c:if> value="0">待初审</option>
                   <option <c:if test="${state eq '9'}">selected</c:if> value="9">退回再初审</option>
                   <option <c:if test="${state eq '0' and auditTemporary == 1}">selected</c:if> value="first">初审中</option>
-                  <option <c:if test="${state eq '1'}">selected</c:if> value="1">初审合格</option>
+                  <option <c:if test="${state eq '1'}">selected</c:if> value="1">初审合格(待复审)</option>
                   <option <c:if test="${state eq '3'}">selected</c:if> value="3">退回修改</option>
                   <option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未合格</option>
                   <option <c:if test="${state eq '10'}">selected</c:if> value="10">复审退回修改</option>
@@ -393,7 +393,7 @@
                   
                 </c:if>
                 <c:if test="${sign == 2}">
-                  <option <c:if test="${state eq '4'}">selected</c:if> value="4">待复审</option>
+                  <option <c:if test="${state eq '4'}">selected</c:if> value="4">复审已分配</option>
                   <option <c:if test="${state eq '-2'}">selected</c:if> value="-2">复审预合格</option>
                   <option <c:if test="${state eq '-3'}">selected</c:if> value="-3">公示中</option>
                   <option <c:if test="${state eq '6'}">selected</c:if> value="6">复审合格</option>
@@ -498,7 +498,7 @@
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">初审中</span></td>
               </c:if>
               <c:if test="${sign == 1 and expert.status eq '1' }">
-                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">初审合格</span></td>
+                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">初审合格(待复审)</span></td>
               </c:if>
               <c:if test="${sign == 1 and expert.status eq '2' }">
                 <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">初审未合格</span></td>
@@ -513,7 +513,7 @@
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">预初审结束</span></td>
               </c:if>
               <c:if test="${sign == 2 and expert.status eq '4' and expert.auditTemporary ne '2'}">
-                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复审</span></td>
+                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">复审已分配</span></td>
               </c:if>
               <c:if test="${sign == 2 and expert.status eq '4' and expert.auditTemporary eq '2'}">
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">复审中</span></td>
