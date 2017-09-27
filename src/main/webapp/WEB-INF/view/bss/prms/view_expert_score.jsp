@@ -102,10 +102,10 @@
     $("#" + TableID + "_tableColumn").offset($("#" + TableID + "_tableLayout").offset());
     $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
 }
-$(document).ready(function () {
+/* $(document).ready(function () {
     var boxwidth = $("#content").width();
             FixTable("table", 3, boxwidth, 460);
-        });
+        }); */
 function printResult(expertId,projectId,packageId){
      window.location.href="${pageContext.request.contextPath}/packageExpert/showViewByExpertIdWord.html?expertId="+expertId+"&projectId="+projectId+"&packageId="+packageId;
 
@@ -140,6 +140,7 @@ function printResult(expertId,projectId,packageId){
                 </c:forEach>
         </tr>
           <c:forEach items="${markTermList}" var="markTerm">
+            <c:if test="${markTerm.checkedPrice!=1}">
             <c:forEach items="${scoreModelList}" var="score" varStatus="vs">
               <c:if test="${score.markTerm.pid eq markTerm.id}">
                 <tr>
@@ -179,6 +180,7 @@ function printResult(expertId,projectId,packageId){
               </tr>
             </c:if>
           </c:forEach>
+          </c:if>
          </c:forEach>
          <tr>
           <td class="tc">合计</td>

@@ -16,6 +16,10 @@
             $("#tipMsg").val("");
             layer.alert("综合评分法必须有且只有一个价格评审数据.",{offset: '50px'});
         }
+		if ($("#tipMsg").val() == "noScore") {
+            $("#tipMsg").val("");
+            layer.alert("综合评分法总分必须100分",{offset: '50px'});
+        }
     	var packageId=	$("input[name='packageId']").val();
     	var flag="${flag}";
     	if(flag=="success"){

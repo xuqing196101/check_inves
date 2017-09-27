@@ -321,6 +321,7 @@ $(document).ready(function () {
 			  </thead>
 			  <tbody>
 			    <c:forEach items="${markTermList}" var="markTerm">
+			     <c:if test="${markTerm.checkedPrice!='1' }" >
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
@@ -411,6 +412,7 @@ $(document).ready(function () {
 				 	    </tr>
 				 	  </c:if>
 				 	</c:forEach>
+				 </c:if>
 				 </c:forEach>
 				 <tr>
 				 	<td class="tc">合计</td>

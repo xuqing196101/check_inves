@@ -339,6 +339,7 @@ public class OpenBiddingController extends BaseSupplierController{
             if (sms != null && sms.size() >0) {
               List<DictionaryData> ddList = DictionaryDataUtil.find(23);
               int checkCount = 0;
+              Double score=0.0;
               for (DictionaryData dictionaryData : ddList) {
                 MarkTerm mt = new MarkTerm();
                 mt.setTypeName(dictionaryData.getId());
@@ -354,6 +355,8 @@ public class OpenBiddingController extends BaseSupplierController{
                   mt1.setPackageId(p.getId());
                   List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
                   for (MarkTerm markTerm : mtValue) {
+                    score+=markTerm.getScscore();
+                    System.out.println(score);
                     if ("1".equals(markTerm.isChecked())) {
                       checkCount ++;
                     }
@@ -362,6 +365,10 @@ public class OpenBiddingController extends BaseSupplierController{
               }
               if (checkCount == 0 || checkCount > 1) {
                 msg = "noThired";
+                return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+              }
+              if(score!=100.00){
+                msg = "noScore";
                 return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
               }
             }

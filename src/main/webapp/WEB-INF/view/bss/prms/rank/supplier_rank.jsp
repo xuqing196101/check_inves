@@ -34,6 +34,39 @@
 			layer.msg("没有显示出来的包为暂未结束评审状态!",{offset: '200px'});
 		}
 	});
+	
+	function pack(packId,projectId){
+		$.ajax({
+			url:'${pageContext.request.contextPath}/reviewFirstAudit/save_score.html',
+			data:{"packId":packId,"projectId":projectId},
+			type:"post",
+			dataType:'JSON',
+			success:function(data){
+				 var datas=JSON.parse(data);
+				 var spriceScore=datas.spriceScore;
+				 var ranks=datas.ranks;
+				 var scores=datas.scores;
+				 if(spriceScore.length>0){
+					 for(var i=0;i<spriceScore.length;i++){
+							$("#price_"+spriceScore[i].id).text(spriceScore[i].pScore);
+						}
+				 }
+				 if(scores.length>0){
+					 for(var i=0;i<scores.length;i++){
+							$("#score_"+scores[i].id).text(scores[i].score);
+						}
+				 }
+				 if(ranks.length>0){
+					 for(var i=0;i<ranks.length;i++){
+							$("#rank_"+ranks[i].id).text(ranks[i].rank);
+						}
+				 }
+						/* for(var i=0;i<data.length;i++){
+							$("#price_"+data[i].supplierId+"_"+data[i].packageId).text(data[i].score);
+						} */
+			}
+		});
+	}
   </script>
 </head>
   <body>
@@ -41,8 +74,10 @@
 	  <div class="tab-pane fade active in" id="tab-1">
         <c:forEach items="${packagesList}" var="pack" varStatus="vs">
           <div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
-          <h2 onclick="ycDiv(this,'${vs.index}')" class="count_flow spread hand">${pack.name}</h2>
+          <h2 onclick="ycDiv(this,'${vs.index}')" class="count_flow hand fl clear spread">${pack.name}</h2>
+          
           <c:if test="${'PBFF_JZJF' eq pack.bidMethodTypeName}">
+             <div class="clear"></div>
          		<c:set var="isDone" value="0" scope="page"></c:set>
          		<c:forEach items="${supplierList}" var="supplier">
                   <c:if test="${isDone ne '1' && supplier.packages eq pack.id}">
@@ -55,6 +90,10 @@
                 </c:forEach>
           </c:if>
           <c:if test="${'OPEN_ZHPFF' eq pack.bidMethodTypeName}">
+           <div class="fl mt20 ml10">
+             <button class="btn" onclick="pack('${pack.id}','${pack.projectId}');" type="button">计算报价得分</button>
+           	</div>
+           	<div class="clear"></div>
          		<c:set var="isDone1" value="0" scope="page"></c:set>
          		<c:forEach items="${supplierList}" var="supplier">
                   <c:if test="${isDone1 ne '1' && supplier.packages eq pack.id}">
@@ -72,6 +111,7 @@
                   	<c:set var="isDone1" value="1" scope="page"></c:set>
                   </c:if>
                 </c:forEach>
+           
           </c:if>
           
           <div class="p0${vs.index}">
@@ -94,6 +134,22 @@
               </tr>
               <!-- 综合评分法 -->
           	  <c:if test="${'OPEN_ZHPFF' eq pack.bidMethodTypeName}">
+          	     <tr>
+          	      <td colspan="2" class="tc">报价得分</td>
+	          	     <c:forEach items="${supplierList}" var="supplier">
+		                  <c:if test="${supplier.packages eq pack.id}">
+		                  	  <td class="tc" colspan="2" id="price_${supplier.suppliers.id}_${pack.id}">
+		                  	  <c:forEach items="${scorePrice}" var="price">
+		                  	    <c:if test="${price.packageId eq pack.id and price.supplierId eq supplier.suppliers.id}">
+		                          ${price.score}
+		                        </c:if>
+		                  	  </c:forEach>
+		                  	  </td>
+		                   </c:if>
+		               </c:forEach>
+          	     </tr>
+          	  
+          	  
 	              <c:forEach items="${expertList}" var="expert">
 	                <c:if test="${expert.packageId eq pack.id}">
 	                  <tr>
@@ -117,10 +173,12 @@
 	                <td class="tc" colspan="2">总分</td>
 	                <c:forEach items="${supplierList}" var="supplier">
 	                  <c:if test="${supplier.packages eq pack.id}">
-		                <td class="tc" colspan="2">
+		                <td class="tc" colspan="2" id="score_${supplier.suppliers.id}_${pack.id}">
 		                  <c:forEach items="${rankList}" var="rank">
 		                    <c:if test="${rank.packageId eq pack.id && rank.supplierId eq supplier.suppliers.id}">
-		                      ${rank.econScore}(经济)+${rank.techScore}(技术)=${rank.sumScore}
+		                       <c:if test="${rank.econScore!=null&&rank.techScore!=null&&rank.sumScore!=null}">
+		                         ${rank.priceScore}(价格)+${rank.econScore}(经济)+${rank.techScore}(技术)=${rank.sumScore}
+		                       </c:if>
 		                    </c:if>
 		                  </c:forEach>
 		                </td>
@@ -210,10 +268,12 @@
                 <c:if test="${'OPEN_ZHPFF' eq pack.bidMethodTypeName}">
                 <c:forEach items="${supplierList}" var="supplier">
                   <c:if test="${supplier.packages eq pack.id}">
-	                <td class="tc" colspan="2">
+	                <td class="tc" colspan="2" id="rank_${supplier.suppliers.id}_${pack.id}">
 	                  <c:forEach items="${rankList}" var="rank">
 	                    <c:if test="${rank.packageId eq pack.id and rank.supplierId eq supplier.suppliers.id and (rank.reviewResult == null or rank.reviewResult eq '')}">
+	                      <c:if test="${rank.rank!=0}">
 	                      ${rank.rank}
+	                      </c:if>
 	                    </c:if>
 	                    <c:if test="${rank.packageId eq pack.id and rank.supplierId eq supplier.suppliers.id and rank.reviewResult != null and rank.reviewResult ne ''}">
 		         			<c:set var="num2" value="0" scope="page"></c:set>

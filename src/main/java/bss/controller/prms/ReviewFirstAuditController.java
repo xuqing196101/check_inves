@@ -2,6 +2,7 @@
 package bss.controller.prms;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -9,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
@@ -18,16 +21,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
+import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.SupplierExtRelateService;
+import ses.service.sms.SupplierPorjectQuaService;
+import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.ScoreModelUtil;
+import ses.util.WfUtil;
+import bss.controller.base.BaseController;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.MarkTerm;
@@ -35,6 +44,7 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
+import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.SupplyMark;
 import bss.model.prms.ExpertScore;
 import bss.model.prms.FirstAudit;
@@ -51,6 +61,7 @@ import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
+import bss.service.ppms.SupplierCheckPassService;
 import bss.service.prms.ExpertScoreService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageExpertService;
@@ -61,7 +72,7 @@ import com.alibaba.fastjson.JSON;
 
 @Controller
 @RequestMapping("reviewFirstAudit")
-public class ReviewFirstAuditController {
+public class ReviewFirstAuditController extends BaseSupplierController {
 
 	@Autowired
 	private ReviewFirstAuditService service;
@@ -97,7 +108,10 @@ public class ReviewFirstAuditController {
     private AdvancedPackageService advancedPackageService;
     @Autowired
     private AdvancedProjectService advancedProjectService;
-
+    @Autowired
+    private SupplierQuoteService supplierQuoteService;
+    @Autowired
+    private SupplierCheckPassService checkPassService;
     /**
      *〈简述〉
      * 项目评审list页面中的查看详情
@@ -357,6 +371,16 @@ public class ReviewFirstAuditController {
 		List<MarkTerm> markTerms = new ArrayList<MarkTerm>();
 		for (MarkTerm mark : markTermList) {
 		    if (mark.getCount() != 0) {
+		      MarkTerm mt1 = new MarkTerm();
+          mt1.setPid(mark.getId());
+          mt1.setProjectId(projectId);
+          mt1.setPackageId(packageId);
+          List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+          for (MarkTerm markTerm : mtValue) {
+              if ("1".equals(markTerm.isChecked())) {
+                mark.setCheckedPrice(markTerm.isChecked());
+              }
+          }
 		        markTerms.add(mark);
 		    }
 		}
@@ -521,6 +545,168 @@ public class ReviewFirstAuditController {
 			return null;
 		}
 	}
+	@RequestMapping("save_score")
+	public void saveScore(String packId,String projectId,HttpServletRequest request,HttpServletResponse response) throws ParseException{
+	  List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+	  String scoreId="";
+    for (DictionaryData dictionaryData : ddList) {
+        MarkTerm mt = new MarkTerm();
+        mt.setTypeName(dictionaryData.getId());
+        mt.setProjectId(projectId);
+        mt.setPackageId(packId);
+        //默认顶级节点为0
+        mt.setPid("0");
+        List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
+        atrh:
+        for (MarkTerm mtKey : mtList) {
+            MarkTerm mt1 = new MarkTerm();
+            mt1.setPid(mtKey.getId());
+            mt1.setProjectId(projectId);
+            mt1.setPackageId(packId);
+            List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+            for (MarkTerm markTerm : mtValue) {
+                if ("1".equals(markTerm.isChecked())) {
+                    scoreId=markTerm.getId();
+                    break atrh;
+                }
+            }
+        }
+    }
+    ScoreModel model=new ScoreModel();
+    model.setPackageId(packId);
+    model.setProjectId(projectId);
+    model.setMarkTermId(scoreId);
+	  ScoreModel smodel = scoreModelService.findScoreModelByScoreModel(model);
+	  
+	  Quote quote=new Quote(); 
+	  quote.setPackageId(packId);
+	  quote.setProjectId(projectId);
+/*	  List<Date> selectQuoteCount = supplierQuoteService.selectQuoteCount(quote);
+	  quote.setCreatedAt(selectQuoteCount.get(selectQuoteCount.size()-1));*/
+	  List<Quote> quotes = supplierQuoteService.get(quote);
+	  Double param = quotes.get(0).getTotal().doubleValue();
+	  ArrayList<SupplyMark> smList = new ArrayList<>();
+	  SupplyMark sm;
+    for (Quote qt : quotes) {
+        sm = new SupplyMark();
+        sm.setSupplierId(qt.getSupplierId());
+        sm.setPrarm(qt.getTotal().doubleValue());
+        sm.setMarkTermId(scoreId);
+        smList.add(sm);
+        if (param > qt.getTotal().doubleValue()) {
+            param = qt.getTotal().doubleValue();
+        }
+    }
+    ScoreModel scoreModel = new ScoreModel();
+    scoreModel.setId(smodel.getId());
+    ScoreModel scoreModel2 = scoreModelService.findScoreModelByScoreModel(scoreModel );
+    SupplyMark smCondition = new SupplyMark();
+    smCondition.setPrarm(param);
+    List<SupplyMark> list = ScoreModelUtil.getScoreByModelSix(scoreModel2, smList,smCondition);
+    ExpertScore expertScore = new ExpertScore();
+    expertScore.setProjectId(projectId);
+    expertScore.setPackageId(packId);
+    expertScore.setScoreModelId(smodel.getId());
+    expertScoreService.saveScore(expertScore, list,smodel.getId());
+    List<ExpertScore> es = expertScoreService.selectByScore(expertScore);
+    StringBuffer buffer=new StringBuffer();
+    buffer.append("{\"spriceScore\":[");
+    for(ExpertScore ets:es){
+      buffer.append("{\"id\":\""+ets.getSupplierId()+"_"+ets.getPackageId()+"\",");
+      buffer.append("\"pScore\":\""+ets.getScore()+"\"},");
+      HashMap<String, Object> ranMap = new HashMap<String, Object>();
+      ranMap.put("supplierId", ets.getSupplierId());
+      ranMap.put("packageId", ets.getPackageId());
+      ranMap.put("priceScore", ets.getScore());
+      saleTenderService.editSumScore(ranMap);
+    }
+    buffer=buffer.replace(buffer.lastIndexOf(","), buffer.lastIndexOf(",")+1, "],");
+    System.out.println(buffer.toString());
+ // 供应商信息
+    List<SaleTender> allSupplierList = saleTenderService.find(new SaleTender(projectId));
+    List<SaleTender> supplierList = new ArrayList<SaleTender>();
+    for (int i = 0; i < allSupplierList.size(); i++) {
+        SaleTender sale = allSupplierList.get(i);
+        if (sale.getPackages().contains(packId) && sale.getIsFirstPass() == 1 && "0".equals(sale.getIsRemoved()) && sale.getIsTurnUp() != null && sale.getIsTurnUp() == 0) {
+            supplierList.add(sale);
+        }
+    }
+    // 将供应商的经济技术总分存入SaleTender表中
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("packageId", packId);
+    
+    //根据评分办法筛选后的供应商
+    List<SaleTender> finalSupplier = new ArrayList<SaleTender>();
+    //封装合格和不合格的供应商
+    HashMap<String, Object> rejectByPriceMap = new HashMap<String, Object>();
+    //根据有效平均报价剔除不合格供应商
+    rejectByPriceMap = packageExpertService.rejectByPrice(packId, projectId, supplierList);
+    
+    //根据有效经济技术平均分剔除不合格供应商
+    finalSupplier = packageExpertService.rejectByScore(packId, projectId, rejectByPriceMap);
+   
+    //往saleTener插入最终供应商排名
+    packageExpertService.rank(packId, projectId, finalSupplier);
+    for (int i = 0; i < finalSupplier.size(); i++) {
+      SaleTender st = finalSupplier.get(i);
+      String reviewResult = st.getReviewResult();
+      int rank = i+1;
+      reviewResult += rank;
+      //插入排名
+      HashMap<String, Object> ranMap = new HashMap<String, Object>();
+      ranMap.put("reviewResult", reviewResult);
+      ranMap.put("supplierId", st.getSuppliers().getId());
+      ranMap.put("packageId", st.getPackages());
+      ranMap.put("economicScore", st.getEconomicScore());
+      ranMap.put("technologyScore", st.getTechnologyScore());
+      saleTenderService.editSumScore(ranMap);
+      //向SUPPLIER_CHECK_PASS表中插入预中标供应商
+      BigDecimal totalSupplier = new BigDecimal(0);
+      totalSupplier= totalSupplier.add(st.getEconomicScore());
+      totalSupplier= totalSupplier.add(st.getTechnologyScore());
+      SupplierCheckPass record = new SupplierCheckPass();
+      record.setId(WfUtil.createUUID());
+      record.setPackageId(packId);
+      record.setProjectId(projectId);
+      record.setSupplierId(st.getSuppliers().getId());
+      record.setTotalScore(totalSupplier);
+      record.setTotalPrice(st.getTotalPrice());
+      record.setRanking(i+1);
+      SupplierCheckPass checkPass = new SupplierCheckPass();
+      checkPass.setPackageId(packId);
+      checkPass.setSupplierId(st.getSuppliers().getId());
+      //判断是否有旧数据
+      List<SupplierCheckPass> oldList= checkPassService.listCheckPass(checkPass);
+      if (oldList != null && oldList.size() > 0) {
+        for (SupplierCheckPass supplierCheckPass : oldList) {
+          //删除原数据
+          checkPassService.delete(supplierCheckPass.getId());
+        }
+      }
+      checkPassService.insert(record);
+    }
+    StringBuffer ranks=new StringBuffer();
+    ranks.append("\"ranks\":[");
+    StringBuffer score=new StringBuffer();
+    score.append("\"scores\":[");
+    for(ExpertScore ets:es){
+      SaleTender st=new SaleTender();
+      st.setSupplierId(ets.getSupplierId());
+      st.setPackages(packId);
+      List<SaleTender> sts = saleTenderService.getPackegeSuppliers(st);
+      ranks.append("{\"id\":\""+sts.get(0).getSuppliers().getId()+"_"+sts.get(0).getPackages()+"\",");
+      ranks.append("\"rank\":\""+sts.get(0).getReviewResult().substring(sts.get(0).getReviewResult().lastIndexOf("_")+1,sts.get(0).getReviewResult().length())+"\"},");
+      score.append("{\"id\":\""+sts.get(0).getSuppliers().getId()+"_"+sts.get(0).getPackages()+"\",");
+      score.append("\"score\":\""+sts.get(0).getPriceScore()+"(价格)+"+sts.get(0).getEconomicScore()+"(经济)+"+sts.get(0).getTechnologyScore()+"(技术)="+sts.get(0).getPriceScore().add(sts.get(0).getEconomicScore()).add(sts.get(0).getTechnologyScore())+"\"},");
+    }
+    ranks=ranks.replace(ranks.lastIndexOf(","), ranks.lastIndexOf(",")+1, "],");
+    score=score.replace(score.lastIndexOf(","), score.lastIndexOf(",")+1, "]}");
+    buffer.append(ranks);
+    buffer.append(score);
+    System.out.println(buffer.toString());
+	  super.writeJson(response, buffer.toString());
+	}
+	
 	/**
 	 * 
 	  * @Title: caseGrade
@@ -926,6 +1112,16 @@ public class ReviewFirstAuditController {
                 // 将count == 0 的移除
                 List<MarkTerm> markTerms = new ArrayList<MarkTerm>();
                 for (MarkTerm mark : markTermList) {
+                  MarkTerm mt1 = new MarkTerm();
+                  mt1.setPid(mark.getId());
+                  mt1.setProjectId(projectId);
+                  mt1.setPackageId(packageId);
+                  List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+                  for (MarkTerm mt : mtValue) {
+                      if ("1".equals(mt.isChecked())) {
+                        mark.setCheckedPrice(mt.isChecked());
+                      }
+                  }
                     if (mark.getCount() != 0) {
                         markTerms.add(mark);
                     }

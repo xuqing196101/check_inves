@@ -720,9 +720,11 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             BigDecimal totalScore1 = new BigDecimal(0);
             totalScore1 = totalScore1.add(o1.getEconomicScore());
             totalScore1 = totalScore1.add(o1.getTechnologyScore());
+            totalScore1 = totalScore1.add(o1.getPriceScore());
             BigDecimal totalScore2 = new BigDecimal(0);
             totalScore2 = totalScore2.add(o2.getEconomicScore());
             totalScore2 = totalScore2.add(o2.getTechnologyScore());
+            totalScore2 = totalScore2.add(o2.getPriceScore());
             if(totalScore1.compareTo(totalScore2) == 1){  
                 return -1;
             }  

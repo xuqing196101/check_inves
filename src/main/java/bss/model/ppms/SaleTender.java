@@ -206,6 +206,8 @@ public class SaleTender {
     
     private Integer isEndPrice;
     
+    private BigDecimal priceScore;//价格评分
+    
     public Integer getIsEndPrice() {
         return isEndPrice;
     }
@@ -758,6 +760,16 @@ public class SaleTender {
 
     public void setArmyBuinessName(String armyBuinessName) {
         this.armyBuinessName = armyBuinessName;
+    }
+
+
+    public BigDecimal getPriceScore() {
+      return priceScore;
+    }
+
+
+    public void setPriceScore(BigDecimal priceScore) {
+      this.priceScore = priceScore;
     }
     
 }

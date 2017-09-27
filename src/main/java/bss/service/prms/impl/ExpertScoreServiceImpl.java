@@ -345,6 +345,11 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
     public BigDecimal selectSumByMap(HashMap<String, Object> map) {
         return mapper.selectSumByMap(map);
     }
+
+    @Override
+    public List<ExpertScore> selectByScore(ExpertScore expertScore) {
+      return mapper.selectByScore(expertScore);
+    }
     
     
     
