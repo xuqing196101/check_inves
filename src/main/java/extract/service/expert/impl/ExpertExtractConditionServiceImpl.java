@@ -280,6 +280,9 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                         idMap.put("typeId", DictionaryDataUtil.getId(typeCode));
                         expertIds.addAll(expertCategoryMapper.selExpertByAll(idMap));
                     }
+                    if(expertIds.size() == 0){
+                    	expertIds.add("");
+                    }
                 }
                 map.put("expertIds",expertIds);
                 map.put("size",expertIds.size());
@@ -294,6 +297,9 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                         List<String> titleList = expertExtractConditionMapper.findExpertBytypeIdTitle(qualification, DictionaryDataUtil.getId(typeCode));
                         if(titleList != null && titleList.size() > 0){
                         	qualificationList.addAll(titleList);
+                        }
+                        if(qualificationList.size() == 0){
+                        	qualificationList.add("");
                         }
                     }
                     map.put("qualificationList",qualificationList);
@@ -323,6 +329,9 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                             idMap.put("idSize", categoryId.length);
                             idMap.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
                             gcList.addAll(expertCategoryMapper.selExpertByAll(idMap));
+                        }
+                        if(gcList.size() == 0){
+                        	gcList.add("");
                         }
                     }
                     map.put("gcList",gcList);

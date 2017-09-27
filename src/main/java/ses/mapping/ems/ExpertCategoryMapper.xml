@@ -278,12 +278,12 @@
     </select>
     
     <!-- 根据品目查询符合条件的专家 (满足所有品目条件) -->
-    <select id="selExpertByAll"  parameterType="Map" resultType="String">
+    <select id="selExpertByAll" parameterType="Map" resultType="String">
       SELECT
         EXPERT_ID
       FROM
         T_SES_EMS_EXPERT_CATEGORY
-      WHERE 
+      WHERE
         TYPE_ID = #{typeId} AND CATEGORY_ID IN
         <foreach collection="ids" open="(" separator="," item="cid" close=")">
           #{cid}
