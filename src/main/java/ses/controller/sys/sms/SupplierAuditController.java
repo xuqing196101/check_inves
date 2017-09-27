@@ -11,7 +11,6 @@ import common.utils.JdcgResult;
 import common.utils.ListSortUtil;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
@@ -3624,9 +3623,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		String newFileName = "";
 		
 		//日期
-		Date date = new Date();
 	    SimpleDateFormat format = new SimpleDateFormat("yyyy 年 MM 月 dd 日");
-		dataMap.put("date", format.format(date));
+		dataMap.put("date", format.format(supplier.getAuditDate()));
 
 		Map<String, Object> selMap = new HashedMap();
 		// 采购机构全称
@@ -4579,18 +4577,18 @@ public class SupplierAuditController extends BaseSupplierController {
 		return JdcgResult.ok(supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 0));
     }
 
+	/**
+	 * @deprecated: 点击审核通过复选框校验审核通过项
+	 *
+	 * @Author:Easong
+	 * @Date:Created in 2017/7/22
+	 * @param: [supplierId]
+	 * @return: common.utils.JdcgResult
+	 *
+	 */
 	@RequestMapping("/vertifyAuditItem")
 	@ResponseBody
     public JdcgResult vertifyAuditItem(String supplierId){
-    	/**
-    	 * @deprecated: 点击审核通过复选框校验审核通过项
-    	 *
-    	 * @Author:Easong
-    	 * @Date:Created in 2017/7/22
-    	 * @param: [supplierId]
-    	 * @return: common.utils.JdcgResult
-    	 *
-    	 */
 		// 点击通过按钮时判断
 		JdcgResult selectAndVertifyAuditItem = supplierAuditService.selectAndVertifyAuditItem(supplierId);
 		if(selectAndVertifyAuditItem.getStatus() != 200) {
