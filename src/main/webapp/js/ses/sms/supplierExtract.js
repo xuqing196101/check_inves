@@ -1417,7 +1417,7 @@ $(function () {
            enable: true,
            chkboxType: {
              "Y": "s",
-             "N": "ps"
+             "N": "p"
            },
            chkStyle : "checkbox" 
           // autoCheckTrigger: true
@@ -1790,12 +1790,22 @@ $(function () {
     	var zTree = $.fn.zTree.getZTreeObj(treeId);
     	if(null != zTree){
     		var nodes = zTree.getCheckedNodes(true);
-    		v = "";
+    		var v = "";
     		var rid = "";
+    		var pv = "";
+    		var pid = "";
     		for (var i = 0, l = nodes.length; i < l; i++) {
-    			v += nodes[i].name + ",";
-    			rid += nodes[i].id + ",";
+    			
+    			if(nodes[i].isParent){
+    				pv += nodes[i].name + ",";
+    				pid += nodes[i].id + ",";
+    			}else{
+    				v += nodes[i].name + ",";
+    				rid += nodes[i].id + ",";
+    			}
     		}
+    		
+    		
     		if (v.length > 0) v = v.substring(0, v.length - 1);
     		if (rid.length > 0) rid = rid.substring(0, rid.length - 1);
     		//加载资质

@@ -343,7 +343,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			HashMap<String,String> hashMap2 = new HashMap<>();
 			hashMap2.put("recordId", recordId);
 			hashMap2.put("supplierType",projectCode);
-			if("relPor".equals(projectInto)){
+			if("relPro".equals(projectInto)){
 				map.put("result", conMapper.getSupplierListByRidForRel(hashMap2));
 			}else if("advPro".equals(projectInto)){
 				map.put("result", conMapper.getSupplierListByRidForAdv(hashMap2));

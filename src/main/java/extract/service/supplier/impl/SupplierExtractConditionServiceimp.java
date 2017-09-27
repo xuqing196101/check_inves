@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -527,10 +529,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	@Override
 	public List<DictionaryData> getQuaByCid(String categoryId ,String code,String parentId) {
 		
-		if(StringUtils.isNotBlank(parentId)){
-			
-			categoryId = this.selectChild(parentId, categoryId);
-		}
+		
 		
 		HashMap<String,String[]> hashMap = new HashMap<>();
 		if(StringUtils.isNotBlank(categoryId)){
@@ -538,6 +537,11 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 				String[] checkParentCate = checkParentCate(categoryId);
 				hashMap.put("categoryIds",null !=checkParentCate?checkParentCate:categoryId.split(","));
 			}else{
+				if(StringUtils.isNotBlank(parentId)){
+					
+					categoryId = this.selectChild(parentId, categoryId);
+				}
+				String[] split = categoryId.split(",");
 				hashMap.put("categoryIds",categoryId.split(","));
 			}
 			return supplierConditionMapper.getQuaByCid(hashMap);
@@ -561,19 +565,21 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	public String[] checkParentCate(String categoryIds) {
 		// 递归获取所有父节点
 		
-		String[] cate = null;
+		HashSet<String> hashSet = new HashSet<>();
 		if(StringUtils.isNotBlank(categoryIds)){
 			for (String cid : categoryIds.split(",")) {
 				List<Category> checkParentCate = supplierConditionMapper.checkParentCate(cid);
 				if("B02".equals(checkParentCate.get(0).getCode())||"B03".equals(checkParentCate.get(0).getCode())){
-					cate = new String[checkParentCate.size()];
-					for (int i = 0; i < checkParentCate.size(); i++) {
-						cate[i]=checkParentCate.get(i).getId();
+					for (Category category : checkParentCate) {
+						hashSet.add(category.getId());
 					}
+				}else{
+					hashSet.add(cid);
 				}
 			}
 		}
-		return cate;
+		
+		return hashSet.toArray(new String[hashSet.size()]);
 	}
 
 	@Override

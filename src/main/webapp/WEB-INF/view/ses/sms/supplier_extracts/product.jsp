@@ -21,40 +21,6 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <script type="text/javascript">
- /*    var datas;
-    var treeObj; */
-  /* $(function(){
-	  var setting={
-              async:{
-                          autoParam:["id"],
-                          enable:true,
-                          url:"${pageContext.request.contextPath}/SupplierExtracts_new/getTree.do?projectId=${projectId}",
-                          dataType:"json",
-                          type:"post",
-                      },
-                      callback:{
-                          onClick:zTreeOnClick,//点击节点触发的事件
-                          onCheck:zTreeOnCheck
-                          
-                      }, 
-                      data:{
-                          simpleData:{
-                              enable:true,
-                              idKey:"id",
-                              pIdKey:"pId",
-                              rootPId:0,
-                          }
-                      },
-                     check:{
-                          chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
-                          chkStyle:"checkbox", 
-                          enable: true
-                     }
-        };
-	     treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
-	     
-    }); */
-    
     var key;
     $(function() {
       var zTreeObj;
@@ -77,10 +43,9 @@
           },
           check: {
             enable: true,
-            chkboxType: {
-              "Y": "s",
-              "N": "s"
-            }
+            chkStyle: "checkbox",
+            chkboxType: { "Y": "s", "N": "ps" }
+            /* autoCheckTrigger: true */
           },
           data: {
             simpleData: {
@@ -89,6 +54,9 @@
               pIdKey: "parentId"
             }
           },
+          callback: {
+		 	//onCheck: cancelParentNodeChecked
+		  },
           view: {
             fontCss: getFontCss
           }
@@ -102,6 +70,68 @@
       }
       
     });
+    
+   //工程品目处理父子节点
+      function modifParentOrChild(nodes){
+	    var ppid = "";
+	    var curId = "";
+	    var ppName = "";
+         	//zTree = $.fn.zTree.getZTreeObj("ztree");
+		for ( var i in nodes) {
+			
+			//递归根节点，
+			var rootNode = getRootNode(nodes[i]);
+			if(rootNode.name == "工程勘察" || rootNode.code == "工程设计"  ){
+				
+				//判断是工程勘察或设计
+				var flag = preIsCheck(nodes[i]) && nextIsCheck(nodes[i]);
+				flag = preIsCheck(nodes[i]) && nextIsCheck(nodes[i]);
+				if(flag){
+					if(ppid.search(nodes[i].getParentNode().id) == -1){
+						ppid += nodes[i].getParentNode().id + ",";
+						ppName += nodes[i].getParentNode().name + ",";
+					}
+						
+				}else{
+					ppid += nodes[i].id + ",";
+					ppName += nodes[i].name + ",";
+				}
+			}else{
+     			ppid+=nodes[i].id+","; 
+			}
+		}
+		return ppid;
+		
+      }
+    //递归根节点
+    function getRootNode(node){
+    	var rootNode = node;
+    	if(node.getParentNode()){
+    	 rootNode = getRootNode(node.getParentNode());
+    	}
+    	return rootNode;
+    }
+    
+    
+    //判断前一个节点是否选中
+    function preIsCheck(treeNode){
+  	 	var pre = treeNode.getPreNode();
+    	if(pre){
+    		treeNode.checked &=  preIsCheck(pre) ;
+    	}
+    	return treeNode.checked;
+    }
+    
+    //判断后一个节点是否选中
+ 	function nextIsCheck(treeNode){
+ 		var next = treeNode.getNextNode();
+ 		if(next){
+    		treeNode.checked &=  nextIsCheck(next) ;
+    	}
+    	return	treeNode.checked;
+ 	}   
+    
+    
     
 //选中父节点，勾选子节点
   function ajaxDataFilter(treeId, parentNode, responseData){
@@ -186,6 +216,7 @@
   }
   //获取选中子节点id
   function getChildren(cate){
+  	var typeCode = $(cate).attr("typeCode");
       var Obj=$.fn.zTree.getZTreeObj("ztree");  
        var nodes=Obj.getCheckedNodes(true);  
        var ids  = "";
@@ -205,17 +236,17 @@
         //是否满足
        var issatisfy=$('input[name="radio"]:checked ').val();
        var cname = parentName+names;
-       if(cate!=null){
-           $(cate).val(cname.substring(0,cname.lastIndexOf(",")));/* 将选中目录名称显示在输入框中 */
-           $(cate).parents("li").find(".isSatisfy").val(issatisfy);
+       if("PROJECT"!=typeCode){
            $(cate).parents("li").find(".categoryId").val(ids.substring(0,ids.lastIndexOf(",")));
            $(cate).parents("li").find(".parentId").val(parentId.substring(0,parentId.lastIndexOf(",")));
-           
-        /*    $(cate).parent().parent().parent().parent().parent().find("#extCategoryNames").val(names.substring(0,names.length-1));
-           $(cate).parent().parent().parent().parent().parent().find("#extCategoryId").val(ids.substring(0,ids.length-1));
-           $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val(issatisfy); */
-           
+       }else{
+       		var ppid = modifParentOrChild(nodes);
+       		$(cate).parents("li").find(".categoryId").val(ppid.substring(0,ppid.lastIndexOf(",")));
        }
+           $(cate).parents("li").find(".isSatisfy").val(issatisfy);
+           $(cate).val(cname.substring(0,cname.lastIndexOf(",")));/* 将选中目录名称显示在输入框中 */
+           
+           
        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
        parent.layer.close(index);
   }     
