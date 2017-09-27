@@ -875,12 +875,15 @@ public class ExpertAuditController{
             cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
             cate.setRootNode(cate.getRootNode());
             
-            expertAudit.setExpertId(expertId);
-            expertAudit.setSuggestType("six");
-            expertAudit.setAuditFieldId(cate.getItemsId());
-            ExpertAudit findAuditByExpertId = expertAuditService.findAuditByExpertId(expertAudit);
-            if(findAuditByExpertId !=null && findAuditByExpertId.getAuditReason() !=null){
-            	cate.setAuditReason(findAuditByExpertId.getAuditReason());
+            if(sign==2){
+            	expertAudit.setExpertId(expertId);
+                expertAudit.setSuggestType("six");
+                expertAudit.setAuditFalg(1);
+                expertAudit.setAuditFieldId(cate.getItemsId());
+                ExpertAudit findAuditByExpertId = expertAuditService.findAuditByExpertId(expertAudit);
+                if(findAuditByExpertId !=null && findAuditByExpertId.getAuditReason() !=null){
+                	cate.setAuditReason(findAuditByExpertId.getAuditReason());
+                }
             }
         }
         model.addAttribute("expertId", expertId);
