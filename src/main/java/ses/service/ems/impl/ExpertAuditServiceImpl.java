@@ -590,7 +590,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	}
 
 	@Override
-	public JdcgResult selectAndVertifyAuditItem(String expertId) {
+	public JdcgResult selectAndVertifyAuditItem(String expertId,int auditFalg) {
 		/**
 		 *
 		 * Description:审核前判断是否有通过项和未通过项--是否符合通过要求
@@ -603,7 +603,10 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
         // 判断基本信息是否存在审核未通过项
         Map<String, Object> map = new HashedMap();
         map.put("expertId",expertId);
-        //map.put("auditFalg",2);
+        if(auditFalg==2){
+        	map.put("auditFalg",auditFalg);
+        }
+        
         map.put("regType", Constant.EXPERT_BASIC_INFO_ITEM_FLAG);
         Integer count;
         // 定义选择类型数量

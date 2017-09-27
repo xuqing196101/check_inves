@@ -295,7 +295,7 @@ public interface ExpertAuditService {
 	 * @param 
 	 * @since JDK1.7
 	 */
-	JdcgResult selectAndVertifyAuditItem(String expertId);
+	JdcgResult selectAndVertifyAuditItem(String expertId,int auditFalg);
 
 	/**
 	 *

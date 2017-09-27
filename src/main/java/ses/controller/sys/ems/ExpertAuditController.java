@@ -1683,7 +1683,13 @@ public class ExpertAuditController{
 		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		int categoryCount=0;
 		model.addAttribute("qualified", true);
-		JdcgResult result = expertAuditService.selectAndVertifyAuditItem(expertId);
+		JdcgResult result =null;
+		if(expertAudit.getAuditFalg()==2){
+			result = expertAuditService.selectAndVertifyAuditItem(expertId,2);
+		}else{
+			result = expertAuditService.selectAndVertifyAuditItem(expertId,0);
+		}
+		
 		if(result.getStatus()==500){
 			model.addAttribute("qualified", false);
 		}else{
@@ -3185,7 +3191,7 @@ public class ExpertAuditController{
          *
          */
         // 点击通过按钮时判断
-        JdcgResult selectAndVertifyAuditItem = expertAuditService.selectAndVertifyAuditItem(expertId);
+        JdcgResult selectAndVertifyAuditItem = expertAuditService.selectAndVertifyAuditItem(expertId,0);
         if (selectAndVertifyAuditItem.getStatus() != 200) {
             //如果有错误信息则直接返回提示操作
             return selectAndVertifyAuditItem;
@@ -3408,12 +3414,12 @@ public class ExpertAuditController{
     	ExpertAudit expertAudit = new ExpertAudit();
 		expertAudit.setExpertId(expertId);
 		expertAudit.setSuggestType("six");
-		
-		expertAudit.setAuditFalg(666);//666标识为空的 用于兼容老数据问题
-		expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
-		expertAudit.setAuditFalg(1);
-		expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
-		if(auditFalg==2){
+		if(auditFalg==1){
+			expertAudit.setAuditFalg(666);//666标识为空的 用于兼容老数据问题
+			expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
+			expertAudit.setAuditFalg(1);
+			expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
+		}else if(auditFalg==2){
 			expertAudit.setAuditFalg(2);
 			expertAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
 		}
