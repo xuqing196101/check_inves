@@ -1688,7 +1688,23 @@ public class ExpertAuditController{
 			model.addAttribute("qualified", false);
 		}else{
 			String[] split = expert.getExpertsTypeId().split(",");
+			ExpertAudit audit = new ExpertAudit();
+			audit.setExpertId(expertId);
+			audit.setSuggestType("seven");
+			audit.settype("1");
+			List<ExpertAudit> list = expertAuditService.getListByExpert(expertAudit);
+			
 			for (String string : split) {
+				boolean s=false;
+				for (ExpertAudit a : list) {
+					if(string.equals(a.getAuditFieldId())){
+						s=true;
+						break;
+					}
+				}
+				if(s){
+					continue;
+				}
 				DictionaryData data = DictionaryDataUtil.findById(string);
 				if("PROJECT".equals(data.getCode())||"GOODS_PROJECT".equals(data.getCode())){
 					Map<String,Object> map2 = new HashMap<String,Object>();
@@ -1696,10 +1712,16 @@ public class ExpertAuditController{
 				     map2.put("typeId", DictionaryDataUtil.getId("PROJECT"));
 				     map2.put("type", "six");
 					int passCount = expertCategoryService.selectPassCount(map2);
-					map2.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
-					passCount+= expertCategoryService.selectPassCount(map2);
 					if(passCount<=0){
 						model.addAttribute("qualified", false);
+						model.addAttribute("message", "当前专家有目录下无通过产品");
+						break;
+					}
+					map2.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
+					passCount= expertCategoryService.selectPassCount(map2);
+					if(passCount<=0){
+						model.addAttribute("qualified", false);
+						model.addAttribute("message", "当前专家有目录下无通过产品");
 						break;
 					}
 				}else{
@@ -1711,6 +1733,7 @@ public class ExpertAuditController{
 					if(passCount<=0){
 						if(!"GOODS_SERVER".equals(data.getCode())){
 							model.addAttribute("qualified", false);
+							model.addAttribute("message", "当前专家有目录下无通过产品");
 							break;
 						}
 					}
