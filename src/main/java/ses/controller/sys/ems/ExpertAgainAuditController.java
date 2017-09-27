@@ -269,9 +269,9 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 			return;
 		}
 		if("4".equals(user.getTypeName())){
-			if(pageNum == null) {
+			/*if(pageNum == null) {
 				pageNum = StaticVariables.DEFAULT_PAGE;
-			}
+			}*/
 			if(batchId==null){
 				img.setStatus(false);
 				img.setMessage("参数有误");

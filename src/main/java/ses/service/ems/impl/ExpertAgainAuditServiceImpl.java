@@ -179,9 +179,9 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		// TODO Auto-generated method stub
 		ExpertAgainAuditImg img = new ExpertAgainAuditImg();
 		PropertiesUtil config = new PropertiesUtil("config.properties");
-		if(pageNum != null){
+		/*if(pageNum != null){
 			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		}
+		}*/
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setBatchId(batchId);
 		expertBatchDetails.setStatus(status);
@@ -220,8 +220,8 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			}
 		}
 		
-		PageInfo< ExpertBatchDetails > result = new PageInfo < ExpertBatchDetails > (list);
-		map.put("list", result);
+		//PageInfo< ExpertBatchDetails > result = new PageInfo < ExpertBatchDetails > (list);
+		map.put("list", list);
 		img.setStatus(true);
 		img.setMessage("操作成功");
 		img.setObject(map);
