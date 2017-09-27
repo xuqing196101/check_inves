@@ -3227,25 +3227,23 @@ public class ExpertAuditController{
     		Integer count=0;
     		status=allTreeList.get(0).getAuditFalg();
     		for (ExpertAudit expertAudit : allTreeList) {
-    			expertAudit.setAuditFalg(null);
+    			expertAudit.setAuditFalg(status);
     			Integer num = expertAuditService.findByObj(expertAudit);
     			count+=num;
-    			
-    			//更新品目的状态(1不通过);
-    			if(expertAudit.getAuditFieldId() !=null && expertAudit.getExpertId() !=null){
-    				ExpertCategory expertCategory = new ExpertCategory();
-    				expertCategory.setAuditStatus(1);
-    				expertCategory.setCategoryId(expertAudit.getAuditFieldId());
-    				expertCategory.setExpertId(expertAudit.getExpertId());
-    				expertCategoryService.updateAuditStatus(expertCategory);
-    			}
-    			
 			}
     		if(count>0){
 				return new JdcgResult(503, "选择中存在已审核,不可重复审核", null);
 			}else{
 
 		    	for (ExpertAudit expertAudit2 : allTreeList) {
+		    		//更新品目的状态(1不通过);
+	    			if(expertAudit2.getAuditFieldId() !=null && expertAudit2.getExpertId() !=null){
+	    				ExpertCategory expertCategory = new ExpertCategory();
+	    				expertCategory.setAuditStatus(1);
+	    				expertCategory.setCategoryId(expertAudit2.getAuditFieldId());
+	    				expertCategory.setExpertId(expertAudit2.getExpertId());
+	    				expertCategoryService.updateAuditStatus(expertCategory);
+	    			}
 		    			expertAudit2.setAuditFalg(status);
 		    			expertAudit2.setAuditUserId(user.getId());
 		    			expertAudit2.setAuditUserName(user.getRelName());
