@@ -26,9 +26,10 @@
             paddingBottom: 4
           });
 
-          $('#pic_checkword_picker').before('<button type="button" class="btn btn-windows group" onclick="jump_batchGroup()">批次分组</button>'
-            +'<button type="button" class="btn btn-windows config" onclick="jump_auditBatch()">审核配置</button>');
-          $('#pic_checkword_picker').after('<button type="button" class="btn btn-windows apply" onclick="reviewConfirm()">批准</button>');
+          $('.pic_upload').before('<button type="button" class="btn btn-windows group" onclick="jump_batchGroup()">批次分组</button>'
+            +'<button type="button" class="btn btn-windows config" onclick="jump_auditBatch()">审核配置</button>'
+            +'<button type="button" class="btn btn-windows apply" onclick="reviewConfirm()">批准</button>'
+          );
 
             
           $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
