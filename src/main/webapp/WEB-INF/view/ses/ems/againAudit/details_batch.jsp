@@ -48,8 +48,8 @@
       
       <div class="fr pic_upload">
         <div class="fl h30 lh30">上传批准复审表：</div>
-        <u:upload id="pic_checkword" businessId="1" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" buttonName="上传彩色扫描件" auto="true" multiple="true"/>
-        <u:show showId="pic_checkword" businessId="1" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" />
+        <u:upload id="pic_checkword" businessId="${batchId}" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" buttonName="上传彩色扫描件" auto="true" multiple="true"/>
+        <u:show showId="pic_checkword" businessId="${batchId}" sysKey="3" typeId="da6ab7e73b8d464d8d8d46013dd70e43" />
       </div>
       <div class="clear"></div>
     </div>

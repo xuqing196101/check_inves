@@ -666,7 +666,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		List<ExpertReviewTeam> findExpertReviewTeam = expertReviewTeamMapper.findExpertReviewTeam(userId);
 		if(findExpertReviewTeam.size()<0){
 			img.setStatus(true);
-			img.setMessage("操作有有误");
+			img.setMessage("操作有误");
 			return img;
 		}
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -692,7 +692,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		List<ExpertReviewTeam> findExpertReviewTeam = expertReviewTeamMapper.findExpertReviewTeam(userId);
 		if(findExpertReviewTeam.size()<0){
 			img.setStatus(true);
-			img.setMessage("操作有有误");
+			img.setMessage("操作有误");
 			return img;
 		}
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
