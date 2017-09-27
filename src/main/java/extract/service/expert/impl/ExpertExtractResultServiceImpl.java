@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.model.ems.ProjectExtract;
+import ses.util.DictionaryDataUtil;
 import extract.dao.expert.ExpertExtractProjectMapper;
 import extract.dao.expert.ExpertExtractResultMapper;
 import extract.model.expert.ExpertExtractProject;
@@ -74,7 +75,7 @@ public class ExpertExtractResultServiceImpl implements ExpertExtractResultServic
                 	projectExtract.setProjectId(packageId);
                 	projectExtract.setExpertId(expertExtractResult.getExpertId());
                 	projectExtract.setReason(expertExtractResult.getReason());
-                	projectExtract.setReviewType(expertExtractResult.getExpertCode());
+                	projectExtract.setReviewType(DictionaryDataUtil.getId(expertExtractResult.getExpertCode() == null ? "" : expertExtractResult.getExpertCode()));
                 	projectExtract.setOperatingType(expertExtractResult.getIsJoin());
                 	projectExtract.setIsProvisional(expertExtractResult.getIsAlternate());
                 	projectExtract.setExpertConditionId(expertExtractResult.getConditionId());
@@ -89,7 +90,7 @@ public class ExpertExtractResultServiceImpl implements ExpertExtractResultServic
                 	projectExtract.setUpdatedAt(new Date());
                 	projectExtract.setExpertId(expertExtractResult.getExpertId());
                 	projectExtract.setReason(expertExtractResult.getReason());
-                	projectExtract.setReviewType(expertExtractResult.getExpertCode());
+                	projectExtract.setReviewType(DictionaryDataUtil.getId(expertExtractResult.getExpertCode() == null ? "" : expertExtractResult.getExpertCode()));
                 	projectExtract.setOperatingType(expertExtractResult.getIsJoin());
                 	projectExtract.setIsProvisional(expertExtractResult.getIsAlternate());
                 	projectExtract.setExpertConditionId(expertExtractResult.getConditionId());
