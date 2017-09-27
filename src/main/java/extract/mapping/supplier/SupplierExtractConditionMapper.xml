@@ -31,6 +31,11 @@
 		<result column="SUPPLIER_TYPE_CODE" jdbcType="VARCHAR" property="supplierTypeCode" />
 	</resultMap>
 
+	<resultMap type="ses.model.bms.CategoryQua" id="quaResult">
+		<result column="QUA_ID" jdbcType="VARCHAR"  property="quaId" />
+	    <result column="QUA_TYPE"  jdbcType="NUMERIC"  property="quaType" />
+	</resultMap>
+	
 	<resultMap type="extract.model.supplier.SupplierExtractCondition" id="BaseResultListMap"
 		extends="BaseResultMap">
 		<collection property="conTypes" column="ID"
@@ -442,10 +447,14 @@
     
     <!-- 按品目查询资质 -->
     <select id="getQuaByCid" parameterType="map" resultType="ses.model.bms.DictionaryData">
-    	 SELECT distinct D.id id,D.name name FROM T_SES_BMS_CATEGORY_QUA Q LEFT JOIN T_SES_BMS_QUALIFICATION D ON Q.QUA_ID = D.ID where Q.CATEGORY_ID IN 
+    	 SELECT distinct D.id id,D.name name FROM T_SES_BMS_CATEGORY_QUA Q LEFT JOIN T_SES_BMS_QUALIFICATION D ON Q.QUA_ID = D.ID where 
+    	 Q.CATEGORY_ID IN 
     	 <foreach collection="categoryIds" open="(" item="it" separator="," close=")">
     	 	#{it}
     	 </foreach>
+    	 <if test="quaType!=null">
+	    	 AND QUA_TYPE =#{quaType} 
+    	 </if>
     </select>
     <!-- 根据资质查询资质等级 -->
 	<select id="getLevelByQid"  resultType="ses.model.bms.DictionaryData">
@@ -486,6 +495,13 @@
 			#{item}
 		</foreach>
 		CONNECT BY PRIOR T.id=T.PARENT_ID order by level desc ) s where s.is_publish = 0 and (s.is_parent is null or s.is_parent = 'false')
+	</select>
+	
+	<select id="verifyQua" resultMap="quaResult">
+		select distinct q.qua_id,Q.QUA_TYPE from T_SES_BMS_CATEGORY_QUA q where q.qua_id in 
+		<foreach collection="array" open="(" close=")" separator="," index="index" item="item">
+			#{item}
+		</foreach>
 	</select>
 	
 </mapper>

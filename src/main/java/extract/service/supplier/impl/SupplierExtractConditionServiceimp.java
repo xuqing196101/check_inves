@@ -542,7 +542,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		
 		
 		
-		HashMap<String,String[]> hashMap = new HashMap<>();
+		HashMap<String,Object> hashMap = new HashMap<>();
 		if(StringUtils.isNotBlank(categoryId)){
 			if("project".equals(code)){
 				String[] checkParentCate = checkParentCate(categoryId);

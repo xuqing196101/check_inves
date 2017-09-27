@@ -198,6 +198,9 @@ public class SupplierExtractCondition {
      */
     private String[] addressIds;
     
+    
+    private String quaType;
+    
     /**
      * <pre>
      * 抽取地点
@@ -738,6 +741,14 @@ public class SupplierExtractCondition {
 	
 	public int getCsize(){
 		return this.getCategoryIds().length;
+	}
+
+	public void setQuaType(String string) {
+		
+	}
+
+	public String getQuaType() {
+		return quaType;
 	}
 	
 	

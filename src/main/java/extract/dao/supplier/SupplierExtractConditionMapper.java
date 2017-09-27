@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.Set;
 
 import ses.model.bms.Category;
+import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 
@@ -91,7 +93,7 @@ public interface SupplierExtractConditionMapper {
 	List<DictionaryData> getEngAptitudeLevelByCategoryId(
 			Map<String, String[]> map);
 
-	List<DictionaryData> getQuaByCid(HashMap<String, String[]> hashMap);
+	List<DictionaryData> getQuaByCid(HashMap<String, Object> hashMap);
 
 	List<DictionaryData> getLevelByQid(String[] split);
 
@@ -119,6 +121,17 @@ public interface SupplierExtractConditionMapper {
 	List<Category> checkParentCate(String cid);
 
 	Set<String> seleselectChildCate(String[] split);
+	
+	/**
+	 * 
+	 * <简述>验证资质 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-9-27下午6:16:07
+	 * @param quaId
+	 * @return 
+	 */
+	List<CategoryQua> verifyQua(String quaId);
 
 
 	
