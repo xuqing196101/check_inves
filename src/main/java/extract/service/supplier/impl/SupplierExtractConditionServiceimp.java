@@ -422,13 +422,14 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			
 			Class<? extends SupplierConType> class1 = conType.getClass();
 			String[] supplierTypeCodes  = condition.getSupplierTypeCodes();
-			for (String typeCode : supplierTypeCodes) {
-				//首字母大写
-				String c = typeCode.toLowerCase();
-				char[] cs=c.toCharArray();
-		        cs[0]-=32;
-		        String code = String.valueOf(cs);
-				try {
+			try {
+				for (String typeCode : supplierTypeCodes) {
+					//首字母大写
+					String c = typeCode.toLowerCase();
+					char[] cs=c.toCharArray();
+			        cs[0]-=32;
+			        String code = String.valueOf(cs);
+				
 					Short mu = (Short)class1.getMethod("get"+code+"IsMulticondition").invoke(conType);
 					String cids = (String)class1.getMethod("get"+code+"CategoryIds").invoke(conType);
 					String le = (String)class1.getMethod("get"+code+"Level").invoke(conType);
@@ -461,15 +462,13 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 					if(StringUtils.isNotBlank(ob)){
 						list.add(new ExtractConditionRelation(cid,c+"OverseasBranch",ob));
 					}
-					
-				} catch (Exception e) {
-					e.getMessage();
 				}
-			}
-			
-			if(list.size()>0){
-				return extractConditionRelationMapper.insertConditionRelation(list);
-			}
+				if(list.size()>0){
+					return extractConditionRelationMapper.insertConditionRelation(list);
+				}
+			} catch (Exception e) {
+				 e.getMessage();
+			} 
 		}
 		return 0;
 	}
@@ -539,8 +538,6 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 
 	@Override
 	public List<DictionaryData> getQuaByCid(String categoryId ,String code,String parentId) {
-		
-		
 		
 		HashMap<String,Object> hashMap = new HashMap<>();
 		if(StringUtils.isNotBlank(categoryId)){

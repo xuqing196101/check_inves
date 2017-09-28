@@ -347,7 +347,7 @@
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input class="title col-md-12" id='projectExtractNum' name="projectExtractNum" maxlength="11" type="text">
           <span class="add-on">i</span>
-          <div class="cue" id=projectExtractNumError>${loginPwdError}</div>
+          <div class="cue" id="ExtractNumError">${loginPwdError}</div>
         </div>
     </li>
     <li class="clear"></li>

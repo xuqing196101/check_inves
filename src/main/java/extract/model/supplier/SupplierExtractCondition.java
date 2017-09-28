@@ -104,10 +104,6 @@ public class SupplierExtractCondition {
      */
     private String responseTime;
 
-    /**
-     * 类型
-     */
-    private List<SupplierConType> conTypes;
 
     /**
      * <pre>
@@ -413,13 +409,6 @@ public class SupplierExtractCondition {
 
   
 
-    public List<SupplierConType> getConTypes() {
-        return conTypes;
-    }
-
-    public void setConTypes(List<SupplierConType> conTypes) {
-        this.conTypes = conTypes;
-    }
     private String expertsFrom;
 
     public String getExpertsFrom() {

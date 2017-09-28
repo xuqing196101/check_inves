@@ -7,6 +7,7 @@ var scount = 0;
 var successCount = 1;
 var proError = 0;
 var code ="";
+var formData = "";
 
 //$("#quaName").keyup(function(event){ 
 	//alert();
@@ -445,17 +446,22 @@ $(function () {
     	
     	
     	var ExtractNum = $("#"+code+"ExtractNum").val();
-    	if(parseInt(ExtractNum)>0){
+
+    	var str = /^\d+$/;
+    	
+    	if(parseInt(ExtractNum)>0 && str.test(ExtractNum)){
     		$("#supplierType").find(".cue").html("");
     		if(ExtractNum>scount){
     			layer.msg("人数不足，无法抽取");
+    			$("#ExtractNumError").html("人数不足，无法抽取");
     		}else{
     			$("#"+code+"Result").find("tbody").empty();
+    			$("#ExtractNumError").html("");
     			extractSupplier(code);
     		}
     	}else{
-    		$("#supplierType").find(".cue").html("请输入抽取数量");
-    		layer.msg("请输入抽取数量");
+    		$("#ExtractNumError").html("抽取数量不正确");
+    		layer.msg("抽取数量不正确");
     	}
     	
     	
@@ -582,22 +588,30 @@ $(function () {
     		}
     	});	
 		
+    	formData = $('#form1').serialize();
+    	//存储条件
+    	$.ajax({
+    		type: "POST",
+    		url: globalPath+"/SupplierCondition_new/saveCondition.html",
+    		data:  $('#form1').serialize(),
+    		dataType: "json",
+    		async:false,
+    		success: function (msg) {
+    			if(msg==0){
+    				layer.alert("条件存储失败");
+    				flag++;
+    			}
+    		}
+    	});	
 	    if(flag!=0){
 	    	layer.msg("存在错误信息，检查及修改");
 	    	return false;
 		}
-	    formData = $('#form1').serialize();
 	    
-	    //存储条件
-	    $.ajax({
-    		type: "POST",
-    		url: globalPath+"/SupplierCondition_new/saveCondition.html",
-    		data:  formData,
-    		dataType: "json",
-    		async:false,
-    		success: function (msg) {
-    		}
-    	});	
+	    
+	    
+	    
+	    
 	    
 	    //显示抽取结果表
 	    $("#result").removeClass("dnone");
@@ -1968,7 +1982,9 @@ $(function () {
     
     //点击结束
     function alterEndInfo(obj){
-		layer.alert("是否需要发送短信至确认参加供应商");
+		var index_1 = layer.alert("是否需要发送短信至确认参加供应商",function(){
+			layer.close(index_1);
+		});
 		var index = layer.alert("完成抽取,打印记录表",function(){
 			window.open(globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val()+"&projectInto="+projectType);
 			$(obj).prop("disabled",true);
