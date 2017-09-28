@@ -714,23 +714,22 @@ function auto_group() {
 
 //  跳转到批次分组
 function jump_batchGroup() {
-  window.location.href = jump_auditBatch_url;
-  // $.ajax({
-  //   type: 'POST',
-  //   dataType: 'json',
-  //   url: list_url,
-  //   data:{
-  //     batchId: getUrlParam('batchId'),
-  //     status: '14'
-  //   },
-  //   success: function (data) {
-  //     if (data.status) {
-  //       window.location.href = jump_auditBatch_url;
-  //     } else {
-  //       layer.msg(data.message, {
-  //         offset: '100px'
-  //       });
-  //     }
-  //   }
-  // });
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: list_url,
+    data:{
+      batchId: getUrlParam('batchId'),
+      status: '14'
+    },
+    success: function (data) {
+      if (data.status) {
+        window.location.href = jump_auditBatch_url;
+      } else {
+        layer.msg(data.message, {
+          offset: '100px'
+        });
+      }
+    }
+  });
 }
