@@ -1,13 +1,12 @@
 package ses.dao.ems;
 
+import org.apache.ibatis.annotations.Param;
+import ses.model.ems.ExpertCategory;
+import ses.model.sms.SupplierCateTree;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
-import ses.model.ems.ExpertCategory;
-import ses.model.sms.SupplierCateTree;
 
 public interface ExpertCategoryMapper {
     int insert(ExpertCategory record);
@@ -106,6 +105,18 @@ public interface ExpertCategoryMapper {
 	 */
 
 	List<String> selectCateByExpertId(Map<String,Object> map);
+	
+	/**
+	 *
+	 * Description: 查询专家审核不通过的类型
+	 *
+	 * @author Easong
+	 * @version 2017/9/28
+	 * @param 
+	 * @since JDK1.7
+	 */
+	List<String> selectNoPassCateByExpertId(Map<String,Object> map);
+
 	/**
 	 *
 	 * Description:查询专家审核通过的类型

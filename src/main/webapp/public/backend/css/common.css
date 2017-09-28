@@ -391,6 +391,10 @@
 .ml8 {
   margin-left: 8px; }
 
+.mr0 {
+  margin-right: 0 !important;
+}
+
 .mr8 {
   margin-right: 8px; }
 

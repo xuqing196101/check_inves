@@ -876,7 +876,7 @@ public class ExpertAuditController{
             cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
             cate.setRootNode(cate.getRootNode());
             
-            if(sign==2){
+            if(sign != null && sign==2){
             	expertAudit.setExpertId(expertId);
                 expertAudit.setSuggestType("six");
                 expertAudit.setAuditFalg(1);
@@ -2064,23 +2064,23 @@ public class ExpertAuditController{
 			String count = findCategoryCount(expert.getId(),Integer.valueOf(tableType));
 			Map<String, Object> remap = JSON.parseObject(count); 
 			String categoryReason = "";
-			if("1".equals(expert.getStatus())){
-				categoryReason = "审核通过，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
+			if("1".equals(expert.getStatus()) && "1".equals(tableType)){
+				categoryReason = "预初审合格，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
 				if((int)remap.get("all") == 0 && (int)remap.get("pass") == 0){
-					categoryReason = "审核通过，选择的是物资服务经济类别。";
+					categoryReason = "预初审合格，通过的是物资服务经济类别。";
 				}
-			}else if("2".equals(expert.getStatus())){
-				categoryReason = "审核未通过";
-			}else if("15".equals(expert.getStatus())){
-				categoryReason = "预审核通过，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
+			}else if("2".equals(expert.getStatus()) && "1".equals(tableType)){
+				categoryReason = "预初审不合格。";
+			}else if("15".equals(expert.getStatus()) && "1".equals(tableType)){
+				categoryReason = "预初审合格，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
 				if((int)remap.get("all") == 0 && (int)remap.get("pass") == 0){
-					categoryReason = "预审核通过，选择的是物资服务经济类别。";
+					categoryReason = "预初审合格，通过的是物资服务经济类别。";
 				}
-			}else if("16".equals(expert.getStatus())){
-				categoryReason = "预审核未通过";
+			}else if("16".equals(expert.getStatus()) && "1".equals(tableType)){
+				categoryReason = "预初审不合格。";
 			}
 			if(expertAuditOpinion !=null){
-				dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? categoryReason : expertAuditOpinion.getOpinion()+categoryReason);
+				dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? categoryReason : categoryReason+expertAuditOpinion.getOpinion());
 			}
 			else{
 				dataMap.put("reason", "无");
@@ -3721,5 +3721,43 @@ public class ExpertAuditController{
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("status", expert.getStatus());
     	return "ses/ems/expertAudit/audit_summary";
+    }
+    
+    
+	/**
+     *复审不合格或者退回修改，采购机构确认
+     * @param user
+     * @param expertId
+     * @return 
+     * @return 
+     * @return 
+     */
+    @RequestMapping("/preliminaryConfirmation")
+    public String preliminaryConfirmation(@CurrentUser User user, String expertId){
+		// 查询审核意见
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		expertAuditOpinion.setExpertId(expertId);
+		expertAuditOpinion.setFlagTime(1);
+		expertAuditOpinion = expertAuditOpinionService.selectByExpertId(expertAuditOpinion);
+		
+		Expert expertInfo = expertService.selectByPrimaryKey(expertId);
+		//更新专家状态
+		Expert expert = new Expert();
+		expert.setId(expertId);
+		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
+			if(expertAuditOpinion.getFlagAudit() == 5){
+				//复审不合格
+				expert.setStatus("5");
+			}
+			if(expertAuditOpinion.getFlagAudit() == 10){
+				//退回修改
+				expert.setStatus("3");
+				expert.setIsSubmit("0");
+			}
+		}
+		//还原复审结束状态
+		expert.setIsReviewEnd(0);
+		expertService.updateByPrimaryKeySelective(expert);
+		return "redirect:list.html";
     }
 }

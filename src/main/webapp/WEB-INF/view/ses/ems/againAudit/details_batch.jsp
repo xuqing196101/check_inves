@@ -87,10 +87,6 @@
       });
     });
     
-    //  跳转到批次分组
-    function jump_batchGroup() {
-      window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+getUrlParam('batchId');
-    }
     // 跳转批次审核
     function jump_auditBatch() {
       window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/auditBatch.html?batchId='+getUrlParam('batchId');
@@ -176,7 +172,6 @@
         var id = $(this).val();
        	var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
-        alert(state);
         if(state == "复审结束"){
         	ids.push(id);
         }else{

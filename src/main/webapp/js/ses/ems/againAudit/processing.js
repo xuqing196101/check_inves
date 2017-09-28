@@ -17,31 +17,31 @@ function create_review_batches() {
         batchIds: ids
       },
       success: function (data) {
-        var str = '';
-        var list_content = data.object;
-        for (var i in list_content.expertList) {
-          if (typeof(list_content.expertList[i].relName) === 'undefined') {
-            list_content.expertList[i].relName = '';
-          }
-          if (typeof(list_content.expertList[i].professTechTitles) === 'undefined') {
-            list_content.expertList[i].professTechTitles = '';
-          }
-          if (typeof(list_content.expertList[i].updateTime) === 'undefined') {
-            list_content.expertList[i].updateTime = '';
-          }
-          str += '<tr>'
-            +'<td class="text-center">'+ (parseInt(i) + 1) +'</td>'
-            +'<td class="text-center">'+ list_content.expertList[i].relName +'</td>'
-            +'<td class="text-center">'+ list_content.expertList[i].professTechTitles +'</td>'
-            +'<td class="text-center">'+ list_content.expertList[i].updateTime +'</td>'
-          +'</tr>';
-        }
-        $('#crb_content').html(str);
+        // var str = '';
+        // var list_content = data.object;
+        // for (var i in list_content.expertList) {
+        //   if (typeof(list_content.expertList[i].relName) === 'undefined') {
+        //     list_content.expertList[i].relName = '';
+        //   }
+        //   if (typeof(list_content.expertList[i].professTechTitles) === 'undefined') {
+        //     list_content.expertList[i].professTechTitles = '';
+        //   }
+        //   if (typeof(list_content.expertList[i].updateTime) === 'undefined') {
+        //     list_content.expertList[i].updateTime = '';
+        //   }
+        //   str += '<tr>'
+        //     +'<td class="text-center">'+ (parseInt(i) + 1) +'</td>'
+        //     +'<td class="text-center">'+ list_content.expertList[i].relName +'</td>'
+        //     +'<td class="text-center">'+ list_content.expertList[i].professTechTitles +'</td>'
+        //     +'<td class="text-center">'+ list_content.expertList[i].updateTime +'</td>'
+        //   +'</tr>';
+        // }
+        // $('#crb_content').html(str);
         var index = layer.open({
           title: ['创建专家复审批次'],
           shade: 0.3, //遮罩透明度
           type : 1,
-          area : ['700px', '400px'], //宽高
+          area : ['320px', '186px'], //宽高
           content : $('#create_review_batches'),
           btn: ['创建复审批次', '取消'],
           yes: function() {
@@ -706,6 +706,28 @@ function auto_group() {
         offset: '100px'
       });
       init_list(list_url, newGroup_url);
+    }
+  });
+}
+
+//  跳转到批次分组
+function jump_batchGroup() {
+  $.ajax({
+    type: 'POST',
+    dataType: 'json',
+    url: list_url,
+    data:{
+      batchId: getUrlParam('batchId'),
+      status: '14'
+    },
+    success: function (data) {
+      if (data.status) {
+        window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+getUrlParam('batchId');
+      } else {
+        layer.msg(data.message, {
+          offset: '100px'
+        });
+      }
     }
   });
 }

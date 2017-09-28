@@ -1182,6 +1182,11 @@ public class ExpertServiceImpl implements ExpertService {
 		
 		return mapper.findExpertAuditList(expert);
 	}
+	public List<Expert> findExpertAgainAuditList(Expert expert) {
+		
+		return mapper.findExpertAgainAuditList(expert);
+	}
+	
 	public boolean checkMobile(String mobile,String id) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("mobile", mobile);

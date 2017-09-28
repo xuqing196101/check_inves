@@ -863,7 +863,12 @@ resultMap="BaseResultMap">
                 AUDIT_OPINION_ATTACH = #{auditOpinionAttach},
             </if>
             <if test="isReviewEnd != null">
-                IS_REVIEW_END = #{isReviewEnd},
+                <if test="isReviewEnd != 0">
+                  IS_REVIEW_END = #{isReviewEnd},
+                </if>
+                <if test="isReviewEnd == 0">
+                  IS_REVIEW_END = null,
+                </if>
             </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}
@@ -2608,5 +2613,96 @@ resultMap="BaseResultMap">
         </if>
         ORDER BY CREATED_AT DESC
     </select>
-
+<!-- 专家复审待分配列表 可条件查询 -->
+    <select id="findExpertAgainAuditList" resultMap="BaseResultMap" parameterType="ses.model.ems.Expert">
+        SELECT t1.*,
+        t2.NAME as sex,
+        org.SHORT_NAME AS orgName
+        from
+        T_SES_EMS_EXPERT t1
+        LEFT JOIN
+        T_SES_BMS_DICTIONARY_DATA t2
+        ON t1.GENDER = t2.ID
+        LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t1.PURCHASE_DEP_ID = dep.ID
+    		LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+        WHERE (
+        <choose>
+        	<when test="sign == 1">
+        		(IS_SUBMIT = '1'
+	        	AND (t1.STATUS = '0' OR t1.STATUS = '1' OR t1.STATUS = '2' OR t1.STATUS = '9' OR t1.STATUS = '10' OR t1.STATUS = '15' OR t1.STATUS = '16' OR t1.STATUS = '5'))
+	        	OR (t1.IS_SUBMIT = '0' AND t1.status = '3')
+        	</when>
+        	<when test="sign == 2">
+        		<if test="isOrg !=null and isOrg == 1">
+	            (t1.IS_SUBMIT = '1'
+	            AND (t1.STATUS = '6' OR t1.STATUS = '4' OR t1.STATUS = '5' OR t1.STATUS = '-2' OR t1.STATUS = '-3' OR t1.STATUS = '10'))
+	          </if>
+	          <if test="isOrg !=null and isOrg == 0">
+	            t1.PURCHASE_DEP_ID = #{purchaseDepId}
+	          </if>
+        	</when>
+        	<when test="sign == 3">
+        		(t1.IS_SUBMIT = '1'
+            AND (t1.STATUS = '6' OR t1.STATUS = '7' OR t1.STATUS = '8'))
+        	</when>
+        	<otherwise>
+        		1 = 1
+        	</otherwise>
+        </choose>
+        )
+        AND t1.IS_PROVISIONAL = '0'
+        AND t1.IS_DELETE = '0'
+        <if test="sign == 1">
+        	<if test="purchaseDepId !=null">
+		          AND t1.PURCHASE_DEP_ID = #{purchaseDepId}
+		       </if>
+        </if>
+        <if test="sign == 3">
+        	<if test="extractOrgid !=null">
+            AND t1.EXTRACT_ORGID = #{extractOrgid}
+        	</if>
+        </if>
+        <if test="relName != null and relName !=''">
+            AND t1.REAL_NAME LIKE CONCAT(CONCAT('%', #{relName}), '%')
+        </if>
+        <if test="orgName != null and orgName !=''">
+            AND org.SHORT_NAME LIKE CONCAT(CONCAT('%', #{orgName}), '%')
+        </if>
+        <if test="expertsFrom != null and expertsFrom !=''">
+        	 AND t1.EXPERTS_FROM = #{expertsFrom}
+        </if>
+        <if test="expertsTypeId != null and expertsTypeId !=''">
+        	 AND t1.EXPERTS_TYPE_ID LIKE CONCAT(CONCAT('%', #{expertsTypeId}), '%')
+        </if>
+        <if test="status != null and status !=''">
+        	<if test="status == 'trialEnd'">
+        	 AND t1.STATUS in ('15','16')
+        	</if>
+        	<if test="status != 'trialEnd'">
+            AND t1.STATUS = #{status}
+            </if>
+        </if>
+        <if test="updatedAt !=null and updatedAt != ''">
+        	AND TO_CHAR(t1.UPDATED_AT,'YY-MM-DD') = TO_CHAR(#{updatedAt},'YY-MM-DD')
+        </if> 
+        <if test="auditTemporary != null">
+            AND t1.AUDIT_TEMPORARY = #{auditTemporary}
+        </if>
+        <if test="auditAt !=null and auditAt!=''">
+        	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
+        </if>
+       <if test="startTime !=null and startTime!=''">
+        	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') &gt;= TO_CHAR(#{startTime},'YY-MM-DD')
+        </if>
+        <if test="endTime != null and endTime != ''">
+        	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') &lt;= TO_CHAR(#{endTime},'YY-MM-DD')
+        </if>
+       <if test="ids != null">
+            <foreach collection="ids" item="id" open="and t1.ID in ("
+                     close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+		ORDER BY org.POSITION ASC,t1.AUDIT_AT ASC
+    </select>
 </mapper>
