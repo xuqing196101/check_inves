@@ -441,9 +441,13 @@
        $("#opinionId").val(opinion);
        $("#flagTime").val(1);
        $("#flagAudit").val(selectOption);
+        // 审核意见通过。。
+        var cate_result = $("#cate_result").html();
+        $("#cateResult").val(cate_result);
        $.ajax({
            url:globalPath + "/expertAudit/saveAuditOpinion.do",
            type: "POST",
+           async :false,
            data:$("#opinionForm").serialize(),
            dataType:"json",
            success:function (data) {
@@ -644,6 +648,7 @@
                   <input name="opinion" value="" id="opinionId" type="hidden"/>
                   <input name="vertifyFlag" value="" id="vertifyFlag" type="hidden"/>
                   <input name="isDownLoadAttch" id="downloadAttachFile" value="${auditOpinion.isDownLoadAttch}" type="hidden">
+                  <input name="cateResult" id="cateResult" value="" type="hidden">
               </form>
             </c:if>
 

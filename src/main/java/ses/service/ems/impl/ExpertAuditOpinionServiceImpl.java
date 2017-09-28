@@ -90,6 +90,15 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 			}
 		}
 
+		// 拼接审核意见  例如:同意....+ HelloWorld
+		if(StringUtils.isNotEmpty(expertAuditOpinion.getCateResult())){
+			if(StringUtils.isEmpty(expertAuditOpinion.getOpinion())){
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult());
+			}else {
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult() + expertAuditOpinion.getOpinion());
+			}
+		}
+
 		// 判断是不是原有的数据
 		if(StringUtils.isNotEmpty(expertAuditOpinion.getId())){
 			// 查询此条数据
