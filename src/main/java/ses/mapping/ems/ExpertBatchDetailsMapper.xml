@@ -72,6 +72,7 @@
                 #{id}
             </foreach>
         </if>
+        ORDER BY T1.COUNT ASC
     </select> 
     <select id="getExpertBatchDetailsCount" resultType="java.lang.Integer"  parameterType="java.lang.String">
     	select count(*) from T_SYS_EMS_EXPERT_BATCH_DETAILS where GROUP_ID=#{groupId}
