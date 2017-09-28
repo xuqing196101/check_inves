@@ -55,7 +55,7 @@
             }
           },
           callback: {
-		 	//onCheck: cancelParentNodeChecked
+		 	onCheck: checkNode
 		  },
           view: {
             fontCss: getFontCss
@@ -70,6 +70,44 @@
       }
       
     });
+    
+    
+    //选中时间回调
+    function checkNode(event,treeId,treeNode){
+    	var treeObj=$.fn.zTree.getZTreeObj("ztree");
+		dischecked(treeNode,treeObj);
+		
+		if(treeNode.checked){
+			checkAllChildCheckParent(treeNode,treeObj);
+		}
+    }
+    
+    //递归取消父节点选中状态
+	function dischecked(treeNode,treeObj){
+		var node = treeNode.getParentNode();
+		if(null !=node){
+			treeObj.checkNode(node, false);
+			dischecked(node,treeObj);
+		}
+	}
+    
+    /**
+	 * 子节点全部选中，选中父节点
+	 * @param node
+	 * @returns
+	 */
+    //递归父节点
+    function checkAllChildCheckParent(node,treeObj){
+    	var flag = preIsCheck(node) && nextIsCheck(node);
+    	var parentNode = node.getParentNode();
+    	if(flag){
+    		if(parentNode){
+    			treeObj.checkNode(parentNode, true,false,true);
+    			checkAllChildCheckParent(parentNode,treeObj);
+    		}
+    	}
+    }
+    
     
    //工程品目处理父子节点
       function modifParentOrChild(nodes){
@@ -91,7 +129,6 @@
 						ppid += nodes[i].getParentNode().id + ",";
 						ppName += nodes[i].getParentNode().name + ",";
 					}
-						
 				}else{
 					ppid += nodes[i].id + ",";
 					ppName += nodes[i].name + ",";
@@ -113,22 +150,24 @@
     }
     
     
-    //判断前一个节点是否选中
+   //判断前一个节点是否选中
     function preIsCheck(treeNode){
   	 	var pre = treeNode.getPreNode();
+  	 	var flag = treeNode.checked;
     	if(pre){
-    		treeNode.checked &=  preIsCheck(pre) ;
+    		flag &=  preIsCheck(pre) ;
     	}
-    	return treeNode.checked;
+    	return flag;
     }
     
     //判断后一个节点是否选中
  	function nextIsCheck(treeNode){
  		var next = treeNode.getNextNode();
+ 		var flag = treeNode.checked;
  		if(next){
-    		treeNode.checked &=  nextIsCheck(next) ;
+ 			flag &=  nextIsCheck(next) ;
     	}
-    	return	treeNode.checked;
+    	return	flag;
  	}   
     
     

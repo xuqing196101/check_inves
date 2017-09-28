@@ -1266,7 +1266,7 @@ $(function () {
 	 * @param node
 	 * @returns
 	 */
-    //递归根节点
+    //递归父节点
     function checkAllChildCheckParent(node,treeObj){
     	var flag = preIsCheck(node) && nextIsCheck(node);
     	var parentNode = node.getParentNode();
