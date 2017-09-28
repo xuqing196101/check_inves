@@ -140,12 +140,9 @@ public class JedisUtils {
      * @author
      * @version 2017年6月21日
      */
-    public static Jedis getJedisByFactory(JedisConnectionFactory jedisConnectionFactory) throws Exception{
-        if (jedis == null) {
-            JedisConnection jedisConnection = jedisConnectionFactory.getConnection();
-            return jedisConnection.getNativeConnection();
-        }
-        return jedis;
+    public static synchronized Jedis getJedisByFactory(JedisConnectionFactory jedisConnectionFactory) throws Exception{
+        JedisConnection jedisConnection = jedisConnectionFactory.getConnection();
+        return jedisConnection.getNativeConnection();
     }
 
 
@@ -157,7 +154,8 @@ public class JedisUtils {
      * @version 2017年6月23日
      */
     public static void returnResourceOfFactory(Jedis jedis) {
-        jedis.quit();
-        jedis.disconnect();
+        if(jedis!=null){
+          jedis.close();
+        }
     }
 }
