@@ -46,7 +46,6 @@
         </if>
         AND (
 				s.SUPPLIER_STATUS = 1
-				OR s.SUPPLIER_STATUS = 4
 				OR s.SUPPLIER_STATUS = 5
 				OR s.SUPPLIER_STATUS = 7
 			)
@@ -176,5 +175,26 @@
 		  T1.CATEGORY_ID = #{categoryId}
 		AND T1.SUPPLIER_ID= #{supplierId}
 		AND T1.SUPPLIER_TYPE_ID = #{supplierTypeId}
+  </select>
+  
+  <!-- 获取工程品目下供应商等级 -->
+  <select id="getProjectLevel" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT
+			dd.NAME
+		FROM
+			T_SES_SMS_SUPPLIER_APTITUTE A
+		LEFT JOIN T_SES_BMS_DICTIONARY_DATA dd ON dd.ID = A."APTITUTE_ LEVEL"
+		LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON A.MAT_ENG_ID = E.ID
+		WHERE
+			E.supplier_id = #{supplierId}
+		AND A.CERT_TYPE in (
+			SELECT
+				QUA_ID
+			FROM
+				T_SES_BMS_CATEGORY_QUA
+			WHERE
+				CATEGORY_ID = #{categoryId}
+			AND IS_DELETED = 0
+		)
   </select>
 </mapper>

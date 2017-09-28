@@ -581,7 +581,6 @@
 		AND i.SUPPLIER_TYPE_RELATE_ID = #{supplierType}
 		AND (
 				s.SUPPLIER_STATUS = 1
-				OR s.SUPPLIER_STATUS = 4
 				OR s.SUPPLIER_STATUS = 5
 				OR s.SUPPLIER_STATUS = 7
 			)

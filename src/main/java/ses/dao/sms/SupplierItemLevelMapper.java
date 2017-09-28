@@ -60,4 +60,12 @@ public interface SupplierItemLevelMapper {
      * @return
      */
     SupplierItemLevel selectLevelByItem(SupplierItemLevel supplierItemLevel);
+    
+	/**
+	 * 获取工程四级品目下供应商等级
+	 * @param supplierId
+	 * @param categoryLevel 
+	 * @param categoryIds
+	 */
+	List<String> getProjectLevel(@Param("supplierId")String supplierId, @Param("categoryId")String categoryId);
 }

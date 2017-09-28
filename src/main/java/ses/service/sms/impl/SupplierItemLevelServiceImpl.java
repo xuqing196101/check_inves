@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
+import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierItemLevelMapper;
+import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
@@ -45,6 +47,8 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 	private SupplierCertEngService supplierCertEngService;
 	@Autowired
 	private CategoryQuaMapper categoryQuaMapper;
+	@Autowired
+	private CategoryMapper categoryMapper;
 
 	@Override
 	public List<SupplierItemLevel> findSupplierItemLevel(SupplierItemLevel supplier, Integer page, String categoryIds) {
@@ -71,23 +75,37 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 				sup.setSupplierTypeId(categoryIds);
 			}
 			sup.setSupplierType(supplierType);
-			/*//根据品目查询资质
-			List<CategoryQua> list = categoryQuaMapper.findList(categoryIds);
+			//根据品目查询资质
+			//List<CategoryQua> list = categoryQuaMapper.findList(categoryIds);
 			//查询品目下入库供应商
-			List<SupplierItemLevel> supplierItemLevels = supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName());
+			List<SupplierItemLevel> supplierItemLevels = supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), null);
+			//品目等级
+			Integer categoryLevel = 0;
+			if (categoryIds != null) {
+				Category category = categoryMapper.findById(categoryIds);
+				if (category != null) {
+					categoryLevel = category.getLevel();
+				}
+			} 
 			//根据资质和供应商查询供应商等级
 			for (SupplierItemLevel supplierItemLevel : supplierItemLevels) {
 				SupplierItemLevel level=new SupplierItemLevel();
-				//
+				if (categoryLevel == 4) {
+					//如果是四级品目就查资质等级
+					List<String> levels = supplierItemLevelMapper.getProjectLevel(supplierItemLevel.getSupplierId(), categoryIds);
+					if (levels != null && levels.size()>0) {
+						level.setSupplierLevel(levels.get(0));
+					}
+				}
 				level.setSupplierId(supplierItemLevel.getId());
 				level.setArmyBusinessName(supplierItemLevel.getArmyBusinessName());
 				level.setCategoryId(categoryIds);
-				level.setSupplierLevel(sup.getGrade());
 				level.setSupplierTypeId(supplierType);
 				level.setSupplierName(supplierItemLevel.getSupplierName());
 				rutlist.add(level);
-			}*/
+			}
 			
+			/*
 			//查询供应商
 			List<Supplier> listSupplier=supplierService.findSupplierByCategoryId(sup);
 			if(listSupplier.isEmpty()){
@@ -115,6 +133,7 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 				level.setSupplierName(item.getSupplierName());
 				rutlist.add(level);
 	        }
+	        */
 	        return rutlist;
 	    }else{
 	    	return supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevel());
