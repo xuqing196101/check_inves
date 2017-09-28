@@ -18,6 +18,7 @@
             var num = ${num};
           //  var notCategoryNum=${notCategoryNum};
             var qualified=${qualified};
+            var status = $("#status").val()
             if (num == 0) {
             	 $("#tuihui").attr("disabled", true);
                 if('${status}' != -2 && '${status}' != -3){
@@ -56,10 +57,12 @@
             		getCheckOpinionType(expertId);
             	}
             }
-           /*   if($("#status").val() != '0' && $("#status").val() != '15' && $("#status").val() != '16' && $("#status").val() != '4'){
+            
+            //控制《预初审合格》《预初审不合格》
+           if(status == '5' || status == '10'){
             	$("#qualified").attr("disabled", true);
             	$("#noQualified").attr("disabled", true);
-            }  */
+            }
             check_opinion();
             
             $("#fushengEnd").hide();
