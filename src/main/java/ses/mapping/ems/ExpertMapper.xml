@@ -1245,7 +1245,7 @@ resultMap="BaseResultMap">
     <select id="validateIdCardNumber" parameterType="java.lang.String"
             resultMap="BaseResultMap">
         SELECT ID FROM T_SES_EMS_EXPERT
-        WHERE IS_DELETE = 0 AND ID_CARD_NUMBER = #{param1}
+        WHERE IS_DELETE = 0 AND IS_PROVISIONAL=0 AND ID_CARD_NUMBER = #{param1}
         <if test="param2 != null and param2 != '' ">
             AND ID != #{param2}
         </if>
@@ -1714,7 +1714,7 @@ resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
         FROM T_SES_EMS_EXPERT
-        WHERE 
+        WHERE  EXPERTS_FROM=#{netType} AND
         SUBMIT_AT &gt;=
 		to_date(#{startDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND

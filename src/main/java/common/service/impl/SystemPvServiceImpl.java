@@ -84,6 +84,10 @@ public class SystemPvServiceImpl implements SystemPvService {
 			}
 		} catch (Exception e) {
 			logger.info("redis连接异常...");
+		} finally {
+			if (jedis != null) {
+				JedisUtils.returnResourceOfFactory(jedis);
+			}
 		}
 	}
 

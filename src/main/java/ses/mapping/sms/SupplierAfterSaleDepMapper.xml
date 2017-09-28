@@ -23,10 +23,10 @@
   	</select>
   
   	<!-- 根据主键删除 -->
-  	<select id="deleteByPrimaryKey" resultMap="BaseResultMap">
+  	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		DELETE FROM T_SES_SMS_SUPPLIER_AFTER_SALE
 		WHERE ID = #{id}
-  	</select>
+  	</delete>
   
   	<!-- 新增一条记录 -->
   	<insert id="insertSelective" parameterType="ses.model.sms.SupplierAfterSaleDep">
@@ -115,8 +115,7 @@
 	
 	<!--根据供应商ID删除对应的信息  -->
 	<delete id="deleteBySupplierId" parameterType="String">
-    	DELETE FROM T_SES_SMS_SUPPLIER_AFTER_SALE
+   	DELETE FROM T_SES_SMS_SUPPLIER_AFTER_SALE
 		WHERE SUPPLIER_ID = #{supplierId}
-		 
 	</delete>
 </mapper>

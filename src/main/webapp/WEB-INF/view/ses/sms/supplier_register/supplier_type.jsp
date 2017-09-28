@@ -18,6 +18,15 @@
 .textbox.combo {
 	border: 0px !important;
 }
+.cue_province {
+	position: absolute;
+	left: 265px;
+	top: 70px;
+	height: 25px;
+	line-height: 25px;
+	color: #ef0000;
+	font-size: 12px;
+}
 </style>
 <script type="text/javascript">
 	$().ready(function() {
@@ -177,12 +186,19 @@
 			},
 			error : function() {
 				layer.msg('暂存失败!');
+				controlForm();
 			}
 		});
 	}
 
 	//无提示实时暂存
-	function tempSave() {
+	function tempSave(ele) {
+		// 避免失去焦点事件和按钮事件冲突
+		if(ele && ele.relatedTarget 
+			&& ele.relatedTarget.type == "button"
+			&& ($(ele.relatedTarget).text() != "上一步")){
+			return;
+		}
 		var id = [];
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
@@ -477,6 +493,7 @@
 								+ "</tr>");
 		certPersonNumber++;
 		$("#certPersonNumber").val(certPersonNumber);
+		tempSave();
 	}
 
 	function deleteRegPerson() {
@@ -519,14 +536,23 @@
 									async: false,
 									type: "POST",
 									data: {
-										"regPersonIds": regPersonIds
+										"ids": regPersonIds
 									},
-									success: function(){
-										layer.msg("删除成功！");
-										$(checkboxs).each(function(index) {
-											var tr = $(this).parent().parent();
-											$(tr).remove();
-										});
+									success: function(data){
+										if(data=="ok"){
+										  layer.msg("删除成功！", {
+										    offset: '300px'
+										  });
+										  $(checkboxs).each(function(index) {
+										    var tr = $(this).parent().parent();
+										    $(tr).remove();
+										  });
+										}
+										if(data=="fail"){
+										  layer.msg("删除失败！", {
+										    offset: '300px'
+										  });
+										}
 									},
 									error: function(){
 										layer.msg("删除失败！");
@@ -534,7 +560,7 @@
 								});
 							});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -555,6 +581,7 @@
 			success : function(data) {
 				$("#aptitute_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certAptNumber++;
@@ -606,14 +633,23 @@
 						async: false,
 						type: "POST",
 						data: {
-							"aptituteIds": aptituteIds
+							"ids": aptituteIds
 						},
-						success: function(){
-							layer.msg("删除成功！");
-							$(checkboxs).each(function(index) {
-								var tr = $(this).parent().parent();
-								$(tr).remove();
-							});
+						success: function(data){
+							if(data=="ok"){
+							  layer.msg("删除成功！", {
+							    offset: '300px'
+							  });
+							  $(checkboxs).each(function(index) {
+							    var tr = $(this).parent().parent();
+							    $(tr).remove();
+							  });
+							}
+							if(data=="fail"){
+							  layer.msg("删除失败！", {
+							    offset: '300px'
+							  });
+							}
 						},
 						error: function(){
 							layer.msg("删除失败！");
@@ -621,7 +657,7 @@
 					});
 				});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -645,6 +681,7 @@
 			success : function(data) {
 				$("#cert_pro_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certProNumber++;
@@ -731,14 +768,23 @@
 							async: false,
 							type: "POST",
 							data: {
-								"certProIds": certProIds
+								"ids": certProIds
 							},
-							success: function(){
-								layer.msg("删除成功！");
-								$(checkboxs).each(function(index) {
-									var tr = $(this).parent().parent();
-									$(tr).remove();
-								});
+							success: function(data){
+								if(data=="ok"){
+								  layer.msg("删除成功！", {
+								    offset: '300px'
+								  });
+								  $(checkboxs).each(function(index) {
+								    var tr = $(this).parent().parent();
+								    $(tr).remove();
+								  });
+								}
+								if(data=="fail"){
+								  layer.msg("删除失败！", {
+								    offset: '300px'
+								  });
+								}
 							},
 							error: function(){
 								layer.msg("删除失败！");
@@ -774,6 +820,7 @@
 			success : function(data) {
 				$("#cert_sell_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certSaleNumber++;
@@ -819,14 +866,23 @@
 									async: false,
 									type: "POST",
 									data: {
-										"certSellIds": certSellIds
+										"ids": certSellIds
 									},
-									success: function(){
-										layer.msg("删除成功！");
-										$(checkboxs).each(function(index) {
-											var tr = $(this).parent().parent();
-											$(tr).remove();
-										});
+									success: function(data){
+										if(data=="ok"){
+										  layer.msg("删除成功！", {
+										    offset: '300px'
+										  });
+										  $(checkboxs).each(function(index) {
+										    var tr = $(this).parent().parent();
+										    $(tr).remove();
+										  });
+										}
+										if(data=="fail"){
+										  layer.msg("删除失败！", {
+										    offset: '300px'
+										  });
+										}
 									},
 									error: function(){
 										layer.msg("删除失败！");
@@ -834,7 +890,7 @@
 								});
 							});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -855,6 +911,7 @@
 			success : function(data) {
 				$("#cert_se_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certSeNumber++;
@@ -900,14 +957,23 @@
 									async: false,
 									type: "POST",
 									data: {
-										"certSeIds": certSeIds
+										"ids": certSeIds
 									},
-									success: function(){
-										layer.msg("删除成功！");
-										$(checkboxs).each(function(index) {
-											var tr = $(this).parent().parent();
-											$(tr).remove();
-										});
+									success: function(data){
+										if(data=="ok"){
+										  layer.msg("删除成功！", {
+										    offset: '300px'
+										  });
+										  $(checkboxs).each(function(index) {
+										    var tr = $(this).parent().parent();
+										    $(tr).remove();
+										  });
+										}
+										if(data=="fail"){
+										  layer.msg("删除失败！", {
+										    offset: '300px'
+										  });
+										}
 									},
 									error: function(){
 										layer.msg("删除失败！");
@@ -915,7 +981,7 @@
 								});
 							});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -973,14 +1039,19 @@
 				getAptLevel($(this));
 			});
 			
-			$("input").not(".validatebox-text").bind("blur", tempSave);
+			$("input").not(".validatebox-text").not("input[type='button']").bind("blur", tempSave);
 			$("textarea").bind("blur", tempSave);
 			$("select").bind("change", tempSave);
-     	$(".certTypeSelect").unbind("blur", tempSave);
+			$(".certTypeSelect").unbind("blur", tempSave);
+     	
+			var supplierType = "${type}";
 			var pro = "${pro}";
-			var server = "${server}";
 			var sale = "${sale}";
 			var project = "${project}";
+			var server = "${server}";
+			if(supplierType == "false"){
+				layer.msg("请选择供应商类型!");
+			}
 			var msg = "";
 			if (pro == "false") {
 				msg = msg + "物资-生产专业信息、";
@@ -999,7 +1070,7 @@
 				layer.msg(msg + "没有通过校验!");
 			}
 			var checkeds = $("#supplierTypes").val();
-			if (checkeds != "") {
+			if(checkeds != "" && checkeds != "null"){
 				$("#tab_div").show();
 				$("#tab_content_div_id").show();
 			}
@@ -1103,6 +1174,7 @@
 			success : function(data) {
 				$("#cert_eng_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certEngNumber++;
@@ -1154,14 +1226,23 @@
 						async: false,
 						type: "POST",
 						data: {
-							"certEngIds": certEngIds
+							"ids": certEngIds
 						},
-						success: function(){
-							layer.msg("删除成功！");
-							$(checkboxs).each(function(index) {
-								var tr = $(this).parent().parent();
-								$(tr).remove();
-							});
+						success: function(data){
+							if(data=="ok"){
+							  layer.msg("删除成功！", {
+							    offset: '300px'
+							  });
+							  $(checkboxs).each(function(index) {
+							    var tr = $(this).parent().parent();
+							    $(tr).remove();
+							  });
+							}
+							if(data=="fail"){
+							  layer.msg("删除失败！", {
+							    offset: '300px'
+							  });
+							}
 						},
 						error: function(){
 							layer.msg("删除失败！");
@@ -1169,7 +1250,7 @@
 					});
 				});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -1406,6 +1487,7 @@
 				"auditField" : auditField,
 				"auditType" : auditType
 			},
+			type : "post",
 			dataType : "json",
 			success : function(data) {
 				$(_this).attr("data-errorMsg", data.suggest);
@@ -1482,20 +1564,19 @@
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="col-md-5 col-sm-6 col-xs-6 title tr"></div>
 				<div class="col-md-7 col-sm-6 col-xs-12 service_list">
-					<c:forEach items="${wlist }" var="obj">
+					<c:forEach items="${scxsList }" var="obj">
 						<span id="${obj.id}"
 							<c:if test="${fn:contains(typePageField,obj.id)}">style="color: red;" onmouseover="errorMsg(this,'${obj.id }','supplierType_page')"</c:if>><input
 							type="checkbox" name="chkItem" onclick="checks(this)"
 							<c:if test="${isSalePass=='0' and obj.code=='SALES'}">disabled="disabled"</c:if>
 							value="${obj.code}" /> ${obj.name }</span>
 					</c:forEach>
-					<c:forEach items="${supplieType }" var="obj">
+					<c:forEach items="${gcfwList }" var="obj">
 						<span id="${obj.id}"
 							<c:if test="${fn:contains(typePageField,obj.id)}">style="color: red;" onmouseover="errorMsg(this,'${obj.id }','supplierType_page')"</c:if>><input
 							type="checkbox" name="chkItem" onclick="checks(this)"
 							value="${obj.code }" />${obj.name } </span>
 					</c:forEach>
-
 				</div>
 			</div>
 		</div>
@@ -2020,6 +2101,7 @@
 									    	  	<option value="${area.id}">${area.name}</option>
 										    	</c:forEach>
 										    </select>
+										    <div class="cue_province">${province}</div>
 										</div>
 										<ul class="list-unstyled overflow_h">
 											<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}"/>
@@ -2044,12 +2126,12 @@
 											<c:choose>
                        	<c:when test="${currSupplier.status==2 }">
                          	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
-                         </c:when>
-                         <c:otherwise>
-                           <button type="button" class="btn" onclick="openRegPerson()">新增</button>
-                         </c:otherwise>
-                       </c:choose>
-											 <button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
+                        </c:when>
+                        <c:otherwise>
+                          <button type="button" class="btn" onclick="openRegPerson()">新增</button>
+                        </c:otherwise>
+                      </c:choose>
+										 	<button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
 											<span class="red">${eng_persons }</span>
 										</div>
 										<div
@@ -2288,18 +2370,12 @@
 																</div>
 															</td>
 															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
-																 <!-- 
-																<select id="certType_$ {certAptNumber}" name="supplierMatEng.listSupplierAptitutes[$ {certAptNumber}].certType" class="w100p border0" onchange="getAptLevel(this)">
-																	<c :forEach items="$ {typeList}" var="type">
-																		<option value="$ {type.id}" <c :if test="$ {aptitute.certType eq type.id}">selected</c :if>>$ {type.name}</option>
-																	</c :forEach>
-																</select> -->
 																<select title="cnjewfn" id="certType_${certAptNumber}" class="w100p border0 certTypeSelect" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" style="width:200px;border: none;">
-																    <c:set var="tempForShowOption" value="go" scope="page"/>
-																    <option value="-1" selected="selected">请选择</option>
-																    <c:forEach items="${typeList}" var="type">
-																		<option value="${type.id}" <c:if test="${aptitute.certType eq type.id}">selected</c:if>>${type.name}</option>
-																		<c:if test="${aptitute.certType eq type.id}">
+															    <c:set var="tempForShowOption" value="go" scope="page"/>
+															    <option value="-1" selected="selected">请选择</option>
+															    <c:forEach items="${quaList}" var="qua">
+																		<option value="${qua.id}" <c:if test="${aptitute.certType eq qua.id}">selected</c:if>>${qua.name}</option>
+																		<c:if test="${aptitute.certType eq qua.id}">
 																			<c:set var="tempForShowOption" value="notgo"/>
 																		</c:if>
 																	</c:forEach>
@@ -2328,8 +2404,8 @@
                                   <%-- <c:if test="${tempForShowOption eq 'go' }">
 																		<option selected="selected">${aptitute.aptituteLevel}</option>
 																	</c:if> --%>
-																	<option selected="selected">${aptitute.aptituteLevel}</option>
-																	<c:set var="tempForShowOption" value="notgo"/>
+																	<%-- <option selected="selected">${aptitute.aptituteLevel}</option> --%>
+																	<%-- <c:set var="tempForShowOption" value="notgo"/> --%>
 																</select>
 																<input type="hidden" id="certLevel_${certAptNumber}" value="${aptitute.aptituteLevel}">
 																<script type="text/javascript">
@@ -2381,7 +2457,7 @@
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																<select
 																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].isMajorFund"
-																class="w100p border0" <c:if test="${!fn:contains(engPageField,'aptitute.id')&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if> >
+																class="w100p border0" <c:if test="${!fn:contains(engPageField,aptitute.id)&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if> >
 																	<option value="1"
 																		<c:if test="${aptitute.isMajorFund==1}"> selected="selected"</c:if>>是</option>
 																	<option value="0"
@@ -2656,7 +2732,7 @@
 	function enableForm(){
 		var currSupplierSt = '${currSupplier.status}';
 		if(currSupplierSt == '2'){
-			$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
+			$("input[type='text'],input[type='checkbox'],select,textarea,input[type='hidden']").attr('disabled',false);
 		}
 	}
 	

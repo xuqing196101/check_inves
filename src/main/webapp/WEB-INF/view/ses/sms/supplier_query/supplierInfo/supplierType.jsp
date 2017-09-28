@@ -111,23 +111,23 @@
 									<c:set value="0" var="liCountSell" />
 									<c:set value="0" var="liCountEng" />
 									<c:set value="0" var="liCountSer" />
-									<c:if test="${fn:contains(supplierTypeNames, '生产')}">
+									<c:if test="${fn:contains(supplierTypeCode, 'PRODUCT')}">
 										<c:set value="${liCountPro+1}" var="liCountPro" />
 										<li class="active">
 											<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型专业信息</a>
 										</li>
 									</c:if>
-									<c:if test="${fn:contains(supplierTypeNames, '销售')}">
+									<c:if test="${fn:contains(supplierTypeCode, 'SALES')}">
 										<li class='<c:if test="${liCountPro == 0}">active <c:set value="${liCountSell+1}" var="liCountSell" /></c:if>'>
 											<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型专业信息</a>
 										</li>
 									</c:if>
-									<c:if test="${fn:contains(supplierTypeNames, '工程')}">
+									<c:if test="${fn:contains(supplierTypeCode, 'PROJECT')}">
 										<li class='<c:if test="${liCountSell == 0 && liCountPro == 0}">active <c:set value="${liCountEng+1}" var="liCountEng" /></c:if>'>
 											<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程专业信息</a>
 										</li>
 									</c:if>
-									<c:if test="${fn:contains(supplierTypeNames, '服务')}">
+									<c:if test="${fn:contains(supplierTypeCode, 'SERVICE')}">
 										<li class='<c:if test="${liCountSell == 0 && liCountPro == 0 && liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer" /></c:if>'>
 											<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务专业信息</a>
 										</li>
@@ -136,7 +136,7 @@
 
 								<div class="count_flow">
 									<div class="tab-content padding-top-20" id="tab_content_div_id">
-										<c:if test="${fn:contains(supplierTypeNames, '生产')}">
+										<c:if test="${fn:contains(supplierTypeCode, 'PRODUCT')}">
 											<div class="tab-pane fade active in height-300" id="tab-1">
 												<h2 class="count_flow"><i>1</i>产品研发能力</h2>
 												<ul class="ul_list">
@@ -234,7 +234,7 @@
 										</div>
 										</c:if>
 
-										<c:if test="${fn:contains(supplierTypeNames, '销售')}">
+										<c:if test="${fn:contains(supplierTypeCode, 'SALES')}">
 											<div class="tab-pane <c:if test="${liCountSell==1}">active in</c:if> fade  in height-200" id="tab-2">
 												<div class="ul_list">
 													<table class="table table-bordered table-condensed table-hover">
@@ -275,7 +275,7 @@
 											</div>
 										</c:if>
 
-										<c:if test="${fn:contains(supplierTypeNames, '工程')}">
+										<c:if test="${fn:contains(supplierTypeCode, 'PROJECT')}">
 											<div class="tab-pane <c:if test="${liCountEng==1}">active in</c:if> fade height-200" id="tab-3">
 												<h2 class="count_flow"><i>1</i>保密工程业绩</h2>
 												<ul class="ul_list">
@@ -303,7 +303,7 @@
 
 												<h2 class="count_flow"><i>2</i>承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</h2>
 												<ul class="ul_list">
-													<c:forEach items="${rootArea}" var="area" varStatus="st">
+													<c:forEach items="${areas}" var="area" varStatus="st">
 														<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 															<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'${area.name}');">${area.name}：</span>
 															<u:show showId="area_show_${st.index+1}" delete="false" businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
@@ -408,7 +408,7 @@
 											</div>
 										</c:if>
 
-										<c:if test="${fn:contains(supplierTypeNames, '服务')}">
+										<c:if test="${fn:contains(supplierTypeCode, 'SERVICE')}">
 											<div class="tab-pane <c:if test="${liCountSer==1}">active in</c:if> fade height-200" id="tab-4">
 												<div class="ul_list">
 													<table class="table table-bordered table-condensed table-hover">
@@ -480,7 +480,7 @@
 		<form id="form_back" action="" method="post">
 			<input name="judge" value="${judge}" type="hidden">
 			<c:if test="${sign!=1 and sign!=2 }">
-				<input name="address" id="address" value="${suppliers.address}" type="hidden">
+				<input name="address" id="address" value="${supplier.address}" type="hidden">
 			</c:if>
 			<input name="sign" value="${sign}" type="hidden">
 		</form>

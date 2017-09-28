@@ -4,13 +4,6 @@ import ses.model.sms.SupplierMatEng;
 
 public interface SupplierMatEngMapper {
     /**
-     * 根据主键删除数据库的记录
-     *
-     * @param id
-     */
-    int deleteByPrimaryKey(String id);
-
-    /**
      * 插入数据库记录
      *
      * @param record
@@ -54,5 +47,19 @@ public interface SupplierMatEngMapper {
      * @param @return      
      * @return String
      */
-    String findSupplierIdById (String id);
+    String findSupplierIdById(String id);
+    
+    /**
+     * 根据主键删除数据库的记录
+     *
+     * @param id
+     */
+    int deleteByPrimaryKey(String id);
+
+    /**
+     * 根据供应商id删除
+     * @param supplierId
+     * @return
+     */
+	int deleteBySupplierId(String supplierId);
 }

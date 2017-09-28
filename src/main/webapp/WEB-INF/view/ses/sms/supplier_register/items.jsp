@@ -69,7 +69,7 @@
 		var severError = "${serverError}";
 		
 		if (proError == "productError") {
-			layer.alert("请选择生产行品目！");
+			layer.alert("请选择生产型品目！");
 		}
 		if (sellError == "sellError") {
 			layer.alert("请选择销售型品目！");

@@ -15,8 +15,9 @@
 		<td class=" p0">
 			<%-- 	<input type="text" name="list[${vs.index }].department"   value="${obj.department}"> --%>
 			<%-- 	<input type="hidden" name="list[${vs.index }].department" value="${orgId }" > --%>
-			<input type="text" name="list[${vs.index }].department"
-			readonly="readonly" value="${shortName}" class="m0 border0 w80">
+			<%-- <input type="text" name="list[${vs.index }].department"
+			readonly="readonly" value="${shortName}" class="m0 border0 w80"> --%>
+			<div class="department">${shortName}</div>
 
 
 		</td>

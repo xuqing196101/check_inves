@@ -405,12 +405,12 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setLevelScoreSales(SupplierLevelUtil.getScore(supplier.getId(), "SALES"));
         supplier.setLevelScoreService(SupplierLevelUtil.getScore(supplier.getId(), "SERVICE"));*/
         
-        /*if(supplier.getWebsite()==null){
-            supplier.setWebsite("");
-        }*/
-        if(supplier.getBranchName()==null){
-            supplier.setBranchName("0");
-        }
+	  if(supplier.getWebsite()==null){
+		supplier.setWebsite("");
+	  }
+	  if(supplier.getBranchName()==null){
+		supplier.setBranchName("0");
+	  }
 
       supplierMapper.updateByPrimaryKeySelective(supplier);
 
@@ -840,12 +840,12 @@ public class SupplierServiceImpl implements SupplierService {
     Calendar cale = Calendar.getInstance();
     Integer year = cale.get(Calendar.YEAR);
 
-    Integer year3 = year - 3;//2013
+    Integer year1 = year - 3;//2013
     Integer year2 = year - 2;//2014
-    Integer year4 = year - 1;//2015
-    list.add(year3);
+    Integer year3 = year - 1;//2015
+    list.add(year1);
     list.add(year2);
-    list.add(year4);
+    list.add(year3);
 
     return list;
   }
@@ -990,30 +990,32 @@ public class SupplierServiceImpl implements SupplierService {
 //       
 //        SupplierMatPro supplierMatPro = supplierMatProMapper.getMatProBySupplierId(supplierId);
 //        if(supplierMatPro != null){
-//        	 supplierCertProMapper.deleteByPrimaryKey(supplierMatPro.getId());
+//        	 supplierCertProMapper.deleteByMatProId(supplierMatPro.getId());
 //        }
 //        supplierMatProMapper.deleteBySupplierId(supplierId);
 //        
 //        SupplierMatSell matSell = supplierMatSellMapper.getMatSellBySupplierId(supplierId);
-//        if(matSell !=null){
-//        	supplierCertSellMapper.deleteByPrimaryKey(matSell.getId());
+//        if(matSell != null){
+//        	supplierCertSellMapper.deleteByMatSellId(matSell.getId());
 //        }
-//        supplierMatSellMapper.deleteByPrimaryKey(supplierId);
+//        supplierMatSellMapper.deleteBySupplierId(supplierId);
 //        
 //        SupplierMatEng matEng = supplierMatEngMapper.selectByPrimaryKey(supplierId);
 //        if(matEng !=null){
-//        	supplierCertEngMapper.deleteByPrimaryKey(matEng.getId());
+//        	supplierCertEngMapper.deleteByMatEngId(matEng.getId());
 //        	supplierRegPersonMapper.deleteByMatEngId(matEng.getId());
-//            supplierAptituteMapper.deleteByPrimaryKey(matEng.getId());
+//    		supplierAptituteMapper.deleteByMatEngId(matEng.getId());
 //        }
-//        supplierMatEngMapper.deleteByPrimaryKey(supplierId);
+//        supplierMatEngMapper.deleteBySupplierId(supplierId);
 //        
 //        SupplierMatServe matServe = supplierMatServeMapper.getMatSeBySupplierId(supplierId);
 //        if(matServe !=null){
-//        	 supplierCertServeMapper.deleteByPrimaryKey(matServe.getId());
-//             supplierMatServeMapper.deleteByPrimaryKey(matServe.getId());
+//        	supplierCertServeMapper.deleteByMatServeId(matServe.getId());
 //        }
+//        supplierMatServeMapper.deleteBySupplierId(supplierId);
+    
 //        supplierTypeRelateMapper.deleteBySupplierId(supplierId);
+//    
 //        List<SupplierItem> items= supplierItemMapper.getSupplierItem(supplierId);
 //        if(!items.isEmpty()){
 //        	for(SupplierItem s:items){
@@ -1300,14 +1302,14 @@ public class SupplierServiceImpl implements SupplierService {
 
   @Override
   public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map) {
-    PropertiesUtil config = new PropertiesUtil("config.properties");
+//    PropertiesUtil config = new PropertiesUtil("config.properties");
     PageHelper.startPage((Integer) map.get("page"), 20);
     return supplierMapper.selectSupplierNumber(map);
   }
 
   @Override
   public List<supplierExport> selectExpertNumber(HashMap<String, Object> map) {
-    PropertiesUtil config = new PropertiesUtil("config.properties");
+//    PropertiesUtil config = new PropertiesUtil("config.properties");
     PageHelper.startPage((Integer) map.get("pageEx"), 20);
     return supplierMapper.selectExpertNumber(map);
   }
@@ -1602,8 +1604,8 @@ public class SupplierServiceImpl implements SupplierService {
 				List<CategoryQua> categoryQua = categoryQuaMapper.findListSupplier(
 						sic.getId(), quaType);
 				if (null != categoryQua
-						&& StringUtils.isNotBlank(sic.getParentId())) {
-					List<Qualification> qua = get(categoryQua, sic.getParentId());
+						&& StringUtils.isNotBlank(sic.getItemId())) {
+					List<Qualification> qua = get(categoryQua, sic.getItemId());
 					if (qua.size() != 0) {
 						newList.add(sicList.get(i));
 						quaBean.setCategoryId(sic.getId());
@@ -1980,7 +1982,7 @@ public class SupplierServiceImpl implements SupplierService {
   @Override
   public List<supplierExport> selectSupplierNumberFormal(
       HashMap<String, Object> map) {
-    PropertiesUtil config = new PropertiesUtil("config.properties");
+//    PropertiesUtil config = new PropertiesUtil("config.properties");
     PageHelper.startPage((Integer) map.get("pageSupFormal"), 20);
     return  supplierMapper.selectSupplierNumberFormal(map);
   }
@@ -1988,7 +1990,7 @@ public class SupplierServiceImpl implements SupplierService {
   @Override
   public List<supplierExport> selectExpertNumberFormal(
       HashMap<String, Object> map) {
-    PropertiesUtil config = new PropertiesUtil("config.properties");
+//    PropertiesUtil config = new PropertiesUtil("config.properties");
     PageHelper.startPage((Integer) map.get("pageExpFormal"), 20);
     return supplierMapper.selectExpertNumberFormal(map);
   }

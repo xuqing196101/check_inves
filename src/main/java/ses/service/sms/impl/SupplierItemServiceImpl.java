@@ -468,7 +468,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         if(Constant.SUPPLIER_SALES.equals(type)){
             param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
         }else {
-            param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+            param.put("items_product_page", ses.util.Constant.ITEMS_PRODUCT_PAGE);
         }
         // 查询该某类型下的所通过的子节点
         return supplierItemMapper.selectPassItemByCond(param);
@@ -716,7 +716,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         if(flag){
             map.put("type", "SALES");
         }
-        map.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+        map.put("items_product_page", ses.util.Constant.ITEMS_PRODUCT_PAGE);
         map.put("supplierType_page", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
         passSupplierTypeBySupplierId = supplierItemMapper.findPassSupplierTypeBySupplierId(map);
         set.addAll(passSupplierTypeBySupplierId);
@@ -771,7 +771,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         if(Constant.SUPPLIER_SALES.equals(type)){
             param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
         }else {
-            param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+            param.put("items_product_page", ses.util.Constant.ITEMS_PRODUCT_PAGE);
         }
         return supplierItemMapper.selectPassItemByCond(param);
     }
@@ -793,12 +793,14 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			SupplierItemCategoryBean sic = new SupplierItemCategoryBean();
 			if (cate == null) {
 				DictionaryData data = DictionaryDataUtil.findById(item.getCategoryId());
-				sic.setId(data.getId());
-				sic.setParentId(data.getId());
-				sic.setName(data.getName());
+				if(data != null){
+					sic.setId(data.getId());
+					//sic.setParentId(data.getId());
+					sic.setName(data.getName());
+				}
 			} else {
 				//供应商中间表的id和资质证书的id
-				cate.setParentId(item.getId());
+				//cate.setParentId(item.getId());
 				BeanUtils.copyProperties(cate, sic);
 			}
 			sic.setItemId(item.getId());
@@ -1098,9 +1100,9 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		if(items != null){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
-			supplierAudit.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
+			supplierAudit.setAuditType(ses.util.Constant.ITEMS_PRODUCT_PAGE);
 			if(ses.util.Constant.SUPPLIER_PRODUCT.equals(code)){
-				supplierAudit.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
+				supplierAudit.setAuditType(ses.util.Constant.ITEMS_PRODUCT_PAGE);
 			}
 			if(ses.util.Constant.SUPPLIER_SALES.equals(code)){
 				supplierAudit.setAuditType(ses.util.Constant.ITEMS_SALES_PAGE);
@@ -1248,7 +1250,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         if(Constant.SUPPLIER_SALES.equals(type)){
             param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
         }else {
-            param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+            param.put("items_product_page", ses.util.Constant.ITEMS_PRODUCT_PAGE);
         }
         // 查询该某类型下的所通过的子节点
         List<SupplierItem> supplierItems = supplierItemMapper.selectPassItemByCond(param);
@@ -1324,5 +1326,10 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         listInfo.setPages(pageInfo.getPages());
         return JdcgResult.ok(listInfo);
     }
+
+	@Override
+	public SupplierItem getItemById(String id) {
+		return supplierItemMapper.selectByPrimaryKey(id);
+	}
 
 }

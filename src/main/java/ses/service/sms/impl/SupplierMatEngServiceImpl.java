@@ -60,7 +60,7 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 	@Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;
 	@Override
-	public void saveOrUpdateSupplierMatPro(Supplier supplier) {
+	public void saveOrUpdateSupplierMatEng(Supplier supplier) {
 		String id = supplier.getSupplierMatEng().getId();
 		try{
             if (id != null && !"".equals(id)) {

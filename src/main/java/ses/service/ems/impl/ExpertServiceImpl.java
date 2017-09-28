@@ -1247,7 +1247,7 @@ public class ExpertServiceImpl implements ExpertService {
     @Override
 
     public List<Expert> getCommitExpertByDate(String startDate,String endDate) {
-        return mapper.getCommitExpertByDate(startDate,endDate);
+        return mapper.getCommitExpertByDate(startDate,endDate,DictionaryDataUtil.getId("LOCAL"));
     }
 
     /**
@@ -1524,7 +1524,7 @@ public class ExpertServiceImpl implements ExpertService {
 	}
 
 	/**
-	 * 首恶专家名录查询
+	 * 首页专家名录查询
 	 */
 	@Override
 	public List<Expert> selectIndexExpert(Integer pageNum,Map<String, Object> map) {

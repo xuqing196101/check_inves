@@ -18,7 +18,7 @@ $skinList:[
  {name:"twoer",charset:"gb2312"},
  {name:"YcloudRed",charset:"gb2312"}],
 $wdate:true,
-$crossFrame:true,
+$crossFrame:false,
 $preLoad:false,
 $dpPath:"",
 doubleCalendar:false,

@@ -224,13 +224,12 @@
 
         //移除
         function dele(){
-            var supplierId = $("input[name='supplierId']").val();
             var ids =[];
             $('input[name="chkItem"]:checked').each(function(){
                 ids.push($(this).val());
             });
             if(ids.length>0){
-                layer.confirm('您确定要移除吗?', {title:'提示！',offset: ['200px']}, function(index){
+                layer.confirm('您确定要移除吗？', {title:'提示！',offset: ['200px']}, function(index){
                     layer.close(index);
                     $.ajax({
                         url:"${pageContext.request.contextPath}/supplierAudit/deleteById.html",
@@ -239,7 +238,7 @@
                         success:function(result){
                             result = eval("(" + result + ")");
                             if(result.msg == "yes"){
-                                layer.msg("删除成功!",{offset : '100px'});
+                                layer.msg("删除成功！",{offset : '100px'});
                                 window.setTimeout(function(){
                                     var action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
                                     $("#form_id").attr("action",action);
@@ -248,13 +247,84 @@
                             }
                         },
                         error: function(message){
-                            layer.msg("删除失败",{offset : '100px'});
+                            layer.msg("删除失败！",{offset : '100px'});
                         }
                     });
                 });
             }else{
                 layer.alert("请选择需要移除的信息！",{offset:'100px'});
             }
+        }
+        
+				//去改状态
+				function toUpdateStatus(){
+					var ids = [];
+					$('input[name="chkItem"]:checked').each(function(){
+						ids.push($(this).val());
+					});
+					if(ids.length > 0){
+						$("#auditStatusRadio").fadeIn().css("display","inline");
+					}else{
+						layer.alert("请选择需要修改状态的信息！",{offset:'100px'});
+					}
+				}
+				//改状态
+				function updateStatus(status){
+					var ids = [];
+					$('input[name="chkItem"]:checked').each(function(){
+						ids.push($(this).val());
+					});
+					if(ids.length > 0){
+						layer.confirm('您确定要更改状态吗？', {title:'提示！',offset: ['200px']}, function(index){
+							layer.close(index);
+							$.ajax({
+								url:"${pageContext.request.contextPath}/supplierAudit/updateReturnStatus.do",
+								type:"post",
+								data:{
+									ids: ids.join(","),
+									status: status
+								},
+								dataType: "json",
+								success:function(result){
+									if(result && result.status == 500){
+										layer.msg(result.msg, {offset : '100px'});
+										$('input[name="chkItem"]:checked').each(function(){
+											$(this).parents("tr").find("td:last").text(getStatusText(status));
+									 	});
+							 			$("input[type='radio'][name='auditStatus']").attr("checked", false);
+									}else{
+										layer.msg(result.msg, {offset : '100px'});
+									}
+								},
+								error: function(message){
+									layer.msg("更新失败！", {offset : '100px'});
+								}
+							});
+						});
+					}else{
+						layer.alert("请选择需要修改状态的信息！",{offset:'100px'});
+					}
+				}
+        
+        function getStatusText(status){
+        	var text = "";
+        	switch(status){
+        		case 1:
+        			text = "退回修改";
+        			break;
+        		case 2:
+        			text = "审核不通过";
+        			break;
+        		case 3:
+        			text = "已修改";
+        			break;
+        		case 4:
+        			text = "未修改";
+        			break;
+        		default:
+        			break;
+        	}
+        	return text;
         }
     </script>
   </head>
@@ -327,7 +397,14 @@
 					<h2 class="count_flow"><i>1</i>审核汇总信息</h2>
 					<div class="ul_list count_flow">
 						<c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 4 or (sign == 3 and supplierStatus == 5)}">
-						  <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
+						  <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>
+						  <button class="btn btn-windows edit" type="button" onclick="toUpdateStatus();" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>
+						  <div class="select_check" id="auditStatusRadio" style="display: none;">
+						  	<input type="radio" name="auditStatus" value="1" onclick="updateStatus(1)">退回修改
+						  	<!-- <input type="radio" name="auditStatus" value="2">审核不通过 -->
+								<input type="radio" name="auditStatus" value="3" onclick="updateStatus(3)">已修改
+								<input type="radio" name="auditStatus" value="4" onclick="updateStatus(4)">未修改
+							</div>
 						</c:if>
 						<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 							<thead>
@@ -386,8 +463,8 @@
 											<c:when test="${reasons.returnStatus == 3}">已修改</c:when>
 											<c:when test="${reasons.returnStatus == 4}">未修改</c:when>
 										</c:choose>
-										<!-- 若存在新审核的和已审核未修改的，则表示未通过 -->
-										<c:if test="${reasons.isDeleted == 0 || reasons.returnStatus == 4}">
+										<!-- 若存在新审核的和已审核未修改的，则表示未通过（产品审核不通过，可以预审核通过） -->
+										<c:if test="${(reasons.isDeleted == 0  && reasons.returnStatus != 2 )|| reasons.returnStatus == 4}">
 											<c:set var="isNotPass" value="1" />
 										</c:if>
 									</td>
@@ -402,8 +479,8 @@
 								<input name="supplierId" value="${supplierId}" type="hidden">
 								<span class="col-md-5 padding-left-5" ><a class="star_red">*</a>考察报告:</span>
 								<div style="margin-bottom: 25px">
-								  <u:upload id="inspect" businessId="${suppliers.id}" buttonName="上传考察报告" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" auto="true" /> 
-								  <u:show showId="inspect_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" />
+								  <u:upload id="inspect" businessId="${supplier.id}" buttonName="上传考察报告" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" auto="true" /> 
+								  <u:show showId="inspect_show" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" />
 								</div>
 							</li>
 						</ul>
@@ -431,10 +508,10 @@
 													<input type="radio" name="selectOption" value="0">预审核不通过 -->
 													<c:if test="${isNotPass == 0}">
 														<input type="radio" name="selectOption" value="1">预审核通过
-														<input type="radio" disabled="disabled" name="selectOption" value="0" title="没有审核不通过的项">预审核不通过
+														<input type="radio" disabled="disabled" name="selectOption" value="0" title="没有预审核不通过的项">预审核不通过
 													</c:if>
 													<c:if test="${isNotPass == 1}">
-														<input type="radio" disabled="disabled" name="selectOption" value="1" title="还有审核未通过的项">预审核通过
+														<input type="radio" disabled="disabled" name="selectOption" value="1" title="还有预审核未通过的项">预审核通过
 														<input type="radio" name="selectOption" value="0">预审核不通过
 													</c:if>
 												</c:when>

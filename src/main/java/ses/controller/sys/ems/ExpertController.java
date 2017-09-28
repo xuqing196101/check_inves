@@ -14,6 +14,7 @@ import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -2214,28 +2215,27 @@ public class ExpertController extends BaseController {
      * @return String
      */
     @RequestMapping("/findAllExpert")
-    public String findAllExpert(Expert expert, Integer page,
-                                HttpServletRequest request, HttpServletResponse response) {
-        List < Expert > allExpert = service.selectAllExpert(page == null ? 0 :
-            page, expert);
+    public String findAllExpert(Expert expert, Integer page,HttpServletRequest request, HttpServletResponse response, String expertTypeIds, String expertType) {
+    	expert.setExpertsTypeId(expertTypeIds);
+        List < Expert > allExpert = service.selectAllExpert(page == null ? 0 : page, expert);
         for(Expert exp: allExpert) {
             DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(exp.getGender());
             exp.setGender(dictionaryData == null ? "" : dictionaryData.getName());
-            StringBuffer expertType = new StringBuffer();
+            StringBuffer type = new StringBuffer();
             if(exp.getExpertsTypeId() != null) {
                 for(String typeId: exp.getExpertsTypeId().split(",")) {
                     DictionaryData data = dictionaryDataServiceI.getDictionaryData(typeId);
                     if(data != null){
                     	if(6 == data.getKind()) {
-                            expertType.append(data.getName() + "技术、");
+                    		type.append(data.getName() + "技术、");
                         } else {
-                            expertType.append(data.getName() + "、");
+                        	type.append(data.getName() + "、");
                         }
                     }
                     
                 }
-                if(expertType.length() > 0){
-                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+                if(type.length() > 0){
+                	String expertsType = type.toString().substring(0, type.length() - 1);
                 	 exp.setExpertsTypeId(expertsType);
                 }
             } else {
@@ -2248,7 +2248,33 @@ public class ExpertController extends BaseController {
       			exp.setExpertsFrom(expertsFrom.getName());
       		}
         }
-        // 查询数据字典中的专家来源配置数据
+       /* // 查询数据字典中的专家来源配置数据
+        List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
+        request.setAttribute("lyTypeList", lyTypeList);
+        // 查询数据字典中的专家类别数据
+        List < DictionaryData > jsTypeList = DictionaryDataUtil.find(6);
+        for(DictionaryData data: jsTypeList) {
+            data.setName(data.getName() + "技术");
+        }
+        List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);*/
+        
+        //全部机构
+        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
+        request.setAttribute("allOrg", allOrg);
+        
+        /*jsTypeList.addAll(jjTypeList);
+        request.setAttribute("expTypeList", jsTypeList);*/
+        request.setAttribute("result", new PageInfo < Expert > (allExpert));
+        request.setAttribute("expert", expert);
+        request.setAttribute("expertType", expertType);
+        request.setAttribute("expertTypeIds", expertTypeIds);
+        return "ses/ems/expert/list";
+    }
+
+    @RequestMapping("/experType")
+    @ResponseBody
+    public String  experType(){
+    	// 查询数据字典中的专家来源配置数据
         List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
         request.setAttribute("lyTypeList", lyTypeList);
         // 查询数据字典中的专家类别数据
@@ -2257,18 +2283,11 @@ public class ExpertController extends BaseController {
             data.setName(data.getName() + "技术");
         }
         List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
-        
-        //全部机构
-        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
-        request.setAttribute("allOrg", allOrg);
-        
         jsTypeList.addAll(jjTypeList);
-        request.setAttribute("expTypeList", jsTypeList);
-        request.setAttribute("result", new PageInfo < Expert > (allExpert));
-        request.setAttribute("expert", expert);
-        return "ses/ems/expert/list";
+        return JSON.toJSONString(jsTypeList);
     }
-
+    
+    
     /**
      *〈简述〉
      * 专家复审列表展示
@@ -3653,7 +3672,11 @@ public class ExpertController extends BaseController {
         dataMap.put("telephone", expert.getTelephone() == null ? "" : expert.getTelephone());
         dataMap.put("fax", expert.getFax() == null ? "" : expert.getFax());
         dataMap.put("email", expert.getEmail() == null ? "" : expert.getEmail());
-        StringBuffer categories = new StringBuffer();
+        //tringBuffer categories = new StringBuffer();
+        StringBuffer goods = new StringBuffer();
+        StringBuffer project = new StringBuffer();
+        StringBuffer service = new StringBuffer();
+        StringBuffer enginfoid = new StringBuffer();
         //        List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expert.getId(), null);
         List<ExpertCategory> categoriesTxt = getCategoriesTxt(expert.getId());
         ExpertAudit expertAudit = new ExpertAudit();
@@ -3673,21 +3696,62 @@ public class ExpertController extends BaseController {
         	}
             Category category= categoryService.selectByPrimaryKey(expertCategory.getCategoryId());
             if (category != null){
-                categories.append( category.getName());
-                categories.append(",");
+            	List<Category> node = getAllParentNode(category.getId(), null);
+            	 // 加入根节点
+                for(int i = 0; i < node.size(); i++) {
+                    DictionaryData rootNode = DictionaryDataUtil.findById(node.get(i).getId());
+                    if(rootNode != null) {
+                       if("GOODS".equals(rootNode.getCode())){
+                    	   goods.append(category.getName());
+                    	   goods.append(",");
+                       }
+                       if("PROJECT".equals(rootNode.getCode())){
+                    	   project.append(category.getName());
+                    	   project.append(",");
+                       }
+                       if("SERVICE".equals(rootNode.getCode())){
+                    	   service.append(category.getName());
+                    	   service.append(",");
+                       }
+                    }
+                }
+            /*    categories.append( category.getName());
+                categories.append(",");*/
             } else {
                 category = engCategoryService.selectByPrimaryKey(expertCategory.getCategoryId());
                 if(category != null){
-                    categories.append(category.getName());
-                    categories.append(",");
+                	enginfoid.append(category.getName());
+                	enginfoid.append(",");
+                   /* categories.append(category.getName());
+                    categories.append(",");*/
                 }
             }
         }
-        String productCategories = ""; 
+        /*String productCategories = ""; 
         if (categories.toString() != null && !"".equals(categories.toString())) {
             productCategories = categories.substring(0, categories.length() - 1);  
+        }*/
+        String goodsStr="";
+        String projectStr="";
+        String serviceStr="";
+        String enginfoidStr="";
+        if (goods.toString() != null && !"".equals(goods.toString())) {
+        	goodsStr = goods.substring(0, goods.length() - 1);  
         }
-        dataMap.put("productCategories", productCategories);
+        if (project.toString() != null && !"".equals(project.toString())) {
+        	projectStr = project.substring(0, project.length() - 1);  
+        }
+        if (service.toString() != null && !"".equals(service.toString())) {
+        	serviceStr = service.substring(0, service.length() - 1);  
+        }
+        if (enginfoid.toString() != null && !"".equals(enginfoid.toString())) {
+        	enginfoidStr = enginfoid.substring(0, enginfoid.length() - 1);  
+        }
+        dataMap.put("goodsStr", "".equals(goodsStr.toString())?"无":goodsStr);
+        dataMap.put("projectStr","".equals(projectStr.toString())?"无":projectStr);
+        dataMap.put("serviceStr","".equals(serviceStr.toString())?"无":serviceStr);
+        dataMap.put("enginfoidStr", "".equals(enginfoidStr.toString())?"无":enginfoidStr);
+       // dataMap.put("productCategories", productCategories);
         dataMap.put("jobExperiences", expert.getJobExperiences() == null ? "无" : expert.getJobExperiences());
         dataMap.put("academicAchievement", expert.getAcademicAchievement() == null ? "无" : expert.getAcademicAchievement());
         dataMap.put("reviewSituation", expert.getReviewSituation() == null ? "无" : expert.getReviewSituation());
@@ -3948,7 +4012,7 @@ public class ExpertController extends BaseController {
     		            code = "PROJECT";
     		            splExp[i]=DictionaryDataUtil.getId(code);
     		        }
-    				if (splExp[i].equals(expertCate.get(j).getCategoryId())) {
+    				if (splExp[i].equals(expertCate.get(j).getTypeId())) {
     					//stat += "1";
     					stat += 1;
     					break;
@@ -4766,9 +4830,11 @@ public class ExpertController extends BaseController {
                 String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
                 String pId = DictionaryDataUtil.getId("PROJECT");
                 for(String id:ids){
-                	if(expert.getIsTitle()!=1){
-                		expertTitleService.deleteExpertType(expert.getId(), id);
-                		continue;
+                	if(expert.getIsTitle()!=null){
+                		if(expert.getIsTitle()!=1){
+                    		expertTitleService.deleteExpertType(expert.getId(), id);
+                    		continue;
+                    	}
                 	}
                     if(id.equals(pId)){
                         expertTitleService.addBatch(expert.getTitles(),id);

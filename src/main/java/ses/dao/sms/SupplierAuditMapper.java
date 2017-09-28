@@ -56,17 +56,7 @@ public interface SupplierAuditMapper {
      * @return List<SupplierAudit>
      */ 
     List<SupplierAudit> selectByPrimaryKey(SupplierAudit record);
-    
-    /**
-     * @Title: updateBySupplierId
-     * @author 插入文件
-     * @date 2016-9-29 下午4:50:17  
-     * @Description: TODO 
-     * @param @param supplierId      
-     * @return void
-     */
-    void updateBySupplierId (SupplierAudit record);
-    
+
     List<SupplierAudit> findByMap(Map<String, Object> param);
     
     int updateByMap(Map<String, Object> param);

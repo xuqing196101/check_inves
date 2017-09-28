@@ -3,8 +3,10 @@ package ses.service.sms.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.model.sms.SupplierCertEng;
@@ -17,20 +19,13 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
 	private SupplierCertEngMapper supplierCertEngMapper;
 
 	@Override
-	public void saveOrUpdateCertEng(SupplierCertEng supplierCertEng) {
+	public int saveOrUpdateCertEng(SupplierCertEng supplierCertEng) {
 //		String id = supplierCertEng.getId();
 //		if (id != null && !"".equals(id)) {
 //			supplierCertEngMapper.updateByPrimaryKeySelective(supplierCertEng);
 //		} else {
-			supplierCertEngMapper.insertSelective(supplierCertEng);
+			return supplierCertEngMapper.insertSelective(supplierCertEng);
 //		}
-	}
-
-	@Override
-	public void deleteCertEng(String certEngIds) {
-		for (String id : certEngIds.split(",")) {
-			supplierCertEngMapper.deleteById(id);
-		}
 	}
 
 	public SupplierCertEng queryById(String id) {
@@ -40,7 +35,6 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
 
 	@Override
 	public List<SupplierCertEng> queryByEngId(String endId) {
-		// TODO Auto-generated method stub
 		return supplierCertEngMapper.findCertEngByMatEngId(endId);
 	}
 
@@ -58,7 +52,7 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
     @Override
     public boolean validateCertCode(SupplierCertEng supplierCertEng) {
         List<SupplierCertEng> validateCertCode = supplierCertEngMapper.validateCertCode(supplierCertEng.getCertCode());
-        if (null != validateCertCode && validateCertCode.size() == 1) {
+        /*if (null != validateCertCode && validateCertCode.size() == 1) {
             if (validateCertCode.get(0).getId().equals(supplierCertEng.getId())) {
                 return true;
             } else {
@@ -66,7 +60,19 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
             }
         } else {
             return false;
-        }
+        }*/
+		if(validateCertCode == null || validateCertCode.size() == 0){
+			return true;
+		}
+		if(validateCertCode.size() == 1){
+			if (validateCertCode.get(0).getId().equals(supplierCertEng.getId())) {
+		        return true;
+		    } else {
+		        return false;
+		    }
+		}else{
+			return false;
+		}
     }
 
     /**
@@ -84,6 +90,32 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
 	@Override
 	public List<SupplierCertEng> findCertEngBySupplierId(String supplierId) {
 		return supplierCertEngMapper.findCertEngBySupplierId(supplierId);
+	}
+
+	@Override
+	public boolean deleteCertEngByIds(String ids) {
+		boolean isSuccess = false;
+	    try{
+            if(StringUtils.isNotBlank(ids)){
+                String[] idArray = ids.split(",");
+                int delCount = 0;
+                for(int i=0;i<idArray.length;i++){
+                    if(StringUtils.isNotBlank(idArray[i])){
+                        int key = supplierCertEngMapper.deleteByPrimaryKey(idArray[i]);
+                        if(key == 1){
+                            delCount++;
+                        }
+                    }
+                }
+                if(delCount==idArray.length){
+                    isSuccess = true;
+                }
+            }
+        }catch (Exception e){
+	        e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+        return isSuccess;
 	}
 
 }

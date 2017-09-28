@@ -186,7 +186,7 @@
           var id = $(":checkbox:checked").val();
           var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
           state = trim(state);
-          if(state =="预初审合格" || state =="预初审不合格" || state == "复审预合格" || state == "初审合格(待复审)" || state == "初审未合格" || state == "复审合格" || state == "复查合格" || state == "复查未合格") {
+          if(state =="预初审合格" || state =="预初审不合格" || state == "复审预合格" || state == "初审合格（待复审）" || state == "初审未合格" || state == "复审合格" || state == "复审不合格" || state == "复查合格" || state == "复查未合格") {
             $("input[name='tableType']").val(str);
             $("input[name='expertId']").val(id);
             $("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
@@ -387,8 +387,6 @@
                   <option <c:if test="${state eq '3'}">selected</c:if> value="3">退回修改</option>
                   <option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未合格</option>
                   <option <c:if test="${state eq '10'}">selected</c:if> value="10">复审退回修改</option>
-                  <%-- <option <c:if test="${state eq '15'}">selected</c:if> value="15">预初审合格</option>
-                  <option <c:if test="${state eq '16'}">selected</c:if> value="16">预初审不合格</option> --%>
                   <option <c:if test="${state eq 'trialEnd'}">selected</c:if> value="trialEnd">预初审结束</option>
                   
                 </c:if>

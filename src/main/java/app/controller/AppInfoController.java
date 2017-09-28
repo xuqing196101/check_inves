@@ -22,9 +22,8 @@ import common.annotation.CurrentUser;
 import common.constant.Constant;
 
 /**
- * 
+ * 测试git回退
  * Description: App版本管理Controller
- * 
  * @author zhang shubin
  * @version 2016-9-7
  * @since JDK1.7

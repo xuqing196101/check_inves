@@ -17,8 +17,8 @@ System.out.print(scoreModel);
 <script src="${pageContext.request.contextPath}/public/validate/jquery.validate.min.js"></script>
 <script type="text/javascript">
 	function addRows() {
-		 $("#guding").before("<tr><td><span class='star_red'>*</span>选择项名称</td><td><input onkeyup='gernerator();' ></td><td><span class='star_red'>*</span>对应分数</td><td><input onblur='gernerator();' onkeyup='this.value=this.value.replace(/[^\d+(\.\d{2})?]/g,"+'""'+")'></td><td class='tc'><button class='btn btn-windows delete' type=button onclick=deleteRow(this)>删除</button></td></tr>");
-	}
+     $("#guding").before("<tr><td><span class=\"star_red\">*</span>选择项名称</td><td><input onkeyup=\"gernerator();\" ></td><td><span class=\"star_red\">*</span>对应分数</td><td><input onblur=\"gernerator();\" onkeyup=\"this.value=this.value.replace(/[^\\d+(\\.\\d{2})?]/g,'')\"></td><td class=\"tc\"><button class=\"btn btn-windows delete\" type=button onclick=\"deleteRow(this);\">删除</button></td></tr>");
+  }
 	function deleteRow(obj) {
 		  /* if ($("#show_table").get(0).rows.length == 5) {
 		  	layer.msg("请填写数据");

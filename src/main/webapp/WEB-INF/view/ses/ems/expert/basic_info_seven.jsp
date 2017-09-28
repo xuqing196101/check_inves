@@ -883,7 +883,7 @@
                     <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
                       <c:choose>
 												<c:when test="${expert.status == 3 and !fn:contains(engErrorField,t.id.concat('_tieleFile'))}">
-													<u:show showId="pro_${vs.index}" delete="false" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
+													<u:show showId="pro_${vs.index+1}" delete="false" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
 												</c:when>
 												<c:otherwise>
 													<u:upload

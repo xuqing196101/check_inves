@@ -32,7 +32,9 @@
                 	if(qualified){
                 		$("#qualified").attr("disabled", false);
                 	}else{
+                		var mes='${message}';
                 		$("#qualified").attr("disabled", true);
+                		$("#check_opinion").html("<span class='red'>"+mes+"</span>");
                 	}
                 /* }else{
                 	$("#qualified").attr("disabled", true);
@@ -264,7 +266,11 @@
 				dataType: "json",
 				success: function(data) {
 					if(status == 15) {
-						$("#check_opinion").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+						if(data.pass == 0){
+							$("#check_opinion").html("预初审合格，通过的是物资服务经济类别。");
+						}else{
+							$("#check_opinion").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+						}
 					} else if(status == 16) {
 						$("#check_opinion").html("预初审不合格。");
 					}
@@ -533,8 +539,10 @@
                             </td>
                             <!-- 状态 -->
                             <td class="tc">
-                            	<c:if test="${reasons.suggestType eq 'one'}">退回</c:if>
-                            	<c:if test="${reasons.suggestType eq 'seven' || reasons.suggestType eq 'six' || reasons.suggestType eq 'five'}">审核不通过</c:if>
+                            	<c:if test="${reasons.suggestType eq 'one' || reasons.suggestType eq 'five'}">退回</c:if>
+                            	<c:if test="${reasons.suggestType eq 'six' }">审核不通过</c:if>
+                            	<c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '1' }">审核不通过</c:if>
+                            	<c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '2' }">退回</c:if>
                             </td>
                         </tr>
                     </c:forEach>

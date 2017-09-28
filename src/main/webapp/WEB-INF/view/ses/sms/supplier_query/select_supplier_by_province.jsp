@@ -1,8 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<%@ page import="ses.constants.SupplierConstants" %>
+
 <!DOCTYPE HTML >
 <html>
-
 	<head>
 		<%@ include file="../../../common.jsp"%>
 		<script type="text/javascript">
@@ -475,7 +476,7 @@
               <span>
                 <select id="status" name="status" class="w220">
 	                <option  selected="selected" value=''>全部</option>
-	                <option value="-1">暂存</option>
+	                <!-- <option value="-1">暂存</option>
 	                <option value="0">待审核</option>
 	                <option value="-2">预审核结束</option>
 									<option value="-3">公示中</option>
@@ -486,9 +487,11 @@
 									<option value="4">待复核</option>
 									<option value="5">复核通过</option>
 									<option value="6">复核未通过</option>
-									<!-- <option value="5">待考察</option> -->
 									<option value="7">考察合格</option>
-									<option value="8">考察不合格</option>
+									<option value="8">考察不合格</option> -->
+									<c:forEach items="<%=SupplierConstants.STATUSMAP %>" var="item">
+										<option value="${item.key}">${item.value}</option>
+									</c:forEach>
                 </select>
               </span>
             </li>
@@ -593,13 +596,19 @@
 							<tr>
 								<%-- <td class="tc w30"><input type="radio" value="${list.id }" name="chkItem"  id="${list.id}"></td> --%>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
-								<td>
+								<td class="hand" title="${list.supplierName}">
 									<c:choose>
 							       <c:when test="${list.status ==5 and list.isProvisional == 1 }">
-							       	 <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a>
+							       	 <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}')">
+							       	   <c:if test="${fn:length (list.supplierName) > 12}">${fn:substring(list.supplierName,0,12)}...</c:if>
+                         <c:if test="${fn:length (list.supplierName) <= 12}">${list.supplierName}</c:if>
+							       	 </a>
 							       </c:when>
 							       <c:otherwise>
-							       	 <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a>
+							       	 <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}')">
+							       	   <c:if test="${fn:length (list.supplierName) > 12}">${fn:substring(list.supplierName,0,12)}...</c:if>
+                         <c:if test="${fn:length (list.supplierName) <= 12}">${list.supplierName}</c:if>
+							       	 </a>
 							       </c:otherwise>
 									</c:choose>
 								</td>
@@ -617,7 +626,7 @@
 								<td class="">${list.supplierType }</td>
 								<td class="tc">${list.businessNature }</td>
 								<td class="tc">
-									<c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
+									<%-- <c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
 									<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
 									<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
 									<c:if test="${list.status==-2 }"><span class="label rounded-2x label-dark">预审核结束</span></c:if>
@@ -629,9 +638,24 @@
 									<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
 									<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">复核通过</span></c:if>
 									<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
-									<%-- <c:if test="${list.status==5 }"><span class="label rounded-2x label-dark">待考察</span></c:if> --%>
+									<c:if test="${list.status==7 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
+									<c:if test="${list.status==8 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if> --%>
+									<c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
+									<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
+									<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
+									<c:if test="${list.status==-2 }"><span class="label rounded-2x label-dark">预审核结束</span></c:if>
+									<c:if test="${list.status==-3 }"><span class="label rounded-2x label-dark">公示中</span></c:if>
+									<%-- <c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if> --%>
+									<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">退回修改</span></c:if>
+									<c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
+									<c:if test="${list.status==3 }"><span class="label rounded-2x label-dark">审核不通过</span></c:if>
+									<c:if test="${list.status==1 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
+									<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">复核合格</span></c:if>
+									<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核不合格</span></c:if>
 									<c:if test="${list.status==7 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
 									<c:if test="${list.status==8 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
+									<c:if test="${list.status==-4 }"><span class="label rounded-2x label-dark">预复核结束</span></c:if>
+									<c:if test="${list.status==-5 }"><span class="label rounded-2x label-dark">预考察结束</span></c:if>
 								</td>
 							</tr>
 						</c:forEach>

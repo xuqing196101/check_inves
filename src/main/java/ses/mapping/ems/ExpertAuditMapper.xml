@@ -242,7 +242,7 @@
       AUDIT_RESULT = #{auditResult},
       AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
       TYPE = #{type},
-      IS_DELETED = #{isDeleted}
+      IS_DELETED = #{isDeleted},
       SUGGEST_TYPE = #{suggestType},
       AUDIT_FIELD = #{auditField},
       AUDIT_CONTENT = #{auditContent}

@@ -383,4 +383,11 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	public List<Category> selectPListByCode(String code);
+	
+	/**
+	 * 根据itme中间表id查询categor
+	 * @param itemsId
+	 * @return
+	 */
+	Category selectCategoryByItemId (String itemsId);
 }

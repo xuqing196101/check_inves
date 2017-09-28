@@ -1,17 +1,25 @@
 package ses.controller.sys.ems;
 
-import bss.formbean.PurchaseRequiredFormBean;
+import java.beans.PropertyDescriptor;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.utils.JdcgResult;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.record.PageBreakRecord.Break;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -57,30 +65,20 @@ import ses.service.ems.ExpertService;
 import ses.service.ems.ExpertSignatureService;
 import ses.service.ems.ExpertTitleService;
 import ses.service.ems.ProjectExtractService;
+import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
+import bss.formbean.PurchaseRequiredFormBean;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.beans.PropertyDescriptor;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 
 
 /**
@@ -147,6 +145,9 @@ public class ExpertAuditController{
 	
 	@Autowired
 	private ExpertAuditNotService expertAuditNotService;
+	
+	@Autowired
+	private PurChaseDepOrgService purChaseDepOrgService;
 	/**
 	 * @Title: expertAuditList
 	 * @author XuQing 
@@ -463,7 +464,7 @@ public class ExpertAuditController{
 		}
 		
 		
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("0") || "10".equals(expert.getStatus())|| "16".equals(expert.getStatus())|| "15".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("-2") ||  expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
+		if(expert.getStatus().equals("-3") || expert.getStatus().equals("1") || expert.getStatus().equals("0") || "10".equals(expert.getStatus())|| "16".equals(expert.getStatus())|| "15".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("-2") ||  expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
 			/**
 			 * 回显未通过的字段
 			 */
@@ -1213,7 +1214,7 @@ public class ExpertAuditController{
 		model.addAttribute("expertId", expertId);
 		model.addAttribute("status", expert.getStatus());
 		//回显不通过的字段
-		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "10".equals(expert.getStatus())|| "15".equals(expert.getStatus())|| "16".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
+		if(expert.getStatus().equals("-3") ||  expert.getStatus().equals("1") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "10".equals(expert.getStatus())|| "15".equals(expert.getStatus())|| "16".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
 			ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("five");
@@ -1480,7 +1481,7 @@ public class ExpertAuditController{
 		model.addAttribute("typeMap", typeMap);
 		
 		//回显不通过的字段
-		if(expert.getStatus().equals("-3")||"15".equals(expert.getStatus())||"16".equals(expert.getStatus()) || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "10".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
+		if(expert.getStatus().equals("-3") ||  expert.getStatus().equals("1") ||"15".equals(expert.getStatus())||"16".equals(expert.getStatus()) || expert.getStatus().equals("-2") || expert.getStatus().equals("0") || "10".equals(expert.getStatus()) || "9".equals(expert.getStatus()) || expert.getStatus().equals("4") ||  (sign == 3 && expert.getStatus().equals("6"))){
 			/*ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("seven");
@@ -1692,6 +1693,7 @@ public class ExpertAuditController{
 		
 		if(result.getStatus()==500){
 			model.addAttribute("qualified", false);
+			model.addAttribute("message", result.getMsg());
 		}else{
 			String[] split = expert.getExpertsTypeId().split(",");
 			ExpertAudit audit = new ExpertAudit();
@@ -1968,19 +1970,21 @@ public class ExpertAuditController{
 		// 下载后的文件名
 		String downFileName = "";
 		if("1".equals(tableType)){
-			downFileName = new String("军队采购评审专家入库初审表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+			String name=expert.getRelName()+"入库初审表.doc";
+			downFileName = new String(name.getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
 		if("2".equals(tableType) || "0".equals(tableType)){
-			downFileName = new String("军队采购评审专家入库复审表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
-			
 			//记录复审下载过附件
 			ExpertAuditOpinion expertAuditOpinion =new ExpertAuditOpinion();
 			expertAuditOpinion.setExpertId(expertId);
 			expertAuditOpinion.setFlagTime(1);
 			expertAuditOpinionService.updateIsDownloadAttch(expertAuditOpinion);
+			String name=expert.getRelName()+"入库复审表.doc";
+			downFileName = new String(name.getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
 		if("3".equals(tableType)){
-			downFileName = new String("军队采购评审专家入库复查表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+			String name=expert.getRelName()+"入库复查表.doc";
+			downFileName = new String(name.getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
 		}
 		response.setContentType("application/x-download");
 		return service.downloadFile(fileName, filePath, downFileName);
@@ -1999,6 +2003,15 @@ public class ExpertAuditController{
 	private String createWordMethod(Expert expert, HttpServletRequest request, String tableType, String opinion) throws Exception {
 		/** 用于组装word页面需要的数据 */
 		Map < String, Object > dataMap = new HashMap < String, Object > ();
+		//采购机构名称
+		Map<String, Object> depMap = new HashMap<String, Object>();
+		depMap.put("purchaseDepId", expert.getPurchaseDepId());
+		String depName = purChaseDepOrgService.selectOrgFullNameByPurchaseDepId(depMap);
+		dataMap.put("depName", depName);
+		//审核时间
+		//日期格式化
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+		dataMap.put("auditTime", simpleDateFormat.format(expert.getAuditAt()));
 		dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
 		String sex = expert.getGender();
 		DictionaryData gender = dictionaryDataServiceI.getDictionaryData(sex);
@@ -2043,8 +2056,21 @@ public class ExpertAuditController{
 			ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 			expertAuditOpinion.setExpertId(expert.getId());
 			expertAuditOpinion = expertAuditOpinionService.selectByPrimaryKey(expertAuditOpinion);
+			//拼接参评类别审核意见
+			String count = findCategoryCount(expert.getId(),Integer.valueOf(tableType));
+			Map<String, Object> remap = JSON.parseObject(count); 
+			String categoryReason = "";
+			if("1".equals(expert.getStatus())){
+				categoryReason = "审核通过，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
+			}else if("2".equals(expert.getStatus())){
+				categoryReason = "审核未通过";
+			}else if("15".equals(expert.getStatus())){
+				categoryReason = "预审核通过，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
+			}else if("16".equals(expert.getStatus())){
+				categoryReason = "预审核未通过";
+			}
 			if(expertAuditOpinion !=null){
-				dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? "无" : expertAuditOpinion.getOpinion());
+				dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? categoryReason : expertAuditOpinion.getOpinion()+categoryReason);
 			}
 			else{
 				dataMap.put("reason", "无");
@@ -2642,6 +2668,7 @@ public class ExpertAuditController{
 		String fileName = "";
 		if("1".equals(tableType)){
 			newFileName = WordUtil.createWord(dataMap, "expertOneAudit.ftl", fileName, request);
+			
 			fileName = new String(("军队采购评审专家入库初审表.doc").getBytes("UTF-8"), "UTF-8");
 		}
 		if("2".equals(tableType) || "0".equals(tableType)){
