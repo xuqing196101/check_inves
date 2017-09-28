@@ -40,6 +40,12 @@
                   list_content[i].expertList[ii].status = '暂存';
                 } else if (list_content[i].expertList[ii].status === '0') {
                   list_content[i].expertList[ii].status = '待初审';
+                } else if (list_content[i].expertList[ii].status === '1') {
+                  list_content[i].expertList[ii].status = '初审合格';
+                } else if (list_content[i].expertList[ii].status === '2') {
+                  list_content[i].expertList[ii].status = '初审不合格';
+                } else if (list_content[i].expertList[ii].status === '3') {
+                  list_content[i].expertList[ii].status = '初审退回修改';
                 } else if (list_content[i].expertList[ii].status === '4') {
                   if (list_content[i].expertList[ii].status === '4' && list_content[i].expertList[ii].auditTemporary === '4') {
                     list_content[i].expertList[ii].status = '复审中';
@@ -55,6 +61,8 @@
                   list_content[i].expertList[ii].status = '复查合格';
                 } else if (list_content[i].expertList[ii].status === '8') {
                   list_content[i].expertList[ii].status = '复查不合格';
+                } else if (list_content[i].expertList[ii].status === '9') {
+                  list_content[i].expertList[ii].status = '初审退回再审核';
                 } else if (list_content[i].expertList[ii].status === '10') {
                   list_content[i].expertList[ii].status = '复审退回修改';
                 } else if (list_content[i].expertList[ii].status === '11') {
@@ -65,6 +73,12 @@
                   list_content[i].expertList[ii].status = '无产品专家';
                 } else if (list_content[i].expertList[ii].status === '14') {
                   list_content[i].expertList[ii].status = '复审待分组专家';
+                } else if (list_content[i].expertList[ii].status === '15') {
+                  list_content[i].expertList[ii].status = '预初审合格';
+                } else if (list_content[i].expertList[ii].status === '16') {
+                  list_content[i].expertList[ii].status = '预初审不合格';
+                } else if (list_content[i].expertList[ii].status === '17') {
+                  list_content[i].expertList[ii].status = '资料不全';
                 }
                 
                 if (typeof(list_content[i].expertList[ii].batchDetailsNumber) === 'undefined') {
