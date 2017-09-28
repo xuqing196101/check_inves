@@ -5,6 +5,7 @@
 
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<%@ include file="/WEB-INF/view/ses/ems/expertQuery/common.jsp"%>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertQuery/merge_jump.js"></script>
 		<script type="text/javascript">
 			function showDivTree(obj) {

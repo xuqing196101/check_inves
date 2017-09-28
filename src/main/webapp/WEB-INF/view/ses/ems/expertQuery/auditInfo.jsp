@@ -10,6 +10,7 @@
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
+      <%@ include file="/WEB-INF/view/ses/ems/expertQuery/common.jsp"%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertQuery/merge_jump.js"></script>
     <script type="text/javascript">
       //上一步
