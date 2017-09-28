@@ -36,7 +36,7 @@
           $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
             +'<thead>'
             +'  <tr>'
-            +'    <th class="info w30"><input type="checkbox" onclick="selectAll();" id="checkAll"></th>'
+            +'    <th class="info w30"><input type="checkbox" onclick="checkAll(this)" name="checkAll"></th>'
             +'    <th class="info w130">专家编号</th>'
             +'    <th class="info w100">采购机构</th>'
             +'    <th class="info w100">专家姓名</th>'
@@ -154,7 +154,7 @@
               }
               
               $('#list_content').append('<tr><input id="'+ list_content.list[i].expertId +'" type="hidden">'
-            	+'<td class="text-center"><input name="chkItem" type="checkbox" onclick="check();" value="'+ list_content.list[i].expertId +'" class="select_item"></td>'
+            	+'<td class="text-center"><input type="checkbox" value="'+ list_content.list[i].expertId +'" class="select_item"></td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].batchDetailsNumber +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].orgName +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].realName +'</td>'
@@ -313,13 +313,20 @@
         }
         
         // 勾选翻页之前选中的项
+        var allchecked = 0;
         for (var i in select_ids) {
           $('.select_item').each(function () {
             if ($(this).val() === select_ids[i]) {
+              allchecked++;
               $(this).prop('checked', true);
               return false;
             }
           });
+          if (allchecked === $('.select_item').length) {
+            $('[name=checkAll]').prop('checked', true);
+          } else {
+            $('[name=checkAll]').prop('checked', false);
+          }
         }
         
         // 绑定列表框点击事件，获取选中id集合
@@ -327,6 +334,7 @@
         if (select_checkbox.length > 0) {
           select_checkbox.bind('click', function () {
             var this_val = $(this).val().toString();
+            
             if ($(this).is(':checked')) {
               select_ids.push(this_val);
             } else {
@@ -336,6 +344,19 @@
                   break;
                 }
               }
+            }
+            
+            var sum = 0;
+            $('.againAudit_table').find('.select_item').each(function () {
+              if ($(this).is(':checked')) {
+                sum++;
+              }
+            });
+            
+            if (sum === $('.againAudit_table').find('.select_item').length) {
+              $('[name=checkAll]').prop('checked', true);
+            } else {
+              $('[name=checkAll]').prop('checked', false);
             }
           });
         }

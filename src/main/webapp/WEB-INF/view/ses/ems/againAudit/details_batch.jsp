@@ -112,40 +112,40 @@
     }
     
     /** 全选全不选 */
-    function selectAll(){
-       var checklist = document.getElementsByName ("chkItem");
-       var checkAll = document.getElementById("checkAll");
-       if(checkAll.checked){
-           for(var i=0;i<checklist.length;i++)
-           {
-              checklist[i].checked = true;
-           } 
-         }else{
-          for(var j=0;j<checklist.length;j++)
-          {
-             checklist[j].checked = false;
-          }
-       }
-    }
+    // function selectAll(){
+    //    var checklist = document.getElementsByName ("chkItem");
+    //    var checkAll = document.getElementById("checkAll");
+    //    if(checkAll.checked){
+    //        for(var i=0;i<checklist.length;i++)
+    //        {
+    //           checklist[i].checked = true;
+    //        } 
+    //      }else{
+    //       for(var j=0;j<checklist.length;j++)
+    //       {
+    //          checklist[j].checked = false;
+    //       }
+    //    }
+    // }
     
     /** 单选 */
-    function check(){
-       var count=0;
-       var checklist = document.getElementsByName ("chkItem");
-       var checkAll = document.getElementById("checkAll");
-       for(var i=0;i<checklist.length;i++){
-           if(checklist[i].checked == false){
-             checkAll.checked = false;
-             break;
-           }
-           for(var j=0;j<checklist.length;j++){
-             if(checklist[j].checked == true){
-                 //checkAll.checked = true;
-                 count++;
-               }
-           }
-         }
-    }
+    // function check(){
+    //    var count=0;
+    //    var checklist = document.getElementsByName ("chkItem");
+    //    var checkAll = document.getElementById("checkAll");
+    //    for(var i=0;i<checklist.length;i++){
+    //        if(checklist[i].checked == false){
+    //          checkAll.checked = false;
+    //          break;
+    //        }
+    //        for(var j=0;j<checklist.length;j++){
+    //          if(checklist[j].checked == true){
+    //              //checkAll.checked = true;
+    //              count++;
+    //            }
+    //        }
+    //      }
+    // }
     
     //复审结束（审核专家操作）
     function reviewEnd(expertId){
