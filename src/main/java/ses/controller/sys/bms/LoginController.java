@@ -250,6 +250,7 @@ public class LoginController {
                             String date = (String) map.get("date");
                             PurchaseDep orgnization = ( PurchaseDep ) map.get("orgnization");
                             req.getSession().setAttribute("loginName", u.getLoginName());
+                            req.getSession().setAttribute("orgnization", orgnization);
                             if ("success".equals(msg)) {
                                 req.getSession().setAttribute("loginSupplier", map.get("supplier"));
                                 // 实现单一登录 踢人效果
