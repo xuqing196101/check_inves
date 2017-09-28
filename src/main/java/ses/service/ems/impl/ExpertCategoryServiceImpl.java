@@ -1,17 +1,10 @@
 package ses.service.ems.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.github.pagehelper.PageHelper;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.github.pagehelper.PageHelper;
-
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.model.bms.Category;
@@ -24,6 +17,10 @@ import ses.service.bms.EngCategoryService;
 import ses.service.ems.ExpertCategoryService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 @Service("expertCategoryService")
 public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	
@@ -233,10 +230,10 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	@Override
 	public List<String> selectCateByExpertId(String expertId) {
         // 定义查询条件
-		Map map = new HashedMap();
+		Map<String, Object> map = new HashedMap();
 		map.put("expertId", expertId);
-		map.put("type", "six");
-		return mapper.selectCateByExpertId(map);
+		map.put("type", "seven");
+		return mapper.selectNoPassCateByExpertId(map);
 	}
 
 	/**

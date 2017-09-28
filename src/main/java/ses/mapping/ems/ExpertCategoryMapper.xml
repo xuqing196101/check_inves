@@ -193,6 +193,15 @@
          GROUP BY C.TYPE_ID
     </select>
 
+    <!--查询专家审核不通过的类型ID-->
+    <select id="selectNoPassCateByExpertId" parameterType="Map" resultType="java.lang.String">
+        SELECT T.AUDIT_FIELD_ID
+        FROM T_SES_EMS_EXPERT_AUDIT T
+         WHERE T.EXPERT_ID = #{expertId}
+         AND T.SUGGEST_TYPE = #{type}
+         AND T.IS_DELETED = 0
+    </select>
+
     <!--查询专家审核通过的类型—根据类型查询-->
     <select id="selectPassCateByExpertId" parameterType="Map" resultMap="BaseResultMap">
         SELECT C.TYPE_ID, C.CATEGORY_ID

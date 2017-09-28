@@ -2398,7 +2398,7 @@ public class IndexNewsController extends BaseSupplierController{
 		List < String > allTypeId = new ArrayList <> ();
 		if(expert.getExpertsTypeId() !=null && !"".equals(expert.getExpertsTypeId())){
 			for(String id: expert.getExpertsTypeId().split(",")) {
-			    if(stringList != null && stringList.contains(id)){
+			    if(stringList != null && !stringList.contains(id)){
                     allTypeId.add(id);
                 }
 			}
