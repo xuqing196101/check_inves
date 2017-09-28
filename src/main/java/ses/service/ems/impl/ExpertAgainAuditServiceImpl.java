@@ -222,6 +222,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			if(status != null){
 				img.setStatus(false);
 				img.setMessage("全部专家已分组完成");
+				return img;
 			}
 		}
 		
