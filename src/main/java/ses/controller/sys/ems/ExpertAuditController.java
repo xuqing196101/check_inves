@@ -1945,10 +1945,16 @@ public class ExpertAuditController{
 			String categoryReason = "";
 			if("1".equals(expert.getStatus())){
 				categoryReason = "审核通过，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
+				if((int)remap.get("all") == 0 && (int)remap.get("pass") == 0){
+					categoryReason = "审核通过，选择的是物资服务经济类别。";
+				}
 			}else if("2".equals(expert.getStatus())){
 				categoryReason = "审核未通过";
 			}else if("15".equals(expert.getStatus())){
 				categoryReason = "预审核通过，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
+				if((int)remap.get("all") == 0 && (int)remap.get("pass") == 0){
+					categoryReason = "预审核通过，选择的是物资服务经济类别。";
+				}
 			}else if("16".equals(expert.getStatus())){
 				categoryReason = "预审核未通过";
 			}
