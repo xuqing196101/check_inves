@@ -85,7 +85,7 @@
 				
 				//判断是工程勘察或设计
 				var flag = preIsCheck(nodes[i]) && nextIsCheck(nodes[i]);
-				flag = preIsCheck(nodes[i]) && nextIsCheck(nodes[i]);
+				//flag = preIsCheck(nodes[i]) && nextIsCheck(nodes[i]);
 				if(flag){
 					if(ppid.search(nodes[i].getParentNode().id) == -1){
 						ppid += nodes[i].getParentNode().id + ",";
