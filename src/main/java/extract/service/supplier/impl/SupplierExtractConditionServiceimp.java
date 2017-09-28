@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -225,7 +224,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			String bu = (String)class1.getMethod("get"+code+"BusinessNature").invoke(conType);
 			String ob = (String)class1.getMethod("get"+code+"OverseasBranch").invoke(conType);
 			String qid = (String)class1.getMethod("get"+code+"QuaId").invoke(conType);
-			String qname = (String)class1.getMethod("get"+code+"QuaName").invoke(conType);
+			//String qname = (String)class1.getMethod("get"+code+"QuaName").invoke(conType);
 			if(null != mu){
 				condition.setIsMulticondition(mu);
 			}

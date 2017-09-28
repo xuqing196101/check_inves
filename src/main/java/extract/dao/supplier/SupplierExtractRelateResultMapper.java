@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import ses.model.sms.Supplier;
-
 import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractResult;
 

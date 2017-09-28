@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,6 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
 import common.bean.ResponseBean;
 
 import extract.model.supplier.SupplierConType;

@@ -960,6 +960,8 @@ $(function () {
             	$(cate).parents("li").find(".categoryId").val("");
             	$(cate).parents("li").find(".parentId").val("");
                 $(cate).val("");
+                emptyQuaInfo(code);
+                $("#"+code+"QuaTree").empty();
                 selectLikeSupplier();
             }
         });
@@ -2068,6 +2070,18 @@ $(function () {
 		});
 	}
     
+   //校验输入空格
+    function checkSpase(obj){
+    	
+    	$("input").each(function(){
+    		if($(this).prop("readonly")){
+    			$(this).attr("");
+    		}
+    		
+    	});
+    	
+    	$(obj).val();
+    }
     
     
   //文本编译器计数
