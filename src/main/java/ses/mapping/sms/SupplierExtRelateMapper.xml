@@ -365,7 +365,37 @@
 		t1.SUPPLIER_ID
 	</select>
 
-
+  <select id="selectProSupplier" parameterType="java.lang.String" resultType="java.util.Map">
+    SELECT
+		  wm_concat (T .packageName) AS packageName,
+		  T .conTypeId,
+		  T .supplierTypeId,
+		  T .supplierConditionId,
+		  T .reason
+		FROM
+		  (
+		    SELECT
+		      ET.SUPPLIER_ID,
+		      pa. NAME AS packageName,
+		      (SELECT SUPPLIER_NAME FROM T_SES_SMS_SUPPLIER WHERE ID = ET.SUPPLIER_ID) AS conTypeId,
+		      (SELECT ARMY_BUSINESS_NAME FROM T_SES_SMS_SUPPLIER WHERE ID = ET.SUPPLIER_ID) AS supplierTypeId,
+		      (SELECT ARMY_BUSINESS_MOBILE FROM T_SES_SMS_SUPPLIER WHERE ID = ET.SUPPLIER_ID) AS supplierConditionId,
+		      (SELECT ARMY_BUSINESS_TELEPHONE FROM T_SES_SMS_SUPPLIER WHERE ID = ET.SUPPLIER_ID) AS reason
+		    FROM
+		      T_SES_SMS_SUPPLIER_EXT_RELATE et
+		    LEFT JOIN T_BSS_PPMS_PACKAGE pa ON ET.PROJECT_ID = PA. ID
+		    LEFT JOIN T_BSS_PPMS_PROJECTS pr ON pa.PROJECT_ID = PR. ID
+		    WHERE
+		      PR. ID = #{projectId}
+		    AND et.OPERATING_TYPE = 1
+		  ) T
+		GROUP BY
+		  T .SUPPLIER_ID,
+		  T .conTypeId,
+		  T .supplierTypeId,
+		  T .reason,
+		  T .supplierConditionId
+  </select>
 
 
 </mapper>

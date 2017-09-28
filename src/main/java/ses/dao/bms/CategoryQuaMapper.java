@@ -1,5 +1,6 @@
 package ses.dao.bms;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -107,5 +108,7 @@ public interface CategoryQuaMapper {
 
 	List<DictionaryData> getEngAptitudeLevelByCategoryId(
 			Map<String, String[]> map);
+
+	List<DictionaryData> getQuaByCid(HashMap<String, String[]> hashMap);
 	
 }

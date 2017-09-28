@@ -286,7 +286,13 @@ public class AreaServiceImpl implements AreaServiceI {
 	 */
 	@Override
 	public List<Area> getTree() {
-		return areaMapper.getTreeForExt();
+		List<Area> treeForExt = areaMapper.getTreeForExt();
+		Area area = new Area();
+		area.setId("0");
+		area.setIsParent("true");
+		area.setName("全国");
+		treeForExt.add(area);
+		return treeForExt;
 	}
 
 }

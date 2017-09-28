@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="extract.dao.supplier.SupplierExtractRecordMapper">
-  <resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtracts">
+  <resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractProjectInfo">
     <!--
     @mbggenerated
     -->
@@ -16,13 +16,14 @@
     <result column="PACKAGE_NAME" jdbcType="VARCHAR" property="packageName" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="PROJECT_CODE" jdbcType="VARCHAR" property="projectCode" />
+    <result column="PROJECT_TYPE" jdbcType="VARCHAR" property="projectType" />
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
     <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
     <result column="CONDITION_ID" jdbcType="VARCHAR" property="conditionId" />
     <result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType" />
     <result column="PURCHASE_TYPE_NAME" jdbcType="VARCHAR" property="purchaseTypeName" />
-        <association property="perpleUser"  column="EXTRACTS_PEOPLE"
-            select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
+    <result column="CONSTRUCTION_PRO" jdbcType="VARCHAR" property="constructionPro" />
+    <result column="CONSTRUCTION_ADDR" jdbcType="VARCHAR" property="constructionAddr" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -37,42 +38,150 @@
     <!--
     @mbggenerated
     -->
-    E.ID,E.CONDITION_ID,E.PROJECT_ID,E.STATUS,E.PROJECT_NAME,E.PROJECT_CODE,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.EXTRACT_THE_WAY,E.EXTRACTS_PEOPLE,E.PURCHASE_TYPE,E.TENDER_AT,D.NAME PURCHASE_TYPE_NAME
+    E.ID,E.PROJECT_NAME,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.PROJECT_ID,E.PROJECT_CODE,E.STATUS,E.CREATED_AT
+   <!--  E.ID,E.CONDITION_ID,E.PROJECT_ID,E.STATUS,E.PROJECT_NAME,E.PROJECT_CODE,E.EXTRACTION_TIME,E.PACKAGE_NAME,E.EXTRACT_THE_WAY,E.EXTRACTS_PEOPLE,E.PURCHASE_TYPE,E.TENDER_AT,D.NAME PURCHASE_TYPE_NAME -->
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+ 
+ 
+  
+  
+  
+    
+    <!-- 抽取记录表（结束） -->
+    <select id="getList" parameterType="extract.model.supplier.SupplierExtractProjectInfo" resultMap="BaseResultMap">
     <!--
     @mbggenerated
     -->
-    select 
-    <include refid="project_info" />
-    from T_SES_SMS_SUPPLIER_EXTRACTS E LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON E.PURCHASE_TYPE = D.ID
-    where E.ID = #{id,jdbcType=VARCHAR}
+    SELECT <include refid="project_info"/> ,D.NAME PURCHASE_TYPE,D1.NAME PROJECT_TYPE from T_SES_SMS_EXTRACT_RECORD E LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON E.PURCHASE_TYPE = D.ID  
+    LEFT JOIN T_SES_BMS_DICTIONARY_DATA D1 ON E.PROJECT_TYPE = D1.CODE WHERE E.EXTRACT_THE_WAY = '1' <!-- AND E.STATUS = '1' --> AND E.IS_DELETE = '0' AND PROJECT_INTO IS NULL
+   	  <if test="procurementDepId != null and procurementDepId != ''">
+    	AND E.PROCUREMENT_DEP_ID = #{procurementDepId}  
+      </if>
+   	  <if test="projectName != null and projectName != ''">
+        AND E.PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%')
+      </if>
+      <if test="projectCode != null and projectCode != ''">
+        AND E.PROJECT_CODE like CONCAT(CONCAT('%', #{projectCode}), '%')
+      </if>
+      <if test="purchaseType != null and purchaseType != ''">
+        AND E.PURCHASE_TYPE = #{purchaseType}
+      </if>
+      <if test="startTime != null and startTime != ''">
+        AND E.CREATED_AT &gt;= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+      </if>
+      <if test="endTime != null and endTime != ''">
+        AND E.CREATED_AT  &lt;= to_date(#{endTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+      </if>
+     ORDER BY E.CREATED_AT DESC
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+
+	<!-- 查询项目信息 -->
+	<select id="getListByMap" parameterType="extract.model.supplier.SupplierExtractProjectInfo" resultMap="BaseResultMap">
     <!--
     @mbggenerated
     -->
-    delete from T_SES_SMS_SUPPLIER_EXTRACTS
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="extract.model.supplier.SupplierExtracts">
-    <!--
-    @mbggenerated
-    -->
-    insert into T_SES_SMS_SUPPLIER_EXTRACTS (ID, PROJECT_NAME, PROCUREMENT_DEP_ID, 
-      EXTRACTION_TIME, EXTRACTION_SITES, EXTRACT_THE_WAY, 
-      EXTRACTS_PEOPLE, CREATED_AT, UPDATED_AT, 
-      PROJECT_CODE, PROJECT_ID)
-    values (#{id,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, #{procurementDepId,jdbcType=VARCHAR}, 
-      #{extractionTime,jdbcType=TIMESTAMP}, #{extractionSites,jdbcType=VARCHAR}, #{extractTheWay,jdbcType=DECIMAL}, 
-      #{extractsPeople,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
-      #{projectCode,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtracts">
-    <!--
-    @mbggenerated
-    -->
-    insert into T_SES_SMS_SUPPLIER_EXTRACTS
+    SELECT <include refid="project_info"/>  from T_SES_SMS_EXTRACT_RECORD E  WHERE E.EXTRACT_THE_WAY = '1'  AND E.IS_DELETE = '0' 
+   	  <if test="procurementDepId != null and procurementDepId != ''">
+    	AND E.PROCUREMENT_DEP_ID = #{procurementDepId}  
+      </if>
+   	  <if test="projectName != null and projectName != ''">
+        AND E.PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%')
+      </if>
+      <if test="projectCode != null and projectCode != ''">
+        AND E.PROJECT_CODE like CONCAT(CONCAT('%', #{projectCode}), '%')
+      </if>
+      <if test="purchaseType != null and purchaseType != ''">
+        AND E.PURCHASE_TYPE = #{purchaseType}
+      </if>
+      <if test="startTime != null and startTime != ''">
+        AND E.CREATED_AT &gt;= to_date(#{startTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+      </if>
+      <if test="endTime != null and endTime != ''">
+        AND E.CREATED_AT  &lt;= to_date(#{endTime,jdbcType=VARCHAR},'yyyy-MM-dd hh24:mi:ss')
+      </if>
+     ORDER BY E.CREATED_AT DESC
+ 	 </select>
+
+	<!--修改项目信息 -->
+   <update id="saveOrUpdateProjectInfo" parameterType="extract.model.supplier.SupplierExtractProjectInfo">
+   		UPDATE T_SES_SMS_EXTRACT_RECORD 
+   		<set>
+	   		<if test="projectId !=null and projectId !='' ">
+	   			PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="procurementDepId !=null and procurementDepId !='' ">
+	   			PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="projectCode !=null and projectCode !='' ">
+	   			PROJECT_CODE = #{projectCode,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="projectType !=null and projectType !='' ">
+	   			PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="projectName !=null and projectName !='' ">
+	   			PROJECT_NAME = #{projectName,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="packageName !=null and packageName !='' ">
+	   			PACKAGE_NAME = #{packageName,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="packageNumber !=null and packageNumber !='' ">
+	   			PACKAGE_NUMBER = #{packageNumber,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="status !=null and status !='' ">
+	   			STATUS = #{status,jdbcType=DECIMAL},
+	   		</if>
+	   		<if test="purchaseType !=null and purchaseType !='' ">
+	   			PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="constructionPro !=null and constructionPro !='' ">
+	   			CONSTRUCTION_PRO = #{constructionPro,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="constructionAddr !=null and constructionAddr !='' ">
+	   			CONSTRUCTION_ADDR = #{constructionAddr,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="sellBegin !=null and sellBegin !='' ">
+	   			SELL_BEGIN = #{sellBegin,jdbcType=DATE},
+	   		</if>
+	   		<if test="sellEnd !=null and sellEnd !='' ">
+	   			SELL_END = #{sellEnd,jdbcType=DATE},
+	   		</if>
+	   		<if test="sellAddress !=null and sellAddress !='' ">
+	   			SELL_ADDRESS = #{sellAddress,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="sellProvince !=null and sellProvince !='' ">
+	   			SELL_PROVINCE = #{sellProvince,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="sellSite !=null and sellSite !='' ">
+	   			SELL_SITE = #{sellSite,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="contactPerson !=null and contactPerson !='' ">
+	   			CONTACT_PERSON = #{contactPerson,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="conditionId !=null and conditionId !='' ">
+	   			CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="remark !=null and remark !='' ">
+	   			REMARK = #{remark,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="contactNum !=null and contactNum !='' ">
+	   			CONTACT_NUM = #{contactNum,jdbcType=VARCHAR},
+	   		</if>
+	   		<if test="extractTheWay !=null and extractTheWay!='' ">
+	   			 EXTRACT_THE_WAY = #{extractTheWay,jdbcType=DECIMAL},
+	   		</if>
+	   		<if test="isDelete !=null and isDelete != '' ">
+	   			 IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+	   		</if>
+	   		<if test="extractionSites !=null and extractionSites!= '' ">
+	   			 EXTRACTION_SITES = #{extractionSites,jdbcType=VARCHAR},
+	   		</if>
+   		</set>
+   		WHERE ID = #{id}
+   </update> 
+    
+    <!-- 插入记录 -->
+    <insert id="insertProjectInfo" parameterType="extract.model.supplier.SupplierExtractProjectInfo">
+    	insert into T_SES_SMS_EXTRACT_RECORD
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -96,22 +205,21 @@
       <if test="procurementDepId != null">
         PROCUREMENT_DEP_ID,
       </if>
+      <if test="extractionSites != null">
+        EXTRACTION_SITES,
+      </if>
       <if test="extractionTime != null">
         EXTRACTION_TIME,
       </if>
       <if test="extractTheWay != null">
         EXTRACT_THE_WAY,
       </if>
-      <if test="extractsPeople != null">
-        EXTRACTS_PEOPLE,
+      <if test="projectType != null">
+        PROJECT_TYPE,
       </if>
-      <if test="createdAt != null">
-        CREATED_AT,
+      <if test="projectInto != null">
+        PROJECT_INTO,
       </if>
-      <if test="status != null">
-      	STATUS
-      </if>
-      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -136,115 +244,28 @@
       <if test="procurementDepId != null">
         #{procurementDepId,jdbcType=VARCHAR},
       </if>
+      <if test="extractionSites != null">
+        #{extractionSites,jdbcType=VARCHAR},
+      </if>
       <if test="extractionTime != null">
         #{extractionTime,jdbcType=TIMESTAMP},
       </if>
       <if test="extractTheWay != null">
         #{extractTheWay,jdbcType=DECIMAL},
       </if>
-      <if test="extractsPeople != null">
-        #{extractsPeople,jdbcType=VARCHAR},
+       <if test="projectType != null">
+        #{projectType,jdbcType=VARCHAR},
       </if>
-      <if test="createdAt != null">
-        #{createdAt,jdbcType=TIMESTAMP},
+       <if test="projectInto != null">
+       	#{projectInto,jdbcType=VARCHAR},
       </if>
-      <if test="status">
-      	 #{status,jdbcType=DECIMAL},
-      </if>
-      
     </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtracts">
-    <!--
-    @mbggenerated
-    -->
-    update T_SES_SMS_SUPPLIER_EXTRACTS
-    <set>
-      <if test="projectId != null">
-        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
-      </if>
-      <if test="packageId != null">
-        PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
-      </if>
-      <if test="projectName != null">
-        PROJECT_NAME = #{projectName,jdbcType=VARCHAR},
-      </if>
-      <if test="projectCode != null">
-        PROJECT_CODE = #{projectCode,jdbcType=VARCHAR},
-      </if>
-      <if test="packageName != null">
-        PACKAGE_NAME = #{packageName,jdbcType=VARCHAR},
-      </if>
-      <if test="extractionTime != null">
-        EXTRACTION_TIME = #{extractionTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="extractTheWay != null">
-        EXTRACT_THE_WAY = #{extractTheWay,jdbcType=DECIMAL},
-      </if>
-      <if test="extractsPeople != null">
-        EXTRACTS_PEOPLE = #{extractsPeople,jdbcType=VARCHAR},
-      </if>
-      <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="purchaseType != null">
-        PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="tenderAt != null">
-        TENDER_AT = #{tenderAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="conditionId != null">
-        CONDITION_ID = #{conditionId,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierExtracts">
-    <!--
-    @mbggenerated
-    -->
-    update T_SES_SMS_SUPPLIER_EXTRACTS
-    set PROJECT_NAME = #{projectName,jdbcType=VARCHAR},
-      PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR},
-      EXTRACTION_TIME = #{extractionTime,jdbcType=TIMESTAMP},
-      EXTRACTION_SITES = #{extractionSites,jdbcType=VARCHAR},
-      EXTRACT_THE_WAY = #{extractTheWay,jdbcType=DECIMAL},
-      EXTRACTS_PEOPLE = #{extractsPeople,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
-      PROJECT_CODE = #{projectCode,jdbcType=VARCHAR},
-      PROJECT_ID = #{projectId,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <select id="list" parameterType="extract.model.supplier.SupplierExtracts"
-        resultMap="BaseResultMap">
-        SELECT
-        <include refid="Base_Column_List" />
-        FROM T_SES_SMS_SUPPLIER_EXTRACTS
-        WHERE 1=1
-        <if test="projectName!=null and projectName!='' ">
-            AND PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%')
-        </if>
-        <if test="extractionTime!=null and extractionTime!='' ">
-            AND to_date(to_char(EXTRACTION_TIME,'yyyy-MM-dd'),'yyyy-MM-dd') = to_date(to_char(#{extractionTime,jdbcType=TIMESTAMP},'yyyy-MM-dd'),'yyyy-MM-dd')
-        </if>
-        <if test="projectId != null and projectId !='' ">
-            AND PROJECT_ID=#{projectId,jdbcType=VARCHAR}
-        </if>
-        <if test="id != null and id !='' ">
-            AND ID = #{id,jdbcType=VARCHAR}
-        </if>
+    </insert>
+    
+    <!-- 下载记录表需要的项目信息 -->
+    <select id="getProjectInfoById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    	SELECT R.* FROM T_SES_SMS_EXTRACT_RECORD R WHERE R.ID = #{value}
     </select>
-    <select id="getList" parameterType="java.lang.String" resultMap="BaseResultMap">
-    <!--
-    @mbggenerated
-    -->
-    select <include refid="project_info"></include>
-   <!--  <include refid="Base_Column_List" /> -->
-    from T_SES_SMS_SUPPLIER_EXTRACTS E LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON E.PURCHASE_TYPE = D.ID 
-  </select>
+    
     
 </mapper>
