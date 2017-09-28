@@ -100,4 +100,15 @@ public interface SupplierBlacklistMapper {
      * @return
      */
     Integer countById(@Param("id")String id);
+    
+    /**
+     * 
+     * Description: 供应商抽取筛选数据
+     * 
+     * @author zhang shubin
+     * @data 2017年9月27日
+     * @param 
+     * @return
+     */
+    List<String> findExtractList();
 }

@@ -446,9 +446,11 @@ import ses.model.sms.SupplierTypeTree;
 	public List<Category> getPListByCode(String code);
 
 	public List<CategoryTree> getTreeForExt(Category category,
-			String supplierTypeCode);
+			String supplierTypeCode, String categoryId);
 
 	public List<DictionaryData> getEngAptitudeLevelByCategoryId(String categoryId);
+
+	public List<DictionaryData> getQuaByCid(String categoryId);
 
 	/**
 	 * 根据itme中间表id查询categor

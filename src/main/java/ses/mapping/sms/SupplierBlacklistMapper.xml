@@ -255,4 +255,10 @@
     select count(*) from T_SES_SMS_SUPPLIER_BLACKLIST
     where id=#{id,jdbcType=VARCHAR}
   </select>
+  
+  <!-- 供应商抽取查询处罚中的供应商 -->
+  <select id="findExtractList" resultType="String">
+    SELECT SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_BLACKLIST
+    WHERE STATUS = 0
+  </select>
 </mapper>

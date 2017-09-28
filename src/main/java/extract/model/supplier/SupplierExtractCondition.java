@@ -3,21 +3,40 @@ package extract.model.supplier;
 import java.util.Date;
 import java.util.List;
 
-public class SupplierCondition {
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+public class SupplierExtractCondition {
 
 	
 	private SupplierConType supplierConType;
 
    private String recordId;
    
-   private String privary;
-   
+   /**
+    * 保密要求
+    */
+   private String isHavingConCert;
+  
+   /**
+    * 企业性质
+    */
    private String businessNature;
+   
+   /**
+    * 工程资质
+    */
 
+   private String[] quaIds;
+   
+   private String quaId;
+   
+   
     /**
      * 关联供应商
      */
-    private List<SupplierExtRelate> extRelatesList;
+    private List<SupplierExtractResult> extRelatesList;
 
     private List<String> supplierIds;
 
@@ -50,6 +69,7 @@ public class SupplierCondition {
      * 表字段 : 
      * </pre>
      */
+    @NotNull
     private Short extractNum;
 
     /**
@@ -84,10 +104,6 @@ public class SupplierCondition {
      */
     private String responseTime;
 
-    /**
-     * 类型
-     */
-    private List<SupplierConType> conTypes;
 
     /**
      * <pre>
@@ -113,8 +129,13 @@ public class SupplierCondition {
     
     private String[] provinces;
 
+    @NotEmpty
     private String areaName;
     
+    /**
+     * 境外分支
+     */
+    private String overseasBranch;
     /**
      * 创建时间
      */
@@ -172,6 +193,9 @@ public class SupplierCondition {
      * 数组形式地址信息
      */
     private String[] addressIds;
+    
+    
+    private String quaType;
     
     /**
      * <pre>
@@ -385,13 +409,6 @@ public class SupplierCondition {
 
   
 
-    public List<SupplierConType> getConTypes() {
-        return conTypes;
-    }
-
-    public void setConTypes(List<SupplierConType> conTypes) {
-        this.conTypes = conTypes;
-    }
     private String expertsFrom;
 
     public String getExpertsFrom() {
@@ -403,7 +420,7 @@ public class SupplierCondition {
     }
 
  
-    public SupplierCondition() {
+    public SupplierExtractCondition() {
         super();
     }
    
@@ -416,7 +433,7 @@ public class SupplierCondition {
      * @param levelTypeId 等级
      * @param extractNum 抽取数量
      */
-    public SupplierCondition(String supplierTypeCode, Short isMulticondition,
+    public SupplierExtractCondition(String supplierTypeCode, Short isMulticondition,
 			String categoryId, String levelTypeId,Short extractNum) {
 		super();
 		this.supplierTypeCode = supplierTypeCode;
@@ -426,20 +443,20 @@ public class SupplierCondition {
 		this.extractNum = extractNum;
 	}
 
-	public SupplierCondition(String id, String s) {
+	public SupplierExtractCondition(String id, String s) {
         super();
         this.id = id;
     }
 
 
-    public SupplierCondition(String id, Short status) {
+    public SupplierExtractCondition(String id, Short status) {
         super();
         this.id = id;
         this.status = status;
     }
 
 
-    public SupplierCondition(String projectId) {
+    public SupplierExtractCondition(String projectId) {
         super();
         this.projectId = projectId;
     }
@@ -447,14 +464,14 @@ public class SupplierCondition {
     /**
      * @return Returns the extRelatesList.
      */
-    public List<SupplierExtRelate> getExtRelatesList() {
+    public List<SupplierExtractResult> getExtRelatesList() {
         return extRelatesList;
     }
 
     /**
      * @param extRelatesList The extRelatesList to set.
      */
-    public void setExtRelatesList(List<SupplierExtRelate> extRelatesList) {
+    public void setExtRelatesList(List<SupplierExtractResult> extRelatesList) {
         this.extRelatesList = extRelatesList;
     }
 
@@ -670,12 +687,21 @@ public class SupplierCondition {
 		this.areaName = areaName;
 	}
 
-	public String getPrivary() {
-		return privary;
+
+	public String getIsHavingConCert() {
+		return isHavingConCert;
 	}
 
-	public void setPrivary(String privary) {
-		this.privary = privary;
+	public void setIsHavingConCert(String isHavingConCert) {
+		this.isHavingConCert = isHavingConCert;
+	}
+
+	public String getOverseasBranch() {
+		return overseasBranch;
+	}
+
+	public void setOverseasBranch(String overseasBranch) {
+		this.overseasBranch = overseasBranch;
 	}
 
 	public String getBusinessNature() {
@@ -686,5 +712,33 @@ public class SupplierCondition {
 		this.businessNature = businessNature;
 	}
 
+	public String[] getQuaIds() {
+		return quaId.split(",");
+	}
+
+	public void setQuaIds(String[] quaIds) {
+		this.quaIds = quaIds;
+	}
+
+	public String getQuaId() {
+		return quaId;
+	}
+
+	public void setQuaId(String quaId) {
+		this.quaId = quaId;
+	}
+	
+	public int getCsize(){
+		return this.getCategoryIds().length;
+	}
+
+	public void setQuaType(String string) {
+		
+	}
+
+	public String getQuaType() {
+		return quaType;
+	}
+	
 	
 }

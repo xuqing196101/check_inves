@@ -397,4 +397,18 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	public List<Category> findCategoryForSupplierLevel (HashMap<String, String> map);
+
+	/**
+	 * 
+	 * Description: 根据父节点查询四级以上的品目id
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年9月21日
+	 * @param 
+	 * @return
+	 */
+	public List<String> selExtractCategory(String pId);
+
+
+	public List<Category> findpublishTreeByPid(String id);
 }

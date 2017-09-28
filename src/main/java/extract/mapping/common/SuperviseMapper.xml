@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="extract.dao.supplier.SupplierExtractUserMapper">
-	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtUser">
-		<!-- @mbggenerated -->
+<mapper namespace="extract.dao.common.SuperviseMapper">
+	<!-- <resultMap id="BaseResultMap" type="extract.model.common.ExtractUser">
+		@mbggenerated
 		<id column="ID" jdbcType="VARCHAR" property="id" />
 		<result column="EXTRACTS_ID" jdbcType="VARCHAR" property="extractsId" />
 		<result column="USER_ID" jdbcType="VARCHAR" property="userId" />
@@ -13,6 +13,16 @@
     <result column="COMPANY" jdbcType="VARCHAR" property="company" />
     <result column="PHONE" jdbcType="VARCHAR" property="phone" />
     <result column="DUTIES" jdbcType="VARCHAR" property="duties" />
+	</resultMap> -->
+	<resultMap id="BaseResultMap" type="extract.model.common.Supervise">
+	<!-- @mbggenerated -->
+	<id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="COMPANY" jdbcType="VARCHAR" property="company" />
+    <result column="DUTY" jdbcType="VARCHAR" property="duty" />
+    <result column="RANK" jdbcType="VARCHAR" property="rank" />
 	</resultMap>
 
 
@@ -35,7 +45,7 @@
 		where ID =
 		#{id,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert" parameterType="extract.model.supplier.SupplierExtUser">
+	<insert id="insert" parameterType="extract.model.common.ExtractUser">
 		<!-- @mbggenerated -->
 		insert into T_SES_SMS_SUPPLIER_EXT_USER (ID, EXTRACTS_ID, USER_ID,
 		CREATED_AT, PROJECT_ID)
@@ -44,7 +54,7 @@
 		#{userId,jdbcType=VARCHAR},
 		#{createdAt,jdbcType=TIMESTAMP}, #{projectId,jdbcType=VARCHAR})
 	</insert>
-	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtUser">
+	<insert id="insertSelective" parameterType="extract.model.common.ExtractUser">
 		<!-- @mbggenerated -->
 		insert into T_SES_SMS_SUPPLIER_EXT_USER
 		<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -117,13 +127,10 @@
       #{recordId,jdbcType=VARCHAR},
       </if>
 		</trim>
-		 <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-      select sys_guid() from dual
-    </selectKey>
 	</insert>
 	
 	
-	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtUser">
+	<update id="updateByPrimaryKeySelective" parameterType="extract.model.common.ExtractUser">
 		<!-- @mbggenerated -->
 		update T_SES_SMS_SUPPLIER_EXT_USER
 		<set>
@@ -142,7 +149,7 @@
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierExtUser">
+	<update id="updateByPrimaryKey" parameterType="extract.model.common.ExtractUser">
 		<!-- @mbggenerated -->
 		update T_SES_SMS_SUPPLIER_EXT_USER
 		set EXTRACTS_ID =
@@ -153,7 +160,7 @@
 		#{projectId,jdbcType=VARCHAR}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
-	<select id="list" resultMap="BaseResultMap" parameterType="extract.model.supplier.SupplierExtUser">
+	<select id="list" resultMap="BaseResultMap" parameterType="extract.model.common.ExtractUser">
 		  SELECT
     <include refid="Base_Column_List" />
     FROM
@@ -190,4 +197,39 @@
   <select id="getName" parameterType="java.lang.String" resultType="java.lang.String">
   	select wm_concat(REL_NAME) from T_SES_SMS_SUPPLIER_EXT_USER where RECORD_ID =#{value}
   </select>
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="extract.model.common.Supervise">
+  	SELECT * FROM T_SES_EXTRACT_SUPERVISE WHERE IS_DELETE = 0
+  	<if test="name != null and name != '' ">
+  		AND NAME LIKE concat(concat('%',#{name}),'%')
+  	</if>
+  	<if test="compary != null and compary != '' ">
+  		AND COMPARY LIKE concat(concat('%',#{compary}),'%')
+  	</if>
+  	<if test="duty != null and duty != '' ">
+  		AND DUTY LIKE concat(concat('%',#{duty}),'%')
+  	</if>
+  	<if test="rank != null and rank != '' ">
+  		AND RANK LIKE concat(concat('%',#{rank}),'%')
+  	</if>
+  	<if test="orgId !=null and orgId != ''">
+  		AND ORG_ID = #{orgId}
+  	</if>
+  </select>
+  
+   
+  <insert id="insertSelectiveAll" parameterType="java.util.List">
+  	INSERT ALL
+	<foreach collection="list" item="item" separator="">
+		INTO T_SES_EXTRACT_SUPERVISE (ID,NAME,COMPARY,DUTY,RANK,ORG_ID) VALUES
+		(#{item.id,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},#{item.compary,jdbcType=VARCHAR},#{item.duty,jdbcType=VARCHAR},#{item.rank,jdbcType=VARCHAR},#{item.orgId,jdbcType=VARCHAR})
+	</foreach>
+	SELECT 1 FROM DUAL
+  </insert>
+  
+  <!-- 根据抽取记录查询监督人员集合 -->
+	<select id="getlistByRid" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT U.* FROM T_SES_EXTRACT_SUPERVISE U  LEFT JOIN T_SES_EXT_RECORD_REL_PERSON P ON P.PERSON_ID = U.ID WHERE P.PERSON_TYPE = 'supervise' AND P.IS_DELETE = '0' AND P.RECORD_ID = #{value}
+	</select>
+  
 </mapper>

@@ -1,4 +1,4 @@
-package extract.model.common;
+package extract.model.supplier;
 
 public class ExtractConditionRelation {
 	
