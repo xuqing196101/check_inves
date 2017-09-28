@@ -1,12 +1,24 @@
 package ses.controller.sys.ems;
 
-import bss.formbean.PurchaseRequiredFormBean;
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.utils.JdcgResult;
+import java.beans.PropertyDescriptor;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import ses.dao.ems.ExpertField;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -58,24 +71,14 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
+import bss.formbean.PurchaseRequiredFormBean;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.beans.PropertyDescriptor;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 
 
 /**
@@ -3718,5 +3721,43 @@ public class ExpertAuditController{
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("status", expert.getStatus());
     	return "ses/ems/expertAudit/audit_summary";
+    }
+    
+    
+	/**
+     *复审不合格或者退回修改，采购机构确认
+     * @param user
+     * @param expertId
+     * @return 
+     * @return 
+     * @return 
+     */
+    @RequestMapping("/preliminaryConfirmation")
+    public String preliminaryConfirmation(@CurrentUser User user, String expertId){
+		// 查询审核意见
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		expertAuditOpinion.setExpertId(expertId);
+		expertAuditOpinion.setFlagTime(1);
+		expertAuditOpinion = expertAuditOpinionService.selectByExpertId(expertAuditOpinion);
+		
+		Expert expertInfo = expertService.selectByPrimaryKey(expertId);
+		//更新专家状态
+		Expert expert = new Expert();
+		expert.setId(expertId);
+		if(expertAuditOpinion !=null && expertAuditOpinion.getFlagAudit() !=null){
+			if(expertAuditOpinion.getFlagAudit() == 5){
+				//复审不合格
+				expert.setStatus("5");
+			}
+			if(expertAuditOpinion.getFlagAudit() == 10){
+				//退回修改
+				expert.setStatus("3");
+				expert.setIsSubmit("0");
+			}
+		}
+		//还原复审结束状态
+		expert.setIsReviewEnd(0);
+		expertService.updateByPrimaryKeySelective(expert);
+		return "redirect:list.html";
     }
 }

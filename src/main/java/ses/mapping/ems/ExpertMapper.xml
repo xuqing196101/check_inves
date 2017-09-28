@@ -863,7 +863,12 @@ resultMap="BaseResultMap">
                 AUDIT_OPINION_ATTACH = #{auditOpinionAttach},
             </if>
             <if test="isReviewEnd != null">
-                IS_REVIEW_END = #{isReviewEnd},
+                <if test="isReviewEnd != 0">
+                  IS_REVIEW_END = #{isReviewEnd},
+                </if>
+                <if test="isReviewEnd == 0">
+                  IS_REVIEW_END = null,
+                </if>
             </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}

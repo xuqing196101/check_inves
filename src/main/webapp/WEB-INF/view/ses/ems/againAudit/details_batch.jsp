@@ -172,7 +172,6 @@
         var id = $(this).val();
        	var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
-        alert(state);
         if(state == "复审结束"){
         	ids.push(id);
         }else{
