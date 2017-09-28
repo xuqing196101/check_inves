@@ -765,12 +765,12 @@ $(function () {
     		return false;
     	}
     	
-    	var data;
-    	var projects;
-    	var products;
-    	var services;
-    	var sales;
-    	var goods;
+    	var data = "";
+    	var projects = "";
+    	var products = "";
+    	var services = "";
+    	var sales = "";
+    	var goods = "";
     	//去后台请求一条数据
     	$.ajax({
     		type: "POST",
@@ -779,8 +779,15 @@ $(function () {
     		dataType: "json",
     		async:false,
     		success: function (msg) {
-    			if(null != msg.list){
+    			if(null != msg && null != msg.list){
+    				
     				var su = msg.list;
+    				for ( var k in su) {
+						if(su[k].length<1){
+							flag = true;
+						}
+					}
+    				
     				if(null !=su.PROJECT){
     					projects =su.PROJECT;
     				}
@@ -799,9 +806,8 @@ $(function () {
     			}else{
     				flag = true;
     			}
-    			if(null !=msg){
+    			if(null!= msg && null !=msg.error){
 	    			$("#"+msg.error).html("不能为空");
-	    			flag = false;
 	    		}
     		}
     	});
@@ -2077,7 +2083,6 @@ $(function () {
     		if($(this).prop("readonly")){
     			$(this).attr("");
     		}
-    		
     	});
     	
     	$(obj).val();
