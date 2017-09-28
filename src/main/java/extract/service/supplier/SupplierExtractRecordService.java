@@ -61,8 +61,9 @@ public interface SupplierExtractRecordService {
    * @author Jia Chengxiang
    * @param projectInfo
    * @param user
+ * @return 
    */
-  void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo, User user);
+  int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo, User user);
   
   /**
    * @Description:插入记录

@@ -379,6 +379,16 @@ public class ExtractSupplierController extends BaseController {
     	return printRecord;
     }
     
+    @RequestMapping("/extractOver")		
+    @ResponseBody
+    public int extractOver(SupplierExtractProjectInfo record,@CurrentUser User user){
+    	int status = expExtractRecordService.saveOrUpdateProjectInfo(record, user);
+		return status;
+    }
+    
+    
+    
+    
     /**
      *
      *〈简述〉校验项目编号唯一

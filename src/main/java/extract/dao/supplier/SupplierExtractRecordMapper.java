@@ -71,7 +71,7 @@ public interface SupplierExtractRecordMapper {
 	 */
 	List<SupplierExtractProjectInfo> getList(SupplierExtractProjectInfo project);
 
-	void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo);
+	int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo);
 
 	void insertProjectInfo(SupplierExtractProjectInfo record);
 	

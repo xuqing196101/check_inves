@@ -1982,9 +1982,33 @@ $(function () {
     
     //点击结束
     function alterEndInfo(obj){
+    	
+    	var flag = 0;
+		//存储项目信息
+    	$.ajax({
+    		type: "POST",
+    		url: globalPath+"/SupplierExtracts_new/extractOver.do",
+    		data:{id:$("#recordId").val(),status:1},
+    		dataType: "json",
+    		async:false,
+    		success: function (msg) {
+	    		if(msg<1){
+	    			layer.alert("结束状态异常");
+	    			flag++;
+	    		}
+    		}
+    	});
+    	
+    	
+    	
 		var index_1 = layer.alert("是否需要发送短信至确认参加供应商",function(){
 			layer.close(index_1);
 		});
+		
+		if(flag>0){
+    		return;
+    	}
+		
 		var index = layer.alert("完成抽取,打印记录表",function(){
 			window.open(globalPath+"/SupplierExtracts_new/printRecord.html?id="+$("[name='recordId']").val()+"&projectInto="+projectType);
 			$(obj).prop("disabled",true);

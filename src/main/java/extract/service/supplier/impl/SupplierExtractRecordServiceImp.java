@@ -156,9 +156,9 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	 * 修改项目信息
 	 */
 	@Override
-	public void saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo,User user) {
+	public int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo,User user) {
 		projectInfo.setProcurementDepId(user.getOrg().getId());//存储采购机构
-		supplierExtractsMapper.saveOrUpdateProjectInfo(projectInfo);
+		return supplierExtractsMapper.saveOrUpdateProjectInfo(projectInfo);
 	}
 
 	/**
@@ -180,8 +180,8 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		
 		//将项目状态变为抽取结束
 		SupplierExtractProjectInfo p = new SupplierExtractProjectInfo(id);
-		p.setStatus((short) 1);
-		supplierExtractsMapper.saveOrUpdateProjectInfo(p);
+		//p.setStatus((short) 1);
+		//supplierExtractsMapper.saveOrUpdateProjectInfo(p);
 		
 		
 		//根据记录id 查询项目信息不同供应商类别打印两个记录表
