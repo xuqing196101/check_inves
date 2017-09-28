@@ -42,9 +42,7 @@
     <div class="headline-v2"><h2>批次审核</h2></div>
     
     <!-- 专家分组 -->
-    <div class="pl20" id="group_batch_box">
-      <div class="text-center">正在获取数据中...</div>
-    </div>
+    <div class="pl20" id="group_batch_box"></div>
     
     <div class="text-center mt20">
       <button type="button" class="btn btn-windows back" onclick="javascript:history.back()">返回</button>

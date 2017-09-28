@@ -380,12 +380,14 @@ function set_password() {
           success: function (data) {
             if (data.status) {
               layer.msg(data.message, {
-                offset: '100px'
+                offset: '100px',
+                time: 1000
+              }, function() {
+                password.val('');
+                password2.val('');
+                layer.close(index);
+                location.reload();
               });
-              password.val('');
-              password2.val('');
-              layer.close(index);
-              location.reload();
             } else {
               layer.msg(data.message, {
                 offset: '100px'
@@ -651,8 +653,8 @@ function expert_auditBatch(url) {
 function checkAll(el) {
   var temp_list = [];
   
-  if ($(el).is(':checked')) {
-    $(el).parents('table').find('.select_item').each(function () {
+  if ($('.againAudit_table [name=checkAll]').is(':checked')) {
+    $('.againAudit_table [name=checkAll]').parents('table').find('.select_item').each(function () {
       $(this).prop('checked', true);
       temp_list.push($(this).val());
     });
@@ -669,7 +671,7 @@ function checkAll(el) {
       select_ids.push(temp_list[iii]);
     }
   } else {
-    $(el).parents('table').find('.select_item').each(function () {
+    $('.againAudit_table [name=checkAll]').parents('table').find('.select_item').each(function () {
       $(this).prop('checked', false);
       for (var i in select_ids) {
         if ($(this).val() === select_ids[i]) {
@@ -712,22 +714,23 @@ function auto_group() {
 
 //  跳转到批次分组
 function jump_batchGroup() {
-  $.ajax({
-    type: 'POST',
-    dataType: 'json',
-    url: list_url,
-    data:{
-      batchId: getUrlParam('batchId'),
-      status: '14'
-    },
-    success: function (data) {
-      if (data.status) {
-        window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+getUrlParam('batchId');
-      } else {
-        layer.msg(data.message, {
-          offset: '100px'
-        });
-      }
-    }
-  });
+  window.location.href = jump_auditBatch_url;
+  // $.ajax({
+  //   type: 'POST',
+  //   dataType: 'json',
+  //   url: list_url,
+  //   data:{
+  //     batchId: getUrlParam('batchId'),
+  //     status: '14'
+  //   },
+  //   success: function (data) {
+  //     if (data.status) {
+  //       window.location.href = jump_auditBatch_url;
+  //     } else {
+  //       layer.msg(data.message, {
+  //         offset: '100px'
+  //       });
+  //     }
+  //   }
+  // });
 }

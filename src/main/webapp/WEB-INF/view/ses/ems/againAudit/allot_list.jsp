@@ -89,19 +89,19 @@
     </div>
 
     <div class="content table_box">
-      <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
+      <table class="table table-bordered table-condensed table-hover table-striped againAudit_table" id="fixed_columns">
         <thead>
           <tr>
-            <th class="info w30"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
-            <th class="info w50">序号</th>
-            <th class="info w100">采购机构</th>
-            <th class="info w100">专家姓名</th>
-            <th class="info w50">性别</th>
-            <th class="info">专家类型</th>
-            <th class="info w80">专家类别</th>
-            <th class="info w120">工作单位</th>
-            <th class="info w120">专业职称</th>
-            <th class="info w120">初审合格时间</th>
+            <th class="w30"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
+            <th class="w50">序号</th>
+            <th class="w100">采购机构</th>
+            <th class="w100">专家姓名</th>
+            <th class="w50">性别</th>
+            <th>专家类型</th>
+            <th class="w80">专家类别</th>
+            <th class="w120">工作单位</th>
+            <th class="w120">专业职称</th>
+            <th class="w120">初审合格时间</th>
           </tr>
         </thead>
         <tbody id="list_content"></tbody>
@@ -132,10 +132,10 @@
     <%-- <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th class="info w50">序号</th>
-          <th class="info">专家姓名</th>
-          <th class="info">专业职称</th>
-          <th class="info">初审合格时间</th>
+          <th class="w50">序号</th>
+          <th>专家姓名</th>
+          <th>专业职称</th>
+          <th>初审合格时间</th>
         </tr>
       </thead>
       <tbody id="crb_content"></tbody>
@@ -160,6 +160,41 @@
       
       $('#againAudit_reset').on('click', function () {
         $('[name=expertsTypeId]').select2('val', '');
+      });
+      
+      // 表头跟随
+      $(window).scroll(function () {
+        var thead_offsetTop = $('#fixed_columns').offset().top;
+        var window_offsetTop = $(window).scrollTop();
+        var table_width = $('#fixed_columns').width();
+        
+        if (window_offsetTop >= thead_offsetTop) {
+          if ($('#fixed_box').length <= 0) {
+            $('body').append('<div id="fixed_box"><table class="table table-bordered table-condensed table-hover table-striped"></table></div>');
+            $('#fixed_box table').html($('#fixed_columns').find('thead').html());
+            if ($('.againAudit_table [name=checkAll]').is(':checked')) {
+              $('#fixed_box [name=checkAll]').prop('checked', true);
+            }
+            $('#fixed_box').css({
+              width: (table_width + 2),
+              position: 'fixed',
+              top: 0,
+              left: '50%',
+              marginLeft: '-' + (table_width / 2 - 9) + 'px'
+            });
+            $('#fixed_box [name=checkAll]').bind('click', function () {
+              if ($(this).is(':checked')) {
+                $('.againAudit_table [name=checkAll]').prop('checked', true);
+                checkAll();
+              } else {
+                $('.againAudit_table [name=checkAll]').prop('checked', false);
+                checkAll();
+              }
+            });
+          }
+        } else {
+          $('#fixed_box').remove();
+        }
       });
     });
   </script>

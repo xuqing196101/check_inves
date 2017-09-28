@@ -76,6 +76,7 @@
     var root_url = '${pageContext.request.contextPath}';  // 根目录地址
     var list_url = '${pageContext.request.contextPath}/expertAgainAudit/findBatchDetails.do';  // 列表地址
     var audit_url = '${pageContext.request.contextPath}/expertAgainAudit/checkGroupStatus.do';  // 校验地址
+    var jump_auditBatch_url = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+getUrlParam('batchId');
     var select_ids = [];  // 选择的专家id集合
     
     $(function () {
