@@ -46,8 +46,7 @@
 			<mvc:mapping path="/*/*.do" />
 			<mvc:mapping path="/*/*.ajax" />
 			<mvc:mapping path="/*/*.html" />
-<!-- 			需要排除拦截的地址 -->
-			
+
 <!-- 			首页浏览信息 -->
 			<mvc:exclude-mapping path="/index/selectIndexNews.*" />
 			<mvc:exclude-mapping path="/index/selectArticleNewsById.*" />

@@ -79,7 +79,7 @@ public class SupplierToolUtil {
 					elementDate=40;
 				break;
 			}
-		}else if(TOOL_SALES.equals(supplierType) && TOOL_SERVICE.equals(supplierType)){
+		}else if(TOOL_SALES.equals(supplierType) || TOOL_SERVICE.equals(supplierType)){
 			//销售 or 服务
 			switch (dataType) {
 				case "foundDate" ://成立时间
@@ -135,7 +135,7 @@ public class SupplierToolUtil {
 				//86 --100
 				elementData="八级";
 			}
-		}else if(TOOL_SALES.equals(supplierType) && TOOL_SERVICE.equals(supplierType)){
+		}else if(TOOL_SALES.equals(supplierType) || TOOL_SERVICE.equals(supplierType)){
 			if(percnet.matches("^[1-9]|1\\d|20")){
 				// 1 -20
 				elementData="一级";
@@ -195,7 +195,7 @@ public class SupplierToolUtil {
 					elementData="八级";
 					break;
 			}
-		}else if(TOOL_SALES.equals(supplierType) && TOOL_SERVICE.equals(supplierType)){
+		}else if(TOOL_SALES.equals(supplierType) || TOOL_SERVICE.equals(supplierType)){
 			switch (percnet) {
 				case "1" :
 					elementData="一级";
@@ -239,10 +239,12 @@ public class SupplierToolUtil {
     		//要素权重比例计算
     		elementWeight=new BigDecimal(elementWeight(i)).setScale(2,BigDecimal.ROUND_HALF_UP);
     		//净资产累加=净资产/要素权重
-    		totalNetAssets=totalNetAssets.add(sf.getTotalNetAssets().multiply(elementWeight));
+    		if (sf.getTotalNetAssets() != null) {
+    			totalNetAssets=totalNetAssets.add(sf.getTotalNetAssets().multiply(elementWeight));
+			}
 		}
     	//四舍五入 保留2位小数  三年净资产平均
-    	totalNetAssets=totalNetAssets.divide(divide, 2, BigDecimal.ROUND_HALF_UP);
+    	//totalNetAssets=totalNetAssets.divide(divide, 2, BigDecimal.ROUND_HALF_UP);
     	return totalNetAssets;
     }
     /**
@@ -268,10 +270,12 @@ public class SupplierToolUtil {
     		//要素权重比例计算
     		elementWeight=new BigDecimal(elementWeight(i)).setScale(2,BigDecimal.ROUND_HALF_UP);
     		//营业收入累加
-    		taking=taking.add(sf.getTaking().multiply(elementWeight));
+    		if (sf.getTaking() != null) {
+    			taking=taking.add(sf.getTaking().multiply(elementWeight));
+			}
 		}
     	//三年加权平均营业收入平均    四舍五入 保留2位小数
-    	taking=taking.divide(divide, 2, BigDecimal.ROUND_HALF_UP);
+    	//taking=taking.divide(divide, 2, BigDecimal.ROUND_HALF_UP);
     	return taking;
     }
 	 /**

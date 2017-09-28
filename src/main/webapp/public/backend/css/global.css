@@ -1961,3 +1961,41 @@ table.lockout .extrafile{
     .m_demand_list li {
       margin-top: 5px;
     }
+		
+		/* 复审-批次专家创建新列表样式 */
+		.group_batch_list {
+			margin-top: 10px;
+			border-top: solid 2px #333;
+		}
+		.group_batch_list .gbl_tit {
+			margin-top: 10px;
+			font-size: 0px;
+			line-height: normal;
+		}
+		.group_batch_list .gbl_tit span {
+			display: inline-block;
+			vertical-align: middle;
+			font-size: 18px;
+		}
+		.group_batch_list .gbl_tit span.gbl_icon {
+			width: 32px;
+			height: 32px;
+			line-height: 32px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			text-align: center;
+			border-radius: 50% !important;
+			background-color: #2c9fa6;
+			color: #FFF;
+			margin-right: 10px;
+		}
+		
+/* 专家复审-列表详情-上传彩色扫描件 */
+.pic_upload > div {
+	float: left;
+}
+.pic_upload .uploadFiles {
+	overflow: hidden;
+	padding: 0;
+}

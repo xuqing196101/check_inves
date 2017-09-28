@@ -1498,7 +1498,91 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
         if(count != null && selectCount != null && (selectCount - count) <= 0){
             return JdcgResult.build(500, "产品类别不能全部为不通过项");
         }
+
+        // 判断如果产品全部不通过，则提示需要改类型下所有产品不通过，请审核该类型也不通过
+        JdcgResult jdcgResult = this.vertifyAuditItem(supplierId);
+        if(jdcgResult != null){
+            return jdcgResult;
+        }
+
         return JdcgResult.ok();
+	}
+
+	/**
+	 *
+	 * Description:判断如果产品全部不通过，
+	 * 则提示需要改类型下所有产品不通过，
+	 * 请审核该类型也不通过
+	 *
+	 * @author Easong
+	 * @version 2017/9/27
+	 * @param [supplierId]
+	 * @since JDK1.7
+	 */
+	public JdcgResult vertifyAuditItem(String supplierId){
+		// 查询供应商选择的类型
+        List<String> supplierTypeRelates = supplierTypeRelateMapper.findTypeBySupplierId(supplierId);
+        // 先排除不通过的类型
+        // 查询供应商不通过的类型
+        // 封装查询map集合
+        Map<String, Object> selectMap = new HashMap<>();
+        selectMap.put("supplierId", supplierId);
+        selectMap.put("auditType", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
+        List<SupplierAudit> supNoPassType = supplierAuditMapper.selectBySupIdAndType(selectMap);
+        // 依次查询通过的类型下所有的品目
+        if(supNoPassType != null && !supNoPassType.isEmpty()){
+            for(SupplierAudit supplierAudit : supNoPassType){
+                supplierTypeRelates.remove(supplierAudit.getType());
+            }
+        }
+        List<SupplierItem> supplierItems;
+        List<SupplierAudit> supplierAudits;
+        String typeName = "";
+        // 定义数量
+        int count;
+        // 遍历通过的类型
+        for (String s : supplierTypeRelates){
+            count = 0;
+            // 查询选择该类型的所有品目
+            selectMap.clear();
+            selectMap.put("supplierId", supplierId);
+            selectMap.put("type", s);
+            supplierItems = supplierItemMapper.selectCountBySupTypeList(selectMap);
+            // 遍历品目然后去审核表中查询是否存在该项
+            if(supplierItems != null && !supplierItems.isEmpty()){
+                for (SupplierItem supItem : supplierItems){
+                    selectMap.clear();
+                    selectMap.put("supplierId", supplierId);
+                    selectMap.put("auditField", supItem.getCategoryId());
+                    if(Constant.SUPPLIER_SALES.equals(s)){
+                        selectMap.put("auditType", Constant.ITEMS_SALES_PAGE);
+                    }else {
+                        selectMap.put("auditType", Constant.ITEMS_PRODUCT_PAGE);
+                    }
+                    supplierAudits = supplierAuditMapper.selectBasicInfoAuditItemSingal(selectMap);
+                    if(supplierAudits != null && !supplierAudits.isEmpty()){
+                        count++;
+                    }
+                }
+                // 累计个数如果该类型下品目的个数与不通过类型品目的个数相同则提示:某某类型下没有产品请把该某某类型审核不通过
+                if(count == supplierItems.size()){
+                    if(Constant.SUPPLIER_PRODUCT.equals(s)){
+                        typeName = "物资生产";
+                    }
+                    if(Constant.SUPPLIER_SALES.equals(s)){
+                        typeName = "物资销售";
+                    }
+                    if(Constant.SUPPLIER_PROJECT.equals(s)){
+                        typeName = "工程";
+                    }
+                    if(Constant.SUPPLIER_SERVICE.equals(s)){
+                        typeName = "服务";
+                    }
+                    return JdcgResult.build(500, typeName + "类型下没有产品，请把" + typeName + "类型审核不通过");
+                }
+            }
+        }
+        return null;
 	}
 
 	@Override
@@ -1517,6 +1601,11 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
         Integer auditNoPassCount = supplierAuditMapper.selectBasicInfoAuditItem(map);
 	    if(auditNoPassCount != null && auditNoPassCount == 0){
 	        return JdcgResult.build(500, "没有审核不通过项");
+        }
+        // 判断如果产品全部不通过，则提示需要改类型下所有产品不通过，请审核该类型也不通过
+        JdcgResult jdcgResult = this.vertifyAuditItem(supplierId);
+        if(jdcgResult != null){
+            return jdcgResult;
         }
         return JdcgResult.ok();
 	}

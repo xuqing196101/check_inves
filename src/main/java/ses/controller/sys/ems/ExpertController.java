@@ -2032,6 +2032,9 @@ public class ExpertController extends BaseController {
                     //已提交
                     expert.setIsSubmit("1");
                     //expert.setAuditAt(new Date());
+                    
+                    //待审核
+                    expert.setStatus("0");
                     if("3".equals(temp.getStatus())) {
                         //删除之前的审核不通过的字段信息
                     	expertAuditService.updateIsDeleteByExpertId(expertId);
@@ -2040,9 +2043,11 @@ public class ExpertController extends BaseController {
                     	//清空审核人
                     	expert.setAuditor("");
                     	expert.setAuditAt(null);
+                    	
+                    	//退回修改再审核的状态
+                    	expert.setStatus("9");
                     }
-                    //待审核
-                    expert.setStatus("0");
+                    
                     //修改时间
                     expert.setSubmitAt(new Date());
                     service.updateByPrimaryKeySelective(expert);

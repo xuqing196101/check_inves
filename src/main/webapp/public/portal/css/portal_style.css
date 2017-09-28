@@ -1340,6 +1340,12 @@ a.yjfk i {
   }
 }
 
+.new_content table td {
+  word-wrap: break-word !important;
+  word-break: break-all !important;
+  white-space: normal !important;
+}
+
 @media (max-width:768px) {
   .tag-box h2 {
     font-size:16px;

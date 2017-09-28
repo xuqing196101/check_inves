@@ -27,6 +27,14 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	
 	@Override
 	public void insertSelective(ExpertAuditOpinion expertAuditOpinion) {
+		// 拼接审核意见  例如:同意....+ HelloWorld
+		if(StringUtils.isNotEmpty(expertAuditOpinion.getCateResult())){
+			if(StringUtils.isEmpty(expertAuditOpinion.getOpinion())){
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult());
+			}else {
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult() + expertAuditOpinion.getOpinion());
+			}
+		}
 		mapper.insertSelective(expertAuditOpinion);
 		
 	}
@@ -82,6 +90,15 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 			}
 		}
 
+		// 拼接审核意见  例如:同意....+ HelloWorld
+		if(StringUtils.isNotEmpty(expertAuditOpinion.getCateResult())){
+			if(StringUtils.isEmpty(expertAuditOpinion.getOpinion())){
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult());
+			}else {
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult() + expertAuditOpinion.getOpinion());
+			}
+		}
+
 		// 判断是不是原有的数据
 		if(StringUtils.isNotEmpty(expertAuditOpinion.getId())){
 			// 查询此条数据
@@ -109,6 +126,21 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	@Override
 	public void updateIsDownload(String expertId){
 		mapper.updateIsDownload(expertId);
+	}
+
+	/**
+	 * 记录复审已下载过附件
+	 */
+	@Override
+	public void updateIsDownloadAttch(ExpertAuditOpinion expertAuditOpinion) {
+		mapper.updateIsDownloadAttch(expertAuditOpinion);
+		
+	}
+
+	@Override
+	public void deleteByExpertId(ExpertAuditOpinion expertAuditOpinion) {
+		mapper.deleteByExpertId(expertAuditOpinion);
+		
 	}
 
 }

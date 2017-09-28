@@ -2,22 +2,26 @@ package synchro.inner.read.expert.impl;
 
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
+import ses.dao.ems.ExpertAuditOpinionMapper;
 import ses.dao.ems.ExpertEngHistoryMapper;
 import ses.dao.ems.ExpertEngModifyMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ExpertTitleMapper;
+import ses.dao.sms.SupplierAuditOpinionMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.RoleUser;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
+import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertHistory;
@@ -82,6 +86,9 @@ public class InnerExpertServiceImpl implements InnerExpertService {
     
     @Autowired
     private ExpertMapper expertMapper;
+
+    @Autowired
+    private ExpertAuditOpinionMapper expertAuditOpinionMapper;
     /**
      * 
      * @see synchro.inner.read.expert.InnerExpertService#readNewExpertInfo(java.io.File)
@@ -231,6 +238,24 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                     }
                     // 保存相关联的数据
                     saveBackModifyOperation(expert);
+
+                    // 保存专家审核意见数据
+                    ExpertAuditOpinion expertAuditOpinion = expert.getExpertAuditOpinion();
+                    if(expertAuditOpinion != null){
+                        // 先判断表中是否有该数据
+                        // 判断是不是原有的数据
+                        if(StringUtils.isNotEmpty(expertAuditOpinion.getId())){
+                            // 查询此条数据
+                            ExpertAuditOpinion byPrimaryKey = expertAuditOpinionMapper.findByPrimaryKey(expertAuditOpinion.getId());
+                            if(byPrimaryKey != null){
+                                // 更新数据
+                                expertAuditOpinionMapper.updateByPrimaryKeySelective(expertAuditOpinion);
+                            }else {
+                                // 插入数据
+                                expertAuditOpinionMapper.insertSelective(expertAuditOpinion);
+                            }
+                        }
+                    }
                 }
             }catch (RuntimeException e){
                 e.printStackTrace();

@@ -99,9 +99,11 @@ function loadData(data,index,pageNum,pageSize){
 	var html = "<li> "
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+ data.relName +">"+data.relName+"</span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+ data.expertsTypeId +">"+data.expertsTypeId+"</span>"
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+data.orgName+"</span>"
-             + "  <span class='col-md-4 col-xs-4 col-sm-4' title='同意入库，选择了"+data.passCateCount+"个参评类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个参评类别。"+data.auditOpinion+"'>"
-             +"同意入库，选择了"+data.passCateCount+"个参评类别，通过了<a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+(data.passCateCount - data.noPassCateCount)+"</a>个参评类别。"+data.auditOpinion+"</span>"
+		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+data.orgName+">"+data.orgName+"</span>"
+             /*+ "  <span class='col-md-4 col-xs-4 col-sm-4' title='同意入库，选择了"+data.passCateCount+"个参评类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个参评类别。"+data.auditOpinion+"'>"
+             +"同意入库，选择了"+data.passCateCount+"个参评类别，通过了<a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+(data.passCateCount - data.noPassCateCount)+"</a>个参评类别。"+data.auditOpinion+"</span>"*/
+             + "  <span class='col-md-4 col-xs-4 col-sm-4' title='"+data.auditOpinion+"'>"
+             + "  <a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+data.auditOpinion+"</a></span>"
              + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+timestampToDate('yyyy-MM-dd', data.auditAt)+"至"+ getDateOfNDay(data.auditAt) +"</span>"
 		     html += "</li>";
 	$("#expPublicityList").append(html);
@@ -152,7 +154,7 @@ function getDateOfNDay(data){
     // 审核时间
     var date1 = new Date(data);
     // 7天后的时间定义
-    var date2 = new Date();
+    var date2 = new Date(data);
     date2.setDate(date1.getDate()+7);
     var times = date2.getFullYear()+"-"+(Appendzero(date2.getMonth()+1))+"-"+Appendzero(date2.getDate());
     return times;
@@ -174,5 +176,5 @@ function Appendzero(obj) {
  * @param id
  */
 function loadItem(id){
-    window.location.href = globalPath + "/index/indexExpPublicityItem.html?expertId="+id;
+    window.open(globalPath+"/index/indexExpPublicityItem.html?query_id_of_cate="+id);
 }

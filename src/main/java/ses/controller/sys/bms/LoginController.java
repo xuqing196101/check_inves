@@ -175,7 +175,7 @@ public class LoginController {
                               req.getSession().setAttribute("loginName", u.getId());
                               // 拉黑 阻止登录
                               if (object.equals("1")) {
-                                out.print("black");
+                                out.print("firstQualified");
                               } else if(object.equals("5")){
                                 out.print("reject");
                               }else if (object.equals("2")) {
@@ -191,21 +191,30 @@ public class LoginController {
                               } else if (object.equals("8")){
                                 out.print("review");
                               } else if (("1").equals(object)){
-                                    // 待复审状态
-                                    out.print("expert_waitOnceCheck");
-                                }else if (("5").equals(object)){
-                                    // 复审未通过状态
-                                    out.print("onceCheckNoPass");
-                                } else if (("-2").equals(object)){
-                                    // 审核预通过状态
-                                    out.print("prepass");
-                                } else if (("-3").equals(object)){
-                                    // 公示中状态
-                                    out.print("publicity");
-                                } else if (("10").equals(object)){
-                                	//黑名单处罚中状态
-                                    out.print("expertBlack");
-                                }
+                                // 待复审状态
+                                out.print("expert_waitOnceCheck");
+	                          }else if (("5").equals(object)){
+	                            // 复审未通过状态
+	                            out.print("onceCheckNoPass");
+	                          } else if (("10").equals(object)){
+		                            // 复审退回修改
+		                            out.print("fsthxg");
+		                      } else if (("-2").equals(object)){
+	                            // 审核预通过状态
+	                            out.print("prepass");
+	                          } else if (("-3").equals(object)){
+	                            // 公示中状态
+	                            out.print("publicity");
+	                          } else if (("expertBlack").equals(object)){
+	                            //黑名单处罚中状态
+	                             out.print("expertBlack");
+	                          }else if (("reviewFailed").equals(object)){
+	                        	//复查不合格
+                            	out.print("reviewFailed");
+                            }else if (("inReview").equals(object)){
+                            	//复审中的状态
+                            	out.print("inReview");
+                            }
                             }else {
                               // 实现单一登录 踢人效果
                               /*if (null != SessionListener.sessionMap.get(u.getId())) {

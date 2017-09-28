@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpertBatchDetailsMapper">
+    <resultMap id="BaseResultMap" type="ses.model.ems.ExpertBatchDetails">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
+        <result column="BATCH_NUMBER" jdbcType="VARCHAR" property="batchNumber" />
+        <result column="BATCH_DETAILS_NUMBER" jdbcType="VARCHAR" property="batchDetailsNumber" />
+        <result column="COUNT" jdbcType="VARCHAR" property="count" />
+        <result column="BATCH_NAME" jdbcType="VARCHAR" property="batchName" />
+        <result column="GROUP_ID" jdbcType="VARCHAR" property="groupId" />
+        <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName" />
+        <result column="BATCH_ID" jdbcType="VARCHAR" property="batchId" />
+        <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    </resultMap>
+    <sql id="Base_List">
+    	ID,EXPERT_ID,BATCH_NUMBER,BATCH_DETAILS_NUMBER,COUNT,BATCH_NAME,GROUP_ID,GROUP_NAME,CREATED_AT,UPDATED_AT,BATCH_ID
+    </sql>
+ 	<select id="findExpertBatchDetails" resultMap="BaseResultMap"  parameterType="ses.model.ems.ExpertBatchDetails">
+ 		select 
+ 		 <include refid="Base_List" />
+ 		 from T_SYS_EMS_EXPERT_BATCH_DETAILS where 1=1
+ 		 <if test="expertId != null">
+            and   EXPERT_ID=#{expertId}
+        </if>
+ 	</select>
+    <!-- 根据条件查询专家信息 -->
+    <select id="getExpertBatchDetails" resultMap="BaseResultMap"  parameterType="ses.model.ems.ExpertBatchDetails">
+        select 
+        T1.ID,
+        T1.EXPERT_ID,
+        T1.BATCH_NUMBER,
+        T1.BATCH_DETAILS_NUMBER,
+        T1.COUNT,
+        T1.BATCH_NAME,
+        T1.GROUP_NAME,
+        T1.GROUP_ID,
+        T1.BATCH_ID,
+        T2.REAL_NAME AS realName,<!-- 真实姓名 -->
+        data.NAME AS gender,<!-- 性别 -->
+        T2.WORK_UNIT AS workUnit,<!-- 工作单位 -->
+        T2.PROFESS_TECH_TITLES AS professTechTitles,<!-- 专业职称 -->
+        T2.UPDATED_AT AS updateTime,<!-- 提交复审时间 -->
+        T2.AUDIT_AT AS auditAt,<!-- 审核时间 -->
+        org.SHORT_NAME AS orgName,<!-- 所属采购机构 -->
+        T2.AUDITOR AS auditor,<!-- 审核人 -->
+        T2.STATUS AS status, <!-- 审核状态 -->
+        T2.EXPERTS_TYPE_ID AS expertsTypeId,<!-- 专家类型 -->
+        T2.EXPERTS_FROM AS expertsFrom,<!-- 专家类别 -->
+        T2.AUDIT_TEMPORARY AS auditTemporary,
+        T2.IS_REVIEW_END AS isReviewEnd
+        from 
+        T_SYS_EMS_EXPERT_BATCH_DETAILS T1
+		LEFT JOIN T_SES_EMS_EXPERT T2 ON T1.EXPERT_ID=T2.ID 
+        LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T2.PURCHASE_DEP_ID = dep.ID
+        LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID 
+        LEFT JOIN T_SES_BMS_DICTIONARY_DATA data ON T2.GENDER=data.ID
+        where 1=1
+        <if test="batchId != null">
+            and   T1.BATCH_ID=#{batchId}
+        </if>
+        <if test="groupId != null">
+            and   T1.GROUP_ID=#{groupId}
+        </if>
+        <if test="status != null">
+        	and	  T2.STATUS=#{status}
+        </if>
+        <if test="ids != null">
+            <foreach collection="ids" item="id" open="and T1.ID in ("
+                     close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+    </select> 
+    <select id="getExpertBatchDetailsCount" resultType="java.lang.Integer"  parameterType="java.lang.String">
+    	select count(*) from T_SYS_EMS_EXPERT_BATCH_DETAILS where GROUP_ID=#{groupId}
+    </select>
+    <insert id="insert" parameterType="ses.model.ems.ExpertBatchDetails">
+        insert into T_SYS_EMS_EXPERT_BATCH_DETAILS
+        (ID,EXPERT_ID,BATCH_NUMBER,BATCH_DETAILS_NUMBER,COUNT,BATCH_NAME ,GROUP_ID,GROUP_NAME ,CREATED_AT,UPDATED_AT,BATCH_ID)
+        values
+        (#{id,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR},#{batchNumber,jdbcType=VARCHAR}, #{batchDetailsNumber,jdbcType=VARCHAR},  #{count,jdbcType=VARCHAR}, 
+        #{batchName,jdbcType=VARCHAR} ,#{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR},#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},#{batchId,jdbcType=VARCHAR})
+    </insert>
+   <update  id="updateExpertBatchDetailsGrouping" parameterType="ses.model.ems.ExpertBatchDetails">
+   		update T_SYS_EMS_EXPERT_BATCH_DETAILS SET GROUP_ID=#{groupId,jdbcType=VARCHAR},GROUP_NAME=#{groupName,jdbcType=VARCHAR},UPDATED_AT=#{updatedAt,jdbcType=TIMESTAMP} where ID=#{id,jdbcType=VARCHAR}
+   </update>
+</mapper>

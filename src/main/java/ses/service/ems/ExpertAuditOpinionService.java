@@ -64,4 +64,12 @@ public interface ExpertAuditOpinionService {
 	 * @since JDK1.7
 	 */
 	void updateIsDownload(String expertId);
+	
+	/**
+	 * 记录复审已下载过附件
+	 * @param expertAuditOpinion
+	 */
+	void updateIsDownloadAttch(ExpertAuditOpinion expertAuditOpinion);
+	
+	void deleteByExpertId(ExpertAuditOpinion expertAuditOpinion);
 }

@@ -554,4 +554,12 @@ public interface ExpertService {
      */
     boolean isExpertCheckedParent(String id, String expertId, String categoryId, String string,
         List<ExpertAudit> auditList);
+    /**
+     *〈简述〉
+     * 专家审核列表不分页
+     *〈详细描述〉
+     * @author ShiShuai
+     * @param expert
+     */
+    List<Expert> findExpertAuditListNotPage(Expert expert);
 }

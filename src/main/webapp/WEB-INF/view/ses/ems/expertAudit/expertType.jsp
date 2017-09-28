@@ -46,7 +46,7 @@
 				var sign = $("input[name='sign']").val();
 				var html = "<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>";
 				//只能审核可以审核的状态
-		    if(status ==-2 || status == 0 || (sign ==2 && status ==1) || status ==6 || (sign ==1 && status ==9)){
+        if(status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4){
 		    	var expertId = $("#expertId").val();   
 		        var appear = auditFieldId + "_show";
 		        var index = layer.prompt({
@@ -62,7 +62,7 @@
 		                url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 		                type:"post",
 		                dataType:"json",
-		                data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditContent +"&auditFieldId="+ auditFieldId+"&type=1",
+		                data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditContent +"&auditFieldId="+ auditFieldId+"&type=1" + "&auditFalg=" + sign,
 		                success:function(result){
 		                  result = eval("(" + result + ")");
 		                  if(result.msg == "fail"){
@@ -92,7 +92,7 @@
 					var status = ${expert.status};
 	        var sign = $("input[name='sign']").val();
 	        //只能审核可以审核的状态
-	        if(status ==-2 || status == 0 || (sign ==2 && status ==1) || status ==6 || (sign ==1 && status ==9)){
+          if(status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4){
 					  var expertId = $("#expertId").val();
 					  var auditField;
 					  var auditContent;
@@ -114,7 +114,7 @@
 							      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 							      type:"post",
 							      dataType:"json",
-							      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=2"  +"&auditFieldId="+id + "&auditFieldName="+auditFieldName,
+							      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=2"  +"&auditFieldId="+id + "&auditFieldName="+auditFieldName + "&auditFalg=" + sign,
 								    success:function(result){
 							        result = eval("(" + result + ")");
 							        if(result.msg == "fail"){
@@ -140,7 +140,7 @@
 		  		var status = ${expert.status};
           var sign = $("input[name='sign']").val();
           //只能审核可以审核的状态
-          if(status ==-2 || status == -3 || status == 0 || (sign ==2 && status ==1) || status ==6 || (sign ==1 && status ==9)){
+          if(status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4){
 					  var expertId = $("#expertId").val();
 					  var showId =  id+ "_" +obj.id;
 				    $("#"+obj.id+"").each(function() {
@@ -160,7 +160,7 @@
 							      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 							      type:"post",
 							      dataType:"json",
-							      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=2"+"&auditFieldId="+id +"&auditFieldName="+auditFieldName,
+							      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=2"+"&auditFieldId="+id +"&auditFieldName="+auditFieldName + "&auditFalg=" + sign,
 							      success:function(result){
 							        result = eval("(" + result + ")");
 							        if(result.msg == "fail"){
@@ -227,7 +227,7 @@
 			}
 			
 			//暂存
-       function zhancun(){
+       function zancun(){
          var expertId = $("#expertId").val();
          $.ajax({
            url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
@@ -290,13 +290,17 @@
 									<c:choose>
 	                  <c:when test="${fn:contains(typeErrorField,sp.id)}">style="visibility:initial"</c:when>
 	                  <c:otherwise>style="visibility:hidden"</c:otherwise>
-	                </c:choose>
-									><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+	                </c:choose>>
+									<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 								</c:forEach>
 								<c:forEach items="${jjList}" var="jj">
 									<span  <c:if test="${fn:contains(editFields,jj.id)}">style="color:#FF8C00" </c:if>  class="margin-left-30 hand" <c:if test="${fn:contains(expertType,jj.id)}">onclick="reason('${jj.id}','${jj.name}');"</c:if>><input type="checkbox"  disabled="disabled" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
-									<a class="b f18 ml10 red" id="${jj.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-									<c:if test="${fn:contains(typeErrorField,jj.id)}"> <img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
+									<a class="b f18 ml10 red" id="${jj.id}_show" 
+									 <c:choose>
+                    <c:when test="${fn:contains(typeErrorField,jj.id)}">style="visibility:initial"</c:when>
+                    <c:otherwise>style="visibility:hidden"</c:otherwise>
+                  </c:choose>>
+                  <img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 								</c:forEach>
 						</li>
 						  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">有无执业资格:</span>
@@ -348,8 +352,8 @@
 				</div>
 				<div class="col-md-12 add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
-					<c:if test="${expert.status == -2 || expert.status == 0 || (sign ==2 && expert.status ==1) || expert.status ==6 || (sign ==1 && expert.status ==9)}">
-					  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+					<c:if test="${expert.status == -2 ||  expert.status == 0 ||  expert.status == 9 || (sign ==3 && expert.status ==6) || expert.status ==4}">
+					  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zancun();">暂存</a>
 					</c:if>
 					<a class="btn" type="button" onclick="nextStep();">下一步</a>
 				</div>
