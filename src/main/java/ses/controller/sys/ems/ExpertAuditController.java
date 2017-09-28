@@ -2064,23 +2064,23 @@ public class ExpertAuditController{
 			String count = findCategoryCount(expert.getId(),Integer.valueOf(tableType));
 			Map<String, Object> remap = JSON.parseObject(count); 
 			String categoryReason = "";
-			if("1".equals(expert.getStatus())){
-				categoryReason = "审核通过，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
+			if("1".equals(expert.getStatus()) && "1".equals(tableType)){
+				categoryReason = "预初审合格，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
 				if((int)remap.get("all") == 0 && (int)remap.get("pass") == 0){
-					categoryReason = "审核通过，选择的是物资服务经济类别。";
+					categoryReason = "预初审合格，通过的是物资服务经济类别。";
 				}
-			}else if("2".equals(expert.getStatus())){
-				categoryReason = "审核未通过";
-			}else if("15".equals(expert.getStatus())){
-				categoryReason = "预审核通过，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
+			}else if("2".equals(expert.getStatus()) && "1".equals(tableType)){
+				categoryReason = "预初审不合格。";
+			}else if("15".equals(expert.getStatus()) && "1".equals(tableType)){
+				categoryReason = "预初审合格，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
 				if((int)remap.get("all") == 0 && (int)remap.get("pass") == 0){
-					categoryReason = "预审核通过，选择的是物资服务经济类别。";
+					categoryReason = "预初审合格，通过的是物资服务经济类别。";
 				}
-			}else if("16".equals(expert.getStatus())){
-				categoryReason = "预审核未通过";
+			}else if("16".equals(expert.getStatus()) && "1".equals(tableType)){
+				categoryReason = "预初审不合格。";
 			}
 			if(expertAuditOpinion !=null){
-				dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? categoryReason : expertAuditOpinion.getOpinion()+categoryReason);
+				dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? categoryReason : categoryReason+expertAuditOpinion.getOpinion());
 			}
 			else{
 				dataMap.put("reason", "无");
