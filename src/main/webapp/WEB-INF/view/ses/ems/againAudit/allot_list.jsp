@@ -112,15 +112,15 @@
   <!-- 内容结束 -->
   
   <!-- 弹出框 -->
-  <div class="dnone col-xs-12 pt20 pb20" id="create_review_batches">
-    <div class="search_detail ml0 mt0 mb10">
+  <div class="dnone col-xs-12 p0" id="create_review_batches">
+    <div class="search_detail m0">
       <ul class="demand_list">
-        <li>
-          <label class="fl"><i class="red">*</i> 批次名称：</label>
+        <li class="w100p mr0">
+          <label class="fl w110 h30 lh30"><i class="red">*</i> 批次名称：</label>
           <input type="text" name="batchName" value="">
         </li>
-        <li>
-          <label class="fl"><i class="red">*</i> 专家编号规则：</label>
+        <li class="w100p mr0 mt10">
+          <label class="fl w110 h30 lh30"><i class="red">*</i> 专家编号规则：</label>
           <span>
             <input type="text" name="batchNumber" value="">
           </span>
@@ -129,7 +129,7 @@
       <div class="clear"></div>
     </div>
     
-    <table class="table table-bordered table-hover">
+    <%-- <table class="table table-bordered table-hover">
       <thead>
         <tr>
           <th class="info w50">序号</th>
@@ -139,7 +139,7 @@
         </tr>
       </thead>
       <tbody id="crb_content"></tbody>
-    </table>
+    </table> --%>
   </div>
   <!-- End 弹出框 -->
   
