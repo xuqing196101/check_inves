@@ -94,7 +94,7 @@ public class SupplierFinance implements Serializable {
 
 	/**
 	 * <pre>
-	 * 近三年财务审计报告的审计意见
+	 * 近三年财务审计报告书中的审计报告
 	 * 表字段 : T_SES_SMS_SUPPLIER_FINANCE.AUDIT_OPINION
 	 * </pre>
 	 */
