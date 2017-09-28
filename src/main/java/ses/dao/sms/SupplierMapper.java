@@ -538,10 +538,10 @@ public interface SupplierMapper {
      * 
      * @author YangHongLiang
      * @version 2017-6-16
-     * @param supplierIds
+     * @param listSupplier
      * @return
      */
-    Date findMaxFoundDate(@Param("supplierIds")List<String> supplierIds);
+    Date findMaxFoundDate(@Param("listSupplier")List<Supplier> listSupplier);
 
     /**
 	 * 根据采购机构id统计对应状态的供应商数量

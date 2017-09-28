@@ -82,6 +82,9 @@
 .w180 {
   width: 180px; }
   
+.w182 {
+  width: 182px; }
+  
 .w200 {
   width: 200px; }
 
@@ -1064,5 +1067,9 @@ text-align:center;
     border-collapse:collapse;
     font-size:14px;
     text-align:center
+<<<<<<< HEAD
 }
 >>>>>>> master
+=======
+}
+>>>>>>> fix_bug

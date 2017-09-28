@@ -569,4 +569,24 @@
 		AND IS_RETURNED != 1
 	</select>
 
+	<select id="findFinaSupplierByCategouryAndType" parameterType="ses.model.sms.Supplier" resultType="ses.model.sms.Supplier">
+		select
+			s.ID AS id,
+			s.FOUND_DATE AS foundDate
+		FROM
+			T_SES_SMS_SUPPLIER_ITEM i
+		LEFT JOIN T_SES_SMS_SUPPLIER s ON s."ID" = i.SUPPLIER_ID 
+		WHERE
+			i.CATEGORY_ID = #{supplierTypeId}
+		AND i.SUPPLIER_TYPE_RELATE_ID = #{supplierType}
+		AND (
+				s.SUPPLIER_STATUS = 1
+				OR s.SUPPLIER_STATUS = 4
+				OR s.SUPPLIER_STATUS = 5
+				OR s.SUPPLIER_STATUS = 7
+			)
+		AND s.IS_PROVISIONAL = '0'
+		AND s.IS_DELETED = 0
+	</select>
+
 </mapper>

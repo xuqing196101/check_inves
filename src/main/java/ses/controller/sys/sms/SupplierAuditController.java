@@ -3624,9 +3624,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		String newFileName = "";
 		
 		//日期
-		Date date = new Date();
 	    SimpleDateFormat format = new SimpleDateFormat("yyyy 年 MM 月 dd 日");
-		dataMap.put("date", format.format(date));
+		dataMap.put("date", format.format(supplier.getAuditDate()));
 
 		Map<String, Object> selMap = new HashedMap();
 		// 采购机构全称
@@ -3702,18 +3701,18 @@ public class SupplierAuditController extends BaseSupplierController {
 			//身份证号
 			dataMap.put("legalIdCard", supplier.getLegalIdCard() == null ? "":supplier.getLegalIdCard());
 			//供应商类型
-			String supplierType = "";
+			StringBuffer supplierType = new StringBuffer();
 			List<String> typeList = supplierTypeRelateService.findTypeBySupplierId(supplier.getId());
-			if(typeList != null && typeList.size() > 0){
+			if (typeList != null && typeList.size() > 0) {
 				for (int i = 0; i < typeList.size(); i++) {
-						if(DictionaryDataUtil.get(typeList.get(i)) != null){
-							supplierType += "  "+DictionaryDataUtil.get(typeList.get(i)).getName();
+                    DictionaryData dictionaryData = DictionaryDataUtil.get(typeList.get(i));
+                    if (dictionaryData != null) {
+						supplierType.append(dictionaryData.getName()).append("、");
 					}
 				}
 			}
-			
-			
-			dataMap.put("supplierType", supplierType);
+			dataMap.put("supplierType", supplierType.toString().substring(0, supplierType.length() -1));
+
 			/*查询附件审核结果*/
 			SupplierAudit supplierAttach = new SupplierAudit();
 			supplierAttach.setSupplierId(supplier.getId());
@@ -4579,18 +4578,18 @@ public class SupplierAuditController extends BaseSupplierController {
 		return JdcgResult.ok(supplierAuditOpinionService.selectByExpertIdAndflagTime(supplierId, 0));
     }
 
+	/**
+	 * @deprecated: 点击审核通过复选框校验审核通过项
+	 *
+	 * @Author:Easong
+	 * @Date:Created in 2017/7/22
+	 * @param: [supplierId]
+	 * @return: common.utils.JdcgResult
+	 *
+	 */
 	@RequestMapping("/vertifyAuditItem")
 	@ResponseBody
     public JdcgResult vertifyAuditItem(String supplierId){
-    	/**
-    	 * @deprecated: 点击审核通过复选框校验审核通过项
-    	 *
-    	 * @Author:Easong
-    	 * @Date:Created in 2017/7/22
-    	 * @param: [supplierId]
-    	 * @return: common.utils.JdcgResult
-    	 *
-    	 */
 		// 点击通过按钮时判断
 		JdcgResult selectAndVertifyAuditItem = supplierAuditService.selectAndVertifyAuditItem(supplierId);
 		if(selectAndVertifyAuditItem.getStatus() != 200) {

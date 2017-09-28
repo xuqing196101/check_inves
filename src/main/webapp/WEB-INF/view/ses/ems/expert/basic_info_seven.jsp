@@ -633,12 +633,12 @@
 					if(val==2){
 						ecoIndex++;
 						$("#ecoIndex").val(ecoIndex);
-						$("#jingji_ul").append(data);
+						$("#jingji_ul").append('<li class="clear"></li>' + data);
 						
 					}else{
 						proIndex++;
 						$("#proIndex").val(proIndex);
-						$("#addUl").append(data);
+						$("#addUl").append('<li class="clear"></li>' + data);
 					}
 					init_web_upload();
 				}
@@ -691,6 +691,11 @@
 							type: "post",
 							data:{"id":id},
 							success: function(data) {
+								if ($(obj).parent().parent().prev().prev().prev().prev().hasClass('clear')) {
+									$(obj).parent().parent().prev().prev().prev().prev().remove();
+								} else if ($(obj).parent().parent().next().hasClass('clear')) {
+									$(obj).parent().parent().next().remove();
+								}
 								$(obj).parent().parent().prev().prev().prev().remove();
 			        	$(obj).parent().parent().prev().prev().remove();
 			        	$(obj).parent().parent().prev().remove();

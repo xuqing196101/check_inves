@@ -101,7 +101,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     
     public void insertSelective(Category category) {
-        /*Category ct = categoryMapper.findById(category.getParentId());
+        Category ct = categoryMapper.findById(category.getParentId());
         if(ct==null){
           category.setLevel(2);
         }else{
@@ -109,7 +109,7 @@ public class CategoryServiceImpl implements CategoryService {
           ct.setIsParent("true");
           categoryMapper.updateByPrimaryKeySelective(ct);
         }
-        category.setIsParent("false");*/
+        category.setIsParent("false");
         categoryMapper.insertSelective(category);
     }
 

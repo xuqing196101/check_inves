@@ -33,10 +33,9 @@
                 		$("#qualified").attr("disabled", false);
                 	}else{
                 		var mes='${message}';
-                		$("#qualified").attr("disabled", true);
+                		$("#qualified").attr("disabled", true);z
                 		$("#check_opinion").html("<span class='red'>"+mes+"</span>");
                 		$("#cate_result").html("<span class='red'>"+mes+"</span>");
-                		
                 	}
                 /* }else{
                 	$("#qualified").attr("disabled", true);
@@ -268,7 +267,7 @@
 				dataType: "json",
 				success: function(data) {
 					if(status == 15) {
-						if(data.pass == 0){
+						if(data.all == 0 && data.pass == 0){
 							$("#check_opinion").html("预初审合格，通过的是物资服务经济类别。");
 						}else{
 							$("#check_opinion").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");

@@ -1433,8 +1433,8 @@
             </if>
             WHERE
                 (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
-                and IS_PROVISIONAL = '0'
-                and IS_DELETED = 0
+                and t2.IS_PROVISIONAL = '0'
+                and t2.IS_DELETED = 0
             <if test="supplierName != null and supplierName !=''">
                 and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
             </if>
@@ -2089,12 +2089,12 @@
 	 order by o.position) f
 	</select>
 	<!-- 根据suppliers 获取供应商 最大的 成立时间 -->
-	<select id="findMaxFoundDate" parameterType="String" resultType="Date">
+	<select id="findMaxFoundDate" parameterType="ses.model.sms.Supplier" resultType="Date">
 	SELECT  MIN(FOUND_DATE) from T_SES_SMS_SUPPLIER 
 	<where>
-    <foreach collection="supplierIds" item="id" open="ID in ("
+    <foreach collection="listSupplier" item="supplier" open="ID in ("
                 close=")" separator=",">
-                #{id}
+                #{supplier.id}
             </foreach>
             </where> 
 	</select>

@@ -10,6 +10,7 @@ import java.util.Map;
 
 
 
+
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
 import ses.formbean.SupplierItemCategoryBean;
@@ -428,7 +429,7 @@ public interface SupplierService {
 	  * @param supplierIds
 	  * @return
 	  */
-	Date findMaxFoundDate(List<String> supplierIds);
+	Date findMaxFoundDate(List<Supplier> listSupplier);
 
 	/**
 	 * 根据采购机构id统计对应状态的供应商数量
@@ -555,4 +556,10 @@ public interface SupplierService {
 	List<supplierExport> selectSupplierNumberFormal(HashMap<String, Object> map);
 	
 	List<supplierExport> selectExpertNumberFormal(HashMap<String, Object> map);
+
+	/**
+	 * 计算物资生成、物质销售、服务下所有品目下供应商等级
+	 * @return
+	 */
+	public HashMap<String, Integer> countAllCategorySupplierLevel();
 }
