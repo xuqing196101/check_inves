@@ -65,7 +65,7 @@
         </thead>
         <tbody id="list_content"></tbody>
       </table>
-      <div id="pagediv" align="right"></div>
+      <%-- <div id="pagediv" align="right"></div> --%>
     </div>
     
     <!-- 专家分组 -->
