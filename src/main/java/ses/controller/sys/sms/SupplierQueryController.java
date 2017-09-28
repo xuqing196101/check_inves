@@ -453,7 +453,7 @@ public class SupplierQueryController extends BaseSupplierController {
     @ResponseBody
     public JdcgResult ajaxSupplierData(SupplierItemLevel supplier, Integer page, String categoryIds) {
     	JdcgResult result=null;
-    	if (StringUtils.isNotBlank(categoryIds)) {
+    	//if (StringUtils.isNotBlank(categoryIds)) {
         List<SupplierItemLevel>  listSupplier = supplierItemLevelServer.findSupplierItemLevel(supplier, page, categoryIds);
         if(listSupplier != null && !listSupplier.isEmpty()){
         	result=new JdcgResult(500, "请求成功", new PageInfo<>(listSupplier));
@@ -461,9 +461,9 @@ public class SupplierQueryController extends BaseSupplierController {
         	listSupplier=new ArrayList<>();
         	result=new JdcgResult(501, "暂无数据", listSupplier);
         }
-        }else{
+        /*}else{
         	result=new JdcgResult(502, "参数错误", null);
-        }
+        }*/
         return result;
     }
     /**
@@ -494,6 +494,28 @@ public class SupplierQueryController extends BaseSupplierController {
         }
         return result;
     }
+    
+    /**
+	 * Description: 计算全部入库供应商等级
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-27
+	 * @return 
+	 */
+    @RequestMapping("/countAllCategorySupplierLevel")
+    @ResponseBody
+    public JdcgResult againAllSupplierData() {
+    	JdcgResult result=null;
+		HashMap<String, Integer> dataMap = supplierService.countAllCategorySupplierLevel();
+        Integer productCount = dataMap.get("PRODUCT");
+        Integer saleCount = dataMap.get("SALE");
+        Integer serviceCount = dataMap.get("SERVICE");
+        String msg = "物资生产供应商等级重算数量：" + productCount + ",物资销售供应商等级重算数量：" + saleCount + ",服务供应商等级重算数量：" + serviceCount;
+        System.out.println(msg);
+        result=new JdcgResult(500, msg, msg);
+        return result;
+    }
+    
     
     /**
      *〈简述〉供应商基本信息
