@@ -143,7 +143,7 @@
            }
            for(var j=0;j<checklist.length;j++){
              if(checklist[j].checked == true){
-                 checkAll.checked = true;
+                 //checkAll.checked = true;
                  count++;
                }
            }
@@ -176,6 +176,7 @@
         var id = $(this).val();
        	var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
+        alert(state);
         if(state == "复审结束"){
         	ids.push(id);
         }else{

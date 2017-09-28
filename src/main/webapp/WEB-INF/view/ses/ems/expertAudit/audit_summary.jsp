@@ -171,8 +171,10 @@
                 </td>
                 <!-- 状态 -->
                 <td class="tc">
-                  <c:if test="${reasons.suggestType eq 'one'}">退回</c:if>
-                  <c:if test="${reasons.suggestType eq 'seven' || reasons.suggestType eq 'six' || reasons.suggestType eq 'five'}">审核不通过</c:if>
+                  <c:if test="${reasons.suggestType eq 'one' || reasons.suggestType eq 'five'}">退回</c:if>
+                  <c:if test="${reasons.suggestType eq 'six' }">审核不通过</c:if>
+                  <c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '1' }">审核不通过</c:if>
+                  <c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '2' }">退回</c:if>
                 </td>
               </tr>
               </c:forEach>
