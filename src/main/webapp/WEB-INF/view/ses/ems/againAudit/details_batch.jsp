@@ -87,10 +87,6 @@
       });
     });
     
-    //  跳转到批次分组
-    function jump_batchGroup() {
-      window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/groupBatch.html?batchId='+getUrlParam('batchId');
-    }
     // 跳转批次审核
     function jump_auditBatch() {
       window.location.href = '${pageContext.request.contextPath}/expertAgainAudit/auditBatch.html?batchId='+getUrlParam('batchId');
