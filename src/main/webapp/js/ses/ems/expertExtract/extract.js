@@ -903,8 +903,48 @@ function dischecked(treeNode,treeObj){
 function choseArea(event,treeId,treeNode){
     var treeObj=$.fn.zTree.getZTreeObj("treeArea");
     dischecked(treeNode,treeObj);
+    if(treeNode.checked){
+		checkAllChildCheckParent(treeNode,treeObj);
+	}
     showCheckArea(treeObj);
 }
+
+/**
+ * 子节点全部选中，选中父节点
+ * @param node
+ * @returns
+ */
+//递归根节点
+function checkAllChildCheckParent(node,treeObj){
+	var flag = preIsCheck(node) && nextIsCheck(node);
+	var parentNode = node.getParentNode();
+	if(flag){
+		if(parentNode){
+			treeObj.checkNode(parentNode, true,false,true);
+			checkAllChildCheckParent(parentNode,treeObj);
+		}
+	}
+}
+
+//判断前一个节点是否选中
+function preIsCheck(treeNode){
+	 	var pre = treeNode.getPreNode();
+	 	var flag = treeNode.checked;
+	if(pre){
+		flag &=  preIsCheck(pre) ;
+	}
+	return flag;
+}
+
+//判断后一个节点是否选中
+	function nextIsCheck(treeNode){
+		var next = treeNode.getNextNode();
+		var flag = treeNode.checked;
+		if(next){
+			flag &=  nextIsCheck(next) ;
+	}
+	return	flag;
+	}
 
 //地区树绑定事件
 function onBodyDownArea(event) {
