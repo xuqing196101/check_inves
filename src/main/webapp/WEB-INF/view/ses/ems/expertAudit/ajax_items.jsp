@@ -31,7 +31,8 @@
 					var pageNum = e.curr;
 					var expertId = "${expertId}";
 					var typeId = "${typeId}";
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + typeId + "&pageNum=" + pageNum;
+					var sign = "${sign}";
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + typeId + "&pageNum=" + pageNum + "&sign=" +sign;
 					$("#tbody_category").load(path);
 				}
 			}
