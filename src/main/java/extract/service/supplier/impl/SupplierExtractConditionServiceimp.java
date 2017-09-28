@@ -552,7 +552,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 					
 					categoryId = this.selectChild(parentId, categoryId);
 				}
-				String[] split = categoryId.split(",");
+				hashMap.put("quaType", code.equals("product")?"2":code.equals("sales")?"3":null);
 				hashMap.put("categoryIds",categoryId.split(","));
 			}
 			return supplierConditionMapper.getQuaByCid(hashMap);
