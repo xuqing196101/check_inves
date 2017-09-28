@@ -206,7 +206,6 @@ public class SupplierExtractsController extends BaseController {
     @RequestMapping("/Extraction")
     public String listExtraction(@CurrentUser User user, Model model, String projectId){
         Project project = projectService.selectById(projectId);
-        
         if(project != null && StringUtils.isNotBlank(project.getPurchaseType())){
             DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
             if(findById != null){
@@ -215,8 +214,11 @@ public class SupplierExtractsController extends BaseController {
         }
         model.addAttribute("project", project);
         
+        List<Map<String, String>> list = supplierExtRelateService.selectProSupplier(projectId);
+        model.addAttribute("list", list);
+        
         //根据包获取抽取出的供应商
-        List<Packages> listResultSupplier = packagesService.listExtRelate(projectId);
+        /*List<Packages> listResultSupplier = packagesService.listExtRelate(projectId);
         if (listResultSupplier != null && !listResultSupplier.isEmpty()) {
             List<SupplierExtRelate> extRelates = new ArrayList<SupplierExtRelate>();
             for (Packages packages : listResultSupplier) {
@@ -255,7 +257,7 @@ public class SupplierExtractsController extends BaseController {
                 }
                 model.addAttribute("extRelates", extRelates);
             }
-        }
+        }*/
         return "ses/sms/supplier_extracts/supplier_list";
     }
 

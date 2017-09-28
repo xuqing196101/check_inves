@@ -146,4 +146,6 @@ public interface SupplierExtRelateMapper {
    * @param arrayList
    */
   void insertRel(ArrayList<SupplierExtractResult> arrayList);
+  
+  List<Map<String, String>> selectProSupplier(String projectId);
 }
