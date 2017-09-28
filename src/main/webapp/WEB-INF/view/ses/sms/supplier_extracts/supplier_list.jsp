@@ -189,16 +189,16 @@
                   </tr>
                 </thead>
                 <tbody id="supplierList">
-                  <c:if test="${extRelates ne null}">
-	                  <c:forEach items="${extRelates}" var="list" varStatus="vs">
+                  <c:if test="${list ne null}">
+	                  <c:forEach items="${list}" var="obj" varStatus="vs">
 	                    <tr>
 	                      <td class="tc w50">${vs.index+1}</td>
-	                      <td>${list.packageName}</td>
-	                      <td>${list.supplier.supplierName}</td>
-	                      <td>${list.supplier.supplierName}</td>
-	                      <td>${list.supplier.contactName}</td>
-	                      <td>${list.supplier.contactMobile}</td>
-	                      <td>${list.supplier.contactTelephone}</td>
+	                      <td>${obj['PACKAGENAME']}</td>
+	                      <td>${obj['CONTYPEID']}</td>
+	                      <td>${obj['CONTYPEID']}</td>
+	                      <td>${obj['SUPPLIERTYPEID']}</td>
+	                      <td>${obj['SUPPLIERCONDITIONID']}</td>
+	                      <td>${obj['REASON']}</td>
 	                    </tr>
 	                  </c:forEach>
                   </c:if>

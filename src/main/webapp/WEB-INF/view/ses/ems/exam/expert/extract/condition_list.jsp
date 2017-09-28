@@ -178,21 +178,21 @@
             <thead>
               <tr>
                 <th class="info w50">序号</th>
-                <th class="info" width="15%">包名</th>
+                <th class="info" width="25%">包名</th>
                 <th class="info" width="15%">专家名称</th>
-                <th class="info" width="15%">类型</th>
-                <th class="info" width="18%">联系人电话</th>
+                <th class="info" width="25%">类型</th>
+                <th class="info" width="20%">联系人电话</th>
               </tr>
             </thead>
             <tbody id="supplierList">
-              <c:if test="${extRelates ne null}">
-                <c:forEach items="${extRelates}" var="list" varStatus="vs">
-                  <tr>
+              <c:if test="${list ne null}">
+                <c:forEach items="${list}" var="maps" varStatus="vs">
+                    <tr>
                     <td class="tc w50">${vs.index+1}</td>
-                    <td>${list.packageName}</td>
-                    <td>${list.expert.relName}</td>
-                    <td>${list.expert.expertsTypeId}</td>
-                    <td>${list.expert.telephone}</td>
+                    <td>${maps['PACKAGENAME']}</td>
+                    <td>${maps['CONTYPEID']}</td>
+                    <td>${maps['REVIEWTYPE']}</td>
+                    <td>${maps['OPERATINGTYPE']}</td>
                   </tr>
                 </c:forEach>
               </c:if>
