@@ -359,6 +359,7 @@ public class SupplierController extends BaseSupplierController {
     	
     	model.addAttribute("supplierTypeIds", supplier.getSupplierTypeIds());
 		model.addAttribute("supplierId", suppId);
+		model.addAttribute("currSupplier", supplier);
 		
     	return "ses/sms/supplier_register/contract";
     }
@@ -1435,26 +1436,46 @@ public class SupplierController extends BaseSupplierController {
 			for(String s:types){
 //				List<SupplierItem> items = supplierItemService.queryBySupplierAndType(supplierId, s);
 				List<SupplierItem> items = supplierItemService.getItemList(supplierId, s, (byte)0, null);
-				if(items!=null&&items.size()<=1&&s.equals("PRODUCT")){
+				if("PRODUCT".equals(s) && (items == null || items.size() == 0)){
 					model.addAttribute("productError", "productError");
 					bool = false;
 					break;
 				}
-				if(items!=null&&items.size()<=1&&s.equals("PROJECT")){
+				if("PROJECT".equals(s) && (items == null || items.size() == 0)){
 					model.addAttribute("projectError", "projectError");
 					bool = false;
 					break;
 				}
-				if(items!=null&&items.size()<=1&&s.equals("SALES")){
+				if("SALES".equals(s) && (items == null || items.size() == 0)){
 					model.addAttribute("sellError", "sellError");
 					bool = false;
 					break;
 				}
-				if(items!=null&&items.size()<=1&&s.equals("SERVICE")){
+				if("SERVICE".equals(s) && (items == null || items.size() == 0)){
 					model.addAttribute("serverError", "serverError");
 					bool = false;
 					break;
 				}
+				/*if(items!=null&&items.size()<1&&s.equals("PRODUCT")){
+					model.addAttribute("productError", "productError");
+					bool = false;
+					break;
+				}
+				if(items!=null&&items.size()<1&&s.equals("PROJECT")){
+					model.addAttribute("projectError", "projectError");
+					bool = false;
+					break;
+				}
+				if(items!=null&&items.size()<1&&s.equals("SALES")){
+					model.addAttribute("sellError", "sellError");
+					bool = false;
+					break;
+				}
+				if(items!=null&&items.size()<1&&s.equals("SERVICE")){
+					model.addAttribute("serverError", "serverError");
+					bool = false;
+					break;
+				}*/
 			}
 		}
 		if(!bool){
