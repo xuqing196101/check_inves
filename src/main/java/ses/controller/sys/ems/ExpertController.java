@@ -14,6 +14,7 @@ import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -2209,28 +2210,27 @@ public class ExpertController extends BaseController {
      * @return String
      */
     @RequestMapping("/findAllExpert")
-    public String findAllExpert(Expert expert, Integer page,
-                                HttpServletRequest request, HttpServletResponse response) {
-        List < Expert > allExpert = service.selectAllExpert(page == null ? 0 :
-            page, expert);
+    public String findAllExpert(Expert expert, Integer page,HttpServletRequest request, HttpServletResponse response, String expertTypeIds, String expertType) {
+    	expert.setExpertsTypeId(expertTypeIds);
+        List < Expert > allExpert = service.selectAllExpert(page == null ? 0 : page, expert);
         for(Expert exp: allExpert) {
             DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(exp.getGender());
             exp.setGender(dictionaryData == null ? "" : dictionaryData.getName());
-            StringBuffer expertType = new StringBuffer();
+            StringBuffer type = new StringBuffer();
             if(exp.getExpertsTypeId() != null) {
                 for(String typeId: exp.getExpertsTypeId().split(",")) {
                     DictionaryData data = dictionaryDataServiceI.getDictionaryData(typeId);
                     if(data != null){
                     	if(6 == data.getKind()) {
-                            expertType.append(data.getName() + "技术、");
+                    		type.append(data.getName() + "技术、");
                         } else {
-                            expertType.append(data.getName() + "、");
+                        	type.append(data.getName() + "、");
                         }
                     }
                     
                 }
-                if(expertType.length() > 0){
-                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+                if(type.length() > 0){
+                	String expertsType = type.toString().substring(0, type.length() - 1);
                 	 exp.setExpertsTypeId(expertsType);
                 }
             } else {
@@ -2243,7 +2243,33 @@ public class ExpertController extends BaseController {
       			exp.setExpertsFrom(expertsFrom.getName());
       		}
         }
-        // 查询数据字典中的专家来源配置数据
+       /* // 查询数据字典中的专家来源配置数据
+        List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
+        request.setAttribute("lyTypeList", lyTypeList);
+        // 查询数据字典中的专家类别数据
+        List < DictionaryData > jsTypeList = DictionaryDataUtil.find(6);
+        for(DictionaryData data: jsTypeList) {
+            data.setName(data.getName() + "技术");
+        }
+        List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);*/
+        
+        //全部机构
+        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
+        request.setAttribute("allOrg", allOrg);
+        
+        /*jsTypeList.addAll(jjTypeList);
+        request.setAttribute("expTypeList", jsTypeList);*/
+        request.setAttribute("result", new PageInfo < Expert > (allExpert));
+        request.setAttribute("expert", expert);
+        request.setAttribute("expertType", expertType);
+        request.setAttribute("expertTypeIds", expertTypeIds);
+        return "ses/ems/expert/list";
+    }
+
+    @RequestMapping("/experType")
+    @ResponseBody
+    public String  experType(){
+    	// 查询数据字典中的专家来源配置数据
         List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
         request.setAttribute("lyTypeList", lyTypeList);
         // 查询数据字典中的专家类别数据
@@ -2252,18 +2278,11 @@ public class ExpertController extends BaseController {
             data.setName(data.getName() + "技术");
         }
         List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
-        
-        //全部机构
-        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
-        request.setAttribute("allOrg", allOrg);
-        
         jsTypeList.addAll(jjTypeList);
-        request.setAttribute("expTypeList", jsTypeList);
-        request.setAttribute("result", new PageInfo < Expert > (allExpert));
-        request.setAttribute("expert", expert);
-        return "ses/ems/expert/list";
+        return JSON.toJSONString(jsTypeList);
     }
-
+    
+    
     /**
      *〈简述〉
      * 专家复审列表展示

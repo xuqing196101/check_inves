@@ -224,13 +224,12 @@
 
         //移除
         function dele(){
-            var supplierId = $("input[name='supplierId']").val();
             var ids =[];
             $('input[name="chkItem"]:checked').each(function(){
                 ids.push($(this).val());
             });
             if(ids.length>0){
-                layer.confirm('您确定要移除吗?', {title:'提示！',offset: ['200px']}, function(index){
+                layer.confirm('您确定要移除吗？', {title:'提示！',offset: ['200px']}, function(index){
                     layer.close(index);
                     $.ajax({
                         url:"${pageContext.request.contextPath}/supplierAudit/deleteById.html",
@@ -239,7 +238,7 @@
                         success:function(result){
                             result = eval("(" + result + ")");
                             if(result.msg == "yes"){
-                                layer.msg("删除成功!",{offset : '100px'});
+                                layer.msg("删除成功！",{offset : '100px'});
                                 window.setTimeout(function(){
                                     var action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
                                     $("#form_id").attr("action",action);
@@ -248,13 +247,84 @@
                             }
                         },
                         error: function(message){
-                            layer.msg("删除失败",{offset : '100px'});
+                            layer.msg("删除失败！",{offset : '100px'});
                         }
                     });
                 });
             }else{
                 layer.alert("请选择需要移除的信息！",{offset:'100px'});
             }
+        }
+        
+				//去改状态
+				function toUpdateStatus(){
+					var ids = [];
+					$('input[name="chkItem"]:checked').each(function(){
+						ids.push($(this).val());
+					});
+					if(ids.length > 0){
+						$("#auditStatusRadio").fadeIn().css("display","inline");
+					}else{
+						layer.alert("请选择需要修改状态的信息！",{offset:'100px'});
+					}
+				}
+				//改状态
+				function updateStatus(status){
+					var ids = [];
+					$('input[name="chkItem"]:checked').each(function(){
+						ids.push($(this).val());
+					});
+					if(ids.length > 0){
+						layer.confirm('您确定要更改状态吗？', {title:'提示！',offset: ['200px']}, function(index){
+							layer.close(index);
+							$.ajax({
+								url:"${pageContext.request.contextPath}/supplierAudit/updateReturnStatus.do",
+								type:"post",
+								data:{
+									ids: ids.join(","),
+									status: status
+								},
+								dataType: "json",
+								success:function(result){
+									if(result && result.status == 500){
+										layer.msg(result.msg, {offset : '100px'});
+										$('input[name="chkItem"]:checked').each(function(){
+											$(this).parents("tr").find("td:last").text(getStatusText(status));
+									 	});
+							 			$("input[type='radio'][name='auditStatus']").attr("checked", false);
+									}else{
+										layer.msg(result.msg, {offset : '100px'});
+									}
+								},
+								error: function(message){
+									layer.msg("更新失败！", {offset : '100px'});
+								}
+							});
+						});
+					}else{
+						layer.alert("请选择需要修改状态的信息！",{offset:'100px'});
+					}
+				}
+        
+        function getStatusText(status){
+        	var text = "";
+        	switch(status){
+        		case 1:
+        			text = "退回修改";
+        			break;
+        		case 2:
+        			text = "审核不通过";
+        			break;
+        		case 3:
+        			text = "已修改";
+        			break;
+        		case 4:
+        			text = "未修改";
+        			break;
+        		default:
+        			break;
+        	}
+        	return text;
         }
     </script>
   </head>
@@ -328,6 +398,13 @@
 					<div class="ul_list count_flow">
 						<c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 4 or (sign == 3 and supplierStatus == 5)}">
 						  <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>
+						  <button class="btn btn-windows edit" type="button" onclick="toUpdateStatus();" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>
+						  <div class="select_check" id="auditStatusRadio" style="display: none;">
+						  	<input type="radio" name="auditStatus" value="1" onclick="updateStatus(1)">退回修改
+						  	<!-- <input type="radio" name="auditStatus" value="2">审核不通过 -->
+								<input type="radio" name="auditStatus" value="3" onclick="updateStatus(3)">已修改
+								<input type="radio" name="auditStatus" value="4" onclick="updateStatus(4)">未修改
+							</div>
 						</c:if>
 						<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 							<thead>

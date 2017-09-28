@@ -72,7 +72,7 @@
 				var state = $("#" + ids + "").parents("tr").find("td").eq(9).text();
 				state = trim(state);
 				if(ids != null) {
-					if(state == "暂存" || state == "待审核" || state == "退回修改" || state=="临时" || state=="退回再审核"){
+					if(state == "暂存" || state == "退回修改"){
 							layer.confirm('您确定要注销吗?', {
 							title: '提示！',
 							offset: ['200px']

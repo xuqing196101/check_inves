@@ -1,17 +1,25 @@
 package ses.controller.sys.ems;
 
-import bss.formbean.PurchaseRequiredFormBean;
+import java.beans.PropertyDescriptor;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.utils.JdcgResult;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.profiles.activation.SystemPropertyProfileActivator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -56,31 +64,21 @@ import ses.service.ems.ExpertService;
 import ses.service.ems.ExpertSignatureService;
 import ses.service.ems.ExpertTitleService;
 import ses.service.ems.ProjectExtractService;
+import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
+import bss.formbean.PurchaseRequiredFormBean;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
 
-import java.beans.PropertyDescriptor;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 
 
 /**
@@ -145,6 +143,9 @@ public class ExpertAuditController{
 	
 	@Autowired
 	private ExpertAuditNotService expertAuditNotService;
+	
+	@Autowired
+	private PurChaseDepOrgService purChaseDepOrgService;
 	/**
 	 * @Title: expertAuditList
 	 * @author XuQing 
@@ -1588,9 +1589,26 @@ public class ExpertAuditController{
 		JdcgResult result = expertAuditService.selectAndVertifyAuditItem(expertId);
 		if(result.getStatus()==500){
 			model.addAttribute("qualified", false);
+			model.addAttribute("message", result.getMsg());
 		}else{
 			String[] split = expert.getExpertsTypeId().split(",");
+			ExpertAudit audit = new ExpertAudit();
+			audit.setExpertId(expertId);
+			audit.setSuggestType("seven");
+			audit.settype("1");
+			List<ExpertAudit> list = expertAuditService.getListByExpert(expertAudit);
+			
 			for (String string : split) {
+				boolean s=false;
+				for (ExpertAudit a : list) {
+					if(string.equals(a.getAuditFieldId())){
+						s=true;
+						break;
+					}
+				}
+				if(s){
+					continue;
+				}
 				DictionaryData data = DictionaryDataUtil.findById(string);
 				if("PROJECT".equals(data.getCode())||"GOODS_PROJECT".equals(data.getCode())){
 					Map<String,Object> map2 = new HashMap<String,Object>();
@@ -1600,12 +1618,14 @@ public class ExpertAuditController{
 					int passCount = expertCategoryService.selectPassCount(map2);
 					if(passCount<=0){
 						model.addAttribute("qualified", false);
+						model.addAttribute("message", "当前专家有目录下无通过产品");
 						break;
 					}
 					map2.put("typeId", DictionaryDataUtil.getId("ENG_INFO_ID"));
 					passCount= expertCategoryService.selectPassCount(map2);
 					if(passCount<=0){
 						model.addAttribute("qualified", false);
+						model.addAttribute("message", "当前专家有目录下无通过产品");
 						break;
 					}
 				}else{
@@ -1617,6 +1637,7 @@ public class ExpertAuditController{
 					if(passCount<=0){
 						if(!"GOODS_SERVER".equals(data.getCode())){
 							model.addAttribute("qualified", false);
+							model.addAttribute("message", "当前专家有目录下无通过产品");
 							break;
 						}
 					}
@@ -1861,6 +1882,15 @@ public class ExpertAuditController{
 	private String createWordMethod(Expert expert, HttpServletRequest request, String tableType, String opinion) throws Exception {
 		/** 用于组装word页面需要的数据 */
 		Map < String, Object > dataMap = new HashMap < String, Object > ();
+		//采购机构名称
+		Map<String, Object> depMap = new HashMap<String, Object>();
+		depMap.put("purchaseDepId", expert.getPurchaseDepId());
+		String depName = purChaseDepOrgService.selectOrgFullNameByPurchaseDepId(depMap);
+		dataMap.put("depName", depName);
+		//审核时间
+		//日期格式化
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+		dataMap.put("auditTime", simpleDateFormat.format(expert.getAuditAt()));
 		dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
 		String sex = expert.getGender();
 		DictionaryData gender = dictionaryDataServiceI.getDictionaryData(sex);
@@ -1905,8 +1935,21 @@ public class ExpertAuditController{
 			ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 			expertAuditOpinion.setExpertId(expert.getId());
 			expertAuditOpinion = expertAuditOpinionService.selectByPrimaryKey(expertAuditOpinion);
+			//拼接参评类别审核意见
+			String count = findCategoryCount(expert.getId());
+			Map<String, Object> remap = JSON.parseObject(count); 
+			String categoryReason = "";
+			if("1".equals(expert.getStatus())){
+				categoryReason = "审核通过，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
+			}else if("2".equals(expert.getStatus())){
+				categoryReason = "审核未通过";
+			}else if("15".equals(expert.getStatus())){
+				categoryReason = "预审核通过，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
+			}else if("16".equals(expert.getStatus())){
+				categoryReason = "预审核未通过";
+			}
 			if(expertAuditOpinion !=null){
-				dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? "无" : expertAuditOpinion.getOpinion());
+				dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? categoryReason : expertAuditOpinion.getOpinion()+categoryReason);
 			}
 			else{
 				dataMap.put("reason", "无");

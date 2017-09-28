@@ -405,12 +405,12 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setLevelScoreSales(SupplierLevelUtil.getScore(supplier.getId(), "SALES"));
         supplier.setLevelScoreService(SupplierLevelUtil.getScore(supplier.getId(), "SERVICE"));*/
         
-        /*if(supplier.getWebsite()==null){
-            supplier.setWebsite("");
-        }*/
-        if(supplier.getBranchName()==null){
-            supplier.setBranchName("0");
-        }
+	  if(supplier.getWebsite()==null){
+		supplier.setWebsite("");
+	  }
+	  if(supplier.getBranchName()==null){
+		supplier.setBranchName("0");
+	  }
 
       supplierMapper.updateByPrimaryKeySelective(supplier);
 
@@ -840,12 +840,12 @@ public class SupplierServiceImpl implements SupplierService {
     Calendar cale = Calendar.getInstance();
     Integer year = cale.get(Calendar.YEAR);
 
-    Integer year3 = year - 3;//2013
+    Integer year1 = year - 3;//2013
     Integer year2 = year - 2;//2014
-    Integer year4 = year - 1;//2015
-    list.add(year3);
+    Integer year3 = year - 1;//2015
+    list.add(year1);
     list.add(year2);
-    list.add(year4);
+    list.add(year3);
 
     return list;
   }

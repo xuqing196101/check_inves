@@ -205,7 +205,7 @@
 
 	<!-- 根据id查询 -->
 	<select id="findPIDandCIDByOrgId" parameterType="java.lang.String"
-		resultType="java.util.HashMap">
+		resultType="java.util.Map">
 		select city_id cityId,province_id provinceId
 		from T_SES_OMS_ORG
 		where id= #{_parameter}
@@ -1104,5 +1104,14 @@
 		WHERE
 		  DEP.ORG_ID = ORG. ID
 		ORDER BY ORG.POSITION
+	</select>
+
+	<!--根据供应商表中的（PROCUREMENT_DEP_ID）字段查询采购机构全称-->
+	<select id="selectOrgFullNameByPurchaseDepId" parameterType="map"  resultType="string">
+		SELECT T2.NAME
+		  FROM T_SES_OMS_PURCHASE_DEP T1
+		  LEFT JOIN T_SES_OMS_ORG T2
+			ON T1.ORG_ID = T2.ID
+		 WHERE T1.ID = #{purchaseDepId}
 	</select>
 </mapper>

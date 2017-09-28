@@ -55,7 +55,7 @@ public class SupplierDeleteController {
 
        Supplier supplier = supplierService.selectById(supplierId);
        if(supplier.getStatus() != null){
-    	   if(supplier.getStatus() == -1 || supplier.getStatus() == 0 || supplier.getStatus() == 2 || (supplier.getIsProvisional() == 1 && supplier.getStatus() == 5)){
+    	   if(supplier.getStatus() == -1 || supplier.getStatus() == 2){
     		   UserServiceI.updateByTypeId(supplierId);
         	   supplierService.updateById(supplierId);
     	   }

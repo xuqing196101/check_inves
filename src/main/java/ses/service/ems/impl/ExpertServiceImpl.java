@@ -1226,7 +1226,7 @@ public class ExpertServiceImpl implements ExpertService {
     @Override
 
     public List<Expert> getCommitExpertByDate(String startDate,String endDate) {
-        return mapper.getCommitExpertByDate(startDate,endDate);
+        return mapper.getCommitExpertByDate(startDate,endDate,DictionaryDataUtil.getId("LOCAL"));
     }
 
     /**

@@ -1,26 +1,5 @@
 package bss.service.ob.impl;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.stereotype.Service;
-
-import redis.clients.jedis.Jedis;
-import ses.dao.bms.DictionaryDataMapper;
-import ses.dao.oms.OrgnizationMapper;
-import ses.model.bms.DictionaryData;
-import ses.model.bms.User;
-import ses.model.oms.Orgnization;
-import ses.util.DictionaryDataUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProjectMapper;
 import bss.dao.ob.OBProjectResultMapper;
@@ -40,12 +19,31 @@ import bss.model.ob.OBResultsInfoExt;
 import bss.model.ob.OBSupplier;
 import bss.service.ob.OBSupplierQuoteService;
 import bss.util.BiddingStateUtil;
-
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.JdcgResult;
 import common.utils.JedisUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
+import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.oms.OrgnizationMapper;
+import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
+import ses.model.oms.Orgnization;
+import ses.util.DictionaryDataUtil;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -274,8 +272,9 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				return JdcgResult.build(500, "其他用户已完成本次报价！");
 			}
 		} finally{
-			jedis.quit();
-			jedis.disconnect();
+			if(jedis != null){
+				JedisUtils.returnResourceOfFactory(jedis);
+			}
 		}
 		
 		// 报价前，判断截止时间是否已到
