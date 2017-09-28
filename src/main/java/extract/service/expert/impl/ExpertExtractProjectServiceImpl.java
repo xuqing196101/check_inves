@@ -330,10 +330,10 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                     String expertTypeCode = e.getExpertTypeCode();
                     if(expertTypeCode.indexOf("_") != -1){
                         //经济专家人数
-                        map.put("gnum", e.getCountPerson());
+                        map.put("gnum", "经济专家："+e.getCountPerson()+"人");
                         
                         //职称
-                        map.put("tzc", StringUtils.isBlank(e.getTechnicalTitle())?"不限":e.getTechnicalTitle());
+                        map.put("tzc",StringUtils.isBlank(e.getTechnicalTitle())?"经济专家：不限":"经济专家："+e.getTechnicalTitle());
                         //产品类别
                         List<String> clist = extractCategoryMapper.selByConditionId(e.getConditionId(),DictionaryDataUtil.getId(expertTypeCode));
                         temp = "";
@@ -348,13 +348,16 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                         }else{
                             temp = "不限类别";
                         }
-                        map.put("jjcategory",temp );
+                        map.put("jjcategory","经济："+temp );
+                        //执业资格
+                        String professional = e.getEngQualification() == null ? "不限" : e.getEngQualification();
+                        map.put("jjprofessional","经济专家："+professional );
                     }else{
                         //技术专家
-                        map.put("tnum", e.getCountPerson());
+                        map.put("tnum", "技术专家："+e.getCountPerson()+"人、");
                         
                         //职称
-                        map.put("gzc",StringUtils.isBlank(e.getTechnicalTitle())?"不限":e.getTechnicalTitle());
+                        map.put("gzc",StringUtils.isBlank(e.getTechnicalTitle())?"技术专家：不限、":"技术专家："+e.getTechnicalTitle()+"、");
                         
                         //产品类别
                         List<String> clist = extractCategoryMapper.selByConditionId(e.getConditionId(),DictionaryDataUtil.getId(expertTypeCode));
@@ -370,7 +373,10 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                         }else{
                             temp = "不限类别";
                         }
-                        map.put("jscategory",temp );
+                        map.put("jscategory","技术："+temp+"、" );
+                        //执业资格
+                        String professional = e.getEngQualification() == null ? "不限" : e.getEngQualification();
+                        map.put("jsprofessional","技术专家："+professional+"、" );
                     }
                 }
             }

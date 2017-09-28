@@ -836,7 +836,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>人数：合计${anum!}人，其中技术专家${tnum!}人、经济专家${gnum!}人</w:t>
+                    <w:t>人数：合计${anum!}人，其中${tnum!} ${gnum!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -929,7 +929,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar"/>
                     </w:rPr>
-                    <w:t>参评类别：经济：${jjcategory!}  技术：${jscategory!}</w:t>
+                    <w:t>参评类别：${jscategory!} ${jjcategory!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1116,7 +1116,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>职称：技术专家：${gzc!} 经济专家：${tzc!}</w:t>
+                    <w:t>职称：${gzc!} ${tzc!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -1221,7 +1221,7 @@
                       <w:szCs w:val="21"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>${professional!}</w:t>
+                    <w:t>${jsprofessional!} ${jjprofessional!}</w:t>
                   </w:r>
                   <w:bookmarkStart w:id="0" w:name="_GoBack"/>
                   <w:bookmarkEnd w:id="0"/>

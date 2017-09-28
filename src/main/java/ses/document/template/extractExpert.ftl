@@ -612,7 +612,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>人，其中技术专家</w:t>
+                    <w:t>人，其中</w:t>
                   </w:r>
                   <w:r>
                     <w:rPr>
@@ -628,7 +628,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>人、经济专家</w:t>
+                    <w:t></w:t>
                   </w:r>
                   <w:r>
                     <w:rPr>
@@ -644,7 +644,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>人</w:t>
+                    <w:t></w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -720,7 +720,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>参评类别：${category!}</w:t>
+                    <w:t>参评类别：${jscategory!} ${jjcategory!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -880,7 +880,7 @@
                       <w:vertAlign w:val="baseline"/>
                       <w:lang w:val="en-US" w:eastAsia="zh-CN"/>
                     </w:rPr>
-                    <w:t>技术专家：${gzc!} 经济专家：${tzc!}</w:t>
+                    <w:t>${gzc!} ${tzc!}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
