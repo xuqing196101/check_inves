@@ -33,7 +33,7 @@
                 		$("#qualified").attr("disabled", false);
                 	}else{
                 		var mes='${message}';
-                		$("#qualified").attr("disabled", true);z
+                		$("#qualified").attr("disabled", true);
                 		$("#check_opinion").html("<span class='red'>"+mes+"</span>");
                 		$("#cate_result").html("<span class='red'>"+mes+"</span>");
                 	}

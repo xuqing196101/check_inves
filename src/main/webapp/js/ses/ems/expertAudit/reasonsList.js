@@ -160,17 +160,11 @@ function tempSave(){
         data:$("#opinionForm").serialize(),
         dataType:"json",
         success:function (data) {
-            if(flag == 1){
-                var action = globalPath + "/expertAudit/uploadApproveFile.html";
-                $("#form_id").attr("action", action);
-                $("#form_id").submit();
-            }else{
-                if(data.status == 200){
-                  layer.msg("暂存成功！");
-                }
-            }
+	        if(data.status == 200){
+	          layer.msg("暂存成功！");
+	        }
             // 关闭旋转图标
-            layer.close(index);
+          /*  layer.close(index);*/
         }
     });
 }
