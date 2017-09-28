@@ -1,5 +1,4 @@
 function jump(str){
-    alert();
   var action;
   if(reqType != ''){
     if(str == "basicInfo") {
