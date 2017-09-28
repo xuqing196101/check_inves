@@ -269,6 +269,11 @@ public class InnerExpertServiceImpl implements InnerExpertService {
         //专家审核记录表
         List<ExpertAudit> expertAudits = expert.getExpertAuditList();
         if(null != expertAudits && !expertAudits.isEmpty()){
+        	for (ExpertAudit expertAudit : expertAudits) {
+				if(expertAudit!=null){
+					expertAudit.setType(expertAudit.getDataType());
+				}
+			}
         	expertAuditMapper.deleteByExpertId(expert.getId());
             ExpertAudit audit = null;
             for(ExpertAudit expertAudit:expertAudits){
