@@ -81,7 +81,7 @@
 							<td><a class="mt3 color7171C6" href="javascript:download('${supplierFinance.profitListId}', '${sysKey}')">${supplierFinance.profitList}</a></td>
 						</tr>
 						<tr>
-							<td class="bggrey">审计报告的审计意见</td>
+							<td class="bggrey">审计报告书中的审计报告</td>
 							<td><a class="mt3 color7171C6" href="javascript:download('${supplierFinance.auditOpinionId}', '${sysKey}')">${supplierFinance.auditOpinion}</a></td>
 							<td class="bggrey ">资产负债表</td>
 							<td><a class="mt3 color7171C6" href="javascript:download('${supplierFinance.liabilitiesListId}', '${sysKey}')">${supplierFinance.liabilitiesList}</a></td>

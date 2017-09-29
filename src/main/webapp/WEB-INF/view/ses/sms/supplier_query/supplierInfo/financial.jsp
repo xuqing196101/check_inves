@@ -139,7 +139,7 @@
 									<tr>
 										<th class="w50 info">年份</th>
 										<th class="info">财务利润表</th>
-										<th class="info">审计报告的审计意见</th>
+										<th class="info">审计报告书中的审计报告</th>
 										<th class="info">资产负债表</th>
 										<th class="info">现金流量表</th>
 										<th class="info">所有者权益变动表</th>
