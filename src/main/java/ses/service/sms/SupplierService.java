@@ -7,15 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
-
-
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
 import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Category;
-import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierFinance;
@@ -458,7 +453,7 @@ public interface SupplierService {
 	
 
 	/**
-	 * 手机号校验：专家库+供应商库（除去临时供应商）
+	 * 手机号校验：供应商库+专家库（除去临时供应商和临时专家）
 	 * @param mobile
 	 * @return
 	 */
@@ -562,4 +557,12 @@ public interface SupplierService {
 	 * @return
 	 */
 	public HashMap<String, Integer> countAllCategorySupplierLevel();
+
+	/**
+	 * 身份证号校验：供应商库+专家库（除去临时供应商和临时专家）
+	 * @param id
+	 * @param idCard
+	 * @return
+	 */
+	public boolean checkIdCard(String id, String idCard);
 }
