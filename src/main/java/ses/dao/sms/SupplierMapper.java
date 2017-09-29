@@ -553,7 +553,7 @@ public interface SupplierMapper {
 			@Param("status")int status);
 
 	/**
-	 * 手机号校验：专家库+供应商库（除去临时供应商）
+	 * 手机号校验：供应商库+专家库（除去临时供应商和临时专家）
 	 * @param mobile
 	 * @return
 	 */
@@ -664,5 +664,13 @@ public interface SupplierMapper {
 	List<supplierExport> selectExpertNumberFormal(HashMap<String, Object> map);
 
 	List<Supplier> listExtractionExpert(SupplierCondition condition);
+
+	/**
+	 * 身份证号校验：供应商库+专家库（除去临时供应商和临时专家）
+	 * @param id
+	 * @param idCard
+	 * @return
+	 */
+	int countByIdCard(@Param("id")String id, @Param("idCard")String idCard);
 
 }
