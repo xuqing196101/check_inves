@@ -501,7 +501,7 @@
 									<c:set value="${liCount+1}" var="liCount" />
 									<%-- <li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree(this);"> --%>
 									<li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree('${matCodeId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资品目信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资产品类别信息</a>
 										<input type="hidden" id="mat" value="mat_page">
 										<input id="matCodeId" type="hidden" value="${matCodeId }">
 									</li>
@@ -509,7 +509,7 @@
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<%-- <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);"> --%>
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${engCodeId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程品目信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
 										<input type="hidden" id="eng" value="eng_page">
 										<input id="engCodeId" type="hidden" value="${engCodeId }">
 									</li>
@@ -517,7 +517,7 @@
 								</c:if>
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${engInfoId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程专业信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程专业属性信息</a>
 										<input type="hidden" id="engInfo" value="engInfo_page">
 										<input id="engInfoId" type="hidden" value="${engInfoId }">
 									</li>
@@ -526,7 +526,7 @@
 								<c:if test="${cate.code eq 'SERVICE'}">
 									<%-- <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);"> --%>
 										<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${serCodeId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务品目信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务产品类别信息</a>
 										<input type="hidden" id="ser" value="ser_page">
 										<input id="serCodeId" type="hidden" value="${serCodeId }">
 									</li>
