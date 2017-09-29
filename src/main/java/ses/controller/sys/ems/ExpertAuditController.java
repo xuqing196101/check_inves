@@ -3769,6 +3769,8 @@ public class ExpertAuditController{
 		}
 		//还原复审结束状态
 		expert.setIsReviewEnd(0);
+		
+		expert.setAuditAt(new Date());
 		expertService.updateByPrimaryKeySelective(expert);
 		return "redirect:list.html";
     }

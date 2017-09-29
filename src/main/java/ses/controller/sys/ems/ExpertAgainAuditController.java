@@ -900,6 +900,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
             				expert.setStatus("10");
             			}
             		}
+            		expert.setAuditAt(new Date());
             		expertService.updateByPrimaryKeySelective(expert);
             		//完成待办
             		todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertIds[i]);
