@@ -176,6 +176,7 @@
 		<form id="form_id" action="" method="post">
 			<input name="expertId" value="${expertId}" type="hidden">
 			<input name="sign" value="${sign}" type="hidden">
+			<input name="batchId" value="${batchId}" type="hidden">
 		</form>
         <input value="${status}" id="status" type="hidden">
 	</body>

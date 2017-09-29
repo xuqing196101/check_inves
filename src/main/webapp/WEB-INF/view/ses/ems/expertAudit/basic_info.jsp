@@ -798,8 +798,9 @@
 </div>
 <input value="${expertId}" id="expertId" type="hidden">
 <form id="form_id" action="" method="post">
-    <input name="expertId" value="${expertId }" type="hidden">
-    <input name="sign" value="${sign }" type="hidden">
+    <input name="expertId" value="${expertId}" type="hidden">
+    <input name="sign" value="${sign}" type="hidden">
+    <input name="batchId" value="${batchId}" type="hidden">
 </form>
 <input id="status" value=" ${expert.status}" type="hidden">
 </body>

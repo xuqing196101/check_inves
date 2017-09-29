@@ -343,7 +343,8 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/basicInfo")
-	public String basicInfo(Expert expert, Model model, Integer pageNum, String expertId, Integer sign) {
+	public String basicInfo(Expert expert, Model model, Integer pageNum, String expertId, Integer sign, String batchId) {
+		model.addAttribute("batchId", batchId);
 		//暂存中
 		temporaryAudit(expertId);
 		
@@ -739,10 +740,10 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/product")
-	public String product(Expert expert, Model model, String expertId, Integer sign) {
+	public String product(Expert expert, Model model, String expertId, Integer sign, String batchId) {
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
-
+		model.addAttribute("batchId", batchId);
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("status", expert.getStatus());
 
@@ -803,8 +804,9 @@ public class ExpertAuditController{
 	 * @return
 	 */
 	@RequestMapping("/getCategories")
-	public String getCategories(String expertId, String typeId, Model model, Integer pageNum, String flags , Integer sign) {
+	public String getCategories(String expertId, String typeId, Model model, Integer pageNum, String flags , Integer sign, String batchId) {
 		model.addAttribute("sign", sign);
+		model.addAttribute("batchId", batchId);
 		String code = DictionaryDataUtil.findById(typeId).getCode();
         String flag = null;
         if (code != null && code.equals("GOODS_PROJECT")) {
@@ -1197,10 +1199,10 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/expertFile")
-	public String expertFile(Expert expert, Model model, String expertId, Integer sign) {
+	public String expertFile(Expert expert, Model model, String expertId, Integer sign, String batchId) {
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
-				
+		model.addAttribute("batchId", batchId);
 		// 专家系统key
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
 		model.addAttribute("expertKey", expertKey);
@@ -1327,7 +1329,8 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/expertType")
-	public String expertType(ExpertAudit expertAudit, Model model, String expertId, Integer sign) {
+	public String expertType(ExpertAudit expertAudit, Model model, String expertId, Integer sign, String batchId) {
+		model.addAttribute("batchId", batchId);
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		
@@ -1600,9 +1603,10 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/reasonsList")
-	public String reasonsList(ExpertAudit expertAudit, Model model, String expertId, Integer sign) {
+	public String reasonsList(ExpertAudit expertAudit, Model model, String expertId, Integer sign, String batchId) {
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
+		model.addAttribute("batchId", batchId);
 		//List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
 		expertAudit.setAuditFalg(sign);
 		//复审退回修改，初审时显示的是复审的审核信息
@@ -3306,10 +3310,10 @@ public class ExpertAuditController{
      *复审时查看的初审信息
      */
     @RequestMapping(value = "/preliminaryInfo")
-    public String preliminaryInfo(Model model, String expertId, Integer sign){
+    public String preliminaryInfo(Model model, String expertId, Integer sign, String batchId){
     	//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
-		
+		model.addAttribute("batchId", batchId);
 		model.addAttribute("expertId", expertId);
 		ExpertAudit expertAudit = new ExpertAudit();
 		if(sign == 1){
@@ -3659,10 +3663,10 @@ public class ExpertAuditController{
      * @return
      */
     @RequestMapping(value = "/auditSummary")
-    public String auditSummary(Model model, String expertId, Integer sign){
+    public String auditSummary(Model model, String expertId, Integer sign, String batchId){
     	//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
-		
+		model.addAttribute("batchId", batchId);
 		model.addAttribute("expertId", expertId);
 		ExpertAudit expertAudit = new ExpertAudit();
 		expertAudit.setExpertId(expertId);
