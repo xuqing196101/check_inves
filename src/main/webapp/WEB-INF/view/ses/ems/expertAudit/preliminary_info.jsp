@@ -62,7 +62,7 @@
           </c:if>
           <c:if test="${sign == 2}">
             <li>
-              <a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=2')">专家复审</a>
+              <a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.html?batchId=${batchId}')">专家复审</a>
             </li>
           </c:if>
           <c:if test="${sign == 3}">
