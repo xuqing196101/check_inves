@@ -37,4 +37,19 @@ public interface ExtractCategoryMapper {
      * @return
      */
     List<String> selByConditionId(@Param("conditionId") String conditionId,@Param("typeId") String typeId);
+
+    /**
+     * 
+     * Description: 根据条件查询所有信息
+     * 
+     * @author zhang shubin
+     * @data 2017年9月29日
+     * @param 
+     * @return
+     */
+    List<ExtractCategory> findAllByConditionId(String conditionId);
+    
+    ExtractCategory selectByPrimaryKey(String id);
+    
+    int updateByPrimaryKeySelective(ExtractCategory record);
 }
