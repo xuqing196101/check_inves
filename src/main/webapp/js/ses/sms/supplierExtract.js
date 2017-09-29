@@ -765,12 +765,12 @@ $(function () {
     		return false;
     	}
     	
-    	var data;
-    	var projects;
-    	var products;
-    	var services;
-    	var sales;
-    	var goods;
+    	var data = "";
+    	var projects = "";
+    	var products = "";
+    	var services = "";
+    	var sales = "";
+    	var goods = "";
     	//去后台请求一条数据
     	$.ajax({
     		type: "POST",
@@ -779,8 +779,15 @@ $(function () {
     		dataType: "json",
     		async:false,
     		success: function (msg) {
-    			if(null != msg.list){
+    			if(null != msg && null != msg.list){
+    				
     				var su = msg.list;
+    				for ( var k in su) {
+						if(su[k].length<1){
+							flag = true;
+						}
+					}
+    				
     				if(null !=su.PROJECT){
     					projects =su.PROJECT;
     				}
@@ -799,9 +806,8 @@ $(function () {
     			}else{
     				flag = true;
     			}
-    			if(null !=msg){
+    			if(null!= msg && null !=msg.error){
 	    			$("#"+msg.error).html("不能为空");
-	    			flag = false;
 	    		}
     		}
     	});
@@ -960,6 +966,8 @@ $(function () {
             	$(cate).parents("li").find(".categoryId").val("");
             	$(cate).parents("li").find(".parentId").val("");
                 $(cate).val("");
+                emptyQuaInfo(code);
+                $("#"+code+"QuaTree").empty();
                 selectLikeSupplier();
             }
         });
@@ -1982,6 +1990,7 @@ $(function () {
             	$(select).parents("td").html("能参加");
             	appendTd(req,obj,"能参加");
             }else{
+            	$(select).find("[value='0']").remove();
             	saveResult(objTr, '',2);
     			appendTd(req,obj,"待定");
             }
@@ -2068,6 +2077,17 @@ $(function () {
 		});
 	}
     
+   //校验输入空格
+    function checkSpase(obj){
+    	
+    	$("input").each(function(){
+    		if($(this).prop("readonly")){
+    			$(this).attr("");
+    		}
+    	});
+    	
+    	$(obj).val();
+    }
     
     
   //文本编译器计数
