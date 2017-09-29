@@ -2616,7 +2616,14 @@ resultMap="BaseResultMap">
     </select>
 <!-- 专家复审待分配列表 可条件查询 -->
     <select id="findExpertAgainAuditList" resultMap="BaseResultMap" parameterType="ses.model.ems.Expert">
-        SELECT t1.*,
+        SELECT 
+		t1.ID,
+        t1.REAL_NAME,
+        t1.EXPERTS_FROM,
+        t1.EXPERTS_TYPE_ID,
+        t1.AUDIT_AT,
+        t1.WORK_UNIT,
+        t1.PROFESS_TECH_TITLES,
         t2.NAME as sex,
         org.SHORT_NAME AS orgName
         from
