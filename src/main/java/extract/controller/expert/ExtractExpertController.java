@@ -103,7 +103,7 @@ public class ExtractExpertController {
      */
     @RequestMapping("/toExpertExtract")
     public String toExpertExtract(@CurrentUser User user,Model model,String projectId,String projectInto,String packageId,String packageName){
-        //权限验证  资源服务中心  采购机构  可以抽取
+        //权限验证  采购机构  可以抽取
         String authType = null;
         if(null != user && ("1".equals(user.getTypeName()))){
             authType = user.getTypeName();
