@@ -841,8 +841,17 @@ public class OpenBiddingController extends BaseSupplierController{
             List<Packages> findById = packageService.findByID(map);
             if(findById != null && findById.size() > 0){
             	for (Packages packages : findById) {
-            		packages.setProjectStatus(DictionaryDataUtil.getId("ZBGGNZZ"));
-            		packageService.updateByPrimaryKeySelective(packages);
+            	  String projectStatus = packages.getProjectStatus();
+                if(projectStatus!=null){
+                  DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+                  if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+                		packages.setProjectStatus(DictionaryDataUtil.getId("ZBGGNZZ"));
+                		packageService.updateByPrimaryKeySelective(packages);
+                  }
+                }else{
+                  packages.setProjectStatus(DictionaryDataUtil.getId("ZBGGNZZ"));
+                  packageService.updateByPrimaryKeySelective(packages);
+                }
         		}
             }
           }
@@ -858,8 +867,17 @@ public class OpenBiddingController extends BaseSupplierController{
             List<Packages> findById = packageService.findByID(map);
             if(findById != null && findById.size() > 0){
             	for (Packages packages : findById) {
-            		packages.setProjectStatus(DictionaryDataUtil.getId("NZZBGG"));
-            		packageService.updateByPrimaryKeySelective(packages);
+            	  String projectStatus = packages.getProjectStatus();
+                if(projectStatus!=null){
+                  DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+                  if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+                		packages.setProjectStatus(DictionaryDataUtil.getId("NZZBGG"));
+                		packageService.updateByPrimaryKeySelective(packages);
+                  }
+                }else{
+                  packages.setProjectStatus(DictionaryDataUtil.getId("NZZBGG"));
+                  packageService.updateByPrimaryKeySelective(packages);
+                }
         		}
             }
           }
@@ -885,8 +903,17 @@ public class OpenBiddingController extends BaseSupplierController{
                 List<Packages> findById = packageService.findByID(map);
                 if(findById != null && findById.size() > 0){
                 	for (Packages packages : findById) {
-                		packages.setProjectStatus(DictionaryDataUtil.getId("FSBSZ"));
-                		packageService.updateByPrimaryKeySelective(packages);
+                	  String projectStatus = packages.getProjectStatus();
+                    if(projectStatus!=null){
+                      DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+                      if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+                    		packages.setProjectStatus(DictionaryDataUtil.getId("FSBSZ"));
+                    		packageService.updateByPrimaryKeySelective(packages);
+                      }
+                    }else{
+                      packages.setProjectStatus(DictionaryDataUtil.getId("FSBSZ"));
+                      packageService.updateByPrimaryKeySelective(packages);
+                    }
             		}
                 }
             } else if ("JZXTP".equals(puchaseTypeCode)) {
@@ -901,8 +928,17 @@ public class OpenBiddingController extends BaseSupplierController{
                 List<Packages> findById = packageService.findByID(map);
                 if(findById != null && findById.size() > 0){
                 	for (Packages packages : findById) {
-                		packages.setProjectStatus(DictionaryDataUtil.getId("GYSCQZ"));
-                		packageService.updateByPrimaryKeySelective(packages);
+                	  String projectStatus = packages.getProjectStatus();
+                    if(projectStatus!=null){
+                      DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+                      if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+                    		packages.setProjectStatus(DictionaryDataUtil.getId("GYSCQZ"));
+                    		packageService.updateByPrimaryKeySelective(packages);
+                      }
+                    }else{
+                      packages.setProjectStatus(DictionaryDataUtil.getId("GYSCQZ"));
+                      packageService.updateByPrimaryKeySelective(packages);
+                    }
             		}
                 }
             }
@@ -922,8 +958,17 @@ public class OpenBiddingController extends BaseSupplierController{
                 List<Packages> findById = packageService.findByID(map);
                 if(findById != null && findById.size() > 0){
                 	for (Packages packages : findById) {
-                		packages.setProjectStatus(DictionaryDataUtil.getId("QRZBGYS"));
-                		packageService.updateByPrimaryKeySelective(packages);
+                	  String projectStatus = packages.getProjectStatus();
+                    if(projectStatus!=null){
+                      DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+                      if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+                    		packages.setProjectStatus(DictionaryDataUtil.getId("QRZBGYS"));
+                    		packageService.updateByPrimaryKeySelective(packages);
+                      }
+                    }else{
+                      packages.setProjectStatus(DictionaryDataUtil.getId("QRZBGYS"));
+                      packageService.updateByPrimaryKeySelective(packages);
+                    }
             		}
                 }
             }
@@ -1121,8 +1166,17 @@ public class OpenBiddingController extends BaseSupplierController{
         List<Packages> findById = packageService.findByID(map);
         if(findById != null && findById.size() > 0){
         	for (Packages packages : findById) {
-        		packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
-        		packageService.updateByPrimaryKeySelective(packages);
+        	  String projectStatus = packages.getProjectStatus();
+        	  if(projectStatus!=null){
+        	    DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+        	    if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+        	      packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+                packageService.updateByPrimaryKeySelective(packages);
+        	    }
+        	  }else{
+        	    packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+        	    packageService.updateByPrimaryKeySelective(packages);
+        	  }
     		}
         }
       }

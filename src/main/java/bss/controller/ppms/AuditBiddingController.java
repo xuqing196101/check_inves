@@ -26,6 +26,7 @@ import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import common.service.DownloadService;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.oms.PurchaseOrg;
@@ -195,14 +196,15 @@ public class AuditBiddingController extends BaseController {
     List<Packages> findById = packageService.findByID(map);
     if(findById != null && findById.size() > 0){
     	for (Packages packages : findById) {
-    		if("4".equals(status)){
-    			packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJXGBB"));
-    		} else if ("3".equals(status)) {
-    			packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTG"));
-    		} else if ("2".equals(status)) {
-    			packages.setProjectStatus(DictionaryDataUtil.getId("NZPFBZ"));
-    		}
-    		packageService.updateByPrimaryKeySelective(packages);
+    	  String projectStatus = packages.getProjectStatus();
+        if(projectStatus!=null){
+          DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+          if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+            packageUpdateProjectSatus(status, packages);
+          }
+        }else{
+          packageUpdateProjectSatus(status, packages);
+        }
 		}
     }
     //修改代办为已办
@@ -257,6 +259,18 @@ public class AuditBiddingController extends BaseController {
     projectService.update(project);
     return JSON.toJSONString(SUCCESS);
 
+  }
+
+
+  private void packageUpdateProjectSatus(String status, Packages packages) {
+    if("4".equals(status)){
+      packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJXGBB"));
+    } else if ("3".equals(status)) {
+      packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTG"));
+    } else if ("2".equals(status)) {
+      packages.setProjectStatus(DictionaryDataUtil.getId("NZPFBZ"));
+    }
+    packageService.updateByPrimaryKeySelective(packages);
   }
   
 
