@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.dao.ems.ExpertField;
+import ses.dao.ems.ExpertReviewTeamMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -44,6 +45,7 @@ import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertHistory;
 import ses.model.ems.ExpertPublicity;
+import ses.model.ems.ExpertReviewTeam;
 import ses.model.ems.ExpertSignature;
 import ses.model.ems.ExpertTitle;
 import ses.model.oms.Orgnization;
@@ -75,6 +77,7 @@ import bss.formbean.PurchaseRequiredFormBean;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -148,6 +151,7 @@ public class ExpertAuditController{
 	
 	@Autowired
 	private PurChaseDepOrgService purChaseDepOrgService;
+	
 	/**
 	 * @Title: expertAuditList
 	 * @author XuQing 
@@ -2065,11 +2069,11 @@ public class ExpertAuditController{
 			expertAuditOpinion.setExpertId(expert.getId());
 			expertAuditOpinion = expertAuditOpinionService.selectByPrimaryKey(expertAuditOpinion);
 			//拼接参评类别审核意见
-			String count = "";
+			Map<String, Object> remap = new HashMap<String, Object>();
 			if("1".equals(tableType)){
-				count = findCategoryCount(expert.getId(),Integer.valueOf(tableType));
+				String count = findCategoryCount(expert.getId(),Integer.valueOf(tableType));
+				remap = JSON.parseObject(count); 
 			}
-			Map<String, Object> remap = JSON.parseObject(count); 
 			String categoryReason = "";
 			if("1".equals(expert.getStatus()) && "1".equals(tableType)){
 				categoryReason = "预初审合格，选择了" + remap.get("all") + "个参评类别，通过了" + remap.get("pass") + "个参评类别。";
@@ -2642,10 +2646,11 @@ public class ExpertAuditController{
 		 * 专家签字模块（获取勾选的专家）复审
 		 */
 		if("2".equals(tableType) || "0".equals(tableType)){
-			ExpertSignature expertsignature = new ExpertSignature();
+			/*ExpertSignature expertsignature = new ExpertSignature();
 			expertsignature.setExpertId(expert.getId());
-			List<ExpertSignature> expertList = expertSignatureService.selectByExpertId(expertsignature);
-			dataMap.put("expertList", expertList);
+			List<ExpertSignature> expertList = expertSignatureService.selectByExpertId(expertsignature);*/
+			List<ExpertReviewTeam> reviewTeamList = expertAuditService.getExpertReviewTeamList(expert.getId());
+			dataMap.put("expertList", reviewTeamList);
 			
 			//日期
 			Date date = new Date();

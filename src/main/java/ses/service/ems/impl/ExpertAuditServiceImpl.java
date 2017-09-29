@@ -19,8 +19,10 @@ import org.springframework.stereotype.Service;
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertAuditOpinionMapper;
+import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
+import ses.dao.ems.ExpertReviewTeamMapper;
 import ses.dao.ems.ExpertTitleMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
@@ -30,6 +32,7 @@ import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertPublicity;
+import ses.model.ems.ExpertReviewTeam;
 import ses.model.sms.SupplierAuditOpinion;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertService;
@@ -39,6 +42,7 @@ import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -77,6 +81,12 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	// 注入专家审核意见Mapper
 	@Autowired
 	private ExpertAuditOpinionMapper expertAuditOpinionMapper;
+	
+	@Autowired
+	private ExpertReviewTeamMapper expertReviewTeamMapper;
+	
+	@Autowired
+	private ExpertBatchDetailsMapper expertBatchDetailsMapper;
 
 	/**
 	 * 
@@ -707,6 +717,18 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	public ExpertAudit findAuditByExpertId(ExpertAudit expertAudit) {
 		ExpertAudit findAuditByExpertId = mapper.findAuditByExpertId(expertAudit);
 		return findAuditByExpertId;
+	}
+	@Override
+	public List<ExpertReviewTeam> getExpertReviewTeamList(String expertId) {
+		List<String> list = expertBatchDetailsMapper.selGroupIdByExpertId(expertId);
+		String groupId = "";
+		if(list != null && list.size() > 0){
+			groupId = list.get(0);
+		}
+		ExpertReviewTeam expertReviewTeam = new ExpertReviewTeam();
+		expertReviewTeam.setGroupId(groupId);
+		List<ExpertReviewTeam> reviewTeamList = expertReviewTeamMapper.getExpertReviewTeamList(expertReviewTeam);
+		return reviewTeamList;
 	}
 
 
