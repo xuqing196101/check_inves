@@ -14,7 +14,6 @@ import ses.dao.ems.ExpertEngHistoryMapper;
 import ses.dao.ems.ExpertEngModifyMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ExpertTitleMapper;
-import ses.dao.sms.SupplierAuditOpinionMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.RoleUser;
 import ses.model.bms.User;
@@ -222,43 +221,66 @@ public class InnerExpertServiceImpl implements InnerExpertService {
      * @since JDK1.7
      */
     @Override
+    @Transactional
     public void importExpOfPublicity(File file) {
         List<Expert> expertList = getExpert(file);
-        if(null != expertList && !expertList.isEmpty()){
-            try{
-                for(Expert expert:expertList){
-                    //入库是对每个表进行插入数据
-                    Expert existsExpert = expertMapper.selectByPrimaryKey(expert.getId());
-                    if(existsExpert != null){
-                        // 修改基本数据
-                        expertMapper.updateByPrimaryKeySelective(expert);
-                    }else {
-                       // 保存基本数据
-                        expertMapper.insertSelective(expert);
-                    }
-                    // 保存相关联的数据
-                    saveBackModifyOperation(expert);
-
-                    // 保存专家审核意见数据
-                    ExpertAuditOpinion expertAuditOpinion = expert.getExpertAuditOpinion();
-                    if(expertAuditOpinion != null){
-                        // 先判断表中是否有该数据
-                        // 判断是不是原有的数据
-                        if(StringUtils.isNotEmpty(expertAuditOpinion.getId())){
-                            // 查询此条数据
-                            ExpertAuditOpinion byPrimaryKey = expertAuditOpinionMapper.findByPrimaryKey(expertAuditOpinion.getId());
-                            if(byPrimaryKey != null){
-                                // 更新数据
-                                expertAuditOpinionMapper.updateByPrimaryKeySelective(expertAuditOpinion);
-                            }else {
-                                // 插入数据
-                                expertAuditOpinionMapper.insertSelective(expertAuditOpinion);
-                            }
+        if (null != expertList && !expertList.isEmpty()) {
+            // 查询军队专家类型
+            DictionaryData dict = DictionaryDataUtil.get("ARMY");
+            for (Expert expert : expertList) {
+                //入库是对每个表进行插入数据
+                Expert existsExpert = expertMapper.selectByPrimaryKey(expert.getId());
+                if (existsExpert != null) {
+                    // 修改基本数据
+                    expertMapper.updateByPrimaryKeySelective(expert);
+                } else {
+                    // 保存基本数据
+                    expertMapper.insertSelective(expert);
+                }
+                //专家审核记录表
+                List<ExpertAudit> expertAudits = expert.getExpertAuditList();
+                if (expertAudits != null && !expertAudits.isEmpty()) {
+                    // 清空外网审核记录表
+                    expertAuditMapper.deleteByExpertId(expert.getId());
+                    ExpertAudit audit;
+                    for (ExpertAudit expertAudit : expertAudits) {
+                        audit = expertAuditMapper.selectByPrimaryKey(expertAudit.getId());
+                        if (audit != null) {
+                            expertAuditMapper.insertActive(expertAudit);
+                        } else {
+                            expertAuditMapper.updateByPrimaryKey(expertAudit);
                         }
                     }
                 }
-            }catch (RuntimeException e){
-                e.printStackTrace();
+
+                // 军队专家
+                if (dict != null && dict.getId().equals(expert.getExpertsFrom())) {
+                    // 将军地专家选择小类插入到数据库中
+                    List<ExpertCategory> expertCategoryList = expert.getExpertCategory();
+                    if (expertCategoryList != null && !expertCategoryList.isEmpty()) {
+                        for (ExpertCategory expertCategory : expertCategoryList) {
+                            expertCategoryService.insertSelective(expertCategory);
+                        }
+                    }
+                }
+
+                // 保存专家审核意见数据
+                ExpertAuditOpinion expertAuditOpinion = expert.getExpertAuditOpinion();
+                if (expertAuditOpinion != null) {
+                    // 先判断表中是否有该数据
+                    // 判断是不是原有的数据
+                    if (StringUtils.isNotEmpty(expertAuditOpinion.getId())) {
+                        // 查询此条数据
+                        ExpertAuditOpinion byPrimaryKey = expertAuditOpinionMapper.findByPrimaryKey(expertAuditOpinion.getId());
+                        if (byPrimaryKey != null) {
+                            // 更新数据
+                            expertAuditOpinionMapper.updateByPrimaryKeySelective(expertAuditOpinion);
+                        } else {
+                            // 插入数据
+                            expertAuditOpinionMapper.insertSelective(expertAuditOpinion);
+                        }
+                    }
+                }
             }
             synchRecordService.synchBidding(null, new Integer(expertList.size()).toString(), synchro.util.Constant.SYNCH_PUBLICITY_EXPERT, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.IMPORT_SYNCH_PUBLICITY_EXPERT);
         }
@@ -323,17 +345,6 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                 auditFileModify = expertAuditFileModifyMapper.selectByPrimaryKey(expertAuditFileModify.getId());
                 if(null == auditFileModify){
                     expertAuditFileModifyMapper.insertSelectiveById(expertAuditFileModify);
-                }
-            }
-        }
-        // 查询军队专家类型
-        DictionaryData dict = DictionaryDataUtil.get("ARMY");
-        if(dict != null && dict.getId().equals(expert.getExpertsFrom())){
-            // 将军地专家选择小类插入到数据库中
-            List<ExpertCategory> expertCategoryList = expert.getExpertCategory();
-            if(expertCategoryList != null && !expertCategoryList.isEmpty()){
-                for (ExpertCategory expertCategory: expertCategoryList){
-                    expertCategoryService.insertSelective(expertCategory);
                 }
             }
         }
