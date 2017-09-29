@@ -2166,7 +2166,7 @@
 		AND IS_DELETED = '0'
 		AND PROCUREMENT_DEP_ID is not null
 	</select>
-	<!-- 手机号校验：专家库+供应商库（除去临时供应商和临时专家） -->
+	<!-- 手机号校验：供应商库+专家库（除去临时供应商和临时专家） -->
 	<select id="countByMobile" resultType="int" parameterType="string">
 		<!-- SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER SUPP,
 		T_SES_EMS_EXPERT EXPE
@@ -2246,7 +2246,6 @@
 		AND IS_DELETED = 0
 		AND IS_PROVISIONAL != 1
 	</select>
-	
 	<!-- 统一社会信用代码校验：供应商库（除去临时供应商） -->
 	<select id="countCreditCode" resultType="int">
 		SELECT COUNT(*) FROM T_SES_SMS_SUPPLIER
@@ -2254,6 +2253,13 @@
 		AND ID != #{id}
 		AND IS_DELETED = 0
 		AND IS_PROVISIONAL != 1
+	</select>
+	<!-- 身份证号校验：供应商库+专家库（除去临时供应商和临时专家） -->
+	<select id="countByIdCard" resultType="int">
+		SELECT (T1.COUNT_SUPP + T2.COUNT_EXPE) FROM
+		(SELECT COUNT(1) AS COUNT_SUPP FROM T_SES_SMS_SUPPLIER WHERE LEGAL_ID_CARD = #{idCard} AND ID != #{id} AND IS_PROVISIONAL != 1 AND IS_DELETED = 0) T1
+		,
+		(SELECT COUNT(1) AS COUNT_EXPE FROM T_SES_EMS_EXPERT WHERE ID_CARD_NUMBER = #{idCard} AND IS_PROVISIONAL != 1 AND IS_DELETE = 0) T2
 	</select>
 	<!-- 根据数据 时间 查看退回修改供应商 2-->
     <select id="fundGoBackSupplierByDate" resultMap="BaseResultMap" parameterType="java.util.Date">
