@@ -418,7 +418,7 @@
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input type="hidden" name="projectQuaId" id="projectQuaId" >
           <input type="text"  id="projectQuaName" treeHome="projectQuaContent"
-         	 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" onkeyup="selectQua()"  onclick="showQua(this);"/>
+         	 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" onkeyup="selectQua()" onclick="showQua(this);"/>
           <span class="add-on">i</span>
           <div class="cue" id="dCount"></div>
           </div>
