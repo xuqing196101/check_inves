@@ -11,15 +11,13 @@
   </head>
 
   <script type="text/javascript">
-    function sumbits() {
-      $.ajaxSetup({
-        cache: false
-      });
-      var formData = $("#form").serialize();
-      formData = decodeURIComponent(formData, true);
-      $("#tab-1").load("${pageContext.request.contextPath}/adSaleTender/updateTemporarySupplier.do", encodeURI(encodeURI(formData)));
-
-    }
+  	function sumbits(){
+			$.ajaxSetup({cache:false});
+			var formData = $("#form").serialize();
+		    formData = decodeURIComponent(formData, true);
+		  	$("#tab-1").load("${pageContext.request.contextPath}/adSaleTender/updateTemporarySupplier.do",encodeURI(encodeURI(formData)));
+	
+		}
 
     /**返回*/
     function onback() {

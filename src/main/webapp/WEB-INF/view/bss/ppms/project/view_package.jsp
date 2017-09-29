@@ -210,7 +210,9 @@
                 </td>
                 <td>
                   <c:forEach items="${status}" var="status">
-                    <c:if test="${status.id == obj.status}">${status.name}
+                    <c:if test="${status.id eq obj.status}">
+                    <c:if test="${status.code eq 'YJLX'}">未分包</c:if>
+                    	<c:if test="${status.code ne 'YJLX'}">已分包</c:if>
                     <input type="hidden" value="${status.code}"/>
                     </c:if>
                   </c:forEach>

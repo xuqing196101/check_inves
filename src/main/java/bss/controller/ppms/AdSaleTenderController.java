@@ -302,7 +302,7 @@ public class AdSaleTenderController extends BaseController {
             List<UploadFile> files = uploadService.getFilesOther(project.getId(), typeId, Constant.TENDER_SYS_KEY+"");
             if(files != null && files.size() > 0){
                 //调用生成word模板传人 标识0 表示 只是生成 拆包部分模板
-                String filePath = extUserServicel.downLoadBiddingDoc(request,projectId,1,suppliersId);
+                String filePath = extUserServicel.downLoadBiddingDocs(request,projectId,1,suppliersId);
                 if(StringUtils.isNotBlank(filePath)){
                     model.addAttribute("filePath", filePath);
                 }
@@ -400,17 +400,27 @@ public class AdSaleTenderController extends BaseController {
             model.addAttribute("loginNameError", "不能为空");
             type = 1;
         } else {
-            //校验用户名是否存在
-            List<User> users = userService.findByLoginName(loginName);
-            if (users.size() > 0) {
-                type = 1;
-                model.addAttribute("loginNameError", "用户名已存在");
+        	if (!loginName.matches("^\\w{6,20}$")) {
+        		type = 1;
+                model.addAttribute("loginNameError", "登录名由6-20位字母数字和下划线组成 !");
+            } else {
+            	//校验用户名是否存在
+                List<User> users = userService.findByLoginName(loginName);
+                if (users.size() > 0) {
+                    type = 1;
+                    model.addAttribute("loginNameError", "用户名已存在");
+                }
             }
         }
 
         if (StringUtils.isBlank(loginPwd)) {
             model.addAttribute("loginPwdError", "不能为空");
             type = 1;
+        } else {
+        	if (loginPwd.length() < 6) {
+      	      model.addAttribute("loginPwdError", "密码至少为6位");
+      	      type = 1;
+      	    }
         }
 
         if (type == 1) {
@@ -432,7 +442,7 @@ public class AdSaleTenderController extends BaseController {
             sb.append(ALLCHAR.charAt(random.nextInt(ALLCHAR.length())));
         }
         flowMangeService.flowExe(request, flowDefineId, projectId, 2);
-        return  "redirect:/view.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId + "&ix=" + ix;
+        return  "redirect:view.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId + "&ix=" + ix;
     }
     
     /**
@@ -565,7 +575,7 @@ public class AdSaleTenderController extends BaseController {
             sb.append(ALLCHAR.charAt(random.nextInt(ALLCHAR.length())));
         }
         flowMangeService.flowExe(request, flowDefineId, projectId, 2);
-        return  "redirect:/view.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId + "&ix=" + ix;
+        return  "redirect:view.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId + "&ix=" + ix;
     }
     
     /**

@@ -23,7 +23,7 @@
       });
 
       function downloads() {
-        var id = [];
+      	var id = [];
         $('input[name="chkItem_supplier"]:checked').each(function() {
           id.push($(this).val());
         });

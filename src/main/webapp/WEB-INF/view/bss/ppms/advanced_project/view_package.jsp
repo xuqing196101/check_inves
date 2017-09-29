@@ -192,14 +192,14 @@
             <c:forEach items="${info.list}" var="obj" varStatus="vs">
               <tr class="pointer">
                 <td class="tc w30">
-                  <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()">
+                  <input type="checkbox" value="${obj.id}" name="chkItem" onclick="check()">
                 </td>
                 <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
                 <td class="tl" onclick="view('${obj.id}')">${obj.name}</td>
                 <td class="tl" onclick="view('${obj.id}')">${obj.projectNumber}</td>
                 <td class="tc " onclick="view('${obj.id}')">
                   <c:forEach items="${kind}" var="kind">
-                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                    <c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
                   </c:forEach>
                 </td>
                 <td class="tc" onclick="view('${obj.id}')">
@@ -207,8 +207,10 @@
                 </td>
                 <td>
                   <c:forEach items="${status}" var="status">
-                    <c:if test="${status.id == obj.status}">${status.name}
-                    <input type="hidden" value="${status.code}"/>
+                    <c:if test="${status.id eq obj.status}">
+                    	<c:if test="${status.code eq 'YJLX'}">未分包</c:if>
+                    	<c:if test="${status.code ne 'YJLX'}">已分包</c:if>
+                    	<input type="hidden" value="${status.code}"/>
                     </c:if>
                   </c:forEach>
                 </td>

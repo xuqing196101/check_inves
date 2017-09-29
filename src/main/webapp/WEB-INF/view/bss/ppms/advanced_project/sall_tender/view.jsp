@@ -21,6 +21,16 @@
               $(this).hide();
             });
           }
+          
+          if($("#supplierName").val() != "" || $("#armyBuinessTelephone").val() != "") {
+					var packageId = $("input[name='packageId']");
+					for(var i = 0; i < packageId.length; i++) {
+						$("#package" + i).remove("class");
+						$("#package" + i).attr("class", "count_flow hand fl clear spread");
+						var divObj = $(".p0" + i);
+						$(divObj).removeClass("hide");
+					}
+				}
         })
         /**提交*/
       function submit() {
@@ -149,7 +159,7 @@
         });
         if(ids.length == 1) {
           var supplierId = $("#" + ids).parent().parent().find("#supplierId").val();
-          var path = "${pageContext.request.contextPath }/SupplierExtracts/editTemporarySupplier.html?supplierId=" + supplierId + "&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix=" + index;
+          var path = "${pageContext.request.contextPath }/adSaleTender/editTemporarySupplier.html?supplierId=" + supplierId + "&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix=" + index;
           $("#tab-1").load(path);
         } else if(ids.length > 1) {
           layer.alert("只能选择一个", {
@@ -283,7 +293,7 @@
             <tbody>
               <c:forEach items="${pack.saleTenderList}" var="obj" varStatus="vs">
                 <tr>
-                  <td class="tc opinter w50"><input onclick="check()" type="checkbox" id="${obj.id}" name="chkItem_${index}" value="${obj.id}" /></td>
+                  <td class="tc opinter w50"><input type="checkbox" id="${obj.id}" name="chkItem_${index}" value="${obj.id}" /></td>
                   <td class="tc opinter " title="${obj.supplierName}">
                     <c:choose>
                       <c:when test="${fn:length(obj.supplierName) > 12}">
