@@ -718,6 +718,7 @@
     <input name="expertId" value="${expertId}" type="hidden">
     <input name="sign" value="${sign}" type="hidden">
     <input name="status" id="expertStatus" value="${status}" type="hidden">
+    <input name="batchId" value="${batchId}" type="hidden">
 </form>
 
 <form id="form_id_word" method="post">

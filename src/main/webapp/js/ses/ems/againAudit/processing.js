@@ -611,6 +611,7 @@ function checkOnly(el) {
 
 // 专家批次审核
 function expert_auditBatch(url) {
+  var batchId = getUrlParam('batchId')
   if (select_ids.length > 1) {
     layer.msg('不能多选，请选择一项', {
       offset: '100px'
@@ -638,7 +639,7 @@ function expert_auditBatch(url) {
       },
       success: function (data) {
         if (data.status) {
-          window.location.href=url+"/expertAudit/basicInfo.html?expertId="+ids+"&sign=2";
+          window.location.href=url+"/expertAudit/basicInfo.html?expertId="+ids+"&sign=2"+"&batchId=" + batchId;
         } else {
           layer.msg(data.message, {
             offset: '100px'

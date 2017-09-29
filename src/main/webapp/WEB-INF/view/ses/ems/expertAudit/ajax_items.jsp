@@ -32,7 +32,8 @@
 					var expertId = "${expertId}";
 					var typeId = "${typeId}";
 					var sign = "${sign}";
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + typeId + "&pageNum=" + pageNum + "&sign=" +sign;
+					var batchId = "${batchId}";
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + typeId + "&pageNum=" + pageNum + "&sign=" +sign + "&batchId=" +batchId;
 					$("#tbody_category").load(path);
 				}
 			}

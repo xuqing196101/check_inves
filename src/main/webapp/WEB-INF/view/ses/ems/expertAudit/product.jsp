@@ -163,30 +163,31 @@
 				var goodsEngInfoId = $("#goodsEngInfoId").val();
 				
 				var sign = ${sign};
+				var batchId = "${batchId}";
 				if(mat == "mat_page"){
 					// 物资品目信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + matCodeId + "&sign=" + sign;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + matCodeId + "&sign=" + sign + "&batchId=" + batchId;
 					$("#tbody_category").load(path);
 				}else if(eng == "eng_page"){
 					// 工程品目信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + engCodeId + "&sign=" + sign;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + engCodeId + "&sign=" + sign + "&batchId=" + batchId;
 					$("#tbody_category").load(path);
 				}else if(ser == "ser_page"){
 					// 服务
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + serCodeId + "&sign=" + sign;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + serCodeId + "&sign=" + sign + "&batchId=" + batchId;
 					$("#tbody_category").load(path);
 				}else if(goodsProject == "goodsProject_page"){
 					// 工程产品类别信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsProjectId + "&sign=" + sign;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsProjectId + "&sign=" + sign + "&batchId=" + batchId;
 					$("#tbody_category").load(path);
 				}else if(goodsEngInfo == "goodsEngInfo_page"){
 					// 工程专业属性信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsEngInfoId + "&sign=" + sign;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsEngInfoId + "&sign=" + sign + "&batchId=" + batchId;
 					$("#tbody_category").load(path);
 				}
 			});
@@ -196,7 +197,8 @@
 					loading = layer.load(1);
 					var expertId = $("#expertId").val();
 					var sign = ${sign};
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + code + "&sign=" + sign;
+					var batchId = "${batchId}";
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + code + "&sign=" + sign + "&batchId=" + batchId;
 					$("#tbody_category").load(path);
 			};   
 			
@@ -589,6 +591,7 @@
 		<form id="form_id" action="" method="post">
 			<input name="expertId" value="${expertId}" type="hidden">
 			<input name="sign" value="${sign}" type="hidden">
+			<input name="batchId" value="${batchId}" type="hidden">
 		</form>
         <input id="status" value="${status}" type="hidden">
 	</body>
