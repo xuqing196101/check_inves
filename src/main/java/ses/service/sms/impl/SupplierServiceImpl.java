@@ -411,6 +411,9 @@ public class SupplierServiceImpl implements SupplierService {
 	  if(supplier.getBranchName()==null){
 		supplier.setBranchName("0");
 	  }
+	  if(supplier.getPurchaseExperience()==null){
+		supplier.setPurchaseExperience("");
+	  }
 
       supplierMapper.updateByPrimaryKeySelective(supplier);
 
@@ -2059,5 +2062,11 @@ public class SupplierServiceImpl implements SupplierService {
     PageHelper.startPage((Integer) map.get("pageExpFormal"), 20);
     return supplierMapper.selectExpertNumberFormal(map);
   }
+
+	@Override
+	public boolean checkIdCard(String id, String idCard) {
+		int count = supplierMapper.countByIdCard(id, idCard);
+		return count > 0 ? false : true;
+	}
 
 }

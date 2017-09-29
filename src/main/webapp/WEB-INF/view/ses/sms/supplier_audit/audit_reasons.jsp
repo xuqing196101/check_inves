@@ -288,10 +288,15 @@
 								success:function(result){
 									if(result && result.status == 500){
 										layer.msg(result.msg, {offset : '100px'});
-										$('input[name="chkItem"]:checked').each(function(){
+										/* $('input[name="chkItem"]:checked').each(function(){
 											$(this).parents("tr").find("td:last").text(getStatusText(status));
 									 	});
-							 			$("input[type='radio'][name='auditStatus']").attr("checked", false);
+							 			$("input[type='radio'][name='auditStatus']").attr("checked", false); */
+							 			window.setTimeout(function(){
+                      var action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
+                      $("#form_id").attr("action",action);
+                      $("#form_id").submit();
+                    }, 1000);
 									}else{
 										layer.msg(result.msg, {offset : '100px'});
 									}
@@ -442,15 +447,15 @@
 									  <c:if test="${reasons.auditType eq 'download_page'}">申请表</c:if>
 									</td>
 									<td class="text-center" title="${reasons.auditFieldName }">
-									  <c:if test="${fn:length (reasons.auditFieldName) > 12}">${fn:substring(reasons.auditFieldName,0,12)}...</c:if>
+									  <c:if test="${fn:length(reasons.auditFieldName) > 12}">${fn:substring(reasons.auditFieldName,0,12)}...</c:if>
 									<c:if test="${fn:length(reasons.auditFieldName) <= 12}">${reasons.auditFieldName}</c:if>
 									</td>
 									<td class="" title="${reasons.auditContent}">
-									<c:if test="${fn:length (reasons.auditContent) > 25}">${fn:substring(reasons.auditContent,0,25)}...</c:if>
+									<c:if test="${fn:length(reasons.auditContent) > 25}">${fn:substring(reasons.auditContent,0,25)}...</c:if>
 										<c:if test="${fn:length(reasons.auditContent) <= 25}">${reasons.auditContent}</c:if>
 									</td>
 									<td class="" title="${reasons.suggest}">
-										<c:if test="${fn:length (reasons.suggest) > 35}">${fn:substring(reasons.suggest,0,35)}...</c:if>
+										<c:if test="${fn:length(reasons.suggest) > 35}">${fn:substring(reasons.suggest,0,35)}...</c:if>
 										<c:if test="${fn:length(reasons.suggest) <= 35}">${reasons.suggest}</c:if>
 									     </td>
 									<td class="tc" title="<fmt:formatDate value="${reasons.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/>">
@@ -464,7 +469,7 @@
 											<c:when test="${reasons.returnStatus == 4}">未修改</c:when>
 										</c:choose>
 										<!-- 若存在新审核的和已审核未修改的，则表示未通过（产品审核不通过，可以预审核通过） -->
-										<c:if test="${(reasons.isDeleted == 0  && reasons.returnStatus != 2 )|| reasons.returnStatus == 4}">
+										<c:if test="${(reasons.isDeleted == 0  && reasons.returnStatus != 2) || reasons.returnStatus == 1 || reasons.returnStatus == 4}">
 											<c:set var="isNotPass" value="1" />
 										</c:if>
 									</td>

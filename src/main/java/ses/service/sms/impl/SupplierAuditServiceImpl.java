@@ -2341,6 +2341,15 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 				}
 				SupplierAudit supplierAudit = new SupplierAudit();
 				supplierAudit.setId(id);
+				if(status == 1){// 退回修改
+					supplierAudit.setIsDeleted(0);
+				}
+				if(status == 3){// 已修改
+					supplierAudit.setIsDeleted(1);
+				}
+				if(status == 4){ // 未修改
+					supplierAudit.setIsDeleted(1);
+				}
 				supplierAudit.setReturnStatus(status);
 				result += supplierAuditMapper.updateByIdSelective(supplierAudit);
 			}
