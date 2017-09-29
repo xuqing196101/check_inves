@@ -1139,7 +1139,7 @@
 												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 												<w:sz w:val="18" />
 												<w:szCs w:val="18" /></w:rPr>
-											<w:t>${ex.name}</w:t>
+											<w:t>${ex.relName}</w:t>
 										</w:r>
 									</w:p>
 								</w:tc>
@@ -1166,7 +1166,7 @@
 												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 												<w:sz w:val="18" />
 												<w:szCs w:val="18" /></w:rPr>
-											<w:t>${ex.company}</w:t>
+											<w:t>${ex.orgName}</w:t>
 										</w:r>
 									</w:p>
 								</w:tc>
@@ -1193,7 +1193,7 @@
 												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 												<w:sz w:val="18" />
 												<w:szCs w:val="18" /></w:rPr>
-											<w:t>${ex.job}</w:t>
+											<w:t>${ex.duties}</w:t>
 										</w:r>
 									</w:p>
 								</w:tc>

@@ -87,4 +87,8 @@
    <update  id="updateExpertBatchDetailsGrouping" parameterType="ses.model.ems.ExpertBatchDetails">
    		update T_SYS_EMS_EXPERT_BATCH_DETAILS SET GROUP_ID=#{groupId,jdbcType=VARCHAR},GROUP_NAME=#{groupName,jdbcType=VARCHAR},UPDATED_AT=#{updatedAt,jdbcType=TIMESTAMP} where ID=#{id,jdbcType=VARCHAR}
    </update>
+   
+   <select id="selGroupIdByExpertId" parameterType="String" resultType="String">
+     SELECT GROUP_ID FROM T_SYS_EMS_EXPERT_BATCH_DETAILS WHERE EXPERT_ID = #{expertId} ORDER BY CREATED_AT DESC
+   </select>
 </mapper>
