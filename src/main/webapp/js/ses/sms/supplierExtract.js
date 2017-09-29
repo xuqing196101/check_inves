@@ -1990,6 +1990,7 @@ $(function () {
             	$(select).parents("td").html("能参加");
             	appendTd(req,obj,"能参加");
             }else{
+            	$(select).find("[value='0']").remove();
             	saveResult(objTr, '',2);
     			appendTd(req,obj,"待定");
             }
