@@ -1501,7 +1501,7 @@ public class ExpertAuditController{
         	ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("seven");
-			expertAuditFor.settype("1");
+			expertAuditFor.setType("1");
 			expertAuditFor.setAuditFalg(sign);
 			//复审退回修改，初审时显示的是复审的审核信息
 			if("10".equals(expert.getStatus())){
@@ -1528,7 +1528,7 @@ public class ExpertAuditController{
 			}
 			
 			//不通过字段（执业资格）
-			expertAuditFor.settype("2");
+			expertAuditFor.setType("2");
 			List < ExpertAudit > engReasonsList = expertAuditService.getListByExpert(expertAuditFor);
 			StringBuffer engErrorField = new StringBuffer();
 			if(!engReasonsList.isEmpty()){
@@ -1699,7 +1699,7 @@ public class ExpertAuditController{
 			ExpertAudit audit = new ExpertAudit();
 			audit.setExpertId(expertId);
 			audit.setSuggestType("seven");
-			audit.settype("1");
+			audit.setType("1");
 			List<ExpertAudit> list = expertAuditService.getListByExpert(expertAudit);
 			
 			for (String string : split) {
@@ -2035,7 +2035,7 @@ public class ExpertAuditController{
 				ExpertAudit expertAudit = new ExpertAudit();
 				expertAudit.setExpertId(expert.getId());
 				expertAudit.setAuditFieldId(typeId);
-				expertAudit.settype("1");
+				expertAudit.setType("1");
 				List<ExpertAudit> expertauList = expertAuditService.selectFailByExpertId(expertAudit);
 				if(expertauList != null && expertauList.size() > 0){
 					expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
@@ -2061,7 +2061,10 @@ public class ExpertAuditController{
 			expertAuditOpinion.setExpertId(expert.getId());
 			expertAuditOpinion = expertAuditOpinionService.selectByPrimaryKey(expertAuditOpinion);
 			//拼接参评类别审核意见
-			String count = findCategoryCount(expert.getId(),Integer.valueOf(tableType));
+			String count = "";
+			if("1".equals(tableType)){
+				count = findCategoryCount(expert.getId(),Integer.valueOf(tableType));
+			}
 			Map<String, Object> remap = JSON.parseObject(count); 
 			String categoryReason = "";
 			if("1".equals(expert.getStatus()) && "1".equals(tableType)){
@@ -2317,7 +2320,7 @@ public class ExpertAuditController{
     		ExpertAudit expertAudit22 = new ExpertAudit();
 			expertAudit22.setExpertId(expert.getId());
 			expertAudit22.setAuditFieldId(cateTree.getRootNodeCode());
-			expertAudit22.settype("1");
+			expertAudit22.setType("1");
 			expertAudit22.setAuditFalg(auditFalg);
 			List<ExpertAudit> expertauList = expertAuditService.selectFailByExpertId(expertAudit22);
 			if(expertauList != null && expertauList.size() > 0){
@@ -3464,7 +3467,7 @@ public class ExpertAuditController{
 			noPass = expertAuditList.size();
 		}
 		expertAudit.setSuggestType("seven");
-		expertAudit.settype("1");
+		expertAudit.setType("1");
 		List<ExpertAudit> expertTypeAuditList = expertAuditService.getListByExpert(expertAudit);
 		for (ExpertAudit e : expertTypeAuditList) {
 			DictionaryData data = DictionaryDataUtil.findById(e.getAuditFieldId());

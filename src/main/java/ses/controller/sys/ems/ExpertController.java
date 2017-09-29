@@ -608,7 +608,7 @@ public class ExpertController extends BaseController {
             	ExpertAudit expertAuditFor = new ExpertAudit();
     			expertAuditFor.setExpertId(expertId);
     			expertAuditFor.setSuggestType("seven");
-    			expertAuditFor.settype("1");
+    			expertAuditFor.setType("1");
     			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
     			
     			
@@ -622,7 +622,7 @@ public class ExpertController extends BaseController {
     			}
     			
     			//不通过字段（执业资格）
-    			expertAuditFor.settype("2");
+    			expertAuditFor.setType("2");
     			List < ExpertAudit > engReasonsList = expertAuditService.getListByExpert(expertAuditFor);
     			StringBuffer engErrorField = new StringBuffer();
     			if(!engReasonsList.isEmpty()){

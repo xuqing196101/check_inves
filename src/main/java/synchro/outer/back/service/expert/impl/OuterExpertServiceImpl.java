@@ -134,6 +134,11 @@ public class OuterExpertServiceImpl implements OuterExpertService {
                 //专家审核记录表
                 List<ExpertAudit> expertAuditList = expertAuditMapper.selectByExpertId(expert.getId());
                 if(null != expertAuditList){
+                	for (ExpertAudit expertAudit : expertAuditList) {
+                		if(expertAudit!=null){
+                			expertAudit.setDataType(expertAudit.getType());
+                		}
+					}
                     expert.setExpertAuditList(expertAuditList);
                 }
                 //工程执业资格历史表
@@ -439,6 +444,5 @@ public class OuterExpertServiceImpl implements OuterExpertService {
 	    	}
     	 return attchs;
     }
-    
     
 }

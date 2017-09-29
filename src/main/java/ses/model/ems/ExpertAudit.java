@@ -21,6 +21,7 @@ public class ExpertAudit implements Serializable{
     private String auditResult;
     //是否为历史数据 0否  1是
     private String type;
+    private String dataType;
     //审核时间
     private Date auditAt;
     //是否删除0否  1是
@@ -66,7 +67,16 @@ public class ExpertAudit implements Serializable{
         return auditUserName;
     }
 
-    public void setAuditUserName(String auditUserName) {
+    
+    public String getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
+	}
+
+	public void setAuditUserName(String auditUserName) {
         this.auditUserName = auditUserName == null ? null : auditUserName.trim();
     }
 
@@ -94,14 +104,18 @@ public class ExpertAudit implements Serializable{
         this.auditAt = auditAt;
     }
 
-    public String gettype() {
-        return type;
-    }
+   
 
-    public void settype(String type) {
-        this.type = type == null ? null : type.trim();
-    }
 
+	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	public Integer getIsDeleted() {
 		return isDeleted;

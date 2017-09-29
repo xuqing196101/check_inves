@@ -368,6 +368,36 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 			ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 			expertBatchDetails.setGroupId(group.getGroupId());
 			List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
+			for (ExpertBatchDetails e : list) {
+
+				StringBuffer expertType = new StringBuffer();
+	            if(e.getExpertsTypeId() != null) {
+	                for(String typeId: e.getExpertsTypeId().split(",")) {
+	                    DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeId);
+	                    if(data != null){
+	                    	if(6 == data.getKind()) {
+	                            expertType.append(data.getName() + "技术、");
+	                        } else {
+	                            expertType.append(data.getName() + "、");
+	                        }
+	                    }
+	                    
+	                }
+	                if(expertType.length() > 0){
+	                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+	                	 e.setExpertsTypeId(expertsType);
+	                }
+	            } else {
+	                e.setExpertsTypeId("");
+	            }
+	            
+	          //专家来源
+	      		if(e.getExpertsFrom() != null) {
+	      			DictionaryData expertsFrom = dictionaryDataMapper.selectByPrimaryKey(e.getExpertsFrom());
+	      			e.setExpertsFrom(expertsFrom.getName());
+	      		}
+			
+			}
 			map.put("expertList", list);
 			resultList.add(map);
 		}

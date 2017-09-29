@@ -92,7 +92,7 @@
       <table class="table table-bordered table-condensed table-hover table-striped againAudit_table" id="fixed_columns">
         <thead>
           <tr>
-            <th class="w30"><input type="checkbox" name="checkAll" onclick="checkAll(this)"></th>
+            <th class="w30"><input type="checkbox" name="checkAll" onclick="againAudit_checkAll()"></th>
             <th class="w50">序号</th>
             <th class="w100">采购机构</th>
             <th class="w100">专家姓名</th>
