@@ -105,7 +105,7 @@ public class ExtractExpertController {
     public String toExpertExtract(@CurrentUser User user,Model model,String projectId,String projectInto,String packageId,String packageName){
         //权限验证  资源服务中心  采购机构  可以抽取
         String authType = null;
-        if(null != user && ("4".equals(user.getTypeName()) || "1".equals(user.getTypeName()))){
+        if(null != user && ("1".equals(user.getTypeName()))){
             authType = user.getTypeName();
             //采购方式
             List<DictionaryData> purchaseWayList = DictionaryDataUtil.find(5);
