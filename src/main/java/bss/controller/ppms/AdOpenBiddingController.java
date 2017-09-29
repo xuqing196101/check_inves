@@ -60,6 +60,7 @@ import ses.util.WordUtil;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.FlowExecute;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Negotiation;
 import bss.model.ppms.NegotiationReport;
@@ -660,6 +661,18 @@ public class AdOpenBiddingController {
             }
             getDefaultTemplate(project, data, model, WIN_NOTICE);
         }
+        FlowExecute flowExecute = new FlowExecute();
+        flowExecute.setFlowDefineId(flowDefineId);
+        flowExecute.setProjectId(projectId);
+        List<FlowExecute> findFlowExecute = flowMangeService.findFlowExecute(flowExecute);
+        if (findFlowExecute != null && !findFlowExecute.isEmpty()) {
+    		for (FlowExecute flowExecute2 : findFlowExecute) {
+    			if (!StringUtils.equals(user.getId(), flowExecute2.getOperatorId())) {
+    				model.addAttribute("operatorId", 1);
+    				break;
+    			}
+    		}
+    	}
         article.setProjectId(projectId);
         //查询公告列表中是否有该项目的招标公告
         List<Article> articles = articelService.selectArticleByProjectId(article);

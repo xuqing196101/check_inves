@@ -122,8 +122,7 @@
     p.ID AS id,
     p.NAME AS name,
     p.AD_PROJECT_ID AS projectId,
-    p.STATUS AS
-    status,
+    p.STATUS AS status,
     p.BID_METHOD_ID as bidMethodId,
     b.name as bidMethodName,
     b.MAX_SCORE as bidMethodMaxScore,
@@ -496,5 +495,42 @@
         AND IS_REMOVED in ('0' , '2') 
       )
   </select>
+  
+  <!-- 查询包 按照创建时间-->
+	<select id="selectPackageOrderByCreated" parameterType="java.util.Map" resultType="bss.model.ppms.AdvancedPackages">
+		SELECT DISTINCT
+			pa.ID AS id,
+			pa.NAME AS name,
+			pa.AD_PROJECT_ID AS projectId,
+			pr.NAME AS projectName,
+			pa.STATUS AS status,
+			pa.CREATED_AT AS createdAt,
+			pa.PURCHASE_TYPE AS purchaseType,
+			pa.IS_IMPORT AS isImport,
+			pa.IS_END_PRICE AS isEndPrice
+		FROM
+		T_BSS_PPMS_ADVANCED_PACKAGE pa
+		LEFT JOIN T_BSS_PPMS_ADVANCED_PROJECTS pr 
+		on pa.AD_PROJECT_ID = pr.ID LEFT JOIN T_BSS_PPMS_BID_METHOD BM ON PA.ID = BM.PACKAGE_ID
+		WHERE
+		nvl(pa.IS_DELETED,0)=0 AND pr. NAME IS NOT NULL
+		<if test="projectId != null and projectId !=''">
+			AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectId}), '%')
+		</if>
+		<if test="projectName != null and projectName !=''">
+			AND pr.NAME like CONCAT(CONCAT('%', #{projectName}), '%')
+		</if>
+		<if test="id != null and id !=''">
+			AND pa.ID = #{id}
+		</if>
+		<if test="packageName != null and packageName !=''">
+			AND pa.NAME like CONCAT(CONCAT('%', #{packageName}), '%')
+		</if>
+		<if test="typeName != null and typeName !=''">
+			AND BM.TYPE_NAME = #{typeName}
+		</if>
+		ORDER BY
+		pa.CREATED_AT DESC
+	</select>
 
 </mapper>

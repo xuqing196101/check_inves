@@ -17,6 +17,11 @@
             $(this).hide();
           });
           $("#a").hide();
+          
+          $("input[type='radio']").each(function(){
+            $(this).attr("disabled",true); 
+          });
+          $("input[name='categoryName']").attr("disabled",true);
         }
       })
 
@@ -465,16 +470,18 @@
             <script id="editor" name="content" type="text/plain" class="ml125 w900 edit-posit"></script>
           </div>
         </li>
-        <li class="col-md-3 col-sm-6 col-xs-12 pl15 mt5">
-          <span class="fl">公告附件：</span>
-          <u:upload id="a" groups="a,c,e" buttonName="上传附件" businessId="${articleId}" multiple="true" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-          <u:show showId="b" groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${typeId}" />
-        </li>
-        <li class="col-md-3 col-sm-6 col-xs-12 pl15 mt5">
-          <span class="fl">单位及保密委员会审核表： </span>
-          <u:upload id="e" exts="png,jpeg,jpg,bmp" groups="a,c,f" multiple="true" businessId="${articleId}" sysKey="${sysKey}" typeId="${security}" auto="true" />
-          <u:show showId="f" groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${security}" />
-        </li>
+        <c:if test="${operatorId eq null}">
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15 mt5">
+	          <span class="fl">公告附件：</span>
+	          <u:upload id="a" groups="a,c,e" buttonName="上传附件" businessId="${articleId}" multiple="true" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+	          <u:show showId="b" groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${typeId}" />
+	        </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15 mt5">
+	          <span class="fl">单位及保密委员会审核表： </span>
+	          <u:upload id="e" exts="png,jpeg,jpg,bmp" groups="a,c,f" multiple="true" businessId="${articleId}" sysKey="${sysKey}" typeId="${security}" auto="true" />
+	          <u:show showId="f" groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${security}" />
+	        </li>
+        </c:if>
       </ul>
       <div class="w100p tc fl">
         <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>

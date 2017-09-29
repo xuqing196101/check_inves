@@ -166,6 +166,7 @@
     
     //引入其他项目包的评审项
     function loadOtherPackage(packageId,projectId){
+    	var flowDefineId = "${flowDefineId}";
     	layer.open({
             type: 2,
             title: '引入模板',
@@ -176,7 +177,7 @@
             shift: 1, //0-6的动画形式，-1不开启
             offset: '20px',
             shadeClose: false,
-            content: '${pageContext.request.contextPath}/intelligentScore/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId
+            content: '${pageContext.request.contextPath}/intelligentScore/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId+'&flowDefineId='+flowDefineId
           });
     	
     }
@@ -360,6 +361,14 @@
 					$("#fatId").append(html);
 				}
 			});
+			
+			var bool = "${flag}";
+    	if(bool){
+    		$("a").each(function() {
+         	$(this).removeAttr("onclick");
+         	$(this).removeClass();
+      	});
+    	}
 	});
 	
 	function findTem(){
@@ -396,7 +405,7 @@
 		</div>
    	</div>
     <h2 class="list_title">${packages.name}  经济技术审查项编辑</h2>
-    <c:if test="${project.confirmFile != 1 && isView != 1}">
+    <c:if test="${project.confirmFile != 1 && isView != 1 && flag ne '1'}">
   <div class="search_detail ml0">
 	        <div class="row">
 	          <div class="col-md-3 col-sm-5 col-xs-12 p0">
@@ -452,7 +461,7 @@
         </div>
     </div>
 	    <div class="mt40 tc mb50">
-	    <c:if test="${project.confirmFile != 1  && isView != 1}">
+	    <c:if test="${project.confirmFile != 1  && isView != 1 && flag ne '1'}">
 	        <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}'">返回</button>
 	        </c:if>
 	    </div>

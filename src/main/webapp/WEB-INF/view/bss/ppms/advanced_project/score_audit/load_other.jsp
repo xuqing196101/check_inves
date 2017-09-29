@@ -52,7 +52,7 @@
     
     //显示包评审项信息
     function view(packageId,projectId){
-    	window.open("${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId="+packageId+"&projectId="+projectId+"&flag="+1);   
+    	window.open("${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId="+packageId+"&projectId="+projectId+"&flag="+1);   
     }
     
     //引入包评审项
@@ -70,7 +70,7 @@
                      layer.msg("引用 失败");
                  }else{
                      parent.window.setTimeout(function(){
-                         parent.window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;;
+                         parent.window.location.href = '${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
                      }, 1000);
                      layer.msg("引用 成功");
                  }
@@ -85,7 +85,7 @@
   <body>
     <div class="">
     <h2 class="search_detail">
-       <form action="${pageContext.request.contextPath}/intelligentScore/loadOtherPackage.html" method="post" class="mb0" id="form1">
+       <form action="${pageContext.request.contextPath}/adIntelligentScore/loadOtherPackage.html" method="post" class="mb0" id="form1">
         <input type="hidden" name="page" id="page">
         <input type="hidden" name="oldPackageId" id="oldpackageId" value="${oldPackageId}">
         <input type="hidden" name="oldProjectId" id="oldprojectId" value="${oldProjectId}">
@@ -122,7 +122,7 @@
                 <td>${pa.projectName}</td>
                 <td class="tc">${pa.name}</td>
                 <td class="tc">
-	                <button class="btn" type="button" onclick="view('${pa.id}','${pa.project.id}');">包信息</button>
+	                <button class="btn" type="button" onclick="view('${pa.id}','${pa.projectId}');">包信息</button>
 	                <button class="btn" type="button" onclick="loadPackage('${pa.id}');">引入</button>
                 </td>
 	            </tr>

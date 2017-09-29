@@ -36,6 +36,7 @@
     
     //修改评审项
     function editItem(obj,id){
+    	var flowDefineId = "${flowDefineId}";
       //得到点击坐标。
         var y;  
         oRect = obj.getBoundingClientRect();  
@@ -50,12 +51,13 @@
             shift: 1, //0-6的动画形式，-1不开启
             offset: y,
             shadeClose: false,
-            content: '${pageContext.request.contextPath}/adFirstAudit/editItem.html?id='+id+'&isConfirm=0'
+            content: '${pageContext.request.contextPath}/adFirstAudit/editItem.html?id='+id+'&isConfirm=0'+'&flowDefineId='+flowDefineId
           });
     }
     
     //删除评审项 
     function delItem(id){
+    	var flowDefineId = "${flowDefineId}";
       layer.confirm('您确定要删除吗?', {title:'提示',offset: '50px',shade:0.01}, function(index){
         $.ajax({   
               type: "POST",  
@@ -67,7 +69,7 @@
                   }else{
                      var packageId = $("#packageId").val();
                      var projectId = $("#projectId").val();
-                     window.location.href = '${pageContext.request.contextPath}/adFirstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+                     window.location.href = '${pageContext.request.contextPath}/adFirstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
                       layer.msg(result.msg,{offset: ['150px']});
                       layer.close(index);
                   }
@@ -84,13 +86,9 @@
         layer.closeAll();
     }
     
-    //返回模板列表
-    function goBack(){
-      
-    }
-    
     //保存评审项
     function saveItem(){
+    	var flowDefineId = "${flowDefineId}";
       $.ajax({   
             type: "POST",  
             url: "${pageContext.request.contextPath}/adFirstAudit/savePackageFirstAudit.html",       
@@ -102,7 +100,7 @@
                 }else{
                     var packageId = $("#packageId").val();
                     var projectId = $("#projectId").val();
-                    window.location.href = '${pageContext.request.contextPath}/adFirstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+                    window.location.href = '${pageContext.request.contextPath}/adFirstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
                     layer.closeAll();
                     layer.msg(result.msg,{offset: ['150px']});
                 }
@@ -119,6 +117,7 @@
             shade: [0.2,'#BFBFBF'] //0.1透明度的白色背景
           });
       var fatId = $("#fatId").val();
+      var flowDefineId = "${flowDefineId}";
       if (fatId != null && fatId != '') {
         $.ajax({   
               type: "POST",  
@@ -131,7 +130,7 @@
                   }else{
                       var packageId = $("#packageId").val();
                       var projectId = $("#projectId").val();
-                      window.location.href = '${pageContext.request.contextPath}/adFirstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+                      window.location.href = '${pageContext.request.contextPath}/adFirstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
                       layer.closeAll();
                       layer.msg(result.msg,{offset: ['150px']});
                   }
@@ -147,6 +146,7 @@
     
     //引入其他项目包的评审项
     function loadOtherPackage(packageId,projectId){
+    	var flowDefineId = "${flowDefineId}";
       layer.open({
             type: 2,
             title: '引入模板',
@@ -157,7 +157,7 @@
             shift: 1, //0-6的动画形式，-1不开启
             offset: '20px',
             shadeClose: false,
-            content: '${pageContext.request.contextPath}/adFirstAudit/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId
+            content: '${pageContext.request.contextPath}/adFirstAudit/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId+'&flowDefineId='+flowDefineId
           });
     }
     

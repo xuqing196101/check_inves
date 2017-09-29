@@ -127,6 +127,22 @@
         } else {
         	var bool = verify();
         	if(bool){
+        	   var nameTr=document.getElementsByName("attr");
+        	   var checkName=[];
+        	   for(var i=0;i<nameTr.length;i++){
+	        	   if($(nameTr[i]).children(":first").children()[1].checked==true){
+	        	     checkName.push($(nameTr[i]).children()[10]);
+	        	   }
+        	   }
+        	   for(var i=0;i<checkName.length;i++){
+        	      if(i != 0){
+        	        if($(checkName[i]).text()!=$(checkName[i-1]).text()){
+        	           layer.msg("采购方式不一样");
+        	           return false;
+        	        }
+        	      }
+        	   }
+        	
         		layer.open({
             type: 2, //page层
             area: ['80%', '300px'],
@@ -251,7 +267,7 @@
                 </thead>
                 <tbody id="task_id">
                   <c:forEach items="${lists}" var="obj" varStatus="vs">
-                    <tr>
+                    <tr <c:if test="${obj.price != null}">name="attr"</c:if>>
                       <td class="tc choose">
                         <input type="hidden" name="pId_${obj.parentId}" value="${obj.parentId}" />
                         <input type="checkbox" value="${obj.id}" name="chkItem_${obj.id}" onclick="chkItems(this)" />

@@ -582,7 +582,7 @@ public class IntelligentScoringController extends BaseController{
     }
 	
 	@RequestMapping("/editPackageScore")
-	public String editPackageScore(HttpServletRequest request, String packageId, Model model, String projectId, String flowDefineId){    
+	public String editPackageScore(HttpServletRequest request, String packageId, Model model, String projectId, String flowDefineId, String flag){    
 	    //获取评分办法数据字典编码
 	    String methodCode = bidMethodService.getMethod(projectId, packageId);
 	    if (methodCode != null && !"".equals(methodCode)) {
@@ -646,6 +646,7 @@ public class IntelligentScoringController extends BaseController{
     	        model.addAttribute("flowDefineId", flowDefineId);
     	        model.addAttribute("ddList", ddList);
     	        model.addAttribute("str", str);
+    	        model.addAttribute("flag", flag);
     	        return "bss/prms/score/edit_package_qc";
   	      }
       }

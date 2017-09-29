@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.oms.util.CommonConstant;
 import ses.model.oms.util.Ztree;
@@ -36,7 +38,9 @@ import bss.controller.base.BaseController;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.BidMethod;
+import bss.model.ppms.FlowExecute;
 import bss.model.ppms.MarkTerm;
+import bss.model.ppms.Packages;
 import bss.model.ppms.ParamInterval;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplyMark;
@@ -44,6 +48,7 @@ import bss.model.prms.FirstAudit;
 import bss.service.ppms.AdvancedPackageService;
 import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.BidMethodService;
+import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.MarkTermService;
 import bss.service.ppms.ParamIntervalService;
 import bss.service.ppms.ScoreModelService;
@@ -51,6 +56,7 @@ import bss.service.prms.FirstAuditService;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 /**
  * 
  * 版权：(C) 版权所有 
@@ -65,9 +71,12 @@ import com.github.pagehelper.PageInfo;
 @Scope("prototype")
 @RequestMapping("/adIntelligentScore")
 public class AdIntelligentScoringController extends BaseController{
+	
     private AjaxJsonData ajaxJsonData = new AjaxJsonData();
+    
 	@Autowired
 	private AdvancedPackageService packageService;
+	
 	@Autowired
 	private ScoreModelService scoreModelService;
 	
@@ -79,11 +88,15 @@ public class AdIntelligentScoringController extends BaseController{
 	
 	@Autowired
 	private BidMethodService bidMethodService;
+	
 	@Autowired
 	private AdvancedProjectService projectService;
 	
 	@Autowired
 	private FirstAuditService auditService;
+	
+	@Autowired
+	private FlowMangeService flowMangeService;
 	
     @RequestMapping(value = "checkScore")
     @ResponseBody
@@ -388,7 +401,7 @@ public class AdIntelligentScoringController extends BaseController{
       }
 	
 	@RequestMapping(value = "deleteScoreModel")
-	public String deleteScoreModel(String id, Integer deleteStatus, String projectId ,String packageId) {
+	public String deleteScoreModel(String id, Integer deleteStatus, String projectId ,String packageId, String flowDefineId) {
 	  //为2为顶级结点     1 为子节点
         HashMap<String, Object> map = new HashMap<String, Object>();
         HashMap<String, Object> conditionMap = new HashMap<String, Object>();
@@ -416,8 +429,24 @@ public class AdIntelligentScoringController extends BaseController{
             map.put("id", id);
             markTermService.delMarkTermByid(map);
         }
-	    return "redirect:editPackageScore.html?projectId=" + projectId + "&packageId=" + packageId;
+	    return "redirect:editPackageScore.html?projectId=" + projectId + "&packageId=" + packageId + "&flowDefineId=" + flowDefineId;
 	}
+	
+	@RequestMapping("/loadOtherPackage")
+	  public String loadOtherPackage(Model model, Integer page,String projectName, String packageName, String oldPackageId, String oldProjectId, String flowDefineId){
+	      HashMap<String, Object> map = new HashMap<String, Object>();
+	      map.put("projectName", projectName);
+	      map.put("packageName", packageName);
+	      map.put("typeName", "2");
+	      List<AdvancedPackages> list = packageService.selectPackageOrderByCreated(map, page == null ? 1 : page);
+	      model.addAttribute("list", new PageInfo<AdvancedPackages>(list));
+	      model.addAttribute("projectName", projectName);
+	      model.addAttribute("packageName", packageName);
+	      model.addAttribute("oldPackageId", oldPackageId);
+	      model.addAttribute("oldProjectId", oldProjectId);
+	      model.addAttribute("flowDefineId", flowDefineId);
+	      return "bss/ppms/advanced_project/score_audit/load_other";
+	  }
 	
 	@RequestMapping(value = "saveScore")
 	public void saveScore(HttpServletResponse response, BidMethod bm) throws IOException {
@@ -523,7 +552,7 @@ public class AdIntelligentScoringController extends BaseController{
     }
 	
 	@RequestMapping("/editPackageScore")
-	public String editPackageScore(HttpServletRequest request, String packageId, Model model, String projectId, String flowDefineId){
+	public String editPackageScore(HttpServletRequest request, String packageId, Model model, String projectId, String flowDefineId, String flag){
 	  //获取评分办法数据字典编码
         String methodCode = bidMethodService.getMethod(projectId, packageId);
         if (methodCode != null && !"".equals(methodCode)) {
@@ -589,6 +618,7 @@ public class AdIntelligentScoringController extends BaseController{
                 model.addAttribute("flowDefineId", flowDefineId);
                 model.addAttribute("ddList", ddList);
                 model.addAttribute("str", str);
+                model.addAttribute("flag", flag);
                 return "bss/ppms/advanced_project/advanced_bid_file/edit_package_qc1";
           }
         }          
@@ -757,8 +787,8 @@ public class AdIntelligentScoringController extends BaseController{
 	}
 	
 	
-	@RequestMapping("packageList")
-	public String packageList(@ModelAttribute AdvancedPackages packages,Model model,HttpServletRequest request, String flowDefineId, String msg){
+	@RequestMapping("/packageList")
+	public String packageList(@CurrentUser User user, @ModelAttribute AdvancedPackages packages,Model model,HttpServletRequest request, String flowDefineId, String msg){
 	    HashMap<String,Object> map = new HashMap<String,Object>();
         map.put("projectId", packages.getProjectId());
         AdvancedProject project = projectService.selectById(packages.getProjectId());
@@ -809,9 +839,24 @@ public class AdIntelligentScoringController extends BaseController{
                 packages2.setIsHaveScoreMethod(2);
             }
         }
+        
+        if (StringUtils.isNotBlank(flowDefineId)) {
+        	FlowExecute flowExecute = new FlowExecute();
+            flowExecute.setFlowDefineId(flowDefineId);
+            flowExecute.setProjectId(project.getId());
+            List<FlowExecute> executes = flowMangeService.findFlowExecute(flowExecute);
+            if(executes != null && executes.size() > 0){
+                for (FlowExecute flowExecute2 : executes) {
+                    if(!StringUtils.equals(user.getId(), flowExecute2.getOperatorId()) || flowExecute2.getStatus() == 3){
+                        project.setConfirmFile(1);
+                        break;
+                    }
+                }
+            }
+		}
+        
         List<DictionaryData> ddList = DictionaryDataUtil.find(27);
         model.addAttribute("ddList", ddList);
-        //
         model.addAttribute("packagesList", packagesList);
         model.addAttribute("projectId", packages.getProjectId());
         model.addAttribute("flowDefineId", flowDefineId);
@@ -1165,7 +1210,7 @@ public class AdIntelligentScoringController extends BaseController{
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("gettreebody")
-	public String gettreebody(@ModelAttribute MarkTerm markTerm,Model model,HttpServletRequest request ,String addStatus) throws UnsupportedEncodingException {
+	public String gettreebody(@ModelAttribute MarkTerm markTerm,Model model,HttpServletRequest request ,String addStatus, String flowDefineId) throws UnsupportedEncodingException {
 	    String packageId = request.getParameter("packageId");
         ScoreModel scoreModel = new ScoreModel();
         scoreModel.setName(URLDecoder.decode(markTerm.getName(), "UTF-8"));
@@ -1245,6 +1290,7 @@ public class AdIntelligentScoringController extends BaseController{
             }
         model.addAttribute("projectId", markTerm.getProjectId());
         model.addAttribute("addStatus", addStatus);
+        model.addAttribute("flowDefineId", flowDefineId);
 		return "bss/ppms/advanced_project/advanced_bid_file/treebody";
 	}
 	

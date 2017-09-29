@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +19,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.FlowExecute;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.FirstAuditTemitem;
 import bss.model.prms.FirstAuditTemplat;
@@ -29,6 +32,7 @@ import bss.model.prms.PackageFirstAudit;
 import bss.service.ppms.AdvancedDetailService;
 import bss.service.ppms.AdvancedPackageService;
 import bss.service.ppms.AdvancedProjectService;
+import bss.service.ppms.FlowMangeService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.FirstAuditTemitemService;
 import bss.service.prms.FirstAuditTemplatService;
@@ -56,6 +60,8 @@ public class AdFirstAuditController {
     private FirstAuditTemplatService firstAuditTemplatService;//符合性审查模板
     @Autowired
     private FirstAuditTemitemService firstAuditTemitemService;//符合性审查模板评审项
+    @Autowired
+    private FlowMangeService flowMangeService;
 
 	
     /**
@@ -68,7 +74,7 @@ public class AdFirstAuditController {
       * @return String
      */
     @RequestMapping("/toAdd")
-    public String toAdd(String projectId, Model model, String flowDefineId, String msg){
+    public String toAdd(@CurrentUser User user, String projectId, Model model, String flowDefineId, String msg){
         try {
           AdvancedProject project = projectService.selectById(projectId);
           HashMap<String, Object> map = new HashMap<String, Object>();
@@ -81,9 +87,25 @@ public class AdFirstAuditController {
               List<FirstAudit> fas = service.findBykind(firstAudit);
               //是否维护符合性审查项
               if (fas == null || fas.size() <= 0) {
+            	  project.setStatus(DictionaryDataUtil.getId("ZBWJNZZ"));
+            	  projectService.update(project);
                   advancedPackages.setIsEditFirst(0);
               } else {
                   advancedPackages.setIsEditFirst(1);
+              }
+          }
+          
+          //查看是否环节结束，结束只能查看
+          FlowExecute flowExecute = new FlowExecute();
+          flowExecute.setFlowDefineId(flowDefineId);
+          flowExecute.setProjectId(project.getId());
+          List<FlowExecute> executes = flowMangeService.findFlowExecute(flowExecute);
+          if(executes != null && executes.size() > 0){
+              for (FlowExecute flowExecute2 : executes) {
+                  if(!StringUtils.equals(user.getId(), flowExecute2.getOperatorId()) || flowExecute2.getStatus() == 3){
+                      project.setConfirmFile(1);
+                      break;
+                  }
               }
           }
       
@@ -367,10 +389,11 @@ public class AdFirstAuditController {
    * @return
    */
   @RequestMapping("/editItem")
-  public String editItem(String id, Model model, Short isConfirm){
+  public String editItem(String id, Model model, Short isConfirm, String flowDefineId){
       FirstAudit firstAudit = service.get(id);
       model.addAttribute("item", firstAudit);
       model.addAttribute("isConfirm", isConfirm);
+      model.addAttribute("flowDefineId", flowDefineId);
     return "bss/ppms/advanced_project/advanced_bid_file/qc_edit_item";
   }
   

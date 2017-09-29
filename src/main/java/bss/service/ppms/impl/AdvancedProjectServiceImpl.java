@@ -451,11 +451,16 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
             } else if ("NZCGWJ".equals(flowDefine.getCode())) {
                 String typeId = DictionaryDataUtil.getId("PROJECT_BID");
                 List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
-                if(files != null && files.size() > 0){
-                    jsonObj.put("success", true);
+                if(files != null && !files.isEmpty()){
+                	if (project.getConfirmFile() == 3) {
+              		  	jsonObj.put("success", true);
+              	  	} else {
+              	  		jsonObj.put("success", false);
+                        jsonObj.put("msg", "请审核采购文件");
+              	  	}
                 } else {
                     jsonObj.put("success", false);
-                    jsonObj.put("msg", "请完善信息");
+                    jsonObj.put("msg", "请上传采购文件");
                 }
             } else if ("NZCGGG".equals(flowDefine.getCode())) {
                 DictionaryData data = DictionaryDataUtil.findById(project.getPurchaseType());

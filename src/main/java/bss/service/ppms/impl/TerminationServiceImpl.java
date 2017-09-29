@@ -83,7 +83,7 @@ import bss.model.prms.ReviewProgress;
 import bss.service.ppms.TerminationService;
 import bss.util.TerminationConstant;
 @Service("terminationService")
-public class TerminationServiceImpl<V> implements TerminationService {
+public class TerminationServiceImpl implements TerminationService {
   @Autowired
   private PackageMapper packageMapper;
   @Autowired
@@ -164,6 +164,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
     String title=ShortBooleanTitle(number);
     //生成项目
     Project project = insertProject(projectId, title,type,currFlowDefineId);
+    updateProjectName(projectId, packId);
     Map<String, String> mapId=new HashMap<String, String>();
     if(!TerminationConstant.FLW_XMLX.equals(currFlowDefineId)){
       projectMapper.insertSelective(project);
@@ -942,6 +943,28 @@ public class TerminationServiceImpl<V> implements TerminationService {
       
     }
     return project;
+  }
+  
+  private void updateProjectName(String projectId, String[] packageIds) {
+	  Project project = projectMapper.selectProjectByPrimaryKey(projectId);
+	  HashMap<String, Object> map = new HashMap<>();
+	  map.put("projectId", projectId);
+	  List<Packages> findByID = packageMapper.findByID(map);
+	  if (findByID != null && !findByID.isEmpty() && findByID.size() > 1) {
+		  List<Integer> num = new ArrayList<Integer>();
+		  for (Packages packages : findByID) {
+			  for (String packageId : packageIds) {
+				  if (!StringUtils.equals(packageId, packages.getId())) {
+					  num.add(Integer.valueOf(packages.getName().substring(1, 2)));
+				  }
+			  }
+		  }	
+		  String title = ShortBooleanTitle(num);
+		  String name = project.getName().substring(0,project.getName().lastIndexOf("（"));
+		  project.setName(name+title);
+		  project.setProjectNumber(name+title);
+		  projectMapper.updateByPrimaryKeySelective(project);
+	  }
   }
   private String ShortBooleanTitle(List<Integer> number) {
     String title;
