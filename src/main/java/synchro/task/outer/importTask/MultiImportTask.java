@@ -392,7 +392,7 @@ public class MultiImportTask {
                                     // 遍历文件夹中的所有文件
                                     for (File file2 : f.listFiles()) {
                                         if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)) {
-                                            innerSupplierService.immportInner(file2, "publicity");
+                                            innerSupplierService.importInner(file2, "publicity");
                                         }
                                     }
                                 }

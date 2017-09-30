@@ -115,7 +115,7 @@ public class SupplierTask {
              File [] files = file.listFiles();
              for (File f : files){
                  if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)){
-                	 innerSupplierService.immportInner(f,null);
+                	 innerSupplierService.importInner(f,null);
                  	
                  }
 //                 if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
