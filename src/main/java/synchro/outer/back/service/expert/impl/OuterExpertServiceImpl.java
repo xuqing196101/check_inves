@@ -206,42 +206,15 @@ public class OuterExpertServiceImpl implements OuterExpertService {
         map.put("status", -3);
         List<Expert> expertList = expertMapper.selectExpByPublictyOfExport(map);
         List<Expert> experts = new ArrayList<Expert>();
+        // 查询军队专家类型
+        DictionaryData dict = DictionaryDataUtil.get("ARMY");
         if(null != expertList && !expertList.isEmpty()){
-            ExpertEngHistory expertEngHistory = null;
-            ExpertAuditFileModify expertAuditFileModify = null;
             for(Expert expert : expertList){
                 //专家审核记录表
                 List<ExpertAudit> expertAuditList = expertAuditMapper.selectByExpertId(expert.getId());
                 if(null != expertAuditList){
                     expert.setExpertAuditList(expertAuditList);
                 }
-                //工程执业资格历史表
-                expertEngHistory = new ExpertEngHistory();
-                expertEngHistory.setExpertId(expert.getId());
-                List<ExpertEngHistory> expertEngHistoryList = expertEngHistoryMapper.selectByExpertId(expertEngHistory);
-                if(null != expertEngHistoryList){
-                    expert.setExpertEngHistoryList(expertEngHistoryList);
-                }
-                //工程执业资格修改表
-                List<ExpertEngHistory> expertEngModifyList = expertEngModifyMapper.selectByExpertId(expertEngHistory);
-                if(null != expertEngModifyList){
-                    expert.setExpertEngModifyList(expertEngModifyList);
-                }
-                //专家历史表
-                ExpertHistory expertHistory = expertService.selectOldExpertById(expert.getId());
-                if(null != expertHistory){
-                    expert.setHistory(expertHistory);
-                }
-                //工程执业资格文件修改表
-                expertAuditFileModify = new ExpertAuditFileModify();
-                expertAuditFileModify.setExpertId(expert.getId());
-                List<ExpertAuditFileModify> expertAuditFileModifyList = expertAuditFileModifyMapper.selectByExpertId(expertAuditFileModify);
-                if(null != expertAuditFileModifyList){
-                    expert.setExpertAuditFileModifyList(expertAuditFileModifyList);
-                }
-                expert.setAttchList(getAttch(expert.getId()));
-                // 查询军队专家类型
-                DictionaryData dict = DictionaryDataUtil.get("ARMY");
                 if(dict != null && dict.getId().equals(expert.getExpertsFrom()))
                 expert.setExpertCategory(expertCategoryMapper.findByExpertId(expert.getId()));
                 // 查询专家复审意见

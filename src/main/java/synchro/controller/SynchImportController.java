@@ -718,14 +718,6 @@ public class SynchImportController {
                                 innerExpertService.importExpOfPublicity(file2);
                             }
                         }
-                        if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {
-                            attachService.importExpertAttach(f);
-                        }
-                        if (f.isDirectory()) {
-                            if (f.getName().equals(Constant.ATTCH_FILE_EXPERT)) {
-                                OperAttachment.moveFolder(f);
-                            }
-                        }
                     }
 
                     /** 网上投诉信息数据导入 **/

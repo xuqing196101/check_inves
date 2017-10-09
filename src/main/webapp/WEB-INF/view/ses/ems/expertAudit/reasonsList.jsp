@@ -411,6 +411,7 @@
   <!--预复审结束-->
 	function preReviewEnd(status){
 	  var expertId = $("input[name='expertId']").val();
+	  var batchId = $("input[name='batchId']").val();
      if(status == null){
        var status = $(":radio:checked").val().trim();
        if(status == null){
@@ -454,7 +455,7 @@
            dataType:"json",
            success:function (data) {
          	  if(data.status == 200){
-         		  location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html";
+         		  location.href = "${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.html?batchId=" + batchId;
                }
            }
        });
@@ -492,7 +493,7 @@
             </c:if>
             <c:if test="${sign == 2}">
                 <li>
-                    <a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=2')">专家复审</a>
+                    <a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.html?batchId=${batchId}')">专家复审</a>
                 </li>
             </c:if>
             <c:if test="${sign == 3}">
@@ -603,7 +604,7 @@
             <c:if test="${ sign == 2 }">
               <div class="clear"></div>
               <div id="opinionDiv">
-                  <h2 class="count_flow mt0"><i>2</i><span class="red">*</span>复审意见</h2>
+                  <h2 class="count_flow mt0"><i>1</i><span class="red">*</span>复审意见</h2>
                   <ul class="ul_list">
                       <li>
                           <div class="select_check" id="selectOptionId">

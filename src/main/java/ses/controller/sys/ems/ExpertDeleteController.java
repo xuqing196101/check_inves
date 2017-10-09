@@ -57,7 +57,7 @@ public class ExpertDeleteController {
          String status = expert.getStatus();
          //Short isProvisional = expert.getIsProvisional();
          if(status !=null ){
-        	 if(status.equals("3") || status.equals("0")){
+        	 if(status.equals("3") || status.equals("-1")){
         		 expertService.updateById(expertId);
         		 UserServiceI.updateByTypeId(expertId);
         	 } 

@@ -16,7 +16,7 @@
   </resultMap>
   
   <sql id="baseExpertSql">
-     EXPERT_ID, CATEGORY_ID, TYPE_ID, LEVELS, ENGIN_TYPE
+     EXPERT_ID, CATEGORY_ID, TYPE_ID, LEVELS, ENGIN_TYPE, AUDIT_STATUS
   </sql>
   
   <!-- 根据专家id查询品目id集合 -->

@@ -402,7 +402,7 @@
                <option <c:if test="${expert.status eq '-2' }">selected</c:if> value="-2">预复审合格</option>
                <option <c:if test="${expert.status eq '-1' }">selected</c:if> value="-1">暂存</option>
                <option <c:if test="${expert.status eq '0' }">selected</c:if> value="0">待初审</option>
-               <option <c:if test="${expert.status eq '1' }">selected</c:if> value="1">初审合格</option>
+               <option <c:if test="${expert.status eq '1' }">selected</c:if> value="1">初审合格(待复审)</option>
                <option <c:if test="${expert.status eq '2' }">selected</c:if> value="2">初审不合格</option>
                <option <c:if test="${expert.status eq '3' }">selected</c:if> value="3">初审退回修改</option>
                <option <c:if test="${expert.status eq '4' }">selected</c:if> value="4">待复审</option>
@@ -543,7 +543,7 @@
                   <span class="label rounded-2x label-dark">待初审</span>
                 </c:if>
                 <c:if test="${e.status eq '1' }">
-                  <span class="label rounded-2x label-u">初审合格</span>
+                  <span class="label rounded-2x label-u">初审合格(待复审)</span>
                 </c:if>
                 <c:if test="${e.status eq '2' }">
                   <span class="label rounded-2x label-dark">初审不合格</span>
