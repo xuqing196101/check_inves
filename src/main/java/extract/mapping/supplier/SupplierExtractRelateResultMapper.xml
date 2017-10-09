@@ -496,11 +496,29 @@
 		<!-- 查询品目 -->
 		<if test="isMulticondition !=null and isMulticondition != ''">
 			<if test="isMulticondition == 1 and categoryId !=null and categoryId != '' ">
-				 AND I.CATEGORY_ID IN <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
+				 AND I.CATEGORY_ID IN 
+				 (select distinct TEM.id from (
+				  select CATE.* from T_SES_BMS_CATEGORY CATE START WITH  CATE.id in 
+					<foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
+						#{item}
+					</foreach>
+					CONNECT BY PRIOR CATE.id=CATE.PARENT_ID order by level desc ) TEM where TEM.is_publish = 0 and (TEM.is_parent is null or TEM.is_parent = 'false'))
+				
+					<!--  <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach> -->
 			</if>
+			
+			
 			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
 				AND S.ID IN (SELECT  IT.SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM IT WHERE IT.CATEGORY_ID IN 
-				<foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
+				
+				 (select distinct TEM.id from (
+				  select CATE.* from T_SES_BMS_CATEGORY CATE START WITH  CATE.id in 
+					<foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
+						#{item}
+					</foreach>
+					CONNECT BY PRIOR CATE.id=CATE.PARENT_ID order by level desc ) TEM where TEM.is_publish = 0 and (TEM.is_parent is null or TEM.is_parent = 'false'))
+				
+				<!-- <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach> -->
 				 GROUP BY IT.SUPPLIER_ID  HAVING COUNT(1) = #{csize})
 				<!--  AND
 				 <trim prefix="(" suffixOverrides="AND" suffix=")">
@@ -579,11 +597,27 @@
 		<!-- 查询品目 -->
 		<if test="isMulticondition !=null and isMulticondition != ''">
 			<if test="isMulticondition == 1 and categoryId !=null and categoryId != '' ">
-				 AND I.CATEGORY_ID IN <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
+				 AND I.CATEGORY_ID IN 
+				  (select distinct TEM.id from (
+				  select CATE.* from T_SES_BMS_CATEGORY CATE START WITH  CATE.id in 
+					<foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
+						#{item}
+					</foreach>
+					CONNECT BY PRIOR CATE.id=CATE.PARENT_ID order by level desc ) TEM where TEM.is_publish = 0 and (TEM.is_parent is null or TEM.is_parent = 'false'))
+				 
+				<!--  <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach> -->
 			</if>
 			<if test="isMulticondition == 2 and categoryId !=null and categoryId != '' ">
 				AND S.ID IN (SELECT  I.SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM I WHERE I.CATEGORY_ID IN 
-				<foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach>
+				
+				 (select distinct TEM.id from (
+				  select CATE.* from T_SES_BMS_CATEGORY CATE START WITH  CATE.id in 
+					<foreach collection="categoryIds" open="(" close=")" separator="," index="index" item="item">
+						#{item}
+					</foreach>
+					CONNECT BY PRIOR CATE.id=CATE.PARENT_ID order by level desc ) TEM where TEM.is_publish = 0 and (TEM.is_parent is null or TEM.is_parent = 'false'))
+				
+				<!-- <foreach collection="categoryIds" open="(" separator="," item="cid" close=")"> #{cid} </foreach> -->
 				 GROUP BY I.SUPPLIER_ID  HAVING COUNT(1) = #{csize})
 				<!--  AND
 				 <trim prefix="(" suffixOverrides="AND" suffix=")">
@@ -841,7 +875,4 @@
         </foreach>
         SELECT 1 FROM DUAL
 	</insert>
-	
-	
-	
 </mapper>

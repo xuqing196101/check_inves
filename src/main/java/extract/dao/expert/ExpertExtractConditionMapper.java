@@ -41,4 +41,16 @@ public interface ExpertExtractConditionMapper {
      * @return
      */
     List<String> findExpertBytypeIdTitle(@Param("qualifcationTitle")String qualifcationTitle,@Param("typeId")String typeId);
+
+    /**
+     * 
+     * Description: 根据项目id查询抽取条件
+     * 
+     * @author zhang shubin
+     * @data 2017年9月29日
+     * @param 
+     * @return
+     */
+    List<ExpertExtractCondition> selByProjectId(String projectId);
+
 }

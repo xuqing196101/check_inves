@@ -421,4 +421,9 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 根据项目id查询所有信息 -->
+  <select id="findAllByProjectId" parameterType="String" resultMap="BaseResultMap">
+  	SELECT * FROM T_SES_EMS_EXTRACT_RESULT WHERE PROJECT_ID = #{projectId}
+  </select>
 </mapper>

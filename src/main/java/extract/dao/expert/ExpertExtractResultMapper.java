@@ -107,4 +107,15 @@ public interface ExpertExtractResultMapper {
      * @return
      */
     int updateProject(ProjectExtract projectExtract);
+    
+    /**
+     * 
+     * Description: 根据项目id查询所有信息
+     * 
+     * @author zhang shubin
+     * @data 2017年9月29日
+     * @param 
+     * @return
+     */
+    List<ExpertExtractResult> findAllByProjectId(String projectId);
 }

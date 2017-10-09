@@ -108,9 +108,9 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	public List<SupplierExtractProjectInfo> getList(int i,User user,SupplierExtractProjectInfo project) {
 		 PageHelper.startPage(i, PropUtil.getIntegerProperty("pageSize"));
 		 
-		 project.setProcurementDepId(user.getOrg().getId());
 		 List<SupplierExtractProjectInfo> list = new ArrayList<>();
 		 if("1".equals(user.getTypeName())){
+			project.setProcurementDepId(user.getOrg().getId());
 			list = supplierExtractsMapper.getList(project);
 		 }else if("4".equals(user.getTypeName())){
 			 project.setProcurementDepId(null);

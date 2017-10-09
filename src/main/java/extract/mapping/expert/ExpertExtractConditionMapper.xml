@@ -186,4 +186,9 @@
     WHERE 
       QUALIFCATION_TITLE = #{qualifcationTitle} AND EXPERT_TYPE_ID = #{typeId}
   </select>
+  
+  <!-- 根据项目id查询抽取条件 -->
+  <select id="selByProjectId" parameterType="String" resultMap="BaseResultMap">
+    SELECT * FROM T_SES_EMS_EXTRACT_CONDITION WHERE PROJECT_ID = #{projectId}
+  </select>
 </mapper>

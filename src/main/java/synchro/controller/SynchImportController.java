@@ -8,6 +8,7 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
+import extract.service.expert.ExpertExtractProjectService;
 import iss.service.hl.ServiceHotlineService;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
@@ -158,7 +159,9 @@ public class SynchImportController {
     @Autowired
 	private ServiceHotlineService serviceHotlineService;
 
-
+    /** 专家抽取 **/
+    @Autowired
+    private ExpertExtractProjectService expertExtractProjectService;
     /**
      * 〈简述〉初始化导入
      * 〈详细描述〉
@@ -850,7 +853,17 @@ public class SynchImportController {
                             }
                         }
                     }
-
+                    /** 专家抽取数据导入 **/
+                    if (synchType.contains(Constant.DATE_SYNCH_EXPERT_EXTRACT)) {
+                        if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
+                            expertExtractProjectService.importExpertExtract(f);
+                        }
+                        if (f.isDirectory()) {
+                            if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
+                                OperAttachment.moveFolder(f);
+                            }
+                        }
+                    }
                     /**目录资质关联表*/
                     categoryService.importCategoryQua(synchType, f);
                     /** 产品资质表*/
