@@ -529,8 +529,8 @@ public interface SupplierMapper {
      */
     BigDecimal getSupplierCountByNature(@Param("business_nature") String business_nature);
     
-    public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map);
-    public List<supplierExport> selectExpertNumber(HashMap<String, Object> map);
+    public List<Map<String, Object>> selectSupplierCheckNumber(HashMap<String, Object> map);
+    public List<Map<String, Object>> selectExpertCheckNumber(HashMap<String, Object> map);
     
     /**
      * 
@@ -655,13 +655,13 @@ public interface SupplierMapper {
 	 * @param map
 	 * @return
 	 */
-	List<supplierExport> selectSupplierNumberFormal(HashMap<String, Object> map);
+	List<Map<String,Object>> selectSupplierTypeNumber(HashMap<String, Object> map);
 	/**
 	 * 查询入库专家
 	 * @param map
 	 * @return
 	 */
-	List<supplierExport> selectExpertNumberFormal(HashMap<String, Object> map);
+	List<Map<String, Object>> selectExpertTypeNumber(HashMap<String, Object> map);
 
 	List<Supplier> listExtractionExpert(SupplierCondition condition);
 
