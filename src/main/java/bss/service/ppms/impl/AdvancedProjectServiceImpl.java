@@ -40,6 +40,7 @@ import ses.util.WfUtil;
 
 import com.github.pagehelper.PageHelper;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
 
@@ -1571,6 +1572,86 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
 	public List<AdvancedProject> selectByAudit(HashMap<String, Object> map) {
 		
 		return advancedProjectMapper.selectByAudit(map);
+	}
+
+	@Override
+	public JSONObject getNext(String projectId, String flowDefineId) {
+		JSONObject jsonObj = new JSONObject();
+		//判断是否要进入开标环节
+        int count = 0;
+        AdvancedProject project = advancedProjectMapper.selectAdvancedProjectByPrimaryKey(projectId);
+        FlowDefine fds = new FlowDefine();
+        fds.setPurchaseTypeId(project.getPurchaseType());
+        List<FlowDefine> find = flowDefineMapper.findList(fds);
+        for (FlowDefine flowDefine : find) {
+            if("KBCB".equals(flowDefine.getCode())){
+                count = flowDefine.getStep();
+                break;
+            }
+        }
+        FlowDefine define = flowDefineMapper.get(flowDefineId);
+        // 组织专家评审前判断开标唱标是否完成
+        if(define != null && "ZZZJPS".equals(define.getCode()) && define.getStep() >= count){
+            FlowExecute execute = new FlowExecute();
+            execute.setProjectId(projectId);
+            execute.setStep(8);
+            List<FlowExecute> executes = flowExecuteMapper.findList(execute);
+            StringBuffer sb = new StringBuffer();
+            if(executes != null && !executes.isEmpty()){
+                for (FlowExecute fe : executes){
+                    sb.append(fe.getStatus() + StaticVariables.COMMA_SPLLIT);
+                }
+                if(!sb.toString().contains("3")){
+                    FlowDefine define2 = flowDefineMapper.get(executes.get(0).getFlowDefineId());
+                    jsonObj.put("name", define2.getName());
+                    jsonObj.put("next", "1");
+                    return jsonObj;
+                }
+            }
+        }
+        
+        if(define != null && !"ZZZJPS".equals(define.getCode()) && define.getStep() >= count){
+            //根据采购方式获取当前所有的环节
+            FlowDefine fd = new FlowDefine();
+            fd.setPurchaseTypeId(project.getPurchaseType());
+            List<FlowDefine> defines = flowDefineMapper.findList(fd);
+            List<FlowDefine> list = new ArrayList<FlowDefine>();
+            if(defines != null && defines.size() > 0){
+               //根据当前环节的步骤获取前面的环节
+                for (FlowDefine flowDefine : defines) {
+                    if(flowDefine.getStep() < define.getStep()){
+                        if(!"CQPSZJ".equals(flowDefine.getCode()) && !"XMFB".equals(flowDefine.getCode())){
+                            list.add(flowDefine);
+                        }
+                    }
+                }
+            }
+            
+            //获取到所有小于当前环节的流程
+            if(list != null && list.size() > 0){
+                for (FlowDefine flowDefine : list) {
+                    FlowExecute execute = new FlowExecute();
+                    execute.setProjectId(projectId);
+                    execute.setFlowDefineId(flowDefine.getId());
+                    List<FlowExecute> executes = flowExecuteMapper.findList(execute);
+                    if(executes != null && executes.size() > 0){
+                        for (int i = 0; i < executes.size(); i++ ) {
+                            //判断每一个环节是否有环节结束的状态，有的话跳出循环
+                            if(executes.get(i).getStatus() == 3){
+                                break;
+                            } else if (i == executes.size() - 1){
+                                FlowDefine define2 = flowDefineMapper.get(executes.get(i).getFlowDefineId());
+                                jsonObj.put("name", define2.getName());
+                                jsonObj.put("next", "1");
+                                return jsonObj;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        jsonObj.put("next", "2");
+		return jsonObj;
 	}
 
 }

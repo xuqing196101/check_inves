@@ -206,4 +206,17 @@ public interface AdvancedProjectService {
     void quote(List<AdvancedDetail> list, String taskId);
     
     List<AdvancedProject> selectByAudit(HashMap<String, Object> map);
+    
+    /**
+     * 
+    * @Title: getNext
+    * @author FengTian 
+    * @date 2017-10-9 上午10:48:34  
+    * @Description: 判断上一个环节是否结束 
+    * @param @param projectId
+    * @param @param flowDefineId
+    * @param @return      
+    * @return JSONObject
+     */
+    JSONObject getNext(String projectId, String flowDefineId);
 }

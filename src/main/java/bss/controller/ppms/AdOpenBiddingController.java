@@ -1451,6 +1451,19 @@ public class AdOpenBiddingController {
                         }
 
                     }
+                    
+                    SaleTender condition = new SaleTender();
+                    condition.setProjectId(quote.getProjectId());
+                    condition.setPackages(quote.getPackageId());
+                    condition.setSupplierId(quote.getSupplierId());
+                    condition.setStatusBid(NUMBER_TWO);
+                    condition.setStatusBond(NUMBER_TWO);
+                    condition.setIsTurnUp(0);
+                    List<SaleTender> stList = saleTenderService.find(condition);
+                    if (stList != null && stList.size() > 0) {
+                        stList.get(0).setIsFirstPass(1);
+                        saleTenderService.update(stList.get(0));
+                    }
 
                     SupplierCheckPass record = new SupplierCheckPass();
                     record.setId(WfUtil.createUUID());
@@ -2487,6 +2500,13 @@ public class AdOpenBiddingController {
         } else {
             return null;
         }
+    }
+    
+    @RequestMapping("/getNextKb")
+    @ResponseBody
+    public String getNextKb(String flowDefineId, String projectId) {
+    	 JSONObject jsonObj = projectService.getNext(projectId, flowDefineId);
+    	 return jsonObj.toString();
     }
     
     @RequestMapping("/educe")

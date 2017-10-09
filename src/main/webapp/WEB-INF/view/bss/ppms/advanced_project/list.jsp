@@ -156,7 +156,7 @@
             <a href="javascript:void(0)">预研项目管理</a>
           </li>
           <li class="active">
-            <a href="javascript:jumppage('${pageContext.request.contextPath}/advancedProject/list.html')">预研立项管理</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/advancedProject/list.html')">预研实施管理</a>
           </li>
         </ul>
         <div class="clear"></div>

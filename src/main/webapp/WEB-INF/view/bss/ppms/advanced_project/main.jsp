@@ -88,55 +88,68 @@
       }
 
       function jumpLoad(url, projectId, flowDefineId) {
-        $.ajax({
-          url: "${pageContext.request.contextPath }/Adopen_bidding/getNextFd.do?flowDefineId=" + flowDefineId + "&projectId=" + projectId,
-          contentType: "application/json;charset=UTF-8",
-          dataType: "json", //返回格式为json
-          type: "POST", //请求方式           
-          success: function(data) {
-            if(data.success) {
-              //当前环节经办人
-              $("#currHuanjieId").val(data.currFlowDefineId);
-              $("#currPrincipal").empty();
-              $.each(data.users, function(i, user) {
-                $("#currPrincipal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
-              });
-              $("#currPrincipal").select2();
-              $("#currPrincipal").select2("val", data.currOperatorId);
-              $("#isOperate").val(data.isOperate);
-              //禁止变更经办人操作
-              if(data.isOperate == 0) {
-                $("#submitdiv").attr("disabled", true);
-                $("#principal").attr("disabled", true);
-                $("#currPrincipal").attr("disabled", true);
-              } else {
-                $("#submitdiv").attr("disabled", false);
-                $("#principal").attr("disabled", false);
-                $("#currPrincipal").attr("disabled", false);
-              }
-              if(!data.isEnd) {
-                $("#nextHaunjie").show();
-                $("#updateOperateId").show();
-                $("#huanjie").html(data.flowDefineName);
-                $("#huanjieId").val(data.flowDefineId);
-                $("#principal").empty();
-                $.each(data.users, function(i, user) {
-                  $("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
-                });
-                $("#principal").select2();
-                $("#principal").select2("val", data.operatorId);
-              }
-              if(data.isEnd) {
-                $("#nextHaunjie").hide();
-                $("#updateOperateId").hide();
-              }
-            }
-          }
-        }); 
-        var urls = "${pageContext.request.contextPath}/" + url + "?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
-        $("#as").attr("href", urls);
-        var el = document.getElementById('as');
-        el.click(); //触发打开事件
+      	$.ajax({
+					url: globalPath+"/Adopen_bidding/getNextKb.do?flowDefineId=" + flowDefineId + "&projectId=" + projectId,
+					contentType: "application/json;charset=UTF-8",
+					dataType: "json", //返回格式为json
+			    async : false,
+					type: "POST", //请求方式           
+					success: function(data) {
+						if(data.next == '1') {
+							layer.alert(data.name + "环节未结束");
+						} else {
+							$.ajax({
+			          url: "${pageContext.request.contextPath }/Adopen_bidding/getNextFd.do?flowDefineId=" + flowDefineId + "&projectId=" + projectId,
+			          contentType: "application/json;charset=UTF-8",
+			          dataType: "json", //返回格式为json
+			          type: "POST", //请求方式           
+			          success: function(data) {
+			            if(data.success) {
+			              //当前环节经办人
+			              $("#currHuanjieId").val(data.currFlowDefineId);
+			              $("#currPrincipal").empty();
+			              $.each(data.users, function(i, user) {
+			                $("#currPrincipal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+			              });
+			              $("#currPrincipal").select2();
+			              $("#currPrincipal").select2("val", data.currOperatorId);
+			              $("#isOperate").val(data.isOperate);
+			              //禁止变更经办人操作
+			              if(data.isOperate == 0) {
+			                $("#submitdiv").attr("disabled", true);
+			                $("#principal").attr("disabled", true);
+			                $("#currPrincipal").attr("disabled", true);
+			              } else {
+			                $("#submitdiv").attr("disabled", false);
+			                $("#principal").attr("disabled", false);
+			                $("#currPrincipal").attr("disabled", false);
+			              }
+			              if(!data.isEnd) {
+			                $("#nextHaunjie").show();
+			                $("#updateOperateId").show();
+			                $("#huanjie").html(data.flowDefineName);
+			                $("#huanjieId").val(data.flowDefineId);
+			                $("#principal").empty();
+			                $.each(data.users, function(i, user) {
+			                  $("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+			                });
+			                $("#principal").select2();
+			                $("#principal").select2("val", data.operatorId);
+			              }
+			              if(data.isEnd) {
+			                $("#nextHaunjie").hide();
+			                $("#updateOperateId").hide();
+			              }
+			            }
+			          }
+			        }); 
+			        var urls = "${pageContext.request.contextPath}/" + url + "?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
+			        $("#as").attr("href", urls);
+			        var el = document.getElementById('as');
+			        el.click(); //触发打开事件
+						}
+					}
+				});
       }
 
       //提交下一环节经办人

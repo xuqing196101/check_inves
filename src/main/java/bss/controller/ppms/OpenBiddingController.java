@@ -1910,6 +1910,19 @@ public class OpenBiddingController extends BaseSupplierController{
             }
 
           }
+          
+          SaleTender condition = new SaleTender();
+          condition.setProjectId(quote.getProjectId());
+          condition.setPackages(quote.getPackageId());
+          condition.setSupplierId(quote.getSupplierId());
+          condition.setStatusBid(NUMBER_TWO);
+          condition.setStatusBond(NUMBER_TWO);
+          condition.setIsTurnUp(0);
+          List<SaleTender> stList = saleTenderService.find(condition);
+          if (stList != null && !stList.isEmpty()) {
+        	  stList.get(0).setIsFirstPass(1);
+              saleTenderService.update(stList.get(0));
+          }
 
           SupplierCheckPass record = new SupplierCheckPass();
           record.setId(WfUtil.createUUID());

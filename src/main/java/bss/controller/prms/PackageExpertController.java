@@ -195,7 +195,12 @@ public class PackageExpertController {
         	User user = null;
         	for (PackageExpert packageExpert : expertSigneds) {
         		user = new User();
-        		user.setTypeId(packageExpert.getExpert().getId());
+        		if (packageExpert.getExpert() != null) {
+        			user.setTypeId(packageExpert.getExpert().getId());
+				} else {
+					user.setTypeId(packageExpert.getExpertId());
+				}
+        		
 				List<User> queryByList = userService.queryByList(user);
 				if (queryByList != null && !queryByList.isEmpty()) {
 					packageExpert.setExpertId(queryByList.get(0).getLoginName());
@@ -433,8 +438,8 @@ public class PackageExpertController {
                   DictionaryData findById = DictionaryDataUtil.findById(ps.getProjectStatus());
                   mapPackageName.put(ps.getName(), findById.getCode());
                 }
-                String methodCode = bidMethodService.getMethod(pack.getProjectId(), pack.getId());
-                if(methodCode.equals("OPEN_ZHPFF")){
+                String methodCode = bidMethodService.getMethod(ps.getProjectId(), ps.getId());
+                if(StringUtils.isNotBlank(methodCode) && methodCode.equals("OPEN_ZHPFF")){
                     mapPackageMeth.put(ps.getName(), methodCode);
                     Map<String, Object> mapSearch1 = new HashMap<String, Object>(); 
                     mapSearch1.put("projectId", pack.getProjectId());
