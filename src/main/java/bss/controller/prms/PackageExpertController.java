@@ -1693,8 +1693,7 @@ public class PackageExpertController {
                         }
                     }
                 } else {
-                    supplierExt
-                    .setSupplierId(saleTender.getSuppliers().getId());
+                    supplierExt.setSupplierId(saleTender.getSuppliers().getId());
                     supplierExt.setPackageId(packageExpert.getPackageId());
                     supplierExt.setExpertId(packageExpert.getExpertId());
                     supplierExt.setSuppIsPass("2");
