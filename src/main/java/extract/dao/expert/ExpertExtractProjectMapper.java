@@ -70,4 +70,15 @@ public interface ExpertExtractProjectMapper {
      * @return
      */
     int updataStatus(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 根据修改时间查询
+     * 
+     * @author zhang shubin
+     * @data 2017年9月29日
+     * @param 
+     * @return
+     */
+    List<ExpertExtractProject> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
 }

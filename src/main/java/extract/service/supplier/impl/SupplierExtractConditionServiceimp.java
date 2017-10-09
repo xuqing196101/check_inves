@@ -234,9 +234,10 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			//若勾选了父节点
 			if(StringUtils.isNotBlank(pid)){
 				//遍历出全部的其下的末级节点，去重拼进categoryId
-				cid = this.selectChild(pid,cid);
-				
-				condition.setCategoryId(cid);
+				//cid = this.selectChild(pid,cid);
+				String tempCateIdString = "";
+				tempCateIdString=pid + (StringUtils.isNotBlank(cid)?("," +cid):"");
+				condition.setCategoryId(tempCateIdString);
 			}
 			
 			if(StringUtils.isNotBlank(le)){
