@@ -310,6 +310,21 @@
           });
         });
       }
+      
+      // 左侧导航收缩
+			function tree_toggle() {
+				if ($('#show_tree_div').hasClass('open')) {
+					$('#show_tree_div').removeClass('open');
+					$('#show_tree_div').animate({
+						left: '-180'
+					});
+				} else {
+					$('#show_tree_div').addClass('open');
+					$('#show_tree_div').animate({
+						left: '0'
+					});
+				}
+			}
     </script>
   </head>
 
@@ -337,11 +352,11 @@
     <!--=== End Breadcrumbs ===-->
 
     <!--=== Content Part ===-->
-    <div class="container content height-350">
-      <div class="row">
-        <!-- Begin Content -->
-        <div class="col-md-12" style="min-height:400px;">
-          <div class="col-md-2 col-sm-3 col-xs-12 " id="show_tree_div">
+    <!-- 主要内容开始 -->
+    <div class="pr mt20 mb40">
+      <!-- 左侧导航开始 -->
+      <div class="m_tree_nav open" id="show_tree_div">
+        <div class="btn_toggle" onclick="tree_toggle()">收起/展开</div>
             <ul class="btn_list" id="menu">
               <c:forEach items="${list}" var="fd">
                 <c:if test="${fd.advancedUrl ne null}">
@@ -421,6 +436,7 @@
               <button class="btn btn-windows back" onclick="back();" type="button">返回列表</button>
             </div>
           </div>
+          <div class="clear"></div>
         </div>
       </div>
     </div>

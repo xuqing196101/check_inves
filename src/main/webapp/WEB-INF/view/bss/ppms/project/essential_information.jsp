@@ -96,8 +96,13 @@
 	              layer.tips("供应商人数只能为1人", "#supplierNumber");
 	              flag = false;
 	            }
+            } else if (purchaseType == "JZXTP"){
+            	if(supplierNumber < 2) {
+                layer.tips("供应商人数大于1人", "#supplierNumber");
+                flag = false;
+              } 
             } else {
-               if(supplierNumber < 3) {
+              if(supplierNumber < 3) {
                 layer.tips("供应商人数大于2人", "#supplierNumber");
                 flag = false;
               } 
@@ -430,9 +435,9 @@
                     </tr>
                     <tr>
                       <td class="bggrey"><span class="red star_red">*</span>投标截止时间:</td>
-                      <td class="p0"><input value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" onblur="getValue(this)" class="Wdate" /></td>
+                      <td class="p0"><input readonly="readonly" onfocus="getValue()" value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" /></td>
                       <td class="bggrey"><span class="red star_red">*</span>开标时间:</td>
-                      <td class="p0"><input value="<fmt:formatDate type='date' value='${project.bidDate }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
+                      <td class="p0"><input readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="bidDate" id="bidDate" type="text"  class="Wdate"></td>
                     </tr>
                     <tr>
                       <td class="bggrey"><span class="red star_red">*</span>开标地点:</td>

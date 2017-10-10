@@ -367,7 +367,7 @@
     	<p class="tc">以下包的参与供应商数量不足项目要求的最少供应商数量，请选择操作！</p>
       <div class="drop_window tc" id="openDiv_packages"></div>
       <div class="tc col-md-12 mt50">
-        <input class="btn" id="inputb" name="addr" type="button" onclick="upddatejzxtp();" value="转为竞争性谈判"> 
+        <input class="btn" id="jzxtp" name="addr" type="button" onclick="upddatejzxtp();" value="转为竞争性谈判"> 
         <input class="btn" id="inputa" name="addr" type="button" onclick="bynSub();" value="终止实施"> 
         <input class="btn" id="inputa" name="addr" type="button" onclick="cancels();" value="继续实施"> 
       </div>

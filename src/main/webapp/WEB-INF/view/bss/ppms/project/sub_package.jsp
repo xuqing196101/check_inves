@@ -135,6 +135,10 @@
           layer.msg("包名不能为空");
           $(".layui-layer-shade").remove();
           return;
+        } else if (name.length >= 20) {
+        	layer.msg("字符过长");
+        	$(".layui-layer-shade").remove();
+          return;
         } else {
           var packageId = $(obj).next().next().next().val();
           $.ajax({
