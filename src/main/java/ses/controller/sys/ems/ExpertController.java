@@ -2248,10 +2248,10 @@ public class ExpertController extends BaseController {
       			exp.setExpertsFrom(expertsFrom.getName());
       		}
         }
-       /* // 查询数据字典中的专家来源配置数据
+        // 查询数据字典中的专家来源配置数据
         List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
         request.setAttribute("lyTypeList", lyTypeList);
-        // 查询数据字典中的专家类别数据
+        /*// 查询数据字典中的专家类别数据
         List < DictionaryData > jsTypeList = DictionaryDataUtil.find(6);
         for(DictionaryData data: jsTypeList) {
             data.setName(data.getName() + "技术");
