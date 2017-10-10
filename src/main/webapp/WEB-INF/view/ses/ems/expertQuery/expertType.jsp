@@ -79,7 +79,7 @@
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('expertFile');">承诺书和申请表</a>
 						</li>
 						<li class="">
-              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('auditInfo');">审核信息</a>
+              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('auditInfo');">审核意见</a>
             </li>
 					</ul>
 					<!-- 专家专业信息 -->
