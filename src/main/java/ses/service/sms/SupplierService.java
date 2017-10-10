@@ -413,8 +413,8 @@ public interface SupplierService {
 	 List<Supplier> viewCreditCodeMobile(HashMap<String, Object> map);
 	 
 	 List<Supplier> getCreditCode(String creditCode,Integer isProvisional);
-	 public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map);
-	 public List<supplierExport> selectExpertNumber(HashMap<String, Object> map);
+	 public List<Map<String, Object>> selectSupplierCheckNumber(HashMap<String, Object> map);
+	 public List<Map<String, Object>> selectExpertCheckNumber(HashMap<String, Object> map);
 	 /**
 	  * 
 	  * Description:根据suppliers 获取供应商 最大的 成立时间 
@@ -548,9 +548,9 @@ public interface SupplierService {
 			String supplierId) throws Exception;
 
 	
-	List<supplierExport> selectSupplierNumberFormal(HashMap<String, Object> map);
+	List<Map<String,Object>> selectSupplierTypeNumber(HashMap<String, Object> map);
 	
-	List<supplierExport> selectExpertNumberFormal(HashMap<String, Object> map);
+	List<Map<String, Object>> selectExpertTypeNumber(HashMap<String, Object> map);
 
 	/**
 	 * 计算物资生成、物质销售、服务下所有品目下供应商等级
