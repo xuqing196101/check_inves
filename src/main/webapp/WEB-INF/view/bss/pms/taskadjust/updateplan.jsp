@@ -259,12 +259,12 @@
                       var opt = $(this).val();
                       if(org == opt) {
                         $(this).prop("selected", true);
-                        if(defVal != org) {
+                        /* if(defVal != org) {
                           var eid = $(this).parent().prev().val();
                           $(this).parent().parent().parent().children(":last").children(":last").val(eid);
                         } else {
                           $(this).parent().parent().parent().children(":last").children(":last").val("");
-                        }
+                        } */
 
                         // $(this).attr("selected", "selected");  
                       } else {
