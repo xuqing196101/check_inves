@@ -797,7 +797,7 @@ function doAuditContractMuti(tablerId,supplierTypeId) {
 								offset: '100px',
 							});
 						}
-						defaultSuggestText = suggest;
+						//defaultSuggestText = suggest;
 					}
 				});
 				layer.close(index);
