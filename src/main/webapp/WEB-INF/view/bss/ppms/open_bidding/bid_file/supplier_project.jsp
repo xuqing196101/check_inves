@@ -54,6 +54,7 @@
 			form.submit();
 		}
 		var jsonStr = [];
+		var indexLayer;
 		function updateSaleTender() {
 			var allTable = document.getElementsByTagName("table");
 			for(var j = 1; j < allTable[0].rows.length; j++) {
@@ -92,6 +93,45 @@
 				        dataType: "json",
 				        success: function (message) {
 				        	if (message == true) {
+				        		$.ajax({
+											url: "${pageContext.request.contextPath}/open_bidding/checkSupplierNumber.html",
+											data: {
+												"projectId": projectId
+											},
+											type: "post",
+											dataType: "json",
+											success: function(data2) {
+												if(data2.rules != null){
+													var split = data2.rules.split(";");
+													var html="";
+													$('#openDiv_packages', window.parent.document).empty();
+													for(var i=0;i<split.length;i++){
+														var split2=split[i].split(",");
+														html+='<div class=" mt10 fl ml10"><input type="checkbox" value="'+split2[0]+'" name="packagesId" />'+split2[1]+'</div>';
+													}
+													$("#openDiv_packages", window.parent.document).append(html);
+													indexLayer = parent.layer.open({
+													  	    shift: 1, //0-6的动画形式，-1不开启
+													  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+													  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
+													  	    shade:0.01, //遮罩透明度
+														  		type : 1,
+														  		area : [ '30%', '200px'  ], //宽高
+														  		content : $('#openDivPackages', window.parent.document),
+													});
+												}else{
+													if(data2.status == "failed"){
+														$("#jzxtp", window.parent.document).hide();
+													}
+													
+												}
+											},
+											error: function() {
+												layer.msg("提交失败", {
+													offset: '100px'
+												});
+											}
+										});
 				        		window.location.reload();
 				        	} else {
 				        		layer.msg("必须上传投标文件",{offset: ['25%', '25%']});

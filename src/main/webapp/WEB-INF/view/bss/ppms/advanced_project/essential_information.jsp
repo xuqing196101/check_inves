@@ -105,34 +105,34 @@
         //表单验证
         if(!projectNumber){
           layer.tips("项目编号不能为空", "#projectNumber");
-          flag = false;
+          bool = false;
         }
         if(!name){
           layer.tips("项目名称不能为空", "#name");
-          flag = false;
+          bool = false;
         }
         if(!supplierNumber){
-              layer.tips("供应商不能为空", "#supplierNumber");
-              flag = false;
-            } else if(!(/^[0-9]+$/.test(supplierNumber))) {
-              layer.tips("请输入数字", "#supplierNumber");
-              flag = false;
-            } else if(purchaseType == "DYLY") {
-              if(supplierNumber != 1) {
-	              layer.tips("供应商人数只能为1人", "#supplierNumber");
-	              flag = false;
-	            }
-            } else if (purchaseType == "JZXTP"){
-            	if(supplierNumber < 2) {
-                layer.tips("供应商人数大于1人", "#supplierNumber");
-                flag = false;
-              } 
-            } else {
-              if(supplierNumber < 3) {
-                layer.tips("供应商人数大于2人", "#supplierNumber");
-                flag = false;
-              } 
-            }
+          layer.tips("供应商不能为空", "#supplierNumber");
+          bool = false;
+        } else if(!(/^[0-9]+$/.test(supplierNumber))) {
+          layer.tips("请输入数字", "#supplierNumber");
+          bool = false;
+        } else if(purchaseType == "DYLY") {
+          if(supplierNumber != 1) {
+           layer.tips("供应商人数只能为1人", "#supplierNumber");
+           bool = false;
+         	}
+        } else if (purchaseType == "JZXTP"){
+        	if(supplierNumber < 2) {
+            layer.tips("供应商人数大于1人", "#supplierNumber");
+            bool = false;
+          } 
+        } else {
+          if(supplierNumber < 3) {
+            layer.tips("供应商人数大于2人", "#supplierNumber");
+            bool = false;
+          } 
+        }
         if(bidAddress == '' || bidAddress == null) {
           layer.tips("请填写开标地点", "#bidAddress");
           bool = false;

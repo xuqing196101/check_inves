@@ -128,7 +128,7 @@
 	   			}
 	   			var checkboxSize=$("#openDiv_check input[type='checkbox']").length;
 	   			if(checkboxSize==0){
-	   				closelayer();
+	   				layer.closeAll()
 	   			}else{
 	   				$('#openDiv_check input[type="checkbox"]:checked').each(function(){
 		   	  			$(this).parent().empty();
@@ -168,7 +168,7 @@
 	   				saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
 	   				var checkboxSize=$("input[type='checkbox']").length;
 	   	  		if(checkboxSize==0){
-	   	  			closelayer();
+	   	  			layer.closeAll()
 	   	  		};
 	   				alert("成功转为竞争性谈判");
 	   				} else if (data.status == "failed") {
@@ -224,7 +224,7 @@
 	
 	function cancels(){
   		saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
-  		closelayer();
+  		layer.closeAll();
 	  }
   </script>
 </head>
