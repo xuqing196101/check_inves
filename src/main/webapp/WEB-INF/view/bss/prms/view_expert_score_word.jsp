@@ -85,57 +85,58 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 </head>
 
 <body>
-<div style="width:85%;margin:auto;" class = "Section1">
+<div style="width:100%;" class = "Section1">
     <div style="display: block;background: #fff;padding: 1px 10px;margin: 10px 0 10px 20px;border-left: 4px solid #2c9fa6;">
    		 <h2>${expert.relName}评审结果</h2>
    	</div>
   	<c:forEach items="${supplierList}" var="extensions" >
-  	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;margin: auto;" >
+  	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;width:100%;" >
   	<thead>
    		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
-   		  <th width="120" rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">评审项目</th>
-   		  <th width="120" rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">评审指标</th>
-   		  <th width="120" rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">标准分值</th>
+   		  <th  rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:10%;">评审项目</th>
+   		  <th  rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:15%;">评审指标</th>
+   		  <th  rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:5%;">标准分值</th>
    		  <c:forEach items="${extensions.supplierList}" var="supplier">
 		       <th style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">${supplier.suppliers.supplierName}</th>
 		   </c:forEach>
-		   <c:if test="${fn:length(extensions.supplierList)<8}">
+		   <%-- <c:if test="${fn:length(extensions.supplierList)<8}">
 		        <c:forEach begin="1" end="${8-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
-		            <th width="120"  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">
+		            <th   style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">
 		            </th>
 		         </c:forEach>
-		  </c:if>
+		  </c:if> --%>
    		  </tr>
    		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
    		  <c:forEach items="${extensions.supplierList}" var="supplier">
 		   	   <th style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">得分</th>
 	   	  </c:forEach>
-	   	  <c:if test="${fn:length(extensions.supplierList)<8}">
+	   	  <%-- <c:if test="${fn:length(extensions.supplierList)<8}">
 		        <c:forEach begin="1" end="${8-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
 		            <th  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">
 		            </th>
 		         </c:forEach>
-		  </c:if>
+		  </c:if> --%>
    		  </tr>
    		  
    		  
    		</thead>
    		<c:forEach items="${markTermList}" var="markTerm">
+   		<c:if test="${markTerm.checkedPrice!=1}">
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
 			    	     <c:if test="${score.count == 0}"></c:if>
 			    	     <c:if test="${score.count != 0}">
-			    	     <td    rowspan="${score.count}" style="border: 1px solid #ddd;padding: 5px 10px;" >${markTerm.name}</td>
+			    	     <td    rowspan="${score.count}" style="border: 1px solid #ddd;padding: 5px 10px;width:10%;" >${markTerm.name}</td>
 			    	     </c:if>
 			    	    
 			    	      
-			    	      <td width="300" style="border: 1px solid #ddd;padding: 5px 10px;" >
+			    	      <td  style="border: 1px solid #ddd;padding: 5px 10px;width:15%;" >
 			    	      ${score.name}
 			    	      </td>
-				 	     <td width="120" style="border: 1px solid #ddd;padding: 5px 10px;">${score.standardScore}</td>
+				 	     <td  style="border: 1px solid #ddd;padding: 5px 10px;width:5%;text-align: center;">${score.standardScore}</td>
 				 	      <c:forEach items="${extensions.supplierList}" var="supplier">
-					 	    <td width="120" style="border: 1px solid #ddd;padding: 5px 10px;">
+					 	    <td  style="border: 1px solid #ddd;padding: 5px 10px;text-align: center;">
 					            <c:forEach items="${scores}" var="sco">
 					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}"><font color="red" >${sco.score}</font></c:if>
 					 	        </c:forEach>
@@ -145,13 +146,14 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 				 	    </tr>
 				 	  </c:if>
 				 	</c:forEach>
+				 	</c:if>
 				 </c:forEach>
 		<tr>
 		 	<td style="border: 1px solid #ddd;padding: 5px 10px;">合计</td>
 		 	<td style="border: 1px solid #ddd;padding: 5px 10px;">--</td>
 		 	<td style="border: 1px solid #ddd;padding: 5px 10px;">--</td>
 		 	<c:forEach items="${extensions.supplierList}" var="supplier">
-		      <td style="border: 1px solid #ddd;padding: 5px 10px;">
+		      <td style="border: 1px solid #ddd;padding: 5px 10px;text-align: center;">
 		      	<input type="hidden" name="${supplier.suppliers.id}_total"/>
 		      	<span>
 		      		<c:set var="sum_score" value="0"/>

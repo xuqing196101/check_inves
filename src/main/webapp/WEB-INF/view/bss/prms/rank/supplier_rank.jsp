@@ -176,7 +176,7 @@
 		                <td class="tc" colspan="2" id="score_${supplier.suppliers.id}_${pack.id}">
 		                  <c:forEach items="${rankList}" var="rank">
 		                    <c:if test="${rank.packageId eq pack.id && rank.supplierId eq supplier.suppliers.id}">
-		                       <c:if test="${rank.econScore!=0&&rank.techScore!=0&&rank.sumScore!=0}">
+		                       <c:if test="${rank.econScore!=0&&rank.techScore!=0&&rank.sumScore!=0&&rank.econScore!=null&&rank.techScore!=null}">
 		                         ${rank.priceScore}(价格)+${rank.econScore}(经济)+${rank.techScore}(技术)=${rank.sumScore}
 		                       </c:if>
 		                    </c:if>

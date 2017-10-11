@@ -2499,6 +2499,16 @@ public class PackageExpertController {
          // 将count == 0 的移除
          List<MarkTerm> markTerms = new ArrayList<MarkTerm>();
          for (MarkTerm mark : markTermList) {
+           MarkTerm mt1 = new MarkTerm();
+           mt1.setPid(mark.getId());
+           mt1.setProjectId(projectId);
+           mt1.setPackageId(packageId);
+           List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+           for (MarkTerm mt : mtValue) {
+               if ("1".equals(mt.isChecked())) {
+                 mark.setCheckedPrice(mt.isChecked());
+               }
+           }
              if (mark.getCount() != 0) {
                  markTerms.add(mark);
              }
@@ -4448,14 +4458,14 @@ public class PackageExpertController {
         saleTender.setIsRemoved("0");
         saleTender.setIsTurnUp(0);
         List<SaleTender> sl = saleTenderService.findByCon(saleTender);
-        int supplierListSize=sl.size()%4==0?sl.size()/4:sl.size()/4+1;
+        int supplierListSize=sl.size()%8==0?sl.size()/8:sl.size()/8+1;
         List<Extension> extensions=new ArrayList<Extension>();
         List<SaleTender> sleTenders=null;
         for(int i=1;i<=supplierListSize;i++){
         	sleTenders=new ArrayList<SaleTender>();
         	Extension extensionJ = new Extension();
         	
-        	for(int j=(i-1)*4;j<i*4;j++){
+        	for(int j=(i-1)*8;j<i*8;j++){
         		if(j==sl.size()){
         			  break;
         		  }
