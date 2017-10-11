@@ -660,7 +660,7 @@
 						<c:if test="${project.confirmFile == 1}">
 							<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" onkeyup="lengthStr('3',this)" id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${reasons.financeReason}</textarea>
 							<div><span class="fl">财务部门审核意见附件：</span>
-							<span><u:upload id="p"  exts=".jpg,.png" multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${financeTypeId}" auto="true" /></span>
+							<u:upload id="p"  exts=".jpg,.png" multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${financeTypeId}" auto="true" />
 							<%-- <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button" onclick="showPhotoTo('${project.id}','${financeTypeId}','${sysKey}','o');">
                 <font color="white">查看财务部门审核意见</font></button>
                 <button style="margin-left: 3px;height: 26px;" class="btn fl mt1" type="button" onclick="download('${project.id}','${financeTypeId}','${sysKey}','o');">
