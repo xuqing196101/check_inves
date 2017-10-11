@@ -354,7 +354,7 @@ function onCheck(e, treeId, treeNode) {
 			  <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				<select name="orgId" id="typeName_id">
 				  <c:forEach items="${purchaserOrgList}" var="org" >
-				    <option value="${org.id}" <c:if test="${org.id == purchaseInfo.orgId}">selected="selected"</c:if>>${org.name}</option>
+				    <option value="${org.id}" <c:if test="${org.id == purchaseInfo.orgId}">selected="selected"</c:if>>${org.shortName}</option>
 				  </c:forEach>
 			    </select>
 			  </div>
