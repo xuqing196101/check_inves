@@ -641,7 +641,7 @@
     <include refid="Base_Column_List"/>
     from T_SES_BMS_USER u
     <include refid="Example_Where_Clause"/>
-    and u.TYPE_NAME IS NOT NULL
+    and u.TYPE_NAME IS NOT NULL and u.TYPE_NAME!='6'
     ORDER BY u.CREATED_AT DESC
   </select>
 
