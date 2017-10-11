@@ -14,8 +14,8 @@
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
         
+        $('#list_content').html('');
         if (typeof(list_content) != 'undefined') {
-          $('#list_content').html('');
           for (var i in list_content.list) {
             if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
               list_content.list[i].batchDetailsNumber = '';
@@ -94,8 +94,8 @@
         var str_tr = '';
         list_content_new = data.object;  // 储存所需数据到变量
         
+        $('#group_batch_box').html('');
         if (typeof(list_content_new) != 'undefined') {
-          $('#group_batch_box').html('');
           for (var i in list_content_new) {
             for (var ii in list_content_new[i].expertList) {
               if (typeof(list_content_new[i].expertList[ii].batchDetailsNumber) === 'undefined') {
