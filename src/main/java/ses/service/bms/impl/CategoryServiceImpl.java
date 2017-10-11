@@ -16,9 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
-
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.DictionaryDataMapper;
@@ -1265,4 +1262,42 @@ public class CategoryServiceImpl implements CategoryService {
 	private List<Category> findpublishTreeByPid(String id) {
 		return categoryMapper.findpublishTreeByPid(id);
 	}
+	
+	/**
+	 * 按品目名称搜索品目树
+	 */
+	@Override
+	public  Set<Category> selectCategoryByName(String typeId,String cateName) {
+		
+		HashSet<Category> hashSet = new HashSet<>();
+		HashMap<String,String> map = new HashMap<>();
+		map.put("cateName", cateName);
+		switch (typeId) {
+			case "PRODUCT":
+				map.put("status", "1");
+				map.put("type", "1");
+				hashSet.addAll(categoryMapper.selectCategoryByName(map));
+				break;
+			case "PROJECT":
+				map.put("type", "2");
+				hashSet.addAll(categoryMapper.selectCategoryByName(map));
+				break;
+			case "SALES":
+				map.put("type", "1");
+				map.put("status", "2");
+				hashSet.addAll(categoryMapper.selectCategoryByName(map));
+				break;
+			case "SERVICE":
+				map.put("type", "3");
+				hashSet.addAll(categoryMapper.selectCategoryByName(map));
+				break;
+			case "GOODS":
+				map.put("type", "1");
+				map.put("status", "1,2");
+				hashSet.addAll(categoryMapper.selectCategoryByName(map));
+				break;
+		}
+		return hashSet;
+	}
+	
 }

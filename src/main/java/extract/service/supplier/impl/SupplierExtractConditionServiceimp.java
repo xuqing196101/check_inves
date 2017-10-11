@@ -238,6 +238,11 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 				String tempCateIdString = "";
 				tempCateIdString=pid + (StringUtils.isNotBlank(cid)?("," +cid):"");
 				condition.setCategoryId(tempCateIdString);
+				//判断长度
+				String[] split = tempCateIdString.split(",");
+				
+				String[] categoryIds = condition.getCategoryIds();
+				
 			}
 			
 			if(StringUtils.isNotBlank(le)){
@@ -317,12 +322,12 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
   }
 
 
-  private String selectChild(String pid, String cid) {
+  private Set<String> selectChild(String pid, String cid) {
 	Set<String> cateSet = supplierConditionMapper.seleselectChildCate(pid.split(","));
 	if(StringUtils.isNotBlank(cid)){
 		cateSet.addAll(Arrays.asList(cid.split(",")));
 	}
-	return StringUtils.join(cateSet.toArray(),",");
+	return cateSet;//StringUtils.join(cateSet.toArray(),",");
   }
 
 /**
@@ -544,15 +549,42 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			if("project".equals(code)){
 				String[] checkParentCate = checkParentCate(categoryId);
 				hashMap.put("categoryIds",null !=checkParentCate?checkParentCate:categoryId.split(","));
+				return supplierConditionMapper.getQuaByCid(hashMap);
 			}else{
-				if(StringUtils.isNotBlank(parentId)){
-					
-					categoryId = this.selectChild(parentId, categoryId);
-				}
+				List<DictionaryData> cateList = new ArrayList<>();
 				hashMap.put("quaType", code.equals("product")?"2":code.equals("sales")?"3":null);
-				hashMap.put("categoryIds",categoryId.split(","));
+				if(StringUtils.isNotBlank(parentId)){
+					//categoryId = this.selectChild(parentId, categoryId);
+					 Set<String> selectChild = this.selectChild(parentId, categoryId);
+					 int size = selectChild.size();
+					 ArrayList<String> arrayList = new ArrayList<>();
+					 arrayList.addAll(selectChild);
+					 int count = size/1000;
+					 if(count >0){
+						 for (int i = 0; i < count; i++) {
+							 ArrayList<String> arrayList2 = new ArrayList<>();
+							 for(int j=0;j<1000;j++){
+								 arrayList2.add(arrayList.get(i*count+j));
+							 }
+							 hashMap.put("categoryIds",arrayList2);//categoryId.split(","));
+							 cateList.addAll(supplierConditionMapper.getQuaByCid(hashMap)); 
+						}
+						 if(size%1000>0){
+							 ArrayList<String> arrayList2 = new ArrayList<>();
+							 for (int i = 0; i < size%1000; i++) {
+								 arrayList2.add(arrayList.get(1000*count+i));
+							}
+							 hashMap.put("categoryIds",arrayList2);//categoryId.split(","));
+							 cateList.addAll(supplierConditionMapper.getQuaByCid(hashMap));
+						 } 
+					 }else{
+						 hashMap.put("categoryIds",arrayList);//categoryId.split(","));
+						 cateList.addAll(supplierConditionMapper.getQuaByCid(hashMap));
+					 }
+				}
+				
+				return cateList;
 			}
-			return supplierConditionMapper.getQuaByCid(hashMap);
 		}
 		return null;
 	}

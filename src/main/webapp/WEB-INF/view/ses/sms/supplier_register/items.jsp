@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="UTF-8"%>
+	<%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 
 <!DOCTYPE HTML>
@@ -485,17 +485,17 @@
 		var zTreeObj;
 		var setting = {
 			async : {
-        autoParam: ["id","code"],
-        enable : true,
-        url : "${pageContext.request.contextPath}/supplier/category_type.do",
-        otherParam : {
-        "code" : code,
-        "supplierId" : "${currSupplier.id}",
-        "status" : seq
-        },
-        dataType : "json",
-        type : "post",
-      },
+		        autoParam: ["id","code"],
+		        enable : true,
+		        url : "${pageContext.request.contextPath}/supplier/category_type.do",
+		        otherParam : {
+		        "code" : code,
+		        "supplierId" : "${currSupplier.id}",
+		        "status" : seq
+		        },
+		        dataType : "json",
+		        type : "post",
+		    },
 			check : {
 				enable : true,
 				chkStyle:"checkbox",  
