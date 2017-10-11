@@ -141,7 +141,7 @@
     <div class="headline-v2 fl">
       <h2>计划明细</h2>
     </div>
-    <div class="container clear margin-top-30"  id="content" >
+    <div class="col-md-12 col-xs-12 col-sm-12 mt5 content require_ul_list" id="content">
       <form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
        <table id="table" class="table table-bordered table-condensed lockout">
           <thead>
