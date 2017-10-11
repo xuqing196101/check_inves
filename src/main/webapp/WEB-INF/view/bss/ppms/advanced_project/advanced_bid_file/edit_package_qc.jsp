@@ -352,7 +352,7 @@
             <li>
               <label class="fl">模板选择--></label>
                <label class="fl">所属产品目录：</label>
-                <div class="input_group w200">
+                <div class="input_group w200 fl">
                <input id="cId" name="categoryId"  type="hidden" value="${categoryId}">
                 <input id="categorySel"  type="text" name="categoryName" readonly value="${categoryName}"  onclick="showCategory();" />
             <%-- <div class="drop_up" onclick="showCategory();">
