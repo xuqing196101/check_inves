@@ -348,6 +348,7 @@ function submitcurr() {
 									html+='<div class=" mt10 fl ml10"><input type="checkbox" value="'+split2[0]+'" name="packagesId" />'+split2[1]+'</div>';
 								}
 								$("#openDiv_packages").append(html);
+								fflog=false;
 								indexLayer =  layer.open({
 								  	    shift: 1, //0-6的动画形式，-1不开启
 								  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
