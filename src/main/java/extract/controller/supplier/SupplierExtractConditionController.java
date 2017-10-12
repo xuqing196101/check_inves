@@ -5,6 +5,7 @@ package extract.controller.supplier;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +19,7 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
+import ses.service.bms.CategoryService;
 
 import com.alibaba.fastjson.JSON;
 import common.bean.ResponseBean;
@@ -42,6 +44,9 @@ import extract.service.supplier.SupplierExtractConditionService;
     @Autowired
     private SupplierExtractConditionService conditionService;
 
+    @Autowired
+    private CategoryService categoryService;
+    
     
     
     /**
@@ -172,4 +177,9 @@ import extract.service.supplier.SupplierExtractConditionService;
 	   return JSON.toJSONString(status);
    }
 
+   @ResponseBody
+   @RequestMapping("/searchCate")
+   public Set<Category> searchCate(String typeId,String cateName){
+	return categoryService.selectCategoryByName(typeId, cateName);
+   }
 }

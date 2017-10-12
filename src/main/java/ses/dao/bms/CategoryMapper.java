@@ -2,6 +2,7 @@ package ses.dao.bms;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -411,4 +412,8 @@ public interface CategoryMapper {
 
 
 	public List<Category> findpublishTreeByPid(String id);
+
+
+	public Collection<? extends Category> selectCategoryByName(
+			HashMap<String, String> map);
 }

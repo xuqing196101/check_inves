@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -458,5 +459,17 @@ import ses.model.sms.SupplierTypeTree;
 	 * @return
 	 */
 	Category selectCategoryByItemId (String itemsId);
+	
+	/**
+	 * 按品目名称搜索品目树
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-9下午3:10:57
+	 * @param typeId
+	 * @param cateName
+	 * @return
+	 */
+	Set<Category> selectCategoryByName(String typeId, String cateName);
 	
 }
