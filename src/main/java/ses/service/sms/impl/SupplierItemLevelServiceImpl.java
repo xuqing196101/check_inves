@@ -90,7 +90,7 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 						level.setSupplierLevel(levels.get(0));
 					}
 				}
-				level.setSupplierId(supplierItemLevel.getId());
+				level.setSupplierId(supplierItemLevel.getSupplierId());
 				level.setArmyBusinessName(supplierItemLevel.getArmyBusinessName());
 				level.setCategoryId(categoryIds);
 				level.setSupplierTypeId(supplierType);
