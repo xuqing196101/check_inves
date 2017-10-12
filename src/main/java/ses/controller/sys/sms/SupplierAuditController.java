@@ -1210,6 +1210,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			
 			//附件==============================
 			supplierModify.setModifyType("file");
+			supplierModify.setListType(null);
 			StringBuffer fileModifyField = new StringBuffer();
 			modifyList = supplierModifyService.selectBySupplierId(supplierModify);
 			for(SupplierModify m : modifyList){
