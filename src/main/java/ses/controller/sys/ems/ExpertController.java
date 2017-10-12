@@ -3825,7 +3825,7 @@ public class ExpertController extends BaseController {
         String now = new SimpleDateFormat("yyyy").format(new Date());
         if(Integer.parseInt(now) - Integer.parseInt(yyyy) == 70) {
             if(Integer.parseInt(new SimpleDateFormat("MM").format(new Date())) >= Integer.parseInt(mm)){
-                if(Integer.parseInt(new SimpleDateFormat("dd").format(new Date())) >= Integer.parseInt(dd)){
+                if(Integer.parseInt(new SimpleDateFormat("dd").format(new Date())) > Integer.parseInt(dd)){
                     isok = "1";
                 }
             }
