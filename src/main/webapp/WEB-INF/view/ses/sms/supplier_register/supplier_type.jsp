@@ -1407,11 +1407,26 @@
 							}
 						}
 						
+						//var certTypes = $("[id='certType_" + objIdNum + "']").combobox("getData");
+						var certTypes = $.parseJSON('${quaListJson}');
+						//console.log(certTypes);
+						var certLevelEditable = true;
+						if(certTypes){
+							var certTypeIds = [];
+							for(var i=0,len=certTypes.length; i<len; i++){
+								certTypeIds[i] = certTypes[i].id;
+							}
+							if($.inArray(typeId,certTypeIds) != -1){
+								certLevelEditable = false;
+							}
+						}
 						if(flag_current == 0) {
 							$("[id='certGrade_" + objIdNum + "']").combobox({
 								valueField: 'label',
 								textField: 'value',
-								data: easyuiData
+								data: easyuiData,
+								editable: certLevelEditable,
+								hasDownArrow: true
 							});
 						} else {
 							$("[id='certGrade_" + objIdNum + "']").combobox({
@@ -1421,6 +1436,14 @@
 							});
 						}
 					}
+				});
+			}else{
+				$("[id='certGrade_" + objIdNum + "']").combobox({
+					height: 0,
+					valueField: 'label',
+					textField: 'value',
+					data: "",
+					editable: true
 				});
 			}
 		} else {
