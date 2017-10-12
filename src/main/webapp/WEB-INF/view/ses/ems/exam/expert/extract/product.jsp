@@ -200,17 +200,81 @@ function ajaxDataFilter(treeId, parentNode, responseData){
    
  }
 
+  //品目搜索
+function searchCate() {
+	  	var code = '${type}';
+	  	var ids = '${ids}';
+        var zTreeObj;
+        var setting = {
+          check: {
+            enable: true,
+            autoCheckTrigger: true,
+            chkStyle: "checkbox",
+            chkboxType: {
+              "Y": "s",
+              "N": "s"
+            }, //勾选checkbox对于父子节点的关联关系  
+          },
+          data: {
+            simpleData: {
+              enable: true,
+              autoCheckTrigger: true,
+              idKey: "id",
+              pIdKey: "parentId"
+            }
+          },
+          callback: {
+        	  onCheck: onCheck
+          },
+          view: {
+        	  fontCss: getFontCss,
+            showLine: true
+          },
+        };
+        var index = layer.load(1, {
+          shade: [0.1, '#fff'] //0.1透明度的白色背景
+        });
+        var cateName = $("#key").val();
+        if(cateName == "") {
+        	location.reload();
+        } else {
+          $.ajax({
+            url: "${pageContext.request.contextPath}/extractExpert/searchCate.do",
+            type:"post",
+            data: {
+              "code": code,
+              "cateName": cateName,
+              "ids": ids,
+            },
+            async: false,
+            dataType: "json",
+            success: function(data) {
+              zTreeObj = $.fn.zTree.init($("#ztree"), setting, data);
+              zTreeObj.expandAll(true); //全部展开
+            }
+          });
+        }
+        layer.close(index);
+        // 过滤掉四级以下的节点
+        setTimeout(function() {
+          var treeObj = $.fn.zTree.getZTreeObj("ztree");
+          var nodes = treeObj.getNodes();
+          for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].level > 3) {
+              treeObj.removeNode(nodes[i]);
+            }
+          }
+        }, 200);
+      }
 </script>
 </head>
 <body>
 	<!-- 修改订列表开始-->
 	<div class="container padding-top-20   ">
-		<form action="${pageContext.request.contextPath}/SupplierExtracts/listSupplier.do"
-			method="post">
 			<div>
 				<ul class="list-unstyled list-flow p0_20">
-			
-					<input class="span2" name="id" type="hidden">
+					<input class="span2" name="code" value="${type}" type="hidden">
+					<input class="span2" name="ids" value="${ids}" type="hidden">
 					<li class="col-md-6  p0 " id="liradio">
 						<div class="fl mr10">
 							<input type="radio" name="radio" id="radio" 
@@ -229,9 +293,12 @@ function ajaxDataFilter(treeId, parentNode, responseData){
 				</ul>
 				
 			</div>
-			<!-- <div align="center"><input type="text" id="key" class="empty" > </div> -->
+			<div align="center">
+				<input type="text" id="key" class="empty" name="cateName">
+				<input type="button" id="search" class="btn" value="搜索" onclick="searchCate()">
+				<div class="clear"></div>
+			</div>
 			<div id="ztree" class="ztree margin-left-13" ></div>
-		</form>
 	</div>
 </body>
 </html>
