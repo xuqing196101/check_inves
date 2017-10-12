@@ -48,13 +48,15 @@
             	/* $("#reverse_of_five_i").css("display","block");
             	$("#reverse_of_six").css("display","block"); */
             }
-            if($("#status").val() == '-2'){
+            if($("#status").val() == '-2' || $("#status").val() == '4'){
             	var expertId = $("input[name='expertId']").val();
             	var checkVal = $("input:radio[name='selectOption']:checked").val();
-            	
             	//预复审合格状态默认加载通过了xx,不通过xx
             	if(checkVal == '-3'){
             		getCheckOpinionType(expertId);
+            	}
+            	if(checkVal == '5'){
+            		$("#cate_result").html("预复审不合格 。");
             	}
             }
             
