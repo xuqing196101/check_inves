@@ -1,6 +1,7 @@
 package ses.model.ems;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ExpertCategory implements Serializable{
 	/**
@@ -19,8 +20,17 @@ public class ExpertCategory implements Serializable{
     
     //审核状态（0默认通过，1不通过）
     private Integer auditStatus;
+    private List<String> typeIdList;
     
-    public String getExpertId() {
+    public List<String> getTypeIdList() {
+		return typeIdList;
+	}
+
+	public void setTypeIdList(List<String> typeIdList) {
+		this.typeIdList = typeIdList;
+	}
+
+	public String getExpertId() {
         return expertId;
     }
 

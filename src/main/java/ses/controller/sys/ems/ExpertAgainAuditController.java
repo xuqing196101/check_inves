@@ -160,7 +160,9 @@ public class ExpertAgainAuditController extends BaseSupplierController {
         List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
         
         //全部机构
-        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
+        HashMap<String,Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("isAuditSupplier", 0);
+        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(hashMap);
         
         jsTypeList.addAll(jjTypeList);
         Map<String,Object> map = new HashMap<String,Object>();

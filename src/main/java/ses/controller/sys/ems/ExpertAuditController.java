@@ -3422,8 +3422,23 @@ public class ExpertAuditController{
     @ResponseBody
     public String findCategoryCount(String expertId, Integer auditFalg){
     	Map<String, Integer> map = new HashMap<>();
+    	Expert expert = expertService.selectByPrimaryKey(expertId);
+    	ExpertCategory eCategory = new ExpertCategory();
+    	List<String> list = new ArrayList<String>();
+    	eCategory.setExpertId(expertId);
+    	String[] typeIds = expert.getExpertsTypeId().split(",");
+    	for (String string : typeIds) {
+    		DictionaryData code = DictionaryDataUtil.findById(string);
+    		if(code.getCode().equals("PROJECT")||code.getCode().equals("GOODS_PROJECT")){
+    			DictionaryData dictionaryData = DictionaryDataUtil.get("ENG_INFO_ID");
+    			list.add(dictionaryData.getId());
+    		}
+			list.add(string);
+		}
+    	eCategory.setTypeIdList(list);
+    	List<ExpertCategory> expertCategoryList= expertCategoryService.selectCategoryListByCategoryId(eCategory);
     	//全部的产品
-    	List<ExpertCategory> expertCategoryList = expertCategoryService.findByExpertId(expertId);
+    	//List<ExpertCategory> expertCategoryList = expertCategoryService.findByExpertId(expertId);
     	Integer all = 0;
     	//工程专业
     	List<ExpertCategory> listgc = new ArrayList<>();

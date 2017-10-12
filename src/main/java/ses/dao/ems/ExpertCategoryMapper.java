@@ -174,4 +174,5 @@ public interface ExpertCategoryMapper {
     List<ExpertCategory> findPassCateByExpertId(Map<String,Object> map);
     
     ExpertCategory selectCategoryByCategoryId(ExpertCategory expertCategory);
+    List<ExpertCategory> selectCategoryListByCategoryId(ExpertCategory expertCategory);
 }
