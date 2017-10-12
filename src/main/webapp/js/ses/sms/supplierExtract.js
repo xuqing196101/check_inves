@@ -430,7 +430,7 @@ $(function () {
     	return count+count1+count2+count3;
     }
     
-    function extractVerify() {
+    function extractVerify(status) {
     	//清空错误提示
     	$("#extractUser").find("span").remove();
     	$("#supervise").find("span").remove();
@@ -457,7 +457,7 @@ $(function () {
     		}else{
     			$("#"+code+"Result").find("tbody").empty();
     			$("#ExtractNumError").html("");
-    			extractSupplier(code);
+    			extractSupplier(code,status);
     		}
     	}else{
     		$("#ExtractNumError").html("抽取数量不正确");
@@ -521,7 +521,7 @@ $(function () {
     }*/
     /**点击抽取--当选择参加与否后保存状态*/
     
-    function extractSupplier(code) {
+    function extractSupplier(code,status) {
     	
     	var flag = 0;
 		//存储项目信息
@@ -611,13 +611,25 @@ $(function () {
 	    
 	    
 	    
+	    if(status){
+	    	$.ajax({
+	    		type: "POST",
+	    		url: globalPath+'/SupplierCondition_new/selectLikeSupplier.do',
+	    		data: formData ,
+	    		dataType: "json",
+	    		async:false,
+	    		success: function (msg) {
+	    			
+	    		}
+	    		});
+	    }else{
+	    	//显示抽取结果表
+	    	$("#result").removeClass("dnone");
+	    	$("#"+code+"Result").removeClass("dnone");
+	    	//追加抽取结果
+	    	appendTd(0,$("#"+code+"Result").find("tbody"),null);
+	    }
 	    
-	    
-	    //显示抽取结果表
-	    $("#result").removeClass("dnone");
-	    $("#"+code+"Result").removeClass("dnone");
-	    //追加抽取结果
-	    appendTd(0,$("#"+code+"Result").find("tbody"),null);
 	   
     	/*var count = 0;
     	var projectExtractNum = $("#projectExtractNum").val();
@@ -931,12 +943,14 @@ $(function () {
         //  iframe层
         var iframeWin;
         var categoryId = $("#"+code+"CategoryIds").val();
+        
         var parentId = $(cate).prev(".parentId");
         if(parentId.length<=0){
         	$(cate).before("<input class='parentId' type='hidden' name='"+code+"ParentId'>");
         }else if($(parentId).val()){
         	categoryId += ","+ $(parentId).val();
         }
+        sessionStorage.setItem("categoryId",categoryId);
         layer.open({
             type: 2,
             title: "选择条件",
@@ -945,7 +959,7 @@ $(function () {
             area: ['430px', '400px'],
             skin: 'layer-default',
             offset: '20px',
-            content: globalPath+'/SupplierExtracts_new/addHeading.do?supplierTypeCode='+typeCode+'&categoryId='+categoryId, //iframe的url
+            content: globalPath+'/SupplierExtracts_new/addHeading.do?supplierTypeCode='+typeCode,//+'&categoryId='+categoryId, //iframe的url
             //content: globalPath+'/supplier/category_type.do?code='+supplierCode, 
             success: function (layero, index) {
                 iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();

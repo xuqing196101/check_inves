@@ -59,7 +59,7 @@ function functionArea() {
 
 
 //人工抽取
-function artificial_extracting(){
+function artificial_extracting(isAuto){
     getCount();
     $("#projectName").attr("disabled",false);
     $("#projectCode").attr("disabled",false);
@@ -71,7 +71,7 @@ function artificial_extracting(){
         return;
     }
     savePerson();
-    $("#isAuto").val(0);
+    $("#isAuto").val(isAuto);
     //项目信息
     var proRuestl_1 = $("#form").serializeJson();//数据序列化
     var param1 = $("#condition_form").serializeJson();
@@ -94,14 +94,17 @@ function artificial_extracting(){
         async : false,
         type : "POST",
         success : function(data) {
-            for(var key in data){
-                if(key != "conditionId" && data[key] != null && data[key].length > 0){
-                    $("#"+key+"_h").removeClass("display-none");
-                    addTr(key,data[key][0]);
-                }else if(key == "conditionId"){
-                    $("#conditionId").val(data[key]);
+        	if(isAuto == 0){
+        		for(var key in data){
+                    if(key != "conditionId" && data[key] != null && data[key].length > 0){
+                        $("#"+key+"_h").removeClass("display-none");
+                        addTr(key,data[key][0]);
+                    }else if(key == "conditionId"){
+                        $("#conditionId").val(data[key]);
+                    }
                 }
-            }
+        		$("#result").removeClass("display-none");
+        	}
             //点击抽取之后设置条件页面不可再操作
             $("#artificial").attr("disabled",true);
             $("#auto").attr("disabled",true);
@@ -112,7 +115,6 @@ function artificial_extracting(){
             $("#div_2 select").attr("disabled",true);
             $("#div_3").find("input").attr("disabled",true);
             $("#div_3 select").attr("disabled",true);
-            $("#result").removeClass("display-none");
         },
         error: function () {
             layer.msg("操作失败", {offset: '100px'});

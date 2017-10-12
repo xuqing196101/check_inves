@@ -172,6 +172,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             DictionaryData project = DictionaryDataUtil.get("SERVICE");
             project.setName(project.getName() + "技术");
             expertKindList.add(project);
+            expertKindList.add(DictionaryDataUtil.get("GOODS_SERVER"));
         }
         return expertKindList;
     }

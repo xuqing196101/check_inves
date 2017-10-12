@@ -486,7 +486,7 @@
           </form>
         </div>
         <div class="col-md-12 clear tc mt10">
-          <button class="btn" type="button" onclick="artificial_extracting()" id="artificial">人工抽取</button>
+          <button class="btn" type="button" onclick="artificial_extracting(0)" id="artificial">人工抽取</button>
           <button class="btn" type="button" onclick="" id="auto">自动抽取</button>
           <button class="btn" type="button" onclick="extractReset()" id="reset">重置</button>
         </div>

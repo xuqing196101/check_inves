@@ -2,6 +2,7 @@ package ses.controller.sys.sms;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,49 +31,40 @@ public class SupplierExportController extends BaseSupplierController {
   public String list(HttpServletRequest request, HttpServletResponse response,
       String name, String nameEx,String nameSupFormal,String nameExpFormal, Model model, Integer page, Integer pageEx,
       Integer pageSupFormal,Integer pageExpFormal, Integer type) {
-    page = page == null ? 1 : page;
-    pageEx = pageEx == null ? 1 : pageEx;
-    pageSupFormal = pageSupFormal == null ? 1 : pageSupFormal;
-    pageExpFormal = pageExpFormal == null ? 1 : pageExpFormal;
-    HashMap<String, Object> hashMap = new HashMap<String, Object>();
-    hashMap.put("page", page);
-    hashMap.put("name", name);
-    HashMap<String, Object> map = new HashMap<String, Object>();
-    map.put("pageEx", pageEx);
-    map.put("nameEx", nameEx);
-    HashMap<String, Object> supFormalmap = new HashMap<String, Object>();
-    supFormalmap.put("pageSupFormal", pageSupFormal);
-    supFormalmap.put("nameSupFormal", nameSupFormal);
-    HashMap<String, Object> expFormalmap = new HashMap<String, Object>();
-    expFormalmap.put("pageExpFormal", pageExpFormal);
-    expFormalmap.put("nameExpFormal", nameExpFormal);
-    List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
+    HashMap<String, Object> map=new HashMap<String, Object>();
+    map.put("isAuditSupplier", 1);
+    List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(map);
     request.setAttribute("allOrg", allOrg);
-    List<supplierExport> selectSupplierNumber = supplierService
-        .selectSupplierNumber(hashMap);
-    List<supplierExport> selecteexNumber = supplierService
-        .selectExpertNumber(map);
-    List<supplierExport> supFormal = supplierService
-        .selectSupplierNumberFormal(supFormalmap);
-    List<supplierExport> expFormal = supplierService
-        .selectExpertNumberFormal(expFormalmap);
-    PageInfo<supplierExport> list = new PageInfo<supplierExport>(
-        selectSupplierNumber);
-    PageInfo<supplierExport> list1 = new PageInfo<supplierExport>(
-        selecteexNumber);
-    PageInfo<supplierExport> supFormallist = new PageInfo<supplierExport>(
-        supFormal);
-    PageInfo<supplierExport>  expFormallist= new PageInfo<supplierExport>(
-        expFormal);
-    model.addAttribute("list", list);
-    model.addAttribute("listExpert", list1);
-    model.addAttribute("supFormallist", supFormallist);
-    model.addAttribute("expFormallist", expFormallist);
-    model.addAttribute("name", name);
-    model.addAttribute("nameEx", nameEx);
-    model.addAttribute("nameSupFormal", nameSupFormal);
-    model.addAttribute("nameExpFormal", nameExpFormal);
-    model.addAttribute("type", type);
     return "ses/sms/supplierExport/list";
+  }
+  @RequestMapping("/supplier_check")
+  public String supplierCheck(HttpServletRequest request, HttpServletResponse response,
+      String name, String nameEx,String nameSupFormal,String nameExpFormal, Model model, Integer page, Integer pageEx,
+      Integer pageSupFormal,Integer pageExpFormal, Integer type) {
+    String url="";
+    HashMap<String, Object> hashMap = new HashMap<String, Object>();
+    hashMap.put("name", name);
+    if(type==1){
+      List<Map<String, Object>> selectSupplierCheckNumber = supplierService.selectSupplierCheckNumber(hashMap);
+      model.addAttribute("list", selectSupplierCheckNumber);
+      url="ses/sms/supplierExport/supplier_check";
+    }else if(type==2){
+      List<Map<String, Object>> selectSupplierTypeNumber = supplierService.selectSupplierTypeNumber(hashMap);
+      model.addAttribute("list", selectSupplierTypeNumber);
+      url="ses/sms/supplierExport/supplier_type";
+    }else if(type==3){
+      url="ses/sms/supplierExport/supplier_product_type";
+    }else if(type==4){
+      List<Map<String, Object>> selectExpertCheckNumber = supplierService.selectExpertCheckNumber(hashMap);
+      model.addAttribute("list", selectExpertCheckNumber);
+      url="ses/sms/supplierExport/expert_check";
+    }else if(type==5){
+      List<Map<String, Object>> selectExpertTypeNumber = supplierService.selectExpertTypeNumber(hashMap);
+      model.addAttribute("list", selectExpertTypeNumber);
+      url="ses/sms/supplierExport/expert_type";
+    }else if(type==6){
+      url="ses/sms/supplierExport/expert_product_type";
+    }
+    return url;
   }
 }

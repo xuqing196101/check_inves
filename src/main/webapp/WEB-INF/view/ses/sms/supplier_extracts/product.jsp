@@ -22,20 +22,25 @@
 <meta name="author" content="">
 <script type="text/javascript">
     var key;
+    var zTreeObj;
+    var zNodes;
+    var categoryId;
     $(function() {
-      var zTreeObj;
-      var zNodes;
-      loadZtree();
+      
+      categoryId = sessionStorage.getItem("categoryId");
+      loadZtree(null);
 		
-	  
-      function loadZtree() {
+    });
+    
+    function loadZtree(obj) {
         var setting = {
           async: {
             autoParam: ["id"],
             enable: true,
-            url: "${pageContext.request.contextPath}/SupplierExtracts_new/getTree.do?supplierTypeCode=${supplierTypeCode}&categoryId=${categoryId}",
+            url: "${pageContext.request.contextPath}/SupplierExtracts_new/getTree.do?supplierTypeCode=${supplierTypeCode}",
             otherParam: {
-              categoryIds: "${categoryIds}",
+              categoryId: categoryId,
+              //"${categoryId}",
             },
             dataType: "json",
             dataFilter: ajaxDataFilter,
@@ -61,16 +66,48 @@
             fontCss: getFontCss
           }
         };
-        zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
+        
+        if(obj){
+        	// 加载中的菊花图标
+			loading = layer.load(1);
+			var cateName = $("#cateName").val();
+			$.ajax({
+				url: "${pageContext.request.contextPath}/SupplierCondition_new/searchCate.do",
+				type:"post",
+				data: {"typeId" : "${supplierTypeCode}", "cateName" : cateName},
+				async: false,
+				dataType: "json",
+				success: function(data){
+					if (data.length <1) {
+						layer.msg("没有符合查询条件的产品类别信息！");
+					} else {
+						zNodes = data;
+						zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
+						zTreeObj.expandAll(true);//全部展开
+						// 如果搜索到的最后一个节点是父节点，折叠最后一个节点
+						var allNodes = zTreeObj.transformToArray(zTreeObj.getNodes());
+						if(allNodes && allNodes.length > 0){
+							// 最后一个节点
+							var lastNode = allNodes[allNodes.length-1];
+							if(lastNode.isParent){
+								zTreeObj.expandNode(lastNode, false);//折叠最后一个节点
+							}
+						}
+					}
+					// 关闭加载中的菊花图标
+					layer.close(loading);
+				}
+			});
+        }else{
+	        zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
+        }
+        
         key = $("#key");
         key.bind("focus", focusKey)
           .bind("blur", blurKey)
           .bind("propertychange", searchNode)
           .bind("input", searchNode);
       }
-      
-    });
-    
     
     //选中时间回调
     function checkNode(event,treeId,treeNode){
@@ -183,7 +220,7 @@
 	}
 		return responseData;
 	}
-    function focusKey(e) {
+   function focusKey(e) {
       if(key.hasClass("empty")) {
         key.removeClass("empty");
       }
@@ -203,7 +240,8 @@
       searchNode(e);
     }
 
-    function searchNode(e) {
+	//搜索
+     function searchNode(e) {
       var zTree = $.fn.zTree.getZTreeObj("ztree");
       var value = $.trim(key.get(0).value);
       var keyType = "name";
@@ -236,23 +274,7 @@
       };
     }
 
-    function filter(node) {
-      return !node.isParent && node.isFirstNode;
-    }
-    
-    
-    
-    var treeid=null;
-  /*树点击事件*/
-  function zTreeOnClick(event,treeId,treeNode){
-      treeid=treeNode.id;
-  }
-  /*树点击事件*/
-  var check;
-  function zTreeOnCheck(event,treeId,treeNode){
-      treeid=treeNode.id;
-     
-  }
+  
   //获取选中子节点id
   function getChildren(cate){
   	var typeCode = $(cate).attr("typeCode");
@@ -323,6 +345,9 @@
 					</li>
 				</ul>
 				<br />
+			</div>
+			<div>
+				<input type="text" id="cateName"> <input type="button" onclick="loadZtree('true')" value="搜索">
 			</div>
 			<div id="ztree" class="ztree margin-left-13"></div>
 		</form>

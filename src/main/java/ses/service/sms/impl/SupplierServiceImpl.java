@@ -1368,17 +1368,16 @@ public class SupplierServiceImpl implements SupplierService {
   }
 
   @Override
-  public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map) {
+   public List<Map<String, Object>> selectSupplierCheckNumber(HashMap<String, Object> map) {
 //    PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage((Integer) map.get("page"), 20);
-    return supplierMapper.selectSupplierNumber(map);
+    return supplierMapper.selectSupplierCheckNumber(map);
   }
 
   @Override
-  public List<supplierExport> selectExpertNumber(HashMap<String, Object> map) {
+  public List<Map<String, Object>> selectExpertCheckNumber(HashMap<String, Object> map) {
 //    PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage((Integer) map.get("pageEx"), 20);
-    return supplierMapper.selectExpertNumber(map);
+    /*PageHelper.startPage((Integer) map.get("pageEx"), 20);*/
+    return supplierMapper.selectExpertCheckNumber(map);
   }
 
   /**
@@ -2048,19 +2047,18 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
   @Override
-  public List<supplierExport> selectSupplierNumberFormal(
+  public List<Map<String, Object>> selectSupplierTypeNumber(
       HashMap<String, Object> map) {
 //    PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage((Integer) map.get("pageSupFormal"), 20);
-    return  supplierMapper.selectSupplierNumberFormal(map);
+    /*PageHelper.startPage((Integer) map.get("pageSupFormal"), 20);*/
+    return  supplierMapper.selectSupplierTypeNumber(map);
   }
 
   @Override
-  public List<supplierExport> selectExpertNumberFormal(
-      HashMap<String, Object> map) {
+  public List<Map<String, Object>> selectExpertTypeNumber(HashMap<String, Object> map) {
 //    PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage((Integer) map.get("pageExpFormal"), 20);
-    return supplierMapper.selectExpertNumberFormal(map);
+   /* PageHelper.startPage((Integer) map.get("pageExpFormal"), 20);*/
+    return supplierMapper.selectExpertTypeNumber(map);
   }
 
 	@Override

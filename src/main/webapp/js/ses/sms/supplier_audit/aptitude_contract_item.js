@@ -114,7 +114,7 @@ function reasonProject(ind,auditField, auditFieldName,ids) {
 									if(v){
 										//资质文件
 										$("#"+tablerId+" #contract"+index+"",window.parent.document).css('border-color', '#FF0000');
-										if('aptitude_product_page'==auditType){
+										if('contract_product_page'==auditType){
 										//物资生产   服务
 											var old=$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val();
 											$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);

@@ -327,7 +327,7 @@
                 <c:if test="${list.status eq '-3'}">
                   <span class="label rounded-2x label-dark">公示中</span>
                 </c:if>
-                <c:if test="${list.isProvisional eq '1'}">
+                <c:if test="${list.isProvisional eq '1' and list.status eq '4'}">
                   <span class="label rounded-2x label-u">临时</span>
                 </c:if>
                 <c:if test="${list.status eq '-2'}">
