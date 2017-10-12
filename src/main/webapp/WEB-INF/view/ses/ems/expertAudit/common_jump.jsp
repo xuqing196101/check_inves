@@ -29,7 +29,7 @@
     </li>
     <c:if test="${sign == 1 and (expert.status != 0 and status != 0 and expert.status != 3 and status != 3)}">
 	    <li id="reverse_of_six" onclick="jump('uploadApproveFile')">
-	      <a aria-expanded="false" href="#tab-1" data-toggle="tab">上传批准审核表</a>
+	      <a aria-expanded="false" href="#tab-1" data-toggle="tab">上传批准初审表</a>
 	    </li>
     </c:if>
 </ul>
