@@ -168,18 +168,14 @@
     //复审确认（资源服务中心）
     function reviewConfirm(){
     	var ids = [];
-    	var flag = true;
     	$('input[type="checkbox"]:checked').each(function() {
         var id = $(this).val();
        	var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
-        if(state == "复审结束"){
+        if(state !="" && state == "复审结束"){
         	ids.push(id);
-        }else{
-        	flag = false;
         }
       });
-    	if(flag){
     		$.ajax({
  	        url: "${pageContext.request.contextPath}/expertAgainAudit/reviewConfirm.do",
  	        data: {"expertIds" : ids},
@@ -199,9 +195,10 @@
  	          layer.msg("操作失败",{offset:'100px'});
  	        }
  	      });
-    	}else{
-    		layer.msg("请选择复审结束的专家",{offset:'100px'});
-    	}
+    }
+    
+    function view(expertId){
+        window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2";
     }
   </script>
     

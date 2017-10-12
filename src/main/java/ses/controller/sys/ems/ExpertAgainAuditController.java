@@ -873,7 +873,8 @@ public class ExpertAgainAuditController extends BaseSupplierController {
     @ResponseBody
     public JdcgResult reviewConfirm(@CurrentUser User user, String[] expertIds){
     	JdcgResult jdcgResult = new JdcgResult();
-    	for(int i=0; i < expertIds.length; i++){
+    	if(expertIds !=null){
+    		for(int i=0; i < expertIds.length; i++){
     			// 查询审核意见
         		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
         		expertAuditOpinion.setExpertId(expertIds[i]);
@@ -909,6 +910,9 @@ public class ExpertAgainAuditController extends BaseSupplierController {
         			jdcgResult.setStatus(503);
         		}
     		}
+    	}else{
+    		jdcgResult.setStatus(503);
+    	}
     	return jdcgResult;
     }
 }
