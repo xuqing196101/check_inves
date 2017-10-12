@@ -222,7 +222,7 @@ public class OuterExpertServiceImpl implements OuterExpertService {
                 expertAuditOpinion.setExpertId(expert.getId());
                 // 设置审核标识  1：复审标识
                 expertAuditOpinion.setFlagTime(1);
-                ExpertAuditOpinion expertAuditOpinionOut = expertAuditOpinionService.selectByExpertId(expertAuditOpinion);
+                ExpertAuditOpinion expertAuditOpinionOut = expertAuditOpinionService.selectByExpertId(expertAuditOpinion, null);
                 expert.setExpertAuditOpinion(expertAuditOpinionOut);
                 // 将专家信息添加到集合
                 experts.add(expert);
