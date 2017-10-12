@@ -229,7 +229,7 @@
                 ids.push($(this).val());
             });
             if(ids.length>0){
-                layer.confirm('您确定要移除吗？', {title:'提示！',offset: ['200px']}, function(index){
+                layer.confirm('确认撤销审核操作吗？', {title:'提示！',offset: ['200px']}, function(index){
                     layer.close(index);
                     $.ajax({
                         url:"${pageContext.request.contextPath}/supplierAudit/deleteById.html",
