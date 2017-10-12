@@ -2932,6 +2932,42 @@ public class OpenBiddingController extends BaseSupplierController{
     return newFileName;
 
   }
+  
+  @ResponseBody
+  @RequestMapping("/ifNotice")
+  public String ifNotice(String projectId, String noticeType){
+	  Article article = new Article();
+	  article.setProjectId(projectId);
+	  if (PURCHASE_NOTICE.equals(noticeType)) {
+		  //采购公告
+	      article.setArticleType(articelTypeService.selectArticleTypeByCode("purchase_notice"));
+	      //集中采购
+	      ArticleType articleType2 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrlized");
+	      if (articleType2 != null) {
+	    	  article.setSecondArticleTypeId(articleType2.getId());
+	      }
+	  } else {
+		  //中标公告
+	      article.setArticleType(articelTypeService.selectArticleTypeByCode("success_notice"));
+	      //集中采购
+	      ArticleType articleType2 = articelTypeService.selectArticleTypeByCode("success_notice_centralized");
+	      if (articleType2 != null) {
+	    	  article.setSecondArticleTypeId(articleType2.getId());
+	      }
+	  }
+	  //查询公告列表中是否有该项目的招标公告
+	  List<Article> articles = articelService.selectArticleByProjectId(article);
+	  //判断该项目是否已经存在该类型公告
+	  if (articles != null && !articles.isEmpty()) {
+		  //判断该项目的公告是否提交
+	      if (articles.get(0).getStatus() == 1 || articles.get(0).getStatus() == 2){
+	    	  return StaticVariables.SUCCESS;
+	      } else {
+	    	  return StaticVariables.FAILED;
+	      }
+	  }
+	  return StaticVariables.FAILED;
+  }
 
   /**
    *〈简述〉编制公告

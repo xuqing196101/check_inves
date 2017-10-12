@@ -3496,7 +3496,19 @@ public class ProjectController extends BaseController {
                 map.put("projectNumber", project.getProjectNumber());
             }
             if(project.getStatus() != null && !project.getStatus().equals("")){
-                map.put("status", project.getStatus());
+            	if ("1".equals(project.getStatus())) {
+            		map.put("status", DictionaryDataUtil.getId("YJLX"));
+				} else {
+					List<String> statusAll = new ArrayList<String>();
+					List<DictionaryData> find = DictionaryDataUtil.find(2);
+					for (DictionaryData dictionaryData : find) {
+						if (!"YJLX".equals(dictionaryData.getCode())) {
+							statusAll.add("'"+dictionaryData.getId()+"'");
+						}
+					}
+					map.put("statusAll", StringUtils.join(statusAll, ","));
+				}
+                
             }
             map.put("principal", user.getId());
             if(page==null){

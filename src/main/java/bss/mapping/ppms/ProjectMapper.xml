@@ -325,7 +325,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
-    where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0
+    where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0 AND STATUS != '4'
      <if test="name != null and name != ''">
        and NAME = #{name}
       </if>
@@ -1349,6 +1349,9 @@
       </if>
       <if test="status != null and status != ''">
        and STATUS = #{status}
+      </if>
+      <if test="statusAll != null and statusAll != ''">
+       and STATUS in (select ID from T_SES_BMS_DICTIONARY_DATA dd where dd.IS_DELETED = 0 and dd.KIND = 2 and dd.code!='YJLX' )
       </if>
       <if test="purchaseType != null and purchaseType != ''">
        and PURCHASE_TYPE = #{purchaseType}

@@ -415,17 +415,17 @@ public class AdvancedProjectController extends BaseController {
         String userphone = users.getMobile();
         String name = null;
         String[] ids = orgId.split(StaticVariables.COMMA_SPLLIT);
-        HashSet<String> set = new HashSet<>();
+        /*HashSet<String> set = new HashSet<>();
         for (int i = 0; i < ids.length; i++ ) {
             set.add(ids[i]);
-        }
-        for (String string : set) {
+        }*/
+        for (String string : ids) {
             Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(string);
             if(orgnization != null){
                 if(StringUtils.isNotBlank(name)){
-                    name = name + StaticVariables.COMMA_SPLLIT + orgnization.getName();
+                    name = name + StaticVariables.COMMA_SPLLIT + orgnization.getShortName();
                 } else {
-                    name = orgnization.getName();
+                    name = orgnization.getShortName();
                 }
             }
         }

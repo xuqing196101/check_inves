@@ -156,9 +156,14 @@
             <span class="">
               <select name="status" id="status">
                 <option selected="selected" value="">请选择</option>
-                <c:forEach items="${status}" var="status" >
-                  <option  value="${status.id}" <c:if test="${status.id eq projects.status}">selected="selected"</c:if>>${status.name}</option>
-                </c:forEach>
+                <option value="1" <c:if test="${projects.status eq '1'}">selected="selected"</c:if>>未分包</option>
+                <option value="2" <c:if test="${projects.status eq '2'}">selected="selected"</c:if>>已分包</option>
+               <%--  <c:forEach items="${status}" var="status" >
+                  <option  value="${status.id}" <c:if test="${status.id eq projects.status}">selected="selected"</c:if>>
+                  	<c:if test="${status.code eq 'YJLX'}">未分包</c:if>
+                    <c:if test="${status.code ne 'YJLX'}">已分包</c:if>
+                  </option>
+                </c:forEach> --%>
               </select>
             </span>
       </li>

@@ -90,13 +90,33 @@
         var userId = $("#userId").val();
         var planNo = $("#planNo").val();
         var orgId = [];
-        $("input[name='organization']").each(function() {
-          orgId.push($(this).val());
+        var nameTr = document.getElementsByName("attr");
+        var checkName=[];
+        for(var i=0;i<nameTr.length;i++){
+	       	if($(nameTr[i]).children(":first").children()[1].checked==true){
+        		checkName.push($(nameTr[i]).children()[11]);
+	        }
+        }
+        $(checkName).each(function() {
+          orgId.push($(this).children(":last").val());
         });
+        //$.unique(orgId);
         var kindName = $("#kindName").val();
         window.location.href = "${pageContext.request.contextPath}/advancedProject/download.html?projectNumber=" + projectNumber + "&department=" + department +
-          "&proName=" + proName + "&orgId=" + orgId + "&kindName=" + kindName + "&userId=" + userId + "&planNo=" + planNo + "&id=" + id;
+          "&proName=" + proName + "&orgId=" + orgId.unique3() + "&kindName=" + kindName + "&userId=" + userId + "&planNo=" + planNo + "&id=" + id;
       }
+      
+      Array.prototype.unique3 = function(){
+		 		var res = [];
+		 		var json = {};
+		 		for(var i = 0; i < this.length; i++){
+		  		if(!json[this[i]]){
+		   			res.push(this[i]);
+		   			json[this[i]] = 1;
+		  		}
+		 		}
+		 		return res;
+			}
 
       function upload() {
         var proName = $("#proName").val();

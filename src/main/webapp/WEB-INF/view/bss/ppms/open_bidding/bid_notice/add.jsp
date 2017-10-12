@@ -250,13 +250,13 @@
 		                            	window.location.href = "${pageContext.request.contextPath}/open_bidding/bidNotice.html?projectId="+result.obj.projectId+"&flowDefineId="+flowDefineId;
 									}
 		                        }, 500);
-		                        layer.msg(result.message,{offset: ['220px']});
+		                        //layer.msg(result.message,{offset: ['220px']});
 		                    }
 		                },
 		                error: function(result){
 		                    layer.msg("提交失败",{offset: ['220px']});
 		                }
-				}); 
+				});
 			} else {
 				layer.msg("请选择产品类别",{offset: '222px'});
 			}
@@ -472,7 +472,7 @@
 	         <!-- <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input> -->
 	         <!-- <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>   -->
 	         <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>
-	         <input type="button" class="btn btn-windows apply" onclick="publish()" value="提交"></input>  
+	         <!-- <input type="button" class="btn btn-windows apply" onclick="publish()" value="提交"></input>  --> 
 	    </div>
       </form>
       

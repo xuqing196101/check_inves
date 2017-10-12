@@ -374,12 +374,27 @@ function submitcurr() {
 							});
 						}
 					});
-				}else{
+				}else if (data.flowType =="NZCGGG" || data.flowType == "NZZBGS"){
+					var noticeType = null;
+					if(data.flowType =="NZCGGG"){
+						noticeType = "purchase";
+					} else {
+						noticeType = "win";
+					}
+					//查询公告是否完成
+					var bool = ifNotice(projectId, noticeType);
+					if(!bool){
+						document.getElementById("open_bidding_iframe").contentWindow.publish();
+						var categoryId = $("#open_bidding_iframe").contents().find("#cId").val();
+						if(categoryId){
+							submitFlw(data,currFlowDefineId,projectId);
+						}
+					} else {
+						submitFlw(data,currFlowDefineId,projectId);
+					}
+				} else {
 					submitFlw(data,currFlowDefineId,projectId);
 				}
-				
-				
-				
 			},
 			error: function() {
 				layer.msg("提交失败", {
@@ -388,6 +403,31 @@ function submitcurr() {
 			}
 		});
 	});
+}
+
+function ifNotice(projectId, noticeType){
+	var bool = true;
+	$.ajax({
+		url: globalPath+"/open_bidding/ifNotice.html",
+		data: {
+			"projectId": projectId,
+			"noticeType" : noticeType
+		},
+		type: "post",
+		async: false,
+		dataType: "text",
+		success: function(data) {
+			if(data != "ok"){
+				bool = false;
+			}
+		},
+		error: function() {
+			layer.msg("提交失败", {
+				offset: '100px'
+			});
+		}
+	});
+	return bool;
 }
 
 function submitFlw(data,currFlowDefineId,projectId){
