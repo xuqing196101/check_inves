@@ -385,7 +385,7 @@ public class ExpertServiceImpl implements ExpertService {
 				} else if(expert.getStatus().equals("2") || expert.getStatus().equals("16")){
 					//审核未通过
 					map.put("expert", "5");
-				} else if(expert.getStatus().equals("4") || expert.getStatus().equals("15")){
+				} else if((expert.getStatus().equals("4")  && 0 == expert.getIsProvisional())|| expert.getStatus().equals("15")){
 					//初审已通过，待复审
 					map.put("expert", "8");
 				} else if(expert.getIsBlack().equals("1") || expert.getStatus().equals("12")){

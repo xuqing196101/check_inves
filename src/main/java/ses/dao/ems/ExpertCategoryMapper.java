@@ -174,6 +174,7 @@ public interface ExpertCategoryMapper {
     List<ExpertCategory> findPassCateByExpertId(Map<String,Object> map);
     
     ExpertCategory selectCategoryByCategoryId(ExpertCategory expertCategory);
+
     /** 
      * Description: 根据品目查询符合条件的专家
      * 
@@ -195,4 +196,6 @@ public interface ExpertCategoryMapper {
      */
     List<String> selExpertByAll(Map<String, Object> map);
 
+
+    List<ExpertCategory> selectCategoryListByCategoryId(ExpertCategory expertCategory);
 }

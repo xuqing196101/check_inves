@@ -338,5 +338,11 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	        }
 		return mapper.findPassCateByExpertId(map);
 	}
+
+	@Override
+	public List<ExpertCategory> selectCategoryListByCategoryId(ExpertCategory expertCategory) {
+		// TODO Auto-generated method stub
+		return mapper.selectCategoryListByCategoryId(expertCategory);
+	}
 }
  

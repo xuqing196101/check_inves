@@ -353,7 +353,7 @@
 				</div>
 				<div class="col-md-12 add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
-					<c:if test="${expert.status == -2 ||  expert.status == 0 ||  expert.status == 9 || (sign ==3 && expert.status ==6) || expert.status ==4}">
+					<c:if test="${expert.status == -2 ||  expert.status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && expert.status ==6) || expert.status ==4}">
 					  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zancun();">暂存</a>
 					</c:if>
 					<a class="btn" type="button" onclick="nextStep();">下一步</a>

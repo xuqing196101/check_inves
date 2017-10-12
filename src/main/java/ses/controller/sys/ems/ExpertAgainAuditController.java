@@ -160,7 +160,9 @@ public class ExpertAgainAuditController extends BaseSupplierController {
         List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
         
         //全部机构
-        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
+        HashMap<String,Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("isAuditSupplier", 0);
+        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(hashMap);
         
         jsTypeList.addAll(jjTypeList);
         Map<String,Object> map = new HashMap<String,Object>();
@@ -873,7 +875,8 @@ public class ExpertAgainAuditController extends BaseSupplierController {
     @ResponseBody
     public JdcgResult reviewConfirm(@CurrentUser User user, String[] expertIds){
     	JdcgResult jdcgResult = new JdcgResult();
-    	for(int i=0; i < expertIds.length; i++){
+    	if(expertIds !=null){
+    		for(int i=0; i < expertIds.length; i++){
     			// 查询审核意见
         		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
         		expertAuditOpinion.setExpertId(expertIds[i]);
@@ -909,6 +912,9 @@ public class ExpertAgainAuditController extends BaseSupplierController {
         			jdcgResult.setStatus(503);
         		}
     		}
+    	}else{
+    		jdcgResult.setStatus(503);
+    	}
     	return jdcgResult;
     }
 }

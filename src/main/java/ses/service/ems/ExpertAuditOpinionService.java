@@ -43,6 +43,17 @@ public interface ExpertAuditOpinionService {
 
 	/**
 	 *
+	 * Description:根据专家ID查询信息-公示专用
+	 *
+	 * @author Easong
+	 * @version 2017年10月12日
+	 * @param expertId
+	 * @return
+	 */
+	ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion, String flag);
+
+	/**
+	 *
 	 * Description: 保存审核意见
 	 *
 	 * @author Easong

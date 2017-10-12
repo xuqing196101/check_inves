@@ -409,44 +409,45 @@
 			
 			//撤销
 			function revokeCategoryAudit(){
-				var expertId = $("#expertId").val();
-				var sign = ${sign};
-				var categoryIds = [];
-				var falg = true;
-        $('input[name="chkItem"]:checked').each(function () {
-          var index=$(this).val();
-          var itemsId =$("#itemsId"+index+"").val();
-          categoryIds.push(itemsId);
-          
-          ii = $('input[name=del'+itemsId+']').val();
-          if(ii != itemsId){
-              falg = false;
-            }
-         });
-        if(categoryIds.length > 0){
-        	if(falg){
-        		$.ajax({
-              url: "${pageContext.request.contextPath}/expertAudit/revokeCategoryAudit.do",
-              type: "post",
-              traditional:true,
-              data:{"expertId" : expertId, "categoryIds" : categoryIds, "sign" : sign},
-              success : function(result){
-                layer.msg(result.msg, {offset : [ '100px' ]});
-                if(result.status == 500){
-                  window.setTimeout(function () {
-                    var action = "${pageContext.request.contextPath}/expertAudit/product.html";
-                    $("#form_id").attr("action", action);
-                    $("#form_id").submit();
-                  }, 1000);
-                }
-              }
-            });
-        	}else{
-            layer.msg("请选择复审过的", {offset : [ '100px' ]});
-          }
-        }else{
-        	 layer.msg("请选择", {offset : [ '100px' ]});
-        }
+				if(status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4){
+					var expertId = $("#expertId").val();
+					var sign = ${sign};
+					var categoryIds = [];
+					var falg = true;
+	        $('input[name="chkItem"]:checked').each(function () {
+	          var index=$(this).val();
+	          var itemsId =$("#itemsId"+index+"").val();
+	          categoryIds.push(itemsId);
+	          
+	          ii = $('input[name=del'+itemsId+']').val();
+	          if(ii != itemsId){
+	              falg = false;
+	            }
+	         });
+	        if(categoryIds.length > 0){
+	        	if(falg){
+	        		$.ajax({
+	              url: "${pageContext.request.contextPath}/expertAudit/revokeCategoryAudit.do",
+	              type: "post",
+	              traditional:true,
+	              data:{"expertId" : expertId, "categoryIds" : categoryIds, "sign" : sign},
+	              success : function(result){
+	                layer.msg(result.msg, {offset : [ '100px' ]});
+	                if(result.status == 500){
+	                  window.setTimeout(function () {
+	                    var action = "${pageContext.request.contextPath}/expertAudit/product.html";
+	                    $("#form_id").attr("action", action);
+	                    $("#form_id").submit();
+	                  }, 1000);
+	                }
+	              }
+	            });
+	        	}else{
+	            layer.msg("请选择复审过的", {offset : [ '100px' ]});
+	          }
+	        }else{
+	        	 layer.msg("请选择", {offset : [ '100px' ]});
+	        }
 			}
 		</script>
 	</head>
@@ -579,7 +580,7 @@
 					</div>
 					<div class="col-md-12 add_regist tc">
 						<a class="btn" type="button" onclick="lastStep();">上一步</a>
-						<c:if test="${expert.status == -2 ||  expert.status == 0 ||  expert.status == 9 || (sign ==3 && expert.status ==6) || expert.status ==4}">
+						<c:if test="${expert.status == -2 ||  expert.status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && expert.status ==6) || expert.status ==4}">
 	            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zancun();">暂存</a>
 	          </c:if>
 						<a class="btn" type="button" onclick="nextStep();">下一步</a>

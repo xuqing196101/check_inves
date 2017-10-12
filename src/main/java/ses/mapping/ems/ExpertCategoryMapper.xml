@@ -350,4 +350,17 @@
         </foreach>
       GROUP BY EXPERT_ID HAVING COUNT(EXPERT_ID) = #{idSize}
     </select>
+      <!--根据专家ID，品目ID类型<集合>查询  -->
+    <select id="selectCategoryListByCategoryId" resultMap="BaseResultMap">
+	    select 
+	     <include refid="baseExpertSql"/>
+	    from T_SES_EMS_EXPERT_CATEGORY
+	      where EXPERT_ID = #{expertId}
+	    <if test="typeIdList != null">
+	      <foreach collection="typeIdList" item="item" index="index" open="and TYPE_ID in ("
+                     close=")" separator=",">
+                #{typeIdList[${index}]}
+            </foreach>
+	    </if>
+    </select>
 </mapper>

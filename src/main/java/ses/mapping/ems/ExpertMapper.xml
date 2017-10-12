@@ -195,10 +195,18 @@
             AND T1.EXPERTS_FROM = #{expertsFrom}
         </if>
         <if test="status != null and status !=''">
-          <if test="status == 4">
-            AND IS_PROVISIONAL = '0'
+          <if test="status != 'temporary'">
+	          <if test="status == 4">
+	            AND IS_PROVISIONAL = '0'
+	          </if>
+	            AND T1.STATUS = #{status}
+	        </if>
+            
+            <!-- 临时专家 -->
+          <if test="status == 'temporary'">
+            AND IS_PROVISIONAL = '1'
+            AND T1.STATUS = '4'
           </if>
-            AND T1.STATUS = #{status}
         </if>
         <if test="expertsTypeId != null and expertsTypeId !=''">
           AND instr(T1.EXPERTS_TYPE_ID, #{expertsTypeId} )>0
@@ -2586,7 +2594,7 @@ resultMap="BaseResultMap">
     <!-- 查询公示专家导出外网 -->
     <select id="selectExpByPublictyOfExport" resultMap="BaseResultMap" parameterType="Map">
         SELECT
-        T.ID, T.EXPERTS_TYPE_ID, T.PURCHASE_DEP_ID, T.REAL_NAME, T.EXPERTS_FROM
+        T.ID, T.EXPERTS_TYPE_ID, T.PURCHASE_DEP_ID, T.REAL_NAME, T.EXPERTS_FROM,
         T.STATUS, T.IS_PROVISIONAL
         FROM T_SES_EMS_EXPERT T
         WHERE T.STATUS = #{status}

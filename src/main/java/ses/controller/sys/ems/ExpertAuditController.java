@@ -2633,7 +2633,7 @@ public class ExpertAuditController{
     	if(basicFileList != null && basicFileList.size() > 0){
     		expertAuditReason.append("不通过。原因：");
     		for (ExpertAudit expertAudit : basicFileList) {
-    			expertAuditReason.append(expertAudit.getAuditReason()+"  ");
+    			expertAuditReason.append(expertAudit.getAuditField()+":"+expertAudit.getAuditReason()+"  ");
 			}
     		expertAuditReason.append("。");
     	}else{
@@ -3422,8 +3422,23 @@ public class ExpertAuditController{
     @ResponseBody
     public String findCategoryCount(String expertId, Integer auditFalg){
     	Map<String, Integer> map = new HashMap<>();
+    	Expert expert = expertService.selectByPrimaryKey(expertId);
+    	ExpertCategory eCategory = new ExpertCategory();
+    	List<String> list = new ArrayList<String>();
+    	eCategory.setExpertId(expertId);
+    	String[] typeIds = expert.getExpertsTypeId().split(",");
+    	for (String string : typeIds) {
+    		DictionaryData code = DictionaryDataUtil.findById(string);
+    		if(code.getCode().equals("PROJECT")||code.getCode().equals("GOODS_PROJECT")){
+    			DictionaryData dictionaryData = DictionaryDataUtil.get("ENG_INFO_ID");
+    			list.add(dictionaryData.getId());
+    		}
+			list.add(string);
+		}
+    	eCategory.setTypeIdList(list);
+    	List<ExpertCategory> expertCategoryList= expertCategoryService.selectCategoryListByCategoryId(eCategory);
     	//全部的产品
-    	List<ExpertCategory> expertCategoryList = expertCategoryService.findByExpertId(expertId);
+    	//List<ExpertCategory> expertCategoryList = expertCategoryService.findByExpertId(expertId);
     	Integer all = 0;
     	//工程专业
     	List<ExpertCategory> listgc = new ArrayList<>();
@@ -3765,6 +3780,38 @@ public class ExpertAuditController{
 				//退回修改
 				expert.setStatus("3");
 				expert.setIsSubmit("0");
+				
+				
+				/**
+				 *  如果是退回修改就保存历史信息
+				 */
+				if(expertAuditOpinion.getFlagAudit() == 10) {
+					//删除旧的专家input信息
+					/*service.deleteExpertHistory(expert.getId());*/
+					service.updateIsDeleteById(expert.getId());
+					
+					//重新插入新的信息
+					Expert exp = service.selectByPrimaryKey(expert.getId());
+					service.insertExpertHistory(exp);
+					
+					/**
+					 * 删除工程下的职业资格之前的历史记录
+					 */
+					ExpertEngHistory expertEngHistory = new ExpertEngHistory();
+					expertEngHistory.setExpertId(expert.getId());
+					/*expertEngHistorySerivce.deleteByExpertId(expertEngHistory);*/
+					//软删除历史信息
+					expertEngHistorySerivce.updateIsDeletedByExpertId(expertEngHistory);
+					// 新增历史记录
+					expertEngHistorySerivce.insertSelective(expertEngHistory);
+					//软删除之前的对比记录
+					expertEngModifySerivce.updateIsDeletedByExpertId(expert.getId());
+					
+					//软删除附件修改的记录
+					/*expertAuditService.delFileModifyByExpertId(expert.getId());*/
+					expertAuditService.updateIsDeleted(expert.getId());
+					
+				}
 			}
 		}
 		//还原复审结束状态

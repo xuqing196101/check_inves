@@ -128,7 +128,7 @@
 
           <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
           <ul class="ul_list count_flow">
-            <c:if test="${status == 0 || status == 9 || status == 15 || status == 16 || status == 10 || status == -2 || (sign ==3 && status ==6) || status == 4 || status == 5}">
+            <c:if test="${status == -2 || status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && status ==6) || status ==4}">
               <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>
             </c:if>
             <table class="table table-bordered table-condensed table-hover">
@@ -183,7 +183,7 @@
           
           <div class="col-md-12 col-sm-12 col-xs-12  add_regist tc">
 	          <a class="btn" type="button" onclick="lastStep();">上一步</a>
-	          <c:if test="${status == -2 || status == 0 || status == 9 || (sign ==3 && status ==6) || status ==4}">
+	          <c:if test="${status == -2 || status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && status ==6) || status ==4}">
 	            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zancun();">暂存</a>
 	          </c:if>
 	          <a class="btn" type="button" onclick="nextStep();">下一步</a>

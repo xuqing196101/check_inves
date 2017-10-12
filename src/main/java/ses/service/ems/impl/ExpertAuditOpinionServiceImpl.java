@@ -76,6 +76,20 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 		return expertAuditOpinion;
 	}
 
+	/**
+	 *
+	 * Description:根据专家ID查询信息-公示专用
+	 *
+	 * @author Easong
+	 * @version 2017年7月3日
+	 * @param expertId
+	 * @return
+	 */
+	@Override
+	public ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion, String flag) {
+		return mapper.selectByExpertId(expertAuditOpinion);
+	}
+
 	@Override
 	public JdcgResult insertSelective(ExpertAuditOpinion expertAuditOpinion, String vertifyFlag) {
 		/**

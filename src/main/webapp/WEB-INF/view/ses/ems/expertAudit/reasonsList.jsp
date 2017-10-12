@@ -48,13 +48,15 @@
             	/* $("#reverse_of_five_i").css("display","block");
             	$("#reverse_of_six").css("display","block"); */
             }
-            if($("#status").val() == '-2'){
+            if($("#status").val() == '-2' || $("#status").val() == '4'){
             	var expertId = $("input[name='expertId']").val();
             	var checkVal = $("input:radio[name='selectOption']:checked").val();
-            	
             	//预复审合格状态默认加载通过了xx,不通过xx
             	if(checkVal == '-3'){
             		getCheckOpinionType(expertId);
+            	}
+            	if(checkVal == '5'){
+            		$("#cate_result").html("预复审不合格 。");
             	}
             }
             
@@ -671,7 +673,7 @@
                     <input type="hidden" name="status" id="status" value="${status}"/>
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
                     <input name="sign" value="${sign}" type="hidden">
-                    <c:if test="${status eq '0' or status eq '9'}">
+                    <c:if test="${status eq '0'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->
                        <!-- <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->
