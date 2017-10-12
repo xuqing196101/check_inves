@@ -65,7 +65,9 @@
 		</ul>
 	 </div>
 	 </c:if>
-	<h2 onclick="ycDiv(this,'1')" class="count_flow spread hand">采购管理部门意见</h2>
+	 <div>
+	 <div class="pt80">
+	<h2 onclick="ycDiv(this,'1')" class="count_flow spread hand mt120">采购管理部门意见</h2>
 	<div class="p01 p0_40 clearfix">${reasons.pcReason}
 		<div class="clear mt10">
 			<span class="fl"><b>采购管理部门审核意见附件:</b></span>
@@ -96,5 +98,7 @@
 	<c:if test="${project.confirmFile == 3}">
 	<div class="p04 p0_40 clearfix">${reasons.finalReason}</div>
 	</c:if>
+	</div>
+	</div>
 </body>
 </html>
