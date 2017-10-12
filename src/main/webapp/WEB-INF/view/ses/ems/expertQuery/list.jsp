@@ -156,8 +156,8 @@
               <th class="info">手机</th>
               <th class="info">类型</th>
               <th class="info">采购机构</th>
-              <th class="info">审核状态</th>
               <th class="info">专家类型</th>
+              <th class="info">审核状态</th>
             </tr>
           </thead>
           <c:forEach items="${result.list }" var="e" varStatus="vs">
@@ -181,6 +181,7 @@
               <td class="tc">${e.mobile }</td>
               <td class="tl">${e.expertsTypeId}</td>
               <td class="tl">${e.orgName}</td>
+              <td class="tc">${e.expertsFrom }</td>
               <td class="tc" id="${e.id}">
                 <c:if test="${e.status eq '6' }">
                   <span class="label rounded-2x label-u">待复查</span>
@@ -192,7 +193,6 @@
                   <span class="label rounded-2x label-u">无产品专家</span>
                 </c:if>
               </td>
-              <td class="tc">${e.expertsFrom }</td>
             </tr>
           </c:forEach>
         </table>

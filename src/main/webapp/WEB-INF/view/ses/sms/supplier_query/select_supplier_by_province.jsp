@@ -633,7 +633,7 @@
 									<c:if test="${list.status==-2}"><span class="label rounded-2x label-dark">预审核结束</span></c:if>
 									<c:if test="${list.status==3}"><span class="label rounded-2x label-dark">审核不通过</span></c:if>
 									<c:if test="${list.status==-3}"><span class="label rounded-2x label-dark">公示中</span></c:if>
-									<c:if test="${list.status==1}"><span class="label rounded-2x label-u">入库（待复核</span></c:if>
+									<c:if test="${list.status==1}"><span class="label rounded-2x label-u">入库（待复核）</span></c:if>
 									<c:if test="${list.status==-4}"><span class="label rounded-2x label-dark">预复核结束</span></c:if>
 									<c:if test="${list.status==5}"><span class="label rounded-2x label-u">复核合格（待考察）</span></c:if>
 									<c:if test="${list.status==6}"><span class="label rounded-2x label-dark">复核不合格</span></c:if>
