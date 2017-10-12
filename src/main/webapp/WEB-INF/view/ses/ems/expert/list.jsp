@@ -398,6 +398,7 @@
           <span class="fl">
             <select name="status" id="status" class="w220">
                <option selected="selected" value=''>全部</option>
+               <option <c:if test="${expert.status eq 'temporary' }">selected</c:if> value="temporary">临时</option>
                <option <c:if test="${expert.status eq '-3' }">selected</c:if> value="-3">公示中</option>
                <option <c:if test="${expert.status eq '-2' }">selected</c:if> value="-2">预复审合格</option>
                <option <c:if test="${expert.status eq '-1' }">selected</c:if> value="-1">暂存</option>
@@ -533,7 +534,7 @@
                 <c:if test="${e.status eq '-2'}">
                   <span class="label rounded-2x label-u">预复审合格</span>
                 </c:if>
-                <c:if test="${e.isProvisional eq '1'}">
+                <c:if test="${e.isProvisional eq '1' and e.status eq '4'}">
                   <span class="label rounded-2x label-dark">临时</span>
                 </c:if>
                 <c:if test="${e.status eq '-1' and e.isSubmit eq '0'}">
