@@ -83,7 +83,7 @@
               } else if (list_content.list[i].status === '3') {
                 list_content.list[i].status = '初审退回修改';
               } else if (list_content.list[i].status === '4') {
-                if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '4') {
+                if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '2') {
                   list_content.list[i].status = '复审中';
                 } else {
                   list_content.list[i].status = '待复审';
@@ -227,7 +227,7 @@
               } else if (list_content.list.list[i].status === '3') {
                 list_content.list.list[i].status = '初审退回修改';
               } else if (list_content.list.list[i].status === '4') {
-                if (list_content.list.list[i].status === '4' && list_content.list.list[i].auditTemporary === '4') {
+                if (list_content.list.list[i].status === '4' && list_content.list.list[i].auditTemporary === '2') {
                   list_content.list.list[i].status = '复审中';
                 } else {
                   list_content.list.list[i].status = '待复审';

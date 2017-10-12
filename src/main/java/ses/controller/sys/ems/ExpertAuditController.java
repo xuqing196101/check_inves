@@ -2633,7 +2633,7 @@ public class ExpertAuditController{
     	if(basicFileList != null && basicFileList.size() > 0){
     		expertAuditReason.append("不通过。原因：");
     		for (ExpertAudit expertAudit : basicFileList) {
-    			expertAuditReason.append(expertAudit.getAuditReason()+"  ");
+    			expertAuditReason.append(expertAudit.getAuditField()+":"+expertAudit.getAuditReason()+"  ");
 			}
     		expertAuditReason.append("。");
     	}else{

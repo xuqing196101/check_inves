@@ -92,8 +92,7 @@
 				myChart.hideLoading();
 				myChart.on('click', function(params) {
 					var address = encodeURI(params.name);
-					//address = encodeURI(address);
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + address + "&judge=5";
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(address) + "&judge=5";
 				});
 
 			});
@@ -439,13 +438,9 @@
 							<label class="fl">供应商状态：</label>
 							<select id="status" name="status" class="w220">
 								<option  value=''>全部</option>
-								<option value="1">审核通过</option>
-								<option value="4">待复核</option>
-								<option value="5">复核通过</option>
-								<option value="6">复核未通过</option>
-								<!-- <option value="5">待考察</option> -->
+								<option value="1">入库（待复核）</option>
+								<option value="5">复核合格（待考察）</option>
 								<option value="7">考察合格</option>
-								<option value="8">考察不合格</option>
 							</select>
 						 </li>
              <%-- <li>
