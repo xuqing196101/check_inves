@@ -230,6 +230,15 @@
       <if test="type != null">
         TYPE = #{type},
       </if>
+      <if test="auditFieldId != null">
+        AUDIT_FIELD_ID = #{auditFieldId},
+      </if>
+      <if test="auditFieldName != null">
+        AUDIT_FIELD_NAME = #{auditFieldName},
+      </if>
+      <if test="auditFalg != null">
+        AUDIT_FALG = #{auditFalg},
+      </if>
     </set>
     where ID = #{id}
   </update>
