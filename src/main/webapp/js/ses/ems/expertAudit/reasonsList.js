@@ -26,11 +26,16 @@ $(function () {
     $("input[name='selectOption']").bind("click", function(){
         // 清空意见内容
         $("#cate_result").html("");
+        
         var selectedVal = $(this).val();
         if(selectedVal == 5){
-            $("#cate_result").html("预复审不合格 。");
+            $("#cate_result").html("预复审不合格。");
             return;
         }
+        if(selectedVal == '10'){
+       		$("#cate_result").html("退回修改 。");
+       	}
+        
         // 判断意见是否已经获取，有的话不再发送请求
         /*var opinionBack = $("#opinionBack").val();
         if(opinionBack != ''){

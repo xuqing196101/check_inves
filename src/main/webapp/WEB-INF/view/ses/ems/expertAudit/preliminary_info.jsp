@@ -63,6 +63,11 @@
                   $("#check_opinion").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
                 }
               }
+            	
+            	//复审
+              if(status == '10'){
+                  $("#check_opinion").html("退回修改 。");
+                }
             }
           });
         }
