@@ -678,7 +678,7 @@
                     <input type="hidden" name="status" id="status" value="${status}"/>
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
                     <input name="sign" value="${sign}" type="hidden">
-                    <c:if test="${status eq '0'}">
+                    <c:if test="${status eq '0' || (sign eq '1' && status eq '9')}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->
                        <!-- <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->

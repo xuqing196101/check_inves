@@ -428,7 +428,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		expert.setId(expertId);
 		Expert expertInfo = expertMapper.selectByPrimaryKey(expertId);
 		String status = expertInfo.getStatus();
-		if("0".equals(status) || "15".equals(status) || "16".equals(status)){
+		if("0".equals(status) || "15".equals(status) || "16".equals(status) || "9".equals(status)){
 			//初审中
 			expert.setAuditTemporary(1);
 		}else if("4".equals(status)){
