@@ -1991,13 +1991,13 @@ public class SupplierController extends BaseSupplierController {
 			count++;
 		}
 		// 身份证号校验：供应商库+专家库（除去临时供应商和临时专家）
-        if(StringUtils.isNotBlank(supplier.getLegalIdCard())){
+        /*if(StringUtils.isNotBlank(supplier.getLegalIdCard())){
         	boolean boolIdCard = supplierService.checkIdCard(supplier.getId(), supplier.getLegalIdCard());
     		if(!boolIdCard){
     			model.addAttribute("err_legalCard", "身份证号码已被占用!");
                 count++;
     		}
-        }
+        }*/
 		if(supplier.getConcatCity() == null) {
 			model.addAttribute("err_city", "地址不能为空!");
 			count++;
@@ -2329,11 +2329,11 @@ public class SupplierController extends BaseSupplierController {
 							model.addAttribute("stock", "信用代码18位，请按照实际社会信用代码填写！错误代码：【"+errorIdentity+"】");
 							count++;
 						}
-						boolean boolCreditCode = supplierService.checkCreditCode(supplier.getId(), identity);
+						/*boolean boolCreditCode = supplierService.checkCreditCode(supplier.getId(), identity);
 						if(!boolCreditCode){
 							model.addAttribute("stock", "统一社会信用代码被占用！");
 							count++;
-						}
+						}*/
 					}
 				}
 				if("2".equals(stocksHolder.getNature()) && "1".equals(stocksHolder.getIdentityType()+"")){
@@ -2345,11 +2345,11 @@ public class SupplierController extends BaseSupplierController {
 							model.addAttribute("stock", "身份证号码错误！请按实际身份证号码填写。错误号码：【"+errorIdentity+"】");
 							count++;
 						}
-						boolean boolIdCard = supplierService.checkIdCard(supplier.getId(), identity);
+						/*boolean boolIdCard = supplierService.checkIdCard(supplier.getId(), identity);
 						if(!boolIdCard){
 							model.addAttribute("stock", "身份证号码被占用！");
 							count++;
-						}
+						}*/
 					}
 				}
 				if(stocksHolder.getShares() == null || stocksHolder.getShares() == "") {
