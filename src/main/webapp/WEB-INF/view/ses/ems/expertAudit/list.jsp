@@ -467,7 +467,7 @@
                 <c:if test="${fn:length(expert.workUnit) >8}">${fn:substring(expert.workUnit,0,8)}...</c:if>
                 <c:if test="${fn:length(expert.workUnit) <=8}">${expert.workUnit}</c:if>
               </td>
-              <td class="tl" onclick="shenhe('${expert.id}');">${expert.atDuty}</td>
+              <td class="tl" onclick="shenhe('${expert.id}');">${expert.professTechTitles}</td>
               <td class="tl" onclick="shenhe('${expert.id}');">${expert.expertsFrom}</td>
               <td class="tl" onclick="shenhe('${expert.id}');">${expert.expertsTypeId}</td>
               <td class="tc" onclick="shenhe('${expert.id}');">
