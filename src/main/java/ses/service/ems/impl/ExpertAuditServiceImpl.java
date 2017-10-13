@@ -26,7 +26,6 @@ import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertPublicity;
-import ses.model.sms.SupplierAuditOpinion;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertService;
 import ses.util.Constant;
@@ -467,7 +466,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	            String afterDateString = DateUtils.getDateOfFormat(DateUtils.addDayDate(expert.getAuditAt(), 7));
 	            if(nowDateString.equals(afterDateString)){
 	                // 审核通过，自动入库
-	            	expert.setStatus("4");
+	            	expert.setStatus("6");
 	                // 修改
 	            	expertMapper.updateByPrimaryKeySelective(expert);
 	            }
