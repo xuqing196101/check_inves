@@ -24,10 +24,6 @@
 		from T_SES_SMS_SUPPLIER_CERT_SELL
 		where ID = #{id}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_CERT_SELL
-		where MAT_SELL_ID = #{id}
-	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierCertSell">
 		insert into T_SES_SMS_SUPPLIER_CERT_SELL (ID, MAT_SELL_ID, NAME,
 		LEVEL_CERT, LICENCE_AUTHORITH, EXP_START_DATE,
@@ -179,16 +175,20 @@
 		  t2.SUPPLIER_ID=#{supplierId}
   </select>
 	
-	
-	<delete id="deleteById" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_CERT_SELL
-		where ID = #{id}
-	</delete>
-	
-	
 	<select id="findCertSellByMatSellId"  resultMap="BaseResultMap">
 	 select 
 	 <include refid="Base_Column_List" /> 
 	 from T_SES_SMS_SUPPLIER_CERT_SELL where MAT_SELL_ID=#{matSellId}
 	</select>
+	
+	<!-- 根据主键删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_CERT_SELL
+		where ID = #{id}
+	</delete>
+	<!-- 根据销售id删除 -->
+	<delete id="deleteByMatSellId" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_CERT_SELL
+		where MAT_SELL_ID = #{matSellId}
+	</delete>
 </mapper>

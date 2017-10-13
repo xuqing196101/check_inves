@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.model.sms.SupplierAptitute;
@@ -32,23 +33,14 @@ public class SupplierAptituteServiceImpl implements SupplierAptituteService {
 	private SupplierItemService supplierItemService;
 	
 	@Override
-	public void saveOrUpdateAptitute(SupplierAptitute supplierAptitute) {
+	public int saveOrUpdateAptitute(SupplierAptitute supplierAptitute) {
 //		String id = supplierAptitute.getId();
 //		if (id != null && !"".equals(id)) {
 //			supplierAptituteMapper.updateByPrimaryKeySelective(supplierAptitute);
 //		} else {
-			supplierAptituteMapper.insertSelective(supplierAptitute);
+			return supplierAptituteMapper.insertSelective(supplierAptitute);
 //		}
 
-	}
-
-	@Override
-	public void deleteAptitute(String aptituteIds) {
-	    if(!StringUtils.isEmpty(aptituteIds)){
-            for (String id : aptituteIds.split(",")) {
-                supplierAptituteMapper.deleteById(id);
-            }
-        }
 	}
 
 	@Override
@@ -135,6 +127,32 @@ public class SupplierAptituteServiceImpl implements SupplierAptituteService {
 		resultMap.put("allTreeList", allTreeList);
 		resultMap.put("modifiedCertCodes", modifiedCertCodes);
 		return resultMap;
+	}
+
+	@Override
+	public boolean deleteAptituteByIds(String ids) {
+		boolean isSuccess = false;
+	    try{
+            if(StringUtils.isNotBlank(ids)){
+                String[] idArray = ids.split(",");
+                int delCount = 0;
+                for(int i=0;i<idArray.length;i++){
+                    if(StringUtils.isNotBlank(idArray[i])){
+                        int key = supplierAptituteMapper.deleteByPrimaryKey(idArray[i]);
+                        if(key == 1){
+                            delCount++;
+                        }
+                    }
+                }
+                if(delCount==idArray.length){
+                    isSuccess = true;
+                }
+            }
+        }catch (Exception e){
+	        e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+        return isSuccess;
 	}
 	
 }

@@ -8,6 +8,19 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring.xml,classpath:spring-mybatis.xml,classpath:spring-redis.xml,classpath:spring-solr.xml</param-value>
 	</context-param>
+
+	<!--spring整合redis实现session共享过滤器配置-->
+	<filter>
+		<filter-name>springSessionRepositoryFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSessionRepositoryFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+	</filter-mapping>
+
 	<filter>
 		<description>字符集过滤器</description>
 		<filter-name>encodingFilter</filter-name>
@@ -44,15 +57,7 @@
 		<filter-name>cacheFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
- 
-<filter>
-    <filter-name>springSessionRepositoryFilter</filter-name>
-    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>springSessionRepositoryFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
+
 	<filter>
 		<filter-name>FilterXSS</filter-name>
 		<filter-class>common.filter.FilterXSS</filter-class>

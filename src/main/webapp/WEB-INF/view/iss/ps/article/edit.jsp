@@ -859,7 +859,7 @@
             <li class="col-md-6 col-sm-6 col-xs-12 mt10 dis_hide" id="picNone">
               <span class="fl"><div id="tpsc" class="star_red">*</div>图片上传：</span>
               <div>
-                <u:upload id="artice_up"  businessId="${article.id}" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
+                <u:upload id="artice_up" exts="png,jpeg,jpg,bmp" businessId="${article.id}" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
                 <u:show showId="artice_show"  businessId="${article.id}" sysKey="${sysKey}" typeId="${attachTypeId }" />
               </div>
               <div class="cue">${ERR_auditPic}</div>

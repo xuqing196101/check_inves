@@ -45,6 +45,9 @@ public class MultiImportTask {
 	/** 同步供应商数据service **/
 	@Autowired
 	private InnerSupplierService innerSupplierService;
+	/** 同步专家数据service **/
+	@Autowired
+	private InnerExpertService innerExpertService;
 	/** 产品库 **/
 	@Autowired
 	private SMSProductLibService smsProductLibService;
@@ -57,8 +60,6 @@ public class MultiImportTask {
 	/** 门户模板管理 **/
 	@Autowired
 	private TemplateDownloadService templateDownloadService;
-	@Autowired
-	private InnerExpertService innerExpertService;
 	/** 资料数据 **/
 	@Autowired
 	private DataDownloadService dataDownloadService;
@@ -386,18 +387,34 @@ public class MultiImportTask {
                          */
                         result = DictionaryDataUtil.getId(Constant.SYNCH_PUBLICITY_SUPPLIER);
                         if(StringUtils.isNotEmpty(result)){
-                            /** 产品目录参数管理 只能是外网导入 **/
                             if (f.getName().equals(Constant.T_SES_SMS_SUPPLIER_PUBLICITY_PATH)) {
                                 if (f.isDirectory()) {
                                     // 遍历文件夹中的所有文件
                                     for (File file2 : f.listFiles()) {
                                         if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)) {
-                                            innerSupplierService.immportInner(file2, "publicity");
+                                            innerSupplierService.importInner(file2, "publicity");
                                         }
                                     }
                                 }
                             }
                         }
+						/**
+						 * 专家公示自动导入
+						 */
+						result = DictionaryDataUtil.getId(Constant.SYNCH_PUBLICITY_EXPERT);
+						if(StringUtils.isNotEmpty(result)){
+							if (f.getName().equals(Constant.T_SES_SMS_EXPERT_PUBLICITY_PATH)) {
+								if (f.isDirectory()) {
+									// 遍历文件夹中的所有文件
+									for (File file2 : f.listFiles()) {
+										if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME)) {
+											innerExpertService.importExpOfPublicity(file2);
+										}
+									}
+								}
+							}
+						}
+
 					}
 				}
 			}

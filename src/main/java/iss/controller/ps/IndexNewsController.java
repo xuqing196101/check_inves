@@ -2108,7 +2108,7 @@ public class IndexNewsController extends BaseSupplierController{
 	* @param @throws Exception      
 	* @return String
 	 */
-	@RequestMapping(value = "/selectsumByDirectory", produces = "text/html;charset=UTF-8")
+	@RequestMapping("/selectsumByDirectory")
 	public String selectsumByDirectory(Model model,Integer page,HttpServletRequest request) throws Exception{
 		String act=request.getParameter("act");
 		//供应商名录
@@ -2117,7 +2117,7 @@ public class IndexNewsController extends BaseSupplierController{
 	        Map<String, Object> sMap = new HashMap<String, Object>();
 	        //只显示公开的
 	        //sMap.put("IS_PUBLISH", 1);
-	      //处理查询参数
+	        //处理查询参数
 			String supplierName=RequestTool.getParam(request,"supplierName","");
 			if(!"".equals(supplierName)){
 				sMap.put("supplierName", supplierName);
@@ -2125,7 +2125,6 @@ public class IndexNewsController extends BaseSupplierController{
 			}
 			String status=RequestTool.getParam(request,"status","");
 			if(!"".equals(status)){
-				//sMap.put("status", status);
 				String [] statusArray= status.split(",");
                 sMap.put("size", statusArray.length);
 				sMap.put("statusArray", statusArray);
@@ -2137,8 +2136,6 @@ public class IndexNewsController extends BaseSupplierController{
 			}
 			
 	        List<Supplier> list = suppService.query(page == null ? 1 : page,sMap);
-	        //return supplierList;
-	        //model.addAttribute("supplierList", supplierList);
 	        model.addAttribute("list",  new PageInfo<Supplier>(list));
 	        return "iss/ps/index/sumByPubSupplier";
 		}
@@ -2386,22 +2383,22 @@ public class IndexNewsController extends BaseSupplierController{
 	 * @since JDK1.7
 	 */
 	@RequestMapping("/indexExpPublicityItem")
-    public String indexExpPublicityItem(Model model, String expertId, Expert expert, String sign){
+    public String indexExpPublicityItem(Model model, String query_id_of_cate, Expert expert, String sign){
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 
-		expert = expertService.selectByPrimaryKey(expertId);
+		expert = expertService.selectByPrimaryKey(query_id_of_cate);
 
 		List <DictionaryData> allCategoryList = new ArrayList <> ();
 
 		// 查询审核通过的专家类型
-        List<String> stringList = expertCategoryService.selectCateByExpertId(expertId);
+        List<String> stringList = expertCategoryService.selectCateByExpertId(query_id_of_cate);
 
         // 获取专家类别
 		List < String > allTypeId = new ArrayList <> ();
 		if(expert.getExpertsTypeId() !=null && !"".equals(expert.getExpertsTypeId())){
 			for(String id: expert.getExpertsTypeId().split(",")) {
-			    if(stringList != null && stringList.contains(id)){
+			    if(stringList != null && !stringList.contains(id)){
                     allTypeId.add(id);
                 }
 			}
@@ -2413,7 +2410,7 @@ public class IndexNewsController extends BaseSupplierController{
 		}
 		model.addAttribute("allCategoryList", allCategoryList);
 
-		model.addAttribute("expertId", expertId);
+		model.addAttribute("expertId", query_id_of_cate);
 
 		//查询品目类型id
 		String matCodeId=DictionaryDataUtil.getId("GOODS");

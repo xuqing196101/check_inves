@@ -2,6 +2,7 @@ package ses.dao.bms;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -390,4 +391,29 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	Category selectCategoryByItemId (String itemsId);
+	
+	/**
+	 * 查询四级品目，供应商等级需要
+	 * @param map
+	 * @return
+	 */
+	public List<Category> findCategoryForSupplierLevel (HashMap<String, String> map);
+
+	/**
+	 * 
+	 * Description: 根据父节点查询四级以上的品目id
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年9月21日
+	 * @param 
+	 * @return
+	 */
+	public List<String> selExtractCategory(String pId);
+
+
+	public List<Category> findpublishTreeByPid(String id);
+
+
+	public Collection<? extends Category> selectCategoryByName(
+			HashMap<String, String> map);
 }

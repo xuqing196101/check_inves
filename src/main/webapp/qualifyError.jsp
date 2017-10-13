@@ -5,7 +5,7 @@
   <head>
    <script type="text/javascript">
        $(function() {
-        	layer.alert('权限不足',{title:'提示',area : '240px',offset: ['30%' , '40%'],shade:0.01 },function(){window.location.href = "/zhbj/login/home.html";});
+        	layer.alert('权限不足',{title:'提示',area : '240px',offset: ['30%' , '40%'],shade:0.01 },function(){window.location.href = globalPath+"/login/home.html";});
        });
   </script>
   </head>

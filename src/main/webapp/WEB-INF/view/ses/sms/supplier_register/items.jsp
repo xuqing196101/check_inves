@@ -1,10 +1,13 @@
-<%@ page language="java" pageEncoding="UTF-8"%>
+	<%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 
 <!DOCTYPE HTML>
 <html>
 <head>
 <%@ include file="/reg_head.jsp"%>
+<c:if test="${currSupplier.status == 2}">
+	<%@ include file="/WEB-INF/view/ses/sms/supplier_register/supplier_purchase_dept.jsp"%>
+</c:if>
 <title>供应商注册</title>
 <style type="text/css">
 	.current{
@@ -69,7 +72,7 @@
 		var severError = "${serverError}";
 		
 		if (proError == "productError") {
-			layer.alert("请选择生产行品目！");
+			layer.alert("请选择生产型品目！");
 		}
 		if (sellError == "sellError") {
 			layer.alert("请选择销售型品目！");
@@ -485,17 +488,17 @@
 		var zTreeObj;
 		var setting = {
 			async : {
-        autoParam: ["id","code"],
-        enable : true,
-        url : "${pageContext.request.contextPath}/supplier/category_type.do",
-        otherParam : {
-        "code" : code,
-        "supplierId" : "${currSupplier.id}",
-        "status" : seq
-        },
-        dataType : "json",
-        type : "post",
-      },
+		        autoParam: ["id","code"],
+		        enable : true,
+		        url : "${pageContext.request.contextPath}/supplier/category_type.do",
+		        otherParam : {
+		        "code" : code,
+		        "supplierId" : "${currSupplier.id}",
+		        "status" : seq
+		        },
+		        dataType : "json",
+		        type : "post",
+		    },
 			check : {
 				enable : true,
 				chkStyle:"checkbox",  

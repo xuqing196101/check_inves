@@ -112,7 +112,7 @@
             pid: pid
           },
           success: function(data) {
-          $("#city").append("<option value=''>请选择</option>");
+          	$("#city").append("<option value=''>请选择</option>");
             $.each(data, function(idx, item) {
               
               if(item.id == cityId) {
@@ -403,7 +403,7 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>省</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                      <select name="provinceId" id="province" onchange="loadCities(this.value);" required>
+                      <select name="provinceId" id="province" onchange="loadCities(this.value);">
                       </select> <input type="hidden"  id="pid" value="${purchaseDep.provinceId }">
                       <div class="cue">${ERR_provinceId}</div>
                     </div>
@@ -411,7 +411,7 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>市</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                      <select name="cityId" id="city" required>
+                      <select name="cityId" id="city">
                       </select> <input type="hidden"  id="cid" value="${purchaseDep.cityId }">
                       <div class="cue">${ERR_cityId}</div>
                     </div>

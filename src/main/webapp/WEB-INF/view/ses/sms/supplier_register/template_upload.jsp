@@ -5,11 +5,14 @@
 <head>
 <%@ include file="/reg_head.jsp"%>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+<c:if test="${currSupplier.status == 2}">
+	<%@ include file="/WEB-INF/view/ses/sms/supplier_register/supplier_purchase_dept.jsp"%>
+</c:if>
 <title>供应商注册</title>
-		<style type="text/css">
-.current {
-	cursor: pointer;
-}
+	<style type="text/css">
+		.current {
+			cursor: pointer;
+		}
 </style>
 <script type="text/javascript">
 	/** 保存基本信息 */

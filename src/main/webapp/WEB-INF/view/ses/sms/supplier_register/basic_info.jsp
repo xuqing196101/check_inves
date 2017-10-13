@@ -6,6 +6,9 @@
 	<head>
 		<%@ include file="/reg_head.jsp"%>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+		<c:if test="${currSupplier.status == 2}">
+			<%@ include file="/WEB-INF/view/ses/sms/supplier_register/supplier_purchase_dept.jsp"%>
+		</c:if>
 		<title>供应商注册</title>
 		<style type="text/css">
 			.current{
@@ -410,7 +413,8 @@
 
 				checkStockholdersID("input[name='listSupplierStockholders[" + stocIndex + "].identity']");
 				toTempSave("input[name='listSupplierStockholders[" + stocIndex + "].proportion']");
-
+				tempSave();
+				
 				stocIndex++;
 				$("#stockIndex").val(stocIndex);
 			}
@@ -446,6 +450,8 @@
 
 				afterSaleIndex++;
 				$("#afterSaleIndex").val(afterSaleIndex);
+				
+				tempSave();
 			}
 			
 			function deleteAfterSaleDep() {
@@ -480,21 +486,30 @@
 						async: false,
 						type: "POST",
 						data: {
-							"afterSaleDepIds": afterSaleDepIds,
+							"ids": afterSaleDepIds,
 						},
-						success: function(){
-							layer.msg("删除成功！");
-							$(checkboxs).each(function(index) {
-								var tr = $(this).parent().parent();
-								$(tr).remove();
-							});
+						success: function(data){
+							if(data=="ok"){
+							  layer.msg("删除成功！", {
+							    offset: '300px'
+							  });
+							  $(checkboxs).each(function(index) {
+							    var tr = $(this).parent().parent();
+							    $(tr).remove();
+							  });
+							}
+							if(data=="fail"){
+							  layer.msg("删除失败！", {
+							    offset: '300px'
+							  });
+							}
 						},
 						error: function(){
 							layer.msg("删除失败！");
 						}
 					});
 				} else {
-					layer.alert("请至少勾选一条记录 !", {
+					layer.alert("请至少勾选一条记录！", {
 						offset: '200px',
 						scrollbar: false,
 					});
@@ -559,15 +574,23 @@
 							async: false,
 							type: "POST",
 							data: {
-								"stockholderIds": stockholderIds,
-								"supplierId": supplierId
+								"ids": stockholderIds,
 							},
-							success: function(){
-								layer.msg("删除成功！");
-								$(checkboxs).each(function(index) {
-									var tr = $(this).parent().parent();
-									$(tr).remove();
-								});
+							success: function(data){
+								if(data=="ok"){
+								  layer.msg("删除成功！", {
+								    offset: '300px'
+								  });
+								  $(checkboxs).each(function(index) {
+								    var tr = $(this).parent().parent();
+								    $(tr).remove();
+								  });
+								}
+								if(data=="fail"){
+								  layer.msg("删除失败！", {
+								    offset: '300px'
+								  });
+								}
 							},
 							error: function(){
 								layer.msg("删除失败！");
@@ -578,7 +601,7 @@
 						layer.close(index);
 					});
 				} else {
-					layer.alert("请至少勾选一条记录 !", {
+					layer.alert("请至少勾选一条记录！", {
 						offset: '200px',
 						scrollbar: false,
 					});
@@ -831,9 +854,8 @@
 				});
 				
 			}
-			function increaseAddHouseAddress(obj) {
+			function increaseAddHouseAddress() {
 				var ind = $("#certSaleNumber").val();
-				var li = $(obj).parent().parent();
         $.ajax({
           url : "${pageContext.request.contextPath}/supplier/addAddress.do",
           async : false,
@@ -846,6 +868,7 @@
             init_web_upload();
             ind++;
             $("#certSaleNumber").val(ind);
+            tempSave();
           }
         });
 			}
@@ -881,11 +904,11 @@
             async: false,
             type: "POST",
             data: {
-              "id": addressIds
+              "ids": addressIds
             },
             success: function(data) {
               if(data=="ok"){
-                layer.msg("删除成功!", {
+                layer.msg("删除成功！", {
                   offset: '300px'
                 });
                 $(checkboxs).each(function(index) {
@@ -893,15 +916,20 @@
                   $(tr).remove();
                 });
               }
+              if(data=="fail"){
+                layer.msg("删除失败！", {
+                  offset: '300px'
+                });
+              }
             },
             error: function() {
-              layer.msg("删除失败!", {
+              layer.msg("删除失败！", {
                 offset: '300px'
               });
             }
         	});
         }else{
-          layer.alert("请至少勾选一条记录 !", {
+          layer.alert("请至少勾选一条记录！", {
             offset: '200px',
             scrollbar: false,
           });
@@ -1554,7 +1582,7 @@
 							<legend>资质资信</legend>
 							<ul class="list-unstyled f14">
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25 pl10">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月完税凭证</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月完税凭证</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0"
 										<c:if test="${fn:contains(audit,'taxCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'taxCert')"</c:if>>
 										<c:if test="${(fn:contains(audit,'taxCert')&&currSupplier.status==2 )||(currSupplier.status==-1 || currSupplier.status==1)}"> <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="taxcert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /></c:if>
@@ -1565,7 +1593,7 @@
 								</li>
 
 								<li id="bill_li_id" class="col-md-6 col-sm-6 col-xs-12 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年银行基本账户年末对账单</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年银行基本账户年末对账单</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0"
 										<c:if test="${fn:contains(audit,'billCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'billCert')"</c:if>>
 										<c:if test="${(fn:contains(audit,'billCert')&&currSupplier.status==2 )|| currSupplier.status==-1 || currSupplier.status==1}">	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="billcert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /></c:if>
@@ -1576,7 +1604,7 @@
 								</li>
 
 								<li id="security_li_id" class="col-md-6 col-sm-6 col-xs-12 mb25 h30">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月缴纳社会保险金凭证</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月缴纳社会保险金凭证</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0"
 										<c:if test="${fn:contains(audit,'securityCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'securityCert')"</c:if>>
 										<c:if test="${(fn:contains(audit,'securityCert')&&currSupplier.status==2) || currSupplier.status==-1 || currSupplier.status==1}">	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="curitycert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /></c:if>
@@ -1587,7 +1615,7 @@
 								</li>
 
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年内有无重大违法记录</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年内有无重大违法记录</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0 h30">
 										<select name="isIllegal" id="isIllegal" class="fl mr10 w120"
 											<c:if test="${fn:contains(audit,'isIllegal')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'isIllegal')"</c:if>>
@@ -1599,7 +1627,7 @@
 									</div>
 								</li>
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 国家或军队保密资格证书</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 国家或军队保密资格证书</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0 h30">
 										<select name="isHavingConCert" id="isHavingConCert" onchange="dis_bearch(this)" class="fl mr10 w120"
 											<c:if test="${fn:contains(audit,'isHavingConCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'isHavingConCert')"</c:if>>
@@ -1611,7 +1639,7 @@
 									</div>
 								</li>
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25" id="bearchCertDiv">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 保密资格证书</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 保密资格证书</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0"
 										<c:if test="${fn:contains(audit,'supplierBearchCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierBearchCert')"</c:if>>
 										<c:if test="${(fn:contains(audit,'supplierBearchCert')&&currSupplier.status==2 ) || currSupplier.status==-1 || currSupplier.status==1}"> 	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /></c:if>
@@ -2104,7 +2132,7 @@
 												<thead>
 													<tr>
 														<th class="w50 info">年份</th>
-														<!-- <th class="info"><font color=red>*</font> 审计报告的审计意见</th> -->
+														<!-- <th class="info"><font color=red>*</font> 审计报告书中的审计报告</th> -->
 														<th class="info"><font color=red>*</font> 审计报告书中的审计报告</th>
 														<th class="info"><font color=red>*</font> 资产负债表</th>
 														<th class="info"><font color=red>*</font> 财务利润表</th>
@@ -2358,8 +2386,9 @@
 			</div>
 		</div>
 		<div class="footer_margin">
-   			<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
-   		</div>
+ 			<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
+ 		</div>
+		
 	</body>
 </html>
 <script type="text/javascript">

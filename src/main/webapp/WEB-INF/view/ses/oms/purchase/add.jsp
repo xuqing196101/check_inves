@@ -196,10 +196,10 @@ function onCheck(e, treeId, treeNode) {
 		
 		function save(){
 		  	$("#formID").validForm();
-		  	if ($("#password1").val().indexOf(" ")!=-1 || $("#password2").val().indexOf(" ")!=-1) {
+		  	if ($("#password1").val() == null || $("#password1").val() == "" || $("#password1").val().indexOf(" ")!=-1 || $("#password2").val().indexOf(" ")!=-1) {
 				$("#password1").val("");
 				$("#password2").val("");
-				$("#pwd1").html("不能有空格").css('color','red');
+				$("#pwd1").html("不能有空").css('color','red');
                 flag=1;
                 return false;
 			} else {
@@ -354,7 +354,7 @@ function onCheck(e, treeId, treeNode) {
 			  <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				<select name="orgId" id="typeName_id">
 				  <c:forEach items="${purchaserOrgList}" var="org" >
-				    <option value="${org.id}" <c:if test="${org.id == purchaseInfo.orgId}">selected="selected"</c:if>>${org.name}</option>
+				    <option value="${org.id}" <c:if test="${org.id == purchaseInfo.orgId}">selected="selected"</c:if>>${org.shortName}</option>
 				  </c:forEach>
 			    </select>
 			  </div>

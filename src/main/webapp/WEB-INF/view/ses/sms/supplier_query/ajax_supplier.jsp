@@ -12,7 +12,21 @@
 			</li>
 			<li><label class="fl">联系人：</label> 
 			 <input id="armyBusinessName"  name="armyBusinessName" type="text">
-				 </li>
+			</li>
+			<li id="selectSupplierType" class="hide">
+				<label class="fl">供应商等级：</label> 
+			  <select  name="supplierLevel" id="supplierLevel" class="w182">
+		    	<option selected="selected" value=''>全部</option>
+		   		<option value="一级">一级</option>
+		   		<option value="二级">二级</option>
+		   		<option value="三级">三级</option>
+		   		<option value="四级">四级</option>
+		   		<option value="五级">五级</option>
+		   		<option value="六级">六级</option>
+		   		<option value="七级">七级</option>
+		   		<option value="八级">八级</option>
+		      </select>
+			</li>
 			<li id="addButton">
 			</li>
 		</ul>

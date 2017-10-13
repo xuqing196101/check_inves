@@ -38,7 +38,7 @@ function tijiao(str) {
 			action = globalPath + "/supplierQuery/auditInfo.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
 		}
         if (str == "table") {
-            action = globalPath + "/supplier/show_template_upload.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
+            action = globalPath + "/supplierQuery/show_template_upload.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
         }
 	} else {
 		if (str == "essential") {
@@ -78,7 +78,7 @@ function tijiao(str) {
 			action = globalPath + "/supplierQuery/auditInfo.html";
 		}
         if (str == "table") {
-            action = globalPath + "/supplier/show_template_upload.html";
+            action = globalPath + "/supplierQuery/show_template_upload.html";
         }
 	}
 	$("#form_id").attr("action", action);

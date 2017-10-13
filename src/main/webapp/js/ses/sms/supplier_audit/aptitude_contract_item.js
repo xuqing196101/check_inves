@@ -81,11 +81,11 @@ function reasonProject(ind,auditField, auditFieldName,ids) {
 		maxlength: '100',
 	}, function(text) {
 		var text = $.trim(text);
-	  if(text != null && text !=""){
-		  if(text.length>900){
-		    	layer.msg('审核理由内容太长', {offset:'100px'});
-		    	return;
-		    }
+		if(text != null && text != ""){
+			if(text.length>900){
+				layer.msg('审核理由内容太长', {offset:'100px'});
+				return;
+			}
 			$.ajax({
 				url: globalPath+"/supplierAudit/auditReasons.do",
 				type: "post",
@@ -98,44 +98,39 @@ function reasonProject(ind,auditField, auditFieldName,ids) {
 							offset: '100px',
 						});    
 						//销售合同资质 要求
-						 $("input[name='"+tablerId+"itemsCheckboxName']",window.parent.document).each(function(){ 
-								var index=$(this).val();
-								var firstNodeId=$("#"+tablerId+" #firstNodeId"+index+"",window.parent.document).val();
-								var secondNodeId=$("#"+tablerId+" #secondNodeId"+index+"",window.parent.document).val();
-								var thirdNodeId=$("#"+tablerId+" #thirdNodeId"+index+"",window.parent.document).val();
-								var fourthNodeId=$("#"+tablerId+" #fourthNodeId"+index+"",window.parent.document).val();
-								//判断 资质关联id 是否包含
-								if(contractId){
-									contractId=$.trim(contractId);
-									var slip=contractId.split(',');
-									$(slip).each(function(inde,value){
-										//以下id结束的 标签比较
-										var v=$("input[id$='NodeId"+index+"'][value*='"+value+"']",window.parent.document).val();
-										if(v){
-											//资质文件
-											$("#"+tablerId+" #contract"+index+"",window.parent.document).css('border-color', '#FF0000');
-											if('aptitude_product_page'==auditType){
-											//物资生产   服务
-												var old=$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val();
-												$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);
-											}else{
-											//物资销售
-												var old=$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val();;
-												$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);
-											}
+						$("input[name='"+tablerId+"itemsCheckboxName']",window.parent.document).each(function(){
+							var index=$(this).val();
+							var firstNodeId=$("#"+tablerId+" #firstNodeId"+index+"",window.parent.document).val();
+							var secondNodeId=$("#"+tablerId+" #secondNodeId"+index+"",window.parent.document).val();
+							var thirdNodeId=$("#"+tablerId+" #thirdNodeId"+index+"",window.parent.document).val();
+							var fourthNodeId=$("#"+tablerId+" #fourthNodeId"+index+"",window.parent.document).val();
+							//判断 资质关联id 是否包含
+							if(contractId){
+								contractId=$.trim(contractId);
+								var slip=contractId.split(',');
+								$(slip).each(function(inde,value){
+									//以下id结束的 标签比较
+									var v=$("input[id$='NodeId"+index+"'][value*='"+value+"']",window.parent.document).val();
+									if(v){
+										//资质文件
+										$("#"+tablerId+" #contract"+index+"",window.parent.document).css('border-color', '#FF0000');
+										if('contract_product_page'==auditType){
+										//物资生产   服务
+											var old=$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val();
+											$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);
+										}else{
+										//物资销售
+											var old=$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val();;
+											$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);
 										}
-									});
-								}
-						 });
+									}
+								});
+							}
+						});
 						
 						$("#td1"+ids+"").css('border-color', '#FF0000');
 						$("#show_td"+ids+"").attr('src', globalPath+'/public/backend/images/sc.png');
 						$("#count"+ids+"").val('1');
-						
-						
-						
-						
-						
 					}else{
 						layer.msg(result.msg, {
 							shift: 6, //动画类型
@@ -144,10 +139,10 @@ function reasonProject(ind,auditField, auditFieldName,ids) {
 					}
 				}
 			});
-				layer.close(index);
-			}else{
-  		layer.msg('不能为空！', {offset:'100px'});
-  	};
+			layer.close(index);
+		}else{
+			layer.msg('不能为空！', {offset:'100px'});
+		};
 	});
 }
 function showData(index){
@@ -160,24 +155,26 @@ function showData(index){
 		rut=parents.find("td").eq(1).text();
 	}
 	rut=rut+"_"+parents.find("td").eq(index+1).text();*/
+	var date = new Date();
+	var year = date.getFullYear();
 	switch (index) {
 	case 1:
-		rut = "2014年度销售合同";
+		rut = (year-3)+"年度销售合同";
 		break;
 	case 2:
-		rut = "2015年度销售合同";
+		rut = (year-2)+"年度销售合同";
 		break;
 	case 3:
-		rut = "2016年度销售合同";
+		rut = (year-1)+"年度销售合同";
 		break;
 	case 4:
-		rut = "2014年度银行收款证明";
+		rut = (year-3)+"年度银行收款证明";
 		break;
 	case 5:
-		rut = "2015年度银行收款证明";
+		rut = (year-2)+"年度银行收款证明";
 		break;
 	case 6:
-		rut = "2016年度银行收款证明";
+		rut = (year-1)+"年度银行收款证明";
 		break;
 	default:
 		break;

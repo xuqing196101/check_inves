@@ -426,7 +426,7 @@ p, li, li a, label {
     border-color: rgb(214, 204, 204) !important;
     border-image:  !important;
     padding: 20px 20px 10px !important;
-    width:100%;
+    width:99%;
     float: left;
 }
 
@@ -535,7 +535,8 @@ a.thumbnail {
 }
 
 .select_common{
-    display: inline-block;
+    /* display: inline-block; */
+    display: table;
     white-space: nowrap;
     vertical-align: middle;
     position:relative;
@@ -1997,3 +1998,41 @@ table.lockout .extrafile{
 		.m_tree_nav.open .btn_toggle {
 			background-position: 0 0;
 		}
+		
+		/* 复审-批次专家创建新列表样式 */
+		.group_batch_list {
+			margin-top: 10px;
+			border-top: solid 2px #333;
+		}
+		.group_batch_list .gbl_tit {
+			margin-top: 10px;
+			font-size: 0px;
+			line-height: normal;
+		}
+		.group_batch_list .gbl_tit span {
+			display: inline-block;
+			vertical-align: middle;
+			font-size: 18px;
+		}
+		.group_batch_list .gbl_tit span.gbl_icon {
+			width: 32px;
+			height: 32px;
+			line-height: 32px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			text-align: center;
+			border-radius: 50% !important;
+			background-color: #2c9fa6;
+			color: #FFF;
+			margin-right: 10px;
+		}
+		
+/* 专家复审-列表详情-上传彩色扫描件 */
+.pic_upload > div {
+	float: left;
+}
+.pic_upload .uploadFiles {
+	overflow: hidden;
+	padding: 0;
+}

@@ -76,9 +76,12 @@
 			                   				<c:if test="${count > 0}">
 				                   				<ul class="dropdown-menuson dropdown-menu">
 					                   				<c:forEach items="${sessionScope.resource}" var="r" varStatus="vs">
-					                   					<c:if test="${res.id == r.parentId.id}">
+					                   					<c:if test="${res.id == r.parentId.id && res.parentId.id !='EFAE85CBBB1A404493489303A0B30B71'}">
 								                   			<li><a href="${pageContext.request.contextPath}/${r.url}" target="home" class="son-menu son-three"><span class="mr5">◇</span>${r.name }</a></li>
 					                   					</c:if>
+					                   					<c:if test="${res.id == r.parentId.id && res.parentId.id =='EFAE85CBBB1A404493489303A0B30B71'}"><!--判断是否是进出口管理  -->
+                                                            <li><a href="${r.url}" target="home" class="son-menu son-three"><span class="mr5">◇</span>${r.name }</a></li>
+                                                        </c:if>
 					                   				</c:forEach>
 				                   				</ul>
 			                   				</c:if>

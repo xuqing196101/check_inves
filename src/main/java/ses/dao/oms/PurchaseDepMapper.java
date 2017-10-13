@@ -1,12 +1,11 @@
 package ses.dao.oms;
 
+import org.apache.ibatis.annotations.Param;
+import ses.model.oms.PurchaseDep;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
-import ses.model.oms.PurchaseDep;
 
 public interface PurchaseDepMapper {
 	List<PurchaseDep> findPurchaseDepList(HashMap<String, Object> map);
@@ -82,4 +81,15 @@ public interface PurchaseDepMapper {
 	 * @return
 	 */
 	List<PurchaseDep> findAllOrg();
+
+	/**
+	 *
+	 * Description: 根据供应商表中的（PROCUREMENT_DEP_ID）字段查询采购机构全称
+	 *
+	 * @author Easong
+	 * @version 2017/9/25
+	 * @param 
+	 * @since JDK1.7
+	 */
+	String selectOrgFullNameByPurchaseDepId(Map<String, Object> map);
 }

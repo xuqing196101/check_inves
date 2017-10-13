@@ -778,14 +778,14 @@
 					<ul class="ul_list count_flow">
 						<li>
 							<div class="tc">
-						       <c:forEach items="${wlist }" var="obj" >
+						       <c:forEach items="${scxsList }" var="obj" >
 								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" <c:if test="${fn:contains(supplierTypeCode,obj.code)}">onclick="reasonType('${obj.id }','${obj.name }');"</c:if>><input type="checkbox" disabled="disabled" name="chkItem_1" value="${obj.code}"/> ${obj.name }</span>
 						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 						     		<c:if test="${fn:contains(passedTypeField,obj.id)}">
 						     			<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 						     		</c:if>
 						      </c:forEach>
-						      <c:forEach items="${supplieType }" var="obj" >
+						      <c:forEach items="${gcfwList }" var="obj" >
 								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" <c:if test="${fn:contains(supplierTypeCode,obj.code)}">onclick="reasonType('${obj.id }','${obj.name }');"</c:if>><input type="checkbox" disabled="disabled" name="chkItem_2" value="${obj.code }"/>${obj.name } </span>
 						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 						      	<c:if test="${fn:contains(passedTypeField,obj.id)}">

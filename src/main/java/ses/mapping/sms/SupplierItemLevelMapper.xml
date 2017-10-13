@@ -13,25 +13,53 @@
     ID, SUPPLIER_ID, SUPPLIER_LEVEL, CATEGORY_ID, CREATED_AT, SUPPLIER_TYPE_ID
   </sql>
    <sql id="lBase_Column_List" >
-    l.SUPPLIER_ID as supplierId, l.SUPPLIER_LEVEL as supplierLevel, 
-    l.CATEGORY_ID categoryId, l.CREATED_AT as createdAt, l.SUPPLIER_TYPE_ID as supplierTypeId,
+    l.SUPPLIER_ID as supplierId, ll.SUPPLIER_LEVEL as supplierLevel, 
+    l.CATEGORY_ID categoryId, l.CREATED_AT as createdAt, l.SUPPLIER_TYPE_RELATE_ID as supplierTypeId,
     s.SUPPLIER_NAME as supplierName,
     s.ARMY_BUSINESS_NAME as armyBusinessName,
     s.ARMY_BUSINESS_TELEPHONE as armyBuinessTelephone,org.SHORT_NAME as orgName
   </sql>
   <select id="selectByCategoryId" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    SELECT <include refid="lBase_Column_List" />
-    from T_SES_SMS_SUPPLIER_ITEM_LEVEL l LEFT JOIN T_SES_SMS_SUPPLIER s
+    SELECT 
+    DISTINCT l.SUPPLIER_ID as supplierId,
+    <if test="categoryId != null and categoryId !=''"> 
+	    ll.SUPPLIER_LEVEL as supplierLevel, 
+	    l.CATEGORY_ID categoryId, 
+	    l.CREATED_AT as createdAt, 
+	    l.SUPPLIER_TYPE_RELATE_ID as supplierTypeId,
+    </if>
+    s.SUPPLIER_NAME as supplierName,
+    s.ARMY_BUSINESS_NAME as armyBusinessName,
+    s.ARMY_BUSINESS_TELEPHONE as armyBuinessTelephone,org.SHORT_NAME as orgName
+    from T_SES_SMS_SUPPLIER_ITEM l LEFT JOIN T_SES_SMS_SUPPLIER s
         LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON s.PROCUREMENT_DEP_ID = dep.ID
         LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
         ON l.SUPPLIER_ID=s.ID
-        where l.CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+        LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL ll 
+        ON l.SUPPLIER_ID = ll.supplier_id 
+        AND l.supplier_type_relate_id = ll.SUPPLIER_TYPE_ID 
+        AND l.CATEGORY_ID = ll.CATEGORY_ID       
+    where 
+        l.SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId,jdbcType=VARCHAR}
+        <if test="categoryId != null and categoryId !=''">
+	      AND l.CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+        </if>
+        AND (
+				s.SUPPLIER_STATUS = 1
+				OR s.SUPPLIER_STATUS = 5
+				OR s.SUPPLIER_STATUS = 7
+			)
+		AND s.IS_PROVISIONAL = '0'
+		AND s.IS_DELETED = 0
         <if test="supplierName != null and supplierName !=''">
-                and s.SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
-            </if>
-            <if test="armyBusinessName != null and armyBusinessName != ''">
-                AND s.ARMY_BUSINESS_NAME like CONCAT(CONCAT('%', #{armyBusinessName}), '%')
-            </if>
+            and s.SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
+        </if>
+        <if test="armyBusinessName != null and armyBusinessName != ''">
+            AND s.ARMY_BUSINESS_NAME like CONCAT(CONCAT('%', #{armyBusinessName}), '%')
+        </if>
+        <if test="supplierLevel != null and supplierLevel != ''">
+            AND ll.SUPPLIER_LEVEL = #{supplierLevel}
+        </if>
         ORDER BY s.supplier_name
   </select>
   <!-- 判断是否存在  -->
@@ -147,5 +175,26 @@
 		  T1.CATEGORY_ID = #{categoryId}
 		AND T1.SUPPLIER_ID= #{supplierId}
 		AND T1.SUPPLIER_TYPE_ID = #{supplierTypeId}
+  </select>
+  
+  <!-- 获取工程品目下供应商等级 -->
+  <select id="getProjectLevel" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT
+			dd.NAME
+		FROM
+			T_SES_SMS_SUPPLIER_APTITUTE A
+		LEFT JOIN T_SES_BMS_DICTIONARY_DATA dd ON dd.ID = A."APTITUTE_ LEVEL"
+		LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG E ON A.MAT_ENG_ID = E.ID
+		WHERE
+			E.supplier_id = #{supplierId}
+		AND A.CERT_TYPE in (
+			SELECT
+				QUA_ID
+			FROM
+				T_SES_BMS_CATEGORY_QUA
+			WHERE
+				CATEGORY_ID = #{categoryId}
+			AND IS_DELETED = 0
+		)
   </select>
 </mapper>

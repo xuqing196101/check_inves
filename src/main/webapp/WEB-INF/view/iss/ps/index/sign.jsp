@@ -59,7 +59,11 @@
     						  $("#spanPrompt").text("验证码不正确");
     						  $("#inputCode").val("");
     						layer.close(index);
-    					} else if (data.indexOf("errorlogin") >= 0) {
+    					} else if (data =='fsthxg'){
+    						$("#divPrompt").removeClass("hide");
+                            $("#spanPrompt").text("请耐心等待复审结束");
+                            layer.close(index);
+    					}else if (data.indexOf("errorlogin") >= 0) {
     						$("#divPrompt").removeClass("hide");
     						
     						var ms = "";
@@ -104,7 +108,7 @@
                             $("#divPrompt").removeClass("hide");
                             $("#spanPrompt").text("您未在 "+flag[1]+" 天内提交审核,注册信息已失效");
                             layer.close(index);
-    					} else if(data == "expert_waitOnceCheck"){
+                        } else if(data == "expert_waitOnceCheck"){
                             $("#divPrompt").removeClass("hide");
                             $("#spanPrompt").text("对不起，您处于待复审状态");
                             layer.close(index);
@@ -122,8 +126,20 @@
                             layer.close(index);
                         }else if(data == "expertBlack"){
                         	$("#divPrompt").removeClass("hide");
-   						  	$("#spanPrompt").text("对不起，您已被列入黑名单!");
-    						layer.close(index);
+				   						  	$("#spanPrompt").text("对不起，您已被列入黑名单!");
+				   						    layer.close(index);
+                        }else if(data == "firstQualified"){
+                            $("#divPrompt").removeClass("hide");
+                            $("#spanPrompt").text("对不起，您处于初审合格状态!");
+                            layer.close(index);
+                        }else if(data == "reviewFailed"){
+                            $("#divPrompt").removeClass("hide");
+                            $("#spanPrompt").text("对不起，您复查不合格!");
+                            layer.close(index);
+                        }else if(data == "inReview"){
+                            $("#divPrompt").removeClass("hide");
+                            $("#spanPrompt").text("对不起，您正在复审中!");
+                            layer.close(index);
                         }else if (flag[0] == "firset") {
     						//询问框
     						layer.confirm('您还未完善个人信息，是否前去完善？', {

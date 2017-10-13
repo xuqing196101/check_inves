@@ -1,6 +1,8 @@
 package ses.dao.sms;
 
 import org.apache.ibatis.annotations.Param;
+
+import extract.model.supplier.SupplierExtractCondition;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierPublicity;
@@ -187,7 +189,7 @@ public interface SupplierMapper {
      * @param @return      
      * @return Supplier
      */
-    void updateStatus(Supplier record);
+    int updateStatus(Supplier record);
 
     int updateSupplierProcurementDep(Supplier supplier);
 
@@ -204,7 +206,7 @@ public interface SupplierMapper {
      * @return List<Expert>
      */
     List<Supplier> listExtractionExpert(
-			extract.model.supplier.SupplierCondition condition);
+			extract.model.supplier.SupplierExtractCondition condition);
     
     
     List<Supplier> selectByProjectId(String projectId);
@@ -431,7 +433,6 @@ public interface SupplierMapper {
      * @date 2017-4-11 下午3:08:59  
      * @Description:注销列表
      * @param @param supplier      
-     * @return void
      */
     List<Supplier> findLogoutList(Supplier supplier);
     
@@ -530,8 +531,8 @@ public interface SupplierMapper {
      */
     BigDecimal getSupplierCountByNature(@Param("business_nature") String business_nature);
     
-    public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map);
-    public List<supplierExport> selectExpertNumber(HashMap<String, Object> map);
+    public List<Map<String, Object>> selectSupplierCheckNumber(HashMap<String, Object> map);
+    public List<Map<String, Object>> selectExpertCheckNumber(HashMap<String, Object> map);
     
     /**
      * 
@@ -539,10 +540,10 @@ public interface SupplierMapper {
      * 
      * @author YangHongLiang
      * @version 2017-6-16
-     * @param supplierIds
+     * @param listSupplier
      * @return
      */
-    Date findMaxFoundDate(@Param("supplierIds")List<String> supplierIds);
+    Date findMaxFoundDate(@Param("listSupplier")List<Supplier> listSupplier);
 
     /**
 	 * 根据采购机构id统计对应状态的供应商数量
@@ -554,7 +555,7 @@ public interface SupplierMapper {
 			@Param("status")int status);
 
 	/**
-	 * 手机号校验：专家库+供应商库（除去临时供应商）
+	 * 手机号校验：供应商库+专家库（除去临时供应商和临时专家）
 	 * @param mobile
 	 * @return
 	 */
@@ -656,14 +657,23 @@ public interface SupplierMapper {
 	 * @param map
 	 * @return
 	 */
-	List<supplierExport> selectSupplierNumberFormal(HashMap<String, Object> map);
+	List<Map<String,Object>> selectSupplierTypeNumber(HashMap<String, Object> map);
 	/**
 	 * 查询入库专家
 	 * @param map
 	 * @return
 	 */
-	List<supplierExport> selectExpertNumberFormal(HashMap<String, Object> map);
+	List<Map<String, Object>> selectExpertTypeNumber(HashMap<String, Object> map);
 
 	List<Supplier> listExtractionExpert(SupplierCondition condition);
+
+	int listExtractionExpertCount(SupplierExtractCondition condition);
+	/**
+	 * 身份证号校验：供应商库+专家库（除去临时供应商和临时专家）
+	 * @param id
+	 * @param idCard
+	 * @return
+	 */
+	int countByIdCard(@Param("id")String id, @Param("idCard")String idCard);
 
 }

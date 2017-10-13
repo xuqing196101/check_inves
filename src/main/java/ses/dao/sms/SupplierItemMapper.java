@@ -1,6 +1,8 @@
 package ses.dao.sms;
 
 import org.apache.ibatis.annotations.Param;
+
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItem;
 
 import java.math.BigDecimal;
@@ -220,4 +222,11 @@ public interface SupplierItemMapper {
      * @return
      */
     List<SupplierItem> findByMapByNull(Map<String,Object> map);
+
+	/**
+	 * 查询类型下品目入库供应商
+	 * @param supplier
+	 * @return
+	 */
+	List<Supplier> findFinaSupplierByCategouryAndType(Supplier supplier);
 }

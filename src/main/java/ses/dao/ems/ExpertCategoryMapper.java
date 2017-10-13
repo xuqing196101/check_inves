@@ -1,13 +1,12 @@
 package ses.dao.ems;
 
+import org.apache.ibatis.annotations.Param;
+import ses.model.ems.ExpertCategory;
+import ses.model.sms.SupplierCateTree;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
-import ses.model.ems.ExpertCategory;
-import ses.model.sms.SupplierCateTree;
 
 public interface ExpertCategoryMapper {
     int insert(ExpertCategory record);
@@ -106,6 +105,18 @@ public interface ExpertCategoryMapper {
 	 */
 
 	List<String> selectCateByExpertId(Map<String,Object> map);
+	
+	/**
+	 *
+	 * Description: 查询专家审核不通过的类型
+	 *
+	 * @author Easong
+	 * @version 2017/9/28
+	 * @param 
+	 * @since JDK1.7
+	 */
+	List<String> selectNoPassCateByExpertId(Map<String,Object> map);
+
 	/**
 	 *
 	 * Description:查询专家审核通过的类型
@@ -154,4 +165,37 @@ public interface ExpertCategoryMapper {
      * @return
      */
     Integer findCountParent(Map<String,Object> map);
+    
+    /**
+     * 查询通过的类别（排除初审或复审中不通过的）
+     * @param map
+     * @return
+     */
+    List<ExpertCategory> findPassCateByExpertId(Map<String,Object> map);
+    
+    ExpertCategory selectCategoryByCategoryId(ExpertCategory expertCategory);
+
+    /** 
+     * Description: 根据品目查询符合条件的专家
+     * 
+     * @author zhang shubin
+     * @data 2017年9月10日
+     * @param 
+     * @return
+     */
+    List<String> selExpertByCategory(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 根据品目查询符合条件的专家 (满足所有品目条件)
+     * 
+     * @author zhang shubin
+     * @data 2017年9月10日
+     * @param 
+     * @return
+     */
+    List<String> selExpertByAll(Map<String, Object> map);
+
+
+    List<ExpertCategory> selectCategoryListByCategoryId(ExpertCategory expertCategory);
 }

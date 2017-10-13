@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="extract.dao.supplier.SupplierExtractConditionMapper">
-	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierCondition">
-		<!-- @mbggenerated -->
+	<!-- <resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractCondition">
+		@mbggenerated
 		<id column="ID" jdbcType="VARCHAR" property="id" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="STATUS" jdbcType="DECIMAL" property="status" />
@@ -16,9 +16,27 @@
 		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
 		<result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
 		<result column="ADDRESS_ID" jdbcType="VARCHAR" property="addressId" />
+	</resultMap> -->
+	<!-- 新条件表返回结果  -->
+	<resultMap id="BaseResultMap" type="extract.model.supplier.SupplierExtractCondition">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+		<result column="STATUS" jdbcType="DECIMAL" property="status" />
+		<result column="AREA_NAME" jdbcType="VARCHAR" property="areaName" />
+		<result column="ADDRESS_REASON" jdbcType="VARCHAR" property="addressReason" />
+		<result column="BUSINESS_NATURE" jdbcType="VARCHAR" property="businessNature" />
+		<result column="IS_HAVING_CON_CERT" property="isHavingConCert" jdbcType="DECIMAL" />
+		<result column="OVERSEAS_BRANCH" jdbcType="DECIMAL" property="overseasBranch" />
+		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
+		<result column="SUPPLIER_TYPE_CODE" jdbcType="VARCHAR" property="supplierTypeCode" />
 	</resultMap>
 
-	<resultMap type="extract.model.supplier.SupplierCondition" id="BaseResultListMap"
+	<resultMap type="ses.model.bms.CategoryQua" id="quaResult">
+		<result column="QUA_ID" jdbcType="VARCHAR"  property="quaId" />
+	    <result column="QUA_TYPE"  jdbcType="NUMERIC"  property="quaType" />
+	</resultMap>
+	
+	<resultMap type="extract.model.supplier.SupplierExtractCondition" id="BaseResultListMap"
 		extends="BaseResultMap">
 		<collection property="conTypes" column="ID"
 			ofType="extract.model.supplier.SupplierConType">
@@ -31,36 +49,36 @@
 			<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
 			<result column="IS_MULTICONDITION" jdbcType="DECIMAL"
 				property="isMulticondition" />
-			<association property="supplierType" column="SUPPLIER_TYPE_ID"
-				select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryCode"></association>
+		<!-- 	<association property="supplierType" column="SUPPLIER_TYPE_ID"
+				select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryCode"></association> -->
 		</collection>
 		<!-- 关联抽取过的供应商 -->
-		<collection property="extRelatesList" column="ID"
-			ofType="extract.model.supplier.SupplierExtRelate" select="ses.dao.sms.SupplierExtRelateMapper.getBuyConId" />
+		<!-- <collection property="extRelatesList" column="ID"
+			ofType="extract.model.supplier.SupplierExtractResult" select="ses.dao.sms.SupplierExtRelateMapper.getBuyConId" /> -->
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
-		ID, PROJECT_ID, STATUS, ADDRESS, EXPERTS_TYPE_ID, TENDER_TIME,
-		RESPONSE_TIME, SUPPLIER_LEVEL,
-		EXTRACT_ADDRESS,ADDRESS_REASON,CATEGORY_NAME,CATEGORY_ID,ADDRESS_ID
+		ID, PROJECT_ID, STATUS, AREA_NAME, ADDRESS_REASON, BUSINESS_NATURE,
+		BUSINESS_NATURE, IS_HAVING_CON_CERT,
+		OVERSEAS_BRANCH,CATEGORY_NAME
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		<!-- @mbggenerated -->
 		select
 		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIE_CONDITION
+		from T_SES_SMS_EXTRACT_CONDITION
 		where ID = #{id,jdbcType=VARCHAR}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		<!-- @mbggenerated -->
-		delete from T_SES_SMS_SUPPLIE_CONDITION
+		delete from T_SES_SMS_EXTRACT_CONDITION
 		where ID =
 		#{id,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert" parameterType="extract.model.supplier.SupplierCondition">
+	<insert id="insert" parameterType="extract.model.supplier.SupplierExtractCondition">
 		<!-- @mbggenerated -->
-		insert into T_SES_SMS_SUPPLIE_CONDITION (ID, PROJECT_ID, STATUS,
+		insert into T_SES_SMS_EXTRACT_CONDITION (ID, PROJECT_ID, STATUS,
 		ADDRESS, EXPERTS_TYPE_ID, TENDER_TIME,
 		RESPONSE_TIME, SUPPLIER_LEVEL,
 		EXTRACT_ADDRESS,ADDRESS_REASON,CATEGORY_NAME,CATEGORY_ID,ADDRESS_ID
@@ -81,10 +99,10 @@
 		#{addressId,jdbcType=VARCHAR},
 		)
 	</insert>
-	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierCondition">
+	<insert id="insertSelective" parameterType="extract.model.supplier.SupplierExtractCondition">
 
 		<!-- @mbggenerated -->
-		insert into T_SES_SMS_SUPPLIE_CONDITION
+		insert into T_SES_SMS_EXTRACT_CONDITION
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				ID,
@@ -167,13 +185,10 @@
 				#{addressId,jdbcType=VARCHAR},
 			</if>
 		</trim>
-		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-			select sys_guid() from dual
-		</selectKey>
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierCondition">
+	<update id="updateByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractCondition">
 		<!-- @mbggenerated -->
-		update T_SES_SMS_SUPPLIE_CONDITION
+		update T_SES_SMS_EXTRACT_CONDITION
 		<set>
 			<if test="status != null">
 				STATUS = #{status,jdbcType=DECIMAL},
@@ -217,9 +232,9 @@
 			PROJECT_ID = #{projectId,jdbcType=VARCHAR}
 		</if>
 	</update>
-	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierCondition">
+	<update id="updateByPrimaryKey" parameterType="extract.model.supplier.SupplierExtractCondition">
 		<!-- @mbggenerated -->
-		update T_SES_SMS_SUPPLIE_CONDITION
+		update T_SES_SMS_EXTRACT_CONDITION
 		set PROJECT_ID =
 		#{projectId,jdbcType=VARCHAR},
 		STATUS = #{status,jdbcType=DECIMAL},
@@ -257,14 +272,14 @@
 
 
 
-	<select id="list" parameterType="extract.model.supplier.SupplierCondition"
+	<select id="list" parameterType="extract.model.supplier.SupplierExtractCondition"
 		resultMap="BaseResultListMap">
 		SELECT
 		sc.*, CT."ID" AS ctid,
 		CT.CATEGORY_NAME,CT.SUPPLIER_COUNT,CT.SUPPLIER_TYPE_NAME,CT.SUPPLIER_TYPE_ID,CT.CATEGORY_ID
 		,CT.IS_MULTICONDITION
 		FROM
-		T_SES_SMS_SUPPLIE_CONDITION sc
+		T_SES_SMS_EXTRACT_CONDITION sc
 		LEFT JOIN
 		T_SES_SMS_SUPPLIE_CON_TYPE ct ON
 		SC."ID"=CT.CONDITION_ID
@@ -279,7 +294,7 @@
 		CT.CATEGORY_NAME,CT.SUPPLIER_COUNT,CT.SUPPLIER_TYPE_NAME,CT.SUPPLIER_TYPE_ID,CT.CATEGORY_ID
 		,CT.IS_MULTICONDITION
 		FROM
-		T_SES_SMS_SUPPLIE_CONDITION sc
+		T_SES_SMS_EXTRACT_CONDITION sc
 		LEFT JOIN
 		T_SES_SMS_SUPPLIE_CON_TYPE ct ON
 		SC."ID"=CT.CONDITION_ID WHERE
@@ -289,7 +304,7 @@
 	<!--根据关联包id查询是否有未抽取的条件 -->
 	<select id="getCount" resultType="java.lang.Integer"
 		parameterType="java.lang.String">
-		SELECT "COUNT"(*) FROM T_SES_SMS_SUPPLIE_CONDITION WHERE
+		SELECT "COUNT"(*) FROM T_SES_SMS_EXTRACT_CONDITION WHERE
 		PROJECT_ID=#{projectId} AND STATUS=1
 	</select>
 
@@ -301,41 +316,14 @@
 		CT.CATEGORY_NAME,CT.SUPPLIER_COUNT,CT.SUPPLIER_TYPE_NAME,CT.SUPPLIER_TYPE_ID,CT.CATEGORY_ID
 		,CT.IS_MULTICONDITION
 		FROM
-		T_SES_SMS_SUPPLIE_CONDITION sc
+		T_SES_SMS_EXTRACT_CONDITION sc
 		LEFT JOIN
 		T_SES_SMS_SUPPLIE_CON_TYPE ct ON
 		SC."ID"=CT.CONDITION_ID where
 		sc.PROJECT_ID =#{projectId}
 	</select>
 	
-	<update id="updateConditionByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierCondition">
-		<!-- @mbggenerated -->
-		update T_SES_SMS_SUPPLIE_CONDITION
-		<set>
-			<if test="status != null">
-				STATUS = #{status,jdbcType=DECIMAL},
-			</if>
-			<if test="recordId != null">
-				RECORD_ID = #{recordId,jdbcType=VARCHAR},
-			</if>
-			<if test="areaName != null">
-				AREA_NAME = #{areaName,jdbcType=VARCHAR},
-			</if>
-			<if test="addressId != null">
-				ADDRESS_ID = #{addressId,jdbcType=VARCHAR},
-			</if>
-			<if test="addressReason != null">
-				ADDRESS_REASON = #{addressReason,jdbcType=VARCHAR},
-			</if>
-			<if test="province != null">
-				PROVINCE = #{province,jdbcType=VARCHAR},
-			</if>
-		</set>
-		where
-		<if test="id != null and id != '' ">
-			ID = #{id,jdbcType=VARCHAR}
-		</if>
-	</update>
+	
 	
 	<select id="getAreaInfoByConditionId" parameterType="java.lang.String" resultMap="BaseResultMap">
 		SELECT * FROM T_SES_EXT_AREA_CONDITION WHERE CONDITION_ID = #{value}
@@ -350,7 +338,52 @@
 	<delete id="deleteTypeInfoByMap" parameterType="map">
 		DELETE FROM T_SES_EXT_TYPE_CATEGORY WHERE CONDITION_ID = #{conditionId} AND TYPE_CODE = #{supplierTypeCode}
 	</delete>
-	<insert id="insertTypeInfo" parameterType="extract.model.supplier.SupplierCondition">
+	
+	
+	
+	<!-- 修改条件 -->
+	<update id="updateConditionByPrimaryKeySelective" parameterType="extract.model.supplier.SupplierExtractCondition">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_EXTRACT_CONDITION
+		<set>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=DECIMAL},
+			</if>
+			<if test="recordId != null">
+				RECORD_ID = #{recordId,jdbcType=VARCHAR},
+			</if>
+			<if test="areaName != null">
+				AREA_NAME = #{areaName,jdbcType=VARCHAR},
+			</if>
+			<if test="addressReason != null">
+				ADDRESS_REASON = #{addressReason,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierTypeCode != null">
+				SUPPLIER_TYPE_CODE = #{supplierTypeCode,jdbcType=VARCHAR},
+			</if>
+			<if test="businessNature != null">
+				BUSINESS_NATURE = #{businessNature,jdbcType=VARCHAR},
+			</if>
+			<if test="isHavingConCert != null">
+				IS_HAVING_CON_CERT = #{isHavingConCert,jdbcType=DECIMAL},
+			</if>
+			<if test="overseasBranch != null">
+				OVERSEAS_BRANCH = #{overseasBranch,jdbcType=DECIMAL},
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where
+		<if test="id != null and id != '' ">
+			ID = #{id,jdbcType=VARCHAR}
+		</if>
+	</update>
+	
+	
+	
+	<!--  -->
+	<insert id="insertTypeInfo" parameterType="extract.model.supplier.SupplierExtractCondition">
 		INSERT INTO T_SES_EXT_TYPE_CATEGORY (CONDITION_ID,TYPE_CODE,CATEGORY_ID,PRIVARY,BUSINESS_NATURE,LEVEL_TYPE_ID,TEMP) 
 		VALUES (#{id},
 		<choose>
@@ -403,5 +436,72 @@
 		</choose>
 		)
 	</insert>
+	
+	<!-- 按品目查询资质等级 -->
+	<select id="getEngAptitudeLevelByCategoryId" parameterType="map" resultType="ses.model.bms.DictionaryData">
+    	SELECT DISTINCT D.ID,D.NAME,D.POSITION FROM T_SES_BMS_CATEGORY_QUA CQ LEFT JOIN T_SES_BMS_QUALIFCATE_LEVEL QL ON CQ.QUA_ID = QL.QUALIFCATION_ID LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON QL.GRADE = D.ID 
+	    WHERE CQ.CATEGORY_ID in 
+	    <foreach collection="categoryIds" open="(" item="cid" separator="," close=")" > #{cid} </foreach>
+	    AND D.ID IS NOT NULL AND D.NAME IS NOT NULL ORDER BY D.POSITION ASC
+    </select>
+    
+    <!-- 按品目查询资质 -->
+    <select id="getQuaByCid" parameterType="map" resultType="ses.model.bms.DictionaryData">
+    	 SELECT distinct D.id id,D.name name FROM T_SES_BMS_CATEGORY_QUA Q LEFT JOIN T_SES_BMS_QUALIFICATION D ON Q.QUA_ID = D.ID where 
+    	 Q.CATEGORY_ID IN
+    	 <foreach collection="categoryIds" open="(" item="it" separator="," close=")">
+    	 	#{it}
+    	 </foreach>
+    	 <if test="quaType!=null">
+	    	 AND QUA_TYPE =#{quaType} 
+    	 </if>
+    </select>
+    <!-- 根据资质查询资质等级 -->
+	<select id="getLevelByQid"  resultType="ses.model.bms.DictionaryData">
+        SELECT D.* FROM T_SES_BMS_QUALIFCATE_LEVEL L RIGHT JOIN T_SES_BMS_DICTIONARY_DATA D ON L.GRADE = D.ID WHERE L.QUALIFCATION_ID IN 
+        <foreach collection="array" item="it" open="(" separator="," close=")">
+        	#{it}
+        </foreach>
+    </select>
+    
+    <!-- 按记录id 查询条件 -->
+	<select id="getByRid" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT * FROM T_SES_SMS_EXTRACT_CONDITION WHERE RECORD_ID = #{value}
+	</select>
+	
+	<!-- 抽取条件品目名称集合 -->
+	<select id="getCategoryByList" parameterType="java.util.List" resultType="java.lang.String">
+		SELECT NAME FROM T_SES_BMS_CATEGORY WHERE ID IN 
+		<foreach collection="list" index="index" item="it" open="(" close=")" separator=",">
+			#{it}
+		</foreach>
+	</select>
+	<!-- 抽取条件工程资质等级名称集合 -->
+	<select id="getLevelByList" parameterType="java.util.List" resultType="java.lang.String">
+		SELECT NAME FROM T_SES_BMS_DICTIONARY_DATA WHERE ID IN 
+		<foreach collection="list" index="index" item="it" open="(" close=")" separator=",">
+			#{it}
+		</foreach>
+	</select>
+	<!-- 工程遍历品目父节点 -->
+	<select id="checkParentCate" parameterType="java.lang.String" resultType="ses.model.bms.Category">
+		select s.* from ( select t.*,level from T_SES_BMS_CATEGORY t START WITH  T.id =  #{value} CONNECT BY PRIOR T.PARENT_ID=T.ID order by level desc ) s  where s.is_publish = 0
+	</select>
+	
+	<!-- 遍历品目末节点 -->
+	<select id="seleselectChildCate" parameterType="java.util.List" resultType="java.lang.String">
+		select distinct s.id from ( select t.*,level from T_SES_BMS_CATEGORY t START WITH  T.id in 
+		<foreach collection="array" open="(" close=")" separator="," index="index" item="item">
+			#{item}
+		</foreach>
+		CONNECT BY PRIOR T.id=T.PARENT_ID order by level desc ) s where s.is_publish = 0 and (s.is_parent is null or s.is_parent = 'false')
+	</select>
+	
+	<select id="verifyQua" resultMap="quaResult">
+		select distinct q.qua_id,Q.QUA_TYPE from T_SES_BMS_CATEGORY_QUA q where q.qua_id in 
+		<foreach collection="array" open="(" close=")" separator="," index="index" item="item">
+			#{item}
+		</foreach>
+	</select>
 	
 </mapper>

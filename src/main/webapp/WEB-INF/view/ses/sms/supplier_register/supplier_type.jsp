@@ -6,6 +6,9 @@
 <head>
 <%@ include file="/reg_head.jsp"%>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+<c:if test="${currSupplier.status == 2}">
+	<%@ include file="/WEB-INF/view/ses/sms/supplier_register/supplier_purchase_dept.jsp"%>
+</c:if>
 <title>供应商注册</title>
 <%@ include file="/WEB-INF/view/common/validate.jsp"%>
 <script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
@@ -193,10 +196,10 @@
 
 	//无提示实时暂存
 	function tempSave(ele) {
-		// 避免失去焦点实时保存和
+		// 避免失去焦点事件和按钮事件冲突
 		if(ele && ele.relatedTarget 
 			&& ele.relatedTarget.type == "button"
-			&& ($(ele.relatedTarget).text() == "暂存" || $(ele.relatedTarget).text() == "下一步")){
+			&& ($(ele.relatedTarget).text() != "上一步")){
 			return;
 		}
 		var id = [];
@@ -493,6 +496,7 @@
 								+ "</tr>");
 		certPersonNumber++;
 		$("#certPersonNumber").val(certPersonNumber);
+		tempSave();
 	}
 
 	function deleteRegPerson() {
@@ -535,14 +539,23 @@
 									async: false,
 									type: "POST",
 									data: {
-										"regPersonIds": regPersonIds
+										"ids": regPersonIds
 									},
-									success: function(){
-										layer.msg("删除成功！");
-										$(checkboxs).each(function(index) {
-											var tr = $(this).parent().parent();
-											$(tr).remove();
-										});
+									success: function(data){
+										if(data=="ok"){
+										  layer.msg("删除成功！", {
+										    offset: '300px'
+										  });
+										  $(checkboxs).each(function(index) {
+										    var tr = $(this).parent().parent();
+										    $(tr).remove();
+										  });
+										}
+										if(data=="fail"){
+										  layer.msg("删除失败！", {
+										    offset: '300px'
+										  });
+										}
 									},
 									error: function(){
 										layer.msg("删除失败！");
@@ -550,7 +563,7 @@
 								});
 							});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -571,6 +584,7 @@
 			success : function(data) {
 				$("#aptitute_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certAptNumber++;
@@ -622,14 +636,23 @@
 						async: false,
 						type: "POST",
 						data: {
-							"aptituteIds": aptituteIds
+							"ids": aptituteIds
 						},
-						success: function(){
-							layer.msg("删除成功！");
-							$(checkboxs).each(function(index) {
-								var tr = $(this).parent().parent();
-								$(tr).remove();
-							});
+						success: function(data){
+							if(data=="ok"){
+							  layer.msg("删除成功！", {
+							    offset: '300px'
+							  });
+							  $(checkboxs).each(function(index) {
+							    var tr = $(this).parent().parent();
+							    $(tr).remove();
+							  });
+							}
+							if(data=="fail"){
+							  layer.msg("删除失败！", {
+							    offset: '300px'
+							  });
+							}
 						},
 						error: function(){
 							layer.msg("删除失败！");
@@ -637,7 +660,7 @@
 					});
 				});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -661,6 +684,7 @@
 			success : function(data) {
 				$("#cert_pro_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certProNumber++;
@@ -747,14 +771,23 @@
 							async: false,
 							type: "POST",
 							data: {
-								"certProIds": certProIds
+								"ids": certProIds
 							},
-							success: function(){
-								layer.msg("删除成功！");
-								$(checkboxs).each(function(index) {
-									var tr = $(this).parent().parent();
-									$(tr).remove();
-								});
+							success: function(data){
+								if(data=="ok"){
+								  layer.msg("删除成功！", {
+								    offset: '300px'
+								  });
+								  $(checkboxs).each(function(index) {
+								    var tr = $(this).parent().parent();
+								    $(tr).remove();
+								  });
+								}
+								if(data=="fail"){
+								  layer.msg("删除失败！", {
+								    offset: '300px'
+								  });
+								}
 							},
 							error: function(){
 								layer.msg("删除失败！");
@@ -790,6 +823,7 @@
 			success : function(data) {
 				$("#cert_sell_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certSaleNumber++;
@@ -835,14 +869,23 @@
 									async: false,
 									type: "POST",
 									data: {
-										"certSellIds": certSellIds
+										"ids": certSellIds
 									},
-									success: function(){
-										layer.msg("删除成功！");
-										$(checkboxs).each(function(index) {
-											var tr = $(this).parent().parent();
-											$(tr).remove();
-										});
+									success: function(data){
+										if(data=="ok"){
+										  layer.msg("删除成功！", {
+										    offset: '300px'
+										  });
+										  $(checkboxs).each(function(index) {
+										    var tr = $(this).parent().parent();
+										    $(tr).remove();
+										  });
+										}
+										if(data=="fail"){
+										  layer.msg("删除失败！", {
+										    offset: '300px'
+										  });
+										}
 									},
 									error: function(){
 										layer.msg("删除失败！");
@@ -850,7 +893,7 @@
 								});
 							});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -871,6 +914,7 @@
 			success : function(data) {
 				$("#cert_se_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certSeNumber++;
@@ -916,14 +960,23 @@
 									async: false,
 									type: "POST",
 									data: {
-										"certSeIds": certSeIds
+										"ids": certSeIds
 									},
-									success: function(){
-										layer.msg("删除成功！");
-										$(checkboxs).each(function(index) {
-											var tr = $(this).parent().parent();
-											$(tr).remove();
-										});
+									success: function(data){
+										if(data=="ok"){
+										  layer.msg("删除成功！", {
+										    offset: '300px'
+										  });
+										  $(checkboxs).each(function(index) {
+										    var tr = $(this).parent().parent();
+										    $(tr).remove();
+										  });
+										}
+										if(data=="fail"){
+										  layer.msg("删除失败！", {
+										    offset: '300px'
+										  });
+										}
 									},
 									error: function(){
 										layer.msg("删除失败！");
@@ -931,7 +984,7 @@
 								});
 							});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -1124,6 +1177,7 @@
 			success : function(data) {
 				$("#cert_eng_list_tbody_id").append(data);
 				init_web_upload();
+				tempSave();
 			}
 		});
 		certEngNumber++;
@@ -1175,14 +1229,23 @@
 						async: false,
 						type: "POST",
 						data: {
-							"certEngIds": certEngIds
+							"ids": certEngIds
 						},
-						success: function(){
-							layer.msg("删除成功！");
-							$(checkboxs).each(function(index) {
-								var tr = $(this).parent().parent();
-								$(tr).remove();
-							});
+						success: function(data){
+							if(data=="ok"){
+							  layer.msg("删除成功！", {
+							    offset: '300px'
+							  });
+							  $(checkboxs).each(function(index) {
+							    var tr = $(this).parent().parent();
+							    $(tr).remove();
+							  });
+							}
+							if(data=="fail"){
+							  layer.msg("删除失败！", {
+							    offset: '300px'
+							  });
+							}
 						},
 						error: function(){
 							layer.msg("删除失败！");
@@ -1190,7 +1253,7 @@
 					});
 				});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -1344,11 +1407,26 @@
 							}
 						}
 						
+						//var certTypes = $("[id='certType_" + objIdNum + "']").combobox("getData");
+						var certTypes = $.parseJSON('${quaListJson}');
+						//console.log(certTypes);
+						var certLevelEditable = true;
+						if(certTypes){
+							var certTypeIds = [];
+							for(var i=0,len=certTypes.length; i<len; i++){
+								certTypeIds[i] = certTypes[i].id;
+							}
+							if($.inArray(typeId,certTypeIds) != -1){
+								certLevelEditable = false;
+							}
+						}
 						if(flag_current == 0) {
 							$("[id='certGrade_" + objIdNum + "']").combobox({
 								valueField: 'label',
 								textField: 'value',
-								data: easyuiData
+								data: easyuiData,
+								editable: certLevelEditable,
+								hasDownArrow: true
 							});
 						} else {
 							$("[id='certGrade_" + objIdNum + "']").combobox({
@@ -1358,6 +1436,14 @@
 							});
 						}
 					}
+				});
+			}else{
+				$("[id='certGrade_" + objIdNum + "']").combobox({
+					height: 0,
+					valueField: 'label',
+					textField: 'value',
+					data: "",
+					editable: true
 				});
 			}
 		} else {
@@ -1981,6 +2067,7 @@
 												<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
 
 												</div></li>
+												<div class="clear"></div>
 											<div id="conAchiDiv">
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
@@ -2344,8 +2431,8 @@
                                   <%-- <c:if test="${tempForShowOption eq 'go' }">
 																		<option selected="selected">${aptitute.aptituteLevel}</option>
 																	</c:if> --%>
-																	<option selected="selected">${aptitute.aptituteLevel}</option>
-																	<c:set var="tempForShowOption" value="notgo"/>
+																	<%-- <option selected="selected">${aptitute.aptituteLevel}</option> --%>
+																	<%-- <c:set var="tempForShowOption" value="notgo"/> --%>
 																</select>
 																<input type="hidden" id="certLevel_${certAptNumber}" value="${aptitute.aptituteLevel}">
 																<script type="text/javascript">

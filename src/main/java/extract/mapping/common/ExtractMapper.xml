@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="extract.dao.common.ExtractMapper">
+	
+	<resultMap id="resultForExt" type="ses.model.bms.Area">
+    <id column="ID"  property="id" />
+    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="IS_DELETED"  property="isDeleted" />
+    <result column="POSITION"  property="position" />
+    <result column="AREA_TYPE"  property="areaType" />
+    <result column="PARENT_ID"  property="parentId" />
+    <result column="NAME"  property="name" />
+    <result column="IS_PARENT"  property="isParent" />
+  </resultMap>
+	
+	<!-- 抽取用地区树 -->
+  	<select id="getTreeForExt" resultMap="resultForExt">
+		    SELECT A.* FROM ( select  id,parent_id,NAME,'true' is_parent,CREATED_AT from T_SES_BMS_AREA where parent_id = '0' union all select id,parent_id,NAME,'false',CREATED_AT IS_PARENT from T_SES_BMS_AREA  where parent_id in (select id from T_SES_BMS_AREA where parent_id = '0') ) A ORDER BY A.CREATED_AT ASC 
+	</select>
+	
+</mapper>

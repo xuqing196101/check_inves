@@ -112,11 +112,28 @@
       <div class="head_top col-md-12 col-xs-12 col-sm-12">
         <div class="container p0">
           <div class="row">
-            <div class="col-md-9 col-xs-9 col-sm-9" id="welcome">你好，欢迎来到军队采购网！
+          	<c:choose>
+          		<c:when test="${!empty sessionScope.loginUser.relName}">
+          			<div class="col-md-9 col-xs-9 col-sm-9" id="welcome">${sessionScope.loginUser.relName}你好，欢迎来到军队采购网！
+		            </div>
+          		</c:when>
+          		<c:when test="${empty sessionScope.loginUser.relName and !empty sessionScope.loginName}">
+          			<div class="col-md-9 col-xs-9 col-sm-9" id="welcome">你好，欢迎来到军队采购网！
+		            </div>
+          		</c:when>
+          		<c:otherwise>
+          			<div class="col-md-9 col-xs-9 col-sm-9" id="welcome">你好，欢迎来到军队采购网！
+		              <c:if test="${requestSource != 'zjRegister' }">
+		              	<a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a> 
+		              </c:if>
+		            </div>
+          		</c:otherwise>
+          	</c:choose>
+            <%-- <div class="col-md-9 col-xs-9 col-sm-9" id="welcome">你好，欢迎来到军队采购网！
               <c:if test="${requestSource != 'zjRegister' }">
                <a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a> 
               </c:if>
-            </div>
+            </div> --%>
             <div class="col-md-3 col-xs-3 col-sm-3 head_right">
               <!-- 根据session判断 -->
                 <a href="javascript:void(0)">网站编号：${properties['website.no']}</a>

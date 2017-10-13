@@ -2,9 +2,10 @@ package ses.service.sms.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import ses.dao.sms.SupplierCertProMapper;
 import ses.model.sms.SupplierCertPro;
 import ses.service.sms.SupplierCertProService;
@@ -16,20 +17,14 @@ public class SupplierCertProServiceImpl implements SupplierCertProService {
 	private SupplierCertProMapper supplierCertProMapper;
 	
 	@Override
-	public void saveOrUpdateCertPro(SupplierCertPro supplierCertPro) {
+	public int saveOrUpdateCertPro(SupplierCertPro supplierCertPro) {
 		Integer sign = supplierCertPro.getSign();
 		if (sign == 2) {
-			supplierCertProMapper.updateByPrimaryKeySelective(supplierCertPro);
+			return supplierCertProMapper.updateByPrimaryKeySelective(supplierCertPro);
 		} else if (sign == 1) {
-			supplierCertProMapper.insertSelective(supplierCertPro);
+			return supplierCertProMapper.insertSelective(supplierCertPro);
 		}
-	}
-
-	@Override
-	public void deleteCertPro(String certProIds) {
-		for (String id : certProIds.split(",")) {
-			supplierCertProMapper.deleteById(id);
-		}
+		return 0;
 	}
 
 	@Override
@@ -40,9 +35,48 @@ public class SupplierCertProServiceImpl implements SupplierCertProService {
 
 	@Override
 	public List<SupplierCertPro> queryByProId(String proId) {
-		// TODO Auto-generated method stub
 		return supplierCertProMapper.findCertProByProId(proId);
 	}
+
+	@Override
+	public boolean deleteCertProByIds(String ids) {
+		boolean isSuccess = false;
+	    try{
+            if(StringUtils.isNotBlank(ids)){
+                String[] idArray = ids.split(",");
+                int delCount = 0;
+                for(int i=0;i<idArray.length;i++){
+                    if(StringUtils.isNotBlank(idArray[i])){
+                        int key = supplierCertProMapper.deleteByPrimaryKey(idArray[i]);
+                        if(key == 1){
+                            delCount++;
+                        }
+                    }
+                }
+                if(delCount==idArray.length){
+                    isSuccess = true;
+                }
+            }
+        }catch (Exception e){
+	        e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+        return isSuccess;
+	}
 	
+	@Override
+	public String findCertProByProIdAndName(String proId){
+		if(proId != null){
+			List<SupplierCertPro> list = supplierCertProMapper.findCertProByProIdAndName(proId, "质量管理体系认证证书");
+			if(list != null && list.size() > 0 && list.get(0) != null){
+				return list.get(0).getId();
+			}else{
+				return null;
+			}
+		}else{
+			return null;
+		}
+		
+	}
 
 }

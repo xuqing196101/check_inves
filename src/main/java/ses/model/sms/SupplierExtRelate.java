@@ -36,6 +36,8 @@ public class SupplierExtRelate {
     
     private  String[] packageId;
     
+    private String packageName;
+    
     /**
      * 查询返回参数 供应商类型
      */
@@ -53,6 +55,16 @@ public class SupplierExtRelate {
      */
     public void setSupplierTypeId(String supplierTypeId) {
       this.supplierTypeId = supplierTypeId;
+    }
+    
+    
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
     /**

@@ -9,26 +9,26 @@ $(function () {
     var hiddenSelectOptionId = $("#hiddenSelectOptionId").val();
     $("input[name='selectOption'][value='"+hiddenSelectOptionId+"']").prop("checked",true);
     // 预复审合格状态
-    if(status == -2 || status == -3 || status == 5 || status == 4){
-        $("#checkWord").show();
+    if(status == -2 || status == -3 || status == 5 || (sign ==2 && status == 6)){
+        /*$("#checkWord").show();*/
         // 审核状态为5（复审不合格）或者-3（公示中）的意见不可更改
-        if(status == -3 ||status == 5 || status == 4){
+        if(status == -3 ||status == 5 || (sign ==2 && status == 6)){
             $("input[name='selectOption']").prop("disabled",true);
             $("#opinion").prop("disabled", true);
         }
     }
     
     //除了待审核状态都不可操作
-    if(status != 0 && status != -2 && (sign !=2 && status ==1) && status != 6){
+    if(status != 0 && status != -2 && (sign !=2 && status ==1) && (sign == 3 && status != 6 )){
     	$("#opinion").prop("disabled", true);
     }
     
     $("input[name='selectOption']").bind("click", function(){
         // 清空意见内容
-        //$("#cate_result").val("");
+        $("#cate_result").html("");
         var selectedVal = $(this).val();
-        if(selectedVal == 0){
-            $("#cate_result").html("不通过。");
+        if(selectedVal == 5){
+            $("#cate_result").html("预复审不合格 。");
             return;
         }
         // 判断意见是否已经获取，有的话不再发送请求
@@ -37,7 +37,10 @@ $(function () {
             $("#opinion").val(opinionBack);
             return;
         }*/
-        getCheckOpinionType(expertId);
+        if(selectedVal == -3){
+        	 getCheckOpinionType(expertId);
+        }
+       
     });
     // 判断复选框操作
     if(hiddenSelectOptionId != '' && hiddenSelectOptionId == 0){
@@ -57,7 +60,7 @@ function getCheckOpinionType(expertId){
     });
     // 获取专家ID
     var expertId = $("#expertId").val();
-    $.ajax({
+/*    $.ajax({
         url:globalPath + "/expertAudit/selectChooseOrNoPassCate.do",
         data:{
             "id" : expertId
@@ -69,14 +72,41 @@ function getCheckOpinionType(expertId){
             // 关闭旋转图标
             layer.close(index);
         }
-    });
+    });*/
+    var isGoodsServer = $("#isGoodsServer").val();
+    $.ajax({
+		url:globalPath + "/expertAudit/findCategoryCount.do",
+		data: {
+			"expertId" : expertId,
+			"auditFalg" : 2
+		},
+		type: "post",
+		dataType: "json",
+		success: function(data) {
+			if(data.pass<=0){
+				//只有物资服务经济
+				$("#cate_result").html("同意入库，通过的是物资服务经济。");
+			}else{
+				$("#cate_result").html("预复审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+			}
+			// 关闭旋转图标
+            layer.close(index);
+		}
+	});
 }
 
 /**
  * 上一步操作
  */
 function lastStep() {
-    var action = globalPath + "/expertAudit/expertFile.html";
+	var sign = $("input[name='sign']").val();
+	if(sign == 2){
+		var action = globalPath + "/expertAudit/auditSummary.html";
+	}else if(sign == 1 && (status == 10 || status == 5)){
+		var action = globalPath + "/expertAudit/preliminaryInfo.html";
+	}else{
+		var action = globalPath + "/expertAudit/expertFile.html";
+	}
     $("#form_id").attr("action", action);
     $("#form_id").submit();
 }
@@ -88,7 +118,7 @@ function nextStep() {
 	if(status == -2 || status == 1){
 		tempSave(1);
 	}
-    if(status == -3 || status == 4 || status == 5){
+    if(status == -3 || (sign ==2 && status == 6) || status == 5){
     	$("#form_id").attr("action", globalPath + "/expertAudit/uploadApproveFile.html");
         $("#form_id").submit();
     }
@@ -97,18 +127,16 @@ function nextStep() {
 /**
  * 审核汇总暂存
  */
-function tempSave(flag){
+function tempSave(){
     // 获取审核意见
     var opinion  = $("#opinion").val();
     // 获取选择radio类型
     var selectOption = $("input[name='selectOption']:checked").val();
-
-    if(flag == 1){
-        var flags = vartifyAuditCount();
-        if(flags){
-            return;
-        }
-        // 判断附件是否下载
+	var flags = vartifyAuditCount();
+	if(flags){
+	    return;
+	}
+     /*   // 判断附件是否下载
         var downloadAttachFile = $("#downloadAttachFile").val();
         if(downloadAttachFile == ''){
             layer.msg("请下载审批表！");
@@ -121,7 +149,7 @@ function tempSave(flag){
     var index = layer.load(0, {
         shade : [ 0.1, '#fff' ],
         offset : [ '40%', '50%' ]
-    });
+    });*/
     // 将审核意见表单赋值
     $("#opinionId").val(opinion);
     $("#flagTime").val(1);
@@ -132,20 +160,35 @@ function tempSave(flag){
         data:$("#opinionForm").serialize(),
         dataType:"json",
         success:function (data) {
-            if(flag == 1){
-                var action = globalPath + "/expertAudit/uploadApproveFile.html";
-                $("#form_id").attr("action", action);
-                $("#form_id").submit();
-            }else{
-                if(data.status == 200){
-                    layer.alert("暂存成功！");
-                }
-            }
+	        if(data.status == 200){
+	          layer.msg("暂存成功！");
+	        }
             // 关闭旋转图标
-            layer.close(index);
+          /*  layer.close(index);*/
         }
     });
 }
+
+
+function saveOpinionInfo(){
+	// 获取审核意见
+    var opinion  = $("#opinion").val();
+    // 获取选择radio类型
+    var selectOption = $("input[name='selectOption']:checked").val();
+	
+	// 将审核意见表单赋值
+    $("#opinionId").val(opinion);
+    $("#flagTime").val(1);
+    $("#flagAudit").val(selectOption);
+    
+	 $.ajax({
+	    url:globalPath + "/expertAudit/saveAuditOpinion.do",
+	    type: "POST",
+	    data:$("#opinionForm").serialize(),
+	    dataType:"json",
+	  });
+}
+
 
 /**
  * 下载入库复审表
@@ -220,16 +263,19 @@ function vartifyAuditCount(){
             }
         });
     }
-    // 判断审核意见
-    if(opinion == ''){
-        layer.msg("审核意见不能为空！");
-        flags = true;
-        return flags;
-    }
-    if(opinion.length > 1000){
-        layer.msg("审核意见不能超过1000字！");
-        flags = true;
-        return flags;
-    }
+    
+    // 只有<预复审不合格>才校验
+    if(checkVal == 5){
+    	if(opinion == ''){
+            layer.msg("审核意见不能为空！");
+            flags = true;
+            return flags;
+        }
+        if(opinion.length > 1000){
+            layer.msg("审核意见不能超过1000字！");
+            flags = true;
+            return flags;
+        }
+    } 
     return flags;
 }

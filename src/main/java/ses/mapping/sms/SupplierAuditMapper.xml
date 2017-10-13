@@ -538,7 +538,7 @@
     </select>
 
     <!--查询基本信息的审核项数量-->
-    <select id="selectBasicInfoAuditItemSingal" resultMap="BaseResultMap" parameterType="Map">
+    <select flushCache="true" id="selectBasicInfoAuditItemSingal" resultMap="BaseResultMap" parameterType="Map">
 	    SELECT
 	    <include refid="Base_Column_List" />
 	    FROM T_SES_SMS_SUPPLIER_AUDIT T

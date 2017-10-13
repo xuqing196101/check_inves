@@ -1,12 +1,16 @@
 package ses.service.ems;
 
 import common.utils.JdcgResult;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertPublicity;
+import ses.model.ems.ExpertReviewTeam;
 
 import java.util.List;
 import java.util.Map;
@@ -292,7 +296,7 @@ public interface ExpertAuditService {
 	 * @param 
 	 * @since JDK1.7
 	 */
-	JdcgResult selectAndVertifyAuditItem(String expertId);
+	JdcgResult selectAndVertifyAuditItem(String expertId,int auditFalg);
 
 	/**
 	 *
@@ -304,4 +308,26 @@ public interface ExpertAuditService {
 	 * @since JDK1.7
 	 */
 	JdcgResult selectAuditNoPassItemCount(String expertId);
+	
+	/**
+     * 参评类别撤销审核
+     * @param expertId
+     * @param categoryId
+     * @return 
+     * @return
+     */
+	boolean revokeCategoryAudit (String expertId, String[] categoryIds, Integer sign);
+	
+	ExpertAudit findAuditByExpertId (ExpertAudit expertAudit);
+	
+	/**
+	 * 
+	 * Description: 查询专家审核组成员
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年9月29日
+	 * @param 
+	 * @return
+	 */
+	List<ExpertReviewTeam> getExpertReviewTeamList(String expertId);
 }

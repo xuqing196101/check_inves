@@ -49,7 +49,8 @@
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_1">
 				<div class="mb10">
 				  <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
-            <button class="btn btn-windows cancel" type="button" onclick="auditButton('content_1');">批量不通过</button>
+            <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_1');">不通过</button>
+            <button class="btn btn-windows cancel" type="button" onclick="auditContract('content_1');">退回合同</button>
           </c:if>
         </div>
 					<table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
@@ -73,7 +74,8 @@
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_2">
 				<div class="mb10">
 				  <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
-            <button class="btn btn-windows cancel" type="button" onclick="auditButton('content_2');">批量不通过</button>
+            <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_2');">不通过</button>
+            <button class="btn btn-windows cancel" type="button" onclick="auditContract('content_2');">退回合同</button>
           </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_2">
@@ -98,7 +100,7 @@
                 <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_3">
                 <div class="mb10">
                   <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
-                    <button class="btn btn-windows cancel" type="button" onclick="auditButton('content_3');">批量不通过</button>
+                    <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_3');">不通过</button>
                   </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_3">
@@ -121,7 +123,8 @@
                 <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_4">
                  <div class="mb10">
                    <c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus ==-2 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
-                     <button class="btn btn-windows cancel" type="button" onclick="auditButton('content_4');">批量不通过</button>
+                     <button class="btn btn-windows cancel" type="button" onclick="auditCategory('content_4');">不通过</button>
+                     <button class="btn btn-windows cancel" type="button" onclick="auditContract('content_4');">退回合同</button>
                    </c:if>
                 </div>
                     <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_4">

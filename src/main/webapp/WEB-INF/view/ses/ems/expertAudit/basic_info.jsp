@@ -57,7 +57,7 @@
         	var status = ${expert.status};
         	var sign = $("input[name='sign']").val();
         	//只能审核可以审核的状态
-        	if(status ==-2 || status == 0 || (sign ==2 && status ==1) || status ==6){
+        	if(status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4){
         		var expertId = $("#expertId").val();
             var auditField;
             var auditContent;
@@ -86,7 +86,7 @@
                           url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
                           type: "post",
                           dataType: "json",
-                          data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField,
+                          data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
                           success: function (result) {
                               result = eval("(" + result + ")");
                               if (result.msg == "fail") {
@@ -112,7 +112,7 @@
         	var status = ${expert.status};
           var sign = $("input[name='sign']").val();
           //只能审核可以审核的状态
-          if(status ==-2 || status == 0 || (sign ==2 && status ==1) || status ==6){
+          if(status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4){
             var expertId = $("#expertId").val();
             var showId = obj.id + "1";
 
@@ -133,7 +133,7 @@
                             url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
                             type: "post",
                             dataType: "json",
-                            data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField,
+                            data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField + "&auditFalg=" + sign,
                             success: function (result) {
                                 result = eval("(" + result + ")");
                                 if (result.msg == "fail") {
@@ -206,7 +206,7 @@
         }
 
         //暂存
-        function zhancun() {
+        function zancun() {
             var expertId = $("#expertId").val();
             $.ajax({
                 url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
@@ -243,7 +243,7 @@
             </c:if>
             <c:if test="${sign == 2}">
                 <li>
-                    <a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=2')">专家复审</a>
+                    <a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.html?batchId=${batchId}')">专家复审</a>
                 </li>
             </c:if>
             <c:if test="${sign == 3}">
@@ -401,7 +401,7 @@
                     </c:if>
                     <c:if test="${expert.coverNote eq '2'}">
                         <li class="col-md-3 col-sm-6 col-xs-12">
-                            <span <c:if test="${fn:contains(fileModify,'1')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-xs-12 col-sm-12 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">退休证书或退休证明：</span>
+                            <span <c:if test="${fn:contains(fileModify,'2')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-xs-12 col-sm-12 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">退休证书或退休证明：</span>
                             <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
                                 <up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="2"/>
                                 <a style="visibility:hidden" id="coverNoteFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
@@ -789,8 +789,8 @@
             </ul> --%>
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
-          <c:if test="${expert.status == -2 ||  expert.status == 0 || (sign ==2 && expert.status ==1) || expert.status ==6}">
-            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+          <c:if test="${expert.status == -2 ||  expert.status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && expert.status ==6) || expert.status ==4}">
+            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zancun();">暂存</a>
           </c:if>
           <a class="btn" type="button" onclick="nextStep();">下一步</a>
         </div>
@@ -798,8 +798,9 @@
 </div>
 <input value="${expertId}" id="expertId" type="hidden">
 <form id="form_id" action="" method="post">
-    <input name="expertId" value="${expertId }" type="hidden">
-    <input name="sign" value="${sign }" type="hidden">
+    <input name="expertId" value="${expertId}" type="hidden">
+    <input name="sign" value="${sign}" type="hidden">
+    <input name="batchId" value="${batchId}" type="hidden">
 </form>
 <input id="status" value=" ${expert.status}" type="hidden">
 </body>

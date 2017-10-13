@@ -1524,7 +1524,7 @@
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 毕业证书</span>
 						</c:if>
-						<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'毕业证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业证书')"
+						<div class="input-append input_group h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'毕业证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业证书')"
 							</c:if>>
 							<c:choose>
 								<c:when test="${expert.status == 3 and !fn:contains(errorField,'毕业证书')}">

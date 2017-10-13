@@ -72,7 +72,7 @@
 				var state = $("#" + ids + "").parents("tr").find("td").eq(9).text();
 				state = trim(state);
 				if(ids != null) {
-					if(state == "暂存" || state == "待审核" || state == "退回修改" || state=="临时" || state=="退回再审核"){
+					if(state == "暂存" || state == "退回修改"){
 							layer.confirm('您确定要注销吗?', {
 							title: '提示！',
 							offset: ['200px']
@@ -318,21 +318,20 @@
 								</c:if>
 							</td>
 							<td class="tc w100" id="${list.id}">
-								<c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
-								<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
-								<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
-								<c:if test="${list.status==-2 }"><span class="label rounded-2x label-dark">预审核结束</span></c:if>
-								<c:if test="${list.status==-3 }"><span class="label rounded-2x label-dark">公示中</span></c:if>
-								<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
-								<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">退回修改</span></c:if>
-								<c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
-								<c:if test="${list.status==3 }"><span class="label rounded-2x label-dark">审核未通过</span></c:if>
-								<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
-								<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">复核通过</span></c:if>
-								<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
-								<%-- <c:if test="${list.status==5 }"><span class="label rounded-2x label-dark">待考察</span></c:if> --%>
-								<c:if test="${list.status==7 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
-								<c:if test="${list.status==8 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
+							  <c:if test="${list.status==-1}"><span class="label rounded-2x label-dark">暂存</span></c:if>
+                <c:if test="${list.status==0}"><span class="label rounded-2x label-dark">待审核</span></c:if>
+                <c:if test="${list.status==2}"><span class="label rounded-2x label-dark">退回修改</span></c:if>
+                <c:if test="${list.status==9}"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
+                <c:if test="${list.status==-2}"><span class="label rounded-2x label-dark">预审核结束</span></c:if>
+                <c:if test="${list.status==3}"><span class="label rounded-2x label-dark">审核不通过</span></c:if>
+                <c:if test="${list.status==-3}"><span class="label rounded-2x label-dark">公示中</span></c:if>
+                <c:if test="${list.status==1}"><span class="label rounded-2x label-u">入库（待复核</span></c:if>
+                <c:if test="${list.status==-4}"><span class="label rounded-2x label-dark">预复核结束</span></c:if>
+                <c:if test="${list.status==5}"><span class="label rounded-2x label-u">复核合格（待考察）</span></c:if>
+                <c:if test="${list.status==6}"><span class="label rounded-2x label-dark">复核不合格</span></c:if>
+                <c:if test="${list.status==-5}"><span class="label rounded-2x label-dark">预考察结束</span></c:if>
+                <c:if test="${list.status==7}"><span class="label rounded-2x label-u">考察合格</span></c:if>
+                <c:if test="${list.status==8}"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
 							</td>
 						</tr>
 					</c:forEach>

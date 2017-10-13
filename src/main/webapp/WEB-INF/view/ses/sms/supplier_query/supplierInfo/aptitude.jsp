@@ -84,23 +84,23 @@
 							<c:set value="0" var="liCountSell" />
 							<c:set value="0" var="liCountEng" />
 							<c:set value="0" var="liCountSer" />
-							<c:if test="${fn:contains(supplierTypeNames, '生产') and fn:length(cateList) > 0}">
+							<c:if test="${fn:contains(supplierTypeIds, 'PRODUCT') and fn:length(cateList) > 0}">
 							<c:set value="${liCountPro+1}" var="liCountPro"/>
 								<li id="li_id_1" class="active">
 									<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型资质信息</a>
 								</li>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeNames, '销售') and fn:length(saleQua) > 0}">
+							<c:if test="${fn:contains(supplierTypeIds, 'SALES') and fn:length(saleQua) > 0}">
 								<li id="li_id_2" class='<c:if test="${liCountPro == 0}">active <c:set value="${liCountSell+1}" var="liCountSell"/></c:if>'>
 									<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型资质信息</a>
 								</li>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
+							<c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
 								<li id="li_id_3" class='<c:if test="${liCountSell == 0  && liCountPro == 0}">active <c:set value="${liCountEng+1}" var="liCountEng"/></c:if>'>
 									<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程资质信息</a>
 								</li>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeNames, '服务') and fn:length(serviceQua) > 0}">
+							<c:if test="${fn:contains(supplierTypeIds, 'SERVICE') and fn:length(serviceQua) > 0}">
 								<li id="li_id_4" class='<c:if test="${liCountEng == 0 && liCountPro == 0 && liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer"/></c:if>'>
 									<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务资质信息</a>
 								</li>
@@ -110,7 +110,7 @@
 						<div class="tab-content padding-top-20" id="tab_content_div_id">
 
 							<!-- 物资生产型 -->
-							<c:if test="${fn:contains(supplierTypeNames, '生产')}">
+							<c:if test="${fn:contains(supplierTypeIds, 'PRODUCT')}">
 								<c:set value="0" var="prolength" />
 								<div class="tab-pane fade active in" id="tab-1">
 									<table class="table table-bordered">
@@ -132,7 +132,7 @@
 							</c:if>
 
 							<!-- 物资销售型 -->
-							<c:if test="${fn:contains(supplierTypeNames, '销售')}">
+							<c:if test="${fn:contains(supplierTypeIds, 'SALES')}">
 								<c:set value="0" var="length"> </c:set>
 								<div class="tab-pane <c:if test=" ${liCountSell==1 } ">active in</c:if> fade height-300" id="tab-2">
 									<table class="table table-bordered">
@@ -154,7 +154,7 @@
 							</c:if>
 
 							<!-- 工程 -->
-							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
+							<c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
 								<div class="tab-pane <c:if test="${liCountEng==1}">active in</c:if> fade height-200" id="tab-3">
 									<c:set value="0" var="plength"> </c:set>
 									<table class="table table-bordered m_table_fixed_border">
@@ -222,7 +222,7 @@
 							</c:if>
 
 							<!-- 服务 -->
-							<c:if test="${fn:contains(supplierTypeNames, '服务')}">
+							<c:if test="${fn:contains(supplierTypeIds, 'SERVICE')}">
 								<div class="tab-pane <c:if test=" ${liCountSer==1 } ">active in</c:if> fade height-200" id="tab-4">
 									<table class="table table-bordered">
 										<c:set value="0" var="slength"> </c:set>

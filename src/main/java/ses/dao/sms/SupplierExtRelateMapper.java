@@ -1,9 +1,11 @@
 package ses.dao.sms;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import ses.model.sms.SupplierExtRelate;
+import extract.model.supplier.SupplierExtractResult;
 
 public interface SupplierExtRelateMapper {
   /**
@@ -124,4 +126,26 @@ public interface SupplierExtRelateMapper {
    * @return
    */
   List<SupplierExtRelate> selectSupplierType(String conditionId);
+
+  /**
+   * 
+   * <简述>存储结果到预研表 
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-9-24下午3:26:54
+   * @param arrayList
+   */
+  void insertAdv(ArrayList<SupplierExtractResult> arrayList);
+
+  /**
+   * 
+   * <简述>存储结果到真实项目表 
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-9-24下午3:27:37
+   * @param arrayList
+   */
+  void insertRel(ArrayList<SupplierExtractResult> arrayList);
+  
+  List<Map<String, String>> selectProSupplier(String projectId);
 }
