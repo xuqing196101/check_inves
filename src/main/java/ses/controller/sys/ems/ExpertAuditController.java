@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.dao.ems.ExpertField;
-import ses.dao.ems.ExpertReviewTeamMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -77,7 +76,6 @@ import bss.formbean.PurchaseRequiredFormBean;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -2040,15 +2038,18 @@ public class ExpertAuditController{
 		StringBuffer expertType = new StringBuffer();
 		if(expert.getExpertsTypeId() !=null && expert.getExpertsTypeId() !=""){
 			for(String typeId: expert.getExpertsTypeId().split(",")) {
-				ExpertAudit expertAudit = new ExpertAudit();
+				/*ExpertAudit expertAudit = new ExpertAudit();
 				expertAudit.setExpertId(expert.getId());
 				expertAudit.setAuditFieldId(typeId);
 				expertAudit.setType("1");
-				List<ExpertAudit> expertauList = expertAuditService.selectFailByExpertId(expertAudit);
-				if(expertauList != null && expertauList.size() > 0){
-					expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
-				}else{
-					expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+				List<ExpertAudit> expertauList = expertAuditService.selectFailByExpertId(expertAudit);*/
+				DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(typeId);
+				if(dictionaryData != null){
+					if(6 == dictionaryData.getKind()){
+						expertType.append(dictionaryData.getName() + "技术、");
+					}else{
+						expertType.append(dictionaryData.getName() + "、");
+					}
 				}
 			}
 		}
