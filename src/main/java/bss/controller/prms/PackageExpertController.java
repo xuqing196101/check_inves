@@ -221,8 +221,10 @@ public class PackageExpertController {
           model.addAttribute("isEndSigin", "1");
           return "bss/prms/assign_expert/expert_list_view";
         } else {
+          String ids="";
           List<Packages> packages = packageService.listProjectExtract(projectId);
           for(Packages pa:packages){
+            ids+=pa.getId()+",";
         	  List<ProjectExtract> listProjectExtract = pa.getListProjectExtract();
         	  if (listProjectExtract != null && !listProjectExtract.isEmpty()) {
         		  for (ProjectExtract projectExtract : listProjectExtract) {
@@ -239,9 +241,14 @@ public class PackageExpertController {
         		  pa.setProjectStatus(dd.getCode());
         	  }
           }
+          if(ids.length()>0){
+            ids=ids.substring(0,ids.length()-1);
+          }
+          
           model.addAttribute("isEndSigin", "0");
           // 包信息
           model.addAttribute("packageList", packages);
+          model.addAttribute("packIds", ids);
           return "bss/prms/assign_expert/expert_list";
         }
     }

@@ -1225,11 +1225,11 @@ public class ExpExtractRecordController extends BaseController {
             model.addAttribute("packageIdError", "不能为空");
             type = 1;
         }
-        String validateIdCard = validateIdCard(expert.getIdCardNumber());
-        if (!"success".equals(validateIdCard)) {
-            model.addAttribute("idCardNumberError", validateIdCard);
+        /*String validateIdCard = validateIdCard(expert.getIdCardNumber());*/
+        /*if (expert.getIdCardNumber() == null || "".equals(expert.getIdCardNumber())) {
+            model.addAttribute("idCardNumberError", "不能为空");
             type = 1;
-        }
+        }*/
 
         if (expert.getIdCardNumber() != null && !"".equals(expert.getIdCardNumber())) {
             Map<String, Object> map = new HashMap<>();
