@@ -60,7 +60,7 @@
     </div>
     
     <div class="mt20 pl20 text-center">
-      <button type="button" class="btn btn-windows back" onclick="javascript:history.back()">返回</button>
+      <button type="button" class="btn btn-windows back" onclick="location='${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html'">返回</button>
     </div>
       
   </div>
