@@ -265,7 +265,9 @@
                     		$(this).removeAttr("class","dnone");
                     		$(this).attr("class","btn");
                     	});
-                    	
+                    	$('button[name="editExp_btn"]').each(function(){ 
+                    		$(this).attr("class","dnone");
+                    	});
                     	//隐藏导入临时专家按钮
                     	$("#updateExcel").attr("class","dnone");
                         layer.msg(result.msg,{offset: ['50px']});
@@ -477,7 +479,7 @@
 		             <button class="btn"  <c:if test="${pack.projectStatus eq'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if>name="addExp_btn" onclick="relate('${pack.id}','${vs.index}','${pack.name}')" type="button">设为组长</button>
 		             <button class="btn" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if>name="viewExp_btn" onclick="resetPwd('${vs.index}');" type="button">重置密码</button>
 		             <button class="btn" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if>name="citeExp_btn"  type="button" package-id="${pack.id}">引用临时专家</button>
-		             <button class="btn" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if>name="" onclick = "editExpert('${pack.id}','${vs.index}')" type="button">修改临时专家</button>
+		             <button class="btn" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if>name="editExp_btn" onclick = "editExpert('${pack.id}','${vs.index}')" type="button">修改临时专家</button>
 		             <%-- <button class="btn" name="addExp_btn" onclick="addExpert('${vs.index}','${project.id}','${pack.id}');" type="button">添加临时专家</button> --%>
 		           	</div>
 		        </div>
