@@ -174,11 +174,17 @@
 			
 			if (textVal == '已到场') {
 				for (var i = 0; i < arr.length; i++) {
-					$(arr[i]).removeClass("hide");
+					/* $(arr[i]).removeClass("hide"); */
+					$(arr[i]).css({
+						top: 0
+					});
 				}
 			} else {
 				for (var i = 0; i < arr.length; i++) {
-					$(arr[i]).addClass("hide");
+					/* $(arr[i]).addClass("hide"); */
+					$(arr[i]).css({
+						top: '-100%'
+					});
 				}
 			}
 		}
@@ -230,9 +236,9 @@
 									未到场
 								</c:if>
 							</td>
-							<td>
+							<td style="position: relative; overflow: hidden;">
 							    <c:if test="${flag == false}">
-							    	<div id="upload_tag_${vs.index+1}">
+							    <div id="upload_tag_${vs.index+1}" style="position: absolute; top: -100px; left: 0; width: 100%;">
 										<c:if test="${fn:length(supplierList) > 1}">
 											<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx,pdf" multiple="true" groups="${list.groupsUploadId}" buttonName="上传附件" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 											<u:show showId="${list.groupShow}" groups="${list.groupShowId}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
