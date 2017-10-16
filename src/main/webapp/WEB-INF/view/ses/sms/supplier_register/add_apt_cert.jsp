@@ -2,8 +2,8 @@
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <tr>
 <td class="tc">
-<input type="checkbox" class="border0" value="${id}" />
-<input type="hidden" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].id" value="${id}">
+<input type="checkbox" class="border0" value="${id}" isAdd="true"/>
+<input type="hidden" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].id" value="${id}"/>
 </td>
 <td class="tc"><div class="w200"><input type="text" class="border0" maxlength="30" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certName"/></div></td>
 <td class="tc"><div class="w150"><input type="text" class="border0" maxlength="150" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode"/></div></td>

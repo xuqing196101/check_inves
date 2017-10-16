@@ -731,7 +731,7 @@ public class SupplierExtractsController extends BaseController {
                     supplierAuditService.findBySupplierId(supplierExtRelate.getSupplier().getId());
                     Supplier supplier = new Supplier();
                     supplier.setId(supplierExtRelate.getSupplier().getId());
-                    supplier.setStatus(4);
+//                    supplier.setStatus(4);
                     supplierAuditService.updateStatus(supplier);
                     //根据当前用户获取机构信息
                     if(null != user && null != user.getOrg()){

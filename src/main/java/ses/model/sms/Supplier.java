@@ -415,6 +415,7 @@ Supplier implements Serializable {
 	 * -2：预审核结束
 	 *  3：审核不通过
 	 * -3：公示中
+	 * 10：异议处理
 	 *  1：入库（待复核）
 	 * -4：预复核结束
 	 *  5：复核合格（待考察）
@@ -422,7 +423,7 @@ Supplier implements Serializable {
 	 * -5：预考察结束
 	 *  7：考察合格
 	 *  8：考察不合格
-	 * 入库状态：1，5，7
+	 * 入库状态：1，5，6，7，8
 	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_STATUS
 	 * </pre>
 	 */

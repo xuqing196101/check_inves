@@ -3,7 +3,7 @@
 
 
 <tr>
-    <td class="tc" style="border: 1px solid #ddd;"><input type="checkbox" value="${id}" /></td>
+    <td class="tc" style="border: 1px solid #ddd;"><input type="checkbox" value="${id}" isAdd="true" /></td>
     <td class="tc" style="border: 1px solid #ddd;">
         <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" onblur="validatePostCode(this.value)"
         	required class="w200 border0 address_zip_code" name="addressList[${ind }].code" value="" />
