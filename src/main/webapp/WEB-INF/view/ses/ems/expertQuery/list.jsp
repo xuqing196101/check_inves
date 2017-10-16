@@ -100,7 +100,7 @@
         <span class="fl">
           <select name="status" id="status" class="w220">
              <option selected="selected" value=''>全部</option>
-             <option <c:if test="${expert.status =='6' }">selected</c:if> value="6">待复查</option>
+             <option <c:if test="${expert.status =='6' }">selected</c:if> value="6">入库(待复查)</option>
              <option <c:if test="${expert.status =='7' }">selected</c:if> value="7">复查合格</option>
              <option <c:if test="${expert.status =='13' }">selected</c:if> value="13">无产品专家</option>
            </select>
@@ -184,7 +184,7 @@
               <td class="tc">${e.expertsFrom }</td>
               <td class="tc" id="${e.id}">
                 <c:if test="${e.status eq '6' }">
-                  <span class="label rounded-2x label-u">待复查</span>
+                  <span class="label rounded-2x label-u">入库(待复查)</span>
                 </c:if>
                 <c:if test="${e.status eq '7' }">
                   <span class="label rounded-2x label-u">复查合格</span>
