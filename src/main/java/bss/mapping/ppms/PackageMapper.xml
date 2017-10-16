@@ -726,4 +726,53 @@
 		ORDER BY
 		pa.CREATED_AT DESC
 	</select>
+	
+	<select id="selectByPackageFirstAudit" parameterType="java.util.Map"
+		resultType="bss.model.ppms.Packages">
+			select * from(
+			SELECT DISTINCT
+			pa. ID AS ID,
+			pa. NAME AS NAME,
+			pa.PROJECT_ID AS PROJECT,
+			pr. NAME AS projectName,
+			pa.STATUS AS status,
+			pa.CREATED_AT AS createdAt,
+			pa.PURCHASE_TYPE AS purchaseType,
+			pa.IS_IMPORT AS isImport,
+			pa.IS_END_PRICE AS isEndPrice
+		FROM
+			T_BSS_PPMS_PACKAGE pa
+		LEFT JOIN T_BSS_PPMS_PROJECTS pr ON pa.PROJECT_ID = pr. ID
+		LEFT JOIN T_BSS_PPMS_BID_METHOD BM ON PA. ID = BM.PACKAGE_ID
+		WHERE
+			NVL (pa.IS_DELETED, 0) = 0
+		AND pr. NAME IS NOT NULL
+		<if test="projectName != null and projectName !=''">
+					AND pr.NAME like CONCAT(CONCAT('%', #{projectName}), '%')
+		</if>
+		<if test="packageName != null and packageName !=''">
+					AND pa.NAME like CONCAT(CONCAT('%', #{packageName}), '%')
+		</if>
+		GROUP BY
+			pa. ID,
+			pa. NAME,
+			pa.PROJECT_ID,
+			pr. NAME,
+			pa.STATUS,
+			pa.CREATED_AT,
+			pa.PURCHASE_TYPE,
+			pa.IS_IMPORT,
+			pa.IS_END_PRICE
+		HAVING
+			(
+				SELECT
+					COUNT (*)
+				FROM
+					T_BSS_PRMS_FIRST_AUDIT
+				WHERE
+					PROJECT_ID = pa.PROJECT_ID
+				AND PACKAGEID = PA. ID
+			) > 0
+			)
+	</select>
 </mapper>

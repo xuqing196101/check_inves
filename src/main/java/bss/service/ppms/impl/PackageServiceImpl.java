@@ -23,16 +23,18 @@ import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
-import common.constant.StaticVariables;
 
+import common.constant.StaticVariables;
 import bss.dao.ppms.PackageMapper;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
+import bss.dao.prms.FirstAuditMapper;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.SupplierCheckPass;
+import bss.model.prms.FirstAudit;
 import bss.service.ppms.PackageService;
 
 /**
@@ -52,6 +54,8 @@ public class PackageServiceImpl implements PackageService{
 	  
 	  @Autowired
 	  private ProjectDetailMapper detailMapper;
+	  @Autowired
+	  private FirstAuditMapper mapper;
 	
 	  @Override
 	  public int insertSelective(Packages pack) {
@@ -345,6 +349,14 @@ public class PackageServiceImpl implements PackageService{
 	  PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
 	  return packageMapper.selectPackageOrderByCreated(map);
 	}
+
+
+  @Override
+  public List<Packages> selectByPackageFirstAudit(HashMap<String, Object> map) {
+    PageHelper.startPage((Integer)map.get("page"),Integer.parseInt(PropUtil.getProperty("pageSize")));
+    List<Packages> packages = packageMapper.selectByPackageFirstAudit(map);
+    return packages;
+  }
 
 }
 

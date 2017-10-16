@@ -298,6 +298,9 @@
 	}
 	
 	$(function() {
+		initFatid();
+	});
+	function initFatid(){
 		var html = "<option value=''>请选择</option>";
 		$.ajax({
 				url: "${pageContext.request.contextPath}/firstAudit/find.do",
@@ -317,8 +320,7 @@
 					$("#fatId").append(html);
 				}
 			});
-	});
-	
+	}
 	function findTem(){
 		var categoryId = $("#cId").val();
 		var html = "<option value=''>请选择</option>";
@@ -342,6 +344,11 @@
 			});
 		
 	}
+	function clreaButtons(){
+		$("#categorySel").val("");
+		$("#fatId").val("");
+		initFatid();
+	}
   </script>
 <body>  
     <h2 class="list_title">${packages.name}资格性符合性检查项编辑</h2>
@@ -362,7 +369,7 @@
 	             <label class="fl">所属产品目录：</label>
 	            	<div class="input_group w200 fl">
 						<input id="cId" name="categoryId"  type="hidden" value="${categoryId}">
-				        <input id="categorySel"  type="text" name="categoryName" readonly value="${categoryName}"  onclick="showCategory();" />
+				        <input id="categorySel"  type="text" name="categoryName"  value="${categoryName}"  onclick="showCategory();" />
 						<%-- <div class="drop_up" onclick="showCategory();">
 						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
 				        </div> --%>
@@ -373,13 +380,17 @@
 	            <select id="fatId" class="w180">
 		               <%-- <c:forEach items="${firstAuditTemplats}" var="fat">
 		                    <option value="${fat.id}">${fat.name}</option>
-		                </c:forEach> --%>
+		                </c:forEach>  --%>
 		            </select>
 	            </li>
 	           
 	           <div class="pull-right">
-	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定选择</button>
-	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入包模板</button>
+		           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定选择</button>
+		           <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入包模板</button>
+		           <button type="button" class="btn" onclick="clreaButtons()">重置</button>
+		           
+		           
+		           
 	           </div>
 	        </ul>
 	        <div class="clear"></div>

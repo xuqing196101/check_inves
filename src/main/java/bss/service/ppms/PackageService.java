@@ -231,5 +231,13 @@ public interface PackageService {
      * @return
      */
     List<Packages> findPackage(HashMap<String, Object> map, int i);
+    
+    /**
+     * 获取有资格性符合性检查的包
+     * @param map
+     * @param i
+     * @return
+     */
+    List<Packages> selectByPackageFirstAudit(HashMap<String, Object> map);
 
 }

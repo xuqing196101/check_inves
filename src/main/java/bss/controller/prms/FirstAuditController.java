@@ -552,7 +552,8 @@ public class FirstAuditController {
       HashMap<String, Object> map = new HashMap<String, Object>();
       map.put("projectName", projectName);
       map.put("packageName", packageName);
-      List<Packages> list = packageService.findPackage(map, page == null ? 1 : page);
+      map.put("page", page == null ? 1 : page);
+      List<Packages> list = packageService.selectByPackageFirstAudit(map);
       model.addAttribute("list", new PageInfo<Packages>(list));
       model.addAttribute("projectName", projectName);
       model.addAttribute("packageName", packageName);
