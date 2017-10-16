@@ -349,7 +349,7 @@
                   <span class="label rounded-2x label-dark">待初审</span>
                 </c:if>
                 <c:if test="${list.status eq '1' }">
-                  <span class="label rounded-2x label-dark">初审合格</span>
+                  <span class="label rounded-2x label-dark">初审合格(待复审)</span>
                 </c:if>
                 <c:if test="${list.status eq '2' }">
                   <span class="label rounded-2x label-dark">初审未合格</span>
@@ -364,7 +364,7 @@
                   <span class="label rounded-2x label-dark">复审不合格</span>
                 </c:if>
                 <c:if test="${list.status eq '6' and list.auditTemporary == 0}">
-                  <span class="label rounded-2x label-dark">待复查</span>
+                  <span class="label rounded-2x label-dark">入库(待复查)</span>
                 </c:if>
                 <c:if test="${list.status eq '7' }">
                   <span class="label rounded-2x label-dark">复查合格</span>

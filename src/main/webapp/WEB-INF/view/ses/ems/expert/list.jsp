@@ -411,7 +411,7 @@
                <option <c:if test="${expert.status eq '3' }">selected</c:if> value="3">初审退回修改</option>
                <option <c:if test="${expert.status eq '4' and expert.auditTemporary == 0}">selected</c:if> value="4">复审已分配</option>
                <option <c:if test="${expert.status eq '5' }">selected</c:if> value="5">复审不合格</option>
-               <option <c:if test="${expert.status eq '6' and expert.auditTemporary == 0}">selected</c:if> value="6">待复查</option>
+               <option <c:if test="${expert.status eq '6' and expert.auditTemporary == 0}">selected</c:if> value="6">入库(待复查 )</option>
                <option <c:if test="${expert.status eq '7' }">selected</c:if> value="7">复查合格</option>
                <option <c:if test="${expert.status eq '8' }">selected</c:if> value="8">复查不合格</option>
                <option <c:if test="${expert.status eq '9' }">selected</c:if> value="9">初审退回再审核</option>
@@ -423,6 +423,7 @@
                <option <c:if test="${expert.status eq '15' }">selected</c:if> value="15">预初审合格</option>
                <option <c:if test="${expert.status eq '16' }">selected</c:if> value="16">预初审不合格</option>
                <option <c:if test="${expert.status eq '17' }">selected</c:if> value="17">资料不全</option>
+               <option <c:if test="${expert.status eq '18' }">selected</c:if> value="18">异议处理</option>
              </select>
           </span>
        </li>
@@ -573,7 +574,7 @@
                   <span class="label rounded-2x label-dark">复审不合格</span>
                 </c:if>
                 <c:if test="${e.status eq '6' and e.auditTemporary == 0}">
-                  <span class="label rounded-2x label-u">待复查</span>
+                  <span class="label rounded-2x label-u">入库(待复查 )</span>
                 </c:if>
                 <c:if test="${e.status eq '7' }">
                   <span class="label rounded-2x label-u">复查合格</span>
@@ -607,6 +608,9 @@
                 </c:if>
                 <c:if test="${e.status eq '17' }">
                   <span class="label rounded-2x label-dark">资料不全</span>
+                </c:if>
+                <c:if test="${e.status eq '18' }">
+                  <span class="label rounded-2x label-dark">异议处理</span>
                 </c:if>
               </td>
             </tr>
