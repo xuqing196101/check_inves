@@ -12,7 +12,7 @@
 
     <!-- 自动扫描(自动注入) -->
     <context:component-scan
-            base-package="ses.service,iss.service,bss.service,bss.util,ses.util,common.service,synchro.*,ses.task,bss.task,system.*,sums.service.*,app.service.*,dss.service.*"/>
+            base-package="ses.service,iss.service,bss.service,bss.util,ses.util,common.service,synchro.*,ses.task,bss.task,system.*,sums.service.*,app.service.*,dss.service.*,extract.service.*"/>
 
     <!-- 引入属性文件 -->
     <context:property-placeholder location="classpath:config.properties"/>
