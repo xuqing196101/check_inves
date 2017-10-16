@@ -84,7 +84,7 @@
 		$("input[name='chkItem']:checked").each(function() {
 			var value = $(this).val();
 			 if (value == 'SALES') {
-				downloadTable(value);
+				isSalePass(value);
 			} 
 			$("#tab_div").addClass("opacity_1");
 			selectedArray.push(value);
@@ -132,6 +132,7 @@
 
 	//上一步
 	function prev() {
+		tempSave();
 		updateStep(1);
 	}
 
@@ -488,10 +489,10 @@
 				.append(
 						"<tr>"
 								+ "<td class='tc'><input type='checkbox' value='" + id + "' class='border0'/><input type='hidden' name='supplierMatEng.listSupplierRegPersons[" + certPersonNumber + "].id' value='" + id + "'></td>"
-								+ "<td class='tc'><input type='text' class='border0' onblur='tempSave()' name='supplierMatEng.listSupplierRegPersons["
+								+ "<td class='tc'><input type='text' class='border0' name='supplierMatEng.listSupplierRegPersons["
 								+ certPersonNumber
 								+ "].regType'/> </td>"
-								+ "<td class='tc'><input type='text' class='border0' onblur='tempSave()' name='supplierMatEng.listSupplierRegPersons["
+								+ "<td class='tc'><input type='text' class='border0' name='supplierMatEng.listSupplierRegPersons["
 								+ certPersonNumber + "].regNumber'/> </td>"
 								+ "</tr>");
 		certPersonNumber++;
@@ -1042,10 +1043,11 @@
 				getAptLevel($(this));
 			});
 			
-			$("input").not(".validatebox-text").not("input[type='button']").bind("blur", tempSave);
+			// 去掉实时保存
+			/* $("input").not(".validatebox-text").not("input[type='button']").bind("blur", tempSave);
 			$("textarea").bind("blur", tempSave);
 			$("select").bind("change", tempSave);
-			$(".certTypeSelect").unbind("blur", tempSave);
+			$(".certTypeSelect").unbind("blur", tempSave); */
      	
 			var supplierType = "${type}";
 			var pro = "${pro}";
@@ -1542,14 +1544,14 @@
 	sessionStorage.index=2;
 	
 	
-	//
-	function downloadTable(val) {
+	//判断销售型是否满足要求
+	function isSalePass(val) {
 		var supplierId = "${currSupplier.id}";
 		$.ajax({
 			url: "${pageContext.request.contextPath}/supplier/isPass.do",
 			data: {
 				"supplierId": supplierId,
-				 "type":val
+				 "type": val
 			},
 			type: "post",
 			success: function(data) {
@@ -1646,7 +1648,7 @@
 										<h2 class="list_title">物资-生产型专业信息</h2>
 										<ul class="list-unstyled f14 overflow_h">
 											<input type="hidden" name="supplierMatPro.id"
-												value="${currSupplier.supplierMatEng.id}" />
+												value="${currSupplier.supplierMatPro.id}" />
 											<input type="hidden" name="supplierMatPro.supplierId"
 												value="${currSupplier.id}" />
 
@@ -2425,7 +2427,7 @@
 															</td>
 															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																<!-- 
-																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()"></select>
+																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0"></select>
 																 -->
 																<select id="certGrade_${certAptNumber}" title="cnjewfnGrade" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" style="width:200px;border: none;">
                                   <%-- <c:if test="${tempForShowOption eq 'go' }">

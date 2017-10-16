@@ -60,7 +60,9 @@
         <if test="supplierLevel != null and supplierLevel != ''">
             AND ll.SUPPLIER_LEVEL = #{supplierLevel}
         </if>
-        ORDER BY s.supplier_name
+        <if test="categoryId != null and categoryId !=''">
+        	ORDER BY decode(ll.SUPPLIER_LEVEL, '一级', 1, '二级', 2, '三级', 3, '四级', 4, '五级', 5, '六级', 6, '七级', 7, '八级', 8)
+  		</if>
   </select>
   <!-- 判断是否存在  -->
    <select id="countItemLevel" resultMap="BaseResultMap" parameterType="java.lang.String" >

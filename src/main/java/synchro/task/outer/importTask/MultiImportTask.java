@@ -23,6 +23,7 @@ import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
 
 import java.io.File;
+
 /**
  * 定时 外网 导入 数据
  *
@@ -30,64 +31,84 @@ import java.io.File;
  */
 @Component("outerMultiImportTask")
 public class MultiImportTask {
-	@Autowired
-	/** 附件导入 **/
-	private OuterAttachService attachService;
-	/** 同步 竞价定型产品 **/
-	@Autowired
-	private OBProductService OBProductService;
-	/** 竞价供应商 **/
-	@Autowired
-	private OBSupplierService OBSupplierService;
-	/** 竞价信息 **/
-	@Autowired
-	private OBProjectServer OBProjectServer;
-	/** 同步供应商数据service **/
-	@Autowired
-	private InnerSupplierService innerSupplierService;
-	/** 同步专家数据service **/
-	@Autowired
-	private InnerExpertService innerExpertService;
-	/** 产品库 **/
-	@Autowired
-	private SMSProductLibService smsProductLibService;
-	/** 产品目录 **/
-	@Autowired
-	private CategoryService categoryService;
-	/** 产品目录参数 **/
-	@Autowired
-	private CategoryParameterService categoryParameterService;
-	/** 门户模板管理 **/
-	@Autowired
-	private TemplateDownloadService templateDownloadService;
-	/** 资料数据 **/
-	@Autowired
-	private DataDownloadService dataDownloadService;
-	 /**产品资质**/
+    @Autowired
+    /** 附件导入 **/
+    private OuterAttachService attachService;
+    /**
+     * 同步 竞价定型产品
+     **/
+    @Autowired
+    private OBProductService OBProductService;
+    /**
+     * 竞价供应商
+     **/
+    @Autowired
+    private OBSupplierService OBSupplierService;
+    /**
+     * 竞价信息
+     **/
+    @Autowired
+    private OBProjectServer OBProjectServer;
+    /**
+     * 同步供应商数据service
+     **/
+    @Autowired
+    private InnerSupplierService innerSupplierService;
+    /**
+     * 产品库
+     **/
+    @Autowired
+    private SMSProductLibService smsProductLibService;
+    /**
+     * 产品目录
+     **/
+    @Autowired
+    private CategoryService categoryService;
+    /**
+     * 产品目录参数
+     **/
+    @Autowired
+    private CategoryParameterService categoryParameterService;
+    /**
+     * 门户模板管理
+     **/
+    @Autowired
+    private TemplateDownloadService templateDownloadService;
+    @Autowired
+    private InnerExpertService innerExpertService;
+    /**
+     * 资料数据
+     **/
+    @Autowired
+    private DataDownloadService dataDownloadService;
+    /**
+     * 产品资质
+     **/
     @Autowired
     private QualificationService qualificationService;
-	/**
-	 * 文件导入
-	 */
-	@Autowired
-	private InnerFilesRepeater fileRepeater;
-	/**
-	 * 实现 定时导入 数据方法
-	 */
-	public void importTask() {
-		// 外网
-		if ("1".equals(StaticVariables.ipAddressType)) {
-			fileRepeater.initFiles();
-			/** 内网导入 **/
-			File file = FileUtils.getImportFile();
-			if (file != null && file.exists()) {
-				File[] files = file.listFiles();
-				for (File f : files) {
-					System.out.println("dd ");
-					if (f.isDirectory()) {
-						// 竞价定型产品导入
-						String result = DictionaryDataUtil.getId(Constant.DATE_SYNCH_BIDDING_PRODUCT);
-						/*	if (StringUtils.isNotBlank(result)) {
+    /**
+     * 文件导入
+     */
+    @Autowired
+    private InnerFilesRepeater fileRepeater;
+
+    /**
+     * 实现 定时导入 数据方法
+     */
+    public void importTask() {
+        // 外网
+        if ("1".equals(StaticVariables.ipAddressType)) {
+            fileRepeater.initFiles();
+            /** 内网导入 **/
+            File file = FileUtils.getImportFile();
+            if (file != null && file.exists()) {
+                File[] files = file.listFiles();
+                for (File f : files) {
+                    System.out.println("dd ");
+                    if (f.isDirectory()) {
+                        // 竞价定型产品导入
+                        String result = DictionaryDataUtil.getId(Constant.DATE_SYNCH_BIDDING_PRODUCT);
+                        /*	if (StringUtils.isNotBlank(result)) {
 							*//** 竞价定型产品导入 只能是外网导入 **//*
 							if (f.getName().equals(Constant.PRODUCT_FILE_EXPERT)) {
 								if (f.isDirectory()) {
@@ -109,7 +130,7 @@ public class MultiImportTask {
 								}
 							}
 						}*/
-						// 竞价供应商导入
+                        // 竞价供应商导入
 						/*result = DictionaryDataUtil
 								.getId(Constant.DATE_SYNCH_BIDDING_SUPPLIER);
 						if (StringUtils.isNotBlank(result)) {
@@ -139,7 +160,7 @@ public class MultiImportTask {
 								}
 							}
 						}*/
-						// 竞价信息导入
+                        // 竞价信息导入
 						/*result = DictionaryDataUtil
 								.getId(Constant.DATA_TYPE_BIDDING_CODE);
 						if (StringUtils.isNotBlank(result)) {
@@ -185,7 +206,7 @@ public class MultiImportTask {
 								}
 							}
 						}*/
-						/** 产品库 **/
+                        /** 产品库 **/
 						/*result = DictionaryDataUtil
 								.getId(Constant.SYNCH_PRODUCT_LIBRARY);
 						if (StringUtils.isNotBlank(result)) {
@@ -233,60 +254,60 @@ public class MultiImportTask {
 								}
 							}
 						}*/
-						// 产品目录管理
-						result = DictionaryDataUtil.getId(Constant.SYNCH_CATEGORY);
-						if (StringUtils.isNotBlank(result)) {
-							/** 产品目录管理 只能是外网 导入 **/
-							if (f.getName().equals(Constant.T_SES_BMS_CATEGORY_PATH)) {
-								if (f.isDirectory()) {
-									// 便利文件夹 目录
-									for (File file2 : f.listFiles()) {
-										if (file2.isDirectory()) {
-											// 判断文件名是否是 导出 创建 数据名称
-											if (file2.getName().contains(FileUtils.C_CATEGORY_FILENAME)) {
-												categoryService.importCategory(file2);
-											}
-											// 判断文件是否是 产品的 附件文件
-											if (file2.getName().contains(FileUtils.C_FILE_CATEGORY_FILENAME)) {
-												OBProjectServer.importFile(file2,common.constant.Constant.TENDER_SYS_KEY);
-											}
-										}
-									}
-								}
-							}
-							if (f.getName().equals(Constant.FILE_T_SES_BMS_CATEGORY_PATH)) {
-								if (f.isDirectory()) {
-									for (File file2 : f.listFiles()) {
-										if (file2.isDirectory()) {
-											OperAttachment.moveToPathFolder(file2,
-															FileUtils.BASE_ATTCH_PATH+ FileUtils.TENDER_ATTFILE_PATH);
-										}
-									}
-								}
-							}
-						}
-						// 产品目录参数管理
-						result = DictionaryDataUtil.getId(Constant.SYNCH_CATE_PARAMTER);
-						if (StringUtils.isNotBlank(result)) {
-							/** 产品目录参数管理 只能是外网导入 **/
-							if (f.getName().equals(Constant.T_SES_BMS_CATEGORY_PARAMTER_PATH)) {
-								if (f.isDirectory()) {
-									// 遍历文件夹中的所有文件
-									for (File file2 : f.listFiles()) {
-										if (file2.isDirectory()) {
-											// 判断文件名是否是导出创建数据名称
-											if (file2.getName().contains(FileUtils.C_CATEGORY_PARAMTER_FILENAME)) {
-												categoryParameterService.importCategoryParmter(file2);
-											}
-										}
-									}
-								}
-							}
-						}
-						 /**目录资质关联表*/
-						categoryService.importCategoryQua(Constant.DATA_SYNCH_CATEGORY_QUA,f);
-		                /** 产品资质表*/
-						qualificationService.importQualification(Constant.DATA_SYNCH_QUALIFICATION,f);
+                        // 产品目录管理
+                        result = DictionaryDataUtil.getId(Constant.SYNCH_CATEGORY);
+                        if (StringUtils.isNotBlank(result)) {
+                            /** 产品目录管理 只能是外网 导入 **/
+                            if (f.getName().equals(Constant.T_SES_BMS_CATEGORY_PATH)) {
+                                if (f.isDirectory()) {
+                                    // 便利文件夹 目录
+                                    for (File file2 : f.listFiles()) {
+                                        if (file2.isDirectory()) {
+                                            // 判断文件名是否是 导出 创建 数据名称
+                                            if (file2.getName().contains(FileUtils.C_CATEGORY_FILENAME)) {
+                                                categoryService.importCategory(file2);
+                                            }
+                                            // 判断文件是否是 产品的 附件文件
+                                            if (file2.getName().contains(FileUtils.C_FILE_CATEGORY_FILENAME)) {
+                                                OBProjectServer.importFile(file2, common.constant.Constant.TENDER_SYS_KEY);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if (f.getName().equals(Constant.FILE_T_SES_BMS_CATEGORY_PATH)) {
+                                if (f.isDirectory()) {
+                                    for (File file2 : f.listFiles()) {
+                                        if (file2.isDirectory()) {
+                                            OperAttachment.moveToPathFolder(file2,
+                                                    FileUtils.BASE_ATTCH_PATH + FileUtils.TENDER_ATTFILE_PATH);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // 产品目录参数管理
+                        result = DictionaryDataUtil.getId(Constant.SYNCH_CATE_PARAMTER);
+                        if (StringUtils.isNotBlank(result)) {
+                            /** 产品目录参数管理 只能是外网导入 **/
+                            if (f.getName().equals(Constant.T_SES_BMS_CATEGORY_PARAMTER_PATH)) {
+                                if (f.isDirectory()) {
+                                    // 遍历文件夹中的所有文件
+                                    for (File file2 : f.listFiles()) {
+                                        if (file2.isDirectory()) {
+                                            // 判断文件名是否是导出创建数据名称
+                                            if (file2.getName().contains(FileUtils.C_CATEGORY_PARAMTER_FILENAME)) {
+                                                categoryParameterService.importCategoryParmter(file2);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        /**目录资质关联表*/
+                        categoryService.importCategoryQua(Constant.DATA_SYNCH_CATEGORY_QUA, f);
+                        /** 产品资质表*/
+                        qualificationService.importQualification(Constant.DATA_SYNCH_QUALIFICATION, f);
 						/*// 资料 管理 导入
 						result = DictionaryDataUtil.getId(Constant.SYNCH_DATA);
 						if (StringUtils.isNotBlank(result)) {
@@ -333,7 +354,7 @@ public class MultiImportTask {
 								}
 							}
 						}*/
-						// 门户模板 管理 导入
+                        // 门户模板 管理 导入
 						/*result = DictionaryDataUtil
 								.getId(Constant.SYNCH_TEMPLATE_DOWNLOAD);
 						if (StringUtils.isNotBlank(result)) {
@@ -386,7 +407,8 @@ public class MultiImportTask {
                          * 供应商公示自动导入
                          */
                         result = DictionaryDataUtil.getId(Constant.SYNCH_PUBLICITY_SUPPLIER);
-                        if(StringUtils.isNotEmpty(result)){
+                        if (StringUtils.isNotEmpty(result)) {
+                            /** 产品目录参数管理 只能是外网导入 **/
                             if (f.getName().equals(Constant.T_SES_SMS_SUPPLIER_PUBLICITY_PATH)) {
                                 if (f.isDirectory()) {
                                     // 遍历文件夹中的所有文件
@@ -414,13 +436,9 @@ public class MultiImportTask {
 								}
 							}
 						}
-
-					}
-				}
-			}
-
-
-
-		}
-	}
+                    }
+                }
+            }
+        }
+    }
 }

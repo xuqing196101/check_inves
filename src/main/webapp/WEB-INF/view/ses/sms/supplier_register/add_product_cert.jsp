@@ -6,15 +6,15 @@
   	<input type="checkbox" class="border0" value="${id}"/>
   	<input type="hidden" class="border0" name="supplierMatPro.listSupplierCertPros[${certProNumber}].id" value="${id}">
   </td>
-  <td class="tc"><input type="text" maxlength="30" onblur="tempSave()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name" class="border0"/> </td>
-  <td class="tc"><input type="text" maxlength="150" onblur="tempSave()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].code" class="border0"/> </td>
-  <td class="tc"><input type="text" maxlength="10" onblur="tempSave()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" class="border0"/> </td>
-  <td class="tc"><input type="text" maxlength="30" onblur="tempSave()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith" class="border0"/></td>
+  <td class="tc"><input type="text" maxlength="30" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name" class="border0"/> </td>
+  <td class="tc"><input type="text" maxlength="150" name="supplierMatPro.listSupplierCertPros[${certProNumber}].code" class="border0"/> </td>
+  <td class="tc"><input type="text" maxlength="10" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" class="border0"/> </td>
+  <td class="tc"><input type="text" maxlength="30" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith" class="border0"/></td>
   <td class="tc">
-    <input type="text" readonly="readonly" onblur="tempSave()" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate" class="border0"/>
+    <input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" class="border0" readonly="readonly"/>
   </td>
   <td class="tc">
-    <input type="text" onblur="tempSave()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" readonly="readonly" class="border0"/>
+    <input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" class="border0" readonly="readonly"/>
   </td>
   <td class="tc"><input type="text" maxlength="15" onblur="tempSave()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot" class="border0"/> </td>
   <td class="tc w200">

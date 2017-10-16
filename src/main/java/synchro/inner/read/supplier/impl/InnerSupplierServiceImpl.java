@@ -473,7 +473,10 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
             if (supp == null) {
                 saveSupplier(supplier);
             } else {
-                supplierMapper.updateByPrimaryKeySelective(supplier);
+                // 先做删除操作
+                supplierMapper.deleteByPrimaryKey(supplier.getId());
+                // 再做插入操作
+                saveSupplier(supplier);
             }
 
 

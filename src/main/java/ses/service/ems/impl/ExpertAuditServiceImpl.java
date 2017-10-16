@@ -492,7 +492,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	            String afterDateString = DateUtils.getDateOfFormat(DateUtils.addDayDate(expert.getAuditAt(), 7));
 	            if(nowDateString.equals(afterDateString)){
 	                // 审核通过，自动入库
-	            	expert.setStatus("4");
+	            	expert.setStatus("6");
 	                // 修改
 	            	expertMapper.updateByPrimaryKeySelective(expert);
 	            }

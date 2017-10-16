@@ -31,9 +31,11 @@ public class TestImport {
     public void testSupplierNewSubmitImport() {
         // 获取本地文件
         File file = FileUtils.getImportFile();
+        // 遍历文件
         if (file != null && file.exists()) {
             File[] files = file.listFiles();
             for (File f : files) {
+                //　调用新提交供应商导入方法
                 innerSupplierService.importSupplierInfo(f);
             }
         }
