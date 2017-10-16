@@ -90,7 +90,7 @@
 	var y = 150;
 	var x = 300;
 	function endCheck(projectId,packageId){
-	   $.ajax({
+	    $.ajax({
 			url:"${pageContext.request.contextPath}/packageExpert/isEndCheck.do",
 			data:{"packageId":packageId, "projectId":projectId},
 			async:false,
@@ -121,7 +121,7 @@
 					});
 				}
 			}
-		});
+		}); 
 	}
 	
 	//退回复核
@@ -201,14 +201,14 @@
 	    	<c:if test="${isEnd != 1}">
 			    <button class="btn" id="endId" onclick="endCheck('${projectId}','${pack.id}')" type="button">结束评审</button>
 			    <button <c:if test="${isSubmitCheck == 2}">disabled="disabled"</c:if> class="btn" id="backId" onclick="backCheck('${projectId}','${pack.id}')" type="button">复核评审</button>
-	    		<button <c:if test="${isSubmitCheck == 2}">disabled="disabled"</c:if> class="btn" onclick="expertConsult('${projectId}','${pack.id}')" type="button">专家咨询委员会</button>
+	    		<%-- <button <c:if test="${isSubmitCheck == 2}">disabled="disabled"</c:if> class="btn" onclick="expertConsult('${projectId}','${pack.id}')" type="button">专家咨询委员会</button> --%>
 	    	</c:if>
 	    	<c:if test="${isEnd == 1}">
 			      <button disabled="disabled" class="btn" id="endId" type="button">结束评审</button>
 				  <button disabled="disabled" class="btn" id="backId" onclick="backScore()" type="button">复核评审</button>
-				  <button disabled="disabled" class="btn" onclick="expertConsult('${projectId}','${pack.id}')" type="button">专家咨询委员会</button>
+				  <%-- <button disabled="disabled" class="btn" onclick="expertConsult('${projectId}','${pack.id}')" type="button">专家咨询委员会</button> --%>
 	    	</c:if>
-		    <button class="btn" onclick="openPrint('${projectId}','${pack.id}')" type="button">评审汇总表</button>
+		    <%-- <button class="btn" onclick="openPrint('${projectId}','${pack.id}')" type="button">评审汇总表</button> --%>
 		    <button class="btn" onclick="openDetailPrint('${projectId}','${pack.id}')" type="button">打印评审数据</button>
 	   	</div>
 	   	<input type="hidden" id="packageId" value="${pack.id}">
