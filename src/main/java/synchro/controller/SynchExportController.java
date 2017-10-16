@@ -412,7 +412,7 @@ public class SynchExportController {
 
             /**内网供应商注销导出*/
             if (synchType.contains(Constant.SYNCH_LOGOUT_SUPPLIER)) {
-                outerExpertService.selectExpByPublictyOfExport(startTime, endTime);
+                outerExpertService.selectLogoutSupplierOfExport(startTime, endTime);
             }
 
             /**内网公示专家导出*/

@@ -939,6 +939,9 @@
 			<if test="armyBuinessCity != null">
 				ARMY_BUSINESS_CITY=#{armyBuinessCity},
 			</if>
+            <if test="isDeleted != null">
+                IS_DELETED=#{isDeleted},
+            </if>
 		</set>
 		where ID = #{id}
 	</update>

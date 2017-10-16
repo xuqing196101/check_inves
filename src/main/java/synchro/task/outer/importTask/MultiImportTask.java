@@ -104,7 +104,6 @@ public class MultiImportTask {
             if (file != null && file.exists()) {
                 File[] files = file.listFiles();
                 for (File f : files) {
-                    System.out.println("dd ");
                     if (f.isDirectory()) {
                         // 竞价定型产品导入
                         String result = DictionaryDataUtil.getId(Constant.DATE_SYNCH_BIDDING_PRODUCT);

@@ -696,9 +696,13 @@ public class SynchImportController {
                      * 公示供应商
                      */
                     if (synchType.contains(Constant.SYNCH_PUBLICITY_SUPPLIER)) {
-                        for (File file2 : f.listFiles()) {
-                            if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)) {
-                                innerSupplierService.importInner(file2, "publicity");
+                        if(f.getName().equals(Constant.T_SES_SMS_SUPPLIER_PUBLICITY_PATH)) {
+                            if (f.isDirectory()) {
+                                for (File file2 : f.listFiles()) {
+                                    if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)) {
+                                        innerSupplierService.importInner(file2, "publicity");
+                                    }
+                                }
                             }
                         }
                     }
@@ -707,9 +711,11 @@ public class SynchImportController {
                      * 注销供应商导入
                      */
                     if (synchType.contains(Constant.SYNCH_LOGOUT_SUPPLIER)) {
-                        for (File file2 : f.listFiles()) {
-                            if (file2.getName().contains(FileUtils.C_SYNCH_LOGOUT_SUPPLIER_FILENAME)) {
-                                innerSupplierService.importLogoutSupplier(file2);
+                        if(FileUtils.getSynchAttachFile(31).equals("/" + f.getName())){
+                            for (File file2 : f.listFiles()) {
+                                if (file2.getName().contains(FileUtils.C_SYNCH_LOGOUT_SUPPLIER_FILENAME)) {
+                                    innerSupplierService.importLogoutSupplier(file2);
+                                }
                             }
                         }
                     }
@@ -718,17 +724,11 @@ public class SynchImportController {
                      * 公示专家
                      */
                     if (synchType.contains(Constant.SYNCH_PUBLICITY_EXPERT)) {
-                        for (File file2 : f.listFiles()) {
-                            if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME)) {
-                                innerExpertService.importExpOfPublicity(file2);
-                            }
-                        }
-                        if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {
-                            attachService.importExpertAttach(f);
-                        }
-                        if (f.isDirectory()) {
-                            if (f.getName().equals(Constant.ATTCH_FILE_EXPERT)) {
-                                OperAttachment.moveFolder(f);
+                        if(FileUtils.getSynchAttachFile(24).equals("/" + f.getName())) {
+                            for (File file2 : f.listFiles()) {
+                                if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME)) {
+                                    innerExpertService.importExpOfPublicity(file2);
+                                }
                             }
                         }
                     }
