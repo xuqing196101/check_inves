@@ -425,30 +425,4 @@ public class OuterExpertServiceImpl implements OuterExpertService {
         }
         return attchs;
     }
-
-    /**
-     * Description:查询注销供应商导出
-     *
-     * @param startTime
-     * @param endTime
-     * @author Easong
-     * @version 2017/10/16
-     * @since JDK1.7
-     */
-    @Override
-    public void selectLogoutSupplierOfExport(String startTime, String endTime) {
-        // 查询注销供应商
-        Map<String, Object> map = new HashedMap();
-        map.put("startTime", startTime);
-        map.put("endTime", endTime);
-        map.put("isDeleted", 1);
-        List<User> users = userMapper.selectLogoutSupplier(map);
-        // 将查询的数据封装
-        //将数据写入文件
-        if (!users.isEmpty()) {
-            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_LOGOUT_SUPPLIER_FILENAME, 31), JSON.toJSONString(users, SerializerFeature.WriteMapNullValue));
-        }
-        recordService.synchBidding(null, new Integer(users.size()).toString(), synchro.util.Constant.SYNCH_LOGOUT_SUPPLIER, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.EXPORT_SYNCH_LOGOUT_SUPPLIER);
-    }
-
 }

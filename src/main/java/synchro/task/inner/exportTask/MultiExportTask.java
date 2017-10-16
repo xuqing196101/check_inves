@@ -13,12 +13,16 @@ import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.bms.QualificationService;
 import ses.service.sms.SMSProductLibService;
+import ses.util.DictionaryDataUtil;
+import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.util.Constant;
 import synchro.util.DateUtils;
+import synchro.util.FileUtils;
 import synchro.util.MultiTaskUril;
 
+import java.io.File;
 import java.util.Date;
 
 /***
@@ -72,6 +76,7 @@ public class MultiExportTask {
      **/
     @Autowired
     private TemplateDownloadService templateDownloadService;
+
     /**
      * 产品资质
      **/
@@ -80,6 +85,9 @@ public class MultiExportTask {
 
     @Autowired
     private OuterSupplierService outerSupplierService;
+
+    @Autowired
+    private InnerSupplierService innerSupplierService;
 
     /**
      * 内网定时处理方法
@@ -178,13 +186,46 @@ public class MultiExportTask {
 		        	templateDownloadService.exportTemplateDownload(startTime, endTime, synchDate);
 		        }*/
 
+            /**
+             * 供应商公示导出数据
+             */
             startTime = MultiTaskUril.getSynchDate(Constant.SYNCH_PUBLICITY_SUPPLIER, recordService);
             if (StringUtils.isNotBlank(startTime)) {
                 startTime = DateUtils.getCalcelDate(startTime);
                 String endTime = DateUtils.getCurrentTime();
-                //供应商公示导出数据
                 outerSupplierService.selectSupByPublictyOfExport(startTime, endTime);
             }
+
+            /**
+             * 供应商注销导出和导入数据
+             */
+            // 导出
+            startTime = MultiTaskUril.getSynchDate(Constant.SYNCH_LOGOUT_SUPPLIER, recordService);
+            if (StringUtils.isNotBlank(startTime)) {
+                startTime = DateUtils.getCalcelDate(startTime);
+                String endTime = DateUtils.getCurrentTime();
+                outerSupplierService.selectLogoutSupplierOfExport(startTime, endTime);
+            }
+
+            // 导入
+            File file = FileUtils.getImportFile();
+            if (file != null && file.exists()) {
+                File[] files = file.listFiles();
+                for (File f : files) {
+                    String result = DictionaryDataUtil.getId(Constant.SYNCH_LOGOUT_SUPPLIER);
+                    if (StringUtils.isNotEmpty(result)) {
+                        if (FileUtils.getSynchAttachFile(31).equals("/" + f.getName())) {
+                            // 遍历文件夹中的所有文件
+                            for (File file2 : f.listFiles()) {
+                                if (file2.getName().contains(FileUtils.C_SYNCH_LOGOUT_SUPPLIER_FILENAME)) {
+                                    innerSupplierService.importLogoutSupplier(file2);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
         }
     }
 }

@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import synchro.outer.back.service.expert.OuterExpertService;
+import synchro.outer.back.service.supplier.OuterSupplierService;
 
 import javax.annotation.Resource;
 
@@ -23,7 +23,7 @@ import javax.annotation.Resource;
 public class TestExport {
 
     @Resource
-    private OuterExpertService outerExpertService;
+    private OuterSupplierService outerSupplierService;
 
     /**
      *
@@ -36,6 +36,6 @@ public class TestExport {
      */
     @Test
     public void testLogoutSupplierImport() {
-        outerExpertService.selectLogoutSupplierOfExport("2017-10-16 16:00:00","2017-10-16 16:50:00");
+        outerSupplierService.selectLogoutSupplierOfExport("2017-10-16 16:00:00","2017-10-16 16:50:00");
     }
 }

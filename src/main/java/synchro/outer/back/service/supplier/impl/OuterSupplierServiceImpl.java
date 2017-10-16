@@ -7,6 +7,7 @@ import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import common.service.UploadService;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -881,6 +882,31 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
             FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME, 23),JSON.toJSONString(supplierAudits, SerializerFeature.WriteMapNullValue));
         }
         recordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.SYNCH_PUBLICITY_SUPPLIER, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_PUBLICITY_SUPPLIER);
+    }
+
+    /**
+     * Description:查询注销供应商导出
+     *
+     * @param startTime
+     * @param endTime
+     * @author Easong
+     * @version 2017/10/16
+     * @since JDK1.7
+     */
+    @Override
+    public void selectLogoutSupplierOfExport(String startTime, String endTime) {
+        // 查询注销供应商
+        Map<String, Object> map = new HashedMap();
+        map.put("startTime", startTime);
+        map.put("endTime", endTime);
+        map.put("isDeleted", 1);
+        List<User> users = userMapper.selectLogoutSupplier(map);
+        // 将查询的数据封装
+        //将数据写入文件
+        if (!users.isEmpty()) {
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_LOGOUT_SUPPLIER_FILENAME, 31), JSON.toJSONString(users, SerializerFeature.WriteMapNullValue));
+        }
+        recordService.synchBidding(null, new Integer(users.size()).toString(), synchro.util.Constant.SYNCH_LOGOUT_SUPPLIER, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.EXPORT_SYNCH_LOGOUT_SUPPLIER);
     }
 
 }
