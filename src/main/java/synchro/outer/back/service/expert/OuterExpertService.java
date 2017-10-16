@@ -47,4 +47,16 @@ public interface OuterExpertService {
      * @since JDK1.7
      */
     void selectExpByPublictyOfExport(String startTime, String endTime);
+
+    /**
+     *
+     * Description:查询注销供应商导出
+     *
+     * @author Easong
+     * @version 2017/10/16
+     * @param startTime
+     * @param endTime
+     * @since JDK1.7
+     */
+    void selectLogoutSupplierOfExport(String startTime, String endTime);
 }

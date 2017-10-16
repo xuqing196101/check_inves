@@ -927,8 +927,32 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 
         }
         synchRecordService.importNewSupplierRecord(new Integer(list.size()).toString());
-
     }
 
+    /**
+     *
+     * Description:查询注销供应商导入
+     *
+     * @author Easong
+     * @version 2017/10/16
+     * @param startTime
+     * @param endTime
+     * @since JDK1.7
+     */
+    @Override
+    public void importLogoutSupplier(File file) {
+        List<User> list = FileUtils.getBeans(file, User.class);
+        if(list != null && !list.isEmpty()){
+            for (User user : list){
+                // 更新用户表基本信息
+                userMapper.updateByPrimaryKeySelective(user);
+                // 更新供应商表基本信息
+                supplierMapper.updateByPrimaryKeySelective(user.getSupplier());
+            }
+        }
+        if(list != null){
+            synchRecordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.SYNCH_LOGOUT_SUPPLIER, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.IMPORT_SYNCH_LOGOUT_SUPPLIER);
+        }
+    }
 
 }

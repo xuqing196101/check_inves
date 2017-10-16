@@ -27,6 +27,15 @@ public class TestImport {
     @Resource
     private InnerSupplierService innerSupplierService;
 
+    /**
+     *
+     * Description: 测试新提交供应商导入导出
+     *
+     * @author Easong
+     * @version 2017/10/16
+     * @param 
+     * @since JDK1.7
+     */
     @Test
     public void testSupplierNewSubmitImport() {
         // 获取本地文件
@@ -37,6 +46,29 @@ public class TestImport {
             for (File f : files) {
                 //　调用新提交供应商导入方法
                 innerSupplierService.importSupplierInfo(f);
+            }
+        }
+    }
+
+    /**
+     *
+     * Description: 测试注销供应商导入导出
+     *
+     * @author Easong
+     * @version 2017/10/16
+     * @param 
+     * @since JDK1.7
+     */
+    @Test
+    public void testLogoutSupplierImport() {
+        // 获取本地文件
+        File file = FileUtils.getImportFile();
+        // 遍历文件
+        if (file != null && file.exists()) {
+            File[] files = file.listFiles();
+            for (File f : files) {
+                //　调用新提交供应商导入方法
+                innerSupplierService.importLogoutSupplier(f);
             }
         }
     }

@@ -704,6 +704,17 @@ public class SynchImportController {
                     }
 
                     /**
+                     * 注销供应商导入
+                     */
+                    if (synchType.contains(Constant.SYNCH_LOGOUT_SUPPLIER)) {
+                        for (File file2 : f.listFiles()) {
+                            if (file2.getName().contains(FileUtils.C_SYNCH_LOGOUT_SUPPLIER_FILENAME)) {
+                                innerSupplierService.importLogoutSupplier(file2);
+                            }
+                        }
+                    }
+
+                    /**
                      * 公示专家
                      */
                     if (synchType.contains(Constant.SYNCH_PUBLICITY_EXPERT)) {

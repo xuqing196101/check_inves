@@ -32,4 +32,16 @@ public interface InnerSupplierService {
     
     public void importBackSupplier(final File file);
 
+    /**
+     *
+     * Description:查询注销供应商导入
+     *
+     * @author Easong
+     * @version 2017/10/16
+     * @param startTime
+     * @param endTime
+     * @since JDK1.7
+     */
+    public void importLogoutSupplier(final File file);
+
 }

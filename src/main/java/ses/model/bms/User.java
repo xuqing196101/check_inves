@@ -1,15 +1,14 @@
 package ses.model.bms;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import org.hibernate.validator.constraints.Email;
+import ses.model.oms.Orgnization;
+import ses.model.sms.Supplier;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
-import org.hibernate.validator.constraints.Email;
-
-import ses.model.oms.Orgnization;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Description: 用户实体测试1.0
@@ -159,6 +158,8 @@ public class User implements Serializable{
      * @Fields errorNum : 用户登录密码错误次数
      */
     private Integer errorNum;
+
+    private Supplier supplier;
     
     public List<String> getUserDataRule() {
 		return userDataRule;
@@ -406,7 +407,15 @@ public class User implements Serializable{
     this.idNumber = idNumber;
   }
 
-  public String getOfficerCertNo() {
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
+    public String getOfficerCertNo() {
     return officerCertNo;
   }
 
