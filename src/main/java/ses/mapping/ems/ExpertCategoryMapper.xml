@@ -359,7 +359,7 @@
 	    <if test="typeIdList != null">
 	      <foreach collection="typeIdList" item="item" index="index" open="and TYPE_ID in ("
                      close=")" separator=",">
-                #{typeIdList[${index}]}
+                #{item}
             </foreach>
 	    </if>
     </select>

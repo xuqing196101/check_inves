@@ -328,7 +328,7 @@
                   <span class="label rounded-2x label-dark">公示中</span>
                 </c:if>
                 <c:if test="${list.isProvisional eq '1' and list.status eq '4'}">
-                  <span class="label rounded-2x label-u">临时</span>
+                  <span class="label rounded-2x label-dark">临时</span>
                 </c:if>
                 <c:if test="${list.status eq '-2'}">
                   <span class="label rounded-2x label-dark">预复审结束</span>
@@ -337,7 +337,7 @@
                   <span class="label rounded-2x label-u">暂存</span>
                 </c:if>
                 <c:if test="${list.status eq '0' }">
-                  <span class="label rounded-2x label-u">待初审</span>
+                  <span class="label rounded-2x label-dark">待初审</span>
                 </c:if>
                 <c:if test="${list.status eq '1' }">
                   <span class="label rounded-2x label-dark">初审合格</span>
@@ -349,7 +349,7 @@
                   <span class="label rounded-2x label-u">退回修改</span>
                 </c:if>
                 <c:if test="${list.status eq '4' and list.isProvisional eq '0'}">
-                  <span class="label rounded-2x label-dark">待复审</span>
+                  <span class="label rounded-2x label-dark">复审已分配</span>
                 </c:if>
                 <c:if test="${list.status eq '5' }">
                   <span class="label rounded-2x label-dark">复审不合格</span>

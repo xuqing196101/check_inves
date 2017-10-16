@@ -406,7 +406,7 @@
                <option <c:if test="${expert.status eq '1' }">selected</c:if> value="1">初审合格(待复审)</option>
                <option <c:if test="${expert.status eq '2' }">selected</c:if> value="2">初审不合格</option>
                <option <c:if test="${expert.status eq '3' }">selected</c:if> value="3">初审退回修改</option>
-               <option <c:if test="${expert.status eq '4' }">selected</c:if> value="4">待复审</option>
+               <option <c:if test="${expert.status eq '4' }">selected</c:if> value="4">复审已分配</option>
                <option <c:if test="${expert.status eq '5' }">selected</c:if> value="5">复审不合格</option>
                <option <c:if test="${expert.status eq '6' }">selected</c:if> value="6">待复查</option>
                <option <c:if test="${expert.status eq '7' }">selected</c:if> value="7">复查合格</option>
@@ -492,9 +492,9 @@
               <th class="info w90">审核日期</th>
               <th class="info">手机</th>
               <!-- <th class="info">积分</th> -->
-              <th class="info">专家状态</th>
               <th class="info">专家类型</th>
               <th class="info">采购机构</th>
+              <th class="info">专家状态</th>
             </tr>
           </thead>
           <c:forEach items="${result.list }" var="e" varStatus="vs">
@@ -527,6 +527,8 @@
               </td>
               <td class="tc">${e.mobile }</td>
               <%-- <td class="tc"  class="tc">${e.honestyScore }</td> --%>
+              <td class="tc">${e.expertsFrom }</td>
+              <td class="tc">${e.orgName }</td>
               <td class="tc" id="${e.id}">
                 <c:if test="${e.status eq '-3'}">
                   <span class="label rounded-2x label-dark">公示中</span>
@@ -553,7 +555,7 @@
                   <span class="label rounded-2x label-dark">退回修改</span>
                 </c:if>
                 <c:if test="${e.status eq '4' and e.isProvisional eq '0'}">
-                  <span class="label rounded-2x label-u">待复审</span>
+                  <span class="label rounded-2x label-u">复审已分配</span>
                 </c:if>
                 <c:if test="${e.status eq '5' }">
                   <span class="label rounded-2x label-dark">复审不合格</span>
@@ -595,8 +597,6 @@
                   <span class="label rounded-2x label-dark">资料不全</span>
                 </c:if>
               </td>
-              <td class="tc">${e.expertsFrom }</td>
-              <td class="tc">${e.orgName }</td>
             </tr>
           </c:forEach>
         </table>

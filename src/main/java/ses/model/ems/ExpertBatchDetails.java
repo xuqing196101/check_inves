@@ -56,6 +56,15 @@ public class ExpertBatchDetails {
 	private Integer isDownload;
 	/**是否复审（1是）结束*/
 	private Integer isReviewEnd;
+	/**排序*/
+	private String sort;
+	
+	public String getSort() {
+		return sort;
+	}
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
 	public String getExpertsTypeId() {
 		return expertsTypeId;
 	}

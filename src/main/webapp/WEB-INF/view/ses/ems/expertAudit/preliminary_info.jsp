@@ -17,6 +17,7 @@
     	  $("#reverse_of_seven").attr("class","active");
         $("#reverse_of_seven").removeAttr("onclick");
     	  
+        check_opinion();
       })
      
       //下一步
@@ -37,6 +38,39 @@
         var action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
         $("#form_id").attr("action", action);
         $("#form_id").submit();
+      }
+      
+      
+    //查询合格通过的产品类别
+      function check_opinion() {
+        var status = $(":radio:checked").val();
+        var expertId = "${expertId}";
+        if(status != null && typeof(status) != "undefined") {
+          $.ajax({
+            url: "${pageContext.request.contextPath}/expertAudit/findCategoryCount.do",
+            data: {
+              "expertId" : expertId,
+              "auditFalg" : 1
+            },
+            type: "post",
+            dataType: "json",
+            success: function(data) {
+            	//初审
+              if(status == 15) {
+                if(data.all == 0 && data.pass == 0){
+                  $("#check_opinion").html("预初审合格，通过的是物资服务经济类别。");
+                }else{
+                  $("#check_opinion").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+                }
+              }
+            	
+            	//复审
+              if(status == '10'){
+                  $("#check_opinion").html("退回修改 。");
+                }
+            }
+          });
+        }
       }
     </script>
   </head>
@@ -121,21 +155,35 @@
              <li>
                <div class="select_check">
                  <c:if test="${sign == 1}">
-                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '-3'}">checked</c:if>>预复审合格
-                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '5'}">checked</c:if>>预复审不合格
-                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '10'}">checked</c:if>>退回修改
+                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '-3'}">checked</c:if> value="-3">预复审合格
+                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '5'}">checked</c:if> value="5">预复审不合格
+                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '10'}">checked</c:if> value="10">退回修改
                   </c:if>
                   <c:if test="${sign == 2}">
-	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if>>初审合格
-	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if>>初审不合格
+	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> value="15">初审合格
+	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> value="16">初审不合格
                   </c:if>
                 </div>
+              </li>
+              <li>
+                <div id="check_opinion"></div>
               </li>
             <li class="mt10">
                <textarea id="opinion" readonly="readonly" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
             </li>
           </ul>
           
+          <c:if test="${sign == 2}">
+	          <h2 class="count_flow mt0"><i>3</i>批准初审表</h2>
+	          <ul class="ul_list">
+	            <li class="col-md-6 col-sm-6 col-xs-6">
+	              <div>
+	                <span class="fl">批准初审表：</span>
+	                <u:show showId="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${typeId }" delete="false"/>
+	              </div>
+	           </li>
+	          </ul>
+          </c:if>
           <div class="col-md-12 col-sm-12 col-xs-12  add_regist tc">
 	          <a class="btn" type="button" onclick="lastStep();">上一步</a>
 	          <c:if test="${expert.status == -2 ||  expert.status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && expert.status ==6) || expert.status ==4}">
