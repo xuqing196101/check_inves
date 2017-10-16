@@ -222,7 +222,7 @@
         var state = $("#" + id + "").parents("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
         if(size == 1) {
-          if(state == "复审合格" || state == "待复查" || state == "复查合格" || state == "复查未合格") {
+          if(state == "复审合格" || state == "入库(待复查)" || state == "复查合格" || state == "复查未合格") {
             $.ajax({
               url: "${pageContext.request.contextPath}/expertAudit/publish.html",
               data: "expertId=" + id,
@@ -399,7 +399,7 @@
                   <option <c:if test="${state eq '10'}">selected</c:if> value="10">复审退回修改</option>
                 </c:if>
                 <c:if test="${sign == 3}">
-                  <option <c:if test="${state eq '6'}">selected</c:if> value="6">待复查</option>
+                  <option <c:if test="${state eq '6'}">selected</c:if> value="6">入库(待复查)</option>
                   <option <c:if test="${state eq '7'}">selected</c:if> value="7">复查合格</option>
                   <option <c:if test="${state eq '8'}">selected</c:if> value="8">复查未合格</option>
                 </c:if>
@@ -532,7 +532,7 @@
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">复审退回修改</span></td>
               </c:if>
               <c:if test="${sign == 3 and expert.status eq '6' and expert.auditTemporary ne '3'}">
-                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复查</span></td>
+                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">入库(待复查)</span></td>
               </c:if>
               <c:if test="${sign == 3 and expert.status eq '6' and expert.auditTemporary eq '3'}">
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">复查中</span></td>
