@@ -3413,6 +3413,11 @@ public class ExpertAuditController{
 		
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("status", expert.getStatus());
+		
+		//批准初审表
+		if(sign == 2){
+			fileUploadItem(model);
+		}
     	return "ses/ems/expertAudit/preliminary_info";
     }
     

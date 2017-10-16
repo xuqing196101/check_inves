@@ -173,6 +173,17 @@
             </li>
           </ul>
           
+          <c:if test="${sign == 2}">
+	          <h2 class="count_flow mt0"><i>3</i>批准初审表</h2>
+	          <ul class="ul_list">
+	            <li class="col-md-6 col-sm-6 col-xs-6">
+	              <div>
+	                <span class="fl">批准初审表：</span>
+	                <u:show showId="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${typeId }" delete="false"/>
+	              </div>
+	           </li>
+	          </ul>
+          </c:if>
           <div class="col-md-12 col-sm-12 col-xs-12  add_regist tc">
 	          <a class="btn" type="button" onclick="lastStep();">上一步</a>
 	          <c:if test="${expert.status == -2 ||  expert.status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && expert.status ==6) || expert.status ==4}">
