@@ -1680,7 +1680,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(status == 0 || status == 9){
 			//1：审核中
 			supplier.setAuditTemporary(1);
-		}else if(status == 4){
+		}else if(status == 1){
 			//2：复核中
 			supplier.setAuditTemporary(2);
 		}else if(status == 5){
@@ -2202,7 +2202,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplier.setSign(sign);
 			request.getSession().removeAttribute("signs");
 		}
-
+		
 		if(page == null) {
 			page = StaticVariables.DEFAULT_PAGE;
 		}
@@ -2232,12 +2232,32 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplier.setExtractOrgid("");
 		}
 
+		Integer state = supplier.getStatus();
 		// 审核中的状态
-		if(supplier.getStatus() != null){
-			if(supplier.getStatus() == -1){
-				supplier.setAuditTemporary(1);
-			}else{
-				supplier.setAuditTemporary(0);
+		if(supplier.getStatus() != null && supplier.getSign() != null){
+			if(supplier.getSign() == 1){
+				if(supplier.getStatus() == 100){
+					supplier.setAuditTemporary(1);
+					supplier.setStatus(null);
+				}else{
+					supplier.setAuditTemporary(0);
+				}
+			}
+			if(supplier.getSign() == 2){
+				if(supplier.getStatus() == 200){
+					supplier.setAuditTemporary(2);
+					supplier.setStatus(null);
+				}else{
+					supplier.setAuditTemporary(0);
+				}
+			}
+			if(supplier.getSign() == 3){
+				if(supplier.getStatus() == 300){
+					supplier.setAuditTemporary(3);
+					supplier.setStatus(null);
+				}else{
+					supplier.setAuditTemporary(0);
+				}
 			}
 		}
 		
@@ -2263,7 +2283,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		//回显
 		request.setAttribute("supplierName", supplier.getSupplierName());
-		request.setAttribute("state", supplier.getStatus());
+		request.setAttribute("state", state);
 		request.setAttribute("businessNature", supplier.getBusinessNature());
 		request.setAttribute("auditDate", supplier.getAuditDate());
 		request.setAttribute("addressName", supplier.getAddressName());
@@ -4635,6 +4655,13 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		return supplierAuditService.updateReturnStatus(ids, status);
 	}
+	
+	/*@RequestMapping("/saveAuditOpinion")
+	@ResponseBody
+	public JdcgResult saveAuditOpinion(){
+		//SupplierAuditOpinionService
+		supplierAuditOpinionService.insertSelective(supplierAuditOpinion, vertifyFlag)
+	}*/
 	
 	/**
 	 * 
