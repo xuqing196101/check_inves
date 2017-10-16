@@ -191,6 +191,27 @@ public class ExpertServiceImpl implements ExpertService {
 			map.put("expertsTypeId", null);
 		
 		}*/
+		//搜索待初审，待复审，待复查状态。
+		if("0".equals(expert.getStatus()) || "4".equals(expert.getStatus()) ||"6".equals(expert.getStatus())){
+			expert.setAuditTemporary(0);
+		}
+		
+		//搜索初审中状态
+		if("firstInstance".equals(expert.getStatus())){
+			expert.setStatus("0");
+			expert.setAuditTemporary(1);
+		}
+		//搜索复审中状态
+		if("review".equals(expert.getStatus())){
+			expert.setStatus("4");
+			expert.setAuditTemporary(2);
+		}
+		//搜索复查中状态
+		if("reviewLook".equals(expert.getStatus())){
+			expert.setStatus("6");
+			expert.setAuditTemporary(3);
+		}
+		
 		return mapper.selectAllExpert(expert);
 	}
 	/**
