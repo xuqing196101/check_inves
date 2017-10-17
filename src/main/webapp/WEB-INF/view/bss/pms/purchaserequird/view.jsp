@@ -224,6 +224,14 @@
           </c:forEach>
         </table>
       </div>
+      <c:if test="${org_advice==2&&list[0].reason!=''&&list[0].reason!=null}">
+           <div class="col-md-12 col-xs-12 col-sm-12 p0">
+				     <div class="col-md-12 col-xs-12 col-sm-12 p0"> 退回理由：</div>
+				     <div class="col-md-12 col-xs-12 col-sm-12 p0">
+				         <textarea id="reson" name="reason" maxlength="800" readonly="readonly" class="h80 col-md-12 col-xs-12 col-sm-12" title="不超过800个字">${list[0].reason }</textarea>
+                     </div>
+                  </div>
+        </c:if>
       <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
         <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
       </div>
