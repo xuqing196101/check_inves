@@ -355,6 +355,7 @@ public class SupplierQueryController extends BaseSupplierController {
 				sup.setStatus(null);
 				break;
 			default:
+				sup.setAuditTemporary(0);
 				break;
 			}
 			if(supplierStatus == 400){// 无产品供应商
