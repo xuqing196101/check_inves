@@ -18,7 +18,7 @@
 			<div class="department">${orgName}</div>
 	</td>
 	<td>
-	<div class="goodsname">
+	<div class="goodsname" name="hidden">
 	    <input type="hidden" name="ss" value="${obj.id }">
 			<input type="text"  class="m0 border0"
 				name="list[${index }].goodsName" onkeyup="listName(this)"

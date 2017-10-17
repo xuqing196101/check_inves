@@ -9,9 +9,16 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 
     <script type="text/javascript">
+	
+    
       var flag;
       var indNum = 1;
       $(function() {
+    	  $('body').click(function(e) {
+    	       if(e.target.name != 'hidden'){
+    	    	   $("#materialName").addClass("dnone");
+    	       } 
+    	    })
         $("td[name='userNone']").attr("style", "display:none");
         $("th[name='userNone']").attr("style", "display:none");
 
@@ -387,7 +394,7 @@
             	  }else{
             		  name=data[i].name.split("@")[0];
             	  }
-                html += "<div style='width:178px;height:20px;' class='pointer' onmouseover='changeColor(this)' onclick='getValue(this)' title='"+title+"'>" + name + "</div>";
+                html += "<div style='width:178px;height:20px;' class='pointer' onmouseover='changeColor(this)'  onclick='getValue(this)' title='"+title+"'>" + name + "</div>";
               }
               $("#materialName").html(html);
               $("#materialName").removeClass("dnone");
@@ -410,6 +417,7 @@
         $(obj).parent().parent().find("input").val($(obj).html());
         $(obj).parent().addClass("dnone");
       }
+      
 
       //删除一行
       function delRowIndex(obj) {
@@ -1489,8 +1497,8 @@
                       <td name="department">
                         <input type="text" name="list[0].department" readonly="readonly" value="${orgName}" class="department">
                       </td>
-                      <td>
-                        <input type="text" name="list[0].goodsName"  class="goodsname" />
+                      <td name="hidden">
+                        <input type="text" name="list[0].goodsName"  class="goodsname"  />
                       </td>
                       <td><input type="text" name="list[0].stand" class="stand"></td>
                       <td><input type="text" name="list[0].qualitStand" class="qualitstand"></td>
@@ -1546,8 +1554,8 @@
                       <td name="department">
                         <input type="text" name="list[1].department" readonly="readonly" value="${orgName}" class="department">
                       </td>
-                      <td>
-                        <input type="text" name="list[1].goodsName" onkeyup="listName(this)" class="goodsname" />
+                      <td name="hidden">
+                        <input type="text" name="list[1].goodsName" onkeyup="listName(this)" class="goodsname"  />
                       </td>
                       <td><input type="text" name="list[1].stand" class="stand"></td>
                       <td><input type="text" name="list[1].qualitStand" class="qualitstand"></td>
@@ -1606,8 +1614,8 @@
                           <input type="hidden" name="list[${vs.index }].department" value="${orgId }">
                           <input type="text" readonly="readonly" value="${orgName}" class="department">
                         </td>
-                        <td>
-                          <input type="text" class="goodsname" name="list[${vs.index }].goodsName" onkeyup="listName(this)" value="${objs.goodsName}" />
+                        <td name="hidden">
+                          <input type="text" class="goodsname" name="list[${vs.index }].goodsName" onkeyup="listName(this)" />
                         </td>
                         <td><input type="text" name="list[${vs.index }].stand" value="${objs.stand}" class="stand"></td>
                         <td><input type="text" name="list[${vs.index }].qualitStand" value="${objs.qualitStand}" class="qualitstand"></td>
@@ -1701,7 +1709,7 @@
         </form>
       </div>
     </div>
-    <div id="materialName" class="dnone" style="width:178px;max-height:400px;overflow:scroll;border:1px solid grey;">
+    <div id="materialName" class="dnone"  style="width:178px;height:200px;overflow:scroll;border:1px solid grey;">
 
 
     </div>

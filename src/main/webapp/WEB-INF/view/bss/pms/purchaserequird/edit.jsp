@@ -17,6 +17,11 @@
 
     <script type="text/javascript">
       $(function() {
+    	  $('body').click(function(e) {
+   	       if(e.target.name != 'hidden'){
+   	    	   $("#materialName").addClass("dnone");
+   	       } 
+   	    })
           delId = [];
         });
 
@@ -1698,7 +1703,7 @@
                       <div class="department">${obj.department}</div>
                     </td>
                     <td>
-                      <div class="goodsname">
+                      <div class="goodsname" name="hidden">
                         <input type="hidden" name="ss" value="${obj.id }">
                         <input type="text" name="list[${vs.index }].goodsName" class="target" onkeyup="listName(this)" value="${obj.goodsName}">
                       </div>

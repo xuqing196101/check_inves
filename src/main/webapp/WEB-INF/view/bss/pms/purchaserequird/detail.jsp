@@ -18,7 +18,7 @@
 											
 										
 										</td>
-										<td>
+										<td name="hidden">
 											<input type="text"  class="m0 border0" name="list[${indNum }].goodsName" onkeyup="listName(this)"  value="" />
 										</td>
 										<td><input type="text" class="stand" name="list[${indNum }].stand" value="${objs.stand}"></td>

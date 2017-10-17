@@ -22,7 +22,7 @@
 
 		</td>
 		<td>
-		<div class="goodsname">
+		<div class="goodsname" name="hidden">
 	    <input type="hidden" name="ss" value="${obj.id }">
 		<input type="text" class="m0 border0"
 			name="list[${vs.index }].goodsName" onkeyup="listName(this)"
