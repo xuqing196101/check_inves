@@ -286,4 +286,9 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
         
         return dictionaryDataMapper.findByKind(kind);
     }
+
+    @Override
+    public List<DictionaryData> findListByScore(DictionaryData dd) {
+      return dictionaryDataMapper.findListByScore(dd);
+    }
 }

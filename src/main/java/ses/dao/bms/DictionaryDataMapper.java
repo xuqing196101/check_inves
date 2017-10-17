@@ -75,4 +75,6 @@ public interface DictionaryDataMapper {
 	DictionaryDataUtil selectByPrimaryCode(String supplierTypeCode);
 	
 	List<DictionaryData> selectByCode(String supplierTypeCode);
+	
+	List<DictionaryData> findListByScore(DictionaryData dd);
 }

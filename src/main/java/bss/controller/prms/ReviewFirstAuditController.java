@@ -188,7 +188,7 @@ public class ReviewFirstAuditController {
 		model.addAttribute("reviewFirstAuditList", reviewFirstAuditList);
 		//把封装的实体放入域中
 		model.addAttribute("extension", extension);
-		List<DictionaryData> dds = DictionaryDataUtil.find(22);
+		List<DictionaryData> dds = DictionaryDataUtil.findScore(22);
 		model.addAttribute("dds", dds);
 		return "bss/prms/audit/review_first_audit";
 	}
@@ -934,7 +934,7 @@ public class ReviewFirstAuditController {
                 model.addAttribute("length2", length/2 + "%");
                 model.addAttribute("size", supplierList.size());
                 
-                List<DictionaryData> find = DictionaryDataUtil.find(22);
+                List<DictionaryData> find = DictionaryDataUtil.findScore(22);
                 
                 model.addAttribute("dds", find);
                 model.addAttribute("reviewFirstAuditList", reviewFirstAuditList);

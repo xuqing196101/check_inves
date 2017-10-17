@@ -3055,7 +3055,7 @@ public class PackageExpertController {
           dds.add(dd); 
           model.addAttribute("dds", dds);
       } else {
-          dds = DictionaryDataUtil.find(22);
+          dds = DictionaryDataUtil.findScore(22);
           model.addAttribute("dds", dds);
       }
       model.addAttribute("expertId", expertId);
@@ -3106,7 +3106,7 @@ public class PackageExpertController {
           dds.add(dd); 
           model.addAttribute("dds", dds);
       } else {
-          dds = DictionaryDataUtil.find(22);
+          dds = DictionaryDataUtil.findScore(22);
           model.addAttribute("dds", dds);
       }
       model.addAttribute("expertId", expertId);
@@ -3848,7 +3848,7 @@ public class PackageExpertController {
                 }
             }
         }
-        List<DictionaryData> dds = DictionaryDataUtil.find(22);
+        List<DictionaryData> dds = DictionaryDataUtil.findScore(22);
         model.addAttribute("dds", dds);
         model.addAttribute("saleTenderList", sl);
         model.addAttribute("reviewFirstAudits", reviewFirstAudits);
@@ -3952,7 +3952,7 @@ public class PackageExpertController {
                 }
             }
         }
-        List<DictionaryData> dds = DictionaryDataUtil.find(22);
+        List<DictionaryData> dds = DictionaryDataUtil.findScore(22);
         model.addAttribute("dds", dds);
         model.addAttribute("saleTenderList", extensions);
         model.addAttribute("reviewFirstAudits", reviewFirstAudits);
@@ -4006,7 +4006,7 @@ public class PackageExpertController {
               extension.setDds(dds);
             } else {
               firstAudit.setIsConfirm((short)0);
-              dds = DictionaryDataUtil.find(22);
+              dds = DictionaryDataUtil.findScore(22);
               extension.setDds(dds);
             }
             List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
@@ -4110,7 +4110,7 @@ public class PackageExpertController {
                    extension.setDds(dds);
                  } else {
                    firstAudit.setIsConfirm((short)0);
-                   dds = DictionaryDataUtil.find(22);
+                   dds = DictionaryDataUtil.findScore(22);
                    extension.setDds(dds);
                  }
                  List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
