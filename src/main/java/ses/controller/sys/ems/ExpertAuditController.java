@@ -75,6 +75,7 @@ import ses.util.WordUtil;
 import bss.formbean.PurchaseRequiredFormBean;
 
 import com.alibaba.fastjson.JSON;
+import com.ctc.wstx.util.DataUtil;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.constant.Constant;
@@ -1341,7 +1342,16 @@ public class ExpertAuditController{
 		
 		String type = expert.getExpertsTypeId();
 		model.addAttribute("expertType", type);
-		
+		//现在勾选的类型
+		String[] types = type.split(",");
+		for(String s : types){
+			if(s!=null && !"".equals(s)){
+				DictionaryData data = DictionaryDataUtil.findById(s);
+				if("PROJECT".equals(data.getCode())||"GOODS_PROJECT".equals(data.getCode())){
+					model.addAttribute("isShow", "1");
+				}
+				}
+		}
 		// 产品类型数据字典
 		List < DictionaryData > spList = new ArrayList< DictionaryData >();
 		// 经济类型数据字典
