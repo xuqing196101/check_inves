@@ -7,6 +7,12 @@
   <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
 </head>
 <body>
+  
+  <script>
+    var index_load = layer.load(1, {
+      shade: [1, '#FFF']
+    });
+  </script>
 
 	<!-- 面包屑导航开始 -->
 	<div class="margin-top-10 breadcrumbs">

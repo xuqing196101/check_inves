@@ -85,6 +85,21 @@
         }
         ;
       }
+      
+    //暂存
+      function zancun() {
+        var expertId = $("#expertId").val();
+        $.ajax({
+          url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
+          dataType: "json",
+          data: {expertId: expertId},
+          success: function (result) {
+              layer.msg(result, {offset: ['100px']});
+          }, error: function () {
+              layer.msg("暂存失败", {offset: ['100px']});
+          }
+        });
+      }
     </script>
   </head>
 

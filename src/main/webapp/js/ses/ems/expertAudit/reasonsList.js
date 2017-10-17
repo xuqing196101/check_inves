@@ -107,8 +107,6 @@ function lastStep() {
 	var sign = $("input[name='sign']").val();
 	if(sign == 2){
 		var action = globalPath + "/expertAudit/auditSummary.html";
-	}else if(sign == 1 && (status == 10 || status == 5)){
-		var action = globalPath + "/expertAudit/preliminaryInfo.html";
 	}else{
 		var action = globalPath + "/expertAudit/expertFile.html";
 	}
@@ -120,13 +118,9 @@ function lastStep() {
  * 下一步操作
  */
 function nextStep() {
-	if(status == -2 || status == 1){
-		tempSave(1);
-	}
-    if(status == -3 || (sign ==2 && status == 6) || status == 5){
-    	$("#form_id").attr("action", globalPath + "/expertAudit/uploadApproveFile.html");
-        $("#form_id").submit();
-    }
+	var action = globalPath + "/expertAudit/preliminaryInfo.html";
+	$("#form_id").attr("action", action);
+    $("#form_id").submit();
 }
 
 /**
