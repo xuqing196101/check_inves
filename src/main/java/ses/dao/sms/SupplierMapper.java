@@ -673,4 +673,11 @@ public interface SupplierMapper {
 	 */
 	int countByIdCard(@Param("id")String id, @Param("idCard")String idCard);
 
+	/**
+	 * 查询无产品供应商
+	 * @param supplier
+	 * @return
+	 */
+	List<Supplier> selectSupplierListByNoCate(Supplier supplier);
+
 }
