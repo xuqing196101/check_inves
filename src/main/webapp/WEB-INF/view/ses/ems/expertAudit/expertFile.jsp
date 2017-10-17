@@ -17,11 +17,12 @@
 			function nextStep() {
 				var status = ${status};
 				var sign = $("input[name='sign']").val();
-				if(sign == 2 || status == 10 || status == 5){
+				if(sign == 2){
 					var action = "${pageContext.request.contextPath}/expertAudit/preliminaryInfo.html";
 				}else{
 					var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
 				}
+				
 				
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();

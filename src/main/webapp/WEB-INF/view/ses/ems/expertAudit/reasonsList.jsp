@@ -468,14 +468,6 @@
        });
 	}
 
-	
-		//复审退回或复审不合格的，初审机构确认
-		function preliminaryConfirmation(){
-			var action = "${pageContext.request.contextPath}/expertAudit/preliminaryConfirmation.html";
-      $("#form_id").attr("action", action);
-      $("#form_id").submit();
-		}
-	
 </script>
 </head>
 
@@ -695,7 +687,7 @@
                     	<a id="nextStep" class="btn" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
                     <c:if test = "${sign eq '1' && (status eq '5' || status eq '10')}" >
-                    	<a class="btn" type="button" onclick="preliminaryConfirmation();">确认</a>
+                    	<a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
                     <c:if test="${status eq '4' && sign eq '2' || status eq '-2'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(4);" value="复审合格 " id="tongguo">
