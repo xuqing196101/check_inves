@@ -421,7 +421,7 @@
                
                <option <c:if test="${expert.status eq '6' and expert.auditTemporary == 0}">selected</c:if> value="6">入库(待复查 )</option>
                <option <c:if test="${expert.status eq '6' and expert.auditTemporary == 3}">selected</c:if> value="reviewLook">复查中</option>
-               <option value="">预复查结束</option>
+               <option <c:if test="${expert.status eq '19' and expert.auditTemporary == 19}">selected</c:if> value="19">预复查结束</option>
                <option <c:if test="${expert.status eq '7' }">selected</c:if> value="7">复查合格</option>
                <option <c:if test="${expert.status eq '8' }">selected</c:if> value="8">复查不合格</option>
                
@@ -606,11 +606,8 @@
                 <c:if test="${e.status eq '14' }">
                   <span class="label rounded-2x label-dark">复审待分组专家</span>
                 </c:if>
-                <c:if test="${e.status eq '15' }">
-                  <span class="label rounded-2x label-u">预初审合格</span>
-                </c:if>
-                <c:if test="${e.status eq '16' }">
-                  <span class="label rounded-2x label-dark">预初审不合格</span>
+                <c:if test="${e.status eq '15' or e.status eq '16'}">
+                  <span class="label rounded-2x label-u">预初审结束</span>
                 </c:if>
                 <c:if test="${e.status eq '17' }">
                   <span class="label rounded-2x label-dark">资料不全</span>

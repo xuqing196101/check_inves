@@ -390,11 +390,8 @@
                 <c:if test="${list.status eq '14' }">
                   <span class="label rounded-2x label-dark">复审待分组专家</span>
                 </c:if>
-                <c:if test="${list.status eq '15' }">
-                  <span class="label rounded-2x label-dark">预初审合格</span>
-                </c:if>
-                <c:if test="${list.status eq '16' }">
-                  <span class="label rounded-2x label-dark">预初审不合格</span>
+                <c:if test="${list.status eq '15' or list.status eq '16'}">
+                  <span class="label rounded-2x label-dark">预初审结束</span>
                 </c:if>
                 <c:if test="${list.status eq '17' }">
                   <span class="label rounded-2x label-dark">资料不全</span>
