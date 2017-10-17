@@ -347,7 +347,8 @@
 				<br />
 			</div>
 			<div>
-				<input type="text" id="cateName"> <input type="button" onclick="loadZtree('true')" value="搜索">
+				<input type="text" id="cateName" class="fl mr5"> <input type="button" class="btn fl" onclick="loadZtree('true')" value="搜索">
+        <div class="clear"></div>
 			</div>
 			<div id="ztree" class="ztree margin-left-13"></div>
 		</form>
