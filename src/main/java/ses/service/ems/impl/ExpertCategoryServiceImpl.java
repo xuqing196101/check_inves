@@ -233,6 +233,8 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 		Map<String, Object> map = new HashedMap();
 		map.put("expertId", expertId);
 		map.put("type", "seven");
+		// 复审不通过的专家类型 2:复审
+		map.put("flag", 2);
 		return mapper.selectNoPassCateByExpertId(map);
 	}
 

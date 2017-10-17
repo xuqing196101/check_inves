@@ -200,6 +200,7 @@
          WHERE T.EXPERT_ID = #{expertId}
          AND T.SUGGEST_TYPE = #{type}
          AND T.IS_DELETED = 0
+         AND T.AUDIT_FALG = #{flag}
     </select>
 
     <!--查询专家审核通过的类型—根据类型查询-->
