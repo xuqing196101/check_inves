@@ -341,7 +341,11 @@
         }
     }
        
-    $(function() {
+  $(function() {
+		initTem();
+	});
+	
+	function initTem(){
 		var html = "<option value=''>请选择</option>";
 		$.ajax({
 				url: "${pageContext.request.contextPath}/firstAudit/find.do",
@@ -369,7 +373,7 @@
          	$(this).removeClass();
       	});
     	}
-	});
+	}
 	
 	function findTem(){
 		var categoryId = $("#cId").val();
@@ -393,6 +397,12 @@
 				}
 			});
 	}
+	
+	function clearSearch() {
+		$("#categorySel").val("");
+     $("#fatId option:selected").removeAttr("selected");
+     initTem();
+   }
  </script>
 <body onload="getTotal()">  
 	<div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
@@ -423,8 +433,8 @@
 		       </div>
 	           
 	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" id="loadTemp" class="btn">确定选择</button>
-	           
 	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
+	              <button type="reset" class="btn" onclick="clearSearch();">重置</button>
 	        </div>
 	        <div class="clear"></div>
 	     </div>

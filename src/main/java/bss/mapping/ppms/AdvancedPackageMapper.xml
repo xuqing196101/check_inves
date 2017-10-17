@@ -498,6 +498,7 @@
   
   <!-- 查询包 按照创建时间-->
 	<select id="selectPackageOrderByCreated" parameterType="java.util.Map" resultType="bss.model.ppms.AdvancedPackages">
+		select * from(
 		SELECT DISTINCT
 			pa.ID AS id,
 			pa.NAME AS name,
@@ -529,8 +530,28 @@
 		<if test="typeName != null and typeName !=''">
 			AND BM.TYPE_NAME = #{typeName}
 		</if>
-		ORDER BY
-		pa.CREATED_AT DESC
+		GROUP BY
+			pa. ID,
+			pa. NAME,
+			pa.AD_PROJECT_ID,
+			pr. NAME,
+			pa.STATUS,
+			pa.CREATED_AT,
+			pa.PURCHASE_TYPE,
+			pa.IS_IMPORT,
+			pa.IS_END_PRICE
+		HAVING
+			(
+				SELECT
+					COUNT (*)
+				FROM
+					T_BSS_PPMS_MARK_TERM
+				WHERE
+					PROJECT_ID = pa.AD_PROJECT_ID
+				AND PACKAGE_ID = PA. ID
+			) > 0
+		ORDER BY pa.CREATED_AT DESC
+		)
 	</select>
 
 </mapper>

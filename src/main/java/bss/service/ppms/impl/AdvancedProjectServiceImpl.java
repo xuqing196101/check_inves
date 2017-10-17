@@ -505,6 +505,7 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
             } else {
                 jsonObj.put("success", true);
             }
+            jsonObj.put("flowType", flowDefine.getCode());
         }
         return jsonObj;
     }
@@ -565,7 +566,12 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
             map.put("projectNumber", project.getProjectNumber());
         }
         if(StringUtils.isNotBlank(project.getStatus())){
-            map.put("status", project.getStatus());
+        	if ("1".equals(project.getStatus())) {
+        		map.put("status", DictionaryDataUtil.getId("YJLX"));
+			} else {
+				map.put("statusAll", "2");
+			}
+            
         }
         map.put("principal", user.getId());
         map.put("purchaseDepId", user.getOrg().getId());

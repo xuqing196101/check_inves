@@ -758,6 +758,9 @@
       <if test="status != null and status != ''">
         AND p.STATUS = #{status}
       </if>
+      <if test="statusAll != null and statusAll != ''">
+       and p.STATUS in (select ID from T_SES_BMS_DICTIONARY_DATA dd where dd.IS_DELETED = 0 and dd.KIND = 2 and dd.code!='YJLX' )
+      </if>
       <if test="parentId != null and parentId != ''">
         AND p.PARENT_ID = #{parentId}
       </if>

@@ -153,18 +153,30 @@
         var index = ob.selectedIndex;
         var i = ob.options[index].value;
         var val = $(ob).parent().next().find('input').val();
-        if(i == 2) {
-          layer.prompt({
-            title: '放弃原因',
-            formType: 2,
-            value: val,
-            shade: 0
-          }, function(pass, index) {
-            layer.close(index);
-            $(ob).parent().next().find('input').val(pass);
-          });
-        }
+        if(i == 1){
+					var aa = $(ob).parent().prev().prev().find('input[type=hidden]').val();
+					$(ob).parent().prev().prev().find('input[type=text]').val(aa);
+				} else if (i == 2){
+					layer.prompt({title: '放弃原因', formType: 2, value : val ,shade: 0}, function(pass, index){
+						  layer.close(index);
+						  $(ob).parent().next().find('input').val(pass);
+						});
+				} else {
+					$(ob).parent().prev().prev().find('input[type=text]').val("");
+				}
       }
+      
+      function checkTotal(obj){
+				var total = $(obj).val();
+				total = total.trim();
+				if(total){
+					if(total == '0'){
+						layer.msg("总价不合法,请重新输入");
+					}
+				} else {
+					layer.msg("总价不能为空");
+				}
+			}
     </script>
   </head>
 
@@ -177,17 +189,16 @@
         <c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
           <div class="col-md-12 col-sm-12 col-xs-12 p0">
             <c:if test="${vsKey.index ==0 }">
-              <h2 onclick="ycDiv(this,'${vsKey.index}')" <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}">class="count_flow hand fl spread" </c:if>class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}"><span class="star_red">[该包已终止]</span></c:if>  </span>
+              <h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
           <span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
           </h2>
             </c:if>
             <c:if test="${vsKey.index != 0 }">
-              <h2 onclick="ycDiv(this,'${vsKey.index}')" <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}">class="count_flow hand fl spread" </c:if>class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}<c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]=='YZZ'}"><span class="star_red">[该包已终止]</span></c:if> </span>
+              <h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
           <span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
           </h2>
             </c:if>
           </div>
-          <c:if test="${mapPackageName[fn:substringBefore(treemapKey, '|')]!='YZZ'}">
             <div class="p0 ${vsKey.index} w100p clear">
               <table class="table table-bordered table-condensed mt5 left_table table_input">
                 <thead>
@@ -209,12 +220,20 @@
                       <input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${projectId}','${treemapValue.quoteId}','${flowDefineId}')" />
                     </td>
                     <td class="tl">${treemapValue.suppliers.supplierName}</td>
-                    <td class="tc"><input maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" /></td>
+                    <td class="tc">
+                    	<input name="total" onblur="checkTotal(this)" maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+											<c:forEach items="${selectQuoteList}" var="obj">
+												<c:if test="${obj.supplierId eq treemapValue.suppliers.id}">
+													<input type="hidden" value="${obj.total}"/>
+												</c:if>
+											</c:forEach>
+                    </td>
                     <td class="tc"><input type="text" /></td>
                     <c:if test="${not empty count}">
                       <td class="tc">
                         <select onchange="show(this)">
                           <option value="">请选择</option>
+                          <option value="1">放弃本轮报价</option>
                           <option value="2">放弃报价</option>
                         </select>
                       </td>
@@ -224,7 +243,6 @@
                 </c:forEach>
               </table>
             </div>
-          </c:if>
         </c:forEach>
       </c:forEach>
       <div class="col-md-12 col-sm-12 col-xs-12 tc">

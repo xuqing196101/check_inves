@@ -144,6 +144,19 @@
         } else {
         	var bool = verify();
         	if(bool){
+        		var nameTr=document.getElementsByName("attr");
+        	   var checkName=[];
+        	   for(var i=0;i<nameTr.length;i++){
+	        	     checkName.push($(nameTr[i]).children()[9]);
+        	   }
+        	   for(var i=0;i<checkName.length;i++){
+        	      if(i != 0){
+        	        if($(checkName[i]).text()!=$(checkName[i-1]).text()){
+        	           layer.msg("采购方式不一样");
+        	           return false;
+        	        }
+        	      }
+        	   }
         		layer.open({
 	             type: 2, //page层
 	             area: ['800px', '500px'],
@@ -316,7 +329,7 @@
                     </tr>
                   </thead>
                   <c:forEach items="${lists}" var="obj" varStatus="vs">
-                    <tr class="pointer">
+                    <tr class="pointer" <c:if test="${obj.price ne null && obj.purchaseCount ne null}">name="attr"</c:if>>
                       <td>
                        <div class="choose">
                         <input type="hidden" name="pId_${obj.parentId}" value="${obj.parentId}"/>

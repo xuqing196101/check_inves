@@ -289,27 +289,31 @@
     }
   }
   
-  $(function() {
-    var html = "<option value=''>请选择</option>";
-    $.ajax({
-        url: "${pageContext.request.contextPath}/adFirstAudit/find.do",
-        data: {"type" : "REVIEW_QC"},
-        dataType: 'json',
-        success: function(result){
-          $("#fatId").empty();  
-          if (result.success == false && typeof(result.success) != "undefined") {
-            //layer.msg(result.msg,{offset: ['150px']});
-          } else {
-            if (result.length > 0) {
-              for (var i = 0; i < result.length; i++) {
-                html += "<option value='"+result[i].id+"'>"+result[i].name+"</option>"; 
-              }
-            }
-          }
-          $("#fatId").append(html);
-        }
-      });
-  });
+ $(function() {
+		initFatid();
+	});
+	
+	function initFatid(){
+		var html = "<option value=''>请选择</option>";
+		$.ajax({
+				url: "${pageContext.request.contextPath}/adFirstAudit/find.do",
+				data: {"type" : "REVIEW_QC"},
+				dataType: 'json',
+				success: function(result){
+					$("#fatId").empty();	
+					if (result.success == false && typeof(result.success) != "undefined") {
+						//layer.msg(result.msg,{offset: ['150px']});
+					} else {
+						if (result.length > 0) {
+							for (var i = 0; i < result.length; i++) {
+								html += "<option value='"+result[i].id+"'>"+result[i].name+"</option>";	
+							}
+						}
+					}
+					$("#fatId").append(html);
+				}
+			});
+	}
   
   function findTem(){
     var categoryId = $("#cId").val();
@@ -334,6 +338,12 @@
       });
     
   }
+  
+  function clreaButtons(){
+		$("#categorySel").val("");
+		$("#fatId").val("");
+		initFatid();
+	}
   </script>
 <body>  
     <h2 class="list_title">${packages.name}资格性符合性检查项编辑</h2>
@@ -355,21 +365,16 @@
                 <div class="input_group w200 fl">
                <input id="cId" name="categoryId"  type="hidden" value="${categoryId}">
                 <input id="categorySel"  type="text" name="categoryName" readonly value="${categoryName}"  onclick="showCategory();" />
-            <%-- <div class="drop_up" onclick="showCategory();">
-                <img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
-                </div> --%>
 			          </div>
 			           </li>
 			           <li>
 			          <select id="fatId" class="w180">
-			                   <%-- <c:forEach items="${firstAuditTemplats}" var="fat">
-			                        <option value="${fat.id}">${fat.name}</option>
-			                    </c:forEach> --%>
                 </select>
              </li>
              <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定选择</button>
              <div class="pull-right">
                 <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入包模板</button>
+                <button type="button" class="btn" onclick="clreaButtons()">重置</button>
              </div>
           </ul>
           <div class="clear"></div>

@@ -418,7 +418,7 @@ public class PackageServiceImpl implements PackageService {
 		pg.setProjectStatus(DictionaryDataUtil.getId("FBWC"));
 		if (number != null) {
 			pg.setName("第" + (number + 1 + packList.size()) + "包");
-			pg.setPackageNumber(project.getProjectNumber() + "(" + (number + 1) + ")");
+			pg.setPackageNumber(project.getProjectNumber() + "(" + (number + 1 + packList.size()) + ")");
 		} else {
 			pg.setName("第" + (packList.size() + 1) + "包");
 			pg.setPackageNumber(project.getProjectNumber() + "(" + (packList.size() + 1) + ")");

@@ -44,7 +44,6 @@
 			i = count1;
 		}
 		for(i; i < allTable.length; i++) {
-		debugger;
 			for(var j = 1; j < allTable[i].rows.length; j++) { //遍历Table的所有Row
 				var total = $(allTable[i].rows).eq(j).find("td").eq("2").find("input").val();
 				var time = $(allTable[i].rows).eq(j).find("td").eq("3").find("input").val();

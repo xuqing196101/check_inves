@@ -8,12 +8,12 @@ import iss.service.ps.ArticleTypeService;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -64,9 +64,6 @@ import bss.model.ppms.FlowExecute;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Negotiation;
 import bss.model.ppms.NegotiationReport;
-import bss.model.ppms.Packages;
-import bss.model.ppms.Project;
-import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.Reason;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
@@ -1416,7 +1413,7 @@ public class AdOpenBiddingController {
             quote.setPackageId(jsonQuote.getString("packageId"));
             quote.setProjectId(jsonQuote.getString("projectId"));
             quote.setDeliveryTime(jsonQuote.getString("deliveryTime"));
-            if (!"".equals(jsonQuote.opt("isGiveUp")) && jsonQuote.opt("isGiveUp") != null ) {
+            if (!"".equals(jsonQuote.opt("isGiveUp")) && jsonQuote.opt("isGiveUp") != null && !jsonQuote.opt("isGiveUp").equals("1")) {
                 quote.setIsRemove(Integer.parseInt(jsonQuote.getString("isGiveUp")));
                 //放弃报价需要修改saletender这个表的isRemoved这个字段为2
                 SaleTender condition = new SaleTender();
@@ -1696,6 +1693,17 @@ public class AdOpenBiddingController {
                 }
                 packageId = listPackage;
             }
+            
+            //获取最后一次报价
+            Collections.reverse(listDate1);
+            Quote quote2 = new Quote();
+            quote2.setProjectId(projectId);
+            quote2.setPackageId(packId);
+            quote2.setCreatedAt(new Timestamp(listDate1.get(0).getTime()));
+            List<Quote> selectQuoteHistoryList = supplierQuoteService.selectQuoteHistoryList(quote2);
+            if (selectQuoteHistoryList != null && !selectQuoteHistoryList.isEmpty()) {
+    			model.addAttribute("selectQuoteList", selectQuoteHistoryList);
+    		}
         }
         if (StringUtils.isNotBlank(count) && "1".equals(count)) {
             HashMap<String, Object> map2 = new HashMap<String, Object>();
@@ -1769,7 +1777,6 @@ public class AdOpenBiddingController {
                 TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
                 SaleTender condition = new SaleTender();
                 Map<String, String> mapPackageName=new HashMap<String, String>();
-                HashMap<String, Object> map = new HashMap<String, Object>();
                 HashMap<String, Object> map1 = new HashMap<String, Object>();
                 Quote quote2 = new Quote();
                 Quote quote3 = new Quote();

@@ -494,10 +494,10 @@
                       <option value="">请选择</option>
                       <c:forEach items="${orgs }" var="ss">
                         <c:if test="${obj.organization eq ss.orgId }">
-                          <option value="${ss.orgId }" selected="selected">${ss.name}</option>
+                          <option value="${ss.orgId }" selected="selected">${ss.shortName}</option>
                         </c:if>
                         <c:if test="${obj.organization ne ss.orgId }">
-                          <option value="${ss.orgId }">${ss.name}</option>
+                          <option value="${ss.orgId }">${ss.shortName}</option>
                         </c:if>
                       </c:forEach>
                       <input type="hidden" name="ss" value="${obj.parentId}">

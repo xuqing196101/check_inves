@@ -55,7 +55,7 @@
     
     //显示包评审项信息
     function view(packageId,projectId){
-    	window.open("${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId="+packageId+"&projectId="+projectId+"&flag="+1);   
+    	window.open("${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId="+packageId+"&projectId="+projectId+"&flag="+1+"&flowDefineId=${flowDefineId}");   
     }
     
     //引入包评审项

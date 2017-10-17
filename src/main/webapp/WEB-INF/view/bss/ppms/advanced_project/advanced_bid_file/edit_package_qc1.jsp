@@ -367,37 +367,38 @@
   }
 
   $(function() {
-    var html = "<option value=''>请选择</option>";
-    $.ajax({
-      url: "${pageContext.request.contextPath}/adFirstAudit/find.do",
-      data: {
-        "type": "REVIEW_ET"
-      },
-      dataType: 'json',
-      success: function(result) {
-        $("#fatId").empty();
-        if(result.success == false && typeof(result.success) != "undefined") {
-          //layer.msg(result.msg,{offset: ['150px']});
-        } else {
-          if(result.length > 0) {
-            for(var i = 0; i < result.length; i++) {
-              html += "<option value='" + result[i].id + "'>" + result[i].name + "</option>";
-            }
-          }
-        }
-        $("#fatId").append(html);
-      }
-    });
-    
-    var bool = "${flag}";
-    if(bool){
-    	$("a").each(function() {
-         $(this).removeAttr("onclick");
-         $(this).removeClass();
-      });
-    }
-    
-  });
+		initTem();
+	});
+	
+	function initTem(){
+		var html = "<option value=''>请选择</option>";
+		$.ajax({
+				url: "${pageContext.request.contextPath}/adFirstAudit/find.do",
+				data: {"type" : "REVIEW_ET"},
+				dataType: 'json',
+				success: function(result){
+					$("#fatId").empty();	
+					if (result.success == false && typeof(result.success) != "undefined") {
+						//layer.msg(result.msg,{offset: ['150px']});
+					} else {
+						if (result.length > 0) {
+							for (var i = 0; i < result.length; i++) {
+								html += "<option value='"+result[i].id+"'>"+result[i].name+"</option>";	
+							}
+						}
+					}
+					$("#fatId").append(html);
+				}
+			});
+			
+			var bool = "${flag}";
+    	if(bool){
+    		$("a").each(function() {
+         	$(this).removeAttr("onclick");
+         	$(this).removeClass();
+      	});
+    	}
+	}
 
   function findTem() {
     var categoryId = $("#cId").val();
@@ -426,6 +427,12 @@
       }
     });
   }
+  
+  function clearSearch() {
+		$("#categorySel").val("");
+     $("#fatId option:selected").removeAttr("selected");
+     initTem();
+   }
 </script>
 
 <body onload="getTotal()">
@@ -457,6 +464,7 @@
 
         <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" id="loadTemp" class="btn">确定选择</button>
         <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
+        <button type="reset" class="btn" onclick="clearSearch();">重置</button>
       </ul>
       <div class="clear"></div>
     </div>
