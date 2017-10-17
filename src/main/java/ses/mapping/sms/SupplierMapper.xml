@@ -1788,18 +1788,42 @@
 		WHERE MOBILE= #{mobile}
 	</select>
 
-	<!-- 根据创建日期查询已提交的供应商 -->
+	<!--
+	    数据同步SQL
+	    根据创建日期查询已提交的供应商(排除注销的供应商)
+	    包括：0：待审核
+              9：退回再审核
+	-->
 	<select id="getCommintSupplierList" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
-		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS in (0,9) 
-		AND SUBMIT_AT &gt;=
-		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
-		AND
-		SUBMIT_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd
-		hh24:mi:ss')
+		FROM T_SES_SMS_SUPPLIER T
+		WHERE T.SUPPLIER_STATUS in (0,9)
+        AND T.IS_DELETED = 0
+		AND T.SUBMIT_AT &gt;= to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+		AND T.SUBMIT_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 	</select>
+
+    <!--
+        数据同步SQL
+        根据审日期查询已审核的供应商
+        包括：1：入库
+              2：退回修改
+              3：审核不通过
+              5：复核合格（待考察）
+              6：复核不合格
+              7：考察合格
+              8：考察不合格
+     -->
+    <select id="getByTime" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM T_SES_SMS_SUPPLIER T
+        WHERE T.SUPPLIER_STATUS in(1,2,3,5,6,7,8)
+        AND T.IS_DELETED = 0
+        AND T.AUDIT_DATE &gt;= to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+        AND T.AUDIT_DATE &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+    </select>
 
 	<!-- 根据修改日期查询已提交的供应商 -->
 	<select id="getModifySupplierByDate" resultMap="BaseResultMap">
@@ -1938,21 +1962,6 @@
 		  SUPPLIER_STATUS = #{status},AUDIT_DATE=#{auditDate}
 		where ID = #{id}
 	</update>
-	
-	
-	<!-- 根据创建日期查询已提交的供应商 -->
-	<select id="getByTime" resultMap="BaseResultMap">
-		SELECT
-		<include refid="Base_Column_List" />
-		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS in(1,2,3,4,5,6,7,8,9)
-		AND AUDIT_DATE &gt;=
-		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
-		AND
-		AUDIT_DATE &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd
-		hh24:mi:ss')
-	</select>
-	
 	
 	<!-- 根据创建日期查询已提交的供应商 -->
 	<select id="tempExportSupplier" resultMap="BaseResultMap">
