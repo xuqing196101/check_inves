@@ -294,7 +294,7 @@
 							<th class="info">用户名</th>
 							<th class="info w50">性别</th>
 							<th class="info">手机号</th>
-							<th class="info">类别</th>
+							<th class="info">类型</th>
 							<th class="info w90">注册日期</th>
 							<th class="info">身份证号</th>
 							<th class="info">账号状态</th>
@@ -373,7 +373,7 @@
                   <span class="label rounded-2x label-dark">复查不合格</span>
                 </c:if>
                 <c:if test="${list.status eq '9' }">
-                  <span class="label rounded-2x label-dark">初审退回再审核</span>
+                  <span class="label rounded-2x label-dark">退回再初审</span>
                 </c:if>
                 <c:if test="${list.status eq '10' }">
                   <span class="label rounded-2x label-dark">复审退回修改</span>
