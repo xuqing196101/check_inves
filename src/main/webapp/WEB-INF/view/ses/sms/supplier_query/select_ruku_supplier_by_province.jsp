@@ -505,6 +505,7 @@
 					</thead>
 					<tbody>
 						<c:set var="supplierStatusMap" value="<%=SupplierConstants.STATUSMAP %>"/>
+						<c:set var="supplierAuditTemporaryStatusMap" value="<%=SupplierConstants.STATUSMAP_AUDITTEMPORARY %>"/>
 						<c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 							<tr>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
@@ -535,9 +536,21 @@
 									<c:if test="${list.status==7 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
 									<c:if test="${list.status==8 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if> --%>
 									
+									<%-- <c:set var="label_color" value="label-dark"/>
+									<c:if test="${list.status==5 || list.status==7 }"><c:set var="label_color" value="label-u"/></c:if>
+									<span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span> --%>
+									
 									<c:set var="label_color" value="label-dark"/>
 									<c:if test="${list.status==5 || list.status==7 }"><c:set var="label_color" value="label-u"/></c:if>
-									<span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span>
+									<c:if test="${list.status == 0 and list.auditTemporary != 1}"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
+									<c:if test="${list.status == 9 and list.auditTemporary != 1}"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
+									<c:if test="${(list.status == 0 or list.status == 9) and list.auditTemporary == 1}"><span class="label rounded-2x ${label_color}">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
+									<c:if test="${list.status == 1 and list.auditTemporary != 2}"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
+									<c:if test="${list.status == 1 and list.auditTemporary == 2}"><span class="label rounded-2x ${label_color}">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
+									<c:if test="${list.status == 5 and list.auditTemporary != 3 and list.isProvisional != 1}"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
+									<c:if test="${list.status == 5 and list.auditTemporary == 3 and list.isProvisional != 1}"><span class="label rounded-2x ${label_color}">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
+									<c:if test="${list.status != 0 && list.status != 9 && list.status != 1 && list.status != 5 }"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
+									
 								</td>
 							</tr>
 						</c:forEach>

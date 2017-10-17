@@ -2232,7 +2232,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 
 		Integer state = supplier.getStatus();
-		// 审核中的状态
+		// 审核暂存的状态
 		if(supplier.getStatus() != null && supplier.getSign() != null){
 			if(supplier.getSign() == 1){
 				if(supplier.getStatus() == 100){
