@@ -15,6 +15,7 @@
 		  	layer.msg("请填写数据");
 		  } else {
 		  	$(obj).parent().parent().remove(); 
+		  	gerneratorNine();
 		  }
 	}
 
@@ -622,7 +623,9 @@
 			var score = $("#show_table").find("tr").eq(i).find("td").eq("3").find("input").val();
 			if (name == "" || score == "") {
 			} else {
-				if (name.trim() != "" && score.trim() != "") {
+				if (name.trim() != "" && score.trim() != "" && i < $("#show_table").get(0).rows.length - 4 ) {
+					str = str + name + "等于" +score + "分 , ";
+				} else {
 					str = str + name + "等于" +score + "分  ";
 				}
 			}
