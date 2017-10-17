@@ -409,30 +409,17 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 }
             }
             if (supplier.getListSupplierItems() != null && supplier.getListSupplierItems().size() > 0) {
+                // 先做删除操作
                 supplierItemMapper.deleteBySupplierId(supplier.getId());
                 for (SupplierItem st : supplier.getListSupplierItems()) {
-//    			   if(st.getFileList().size()>0){
-//		   				 for(UploadFile uf:st.getFileList()){
-//	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
-//	    	    			   fileUploadMapper.insertFile(uf);
-//	    	    		   }
-//		   				}
                     SupplierItem item = supplierItemMapper.selectByPrimaryKey(st.getId());
-                    if (item == null) {
-                        supplierItemMapper.insertSelective(st);
-                    } else if (item != null) {
+                    if(item != null){
                         supplierItemMapper.updateByPrimaryKeySelective(st);
+                    }else {
+                        supplierItemMapper.insertSelective(st);
                     }
-
                 }
             }
-
-//    	   if(supplier.getAttchList().size()>0){
-//    		   for(UploadFile uf:supplier.getAttchList()){
-//    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
-//    			   fileUploadMapper.insertFile(uf);
-//    		   }
-//    	   }
 
             List<RoleUser> roles = supplier.getUserRoles();
             if (roles.size() > 0) {
