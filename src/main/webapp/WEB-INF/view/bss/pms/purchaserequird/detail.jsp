@@ -7,7 +7,7 @@
 				 						<td class="tc  p0">
 											<input type="hidden" name="list[${indNum }].id"  value="${id }">
 										
-											<input type="text" name="list[${indNum }].seq" value="" onblur="getSeq(this)"    class="m0 border0 w50 tc">
+											<input type="text" name="list[${indNum }].seq" value=""  onchange="getSeq(this)"    class="m0 border0 w50 tc">
 											<input type="hidden" name="list[${indNum }].parentId"  value="">
 										</td>
 										<td class=" p0" >

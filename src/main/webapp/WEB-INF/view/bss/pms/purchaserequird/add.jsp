@@ -521,7 +521,7 @@
     				  var tr3=$($(tr).prev().children()[3]).children(":first");
     				  $(tr3).after($("#materialName"));
     				  $(tr).remove();
-    				  sum1(price);
+    				  deleteSum1(price);
     			  }else{//删除当前节点，把父节点的父节点的readOnly=false,并且删除tr上的attr=“true”
     				    $(tr).prev().removeAttr("attr");
     		    	  var tr7=$($(tr).prev().children()[7]).children(":first").next();
@@ -551,7 +551,7 @@
 	    					  indexCount=parseInt($($(tr).children()[0]).text())-2;
 	    				  }
     		    	  $(tr).remove();
-    		    	  sum1(price);
+    		    	  deleteSum1(price);
     			  }
     			  
     		  }
@@ -778,6 +778,10 @@
         }
       }
 
+      function deleteSum1(obj) {
+            var id = $(obj).next().val(); //parentId
+            aa(id);
+        }
       function aa(id) { // id是指当前的父级parentid
         var budget = 0;
         $("#table tr").each(function() {
@@ -816,9 +820,10 @@
           var pid = $(this).find("td:eq(9)").children(":last").val();
           if(id == pid) {
             var currBud = $(this).find("td:eq(9)").children(":first").next().val() - 0;
-            bud = bud + currBud;
-            bud = bud.toFixed(2);
-
+            bud = bud + parseFloat(currBud);
+            if(bud!=0){
+            	bud = bud.toFixed(2);
+            }
             var spid = $(this).find("td:eq(9)").children(":last").val();
             aa(spid);
           }

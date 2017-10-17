@@ -24,7 +24,15 @@
    	    })
           delId = [];
         });
+      //只能输入数字
+      function checkNum(obj, num) {
+        var vals = $(obj).val();
+        var reg = /^\d+\.?\d*$/;
+        if(!reg.exec(vals)) {
+          $(obj).val("");
+        } else {}
 
+      }
       function referenceNO() {
         var referenceNO = $("#referenceNo").val();
         if(referenceNO == '') {
@@ -86,6 +94,11 @@
           aa(id);
         }
       }
+      
+      function deleteSum1(obj) {
+            var id = $(obj).next().val(); //parentId
+            aa(id);
+        }
 
       function adds(obj) {
         var bool = true;
@@ -1261,9 +1274,9 @@
         			}
         			var price;
         			if(trPid!=trPrevPid){
-        				price=$($(tr).prev().children()[8]).children(":first").next();
-        			}else{
         				price=$($(tr).next().children()[8]).children(":first").next();
+        			}else{
+        				price=$($(tr).prev().children()[8]).children(":first").next();
         			}
         			var trNextAllNum=tr.nextAll();
 	  				  if(trNextAllNum.length>0){
@@ -1277,7 +1290,7 @@
 	  				  var tr3=$($(tr).prev().children()[3]).children(":first").children(":last");
 	  				  $(tr3).after($("#materialName"));
     				  $(tr).remove();
-    				  sum1(price);
+    				  deleteSum1(price);
     			  }else{//删除当前节点，把父节点的父节点的readOnly=false,并且删除tr上的attr=“true”
     				    $(tr).prev().removeAttr("attr");
     		    	  var tr7=$($(tr).prev().children()[7]).children(":first").next();
@@ -1310,7 +1323,7 @@
 	    				  }
     				  
     		    	  $(tr).remove();
-    		    	  sum1(tr8);
+    		    	  deleteSum1(tr8);
     			  }
     			  
     		  }
@@ -1696,7 +1709,7 @@
                     </td>
                     <td class="tc">
                       <input type="hidden" id="id${vs.index}" name="list[${vs.index }].id" value="${obj.id }">
-                      <input type="text" class="w70" id="seq${vs.index}" name="list[${vs.index }].seq" value="${obj.seq}" onblur="selectNode(this,'${vs.index}')">
+                      <input type="text" class="w70" id="seq${vs.index}" name="list[${vs.index }].seq" value="${obj.seq}" onchanges="selectNode(this,'${vs.index}')">
                       <input type="hidden" id="parentId${vs.index}" name="list[${vs.index }].parentId" value="${obj.parentId }"> 
                     </td>
                     <td>
@@ -1720,12 +1733,12 @@
                     </td>
                     <td>
                       <input type="hidden" name="ss" value="${obj.id }">
-                      <input maxlength="11" class="purchasecount"  <c:if test="${obj.isParent!='true'}">onblur="sum2(this);"</c:if> <c:if test="${obj.isParent=='true'}">readonly="readonly"</c:if> type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount" value="${obj.purchaseCount}" />
+                      <input maxlength="11" class="purchasecount" onkeyup="checkNum(this,1)"  <c:if test="${obj.isParent!='true'}">onblur="sum2(this);"</c:if> <c:if test="${obj.isParent=='true'}">readonly="readonly"</c:if> type="text" name="list[${vs.index }].purchaseCount" value="${obj.purchaseCount}" />
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </td>
                     <td class="tl w80">
                       <input type="hidden" name="ss" value="${obj.id }">
-                      <input maxlength="11" class="price" name="list[${vs.index }].price" <c:if test="${obj.isParent=='true'}">readonly="readonly"</c:if> <c:if test="${obj.isParent!='true'}">onblur="sum1(this);"</c:if> value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+                      <input maxlength="11" class="price" name="list[${vs.index }].price" onkeyup="checkNum(this,2)" <c:if test="${obj.isParent=='true'}">readonly="readonly"</c:if> <c:if test="${obj.isParent!='true'}">onblur="sum1(this);"</c:if> value="${obj.price}" type="text"  />
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </td>
                     <td><input type="hidden" name="ss" value="${obj.id }">
