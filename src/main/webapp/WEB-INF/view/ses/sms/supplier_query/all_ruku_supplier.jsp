@@ -1,5 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<%@ page import="ses.constants.SupplierConstants" %>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -439,13 +441,15 @@
 							<label class="fl">供应商状态：</label>
 							<select id="status" name="status" class="w220">
 								<option  value=''>全部</option>
-								<option value="1">审核通过</option>
+								<!-- <option value="1">审核通过</option>
 								<option value="4">待复核</option>
 								<option value="5">复核通过</option>
 								<option value="6">复核未通过</option>
-								<!-- <option value="5">待考察</option> -->
 								<option value="7">考察合格</option>
-								<option value="8">考察不合格</option>
+								<option value="8">考察不合格</option> -->
+								<c:forEach items="<%=SupplierConstants.STATUSMAP_RUKU %>" var="item">
+									<option value="${item.key}">${item.value}</option>
+								</c:forEach>
 							</select>
 						 </li>
              <%-- <li>

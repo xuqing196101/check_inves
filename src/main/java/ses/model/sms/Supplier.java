@@ -423,7 +423,7 @@ Supplier implements Serializable {
 	 * -5：预考察结束
 	 *  7：考察合格
 	 *  8：考察不合格
-	 * 入库状态：1，5，6，7，8
+	 * 入库状态：1，5，7
 	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_STATUS
 	 * </pre>
 	 */
