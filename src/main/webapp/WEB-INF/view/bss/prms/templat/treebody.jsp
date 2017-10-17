@@ -472,7 +472,6 @@
 		var minScore = $("#minScore").val();
 		var unitScore = $("#unitScore").val();
 		var unit = $("#unit").val();
-		
 		if(addSubtractTypeName=="0"){
 			var str = " 加分类型：" + reviewParam + " 最低分为" +minScore +"分" + " 每" + unit + "加" + unitScore+"分"+" 最高分为"+maxScore+"分";
 			$("#easyUnderstandContent21").text(str);
@@ -1090,7 +1089,7 @@
 			</tr>
 			<tr>
 				<td class=" w300 tc"><span class="star_red">*</span>单位</td>
-				<td><input name="unit" id="unit" value="${scoreModel.unit }" type="text""></td>
+				<td><input name="unit" id="unit" value="${scoreModel.unit }" onkeyup="gernerator();" type="text"></td>
 				<td><span class="blue">该项为评审参数的单位</span></td>
 			</tr>
 			<tr>
