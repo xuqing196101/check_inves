@@ -354,6 +354,8 @@ public class AdOpenBiddingController {
         model.addAttribute("causeTypeId", DictionaryDataUtil.getId("CAUSE_REASON"));
         //财务部门审核意见附件
         model.addAttribute("financeTypeId", DictionaryDataUtil.getId("FINANCE_REASON"));
+        //最终意见
+        model.addAttribute("finalTypeId", DictionaryDataUtil.getId("FINAL_OPINION"));
         return "bss/ppms/advanced_project/advanced_bid_file/add_file";
     }
     

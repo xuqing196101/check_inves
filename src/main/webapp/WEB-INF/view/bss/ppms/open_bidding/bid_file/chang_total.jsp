@@ -44,6 +44,7 @@
 			i = count1;
 		}
 		for(i; i < allTable.length; i++) {
+		debugger;
 			for(var j = 1; j < allTable[i].rows.length; j++) { //遍历Table的所有Row
 				var total = $(allTable[i].rows).eq(j).find("td").eq("2").find("input").val();
 				var time = $(allTable[i].rows).eq(j).find("td").eq("3").find("input").val();
@@ -137,11 +138,16 @@
 		var index=ob.selectedIndex;
 		var i = ob.options[index].value;
 		var val = $(ob).parent().next().find('input').val();
-		if(i == 2){
+		if(i == 1){
+			var aa = $(ob).parent().prev().prev().find('input[type=hidden]').val();
+			$(ob).parent().prev().prev().find('input[type=text]').val(aa);
+		} else if (i == 2){
 			layer.prompt({title: '放弃原因', formType: 2, value : val ,shade: 0}, function(pass, index){
 				  layer.close(index);
 				  $(ob).parent().next().find('input').val(pass);
 				});
+		} else {
+			$(ob).parent().prev().prev().find('input[type=text]').val("");
 		}
 	}
 	function checkTotal(obj){
@@ -210,12 +216,20 @@
 			    		<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}','${flowDefineId}')" />
 				    </td>
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
-					<td class="tc"><input name="total" onblur="checkTotal(this)" maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/></td>
+					<td class="tc">
+						<input name="total" onblur="checkTotal(this)" maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+						<c:forEach items="${selectQuoteList}" var="obj">
+							<c:if test="${obj.supplierId eq treemapValue.suppliers.id}">
+								<input type="hidden" value="${obj.total}"/>
+							</c:if>
+						</c:forEach>
+					</td>
 					<td class="tc"><input type="text" onblur="checkPaymentDate(this)" name="paymentDate"/></td>
 					<c:if test="${not empty count}">
 					<td class="tc">
 							<select onchange="show(this)">
 								<option value="">请选择</option>
+								<option value="1">放弃本轮报价</option>
 								<option value="2">放弃报价</option>
 							</select>
 					</td>

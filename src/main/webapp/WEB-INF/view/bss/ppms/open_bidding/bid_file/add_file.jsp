@@ -674,9 +674,14 @@
 						<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">最终意见</span>
 						<c:if test="${project.confirmFile != 1}">
 							<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb20" disabled="disabled" id="finalreason" maxlength="2000" name="finalReason" title="不超过2000个字">${reasons.finalReason}</textarea>
+							<span class="fl">最终意见附件：</span>
+							<u:show delete="false" showId="ff" businessId="${project.id}" sysKey="${sysKey}" typeId="${finalTypeId}" />
 						</c:if>
 						<c:if test="${project.confirmFile == 1}">
 							<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb20" id="finalreason" maxlength="2000" onkeyup="lengthStr('4',this)" name="finalReason" title="不超过2000个字">${reasons.finalReason}</textarea>
+						  <span class="fl">最终意见附件：</span>
+						  <u:upload id="kk"  exts=".jpg,.png" multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${finalTypeId}" auto="true" />
+						  <u:show  showId="ii" businessId="${project.id}" sysKey="${sysKey}" typeId="${finalTypeId}" />
 						  <div class="mlp81">当前已经输入<span class="red" id="in4"></span>字，还可以输入<span class="red" id="into4"></span>字</div>
 						</c:if>
 					</div>

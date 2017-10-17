@@ -1387,6 +1387,16 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
                 uploadService.updateLoad(uploadFile);
             }
         }
+        
+        //最终意见附件
+        String FINAL_OPINION = DictionaryDataUtil.getId("FINAL_OPINION");
+        List<UploadFile> files2 = uploadService.getFilesOther(projectIds, FINAL_OPINION, Constant.TENDER_SYS_KEY+"");
+        if(files2 != null && files2.size() > 0){
+            for (UploadFile uploadFile : files2) {
+                uploadFile.setBusinessId(projectId);
+                uploadService.updateLoad(uploadFile);
+            }
+        }
         return firstAuditMap;
     }
 

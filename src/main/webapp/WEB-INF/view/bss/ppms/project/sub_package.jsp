@@ -236,7 +236,7 @@
           clickCortisone = 1;
           $.ajax({
             type: "POST",
-            url: "${pageContext.request.contextPath }/project/addPack.do?id=" + ids + "&projectId=" + projectId,
+            url: "${pageContext.request.contextPath }/project/addPack.do?ids=" + ids + "&projectId=" + projectId,
             success: function(data) {
               var datas = eval("(" + data + ")");
               if(datas == false) {

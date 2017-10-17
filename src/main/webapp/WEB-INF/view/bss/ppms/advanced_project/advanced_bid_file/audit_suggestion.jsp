@@ -86,5 +86,9 @@
 	</div>
 	<h2 onclick="ycDiv(this,'4')" class="count_flow spread hand">最终意见</h2>
 	<div class="p04 container">${reasons.finalReason}</div>
+	<div class="clear mt10">
+			<span class="fl"><b>最终意见附件:</b></span>
+		    <u:show  showId="kk" delete="flase" businessId="${project.id}" sysKey="${sysKey}" typeId="${finalTypeId}"/>
+	</div>
 </body>
 </html>

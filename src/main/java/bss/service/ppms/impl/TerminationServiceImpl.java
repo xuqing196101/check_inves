@@ -150,7 +150,7 @@ public class TerminationServiceImpl implements TerminationService {
     List<Packages> packages = packageMapper.selectByPrimaryKey(map);
     if(packages!=null&&packages.size()>0){
       for(int i=0;i<packages.size();i++){
-        mapOrder.put(packages.get(i).getId(),Integer.valueOf(packages.get(i).getName().substring(1, 2)));
+        mapOrder.put(packages.get(i).getId(),Integer.valueOf(packages.get(i).getName().substring(1, packages.get(i).getName().length()-1)));
       }
     }
     if(packagesId!=null){
@@ -732,6 +732,8 @@ public class TerminationServiceImpl implements TerminationService {
     String cause_reason = DictionaryDataUtil.getId("CAUSE_REASON");
     //财务部门审核意见附件
     String finance_reason = DictionaryDataUtil.getId("FINANCE_REASON");
+    //最终意见附件
+    String FINAL_OPINION = DictionaryDataUtil.getId("FINAL_OPINION");
   }
   private void insert_paramInterval(Project project, String oldProjectId,
       Map<String, String> mapId, Map<String, String> scoreModelId) {

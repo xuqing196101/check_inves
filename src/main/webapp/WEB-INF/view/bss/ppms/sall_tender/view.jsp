@@ -70,7 +70,9 @@
 					}
 
 				} else {
-					var id = [];
+					var path = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId + "&ix=" + index + "&flowDefineId=${flowDefineId}";
+									$("#tab-1").load(path);
+					/* var id = [];
 					$('input[name="chkItem"]:checked').each(function() {
 						id.push($(this).val());
 					});
@@ -101,8 +103,8 @@
 							offset: ['180px', '200px'],
 							shade: 0.01
 						});
-					}
-				}
+					}*/
+				} 
 
 			}
 

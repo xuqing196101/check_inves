@@ -13,6 +13,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -438,6 +439,8 @@ public class OpenBiddingController extends BaseSupplierController{
     model.addAttribute("causeTypeId", DictionaryDataUtil.getId("CAUSE_REASON"));
     //财务部门审核意见附件
     model.addAttribute("financeTypeId", DictionaryDataUtil.getId("FINANCE_REASON"));
+    //最终意见
+    model.addAttribute("finalTypeId", DictionaryDataUtil.getId("FINAL_OPINION"));
     return "bss/ppms/open_bidding/bid_file/add_file";
   }
 
@@ -1411,9 +1414,20 @@ public class OpenBiddingController extends BaseSupplierController{
       //显示第几轮次报价
       quoteCondition.setPackageId(packId);
       List<Date> listDate1 =  supplierQuoteService.selectQuoteCount(quoteCondition);
-      if (listDate1 != null) {
+      if (listDate1 != null && !listDate1.isEmpty()) {
     	countBid = listDate1.size();
         model.addAttribute("count", listDate1.size());
+        
+        //获取最后一次报价
+        Collections.reverse(listDate1);
+        Quote quote2 = new Quote();
+        quote2.setProjectId(projectId);
+        quote2.setPackageId(packId);
+        quote2.setCreatedAt(new Timestamp(listDate1.get(0).getTime()));
+        List<Quote> selectQuoteHistoryList = supplierQuoteService.selectQuoteHistoryList(quote2);
+        if (selectQuoteHistoryList != null && !selectQuoteHistoryList.isEmpty()) {
+			model.addAttribute("selectQuoteList", selectQuoteHistoryList);
+		}
       }
     }
     //该环节设置为执行中状态
@@ -1873,7 +1887,7 @@ public class OpenBiddingController extends BaseSupplierController{
       quote.setPackageId(jsonQuote.getString("packageId"));
       quote.setProjectId(jsonQuote.getString("projectId"));
       quote.setDeliveryTime(jsonQuote.getString("deliveryTime"));
-      if (!"".equals(jsonQuote.opt("isGiveUp")) && jsonQuote.opt("isGiveUp") != null ) {
+      if (!"".equals(jsonQuote.opt("isGiveUp")) && jsonQuote.opt("isGiveUp") != null && !jsonQuote.opt("isGiveUp").equals("1")) {
         quote.setIsRemove(Integer.parseInt(jsonQuote.getString("isGiveUp")));
         //放弃报价需要修改saletender这个表的isRemoved这个字段为2
         SaleTender condition = new SaleTender();
