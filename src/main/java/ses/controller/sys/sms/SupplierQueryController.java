@@ -360,6 +360,7 @@ public class SupplierQueryController extends BaseSupplierController {
 			}
 			if(supplierStatus == 400){// 无产品供应商
 				sup.setStatus(null);
+				sup.setAuditTemporary(null);
 				listSupplier = supplierService.querySupplierListByNoCate(sup, page == null ? 1 : page);
 	        }else{
 	        	listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);

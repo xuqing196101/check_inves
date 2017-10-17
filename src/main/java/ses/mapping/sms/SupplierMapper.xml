@@ -1361,7 +1361,9 @@
 	      and t2.AUDIT_TEMPORARY = #{auditTemporary}
 	    </if>
 	    <if test="judge == 5">
-	      and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
+	      <!-- and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
+	      and IS_PROVISIONAL = '0' -->
+	      and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS = -4 or SUPPLIER_STATUS = -5)
 	      and IS_PROVISIONAL = '0'
 	    </if>
 	    <if test="address != null and address !=''">
@@ -2319,7 +2321,8 @@
       t2.CREATED_AT,
       t2.SUBMIT_AT,
       t2.AUDIT_DATE,
-      t2.SUPPLIER_STATUS,
+      <!-- t2.SUPPLIER_STATUS, -->
+      400 AS SUPPLIER_STATUS,
       t2.AUDIT_TEMPORARY,
       t2.BUSINESS_NATURE,
       t2.IS_PROVISIONAL,
@@ -2346,12 +2349,12 @@
     LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4.ID
     LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t2.PROCUREMENT_DEP_ID = dep.ID
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
-    LEFT JOIN T_SES_SMS_SUPPLIER_ITEM t_item ON t_item.SUPPLIER_ID = t2.ID
-    LEFT JOIN T_SES_BMS_CATEGORY t_cate ON t_item.CATEGORY_ID = t_cate.ID
     WHERE
       t2.IS_DELETED = 0
-      AND (
-      	t_cate.IS_PUBLISH = 1
+      AND t2.ID NOT IN(
+      	SELECT t_item.SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM t_item WHERE t_item.NODE_LEVEL = 3 AND t_item.CATEGORY_ID IN(
+					SELECT ID FROM T_SES_BMS_CATEGORY WHERE IS_PUBLISH = 0
+				)
       )
 	    <if test="itemType != null and itemType != ''">
 	      <foreach item="itemType" index="index" collection="itemType" open="and(" separator="or" close=")">
@@ -2404,7 +2407,9 @@
 	      and t2.AUDIT_TEMPORARY = #{auditTemporary}
 	    </if>
 	    <if test="judge == 5">
-	      and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
+	      <!-- and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
+	      and IS_PROVISIONAL = '0' -->
+	      and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS = -4 or SUPPLIER_STATUS = -5)
 	      and IS_PROVISIONAL = '0'
 	    </if>
 	    <if test="address != null and address !=''">
