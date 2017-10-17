@@ -3508,6 +3508,9 @@ public class ExpertAuditController{
 		List<ExpertAudit> expertTypeAuditList = expertAuditService.getListByExpert(expertAudit);
 		for (ExpertAudit e : expertTypeAuditList) {
 			DictionaryData data = DictionaryDataUtil.findById(e.getAuditFieldId());
+			if(null==data){
+				continue;
+			}
 			if("PROJECT".equals(data.getCode())||"GOODS_PROJECT".equals(data.getCode())){
 				Map<String,Object> map2 = new HashMap<String,Object>();
 				 map2.put("expertId", expertId);

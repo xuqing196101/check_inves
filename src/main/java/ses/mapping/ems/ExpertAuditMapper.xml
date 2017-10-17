@@ -457,6 +457,17 @@
      <if test="regType != null and regType != ''">
        AND T.SUGGEST_TYPE=#{regType, jdbcType=VARCHAR}
      </if>
+     <if test="type != null and type != ''">
+       AND T.TYPE=#{type, jdbcType=VARCHAR}
+     </if>
+     <if test="auditFieldId != null">
+     	<if test="auditFieldId=='no'">
+     		AND T.AUDIT_FIELD_ID != 'isTitle'
+     	</if>
+     	<if test="auditFieldId=='yes'">
+     		AND T.AUDIT_FIELD_ID == 'isTitle'
+     	</if>
+     </if>
      <if test="auditFalg != '' and auditFalg != null">
       <if test="auditFalg == 0">
         and AUDIT_FALG != 2
@@ -464,7 +475,6 @@
       <if test="auditFalg != 0">
         and AUDIT_FALG = #{auditFalg}
       </if>
-      and AUDIT_FALG = #{auditFalg}
     </if>
      AND T.IS_DELETED = 0
   </select>

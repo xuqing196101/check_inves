@@ -627,6 +627,8 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
         // 判断专家类型和产品类别分别不能有全不通过项
         // 获取专家选择品目的类型
         map.put("regType", Constant.EXPERT_CATE_INFO_ITEM_FLAG);
+        map.put("type", 1);
+        map.put("auditFieldId", "no");
         count = expertAuditMapper.selectRegExpCateCount(map);
         Expert expert = expertMapper.selectByPrimaryKey(expertId);
         if(expert != null && expert.getExpertsTypeId() != null){
@@ -636,6 +638,8 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
                 return JdcgResult.build(500, "类别不能全部为不通过项");
             }
         }
+        map.remove("type");
+        map.remove("auditFieldId");
         map.put("regType",Constant.EXPERT_BASIC_BOOK_FLAG);
         count = expertAuditMapper.selectRegExpCateCount(map);
         if(count>0){
