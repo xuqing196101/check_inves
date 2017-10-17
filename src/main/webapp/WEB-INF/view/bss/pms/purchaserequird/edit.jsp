@@ -1685,7 +1685,7 @@
               <input type="hidden" id="listSize" value="${listSize }" />
               <tbody id="detailZeroRow">
                 <c:forEach items="${list }" var="obj" varStatus="vs">
-                  <tr style="cursor: pointer;" name="detailRow"  <c:if test="${(obj.price==''||obj.price==null)&&obj.price!=0}">attr="true"</c:if> >
+                  <tr style="cursor: pointer;" name="detailRow"  <c:if test="${obj.isParent=='true'}">attr="true"</c:if> >
                     <td class="tc">
                       ${vs.index+1 }
                     </td>
@@ -1715,12 +1715,12 @@
                     </td>
                     <td>
                       <input type="hidden" name="ss" value="${obj.id }">
-                      <input maxlength="11" class="purchasecount"  <c:if test="${obj.price==''||obj.price==null}">onblur="sum2(this);"</c:if> <c:if test="${(obj.price==''||obj.price==null)&&obj.price!=0}">readonly="readonly"</c:if> type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount" value="${obj.purchaseCount}" />
+                      <input maxlength="11" class="purchasecount"  <c:if test="${obj.isParent!='true'}">onblur="sum2(this);"</c:if> <c:if test="${obj.isParent=='true'}">readonly="readonly"</c:if> type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount" value="${obj.purchaseCount}" />
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </td>
                     <td class="tl w80">
                       <input type="hidden" name="ss" value="${obj.id }">
-                      <input maxlength="11" class="price" name="list[${vs.index }].price" <c:if test="${(obj.price==''||obj.price==null)&&obj.price!=0}">readonly="readonly"</c:if> <c:if test="${obj.price!=''&&obj.price!=null}">onblur="sum1(this);"</c:if> value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
+                      <input maxlength="11" class="price" name="list[${vs.index }].price" <c:if test="${obj.isParent=='true'}">readonly="readonly"</c:if> <c:if test="${obj.isParent!='true'}">onblur="sum1(this);"</c:if> value="${obj.price}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </td>
                     <td><input type="hidden" name="ss" value="${obj.id }">
@@ -1733,7 +1733,7 @@
                     </td>
 
                     <td>
-                      <select name="list[${vs.index }].purchaseType" <c:if test="${obj.price==null}"> onchange="changeType(this);" </c:if>
+                      <select name="list[${vs.index }].purchaseType" <c:if test="${obj.isParent=='true'}"> onchange="changeType(this);" </c:if>
                         <c:if test="${obj.price!=null}"> onchange="ssl(this);" </c:if>
                         class="purchasetype" id="select">
                         <option value="">请选择</option>

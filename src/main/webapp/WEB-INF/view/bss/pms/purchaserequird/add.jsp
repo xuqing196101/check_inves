@@ -713,6 +713,7 @@
       function details() {
         var bool = true;
         $("#table tr").each(function(i) {
+        	if($(this).attr("attr")!="true"){
           var val1 = $(this).find("td:eq(8)").children(":first").next().val(); //上级id
           var val2 = $(this).find("td:eq(7)").children(":first").next().val();
           if($.trim(val1) != "" && $.trim(val2)) {
@@ -726,6 +727,7 @@
             }
 
           }
+        	}
         });
         return bool;
 

@@ -206,6 +206,14 @@ public class PurchaseRequiredController extends BaseController {
 		PurchaseRequired p = new PurchaseRequired();
 		p.setUniqueId(planNo.trim());
 		List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
+		for(PurchaseRequired pr:list){
+		  HashMap<String, Object> map=new HashMap<String, Object>();
+		  map.put("id",pr.getId());
+		  List<PurchaseRequired> prs = purchaseRequiredService.selectByParentId(map);
+		  if(prs!=null&&!prs.isEmpty()&&prs.size()>1){
+		    pr.setIsParent("true");
+		  }
+		}
 		model.addAttribute("kind", DictionaryDataUtil.find(5));// 获取数据字典数据
 		model.addAttribute("list", list);
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -444,6 +452,7 @@ public class PurchaseRequiredController extends BaseController {
 				count++;
 				PurchaseRequired pr = list.get(i + 1);
 				if (pr != null) {
+				  p.setIsParent("true");
 					if (!isContainChinese(pr.getSeq())) {
 						errMsg = String.valueOf(i + 4) + "行，节点错误";
 						break;
@@ -464,6 +473,7 @@ public class PurchaseRequiredController extends BaseController {
 				count++;
 				PurchaseRequired pr = list.get(i + 1);
 				if (pr != null) {
+				  p.setIsParent("true");
 					if (!pr.getSeq().equals("1") && !isContainChinese(p.getSeq())) {
 						errMsg = String.valueOf(i + 4) + "行，节点错误";
 						break;
