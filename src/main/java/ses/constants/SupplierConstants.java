@@ -194,11 +194,11 @@ public class SupplierConstants {
 		STATUSMAP_RUKU.put(200, "复核中");
 		STATUSMAP_RUKU.put(Status.PRE_REVIEW_ENDED.getValue(), "预复核结束");
 		STATUSMAP_RUKU.put(Status.REVIEW_PASSED.getValue(), "复核合格（待考察）");
-		STATUSMAP_RUKU.put(Status.REVIEW_NOT_PASS.getValue(), "复核不合格");
+		/*STATUSMAP_RUKU.put(Status.REVIEW_NOT_PASS.getValue(), "复核不合格");*/
 		STATUSMAP_RUKU.put(300, "考察中");
 		STATUSMAP_RUKU.put(Status.PRE_INVESTIGATE_ENDED.getValue(), "预考察结束");
 		STATUSMAP_RUKU.put(Status.INVESTIGATE_PASSED.getValue(), "考察合格");
-		STATUSMAP_RUKU.put(Status.INVESTIGATE_NOT_PASS.getValue(), "考察不合格");
+		/*STATUSMAP_RUKU.put(Status.INVESTIGATE_NOT_PASS.getValue(), "考察不合格");*/
 		STATUSMAP_RUKU.put(400, "无产品供应商");
 	}
 	
