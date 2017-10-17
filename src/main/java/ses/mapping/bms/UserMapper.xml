@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.bms.UserMapper">
-    <resultMap id="UserBaseMap" type="ses.model.bms.User">
-        <id column="ID" jdbcType="VARCHAR" property="id"/>
-        <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName"/>
-        <result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
-        <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt"/>
-        <result column="IS_DELETED" property="isDeleted"/>
-        <result column="REL_NAME" jdbcType="VARCHAR" property="relName"/>
-        <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt"/>
-        <result column="MOBILE" jdbcType="VARCHAR" property="mobile"/>
-        <result column="GENDER" jdbcType="VARCHAR" property="gender"/>
-        <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone"/>
-        <result column="EMAIL" jdbcType="VARCHAR" property="email"/>
-        <result column="DUTIES" jdbcType="VARCHAR" property="duties"/>
-        <result column="TYPE_NAME" property="typeName"/>
-        <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId"/>
-        <result column="ADDRESS" jdbcType="VARCHAR" property="address"/>
-        <result column="RANDOM_CODE" jdbcType="VARCHAR" property="randomCode"/>
-        <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName"/>
-        <result column="PUBLISH_TYPE" property="publishType"/>
-        <result column="ID_NUMBER" jdbcType="VARCHAR" property="idNumber"/>
-        <result column="OFFICER_CERT_NO" jdbcType="VARCHAR" property="officerCertNo"/>
-        <result column="NET_TYPE" property="netType"/>
-        <result column="ERROR_NUM" property="errorNum"/>
-        <!-- 查询机构 -->
-        <association column="ORG_ID" property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById"/>
-        <!-- 查询创建人 -->
-        <association column="USER_ID" property="user" select="selectByPrimaryKey"/>
-    </resultMap>
+  <resultMap id="UserBaseMap" type="ses.model.bms.User">
+    <id column="ID" jdbcType="VARCHAR" property="id"/>
+    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName"/>
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt"/>
+    <result column="IS_DELETED" property="isDeleted"/>
+    <result column="REL_NAME" jdbcType="VARCHAR" property="relName"/>
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt"/>
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile"/>
+    <result column="GENDER" jdbcType="VARCHAR" property="gender"/>
+    <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone"/>
+    <result column="EMAIL" jdbcType="VARCHAR" property="email"/>
+    <result column="DUTIES" jdbcType="VARCHAR" property="duties"/>
+    <result column="TYPE_NAME" property="typeName"/>
+    <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId"/>
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address"/>
+    <result column="RANDOM_CODE" jdbcType="VARCHAR" property="randomCode"/>
+    <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName"/>
+    <result column="PUBLISH_TYPE" property="publishType"/>
+    <result column="ID_NUMBER" jdbcType="VARCHAR" property="idNumber"/>
+    <result column="OFFICER_CERT_NO" jdbcType="VARCHAR" property="officerCertNo"/>
+    <result column="NET_TYPE" property="netType"/>
+    <result column="ERROR_NUM" property="errorNum"/>
+    <result column="DATA_ACCESS" property="dataAccess"/>
+    <!-- 查询机构 -->
+    <association column="ORG_ID" property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById"/>
+    <!-- 查询创建人 -->
+    <association column="USER_ID" property="user" select="selectByPrimaryKey"/>
+  </resultMap>
 
     <resultMap type="ses.model.bms.User" id="UserResultMap" extends="UserBaseMap">
         <!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型-->
@@ -73,90 +74,93 @@
     <sql id="Tabel_Name">
     T_SES_BMS_USER
   </sql>
-
-    <!-- 表中所有列 -->
-    <sql id="Base_Column_List">
-        ID, LOGIN_NAME, PASSWORD, CREATED_AT, UPDATED_AT, IS_DELETED, REL_NAME, UPDATED_AT, USER_ID,
-        MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUTIES, TYPE_NAME, TYPE_ID, ADDRESS, RANDOM_CODE, ORG_NAME,
-        PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE, ERROR_NUM
-    </sql>
-    <!-- 表中所有列（带有别名） -->
-    <sql id="Base_Column_List_Alias">
-        U.ID, U.LOGIN_NAME, U.PASSWORD, U.CREATED_AT, U.UPDATED_AT, U.IS_DELETED, U.REL_NAME, U.UPDATED_AT,
-        U.USER_ID, U.MOBILE, U.GENDER, U.TELEPHONE, U.EMAIL, U.ORG_ID, U.DUTIES, U.TYPE_NAME, U.TYPE_ID,
-        U.ADDRESS, U.RANDOM_CODE, U.ORG_NAME, U.PUBLISH_TYPE, U.ID_NUMBER, U.OFFICER_CERT_NO, U.NET_TYPE,
-        U.ERROR_NUM
-    </sql>
-
-    <!-- 查询条件 -->
-    <sql id="Example_Where_Clause">
-        where u.IS_DELETED = 0
-        <trim suffixOverrides=",">
-            <if test="id != null and id != ''">
-                and u.ID = #{id}
-            </if>
-            <if test="loginName != null and loginName != ''">
-                and u.LOGIN_NAME like CONCAT(CONCAT('%', #{loginName}), '%')
-            </if>
-            <if test="password != null and password != ''">
-                and u.PASSWORD = #{password}
-            </if>
-            <if test="createdAt != null">
-                and u.CREATED_AT = #{createdAt}
-            </if>
-            <if test="relName != null and relName != ''">
-                and u.REL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
-            </if>
-            <if test="orgName != null and orgName != ''">
-                and u.ORG_NAME like CONCAT(CONCAT('%', #{orgName}), '%')
-            </if>
-            <if test="updatedAt != null">
-                and u.UPDATED_AT = #{updatedAt}
-            </if>
-            <if test="user != null">
-                and u.USER_ID = #{user.id}
-            </if>
-            <if test="gender != null and gender != ''">
-                and u.GENDER = #{gender}
-            </if>
-            <if test="telephone != null and telephone != ''">
-                and u.TELEPHONE = #{telephone}
-            </if>
-            <if test="email != null and email != ''">
-                and u.EMAIL= #{email}
-            </if>
-            <if test="org != null">
-                and u.ORG_ID = #{org.id}
-            </if>
-            <if test="duties != null and duties != ''">
-                and u.DUTIES = #{duties}
-            </if>
-            <if test="mobile != null and mobile != ''">
-                and u.MOBILE like CONCAT(CONCAT('%', #{mobile}), '%')
-            </if>
-            <if test="roleIdList != null and roleIdList != '' ">
-                <foreach item="roleIdList" index="index" collection="roleIdList"
-                         open="" separator="" close="">
-                    and "INSTR"(roleId, #{roleId})>0
-                </foreach>
-            </if>
-            <if test="typeId != null and typeId != ''">
-                and u.TYPE_ID = #{typeId}
-            </if>
-            <if test="address != null and address != ''">
-                and u.ADDRESS = #{address}
-            </if>
-            <if test="netType != null">
-                and u.NET_TYPE = #{netType}
-            </if>
-            <if test="typeName != null">
-                and u.TYPE_NAME = #{typeName}
-            </if>
-            <if test="errorNum != null">
-                and u.ERROR_NUM = #{errorNum}
-            </if>
-        </trim>
-    </sql>
+  
+  <!-- 表中所有列 -->
+  <sql id="Base_Column_List">
+    ID, LOGIN_NAME, PASSWORD, CREATED_AT, IS_DELETED, REL_NAME, UPDATED_AT, USER_ID, 
+    MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUTIES, TYPE_NAME, TYPE_ID, ADDRESS, RANDOM_CODE, ORG_NAME,
+    PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE, ERROR_NUM, DATA_ACCESS
+  </sql>
+  <!-- 表中所有列（带有别名） -->
+  <sql id="Base_Column_List_Alias">
+      U.ID, U.LOGIN_NAME, U.PASSWORD, U.CREATED_AT, U.UPDATED_AT, U.IS_DELETED, U.REL_NAME, U.UPDATED_AT,
+      U.USER_ID, U.MOBILE, U.GENDER, U.TELEPHONE, U.EMAIL, U.ORG_ID, U.DUTIES, U.TYPE_NAME, U.TYPE_ID,
+      U.ADDRESS, U.RANDOM_CODE, U.ORG_NAME, U.PUBLISH_TYPE, U.ID_NUMBER, U.OFFICER_CERT_NO, U.NET_TYPE,
+      U.ERROR_NUM
+  </sql>
+    
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+    where u.IS_DELETED = 0
+    <trim suffixOverrides=",">
+      <if test="id != null and id != ''">
+        and u.ID = #{id}
+      </if>
+      <if test="loginName != null and loginName != ''">
+        and u.LOGIN_NAME like CONCAT(CONCAT('%', #{loginName}), '%')
+      </if>
+      <if test="password != null and password != ''">
+        and u.PASSWORD = #{password}
+      </if>
+      <if test="createdAt != null">
+        and u.CREATED_AT = #{createdAt}
+      </if>
+      <if test="relName != null and relName != ''">
+        and u.REL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
+      </if>
+      <if test="orgName != null and orgName != ''">
+        and u.ORG_NAME like CONCAT(CONCAT('%', #{orgName}), '%')
+      </if>
+      <if test="updatedAt != null">
+        and u.UPDATED_AT = #{updatedAt}
+      </if>
+      <if test="user != null">
+        and u.USER_ID = #{user.id}
+      </if>
+      <if test="gender != null and gender != ''">
+        and u.GENDER = #{gender}
+      </if>
+      <if test="telephone != null and telephone != ''">
+        and u.TELEPHONE = #{telephone}
+      </if>
+      <if test="email != null and email != ''">
+        and u.EMAIL= #{email}
+      </if>
+      <if test="org != null">
+        and u.ORG_ID = #{org.id}
+      </if>
+      <if test="duties != null and duties != ''">
+        and u.DUTIES = #{duties}
+      </if>
+      <if test="mobile != null and mobile != ''">
+        and u.MOBILE like CONCAT(CONCAT('%', #{mobile}), '%')
+      </if>
+      <if test="roleIdList != null and roleIdList != '' ">
+        <foreach item="roleIdList" index="index" collection="roleIdList"
+                 open="" separator="" close="">
+          and "INSTR"(roleId, #{roleId})>0
+        </foreach>
+      </if>
+      <if test="typeId != null and typeId != ''">
+        and u.TYPE_ID = #{typeId}
+      </if>
+      <if test="address != null and address != ''">
+        and u.ADDRESS = #{address}
+      </if>
+      <if test="netType != null">
+        and u.NET_TYPE = #{netType}
+      </if>
+      <if test="typeName != null">
+        and u.TYPE_NAME = #{typeName}
+      </if>
+      <if test="errorNum != null">
+        and u.ERROR_NUM = #{errorNum}
+      </if>
+      <if test="dataAccess != null">
+        and u.DATA_ACCESS = #{dataAccess}
+      </if>
+    </trim>
+  </sql>
 
     <!-- 1.根据id查询(不带关联集合) -->
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="UserBaseMap">
@@ -193,415 +197,430 @@
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
 
-    <!-- 3.插入数据 -->
-    <insert id="insert" parameterType="ses.model.bms.User">
-        <selectKey keyProperty="id" resultType="String" order="BEFORE">
-            select sys_guid() from dual
-        </selectKey>
-        insert into T_SES_BMS_USER (ID, LOGIN_NAME, PASSWORD,
-        CREATED_AT, IS_DELETED, REL_NAME,
-        UPDATED_AT, USER_ID, MOBILE,
-        GENDER, TELEPHONE, EMAIL,
-        ORG_ID, DUTIES, TYPE_NAME,
-        TYPE_ID, ADDRESS, RANDOM_CODE,
-        ORG_NAME, PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE, ERROR_NUM)
-        values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-        #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted}, #{relName,jdbcType=VARCHAR},
-        #{updatedAt,jdbcType=TIMESTAMP}, #{user.id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
-        #{gender}, #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
-        #{org.id,jdbcType=VARCHAR}, #{duties,jdbcType=VARCHAR}, #{typeName},
-        #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{randomCode,jdbcType=VARCHAR},
-        #{orgName,jdbcType=VARCHAR},#{publishType}, #{idNumber,jdbcType=VARCHAR},
-        #{officerCertNo,jdbcType=VARCHAR},#{netType},#{errorNum})
-    </insert>
-    <!-- 保存用户 -->
-    <insert id="saveUser" parameterType="ses.model.bms.User">
-        insert into T_SES_BMS_USER
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null and id != ''">
-                ID,
-            </if>
-            <if test="loginName != null and loginName != ''">
-                LOGIN_NAME,
-            </if>
-            <if test="password != null and password != ''">
-                PASSWORD,
-            </if>
-            <if test="createdAt != null">
-                CREATED_AT,
-            </if>
-            <if test="isDeleted != null">
-                IS_DELETED,
-            </if>
-            <if test="relName != null and relName != ''">
-                REL_NAME,
-            </if>
-            <if test="updatedAt != null">
-                UPDATED_AT,
-            </if>
-            <if test="user != null">
-                USER_ID,
-            </if>
-            <if test="mobile != null and mobile != ''">
-                MOBILE,
-            </if>
-            <if test="gender != null  and gender != ''">
-                GENDER,
-            </if>
-            <if test="telephone != null and telephone != ''">
-                TELEPHONE,
-            </if>
-            <if test="email != null and email != ''">
-                EMAIL,
-            </if>
-            <if test="org != null">
-                ORG_ID,
-            </if>
-            <if test="duties != null and duties != ''">
-                DUTIES,
-            </if>
-            <if test="typeName != null">
-                TYPE_NAME,
-            </if>
-            <if test="typeId != null and typeId != ''">
-                TYPE_ID,
-            </if>
-            <if test="address != null and address != ''">
-                ADDRESS,
-            </if>
-            <if test="randomCode != null and randomCode != ''">
-                RANDOM_CODE,
-            </if>
-            <if test="orgName != null and orgName != ''">
-                ORG_NAME,
-            </if>
-            <if test="publishType != null">
-                PUBLISH_TYPE,
-            </if>
-            <if test="idNumber != null and idNumber != ''">
-                ID_NUMBER,
-            </if>
-            <if test="officerCertNo != null and officerCertNo != ''">
-                OFFICER_CERT_NO,
-            </if>
-            <if test="netType != null">
-                NET_TYPE,
-            </if>
-            <if test="errorNum != null">
-                ERROR_NUM,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null and id != ''">
-                #{id,jdbcType=VARCHAR},
-            </if>
-            <if test="loginName != null and loginName != ''">
-                #{loginName,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null and password != ''">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="createdAt != null">
-                #{createdAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="isDeleted != null">
-                #{isDeleted},
-            </if>
-            <if test="relName != null and relName != ''">
-                #{relName,jdbcType=VARCHAR},
-            </if>
-            <if test="updatedAt != null">
-                #{updatedAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="user != null">
-                #{user.id,jdbcType=VARCHAR},
-            </if>
-            <if test="mobile != null and mobile != ''">
-                #{mobile,jdbcType=VARCHAR},
-            </if>
-            <if test="gender != null and gender != ''">
-                #{gender},
-            </if>
-            <if test="telephone != null and telephone != ''">
-                #{telephone,jdbcType=VARCHAR},
-            </if>
-            <if test="email != null and email != ''">
-                #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="org != null">
-                #{org.id,jdbcType=VARCHAR},
-            </if>
-            <if test="duties != null and duties != ''">
-                #{duties,jdbcType=VARCHAR},
-            </if>
-            <if test="typeName != null">
-                #{typeName},
-            </if>
-            <if test="typeId != null and typeId != ''">
-                #{typeId,jdbcType=VARCHAR},
-            </if>
-            <if test="address != null and address != ''">
-                #{address,jdbcType=VARCHAR},
-            </if>
-            <if test="randomCode != null and randomCode != ''">
-                #{randomCode,jdbcType=VARCHAR},
-            </if>
-            <if test="orgName != null and orgName != ''">
-                #{orgName,jdbcType=VARCHAR},
-            </if>
-            <if test="publishType != null">
-                #{publishType},
-            </if>
-            <if test="idNumber != null and idNumber != ''">
-                #{idNumber,jdbcType=VARCHAR},
-            </if>
-            <if test="officerCertNo != null and officerCertNo != ''">
-                #{officerCertNo,jdbcType=VARCHAR},
-            </if>
-            <if test="netType != null">
-                #{netType},
-            </if>
-            <if test="errorNum != null">
-                #{errorNum},
-            </if>
-        </trim>
-    </insert>
+  <!-- 3.插入数据 -->
+  <insert id="insert" parameterType="ses.model.bms.User">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+      select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_BMS_USER (ID, LOGIN_NAME, PASSWORD,
+    CREATED_AT, IS_DELETED, REL_NAME,
+    UPDATED_AT, USER_ID, MOBILE,
+    GENDER, TELEPHONE, EMAIL,
+    ORG_ID, DUTIES, TYPE_NAME,
+    TYPE_ID, ADDRESS, RANDOM_CODE,
+    ORG_NAME, PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE, ERROR_NUM, DATA_ACCESS)
+    values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+    #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted}, #{relName,jdbcType=VARCHAR},
+    #{updatedAt,jdbcType=TIMESTAMP}, #{user.id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
+    #{gender}, #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+    #{org.id,jdbcType=VARCHAR}, #{duties,jdbcType=VARCHAR}, #{typeName},
+    #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{randomCode,jdbcType=VARCHAR},
+    #{orgName,jdbcType=VARCHAR},#{publishType}, #{idNumber,jdbcType=VARCHAR},
+    #{officerCertNo,jdbcType=VARCHAR},#{netType},#{errorNum},#{dataAccess})
+  </insert>
+  <!-- 保存用户 -->
+  <insert id="saveUser" parameterType="ses.model.bms.User">
+    insert into T_SES_BMS_USER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null and id != ''">
+        ID,
+      </if>
+      <if test="loginName != null and loginName != ''">
+        LOGIN_NAME,
+      </if>
+      <if test="password != null and password != ''">
+        PASSWORD,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="relName != null and relName != ''">
+        REL_NAME,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="user != null">
+        USER_ID,
+      </if>
+      <if test="mobile != null and mobile != ''">
+        MOBILE,
+      </if>
+      <if test="gender != null  and gender != ''">
+        GENDER,
+      </if>
+      <if test="telephone != null and telephone != ''">
+        TELEPHONE,
+      </if>
+      <if test="email != null and email != ''">
+        EMAIL,
+      </if>
+      <if test="org != null">
+        ORG_ID,
+      </if>
+      <if test="duties != null and duties != ''">
+        DUTIES,
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME,
+      </if>
+      <if test="typeId != null and typeId != ''">
+        TYPE_ID,
+      </if>
+      <if test="address != null and address != ''">
+        ADDRESS,
+      </if>
+      <if test="randomCode != null and randomCode != ''">
+        RANDOM_CODE,
+      </if>
+      <if test="orgName != null and orgName != ''">
+        ORG_NAME,
+      </if>
+      <if test="publishType != null">
+        PUBLISH_TYPE,
+      </if>
+      <if test="idNumber != null and idNumber != ''">
+        ID_NUMBER,
+      </if>
+      <if test="officerCertNo != null and officerCertNo != ''">
+        OFFICER_CERT_NO,
+      </if>
+      <if test="netType != null">
+        NET_TYPE,
+      </if>
+      <if test="errorNum != null">
+        ERROR_NUM,
+      </if>
+      <if test="dataAccess != null">
+        DATA_ACCESS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null and id != ''">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null and loginName != ''">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password != ''">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="relName != null and relName != ''">
+        #{relName,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user != null">
+        #{user.id,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null and mobile != ''">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null and gender != ''">
+        #{gender},
+      </if>
+      <if test="telephone != null and telephone != ''">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null and email != ''">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="org != null">
+        #{org.id,jdbcType=VARCHAR},
+      </if>
+      <if test="duties != null and duties != ''">
+        #{duties,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        #{typeName},
+      </if>
+      <if test="typeId != null and typeId != ''">
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null and address != ''">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="randomCode != null and randomCode != ''">
+        #{randomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null and orgName != ''">
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="publishType != null">
+        #{publishType},
+      </if>
+      <if test="idNumber != null and idNumber != ''">
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="officerCertNo != null and officerCertNo != ''">
+        #{officerCertNo,jdbcType=VARCHAR},
+      </if>
+      <if test="netType != null">
+        #{netType},
+      </if>
+      <if test="errorNum != null">
+        #{errorNum},
+      </if>
+      <if test="dataAccess != null">
+        #{dataAccess},
+      </if>
+    </trim>
+  </insert>
 
-    <!-- 4.插入不为空数据 -->
-    <insert id="insertSelective" parameterType="ses.model.bms.User" useGeneratedKeys="true" keyProperty="id">
-        <selectKey keyProperty="id" resultType="String" order="BEFORE">
-            select sys_guid() from dual
-        </selectKey>
-        insert into T_SES_BMS_USER
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null and id != ''">
-                ID,
-            </if>
-            <if test="loginName != null and loginName != ''">
-                LOGIN_NAME,
-            </if>
-            <if test="password != null and password != ''">
-                PASSWORD,
-            </if>
-            <if test="createdAt != null">
-                CREATED_AT,
-            </if>
-            <if test="isDeleted != null">
-                IS_DELETED,
-            </if>
-            <if test="relName != null and relName != ''">
-                REL_NAME,
-            </if>
-            <if test="updatedAt != null">
-                UPDATED_AT,
-            </if>
-            <if test="user != null">
-                USER_ID,
-            </if>
-            <if test="mobile != null and mobile != ''">
-                MOBILE,
-            </if>
-            <if test="gender != null  and gender != ''">
-                GENDER,
-            </if>
-            <if test="telephone != null and telephone != ''">
-                TELEPHONE,
-            </if>
-            <if test="email != null and email != ''">
-                EMAIL,
-            </if>
-            <if test="org != null">
-                ORG_ID,
-            </if>
-            <if test="duties != null and duties != ''">
-                DUTIES,
-            </if>
-            <if test="typeName != null">
-                TYPE_NAME,
-            </if>
-            <if test="typeId != null and typeId != ''">
-                TYPE_ID,
-            </if>
-            <if test="address != null and address != ''">
-                ADDRESS,
-            </if>
-            <if test="randomCode != null and randomCode != ''">
-                RANDOM_CODE,
-            </if>
-            <if test="orgName != null">
-                ORG_NAME,
-            </if>
-            <if test="publishType != null">
-                PUBLISH_TYPE,
-            </if>
-            <if test="idNumber != null and idNumber != ''">
-                ID_NUMBER,
-            </if>
-            <if test="officerCertNo != null and officerCertNo != ''">
-                OFFICER_CERT_NO,
-            </if>
-            <if test="netType != null">
-                NET_TYPE,
-            </if>
-            <if test="errorNum != null">
-                ERROR_NUM
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null and id != ''">
-                #{id,jdbcType=VARCHAR},
-            </if>
-            <if test="loginName != null and loginName != ''">
-                #{loginName,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null and password != ''">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="createdAt != null">
-                #{createdAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="isDeleted != null">
-                #{isDeleted},
-            </if>
-            <if test="relName != null and relName != ''">
-                #{relName,jdbcType=VARCHAR},
-            </if>
-            <if test="updatedAt != null">
-                #{updatedAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="user != null">
-                #{user.id,jdbcType=VARCHAR},
-            </if>
-            <if test="mobile != null and mobile != ''">
-                #{mobile,jdbcType=VARCHAR},
-            </if>
-            <if test="gender != null and gender != ''">
-                #{gender},
-            </if>
-            <if test="telephone != null and telephone != ''">
-                #{telephone,jdbcType=VARCHAR},
-            </if>
-            <if test="email != null and email != ''">
-                #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="org != null">
-                #{org.id,jdbcType=VARCHAR},
-            </if>
-            <if test="duties != null and duties != ''">
-                #{duties,jdbcType=VARCHAR},
-            </if>
-            <if test="typeName != null">
-                #{typeName},
-            </if>
-            <if test="typeId != null and typeId != ''">
-                #{typeId,jdbcType=VARCHAR},
-            </if>
-            <if test="address != null and address != ''">
-                #{address,jdbcType=VARCHAR},
-            </if>
-            <if test="randomCode != null and randomCode != ''">
-                #{randomCode,jdbcType=VARCHAR},
-            </if>
-            <if test="orgName != null and orgName != ''">
-                #{orgName,jdbcType=VARCHAR},
-            </if>
-            <if test="publishType != null">
-                #{publishType},
-            </if>
-            <if test="idNumber != null and idNumber != ''">
-                #{idNumber,jdbcType=VARCHAR},
-            </if>
-            <if test="officerCertNo != null and officerCertNo != ''">
-                #{officerCertNo,jdbcType=VARCHAR},
-            </if>
-            <if test="netType != null">
-                #{netType},
-            </if>
-            <if test="errorNum != null">
-                #{errorNum},
-            </if>
-        </trim>
-    </insert>
+  <!-- 4.插入不为空数据 -->
+  <insert id="insertSelective" parameterType="ses.model.bms.User" useGeneratedKeys="true" keyProperty="id">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+      select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_BMS_USER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null and id != ''">
+        ID,
+      </if>
+      <if test="loginName != null and loginName != ''">
+        LOGIN_NAME,
+      </if>
+      <if test="password != null and password != ''">
+        PASSWORD,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="relName != null and relName != ''">
+        REL_NAME,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="user != null">
+        USER_ID,
+      </if>
+      <if test="mobile != null and mobile != ''">
+        MOBILE,
+      </if>
+      <if test="gender != null  and gender != ''">
+        GENDER,
+      </if>
+      <if test="telephone != null and telephone != ''">
+        TELEPHONE,
+      </if>
+      <if test="email != null and email != ''">
+        EMAIL,
+      </if>
+      <if test="org != null">
+        ORG_ID,
+      </if>
+      <if test="duties != null and duties != ''">
+        DUTIES,
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME,
+      </if>
+      <if test="typeId != null and typeId != ''">
+        TYPE_ID,
+      </if>
+      <if test="address != null and address != ''">
+        ADDRESS,
+      </if>
+      <if test="randomCode != null and randomCode != ''">
+        RANDOM_CODE,
+      </if>
+      <if test="orgName != null">
+        ORG_NAME,
+      </if>
+      <if test="publishType != null">
+        PUBLISH_TYPE,
+      </if>
+      <if test="idNumber != null and idNumber != ''">
+        ID_NUMBER,
+      </if>
+      <if test="officerCertNo != null and officerCertNo != ''">
+        OFFICER_CERT_NO,
+      </if>
+      <if test="netType != null">
+        NET_TYPE,
+      </if>
+      <if test="errorNum != null">
+        ERROR_NUM,
+      </if>
+      <if test="dataAccess != null">
+        DATA_ACCESS
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null and id != ''">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null and loginName != ''">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password != ''">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="relName != null and relName != ''">
+        #{relName,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user != null">
+        #{user.id,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null and mobile != ''">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null and gender != ''">
+        #{gender},
+      </if>
+      <if test="telephone != null and telephone != ''">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null and email != ''">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="org != null">
+        #{org.id,jdbcType=VARCHAR},
+      </if>
+      <if test="duties != null and duties != ''">
+        #{duties,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        #{typeName},
+      </if>
+      <if test="typeId != null and typeId != ''">
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null and address != ''">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="randomCode != null and randomCode != ''">
+        #{randomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null and orgName != ''">
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="publishType != null">
+        #{publishType},
+      </if>
+      <if test="idNumber != null and idNumber != ''">
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="officerCertNo != null and officerCertNo != ''">
+        #{officerCertNo,jdbcType=VARCHAR},
+      </if>
+      <if test="netType != null">
+        #{netType},
+      </if>
+      <if test="errorNum != null">
+        #{errorNum},
+      </if>
+      <if test="dataAccess != null">
+        #{dataAccess},
+      </if>
+    </trim>
+  </insert>
 
-    <!-- 5.根据更新不为空数据 -->
-    <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.User">
-        update T_SES_BMS_USER
-        <set>
-            <if test="loginName != null and loginName != ''">
-                LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null and password != ''">
-                PASSWORD = #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="createdAt != null">
-                CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="isDeleted != null">
-                IS_DELETED = #{isDeleted},
-            </if>
-            <if test="relName != null and relName != ''">
-                REL_NAME = #{relName,jdbcType=VARCHAR},
-            </if>
-            <if test="updatedAt != null">
-                UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="user != null ">
-                USER_ID = #{user.id,jdbcType=VARCHAR},
-            </if>
-            <if test="mobile != null and mobile != ''">
-                MOBILE = #{mobile,jdbcType=VARCHAR},
-            </if>
-            <if test="gender != null and gender != ''">
-                GENDER = #{gender},
-            </if>
-            <if test="telephone != null and telephone != ''">
-                TELEPHONE = #{telephone,jdbcType=VARCHAR},
-            </if>
-            <if test="email != ''">
-                EMAIL = #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="org != null">
-                ORG_ID = #{org.id,jdbcType=VARCHAR},
-            </if>
-            <if test="typeName == 3 and org == null">
-                ORG_ID = null,
-            </if>
-            <if test="duties != ''">
-                DUTIES = #{duties,jdbcType=VARCHAR},
-            </if>
-            <if test="typeName != null">
-                TYPE_NAME = #{typeName},
-            </if>
-            <if test="typeId != null and typeId != ''">
-                TYPE_ID = #{typeId,jdbcType=VARCHAR},
-            </if>
-            <if test="address != null and address != ''">
-                ADDRESS = #{address,jdbcType=VARCHAR},
-            </if>
-            <if test="randomCode != null and randomCode != ''">
-                RANDOM_CODE = #{randomCode,jdbcType=VARCHAR},
-            </if>
-            <if test="orgName != null">
-                ORG_NAME = #{orgName,jdbcType=VARCHAR},
-            </if>
-            <if test="publishType != null">
-                PUBLISH_TYPE = #{publishType},
-            </if>
-            <if test="idNumber != null and idNumber != ''">
-                ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
-            </if>
-            <if test="officerCertNo != null and officerCertNo != ''">
-                OFFICER_CERT_NO = #{officerCertNo,jdbcType=VARCHAR},
-            </if>
-            <if test="netType != null">
-                NET_TYPE = #{netType},
-            </if>
-            <if test="errorNum != null">
-                ERROR_NUM = #{errorNum}
-            </if>
-        </set>
-        where ID = #{id,jdbcType=VARCHAR}
-    </update>
+  <!-- 5.根据更新不为空数据 -->
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.User">
+    update T_SES_BMS_USER
+    <set>
+      <if test="loginName != null and loginName != ''">
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password != ''">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+      <if test="relName != null and relName != ''">
+        REL_NAME = #{relName,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user != null ">
+        USER_ID = #{user.id,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null and mobile != ''">
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null and gender != ''">
+        GENDER = #{gender},
+      </if>
+      <if test="telephone != null and telephone != ''">
+        TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != ''">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="org != null">
+        ORG_ID = #{org.id,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName == 3 and org == null">
+        ORG_ID = null,
+      </if>
+      <if test="duties != ''">
+        DUTIES = #{duties,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME = #{typeName},
+      </if>
+      <if test="typeId != null and typeId != ''">
+        TYPE_ID = #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null and address != ''">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="randomCode != null and randomCode != ''">
+        RANDOM_CODE = #{randomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null">
+        ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="publishType != null">
+        PUBLISH_TYPE = #{publishType},
+      </if>
+      <if test="idNumber != null and idNumber != ''">
+        ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="officerCertNo != null and officerCertNo != ''">
+        OFFICER_CERT_NO = #{officerCertNo,jdbcType=VARCHAR},
+      </if>
+      <if test="netType != null">
+        NET_TYPE = #{netType},
+      </if>
+      <if test="errorNum != null">
+        ERROR_NUM = #{errorNum},
+      </if>
+      <if test="dataAccess != null">
+        DATA_ACCESS = #{dataAccess}
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
 
     <!-- 6.更新数据 -->
     <update id="updateByPrimaryKey" parameterType="ses.model.bms.User">
@@ -628,7 +647,8 @@
       ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
       OFFICER_CERT_NO = #{officerCertNo,jdbcType=VARCHAR},
       NET_TYPE = #{netType},
-      ERROR_NUM = #{errorNum}
+      ERROR_NUM = #{errorNum},
+      DATA_ACCESS = #{dataAccess}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 
@@ -901,47 +921,48 @@
         ORDER BY CREATED_AT DESC
     </select>
 
-    <!-- 16.根据角色编码查询用户 -->
-    <select id="findByRole" parameterType="java.util.Map" resultMap="UserBaseMap">
-        SELECT
-        DISTINCT(u.ID),
-        u.ID AS ID,
-        u.LOGIN_NAME AS LOGIN_NAME,
-        u.PASSWORD AS PASSWORD,
-        u.CREATED_AT AS CREATED_AT,
-        u.IS_DELETED AS IS_DELETED,
-        u.REL_NAME AS REL_NAME,
-        u.UPDATED_AT AS UPDATED_AT,
-        u.USER_ID AS USER_ID,
-        u.MOBILE AS MOBILE,
-        u.GENDER AS GENDER,
-        u.TELEPHONE AS TELEPHONE,
-        u.EMAIL AS EMAIL,
-        u.ORG_ID AS ORG_ID,
-        u.DUTIES AS DUTIES,
-        u.TYPE_NAME AS TYPE_NAME,
-        u.TYPE_ID AS TYPE_ID,
-        u.ADDRESS AS ADDRESS,
-        u.RANDOM_CODE AS RANDOM_CODE,
-        u.ORG_NAME AS ORG_NAME,
-        u.PUBLISH_TYPE AS PUBLISH_TYPE,
-        u.ID_NUMBER AS ID_NUMBER,
-        u.OFFICER_CERT_NO AS OFFICER_CERT_NO,
-        u.NET_TYPE AS NET_TYPE,
-        u.ERROR_NUM AS ERROR_NUM
-        FROM
-        T_SES_BMS_USER u
-        LEFT JOIN T_SES_BMS_USER_ROLE ur ON u. ID = ur.USER_ID
-        LEFT JOIN T_SES_BMS_ROLE r ON ur.ROLE_ID = r . ID
-        WHERE
-        u.IS_DELETED = 0
-        <if test="code != null and code != ''">
-            AND r.CODE = #{code}
-        </if>
-        <if test="id != null and id != ''">
-            AND r.ID = #{id}
-        </if>
-    </select>
+  <!-- 16.根据角色编码查询用户 -->
+  <select id="findByRole" parameterType="java.util.Map" resultMap="UserBaseMap">
+    SELECT
+    DISTINCT(u.ID),
+    u.ID AS ID,
+    u.LOGIN_NAME AS LOGIN_NAME,
+    u.PASSWORD AS PASSWORD,
+    u.CREATED_AT AS CREATED_AT,
+    u.IS_DELETED AS IS_DELETED,
+    u.REL_NAME AS REL_NAME,
+    u.UPDATED_AT AS UPDATED_AT,
+    u.USER_ID AS USER_ID,
+    u.MOBILE AS MOBILE,
+    u.GENDER AS GENDER,
+    u.TELEPHONE AS TELEPHONE,
+    u.EMAIL AS EMAIL,
+    u.ORG_ID AS ORG_ID,
+    u.DUTIES AS DUTIES,
+    u.TYPE_NAME AS TYPE_NAME,
+    u.TYPE_ID AS TYPE_ID,
+    u.ADDRESS AS ADDRESS,
+    u.RANDOM_CODE AS RANDOM_CODE,
+    u.ORG_NAME AS ORG_NAME,
+    u.PUBLISH_TYPE AS PUBLISH_TYPE,
+    u.ID_NUMBER AS ID_NUMBER,
+    u.OFFICER_CERT_NO AS OFFICER_CERT_NO,
+    u.NET_TYPE AS NET_TYPE,
+    u.ERROR_NUM AS ERROR_NUM,
+    u.DATA_ACCESS AS DATA_ACCESS
+    FROM
+    T_SES_BMS_USER u
+    LEFT JOIN T_SES_BMS_USER_ROLE ur ON u. ID = ur.USER_ID
+    LEFT JOIN T_SES_BMS_ROLE r ON ur.ROLE_ID = r . ID
+    WHERE
+    u.IS_DELETED = 0
+    <if test="code != null and code != ''">
+      AND r.CODE = #{code}
+    </if>
+    <if test="id != null and id != ''">
+      AND r.ID = #{id}
+    </if>
+  </select>
 
     <!-- 根据组织机构Id查询用户数量 -->
     <select id="getUserCountByOrgId" resultType="java.lang.Long">

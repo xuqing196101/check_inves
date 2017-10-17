@@ -161,6 +161,11 @@ public class User implements Serializable{
 
     private Supplier supplier;
     
+    /**
+     * @Fields dataAccess:数据查看权限 (1:所有，2:本单位，3:本人)
+     */
+    private Integer dataAccess;
+    
     public List<String> getUserDataRule() {
 		return userDataRule;
 	}
@@ -446,5 +451,13 @@ public class User implements Serializable{
   public void setErrorNum(Integer errorNum) {
     this.errorNum = errorNum;
   }
-  
+
+  public Integer getDataAccess() {
+	return dataAccess;
+  }
+	
+  public void setDataAccess(Integer dataAccess) {
+	this.dataAccess = dataAccess;
+  }
+	  
 }
