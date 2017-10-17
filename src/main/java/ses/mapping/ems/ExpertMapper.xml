@@ -196,7 +196,7 @@
             AND T1.EXPERTS_FROM = #{expertsFrom}
         </if>
         <if test="status != null and status !=''">
-          <if test="status != 'temporary'">
+          <if test="status != 'temporary' and status != 'endOfTrial'">
 	          <if test="status == 4">
 	            AND IS_PROVISIONAL = '0'
 	          </if>
@@ -207,6 +207,11 @@
           <if test="status == 'temporary'">
             AND IS_PROVISIONAL = '1'
             AND T1.STATUS = '4'
+          </if>
+          
+            <!-- 预初审结束 -->
+          <if test="status == 'endOfTrial'">
+            AND (T1.STATUS = '15' or T1.STATUS = '16')
           </if>
         </if>
         <if test="expertsTypeId != null and expertsTypeId !=''">
@@ -2214,6 +2219,7 @@ resultMap="BaseResultMap">
       T1.IS_SUBMIT,
       T1.SUBMIT_AT,
       T1.AUDIT_AT,
+      T1.AUDIT_TEMPORARY,
       T2.LOGIN_NAME AS loginName,
       org.SHORT_NAME AS orgName,
       AREA.NAME AS ADDRESS
@@ -2231,7 +2237,7 @@ resultMap="BaseResultMap">
 		  ON A.PARENT_ID = AREA.ID
     LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T1.PURCHASE_DEP_ID = dep.ID
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
-    where (T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 13)
+    where (T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 13 or T1.STATUS = 17 or T1.STATUS = 19)
     AND T1.IS_PROVISIONAL = '0'
     AND T1.IS_DELETE = 0
     <if test="relName != null and relName !=''">
@@ -2247,10 +2253,20 @@ resultMap="BaseResultMap">
       and ID_CARD_NUMBER like CONCAT(CONCAT('%', #{idCardNumber}), '%')
     </if>
     <if test="status != null and status !=''">
-    	<!-- <if test="status == 4">
-    		AND IS_PROVISIONAL = '0'
-    	</if> -->
-      AND T1.STATUS = #{status}
+      <if test="status != 'reviewLook'">
+        AND T1.STATUS = #{status}
+        
+        <!-- 只查 入库(待复查)状态 -->
+        <if test="status == 6">
+          AND T1.AUDIT_TEMPORARY = '0'
+        </if>
+      </if>
+      
+      <!-- 复查中 -->
+      <if test="status == 'reviewLook'">
+        AND T1.STATUS = '6'
+        AND T1.AUDIT_TEMPORARY = '3'
+      </if>
     </if>
     <if test="expertsFrom != null and expertsFrom !=''">
       AND T1.EXPERTS_FROM = #{expertsFrom}

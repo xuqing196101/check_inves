@@ -398,32 +398,38 @@
           <span class="fl">
             <select name="status" id="status" class="w220">
                <option selected="selected" value=''>全部</option>
-               <option <c:if test="${expert.status eq 'temporary' }">selected</c:if> value="temporary">临时</option>
-               <option <c:if test="${expert.status eq '-3' }">selected</c:if> value="-3">公示中</option>
-               <option <c:if test="${expert.status eq '0' and expert.auditTemporary == 1}">selected</c:if> value="firstInstance">初审中</option>
-               <option <c:if test="${expert.status eq '4' and expert.auditTemporary == 2}">selected</c:if> value="review">复审中</option>
-               <option <c:if test="${expert.status eq '6' and expert.auditTemporary == 3}">selected</c:if> value="reviewLook">复查中</option>
-               <option <c:if test="${expert.status eq '-2' }">selected</c:if> value="-2">预复审合格</option>
                <option <c:if test="${expert.status eq '-1' }">selected</c:if> value="-1">暂存</option>
+               <option <c:if test="${expert.status eq 'temporary' }">selected</c:if> value="temporary">临时</option>
                <option <c:if test="${expert.status eq '0' and expert.auditTemporary == 0}">selected</c:if> value="0">待初审</option>
+               <option <c:if test="${expert.status eq '9' }">selected</c:if> value="9">退回再初审</option>
+               <option <c:if test="${expert.status eq '0' and expert.auditTemporary == 1}">selected</c:if> value="firstInstance">初审中</option>
+               <option <c:if test="${expert.status eq 'endOfTrial' }">selected</c:if> value="endOfTrial">预初审结束</option>
                <option <c:if test="${expert.status eq '1' }">selected</c:if> value="1">初审合格(待复审)</option>
                <option <c:if test="${expert.status eq '2' }">selected</c:if> value="2">初审不合格</option>
                <option <c:if test="${expert.status eq '3' }">selected</c:if> value="3">初审退回修改</option>
+               
+               
+               <option <c:if test="${expert.status eq '11' }">selected</c:if> value="11">待分配</option>
+               <option <c:if test="${expert.status eq '14' }">selected</c:if> value="14">复审待分组专家</option>
                <option <c:if test="${expert.status eq '4' and expert.auditTemporary == 0}">selected</c:if> value="4">复审已分配</option>
+               <option <c:if test="${expert.status eq '4' and expert.auditTemporary == 2}">selected</c:if> value="review">复审中</option>
+               <option <c:if test="${expert.status eq '-2' }">selected</c:if> value="-2">预复审结束</option>
                <option <c:if test="${expert.status eq '5' }">selected</c:if> value="5">复审不合格</option>
+               <option <c:if test="${expert.status eq '10' }">selected</c:if> value="10">复审退回修改</option>
+               <option <c:if test="${expert.status eq '-3' }">selected</c:if> value="-3">公示中</option>
+               
+               
                <option <c:if test="${expert.status eq '6' and expert.auditTemporary == 0}">selected</c:if> value="6">入库(待复查 )</option>
+               <option <c:if test="${expert.status eq '6' and expert.auditTemporary == 3}">selected</c:if> value="reviewLook">复查中</option>
+               <option value="">预复查结束</option>
                <option <c:if test="${expert.status eq '7' }">selected</c:if> value="7">复查合格</option>
                <option <c:if test="${expert.status eq '8' }">selected</c:if> value="8">复查不合格</option>
-               <option <c:if test="${expert.status eq '9' }">selected</c:if> value="9">退回再初审</option>
-               <option <c:if test="${expert.status eq '10' }">selected</c:if> value="10">复审退回修改</option>
-               <option <c:if test="${expert.status eq '11' }">selected</c:if> value="11">待分配</option>
-               <option <c:if test="${expert.status eq '12' }">selected</c:if> value="12">处罚中</option>
-               <option <c:if test="${expert.status eq '13' }">selected</c:if> value="13">无产品专家</option>
-               <option <c:if test="${expert.status eq '14' }">selected</c:if> value="14">复审待分组专家</option>
-               <option <c:if test="${expert.status eq '15' }">selected</c:if> value="15">预初审合格</option>
-               <option <c:if test="${expert.status eq '16' }">selected</c:if> value="16">预初审不合格</option>
+               
+               
                <option <c:if test="${expert.status eq '17' }">selected</c:if> value="17">资料不全</option>
                <option <c:if test="${expert.status eq '18' }">selected</c:if> value="18">异议处理</option>
+               <option <c:if test="${expert.status eq '12' }">selected</c:if> value="12">处罚中</option>
+               <option <c:if test="${expert.status eq '13' }">selected</c:if> value="13">无产品专家</option>
              </select>
           </span>
        </li>
@@ -547,7 +553,7 @@
                   <span class="label rounded-2x label-dark">复查中</span>
                 </c:if>
                 <c:if test="${e.status eq '-2'}">
-                  <span class="label rounded-2x label-u">预复审合格</span>
+                  <span class="label rounded-2x label-u">预复审结束</span>
                 </c:if>
                 <c:if test="${e.isProvisional eq '1' and e.status eq '4'}">
                   <span class="label rounded-2x label-dark">临时</span>
