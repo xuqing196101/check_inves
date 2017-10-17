@@ -653,7 +653,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
         selectCount = expertPublicityAfter.getPassCateCount();
         count = expertPublicityAfter.getNoPassCateCount();
         if(count != null && selectCount != null && (selectCount - count) <= 0){
-            return JdcgResult.build(500, "产品类别不能全部为不通过项");
+          //  return JdcgResult.build(500, "产品类别不能全部为不通过项");
         }
         return JdcgResult.ok();
 	}
