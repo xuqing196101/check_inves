@@ -119,4 +119,6 @@ public interface AdvancedPackageMapper {
     List<AdvancedPackages> notSupplierCheckPass(String projectId);
     
     List<AdvancedPackages> selectPackageOrderByCreated(HashMap<String, Object> map);
+    
+    List<AdvancedPackages> selectByPackageFirstAudit(HashMap<String, Object> map);
 }

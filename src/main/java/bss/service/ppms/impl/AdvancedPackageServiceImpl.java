@@ -644,4 +644,10 @@ public class AdvancedPackageServiceImpl implements AdvancedPackageService {
 		return packageMapper.selectPackageOrderByCreated(map);
 	}
 
+	@Override
+	public List<AdvancedPackages> selectByPackageFirstAudit(HashMap<String, Object> map, Integer page) {
+		PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
+		return packageMapper.selectByPackageFirstAudit(map);
+	}
+
 }

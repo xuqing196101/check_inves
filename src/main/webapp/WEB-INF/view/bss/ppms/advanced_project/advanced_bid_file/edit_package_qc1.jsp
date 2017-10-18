@@ -183,7 +183,7 @@
     layer.open({
       type: 2,
       title: '引入模板',
-      area: ['800px', '600px'],
+      area: ['800px', '360px'],
       closeBtn: 1,
       shade: 0.01, //遮罩透明度
       moveType: 1, //拖拽风格，0是默认，1是传统拖动

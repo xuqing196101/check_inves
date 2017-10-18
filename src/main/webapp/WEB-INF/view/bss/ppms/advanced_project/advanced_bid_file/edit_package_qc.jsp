@@ -150,12 +150,11 @@
       layer.open({
             type: 2,
             title: '引入模板',
-            area: ['800px', '460px'],
+            area: ['800px', '360px'],
             closeBtn: 1,
             shade:0.01, //遮罩透明度
             moveType: 1, //拖拽风格，0是默认，1是传统拖动
             shift: 1, //0-6的动画形式，-1不开启
-            offset: '20px',
             shadeClose: false,
             content: '${pageContext.request.contextPath}/adFirstAudit/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId+'&flowDefineId='+flowDefineId
           });
@@ -371,9 +370,9 @@
 			          <select id="fatId" class="w180">
                 </select>
              </li>
-             <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定选择</button>
              <div class="pull-right">
-                <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入历史数据/button>
+             		<button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定选择</button>
+                <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入历史数据</button>
                 <button type="button" class="btn" onclick="clreaButtons()">重置</button>
              </div>
           </ul>
