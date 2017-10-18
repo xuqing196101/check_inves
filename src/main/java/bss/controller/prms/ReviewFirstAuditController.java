@@ -694,8 +694,8 @@ public class ReviewFirstAuditController extends BaseSupplierController {
       st.setSupplierId(ets.getSupplierId());
       st.setPackages(packId);
       List<SaleTender> sts = saleTenderService.getPackegeSuppliers(st);
-      if (sts != null && !sts.isEmpty()) {
-    	  ranks.append("{\"id\":\""+sts.get(0).getSuppliers().getId()+"_"+sts.get(0).getPackages()+"\",");
+      if (sts != null && !sts.isEmpty()&&sts.get(0).getIsFirstPass()==1&&sts.get(0).getIsTurnUp()==0) {
+    	    ranks.append("{\"id\":\""+sts.get(0).getSuppliers().getId()+"_"+sts.get(0).getPackages()+"\",");
           ranks.append("\"rank\":\""+sts.get(0).getReviewResult().substring(sts.get(0).getReviewResult().lastIndexOf("_")+1,sts.get(0).getReviewResult().length())+"\"},");
           score.append("{\"id\":\""+sts.get(0).getSuppliers().getId()+"_"+sts.get(0).getPackages()+"\",");
           score.append("\"score\":\""+sts.get(0).getPriceScore()+"(价格)+"+sts.get(0).getEconomicScore()+"(经济)+"+sts.get(0).getTechnologyScore()+"(技术)="+sts.get(0).getPriceScore().add(sts.get(0).getEconomicScore()).add(sts.get(0).getTechnologyScore())+"\"},");

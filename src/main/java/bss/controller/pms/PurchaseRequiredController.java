@@ -159,7 +159,7 @@ public class PurchaseRequiredController extends BaseController {
 		if (page == null) {
 			page = StaticVariables.DEFAULT_PAGE;
 		}
-		List<Role> roles = user.getRoles();
+		/*List<Role> roles = user.getRoles();
 		boolean bool = false;
 		if (roles != null && roles.size() > 0) {
 			for (Role r : roles) {
@@ -168,9 +168,9 @@ public class PurchaseRequiredController extends BaseController {
 				}
 			}
 		}
-		if (bool != true) {
+		if (bool != true) {*/
 			purchaseRequired.setUserId(user.getId());
-		}
+		/*}*/
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired, page);
 		model.addAttribute("info", new PageInfo<PurchaseRequired>(list));
 		model.addAttribute("inf", purchaseRequired);
@@ -450,13 +450,15 @@ public class PurchaseRequiredController extends BaseController {
 				}
 				p.setId(id);// 注释
 				count++;
-				PurchaseRequired pr = list.get(i + 1);
-				if (pr != null) {
-				  p.setIsParent("true");
-					if (!isContainChinese(pr.getSeq())) {
-						errMsg = String.valueOf(i + 4) + "行，节点错误";
-						break;
-					}
+				if(list.size()>i + 1){
+  				PurchaseRequired pr = list.get(i + 1);
+  				if (pr != null) {
+  				  p.setIsParent("true");
+  					if (!isContainChinese(pr.getSeq())) {
+  						errMsg = String.valueOf(i + 4) + "行，节点错误";
+  						break;
+  					}
+  				}
 				}
 				continue;
 			}
@@ -471,14 +473,18 @@ public class PurchaseRequiredController extends BaseController {
 				}
 				p.setId(pid);
 				count++;
-				PurchaseRequired pr = list.get(i + 1);
-				if (pr != null) {
-				  p.setIsParent("true");
-					if (!pr.getSeq().equals("1") && !isContainChinese(p.getSeq())) {
-						errMsg = String.valueOf(i + 4) + "行，节点错误";
-						break;
-					}
+				
+				if(list.size()>i + 1){
+				  PurchaseRequired pr = list.get(i + 1);
+				  if (pr != null) {
+	          p.setIsParent("true");
+	          if (!pr.getSeq().equals("1") && !isContainChinese(p.getSeq())) {
+	            errMsg = String.valueOf(i + 4) + "行，节点错误";
+	            break;
+	          }
+	        }
 				}
+				
 				continue;
 			}
 
