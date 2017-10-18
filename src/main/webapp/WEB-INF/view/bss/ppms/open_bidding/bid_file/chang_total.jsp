@@ -137,10 +137,11 @@
 		var index=ob.selectedIndex;
 		var i = ob.options[index].value;
 		var val = $(ob).parent().next().find('input').val();
-		if(i == 1){
+		/* if(i == 1){
 			var aa = $(ob).parent().prev().prev().find('input[type=hidden]').val();
 			$(ob).parent().prev().prev().find('input[type=text]').val(aa);
-		} else if (i == 2){
+		} else */
+		if (i == 2){
 			layer.prompt({title: '放弃原因', formType: 2, value : val ,shade: 0}, function(pass, index){
 				  layer.close(index);
 				  $(ob).parent().next().find('input').val(pass);
@@ -173,7 +174,7 @@
 <div id="showDiv" class="clear">
 <c:if test="${not empty count}">
 <h2 class="tc">第${count + 1}轮报价</h2>
-<p class="red">如果本次报价供应商不进行报价，总价为上次报价的金额</p>
+<!-- <p class="red">如果本次报价供应商不进行报价，总价为上次报价的金额</p> -->
 </c:if>
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
@@ -217,18 +218,18 @@
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 					<td class="tc">
 						<input name="total" onblur="checkTotal(this)" maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
-						<c:forEach items="${selectQuoteList}" var="obj">
+						<%-- <c:forEach items="${selectQuoteList}" var="obj">
 							<c:if test="${obj.supplierId eq treemapValue.suppliers.id}">
 								<input type="hidden" value="${obj.total}"/>
 							</c:if>
-						</c:forEach>
+						</c:forEach> --%>
 					</td>
 					<td class="tc"><input type="text" onblur="checkPaymentDate(this)" name="paymentDate"/></td>
 					<c:if test="${not empty count}">
 					<td class="tc">
 							<select onchange="show(this)">
 								<option value="">请选择</option>
-								<option value="1">放弃本轮报价</option>
+								<!-- <option value="1">放弃本轮报价</option> -->
 								<option value="2">放弃报价</option>
 							</select>
 					</td>

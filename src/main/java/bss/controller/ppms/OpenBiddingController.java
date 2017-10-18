@@ -1419,7 +1419,7 @@ public class OpenBiddingController extends BaseSupplierController{
         model.addAttribute("count", listDate1.size());
         
         //获取最后一次报价
-        Collections.reverse(listDate1);
+        /*Collections.reverse(listDate1);
         Quote quote2 = new Quote();
         quote2.setProjectId(projectId);
         quote2.setPackageId(packId);
@@ -1427,7 +1427,7 @@ public class OpenBiddingController extends BaseSupplierController{
         List<Quote> selectQuoteHistoryList = supplierQuoteService.selectQuoteHistoryList(quote2);
         if (selectQuoteHistoryList != null && !selectQuoteHistoryList.isEmpty()) {
 			model.addAttribute("selectQuoteList", selectQuoteHistoryList);
-		}
+		}*/
       }
     }
     //该环节设置为执行中状态
@@ -1887,7 +1887,7 @@ public class OpenBiddingController extends BaseSupplierController{
       quote.setPackageId(jsonQuote.getString("packageId"));
       quote.setProjectId(jsonQuote.getString("projectId"));
       quote.setDeliveryTime(jsonQuote.getString("deliveryTime"));
-      if (!"".equals(jsonQuote.opt("isGiveUp")) && jsonQuote.opt("isGiveUp") != null && !jsonQuote.opt("isGiveUp").equals("1")) {
+      if (!"".equals(jsonQuote.opt("isGiveUp")) && jsonQuote.opt("isGiveUp") != null) {
         quote.setIsRemove(Integer.parseInt(jsonQuote.getString("isGiveUp")));
         //放弃报价需要修改saletender这个表的isRemoved这个字段为2
         SaleTender condition = new SaleTender();

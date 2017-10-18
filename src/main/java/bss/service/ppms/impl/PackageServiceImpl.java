@@ -364,8 +364,7 @@ public class PackageServiceImpl implements PackageService {
 	@Override
 	public Boolean savePackage(String ids, String projectId) {
 		if (StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(ids)) {
-			Project project = projectMapper
-					.selectProjectByPrimaryKey(projectId);
+			Project project = projectMapper.selectProjectByPrimaryKey(projectId);
 			if (project != null) {
 				HashMap<String, Object> map = new HashMap<>();
 				map.put("parentId", project.getId());
@@ -375,8 +374,7 @@ public class PackageServiceImpl implements PackageService {
 					for (Project project2 : selectByList) {
 						HashMap<String, Object> pack = new HashMap<String, Object>();
 						pack.put("projectId", project2.getId());
-						List<Packages> packList = packageMapper
-								.findPackageById(pack);
+						List<Packages> packList = packageMapper.findPackageById(pack);
 						if (packList != null && !packList.isEmpty()) {
 							number += packList.size();
 						}
@@ -418,10 +416,10 @@ public class PackageServiceImpl implements PackageService {
 		pg.setProjectStatus(DictionaryDataUtil.getId("FBWC"));
 		if (number != null) {
 			pg.setName("第" + (number + 1 + packList.size()) + "包");
-			pg.setPackageNumber(project.getProjectNumber() + "(" + (number + 1 + packList.size()) + ")");
+			pg.setPackageNumber("(" + (number + 1 + packList.size()) + ")");
 		} else {
 			pg.setName("第" + (packList.size() + 1) + "包");
-			pg.setPackageNumber(project.getProjectNumber() + "(" + (packList.size() + 1) + ")");
+			pg.setPackageNumber("(" + (packList.size() + 1) + ")");
 		}
 		if (project.getIsImport() == 1) {
 			pg.setIsImport(1);
