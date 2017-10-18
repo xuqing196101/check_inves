@@ -447,7 +447,7 @@
     
     <!-- 按品目查询资质 -->
     <select id="getQuaByCid" parameterType="map" resultType="ses.model.bms.DictionaryData">
-    	 SELECT distinct D.id id,D.name name FROM T_SES_BMS_CATEGORY_QUA Q LEFT JOIN T_SES_BMS_QUALIFICATION D ON Q.QUA_ID = D.ID where 
+    	 SELECT D.id id,D.name name FROM T_SES_BMS_CATEGORY_QUA Q LEFT JOIN T_SES_BMS_QUALIFICATION D ON Q.QUA_ID = D.ID where 
     	 Q.CATEGORY_ID IN
     	 <foreach collection="categoryIds" open="(" item="it" separator="," close=")">
     	 	#{it}
@@ -455,6 +455,7 @@
     	 <if test="quaType!=null">
 	    	 AND QUA_TYPE =#{quaType} 
     	 </if>
+		ORDER BY Q.QUA_TYPE ASC
     </select>
     <!-- 根据资质查询资质等级 -->
 	<select id="getLevelByQid"  resultType="ses.model.bms.DictionaryData">
@@ -503,5 +504,4 @@
 			#{item}
 		</foreach>
 	</select>
-	
 </mapper>
