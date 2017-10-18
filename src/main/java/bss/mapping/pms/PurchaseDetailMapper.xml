@@ -1145,7 +1145,31 @@
 							FROM
 								T_BSS_PPMS_TASK task
 							LEFT JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON detail.UNIQUE_ID = task.COLLECT_ID
-							WHERE task. ID =#{taskId} AND detail.PROJECT_STATUS != 1 AND detail.HISTORY_STATUS = '0'
+							WHERE task. ID =#{taskId} AND detail.PROJECT_STATUS != 1 
+							AND detail.ID NOT IN (
+										SELECT
+										REQUIRED_ID
+										FROM
+										T_BSS_PPMS_PROJECTS_DETAIL B
+										WHERE
+										B.REQUIRED_ID IN (
+										SELECT
+										ID
+										FROM
+										T_BSS_PMS_PURCHASE_DETAIL A
+										WHERE
+										A.HISTORY_STATUS = '0'
+										AND A.IS_DELETE = '0'
+										<if test="uniqueId !=null">
+											AND A.UNIQUE_ID =#{uniqueId}
+										</if>
+										<if test="organization !=null">
+											AND A.ORGANIZATION_ID =#{orgId}
+										</if>
+										AND A.PROJECT_STATUS = 2
+										)
+										AND B.PROJECT_ID = #{projectId}
+										)
 						) dl
 					WHERE
 						dl.organization_id =#{orgId}
@@ -1184,7 +1208,30 @@
 									WHERE
 										tasks. ID =#{taskId}
 									AND details.PROJECT_STATUS != 1
-									AND details.HISTORY_STATUS = '0'
+									AND details.ID NOT IN (
+										SELECT
+										REQUIRED_ID
+										FROM
+										T_BSS_PPMS_PROJECTS_DETAIL B
+										WHERE
+										B.REQUIRED_ID IN (
+										SELECT
+										ID
+										FROM
+										T_BSS_PMS_PURCHASE_DETAIL A
+										WHERE
+										A.HISTORY_STATUS = '0'
+										AND A.IS_DELETE = '0'
+										<if test="uniqueId !=null">
+											AND A.UNIQUE_ID =#{uniqueId}
+										</if>
+										<if test="organization !=null">
+											AND A.ORGANIZATION_ID =#{orgId}
+										</if>
+										AND A.PROJECT_STATUS = 2
+										)
+										AND B.PROJECT_ID = #{projectId}
+										)
 								) dls
 							WHERE
 								(
@@ -1232,7 +1279,30 @@
 								WHERE
 									taskss. ID =#{taskId}
 								AND detailss.PROJECT_STATUS != 1
-								AND detailss.HISTORY_STATUS = '0'
+								AND detailss.ID NOT IN (
+										SELECT
+										REQUIRED_ID
+										FROM
+										T_BSS_PPMS_PROJECTS_DETAIL B
+										WHERE
+										B.REQUIRED_ID IN (
+										SELECT
+										ID
+										FROM
+										T_BSS_PMS_PURCHASE_DETAIL A
+										WHERE
+										A.HISTORY_STATUS = '0'
+										AND A.IS_DELETE = '0'
+										<if test="uniqueId !=null">
+											AND A.UNIQUE_ID =#{uniqueId}
+										</if>
+										<if test="organization !=null">
+											AND A.ORGANIZATION_ID =#{orgId}
+										</if>
+										AND A.PROJECT_STATUS = 2
+										)
+										AND B.PROJECT_ID = #{projectId}
+										)
 							) dlss
 						WHERE (dlss.organization_id =#{orgId} AND dlss.ISPARENT = 'false' )
 					) t2

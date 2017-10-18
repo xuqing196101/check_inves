@@ -532,6 +532,8 @@ public class ProjectController extends BaseController {
             	  HashMap<String, Object> map = new HashMap<>();
             	  map.put("taskId", task.getId());
             	  map.put("orgId", user.getOrg().getId());
+            	  map.put("projectId", projectId);
+            	  map.put("uniqueId", task.getCollectId());
                   List<PurchaseDetail> lists = purchaseDetailService.findUniqueByTask(map, page);
                   if(lists != null && lists.size() > 0){
                       jsonObj.put("detailId", lists.get(lists.size()-1).getSeq());
