@@ -227,7 +227,16 @@
                  WHERE C.CATEGORY_ID = T.AUDIT_FIELD_ID
                    AND T.EXPERT_ID = #{expertId}
                    AND T.SUGGEST_TYPE = #{type}
-                   AND T.IS_DELETED = 0)
+                   AND T.IS_DELETED = 0
+                   <if test="auditFalg!=null">
+                   	<if test="auditFalg==2">
+                   		AND T.AUDIT_FALG=2
+                   	</if>
+                   	<if test="auditFalg!=2">
+                   		AND T.AUDIT_FALG!=2
+                   	</if>
+                   </if>
+                   )
            AND C.EXPERT_ID = #{expertId}
             AND C.LEVELS = '1' 
            AND C.TYPE_ID = #{typeId}
