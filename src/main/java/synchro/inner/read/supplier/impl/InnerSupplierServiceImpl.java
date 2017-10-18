@@ -1,5 +1,6 @@
 package synchro.inner.read.supplier.impl;
 
+import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import org.apache.commons.lang3.StringUtils;
@@ -198,6 +199,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 //    	   Supplier unSupplier = supplierSerice.selectById(supplier.getId());
 //    	   if(unSupplier==null){
             if (supplier.getListSupplierFinances().size() > 0) {
+                // 先删除操作
+                supplierFinanceMapper.deleteFinanceBySupplierId(supplier.getId());
                 for (SupplierFinance sf : supplier.getListSupplierFinances()) {
                     SupplierFinance unfinance = supplierFinanceMapper.selectByPrimaryKey(sf.getId());
                     if (unfinance == null) {
@@ -219,17 +222,18 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 }
             }
 
+            // 供应商上传附件
             if (supplier.getAttchList().size() > 0) {
+                String tabName = Constant.fileSystem.get(Constant.SUPPLIER_SYS_KEY);
                 for (UploadFile uf : supplier.getAttchList()) {
-                    UploadFile ufile = fileUploadMapper.queryById(uf.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+                    // 获取供应商附件存储表
+                    UploadFile ufile = fileUploadMapper.queryById(uf.getId(), tabName);
+                    uf.setTableName(tabName);
                     if (ufile == null) {
-                        uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
                         fileUploadMapper.saveFile(uf);
                     } else {
-                        uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
                         fileUploadMapper.updateFileById(uf);
                     }
-
                 }
             }
 
