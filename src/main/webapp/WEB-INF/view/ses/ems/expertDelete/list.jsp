@@ -77,7 +77,7 @@
 				var state = $("#" + ids + "").parents("tr").find("td").eq(10).text();
 				state = trim(state);
 				if(ids != null) {
-				if(state == "暂存" || state == "退回修改"){
+				if(state == "暂存" || state == "初审退回修改"){
 					layer.confirm('您确定要注销吗?', {
 						title: '提示！',
 						offset: ['200px']
@@ -294,7 +294,7 @@
 							<th class="info">用户名</th>
 							<th class="info w50">性别</th>
 							<th class="info">手机号</th>
-							<th class="info">类别</th>
+							<th class="info">类型</th>
 							<th class="info w90">注册日期</th>
 							<th class="info">身份证号</th>
 							<th class="info">账号状态</th>
@@ -355,7 +355,7 @@
                   <span class="label rounded-2x label-dark">初审未合格</span>
                 </c:if>
                 <c:if test="${list.status eq '3' }">
-                  <span class="label rounded-2x label-u">退回修改</span>
+                  <span class="label rounded-2x label-u">初审退回修改</span>
                 </c:if>
                 <c:if test="${list.status eq '4' and list.isProvisional eq '0' and list.auditTemporary == 0}">
                   <span class="label rounded-2x label-dark">复审已分配</span>
@@ -373,7 +373,7 @@
                   <span class="label rounded-2x label-dark">复查不合格</span>
                 </c:if>
                 <c:if test="${list.status eq '9' }">
-                  <span class="label rounded-2x label-dark">初审退回再审核</span>
+                  <span class="label rounded-2x label-dark">退回再初审</span>
                 </c:if>
                 <c:if test="${list.status eq '10' }">
                   <span class="label rounded-2x label-dark">复审退回修改</span>
@@ -390,11 +390,8 @@
                 <c:if test="${list.status eq '14' }">
                   <span class="label rounded-2x label-dark">复审待分组专家</span>
                 </c:if>
-                <c:if test="${list.status eq '15' }">
-                  <span class="label rounded-2x label-dark">预初审合格</span>
-                </c:if>
-                <c:if test="${list.status eq '16' }">
-                  <span class="label rounded-2x label-dark">预初审不合格</span>
+                <c:if test="${list.status eq '15' or list.status eq '16'}">
+                  <span class="label rounded-2x label-dark">预初审结束</span>
                 </c:if>
                 <c:if test="${list.status eq '17' }">
                   <span class="label rounded-2x label-dark">资料不全</span>

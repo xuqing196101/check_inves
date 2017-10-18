@@ -144,7 +144,7 @@
         var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
         var sign= ${sign};
-        if((sign == 2 && state == "复审退回修改") || state == "公示中" ||state == "初审合格(待复审)" || state == "初审未合格" || state == "退回修改" || state == "初审退回" || state == "复查合格" || state == "复查未合格" || state == "复审合格" ) {
+        if((sign == 2 && state == "复审退回修改") || state == "公示中" ||state == "初审合格(待复审)" || state == "初审未合格" || state == "初审退回修改" || state == "初审退回" || state == "复查合格" || state == "复查未合格" || state == "复审合格" ) {
           layer.msg("请选择待审核项 !", {
             offset: '100px',
           });
@@ -384,7 +384,7 @@
                   <option <c:if test="${state eq '9'}">selected</c:if> value="9">退回再初审</option>
                   <option <c:if test="${state eq '0' and auditTemporary == 1}">selected</c:if> value="first">初审中</option>
                   <option <c:if test="${state eq '1'}">selected</c:if> value="1">初审合格(待复审)</option>
-                  <option <c:if test="${state eq '3'}">selected</c:if> value="3">退回修改</option>
+                  <option <c:if test="${state eq '3'}">selected</c:if> value="3">初审退回修改</option>
                   <option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未合格</option>
                   <option <c:if test="${state eq '10'}">selected</c:if> value="10">复审退回修改</option>
                   <option <c:if test="${state eq 'trialEnd'}">selected</c:if> value="trialEnd">预初审结束</option>
@@ -502,7 +502,7 @@
                 <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">初审未合格</span></td>
               </c:if>
               <c:if test="${sign == 1 and expert.status eq '3' }">
-                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">退回修改</span></td>
+                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">初审退回修改</span></td>
               </c:if>
               <c:if test="${sign == 1 and expert.status eq '15' }">
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">预初审结束</span></td>

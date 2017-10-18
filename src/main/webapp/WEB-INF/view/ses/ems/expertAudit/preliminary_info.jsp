@@ -35,7 +35,13 @@
 
       //上一步
       function lastStep() {
-        var action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
+    	  var status = $("input[name='status']").val();
+        var sign = $("input[name='sign']").val();
+    	  if(sign == 1 && (status == 5 || status == 10)){
+    		  var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
+    	  }else{
+    		  var action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
+    	  }
         $("#form_id").attr("action", action);
         $("#form_id").submit();
       }
@@ -71,6 +77,14 @@
             }
           });
         }
+      }
+    
+    
+      //复审退回或复审不合格的，初审机构确认
+      function preliminaryConfirmation(){
+        var action = "${pageContext.request.contextPath}/expertAudit/preliminaryConfirmation.html";
+        $("#form_id").attr("action", action);
+        $("#form_id").submit();
       }
     </script>
   </head>
@@ -189,7 +203,13 @@
 	          <c:if test="${expert.status == -2 ||  expert.status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && expert.status ==6) || expert.status ==4}">
 	            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zancun();">暂存</a>
 	          </c:if>
-	          <a class="btn" type="button" onclick="nextStep();">下一步</a>
+	          <c:if test="${sign == 2}">
+	            <a class="btn" type="button" onclick="nextStep();">下一步</a>
+	          </c:if>
+	          
+	          <c:if test = "${sign eq '1' && status eq '10'}" >
+              <a class="btn" type="button" onclick="preliminaryConfirmation();">确认</a>
+            </c:if>
 	        </div>
         </div>
       </div>

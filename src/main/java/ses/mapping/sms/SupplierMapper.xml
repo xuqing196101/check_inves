@@ -2193,7 +2193,7 @@
         AND IS_DELETED = 0
     </select>
     
-    <!-- 查询无产品供应商 -->
+     <!-- 查询无产品供应商 -->
     <select id="selectSupplierListByNoCate" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
     	SELECT
       "NVL" (T4.NAME, T3.NAME) AS NAME,
