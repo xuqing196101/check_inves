@@ -237,6 +237,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	if(StringUtils.isNotBlank(cid)){
 		cateSet.addAll(Arrays.asList(cid.split(",")));
 	}
+	cateSet.addAll(Arrays.asList(pid.split(",")));
 	return cateSet;//StringUtils.join(cateSet.toArray(),",");
   }
 
