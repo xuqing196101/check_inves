@@ -3,6 +3,8 @@ package bss.service.pms.impl;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -467,5 +469,36 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public List<PurchaseDetail> findTaskByDetail(String taskId, String orgId) {
+		List<PurchaseDetail> list = new ArrayList<PurchaseDetail>();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("taskId", taskId);
+		map.put("orgId", orgId);
+		List<PurchaseDetail> findTaskByDetail = purchaseDetailMapper.findTaskByDetail(map);
+		if (findTaskByDetail != null && !findTaskByDetail.isEmpty()) {
+			for (PurchaseDetail purchaseDetail : findTaskByDetail) {
+				HashMap<String, Object> maps = new HashMap<>();
+                maps.put("id", purchaseDetail.getId());
+                List<PurchaseDetail> selectByParent = purchaseDetailMapper.selectByParent(maps);
+                if (selectByParent != null && !selectByParent.isEmpty()) {
+                	list.addAll(selectByParent);
+				}
+			}
+		}
+		sort(list);
+		return list;
+	}
+
+	private void sort(List<PurchaseDetail> list) {
+	    Collections.sort(list, new Comparator<PurchaseDetail>(){
+	           @Override
+	           public int compare(PurchaseDetail o1, PurchaseDetail o2) {
+	              Integer i = o1.getIsMaster() - o2.getIsMaster();
+	              return i;
+	           }
+	        });
 	}
 }

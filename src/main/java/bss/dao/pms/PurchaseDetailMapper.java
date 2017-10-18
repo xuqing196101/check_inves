@@ -402,4 +402,16 @@ public interface PurchaseDetailMapper {
     * @return List<PurchaseDetail>
      */
     List<PurchaseDetail> findUniqueByTask(HashMap<String, Object> map);
+    
+    /**
+     * 
+    * @Title: findTaskByDetail
+    * @author FengTian 
+    * @date 2017-10-18 下午3:06:20  
+    * @Description: 任务调整获取本采购机构下面的明细  
+    * @param @param map
+    * @param @return      
+    * @return List<PurchaseDetail>
+     */
+    List<PurchaseDetail> findTaskByDetail(HashMap<String, Object> map);
 }

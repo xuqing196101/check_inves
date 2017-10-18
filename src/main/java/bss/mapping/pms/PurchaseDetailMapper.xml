@@ -1310,6 +1310,41 @@
 	ORDER BY
 		IS_MASTER
 	</select>
+	
+	<!-- 任务调整获取本机构的明细 -->
+	<select id="findTaskByDetail" parameterType="java.util.Map" resultMap="PurchaseRequired_Map">
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					details.*,
+					DECODE (
+						(
+							SELECT
+								COUNT (*)
+							FROM
+								T_BSS_PMS_PURCHASE_DETAIL
+							WHERE
+								PARENT_ID = details. ID
+						),
+						0,
+						'false',
+						'true'
+					) AS isParent
+				FROM
+					T_BSS_PPMS_TASK tasks
+				LEFT JOIN T_BSS_PMS_PURCHASE_DETAIL details ON details.UNIQUE_ID = tasks.COLLECT_ID
+				WHERE
+					tasks. ID =#{taskId}
+				AND details.HISTORY_STATUS = '0'
+				AND details.ORGANIZATION_ID =#{orgId}
+				ORDER BY
+					details.IS_MASTER ASC
+			) pur
+		WHERE
+			pur.ISPARENT = 'false'
+	</select>
 
 	<!-- 获取任务中待选择的明细 -->
 	<select id="getUniquesByTask" parameterType="String" resultMap="PurchaseRequired_Map">
