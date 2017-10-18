@@ -39,7 +39,7 @@
 		<result column="ARMY_BUSINESS_TELEPHONE" property="armyBuinessTelephone" />
 	</resultMap>
 	
-	<resultMap type="test.webservice.PeopleYytz" id="resultForVoiceExtract">
+	<resultMap type="extract.autoVoiceExtract.PeopleYytz" id="resultForVoiceExtract">
 		<result column="SUPPLIER_NAME" property="username" />
 		<result column="ARMY_BUSINESS_NAME" property="contactname" />
 		<result column="ARMY_BUSINESS_MOBILE" property="mobile" />
