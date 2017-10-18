@@ -239,6 +239,7 @@
 					    url: "${pageContext.request.contextPath}/open_bidding/saveBidNotice.do?flag=1",
 					    data : $('#form').serializeArray(),
 					    dataType:'json',
+					    async:false,
 					    success:function(result){
 		                    if(!result.success){
 		                        layer.msg(result.message,{offset: ['220px']});

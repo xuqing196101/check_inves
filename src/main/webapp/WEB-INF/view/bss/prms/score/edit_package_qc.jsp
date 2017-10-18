@@ -433,7 +433,7 @@
 		       </div>
 	           
 	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" id="loadTemp" class="btn">确定选择</button>
-	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
+	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入历史数据</button>
 	              <button type="reset" class="btn" onclick="clearSearch();">重置</button>
 	        </div>
 	        <div class="clear"></div>

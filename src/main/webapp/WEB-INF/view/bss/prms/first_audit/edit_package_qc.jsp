@@ -386,7 +386,7 @@
 	           
 	           <div class="pull-right">
 		           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定选择</button>
-		           <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入包模板</button>
+		           <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入历史数据</button>
 		           <button type="button" class="btn" onclick="clreaButtons()">重置</button>
 		           
 		           
