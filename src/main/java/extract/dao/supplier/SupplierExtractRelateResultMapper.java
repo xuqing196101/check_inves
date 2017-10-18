@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import ses.model.sms.Supplier;
-
 import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractResult;
 
@@ -194,6 +193,68 @@ public interface SupplierExtractRelateResultMapper {
 	void insertAdv(ArrayList<SupplierExtractResult> arrayList);
 
 	void insertRel(ArrayList<SupplierExtractResult> arrayList);
+
+	/**
+	 * 自动抽取的获取供应商列表
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-12下午3:47:50
+	 * @param condition
+	 * @return
+	 */
+	List<Supplier> autoExtractSupplierList(SupplierExtractCondition condition);
+
+	/**
+	 * 批量添加（自动抽取返回结果）
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-17上午10:25:25
+	 * @param setSupplierExtractResult
+	 */
+	void insertBatch(ArrayList<SupplierExtractResult> setSupplierExtractResult);
+
+
+	/**
+	 * 删除保存的记录
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-17上午11:16:04
+	 * @param recordId
+	 */
+	void deleteByRecordId(String recordId);
+
+	/**
+	 * 修改预研项目供应商参加状态（自动抽取）
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-17上午11:23:06
+	 * @param supplierExtractResult
+	 */
+	void updateAdvSupplierJoin(SupplierExtractResult supplierExtractResult);
+
+	/**
+	 * 修改真实项目供应商参加状态（自动抽取）
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-17上午11:23:06
+	 * @param supplierExtractResult
+	 */
+	void updateRelSupplierJoin(SupplierExtractResult supplierExtractResult);
+
+	/**
+	 * 修改供应商参加状态（自动抽取）
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-17上午11:23:06
+	 * @param supplierExtractResult
+	 */
+	void updateSupplierJoin(SupplierExtractResult supplierExtractResult);
 
 	
 }

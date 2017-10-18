@@ -149,7 +149,8 @@ $(function () {
     //增加
     function addPerson(obj){
     	var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();
-    	var input = $(obj).parents("form").find("tr:last").find("td:first").find("input").prop("name");//.substring(4,6);//.attr("req");
+    	//var input = $(obj).parents("form").find("tr:last").find("td:first").find("input").prop("name");//.substring(4,6);//.attr("req");
+    	var input = $(obj).parents("form").find("tr:last").find("td:eq(2)").find("input").prop("name");//.substring(4,6);//.attr("req");
     	var req ;
     	if(null==input ||''==input || "undefined"== input){
     		req=0;
@@ -430,7 +431,7 @@ $(function () {
     	return count+count1+count2+count3;
     }
     
-    function extractVerify() {
+    function extractVerify(status) {
     	//清空错误提示
     	$("#extractUser").find("span").remove();
     	$("#supervise").find("span").remove();
@@ -457,7 +458,7 @@ $(function () {
     		}else{
     			$("#"+code+"Result").find("tbody").empty();
     			$("#ExtractNumError").html("");
-    			extractSupplier(code);
+    			extractSupplier(code,status);
     		}
     	}else{
     		$("#ExtractNumError").html("抽取数量不正确");
@@ -521,7 +522,7 @@ $(function () {
     }*/
     /**点击抽取--当选择参加与否后保存状态*/
     
-    function extractSupplier(code) {
+    function extractSupplier(code,status) {
     	
     	var flag = 0;
 		//存储项目信息
@@ -611,13 +612,26 @@ $(function () {
 	    
 	    
 	    
+	    if(status){
+	    	//自动抽取
+	    	$.ajax({
+	    		type: "POST",
+	    		url: globalPath+'/SupplierCondition_new/autoExtract.do?projectInfo'+projectType,
+	    		data: formData ,
+	    		dataType: "json",
+	    		async:false,
+	    		success: function (msg) {
+	    			
+	    		}
+	    		});
+	    }else{
+	    	//显示抽取结果表
+	    	$("#result").removeClass("dnone");
+	    	$("#"+code+"Result").removeClass("dnone");
+	    	//追加抽取结果
+	    	appendTd(0,$("#"+code+"Result").find("tbody"),null);
+	    }
 	    
-	    
-	    //显示抽取结果表
-	    $("#result").removeClass("dnone");
-	    $("#"+code+"Result").removeClass("dnone");
-	    //追加抽取结果
-	    appendTd(0,$("#"+code+"Result").find("tbody"),null);
 	   
     	/*var count = 0;
     	var projectExtractNum = $("#projectExtractNum").val();
@@ -765,12 +779,12 @@ $(function () {
     		return false;
     	}
     	
-    	var data;
-    	var projects;
-    	var products;
-    	var services;
-    	var sales;
-    	var goods;
+    	var data = "";
+    	var projects = "";
+    	var products = "";
+    	var services = "";
+    	var sales = "";
+    	var goods = "";
     	//去后台请求一条数据
     	$.ajax({
     		type: "POST",
@@ -779,8 +793,15 @@ $(function () {
     		dataType: "json",
     		async:false,
     		success: function (msg) {
-    			if(null != msg.list){
+    			if(null != msg && null != msg.list){
+    				
     				var su = msg.list;
+    				for ( var k in su) {
+						if(su[k].length<1){
+							flag = true;
+						}
+					}
+    				
     				if(null !=su.PROJECT){
     					projects =su.PROJECT;
     				}
@@ -799,9 +820,8 @@ $(function () {
     			}else{
     				flag = true;
     			}
-    			if(null !=msg){
+    			if(null!= msg && null !=msg.error){
 	    			$("#"+msg.error).html("不能为空");
-	    			flag = false;
 	    		}
     		}
     	});
@@ -925,12 +945,14 @@ $(function () {
         //  iframe层
         var iframeWin;
         var categoryId = $("#"+code+"CategoryIds").val();
+        
         var parentId = $(cate).prev(".parentId");
         if(parentId.length<=0){
         	$(cate).before("<input class='parentId' type='hidden' name='"+code+"ParentId'>");
         }else if($(parentId).val()){
         	categoryId += ","+ $(parentId).val();
         }
+        sessionStorage.setItem("categoryId",categoryId);
         layer.open({
             type: 2,
             title: "选择条件",
@@ -939,7 +961,7 @@ $(function () {
             area: ['430px', '400px'],
             skin: 'layer-default',
             offset: '20px',
-            content: globalPath+'/SupplierExtracts_new/addHeading.do?supplierTypeCode='+typeCode+'&categoryId='+categoryId, //iframe的url
+            content: globalPath+'/SupplierExtracts_new/addHeading.do?supplierTypeCode='+typeCode,//+'&categoryId='+categoryId, //iframe的url
             //content: globalPath+'/supplier/category_type.do?code='+supplierCode, 
             success: function (layero, index) {
                 iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
@@ -960,6 +982,8 @@ $(function () {
             	$(cate).parents("li").find(".categoryId").val("");
             	$(cate).parents("li").find(".parentId").val("");
                 $(cate).val("");
+                emptyQuaInfo(code);
+                $("#"+code+"QuaTree").empty();
                 selectLikeSupplier();
             }
         });
@@ -1982,6 +2006,7 @@ $(function () {
             	$(select).parents("td").html("能参加");
             	appendTd(req,obj,"能参加");
             }else{
+            	$(select).find("[value='0']").remove();
             	saveResult(objTr, '',2);
     			appendTd(req,obj,"待定");
             }
@@ -2068,6 +2093,17 @@ $(function () {
 		});
 	}
     
+   //校验输入空格
+    function checkSpase(obj){
+    	
+    	$("input").each(function(){
+    		if($(this).prop("readonly")){
+    			$(this).attr("");
+    		}
+    	});
+    	
+    	$(obj).val();
+    }
     
     
   //文本编译器计数

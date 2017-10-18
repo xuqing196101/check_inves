@@ -5,10 +5,10 @@ package extract.controller.supplier;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -19,9 +19,9 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
+import ses.service.bms.CategoryService;
 
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
 import common.bean.ResponseBean;
 
 import extract.model.supplier.SupplierConType;
@@ -44,6 +44,9 @@ import extract.service.supplier.SupplierExtractConditionService;
     @Autowired
     private SupplierExtractConditionService conditionService;
 
+    @Autowired
+    private CategoryService categoryService;
+    
     
     
     /**
@@ -81,6 +84,25 @@ import extract.service.supplier.SupplierExtractConditionService;
     	Map<String, Object> supplierList = conditionService.selectLikeSupplier(condition,conType,1);
     	return JSON.toJSONString(supplierList);
     }
+    
+    
+    /**
+     * 
+     *〈简述〉返回满足条件的供应商(自动抽取)
+     *〈详细描述〉
+     * @author Jia Chengxaing
+     * @param condition
+     * @param conType
+     * @param sq
+     * @param typeclassId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("autoExtract")
+    public String autoExtract(SupplierExtractCondition condition,SupplierConType conType,HttpServletRequest sq,String province,String projectInfo){
+    	Map<String, Object> supplierList = conditionService.autoExtract(condition,conType,projectInfo);
+    	return JSON.toJSONString(supplierList);
+    }
 
     /**
     *
@@ -115,7 +137,7 @@ import extract.service.supplier.SupplierExtractConditionService;
     */
    @RequestMapping("/getQuaByCid")
    @ResponseBody
-   public List<DictionaryData> getQuaByCid(String categoryId,String supplierTypeCode,String parentId){
+   public Set<DictionaryData> getQuaByCid(String categoryId,String supplierTypeCode,String parentId){
    	return conditionService.getQuaByCid(categoryId,supplierTypeCode,parentId);
    }
    
@@ -174,4 +196,10 @@ import extract.service.supplier.SupplierExtractConditionService;
 	   return JSON.toJSONString(status);
    }
 
+   @ResponseBody
+   @RequestMapping("/searchCate")
+   public Set<Category> searchCate(String typeId,String cateName){
+	return categoryService.selectCategoryByName(typeId, cateName);
+   }
+   
 }

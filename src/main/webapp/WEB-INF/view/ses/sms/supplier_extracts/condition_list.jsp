@@ -403,7 +403,7 @@
           </div>
         </div>
         <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类目：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类别：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="projectIsMulticondition" class="isSatisfy">
           <input type="hidden" name="projectCategoryIds" id="projectCategoryIds" class="categoryId">
@@ -414,17 +414,17 @@
           </div>
         </div>
         <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>工程资质：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>资质信息：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input type="hidden" name="projectQuaId" id="projectQuaId" >
           <input type="text"  id="projectQuaName" treeHome="projectQuaContent"
-         	 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" onkeyup="selectQua()"  onclick="showQua(this);"/>
+         	 value="${listCon.supplierLevel == null? '全部资质':listCon.supplierLevel}" onkeyup="selectQua()" onclick="showQua(this);"/>
           <span class="add-on">i</span>
           <div class="cue" id="dCount"></div>
           </div>
         </div>
         <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">资质等级：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">供应商等级：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input type="hidden" name="projectLevel" >
           <input type="text" readonly  id="projectLevel" treeHome="projectLevelContent"
@@ -489,7 +489,7 @@
           </div>
         </div>
         <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类目：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类别：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="serviceIsMulticondition" class="isSatisfy">
           <input type="hidden" name="serviceCategoryIds" id="serviceCategoryIds" class="categoryId">
@@ -578,7 +578,7 @@
         </div>
        
         <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类目：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类别：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="productIsMulticondition" class="isSatisfy">
           <input type="hidden" name="productCategoryIds" id="productCategoryIds" class="categoryId">
@@ -667,7 +667,7 @@
         </div>
        
         <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类目：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类别：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="goodsIsMulticondition" class="isSatisfy">
           <input type="hidden" name="goodsCategoryIds" id="goodsCategoryIds" class="categoryId">
@@ -757,7 +757,7 @@
         </div>
        
         <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类目：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类别：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="salesIsMulticondition" class="isSatisfy">
           <input type="hidden" name="salesCategoryIds" id="salesCategoryIds" class="categoryId">
@@ -797,7 +797,7 @@
           <div class="clear"></div>
 	         <div class="col-xs-12 tc mt20">
 	           <button class="btn bu" onclick="extractVerify();" type="button">人工抽取</button>
-	           <button class="btn bu" type="button">自动抽取</button>
+	           <button class="btn bu" onclick="extractVerify('auto')" type="button">自动抽取</button>
 	           <button class="btn bu"  type="button" onclick="resetCondition(this)">重置</button>
 	         </div>
           </form>

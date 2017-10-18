@@ -1,5 +1,7 @@
 package extract.service.expert;
 
+import java.io.File;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -102,4 +104,26 @@ public interface ExpertExtractProjectService {
      * @return
      */
     ExpertExtractProject selectByPrimaryKey(String id);
+    
+    /**
+     * 
+     * Description: 专家抽取信息导出
+     * 
+     * @author zhang shubin
+     * @data 2017年9月29日
+     * @param 
+     * @return
+     */
+    void exportExpertExtract(String start, String end,Date synchDate);
+    
+    /**
+     * 
+     * Description: 导入专家抽取信息
+     * 
+     * @author zhang shubin
+     * @data 2017年9月29日
+     * @param 
+     * @return
+     */
+    void importExpertExtract(File file);
 }

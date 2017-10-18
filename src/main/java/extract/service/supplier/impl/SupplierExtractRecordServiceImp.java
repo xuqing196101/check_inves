@@ -4,7 +4,6 @@
 package extract.service.supplier.impl;
 
 import java.net.URLEncoder;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,34 +17,22 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import ses.dao.bms.AreaMapper;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.dao.sms.SupplierMapper;
-import ses.model.bms.PreMenu;
-import ses.model.bms.Role;
 import ses.model.bms.User;
-import ses.model.bms.UserPreMenu;
-import ses.model.bms.Userrole;
-import ses.model.sms.Supplier;
-import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.util.PropUtil;
-import ses.util.WfUtil;
 import ses.util.WordUtil;
 import bss.dao.ppms.SaleTenderMapper;
-import bss.model.ppms.Project;
-import bss.model.ppms.SaleTender;
 
 import com.github.pagehelper.PageHelper;
 
 import extract.dao.common.ExtractUserMapper;
-import extract.dao.common.PersonRelMapper;
 import extract.dao.common.SuperviseMapper;
 import extract.dao.supplier.ExtractConditionRelationMapper;
 import extract.dao.supplier.SupplierExtractConditionMapper;
@@ -54,7 +41,6 @@ import extract.dao.supplier.SupplierExtractRelateResultMapper;
 import extract.model.common.ExtractUser;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractProjectInfo;
-import extract.model.supplier.SupplierExtractResult;
 import extract.service.supplier.SupplierExtractRecordService;
 
 /**
@@ -77,12 +63,8 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     @Autowired
     RoleServiceI roleService;
     @Autowired
-    private PreMenuServiceI menuService;// 地区查询
-    @Autowired
     SaleTenderMapper saleTenderMapper;
     
-    @Autowired
-    private PersonRelMapper personRelMapper;
     
     @Autowired
     private ExpertService service;
@@ -90,8 +72,6 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     @Autowired
     private DictionaryDataMapper dictionaryDataMapper; 
     
-    @Autowired
-    private AreaMapper areaMapper;
     
     @Autowired
     private SupplierExtractConditionMapper conditionMapper;
@@ -128,9 +108,9 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	public List<SupplierExtractProjectInfo> getList(int i,User user,SupplierExtractProjectInfo project) {
 		 PageHelper.startPage(i, PropUtil.getIntegerProperty("pageSize"));
 		 
-		 project.setProcurementDepId(user.getOrg().getId());
 		 List<SupplierExtractProjectInfo> list = new ArrayList<>();
 		 if("1".equals(user.getTypeName())){
+			project.setProcurementDepId(user.getOrg().getId());
 			list = supplierExtractsMapper.getList(project);
 		 }else if("4".equals(user.getTypeName())){
 			 project.setProcurementDepId(null);
@@ -179,7 +159,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			HttpServletResponse response,String projectInto) throws Exception {
 		
 		//将项目状态变为抽取结束
-		SupplierExtractProjectInfo p = new SupplierExtractProjectInfo(id);
+		//SupplierExtractProjectInfo p = new SupplierExtractProjectInfo(id);
 		//p.setStatus((short) 1);
 		//supplierExtractsMapper.saveOrUpdateProjectInfo(p);
 		
