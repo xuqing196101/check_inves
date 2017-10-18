@@ -443,7 +443,6 @@ public class MultiImportTask {
                                 }
                             }
                         }
-<<<<<<< HEAD
 						/**
 						 * 专家公示自动导入
 						 */
@@ -460,7 +459,6 @@ public class MultiImportTask {
 								}
 							}
 						}
-=======
 
                         /**
                          * 供应商注销自动导入
@@ -477,7 +475,6 @@ public class MultiImportTask {
                             }
                         }
 
->>>>>>> fix_bug
                     }
                 }
             }
