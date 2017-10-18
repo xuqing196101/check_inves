@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -445,4 +446,26 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
       }
       return seqNext;
     }
+
+	@Override
+	public List<PurchaseDetail> findUniqueByTask(HashMap<String, Object> map, Integer page) {
+		PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+		List<PurchaseDetail> list = purchaseDetailMapper.findUniqueByTask(map);
+		if (list != null && !list.isEmpty()) {
+			for (PurchaseDetail purchaseDetail : list) {
+          	  	if (purchaseDetail.getPurchaseCount() == null) {
+          	  		purchaseDetail.setPurchaseType(null);
+          	  	} else {
+          	  		if (StringUtils.isNotBlank(purchaseDetail.getPurchaseType())) {
+          	  			DictionaryData findById = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
+          	  			if (findById != null) {
+          	  				purchaseDetail.setPurchaseType(findById.getName());
+          	  			}
+          	  		}
+          	  		purchaseDetail.setDepartment(null);
+          	  	}
+			}
+		}
+		return list;
+	}
 }

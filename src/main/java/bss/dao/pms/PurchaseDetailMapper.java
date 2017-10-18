@@ -390,4 +390,16 @@ public interface PurchaseDetailMapper {
      * @return
      */
     List<PurchaseDetail> getUniqueIdByParentId(String id);
+    
+    /**
+     * 
+    * @Title: findUniqueByTask
+    * @author FengTian 
+    * @date 2017-10-18 上午10:28:10  
+    * @Description: 根据任务获取本采购机构下面的明细 
+    * @param @param map
+    * @param @return      
+    * @return List<PurchaseDetail>
+     */
+    List<PurchaseDetail> findUniqueByTask(HashMap<String, Object> map);
 }

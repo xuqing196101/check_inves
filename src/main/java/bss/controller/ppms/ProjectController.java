@@ -529,36 +529,11 @@ public class ProjectController extends BaseController {
           if(StringUtils.isNotBlank(taskId)){
               Task task = taskservice.selectById(taskId);
               if(task != null && StringUtils.isNotBlank(task.getCollectId())){
-                  PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-                  //List<PurchaseDetail> lists = purchaseDetailService.getUniques(task.getCollectId(), user.getOrg().getId());
-                  
-                  List<PurchaseDetail> lists = purchaseDetailService.getUniquesByTask(projectId, task.getCollectId(), user.getOrg().getId());
+            	  HashMap<String, Object> map = new HashMap<>();
+            	  map.put("taskId", task.getId());
+            	  map.put("orgId", user.getOrg().getId());
+                  List<PurchaseDetail> lists = purchaseDetailService.findUniqueByTask(map, page);
                   if(lists != null && lists.size() > 0){
-                      for (PurchaseDetail purchaseDetail : lists) {
-                    	  if (purchaseDetail.getPurchaseCount() == null) {
-                    		  purchaseDetail.setPurchaseType(null);
-                    	  } else {
-                    		  if (StringUtils.isNotBlank(purchaseDetail.getPurchaseType())) {
-                    			  DictionaryData findById = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
-                            	  if (findById != null) {
-                            		  purchaseDetail.setPurchaseType(findById.getName());
-                            	  }
-                    		  }
-                    	  }
-                      }
-                      /*for (PurchaseDetail purchaseDetail : lists) {
-                        //判断是否被引用
-                        String isUse = projectService.isUseForPlanDetail(projectId, purchaseDetail.getId());
-                        if ("true".equals(isUse)) {
-                          //已被引用
-                          purchaseDetail.setProjectStatus(1);
-                        }
-                        if ("false".equals(isUse)) {
-                          //未被引用
-                          purchaseDetail.setProjectStatus(0);
-                        }
-                      }*/
-                      //sortPurchaseDetail(lists, detailId);
                       jsonObj.put("detailId", lists.get(lists.size()-1).getSeq());
                   }
                   PageInfo<PurchaseDetail> pageInfo = new PageInfo<PurchaseDetail>(lists);
