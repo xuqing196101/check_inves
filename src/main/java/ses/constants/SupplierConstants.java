@@ -119,15 +119,15 @@ public class SupplierConstants {
 		INIT_STATUS(0),
 		/** 退回修改 */
 		RETURN_TO_MODIFY(1),
-		/** 审核不通过 （产品目录用）*/
+		/** 审核不通过 （供应商类型/产品目录用）*/
 		AUDIT_NOT_PASS(2),
 		/** 已修改 */
 		MODIFIED(3),
 		/** 未修改 */
 		NOT_MODIFY(4),
-		/** 未修改 */
+		/** 撤销退回 */
 		CANCEL_RETURN(5),
-		/** 未修改 */
+		/** 撤销不通过 */
 		CANCEL_NOT_PASS(6);
 		
 		private int value;

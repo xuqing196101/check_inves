@@ -461,7 +461,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
-			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+//			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			StringBuffer passedField = new StringBuffer();
 			if(!reasonsList.isEmpty()){
 				for(SupplierAudit a : reasonsList){
@@ -538,7 +539,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
-			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+//			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			StringBuffer passedField = new StringBuffer();
 			if(!reasonsList.isEmpty()){
 				for(SupplierAudit a : reasonsList){
@@ -621,7 +623,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
-			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+//			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			StringBuffer passedField = new StringBuffer();
 			if(!reasonsList.isEmpty()){
 				for(SupplierAudit a : reasonsList){
@@ -1057,7 +1060,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			
 			//供应商类型==============================
 			supplierAudit.setAuditType("supplierType_page");
-			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+//			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			auditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			StringBuffer passedTypeField = new StringBuffer();
 			if(!auditList.isEmpty()){
 				for(SupplierAudit a : auditList){
@@ -1068,7 +1072,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			
 			//物资生产==============================
 			supplierAudit.setAuditType("mat_pro_page");
-			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+//			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			auditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			StringBuffer passedProField = new StringBuffer();
 			if(!auditList.isEmpty()){
 				for(SupplierAudit a : auditList){
@@ -1079,7 +1084,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			
 			//物资销售==============================
 			supplierAudit.setAuditType("mat_sell_page");
-			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+//			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			auditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			StringBuffer passedSellField = new StringBuffer();
 			if(!auditList.isEmpty()){
 				for(SupplierAudit a : auditList){
@@ -1090,7 +1096,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			
 			//工程==============================
 			supplierAudit.setAuditType("mat_eng_page");
-			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+//			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			auditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			StringBuffer passedEngField = new StringBuffer();
 			if(!auditList.isEmpty()){
 				for(SupplierAudit a : auditList){
@@ -1101,7 +1108,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			
 			//服务==============================
 			supplierAudit.setAuditType("mat_serve_page");
-			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+//			auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			auditList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			StringBuffer passedServeField = new StringBuffer();
 			if(!auditList.isEmpty()){
 				for(SupplierAudit a : auditList){
@@ -1262,12 +1270,13 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		supplierAudit.setSupplierId(id);
 		// 设置默认退回状态
-		if(auditType != null && auditType.startsWith("items_")){
+		if(auditType != null && (auditType.startsWith("items_") || auditType.equals("supplierType_page"))){
 			supplierAudit.setReturnStatus(2);
 		}else{
 			supplierAudit.setReturnStatus(1);
 		}
-		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+//		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2});
 		boolean same = true;
 		if(null !=reasonsList && !reasonsList.isEmpty()){
 			for(int i = 0; i < reasonsList.size(); i++) {
@@ -1781,10 +1790,11 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierStatus", supplierStatus);
 		
 		//回显未通过字段
-		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5 || supplierStatus == 9){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 1 || supplierStatus == 5 || supplierStatus == 9){
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("download_page");
-			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+//			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			StringBuffer passedField = new StringBuffer();
 			if(!reasonsList.isEmpty()){
 				for(SupplierAudit a : reasonsList){
@@ -2908,7 +2918,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5 || supplierStatus == 9){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 1 || supplierStatus == 5 || supplierStatus == 9){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("aptitude_page");
@@ -4649,7 +4659,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(user == null){
 			return new JdcgResult(501, "登录超时", null);
 		}
-		if(StringUtils.isBlank(ids) || status == null || (status != 1 && status != 3 && status != 4)){
+		if(StringUtils.isBlank(ids) || status == null || (status != 1 && status != 3 && status != 4 && status != 5 && status != 6)){
 			return new JdcgResult(504, "参数错误", null);
 		}
 		return supplierAuditService.updateReturnStatus(ids, status);
