@@ -462,7 +462,44 @@
 		</if>
 	</select>
 	
-	
+	<!-- 根据项目id和供应商id查询供应商参与的包 -->
+	<select id="findByProject" parameterType="bss.model.ppms.SaleTender"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_BSS_PPMS_SALE_TENDER st
+		WHERE
+		STATUS_BID = 2
+		<if test="suppliers != null">
+			AND st.SUPPLIER_ID = #{suppliers.id,jdbcType=VARCHAR}
+		</if>
+		<if test="project != null">
+			AND st.PROJECT_ID = #{project.id,jdbcType=VARCHAR}
+		</if>
+		<if test="packages != null">
+			AND st.PACKAGR_IDS = #{packages,jdbcType=VARCHAR}
+		</if>
+		<if test="id != null">
+			AND st.ID = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="isFirstPass != null">
+			AND st.IS_FIRST_PASS = #{isFirstPass}
+		</if>
+		<if test="isRemoved != null and isRemoved != ''">
+			AND st.IS_REMOVED = #{isRemoved,jdbcType=VARCHAR}
+		</if>
+		<if test="isTurnUp != null">
+			AND st.IS_TURN_UP = #{isTurnUp}
+		</if>
+		<if test="economicScore != null">
+			AND st.ECONOMIC_SCORE = #{economicScore,jdbcType=DECIMAL}
+		</if>
+		<if test="technologyScore != null">
+			AND st.TECHNOLOGY_SCORE = #{technologyScore,jdbcType=DECIMAL}
+		</if>
+		order by CREATED_AT
+	</select>
 	<select id="finds" parameterType="bss.model.ppms.SaleTender"
     resultMap="BaseResultExternalMap">
     SELECT

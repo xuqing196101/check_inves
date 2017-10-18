@@ -141,7 +141,7 @@
 		                  	  <td class="tc" colspan="2" id="price_${supplier.suppliers.id}_${pack.id}">
 		                  	  <c:forEach items="${scorePrice}" var="price">
 		                  	    <c:if test="${price.packageId eq pack.id and price.supplierId eq supplier.suppliers.id}">
-		                          ${price.score}
+		                          <fmt:formatNumber value="${price.score}" pattern="0.00"></fmt:formatNumber>  
 		                        </c:if>
 		                  	  </c:forEach>
 		                  	  </td>
@@ -160,7 +160,7 @@
 		                    <td class="tc" colspan="2">
 		                      <c:forEach items="${expertScoreList}" var="score">
 		                        <c:if test="${score.packageId eq pack.id and score.supplierId eq supplier.suppliers.id and score.expertId eq expert.expert.id}">
-		                          ${score.score}
+		                          <fmt:formatNumber value="${score.score}" pattern="0.00"></fmt:formatNumber> 
 		                        </c:if>
 		                      </c:forEach>
 		                    </td>
@@ -177,7 +177,7 @@
 		                  <c:forEach items="${rankList}" var="rank">
 		                    <c:if test="${rank.packageId eq pack.id && rank.supplierId eq supplier.suppliers.id}">
 		                       <c:if test="${rank.econScore!=0&&rank.techScore!=0&&rank.sumScore!=0&&rank.econScore!=null&&rank.techScore!=null}">
-		                         ${rank.priceScore}(价格)+${rank.econScore}(经济)+${rank.techScore}(技术)=${rank.sumScore}
+		                         <fmt:formatNumber value="${rank.priceScore}" pattern="0.00"></fmt:formatNumber>(价格)+<fmt:formatNumber value="${rank.econScore}" pattern="0.00"></fmt:formatNumber>(经济)+<fmt:formatNumber value="${rank.techScore}" pattern="0.00"></fmt:formatNumber>(技术)=<fmt:formatNumber value="${rank.sumScore}" pattern="0.00"></fmt:formatNumber>
 		                       </c:if>
 		                    </c:if>
 		                  </c:forEach>

@@ -34,6 +34,7 @@ import bss.dao.ppms.FlowExecuteMapper;
 import bss.dao.ppms.PackageMapper;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
+import bss.dao.ppms.SaleTenderMapper;
 import bss.dao.ppms.TaskMapper;
 import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.FlowDefine;
@@ -41,6 +42,7 @@ import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.SaleTender;
 import bss.model.ppms.Task;
 import bss.service.ppms.ProjectService;
 
@@ -93,6 +95,8 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	private UploadService uploadService;
+	@Autowired
+  private SaleTenderMapper saleTenderMapper;
 	
 	
 	
@@ -522,6 +526,18 @@ public class ProjectServiceImpl implements ProjectService {
               
             }else {
                 jsonObj.put("success", true);
+            }
+            if((boolean)jsonObj.get("success")==true){
+              if(flowDefine.getCode().equals("FSBS")){
+                Project pro = projectMapper.selectProjectByPrimaryKey(projectId);
+                SaleTender record=new SaleTender();
+                record.setProject(pro);
+                List<SaleTender> find = saleTenderMapper.findByProject(record);
+                if(find!=null&&!find.isEmpty()){
+                  pro.setSignUpTime(find.get(0).getCreatedAt());
+                  projectMapper.updateByPrimaryKeySelective(pro);
+                }
+              }
             }
         }
         //转竞争性谈判先不做！

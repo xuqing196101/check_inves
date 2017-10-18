@@ -613,7 +613,7 @@ public class ReviewFirstAuditController extends BaseSupplierController {
     buffer.append("{\"spriceScore\":[");
     for(ExpertScore ets:es){
       buffer.append("{\"id\":\""+ets.getSupplierId()+"_"+ets.getPackageId()+"\",");
-      buffer.append("\"pScore\":\""+ets.getScore()+"\"},");
+      buffer.append("\"pScore\":\""+ets.getScore().setScale(2)+"\"},");
       HashMap<String, Object> ranMap = new HashMap<String, Object>();
       ranMap.put("supplierId", ets.getSupplierId());
       ranMap.put("packageId", ets.getPackageId());
@@ -698,7 +698,7 @@ public class ReviewFirstAuditController extends BaseSupplierController {
     	    ranks.append("{\"id\":\""+sts.get(0).getSuppliers().getId()+"_"+sts.get(0).getPackages()+"\",");
           ranks.append("\"rank\":\""+sts.get(0).getReviewResult().substring(sts.get(0).getReviewResult().lastIndexOf("_")+1,sts.get(0).getReviewResult().length())+"\"},");
           score.append("{\"id\":\""+sts.get(0).getSuppliers().getId()+"_"+sts.get(0).getPackages()+"\",");
-          score.append("\"score\":\""+sts.get(0).getPriceScore()+"(价格)+"+sts.get(0).getEconomicScore()+"(经济)+"+sts.get(0).getTechnologyScore()+"(技术)="+sts.get(0).getPriceScore().add(sts.get(0).getEconomicScore()).add(sts.get(0).getTechnologyScore())+"\"},");
+          score.append("\"score\":\""+sts.get(0).getPriceScore().setScale(2)+"(价格)+"+sts.get(0).getEconomicScore().setScale(2)+"(经济)+"+sts.get(0).getTechnologyScore().setScale(2)+"(技术)="+sts.get(0).getPriceScore().add(sts.get(0).getEconomicScore()).add(sts.get(0).getTechnologyScore()).setScale(2)+"\"},");
       }
     }
     ranks=ranks.replace(ranks.lastIndexOf(","), ranks.lastIndexOf(",")+1, "],");

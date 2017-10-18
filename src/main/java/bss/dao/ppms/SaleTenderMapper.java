@@ -202,4 +202,7 @@ public interface SaleTenderMapper {
      * @return
      */
     List<SaleTender> getAdPackegeSuppliers(HashMap<String, Object> map);
+    
+    
+    List<SaleTender> findByProject(SaleTender record);
 }
