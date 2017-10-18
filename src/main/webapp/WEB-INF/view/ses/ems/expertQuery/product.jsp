@@ -217,6 +217,7 @@
 		<form id="form_id" action="" method="post">
 			<input name="expertId" id="expertId" value="${expertId}" type="hidden">
 			<input name="sign" value="${sign}" type="hidden">
+			<input name="status" value="${status}" type="hidden">
 		</form>
 	</body>
 

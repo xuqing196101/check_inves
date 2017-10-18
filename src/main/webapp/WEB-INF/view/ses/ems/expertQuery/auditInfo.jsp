@@ -71,7 +71,7 @@
             </li>
           </ul>
           
-          <h2 class="count_flow mt0"><i>1</i><span class="red">*</span>审核信息</h2>
+          <h2 class="count_flow mt0"><i>1</i>审核信息</h2>
           <ul class="ul_list hand">
 	          <table class="table table-bordered table-condensed table-hover">
 	            <thead>
@@ -109,7 +109,7 @@
 	        </ul>
 	        
 
-            <h2 class="count_flow mt0"><i>2</i><span class="red">*</span>意见信息</h2>
+            <h2 class="count_flow mt0"><i>2</i>意见信息</h2>
             <ul class="ul_list">
               <li>
                 <div class="select_check" id="selectOptionId">
@@ -118,8 +118,9 @@
                     <input type="radio"  disabled="disabled" name="selectOption" value="0" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if>>预初审不合格
                   </c:if>
                   <c:if test="${auditOpinion.flagTime eq '1'}">
-                    <input type="radio" disabled="disabled" id="qualified" name="selectOption" value="1" <c:if test="${auditOpinion.flagAudit eq '6'}">checked</c:if>>预复审合格
+                    <input type="radio" disabled="disabled" id="qualified" name="selectOption" value="1" <c:if test="${auditOpinion.flagAudit eq '-3'}">checked</c:if>>预复审合格
                     <input type="radio" disabled="disabled" name="selectOption" value="0" <c:if test="${auditOpinion.flagAudit eq '5'}">checked</c:if>>预复审不合格
+                    <input type="radio" disabled="disabled" name="selectOption" value="0" <c:if test="${auditOpinion.flagAudit eq '10'}">checked</c:if>>退回修改
                   </c:if>
                 </div>
               </li>
@@ -147,6 +148,7 @@
     <form id="form_id" action="" method="post">
       <input name="expertId" value="${expertId}" type="hidden">
       <input name="sign" value="${sign}" type="hidden">
+      <input name="status" value="${status}" type="hidden">
     </form>
   </body>
 
