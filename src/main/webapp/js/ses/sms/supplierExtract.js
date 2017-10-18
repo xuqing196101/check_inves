@@ -149,7 +149,8 @@ $(function () {
     //增加
     function addPerson(obj){
     	var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();
-    	var input = $(obj).parents("form").find("tr:last").find("td:first").find("input").prop("name");//.substring(4,6);//.attr("req");
+    	//var input = $(obj).parents("form").find("tr:last").find("td:first").find("input").prop("name");//.substring(4,6);//.attr("req");
+    	var input = $(obj).parents("form").find("tr:last").find("td:eq(2)").find("input").prop("name");//.substring(4,6);//.attr("req");
     	var req ;
     	if(null==input ||''==input || "undefined"== input){
     		req=0;
@@ -612,9 +613,10 @@ $(function () {
 	    
 	    
 	    if(status){
+	    	//自动抽取
 	    	$.ajax({
 	    		type: "POST",
-	    		url: globalPath+'/SupplierCondition_new/selectLikeSupplier.do',
+	    		url: globalPath+'/SupplierCondition_new/autoExtract.do?projectInfo'+projectType,
 	    		data: formData ,
 	    		dataType: "json",
 	    		async:false,

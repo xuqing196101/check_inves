@@ -1,6 +1,7 @@
 package extract.dao.supplier;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -92,7 +93,7 @@ public interface SupplierExtractConditionMapper {
 	List<DictionaryData> getEngAptitudeLevelByCategoryId(
 			Map<String, String[]> map);
 
-	List<DictionaryData> getQuaByCid(HashMap<String, Object> hashMap);
+	HashSet<DictionaryData> getQuaByCid(HashMap<String, Object> hashMap);
 
 	List<DictionaryData> getLevelByQid(String[] split);
 
@@ -132,6 +133,4 @@ public interface SupplierExtractConditionMapper {
 	 */
 	List<CategoryQua> verifyQua(String quaId);
 
-
-	
 }

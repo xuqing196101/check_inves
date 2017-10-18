@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.JsonParser.Feature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +30,6 @@ import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
-import test.webservice.Epoint005WebService;
-import test.webservice.PeopleYytz;
-import test.webservice.ProjectYytz;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.service.ppms.PackageService;
@@ -43,6 +39,9 @@ import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 
+import extract.autoVoiceExtract.Epoint005WebService;
+import extract.autoVoiceExtract.PeopleYytz;
+import extract.autoVoiceExtract.ProjectYytz;
 import extract.dao.supplier.ExtractConditionRelationMapper;
 import extract.dao.supplier.SupplierExtractConditionMapper;
 import extract.dao.supplier.SupplierExtractRelateResultMapper;
