@@ -403,7 +403,7 @@
           </div>
         </div>
         <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类目：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类别：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="projectIsMulticondition" class="isSatisfy">
           <input type="hidden" name="projectCategoryIds" id="projectCategoryIds" class="categoryId">
@@ -414,7 +414,7 @@
           </div>
         </div>
         <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>工程资质：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"></span>资质信息：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input type="hidden" name="projectQuaId" id="projectQuaId" >
           <input type="text"  id="projectQuaName" treeHome="projectQuaContent"
@@ -424,7 +424,7 @@
           </div>
         </div>
         <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">资质等级：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">供应商等级：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input type="hidden" name="projectLevel" >
           <input type="text" readonly  id="projectLevel" treeHome="projectLevelContent"
@@ -489,7 +489,7 @@
           </div>
         </div>
         <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类目：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类别：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="serviceIsMulticondition" class="isSatisfy">
           <input type="hidden" name="serviceCategoryIds" id="serviceCategoryIds" class="categoryId">
@@ -578,7 +578,7 @@
         </div>
        
         <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类目：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类别：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="productIsMulticondition" class="isSatisfy">
           <input type="hidden" name="productCategoryIds" id="productCategoryIds" class="categoryId">
@@ -667,7 +667,7 @@
         </div>
        
         <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类目：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类别：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="goodsIsMulticondition" class="isSatisfy">
           <input type="hidden" name="goodsCategoryIds" id="goodsCategoryIds" class="categoryId">
@@ -757,7 +757,7 @@
         </div>
        
         <div class="col-xs-3">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类目：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品类别：</span>
           <!--  满足多个条件 -->
           <input type="hidden" name="salesIsMulticondition" class="isSatisfy">
           <input type="hidden" name="salesCategoryIds" id="salesCategoryIds" class="categoryId">

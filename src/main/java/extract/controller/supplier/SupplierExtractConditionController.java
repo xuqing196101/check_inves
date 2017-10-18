@@ -84,6 +84,25 @@ import extract.service.supplier.SupplierExtractConditionService;
     	Map<String, Object> supplierList = conditionService.selectLikeSupplier(condition,conType,1);
     	return JSON.toJSONString(supplierList);
     }
+    
+    
+    /**
+     * 
+     *〈简述〉返回满足条件的供应商(自动抽取)
+     *〈详细描述〉
+     * @author Jia Chengxaing
+     * @param condition
+     * @param conType
+     * @param sq
+     * @param typeclassId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("autoExtract")
+    public String autoExtract(SupplierExtractCondition condition,SupplierConType conType,HttpServletRequest sq,String province,String projectInfo){
+    	Map<String, Object> supplierList = conditionService.autoExtract(condition,conType,projectInfo);
+    	return JSON.toJSONString(supplierList);
+    }
 
     /**
     *
@@ -118,7 +137,7 @@ import extract.service.supplier.SupplierExtractConditionService;
     */
    @RequestMapping("/getQuaByCid")
    @ResponseBody
-   public List<DictionaryData> getQuaByCid(String categoryId,String supplierTypeCode,String parentId){
+   public Set<DictionaryData> getQuaByCid(String categoryId,String supplierTypeCode,String parentId){
    	return conditionService.getQuaByCid(categoryId,supplierTypeCode,parentId);
    }
    
@@ -182,4 +201,5 @@ import extract.service.supplier.SupplierExtractConditionService;
    public Set<Category> searchCate(String typeId,String cateName){
 	return categoryService.selectCategoryByName(typeId, cateName);
    }
+   
 }

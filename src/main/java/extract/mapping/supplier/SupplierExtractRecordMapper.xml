@@ -14,16 +14,28 @@
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="TENDER_AT" jdbcType="TIMESTAMP" property="tenderAt" />
     <result column="PACKAGE_NAME" jdbcType="VARCHAR" property="packageName" />
+    <result column="PACKAGE_NUMBER" jdbcType="VARCHAR" property="packageNumber" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="PROJECT_CODE" jdbcType="VARCHAR" property="projectCode" />
     <result column="PROJECT_TYPE" jdbcType="VARCHAR" property="projectType" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
     <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
     <result column="CONDITION_ID" jdbcType="VARCHAR" property="conditionId" />
     <result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType" />
     <result column="PURCHASE_TYPE_NAME" jdbcType="VARCHAR" property="purchaseTypeName" />
     <result column="CONSTRUCTION_PRO" jdbcType="VARCHAR" property="constructionPro" />
+    <result column="SELL_BEGIN" jdbcType="VARCHAR" property="sellBegin" />
+    <result column="SELL_END" jdbcType="VARCHAR" property="sellEnd" />
+    <result column="SELL_ADDRESS" jdbcType="VARCHAR" property="sellAddress" />
+    <result column="SELL_PROVINCE" jdbcType="VARCHAR" property="sellProvince" />
     <result column="CONSTRUCTION_ADDR" jdbcType="VARCHAR" property="constructionAddr" />
+    <result column="SELL_SITE" jdbcType="VARCHAR" property="sellSite" />
+    <result column="CONDITION_ID" jdbcType="VARCHAR" property="conditionId" />
+    <result column="CONTACT_PERSON" jdbcType="VARCHAR" property="contactPerson" />
+    <result column="CONTACT_NUM" jdbcType="VARCHAR" property="contactNum" />
+    <result column="PROVINCE_NAME" jdbcType="VARCHAR" property="provinceName" />
+    <result column="CITY_NAME" jdbcType="VARCHAR" property="cityName" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -43,7 +55,10 @@
   </sql>
  
  
-  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+	SELECT R.*,A.NAME PROVINCE_NAME,AR.NAME CITY_NAME  FROM T_SES_SMS_EXTRACT_RECORD R LEFT JOIN T_SES_BMS_AREA A ON R.SELL_PROVINCE = A.ID LEFT JOIN T_SES_BMS_AREA AR ON R.SELL_ADDRESS = AR.ID 
+  	WHERE R.ID = #{value}
+  </select>
   
   
     

@@ -14,6 +14,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+    <!-- 会有加载顺序问题  优先加载 -->
+		<dependency>
+		    <groupId>org.codehaus.woodstox</groupId>
+		    <artifactId>woodstox-core-asl</artifactId>
+		    <version>4.4.1</version>
+		</dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
@@ -350,6 +356,29 @@
       <artifactId>embedded-redis</artifactId>
       <version>0.6</version>
     </dependency>
+    
+    <!-- cxf依赖 -->
+	    <dependency>
+	      <groupId>org.apache.cxf</groupId>
+	      <artifactId>cxf-rt-transports-http</artifactId>
+	      <version>3.1.8</version>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.apache.cxf</groupId>
+	      <artifactId>cxf-rt-frontend-jaxws</artifactId>
+	      <version>3.1.8</version>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.apache.cxf</groupId>
+	      <artifactId>cxf-rt-transports-http-jetty</artifactId>
+	      <version>3.1.8</version>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.apache.cxf</groupId>
+	      <artifactId>cxf-rt-transports-http</artifactId>
+	      <version>3.1.8</version>
+	    </dependency>
+    
     </dependencies>
     <build>
         <resources>

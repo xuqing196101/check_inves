@@ -191,8 +191,10 @@
 			<!-- 定型产品 -->
 			<mvc:exclude-mapping path="/product/selPurchaseDepbyId.*" /> 
 			<!-- 前天搜索-->
-			<mvc:exclude-mapping path="/index/solrSearch1.*" />
+			<mvc:exclude-mapping path="/SupplierExtracts_new/supplierExtractResult.*" />
 			
+			<!-- 过滤抽取语音接口返回状态 -->
+			<mvc:exclude-mapping path="/index/solrSearch1.*" />
 			<bean class="ses.interceptor.MyInterceptor"></bean>
 		</mvc:interceptor>
 		
