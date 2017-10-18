@@ -202,7 +202,14 @@ public class PlanLookController extends BaseController {
     public String view1(String id, Model model,HttpServletRequest request){
         
     	List<PurchaseDetail> listp = purchaseDetailService.getUnique(id,null,null);
-		
+		 for (PurchaseDetail purchaseDetail : listp) {
+		   HashMap<String, Object> map=new HashMap<String, Object>();
+		   map.put("id",purchaseDetail.getId());
+		   List<PurchaseDetail> pds = purchaseDetailService.selectByParentId(map);
+		   if(pds!=null&&!pds.isEmpty()&&pds.size()>1){
+		     purchaseDetail.setIsParent("true");
+	      }
+    }
 		model.addAttribute("list", listp);
 		
 		
@@ -266,6 +273,14 @@ public class PlanLookController extends BaseController {
 //       List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
 //       model.addAttribute("list", list);
 		List<PurchaseDetail> list = purchaseDetailService.selectByParentId(map);
+		for (PurchaseDetail purchaseDetail : list) {
+      HashMap<String, Object> map2=new HashMap<String, Object>();
+      map2.put("id",purchaseDetail.getId());
+      List<PurchaseDetail> pds = purchaseDetailService.selectByParentId(map2);
+      if(pds!=null&&!pds.isEmpty()&&pds.size()>1){
+        purchaseDetail.setIsParent("true");
+       }
+   }
 		model.addAttribute("list", list);
 		String typeId = DictionaryDataUtil.getId("PURCHASE_FILE");
 		model.addAttribute("typeId", typeId);
@@ -290,6 +305,14 @@ public class PlanLookController extends BaseController {
 	 List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		
 	 List<PurchaseDetail> listp = purchaseDetailService.getUnique(id,null,null);
+	 for (PurchaseDetail purchaseDetail : listp) {
+     HashMap<String, Object> map2=new HashMap<String, Object>();
+     map2.put("id",purchaseDetail.getId());
+     List<PurchaseDetail> pds = purchaseDetailService.selectByParentId(map2);
+     if(pds!=null&&!pds.isEmpty()&&pds.size()>1){
+       purchaseDetail.setIsParent("true");
+      }
+  }
 //        List<String> list = conllectPurchaseService.getNo(id);
 //        if(list != null && list.size() > 0){
 //            for(String s:list){
@@ -415,7 +438,14 @@ public class PlanLookController extends BaseController {
 		}*/
 		
 		List<PurchaseDetail> list = purchaseDetailService.getUnique(id,null,null);
-		
+		for (PurchaseDetail purchaseDetail : list) {
+      HashMap<String, Object> map2=new HashMap<String, Object>();
+      map2.put("id",purchaseDetail.getId());
+      List<PurchaseDetail> pds = purchaseDetailService.selectByParentId(map2);
+      if(pds!=null&&!pds.isEmpty()&&pds.size()>1){
+        purchaseDetail.setIsParent("true");
+       }
+   }
 		model.addAttribute("list", list);
 		model.addAttribute("org",orgs);
 		model.addAttribute("id", id);

@@ -195,7 +195,15 @@
  function acc(){
      	var bool=true;
 		    $("#table tr:gt(0)").each(function(i){
-		    	var  val1= $(this).find("td:eq(11)").children(":last").prev().val();//上级id
+		    	if($(this).attr("attr")!='true'){
+		    		var  val1= $(this).find("td:eq(11)").children(":last").prev().val();//上级id
+		    		if($.trim(val1) == "") {
+			    		  bool=false;
+			    		  i=i+1;
+			    		  layer.msg("第"+i+"行，请选择采购机构！");
+			    	  }
+		    	}
+		    	/* var  val1= $(this).find("td:eq(11)").children(":last").prev().val();//上级id
 		    	var  text= $(this).find("td:eq(6)").text();//上级id
 		    	if($.trim(text) != ""){
 		    		if($.trim(val1) == "") {
@@ -203,7 +211,7 @@
 			    		  i=i+1;
 			    		  layer.msg("第"+i+"行，请选择采购机构！");
 			    	  }
-		    	}
+		    	} */
 		    	  
 		    });
 		  if(bool){
@@ -384,7 +392,7 @@
 		<form id="acc_form" action="${pageContext.request.contextPath}/accept/update.html" method="post">
 					
 					<c:forEach items="${list }" var="obj" varStatus="vs">
-						<tr>
+						<tr <c:if test="${isParent=='true'}">attr='true'</c:if>>
 							<td class="tc w50">
 							    <div class="w50">
 							        ${obj.seq } <input type="hidden" value="${obj.id }" name="list[${vs.index }].id">
@@ -436,7 +444,7 @@
 							<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
 							<input type="hidden" name="ss" value="${obj.id}"  >
 							<select class="type w120"  onchange="purchaseType(this)" required="required" name="list[${vs.index }].purchaseType" id="select">
-									 <option value=""  <c:if test="${obj.price==null }"> selected="selected" </c:if>>请选择</option>
+									 <option value=""  <c:if test="${obj.isParent=='true' }"> selected="selected" </c:if>>请选择</option>
 									 <c:forEach items="${kind}" var="kind" >
 									
 			                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>

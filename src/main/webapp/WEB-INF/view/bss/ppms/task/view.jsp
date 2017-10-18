@@ -64,7 +64,7 @@
               </table>
               <h2 class="count_flow jbxx">任务明细查看</h2>
 
-              <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto" id="content">
+              <div class="col-md-12 col-sm-12 col-xs-12 mt5 content require_ul_list" id="content">
                 <table id="table" class="table table-bordered table-condensed lockout">
                   <thead>
                     <tr class="space_nowrap">
@@ -117,20 +117,28 @@
 					              </td>
                         <td>
                           <div class="purchasetype">
+                            <c:if test="${obj.isParent!='true' }">
                             <c:forEach items="${kind}" var="kind">
                               <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                             </c:forEach>
+                            </c:if>
                           </div>
                         </td>
                         <td>
                            <div class="organization">
+                           <c:if test="${obj.isParent!='true' }">
                              <c:forEach items="${list2}" var="list">
                                <c:if test="${obj.organization eq list.id}">${list.shortName}</c:if>
                              </c:forEach>
+                             </c:if>
                            </div>
                         </td>
                         <td>
-                           <div class="purchasename">${obj.supplier}</div>
+                           <div class="purchasename">
+                           <c:if test="${obj.isParent!='true' }">
+                           ${obj.supplier}
+                           </c:if>
+                           </div>
                         </td>
                        <%--  <td>
                            <div class="freetax">${obj.isFreeTax}</div>

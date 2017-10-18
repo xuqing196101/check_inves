@@ -142,7 +142,6 @@
       <h2>计划明细</h2>
     </div>
     <div class="col-md-12 col-xs-12 col-sm-12 mt5 content require_ul_list" id="content">
-      <form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
        <table id="table" class="table table-bordered table-condensed lockout">
           <thead>
             <tr>
@@ -172,7 +171,7 @@
               <td><div class="seq">${obj.seq }</div> 
               </td>
               <td><div class="department">
-                <c:if test="${obj.purchaseCount==null }">
+                <c:if test="${obj.isParent=='true' }">
               ${obj.department}
               </c:if>
               </div></td >
@@ -226,7 +225,7 @@
               </td>
               <td class="tc">
                 <div class="purchasetype">
-                <c:if test="${obj.purchaseCount!=null }">
+                <c:if test="${obj.isParent!='true' }">
                  <c:forEach items="${kind}" var="kind" >
                  <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                  </c:forEach>
@@ -235,7 +234,7 @@
               </td>
               <td class="tl">
                 <div class="organization">
-                 <c:if test="${obj.purchaseCount!=null }">
+                 <c:if test="${obj.isParent!='true'}">
                   <c:forEach items="${org}" var="og" >
                    <c:if test="${og.orgId == obj.organization}">${og.shortName}</c:if>
                   </c:forEach>
@@ -244,8 +243,10 @@
               </td>  
               <td title="${obj.supplier}" class="tl">
                <div class="purchasename">
+               <c:if test="${obj.isParent!='true' }">
                 <c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
                 <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
+                </c:if>
                </div>
               </td >
               <%-- <td class="tc">${obj.isFreeTax }</td> --%>
@@ -278,12 +279,10 @@
 
           </c:forEach>
         </table>
-        
-        <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
+  </div>
+  <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
          <input class="btn btn-windows back" value="返回" type="button"
                     onclick="location.href='javascript:history.go(-1);'">
-      </form>
     </div>
-  </div>
 </body>
 </html>

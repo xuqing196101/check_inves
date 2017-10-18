@@ -126,7 +126,7 @@
               </td>
               <td>
                 <div class="department">
-                  <c:if test="${obj.purchaseCount eq null}">
+                  <c:if test="${obj.isParent=='true'}">
                     ${obj.department}
                   </c:if>
                 </div>
@@ -175,7 +175,7 @@
               </td>
               <td>
                 <div class="purchasetype">
-                  <c:if test="${obj.purchaseCount ne null}">
+                  <c:if test="${obj.isParent!='true'}">
                     <c:forEach items="${kind}" var="kind">
                       <c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
                     </c:forEach>
@@ -185,7 +185,7 @@
               <c:if test="${org_advice!=2 }">
                 <td>
                   <div class="organization">
-                    <c:if test="${obj.purchaseCount ne null}">
+                    <c:if test="${obj.isParent!='true'}">
                       <c:forEach items="${requires}" var="ss">
                         <c:if test="${ss.orgId eq obj.organization}">${ss.shortName}</c:if>
                       </c:forEach>

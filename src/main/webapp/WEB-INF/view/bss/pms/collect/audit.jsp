@@ -481,7 +481,6 @@
 										}
 										
 									});
-									alert(defVal)
 									$(options).each(function(i) {
 										var opt = $(this).val();
 										if(org == opt) {
@@ -943,22 +942,22 @@
 														<input type="hidden" name="history" value="" />
 													</td>
 													<td>
-														<c:if test="${obj.purchaseCount!=null }">
+														<c:if test="${obj.isParent!='true' }">
 															<input type="hidden" name="ss" value="${obj.id }">
 															<input maxlength="11" id="purchaseCount" onblur="sum2(this)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="listDetail[${vs.index }].purchaseCount" value="${obj.purchaseCount}" type="text" class="purchasecount" />
 															<input type="hidden" name="ss" value="${obj.parentId }">
 														</c:if>
-														<c:if test="${obj.purchaseCount==null }">
+														<c:if test="${obj.isParent=='true' }">
 															<input disabled="disabled" type="text" name="listDetail[${vs.index }].purchaseCount" value="${obj.purchaseCount }" class="purchasecount">
 														</c:if>
 													</td>
 													<td class="tl">
-														<c:if test="${obj.price!=null }">
+														<c:if test="${obj.isParent!='true' }">
 															<input type="hidden" name="ss" value="${obj.id }">
 															<input maxlength="11" id="price" name="listDetail[${vs.index }].price" onblur="sum1(this)" value="${obj.price}" type="text" class="price" />
 															<input type="hidden" name="ss" value="${obj.parentId }">
 														</c:if>
-														<c:if test="${obj.price==null}">
+														<c:if test="${obj.isParent=='true'}">
 															<input readonly="readonly" type="text" name="listDetail[${vs.index }].price" value="${obj.price }" class="price">
 														</c:if>
 													</td>

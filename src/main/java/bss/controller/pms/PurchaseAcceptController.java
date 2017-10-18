@@ -229,6 +229,14 @@ public class PurchaseAcceptController extends BaseController{
     	PurchaseRequired p=new PurchaseRequired();
 		p.setUniqueId(planNo);
 		List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
+		for (PurchaseRequired purchaseRequired : list) {
+		  HashMap<String, Object> map=new HashMap<String, Object>();
+      map.put("id",purchaseRequired.getId());
+      List<PurchaseRequired> prs = purchaseRequiredService.selectByParentId(map);
+      if(prs!=null&&!prs.isEmpty()&&prs.size()>1){
+        purchaseRequired.setIsParent("true");
+      }
+    }
 		model.addAttribute("planNo", list.get(0).getUniqueId());
 		model.addAttribute("list", list);
 		
