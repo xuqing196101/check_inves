@@ -199,8 +199,8 @@ import extract.service.supplier.SupplierExtractConditionService;
 
    @ResponseBody
    @RequestMapping("/searchCate")
-   public Set<Category> searchCate(String typeId,String cateName){
-	return categoryService.selectCategoryByName(typeId, cateName);
+   public String searchCate(String typeId,String cateName,String cateCode){
+	return JSON.toJSONString(categoryService.selectCategoryByName(typeId, cateName,cateCode));
    }
    
 }

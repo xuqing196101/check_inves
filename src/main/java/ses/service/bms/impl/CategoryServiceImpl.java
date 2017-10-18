@@ -1267,11 +1267,15 @@ public class CategoryServiceImpl implements CategoryService {
 	 * 按品目名称搜索品目树
 	 */
 	@Override
-	public  Set<Category> selectCategoryByName(String typeId,String cateName) {
+	public  Set<Category> selectCategoryByName(String typeId,String cateName,String cateCode) {
 		
+		if(StringUtils.isBlank(cateCode) && StringUtils.isBlank(cateName)){
+			return null;
+		}
 		HashSet<Category> hashSet = new HashSet<>();
 		HashMap<String,String> map = new HashMap<>();
 		map.put("cateName", cateName);
+		map.put("cateCode", cateCode);
 		switch (typeId) {
 			case "PRODUCT":
 				map.put("status", "1");
@@ -1299,5 +1303,5 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		return hashSet;
 	}
-	
+
 }

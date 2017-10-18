@@ -778,14 +778,22 @@
 		ORDER BY C.CODE -->
 		SELECT <include refid="Base_Column_List" />
 		FROM T_SES_BMS_CATEGORY START WITH ID IN 
-		( SELECT ID FROM T_SES_BMS_CATEGORY WHERE 
-		NAME LIKE CONCAT(CONCAT('%', #{cateName}), '%') 
-		AND IS_DELETED=0 
-		AND IS_PUBLISH = 0 
-		<if test="status != null">
-		 AND CLASSIFY_STATUS in (${status},3)
-		</if>
-		AND CLASSIFY_TYPE = #{type})  
+		( SELECT ID FROM T_SES_BMS_CATEGORY 
+		<where>
+			<if test="cateName != null">
+				CODE LIKE CONCAT(CONCAT('%', #{cateCode}), '%') 
+			</if>
+			<if test="cateName != null">
+				AND NAME LIKE CONCAT(CONCAT('%', #{cateName}), '%') 
+			</if>
+			AND IS_DELETED=0 
+			AND IS_PUBLISH = 0 
+			<if test="status != null">
+			 AND CLASSIFY_STATUS in (${status},3)
+			</if>
+			AND CLASSIFY_TYPE = #{type}
+		</where>
+		)  
 		CONNECT BY PRIOR PARENT_ID = ID
 	</select>
 </mapper>
