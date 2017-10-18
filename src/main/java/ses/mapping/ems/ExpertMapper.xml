@@ -2201,6 +2201,7 @@ resultMap="BaseResultMap">
       T1.ID,
       T1.REAL_NAME,
       T1.ID_CARD_NUMBER,
+      T1.WORK_UNIT,
       T1.GENDER,
       T1.EXPERTS_TYPE_ID,
       T1.GRADUATE_SCHOOL,

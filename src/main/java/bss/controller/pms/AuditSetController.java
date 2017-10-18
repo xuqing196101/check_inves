@@ -316,8 +316,8 @@ public class AuditSetController {
 	@RequestMapping("/expert")
 	public String getExpert(Integer page,Expert expert,Model model,HttpServletRequest request,String satff){
 		String type = request.getParameter("type");
-		expert.setStatus("7");
-		List<Expert> list = expertService.selectAllExpert(page==null?1:page, expert);
+		/*expert.setStatus("7");*/
+		List<Expert> list = expertService.selectRuKuExpert(expert, page==null?1:page);
 		PageInfo<Expert> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("expert", expert);
@@ -980,8 +980,12 @@ public class AuditSetController {
 	            auditPerson.setMobile(user.getMobile());
 	            if(user.getOrg()==null){
 					        auditPerson.setUnitName(user.getOrgName());
-	            } else {
-	                auditPerson.setUnitName(user.getOrg().getFullName());
+	            } 
+              if(user.getOrg()!=null&& user.getOrg().getFullName()!=null && !"".equals(user.getOrg().getFullName())){
+                auditPerson.setUnitName(user.getOrg().getFullName());
+              }
+	            if(user.getOrg()!=null&&(user.getOrg().getFullName()==null||"".equals(user.getOrg().getFullName()))){
+	              auditPerson.setUnitName(user.getOrg().getName());
 	            }
 	            auditPerson.setUserId(user.getId());
 	            auditPerson.setType(2);
