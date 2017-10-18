@@ -2391,7 +2391,7 @@ public class IndexNewsController extends BaseSupplierController{
 
 		List <DictionaryData> allCategoryList = new ArrayList <> ();
 
-		// 查询审核通过的专家类型
+		// 查询审核不通过的专家类型
         List<String> stringList = expertCategoryService.selectCateByExpertId(query_id_of_cate);
 
         // 获取专家类别
