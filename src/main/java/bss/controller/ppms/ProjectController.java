@@ -1074,8 +1074,8 @@ public class ProjectController extends BaseController {
                      projectDetail2.setDetailStatus(0);
                  }
             }
-             List<ProjectDetail> paixu = paixu(detail, project.getId());
-             model.addAttribute("lists", paixu);
+             //List<ProjectDetail> paixu = paixu(detail, project.getId());
+             model.addAttribute("lists", detail);
              
              if(page == null){
                  page = 1;
@@ -1280,9 +1280,9 @@ public class ProjectController extends BaseController {
                 projectDetail.setDetailStatus(0);
             }
         }
-        List<ProjectDetail> paixu = paixu(detail, project.getId());
+        //List<ProjectDetail> paixu = paixu(detail, project.getId());
         model.addAttribute("kind", DictionaryDataUtil.find(5));
-        model.addAttribute("lists", paixu);
+        model.addAttribute("lists", detail);
         model.addAttribute("project", project);
         return "bss/ppms/project/editDetail";
     }

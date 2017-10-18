@@ -359,10 +359,10 @@ public class TackController extends BaseController{
                     list5.addAll(selectByParent);
                 }
             }
-            HashMap<String,Object> map = new HashMap<>();
+            //HashMap<String,Object> map = new HashMap<>();
             removeSame(list5);
             sort(list5);
-            int serialoneOne = 1;
+            /*int serialoneOne = 1;
             int serialtwoTwo = 1;
             int serialthreeThree = 1;
             int serialfourFour = 1;
@@ -459,7 +459,7 @@ public class TackController extends BaseController{
                     }
                 }
             
-            }
+            }*/
             HashMap<String, Object> newMap = new HashMap<>();
             for (int j = 0; j < list5.size(); j++ ) {
                 newMap.put("id", list5.get(j).getId());
