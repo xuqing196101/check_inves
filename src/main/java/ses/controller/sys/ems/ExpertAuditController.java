@@ -2461,9 +2461,9 @@ public class ExpertAuditController{
         		            			String reason = audit.getAuditReason();
         		            			expertAudit1.setAuditReason("不通过。原因：" + reason);
         		        			}
-        		        			list4.add(false);
+        		        			list3.add(false);
         		        		}else{
-        		        			list4.add(true);
+        		        			list3.add(true);
         		        			expertAudit1.setAuditField(cateTree.getRootNode());
         		        			expertAudit1.setAuditReason("通过。");
         		        		}
