@@ -24,6 +24,7 @@ import ses.service.bms.CategoryService;
 import com.alibaba.fastjson.JSON;
 import common.bean.ResponseBean;
 
+import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.service.supplier.SupplierExtractConditionService;
@@ -137,7 +138,7 @@ import extract.service.supplier.SupplierExtractConditionService;
     */
    @RequestMapping("/getQuaByCid")
    @ResponseBody
-   public Set<DictionaryData> getQuaByCid(String categoryId,String supplierTypeCode,String parentId){
+   public List<Qua> getQuaByCid(String categoryId,String supplierTypeCode,String parentId){
    	return conditionService.getQuaByCid(categoryId,supplierTypeCode,parentId);
    }
    

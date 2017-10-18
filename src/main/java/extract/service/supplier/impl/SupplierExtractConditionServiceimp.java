@@ -6,6 +6,8 @@ package extract.service.supplier.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,6 +32,7 @@ import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
+import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.service.ppms.PackageService;
@@ -47,6 +50,7 @@ import extract.dao.supplier.SupplierExtractConditionMapper;
 import extract.dao.supplier.SupplierExtractRelateResultMapper;
 import extract.model.supplier.ExtractConditionRelation;
 import extract.model.supplier.ProjectVoiceResult;
+import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractProjectInfo;
@@ -451,16 +455,17 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	}
 
 	@Override
-	public HashSet<DictionaryData> getQuaByCid(String categoryId ,String code,String parentId) {
+	public List<Qua> getQuaByCid(String categoryId ,String code,String parentId) {
 		
 		HashMap<String,Object> hashMap = new HashMap<>();
-		if("project".equals(code)){
+		if("project".equals(code) && StringUtils.isNotBlank(categoryId)){
 			String[] checkParentCate = checkParentCate(categoryId);
 			hashMap.put("categoryIds",null !=checkParentCate?checkParentCate:categoryId.split(","));
-			return supplierConditionMapper.getQuaByCid(hashMap);
+			List<Qua> quaByCid = supplierConditionMapper.getQuaByCid(hashMap);
+			return sortQua(quaByCid);
 		}else{
 			//List<DictionaryData> cateList = new ArrayList<>();
-			HashSet<DictionaryData> cateList = new HashSet<>();
+			Set<Qua> cateList = new HashSet<>();
 			hashMap.put("quaType", code.equals("product")?"2":code.equals("sales")?"3":null);
 			if(StringUtils.isNotBlank(parentId)){
 				//categoryId = this.selectChild(parentId, categoryId);
@@ -476,7 +481,8 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 							 arrayList2.add(arrayList.get(i*count+j));
 						 }
 						 hashMap.put("categoryIds",arrayList2);//categoryId.split(","));
-						 cateList.addAll(supplierConditionMapper.getQuaByCid(hashMap)); 
+						 List<Qua> quaByCid = supplierConditionMapper.getQuaByCid(hashMap);
+						 cateList.addAll(quaByCid); 
 					}
 					 if(size%1000>0){
 						 ArrayList<String> arrayList2 = new ArrayList<>();
@@ -497,8 +503,20 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 				
 			}
 			
-			return cateList;
+			return  sortQua(new ArrayList<>(cateList));
 		}
+	}
+
+	private List<Qua> sortQua(List<Qua> list) {
+		Collections.sort(list, new Comparator<Qua>(){
+	           @Override
+	           public int compare(Qua o1, Qua o2) {
+	              Integer i = Integer.parseInt(o1.getQuatype()) - Integer.parseInt(o2.getQuatype());
+	              return i;
+	           }
+	        });
+
+		return list;
 	}
 
 	@Override
@@ -844,5 +862,6 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		}
 		return conType;
 	}
+	
 	
 }
