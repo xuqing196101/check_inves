@@ -836,7 +836,6 @@ function myReSet(){
 					<option value="邀请招标" <c:if test="${'邀请招标' eq lastArticleTypeName }"> selected=selected </c:if> >邀请招标</option>
 					<option value="询价" <c:if test="${'询价' eq lastArticleTypeName }"> selected=selected </c:if> >询价</option>
 					<option value="竞争性谈判" <c:if test="${'竞争性谈判' eq lastArticleTypeName }"> selected=selected </c:if> >竞争性谈判</option>
-					<option value="邀请招标" <c:if test="${'邀请招标' eq lastArticleTypeName }"> selected=selected </c:if> >邀请招标</option>
 				</select>
 			    <!-- <input name="lastArticleTypeName" type="text" id="lastArticleTypeName" value="${lastArticleTypeName }" />-->
 				</div>

@@ -17,9 +17,13 @@ import ses.util.DictionaryDataUtil;
 import synchro.inner.read.InnerFilesRepeater;
 import synchro.inner.read.expert.InnerExpertService;
 import synchro.inner.read.supplier.InnerSupplierService;
+import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.outer.read.att.OuterAttachService;
+import synchro.service.SynchRecordService;
 import synchro.util.Constant;
+import synchro.util.DateUtils;
 import synchro.util.FileUtils;
+import synchro.util.MultiTaskUril;
 import synchro.util.OperAttachment;
 
 import java.io.File;
@@ -92,6 +96,14 @@ public class MultiImportTask {
     @Autowired
     private InnerFilesRepeater fileRepeater;
 
+    // 导入导出记录Service
+    @Autowired
+    private SynchRecordService recordService;
+
+    // 供应商导出Service
+    @Autowired
+    private OuterSupplierService outerSupplierService;
+
     /**
      * 实现 定时导入 数据方法
      */
@@ -99,12 +111,23 @@ public class MultiImportTask {
         // 外网
         if ("1".equals(StaticVariables.ipAddressType)) {
             fileRepeater.initFiles();
+
+            /**
+             * 供应商注销导出
+             */
+            // 导出
+            String startTime = MultiTaskUril.getSynchDate(Constant.SYNCH_LOGOUT_SUPPLIER, recordService);
+            if (StringUtils.isNotBlank(startTime)) {
+                startTime = DateUtils.getCalcelDate(startTime);
+                String endTime = DateUtils.getCurrentTime();
+                outerSupplierService.selectLogoutSupplierOfExport(startTime, endTime);
+            }
+
             /** 内网导入 **/
             File file = FileUtils.getImportFile();
             if (file != null && file.exists()) {
                 File[] files = file.listFiles();
                 for (File f : files) {
-                    System.out.println("dd ");
                     if (f.isDirectory()) {
                         // 竞价定型产品导入
                         String result = DictionaryDataUtil.getId(Constant.DATE_SYNCH_BIDDING_PRODUCT);
@@ -420,6 +443,7 @@ public class MultiImportTask {
                                 }
                             }
                         }
+<<<<<<< HEAD
 						/**
 						 * 专家公示自动导入
 						 */
@@ -436,6 +460,24 @@ public class MultiImportTask {
 								}
 							}
 						}
+=======
+
+                        /**
+                         * 供应商注销自动导入
+                         */
+                        result = DictionaryDataUtil.getId(Constant.SYNCH_LOGOUT_SUPPLIER);
+                        if (StringUtils.isNotEmpty(result)) {
+                            if (FileUtils.getSynchAttachFile(31).equals("/" + f.getName())) {
+                                // 遍历文件夹中的所有文件
+                                for (File file2 : f.listFiles()) {
+                                    if (file2.getName().contains(FileUtils.C_SYNCH_LOGOUT_SUPPLIER_FILENAME)) {
+                                        innerSupplierService.importLogoutSupplier(file2);
+                                    }
+                                }
+                            }
+                        }
+
+>>>>>>> fix_bug
                     }
                 }
             }

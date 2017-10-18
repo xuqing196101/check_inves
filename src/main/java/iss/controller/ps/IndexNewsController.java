@@ -1944,7 +1944,7 @@ public class IndexNewsController extends BaseSupplierController{
 	}
 	
 	@RequestMapping("/selectAllByTabs")
-	public String selectAllByTabs(Model model,HttpServletRequest request,Integer page)throws Exception{
+	public String selectAllByTabs(Model model, HttpServletRequest request, Integer page, String flag)throws Exception{
 //		String[] idArray = new String[4];
 		String articleTypeId = request.getParameter("articleTypeId");
 		String secondArticleTypeId = request.getParameter("secondArticleTypeId");
@@ -2013,7 +2013,7 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("publishStartDate", publishStartDate);
 		model.addAttribute("publishEndDate", publishEndDate);
 		model.addAttribute("pt", tab);
-		
+		model.addAttribute("flag", flag);
 //		model.addAttribute("id2", id2);
 //		model.addAttribute("id3", id3);
 //		model.addAttribute("id4", id4);

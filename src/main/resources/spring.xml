@@ -27,13 +27,11 @@
     <task:scheduled-tasks>
         <!-- 每天凌晨12点半导出供应商 外网导出新注册供应商:0：待审核）和退回修改再提交gys（9：退回再审核） -->
         <task:scheduled ref="SupplierTask" method="handlerExportSupplier" cron="0 0 13 * * ?"/>
-        <!-- 5月25号提交的供应商 现在没用的-->
-        <task:scheduled ref="SupplierTask" method="handlerExportSupplier68" cron="0 34 14 * * ?"/>
-        <!-- 每天凌晨6点导入供应商 -->
+        <!-- 每天凌晨6点导入供应商（导入新注册供应商:0：待审核）和退回修改再提交gys（9：退回再审核）） -->
         <task:scheduled ref="SupplierTask" method="handlerImportSupplier" cron="0  30 6 * * ?"/>
-        <!-- 每天凌晨12点供应商退回修改导出 -->
+        <!-- 每天凌晨12点供应商退回修改内网导出 -->
         <task:scheduled ref="SupplierTask" method="handlerAuditNotExportInner" cron="0 30 0 * * ?"/>
-        <!-- 每天凌晨6点退回修改导入外网-->
+        <!-- 每天凌晨6点退回修改外网导入-->
         <task:scheduled ref="SupplierTask" method="handlerAuditInner" cron="0 30 6 * * ?"/>
         <!-- 每天凌晨12点半拟入库供应商自动入库-->
         <task:scheduled ref="SupplierTask" method="handleSupplierPublicity" cron="0 30 0 * * ?"/>
@@ -55,6 +53,8 @@
         <!--每天7点  19点外网导入  内网导出数据 -->
         <task:scheduled ref="outerMultiImportTask" method="importTask" cron="0 0 7,19 * * ?"/>
 
+        <!-- 5月25号提交的供应商 现在没用的-->
+        <task:scheduled ref="SupplierTask" method="handlerExportSupplier68" cron="0 34 14 * * ?"/>
         <!-- 每天凌晨12点半导出专家 -->
         <!--      	 <task:scheduled ref="ExpertTask"  method="handlerExportExpert" cron="0 30 0 * * ?"/>
          -->

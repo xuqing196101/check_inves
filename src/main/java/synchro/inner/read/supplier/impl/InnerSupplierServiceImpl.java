@@ -1,5 +1,6 @@
 package synchro.inner.read.supplier.impl;
 
+import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import org.apache.commons.lang3.StringUtils;
@@ -198,6 +199,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 //    	   Supplier unSupplier = supplierSerice.selectById(supplier.getId());
 //    	   if(unSupplier==null){
             if (supplier.getListSupplierFinances().size() > 0) {
+                // 先删除操作
+                supplierFinanceMapper.deleteFinanceBySupplierId(supplier.getId());
                 for (SupplierFinance sf : supplier.getListSupplierFinances()) {
                     SupplierFinance unfinance = supplierFinanceMapper.selectByPrimaryKey(sf.getId());
                     if (unfinance == null) {
@@ -219,17 +222,18 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 }
             }
 
+            // 供应商上传附件
             if (supplier.getAttchList().size() > 0) {
+                String tabName = Constant.fileSystem.get(Constant.SUPPLIER_SYS_KEY);
                 for (UploadFile uf : supplier.getAttchList()) {
-                    UploadFile ufile = fileUploadMapper.queryById(uf.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+                    // 获取供应商附件存储表
+                    UploadFile ufile = fileUploadMapper.queryById(uf.getId(), tabName);
+                    uf.setTableName(tabName);
                     if (ufile == null) {
-                        uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
                         fileUploadMapper.saveFile(uf);
                     } else {
-                        uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
                         fileUploadMapper.updateFileById(uf);
                     }
-
                 }
             }
 
@@ -409,30 +413,17 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 }
             }
             if (supplier.getListSupplierItems() != null && supplier.getListSupplierItems().size() > 0) {
+                // 先做删除操作
                 supplierItemMapper.deleteBySupplierId(supplier.getId());
                 for (SupplierItem st : supplier.getListSupplierItems()) {
-//    			   if(st.getFileList().size()>0){
-//		   				 for(UploadFile uf:st.getFileList()){
-//	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
-//	    	    			   fileUploadMapper.insertFile(uf);
-//	    	    		   }
-//		   				}
                     SupplierItem item = supplierItemMapper.selectByPrimaryKey(st.getId());
-                    if (item == null) {
-                        supplierItemMapper.insertSelective(st);
-                    } else if (item != null) {
+                    if(item != null){
                         supplierItemMapper.updateByPrimaryKeySelective(st);
+                    }else {
+                        supplierItemMapper.insertSelective(st);
                     }
-
                 }
             }
-
-//    	   if(supplier.getAttchList().size()>0){
-//    		   for(UploadFile uf:supplier.getAttchList()){
-//    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
-//    			   fileUploadMapper.insertFile(uf);
-//    		   }
-//    	   }
 
             List<RoleUser> roles = supplier.getUserRoles();
             if (roles.size() > 0) {
@@ -927,8 +918,32 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 
         }
         synchRecordService.importNewSupplierRecord(new Integer(list.size()).toString());
-
     }
 
+    /**
+     *
+     * Description:查询注销供应商导入
+     *
+     * @author Easong
+     * @version 2017/10/16
+     * @param startTime
+     * @param endTime
+     * @since JDK1.7
+     */
+    @Override
+    public void importLogoutSupplier(File file) {
+        List<User> list = FileUtils.getBeans(file, User.class);
+        if(list != null && !list.isEmpty()){
+            for (User user : list){
+                // 更新用户表基本信息
+                userMapper.updateByPrimaryKeySelective(user);
+                // 更新供应商表基本信息
+                supplierMapper.updateByPrimaryKeySelective(user.getSupplier());
+            }
+        }
+        if(list != null){
+            synchRecordService.synchBidding(null, new Integer(list.size()).toString(), synchro.util.Constant.SYNCH_LOGOUT_SUPPLIER, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.IMPORT_SYNCH_LOGOUT_SUPPLIER);
+        }
+    }
 
 }

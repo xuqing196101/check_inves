@@ -1,14 +1,14 @@
 package ses.service.bms;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.oms.util.Ztree;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Description: 用户业务接口
@@ -405,4 +405,5 @@ public interface UserServiceI {
    * @param type 
    */
   boolean unlock(String ids, String type);
+
 }

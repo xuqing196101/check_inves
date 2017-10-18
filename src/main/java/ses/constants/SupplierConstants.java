@@ -124,7 +124,11 @@ public class SupplierConstants {
 		/** 已修改 */
 		MODIFIED(3),
 		/** 未修改 */
-		NOT_MODIFY(4);
+		NOT_MODIFY(4),
+		/** 未修改 */
+		CANCEL_RETURN(5),
+		/** 未修改 */
+		CANCEL_NOT_PASS(6);
 		
 		private int value;
 
@@ -164,6 +168,7 @@ public class SupplierConstants {
 	static{
 		STATUSMAP.put(Status.TEMPORARY.getValue(), "暂存");
 		STATUSMAP.put(Status.PENDING_AUDIT.getValue(), "待审核");
+		STATUSMAP.put(100, "审核中");
 		STATUSMAP.put(Status.RETURN.getValue(), "退回修改");
 		STATUSMAP.put(Status.RETURN_AUDIT.getValue(), "退回再审核");
 		STATUSMAP.put(Status.PRE_AUDIT_ENDED.getValue(), "预审核结束");
@@ -171,24 +176,30 @@ public class SupplierConstants {
 		STATUSMAP.put(Status.PUBLICITY.getValue(), "公示中");
 		STATUSMAP.put(Status.DISSENT.getValue(), "异议处理");
 		STATUSMAP.put(Status.PENDING_REVIEW.getValue(), "入库（待复核）");
+		STATUSMAP.put(200, "复核中");
 		STATUSMAP.put(Status.PRE_REVIEW_ENDED.getValue(), "预复核结束");
 		STATUSMAP.put(Status.REVIEW_PASSED.getValue(), "复核合格（待考察）");
 		STATUSMAP.put(Status.REVIEW_NOT_PASS.getValue(), "复核不合格");
+		STATUSMAP.put(300, "考察中");
 		STATUSMAP.put(Status.PRE_INVESTIGATE_ENDED.getValue(), "预考察结束");
 		STATUSMAP.put(Status.INVESTIGATE_PASSED.getValue(), "考察合格");
 		STATUSMAP.put(Status.INVESTIGATE_NOT_PASS.getValue(), "考察不合格");
+		STATUSMAP.put(400, "无产品供应商");
 	}
 	
 	/** 入库供应商状态集合 */
 	public final static Map<Integer, String> STATUSMAP_RUKU = new LinkedHashMap<Integer, String>();
 	static{
 		STATUSMAP_RUKU.put(Status.PENDING_REVIEW.getValue(), "入库（待复核）");
+		STATUSMAP_RUKU.put(200, "复核中");
 		STATUSMAP_RUKU.put(Status.PRE_REVIEW_ENDED.getValue(), "预复核结束");
 		STATUSMAP_RUKU.put(Status.REVIEW_PASSED.getValue(), "复核合格（待考察）");
-		STATUSMAP_RUKU.put(Status.REVIEW_NOT_PASS.getValue(), "复核不合格");
+		/*STATUSMAP_RUKU.put(Status.REVIEW_NOT_PASS.getValue(), "复核不合格");*/
+		STATUSMAP_RUKU.put(300, "考察中");
 		STATUSMAP_RUKU.put(Status.PRE_INVESTIGATE_ENDED.getValue(), "预考察结束");
 		STATUSMAP_RUKU.put(Status.INVESTIGATE_PASSED.getValue(), "考察合格");
-		STATUSMAP_RUKU.put(Status.INVESTIGATE_NOT_PASS.getValue(), "考察不合格");
+		/*STATUSMAP_RUKU.put(Status.INVESTIGATE_NOT_PASS.getValue(), "考察不合格");*/
+		STATUSMAP_RUKU.put(400, "无产品供应商");
 	}
 	
 	/** 审核供应商状态集合 */

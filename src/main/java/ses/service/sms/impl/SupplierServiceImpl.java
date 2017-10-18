@@ -2067,4 +2067,13 @@ public class SupplierServiceImpl implements SupplierService {
 		return count > 0 ? false : true;
 	}
 
+	@Override
+	public List<Supplier> querySupplierListByNoCate(Supplier supplier, Integer page) {
+		if(page != null){
+            PropertiesUtil config = new PropertiesUtil("config.properties");
+            PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+        }
+		return supplierMapper.selectSupplierListByNoCate(supplier);
+	}
+
 }

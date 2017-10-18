@@ -336,8 +336,38 @@ public class SupplierQueryController extends BaseSupplierController {
   		//在数据字典里查询企业性质
  		List < DictionaryData > businessNature = DictionaryDataUtil.find(32);
  		model.addAttribute("businessNature", businessNature);
-        
-        List<Supplier>  listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
+ 		
+ 		List<Supplier> listSupplier = null;
+ 		// 审核暂存的状态
+ 		Integer supplierStatus = sup.getStatus();
+		if(supplierStatus != null){
+			switch (supplierStatus) {
+			case 100:// 审核中
+				sup.setAuditTemporary(1);
+				sup.setStatus(null);
+				break;
+			case 200:// 复核中
+				sup.setAuditTemporary(2);
+				sup.setStatus(null);
+				break;
+			case 300:// 考察中
+				sup.setAuditTemporary(3);
+				sup.setStatus(null);
+				break;
+			default:
+				sup.setAuditTemporary(0);
+				break;
+			}
+			if(supplierStatus == 400){// 无产品供应商
+				sup.setStatus(null);
+				sup.setAuditTemporary(null);
+				listSupplier = supplierService.querySupplierListByNoCate(sup, page == null ? 1 : page);
+	        }else{
+	        	listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
+	        }
+		}else{
+			listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
+		}
         
         //企业性质
         for(Supplier s : listSupplier){
@@ -358,6 +388,7 @@ public class SupplierQueryController extends BaseSupplierController {
         
         this.getSupplierType(listSupplier);
         model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
+        sup.setStatus(supplierStatus);
         model.addAttribute("supplier", sup);
         model.addAttribute("categoryNames", categoryNames);
         model.addAttribute("supplierType", supplierType);

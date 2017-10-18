@@ -72,7 +72,7 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 		user.setIdNumber(purchaseInfo.getIdCard());
 		user.setPublishType(purchaseInfo.getPublishType());
 		user.setOfficerCertNo(purchaseInfo.getOfficerCertNo());
-		
+		user.setDataAccess(purchaseInfo.getDataAccess());
 		Orgnization org = new Orgnization();
 		if(purchaseInfo.getOrgId()!=null && !purchaseInfo.getOrgId().equals("")){
 			org.setId(purchaseInfo.getOrgId());

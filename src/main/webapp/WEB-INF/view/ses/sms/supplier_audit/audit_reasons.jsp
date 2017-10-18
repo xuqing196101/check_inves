@@ -252,7 +252,7 @@
                     });
                 });
             }else{
-                layer.alert("请选择需要移除的信息！",{offset:'100px'});
+                layer.alert("请选择需要移除的记录！",{offset:'100px'});
             }
         }
         
@@ -265,7 +265,7 @@
 					if(ids.length > 0){
 						$("#auditStatusRadio").fadeIn().css("display","inline");
 					}else{
-						layer.alert("请选择需要修改状态的信息！",{offset:'100px'});
+						layer.alert("请选择需要修改状态的记录！",{offset:'100px'});
 					}
 				}
 				//改状态
@@ -307,7 +307,7 @@
 							});
 						});
 					}else{
-						layer.alert("请选择需要修改状态的信息！",{offset:'100px'});
+						layer.alert("请选择需要修改状态的记录！",{offset:'100px'});
 					}
 				}
         
@@ -402,7 +402,7 @@
 					<h2 class="count_flow"><i>1</i>审核汇总信息</h2>
 					<div class="ul_list count_flow">
 						<c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 4 or (sign == 3 and supplierStatus == 5)}">
-						  <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>
+						  <!-- <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button> -->
 						  <button class="btn btn-windows edit" type="button" onclick="toUpdateStatus();" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>
 						  <div class="select_check" id="auditStatusRadio" style="display: none;">
 						  	<input type="radio" name="auditStatus" value="1" onclick="updateStatus(1)">退回修改
@@ -448,7 +448,7 @@
 									</td>
 									<td class="text-center" title="${reasons.auditFieldName }">
 									  <c:if test="${fn:length(reasons.auditFieldName) > 12}">${fn:substring(reasons.auditFieldName,0,12)}...</c:if>
-									<c:if test="${fn:length(reasons.auditFieldName) <= 12}">${reasons.auditFieldName}</c:if>
+										<c:if test="${fn:length(reasons.auditFieldName) <= 12}">${reasons.auditFieldName}</c:if>
 									</td>
 									<td class="" title="${reasons.auditContent}">
 									<c:if test="${fn:length(reasons.auditContent) > 25}">${fn:substring(reasons.auditContent,0,25)}...</c:if>
@@ -457,9 +457,9 @@
 									<td class="" title="${reasons.suggest}">
 										<c:if test="${fn:length(reasons.suggest) > 35}">${fn:substring(reasons.suggest,0,35)}...</c:if>
 										<c:if test="${fn:length(reasons.suggest) <= 35}">${reasons.suggest}</c:if>
-									     </td>
+									</td>
 									<td class="tc" title="<fmt:formatDate value="${reasons.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/>">
-									<fmt:formatDate value="${reasons.createdAt}" pattern="yyyy-MM-dd"/>
+										<fmt:formatDate value="${reasons.createdAt}" pattern="yyyy-MM-dd"/>
 									</td>
 									<td class="tc">
 										<c:choose>

@@ -56,4 +56,6 @@ public interface DictionaryDataServiceI {
     public List<DictionaryData> findByKind(String kind);
     
     public List<DictionaryData> list(DictionaryData dd);
+    
+    List<DictionaryData> findListByScore(DictionaryData dd);
 }

@@ -263,7 +263,7 @@ public class FirstAuditTemplatController extends BaseController{
 	  DictionaryData kind = DictionaryDataUtil.findById(templetKind);
 	  List<FirstAuditTemitem> items = temService.selectByTemplatId(templetId);
 	  if (kind != null && kind.getCode().equals("REVIEW_QC")) {
-	    List<DictionaryData> dds = DictionaryDataUtil.find(22);
+	    List<DictionaryData> dds = DictionaryDataUtil.findScore(22);
 	    //符合性审查项
 	    FirstAuditTemitem record = new FirstAuditTemitem();
 	    record.setKind(DictionaryDataUtil.getId("COMPLIANCE"));
