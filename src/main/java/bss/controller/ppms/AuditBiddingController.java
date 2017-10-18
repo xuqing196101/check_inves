@@ -121,7 +121,7 @@ public class AuditBiddingController extends BaseController {
         	  map.put("confirmFile", project.getConfirmFile());
           }
           if (project.getIsRehearse() != null) {
-        	  map.put("IsRehearse", project.getIsRehearse());
+        	  map.put("isRehearse", project.getIsRehearse());
           }
           if (orgId != null) {
         	  map.put("purchaseDepId", orgId.substring(0, orgId.length()-1));
