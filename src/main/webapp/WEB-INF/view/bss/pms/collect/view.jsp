@@ -382,7 +382,7 @@
 							<th class="info">采购方式</br>建议</th>
 							<th class="info">采购机构<br>建议</th>
 							<th class="info">供应商名称</th>
-							<th class="info">是否申请</br>办理免税</th>
+							<th class="info" <c:if test="${list[0].enterPort==0}">style="display:none;"</c:if>>是否申请</br>办理免税</th>
 						<!-- 	<th class="info">物资用途（仅进口）</th>
 							<th class="info">使用单位（仅进口）</th> -->
 							<th class="info">备注</th>
@@ -469,7 +469,7 @@
 							<td class="tl">
 								<div class="w80"><input name="list[${vs.index }].supplier" readonly="readonly" value="${obj.supplier }"  /></div>
 							</td>
-							<td class="tc">
+							<td class="tc" <c:if test="${list[0].enterPort==0}">style="display:none;"</c:if>>
 							    <div class="w80">${obj.isFreeTax }</div>
 							</td>
 						<%-- 	<td class="tl pl20">${obj.goodsUse }</td>
