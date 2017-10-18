@@ -82,20 +82,18 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 			
 			//根据资质和供应商查询供应商等级
 			for (SupplierItemLevel supplierItemLevel : supplierItemLevels) {
-				SupplierItemLevel level=new SupplierItemLevel();
 				//如果是四级品目就查资质等级
 				if (categoryIds != null && !"".equals(categoryIds)) {
 					List<String> levels = supplierItemLevelMapper.getProjectLevel(supplierItemLevel.getSupplierId(), categoryIds);
 					if (levels != null && levels.size()>0) {
-						level.setSupplierLevel(levels.get(0));
+						supplierItemLevel.setSupplierLevel(levels.get(0));
 					}
 				}
-				level.setSupplierId(supplierItemLevel.getSupplierId());
-				level.setArmyBusinessName(supplierItemLevel.getArmyBusinessName());
-				level.setCategoryId(categoryIds);
-				level.setSupplierTypeId(supplierType);
-				level.setSupplierName(supplierItemLevel.getSupplierName());
-				rutlist.add(level);
+				supplierItemLevel.setSupplierId(supplierItemLevel.getSupplierId());
+				supplierItemLevel.setArmyBusinessName(supplierItemLevel.getArmyBusinessName());
+				supplierItemLevel.setCategoryId(categoryIds);
+				supplierItemLevel.setSupplierTypeId(supplierType);
+				supplierItemLevel.setSupplierName(supplierItemLevel.getSupplierName());
 			}
 			
 			/*
@@ -127,7 +125,7 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 				rutlist.add(level);
 	        }
 	        */
-	        return rutlist;
+	        return supplierItemLevels;
 	    }else{
 	    	return supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevel());
 	    }
