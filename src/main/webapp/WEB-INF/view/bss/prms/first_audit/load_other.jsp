@@ -98,7 +98,7 @@
           	<label class="fl">项目名称：</label><span><input type="text" name="projectName" value="${projectName}"/></span>
           </li>
           <li>
-            <label class="fl w50">包名：</label><span><input type="text" name="packageName" value="${packageName}"/></span>
+            <label class="fl w50">项目编号：</label><span><input type="text" name="projectNumber" value="${projectNumber}"/></span>
           </li>
           <li>
             <button type="submit" class="btn fl">查询</button>

@@ -711,8 +711,8 @@
 			on pa.PROJECT_ID = pr.ID LEFT JOIN T_BSS_PPMS_BID_METHOD BM ON PA.ID = BM.PACKAGE_ID
 		WHERE
 			nvl(pa.IS_DELETED,0)=0 AND pr. NAME IS NOT NULL
-		<if test="projectId != null and projectId !=''">
-			AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectId}), '%')
+		<if test="projectNumber != null and projectNumber !=''">
+			AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
 		</if>
 		<if test="projectName != null and projectName !=''">
 			AND pr.NAME like CONCAT(CONCAT('%', #{projectName}), '%')
@@ -773,8 +773,8 @@
 		<if test="projectName != null and projectName !=''">
 					AND pr.NAME like CONCAT(CONCAT('%', #{projectName}), '%')
 		</if>
-		<if test="packageName != null and packageName !=''">
-					AND pa.NAME like CONCAT(CONCAT('%', #{packageName}), '%')
+		<if test="projectNumber != null and projectNumber !=''">
+					AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
 		</if>
 		GROUP BY
 			pa. ID,
