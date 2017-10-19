@@ -56,6 +56,7 @@ import bss.service.ppms.TaskService;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 import common.service.UpdateHistoryService;
@@ -194,6 +195,14 @@ public class TaskAdjustController extends BaseController{
 		//所有明细
 		if(task != null && StringUtils.isNotBlank(task.getCollectId())){
 			List<PurchaseDetail> list = purchaseDetailService.findTaskByDetail(task.getId(), user.getOrg().getId());
+			for (PurchaseDetail purchaseDetail : list) {
+			  HashMap<String, Object> map=new HashMap<String, Object>();
+	      map.put("id",purchaseDetail.getId());
+	      List<PurchaseDetail> prs = purchaseDetailService.selectByParentId(map);
+	      if(prs!=null&&!prs.isEmpty()&&prs.size()>1){
+	        purchaseDetail.setIsParent("true");
+	      }
+      }
 			if (list != null && !list.isEmpty()) {
 				model.addAttribute("list", list);
 				model.addAttribute("types", DictionaryDataUtil.find(5));

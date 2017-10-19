@@ -96,7 +96,22 @@
       }
 
       function sel(obj) {
-        var defVal;
+    	  var typeId = $(obj).val();
+    	  if(typeId=="26E3925D38BB4295BEB342BDC82B65AC"){
+    		  $(obj).parent().next().next().children(":first").next().removeAttr("readonly");
+    	  }else{
+    		  $(obj).parent().next().next().children(":first").next().attr("readonly","readonly");
+    		  $(obj).parent().next().next().children(":first").next().val("");
+    	  }
+    	  var next = $(obj).parent().parent().nextAll();
+          var id = $($(obj).parent().parent().children()[10]).children(":first").val();
+        for(var i = 0; i < next.length; i++) {
+          if(id == $($(next[i]).children()[10]).children(":last").val()) {
+          var aa = $($(next[i]).children()[10]).children(":first").next().val($(obj).val());
+            sel(aa);
+          }
+        }
+        /* var defVal;
         var org = $(obj).val();
         var price = $(obj).parent().prev().prev().prev().prev().val();
         if(price == "") {
@@ -112,6 +127,13 @@
                 $("#table tr").each(function() {
                   var opt = $(this).find("td:eq(10)").children(":first").val();
                   if(v1 == opt) {
+                	  alert(org)
+                  	if(org=='26E3925D38BB4295BEB342BDC82B65AC'){
+                  		$(this).find("td:eq(12)").children(":first").next().removeAttr("readonly");
+                  	}else{
+                  		$(this).find("td:eq(12)").children(":first").next().attr("readonly","readonly");
+                  		$(this).find("td:eq(12)").children(":first").next().val("");
+                  	}
                     var td = $(this).find("td:eq(10)");
                     var options = $(td).find("option");
                     $(options).each(function(i) {
@@ -140,7 +162,7 @@
             }
           });
 
-        }
+        } */
       }
 
       function org(obj) {
@@ -441,33 +463,33 @@
                     <input type="hidden" name="details" value="" />
                   </td>
                   <td class="tc">
-                    <c:if test="${obj.price ne null}">
+                    <c:if test="${obj.isParent!='true'}">
                       <input type="hidden" name="ss" value="${obj.id }">
                       <input onblur="sum2(this)" class="purchasecount" type="text" name="listDetail[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </c:if>
-                    <c:if test="${obj.price eq null}">
+                    <c:if test="${obj.isParent=='true'}">
                       <input readonly="readonly" class="purchasecount" type="text">
                     </c:if>
                   </td>
                   <td class="tl">
-                    <c:if test="${obj.price ne null}">
+                    <c:if test="${obj.isParent!='true'}">
                       <input type="hidden" name="ss" value="${obj.id }">
                       <input onblur="sum1(this)" type="text" name="listDetail[${vs.index }].price" value="${obj.price }" class="price">
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </c:if>
-                    <c:if test="${obj.price eq null}">
+                    <c:if test="${obj.isParent=='true'}">
                       <input readonly="readonly" type="text" class="price">
                     </c:if>
 
                   </td>
                   <td class="tr">
-                  	<c:if test="${obj.price ne null}">
+                  	<c:if test="${obj.isParent!='true'}">
 	                    <input type="hidden" name="ss" value="${obj.id}">
 	                    <input type="text" name="listDetail[${vs.index }].budget" class="budget" value="${obj.budget }">
 	                    <input type="hidden" name="ss" value="${obj.parentId }">
                     </c:if>
-                    <c:if test="${obj.price eq null}">
+                    <c:if test="${obj.isParent=='true'}">
                     	<input type="hidden" name="ss" value="${obj.id}">
 	                    <input readonly="readonly" type="text" name="listDetail[${vs.index }].budget" class="budget" value="${obj.budget }">
                     	<input type="hidden" name="ss" value="${obj.parentId }">
@@ -505,7 +527,8 @@
                   </td>
                   <td>
                     <input type="hidden" name="ss" value="${obj.id }">
-                    <input class="purchasename" type="text" name="listDetail[${vs.index }].supplier" onblur="cancelProject(this)" value="${obj.supplier }">
+                    
+                    <input class="purchasename" type="text" name="listDetail[${vs.index }].supplier" <c:if test="${obj.purchaseType!='26E3925D38BB4295BEB342BDC82B65AC'}">readonly="readonly"</c:if> onblur="cancelProject(this)" value="${obj.supplier }">
                     <input type="hidden" name="details" value="" />
                   </td>
                   <td><input class="freetax" readonly="readonly" type="text" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>

@@ -774,8 +774,10 @@ public class ProjectServiceImpl implements ProjectService {
                                 break;
                             } else if (i == executes.size() - 1){
                                 FlowDefine define2 = flowDefineMapper.get(executes.get(i).getFlowDefineId());
-                                jsonObj.put("name", define2.getName());
-                                jsonObj.put("next", "1");
+                                if(!define2.getCode().equals("XMXX")){
+                                  jsonObj.put("name", define2.getName());
+                                  jsonObj.put("next", "1");
+                                }
                                 return jsonObj;
                             }
                         }

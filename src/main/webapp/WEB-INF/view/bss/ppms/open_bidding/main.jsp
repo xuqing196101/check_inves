@@ -126,14 +126,13 @@
 	   			}else{
 	   				document.getElementById('open_bidding_iframe').contentWindow.location.reload(true);
 	   			}
+	   			$('#openDiv_check input[type="checkbox"]:checked').each(function(){
+	   	  			$(this).parent().empty();
+	   	  		    $(this).parent().html("<div></div>");
+	   	  		});
 	   			var checkboxSize=$("#openDiv_check input[type='checkbox']").length;
 	   			if(checkboxSize==0){
-	   				layer.closeAll()
-	   			}else{
-	   				$('#openDiv_check input[type="checkbox"]:checked').each(function(){
-		   	  			$(this).parent().empty();
-		   	  		    $(this).parent().html("<div></div>");
-		   	  		});
+	   				layer.closeAll();
 	   			}
 	   			}
 	   		}
