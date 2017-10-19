@@ -39,7 +39,18 @@ public class ExpertAudit implements Serializable{
     
     //审核标识（1初审，2复审，3复查）
     private Integer auditFalg;
-    public String getId() {
+    //审核状态 1：退回修改；2：已修改；3：未修改；4：撤销退回；5：撤销不通过；6：审核不通过
+    private String auditStatus;
+    
+    public String getAuditStatus() {
+		return auditStatus;
+	}
+
+	public void setAuditStatus(String auditStatus) {
+		this.auditStatus = auditStatus;
+	}
+
+	public String getId() {
         return id;
     }
 

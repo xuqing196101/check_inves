@@ -74,7 +74,21 @@
             
             $("#fushengEnd").hide();
         });
-
+		function showDiv(){
+			var s=$('input[name="chkItem"]:checked').eq(0).parent("td").parent("tr").find("td").eq(7).text();
+			//alert(s);
+			var show=true;
+			 $('input[name="chkItem"]:checked').each(function () {
+	                var str=$(this).parent("td").parent("tr").find("td").eq(7).text();
+	                if(s!=str){
+	                	alert("请选择相同状态的审核记录");
+	                	show=false;
+	                }
+	            });
+			 if(show){
+			 	$("#updateStatus").css('display','inline');
+			 }
+		}
         // 审核意见
         function checkOpinion(status, expertId){
         	 var opinion = document.getElementById('opinion').value;
@@ -525,7 +539,15 @@
             <ul class="ul_list count_flow">
               <c:if test="${status == 0 || status == 9 || status == 15 || status == 16 || status == 10 || status == -2 || (sign ==3 && status ==6) || status == 4 || status == 5}">
 <!--                 <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>
- -->              </c:if>  
+ -->            	<button class="btn btn-windows edit" type="button" onclick="showDiv()" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>  
+ 				</c:if>  
+ 				<div id="updateStatus" style="display: none">
+ 					<input type="radio" name="s">退回修改
+ 					<input type="radio" name="s">已修改
+ 					<input type="radio" name="s">未修改
+ 					<input type="radio" name="s">撤销退回
+ 					<input type="radio" name="s">撤销不通过
+ 				</div>
                 <table class="table table-bordered table-condensed table-hover">
                     <thead>
                     <tr>
@@ -566,11 +588,12 @@
                             </td>
                             <!-- 状态 -->
                             <td class="tc">
-                            	<c:if test="${reasons.suggestType eq 'one' || reasons.suggestType eq 'five'}">退回</c:if>
-                            	<c:if test="${reasons.suggestType eq 'six' }">审核不通过</c:if>
-                            	<c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' }">审核不通过</c:if>
-                            	<c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId eq 'isTitle'}">退回</c:if>
-                            	<c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '2' }">退回</c:if>
+                            	<c:if test="${reasons.auditStatus eq '1'}">退回修改</c:if>
+                            	<c:if test="${reasons.auditStatus eq '2'}">已修改</c:if>
+                            	<c:if test="${reasons.auditStatus eq '3'}">未修改</c:if>
+                            	<c:if test="${reasons.auditStatus eq '4'}">撤销退回</c:if>
+                            	<c:if test="${reasons.auditStatus eq '5'}">撤销不通过</c:if>
+                            	<c:if test="${reasons.auditStatus eq '6'}">审核不通过</c:if>
                             </td>
                         </tr>
                     </c:forEach>

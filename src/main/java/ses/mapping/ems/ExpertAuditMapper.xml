@@ -17,6 +17,7 @@
     <result column="AUDIT_FIELD_ID" jdbcType="VARCHAR" property="auditFieldId" />
     <result column="AUDIT_FIELD_NAME" jdbcType="VARCHAR" property="auditFieldName" />
     <result column="AUDIT_FALG" property="auditFalg" />
+    <result column="AUDIT_STATUS" property="auditStatus" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, EXPERT_ID, AUDIT_USER_ID, AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, AUDIT_AT, IS_DELETED, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, TYPE, "AUDIT_FIELD_ID", AUDIT_FALG
