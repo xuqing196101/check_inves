@@ -119,67 +119,7 @@
                   
                   next(lis.join(''), page < res.pages);
                   
-                  // 给左侧冻结列添加hover样式
-                  $('#tb_id tr').hover(function () {
-                    var index = $(this).index();
-                    $('#fixed_column tr').removeClass('hover');
-                    $('#fixed_column tr').eq(index).addClass('hover');
-                  });
-                  // 给右侧内容区添加hover样式
-                  $('#fixed_column tr').hover(function () {
-                    var index = $(this).index();
-                    $('#tb_id tr').removeClass('hover');
-                    $('#tb_id tr').eq(index).addClass('hover');
-                  });
-                  
-                  var fixed_header = '';  // 定义保存表头html变量
-                  var fixed_column = '';  // 定义保存冻结列html变量
-                  
-                  // 获取表头html并添加每个单元格宽度（与内容表格保持一致）
-                  $('#tb_id').siblings('thead').find('th').each(function () {
-                    fixed_header += '<th style="width: '+ $(this).outerWidth(true) +'px">'+ $(this).html() +'</th>';
-                  });
-                  
-                  // 为空则是第一次初始化，从第一个tr开始保存，不为空则从上次最后一个开始保存
-                  if ($('#fixed_column tbody').html() != '') {
-                    var last_index = parseInt($('#fixed_column tr').length) - 1;
-                    $('#tb_id tr').each(function (index) {
-                      if (index > last_index) {
-                        fixed_column += '<tr><td class="text-center" style="width: '+ $(this).find('td').eq(0).outerWidth(true) +'px; height: '+ $(this).find('td').eq(0).outerHeight(true) +'px">'+ $(this).find('td').eq(0).html() +'</td></tr>';
-                      }
-                    });
-                  } else {
-                    $('#tb_id tr').each(function (index) {
-                      fixed_column += '<tr><td class="text-center" style="width: '+ $(this).find('td').eq(0).outerWidth(true) +'px; height: '+ $(this).find('td').eq(0).outerHeight(true) +'px">'+ $(this).find('td').eq(0).html() +'</td></tr>';
-                    });
-                  }
-                  
-                  // 定义表头样式
-                  $('#fixed_header').css({
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: $('#tb_id').parents('table').outerWidth(),
-                    zIndex: 1
-                  });
-                  // 定义冻结列样式
-                  $('#fixed_column').css({
-                    position: 'absolute',
-                    top: $('#tb_id').siblings('thead').outerHeight(),
-                    left: 0,
-                    width: parseInt($('#tb_id').find('td').eq(0).outerWidth()) + 1,
-                    backgroundColor: '#FFF'
-                  });
-                  
-                  // 填充内容到容器
-                  $('#fixed_header').html('<table class="table table-hover table-bordered mb0"><thead>'+ fixed_header +'</thead></table>');
-                  $('#fixed_column tbody').append(fixed_column);
-                  
-                  // 判断表头是否开始跟随
-                  chage_fixedHeader();
-                  $(window).scroll(function () {
-                    chage_fixedHeader();
-                  });
+                  build_fixedHead();
                 }
               });
             }
@@ -187,14 +127,126 @@
         });
       });
       
+      $(window).resize(function () {
+        build_fixedHead();
+      });
+      
+      function build_fixedHead() {
+        var fixed_header = '';  // 定义保存表头html变量
+        var fixed_header2 = '';  // 定义保存表头前两列html变量
+        var fixed_column = '';  // 定义保存冻结列html变量
+        
+        // 获取表头html并添加每个单元格宽度（与内容表格保持一致）
+        $('#tb_id').siblings('thead').find('th').each(function (index) {
+          fixed_header += '<th style="width: '+ $(this).outerWidth(true) +'px">'+ $(this).html() +'</th>';
+          if (index <= 1) {
+            fixed_header2 += '<th style="width: '+ $(this).outerWidth(true) +'px; height: '+ $(this).outerHeight(true) +'px">'+ $(this).html() +'</th>';
+          }
+        });
+        
+        // 添加前两列表头
+        $('#fixed_header2').html('<table class="table table-bordered mb0"><thead>'+ fixed_header2 +'</thead></table>');
+        
+        // 为空则是第一次初始化，从第一个tr开始保存，不为空则从上次最后一个开始保存
+        if ($('#fixed_column tbody').html() != '') {
+          var last_index = parseInt($('#fixed_column tr').length) - 1;
+          $('#tb_id tr').each(function (index) {
+            if (index > last_index) {
+              fixed_column += '<tr>'
+                +'<td class="text-center" style="width: '+ $(this).find('td').eq(0).outerWidth(true) +'px; height: '+ $(this).find('td').eq(0).outerHeight(true) +'px">'
+                + $(this).find('td').eq(0).html()
+                +'</td>'
+                +'<td class="text-center" style="width: '+ $(this).find('td').eq(1).outerWidth(true) +'px; height: '+ $(this).find('td').eq(1).outerHeight(true) +'px">'
+                + $(this).find('td').eq(1).html()
+              +'</td></tr>';
+            }
+          });
+        } else {
+          $('#tb_id tr').each(function (index) {
+            fixed_column += '<tr>'
+              +'<td class="text-center" style="width: '+ $(this).find('td').eq(0).outerWidth(true) +'px; height: '+ $(this).find('td').eq(0).outerHeight(true) +'px">'
+              + $(this).find('td').eq(0).html()
+              +'</td>'
+              +'<td class="text-center" style="width: '+ $(this).find('td').eq(1).outerWidth(true) +'px; height: '+ $(this).find('td').eq(1).outerHeight(true) +'px">'
+              + $(this).find('td').eq(1).html()
+            +'</td></tr>';
+          });
+        }
+        
+        // 定义表头样式
+        $('#fixed_header').css({
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: $('#content').width(),
+          zIndex: 1
+        });
+        // 定义冻结列样式
+        $('#fixed_column').css({
+          position: 'absolute',
+          top: $('#tb_id').siblings('thead').outerHeight(),
+          left: 0,
+          width: parseInt($('#tb_id').find('td').eq(0).outerWidth()) + parseInt($('#tb_id').find('td').eq(1).outerWidth()) + 1,
+          backgroundColor: '#FFF'
+        });
+        
+        // 填充内容到容器
+        $('#fixed_header').html('<table class="table table-hover table-bordered mb0"><thead>'+ fixed_header +'</thead></table>');
+        $('#fixed_column tbody').append(fixed_column);
+        
+        $('#fixed_header table').css({
+          width: $('#tb_id').parents('table').outerWidth()
+        });
+        
+        // 给左侧冻结列添加hover样式
+        $('#tb_id tr').hover(function () {
+          var index = $(this).index();
+          $('#fixed_column tr').removeClass('hover');
+          $('#fixed_column tr').eq(index).addClass('hover');
+        }, function () {
+          $('#tb_id tr').removeClass('hover');
+          $('#fixed_column tr').removeClass('hover');
+        });
+        // 给右侧内容区添加hover样式
+        $('#fixed_column tr').hover(function () {
+          var index = $(this).index();
+          $('#tb_id tr').removeClass('hover');
+          $('#tb_id tr').eq(index).addClass('hover');
+        }, function () {
+          $('#tb_id tr').removeClass('hover');
+          $('#fixed_column tr').removeClass('hover');
+        });
+        
+        $('#content').bind('scroll', function () {
+          var scroll_left = $('#content').scrollLeft();
+          $('#fixed_header table').css({
+            marginLeft: -(scroll_left)
+          });
+        });
+        
+        // 判断表头是否开始跟随
+        chage_fixedHeader();
+        $(window).scroll(function () {
+          chage_fixedHeader();
+        });
+      }
+      
       function chage_fixedHeader() {
         if ($(window).scrollTop() >= $('#table').offset().top) {
           $('#fixed_header').css({
             position: 'fixed',
             left: 'auto'
           });
+          $('#fixed_header2').css({
+            position: 'fixed',
+            left: 'auto'
+          });
         } else {
           $('#fixed_header').css({
+            position: 'absolute',
+            left: 0
+          });
+          $('#fixed_header2').css({
             position: 'absolute',
             left: 0
           });
@@ -406,31 +458,34 @@
     <div class="container">
 
       <!-- 项目戳开始 -->
-      <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto mt20" id="content">
-        <table id="table" class="table table-bordered table-hover">
-          <thead>
-            <tr class="space_nowrap">
-              <th class="choose">选择</th>
-              <th class="info seq">序号</th>
-              <th class="info department">需求部门</th>
-              <th class="info goodsname">物资类别<br/>及名称</th>
-              <th class="info stand">规格型号</th>
-              <th class="info qualitstand">质量技术标准<br/>(技术参数)</th>
-              <th class="info item">计量<br/>单位</th>
-              <th class="info purchasecount">采购<br/>数量</th>
-              <th class="info deliverdate">交货<br/>期限</th>
-              <th class="info purchasetype">采购方式</th>
-              <th class="info purchasename">供应商名称</th>
-              <!-- <th class="info freetax">是否申请<br/>办理免税</th>
-              <th class="info goodsuse">物资用途<br/>（进口）</th>
-              <th class="info useunit">使用单位<br/>（进口）</th> -->
-              <th class="memo">备注</th>
-            </tr>
-          </thead>
-          <tbody id="tb_id">
-          </tbody>
-        </table>
-        <div id="fixed_header"></div>
+      <div class="col-md-12 col-sm-12 col-xs-12 p0 pr mt20">
+        <div class="over_auto" id="content">
+          <table id="table" class="table table-bordered table-hover mb0" style="width: 1600px;">
+            <thead>
+              <tr class="space_nowrap">
+                <th class="choose">选择</th>
+                <th class="info seq">序号</th>
+                <th class="info department">需求部门</th>
+                <th class="info goodsname">物资类别<br/>及名称</th>
+                <th class="info stand">规格型号</th>
+                <th class="info qualitstand">质量技术标准<br/>(技术参数)</th>
+                <th class="info item">计量<br/>单位</th>
+                <th class="info purchasecount">采购<br/>数量</th>
+                <th class="info deliverdate">交货<br/>期限</th>
+                <th class="info purchasetype">采购方式</th>
+                <th class="info purchasename">供应商名称</th>
+                <!-- <th class="info freetax">是否申请<br/>办理免税</th>
+                <th class="info goodsuse">物资用途<br/>（进口）</th>
+                <th class="info useunit">使用单位<br/>（进口）</th> -->
+                <th class="memo">备注</th>
+              </tr>
+            </thead>
+            <tbody id="tb_id">
+            </tbody>
+          </table>
+          <div id="fixed_header" class="over_hideen w100p"></div>
+        </div>
+        <div id="fixed_header2" style="position: absolute; top: 0; left: 0; z-index: 2; background-color: #FFF;"></div>
         <table class="table table-hover table-bordered mb0" id="fixed_column"><tbody></tbody></table>
       </div>
       <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
