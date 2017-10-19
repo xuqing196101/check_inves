@@ -20,7 +20,8 @@
     <result column="AUDIT_STATUS" property="auditStatus" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, EXPERT_ID, AUDIT_USER_ID, AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, AUDIT_AT, IS_DELETED, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, TYPE, "AUDIT_FIELD_ID", AUDIT_FALG
+    ID, EXPERT_ID, AUDIT_USER_ID, AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, AUDIT_AT, IS_DELETED, 
+    SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, TYPE, "AUDIT_FIELD_ID", AUDIT_FALG, AUDIT_STATUS
   </sql>
   <!-- 根据专家id查询 -->
   <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -143,6 +144,9 @@
       <if test="auditFalg != null">
         AUDIT_FALG,
       </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -190,6 +194,9 @@
       <if test="auditFalg != null">
         #{auditFalg},
       </if>
+      <if test="auditStatus != null">
+        #{auditStatus},
+      </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select sys_guid() from dual
@@ -198,19 +205,19 @@
   <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExpertAudit">
     update T_SES_EMS_EXPERT_AUDIT
     <set>
-      <if test="expertId != null">
+      <if test="expertId != null and expertId != ''">
         EXPERT_ID = #{expertId},
       </if>
-      <if test="auditUserId != null">
+      <if test="auditUserId != null and auditUserId != ''">
         AUDIT_USER_ID = #{auditUserId},
       </if>
-      <if test="auditUserName != null">
+      <if test="auditUserName != null auditUserName != ''">
         AUDIT_USER_NAME = #{auditUserName},
       </if>
-      <if test="auditReason != null">
+      <if test="auditReason != null and auditReason != ''">
         AUDIT_REASON = #{auditReason},
       </if>
-      <if test="auditResult != null">
+      <if test="auditResult != null and auditResult != ''">
         AUDIT_RESULT = #{auditResult},
       </if>
       <if test="auditAt != null">
@@ -219,26 +226,29 @@
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
       </if>
-      <if test="suggestType != null">
+      <if test="suggestType != null and suggestType != ''">
         SUGGEST_TYPE = #{suggestType},
       </if>
-      <if test="auditField != null">
+      <if test="auditField != null and auditField != ''">
         AUDIT_FIELD = #{auditField},
       </if>
-      <if test="auditContent != null">
+      <if test="auditContent != null and auditContent != ''">
         AUDIT_CONTENT = #{auditContent},
       </if>
-      <if test="type != null">
+      <if test="type != null and type != ''">
         TYPE = #{type},
       </if>
-      <if test="auditFieldId != null">
+      <if test="auditFieldId != null and auditFieldId != ''">
         AUDIT_FIELD_ID = #{auditFieldId},
       </if>
-      <if test="auditFieldName != null">
+      <if test="auditFieldName != null and auditFieldName != ''">
         AUDIT_FIELD_NAME = #{auditFieldName},
       </if>
       <if test="auditFalg != null">
         AUDIT_FALG = #{auditFalg},
+      </if>
+      <if test="auditStatus != null and auditStatus != ''">
+        AUDIT_STATUS = #{auditStatus},
       </if>
     </set>
     where ID = #{id}

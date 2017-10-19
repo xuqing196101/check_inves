@@ -139,9 +139,22 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
       * @return int
      */
 	@Override
-	public void add(ExpertAudit record) {
-
-		mapper.insertSelective(record);
+	public void add(ExpertAudit expertAudit) {
+		String suggestType = expertAudit.getSuggestType();
+		if("one".equals(suggestType) || "seven".equals(suggestType) || "five".equals(suggestType)){
+			expertAudit.setAuditStatus("1");
+			
+			DictionaryData findById = DictionaryDataUtil.findById(expertAudit.getAuditFieldId());
+			if(findById !=null){
+				expertAudit.setAuditStatus("6");
+			}
+			
+		}else if("six".equals(suggestType)){
+			expertAudit.setAuditStatus("6");
+		}
+		
+		
+		mapper.insertSelective(expertAudit);
 	}
 	 /**
      * 
