@@ -517,7 +517,7 @@
                     <a href="javascript:jumppage('${pageContext.request.contextPath}/expertQuery/temporaryExpert.html?expertId=${e.id}')">${e.relName}</a>
                   </c:when>
                   <c:otherwise>
-                    <a href="javascript:jumppage('${pageContext.request.contextPath}/expertQuery/view.html?expertId=${e.id}&sign=1')">${e.relName}</a>
+                    <a href="javascript:jumppage('${pageContext.request.contextPath}/expertQuery/view.html?expertId=${e.id}&sign=1&status=${e.status}')">${e.relName}</a>
                   </c:otherwise>
                 </c:choose>
               </td>

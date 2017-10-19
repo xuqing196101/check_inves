@@ -51,6 +51,19 @@
       function check_opinion() {
         var status = $(":radio:checked").val();
         var expertId = "${expertId}";
+        
+        var itemType;
+        var item
+        if(status == 15){
+        	itemType = "初审合格，通过的是物资服务经济类别。";
+        	item = "初审合格，选择了";
+        }
+        
+        if(status == -3){
+        	itemType = "复审合格，通过的是物资服务经济类别。";
+          item = "复审合格，选择了";
+        }
+        
         if(status != null && typeof(status) != "undefined") {
           $.ajax({
             url: "${pageContext.request.contextPath}/expertAudit/findCategoryCount.do",
@@ -62,18 +75,22 @@
             dataType: "json",
             success: function(data) {
             	//初审
-              if(status == 15) {
+              if(status == 15 || status == -3) {
                 if(data.all == 0 && data.pass == 0){
-                  $("#check_opinion").html("预初审合格，通过的是物资服务经济类别。");
+                  $("#check_opinion").html(itemType);
                 }else{
-                  $("#check_opinion").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+                  $("#check_opinion").html(item + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
                 }
               }
             	
-            	//复审
+            	//复审退回
               if(status == '10'){
                   $("#check_opinion").html("退回修改 。");
-                }
+              }
+            	
+              if(status == '5'){
+                  $("#check_opinion").html("复审不合格 。");
+              }
             }
           });
         }
@@ -169,8 +186,8 @@
              <li>
                <div class="select_check">
                  <c:if test="${sign == 1}">
-                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '-3'}">checked</c:if> value="-3">预复审合格
-                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '5'}">checked</c:if> value="5">预复审不合格
+                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '-3'}">checked</c:if> value="-3">复审合格
+                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '5'}">checked</c:if> value="5">复审不合格
                     <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '10'}">checked</c:if> value="10">退回修改
                   </c:if>
                   <c:if test="${sign == 2}">

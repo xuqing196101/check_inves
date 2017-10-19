@@ -96,8 +96,9 @@ public class ExpertQueryController {
      * @return String
      */
     @RequestMapping("/view")
-    public String view(String expertId, Model model, Integer sign, String reqType, ExpertAnalyzeVo expertAnalyzeVo) {
+    public String view(String expertId, Model model, Integer sign, String reqType, ExpertAnalyzeVo expertAnalyzeVo, String status) {
     	model.addAttribute("expertId", expertId);
+    	model.addAttribute("status", status);
     	//1是全部专家查询，2是入库专家查询
     	model.addAttribute("sign", sign);
         // 查询出专家
@@ -248,9 +249,9 @@ public class ExpertQueryController {
 	 * @return String
 	 */
 	@RequestMapping("/expertType")
-	public String expertType(Model model, String expertId, Integer sign, String reqType, ExpertAnalyzeVo expertAnalyzeVo) {
+	public String expertType(Model model, String expertId, Integer sign, String reqType, ExpertAnalyzeVo expertAnalyzeVo, String status) {
 		model.addAttribute("expertId", expertId);
-		
+		model.addAttribute("status", status);
 		//1是全部专家查询，2是入库专家查询
 		model.addAttribute("sign", sign);
 		
@@ -312,10 +313,10 @@ public class ExpertQueryController {
 	 * @return String
 	 */
 	@RequestMapping("/product")
-	public String product(Expert expert, Model model, String expertId, Integer sign, String reqType, ExpertAnalyzeVo expertAnalyzeVo) {
+	public String product(Expert expert, Model model, String expertId, Integer sign, String reqType, ExpertAnalyzeVo expertAnalyzeVo, String status) {
 		//1是全部专家查询，2是入库专家查询
 		model.addAttribute("sign", sign);
-		
+		model.addAttribute("status", status);
 		expert = expertService.selectByPrimaryKey(expertId);
 
 		List < DictionaryData > allCategoryList = new ArrayList < DictionaryData > ();
@@ -669,7 +670,7 @@ public class ExpertQueryController {
 	 * @return String
 	 */
 	@RequestMapping("/expertFile")
-	public String expertFile( Model model, String expertId, Integer sign, String reqType, ExpertAnalyzeVo expertAnalyzeVo) {
+	public String expertFile( Model model, String expertId, Integer sign, String reqType, ExpertAnalyzeVo expertAnalyzeVo, String status) {
 		// 专家系统key
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
 		model.addAttribute("expertKey", expertKey);
@@ -683,6 +684,7 @@ public class ExpertQueryController {
 		model.addAttribute("sign", sign);
 		model.addAttribute("reqType", reqType);
 		model.addAttribute("expertAnalyzeVo", expertAnalyzeVo);
+		model.addAttribute("status", status);
 		return "ses/ems/expertQuery/expertFile";
 	}
 	
@@ -779,19 +781,50 @@ public class ExpertQueryController {
 	 * @return
 	 */
 	@RequestMapping(value = "/auditInfo")
-	public String auditInfo(Model model, String expertId, Integer sign, String reqType){
-		List < ExpertAudit > auditList = expertAuditService.getListByExpertId(expertId);
+	public String auditInfo(Model model, String expertId, Integer sign, String reqType, String status){
+		Map<String,Object> map = new HashMap<String,Object>();
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		
+		map.put("expertId", expertId);
+		//初审的意见
+		if("0".equals(status) || "1".equals(status) || "2".equals(status) || "3".equals(status) || "9".equals(status) || "11".equals(status) 
+				|| "14".equals(status) || "15".equals(status) || "16".equals(status)){
+			map.put("isDeleted", 0);
+			map.put("auditFalg", 1);
+			
+			expertAuditOpinion.setFlagTime(0);
+		}
+		
+		//复审
+		if("-3".equals(status) || "-2".equals(status) || "4".equals(status) || "5".equals(status)  || "10".equals(status)){
+			map.put("isDeleted", 0);
+			map.put("auditFalg", 2);
+			
+			expertAuditOpinion.setFlagTime(1);
+		}
+		
+		//复查
+		if("6".equals(status) || "7".equals(status) || "8".equals(status) || "17".equals(status) || "19".equals(status)){
+			map.put("isDeleted", 0);
+			map.put("auditFalg", 3);
+			
+			expertAuditOpinion.setFlagTime(2);
+		}
+		
+		
+		//审核记录
+		List < ExpertAudit > auditList = expertAuditService.diySelect(map);
 		model.addAttribute("auditList", auditList);
+		
+		// 查询审核最终意见
+		expertAuditOpinion.setExpertId(expertId);
+		expertAuditOpinion = expertAuditOpinionService.selectByExpertId(expertAuditOpinion);
+		model.addAttribute("auditOpinion", expertAuditOpinion);
+		
 		model.addAttribute("expertId", expertId);
 		model.addAttribute("sign", sign);
 		model.addAttribute("reqType", reqType);
-		
-		// 查询审核最终意见
-		ExpertAuditOpinion selectEao = new ExpertAuditOpinion();
-		ExpertAuditOpinion auditOpinion = null;
-		selectEao.setExpertId(expertId);
-		auditOpinion = expertAuditOpinionService.selectByPrimaryKey(selectEao);
-		model.addAttribute("auditOpinion", auditOpinion);
+		model.addAttribute("status", status);
 		return "ses/ems/expertQuery/auditInfo";
 	}
 	

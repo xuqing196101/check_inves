@@ -517,4 +517,19 @@
       </if>
      </if> 
   </select>
+  
+  <!-- 全部专家查询中的审核记录 -->
+  <select id="diySelect" parameterType="Map" resultMap="BaseResultMap">
+    select 
+      *
+    from T_SES_EMS_EXPERT_AUDIT
+      where EXPERT_ID = #{expertId}
+    <if test="isDeleted !=null">
+      and IS_DELETED = #{isDeleted}
+    </if>
+    <if test="auditFalg != '' and auditFalg != null">
+      and AUDIT_FALG = #{auditFalg}
+    </if>
+    ORDER BY DECODE (SUGGEST_TYPE,'one','1','seven','2','six','3','five','4'),AUDIT_AT ASC
+  </select>
 </mapper>

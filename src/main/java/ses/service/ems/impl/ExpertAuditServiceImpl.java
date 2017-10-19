@@ -734,6 +734,16 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		List<ExpertReviewTeam> reviewTeamList = expertReviewTeamMapper.getExpertReviewTeamList(expertReviewTeam);
 		return reviewTeamList;
 	}
+	
+	/**
+     * 全部专家查询中的审核记录
+     * @param expertAudit
+     * @return
+     */
+	@Override
+	public List<ExpertAudit> diySelect(Map<String, Object> map) {
+		return mapper.diySelect(map);
+	}
 
 
 }

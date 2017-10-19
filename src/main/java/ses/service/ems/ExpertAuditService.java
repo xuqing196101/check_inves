@@ -330,4 +330,11 @@ public interface ExpertAuditService {
 	 * @return
 	 */
 	List<ExpertReviewTeam> getExpertReviewTeamList(String expertId);
+	
+	/**
+     * 全部专家查询中的审核记录
+     * @param expertAudit
+     * @return
+     */
+    List<ExpertAudit> diySelect(Map<String, Object> map);
 }

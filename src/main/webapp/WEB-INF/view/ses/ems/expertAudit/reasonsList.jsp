@@ -266,6 +266,7 @@
 	function check_opinion() {
 		var status = $(":radio:checked").val();
 		var expertId = $("input[name='expertId']").val();
+		var expertStatus = $("input[name='status']").val();
 		if(status != null && typeof(status) != "undefined") {
 			$.ajax({
 				url: "${pageContext.request.contextPath}/expertAudit/findCategoryCount.do",
@@ -276,15 +277,25 @@
 				type: "post",
 				dataType: "json",
 				success: function(data) {
-					if(status == 15) {
+					if(status == 15 && expertStatus !=10) {
 						if(data.isGoodsServer == 1 && data.pass == 0){
 							$("#check_opinion").html("预初审合格，通过的是物资服务经济类别。");
 						}else{
 							$("#check_opinion").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
 						}
-					} else if(status == 16) {
+					} else if(status == 16 && expertStatus !=10) {
 						$("#check_opinion").html("预初审不合格。");
-					}
+						
+						//下面是复审退回修改要显示的
+					}else if(status == 16 && expertStatus ==10) {
+            $("#check_opinion").html("初审不合格。");
+          }else if(status == 15 && expertStatus ==10) {
+	          if(data.isGoodsServer == 1 && data.pass == 0){
+	              $("#check_opinion").html("初审合格，通过的是物资服务经济类别。");
+	            }else{
+	              $("#check_opinion").html("初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+	            }
+          } 
 				}
 			});
 		}
@@ -573,8 +584,8 @@
                  <c:if test="${sign == 1 }">
                    <li>
                    <div class="select_check">
-                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()">预初审合格
-                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()">预初审不合格
+                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()"><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审合格
+                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()"><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审不合格
                     </div>
                   </li>
                   <li>
@@ -598,6 +609,21 @@
                   </li>
                 </ul>
                 </div>
+                
+                <!-- 复审退回修改显示 状态为：10 -->
+                <c:if test="${sign == 1 && status eq '10'}">
+			            <h2 class="count_flow mt0"><i>3</i>批准初审表</h2>
+			            <ul class="ul_list">
+			              <li class="col-md-6 col-sm-6 col-xs-6">
+			                <div>
+			                  <span class="fl">批准初审表：</span>
+			                  <u:show showId="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${typeId }" delete="false"/>
+			                </div>
+			             </li>
+			            </ul>
+			          </c:if>
+			          
+			          
                 </div>
               </div>
             </c:if>
