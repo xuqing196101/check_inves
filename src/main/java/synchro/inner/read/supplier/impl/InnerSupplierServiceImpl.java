@@ -282,63 +282,65 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                     }
                 }
             }
+
+            /**
+             * 物资生产信息
+             */
             if (supplier.getSupplierMatPro() != null) {
-                SupplierMatPro matPro = supplierMatProMapper.getMatProBySupplierId(supplier.getId());
-                if (matPro == null) {
-                    supplierMatProMapper.insertSelective(supplier.getSupplierMatPro());
-                }
-                if (matPro != null) {
-                    supplierMatProMapper.updateByPrimaryKeySelective(supplier.getSupplierMatPro());
-                    supplierCertProMapper.deleteByMatProId(matPro.getId()); //删除生产证书
-                }
+                // 先做删除操作
+                //SupplierMatPro matPro = supplierMatProMapper.getMatProBySupplierId(supplier.getId());
+                //if (matPro == null) {
+                //    supplierMatProMapper.insertSelective(supplier.getSupplierMatPro());
+                //}
+                //if (matPro != null) {
+                //    supplierMatProMapper.updateByPrimaryKeySelective(supplier.getSupplierMatPro());
+                //    supplierCertProMapper.deleteByMatProId(matPro.getId()); //删除生产证书
+                //}
+                // 删除生产基本信息
+                supplierMatProMapper.deleteBySupplierId(supplier.getId());
+                // 重新插入生产基本信息
+                supplierMatProMapper.insertSelective(supplier.getSupplierMatPro());
+                // 删除生产证书信息
+                supplierCertProMapper.deleteByMatProId(supplier.getSupplierMatPro().getId());
                 if (supplier.getSupplierMatPro().getListSupplierCertPros().size() > 0) {
                     for (SupplierCertPro sc : supplier.getSupplierMatPro().getListSupplierCertPros()) {
-                       /*if(sc.getFileList().size()>0){
-    					   for(UploadFile uf:sc.getFileList()){
-    						   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
-    						   fileUploadMapper.insertFile(uf);
-    					   }
-    				   }*/
-                        SupplierCertPro certPro = supplierCertProMapper.selectByPrimaryKey(sc.getId());
-                        if (certPro == null) {
-                            supplierCertProMapper.insertSelective(sc);
-                        } else {
-                            supplierCertProMapper.updateByPrimaryKeySelective(certPro);
-                        }
+                        // 插入生产证书信息
+                        supplierCertProMapper.insertSelective(sc);
                     }
                 }
             }
 
+            /**
+             * 物资销售信息
+             */
             if (supplier.getSupplierMatSell() != null) {
-                SupplierMatSell matSell = supplierMatSellMapper.getMatSellBySupplierId(supplier.getId());
+                /*SupplierMatSell matSell = supplierMatSellMapper.getMatSellBySupplierId(supplier.getId());
                 if (matSell == null) {
                     supplierMatSellMapper.insertSelective(supplier.getSupplierMatSell());
                 }
                 if (matSell != null) {
                     supplierMatSellMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSell());
                     supplierCertSellMapper.deleteByMatSellId(matSell.getId());//删除供应商销售证书
-                }
+                }*/
 
+                // 删除物资销售基本信息
+                supplierMatSellMapper.deleteBySupplierId(supplier.getId());
+                // 重新插入物资销售基本信息
+                supplierMatSellMapper.insertSelective(supplier.getSupplierMatSell());
+                // 删除物资销售证书
+                supplierCertSellMapper.deleteByMatSellId(supplier.getSupplierMatSell().getId());
                 if (supplier.getSupplierMatSell().getListSupplierCertSells().size() > 0) {
                     for (SupplierCertSell sc : supplier.getSupplierMatSell().getListSupplierCertSells()) {
-//    				   if(sc.getFileList().size()>0){
-//  		   				 for(UploadFile uf:sc.getFileList()){
-//  	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
-//  	    	    			   fileUploadMapper.insertFile(uf);
-//  	    	    		   }
-//  		   				}
-                        SupplierCertSell certSell = supplierCertSellMapper.selectByPrimaryKey(sc.getId());
-
-                        if (certSell == null) {
-                            supplierCertSellMapper.insertSelective(sc);
-                        } else {
-                            supplierCertSellMapper.updateByPrimaryKeySelective(sc);
-                        }
+                        supplierCertSellMapper.insertSelective(sc);
                     }
                 }
             }
+
+            /**
+             * 工程信息
+             */
             if (supplier.getSupplierMatEng() != null) {
-                SupplierMatEng matEng = supplierMatEngMapper.getMatEngBySupplierId(supplier.getId());
+                /*SupplierMatEng matEng = supplierMatEngMapper.getMatEngBySupplierId(supplier.getId());
                 if (matEng == null) {
                     supplierMatEngMapper.insertSelective(supplier.getSupplierMatEng());
                 }
@@ -348,70 +350,64 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                     supplierCertEngMapper.deleteByMatEngId(matEng.getId());
                     supplierRegPersonMapper.deleteByMatEngId(matEng.getId());
                     //删除工程的相关证书
-                }
-                if (supplier.getSupplierMatEng().getListSupplierAptitutes().size() > 0) {
-                    for (SupplierAptitute sb : supplier.getSupplierMatEng().getListSupplierAptitutes()) {
-                        SupplierAptitute ap = supplierAptituteMapper.selectByPrimaryKey(sb.getId());
-                        if (ap == null) {
-                            supplierAptituteMapper.insertSelective(sb);
-                        }
-
-                    }
-                }
-                if (supplier.getSupplierMatEng().getListSupplierCertEngs().size() > 0) {
-                    for (SupplierCertEng sce : supplier.getSupplierMatEng().getListSupplierCertEngs()) {
-//    				   if(sce.getFileList().size()>0){
-//  		   				 for(UploadFile uf:sce.getFileList()){
-//  	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
-//  	    	    			   fileUploadMapper.insertFile(uf);
-//  	    	    		   }
-//  		   				}
-                        SupplierCertEng certEng = supplierCertEngMapper.selectByPrimaryKey(sce.getId());
-                        if (certEng == null) {
-                            supplierCertEngMapper.insertSelective(sce);
-                        }
-
-                    }
-                }
+                }*/
+                // 删除工程基本信息
+                supplierMatEngMapper.deleteBySupplierId(supplier.getId());
+                // 重新插入工程基本信息
+                supplierMatEngMapper.insertSelective(supplier.getSupplierMatEng());
+                // 删除取得注册资质的人员信息
+                supplierRegPersonMapper.deleteByMatEngId(supplier.getSupplierMatEng().getId());
+                // 删除供应商资质（认证）证书信息
+                supplierCertEngMapper.deleteByMatEngId(supplier.getSupplierMatEng().getId());
+                // 删除供应商资质证书详细信息
+                supplierAptituteMapper.deleteByMatEngId(supplier.getSupplierMatEng().getId());
+                // 重新插入取得注册资质的人员信息
                 if (supplier.getSupplierMatEng().getListSupplierRegPersons().size() > 0) {
                     for (SupplierRegPerson sp : supplier.getSupplierMatEng().getListSupplierRegPersons()) {
-                        SupplierRegPerson regPerson = supplierRegPersonMapper.selectByPrimaryKey(sp.getId());
-                        if (regPerson == null) {
-                            supplierRegPersonMapper.insertSelective(sp);
-                        }
-
+                        supplierRegPersonMapper.insertSelective(sp);
+                    }
+                }
+                // 重新插入供应商资质（认证）证书信息
+                if (supplier.getSupplierMatEng().getListSupplierCertEngs().size() > 0) {
+                    for (SupplierCertEng sce : supplier.getSupplierMatEng().getListSupplierCertEngs()) {
+                        supplierCertEngMapper.insertSelective(sce);
+                    }
+                }
+                // 重新插入供应商资质证书详细信息
+                if (supplier.getSupplierMatEng().getListSupplierAptitutes().size() > 0) {
+                    for (SupplierAptitute sb : supplier.getSupplierMatEng().getListSupplierAptitutes()) {
+                        supplierAptituteMapper.insertSelective(sb);
                     }
                 }
             }
+
+            /**
+             * 服务信息
+             */
             if (supplier.getSupplierMatSe() != null) {
-                SupplierMatServe serve = supplierMatServeMapper.selectByPrimaryKey(supplier.getSupplierMatSe().getId());
+                /*SupplierMatServe serve = supplierMatServeMapper.selectByPrimaryKey(supplier.getSupplierMatSe().getId());
                 if (serve == null) {
                     supplierMatServeMapper.insertSelective(supplier.getSupplierMatSe());
                 } else if (serve != null) {
                     supplierMatServeMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSe());
                     supplierCertServeMapper.deleteByMatServeId(serve.getId());
-
                     //删除服务的相关帧数
-                }
-
+                }*/
+                // 删除服务基本信息
+                supplierMatServeMapper.deleteBySupplierId(supplier.getId());
+                // 插入服务基本信息
+                supplierMatServeMapper.insertSelective(supplier.getSupplierMatSe());
+                supplierCertServeMapper.deleteByMatServeId(supplier.getSupplierMatSe().getId());
                 if (supplier.getSupplierMatSe().getListSupplierCertSes().size() > 0) {
                     for (SupplierCertServe sc : supplier.getSupplierMatSe().getListSupplierCertSes()) {
-//					  if(sc.getFileList().size()>0){
-// 		   				 for(UploadFile uf:sc.getFileList()){
-// 	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
-// 	    	    			   fileUploadMapper.insertFile(uf);
-// 	    	    		   }
-// 		   				}
-                        SupplierCertServe certServe = supplierCertServeMapper.selectByPrimaryKey(sc.getId());
-                        if (certServe == null) {
-                            supplierCertServeMapper.insertSelective(sc);
-                        } else {
-                            supplierCertServeMapper.updateByPrimaryKeySelective(sc);
-                        }
-
+                        supplierCertServeMapper.insertSelective(sc);
                     }
                 }
             }
+
+            /**
+             *  供应商选择品目信息
+             */
             if (supplier.getListSupplierItems() != null && supplier.getListSupplierItems().size() > 0) {
                 // 先做删除操作
                 supplierItemMapper.deleteBySupplierId(supplier.getId());
