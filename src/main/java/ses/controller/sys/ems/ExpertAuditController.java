@@ -1797,6 +1797,12 @@ public class ExpertAuditController{
 				model.addAttribute("isGoodsServer", "no");
 			}
 		}
+		
+		//批准初审表
+		if("10".equals(expert.getStatus())){
+			fileUploadItem(model);
+		}
+		
 		return "ses/ems/expertAudit/reasonsList";
 	}
 
