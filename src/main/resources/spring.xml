@@ -43,9 +43,9 @@
         <!-- 每天凌晨12点半拟入库专家自动入库-->
         <task:scheduled ref="ExpertTask" method="handleExpertPublicity" cron="0 30 0 * * ?"/>
 
-        <!-- 供应商专家图片导出 -->
+        <!-- 供应商专家图片外网导出 -->
         <task:scheduled ref="ImageTask" method="imageHandler" cron="0 0 1 * * ?"/>
-        <!-- 供应商专家图片导出 -->
+        <!-- 供应商专家图片内网导入 -->
         <task:scheduled ref="ImageTask" method="imageImportHandler" cron="0 0 6 * * ?"/>
 
         <!-- 每天5点  17点网导出数据 -->
