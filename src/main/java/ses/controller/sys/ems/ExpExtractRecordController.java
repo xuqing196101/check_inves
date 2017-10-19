@@ -1197,7 +1197,7 @@ public class ExpExtractRecordController extends BaseController {
                 model.addAttribute("loginNameError", "用户名已存在");
             }
         }
-        if (StringUtils.isEmpty(mobile)) {
+        /*if (StringUtils.isEmpty(mobile)) {
             model.addAttribute("mobile", "不能为空");
         } else {
             Map<String, Object> map = new HashMap<>();
@@ -1206,7 +1206,7 @@ public class ExpExtractRecordController extends BaseController {
             if (list != null && list.size() != 0) {
                 model.addAttribute("mobile", "联系电话已存在");
             }
-        }
+        }*/
         if (loginPwd == null || "".equals(loginPwd)) {
             model.addAttribute("loginPwdError", "不能为空");
             /*

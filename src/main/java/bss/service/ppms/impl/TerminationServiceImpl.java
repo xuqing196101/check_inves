@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -143,14 +144,20 @@ public class TerminationServiceImpl implements TerminationService {
   @Override
   public void updateTermination(String packagesId, String projectId,String currFlowDefineId,String oldCurrFlowDefineId,String type) {
     String[] packId=packagesId.split(StaticVariables.COMMA_SPLLIT);
-    Map<String, Integer> mapOrder=new HashMap<String, Integer>();
-    List<Integer> number=new ArrayList<Integer>();
+    Map<String, String> mapOrder=new HashMap<String, String>();
+    List<String> number=new ArrayList<String>();
     HashMap<String, Object> map=new HashMap<String, Object>();
     map.put("projectId", projectId);
     List<Packages> packages = packageMapper.selectByPrimaryKey(map);
     if(packages!=null&&packages.size()>0){
       for(int i=0;i<packages.size();i++){
-        mapOrder.put(packages.get(i).getId(),Integer.valueOf(packages.get(i).getName().substring(1, packages.get(i).getName().length()-1)));
+    	  String substring = packages.get(i).getName().substring(1, packages.get(i).getName().length()-1);
+    	  if (Pattern.compile("^[0-9]*[1-9][0-9]*$").matcher(substring).matches()) {
+    		  mapOrder.put(packages.get(i).getId(),substring);
+    	  } else {
+    		  mapOrder.put(packages.get(i).getId(),packages.get(i).getName());
+    	  }
+        
       }
     }
     if(packagesId!=null){
@@ -953,11 +960,11 @@ public class TerminationServiceImpl implements TerminationService {
 	  map.put("projectId", projectId);
 	  List<Packages> findByID = packageMapper.findByID(map);
 	  if (findByID != null && !findByID.isEmpty() && findByID.size() > 1) {
-		  List<Integer> num = new ArrayList<Integer>();
+		  List<String> num = new ArrayList<String>();
 		  for (Packages packages : findByID) {
 			  for (String packageId : packageIds) {
 				  if (!StringUtils.equals(packageId, packages.getId())) {
-					  num.add(Integer.valueOf(packages.getName().substring(1, 2)));
+					  num.add(packages.getName().substring(1, packages.getName().length()-1));
 				  }
 			  }
 		  }	
@@ -968,27 +975,43 @@ public class TerminationServiceImpl implements TerminationService {
 		  projectMapper.updateByPrimaryKeySelective(project);
 	  }
   }
-  private String ShortBooleanTitle(List<Integer> number) {
-    String title;
-    Collections.sort(number);
-    boolean flg=false;
-    if(number!=null&&number.size()>0){
-        for(int i=0;i<number.size();i++){
-          if(i!=number.size()-1){
-            if(number.get(i)+1==number.get(i+1)){
-              flg=true;
-            }else{
-              flg=false;
-            }
-          }
-      }
-    }
-    if(flg){
-      title="（第"+number.get(0)+"-"+number.get(number.size()-1)+"包）";
-    }else{
-      title="（第"+StringUtils.join(number,",")+"包）";
-    }
-    return title;
+  private String ShortBooleanTitle(List<String> number) {
+	  String title;
+	  Collections.sort(number);
+	  boolean flg=false;
+	  if(number!=null&&number.size()>0){
+		  for(int i=0;i<number.size();i++){
+			  if(i!=number.size()-1){
+				  if (Pattern.compile("^[0-9]*[1-9][0-9]*$").matcher(number.get(i)).matches()) {
+					  if(number.get(i)+1==number.get(i+1)){
+						  flg=true;
+					  }else{
+						  flg=false;
+					  }
+				  }
+			  }
+		  }
+	  }
+	  if(flg){
+		  title="（第"+number.get(0)+"-"+number.get(number.size()-1)+"包）";
+	  }else{
+		  String num = null;
+		  for (String string : number) {
+			  if (Pattern.compile("^[0-9]*[1-9][0-9]*$").matcher(string).matches()) {
+				  num = "0";
+			  } else {
+				  num = "1";
+				  break;
+			  }
+		  }
+		  if("0".equals(num)){
+			  title="（第"+StringUtils.join(number,",")+"包）";
+		  } else {
+			  title="（"+StringUtils.join(number,",")+"）";
+		  }
+		  
+	  }
+	  return title;
   }
   @Override
   public List<FlowDefine> selectFlowDefineTermination(String currFlowDefineId) {
