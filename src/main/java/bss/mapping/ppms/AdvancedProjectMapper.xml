@@ -859,6 +859,9 @@
       <if test="isRehearse != null">
        	and IS_REHEARSE = #{isRehearse}
       </if>
+      <if test="date != null">
+       	and TO_CHAR(APPROVAL_TIME,'yyyy-mm-dd') =#{date}
+      </if>
 			and (CONFIRM_FILE = 1 or CONFIRM_FILE = 2 or CONFIRM_FILE = 3 or CONFIRM_FILE = 4)
 			and (PARENT_ID IS NULL OR PARENT_ID != '1')
       ORDER BY APPROVAL_TIME DESC

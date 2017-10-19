@@ -1,6 +1,7 @@
 package bss.controller.ppms;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -126,6 +127,9 @@ public class AuditBiddingController extends BaseController {
           if (orgId != null) {
         	  map.put("purchaseDepId", orgId.substring(0, orgId.length()-1));
           }
+          SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+          String date = df.format(new Date());
+          map.put("date", date);
           if(page == null){
               page = 1;
           }
