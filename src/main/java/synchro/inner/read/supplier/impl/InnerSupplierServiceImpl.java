@@ -421,6 +421,19 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 }
             }
 
+            /**
+             *  供应商提交时的审核记录修改
+             */
+            List<SupplierAudit> supplierAudits = supplier.getSupplierAudits();
+            if(!supplierAudits.isEmpty()){
+                for (SupplierAudit supplierAudit : supplierAudits){
+                    SupplierAudit audit = supplierAuditMapper.selectById(supplierAudit.getId());
+                    if(audit != null){
+                        supplierAuditMapper.updateByIdSelective(supplierAudit);
+                    }
+                }
+            }
+
             List<RoleUser> roles = supplier.getUserRoles();
             if (roles.size() > 0) {
                 for (RoleUser ur : roles) {
