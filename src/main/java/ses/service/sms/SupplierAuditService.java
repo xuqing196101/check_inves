@@ -563,5 +563,13 @@ public interface SupplierAuditService {
 	 * @return
 	 */
 	JdcgResult updateReturnStatus(String ids, Integer status);
+	
+	/**
+	 * 统计审核记录
+	 * @param supplierAudit
+	 * @param rss
+	 * @return
+	 */
+	int countAuditRecords(SupplierAudit supplierAudit, Integer[] rss);
 
 }

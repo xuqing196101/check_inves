@@ -276,6 +276,21 @@ public class SupplierController extends BaseSupplierController {
         	if(itemList_service == null || itemList_service.isEmpty()){
         		//supplierTypeRelateService.delete(suppId, "SERVICE");
         	}
+        	
+        	// 如果供应商类型被退回，自动去掉勾选
+        	SupplierAudit supplierAudit = new SupplierAudit();
+        	supplierAudit.setSupplierId(suppId);
+        	supplierAudit.setAuditType("supplierType_page");
+        	List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{2});
+        	if(auditList != null && auditList.size() > 0){
+        		for(SupplierAudit audit : auditList){
+        			String id = audit.getAuditField();
+        			DictionaryData dd = dictionaryDataServiceI.getDictionaryData(id);
+        			if(dd != null){
+        				supplierTypeRelateService.delete(suppId, dd.getCode());
+        			}
+        		}
+        	}
     	}
     	
     	supplier = supplierService.get(suppId, 2);
@@ -1056,7 +1071,7 @@ public class SupplierController extends BaseSupplierController {
 		
 		if(isEng) {
 			// 获取工程资质
-			Map<String, Object> engAptituteMap = supplierAptituteService.getEngAptitute(supplier.getId());
+			Map<String, Object> engAptituteMap = supplierItemService.getEngAptitute(supplier.getId());
 			model.addAttribute("modifiedCertCodes", engAptituteMap.get("modifiedCertCodes"));
 			model.addAttribute("allTreeList", engAptituteMap.get("allTreeList"));
 			model.addAttribute("engTypeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());

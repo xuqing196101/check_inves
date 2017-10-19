@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import ses.constants.SupplierConstants;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
@@ -1767,7 +1769,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		audit.setSupplierId(supplierId);
 		audit.setAuditField(auditField);
 		audit.setAuditType(auditType);
-		return countByPrimaryKey(audit);
+		return countAuditRecords(audit, SupplierConstants.AUDIT_RETURN_STATUS);
 	}
 	@Override
 	public SupplierCateTree countEngCategoyrId(SupplierCateTree cateTree, String supplierId) {
@@ -2333,12 +2335,12 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			String[] idAry = ids.split(",");
 			for(String id : idAry){
 				SupplierAudit supplierAuditById = supplierAuditMapper.selectById(id);
-				if(supplierAuditById != null && supplierAuditById.getReturnStatus() != null && supplierAuditById.getReturnStatus() == 2){
+				/*if(supplierAuditById != null && supplierAuditById.getReturnStatus() != null && supplierAuditById.getReturnStatus() == 2){
 					return new JdcgResult(503, "选择中存在审核不通过的产品目录", null);
 				}
 				if(supplierAuditById != null && supplierAuditById.getAuditType() != null && supplierAuditById.getAuditType().startsWith("items_")){
 					return new JdcgResult(503, "选择中存在审核不通过的产品目录", null);
-				}
+				}*/
 				SupplierAudit supplierAudit = new SupplierAudit();
 				supplierAudit.setId(id);
 				if(status == 1){// 退回修改
@@ -2360,6 +2362,11 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int countAuditRecords(SupplierAudit supplierAudit, Integer[] rss) {
+		return supplierAuditMapper.countAuditRecords(supplierAudit, rss);
 	}
 
 }

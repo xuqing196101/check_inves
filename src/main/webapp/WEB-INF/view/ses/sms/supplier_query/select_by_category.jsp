@@ -86,10 +86,36 @@
 					var categoryIds = treeNode.id;
 					var tempnode= getroot();
 					if(tempnode){
-						if (treeNode.level !=3 || tempnode.name == "工程") {
+						if (treeNode.level !=3 && tempnode.name != "工程") {
 							$("#selectSupplierType").hide();
-						} else {
+						} else if (treeNode.level ==3 && tempnode.name != "工程") {
 							$("#selectSupplierType").show();
+						} else if (tempnode.name == "工程") {
+							//如果是工程类别，获取该品目的所有等级
+							$.ajax({
+								type : "POST",
+								url : globalPath + "/supplierQuery/ajaxCategoryLevels.do",
+								data : {"categoryId" : categoryIds},
+								success : function(obj) {
+									if (obj.status == 500 || obj.status == 501) {
+										var html = "<option selected='selected' value=''>全部</option>";
+										$(obj.data).each(
+												function(index, item) {
+													html += "<option  value='" + item.id + "'>" + item.name + "</option>";
+												}
+										);
+										$("#projectAllLevels").empty();
+										$("#projectAllLevels").append(html);
+									} else {
+										layer.msg(obj.msg);
+									}
+								},
+								error : function(data) {
+									layer.msg("等级请求异常!");
+									layer.close(index);
+								},
+							});
+							$("#projectLevel").show();
 						}
 						$("#categoryIds").val(categoryIds);
 					 	$("#page").val(1);
@@ -98,6 +124,7 @@
 						findSupplier(treeNode.level);
 					}else{
 						$("#selectSupplierType").hide();
+						$("#projectLevel").hide();
 						//根节点
 						$("#page").val(1);
 						$("#categoryIds").val("");

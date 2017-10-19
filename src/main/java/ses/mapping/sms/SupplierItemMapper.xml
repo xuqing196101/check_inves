@@ -478,7 +478,7 @@
                             AND T.AUDIT_TYPE = #{items_sales_page}
                         </if>
 					   AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3 OR T.STATUS = 9)
-					   AND T.IS_DELETED = 0)
+					   AND T.RETURN_STATUS IN(0,1,2,4))
 			   AND A.SUPPLIER_ID = #{supplierId}
 			   AND A.NODE_LEVEL = 3
 			 GROUP BY A.SUPPLIER_TYPE_RELATE_ID) E
@@ -488,7 +488,8 @@
 			  LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA
 				ON T.AUDIT_FIELD = DA.ID
 			 WHERE T.SUPPLIER_ID = #{supplierId}
-			   AND T.AUDIT_TYPE = #{supplierType_page})
+               AND T.AUDIT_TYPE = #{supplierType_page}
+               AND T.RETURN_STATUS IN (0, 1, 2, 4))
 	</select>
 
 	<!-- 查询供应商选择的小类节点 -->
@@ -522,7 +523,7 @@
 						AND T.AUDIT_TYPE = #{items_sales_page}
 					</if>
 					 AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3 OR T.STATUS = 9)
-					 AND T.IS_DELETED = 0)
+                     AND T.RETURN_STATUS IN (0, 1, 2, 4))
 			 AND A.SUPPLIER_ID = #{supplierId}
 			 AND A.NODE_LEVEL = 3
             ORDER BY C.CODE ASC
