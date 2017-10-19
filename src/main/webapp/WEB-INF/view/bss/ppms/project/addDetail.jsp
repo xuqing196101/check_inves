@@ -12,13 +12,15 @@
       var obj = "";
       var detailId = "";
       var projectId = "${id}";
+      
       $(function() {
         layui.use('flow', function() {
           var flow = layui.flow;
           flow.load({
-            elem: '#tb_id' //指定列表容器
-            ,done: function(page, next) { //到达临界点（默认滚动触发），触发下一页
+            elem: '#tb_id', //指定列表容器
+            done: function(page, next) { //到达临界点（默认滚动触发），触发下一页
               var lis = [];
+              var flow_load = layer.load(2);
               //以jQuery的Ajax请求为例，请求下一页数据
               $.ajax({
                 url: "${pageContext.request.contextPath}/project/viewPlanDetail.do?taskId=${taskId}&page=" + page + "&detailId=" + detailId + "&projectId=" + projectId,
@@ -35,7 +37,7 @@
                     if(item.purchaseCount == 0) {
                       item.purchaseCount = "";
                     }
-                    var html = "<tr class='pointer'>";
+                    var html = "<tr>";
                     /* if (item.projectStatus == 1) {
 				              //如果已被引用
 				              html +="<td><input type='text'><input type='checkbox' disabled='disabled' title='该明细已被引用'></td>";
@@ -63,35 +65,33 @@
                           checkDoc.push(item.id);
                         }
                       }
-                      if(objectStauts){
-							 //查看父节点是否被选中
-		                      $("input[name='chkItem_" + item.parentId + "']").each(function() {
-		                        flag = $(this).prop("checked");
-		                        if(flag == true) {
-		                          checkDoc.push(item.id);
-		                        }
-		                      });
-						}else{
-							flag=false;
-						}
-                     
+                      if(objectStauts) {
+                        //查看父节点是否被选中
+	                      $("input[name='chkItem_" + item.parentId + "']").each(function() {
+	                        flag = $(this).prop("checked");
+	                        if(flag == true) {
+	                          checkDoc.push(item.id);
+	                        }
+	                      });
+          						} else {
+          							flag = false;
+          						}
 
                       html += "<td>";
                       html += "<input type='hidden' name='pId_" + item.parentId + "' value='" + item.parentId + "'>";
                       if (flag == true) {
-                    	  if(item.seq=='一'){
-                    		  html +="<input type='checkbox' checked='checked' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,1)' alt=''>";
-                    	  }else{
-                    		  html +="<input type='checkbox' checked='checked' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,2)' alt=''>";
+                    	  if(item.seq=='一') {
+                    		  html += "<input type='checkbox' checked='checked' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,1)' alt=''>";
+                    	  } else {
+                    		  html += "<input type='checkbox' checked='checked' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,2)' alt=''>";
                     	  }
-								
-						} else {
-						  if(item.seq=='一'){
-								html +="<input type='checkbox' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,1)' alt=''>";
-						  }else{
-							    html +="<input type='checkbox' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,2)' alt=''>";
-						  }
-						}
+          						} else {
+          						  if(item.seq=='一') {
+          								html += "<input type='checkbox' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,1)' alt=''>";
+          						  }else{
+          							  html += "<input type='checkbox' value='"+item.id+"' name='chkItem_"+item.id+"' onclick='check(this,2)' alt=''>";
+          						  }
+          						}
 
                       html += "</td>";
                       html += "<td><div class='seq'>" + item.seq + "</div></td>";
@@ -113,13 +113,93 @@
                       item.item + "</div></td><td><div class='purchaseCount'>" + item.purchaseCount + "</div></td><td><div class='deliverDate'>" + item.deliverDate + "</div></td><td><div class='purchaseType tc'>" + item.purchaseType + 
                       "</div></td><td><div class='purchasename'>" + code + "</div></td><td><div class='memo'>"+item.memo+"</div><input type='hidden' id='planType' value='"+item.planType+"' /></td></tr>"; */
                   });
+                  
+                  // 关闭loading
+                  layer.close(flow_load);
+                  
                   next(lis.join(''), page < res.pages);
-                },
+                  
+                  // 给左侧冻结列添加hover样式
+                  $('#tb_id tr').hover(function () {
+                    var index = $(this).index();
+                    $('#fixed_column tr').removeClass('hover');
+                    $('#fixed_column tr').eq(index).addClass('hover');
+                  });
+                  // 给右侧内容区添加hover样式
+                  $('#fixed_column tr').hover(function () {
+                    var index = $(this).index();
+                    $('#tb_id tr').removeClass('hover');
+                    $('#tb_id tr').eq(index).addClass('hover');
+                  });
+                  
+                  var fixed_header = '';  // 定义保存表头html变量
+                  var fixed_column = '';  // 定义保存冻结列html变量
+                  
+                  // 获取表头html并添加每个单元格宽度（与内容表格保持一致）
+                  $('#tb_id').siblings('thead').find('th').each(function () {
+                    fixed_header += '<th style="width: '+ $(this).outerWidth(true) +'px">'+ $(this).html() +'</th>';
+                  });
+                  
+                  // 为空则是第一次初始化，从第一个tr开始保存，不为空则从上次最后一个开始保存
+                  if ($('#fixed_column tbody').html() != '') {
+                    var last_index = parseInt($('#fixed_column tr').length) - 1;
+                    $('#tb_id tr').each(function (index) {
+                      if (index > last_index) {
+                        fixed_column += '<tr><td class="text-center" style="width: '+ $(this).find('td').eq(0).outerWidth(true) +'px; height: '+ $(this).find('td').eq(0).outerHeight(true) +'px">'+ $(this).find('td').eq(0).html() +'</td></tr>';
+                      }
+                    });
+                  } else {
+                    $('#tb_id tr').each(function (index) {
+                      fixed_column += '<tr><td class="text-center" style="width: '+ $(this).find('td').eq(0).outerWidth(true) +'px; height: '+ $(this).find('td').eq(0).outerHeight(true) +'px">'+ $(this).find('td').eq(0).html() +'</td></tr>';
+                    });
+                  }
+                  
+                  // 定义表头样式
+                  $('#fixed_header').css({
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: $('#tb_id').parents('table').outerWidth(),
+                    zIndex: 1
+                  });
+                  // 定义冻结列样式
+                  $('#fixed_column').css({
+                    position: 'absolute',
+                    top: $('#tb_id').siblings('thead').outerHeight(),
+                    left: 0,
+                    width: parseInt($('#tb_id').find('td').eq(0).outerWidth()) + 1,
+                    backgroundColor: '#FFF'
+                  });
+                  
+                  // 填充内容到容器
+                  $('#fixed_header').html('<table class="table table-hover table-bordered mb0"><thead>'+ fixed_header +'</thead></table>');
+                  $('#fixed_column tbody').append(fixed_column);
+                  
+                  // 判断表头是否开始跟随
+                  chage_fixedHeader();
+                  $(window).scroll(function () {
+                    chage_fixedHeader();
+                  });
+                }
               });
             }
           });
         });
       });
+      
+      function chage_fixedHeader() {
+        if ($(window).scrollTop() >= $('#table').offset().top) {
+          $('#fixed_header').css({
+            position: 'fixed',
+            left: 'auto'
+          });
+        } else {
+          $('#fixed_header').css({
+            position: 'absolute',
+            left: 0
+          });
+        }
+      }
 
       function check(ele,seq) {
         obj = ele;
@@ -283,6 +363,15 @@
     		}
     	}  */
     </script>
+    
+    <style>
+      .table-hover>tbody>tr.hover {
+        background-color: #f5f5f5;
+      }
+      .layui-flow-more {
+        display: none;
+      }
+    </style>
   </head>
 
   <body>
@@ -318,7 +407,7 @@
 
       <!-- 项目戳开始 -->
       <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto mt20" id="content">
-        <table id="table" class="table table-bordered table-condensed lockout">
+        <table id="table" class="table table-bordered table-hover">
           <thead>
             <tr class="space_nowrap">
               <th class="choose">选择</th>
@@ -341,7 +430,8 @@
           <tbody id="tb_id">
           </tbody>
         </table>
-
+        <div id="fixed_header"></div>
+        <table class="table table-hover table-bordered mb0" id="fixed_column"><tbody></tbody></table>
       </div>
       <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
         <button class="btn btn-windows save" type="button" onclick="save()">确定选择</button>
