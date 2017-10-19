@@ -757,6 +757,25 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	public List<ExpertAudit> diySelect(Map<String, Object> map) {
 		return mapper.diySelect(map);
 	}
+	@Override
+	public boolean updateAuditStatus(String[] ids, String status) {
+		ExpertCategory expertCategory = new ExpertCategory();
+		for(int i=0; i<ids.length; i++){
+			if("2".equals(status)||"4".equals(status)||"5".equals(status)){
+				//更新品目的状态(0通过);
+				ExpertAudit expertAudit = mapper.selectByPrimaryKey(ids[i]);
+				if(expertAudit.getAuditFieldId() !=null && expertAudit.getAuditFieldId() !=""){
+					expertCategory.setExpertId(expertAudit.getExpertId());
+					expertCategory.setCategoryId(expertAudit.getAuditFieldId());
+					expertCategory.setAuditStatus(0);
+					expertCategoryMapper.updateAuditStatus(expertCategory);
+				}
+			}
+			//修改审核记录状态
+			mapper.updateAuditStatus(ids[i],status);
+		}
+		return true;
+	}
 
 
 }

@@ -1971,6 +1971,25 @@ public class ExpertAuditController{
 	}
 
 	/**
+	 * @Title: updateAuditStatus
+	 * @date 2016-12-19 下午7:38:43  
+	 * @Description:批量修改审核状态
+	 * @param @param ids
+	 * @param @param response      
+	 * @return void
+	 */
+	@RequestMapping("/updateAuditStatus")
+	public void updateAuditStatus(String ids,String status, HttpServletResponse response) {
+		
+		boolean Whether = expertAuditService.updateAuditStatus(ids.split(","),status);
+		if(Whether) {
+			String msg = "{\"msg\":\"yes\"}";
+			writeJson(response, msg);
+		}
+
+	}
+
+	/**
 	 * @Title: download
 	 * @date 2016-12-27 下午2:34:20  
 	 * @Description:word下载

@@ -76,18 +76,67 @@
         });
 		function showDiv(){
 			var s=$('input[name="chkItem"]:checked').eq(0).parent("td").parent("tr").find("td").eq(7).text();
-			//alert(s);
 			var show=true;
+			if($('input[name="chkItem"]:checked').size()<=0){
+				layer.alert("请选择需要修改状态的信息！", {offset: '100px'});
+				return;
+			}
 			 $('input[name="chkItem"]:checked').each(function () {
 	                var str=$(this).parent("td").parent("tr").find("td").eq(7).text();
 	                if(s!=str){
-	                	alert("请选择相同状态的审核记录");
+	                	layer.alert("请选择相同状态的审核记录！", {offset: '100px'});
 	                	show=false;
 	                }
 	            });
 			 if(show){
+				 $("input[name='updateStatusRadio']").attr("disabled","disabled");
+				 $("input[name='updateStatusRadio']").removeAttr('checked');
+				 if("退回修改"==s||"未修改"==s){
+					$("#revokeReturn").attr("disabled",false);
+				 }
+				 if("审核不通过"==s){
+					$("#revokeNotpass").attr("disabled",false);
+				 }
+				 if(""==s){
+					$("input[name='updateStatusRadio']").attr("disabled",false);
+				 }
 			 	$("#updateStatus").css('display','inline');
 			 }
+		}
+		function updateStatus(status) {
+			 var expertId = $("input[name='expertId']").val();
+	         var ids = "";
+	         $('input[name="chkItem"]:checked').each(function () {
+	             ids+=$(this).val()+",";
+	         });
+	         if (ids.length > 0) {
+	                layer.confirm('您确定要修改吗?', {title: '提示！', offset: ['200px']}, function (index) {
+	                    layer.close(index);
+	                    $.ajax({
+	                        url: "${pageContext.request.contextPath}/expertAudit/updateAuditStatus.html",
+	                        data: {'ids' : ids.substring(0, ids.length),
+	                        		'status':status
+	                        	},
+	                        type: "post",
+	                        dataType: "json",
+	                        success: function (result) {
+	                            result = eval("(" + result + ")");
+	                            if (result.msg == "yes") {
+	                                layer.msg("修改成功!", {offset: '100px'});
+	                                window.setTimeout(function () {
+	                                    var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
+	                                    $("#form_id").attr("action", action);
+	                                    $("#form_id").submit();
+	                                }, 1000);
+	                            }
+	                            ;
+	                        },
+	                        error: function () {
+	                            layer.msg("修改失败", {offset: '100px'});
+	                        }
+	                    });
+	                });
+	            }
 		}
         // 审核意见
         function checkOpinion(status, expertId){
@@ -542,11 +591,11 @@
  -->            	<button class="btn btn-windows edit" type="button" onclick="showDiv()" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>  
  				</c:if>  
  				<div id="updateStatus" style="display: none">
- 					<input type="radio" name="s">退回修改
- 					<input type="radio" name="s">已修改
- 					<input type="radio" name="s">未修改
- 					<input type="radio" name="s">撤销退回
- 					<input type="radio" name="s">撤销不通过
+ 					<input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >退回修改
+ 					<input type="radio" id="yupd" onclick="updateStatus(2)" name="updateStatusRadio" >已修改
+ 					<input type="radio" id="nupd" onclick="updateStatus(3)" name="updateStatusRadio" >未修改
+ 					<input type="radio" id="revokeReturn" onclick="updateStatus(4)" name="updateStatusRadio" >撤销退回
+ 					<input type="radio" id="revokeNotpass" onclick="updateStatus(5)" name="updateStatusRadio">撤销不通过
  				</div>
                 <table class="table table-bordered table-condensed table-hover">
                     <thead>
@@ -587,14 +636,13 @@
                             	<fmt:formatDate value="${reasons.auditAt }" pattern="yyyy-MM-dd HH:mm"/>
                             </td>
                             <!-- 状态 -->
-                            <td class="tc">
-                            	<c:if test="${reasons.auditStatus eq '1'}">退回修改</c:if>
-                            	<c:if test="${reasons.auditStatus eq '2'}">已修改</c:if>
-                            	<c:if test="${reasons.auditStatus eq '3'}">未修改</c:if>
-                            	<c:if test="${reasons.auditStatus eq '4'}">撤销退回</c:if>
-                            	<c:if test="${reasons.auditStatus eq '5'}">撤销不通过</c:if>
-                            	<c:if test="${reasons.auditStatus eq '6'}">审核不通过</c:if>
-                            </td>
+                            <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">退回修改</td></c:if>
+                            <c:if test="${reasons.auditStatus eq '2'}"><td class="tc">已修改</td></c:if>
+                            <c:if test="${reasons.auditStatus eq '3'}"><td class="tc">未修改</td></c:if>
+                            <c:if test="${reasons.auditStatus eq '4'}"><td class="tc">撤销退回</td></c:if>
+                            <c:if test="${reasons.auditStatus eq '5'}"><td class="tc">撤销不通过</td></c:if>
+                            <c:if test="${reasons.auditStatus eq '6'}"><td class="tc">审核不通过</td></c:if>
+                            <c:if test="${reasons.auditStatus eq null}"><td class="tc"></td></c:if>
                         </tr>
                     </c:forEach>
                 </table>

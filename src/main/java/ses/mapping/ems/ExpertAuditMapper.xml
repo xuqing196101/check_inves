@@ -84,6 +84,9 @@
     delete from T_SES_EMS_EXPERT_AUDIT
     where ID = #{id}
   </delete>
+  <update id="updateAuditStatus" parameterType="java.lang.String">
+  	UPDATE T_SES_EMS_EXPERT_AUDIT SET AUDIT_STATUS=${auditStatus} where ID='${id}'
+  </update>
   <insert id="insert" parameterType="ses.model.ems.ExpertAudit">
     insert into T_SES_EMS_EXPERT_AUDIT (ID, EXPERT_ID, AUDIT_USER_ID, 
       AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, 

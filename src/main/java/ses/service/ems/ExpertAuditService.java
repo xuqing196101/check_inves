@@ -320,6 +320,8 @@ public interface ExpertAuditService {
 	
 	ExpertAudit findAuditByExpertId (ExpertAudit expertAudit);
 	
+	boolean updateAuditStatus(String[] ids,String status);
+	
 	/**
 	 * 
 	 * Description: 查询专家审核组成员

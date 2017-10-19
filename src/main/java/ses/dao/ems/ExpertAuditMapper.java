@@ -180,6 +180,7 @@ public interface ExpertAuditMapper {
     void deleteByExpertIdAndAuditFieldId (ExpertAudit expertAudit);
     
     ExpertAudit findAuditByExpertId (ExpertAudit expertAudit);
+    void updateAuditStatus(@Param("id") String id,@Param("auditStatus") String auditStatus);
     
     /**
      * 全部专家查询中的审核记录
