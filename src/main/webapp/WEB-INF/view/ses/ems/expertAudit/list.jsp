@@ -486,7 +486,7 @@
                <c:if test="${(sign == 1 and expert.status eq '0' and expert.auditTemporary ne '1')}">
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待初审</span></td>
               </c:if>
-              <c:if test="${(sign == 1 and expert.status eq '9' and expert.auditTemporary ne '1')}">
+              <c:if test="${sign == 1 and expert.status eq '9'}">
                 <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">退回再初审</span></td>
               </c:if>
               <c:if test="${sign == 1 and expert.status eq '5' }">
