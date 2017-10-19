@@ -14,6 +14,8 @@ public class SupplierItemLevel implements Serializable{
     private String supplierId;
     //供应商等级
     private String supplierLevel;
+    //工程等级名称
+    private String supplierLevelName;
     //目录节点
     private String categoryId;
     //计算时间
@@ -108,4 +110,13 @@ public class SupplierItemLevel implements Serializable{
     public void setSupplierTypeId(String supplierTypeId) {
         this.supplierTypeId = supplierTypeId == null ? null : supplierTypeId.trim();
     }
+
+	public String getSupplierLevelName() {
+		return supplierLevelName;
+	}
+
+	public void setSupplierLevelName(String supplierLevelName) {
+		this.supplierLevelName = supplierLevelName;
+	}
+    
 }
