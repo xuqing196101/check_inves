@@ -404,7 +404,16 @@ public class ExtractSupplierController extends BaseController {
     	return extractRecords.size();
     }
     
-    
-    
-    
+    /**
+     * 
+     * <简述> 自动抽取返回通知结果
+     *
+     * @author Jia Chengxiang
+     * @dateTime 2017-10-13下午3:44:17
+     * @return
+     */
+    @RequestMapping("/supplierExtractResult")
+    public void receiveVoiceResult(String json) {
+ 		conditionService.receiveVoiceResult(json);
+ 	}
 }

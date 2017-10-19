@@ -225,6 +225,24 @@ public class SupplierExtractResult {
 		this.status = status;
 	}
 
+	public SupplierExtractResult() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public SupplierExtractResult(String conditionId,String supplierId,
+			String recordId, Short join,String supplierType,
+			String projectType, String armyBuinessTelephone) {
+		super();
+		this.conditionId = conditionId;
+		this.supplierId = supplierId;
+		this.recordId = recordId;
+		this.join = join;
+		this.supplierType = supplierType;
+		this.projectType = projectType;
+		this.armyBuinessTelephone = armyBuinessTelephone;
+	}
+
 
 	
   

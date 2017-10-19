@@ -24,6 +24,7 @@ import ses.service.bms.CategoryService;
 import com.alibaba.fastjson.JSON;
 import common.bean.ResponseBean;
 
+import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.service.supplier.SupplierExtractConditionService;
@@ -84,6 +85,25 @@ import extract.service.supplier.SupplierExtractConditionService;
     	Map<String, Object> supplierList = conditionService.selectLikeSupplier(condition,conType,1);
     	return JSON.toJSONString(supplierList);
     }
+    
+    
+    /**
+     * 
+     *〈简述〉返回满足条件的供应商(自动抽取)
+     *〈详细描述〉
+     * @author Jia Chengxaing
+     * @param condition
+     * @param conType
+     * @param sq
+     * @param typeclassId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("autoExtract")
+    public String autoExtract(SupplierExtractCondition condition,SupplierConType conType,HttpServletRequest sq,String province,String projectInfo){
+    	Map<String, Object> supplierList = conditionService.autoExtract(condition,conType,projectInfo);
+    	return JSON.toJSONString(supplierList);
+    }
 
     /**
     *
@@ -118,7 +138,7 @@ import extract.service.supplier.SupplierExtractConditionService;
     */
    @RequestMapping("/getQuaByCid")
    @ResponseBody
-   public List<DictionaryData> getQuaByCid(String categoryId,String supplierTypeCode,String parentId){
+   public List<Qua> getQuaByCid(String categoryId,String supplierTypeCode,String parentId){
    	return conditionService.getQuaByCid(categoryId,supplierTypeCode,parentId);
    }
    
@@ -179,7 +199,8 @@ import extract.service.supplier.SupplierExtractConditionService;
 
    @ResponseBody
    @RequestMapping("/searchCate")
-   public Set<Category> searchCate(String typeId,String cateName){
-	return categoryService.selectCategoryByName(typeId, cateName);
+   public String searchCate(String typeId,String cateName,String cateCode){
+	return JSON.toJSONString(categoryService.selectCategoryByName(typeId, cateName,cateCode));
    }
+   
 }

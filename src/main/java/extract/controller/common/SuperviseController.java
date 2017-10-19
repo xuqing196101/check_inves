@@ -3,6 +3,7 @@ package extract.controller.common;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
@@ -60,6 +61,7 @@ public class SuperviseController {
      @RequestMapping("/getPeronList")
      @ResponseBody
      public String getPeronList(Model model,String personType,Supervise user,@CurrentUser User user2){
+    	 
     	  if (personType != null && !"".equals(personType)) {
           	if("supervise".equals(personType) && null !=user2){
           		String orgId = user2.getOrg().getId();

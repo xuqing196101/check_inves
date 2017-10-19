@@ -149,7 +149,8 @@ $(function () {
     //增加
     function addPerson(obj){
     	var index = $(obj).parents("form").find("tr:last").find("td:eq(1)").html();
-    	var input = $(obj).parents("form").find("tr:last").find("td:first").find("input").prop("name");//.substring(4,6);//.attr("req");
+    	//var input = $(obj).parents("form").find("tr:last").find("td:first").find("input").prop("name");//.substring(4,6);//.attr("req");
+    	var input = $(obj).parents("form").find("tr:last").find("td:eq(2)").find("input").prop("name");//.substring(4,6);//.attr("req");
     	var req ;
     	if(null==input ||''==input || "undefined"== input){
     		req=0;
@@ -355,7 +356,12 @@ $(function () {
     				count++;
     				$(ele).parents("li").find(".cue").html("不能为空");
     			}else{
-    				$(ele).parents("li").find(".cue").html("");
+    				if(ele.value.split(" ").length>1){
+    					$(ele).parents("li").find(".cue").html("不能包含空格");
+    					count ++ ;
+    				}else{
+    					$(ele).parents("li").find(".cue").html("");
+    				}
     			}
     		});
     		
@@ -364,7 +370,12 @@ $(function () {
     				$(ele).parents("li").find(".cue").html("不能为空");
     				count++;
     			}else{
-    				$(ele).parents("li").find(".cue").html("");
+    				if(ele.value.split(" ").length>1){
+    					$(ele).parents("li").find(".cue").html("不能包含空格");
+    					count ++ ;
+    				}else{
+    					$(ele).parents("li").find(".cue").html("");
+    				}
     			}
     		});
     	});
@@ -373,7 +384,12 @@ $(function () {
 			$("#areaError").html("不能为空");
 			count++;
 		}else{
-			$("#areaError").val("");
+			if($("#areaReson").val().split(" ").length>1){
+				$("#areaError").html("不能包含空格");
+				count++;
+			}else{
+				$("#areaError").val("");
+			}
 		}
     	
     	if(count>0){
@@ -612,9 +628,10 @@ $(function () {
 	    
 	    
 	    if(status){
+	    	//自动抽取
 	    	$.ajax({
 	    		type: "POST",
-	    		url: globalPath+'/SupplierCondition_new/selectLikeSupplier.do',
+	    		url: globalPath+'/SupplierCondition_new/autoExtract.do?projectInfo'+projectType,
 	    		data: formData ,
 	    		dataType: "json",
 	    		async:false,
