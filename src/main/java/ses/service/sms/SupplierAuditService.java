@@ -509,7 +509,7 @@ public interface SupplierAuditService {
 	 * @param [supplierId]
 	 * @since JDK1.7
 	 */
-    JdcgResult selectAuditNoPassItemCount(String supplierId);
+    JdcgResult selectAuditNoPassItemCount(String supplierId, String flag);
 
     JdcgResult vertifyOpinion(String supplierId);
 
