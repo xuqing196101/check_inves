@@ -262,16 +262,16 @@
 	 }
 	 
 	 function createContract(){
-		 var text = $("#post_attach_show_disFileId").find("a");
+		 /* var text = $("#post_attach_show_disFileId").find("a");
 			var flag = true;
 			if(text.length<=0){
 				flag = false;
 				layer.alert("请先上传授权书",{offset: ['222px', '390px'], shade:0.01});
 			}
-			if(flag){
+			if(flag){ */
 			 $("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/createTransFormal.html?ids=${id}");
 			 $("#contractForm").submit();
-			}
+			/* } */
 	 }
 	 
 	 function changePurDep(){
@@ -547,13 +547,13 @@
 	
 	var ind = null;
 	function protocol(){
-		var text = $("#post_attach_show_disFileId").find("a");
+		/* var text = $("#post_attach_show_disFileId").find("a");
 		var flag = true;
 		if(text.length<=0){
 			flag = false;
 			layer.alert("请先上传授权书",{offset: ['222px', '390px'], shade:0.01});
 		}
-		if(flag){
+		if(flag){ */
 			ind = layer.open({
 				shift: 1, //0-6的动画形式，-1不开启
 			    moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -565,7 +565,7 @@
 				content : $('#numberWin'),
 				offset: ['30%', '25%']
 			});
-		}
+		/* } */
 	}
 	
 	function save(){
@@ -855,7 +855,7 @@
 			        </div>
 			 	</li>
 			 	<li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>授权书：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->授权书：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        <u:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}" multiple="true" auto="true" />
 					<u:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}"/>
@@ -870,7 +870,7 @@
 			       <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	<!-- <select id="purchaseDeps" name="purchaseDepName" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changeXuqiuDep()">
                 		</select> -->
-                		<input class="supplier_ids" name="purchaseDepNames" value="${user.org.name}" type="text">
+                		<input readonly="readonly" class="supplier_ids" name="purchaseDepNames" value="${purchaseDep.depName}" type="text">
 			              <input type="hidden" name="purchaseDepName" value="${user.org.id}" >
 			        	<!-- <input class=" supplier_id" name="purchaseDepName" value="${project.orgnization.name}" type="text"> -->
 			        	<div class="cue">${ERR_purchaseDepName}</div>
@@ -964,8 +964,8 @@
 				  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	    <input class="easyui-combobox" name="supplierDepName" id="supplierList" data-options="valueField:'id',textField:'supplierName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100" onkeyup="names(this);"  style="width: 100%;height: 29px"/>  
-			        	
+			        	    <input class="easyui-combobox" attr="" name="supplierDepName" id="supplierList" data-options="valueField:'id',textField:'supplierName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100" onkeyup="names(this);"  style="width: 100%;height: 29px"/>  
+			        	    <input type="hidden" id="sup"/>
 			        	<div class="cue">${ERR_supplierDepName}</div>
 	       			</div>
 				 </li> 
@@ -981,6 +981,7 @@
 				            return row[opts.textField].indexOf(L) == 0;  
 				        },
 				        onSelect: function (org) { 
+				        	$("#sup").val(org.supplierName);
 				        	$("#supplierLegal").val(org.legalName);
 				        	  $("#supplierContact").val(org.contactName);
 				        	  $("#supplierContactTelephone").val(org.contactTelephone);
@@ -991,8 +992,17 @@
 				        },
 				        onLoadSuccess:function(){
 				        	$('#supplierList').next('.combo').find('input').blur(function (){
-                                  $("input[name='supplierDepName']").val($(this).val())
-				        		
+				        		if($("#sup").val()!=$(this).val()){
+				        			$("input[name='supplierDepName']").val($(this).val());
+				        			$("#sup").val("");
+	                                  $("#supplierLegal").val("");
+						    				        	  $("#supplierContact").val("");
+						    				        	  $("#supplierContactTelephone").val("");
+						    				        	  $("#supplierContactAddress").val("");
+						    				        	  $("#supplierUnitpostCode").val("");
+						    				        	  $("#supplierBank").val("");
+						    				        	  $("#supplierBankAccount_string").val("");
+				        		}
 				        	 });
 				        	},
 				    });  

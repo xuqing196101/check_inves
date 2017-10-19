@@ -244,7 +244,7 @@ public class ExpExtConditionController extends BaseController {
    * @return
    */
   @ResponseBody
-  @RequestMapping("selectLikeExpert")
+  @RequestMapping("selectLikeExpertCount")
   public String selectLikeExpert(ExpExtCondition condition,ExtConType extConType,String province){
     Integer count = conditionService.selectLikeExpert(condition, extConType,province);
     return JSON.toJSONString(count);

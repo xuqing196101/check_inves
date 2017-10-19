@@ -11,10 +11,11 @@
     <result column="PURCHASE_TYPE_ID" jdbcType="VARCHAR" property="purchaseTypeId" />
     <result column="URL" jdbcType="VARCHAR" property="url" />
     <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="ADVANCED_URL" jdbcType="VARCHAR" property="advancedUrl" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, NAME, STEP, CREATED_AT, UPDATED_AT, IS_DELETED, PURCHASE_TYPE_ID, URL, CODE
+    ID, NAME, STEP, CREATED_AT, UPDATED_AT, IS_DELETED, PURCHASE_TYPE_ID, URL, CODE, ADVANCED_URL
   </sql>
   
   <!-- 查询条件 -->
@@ -44,6 +45,9 @@
       </if>
       <if test="code != null and code !='' ">
         and fd.CODE = #{code} 
+      </if>
+      <if test="advancedUrl != null and advancedUrl !='' ">
+        and fd.ADVANCED_URL = #{advancedUrl} 
       </if>
     </trim>
   </sql>
@@ -106,6 +110,9 @@
       <if test="code != null">
         CODE,
       </if>
+      <if test="advancedUrl != null">
+        ADVANCED_URL,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -134,6 +141,9 @@
       </if>
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="advancedUrl != null">
+        #{advancedUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -165,6 +175,9 @@
       </if>
       <if test="code != null">
         CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="advancedUrl != null">
+        ADVANCED_URL = #{advancedUrl,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -201,5 +214,12 @@
       AND PURCHASE_TYPE_ID=(select PURCHASE_TYPE_ID from T_BSS_PPMS_FLOW_DEFINE 
    		where IS_DELETED = 0 
     	AND ID = #{id,jdbcType=VARCHAR})  order by STEP ASC
+  </select>
+  
+  <select id="getJzxtp" parameterType="java.util.Map" resultMap="FlowDefineResult">
+  SELECT * from T_BSS_PPMS_FLOW_DEFINE where 
+  PURCHASE_TYPE_ID=#{id} and IS_DELETED=0 and 
+  step<![CDATA[<= ]]>(select step from T_BSS_PPMS_FLOW_DEFINE where 
+  PURCHASE_TYPE_ID=#{id} and code=#{code} ) order by STEP asc
   </select>
 </mapper>

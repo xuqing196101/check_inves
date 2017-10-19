@@ -9,6 +9,13 @@
 		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
 		<result column="SUPPLIER_TYPE_NAME" property="supplierTypeName" />
 	</resultMap>
+	
+	<resultMap id="CategoryMap" type="ses.model.sms.SupplierCategoryOpinion">
+		<id column="ID" property="categoryId" />
+		<result column="NAME" property="categoryName" />
+		<result column="PARENT_ID" property="parentId" />
+	</resultMap>
+	
 	<sql id="Base_Column_List">
 		ID, SUPPLIER_ID, SUPPLIER_TYPE_ID, CREATED_AT, UPDATED_AT
 	</sql>
@@ -108,9 +115,9 @@
 	</select>
 
 <select id="findTypeBySupplierId" parameterType="java.lang.String" resultType="String">
-        select 
+        SELECT
         SUPPLIER_TYPE_ID
-        from T_SES_SMS_SUPPLIER_TYPE_RELATE 
+        from T_SES_SMS_SUPPLIER_TYPE_RELATE
         <where>
         <if test="supplierId!=null and supplierId!=''">
             SUPPLIER_ID = #{supplierId}
@@ -139,5 +146,15 @@
      	delete from T_SES_SMS_SUPPLIER_TYPE_RELATE where  SUPPLIER_ID = #{supplierId} and SUPPLIER_TYPE_ID = #{supplierType}  
 	</delete>
 	
+	<!-- 查询供应商所有的参评类别 -->
+	<select id="findSupplierCategoryByTypeId" parameterType="Map" resultMap="CategoryMap">
+		SELECT * FROM (
+			SELECT ID,PARENT_ID,NAME, CODE FROM
+				T_SES_BMS_CATEGORY
+			WHERE ID IN (SELECT CATEGORY_ID AS ID FROM T_SES_SMS_SUPPLIER_ITEM  WHERE SUPPLIER_ID = #{supplierId} AND SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId}
+			)
+		)
+		START WITH PARENT_ID = #{typeId} CONNECT BY PRIOR ID = PARENT_ID ORDER BY CODE
+	</select>
 	
 </mapper>

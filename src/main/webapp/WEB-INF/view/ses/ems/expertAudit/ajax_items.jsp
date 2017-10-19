@@ -31,7 +31,9 @@
 					var pageNum = e.curr;
 					var expertId = "${expertId}";
 					var typeId = "${typeId}";
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + typeId + "&pageNum=" + pageNum;
+					var sign = "${sign}";
+					var batchId = "${batchId}";
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + typeId + "&pageNum=" + pageNum + "&sign=" +sign + "&batchId=" +batchId;
 					$("#tbody_category").load(path);
 				}
 			}
@@ -72,10 +74,14 @@
 				 }
 		   }
 	}
+	
 </script>
 </head>
 <body>
-  <input  class="btn btn-windows check" type="button" value="审核" onclick="batchSelection();">
+  <input  class="btn btn-windows check" type="button" value="不通过" onclick="batchSelection();">
+  <c:if test="${sign == 2}">
+    <input  class="btn btn-windows delete" type="button" value="撤销" onclick="revokeCategoryAudit();">
+  </c:if>
   <table class="table table-bordered table-hover m_table_fixed_border">
     <tr>
       <td class="w50 text-center"><input type="checkbox" id="checkAll" onclick="selectAll()"/></td>
@@ -84,6 +90,9 @@
       <td class="info tc">大类</td>
       <td class="info tc">中类</td>
       <td class="info tc">小类</td>
+      <c:if test="${sign == 2}">
+        <td class="info tc">采购机构初审意见</td>
+      </c:if>
       <!-- <td class="info tc">品种名称</td> -->
       <!-- <td class="info tc">操作</td> -->
     </tr>
@@ -102,6 +111,11 @@
 		    <td class="tl pl20" name="itemtd${item.itemsId}" <c:if test="${fn:contains(conditionStr,item.itemsId)}"> style="border-color: #FF0000"</c:if> >${item.firstNode}</td>
 		    <td class="tl pl20" name="itemtd${item.itemsId}" <c:if test="${fn:contains(conditionStr,item.itemsId)}"> style="border-color: #FF0000"</c:if> >${item.secondNode}</td>
 		    <td class="tl pl20" name="itemtd${item.itemsId}" <c:if test="${fn:contains(conditionStr,item.itemsId)}"> style="border-color: #FF0000"</c:if> >${item.thirdNode}</td>
+		    <c:if test="${sign == 2}">
+		      <td>${item.auditReason}</td>
+		    </c:if>
+		    <c:if test="${fn:contains(conditionStr,item.itemsId)}"><input type="hidden" name="del${item.itemsId}" value="${item.itemsId}"/></c:if>
+		    <input type="hidden" name="del${item.itemsId}" value=""/>
 		   <%--  <td class="tl pl20">${item.fourthNode}</td> --%>
 		    <%-- <td class="tc w50 hand">
 					<a onclick="reason('${item.firstNode}','${item.secondNode}','${item.thirdNode}','${item.fourthNode}','${item.itemsId}');"  id="${item.itemsId}_hidden" class="editItem"><c:if test="${!fn:contains(conditionStr,item.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if> <c:if test="${fn:contains(conditionStr,item.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></a>

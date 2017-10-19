@@ -11,7 +11,7 @@
 <script src="${pageContext.request.contextPath}/js/ses/bms/user/add.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/select-tree.js"></script>
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/common/RSA.js"></script>
 <script type="text/javascript">
 
 //验证登陆用户名
@@ -63,6 +63,7 @@
                 }
             });
         }
+        
 function showRole() {
 	var userId = $("#uId").val();
 	var setting = {
@@ -194,8 +195,18 @@ function onCheck(e, treeId, treeNode) {
 		
 		
 		function save(){
-		  $("#formID").validForm();
-      $("#formID").submit();
+		  	$("#formID").validForm();
+		  	if ($("#password1").val() == null || $("#password1").val() == "" || $("#password1").val().indexOf(" ")!=-1 || $("#password2").val().indexOf(" ")!=-1) {
+				$("#password1").val("");
+				$("#password2").val("");
+				$("#pwd1").html("不能有空").css('color','red');
+                flag=1;
+                return false;
+			} else {
+			  	$("#password11").val(setPublicKey($("#password1").val()));
+		      	$("#password22").val(setPublicKey($("#password2").val()));
+		      	$("#formID").submit();
+			}
 		}
 		
 		function ajaxIdNumber(){
@@ -246,6 +257,17 @@ function onCheck(e, treeId, treeNode) {
 				}
     		})
     	})
+    	function  checkTime() {
+			var startTime=$("#startTime").val();
+			var start=new Date(startTime.replace("-", "/").replace("-", "/"));
+			var endTime=$("#endTime").val();
+			var end=new Date(endTime.replace("-", "/").replace("-", "/"));
+			if(end<start){  
+				$("#end_time_erromessage").html("截止日期应在开始日期之后");
+			} else{
+				$("#end_time_erromessage").html("");
+			}
+		}
 </script>
 </head>
 <body>
@@ -297,20 +319,22 @@ function onCheck(e, treeId, treeNode) {
 			<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>密码</span>
 			  <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				<input  name="password" value="${purchaseInfo.password}" maxlength="30" id="password1" type="password">
+				<input maxlength="30" id="password1" type="password">
+				<input type="hidden" name="password" id="password11"/>
 				<span class="add-on">i</span>
 				<div class="cue"><sf:errors path="password"/></div>
-				<div class="cue">${password2_msg}</div>
+				<div class="cue" id="pwd1">${password2_msg}</div>
 			  </div>
 			</li> 
 			
 		    <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 col-lg-12"><span class="star_red">*</span>确认密码</span>
 			  <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				<input  id="password2" value="${purchaseInfo.password2}" maxlength="30" name="password2" type="password">
+				<input  id="password2" maxlength="30" type="password">
+				<input type="hidden" name="password2" id="password22"/>
 				<span class="add-on">i</span>
 				<div class="cue"><sf:errors path="password2"/></div>
-				<div class="cue">${password2_msg}</div>
+				<div class="cue" id="pwd2">${password2_msg}</div>
 			  </div>
 			</li>
 			 	
@@ -330,7 +354,7 @@ function onCheck(e, treeId, treeNode) {
 			  <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				<select name="orgId" id="typeName_id">
 				  <c:forEach items="${purchaserOrgList}" var="org" >
-				    <option value="${org.id}" <c:if test="${org.id == purchaseInfo.orgId}">selected="selected"</c:if>>${org.name}</option>
+				    <option value="${org.id}" <c:if test="${org.id == purchaseInfo.orgId}">selected="selected"</c:if>>${org.shortName}</option>
 				  </c:forEach>
 			    </select>
 			  </div>
@@ -434,7 +458,7 @@ function onCheck(e, treeId, treeNode) {
 			<li class="col-md-3 col-sm-6 col-xs-12"> 
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购资质开始日期</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			    <input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" value="<fmt:formatDate value="${purchaseInfo.quaStartDate}" pattern="yyyy-MM-dd" />"/> 
+			    <input class="input_group" type="text" id="startTime" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" value="<fmt:formatDate value="${purchaseInfo.quaStartDate}" pattern="yyyy-MM-dd" />"/> 
 			    <div class="cue">${err_sDate}</div>
 			  </div>
 			</li>
@@ -442,8 +466,8 @@ function onCheck(e, treeId, treeNode) {
 			<li class="col-md-3 col-sm-6 col-xs-12"> 
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购资质截止日期</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			    <input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="quaEdndate" value="<fmt:formatDate value="${purchaseInfo.quaEdndate}" pattern="yyyy-MM-dd" />"   /> 
-			    <div class="cue">${err_eDate}</div>
+			    <input class="input_group" type="text" readonly="readonly" id="endTime" onClick="WdatePicker()" onblur="checkTime()"  name="quaEdndate" value="<fmt:formatDate value="${purchaseInfo.quaEdndate}" pattern="yyyy-MM-dd" />"   /> 
+			    <div id="end_time_erromessage" class="cue">${err_eDate}</div>
 			  </div>
 			</li>
 			
@@ -532,7 +556,7 @@ function onCheck(e, treeId, treeNode) {
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 				<input class="input_group" id="idNumber" name="idCard" onkeyup="ajaxIdNumber()" value="${purchaseInfo.idCard}" type="text"> 
 				<span class="add-on">i</span>
-				<div class="cue"><sf:errors path="idCard"/></div>
+				<div class="cue"></div>
 				<div id="ajax_idNumber" class="cue">${exist_idCard}</div>
 			  </div>
 			</li>

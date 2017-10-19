@@ -96,13 +96,13 @@
                                 <td class="bggrey" width="15%">供应商承诺书：</td>
                                 <td>
                                     <u:show showId="application_show" delete="false"
-                                            groups="promise_show,application_show" businessId="${currSupplier.id}"
+                                            groups="promise_show,application_show" businessId="${supplierId}"
                                             sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}"/>
                                 </td>
                                 <td class="bggrey" width="15%">供应商申请表：</td>
                                 <td>
                                     <u:show showId="promise_show" groups="promise_show,application_show" delete="false"
-                                            businessId="${currSupplier.id}" sysKey="${sysKey}"
+                                            businessId="${supplierId}" sysKey="${sysKey}"
                                             typeId="${supplierDictionaryData.supplierRegList}"/>
                                 </td>
                             </tr>

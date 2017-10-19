@@ -56,17 +56,7 @@ public interface SupplierAuditMapper {
      * @return List<SupplierAudit>
      */ 
     List<SupplierAudit> selectByPrimaryKey(SupplierAudit record);
-    
-    /**
-     * @Title: updateBySupplierId
-     * @author 插入文件
-     * @date 2016-9-29 下午4:50:17  
-     * @Description: TODO 
-     * @param @param supplierId      
-     * @return void
-     */
-    void updateBySupplierId (SupplierAudit record);
-    
+
     List<SupplierAudit> findByMap(Map<String, Object> param);
     
     int updateByMap(Map<String, Object> param);
@@ -126,5 +116,27 @@ public interface SupplierAuditMapper {
     List<SupplierAudit> selectBySupIdAndType(Map<String, Object> map);
 
     List<SupplierAudit> selectBasicInfoAuditItemSingal(Map<String, Object> map);
+
+    /**
+     * 查询所有的审核记录
+     * @param supplierAudit
+     * @param rss
+     * @return
+     */
+	List<SupplierAudit> selectAuditRecords(@Param("audit")SupplierAudit supplierAudit, @Param("rss")Integer[] rss);
+
+	/**
+	 * 查询所有的审核记录（排序）
+	 * @param supplierAudit
+	 * @return
+	 */
+	List<SupplierAudit> selectAuditRecordsWithSort(SupplierAudit supplierAudit);
+
+	/**
+	 * 根据主键更新
+	 * @param supplierAudit
+	 * @return
+	 */
+	int updateByIdSelective(SupplierAudit supplierAudit);
     
 }

@@ -166,17 +166,18 @@
     
     //引入其他项目包的评审项
     function loadOtherPackage(packageId,projectId){
+    	var flowDefineId = "${flowDefineId}";
     	layer.open({
             type: 2,
             title: '引入模板',
-            area: ['800px', '600px'],
+            area: ['800px', '360px'],
             closeBtn: 1,
             shade:0.01, //遮罩透明度
             moveType: 1, //拖拽风格，0是默认，1是传统拖动
             shift: 1, //0-6的动画形式，-1不开启
             offset: '20px',
             shadeClose: false,
-            content: '${pageContext.request.contextPath}/firstAudit/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId
+            content: '${pageContext.request.contextPath}/intelligentScore/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId+'&flowDefineId='+flowDefineId
           });
     	
     }
@@ -340,7 +341,11 @@
         }
     }
        
-    $(function() {
+  $(function() {
+		initTem();
+	});
+	
+	function initTem(){
 		var html = "<option value=''>请选择</option>";
 		$.ajax({
 				url: "${pageContext.request.contextPath}/firstAudit/find.do",
@@ -360,7 +365,15 @@
 					$("#fatId").append(html);
 				}
 			});
-	});
+			
+			var bool = "${flag}";
+    	if(bool){
+    		$("a").each(function() {
+         	$(this).removeAttr("onclick");
+         	$(this).removeClass();
+      	});
+    	}
+	}
 	
 	function findTem(){
 		var categoryId = $("#cId").val();
@@ -384,6 +397,12 @@
 				}
 			});
 	}
+	
+	function clearSearch() {
+		$("#categorySel").val("");
+     $("#fatId option:selected").removeAttr("selected");
+     initTem();
+   }
  </script>
 <body onload="getTotal()">  
 	<div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
@@ -396,29 +415,27 @@
 		</div>
    	</div>
     <h2 class="list_title">${packages.name}  经济技术审查项编辑</h2>
-    <c:if test="${project.confirmFile != 1 && isView != 1}">
+    <c:if test="${project.confirmFile != 1 && isView != 1 && flag ne '1'}">
   <div class="search_detail ml0">
-	        <ul class="demand_list">
-	          <li>
-	           <label class="fl">模板选择--></label>
-	             <label class="fl">所属产品目录：</label>
-								<div class="fl">
-								<div class="input_group w200">
+	        <div class="row">
+	          <div class="col-md-3 col-sm-5 col-xs-12 p0">
+	             <label class="col-xs-6 h30 lh30 tr">所属产品目录：</label>
+								<div class="col-xs-6">
 									<input id="cId" name="categoryId"  type="hidden" value="${categoryId}">
-									<input id="categorySel"  type="text" name="categoryName" readonly value="${categoryName}"  onclick="showCategory();" />
+									<input id="categorySel" class="w100p m0 p0" type="text" name="categoryName" readonly value="${categoryName}"  onclick="showCategory();" />
 								</div>
-								</div>
-		       </li>
-		       <li>
-					<select id="fatId" class="w180">
-		            </select>
-	           </li>
+		       </div>
+		       <div class="col-md-3 col-sm-5 col-xs-12 p0">
+		       <label class="col-xs-5 h30 lh30 tr">模板选择：</label>
+		       <div class="col-xs-7">
+		       <select id="fatId" class="w100p"></select>
+		       </div>
+		       </div>
 	           
 	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" id="loadTemp" class="btn">确定选择</button>
-	          <%--  <div class="pull-right">
-	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
-	           </div> --%>
-	        </ul>
+	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入历史数据</button>
+	              <button type="reset" class="btn" onclick="clearSearch();">重置</button>
+	        </div>
 	        <div class="clear"></div>
 	     </div>
 	    </c:if>
@@ -454,7 +471,7 @@
         </div>
     </div>
 	    <div class="mt40 tc mb50">
-	    <c:if test="${project.confirmFile != 1  && isView != 1}">
+	    <c:if test="${project.confirmFile != 1  && isView != 1 && flag ne '1'}">
 	        <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}'">返回</button>
 	        </c:if>
 	    </div>

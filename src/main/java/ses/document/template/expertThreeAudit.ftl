@@ -1938,6 +1938,79 @@
 						</w:tc>
 					</w:tr>
 					</#list>
+					<#list categoryList as category >
+					<w:tr wsp:rsidR="006B557B" wsp:rsidRPr="007324D4" wsp:rsidTr="00A01A6A">
+						<w:tblPrEx>
+							<w:tblBorders>
+								<w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+								<w:left w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+								<w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+								<w:right w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+								<w:insideH w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+								<w:insideV w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" /></w:tblBorders>
+						</w:tblPrEx>
+						<w:trPr>
+							<w:trHeight w:val="600" /></w:trPr>
+						<w:tc>
+							<w:tcPr>
+								<w:tcW w:w="5637" w:type="dxa" />
+								<w:gridSpan w:val="6" />
+								<w:tcBorders>
+									<w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+									<w:left w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+									<w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+									<w:right w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" /></w:tcBorders>
+								<w:vAlign w:val="center" /></w:tcPr>
+							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="008A2A3E" wsp:rsidP="008A2A3E">
+								<w:pPr>
+									<w:jc w:val="left" />
+									<w:rPr>
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+										<wx:font wx:val="宋体" />
+										<w:sz w:val="18" />
+										<w:sz-cs w:val="18" /></w:rPr>
+								</w:pPr>
+								<w:r wsp:rsidRPr="00E43E33">
+									<w:rPr>
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+										<wx:font wx:val="宋体" />
+										<w:sz w:val="18" />
+										<w:sz-cs w:val="18" /></w:rPr>
+									<w:t>${category.auditField}</w:t>
+								</w:r>
+							</w:p>
+						</w:tc>
+						<w:tc>
+							<w:tcPr>
+								<w:tcW w:w="3471" w:type="dxa" />
+								<w:gridSpan w:val="3" />
+								<w:tcBorders>
+									<w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+									<w:left w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+									<w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+									<w:right w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" /></w:tcBorders>
+								<w:vAlign w:val="center" /></w:tcPr>
+							<w:p wsp:rsidR="006B557B" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="00D95BE3" wsp:rsidP="008A2A3E">
+								<w:pPr>
+									<w:rPr>
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+										<wx:font wx:val="宋体" />
+										<w:sz w:val="18" />
+										<w:sz-cs w:val="18" /></w:rPr>
+								</w:pPr>
+								<w:r wsp:rsidRPr="00E43E33">
+									<w:rPr>
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+										<wx:font wx:val="宋体" />
+										<w:sz w:val="18" />
+										<w:sz-cs w:val="18" /></w:rPr>
+									<w:t>${category.auditReason}</w:t>
+								</w:r>
+							</w:p>
+						</w:tc>
+					</w:tr>
+					</#list>
+					
 					<w:tr wsp:rsidR="00BB48E2" wsp:rsidRPr="007324D4" wsp:rsidTr="00B92330">
 						<w:tblPrEx>
 							<w:tblBorders>

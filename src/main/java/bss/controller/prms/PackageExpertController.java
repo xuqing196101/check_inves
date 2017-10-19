@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -191,6 +192,20 @@ public class PackageExpertController {
         map2.put("projectId", projectId);
         List<PackageExpert> expertSigneds = packageExpertService.selectList(map2);
         if (expertSigneds != null && expertSigneds.size() > 0) {
+        	User user = null;
+        	for (PackageExpert packageExpert : expertSigneds) {
+        		user = new User();
+        		if (packageExpert.getExpert() != null) {
+        			user.setTypeId(packageExpert.getExpert().getId());
+				} else {
+					user.setTypeId(packageExpert.getExpertId());
+				}
+        		
+				List<User> queryByList = userService.queryByList(user);
+				if (queryByList != null && !queryByList.isEmpty()) {
+					packageExpert.setExpertId(queryByList.get(0).getLoginName());
+				}
+			}
           // 项目分包信息
           HashMap<String, Object> pack = new HashMap<String, Object>();
           pack.put("projectId", projectId);
@@ -206,16 +221,34 @@ public class PackageExpertController {
           model.addAttribute("isEndSigin", "1");
           return "bss/prms/assign_expert/expert_list_view";
         } else {
+          String ids="";
           List<Packages> packages = packageService.listProjectExtract(projectId);
           for(Packages pa:packages){
-            DictionaryData dd = DictionaryDataUtil.findById(pa.getProjectStatus());
-            if(dd!=null){
-              pa.setProjectStatus(dd.getCode());
-            }
+            ids+=pa.getId()+",";
+        	  List<ProjectExtract> listProjectExtract = pa.getListProjectExtract();
+        	  if (listProjectExtract != null && !listProjectExtract.isEmpty()) {
+        		  for (ProjectExtract projectExtract : listProjectExtract) {
+        			  User user = new User();
+        			  user.setTypeId(projectExtract.getExpert().getId());
+        			  List<User> queryByList = userService.queryByList(user);
+        			  if (queryByList != null && !queryByList.isEmpty()) {
+        				  projectExtract.setExpertId(queryByList.get(0).getLoginName());
+        			  }
+        		  }
+        	  }
+        	  DictionaryData dd = DictionaryDataUtil.findById(pa.getProjectStatus());
+        	  if(dd != null){
+        		  pa.setProjectStatus(dd.getCode());
+        	  }
           }
+          if(ids.length()>0){
+            ids=ids.substring(0,ids.length()-1);
+          }
+          
           model.addAttribute("isEndSigin", "0");
           // 包信息
           model.addAttribute("packageList", packages);
+          model.addAttribute("packIds", ids);
           return "bss/prms/assign_expert/expert_list";
         }
     }
@@ -398,16 +431,32 @@ public class PackageExpertController {
             //这里用这个是因为hashMap是无序的
             TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
             SaleTender condition1 = new SaleTender();
-            HashMap<String, Object> map = new HashMap<String, Object>();
+            /*HashMap<String, Object> map = new HashMap<String, Object>();*/
             HashMap<String, Object> map1 = new HashMap<String, Object>();
             Quote quote2 = new Quote();
             Quote quote3 = new Quote();
             Map<String, String> mapPackageName=new HashMap<String, String>();
+            Map<String, String> mapPackageMeth=new HashMap<String, String>();
+            Map<String, Short> mapPackageZhpf=new HashMap<String, Short>();
             for (Packages pack : packList) {
                 Packages ps = packageService.selectByPrimaryKeyId(pack.getId());
+                pack.setIsEndPrice(ps.getIsEndPrice());
                 if(ps!=null&&ps.getProjectStatus()!=null){
                   DictionaryData findById = DictionaryDataUtil.findById(ps.getProjectStatus());
                   mapPackageName.put(ps.getName(), findById.getCode());
+                }
+                String methodCode = bidMethodService.getMethod(ps.getProjectId(), ps.getId());
+                if(StringUtils.isNotBlank(methodCode) && methodCode.equals("OPEN_ZHPFF")){
+                    mapPackageMeth.put(ps.getName(), methodCode);
+                    Map<String, Object> mapSearch1 = new HashMap<String, Object>(); 
+                    mapSearch1.put("projectId", pack.getProjectId());
+                    mapSearch1.put("packageId", pack.getId());
+                    List<PackageExpert> expList = packageExpertService.selectList(mapSearch1);
+                    //判断是否结束评审
+                    if (expList != null && expList.size() > 0) {
+                      Short isEnd = expList.get(0).getIsGatherGather();
+                      mapPackageZhpf.put(pack.getName(), isEnd);
+                    }
                 }
                 condition1.setProjectId(projectId);
                 condition1.setPackages(pack.getId());
@@ -417,6 +466,8 @@ public class PackageExpertController {
                 List<SaleTender> stList = saleTenderService.find(condition1);
                 map1.put("packageId", pack.getId());
                 map1.put("projectId", projectId);
+                model.addAttribute("mapPackageZhpf", mapPackageZhpf);
+                model.addAttribute("mapPackageMeth", mapPackageMeth);
                 model.addAttribute("mapPackageName", mapPackageName);
                 List<ProjectDetail> detailList = detailService.selectByCondition(map1, null);
                 BigDecimal projectBudget = BigDecimal.ZERO;
@@ -427,6 +478,7 @@ public class PackageExpertController {
                 quote3.setProjectId(projectId);
                 quote3.setPackageId(pack.getId());
                 List<Date> listDate1 = supplierQuoteService.selectQuoteCount(quote3);
+                Collections.reverse(listDate1);
                 List<Quote> listQuotebyPackage1 = new ArrayList<Quote>();
                 if (listDate1 != null && listDate1.size() > 1) {
                     //给第二次报价的数据查到
@@ -435,9 +487,20 @@ public class PackageExpertController {
                         quote2.setPackageId(pack.getId());
                         quote2.setCreatedAt(new Timestamp(listDate1.get(listDate1.size()-1).getTime()));
                         listQuotebyPackage1 = supplierQuoteService.selectQuoteHistoryList(quote2);
+                        Map<String, List<Quote>> map2=new LinkedHashMap<String, List<Quote>>();
+                        for(Date quo:listDate1){
+                          Quote quote = new Quote();
+                          quote.setProjectId(projectId);
+                          quote.setPackageId(pack.getId());
+                          quote.setCreatedAt(new Timestamp(quo.getTime()));
+                          List<Quote> listQuote = supplierQuoteService.selectQuoteHistoryList(quote);
+                          map2.put(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(quo), listQuote);
+                        }
+                        pack.setQuotes(map2);
                     }
                 } 
-                Collections.reverse(listDate1);
+                
+                
                 for (SaleTender saleTender : stList) {
                     Quote quote = new Quote();
                     quote.setProjectId(projectId);
@@ -475,13 +538,15 @@ public class PackageExpertController {
                         }
                     }
                 }
-                map.put("id", pack.getId());
+                /*map.put("id", pack.getId());*/
                 if (stList != null && stList.size() > 0) {
                 treeMap.put(pack.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
                 }
             }
+            model.addAttribute("packLis", packList);
             model.addAttribute("treeMap", treeMap);
         }
+        
         model.addAttribute("status", status);
         model.addAttribute("project", project);
         model.addAttribute("flowDefineId", flowDefineId);
@@ -1185,6 +1250,10 @@ public class PackageExpertController {
     @RequestMapping("/scoreTotal")
     @ResponseBody
     public void scoreTotal(String packageId, String projectId) {
+      
+      String methodCode = bidMethodService.getMethod(projectId, packageId);
+      expertScoreService.gather(packageId, projectId, new ArrayList<SaleTender>());
+      if(!"OPEN_ZHPFF".equals(methodCode)){
         // 供应商信息
         List<SaleTender> allSupplierList = saleTenderService.find(new SaleTender(projectId));
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
@@ -1305,6 +1374,7 @@ public class PackageExpertController {
           }
           checkPassService.insert(record);
         }
+      }
     }
     
     /**
@@ -1630,8 +1700,7 @@ public class PackageExpertController {
                         }
                     }
                 } else {
-                    supplierExt
-                    .setSupplierId(saleTender.getSuppliers().getId());
+                    supplierExt.setSupplierId(saleTender.getSuppliers().getId());
                     supplierExt.setPackageId(packageExpert.getPackageId());
                     supplierExt.setExpertId(packageExpert.getExpertId());
                     supplierExt.setSuppIsPass("2");
@@ -1801,6 +1870,7 @@ public class PackageExpertController {
         List<Packages> packList = new ArrayList<Packages>();
         // 去除经济技术评审没有结束的包
         Map<String, Object> map = new HashMap<String, Object>();
+        List<ExpertScore> expertScores=new ArrayList<ExpertScore>();
         for (Packages pack : packagesList) {
             //获取评分办法数据字典编码
             String methodCode = bidMethodService.getMethod(projectId, pack.getId());
@@ -1812,7 +1882,46 @@ public class PackageExpertController {
             if (selectList != null && selectList.size() > 0 && selectList.get(0).getIsGatherGather() == 1) {
                 packList.add(pack);
             }
+            List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+            if("OPEN_ZHPFF".equals(methodCode)){
+            String scoreId="";
+            for (DictionaryData dictionaryData : ddList) {
+                MarkTerm mt = new MarkTerm();
+                mt.setTypeName(dictionaryData.getId());
+                mt.setProjectId(projectId);
+                mt.setPackageId(pack.getId());
+                //默认顶级节点为0
+                mt.setPid("0");
+                List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
+                atrh:
+                for (MarkTerm mtKey : mtList) {
+                    MarkTerm mt1 = new MarkTerm();
+                    mt1.setPid(mtKey.getId());
+                    mt1.setProjectId(projectId);
+                    mt1.setPackageId(pack.getId());
+                    List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+                    for (MarkTerm markTerm : mtValue) {
+                        if ("1".equals(markTerm.isChecked())) {
+                            scoreId=markTerm.getId();
+                            break atrh;
+                        }
+                    }
+                }
+            }
+            ScoreModel models=new ScoreModel();
+            models.setPackageId(pack.getId());
+            models.setProjectId(projectId);
+            models.setMarkTermId(scoreId);
+            ScoreModel smodel = scoreModelService.findScoreModelByScoreModel(models);
+            ExpertScore expertScore = new ExpertScore();
+            expertScore.setProjectId(projectId);
+            expertScore.setPackageId(pack.getId());
+            expertScore.setScoreModelId(smodel.getId());
+            List<ExpertScore> es = expertScoreService.selectByScore(expertScore);
+            expertScores.addAll(es);
+            }
         }
+        model.addAttribute("scorePrice", expertScores);
         if (packList.size() != packagesList.size()) {
             // 判断有没有没显示出来的包
             model.addAttribute("flag", "1");
@@ -1847,7 +1956,7 @@ public class PackageExpertController {
                         suppList.add(supp);
                     }
                 } else {
-                    suppList.add(supp);
+                  suppList.add(supp);
                 }
             }
         }
@@ -1907,10 +2016,16 @@ public class PackageExpertController {
             } else {
               rank.setTechScore(ts);
             }
+            BigDecimal ps = supp.getPriceScore();
+            if(ps==null){
+              rank.setPriceScore(new BigDecimal(0));
+            }else{
+              rank.setPriceScore(ps);
+            }
             if (es == null || ts == null) {
               rank.setSumScore(null);
             } else {
-              rank.setSumScore(supp.getEconomicScore().add(supp.getTechnologyScore()));
+              rank.setSumScore(supp.getEconomicScore().add(supp.getTechnologyScore()).add(rank.getPriceScore()));
             }
             rankList.add(rank);
         }
@@ -2210,6 +2325,16 @@ public class PackageExpertController {
         // 将count == 0 的移除
         List<MarkTerm> markTerms = new ArrayList<MarkTerm>();
         for (MarkTerm mark : markTermList) {
+          MarkTerm mt1 = new MarkTerm();
+          mt1.setPid(mark.getId());
+          mt1.setProjectId(projectId);
+          mt1.setPackageId(packageId);
+          List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+          for (MarkTerm mt : mtValue) {
+              if ("1".equals(mt.isChecked())) {
+                mark.setCheckedPrice(mt.isChecked());
+              }
+          }
             if (mark.getCount() != 0) {
                 markTerms.add(mark);
             }
@@ -2381,6 +2506,16 @@ public class PackageExpertController {
          // 将count == 0 的移除
          List<MarkTerm> markTerms = new ArrayList<MarkTerm>();
          for (MarkTerm mark : markTermList) {
+           MarkTerm mt1 = new MarkTerm();
+           mt1.setPid(mark.getId());
+           mt1.setProjectId(projectId);
+           mt1.setPackageId(packageId);
+           List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+           for (MarkTerm mt : mtValue) {
+               if ("1".equals(mt.isChecked())) {
+                 mark.setCheckedPrice(mt.isChecked());
+               }
+           }
              if (mark.getCount() != 0) {
                  markTerms.add(mark);
              }
@@ -4118,7 +4253,7 @@ public class PackageExpertController {
         Project project = projectService.selectById(projectId);
         model.addAttribute("project", project);
         for (PackageExpert packageExpert : packageExperts) {
-        	List<Extension> extensions= new ArrayList<Extension>();;
+        	List<Extension> extensions= new ArrayList<Extension>();
         	 
         	 // 获取符合性审查通过且到场没被移除的供应商
         	 SaleTender saleTender = new SaleTender();
@@ -4330,14 +4465,14 @@ public class PackageExpertController {
         saleTender.setIsRemoved("0");
         saleTender.setIsTurnUp(0);
         List<SaleTender> sl = saleTenderService.findByCon(saleTender);
-        int supplierListSize=sl.size()%4==0?sl.size()/4:sl.size()/4+1;
+        int supplierListSize=sl.size()%8==0?sl.size()/8:sl.size()/8+1;
         List<Extension> extensions=new ArrayList<Extension>();
         List<SaleTender> sleTenders=null;
         for(int i=1;i<=supplierListSize;i++){
         	sleTenders=new ArrayList<SaleTender>();
         	Extension extensionJ = new Extension();
         	
-        	for(int j=(i-1)*4;j<i*4;j++){
+        	for(int j=(i-1)*8;j<i*8;j++){
         		if(j==sl.size()){
         			  break;
         		  }

@@ -64,6 +64,15 @@
 
  	/** 关联 **/
     function dynamicAdd(){
+ 		
+ 		var str = document.getElementsByName("selectedItem");
+ 		var qwe = "";
+ 		for (var i = 0; i < str.length; i++) {
+			qwe+=","+str[i].value;
+		}
+ 		
+ 		
+ 		
     	var typeName = $("#typeName").val();
     	var title = "";
     	if(typeName!=undefined && typeName==2){
@@ -73,13 +82,13 @@
     	}
     	layer.open({
 			type : 2, //page层
-			area : [ '550px', '500px' ],
+			area : [ '750px', '550px' ],
 			title : title,
 			shade : 0.01, //遮罩透明度
 			moveType : 1, //拖拽风格，0是默认，1是传统拖动
 			shift : 1, //0-6的动画形式，-1不开启
 			shadeClose : true,
-			content : '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?typeName='+typeName
+			content : '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?typeName='+typeName+'&qwe='+qwe+'&notIds='+qwe
 		 });
     }
    
@@ -215,7 +224,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>名称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="name" value="${orgnization.name}" type="text" onblur="verify(this);" required  maxlength="100"> 
+			  <input class="input_group" name="name" maxlength="100" value="${orgnization.name}" type="text" onblur="verify(this);" required  maxlength="100"> 
 			  <span class="add-on">i</span>
 			  <div class="cue" id="sps"><sf:errors path="name"/></div>
 			</div>
@@ -224,7 +233,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>简称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="shortName" value="${orgnization.shortName}" required maxlength="20" type="text" > 
+			  <input class="input_group" name="shortName" maxlength="14"  value="${orgnization.shortName}" required maxlength="20" type="text" > 
 			  <span class="add-on">i</span>
 			  <div class="cue"><sf:errors path="shortName"/></div>
 			</div>
@@ -263,7 +272,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12">  
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="address" maxlength="100" type="text"> 
+			  <input class="input_group" maxlength="14"  name="address" maxlength="100" type="text"> 
 			  <span class="add-on">i</span>
 			</div>
 		  </li>
@@ -271,7 +280,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15"> 
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">值班室电话</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" id="telephone"  name="telephone" maxlength="25" type="text"> 
+			  <input class="input_group" id="telephone" maxlength="16"  name="telephone" maxlength="25" type="text"> 
 			  <div class="cue"><sf:errors path="telephone"/></div>
 			</div>
 		  </li>
@@ -279,15 +288,16 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12">  
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="postCode" isZipCode="true" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text"> 
+			  <input class="input_group" maxlength="27"  name="postCode" isZipCode="true" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text"> 
 			  <span class="add-on">i</span>
+			  <div class="cue"></div>
 			</div>
 		  </li>
 		  
 		  <li class="col-md-3 col-sm-6 col-xs-12"> 
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="fax" maxlength="25" type="text"> 
+			  <input class="input_group" maxlength="27"  name="fax" maxlength="25" type="text"> 
 			  <span class="add-on">i</span>
 			</div>
 		  </li>
@@ -312,7 +322,6 @@
 			</div>
 		  </li>
 		</ul>
-		
 		<div class="padding-top-10 clear" id="relaDeptId">
 		  <h2 class="count_flow"><i>2</i><span id="show_org_cont">关联管理部门</span></h2>
 		  <ul class="ul_list">

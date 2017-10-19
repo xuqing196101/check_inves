@@ -24,7 +24,7 @@ public interface InnerSupplierService {
     public void importSupplierInfo(final File file);
     
     
-    public void immportInner(final File file,String flg);
+    public void importInner(final File file, String flag);
     
     
     public void importTempSupplier(final File file);

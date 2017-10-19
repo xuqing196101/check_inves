@@ -3,6 +3,7 @@ package ses.controller.sys.oms;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +11,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -300,6 +303,9 @@ public class PurchaseManageController {
             initManageLevel(model);
             return "ses/oms/require_dep/add";
         }
+		
+		
+		
 	    String depIds = request.getParameter("depIds");
 	    
 		orgnizationServiceI.saveOrgnization(orgnization, depIds);
@@ -357,7 +363,9 @@ public class PurchaseManageController {
 		if(result.hasErrors()){
 		    //初始化采购管理部门级别
             initManageLevel(model);
+            List<Area> areaList = areaServiceI.findRootArea();
             model.addAttribute("orgnization", orgnization);
+            model.addAttribute("areaList", areaList);          
             return "ses/oms/require_dep/edit";
         }
 		
@@ -423,7 +431,7 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping("addPurchaseOrg")
-	public String addPurchaseOrg(Model model,Orgnization orgnization, Integer page) {
+	public String addPurchaseOrg(Model model,Orgnization orgnization, Integer page, String qwe, String notIds) {
 		//每页显示十条
 	    if (page == null){
 	        page = 1;
@@ -438,7 +446,14 @@ public class PurchaseManageController {
 		}
 		map.put("name", orgnization.getName());
 		model.addAttribute("orgnization", orgnization);
-		List<Orgnization> orgnizationList = orgnizationServiceI.findOrgnizationList(map);
+		model.addAttribute("qwe", qwe);
+		//关联的管理部门id
+		if (notIds != null && !"".equals(notIds)) {
+			String[] notIdArry = notIds.substring(1).split(",");
+			map.put("notIds", notIdArry);
+		}
+		List<Orgnization> orgnizationList = orgnizationServiceI.findManageOfOrg(map);
+		//List<Orgnization> orgnizationList = orgnizationServiceI.findOrgnizationList(map);
 		model.addAttribute("list", new PageInfo<Orgnization>(orgnizationList));
 		return "ses/oms/require_dep/add_purchase_org";
 	}
@@ -613,6 +628,168 @@ public class PurchaseManageController {
 	        model.addAttribute("locales", locales);
 	        return "ses/oms/purchase_dep/add";
 	    }
+	    //判断字符串是否超过800
+	    String str = purchaseDep.getBusinessRange();
+	    if(str.length() > 800){
+	    	model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("err_businessRange", "输入不能超过800");
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+	    }
+	    
+	    
+	    //值班室电话只能输入数字
+	   /* Pattern p5 = Pattern.compile("^[0-9]*$");
+	    Matcher m5 = p5.matcher(purchaseDep.getDutyRoomPhone());
+	    if(!m5.find()){
+	    	model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_dutyRoomPhone", "只能输入数字");
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+	    }
+	    */
+	    //传真号只能数字
+	   /* Pattern p6 = Pattern.compile("^[0-9]*$");
+	    Matcher m6 = p6.matcher(purchaseDep.getFax());
+	    if(!m6.find()){
+	    	model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_fax", "只能输入数字");
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+	    }*/
+	    
+	    
+	    /*电话  contactMobile*/
+	    Pattern p1 = Pattern.compile("[\u4e00-\u9fa5]");
+	    Matcher m1 = p1.matcher(purchaseDep.getContactMobile());
+	    if(m1.find()){
+	    	model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_contactMobile", "不能有汉字");
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+	    }
+	    
+	    
+	    
+	    Integer a = purchaseDep.getIsAuditSupplier();
+	    if(a == 1 ){
+	    	/*供应商注册联系人*/
+		    if(!ValidateUtils.isNotNull(purchaseDep.getSupplierContact())){
+		    	 model.addAttribute("purchaseDep", purchaseDep);
+		            model.addAttribute("ERR_supplierContact", "不能为空");
+		            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+		            model.addAttribute("lists", purchaseOrgList);
+		            model.addAttribute("orgInfos", orgInfos);
+		            return "ses/oms/purchase_dep/add";
+		    }
+		    /*供应商注册联系人电话*/
+		    if(!ValidateUtils.isNotNull(purchaseDep.getSupplierPhone())){
+		    	 model.addAttribute("purchaseDep", purchaseDep);
+		            model.addAttribute("ERR_supplierPhone", "不能为空");
+		            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+		            model.addAttribute("lists", purchaseOrgList);
+		            model.addAttribute("orgInfos", orgInfos);
+		            return "ses/oms/purchase_dep/add";
+		    }
+		    
+		    Pattern p2 = Pattern.compile("[\u4e00-\u9fa5]");
+		    Matcher m2 = p1.matcher(purchaseDep.getSupplierPhone());
+		    if(m2.find()){
+		    	model.addAttribute("purchaseDep", purchaseDep);
+	            model.addAttribute("ERR_supplierPhone", "不能有汉字");
+	            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	            model.addAttribute("lists", purchaseOrgList);
+	            model.addAttribute("orgInfos", orgInfos);
+	            return "ses/oms/purchase_dep/add";
+		    }
+		    
+		    /*供应商注册联系地址*/
+		    if(!ValidateUtils.isNotNull(purchaseDep.getSupplierAddress())){
+		    	 model.addAttribute("purchaseDep", purchaseDep);
+		            model.addAttribute("ERR_supplierAddress", "不能为空");
+		            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+		            model.addAttribute("lists", purchaseOrgList);
+		            model.addAttribute("orgInfos", orgInfos);
+		            return "ses/oms/purchase_dep/add";
+		    }
+		    
+		    /*供应商注册邮编*/
+		    if(!ValidateUtils.isNotNull(purchaseDep.getSupplierPostcode())){
+		    	 model.addAttribute("purchaseDep", purchaseDep);
+		            model.addAttribute("ERR_supplierPostcode", "不能为空");
+		            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+		            model.addAttribute("lists", purchaseOrgList);
+		            model.addAttribute("orgInfos", orgInfos);
+		            return "ses/oms/purchase_dep/add";
+		    }
+		    
+		    
+		    /*专家注册联系人*/
+		    if(!ValidateUtils.isNotNull(purchaseDep.getExperContact())){
+		    	 model.addAttribute("purchaseDep", purchaseDep);
+		            model.addAttribute("ERR_experContact", "不能为空");
+		            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+		            model.addAttribute("lists", purchaseOrgList);
+		            model.addAttribute("orgInfos", orgInfos);
+		            return "ses/oms/purchase_dep/add";
+		    }
+		    
+		    
+		    /*专家注册联系人电话*/
+		    if(!ValidateUtils.isNotNull(purchaseDep.getExperPhone())){
+		    	 model.addAttribute("purchaseDep", purchaseDep);
+		            model.addAttribute("ERR_experPhone", "不能为空");
+		            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+		            model.addAttribute("lists", purchaseOrgList);
+		            model.addAttribute("orgInfos", orgInfos);
+		            return "ses/oms/purchase_dep/add";
+		    }
+		    
+		    Pattern p3 = Pattern.compile("[\u4e00-\u9fa5]");
+		    Matcher m3 = p3.matcher(purchaseDep.getExperPhone());
+		    if(m3.find()){
+		    	model.addAttribute("purchaseDep", purchaseDep);
+	            model.addAttribute("ERR_experPhone", "不能有汉字");
+	            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	            model.addAttribute("lists", purchaseOrgList);
+	            model.addAttribute("orgInfos", orgInfos);
+	            return "ses/oms/purchase_dep/add";
+		    }
+		    
+		    
+		    
+		    /*专家注册联系人地址*/
+		    if(!ValidateUtils.isNotNull(purchaseDep.getExperAddress())){
+		    	 model.addAttribute("purchaseDep", purchaseDep);
+		            model.addAttribute("ERR_experAddress", "不能为空");
+		            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+		            model.addAttribute("lists", purchaseOrgList);
+		            model.addAttribute("orgInfos", orgInfos);
+		            return "ses/oms/purchase_dep/add";
+		    }
+		    
+		    /*专家注册联系人邮编 */
+		    if(!ValidateUtils.isNotNull(purchaseDep.getExperPostcode())){
+		    	model.addAttribute("purchaseDep", purchaseDep);
+		    	model.addAttribute("ERR_experPostcode", "不能为空");
+		    	model.addAttribute("purchaseDepIds", purchaseDep.getId());
+		    	model.addAttribute("lists", purchaseOrgList);
+		    	model.addAttribute("orgInfos", orgInfos);
+		    	return "ses/oms/purchase_dep/add";
+		    }
+	    }
+	    
+	    
+	    
+	    
         if(!ValidateUtils.isNotNull(purchaseDep.getIsAuditSupplier())){
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("ERR_isAuditSupplier", "请选择");
@@ -726,7 +903,6 @@ public class PurchaseManageController {
 		model.addAttribute("orgnization", orgnization);
 		//UserEntity user = (UserEntity) session.getAttribute(SessionStringPool.LOGIN_USER);
 		//后台校验
-		
 		HashMap<String, Object> orgMap = new HashMap<String, Object>();
 		HashMap<String, Object> purMap = new HashMap<String, Object>();
 		orgMap.put("type_name", orgnization.getTypeName()==null?0:orgnization.getTypeName());
@@ -1295,5 +1471,4 @@ public class PurchaseManageController {
 		model.addAttribute("kind", DictionaryDataUtil.find(26));//获取数据字典数据
 		return "dss/rids/list/purchaseDepList";
 	}
-	
 }

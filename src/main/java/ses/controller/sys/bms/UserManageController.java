@@ -234,7 +234,7 @@ public class UserManageController extends BaseController{
   		}
 	    //判读 所属机构 是否可以为空
 	    if( !"5".equals(user.getTypeName())&& !"4".equals(user.getTypeName())){
-	    	if(orgName==null){
+	    	if("".equals(user.getOrgId())||user.getOrgId() == null){
 	    		 List<DictionaryData> genders = DictionaryDataUtil.find(13);
 	               model.addAttribute("genders", genders);
 	     			model.addAttribute("user", user);
@@ -281,6 +281,24 @@ public class UserManageController extends BaseController{
           
           return "ses/bms/user/add";
   		}*/
+  		
+//  		//校验密码是否为空
+  		String password = user.getPassword();
+  		System.out.println(password);
+  		if(password.equals(null) || "".equals(password.trim()) || password ==null || password ==""){
+  	  		model.addAttribute("user", user);
+  				model.addAttribute("password_msg", "不能为空");
+  				List<DictionaryData> genders = DictionaryDataUtil.find(13);
+  				model.addAttribute("genders", genders);
+  				model.addAttribute("roleName", roleName);
+  				model.addAttribute("orgName", orgName);
+  				
+  				if (StringUtils.isNotBlank(origin)){
+  				  addAtt(request, model);
+  	      }
+  				
+  				return "ses/bms/user/add";
+  	  	}
   		
 		//校验密码是否满足6位
   	if(user.getPassword().length()<6){
@@ -565,7 +583,7 @@ public class UserManageController extends BaseController{
   			model.addAttribute("roleName", request.getParameter("roleName"));
   			model.addAttribute("currPage",request.getParameter("currpage"));
   			model.addAttribute("typeName", u.getTypeName());
-  			
+  			model.addAttribute("origin", origin);
   			/*if (StringUtils.isNotBlank(origin)){
 			      DictionaryData dd =  DictionaryDataUtil.findById(u.getTypeName());
                 if (dd != null){

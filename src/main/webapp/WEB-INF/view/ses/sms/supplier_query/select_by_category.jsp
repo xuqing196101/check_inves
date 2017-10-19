@@ -82,22 +82,29 @@
            return tempnode;
         }
 			function zTreeOnClick(event, treeId, treeNode){
-				 if(treeNode.level == 3){ 
 					var name = treeNode.name;
 					var categoryIds = treeNode.id;
-					$("#categoryIds").val(categoryIds);
 					var tempnode= getroot();
 					if(tempnode){
-					 $("#page").val(1);
-					 $("#supplierTypeId").val(tempnode.id);
-                     $("#itemTypeName").val(tempnode.name); 
-					findSupplier();
+						if (treeNode.level !=3 || tempnode.name == "工程") {
+							$("#selectSupplierType").hide();
+						} else {
+							$("#selectSupplierType").show();
+						}
+						$("#categoryIds").val(categoryIds);
+					 	$("#page").val(1);
+					 	$("#supplierTypeId").val(tempnode.id);
+                     	$("#itemTypeName").val(tempnode.name); 
+						findSupplier(treeNode.level);
 					}else{
-					   init();
+						$("#selectSupplierType").hide();
+						//根节点
+						$("#page").val(1);
+						$("#categoryIds").val("");
+					 	$("#supplierTypeId").val(treeNode.id);
+                     	$("#itemTypeName").val(treeNode.name); 
+						findSupplier();
 					}
-                    }else{
-                        init();
-                    }
 			}
 
 
@@ -202,6 +209,9 @@
 			<div class="row">
 				<!-- Begin Content -->
 				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="col-xs-12 mb20">
+						<input type="button" class="btn fl mt1" onclick="resetAllAgain()" value="计算全部">
+					</div>
 					<div class="col-md-3 col-sm-4 col-xs-12" id="show_tree_div">
 						<div class="tag-box tag-box-v3">
 							<ul id="treeDemo" class="ztree s_ztree" ></ul>

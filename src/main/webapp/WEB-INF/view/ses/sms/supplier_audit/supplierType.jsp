@@ -19,9 +19,9 @@
 		<script type="text/javascript">
 			//默认不显示叉
 			$(function() {
-                // 导航栏选中
-                $("#reverse_of_four").attr("class","active");
-                $("#reverse_of_four").removeAttr("onclick");
+        // 导航栏选中
+				$("#reverse_of_four").attr("class","active");
+				$("#reverse_of_four").removeAttr("onclick");
 				$("td").each(function() {
 					$(this).parent("tr").find("td").eq(9).find("a").hide();
 				});
@@ -123,7 +123,10 @@
          //只有审核的状态能审核
         if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
-					var auditContent = "证书名称为:" + str + "的信息";
+					var auditContent = "证书名称为：";
+					if(str){
+						auditContent = "证书名称为：" + str + "的信息";
+					}
 					var index = layer.prompt({
 							title: '请填写不通过的理由：',
 							formType: 2,
@@ -229,7 +232,10 @@
          //只有审核的状态能审核
         if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
-					var auditContent = "证书名称：" + str + "的信息";
+					var auditContent = "证书名称为：";
+					if(str){
+						auditContent = "证书名称为：" + str + "的信息";
+					}
 					var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
@@ -330,17 +336,24 @@
         }
 
 			//工程
-			function reasonEngineering(id, auditContent, str) {
+			function reasonEngineering(id, auditFieldName, str) {
 				var supplierStatus= $("input[name='supplierStatus']").val();
         var sign = $("input[name='sign']").val();
          //只有审核的状态能审核
         if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 	        var supplierId = $("#supplierId").val();
-					var auditFieldName = auditContent.replace("信息", "");
+					//auditFieldName = auditFieldName.replace("信息", "");
+					var auditContent = "";
 					if(auditFieldName == "工程-注册人员登记"){
-						var auditContent = "注册名称为：" + str +"的信息";
+						auditContent = "注册名称为：";
+						if(str){
+							auditContent = "注册名称为：" + str +"的信息";
+						}
 					}else{
-						var auditContent = "证书编号为：" + str +"的信息";
+						auditContent = "证书编号为：";
+						if(str){
+							auditContent = "证书编号为：" + str +"的信息";
+						}
 					}
 					
 					var index = layer.prompt({
@@ -380,11 +393,12 @@
 								$("#" + id + "_show1").removeClass('hidden');
 								$("#" + id + "_show2").removeClass('hidden');
 								layer.close(index);
-								}else{
-			      			layer.msg('不能为空！', {offset:'100px'});
-			      	}
-						});
-        }
+							}else{
+								layer.msg('不能为空！', {offset:'100px'});
+							}
+						}
+					);
+				}
 			}
 
 			//工程
@@ -494,7 +508,10 @@
          //只有审核的状态能审核
         if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 					var supplierId = $("#supplierId").val();
-					var auditContent = "资质证书名称为：" + str +"的信息";
+					var auditContent = "证书名称为：";
+					if(str){
+						auditContent = "证书名称为：" + str +"的信息";
+					}
 					var index = layer.prompt({
 							title: '请填写不通过的理由：',
 							formType: 2,
@@ -761,14 +778,14 @@
 					<ul class="ul_list count_flow">
 						<li>
 							<div class="tc">
-						       <c:forEach items="${wlist }" var="obj" >
+						       <c:forEach items="${scxsList }" var="obj" >
 								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" <c:if test="${fn:contains(supplierTypeCode,obj.code)}">onclick="reasonType('${obj.id }','${obj.name }');"</c:if>><input type="checkbox" disabled="disabled" name="chkItem_1" value="${obj.code}"/> ${obj.name }</span>
 						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 						     		<c:if test="${fn:contains(passedTypeField,obj.id)}">
 						     			<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 						     		</c:if>
 						      </c:forEach>
-						      <c:forEach items="${supplieType }" var="obj" >
+						      <c:forEach items="${gcfwList }" var="obj" >
 								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" <c:if test="${fn:contains(supplierTypeCode,obj.code)}">onclick="reasonType('${obj.id }','${obj.name }');"</c:if>><input type="checkbox" disabled="disabled" name="chkItem_2" value="${obj.code }"/>${obj.name } </span>
 						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 						      	<c:if test="${fn:contains(passedTypeField,obj.id)}">
@@ -784,31 +801,31 @@
 						<c:set value="0" var="liCountSell" />
 						<c:set value="0" var="liCountEng" />
 						<c:set value="0" var="liCountSer" />
-						<c:if test="${fn:contains(supplierTypeNames, '物资生产')}">
+						<c:if test="${fn:contains(supplierTypeCode, 'PRODUCT')}">
 							<li class="active">
 								<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型专业信息</a>
 								<c:set value="${liCountPro+1}" var="liCountPro"/>
 							</li>
 						</c:if>
-						<c:if test="${fn:contains(supplierTypeNames, '物资销售')}">
+						<c:if test="${fn:contains(supplierTypeCode, 'SALES')}">
 							<li class='<c:if test="${liCountPro == 0}">active  <c:set value="${liCountSell+1}" var="liCountSell"/></c:if>'>
 								<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型专业信息</a>
 							</li>
 						</c:if>
-						<c:if test="${fn:contains(supplierTypeNames, '工程')}">
+						<c:if test="${fn:contains(supplierTypeCode, 'PROJECT')}">
 							<li class='<c:if test="${liCountSell == 0 && liCountPro == 0}">active <c:set value="${liCountEng+1}" var="liCountEng"/></c:if>'>
 								<a aria-expanded="false" href="#tab-3" data-toggle="tab" onmouseup="init_web_upload_in('#tab-3')">工程专业信息</a>
 							</li>
 						</c:if>
-						<c:if test="${fn:contains(supplierTypeNames, '服务')}">
-							<li class='<c:if test="${liCountEng == 0 && liCountPro == 0 && liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer"/></c:if>'>
+						<c:if test="${fn:contains(supplierTypeCode, 'SERVICE')}">
+							<li class='<c:if test="${liCountSell == 0 && liCountPro == 0 && liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer"/></c:if>'>
 								<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务专业信息</a>
 							</li>
 						</c:if>
 					</ul>
 					<div class="count_flow">
 						<div class="tab-content padding-top-20" id="tab_content_div_id">
-							<c:if test="${fn:contains(supplierTypeNames, '生产')}">
+							<c:if test="${fn:contains(supplierTypeCode, 'PRODUCT')}">
 								<div class="tab-pane fade active in height-300" id="tab-1">
 								<%-- <h2 class="count_flow"><i>1</i>组织结构和人员</h2>
 									<ul class="ul_list count_flow">
@@ -963,7 +980,7 @@
 									
 									<h2 class="count_flow"><i>2</i>资质证书信息</h2>
 									<div class="ul_list">
-										<table class="table table-bordered table-condensed table-hover">
+										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>
 												<tr>
 													<th class="info w50">序号</th>
@@ -1010,7 +1027,7 @@
 								</div>
 							</c:if>
 
-							<c:if test="${fn:contains(supplierTypeNames, '销售')}">
+							<c:if test="${fn:contains(supplierTypeCode, 'SALES')}">
 								<div class="tab-pane <c:if test="${liCountSell == 1}">active in</c:if> fade in height-200" id="tab-2">
 									<%-- <h2 class="count_flow"><i>1</i>供应商组织结构和人员</h2>
 									<ul class="ul_list">
@@ -1048,7 +1065,7 @@
 								
 									<!-- <h2 class="count_flow"><i>2</i>供应商物资销售资质证书</h2> -->
 									<div class="ul_list">
-										<table class="table table-bordered table-condensed table-hover">
+										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>
 												<tr>
 													<th class="info w50">序号</th>
@@ -1095,7 +1112,7 @@
 								</div>
 							</c:if>
 
-							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
+							<c:if test="${fn:contains(supplierTypeCode, 'PROJECT')}">
 								<div class="tab-pane <c:if test="${liCountEng == 1}">active in</c:if> fade height-200" id="tab-3">
 									<%-- <h2 class="count_flow"><i>1</i>组织结构和人员信息</h2>
 									<ul class="ul_list count_flow">
@@ -1173,9 +1190,12 @@
 									
 									<h2 class="count_flow"><i>2</i>承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</h2>
 									<ul class="ul_list">
-										<c:forEach items="${rootArea}" var="area" varStatus="st">
+										<c:forEach items="${areas}" var="area" varStatus="st">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'${area.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,area.name)}">style="border: 1px solid red;"</c:if>>${area.name}：</span>
+												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'${area.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" 
+													<c:if test="${fn:contains(passedEngField,area.name)}">style="border: 1px solid red;"</c:if>
+													<c:if test="${fn:contains(fileModifyField,area.id)}">style="border: 1px solid #FF8C00;"</c:if>
+													>${area.name}：</span>
 													<c:if test="${supplierStatus == -2 or supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
 													  <u:upload singleFileSize="300" maxcount="5"  id="area_show_${st.index+1}" multiple="true" businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" auto="true" />
 													</c:if>
@@ -1194,7 +1214,7 @@
 									
 									<h2 class="count_flow"><i>3</i>取得注册资质的人员信息</h2>
 									<div class="ul_list">
-										<table class="table table-bordered table-condensed table-hover">
+										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>
 												<tr>
 													<th class="info w50">序号</th>
@@ -1223,7 +1243,7 @@
 									
 									<h2 class="count_flow"><i>4</i>供应商资质（认证）证书信息</h2>
 									<div class="ul_list">
-										<table class="table table-bordered table-condensed table-hover">
+										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>
 												<tr>
 													<th class="info" width="20%">证书名称</th>
@@ -1267,7 +1287,7 @@
 														<u:show showId="eng_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
 													</td> --%>
 													<td class="tc w50">
-														<p onclick="reasonEngineering('${s.id}','工程-资质证书','${s.certCode}');" id="${s.id}_hidden" class="editItem toinline"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+														<p onclick="reasonEngineering('${s.id}','工程-资质（认证）证书信息','${s.certCode}');" id="${s.id}_hidden" class="editItem toinline"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
 														<a id="${s.id }_show" class="hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 													
 														<c:if test="${fn:contains(passedEngField,s.id)}">
@@ -1281,7 +1301,7 @@
 
 									<h2 class="count_flow"><i>5</i>供应商资质证书详细信息</h2>
 									<div class="ul_list">
-										<table class="table table-bordered table-condensed table-hover">
+										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>
 												<tr>
 													<th class="info" width="15%">证书名称</th>
@@ -1339,7 +1359,7 @@
 													</td>
 														<td class="tc w50">
 														
-															<p onclick="reasonEngineering('${s.id}','工程-资质资格证书','${s.certCode}');" id="${s.id}_hidden1" class="editItem toinline"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+															<p onclick="reasonEngineering('${s.id}','工程-资质证书详细信息','${s.certCode}');" id="${s.id}_hidden1" class="editItem toinline"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
 															<a id="${s.id }_show1" class="hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 														
 															<c:if test="${fn:contains(passedEngField,s.id)}">
@@ -1353,7 +1373,7 @@
 								</div>
 							</c:if>
 							
-							<c:if test="${fn:contains(supplierTypeNames, '服务')}">
+							<c:if test="${fn:contains(supplierTypeCode, 'SERVICE')}">
 								<div class="tab-pane <c:if test="${liCountSer == 1}">active in</c:if> fade height-200" id="tab-4">
 									<%-- <h2 class="count_flow"><i>1</i>组织结构和人员信息</h2>
 									<ul class="ul_list">
@@ -1390,7 +1410,7 @@
 									</ul> --%>
 								
 									<div class="ul_list count_flow">
-										<table class="table table-bordered table-condensed table-hover">
+										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>
 												<tr>
 													<th class="info w50">序号</th>

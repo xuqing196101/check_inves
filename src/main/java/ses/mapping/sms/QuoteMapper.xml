@@ -85,7 +85,7 @@
   </select>
   <!--查询报价次数  -->
   <select id="selectQuoteCount" parameterType="ses.model.sms.Quote" resultType="java.util.Date">
-  	SELECT CREATED_AT FROM "JDCG"."T_SES_SMS_SUPPLIER_QUOTE" where 1=1 AND (IS_REMOVE is NULL or IS_REMOVE = 2)
+  	SELECT CREATED_AT FROM T_SES_SMS_SUPPLIER_QUOTE where 1=1 AND (IS_REMOVE is NULL or IS_REMOVE = 2)
   	
   	<if test="projectId != null and projectId != '' ">
 	AND  PROJECT_ID = #{projectId,jdbcType=VARCHAR}
@@ -102,7 +102,7 @@
   <select id="selectQuoteHistory" parameterType="ses.model.sms.Quote" resultMap="BaseResultMapThree">
   	SELECT 
   	 <include refid="Base_Column_List" />
-  	  FROM "JDCG"."T_SES_SMS_SUPPLIER_QUOTE" where 1=1 and (IS_REMOVE is NULL or IS_REMOVE = 2)
+  	  FROM T_SES_SMS_SUPPLIER_QUOTE where 1=1 and (IS_REMOVE is NULL or IS_REMOVE = 2)
      <if test="packageId != null and packageId != '' ">
 	AND  PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
     </if>

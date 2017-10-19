@@ -21,6 +21,7 @@ import ses.service.bms.QualificationLevelService;
 import ses.service.bms.QualificationService;
 import ses.util.DictionaryDataUtil;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
@@ -231,5 +232,13 @@ public class QualificationController {
         model.addAttribute("id", id);
     	return "/ses/bms/qualification/level";
     }
+    
+    @RequestMapping("/getLevelByQid")
+    @ResponseBody
+    public String getLevelByQid(String qid){
+    	List<DictionaryData> list =  qualificationLevelService.getLevelByQid(qid);
+		return JSON.toJSONString(list);
+    }
+    
 }
 

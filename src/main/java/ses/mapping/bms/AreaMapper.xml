@@ -11,6 +11,18 @@
     <result column="PARENT_ID"  property="parentId" />
     <result column="NAME"  property="name" />
   </resultMap>
+  
+  <resultMap id="resultForExt" type="ses.model.bms.Area">
+    <id column="ID"  property="id" />
+    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="IS_DELETED"  property="isDeleted" />
+    <result column="POSITION"  property="position" />
+    <result column="AREA_TYPE"  property="areaType" />
+    <result column="PARENT_ID"  property="parentId" />
+    <result column="NAME"  property="name" />
+    <result column="IS_PARENT"  property="isParent" />
+  </resultMap>
   <!-- 表中所有字段 -->
   <sql id="Base_Column_List">
     ID, CREATED_AT, UPDATED_AT, IS_DELETED, POSITION, AREA_TYPE, PARENT_ID, NAME
@@ -182,5 +194,9 @@
 		 SELECT T.ID 
 		 	FROM T_SES_BMS_AREA T 
 		 	WHERE T.NAME LIKE CONCAT(CONCAT('%',#{name}), '%')
+	</select>
+	<select id="getTreeForExt" resultMap="resultForExt">
+		    SELECT A.* FROM ( select  id,parent_id,NAME,'true' is_parent,CREATED_AT from T_SES_BMS_AREA where parent_id = '0' AND IS_DELETED = 0
+		    union all select id,parent_id,NAME,'false',CREATED_AT IS_PARENT from T_SES_BMS_AREA  where IS_DELETED = 0 AND parent_id in (select id from T_SES_BMS_AREA where parent_id = '0') ) A ORDER BY A.CREATED_AT ASC 
 	</select>
 </mapper>

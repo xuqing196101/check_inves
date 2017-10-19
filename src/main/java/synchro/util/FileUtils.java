@@ -227,6 +227,20 @@ public class FileUtils {
     /** 公告品目数据名称 **/
     public final static String C_ARTICLE_CATEGORY_PATH_FILENAME="_c_article_category.dat";
 
+    /** 专家抽取项目信息数据名称 **/
+    public final static String EXTRACT_PROJECT_PATH_FILENAME="_m_extract_project.dat";
+    /** 专家抽取条件数据名称 **/
+    public final static String EXTRACT_CONDITION_PATH_FILENAME="_m_extract_condition.dat";
+    /** 专家抽取类别条件信息数据名称 **/
+    public final static String EXTRACT_TYPE_INFO_PATH_FILENAME="_m_extract_type_info.dat";
+    /** 专家抽取产品类别关联信息数据名称 **/
+    public final static String EXTRACT_CATEGORY_PATH_FILENAME="_m_extract_category.dat";
+    /** 专家抽取结果信息数据名称 **/
+    public final static String EXTRACT_RESULT_PATH_FILENAME="_m_extract_result.dat";
+    /** 专家抽取目录 路径 31 **/
+    public final static String EXPERT_EXTRACT_PATH = PropUtil.getProperty("file.expert_extract.system.path");
+    
+    
     /**
      * 
      *〈简述〉创建根目录
@@ -823,6 +837,7 @@ public class FileUtils {
           case 28:  filePath=EXPERT_BLACKLIST_PATH;break;
           case 29:  filePath=EXPERT_BLACKLIST_LOG_PATH;break;
           case 30:  filePath=HOT_LINE_PATH;break;
+          case 31:  filePath=EXPERT_EXTRACT_PATH;break;
         }
         return filePath;
     }

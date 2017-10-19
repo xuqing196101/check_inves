@@ -468,7 +468,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         if(Constant.SUPPLIER_SALES.equals(type)){
             param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
         }else {
-            param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+            param.put("items_product_page", ses.util.Constant.ITEMS_PRODUCT_PAGE);
         }
         // 查询该某类型下的所通过的子节点
         return supplierItemMapper.selectPassItemByCond(param);
@@ -716,7 +716,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         if(flag){
             map.put("type", "SALES");
         }
-        map.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+        map.put("items_product_page", ses.util.Constant.ITEMS_PRODUCT_PAGE);
         map.put("supplierType_page", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
         passSupplierTypeBySupplierId = supplierItemMapper.findPassSupplierTypeBySupplierId(map);
         set.addAll(passSupplierTypeBySupplierId);
@@ -771,7 +771,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         if(Constant.SUPPLIER_SALES.equals(type)){
             param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
         }else {
-            param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+            param.put("items_product_page", ses.util.Constant.ITEMS_PRODUCT_PAGE);
         }
         return supplierItemMapper.selectPassItemByCond(param);
     }
@@ -793,12 +793,14 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			SupplierItemCategoryBean sic = new SupplierItemCategoryBean();
 			if (cate == null) {
 				DictionaryData data = DictionaryDataUtil.findById(item.getCategoryId());
-				sic.setId(data.getId());
-				sic.setParentId(data.getId());
-				sic.setName(data.getName());
+				if(data != null){
+					sic.setId(data.getId());
+					//sic.setParentId(data.getId());
+					sic.setName(data.getName());
+				}
 			} else {
 				//供应商中间表的id和资质证书的id
-				cate.setParentId(item.getId());
+				//cate.setParentId(item.getId());
 				BeanUtils.copyProperties(cate, sic);
 			}
 			sic.setItemId(item.getId());
@@ -899,13 +901,21 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				cateTree.setProName(item.getProfessType());
 			}
 			
-			// 所有等级List
-			List < Category > cateList = new ArrayList < Category > ();
+			// 所有资质类型
+			/*List < Category > cateList = new ArrayList < Category > ();
 			cateList.add(categoryService.selectByPrimaryKey(categoryId));
 			List < QualificationBean > type = supplierService.queryCategoyrId(cateList, 4);
 			List < Qualification > typeList = new ArrayList < Qualification > ();
 			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
 				typeList = type.get(0).getList();
+			}*/
+			// 所有资质类型，包括父节点的资质
+			List < QualificationBean > qbList = supplierService.queryCategoyrId(parentNodeList, 4);
+			List < Qualification > typeList = new ArrayList < Qualification > ();
+			if(qbList != null && qbList.size() > 0){
+				for(QualificationBean qb : qbList){
+					typeList.addAll(qb.getList());
+				}
 			}
 			//自定义等级
 //			List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, item.getSupplierId());
@@ -992,7 +1002,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 					List<SupplierItemCategoryBean> sicList_service = this.getSupplierItemCategoryList(supplierId, "SERVICE");
 					removeSameSic(sicList_service);
 					//根据品目id查询所有的证书信息
-					serviceQua = supplierService.getQualificationList(sicList_service, 1);
+					serviceQua = supplierService.getQualificationList(sicList_service, 2);
 				}
 			}
 		}
@@ -1090,20 +1100,22 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		if(items != null){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
-			supplierAudit.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
+			supplierAudit.setAuditType(ses.util.Constant.ITEMS_PRODUCT_PAGE);
 			if(ses.util.Constant.SUPPLIER_PRODUCT.equals(code)){
-				supplierAudit.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
+				supplierAudit.setAuditType(ses.util.Constant.ITEMS_PRODUCT_PAGE);
 			}
 			if(ses.util.Constant.SUPPLIER_SALES.equals(code)){
 				supplierAudit.setAuditType(ses.util.Constant.ITEMS_SALES_PAGE);
 			}
-			List<SupplierAudit> auditList = supplierAuditService.findReason(supplierAudit);
+			List<SupplierAudit> auditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{0,2});
 			if(auditList != null){
 				StringBuffer errorField = new StringBuffer();
 				for(SupplierAudit audit: auditList) {
 					errorField.append(audit.getAuditField() + ",");
 				}
+				StringBuffer pSb = new StringBuffer();// 存储删除的父节点
 				Iterator<SupplierItem> itr = items.iterator();
+				// 删除审核不通过的品目
 				while(itr.hasNext()){
 					SupplierItem item = itr.next();
 					String cateId = item.getCategoryId();
@@ -1119,27 +1131,39 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 						}
 						itr.remove();//这里删除的是末级节点
 					}
-					StringBuffer pSb = new StringBuffer();// 存储删除的父节点
+//					StringBuffer pSb = new StringBuffer();// 存储删除的父节点
 					// 查询该节点的所有父节点
 					List<Category> pList = categoryService.getPListById(cateId);
 					Collections.reverse(pList);// 反转
-					if(pList != null){
+					if(pList != null && !pList.isEmpty()){
 						for(Category p : pList){
 							// 查询每一个父节点的子节点（下级节点）
 							List<Category> cList = categoryService.findTreeByPidIsPublish(p.getId());
-							if(cList != null){
+							if(cList != null && !cList.isEmpty()){
 								List<String> catIds = new ArrayList<String>();
 								for(Category c : cList){
-									catIds.add(c.getId());
+									if(pSb.indexOf(c.getId()) == -1){// 已经确定要删除的不加入对比
+										catIds.add(c.getId());
+									}
 								}
-								int countItems = this.countItemsBySuppIdAndCateIds(supplierId, catIds, code);
-								// 如果子节点在品目中没有找到，则删除该父节点对应的品目信息
-								if(countItems == 0){
+								if(catIds.isEmpty()){
 									pSb.append(p.getId() + ",");
+								}else{
+									int countItems = this.countItemsBySuppIdAndCateIds(supplierId, catIds, code);
+									// 如果子节点在品目中没有找到，则删除该父节点对应的品目信息
+									if(countItems == 0 && pSb.indexOf(p.getId()) == -1){
+										pSb.append(p.getId() + ",");
+									}
 								}
 							}
 						}
 					}
+				}
+				// 级联删除审核不通过品目的父节点
+				itr = items.iterator();
+				while(itr.hasNext()){
+					SupplierItem item = itr.next();
+					String cateId = item.getCategoryId();
 					if(pSb.indexOf(cateId) != -1 && errorField.indexOf(cateId) == -1){
 						if(item.getIsReturned() != 1){
 							item.setIsReturned((byte)1);
@@ -1149,6 +1173,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 					}
 				}
 			}
+			// 删除根节点
 			if(items.size() == 1){
 				SupplierItem rootItem = items.get(0);
 				Category rootCate = categoryService.findById(rootItem.getCategoryId());
@@ -1225,7 +1250,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         if(Constant.SUPPLIER_SALES.equals(type)){
             param.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
         }else {
-            param.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+            param.put("items_product_page", ses.util.Constant.ITEMS_PRODUCT_PAGE);
         }
         // 查询该某类型下的所通过的子节点
         List<SupplierItem> supplierItems = supplierItemMapper.selectPassItemByCond(param);
@@ -1301,5 +1326,10 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         listInfo.setPages(pageInfo.getPages());
         return JdcgResult.ok(listInfo);
     }
+
+	@Override
+	public SupplierItem getItemById(String id) {
+		return supplierItemMapper.selectByPrimaryKey(id);
+	}
 
 }

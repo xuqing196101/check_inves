@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <div class="tab-content padding-left-20 padding-right-20">
 	    	<table class="table table-bordered">
 		<thead>
@@ -18,8 +19,8 @@
 		  	<b>
 		  	<c:if test="${ totalCountPriceBigDecimal != '0.0000' }">
 		  		${ totalCountPriceBigDecimal}
+		    </c:if>
 		  	</b>
-		  	</c:if>
 		  </td>
 			<td></td>
 		</tr>

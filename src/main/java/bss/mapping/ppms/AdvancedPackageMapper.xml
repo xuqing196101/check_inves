@@ -11,13 +11,42 @@
 		<result column="BID_METHOD_ID" property="bidMethodId" />
 		<result column="PURCHASE_TYPE" property="purchaseType" />
 		<result column="IS_IMPORT" property="isImport" />
-		<result column="AD_PROJECT_ID" property="project" />
+		<result column="AD_PROJECT_ID" property="projectId" />
+		<result column="IS_END_PRICE" property="isEndPrice" />
+		<result column="PROJECT_STATUS" property="projectStatus" />
+		<result column="PACKAGE_NUMBER" property="packageNumber" />
+    <result column="TECHNIQUE_TIME" property="techniqueTime" jdbcType="TIMESTAMP" />
+    <result column="QUALIFICATION_TIME" property="qualificationTime" jdbcType="TIMESTAMP" />
 		<association property="project" column="AD_PROJECT_ID" select="bss.dao.ppms.AdvancedProjectMapper.selectAdvancedProjectByPrimaryKey" />
 	</resultMap>
+	
+	<!-- 返回抽取信息 -->
+  <resultMap id="ResultProjectExtract" extends="BaseResultMap" type="bss.model.ppms.AdvancedPackages">
+    <collection property="listProjectExtract" column="ID"
+      select="ses.dao.ems.ProjectExtractMapper.getById" ofType="ses.model.ems.ProjectExtract" />
+  </resultMap>
+  
+  <!-- 专家 -->
+  <resultMap type="bss.model.ppms.AdvancedPackages" extends="BaseResultMap" id="ResultExpert">
+    <collection property="listExperts" column="ID" select="ses.dao.ems.ExpertMapper.getByExpertProjectId" ofType="ses.model.ems.Expert" />
+  </resultMap>
+  
+  <!-- 中标供应商 -->
+  <resultMap type="bss.model.ppms.AdvancedPackages" extends="BaseResultMap" id="SupplierCheckPass">
+    <collection property="listCheckPasses" column="ID"
+      select="bss.dao.ppms.SupplierCheckPassMapper.getByCheckPass" ofType="bss.model.ppms.SupplierCheckPass" />
+  </resultMap>
+  
+  <!-- 未中标供应商 -->
+  <resultMap type="bss.model.ppms.AdvancedPackages" extends="BaseResultMap" id="NotSupplierCheckPass">
+    <collection property="listCheckPasses" column="ID"
+      select="bss.dao.ppms.SupplierCheckPassMapper.getByCheck" ofType="bss.model.ppms.SupplierCheckPass" />
+  </resultMap>
 
 	<sql id="Base_Column_List">
-		ID, NAME,
-		AD_PROJECT_ID,IS_DELETED,CREATED_AT,UPDATED_AT,STATUS,BID_METHOD_ID,PURCHASE_TYPE,IS_IMPORT
+		ID, NAME,AD_PROJECT_ID,IS_DELETED,CREATED_AT,
+		UPDATED_AT,STATUS,BID_METHOD_ID,PURCHASE_TYPE,IS_IMPORT,
+		IS_END_PRICE,TECHNIQUE_TIME,QUALIFICATION_TIME,PROJECT_STATUS,PACKAGE_NUMBER
 	</sql>
 	
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -25,6 +54,15 @@
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_ADVANCED_PACKAGE
     where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="notSupplierCheckPass" parameterType="java.lang.String" resultMap="NotSupplierCheckPass">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    T_BSS_PPMS_ADVANCED_PACKAGE WHERE IS_DELETED=0 AND
+    AD_PROJECT_ID=#{projectId}
+    ORDER BY CREATED_AT ASC
   </select>
   
   <select id="find" parameterType="Object" resultMap="BaseResultMap">
@@ -44,6 +82,39 @@
     ORDER BY p.CREATED_AT ASC
   </select>
   
+  <!-- 返回所有专家 -->
+  <select id="listProjectExtract" parameterType="java.lang.String" resultMap="ResultProjectExtract">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM T_BSS_PPMS_ADVANCED_PACKAGE
+    WHERE
+    IS_DELETED=0 AND AD_PROJECT_ID = #{projectId}
+    ORDER BY
+    CREATED_AT ASC
+  </select>
+  
+  <!-- 根据包信息返回抽取出的专家 -->
+  <select id="listResultExpert" parameterType="java.lang.String"
+    resultMap="ResultExpert">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM T_BSS_PPMS_ADVANCED_PACKAGE
+    WHERE
+    IS_DELETED=0
+    AND AD_PROJECT_ID = #{projectId}
+    ORDER BY
+    CREATED_AT ASC
+  </select>
+  
+  <!-- 中标供应商 -->
+  <select id="listSupplierCheckPass" parameterType="java.lang.String" resultMap="SupplierCheckPass">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    T_BSS_PPMS_ADVANCED_PACKAGE WHERE IS_DELETED=0 AND
+    AD_PROJECT_ID=#{projectId}
+    ORDER BY CREATED_AT ASC
+  </select>
   
   <select id="findPackageAndBidMethodById" parameterType="java.util.Map"
     resultType="bss.model.ppms.AdvancedPackages">
@@ -51,8 +122,7 @@
     p.ID AS id,
     p.NAME AS name,
     p.AD_PROJECT_ID AS projectId,
-    p.STATUS AS
-    status,
+    p.STATUS AS status,
     p.BID_METHOD_ID as bidMethodId,
     b.name as bidMethodName,
     b.MAX_SCORE as bidMethodMaxScore,
@@ -80,19 +150,23 @@
     from T_BSS_PPMS_ADVANCED_PACKAGE
     where IS_DELETED = 0
     <if test="id != null and id != ''">
-     AND ID = #{id}
+      AND ID = #{id}
     </if>
     <if test="name != null and name != ''">
-     AND NAME = #{name}
+      AND NAME = #{name}
     </if>
     <if test="projectId != null and projectId != ''">
-     AND AD_PROJECT_ID = #{projectId}
+      AND AD_PROJECT_ID = #{projectId}
     </if>
     <if test="purchaseType != null and purchaseType != ''">
-     AND PURCHASE_TYPE = #{purchaseType}
+      AND PURCHASE_TYPE = #{purchaseType}
     </if>
     <if test="isImport != null and isImport != ''">
-     AND IS_IMPORT = #{isImport}
+      AND IS_IMPORT = #{isImport}
+    </if>
+    <if test="projectStatus != null and projectStatus !=''">
+      AND PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='YZZ')
+      AND PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='ZJZXTP')
     </if>
     ORDER BY
     CREATED_AT ASC
@@ -134,6 +208,21 @@
 			<if test="bidMethodId != null">
 				BID_METHOD_ID,
 			</if>
+			<if test="isEndPrice != null">
+        IS_END_PRICE,
+      </if>
+      <if test="techniqueTime != null">
+        TECHNIQUE_TIME,
+      </if>
+      <if test="qualificationTime != null">
+        QUALIFICATION_TIME,
+      </if>
+      <if test="projectStatus != null">
+        PROJECT_STATUS,
+      </if>
+      <if test="packageNumber != null">
+        PACKAGE_NUMBER,
+      </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -166,6 +255,21 @@
 			<if test="bidMethodId != null">
 				#{bidMethodId},
 			</if>
+			<if test="isEndPrice != null">
+        #{isEndPrice},
+      </if>
+      <if test="techniqueTime != null">
+        #{techniqueTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qualificationTime != null">
+        #{qualificationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectStatus != null">
+        #{projectStatus},
+      </if>
+      <if test="packageNumber != null">
+        #{packageNumber},
+      </if>
 		</trim>
 	</insert>
 	
@@ -202,6 +306,21 @@
       <if test="bidMethodId != null">
         BID_METHOD_ID,
       </if>
+      <if test="isEndPrice != null">
+        IS_END_PRICE,
+      </if>
+      <if test="techniqueTime != null">
+        TECHNIQUE_TIME,
+      </if>
+      <if test="qualificationTime != null">
+        QUALIFICATION_TIME,
+      </if>
+      <if test="projectStatus != null">
+        PROJECT_STATUS,
+      </if>
+      <if test="packageNumber != null">
+        PACKAGE_NUMBER,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -233,6 +352,21 @@
       </if>
       <if test="bidMethodId != null">
         #{bidMethodId},
+      </if>
+      <if test="isEndPrice != null">
+        #{isEndPrice},
+      </if>
+      <if test="techniqueTime != null">
+        #{techniqueTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qualificationTime != null">
+        #{qualificationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectStatus != null">
+        #{projectStatus},
+      </if>
+      <if test="packageNumber != null">
+        #{packageNumber},
       </if>
     </trim>
   </insert>
@@ -270,6 +404,21 @@
 			<if test="bidMethodId != null">
 				BID_METHOD_ID = #{bidMethodId},
 			</if>
+			<if test="isEndPrice != null">
+        IS_END_PRICE = #{isEndPrice},
+      </if>
+      <if test="techniqueTime != null">
+        TECHNIQUE_TIME = #{techniqueTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qualificationTime != null">
+        QUALIFICATION_TIME = #{qualificationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectStatus != null">
+        PROJECT_STATUS = #{projectStatus},
+      </if>
+      <if test="packageNumber != null">
+        PACKAGE_NUMBER = #{packageNumber},
+      </if>
 		</set>
 		where ID = #{id}
 	</update>
@@ -314,11 +463,143 @@
     <if test="projectName != null and projectName !=''">
       AND pr.NAME like CONCAT(CONCAT('%', #{projectName}), '%')
     </if>
-    <if test="packageName != null and packageName !=''">
-      AND pa.NAME like CONCAT(CONCAT('%', #{packageName}), '%')
+    <if test="projectNumber != null and projectNumber !=''">
+      AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
     </if>
     ORDER BY
     pa.CREATED_AT DESC
   </select>
-
+  
+  <select id="getPackageId" parameterType="java.lang.String" resultType="bss.model.ppms.AdvancedPackages">
+    SELECT
+      *
+    FROM
+      (
+        SELECT
+          ID
+        FROM
+          T_BSS_PPMS_ADVANCED_PACKAGE
+        WHERE
+          AD_PROJECT_ID = #{projectId}
+      ) T
+    WHERE
+      T . ID IN (
+        SELECT DISTINCT
+          (PACKAGR_IDS)
+        FROM
+          T_BSS_PPMS_SALE_TENDER
+        WHERE
+          STATUS_BID = 2
+        AND STATUS_BOND = 2
+        AND PROJECT_ID = #{projectId}
+        AND IS_REMOVED in ('0' , '2') 
+      )
+  </select>
+  
+  <!-- 查询包 按照创建时间-->
+	<select id="selectPackageOrderByCreated" parameterType="java.util.Map" resultType="bss.model.ppms.AdvancedPackages">
+		select * from(
+		SELECT DISTINCT
+			pa.ID AS id,
+			pa.NAME AS name,
+			pa.AD_PROJECT_ID AS projectId,
+			pr.NAME AS projectName,
+			pa.STATUS AS status,
+			pa.CREATED_AT AS createdAt,
+			pa.PURCHASE_TYPE AS purchaseType,
+			pa.IS_IMPORT AS isImport,
+			pa.IS_END_PRICE AS isEndPrice
+		FROM
+		T_BSS_PPMS_ADVANCED_PACKAGE pa
+		LEFT JOIN T_BSS_PPMS_ADVANCED_PROJECTS pr 
+		on pa.AD_PROJECT_ID = pr.ID LEFT JOIN T_BSS_PPMS_BID_METHOD BM ON PA.ID = BM.PACKAGE_ID
+		WHERE
+		nvl(pa.IS_DELETED,0)=0 AND pr. NAME IS NOT NULL
+		<if test="projectNumber != null and projectNumber !=''">
+			AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+		</if>
+		<if test="projectName != null and projectName !=''">
+			AND pr.NAME like CONCAT(CONCAT('%', #{projectName}), '%')
+		</if>
+		<if test="id != null and id !=''">
+			AND pa.ID = #{id}
+		</if>
+		<if test="packageName != null and packageName !=''">
+			AND pa.NAME like CONCAT(CONCAT('%', #{packageName}), '%')
+		</if>
+		<if test="typeName != null and typeName !=''">
+			AND BM.TYPE_NAME = #{typeName}
+		</if>
+		GROUP BY
+			pa. ID,
+			pa. NAME,
+			pa.AD_PROJECT_ID,
+			pr. NAME,
+			pa.STATUS,
+			pa.CREATED_AT,
+			pa.PURCHASE_TYPE,
+			pa.IS_IMPORT,
+			pa.IS_END_PRICE
+		HAVING
+			(
+				SELECT
+					COUNT (*)
+				FROM
+					T_BSS_PPMS_MARK_TERM
+				WHERE
+					PROJECT_ID = pa.AD_PROJECT_ID
+				AND PACKAGE_ID = PA. ID
+			) > 0
+		ORDER BY pa.CREATED_AT DESC
+		)
+	</select>
+	
+	<select id="selectByPackageFirstAudit" parameterType="java.util.Map"
+		resultType="bss.model.ppms.AdvancedPackages">
+			select * from(
+			SELECT DISTINCT
+			pa. ID AS ID,
+			pa. NAME AS NAME,
+			pa.AD_PROJECT_ID AS PROJECT,
+			pr. NAME AS projectName,
+			pa.STATUS AS status,
+			pa.CREATED_AT AS createdAt,
+			pa.PURCHASE_TYPE AS purchaseType,
+			pa.IS_IMPORT AS isImport,
+			pa.IS_END_PRICE AS isEndPrice
+		FROM
+			T_BSS_PPMS_ADVANCED_PACKAGE pa
+		LEFT JOIN T_BSS_PPMS_ADVANCED_PROJECTS pr ON pa.AD_PROJECT_ID = pr. ID
+		LEFT JOIN T_BSS_PPMS_BID_METHOD BM ON PA. ID = BM.PACKAGE_ID
+		WHERE
+			NVL (pa.IS_DELETED, 0) = 0
+		AND pr. NAME IS NOT NULL
+		<if test="projectName != null and projectName !=''">
+					AND pr.NAME like CONCAT(CONCAT('%', #{projectName}), '%')
+		</if>
+		<if test="projectNumber != null and projectNumber !=''">
+					AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+		</if>
+		GROUP BY
+			pa. ID,
+			pa. NAME,
+			pa.AD_PROJECT_ID,
+			pr. NAME,
+			pa.STATUS,
+			pa.CREATED_AT,
+			pa.PURCHASE_TYPE,
+			pa.IS_IMPORT,
+			pa.IS_END_PRICE
+		HAVING
+			(
+				SELECT
+					COUNT (*)
+				FROM
+					T_BSS_PRMS_FIRST_AUDIT
+				WHERE
+					PROJECT_ID = pa.AD_PROJECT_ID
+				AND PACKAGEID = PA. ID
+			) > 0
+			)
+	</select>
 </mapper>

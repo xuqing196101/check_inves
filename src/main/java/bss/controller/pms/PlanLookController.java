@@ -150,10 +150,11 @@ public class PlanLookController extends BaseController {
 			collectPlan.setStatus(null);
 		} else if(collectPlan.getStatus()==12){
 			collectPlan.setSign("12");
-			collectPlan.setStatus(null);
-		}   
-		
-		
+			/*collectPlan.setStatus(null);*/
+		}else if(collectPlan.getStatus()==9){
+		    collectPlan.setSign("9");
+		    collectPlan.setStatus(null);
+		}
 		
 		List<Role> roles = user.getRoles();
 		boolean bool=false;
@@ -168,20 +169,31 @@ public class PlanLookController extends BaseController {
 			collectPlan.setUserId(user.getId());
 		} 
 		
-		
-		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
-		PageInfo<CollectPlan> info = new PageInfo<>(list);
-		model.addAttribute("info", info);
-		model.addAttribute("inf", collectPlan);
+		if (collectPlan.getStatus()!=null&&collectPlan.getStatus()==12) {
+			collectPlan.setStatus(null);
+			List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
+			PageInfo<CollectPlan> info = new PageInfo<>(list);
+			model.addAttribute("info", info);
+			collectPlan.setStatus(12);
+			model.addAttribute("inf", collectPlan);
+		}else{
+		    List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
+		    PageInfo<CollectPlan> info = new PageInfo<>(list);
+		    model.addAttribute("info", info);
+		    if(collectPlan.getSign()!=null&&"9".equals(collectPlan.getSign())){
+		        collectPlan.setStatus(9);
+		    }
+		    model.addAttribute("inf", collectPlan);
+		}
 		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
 		model.addAttribute("dic", dic);
 		
 		//只有采购管理部门才能操作
-    if("2".equals(user.getTypeName())){
-      model.addAttribute("auth", "show");
-    }else {
-      model.addAttribute("auth", "hidden");
-    }
+		if("2".equals(user.getTypeName())){
+		    model.addAttribute("auth", "show");
+		}else {
+		    model.addAttribute("auth", "hidden");
+		}
 		return "bss/pms/collect/planlist";
 	}
 	
@@ -190,7 +202,14 @@ public class PlanLookController extends BaseController {
     public String view1(String id, Model model,HttpServletRequest request){
         
     	List<PurchaseDetail> listp = purchaseDetailService.getUnique(id,null,null);
-		
+		 for (PurchaseDetail purchaseDetail : listp) {
+		   HashMap<String, Object> map=new HashMap<String, Object>();
+		   map.put("id",purchaseDetail.getId());
+		   List<PurchaseDetail> pds = purchaseDetailService.selectByParentId(map);
+		   if(pds!=null&&!pds.isEmpty()&&pds.size()>1){
+		     purchaseDetail.setIsParent("true");
+	      }
+    }
 		model.addAttribute("list", listp);
 		
 		
@@ -254,6 +273,14 @@ public class PlanLookController extends BaseController {
 //       List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
 //       model.addAttribute("list", list);
 		List<PurchaseDetail> list = purchaseDetailService.selectByParentId(map);
+		for (PurchaseDetail purchaseDetail : list) {
+      HashMap<String, Object> map2=new HashMap<String, Object>();
+      map2.put("id",purchaseDetail.getId());
+      List<PurchaseDetail> pds = purchaseDetailService.selectByParentId(map2);
+      if(pds!=null&&!pds.isEmpty()&&pds.size()>1){
+        purchaseDetail.setIsParent("true");
+       }
+   }
 		model.addAttribute("list", list);
 		String typeId = DictionaryDataUtil.getId("PURCHASE_FILE");
 		model.addAttribute("typeId", typeId);
@@ -278,6 +305,14 @@ public class PlanLookController extends BaseController {
 	 List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		
 	 List<PurchaseDetail> listp = purchaseDetailService.getUnique(id,null,null);
+	 for (PurchaseDetail purchaseDetail : listp) {
+     HashMap<String, Object> map2=new HashMap<String, Object>();
+     map2.put("id",purchaseDetail.getId());
+     List<PurchaseDetail> pds = purchaseDetailService.selectByParentId(map2);
+     if(pds!=null&&!pds.isEmpty()&&pds.size()>1){
+       purchaseDetail.setIsParent("true");
+      }
+  }
 //        List<String> list = conllectPurchaseService.getNo(id);
 //        if(list != null && list.size() > 0){
 //            for(String s:list){
@@ -403,7 +438,14 @@ public class PlanLookController extends BaseController {
 		}*/
 		
 		List<PurchaseDetail> list = purchaseDetailService.getUnique(id,null,null);
-		
+		for (PurchaseDetail purchaseDetail : list) {
+      HashMap<String, Object> map2=new HashMap<String, Object>();
+      map2.put("id",purchaseDetail.getId());
+      List<PurchaseDetail> pds = purchaseDetailService.selectByParentId(map2);
+      if(pds!=null&&!pds.isEmpty()&&pds.size()>1){
+        purchaseDetail.setIsParent("true");
+       }
+   }
 		model.addAttribute("list", list);
 		model.addAttribute("org",orgs);
 		model.addAttribute("id", id);
@@ -505,6 +547,56 @@ public class PlanLookController extends BaseController {
 	
 	/**
 	 * 
+		 * @Title: 暂存审核数据
+		 * @author: Zhou Wei
+		 * @date: 2017年8月22日 下午4:13:37
+		 * @Description:暂存审核数据  
+		 * @return: String
+	 */
+	@RequestMapping("/submitForm")
+	@ResponseBody
+	public String submitForm(PurchaseRequiredFormBean list,CollectPlan collectPlan,@CurrentUser User user){
+		if(list!=null){
+			if(list.getListDetail()!=null&&list.getListDetail().size()>0){
+				for(PurchaseDetail p:list.getListDetail()){
+					if(p.getId()!=null){
+						purchaseDetailService.updateByPrimaryKeySelective(p);
+					}
+				}
+			}
+		}
+		List<AuditPerson> person = auditPersonService.queryByUserIdAndCid(user.getId(), collectPlan.getId());
+		if(person!=null&&person.size()>0){
+			AuditPerson auditPerson = person.get(0);
+			auditPerson.setCreateDate(new Date());
+			auditPersonService.updateByPrimaryKeySelective(auditPerson);
+		}
+
+		/*if(collectPlan.getStatus().equals(3)){
+			if(collectPlan.getAuditTurn()==1){
+				collectPlan.setStatus(12);
+			}else{
+				collectPlan.setStatus(4);
+			}
+		}
+		if(collectPlan.getStatus().equals(5)){
+			if(collectPlan.getAuditTurn()==2){
+				collectPlan.setStatus(12);
+			}else{
+				collectPlan.setStatus(6);
+			}
+		}
+		if(collectPlan.getStatus().equals(7)){
+			collectPlan.setStatus(12);
+		}*/
+		collectPlan.setOrderAt(new Date());
+		collectPlanService.update(collectPlan);
+		return "commit";
+	}
+	
+	
+	/**
+	 * 
 	* @Title: report
 	* @Description:生成评审报告页面 
 	* author: Li Xiaoxiao 
@@ -516,9 +608,9 @@ public class PlanLookController extends BaseController {
 	@RequestMapping("/report")
 	public String report(String id,Model model,String one,String two,String three){
 		List<PurchaseDetail> details = purchaseDetailService.getUnique(id,null,null);
-		String [] oneArray = new String[details.size()];
-		String [] twoArray = new String[details.size()];
-		String [] threeArray = new String[details.size()];
+		String [] oneArray =null;
+		String [] twoArray = null;
+		String [] threeArray = null;
 		if(one != null && !one.equals("")){
 			oneArray = one.split(",");
 		}
@@ -531,9 +623,15 @@ public class PlanLookController extends BaseController {
 		int i = 0;
 		if(details != null && details.size() > 0){
 			for(i = 0;i < details.size();i ++){
-				details.get(i).setOneAdvice(oneArray[i]);
-				details.get(i).setTwoAdvice(twoArray[i]);
-				details.get(i).setThreeAdvice(threeArray[i]);
+			  if(oneArray!=null&&oneArray.length>0){
+			    details.get(i).setOneAdvice(oneArray[i]);
+			  }
+				if(twoArray!=null){
+				  details.get(i).setTwoAdvice(twoArray[i]);
+				}
+				if(threeArray!=null){
+				  details.get(i).setThreeAdvice(threeArray[i]);
+				}
 			}
 		}
 		CollectPlan plan = collectPlanService.queryById(id);
@@ -780,7 +878,7 @@ public class PlanLookController extends BaseController {
 	@ResponseBody
 	public String excel(HttpServletRequest request,HttpServletResponse response,String uniqueId,String flag,String org,String dep) throws UnsupportedEncodingException{
     	List<PurchaseDetail> list = purchaseDetailService.getUnique(uniqueId,org,dep);
-		String filedisplay = "明细.xls";
+		String filedisplay = list.get(0).getPlanName()+"明细.xls";
 		response.addHeader("Content-Disposition", "attachment;filename="  + new String(filedisplay.getBytes("gb2312"), "iso8859-1"));
 		HSSFWorkbook workbook = new HSSFWorkbook();
 	     HSSFSheet sheet = workbook.createSheet("1"); 

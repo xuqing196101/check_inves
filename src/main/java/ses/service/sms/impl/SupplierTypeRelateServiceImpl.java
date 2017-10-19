@@ -1,13 +1,18 @@
 package ses.service.sms.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
@@ -17,9 +22,11 @@ import ses.dao.sms.SupplierMatEngMapper;
 import ses.dao.sms.SupplierMatProMapper;
 import ses.dao.sms.SupplierMatSellMapper;
 import ses.dao.sms.SupplierMatServeMapper;
+import ses.dao.sms.SupplierRegPersonMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCategoryOpinion;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.DictionaryDataServiceI;
@@ -64,6 +71,9 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
 	private SupplierAptituteMapper supplierAptituteMapper;
 	
 	@Autowired
+	private SupplierRegPersonMapper supplierRegPersonMapper;
+	
+	@Autowired
 	private SupplierMatServeMapper supplierMatServeMapper;
 	
 	@Autowired
@@ -85,45 +95,46 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
 		dlist.addAll(wlist);
 		dlist.addAll(list);
 		try{
-            supplierTypeRelateMapper.deleteBySupplierId(supplier.getId());
-            if(StringUtils.isNotBlank(supplier.getSupplierTypeIds())){
-                String supplierTypeIds = supplier.getSupplierTypeIds().trim();
-                for (String str : supplierTypeIds.split(",")) {
-                    SupplierTypeRelate supplierTypeRelate = new SupplierTypeRelate();
-                    supplierTypeRelate.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-                    supplierTypeRelate.setSupplierId(supplier.getId());
-                    supplierTypeRelate.setSupplierTypeId(str);
-                    supplierTypeRelate.setCreatedAt(new Date());
-                    supplierTypeRelateMapper.insertSelective(supplierTypeRelate);
-                }
-                List<DictionaryData> rlist=new LinkedList<DictionaryData>();
-                for(DictionaryData d:dlist){
-                    for (String str : supplierTypeIds.split(",")) {
-                        if(d.getCode().equals(str)){
-                            rlist.add(d);
-                        }
-                    }
-                }
-                dlist.removeAll(rlist);
+			String supplierTypeIds = supplier.getSupplierTypeIds();
+			if(StringUtils.isNotBlank(supplierTypeIds)){
+				supplierTypeRelateMapper.deleteBySupplierId(supplier.getId());
+				for (String str : supplierTypeIds.trim().split(",")) {
+				    SupplierTypeRelate supplierTypeRelate = new SupplierTypeRelate();
+				    supplierTypeRelate.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+				    supplierTypeRelate.setSupplierId(supplier.getId());
+				    supplierTypeRelate.setSupplierTypeId(str);
+				    supplierTypeRelate.setCreatedAt(new Date());
+				    supplierTypeRelateMapper.insertSelective(supplierTypeRelate);
+				}
+				List<DictionaryData> rlist=new LinkedList<DictionaryData>();
+				for(DictionaryData d:dlist){
+				    for (String str : supplierTypeIds.split(",")) {
+				        if(d.getCode().equals(str)){
+				            rlist.add(d);
+				        }
+				    }
+				}
+				dlist.removeAll(rlist);
             }
             if(dlist!=null&&dlist.size()>0){
                 for(DictionaryData d:dlist){
                     if(d.getCode().equals("sc")){
-                        supplierMatProMapper.deleteByPrimaryKey(supplier.getId());
-                        supplierCertProMapper.deleteByPrimaryKey(supplier.getSupplierMatPro().getId());
+                        supplierMatProMapper.deleteBySupplierId(supplier.getId());
+                        supplierCertProMapper.deleteByMatProId(supplier.getSupplierMatPro().getId());
                     }
                     if(d.getCode().equals("xs")){
-                        supplierMatSellMapper.deleteByPrimaryKey(supplier.getId());
-                        supplierCertSellMapper.deleteByPrimaryKey(supplier.getSupplierMatSell().getId());
+                        supplierMatSellMapper.deleteBySupplierId(supplier.getId());
+                        supplierCertSellMapper.deleteByMatSellId(supplier.getSupplierMatSell().getId());
                     }
                     if(d.getCode().equals("gc")){
-                        supplierMatEngMapper.deleteByPrimaryKey(supplier.getId());
-                        supplierCertEngMapper.deleteByPrimaryKey(supplier.getSupplierMatEng().getId());
-                        supplierAptituteMapper.deleteByPrimaryKey(supplier.getSupplierMatEng().getId());
+                        supplierMatEngMapper.deleteBySupplierId(supplier.getId());
+                        supplierRegPersonMapper.deleteByMatEngId(supplier.getSupplierMatEng().getId());
+                        supplierCertEngMapper.deleteByMatEngId(supplier.getSupplierMatEng().getId());
+                        supplierAptituteMapper.deleteByMatEngId(supplier.getSupplierMatEng().getId());
                     }
                     if(d.getCode().equals("fw")){
-                        supplierMatServeMapper.deleteByPrimaryKey(supplier.getId());
-                        supplierCertServeMapper.deleteByPrimaryKey(supplier.getSupplierMatSe().getId());
+                        supplierMatServeMapper.deleteBySupplierId(supplier.getId());
+                        supplierCertServeMapper.deleteByMatServeId(supplier.getSupplierMatSe().getId());
                     }
                 }
             }
@@ -165,5 +176,10 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
 	@Override
 	public List<String> findTypeBySupplierId(String supplierId) {
 		return supplierTypeRelateMapper.findTypeBySupplierId(supplierId);
+	}
+
+	@Override
+	public List<SupplierCategoryOpinion> findSupplierCategoryByTypeId(Map<String, Object> map) {
+		return supplierTypeRelateMapper.findSupplierCategoryByTypeId(map);
 	}
 }

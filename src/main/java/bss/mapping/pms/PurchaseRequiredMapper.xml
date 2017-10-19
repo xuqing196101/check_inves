@@ -952,7 +952,11 @@
 			<!--  <if test="isMaster != null">
 				and IS_MASTER = #{isMaster}
 			</if> -->
+			<if test="parentId!=null">
+			  and  PARENT_ID='1'
+		  </if>
 		</where>
+		
 		<if test="isMaster==null">
 			ORDER BY IS_MASTER
 		</if>
@@ -1074,13 +1078,14 @@
    <!-- 获取各类型需求金额 -->
    <select id="selectBudget" parameterType="java.lang.String" resultType="java.math.BigDecimal">
       SELECT
-			  SUM(BUDGET)
+			  SUM(T.BUDGET)
 			FROM
-			  T_BSS_PMS_PURCHASE_REQUIRED
+			  T_BSS_PMS_PURCHASE_REQUIRED T
 			WHERE
-			  PARENT_ID = '1'
-			AND HISTORY_STATUS = '0'
-			AND PLAN_TYPE = #{planType}
+			  T.PARENT_ID = '1'
+			AND T.HISTORY_STATUS = '0'
+			AND T.STATUS != 1 AND T.STATUS != 4
+			AND T.PLAN_TYPE = #{planType}
    </select>
    
    <!-- 获取需求总金额 -->
@@ -1088,10 +1093,11 @@
       SELECT
         NVL(SUM(BUDGET),0)
       FROM
-        T_BSS_PMS_PURCHASE_REQUIRED
+        T_BSS_PMS_PURCHASE_REQUIRED T
       WHERE
-        PARENT_ID = '1'
-      AND HISTORY_STATUS = '0'
+        T.PARENT_ID = '1'
+      AND T.HISTORY_STATUS = '0'
+       AND T.STATUS != 1 AND T.STATUS != 4
       <if test="createdAt != null">
         AND to_char(CREATED_AT,'yyyy') = to_char(#{createdAt},'yyyy')
       </if>
@@ -1117,6 +1123,7 @@
 			AND ORG.IS_DELETED = 0
 			AND p.PARENT_ID = '1'
 			AND p.HISTORY_STATUS = '0'
+			AND P.STATUS != 1 AND P.STATUS != 4
 			GROUP BY
 			  ORG.SHORT_NAME,ORG.ID
 			ORDER BY
@@ -1178,7 +1185,7 @@
 	<select id="selectUniqueReferenceNO" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(T.ID)
 			FROM T_BSS_PMS_PURCHASE_REQUIRED T
-		   WHERE T.REFERENCE_NO = #{referenceNO}
+		   WHERE T.REFERENCE_NO = #{referenceNO} and T.PARENT_ID='1'
 	</select>
 
 	<!--根据ID查询-->
@@ -1187,6 +1194,31 @@
 		<include refid="Base_Column_List" />
 		FROM T_BSS_PMS_PURCHASE_REQUIRED
 		WHERE ID=#{id}
+	</select>
+	
+	
+	<select id="connectByList" parameterType="java.lang.String" resultMap="PurchaseRequired_Map">
+	  SELECT
+		  T .*, DECODE (T .required, T .detail, 1, 0) TWO_ADVICE
+		FROM
+		  (
+		    SELECT
+		      r. ID,r.SEQ,r.PARENT_ID,r.PLAN_TYPE,r.DEPARTMENT,r.PLAN_NO,r.MATERIAL_NAME,r.STAND,r.QUALIT_STAND,r.ITEM,r.IS_MASTER,
+		      r.PURCHASE_COUNT,r.PURCHASE_TYPE,r.PRICE,r.DELIVER_DATE,r.SUPPLIER,r.MEMO,r.PLAN_NAME,r.USER_ID,r.ORGANIZATION_ID AS ONE_ORGANIZATION,
+		      (SELECT SHORT_NAME FROM T_SES_OMS_ORG WHERE ID = r.ORGANIZATION_ID) ORGANIZATION_ID,
+		      (
+		        SELECT COUNT (*)
+		         FROM T_BSS_PMS_PURCHASE_REQUIRED rs START WITH
+		        rs. ID = r. ID CONNECT BY PRIOR rs. ID = rs.PARENT_ID
+		      ) required,
+		      (
+		        SELECT COUNT (*)
+		          FROM T_BSS_PPMS_ADVANCED_DETAIL f START WITH
+		        f.REQUIRED_ID = r. ID CONNECT BY PRIOR f.REQUIRED_ID = f.PARENT_ID
+		      ) detail
+		    FROM
+		      T_BSS_PMS_PURCHASE_REQUIRED r START WITH r. ID =#{id} CONNECT BY PRIOR r. ID = r.PARENT_ID
+		  ) T ORDER BY T.IS_MASTER
 	</select>
 
 </mapper>

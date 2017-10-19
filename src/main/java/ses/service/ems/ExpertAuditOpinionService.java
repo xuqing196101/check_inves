@@ -43,6 +43,17 @@ public interface ExpertAuditOpinionService {
 
 	/**
 	 *
+	 * Description:根据专家ID查询信息-公示专用
+	 *
+	 * @author Easong
+	 * @version 2017年10月12日
+	 * @param expertId
+	 * @return
+	 */
+	ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion, String flag);
+
+	/**
+	 *
 	 * Description: 保存审核意见
 	 *
 	 * @author Easong
@@ -52,4 +63,24 @@ public interface ExpertAuditOpinionService {
 	 * @since JDK1.7
 	 */
 	JdcgResult insertSelective (ExpertAuditOpinion expertAuditOpinion, String vertifyFlag);
+	
+	/**
+	 *
+	 * Description: 修改
+	 *
+	 * @author zhangshubin
+	 * @version 2017/8/21
+	 * @param 
+	 * @param 
+	 * @since JDK1.7
+	 */
+	void updateIsDownload(String expertId);
+	
+	/**
+	 * 记录复审已下载过附件
+	 * @param expertAuditOpinion
+	 */
+	void updateIsDownloadAttch(ExpertAuditOpinion expertAuditOpinion);
+	
+	void deleteByExpertId(ExpertAuditOpinion expertAuditOpinion);
 }

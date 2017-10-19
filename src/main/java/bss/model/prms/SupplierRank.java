@@ -33,6 +33,8 @@ public class SupplierRank {
     /** 评审结果 **/
     private String reviewResult;
     
+    private BigDecimal priceScore;
+    
     public String getProjectId() {
         return projectId;
     }
@@ -109,4 +111,14 @@ public class SupplierRank {
     public void setReviewResult(String reviewResult) {
         this.reviewResult = reviewResult;
     }
+
+    public BigDecimal getPriceScore() {
+      return priceScore;
+    }
+
+    public void setPriceScore(BigDecimal priceScore) {
+      this.priceScore = priceScore;
+    }
+    
+    
 }

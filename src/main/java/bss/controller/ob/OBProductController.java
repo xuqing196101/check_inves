@@ -1,16 +1,17 @@
 package bss.controller.ob;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import bss.model.ob.OBProduct;
+import bss.model.ob.OBSupplier;
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBSupplierService;
+import bss.util.ExcelUtil;
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.annotation.SystemControllerLog;
+import common.constant.OnlineBidding;
+import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import ses.model.bms.Category;
 import ses.model.bms.User;
 import ses.model.oms.PurchaseDep;
@@ -34,20 +34,16 @@ import ses.service.bms.CategoryService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.PathUtil;
-import bss.model.ob.OBProduct;
-import bss.model.ob.OBSupplier;
-import bss.service.ob.OBProductService;
-import bss.service.ob.OBSupplierService;
-import bss.util.ExcelUtil;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.annotation.SystemControllerLog;
-import common.constant.StaticVariables;
-import common.utils.JdcgResult;
-import common.constant.OnlineBidding;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -420,7 +416,7 @@ public class OBProductController {
      * @return String 
      * @exception
      */
-    @RequestMapping("/add")
+    @RequestMapping(value="/add", produces = "text/html; charset=utf-8")
     @ResponseBody
     @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
     public String add(@CurrentUser User user,Model model, HttpServletRequest request) {
@@ -459,29 +455,34 @@ public class OBProductController {
             obProduct.setStatus(i);
             obProduct.setIsDeleted(0);
             if(oBProductService.yzProductCode(code,null) > 0){
-                flag = false;
-                model.addAttribute("error_code","产品代码不能重复");
+                //flag = false;
+                //model.addAttribute("error_code","产品代码不能重复");
+                return OnlineBidding.ERROR_WORDS1;
             }
             if(oBProductService.yzProductName(name,null) > 0){
-                flag = false;
-                model.addAttribute("error_name","产品名称不能重复");
+                //flag = false;
+                //model.addAttribute("error_name","产品名称不能重复");
+                return OnlineBidding.ERROR_WORDS2;
             }
             if(standardModel.length() > 1000){
-                flag = false;
-                model.addAttribute("error_standardModel",OnlineBidding.ERROR_WORDS);
+                //flag = false;
+                return OnlineBidding.ERROR_WORDS;
             }
             if(qualityTechnicalStandard.length() > 1000){
-                flag = false;
-                model.addAttribute("error_quality",OnlineBidding.ERROR_WORDS);
+                //flag = false;
+                //model.addAttribute("error_quality",OnlineBidding.ERROR_WORDS);
+                return OnlineBidding.ERROR_WORDS;
             }
             if(categoryId.equals("")){
-                model.addAttribute("error_category", "产品目录不能为空");
-                flag = false;
+                //model.addAttribute("error_category", "产品目录不能为空");
+                //flag = false;
+                return OnlineBidding.ERROR_WORDS3;
             }else{
                 String orgId = oBProductService.selOrgByCategory(categoryId,null);
                 if(null != orgId  && (!orgId.equals(procurementId))){
-                    model.addAttribute("error_org", "该目录已有采购机构");
-                    flag = false;
+                    //model.addAttribute("error_org", "该目录已有采购机构");
+                    //flag = false;
+                    return OnlineBidding.ERROR_WORDS4;
                 }
             }
             if(!flag){
@@ -511,7 +512,7 @@ public class OBProductController {
      * @return String 
      * @exception
      */
-    @RequestMapping("/edit")
+    @RequestMapping(value = "/edit", produces = "text/html; charset=utf-8")
     @ResponseBody
     @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
     public String edit(@CurrentUser User user,Model model, HttpServletRequest request){
@@ -530,43 +531,52 @@ public class OBProductController {
             String qualityTechnicalStandard = request.getParameter(OnlineBidding.QUALITY_TECHNICAL_STANDARD) == null ? "" :request.getParameter(OnlineBidding.QUALITY_TECHNICAL_STANDARD).trim();
             int i = Integer.parseInt(request.getParameter("i"));
             if(code.equals("")){
-                model.addAttribute("errorCode", "产品代码不能为空");
-                flag = false;
+                /*model.addAttribute("errorCode", "产品代码不能为空");
+                flag = false;*/
+                return OnlineBidding.ERROR_WORDS5;
             }else{
                 if(oBProductService.yzProductCode(code,id) > 0){
-                    model.addAttribute("errorCode", "产品代码不能重复");
-                    flag = false;
+                    /*model.addAttribute("errorCode", "产品代码不能重复");
+                    flag = false;*/
+                    return OnlineBidding.ERROR_WORDS1;
                 }
             }
             if(name.equals("")){
-                model.addAttribute("errorName", "产品名称不能为空");
-                flag = false;
+                /*model.addAttribute("errorName", "产品名称不能为空");
+                flag = false;*/
+                return OnlineBidding.ERROR_WORDS6;
             }else{
                 if(oBProductService.yzProductName(name,id) > 0){
-                    model.addAttribute("errorName", "产品名称不能重复");
-                    flag = false;
+                    /*model.addAttribute("errorName", "产品名称不能重复");
+                    flag = false;*/
+                    return OnlineBidding.ERROR_WORDS2;
                 }
             }
             if(procurementId.equals("")){
-                model.addAttribute("errorProcurement", "采购机构不能为空");
-                flag = false;
+                /*model.addAttribute("errorProcurement", "采购机构不能为空");
+                flag = false;*/
+                return OnlineBidding.ERROR_WORDS7;
             }
             if(standardModel.length() > 1000){
-                flag = false;
-                model.addAttribute("error_standardModel",OnlineBidding.ERROR_WORDS);
+                /*flag = false;
+                model.addAttribute("error_standardModel",OnlineBidding.ERROR_WORDS);*/
+                return OnlineBidding.ERROR_WORDS;
             }
             if(qualityTechnicalStandard.length() > 1000){
-                flag = false;
-                model.addAttribute("error_quality",OnlineBidding.ERROR_WORDS);
+                /*flag = false;
+                model.addAttribute("error_quality",OnlineBidding.ERROR_WORDS);*/
+                return OnlineBidding.ERROR_WORDS;
             }
             if(categoryId.equals("")){
-                model.addAttribute("error_category", "产品目录不能为空");
-                flag = false;
+                /*model.addAttribute("error_category", "产品目录不能为空");
+                flag = false;*/
+                return OnlineBidding.ERROR_WORDS3;
             }else{
                 String orgId = oBProductService.selOrgByCategory(categoryId,id);
                 if(orgId != null && (!orgId.equals(procurementId))){
-                    model.addAttribute("errorProcurement", "该目录已有采购机构");
-                    flag = false;
+                    /*model.addAttribute("errorProcurement", "该目录已有采购机构");
+                    flag = false;*/
+                    return OnlineBidding.ERROR_WORDS4;
                 }
             }
             OBProduct obProduct = new OBProduct();

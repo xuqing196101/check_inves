@@ -344,15 +344,15 @@ function submitcurr() {
 								var html="";
 								$("#openDiv_packages").empty();
 								for(var i=0;i<split.length;i++){
-									//alert(split[i]);
 									var split2=split[i].split(",");
 									html+='<div class=" mt10 fl ml10"><input type="checkbox" value="'+split2[0]+'" name="packagesId" />'+split2[1]+'</div>';
 								}
 								$("#openDiv_packages").append(html);
+								fflog=false;
 								indexLayer =  layer.open({
 								  	    shift: 1, //0-6的动画形式，-1不开启
 								  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-								  	    title: ['操作','border-bottom:1px solid #e5e5e5'],
+								  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
 								  	    shade:0.01, //遮罩透明度
 									  		type : 1,
 									  		area : [ '30%', '200px'  ], //宽高
@@ -361,6 +361,7 @@ function submitcurr() {
 							}else{
 								if(data2.status == "failed"){
 									$("#jzxtp").hide();
+									submitFlw(data,currFlowDefineId,projectId);
 								} else {
 									submitFlw(data,currFlowDefineId,projectId);
 								}
@@ -373,12 +374,27 @@ function submitcurr() {
 							});
 						}
 					});
-				}else{
+				}else if (data.flowType =="NZCGGG" || data.flowType == "NZZBGS"){
+					var noticeType = null;
+					if(data.flowType =="NZCGGG"){
+						noticeType = "purchase";
+					} else {
+						noticeType = "win";
+					}
+					//查询公告是否完成
+					var bool = ifNotice(projectId, noticeType);
+					if(!bool){
+						document.getElementById("open_bidding_iframe").contentWindow.publish();
+						var categoryId = $("#open_bidding_iframe").contents().find("#cId").val();
+						if(categoryId){
+							submitFlw(data,currFlowDefineId,projectId);
+						}
+					} else {
+						submitFlw(data,currFlowDefineId,projectId);
+					}
+				} else {
 					submitFlw(data,currFlowDefineId,projectId);
 				}
-				
-				
-				
 			},
 			error: function() {
 				layer.msg("提交失败", {
@@ -387,6 +403,31 @@ function submitcurr() {
 			}
 		});
 	});
+}
+
+function ifNotice(projectId, noticeType){
+	var bool = true;
+	$.ajax({
+		url: globalPath+"/open_bidding/ifNotice.html",
+		data: {
+			"projectId": projectId,
+			"noticeType" : noticeType
+		},
+		type: "post",
+		async: false,
+		dataType: "text",
+		success: function(data) {
+			if(data != "ok"){
+				bool = false;
+			}
+		},
+		error: function() {
+			layer.msg("提交失败", {
+				offset: '100px'
+			});
+		}
+	});
+	return bool;
 }
 
 function submitFlw(data,currFlowDefineId,projectId){
@@ -467,7 +508,7 @@ function submitFlw(data,currFlowDefineId,projectId){
 				/*var index = parent.layer.getFrameIndex(window.name);
 				parent.layer.close(index);*/
 			});
-		} else if(data.flowTypes == "KBCB" || data.flowTypes == "XMXX"){
+		} else if(data.flowTypes == "KBCB" || data.flowTypes == "XMXX"||data.flowTypes == "NZCGWJ"){
 			layer.alert(data.msgs, {
 				offset: '100px'
 			});

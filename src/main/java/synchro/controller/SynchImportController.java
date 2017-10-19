@@ -8,6 +8,7 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
+import extract.service.expert.ExpertExtractProjectService;
 import iss.service.hl.ServiceHotlineService;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
@@ -153,12 +154,16 @@ public class SynchImportController {
      **/
     @Autowired
     private ExpertBlackListService expertBlackListService;
-    
-    /** 服务热线 **/
+
+    /**
+     * 服务热线
+     **/
     @Autowired
-	private ServiceHotlineService serviceHotlineService;
+    private ServiceHotlineService serviceHotlineService;
 
-
+    /** 专家抽取 **/
+    @Autowired
+    private ExpertExtractProjectService expertExtractProjectService;
     /**
      * 〈简述〉初始化导入
      * 〈详细描述〉
@@ -337,8 +342,8 @@ public class SynchImportController {
                         if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
                             attachService.importAttach(f);
                         }
-                        if(f.getName().contains(FileUtils.C_ARTICLE_CATEGORY_PATH_FILENAME)){
-                        	infoService.importArticleCategory(f);
+                        if (f.getName().contains(FileUtils.C_ARTICLE_CATEGORY_PATH_FILENAME)) {
+                            infoService.importArticleCategory(f);
                         }
                         if (f.isDirectory()) {
                             if (f.getName().equals(Constant.ATTACH_FILE_TENDER)) {
@@ -367,7 +372,7 @@ public class SynchImportController {
                      */
                     if (synchType.contains("inner_out")) {
                         if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)) {
-                            innerSupplierService.immportInner(f, null);
+                            innerSupplierService.importInner(f, null);
                         }
                         if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
                             attachService.importSupplierAttach(f);
@@ -696,17 +701,9 @@ public class SynchImportController {
                     if (synchType.contains(Constant.SYNCH_PUBLICITY_SUPPLIER)) {
                         for (File file2 : f.listFiles()) {
                             if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)) {
-                                innerSupplierService.immportInner(file2, "publicity");
+                                innerSupplierService.importInner(file2, "publicity");
                             }
                         }
-                        /*if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
-                            attachService.importSupplierAttach(f);
-                        }
-                        if (f.isDirectory()) {
-                            if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)) {
-                                OperAttachment.moveFolder(f);
-                            }
-                        }*/
                     }
 
                     /**
@@ -716,14 +713,6 @@ public class SynchImportController {
                         for (File file2 : f.listFiles()) {
                             if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME)) {
                                 innerExpertService.importExpOfPublicity(file2);
-                            }
-                        }
-                        if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {
-                            attachService.importExpertAttach(f);
-                        }
-                        if (f.isDirectory()) {
-                            if (f.getName().equals(Constant.ATTCH_FILE_EXPERT)) {
-                                OperAttachment.moveFolder(f);
                             }
                         }
                     }
@@ -838,7 +827,7 @@ public class SynchImportController {
                             }
                         }
                     }
-                    
+
                     /** 服务热线信息数据导入 **/
                     if (synchType.contains(Constant.DATE_SYNCH_HOT_LINE)) {
                         if (f.getName().equals(Constant.HOT_LINE_FILE_EXPERT)) {
@@ -848,7 +837,7 @@ public class SynchImportController {
                                         || file2.getName()
                                         .contains(
                                                 FileUtils.M_HOT_LINE_PATH_FILENAME)) {
-                                	serviceHotlineService.importHotLine(file2);
+                                    serviceHotlineService.importHotLine(file2);
                                 }
                             }
                         }
@@ -858,12 +847,21 @@ public class SynchImportController {
                             }
                         }
                     }
-
+                    /** 专家抽取数据导入 **/
+                    if (synchType.contains(Constant.DATE_SYNCH_EXPERT_EXTRACT)) {
+                        if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
+                            expertExtractProjectService.importExpertExtract(f);
+                        }
+                        if (f.isDirectory()) {
+                            if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
+                                OperAttachment.moveFolder(f);
+                            }
+                        }
+                    }
                     /**目录资质关联表*/
                     categoryService.importCategoryQua(synchType, f);
                     /** 产品资质表*/
                     qualificationService.importQualification(synchType, f);
-
                 }
             }
             bean.setSuccess(true);

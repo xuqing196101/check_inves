@@ -26,7 +26,7 @@
 	
     <task:annotation-driven />
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
-	<context:component-scan base-package="ses.controller, iss.controller,bss.controller,common.controller,synchro.controller,common.aspect,system.controller,sums.controller,app.controller,dss.controller" />
+	<context:component-scan base-package="ses.controller, iss.controller,bss.controller,common.controller,synchro.controller,common.aspect,system.controller,sums.controller,app.controller,dss.controller,extract.controller" />
   
   	<aop:aspectj-autoproxy proxy-target-class="true" />
 
@@ -46,8 +46,7 @@
 			<mvc:mapping path="/*/*.do" />
 			<mvc:mapping path="/*/*.ajax" />
 			<mvc:mapping path="/*/*.html" />
-<!-- 			需要排除拦截的地址 -->
-			
+
 <!-- 			首页浏览信息 -->
 			<mvc:exclude-mapping path="/index/selectIndexNews.*" />
 			<mvc:exclude-mapping path="/index/selectArticleNewsById.*" />
@@ -86,6 +85,8 @@
 			
 			<!-- 过滤产品目录-->
 			<mvc:exclude-mapping path="/categorys/categoryList.*" />
+			<mvc:exclude-mapping path="/categorys/createtree.*" />
+			<mvc:exclude-mapping path="/categorys/update.*" />
 			<!-- 过滤技术参数库 -->
 			<mvc:exclude-mapping path="/categorys/parameterList.*" />
 			

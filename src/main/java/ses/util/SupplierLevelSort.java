@@ -1,5 +1,6 @@
 package ses.util;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 
 import ses.model.sms.Supplier;
@@ -14,13 +15,18 @@ import ses.model.sms.Supplier;
 public class SupplierLevelSort implements Comparator<Supplier> {
 	@Override
 	public int compare(Supplier one, Supplier two) {
-		Integer init=Integer.valueOf(one.getGrade());
-		Integer check=Integer.valueOf(two.getGrade());
-		if(init == null &&check==null){
-			return 0;
-		}else{
-			return init-check;
-		}
+		BigDecimal init = new BigDecimal(one.getGrade());
+		BigDecimal check= new BigDecimal(two.getGrade());
+        if(init.compareTo(check) == 1){  
+          return 1;
+        }
+        if(init.compareTo(check) == 0){  
+          return 0;
+        }
+        if(init.compareTo(check) == -1){  
+          return -1;
+        }
+        return 0;
 	}
 
 }

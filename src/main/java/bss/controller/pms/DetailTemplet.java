@@ -20,6 +20,7 @@ import ses.model.oms.PurchaseDep;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
+import ses.util.WfUtil;
 
 @Controller
 @RequestMapping("/templet")
@@ -41,7 +42,7 @@ public class DetailTemplet {
 	 */
 	@RequestMapping("/detail")
 	@ResponseBody
-	public ModelAndView template(@CurrentUser User user, Integer index, Model model, String type) {
+	public ModelAndView template(@CurrentUser User user, Integer index, Model model, String type,Integer indNum) {
 
 		if (user.getOrg() != null) {
 			Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(user.getOrg().getId());
@@ -56,6 +57,7 @@ public class DetailTemplet {
 		String id = UUID.randomUUID().toString().replaceAll("-", "");
 		model.addAttribute("id", id);
 		model.addAttribute("index", index);
+		model.addAttribute("indNum", indNum);
 		// 附件id
 		String attId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
 		moeldeAndView.addObject("attId", attId);
@@ -71,6 +73,7 @@ public class DetailTemplet {
 		//
 		// List<Supplier> suppliers = purchaseRequiredService.queryAllSupplier();
 		// model.addAttribute("suppliers", suppliers);
+		model.addAttribute("uuId", WfUtil.createUUID());
 		return moeldeAndView;
 	}
 

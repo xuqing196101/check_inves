@@ -34,6 +34,7 @@ import bss.dao.ppms.FlowExecuteMapper;
 import bss.dao.ppms.PackageMapper;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
+import bss.dao.ppms.SaleTenderMapper;
 import bss.dao.ppms.TaskMapper;
 import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.FlowDefine;
@@ -41,10 +42,16 @@ import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.SaleTender;
 import bss.model.ppms.Task;
 import bss.service.ppms.ProjectService;
 
 import com.github.pagehelper.PageHelper;
+
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
+import common.service.impl.UploadServiceImpl;
 
 /**
  * 
@@ -86,6 +93,10 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	private TaskMapper taskMapper;
 
+	@Autowired
+	private UploadService uploadService;
+	@Autowired
+  private SaleTenderMapper saleTenderMapper;
 	
 	
 	
@@ -234,7 +245,13 @@ public class ProjectServiceImpl implements ProjectService {
 	      List<FlowExecute> execute0s = flowExecuteMapper.findList(execute0);
 	      FlowDefine fd0 = new FlowDefine();
 	      fd0.setIsDeleted(0);
-	      fd0.setPurchaseTypeId(project.getPurchaseType());
+	      String purchaseType="";
+	      if(project.getPurchaseNewType()!=null){
+	        purchaseType=project.getPurchaseNewType();
+	      }else{
+	        purchaseType=project.getPurchaseType();
+	      }
+	      fd0.setPurchaseTypeId(purchaseType);
 	      List<FlowDefine> fds = flowDefineMapper.findList(fd0);
 	      //如果当前项目没有初始化各环节经办人,或者初始化的环节不够
 	      if (execute0s == null || execute0s.size() < fds.size()) {
@@ -254,7 +271,7 @@ public class ProjectServiceImpl implements ProjectService {
 	          }
 	          flowExecute.setIsDeleted(0);
 	          FlowDefine flowDefine = new FlowDefine();
-	          flowDefine.setPurchaseTypeId(project.getPurchaseType());
+	          flowDefine.setPurchaseTypeId(purchaseType);
 	          flowDefine.setIsDeleted(0);
 	          List<FlowDefine> flowDefines = flowDefineMapper.findList(flowDefine);
 	          for (FlowDefine fd : flowDefines) {
@@ -271,7 +288,7 @@ public class ProjectServiceImpl implements ProjectService {
 	          //默认进来第一环节
 	          FlowDefine define = new FlowDefine();
 	          define.setIsDeleted(0);
-	          define.setPurchaseTypeId(project.getPurchaseType());
+	          define.setPurchaseTypeId(purchaseType);
 	          define.setStep(1);
 	          List<FlowDefine> defines = flowDefineMapper.findList(define);
 	          if (defines != null && defines.size() > 0) {
@@ -470,7 +487,7 @@ public class ProjectServiceImpl implements ProjectService {
                 //项目信息
                 jsonObj.put("flowTypes", "XMXX");
                 Project project = projectMapper.selectProjectByPrimaryKey(projectId);
-                if (project != null && project.getSupplierNumber() != null && project.getDeadline() != null && project.getBidDate() != null && !"".equals(project.getBidAddress()) && project.getBidAddress() != null ) {
+                if (project != null && project.getSupplierNumber() != null && StringUtils.isNotBlank(project.getIpone()) && project.getDeadline() != null && project.getBidDate() != null && StringUtils.isNotBlank(project.getBidAddress()) ) {
                   jsonObj.put("success", true);
                 }else {
                   jsonObj.put("success", false);
@@ -489,8 +506,38 @@ public class ProjectServiceImpl implements ProjectService {
                     jsonObj.put("msgs", "请填写报价");
                 }
                 
+            }else if("NZCGWJ".equals(flowDefine.getCode())){
+              jsonObj.put("flowTypes", "NZCGWJ");
+              String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+              List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
+              if(files != null && files.size() > 0){
+            	  Project project = projectMapper.selectProjectByPrimaryKey(projectId);
+            	  if (project != null && project.getConfirmFile() == 3) {
+            		  jsonObj.put("success", true);
+            	  } else {
+            		  jsonObj.put("success", false);
+                      jsonObj.put("msgs", "请审核采购文件");
+            	  }
+                  
+              } else {
+                  jsonObj.put("success", false);
+                  jsonObj.put("msgs", "请上传采购文件");
+              }
+              
             }else {
                 jsonObj.put("success", true);
+            }
+            if((boolean)jsonObj.get("success")==true){
+              if(flowDefine.getCode().equals("FSBS")){
+                Project pro = projectMapper.selectProjectByPrimaryKey(projectId);
+                SaleTender record=new SaleTender();
+                record.setProject(pro);
+                List<SaleTender> find = saleTenderMapper.findByProject(record);
+                if(find!=null&&!find.isEmpty()){
+                  pro.setSignUpTime(find.get(0).getCreatedAt());
+                  projectMapper.updateByPrimaryKeySelective(pro);
+                }
+              }
             }
         }
         //转竞争性谈判先不做！
@@ -597,8 +644,10 @@ public class ProjectServiceImpl implements ProjectService {
 		List<Packages> findByIds = packageMapper.findByID(hashMap);
 		if(findByIds != null && findByIds.size() > 0){
 			for (Packages packages : findByIds) {
-				packages.setProjectStatus(status);
-				packageMapper.updateByPrimaryKeySelective(packages);
+				if (!StringUtils.equals(packages.getProjectStatus(), DictionaryDataUtil.getId("ZJZXTP")) && !StringUtils.equals(packages.getProjectStatus(), DictionaryDataUtil.getId("YZZ"))) {
+					packages.setProjectStatus(status);
+					packageMapper.updateByPrimaryKeySelective(packages);
+				}
 			}
 		}
 	}

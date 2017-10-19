@@ -13,6 +13,7 @@ import ses.model.bms.RoleUser;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.util.MyAnnotation;
+import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.ProjectDetail;
 import common.model.UploadFile;
 
@@ -399,8 +400,30 @@ Supplier implements Serializable {
 	/**
 	 * <pre>
 	 * -1暂存，0待审核，1审核通过（已入库，可抽取），2退回修改，
-	 * 3审核未通过，4待复核，5复核通过，6复核未通过，5待考察，7考察合格，
-	 * 8考察不合格, -2审核预通过，-3公示中,9退回在审核
+	 * 3审核不通过，4待复核，5复核通过，6复核未通过，5待考察，7考察合格，
+	 * 8考察不合格, -2审核预结束，-3公示中,9退回再审核
+	 * 入库状态：1，4，5，7
+	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_STATUS
+	 * </pre>
+	 */
+	/**
+	 * 供应商状态（更改后）
+	 * <pre>
+	 * -1：暂存
+	 *  0：待审核
+	 *  2：退回修改 
+	 *  9：退回再审核
+	 * -2：预审核结束
+	 *  3：审核不通过
+	 * -3：公示中
+	 *  1：入库（待复核）
+	 * -4：预复核结束
+	 *  5：复核合格（待考察）
+	 *  6：复核不合格
+	 * -5：预考察结束
+	 *  7：考察合格
+	 *  8：考察不合格
+	 * 入库状态：1，5，7
 	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_STATUS
 	 * </pre>
 	 */
@@ -587,6 +610,14 @@ Supplier implements Serializable {
 	
 	private String auditor;//审核人
 	
+	/**
+	 * 审核暂存状态
+	 * <pre>
+	 * 1：审核中
+	 * 2：复核中
+	 * 3：考察中
+	 * </pre>
+	 */
 	private Integer auditTemporary; //审核暂存
 	
 	/**获取所有数据库address的省级单位名称*/
@@ -679,6 +710,8 @@ Supplier implements Serializable {
     
     /**唱标的时候显示物资明细*/
     private List<ProjectDetail> pdList;
+    
+    private List<AdvancedDetail> details;
     
     /**供应商分级要素得分(物资生产)**/
     private BigDecimal levelScoreProduct;
@@ -2006,12 +2039,21 @@ Supplier implements Serializable {
 		this.auditTemporary = auditTemporary;
 	}
 
-  public Integer getErrorNum() {
-    return errorNum;
-  }
+    public List<AdvancedDetail> getDetails() {
+        return details;
+    }
 
-  public void setErrorNum(Integer errorNum) {
-    this.errorNum = errorNum;
-  }
+    public void setDetails(List<AdvancedDetail> details) {
+        this.details = details;
+    }
+	
+
+    public Integer getErrorNum() {
+        return errorNum;
+    }
+
+    public void setErrorNum(Integer errorNum) {
+        this.errorNum = errorNum;
+    }
 	
 }

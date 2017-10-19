@@ -7,7 +7,9 @@
   <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/bss/ppms/main.js"></script>
   <script type="text/javascript">
-    function termination(projectId){
+  var fflog=false;  
+  function termination(projectId){
+	  fflog=true;
  	  $.ajax({
 		url:"${pageContext.request.contextPath}/termination/package.do",
 		data:{"projectId":projectId},
@@ -31,11 +33,61 @@
 	   			}
 	   		}
 	   		html+='</div>';
+	   		$("#openDiv_check").append(html);
+	   		openDetail();
+	   	 }
+  		});
+  	}
+    
+    var index;
+  	function openDetail(){
+  	  index =  layer.open({
+  	    shift: 1, //0-6的动画形式，-1不开启
+  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+  	    title: ['终止包','border-bottom:1px solid #e5e5e5'],
+  	    shade:0.01, //遮罩透明度
+	  		type : 1,
+	  		area : [ '20%', '200px'  ], //宽高
+	  		content : $('#openDiv'),
+	  	  });
+      }
+  	function cancel(){
+		  layer.close(index);
+	  }
+  	
+  	var ids="";
+  	function bynSub(){
+  		var val=[];
+  		$('input[type="checkbox"]:checked').each(function(){ 
+  			val.push($(this).val()); 
+  		});
+  		if(val.length==0){
+  			layer.alert("请选择一个或多个包");
+  			return false;
+  		}
+  		ids=val.join(',');
+  		$.ajax({
+			url:"${pageContext.request.contextPath}/termination/flowDefineId.do",
+			data:{"currFlowDefineId":$("#currHuanjieId").val()},
+			type:"post",
+			dataType:"json",
+	   	success:function(data){
+	   		$("#openDiv_checkFlw").empty();
+	   		var html='<div class="tl">';
+	   		if(data!=null){
+	   			html+='<div class=" mt10 ml40"><input type="radio" name="flw" value="XMLX"/>项目立项</div>';
+	   			html+='<div class=" mt10 ml40"><input type="radio" name="flw" value="XMFB"/>项目分包</div>';
+	   			for(var i=0;i<data.length;i++){
+	   				html+='<div class=" mt10 ml40"><input type="radio" name="flw" value="'+data[i].id+'"/>'+data[i].name+'</div>';
+	   			}
+	   		}
+	   		html+='</div>';
 	   		$("#openDiv_checkFlw").append(html);
 	   		openDetailFlw();
 	   	 }
   		});
   	}
+    
   	var indexFlw;
   	function openDetailFlw(){
   		indexFlw =  layer.open({
@@ -69,10 +121,14 @@
 	   		if(data=="ok"){
 	   			layer.alert("终止成功");
 	   			layer.close(indexFlw);
-	   			saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
+	   			if(!fflog){
+	   				saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
+	   			}else{
+	   				document.getElementById('open_bidding_iframe').contentWindow.location.reload(true);
+	   			}
 	   			var checkboxSize=$("#openDiv_check input[type='checkbox']").length;
 	   			if(checkboxSize==0){
-	   				closelayer();
+	   				layer.closeAll()
 	   			}else{
 	   				$('#openDiv_check input[type="checkbox"]:checked').each(function(){
 		   	  			$(this).parent().empty();
@@ -112,7 +168,7 @@
 	   				saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
 	   				var checkboxSize=$("input[type='checkbox']").length;
 	   	  		if(checkboxSize==0){
-	   	  			closelayer();
+	   	  			layer.closeAll()
 	   	  		};
 	   				alert("成功转为竞争性谈判");
 	   				} else if (data.status == "failed") {
@@ -136,76 +192,7 @@
 	function cancelFlw(){
 	  layer.close(indexFlw);
   }
-	function bynSubFlw(){
-		var val=[];
-		$('input[type="radio"]:checked').each(function(){ 
-			val.push($(this).val()); 
-		});
-		if(val.length==0){
-			layer.alert("请选择终止流程");
-			return false;
-		}
-		$.ajax({
-		url:"${pageContext.request.contextPath}/termination/ter_package.do",
-		data:{"packagesId":ids,"projectId":'${project.id}',"currFlowDefineId":val.join(','),"oldCurrFlowDefineId":$("#currHuanjieId").val()},
-		type:"post",
-		dataType:"json",
-   	success:function(data){
-   		if(data=="ok"){
-   			layer.alert("终止成功");
-   			layer.close(indexFlw);
-   			saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
-   			var checkboxSize=$("#openDiv_check input[type='checkbox']").length;
-   			if(checkboxSize==0){
-   				closelayer();
-   			}else{
-   				$('#openDiv_check input[type="checkbox"]:checked').each(function(){
-	   	  			$(this).parent().empty();
-	   	  		    $(this).parent().html("<div></div>");
-	   	  		});
-   			}
-   			}
-   		}
-		});
-	}
-	function upddatejzxtp() {
-		var pachageIds="";
-		var val=[];
-		$('input[type="checkbox"]:checked').each(function(){ 
-			val.push($(this).val()); 
-			$(this).parent().remove();
-		});
-		if(val.length==0){
-			layer.alert("请选择一个或多个包");
-			return false;
-		}
-		pachageIds=val.join(',');
-		//alert(pachageIds+"-----------"+$("#currHuanjieId").val());
-		
-		$.ajax({
-		url:"${pageContext.request.contextPath}/open_bidding/transformationJZXTP.do",
-		data:{"packageIds":pachageIds,
-			  "projectId":'${project.id}',
-			  "currentFlowDefineId":$("#currHuanjieId").val()
-			 },
-		type:"post",
-		dataType:"json",
-   		success:function(data){
-   		//layer.close(index);
-   		//$("#alertId").val(data.status);
-   		if(data.status=="ok"){
-   			saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
-   			var checkboxSize=$("input[type='checkbox']").length;
-   	  		if(checkboxSize==0){
-   	  			//alert(checkboxSize);
-   	  		    closelayer();
-   	  		};
-   			alert("成功转为竞争性谈判");
-   			
-   			}
-   		}
-		});
-}
+	
 	
 	function saveSumitFlow(currFlowDefineId,projectId){
 		$.ajax({
@@ -234,6 +221,11 @@
 		}
 	});
 	}
+	
+	function cancels(){
+  		saveSumitFlow($("#currHuanjieId").val(),"${project.id}");
+  		layer.closeAll();
+	  }
   </script>
 </head>
 
@@ -373,9 +365,10 @@
     </div>
     
     <div id="openDivPackages" class="dnone layui-layer-wrap">
+    	<p class="tc">以下包的参与供应商数量不足项目要求的最少供应商数量，请选择操作！</p>
       <div class="drop_window tc" id="openDiv_packages"></div>
       <div class="tc col-md-12 mt50">
-        <input class="btn" id="inputb" name="addr" type="button" onclick="upddatejzxtp();" value="转为竞争性谈判"> 
+        <input class="btn" id="jzxtp" name="addr" type="button" onclick="upddatejzxtp();" value="转为竞争性谈判"> 
         <input class="btn" id="inputa" name="addr" type="button" onclick="bynSub();" value="终止实施"> 
         <input class="btn" id="inputa" name="addr" type="button" onclick="cancels();" value="继续实施"> 
       </div>

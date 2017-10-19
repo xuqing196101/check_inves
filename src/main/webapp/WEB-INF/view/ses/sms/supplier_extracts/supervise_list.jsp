@@ -139,9 +139,10 @@
 		<thead>
 		<tr>
 		  <th class="info "><span class="star_red">*</span>姓名</th>
+		  <th class="info "><span class="star_red">*</span>姓名</th>
 		  <th class="info "><span class="star_red">*</span>单位</th>
 		  <th class="info "><span class="star_red">*</span>职务</th>
-		  <th class="info "><span class="star_red">*</span>手机号</th>
+		  <th class="info "><span class="star_red">*</span>军衔</th>
 		  <th class="info w100 ">操作</th>
 		</tr>
 		</thead>
@@ -177,11 +178,3 @@
    </div>
   </body>
 </html>
-<script type="text/javascript">
-    $("input[name='phone']").on('change',function () {
-        var _phoneVal = $(this).val();
-        if(!check_mobile(_phoneVal)){
-            layer.msg("请输入正确的手机号码");
-        }
-    })
-</script>

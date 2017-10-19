@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ses.dao.bms.QualificationLevelMapper;
+//import ses.dao.bms.QualificationLevelMapper;
 import ses.dao.bms.QualificationMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierCertEngMapper;
@@ -18,7 +18,7 @@ import ses.dao.sms.SupplierPorjectQuaMapper;
 import ses.dao.sms.SupplierRegPersonMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
-import ses.model.bms.QualificationLevel;
+//import ses.model.bms.QualificationLevel;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCertEng;
@@ -55,12 +55,12 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 	private QualificationMapper qualificationMapper;
 	@Autowired
     private QualificationLevelService qualificationLevelService;
-    @Autowired
-    private QualificationLevelMapper qualificationLevelMapper;
+//    @Autowired
+//    private QualificationLevelMapper qualificationLevelMapper;
 	@Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;
 	@Override
-	public void saveOrUpdateSupplierMatPro(Supplier supplier) {
+	public void saveOrUpdateSupplierMatEng(Supplier supplier) {
 		String id = supplier.getSupplierMatEng().getId();
 		try{
             if (id != null && !"".equals(id)) {
@@ -130,8 +130,7 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
                         //将自定义信息维护到字典表中
                         //是否已选择资质类型
                         if(!StringUtils.isEmpty(aptitute.getCertType())){
-                            List<DictionaryData> byQuaId = new ArrayList<>();
-                            byQuaId = qualificationLevelService.getByQuaId(aptitute.getAptituteLevel());//类型和等级关联关系
+                            List<DictionaryData> byQuaId = qualificationLevelService.getByQuaId(aptitute.getCertType());//类型和等级关联关系
                             //根据已选择资质类型查询资质证书详细信息查询资质类型
                             Qualification qualification = qualificationMapper.getQualification(aptitute.getCertType());
                             //根据已选择资质等级查询字典中是否维护了资质等级
@@ -140,7 +139,7 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
                             //修改资质证书详细信息
                             aptitute.setMatEngId(supplierMatEng.getId());
                             if(qualification != null){
-                                //资格等级先去字典表查询是否存在,如果存在则更新,否则新增(类型等级关联关系不存在&字典表中等级不存在&已选择等级值存在)
+                                /*//资格等级先去字典表查询是否存在,如果存在则更新,否则新增(类型等级关联关系不存在&字典表中等级不存在&已选择等级值存在)
                                 if(byQuaId.isEmpty() && dictionaryDataExist==null && null!=aptitute.getAptituteLevel()){//没有关联关系并且查不到已经存在的等级
                                     DictionaryData dictionaryData = new DictionaryData();
                                     dictionaryData.setCode("DEFINED_LEVEL");
@@ -166,7 +165,7 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
                                     dictionaryData.setName(aptitute.getAptituteLevel());
                                     dictionaryDataServiceI.update(dictionaryData);
                                 }
-                                supplierAptituteMapper.updateByPrimaryKeySelective(aptitute);
+                                supplierAptituteMapper.updateByPrimaryKeySelective(aptitute);*/
                             }else{
                                 if(aptituteBean.getCertType()!=null){
                                 	//qualification = qualificationMapper.getQualification(aptituteBean.getCertType());

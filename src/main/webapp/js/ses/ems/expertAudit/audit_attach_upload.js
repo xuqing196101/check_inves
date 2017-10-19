@@ -68,3 +68,36 @@ function audit(){
         layer.close(index);
     });
 }
+
+//初审结束
+function chuAuditEnd(){
+	layer.confirm('您确认吗？', {
+        closeBtn: 0,
+        offset: '100px',
+        shift: 4,
+        btn: ['确认', '取消']
+    }, function (index) {
+        $.ajax({
+            url: globalPath + "/expertAudit/chuAudit.do",
+            type: "POST",
+            data: $("#form_shenhe").serialize(),
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 200) {
+                    // 跳转查询界面
+                    layer.confirm("操作成功", {
+                            btn: ['确定']
+                        }, function () {
+                            window.location.href = globalPath + "/expertAudit/list.html";
+                        }
+                    )
+                } else {
+                    if (data.status == 500) {
+                        layer.alert(data.msg);
+                    }
+                }
+            }
+        });
+        layer.close(index);
+    });
+}

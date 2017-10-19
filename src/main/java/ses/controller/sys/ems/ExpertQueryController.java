@@ -15,6 +15,7 @@ import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertTitle;
 import ses.model.oms.Orgnization;
@@ -24,6 +25,7 @@ import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.EngCategoryService;
+import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
@@ -79,6 +81,9 @@ public class ExpertQueryController {
 	
 	@Autowired
 	private ExpertAuditService expertAuditService;
+	
+	@Autowired
+	private ExpertAuditOpinionService expertAuditOpinionService;
 	
 	/**
      * 
@@ -381,7 +386,9 @@ public class ExpertQueryController {
             flag = "ENG_INFO";
         }
         // 查询已选中的节点信息(所有子节点)
-        List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+        /*List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);*/
+        //只查询审核通过的
+        List<ExpertCategory> items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
         int count=0;
         for (ExpertCategory expertCategory : items) {
@@ -778,6 +785,13 @@ public class ExpertQueryController {
 		model.addAttribute("expertId", expertId);
 		model.addAttribute("sign", sign);
 		model.addAttribute("reqType", reqType);
+		
+		// 查询审核最终意见
+		ExpertAuditOpinion selectEao = new ExpertAuditOpinion();
+		ExpertAuditOpinion auditOpinion = null;
+		selectEao.setExpertId(expertId);
+		auditOpinion = expertAuditOpinionService.selectByPrimaryKey(selectEao);
+		model.addAttribute("auditOpinion", auditOpinion);
 		return "ses/ems/expertQuery/auditInfo";
 	}
 	

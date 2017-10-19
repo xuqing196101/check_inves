@@ -1,6 +1,9 @@
 package ses.dao.ems;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
 import ses.model.ems.ExpertAuditOpinion;
 
 /**
@@ -29,7 +32,7 @@ public interface ExpertAuditOpinionMapper {
 	 * @param @param expertAuditOpinionMapper      
 	 * @return void
 	 */
-	ExpertAuditOpinion selectByPrimaryKey (ExpertAuditOpinion expertAuditOpinion );
+	List<ExpertAuditOpinion> selectByPrimaryKey (ExpertAuditOpinion expertAuditOpinion );
 	/**
 	 * 
 	 * Description:根据专家ID查询信息
@@ -62,4 +65,23 @@ public interface ExpertAuditOpinionMapper {
      * @since JDK1.7
      */
     void updateByPrimaryKeySelective(ExpertAuditOpinion expertAuditOpinion);
+    
+    /**
+     * 
+     * Description: 修改下载次数
+     * 
+     * @author zhang shubin
+     * @data 2017年8月22日
+     * @param 
+     * @return
+     */
+    void updateIsDownload(String expertId);
+    
+    /**
+     * 记录复审已下载过附件
+     * @param expertId
+     */
+    void updateIsDownloadAttch(ExpertAuditOpinion expertAuditOpinion);
+    
+    void deleteByExpertId(ExpertAuditOpinion expertAuditOpinion);
 }

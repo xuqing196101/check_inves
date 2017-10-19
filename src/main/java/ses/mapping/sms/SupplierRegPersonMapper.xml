@@ -16,10 +16,6 @@
 		from T_SES_SMS_SUPPLIER_REG_PERSON
 		where ID = #{id}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_REG_PERSON
-		where ID = #{id}
-	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierRegPerson">
 		insert into T_SES_SMS_SUPPLIER_REG_PERSON (ID, MAT_ENG_ID, REG_TYPE,
 		REG_NAME)
@@ -83,10 +79,14 @@
 		select * from T_SES_SMS_SUPPLIER_REG_PERSON where MAT_ENG_ID = #{supplierMatEngId}
 	</select>
 	
-	
+	<!-- 根据主键删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_REG_PERSON
+		where ID = #{id}
+	</delete>
+	<!-- 根据工程id删除 -->
 	<delete id="deleteByMatEngId" parameterType="String">
 	  delete from T_SES_SMS_SUPPLIER_REG_PERSON
-		where  MAT_ENG_ID = #{engId}
-			 
+		where MAT_ENG_ID = #{matEngId}
 	</delete>
 </mapper>

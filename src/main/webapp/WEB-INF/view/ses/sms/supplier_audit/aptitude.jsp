@@ -325,7 +325,7 @@
 								</li>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeNames, '服务') and fn:length(serviceQua) > 0}">
-								<li id="li_id_4" class='<c:if test="${liCountEng == 0 && liCountPro == 0 && liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer"/></c:if>'>
+								<li id="li_id_4" class='<c:if test="${liCountSell == 0 && liCountPro == 0 && liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer"/></c:if>'>
 									<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务资质信息</a>
 								</li>
 							</c:if>
@@ -337,7 +337,7 @@
 							<c:if test="${fn:contains(supplierTypeNames, '生产')}">
 								<c:set value="0" var="prolength" />
 								<div class="tab-pane fade active in" id="tab-1">
-									<table class="table table-bordered">
+									<table class="table table-bordered m_table_fixed_border">
 										<!-- <thead>
 											<tr>
 												<th class="tc info">名称</th>
@@ -376,7 +376,7 @@
 							<c:if test="${fn:contains(supplierTypeNames, '销售')}">
 								<c:set value="0" var="length"> </c:set>
 								<div class="tab-pane <c:if test="${liCountSell == 1}">active in</c:if> fade height-300" id="tab-2">
-									<table class="table table-bordered">
+									<table class="table table-bordered m_table_fixed_border">
 										<!-- <thead>
 											<tr>
 												<th class="tc info">名称</th>
@@ -415,7 +415,7 @@
 							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 								<div class="tab-pane <c:if test="${liCountEng == 1}">active in</c:if> fade" id="tab-3">
 									<c:set value="0" var="plength"> </c:set>
-									<table class="table table-bordered">
+									<table class="table table-bordered m_table_fixed_border">
 										<thead>
 											<tr>
 									    	<th class="info tc w50">序号</th>
@@ -486,7 +486,7 @@
 								  </table>
 									
 									
-									<%-- <table class="table table-bordered">
+									<%-- <table class="table table-bordered m_table_fixed_border">
 										<c:forEach items="${projectQua }" var="project">
 											<tr>
 												<td class="tc info">${project.categoryName }
@@ -510,7 +510,7 @@
 							<!-- 服务 -->
 							<c:if test="${fn:contains(supplierTypeNames, '服务')}">
 								<div class="tab-pane <c:if test="${liCountSer == 1}">active in</c:if> fade height-200" id="tab-4">
-									<table class="table table-bordered">
+									<table class="table table-bordered m_table_fixed_border">
 										<c:set value="0" var="slength"> </c:set>
 										<!-- <thead>
 											<tr>

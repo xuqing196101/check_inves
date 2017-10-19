@@ -3,18 +3,27 @@ package ses.service.sms.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.github.pagehelper.PageHelper;
+
+import ses.dao.bms.CategoryMapper;
+import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierItemLevelMapper;
+import ses.model.bms.Category;
+import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierItemLevel;
+import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierItemLevelServer;
+import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
@@ -36,6 +45,10 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 	private SupplierService supplierService;
 	@Autowired
 	private SupplierCertEngService supplierCertEngService;
+	@Autowired
+	private CategoryQuaMapper categoryQuaMapper;
+	@Autowired
+	private CategoryMapper categoryMapper;
 
 	@Override
 	public List<SupplierItemLevel> findSupplierItemLevel(SupplierItemLevel supplier, Integer page, String categoryIds) {
@@ -62,13 +75,37 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 				sup.setSupplierTypeId(categoryIds);
 			}
 			sup.setSupplierType(supplierType);
+			//根据品目查询资质
+			//List<CategoryQua> list = categoryQuaMapper.findList(categoryIds);
+			//查询品目下入库供应商
+			List<SupplierItemLevel> supplierItemLevels = supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), null);
+			
+			//根据资质和供应商查询供应商等级
+			for (SupplierItemLevel supplierItemLevel : supplierItemLevels) {
+				SupplierItemLevel level=new SupplierItemLevel();
+				//如果是四级品目就查资质等级
+				if (categoryIds != null && !"".equals(categoryIds)) {
+					List<String> levels = supplierItemLevelMapper.getProjectLevel(supplierItemLevel.getSupplierId(), categoryIds);
+					if (levels != null && levels.size()>0) {
+						level.setSupplierLevel(levels.get(0));
+					}
+				}
+				level.setSupplierId(supplierItemLevel.getId());
+				level.setArmyBusinessName(supplierItemLevel.getArmyBusinessName());
+				level.setCategoryId(categoryIds);
+				level.setSupplierTypeId(supplierType);
+				level.setSupplierName(supplierItemLevel.getSupplierName());
+				rutlist.add(level);
+			}
+			
+			/*
 			//查询供应商
 			List<Supplier> listSupplier=supplierService.findSupplierByCategoryId(sup);
 			if(listSupplier.isEmpty()){
 				return rutlist;
 			}
-	        SupplierItemLevel level=new SupplierItemLevel();
 	        for (Supplier item : listSupplier) {
+	        	SupplierItemLevel level=new SupplierItemLevel();
 		        //工程等级
 		        List < SupplierCertEng > supplierCertEng = supplierCertEngService.findCertEngBySupplierId(item.getId());
 		    	for(int i = 0; i < supplierCertEng.size() - 1; i++) {
@@ -89,9 +126,10 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 				level.setSupplierName(item.getSupplierName());
 				rutlist.add(level);
 	        }
+	        */
 	        return rutlist;
 	    }else{
-	    	return supplierItemLevelMapper.selectByCategoryId(categoryIds,supplier.getArmyBusinessName(),supplier.getSupplierName());
+	    	return supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevel());
 	    }
 	}
 
@@ -128,6 +166,16 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 	@Override
 	public int deleteItemLevel(String categoryId,String supplierTypeId) {
 		return supplierItemLevelMapper.deleteByCategoryIdType(categoryId, supplierTypeId);
+	}
+
+	/**
+     * 全部供应商查询，等级查询 
+     * @param supplierItemLevel
+     * @return
+     */
+	@Override
+	public SupplierItemLevel selectLevelByItem(SupplierItemLevel supplierItemLevel) {
+		return supplierItemLevelMapper.selectLevelByItem(supplierItemLevel);
 	}
 	
 

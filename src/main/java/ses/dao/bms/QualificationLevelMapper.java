@@ -2,6 +2,7 @@ package ses.dao.bms;
 
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.QualificationLevel;
 
 import java.util.List;
@@ -22,4 +23,13 @@ public interface QualificationLevelMapper {
     public List<QualificationLevel> getThird();
     
     public void delete(@Param("qualificationId")String qualificationId);
+
+	public List<DictionaryData> getLevelByQid(String[] split);
+    /**
+     * 根据资质id和等级统计数量
+     * @param quaId
+     * @param level
+     * @return
+     */
+	public int countByQuaIdAndLevel(@Param("quaId")String quaId, @Param("level")String level);
 }

@@ -4,20 +4,17 @@
 package bss.controller.ppms;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
@@ -51,6 +48,7 @@ import com.alibaba.fastjson.JSON;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
 import bss.controller.base.BaseController;
@@ -67,8 +65,6 @@ import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.theSubjectService;
-import bss.service.ppms.impl.BidMethodServiceImpl;
-import bss.service.ppms.impl.theSubjectServiceImpl;
 
 /**
  * @Description: 中标供应商
@@ -89,10 +85,6 @@ public class WinningSupplierController extends BaseController {
   private static final String ERROR = "ERROR";
   /** ZERO */
   private static final Integer ZERO = 0;
-  /** ONE */
-  private static final Integer ONE = 1;
-  /** TWO */
-  private static final Integer TWO = 2;
   /**
    * 评审通过供应商
    */
@@ -142,40 +134,56 @@ public class WinningSupplierController extends BaseController {
    */
   @RequestMapping("/selectSupplier")
   public String selectWinningSupplier(Model model, String projectId, String flowDefineId){
-    List<Packages> packList = packageService.listSupplierCheckPass(projectId);
-    for(Packages pg:packList){
-      Packages ps = packageService.selectByPrimaryKeyId(pg.getId());
-      if(ps!=null&&ps.getProjectStatus()!=null){
-        DictionaryData ds = DictionaryDataUtil.findById(ps.getProjectStatus());
-        pg.setProjectStatus(ds.getCode());
-      }
-    }
-    model.addAttribute("packList", packList);
-    model.addAttribute("projectId", projectId);
-    model.addAttribute("flowDefineId", flowDefineId);
-    Project project = projectService.selectById(projectId);
-    DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
-    //获取已有中标供应商的包组
-    String[] packcount = checkPassService.selectWonBid(projectId);
-    if (packList.size() != packcount.length){
-      model.addAttribute("error", ERROR);
-    }
-    model.addAttribute("kind", findById.getCode());
-    String id = DictionaryDataUtil.getId("DYLY");
-    if(project.getPurchaseType().equals(id)){
-        List<Packages> pack = packageService.supplierCheckPa(projectId);
-        for(Packages pg:pack){
-          Packages ps = packageService.selectByPrimaryKeyId(pg.getId());
-          if(ps!=null&&ps.getProjectStatus()!=null){
-            DictionaryData ds = DictionaryDataUtil.findById(ps.getProjectStatus());
-            pg.setProjectStatus(ds.getCode());
-          }
-        }
-        model.addAttribute("packLi", pack);
-        return "bss/ppms/winning_supplier/lists";
-    }else{
-        return "bss/ppms/winning_supplier/list";
-    }
+	  Project project = projectService.selectById(projectId);
+	  if (project != null) {
+		  String purchaseType = DictionaryDataUtil.getId("DYLY");
+		  if (!StringUtils.equals(purchaseType, project.getPurchaseType())) {
+			  List<Packages> packList = packageService.listSupplierCheckPass(projectId);
+			  if (packList != null && !packList.isEmpty()) {
+				  int num = 0;
+				  for (Packages packages : packList) {
+					  Packages ps = packageService.selectByPrimaryKeyId(packages.getId());
+				      if(ps != null && StringUtils.isNotBlank(ps.getProjectStatus())){
+				    	  DictionaryData ds = DictionaryDataUtil.findById(ps.getProjectStatus());
+				    	  packages.setProjectStatus(ds.getCode());
+				    	  if (!StringUtils.equals(ds.getCode(), "ZJZXTP")) {
+				    		  num++;
+				    	  }
+				      }
+				  }
+				  //获取已有中标供应商的包组
+				  String[] packcount = checkPassService.selectWonBid(projectId);
+				  if (num != packcount.length){
+					  model.addAttribute("error", ERROR);
+				  }
+				  model.addAttribute("packList", packList);
+			  }
+		  } else {
+			  List<Packages> list = packageService.supplierCheckPa(projectId);
+			  if (list != null && !list.isEmpty()) {
+				  int num = 0;
+				  for (Packages packages : list) {
+					  Packages ps = packageService.selectByPrimaryKeyId(packages.getId());
+				      if(ps != null && StringUtils.isNotBlank(ps.getProjectStatus())){
+				    	  DictionaryData ds = DictionaryDataUtil.findById(ps.getProjectStatus());
+				    	  packages.setProjectStatus(ds.getCode());
+				    	  if (!StringUtils.equals(ds.getCode(), "ZJZXTP")) {
+				    		  num++;
+				    	  }
+				      }
+				  }
+				  //获取已有中标供应商的包组
+				  String[] packcount = checkPassService.selectWonBid(projectId);
+				  if (num != packcount.length){
+					  model.addAttribute("error", ERROR);
+				  }
+				  model.addAttribute("list", list);
+			  }
+		  }
+		  model.addAttribute("projectId", projectId);
+		  model.addAttribute("flowDefineId", flowDefineId);
+	  }
+	  return "bss/ppms/winning_supplier/list";
   }
   
   /**
@@ -295,157 +303,35 @@ public class WinningSupplierController extends BaseController {
    * @return 路径
    */
   @RequestMapping("/packageSupplier")
-  public String selectpackage(String inputSubjectBtn, Model model,String passquote, String pid, String packageId,String ids, String priceRatios, String flowDefineId,String projectId,HttpServletRequest sq,Integer view){
-	  //将传过来前面判断好的唱总价还是明细放到model中，在下个页面进行判断
-	  if(passquote != null) {
-		  model.addAttribute("passquote", passquote);
-	  }
-	  //调用service层方法把传过来的供应商id，确定为中标 @author Ma Mingwei
-	  if(!"priceRatios".equals(priceRatios)) {
-		  if(pid != null) {
-			  checkPassService.changeSupplierWonTheBidding(ids,priceRatios);
-		  }
-	  }
-    if (view != null && view == 1) {
-      SupplierCheckPass scp = new SupplierCheckPass();
-      scp.setPackageId(packageId);
-      scp.setIsWonBid((short)1);
-      List<SupplierCheckPass> listCheck = checkPassService.listCheckPassBD(scp);
-      String[] rat = ratio(listCheck.size());
-      for (int i = 0,l = listCheck.size(); i < l; i++ ) {
-        if (listCheck.get(i).getIsWonBid() == 1 && listCheck.get(i).getWonPrice() == null && listCheck.get(i).getPriceRatio() ==null ){
-        	Double  price = (Double.parseDouble(rat[i])/100)*Double.parseDouble(listCheck.get(0).getTotalPrice().toString());
-          SupplierCheckPass supplierCheckPass = listCheck.get(i);
-          supplierCheckPass.setWonPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_HALF_UP));
-          supplierCheckPass.setPriceRatio(rat[i]);
-          checkPassService.update(supplierCheckPass); 
-
-        }
-
+  public String selectpackage(HttpServletRequest request, Model model, String passquote, String supplierIds, String packageId, String ids, String priceRatios, String flowDefineId,String projectId){
+	  if(StringUtils.isNotBlank(priceRatios) && StringUtils.isNotBlank(ids) && StringUtils.isNotBlank(packageId)){
+          checkPassService.changeSupplierWonTheBidding(ids,priceRatios);
       }
-    }
-    SupplierCheckPass checkPass = new SupplierCheckPass();
-    //checkPass.setPackageId(packageId);
-    //把传过来的supplierid即packageId，切割处理放到一个字符串里适宜sql语句
-    String[] pids = packageId.split(",");
-    String str_id = "";
-    for (String id : pids) {
-		str_id += "'" + id + "',";
-	}
-    str_id = str_id.substring(0,str_id.lastIndexOf(","));
-    str_id = "(" + str_id + ")";
-    //checkPass.setId(str_id);
-    checkPass.setSupplierId(str_id);
-    //查询是否中标条件---已中标的
-    checkPass.setIsWonBid((short)1);
-    checkPass.setPackageId(pid);
-    
-    List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listCheckPassBD(checkPass);
-    for (SupplierCheckPass supplierCheckPass : listSupplierCheckPass) {
-      //查询报价历史记录
-      if(supplierCheckPass != null && supplierCheckPass.getSupplier() != null ){
-    	  HashMap<String, Object> map=new HashMap<String, Object>();
-    	  map.put("supplierId", supplierCheckPass.getSupplierId());
-    	  map.put("packageId", supplierCheckPass.getPackageId());
-    	  List<theSubject> theSubjects = theSubjectService.selectBysupplierIdAndPackagesId(map);
-    	  if(theSubjects!=null&&theSubjects.size()>0){
-    		  BigDecimal totalAmount = new BigDecimal(0+"");
-    		  for(theSubject thesub:theSubjects){
-    			  if(thesub.getDetailId()!=null){
-    				  Double sum= thesub.getPurchaseCount()==null?0.0:Double.parseDouble(thesub.getPurchaseCount());
-        			  BigDecimal price=thesub.getUnitPrice()==null?new BigDecimal(0):thesub.getUnitPrice();
-        			  BigDecimal sumB = new BigDecimal(Double.toString(sum));  
-        			  BigDecimal multiply = sumB.multiply(new BigDecimal(price+""));
-        			  totalAmount=totalAmount.add(new BigDecimal(multiply+""));
-    			  }
-    			  
-    		  }
-    		  /*totalAmount=totalAmount.multiply(new BigDecimal(supplierCheckPass.getPriceRatio()+""));*/
-    		  totalAmount=totalAmount.divide(new BigDecimal(10000+""));
-    		  supplierCheckPass.setMoney(totalAmount);
-    		  supplierCheckPass.setSubjects(theSubjects);
-    	  }
-    	  
-        Quote quote = new Quote();
-        quote.setPackageId(packageId);
-        quote.setSupplierId(supplierCheckPass.getSupplier().getId());
-        List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
-        supplierCheckPass.getSupplier().setListQuote(quoteList);
-
-         String method = bidMethodService.getMethod(supplierCheckPass.getProjectId(),supplierCheckPass.getPackageId());
-          if(method!=null&&!"".equals(method)){
-        	  if("PBFF_JZJF".equals(method)||"PBFF_ZDJF".equals(method)){
-        		  supplierCheckPass.setTotalScoreString("");
-        	  }else if("OPEN_ZHPFF".equals(method)){
-        		  supplierCheckPass.setTotalScoreString(supplierCheckPass.getTotalScore()+"");
-        	  }
-        	  
+      if(StringUtils.isNotBlank(supplierIds)){
+          List<SupplierCheckPass> checkPassSupplier = checkPassService.checkPassSupplier(supplierIds, packageId);
+          if(checkPassSupplier != null && !checkPassSupplier.isEmpty()){
+              model.addAttribute("supplierCheckPass", checkPassSupplier);
           }
       }
-    }
-
-    model.addAttribute("supplierCheckPass", listSupplierCheckPass);
-    model.addAttribute("supplierCheckPassJosn",JSON.toJSONString(listSupplierCheckPass));
-    model.addAttribute("flowDefineId", flowDefineId);
-    model.addAttribute("projectId", projectId);
-    model.addAttribute("packageId", packageId);
-    model.addAttribute("inputSubjectBtn", inputSubjectBtn);
-    model.addAttribute("pid", pid);
-    model.addAttribute("view", view);
-   
-
-    //获取已有中标供应商的包组
-    String[] packcount = checkPassService.selectWonBid(projectId);
-    List<Packages> packList = packageService.listSupplierCheckPass(projectId);
-    if (packList.size() != packcount.length){
-      model.addAttribute("error", ERROR);
-    }
-    //             //修改流程状态
-    flowMangeService.flowExe(sq, flowDefineId, projectId, 2);
-    
-    //修改项目流程
-/*    Project project = new Project();
-    project.setId(projectId);
-    project.setStatus(DictionaryDataUtil.getId("QRZBGYS"));
-    projectService.update(project);*/
-    //查询报价历史记录
-    Quote quote = new Quote();
-    quote.setPackageId(pid);
-    List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
-    if (quoteList.size()>0) {
-      if (quoteList.get(0).getQuotePrice() == null || quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
-        model.addAttribute("quote", 0);//提示唱总价
-      }else if(quoteList.get(0).getQuotePrice() != null&&!quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
-        model.addAttribute("quote", 1);//提示唱明细
+      //查询报价历史记录
+      Quote quote = new Quote();
+      quote.setPackageId(packageId);
+      List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
+      if (quoteList != null && !quoteList.isEmpty()) {
+          if (quoteList.get(0).getQuotePrice() == null || quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
+              model.addAttribute("quote", 0);//提示唱总价
+          }else if(quoteList.get(0).getQuotePrice() != null&&!quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
+              model.addAttribute("quote", 1);//提示唱明细
+          }
       }
-    }
-    //展示框设置
-    if (view != null && view == 1) {
-      model.addAttribute("quote", 1);
-    }
-    HashMap<String,Object> map = new HashMap<>();
-    map.put("packageId", pid);
-    
-    //查询到包下面的明细条数
-    /*List<ProjectDetail> detailList = detailService.selectById(map);
-    model.addAttribute("detailList", detailList);*/
-   List<theSubject> detailList = theSubjectService.selectByPackagesId(pid);
-    model.addAttribute("detailList", detailList);
-    Project pro = projectService.selectById(projectId);
-    String url="bss/ppms/winning_supplier/supplier_list";
-    if(pro!=null){
-    	DictionaryData dic = DictionaryDataUtil.findById(pro.getPurchaseType());
-    	if(dic!=null&&"DYLY".equals(dic.getCode())){
-    		return "redirect:/winningSupplier/packageSuppliers.html?id="+pid;
-    	}else{
-    		url= "bss/ppms/winning_supplier/supplier_list";
-    	}
-    }else{
-    	url= "bss/ppms/winning_supplier/supplier_list";
-    }
-   
-    return url;
-    
+      List<theSubject> detailList = theSubjectService.selectByPackagesId(packageId);
+      model.addAttribute("detailList", detailList);
+      model.addAttribute("flowDefineId", flowDefineId);
+      model.addAttribute("projectId", projectId);
+      model.addAttribute("packageId", packageId);
+      model.addAttribute("supplierIds", supplierIds);
+      flowMangeService.flowExe(request, flowDefineId, projectId, 2);
+      return "bss/ppms/winning_supplier/supplier_list";
   }
   
   
@@ -485,48 +371,17 @@ public class WinningSupplierController extends BaseController {
   @ResponseBody
   @RequestMapping("/changeRatioByCheckpassId")
   public String changeRatioByCheckpassId(String ids, String priceRatios){
-	  //String idsStr = ids.toString();
-	  String[] id=ids.split(",");
-	  String[] pRatios=priceRatios.split(",");
-	  Boolean bool=true;
-	  for(int i=0;i<id.length;i++){
-		  SupplierCheckPass supplierCheckPass = checkPassService.findByPrimaryKey(id[i]);
-		  List<ProjectDetail> projectDetails = detailService.selectByPackageId(supplierCheckPass.getPackageId());
-		  if(projectDetails!=null&&projectDetails.size()>0){
-			  for(ProjectDetail  pd:projectDetails){
-				  BigDecimal flg=new BigDecimal(pd.getPurchaseCount()+"");
-				  BigDecimal pRa=new BigDecimal(pRatios[i]);
-				  BigDecimal multiply = flg.multiply(pRa);
-				  BigDecimal divide = multiply.divide(new BigDecimal("100"));
-				  char[] charArray = (divide+"").toCharArray();
-				  Boolean flgs=false;
-				  for(int j=0;j<charArray.length;j++){
-					  if(flgs==false){
-						  if((charArray[j]+"".trim()).equals(".")){
-							  flgs=true;
-							  continue;
-						  }
-					  }
-					  if(flgs==true){
-						 if(!(charArray[j]+"".trim()).equals("0")){
-							 bool=false;
-						 } 
-					  }
-					  
-				  }
-			  }
-		  }
-		  
-	  }
-	 /* checkPassService.changeSupplierWonTheBidding(ids,priceRatios);*/
-	  if(bool==false){
-		  return "no";
-	  }else{
-		  return "ok";
-	  }
-	  
-	 
+      if(StringUtils.isNotBlank(ids) && StringUtils.isNotBlank(priceRatios)){
+          Boolean flag = checkPassService.checkpassId(ids, priceRatios);
+          if(flag){
+              return SUCCESS;
+          } else {
+              return ERROR;
+          }
+      }
+      return StaticVariables.FAILED;
   }
+  
   @ResponseBody
   @RequestMapping("/changeRatio")
   public String changeRatio(String ids, String priceRatios){
@@ -545,80 +400,33 @@ public class WinningSupplierController extends BaseController {
    * @return 路径---确认供应商页面
    */
   @RequestMapping("/confirmSupplier")
-  public String confirmSupplier(Model model, String packageId, String flowDefineId,String projectId,HttpServletRequest sq,Integer view){
-    if (view != null && view == 1) {
-      SupplierCheckPass scp = new SupplierCheckPass();
-      scp.setPackageId(packageId);
-      //scp.setIsWonBid((short)1);//
-      List<SupplierCheckPass> listCheck = checkPassService.listCheckPass(scp);
-      String[] rat = ratio(listCheck.size());
-      for (int i = 0,l = listCheck.size(); i < l; i++ ) {
-        if (listCheck.get(i).getIsWonBid() == 1 && listCheck.get(i).getWonPrice() == null && listCheck.get(i).getPriceRatio() ==null ){
-          Double  price = (Double.parseDouble(rat[i])/100)*Double.parseDouble(listCheck.get(0).getTotalPrice().toString());
-          SupplierCheckPass supplierCheckPass = listCheck.get(i);
-          supplierCheckPass.setWonPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_HALF_UP));
-          supplierCheckPass.setPriceRatio(rat[i]);
-          checkPassService.update(supplierCheckPass); 
-
-        }
-
+  public String confirmSupplier(Model model, String packageId, String flowDefineId,String projectId,HttpServletRequest sq){
+	  SupplierCheckPass checkPass = new SupplierCheckPass();
+      checkPass.setPackageId(packageId);
+      List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listCheckPass(checkPass);
+      if(listSupplierCheckPass != null && !listSupplierCheckPass.isEmpty()){
+          for (SupplierCheckPass supplierCheckPass : listSupplierCheckPass) {
+              //查询报价历史记录
+              if(supplierCheckPass != null && supplierCheckPass.getSupplier() != null ){
+                  Quote quote = new Quote();
+                  quote.setPackageId(packageId);
+                  quote.setSupplierId(supplierCheckPass.getSupplier().getId());
+                  List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
+                  supplierCheckPass.getSupplier().setListQuote(quoteList);
+              }
+          }
+          model.addAttribute("supplierCheckPass", listSupplierCheckPass);
       }
-    }
-    SupplierCheckPass checkPass = new SupplierCheckPass();
-    checkPass.setPackageId(packageId);
-    List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listCheckPass(checkPass);
-    for (SupplierCheckPass supplierCheckPass : listSupplierCheckPass) {
-      //查询报价历史记录
-      if(supplierCheckPass != null && supplierCheckPass.getSupplier() != null ){
-        Quote quote = new Quote();
-        quote.setPackageId(packageId);
-        quote.setSupplierId(supplierCheckPass.getSupplier().getId());
-        List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
-        supplierCheckPass.getSupplier().setListQuote(quoteList);
+      //获取已有中标供应商的包组
+      String[] packcount = checkPassService.selectWonBid(projectId);
+      List<Packages> packList = packageService.listSupplierCheckPass(projectId);
+      if (packList.size() != packcount.length){
+          model.addAttribute("error", ERROR);
       }
-    }
-
-    model.addAttribute("supplierCheckPass", listSupplierCheckPass);
-    model.addAttribute("supplierCheckPassJosn",JSON.toJSONString(listSupplierCheckPass));
-    model.addAttribute("flowDefineId", flowDefineId);
-    model.addAttribute("projectId", projectId);
-    model.addAttribute("packageId", packageId);
-    model.addAttribute("view", view);
-
-    //获取已有中标供应商的包组
-    String[] packcount = checkPassService.selectWonBid(projectId);
-    List<Packages> packList = packageService.listSupplierCheckPass(projectId);
-    if (packList.size() != packcount.length){
-      model.addAttribute("error", ERROR);
-    }
-    //             //修改流程状态
-    flowMangeService.flowExe(sq, flowDefineId, projectId, 2);
-    
-    //修改项目流程
-/*    Project project = new Project();
-    project.setId(projectId);
-    project.setStatus(DictionaryDataUtil.getId("QRZBGYS"));
-    projectService.update(project);*/
-    //查询报价历史记录
-    Quote quote = new Quote();
-    quote.setPackageId(packageId);
-    List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
-    if (quoteList.size()>0) {
-      if (quoteList.get(0).getQuotePrice() == null || quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
-        model.addAttribute("quote", 0);//提示唱总价
-      }else if(quoteList.get(0).getQuotePrice() != null&&!quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
-        model.addAttribute("quote", 1);//提示唱明细
-      }
-    }
-    //展示框设置
-    if (view != null && view == 1) {
-      model.addAttribute("quote", 1);
-    }
-    HashMap<String,Object> map = new HashMap<>();
-    map.put("packageId", packageId);
-    
-    List<ProjectDetail> detailList = detailService.selectById(map);
-    model.addAttribute("detailList", detailList);
+      flowMangeService.flowExe(request, flowDefineId, projectId, 2);
+      model.addAttribute("flowDefineId", flowDefineId);
+      model.addAttribute("projectId", projectId);
+      model.addAttribute("packageId", packageId);
 
     return "bss/ppms/winning_supplier/supplier_check";
   }
@@ -744,18 +552,16 @@ public class WinningSupplierController extends BaseController {
    */
   @RequestMapping("/supplierUpload")
   public String supplierUpload(Model model,String projectId, String packageId, String flowDefineId, String checkPassId,String wonPrice){
-    //凭证上传
-    String id = DictionaryDataUtil.getId("CHECK_PASS_SUPPLIER_BGYJ");
-    model.addAttribute("checkPassSupplierBgyj", id);
+	  //凭证上传
+      model.addAttribute("supplierVoucher", DictionaryDataUtil.getId("CHECK_PASS_SUPPLIER_BGYJ"));
 
-    //招标系统key
-    Integer tenderKey = Constant.TENDER_SYS_KEY;
-    model.addAttribute("packageId", packageId);
-    model.addAttribute("tenderKey", tenderKey);
-    model.addAttribute("projectId", projectId);
-    model.addAttribute("flowDefineId", flowDefineId);
-    model.addAttribute("checkPassId", checkPassId);
-    model.addAttribute("wonPrice", wonPrice);
+      //招标系统key
+      Integer tenderKey = Constant.TENDER_SYS_KEY;
+      model.addAttribute("packageId", packageId);
+      model.addAttribute("tenderKey", tenderKey);
+      model.addAttribute("projectId", projectId);
+      model.addAttribute("flowDefineId", flowDefineId);
+      model.addAttribute("checkPassId", checkPassId);
     return "bss/ppms/winning_supplier/supplierUpload";
   }
 
@@ -808,8 +614,15 @@ public class WinningSupplierController extends BaseController {
     map.put("projectId", projectId);
     List<Packages> findPackageById = packageService.findPackageById(map);
     //对比
+    int num = 0;
     if (findPackageById != null && findPackageById.size() != ZERO){
-      if (findPackageById.size() != packList.length){
+    	for (Packages packages : findPackageById) {
+    		DictionaryData data = DictionaryDataUtil.findById(packages.getProjectStatus());
+			if (!StringUtils.equals(data.getCode(), "ZJZXTP")) {
+				num++;
+			}
+		}
+      if (num != packList.length){
         return JSON.toJSONString(ERROR);
       } else {
         flowMangeService.flowExe(sq, flowDefineId, projectId, 1);
@@ -1069,45 +882,45 @@ public class WinningSupplierController extends BaseController {
    * @return
    */
   @RequestMapping("/inputList")
-  public String inputList(Model model,String quote, String supplierId, String packageId,String projectId,String pid,String passId){
-	model.addAttribute("supplierId", supplierId);
-    model.addAttribute("packageId", packageId);
-    model.addAttribute("projectId", projectId);
-    model.addAttribute("quote", quote);
-    model.addAttribute("pid", pid);
-    List<SupplierCheckPass> listCheckPass = checkPassService.listCheckPassOrderRanking(pid);
-    String supplierIds="";
-    if(listCheckPass!=null&&listCheckPass.size()>0){
-    	supplierIds=listCheckPass.get(0).getSupplierId();
-    }
-    HashMap<String, Object> hashMap=new HashMap<String, Object>();
-    hashMap.put("supplierId", supplierIds);
-    hashMap.put("packageId", pid);
-    List<theSubject> theSubjects = theSubjectService.selectBysupplierIdAndPackagesId(hashMap);
-   
-    //获取明细
-    HashMap<String,Object> map = new HashMap<>();
-    map.put("packageId", pid);
-    List<ProjectDetail> detailList = detailService.selectById(map);
-    SupplierCheckPass findByPrimaryKey = checkPassService.findByPrimaryKey(passId);
-    if(detailList!=null&&detailList.size()>0){
-    		for(ProjectDetail  details:detailList){
-    			if(theSubjects!=null&&theSubjects.size()>0){
-	    			for(theSubject ts:theSubjects){
-	    				if(ts.getDetailId()!=null&&!"".equals(ts.getDetailId())){
-	    					if(ts.getDetailId().equals(details.getId())){
-	    						details.setBudget(ts.getUnitPrice().doubleValue());
-	        				}
-	    				}
-	    			}
-    		}else{
-				details.setBudget(null);
-			}
-    	}
-    }
-    model.addAttribute("detailList", detailList);
-    model.addAttribute("pass", findByPrimaryKey);
-    return "bss/ppms/winning_supplier/add_list";
+  public String inputList(String projectId, String packageId, String supplierIds, Model model, String supplierId, String passId){
+	  if(StringUtils.isNotBlank(packageId)){
+          List<SupplierCheckPass> listCheckPass = checkPassService.listCheckPassOrderRanking(packageId);
+          if(listCheckPass != null && !listCheckPass.isEmpty()){
+              HashMap<String, Object> hashMap=new HashMap<String, Object>();
+              hashMap.put("supplierId", listCheckPass.get(0).getSupplierId());
+              hashMap.put("packageId", packageId);
+              List<theSubject> theSubjects = theSubjectService.selectBysupplierIdAndPackagesId(hashMap);
+              HashMap<String,Object> map = new HashMap<>();
+              map.put("packageId", packageId);
+              List<ProjectDetail> selectById = detailService.selectById(map);
+              //获取明细
+              for (ProjectDetail details : selectById) {
+                  if(theSubjects != null && !theSubjects.isEmpty()){
+                      for (theSubject subject : theSubjects) {
+                          if(StringUtils.isNotBlank(subject.getDetailId())){
+                              if(subject.getDetailId().equals(details.getId())){
+                                  details.setBudget(subject.getUnitPrice().doubleValue());
+                              }
+                          }
+                      }
+                  }else {
+                      details.setBudget(null);
+                  }
+                  model.addAttribute("detailList", selectById);
+              }
+          }
+      }
+      if(StringUtils.isNotBlank(passId)){
+          SupplierCheckPass checkPass = checkPassService.findByPrimaryKey(passId);
+          if(checkPass != null){
+              model.addAttribute("pass", checkPass);
+          }
+      }
+      model.addAttribute("packageId", packageId);
+      model.addAttribute("projectId", projectId);
+      model.addAttribute("supplierId", supplierId);
+      model.addAttribute("supplierIds", supplierIds);
+      return "bss/ppms/winning_supplier/add_list";
   }
   
   @RequestMapping("/openPackage")
@@ -1132,6 +945,63 @@ public class WinningSupplierController extends BaseController {
 	  
 	  return "bss/ppms/winning_supplier/package_list";
   }
+  
+  /**
+   * 
+   *〈查看〉
+   *〈详细描述〉
+   * @author Administrator
+   * @param request
+   * @param flowDefineId
+   * @param projectId
+   * @param packageId
+   * @param supplierId
+   * @return
+   */
+  @RequestMapping("/viewPackageSupplier")
+  public String viewPackageSupplier(Model model, HttpServletRequest request, String flowDefineId, String projectId, String packageId, String supplierIds){
+      SupplierCheckPass checkPass = new SupplierCheckPass();
+      checkPass.setPackageId(packageId);
+      checkPass.setIsWonBid((short)1);
+      List<SupplierCheckPass> listCheck = checkPassService.listCheckPassBD(checkPass);
+      if(listCheck != null && !listCheck.isEmpty()){
+          String[] rat = ratio(listCheck.size());
+          for (int i = 0; i < listCheck.size(); i++ ) {
+              if (listCheck.get(i).getIsWonBid() == 1 && listCheck.get(i).getWonPrice() == null && listCheck.get(i).getPriceRatio() ==null ){
+                Double  price = (Double.parseDouble(rat[i])/100)*Double.parseDouble(listCheck.get(0).getTotalPrice().toString());
+                SupplierCheckPass supplierCheckPass = listCheck.get(i);
+                supplierCheckPass.setWonPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_HALF_UP));
+                supplierCheckPass.setPriceRatio(rat[i]);
+                checkPassService.update(supplierCheckPass); 
+              }
+          }
+      }
+      
+      if(StringUtils.isNotBlank(supplierIds)){
+          List<SupplierCheckPass> checkPassSupplier = checkPassService.checkPassSupplier(supplierIds, packageId);
+          if(checkPassSupplier != null && !checkPassSupplier.isEmpty()){
+              model.addAttribute("supplierCheckPass", checkPassSupplier);
+          }
+      }
+    //查询报价历史记录
+      Quote quote = new Quote();
+      quote.setPackageId(packageId);
+      List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
+      if (quoteList != null && !quoteList.isEmpty()) {
+          if (quoteList.get(0).getQuotePrice() == null || quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
+              model.addAttribute("quote", 0);//提示唱总价
+          }else if(quoteList.get(0).getQuotePrice() != null&&!quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
+              model.addAttribute("quote", 1);//提示唱明细
+          }
+      }
+      flowMangeService.flowExe(request, flowDefineId, projectId, 1);
+      model.addAttribute("projectId", projectId);
+      model.addAttribute("flowDefineId", flowDefineId);
+      model.addAttribute("packageId", packageId);
+      model.addAttribute("supplierIds", supplierIds);
+      return "bss/ppms/winning_supplier/view_supplier";
+  }
+  
   @RequestMapping("/openTheDetail")
   public String openTheDetail(Model model, String passId){
 	  

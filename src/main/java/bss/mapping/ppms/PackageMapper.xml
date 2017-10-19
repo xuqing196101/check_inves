@@ -315,8 +315,8 @@
 		</if>
 		<if test="projectStatus != null and projectStatus !=''">
 			and 
-			PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='YZZ') and 
-		    PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='ZJZXTP')
+			  (PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='YZZ') and 
+		    PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='ZJZXTP') or PROJECT_STATUS is null)
 		</if>
 		ORDER BY
 		CREATED_AT ASC
@@ -331,8 +331,8 @@
 		</if>
 		<if test="projectStatus != null and projectStatus !=''">
 			and 
-			PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='YZZ') and 
-		    PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='ZJZXTP')
+			(PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='YZZ') and 
+		    PROJECT_STATUS !=(select id from T_SES_BMS_DICTIONARY_DATA where CODE='ZJZXTP') or PROJECT_STATUS is null)
 		</if>
 	</select>
 
@@ -690,27 +690,29 @@
 	</select>
 	
 	<!-- 查询包 按照创建时间-->
-	<select id="selectPackageOrderByCreated" parameterType="java.util.Map"
-		resultType="bss.model.ppms.Packages">
+	<select id="selectPackageOrderByCreated" parameterType="java.util.Map" resultType="bss.model.ppms.Packages">
 		SELECT
-		pa.ID AS id,
-		pa.NAME AS name,
-		pa.PROJECT_ID AS project,
-		pr.NAME AS projectName,
-		pa.STATUS AS status,
-		pa.CREATED_AT AS createdAt,
-		pa.MARK_TERM_TREE AS markTermTree,
-		pa.PURCHASE_TYPE AS purchaseType,
-		pa.IS_IMPORT AS isImport,
-		pa.IS_END_PRICE AS isEndPrice
+			*
 		FROM
-		T_BSS_PPMS_PACKAGE pa
-		inner join T_BSS_PPMS_PROJECTS pr
-		on pa.PROJECT_ID = pr.ID
+			(
+		SELECT DISTINCT
+			pa.ID AS id,
+			pa.NAME AS name,
+			pa.PROJECT_ID AS project,
+			pr.NAME AS projectName,
+			pa.STATUS AS status,
+			pa.CREATED_AT AS createdAt,
+			pa.PURCHASE_TYPE AS purchaseType,
+			pa.IS_IMPORT AS isImport,
+			pa.IS_END_PRICE AS isEndPrice
+		FROM
+			T_BSS_PPMS_PACKAGE pa
+		LEFT JOIN T_BSS_PPMS_PROJECTS pr 
+			on pa.PROJECT_ID = pr.ID LEFT JOIN T_BSS_PPMS_BID_METHOD BM ON PA.ID = BM.PACKAGE_ID
 		WHERE
-		nvl(pa.IS_DELETED,0)=0
-		<if test="projectId != null and projectId !=''">
-			AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectId}), '%')
+			nvl(pa.IS_DELETED,0)=0 AND pr. NAME IS NOT NULL
+		<if test="projectNumber != null and projectNumber !=''">
+			AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
 		</if>
 		<if test="projectName != null and projectName !=''">
 			AND pr.NAME like CONCAT(CONCAT('%', #{projectName}), '%')
@@ -721,7 +723,79 @@
 		<if test="packageName != null and packageName !=''">
 			AND pa.NAME like CONCAT(CONCAT('%', #{packageName}), '%')
 		</if>
-		ORDER BY
-		pa.CREATED_AT DESC
+		<if test="typeName != null and typeName !=''">
+			AND BM.TYPE_NAME = #{typeName}
+		</if>
+		GROUP BY
+			pa. ID,
+			pa. NAME,
+			pa.PROJECT_ID,
+			pr. NAME,
+			pa.STATUS,
+			pa.CREATED_AT,
+			pa.PURCHASE_TYPE,
+			pa.IS_IMPORT,
+			pa.IS_END_PRICE
+		HAVING
+			(
+				SELECT
+					COUNT (*)
+				FROM
+					T_BSS_PPMS_MARK_TERM
+				WHERE
+					PROJECT_ID = pa.PROJECT_ID
+				AND PACKAGE_ID = PA. ID
+			) > 0
+		ORDER BY pa.CREATED_AT DESC
+		)
+	</select>
+	
+	<select id="selectByPackageFirstAudit" parameterType="java.util.Map"
+		resultType="bss.model.ppms.Packages">
+			select * from(
+			SELECT DISTINCT
+			pa. ID AS ID,
+			pa. NAME AS NAME,
+			pa.PROJECT_ID AS PROJECT,
+			pr. NAME AS projectName,
+			pa.STATUS AS status,
+			pa.CREATED_AT AS createdAt,
+			pa.PURCHASE_TYPE AS purchaseType,
+			pa.IS_IMPORT AS isImport,
+			pa.IS_END_PRICE AS isEndPrice
+		FROM
+			T_BSS_PPMS_PACKAGE pa
+		LEFT JOIN T_BSS_PPMS_PROJECTS pr ON pa.PROJECT_ID = pr. ID
+		LEFT JOIN T_BSS_PPMS_BID_METHOD BM ON PA. ID = BM.PACKAGE_ID
+		WHERE
+			NVL (pa.IS_DELETED, 0) = 0
+		AND pr. NAME IS NOT NULL
+		<if test="projectName != null and projectName !=''">
+					AND pr.NAME like CONCAT(CONCAT('%', #{projectName}), '%')
+		</if>
+		<if test="projectNumber != null and projectNumber !=''">
+					AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+		</if>
+		GROUP BY
+			pa. ID,
+			pa. NAME,
+			pa.PROJECT_ID,
+			pr. NAME,
+			pa.STATUS,
+			pa.CREATED_AT,
+			pa.PURCHASE_TYPE,
+			pa.IS_IMPORT,
+			pa.IS_END_PRICE
+		HAVING
+			(
+				SELECT
+					COUNT (*)
+				FROM
+					T_BSS_PRMS_FIRST_AUDIT
+				WHERE
+					PROJECT_ID = pa.PROJECT_ID
+				AND PACKAGEID = PA. ID
+			) > 0
+			)
 	</select>
 </mapper>

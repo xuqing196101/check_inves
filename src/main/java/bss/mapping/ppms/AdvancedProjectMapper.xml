@@ -37,7 +37,7 @@
     <result column="APPROVAL_TIME" property="approvalTime" jdbcType="TIMESTAMP" />
     <result column="REPLY_TIME" property="replyTime" jdbcType="TIMESTAMP" />
     <result column="DEMAND_FROM_TIME" property="demandFromTime" jdbcType="TIMESTAMP" />
-    <result column="IS_REHEARSE" property="IsRehearse"/>
+    <result column="IS_REHEARSE" property="isRehearse"/>
     <result column="CREATED_AT" property="createAt" jdbcType="TIMESTAMP" />
     <result column="START_TIME" property="startTime"  jdbcType="TIMESTAMP" />
     <result column="NOTICE_NEWS_TIME" property="noticeNewsTime" jdbcType="TIMESTAMP" />
@@ -56,68 +56,12 @@
     <result column="AUDIT_REASON" property="auditReason"/>
     <result column="APPOINT_MAN" property="appointMan"/>
     <result column="IS_CHARGE" property="isCharge"/>
+    <result column="PURCHASE_DEP_ID" property="purchaseDepId"/>
+    <result column="PARENT_ID" property="parentId"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
   
-    <resultMap id="ProjectResultMap" type="bss.model.ppms.AdvancedProject">
-    <id column="ID"  property="id" />
-    <result column="NAME" property="name" />
-    <result column="PROJECT_NUMBER"  property="projectNumber" />
-    <result column="STATUS"  property="status" />
-    <result column="PRINCIPAL"  property="principal" />
-    <result column="IPONE"  property="ipone" />
-    <result column="LINKMAN"  property="linkman" />
-    <result column="LINKMAN_IPONE"  property="linkmanIpone" />
-    <result column="BID_UNIT"  property="bidUnit" />
-    <result column="ADDRESS"  property="address" />
-    <result column="POSTCODE"  property="postcode" />
-    <result column="SUPPLIER_NUMBER"  property="supplierNumber" />
-    <result column="OFFER_STANDARD"  property="offerStandard" />
-    <result column="PR_INTRODUCE" property="prIntroduce" />
-    <result column="BUDGET_AMOUNT" property="budgetAmount" />
-    <result column="PASS_WORD" property="passWord" />
-    <result column="SCORING_RUBRIC" property="scoringRubric" />
-    <result column="OPERATOR"  property="operator" />
-    <result column="DIVISION_OF_WORK" property="divisionOfWork" />
-    <result column="PURCHASE_TYPE"  property="purchaseType" />
-    <result column="MATERIALS_TYPE"  property="materialsType" />
-    <result column="SECTOR_OF_DEMAND" property="sectorOfDemand" />
-    <result column="DEADLINE"  property="deadline" jdbcType="TIMESTAMP"/>
-    <result column="DATE_OF_ENTRUSTMENT"  property="dateOfEntrustment"  jdbcType="TIMESTAMP"/>
-    <result column="BID_DATE"  property="bidDate" jdbcType="TIMESTAMP" />
-    <result column="BID_ADDRESS" property="bidAddress" />
-    <result column="REQUIERED_ID"  property="requieredId" />
-    <result column="BALE_NO"  property="baleNo" />
-    <result column="AMOUNT" property="amount" />
-    <result column="PURCHASE_DEP_NAME" property="purchaseDepName"/>
-    <result column="EXECUTE_STATUS" property="executeStatus"/>
-    <result column="IS_ENTRANCE" property="isEntrance"/>
-    <result column="APPROVAL_TIME" property="approvalTime" jdbcType="TIMESTAMP"/>
-    <result column="REPLY_TIME" property="replyTime" jdbcType="TIMESTAMP"/>
-    <result column="DEMAND_FROM_TIME" property="demandFromTime" jdbcType="TIMESTAMP"/>
-    <result column="IS_REHEARSE" property="IsRehearse"/>
-    <result column="CREATED_AT" property="createAt" jdbcType="TIMESTAMP"/>
-    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP"/>
-    <result column="NOTICE_NEWS_TIME" property="noticeNewsTime" jdbcType="TIMESTAMP"/>
-    <result column="APP_TIME" property="appTime" jdbcType="TIMESTAMP"/>
-    <result column="SIGN_UP_TIME" property="signUpTime" jdbcType="TIMESTAMP"/>
-    <result column="APPLY_DEADLINE" property="applyDeanline" jdbcType="TIMESTAMP"/>
-    <result column="NOTICE_TIME" property="noticeTime" jdbcType="TIMESTAMP"/>
-    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP"/>
-    <result column="SIGNING_TIME" property="signingTime" jdbcType="TIMESTAMP"/>
-    <result column="ACCEPTANCE_TIME" property="acceptanceTime" jdbcType="TIMESTAMP"/>
-    <result column="MAINTENANCE_TIME" property="maintenanceTime" jdbcType="TIMESTAMP"/>
-    <result column="IS_IMPORT" property="isImport"/>
-    <result column="IS_PROVISIONAL" property="isProvisional"/>
-    <result column="PLAN_TYPE" property="planType"/>
-    <result column="CONFIRM_FILE" property="confirmFile"/>
-    <result column="PURCHASE_DEP_ID" property="purchaseDepId"/>
-    <result column="AUDIT_REASON" property="auditReason"/>
-    <result column="APPOINT_MAN" property="appointMan"/>
-    <result column="IS_CHARGE" property="isCharge"/>
-    <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
-  </resultMap>
   
   <sql id="Base_Column_List">
     ID, NAME, PROJECT_NUMBER, STATUS, PRINCIPAL, IPONE, LINKMAN, LINKMAN_IPONE, BID_UNIT, ADDRESS, 
@@ -127,116 +71,9 @@
     AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS,IS_ENTRANCE,APPROVAL_TIME,REPLY_TIME,
     DEMAND_FROM_TIME,IS_REHEARSE,CREATED_AT,START_TIME,NOTICE_NEWS_TIME,APP_TIME,SIGN_UP_TIME,
     APPLY_DEADLINE,NOTICE_TIME,END_TIME,SIGNING_TIME,ACCEPTANCE_TIME,MAINTENANCE_TIME,IS_IMPORT,
-    IS_PROVISIONAL,PLAN_TYPE,CONFIRM_FILE,AUDIT_REASON,APPOINT_MAN,IS_CHARGE
+    IS_PROVISIONAL,PLAN_TYPE,CONFIRM_FILE,AUDIT_REASON,APPOINT_MAN,IS_CHARGE,PARENT_ID
   </sql>
   
-  <sql id="Example_Where_Clause">
-    where 
-    <trim suffixOverrides=",">
-      <if test="id != null and id != ''">
-         p.ID = #{id} 
-      </if>
-      <if test="name != null and name != ''">
-        and p.NAME = #{name} 
-      </if>
-      <if test="projectNumber != null and projectNumber != ''">
-        and p.PROJECT_NUMBER = #{projectNumber} 
-      </if>
-      <if test="status != null">
-        and p.STATUS = #{status} 
-      </if>
-      <if test="principal != null and principal != ''">
-        and p.PRINCIPAL = #{principal}
-      </if>
-      <if test="ipone != null and ipone != ''">
-        and p.IPONE = #{ipone} 
-      </if>
-      <if test="linkman != null and linkman != ''">
-        and p.LINKMAN = #{linkman}
-      </if> 
-      <if test="linkmanIpone != null and linkmanIpone != ''">
-        and p.LINKMAN_IPONE = #{linkmanIpone}
-      </if>
-      <if test="bidUnit != null and bidUnit != ''">
-        and p.BID_UNIT = #{bidUnit}
-      </if>
-      <if test="address != null and address != ''">
-        and p.ADDRESS = #{address}
-      </if>
-      <if test="postcode != null">
-        and p.POSTCODE= #{postcode}
-      </if>
-      <if test="supplierNumber != null">
-        and p.SUPPLIER_NUMBER = #{supplierNumber} 
-      </if>
-      <if test="offerStandard != null">
-        and p.OFFER_STANDARD = #{offerStandard} 
-      </if>
-      <if test="prIntroduce != null and prIntroduce != ''">
-        and p.PR_INTRODUCE = #{prIntroduce} 
-      </if>
-      <if test="budgetAmount != null and budgetAmount != ''">
-        and p.BUDGET_AMOUNT = #{budgetAmount}
-      </if>
-      <if test="passWord != null and passWord != ''">
-        and p.PASS_WORD = #{passWord}
-      </if>
-      <if test="scoringRubric != null and scoringRubric != ''">
-        and p.SCORING_RUBRIC = #{scoringRubric}
-      </if>
-      <if test="operator != null and operator != ''">
-        and p.OPERATOR= #{operator}
-      </if>
-      <if test="divisionOfWork != null and divisionOfWork != ''">
-        and p.DIVISION_OF_WORK = #{divisionOfWork} 
-      </if>
-      <if test="purchaseType != null and purchaseType != ''">
-        and p.PURCHASE_TYPE = #{purchaseType} 
-      </if>
-      <if test="materialsType != null and materialsType != ''">
-        and p.MATERIALS_TYPE = #{materialsType} 
-      </if>
-      <if test="sectorOfDemand != null and sectorOfDemand != ''">
-        and p.SECTOR_OF_DEMAND = #{sectorOfDemand}
-      </if>
-      <if test="purchaseDep != null and purchaseDep != ''">
-        and p.PURCHASE_DEP_ID = #{purchaseDep.id}
-      </if>
-      <if test="deadline != null">
-        and p.DEADLINE = #{deadline} 
-      </if>
-      <if test="dateOfEntrustment != null">
-        and p.DATE_OF_ENTRUSTMENT = #{dateOfEntrustment} 
-      </if>
-      <if test="bidDate != null">
-        and p.BID_DATE = #{bidDate} 
-      </if>
-      <if test="bidAddress != null and bidAddress != ''">
-        and p.BID_ADDRESS = #{bidAddress}
-      </if>
-      <if test="requieredId != null and requieredId != ''">
-        and p.REQUIERED_ID = #{requieredId}
-      </if>
-      <if test="baleNo != null and baleNo != ''">
-        and p.BALE_NO = #{baleNo} 
-      </if>
-      <if test="amount != null">
-        and p.AMOUNT = #{amount} 
-      </if>
-      <if test="purchaseDepName != null and purchaseDepName != ''">
-        and p.DEAL_SUPPLIER = #{purchaseDepName} 
-      </if>
-      <if test="dealSupplier != null and dealSupplier != ''">
-        and p.PURCHASE_DEP_NAME = #{dealSupplier.id}
-      </if>
-      <if test="executeStatus != null and executeStatus != ''">
-        and p.EXECUTE_STATUS = #{executeStatus}
-      </if>
-      <if test="isEntrance != null and isEntrance != ''">
-        and p.IS_ENTRANCE = #{isEntrance}
-      </if>
-    </trim>
-  </sql>
   
   <select id="verifyByProject" parameterType="bss.model.ppms.AdvancedProject" resultMap="BaseResultMap">
     select 
@@ -255,7 +92,7 @@
       ORDER BY CREATED_AT DESC
   </select>
   
-  <select id="selectAdvancedProjectByPrimaryKey" parameterType="java.lang.String" resultMap="ProjectResultMap">
+  <select id="selectAdvancedProjectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_ADVANCED_PROJECTS
@@ -281,7 +118,7 @@
       <if test="principal != null and principal != ''">
         OR (p.PRINCIPAL = #{principal}) 
       </if>
-      ) AND p.STATUS != '0'
+      ) AND p.STATUS != '0' AND p.PARENT_ID != '1'
       <if test="purchaseDepId != null and purchaseDepId != ''">
         AND  p.PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
@@ -293,6 +130,9 @@
       </if>
       <if test="status != null and status != ''">
        AND p.STATUS = #{status}
+      </if>
+      <if test="parentId != null and parentId != ''">
+       AND p.PARENT_ID = #{parentId}
       </if>
       ORDER BY p.CREATED_AT DESC
   </select>
@@ -421,7 +261,7 @@
       <if test="demandFromTime != null">
         DEMAND_FROM_TIME,
       </if>
-      <if test="IsRehearse != null">
+      <if test="isRehearse != null">
         IS_REHEARSE,
       </if>
       <if test="createAt != null">
@@ -477,6 +317,9 @@
       </if>
       <if test="isCharge != null">
         IS_CHARGE,
+      </if>
+      <if test="parentId != null">
+        PARENT_ID,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -591,8 +434,8 @@
       <if test="demandFromTime != null">
         #{demandFromTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="IsRehearse != null">
-        #{IsRehearse},
+      <if test="isRehearse != null">
+        #{isRehearse},
       </if>
       <if test="createAt != null">
         #{createAt,jdbcType=TIMESTAMP},
@@ -647,6 +490,9 @@
       </if>
       <if test="isCharge != null">
         #{isCharge},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -763,8 +609,8 @@
       <if test="demandFromTime != null">
         DEMAND_FROM_TIME = #{demandFromTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="IsRehearse != null">
-        IS_REHEARSE = #{IsRehearse},
+      <if test="isRehearse != null">
+        IS_REHEARSE = #{isRehearse},
       </if>
       <if test="createAt != null">
         CREATED_AT = #{createAt,jdbcType=TIMESTAMP},
@@ -819,6 +665,9 @@
       </if>
       <if test="isCharge != null">
         IS_CHARGE = #{isCharge},
+      </if>
+      <if test="parentId != null">
+        PARENT_ID = #{parentId},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -890,11 +739,42 @@
       ORDER BY p.CREATED_AT DESC
   </select> 
   
+  <select id="findByPackage" parameterType="java.util.Map" resultMap="BaseResultMap">
+      select 
+      u.REL_NAME AS principal,p.NAME,p.PROJECT_NUMBER,
+      p.STATUS,p.ID,p.PURCHASE_TYPE,p.CREATED_AT
+      from T_BSS_PPMS_ADVANCED_PROJECTS p LEFT JOIN T_SES_BMS_USER u ON u.ID = p.PRINCIPAL
+      where 1=1 AND p.IS_PROVISIONAL = 0
+      AND p.STATUS != '0' AND p.PARENT_ID = '1'
+      <if test="purchaseDepId != null and purchaseDepId != ''">
+        AND p.PURCHASE_DEP_ID = #{purchaseDepId}
+      </if>
+      <if test="name != null and name != ''">
+        AND p.NAME like CONCAT(CONCAT('%', #{name}), '%')
+      </if>
+      <if test="projectNumber != null and projectNumber != ''">
+        AND p.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+      </if>
+      <if test="status != null and status != ''">
+        AND p.STATUS = #{status}
+      </if>
+      <if test="statusAll != null and statusAll != ''">
+       and p.STATUS in (select ID from T_SES_BMS_DICTIONARY_DATA dd where dd.IS_DELETED = 0 and dd.KIND = 2 and dd.code!='YJLX' )
+      </if>
+      <if test="parentId != null and parentId != ''">
+        AND p.PARENT_ID = #{parentId}
+      </if>
+      <if test="principal != null and principal != ''">
+        AND p.PRINCIPAL = #{principal}
+      </if>
+      ORDER BY p.CREATED_AT DESC
+  </select>
+  
   <select id="selectProjectByAll" parameterType="bss.model.ppms.AdvancedProject" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_ADVANCED_PROJECTS
-    where 1=1 and IS_PROVISIONAL=0
+    where 1=1 and IS_PROVISIONAL=0 and STATUS != '0'
      <if test="name != null and name != ''">
        and NAME like CONCAT(CONCAT('%', #{name}), '%') 
       </if>
@@ -921,6 +801,69 @@
        </if>
       </if>
       and (CONFIRM_FILE = 1 or CONFIRM_FILE = 2 or CONFIRM_FILE = 3 or CONFIRM_FILE = 4)
+      ORDER BY APPROVAL_TIME DESC
+  </select>
+  
+  <!-- 采购文件审核 -->
+  <select id="selectByAudit" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	SELECT
+			*
+		FROM
+			(
+				SELECT
+					s. ID,
+					s. NAME,
+					s.PROJECT_NUMBER,
+					s.STATUS,
+					s.PARENT_ID,
+					s.PURCHASE_TYPE,
+					s .IS_PROVISIONAL,
+					s.APPROVAL_TIME,
+					s.PURCHASE_DEP_ID,
+					(SELECT REL_NAME FROM T_SES_BMS_USER WHERE "ID" = s.PRINCIPAL) AS PRINCIPAL,
+					s.CONFIRM_FILE,
+					'1' AS IS_REHEARSE
+				FROM
+					T_BSS_PPMS_PROJECTS s
+				UNION ALL
+					SELECT
+						T . ID,
+						T . NAME,
+						T .PROJECT_NUMBER,
+						T.STATUS,
+						T .PARENT_ID,
+						T .PURCHASE_TYPE,
+						T .IS_PROVISIONAL,
+						T .APPROVAL_TIME,
+						T.PURCHASE_DEP_ID,
+						(SELECT REL_NAME FROM T_SES_BMS_USER WHERE "ID" = T.PRINCIPAL) AS PRINCIPAL,
+						T .CONFIRM_FILE,
+						'2' AS IS_REHEARSE
+					FROM
+						T_BSS_PPMS_ADVANCED_PROJECTS T
+			)
+		WHERE
+			1 = 1  AND IS_PROVISIONAL = 0 AND STATUS != '0'
+			<if test="name != null">
+       	and NAME like CONCAT(CONCAT('%', #{name}), '%')
+      </if>
+      <if test="confirmFile != null">
+        and CONFIRM_FILE = #{confirmFile}
+      </if>
+      <if test="purchaseDepId != null and purchaseDepId != ''">
+      	and PURCHASE_DEP_ID in (${purchaseDepId})
+      </if>
+      <if test="projectNumber != null">
+       	and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+      </if>
+      <if test="isRehearse != null">
+       	and IS_REHEARSE = #{isRehearse}
+      </if>
+      <if test="date != null">
+       	and TO_CHAR(APPROVAL_TIME,'yyyy-mm-dd') =#{date}
+      </if>
+			and (CONFIRM_FILE = 1 or CONFIRM_FILE = 2 or CONFIRM_FILE = 3 or CONFIRM_FILE = 4)
+			and (PARENT_ID IS NULL OR PARENT_ID != '1')
       ORDER BY APPROVAL_TIME DESC
   </select>
   

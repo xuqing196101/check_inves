@@ -23,12 +23,12 @@ $(function(){
 	}
 });
 //审核资质不通过理由
-function reasonProject(ind,auditField, auditFieldName) {
+function reasonProject(ind, auditField, auditFieldName, certType) {
 	var supplierId = $("#supplierId").val();
 	var auditCount = $("#count").val();
 	ind=parseInt(ind)+1;
 	var tablerId=$("#tablerId").val();
-	var auditContent=content(tablerId,ind,'专业资质要求');
+	var auditContent=content(tablerId,ind,certType);
 	var audits;
 	var type="";
 	if(auditCount!=null && auditCount !='' && auditCount>'0' ){
@@ -129,4 +129,19 @@ function reasonProject(ind,auditField, auditFieldName) {
   		layer.msg('不能为空！', {offset:'100px'});
   	};
 	});
+}
+
+//提示之前的信息
+function isCompare(field, targetId) {
+    var supplierId = $("#supplierId").val();
+    $.ajax({
+        url: globalPath+"/supplierAudit/showModify.do",
+        data: {"supplierId": supplierId, "beforeField": field, "modifyType": "mat_eng_page", "listType": "9"},
+        async: false,
+        success: function (result) {
+            layer.tips("修改前:" + result, "#" + targetId, {
+                tips: 3
+            });
+        }
+    });
 }

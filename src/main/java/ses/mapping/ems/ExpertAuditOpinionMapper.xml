@@ -115,7 +115,7 @@
         FROM (SELECT <include refid="Base_Column_List" />
           FROM T_SES_EMS_EXPERT_AUDIT_OPINION T
           WHERE T.EXPERT_ID = #{expertId}
-          <if test="flagTime != null and flagTime !=''">
+          <if test="flagTime != null ">
             AND T.FLAG_TIME = #{flagTime}
           </if>
           ORDER BY CREATED_AT DESC)
@@ -129,4 +129,25 @@
     FROM T_SES_EMS_EXPERT_AUDIT_OPINION T
     WHERE T.ID = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <!-- 记录下载次数 -->
+  <update id="updateIsDownload" parameterType="java.lang.String">
+  	UPDATE T_SES_EMS_EXPERT_AUDIT_OPINION SET IS_DOWNLOAD_ATTCH = 1 WHERE EXPERT_ID = #{expertId}
+  </update>
+  
+  <!-- 记录复审已下载过附件 -->
+  <update id="updateIsDownloadAttch" parameterType="ses.model.ems.ExpertAuditOpinion">
+  	UPDATE T_SES_EMS_EXPERT_AUDIT_OPINION SET IS_DOWNLOAD_ATTCH = 1 WHERE EXPERT_ID = #{expertId} AND FLAG_TIME = #{flagTime}
+  </update>
+  
+  <delete id="deleteByExpertId" parameterType="ses.model.ems.ExpertAuditOpinion">
+    delete from T_SES_EMS_EXPERT_AUDIT_OPINION
+    where EXPERT_ID = #{expertId}
+    <if test="flagTime != null" >
+      FLAG_TIME = #{flagTime,jdbcType=DECIMAL},
+    </if>
+    <if test="flagAudit != null" >
+      FLAG_AUDIT = #{flagAudit,jdbcType=DECIMAL},
+    </if>
+  </delete>
 </mapper>

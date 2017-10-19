@@ -32,47 +32,10 @@
 		    }
 		});
   });
-  
-  
-	/** 全选全不选 */
-	function selectAll(){
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		 if(checkAll.checked){
-			   for(var i=0;i<checklist.length;i++)
-			   {
-			      checklist[i].checked = true;
-			   } 
-			 }else{
-			  for(var j=0;j<checklist.length;j++)
-			  {
-			     checklist[j].checked = false;
-			  }
-		 	}
-		}
-	
-	/** 单选 */
-	function check(){
-		 var count=0;
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		 for(var i=0;i<checklist.length;i++){
-			   if(checklist[i].checked == false){
-				   checkAll.checked = false;
-				   break;
-			   }
-			   for(var j=0;j<checklist.length;j++){
-					 if(checklist[j].checked == true){
-						   checkAll.checked = true;
-						   count++;
-					   }
-				 }
-		   }
-	}
 	
   	function view(no){
   		
-  		window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+no+"&&type=2";
+  		window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+no+"&type=2";
   	}
   	
     function edit(){
@@ -97,7 +60,7 @@
     }
     
     //删除
-    function del(){
+    /* function del(){
     	var id =[];
     	var flag=true;
     	var count=0
@@ -113,25 +76,49 @@
 			});
 			
 			if(flag==false){
-				layer.alert("选中的第"+n+"个已提交，不允许删除",{offset: ['222px', '390px'], shade:0.01});
-			}
-			else  if(id.length>0){
-				layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+				layer.alert("选中的第"+n+"个已提交，不允许删除",{shade:0.01});
+			}else if(id.length>0){
+				layer.confirm('您确定要删除吗?', {title:'提示',shade:0.01}, function(index){
 				 	$.ajax({
 		 			 	url:"${pageContext.request.contextPath}/purchaser/delete.html?planNo="+id,
 		 			 	type:"post",
 		 			 	success:function(){
-		 					 layer.msg('删除成功', { offset: ['40%', '45%'] });
+		 					 layer.msg('删除成功');
 		 					$("#param_form").submit();
-						/* 	window.setTimeout(function() { */
-								//window.location.reload();
-						/* 	}, 500); */
 		 			 	}
 		 		 });
 				});
 			}else{
 				layer.alert("请选择要删除的版块",{offset: ['222px', '390px'], shade:0.01});
 			}
+    } */
+    
+    function del(){
+      var id = [];
+      $('input[name="chkItem"]:checked').each(function(i){
+        id.push($(this).val());
+      });
+      if (id.length == 1) {
+        var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
+        if(status.trim()=="已提交"){
+          layer.msg("已提交，不允许删除");
+        } else {
+          layer.confirm('您确定要删除吗?', {title:'提示',shade:0.01}, function(index){
+            $.ajax({
+              url:"${pageContext.request.contextPath}/purchaser/delete.html?planNo="+id,
+              type:"post",
+              success:function(){
+                layer.msg('删除成功');
+                $("#param_form").submit();
+              }
+            });
+          });
+        }
+      } else if (id.length > 1) {
+        layer.msg("只能选择一个");
+      } else {
+        layer.msg("请选择");
+      }
     }
     
     var index;
@@ -298,7 +285,7 @@
         <table class="table table-bordered table-condensed table-hover table-striped" >
 		<thead>
 		<tr>
-		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+		  <th class="info w50">选择</th>
 		  <th class="info w50">序号</th>
 		  <th class="info" width="40%">需求名称</th>
 		  <th class="info" width="18%" >采购需求文号</th>
@@ -312,7 +299,7 @@
 			<tr class="pointer">
 			  <td class="tc w30">
 			<%--   <c:if test="${obj.status=='1' || obj.status=='4'  }"> --%>
-                 <input type="checkbox" value="${obj.uniqueId }" name="chkItem" onclick="check()">
+                 <input type="checkbox" value="${obj.uniqueId }" name="chkItem" >
             <%--   </c:if> --%>
 			  </td>
 			  <td class="tc w50" onclick="view('${obj.uniqueId }')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>

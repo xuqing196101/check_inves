@@ -23,7 +23,36 @@
 				$(this).hide();
             }); 
 		}
+       	var packs="${packIds}";
+       	if(packs!=""&&packs!=null){
+       		var ids=packs.split(",");
+       		for(var i=0;i<ids.length;i++){
+       			var peeid=getCookie(ids[i]+"_peeid");
+       			if(peeid!=""){
+       				$("#"+peeid).text("是");
+             	$("#"+peeid).next().val('1');
+       			}
+       		}
+       	}
+       	var ppids=document.getElementsByName("ppid");
+       	for(var i=0;i<ppids.length;i++){
+       		var ppid=getCookie($(ppids[i]).attr("id"));
+       		if(ppid!=''){
+       			$(ppids[i]).find("select").val(ppid);
+       		}
+       	}
     })
+    function getCookie(cname)
+			{
+			  var name = cname + "=";
+			  var ca = document.cookie.split(';');
+			  for(var i=0; i<ca.length; i++) 
+			  {
+			    var c = ca[i].trim();
+			    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+			  }
+			  return "";
+			}
      /** 全选全不选 */
     function selectAll(index){
          var checklist = document.getElementsByName ("chkItemExpert"+index);
@@ -146,8 +175,14 @@
         $("#package").removeClass("shrink");        
         $("#package").addClass("spread");
       })
-      
       //设置组长
+      function setCookie(cname,cvalue,exdays)
+			{
+			  var d = new Date();
+			  d.setTime(d.getTime()+(exdays*24*60*60*1000));
+			  var expires = "expires="+d.toGMTString();
+			  document.cookie = cname + "=" + cvalue + "; " + expires;
+			}
 	  function relate(packageId, index, packageName){
 		 var id=[]; 
 		 var obj = null;
@@ -158,28 +193,29 @@
          if(id.length == 1){
          	 var trObj = obj.parent().parent();	
          	 var tdArr = trObj.children();
-         	 var inputObj = tdArr.eq(7).next();//组长列
+         	 var inputObj = tdArr.eq(8).next();//组长列
          	 inputObj.val(1);
-         	 tdArr.eq(7).html("是");
+         	 tdArr.eq(8).html("是");
          	 
          	   
          	 var groupName = "";
-         	 groupName = tdArr.eq(5).find("input").val();
+         	 groupName = tdArr.eq(6).find("input").val();
          	 //选择临时专家为组长时时
          	 if (typeof(groupName) == "undefined") {
-				groupName = tdArr.eq(5).html();
+				groupName = tdArr.eq(6).html();
 			 }
          	 layer.msg(groupName+"已设为【"+packageName+"】组长",{offset: '50px'});
          	 //未被选中的全置为否
          	 $('input[name="chkItemExpert'+index+'"]').not("input:checked").each(function(){ 
          	 	var trObj = $(this).parent().parent();	
 	         	var tdArr = trObj.children();
-	         	var inputObj = tdArr.eq(7).next();//组长列
+	         	var inputObj = tdArr.eq(8).next();//组长列
 	         	inputObj.val(0);
-	         	tdArr.eq(7).html("否");
+	         	tdArr.eq(8).html("否");
          	 });
-         	 var packId = tdArr.eq(3).children("input:first-child").val();
-         	$.ajax({
+         	setCookie(packageId+"_peeid",packageId+"_"+id[0],0.1);
+         	/*  var packId = tdArr.eq(4).children("input:first-child").val(); */
+         	/* $.ajax({
                 url: "${pageContext.request.contextPath}/packageExpert/isGroupLeader.html",
                 type: "POST",
                 data:{
@@ -188,7 +224,7 @@
                 dataType: "json",
                 success: function(data){
                 }
-            }); 
+            });  */
          }else if(id.length>1){
              layer.alert("只能选择一个",{offset: '50px', shade:0.01});
          }else{
@@ -197,11 +233,12 @@
 	  }
 	  
 	  //专家签到
-	  function isSign(obj,expertId){
-	  	var v = $(obj).val();
+	  function isSign(obj,expertId,packageId){
+	  	/* var v = $(obj).val();
 	  	$(".sign_"+expertId).each(function(i){
 		  $(this).val(v);
-		});
+		}); */
+		setCookie($(obj).parent().attr("id"),$(obj).val(),0.1);
 	  }
 	  
 	  //结束签到
@@ -228,7 +265,9 @@
                     		$(this).removeAttr("class","dnone");
                     		$(this).attr("class","btn");
                     	});
-                    	
+                    	$('button[name="editExp_btn"]').each(function(){ 
+                    		$(this).attr("class","dnone");
+                    	});
                     	//隐藏导入临时专家按钮
                     	$("#updateExcel").attr("class","dnone");
                         layer.msg(result.msg,{offset: ['50px']});
@@ -368,11 +407,12 @@
       $("#downTemplate").click(function () {
           window.location.href = "${pageContext.request.contextPath }/expert/downloadExpertTemplate.do";
       })
+      
     //点击:引用临时专家
       $("button[name='citeExp_btn']").click(function () {
           var packageId = $(this).attr('package-id');
           var projectId = $("input[name='projectId']").val();
-          var path = "${pageContext.request.contextPath}/expert/gotoCiteExpertView.html?packageId="+packageId+"&projectId="+projectId
+          var path = "${pageContext.request.contextPath}/expert/gotoCiteExpertView.html?packageId="+packageId+"&projectId="+projectId;
           $("#tab-1").load(path);
 
       })
@@ -395,7 +435,7 @@
 					},
 					success: function(data) {
 						if(data == "true"){
-							$("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/showEditTemporaryExpert.html?projectId="+projectId+"&&id="+id+"&&index="+index+"&&packageId="+packId);
+							$("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/showEditTemporaryExpert.html?projectId="+projectId+"&id="+id+"&index="+index+"&packageId="+packId);
 						}else if(data == "false"){
 							layer.alert("只能修改临时专家",{offset: ['222px', '390px'], shade:0.01});
 						}
@@ -427,7 +467,7 @@
         </h2>
         <input type="hidden" id="reviewTypeTds">
         <form id="save_sign"  method="post">
-        	<input name="projectId" type="hidden" value="${project.id}">
+        	<input name="projectId" type="hidden" id="projectId" value="${project.id}">
         	<input name="flowDefineId" type="hidden" value="${flowDefineId}"/>
         	<c:set var="listCount" value="0" />
 	        <c:forEach items="${packageList}" var="pack" varStatus="vs">
@@ -439,7 +479,7 @@
 		             <button class="btn"  <c:if test="${pack.projectStatus eq'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if>name="addExp_btn" onclick="relate('${pack.id}','${vs.index}','${pack.name}')" type="button">设为组长</button>
 		             <button class="btn" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if>name="viewExp_btn" onclick="resetPwd('${vs.index}');" type="button">重置密码</button>
 		             <button class="btn" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if>name="citeExp_btn"  type="button" package-id="${pack.id}">引用临时专家</button>
-		             <button class="btn" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if>name="" onclick = "editExpert('${pack.id}','${vs.index}')" type="button">修改临时专家</button>
+		             <button class="btn" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if>name="editExp_btn" onclick = "editExpert('${pack.id}','${vs.index}')" type="button">修改临时专家</button>
 		             <%-- <button class="btn" name="addExp_btn" onclick="addExpert('${vs.index}','${project.id}','${pack.id}');" type="button">添加临时专家</button> --%>
 		           	</div>
 		        </div>
@@ -452,6 +492,7 @@
 			              <tr>
 			                <th class="info w50"><input id="checkAllExpert${vs.index}" type="checkbox" onclick="selectAll('${vs.index}')" /></th>
 			                <th class="info w50">序号</th>
+			                <th class="info">用户名</th>
 			                <th class="info">专家姓名</th>
 			                <th class="info">专家类别</th>
 			                <th class="info">是否组长</th>
@@ -471,8 +512,11 @@
 		            			<td class="tc opinter w50">
 		            				<input type="checkbox" value="${projectExtract.expert.id}" name="chkItemExpert${vs.index}" onclick="check('${vs.index}')">
 		            				<input type="hidden" name="packageExperts[${listCount}].expertId" value="${projectExtract.expert.id}">
-								</td>
+											</td>
 		            			<td class="tc">${v.index+1}</td>
+		            			<td>
+		            				${projectExtract.expertId}
+		            			</td>
 		            			<td>
 		            				${projectExtract.expert.relName}
 		            			</td>
@@ -484,17 +528,13 @@
 				                   </c:if>
 				                  </c:forEach>
 		                		</td>
-				                <td class="tc">
-				                <c:if test="${projectExtract.expert.id == peeid }">
-				                	 是
-				                </c:if>
-				                <c:if test="${projectExtract.expert.id != peeid }">
-                                     否
-                                </c:if>
+				                <td class="tc" name="peeid" id="${pack.id}_${projectExtract.expert.id}">
+					                <c:if test="${projectExtract.expert.id eq peeid }">是</c:if>
+					                <c:if test="${projectExtract.expert.id ne peeid }">否</c:if>
 				                </td>
 			                    <input type="hidden" name="packageExperts[${listCount}].isGroupLeader" value="0" >
-				                <td>
-				                	<select onchange="isSign(this,'${projectExtract.expert.id}');" class="sign_${projectExtract.expert.id}" name="packageExperts[${listCount}].isSigin">
+				                <td name="ppid" id="${pack.id}_${projectExtract.expert.id}_${projectExtract.expertId}">
+				                	<select onchange="isSign(this,'${projectExtract.expert.id}','${pack.id}');" class="sign_${projectExtract.expert.id}" name="packageExperts[${listCount}].isSigin">
 										<option value="1">已到场</option>
 										<option value="0">未到场</option>
 									</select>

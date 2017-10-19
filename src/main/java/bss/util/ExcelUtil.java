@@ -1,21 +1,15 @@
 package bss.util;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.annotation.PostConstruct;
-
+import bss.model.ob.OBProduct;
+import bss.model.ob.OBSupplier;
+import bss.model.pms.CollectPlan;
+import bss.model.pms.PurchaseRequired;
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBSupplierService;
+import bss.service.pms.CollectPlanService;
+import bss.service.pms.PurchaseRequiredService;
+import bss.service.pms.impl.CollectPlanServiceImpl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -30,23 +24,26 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-
 import ses.model.bms.Category;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierService;
-import bss.model.ob.OBProduct;
-import bss.model.ob.OBSupplier;
-import bss.model.pms.CollectPlan;
-import bss.model.pms.PurchaseRequired;
-import bss.service.ob.OBProductService;
-import bss.service.ob.OBProjectServer;
-import bss.service.ob.OBSupplierService;
-import bss.service.pms.CollectPlanService;
-import bss.service.pms.PurchaseRequiredService;
-import bss.service.pms.impl.CollectPlanServiceImpl;
+
+import javax.annotation.PostConstruct;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -271,10 +268,12 @@ public class ExcelUtil {
 	        				  if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
 	        					 Double value = cell.getNumericCellValue();
 	        					 if(value==0){
-	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行，G列错误,采购数量不能为0！";
+	        						/* errMsg=String.valueOf(row.getRowNum()+1)+"行，G列错误,采购数量不能为0！";
 			        				 map.put("errMsg", errMsg);
 			        				 bool=false;
-			        				 break;
+			        				 break;*/
+	        					   rq.setPurchaseCount(new BigDecimal(0)); 
+                       continue;
 	        					 }
 	 	        				 if(value!=null){ 
 	 		        				 rq.setPurchaseCount(new BigDecimal(cell.getNumericCellValue())); 
@@ -291,12 +290,12 @@ public class ExcelUtil {
 	        			 if(cell.getColumnIndex()==7){
 	        				 boolean addMer = isAddMer(sheet,row.getRowNum(),cell.getColumnIndex());
 	        				 if(rq.getItem()!=null){
-	        					
+	        				   
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC||cell.getCellType()==HSSFCell.CELL_TYPE_FORMULA){
 			        				  rq.setPrice(new BigDecimal(cell.getNumericCellValue()));
 		        					 continue;
 		        				 }
-	        					 
+	                    
 //	        					 else  if(addMer==true){
 //	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行，H列错误,不能合并单元格！";
 //			        				 map.put("errMsg", errMsg); 
@@ -328,7 +327,7 @@ public class ExcelUtil {
 	        				 
 	        				 
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC||cell.getCellType()==HSSFCell.CELL_TYPE_FORMULA){
-		        					 rq.setBudget(new BigDecimal(cell.getNumericCellValue()));
+	        					   rq.setBudget(new BigDecimal(cell.getNumericCellValue()));
 		        					 continue;
 		        				 }
 	        					 if(cell.getCellType()!=3){
@@ -363,11 +362,11 @@ public class ExcelUtil {
 	        				}
 	        			 }
 	        	
-	        			 if(cell.getColumnIndex()==10){
+	        			 if(cell.getColumnIndex()==11){
 	        				if(cell.getCellType()==1){
 	        					rq.setSupplier(cell.getStringCellValue());
 	        				}else if(cell.getCellType()!=3){
-	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，K错误";
+	        					 errMsg=String.valueOf(row.getRowNum()+1)+"L行列错误，非文本格式!";
 		        				 map.put("errMsg", errMsg);
 		        				 bool=false;
 	        				}else{
@@ -375,13 +374,13 @@ public class ExcelUtil {
 	        				}
 	        				 
 	        			 }
-	        			 if(cell.getColumnIndex()==11){
+	        			 if(cell.getColumnIndex()==10){
 	        				 if(cell.getCellType()==HSSFCell.CELL_TYPE_STRING){
 	        					 String str = cell.getStringCellValue();
 	        					 rq.setPurchaseType(str);
 	        					 continue;
 	        				 }else if(cell.getCellType()!=3){
-	        					 errMsg=String.valueOf(row.getRowNum()+1)+"L行列错误，非文本格式!";
+	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，K错误!";
 		        				 map.put("errMsg", errMsg); 
 		        				 bool=false;
 		        				 break;
@@ -452,12 +451,12 @@ public class ExcelUtil {
 	        			 
 						}
        			 if(rq.getPurchaseCount()!=null){
-     				if(rq.getQualitStand()==null||StringUtils.isBlank(rq.getQualitStand().trim())){
+     				/*if(rq.getQualitStand()==null||StringUtils.isBlank(rq.getQualitStand().trim())){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，质量技术参数不能为空";
 	        				 map.put("errMsg", errMsg);
 	        				 bool=false;
 	        				 break;
-     			  } 
+     			  } */
      		 }
 			 if(rq.getPurchaseCount()!=null){
      				if(rq.getGoodsName()==null||StringUtils.isBlank(rq.getGoodsName().trim())){
@@ -493,12 +492,12 @@ public class ExcelUtil {
      			  } 
      		 }
 			 if(rq.getPurchaseCount()!=null){
-     				if(rq.getDeliverDate()==null||StringUtils.isBlank(rq.getDeliverDate().trim())){
+     				/*if(rq.getDeliverDate()==null||StringUtils.isBlank(rq.getDeliverDate().trim())){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，交货期限不能为空";
 	        				 map.put("errMsg", errMsg);
 	        				 bool=false;
 	        				 break;
-     			  } 
+     			  } */
      		 }
 			 if(rq.getPurchaseCount()!=null){
      				if(rq.getPurchaseType()==null||StringUtils.isBlank(rq.getPurchaseType().trim())){
@@ -1034,7 +1033,7 @@ public class ExcelUtil {
 			        					int listsize=0;
 			        					String id="";
 			        					for(OBProduct ob:lists){
-			        						if(ob.getName().equals(product)){
+			        						if(product.equals(ob.getName())){
 			        							boo=true;
 			        							id=ob.getId();
 			        							break;
@@ -1488,7 +1487,7 @@ public class ExcelUtil {
         					String str = cell.getRichStringCellValue().toString().trim();
         					List<Category> list2 = excelUtil.categoryService.selectByCode(str);
         					if(null == list2 || list2.size() == 0){
-        						errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，目录不存在!";
+        						errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，不存在!";
 	        					 map.put("errMsg", errMsg);
 	        					 bool=false;
 		        				 break;

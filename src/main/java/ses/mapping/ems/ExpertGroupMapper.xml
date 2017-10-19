@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpertGroupMapper">
+    <resultMap id="BaseResultMap" type="ses.model.ems.ExpertGroup">
+        <id column="GROUP_ID" jdbcType="VARCHAR" property="groupId" />
+        <result column="BATCH_ID" jdbcType="VARCHAR" property="batchId" />
+        <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName" />
+        <result column="CROUT" jdbcType="VARCHAR" property="crout" />
+        <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+        <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    </resultMap>
+    <sql id="Base_List">
+    	GROUP_ID,BATCH_ID,GROUP_NAME,COUNT,CREATED_AT,UPDATED_AT,STATUS
+    </sql>
+   
+    <!-- 获取当前批次中最大组号 -->
+    <select id="getMaxGroupCount" resultType="java.lang.String" parameterType="java.lang.String">
+        select max(COUNT) from T_SYS_EMS_EXPERT_GROUP where BATCH_ID=#{id}
+    </select>
+    <!-- 获取当前批次分配好的所有组 -->
+    <select id="getGroup" resultMap="BaseResultMap" parameterType="ses.model.ems.ExpertGroup">
+        select 
+        <include refid="Base_List" />
+		from T_SYS_EMS_EXPERT_GROUP where 1=1
+		<if test="batchId != null and batchId !=''">
+            AND BATCH_ID=#{batchId}
+        </if>
+		<if test="groupId != null and groupId !=''">
+            AND GROUP_ID=#{groupId}
+        </if>
+		ORDER BY COUNT ASC
+    </select>
+    <select id="findGroup" resultMap="BaseResultMap" parameterType="ses.model.ems.ExpertGroup">
+        select 
+        <include refid="Base_List" />
+		from T_SYS_EMS_EXPERT_GROUP where 1=1
+		<if test="batchId != null and batchId !=''">
+            AND BATCH_ID=#{batchId}
+        </if>
+		<if test="groupId != null and groupId !=''">
+            AND GROUP_ID=#{groupId}
+        </if>
+		ORDER BY COUNT ASC
+    </select>
+    <insert id="insert" parameterType="ses.model.ems.ExpertGroup">
+        insert into T_SYS_EMS_EXPERT_GROUP
+        (GROUP_ID,BATCH_ID,GROUP_NAME,COUNT,CREATED_AT,UPDATED_AT,STATUS)
+        values
+        (#{groupId}, #{batchId},#{groupName},#{count}, #{createdAt}, #{updatedAt},#{status})
+    </insert>
+    <update id="updateStatus" parameterType="ses.model.ems.ExpertGroup">
+    	update T_SYS_EMS_EXPERT_GROUP set STATUS=#{status} where GROUP_ID=#{groupId}
+    </update>
+   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+   		 delete from
+        T_SYS_EMS_EXPERT_GROUP
+        where GROUP_ID = #{groupId,jdbcType=VARCHAR}
+   </delete>
+</mapper>

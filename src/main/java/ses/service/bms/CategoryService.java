@@ -6,11 +6,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import common.bean.ResBean;
 import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
+import ses.model.bms.DictionaryData;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierTypeTree;
 
@@ -442,4 +445,31 @@ import ses.model.sms.SupplierTypeTree;
 	 * @return
 	 */
 	public List<Category> getPListByCode(String code);
+
+	public List<CategoryTree> getTreeForExt(Category category,
+			String supplierTypeCode, String categoryId);
+
+	public List<DictionaryData> getEngAptitudeLevelByCategoryId(String categoryId);
+
+	public List<DictionaryData> getQuaByCid(String categoryId);
+
+	/**
+	 * 根据itme中间表id查询categor
+	 * @param itemsId
+	 * @return
+	 */
+	Category selectCategoryByItemId (String itemsId);
+	
+	/**
+	 * 按品目名称搜索品目树
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-9下午3:10:57
+	 * @param typeId
+	 * @param cateName
+	 * @return
+	 */
+	Set<Category> selectCategoryByName(String typeId, String cateName);
+	
 }

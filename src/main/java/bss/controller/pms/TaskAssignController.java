@@ -1,17 +1,16 @@
 package bss.controller.pms;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-
+import bss.controller.base.BaseController;
+import bss.model.pms.CollectPlan;
+import bss.model.ppms.Task;
+import bss.service.pms.CollectPlanService;
+import bss.service.pms.CollectPurchaseService;
+import bss.service.pms.PurchaseDetailService;
+import bss.service.ppms.TaskService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.constant.StaticVariables;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -20,27 +19,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.PropUtil;
-import bss.controller.base.BaseController;
-import bss.model.pms.CollectPlan;
-import bss.model.pms.PurchaseRequired;
-import bss.model.ppms.Task;
-import bss.service.pms.CollectPlanService;
-import bss.service.pms.CollectPurchaseService;
-import bss.service.pms.PurchaseDetailService;
-import bss.service.pms.PurchaseRequiredService;
-import bss.service.ppms.TaskService;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.constant.StaticVariables;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * 
@@ -215,6 +208,26 @@ public class TaskAssignController extends BaseController{
 		
 		return "redirect:list.html";
 	}
+	/**
+	 * 
+		 * @Title: checkAuditNo
+		 * @author: Zhou Wei
+		 * @date: 2017年8月24日 下午5:30:02
+		 * @Description: 采购任务文号唯一校验 
+		 * @return: String
+	 */
+	@RequestMapping("/checkAuditNo")
+	@ResponseBody
+	public String checkAuditNo(String documentNumber){
+		Task task = new Task();
+		task.setDocumentNumber(documentNumber);
+		boolean flag =taskservice.verify(task);
+		if (!flag) {
+			return "exist";
+		}else {
+			return "noexist";
+		}
+	}
 	
 	public String getRandomString() { //length表示生成字符串的长度  
 	    String chars = "abcdefghijklmnopqrstuvwxyz";     
@@ -275,13 +288,15 @@ public class TaskAssignController extends BaseController{
              List<CollectPlan> list = collectPlanService.selectDatePlan(map);
              model.addAttribute("date", date);
              model.addAttribute("info", new PageInfo<CollectPlan>(list));
-         }
-	     if(StringUtils.isNotBlank(orgnizationId)){
+         }else if(StringUtils.isNotBlank(orgnizationId)){
 	         map.put("orgnizationId", orgnizationId);
              List<CollectPlan> list = collectPlanService.selectOrgPlan(map);
              model.addAttribute("orgnizationId", orgnizationId);
              model.addAttribute("info", new PageInfo<CollectPlan>(list));
-	     }
+	     }else {
+			 List<CollectPlan> list = collectPlanService.selectDatePlan(map);
+			 model.addAttribute("info", new PageInfo<CollectPlan>(list));
+		 }
 	     model.addAttribute("collectPlan", collectPlan);
 	     return "dss/rids/list/view_plan";
 	 }

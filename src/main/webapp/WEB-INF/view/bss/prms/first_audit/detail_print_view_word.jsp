@@ -83,7 +83,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 
 <body>
 
-<div style="width:85%;margin:auto;" class = "Section1">
+<div style="width:100%;margin:auto;" class = "Section1">
     <div style="display: block;background: #fff;padding: 1px 10px;margin: 10px 0 10px 20px;border-left: 4px solid #2c9fa6;">
    		<h2>检查数据</h2>
    	</div>
@@ -94,39 +94,39 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
   	<c:forEach items="${extensions}" var="extension"  varStatus="p" >
   	<h4>评审人员：${extension[0].expert.relName}</h4>
   	   <c:forEach items="${extension}" var="ext" >
-  	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;margin: auto;" colspan="0" rowspan="0">
+  	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;width:100%;" colspan="0" rowspan="0">
   	<thead>
    		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
-   		  <th width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">资格性和符合性检查项</th>
+   		  <th  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:20%;">资格性和符合性检查项</th>
    		  <c:set var="suppliers" value="0" />
    		  <c:forEach items="${ext.supplierList}" var="supplier" varStatus="vs">
    		  	<c:if test="${fn:contains(supplier.packages,ext.packageId)}">
 	   		    <c:set var="suppliers" value="${suppliers+1}" />
-	   		    <th width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">
+	   		    <th  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:10%;">
 	   		      ${supplier.suppliers.supplierName}
 	   		    </th>
    		    </c:if>
    		  </c:forEach>
-   		  <c:if test="${fn:length(ext.supplierList)<8}">
+   		  <%-- <c:if test="${fn:length(ext.supplierList)<8}">
 		        <c:forEach begin="1" end="${8-fn:length(ext.supplierList)}"  step="1" varStatus="i">
-		            <th width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">
+		            <th  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:10%;">
 		            </th>
 		         </c:forEach>
-		  </c:if>
+		  </c:if> --%>
    		  </tr>
    		</thead>
    		 <c:forEach items="${ext.dds}" var="d">
    			<tr  style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
-   			  <td width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;" colspan="${suppliers+1}">
+   			  <td  style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;width:100%;" colspan="${suppliers+1}">
    				<b>${d.name}</b>
    			  </td>
    			</tr>
    			<c:forEach items="${ext.firstAuditList }" var="first" varStatus="vs">
 		      	<c:if test="${first.kind == d.id}">
 			      	<tr>
-			      	  <td width="120" style="border: 1px solid #ddd;padding: 5px 10px;">${first.name}</td>
+			      	  <td  style="border: 1px solid #ddd;padding: 5px 10px;width:20%;">${first.content}</td>
 			      	  <c:forEach items="${ext.supplierList}" var="supplier" varStatus="v">
-			      	  	 <td width="120" style="border: 1px solid #ddd;padding: 5px 10px;">
+			      	  	 <td  style="border: 1px solid #ddd;padding: 5px 10px;width:10%;text-align: center;">
 			      	  
 	                   <c:if test="${fn:contains(supplier.packages,ext.packageId)}">
 			                    <c:forEach items="${reviewFirstAuditList }" var="r" >                
@@ -140,12 +140,12 @@ response.setHeader("Content-disposition", "attachment; filename=" + fileName);
 		                </c:if> 
 		                </td>
 		              </c:forEach>
-		              <c:if test="${fn:length(ext.supplierList)<8}">
+		             <%--  <c:if test="${fn:length(ext.supplierList)<8}">
 		                 <c:forEach begin="1" end="${8-fn:length(ext.supplierList)}"  step="1" varStatus="i">
-		                 <td width="120" style="border: 1px solid #ddd;padding: 5px 10px;">
+		                 <td style="border: 1px solid #ddd;padding: 5px 10px;width:10%;">
 		                 </td>
 		                 </c:forEach>
-		              </c:if>
+		              </c:if> --%>
 		           
 			      	</tr>
 		      	</c:if>

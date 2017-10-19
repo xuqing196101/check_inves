@@ -133,8 +133,7 @@ public class ArticleServiceImpl implements ArticleService {
    */
   @Override
   public List<Article> selectArticleByStatus(HashMap<String, Object> map) {
-    List<Article> list = articleMapper.selectArticleByStatus(map);
-    return list;
+    return articleMapper.selectArticleByStatus(map);
   }
 
   /**

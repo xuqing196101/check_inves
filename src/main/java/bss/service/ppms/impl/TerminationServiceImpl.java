@@ -11,23 +11,31 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import common.annotation.CurrentUser;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.ems.ProjectExtractMapper;
+import ses.dao.oms.OrgnizationMapper;
 import ses.dao.sms.QuoteMapper;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.ems.ProjectExtract;
+import ses.model.oms.Orgnization;
 import ses.model.sms.Quote;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
@@ -74,8 +82,9 @@ import bss.model.prms.PackageExpert;
 import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.ReviewProgress;
 import bss.service.ppms.TerminationService;
+import bss.util.TerminationConstant;
 @Service("terminationService")
-public class TerminationServiceImpl<V> implements TerminationService {
+public class TerminationServiceImpl implements TerminationService {
   @Autowired
   private PackageMapper packageMapper;
   @Autowired
@@ -103,7 +112,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
   @Autowired
   private ReviewProgressMapper reviewProgressMapper;
   @Autowired
-  private ReviewFirstAuditMapper reviewFirstAuditMapper;
+  private ReviewFirstAuditMapper reviewFirstAuditMapper; 
   @Autowired
   private ArticleTypeMapper articleTypeMapper;
   @Autowired
@@ -128,21 +137,27 @@ public class TerminationServiceImpl<V> implements TerminationService {
   private PurchaseDetailMapper purchaseDetailMapper;
   @Autowired
   private ProjectExtractMapper  projectExtractMapper;
+  
+  @Autowired
+  private OrgnizationMapper orgnizationMapper;
+  
   @Override
-  /*
-   * (non-Javadoc)
-   * @see bss.service.ppms.TerminationService#updateTermination(java.lang.String包的id集合, java.lang.String项目id，java.lang.String流程id)
-   */
   public void updateTermination(String packagesId, String projectId,String currFlowDefineId,String oldCurrFlowDefineId,String type) {
-    String[] packId=packagesId.split(",");
-    Map<String, Integer> mapOrder=new HashMap<String, Integer>();
-    List<Integer> number=new ArrayList<Integer>();
+    String[] packId=packagesId.split(StaticVariables.COMMA_SPLLIT);
+    Map<String, String> mapOrder=new HashMap<String, String>();
+    List<String> number=new ArrayList<String>();
     HashMap<String, Object> map=new HashMap<String, Object>();
     map.put("projectId", projectId);
     List<Packages> packages = packageMapper.selectByPrimaryKey(map);
     if(packages!=null&&packages.size()>0){
       for(int i=0;i<packages.size();i++){
-        mapOrder.put(packages.get(i).getId(),Integer.valueOf(packages.get(i).getName().substring(1, 2)));
+    	  String substring = packages.get(i).getName().substring(1, packages.get(i).getName().length()-1);
+    	  if (Pattern.compile("^[0-9]*[1-9][0-9]*$").matcher(substring).matches()) {
+    		  mapOrder.put(packages.get(i).getId(),substring);
+    	  } else {
+    		  mapOrder.put(packages.get(i).getId(),packages.get(i).getName());
+    	  }
+        
       }
     }
     if(packagesId!=null){
@@ -156,11 +171,12 @@ public class TerminationServiceImpl<V> implements TerminationService {
     String title=ShortBooleanTitle(number);
     //生成项目
     Project project = insertProject(projectId, title,type,currFlowDefineId);
+    updateProjectName(projectId, packId);
     Map<String, String> mapId=new HashMap<String, String>();
-    if(!"XMLX".equals(currFlowDefineId)){
+    if(!TerminationConstant.FLW_XMLX.equals(currFlowDefineId)){
       projectMapper.insertSelective(project);
     }
-    if("XMLX".equals(currFlowDefineId)){
+    if(TerminationConstant.FLW_XMLX.equals(currFlowDefineId)){
       if(packId.length>0){
         for(String id:packId){
           Packages pg = packageMapper.selectByPrimaryKeyId(id);
@@ -195,8 +211,12 @@ public class TerminationServiceImpl<V> implements TerminationService {
           }
         }
       }
-    }else if("XMFB".equals(currFlowDefineId)){
+    }else if(TerminationConstant.FLW_XMFB.equals(currFlowDefineId)){
       if(packId.length>0){
+        Set<ProjectDetail> set=new HashSet<ProjectDetail>();
+        Project pr = projectMapper.selectProjectByPrimaryKey(projectId);
+        Project oldProject = projectMapper.selectProjectByPrimaryKey(pr.getParentId());
+        List<ProjectDetail> oldPd = projectDetailMapper.selectNotEmptyPackageOfDetail(oldProject.getId());
         for(String id:packId){
           Packages pg = packageMapper.selectByPrimaryKeyId(id);
           pg.setOldFlowId(oldCurrFlowDefineId);
@@ -205,11 +225,28 @@ public class TerminationServiceImpl<V> implements TerminationService {
           packageMapper.updateByPrimaryKeySelective(pg);
           List<ProjectDetail> pds = projectDetailMapper.selectByPackageRecursively(id);
           for(ProjectDetail pd:pds){
-            pd.setPackageId(null);
-            pd.setProject(project);
-            pd.setCreatedAt(new Date());
-            pd.setUpdateAt(null);
-            projectDetailMapper.insertSelective(pd);
+            List<ProjectDetail> pdss = projectDetailMapper.selectByRequiredIdTree(pd.getRequiredId());
+            set.addAll(pdss);
+          }
+        }
+        Iterator<ProjectDetail> iterator = set.iterator();
+        while(iterator.hasNext()){
+          ProjectDetail next = iterator.next();
+          for (ProjectDetail pde : oldPd) {
+            if(next.getId().equals(pde.getId())){
+              next.setPackageId(null);
+              next.setProject(project);
+              next.setCreatedAt(new Date());
+              next.setUpdateAt(null);
+              projectDetailMapper.insertSelective(next);
+            }
+          }
+          if(next.getPackageId()!=null&&!"".equals(next.getPackageId())){
+            next.setPackageId(null);
+            next.setProject(project);
+            next.setCreatedAt(new Date());
+            next.setUpdateAt(null);
+            projectDetailMapper.insertSelective(next);
           }
         }
       }
@@ -221,22 +258,40 @@ public class TerminationServiceImpl<V> implements TerminationService {
       insertDetail(packagesId,projectId, project, mapId);
       //获取当前流程以前的所有步骤并复制一份
       FlowDefine define=new FlowDefine();
-      define.setId(currFlowDefineId);
-      define.setUrl("gtl");
-      List<FlowDefine> flowDefines = flowDefineMapper.getFlow(define);
+      List<FlowDefine> flowDefines=null;
+      if(type!=null){
+        FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
+        HashMap<String, Object> hashMap=new HashMap<String, Object>();
+        hashMap.put("code", flowDefine.getCode());
+        hashMap.put("id", "3CF3C643AE0A4499ADB15473106A7B80");
+        flowDefines=flowDefineMapper.getJzxtp(hashMap);
+      }else{
+        define.setId(currFlowDefineId);
+        define.setUrl("gt");
+        flowDefines = flowDefineMapper.getFlow(define);
+      }
       Map<String, Map<String, Object>> IsTurnUpMap=new HashMap<String, Map<String, Object>>();
       Map<String, String> firstAuditIdMap=new HashMap<String, String>();
       for(FlowDefine flw:flowDefines){
-        /*FlowExecute temp=new FlowExecute();
-        temp.setFlowDefineId(flw.getId());
-        temp.setProjectId(projectId);
-        List<FlowExecute> findExecuteds = flowExecuteMapper.findExecutedByProjectIdAndFlowId(temp);
-        if(findExecuteds!=null&&findExecuteds.size()>0){
-          FlowExecute flowExecute = findExecuteds.get(0);
-          flowExecute.setId(WfUtil.createUUID());
-          flowExecute.setProjectId(project.getId());
-          flowExecuteMapper.insert(flowExecute);
-        }*/
+        if(type!=null){
+          FlowDefine define1=new FlowDefine();
+          define1.setPurchaseTypeId(project.getPurchaseType());
+          define1.setCode(flw.getCode());
+          List<FlowDefine> findList = flowDefineMapper.findList(define1);
+          if(findList!=null&&findList.size()>0){
+            FlowExecute temp=new FlowExecute();
+            temp.setFlowDefineId(findList.get(0).getId());
+            temp.setProjectId(projectId);
+            List<FlowExecute> findExecuteds = flowExecuteMapper.findExecutedByProjectIdAndFlowId(temp);
+            if(findExecuteds!=null&&findExecuteds.size()>0){
+              FlowExecute flowExecute = findExecuteds.get(0);
+              flowExecute.setId(WfUtil.createUUID());
+              flowExecute.setFlowDefineId(flw.getId());
+              flowExecute.setProjectId(project.getId());
+              flowExecuteMapper.insert(flowExecute);
+            }
+          }
+        }
         flowDefine(flw,mapId,project,projectId,IsTurnUpMap,firstAuditIdMap);
        }
       }
@@ -244,18 +299,18 @@ public class TerminationServiceImpl<V> implements TerminationService {
   private void flowDefine(FlowDefine flw,Map<String, String> mapId,Project project,String oldProjectId,Map<String, Map<String, Object>> IsTurnUpMap,Map<String, String> firstAuditIdMap){
     //判断是采购方式
     DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(flw.getPurchaseTypeId());
-    if("GKZB".equals(data.getCode())){//公开招标
+    if(TerminationConstant.MODE_GKZB.equals(data.getCode())){//公开招标
       project_gkzb(flw, mapId, project, oldProjectId, IsTurnUpMap,
           firstAuditIdMap);
-    }else if("XJCG".equals(data.getCode())){//询价采购
+    }else if(TerminationConstant.MODE_XJCG.equals(data.getCode())){//询价采购
       project_xjcg(flw, mapId, project, oldProjectId, IsTurnUpMap,
           firstAuditIdMap);
-    }else if("JZXTP".equals(data.getCode())){//竞争性谈判
+    }else if(TerminationConstant.MODE_JZXTP.equals(data.getCode())){//竞争性谈判
       project_jzxtp(flw, mapId, project, oldProjectId, IsTurnUpMap,
           firstAuditIdMap);
-    }else if("DYLY".equals(data.getCode())){//单一来源
+    }else if(TerminationConstant.MODE_DYLY.equals(data.getCode())){//单一来源
       project_dyly(flw, mapId, project, oldProjectId, IsTurnUpMap);
-    }else if("YQZB".equals(data.getCode())){//邀请招标
+    }else if(TerminationConstant.MODE_YQZB.equals(data.getCode())){//邀请招标
       project_yqzb(flw, mapId, project, oldProjectId, IsTurnUpMap,
           firstAuditIdMap);
     }
@@ -669,7 +724,6 @@ public class TerminationServiceImpl<V> implements TerminationService {
     Map<String, String>  scoreModelId=new HashMap<String, String>();
     insert_scoreModel(project, oldProjectId, mapId, markTermsId,
         scoreModelId);
-    
     insert_paramInterval(project, oldProjectId, mapId, scoreModelId);
     //采购文件
     String typeId = DictionaryDataUtil.getId("PROJECT_BID");
@@ -685,6 +739,8 @@ public class TerminationServiceImpl<V> implements TerminationService {
     String cause_reason = DictionaryDataUtil.getId("CAUSE_REASON");
     //财务部门审核意见附件
     String finance_reason = DictionaryDataUtil.getId("FINANCE_REASON");
+    //最终意见附件
+    String FINAL_OPINION = DictionaryDataUtil.getId("FINAL_OPINION");
   }
   private void insert_paramInterval(Project project, String oldProjectId,
       Map<String, String> mapId, Map<String, String> scoreModelId) {
@@ -838,10 +894,10 @@ public class TerminationServiceImpl<V> implements TerminationService {
       for(int i=0;i<split.length;i++){
         Packages pg = packageMapper.selectByPrimaryKeyId(split[i]);
         if(type!=null){
-          pg.setProjectStatus("FC0D62C307844E7693238E58C0B0610D");
+          pg.setProjectStatus(DictionaryDataUtil.getId("ZJZXTP"));
           pg.setEditFlowId(currFlowDefineId);
         }else{
-          pg.setProjectStatus("F0EAF1136F7E4E8A8BDA6561AE8B4390");
+          pg.setProjectStatus(DictionaryDataUtil.getId("YZZ"));
           pg.setOldFlowId(oldCurrFlowDefineId);
         }
         
@@ -853,7 +909,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
           pg.setUpdatedAt(null);
           pg.setOldFlowId(null);
           if(type!=null){
-            pg.setPurchaseType("3CF3C643AE0A4499ADB15473106A7B80");
+            pg.setPurchaseType(DictionaryDataUtil.getId("JZXTP"));
           }else{
             pg.setNewFlowId(currFlowDefineId);
           }
@@ -869,48 +925,93 @@ public class TerminationServiceImpl<V> implements TerminationService {
     Project project = projectMapper.selectProjectByPrimaryKey(projectId);
     project.setRelationId(project.getId());
     project.setCreateAt(new Date());
-    project.setName(project.getName()+title);
-    project.setProjectNumber(project.getProjectNumber()+title);
+    project.setName(project.getName().substring(0,project.getName().lastIndexOf("（"))+title);
+    
+    project.setProjectNumber(project.getProjectNumber().substring(0,project.getProjectNumber().lastIndexOf("（"))+title);
+    project.setConfirmFile(null);
     //project.setSupplierNumber(null);
     //project.setDeadline(null);
     //project.setBidDate(null);
     //project.setBidAddress(null);
     //project.setStartTime(null);
-    project.setStatus("8239AF4991F448A28FE1FE09F525FA3D");
+    project.setStatus(DictionaryDataUtil.getId("FBWC"));
     //project.setIsCharge(null);
     if(type!=null){
-      project.setPurchaseType("3CF3C643AE0A4499ADB15473106A7B80");
+    	Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(project.getPurchaseDepId());
+    	project.setSectorOfDemand(orgnization.getName());
+    	/*project.setPurchaseType("3CF3C643AE0A4499ADB15473106A7B80");*/
+    	project.setPurchaseNewType(DictionaryDataUtil.getId("JZXTP"));
+    	
     }
     if("XMLX".equals(currFlowDefineId)){
       
     }else if("XMFB".equals(currFlowDefineId)){
+      project.setStatus(DictionaryDataUtil.getId("YJLX"));
       project.setParentId("1");
     }else{
       
     }
     return project;
   }
-  private String ShortBooleanTitle(List<Integer> number) {
-    String title;
-    Collections.sort(number);
-    boolean flg=false;
-    if(number!=null&&number.size()>0){
-        for(int i=0;i<number.size();i++){
-          if(i!=number.size()-1){
-            if(number.get(i)+1==number.get(i+1)){
-              flg=true;
-            }else{
-              flg=false;
-            }
-          }
-      }
-    }
-    if(flg){
-      title="(第"+number.get(0)+"-"+number.get(number.size()-1)+"包)";
-    }else{
-      title="(第"+StringUtils.join(number,",")+"包)";
-    }
-    return title;
+  
+  private void updateProjectName(String projectId, String[] packageIds) {
+	  Project project = projectMapper.selectProjectByPrimaryKey(projectId);
+	  HashMap<String, Object> map = new HashMap<>();
+	  map.put("projectId", projectId);
+	  List<Packages> findByID = packageMapper.findByID(map);
+	  if (findByID != null && !findByID.isEmpty() && findByID.size() > 1) {
+		  List<String> num = new ArrayList<String>();
+		  for (Packages packages : findByID) {
+			  for (String packageId : packageIds) {
+				  if (!StringUtils.equals(packageId, packages.getId())) {
+					  num.add(packages.getName().substring(1, packages.getName().length()-1));
+				  }
+			  }
+		  }	
+		  String title = ShortBooleanTitle(num);
+		  String name = project.getName().substring(0,project.getName().lastIndexOf("（"));
+		  project.setName(name+title);
+		  project.setProjectNumber(name+title);
+		  projectMapper.updateByPrimaryKeySelective(project);
+	  }
+  }
+  private String ShortBooleanTitle(List<String> number) {
+	  String title;
+	  Collections.sort(number);
+	  boolean flg=false;
+	  if(number!=null&&number.size()>0){
+		  for(int i=0;i<number.size();i++){
+			  if(i!=number.size()-1){
+				  if (Pattern.compile("^[0-9]*[1-9][0-9]*$").matcher(number.get(i)).matches()) {
+					  if(number.get(i)+1==number.get(i+1)){
+						  flg=true;
+					  }else{
+						  flg=false;
+					  }
+				  }
+			  }
+		  }
+	  }
+	  if(flg){
+		  title="（第"+number.get(0)+"-"+number.get(number.size()-1)+"包）";
+	  }else{
+		  String num = null;
+		  for (String string : number) {
+			  if (Pattern.compile("^[0-9]*[1-9][0-9]*$").matcher(string).matches()) {
+				  num = "0";
+			  } else {
+				  num = "1";
+				  break;
+			  }
+		  }
+		  if("0".equals(num)){
+			  title="（第"+StringUtils.join(number,",")+"包）";
+		  } else {
+			  title="（"+StringUtils.join(number,",")+"）";
+		  }
+		  
+	  }
+	  return title;
   }
   @Override
   public List<FlowDefine> selectFlowDefineTermination(String currFlowDefineId) {

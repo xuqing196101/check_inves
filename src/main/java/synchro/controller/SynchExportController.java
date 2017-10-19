@@ -45,6 +45,7 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
+import extract.service.expert.ExpertExtractProjectService;
 
 /**
  * 
@@ -129,6 +130,9 @@ public class SynchExportController {
     @Autowired
 	private ServiceHotlineService serviceHotlineService;
     
+    /** 专家抽取 **/
+    @Autowired
+    private ExpertExtractProjectService expertExtractProjectService;
     /**
      * 
      *〈简述〉初始化导出
@@ -404,6 +408,10 @@ public class SynchExportController {
 	        	serviceHotlineService.exportHotLine(startTime, endTime,date);
 	        } 
 	        
+	        /** 专家抽取数据导出 **/
+	        if (synchType.contains(Constant.DATE_SYNCH_EXPERT_EXTRACT)) {
+	        	expertExtractProjectService.exportExpertExtract(startTime, endTime,date);
+	        } 
 	        bean.setSuccess(true);
 	        return bean;
         }

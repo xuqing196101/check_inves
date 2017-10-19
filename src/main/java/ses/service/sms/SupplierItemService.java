@@ -290,4 +290,11 @@ public interface SupplierItemService {
 
 	List<SupplierItem> findCategoryListPassed(String supplierId, String type, Integer pageNum);
 
+	/**
+	 * 根据id获取品目
+	 * @param id
+	 * @return
+	 */
+	public SupplierItem getItemById(String id);
+
 }

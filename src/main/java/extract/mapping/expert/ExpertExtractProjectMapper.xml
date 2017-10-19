@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="extract.dao.expert.ExpertExtractProjectMapper">
+  <resultMap id="BaseResultMap" type="extract.model.expert.ExpertExtractProject">
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PROJECT_NAME" property="projectName" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="PURCHASE_WAY" property="purchaseWay" jdbcType="VARCHAR" />
+    <result column="PACKAGE_NAME" property="packageName" jdbcType="VARCHAR" />
+    <result column="REVIEW_TIME" property="reviewTime" jdbcType="TIMESTAMP" />
+    <result column="REVIEW_PROVINCE" property="reviewProvince" jdbcType="VARCHAR" />
+    <result column="PROJECT_TYPE" property="projectType" jdbcType="VARCHAR" />
+    <result column="EXTRACT_ADDRESS" property="extractAddress" jdbcType="VARCHAR" />
+    <result column="CONTACT_PERSON" property="contactPerson" jdbcType="VARCHAR" />
+    <result column="CONTACT_NUM" property="contactNum" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="PACKAGE_ID" property="packageId" jdbcType="VARCHAR" />
+    <result column="REVIEW_DAYS" property="reviewDays" jdbcType="VARCHAR" />
+    <result column="REVIEW_ADDRESS" property="reviewAddress" jdbcType="VARCHAR" />
+    <result column="IS_AUTO" property="isAuto" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="PROCUREMENT_DEP_ID" property="procurementDepId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PROJECT_NAME, CODE, PURCHASE_WAY, PACKAGE_NAME, REVIEW_TIME,
+    REVIEW_PROVINCE,
+    PROJECT_TYPE, EXTRACT_ADDRESS, CONTACT_PERSON, CONTACT_NUM, REMARK, IS_DELETED,
+    CREATED_AT,
+    UPDATED_AT, PROJECT_ID, PACKAGE_ID, REVIEW_DAYS, REVIEW_ADDRESS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_PROJECT_EXTRACT_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_EMS_PROJECT_EXTRACT_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="extract.model.expert.ExpertExtractProject">
+    insert into T_SES_EMS_PROJECT_EXTRACT_INFO (ID, PROJECT_NAME, CODE,
+      PURCHASE_WAY, PACKAGE_NAME, REVIEW_TIME,
+      REVIEW_PROVINCE, PROJECT_TYPE, EXTRACT_ADDRESS,
+      CONTACT_PERSON, CONTACT_NUM, REMARK,
+      IS_DELETED, CREATED_AT, UPDATED_AT,
+      PROJECT_ID, PACKAGE_ID, REVIEW_DAYS,
+      REVIEW_ADDRESS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID)
+    values (#{id,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR},
+      #{code,jdbcType=VARCHAR},
+      #{purchaseWay,jdbcType=VARCHAR}, #{packageName,jdbcType=VARCHAR}, #{reviewTime,jdbcType=TIMESTAMP},
+      #{reviewProvince,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR},
+      #{extractAddress,jdbcType=VARCHAR},
+      #{contactPerson,jdbcType=VARCHAR}, #{contactNum,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+      #{isDeleted,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP},
+      #{updatedAt,jdbcType=TIMESTAMP},
+      #{projectId,jdbcType=VARCHAR}, #{packageId,jdbcType=VARCHAR}, #{reviewDays,jdbcType=VARCHAR},
+      #{reviewAddress,jdbcType=VARCHAR}, #{isAuto,jdbcType=DECIMAL},#{status,jdbcType=VARCHAR},#{procurementDepId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="extract.model.expert.ExpertExtractProject">
+    insert into T_SES_EMS_PROJECT_EXTRACT_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="projectName != null">
+        PROJECT_NAME,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="purchaseWay != null">
+        PURCHASE_WAY,
+      </if>
+      <if test="packageName != null">
+        PACKAGE_NAME,
+      </if>
+      <if test="reviewTime != null">
+        REVIEW_TIME,
+      </if>
+      <if test="reviewProvince != null">
+        REVIEW_PROVINCE,
+      </if>
+      <if test="projectType != null">
+        PROJECT_TYPE,
+      </if>
+      <if test="extractAddress != null">
+        EXTRACT_ADDRESS,
+      </if>
+      <if test="contactPerson != null">
+        CONTACT_PERSON,
+      </if>
+      <if test="contactNum != null">
+        CONTACT_NUM,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
+      <if test="reviewDays != null">
+        REVIEW_DAYS,
+      </if>
+      <if test="reviewAddress != null">
+        REVIEW_ADDRESS,
+      </if>
+      <if test="isAuto != null">
+        IS_AUTO,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="procurementDepId != null">
+        PROCUREMENT_DEP_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseWay != null">
+        #{purchaseWay,jdbcType=VARCHAR},
+      </if>
+      <if test="packageName != null">
+        #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewTime != null">
+        #{reviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewProvince != null">
+        #{reviewProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="extractAddress != null">
+        #{extractAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPerson != null">
+        #{contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNum != null">
+        #{contactNum,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null">
+        #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewDays != null">
+        #{reviewDays,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewAddress != null">
+        #{reviewAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="isAuto != null">
+        #{isAuto,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="procurementDepId != null">
+        #{procurementDepId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="extract.model.expert.ExpertExtractProject">
+    update T_SES_EMS_PROJECT_EXTRACT_INFO
+    <set>
+      <if test="projectName != null">
+        PROJECT_NAME = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseWay != null">
+        PURCHASE_WAY = #{purchaseWay,jdbcType=VARCHAR},
+      </if>
+      <if test="packageName != null">
+        PACKAGE_NAME = #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewTime != null">
+        REVIEW_TIME = #{reviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewProvince != null">
+        REVIEW_PROVINCE = #{reviewProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="extractAddress != null">
+        EXTRACT_ADDRESS = #{extractAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPerson != null">
+        CONTACT_PERSON = #{contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNum != null">
+        CONTACT_NUM = #{contactNum,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewDays != null">
+        REVIEW_DAYS = #{reviewDays,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewAddress != null">
+        REVIEW_ADDRESS = #{reviewAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="isAuto != null">
+        IS_AUTO = #{isAuto,jdbcType=DECIMAL},
+      </if>
+      <if test="reviewAddress != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="procurementDepId != null">
+        PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="extract.model.expert.ExpertExtractProject">
+    update T_SES_EMS_PROJECT_EXTRACT_INFO
+    set PROJECT_NAME = #{projectName,jdbcType=VARCHAR},
+      CODE = #{code,jdbcType=VARCHAR},
+      PURCHASE_WAY = #{purchaseWay,jdbcType=VARCHAR},
+      PACKAGE_NAME = #{packageName,jdbcType=VARCHAR},
+      REVIEW_TIME = #{reviewTime,jdbcType=TIMESTAMP},
+      REVIEW_PROVINCE = #{reviewProvince,jdbcType=VARCHAR},
+      PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
+      EXTRACT_ADDRESS = #{extractAddress,jdbcType=VARCHAR},
+      CONTACT_PERSON = #{contactPerson,jdbcType=VARCHAR},
+      CONTACT_NUM = #{contactNum,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+      REVIEW_DAYS = #{reviewDays,jdbcType=VARCHAR},
+      REVIEW_ADDRESS = #{reviewAddress,jdbcType=VARCHAR},
+      IS_AUTO = #{isAuto,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR},
+      PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 条件查询所有 -->
+  <select id="findAll" resultMap="BaseResultMap" parameterType="Map">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM T_SES_EMS_PROJECT_EXTRACT_INFO
+    WHERE IS_DELETED = 0 AND STATUS = 2
+      <if test="projectName != null and projectName != ''">
+        AND PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%')
+      </if>
+      <if test="code != null and code != ''">
+        AND CODE like CONCAT(CONCAT('%', #{code}), '%')
+      </if>
+      <if test="purchaseWay != null and purchaseWay != ''">
+        AND PURCHASE_WAY = #{purchaseWay}
+      </if>
+      <if test="startTime != null and startTime != ''">
+        AND to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &gt;= #{startTime,jdbcType=VARCHAR}
+      </if>
+      <if test="endTime != null and endTime != ''">
+        AND to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{endTime,jdbcType=VARCHAR} 
+      </if>
+      <if test="procurementDepId != null and procurementDepId != ''">
+        AND PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR}
+      </if>
+    ORDER BY CREATED_AT DESC
+  </select>
+  
+  <!-- 验证项目编号唯一 -->
+  <select id="vaProjectCode" parameterType="String" resultType="Integer">
+    SELECT COUNT(ID) FROM T_SES_EMS_PROJECT_EXTRACT_INFO WHERE IS_DELETED = 0 AND CODE = #{code}
+  </select>
+  
+  <!-- 修改项目抽取状态 -->
+  <update id="updataStatus" parameterType="Map">
+    UPDATE T_SES_EMS_PROJECT_EXTRACT_INFO
+    SET STATUS = #{status,jdbcType=VARCHAR}
+    WHERE ID = #{projectId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 根据修改时间查询 -->
+  <select id="selectByUpdateDate" resultMap="BaseResultMap" >
+    SELECT * FROM T_SES_EMS_PROJECT_EXTRACT_INFO WHERE 
+    to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
+  </select>
+</mapper>

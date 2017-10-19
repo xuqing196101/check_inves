@@ -438,4 +438,13 @@ public interface UserMapper {
    * @return
    */
   List<String> findByOrgId(String orgId);
+
+  /**
+     *〈简述〉获取权限关联用户
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param permenuId
+     * @return
+     */
+    List<User> findByPermenuId(String permenuId);
 }

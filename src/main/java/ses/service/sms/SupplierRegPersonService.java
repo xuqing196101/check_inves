@@ -5,10 +5,8 @@ import java.util.List;
 import ses.model.sms.SupplierRegPerson;
 
 public interface SupplierRegPersonService {
-	public void saveOrUpdateRegPerson(SupplierRegPerson supplierRegPerson);
+	public int saveOrUpdateRegPerson(SupplierRegPerson supplierRegPerson);
 
-	public void deleteRegPerson(String regPersonIds);
-	
 	public SupplierRegPerson queryById(String id);
 	/**
 	 * 
@@ -21,4 +19,11 @@ public interface SupplierRegPersonService {
 	* @throws
 	 */
 	List<SupplierRegPerson> queryByPerson(String personId);
+
+	/**
+	 * 批量删除注册人员信息
+	 * @param ids
+	 * @return
+	 */
+	public boolean deleteRegPersonByIds(String ids);
 }

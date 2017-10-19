@@ -31,10 +31,6 @@
 		from T_SES_SMS_SUPPLIER_CERT_ENG
 		where ID = #{id}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_CERT_ENG
-		where MAT_ENG_ID = #{id}
-	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierCertEng">
 		insert into T_SES_SMS_SUPPLIER_CERT_ENG (ID, MAT_ENG_ID, CERT_TYPE,
 		CERT_CODE, CERT_MAX_LEVEL, TECH_NAME,
@@ -151,7 +147,6 @@
 				#{attachCert},
 			</if>
 		</trim>
-	
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierCertEng">
 		update T_SES_SMS_SUPPLIER_CERT_ENG
@@ -246,11 +241,6 @@
         where
             t2.SUPPLIER_ID = #{supplierId}
   </select>
-  
-  <delete id="deleteById" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_CERT_ENG
-		where ID = #{id}
-	</delete>
 	
 	<select id="selectCertEngByCode" resultMap="BaseResultMap">
 		SELECT
@@ -290,11 +280,14 @@
 			t2."MAT_ENG_ID" = #{param3}
 	</select>
 	
-	
-	
+	<!-- 根据主键删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_CERT_ENG
+		where ID = #{id}
+	</delete>
+	<!-- 根据工程id删除 -->
 	<delete id="deleteByMatEngId">
-	
-	delete from T_SES_SMS_SUPPLIER_CERT_ENG
-		where mat_eng_id = #{matEngId}
+		delete from T_SES_SMS_SUPPLIER_CERT_ENG
+		where MAT_ENG_ID = #{matEngId}
 	</delete>
 </mapper>

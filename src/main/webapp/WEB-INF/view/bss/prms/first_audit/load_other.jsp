@@ -55,7 +55,7 @@
     
     //显示包评审项信息
     function view(packageId,projectId){
-    	window.open("${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId="+packageId+"&projectId="+projectId+"&flag="+1);   
+    	window.open("${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId="+packageId+"&projectId="+projectId+"&flag="+1+"&flowDefineId=${flowDefineId}");   
     }
     
     //引入包评审项
@@ -86,7 +86,7 @@
     }
   </script>
   <body>
-    <div class="container">
+    <div class="">
     <h2 class="search_detail">
        <form action="${pageContext.request.contextPath}/firstAudit/loadOtherPackage.html" method="post" class="mb0" id="form1">
         <input type="hidden" name="page" id="page">
@@ -98,10 +98,12 @@
           	<label class="fl">项目名称：</label><span><input type="text" name="projectName" value="${projectName}"/></span>
           </li>
           <li>
-            <label class="fl">包名：</label><span><input type="text" name="packageName" value="${packageName}"/></span>
+            <label class="fl w50">项目编号：</label><span><input type="text" name="projectNumber" value="${projectNumber}"/></span>
           </li>
-            <button type="submit" class="btn">查询</button>
-            <button type="button" onclick="resetQuery()" class="btn">重置</button>    
+          <li>
+            <button type="submit" class="btn fl">查询</button>
+            <button type="button" onclick="resetQuery()" class="btn fl">重置</button>    
+            </li>
         </ul>
           <div class="clear"></div>
        </form>

@@ -62,6 +62,11 @@ public class Category {
      *  物资分类 null 其他，3物资生产/物资销售 2物质销售 1物资生产
      */
     private Integer classify;
+    
+    /**
+     * 1：物资 ，2：工程 3：服务
+     */
+    private Integer type;
 
     /**
      * @Fields code : 编码
@@ -639,6 +644,14 @@ public class Category {
 		} else if (!updatedAt.equals(other.updatedAt))
 			return false;
 		return true;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
 	}
 
 }

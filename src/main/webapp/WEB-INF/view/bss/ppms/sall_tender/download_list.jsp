@@ -49,20 +49,21 @@
       }
       // 封装弹出 处理文档
        function openDocuments() {
-		var packagesID=$('[name="chkItem_supplier"]:checked').val();
+		    var packagesID=$('[name="chkItem_supplier"]:checked').val();
         var projectId = $("#projectId").val();
-		layer.open({
+        /* location.href='${pageContext.request.contextPath}/saleTender/processingDocuments.html?projectId='+projectId+'&suppliersID='+packagesID; */  
+		  layer.open({
 			  type: 2, //page层
 			  area: ['200px', '50px'],
 			  title: '等待文档生成中',
-			  closeBtn: 0,
+			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
 			  moveType: 0, //拖拽风格，0是默认，1是传统拖动
 			  shift: 1, //0-6的动画形式，-1不开启
 			  offset: '160px',
 			  shadeClose: true,
 			  content: '${pageContext.request.contextPath}/saleTender/processingDocuments.html?projectId='+projectId+'&suppliersID='+packagesID
-			});
+			});  
 	}
     </script>
   </head>

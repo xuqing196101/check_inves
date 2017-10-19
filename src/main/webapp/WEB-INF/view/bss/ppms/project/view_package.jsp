@@ -156,9 +156,14 @@
             <span class="">
               <select name="status" id="status">
                 <option selected="selected" value="">请选择</option>
-                <c:forEach items="${status}" var="status" >
-                  <option  value="${status.id}" <c:if test="${status.id eq projects.status}">selected="selected"</c:if>>${status.name}</option>
-                </c:forEach>
+                <option value="1" <c:if test="${projects.status eq '1'}">selected="selected"</c:if>>未分包</option>
+                <option value="2" <c:if test="${projects.status eq '2'}">selected="selected"</c:if>>已分包</option>
+               <%--  <c:forEach items="${status}" var="status" >
+                  <option  value="${status.id}" <c:if test="${status.id eq projects.status}">selected="selected"</c:if>>
+                  	<c:if test="${status.code eq 'YJLX'}">未分包</c:if>
+                    <c:if test="${status.code ne 'YJLX'}">已分包</c:if>
+                  </option>
+                </c:forEach> --%>
               </select>
             </span>
       </li>
@@ -195,14 +200,14 @@
             <c:forEach items="${info.list}" var="obj" varStatus="vs">
               <tr class="pointer">
                 <td class="tc w30">
-                  <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()">
+                  <input type="checkbox" value="${obj.id}" name="chkItem" onclick="check()">
                 </td>
                 <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
                 <td class="tl" onclick="view('${obj.id}')">${obj.name}</td>
                 <td class="tl" onclick="view('${obj.id}')">${obj.projectNumber}</td>
                 <td class="tc " onclick="view('${obj.id}')">
                   <c:forEach items="${kind}" var="kind">
-                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                    <c:if test="${kind.id eq obj.purchaseType}">${kind.name}</c:if>
                   </c:forEach>
                 </td>
                 <td class="tc" onclick="view('${obj.id}')">
@@ -210,8 +215,10 @@
                 </td>
                 <td>
                   <c:forEach items="${status}" var="status">
-                    <c:if test="${status.id == obj.status}">${status.name}
-                    <input type="hidden" value="${status.code}"/>
+                    <c:if test="${status.id eq obj.status}">
+                    	<c:if test="${status.code eq 'YJLX'}">未分包</c:if>
+                    	<c:if test="${status.code ne 'YJLX'}">已分包</c:if>
+                    	<input type="hidden" value="${status.code}"/>
                     </c:if>
                   </c:forEach>
                 </td>

@@ -59,6 +59,7 @@
     <result column="IS_CHARGE" property="isCharge"/>
     <result column="PARENT_ID" property="parentId"/>
     <result column="RELATION_ID" property="relationId"/>
+    <result column="PURCHASE_NEW_TYPE" property="purchaseNewType"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.findByOrgId"/>
     <association property="dictionary" column="PURCHASE_TYPE" select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryKey"/>
@@ -132,7 +133,7 @@
     AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS,IS_ENTRANCE,APPROVAL_TIME,REPLY_TIME,
     DEMAND_FROM_TIME,IS_REHEARSE,CREATED_AT,START_TIME,NOTICE_NEWS_TIME,APP_TIME,SIGN_UP_TIME,
     APPLY_DEADLINE,NOTICE_TIME,END_TIME,SIGNING_TIME,ACCEPTANCE_TIME,MAINTENANCE_TIME,IS_IMPORT,
-    IS_PROVISIONAL,PLAN_TYPE,CONFIRM_FILE,AUDIT_REASON,APPOINT_MAN,IS_CHARGE,PARENT_ID,RELATION_ID
+    IS_PROVISIONAL,PLAN_TYPE,CONFIRM_FILE,AUDIT_REASON,APPOINT_MAN,IS_CHARGE,PARENT_ID,RELATION_ID,PURCHASE_NEW_TYPE
   </sql>
   
   <sql id="Example_Where_Clause">
@@ -324,7 +325,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
-    where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0
+    where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0 AND STATUS != '4'
      <if test="name != null and name != ''">
        and NAME = #{name}
       </if>
@@ -542,6 +543,9 @@
        <if test="relationId != null">
         RELATION_ID,
       </if>
+      <if test="purchaseNewType != null">
+        PURCHASE_NEW_TYPE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -718,6 +722,9 @@
       <if test="relationId != null">
         #{relationId},
       </if>
+      <if test="purchaseNewType != null">
+        #{purchaseNewType},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Project">
@@ -890,6 +897,9 @@
       </if>
       <if test="parentId != null">
         PARENT_ID = #{parentId},
+      </if>
+      <if test="purchaseNewType != null">
+        PURCHASE_NEW_TYPE=#{purchaseNewType},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -1339,6 +1349,9 @@
       </if>
       <if test="status != null and status != ''">
        and STATUS = #{status}
+      </if>
+      <if test="statusAll != null and statusAll != ''">
+       and STATUS in (select ID from T_SES_BMS_DICTIONARY_DATA dd where dd.IS_DELETED = 0 and dd.KIND = 2 and dd.code!='YJLX' )
       </if>
       <if test="purchaseType != null and purchaseType != ''">
        and PURCHASE_TYPE = #{purchaseType}

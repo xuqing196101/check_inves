@@ -13,6 +13,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -339,6 +340,7 @@ public class OpenBiddingController extends BaseSupplierController{
             if (sms != null && sms.size() >0) {
               List<DictionaryData> ddList = DictionaryDataUtil.find(23);
               int checkCount = 0;
+              Double score=0.0;
               for (DictionaryData dictionaryData : ddList) {
                 MarkTerm mt = new MarkTerm();
                 mt.setTypeName(dictionaryData.getId());
@@ -354,6 +356,8 @@ public class OpenBiddingController extends BaseSupplierController{
                   mt1.setPackageId(p.getId());
                   List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
                   for (MarkTerm markTerm : mtValue) {
+                    score+=markTerm.getScscore();
+                    System.out.println(score);
                     if ("1".equals(markTerm.isChecked())) {
                       checkCount ++;
                     }
@@ -362,6 +366,10 @@ public class OpenBiddingController extends BaseSupplierController{
               }
               if (checkCount == 0 || checkCount > 1) {
                 msg = "noThired";
+                return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+              }
+              if(score!=100.00){
+                msg = "noScore";
                 return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
               }
             }
@@ -431,6 +439,8 @@ public class OpenBiddingController extends BaseSupplierController{
     model.addAttribute("causeTypeId", DictionaryDataUtil.getId("CAUSE_REASON"));
     //财务部门审核意见附件
     model.addAttribute("financeTypeId", DictionaryDataUtil.getId("FINANCE_REASON"));
+    //最终意见
+    model.addAttribute("finalTypeId", DictionaryDataUtil.getId("FINAL_OPINION"));
     return "bss/ppms/open_bidding/bid_file/add_file";
   }
 
@@ -545,7 +555,7 @@ public class OpenBiddingController extends BaseSupplierController{
     if(project.getPurchaseType().equals(id)){
       return makeNotices(user, projectId, PURCHASE_NOTICE, model, flowDefineId);
     }else{
-      return makeNotice(projectId, PURCHASE_NOTICE, model, flowDefineId);
+      return makeNotice(user, projectId, PURCHASE_NOTICE, model, flowDefineId);
     }
 
   }
@@ -733,7 +743,7 @@ public class OpenBiddingController extends BaseSupplierController{
    * @return 
    */
   @RequestMapping("/winNotice")
-  public String winNotice(String projectId, Model model, String flowDefineId){
+  public String winNotice(@CurrentUser User user, String projectId, Model model, String flowDefineId){
     Project project = projectService.selectById(projectId);
     if (project != null) {
         DictionaryData dictionaryData = DictionaryDataUtil.findById(project.getPlanType());
@@ -741,7 +751,7 @@ public class OpenBiddingController extends BaseSupplierController{
           model.addAttribute("rootCode", dictionaryData.getCode());
         }
     }
-    return makeNotice(projectId, WIN_NOTICE, model, flowDefineId);
+    return makeNotice(user, projectId, WIN_NOTICE, model, flowDefineId);
   }
 
   @RequestMapping("/showTime")
@@ -834,8 +844,17 @@ public class OpenBiddingController extends BaseSupplierController{
             List<Packages> findById = packageService.findByID(map);
             if(findById != null && findById.size() > 0){
             	for (Packages packages : findById) {
-            		packages.setProjectStatus(DictionaryDataUtil.getId("ZBGGNZZ"));
-            		packageService.updateByPrimaryKeySelective(packages);
+            	  String projectStatus = packages.getProjectStatus();
+                if(projectStatus!=null){
+                  DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+                  if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+                		packages.setProjectStatus(DictionaryDataUtil.getId("ZBGGNZZ"));
+                		packageService.updateByPrimaryKeySelective(packages);
+                  }
+                }else{
+                  packages.setProjectStatus(DictionaryDataUtil.getId("ZBGGNZZ"));
+                  packageService.updateByPrimaryKeySelective(packages);
+                }
         		}
             }
           }
@@ -851,8 +870,17 @@ public class OpenBiddingController extends BaseSupplierController{
             List<Packages> findById = packageService.findByID(map);
             if(findById != null && findById.size() > 0){
             	for (Packages packages : findById) {
-            		packages.setProjectStatus(DictionaryDataUtil.getId("NZZBGG"));
-            		packageService.updateByPrimaryKeySelective(packages);
+            	  String projectStatus = packages.getProjectStatus();
+                if(projectStatus!=null){
+                  DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+                  if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+                		packages.setProjectStatus(DictionaryDataUtil.getId("NZZBGG"));
+                		packageService.updateByPrimaryKeySelective(packages);
+                  }
+                }else{
+                  packages.setProjectStatus(DictionaryDataUtil.getId("NZZBGG"));
+                  packageService.updateByPrimaryKeySelective(packages);
+                }
         		}
             }
           }
@@ -878,8 +906,17 @@ public class OpenBiddingController extends BaseSupplierController{
                 List<Packages> findById = packageService.findByID(map);
                 if(findById != null && findById.size() > 0){
                 	for (Packages packages : findById) {
-                		packages.setProjectStatus(DictionaryDataUtil.getId("FSBSZ"));
-                		packageService.updateByPrimaryKeySelective(packages);
+                	  String projectStatus = packages.getProjectStatus();
+                    if(projectStatus!=null){
+                      DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+                      if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+                    		packages.setProjectStatus(DictionaryDataUtil.getId("FSBSZ"));
+                    		packageService.updateByPrimaryKeySelective(packages);
+                      }
+                    }else{
+                      packages.setProjectStatus(DictionaryDataUtil.getId("FSBSZ"));
+                      packageService.updateByPrimaryKeySelective(packages);
+                    }
             		}
                 }
             } else if ("JZXTP".equals(puchaseTypeCode)) {
@@ -894,8 +931,17 @@ public class OpenBiddingController extends BaseSupplierController{
                 List<Packages> findById = packageService.findByID(map);
                 if(findById != null && findById.size() > 0){
                 	for (Packages packages : findById) {
-                		packages.setProjectStatus(DictionaryDataUtil.getId("GYSCQZ"));
-                		packageService.updateByPrimaryKeySelective(packages);
+                	  String projectStatus = packages.getProjectStatus();
+                    if(projectStatus!=null){
+                      DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+                      if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+                    		packages.setProjectStatus(DictionaryDataUtil.getId("GYSCQZ"));
+                    		packageService.updateByPrimaryKeySelective(packages);
+                      }
+                    }else{
+                      packages.setProjectStatus(DictionaryDataUtil.getId("GYSCQZ"));
+                      packageService.updateByPrimaryKeySelective(packages);
+                    }
             		}
                 }
             }
@@ -915,8 +961,17 @@ public class OpenBiddingController extends BaseSupplierController{
                 List<Packages> findById = packageService.findByID(map);
                 if(findById != null && findById.size() > 0){
                 	for (Packages packages : findById) {
-                		packages.setProjectStatus(DictionaryDataUtil.getId("QRZBGYS"));
-                		packageService.updateByPrimaryKeySelective(packages);
+                	  String projectStatus = packages.getProjectStatus();
+                    if(projectStatus!=null){
+                      DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+                      if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+                    		packages.setProjectStatus(DictionaryDataUtil.getId("QRZBGYS"));
+                    		packageService.updateByPrimaryKeySelective(packages);
+                      }
+                    }else{
+                      packages.setProjectStatus(DictionaryDataUtil.getId("QRZBGYS"));
+                      packageService.updateByPrimaryKeySelective(packages);
+                    }
             		}
                 }
             }
@@ -1114,8 +1169,17 @@ public class OpenBiddingController extends BaseSupplierController{
         List<Packages> findById = packageService.findByID(map);
         if(findById != null && findById.size() > 0){
         	for (Packages packages : findById) {
-        		packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
-        		packageService.updateByPrimaryKeySelective(packages);
+        	  String projectStatus = packages.getProjectStatus();
+        	  if(projectStatus!=null){
+        	    DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+        	    if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+        	      packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+                packageService.updateByPrimaryKeySelective(packages);
+        	    }
+        	  }else{
+        	    packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+        	    packageService.updateByPrimaryKeySelective(packages);
+        	  }
     		}
         }
       }
@@ -1350,9 +1414,20 @@ public class OpenBiddingController extends BaseSupplierController{
       //显示第几轮次报价
       quoteCondition.setPackageId(packId);
       List<Date> listDate1 =  supplierQuoteService.selectQuoteCount(quoteCondition);
-      if (listDate1 != null) {
+      if (listDate1 != null && !listDate1.isEmpty()) {
     	countBid = listDate1.size();
         model.addAttribute("count", listDate1.size());
+        
+        //获取最后一次报价
+        /*Collections.reverse(listDate1);
+        Quote quote2 = new Quote();
+        quote2.setProjectId(projectId);
+        quote2.setPackageId(packId);
+        quote2.setCreatedAt(new Timestamp(listDate1.get(0).getTime()));
+        List<Quote> selectQuoteHistoryList = supplierQuoteService.selectQuoteHistoryList(quote2);
+        if (selectQuoteHistoryList != null && !selectQuoteHistoryList.isEmpty()) {
+			model.addAttribute("selectQuoteList", selectQuoteHistoryList);
+		}*/
       }
     }
     //该环节设置为执行中状态
@@ -1812,7 +1887,7 @@ public class OpenBiddingController extends BaseSupplierController{
       quote.setPackageId(jsonQuote.getString("packageId"));
       quote.setProjectId(jsonQuote.getString("projectId"));
       quote.setDeliveryTime(jsonQuote.getString("deliveryTime"));
-      if (!"".equals(jsonQuote.opt("isGiveUp")) && jsonQuote.opt("isGiveUp") != null ) {
+      if (!"".equals(jsonQuote.opt("isGiveUp")) && jsonQuote.opt("isGiveUp") != null) {
         quote.setIsRemove(Integer.parseInt(jsonQuote.getString("isGiveUp")));
         //放弃报价需要修改saletender这个表的isRemoved这个字段为2
         SaleTender condition = new SaleTender();
@@ -1848,6 +1923,19 @@ public class OpenBiddingController extends BaseSupplierController{
               }
             }
 
+          }
+          
+          SaleTender condition = new SaleTender();
+          condition.setProjectId(quote.getProjectId());
+          condition.setPackages(quote.getPackageId());
+          condition.setSupplierId(quote.getSupplierId());
+          condition.setStatusBid(NUMBER_TWO);
+          condition.setStatusBond(NUMBER_TWO);
+          condition.setIsTurnUp(0);
+          List<SaleTender> stList = saleTenderService.find(condition);
+          if (stList != null && !stList.isEmpty()) {
+        	  stList.get(0).setIsFirstPass(1);
+              saleTenderService.update(stList.get(0));
           }
 
           SupplierCheckPass record = new SupplierCheckPass();
@@ -2050,6 +2138,27 @@ public class OpenBiddingController extends BaseSupplierController{
     model.addAttribute("projectId", projectId);
     model.addAttribute("flag", flag);
     return "bss/ppms/open_bidding/bid_file/supplier_project";
+  }
+  
+  @ResponseBody
+  @RequestMapping("/end")
+  public String end(String projectId){
+	  Project project = projectService.selectById(projectId);
+	  FlowDefine define = new FlowDefine();
+	  define.setCode("FSBS");
+	  define.setPurchaseTypeId(project.getPurchaseType());
+	  List<FlowDefine> find = flowMangeService.find(define);
+	  if (find != null && !find.isEmpty()) {
+		  FlowExecute flowExecute = new FlowExecute();
+		  flowExecute.setProjectId(projectId);
+		  flowExecute.setFlowDefineId(find.get(0).getId());
+		  flowExecute.setStatus(3);
+		  List<FlowExecute> list = flowMangeService.findFlowExecute(flowExecute);
+		  if (list != null && !list.isEmpty()) {
+			  return StaticVariables.SUCCESS;
+		  }
+	  }
+	  return StaticVariables.FAILED;
   }
 
 
@@ -2595,15 +2704,6 @@ public class OpenBiddingController extends BaseSupplierController{
       model.addAttribute("projectId", projectId);
       model.addAttribute("listResultExpert", listResultExpert);
     }
-
-    /* Negotiation negotiation = negotiationService.selectByProjectId(project.getId());
-        model.addAttribute("project", project);
-        if(negotiation != null){
-            model.addAttribute("negotiation", negotiation);
-        }else{
-            model.addAttribute("uuId", WfUtil.createUUID());
-        }
-        model.addAttribute("dataId", DictionaryDataUtil.getId("NEGOTIATION_RECORD"));*/
     model.addAttribute("flowDefineId", flowDefineId);
     model.addAttribute("dataId", DictionaryDataUtil.getId("NEGOTIATION_RECORD"));
     return "bss/ppms/open_bidding/bid_file/negotiation";
@@ -2846,6 +2946,42 @@ public class OpenBiddingController extends BaseSupplierController{
     return newFileName;
 
   }
+  
+  @ResponseBody
+  @RequestMapping("/ifNotice")
+  public String ifNotice(String projectId, String noticeType){
+	  Article article = new Article();
+	  article.setProjectId(projectId);
+	  if (PURCHASE_NOTICE.equals(noticeType)) {
+		  //采购公告
+	      article.setArticleType(articelTypeService.selectArticleTypeByCode("purchase_notice"));
+	      //集中采购
+	      ArticleType articleType2 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrlized");
+	      if (articleType2 != null) {
+	    	  article.setSecondArticleTypeId(articleType2.getId());
+	      }
+	  } else {
+		  //中标公告
+	      article.setArticleType(articelTypeService.selectArticleTypeByCode("success_notice"));
+	      //集中采购
+	      ArticleType articleType2 = articelTypeService.selectArticleTypeByCode("success_notice_centralized");
+	      if (articleType2 != null) {
+	    	  article.setSecondArticleTypeId(articleType2.getId());
+	      }
+	  }
+	  //查询公告列表中是否有该项目的招标公告
+	  List<Article> articles = articelService.selectArticleByProjectId(article);
+	  //判断该项目是否已经存在该类型公告
+	  if (articles != null && !articles.isEmpty()) {
+		  //判断该项目的公告是否提交
+	      if (articles.get(0).getStatus() == 1 || articles.get(0).getStatus() == 2){
+	    	  return StaticVariables.SUCCESS;
+	      } else {
+	    	  return StaticVariables.FAILED;
+	      }
+	  }
+	  return StaticVariables.FAILED;
+  }
 
   /**
    *〈简述〉编制公告
@@ -2856,7 +2992,7 @@ public class OpenBiddingController extends BaseSupplierController{
    * @param model
    * @return
    */
-  public String makeNotice(String projectId, String noticeType, Model model, String flowDefineId){
+  public String makeNotice(User user, String projectId, String noticeType, Model model, String flowDefineId){
     Project project = projectService.selectById(projectId);
     ArticleType articleType = new ArticleType();
     Article article = new Article();
@@ -3109,6 +3245,18 @@ public class OpenBiddingController extends BaseSupplierController{
         getDefaultTemplate(projectId, model, WIN_NOTICE);
       }
     }
+    FlowExecute flowExecute = new FlowExecute();
+    flowExecute.setFlowDefineId(flowDefineId);
+    flowExecute.setProjectId(projectId);
+    List<FlowExecute> findFlowExecute = flowMangeService.findFlowExecute(flowExecute);
+    if (findFlowExecute != null && !findFlowExecute.isEmpty()) {
+		for (FlowExecute flowExecute2 : findFlowExecute) {
+			if (!StringUtils.equals(user.getId(), flowExecute2.getOperatorId())) {
+				model.addAttribute("operatorId", 1);
+				break;
+			}
+		}
+	}
     Article art = new Article();
     article.setProjectId(projectId);
     //查询公告列表中是否有该项目的招标公告
@@ -3569,7 +3717,7 @@ public class OpenBiddingController extends BaseSupplierController{
 			}
 			if(count<project.getSupplierNumber()){
 				DictionaryData findById = DictionaryDataUtil.findById(packages.getProjectStatus());
-				if("".equals(findById.getCode())){
+				if(findById != null && StringUtils.isNotBlank(findById.getCode())){
 					if(findById.getCode().equals("YZZ") || findById.getCode().equals("ZJZXTP")){
 						continue;
 					}

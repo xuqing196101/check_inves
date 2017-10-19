@@ -19,7 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.oms.util.CommonConstant;
 import ses.model.oms.util.Ztree;
@@ -59,6 +62,8 @@ import bss.service.prms.FirstAuditTemplatService;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.constant.StaticVariables;
 /**
  * 
  * 版权：(C) 版权所有 
@@ -240,6 +245,42 @@ public class IntelligentScoringController extends BaseController{
     public void editScoreMethod(String packageId, String projectId) {
         
     }
+	
+	/**
+	   *〈简述〉加载其他项目包的评审项
+	   *〈详细描述〉
+	   * @author Ye MaoLin
+	   * @param model
+	   * @param page页码
+	   * @param packages
+	   * @return
+	   */
+	  @RequestMapping("/loadOtherPackage")
+	  public String loadOtherPackage(Model model, Integer page,String projectName, String projectNumber, String oldPackageId, String oldProjectId, String flowDefineId){
+	      HashMap<String, Object> map = new HashMap<String, Object>();
+	      map.put("projectName", projectName);
+	      map.put("projectNumber", projectNumber);
+	      map.put("typeName", "2");
+	      List<Packages> list = packageService.findPackage(map, page == null ? 1 : page);
+	      model.addAttribute("list", new PageInfo<Packages>(list));
+	      model.addAttribute("projectName", projectName);
+	      model.addAttribute("projectNumber", projectNumber);
+	      model.addAttribute("oldPackageId", oldPackageId);
+	      model.addAttribute("oldProjectId", oldProjectId);
+	      model.addAttribute("flowDefineId", flowDefineId);
+	      return "bss/prms/score/load_other";
+	  }
+	  
+	  @ResponseBody
+	  @RequestMapping("/saveLoadPackage")
+	  public String saveLoadPackage(String id, String packageId, String projectId){
+		  Boolean saveLoadPackage = bidMethodService.saveLoadPackage(id, projectId, packageId);
+		  if (saveLoadPackage) {
+			  return StaticVariables.SUCCESS;
+		  } else {
+			  return StaticVariables.FAILED;
+		  }
+	  }
 	
 	@RequestMapping("/loadTemplat")
 	public void loadTemplat(HttpServletResponse response, String id, String projectId, String packageId) throws IOException{
@@ -541,7 +582,7 @@ public class IntelligentScoringController extends BaseController{
     }
 	
 	@RequestMapping("/editPackageScore")
-	public String editPackageScore(HttpServletRequest request, String packageId, Model model, String projectId, String flowDefineId){    
+	public String editPackageScore(HttpServletRequest request, String packageId, Model model, String projectId, String flowDefineId, String flag){    
 	    //获取评分办法数据字典编码
 	    String methodCode = bidMethodService.getMethod(projectId, packageId);
 	    if (methodCode != null && !"".equals(methodCode)) {
@@ -605,6 +646,7 @@ public class IntelligentScoringController extends BaseController{
     	        model.addAttribute("flowDefineId", flowDefineId);
     	        model.addAttribute("ddList", ddList);
     	        model.addAttribute("str", str);
+    	        model.addAttribute("flag", flag);
     	        return "bss/prms/score/edit_package_qc";
   	      }
       }
@@ -849,7 +891,7 @@ public class IntelligentScoringController extends BaseController{
 	
 	
 	@RequestMapping("packageList")
-	public String packageList(@ModelAttribute Packages packages,Model model,HttpServletRequest request,String flowDefineId, String msg){
+	public String packageList(@CurrentUser User user, @ModelAttribute Packages packages,Model model,HttpServletRequest request,String flowDefineId, String msg){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("projectId", packages.getProjectId());
 		Project project = projectService.selectById(packages.getProjectId());
@@ -912,7 +954,7 @@ public class IntelligentScoringController extends BaseController{
         List<FlowExecute> executes = flowMangeService.findFlowExecute(flowExecute);
         if(executes != null && executes.size() > 0){
             for (FlowExecute flowExecute2 : executes) {
-                if(flowExecute2.getStatus() == 3){
+                if(!StringUtils.equals(user.getId(), flowExecute2.getOperatorId()) || flowExecute2.getStatus() == 3){
                     project.setConfirmFile(1);
                     break;
                 }

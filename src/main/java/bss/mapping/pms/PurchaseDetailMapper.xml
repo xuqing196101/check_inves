@@ -33,34 +33,39 @@
 		<result column="AUDIT_DATE" jdbcType="TIMESTAMP" property="auditDate" />
 		<result column="ORGANIZATION_ID" jdbcType="VARCHAR" property="organization" />
 		<result column="IS_MASTER" jdbcType="DECIMAL" property="isMaster" />
-		<result column="IS_DELETE" jdbcType="INTEGER"  property="isDelete" />
-		<result column="IS_COLLECT" jdbcType="INTEGER"  property="isCollect"/>
-		<result column="CODE" jdbcType="VARCHAR"  property="code"/>
-		<result column="ONE_PURCHASE_TYPE" jdbcType="VARCHAR"  property="onePurchaseType"/>
-		<result column="ONE_ORGANIZATION" jdbcType="VARCHAR"  property="oneOrganiza"/>
-		<result column="ONE_ADVICE" jdbcType="VARCHAR"  property="oneAdvice"/>
-		<result column="TWO_TECH_ADVICE" jdbcType="VARCHAR"  property="twoTechAdvice"/>
-		<result column="TWO_ADVICE" jdbcType="VARCHAR"  property="twoAdvice"/>
-		<result column="THREE_PURCHASE_TYPE" jdbcType="VARCHAR"  property="threePurchaseType"/>
-		<result column="THREE_ORGANIZATION" jdbcType="VARCHAR"  property="threeOrganiza"/>
-		<result column="THREE_ADVICE" jdbcType="VARCHAR"  property="threeAdvice"/>
-		<result column="BRAND" jdbcType="VARCHAR"  property="brand"/>
-		<result column="USER_UNIT" jdbcType="VARCHAR"  property="userUnit"/>
-		<result column="DETAIL_STATUS" jdbcType="VARCHAR"  property="detailStatus"/>
-		<result column="REASON" jdbcType="VARCHAR"  property="reason"/>
-		<result column="RECORDER_MOBILE" jdbcType="VARCHAR"  property="recorderMobile"/>
-		<result column="ADVANCED_STATUS" jdbcType="VARCHAR"  property="advancedStatus"/>
-		<result column="PROJECT_STATUS" jdbcType="VARCHAR"  property="projectStatus"/>
-		
-		<result column="UNIQUE_ID" jdbcType="VARCHAR"  property="uniqueId"/>
-		<result column="FILE_ID" jdbcType="VARCHAR"  property="fileId"/>
+		<result column="IS_DELETE" jdbcType="INTEGER" property="isDelete" />
+		<result column="IS_COLLECT" jdbcType="INTEGER" property="isCollect" />
+		<result column="CODE" jdbcType="VARCHAR" property="code" />
+		<result column="ONE_PURCHASE_TYPE" jdbcType="VARCHAR" property="onePurchaseType" />
+		<result column="ONE_ORGANIZATION" jdbcType="VARCHAR" property="oneOrganiza" />
+		<result column="ONE_ADVICE" jdbcType="VARCHAR" property="oneAdvice" />
+		<result column="TWO_TECH_ADVICE" jdbcType="VARCHAR" property="twoTechAdvice" />
+		<result column="TWO_ADVICE" jdbcType="VARCHAR" property="twoAdvice" />
+		<result column="THREE_PURCHASE_TYPE" jdbcType="VARCHAR"
+			property="threePurchaseType" />
+		<result column="THREE_ORGANIZATION" jdbcType="VARCHAR"
+			property="threeOrganiza" />
+		<result column="THREE_ADVICE" jdbcType="VARCHAR" property="threeAdvice" />
+		<result column="BRAND" jdbcType="VARCHAR" property="brand" />
+		<result column="USER_UNIT" jdbcType="VARCHAR" property="userUnit" />
+		<result column="DETAIL_STATUS" jdbcType="VARCHAR" property="detailStatus" />
+		<result column="REASON" jdbcType="VARCHAR" property="reason" />
+		<result column="RECORDER_MOBILE" jdbcType="VARCHAR" property="recorderMobile" />
+		<result column="ADVANCED_STATUS" jdbcType="VARCHAR" property="advancedStatus" />
+		<result column="PROJECT_STATUS" jdbcType="VARCHAR" property="projectStatus" />
+
+		<result column="UNIQUE_ID" jdbcType="VARCHAR" property="uniqueId" />
+		<result column="FILE_ID" jdbcType="VARCHAR" property="fileId" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, PLAN_NAME, PLAN_NO, REFERENCE_NO, PLAN_TYPE, DEPARTMENT, MATERIAL_NAME, STAND,
+		ID, PLAN_NAME, PLAN_NO, REFERENCE_NO, PLAN_TYPE,
+		DEPARTMENT, MATERIAL_NAME, STAND,
 		QUALIT_STAND, ITEM,
-		PURCHASE_COUNT, PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX,
+		PURCHASE_COUNT,
+		PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX,
 		MATERIAL_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
-		STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION_ID,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
+		STATUS,
+		MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION_ID,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
 		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,ADVANCED_STATUS,
 		PROJECT_STATUS,UNIQUE_ID,FILE_ID
 	</sql>
@@ -71,52 +76,68 @@
 		from T_BSS_PMS_PURCHASE_DETAIL
 		where ID = #{id,jdbcType=VARCHAR}
 	</select>
-	<select id="selectByParentId"  resultMap="PurchaseRequired_Map" flushCache="true">
-        select * from T_BSS_PMS_PURCHASE_DETAIL 
-        start with ID = #{id} 
-        connect by prior ID = PARENT_ID ORDER BY IS_MASTER 
-    </select>
-    <select id="selectByParent"  resultMap="PurchaseRequired_Map" flushCache="true">
-        select * from T_BSS_PMS_PURCHASE_DETAIL 
-        start with ID = #{id} 
-        connect by prior PARENT_ID = ID ORDER BY IS_MASTER 
-    </select>
+	<select id="selectByParentId" resultMap="PurchaseRequired_Map"
+		flushCache="true">
+		select * from T_BSS_PMS_PURCHASE_DETAIL
+		start with ID = #{id}
+		connect by prior ID = PARENT_ID ORDER BY IS_MASTER
+	</select>
+	<select id="selectByParent" resultMap="PurchaseRequired_Map"
+		flushCache="true">
+		select * from T_BSS_PMS_PURCHASE_DETAIL
+		start with ID = #{id}
+		connect by prior PARENT_ID = ID ORDER BY IS_MASTER
+	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from T_BSS_PMS_PURCHASE_DETAIL
+		delete from
+		T_BSS_PMS_PURCHASE_DETAIL
 		where ID = #{id,jdbcType=VARCHAR}
 	</delete>
 	<insert id="insert" parameterType="bss.model.pms.PurchaseDetail">
-		insert into T_BSS_PMS_PURCHASE_DETAIL (ID, PLAN_NAME, PLAN_NO,REFERENCE_NO,
+		insert into
+		T_BSS_PMS_PURCHASE_DETAIL (ID, PLAN_NAME, PLAN_NO,REFERENCE_NO,
 		PLAN_TYPE, DEPARTMENT, MATERIAL_NAME,
 		STAND, QUALIT_STAND, ITEM,
 		PURCHASE_COUNT, PRICE, BUDGET,
 		DELIVER_DATE, PURCHASE_TYPE, SUPPLIER,
 		IS_FREE_TAX, MATERIAL_USE, USE_UNIT,
 		CREATED_AT, USER_ID, PARENT_ID,
-		REQ_LEVEL, STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION_ID,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
+		REQ_LEVEL, STATUS,
+		MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION_ID,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
 		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,
 		ADVANCED_STATUS,PROJECT_STATUS,UNIQUE_ID,FILE_ID
 		)
-		values (#{id,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
+		values
+		(#{id,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
 		#{planNo,jdbcType=VARCHAR},
 		#{referenceNo,jdbcType=VARCHAR},
-		#{planType,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR},
-		#{stand,jdbcType=VARCHAR}, #{qualitStand,jdbcType=VARCHAR},
+		#{planType,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR},
+		#{goodsName,jdbcType=VARCHAR},
+		#{stand,jdbcType=VARCHAR},
+		#{qualitStand,jdbcType=VARCHAR},
 		#{item,jdbcType=VARCHAR},
-		#{purchaseCount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{budget,jdbcType=DECIMAL},
-		#{deliverDate,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR},
+		#{purchaseCount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL},
+		#{budget,jdbcType=DECIMAL},
+		#{deliverDate,jdbcType=VARCHAR},
+		#{purchaseType,jdbcType=VARCHAR},
 		#{supplier,jdbcType=VARCHAR},
-		#{isFreeTax,jdbcType=VARCHAR}, #{goodsUse,jdbcType=VARCHAR}, #{useUnit,jdbcType=VARCHAR},
-		#{createdAt,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR},
+		#{isFreeTax,jdbcType=VARCHAR}, #{goodsUse,jdbcType=VARCHAR},
+		#{useUnit,jdbcType=VARCHAR},
+		#{createdAt,jdbcType=TIMESTAMP},
+		#{userId,jdbcType=VARCHAR},
 		#{parentId,jdbcType=VARCHAR},
 		#{reqLevel,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
 		#{memo,jdbcType=VARCHAR},#{seq,jdbcType=VARCHAR},#{historyStatus,jdbcType=VARCHAR},#{goodsType,jdbcType=VARCHAR},
 		#{auditDate,jdbcType=TIMESTAMP},#{organization,jdbcType=VARCHAR},#{isMaster,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER},
-		#{isCollect,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{onePurchaseType,jdbcType=VARCHAR}, #{oneOrganiza,jdbcType=VARCHAR}, #{oneAdvice,jdbcType=VARCHAR},
-		#{twoTechAdvice,jdbcType=VARCHAR}, #{twoAdvice,jdbcType=VARCHAR},  
-		#{threePurchaseType,jdbcType=VARCHAR}, #{threeOrganiza,jdbcType=VARCHAR}, #{threeAdvice,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},
+		#{isCollect,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR},
+		#{onePurchaseType,jdbcType=VARCHAR}, #{oneOrganiza,jdbcType=VARCHAR},
+		#{oneAdvice,jdbcType=VARCHAR},
+		#{twoTechAdvice,jdbcType=VARCHAR},
+		#{twoAdvice,jdbcType=VARCHAR},
+		#{threePurchaseType,jdbcType=VARCHAR}, #{threeOrganiza,jdbcType=VARCHAR}, #{threeAdvice,jdbcType=VARCHAR},
+		#{brand,jdbcType=VARCHAR},
 		#{userUnit,jdbcType=VARCHAR},#{detailStatus,jdbcType=VARCHAR},#{reason,jdbcType=VARCHAR},#{recorderMobile,jdbcType=VARCHAR},#{advancedStatus,jdbcType=VARCHAR},#{projectStatus,jdbcType=VARCHAR},
-  	#{uniqueId,jdbcType=VARCHAR},#{fileId,jdbcType=VARCHAR}
+		#{uniqueId,jdbcType=VARCHAR},#{fileId,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.pms.PurchaseDetail">
@@ -267,15 +288,15 @@
 				ADVANCED_STATUS,
 			</if>
 			<if test="projectStatus != null">
-	          PROJECT_STATUS,
-		    </if>
-		    
-		     <if test="uniqueId != null">
-	          UNIQUE_ID,
-		    </if>
-		    <if test="fileId != null">
-	          FILE_ID,
-		    </if>
+				PROJECT_STATUS,
+			</if>
+
+			<if test="uniqueId != null">
+				UNIQUE_ID,
+			</if>
+			<if test="fileId != null">
+				FILE_ID,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -398,7 +419,7 @@
 			<if test="threePurchaseType != null">
 				#{threePurchaseType,jdbcType=VARCHAR},
 			</if>
-				<if test="threeOrganiza != null">
+			<if test="threeOrganiza != null">
 				#{threeOrganiza,jdbcType=VARCHAR},
 			</if>
 			<if test="threeAdvice != null">
@@ -423,12 +444,12 @@
 				#{advancedStatus,jdbcType=VARCHAR},
 			</if>
 			<if test="uniqueId != null">
-	          #{uniqueId,jdbcType=VARCHAR},
-		   </if>
-		   	<if test="fileId != null">
-	          #{fileId,jdbcType=VARCHAR},
-		   </if>
-		   
+				#{uniqueId,jdbcType=VARCHAR},
+			</if>
+			<if test="fileId != null">
+				#{fileId,jdbcType=VARCHAR},
+			</if>
+
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.PurchaseDetail">
@@ -551,7 +572,7 @@
 			<if test="threePurchaseType != null">
 				THREE_PURCHASE_TYPE=#{threePurchaseType,jdbcType=VARCHAR},
 			</if>
-				<if test="threeOrganiza != null">
+			<if test="threeOrganiza != null">
 				THREE_ORGANIZATION=#{threeOrganiza,jdbcType=VARCHAR},
 			</if>
 			<if test="threeAdvice != null">
@@ -576,58 +597,79 @@
 				ADVANCED_STATUS=#{advancedStatus,jdbcType=VARCHAR},
 			</if>
 			<if test="projectStatus != null">
-		        PROJECT_STATUS=#{projectStatus,jdbcType=VARCHAR},
-		     </if>
-		     
-		     <if test="uniqueId != null">
-		        UNIQUE_ID=#{uniqueId,jdbcType=VARCHAR},
-		     </if>
-		     <if test="fileId != null">
-		        FILE_ID=#{fileId,jdbcType=VARCHAR},
-		     </if>
+				PROJECT_STATUS=#{projectStatus,jdbcType=VARCHAR},
+			</if>
+
+			<if test="uniqueId != null">
+				UNIQUE_ID=#{uniqueId,jdbcType=VARCHAR},
+			</if>
+			<if test="fileId != null">
+				FILE_ID=#{fileId,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="bss.model.pms.PurchaseDetail">
-		update T_BSS_PMS_PURCHASE_DETAIL
+		update
+		T_BSS_PMS_PURCHASE_DETAIL
 		set PLAN_NAME = #{planName,jdbcType=VARCHAR},
 		PLAN_NO = #{planNo,jdbcType=VARCHAR},
-		REFERENCE_NO = #{referenceNo,jdbcType=VARCHAR},
-		PLAN_TYPE = #{planType,jdbcType=VARCHAR},
-		DEPARTMENT = #{department,jdbcType=VARCHAR},
-		MATERIAL_NAME = #{goodsName,jdbcType=VARCHAR},
+		REFERENCE_NO =
+		#{referenceNo,jdbcType=VARCHAR},
+		PLAN_TYPE =
+		#{planType,jdbcType=VARCHAR},
+		DEPARTMENT =
+		#{department,jdbcType=VARCHAR},
+		MATERIAL_NAME =
+		#{goodsName,jdbcType=VARCHAR},
 		STAND = #{stand,jdbcType=VARCHAR},
 		QUALIT_STAND = #{qualitStand,jdbcType=VARCHAR},
-		ITEM = #{item,jdbcType=VARCHAR},
-		PURCHASE_COUNT = #{purchaseCount,jdbcType=DECIMAL},
+		ITEM =
+		#{item,jdbcType=VARCHAR},
+		PURCHASE_COUNT =
+		#{purchaseCount,jdbcType=DECIMAL},
 		PRICE = #{price,jdbcType=DECIMAL},
 		BUDGET = #{budget,jdbcType=DECIMAL},
-		DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
-		PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
-		SUPPLIER = #{supplier,jdbcType=VARCHAR},
-		IS_FREE_TAX = #{isFreeTax,jdbcType=VARCHAR},
-		MATERIAL_USE = #{goodsUse,jdbcType=VARCHAR},
+		DELIVER_DATE =
+		#{deliverDate,jdbcType=VARCHAR},
+		PURCHASE_TYPE =
+		#{purchaseType,jdbcType=VARCHAR},
+		SUPPLIER =
+		#{supplier,jdbcType=VARCHAR},
+		IS_FREE_TAX =
+		#{isFreeTax,jdbcType=VARCHAR},
+		MATERIAL_USE =
+		#{goodsUse,jdbcType=VARCHAR},
 		USE_UNIT = #{useUnit,jdbcType=VARCHAR},
 		CREATED_AT = #{createdAt,jdbcType=DATTIMESTAMPE},
-		USER_ID = #{userId,jdbcType=VARCHAR},
+		USER_ID =
+		#{userId,jdbcType=VARCHAR},
 		PARENT_ID = #{parentId,jdbcType=VARCHAR},
 		REQ_LEVEL = #{reqLevel,jdbcType=VARCHAR},
-		STATUS = #{status,jdbcType=VARCHAR},
+		STATUS =
+		#{status,jdbcType=VARCHAR},
 		MEMO = #{memo,jdbcType=VARCHAR},
-		SEQ = #{seq,jdbcType=VARCHAR},
-		HISTORY_STATUS = #{historyStatus,jdbcType=VARCHAR},
-		MATERIAL_TYPE = #{goodsType,jdbcType=VARCHAR},
-		AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
-		ORGANIZATION_ID = #{organization,jdbcType=VARCHAR},
-		IS_MASTER = #{isMaster,jdbcType=DECIMAL},
+		SEQ =
+		#{seq,jdbcType=VARCHAR},
+		HISTORY_STATUS =
+		#{historyStatus,jdbcType=VARCHAR},
+		MATERIAL_TYPE =
+		#{goodsType,jdbcType=VARCHAR},
+		AUDIT_DATE =
+		#{auditDate,jdbcType=TIMESTAMP},
+		ORGANIZATION_ID =
+		#{organization,jdbcType=VARCHAR},
+		IS_MASTER =
+		#{isMaster,jdbcType=DECIMAL},
 		IS_DELETE = #{isDelete,jdbcType=INTEGER},
 		IS_COLLECT = #{isCollect,jdbcType=INTEGER},
-		code = #{code,jdbcType=INTEGER},
+		code =
+		#{code,jdbcType=INTEGER},
 		ONE_PURCHASE_TYPE=#{onePurchaseType,jdbcType=VARCHAR},
 		ONE_ORGANIZATION=#{oneOrganiza,jdbcType=VARCHAR},
-	    ONE_ADVICE=#{oneAdvice,jdbcType=VARCHAR},
-	    TWO_TECH_ADVICE=#{twoTechAdvice,jdbcType=VARCHAR},
-	    TWO_ADVICE=#{twoAdvice,jdbcType=VARCHAR},
+		ONE_ADVICE=#{oneAdvice,jdbcType=VARCHAR},
+		TWO_TECH_ADVICE=#{twoTechAdvice,jdbcType=VARCHAR},
+		TWO_ADVICE=#{twoAdvice,jdbcType=VARCHAR},
 		THREE_PURCHASE_TYPE=#{threePurchaseType,jdbcType=VARCHAR},
 		THREE_ORGANIZATION=#{threeOrganiza,jdbcType=VARCHAR},
 		THREE_ADVICE=#{threeAdvice,jdbcType=VARCHAR},
@@ -638,7 +680,8 @@
 		RECORDER_MOBILE=#{recorderMobile,jdbcType=VARCHAR},
 		ADVANCED_STATUS=#{advancedStatus,jdbcType=VARCHAR},
 		PROJECT_STATUS=#{projectStatus,jdbcType=VARCHAR}
-		where ID = #{id,jdbcType=VARCHAR}
+		where ID =
+		#{id,jdbcType=VARCHAR}
 	</update>
 	<select id="query" parameterType="bss.model.pms.PurchaseDetail"
 		resultMap="PurchaseRequired_Map">
@@ -646,32 +689,32 @@
 		<include refid="Base_Column_List" />
 		from T_BSS_PMS_PURCHASE_DETAIL
 		<where>
-			HISTORY_STATUS='0'  and IS_DELETE='0' 
+			HISTORY_STATUS='0' and IS_DELETE='0'
 			<if test="createdAt!=null">
-				and CREATED_AT like CONCAT(CONCAT('%', #{createdAt}), '%') 
+				and CREATED_AT like CONCAT(CONCAT('%', #{createdAt}),
+				'%')
 			</if>
 			<if test="planName!=null">
-				and PLAN_NAME like CONCAT(CONCAT('%', #{planName}), '%') 
+				and PLAN_NAME like CONCAT(CONCAT('%', #{planName}), '%')
 			</if>
 			<if test="planNo !=null">
-				and PLAN_NO like CONCAT(CONCAT('%', #{planNo}), '%') 
+				and PLAN_NO like CONCAT(CONCAT('%', #{planNo}), '%')
 			</if>
 			<if test="referenceNo !=null">
-				and REFERENCE_NO like CONCAT(CONCAT('%', #{referenceNo}), '%') 
+				and REFERENCE_NO like CONCAT(CONCAT('%', #{referenceNo}),
+				'%')
 			</if>
 			<if test="isMaster != null">
 				and IS_MASTER = #{isMaster}
 			</if>
-	<!-- 		<if test="status==1">
-				and STATUS in('1','2')
-			</if> -->
+			<!-- <if test="status==1"> and STATUS in('1','2') </if> -->
 			<if test="status== 2 ">
 				and STATUS in('2','3','4','5')
 			</if>
 			<if test="status==3 ">
 				and STATUS in('3','5')
 			</if>
-			
+
 			<if test="isCollect != null">
 				and IS_COLLECT = #{isCollect}
 			</if>
@@ -682,80 +725,81 @@
 				and PURCHASE_TYPE = #{purchaseType}
 			</if>
 			<if test="organization != null">
-				and	ORGANIZATION_ID = #{organization}
+				and ORGANIZATION_ID = #{organization}
 			</if>
-			
+
 			<if test="department != null">
-			   and DEPARTMENT like CONCAT(CONCAT('%', #{department}), '%') 
+				and DEPARTMENT like CONCAT(CONCAT('%', #{department}), '%')
 			</if>
 			<if test="budget != null">
 				and BUDGET = #{budget}
 			</if>
 			<if test="planType != null">
-				 and PLAN_TYPE = #{planType}
+				and PLAN_TYPE = #{planType}
 			</if>
 			<if test="userId != null">
-				 and USER_ID = #{userId}
+				and USER_ID = #{userId}
 			</if>
 		</where>
 		<if test="status== 1">
-			ORDER BY decode(STATUS,'1',1,'4',2,'2',3,'3',4,'5',5), CREATED_AT DESC
+			ORDER BY decode(STATUS,'1',1,'4',2,'2',3,'3',4,'5',5),
+			CREATED_AT DESC
 		</if>
 		<if test="status== 2">
-			ORDER  BY  STATUS , CREATED_AT DESC
+			ORDER BY STATUS , CREATED_AT DESC
 		</if>
 		<if test="status ==3">
-			ORDER  BY  STATUS , CREATED_AT DESC
+			ORDER BY STATUS , CREATED_AT DESC
 		</if>
 	</select>
 
-	<select id="queryByNo" parameterType="String"  resultMap="PurchaseRequired_Map">
+	<select id="queryByNo" parameterType="String" resultMap="PurchaseRequired_Map">
 		select
 		<include refid="Base_Column_List" />
 		from T_BSS_PMS_PURCHASE_DETAIL
 		<where>
-		HISTORY_STATUS='0'  and IS_DELETE='0'
-		
+			HISTORY_STATUS='0' and IS_DELETE='0'
+
 			<if test="planNo !=null and planNo!='' ">
-			and PLAN_NO = #{planNo} ORDER BY IS_MASTER  
+				and PLAN_NO = #{planNo} ORDER BY IS_MASTER
 			</if>
 		</where>
 	</select>
-	
-	<update id="delete" parameterType="String" >
-	
+
+	<update id="delete" parameterType="String">
+
 		update T_BSS_PMS_PURCHASE_DETAIL
-			set IS_DELETE='1'
-			where HISTORY_STATUS='0'  and ID =#{planNo}
-		
+		set IS_DELETE='1'
+		where HISTORY_STATUS='0' and ID =#{planNo}
+
 	</update>
-	
-	<update id="updateStatus" parameterType="bss.model.pms.PurchaseDetail" >
-	
-	update T_BSS_PMS_PURCHASE_DETAIL
-	<set>
-	<if test="status != null">
-		STATUS = #{status},
-	</if>
-	<if test="isCollect != null">
-		IS_COLLECT = #{isCollect}
-	</if>
-	<if test="auditDate != null">
-		AUDIT_DATE = #{auditDate}
-	 </if>
-	
-	</set>	
+
+	<update id="updateStatus" parameterType="bss.model.pms.PurchaseDetail">
+
+		update T_BSS_PMS_PURCHASE_DETAIL
+		<set>
+			<if test="status != null">
+				STATUS = #{status},
+			</if>
+			<if test="isCollect != null">
+				IS_COLLECT = #{isCollect}
+			</if>
+			<if test="auditDate != null">
+				AUDIT_DATE = #{auditDate}
+			</if>
+
+		</set>
 		where HISTORY_STATUS='0' and UNIQUE_ID =#{uniqueId}
-		
+
 	</update>
-	
-	
-	<select id="getByMap" parameterType="Map" resultMap="PurchaseRequired_Map" >
+
+
+	<select id="getByMap" parameterType="Map" resultMap="PurchaseRequired_Map">
 		select
 		<include refid="Base_Column_List" />
 		from T_BSS_PMS_PURCHASE_DETAIL
 		<where>
-		HISTORY_STATUS='0' and IS_DELETE='0'
+			HISTORY_STATUS='0' and IS_DELETE='0'
 			<if test="planNo !=null">
 				and UNIQUE_ID=#{planNo}
 			</if>
@@ -769,389 +813,637 @@
 				and STATUS = #{status}
 			</if>
 			<if test="fileId != null">
-        and FILE_ID = #{fileId}
-      </if>
+				and FILE_ID = #{fileId}
+			</if>
 			<if test="department != null">
-         and DEPARTMENT = #{department}
-      </if>
+				and DEPARTMENT = #{department}
+			</if>
 			<if test="organization!=null">
-			   and  ORGANIZATION_ID=#{organization} 
+				and ORGANIZATION_ID=#{organization}
 			</if>
 			<if test="parentId != null">
-                and PARENT_ID = #{parentId}
-       </if>
-      
+				and PARENT_ID = #{parentId}
+			</if>
+
 		</where>
 		ORDER BY IS_MASTER
-		
+
 	</select>
-	
-	
-	
-	<select id="statisticDepartment" parameterType="Map" resultType="Map" >
+
+
+
+	<select id="statisticDepartment" parameterType="Map" resultType="Map">
 		select
-		 sum(BUDGET) as amount,DEPARTMENT as department
-		 from T_BSS_PMS_PURCHASE_DETAIL
-	 	<include refid="param"/>
-		 group by DEPARTMENT
-	 
+		sum(BUDGET) as amount,DEPARTMENT as department
+		from T_BSS_PMS_PURCHASE_DETAIL
+		<include refid="param" />
+		group by DEPARTMENT
+
 	</select>
-	
-	<select id="statisticPurchaseMethod" parameterType="Map" resultType="Map" >
+
+	<select id="statisticPurchaseMethod" parameterType="Map"
+		resultType="Map">
 		select
-		 sum(BUDGET) as amount,PURCHASE_TYPE as purchaseType
-		 from T_BSS_PMS_PURCHASE_DETAIL
-	 	<include refid="param"/>
-		 group by PURCHASE_TYPE
+		sum(BUDGET) as amount,PURCHASE_TYPE as purchaseType
+		from T_BSS_PMS_PURCHASE_DETAIL
+		<include refid="param" />
+		group by PURCHASE_TYPE
 	</select>
-	
-	<select id="statisticByMonth" parameterType="Map" resultType="Map" >
+
+	<select id="statisticByMonth" parameterType="Map" resultType="Map">
 		select
-		 sum(BUDGET) as amount,to_char(CREATED_AT,'yyyy-mm') as month
-		 from T_BSS_PMS_PURCHASE_DETAIL
-	 	<include refid="param"/>
-		 group by to_char(CREATED_AT,'yyyy-mm')
+		sum(BUDGET) as amount,to_char(CREATED_AT,'yyyy-mm') as month
+		from T_BSS_PMS_PURCHASE_DETAIL
+		<include refid="param" />
+		group by to_char(CREATED_AT,'yyyy-mm')
 	</select>
-	
-	<select id="statisticOrg" parameterType="Map" resultType="Map" >
+
+	<select id="statisticOrg" parameterType="Map" resultType="Map">
 		select
-		 count(*) as count, ORGANIZATION_ID as organization
-		 from T_BSS_PMS_PURCHASE_DETAIL
-	 	<include refid="param"/>
-		 group by ORGANIZATION_ID
+		count(*) as count, ORGANIZATION_ID as organization
+		from T_BSS_PMS_PURCHASE_DETAIL
+		<include refid="param" />
+		group by ORGANIZATION_ID
 	</select>
-	
-	
-	
+
+
+
 	<sql id="param">
-	 <where>
-	 IS_DELETE!='1' and PURCHASE_COUNT is not null
-	 and IS_MASTER!='1' and HISTORY_STATUS='0'
-	 	<if test="planType != null">
+		<where>
+			IS_DELETE!='1' and PURCHASE_COUNT is not null
+			and IS_MASTER!='1' and HISTORY_STATUS='0'
+			<if test="planType != null">
 				and PLAN_TYPE = #{planType}
-		</if>
-	 	<if test="year!=null">
-	 	and to_char(CREATED_AT,'yyyy')=#{year}
-	 	</if>
-	 	<if test="organization !=null">
-	 	and ORGANIZATION_ID=#{organization}
-	 	</if>
-	 	<if test="budget != null">
-			and BUDGET = #{budget}
-		</if>
-		<if test="purchaseType != null">
-			and PURCHASE_TYPE = #{purchaseType}
-		</if>	
-		<if test="department != null">
-			   and DEPARTMENT = #{department}
-		</if>
-			
-	 </where>	
-	
+			</if>
+			<if test="year!=null">
+				and to_char(CREATED_AT,'yyyy')=#{year}
+			</if>
+			<if test="organization !=null">
+				and ORGANIZATION_ID=#{organization}
+			</if>
+			<if test="budget != null">
+				and BUDGET = #{budget}
+			</if>
+			<if test="purchaseType != null">
+				and PURCHASE_TYPE = #{purchaseType}
+			</if>
+			<if test="department != null">
+				and DEPARTMENT = #{department}
+			</if>
+		</where>
 	</sql>
-	
-	
+
+	<sql id="parambar">
+		and e.IS_DELETE!='1' and e.PURCHASE_COUNT is not null
+		and e.IS_MASTER!='1' and e.HISTORY_STATUS='0'
+		<if test="planType != null and planType!=''">
+			and e.PLAN_TYPE = #{planType}
+		</if>
+		<if test="planName!=null and planName!=''">
+			and p.file_name like CONCAT(CONCAT('%', #{planName}), '%')
+		</if>
+		<if test="planNo !=null and planNo!=''">
+			and e.plan_no like CONCAT(CONCAT('%', #{planNo}), '%')
+		</if>
+	</sql>
+
 	<update id="history" parameterType="Map">
 		update T_BSS_PMS_PURCHASE_DETAIL
-			<set>
-				<if test="oid!=null">
-					id=#{oid},
-				</if>
-				<if test="status != null">
-					STATUS = #{status},
-				</if>
-				<if test="historyStatus !=null">
-					HISTORY_STATUS = #{historyStatus}
-				</if>
-			</set>
+		<set>
+			<if test="oid!=null">
+				id=#{oid},
+			</if>
+			<if test="status != null">
+				STATUS = #{status},
+			</if>
+			<if test="historyStatus !=null">
+				HISTORY_STATUS = #{historyStatus}
+			</if>
+		</set>
 		where id=#{id}
 	</update>
-	
-	
-	   <select id="getByProjectStatus"  parameterType="java.lang.Object" resultType="bss.model.pms.PurchaseDetail">
-        select * 
-        from T_BSS_PMS_PURCHASE_DETAIL
-          where ID = #{id} 
-           and PROJECT_STATUS=#{projectStatus}
-    </select>
-    
-    <update id="updateProjectStatus" parameterType="java.lang.String">
-         update T_BSS_PMS_PURCHASE_DETAIL
-         set PROJECT_STATUS=1
-         where PLAN_NO=#{planNo}
-    </update>
-    
-    <update id="updateIdById" parameterType="java.util.Map">
-         update T_BSS_PMS_PURCHASE_DETAIL
-         set HISTORY_STATUS=1,
-         ID=#{newId}
-         where ID=#{id}
-    </update>
-    
-    <select id="queryDepartMent" resultType="String">
-    select DEPARTMENT
-	      from T_BSS_PMS_PURCHASE_DETAIL where IS_MASTER=1 and UNIQUE_ID in  
-		 <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
-		  #{item}  
-		 </foreach>  
-	 group by DEPARTMENT
- 
-    </select>
-    
-    
-        <select id="queryOrg" resultType="String">
-			    select  ORGANIZATION_ID as organizationId
-				      from T_BSS_PMS_PURCHASE_DETAIL where PRICE is not null and ORGANIZATION_ID is not null　and  UNIQUE_ID =#{uniqueId}  
-					<!--  <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
-					  #{item}  
-					 </foreach>  --> 
-				 group by ORGANIZATION_ID
-    </select>
-    
-    
-    
-   <select id="queryByUinuqe" parameterType="bss.model.pms.PurchaseDetail"
+
+
+	<select id="getByProjectStatus" parameterType="java.lang.Object"
+		resultType="bss.model.pms.PurchaseDetail">
+		select *
+		from T_BSS_PMS_PURCHASE_DETAIL
+		where ID = #{id}
+		and PROJECT_STATUS=#{projectStatus}
+	</select>
+
+	<update id="updateProjectStatus" parameterType="java.lang.String">
+		update T_BSS_PMS_PURCHASE_DETAIL
+		set PROJECT_STATUS=1
+		where PLAN_NO=#{planNo}
+	</update>
+
+	<update id="updateIdById" parameterType="java.util.Map">
+		update T_BSS_PMS_PURCHASE_DETAIL
+		set HISTORY_STATUS=1,
+		ID=#{newId}
+		where ID=#{id}
+	</update>
+
+	<select id="queryDepartMent" resultType="String">
+		select DEPARTMENT
+		from T_BSS_PMS_PURCHASE_DETAIL where IS_MASTER=1 and UNIQUE_ID in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		group by DEPARTMENT
+	</select>
+
+
+	<select id="queryOrg" resultType="String">
+		select ORGANIZATION_ID as organizationId
+		from T_BSS_PMS_PURCHASE_DETAIL where PRICE is not null and ORGANIZATION_ID
+		is not null and UNIQUE_ID =#{uniqueId}
+		<!-- <foreach item="item" index="index" collection="list" open="(" separator="," 
+			close=")"> #{item} </foreach> -->
+		group by ORGANIZATION_ID
+	</select>
+
+
+
+	<select id="queryByUinuqe" parameterType="bss.model.pms.PurchaseDetail"
 		resultMap="PurchaseRequired_Map">
 		select
 		<include refid="Base_Column_List" />
 		from T_BSS_PMS_PURCHASE_DETAIL
 		<where>
-			HISTORY_STATUS='0'  and IS_DELETE='0' 
+			HISTORY_STATUS='0' and IS_DELETE='0'
 			<if test="uniqueId !=null">
 				and UNIQUE_ID =#{uniqueId}
 			</if>
-			<!--  <if test="isMaster != null">
-				and IS_MASTER = #{isMaster}
-			</if> -->
+			<!-- <if test="isMaster != null"> and IS_MASTER = #{isMaster} </if> -->
 		</where>
 		<if test="isMaster==null">
 			ORDER BY IS_MASTER
 		</if>
 	</select>
-	
-	
-	
-	 <select id="getByUinuqeId" parameterType="String" resultMap="PurchaseRequired_Map">
+
+	<select id="getByUinuqeId" parameterType="String" resultMap="PurchaseRequired_Map">
 		select
 		<include refid="Base_Column_List" />
 		from T_BSS_PMS_PURCHASE_DETAIL
 		<where>
-			HISTORY_STATUS='0'  and IS_DELETE='0' 
+			HISTORY_STATUS='0' and IS_DELETE='0'
 			<if test="uniqueId !=null">
 				and UNIQUE_ID =#{uniqueId}
 			</if>
-			
+
 			<if test="organization !=null">
 				and ORGANIZATION_ID =#{organization}
 			</if>
-			
+
 			<if test="department !=null">
 				and DEPARTMENT =#{department}
 			</if>
 		</where>
-			ORDER BY IS_MASTER
+		ORDER BY IS_MASTER
 	</select>
-	
-	
+
 	<select id="getByUinuqeIds" parameterType="String" resultMap="PurchaseRequired_Map">
-    select
-    <include refid="Base_Column_List" />
-    from T_BSS_PMS_PURCHASE_DETAIL
-    <where>
-      HISTORY_STATUS='0'  and IS_DELETE='0' 
-      <!-- and PROJECT_STATUS = '0' -->
-      <if test="uniqueId !=null">
-        and UNIQUE_ID =#{uniqueId}
-      </if>
-      <if test="organization !=null">
-        and ORGANIZATION_ID =#{organization}
-      </if>
-    </where>
-      ORDER BY IS_MASTER
-  </select>
-	
-	 <select id="queryChilden" parameterType="String" resultType="Integer">
-		select count(*) from T_BSS_PMS_PURCHASE_DETAIL
-	 	where PARENT_ID=#{id}
-	</select>
-	
-	
-	 <select id="groupDetail" parameterType="String" resultMap="PurchaseRequired_Map">
-			    select  ID,USER_ID 
-				      from T_BSS_PMS_PURCHASE_DETAIL where PARENT_ID='1' and  UNIQUE_ID =#{uniqueId}  
-				 
-				 group by ID, USER_ID
-    </select>
-    
-    <select id="getUniqueId" parameterType="String" resultMap="PurchaseRequired_Map">
-    SELECT <include refid="Base_Column_List" />
-     from T_BSS_PMS_PURCHASE_DETAIL WHERE PARENT_ID in(SELECT ID FROM T_BSS_PMS_PURCHASE_DETAIL WHERE HISTORY_STATUS='0'  and IS_DELETE='0' and PARENT_ID='1'
-				and UNIQUE_ID =#{uniqueId})
-				
-				
-    <!-- select
+		select
 		<include refid="Base_Column_List" />
 		from T_BSS_PMS_PURCHASE_DETAIL
 		<where>
-			HISTORY_STATUS='0'  and IS_DELETE='0' and PARENT_ID='1'
+			HISTORY_STATUS='0' and IS_DELETE='0'
+			<if test="uniqueId !=null">
 				and UNIQUE_ID =#{uniqueId}
-		 
-		</where> -->
-    
-    </select>
-    
-    
-     <select id="getDep" resultType="String">
-    select DEPARTMENT
-	      from T_BSS_PMS_PURCHASE_DETAIL where  UNIQUE_ID=#{uniqueId}
-	 group by DEPARTMENT
- 
-    </select>
-    <select id="getbar" parameterType="Map" resultType="Map" >
-		select sum(e.BUDGET) as amount,e.DEPARTMENT as department from T_BSS_PMS_PURCHASE_DETAIL e,T_BSS_PMS_COLLECT_PLAN p where e.UNIQUE_ID=p.id and 
-		p.USER_ID in(
-		   select id from T_SES_BMS_USER  WHERE   org_id=(select org_id from T_SES_BMS_USER where  id=#{userId})
-		    UNION
-		   select id from T_SES_BMS_USER where org_id in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where ORG_ID=(select org_id from T_SES_BMS_USER where  id=#{userId})))
-		<include refid="parambar"/> group by e.DEPARTMENT
-	 
+			</if>
+			<if test="organization !=null">
+				and ORGANIZATION_ID =#{organization}
+			</if>
+		</where>
+		ORDER BY IS_MASTER
 	</select>
-	<select id="getpipe" parameterType="Map" resultType="Map" >
-		
-		select sum(e.BUDGET) as amount,e.PURCHASE_TYPE as purchaseType from T_BSS_PMS_PURCHASE_DETAIL e,T_BSS_PMS_COLLECT_PLAN p where e.UNIQUE_ID=p.id and 
-		p.USER_ID in(
-		   select id from T_SES_BMS_USER  WHERE   org_id=(select org_id from T_SES_BMS_USER where  id=#{userId})
-		    UNION
-		   select id from T_SES_BMS_USER where org_id in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where ORG_ID=(select org_id from T_SES_BMS_USER where  id=#{userId})))
-		<include refid="parambar"/> group by e.PURCHASE_TYPE
+
+	<select id="queryChilden" parameterType="String" resultType="Integer">
+		select count(*) from T_BSS_PMS_PURCHASE_DETAIL
+		where PARENT_ID=#{id}
 	</select>
-	<select id="getline" parameterType="Map" resultType="Map" >
-	select sum(e.BUDGET) as amount,to_char(e.CREATED_AT,'yyyy-mm') as month from T_BSS_PMS_PURCHASE_DETAIL e,T_BSS_PMS_COLLECT_PLAN p where e.UNIQUE_ID=p.id and 
-		p.USER_ID in(
-		   select id from T_SES_BMS_USER  WHERE   org_id=(select org_id from T_SES_BMS_USER where  id=#{userId})
-		    UNION
-		   select id from T_SES_BMS_USER where org_id in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where ORG_ID=(select org_id from T_SES_BMS_USER where  id=#{userId})))
-		<include refid="parambar"/> group by to_char(e.CREATED_AT,'yyyy-mm') ORDER BY to_char(e.CREATED_AT,'yyyy-mm')
+
+	<select id="groupDetail" parameterType="String" resultMap="PurchaseRequired_Map">
+		select ID,USER_ID
+		from T_BSS_PMS_PURCHASE_DETAIL where PARENT_ID='1' and UNIQUE_ID =#{uniqueId}
+		group by ID, USER_ID
+	</select>
+
+	<select id="getUniqueId" parameterType="String" resultMap="PurchaseRequired_Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_DETAIL WHERE PARENT_ID in(SELECT ID FROM
+		T_BSS_PMS_PURCHASE_DETAIL WHERE HISTORY_STATUS='0' and IS_DELETE='0'
+		and PARENT_ID='1'
+		and UNIQUE_ID =#{uniqueId})
+		<!-- select <include refid="Base_Column_List" /> from T_BSS_PMS_PURCHASE_DETAIL 
+			<where> HISTORY_STATUS='0' and IS_DELETE='0' and PARENT_ID='1' and UNIQUE_ID 
+			=#{uniqueId} </where> -->
+	</select>
+
+	<select id="getDep" resultType="String">
+		select DEPARTMENT
+		from T_BSS_PMS_PURCHASE_DETAIL where UNIQUE_ID=#{uniqueId}
+		group by DEPARTMENT
 	</select>
 	
-	<select id="getdetailAllByUserId" parameterType="Map" resultMap="PurchaseRequired_Map" >
-		select p.file_name as PLAN_NAME,e.PLAN_NO,e.PLAN_TYPE,e.MATERIAL_NAME,e.STAND,e.QUALIT_STAND,e.ITEM,e.PURCHASE_COUNT,e.PRICE,e.BUDGET,e.PURCHASE_TYPE from T_BSS_PMS_PURCHASE_DETAIL e,T_BSS_PMS_COLLECT_PLAN p where e.UNIQUE_ID=p.id and 
-		   p.USER_ID in(
-		   select id from T_SES_BMS_USER  WHERE   org_id=(select org_id from T_SES_BMS_USER where  id=#{userId})
-		    UNION
-		   select id from T_SES_BMS_USER where org_id in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where ORG_ID=(select org_id from T_SES_BMS_USER where  id=#{userId}))) and e.parent_id!='1'
-		   <include refid="parambar"/>
+	<select id="getbar" parameterType="Map" resultType="Map">
+		select sum(e.BUDGET) as amount,e.DEPARTMENT as department from
+		T_BSS_PMS_PURCHASE_DETAIL e,T_BSS_PMS_COLLECT_PLAN p where
+		e.UNIQUE_ID=p.id and
+		p.USER_ID in(
+		select id from T_SES_BMS_USER WHERE org_id=(select org_id from
+		T_SES_BMS_USER where id=#{userId})
+		UNION
+		select id from T_SES_BMS_USER where org_id in (select PURCHASE_DEP_ID from
+		T_SES_OMS_PURDEP_ORG where ORG_ID=(select org_id from T_SES_BMS_USER
+		where id=#{userId})))
+		<include refid="parambar" />
+		group by e.DEPARTMENT
 	</select>
-    <sql id="parambar">
-	 and e.IS_DELETE!='1' and e.PURCHASE_COUNT is not null
-	 and e.IS_MASTER!='1' and e.HISTORY_STATUS='0'
-	 	<if test="planType != null and planType!=''">
-				and e.PLAN_TYPE = #{planType}
-		</if>
-	 	<if test="planName!=null and planName!=''">
-	 	   and p.file_name like CONCAT(CONCAT('%', #{planName}), '%') 
-	 	</if>
-	 	<if test="planNo !=null and planNo!=''">
-	 	    and e.plan_no like CONCAT(CONCAT('%', #{planNo}), '%') 
-	 	</if>
 	
+	<select id="getpipe" parameterType="Map" resultType="Map">
+		select sum(e.BUDGET) as amount,e.PURCHASE_TYPE as purchaseType from
+		T_BSS_PMS_PURCHASE_DETAIL e,T_BSS_PMS_COLLECT_PLAN p where
+		e.UNIQUE_ID=p.id and
+		p.USER_ID in(
+		select id from T_SES_BMS_USER WHERE org_id=(select org_id from
+		T_SES_BMS_USER where id=#{userId})
+		UNION
+		select id from T_SES_BMS_USER where org_id in (select PURCHASE_DEP_ID from
+		T_SES_OMS_PURDEP_ORG where ORG_ID=(select org_id from T_SES_BMS_USER
+		where id=#{userId})))
+		<include refid="parambar" />
+		group by e.PURCHASE_TYPE
+	</select>
 	
-	</sql>
-    
-    <!-- 获取任务中待选择的明细 -->
-    <select id="getUniquesByTask" parameterType="String" resultMap="PurchaseRequired_Map">
-	    select
-	    <include refid="Base_Column_List" />
-	    from T_BSS_PMS_PURCHASE_DETAIL pd
-	    <where>
-	      pd.HISTORY_STATUS='0'  and pd.IS_DELETE='0' 
-	      <if test="uniqueId !=null">
-	        AND pd.UNIQUE_ID =#{uniqueId}
-	      </if>
-	      <if test="organization !=null">
-	        AND pd.ORGANIZATION_ID =#{organization}
-	      </if>
-	      	AND pd.PROJECT_STATUS != 1
+	<select id="getline" parameterType="Map" resultType="Map">
+		select sum(e.BUDGET) as amount,to_char(e.CREATED_AT,'yyyy-mm') as
+		month from T_BSS_PMS_PURCHASE_DETAIL e,T_BSS_PMS_COLLECT_PLAN p where
+		e.UNIQUE_ID=p.id and
+		p.USER_ID in(
+		select id from T_SES_BMS_USER WHERE org_id=(select org_id from
+		T_SES_BMS_USER where id=#{userId})
+		UNION
+		select id from T_SES_BMS_USER where org_id in (select PURCHASE_DEP_ID from
+		T_SES_OMS_PURDEP_ORG where ORG_ID=(select org_id from T_SES_BMS_USER
+		where id=#{userId})))
+		<include refid="parambar" />
+		group by to_char(e.CREATED_AT,'yyyy-mm') ORDER BY
+		to_char(e.CREATED_AT,'yyyy-mm')
+	</select>
+
+	<select id="getdetailAllByUserId" parameterType="Map"
+		resultMap="PurchaseRequired_Map">
+		select p.file_name as
+		PLAN_NAME,e.PLAN_NO,e.PLAN_TYPE,e.MATERIAL_NAME,e.STAND,e.QUALIT_STAND,e.ITEM,e.PURCHASE_COUNT,e.PRICE,e.BUDGET,e.PURCHASE_TYPE
+		from T_BSS_PMS_PURCHASE_DETAIL e,T_BSS_PMS_COLLECT_PLAN p where
+		e.UNIQUE_ID=p.id and
+		p.USER_ID in(
+		select id from T_SES_BMS_USER WHERE org_id=(select org_id from
+		T_SES_BMS_USER where id=#{userId})
+		UNION
+		select id from T_SES_BMS_USER where org_id in (select PURCHASE_DEP_ID from
+		T_SES_OMS_PURDEP_ORG where ORG_ID=(select org_id from T_SES_BMS_USER
+		where id=#{userId}))) and e.parent_id!='1'
+		<include refid="parambar" />
+	</select>
+	
+	<!-- 获取任务中待选择的明细  封田-->
+	<select id="findUniqueByTask" parameterType="java.util.Map" resultMap="PurchaseRequired_Map">
+		SELECT * FROM
+		(
+			SELECT t1.* FROM
+				(
+					SELECT
+						dl. ID AS ID,
+						dl.ISPARENT AS ISPARENT,
+						dl.DEPARTMENT AS DEPARTMENT,
+						dl.MATERIAL_NAME AS MATERIAL_NAME,
+						dl.STAND AS STAND,
+						dl.QUALIT_STAND AS QUALIT_STAND,
+						DL.parent_Id AS parent_Id,
+						dl.ITEM AS ITEM,
+						dl.PURCHASE_TYPE AS PURCHASE_TYPE,
+						dl.MEMO AS MEMO,
+						dl.DELIVER_DATE,
+						dl.PURCHASE_COUNT AS PURCHASE_COUNT,
+						DL.is_master AS is_master,
+						dl.PLAN_TYPE AS PLAN_TYPE,
+						DL.seq AS seq
+					FROM
+						(
+							SELECT detail.*, DECODE (
+									(SELECT COUNT (*) FROM T_BSS_PMS_PURCHASE_DETAIL WHERE PARENT_ID = detail. ID),
+									0,
+									'false',
+									'true'
+								) AS isParent
+							FROM
+								T_BSS_PPMS_TASK task
+							LEFT JOIN T_BSS_PMS_PURCHASE_DETAIL detail ON detail.UNIQUE_ID = task.COLLECT_ID
+							WHERE task. ID =#{taskId} AND detail.PROJECT_STATUS != 1 
+							AND detail.ID NOT IN (
+										SELECT
+										REQUIRED_ID
+										FROM
+										T_BSS_PPMS_PROJECTS_DETAIL B
+										WHERE
+										B.REQUIRED_ID IN (
+										SELECT
+										ID
+										FROM
+										T_BSS_PMS_PURCHASE_DETAIL A
+										WHERE
+										A.HISTORY_STATUS = '0'
+										AND A.IS_DELETE = '0'
+										<if test="uniqueId !=null">
+											AND A.UNIQUE_ID =#{uniqueId}
+										</if>
+										<if test="organization !=null">
+											AND A.ORGANIZATION_ID =#{orgId}
+										</if>
+										AND A.PROJECT_STATUS = 2
+										)
+										AND B.PROJECT_ID = #{projectId}
+										)
+						) dl
+					WHERE
+						dl.organization_id =#{orgId}
+					OR dl.ISPARENT = 'true'
+					GROUP BY
+						dl. ID,
+						dl.ISPARENT,
+						dl.DEPARTMENT,
+						dl.MATERIAL_NAME,
+						dl.STAND,
+						dl.QUALIT_STAND,
+						DL.parent_Id,
+						dl.ITEM,
+						dl.PURCHASE_TYPE,
+						dl.MEMO,
+						dl.DELIVER_DATE,
+						DL.PURCHASE_COUNT,
+						DL.is_master,
+						DL.ISPARENT,
+						DL.PLAN_TYPE,
+						DL.seq
+					HAVING
+						(
+							SELECT COUNT (*) FROM
+								(
+									SELECT
+										details.*, DECODE (
+											(SELECT COUNT (*) FROM T_BSS_PMS_PURCHASE_DETAIL WHERE PARENT_ID = details. ID),
+											0,
+											'false',
+											'true'
+										) AS isParent
+									FROM
+										T_BSS_PPMS_TASK tasks
+									LEFT JOIN T_BSS_PMS_PURCHASE_DETAIL details ON details.UNIQUE_ID = tasks.COLLECT_ID
+									WHERE
+										tasks. ID =#{taskId}
+									AND details.PROJECT_STATUS != 1
+									AND details.ID NOT IN (
+										SELECT
+										REQUIRED_ID
+										FROM
+										T_BSS_PPMS_PROJECTS_DETAIL B
+										WHERE
+										B.REQUIRED_ID IN (
+										SELECT
+										ID
+										FROM
+										T_BSS_PMS_PURCHASE_DETAIL A
+										WHERE
+										A.HISTORY_STATUS = '0'
+										AND A.IS_DELETE = '0'
+										<if test="uniqueId !=null">
+											AND A.UNIQUE_ID =#{uniqueId}
+										</if>
+										<if test="organization !=null">
+											AND A.ORGANIZATION_ID =#{orgId}
+										</if>
+										AND A.PROJECT_STATUS = 2
+										)
+										AND B.PROJECT_ID = #{projectId}
+										)
+								) dls
+							WHERE
+								(
+									dls.organization_id =#{orgId}
+									OR dls.ISPARENT = 'true'
+								)
+							AND dls.parent_id = dl. ID
+						) > 0
+					ORDER BY
+						DL.is_master
+				) t1
+			UNION ALL
+				SELECT
+					t2.*
+				FROM
+					(
+						SELECT
+							dlss. ID AS ID,
+							dlss.ISPARENT AS ISPARENT,
+							dlss.DEPARTMENT AS DEPARTMENT,
+							dlss.MATERIAL_NAME AS MATERIAL_NAME,
+							dlss.STAND AS STAND,
+							dlss.QUALIT_STAND AS QUALIT_STAND,
+							dlss.parent_Id AS parent_Id,
+							dlss.ITEM AS ITEM,
+							dlss.PURCHASE_TYPE AS PURCHASE_TYPE,
+							dlss.MEMO AS MEMO,
+							dlss.DELIVER_DATE,
+							dlss.PURCHASE_COUNT AS PURCHASE_COUNT,
+							dlss.is_master AS is_master,
+							dlss.PLAN_TYPE AS PLAN_TYPE,
+							dlss.seq AS seq
+						FROM
+							(
+								SELECT
+									detailss.*, DECODE (
+										(SELECT COUNT (*) FROM T_BSS_PMS_PURCHASE_DETAIL WHERE PARENT_ID = detailss. ID),
+										0,
+										'false',
+										'true'
+									) AS isParent
+								FROM
+									T_BSS_PPMS_TASK taskss
+								LEFT JOIN T_BSS_PMS_PURCHASE_DETAIL detailss ON detailss.UNIQUE_ID = taskss.COLLECT_ID
+								WHERE
+									taskss. ID =#{taskId}
+								AND detailss.PROJECT_STATUS != 1
+								AND detailss.ID NOT IN (
+										SELECT
+										REQUIRED_ID
+										FROM
+										T_BSS_PPMS_PROJECTS_DETAIL B
+										WHERE
+										B.REQUIRED_ID IN (
+										SELECT
+										ID
+										FROM
+										T_BSS_PMS_PURCHASE_DETAIL A
+										WHERE
+										A.HISTORY_STATUS = '0'
+										AND A.IS_DELETE = '0'
+										<if test="uniqueId !=null">
+											AND A.UNIQUE_ID =#{uniqueId}
+										</if>
+										<if test="organization !=null">
+											AND A.ORGANIZATION_ID =#{orgId}
+										</if>
+										AND A.PROJECT_STATUS = 2
+										)
+										AND B.PROJECT_ID = #{projectId}
+										)
+							) dlss
+						WHERE (dlss.organization_id =#{orgId} AND dlss.ISPARENT = 'false' )
+					) t2
+		)
+	ORDER BY
+		IS_MASTER
+	</select>
+	
+	<!-- 任务调整获取本机构的明细 -->
+	<select id="findTaskByDetail" parameterType="java.util.Map" resultMap="PurchaseRequired_Map">
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					details.*,
+					DECODE (
+						(
+							SELECT
+								COUNT (*)
+							FROM
+								T_BSS_PMS_PURCHASE_DETAIL
+							WHERE
+								PARENT_ID = details. ID
+						),
+						0,
+						'false',
+						'true'
+					) AS isParent
+				FROM
+					T_BSS_PPMS_TASK tasks
+				LEFT JOIN T_BSS_PMS_PURCHASE_DETAIL details ON details.UNIQUE_ID = tasks.COLLECT_ID
+				WHERE
+					tasks. ID =#{taskId}
+				AND details.HISTORY_STATUS = '0'
+				AND details.ORGANIZATION_ID =#{orgId}
+				ORDER BY
+					details.IS_MASTER ASC
+			) pur
+		WHERE
+			pur.ISPARENT = 'false'
+	</select>
+
+	<!-- 获取任务中待选择的明细 -->
+	<select id="getUniquesByTask" parameterType="String" resultMap="PurchaseRequired_Map">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_DETAIL pd
+		<where>
+			pd.HISTORY_STATUS='0' and pd.IS_DELETE='0'
+			<if test="uniqueId !=null">
+				AND pd.UNIQUE_ID =#{uniqueId}
+			</if>
+			<if test="organization !=null">
+				AND pd.ORGANIZATION_ID =#{organization}
+			</if>
+			AND pd.PROJECT_STATUS != 1
 			AND pd.ID NOT IN (
-				SELECT
-					REQUIRED_ID
-				FROM
-					T_BSS_PPMS_PROJECTS_DETAIL B
-				WHERE
-					B.REQUIRED_ID IN (
-						SELECT
-							ID
-						FROM
-							T_BSS_PMS_PURCHASE_DETAIL A
-						WHERE
-							A.HISTORY_STATUS = '0'
-						AND A.IS_DELETE = '0'
-					 <if test="uniqueId !=null">
-				        AND A.UNIQUE_ID =#{uniqueId}
-				      </if>
-				      <if test="organization !=null">
-				        AND A.ORGANIZATION_ID =#{organization}
-				      </if>
-						AND A.PROJECT_STATUS = 2
-					)
-				AND B.PROJECT_ID = #{projectId}
+			SELECT
+			REQUIRED_ID
+			FROM
+			T_BSS_PPMS_PROJECTS_DETAIL B
+			WHERE
+			B.REQUIRED_ID IN (
+			SELECT
+			ID
+			FROM
+			T_BSS_PMS_PURCHASE_DETAIL A
+			WHERE
+			A.HISTORY_STATUS = '0'
+			AND A.IS_DELETE = '0'
+			<if test="uniqueId !=null">
+				AND A.UNIQUE_ID =#{uniqueId}
+			</if>
+			<if test="organization !=null">
+				AND A.ORGANIZATION_ID =#{organization}
+			</if>
+			AND A.PROJECT_STATUS = 2
 			)
-	    </where>
-	      ORDER BY IS_MASTER
-	  </select>
-	  
-	  <!-- 获取任务中已被该项目暂时选择的明细 -->
-    <select id="getUniquesTempByTask" parameterType="String" resultMap="PurchaseRequired_Map">
-	    select
-	    <include refid="Base_Column_List" />
-	    from T_BSS_PMS_PURCHASE_DETAIL pd
-	    <where>
-	      pd.HISTORY_STATUS='0'  and pd.IS_DELETE='0' 
-	      <if test="uniqueId !=null">
-	        AND pd.UNIQUE_ID =#{uniqueId}
-	      </if>
-	      <if test="organization !=null">
-	        AND pd.ORGANIZATION_ID =#{organization}
-	      </if>
-	      	AND pd.PROJECT_STATUS != 1
+			AND B.PROJECT_ID = #{projectId}
+			)
+		</where>
+		ORDER BY IS_MASTER
+	</select>
+
+	<!-- 获取任务中已被该项目暂时选择的明细 -->
+	<select id="getUniquesTempByTask" parameterType="String" resultMap="PurchaseRequired_Map">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_DETAIL pd
+		<where>
+			pd.HISTORY_STATUS='0' and pd.IS_DELETE='0'
+			<if test="uniqueId !=null">
+				AND pd.UNIQUE_ID =#{uniqueId}
+			</if>
+			<if test="organization !=null">
+				AND pd.ORGANIZATION_ID =#{organization}
+			</if>
+			AND pd.PROJECT_STATUS != 1
 			AND pd.ID IN (
-				SELECT
-					REQUIRED_ID
-				FROM
-					T_BSS_PPMS_PROJECTS_DETAIL B
-				WHERE
-					B.REQUIRED_ID IN (
-						SELECT
-							ID
-						FROM
-							T_BSS_PMS_PURCHASE_DETAIL A
-						WHERE
-							A.HISTORY_STATUS = '0'
-						AND A.IS_DELETE = '0'
-					  <if test="uniqueId !=null">
-				      AND A.UNIQUE_ID =#{uniqueId}
-				    </if>
-				    <if test="organization !=null">
-				      AND A.ORGANIZATION_ID =#{organization}
-				    </if>
-						AND A.PROJECT_STATUS = 2
-					)
-				AND B.PROJECT_ID = #{projectId}
+			SELECT
+			REQUIRED_ID
+			FROM
+			T_BSS_PPMS_PROJECTS_DETAIL B
+			WHERE
+			B.REQUIRED_ID IN (
+			SELECT
+			ID
+			FROM
+			T_BSS_PMS_PURCHASE_DETAIL A
+			WHERE
+			A.HISTORY_STATUS = '0'
+			AND A.IS_DELETE = '0'
+			<if test="uniqueId !=null">
+				AND A.UNIQUE_ID =#{uniqueId}
+			</if>
+			<if test="organization !=null">
+				AND A.ORGANIZATION_ID =#{organization}
+			</if>
+			AND A.PROJECT_STATUS = 2
 			)
-	    </where>
-	      ORDER BY IS_MASTER
-	  </select>
-	  
-	  <!-- 查看该计划明细是否立项 -->
-	  <select id="groupByStatus" parameterType="java.lang.String" resultType="java.lang.Integer">
-	      SELECT
-				  PROJECT_STATUS
-				FROM
-				  T_BSS_PMS_PURCHASE_DETAIL
-				WHERE
-				  UNIQUE_ID =#{uniqueId}
-				GROUP BY
-				  PROJECT_STATUS
-	  </select>
-    
+			AND B.PROJECT_ID = #{projectId}
+			)
+		</where>
+		ORDER BY IS_MASTER
+	</select>
+
+	<!-- 查看该计划明细是否立项 -->
+	<select id="groupByStatus" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT
+		PROJECT_STATUS
+		FROM
+		T_BSS_PMS_PURCHASE_DETAIL
+		WHERE
+		UNIQUE_ID =#{uniqueId}
+		GROUP BY
+		PROJECT_STATUS
+	</select>
+	<select id="getUniqueIdByParentId" parameterType="String" resultMap="PurchaseRequired_Map">
+		select DISTINCT DEPARTMENT,ID from T_BSS_PMS_PURCHASE_DETAIL where
+		PARENT_ID='1' and HISTORY_STATUS='0' and IS_DELETE='0' and
+		UNIQUE_ID=#{uniqueId}
+	</select>
 </mapper>

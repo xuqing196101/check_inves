@@ -261,9 +261,9 @@ function chongzhi(){
 			           <li>
                         <label class="fl">资质起止日期：</label>
                         <input id="quaStartDate" name="quaStartDate" class="Wdate w150" type="text"  value='<fmt:formatDate value="${purchaseDep.quaStartDate }" pattern="YYYY-MM-dd"/>'
-                        onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){quaStartDate.focus();},maxDate:'#F{$dp.$D(\'quaStartDate\')}'})"/>
+                        onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){quaStartDate.focus();},maxDate:'#F{$dp.$D(\'quaEdndate\')}'})"/>
                         <span  class="f14" >至</span>
-                        <input id="quaEdndate" name="quaEdndate" value='<fmt:formatDate value="${purchaseDep.quaEdndate }" pattern="YYYY-MM-dd"/>' class="Wdate w150" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'quaEdndate\')}'})"/>
+                        <input id="quaEdndate" name="quaEdndate" value='<fmt:formatDate value="${purchaseDep.quaEdndate }" pattern="YYYY-MM-dd"/>' class="Wdate w150" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'quaStartDate\')}'})"/>
                       </li>
                       <li>
                         <label class="fl">上级监管部门：</label>
@@ -272,6 +272,7 @@ function chongzhi(){
 			                         <option selected="selected" value=''>-请选择-</option>
                                     <option  value="生产型">部门1</option>
                                     <option  value="销售型">部门2</option>
+                                    <option  value="军区采购">军区采购</option>
 			              </select>
 			            </span>
                       </li>

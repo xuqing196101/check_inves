@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="extract.dao.expert.ExpertExtractTypeInfoMapper">
+  <resultMap id="BaseResultMap" type="extract.model.expert.ExpertExtractTypeInfo">
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="COUNT_PERSON" property="countPerson" jdbcType="DECIMAL" />
+    <result column="ENG_INFO" property="engInfo" jdbcType="VARCHAR" />
+    <result column="CATEGORY_IDS" property="categoryIds" jdbcType="VARCHAR" />
+    <result column="TECHNICAL_TITLE" property="technicalTitle" jdbcType="VARCHAR" />
+    <result column="ENG_QUALIFICATION" property="engQualification" jdbcType="VARCHAR" />
+    <result column="CONDITION_ID" property="conditionId" jdbcType="VARCHAR" />
+    <result column="EXPERT_TYPE_CODE" property="expertTypeCode" jdbcType="VARCHAR" />
+    <result column="IS_SATISFY" property="isSatisfy" jdbcType="DECIMAL" />
+    <result column="ENG_IS_SATISFY" property="engIsSatisfy" jdbcType="DECIMAL" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, COUNT_PERSON, ENG_INFO, CATEGORY_IDS, TECHNICAL_TITLE,ENG_IS_SATISFY,
+    ENG_QUALIFICATION, CONDITION_ID,
+    EXPERT_TYPE_CODE, IS_SATISFY, IS_DELETED, CREATED_AT, UPDATED_AT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+    parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXTRACT_TYPE_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_EMS_EXTRACT_TYPE_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="extract.model.expert.ExpertExtractTypeInfo">
+    insert into T_SES_EMS_EXTRACT_TYPE_INFO (ID, COUNT_PERSON, ENG_INFO,
+    CATEGORY_IDS, TECHNICAL_TITLE, ENG_QUALIFICATION,
+    CONDITION_ID, EXPERT_TYPE_CODE, IS_SATISFY, IS_DELETED, CREATED_AT, UPDATED_AT,ENG_IS_SATISFY
+    )
+    values (#{id,jdbcType=VARCHAR}, #{countPerson,jdbcType=DECIMAL},
+    #{engInfo,jdbcType=VARCHAR},
+    #{categoryIds,jdbcType=VARCHAR}, #{technicalTitle,jdbcType=VARCHAR},
+    #{engQualification,jdbcType=VARCHAR},
+    #{conditionId,jdbcType=VARCHAR}, #{expertTypeCode,jdbcType=VARCHAR}, #{isSatisfy,jdbcType=DECIMAL},
+    #{isDeleted,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{engIsSatisfy,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="extract.model.expert.ExpertExtractTypeInfo">
+    insert into T_SES_EMS_EXTRACT_TYPE_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="countPerson != null">
+        COUNT_PERSON,
+      </if>
+      <if test="engInfo != null">
+        ENG_INFO,
+      </if>
+      <if test="categoryIds != null">
+        CATEGORY_IDS,
+      </if>
+      <if test="technicalTitle != null">
+        TECHNICAL_TITLE,
+      </if>
+      <if test="engQualification != null">
+        ENG_QUALIFICATION,
+      </if>
+      <if test="conditionId != null">
+        CONDITION_ID,
+      </if>
+      <if test="expertTypeCode != null">
+        EXPERT_TYPE_CODE,
+      </if>
+      <if test="isSatisfy != null">
+        IS_SATISFY,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="engIsSatisfy != null">
+        ENG_IS_SATISFY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="countPerson != null">
+        #{countPerson,jdbcType=DECIMAL},
+      </if>
+      <if test="engInfo != null">
+        #{engInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryIds != null">
+        #{categoryIds,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalTitle != null">
+        #{technicalTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="engQualification != null">
+        #{engQualification,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionId != null">
+        #{conditionId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertTypeCode != null">
+        #{expertTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isSatisfy != null">
+        #{isSatisfy,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="engIsSatisfy != null">
+        #{engIsSatisfy,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="extract.model.expert.ExpertExtractTypeInfo">
+    update T_SES_EMS_EXTRACT_TYPE_INFO
+    <set>
+      <if test="countPerson != null">
+        COUNT_PERSON = #{countPerson,jdbcType=DECIMAL},
+      </if>
+      <if test="engInfo != null">
+        ENG_INFO = #{engInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryIds != null">
+        CATEGORY_IDS = #{categoryIds,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalTitle != null">
+        TECHNICAL_TITLE = #{technicalTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="engQualification != null">
+        ENG_QUALIFICATION = #{engQualification,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionId != null">
+        CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertTypeCode != null">
+        EXPERT_TYPE_CODE = #{expertTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isSatisfy != null">
+        IS_SATISFY = #{isSatisfy,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="engIsSatisfy != null">
+        ENG_IS_SATISFY = #{engIsSatisfy,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="extract.model.expert.ExpertExtractTypeInfo">
+    update T_SES_EMS_EXTRACT_TYPE_INFO
+    set COUNT_PERSON = #{countPerson,jdbcType=DECIMAL},
+    ENG_INFO = #{engInfo,jdbcType=VARCHAR},
+    CATEGORY_IDS = #{categoryIds,jdbcType=VARCHAR},
+    TECHNICAL_TITLE = #{technicalTitle,jdbcType=VARCHAR},
+    ENG_QUALIFICATION = #{engQualification,jdbcType=VARCHAR},
+    CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
+    EXPERT_TYPE_CODE = #{expertTypeCode,jdbcType=VARCHAR},
+    IS_SATISFY = #{isSatisfy,jdbcType=DECIMAL},
+    IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+    CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+    UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+    ENG_IS_SATISFY = #{engIsSatisfy,jdbcType=DECIMAL},
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByTypeInfo" parameterType="extract.model.expert.ExpertExtractTypeInfo" resultMap="BaseResultMap">
+	SELECT * FROM T_SES_EMS_EXTRACT_TYPE_INFO I 
+	<where>
+		<if test="conditionId !=null">
+		 	I.CONDITION_ID = #{conditionId}
+		</if>
+		<if test="expertTypeCode !=null">
+		 	AND	I.EXPERT_TYPE_CODE = #{expertTypeCode} 
+		</if>
+	</where>
+  </select>
+  
+</mapper>

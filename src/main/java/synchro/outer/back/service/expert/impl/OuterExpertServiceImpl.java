@@ -22,11 +22,13 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
+import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertHistory;
 import ses.model.ems.ExpertTitle;
 import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
@@ -98,6 +100,10 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     @Autowired
     private ExpertCategoryMapper expertCategoryMapper;
 
+    // 专家审核意见Service
+    @Autowired
+    private ExpertAuditOpinionService expertAuditOpinionService;
+
     /**
      * @see synchro.outer.back.service.supplier.OuterReadExpertService#backupCreated()
      */
@@ -128,6 +134,11 @@ public class OuterExpertServiceImpl implements OuterExpertService {
                 //专家审核记录表
                 List<ExpertAudit> expertAuditList = expertAuditMapper.selectByExpertId(expert.getId());
                 if(null != expertAuditList){
+                	for (ExpertAudit expertAudit : expertAuditList) {
+                		if(expertAudit!=null){
+                			expertAudit.setDataType(expertAudit.getType());
+                		}
+					}
                     expert.setExpertAuditList(expertAuditList);
                 }
                 //工程执业资格历史表
@@ -195,45 +206,25 @@ public class OuterExpertServiceImpl implements OuterExpertService {
         map.put("status", -3);
         List<Expert> expertList = expertMapper.selectExpByPublictyOfExport(map);
         List<Expert> experts = new ArrayList<Expert>();
+        // 查询军队专家类型
+        DictionaryData dict = DictionaryDataUtil.get("ARMY");
         if(null != expertList && !expertList.isEmpty()){
-            ExpertEngHistory expertEngHistory = null;
-            ExpertAuditFileModify expertAuditFileModify = null;
             for(Expert expert : expertList){
                 //专家审核记录表
                 List<ExpertAudit> expertAuditList = expertAuditMapper.selectByExpertId(expert.getId());
                 if(null != expertAuditList){
                     expert.setExpertAuditList(expertAuditList);
                 }
-                //工程执业资格历史表
-                expertEngHistory = new ExpertEngHistory();
-                expertEngHistory.setExpertId(expert.getId());
-                List<ExpertEngHistory> expertEngHistoryList = expertEngHistoryMapper.selectByExpertId(expertEngHistory);
-                if(null != expertEngHistoryList){
-                    expert.setExpertEngHistoryList(expertEngHistoryList);
-                }
-                //工程执业资格修改表
-                List<ExpertEngHistory> expertEngModifyList = expertEngModifyMapper.selectByExpertId(expertEngHistory);
-                if(null != expertEngModifyList){
-                    expert.setExpertEngModifyList(expertEngModifyList);
-                }
-                //专家历史表
-                ExpertHistory expertHistory = expertService.selectOldExpertById(expert.getId());
-                if(null != expertHistory){
-                    expert.setHistory(expertHistory);
-                }
-                //工程执业资格文件修改表
-                expertAuditFileModify = new ExpertAuditFileModify();
-                expertAuditFileModify.setExpertId(expert.getId());
-                List<ExpertAuditFileModify> expertAuditFileModifyList = expertAuditFileModifyMapper.selectByExpertId(expertAuditFileModify);
-                if(null != expertAuditFileModifyList){
-                    expert.setExpertAuditFileModifyList(expertAuditFileModifyList);
-                }
-                expert.setAttchList(getAttch(expert.getId()));
-                // 查询专家选择的小类
-                // 查询军队专家类型
-                DictionaryData dict = DictionaryDataUtil.get("ARMY");
                 if(dict != null && dict.getId().equals(expert.getExpertsFrom()))
                 expert.setExpertCategory(expertCategoryMapper.findByExpertId(expert.getId()));
+                // 查询专家复审意见
+                ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+                expertAuditOpinion.setExpertId(expert.getId());
+                // 设置审核标识  1：复审标识
+                expertAuditOpinion.setFlagTime(1);
+                ExpertAuditOpinion expertAuditOpinionOut = expertAuditOpinionService.selectByExpertId(expertAuditOpinion, null);
+                expert.setExpertAuditOpinion(expertAuditOpinionOut);
+                // 将专家信息添加到集合
                 experts.add(expert);
             }
         }
@@ -426,6 +417,5 @@ public class OuterExpertServiceImpl implements OuterExpertService {
 	    	}
     	 return attchs;
     }
-    
     
 }

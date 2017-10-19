@@ -1,6 +1,7 @@
 package ses.dao.oms;
 
 import org.apache.ibatis.annotations.Param;
+
 import ses.model.bms.Analyze;
 import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.bms.AnalyzeVo;
@@ -345,5 +346,12 @@ public interface OrgnizationMapper {
    * @return
    */
   List<Orgnization> findPurchaseOrgByPosition(HashMap<String, Object> map);
+
+	/**
+	 * 查询管理部门，筛选已选过的
+	 * @param map
+	 * @return
+	 */
+	List<Orgnization> findManageOfOrg(HashMap<String, Object> map);
 
 }

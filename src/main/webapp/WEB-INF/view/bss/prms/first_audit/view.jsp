@@ -199,7 +199,7 @@
 			layer.open({
 		  	    shift: 1, //0-6的动画形式，-1不开启
 		  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-		  	    title: ['操作','border-bottom:1px solid #e5e5e5'],
+		  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
 		  	    shade:0.01, //遮罩透明度
 			  		type : 1,
 			  		area : [ '40%', '200px'  ], //宽高

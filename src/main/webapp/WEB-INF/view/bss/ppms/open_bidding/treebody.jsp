@@ -17,8 +17,8 @@ System.out.print(scoreModel);
 <script src="${pageContext.request.contextPath}/public/validate/jquery.validate.min.js"></script>
 <script type="text/javascript">
 	function addRows() {
-		 $("#guding").before("<tr><td><span class='star_red'>*</span>选择项名称</td><td><input onkeyup='gernerator();' ></td><td><span class='star_red'>*</span>对应分数</td><td><input onblur='gernerator();' onkeyup='this.value=this.value.replace(/[^\d+(\.\d{2})?]/g,"+'""'+")'></td><td class='tc'><button class='btn btn-windows delete' type=button onclick=deleteRow(this)>删除</button></td></tr>");
-	}
+     $("#guding").before("<tr><td><span class=\"star_red\">*</span>选择项名称</td><td><input onkeyup=\"gernerator();\" ></td><td><span class=\"star_red\">*</span>对应分数</td><td><input onblur=\"gernerator();\" onkeyup=\"this.value=this.value.replace(/[^\\d+(\\.\\d{2})?]/g,'')\"></td><td class=\"tc\"><button class=\"btn btn-windows delete\" type=button onclick=\"deleteRow(this);\">删除</button></td></tr>");
+  }
 	function deleteRow(obj) {
 		  /* if ($("#show_table").get(0).rows.length == 5) {
 		  	layer.msg("请填写数据");
@@ -468,7 +468,9 @@ function judge(index) {
 	}
 	function gerneratorOne(){
 		var judgeContent = $("#judgeContent").val();
+		judgeContent = $.trim(judgeContent);
 		var standardScore = $("#standardScore").val();
+		standardScore = $.trim(standardScore);
 		//var judgeNumber = $("#judgeNumber").val();
 		var str = judgeContent  + " "+"是"+standardScore+"分 "+"否0分";
 		$("#easyUnderstandContent1").text(str);
@@ -659,9 +661,24 @@ function judge(index) {
 			$("#easyUnderstandContent4").text(str);
 		}
 	}
-	
+	//空格校验
+    function checkSpace(name,obj){
+        var valid=/\s/g;
+        if(valid.test(obj)){
+            layer.msg(""+name+"中不能添加空格!");
+            return false;
+        }
+        return true;
+    }
 	
 	function associate(){
+		if(!checkSpace("评审指标名称",$("#name").val())){
+			return false;
+		}
+		if(!checkSpace("评审指标内容及规则说明",$("#reviewContent").val())){
+			return false;
+		}
+		
 		var text = $("#show_table").find("tr").eq("1").find("td:last").text();
 		if (text == '添加一行') {
 			layer.msg("请至少添加一行");
@@ -697,6 +714,10 @@ function judge(index) {
 		}
 		if (checkScore > 0) {
 			layer.msg("区间不成立,请重新录入");
+			return;
+		}
+		if($("#model").val()==""){
+			layer.msg("请选择模型");
 			return;
 		}
 	    var standScore = $("#standardScore").val();
@@ -870,6 +891,8 @@ function judge(index) {
 			gernerator();
 		}
 	}
+	
+	
 </script>  
 <script type="text/javascript">
 	//validate

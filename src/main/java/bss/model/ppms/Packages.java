@@ -6,10 +6,12 @@ package bss.model.ppms;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
+import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtRelate;
@@ -42,6 +44,9 @@ public class Packages {
   private List<SupplierCondition> listSupplierCondition;
 
   private List<FirstAudit> listFirstAudit;
+  
+  
+  private Map<String, List<Quote>> quotes;//历史报价
 
   //经济评审
   List<MarkTerm> listScoreEconomy;
@@ -676,5 +681,15 @@ public void setNegotiationReport(NegotiationReport negotiationReport) {
 	public void setPackageNumber(String packageNumber) {
 		this.packageNumber = packageNumber;
 	}
+
+  public Map<String, List<Quote>> getQuotes() {
+    return quotes;
+  }
+
+  public void setQuotes(Map<String, List<Quote>> quotes) {
+    this.quotes = quotes;
+  }
+
+  
 	
 }

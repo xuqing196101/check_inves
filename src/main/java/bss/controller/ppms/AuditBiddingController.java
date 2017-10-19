@@ -1,7 +1,7 @@
 package bss.controller.ppms;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -25,18 +27,19 @@ import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import common.service.DownloadService;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
-import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
 import ses.service.bms.TodosService;
-import ses.service.bms.UserServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
+import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.Reason;
+import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
@@ -58,8 +61,6 @@ public class AuditBiddingController extends BaseController {
 
   /** SCCUESS */
   private static final String SUCCESS = "SUCCESS";
-  /** ERROR */
-  private static final String ERROR = "ERROR";
 
   /**
    * 项目信息
@@ -77,11 +78,6 @@ public class AuditBiddingController extends BaseController {
    */
   @Autowired
   FlowMangeService flowMangeService;
-  /**
-   * 用户
-   */
-  @Autowired
-  private UserServiceI userService;
 
   /**
    * 待办
@@ -89,11 +85,16 @@ public class AuditBiddingController extends BaseController {
   @Autowired
   private TodosService todosService;
 
-  @Autowired
-  private PurchaseOrgnizationServiceI purchaseOrgnizationService;
   
   @Autowired
   private PackageService packageService;
+  
+  @Autowired
+  private AdvancedProjectService advancedProjectService;
+  
+  @Autowired
+  private PurchaseOrgnizationServiceI purchaseOrgnizationService;
+  
   /**
    * 
    *〈简述〉返回待审核的项目信息
@@ -102,49 +103,72 @@ public class AuditBiddingController extends BaseController {
    * @return
    */
   @RequestMapping("/list")
-  public String list(@CurrentUser User user,Integer page,Model model,Project project){
-    //采购机构信息
-    PurchaseDep purchaseDep = purchaseOrgnizationService.selectByOrgId(user.getOrg().getId());
-    project.setStatusArray(null);
-    //拿到当前的采购机构获取到组织机构
-    List<PurchaseOrg> listOrg = purchaseOrgnizationService.getOrg(purchaseDep.getOrgId());
-    String org = "";
-    for (PurchaseOrg purchaseOrg : listOrg) {
-      org += "'"+purchaseOrg.getPurchaseDepId() + "',";
-    }
-    if(!"".equals(org)){
-      project.setPurchaseDepId(org.substring(0, org.length()-1));
-    }else{
-      project.setPurchaseDepId("'123456'");
-    }
-    /*if (null == project.getConfirmFile()){
-        project.setConfirmFile(1);
-    }else if(project.getConfirmFile() == -1){
-        project.setConfirmFile(null);
-    }*/
-    project.setPrincipal(user.getId());
-    model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
-    model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
-    List<Project> list = projectService.selectProjectByAudit(page == null || "".equals(page) ? 1 : page, project);
-    for (int i=0, k = list.size(); i < k; i++) {
-      try {
-        User contractor = userService.getUserById(list.get(i).getPrincipal());
-        list.get(i).setProjectContractor(contractor.getRelName());
-      } catch (Exception e) {
-        list.get(i).setProjectContractor("");
-      }
-    }
-    model.addAttribute("confirmFile", project.getConfirmFile());
-    model.addAttribute("list", new PageInfo<Project>(list));
-    
-    //只有采购管理部门才能操作
-    if("2".equals(user.getTypeName())){
-      model.addAttribute("auth", "show");
-    }else {
-      model.addAttribute("auth", "hidden");
-    }
-    return "bss/ppms/audit_bidding/list";
+  public String list(@CurrentUser User user, Integer page, Model model,Project project){
+	  if (user != null && user.getOrg() != null) {
+		  String orgId = "";
+		  List<PurchaseOrg> listOrg = purchaseOrgnizationService.getOrg(user.getOrg().getId());
+		  for (PurchaseOrg purchaseOrg : listOrg) {
+			  orgId += "'" + purchaseOrg.getPurchaseDepId() + "',";
+		  }
+		  
+		  HashMap<String,Object> map = new HashMap<String,Object>();
+          if (StringUtils.isNotBlank(project.getName())) {
+              map.put("name", project.getName());
+          }
+          if (StringUtils.isNotBlank(project.getProjectNumber())) {
+              map.put("projectNumber", project.getProjectNumber());
+          }
+          if (project.getConfirmFile() != null) {
+        	  map.put("confirmFile", project.getConfirmFile());
+          }
+          if (project.getIsRehearse() != null) {
+        	  map.put("isRehearse", project.getIsRehearse());
+          }
+          if (orgId != null) {
+        	  map.put("purchaseDepId", orgId.substring(0, orgId.length()-1));
+          }
+          SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+          String date = df.format(new Date());
+          map.put("date", date);
+          if(page == null){
+              page = 1;
+          }
+          PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+          List<AdvancedProject> selectByAudit = advancedProjectService.selectByAudit(map);
+          if (selectByAudit != null && !selectByAudit.isEmpty()) {
+        	  model.addAttribute("list", new PageInfo<AdvancedProject>(selectByAudit));
+          }
+          //只有采购管理部门才能操作
+          if("2".equals(user.getTypeName())){
+            model.addAttribute("auth", "show");
+          }else {
+            model.addAttribute("auth", "hidden");
+          }
+          model.addAttribute("project", project);
+          model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+          model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
+	  }
+	  return "bss/ppms/audit_bidding/list";
   } 
+  
+  
+  @ResponseBody
+  @RequestMapping(value = "/auditProject",produces = "text/html;charset=UTF-8")
+  public String auditProject(String projectId){
+	  String audit = null;
+	  if (StringUtils.isNotBlank(projectId)) {
+		  Project project = projectService.selectById(projectId);
+		  if (project != null) {
+			  audit = "1";
+		  } else {
+			  AdvancedProject project2 = advancedProjectService.selectById(projectId);
+			  if (project2 != null) {
+				  audit = "2";
+			  }
+		  }
+	  }
+	  return audit;
+  }
 
   /**
    * 
@@ -176,14 +200,15 @@ public class AuditBiddingController extends BaseController {
     List<Packages> findById = packageService.findByID(map);
     if(findById != null && findById.size() > 0){
     	for (Packages packages : findById) {
-    		if("4".equals(status)){
-    			packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJXGBB"));
-    		} else if ("3".equals(status)) {
-    			packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTG"));
-    		} else if ("2".equals(status)) {
-    			packages.setProjectStatus(DictionaryDataUtil.getId("NZPFBZ"));
-    		}
-    		packageService.updateByPrimaryKeySelective(packages);
+    	  String projectStatus = packages.getProjectStatus();
+        if(projectStatus!=null){
+          DictionaryData dd = DictionaryDataUtil.findById(projectStatus);
+          if(dd!=null&&!"YZZ".equals(dd.getCode())&&!"ZJZXTP".equals(dd.getCode())){
+            packageUpdateProjectSatus(status, packages);
+          }
+        }else{
+          packageUpdateProjectSatus(status, packages);
+        }
 		}
     }
     //修改代办为已办
@@ -239,6 +264,18 @@ public class AuditBiddingController extends BaseController {
     return JSON.toJSONString(SUCCESS);
 
   }
+
+
+  private void packageUpdateProjectSatus(String status, Packages packages) {
+    if("4".equals(status)){
+      packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJXGBB"));
+    } else if ("3".equals(status)) {
+      packages.setProjectStatus(DictionaryDataUtil.getId("ZBWJYTG"));
+    } else if ("2".equals(status)) {
+      packages.setProjectStatus(DictionaryDataUtil.getId("NZPFBZ"));
+    }
+    packageService.updateByPrimaryKeySelective(packages);
+  }
   
 
   /**
@@ -289,6 +326,8 @@ public class AuditBiddingController extends BaseController {
         model.addAttribute("causeTypeId", DictionaryDataUtil.getId("CAUSE_REASON"));
         //财务部门审核意见附件
         model.addAttribute("financeTypeId", DictionaryDataUtil.getId("FINANCE_REASON"));
+        //最终意见
+        model.addAttribute("finalTypeId", DictionaryDataUtil.getId("FINAL_OPINION"));
         return "bss/ppms/audit_bidding/audit_suggestion";
     }
 

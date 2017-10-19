@@ -659,4 +659,551 @@ div.Section0{page:Section0;}</style></head><body style="tab-interval:21pt;text-j
     </a>
 <p class=MsoNormal ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:宋体;font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p>
 </div><!--EndFragment-->
+<!--StartFragment--><div class="Section0"  style="layout-grid:15.6000pt;" >
+
+<a name="OLE_LINK_THREE"> 
+               <p class=MsoNormal
+                    style="line-height:28.0000pt;mso-line-height-rule:exactly;">
+                    <span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;"><font
+                         face="宋体">表</font> </span><span
+                         style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;">2</span><span
+                         style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;"><o:p></o:p>
+                    </span>
+               </p>
+               
+               <p class=MsoNormal align=center
+                    style="text-align:center;line-height:28.0000pt;mso-line-height-rule:exactly;">
+                    <span
+                         style="mso-spacerun:'yes';font-family:黑体;font-size:14.0000pt;"><font
+                         face="黑体">经济评审</font><font face="黑体">标准表</font>
+                    </a> </span><span
+                         style="mso-spacerun:'yes';font-family:黑体;font-size:14.0000pt;"><o:p></o:p>
+                    </span>
+               </p>
+               
+               <#list packagesList as pl> 
+               <#if (pl.listScoreEconomy?exists && pl.listScoreEconomy?size>0) >
+               <p class=MsoNormal
+                    style="line-height:28.0000pt;mso-line-height-rule:exactly;">
+                    <span
+                         style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:12.0000pt;"><font
+                         face="宋体">项目名称：</font> </span><span
+                         style="mso-spacerun:'yes';font-family:宋体;font-size:12.0000pt;">${project.name!}</span><span
+                         style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:12.0000pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font
+                         face="宋体">项目编号：</font> </span><span
+                         style="mso-spacerun:'yes';font-family:宋体;font-size:12.0000pt;">${project.projectNumber!}</span><span
+                         style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:12.0000pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font
+                         face="宋体">包号：</font> </span><span
+                         style="mso-spacerun:'yes';font-family:宋体;font-size:12.0000pt;">${pl.name!}</span><span
+                         style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:12.0000pt;"><o:p></o:p>
+                    </span>
+               </p>
+               <a name="SYS_15"> 
+               <table class=MsoNormalTable align=center
+                    style="border-collapse:collapse;width:451.5000pt;margin-left:-17.0500pt;mso-table-layout-alt:fixed;mso-padding-alt:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;">
+                    <tr style="height:32.3500pt;">
+                         <td width=64 valign=center
+                              style="width:48.3500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">序号</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=70 valign=center
+                              style="width:52.6500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">评审项目</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=356 valign=center
+                              style="width:267.7000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">评审内容及规则</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=110 valign=center
+                              style="width:82.8000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">标准分值</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                    </tr>
+                    <#list pl.listScoreEconomy as lst> <#assign num = "1" /> <#list
+                    lst.listMarkTerm as llmt>
+                    <tr style="height:30.6500pt;">
+                         <#if (num == "1")>
+                         <td rowspan=${lst.listMarkTerm?size} width=64 valign=center
+                              style="width:48.3500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:31.8750pt none rgb(255,255,255);mso-border-top-alt:31.8750pt none rgb(255,255,255);border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">
+                                        ${lst_index+1!} </span><span
+                                        style="font-family:宋体;mso-ascii-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td rowspan=${lst.listMarkTerm?size} width=70 valign=center
+                              style="width:52.6500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:31.8750pt none rgb(255,255,255);mso-border-top-alt:31.8750pt none rgb(255,255,255);border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:left;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">
+                                        ${lst.name!}</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td> <#assign num = "2" /> </#if>
+                         <td width=356 valign=center
+                              style="width:267.7000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:31.8750pt none rgb(255,255,255);mso-border-top-alt:31.8750pt none rgb(255,255,255);border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:left;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">${llmt.name!}</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+
+                         <td width=110 valign=center
+                              style="width:82.8000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:31.8750pt none rgb(255,255,255);mso-border-top-alt:31.8750pt none rgb(255,255,255);border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <#if llmt.scscore?exists>
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">${llmt.scscore!}</span><span
+                                        style="font-family:宋体;mso-ascii-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p> </#if></td>
+                    </tr>
+                    </#list> </#list>
+                    <tr style="height:22.7000pt;">
+                         <td width=491 valign=center colspan=3
+                              style="width:368.7000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">合&nbsp;&nbsp;&nbsp;&nbsp;计</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=110 valign=center
+                              style="width:82.8000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:none;;mso-border-left-alt:none;;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p>100</o:p>
+                                   </span>
+                              </p>
+                         </td>
+                    </tr>
+                    <tr style="height:62.4000pt;">
+                         <td width=602 valign=center colspan=4
+                              style="width:451.5000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">备注：</span><span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">采购机构应当结合采购项目特点，适当调整增减评审项目，并优选《采购文件标准文本》使用说明第</span><span
+                                        style="mso-spacerun:'yes';font-family:'Times New Roman';mso-hansi-font-family:宋体;font-size:10.0000pt;">11</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;">款</span><span
+                                        style="font-family:'Times New Roman';mso-hansi-font-family:宋体;font-size:10.0000pt;">8</span><span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">种模型的一种或多种编制评分标准。评审时评委依据投标文件审核确认投标人填写的数值或评分项，系统自动生成得分。</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                    </tr>
+               </table> </#if> <#if (pl.listMinimumEconomy?exists &&
+               pl.listMinimumEconomy?size>0)>
+               <p class=MsoNormal
+                    style="line-height:28.0000pt;mso-line-height-rule:exactly;">
+                    <span
+                         style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:12.0000pt;"><font
+                         face="宋体">项目名称：</font> </span><span
+                         style="mso-spacerun:'yes';font-family:宋体;font-size:12.0000pt;">${project.name!}</span><span
+                         style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:12.0000pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font
+                         face="宋体">项目编号：</font> </span><span
+                         style="mso-spacerun:'yes';font-family:宋体;font-size:12.0000pt;">${project.projectNumber!}</span><span
+                         style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:12.0000pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font
+                         face="宋体">包号：</font> </span><span
+                         style="mso-spacerun:'yes';font-family:宋体;font-size:12.0000pt;">${pl.name!}</span><span
+                         style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:12.0000pt;"><o:p></o:p>
+                    </span>
+               </p>
+               <table class=MsoNormalTable align=center
+                    style="border-collapse:collapse;width:451.5000pt;margin-left:-17.0500pt;mso-table-layout-alt:fixed;mso-padding-alt:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;">
+                    <tr style="height:32.3500pt;">
+                         <td width=64 valign=center
+                              style="width:48.8000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">序号</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=70 valign=center
+                              style="width:52.6000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">评审项目</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=466 valign=center
+                              style="width:350.9500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">评审内容</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                    </tr>
+                    <#list pl.listMinimumEconomy as lst>
+                    <tr style="height:30.6500pt;">
+                         <td width=64 valign=center
+                              style="width:41.8000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:31.8750pt none rgb(255,255,255);mso-border-top-alt:31.8750pt none rgb(255,255,255);border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">${lst_index+1!}</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=70 valign=center
+                              style="width:52.6000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:31.8750pt none rgb(255,255,255);mso-border-top-alt:31.8750pt none rgb(255,255,255);border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:left;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">${lst.name!}</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=466 valign=center
+                              style="width:350.9500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:31.8750pt none rgb(255,255,255);mso-border-top-alt:31.8750pt none rgb(255,255,255);border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:left;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">${lst.content}</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                    </tr>
+                    </#list>
+                    <tr style="height:62.4000pt;">
+                         <td width=491 valign=center colspan=3
+                              style="width:368.6000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">备注：采购机构应当结合采购项目特点，适当调整增减评审项目，并优选《采购文件标准文本》使用说明第</span><span
+                                        style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">11</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">款</span><span
+                                        style="font-family:'Times New Roman';mso-fareast-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">8</span><span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">种模型的一种或多种编制评分标准。评审时评委依据投标文件审核确认投标人填写的数值或评分项，系统自动生成得分。</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                    </tr>
+               </table> </#if> </#list>
+               <p class=MsoNormal
+                    style="line-height:28.0000pt;mso-line-height-rule:exactly;">
+                    <span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;"><o:p>&nbsp;</o:p>
+                    </span>
+               </p>
+               <p class=MsoNormal
+                    style="line-height:28.0000pt;mso-line-height-rule:exactly;">
+                    <span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;"><font
+                         face="宋体">表</font>3</span><span
+                         style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:宋体;mso-hansi-font-family:宋体;font-size:15.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                    </span>
+               </p>
+               <p class=MsoNormal align=center
+                    style="text-align:center;line-height:28.0000pt;mso-line-height-rule:exactly;">
+                    <span style="mso-spacerun:'yes';font-family:黑体;font-size:14.0000pt;"><font
+                         face="黑体">技术</font> </span><span
+                         style="mso-spacerun:'yes';font-family:黑体;font-size:14.0000pt;"><font
+                         face="黑体">评审标准表</font> </span><span
+                         style="mso-spacerun:'yes';font-family:黑体;font-size:14.0000pt;"><o:p></o:p>
+                    </span>
+               </p> <#list packagesList as pl>
+               <p class=MsoNormal
+                    style="line-height:28.0000pt;mso-line-height-rule:exactly;">
+                    <span
+                         style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:12.0000pt;"><font
+                         face="宋体">项目名称：</font> </span><span
+                         style="mso-spacerun:'yes';font-family:宋体;font-size:12.0000pt;">${project.name!}</span><span
+                         style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:12.0000pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font
+                         face="宋体">项目编号：</font> </span><span
+                         style="mso-spacerun:'yes';font-family:宋体;font-size:12.0000pt;">${project.projectNumber!}</span><span
+                         style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:12.0000pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font
+                         face="宋体">包号：</font> </span><span
+                         style="mso-spacerun:'yes';font-family:宋体;font-size:12.0000pt;">${pl.name!}</span><span
+                         style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:12.0000pt;"><o:p></o:p>
+                    </span>
+               </p> <#if (pl.listScoreTechnology?exists && pl.listScoreTechnology?size>0
+               )>
+               <table class=MsoNormalTable align=center
+                    style="border-collapse:collapse;width:461.6500pt;margin-left:-12.6500pt;mso-table-layout-alt:fixed;mso-padding-alt:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;">
+                    <tr style="height:32.8000pt;">
+                         <td width=87 valign=center
+                              style="width:65.6500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">序号</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=73 valign=center
+                              style="width:54.8500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:31.8750pt none rgb(255,255,255);mso-border-right-alt:31.8750pt none rgb(255,255,255);border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">评审项目</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=328 valign=center
+                              style="width:246.0500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:0.5000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">评审内容及规则</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=126 valign=center
+                              style="width:95.1000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">标准分值</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                    </tr>
+                    <#list pl.listScoreTechnology as lse> <#assign num = "1" /> <#list
+                    lse.listMarkTerm as llmt>
+                    <tr style="height:38.8000pt;">
+                         <#if (num == "1")>
+                         <td rowspan=${lse.listMarkTerm?size} width=87 valign=center
+                              style="width:65.6500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:31.8750pt none rgb(255,255,255);mso-border-top-alt:31.8750pt none rgb(255,255,255);border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">${lse_index+1!}</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td rowspan=${lse.listMarkTerm?size} width=73 valign=center
+                              style="width:54.8500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:31.8750pt none rgb(255,255,255);mso-border-top-alt:31.8750pt none rgb(255,255,255);border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:left;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">${lse.name!}</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td> <#assign num = "2" /> </#if>
+                         <td width=328 valign=center
+                              style="width:246.0500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:31.8750pt none rgb(255,255,255);mso-border-top-alt:31.8750pt none rgb(255,255,255);border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:left;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">${llmt.name!}</span><span
+                                        style="font-family:宋体;mso-ascii-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">&nbsp;</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=126 valign=center
+                              style="width:95.1000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:31.8750pt none rgb(255,255,255);mso-border-top-alt:31.8750pt none rgb(255,255,255);border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <#if llmt.scscore?exists>
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">${llmt.scscore!}</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p> </#if></td>
+                    </tr>
+                    </#list> </#list>
+                    <tr style="height:18.0000pt;">
+                         <td width=488 valign=center colspan=3
+                              style="width:366.5500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">合&nbsp;&nbsp;&nbsp;&nbsp;计</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=126 valign=center
+                              style="width:95.1000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p>100</o:p>
+                                   </span>
+                              </p>
+                         </td>
+                    </tr>
+                    <tr style="height:66.4500pt;">
+                         <td width=615 valign=center colspan=4
+                              style="width:461.6500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">备注：</span><span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">采购机构应当结合采购项目特点，适当调整增减评审项目，并优选《采购文件标准文本》使用说明第</span><span
+                                        style="mso-spacerun:'yes';font-family:'Times New Roman';mso-hansi-font-family:宋体;font-size:10.0000pt;">11</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;">款</span><span
+                                        style="font-family:'Times New Roman';mso-hansi-font-family:宋体;font-size:10.0000pt;">8</span><span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;">种模型的一种或多种编制评分标准。评审时评委依据投标文件审核确认投标人填写的数值或评分项，系统自动生成得分。</span><span
+                                        style="font-family:宋体;mso-fareast-font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                    </tr>
+               </table> </#if> <#if (pl.listMinimumTechnology?exists &&
+               pl.listMinimumTechnology?size>0)>
+               <table class=MsoNormalTable align=center
+                    style="border-collapse:collapse;width:451.5000pt;margin-left:-17.0500pt;mso-table-layout-alt:fixed;mso-padding-alt:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;">
+                    <tr style="height:32.3500pt;">
+                         <td width=64 valign=center
+                              style="width:48.8000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">序号</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=70 valign=center
+                              style="width:52.6000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">评审项目</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=466 valign=center
+                              style="width:350.9500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">评审内容</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                    </tr>
+                    <#list pl.listMinimumTechnology as lst>
+                    <tr style="height:30.6500pt;">
+                         <td width=64 valign=center
+                              style="width:41.8000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:31.8750pt none rgb(255,255,255);mso-border-top-alt:31.8750pt none rgb(255,255,255);border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal align=center
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;">
+                                   <span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">${lst_index+1!}</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=70 valign=center
+                              style="width:52.6000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:31.8750pt none rgb(255,255,255);mso-border-top-alt:31.8750pt none rgb(255,255,255);border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:left;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">${lst.name!}</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                         <td width=466 valign=center
+                              style="width:350.9500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:31.8750pt none rgb(255,255,255);mso-border-top-alt:31.8750pt none rgb(255,255,255);border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:left;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">${lst.content}</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                    </tr>
+                    </#list>
+                    <tr style="height:62.4000pt;">
+                         <td width=491 valign=center colspan=3
+                              style="width:368.6000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+                              <p class=MsoNormal
+                                   style="layout-grid-mode:char;mso-pagination:widow-orphan;">
+                                   <span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">备注：采购机构应当结合采购项目特点，适当调整增减评审项目，并优选《采购文件标准文本》使用说明第</span><span
+                                        style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">11</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">款</span><span
+                                        style="font-family:'Times New Roman';mso-fareast-font-family:宋体;mso-hansi-font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">8</span><span
+                                        style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:0.0000pt;">种模型的一种或多种编制评分标准。评审时评委依据投标文件审核确认投标人填写的数值或评分项，系统自动生成得分。</span><span
+                                        style="font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p>
+                                   </span>
+                              </p>
+                         </td>
+                    </tr>
+               </table> </#if> </#list>
+               <p class=MsoNormal
+                    style="line-height:28.0000pt;mso-line-height-rule:exactly;">
+                    <span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;"><o:p>&nbsp;</o:p>
+                    </span>
+               </p>
+               </a>
+               <p class=MsoNormal
+                    style="line-height:28.0000pt;mso-line-height-rule:exactly;">
+                    <span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;"><font
+                         face="宋体">评标委员会成员签名：</font> </span><span
+                         style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:14.0000pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span
+                         style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;"><font
+                         face="宋体">年 月 </font> </span><span
+                         style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;"><font
+                         face="宋体">日</font> </span><span
+                         style="mso-spacerun:'yes';font-family:'Times New Roman';font-size:14.0000pt;"><o:p></o:p>
+                    </span>
+
+
+
+<p class=MsoNormal ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:宋体;font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p></div><!--EndFragment-->
 </body></html>

@@ -6,15 +6,13 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import common.annotation.CurrentUser;
-import common.utils.JdcgResult;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bss.controller.base.BaseController;
+import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
@@ -37,7 +36,6 @@ import bss.util.PropUtil;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
 import ses.dao.bms.DictionaryDataMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -45,12 +43,10 @@ import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
-import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExtConType;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
-import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierConType;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtPackage;
@@ -73,6 +69,20 @@ import ses.service.sms.SupplierExtractsService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
+import bss.controller.base.BaseController;
+import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
+import bss.model.ppms.SaleTender;
+import bss.service.ppms.FlowMangeService;
+import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectService;
+import bss.service.ppms.SaleTenderService;
+import bss.util.PropUtil;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 /**
  * @Description:供应商抽取记录
@@ -125,9 +135,6 @@ public class SupplierExtractsController extends BaseController {
     private CategoryService categoryService; //品目
     @Autowired
     private DictionaryDataMapper dictionaryDataMapper; //
-    /**包service**/
-    @Autowired
-    private PackageService packageService;
     /**待办消息**/
     @Autowired
     private TodosService todosService;
@@ -144,7 +151,11 @@ public class SupplierExtractsController extends BaseController {
     private FlowMangeService flowMangeService;
     @Autowired
     private OrgnizationServiceI orgnizationService;
+    @Autowired
+    private FlowMangeService flowManageService;
 
+    @Autowired
+    private SupplierExtRelateService supplierExtRelateService;
     /**
      *
      *〈简述〉获取项目下的所有包。
@@ -197,106 +208,73 @@ public class SupplierExtractsController extends BaseController {
         model.addAttribute("typeclassId", typeclassId);
         return "ses/sms/supplier_extracts/project_list";
     }
+    
     /**
-     * @Description:条件查询集合
-     *
-     * @author Wang Wenshuai
-     * @version 2016年9月27日 下午6:03:40
-     * @param  id 包id
-     * @return String
+     * 
+     *〈简述〉供应商抽取
+     *〈详细描述〉
+     * @author FengTian
+     * @param user
+     * @param model
+     * @param projectId
+     * @return
      */
     @RequestMapping("/Extraction")
-    public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId){
-
-        if (packageId != null && !"".equals(packageId)){
-            //已抽取
-            String[] packageIds =  packageId.split(",");
-            if(packageIds.length != 0 ){
-                SupplierCondition con = null;
-                for (String pckId : packageIds) {
-                    if(pckId != null && !"".equals(pckId)){
-                        //已抽取
-                        con = new SupplierCondition();
-                        con.setProjectId(packageId);
-                        con.setStatus((short)2);
-                        conditionService.update(con);
+    public String listExtraction(@CurrentUser User user, Model model, String projectId){
+        Project project = projectService.selectById(projectId);
+        if(project != null && StringUtils.isNotBlank(project.getPurchaseType())){
+            DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+            if(findById != null){
+                project.setPurchaseType(findById.getName());
+            }
+        }
+        model.addAttribute("project", project);
+        
+        List<Map<String, String>> list = supplierExtRelateService.selectProSupplier(projectId);
+        model.addAttribute("list", list);
+        
+        //根据包获取抽取出的供应商
+        /*List<Packages> listResultSupplier = packagesService.listExtRelate(projectId);
+        if (listResultSupplier != null && !listResultSupplier.isEmpty()) {
+            List<SupplierExtRelate> extRelates = new ArrayList<SupplierExtRelate>();
+            for (Packages packages : listResultSupplier) {
+                extRelates.addAll(packages.getListExtRelate());
+            }
+            if (extRelates != null && !extRelates.isEmpty()) {
+                for (int i = 0; i < extRelates.size()-1; i++) {
+                    SupplierExtRelate st = extRelates.get(i);
+                    for (int j = extRelates.size()-1; j > i; j--) {
+                        SupplierExtRelate st2 = extRelates.get(j);
+                        if (st.getSupplier().getId().equals(st2.getSupplier().getId())) {
+                            extRelates.remove(st2);
+                        }
                     }
                 }
-            }
-        }
-        List<Area> listArea = areaService.findTreeByPid("0",null);
-        model.addAttribute("listArea", listArea);
-        model.addAttribute("typeclassId",typeclassId);
-        if (projectId != null && !"".equals(projectId)){
-            //根据包获取抽取出的供应商
-            List<Packages> listResultSupplier = packageService.listExtRelate(projectId);
-            model.addAttribute("listResultSupplier", listResultSupplier);
-            //供应商类型
-            model.addAttribute("supplierType", conditionService.supplierTypeList());
-            //供应商抽取地址
-            SupplierExtracts record = new SupplierExtracts();
-            record.setProjectId(projectId);
-            List<SupplierExtracts> listSe = expExtractRecordService.listExtractRecord(record,0);
-            if (listSe != null && listSe.size() != 0){
-                model.addAttribute("extractionSites", listSe.get(0).getExtractionSites());
-            }
-
-            //获取监督人员
-            List<SupplierExtUser>  listUser = extUserServicl.list(new SupplierExtUser(projectId));
-            model.addAttribute("listUser", listUser);
-            String userName = "";
-            String superviseId = "";
-            if (listUser != null && listUser.size() != 0){
-                for (SupplierExtUser ps : listUser) {
-                    if (ps != null ){
-                        userName += ps.getRelName()+ ",";
-                        superviseId +=ps.getId() + ",";
+                for (SupplierExtRelate extRelate : extRelates) {
+                    String packageName = "";
+                    SupplierExtRelate relate = new SupplierExtRelate();
+                    relate.setSupplierId(extRelate.getSupplier().getId());
+                    //该供应商参与的包
+                    List<SupplierExtRelate> list2 = supplierExtRelateService.list(relate, null);
+                    if (list2 != null && list2.size() > 0) {
+                        for (int i = 0; i < list2.size(); i++) {
+                            Packages packages = packagesService.selectByPrimaryKeyId(list2.get(i).getProjectId());
+                            if (packages != null) {
+                                String pName = packages.getName();
+                                if (i == 0) {
+                                    packageName += pName;
+                                } else {
+                                    packageName += ","+pName;
+                                }
+                            }
+                        }
                     }
+                    extRelate.setPackageName(packageName);
                 }
-                if(!"".equals(userName)){
-                    model.addAttribute("userName", userName.substring(0, userName.length()-1));
-                    model.addAttribute("superviseId", superviseId.substring(0, superviseId.length()-1));
-                }
+                model.addAttribute("extRelates", extRelates);
             }
-
-            //获取项目信息
-            Project project = projectService.selectById(projectId);
-            if (project != null){
-                model.addAttribute("projectId", project.getId());
-                model.addAttribute("projectName", project.getName());
-                model.addAttribute("projectNumber", project.getProjectNumber());
-                model.addAttribute("bidDate", project.getBidDate());
-                //获取采购方式
-                List<DictionaryData>  dictionaryData = new ArrayList<DictionaryData>();
-                dictionaryData.add(dictionaryDataServiceI.getDictionaryData(project.getPurchaseType()));
-                model.addAttribute("findByMap", dictionaryData);
-            }
-
-            //抽取条件集合
-            List<SupplierCondition> listCon = conditionService.list(new SupplierCondition(projectId), page == null ? 1 : Integer.valueOf(page));
-            model.addAttribute("list", new PageInfo<SupplierCondition>(listCon));
-
-        } else {
-            Map<String, Object> map = new HashMap<String, Object>();
-            String[] str = {"YQZB", "DYLY", "JZXTP", "XJCG", "GKZB"};
-            map.put("strs", str);
-            List<DictionaryData> findByMap = dictionaryDataMapper.findByMap(map);
-            model.addAttribute("findByMap", findByMap);
-        }
-        String isCurment = "0";//是否为采购机构人员,默认:0-不是
-        //根据当前用户获取机构信息
-        if(null != user && null != user.getOrg()){
-            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(user.getOrg().getId());
-            if(null != orgnization && null!=orgnization.getTypeName() && orgnization.getTypeName().equals("1")){
-                isCurment = "1";
-            }
-        }
-        //如果不是本系统也就是菜单下进行抽取,则不作判断(设为1-是通过判断)
-        if(!StringUtils.isEmpty(typeclassId)){
-            isCurment = "1";
-        }
-        model.addAttribute("isCurment", isCurment);
-        return "ses/sms/supplier_extracts/condition_list";
+        }*/
+        return "ses/sms/supplier_extracts/supplier_list";
     }
 
     /**
@@ -415,8 +393,7 @@ public class SupplierExtractsController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/validateAddExtraction")
-    public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest sq,String[] packageId, String[] superviseId,Integer type){
-
+    public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest sq,String[] packageId, String[] superviseId,Integer type,String flowDefineId){
         Map<String, String> map = new HashMap<String, String>();
         map.put("type", type.toString());
 
@@ -1070,6 +1047,33 @@ public class SupplierExtractsController extends BaseController {
         model.addAttribute("expert", new Expert());
         model.addAttribute("flowDefineId", flowDefineId);
         return "bss/ppms/sall_tender/temporary_supplier_add";
+    }
+    
+    /**
+     * 
+    	 * @Title: checkSupplierName
+    	 * @author: Zhou Wei
+    	 * @date: 2017年8月28日 下午5:11:32
+    	 * @Description:  验证临时供应商名称
+    	 * @return: String
+     */
+    @RequestMapping(value="/checkSupplierName",produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String checkSupplierName(String packageId,String projectId){
+    	Supplier supplier=new Supplier();
+        String name="";
+        SaleTender saleTender = new SaleTender();
+       
+        saleTender.setProject(new Project(projectId));
+        saleTender.setPackages(packageId);
+        saleTender.setSuppliers(supplier);
+        List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
+        List<String> sippName=new ArrayList<>();
+        for (SaleTender saleTender2 : saleTenderList) {
+        	name = saleTender2.getSuppliers().getSupplierName();
+			sippName.add(name);
+		}
+        return JSON.toJSONString(sippName);
     }
     
     /**

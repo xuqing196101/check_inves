@@ -149,7 +149,7 @@
           <div class="col-md-12 col-xs-12 col-sm-12 mt10 p0">
             <c:if test="${ error ne null || error eq 'ERROR' }">
 		          <div class="col-md-12 col-xs-12 col-sm-12 mt10 p0">
-		            <button class="btn " onclick="finish();" type="button">执行完成</button>
+		            <!-- <button class="btn " onclick="finish();" type="button">执行完成</button> -->
 		            <button class="btn " onclick="qued();" type="button">确定</button>
 		          </div>
 		        </c:if>

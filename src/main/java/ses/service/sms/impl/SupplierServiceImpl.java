@@ -1,11 +1,13 @@
 package ses.service.sms.impl;
 
 import com.github.pagehelper.PageHelper;
+
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.DateUtils;
 import common.utils.ListSortUtil;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
@@ -402,12 +405,15 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setLevelScoreSales(SupplierLevelUtil.getScore(supplier.getId(), "SALES"));
         supplier.setLevelScoreService(SupplierLevelUtil.getScore(supplier.getId(), "SERVICE"));*/
         
-        /*if(supplier.getWebsite()==null){
-            supplier.setWebsite("");
-        }*/
-        if(supplier.getBranchName()==null){
-            supplier.setBranchName("0");
-        }
+	  if(supplier.getWebsite()==null){
+		supplier.setWebsite("");
+	  }
+	  if(supplier.getBranchName()==null){
+		supplier.setBranchName("0");
+	  }
+	  if(supplier.getPurchaseExperience()==null){
+		supplier.setPurchaseExperience("");
+	  }
 
       supplierMapper.updateByPrimaryKeySelective(supplier);
 
@@ -837,12 +843,12 @@ public class SupplierServiceImpl implements SupplierService {
     Calendar cale = Calendar.getInstance();
     Integer year = cale.get(Calendar.YEAR);
 
-    Integer year3 = year - 3;//2013
+    Integer year1 = year - 3;//2013
     Integer year2 = year - 2;//2014
-    Integer year4 = year - 1;//2015
-    list.add(year3);
+    Integer year3 = year - 1;//2015
+    list.add(year1);
     list.add(year2);
-    list.add(year4);
+    list.add(year3);
 
     return list;
   }
@@ -987,30 +993,32 @@ public class SupplierServiceImpl implements SupplierService {
 //       
 //        SupplierMatPro supplierMatPro = supplierMatProMapper.getMatProBySupplierId(supplierId);
 //        if(supplierMatPro != null){
-//        	 supplierCertProMapper.deleteByPrimaryKey(supplierMatPro.getId());
+//        	 supplierCertProMapper.deleteByMatProId(supplierMatPro.getId());
 //        }
 //        supplierMatProMapper.deleteBySupplierId(supplierId);
 //        
 //        SupplierMatSell matSell = supplierMatSellMapper.getMatSellBySupplierId(supplierId);
-//        if(matSell !=null){
-//        	supplierCertSellMapper.deleteByPrimaryKey(matSell.getId());
+//        if(matSell != null){
+//        	supplierCertSellMapper.deleteByMatSellId(matSell.getId());
 //        }
-//        supplierMatSellMapper.deleteByPrimaryKey(supplierId);
+//        supplierMatSellMapper.deleteBySupplierId(supplierId);
 //        
 //        SupplierMatEng matEng = supplierMatEngMapper.selectByPrimaryKey(supplierId);
 //        if(matEng !=null){
-//        	supplierCertEngMapper.deleteByPrimaryKey(matEng.getId());
+//        	supplierCertEngMapper.deleteByMatEngId(matEng.getId());
 //        	supplierRegPersonMapper.deleteByMatEngId(matEng.getId());
-//            supplierAptituteMapper.deleteByPrimaryKey(matEng.getId());
+//    		supplierAptituteMapper.deleteByMatEngId(matEng.getId());
 //        }
-//        supplierMatEngMapper.deleteByPrimaryKey(supplierId);
+//        supplierMatEngMapper.deleteBySupplierId(supplierId);
 //        
 //        SupplierMatServe matServe = supplierMatServeMapper.getMatSeBySupplierId(supplierId);
 //        if(matServe !=null){
-//        	 supplierCertServeMapper.deleteByPrimaryKey(matServe.getId());
-//             supplierMatServeMapper.deleteByPrimaryKey(matServe.getId());
+//        	supplierCertServeMapper.deleteByMatServeId(matServe.getId());
 //        }
+//        supplierMatServeMapper.deleteBySupplierId(supplierId);
+    
 //        supplierTypeRelateMapper.deleteBySupplierId(supplierId);
+//    
 //        List<SupplierItem> items= supplierItemMapper.getSupplierItem(supplierId);
 //        if(!items.isEmpty()){
 //        	for(SupplierItem s:items){
@@ -1169,6 +1177,46 @@ public class SupplierServiceImpl implements SupplierService {
     }
   }
 
+  	@Override
+	public HashMap<String, Integer> countAllCategorySupplierLevel() {
+  		HashMap<String, Integer> resultMap = new HashMap<String, Integer>();
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		hashMap.put("level", "4");
+		//物资生产
+		hashMap.remove("service");
+		hashMap.put("product", "1,3");
+		List<Category> categorieProducts = categoryMapper.findCategoryForSupplierLevel(hashMap);
+		int productCount = 0;
+		for (Category category : categorieProducts) {
+			int temCount = againSupplierLevel(DictionaryDataUtil.getId("PRODUCT"), category.getId());
+			productCount += temCount;
+		}
+		resultMap.put("PRODUCT", productCount);
+		
+		//物资销售
+		hashMap.remove("service");
+		hashMap.put("product", "2,3");
+		List<Category> categorieSales = categoryMapper.findCategoryForSupplierLevel(hashMap);
+		int saleCount = 0;
+		for (Category category : categorieSales) {
+			int temCount = againSupplierLevel(DictionaryDataUtil.getId("SALES"), category.getId());
+			saleCount += temCount;
+		}
+		resultMap.put("SALE", saleCount);
+		
+		//服务
+		hashMap.remove("product");
+		hashMap.put("service", "3");
+		List<Category> categorieServices = categoryMapper.findCategoryForSupplierLevel(hashMap);
+		int serviceCount = 0;
+		for (Category category : categorieServices) {
+			int temCount = againSupplierLevel(DictionaryDataUtil.getId("SERVICE"), category.getId());
+			serviceCount += temCount;
+		}
+		resultMap.put("SERVICE", serviceCount);
+		return resultMap;
+	}
+  
   /**
    * 根据品目查询重新计算供应商并计算等级
    */
@@ -1192,27 +1240,29 @@ public class SupplierServiceImpl implements SupplierService {
       supplier.setSupplierTypeId(categoryIds);
     }
     supplier.setSupplierType(supplierType);
-    //查询供应商
-    List<Supplier> listSupplier = supplierMapper.findSupplierByCategoryId(supplier);
+    //查询类型下品目入库供应商
+    List<Supplier> listSupplier = supplierItemMapper.findFinaSupplierByCategouryAndType(supplier);
+    
+    //List<Supplier> listSupplier = supplierMapper.findSupplierByCategoryId(supplier);
     if (listSupplier.isEmpty()) {
       return rutDate;
     }
-    //目录下 根据类型 获取全部的供应商集合
+    /*//目录下 根据类型 获取全部的供应商集合
     List<String> supplierIdList = supplierItemService.findSupplierIdByCategoryId(categoryIds);
     if (supplierIdList.isEmpty()) {
       return rutDate;
-    }
+    }*/
     //判断 是否是工程
     if (!SupplierToolUtil.TOOL_PROJECT.equals(supplierType)) {
       //物资 服务等级
       //调用获取目录下 封装方法
-      Map<String, BigDecimal> mapMax = elementMax(categoryIds, supplierIdList);
+      Map<String, BigDecimal> mapMax = elementMax(categoryIds, listSupplier);
       //最高要素数值 近三年加权平均净资产
       BigDecimal maxNetAsset = mapMax.get("maxNetAsset");
       //最高要素数值 近三年加权平均营业收入
       BigDecimal maxTaking = mapMax.get("maxTaking");
       //最高要素数值 成立月 数量
-      BigDecimal maxDate = SupplierToolUtil.foundTimeFormat(findMaxFoundDate(supplierIdList));
+      BigDecimal maxDate = SupplierToolUtil.foundTimeFormat(findMaxFoundDate(listSupplier));
       //合计要素数值
       BigDecimal sumElement = null;
       //获取合计最大排名
@@ -1223,6 +1273,7 @@ public class SupplierServiceImpl implements SupplierService {
       BigDecimal temlElement = new BigDecimal(0);
       //获取近三年单个供应商 数据集合
       for (Supplier sup : listSupplier) {
+    	  System.out.println(sup.getId());
         sumElement = new BigDecimal(0);
         //获取近三年单个供应商 数据集合
         List<SupplierFinance> financeList = supplierFinanceService.findBySupplierIdYearThree(sup.getId());
@@ -1232,18 +1283,21 @@ public class SupplierServiceImpl implements SupplierService {
           //要素 近三年净资产
           temlElement = new BigDecimal(SupplierToolUtil.elementScore(supplierType, "totalNetAssets"));
           //近三年净资产要素得分=单个供应商近三年净资产平均/改目录下最高的近三年平均净资产* 要素满分
-          sumElement = sumElement.add(SupplierToolUtil.elementNetAsset(financeList).divide(maxNetAsset, 4, BigDecimal.ROUND_HALF_UP).multiply(temlElement));
+          sumElement = sumElement.add(SupplierToolUtil.elementNetAsset(financeList).divide(maxNetAsset, 8, BigDecimal.ROUND_HALF_UP).multiply(temlElement));
           //要素 近三年加权平均营业
           temlElement = new BigDecimal(SupplierToolUtil.elementScore(supplierType, "taking"));
           //近三年加权平均营业收入要素得分=单个供应商近三年加权平均营业收入/该目录下最高的近三年加权平均营业收入* 要素满分
-          sumElement = sumElement.add(SupplierToolUtil.elementTaking(financeList).divide(maxTaking, 4, BigDecimal.ROUND_HALF_UP).multiply(temlElement));
+          sumElement = sumElement.add(SupplierToolUtil.elementTaking(financeList).divide(maxTaking, 8, BigDecimal.ROUND_HALF_UP).multiply(temlElement));
           //要素 成立日期要素
           temlElement = new BigDecimal(SupplierToolUtil.elementScore(supplierType, "foundDate"));
           //成立月 要素得分=单个供应商的成立月/该目录下最高的成立月*要素满分
-          sumElement = sumElement.add(SupplierToolUtil.foundTimeFormat(sup.getFoundDate()).divide(maxDate, 4, BigDecimal.ROUND_HALF_UP).multiply(temlElement));
+          sumElement = sumElement.add(SupplierToolUtil.foundTimeFormat(sup.getFoundDate()).divide(maxDate, 8, BigDecimal.ROUND_HALF_UP).multiply(temlElement));
           //等级计算百分比=近三年净资产要素得分+近三年加权平均营业收入要素得分+成立日期要素得分
           //level=SupplierToolUtil.elementPercnet(supplierType, sumElement.setScale(0, BigDecimal.ROUND_DOWN).toString());
-          sup.setGrade(sumElement.setScale(0, BigDecimal.ROUND_DOWN).toString());
+          
+          //这里为啥要取整？？？？
+          //sup.setGrade(sumElement.setScale(0, BigDecimal.ROUND_DOWN).toString());
+          sup.setGrade(sumElement.toString());
         }
       }
       SupplierLevelSort levelUtil = new SupplierLevelSort();
@@ -1261,19 +1315,37 @@ public class SupplierServiceImpl implements SupplierService {
 	  int listSize=maxLevel.intValue();
       for (int i = maxLevel.intValue() - 1; 0 <= i; i--) {
         item = listSupplier.get(i);
+        System.out.println(item.getId()+"--"+item.getGrade());
         item.setSupplierType(supplierType);
         //计算等级  =单个要素总合分/最高的要素总分*100
         if (item.getGrade() != null) {
-            if(listSize>8){
-	          //计算等级 排名
-	          level = SupplierToolUtil.elementPercnet(supplierType, new BigDecimal(initLevel).divide(maxLevel, 4, BigDecimal.ROUND_HALF_UP).
-	              multiply(new BigDecimal(100)).setScale(0, BigDecimal.ROUND_DOWN).toString());
-	          item.setGrade(level);
-            }else{
-            	//计算等级 排名
-	    		level=SupplierToolUtil.elementPercnetSize(supplierType,String.valueOf(initLevel));
-    			item.setGrade(level);
-            }
+        	//物资生产
+        	if ("PRODUCT".equals(supplierType)) {
+        		if(listSize>8){
+        			//计算等级 排名(可重复排名)
+        			level = SupplierToolUtil.elementPercnet(supplierType, new BigDecimal(initLevel).divide(maxLevel, 4, BigDecimal.ROUND_HALF_UP).
+        					multiply(new BigDecimal(100)).setScale(0, BigDecimal.ROUND_DOWN).toString());
+        			item.setGrade(level);
+        		}else{
+        			//计算等级 排名(依次排名，但是有个问题，如果两个供应商的要素分值一样怎么算排名)
+        			level=SupplierToolUtil.elementPercnetSize(supplierType,String.valueOf(initLevel));
+        			item.setGrade(level);
+        		}
+			}
+        	
+        	//物资销售、服务
+        	if ("SALES".equals(supplierType) || "SERVICE".equals(supplierType)) {
+        		if(listSize>5){
+        			//计算等级 排名(可重复排名)
+        			level = SupplierToolUtil.elementPercnet(supplierType, new BigDecimal(initLevel).divide(maxLevel, 4, BigDecimal.ROUND_HALF_UP).
+        					multiply(new BigDecimal(100)).setScale(0, BigDecimal.ROUND_DOWN).toString());
+        			item.setGrade(level);
+        		}else{
+        			//计算等级 排名(依次排名，但是有个问题，如果两个供应商的要素分值一样怎么算排名)
+        			level=SupplierToolUtil.elementPercnetSize(supplierType,String.valueOf(initLevel));
+        			item.setGrade(level);
+        		}
+			}
         } else {
           item.setGrade("无");
         }
@@ -1296,17 +1368,16 @@ public class SupplierServiceImpl implements SupplierService {
   }
 
   @Override
-  public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map) {
-    PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage((Integer) map.get("page"), 20);
-    return supplierMapper.selectSupplierNumber(map);
+   public List<Map<String, Object>> selectSupplierCheckNumber(HashMap<String, Object> map) {
+//    PropertiesUtil config = new PropertiesUtil("config.properties");
+    return supplierMapper.selectSupplierCheckNumber(map);
   }
 
   @Override
-  public List<supplierExport> selectExpertNumber(HashMap<String, Object> map) {
-    PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage((Integer) map.get("pageEx"), 20);
-    return supplierMapper.selectExpertNumber(map);
+  public List<Map<String, Object>> selectExpertCheckNumber(HashMap<String, Object> map) {
+//    PropertiesUtil config = new PropertiesUtil("config.properties");
+    /*PageHelper.startPage((Integer) map.get("pageEx"), 20);*/
+    return supplierMapper.selectExpertCheckNumber(map);
   }
 
   /**
@@ -1319,17 +1390,18 @@ public class SupplierServiceImpl implements SupplierService {
    * @version 2017-6-15
    * type 供应商分类 PRODUCT物资生产  SALES销售 SERVICE 服务  PROJECT工程
    */
-  private Map<String, BigDecimal> elementMax(String categoryId, List<String> supplierIdList) {
+  private Map<String, BigDecimal> elementMax(String categoryId, List<Supplier> listSupplier) {
     Map<String, BigDecimal> returnDate = new HashMap<>();
 
     //目录下 最大的近三年净资产平均
     BigDecimal maxNetAsset = new BigDecimal(0);
     //目录下 最大的近三年加权平均营业收入
     BigDecimal maxTaking = new BigDecimal(0);
-    if (supplierIdList != null && !supplierIdList.isEmpty()) {
+    if (listSupplier != null && !listSupplier.isEmpty()) {
       //临时存储 单个供应商的净资产，单个供应商加权营业收入
       BigDecimal tempNetAsset, tempTaking;
-      for (String supplierId : supplierIdList) {
+      for (Supplier supplier : listSupplier) {
+    	  String supplierId = supplier.getId();
         //获取近三年单个供应商 数据集合
         List<SupplierFinance> financeList = supplierFinanceService.findBySupplierIdYearThree(supplierId);
         //近三年净资产平均
@@ -1352,15 +1424,18 @@ public class SupplierServiceImpl implements SupplierService {
   }
 
   @Override
-  public Date findMaxFoundDate(List<String> supplierIds) {
-    return supplierMapper.findMaxFoundDate(supplierIds);
+  public Date findMaxFoundDate(List<Supplier> listSupplier) {
+    return supplierMapper.findMaxFoundDate(listSupplier);
   }
 
   @Override
   public int countByPurchaseDepId(String purchaseDepId, int status) {
     return supplierMapper.countByPurchaseDepId(purchaseDepId, status);
   }
-
+  @Override
+  public int countAuditByPurchaseDepId(String purchaseDepId){
+    return supplierMapper.countAuditByPurchaseDepId(purchaseDepId);
+  }
   @Override
   public List<Supplier> findSupplierByCategoryId(Supplier supplier) {
     return supplierMapper.findSupplierByCategoryId(supplier);
@@ -1596,8 +1671,8 @@ public class SupplierServiceImpl implements SupplierService {
 				List<CategoryQua> categoryQua = categoryQuaMapper.findListSupplier(
 						sic.getId(), quaType);
 				if (null != categoryQua
-						&& StringUtils.isNotBlank(sic.getParentId())) {
-					List<Qualification> qua = get(categoryQua, sic.getParentId());
+						&& StringUtils.isNotBlank(sic.getItemId())) {
+					List<Qualification> qua = get(categoryQua, sic.getItemId());
 					if (qua.size() != 0) {
 						newList.add(sicList.get(i));
 						quaBean.setCategoryId(sic.getId());
@@ -1969,6 +2044,27 @@ public class SupplierServiceImpl implements SupplierService {
 				}
 			}
 		}
+	}
+
+  @Override
+  public List<Map<String, Object>> selectSupplierTypeNumber(
+      HashMap<String, Object> map) {
+//    PropertiesUtil config = new PropertiesUtil("config.properties");
+    /*PageHelper.startPage((Integer) map.get("pageSupFormal"), 20);*/
+    return  supplierMapper.selectSupplierTypeNumber(map);
+  }
+
+  @Override
+  public List<Map<String, Object>> selectExpertTypeNumber(HashMap<String, Object> map) {
+//    PropertiesUtil config = new PropertiesUtil("config.properties");
+   /* PageHelper.startPage((Integer) map.get("pageExpFormal"), 20);*/
+    return supplierMapper.selectExpertTypeNumber(map);
+  }
+
+	@Override
+	public boolean checkIdCard(String id, String idCard) {
+		int count = supplierMapper.countByIdCard(id, idCard);
+		return count > 0 ? false : true;
 	}
 
 }

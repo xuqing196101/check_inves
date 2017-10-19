@@ -92,6 +92,17 @@
 
         //function validations=
         function fun() {
+        	var expertType=false;
+        	$("input[type='checkbox']:checked").each(function(){
+        		//alert($(this).parent().css("color"));
+        		   if($(this).parent().css("color")=="rgb(239, 0, 0)"){
+        			 expertType=true;
+        		 };   
+        	});
+        	if(expertType){
+        		layer.msg("请取消被退回的专家类型 !");
+        		return;
+        	}
            	var flag=false;
         	var bool=false;
         	var val=$("#mySelect").val();
@@ -622,12 +633,12 @@
 					if(val==2){
 						ecoIndex++;
 						$("#ecoIndex").val(ecoIndex);
-						$("#jingji_ul").append(data);
+						$("#jingji_ul").append('<li class="clear"></li>' + data);
 						
 					}else{
 						proIndex++;
 						$("#proIndex").val(proIndex);
-						$("#addUl").append(data);
+						$("#addUl").append('<li class="clear"></li>' + data);
 					}
 					init_web_upload();
 				}
@@ -680,6 +691,11 @@
 							type: "post",
 							data:{"id":id},
 							success: function(data) {
+								if ($(obj).parent().parent().prev().prev().prev().prev().hasClass('clear')) {
+									$(obj).parent().parent().prev().prev().prev().prev().remove();
+								} else if ($(obj).parent().parent().next().hasClass('clear')) {
+									$(obj).parent().parent().next().remove();
+								}
 								$(obj).parent().parent().prev().prev().prev().remove();
 			        	$(obj).parent().parent().prev().prev().remove();
 			        	$(obj).parent().parent().prev().remove();
@@ -767,11 +783,15 @@
                     <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
                         <c:forEach items="${spList}" var="sp">
                             <span  <c:if test="${fn:contains(typeErrorField,sp.id)}">style="color: #ef0000;"  onmouseover="errorMsg('${sp.id}')"</c:if>  class="margin-left-30">
-                            <input  type="checkbox"  onclick="checks(this)" name="chkItem_1" value="${sp.id}"/>${sp.name}技术 </span>
+                            <input  type="checkbox"  onclick="checks(this)" name="chkItem_1" value="${sp.id}"/>${sp.name}技术 
+                           
+                            </span>
                         </c:forEach>
                         <c:forEach items="${jjList}" var="jj">
                             <span <c:if test="${fn:contains(typeErrorField,jj.id)}">style="color: #ef0000;"  onmouseover="errorMsg('${jj.id}')"</c:if> class="margin-left-30">
-                            <input onclick="checks(this)"  type="checkbox" name="chkItem_2" value="${jj.id}"/>${jj.name} </span>
+                            <input onclick="checks(this)"  type="checkbox" name="chkItem_2" value="${jj.id}"/>${jj.name} 
+                            
+                            </span>
                         </c:forEach>
                     </div>
                 </li>
@@ -868,7 +888,7 @@
                     <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
                       <c:choose>
 												<c:when test="${expert.status == 3 and !fn:contains(engErrorField,t.id.concat('_tieleFile'))}">
-													<u:show showId="pro_${vs.index}" delete="false" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
+													<u:show showId="pro_${vs.index+1}" delete="false" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
 												</c:when>
 												<c:otherwise>
 													<u:upload

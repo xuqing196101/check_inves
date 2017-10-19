@@ -2,6 +2,7 @@ package ses.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
@@ -15,10 +16,20 @@ private static Properties prop = new Properties();
 	/** 加载默认配置文件 */
 	private static Properties getProperties(String file) {
 		file = file == null ? "config.properties" : file;
+		InputStream inputStream = null;
 		try {
-			prop.load(PropUtil.class.getClassLoader().getResourceAsStream(file));
+			inputStream = PropUtil.class.getClassLoader().getResourceAsStream(file);
+			prop.load(inputStream);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
+		} finally{
+			try {
+	          if (inputStream != null) {
+	            inputStream.close();
+	          }
+	        } catch (IOException e) {
+	          e.printStackTrace();
+	        }
 		}
 		return prop;
 	}

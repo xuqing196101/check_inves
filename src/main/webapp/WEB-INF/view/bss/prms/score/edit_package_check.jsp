@@ -39,6 +39,7 @@
     
     //修改评审项
     function editItem(obj,id){
+    	var flowDefineId = "${flowDefineId}";
     	//得到点击坐标。
         var y;  
         oRect = obj.getBoundingClientRect();  
@@ -53,12 +54,13 @@
             shift: 1, //0-6的动画形式，-1不开启
             offset: y,
             shadeClose: false,
-            content: '${pageContext.request.contextPath}/firstAudit/editItem.html?id='+id+'&isConfirm=1'
+            content: '${pageContext.request.contextPath}/firstAudit/editItem.html?id='+id+'&isConfirm=1'+'&flowDefineId='+flowDefineId
           });
     }
     
     //删除评审项 
     function delItem(id){
+    	var flowDefineId = "${flowDefineId}";
     	layer.confirm('您确定要删除吗?', {title:'提示',offset: '50px',shade:0.01}, function(index){
 	    	$.ajax({   
 	            type: "POST",  
@@ -70,7 +72,7 @@
 	                }else{
 	                	 var packageId = $("#packageId").val();
 	                	 var projectId = $("#projectId").val();
-	                     window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+	                     window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
 	                    layer.msg(result.msg,{offset: ['150px']});
 	                    layer.close(index);
 	                }
@@ -94,6 +96,7 @@
     
     //保存评审项
     function saveItem(){
+    	var flowDefineId = "${flowDefineId}";
     	$.ajax({   
             type: "POST",  
             url: "${pageContext.request.contextPath}/firstAudit/savePackageFirstAudit.html",        
@@ -105,7 +108,7 @@
                 }else{
                     var packageId = $("#packageId").val();
                     var projectId = $("#projectId").val();
-                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
                     layer.closeAll();
                     layer.msg(result.msg,{offset: ['150px']});
                 }
@@ -118,7 +121,7 @@
     
     //引入模板内容
     function loadTemplat(projectId, packageId){
-   	 	
+   	 	var flowDefineId = "${flowDefineId}";
     	var fatId = $("#fatId").val();
     	if (fatId != null && fatId != '') {
     		var index = layer.load(1, {
@@ -136,7 +139,7 @@
 	                }else{
 	                    var packageId = $("#packageId").val();
 	                    var projectId = $("#projectId").val();
-	                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+	                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
 	                    layer.closeAll();
 	                    layer.msg(result.msg,{offset: ['150px']});
 	                }
@@ -311,6 +314,10 @@
     }
        
     $(function() {
+		initTem();
+	});
+	
+	function initTem(){
 		var html = "<option value=''>请选择</option>";
 		$.ajax({
 				url: "${pageContext.request.contextPath}/firstAudit/find.do",
@@ -330,7 +337,7 @@
 					$("#fatId").append(html);
 				}
 			});
-	});
+	}
 	
 	function findTem(){
 		var categoryId = $("#cId").val();
@@ -354,6 +361,12 @@
 				}
 			});
 	}
+	
+	function clearSearch() {
+				$("#categorySel").val("");
+        $("#fatId option:selected").removeAttr("selected");
+        initTem();
+      }
   </script>
 <body>  
 	<div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
@@ -369,19 +382,22 @@
     <c:if test="${isView != 1}">
 	    <div class="search_detail ml0">
 	        <ul class="demand_list">
-	           <li>
-	           <label class="fl">模板选择--></label>
+	           <li class="w300">
 	             <label class="fl">所属产品目录：</label>
 	            	<div class="input_group w200">
-						<input id="cId" name="categoryId"  type="hidden" value="${categoryId}">
+						     <input id="cId" name="categoryId"  type="hidden" value="${categoryId}">
 				        <input id="categorySel"  type="text" name="categoryName" readonly value="${categoryName}"  onclick="showCategory();" />
-					</div>
+					     </div>
+		       </li>
+		       <li>
+		       <label class="fl">模板选择</label>
 		       </li>
 		       <li>
 					<select id="fatId" class="w180">
 		            </select>
 	           </li>
 	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定选择</button>
+	           <button type="reset" class="btn" onclick="clearSearch();">重置</button>
 	           <%-- <div class="pull-right">
 	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
 	           </div> --%>

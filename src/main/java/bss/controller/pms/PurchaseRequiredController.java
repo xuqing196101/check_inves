@@ -2,6 +2,7 @@ package bss.controller.pms;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.ParseException;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -54,6 +56,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
 import ses.model.bms.User;
@@ -156,7 +159,7 @@ public class PurchaseRequiredController extends BaseController {
 		if (page == null) {
 			page = StaticVariables.DEFAULT_PAGE;
 		}
-		List<Role> roles = user.getRoles();
+		/*List<Role> roles = user.getRoles();
 		boolean bool = false;
 		if (roles != null && roles.size() > 0) {
 			for (Role r : roles) {
@@ -165,9 +168,9 @@ public class PurchaseRequiredController extends BaseController {
 				}
 			}
 		}
-		if (bool != true) {
+		if (bool != true) {*/
 			purchaseRequired.setUserId(user.getId());
-		}
+		/*}*/
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired, page);
 		model.addAttribute("info", new PageInfo<PurchaseRequired>(list));
 		model.addAttribute("inf", purchaseRequired);
@@ -203,6 +206,14 @@ public class PurchaseRequiredController extends BaseController {
 		PurchaseRequired p = new PurchaseRequired();
 		p.setUniqueId(planNo.trim());
 		List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
+		for(PurchaseRequired pr:list){
+		  HashMap<String, Object> map=new HashMap<String, Object>();
+		  map.put("id",pr.getId());
+		  List<PurchaseRequired> prs = purchaseRequiredService.selectByParentId(map);
+		  if(prs!=null&&!prs.isEmpty()&&prs.size()>1){
+		    pr.setIsParent("true");
+		  }
+		}
 		model.addAttribute("kind", DictionaryDataUtil.find(5));// 获取数据字典数据
 		model.addAttribute("list", list);
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -215,7 +226,9 @@ public class PurchaseRequiredController extends BaseController {
 		model.addAttribute("typeId", typeId);
 		model.addAttribute("fileId", fileId);
 		model.addAttribute("planNo", planNo);
+		model.addAttribute("goods", DictionaryDataUtil.getId("GOODS"));
 		model.addAttribute("detailId", DictionaryDataUtil.getId("PURCHASE_DETAIL"));
+		model.addAttribute("DYLY", DictionaryDataUtil.getId("DYLY"));
 		model.addAttribute("org_advice", type);
 		model.addAttribute("uniqueId", planNo.trim());
 		if (type.equals("1") || type.equals("2")) {
@@ -437,12 +450,15 @@ public class PurchaseRequiredController extends BaseController {
 				}
 				p.setId(id);// 注释
 				count++;
-				PurchaseRequired pr = list.get(i + 1);
-				if (pr != null) {
-					if (!isContainChinese(pr.getSeq())) {
-						errMsg = String.valueOf(i + 4) + "行，节点错误";
-						break;
-					}
+				if(list.size()>i + 1){
+  				PurchaseRequired pr = list.get(i + 1);
+  				if (pr != null) {
+  				  p.setIsParent("true");
+  					if (!isContainChinese(pr.getSeq())) {
+  						errMsg = String.valueOf(i + 4) + "行，节点错误";
+  						break;
+  					}
+  				}
 				}
 				continue;
 			}
@@ -457,13 +473,18 @@ public class PurchaseRequiredController extends BaseController {
 				}
 				p.setId(pid);
 				count++;
-				PurchaseRequired pr = list.get(i + 1);
-				if (pr != null) {
-					if (!pr.getSeq().equals("1") && !isContainChinese(p.getSeq())) {
-						errMsg = String.valueOf(i + 4) + "行，节点错误";
-						break;
-					}
+				
+				if(list.size()>i + 1){
+				  PurchaseRequired pr = list.get(i + 1);
+				  if (pr != null) {
+	          p.setIsParent("true");
+	          if (!pr.getSeq().equals("1") && !isContainChinese(p.getSeq())) {
+	            errMsg = String.valueOf(i + 4) + "行，节点错误";
+	            break;
+	          }
+	        }
 				}
+				
 				continue;
 			}
 
@@ -679,7 +700,7 @@ public class PurchaseRequiredController extends BaseController {
 
 		List<PurchaseRequired> list = purchaseRequiredService.getUnique(planNo);
 
-		String filedisplay = "明细.xls";
+		String filedisplay = list.get(0).getPlanName()+".xls";
 		response.addHeader("Content-Disposition",
 				"attachment;filename=" + new String(filedisplay.getBytes("gb2312"), "iso8859-1"));
 		HSSFWorkbook workbook = new HSSFWorkbook();
@@ -848,21 +869,13 @@ public class PurchaseRequiredController extends BaseController {
 	@ResponseBody
 	public void delete(HttpServletRequest request) {
 		String planNo = request.getParameter("planNo");
-
 		String uniqueId = planNo.trim();
 		if (uniqueId.length() != 0) {
-			String[] uniqueIds = uniqueId.split(",");
+			String[] uniqueIds = uniqueId.split(StaticVariables.COMMA_SPLLIT);
 			for (String str : uniqueIds) {
 				purchaseRequiredService.updateByUniqueId(str);
 			}
-
 		}
-		/*
-		 * PurchaseRequired p=new PurchaseRequired(); p.setUniqueId(planNo.trim());
-		 * List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
-		 * for(PurchaseRequired pr:list){
-		 * purchaseRequiredService.delete(pr.getId()); }
-		 */
 
 	}
 
@@ -907,6 +920,7 @@ public class PurchaseRequiredController extends BaseController {
 		}
 		PageInfo<PurchaseOrg> list = new PageInfo<PurchaseOrg>(manages);
 		model.addAttribute("list", list);
+		model.addAttribute("name", name);
 		model.addAttribute("uniqueId", planNo);
 		return "bss/pms/purchaserequird/add_purchase_org";
 	}
@@ -981,11 +995,74 @@ public class PurchaseRequiredController extends BaseController {
 		} else {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("name", name);
-			list = categoryService.listByKeyname(map);
+			List<Category> ca = categoryService.listByKeyname(map);
+			for (Category category : ca) {
+			  List<Category> findTreeByPid = categoryService.findTreeByPidIsPublish(category.getId());
+			  if(findTreeByPid==null||findTreeByPid.size()==0){
+			    Category ct = categoryService.selectByPrimaryKey(category.getParentId());
+			    if(ct!=null){
+			      category.setName(category.getName()+"@"+ct.getName());
+			    }
+			    list.add(category);
+			  }
+      }
 		}
 		return list;
 	}
+	/**
+	 * 需求编报 产品目录查询
+	 * @param category
+	 * @param param
+	 * @param isCreate
+	 * @param code
+	 * @return
+	 */
+	@ResponseBody
+  @RequestMapping(value="/createtree", produces = "application/json;charset=utf-8")
+  public String getAll(Category category,String param,Integer isCreate,String code){
+    List<CategoryTree> jList=new ArrayList<CategoryTree>();
+    
+       //获取字典表中的根数据
+          if(category.getId()==null){
+              category.setId("0");
+              DictionaryData data=new DictionaryData();
+              data.setKind(6);
+              List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+              for (DictionaryData dictionaryData : listByPage) {
+                  CategoryTree ct=new CategoryTree();
+                  ct.setId(dictionaryData.getId());
+                  ct.setName(dictionaryData.getName());
+                  ct.setIsParent("true");
+                  ct.setClassify(dictionaryData.getCode());
+                  jList.add(ct);
+              }
+              
+              return JSON.toJSONString(jList);
+          }
+          String list="";
+          List<Category> cateList=categoryService.findTreeByPidIsPublish(category.getId());
+            for(Category cate:cateList){
+                List<Category> cList=categoryService.findTreeByPidIsPublish(cate.getId());
+                CategoryTree ct=new CategoryTree();
+                if(!cList.isEmpty()){
+                    ct.setIsParent("true");
+                }else{
+                    ct.setIsParent("false");
+                }
+                ct.setId(cate.getId());
+                ct.setName(cate.getName());
+                ct.setpId(cate.getParentId());
+                ct.setKind(cate.getKind());
+                ct.setStatus(cate.getStatus());
+                jList.add(ct);
+            }
 
+          list = JSON.toJSONString(jList);
+          return list;
+    
+    
+    
+  }
 	/**
 	 * 
 	 * @Title: viewIds
@@ -1278,91 +1355,57 @@ public class PurchaseRequiredController extends BaseController {
 	public String editReq(PurchaseRequiredFormBean list, String planType, String planNo, String planName,
 			String recorderMobile, HttpServletRequest request, String referenceNo, String fileId, String prList,
 			Integer enterPort, String unqueId) throws IOException {
+	    
 		List<PurchaseRequired> plist = get(prList);
 		User user = (User) request.getSession().getAttribute("loginUser");
-		// int count=1;
-		if (list != null) {
-			if (plist != null && plist.size() > 0) {
-				for (int i = 0; i < plist.size(); i++) {
-					PurchaseRequired p = plist.get(i);
-					p.setPlanNo(planNo);
-					p.setPlanName(planName);
-					p.setPlanType(planType);
-					p.setHistoryStatus("0");
-					p.setIsDelete(0);
-					// p.setIsMaster(count);
-					p.setCreatedAt(new Date());
-					p.setUserId(user.getId());
-					p.setRecorderMobile(recorderMobile);
-					p.setProjectStatus(0);
-					p.setAdvancedStatus(0);
-					p.setIsDelete(0);
-					p.setReferenceNo(referenceNo);
-					p.setDetailStatus(0);
-					p.setStatus("1");
-					p.setFileId(fileId);
-					p.setEnterPort(enterPort);
-					/*if (p.getSeq() != null) {
-
-						if (p.getPurchaseType() != null && p.getPurchaseType().trim().length() != 0) {
-							DictionaryData data = dictionaryDataMapper.queryByName(p.getPurchaseType());
-							p.setPurchaseType(data.getId());
-						}
-
-						if (p.getSeq().matches("[\u4E00-\u9FA5]") && !p.getSeq().contains("（")) {
-							p.setSeq("一");
-							// count=1;
-							p.setIsMaster(1);
-							p.setParentId("1");// 注释
-							// unqueId= UUID.randomUUID().toString().replaceAll("-", "");
-							p.setUniqueId(unqueId);
-							// count++;
-							purchaseRequiredService.updateByPrimaryKeySelective(p);
-							continue;
-						}
-						// 判断是否是二级节点(一)
-						if (isContainChinese(p.getSeq())) {
-							p.setUniqueId(unqueId);
-							// count++;
-							purchaseRequiredService.updateByPrimaryKeySelective(p);
-							continue;
-						}
-						// 判断是否是三级节点1,2,3
-						else if (isInteger(p.getSeq())) {
-							p.setUniqueId(unqueId);
-							// count++;
-							purchaseRequiredService.updateByPrimaryKeySelective(p);
-							continue;
-						}
-
-						// 判断是否四级节点(1),(2)
-						else if (isContainIntger(p.getSeq())) {
-							p.setUniqueId(unqueId);
-							// count++;
-							purchaseRequiredService.updateByPrimaryKeySelective(p);
-							continue;
-						}
-						// 五级节点
-						else if (isEng(p.getSeq())) {
-							p.setUniqueId(unqueId);
-							// count++;
-							purchaseRequiredService.updateByPrimaryKeySelective(p);
-							continue;
-						} else {
-							p.setUniqueId(unqueId);
-							// count++;
-						}*/
-                    PurchaseRequired purchaseRequired = purchaseRequiredService.selectById(p.getId());
-                    if(purchaseRequired != null){
-                        purchaseRequiredService.updateByPrimaryKeySelective(p);
-                    }else {
-                        p.setUniqueId(unqueId);
-                        purchaseRequiredService.add(p);
+		int count=1;
+		if(StringUtils.isNotBlank(unqueId) && list != null && plist != null && !plist.isEmpty()){
+		    purchaseRequiredService.deletedList(unqueId);
+		    
+		    for (int i = 0; i < plist.size(); i++) {
+                PurchaseRequired p = plist.get(i);
+                if(StringUtils.isNotBlank(planNo)){
+                    p.setPlanNo(planNo);
+                }
+                if(StringUtils.isNotBlank(planName)){
+                    p.setPlanName(planName);
+                }
+                if(StringUtils.isNotBlank(planType)){
+                    p.setPlanType(planType);
+                }
+                p.setHistoryStatus("0");
+                p.setIsDelete(0);
+                p.setIsMaster(count);
+                p.setCreatedAt(new Date());
+                p.setUserId(user.getId());
+                if(StringUtils.isNotBlank(recorderMobile)){
+                    p.setRecorderMobile(recorderMobile);
+                }
+                List<DictionaryData> find = DictionaryDataUtil.find(5);
+                for (DictionaryData dictionaryData : find) {
+                    if(p.getPurchaseType().equals(dictionaryData.getName())){
+                        p.setPurchaseType(dictionaryData.getId());
+                        break;
                     }
-					}
-					
-				}
-			}
+                }
+                p.setProjectStatus(0);
+                p.setAdvancedStatus(0);
+                p.setIsDelete(0);
+                p.setReferenceNo(referenceNo);
+                p.setDetailStatus(0);
+                p.setStatus("1");
+                p.setFileId(fileId);
+                p.setEnterPort(enterPort);
+                PurchaseRequired purchaseRequired = purchaseRequiredService.selectById(p.getId());
+                if(purchaseRequired != null){
+                    purchaseRequiredService.updateByPrimaryKeySelective(p);
+                }else {
+                    p.setUniqueId(unqueId);
+                    purchaseRequiredService.add(p);
+                }
+                count++;
+            }
+		}
 		/*purchaseRequiredService.batchAdd(plist);*/
 
 
@@ -1446,12 +1489,23 @@ public class PurchaseRequiredController extends BaseController {
      */
     @RequestMapping("/selectUniqueReferenceNO")
     @ResponseBody
-	public JdcgResult selectUniqueReferenceNO(String referenceNO){
-        return purchaseRequiredService.selectUniqueReferenceNO(referenceNO);
+	public JdcgResult selectUniqueReferenceNO(String referenceNO, String uniqueId){
+        
+        return purchaseRequiredService.selectUniqueReferenceNO(referenceNO, uniqueId);
     }
     @RequestMapping("/deleteRequired")
     @ResponseBody
-    public String deleteRequired(String id){
+    public String deleteRequired(String id,String ids,String seqs){
+        if(ids!=null&&!"".equals(ids)){
+          String[] newId=ids.split(",");
+          String[] newSeq=seqs.split(",");
+          for(int i=0;i<newId.length;i++){
+            PurchaseRequired purchaseRequired=new PurchaseRequired();
+            purchaseRequired.setId(newId[i]);
+            purchaseRequired.setSeq(newSeq[i]);
+            purchaseRequiredService.updateByPrimaryKeySelective(purchaseRequired);
+          }
+        }
         purchaseRequiredService.delete(id);
         return "ok";
     }

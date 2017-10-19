@@ -88,6 +88,7 @@
 	  
  function ss(){
 	 var value=$("#reson").val();
+	 value = $.trim(value);
 	 if(value!=null&&value!=""){
 		 $("#treson").val(value);
 		 $("#status").val(4);
@@ -194,7 +195,15 @@
  function acc(){
      	var bool=true;
 		    $("#table tr:gt(0)").each(function(i){
-		    	var  val1= $(this).find("td:eq(11)").children(":last").prev().val();//上级id
+		    	if($(this).attr("attr")!='true'){
+		    		var  val1= $(this).find("td:eq(11)").children(":last").prev().val();//上级id
+		    		if($.trim(val1) == "") {
+			    		  bool=false;
+			    		  i=i+1;
+			    		  layer.msg("第"+i+"行，请选择采购机构！");
+			    	  }
+		    	}
+		    	/* var  val1= $(this).find("td:eq(11)").children(":last").prev().val();//上级id
 		    	var  text= $(this).find("td:eq(6)").text();//上级id
 		    	if($.trim(text) != ""){
 		    		if($.trim(val1) == "") {
@@ -202,14 +211,14 @@
 			    		  i=i+1;
 			    		  layer.msg("第"+i+"行，请选择采购机构！");
 			    	  }
-		    	}
+		    	} */
 		    	  
 		    });
-		  if(bool==true){
+		  if(bool){
 			 $("#table").find("#acc_form").submit();
 		  }  
  }
-
+    //选择采购方式
     function purchaseType(obj){
         var purchaseType = $(obj).find("option:selected").text(); //选中的文本
         var org=$(obj).val();
@@ -238,6 +247,7 @@
                                             $(this).parent().parent().next().next().find("input").removeAttr("readonly");
                                         } else {
                                             $(this).parent().parent().next().next().find("input").attr("readonly", "readonly");
+                                            $(this).parent().parent().next().next().find("input").val("");
                                         }
                                     }else{
                                         $(this).prop("selected",false);
@@ -251,8 +261,28 @@
             });
         }
     }
- 
- 
+    
+  //校验供应商名称
+    function checkSupplierName(obj) {
+        var name=$(obj).val();
+        if(name!=null){
+            $.ajax({
+                type: "POST",
+                async:false,
+                dataType: "text",
+                data:{
+                    "name":name
+                },
+                url: "${pageContext.request.contextPath }/purchaser/checkSupplierName.do",
+                success: function(data) {
+                        if(data=='true'){
+                            $(obj).val("");
+                            layer.alert("库中没有此供应商，请重新输入");
+                        }
+                }
+             });
+        }
+    }
 </script>
 
 </head>
@@ -320,7 +350,7 @@
 					<c:if test="${list[0].planType=='FC9528B2E74F4CB2A9E74735A8D6E90A'}">
 					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5"  id="dnone" >
 			            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			                <input type="checkbox" name="" onchange="" <c:if test="${list[0].enterPort==1}">checked="checked"</c:if> value="" />进口
+			                <input type="checkbox" name="" disabled="true" onchange="" <c:if test="${list[0].enterPort==1}">checked="checked"</c:if> value="" />进口
 			            </div>
 			         </li>
 			         </c:if>
@@ -352,7 +382,7 @@
 							<th class="info">采购方式</br>建议</th>
 							<th class="info">采购机构<br>建议</th>
 							<th class="info">供应商名称</th>
-							<th class="info">是否申请</br>办理免税</th>
+							<th class="info" <c:if test="${list[0].enterPort==0}">style="display:none;"</c:if>>是否申请</br>办理免税</th>
 						<!-- 	<th class="info">物资用途（仅进口）</th>
 							<th class="info">使用单位（仅进口）</th> -->
 							<th class="info">备注</th>
@@ -362,7 +392,7 @@
 		<form id="acc_form" action="${pageContext.request.contextPath}/accept/update.html" method="post">
 					
 					<c:forEach items="${list }" var="obj" varStatus="vs">
-						<tr>
+						<tr <c:if test="${isParent=='true'}">attr='true'</c:if>>
 							<td class="tc w50">
 							    <div class="w50">
 							        ${obj.seq } <input type="hidden" value="${obj.id }" name="list[${vs.index }].id">
@@ -414,7 +444,7 @@
 							<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
 							<input type="hidden" name="ss" value="${obj.id}"  >
 							<select class="type w120"  onchange="purchaseType(this)" required="required" name="list[${vs.index }].purchaseType" id="select">
-									 <option value=""  <c:if test="${obj.price==null }"> selected="selected" </c:if>>请选择</option>
+									 <option value=""  <c:if test="${obj.isParent=='true' }"> selected="selected" </c:if>>请选择</option>
 									 <c:forEach items="${kind}" var="kind" >
 									
 			                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
@@ -437,9 +467,9 @@
 							</td>
 							
 							<td class="tl">
-								<div class="w80"><input name="list[${vs.index }].supplier" readonly="readonly" value="${obj.supplier }" /></div>
+								<div class="w80"><input name="list[${vs.index }].supplier" readonly="readonly" value="${obj.supplier }"  /></div>
 							</td>
-							<td class="tc">
+							<td class="tc" <c:if test="${list[0].enterPort==0}">style="display:none;"</c:if>>
 							    <div class="w80">${obj.isFreeTax }</div>
 							</td>
 						<%-- 	<td class="tl pl20">${obj.goodsUse }</td>
@@ -448,12 +478,14 @@
 							    <div class="w160">${obj.memo }</div>
 							</td>
 							
-							<td class="p0">
+							<td class="tl">
+							<div class="w100">
 							<u:show showId="pShow${vs.index}"  delete="false" businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-										<%-- 	<div class="w150">
+										<%-- 	
 													<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 													<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-											   </div> --%>	
+											   --%>	
+											   </div> 
 								<input type="hidden" name="s" value="${obj.organization}"/>
 											   
 							</td>
@@ -475,7 +507,7 @@
 				  <div class="col-md-12 col-xs-12 col-sm-12 p0" >
 				     <div class="col-md-12 col-xs-12 col-sm-12 p0"> 退回理由：</div>
 				     <div class="col-md-12 col-xs-12 col-sm-12 p0">
-				         <textarea id="reson" name="reason" maxlength="800" class="h80 col-md-10 col-xs-10 col-sm-12" title="不超过800个字"></textarea>
+				         <textarea id="reson" name="reason" maxlength="800" class="h80 col-md-12 col-xs-12 col-sm-12" title="不超过800个字"></textarea>
                      </div>
                   </div>
                   <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">

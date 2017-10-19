@@ -10,6 +10,7 @@
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
+      <%@ include file="/WEB-INF/view/ses/ems/expertQuery/common.jsp"%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertQuery/merge_jump.js"></script>
     <script type="text/javascript">
       //上一步
@@ -53,8 +54,8 @@
       <div class=" content height-350">
         <div class="col-md-12 tab-v2 job-content">
           <ul class="nav nav-tabs bgwhite">
-            <li class="active">
-              <a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18" onclick="jump('basicInfo');">基本信息</a>
+            <li class="">
+              <a aria-expanded="false" href="#tab-1" data-toggle="tab" class="f18" onclick="jump('basicInfo');">基本信息</a>
             </li>
             <li class="">
               <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('expertType');">专家类别</a>
@@ -66,11 +67,12 @@
               <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('expertFile');">承诺书和申请表</a>
             </li>
             <li class="active">
-              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('auditInfo');">审核信息</a>
+              <a aria-expanded="ture" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('auditInfo');">审核意见</a>
             </li>
           </ul>
           
-          <ul class="ul_list hand count_flow">
+          <h2 class="count_flow mt0"><i>1</i><span class="red">*</span>审核信息</h2>
+          <ul class="ul_list hand">
 	          <table class="table table-bordered table-condensed table-hover">
 	            <thead>
 	              <tr>
@@ -106,6 +108,26 @@
 	          </table>
 	        </ul>
 	        
+
+            <h2 class="count_flow mt0"><i>2</i><span class="red">*</span>意见信息</h2>
+            <ul class="ul_list">
+              <li>
+                <div class="select_check" id="selectOptionId">
+                  <c:if test="${auditOpinion.flagTime eq '0'}">
+                    <input type="radio" disabled="disabled" id="qualified" name="selectOption" value="1" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if>>预初审合格
+                    <input type="radio"  disabled="disabled" name="selectOption" value="0" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if>>预初审不合格
+                  </c:if>
+                  <c:if test="${auditOpinion.flagTime eq '1'}">
+                    <input type="radio" disabled="disabled" id="qualified" name="selectOption" value="1" <c:if test="${auditOpinion.flagAudit eq '6'}">checked</c:if>>预复审合格
+                    <input type="radio" disabled="disabled" name="selectOption" value="0" <c:if test="${auditOpinion.flagAudit eq '5'}">checked</c:if>>预复审不合格
+                  </c:if>
+                </div>
+              </li>
+              <div><span type="text" name="cate_result" id="cate_result"></span></div>
+              <li class="mt10">
+                <textarea id="opinion" disabled="disabled" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
+              </li>
+            </ul>
 	         <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
             <%-- <c:if test="${ empty reqType }"> --%>
               <c:if test="${sign == 1}">

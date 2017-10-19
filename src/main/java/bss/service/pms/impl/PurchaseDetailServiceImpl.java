@@ -3,6 +3,8 @@ package bss.service.pms.impl;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -25,9 +28,12 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import bss.dao.pms.CollectPurchaseMapper;
 import bss.dao.pms.PurchaseDetailMapper;
+import bss.dao.pms.PurchaseRequiredMapper;
 import bss.formbean.Line;
 import bss.formbean.Maps;
+import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
+import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseDetailService;
 
 @Service("purchaseDetailService")
@@ -44,6 +50,8 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
     
     @Autowired
     private OrgnizationMapper orgnizationMapper;
+    @Autowired
+    private PurchaseRequiredMapper purchaseRequiredMapper;
 
     @Override
     public void add(PurchaseDetail purchaseDetail) {
@@ -376,4 +384,132 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
       return purchaseDetailMapper.getUniquesByTask(projectId, unique, org);
     }
 
+    @Override
+    public void updatePurchaseDetailByPlanId(CollectPlan collectPlan,
+        String uniqueId) {
+      //需求编报id集合
+      String[] uId=uniqueId.split(",");
+      //获取计划parentId为1的需求部门
+      List<PurchaseDetail> departmentAndId = purchaseDetailMapper.getUniqueIdByParentId(collectPlan.getId());
+      PurchaseRequired purchaseRequired=null;
+      Map<String, String> oldDept=new HashMap<String, String>();
+      for(int i=0;i<uId.length;i++){
+        Boolean flg=true;
+        //查询需求明细部门名称
+        purchaseRequired=new PurchaseRequired();
+        purchaseRequired.setUniqueId(uId[i]);
+        purchaseRequired.setParentId("1");
+        List<PurchaseRequired> purchaseRequiredList = purchaseRequiredMapper.queryByUinuqe(purchaseRequired);
+        if(purchaseRequiredList.size()>0&&purchaseRequiredList!=null){
+          purchaseRequired=purchaseRequiredList.get(0);
+        }else{
+          purchaseRequired=null;
+        }
+        if(purchaseRequired!=null){
+          for (PurchaseDetail dId : departmentAndId) {
+            //需求parentId=1的明细和计划明细parentId=1的部门匹配
+            if(purchaseRequired.getDepartment().equals(dId.getDepartment())){//匹配上了部门
+              HashMap<String, Object> map=new HashMap<String, Object>();
+              map.put("parentId", dId.getId());
+              List<PurchaseDetail> pds = purchaseDetailMapper.getByMap(map);
+              if(pds.size()>0&&pds!=null){
+                PurchaseDetail purchaseDetail = pds.get(pds.size()-1);
+                if(purchaseDetail!=null){
+                  oldDept.put(purchaseRequired.getDepartment(), purchaseDetail.getSeq());
+                  String seq = oldDept.get(purchaseRequired.getDepartment());
+                  if(seq!=null){
+                    String seqNext =seqNext(seq);
+                    System.out.println(seqNext);
+                  }
+                }
+              }
+              flg=false;
+            }
+          }
+          if(flg){//没陪配上部门
+          }
+        }
+      }
+    }
+
+    
+    public String seqNext(String seq){
+      seq=seq.substring(1, seq.length()-1);
+      String seqNext="";
+      String[] seqs={"一","二","三","四","五","六","七","八","九","十"};
+      for (int i=0;i< seqs.length ;i++) {
+        if(seqs[i].equals(seq)){
+          seqNext=seqs[i+1];
+          break;
+        }
+      }
+      if(seqNext.length()>0){
+        seqNext="（"+seqNext+"）";
+      }
+      return seqNext;
+    }
+
+	@Override
+	public List<PurchaseDetail> findUniqueByTask(HashMap<String, Object> map, Integer page) {
+		PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+		List<PurchaseDetail> list = purchaseDetailMapper.findUniqueByTask(map);
+		if (list != null && !list.isEmpty()) {
+			for (PurchaseDetail purchaseDetail : list) {
+          	  	if (purchaseDetail.getPurchaseCount() == null) {
+          	  		purchaseDetail.setPurchaseType(null);
+          	  	} else {
+          	  		if (StringUtils.isNotBlank(purchaseDetail.getPurchaseType())) {
+          	  			DictionaryData findById = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
+          	  			if (findById != null) {
+          	  				purchaseDetail.setPurchaseType(findById.getName());
+          	  			}
+          	  		}
+          	  		purchaseDetail.setDepartment(null);
+          	  	}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<PurchaseDetail> findTaskByDetail(String taskId, String orgId) {
+		List<PurchaseDetail> list = new ArrayList<PurchaseDetail>();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("taskId", taskId);
+		map.put("orgId", orgId);
+		List<PurchaseDetail> findTaskByDetail = purchaseDetailMapper.findTaskByDetail(map);
+		if (findTaskByDetail != null && !findTaskByDetail.isEmpty()) {
+			for (PurchaseDetail purchaseDetail : findTaskByDetail) {
+				HashMap<String, Object> maps = new HashMap<>();
+                maps.put("id", purchaseDetail.getId());
+                List<PurchaseDetail> selectByParent = purchaseDetailMapper.selectByParent(maps);
+                if (selectByParent != null && !selectByParent.isEmpty()) {
+                	list.addAll(selectByParent);
+				}
+			}
+		}
+		removeSame(list);
+		sort(list);
+		return list;
+	}
+
+	private void removeSame(List<PurchaseDetail> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getId().equals(list.get(i).getId())) {
+                    list.remove(j);
+                }
+            }
+        }
+    }
+
+	private void sort(List<PurchaseDetail> list) {
+	    Collections.sort(list, new Comparator<PurchaseDetail>(){
+	           @Override
+	           public int compare(PurchaseDetail o1, PurchaseDetail o2) {
+	              Integer i = o1.getIsMaster() - o2.getIsMaster();
+	              return i;
+	           }
+	        });
+	}
 }

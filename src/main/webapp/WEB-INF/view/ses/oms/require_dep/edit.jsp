@@ -1,8 +1,8 @@
-<meta http-equiv="content-type" content="text/html;charset=utf-8">
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en">
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
 <!--<![endif]-->
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
@@ -60,6 +60,12 @@
 
  	/** 动态添加 */
     function dynamicAdd(){
+	  	var str = document.getElementsByName("selectedItem");
+ 		var qwe = "";
+ 		for (var i = 0; i < str.length; i++) {
+			qwe+=","+str[i].value;
+		}
+	  	
     	var typeName = $("#typeName").val();
     	var title = "";
     	if(typeName!=undefined && typeName==2){
@@ -69,13 +75,13 @@
     	}
     	layer.open({
 			type : 2, //page层
-			area : [ '550px', '500px' ],
+			area : [ '750px', '550px' ],
 			title : title,
 			shade : 0.01, //遮罩透明度
 			moveType : 1, //拖拽风格，0是默认，1是传统拖动
 			shift : 1, //0-6的动画形式，-1不开启
 			shadeClose : true,
-			content : '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?typeName='+typeName
+			content : '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?typeName='+typeName+'&notIds='+qwe
 		 });
     }
     
@@ -246,6 +252,7 @@
 				  <option value="${city.id}" <c:if test="${orgnization.cityId == city.id}"> selected="selected"</c:if>>${city.name}</option>
 				</c:forEach>
 			  </select>
+			  <div class="cue"><sf:errors path="cityId"/></div>
 			</div>
 		  </li>
 		  	
@@ -261,7 +268,8 @@
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">值班室电话</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			  <input class="input_group" name="telephone" type="text" maxlength="25" value="${orgnization.telephone }"> 
-			  <span class="add-on">i</span>
+			  <span class="add-on">i</span> 
+			  <div class="cue"><sf:errors path="telephone"/></div>
 			</div>
 		  </li>
 		  
@@ -347,6 +355,8 @@
       </div>
 	  <div class="col-md-12">
 		<div class="mt40 tc mb50">
+		<input name="contactName" type="hidden" value="1"/>
+		<input name="contactMobile" type="hidden" value="1"/>
 		  <button type="button" class="btn btn-windows save" onclick="save()">保存</button>
 		  <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value="返回"/>
 		</div>

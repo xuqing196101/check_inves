@@ -163,6 +163,10 @@
             }
             $("#threeType").select2();
             $("#threeType").select2("val", "${article.threeArticleTypeId }");
+            var threeTypeName = $("#threeType").select2("data").text;
+			if (threeTypeName == '进口' || threeTypeName == '物资' || threeTypeName == '工程' || threeTypeName == '服务') {
+				$("#artCategory").show();
+			}
           }
         });
 
@@ -435,7 +439,7 @@
                 <label class="ml10 fl"><input type="radio" disabled="disabled" name="ranges" value="2">内外网</label>
               </div>
             </li>
-            <li class="col-md-3 col-sm-6 col-xs-12 pl15" id="artCategory">
+            <li class="col-md-3 col-sm-6 col-xs-12 pl15 dnone" id="artCategory">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>产品类别：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <input type="text"  disabled="disabled"  value="${categoryNames}">
@@ -477,7 +481,7 @@
 
           </ul>
         </div>
-        <div class="padding-top-10 clear">
+        <%-- <div class="padding-top-10 clear">
           <h2 class="count_flow"><i>2</i>审核</h2>
           <ul class="ul_list mb20">
             <li class=" col-md-12 col-sm-12 col-xs-12">
@@ -486,7 +490,7 @@
                 <textarea class="h130 col-md-12 col-sm-12 col-xs-12" disabled="disabled" id="reason" name="reason" >${article.reason }</textarea>
               </div>
             </li>
-          </ul>
+          </ul> --%>
           <div class="col-md-12 tc">
             <input class="btn btn-windows back" value="返回" type="button" onclick="goBack();">
           </div>

@@ -154,4 +154,37 @@
      to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
      and to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR}
     </select>
+    
+		<select id="selectCategoryQuaList" parameterType="ses.model.bms.CategoryQua" resultMap="categoryQuaMap">
+			select
+			<include refid="BASE_COLUMN_SQL" />
+			from T_SES_BMS_CATEGORY_QUA
+			where 1 = 1
+			<if test="categoryId != null">
+		  	and CATEGORY_ID = #{categoryId}
+		  </if>
+		  <if test="quaId != null">
+		  	and QUA_ID = #{quaId}
+		  </if>
+		  <if test="quaType != null and quaType != 0">
+		  	and QUA_TYPE = #{quaType}
+		  </if>
+		</select>
+		
+	<select id="getEngAptitudeLevelByCategoryId" parameterType="map" resultType="ses.model.bms.DictionaryData">
+    	SELECT DISTINCT D.ID,D.NAME,D.POSITION FROM T_SES_BMS_CATEGORY_QUA CQ LEFT JOIN T_SES_BMS_QUALIFCATE_LEVEL QL ON CQ.QUA_ID = QL.QUALIFCATION_ID LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON QL.GRADE = D.ID 
+	    WHERE CQ.CATEGORY_ID in 
+	    <foreach collection="categoryIds" open="(" item="cid" separator="," close=")" > #{cid} </foreach>
+	    AND D.ID IS NOT NULL AND D.NAME IS NOT NULL ORDER BY D.POSITION ASC
+    </select>
+    
+    <select id="getQuaByCid" parameterType="map" resultType="ses.model.bms.DictionaryData">
+    	 SELECT D.id id,D.name name FROM T_SES_BMS_CATEGORY_QUA Q LEFT JOIN T_SES_BMS_QUALIFICATION D ON Q.QUA_ID = D.ID where Q.CATEGORY_ID IN 
+    	 <foreach collection="categoryIds" open="(" item="it" separator="," close=")">
+    	 	#{it}
+    	 </foreach>
+    </select>
+    
+    
+    
 </mapper>

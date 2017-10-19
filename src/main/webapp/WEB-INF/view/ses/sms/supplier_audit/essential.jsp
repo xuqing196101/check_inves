@@ -49,9 +49,12 @@
                 $(this).find("p").hide();
             });
 
-
             $("td").each(function () {
                 $(this).find("a").eq(0).hide();
+            });
+            
+            $("input[type='text']").each(function(){
+            	$(this).attr("title", $(this).val());
             });
         });
 
@@ -328,12 +331,13 @@
             dataType: "json",
             data:{supplierId : supplierId},
             success : function (result) {
-                layer.msg(result, {offset : [ '100px' ]});
+              layer.msg(result, {offset : [ '100px' ]});
             },error : function(){
               layer.msg("暂存失败", {offset : [ '100px' ]});
             }
           });
         }
+        
     </script>
 
     <script type="text/javascript">
@@ -832,7 +836,7 @@
                     <div class="clear"></div>
                 </c:forEach> --%>
 
-                <table class="table table-bordered  table-condensed table-hover">
+                <table class="table table-bordered  table-condensed table-hover m_table_fixed_border">
                     <thead>
                     <tr>
                         <th class="info w50">序号</th>
@@ -1298,7 +1302,7 @@
             <h2 class="count_flow"><i>9</i>售后服务机构</h2>
             <ul class="ul_list">
 
-                <table class="table table-bordered  table-condensed table-hover">
+                <table class="table table-bordered  table-condensed table-hover m_table_fixed_border">
                     <thead>
                     <tr>
                         <th class="info w50">序号</th>

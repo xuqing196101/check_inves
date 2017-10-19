@@ -1,15 +1,10 @@
 package ses.controller.sys.bms;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.service.LoginLogService;
+import common.utils.AuthUtil;
+import common.utils.JedisUtils;
+import common.utils.RSAEncrypt;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +14,6 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import redis.clients.jedis.Jedis;
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
@@ -41,12 +35,15 @@ import ses.service.sms.SupplierService;
 import ses.util.PropUtil;
 import ses.util.SessionListener;
 
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.service.LoginLogService;
-import common.utils.AuthUtil;
-import common.utils.JedisUtils;
-import common.utils.RSAEncrypt;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * <p>Title:LoginController </p>
  * <p>Description: 用户登录</p>
@@ -178,7 +175,7 @@ public class LoginController {
                               req.getSession().setAttribute("loginName", u.getId());
                               // 拉黑 阻止登录
                               if (object.equals("1")) {
-                                out.print("black");
+                                out.print("firstQualified");
                               } else if(object.equals("5")){
                                 out.print("reject");
                               }else if (object.equals("2")) {
@@ -194,23 +191,32 @@ public class LoginController {
                               } else if (object.equals("8")){
                                 out.print("review");
                               } else if (("1").equals(object)){
-                                    // 待复审状态
-                                    out.print("expert_waitOnceCheck");
-                                }else if (("5").equals(object)){
-                                    // 复审未通过状态
-                                    out.print("onceCheckNoPass");
-                                } else if (("-2").equals(object)){
-                                    // 审核预通过状态
-                                    out.print("prepass");
-                                } else if (("-3").equals(object)){
-                                    // 公示中状态
-                                    out.print("publicity");
-                                } else if (("10").equals(object)){
-                                	//黑名单处罚中状态
-                                    out.print("expertBlack");
-                                }
+                                // 待复审状态
+                                out.print("expert_waitOnceCheck");
+	                          }else if (("5").equals(object)){
+	                            // 复审未通过状态
+	                            out.print("onceCheckNoPass");
+	                          } else if (("10").equals(object)){
+		                            // 复审退回修改
+		                            out.print("fsthxg");
+		                      } else if (("-2").equals(object)){
+	                            // 审核预通过状态
+	                            out.print("prepass");
+	                          } else if (("-3").equals(object)){
+	                            // 公示中状态
+	                            out.print("publicity");
+	                          } else if (("expertBlack").equals(object)){
+	                            //黑名单处罚中状态
+	                             out.print("expertBlack");
+	                          }else if (("reviewFailed").equals(object)){
+	                        	//复查不合格
+                            	out.print("reviewFailed");
+                            }else if (("inReview").equals(object)){
+                            	//复审中的状态
+                            	out.print("inReview");
+                            }
                             }else {
-                                // 实现单一登录 踢人效果
+                              // 实现单一登录 踢人效果
                               /*if (null != SessionListener.sessionMap.get(u.getId())) {
                                   // 第一次登录的用户session销毁
                                   // 将第一次登录用户的信息从map中移除
@@ -253,6 +259,7 @@ public class LoginController {
                             String date = (String) map.get("date");
                             PurchaseDep orgnization = ( PurchaseDep ) map.get("orgnization");
                             req.getSession().setAttribute("loginName", u.getLoginName());
+                            req.getSession().setAttribute("orgnization", orgnization);
                             if ("success".equals(msg)) {
                                 req.getSession().setAttribute("loginSupplier", map.get("supplier"));
                                 // 实现单一登录 踢人效果
@@ -326,7 +333,7 @@ public class LoginController {
                       }
                     } else {*/
                       // 实现单一登录 踢人效果
-                      /*if ( null != SessionListener.sessionMap.get(u.getId())) {   
+                      /*if ( null != SessionListener.sessionMap.get(u.getId())) {
                              //第一次登录的用户session销毁
                              //将第一次登录用户的信息从map中移除
                              forceLogoutUser(u.getId());
@@ -465,6 +472,9 @@ public class LoginController {
     @RequestMapping("/loginOut")
     public String loginOut(@CurrentUser User user,HttpServletRequest re){
     	re.getSession().invalidate();
+    	/*if(user != null){
+    		forceLogoutUser(user.getId());
+    	}*/
         return "redirect:/";
     }
     
@@ -478,24 +488,32 @@ public class LoginController {
      * @return
      */
     public synchronized void forceLogoutUser(String id) {
-        // 删除单一登录中记录的变量
-        if (SessionListener.sessionMap.get(id) != null) {
-            HttpSession hs = (HttpSession) SessionListener.sessionMap.get(id);
-            SessionListener.sessionMap.remove(id);
-            @SuppressWarnings("rawtypes")
-            Enumeration e = hs.getAttributeNames();
-            while (e.hasMoreElements()) {
-                String sessionName = (String) e.nextElement();
-                if(sessionName.equals("loginUser")){
-                    // 清空session
-                    hs.removeAttribute(sessionName);
-                    Jedis jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
-                    jedis.del("spring:session:sessions:"+hs.getId());
-                    jedis.quit();
-                    jedis.disconnect();
+        Jedis jedis = null;
+        try {
+            // 删除单一登录中记录的变量
+            if (SessionListener.sessionMap.get(id) != null) {
+                HttpSession hs = (HttpSession) SessionListener.sessionMap.get(id);
+                SessionListener.sessionMap.remove(id);
+                @SuppressWarnings("rawtypes")
+                Enumeration e = hs.getAttributeNames();
+                while (e.hasMoreElements()) {
+                    String sessionName = (String) e.nextElement();
+                    if(sessionName.equals("loginUser")){
+                        // 清空session
+                        hs.removeAttribute(sessionName);
+                        jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
+                        jedis.del("spring:session:sessions:"+hs.getId());
+                        break;
+                    }
                 }
+                // hs.invalidate();
             }
-            // hs.invalidate();
+        } catch (Exception e){
+            logger.debug(e.getLocalizedMessage());
+        } finally {
+            if(jedis != null){
+                JedisUtils.returnResourceOfFactory(jedis);
+            }
         }
     }
 }

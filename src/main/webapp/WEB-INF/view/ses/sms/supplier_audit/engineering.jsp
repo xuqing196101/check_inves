@@ -288,7 +288,7 @@
                   
           <h2 class="count_flow"><i>1</i>供应商工程证书信息</h2>
           <div class="ul_list count_flow">
-	          <table class="table table-bordered table-condensed table-hover">
+	          <table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 		          <thead>
 		            <tr>
 		              <th class="info">资质资格类型</th>
@@ -351,7 +351,7 @@
 
           <h2 class="count_flow"><i>2</i>供应商资质资格信息</h2>
           <ul class="ul_list count_flow">
-            <table class="table table-bordered table-condensed table-hover">
+            <table class="table table-bordered table-condensed table-hover m_table_fixed_border">
               <thead>
 		            <tr>
 		              <th class="info">资质资格类型</th>
@@ -415,7 +415,7 @@
 
           <h2 class="count_flow"><i>3</i>供应商注册人员登记</h2>
           <ul class="ul_list count_flow">
-            <table class="table table-bordered table-condensed table-hover">
+            <table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 		          <thead>
 	              <tr>
 	                <th class="info w50">序号</th>

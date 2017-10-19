@@ -1,11 +1,14 @@
 package ses.service.ems;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertCategory;
-
-import java.util.List;
-import java.util.Map;
+import ses.model.sms.SupplierCateTree;
 
 /**
  * 
@@ -134,5 +137,36 @@ public interface ExpertCategoryService {
      * @param expertCategory
      */
     void updateAuditStatus(ExpertCategory expertCategory);
+    
+    
+    /**
+     * 
+     * Description: 查询专家所有参评类别
+     * 
+     * @author zhang shubin
+     * @data 2017年8月23日
+     * @param 
+     * @return
+     */
+    List<SupplierCateTree> findExpertCatrgory(@Param("expertId")String expertId,@Param("typeId")String typeId);
 
+    /**
+     * 
+     * Description: 判断为第几级节点
+     * 
+     * @author zhang shubin
+     * @data 2017年8月23日
+     * @param 
+     * @return
+     */
+    Integer findCountParent(Map<String,Object> map);
+    int selectPassCount(Map<String,Object> map);
+    
+    /**
+     * 查询通过的类别（排除初审或复审中不通过的）
+     * @param map
+     * @return
+     */
+    List<ExpertCategory> findPassCateByExpertId(Map<String,Object> map);
+    List<ExpertCategory> selectCategoryListByCategoryId(ExpertCategory expertCategory);
 }

@@ -1,11 +1,11 @@
 package ses.service.oms;
 
+import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseOrg;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import ses.model.oms.PurchaseDep;
-import ses.model.oms.PurchaseOrg;
 
 /**
  * 
@@ -37,5 +37,16 @@ public interface PurChaseDepOrgService {
 	 * @return
 	 */
   List<PurchaseDep> findAllOrg();
+
+  /**
+   *
+   * Description: 根据供应商表中的（PROCUREMENT_DEP_ID）字段查询采购机构全称
+   *
+   * @author Easong
+   * @version 2017/9/25
+   * @param 
+   * @since JDK1.7
+   */
+  String selectOrgFullNameByPurchaseDepId(Map<String, Object> map);
   
 }

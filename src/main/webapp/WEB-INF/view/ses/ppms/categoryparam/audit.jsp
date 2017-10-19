@@ -7,6 +7,12 @@
 <%@ include file="/WEB-INF/view/common.jsp"%>
   	<script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ppms/categoryparam/auditParameter.js"></script>
   </head>
+ <script type="text/javascript">
+  	function a() {
+
+  		$("#auditBtnId").show();
+  	} 
+  </script> 
   <body>
   
   <!--面包屑导航开始-->
@@ -57,7 +63,7 @@
 	     <li class="col-md-12 col-sm-12 col-xs-12 pl15">
                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>审核</span>
                    <div class="input-append input_group col-sm-12 col-xs-12 p0">
-	                   <select style="width: 150px;" class="col-md-12 col-sm-12 col-xs-12" name="auditStatus" onchange="loadAuditText(this)">
+	                   <select style="width: 150px;" class="col-md-12 col-sm-12 col-xs-12" name="auditStatus"  onclick="a()" onchange="loadAuditText(this)">
 		    			<option value="3">通过</option>
 		    			<option value="1">不通过</option>
 	    		       </select>
@@ -72,9 +78,9 @@
 	    </ul>
 	    </div>
 	  </div>
-	  <div id="auditBtnId" class="textc col-md-12 col-xs-12 col-sm-12 mt20">
-	    <button class="btn btn-windows git" onclick="auditParams();" type="button">提交</button>
-	  </div>
+	  <div id="auditBtnId" class="textc col-md-12 col-xs-12 col-sm-12 mt20"> 
+	    <button class="btn btn-windows git" onclick="auditParams()">提交</button>
+	   </div>
 	 </div>
     </div>
     </c:if>

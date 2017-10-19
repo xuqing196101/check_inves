@@ -6,7 +6,6 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
     <script type="text/javascript">
       function sum2(obj) { //数量
         var id = $(obj).next().val();
@@ -79,42 +78,44 @@
         });
       }
 
-      var flag = true;
 
       function verify(ele) {
+        var aa = 0;
         var projectNumber = $(ele).val();
         var id = $("#id").val();
+        projectNumber = $.trim(projectNumber);
         $.ajax({
           url: "${pageContext.request.contextPath}/project/verify.html?id=" + id + "&projectNumber=" + projectNumber,
           type: "post",
           dataType: "json",
+          async:false,
           success: function(data) {
             var datas = eval("(" + data + ")");
             if(datas == false) {
+              aa = 1;
               $("#sps").html("已存在").css('color', 'red');
-              flag = false;
             } else {
               $("#sps").html("");
-              flag = true;
             }
-
           },
         });
+        return aa;
       }
 
       //修改
       function edit() {
         var name = $("input[name='name']").val();
         var projectNumber = $("input[name='projectNumber']").val();
-        if(flag == false){
+        if(verify() == 1){
           $("#projectNumber").focus();
         }else if(name == "") {
           layer.tips("项目名称不能为空", "#jname");
+          $("#jname").focus();
         } else if(projectNumber == "") {
           layer.tips("项目编号不能为空", "#projectNumber");
+          $("#projectNumber").focus();
         } else {
           layer.confirm('您确定要修改吗?', {
-              offset: ['300px', '800px'],
               shade: 0.01,
               btn: ['是', '否'],
             },
@@ -122,31 +123,14 @@
               $("#form1").submit();
             },
             function() {
-              //parent.layer.close();
+              layer.closeAll();
             });
         }
       }
 
-      //重置
-      function sel(obj) {
-        var val = $(obj).val();
-        $("select option").each(function() {
-          var opt = $(this).val();
-          if(val == opt) {
-            $(this).attr("selected", "selected");
-          }
-        });
-      }
-
-      //分包
-      function subPackage() {
-        var num = "0";
-        var id = $("#id").val();
-        window.location.href = "${pageContext.request.contextPath}/project/subPackage.html?id=" + id + "&num=" + num;
-      }
 
       function goBack() {
-        window.location.href = "${pageContext.request.contextPath }/project/listProject.html";
+        window.location.href = "${pageContext.request.contextPath}/project/listProject.html";
       }
     </script>
   </head>
@@ -183,7 +167,7 @@
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <input type="hidden" id="id" name="id" value="${project.id}" />
-              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">项目名称</span>
+              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>项目名称</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
                 <input type="text" id="jname" name="name" class="input_group" value="${project.name}" />
                 <span class="add-on">i</span>
@@ -191,7 +175,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">项目编号</span>
+              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>项目编号</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
                 <input type="text" id="projectNumber" maxlength="20" name="projectNumber" onblur="verify(this);" class="input_group" value="${project.projectNumber}" />
                 <span class="add-on">i</span>
@@ -308,7 +292,6 @@
           </div>
         </div>
         <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
-          <!-- <button class="btn" type="button" onclick="subPackage()">分包</button> -->
           <button class="btn btn-windows git" type="button" onclick="edit()">修改</button>
           <button class="btn btn-windows back" type="button" onclick="goBack();">返回</button>
         </div>

@@ -7,12 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
 import ses.formbean.SupplierItemCategoryBean;
 import ses.model.bms.Category;
-import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierFinance;
@@ -415,8 +413,8 @@ public interface SupplierService {
 	 List<Supplier> viewCreditCodeMobile(HashMap<String, Object> map);
 	 
 	 List<Supplier> getCreditCode(String creditCode,Integer isProvisional);
-	 public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map);
-	 public List<supplierExport> selectExpertNumber(HashMap<String, Object> map);
+	 public List<Map<String, Object>> selectSupplierCheckNumber(HashMap<String, Object> map);
+	 public List<Map<String, Object>> selectExpertCheckNumber(HashMap<String, Object> map);
 	 /**
 	  * 
 	  * Description:根据suppliers 获取供应商 最大的 成立时间 
@@ -426,7 +424,7 @@ public interface SupplierService {
 	  * @param supplierIds
 	  * @return
 	  */
-	Date findMaxFoundDate(List<String> supplierIds);
+	Date findMaxFoundDate(List<Supplier> listSupplier);
 
 	/**
 	 * 根据采购机构id统计对应状态的供应商数量
@@ -435,7 +433,13 @@ public interface SupplierService {
 	 * @return
 	 */
 	public int countByPurchaseDepId(String purchaseDepId, int status);
-	
+
+	/**
+	 * 根据采购机构id统计对应状态的供待审核 和 退回待审核 应商数量
+	 * @param purchaseDepId
+	 * @return
+	 */
+	public int countAuditByPurchaseDepId(String purchaseDepId);
 	/**
 	 * 
 	 * Description:获取销售合同数量
@@ -449,7 +453,7 @@ public interface SupplierService {
 	
 
 	/**
-	 * 手机号校验：专家库+供应商库（除去临时供应商）
+	 * 手机号校验：供应商库+专家库（除去临时供应商和临时专家）
 	 * @param mobile
 	 * @return
 	 */
@@ -543,4 +547,22 @@ public interface SupplierService {
 	public void record(String operationInfo, Object obj1, Object obj2,
 			String supplierId) throws Exception;
 
+	
+	List<Map<String,Object>> selectSupplierTypeNumber(HashMap<String, Object> map);
+	
+	List<Map<String, Object>> selectExpertTypeNumber(HashMap<String, Object> map);
+
+	/**
+	 * 计算物资生成、物质销售、服务下所有品目下供应商等级
+	 * @return
+	 */
+	public HashMap<String, Integer> countAllCategorySupplierLevel();
+
+	/**
+	 * 身份证号校验：供应商库+专家库（除去临时供应商和临时专家）
+	 * @param id
+	 * @param idCard
+	 * @return
+	 */
+	public boolean checkIdCard(String id, String idCard);
 }

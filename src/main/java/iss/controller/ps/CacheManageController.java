@@ -1,20 +1,17 @@
 package iss.controller.ps;
 
+import common.annotation.CurrentUser;
+import common.utils.JdcgResult;
 import iss.model.ps.Cache;
 import iss.model.ps.Page;
 import iss.service.ps.CacheManageService;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.model.bms.User;
-import common.annotation.CurrentUser;
-import common.utils.JdcgResult;
 
 /**
  * 
@@ -34,24 +31,34 @@ public class CacheManageController {
 	private CacheManageService cacheManageService;
 
 	/**
+	 *
+	 * Description: 返回缓存页面
+	 *
+	 * @author Easong
+	 * @version 2017/9/27
+	 * @param []
+	 * @since JDK1.7
+	 */
+	@RequestMapping("/cachemanage")
+	public String list(){
+		return "iss/ps/cache/cachemanage";
+	}
+
+	/**
 	 * 
 	 * @Title: cachemanage
-	 * @Description: 查询所有缓存信息
+	 * @Description: 异步查询所有缓存信息
 	 * @author Easong
 	 * @param @param model
 	 * @param @return 设定文件
 	 * @return String 返回类型
 	 * @throws
 	 */
-	@RequestMapping("/cachemanage")
-	public String cachemanage(Model model, HttpServletRequest request,
-			Integer page) {
-		if (page == null) {
-			page = 1;
-		}
+	@RequestMapping("/cachemanageAjax")
+	@ResponseBody
+	public JdcgResult cachemanage(@RequestParam(defaultValue = "1") Integer page) {
 		Page<Cache> info = cacheManageService.cachemanage(page);
-		model.addAttribute("info", info);
-		return "iss/ps/cache/cachemanage";
+		return JdcgResult.ok(info);
 	}
 
 	/**
@@ -70,6 +77,21 @@ public class CacheManageController {
 	public JdcgResult clearCache(String cacheKey, String cacheType) {
 		return cacheManageService.clearCache(cacheKey, cacheType);
 	}
+
+    /**
+     *
+     * Description:清空所有缓存
+     *
+     * @author Easong
+     * @version 2017/9/27
+     * @param []
+     * @since JDK1.7
+     */
+    @RequestMapping("/clearAllCache")
+    @ResponseBody
+	public JdcgResult clearAllCache(){
+        return cacheManageService.clearAllCache();
+    }
 
 	/**
 	 * 

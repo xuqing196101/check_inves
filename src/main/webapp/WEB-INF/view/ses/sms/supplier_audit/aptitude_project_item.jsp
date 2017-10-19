@@ -20,7 +20,7 @@
         <input id="tablerId"  type="hidden" value="${tablerId}">
 			<c:choose>
 				<c:when test="${not empty showProject }">
-					<table class="table table-bordered">
+					<table class="table table-bordered m_table_fixed_border">
 						<thead>
 							<tr>
 								<th class="info tc w50">序号</th>
@@ -63,17 +63,17 @@
 									<%--<td><- c:forEach items="${cate.typeList}" var="type">
 											<c:if test="${cate.qualificationType eq type.id}">${type.name}</c:if>
 										</c:forEach> </td> --%>
-									<td>${cate.supplierAptitute.certType}</td>
-									<td>${cate.supplierAptitute.certCode}</td>
-									<td>${cate.supplierAptitute.professType}</td>
-									<td>${cate.supplierAptitute.aptituteLevel}</td>
-									<td><div class="w110 fl">
+									<td <c:if test="${fn:contains(field,'certType')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('certType','certType_${vs.index}');"</c:if> id="certType_${vs.index}">${cate.supplierAptitute.certType}</td>
+									<td <c:if test="${fn:contains(field,'certCode')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('certCode','certCode_${vs.index}');"</c:if> id="certCode_${vs.index}">${cate.supplierAptitute.certCode}</td>
+									<td <c:if test="${fn:contains(field,'professType')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('professType','professType_${vs.index}');"</c:if> id="professType_${vs.index}">${cate.supplierAptitute.professType}</td>
+									<td <c:if test="${fn:contains(field,'aptituteLevel')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('aptituteLevel','aptituteLevel_${vs.index}');"</c:if> id="aptituteLevel_${vs.index}">${cate.supplierAptitute.aptituteLevel}</td>
+									<td <c:if test="${fn:contains(fileModifyField,cate.fileId)}">style="border: 1px solid #FF8C00;"</c:if>><div class="w110 fl">
 											<u:show showId="eng_show_${vs.index}"
 												businessId="${cate.fileId}" typeId="${typeId}"
 												sysKey="${sysKey}" delete="false" />
 										</div>
 									</td>
-									 <td class="tc info"  onclick="reasonProject('${ids }','${cate.supplierItemId}','${cate.itemsName }','${vs.index + 1}')">
+									 <td class="tc info"  onclick="reasonProject('${ids }','${cate.supplierItemId}','${cate.itemsName }','${cate.supplierAptitute.certType}')">
                                       <a href="javascript:void(0);"><img id="show_td" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>
                                     </td>
 								</tr>

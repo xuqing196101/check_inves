@@ -1,14 +1,17 @@
 package ses.service.ems.impl;
 
 import common.utils.JdcgResult;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import ses.dao.ems.ExpertAuditOpinionMapper;
 import ses.model.ems.ExpertAuditOpinion;
 import ses.service.ems.ExpertAuditOpinionService;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Title:ExpertAuditOpinionServiceImpl </p>
@@ -24,13 +27,33 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	
 	@Override
 	public void insertSelective(ExpertAuditOpinion expertAuditOpinion) {
+		// 拼接审核意见  例如:同意....+ HelloWorld
+		if(StringUtils.isNotEmpty(expertAuditOpinion.getCateResult())){
+			if(StringUtils.isEmpty(expertAuditOpinion.getOpinion())){
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult());
+			}else {
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult() + expertAuditOpinion.getOpinion());
+			}
+		}
 		mapper.insertSelective(expertAuditOpinion);
 		
 	}
 
 	@Override
 	public ExpertAuditOpinion selectByPrimaryKey(ExpertAuditOpinion expertAuditOpinion) {
-		return mapper.selectByPrimaryKey(expertAuditOpinion);
+		List<ExpertAuditOpinion> list = mapper.selectByPrimaryKey(expertAuditOpinion);
+//		if(list != null && list.size() > 0){
+//			 
+//		}else{
+//			return null;
+//		}
+		ExpertAuditOpinion eao=new ExpertAuditOpinion();
+		for(ExpertAuditOpinion ea:list){
+			if(ea.getOpinion()!=null){
+				 eao=ea;
+			}
+		}
+		return eao;
 	}
 
 	/**
@@ -44,6 +67,26 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	 */
 	@Override
 	public ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion) {
+        expertAuditOpinion = mapper.selectByExpertId(expertAuditOpinion);
+        //  获取意见切割字符串
+        if(expertAuditOpinion != null && StringUtils.isNotEmpty(expertAuditOpinion.getOpinion())){
+            int indexOf = expertAuditOpinion.getOpinion().indexOf("。");
+            expertAuditOpinion.setOpinion(expertAuditOpinion.getOpinion().substring(indexOf + 1));
+        }
+		return expertAuditOpinion;
+	}
+
+	/**
+	 *
+	 * Description:根据专家ID查询信息-公示专用
+	 *
+	 * @author Easong
+	 * @version 2017年7月3日
+	 * @param expertId
+	 * @return
+	 */
+	@Override
+	public ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion, String flag) {
 		return mapper.selectByExpertId(expertAuditOpinion);
 	}
 
@@ -67,6 +110,15 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 			}
 		}
 
+		// 拼接审核意见  例如:同意....+ HelloWorld
+		if(StringUtils.isNotEmpty(expertAuditOpinion.getCateResult())){
+			if(StringUtils.isEmpty(expertAuditOpinion.getOpinion())){
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult());
+			}else {
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult() + expertAuditOpinion.getOpinion());
+			}
+		}
+
 		// 判断是不是原有的数据
 		if(StringUtils.isNotEmpty(expertAuditOpinion.getId())){
 			// 查询此条数据
@@ -86,6 +138,29 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 			mapper.insertSelective(expertAuditOpinion);
 		}
 		return JdcgResult.ok();
+	}
+	
+	/**
+	 * 修改
+	 */
+	@Override
+	public void updateIsDownload(String expertId){
+		mapper.updateIsDownload(expertId);
+	}
+
+	/**
+	 * 记录复审已下载过附件
+	 */
+	@Override
+	public void updateIsDownloadAttch(ExpertAuditOpinion expertAuditOpinion) {
+		mapper.updateIsDownloadAttch(expertAuditOpinion);
+		
+	}
+
+	@Override
+	public void deleteByExpertId(ExpertAuditOpinion expertAuditOpinion) {
+		mapper.deleteByExpertId(expertAuditOpinion);
+		
 	}
 
 }

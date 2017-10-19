@@ -69,10 +69,10 @@
 			//撤销
 			function cancellation() {
 				var ids = $(":radio:checked").val();
-				var state = $("#" + ids + "").parents("tr").find("td").eq(8).text();
+				var state = $("#" + ids + "").parents("tr").find("td").eq(9).text();
 				state = trim(state);
 				if(ids != null) {
-					if(state == "暂存" || state == "待审核" || state == "退回修改" || state=="临时" || state=="退回再审核"){
+					if(state == "暂存" || state == "退回修改"){
 							layer.confirm('您确定要注销吗?', {
 							title: '提示！',
 							offset: ['200px']
@@ -248,7 +248,7 @@
 		</div>
 		<div class="container">
 			<!-- 搜索 -->
-			<h2 class="search_detail">
+			<div class="search_detail">
 	      <form action="${pageContext.request.contextPath}/suppliertDelete/logoutList.html"  method="post" id="form1" class="mb0"> 
 	      <input type="hidden" name="page" id="page">
 	      <ul class="demand_list">
@@ -264,13 +264,19 @@
 			      <label class="fl">手机号：</label> 
 			      <input class="" name="mobile" type="text" value="${supplier.mobile }">
 		      </li>
+		      <li class="fl">
+			      <label class="fl">社会统一代码：</label> 
+			      <input class="" name="creditCode" type="text" value="${supplier.creditCode }">
+		      </li>
 	      </ul>
-	        
-	        <input type="submit" class="btn fl" value="查询" />
-				  <button onclick="resetForm();" class="btn fl" type="button">重置</button>
-				  <div class="clear"></div>
+	       
+				<div class="col-md-12 clear tc mt10">
+					<input type="submit" class="btn" value="查询" />
+					<button onclick="resetForm();" class="btn" type="button">重置</button> 
+				</div>
+				<div class="clear"></div>
 	      </form>
-    	</h2>
+    	</div>
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows check" type="button" onclick="cancellation();">注销</button>
@@ -287,6 +293,7 @@
 							<th class="info">用户名</th>
 							<th class="info">联系人</th>
 							<th class="info">手机号</th>
+							<th class="info">社会统一代码</th>
 							<th class="info">注册日期</th>
 							<th class="info">账号状态</th>
 							<th class="info w100">状态</th>
@@ -298,8 +305,9 @@
 							<td class="tc w50">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tl pl20">${list.supplierName }</td>
 							<td class="">${list.loginName }</td>
-								<td class="">${list.contactName }</td>
+							<td class="">${list.contactName }</td>
 							<td class="tc">${list.mobile }</td>
+							<td class="tc">${list.creditCode }</td>
 							<td class="tc"><fmt:formatDate value='${list.createdAt}' pattern='yyyy-MM-dd'/></td>
 							<td class="tc" id="${list.id}">
 							  	<c:if test="${list.errorNum >= 5}">
@@ -310,21 +318,20 @@
 								</c:if>
 							</td>
 							<td class="tc w100" id="${list.id}">
-								<c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
-								<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
-								<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
-								<c:if test="${list.status==-2 }"><span class="label rounded-2x label-dark">预审核结束</span></c:if>
-								<c:if test="${list.status==-3 }"><span class="label rounded-2x label-dark">公示中</span></c:if>
-								<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
-								<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">退回修改</span></c:if>
-								<c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
-								<c:if test="${list.status==3 }"><span class="label rounded-2x label-dark">审核未通过</span></c:if>
-								<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
-								<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">复核通过</span></c:if>
-								<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
-								<%-- <c:if test="${list.status==5 }"><span class="label rounded-2x label-dark">待考察</span></c:if> --%>
-								<c:if test="${list.status==7 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
-								<c:if test="${list.status==8 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
+							  <c:if test="${list.status==-1}"><span class="label rounded-2x label-dark">暂存</span></c:if>
+                <c:if test="${list.status==0}"><span class="label rounded-2x label-dark">待审核</span></c:if>
+                <c:if test="${list.status==2}"><span class="label rounded-2x label-dark">退回修改</span></c:if>
+                <c:if test="${list.status==9}"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
+                <c:if test="${list.status==-2}"><span class="label rounded-2x label-dark">预审核结束</span></c:if>
+                <c:if test="${list.status==3}"><span class="label rounded-2x label-dark">审核不通过</span></c:if>
+                <c:if test="${list.status==-3}"><span class="label rounded-2x label-dark">公示中</span></c:if>
+                <c:if test="${list.status==1}"><span class="label rounded-2x label-u">入库（待复核</span></c:if>
+                <c:if test="${list.status==-4}"><span class="label rounded-2x label-dark">预复核结束</span></c:if>
+                <c:if test="${list.status==5}"><span class="label rounded-2x label-u">复核合格（待考察）</span></c:if>
+                <c:if test="${list.status==6}"><span class="label rounded-2x label-dark">复核不合格</span></c:if>
+                <c:if test="${list.status==-5}"><span class="label rounded-2x label-dark">预考察结束</span></c:if>
+                <c:if test="${list.status==7}"><span class="label rounded-2x label-u">考察合格</span></c:if>
+                <c:if test="${list.status==8}"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
 							</td>
 						</tr>
 					</c:forEach>

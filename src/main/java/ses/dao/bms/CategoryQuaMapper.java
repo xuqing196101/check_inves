@@ -1,11 +1,13 @@
 package ses.dao.bms;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import ses.model.bms.CategoryQua;
+import ses.model.bms.DictionaryData;
 
 /**
  * 
@@ -96,5 +98,17 @@ public interface CategoryQuaMapper {
 	 * @return
 	 */
 	Integer countByPrimaryKey(String id);
+
+	/**
+	 * 查询资质关联信息
+	 * @param cq
+	 * @return
+	 */
+	List<CategoryQua> selectCategoryQuaList(CategoryQua cq);
+
+	List<DictionaryData> getEngAptitudeLevelByCategoryId(
+			Map<String, String[]> map);
+
+	List<DictionaryData> getQuaByCid(HashMap<String, String[]> hashMap);
 	
 }
