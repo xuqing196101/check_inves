@@ -1141,13 +1141,26 @@
 	</sql>
 
 	<!-- 发售标书中登记库内的供应商 -->
-	<select id="selectSaleTenderSupplier" parameterType="java.lang.String"
+	<select id="selectSaleTenderSupplier" parameterType="ses.model.sms.Supplier"
     resultMap="supplierMap">
 		select
 		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIER where  (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 8)
+		from T_SES_SMS_SUPPLIER where IS_DELETED=0 and (((SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7) and IS_PROVISIONAL = '0') or (SUPPLIER_STATUS=5 and IS_PROVISIONAL = '1'))
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
+		</if>
+		<if test="isProvisional != null">
+		  <if test="isProvisional == 1">
+		     and IS_PROVISIONAL=#{isProvisional}
+		  </if> 
+			<if test="isProvisional == 2">
+		     and SUPPLIER_STATUS=1
+		     and IS_PROVISIONAL='0'
+		  </if> 
+		  <if test="isProvisional !=1 and isProvisional !=2 ">
+		     and SUPPLIER_STATUS=#{isProvisional}
+		     and IS_PROVISIONAL='0'
+		  </if>
 		</if>
 		<if test="stsupplierIds != null">
 			<foreach collection="stsupplierIds" item="id" open="and ID not in ("
@@ -1155,6 +1168,7 @@
 				#{id}
 			</foreach>
 		</if>
+		 ORDER BY AUDIT_DATE DESC
 	</select>
 	<!-- 根据审核状态获取条数 -->
 	<select id="getCount" parameterType="ses.model.sms.Supplier"

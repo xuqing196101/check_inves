@@ -305,6 +305,7 @@ public class SaleTenderController {
   model.addAttribute("packId", packId);
   model.addAttribute("projectId", projectId);
   model.addAttribute("supplierName", supplier.getSupplierName());
+  model.addAttribute("isProvisional", supplier.getIsProvisional());
   model.addAttribute("ix", ix);
   model.addAttribute("selectValue", selectValue);
   return "bss/ppms/sall_tender/suppliers_list";

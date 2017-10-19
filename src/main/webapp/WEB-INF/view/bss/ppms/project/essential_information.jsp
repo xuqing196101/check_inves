@@ -366,6 +366,23 @@
           }
         });
       }
+    //隐藏包的信息
+      function ycDiv1(obj, index) {
+        if($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
+          $(obj).removeClass("shrink");
+          $(obj).addClass("spread");
+        } else {
+          if($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
+            $(obj).removeClass("spread");
+            $(obj).addClass("shrink");
+          }
+        }
+        if($("#table_1_" + index).hasClass("hide")) {
+          $("#table_1_" + index).removeClass("hide");
+        } else {
+          $("#table_1_" + index).addClass("hide");
+        }
+      } 
     </script>
   </head>
 
@@ -595,12 +612,13 @@
               </c:if>
               <c:if test="${packageList != null}">
                 <c:forEach items="${packageList }" var="pack" varStatus="p">
-                  <div class="col-md-6 col-sm-6 col-xs-12 p0">
+                  <div class="col-md-12 col-sm-6 col-xs-12 p0">
+                    <span onclick="ycDiv1(this,'${p.index}')" class="count_flow hand  shrink"></span>
                     <span class="f16 b">包名：</span>
                     <span class="f14 blue">${pack.name }</span>
                   </div>
                   <input type="hidden" value="${pack.id }" />
-                  <table id="table" class="table table-bordered table-condensed table-hover table-striped left_table lockout ">
+                  <table id="table_1_${p.index}" class="table table-bordered table-condensed table-hover table-striped left_table lockout hide ">
                     <thead>
                       <tr>
                         <th class="info w50">序号</th>
@@ -623,24 +641,38 @@
                       <tr>
                         <td class="tc w50">${vs.index+1}</td>
                         <td class="tl">
-                          <div class="goodsname">
-                            <a href="javascript:void(0)" onclick="view('${obj.parentId}');">${obj.goodsName}</a>
+                          <div class="goodsname" title="${obj.goodsName }">
+                            <a href="javascript:void(0)" onclick="view('${obj.parentId}');">
+                            <c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
+                            <c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
+                            </a>
                           </div>
                         </td>
                         <td class="tl">
-                          <div class="stand">${obj.stand}</div>
+                          <div class="stand" title="${obj.stand }">
+                           <c:if test="${fn:length (obj.stand) > 8}">${fn:substring(obj.stand,0,7)}...</c:if>
+                            <c:if test="${fn:length(obj.stand) <= 8}">${obj.stand}</c:if>
+                          </div>
                         </td>
                         <td class="tl">
-                          <div class="qualitstand">${obj.qualitStand}</div>
+                          <div class="qualitstand" title="${obj.qualitStand }">
+                          <c:if test="${fn:length (obj.qualitStand) > 8}">${fn:substring(obj.qualitStand,0,7)}...</c:if>
+                            <c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
+                          </div>
                         </td>
                         <td class="tc">
-                          <div class="item">${obj.item}</div>
+                          <div class="item">${obj.item}
+                          
+                          </div>
                         </td>
                         <td class="tc">
                           <div class="purchasecount">${obj.purchaseCount}</div>
                         </td>
                         <td class="tl">
-                          <div class="deliverdate">${obj.deliverDate}</div>
+                          <div class="deliverdate" title="${obj.deliverDate }">
+                          <c:if test="${fn:length (obj.deliverDate) > 8}">${fn:substring(obj.deliverDate,0,7)}...</c:if>
+                            <c:if test="${fn:length(obj.deliverDate) <= 8}">${obj.deliverDate}</c:if>
+                          </div>
                         </td>
                         <td class="tl">
                           <div class="purchasename">${obj.supplier}</div>
@@ -657,7 +689,10 @@
                           </td>
                         </c:if> --%>
                         <td class="tl">
-                          <div class="memo">${obj.memo}</div>
+                          <div class="memo" title="${obj.memo }">
+                          <c:if test="${fn:length (obj.memo) > 8}">${fn:substring(obj.memo,0,7)}...</c:if>
+                            <c:if test="${fn:length(obj.memo) <= 8}">${obj.memo}</c:if>
+                          </div>
                         </td>
                       </tr>
                     </c:forEach>

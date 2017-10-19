@@ -329,7 +329,7 @@
 									</td>
 									<td class="tc opinter w100">
 										<c:if test="${project.isCharge=='1'}">
-											未缴纳
+											免费
 										</c:if>
 										<c:if test="${project.isCharge=='0'}">
 											已缴纳

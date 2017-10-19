@@ -1132,7 +1132,11 @@ public class SupplierExtractsController extends BaseController {
             model.addAttribute("armyBuinessTelephoneError", "不能为空");
             type = 1;
         }
-        if (StringUtils.isNotBlank(supplier.getCreditCode()) && StringUtils.isNotBlank(supplier.getArmyBuinessTelephone())) {
+        if(supplier.getCreditCode()==null||"".equals(supplier.getCreditCode())){
+          model.addAttribute("creditCodeError", "不能为空");
+          type = 1;
+        }
+        /*if (StringUtils.isNotBlank(supplier.getCreditCode()) && StringUtils.isNotBlank(supplier.getArmyBuinessTelephone())) {
             HashMap<String, Object> map = new HashMap<>();
             map.put("armyBuinessTelephone", supplier.getArmyBuinessTelephone());
             map.put("creditCode", supplier.getCreditCode());
@@ -1142,13 +1146,13 @@ public class SupplierExtractsController extends BaseController {
             if (supplier.getCreditCode().length() > 36) {
                 model.addAttribute("creditCodeError", "不能为空或是字符过长!");
                 type = 1;
-            }
+            }*/
 
-            if (supplier.getCreditCode().length() != 18) {
+           /* if (supplier.getCreditCode().length() != 18) {
                 model.addAttribute("creditCodeError", "格式错误!");
                 type = 1;
-            }
-            if (tempList != null && tempList.size() > 0) {
+            }*/
+            /*if (tempList != null && tempList.size() > 0) {
                 for (Supplier supp : tempList) {
                     if (!supp.getId().equals(supplier.getId())) {
                         model.addAttribute("creditCodeError", "社会统一信用代码已被占用!");
@@ -1156,11 +1160,12 @@ public class SupplierExtractsController extends BaseController {
                         break;
                     }
                 }
-            }
-        } else {
+            }*/
+       /* } else {
             model.addAttribute("creditCodeError", "不能为空");
             type = 1;
-        }
+        }*/
+        /*}*/
 
         if (loginName == null || "".equals(loginName)) {
             model.addAttribute("loginNameError", "不能为空");
