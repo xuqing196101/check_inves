@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,13 +34,11 @@ import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
-import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 
-import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 
@@ -792,10 +792,14 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			
 			//解析json
 			try {
-				projectVoiceResult = mapper.readValue(json, ProjectVoiceResult.class);
-				 /*projectVoiceResult = mapper.readValue(json, ProjectVoiceResult.class);
-				 System.out.println(projectVoiceResult.getRecordId());*/
-				ProjectVoiceResult parse = (ProjectVoiceResult)JSON.parse(json);
+				/*projectVoiceResult = mapper.readValue(json, ProjectVoiceResult.class);
+				 projectVoiceResult = mapper.readValue(json, ProjectVoiceResult.class);
+				 System.out.println(projectVoiceResult.getRecordId());
+				ProjectVoiceResult parse = (ProjectVoiceResult)JSON.parse(json);*/
+				Map<Object, Class<SupplierVoiceResult>> map = new HashMap<Object, Class<SupplierVoiceResult>>();
+				map.put("suppliers", SupplierVoiceResult.class);
+				projectVoiceResult = (ProjectVoiceResult)JSONObject.toBean(JSONObject.fromObject(json),ProjectVoiceResult.class,map);
+
 				//System.out.println(parse.getProjectId());
 			} catch (Exception e) {
 				e.printStackTrace();
