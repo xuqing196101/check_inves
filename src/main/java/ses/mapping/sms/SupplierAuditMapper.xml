@@ -117,6 +117,26 @@
     ORDER BY CREATED_AT DESC
   </select>
   
+  <!-- 统计审核记录 -->
+  <select id="countAuditRecords" resultType="Integer">
+    select 
+    count(ID)
+    from T_SES_SMS_SUPPLIER_AUDIT
+    where SUPPLIER_ID = #{audit.supplierId}
+    <if test="audit.auditField!=null">
+        and AUDIT_FIELD=#{audit.auditField}
+    </if>
+    <if test="audit.auditType!=null">
+        and AUDIT_TYPE=#{audit.auditType}
+    </if>
+    <if test="rss != null and rss.length > 0">
+		and RETURN_STATUS in
+		<foreach collection="rss" item="item" open="(" close=")" separator="," index="index">
+			#{item}
+		</foreach>
+    </if>
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_SMS_SUPPLIER_AUDIT
     where ID = #{id}
@@ -498,7 +518,8 @@
 		<select id="selectBasicInfoAuditItem" resultType="java.lang.Integer" parameterType="Map">
 			SELECT COUNT(T.ID)
 			FROM T_SES_SMS_SUPPLIER_AUDIT T
-			WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4)
+			<!-- WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4) -->
+			WHERE T.RETURN_STATUS IN(0,1,2,4)
 		     <if test="supplierId != null and supplierId != ''">
 		         AND T.SUPPLIER_ID = #{supplierId}
 		     </if>
@@ -512,7 +533,8 @@
 			FROM T_SES_SMS_SUPPLIER_AUDIT T
 			LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA
 			ON T.AUDIT_FIELD = DA.ID
-			WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4)
+			<!-- WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4) -->
+			WHERE T.RETURN_STATUS IN(0,1,2,4)
 			<if test="supplierId != null and supplierId != ''">
 			    AND T.SUPPLIER_ID = #{supplierId}
 			</if>
@@ -542,7 +564,8 @@
 	    SELECT
 	    <include refid="Base_Column_List" />
 	    FROM T_SES_SMS_SUPPLIER_AUDIT T
-			WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4)
+			<!-- WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4) -->
+			WHERE T.RETURN_STATUS IN(0,1,2,4)
 	    <if test="supplierId != null and supplierId != ''">
 	        AND T.SUPPLIER_ID = #{supplierId}
 	    </if>

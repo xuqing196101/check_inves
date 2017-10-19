@@ -271,9 +271,40 @@
 				//改状态
 				function updateStatus(status){
 					var ids = [];
+					var bool = true;
+					var errorMsg = "";
 					$('input[name="chkItem"]:checked').each(function(){
 						ids.push($(this).val());
+						var currSt = $(this).attr("st");// 当前状态
+						// 已修改 不能点击任何状态
+						if(currSt == 3){
+							bool = false;
+							errorMsg = "选择中包含已修改的记录，已修改的记录不能修改任何状态！可以重新审核";
+							return false;
+						}
+						if(currSt == 5 || currSt == 6){
+							bool = false;
+							errorMsg = "选择中包含撤销退回/撤销不通过的记录，撤销的记录不能修改任何状态！可以重新审核";
+							return false;
+						}
+						// 退回修改/未修改 只能点击 撤销退回
+						if((currSt == 1 || currSt == 4) && status != 5){
+							bool = false;
+							errorMsg = "选择中包含退回修改/未修改的记录，退回修改和未修改的记录只能撤销退回！";
+							return false;
+						}
+						// 审核不通过 只能点击 撤销不通过
+						if(currSt == 2 && status != 6){
+							bool = false;
+							errorMsg = "选择中包含审核不通过的记录，审核不通过的记录只能撤销不通过！";
+							return false;
+						}
 					});
+					if(!bool){
+						//layer.msg(errorMsg, {offset : '100px'});
+						layer.alert(errorMsg);
+						return;
+					}
 					if(ids.length > 0){
 						layer.confirm('您确定要更改状态吗？', {title:'提示！',offset: ['200px']}, function(index){
 							layer.close(index);
@@ -285,13 +316,9 @@
 									status: status
 								},
 								dataType: "json",
-								success:function(result){
+								success: function(result){
 									if(result && result.status == 500){
 										layer.msg(result.msg, {offset : '100px'});
-										/* $('input[name="chkItem"]:checked').each(function(){
-											$(this).parents("tr").find("td:last").text(getStatusText(status));
-									 	});
-							 			$("input[type='radio'][name='auditStatus']").attr("checked", false); */
 							 			window.setTimeout(function(){
                       var action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
                       $("#form_id").attr("action",action);
@@ -310,27 +337,6 @@
 						layer.alert("请选择需要修改状态的记录！",{offset:'100px'});
 					}
 				}
-        
-        function getStatusText(status){
-        	var text = "";
-        	switch(status){
-        		case 1:
-        			text = "退回修改";
-        			break;
-        		case 2:
-        			text = "审核不通过";
-        			break;
-        		case 3:
-        			text = "已修改";
-        			break;
-        		case 4:
-        			text = "未修改";
-        			break;
-        		default:
-        			break;
-        	}
-        	return text;
-        }
     </script>
   </head>
 
@@ -401,7 +407,7 @@
 					</c:if> --%>
 					<h2 class="count_flow"><i>1</i>审核汇总信息</h2>
 					<div class="ul_list count_flow">
-						<c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 4 or (sign == 3 and supplierStatus == 5)}">
+						<c:if test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 1 or (sign == 3 and supplierStatus == 5)}">
 						  <!-- <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button> -->
 						  <button class="btn btn-windows edit" type="button" onclick="toUpdateStatus();" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>
 						  <div class="select_check" id="auditStatusRadio" style="display: none;">
@@ -409,6 +415,8 @@
 						  	<!-- <input type="radio" name="auditStatus" value="2">审核不通过 -->
 								<input type="radio" name="auditStatus" value="3" onclick="updateStatus(3)">已修改
 								<input type="radio" name="auditStatus" value="4" onclick="updateStatus(4)">未修改
+								<input type="radio" name="auditStatus" value="5" onclick="updateStatus(5)">撤销退回
+								<input type="radio" name="auditStatus" value="6" onclick="updateStatus(6)">撤销不通过
 							</div>
 						</c:if>
 						<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
@@ -428,7 +436,7 @@
 							<c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
 								<input id="auditId" value="${list.id}" type="hidden">
 								<tr>
-									<td class="tc text-center"><input type="checkbox" value="${reasons.id }" name="chkItem"  id="${reasons.id}"></td>
+									<td class="tc text-center"><input type="checkbox" value="${reasons.id }" name="chkItem" id="${reasons.id}" st="${reasons.returnStatus}"></td>
 									<td class="tc text-center">${vs.index + 1}</td>
 									<td class="tc text-center">
 									  <c:if test="${reasons.auditType eq 'basic_page'}">基本信息</c:if>
@@ -467,9 +475,11 @@
 											<c:when test="${reasons.returnStatus == 2}">审核不通过</c:when>
 											<c:when test="${reasons.returnStatus == 3}">已修改</c:when>
 											<c:when test="${reasons.returnStatus == 4}">未修改</c:when>
+											<c:when test="${reasons.returnStatus == 5}">撤销退回</c:when>
+											<c:when test="${reasons.returnStatus == 6}">撤销不通过</c:when>
 										</c:choose>
 										<!-- 若存在新审核的和已审核未修改的，则表示未通过（产品审核不通过，可以预审核通过） -->
-										<c:if test="${(reasons.isDeleted == 0  && reasons.returnStatus != 2) || reasons.returnStatus == 1 || reasons.returnStatus == 4}">
+										<c:if test="${reasons.returnStatus == 1 || reasons.returnStatus == 4}">
 											<c:set var="isNotPass" value="1" />
 										</c:if>
 									</td>
@@ -508,7 +518,7 @@
 									<li>
 										<div class="select_check" id="selectOptionId">
 											<c:choose>
-												<c:when test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 4 or (sign == 3 and supplierStatus == 5)}">
+												<c:when test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 1 or (sign == 3 and supplierStatus == 5)}">
 													<!-- <input type="radio" name="selectOption" value="1">预审核通过
 													<input type="radio" name="selectOption" value="0">预审核不通过 -->
 													<c:if test="${isNotPass == 0}">
@@ -530,7 +540,7 @@
 									<li><span type="text" name="cate_result" id="cate_result"></span></li>
 									<li class="mt10">
 										<c:choose>
-											<c:when test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 4 or (sign == 3 and supplierStatus == 5)}">
+											<c:when test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 1 or (sign == 3 and supplierStatus == 5)}">
 												<textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ supplierAuditOpinion.opinion }</textarea>
 											</c:when>
 											<c:otherwise>

@@ -130,6 +130,8 @@
 											<c:when test="${audit.returnStatus == 2}">审核不通过</c:when>
 											<c:when test="${audit.returnStatus == 3}">已修改</c:when>
 											<c:when test="${audit.returnStatus == 4}">未修改</c:when>
+											<c:when test="${audit.returnStatus == 5}">撤销退回</c:when>
+											<c:when test="${audit.returnStatus == 6}">撤销不通过</c:when>
 										</c:choose>
 									</td>
                 </tr>
