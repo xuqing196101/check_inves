@@ -479,6 +479,12 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
 //        supplierHistoryMapper.selectAllBySupplierId(sh);
         List<SupplierModify> listModify = supplierModifyMapper.queryBySupplierId(supplier.getId());
         supplier.setModifys(listModify);
+
+        // 查询供应商审核记录表
+        Map<String, Object> map = new HashedMap();
+        map.put("supplierId", supplier.getId());
+        List<SupplierAudit> supplierAudits = supplierAuditMapper.findByMap(map);
+        supplier.setSupplierAudits(supplierAudits);
     }
     
     /**

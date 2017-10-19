@@ -729,6 +729,8 @@ Supplier implements Serializable {
     private List<SupplierHistory> historys=new ArrayList<SupplierHistory>();
     
     private List<SupplierModify> modifys=new ArrayList<SupplierModify>();
+
+	private List<SupplierAudit> supplierAudits = new ArrayList<>();
     
     private  List<Todos> todoList=new LinkedList<Todos>();
     
@@ -2044,5 +2046,12 @@ Supplier implements Serializable {
   public void setErrorNum(Integer errorNum) {
     this.errorNum = errorNum;
   }
-	
+
+    public List<SupplierAudit> getSupplierAudits() {
+        return supplierAudits;
+    }
+
+    public void setSupplierAudits(List<SupplierAudit> supplierAudits) {
+        this.supplierAudits = supplierAudits;
+    }
 }

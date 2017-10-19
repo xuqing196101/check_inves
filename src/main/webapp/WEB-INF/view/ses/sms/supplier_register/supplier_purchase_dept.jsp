@@ -3,7 +3,7 @@
 
 		<style>
 			.m_fixInfo {
-				position: fixed;
+				position: absolute;
 				top: 210px;
 				right: 10px;
 				background-color: #FFF;
