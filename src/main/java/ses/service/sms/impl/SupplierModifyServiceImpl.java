@@ -703,6 +703,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 			/*List<SupplierRegPerson> listSupplierRegPersons = supplier.getSupplierMatEng().getListSupplierRegPersons();*/
 			
 			for(SupplierHistory h : engList){
+				StringBuffer sbId = new StringBuffer();
 				for(SupplierRegPerson regPerson : listSupplierRegPersons){
 					if(h.getRelationId().equals(regPerson.getId())){
 						supplierModify.setRelationId(regPerson.getId());
@@ -721,8 +722,14 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 								supplierModifyMapper.insertSelective(supplierModify);
 							}
 						}
+						sbId.append(h.getRelationId()+",");
 					}
 				}
+				/*if(!sbId.toString().contains(h.getRelationId())){
+					supplierModify.setBeforeField("id");
+					supplierModify.setBeforeContent("");
+					supplierModifyMapper.insertSelective(supplierModify);
+				}*/
 			}
 		}
 		

@@ -185,7 +185,8 @@ function vartifyAuditCount(){
             type: "POST",
             async:false,
             data:{
-                "supplierId":supplierId
+                "supplierId":supplierId,
+                "flag":2
             },
             dataType:"json",
             success:function (data) {
@@ -205,7 +206,8 @@ function vartifyAuditCount(){
             type: "POST",
             async:false,
             data:{
-                "supplierId":supplierId
+                "supplierId":supplierId,
+                "flag":2
             },
             dataType:"json",
             success:function (data) {

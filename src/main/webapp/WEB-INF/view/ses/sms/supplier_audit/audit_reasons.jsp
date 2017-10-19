@@ -133,7 +133,8 @@
                     type: "POST",
                     async:false,
                     data:{
-                        "supplierId":supplierId
+                        "supplierId":supplierId,
+                        "flag":1
                     },
                     dataType:"json",
                     success:function (data) {
@@ -433,6 +434,10 @@
 								</tr>
 							</thead>
 							<c:set var="isNotPass" value="0" />
+							<c:set var="isTypeNotPass_PRODUCT" value="0" />
+							<c:set var="isTypeNotPass_SALES" value="0" />
+							<c:set var="isTypeNotPass_PROJECT" value="0" />
+							<c:set var="isTypeNotPass_SERVICE" value="0" />
 							<c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
 								<input id="auditId" value="${list.id}" type="hidden">
 								<tr>
@@ -478,9 +483,25 @@
 											<c:when test="${reasons.returnStatus == 5}">撤销退回</c:when>
 											<c:when test="${reasons.returnStatus == 6}">撤销不通过</c:when>
 										</c:choose>
+										<c:if test="${reasons.auditType == 'supplierType_page' && reasons.returnStatus == 2 && typeMap[reasons.auditField] == 'PRODUCT'}">
+											<c:set var="isTypeNotPass_PRODUCT" value="1" />
+										</c:if>
+										<c:if test="${reasons.auditType == 'supplierType_page' && reasons.returnStatus == 2 && typeMap[reasons.auditField] == 'SALES'}">
+											<c:set var="isTypeNotPass_SALES" value="1" />
+										</c:if>
+										<c:if test="${reasons.auditType == 'supplierType_page' && reasons.returnStatus == 2 && typeMap[reasons.auditField] == 'PROJECT'}">
+											<c:set var="isTypeNotPass_PROJECT" value="1" />
+										</c:if>
+										<c:if test="${reasons.auditType == 'supplierType_page' && reasons.returnStatus == 2 && typeMap[reasons.auditField] == 'SERVICE'}">
+											<c:set var="isTypeNotPass_SERVICE" value="1" />
+										</c:if>
 										<!-- 若存在新审核的和已审核未修改的，则表示未通过（产品审核不通过，可以预审核通过） -->
-										<c:if test="${reasons.returnStatus == 1 || reasons.returnStatus == 4}">
-											<c:set var="isNotPass" value="1" />
+										<c:if test="${(reasons.returnStatus == 1 || reasons.returnStatus == 4)}">
+											<c:set var="isNotPass" value="${isNotPass+1}" />
+											<c:if test="${reasons.auditType == 'mat_pro_page' && isTypeNotPass_PRODUCT == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
+											<c:if test="${reasons.auditType == 'mat_sell_page' && isTypeNotPass_SALES == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
+											<c:if test="${reasons.auditType == 'mat_eng_page' && isTypeNotPass_PROJECT == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
+											<c:if test="${reasons.auditType == 'mat_serve_page' && isTypeNotPass_SERVICE == 1}"><c:set var="isNotPass" value="${isNotPass-1}" /></c:if>
 										</c:if>
 									</td>
 								</tr>
@@ -521,11 +542,11 @@
 												<c:when test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 1 or (sign == 3 and supplierStatus == 5)}">
 													<!-- <input type="radio" name="selectOption" value="1">预审核通过
 													<input type="radio" name="selectOption" value="0">预审核不通过 -->
-													<c:if test="${isNotPass == 0}">
+													<c:if test="${isNotPass == 0 and isAllTypeNotPass == 0}">
 														<input type="radio" name="selectOption" value="1">预审核通过
 														<input type="radio" disabled="disabled" name="selectOption" value="0" title="没有预审核不通过的项">预审核不通过
 													</c:if>
-													<c:if test="${isNotPass == 1}">
+													<c:if test="${isNotPass >= 1 or isAllTypeNotPass == 1}">
 														<input type="radio" disabled="disabled" name="selectOption" value="1" title="还有预审核未通过的项">预审核通过
 														<input type="radio" name="selectOption" value="0">预审核不通过
 													</c:if>

@@ -1325,7 +1325,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			SupplierAudit audit=new SupplierAudit();
 			audit.setAuditType(supplierAuditList.get(0).getAuditType());
 			audit.setSupplierId(supplierAuditList.get(0).getSupplierId());
-			List<SupplierAudit> alist=supplierAuditService.findByTypeId(audit);
+//			List<SupplierAudit> alist=supplierAuditService.findByTypeId(audit);
+			List<SupplierAudit> alist=supplierAuditService.getAuditRecords(audit, new Integer[]{0,2});
 			alist.retainAll(supplierAuditList);
 			if(null != alist && !alist.isEmpty()){
 				return new JdcgResult(503, "选择中存在已审核，不可重复审核", null);
@@ -1404,6 +1405,19 @@ public class SupplierAuditController extends BaseSupplierController {
 		//List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecordsWithSort(supplierAudit);
 		request.setAttribute("reasonsList", reasonsList);
+		
+		int isAllTypeNotPass = 0;
+		SupplierAudit supplierTypeAudit = new SupplierAudit();
+		supplierTypeAudit.setSupplierId(supplierId);
+		supplierTypeAudit.setAuditType("supplierType_page");
+		int supplierTypeAuditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{2});
+		List<String> supplierTypeList = supplierTypeRelateService.findTypeBySupplierId(supplierId);
+		if(supplierTypeList != null && supplierTypeAuditCount >= supplierTypeList.size()){
+			isAllTypeNotPass = 1;
+		}
+		//所有类型不通过
+		request.setAttribute("isAllTypeNotPass", isAllTypeNotPass);
+		
 		//有信息就不让通过
 		request.setAttribute("num", reasonsList.size());
 		/*//勾选的供应商类型
@@ -1438,6 +1452,23 @@ public class SupplierAuditController extends BaseSupplierController {
 			opinion = supplierAuditOpinion.getOpinion();
 		}*/
 		model.addAttribute("supplierAuditOpinion", supplierAuditOpinion);
+		// 供应商类型map
+		Map<String, String> typeMap = new HashMap<String, String>();
+		List<DictionaryData> gcfwList = DictionaryDataUtil.find(6);
+		List<DictionaryData> scxsList = DictionaryDataUtil.find(8);
+		if(gcfwList != null){
+			for(DictionaryData dd : gcfwList){
+				if(!"GOODS".equals(dd.getCode())){
+					typeMap.put(dd.getId(), dd.getCode());
+				}
+			}
+		}
+		if(scxsList != null){
+			for(DictionaryData dd : scxsList){
+				typeMap.put(dd.getId(), dd.getCode());
+			}
+		}
+		model.addAttribute("typeMap", typeMap);
 		return "ses/sms/supplier_audit/audit_reasons";
 	}
 
@@ -4632,7 +4663,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	@RequestMapping("/vertifyAuditNoPassItem")
 	@ResponseBody
-	public JdcgResult vertifyAuditNoPassItem(String supplierId){
+	public JdcgResult vertifyAuditNoPassItem(String supplierId, String flag){
     	/**
     	 * @deprecated: 点击审核不通过复选框校验审核不通过项
 		 * 是否为0，如果为0则提示没有审核不通过项
@@ -4644,7 +4675,7 @@ public class SupplierAuditController extends BaseSupplierController {
     	 *
     	 */
 		// 点击审核不通过复选框时判断
-		return supplierAuditService.selectAuditNoPassItemCount(supplierId);
+		return supplierAuditService.selectAuditNoPassItemCount(supplierId, flag);
 	}
 	
 	/**
