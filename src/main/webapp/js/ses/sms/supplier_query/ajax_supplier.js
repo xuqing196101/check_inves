@@ -159,8 +159,8 @@ function showData(obj) {
 	$(obj.list).each(
 			function(index, item) {
 				var level = "";
-				if (item.supplierLevel != null) {
-					level = item.supplierLevel;
+				if (item.supplierLevelName != null) {
+					level = item.supplierLevelName;
 				}
 				var armyBusinessName = "";
 				if (item.armyBusinessName != null) {

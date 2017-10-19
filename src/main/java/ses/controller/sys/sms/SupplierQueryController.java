@@ -2360,4 +2360,21 @@ public class SupplierQueryController extends BaseSupplierController {
 		model.addAttribute("supplierId", supplierAudit.getSupplierId());
 		return "/ses/sms/supplier_query/supplierInfo/auditInfo";
 	}
+    
+    /**
+     * Description:根据 工程品目 查询其所有等级
+     * 
+     * @author Ye MaoLin
+     * @version 2017-10-18
+     * @param categoryIds
+     * @return
+     */
+    @RequestMapping("/ajaxCategoryLevels")
+    @ResponseBody
+    public JdcgResult ajaxCategoryLevels(String categoryId) {
+    	JdcgResult result=null;
+    	List<DictionaryData> dds = supplierItemLevelServer.ajaxProjectCategoryLevels(categoryId);
+        result=new JdcgResult(500, "请求成功", dds);
+        return result;
+    }
 }

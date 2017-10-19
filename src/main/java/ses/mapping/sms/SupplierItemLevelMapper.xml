@@ -23,7 +23,7 @@
     SELECT 
     DISTINCT l.SUPPLIER_ID as supplierId,
     <if test="categoryId != null and categoryId !=''"> 
-	    ll.SUPPLIER_LEVEL as supplierLevel, 
+	    ll.SUPPLIER_LEVEL as supplierLevelName, 
 	    l.CATEGORY_ID categoryId, 
 	    l.CREATED_AT as createdAt, 
 	    l.SUPPLIER_TYPE_RELATE_ID as supplierTypeId,
@@ -199,4 +199,91 @@
 			AND IS_DELETED = 0
 		)
   </select>
+  
+  <!-- 获取工程品目的所有等级 -->
+  <select id="ajaxProjectCategoryLevels" resultType="ses.model.bms.DictionaryData" parameterType="java.lang.String">
+		SELECT
+			dd.*
+		FROM
+			T_SES_BMS_QUALIFCATE_LEVEL ql
+		INNER JOIN T_SES_BMS_DICTIONARY_DATA dd ON ql.GRADE = dd . ID
+		WHERE
+			QUALIFCATION_ID IN (
+				SELECT
+					QUA_ID
+				FROM
+					T_SES_BMS_CATEGORY_QUA cq
+				WHERE
+					cq.CATEGORY_ID = #{categoryId}
+			)
+  </select>
+  <select id="selectProjectSupplierByCategory" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    	SELECT
+			ss.*,
+			aa.supplierLevel AS supplierLevelName,
+			aa.supplierLevelId AS supplierLevel
+		FROM
+			(
+				SELECT DISTINCT
+					l.SUPPLIER_ID AS supplierId,
+					l.CATEGORY_ID categoryId,
+					l.CREATED_AT AS createdAt,
+					l.SUPPLIER_TYPE_RELATE_ID AS supplierTypeId,
+					s.SUPPLIER_NAME AS supplierName,
+					s.ARMY_BUSINESS_NAME AS armyBusinessName,
+					s.ARMY_BUSINESS_TELEPHONE AS armyBuinessTelephone,
+					org.SHORT_NAME AS orgName
+				FROM
+					T_SES_SMS_SUPPLIER_ITEM l
+				LEFT JOIN T_SES_SMS_SUPPLIER s
+				LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON s.PROCUREMENT_DEP_ID = dep.ID
+				LEFT JOIN T_SES_OMS_ORG org ON org. ID = dep.ORG_ID ON l.SUPPLIER_ID = s.ID
+				LEFT JOIN T_SES_SMS_SUPPLIER_ITEM_LEVEL ll ON l.SUPPLIER_ID = ll.supplier_id
+				AND l.supplier_type_relate_id = ll.SUPPLIER_TYPE_ID
+				AND l.CATEGORY_ID = ll.CATEGORY_ID
+				WHERE
+					l.SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId,jdbcType=VARCHAR}
+				AND l.CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+				AND (
+					s.SUPPLIER_STATUS = 1
+					OR s.SUPPLIER_STATUS = 5
+					OR s.SUPPLIER_STATUS = 7
+				)
+				AND s.IS_PROVISIONAL = '0'
+				AND s.IS_DELETED = 0
+				<if test="supplierName != null and supplierName !=''">
+		            and s.SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
+		        </if>
+		        <if test="armyBusinessName != null and armyBusinessName != ''">
+		            AND s.ARMY_BUSINESS_NAME like CONCAT(CONCAT('%', #{armyBusinessName}), '%')
+		        </if>
+			) ss
+		LEFT JOIN (
+			SELECT
+				dd. NAME AS supplierLevel,
+				e.SUPPLIER_ID AS sid,
+				dd.ID AS supplierLevelId
+			FROM
+				T_SES_SMS_SUPPLIER_APTITUTE a
+			LEFT JOIN T_SES_BMS_DICTIONARY_DATA dd ON dd.ID = a."APTITUTE_ LEVEL"
+			LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG e ON a.MAT_ENG_ID = e.ID
+			WHERE
+				a.CERT_TYPE IN (
+					SELECT
+						QUA_ID
+					FROM
+						T_SES_BMS_CATEGORY_QUA cq
+					WHERE
+						cq.CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+					AND IS_DELETED = 0
+					AND ROWNUM = 1
+				)
+		) aa ON ss.supplierId = aa.sid
+		WHERE  1 = 1 
+        <if test="supplierLevel != null and supplierLevel != ''">
+        	AND aa.supplierLevelId = #{supplierLevel}
+        </if>
+        ORDER BY supplierLevelName
+  </select>
+  
 </mapper>
