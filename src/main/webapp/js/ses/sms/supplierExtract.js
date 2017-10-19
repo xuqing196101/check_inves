@@ -356,7 +356,12 @@ $(function () {
     				count++;
     				$(ele).parents("li").find(".cue").html("不能为空");
     			}else{
-    				$(ele).parents("li").find(".cue").html("");
+    				if(ele.value.split(" ").length>1){
+    					$(ele).parents("li").find(".cue").html("不能包含空格");
+    					count ++ ;
+    				}else{
+    					$(ele).parents("li").find(".cue").html("");
+    				}
     			}
     		});
     		
@@ -365,7 +370,12 @@ $(function () {
     				$(ele).parents("li").find(".cue").html("不能为空");
     				count++;
     			}else{
-    				$(ele).parents("li").find(".cue").html("");
+    				if(ele.value.split(" ").length>1){
+    					$(ele).parents("li").find(".cue").html("不能包含空格");
+    					count ++ ;
+    				}else{
+    					$(ele).parents("li").find(".cue").html("");
+    				}
     			}
     		});
     	});
@@ -374,7 +384,12 @@ $(function () {
 			$("#areaError").html("不能为空");
 			count++;
 		}else{
-			$("#areaError").val("");
+			if($("#areaReson").val().split(" ").length>1){
+				$("#areaError").html("不能包含空格");
+				count++;
+			}else{
+				$("#areaError").val("");
+			}
 		}
     	
     	if(count>0){

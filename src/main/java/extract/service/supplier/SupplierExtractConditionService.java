@@ -3,11 +3,13 @@ package extract.service.supplier;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
+import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 
@@ -140,7 +142,7 @@ public interface SupplierExtractConditionService {
    * 2017-9-12下午11:49:47
  * @param parentId 
    */
-  HashSet<DictionaryData> getQuaByCid(String categoryId,String code, String parentId);
+  List<Qua> getQuaByCid(String categoryId,String code, String parentId);
 
   /**
    * 根据资质查询资质等级
