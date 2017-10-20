@@ -1986,12 +1986,17 @@ table.lockout .extrafile{
 			right: -31px;
 			width: 31px;
 			height: 80px;
-			font-size: 0px;
-			line-height: normal;
+			color: #FFF;
+			font-size: 16px;
+			line-height: 24px;
+			padding-top: 14px;
 			cursor: pointer;
-			background-image: url(../images/btn_toggle.png);
+			text-align: center;
+			background-color: #8fc31f;
+			border-radius: 0 10px 10px 0 !important;
+			/*background-image: url(../images/btn_toggle.png);
 			background-repeat: no-repeat;
-			background-position: -34px 0;
+			background-position: -34px 0;*/
 		}
 		.m_tree_nav.open .btn_toggle {
 			background-position: 0 0;
