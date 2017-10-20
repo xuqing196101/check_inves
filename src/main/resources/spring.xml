@@ -97,6 +97,12 @@
         <!-- 外网定时导入专家抽取项目信息 -->
         <!-- <task:scheduled ref="expertExtractImportTask" method="extractInfoImport"  cron="0 30 0 * * ?"/> -->
         
+        <!-- 内网定时导出军队专家 -->
+        <!-- <task:scheduled ref="militaryExpertExportTask" method="militaryExpertExport"  cron="0 30 2 * * ?"/> -->
+        
+        <!-- 外网定时导入军队专家 -->
+        <!-- <task:scheduled ref="militaryExpertImportTask" method="militaryExpertImport"  cron="0 30 3 * * ?"/> -->
+        
         <!-- 内网任务 -->
         <!-- <task:scheduled ref="innerInfoExportTask" method="innerInfoExportTask" cron="0 0 5/6 * * ?"/>  
         <task:scheduled ref="innerInfoImportTask" method="innerInfoImportTask" cron="0 0 7/6 * * ?"/>  

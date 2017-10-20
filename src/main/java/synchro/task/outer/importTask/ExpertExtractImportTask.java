@@ -75,6 +75,5 @@ public class ExpertExtractImportTask {
 				autoExtractService.expertAutoExtract(expertExtractProject.getId());
 			}
 		}
-        
 	}
 }
