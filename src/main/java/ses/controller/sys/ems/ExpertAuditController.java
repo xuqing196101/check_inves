@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -476,6 +477,7 @@ public class ExpertAuditController{
 			expertAudit.setExpertId(expertId);
 			expertAudit.setSuggestType("one");
 			expertAudit.setAuditFalg(sign);
+			expertAudit.setStatusQuery("notPass");
 			//复审退回修改，初审时显示的是复审的审核信息
 			if("10".equals(expert.getStatus())){
 				expertAudit.setAuditFalg(2);
@@ -910,6 +912,7 @@ public class ExpertAuditController{
 		expertAuditFor.setExpertId(expertId);
 		expertAuditFor.setSuggestType("six");
 		expertAuditFor.setAuditFalg(sign);
+		expertAuditFor.setStatusQuery("notPass");
 		//复审退回修改，初审时显示的是复审的审核信息
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		if("10".equals(expert.getStatus())){
@@ -1224,6 +1227,7 @@ public class ExpertAuditController{
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("five");
 			expertAuditFor.setAuditFalg(sign);
+			expertAuditFor.setStatusQuery("notPass");
 			//复审退回修改，初审时显示的是复审的审核信息
 			if("10".equals(expert.getStatus())){
 				expertAuditFor.setAuditFalg(2);
@@ -1518,6 +1522,7 @@ public class ExpertAuditController{
 			expertAuditFor.setSuggestType("seven");
 			expertAuditFor.setType("1");
 			expertAuditFor.setAuditFalg(sign);
+			expertAuditFor.setStatusQuery("notPass");
 			//复审退回修改，初审时显示的是复审的审核信息
 			if("10".equals(expert.getStatus())){
 				expertAuditFor.setAuditFalg(2);
@@ -1698,7 +1703,6 @@ public class ExpertAuditController{
 			selectEao.setFlagTime(1);
 		}
 		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
-		int categoryCount=0;
 		model.addAttribute("qualified", true);
 		JdcgResult result =null;
 		if(expertAudit.getAuditFalg()==2){
@@ -1716,6 +1720,7 @@ public class ExpertAuditController{
 			audit.setExpertId(expertId);
 			audit.setSuggestType("seven");
 			audit.setType("1");
+			audit.setStatusQuery("notPass");
 			List<ExpertAudit> list = expertAuditService.getListByExpert(expertAudit);
 			
 			for (String string : split) {
@@ -3528,6 +3533,7 @@ public class ExpertAuditController{
 		expertAudit.setExpertId(expertId);
 		expertAudit.setSuggestType("seven");
 		expertAudit.setType("1");
+		expertAudit.setStatusQuery("notPass");
 		if(auditFalg==1){
 			expertAudit.setAuditFalg(666);//666标识为空的 用于兼容老数据问题
 			expertTypeAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
@@ -3880,4 +3886,5 @@ public class ExpertAuditController{
 		expertService.updateByPrimaryKeySelective(expert);
 		return "redirect:list.html";
     }
+    
 }

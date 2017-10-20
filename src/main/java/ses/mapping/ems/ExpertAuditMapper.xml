@@ -63,6 +63,9 @@
     where 
     	EXPERT_ID = #{expertId}
     and IS_DELETED = 0
+    <if test="statusQuery!=null">
+    AND AUDIT_STATUS IN ('1','3','6')
+    </if>
     <if test="suggestType != '' and suggestType != null">
     	and SUGGEST_TYPE = #{suggestType}
     </if>
@@ -295,6 +298,9 @@
     <if test="type !=null ">
     	and TYPE = #{type}
     </if>
+    <if test="statusQuery!=null">
+    	AND AUDIT_STATUS IN ('1','3','6')
+    </if>
   </select>
   
   <select id="selectbyAuditType" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -352,6 +358,7 @@
     from T_SES_EMS_EXPERT_AUDIT
     where EXPERT_ID = #{expertId}
     and IS_DELETED = 0
+    and AUDIT_STATUS IN ('1','3','6')
     <if test="suggestType != '' and suggestType != null">
     	and SUGGEST_TYPE = #{suggestType}
     </if>
@@ -491,6 +498,7 @@
       </if>
     </if>
      AND T.IS_DELETED = 0
+     AND T.AUDIT_STATUS IN ('1','3','6')
   </select>
   
   

@@ -41,8 +41,18 @@ public class ExpertAudit implements Serializable{
     private Integer auditFalg;
     //审核状态 1：退回修改；2：已修改；3：未修改；4：撤销退回；5：撤销不通过；6：审核不通过
     private String auditStatus;
+    //标识此次查询的数据状态
+    private String statusQuery;
     
-    public String getAuditStatus() {
+    public String getStatusQuery() {
+		return statusQuery;
+	}
+
+	public void setStatusQuery(String statusQuery) {
+		this.statusQuery = statusQuery;
+	}
+
+	public String getAuditStatus() {
 		return auditStatus;
 	}
 

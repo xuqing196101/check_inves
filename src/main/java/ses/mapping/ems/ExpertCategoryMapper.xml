@@ -228,6 +228,7 @@
                    AND T.EXPERT_ID = #{expertId}
                    AND T.SUGGEST_TYPE = #{type}
                    AND T.IS_DELETED = 0
+                   AND T.AUDIT_STATUS IN ('1','3','6')
                    <if test="auditFalg!=null">
                    	<if test="auditFalg==2">
                    		AND T.AUDIT_FALG=2

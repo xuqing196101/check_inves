@@ -91,6 +91,7 @@
 			 if(show){
 				 $("input[name='updateStatusRadio']").attr("disabled","disabled");
 				 $("input[name='updateStatusRadio']").removeAttr('checked');
+				 $("input[type='checkbox']").attr("disabled","disabled");
 				 if("退回修改"==s||"未修改"==s){
 					$("#revokeReturn").attr("disabled",false);
 				 }
