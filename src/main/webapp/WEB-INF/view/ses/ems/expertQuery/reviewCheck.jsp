@@ -6,52 +6,18 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp" %>
-    <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
-    <title>初审信息</title>
+    <title>复查信息</title>
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
       <%@ include file="/WEB-INF/view/ses/ems/expertQuery/common.jsp"%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertQuery/merge_jump.js"></script>
     <script type="text/javascript">
-    $(function(){
-    	  check_opinion();
-    	})
-    
       //上一步
       function lastStep() {
         var action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
         $("#form_id").attr("action", action);
         $("#form_id").submit();
-      }
-      
-     //查询合格通过的产品类别
-      function check_opinion() {
-        var status = $(":radio:checked").val();
-        var expertId = $("input[name='expertId']").val();
-        var expertStatus = $("input[name='status']").val();
-        if(status != null && typeof(status) != "undefined") {
-          $.ajax({
-            url:globalPath + "/expertAudit/findCategoryCount.do",
-            data: {
-              "expertId" : expertId,
-              "auditFalg" : 1
-            },
-            type: "post",
-            dataType: "json",
-            success: function(data) {
-              if(status == 15) {
-                if(data.isGoodsServer == 1 && data.pass == 0){
-                  $("#check_opinion").html("预初审合格，通过的是物资服务经济类别。");
-                }else{
-                  $("#check_opinion").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
-                }
-              } else if(status == 16) {
-                $("#check_opinion").html("预初审不合格。");
-              }
-            }
-          });
-        }
       }
     </script>
   </head>
@@ -100,13 +66,13 @@
             <li class="">
               <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('expertFile');">承诺书和申请表</a>
             </li>
-            <li class="active">
+            <li class="">
               <a aria-expanded="ture" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('auditInfo');">采购机构初审意见</a>
             </li>
             <li class="">
               <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('review');">资源服务中心复审意见</a>
             </li>
-            <li class="">
+            <li class="active">
               <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('reviewCheck');">采购机构复查意见</a>
             </li>
           </ul>
@@ -153,9 +119,8 @@
             <ul class="ul_list">
               <li>
                 <div class="select_check" id="selectOptionId">
-                    <input type="radio" disabled="disabled" name="selectOption" value="15" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if>>预初审合格
-                    <input type="radio"  disabled="disabled" value="16" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if>>预初审不合格
-                    <input type="radio"  disabled="disabled" value="3" <c:if test="${auditOpinion.flagAudit eq '3'}">checked</c:if>>退回修改
+                    <input type="radio" disabled="disabled" value="7" <c:if test="${auditOpinion.flagAudit eq '7'}">checked</c:if>>复查合格
+                    <input type="radio"  disabled="disabled" value="8" <c:if test="${auditOpinion.flagAudit eq '8'}">checked</c:if>>复查不合格
                 </div>
               </li>
               <li>
@@ -166,18 +131,6 @@
                 <textarea id="opinion" disabled="disabled" class="col-md-12 col-xs-12 col-sm-12 h80">${ auditOpinion.opinion }</textarea>
               </li>
             </ul>
-            
-            
-            <h2 class="count_flow mt0"><i>3</i>批准初审表</h2>
-            <ul class="ul_list">
-              <li class="col-md-6 col-sm-6 col-xs-6">
-                <div>
-                  <span class="fl">批准初审表：</span>
-                  <u:show showId="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${typeId }" delete="false"/>
-                </div>
-             </li>
-            </ul>
-            
 	         <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
             <%-- <c:if test="${ empty reqType }"> --%>
               <c:if test="${sign == 1}">

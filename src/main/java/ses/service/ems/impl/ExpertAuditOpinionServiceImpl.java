@@ -163,4 +163,15 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 		
 	}
 
+	
+	/**
+	 * @version 2017年7月3日
+	 * @param expertId
+	 * @return
+	 */
+	@Override
+	public ExpertAuditOpinion findByExpertId(ExpertAuditOpinion expertAuditOpinion) {
+        expertAuditOpinion = mapper.selectByExpertId(expertAuditOpinion);
+		return expertAuditOpinion;
+	}
 }

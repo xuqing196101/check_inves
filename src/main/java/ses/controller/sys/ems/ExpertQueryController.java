@@ -787,7 +787,7 @@ public class ExpertQueryController {
 		
 		map.put("expertId", expertId);
 		//初审的意见
-		if("0".equals(status) || "1".equals(status) || "2".equals(status) || "3".equals(status) || "9".equals(status) || "11".equals(status) 
+		/*if("0".equals(status) || "1".equals(status) || "2".equals(status) || "3".equals(status) || "9".equals(status) || "11".equals(status) 
 				|| "14".equals(status) || "15".equals(status) || "16".equals(status)){
 			map.put("isDeleted", 0);
 			map.put("auditFalg", 1);
@@ -809,9 +809,57 @@ public class ExpertQueryController {
 			map.put("auditFalg", 3);
 			
 			expertAuditOpinion.setFlagTime(2);
+		}*/
+		
+		map.put("isDeleted", 0);
+		map.put("auditFalg", 1);
+		
+		expertAuditOpinion.setFlagTime(0);
+		
+		//审核记录
+		List < ExpertAudit > auditList = expertAuditService.diySelect(map);
+		model.addAttribute("auditList", auditList);
+		
+		// 查询审核最终意见
+		expertAuditOpinion.setExpertId(expertId);
+		expertAuditOpinion = expertAuditOpinionService.findByExpertId(expertAuditOpinion);
+		model.addAttribute("auditOpinion", expertAuditOpinion);
+		
+		model.addAttribute("expertId", expertId);
+		model.addAttribute("sign", sign);
+		model.addAttribute("reqType", reqType);
+		model.addAttribute("status", status);
+		
+		//批准初审表
+		// 供应商系统key文件上传key
+		Integer sysKey = common.constant.Constant.EXPERT_SYS_KEY;
+		// 定义文件上传类型
+		DictionaryData dictionaryData = DictionaryDataUtil
+				.get(synchro.util.Constant.EXPERT_CHECK_ATTACHMENT);
+		if (dictionaryData != null) {
+			model.addAttribute("typeId", dictionaryData.getId());
 		}
+		model.addAttribute("sysKey", sysKey);
+		return "ses/ems/expertQuery/auditInfo";
+	}
+	
+	
+	/**
+	 * 复审信息
+	 * @param model
+	 * @param expertId
+	 * @param sign
+	 * @return
+	 */
+	@RequestMapping(value = "/review")
+	public String review(Model model, String expertId, Integer sign, String reqType, String status){
+		Map<String,Object> map = new HashMap<String,Object>();
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 		
-		
+		map.put("expertId", expertId);
+		map.put("auditFalg", 2);
+			
+		expertAuditOpinion.setFlagTime(1);
 		//审核记录
 		List < ExpertAudit > auditList = expertAuditService.diySelect(map);
 		model.addAttribute("auditList", auditList);
@@ -825,7 +873,38 @@ public class ExpertQueryController {
 		model.addAttribute("sign", sign);
 		model.addAttribute("reqType", reqType);
 		model.addAttribute("status", status);
-		return "ses/ems/expertQuery/auditInfo";
+		return "ses/ems/expertQuery/review";
 	}
 	
+	/**
+	 * 复查信息
+	 * @param model
+	 * @param expertId
+	 * @param sign
+	 * @return
+	 */
+	@RequestMapping(value = "/reviewCheck")
+	public String reviewCheck(Model model, String expertId, Integer sign, String reqType, String status){
+		Map<String,Object> map = new HashMap<String,Object>();
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		
+		map.put("expertId", expertId);
+		map.put("auditFalg", 3);
+			
+		expertAuditOpinion.setFlagTime(2);
+		//审核记录
+		List < ExpertAudit > auditList = expertAuditService.diySelect(map);
+		model.addAttribute("auditList", auditList);
+		
+		// 查询审核最终意见
+		expertAuditOpinion.setExpertId(expertId);
+		expertAuditOpinion = expertAuditOpinionService.findByExpertId(expertAuditOpinion);
+		model.addAttribute("auditOpinion", expertAuditOpinion);
+		
+		model.addAttribute("expertId", expertId);
+		model.addAttribute("sign", sign);
+		model.addAttribute("reqType", reqType);
+		model.addAttribute("status", status);
+		return "ses/ems/expertQuery/reviewCheck";
+	}
 }
