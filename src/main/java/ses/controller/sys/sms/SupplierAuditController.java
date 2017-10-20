@@ -1277,7 +1277,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAudit.setReturnStatus(1);
 		}
 //		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2});
+		// 退回修改/审核不通过/未修改 的记录不能再次审核
+		List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});
 		boolean same = true;
 		if(null !=reasonsList && !reasonsList.isEmpty()){
 			for(int i = 0; i < reasonsList.size(); i++) {
@@ -1406,17 +1407,64 @@ public class SupplierAuditController extends BaseSupplierController {
 		List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecordsWithSort(supplierAudit);
 		request.setAttribute("reasonsList", reasonsList);
 		
-		int isAllTypeNotPass = 0;
+		// 审核汇总记录中：
+		
+		// 有退回修改/未修改的记录，最终状态不通过（排除供应商类型/产品类别下的退回修改/未修改记录）
+		
+		// 所有类型不通过，最终状态不通过
+		
+		// 有目录下产品全部不通过，最终状态不通过
+		
+		// 其他情况，最终状态通过
+		
+		int isAllTypeNotPass = 0;// 所有类型不通过
+		int isAllItemNotPass = 0;// 类型下所有品目不通过
+		int typeNotPassCount = 0;
 		SupplierAudit supplierTypeAudit = new SupplierAudit();
 		supplierTypeAudit.setSupplierId(supplierId);
 		supplierTypeAudit.setAuditType("supplierType_page");
-		int supplierTypeAuditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{2});
+		List<SupplierAudit> supplierTypeAuditList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{2});
+		//int supplierTypeAuditCount = supplierAuditService.countAuditRecords(supplierAudit, new Integer[]{2});
 		List<String> supplierTypeList = supplierTypeRelateService.findTypeBySupplierId(supplierId);
-		if(supplierTypeList != null && supplierTypeAuditCount >= supplierTypeList.size()){
-			isAllTypeNotPass = 1;
+		if(supplierTypeList != null){
+			for(String supplierType : supplierTypeList){
+				DictionaryData dd = DictionaryDataUtil.get(supplierType);
+				if(supplierTypeAuditList != null){
+					for(SupplierAudit audit : supplierTypeAuditList){
+						if(audit.getAuditField() != null && dd != null && audit.getAuditField().equals(dd.getId())){
+							typeNotPassCount++;
+							break;
+						}
+					}
+				}
+				// 所选产品目录
+				int itemNotPassCount = 0;
+				List<SupplierItem> itemList = supplierItemService.getItemList(supplierId, supplierType, null, null);
+				SupplierAudit supplierItemAudit = new SupplierAudit();
+				supplierItemAudit.setSupplierId(supplierId);
+				supplierItemAudit.setAuditType(getAuditType(supplierType));
+				List<SupplierAudit> supplierItemAuditList = supplierAuditService.getAuditRecords(supplierItemAudit, new Integer[]{2});
+				if(itemList != null){
+					for(SupplierItem item : itemList){
+						for(SupplierAudit audit : supplierItemAuditList){
+							if(audit.getAuditField() != null && audit.getAuditField().equals(item.getCategoryId())){
+								itemNotPassCount++;
+								break;
+							}
+						}
+					}
+					if(itemList.size() <= itemNotPassCount){
+						isAllItemNotPass = 1;
+					}
+				}
+			}
+			if(supplierTypeList.size() <= typeNotPassCount){
+				isAllTypeNotPass = 1;
+			}
 		}
 		//所有类型不通过
 		request.setAttribute("isAllTypeNotPass", isAllTypeNotPass);
+		request.setAttribute("isAllItemNotPass", isAllItemNotPass);
 		
 		//有信息就不让通过
 		request.setAttribute("num", reasonsList.size());
@@ -1454,7 +1502,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("supplierAuditOpinion", supplierAuditOpinion);
 		// 供应商类型map
 		Map<String, String> typeMap = new HashMap<String, String>();
-		List<DictionaryData> gcfwList = DictionaryDataUtil.find(6);
+		/*List<DictionaryData> gcfwList = DictionaryDataUtil.find(6);
 		List<DictionaryData> scxsList = DictionaryDataUtil.find(8);
 		if(gcfwList != null){
 			for(DictionaryData dd : gcfwList){
@@ -1462,14 +1510,31 @@ public class SupplierAuditController extends BaseSupplierController {
 					typeMap.put(dd.getId(), dd.getCode());
 				}
 			}
-		}
-		if(scxsList != null){
-			for(DictionaryData dd : scxsList){
-				typeMap.put(dd.getId(), dd.getCode());
+		}*/
+		if(supplierTypeList != null){
+			for(String supplierType : supplierTypeList){
+				DictionaryData dd = DictionaryDataUtil.get(supplierType);
+				typeMap.put(dd.getId(), supplierType);
 			}
 		}
 		model.addAttribute("typeMap", typeMap);
 		return "ses/sms/supplier_audit/audit_reasons";
+	}
+	
+	private String getAuditType(String code){
+		String auditType = "";
+		switch (code) {
+		case ses.util.Constant.SUPPLIER_PRODUCT:
+			auditType = ses.util.Constant.ITEMS_PRODUCT_PAGE;
+			break;
+		case ses.util.Constant.SUPPLIER_SALES:
+			auditType = ses.util.Constant.ITEMS_SALES_PAGE;
+			break;
+		default:
+			auditType = ses.util.Constant.ITEMS_PRODUCT_PAGE;
+			break;
+		}
+		return auditType;
 	}
 
 	@RequestMapping("showReasonsList")
