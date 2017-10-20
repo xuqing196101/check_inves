@@ -129,6 +129,8 @@ function nextStep() {
 function tempSave(){
     // 获取审核意见
     var opinion  = $("#opinion").val();
+    var cate_result = $("#cate_result").text();
+    var opinion = cate_result + opinion;
     // 获取选择radio类型
     var selectOption = $("input[name='selectOption']:checked").val();
 	var flags = vartifyAuditCount();
@@ -153,6 +155,7 @@ function tempSave(){
     $("#opinionId").val(opinion);
     $("#flagTime").val(1);
     $("#flagAudit").val(selectOption);
+    
     $.ajax({
         url:globalPath + "/expertAudit/saveAuditOpinion.do",
         type: "POST",
