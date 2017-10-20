@@ -32,12 +32,12 @@
           commonLoadFile();
         //获取查看或操作权限
         var isOperate = $('#isOperate', window.parent.document).val();
-        if(isOperate == 0) {
+        /* if(isOperate == 0) { 
           //只具有查看权限，隐藏操作按钮
           $(":button").each(function() {
             $(this).hide();
           });
-        }
+         }  */
         var isCharges = "${project.isCharge}";
         if(isCharges){
           if(isCharges == '0'){

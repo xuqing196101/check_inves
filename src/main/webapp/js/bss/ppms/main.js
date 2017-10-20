@@ -537,9 +537,17 @@ function tree_toggle() {
 $(function () {
 	var tree_place = $('#show_tree_div #menu li').eq(0).find('a').html();
 	$('#tree_place').html(tree_place);
-	
+	if(tree_place=="项目信息"){
+		$("#updateLinkId").hide();
+	}
 	$('#show_tree_div #menu li').bind('click', function () {
 		tree_place = $(this).find('a').html();
 		$('#tree_place').html(tree_place);
+		if(tree_place!="项目信息"){
+			$("#updateLinkId").show();
+		}
+		if(tree_place=="项目信息"){
+			$("#updateLinkId").hide();
+		}
 	});
 });
