@@ -503,6 +503,27 @@ public class ExpertAuditController{
 			if(!selectFileModifyByExpertId.isEmpty()){
 				for(ExpertAuditFileModify m : selectFileModifyByExpertId){
 					fileModify.append(m.getTypeId() + ",");
+					
+					//缴纳社会保险证明
+					if("1".equals(m.getTypeId())){
+						model.addAttribute("nsurance", "nsurance");
+					}
+					//退休证书或退休证明
+					if("2".equals(m.getTypeId())){
+						model.addAttribute("retire", "retire");
+					}
+					//身份证复印件（正反面）
+					if("3".equals(m.getTypeId())){
+						model.addAttribute("idCard", "idCard");
+					}
+					//专业技术职称证书
+					if("4".equals(m.getTypeId())){
+						model.addAttribute("title", "title");
+					}
+					//毕业证书
+					if("5".equals(m.getTypeId())){
+						model.addAttribute("graduation", "graduation");
+					}
 				}
 				model.addAttribute("fileModify", fileModify);
 			}

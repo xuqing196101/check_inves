@@ -348,7 +348,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12">
-                    <span class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(fileModify,'3')}"> style="border: 1px solid #FF8C00; height: 20px !important;"</c:if> onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idCardNumberFile" onclick="reasonFile(this);">身份证复印件（正反面）：</span>
+                    <span class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(idCard,'idCard')}"> style="border: 1px solid #FF8C00; height: 20px !important;"</c:if> onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idCardNumberFile" onclick="reasonFile(this);">身份证复印件（正反面）：</span>
                     <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                         <up:show showId="show3" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="3"/>
                         <a style="visibility:hidden" id="idCardNumberFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
@@ -391,7 +391,7 @@
                     </li>
                     <c:if test="${expert.coverNote eq '1'}">
                         <li class="col-md-3 col-sm-6 col-xs-12">
-                            <span <c:if test="${fn:contains(fileModify,'1')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-xs-12 col-sm-12 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">缴纳社会保险证明：</span>
+                            <span <c:if test="${fn:contains(nsurance,'nsurance')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-xs-12 col-sm-12 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">缴纳社会保险证明：</span>
                             <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                                 <up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="1"/>
                                 <a style="visibility:hidden" id="coverNoteFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
@@ -401,7 +401,7 @@
                     </c:if>
                     <c:if test="${expert.coverNote eq '2'}">
                         <li class="col-md-3 col-sm-6 col-xs-12">
-                            <span <c:if test="${fn:contains(fileModify,'2')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-xs-12 col-sm-12 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">退休证书或退休证明：</span>
+                            <span <c:if test="${fn:contains(retire,'retire')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-xs-12 col-sm-12 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">退休证书或退休证明：</span>
                             <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
                                 <up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="2"/>
                                 <a style="visibility:hidden" id="coverNoteFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
@@ -432,7 +432,7 @@
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12">
-                        <span class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(fileModify,'1')}"> style="border: 1px solid #FF8C00; height: 20px !important;"</c:if> onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idNumberFile" onclick="reasonFile(this);">军队人员身份证件：</span>
+                        <span class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(fileModify,'12')}"> style="border: 1px solid #FF8C00; height: 20px !important;"</c:if> onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idNumberFile" onclick="reasonFile(this);">军队人员身份证件：</span>
                         <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                             <up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="12"/>
                             <a style="visibility:hidden" id="idNumberFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
@@ -547,7 +547,7 @@
                         </div>
 	                    </li>
 	                    <li class="col-md-3 col-sm-6 col-xs-12">
-	                        <span <c:if test="${fn:contains(fileModify,'4')}"> style="border: 1px solid #FF8C00; height: 20px !important;"</c:if> class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" id="titleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reasonFile(this);" id="professTechTitlesFile">专业技术职称证书：</span>
+	                        <span <c:if test="${fn:contains(title,'title')}"> style="border: 1px solid #FF8C00; height: 20px !important;"</c:if> class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" id="titleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reasonFile(this);" id="professTechTitlesFile">专业技术职称证书：</span>
 	                        <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
 	                            <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4"/>
 	                            <a style="visibility:hidden" id="titleFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
@@ -634,7 +634,7 @@
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12">
-                        <span class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(fileModify,'5')}"> style="border: 1px solid #FF8C00; height: 20px !important;"</c:if> onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="academic" onclick="reasonFile(this);">毕业证书：</span>
+                        <span class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(graduation,'graduation')}"> style="border: 1px solid #FF8C00; height: 20px !important;"</c:if> onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="academic" onclick="reasonFile(this);">毕业证书：</span>
                         <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
                             <up:show showId="show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="5"/>
                             <a style="visibility:hidden" id="academic1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
