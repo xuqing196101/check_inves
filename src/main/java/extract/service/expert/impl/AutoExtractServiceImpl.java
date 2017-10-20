@@ -98,14 +98,20 @@ public class AutoExtractServiceImpl implements AutoExtractService {
             if(expertResult.getJoin() == 0){
                 //待定
                 expertExtractResult.setIsJoin((short)2);
+                expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
             }else if(expertResult.getJoin() == 1){
                 //确认参加
                 expertExtractResult.setIsJoin((short)1);
+                expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
             }else if(expertResult.getJoin() == 2){
                 //拒绝参加
                 expertExtractResult.setIsJoin((short)3);
+                expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
+            }else if(expertResult.getJoin() == 8){
+            	//请假   如果专家请假   删除这个专家
+            	expertExtractResult.setIsJoin((short)3);
+            	expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
             }
-            expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
         }
         //查询抽取的项目信息 
         ExpertExtractProject expertExtractProject = expertExtractProjectMapper.selectByPrimaryKey(projectVoiceResult.getRecordeId());
@@ -260,14 +266,17 @@ public class AutoExtractServiceImpl implements AutoExtractService {
             projectMap.put("status", 2);
             projectMap.put("projectId", expertExtractProject.getId());
             expertExtractProjectMapper.updataStatus(projectMap);
-            return JSON.toJSONString("OK");
+            return "OK";
         }else{
             //需要继续抽取
             String str = autoVoice(expertExtractProject, expertExtractCondition, expertExtractCateInfo, countMap, hbCountMap);
-            return JSON.toJSONString(str);
+            return str;
         }
     }
 
+    /**
+     * 专家自动抽取 调用语音接口
+     */
     @Override
     public String expertAutoExtract(String projectId) {
         //记录每个类别还需要抽取的正式专家人数
@@ -405,7 +414,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
 
     /**
      * 
-     * Description: 根据项目信息和条件自动抽取
+     * Description: 调用语音接口进行抽取
      * 
      * @author zhang shubin
      * @data 2017年10月19日
@@ -455,7 +464,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
                     }
                 }
                 //候补专家
-                int hb = (int)hbCountMap.get(code+"_hb");
+                int hb = hbCountMap.get(code+"_hb") == null ? 0 : (int)hbCountMap.get(code+"_hb");
                 if(hb > 0){
                     PeopleYytz peopleYytz = new PeopleYytz();
                     for (int i = zs; i < zs+hb; i++) {

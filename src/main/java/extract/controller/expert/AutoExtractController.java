@@ -29,8 +29,11 @@ public class AutoExtractController {
      */
     @RequestMapping("/extractResult")
     @ResponseBody
-    public String extractResult(String result) throws Exception{
-        String v = autoExtractService.expertResultUpload(result.indexOf("＂") != -1 ? result.replace("＂", "\"") : result);
+    public String extractResult(String json) throws Exception{
+    	String v = "";
+        if(null != json){
+        	v = autoExtractService.expertResultUpload(json.indexOf("＂") != -1 ? json.replace("＂", "\"") : json);
+        }
         return JSON.toJSONString(v);
     }
 }

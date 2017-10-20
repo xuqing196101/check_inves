@@ -153,4 +153,15 @@ public interface ExpertExtractResultMapper {
      * @return
      */
     List<ExpertExtractResult> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
+    
+    /**
+     * 
+     * Description: 修改删除标识
+     * 
+     * @author zhang shubin
+     * @data 2017年10月20日
+     * @param 
+     * @return
+     */
+    int updateIsDelete(ExpertExtractResult expertExtractResult);
 }

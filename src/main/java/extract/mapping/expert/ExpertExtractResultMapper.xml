@@ -264,7 +264,7 @@
   
   <!-- 条件查询 -->
   <select id="findByConditionId" resultType="String" parameterType="String">
-    SELECT EXPERT_ID FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0 AND CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
+    SELECT EXPERT_ID FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0 AND IS_JOIN = 1 AND CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
   </select>
   
   <!-- 下载抽取结果 -->
@@ -449,4 +449,8 @@
     and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{end,jdbcType=VARCHAR} 
   </select>
   
+  <!-- 修改删除标识 -->
+  <update id="updateIsDelete" parameterType="extract.model.expert.ExpertExtractResult">
+    UPDATE T_SES_EMS_EXTRACT_RESULT SET IS_DELETED = 1 WHERE PROJECT_ID = #{projectId} AND EXPERT_ID = #{expertId}
+  </update>
 </mapper>

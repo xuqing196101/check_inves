@@ -193,9 +193,12 @@
 			<!-- 前天搜索-->
 			<mvc:exclude-mapping path="/SupplierExtracts_new/supplierExtractResult.*" />
 			
+			<!-- 过滤专家抽取返回结果请求路径 -->
+			<mvc:exclude-mapping path="/expertExtracts/extractResult.*" />
 			<!-- 过滤抽取语音接口返回状态 -->
 			<mvc:exclude-mapping path="/index/solrSearch1.*" />
 			<bean class="ses.interceptor.MyInterceptor"></bean>
+			
 		</mvc:interceptor>
 		
 		<!-- 表单防重拦截器 -->

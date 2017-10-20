@@ -30,11 +30,12 @@ import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
-
 import common.annotation.CurrentUser;
+
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
+import extract.service.expert.AutoExtractService;
 import extract.service.expert.ExpertExtractConditionService;
 import extract.service.expert.ExpertExtractProjectService;
 import extract.service.expert.ExpertExtractResultService;
@@ -96,6 +97,10 @@ public class ExtractExpertController {
     /** 专家管理 **/
     @Autowired
     private ExpertService service;
+    
+    /** 自动抽取 **/
+    @Autowired
+    private AutoExtractService autoExtractService;
     
     /**
      * 
@@ -194,6 +199,8 @@ public class ExtractExpertController {
             //String extractResult = expertExtractProjectService.expertAutoExtract(condition, expertExtractProject,expertExtractCateInfo, result);
             //将保存的数据信息同步至外网    便于外网抽取使用
             expertExtractProjectService.exportExpertExtract(expertExtractProject.getId());
+            //请求语音接口   （仅测试用）
+            //autoExtractService.expertAutoExtract(expertExtractProject.getId());
             return JSON.toJSONString("OK");
         }
     }
