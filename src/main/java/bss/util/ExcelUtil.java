@@ -458,7 +458,7 @@ public class ExcelUtil {
 	        				 break;
      			  } */
      		 }
-			 if(rq.getPurchaseCount()!=null){
+			 if(rq.getPurchaseCount()!=null&&rq.getPrice()!=null){
      				if(rq.getGoodsName()==null||StringUtils.isBlank(rq.getGoodsName().trim())){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，物资类别及名称不能为空";
 	        				 map.put("errMsg", errMsg);
@@ -467,7 +467,7 @@ public class ExcelUtil {
      			  } 
      		 }
 			 
-			 if(rq.getPurchaseCount()!=null){
+			 if(rq.getPurchaseCount()!=null&&rq.getPrice()!=null){
      				if(rq.getItem()==null||StringUtils.isBlank(rq.getItem().trim())){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，计量单位不能为空";
 	        				 map.put("errMsg", errMsg);
@@ -475,7 +475,7 @@ public class ExcelUtil {
 	        				 break;
      			  } 
      		 }
-			 if(rq.getPurchaseCount()!=null){
+			 if(rq.getPurchaseCount()!=null&&rq.getPrice()!=null){
      				if(rq.getPrice()==null){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，单价不能为空";
 	        				 map.put("errMsg", errMsg);
@@ -483,7 +483,7 @@ public class ExcelUtil {
 	        				 break;
      			  } 
      		 }
-			 if(rq.getPurchaseCount()!=null){
+			 if(rq.getPurchaseCount()!=null&&rq.getPrice()!=null){
      				if(rq.getBudget()==null){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，预算金额不能为空";
 	        				 map.put("errMsg", errMsg);
@@ -499,7 +499,7 @@ public class ExcelUtil {
 	        				 break;
      			  } */
      		 }
-			 if(rq.getPurchaseCount()!=null){
+			 if(rq.getPurchaseCount()!=null&&rq.getPrice()!=null){
      				if(rq.getPurchaseType()==null||StringUtils.isBlank(rq.getPurchaseType().trim())){
      					 errMsg=String.valueOf(row.getRowNum()+1)+"行，采购方式不能为空";
 	        				 map.put("errMsg", errMsg);

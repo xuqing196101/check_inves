@@ -624,13 +624,19 @@ public class PlanLookController extends BaseController {
 		if(details != null && details.size() > 0){
 			for(i = 0;i < details.size();i ++){
 			  if(oneArray!=null&&oneArray.length>0){
-			    details.get(i).setOneAdvice(oneArray[i]);
+			    if(oneArray.length>i){
+			      details.get(i).setOneAdvice(oneArray[i]);
+			    }
 			  }
 				if(twoArray!=null){
+				  if(twoArray.length>i){
 				  details.get(i).setTwoAdvice(twoArray[i]);
+				  }
 				}
 				if(threeArray!=null){
+				  if(threeArray.length>i){
 				  details.get(i).setThreeAdvice(threeArray[i]);
+				  }
 				}
 			}
 		}
