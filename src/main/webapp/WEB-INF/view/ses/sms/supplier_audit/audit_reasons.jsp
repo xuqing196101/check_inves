@@ -542,11 +542,11 @@
 												<c:when test="${supplierStatus == 0 or supplierStatus == 9 or supplierStatus == -2 or supplierStatus == 1 or (sign == 3 and supplierStatus == 5)}">
 													<!-- <input type="radio" name="selectOption" value="1">预审核通过
 													<input type="radio" name="selectOption" value="0">预审核不通过 -->
-													<c:if test="${isNotPass == 0 and isAllTypeNotPass == 0}">
+													<c:if test="${isNotPass == 0 and isAllTypeNotPass == 0 and isAllItemNotPass == 0}">
 														<input type="radio" name="selectOption" value="1">预审核通过
 														<input type="radio" disabled="disabled" name="selectOption" value="0" title="没有预审核不通过的项">预审核不通过
 													</c:if>
-													<c:if test="${isNotPass >= 1 or isAllTypeNotPass == 1}">
+													<c:if test="${isNotPass >= 1 or isAllTypeNotPass == 1 or isAllItemNotPass == 1}">
 														<input type="radio" disabled="disabled" name="selectOption" value="1" title="还有预审核未通过的项">预审核通过
 														<input type="radio" name="selectOption" value="0">预审核不通过
 													</c:if>

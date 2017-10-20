@@ -1610,7 +1610,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
             return jdcgResult;
         }
         // 如果供应商类型全部不通过不能退回修改
-        if("1".equals(flag)){
+        if("1".equals(flag)){// 1退回修改 2预审核结束
         	SupplierAudit supplierAudit = new SupplierAudit();
             supplierAudit.setSupplierId(supplierId);
     		supplierAudit.setAuditType("supplierType_page");
