@@ -1062,6 +1062,7 @@
 				if(ch){
 					$(obj).val("1");
 					$("#expireDate").val("");
+					$("#expireDate").attr("value", "");
 					//$("#expireDate").attr("disabled","disabled");
 				}else{
 					$(obj).val("0");

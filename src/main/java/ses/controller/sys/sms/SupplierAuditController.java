@@ -2470,9 +2470,13 @@ public class SupplierAuditController extends BaseSupplierController {
 			//经营范围 
 			if(supplierModify.getBeforeField() != null && supplierModify.getBeforeField().equals("businessStartDate")) {
 				SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
-				Date date = sdf.parse(supplierModify.getBeforeContent());
-				String d = new SimpleDateFormat("yyyy-MM-dd").format(date);
-				return JSON.toJSONString(d);
+				if(StringUtils.isBlank(supplierModify.getBeforeContent())){
+					supplierModify.setBeforeContent("长期有效");
+				}else{
+					Date date = sdf.parse(supplierModify.getBeforeContent());
+					String d = new SimpleDateFormat("yyyy-MM-dd").format(date);
+					return JSON.toJSONString(d);
+				}
 			}
 		}
 		
