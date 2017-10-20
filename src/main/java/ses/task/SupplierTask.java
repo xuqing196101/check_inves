@@ -261,7 +261,7 @@ public class SupplierTask {
 	/**
 	 * 内网执行： 每天凌晨2点半重新计算所有入库供应商等级
 	 * @author Ye MaoLin
-	 * @version 2016-9-27
+	 * @version 2017-9-27
 	 */
 	public void handlerCountSupplierLevel(){
 		HashMap<String, Integer> dataMap = supplierService.countAllCategorySupplierLevel();

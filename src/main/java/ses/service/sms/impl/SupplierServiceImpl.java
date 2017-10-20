@@ -2001,8 +2001,9 @@ public class SupplierServiceImpl implements SupplierService {
 			String upperCase = null;
 			for(Field f: fields) {
 				String str = "";
-				if(!f.getName().contains("serialVersionUID") && !f.getName().contains("list") && !f.getName().contains("List") && !f.getName().contains("Mat") && !f.getName().contains("supplierTypeIds") && !f.getName().contains("item") && !f.getName().contains("itemType") && !f.getName().contains("categoryParam") && !f.getName().contains("ParamVleu") && !f.getName().contains("armyCity") && !f.getName().contains("user")) {
-					upperCase = "get" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1);
+				String fieldName = f.getName();
+				if(!fieldName.contains("serialVersionUID") && !fieldName.contains("list") && !fieldName.contains("List") && !fieldName.contains("Mat") && !fieldName.contains("supplierTypeIds") && !fieldName.contains("item") && !fieldName.contains("itemType") && !fieldName.contains("categoryParam") && !fieldName.contains("ParamVleu") && !fieldName.contains("armyCity") && !fieldName.contains("user")) {
+					upperCase = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
 					m = (Method) obj1.getClass().getMethod(upperCase);
 					m2 = (Method) obj2.getClass().getMethod(upperCase);
 					if(m.equals(m2)) {
@@ -2010,7 +2011,16 @@ public class SupplierServiceImpl implements SupplierService {
 						Object obj4 = m2.invoke(obj2);
 						if(obj3 != null && obj4 != null) {
 							if(!obj3.toString().equals(obj4.toString())) {
-								str = f.getName() + "," + obj3 + "," + obj4 + ";";
+								str = fieldName + "," + obj3 + "," + obj4 + ";";
+							}
+						}
+						// 非必填字段（网址/营业期限/参加政府或军队采购经历）
+						if("website".equals(fieldName) || "purchaseExperience".equals(fieldName) || "branchName".equals(fieldName)){
+							if(obj3 == null && obj4 != null){
+								str = fieldName + "," + "" + "," + obj4 + ";";
+							}
+							if(obj3 != null && obj4 == null){
+								str = fieldName + "," + obj3 + "," + "" + ";";
 							}
 						}
 						sb.append(str);

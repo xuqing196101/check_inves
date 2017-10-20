@@ -25,6 +25,10 @@
     </task:scheduled-tasks>  -->
 
     <task:scheduled-tasks>
+    
+    	<!-- 【内网】每天凌晨2点半计算供应商等级 -->
+        <task:scheduled ref="SupplierTask" method="handlerCountSupplierLevel" cron="0 30 2 * * ?"/>
+    
         <!-- 每天凌晨12点半导出供应商 外网导出新注册供应商:0：待审核）和退回修改再提交gys（9：退回再审核） -->
         <task:scheduled ref="SupplierTask" method="handlerExportSupplier" cron="0 0 13 * * ?"/>
         <!-- 每天凌晨6点导入供应商（导入新注册供应商:0：待审核）和退回修改再提交gys（9：退回再审核）） -->
@@ -43,9 +47,9 @@
         <!-- 每天凌晨12点半拟入库专家自动入库-->
         <task:scheduled ref="ExpertTask" method="handleExpertPublicity" cron="0 30 0 * * ?"/>
 
-        <!-- 供应商专家图片导出 -->
+        <!-- 供应商专家图片外网导出 -->
         <task:scheduled ref="ImageTask" method="imageHandler" cron="0 0 1 * * ?"/>
-        <!-- 供应商专家图片导出 -->
+        <!-- 供应商专家图片内网导入 -->
         <task:scheduled ref="ImageTask" method="imageImportHandler" cron="0 0 6 * * ?"/>
 
         <!-- 每天5点  17点网导出数据 -->

@@ -1277,7 +1277,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAudit.setReturnStatus(1);
 		}
 //		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2});
+		// 退回修改/审核不通过/未修改 的记录不能再次审核
+		List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecords(supplierAudit, new Integer[]{1,2,4});
 		boolean same = true;
 		if(null !=reasonsList && !reasonsList.isEmpty()){
 			for(int i = 0; i < reasonsList.size(); i++) {
@@ -1325,7 +1326,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			SupplierAudit audit=new SupplierAudit();
 			audit.setAuditType(supplierAuditList.get(0).getAuditType());
 			audit.setSupplierId(supplierAuditList.get(0).getSupplierId());
-			List<SupplierAudit> alist=supplierAuditService.findByTypeId(audit);
+//			List<SupplierAudit> alist=supplierAuditService.findByTypeId(audit);
+			List<SupplierAudit> alist=supplierAuditService.getAuditRecords(audit, new Integer[]{0,2});
 			alist.retainAll(supplierAuditList);
 			if(null != alist && !alist.isEmpty()){
 				return new JdcgResult(503, "选择中存在已审核，不可重复审核", null);
@@ -1404,6 +1406,22 @@ public class SupplierAuditController extends BaseSupplierController {
 		//List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		List < SupplierAudit > reasonsList = supplierAuditService.getAuditRecordsWithSort(supplierAudit);
 		request.setAttribute("reasonsList", reasonsList);
+		
+		int isAllTypeNotPass = 0;// 所有类型不通过
+		int isAllItemNotPass = 0;// 类型下所有品目不通过
+		
+		JdcgResult vertifyResult = supplierAuditService.vertifyReturnToModify(supplierId);
+		if(vertifyResult != null && vertifyResult.getStatus() == 1){
+			isAllTypeNotPass = 1;
+		}
+		if(vertifyResult != null && vertifyResult.getStatus() == 2){
+			isAllItemNotPass = 1;
+		}
+
+		//所有类型不通过
+		request.setAttribute("isAllTypeNotPass", isAllTypeNotPass);
+		request.setAttribute("isAllItemNotPass", isAllItemNotPass);
+		
 		//有信息就不让通过
 		request.setAttribute("num", reasonsList.size());
 		/*//勾选的供应商类型
@@ -1438,6 +1456,16 @@ public class SupplierAuditController extends BaseSupplierController {
 			opinion = supplierAuditOpinion.getOpinion();
 		}*/
 		model.addAttribute("supplierAuditOpinion", supplierAuditOpinion);
+		// 供应商类型map
+		Map<String, String> typeMap = new HashMap<String, String>();
+		List<String> supplierTypeList = supplierTypeRelateService.findTypeBySupplierId(supplierId);
+		if(supplierTypeList != null){
+			for(String supplierType : supplierTypeList){
+				DictionaryData dd = DictionaryDataUtil.get(supplierType);
+				typeMap.put(dd.getId(), supplierType);
+			}
+		}
+		model.addAttribute("typeMap", typeMap);
 		return "ses/sms/supplier_audit/audit_reasons";
 	}
 
@@ -4632,7 +4660,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	@RequestMapping("/vertifyAuditNoPassItem")
 	@ResponseBody
-	public JdcgResult vertifyAuditNoPassItem(String supplierId){
+	public JdcgResult vertifyAuditNoPassItem(String supplierId, String flag){
     	/**
     	 * @deprecated: 点击审核不通过复选框校验审核不通过项
 		 * 是否为0，如果为0则提示没有审核不通过项
@@ -4644,7 +4672,30 @@ public class SupplierAuditController extends BaseSupplierController {
     	 *
     	 */
 		// 点击审核不通过复选框时判断
-		return supplierAuditService.selectAuditNoPassItemCount(supplierId);
+		return supplierAuditService.selectAuditNoPassItemCount(supplierId, flag);
+	}
+	
+	/**
+	 * 校验退回修改
+	 * @param supplierId
+	 * @return
+	 */
+	@RequestMapping("/vertifyReturnToModify")
+	@ResponseBody
+	public JdcgResult vertifyReturnToModify(String supplierId){
+		return supplierAuditService.vertifyReturnToModify(supplierId);
+	}
+	
+	/**
+	 * 校验预审核
+	 * @param supplierId
+	 * @param flag
+	 * @return
+	 */
+	@RequestMapping("/vertifyYushenhe")
+	@ResponseBody
+	public JdcgResult vertifyYushenhe(String supplierId, String flag){
+		return supplierAuditService.vertifyYushenhe(supplierId, flag);
 	}
 	
 	/**
