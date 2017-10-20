@@ -1971,12 +1971,11 @@ table.lockout .extrafile{
     }
 		/* 项目实施左侧收缩 */
 		.m_tree_nav {
-			position: absolute;
-			top: 0;
+			position: fixed;
+			top: 85px;
 			left: 0;
 			z-index: 1;
 			width: 180px;
-			height: 100%;
 			-webkit-box-shadow: 3px 0 5px rgba(0, 0, 0, .25);
 			-moz-box-shadow: 3px 0 5px rgba(0, 0, 0, .25);
 			box-shadow: 3px 0 5px rgba(0, 0, 0, .25);
