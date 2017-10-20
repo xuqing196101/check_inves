@@ -127,9 +127,9 @@ public class AuditBiddingController extends BaseController {
           if (orgId != null) {
         	  map.put("purchaseDepId", orgId.substring(0, orgId.length()-1));
           }
-          SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+          /*SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
           String date = df.format(new Date());
-          map.put("date", date);
+          map.put("date", date);*/
           if(page == null){
               page = 1;
           }
