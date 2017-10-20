@@ -82,9 +82,10 @@ public class SynchMilitaryExpertServiceImpl implements SynchMilitaryExpertServic
 	public void militaryExpertImport(File file) {
 		int num = 0;
         for (File file2 : file.listFiles()) {
+        	List<Expert> expertList = new ArrayList<Expert>();
             //专家基本信息
             if(file2.getName().contains(FileUtils.MILITARY_EXPERT_PATH_FILENAME)){
-                List<Expert> expertList = FileUtils.getBeans(file2, Expert.class);
+            	expertList = FileUtils.getBeans(file2, Expert.class);
                 if(expertList != null && expertList.size() > 0){
                     num = expertList.size();
                     for (Expert expert : expertList) {
@@ -101,13 +102,13 @@ public class SynchMilitaryExpertServiceImpl implements SynchMilitaryExpertServic
             if(file2.getName().contains(FileUtils.MILITARY_EXPERT_TITLE_PATH_FILENAME)){
             	List<ExpertTitle> titleList = FileUtils.getBeans(file2, ExpertTitle.class);
                 if(titleList != null && titleList.size() > 0){
+                	//先删除之前的执业资格
+                	for (Expert expert : expertList) {
+                		expertTitleMapper.deleteByExpertId(expert.getId());
+					}
+                	//新增
                 	for (ExpertTitle expertTitle : titleList) {
-                		ExpertTitle expertTitle2 = expertTitleMapper.selectByPrimaryKey(expertTitle.getId());
-                		if(null == expertTitle2){
-                			expertTitleMapper.insertSelective(expertTitle);
-                		}else{
-                			expertTitleMapper.updateByPrimaryKeySelective(expertTitle);
-                		}
+                		expertTitleMapper.insertSelective(expertTitle);
 					}
                 }
             }
@@ -115,6 +116,11 @@ public class SynchMilitaryExpertServiceImpl implements SynchMilitaryExpertServic
             if(file2.getName().contains(FileUtils.MILITARY_EXPERT_CATEGORY_PATH_FILENAME)){
             	List<ExpertCategory> expertCategoryList = FileUtils.getBeans(file2, ExpertCategory.class);
                 if(expertCategoryList != null && expertCategoryList.size() > 0){
+                	//先删除之前的关联信息
+                	for (Expert expert : expertList) {
+                		expertCategoryMapper.deleteByExpertId(expert.getId());
+					}
+                	//新增
                 	for (ExpertCategory expertCategory : expertCategoryList) {
 						expertCategoryMapper.insertSelective(expertCategory);
 					}
