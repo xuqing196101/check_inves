@@ -95,7 +95,7 @@
         		layer.alert("评审时间未满足半个小时", {offset: ['222px', '390px'], shade: 0.01});
         	}
 		}else{
-			layer.alert("只能下载抽取结束的项目记录表", {
+			layer.alert("用户正在抽取中，请稍后下载。", {
 				offset: ['222px', '390px'],
 				shade: 0.01
 			});

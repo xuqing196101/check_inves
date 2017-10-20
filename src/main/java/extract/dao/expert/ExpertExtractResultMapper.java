@@ -3,6 +3,8 @@ package extract.dao.expert;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.ems.ProjectExtract;
 import extract.model.expert.ExpertExtractResult;
 
@@ -118,4 +120,37 @@ public interface ExpertExtractResultMapper {
      * @return
      */
     List<ExpertExtractResult> findAllByProjectId(String projectId);
+    
+    /**
+     * 
+     * Description: 根据项目id和专家Id修改是否参加
+     * 
+     * @author zhang shubin
+     * @data 2017年10月17日
+     * @param 
+     * @return
+     */
+    int updateByProjectIdandExpertId(ExpertExtractResult expertExtractResult);
+    
+    /**
+     * 
+     * Description: 查询参加的专家个数
+     * 
+     * @author zhang shubin
+     * @data 2017年10月17日
+     * @param 
+     * @return
+     */
+    Integer selNumByConditionId(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 根据修改时间查询
+     * 
+     * @author zhang shubin
+     * @data 2017年9月29日
+     * @param 
+     * @return
+     */
+    List<ExpertExtractResult> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
 }

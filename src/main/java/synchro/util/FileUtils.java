@@ -240,6 +240,8 @@ public class FileUtils {
     /** 专家抽取目录 路径 31 **/
     public final static String EXPERT_EXTRACT_PATH = PropUtil.getProperty("file.expert_extract.system.path");
     
+    /** 专家抽取结果目录 路径 33 **/
+    public final static String EXPERT_EXTRACT_RESULT_PATH = PropUtil.getProperty("file.expert_extract_result.system.path");
     
     /**
      * 
@@ -838,6 +840,7 @@ public class FileUtils {
           case 29:  filePath=EXPERT_BLACKLIST_LOG_PATH;break;
           case 30:  filePath=HOT_LINE_PATH;break;
           case 31:  filePath=EXPERT_EXTRACT_PATH;break;
+          case 33:  filePath=EXPERT_EXTRACT_RESULT_PATH;break;
         }
         return filePath;
     }

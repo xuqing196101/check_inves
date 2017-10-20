@@ -159,9 +159,6 @@ public class SynchImportController {
     @Autowired
 	private ServiceHotlineService serviceHotlineService;
 
-    /** 专家抽取 **/
-    @Autowired
-    private ExpertExtractProjectService expertExtractProjectService;
     /**
      * 〈简述〉初始化导入
      * 〈详细描述〉
@@ -857,17 +854,6 @@ public class SynchImportController {
                         }
                         if (f.isDirectory()) {
                             if (f.getName().equals(Constant.HOT_LINE_FILE_EXPERT)) {
-                                OperAttachment.moveFolder(f);
-                            }
-                        }
-                    }
-                    /** 专家抽取数据导入 **/
-                    if (synchType.contains(Constant.DATE_SYNCH_EXPERT_EXTRACT)) {
-                        if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
-                            expertExtractProjectService.importExpertExtract(f);
-                        }
-                        if (f.isDirectory()) {
-                            if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
                                 OperAttachment.moveFolder(f);
                             }
                         }

@@ -287,5 +287,14 @@ public class Constant {
     public final static String DATE_SYNCH_EXPERT_EXTRACT ="SYNCH_E_XPERT_EXTRACT";
     /** 专家抽取信息文件名称 **/
     public final static String EXPERT_EXTRACT_FILE_EXPERT = "expert_extract";
+    
+    /** 专家抽取结果信息描述 **/
+    public final static String EXPERT_EXTRACT_RESULT_COMMIT = "导出专家抽取结果数量:";
+    /** 专家抽取结果信息导入描述 **/
+    public final static String EXPERT_EXTRACT_RESULT_COMMIT_IMPORT = "同步专家抽取结果数量:";
+    /** 专家抽取结果信息 **/
+    public final static String DATE_SYNCH_EXPERT_EXTRACT_RESULT ="SYNCH_E_XPERT_EXTRACT_RESULT";
+    /** 专家抽取结果信息文件名称 **/
+    public final static String EXPERT_EXTRACT_RESULT_FILE_EXPERT = "expert_extract_result";
 
 }

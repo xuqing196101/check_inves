@@ -1,6 +1,7 @@
 package extract.dao.expert;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -52,4 +53,15 @@ public interface ExtractCategoryMapper {
     ExtractCategory selectByPrimaryKey(String id);
     
     int updateByPrimaryKeySelective(ExtractCategory record);
+    
+    /**
+     * 
+     * Description: 条件查询参评类别
+     * 
+     * @author zhang shubin
+     * @data 2017年10月17日
+     * @param 
+     * @return
+     */
+    List<String> selByMap(Map<String, Object> map);
 }
