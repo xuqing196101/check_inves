@@ -572,4 +572,19 @@ public interface SupplierAuditService {
 	 */
 	int countAuditRecords(SupplierAudit supplierAudit, Integer[] rss);
 
+	/**
+	 * 校验退回修改
+	 * @param supplierId
+	 * @return
+	 */
+	JdcgResult vertifyReturnToModify(String supplierId);
+
+	/**
+	 * 校验预审核
+	 * @param supplierId
+	 * @param flag
+	 * @return
+	 */
+	JdcgResult vertifyYushenhe(String supplierId, String flag);
+
 }
