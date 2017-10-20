@@ -2484,6 +2484,9 @@ public class ExpertController extends BaseController {
                 model.addAttribute("expertId", typeId);
                 Map < String, Object > map = new HashMap < String, Object > ();
                 map.put("expertId", typeId);
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                String date = df.format(new Date());
+                map.put("date", date);
                 // 查询出关联表中的项目id和包id
                 List < PackageExpert > packageExpertList = packageExpertService.selectList(map);
                 // 该专家的所有包集合
