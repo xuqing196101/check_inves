@@ -42,7 +42,7 @@ public class MilitaryExpertExportTask {
 	 * @param 
 	 * @return
 	 */
-	public void militaryExpertExportService(){
+	public void militaryExpertExport(){
 		//内网
 		if ("0".equals(StaticVariables.ipAddressType)) {
 			DictionaryData extractResult = DictionaryDataUtil.get(Constant.DATE_SYNCH_MILITARY_EXPERT);

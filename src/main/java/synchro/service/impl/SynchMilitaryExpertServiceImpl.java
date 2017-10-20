@@ -81,8 +81,8 @@ public class SynchMilitaryExpertServiceImpl implements SynchMilitaryExpertServic
 	@Override
 	public void militaryExpertImport(File file) {
 		int num = 0;
+		List<Expert> expertList = new ArrayList<Expert>();
         for (File file2 : file.listFiles()) {
-        	List<Expert> expertList = new ArrayList<Expert>();
             //专家基本信息
             if(file2.getName().contains(FileUtils.MILITARY_EXPERT_PATH_FILENAME)){
             	expertList = FileUtils.getBeans(file2, Expert.class);
