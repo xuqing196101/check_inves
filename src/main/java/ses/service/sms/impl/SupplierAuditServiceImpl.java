@@ -2504,4 +2504,20 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		return JdcgResult.build(0, "");
 	}
 
+	/**
+	 *
+	 * Description: 查询供应商不通过的类型
+	 *
+	 * @author Easong
+	 * @version 2017/10/20
+	 * @param
+	 * @since JDK1.7
+	 */
+	@Override
+	public List<SupplierAudit> selectBySupIdAndType(Map<String, Object> map) {
+		// 查询供应商不通过的类型
+		// 封装查询map集合
+		map.put("auditType", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
+		return supplierAuditMapper.selectBySupIdAndType(map);
+	}
 }
