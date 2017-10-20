@@ -204,12 +204,12 @@
                 <input type="checkbox" id="checkAll" onclick="selectAll()" />
               </th>
               <th class="w50">序号</th>
-              <th width="25%">项目名称</th>
-              <th width="15%">项目编号</th>
-              <th width="10%">采购方式</th>
-              <th width="15%">创建时间</th>
-              <th width="15%">项目状态</th>
-              <th>项目负责人</th>
+              <th>项目名称</th>
+              <th class="w180">项目编号</th>
+              <th class="w100">采购方式</th>
+              <th class="w120">创建时间</th>
+              <th class="w180">项目状态</th>
+              <th class="w90">项目负责人</th>
             </tr>
           </thead>
           <tbody id="tbody_id">
@@ -220,7 +220,7 @@
                 </td>
                 <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
                 <td class="tl" onclick="view('${obj.id}')">${obj.name}</td>
-                <td class="tl" onclick="view('${obj.id}')">${obj.projectNumber}</td>
+                <td class="tc" onclick="view('${obj.id}')">${obj.projectNumber}</td>
                 <td class="tc " onclick="view('${obj.id}')">
                   <c:forEach items="${kind}" var="kind">
                     <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
@@ -229,14 +229,14 @@
                 <td class="tc" onclick="view('${obj.id}')">
                   <fmt:formatDate type='date' value='${obj.createAt}' pattern=" yyyy-MM-dd HH:mm:ss " />
                 </td>
-                <td>
+                <td class="tc">
                   <c:forEach items="${status}" var="status">
                     <c:if test="${status.id == obj.status}">${status.name}
                     <input type="hidden" value="${status.code}"/>
                     </c:if>
                   </c:forEach>
                 </td>
-                <td class="tl" onclick="view('${obj.id}')">${obj.projectContractor}</td>
+                <td class="tc" onclick="view('${obj.id}')">${obj.projectContractor}</td>
               </tr>
             </c:forEach>
           </tbody>
