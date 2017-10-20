@@ -112,6 +112,9 @@ public class SupplierExtractProjectInfo {
      */
     private Short extractTheWay;
 
+    /**
+     * 0 暂存 1抽取结束 2 抽取中
+     */
     private Short status;
     
     private String projectInto;

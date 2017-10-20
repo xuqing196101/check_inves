@@ -69,6 +69,7 @@
         <input type="hidden" id="projectId" value="${projectInfo.projectId }" name="projectId">
         <!-- 包id  -->
         <input type="hidden" id="packageId" value="${projectInfo.packageId }" name="packageId">
+        <input type="hidden" id="projectInto" value="${projectInfo.projectInto}" name="packageId">
         <!-- 记录id -->
         <input type="hidden" value="${projectInfo.id}" name="id">
          <h2 class="count_flow"><i>1</i>项目信息</h2>

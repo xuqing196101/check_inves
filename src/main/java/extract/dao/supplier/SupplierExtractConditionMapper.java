@@ -103,7 +103,7 @@ public interface SupplierExtractConditionMapper {
 	 * @param id
 	 * @return
 	 */
-	SupplierExtractCondition getByRid(String id);
+	SupplierExtractCondition getByRid(String recordId);
 
 	/**
 	 * 查询抽取品目名称集合

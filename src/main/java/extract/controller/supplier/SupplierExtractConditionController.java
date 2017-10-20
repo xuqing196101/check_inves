@@ -5,7 +5,6 @@ package extract.controller.supplier;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,6 +26,7 @@ import common.bean.ResponseBean;
 import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
+import extract.service.supplier.AutoExtractSupplierService;
 import extract.service.supplier.SupplierExtractConditionService;
 
 
@@ -44,6 +44,9 @@ import extract.service.supplier.SupplierExtractConditionService;
 	public class SupplierExtractConditionController {
     @Autowired
     private SupplierExtractConditionService conditionService;
+    
+    @Autowired
+    private AutoExtractSupplierService autoExtract;
 
     @Autowired
     private CategoryService categoryService;
@@ -101,7 +104,7 @@ import extract.service.supplier.SupplierExtractConditionService;
     @ResponseBody
     @RequestMapping("autoExtract")
     public String autoExtract(SupplierExtractCondition condition,SupplierConType conType,HttpServletRequest sq,String province,String projectInfo){
-    	Map<String, Object> supplierList = conditionService.autoExtract(condition,conType,projectInfo);
+    	Map<String, Object> supplierList = autoExtract.autoExtract(condition,conType,projectInfo);
     	return JSON.toJSONString(supplierList);
     }
 

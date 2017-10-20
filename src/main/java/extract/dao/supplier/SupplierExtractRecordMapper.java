@@ -81,4 +81,14 @@ public interface SupplierExtractRecordMapper {
 	 * @return
 	 */
 	List<SupplierExtractProjectInfo> getListByMap(SupplierExtractProjectInfo p);
+
+	/**
+	 * 获取自动抽取待通知项目
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-19下午7:16:43
+	 * @return
+	 */
+	List<SupplierExtractProjectInfo> selectAutoExtractProject();
 }

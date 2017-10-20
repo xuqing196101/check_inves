@@ -100,5 +100,15 @@ public interface SupplierExtractRecordService {
    * @return
    */
   List<SupplierExtractProjectInfo> checkSoleProjectCdoe(String projectCode);
+
+  /**
+   * 查询自动抽取待通知项目集合
+   * <简述> 
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-10-19下午7:12:51
+   * @return
+   */
+  List<SupplierExtractProjectInfo> selectAutoExtractProject();
   
 }
