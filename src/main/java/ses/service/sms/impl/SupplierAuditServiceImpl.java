@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import ses.constants.SupplierConstants;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
@@ -1586,7 +1588,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 
 	@Override
-	public JdcgResult selectAuditNoPassItemCount(String supplierId) {
+	public JdcgResult selectAuditNoPassItemCount(String supplierId, String flag) {
 	    /**
 	     * @deprecated:
 	     *
@@ -1602,10 +1604,21 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	    if(auditNoPassCount != null && auditNoPassCount == 0){
 	        return JdcgResult.build(500, "没有审核不通过项");
         }
-        // 判断如果产品全部不通过，则提示需要改类型下所有产品不通过，请审核该类型也不通过
+        // 判断如果产品全部不通过，则提示需要该类型下所有产品不通过，请审核该类型也不通过
         JdcgResult jdcgResult = this.vertifyAuditItem(supplierId);
         if(jdcgResult != null){
             return jdcgResult;
+        }
+        // 如果供应商类型全部不通过不能退回修改
+        if("1".equals(flag)){
+        	SupplierAudit supplierAudit = new SupplierAudit();
+            supplierAudit.setSupplierId(supplierId);
+    		supplierAudit.setAuditType("supplierType_page");
+    		int supplierTypeAuditCount = countAuditRecords(supplierAudit, new Integer[]{2});
+    		List<String> supplierTypeList = supplierTypeRelateMapper.findTypeBySupplierId(supplierId);
+    		if(supplierTypeList != null && supplierTypeAuditCount >= supplierTypeList.size()){
+    			return JdcgResult.build(500, "供应商类型全部不通过不能退回修改！", null);
+    		}
         }
         return JdcgResult.ok();
 	}
@@ -1767,7 +1780,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		audit.setSupplierId(supplierId);
 		audit.setAuditField(auditField);
 		audit.setAuditType(auditType);
-		return countByPrimaryKey(audit);
+		return countAuditRecords(audit, SupplierConstants.AUDIT_RETURN_STATUS);
 	}
 	@Override
 	public SupplierCateTree countEngCategoyrId(SupplierCateTree cateTree, String supplierId) {
@@ -2237,7 +2250,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					}
 					itemAudit.setAuditType(itemAuditType);
 					itemAudit.setAuditField(item.getCategoryId());
-					int itemAuditCount = supplierAuditMapper.countByPrimaryKey(itemAudit);
+//					int itemAuditCount = supplierAuditMapper.countByPrimaryKey(itemAudit);
+					int itemAuditCount = supplierAuditMapper.countAuditRecords(itemAudit, new Integer[]{0,2});
 					if(itemAuditCount > 0){
 						return new JdcgResult(503, "选择中存在已审核目录，无需再审核合同", null);
 					}
@@ -2266,7 +2280,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 						audit.setStatus(supplier.getStatus());
 						audit.setReturnStatus(1);
 						// 判断是否审核过该合同
-						int count = supplierAuditMapper.countByPrimaryKey(audit);
+//						int count = supplierAuditMapper.countByPrimaryKey(audit);
+						int count = supplierAuditMapper.countAuditRecords(audit, new Integer[]{0,1});
 						if(count > 0){
 							return new JdcgResult(503, "选择中存在已审核，不可重复审核", null);
 						}
@@ -2333,12 +2348,12 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			String[] idAry = ids.split(",");
 			for(String id : idAry){
 				SupplierAudit supplierAuditById = supplierAuditMapper.selectById(id);
-				if(supplierAuditById != null && supplierAuditById.getReturnStatus() != null && supplierAuditById.getReturnStatus() == 2){
+				/*if(supplierAuditById != null && supplierAuditById.getReturnStatus() != null && supplierAuditById.getReturnStatus() == 2){
 					return new JdcgResult(503, "选择中存在审核不通过的产品目录", null);
 				}
 				if(supplierAuditById != null && supplierAuditById.getAuditType() != null && supplierAuditById.getAuditType().startsWith("items_")){
 					return new JdcgResult(503, "选择中存在审核不通过的产品目录", null);
-				}
+				}*/
 				SupplierAudit supplierAudit = new SupplierAudit();
 				supplierAudit.setId(id);
 				if(status == 1){// 退回修改
@@ -2360,6 +2375,11 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int countAuditRecords(SupplierAudit supplierAudit, Integer[] rss) {
+		return supplierAuditMapper.countAuditRecords(supplierAudit, rss);
 	}
 
 }

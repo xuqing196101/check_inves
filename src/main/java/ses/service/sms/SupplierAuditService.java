@@ -509,7 +509,7 @@ public interface SupplierAuditService {
 	 * @param [supplierId]
 	 * @since JDK1.7
 	 */
-    JdcgResult selectAuditNoPassItemCount(String supplierId);
+    JdcgResult selectAuditNoPassItemCount(String supplierId, String flag);
 
     JdcgResult vertifyOpinion(String supplierId);
 
@@ -563,5 +563,13 @@ public interface SupplierAuditService {
 	 * @return
 	 */
 	JdcgResult updateReturnStatus(String ids, Integer status);
+	
+	/**
+	 * 统计审核记录
+	 * @param supplierAudit
+	 * @param rss
+	 * @return
+	 */
+	int countAuditRecords(SupplierAudit supplierAudit, Integer[] rss);
 
 }

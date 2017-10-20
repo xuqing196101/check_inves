@@ -468,8 +468,9 @@ import ses.model.sms.SupplierTypeTree;
 	 * @dateTime 2017-10-9下午3:10:57
 	 * @param typeId
 	 * @param cateName
+	 * @param cateCode 
 	 * @return
 	 */
-	Set<Category> selectCategoryByName(String typeId, String cateName);
+	Set<Category> selectCategoryByName(String typeId, String cateName, String cateCode);
 	
 }

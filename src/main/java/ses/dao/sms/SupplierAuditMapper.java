@@ -138,5 +138,13 @@ public interface SupplierAuditMapper {
 	 * @return
 	 */
 	int updateByIdSelective(SupplierAudit supplierAudit);
+
+	/**
+	 * 统计审核记录
+	 * @param supplierAudit
+	 * @param rss
+	 * @return
+	 */
+	int countAuditRecords(@Param("audit")SupplierAudit supplierAudit, @Param("rss")Integer[] rss);
     
 }

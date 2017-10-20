@@ -17,6 +17,7 @@
     	  $("#reverse_of_seven").attr("class","active");
         $("#reverse_of_seven").removeAttr("onclick");
     	  
+        check_opinion();
       })
      
       //下一步
@@ -34,7 +35,71 @@
 
       //上一步
       function lastStep() {
-        var action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
+    	  var status = $("input[name='status']").val();
+        var sign = $("input[name='sign']").val();
+    	  if(sign == 1 && (status == 5 || status == 10)){
+    		  var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
+    	  }else{
+    		  var action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
+    	  }
+        $("#form_id").attr("action", action);
+        $("#form_id").submit();
+      }
+      
+      
+    //查询合格通过的产品类别
+      function check_opinion() {
+        var status = $(":radio:checked").val();
+        var expertId = "${expertId}";
+        
+        var itemType;
+        var item
+        if(status == 15){
+        	itemType = "初审合格，通过的是物资服务经济类别。";
+        	item = "初审合格，选择了";
+        }
+        
+        if(status == -3){
+        	itemType = "复审合格，通过的是物资服务经济类别。";
+          item = "复审合格，选择了";
+        }
+        
+        if(status != null && typeof(status) != "undefined") {
+          $.ajax({
+            url: "${pageContext.request.contextPath}/expertAudit/findCategoryCount.do",
+            data: {
+              "expertId" : expertId,
+              "auditFalg" : 1
+            },
+            type: "post",
+            dataType: "json",
+            success: function(data) {
+            	//初审
+              if(status == 15 || status == -3) {
+                if(data.all == 0 && data.pass == 0){
+                  $("#check_opinion").html(itemType);
+                }else{
+                  $("#check_opinion").html(item + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+                }
+              }
+            	
+            	//复审退回
+              if(status == '10'){
+                  $("#check_opinion").html("退回修改 。");
+              }
+            	
+              if(status == '5'){
+                  $("#check_opinion").html("复审不合格 。");
+              }
+            }
+          });
+        }
+      }
+    
+    
+      //复审退回或复审不合格的，初审机构确认
+      function preliminaryConfirmation(){
+        var action = "${pageContext.request.contextPath}/expertAudit/preliminaryConfirmation.html";
         $("#form_id").attr("action", action);
         $("#form_id").submit();
       }
@@ -121,27 +186,47 @@
              <li>
                <div class="select_check">
                  <c:if test="${sign == 1}">
-                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '-3'}">checked</c:if>>预复审合格
-                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '5'}">checked</c:if>>预复审不合格
-                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '10'}">checked</c:if>>退回修改
+                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '-3'}">checked</c:if> value="-3">复审合格
+                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '5'}">checked</c:if> value="5">复审不合格
+                    <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '10'}">checked</c:if> value="10">退回修改
                   </c:if>
                   <c:if test="${sign == 2}">
-	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if>>初审合格
-	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if>>初审不合格
+	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> value="15">初审合格
+	                  <input type="radio" disabled <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> value="16">初审不合格
                   </c:if>
                 </div>
+              </li>
+              <li>
+                <div id="check_opinion"></div>
               </li>
             <li class="mt10">
                <textarea id="opinion" readonly="readonly" class="col-md-12 col-xs-12 col-sm-12 h80">${auditOpinion.opinion }</textarea>
             </li>
           </ul>
           
+          <c:if test="${sign == 2}">
+	          <h2 class="count_flow mt0"><i>3</i>批准初审表</h2>
+	          <ul class="ul_list">
+	            <li class="col-md-6 col-sm-6 col-xs-6">
+	              <div>
+	                <span class="fl">批准初审表：</span>
+	                <u:show showId="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${typeId }" delete="false"/>
+	              </div>
+	           </li>
+	          </ul>
+          </c:if>
           <div class="col-md-12 col-sm-12 col-xs-12  add_regist tc">
 	          <a class="btn" type="button" onclick="lastStep();">上一步</a>
 	          <c:if test="${expert.status == -2 ||  expert.status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && expert.status ==6) || expert.status ==4}">
 	            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zancun();">暂存</a>
 	          </c:if>
-	          <a class="btn" type="button" onclick="nextStep();">下一步</a>
+	          <c:if test="${sign == 2}">
+	            <a class="btn" type="button" onclick="nextStep();">下一步</a>
+	          </c:if>
+	          
+	          <c:if test = "${sign eq '1' && status eq '10'}" >
+              <a class="btn" type="button" onclick="preliminaryConfirmation();">确认</a>
+            </c:if>
 	        </div>
         </div>
       </div>

@@ -291,4 +291,12 @@
   </select>
   
   
+	  <!-- 1.根据条件查询 -->
+	  <select id="findListByScore" parameterType="java.lang.String" resultMap="DictionaryDataMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from T_SES_BMS_DICTIONARY_DATA dd
+	    <include refid="Example_Where_Clause"/>
+	    ORDER BY dd.POSITION desc
+	  </select>
 </mapper>

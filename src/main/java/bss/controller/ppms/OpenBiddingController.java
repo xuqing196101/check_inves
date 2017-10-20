@@ -1528,7 +1528,7 @@ public class OpenBiddingController extends BaseSupplierController{
       }
       packList = listPackage1;
     }
-    if (packList != null && packList.size() == 1 && packId != null) {
+    if (packList != null && packList.size() >0 ) {
       model.addAttribute("listLength", 1);
     }
     for (Packages pack : packList) {

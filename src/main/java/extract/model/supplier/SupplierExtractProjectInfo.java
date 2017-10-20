@@ -118,6 +118,9 @@ public class SupplierExtractProjectInfo {
     
     private String projectTypeName;
 
+    private String provinceName;
+    
+    private String cityName;
     /**
      * <pre>
      * 创建时间格式年月日时分秒
@@ -618,7 +621,24 @@ public class SupplierExtractProjectInfo {
 		this.projectTypeName = projectTypeName;
 	}
 
-	
-	
-	
+
+	public String getProvinceName() {
+		return provinceName;
+	}
+
+
+	public void setProvinceName(String provinceName) {
+		this.provinceName = provinceName;
+	}
+
+
+	public String getCityName() {
+		return cityName;
+	}
+
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
 }

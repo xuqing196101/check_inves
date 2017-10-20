@@ -15,7 +15,7 @@
 			</li>
 			<li id="selectSupplierType" class="hide">
 				<label class="fl">供应商等级：</label> 
-			  <select  name="supplierLevel" id="supplierLevel" class="w182">
+			  <select  name="supplierLevelName" id="supplierLevel" class="w182">
 		    	<option selected="selected" value=''>全部</option>
 		   		<option value="一级">一级</option>
 		   		<option value="二级">二级</option>
@@ -25,6 +25,12 @@
 		   		<option value="六级">六级</option>
 		   		<option value="七级">七级</option>
 		   		<option value="八级">八级</option>
+		      </select>
+			</li>
+			<li id="projectLevel" class="hide">
+				<label class="fl">供应商等级：</label> 
+			  <select  name="supplierLevel" id="projectAllLevels" class="w182">
+		    	<option selected="selected" value=''>全部</option>
 		      </select>
 			</li>
 			<li id="addButton">

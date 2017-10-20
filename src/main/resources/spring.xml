@@ -1,123 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	   xmlns:context="http://www.springframework.org/schema/context" 
-	   xmlns:task="http://www.springframework.org/schema/task" 
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
 				  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 				  http://www.springframework.org/schema/context
 				  http://www.springframework.org/schema/context/spring-context-3.0.xsd
 				  http://www.springframework.org/schema/task
 				  http://www.springframework.org/schema/task/spring-task-3.0.xsd">
-	
-	<!-- 自动扫描(自动注入) -->
-	<context:component-scan base-package="ses.service,iss.service,bss.service,bss.util,ses.util,common.service,synchro.*,ses.task,bss.task,system.*,sums.service.*,app.service.*,dss.service.*,extract.service.*" />
-	
-	<!-- 引入属性文件 -->
-	<context:property-placeholder location="classpath:config.properties" />
-	<!--  <task:executor id="executor" pool-size="5" />
-	<task:scheduler id="scheduler" pool-size="10" />
-	<task:annotation-driven executor="executor" scheduler="scheduler"/> 
-	
-	<task:scheduled-tasks>
-        <task:scheduled ref="myTask" method="task11" cron="0 11 14 * * ?"/>   
-	</task:scheduled-tasks>  -->
-	
-	<task:scheduled-tasks>
-	     <!-- 每天凌晨12点半导出供应商 -->
-     	 <task:scheduled ref="SupplierTask"  method="handlerExportSupplier" cron="0 0 13 * * ?"/> 
-     	 
-      
-     	   <!-- 5月25号提交的供应商 -->
-     	 <task:scheduled ref="SupplierTask"  method="handlerExportSupplier68" cron="0 34 14 * * ?"/> 
-     	 
-     	      
-     	 <!-- 每天凌晨6点导入供应商 -->
-     	 <task:scheduled ref="SupplierTask"  method="handlerImportSupplier" cron="0  30 6 * * ?"/> 
-     	 
-     	 
-     	  <!-- 每天凌晨12点供应商退回修改导出 -->
-     	 <task:scheduled ref="SupplierTask"  method="handlerAuditNotExportInner" cron="0 30 0 * * ?"/> 
-     	 
-     	 <!-- 每天凌晨12点半拟入库供应商自动入库-->
-     	 <task:scheduled ref="SupplierTask"  method="handleSupplierPublicity" cron="0 30 0 * * ?"/> 
-     	 
-     	 <!-- 每天凌晨6点退回修改导入外网-->
-     	 <task:scheduled ref="SupplierTask"  method="handlerAuditInner" cron="0 30 6 * * ?"/> 
-     	 
-     	     <!-- 每天凌晨12点半导出提交的专家 -->
-     	 <task:scheduled ref="ExpertTask"  method="handlerExportExpert" cron="0 30 0 * * ?"/> 
-     	 
-     	 
-     	     <!-- 每天凌晨6点导入内网提交专家 -->
-     	 <task:scheduled ref="ExpertTask"  method="handlerImportExpert" cron="0 30 0 * * ?"/> 
-     	 
-     	 <!-- 每天凌晨12点半拟入库专家自动入库-->
-     	 <task:scheduled ref="ExpertTask"  method="handleExpertPublicity" cron="0 30 0 * * ?"/>
-     	 
-     	 <!-- 供应商专家图片导出 -->
-     	 <task:scheduled ref="ImageTask"  method="imageHandler" cron="0 0 1 * * ?"/> 
-     	 
-     	  	 <!-- 供应商专家图片导出 -->
-     	 <task:scheduled ref="ImageTask"  method="imageImportHandler" cron="0 0 6 * * ?"/> 
-     	 
-     	 <!-- 每天5点  17点网导出数据 -->
-         <task:scheduled ref="innerMultiExportTask"  method="innerMultiExportTask" cron="0 0 5,17 * * ? "/> 
-          <!--每天7点  19点外网导入  内网导出数据 -->
-         <task:scheduled ref="outerMultiImportTask"  method="importTask" cron="0 0 7,19 * * ?"/> 
-         
-     	  <!-- 每天凌晨12点半导出专家 -->
-<!--      	 <task:scheduled ref="ExpertTask"  method="handlerExportExpert" cron="0 30 0 * * ?"/> 
- -->     	 
-     	 <!-- 每天凌晨5点导入专家 -->
-<!--      	 <task:scheduled ref="ExpertTask"  method="handlerImportExpert" cron="0 0 5 * * ?"/> 
- -->     	 
-     	 
-       <!--暂时不部署  定时处理退回修改后的供应商30天不提交自动审核不通过/供应商审核不通过180天后再次注册需要提示供应商为第二次注册(凌晨1.30执行一次) -->
-       <!--  <task:scheduled ref="SupplierTask"  method="handlerSupplierchange" cron=" 0 30 1 * * ?"/>  -->
-	   <!-- 定时处理竞价业务(凌晨十二点执行一次) -->
-     	 <task:scheduled ref="OBProjectTask"  method="handleOBProject" cron="0 0 0 * * ?"/> 
+
+    <!-- 自动扫描(自动注入) -->
+    <context:component-scan
+            base-package="ses.service,iss.service,bss.service,bss.util,ses.util,common.service,synchro.*,ses.task,bss.task,system.*,sums.service.*,app.service.*,dss.service.*,extract.service.*"/>
+
+    <!-- 引入属性文件 -->
+    <context:property-placeholder location="classpath:config.properties"/>
+    <!--  <task:executor id="executor" pool-size="5" />
+    <task:scheduler id="scheduler" pool-size="10" />
+    <task:annotation-driven executor="executor" scheduler="scheduler"/>
+
+    <task:scheduled-tasks>
+        <task:scheduled ref="myTask" method="task11" cron="0 11 14 * * ?"/>
+    </task:scheduled-tasks>  -->
+
+    <task:scheduled-tasks>
+        <!-- 每天凌晨12点半导出供应商 外网导出新注册供应商:0：待审核）和退回修改再提交gys（9：退回再审核） -->
+        <task:scheduled ref="SupplierTask" method="handlerExportSupplier" cron="0 0 13 * * ?"/>
+        <!-- 每天凌晨6点导入供应商（导入新注册供应商:0：待审核）和退回修改再提交gys（9：退回再审核）） -->
+        <task:scheduled ref="SupplierTask" method="handlerImportSupplier" cron="0  30 6 * * ?"/>
+        <!-- 每天凌晨12点供应商退回修改内网导出 -->
+        <task:scheduled ref="SupplierTask" method="handlerAuditNotExportInner" cron="0 30 0 * * ?"/>
+        <!-- 每天凌晨6点退回修改外网导入-->
+        <task:scheduled ref="SupplierTask" method="handlerAuditInner" cron="0 30 6 * * ?"/>
+        <!-- 每天凌晨12点半拟入库供应商自动入库-->
+        <task:scheduled ref="SupplierTask" method="handleSupplierPublicity" cron="0 30 0 * * ?"/>
+
+        <!-- 每天凌晨12点半导出提交的专家 -->
+        <task:scheduled ref="ExpertTask" method="handlerExportExpert" cron="0 30 0 * * ?"/>
+        <!-- 每天凌晨6点导入内网提交专家 -->
+        <task:scheduled ref="ExpertTask" method="handlerImportExpert" cron="0 30 0 * * ?"/>
+        <!-- 每天凌晨12点半拟入库专家自动入库-->
+        <task:scheduled ref="ExpertTask" method="handleExpertPublicity" cron="0 30 0 * * ?"/>
+
+        <!-- 供应商专家图片外网导出 -->
+        <task:scheduled ref="ImageTask" method="imageHandler" cron="0 0 1 * * ?"/>
+        <!-- 供应商专家图片内网导入 -->
+        <task:scheduled ref="ImageTask" method="imageImportHandler" cron="0 0 6 * * ?"/>
+
+        <!-- 每天5点  17点网导出数据 -->
+        <task:scheduled ref="innerMultiExportTask" method="innerMultiExportTask" cron="0 0 5,17 * * ? "/>
+        <!--每天7点  19点外网导入  内网导出数据 -->
+        <task:scheduled ref="outerMultiImportTask" method="importTask" cron="0 0 7,19 * * ?"/>
+
+        <!-- 5月25号提交的供应商 现在没用的-->
+        <task:scheduled ref="SupplierTask" method="handlerExportSupplier68" cron="0 34 14 * * ?"/>
+        <!-- 每天凌晨12点半导出专家 -->
+        <!--      	 <task:scheduled ref="ExpertTask"  method="handlerExportExpert" cron="0 30 0 * * ?"/>
+         -->
+        <!-- 每天凌晨5点导入专家 -->
+        <!--      	 <task:scheduled ref="ExpertTask"  method="handlerImportExpert" cron="0 0 5 * * ?"/>
+         -->
+        <!--暂时不部署  定时处理退回修改后的供应商30天不提交自动审核不通过/供应商审核不通过180天后再次注册需要提示供应商为第二次注册(凌晨1.30执行一次) -->
+        <!--  <task:scheduled ref="SupplierTask"  method="handlerSupplierchange" cron=" 0 30 1 * * ?"/>  -->
+        <!-- 定时处理竞价业务(凌晨十二点执行一次) -->
+        <task:scheduled ref="OBProjectTask" method="handleOBProject" cron="0 0 0 * * ?"/>
         <!-- 定时删除无效专家(每天凌晨十二点执行一次) -->
         <task:scheduled ref="delExpertTask" method="delExpert" cron="0 0 0 * * ?"/>
-        
+
         <!-- 定时修改专家黑名单处罚日期截止时的处罚状态(每天凌晨十二点半执行一次) -->
         <task:scheduled ref="delExpertTask" method="updateExpertBlackStatus" cron="0 30 0 * * ?"/>
-        
+
         <!-- 统计日登录、日注册、日上传文件(每天凌晨十二点半执行一次) -->
-        <task:scheduled ref="analyzeTask" method="handlerAnalyze"  cron="0 30 0 * * ?"/>
-        
+        <task:scheduled ref="analyzeTask" method="handlerAnalyze" cron="0 30 0 * * ?"/>
         <!-- 统计当天门户访问量(每天凌晨十二点半执行一次) -->
-        <task:scheduled ref="analyzeTask" method="handlerPV"  cron="0 30 0 * * ?"/>
-       
+        <task:scheduled ref="analyzeTask" method="handlerPV" cron="0 30 0 * * ?"/>
+
         <!-- 内网任务 -->
         <!-- <task:scheduled ref="innerInfoExportTask" method="innerInfoExportTask" cron="0 0 5/6 * * ?"/>  
         <task:scheduled ref="innerInfoImportTask" method="innerInfoImportTask" cron="0 0 7/6 * * ?"/>  
 	 -->
-	 <!-- <task:scheduled ref="innerInfoImportTask" method="innerInfoImportTask" cron="0 0/1 * * * ?"/>   -->
-		<!-- 外网任务 -->        
+        <!-- <task:scheduled ref="innerInfoImportTask" method="innerInfoImportTask" cron="0 0/1 * * * ?"/>   -->
+        <!-- 外网任务 -->
         <!-- <task:scheduled ref="outerInfoExportTask" method="outerInfoExportTask" cron="0 0 5/6 * * ?"/> 
-        <task:scheduled ref="outerInfoImportTask" method="outerInfoImportTask" cron="0 0 7/6 * * ?"/> --> 
-	</task:scheduled-tasks> 
-	
-	
-	<!-- 线程池 -->
-	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-		<property name="corePoolSize" value="20" />
-		<property name="maxPoolSize" value="100" /> 
-		<property name="queueCapacity" value="1000" />
-		<property name="keepAliveSeconds" value="300" />
-		<property name="rejectedExecutionHandler">  
-		  <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
-		</property>
-	</bean>
-	
-	<!-- 初始化全局变量 -->
-	<bean id="properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-	    <property name="locations">
-	        <list>
-	          <value>classpath:config.properties</value>
-	        </list>
-	    </property>
-	    <property name="fileEncoding" value="UTF-8" />
-	</bean>
+        <task:scheduled ref="outerInfoImportTask" method="outerInfoImportTask" cron="0 0 7/6 * * ?"/> -->
+    </task:scheduled-tasks>
+
+
+    <!-- 线程池 -->
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="20"/>
+        <property name="maxPoolSize" value="100"/>
+        <property name="queueCapacity" value="1000"/>
+        <property name="keepAliveSeconds" value="300"/>
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy"/>
+        </property>
+    </bean>
+
+    <!-- 初始化全局变量 -->
+    <bean id="properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:config.properties</value>
+            </list>
+        </property>
+        <property name="fileEncoding" value="UTF-8"/>
+    </bean>
 </beans>

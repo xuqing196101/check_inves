@@ -86,7 +86,7 @@
                 if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '2') {
                   list_content.list[i].status = '复审中';
                 } else {
-                  list_content.list[i].status = '待复审';
+                  list_content.list[i].status = '复审已分配';
                 }
               } else if (list_content.list[i].status === '5') {
                 list_content.list[i].status = '复审不合格';
@@ -159,8 +159,8 @@
                 +'<td class="text-center break-all">'+ list_content.list[i].orgName +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].realName +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].gender +'</td>'
-                +'<td class="text-center break-all">'+ list_content.list[i].expertsTypeId +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].expertsFrom +'</td>'
+                +'<td class="text-center break-all">'+ list_content.list[i].expertsTypeId +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].workUnit +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].professTechTitles +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].groupName +'</td>'
@@ -230,7 +230,7 @@
                 if (list_content.list.list[i].status === '4' && list_content.list.list[i].auditTemporary === '2') {
                   list_content.list.list[i].status = '复审中';
                 } else {
-                  list_content.list.list[i].status = '待复审';
+                  list_content.list.list[i].status = '复审已分配';
                 }
               } else if (list_content.list.list[i].status === '5') {
                 list_content.list.list[i].status = '复审不合格';
@@ -300,8 +300,8 @@
                 +'<td class="text-center break-all">'+ list_content.list.list[i].orgName +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].realName +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].gender +'</td>'
-                +'<td class="text-center break-all">'+ list_content.list.list[i].expertsTypeId +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].expertsFrom +'</td>'
+                +'<td class="text-center break-all">'+ list_content.list.list[i].expertsTypeId +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].workUnit +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].professTechTitles +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].groupName +'</td>'
@@ -360,6 +360,8 @@
             }
           });
         }
+        
+        layer.close(index_load);
         
         // 构造分页
         // laypageConstructor();

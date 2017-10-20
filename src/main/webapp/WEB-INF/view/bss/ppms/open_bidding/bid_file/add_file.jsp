@@ -321,7 +321,7 @@
         window.location.href = "${pageContext.request.contextPath}/Auditbidding/purchaseFile.html?projectId="+projectId; */
 				var obj = document.getElementById("TANGER_OCX");
 
-				obj.SaveToLocal("E:\\采购文件.doc", false, true);
+				obj.SaveToLocal("E:\\【${project.name}】采购文件.doc", false, true);
 
 			}
 		</script>

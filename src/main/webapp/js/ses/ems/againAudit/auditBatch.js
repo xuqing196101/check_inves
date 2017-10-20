@@ -50,7 +50,7 @@
                   if (list_content[i].expertList[ii].status === '4' && list_content[i].expertList[ii].auditTemporary === '4') {
                     list_content[i].expertList[ii].status = '复审中';
                   } else {
-                    list_content[i].expertList[ii].status = '待复审';
+                    list_content[i].expertList[ii].status = '复审已分配';
                     list_content[i].expertList[ii].updateTime = '';
                   }
                 } else if (list_content[i].expertList[ii].status === '5') {
@@ -117,8 +117,8 @@
                   +'<td class="text-center break-all">'+ list_content[i].expertList[ii].orgName +'</td>'
                   +'<td class="text-center break-all">'+ list_content[i].expertList[ii].realName +'</td>'
                   +'<td class="text-center break-all">'+ list_content[i].expertList[ii].gender +'</td>'
-                  +'<td class="text-center break-all">'+ list_content[i].expertList[ii].expertsTypeId +'</td>'
                   +'<td class="text-center break-all">'+ list_content[i].expertList[ii].expertsFrom +'</td>'
+                  +'<td class="text-center break-all">'+ list_content[i].expertList[ii].expertsTypeId +'</td>'
                   +'<td class="text-center break-all">'+ list_content[i].expertList[ii].workUnit +'</td>'
                   +'<td class="text-center break-all">'+ list_content[i].expertList[ii].professTechTitles +'</td>'
                   +'<td class="text-center break-all">'+ list_content[i].expertList[ii].status +'</td>'

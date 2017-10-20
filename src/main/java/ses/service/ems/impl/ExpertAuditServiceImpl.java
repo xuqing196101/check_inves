@@ -428,7 +428,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		expert.setId(expertId);
 		Expert expertInfo = expertMapper.selectByPrimaryKey(expertId);
 		String status = expertInfo.getStatus();
-		if("0".equals(status) || "15".equals(status) || "16".equals(status)){
+		if("0".equals(status) || "15".equals(status) || "16".equals(status) || "9".equals(status)){
 			//初审中
 			expert.setAuditTemporary(1);
 		}else if("4".equals(status)){
@@ -492,7 +492,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	            String afterDateString = DateUtils.getDateOfFormat(DateUtils.addDayDate(expert.getAuditAt(), 7));
 	            if(nowDateString.equals(afterDateString)){
 	                // 审核通过，自动入库
-	            	expert.setStatus("4");
+	            	expert.setStatus("6");
 	                // 修改
 	            	expertMapper.updateByPrimaryKeySelective(expert);
 	            }
@@ -627,6 +627,8 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
         // 判断专家类型和产品类别分别不能有全不通过项
         // 获取专家选择品目的类型
         map.put("regType", Constant.EXPERT_CATE_INFO_ITEM_FLAG);
+        map.put("type", 1);
+        map.put("auditFieldId", "no");
         count = expertAuditMapper.selectRegExpCateCount(map);
         Expert expert = expertMapper.selectByPrimaryKey(expertId);
         if(expert != null && expert.getExpertsTypeId() != null){
@@ -636,6 +638,8 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
                 return JdcgResult.build(500, "类别不能全部为不通过项");
             }
         }
+        map.remove("type");
+        map.remove("auditFieldId");
         map.put("regType",Constant.EXPERT_BASIC_BOOK_FLAG);
         count = expertAuditMapper.selectRegExpCateCount(map);
         if(count>0){
@@ -649,7 +653,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
         selectCount = expertPublicityAfter.getPassCateCount();
         count = expertPublicityAfter.getNoPassCateCount();
         if(count != null && selectCount != null && (selectCount - count) <= 0){
-            return JdcgResult.build(500, "产品类别不能全部为不通过项");
+          //  return JdcgResult.build(500, "产品类别不能全部为不通过项");
         }
         return JdcgResult.ok();
 	}
@@ -729,6 +733,16 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		expertReviewTeam.setGroupId(groupId);
 		List<ExpertReviewTeam> reviewTeamList = expertReviewTeamMapper.getExpertReviewTeamList(expertReviewTeam);
 		return reviewTeamList;
+	}
+	
+	/**
+     * 全部专家查询中的审核记录
+     * @param expertAudit
+     * @return
+     */
+	@Override
+	public List<ExpertAudit> diySelect(Map<String, Object> map) {
+		return mapper.diySelect(map);
 	}
 
 

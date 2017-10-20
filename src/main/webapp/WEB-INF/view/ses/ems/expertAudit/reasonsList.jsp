@@ -48,17 +48,22 @@
             	/* $("#reverse_of_five_i").css("display","block");
             	$("#reverse_of_six").css("display","block"); */
             }
-            if($("#status").val() == '-2' || $("#status").val() == '4'){
-            	var expertId = $("input[name='expertId']").val();
-            	var checkVal = $("input:radio[name='selectOption']:checked").val();
-            	//预复审合格状态默认加载通过了xx,不通过xx
-            	if(checkVal == '-3'){
-            		getCheckOpinionType(expertId);
-            	}
-            	if(checkVal == '5'){
-            		$("#cate_result").html("预复审不合格 。");
-            	}
-            }
+            
+            /**
+            *预复审合格状态默认加载通过了xx,不通过xx
+            */
+           	var expertId = $("input[name='expertId']").val();
+           	var checkVal = $("input:radio[name='selectOption']:checked").val();
+           	
+           	if(checkVal == '-3'){
+           		getCheckOpinionType(expertId);
+           	}
+           	if(checkVal == '5'){
+           		$("#cate_result").html("预复审不合格 。");
+           	}
+           	if(checkVal == '10'){
+           		$("#cate_result").html("退回修改 。");
+           	}
             
             //控制《预初审合格》《预初审不合格》
            if(status == '5' || status == '10'){
@@ -261,6 +266,7 @@
 	function check_opinion() {
 		var status = $(":radio:checked").val();
 		var expertId = $("input[name='expertId']").val();
+		var expertStatus = $("input[name='status']").val();
 		if(status != null && typeof(status) != "undefined") {
 			$.ajax({
 				url: "${pageContext.request.contextPath}/expertAudit/findCategoryCount.do",
@@ -271,15 +277,25 @@
 				type: "post",
 				dataType: "json",
 				success: function(data) {
-					if(status == 15) {
-						if(data.all == 0 && data.pass == 0){
+					if(status == 15 && expertStatus !=10) {
+						if(data.isGoodsServer == 1 && data.pass == 0){
 							$("#check_opinion").html("预初审合格，通过的是物资服务经济类别。");
 						}else{
 							$("#check_opinion").html("预初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
 						}
-					} else if(status == 16) {
+					} else if(status == 16 && expertStatus !=10) {
 						$("#check_opinion").html("预初审不合格。");
-					}
+						
+						//下面是复审退回修改要显示的
+					}else if(status == 16 && expertStatus ==10) {
+            $("#check_opinion").html("初审不合格。");
+          }else if(status == 15 && expertStatus ==10) {
+	          if(data.isGoodsServer == 1 && data.pass == 0){
+	              $("#check_opinion").html("初审合格，通过的是物资服务经济类别。");
+	            }else{
+	              $("#check_opinion").html("初审合格，选择了" + data.all + "个参评类别，通过了" + data.pass + "个参评类别。");
+	            }
+          } 
 				}
 			});
 		}
@@ -463,14 +479,6 @@
        });
 	}
 
-	
-		//复审退回或复审不合格的，初审机构确认
-		function preliminaryConfirmation(){
-			var action = "${pageContext.request.contextPath}/expertAudit/preliminaryConfirmation.html";
-      $("#form_id").attr("action", action);
-      $("#form_id").submit();
-		}
-	
 </script>
 </head>
 
@@ -516,8 +524,8 @@
             <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
             <ul class="ul_list count_flow">
               <c:if test="${status == 0 || status == 9 || status == 15 || status == 16 || status == 10 || status == -2 || (sign ==3 && status ==6) || status == 4 || status == 5}">
-                <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>
-              </c:if>  
+<!--                 <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>
+ -->              </c:if>  
                 <table class="table table-bordered table-condensed table-hover">
                     <thead>
                     <tr>
@@ -560,7 +568,8 @@
                             <td class="tc">
                             	<c:if test="${reasons.suggestType eq 'one' || reasons.suggestType eq 'five'}">退回</c:if>
                             	<c:if test="${reasons.suggestType eq 'six' }">审核不通过</c:if>
-                            	<c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '1' }">审核不通过</c:if>
+                            	<c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId != 'isTitle' }">审核不通过</c:if>
+                            	<c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '1' && reasons.auditFieldId eq 'isTitle'}">退回</c:if>
                             	<c:if test="${reasons.suggestType eq 'seven' && reasons.type eq '2' }">退回</c:if>
                             </td>
                         </tr>
@@ -575,8 +584,8 @@
                  <c:if test="${sign == 1 }">
                    <li>
                    <div class="select_check">
-                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()">预初审合格
-                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()">预初审不合格
+                      <input type="radio"  id="qualified" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if> name="selectShenhe" value="15" onclick = "check_opinion()"><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审合格
+                      <input type="radio" id = "noQualified" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if> name="selectShenhe" value="16" onclick = "check_opinion()"><c:if test="${sign == 1 && status ne '10'}">预</c:if>初审不合格
                     </div>
                   </li>
                   <li>
@@ -600,6 +609,21 @@
                   </li>
                 </ul>
                 </div>
+                
+                <!-- 复审退回修改显示 状态为：10 -->
+                <c:if test="${sign == 1 && status eq '10'}">
+			            <h2 class="count_flow mt0"><i>3</i>批准初审表</h2>
+			            <ul class="ul_list">
+			              <li class="col-md-6 col-sm-6 col-xs-6">
+			                <div>
+			                  <span class="fl">批准初审表：</span>
+			                  <u:show showId="pic_checkword" businessId="${expertId}2" sysKey="${ sysKey }" typeId="${typeId }" delete="false"/>
+			                </div>
+			             </li>
+			            </ul>
+			          </c:if>
+			          
+			          
                 </div>
               </div>
             </c:if>
@@ -673,7 +697,7 @@
                     <input type="hidden" name="status" id="status" value="${status}"/>
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
                     <input name="sign" value="${sign}" type="hidden">
-                    <c:if test="${status eq '0'}">
+                    <c:if test="${status eq '0' || (sign eq '1' && status eq '9')}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
                        <input class="btn btn-windows cancel" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo"> -->
                        <!-- <input class="btn btn-windows end" type="button" onclick="shenhe();" value="初审结束" id="tuihui"> -->
@@ -690,7 +714,7 @@
                     	<a id="nextStep" class="btn" type="button" onclick="yuNext();">下一步</a>
                     </c:if>
                     <c:if test = "${sign eq '1' && (status eq '5' || status eq '10')}" >
-                    	<a class="btn" type="button" onclick="preliminaryConfirmation();">确认</a>
+                    	<a id="nextStep" class="btn" type="button" onclick="nextStep();">下一步</a>
                     </c:if>
                     <c:if test="${status eq '4' && sign eq '2' || status eq '-2'}">
                        <!-- <input class="btn btn-windows passed" type="button" onclick="shenhe(4);" value="复审合格 " id="tongguo">

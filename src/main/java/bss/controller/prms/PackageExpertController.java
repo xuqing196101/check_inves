@@ -3226,7 +3226,7 @@ public class PackageExpertController {
           dds.add(dd); 
           model.addAttribute("dds", dds);
       } else {
-          dds = DictionaryDataUtil.find(22);
+          dds = DictionaryDataUtil.findScore(22);
           model.addAttribute("dds", dds);
       }
       model.addAttribute("expertId", expertId);
@@ -3277,7 +3277,7 @@ public class PackageExpertController {
           dds.add(dd); 
           model.addAttribute("dds", dds);
       } else {
-          dds = DictionaryDataUtil.find(22);
+          dds = DictionaryDataUtil.findScore(22);
           model.addAttribute("dds", dds);
       }
       model.addAttribute("expertId", expertId);
@@ -4020,7 +4020,7 @@ public class PackageExpertController {
                 }
             }
         }
-        List<DictionaryData> dds = DictionaryDataUtil.find(22);
+        List<DictionaryData> dds = DictionaryDataUtil.findScore(22);
         model.addAttribute("dds", dds);
         model.addAttribute("saleTenderList", sl);
         model.addAttribute("reviewFirstAudits", reviewFirstAudits);
@@ -4124,7 +4124,7 @@ public class PackageExpertController {
                 }
             }
         }
-        List<DictionaryData> dds = DictionaryDataUtil.find(22);
+        List<DictionaryData> dds = DictionaryDataUtil.findScore(22);
         model.addAttribute("dds", dds);
         model.addAttribute("saleTenderList", extensions);
         model.addAttribute("reviewFirstAudits", reviewFirstAudits);
@@ -4178,7 +4178,7 @@ public class PackageExpertController {
               extension.setDds(dds);
             } else {
               firstAudit.setIsConfirm((short)0);
-              dds = DictionaryDataUtil.find(22);
+              dds = DictionaryDataUtil.findScore(22);
               extension.setDds(dds);
             }
             List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
@@ -4282,7 +4282,7 @@ public class PackageExpertController {
                    extension.setDds(dds);
                  } else {
                    firstAudit.setIsConfirm((short)0);
-                   dds = DictionaryDataUtil.find(22);
+                   dds = DictionaryDataUtil.findScore(22);
                    extension.setDds(dds);
                  }
                  List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
@@ -4763,7 +4763,7 @@ public class PackageExpertController {
     @ResponseBody
     @RequestMapping(value = "isEndCheck", produces = "text/html;charset=utf-8")
     public String isEndCheck(String packageId, String projectId){
-        //包与专家 关联表集合
+        /*//包与专家 关联表集合
         Map<String, Object> packageExpertmap = new HashMap<String, Object>();
         packageExpertmap.put("packageId", packageId);
         packageExpertmap.put("projectId", projectId);
@@ -4774,7 +4774,76 @@ public class PackageExpertController {
             return "ok";
         } else {
             return "no";
+        }*/
+   // 获取符合性审查通过且到场没被移除的供应商
+      Map<String, Object> packageExpertmap = new HashMap<String, Object>();
+      packageExpertmap.put("packageId", packageId);
+      packageExpertmap.put("projectId", projectId);
+      List<PackageExpert> expertIdList = packageExpertService.selectList(packageExpertmap);
+      if (expertIdList != null && expertIdList.size() > 0 && expertIdList.get(0).getIsGatherGather() != 2) {
+        SaleTender saleTender = new SaleTender();
+        saleTender.setPackages(packageId);
+        saleTender.setIsFirstPass(1);
+        saleTender.setIsRemoved("0");
+        saleTender.setIsTurnUp(0);
+        List<SaleTender> sl = saleTenderService.findByCon(saleTender);
+        //获取包下的评审项
+        FirstAudit firstAudit = new FirstAudit();
+        firstAudit.setPackageId(packageId);
+        firstAudit.setIsConfirm((short)1);
+        List<FirstAudit> list = firstAuditService.findBykind(firstAudit);
+        Map<String, Object> auditMap = new HashMap<>();
+        auditMap.put("packageId", packageId);
+        auditMap.put("projectId", projectId);
+        auditMap.put("isBack", 0);
+        //获取所有专家对小项的评审结果
+        List<ReviewFirstAudit> reviewFirstAudits = reviewFirstAuditService.selectList(auditMap);
+        List<DictionaryData> dds = DictionaryDataUtil.find(23);
+        for(DictionaryData d:dds){
+          for(FirstAudit fa:list){
+            if(d.getId().equals(fa.getKind())){
+              for(SaleTender st:sl){
+                Integer isPassNum=0;
+                Integer noPassNum=0;
+                for(ReviewFirstAudit rf:reviewFirstAudits){
+                  if(rf.getFirstAuditId().equals(fa.getId())&&rf.getSupplierId().equals(st.getSuppliers().getId())&&rf.getIsPass()==0){
+                    isPassNum++;
+                  }
+                  if(rf.getFirstAuditId().equals(fa.getId())&&rf.getSupplierId().equals(st.getSuppliers().getId())&&rf.getIsPass()==1){
+                    noPassNum++;
+                  }
+                }
+                if(isPassNum>noPassNum){
+                  SaleTender std = new SaleTender();
+                  std.setId(st.getId());
+                  if(isPassNum>noPassNum){
+                    std.setEconomicScore(new BigDecimal(100));
+                    std.setTechnologyScore(new BigDecimal(100));
+                  }else{
+                    std.setEconomicScore(new BigDecimal(0));
+                    std.setTechnologyScore(new BigDecimal(0));
+                  }
+                  saleTenderService.update(std);
+                }
+              }
+              
+            }
+          }
         }
+      //包与专家 关联表集合
+        Map<String, Object> packageExpertmaps = new HashMap<String, Object>();
+        packageExpertmaps.put("packageId", packageId);
+        packageExpertmaps.put("projectId", projectId);
+        //设置状态为专家咨询委员会提交
+        List<PackageExpert> expertIdLists = packageExpertService.selectList(packageExpertmaps);
+        if (expertIdLists != null && expertIdLists.size() > 0) {
+            for (PackageExpert packageExpert : expertIdLists) {
+                packageExpert.setIsGatherGather((short)2);
+                packageExpertService.updateByBean(packageExpert);
+            }
+        }
+      }
+      return "ok";
     }
     
     /**
@@ -4788,6 +4857,8 @@ public class PackageExpertController {
     @RequestMapping("/endCheck")
     @ResponseBody
     public void endCheck(String packageId, String projectId) {
+      
+      
         // 供应商信息
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
         SaleTender st0 = new SaleTender();

@@ -448,6 +448,7 @@
 	        }else{
 	        	 layer.msg("请选择", {offset : [ '100px' ]});
 	        }
+			  }
 			}
 		</script>
 	</head>

@@ -565,4 +565,12 @@ public interface SupplierService {
 	 * @return
 	 */
 	public boolean checkIdCard(String id, String idCard);
+
+	/**
+	 * 查询无产品供应商
+	 * @param supplier
+	 * @param page
+	 * @return
+	 */
+	public List<Supplier> querySupplierListByNoCate(Supplier supplier, Integer page);
 }

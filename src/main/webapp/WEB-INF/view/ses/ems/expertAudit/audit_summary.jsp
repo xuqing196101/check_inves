@@ -85,6 +85,21 @@
         }
         ;
       }
+      
+    //暂存
+      function zancun() {
+        var expertId = $("#expertId").val();
+        $.ajax({
+          url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
+          dataType: "json",
+          data: {expertId: expertId},
+          success: function (result) {
+              layer.msg(result, {offset: ['100px']});
+          }, error: function () {
+              layer.msg("暂存失败", {offset: ['100px']});
+          }
+        });
+      }
     </script>
   </head>
 
@@ -128,9 +143,9 @@
 
           <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
           <ul class="ul_list count_flow">
-            <c:if test="${status == -2 || status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && status ==6) || status ==4}">
+            <%-- <c:if test="${status == -2 || status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && status ==6) || status ==4}">
               <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>
-            </c:if>
+            </c:if> --%>
             <table class="table table-bordered table-condensed table-hover">
               <thead>
               <tr>

@@ -79,19 +79,20 @@
 
 	//选中信息头
 	function checks(obj) {
-		var selectedArray = [];
 		hideTabTitle();
-		$("input[name='chkItem']:checked").each(function() {
-			var value = $(this).val();
-			 if (value == 'SALES') {
-				downloadTable(value);
-			} 
+		var value = $(obj).val();
+	 	if (value == 'SALES') {
+			isSalePass(value);
+		}
+		var selectedArray = [];
+		$("input[name='chkItem']:checked").each(function(index,ele) {
 			$("#tab_div").addClass("opacity_1");
-			selectedArray.push(value);
-			product(value);
-			sales(value);
-			project(value);
-			services(value)
+			var v = $(ele).val();
+			selectedArray.push(v);
+			product(v);
+			sales(v);
+			project(v);
+			services(v)
 		});
 
 		if (selectedArray.length == 0) {
@@ -102,6 +103,7 @@
 		if (first != null && first != "" && first != "undefined") {
 			loadTab(first);
 		}
+		saveSupplierTypeRelate(selectedArray.join(","));
 	}
 
 	// 页签切换
@@ -137,13 +139,13 @@
 
 	//暂存
 	function ajaxSave() {
-		var id = [];
+		var checkedTypes = [];
 		$('input[name="chkItem"]:checked').each(function() {
-			id.push($(this).val());
+			checkedTypes.push($(this).val());
 		});
-		$("input[name='supplierTypeIds']").val(id);
+		$("input[name='supplierTypeIds']").val(checkedTypes);
 
-		if (id.length == 0) {
+		if (checkedTypes.length == 0) {
 			layer.msg("请选择供应商类型");
 			return false;
 		}
@@ -185,10 +187,11 @@
 				} else {
 					$("input[name='supplierMatSe.id']").val("");
 				}
+				$(":checkbox").removeAttr("isAdd");
 				controlForm();
 			},
 			error : function() {
-				layer.msg('暂存失败!');
+				layer.msg('暂存失败！');
 				controlForm();
 			}
 		});
@@ -202,12 +205,12 @@
 			&& ($(ele.relatedTarget).text() != "上一步")){
 			return;
 		}
-		var id = [];
+		var checkedTypes = [];
 		$('input[name="chkItem"]:checked').each(function() {
-			id.push($(this).val());
+			checkedTypes.push($(this).val());
 		});
 	
-		$("input[name='supplierTypeIds']").val(id);
+		$("input[name='supplierTypeIds']").val(checkedTypes);
 		// 保存工程地址附件信息
 		var areaIds = "";
 		$("#areaSelect").find("option").each(function(i, element){
@@ -219,60 +222,74 @@
 		// 提交的时候表单域设置成可编辑
 		enableForm();
 		$.ajax({
-					url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
-					type : "post",  
-					data : $("#save_pro_form_id").serialize(),
-					contextType : "application/x-www-form-urlencoded",
-					success : function(msg) {
-						var data = msg.split(",");
-						if (data[0] != "null" && data[0] != null) {
-							$("input[name='supplierMatPro.id']").val(data[0]);
-						} else {
-							$("input[name='supplierMatPro.id']").val("");
-						}
-						if (data[1] != "null" && data[1] != null) {
-							$("input[name='supplierMatSell.id']").val(data[1]);
-						} else {
-							$("input[name='supplierMatSell.id']").val("");
-						}
-						if (data[2] != "null" && data[2] != null) {
-							$("input[name='supplierMatEng.id']").val(data[2]);
-						} else {
-							$("input[name='supplierMatEng.id']").val("");
-						}
-						if (data[3] != "null" && data[3] != null) {
-							$("input[name='supplierMatSe.id']").val(data[3]);
-						} else {
-							$("input[name='supplierMatSe.id']").val("");
-						}
-						controlForm();
-					}
-				});
+			url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
+			type : "post",  
+			data : $("#save_pro_form_id").serialize(),
+			contextType : "application/x-www-form-urlencoded",
+			success : function(msg) {
+				var data = msg.split(",");
+				if (data[0] != "null" && data[0] != null) {
+					$("input[name='supplierMatPro.id']").val(data[0]);
+				} else {
+					$("input[name='supplierMatPro.id']").val("");
+				}
+				if (data[1] != "null" && data[1] != null) {
+					$("input[name='supplierMatSell.id']").val(data[1]);
+				} else {
+					$("input[name='supplierMatSell.id']").val("");
+				}
+				if (data[2] != "null" && data[2] != null) {
+					$("input[name='supplierMatEng.id']").val(data[2]);
+				} else {
+					$("input[name='supplierMatEng.id']").val("");
+				}
+				if (data[3] != "null" && data[3] != null) {
+					$("input[name='supplierMatSe.id']").val(data[3]);
+				} else {
+					$("input[name='supplierMatSe.id']").val("");
+				}
+				$(":checkbox").removeAttr("isAdd");
+				controlForm();
+			}
+		});
+	}
+	
+	//保存供应商类型关系
+	function saveSupplierTypeRelate(supplierTypeIds){
+		var supplierId = "${currSupplier.id}";
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplier/saveSupplierTypeRelate.do",
+			type : "post",  
+			data : {supplierId : supplierId, supplierTypeIds : supplierTypeIds},
+			success : function(msg) {
+				
+			}
+		});
 	}
 
 	function next(obj) {
 
-		var id = [];
+		var checkedTypes = [];
 		$('input[name="chkItem"]:checked').each(function() {
-			id.push($(this).val());
+			checkedTypes.push($(this).val());
 		});
-		var bool = false;
-		var boo = false;
-		for ( var i = 0; i < id.length; i++) {
-			if (id[i] == 'GOODS') {
-				bool = true;
+		var bool1 = false;
+		var bool2 = false;
+		for ( var i = 0; i < checkedTypes.length; i++) {
+			if (checkedTypes[i] == 'GOODS') {
+				bool1 = true;
 			}
-			if (id[i] == 'SALES' || id[i] == 'PRODUCT') {
-				boo = true;
+			if (checkedTypes[i] == 'SALES' || checkedTypes[i] == 'PRODUCT') {
+				bool2 = true;
 			}
 		}
 		var flag = true;
-		$("input[name='supplierTypeIds']").val(id);
+		$("input[name='supplierTypeIds']").val(checkedTypes);
 		$("input[name='flag']").val(obj);
-		if (bool == true && boo != true) {
+		if (bool1 == true && bool2 != true) {
 			layer.msg("请勾选产品货物类属性");
 		} else {
-			if (id.length > 0) {
+			if (checkedTypes.length > 0) {
 				flag = true;
 			} else {
 				flag = false;
@@ -472,7 +489,7 @@
 
 	}
 
-	function openRegPerson() {
+	function addRegPerson() {
 		var matEngId = $("input[name='supplierMatEng.id']").val();
 		var supplierId = $("input[name='id']").val();
 		var id;
@@ -487,127 +504,20 @@
 		$("#reg_person_list_tbody_id")
 				.append(
 						"<tr>"
-								+ "<td class='tc'><input type='checkbox' value='" + id + "' class='border0'/><input type='hidden' name='supplierMatEng.listSupplierRegPersons[" + certPersonNumber + "].id' value='" + id + "'></td>"
-								+ "<td class='tc'><input type='text' class='border0' onblur='tempSave()' name='supplierMatEng.listSupplierRegPersons["
+								+ "<td class='tc'><input type='checkbox' value='" + id + "' class='border0' isAdd='true'/><input type='hidden' name='supplierMatEng.listSupplierRegPersons[" + certPersonNumber + "].id' value='" + id + "'/></td>"
+								+ "<td class='tc'><input type='text' class='border0' name='supplierMatEng.listSupplierRegPersons["
 								+ certPersonNumber
 								+ "].regType'/> </td>"
-								+ "<td class='tc'><input type='text' class='border0' onblur='tempSave()' name='supplierMatEng.listSupplierRegPersons["
+								+ "<td class='tc'><input type='text' class='border0' name='supplierMatEng.listSupplierRegPersons["
 								+ certPersonNumber + "].regNumber'/> </td>"
 								+ "</tr>");
 		certPersonNumber++;
 		$("#certPersonNumber").val(certPersonNumber);
-		tempSave();
 	}
 
-	function deleteRegPerson() {
+	function delRegPerson() {
 		var checkboxs = $("#reg_person_list_tbody_id")
 				.find(":checkbox:checked");
-		var regPersonIds = "";
-		var supplierId = $("input[name='id']").val();
-		$(checkboxs).each(function(index) {
-			if (index > 0) {
-				regPersonIds += ",";
-			}
-			regPersonIds += $(this).val();
-		});
-		var size = checkboxs.length;
-		if (size > 0) {
-		
-			// 退回修改审核通过的项不能删除
-			var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
-			if(!isDel){
-				layer.msg("审核通过的项不能删除！");
-				return;
-			}
-		
-			layer
-					.confirm(
-							"已勾选" + size + "条记录, 确定删除 !",
-							{
-								offset : '200px',
-								scrollbar : false,
-							},
-							function(index) {
-								/* window.location.href = "${pageContext.request.contextPath}/supplier_reg_person/delete_reg_person.html?regPersonIds="
-										+ regPersonIds
-										+ "&supplierId="
-										+ supplierId;
-								layer.close(index); */
-								// 采用ajax post方式删除
-								$.ajax({
-									url: "${pageContext.request.contextPath}/supplier_reg_person/delete_reg_person.do",
-									async: false,
-									type: "POST",
-									data: {
-										"ids": regPersonIds
-									},
-									success: function(data){
-										if(data=="ok"){
-										  layer.msg("删除成功！", {
-										    offset: '300px'
-										  });
-										  $(checkboxs).each(function(index) {
-										    var tr = $(this).parent().parent();
-										    $(tr).remove();
-										  });
-										}
-										if(data=="fail"){
-										  layer.msg("删除失败！", {
-										    offset: '300px'
-										  });
-										}
-									},
-									error: function(){
-										layer.msg("删除失败！");
-									}
-								});
-							});
-		} else {
-			layer.alert("请至少勾选一条记录！", {
-				offset : '200px',
-				scrollbar : false,
-			});
-		}
-	}
-
-	function openAptitute() {
-		var matEngId = $("input[name='supplierMatEng.id']").val();
-		var supplierId = $("input[name='id']").val();
-		var certAptNumber = $("#certAptNumber").val();
-		$.ajax({
-			url : "${pageContext.request.contextPath}/supplier/addAptCert.do",
-			async : false,
-			dataType : "html",
-			data : {
-				"number" : certAptNumber
-			},
-			success : function(data) {
-				$("#aptitute_list_tbody_id").append(data);
-				init_web_upload();
-				tempSave();
-			}
-		});
-		certAptNumber++;
-		$("#certAptNumber").val(certAptNumber);
-	}
-
-	function deleteAptitute() {
-		var all = $("#aptitute_list_tbody_id").find(":checkbox");
-		var checkboxs = $("#aptitute_list_tbody_id").find(":checkbox:checked");
-		
-		if(checkboxs.length == all.length){
-			layer.msg("供应商资质证书详细信息请至少保留一条！");
-			return;
-		}
-		
-		var aptituteIds = "";
-		var supplierId = $("input[name='id']").val();
-		$(checkboxs).each(function(index) {
-			if (index > 0) {
-				aptituteIds += ",";
-			}
-			aptituteIds += $(this).val();
-		});
 		var size = checkboxs.length;
 		if (size > 0) {
 		
@@ -619,159 +529,39 @@
 			}
 		
 			layer.confirm(
-				"已勾选" + size + "条记录, 确定删除 !",
+				"已勾选" + size + "条记录，确定删除？",
 				{
 					offset : '200px',
 					scrollbar : false,
 				},
 				function(index) {
-					/* window.location.href = "${pageContext.request.contextPath}/supplier_aptitute/delete_aptitute.html?aptituteIds="
-							+ aptituteIds
+					var regPersonIds = "";
+					var supplierId = $("input[name='id']").val();
+					$(checkboxs).each(function(n,v) {
+						var isAdd = $(this).attr("isAdd");
+						if(isAdd){
+							var tr = $(this).parent().parent();
+					    $(tr).remove();
+						}else{
+							if (n > 0) {
+								regPersonIds += ",";
+							}
+							regPersonIds += $(this).val();
+						}
+					});
+					/* window.location.href = "${pageContext.request.contextPath}/supplier_reg_person/delete_reg_person.html?regPersonIds="
+							+ regPersonIds
 							+ "&supplierId="
 							+ supplierId;
 					layer.close(index); */
 					// 采用ajax post方式删除
-					$.ajax({
-						url: "${pageContext.request.contextPath}/supplier_aptitute/delete_aptitute.do",
-						async: false,
-						type: "POST",
-						data: {
-							"ids": aptituteIds
-						},
-						success: function(data){
-							if(data=="ok"){
-							  layer.msg("删除成功！", {
-							    offset: '300px'
-							  });
-							  $(checkboxs).each(function(index) {
-							    var tr = $(this).parent().parent();
-							    $(tr).remove();
-							  });
-							}
-							if(data=="fail"){
-							  layer.msg("删除失败！", {
-							    offset: '300px'
-							  });
-							}
-						},
-						error: function(){
-							layer.msg("删除失败！");
-						}
-					});
-				});
-		} else {
-			layer.alert("请至少勾选一条记录！", {
-				offset : '200px',
-				scrollbar : false,
-			});
-		}
-	}
-
-	/** 打开物资生产证书 */
-	var proIndex;
-
-	function openCertPro() {
-		var matProId = $("input[name='supplierMatPro.id']").val();
-		var supplierId = $("input[name='id']").val();
-		var certProNumber = $("#certProNumber").val();
-		$.ajax({
-			url : "${pageContext.request.contextPath}/supplier/addProductCert.do",
-			async : false,
-			dataType : "html",
-			data : {
-				"number" : certProNumber
-			},
-			success : function(data) {
-				$("#cert_pro_list_tbody_id").append(data);
-				init_web_upload();
-				tempSave();
-			}
-		});
-		certProNumber++;
-		$("#certProNumber").val(certProNumber);
-	}
-
-	/** 供应商保存专业生产信息 */
-	function savePro(jsp) {
-		$("input[name='jsp']").val(jsp);
-		// 提交的时候表单域设置成可编辑
-		enableForm();
-		$("#save_pro_form_id").submit();
-	}
-
-	function checkAll(ele, id) {
-		var flag = $(ele).prop("checked");
-		$("#" + id).find("input:checkbox").each(function() {
-			$(this).prop("checked", flag);
-		});
-
-	}
-
-	function deleteCertPro() {
-		var allCertProCount = 0;// 所有的质量管理体系认证证书数量
-		var checkedCertProCount = 0;// 已选的质量管理体系认证证书数量
-		var all = $("#cert_pro_list_tbody_id").find(":checkbox");
-		var checkboxs = $("#cert_pro_list_tbody_id").find(":checkbox:checked");
-		
-		if(checkboxs.length == all.length){
-			layer.msg("资质证书信息请至少保留一条！");
-			return;
-		}
-		
-		$(all).each(function(index) {
-			var certPropName = $(this).parent().next().find("input").val();
-      if(certPropName == '质量管理体系认证证书'){
-        allCertProCount++;
-      }
-		});
-	
-		var certProIds = "";
-		var supplierId = $("input[name='id']").val();
-		var delFlag = true;	
-		$(checkboxs).each(function(index) {
-			if (index > 0) {
-				certProIds += ",";
-			}
-			certProIds += $(this).val();
-      var certPropName = $(this).parent().next().find("input").val();
-      if(certPropName == '质量管理体系认证证书'){
-      	checkedCertProCount++;
-      }
-		});
-		if(checkedCertProCount == allCertProCount){
-			delFlag = false;
-		}
-		var size = checkboxs.length;
-		if (size > 0) {
-		
-			// 退回修改审核通过的项不能删除
-			var isDel = checkIsDelForTuihui(checkboxs, '${proPageField}');
-			if(!isDel){
-				layer.msg("审核通过的项不能删除！");
-				return;
-			}
-		
-	    var _certProNumber = $("#certProNumber").val();
-	    if(delFlag){//含有资质证书信息-质量管理体系认证证书不能删除(物资类型)
-        layer.confirm(
-          "已勾选" + size + "条记录, 确定删除 !",
-          {
-            offset : '200px',
-            scrollbar : false,
-          },
-          function(index) {
-            /* window.location.href = "${pageContext.request.contextPath}/supplier_cert_pro/delete_cert_pro.html?certProIds="
-              + certProIds
-              + "&supplierId="
-              + supplierId;
-            layer.close(index); */
-            // 采用ajax post方式删除
+					if(regPersonIds != ""){
 						$.ajax({
-							url: "${pageContext.request.contextPath}/supplier_cert_pro/delete_cert_pro.do",
+							url: "${pageContext.request.contextPath}/supplier_reg_person/delete_reg_person.do",
 							async: false,
 							type: "POST",
 							data: {
-								"ids": certProIds
+								"ids": regPersonIds
 							},
 							success: function(data){
 								if(data=="ok"){
@@ -793,23 +583,363 @@
 								layer.msg("删除失败！");
 							}
 						});
-        	}
-        );
-      }else{
-        layer.alert("质量管理体系认证证书不能删除，请至少保留一个!", {
-          offset : '200px',
-          scrollbar : false,
-        });
-      }
+					}
+					layer.close(index);
+				}
+			);
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
+				offset : '200px',
+				scrollbar : false,
+			});
+		}
+	}
+	
+	function addCertEng() {
+		var matEngId = $("input[name='supplierMatEng.id']").val();
+		var supplierId = $("input[name='id']").val();
+		var certEngNumber = $("#certEngNumber").val();
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplier/addEngCert.do",
+			async : false,
+			dataType : "html",
+			data : {
+				"number" : certEngNumber
+			},
+			success : function(data) {
+				$("#cert_eng_list_tbody_id").append(data);
+				init_web_upload();
+			}
+		});
+		certEngNumber++;
+		$("#certEngNumber").val(certEngNumber);
+	}
+
+	function delCertEng() {
+		var all = $("#cert_eng_list_tbody_id").find(":checkbox");
+		var checkboxs = $("#cert_eng_list_tbody_id").find(":checkbox:checked");
+		
+		if(checkboxs.length == all.length){
+			layer.msg("供应商资质（认证）证书信息请至少保留一条！");
+			return;
+		}
+		
+		var size = checkboxs.length;
+		if (size > 0) {
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
+			layer.confirm(
+				"已勾选" + size + "条记录，确定删除？",
+				{
+					offset : '200px',
+					scrollbar : false,
+				},
+				function(index) {
+					var certEngIds = "";
+					var supplierId = $("input[name='id']").val();
+					$(checkboxs).each(function(n,v) {
+						var isAdd = $(this).attr("isAdd");
+						if(isAdd){
+							var tr = $(this).parent().parent();
+					    $(tr).remove();
+						}else{
+							if (n > 0) {
+								certEngIds += ",";
+							}
+							certEngIds += $(this).val();
+						}
+					});
+					/* window.location.href = "${pageContext.request.contextPath}/supplier_cert_eng/delete_cert_eng.html?certEngIds="
+							+ certEngIds
+							+ "&supplierId="
+							+ supplierId;
+					layer.close(index); */
+					// 采用ajax post方式删除
+					if(certEngIds != ""){
+						$.ajax({
+							url: "${pageContext.request.contextPath}/supplier_cert_eng/delete_cert_eng.do",
+							async: false,
+							type: "POST",
+							data: {
+								"ids": certEngIds
+							},
+							success: function(data){
+								if(data=="ok"){
+								  layer.msg("删除成功！", {
+								    offset: '300px'
+								  });
+								  $(checkboxs).each(function(index) {
+								    var tr = $(this).parent().parent();
+								    $(tr).remove();
+								  });
+								}
+								if(data=="fail"){
+								  layer.msg("删除失败！", {
+								    offset: '300px'
+								  });
+								}
+							},
+							error: function(){
+								layer.msg("删除失败！");
+							}
+						});
+					}
+					layer.close(index);
+				}
+			);
+		} else {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
 		}
 	}
 
-	function openCertSell() {
+	function addAptitute() {
+		var matEngId = $("input[name='supplierMatEng.id']").val();
+		var supplierId = $("input[name='id']").val();
+		var certAptNumber = $("#certAptNumber").val();
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplier/addAptCert.do",
+			async : false,
+			dataType : "html",
+			data : {
+				"number" : certAptNumber
+			},
+			success : function(data) {
+				$("#aptitute_list_tbody_id").append(data);
+				init_web_upload();
+			}
+		});
+		certAptNumber++;
+		$("#certAptNumber").val(certAptNumber);
+	}
+
+	function delAptitute() {
+		var all = $("#aptitute_list_tbody_id").find(":checkbox");
+		var checkboxs = $("#aptitute_list_tbody_id").find(":checkbox:checked");
+		
+		if(checkboxs.length == all.length){
+			layer.msg("供应商资质证书详细信息请至少保留一条！");
+			return;
+		}
+		
+		var size = checkboxs.length;
+		if (size > 0) {
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
+			layer.confirm(
+				"已勾选" + size + "条记录，确定删除？",
+				{
+					offset : '200px',
+					scrollbar : false,
+				},
+				function(index) {
+					var aptituteIds = "";
+					var supplierId = $("input[name='id']").val();
+					$(checkboxs).each(function(n,v) {
+						var isAdd = $(this).attr("isAdd");
+						if(isAdd){
+							var tr = $(this).parent().parent();
+					    $(tr).remove();
+						}else{
+							if (n > 0) {
+								aptituteIds += ",";
+							}
+							aptituteIds += $(this).val();
+						}
+					});
+					/* window.location.href = "${pageContext.request.contextPath}/supplier_aptitute/delete_aptitute.html?aptituteIds="
+							+ aptituteIds
+							+ "&supplierId="
+							+ supplierId;
+					layer.close(index); */
+					// 采用ajax post方式删除
+					if(aptituteIds != ""){
+						$.ajax({
+							url: "${pageContext.request.contextPath}/supplier_aptitute/delete_aptitute.do",
+							async: false,
+							type: "POST",
+							data: {
+								"ids": aptituteIds
+							},
+							success: function(data){
+								if(data=="ok"){
+								  layer.msg("删除成功！", {
+								    offset: '300px'
+								  });
+								  $(checkboxs).each(function(index) {
+								    var tr = $(this).parent().parent();
+								    $(tr).remove();
+								  });
+								}
+								if(data=="fail"){
+								  layer.msg("删除失败！", {
+								    offset: '300px'
+								  });
+								}
+							},
+							error: function(){
+								layer.msg("删除失败！");
+							}
+						});
+					}
+					layer.close(index);
+				}
+			);
+		} else {
+			layer.alert("请至少勾选一条记录！", {
+				offset : '200px',
+				scrollbar : false,
+			});
+		}
+	}
+
+	function addCertPro() {
+		var matProId = $("input[name='supplierMatPro.id']").val();
+		var supplierId = $("input[name='id']").val();
+		var certProNumber = $("#certProNumber").val();
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplier/addProductCert.do",
+			async : false,
+			dataType : "html",
+			data : {
+				"number" : certProNumber
+			},
+			success : function(data) {
+				$("#cert_pro_list_tbody_id").append(data);
+				init_web_upload();
+			}
+		});
+		certProNumber++;
+		$("#certProNumber").val(certProNumber);
+	}
+
+	function delCertPro() {
+		var allCertProCount = 0;// 所有的质量管理体系认证证书数量
+		var checkedCertProCount = 0;// 已选的质量管理体系认证证书数量
+		var all = $("#cert_pro_list_tbody_id").find(":checkbox");
+		var checkboxs = $("#cert_pro_list_tbody_id").find(":checkbox:checked");
+		
+		if(checkboxs.length == all.length){
+			layer.msg("资质证书信息请至少保留一条！");
+			return;
+		}
+		
+		$(all).each(function(index) {
+			var certPropName = $(this).parent().next().find("input").val();
+      if(certPropName == '质量管理体系认证证书'){
+        allCertProCount++;
+      }
+		});
+	
+		var delFlag = true;	
+		$(checkboxs).each(function(index) {
+      var certPropName = $(this).parent().next().find("input").val();
+      if(certPropName == '质量管理体系认证证书'){
+      	checkedCertProCount++;
+      }
+		});
+		if(checkedCertProCount == allCertProCount){
+			delFlag = false;
+		}
+		var size = checkboxs.length;
+		if (size > 0) {
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${proPageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
+	    if(delFlag){//含有资质证书信息-质量管理体系认证证书不能删除(物资类型)
+        layer.confirm(
+          "已勾选" + size + "条记录，确定删除？",
+          {
+            offset : '200px',
+            scrollbar : false,
+          },
+          function(index) {
+          	var certProIds = "";
+						var supplierId = $("input[name='id']").val();
+						$(checkboxs).each(function(n,v) {
+							var isAdd = $(this).attr("isAdd");
+							if(isAdd){
+								var tr = $(this).parent().parent();
+						    $(tr).remove();
+							}else{
+								if (n > 0) {
+									certProIds += ",";
+								}
+								certProIds += $(this).val();
+							}
+						});
+            /* window.location.href = "${pageContext.request.contextPath}/supplier_cert_pro/delete_cert_pro.html?certProIds="
+              + certProIds
+              + "&supplierId="
+              + supplierId;
+            layer.close(index); */
+            // 采用ajax post方式删除
+            if(certProIds != ""){
+            	$.ajax({
+								url: "${pageContext.request.contextPath}/supplier_cert_pro/delete_cert_pro.do",
+								async: false,
+								type: "POST",
+								data: {
+									"ids": certProIds
+								},
+								success: function(data){
+									if(data=="ok"){
+									  layer.msg("删除成功！", {
+									    offset: '300px'
+									  });
+									  $(checkboxs).each(function(index) {
+									    var tr = $(this).parent().parent();
+									    $(tr).remove();
+									  });
+									}
+									if(data=="fail"){
+									  layer.msg("删除失败！", {
+									    offset: '300px'
+									  });
+									}
+								},
+								error: function(){
+									layer.msg("删除失败！");
+								}
+							});
+            }
+            layer.close(index);
+        	}
+        );
+      }else{
+        layer.alert("质量管理体系认证证书不能删除，请至少保留一个！", {
+          offset : '200px',
+          scrollbar : false,
+        });
+      }
+		} else {
+			layer.alert("请至少勾选一条记录！", {
+				offset : '200px',
+				scrollbar : false,
+			});
+		}
+	}
+
+	function addCertSell() {
 		var matSellId = $("input[name='supplierMatSell.id']").val();
 		var supplierId = $("input[name='id']").val();
 		var certSaleNumber = $("#certSaleNumber").val();
@@ -823,23 +953,14 @@
 			success : function(data) {
 				$("#cert_sell_list_tbody_id").append(data);
 				init_web_upload();
-				tempSave();
 			}
 		});
 		certSaleNumber++;
 		$("#certSaleNumber").val(certSaleNumber);
 	}
 
-	function deleteCertSell() {
+	function delCertSell() {
 		var checkboxs = $("#cert_sell_list_tbody_id").find(":checkbox:checked");
-		var certSellIds = "";
-		var supplierId = $("input[name='id']").val();
-		$(checkboxs).each(function(index) {
-			if (index > 0) {
-				certSellIds += ",";
-			}
-			certSellIds += $(this).val();
-		});
 		var size = checkboxs.length;
 		if (size > 0) {
 		
@@ -850,48 +971,65 @@
 				return;
 			}
 		
-			layer
-					.confirm(
-							"已勾选" + size + "条记录, 确定删除 !",
-							{
-								offset : '200px',
-								scrollbar : false,
+			layer.confirm(
+				"已勾选" + size + "条记录，确定删除？",
+				{
+					offset : '200px',
+					scrollbar : false,
+				},
+				function(index) {
+					var certSellIds = "";
+					var supplierId = $("input[name='id']").val();
+					$(checkboxs).each(function(n,v) {
+						var isAdd = $(this).attr("isAdd");
+						if(isAdd){
+							var tr = $(this).parent().parent();
+					    $(tr).remove();
+						}else{
+							if (n > 0) {
+								certSellIds += ",";
+							}
+							certSellIds += $(this).val();
+						}
+					});
+					/* window.location.href = "${pageContext.request.contextPath}/supplier_cert_sell/delete_cert_sell.html?certSellIds="
+							+ certSellIds
+							+ "&supplierId="
+							+ supplierId;
+					layer.close(index); */
+					// 采用ajax post方式删除
+					if(certSellIds != ""){
+						$.ajax({
+							url: "${pageContext.request.contextPath}/supplier_cert_sell/delete_cert_sell.do",
+							async: false,
+							type: "POST",
+							data: {
+								"ids": certSellIds
 							},
-							function(index) {
-								/* window.location.href = "${pageContext.request.contextPath}/supplier_cert_sell/delete_cert_sell.html?certSellIds="
-										+ certSellIds
-										+ "&supplierId="
-										+ supplierId;
-								layer.close(index); */
-								// 采用ajax post方式删除
-								$.ajax({
-									url: "${pageContext.request.contextPath}/supplier_cert_sell/delete_cert_sell.do",
-									async: false,
-									type: "POST",
-									data: {
-										"ids": certSellIds
-									},
-									success: function(data){
-										if(data=="ok"){
-										  layer.msg("删除成功！", {
-										    offset: '300px'
-										  });
-										  $(checkboxs).each(function(index) {
-										    var tr = $(this).parent().parent();
-										    $(tr).remove();
-										  });
-										}
-										if(data=="fail"){
-										  layer.msg("删除失败！", {
-										    offset: '300px'
-										  });
-										}
-									},
-									error: function(){
-										layer.msg("删除失败！");
-									}
-								});
-							});
+							success: function(data){
+								if(data=="ok"){
+								  layer.msg("删除成功！", {
+								    offset: '300px'
+								  });
+								  $(checkboxs).each(function(index) {
+								    var tr = $(this).parent().parent();
+								    $(tr).remove();
+								  });
+								}
+								if(data=="fail"){
+								  layer.msg("删除失败！", {
+								    offset: '300px'
+								  });
+								}
+							},
+							error: function(){
+								layer.msg("删除失败！");
+							}
+						});
+					}
+					layer.close(index);
+				}
+			);
 		} else {
 			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
@@ -900,7 +1038,7 @@
 		}
 	}
 
-	function openCertSe() {
+	function addCertSe() {
 		var matSeId = $("input[name='supplierMatSe.id']").val();
 		var supplierId = $("input[name='id']").val();
 		var certSeNumber = $("#certSeNumber").val();
@@ -914,23 +1052,14 @@
 			success : function(data) {
 				$("#cert_se_list_tbody_id").append(data);
 				init_web_upload();
-				tempSave();
 			}
 		});
 		certSeNumber++;
 		$("#certSeNumber").val(certSeNumber);
 	}
 
-	function deleteCertSe() {
+	function delCertSe() {
 		var checkboxs = $("#cert_se_list_tbody_id").find(":checkbox:checked");
-		var certSeIds = "";
-		var supplierId = $("input[name='id']").val();	
-		$(checkboxs).each(function(index) {
-			if (index > 0) {
-				certSeIds += ",";
-			}
-			certSeIds += $(this).val();
-		});
 		var size = checkboxs.length;
 		if (size > 0) {
 		
@@ -941,54 +1070,79 @@
 				return;
 			}
 		
-			layer
-					.confirm(
-							"已勾选" + size + "条记录, 确定删除 !",
-							{
-								offset : '200px',
-								scrollbar : false,
+			layer.confirm(
+				"已勾选" + size + "条记录，确定删除？",
+				{
+					offset : '200px',
+					scrollbar : false,
+				},
+				function(index) {
+					var certSeIds = "";
+					var supplierId = $("input[name='id']").val();
+					$(checkboxs).each(function(n,v) {
+						var isAdd = $(this).attr("isAdd");
+						if(isAdd){
+							var tr = $(this).parent().parent();
+					    $(tr).remove();
+						}else{
+							if (n > 0) {
+								certSeIds += ",";
+							}
+							certSeIds += $(this).val();
+						}
+					});
+					/* window.location.href = "${pageContext.request.contextPath}/supplier_cert_se/delete_cert_se.html?certSeIds="
+							+ certSeIds
+							+ "&supplierId="
+							+ supplierId;
+					layer.close(index); */
+					// 采用ajax post方式删除
+					if(certSeIds != ""){
+						$.ajax({
+							url: "${pageContext.request.contextPath}/supplier_cert_se/delete_cert_se.do",
+							async: false,
+							type: "POST",
+							data: {
+								"ids": certSeIds
 							},
-							function(index) {
-								/* window.location.href = "${pageContext.request.contextPath}/supplier_cert_se/delete_cert_se.html?certSeIds="
-										+ certSeIds
-										+ "&supplierId="
-										+ supplierId;
-								layer.close(index); */
-								// 采用ajax post方式删除
-								$.ajax({
-									url: "${pageContext.request.contextPath}/supplier_cert_se/delete_cert_se.do",
-									async: false,
-									type: "POST",
-									data: {
-										"ids": certSeIds
-									},
-									success: function(data){
-										if(data=="ok"){
-										  layer.msg("删除成功！", {
-										    offset: '300px'
-										  });
-										  $(checkboxs).each(function(index) {
-										    var tr = $(this).parent().parent();
-										    $(tr).remove();
-										  });
-										}
-										if(data=="fail"){
-										  layer.msg("删除失败！", {
-										    offset: '300px'
-										  });
-										}
-									},
-									error: function(){
-										layer.msg("删除失败！");
-									}
-								});
-							});
+							success: function(data){
+								if(data=="ok"){
+								  layer.msg("删除成功！", {
+								    offset: '300px'
+								  });
+								  $(checkboxs).each(function(index) {
+								    var tr = $(this).parent().parent();
+								    $(tr).remove();
+								  });
+								}
+								if(data=="fail"){
+								  layer.msg("删除失败！", {
+								    offset: '300px'
+								  });
+								}
+							},
+							error: function(){
+								layer.msg("删除失败！");
+							}
+						});
+					}
+					layer.close(index);
+				}
+			);
 		} else {
 			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
 		}
+	}
+	
+	//全选
+	function checkAll(ele, id) {
+		var flag = $(ele).prop("checked");
+		$("#" + id).find("input:checkbox").each(function() {
+			$(this).prop("checked", flag);
+		});
 	}
 	
 	//控制省市附件的显示与隐藏
@@ -1042,10 +1196,11 @@
 				getAptLevel($(this));
 			});
 			
-			$("input").not(".validatebox-text").not("input[type='button']").bind("blur", tempSave);
+			// 去掉实时保存
+			/* $("input").not(".validatebox-text").not("input[type='button']").bind("blur", tempSave);
 			$("textarea").bind("blur", tempSave);
 			$("select").bind("change", tempSave);
-			$(".certTypeSelect").unbind("blur", tempSave);
+			$(".certTypeSelect").unbind("blur", tempSave); */
      	
 			var supplierType = "${type}";
 			var pro = "${pro}";
@@ -1163,103 +1318,6 @@
 		}
 	});
 
-	function openCertEng() {
-		var matEngId = $("input[name='supplierMatEng.id']").val();
-		var supplierId = $("input[name='id']").val();
-		var certEngNumber = $("#certEngNumber").val();
-		$.ajax({
-			url : "${pageContext.request.contextPath}/supplier/addEngCert.do",
-			async : false,
-			dataType : "html",
-			data : {
-				"number" : certEngNumber
-			},
-			success : function(data) {
-				$("#cert_eng_list_tbody_id").append(data);
-				init_web_upload();
-				tempSave();
-			}
-		});
-		certEngNumber++;
-		$("#certEngNumber").val(certEngNumber);
-	}
-
-	function deleteCertEng() {
-		var all = $("#cert_eng_list_tbody_id").find(":checkbox");
-		var checkboxs = $("#cert_eng_list_tbody_id").find(":checkbox:checked");
-		
-		if(checkboxs.length == all.length){
-			layer.msg("供应商资质（认证）证书信息请至少保留一条！");
-			return;
-		}
-		
-		var certEngIds = "";
-		var supplierId = $("input[name='id']").val();
-		$(checkboxs).each(function(index) {
-			if (index > 0) {
-				certEngIds += ",";
-			}
-			certEngIds += $(this).val();
-		});
-		var size = checkboxs.length;
-		if (size > 0) {
-		
-			// 退回修改审核通过的项不能删除
-			var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
-			if(!isDel){
-				layer.msg("审核通过的项不能删除！");
-				return;
-			}
-		
-			layer.confirm(
-				"已勾选" + size + "条记录, 确定删除 !",
-				{
-					offset : '200px',
-					scrollbar : false,
-				},
-				function(index) {
-					/* window.location.href = "${pageContext.request.contextPath}/supplier_cert_eng/delete_cert_eng.html?certEngIds="
-							+ certEngIds
-							+ "&supplierId="
-							+ supplierId;
-					layer.close(index); */
-					// 采用ajax post方式删除
-					$.ajax({
-						url: "${pageContext.request.contextPath}/supplier_cert_eng/delete_cert_eng.do",
-						async: false,
-						type: "POST",
-						data: {
-							"ids": certEngIds
-						},
-						success: function(data){
-							if(data=="ok"){
-							  layer.msg("删除成功！", {
-							    offset: '300px'
-							  });
-							  $(checkboxs).each(function(index) {
-							    var tr = $(this).parent().parent();
-							    $(tr).remove();
-							  });
-							}
-							if(data=="fail"){
-							  layer.msg("删除失败！", {
-							    offset: '300px'
-							  });
-							}
-						},
-						error: function(){
-							layer.msg("删除失败！");
-						}
-					});
-				});
-		} else {
-			layer.alert("请至少勾选一条记录！", {
-				offset : '200px',
-				scrollbar : false,
-			});
-		}
-	}
-
 	function seach(obj) {
 		var id = $(obj).next().val();
 		var sid = $("#sid").val();
@@ -1276,7 +1334,7 @@
 				closeBtn : 1, //不显示关闭按钮
 			});
 		} else {
-			layer.alert("请至少勾选一条记录 !", {
+			layer.alert("请至少勾选一条记录！", {
 				offset : '200px',
 				scrollbar : false,
 			});
@@ -1535,6 +1593,9 @@
 		}
 	}
 	function updateStep(step){
+		if(step == 1){
+			tempSave();
+		}
 		var supplierId = "${currSupplier.id}";
 		location.href = "${pageContext.request.contextPath}/supplier/updateStep.html?step=" + step + "&supplierId=" + supplierId;
 	}
@@ -1542,14 +1603,14 @@
 	sessionStorage.index=2;
 	
 	
-	//
-	function downloadTable(val) {
+	//判断销售型是否满足要求
+	function isSalePass(val) {
 		var supplierId = "${currSupplier.id}";
 		$.ajax({
 			url: "${pageContext.request.contextPath}/supplier/isPass.do",
 			data: {
 				"supplierId": supplierId,
-				 "type":val
+				"type": val
 			},
 			type: "post",
 			success: function(data) {
@@ -1646,7 +1707,7 @@
 										<h2 class="list_title">物资-生产型专业信息</h2>
 										<ul class="list-unstyled f14 overflow_h">
 											<input type="hidden" name="supplierMatPro.id"
-												value="${currSupplier.supplierMatEng.id}" />
+												value="${currSupplier.supplierMatPro.id}" />
 											<input type="hidden" name="supplierMatPro.supplierId"
 												value="${currSupplier.id}" />
 
@@ -1776,11 +1837,11 @@
                            	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
                            </c:when>
                            <c:otherwise>
-                             <button type="button" class="btn btn-windows add" onclick="openCertPro()">新增</button>
+                             <button type="button" class="btn btn-windows add" onclick="addCertPro()">新增</button>
                            </c:otherwise>
                          </c:choose>
 												<button type="button" class="btn btn-windows delete"
-													onclick="deleteCertPro()">删除</button>
+													onclick="delCertPro()">删除</button>
 												<span class="red">${cert_pro }</span>
 											</div>
 											<div class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
@@ -1910,10 +1971,10 @@
                          	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
                          </c:when>
                          <c:otherwise>
-                           <button type="button" class="btn" onclick="openCertSell()">新增</button>
+                           <button type="button" class="btn" onclick="addCertSell()">新增</button>
                          </c:otherwise>
                        </c:choose>
-											<button type="button" class="btn" onclick="deleteCertSell()">删除</button>
+											<button type="button" class="btn" onclick="delCertSell()">删除</button>
 											<span class="red">${sale_cert }</span>
 										</div>
 										<div class="col-md-12 col-sm-12 col-xs-12 over_auto p0">
@@ -2155,10 +2216,10 @@
                          	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
                         </c:when>
                         <c:otherwise>
-                          <button type="button" class="btn" onclick="openRegPerson()">新增</button>
+                          <button type="button" class="btn" onclick="addRegPerson()">新增</button>
                         </c:otherwise>
                       </c:choose>
-										 	<button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
+										 	<button type="button" class="btn" onclick="delRegPerson()">删除</button>
 											<span class="red">${eng_persons }</span>
 										</div>
 										<div
@@ -2220,10 +2281,10 @@
                          	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
                          </c:when>
                          <c:otherwise>
-                           <button type="button" class="btn" onclick="openCertEng()">新增</button>
+                           <button type="button" class="btn" onclick="addCertEng()">新增</button>
                          </c:otherwise>
                        </c:choose>
-											<button type="button" class="btn" onclick="deleteCertEng()">删除</button>
+											<button type="button" class="btn" onclick="delCertEng()">删除</button>
 											<span class="red">${eng_cert}</span>
 										</div>
 										<div
@@ -2343,10 +2404,10 @@
                          	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
                          </c:when>
                          <c:otherwise>
-                           <button type="button" class="btn" onclick="openAptitute()">新增</button>
+                           <button type="button" class="btn" onclick="addAptitute()">新增</button>
                          </c:otherwise>
                        </c:choose>
-											<button type="button" class="btn" onclick="deleteAptitute()">删除</button>
+											<button type="button" class="btn" onclick="delAptitute()">删除</button>
 											<span class="red">${eng_aptitutes }</span>
 										</div>
 										<div class="over_auto clear col-md-12 col-xs-12 col-sm-12 p0">
@@ -2425,7 +2486,7 @@
 															</td>
 															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																<!-- 
-																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()"></select>
+																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0"></select>
 																 -->
 																<select id="certGrade_${certAptNumber}" title="cnjewfnGrade" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" style="width:200px;border: none;">
                                   <%-- <c:if test="${tempForShowOption eq 'go' }">
@@ -2534,10 +2595,10 @@
                          	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
                          </c:when>
                          <c:otherwise>
-                           <button type="button" class="btn" onclick="openCertSe()">新增</button>
+                           <button type="button" class="btn" onclick="addCertSe()">新增</button>
                          </c:otherwise>
                        </c:choose>
-											<button type="button" class="btn" onclick="deleteCertSe()">删除</button>
+											<button type="button" class="btn" onclick="delCertSe()">删除</button>
 											<span class="red">${fw_cert }</span>
 										</div>
 										<div class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
@@ -2732,16 +2793,12 @@
 			
 			// 控制4大类别的编辑性
 			$("input[type='checkbox'][name='chkItem']").attr('disabled',true);
-			$("input[type='checkbox'][name='chkItem']").each(function(){
-				/* if($(this).parent().css("color") == 'rgb(239, 0, 0)'){
-					$(this).attr('disabled',false);
-				} */
-				// 或者
+			/* $("input[type='checkbox'][name='chkItem']").each(function(){
 				var typeErrorField = '${typePageField}';
 				if(typeErrorField.indexOf($(this).parent().attr("id")) >= 0){
 					$(this).attr('disabled',false);
 				}
-			});
+			}); */
 			// 控制承揽业务范围：省、直辖市
 			var engPageField = '${engPageField}';
 			$("#areaSelect").attr('disabled',false);

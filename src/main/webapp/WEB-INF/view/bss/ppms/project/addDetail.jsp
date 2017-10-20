@@ -77,7 +77,7 @@
           							flag = false;
           						}
 
-                      html += "<td>";
+                      html += "<td class='text-center'>";
                       html += "<input type='hidden' name='pId_" + item.parentId + "' value='" + item.parentId + "'>";
                       if (flag == true) {
                     	  if(item.seq=='一') {
@@ -94,15 +94,15 @@
           						}
 
                       html += "</td>";
-                      html += "<td><div class='seq'>" + item.seq + "</div></td>";
-                      html += "<td><div class='department'>" + item.department + "</div></td>";
+                      html += "<td class='text-center'><div class='seq'>" + item.seq + "</div></td>";
+                      html += "<td class='text-center'><div class='department'>" + item.department + "</div></td>";
                       html += "<td><div class='goodsname'>" + item.goodsName + "</div></td>";
                       html += "<td><div class='stand'>" + item.stand + "</div></td>";
-                      html += "<td><div class='qualitStand'>" + item.qualitStand + "</div></td>";
-                      html += "<td><div class='item'>" + item.item + "</div></td>";
-                      html += "<td><div class='purchaseCount'>" + item.purchaseCount + "</div></td>";
+                      html += "<td class='text-center'><div class='qualitStand'>" + item.qualitStand + "</div></td>";
+                      html += "<td class='text-center'><div class='item'>" + item.item + "</div></td>";
+                      html += "<td class='text-center'><div class='purchaseCount'>" + item.purchaseCount + "</div></td>";
                       html += "<td><div class='deliverDate'>" + item.deliverDate + "</div></td>";
-                      html += "<td><div class='purchaseType tc'>" + item.purchaseType + "</div></td>";
+                      html += "<td class='text-center'><div class='purchaseType tc'>" + item.purchaseType + "</div></td>";
                       html += "<td><div class='purchasename'>" + code + "</div></td>";
                       html += "<td><div class='memo'>" + item.memo + "</div><input type='hidden' id='planType' value='" + item.planType + "' /></td>";
                       html += "</tr>";
@@ -125,6 +125,7 @@
             }
           });
         });
+        
       });
       
       $(window).resize(function () {

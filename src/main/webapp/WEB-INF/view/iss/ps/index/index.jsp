@@ -502,7 +502,7 @@
                     <%--</c:if>
                   --%></c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByTabs.html?articleTypeId=87&secondArticleTypeId=88">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByTabs.html?articleTypeId=87&secondArticleTypeId=88&flag=1">更多>></a>
               </div>
             
               <div id="tab-9" class="tab-pane fade">
@@ -917,7 +917,7 @@
           </h2>
             <div class=" tab-content">
             
-            <div id="tab-18" class="tab-pane fade active in">
+            <div id="tab-bdList" class="tab-pane fade active in">
                 <ul class="categories articleover">
                   <c:forEach items="${indexMapper['bdList']}" var="sl">
                     <%--<c:set value="${sl.name}" var="name"></c:set>
@@ -934,7 +934,7 @@
                     <%--</c:if>
                   --%></c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByTabs.html?articleTypeId=87&secondArticleTypeId=93&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("物资","utf-8"),"utf-8") %>">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByTabs.html?articleTypeId=87&secondArticleTypeId=93&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("物资","utf-8"),"utf-8") %>&flag=1">更多>></a>
               </div>
             
               <div id="tab-18" class="tab-pane fade">

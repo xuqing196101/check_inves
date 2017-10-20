@@ -858,6 +858,7 @@ public class ExpertAgainAuditServiceImpl implements ExpertAgainAuditService {
 		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
 		expertBatchDetails.setStatus("14");
 		expertBatchDetails.setBatchId(batchId);
+		expertBatchDetails.setSort("1");
 		List<ExpertBatchDetails> list = expertBatchDetailsMapper.getExpertBatchDetails(expertBatchDetails);
 		if(list.size()>0){
 			int number=list.size()/count;

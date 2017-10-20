@@ -200,6 +200,7 @@
          WHERE T.EXPERT_ID = #{expertId}
          AND T.SUGGEST_TYPE = #{type}
          AND T.IS_DELETED = 0
+         AND T.AUDIT_FALG = #{flag}
     </select>
 
     <!--查询专家审核通过的类型—根据类型查询-->
@@ -226,7 +227,16 @@
                  WHERE C.CATEGORY_ID = T.AUDIT_FIELD_ID
                    AND T.EXPERT_ID = #{expertId}
                    AND T.SUGGEST_TYPE = #{type}
-                   AND T.IS_DELETED = 0)
+                   AND T.IS_DELETED = 0
+                   <if test="auditFalg!=null">
+                   	<if test="auditFalg==2">
+                   		AND T.AUDIT_FALG=2
+                   	</if>
+                   	<if test="auditFalg!=2">
+                   		AND T.AUDIT_FALG!=2
+                   	</if>
+                   </if>
+                   )
            AND C.EXPERT_ID = #{expertId}
             AND C.LEVELS = '1' 
            AND C.TYPE_ID = #{typeId}
@@ -359,7 +369,7 @@
 	    <if test="typeIdList != null">
 	      <foreach collection="typeIdList" item="item" index="index" open="and TYPE_ID in ("
                      close=")" separator=",">
-                #{typeIdList[${index}]}
+                #{item}
             </foreach>
 	    </if>
     </select>
