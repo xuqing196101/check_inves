@@ -2645,6 +2645,9 @@ resultMap="BaseResultMap">
   <select id="findMilitaryExpert" resultMap="militaryExpertMap">
     SELECT ID,REAL_NAME,EXPERTS_TYPE_ID,ADDRESS,EXPERTS_FROM,MOBILE,PROFESS_TECH_TITLES,STATUS
     FROM T_SES_EMS_EXPERT WHERE IS_DELETE = 0 AND STATUS in (6,7) AND IS_PROVISIONAL &lt;&gt; 1
+    <if test="expertsFrom != null and expertsFrom !=''">
+        AND EXPERTS_FROM = #{expertsFrom}
+    </if>
     AND to_char(AUDIT_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
     AND to_char(AUDIT_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{end,jdbcType=VARCHAR} 
   </select>

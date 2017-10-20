@@ -14,6 +14,7 @@ import ses.dao.ems.ExpertTitleMapper;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertTitle;
+import ses.util.DictionaryDataUtil;
 import synchro.service.SynchMilitaryExpertService;
 import synchro.service.SynchRecordService;
 import synchro.util.Constant;
@@ -53,7 +54,7 @@ public class SynchMilitaryExpertServiceImpl implements SynchMilitaryExpertServic
 	public void militaryExpertExport(String start, String end, Date synchDate) {
 		int sum = 0;
 		//专家基本信息  T_SES_EMS_EXPERT
-		List<Expert> expertList = expertMapper.findMilitaryExpert(start, end);
+		List<Expert> expertList = expertMapper.findMilitaryExpert(start, end, DictionaryDataUtil.getId("ARMY"));
 		if (expertList != null && expertList.size() > 0) {
 			sum = sum + expertList.size();
 			// 专家基本信息

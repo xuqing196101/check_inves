@@ -426,5 +426,5 @@ public interface ExpertMapper {
      * @param 
      * @return
      */
-    List<Expert> findMilitaryExpert(@Param("start")String start,@Param("end")String end);
+    List<Expert> findMilitaryExpert(@Param("start")String start, @Param("end")String end, @Param("expertsFrom")String expertsFrom);
 }
