@@ -62,9 +62,11 @@
     from T_SES_EMS_EXPERT_AUDIT
     where 
     	EXPERT_ID = #{expertId}
+    <if test="isDeleted==null">
     and IS_DELETED = 0
+    </if>
     <if test="statusQuery!=null">
-    AND AUDIT_STATUS IN ('1','3','6')
+    AND (AUDIT_STATUS IN ('1','3','6') OR AUDIT_STATUS is null)
     </if>
     <if test="suggestType != '' and suggestType != null">
     	and SUGGEST_TYPE = #{suggestType}
@@ -299,7 +301,7 @@
     	and TYPE = #{type}
     </if>
     <if test="statusQuery!=null">
-    	AND AUDIT_STATUS IN ('1','3','6')
+    	AND (AUDIT_STATUS IN ('1','3','6') OR AUDIT_STATUS is null)
     </if>
   </select>
   
@@ -358,7 +360,7 @@
     from T_SES_EMS_EXPERT_AUDIT
     where EXPERT_ID = #{expertId}
     and IS_DELETED = 0
-    and AUDIT_STATUS IN ('1','3','6')
+    and (AUDIT_STATUS IN ('1','3','6') OR AUDIT_STATUS is null)
     <if test="suggestType != '' and suggestType != null">
     	and SUGGEST_TYPE = #{suggestType}
     </if>
@@ -498,7 +500,7 @@
       </if>
     </if>
      AND T.IS_DELETED = 0
-     AND T.AUDIT_STATUS IN ('1','3','6')
+     AND (T.AUDIT_STATUS IN ('1','3','6') OR T.AUDIT_STATUS IS null)
   </select>
   
   

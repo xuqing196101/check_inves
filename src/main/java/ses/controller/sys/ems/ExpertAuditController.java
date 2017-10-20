@@ -1632,6 +1632,7 @@ public class ExpertAuditController{
 			expertAudit.setAuditFalg(2);
 		}*/
 		expertAudit.setExpertId(expertId);
+		expertAudit.setIsDeleted(1);
 		List < ExpertAudit > reasonsList = new ArrayList<>();
 		if(expertAudit.getAuditFalg()==1){
 			expertAudit.setAuditFalg(666);//666为兼容老数据
