@@ -16,6 +16,12 @@ function jump(str){
     if(str == "auditInfo") {
       action = globalPath + "/expertQuery/auditInfo.html?reqType="+reqType+"&address="+address+"&expertsTypeId"+expertsTypeId+"&expertsFrom="+expertsFrom+"&orgId="+orgId;
     }
+    if(str == "review") {
+    	action = globalPath + "/expertQuery/review.html?reqType="+reqType+"&address="+address+"&expertsTypeId"+expertsTypeId+"&expertsFrom="+expertsFrom+"&orgId="+orgId;
+    }
+    if(str == "reviewCheck") {
+    	action = globalPath + "/expertQuery/reviewCheck.html?reqType="+reqType+"&address="+address+"&expertsTypeId"+expertsTypeId+"&expertsFrom="+expertsFrom+"&orgId="+orgId;
+    }
   }else{
     if(str == "basicInfo") {
       action = globalPath + "/expertQuery/view.html";
@@ -31,6 +37,12 @@ function jump(str){
     }
     if(str=="auditInfo"){
       action = globalPath + "/expertQuery/auditInfo.html";
+    }
+    if(str=="review"){
+    	action = globalPath + "/expertQuery/review.html";
+    }
+    if(str=="reviewCheck"){
+    	action = globalPath + "/expertQuery/reviewCheck.html";
     }
   }
   $("#form_id").attr("action",action);
