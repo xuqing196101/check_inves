@@ -57,9 +57,13 @@ function functionArea() {
     });
 }
 
-
 //人工抽取
 function artificial_extracting(isAuto){
+	if(isAuto == 1){
+		return;
+	}
+	//加载菊花图标
+	var ae_load = layer.load();
     getCount();
     $("#projectName").attr("disabled",false);
     $("#projectCode").attr("disabled",false);
@@ -68,6 +72,7 @@ function artificial_extracting(isAuto){
     $("#projectType").attr("disabled",false);
     var code = $("#expertKind option:selected").val();
     if(!validationIsNull(code)){
+    	layer.close(ae_load);
         return;
     }
     savePerson();
@@ -94,18 +99,7 @@ function artificial_extracting(isAuto){
         async : false,
         type : "POST",
         success : function(data) {
-        	if(isAuto == 0){
-        		for(var key in data){
-                    if(key != "conditionId" && data[key] != null && data[key].length > 0){
-                        $("#"+key+"_h").removeClass("display-none");
-                        addTr(key,data[key][0]);
-                    }else if(key == "conditionId"){
-                        $("#conditionId").val(data[key]);
-                    }
-                }
-        		$("#result").removeClass("display-none");
-        	}
-            //点击抽取之后设置条件页面不可再操作
+        	//点击抽取之后设置条件页面不可再操作
             $("#artificial").attr("disabled",true);
             $("#auto").attr("disabled",true);
             $("#reset").attr("disabled",true);
@@ -115,6 +109,26 @@ function artificial_extracting(isAuto){
             $("#div_2 select").attr("disabled",true);
             $("#div_3").find("input").attr("disabled",true);
             $("#div_3 select").attr("disabled",true);
+        	if(isAuto == 0){
+        		//人工抽取
+        		for(var key in data){
+                    if(key != "conditionId" && data[key] != null && data[key].length > 0){
+                        $("#"+key+"_h").removeClass("display-none");
+                        addTr(key,data[key][0]);
+                    }else if(key == "conditionId"){
+                        $("#conditionId").val(data[key]);
+                    }
+                }
+        		$("#result").removeClass("display-none");
+        	}else if(isAuto == 1){
+        		//自动抽取
+        		if(data == "OK"){
+        			layer.alert("信息同步至外网状态成功，正在抽取中，请稍后查看结果。");
+        		}else{
+        			layer.alert("信息同步至外网状态失败。");
+        		}
+        	}
+        	layer.close(ae_load);
         },
         error: function () {
             layer.msg("操作失败", {offset: '100px'});
@@ -564,7 +578,7 @@ function saveResult(expertId,value,join,code,select){
         async : false,
         type : "POST",
         success : function() {
-            var packageId = $("#packageId").val();
+            /*var packageId = $("#packageId").val();*/
         }
     });
 }
@@ -1092,6 +1106,7 @@ function savePerson(){
             }
         }
     });
+    return true;
 }
 
 //重置抽取条件

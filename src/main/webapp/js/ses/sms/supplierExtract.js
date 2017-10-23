@@ -122,6 +122,8 @@ $(function () {
     	if(null != $("#sellEnd").val()){
     		var startTime = new Date(Date.parse($("#sellBegin").val()));
     		var endTime = new Date(Date.parse($("#sellEnd").val()));
+    		$("#sellBeginTime").val(startTime.getTime());
+    		$("#sellEndTime").val(endTime.getTime());
     		if(startTime>=endTime){
     			layer.msg("结束时间不能小于起始时间");
     			$("#sellEnd").val("");
@@ -129,6 +131,7 @@ $(function () {
     	}else{
     		layer.msg("请选择售领起始时间");
     	}
+    	
     	if(null != $("#sellBegin").val()){
     		var startTime = new Date(Date.parse($("#sellBegin").val()));
     		var endTime = new Date(Date.parse($("#sellEnd").val()));
@@ -340,6 +343,23 @@ $(function () {
         });
         return false;
     }
+    
+    function checkEmptyAndspace(ele,count){
+    	if(!ele.value){
+			count++;
+			$(ele).parents("li").find(".cue").html("不能为空");
+		}else{
+			if(ele.value.split(" ").length>1 && $(ele).attr("id")!="sellBegin" && $(ele).attr("id")!="sellEnd"){
+				$(ele).parents("li").find(".cue").html("不能包含空格");
+				count ++ ;
+			}else{
+				$(ele).parents("li").find(".cue").html("");
+			}
+		}
+    	return count;
+    }
+    
+    
     /**点击抽取--对参数进行校验*/
     function checkEmpty(){
     	
@@ -352,21 +372,11 @@ $(function () {
     	$(".star_red").each(function(){
     		$($(this).parents("li").find("input")).each(function(index, ele){
     			$(ele).parents("li").find(".cue").html("");
-    			if(!ele.value){
-    				count++;
-    				$(ele).parents("li").find(".cue").html("不能为空");
-    			}else{
-    				if(ele.value.split(" ").length>1){
-    					$(ele).parents("li").find(".cue").html("不能包含空格");
-    					count ++ ;
-    				}else{
-    					$(ele).parents("li").find(".cue").html("");
-    				}
-    			}
+    			count = checkEmptyAndspace(ele,count);
     		});
     		
     		$($(this).parents("li").find("select")).each(function(index, ele){
-    			if(!ele.value){
+    			/*if(!ele.value){
     				$(ele).parents("li").find(".cue").html("不能为空");
     				count++;
     			}else{
@@ -376,7 +386,8 @@ $(function () {
     				}else{
     					$(ele).parents("li").find(".cue").html("");
     				}
-    			}
+    			}*/
+    			count = checkEmptyAndspace(ele,count);
     		});
     	});
     	//限制地区理由是否填写
@@ -631,14 +642,16 @@ $(function () {
 	    	//自动抽取
 	    	$.ajax({
 	    		type: "POST",
-	    		url: globalPath+'/SupplierCondition_new/autoExtract.do?projectInfo'+projectType,
+	    		//url: globalPath+'/SupplierCondition_new/autoExtract.do?projectInfo'+projectType,
 	    		data: formData ,
+	    		url: globalPath+'/autoExtract/exportExtractInfo.do?projectInfo'+projectType,
+	    		//data:{"form1":$("#projectForm").serialize(),"form2":formData },
 	    		dataType: "json",
 	    		async:false,
 	    		success: function (msg) {
 	    			
 	    		}
-	    		});
+    		});
 	    }else{
 	    	//显示抽取结果表
 	    	$("#result").removeClass("dnone");
@@ -1987,6 +2000,7 @@ $(function () {
             layer.close(index);
             if (v == "3") {
                 layer.prompt({
+                	type: 1,
                     formType: 2,
                     shade: 0.01,
                     offset: [y, x],
@@ -1994,20 +2008,23 @@ $(function () {
                     btn:'确定',
                     closeBtn: 0
                 }, function (value, index, elem) {
-                	saveResult(objTr, value,0);
-                	var notJoin = $(obj).parents("table").prev().find(".notJoin").html();
-                	$(obj).parents("table").prev().find(".notJoin").html(parseInt(notJoin)+1);
-                	//$(obj).prev().find(".notJoin").html(parseInt($(obj).panrents("table").prev().find(".notJoin").html())+1);
-                	if(value){
-                		layer.close(index);
-                	}
-                    //select.options[0].selected = true;
-                    $(objTr).remove();
-                	if(!appendTd(parseInt(req)-1,obj,"不能参加")){
-                		var i=1;
-                    	$(obj).find("tr").each(function(){
-                    		var o = $(this).find("td").eq(0).html(i++);
-                    	});
+                	if(!checkResonContainSpace(value)){
+                		layer.msg("不参加理由不能包含空格");
+                	}else{
+                		
+                		saveResult(objTr, value,0);
+                		var notJoin = $(obj).parents("table").prev().find(".notJoin").html();
+                		$(obj).parents("table").prev().find(".notJoin").html(parseInt(notJoin)+1);
+                		if(value){
+                			layer.close(index);
+                		}
+                		$(objTr).remove();
+                		if(!appendTd(parseInt(req)-1,obj,"不能参加")){
+                			var i=1;
+                			$(obj).find("tr").each(function(){
+                				var o = $(this).find("td").eq(0).html(i++);
+                			});
+                		}
                 	}
                 	//删除
                 });
@@ -2118,6 +2135,13 @@ $(function () {
     	});
     	
     	$(obj).val();
+    }
+    
+    function checkResonContainSpace(value){
+    	if(value.split(" ").length>1){
+    		return false;
+    	}
+    	return true;
     }
     
     

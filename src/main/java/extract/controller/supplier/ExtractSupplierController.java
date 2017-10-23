@@ -50,6 +50,7 @@ import common.annotation.CurrentUser;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractProjectInfo;
 import extract.model.supplier.SupplierExtractResult;
+import extract.service.supplier.AutoExtractSupplierService;
 import extract.service.supplier.SupplierExtractConditionService;
 import extract.service.supplier.SupplierExtractRecordService;
 import extract.service.supplier.SupplierExtractRelateResultService;
@@ -88,6 +89,9 @@ public class ExtractSupplierController extends BaseController {
     private AdvancedProjectService advancedProjectService;
     @Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;
+    
+    @Autowired
+    private AutoExtractSupplierService autoExtract;
     
     @InitBinder
 	public void initBinder(ServletRequestDataBinder binder) {
@@ -414,6 +418,8 @@ public class ExtractSupplierController extends BaseController {
      */
     @RequestMapping("/supplierExtractResult")
     public void receiveVoiceResult(String json) {
- 		conditionService.receiveVoiceResult(json);
+    	autoExtract.receiveVoiceResult(json);
  	}
+    
+	
 }

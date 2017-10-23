@@ -245,6 +245,22 @@ public class FileUtils {
     /** 专家抽取目录 路径 32 **/
     public final static String EXPERT_EXTRACT_PATH = PropUtil.getProperty("file.expert_extract.system.path");
     
+    /** 专家抽取结果目录 路径 33 **/
+    public final static String EXPERT_EXTRACT_RESULT_PATH = PropUtil.getProperty("file.expert_extract_result.system.path");
+    
+    /** 军队专家基本信息数据名称 **/
+    public final static String MILITARY_EXPERT_PATH_FILENAME="_m_military_expert.dat";
+    /** 军队专家执业资格数据名称 **/
+    public final static String MILITARY_EXPERT_TITLE_PATH_FILENAME="_m_military_expert_title.dat";
+    /** 军队专家品目数据名称 **/
+    public final static String MILITARY_EXPERT_CATEGORY_PATH_FILENAME="_m_military_expert_category.dat";
+    /** 军队专家目录 路径 34 **/
+    public final static String MILITARY_EXPERT_PATH = PropUtil.getProperty("file.military_expert.system.path");
+    
+    
+    /** 供应商抽取项目信息数据名称 **/
+    public final static String SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME="_m_supplier_extract_project.dat";
+    
     
     /**
      * 
@@ -844,6 +860,8 @@ public class FileUtils {
           case 30:  filePath=HOT_LINE_PATH;break;
           case 31:  filePath=C_SYNCH_LOGOUT_SUPPLIER_FILE_DIRECTORY;break;
           case 32:  filePath=EXPERT_EXTRACT_PATH;break;
+          case 33:  filePath=EXPERT_EXTRACT_RESULT_PATH;break;
+          case 34:  filePath=MILITARY_EXPERT_PATH;break;
         }
         return filePath;
     }

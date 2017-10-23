@@ -47,6 +47,7 @@ import common.bean.ResponseBean;
 
 import extract.service.expert.ExpertExtractProjectService;
 
+
 /**
  * 版权：(C) 版权所有
  * <简述>数据导出
@@ -165,10 +166,7 @@ public class SynchExportController {
      **/
     @Autowired
 	private ServiceHotlineService serviceHotlineService;
-    
-    /** 专家抽取 **/
-    @Autowired
-    private ExpertExtractProjectService expertExtractProjectService;
+
     /**
      * 〈简述〉初始化导出
      * 〈详细描述〉
@@ -186,85 +184,99 @@ public class SynchExportController {
             //判断是否 是资源服务中心 
             authType = "4";
             model.addAttribute("authType", authType);
-            model.addAttribute("operType", Constant.OPER_TYPE_EXPORT);
-            List<DictionaryData> list = DictionaryDataUtil.find(DATA_TYPE_KIND);
-            //获取是否内网标识 1外网 0内网
-            String ipAddressType = PropUtil.getProperty("ipAddressType");
-            //过滤附件类型
-            Iterator<DictionaryData> iter = list.iterator();
-            while (iter.hasNext()) {
-                DictionaryData dd = iter.next();
-                if (dd.getCode().equals(Constant.DATA_TYPE_ATTACH_CODE)) {
-                    iter.remove();
-                    continue;
-                }
-                //外网时
-                if (ipAddressType.equals("1")) {
-                    //过滤外网导出  	竞价定型产品导出  只能是内网导出外网
-                    if (dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_PRODUCT)) {
-                        iter.remove();
-                        continue;
-                    }
-                    //竞价供应商导出  只能是内网导出外网
-                    if (dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_SUPPLIER)) {
-                        iter.remove();
-                        continue;
-                    }
-                    if (dd.getCode().equals(Constant.DATA_TYPE_BIDDING_CODE)) {
-                        /**竞价信息导出  只能是内网导出外网**/
-                        iter.remove();
-                        continue;
-                    }
-                    if (dd.getCode().equals(Constant.SYNCH_CATEGORY)) {
-                        /**产品目录管理 数据导出  只能是内网导出外网**/
-                        iter.remove();
-                        continue;
-                    }
-                    if (dd.getCode().equals(Constant.SYNCH_CATE_PARAMTER)) {
-                        /**产品目录参数管理 数据导出  只能是内网导出外网**/
-                        iter.remove();
-                        continue;
-                    }
-                    if (dd.getCode().equals(Constant.SYNCH_DATA)) {
-                        /**资料管理 数据导出  只能是内网导出外网**/
-                        iter.remove();
-                        continue;
-                    }
-                    if (dd.getCode().equals(Constant.SYNCH_TEMPLATE_DOWNLOAD)) {
-                        /**门户模板管理 数据导出  只能是内网导出外网**/
-                        iter.remove();
-                        continue;
-                    }
-                    if (dd.getCode().equals(Constant.DATA_SYNCH_CATEGORY_QUA)) {
-                        /**目录资质关联表  只能是内网导出外网**/
-                        iter.remove();
-                        continue;
-                    }
-                    if (dd.getCode().equals(Constant.DATA_SYNCH_QUALIFICATION)) {
-                        /**产品资质表  只能是内网导出外网**/
-                        iter.remove();
-                        continue;
-                    }
-                }
-                //内网时
-                if (ipAddressType.equals("0")) {
-                    if (dd.getCode().equals(Constant.DATA_TYPE_BIDDING_RESULT_CODE)) {
-                        /**竞价结果导出  只能是外网导出内网**/
-                        iter.remove();
-                        continue;
-                    }
-
-                }
-            }
-
-            model.addAttribute("dataTypeList", list);
-
-            //获取最近一次同步时间,作为手动同步的开始时间的默认值
-            DictionaryData dd = DictionaryDataUtil.get(Constant.DATA_TYPE_INFOS_CODE);
-            if (dd != null && StringUtils.isNotBlank(dd.getId())) {
-                String startTime = recordService.getSynchTime(Constant.OPER_TYPE_EXPORT, dd.getId());
-                model.addAttribute("startTime", startTime);
-            }
+	        model.addAttribute("operType", Constant.OPER_TYPE_EXPORT);
+	        List<DictionaryData> list =DictionaryDataUtil.find(DATA_TYPE_KIND);
+	        //获取是否内网标识 1外网 0内网
+	        String ipAddressType= PropUtil.getProperty("ipAddressType");
+	        //过滤附件类型
+	        Iterator<DictionaryData> iter=list.iterator();
+	        while (iter.hasNext()) {
+	    	  DictionaryData dd=iter.next();
+	    	  if (dd.getCode().equals(Constant.DATA_TYPE_ATTACH_CODE)){
+	    		  iter.remove();
+	              continue;
+	          }
+	          // 过滤专家抽取信息 定时任务自动导入导出
+	          if (dd.getCode().equals(Constant.DATE_SYNCH_EXPERT_EXTRACT)) {
+	              iter.remove();
+	              continue;
+	          }
+	          if (dd.getCode().equals(Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT)) {
+	              iter.remove();
+	              continue;
+	          }
+	          // 过滤军队专家信息
+	          if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
+	              iter.remove();
+	              continue;
+	          }
+	          //外网时
+	          if(ipAddressType.equals("1")){
+	       	   //过滤外网导出  	竞价定型产品导出  只能是内网导出外网
+	       	   if (dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_PRODUCT)){
+	       		  iter.remove();
+	       		   continue;
+	              } 
+	       	   //竞价供应商导出  只能是内网导出外网
+	       	   if(dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_SUPPLIER)){
+	       		 iter.remove();
+	       		   continue;
+	              }
+	              if(dd.getCode().equals(Constant.DATA_TYPE_BIDDING_CODE)){
+	              	/**竞价信息导出  只能是内网导出外网**/
+	            	iter.remove();
+	           	   continue;
+	              }
+	              if(dd.getCode().equals(Constant.SYNCH_CATEGORY)){
+	              	/**产品目录管理 数据导出  只能是内网导出外网**/
+	               iter.remove();
+	           	   continue;
+	              }
+	              if(dd.getCode().equals(Constant.SYNCH_CATE_PARAMTER)){
+	            	  /**产品目录参数管理 数据导出  只能是内网导出外网**/
+	            	  iter.remove();
+	            	  continue;
+	              }
+	              if(dd.getCode().equals(Constant.SYNCH_DATA)){
+	                	/**资料管理 数据导出  只能是内网导出外网**/
+	                 iter.remove();
+	             	   continue;
+	                }
+	              if(dd.getCode().equals(Constant.SYNCH_TEMPLATE_DOWNLOAD)){
+	            	  /**门户模板管理 数据导出  只能是内网导出外网**/
+	            	  iter.remove();
+	            	  continue;
+	              }
+	              if(dd.getCode().equals(Constant.DATA_SYNCH_CATEGORY_QUA)){
+	            	  /**目录资质关联表  只能是内网导出外网**/
+	            	  iter.remove();
+	            	  continue;
+	              }
+	              if(dd.getCode().equals(Constant.DATA_SYNCH_QUALIFICATION)){
+	            	  /**产品资质表  只能是内网导出外网**/
+	            	  iter.remove();
+	            	  continue;
+	              }
+	          }
+	          //内网时
+	          if(ipAddressType.equals("0")){
+	              if(dd.getCode().equals(Constant.DATA_TYPE_BIDDING_RESULT_CODE)){
+	              	/**竞价结果导出  只能是外网导出内网**/
+	               iter.remove();
+	           	   continue;
+	              }
+	             
+	            }
+	     	}
+	       
+	       model.addAttribute("dataTypeList", list);
+	       
+	       //获取最近一次同步时间,作为手动同步的开始时间的默认值
+	       DictionaryData dd = DictionaryDataUtil.get(Constant.DATA_TYPE_INFOS_CODE);
+	       if (dd != null && StringUtils.isNotBlank(dd.getId())){
+	           String startTime = recordService.getSynchTime(Constant.OPER_TYPE_EXPORT, dd.getId());
+	           model.addAttribute("startTime", startTime);
+	       }
         }
         return "/synch/export";
     }
@@ -457,11 +469,6 @@ public class SynchExportController {
 	        /** 服务热线信息导出*/
 	        if (synchType.contains(Constant.DATE_SYNCH_HOT_LINE)) {
 	        	serviceHotlineService.exportHotLine(startTime, endTime,date);
-	        } 
-	        
-	        /** 专家抽取数据导出 **/
-	        if (synchType.contains(Constant.DATE_SYNCH_EXPERT_EXTRACT)) {
-	        	expertExtractProjectService.exportExpertExtract(startTime, endTime,date);
 	        } 
 	        bean.setSuccess(true);
 	        return bean;

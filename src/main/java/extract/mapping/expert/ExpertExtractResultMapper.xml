@@ -264,7 +264,7 @@
   
   <!-- 条件查询 -->
   <select id="findByConditionId" resultType="String" parameterType="String">
-    SELECT EXPERT_ID FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0 AND CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
+    SELECT EXPERT_ID FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0 AND IS_JOIN = 1 AND CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
   </select>
   
   <!-- 下载抽取结果 -->
@@ -426,4 +426,43 @@
   <select id="findAllByProjectId" parameterType="String" resultMap="BaseResultMap">
   	SELECT * FROM T_SES_EMS_EXTRACT_RESULT WHERE PROJECT_ID = #{projectId}
   </select>
+  
+  <!-- 根据项目id和专家Id修改 -->
+  <update id="updateByProjectIdandExpertId" parameterType="extract.model.expert.ExpertExtractResult">
+    UPDATE T_SES_EMS_EXTRACT_RESULT
+    <set>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isJoin != null">
+        IS_JOIN = #{isJoin},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    WHERE PROJECT_ID = #{projectId} AND EXPERT_ID = #{expertId}
+  </update>
+  
+  <select id="selNumByConditionId" parameterType="Map" resultType="Integer">
+  	SELECT COUNT(EXPERT_ID) FROM T_SES_EMS_EXTRACT_RESULT WHERE CONDITION_ID = #{conditionId} AND IS_JOIN = 1
+  	<if test="isAlternate != null">
+      AND IS_ALTERNATE = #{isAlternate}
+    </if>
+    <if test="expertCode != null">
+      AND EXPERT_CODE = #{expertCode}
+    </if>
+  </select>
+  
+    <!-- 根据修改时间查询 -->
+  <select id="selectByUpdateDate" resultMap="BaseResultMap" >
+    SELECT * FROM T_SES_EMS_EXTRACT_RESULT WHERE 
+    to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{end,jdbcType=VARCHAR} 
+  </select>
+  
+  <!-- 修改删除标识 -->
+  <update id="updateIsDelete" parameterType="extract.model.expert.ExpertExtractResult">
+    UPDATE T_SES_EMS_EXTRACT_RESULT SET IS_DELETED = 1 WHERE PROJECT_ID = #{projectId} AND EXPERT_ID = #{expertId}
+  </update>
 </mapper>

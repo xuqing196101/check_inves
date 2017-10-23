@@ -294,8 +294,8 @@ function searchCate() {
 				
 			</div>
 			<div align="center">
-				<input type="text" id="key" class="empty" name="cateName">
-				<input type="button" id="search" class="btn" value="搜索" onclick="searchCate()">
+				<input type="text" id="key" class="fl mr5 empty" name="cateName">
+				<input type="button" id="search" class="btn fl" value="搜索" onclick="searchCate()">
 				<div class="clear"></div>
 			</div>
 			<div id="ztree" class="ztree margin-left-13" ></div>
