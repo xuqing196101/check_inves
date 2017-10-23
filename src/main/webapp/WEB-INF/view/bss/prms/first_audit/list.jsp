@@ -149,7 +149,7 @@
 		                <c:set value="true" var="flg"></c:set>
 		              </c:if>
 		              <c:if test="${pa.projectStatus eq 'ZJZXTP'}">
-		                <span class="star_red">[已转竟谈]</span>
+		                <span class="star_red">[已转竞谈]</span>
 		                <c:set value="true" var="flg"></c:set>
 		              </c:if>
 		            </c:if>

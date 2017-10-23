@@ -74,7 +74,7 @@
 									<span class="star_red">[已终止]</span>
 								</c:if>
 								<c:if test="${pack.projectStatus eq 'ZJZXTP'}">
-									<span class="star_red">[已转竟谈]</span>
+									<span class="star_red">[已转竞谈]</span>
 								</c:if>
 							</td>
 	            <td class="tc">

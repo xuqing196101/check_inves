@@ -120,7 +120,6 @@ public class DemandSupervisionServiceImpl implements DemandSupervisionService {
                     	for (ProjectDetail projectDetail : selectById) {
                     		set.add(projectDetail.getProject().getId());
 						}
-                        
                     }
             	}
             }

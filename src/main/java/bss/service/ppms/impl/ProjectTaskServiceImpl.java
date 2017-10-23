@@ -29,4 +29,10 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 	public List<ProjectTask> queryByProjectNos(HashMap<String, Object> map) {
 		return projectTaskMapper.queryByProjectNos(map);
 	}
+
+	@Override
+	public void deleteByProjectId(String projectId) {
+		
+		projectTaskMapper.deleteByProjectId(projectId);
+	}
 }

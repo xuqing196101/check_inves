@@ -1400,7 +1400,7 @@ public class OpenBiddingController extends BaseSupplierController{
   }
 
   @RequestMapping("/changtotal")
-  public String changtotal(String projectId, String packId, Model model, String count, String flowDefineId, HttpServletRequest req) throws ParseException{
+  public String changtotal(String projectId, String packId, Model model, String count, String flowDefineId, String ix, HttpServletRequest req) throws ParseException{
     Quote quoteCondition = new Quote();
     quoteCondition.setProjectId(projectId);
     List<Date> listDate =  supplierQuoteService.selectQuoteCount(quoteCondition);
@@ -1493,6 +1493,8 @@ public class OpenBiddingController extends BaseSupplierController{
         treeMap.put(pack.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
       }
     }
+    //ix：获取全屏的标示
+    model.addAttribute("ix", ix);
     model.addAttribute("treeMap", treeMap);
     model.addAttribute("projectId", projectId);
     model.addAttribute("packId", packId);

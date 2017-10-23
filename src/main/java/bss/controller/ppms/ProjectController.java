@@ -485,6 +485,10 @@ public class ProjectController extends BaseController {
                  List<ProjectDetail> details = detailService.selectById(map2);
                  model.addAttribute("lists", details);
              }
+             String ix = request.getParameter("ix");
+             if (StringUtils.isNotBlank(ix)) {
+            	 model.addAttribute("ix", ix);
+             }
          }
          return "bss/ppms/project/add";
      }
@@ -2553,7 +2557,7 @@ public class ProjectController extends BaseController {
     @RequestMapping("/deleted")
     public String deleted(String id){
         if(StringUtils.isNotBlank(id)){
-            Map<String,Object> detailMap=new HashMap<String,Object>();
+            HashMap<String,Object> detailMap=new HashMap<String,Object>();
             detailMap.put("projectId", id);
             List<ProjectDetail> pd = detailService.selectByRequiredId(detailMap);
             if(pd != null && pd.size() > 0){
@@ -2563,6 +2567,7 @@ public class ProjectController extends BaseController {
                     purchaseDetailService.updateByPrimaryKeySelective(required);
                 }
             }
+            projectTaskService.deleteByProjectId(id);
             detailService.deleteByProject(id);
             projectService.delete(id);
         }

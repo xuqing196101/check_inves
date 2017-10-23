@@ -88,8 +88,14 @@
 
       // 返回
       function back(){
+      	debugger;
         var id = $("#id").val();
-        window.location.href = "${pageContext.request.contextPath}/project/deleted.html?id="+id;
+        var ix = "${ix}";
+        if(ix){
+        	window.history.go(-1);
+        } else {
+        	window.location.href = "${pageContext.request.contextPath}/project/deleted.html?id="+id;
+        }
       }
       
       //获取采购明细
@@ -250,6 +256,7 @@
 					    	<input type="hidden" name="page" id="page">
 								<span><input type="text" name="planName" id="planName" value="${planName}" /></span>
 								<input type="hidden" id="id" class="input_group" name="id" value="${id}" />
+								<input type="hidden" name="ix" value="${ix}" />
 					  	</li>
 			        <li>
 			          <label class="fl">采购管理部门：</label>

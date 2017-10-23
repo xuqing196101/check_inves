@@ -961,10 +961,14 @@ public class TerminationServiceImpl implements TerminationService {
 	  List<Packages> findByID = packageMapper.findByID(map);
 	  if (findByID != null && !findByID.isEmpty() && findByID.size() > 1) {
 		  List<String> num = new ArrayList<String>();
+		  int number = 0;
 		  for (Packages packages : findByID) {
 			  for (String packageId : packageIds) {
 				  if (!StringUtils.equals(packageId, packages.getId())) {
 					  num.add(packages.getName().substring(1, packages.getName().length()-1));
+					  if(!packages.getProjectStatus().equals(DictionaryDataUtil.getId("YZZ")) || !packages.getProjectStatus().equals(DictionaryDataUtil.getId("JZXTP"))){
+						  number = 1;
+					  }
 				  }
 			  }
 		  }	
@@ -972,8 +976,15 @@ public class TerminationServiceImpl implements TerminationService {
 		  String name = project.getName().substring(0,project.getName().lastIndexOf("（"));
 		  project.setName(name+title);
 		  project.setProjectNumber(name+title);
-		  projectMapper.updateByPrimaryKeySelective(project);
+		  if (number == 0) {
+			  project.setStatus(DictionaryDataUtil.getId("YZZ"));
+		  }
+	  } else {
+		  project.setStatus(DictionaryDataUtil.getId("YZZ"));
 	  }
+	  
+	  projectMapper.updateByPrimaryKeySelective(project);
+	  
   }
   private String ShortBooleanTitle(List<String> number) {
 	  String title;

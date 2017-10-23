@@ -473,7 +473,7 @@
 	        <c:forEach items="${packageList}" var="pack" varStatus="vs">
 		        <div class="over_hideen">
 					<h2 onclick="ycDiv(this,'${vs.index}')"  <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP'}">class="count_flow hand fl spread"</c:if>class="count_flow shrink hand fl clear" id="package">
-					包名:<span class="f15 blue">${pack.name} <c:if test="${pack.projectStatus eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if><c:if test="${pack.projectStatus eq 'ZJZXTP'}"><span class="star_red">[该包已转竟谈]</span></c:if>  </span>
+					包名:<span class="f15 blue">${pack.name} <c:if test="${pack.projectStatus eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if><c:if test="${pack.projectStatus eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>  </span>
 		          	</h2>
 	          		<div class="fl mt20 ml10">
 		             <button class="btn"  <c:if test="${pack.projectStatus eq'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if>name="addExp_btn" onclick="relate('${pack.id}','${vs.index}','${pack.name}')" type="button">设为组长</button>
