@@ -431,7 +431,6 @@ public class MultiImportTask {
                          */
                         result = DictionaryDataUtil.getId(Constant.SYNCH_PUBLICITY_SUPPLIER);
                         if (StringUtils.isNotEmpty(result)) {
-                            /** 产品目录参数管理 只能是外网导入 **/
                             if (f.getName().equals(Constant.T_SES_SMS_SUPPLIER_PUBLICITY_PATH)) {
                                 if (f.isDirectory()) {
                                     // 遍历文件夹中的所有文件

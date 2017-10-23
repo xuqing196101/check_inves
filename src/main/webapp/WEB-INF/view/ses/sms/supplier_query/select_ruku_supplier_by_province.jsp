@@ -455,7 +455,7 @@
 	           <c:if test="${ empty reqType }">
 		           <c:choose>
 						 			<c:when test="${sign == 2 }">
-							 				<button class="btn" type="button" onclick="fanhui();">切换到地图</button>
+							 				<%--<button class="btn" type="button" onclick="fanhui();">切换到地图</button>--%>
 						 			</c:when>
 						 			<c:otherwise>
 						 					<button class="btn btn-windows back" type="button" onclick="fanhui();">返回</button>
