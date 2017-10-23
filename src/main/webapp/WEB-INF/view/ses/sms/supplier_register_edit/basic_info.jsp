@@ -1595,7 +1595,7 @@
 												<thead>
 													<tr>
 														<th class="w50 info">年份</th>
-														<th class="info"><font color=red>*</font> 审计报告的审计意见</th>
+														<th class="info"><font color=red>*</font> 审计报告书中的审计报告</th>
 														<th class="info"><font color=red>*</font> 资产负债表</th>
 														<th class="info"><font color=red>*</font> 财务利润表</th>
 														<th class="info"><font color=red>*</font> 现金流量表</th>

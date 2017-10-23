@@ -59,4 +59,15 @@ public interface CacheManageService {
 	 * @return
 	 */
 	public JdcgResult getPVDate(User user);
+
+	/**
+	 *
+	 * Description: 清空所有缓存
+	 *
+	 * @author Easong
+	 * @version 2017/9/27
+	 * @param 
+	 * @since JDK1.7
+	 */
+	public JdcgResult clearAllCache();
 }

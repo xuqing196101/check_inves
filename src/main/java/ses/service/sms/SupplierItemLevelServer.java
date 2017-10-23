@@ -3,6 +3,7 @@ package ses.service.sms;
 import java.util.Date;
 import java.util.List;
 
+import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItemLevel;
 
@@ -77,4 +78,14 @@ public interface SupplierItemLevelServer {
      * @return
      */
     SupplierItemLevel selectLevelByItem(SupplierItemLevel supplierItemLevel);
+    
+    /**
+     * Description:根据 工程品目 查询其所有等级
+     * 
+     * @author Ye MaoLin
+     * @version 2017-10-18
+     * @param categoryIds
+     * @return
+     */
+	List<DictionaryData> ajaxProjectCategoryLevels(String categoryId);
 }

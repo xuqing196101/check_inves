@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import ses.dao.oms.OrgnizationMapper;
 import ses.dao.oms.PurchaseInfoMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
@@ -23,7 +24,6 @@ import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.DictionaryDataUtil;
-
 import common.constant.StaticVariables;
 @Service("purchaseService")
 public class PurchaseServiceImpl implements PurchaseServiceI{
@@ -42,6 +42,9 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 	
 	@Autowired
 	private PreMenuServiceI preMenuService;
+	
+	@Autowired
+	private OrgnizationMapper orgniztionMapper;
 
 	@Override
 	public List<PurchaseInfo> findPurchaseList(HashMap<String, Object> map) {
@@ -69,7 +72,7 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 		user.setIdNumber(purchaseInfo.getIdCard());
 		user.setPublishType(purchaseInfo.getPublishType());
 		user.setOfficerCertNo(purchaseInfo.getOfficerCertNo());
-		
+		user.setDataAccess(purchaseInfo.getDataAccess());
 		Orgnization org = new Orgnization();
 		if(purchaseInfo.getOrgId()!=null && !purchaseInfo.getOrgId().equals("")){
 			org.setId(purchaseInfo.getOrgId());
@@ -195,7 +198,8 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 			list.add(org);
 			model.addAttribute("purchaserOrgList", list);
 		} else {
-			model.addAttribute("purchaserOrgList", initPurchaseOrg());
+			List<Orgnization>  allOrg = orgniztionMapper.findPurchaseOrgByPosition(null);
+			model.addAttribute("purchaserOrgList", allOrg);
 		}
 		List<DictionaryData> genders = DictionaryDataUtil.find(13);
 		List<DictionaryData> politicals = DictionaryDataUtil.find(10);

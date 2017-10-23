@@ -114,16 +114,16 @@
 		</where>
 	</select>
 
-<select id="findTypeBySupplierId" parameterType="java.lang.String" resultType="String">
-        select 
+	<select id="findTypeBySupplierId" flushCache="true" parameterType="java.lang.String" resultType="String">
+        SELECT
         SUPPLIER_TYPE_ID
-        from T_SES_SMS_SUPPLIER_TYPE_RELATE 
+        from T_SES_SMS_SUPPLIER_TYPE_RELATE
         <where>
         <if test="supplierId!=null and supplierId!=''">
             SUPPLIER_ID = #{supplierId}
         </if>
         </where>
-    </select>
+   </select>
 
 	<select id="findSupplierTypeBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
 		SELECT

@@ -405,6 +405,12 @@ public interface ExpertMapper {
      * @return
      */
     List<Expert> findExpertByBlacklist(Expert expert);
+    /**
+     * 专家复审待分配列表
+     * @param expert
+     * @return
+     */
+    List<Expert> findExpertAgainAuditList(Expert expert);
     
     /**
      * 

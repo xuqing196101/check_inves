@@ -350,7 +350,7 @@ function onCategory(tablerId,wzType){// ,ind,secondNode,secondNodeId,wzType
 		if(count==0){
 			reasonProjectMulti(tablerId,auditType,secondNode,wzType);
 		}else{
-			layer.msg('选择框有已审核目录，不可重复审核！', {offset:'100px'});
+			layer.msg('选择中存在已审核目录，不可重复审核！', {offset:'100px'});
 		}
 	/* } */
 }
@@ -383,24 +383,44 @@ function isAudit(tablerId,wzType){
 	return showin;
 }
 // 判断当前目录是否已经审核
-function isCurrentAudit(tablerId,ind){
-	var isCurrentAudit = 0;
+function isItemAudited(tablerId,ind){
+	var isAudited = 0;
 	var typeId = $("#"+tablerId+" #typeId"+ind).val();
 	switch (typeId) {
 	case 'PRODUCT':
-		isCurrentAudit = parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
+		isAudited = parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
 		break;
 	case 'SALES':
-		isCurrentAudit = parseInt($("#"+tablerId+" #setIsItemsSalesPageAudit"+ind+"").val());
+		isAudited = parseInt($("#"+tablerId+" #setIsItemsSalesPageAudit"+ind+"").val());
 		break;
 	case 'PROJECT':
-		isCurrentAudit = parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
+		isAudited = parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
 		break;
 	case 'SERVICE':
-		isCurrentAudit = parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
+		isAudited = parseInt($("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val());
 		break;
 	}
-	return isCurrentAudit == 0 ? false : true;
+	return isAudited == 0 ? false : true;
+}
+// 判断当前目录是否有合同已经审核
+function isContractAudited(tablerId,ind){
+	var isAudited = 0;
+	var typeId = $("#"+tablerId+" #typeId"+ind).val();
+	switch (typeId) {
+	case 'PRODUCT':
+		isAudited = parseInt($("#"+tablerId+" #isContractProductPageAudit"+ind+"").val());
+		break;
+	case 'SALES':
+		isAudited = parseInt($("#"+tablerId+" #isContractSalesPageAudit"+ind+"").val());
+		break;
+	case 'PROJECT':
+		isAudited = parseInt($("#"+tablerId+" #isContractProductPageAudit"+ind+"").val());
+		break;
+	case 'SERVICE':
+		isAudited = parseInt($("#"+tablerId+" #isContractProductPageAudit"+ind+"").val());
+		break;
+	}
+	return isAudited == 0 ? false : true;
 }
 // 判断显示相关内容 合同
 function onContractShow(tablerId,ind,rootNode,itemId,id,secondNode,secondNodeId){
@@ -433,7 +453,7 @@ function isShow(tablerId,ind,count,type,rootNode,itemId,supplierItemid,secondNod
 }
 // 弹出框
 function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
-	if(isCurrentAudit(tablerId,ind)){
+	if(isItemAudited(tablerId,ind)){
 		layer.msg("此产品目录已经审核不通过！");
 		return;
 	}
@@ -701,6 +721,28 @@ function doAuditContractMuti(tablerId,supplierTypeId) {
     var sign = $("input[name='sign']").val();
     // 只有审核的状态能审核
     if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 9 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+    	var isAudited = false;
+    	var isMuluAudited = false;
+		$("input[name='"+tablerId+"itemsCheckboxName']:checked").each(function(){
+			var index = $(this).val();
+			isMuluAudited = isItemAudited(tablerId, index);
+			isAudited = isContractAudited(tablerId, index);
+			/*if($("#contract"+index).hasClass("tc info table-border-color-red")){
+				isAudited = true;
+			}*/
+			if(isMuluAudited || isAudited){
+				return false;
+			}
+		});
+		if(isMuluAudited){
+			layer.msg('选择中存在已审核目录，无需再审核合同！', {offset:'100px'});
+			return;
+		}
+		if(isAudited){
+			layer.msg('选择中存在已审核，不可重复审核！', {offset:'100px'});
+			return;
+		}
+    	
 		var supplierId = $("#supplierId").val();
 		var index = layer.prompt({
 			title: '请填写不通过的理由：',
@@ -736,6 +778,14 @@ function doAuditContractMuti(tablerId,supplierTypeId) {
 							$("input[name='"+tablerId+"itemsCheckboxName']:checked").each(function(){
 								var index = $(this).val();
 								$("#"+tablerId+" #contract"+index+"").css('border-color', '#FF0000');
+								var typeId = $("#"+tablerId+" #typeId"+index).val();
+								if(typeId == "PRODUCT"){
+									$("#"+tablerId+" #isContractProductPageAudit"+index+"").val(6);
+								}else if(typeId == "SALES"){
+									$("#"+tablerId+" #isContractSalesPageAudit"+index+"").val(6);
+								}else{
+									$("#"+tablerId+" #isContractProductPageAudit"+index+"").val(6);
+								}
 							});
 							layer.msg(result.msg, {
 								shift: 6, // 动画类型
@@ -747,7 +797,7 @@ function doAuditContractMuti(tablerId,supplierTypeId) {
 								offset: '100px',
 							});
 						}
-						defaultSuggestText = suggest;
+						//defaultSuggestText = suggest;
 					}
 				});
 				layer.close(index);

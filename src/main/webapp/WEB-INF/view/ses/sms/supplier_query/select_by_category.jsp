@@ -82,22 +82,56 @@
            return tempnode;
         }
 			function zTreeOnClick(event, treeId, treeNode){
-				 if(treeNode.level == 3){ 
 					var name = treeNode.name;
 					var categoryIds = treeNode.id;
-					$("#categoryIds").val(categoryIds);
 					var tempnode= getroot();
 					if(tempnode){
-					 $("#page").val(1);
-					 $("#supplierTypeId").val(tempnode.id);
-                     $("#itemTypeName").val(tempnode.name); 
-					findSupplier();
+						if (treeNode.level !=3 && tempnode.name != "工程") {
+							$("#selectSupplierType").hide();
+						} else if (treeNode.level ==3 && tempnode.name != "工程") {
+							$("#selectSupplierType").show();
+						} else if (tempnode.name == "工程") {
+							//如果是工程类别，获取该品目的所有等级
+							$.ajax({
+								type : "POST",
+								url : globalPath + "/supplierQuery/ajaxCategoryLevels.do",
+								data : {"categoryId" : categoryIds},
+								success : function(obj) {
+									if (obj.status == 500 || obj.status == 501) {
+										var html = "<option selected='selected' value=''>全部</option>";
+										$(obj.data).each(
+												function(index, item) {
+													html += "<option  value='" + item.id + "'>" + item.name + "</option>";
+												}
+										);
+										$("#projectAllLevels").empty();
+										$("#projectAllLevels").append(html);
+									} else {
+										layer.msg(obj.msg);
+									}
+								},
+								error : function(data) {
+									layer.msg("等级请求异常!");
+									layer.close(index);
+								},
+							});
+							$("#projectLevel").show();
+						}
+						$("#categoryIds").val(categoryIds);
+					 	$("#page").val(1);
+					 	$("#supplierTypeId").val(tempnode.id);
+                     	$("#itemTypeName").val(tempnode.name); 
+						findSupplier(treeNode.level);
 					}else{
-					   init();
+						$("#selectSupplierType").hide();
+						$("#projectLevel").hide();
+						//根节点
+						$("#page").val(1);
+						$("#categoryIds").val("");
+					 	$("#supplierTypeId").val(treeNode.id);
+                     	$("#itemTypeName").val(treeNode.name); 
+						findSupplier();
 					}
-                    }else{
-                        init();
-                    }
 			}
 
 
@@ -202,6 +236,9 @@
 			<div class="row">
 				<!-- Begin Content -->
 				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="col-xs-12 mb20">
+						<input type="button" class="btn fl mt1" onclick="resetAllAgain()" value="计算全部">
+					</div>
 					<div class="col-md-3 col-sm-4 col-xs-12" id="show_tree_div">
 						<div class="tag-box tag-box-v3">
 							<ul id="treeDemo" class="ztree s_ztree" ></ul>

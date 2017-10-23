@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpertReviewTeamMapper">
+    <resultMap id="BaseResultMap" type="ses.model.ems.ExpertReviewTeam">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+        <result column="BATCH_ID" jdbcType="VARCHAR" property="batchId" />
+        <result column="GROUP_ID" jdbcType="VARCHAR" property="groupId" />
+        <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    </resultMap>
+    <sql id="Base_List">
+    	ID,USER_ID,BATCH_ID,GROUP_ID,CREATED_AT,UPDATED_AT
+    </sql>
+   
+    
+    <select id="getExpertReviewTeam" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select 
+        <include refid="Base_List" />
+        from T_SYS_EMS_EXPERT_REVIEWTEAM where ID=#{id}
+    </select>
+    <select id="findExpertReviewTeam" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select 
+        <include refid="Base_List" />
+        from T_SYS_EMS_EXPERT_REVIEWTEAM where USER_ID=#{userId}
+    </select>
+    
+    <select id="getExpertReviewTeamList" resultMap="BaseResultMap" parameterType="ses.model.ems.ExpertReviewTeam">
+        select 
+        T1.ID,
+        T1.USER_ID,
+        T1.BATCH_ID,
+        T1.GROUP_ID,
+        T1.CREATED_AT,
+        T1.UPDATED_AT,
+        T1.REAL_NAME AS relName,
+        T2.LOGIN_NAME AS loginName,
+        T1.ORG_NAME AS orgName,
+        T1.DUTIES AS duties,
+        T2.PASSWORD AS passWord,
+        T2.IS_DELETED AS isDeleted
+		from T_SYS_EMS_EXPERT_REVIEWTEAM T1,T_SES_BMS_USER T2 where T1.USER_ID=T2.ID
+		<if test="groupId != null and groupId !=''">
+            AND T1.GROUP_ID=#{groupId}
+        </if>
+		ORDER BY CREATED_AT DESC
+    </select>
+    <insert id="insert" parameterType="ses.model.ems.ExpertReviewTeam">
+        insert into T_SYS_EMS_EXPERT_REVIEWTEAM
+        (ID,USER_ID,BATCH_ID,GROUP_ID,CREATED_AT,UPDATED_AT,REAL_NAME,ORG_NAME,DUTIES)
+        values
+        (#{id}, #{userId},#{batchId},#{groupId}, #{createdAt}, #{updatedAt},#{relName},#{orgName},#{duties})
+    </insert>
+   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+   		 delete from
+        T_SYS_EMS_EXPERT_REVIEWTEAM
+        where ID = #{id,jdbcType=VARCHAR}
+   </delete>
+</mapper>

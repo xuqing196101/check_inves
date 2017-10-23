@@ -1,21 +1,13 @@
 package ses.controller.sys.bms;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
-import net.sf.json.JSONSerializer;
-
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.DictionaryType;
@@ -23,9 +15,12 @@ import ses.model.bms.User;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.DictionaryTypeService;
 
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("/dictionaryData")
@@ -150,7 +145,7 @@ public class DictionaryDataController extends BaseSupplierController{
 	    	map.put("pageInfo", new PageInfo<DictionaryData>(ls));
 	    	map.put("list", ls);
 	    	map.put("kind", dd.getKind());
-	    	super.writeJson(response, JSONSerializer.toJSON(map));
+	    	super.writeJson(response, JSONObject.toJSON(map));
         }
     }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.bms.DictionaryData;
 import ses.model.sms.SupplierItemLevel;
 
 public interface SupplierItemLevelMapper {
@@ -36,10 +37,11 @@ public interface SupplierItemLevelMapper {
      * 
      * @author YangHongLiang
      * @version 2017-6-22
+     * @param supplierLevel 
      * @param id
      * @return
      */
-    List<SupplierItemLevel> selectByCategoryId(@Param("categoryId")String categoryId ,@Param("armyBusinessName")String armyBusinessName,@Param("supplierName")String supplierName);
+    List<SupplierItemLevel> selectByCategoryId(@Param("categoryId")String categoryId, @Param("supplierTypeRelateId")String supplierTypeRelateId , @Param("armyBusinessName")String armyBusinessName, @Param("supplierName")String supplierName, @Param("supplierLevel")String supplierLevel);
     /**
      * 
      * Description:根据条件更新数据
@@ -59,4 +61,37 @@ public interface SupplierItemLevelMapper {
      * @return
      */
     SupplierItemLevel selectLevelByItem(SupplierItemLevel supplierItemLevel);
+    
+	/**
+	 * 获取工程四级品目下供应商等级
+	 * @param supplierId
+	 * @param categoryLevel 
+	 * @param categoryIds
+	 */
+	List<String> getProjectLevel(@Param("supplierId")String supplierId, @Param("categoryId")String categoryId);
+	
+	/**
+     * Description:根据 工程品目 查询其所有等级
+     * 
+     * @author Ye MaoLin
+     * @version 2017-10-18
+     * @param categoryIds
+     * @return
+     */
+	List<DictionaryData> ajaxProjectCategoryLevels(String categoryId);
+	
+	
+	/**
+	 * Description:根据 工程品目 查询其下所有供应商以及等级
+     * 
+     * @author Ye MaoLin
+     * @version 2017-10-18
+	 * @param categoryIds
+	 * @param supplierType
+	 * @param armyBusinessName
+	 * @param supplierName
+	 * @param supplierLevel
+	 * @return
+	 */
+	List<SupplierItemLevel> selectProjectSupplierByCategory(@Param("categoryId")String categoryId, @Param("supplierTypeRelateId")String supplierTypeRelateId , @Param("armyBusinessName")String armyBusinessName, @Param("supplierName")String supplierName, @Param("supplierLevel")String supplierLevel);
 }

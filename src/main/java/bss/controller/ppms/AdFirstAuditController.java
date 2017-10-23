@@ -90,7 +90,7 @@ public class AdFirstAuditController {
           //查询项目下所有的符合性审查项
           List<FirstAudit> firstAudits = service.getListByProjectId(projectId);
           model.addAttribute("packages", packages);
-          List<DictionaryData> dds = DictionaryDataUtil.find(22);
+          List<DictionaryData> dds = DictionaryDataUtil.findScore(22);
           //符合性资格性审查项类型
           model.addAttribute("dds", dds);
           List<DictionaryData> purchaseTypes = DictionaryDataUtil.find(5);
@@ -272,7 +272,7 @@ public class AdFirstAuditController {
 	 */
 	@RequestMapping("/editPackageFirstAudit")
 	public String editPackageFirstAudit(String packageId, Model model, String projectId, String flag, String flowDefineId){	  
-	    List<DictionaryData> dds = DictionaryDataUtil.find(22);
+	    List<DictionaryData> dds = DictionaryDataUtil.findScore(22);
 	    //符合性审查项
 	      FirstAudit firstAudit1 = new FirstAudit();
 	      firstAudit1.setKind(DictionaryDataUtil.getId("COMPLIANCE"));

@@ -24,57 +24,71 @@
     <result column="OFFICER_CERT_NO" jdbcType="VARCHAR" property="officerCertNo"/>
     <result column="NET_TYPE" property="netType"/>
     <result column="ERROR_NUM" property="errorNum"/>
+    <result column="DATA_ACCESS" property="dataAccess"/>
     <!-- 查询机构 -->
     <association column="ORG_ID" property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById"/>
     <!-- 查询创建人 -->
     <association column="USER_ID" property="user" select="selectByPrimaryKey"/>
   </resultMap>
 
-  <resultMap type="ses.model.bms.User" id="UserResultMap" extends="UserBaseMap">
-    <!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型-->
-    <collection property="roles" ofType="ses.model.bms.Role">
-      <id column="roleId" property="id"/>
-      <result column="roleName" jdbcType="VARCHAR" property="name"/>
-      <result column="roleCreatedAt" jdbcType="TIMESTAMP" property="createdAt"/>
-      <result column="description" jdbcType="VARCHAR" property="description"/>
-      <result column="roleIsDeleted" property="isDeleted"/>
-      <result column="roleUpdatedAt" jdbcType="TIMESTAMP" property="updatedAt"/>
-      <result column="roleStatus" property="status"/>
-      <result column="roleCode" jdbcType="VARCHAR" property="code"/>
-      <result column="roleKind" jdbcType="VARCHAR" property="kind"/>
-      <result column="rolePosition" property="position"/>
-    </collection>
-    <collection property="menus" ofType="ses.model.bms.PreMenu">
-      <id column="mid" property="id"/>
-      <result column="mname" jdbcType="VARCHAR" property="name"/>
-      <result column="mcreatedAt" jdbcType="TIMESTAMP" property="createdAt"/>
-      <result column="mupdatedAt" jdbcType="TIMESTAMP" property="updatedAt"/>
-      <result column="mtype" jdbcType="VARCHAR" property="type"/>
-      <result column="misDeleted" property="isDeleted"/>
-      <result column="mstatus" property="status"/>
-      <result column="murl" jdbcType="VARCHAR" property="url"/>
-      <result column="mposition" property="position"/>
-      <result column="menulevel" jdbcType="VARCHAR" property="menulevel"/>
-      <result column="mkind" property="kind"/>
-      <result column="micon" jdbcType="VARCHAR" property="icon"/>
-      <result column="permissionCode" jdbcType="VARCHAR" property="permissionCode"/>
-      <!--查询上级菜单   -->
-      <association column="mparent" property="parentId" select="ses.dao.bms.PreMenuMapper.selectByPrimaryKey"/>
-    </collection>
-  </resultMap>
+    <resultMap type="ses.model.bms.User" id="UserResultMap" extends="UserBaseMap">
+        <!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型-->
+        <collection property="roles" ofType="ses.model.bms.Role">
+            <id column="roleId" property="id"/>
+            <result column="roleName" jdbcType="VARCHAR" property="name"/>
+            <result column="roleCreatedAt" jdbcType="TIMESTAMP" property="createdAt"/>
+            <result column="description" jdbcType="VARCHAR" property="description"/>
+            <result column="roleIsDeleted" property="isDeleted"/>
+            <result column="roleUpdatedAt" jdbcType="TIMESTAMP" property="updatedAt"/>
+            <result column="roleStatus" property="status"/>
+            <result column="roleCode" jdbcType="VARCHAR" property="code"/>
+            <result column="roleKind" jdbcType="VARCHAR" property="kind"/>
+            <result column="rolePosition" property="position"/>
+        </collection>
+        <collection property="menus" ofType="ses.model.bms.PreMenu">
+            <id column="mid" property="id"/>
+            <result column="mname" jdbcType="VARCHAR" property="name"/>
+            <result column="mcreatedAt" jdbcType="TIMESTAMP" property="createdAt"/>
+            <result column="mupdatedAt" jdbcType="TIMESTAMP" property="updatedAt"/>
+            <result column="mtype" jdbcType="VARCHAR" property="type"/>
+            <result column="misDeleted" property="isDeleted"/>
+            <result column="mstatus" property="status"/>
+            <result column="murl" jdbcType="VARCHAR" property="url"/>
+            <result column="mposition" property="position"/>
+            <result column="menulevel" jdbcType="VARCHAR" property="menulevel"/>
+            <result column="mkind" property="kind"/>
+            <result column="micon" jdbcType="VARCHAR" property="icon"/>
+            <result column="permissionCode" jdbcType="VARCHAR" property="permissionCode"/>
+            <!--查询上级菜单   -->
+            <association column="mparent" property="parentId" select="ses.dao.bms.PreMenuMapper.selectByPrimaryKey"/>
+        </collection>
+    </resultMap>
 
-  <!-- 表名 -->
-  <sql id="Tabel_Name">
+    <!--查询供应商用户-->
+    <resultMap id="SupplierMap" type="ses.model.bms.User" extends="UserBaseMap">
+        <!-- 根据TYPE_ID查询供应商 -->
+        <association column="TYPE_ID" property="supplier" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
+    </resultMap>
+
+    <!-- 表名 -->
+    <sql id="Tabel_Name">
     T_SES_BMS_USER
   </sql>
-
+  
   <!-- 表中所有列 -->
   <sql id="Base_Column_List">
     ID, LOGIN_NAME, PASSWORD, CREATED_AT, IS_DELETED, REL_NAME, UPDATED_AT, USER_ID, 
     MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUTIES, TYPE_NAME, TYPE_ID, ADDRESS, RANDOM_CODE, ORG_NAME,
-    PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE, ERROR_NUM
+    PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE, ERROR_NUM, DATA_ACCESS
   </sql>
-
+  <!-- 表中所有列（带有别名） -->
+  <sql id="Base_Column_List_Alias">
+      U.ID, U.LOGIN_NAME, U.PASSWORD, U.CREATED_AT, U.UPDATED_AT, U.IS_DELETED, U.REL_NAME, U.UPDATED_AT,
+      U.USER_ID, U.MOBILE, U.GENDER, U.TELEPHONE, U.EMAIL, U.ORG_ID, U.DUTIES, U.TYPE_NAME, U.TYPE_ID,
+      U.ADDRESS, U.RANDOM_CODE, U.ORG_NAME, U.PUBLISH_TYPE, U.ID_NUMBER, U.OFFICER_CERT_NO, U.NET_TYPE,
+      U.ERROR_NUM
+  </sql>
+    
   <!-- 查询条件 -->
   <sql id="Example_Where_Clause">
     where u.IS_DELETED = 0
@@ -142,20 +156,23 @@
       <if test="errorNum != null">
         and u.ERROR_NUM = #{errorNum}
       </if>
+      <if test="dataAccess != null">
+        and u.DATA_ACCESS = #{dataAccess}
+      </if>
     </trim>
   </sql>
 
-  <!-- 1.根据id查询(不带关联集合) -->
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="UserBaseMap">
-    select
-    <include refid="Base_Column_List"/>
-    from T_SES_BMS_USER
-    where IS_DELETED = 0
-    and ID = #{id,jdbcType=VARCHAR}
-  </select>
+    <!-- 1.根据id查询(不带关联集合) -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="UserBaseMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_BMS_USER
+        where IS_DELETED = 0
+        and ID = #{id,jdbcType=VARCHAR}
+    </select>
 
-  <!-- 根据id判断是军队还是地方用户 -->
-  <select id="selectByArmyLocal" parameterType="java.lang.String" resultMap="UserBaseMap">
+    <!-- 根据id判断是军队还是地方用户 -->
+    <select id="selectByArmyLocal" parameterType="java.lang.String" resultMap="UserBaseMap">
 	SELECT TSBU.ID as ID, TSBU.LOGIN_NAME as LOGIN_NAME
 	  FROM T_SES_BMS_USER TSBU, T_SES_EMS_EXPERT TSEE
 	 WHERE TSBU.TYPE_ID = TSEE.ID
@@ -165,17 +182,17 @@
 	                               AND DD.NAME = '军队')
 	   AND TSBU.ID = #{id,jdbcType=VARCHAR}
   </select>
-  <!-- 根据 orgid 集合 获取用户id 集合 -->
-  <select id="getUserId" resultType="String">
-    select id from T_SES_BMS_USER where
-    ORG_ID in
-    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
-      #{item}
-    </foreach>
-  </select>
+    <!-- 根据 orgid 集合 获取用户id 集合 -->
+    <select id="getUserId" resultType="String">
+        select id from T_SES_BMS_USER where
+        ORG_ID in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 
-  <!-- 2.根据id删除 -->
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!-- 2.根据id删除 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_BMS_USER
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
@@ -191,7 +208,7 @@
     GENDER, TELEPHONE, EMAIL,
     ORG_ID, DUTIES, TYPE_NAME,
     TYPE_ID, ADDRESS, RANDOM_CODE,
-    ORG_NAME, PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE, ERROR_NUM)
+    ORG_NAME, PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO, NET_TYPE, ERROR_NUM, DATA_ACCESS)
     values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
     #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted}, #{relName,jdbcType=VARCHAR},
     #{updatedAt,jdbcType=TIMESTAMP}, #{user.id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
@@ -199,7 +216,7 @@
     #{org.id,jdbcType=VARCHAR}, #{duties,jdbcType=VARCHAR}, #{typeName},
     #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{randomCode,jdbcType=VARCHAR},
     #{orgName,jdbcType=VARCHAR},#{publishType}, #{idNumber,jdbcType=VARCHAR},
-    #{officerCertNo,jdbcType=VARCHAR},#{netType},#{errorNum})
+    #{officerCertNo,jdbcType=VARCHAR},#{netType},#{errorNum},#{dataAccess})
   </insert>
   <!-- 保存用户 -->
   <insert id="saveUser" parameterType="ses.model.bms.User">
@@ -277,6 +294,9 @@
       <if test="errorNum != null">
         ERROR_NUM,
       </if>
+      <if test="dataAccess != null">
+        DATA_ACCESS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null and id != ''">
@@ -350,6 +370,9 @@
       </if>
       <if test="errorNum != null">
         #{errorNum},
+      </if>
+      <if test="dataAccess != null">
+        #{dataAccess},
       </if>
     </trim>
   </insert>
@@ -431,7 +454,10 @@
         NET_TYPE,
       </if>
       <if test="errorNum != null">
-        ERROR_NUM
+        ERROR_NUM,
+      </if>
+      <if test="dataAccess != null">
+        DATA_ACCESS
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -506,6 +532,9 @@
       </if>
       <if test="errorNum != null">
         #{errorNum},
+      </if>
+      <if test="dataAccess != null">
+        #{dataAccess},
       </if>
     </trim>
   </insert>
@@ -584,14 +613,17 @@
         NET_TYPE = #{netType},
       </if>
       <if test="errorNum != null">
-        ERROR_NUM = #{errorNum}
+        ERROR_NUM = #{errorNum},
+      </if>
+      <if test="dataAccess != null">
+        DATA_ACCESS = #{dataAccess}
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 
-  <!-- 6.更新数据 -->
-  <update id="updateByPrimaryKey" parameterType="ses.model.bms.User">
+    <!-- 6.更新数据 -->
+    <update id="updateByPrimaryKey" parameterType="ses.model.bms.User">
     update T_SES_BMS_USER
     set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
       PASSWORD = #{password,jdbcType=VARCHAR},
@@ -615,223 +647,224 @@
       ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
       OFFICER_CERT_NO = #{officerCertNo,jdbcType=VARCHAR},
       NET_TYPE = #{netType},
-      ERROR_NUM = #{errorNum}
+      ERROR_NUM = #{errorNum},
+      DATA_ACCESS = #{dataAccess}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 
-  <!-- 7.列表总数 -->
-  <select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
+    <!-- 7.列表总数 -->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
     select count(1) 
     from T_SES_BMS_USER
     where IS_DELETED = 0
   </select>
 
-  <!-- 8.查询列表(查询不为空的字段，不带关联集合) -->
-  <select id="queryByList" resultMap="UserBaseMap" parameterType="Object">
-    select
-    <include refid="Base_Column_List"/>
-    from T_SES_BMS_USER u
-    <include refid="Example_Where_Clause"/>
-    ORDER BY u.CREATED_AT DESC
-  </select>
-  
-  <!-- 8.1.查询后台用户列表(不带关联集合,不包括专家和供应商) -->
-  <select id="queryBackendUser" resultMap="UserBaseMap" parameterType="Object">
-    select
-    <include refid="Base_Column_List"/>
-    from T_SES_BMS_USER u
-    <include refid="Example_Where_Clause"/>
-    and u.TYPE_NAME IS NOT NULL
-    ORDER BY u.CREATED_AT DESC
-  </select>
+    <!-- 8.查询列表(查询不为空的字段，不带关联集合) -->
+    <select id="queryByList" resultMap="UserBaseMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_BMS_USER u
+        <include refid="Example_Where_Clause"/>
+        ORDER BY u.CREATED_AT DESC
+    </select>
 
-  <!-- 查询用户（关联角色） -->
-  <select id="findUserRole" resultMap="UserBaseMap" parameterType="Object">
-    SELECT
-    *
-    FROM
-    T_SES_BMS_USER u
-    INNER JOIN (
-    SELECT
-    ID,
-    wm_concat (DISTINCT(roleName)) AS roleNames ,wm_concat (DISTINCT(roleId)) AS roleId
-    FROM
-    (
-    SELECT
-    u. ID,
-    T2.ROLE_ID as roleId,
-    t3.NAME AS roleName
-    FROM
-    T_SES_BMS_USER u
-    LEFT JOIN T_SES_BMS_USER_ROLE T2 ON u. ID = T2.USER_ID
-    LEFT JOIN T_SES_BMS_ROLE t3 on T2.ROLE_ID = t3.ID
-    WHERE
-    u.TYPE_NAME IS NOT NULL
-    AND u.TYPE_NAME != '6'
-    <!-- t3.CODE != 'SUPPLIER_R'
-    AND t3.CODE != 'EXPERT_R'
-    AND t3.CODE != 'IMPORT_AGENT_R' -->
-    )
-    GROUP BY ID
-    ) t4 ON u. ID = t4. ID
-    <include refid="Example_Where_Clause"/>
-    ORDER BY CREATED_AT DESC
-  </select>
+    <!-- 8.1.查询后台用户列表(不带关联集合,不包括专家和供应商) -->
+    <select id="queryBackendUser" resultMap="UserBaseMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_BMS_USER u
+        <include refid="Example_Where_Clause"/>
+        and u.TYPE_NAME IS NOT NULL
+        ORDER BY u.CREATED_AT DESC
+    </select>
 
-  <!-- 查询用户（关联角色）所有角色 -->
-  <select id="findUserRoleOther" resultMap="UserBaseMap" parameterType="Object">
-    SELECT
-    *
-    FROM
-    T_SES_BMS_USER u
-    INNER JOIN (
-    SELECT
-    ID,
-    wm_concat (DISTINCT(roleName)) AS roleNames ,wm_concat (DISTINCT(roleId)) AS roleId
-    FROM
-    (
-    SELECT
-    u. ID,
-    T2.ROLE_ID as roleId,
-    t3.NAME AS roleName
-    FROM
-    T_SES_BMS_USER u
-    LEFT JOIN T_SES_BMS_USER_ROLE T2 ON u. ID = T2.USER_ID
-    LEFT JOIN T_SES_BMS_ROLE t3 on T2.ROLE_ID = t3.ID
-    )
-    GROUP BY ID
-    ) t4 ON u. ID = t4. ID
-    <include refid="Example_Where_Clause"/>
-    ORDER BY CREATED_AT DESC
-  </select>
+    <!-- 查询用户（关联角色） -->
+    <select id="findUserRole" resultMap="UserBaseMap" parameterType="Object">
+        SELECT
+        *
+        FROM
+        T_SES_BMS_USER u
+        INNER JOIN (
+        SELECT
+        ID,
+        wm_concat (DISTINCT(roleName)) AS roleNames ,wm_concat (DISTINCT(roleId)) AS roleId
+        FROM
+        (
+        SELECT
+        u. ID,
+        T2.ROLE_ID as roleId,
+        t3.NAME AS roleName
+        FROM
+        T_SES_BMS_USER u
+        LEFT JOIN T_SES_BMS_USER_ROLE T2 ON u. ID = T2.USER_ID
+        LEFT JOIN T_SES_BMS_ROLE t3 on T2.ROLE_ID = t3.ID
+        WHERE
+        u.TYPE_NAME IS NOT NULL
+        AND u.TYPE_NAME != '6'
+        <!-- t3.CODE != 'SUPPLIER_R'
+        AND t3.CODE != 'EXPERT_R'
+        AND t3.CODE != 'IMPORT_AGENT_R' -->
+        )
+        GROUP BY ID
+        ) t4 ON u. ID = t4. ID
+        <include refid="Example_Where_Clause"/>
+        ORDER BY CREATED_AT DESC
+    </select>
 
-  <!-- 9.根据不为空的条件查询用户信息（包含角色信息） -->
-  <select id="selectUser" parameterType="Object" resultMap="UserResultMap">
-    SELECT
-    U .*,
-    r. ID AS roleId,
-    r. NAME AS roleName,
-    r.CREATED_AT AS roleCreatedAt,
-    r.DESCRIPTION AS description,
-    r.IS_DELETED AS roleIsDeleted,
-    r.UPDATED_AT AS roleUpdatedAt,
-    r.STATUS AS roleStatus,
-    r.CODE AS roleCode,
-    r.KIND AS roleKind,
-    r.POSITION AS rolePosition,
-    pm. ID AS mid,
-    pm. NAME AS mname,
-    pm.MENU_TYPE AS mtype,
-    pm.IS_DELETED AS misDeleted,
-    pm.STATUS AS mstatus,
-    pm.URL AS murl,
-    pm.CREATED_AT AS mcreatedAt,
-    pm.UPDATED_AT AS mupdatedAt,
-    pm.POSITION AS mposition,
-    pm.MENU_LEVEL AS menulevel,
-    pm.PARENT_ID AS mparent,
-    pm.KIND AS mkind,
-    pm.ICON AS micon,
-    pm.PERMISSION_CODE AS permissionCode
-    FROM
-    T_SES_BMS_USER U
-    LEFT JOIN T_SES_BMS_USER_ROLE ur ON U . ID = ur."USER_ID"
-    LEFT JOIN T_SES_BMS_ROLE r ON ur."ROLE_ID" = r. ID
-    LEFT JOIN T_SES_BMS_USER_PERMISSION up ON U . ID = up.USER_ID
-    LEFT JOIN T_SES_BMS_PERMISSION pm ON up.PERMENU_ID = pm. ID
-    <include refid="Example_Where_Clause"/>
-    ORDER BY u.CREATED_AT DESC,pm.MENU_LEVEL ,pm.POSITION ASC
-  </select>
+    <!-- 查询用户（关联角色）所有角色 -->
+    <select id="findUserRoleOther" resultMap="UserBaseMap" parameterType="Object">
+        SELECT
+        *
+        FROM
+        T_SES_BMS_USER u
+        INNER JOIN (
+        SELECT
+        ID,
+        wm_concat (DISTINCT(roleName)) AS roleNames ,wm_concat (DISTINCT(roleId)) AS roleId
+        FROM
+        (
+        SELECT
+        u. ID,
+        T2.ROLE_ID as roleId,
+        t3.NAME AS roleName
+        FROM
+        T_SES_BMS_USER u
+        LEFT JOIN T_SES_BMS_USER_ROLE T2 ON u. ID = T2.USER_ID
+        LEFT JOIN T_SES_BMS_ROLE t3 on T2.ROLE_ID = t3.ID
+        )
+        GROUP BY ID
+        ) t4 ON u. ID = t4. ID
+        <include refid="Example_Where_Clause"/>
+        ORDER BY CREATED_AT DESC
+    </select>
 
-  <!-- 10.保存用户和角色之间的关系信息 -->
-  <insert id="saveRelativity" parameterType="Object">  
+    <!-- 9.根据不为空的条件查询用户信息（包含角色信息） -->
+    <select id="selectUser" parameterType="Object" resultMap="UserResultMap">
+        SELECT
+        U .*,
+        r. ID AS roleId,
+        r. NAME AS roleName,
+        r.CREATED_AT AS roleCreatedAt,
+        r.DESCRIPTION AS description,
+        r.IS_DELETED AS roleIsDeleted,
+        r.UPDATED_AT AS roleUpdatedAt,
+        r.STATUS AS roleStatus,
+        r.CODE AS roleCode,
+        r.KIND AS roleKind,
+        r.POSITION AS rolePosition,
+        pm. ID AS mid,
+        pm. NAME AS mname,
+        pm.MENU_TYPE AS mtype,
+        pm.IS_DELETED AS misDeleted,
+        pm.STATUS AS mstatus,
+        pm.URL AS murl,
+        pm.CREATED_AT AS mcreatedAt,
+        pm.UPDATED_AT AS mupdatedAt,
+        pm.POSITION AS mposition,
+        pm.MENU_LEVEL AS menulevel,
+        pm.PARENT_ID AS mparent,
+        pm.KIND AS mkind,
+        pm.ICON AS micon,
+        pm.PERMISSION_CODE AS permissionCode
+        FROM
+        T_SES_BMS_USER U
+        LEFT JOIN T_SES_BMS_USER_ROLE ur ON U . ID = ur."USER_ID"
+        LEFT JOIN T_SES_BMS_ROLE r ON ur."ROLE_ID" = r. ID
+        LEFT JOIN T_SES_BMS_USER_PERMISSION up ON U . ID = up.USER_ID
+        LEFT JOIN T_SES_BMS_PERMISSION pm ON up.PERMENU_ID = pm. ID
+        <include refid="Example_Where_Clause"/>
+        ORDER BY u.CREATED_AT DESC,pm.MENU_LEVEL ,pm.POSITION ASC
+    </select>
+
+    <!-- 10.保存用户和角色之间的关系信息 -->
+    <insert id="saveRelativity" parameterType="Object">
       insert into T_SES_BMS_USER_ROLE("USER_ID","ROLE_ID")  	
       values(#{userId.id},#{roleId.id})  
   </insert>
 
-  <!-- 11.保存用户和菜单之间的关系信息 -->
-  <insert id="saveUserMenu" parameterType="Object">
-    insert into T_SES_BMS_USER_PERMISSION
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="user != null">
-        USER_ID,
-      </if>
-      <if test="preMenu != null">
-        PERMENU_ID,
-      </if>
-      <if test="kind != null">
-        KIND,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="user != null">
-        #{user.id,jdbcType=VARCHAR},
-      </if>
-      <if test="preMenu != null">
-        #{preMenu.id,jdbcType=VARCHAR},
-      </if>
-      <if test="kind != null">
-        #{kind},
-      </if>
-    </trim>
-  </insert>
+    <!-- 11.保存用户和菜单之间的关系信息 -->
+    <insert id="saveUserMenu" parameterType="Object">
+        insert into T_SES_BMS_USER_PERMISSION
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user != null">
+                USER_ID,
+            </if>
+            <if test="preMenu != null">
+                PERMENU_ID,
+            </if>
+            <if test="kind != null">
+                KIND,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="user != null">
+                #{user.id,jdbcType=VARCHAR},
+            </if>
+            <if test="preMenu != null">
+                #{preMenu.id,jdbcType=VARCHAR},
+            </if>
+            <if test="kind != null">
+                #{kind},
+            </if>
+        </trim>
+    </insert>
 
-  <!-- 12.删除用户和菜单之间的关系信息 -->
-  <delete id="deleteUserMenu" parameterType="Object">
-    delete from T_SES_BMS_USER_PERMISSION
-    <where>
-      <if test="user != null">"USER_ID" = #{user.id}</if>
-      <if test="preMenu != null">and "PERMENU_ID" = #{preMenu.id}</if>
-    </where>
-  </delete>
+    <!-- 12.删除用户和菜单之间的关系信息 -->
+    <delete id="deleteUserMenu" parameterType="Object">
+        delete from T_SES_BMS_USER_PERMISSION
+        <where>
+            <if test="user != null">"USER_ID" = #{user.id}</if>
+            <if test="preMenu != null">and "PERMENU_ID" = #{preMenu.id}</if>
+        </where>
+    </delete>
 
-  <!-- 13.根据用户名查询 -->
-  <select id="queryByLoginName" resultMap="UserBaseMap" parameterType="Object">
-    select
-    <include refid="Base_Column_List"/>
-    from T_SES_BMS_USER u
-    where u.IS_DELETED=0 and
-    u.LOGIN_NAME = #{loginName}
-  </select>
+    <!-- 13.根据用户名查询 -->
+    <select id="queryByLoginName" resultMap="UserBaseMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_BMS_USER u
+        where u.IS_DELETED=0 and
+        u.LOGIN_NAME = #{loginName}
+    </select>
 
-  <!-- 根据手机号查询,仅校验后台用户 -->
-  <select id="ajaxMoblie" resultMap="UserBaseMap" parameterType="Object">
-    select
-    <include refid="Base_Column_List"/>
-    from T_SES_BMS_USER u
-    where u.IS_DELETED=0
-    and u.MOBILE = #{mobile}
-    and u.TYPE_NAME IS NOT NULL
-    <if test="id != null and id != ''">
-      and u.ID != #{id}
-    </if>
-  </select>
+    <!-- 根据手机号查询,仅校验后台用户 -->
+    <select id="ajaxMoblie" resultMap="UserBaseMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_BMS_USER u
+        where u.IS_DELETED=0
+        and u.MOBILE = #{mobile}
+        and u.TYPE_NAME IS NOT NULL
+        <if test="id != null and id != ''">
+            and u.ID != #{id}
+        </if>
+    </select>
 
-  <!-- 根据身份证号查询,仅校验后台用户 -->
-  <select id="ajaxIdNumber" resultMap="UserBaseMap" parameterType="Object">
-    select
-    <include refid="Base_Column_List"/>
-    from T_SES_BMS_USER u
-    where u.IS_DELETED=0
-    and (u.ID_NUMBER = lower(#{idNumber})
-    or u.ID_NUMBER = Upper(#{idNumber}))
-    and u.TYPE_NAME IS NOT NULL
-    <if test="id != null and id != ''">
-      and u.ID != #{id}
-    </if>
-  </select>
+    <!-- 根据身份证号查询,仅校验后台用户 -->
+    <select id="ajaxIdNumber" resultMap="UserBaseMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_BMS_USER u
+        where u.IS_DELETED=0
+        and (u.ID_NUMBER = lower(#{idNumber})
+        or u.ID_NUMBER = Upper(#{idNumber}))
+        and u.TYPE_NAME IS NOT NULL
+        <if test="id != null and id != ''">
+            and u.ID != #{id}
+        </if>
+    </select>
 
 
-  <!-- 根据typeId查询用户 -->
-  <select id="findUserByTypeId" resultMap="UserBaseMap">
-    SELECT
-    <include refid="Base_Column_List"/>
-    FROM T_SES_BMS_USER
-    WHERE TYPE_ID = #{typeId}
-  </select>
+    <!-- 根据typeId查询用户 -->
+    <select id="findUserByTypeId" resultMap="UserBaseMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SES_BMS_USER
+        WHERE TYPE_ID = #{typeId}
+    </select>
 
-  <!-- 14.用户名、密码登录查询（包含角色等关联信息） -->
-  <select id="queryByLogin" parameterType="Object" resultMap="UserResultMap">  
+    <!-- 14.用户名、密码登录查询（包含角色等关联信息） -->
+    <select id="queryByLogin" parameterType="Object" resultMap="UserResultMap">
       SELECT
 			U .*,
 			r. ID AS roleId,
@@ -870,23 +903,23 @@
 			AND U . PASSWORD = #{password}
 		ORDER BY pm.MENU_LEVEL ,pm.POSITION ASC
   </select>
-  <!-- 15.查询所有采购后台的角色 （彭仲俊）-->
-  <select id="queryParkManagers" parameterType="java.util.Map" resultMap="UserBaseMap">
-    SELECT
-    <include refid="Base_Column_List"/>
-    FROM T_SES_BMS_USER
-    WHERE IS_DELETED =0
-    AND ID IN (
-    SELECT USER_ID FROM T_SES_BMS_USER_ROLE
-    WHERE ROLE_ID IN (
-    SELECT ID FROM T_SES_BMS_ROLE
-    WHERE STATUS = 0
-    AND IS_DELETED =0
-    AND KIND = #{kind}
-    )
-    )
-    ORDER BY CREATED_AT DESC
-  </select>
+    <!-- 15.查询所有采购后台的角色 （彭仲俊）-->
+    <select id="queryParkManagers" parameterType="java.util.Map" resultMap="UserBaseMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SES_BMS_USER
+        WHERE IS_DELETED =0
+        AND ID IN (
+        SELECT USER_ID FROM T_SES_BMS_USER_ROLE
+        WHERE ROLE_ID IN (
+        SELECT ID FROM T_SES_BMS_ROLE
+        WHERE STATUS = 0
+        AND IS_DELETED =0
+        AND KIND = #{kind}
+        )
+        )
+        ORDER BY CREATED_AT DESC
+    </select>
 
   <!-- 16.根据角色编码查询用户 -->
   <select id="findByRole" parameterType="java.util.Map" resultMap="UserBaseMap">
@@ -915,7 +948,8 @@
     u.ID_NUMBER AS ID_NUMBER,
     u.OFFICER_CERT_NO AS OFFICER_CERT_NO,
     u.NET_TYPE AS NET_TYPE,
-    u.ERROR_NUM AS ERROR_NUM
+    u.ERROR_NUM AS ERROR_NUM,
+    u.DATA_ACCESS AS DATA_ACCESS
     FROM
     T_SES_BMS_USER u
     LEFT JOIN T_SES_BMS_USER_ROLE ur ON u. ID = ur.USER_ID
@@ -930,16 +964,16 @@
     </if>
   </select>
 
-  <!-- 根据组织机构Id查询用户数量 -->
-  <select id="getUserCountByOrgId" resultType="java.lang.Long">
+    <!-- 根据组织机构Id查询用户数量 -->
+    <select id="getUserCountByOrgId" resultType="java.lang.Long">
       SELECT COUNT(1)
   	  FROM T_SES_BMS_USER
  	  WHERE ORG_ID = #{orgId}
       AND IS_DELETED = '0'
     </select>
 
-  <!-- 8.查询列表(查询不为空的字段，不带关联集合) -->
-  <select id="listWithoutSupplier" resultMap="UserBaseMap">
+    <!-- 8.查询列表(查询不为空的字段，不带关联集合) -->
+    <select id="listWithoutSupplier" resultMap="UserBaseMap">
         SELECT 
            u.*
         FROM
@@ -953,85 +987,85 @@
     </select>
 
 
-  <select id="queryByUserId" resultType="ses.model.bms.RoleUser">
-    select ur.USER_ID as userId ,ur.ROLE_ID as roleId from T_SES_BMS_USER_ROLE ur
-    where 1=1
-    <if test="userId !=null">
-      and ur.USER_ID =#{userId}
-    </if>
-    <if test="roleId !=null">
-      and ur.ROLE_ID =#{roleId}
-    </if>
-  </select>
+    <select id="queryByUserId" resultType="ses.model.bms.RoleUser">
+        select ur.USER_ID as userId ,ur.ROLE_ID as roleId from T_SES_BMS_USER_ROLE ur
+        where 1=1
+        <if test="userId !=null">
+            and ur.USER_ID =#{userId}
+        </if>
+        <if test="roleId !=null">
+            and ur.ROLE_ID =#{roleId}
+        </if>
+    </select>
 
-  <select id="queryById" resultMap="UserBaseMap">
-    select
-    <include refid="Base_Column_List"/>
-    from T_SES_BMS_USER
-    where ID=#{id}
-  </select>
-  <select id="queryNameAndNote" resultMap="UserBaseMap">
-    select
-    <include refid="Base_Column_List"/>
-    from T_SES_BMS_USER
-    where LOGIN_NAME=#{loginName} and NET_TYPE=#{note}
-  </select>
-
-
-  <select id="queryByNameAndPw" resultMap="UserBaseMap">
-    select
-    <include refid="Base_Column_List"/>
-    from T_SES_BMS_USER
-    where LOGIN_NAME=#{loginName} and PASSWORD=#{password}
-  </select>
+    <select id="queryById" resultMap="UserBaseMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_BMS_USER
+        where ID=#{id}
+    </select>
+    <select id="queryNameAndNote" resultMap="UserBaseMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_BMS_USER
+        where LOGIN_NAME=#{loginName} and NET_TYPE=#{note}
+    </select>
 
 
-  <!-- 根据名称集合判断是否已有名称存在 -->
-  <select id="ajaxUserName" resultType="java.lang.Integer">
-    select
-    count(u.id)
-    from T_SES_BMS_USER u
-    where u.LOGIN_NAME in
-    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
-      #{item}
-    </foreach>
-  </select>
+    <select id="queryByNameAndPw" resultMap="UserBaseMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_BMS_USER
+        where LOGIN_NAME=#{loginName} and PASSWORD=#{password}
+    </select>
 
-  <insert id="saveUserRole" parameterType="ses.model.bms.RoleUser">
+
+    <!-- 根据名称集合判断是否已有名称存在 -->
+    <select id="ajaxUserName" resultType="java.lang.Integer">
+        select
+        count(u.id)
+        from T_SES_BMS_USER u
+        where u.LOGIN_NAME in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <insert id="saveUserRole" parameterType="ses.model.bms.RoleUser">
 	      insert into T_SES_BMS_USER_ROLE(USER_ID,ROLE_ID)  	
 	      values(#{userId},#{roleId})  
 	  </insert>
 
 
-  <select id="findById" resultMap="UserBaseMap" parameterType="java.lang.String">
-    select
-    <include refid="Base_Column_List"/>
-    from T_SES_BMS_USER
-    where ID = #{id}
-  </select>
+    <select id="findById" resultMap="UserBaseMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_BMS_USER
+        where ID = #{id}
+    </select>
 
 
-  <select id="selectByTypeId" parameterType="java.lang.String" resultMap="UserBaseMap">
-    select
-    <include refid="Base_Column_List"/>
-    from T_SES_BMS_USER
-    where <!-- IS_DELETED = 0 and  -->
-    TYPE_ID = #{typeId}
-  </select>
-  <select id="findByTypeName" parameterType="java.lang.String" resultType="String">
+    <select id="selectByTypeId" parameterType="java.lang.String" resultMap="UserBaseMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_BMS_USER
+        where <!-- IS_DELETED = 0 and  -->
+        TYPE_ID = #{typeId}
+    </select>
+    <select id="findByTypeName" parameterType="java.lang.String" resultType="String">
 	    select id  from T_SES_BMS_USER 
 	    where 
 	    TYPE_NAME = #{typeId}
 	  </select>
-  <!-- 根据机构id查询该机构下用户集合 -->  
-  <select id="findByOrgId" parameterType="java.lang.String" resultType="String">
+    <!-- 根据机构id查询该机构下用户集合 -->
+    <select id="findByOrgId" parameterType="java.lang.String" resultType="String">
 	    select id  from T_SES_BMS_USER 
 	    where 
 	    ORG_ID = #{orgId}
 	  </select>
 
-  <!-- 假删除用户 -->
-  <update id="updateByTypeId" parameterType="java.lang.String">
+    <!-- 假删除用户 -->
+    <update id="updateByTypeId" parameterType="java.lang.String">
 			update
 				T_SES_BMS_USER
 			SET
@@ -1039,8 +1073,8 @@
 			WHERE TYPE_ID = #{typeId}
 		</update>
 
-  <!-- 查询删除的用户 -->
-  <select id="getDleUserByTypeId" resultType="java.lang.String">
+    <!-- 查询删除的用户 -->
+    <select id="getDleUserByTypeId" resultType="java.lang.String">
 	    SELECT
 	    	*
 	    from 
@@ -1050,83 +1084,98 @@
 	    and IS_DELETED = 1
 		</select>
 
-  <!-- 更新删除的用户 -->
-  <update id="updateDelUserByTypeId" parameterType="ses.model.bms.User">
+    <!-- 更新删除的用户 -->
+    <update id="updateDelUserByTypeId" parameterType="ses.model.bms.User">
 			update
 				T_SES_BMS_USER
 			SET
 	      LOGIN_NAME = #{loginName},
 	      ID_NUMBER = #{idNumber},
 	      MOBILE = #{mobile},
+	      UPDATED_AT = #{updatedAt},
 	      IS_DELETED = 1
 			WHERE TYPE_ID = #{typeId}
 			AND IS_DELETED = 0
 		</update>
 
-  <!-- 统计注册用户注册总数量 -->
-  <select id="getRegisterTenderCountByEmp" resultType="java.lang.Long" parameterType="Map">
+    <!-- 统计注册用户注册总数量 -->
+    <select id="getRegisterTenderCountByEmp" resultType="java.lang.Long" parameterType="Map">
 		     SELECT COUNT(ID)
 	        	FROM T_SES_BMS_USER U
 	       		WHERE TO_CHAR(U.CREATED_AT, 'yyyy-MM-dd') = #{createdAt}
 		</select>
 
-  <!-- 查询 是否 是2017-06-05 之前修改的用户-->
-  <select id="isUpdateUser" resultType="Integer" parameterType="String">
+    <!-- 查询 是否 是2017-06-05 之前修改的用户-->
+    <select id="isUpdateUser" resultType="Integer" parameterType="String">
 		SELECT COUNT(ID) from T_SES_BMS_USER WHERE 
 		TO_CHAR(DECODE(UPDATED_AT,'',CREATED_AT,UPDATED_AT),'YYYY-MM-DD') &gt; #{date}
 		AND LOGIN_NAME=#{loginName}
 		</select>
-		
-		
-<!-- 用户名重复验证 -->
-  <select id="yzLoginName" resultMap="UserBaseMap">
-    SELECT
-    <include refid="Base_Column_List"/>
-    FROM T_SES_BMS_USER
-    WHERE IS_DELETED = 0 and
-    LOGIN_NAME = #{loginName}
-    <if test="typeId != null and typeId != ''">
-        AND TYPE_ID &lt;&gt; #{typeId}
-    </if>
-  </select>
-  
-  <!-- 根据军官证号查询,仅校验后台用户 -->
-  <select id="ajaxOfficerCertNo" resultMap="UserBaseMap" parameterType="Object">
-    select
-    <include refid="Base_Column_List"/>
-    from T_SES_BMS_USER u
-    where u.IS_DELETED=0
-    and u.OFFICER_CERT_NO = #{officerCertNo}
-    and u.TYPE_NAME IS NOT NULL
-    <if test="id != null and id != ''">
-      and u.ID != #{id}
-    </if>
-  </select>
-  
-  <!-- 获取权限关联用户 -->
-  <select id="findByPermenuId" resultMap="UserBaseMap" parameterType="java.lang.String">
-    SELECT
-    <include refid="Base_Column_List"/>
-    FROM T_SES_BMS_USER
-    WHERE ID IN (
-      SELECT USER_ID ID FROM (
+
+
+    <!-- 用户名重复验证 -->
+    <select id="yzLoginName" resultMap="UserBaseMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SES_BMS_USER
+        WHERE IS_DELETED = 0 and
+        LOGIN_NAME = #{loginName}
+        <if test="typeId != null and typeId != ''">
+            AND TYPE_ID &lt;&gt; #{typeId}
+        </if>
+    </select>
+
+    <!-- 根据军官证号查询,仅校验后台用户 -->
+    <select id="ajaxOfficerCertNo" resultMap="UserBaseMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_BMS_USER u
+        where u.IS_DELETED=0
+        and u.OFFICER_CERT_NO = #{officerCertNo}
+        and u.TYPE_NAME IS NOT NULL
+        <if test="id != null and id != ''">
+            and u.ID != #{id}
+        </if>
+    </select>
+
+    <!-- 获取权限关联用户 -->
+    <select id="findByPermenuId" resultMap="UserBaseMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SES_BMS_USER
+        WHERE ID IN (
+        SELECT USER_ID ID FROM (
         SELECT DISTINCT USER_ID
-        FROM T_SES_BMS_USER_ROLE  
+        FROM T_SES_BMS_USER_ROLE
         WHERE
         ROLE_ID IN (
-          SELECT DISTINCT ROLE_ID
-          FROM T_SES_BMS_ROLE_PERMISSION  
-          WHERE PERMENU_ID = #{permenuId}) 
-      UNION 
-      SELECT DISTINCT USER_ID  
-      FROM T_SES_BMS_USER_PERMISSION
-      WHERE PERMENU_ID = #{permenuId} AND KIND = 0) 
-    MINUS 
-      SELECT DISTINCT USER_ID 
-      FROM T_SES_BMS_USER_PERMISSION
-      WHERE PERMENU_ID = #{permenuId} AND KIND = 1 
-    )
-    AND IS_DELETED = 0
-    ORDER BY CREATED_AT DESC
-  </select>
+        SELECT DISTINCT ROLE_ID
+        FROM T_SES_BMS_ROLE_PERMISSION
+        WHERE PERMENU_ID = #{permenuId})
+        UNION
+        SELECT DISTINCT USER_ID
+        FROM T_SES_BMS_USER_PERMISSION
+        WHERE PERMENU_ID = #{permenuId} AND KIND = 0)
+        MINUS
+        SELECT DISTINCT USER_ID
+        FROM T_SES_BMS_USER_PERMISSION
+        WHERE PERMENU_ID = #{permenuId} AND KIND = 1
+        )
+        AND IS_DELETED = 0
+        ORDER BY CREATED_AT DESC
+    </select>
+
+    <!--查询注销的供应商-->
+    <select id="selectLogoutSupplier" parameterType="map" resultMap="SupplierMap">
+        SELECT
+        <include refid="Base_Column_List_Alias"/>
+        FROM T_SES_BMS_USER U
+        LEFT JOIN T_SES_SMS_SUPPLIER T
+        ON U.TYPE_ID = T.ID
+        WHERE U.IS_DELETED = #{isDeleted}
+        AND U.UPDATED_AT &gt;=
+        TO_DATE(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+        AND
+        U.UPDATED_AT &lt;= TO_DATE(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+    </select>
 </mapper>

@@ -1,40 +1,30 @@
 package ses.controller.sys.ems;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import bss.controller.base.BaseController;
+import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
+import bss.model.ppms.SaleTender;
+import bss.model.ppms.ext.ProjectExt;
+import bss.model.prms.PackageExpert;
+import bss.service.ppms.BidMethodService;
+import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectService;
+import bss.service.ppms.SaleTenderService;
+import bss.service.prms.PackageExpertService;
+import bss.service.prms.ReviewProgressService;
+import bss.util.ExcelRead;
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import com.google.zxing.WriterException;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.LoginLogService;
+import common.service.UploadService;
+import common.utils.ListSortUtil;
+import common.utils.QRCodeUtil;
+import common.utils.RSAEncrypt;
 import net.sf.json.JSONObject;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -57,7 +47,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -118,32 +107,36 @@ import ses.util.SupplierLevelUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 import sun.misc.BASE64Encoder;
-import bss.controller.base.BaseController;
-import bss.model.ppms.Packages;
-import bss.model.ppms.Project;
-import bss.model.ppms.SaleTender;
-import bss.model.ppms.ext.ProjectExt;
-import bss.model.prms.PackageExpert;
-import bss.service.ppms.BidMethodService;
-import bss.service.ppms.PackageService;
-import bss.service.ppms.ProjectService;
-import bss.service.ppms.SaleTenderService;
-import bss.service.prms.PackageExpertService;
-import bss.service.prms.ReviewProgressService;
-import bss.util.ExcelRead;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-import com.google.zxing.WriterException;
-
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.model.UploadFile;
-import common.service.LoginLogService;
-import common.service.UploadService;
-import common.utils.ListSortUtil;
-import common.utils.QRCodeUtil;
-import common.utils.RSAEncrypt;
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 @Controller
 @RequestMapping("/expert")
 public class ExpertController extends BaseController {
@@ -608,7 +601,7 @@ public class ExpertController extends BaseController {
             	ExpertAudit expertAuditFor = new ExpertAudit();
     			expertAuditFor.setExpertId(expertId);
     			expertAuditFor.setSuggestType("seven");
-    			expertAuditFor.settype("1");
+    			expertAuditFor.setType("1");
     			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
     			
     			
@@ -622,7 +615,7 @@ public class ExpertController extends BaseController {
     			}
     			
     			//不通过字段（执业资格）
-    			expertAuditFor.settype("2");
+    			expertAuditFor.setType("2");
     			List < ExpertAudit > engReasonsList = expertAuditService.getListByExpert(expertAuditFor);
     			StringBuffer engErrorField = new StringBuffer();
     			if(!engReasonsList.isEmpty()){
@@ -2032,6 +2025,9 @@ public class ExpertController extends BaseController {
                     //已提交
                     expert.setIsSubmit("1");
                     //expert.setAuditAt(new Date());
+                    
+                    //待审核
+                    expert.setStatus("0");
                     if("3".equals(temp.getStatus())) {
                         //删除之前的审核不通过的字段信息
                     	expertAuditService.updateIsDeleteByExpertId(expertId);
@@ -2040,9 +2036,11 @@ public class ExpertController extends BaseController {
                     	//清空审核人
                     	expert.setAuditor("");
                     	expert.setAuditAt(null);
+                    	
+                    	//退回修改再审核的状态
+                    	expert.setStatus("9");
                     }
-                    //待审核
-                    expert.setStatus("0");
+                    
                     //修改时间
                     expert.setSubmitAt(new Date());
                     service.updateByPrimaryKeySelective(expert);
@@ -2243,10 +2241,10 @@ public class ExpertController extends BaseController {
       			exp.setExpertsFrom(expertsFrom.getName());
       		}
         }
-       /* // 查询数据字典中的专家来源配置数据
+        // 查询数据字典中的专家来源配置数据
         List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
         request.setAttribute("lyTypeList", lyTypeList);
-        // 查询数据字典中的专家类别数据
+        /*// 查询数据字典中的专家类别数据
         List < DictionaryData > jsTypeList = DictionaryDataUtil.find(6);
         for(DictionaryData data: jsTypeList) {
             data.setName(data.getName() + "技术");
@@ -3825,7 +3823,7 @@ public class ExpertController extends BaseController {
         String now = new SimpleDateFormat("yyyy").format(new Date());
         if(Integer.parseInt(now) - Integer.parseInt(yyyy) == 70) {
             if(Integer.parseInt(new SimpleDateFormat("MM").format(new Date())) >= Integer.parseInt(mm)){
-                if(Integer.parseInt(new SimpleDateFormat("dd").format(new Date())) >= Integer.parseInt(dd)){
+                if(Integer.parseInt(new SimpleDateFormat("dd").format(new Date())) > Integer.parseInt(dd)){
                     isok = "1";
                 }
             }
@@ -4306,9 +4304,9 @@ public class ExpertController extends BaseController {
             // 将筛选完的List转换为CategoryTreeList
             List < CategoryTree > treeList = new ArrayList < CategoryTree > ();
             for(Category category: allCateList) {
-            	if(category.getCode().length()>=9){
+            	/*if(category.getCode().length()>=9){
             		continue;
-            	}
+            	}*/
                 CategoryTree treeNode = new CategoryTree();
                 treeNode.setId(category.getId());
                 treeNode.setName(category.getName());

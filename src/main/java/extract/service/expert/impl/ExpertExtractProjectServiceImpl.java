@@ -475,13 +475,13 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         if(projectList != null && projectList.size() > 0){
             sum=sum+projectList.size();
             //生成json 并保存
-            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_PROJECT_PATH_FILENAME, 31),JSON.toJSONString(projectList));
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_PROJECT_PATH_FILENAME, 32),JSON.toJSONString(projectList));
             //抽取条件信息
             List<ExpertExtractCondition> conditionList = new ArrayList<>();
             for (ExpertExtractProject expertExtractProject : projectList) {
                 conditionList.addAll(expertExtractConditionMapper.selByProjectId(expertExtractProject.getId()));
             }
-            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_CONDITION_PATH_FILENAME, 31),JSON.toJSONString(conditionList));
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_CONDITION_PATH_FILENAME, 32),JSON.toJSONString(conditionList));
             List<ExpertExtractTypeInfo> typeInfoList = new ArrayList<>();
             List<ExtractCategory> extractCategoryList = new ArrayList<>();
             for (ExpertExtractCondition expertExtractCondition : conditionList) {
@@ -492,8 +492,8 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                 //专家抽取品目关联信息
                 extractCategoryList.addAll(extractCategoryMapper.findAllByConditionId(expertExtractCondition.getId()));
             }
-            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_TYPE_INFO_PATH_FILENAME, 31),JSON.toJSONString(typeInfoList));
-            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_CATEGORY_PATH_FILENAME, 31),JSON.toJSONString(extractCategoryList));
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_TYPE_INFO_PATH_FILENAME, 32),JSON.toJSONString(typeInfoList));
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_CATEGORY_PATH_FILENAME, 32),JSON.toJSONString(extractCategoryList));
         }
         synchRecordService.synchBidding(new Date(), sum+"", Constant.DATE_SYNCH_EXPERT_EXTRACT, Constant.OPER_TYPE_EXPORT, Constant.EXPERT_EXTRACT_COMMIT);
     }

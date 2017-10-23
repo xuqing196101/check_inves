@@ -27,6 +27,14 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	
 	@Override
 	public void insertSelective(ExpertAuditOpinion expertAuditOpinion) {
+		// 拼接审核意见  例如:同意....+ HelloWorld
+		if(StringUtils.isNotEmpty(expertAuditOpinion.getCateResult())){
+			if(StringUtils.isEmpty(expertAuditOpinion.getOpinion())){
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult());
+			}else {
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult() + expertAuditOpinion.getOpinion());
+			}
+		}
 		mapper.insertSelective(expertAuditOpinion);
 		
 	}
@@ -59,6 +67,26 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	 */
 	@Override
 	public ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion) {
+        expertAuditOpinion = mapper.selectByExpertId(expertAuditOpinion);
+        //  获取意见切割字符串
+        if(expertAuditOpinion != null && StringUtils.isNotEmpty(expertAuditOpinion.getOpinion())){
+            int indexOf = expertAuditOpinion.getOpinion().indexOf("。");
+            expertAuditOpinion.setOpinion(expertAuditOpinion.getOpinion().substring(indexOf + 1));
+        }
+		return expertAuditOpinion;
+	}
+
+	/**
+	 *
+	 * Description:根据专家ID查询信息-公示专用
+	 *
+	 * @author Easong
+	 * @version 2017年7月3日
+	 * @param expertId
+	 * @return
+	 */
+	@Override
+	public ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion, String flag) {
 		return mapper.selectByExpertId(expertAuditOpinion);
 	}
 
@@ -79,6 +107,15 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 			// 需要判断用户输入的意见是否为空
 			if(StringUtils.isEmpty(expertAuditOpinion.getOpinion())){
 				return JdcgResult.build(500,"审核意见不能为空");
+			}
+		}
+
+		// 拼接审核意见  例如:同意....+ HelloWorld
+		if(StringUtils.isNotEmpty(expertAuditOpinion.getCateResult())){
+			if(StringUtils.isEmpty(expertAuditOpinion.getOpinion())){
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult());
+			}else {
+				expertAuditOpinion.setOpinion(expertAuditOpinion.getCateResult() + expertAuditOpinion.getOpinion());
 			}
 		}
 
@@ -111,4 +148,30 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 		mapper.updateIsDownload(expertId);
 	}
 
+	/**
+	 * 记录复审已下载过附件
+	 */
+	@Override
+	public void updateIsDownloadAttch(ExpertAuditOpinion expertAuditOpinion) {
+		mapper.updateIsDownloadAttch(expertAuditOpinion);
+		
+	}
+
+	@Override
+	public void deleteByExpertId(ExpertAuditOpinion expertAuditOpinion) {
+		mapper.deleteByExpertId(expertAuditOpinion);
+		
+	}
+
+	
+	/**
+	 * @version 2017年7月3日
+	 * @param expertId
+	 * @return
+	 */
+	@Override
+	public ExpertAuditOpinion findByExpertId(ExpertAuditOpinion expertAuditOpinion) {
+        expertAuditOpinion = mapper.selectByExpertId(expertAuditOpinion);
+		return expertAuditOpinion;
+	}
 }

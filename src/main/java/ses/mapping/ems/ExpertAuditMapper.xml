@@ -16,9 +16,10 @@
     <result column="AUDIT_CONTENT" jdbcType="VARCHAR" property="auditContent" />
     <result column="AUDIT_FIELD_ID" jdbcType="VARCHAR" property="auditFieldId" />
     <result column="AUDIT_FIELD_NAME" jdbcType="VARCHAR" property="auditFieldName" />
+    <result column="AUDIT_FALG" property="auditFalg" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, EXPERT_ID, AUDIT_USER_ID, AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, AUDIT_AT, IS_DELETED, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, TYPE, "AUDIT_FIELD_ID"
+    ID, EXPERT_ID, AUDIT_USER_ID, AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, AUDIT_AT, IS_DELETED, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, TYPE, "AUDIT_FIELD_ID", AUDIT_FALG
   </sql>
   <!-- 根据专家id查询 -->
   <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -30,7 +31,7 @@
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    *
+    <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT_AUDIT
     where ID = #{id}
   </select>
@@ -66,6 +67,15 @@
     <if test="type != '' and type != null">
     	and TYPE = #{type}
     </if>
+     <if test="auditFalg != '' and auditFalg != null">
+    	 <if test="auditFalg == 666 ">
+    		and AUDIT_FALG is null
+    	</if>
+    	<if test="auditFalg != 666">
+    		and AUDIT_FALG = #{auditFalg}
+    	</if>
+     </if> 
+     ORDER BY DECODE (SUGGEST_TYPE,'one','1','seven','2','six','3','five','4'),AUDIT_AT ASC
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -129,6 +139,9 @@
       <if test="auditFieldName != null">
         AUDIT_FIELD_NAME,
       </if>
+      <if test="auditFalg != null">
+        AUDIT_FALG,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -173,6 +186,9 @@
       <if test="auditFieldName != null">
         #{auditFieldName},
       </if>
+      <if test="auditFalg != null">
+        #{auditFalg},
+      </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select sys_guid() from dual
@@ -213,6 +229,15 @@
       </if>
       <if test="type != null">
         TYPE = #{type},
+      </if>
+      <if test="auditFieldId != null">
+        AUDIT_FIELD_ID = #{auditFieldId},
+      </if>
+      <if test="auditFieldName != null">
+        AUDIT_FIELD_NAME = #{auditFieldName},
+      </if>
+      <if test="auditFalg != null">
+        AUDIT_FALG = #{auditFalg},
       </if>
     </set>
     where ID = #{id}
@@ -278,6 +303,9 @@
     <if test="auditFieldId != '' and auditFieldId != null">
         and AUDIT_FIELD_ID = #{auditFieldId}
     </if>
+    <if test="auditFalg !='' and auditFalg !=null">
+        and AUDIT_FALG = #{auditFalg}
+    </if>
   </select>
   
   
@@ -321,6 +349,9 @@
     </if>
     <if test="auditContent != '' and auditContent != null">
     	and AUDIT_CONTENT = #{auditContent}
+    </if>
+    <if test="auditFalg != '' and auditFalg != null">
+      and AUDIT_FALG = #{auditFalg}
     </if>
   </select>
   
@@ -426,7 +457,79 @@
      <if test="regType != null and regType != ''">
        AND T.SUGGEST_TYPE=#{regType, jdbcType=VARCHAR}
      </if>
+     <if test="type != null and type != ''">
+       AND T.TYPE=#{type, jdbcType=VARCHAR}
+     </if>
+     <if test="auditFieldId != null">
+     	<if test="auditFieldId=='no'">
+     		AND T.AUDIT_FIELD_ID != 'isTitle'
+     	</if>
+     	<if test="auditFieldId=='yes'">
+     		AND T.AUDIT_FIELD_ID == 'isTitle'
+     	</if>
+     </if>
+     <if test="auditFalg != '' and auditFalg != null">
+      <if test="auditFalg == 0">
+        and AUDIT_FALG != 2
+      </if>
+      <if test="auditFalg != 0">
+        and AUDIT_FALG = #{auditFalg}
+      </if>
+    </if>
      AND T.IS_DELETED = 0
   </select>
   
+  
+  <delete id="deleteByExpertIdAndAuditFieldId" parameterType="ses.model.ems.ExpertAudit">
+    delete from T_SES_EMS_EXPERT_AUDIT
+    where EXPERT_ID = #{expertId}
+    <if test="auditFieldId != '' and auditFieldId != null">
+      and AUDIT_FIELD_ID = #{auditFieldId}
+    </if>
+    <if test="auditFieldId != null">
+      and IS_DELETED = #{isDeleted}
+    </if>
+    <if test="auditFalg != null">
+      and AUDIT_FALG = #{auditFalg}
+    </if>
+  </delete>
+  
+   <!-- 查找所有符合条件的专家 -->
+  <select id="findAuditByExpertId" parameterType="ses.model.ems.ExpertAudit" resultMap="BaseResultMap">
+    select 
+    *
+    from T_SES_EMS_EXPERT_AUDIT
+    where 
+      EXPERT_ID = #{expertId}
+    and IS_DELETED = 0
+    <if test="suggestType != '' and suggestType != null">
+      and SUGGEST_TYPE = #{suggestType}
+    </if>
+    <if test="auditFieldId != '' and auditFieldId != null">
+      and AUDIT_FIELD_ID = #{auditFieldId}
+    </if>
+    <if test="auditFalg != '' and auditFalg != null">
+       <if test="auditFalg == 666 ">
+        and AUDIT_FALG is null
+      </if>
+      <if test="auditFalg != 666">
+        and AUDIT_FALG = #{auditFalg}
+      </if>
+     </if> 
+  </select>
+  
+  <!-- 全部专家查询中的审核记录 -->
+  <select id="diySelect" parameterType="Map" resultMap="BaseResultMap">
+    select 
+      *
+    from T_SES_EMS_EXPERT_AUDIT
+      where EXPERT_ID = #{expertId}
+    <if test="isDeleted !=null">
+      and IS_DELETED = #{isDeleted}
+    </if>
+    <if test="auditFalg != '' and auditFalg != null">
+      and AUDIT_FALG = #{auditFalg}
+    </if>
+    ORDER BY DECODE (SUGGEST_TYPE,'one','1','seven','2','six','3','five','4'),AUDIT_AT ASC
+  </select>
 </mapper>

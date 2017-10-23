@@ -1,15 +1,14 @@
 package ses.model.bms;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import org.hibernate.validator.constraints.Email;
+import ses.model.oms.Orgnization;
+import ses.model.sms.Supplier;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
-import org.hibernate.validator.constraints.Email;
-
-import ses.model.oms.Orgnization;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Description: 用户实体测试1.0
@@ -103,6 +102,7 @@ public class User implements Serializable{
      * 3:其他
      * 4:资源服务中心  
      * 5:监管中心
+     * 6:专家复审审核组成员
      * 其中 4 /5  都是多选 关联 表 T_SES_BMS_USER_DATA_RULE
      */
     @NotNull(message = "机构类型不能为空")  
@@ -159,6 +159,13 @@ public class User implements Serializable{
      * @Fields errorNum : 用户登录密码错误次数
      */
     private Integer errorNum;
+
+    private Supplier supplier;
+    
+    /**
+     * @Fields dataAccess:数据查看权限 (1:所有，2:本单位，3:本人)
+     */
+    private Integer dataAccess;
     
     public List<String> getUserDataRule() {
 		return userDataRule;
@@ -406,7 +413,15 @@ public class User implements Serializable{
     this.idNumber = idNumber;
   }
 
-  public String getOfficerCertNo() {
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
+    public String getOfficerCertNo() {
     return officerCertNo;
   }
 
@@ -437,5 +452,13 @@ public class User implements Serializable{
   public void setErrorNum(Integer errorNum) {
     this.errorNum = errorNum;
   }
-  
+
+  public Integer getDataAccess() {
+	return dataAccess;
+  }
+	
+  public void setDataAccess(Integer dataAccess) {
+	this.dataAccess = dataAccess;
+  }
+	  
 }

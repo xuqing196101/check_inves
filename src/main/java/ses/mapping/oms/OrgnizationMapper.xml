@@ -1242,6 +1242,9 @@
 		  where d.IS_DELETED = 0
 		  and pd.IS_DELETED = 0
 		  and d.TYPE_NAME= 1
+		  <if test="isAuditSupplier != null and isAuditSupplier != ''">
+			and pd.IS_AUDIT_SUPPLIER= #{isAuditSupplier}
+		</if>
 		 <if test="id != null and id != ''">
 			and d.id= #{id}
 		</if>

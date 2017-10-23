@@ -6,6 +6,9 @@
 	<head>
 		<%@ include file="/reg_head.jsp"%>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+		<c:if test="${currSupplier.status == 2}">
+			<%@ include file="/WEB-INF/view/ses/sms/supplier_register/supplier_purchase_dept.jsp"%>
+		</c:if>
 		<title>供应商注册</title>
 		<style type="text/css">
 			.current{
@@ -270,6 +273,7 @@
 						  layer.msg('暂存成功', {
 						    offset: '300px'
 						  });
+						  $(":checkbox").removeAttr("isAdd");
 						}
 					  else if(msg == 'failed') {
 					    layer.msg('暂存失败', {
@@ -311,6 +315,7 @@
             $("#name_span").val("");//名称校验标识初始化
 						tempSaveValidation(msg);
 						layer.close(saveMsg);
+						$(":checkbox").removeAttr("isAdd");
 					},
 					error: function(){
 						//controlForm();
@@ -375,7 +380,7 @@
         }
 			}
 
-			function openStockholder() {
+			function addStockholder() {
 
 				var stocIndex = $("#stockIndex").val();
 				var supplierId = $("input[name='id']").val();
@@ -389,7 +394,7 @@
 				});
 
 				$("#stockholder_list_tbody_id").append("<tr>" +
-					"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='listSupplierStockholders[" + stocIndex + "].id' value='" + id + "'><input type='hidden' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].supplierId' value=" + supplierId + ">" +
+					"<td class='tc'><input type='checkbox' value='" + id + "' isAdd='true' /><input type='hidden' name='listSupplierStockholders[" + stocIndex + "].id' value='" + id + "'><input type='hidden' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].supplierId' value=" + supplierId + ">" +
 					"</td>" +
 					"<td class='tc'>" +
 					"<select class='w100p border0' name='listSupplierStockholders[" + stocIndex + "].nature' onchange='onchangeNature(this.value,"+stocIndex+")'>" +
@@ -410,7 +415,6 @@
 
 				checkStockholdersID("input[name='listSupplierStockholders[" + stocIndex + "].identity']");
 				toTempSave("input[name='listSupplierStockholders[" + stocIndex + "].proportion']");
-				tempSave();
 				
 				stocIndex++;
 				$("#stockIndex").val(stocIndex);
@@ -420,7 +424,7 @@
 				$(obj).val($(obj).val().replace(/[^\d|a-zA-Z]/g,''));
 			}
 			
-			function openAfterSaleDep() {
+			function addAfterSaleDep() {
 
 				var afterSaleIndex = $("#afterSaleIndex").val();
 				var supplierId = $("input[name='id']").val();
@@ -434,7 +438,7 @@
 				});
         var _onkeyup="value=value.replace(/[^\\d-]/g,\"\")";
 				$("#afterSaleDep_list_tbody_id").append("<tr>" +
-					"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].id' value='" + id + "'><input type='hidden' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].supplierId' value=" + supplierId + ">" +
+					"<td class='tc'><input type='checkbox' value='" + id + "' isAdd='true' /><input type='hidden' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].id' value='" + id + "'><input type='hidden' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].supplierId' value=" + supplierId + ">" +
 					"</td>" +
 					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].name' maxlength='90' value=''> </td>" +
 					"<td class='tc'> <div class='w120 fl'> <select class='w100p border0' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].type'>" +
@@ -448,10 +452,9 @@
 				afterSaleIndex++;
 				$("#afterSaleIndex").val(afterSaleIndex);
 				
-				tempSave();
 			}
 			
-			function deleteAfterSaleDep() {
+			function delAfterSaleDep() {
 				var all = $("#afterSaleDep_list_tbody_id").find(":checkbox");
 				var checkboxs = $("#afterSaleDep_list_tbody_id").find(":checkbox:checked");
 				
@@ -470,40 +473,57 @@
 						return;
 					}
 					
-					var afterSaleDepIds = "";
-					$(checkboxs).each(function(index) {
-						if(index > 0) {
-							afterSaleDepIds += ",";
-						}
-						afterSaleDepIds += $(this).val();
-					});
-				
-					$.ajax({
-						url: "${pageContext.request.contextPath}/supplier/deleteAfterSaleDep.do",
-						async: false,
-						type: "POST",
-						data: {
-							"ids": afterSaleDepIds,
-						},
-						success: function(data){
-							if(data=="ok"){
-							  layer.msg("删除成功！", {
-							    offset: '300px'
-							  });
-							  $(checkboxs).each(function(index) {
-							    var tr = $(this).parent().parent();
-							    $(tr).remove();
-							  });
+					layer.confirm("确认删除？", {
+						offset: '200px',
+						scrollbar: false,
+						btn: ['确定','取消'] //按钮
+					}, function(index) {
+						var afterSaleDepIds = "";
+						$(checkboxs).each(function(n) {
+							var isAdd = $(this).attr("isAdd");
+							if(isAdd){
+								var tr = $(this).parent().parent();
+								$(tr).remove();
+							}else{
+								if (n > 0) {
+									afterSaleDepIds += ",";
+								}
+								afterSaleDepIds += $(this).val();
 							}
-							if(data=="fail"){
-							  layer.msg("删除失败！", {
-							    offset: '300px'
-							  });
-							}
-						},
-						error: function(){
-							layer.msg("删除失败！");
+						});
+					
+						if(afterSaleDepIds != ""){
+							$.ajax({
+								url: "${pageContext.request.contextPath}/supplier/deleteAfterSaleDep.do",
+								async: false,
+								type: "POST",
+								data: {
+									"ids": afterSaleDepIds,
+								},
+								success: function(data){
+									if(data=="ok"){
+									  layer.msg("删除成功！", {
+									    offset: '300px'
+									  });
+									  $(checkboxs).each(function(index) {
+									    var tr = $(this).parent().parent();
+									    $(tr).remove();
+									  });
+									}
+									if(data=="fail"){
+									  layer.msg("删除失败！", {
+									    offset: '300px'
+									  });
+									}
+								},
+								error: function(){
+									layer.msg("删除失败！");
+								}
+							});
 						}
+						layer.close(index);
+					}, function(index) {
+						layer.close(index);
 					});
 				} else {
 					layer.alert("请至少勾选一条记录！", {
@@ -513,7 +533,7 @@
 				}
 			}
 
-			function deleteStockholder() {
+			function delStockholder() {
 				var all = $("#stockholder_list_tbody_id").find(":checkbox");
 				var checkboxs = $("#stockholder_list_tbody_id").find(":checkbox:checked");
 				
@@ -560,39 +580,47 @@
 						var stockholderIds = "";
 						var supplierId = $("input[name='id']").val();
 						$(checkboxs).each(function(n) {
-							if(n > 0) {
-								stockholderIds += ",";
+							var isAdd = $(this).attr("isAdd");
+							if(isAdd){
+								var tr = $(this).parent().parent();
+						    $(tr).remove();
+							}else{
+								if (n > 0) {
+									stockholderIds += ",";
+								}
+								stockholderIds += $(this).val();
 							}
-							stockholderIds += $(this).val();
 						});
 					
-						$.ajax({
-							url: "${pageContext.request.contextPath}/supplier_stockholder/delete_stockholder.do",
-							async: false,
-							type: "POST",
-							data: {
-								"ids": stockholderIds,
-							},
-							success: function(data){
-								if(data=="ok"){
-								  layer.msg("删除成功！", {
-								    offset: '300px'
-								  });
-								  $(checkboxs).each(function(index) {
-								    var tr = $(this).parent().parent();
-								    $(tr).remove();
-								  });
+						if(stockholderIds != ""){
+							$.ajax({
+								url: "${pageContext.request.contextPath}/supplier_stockholder/delete_stockholder.do",
+								async: false,
+								type: "POST",
+								data: {
+									"ids": stockholderIds,
+								},
+								success: function(data){
+									if(data=="ok"){
+									  layer.msg("删除成功！", {
+									    offset: '300px'
+									  });
+									  $(checkboxs).each(function(index) {
+									    var tr = $(this).parent().parent();
+									    $(tr).remove();
+									  });
+									}
+									if(data=="fail"){
+									  layer.msg("删除失败！", {
+									    offset: '300px'
+									  });
+									}
+								},
+								error: function(){
+									layer.msg("删除失败！");
 								}
-								if(data=="fail"){
-								  layer.msg("删除失败！", {
-								    offset: '300px'
-								  });
-								}
-							},
-							error: function(){
-								layer.msg("删除失败！");
-							}
-						});
+							});
+						}
 						layer.close(index);
 					}, function(index) {
 						layer.close(index);
@@ -608,12 +636,12 @@
 			var infotd;
 			var filetd;
 
-			function openFinance(obj, year) {
+			function addFinance(obj, year) {
 				infotd = $(obj).parent().next().children(":first").children(":last");
 				filetd = $(obj).parent().next().children(":last").children(":last");
 				var supplierId = $("input[name='id']").val();
 				if(!supplierId) {
-					layer.msg("请暂存供应商基本信息 !", {
+					layer.msg("请暂存供应商基本信息！", {
 						offset: '300px',
 					});
 				} else {
@@ -630,7 +658,7 @@
 				}
 			}
 
-			function deleteFinance() {
+			function delFinance() {
 				var checkboxs = $("#finance_list_tbody_id").find(":checkbox:checked");
 				var financeIds = "";
 				var supplierId = $("input[name='id']").val();
@@ -642,7 +670,7 @@
 				});
 				var size = checkboxs.length;
 				if(size > 0) {
-					layer.confirm("已勾选" + size + "条记录, 确定删除 !", {
+					layer.confirm("已勾选" + size + "条记录, 确定删除！", {
 						offset: '200px',
 						scrollbar: false,
 					}, function(index) {
@@ -651,7 +679,7 @@
 
 					});
 				} else {
-					layer.alert("请至少勾选一条记录 !", {
+					layer.alert("请至少勾选一条记录！", {
 						offset: '200px',
 						scrollbar: false,
 					});
@@ -792,67 +820,8 @@
            }
       }
 
-			function increaseAddress(obj) {
-				var ind = $("#index").val();
-				var li = $(obj).parent().parent();
-				var id;
-				$.ajax({
-					url: "${pageContext.request.contextPath}/supplier/getUUID.do",
-					async: false,
-					success: function(data) {
-						id = data;
-						$(li).after("<li class='col-md-2 col-sm-6 col-xs-12 pl10'>" +
-								"<span class='col-md-12 col-xs-12 col-sm-12  padding-left-5'><i class='red'>*</i> 生产或经营地址邮编</span>" +
-								"<div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-								"<input type='text' name='addressList[" + ind + "].code' value='' / >" +
-								"<input type='hidden' name='addressList[" + ind + "].id' value='" + id + "' / >" +
-								"<span class='add-on cur_point'>i</span>" +
-								" <div class='cue'> </div>" +
-								"</div>" +
-								"</li> " +
-								"<li class='col-md-3 col-sm-6 col-xs-12'>" +
-								"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产或经营地址（填写所有地址）</span>" +
-								"<div class='col-md-12 col-xs-12 col-sm-12 select_common p0'>" +
-								"<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='root_area_select_id' onchange='loadChildren(this)'  name='addressList[" + ind + "].provinceId' >" +
-								" <option value=''>请选择</option>" +
-								" <c:forEach  items='${province }' var='prov'>" +
-								" <option value='${prov.id }'>${prov.name }</option>" +
-								" </c:forEach>" +
-								" </select></div> " +
-								"<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='children_area_select_id' name='addressList[" + ind + "].address'>" +
-								" <c:forEach  items='${city }' var='city'>" +
-								"<option value='${city.id }'>${city.name }</option>" +
-								"</c:forEach>" +
-
-								" </select></div>" +
-								"<div class='cue'>  </div>" +
-								"</div>" +
-								" </li> " +
-
-								" <li class='col-md-2 col-sm-6 col-xs-12'>" +
-								"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产或经营详细地址</span>" +
-								" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-								"<input type='text' name='addressList[" + ind + "].detailAddress'  value='' >" +
-								"<span class='add-on cur_point'>i</span>" +
-								"<div class='cue'>  </div>" +
-								"</div>" +
-								"</li>" +
-								"<li class='col-md-2 col-sm-6 col-xs-12'>" +
-								"	<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5 white'>操作</span>" +
-								"<div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>" +
-								"	<input type='button' onclick='increaseAddress(this)' class='btn list_btn' value='十'/>" +
-								"	<input type='button' onclick='delAddress(this)' class='btn list_btn' value='一'/>" +
-								"	<input type='hidden'  value='" + id + "' />" +
-								"</div></li>"
-							);
-							ind++;
-							$("#index").val(ind);
-					}
-				});
-				
-			}
-			function increaseAddHouseAddress() {
-				var ind = $("#certSaleNumber").val();
+			function addAddress() {
+				var ind = $("#addressNumber").val();
         $.ajax({
           url : "${pageContext.request.contextPath}/supplier/addAddress.do",
           async : false,
@@ -864,8 +833,7 @@
             $("#address_list_tbody_id").append(data);
             init_web_upload();
             ind++;
-            $("#certSaleNumber").val(ind);
-            tempSave();
+            $("#addressNumber").val(ind);
           }
         });
 			}
@@ -888,43 +856,60 @@
 						return;
 					} */
 					
-					var addressIds = "";
-					$(checkboxs).each(function(index) {
-						if(index > 0) {
-	            addressIds += ",";
-	          }
-	          addressIds += $(this).val();
+					layer.confirm("确认删除？", {
+						offset: '200px',
+						scrollbar: false,
+						btn: ['确定','取消'] //按钮
+					}, function(index) {
+						var addressIds = "";
+						$(checkboxs).each(function(n) {
+							var isAdd = $(this).attr("isAdd");
+							if(isAdd){
+								var tr = $(this).parent().parent();
+								$(tr).remove();
+							}else{
+								if (n > 0) {
+									addressIds += ",";
+								}
+								addressIds += $(this).val();
+							}
+						});
+	        	
+						if(addressIds != ""){
+							$.ajax({
+						    url: "${pageContext.request.contextPath}/supplier/delAddress.do",
+						    async: false,
+						    type: "POST",
+						    data: {
+						      "ids": addressIds
+						    },
+						    success: function(data) {
+						      if(data=="ok"){
+						        layer.msg("删除成功！", {
+						          offset: '300px'
+						        });
+						        $(checkboxs).each(function(index) {
+						          var tr = $(this).parent().parent();
+						          $(tr).remove();
+						        });
+						      }
+						      if(data=="fail"){
+						        layer.msg("删除失败！", {
+						          offset: '300px'
+						        });
+						      }
+						    },
+						    error: function() {
+						      layer.msg("删除失败！", {
+						        offset: '300px'
+						      });
+						    }
+							});
+						}
+						layer.close(index);
+					}, function(index) {
+						layer.close(index);
 					});
-        	
-          $.ajax({
-            url: "${pageContext.request.contextPath}/supplier/delAddress.do",
-            async: false,
-            type: "POST",
-            data: {
-              "ids": addressIds
-            },
-            success: function(data) {
-              if(data=="ok"){
-                layer.msg("删除成功！", {
-                  offset: '300px'
-                });
-                $(checkboxs).each(function(index) {
-                  var tr = $(this).parent().parent();
-                  $(tr).remove();
-                });
-              }
-              if(data=="fail"){
-                layer.msg("删除失败！", {
-                  offset: '300px'
-                });
-              }
-            },
-            error: function() {
-              layer.msg("删除失败！", {
-                offset: '300px'
-              });
-            }
-        	});
         }else{
           layer.alert("请至少勾选一条记录！", {
             offset: '200px',
@@ -947,25 +932,25 @@
 							" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
 							//" <input type='hidden' name='branchList[" + inde + "].id'   value='"+branId+"' />" +
 							" <input class ='cBranchName' type='text' name='branchList[" + inde + "].organizationName' id='sup_branchName'  value='' / >" +
-							"   <span class='add-on cur_point'>i</span>" +
-							"   </div>" +
-							"  </li>" +
-							"<li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
+							" <span class='add-on cur_point'>i</span>" +
+							" </div>" +
+							" </li>" +
+							" <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>所在国家（地区）</span>" +
-							"  <div class='select_common col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-							"<select  class ='cOverseas' name='branchList[" + inde + "].country'  id='overseas_branch_select_id'>" +
-							"<option value=''>请选择</option>"+
-							"<c:forEach items='${foregin }' var='fr'>" +
-							"<option value='${fr.id }' <c:if test='${bran.country==fr.id}'> selected='selected' </c:if> >${fr.name }</option>" +
+							" <div class='select_common col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
+							" <select  class ='cOverseas' name='branchList[" + inde + "].country'  id='overseas_branch_select_id'>" +
+							" <option value=''>请选择</option>"+
+							" <c:forEach items='${foregin }' var='fr'>" +
+							" <option value='${fr.id }' <c:if test='${bran.country==fr.id}'> selected='selected' </c:if> >${fr.name }</option>" +
 							" </c:forEach> 	</select>" +
 							" </div>" +
 							" </li>" +
 
-							"  <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
+							" <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>详细地址</span>" +
 							" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
 							" <input  class ='cDetailAdddress' type='text' name='branchList[" + inde + "].detailAddress'  id='sup_branchAddress' value='' / >" +
-							"  <span class='add-on cur_point'>i</span>" +
+							" <span class='add-on cur_point'>i</span>" +
 							" </div>" +
 							" </li>" +
 
@@ -978,7 +963,7 @@
 							" </div>" +
 							" </li>" +
 
-							"  <li name='branch'  class='col-md-12 col-xs-12 col-sm-12 mb25'>" +
+							" <li name='branch'  class='col-md-12 col-xs-12 col-sm-12 mb25'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>生产经营范围</span>" +
 							" <div class='col-md-12 col-xs-12 col-sm-12 p0'>" +
 							" <textarea class='cPrdArea col-md-12 col-xs-12 col-sm-12 h80' maxlength='1000' onkeyup=\"checkCharLimit('branchbusinessSope_"+inde+"','limit_char_branchbusinessSope_"+inde+"',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}\" id='branchbusinessSope_"+inde+"' name='branchList[" + inde + "].businessSope'></textarea>" +
@@ -989,7 +974,6 @@
 						$("#branchIndex").val(inde);
 					}
 				});
-				
 			}
 
 			function delBranch(obj) {
@@ -1486,15 +1470,15 @@
                      	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
                      </c:when>
                      <c:otherwise>
-                       <button class="btn btn-windows add" type="button" onclick="increaseAddHouseAddress()">新增</button>
+                       <button class="btn btn-windows add" type="button" onclick="addAddress()">新增</button>
                      </c:otherwise>
                    </c:choose> --%>
-                   <button class="btn btn-windows add" type="button" onclick="increaseAddHouseAddress()">新增</button>
+                   <button class="btn btn-windows add" type="button" onclick="addAddress()">新增</button>
                    <button class="btn btn-windows delete" type="button" onclick="delAddress()">删除</button>
                    <span class="red">${err_address_token}</span>
                   </div>
                   <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
-                      <table id="address_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table">
+                      <table id="address_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table m_table_fixed_border">
                           <thead>
                               <tr>
                                   <th class="info" style="width:3%;"><input type="checkbox" onchange="checkAll(this, 'address_list_tbody_id')" /></th>
@@ -1505,7 +1489,7 @@
                               </tr>
                           </thead>
                           <tbody id="address_list_tbody_id">
-                          <c:set var="certSaleNumber" value="0" />
+                          <c:set var="addressNumber" value="0" />
                           <c:forEach items="${currSupplier.addressList}" var="addr" varStatus="vs">
                               <tr >
                                   <td class="tc"><input type="checkbox" value="${addr.id}" /></td>
@@ -1550,24 +1534,24 @@
                                       <div class="w200 fl">
                                           <%-- <c:choose>
                                           	<c:when test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">
-                                          		<u:show showId="house_show_${certSaleNumber}" delete="false" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+                                          		<u:show showId="house_show_${addressNumber}" delete="false" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
                                           	</c:when>
                                           	<c:otherwise>
-                                          		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
-                                          		<u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+                                          		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${addressNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
+                                          		<u:show showId="house_show_${addressNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
                                           	</c:otherwise>
                                           </c:choose> --%>
-                                          <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
-                                       		<u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+                                          <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${addressNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
+                                       		<u:show showId="house_show_${addressNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
                                           <c:if test="${vs.index == err_house_token}">
                                               <div class="cue">  </div>
                                           </c:if>
                                       </div>
                                   </td>
                               </tr>
-                              <c:set var="certSaleNumber" value="${certSaleNumber + 1}" />
+                              <c:set var="addressNumber" value="${addressNumber + 1}" />
                           </c:forEach>
-                          <input type="hidden" id="certSaleNumber" value=${certSaleNumber}>
+                          <input type="hidden" id="addressNumber" value="${addressNumber}"/>
                           </tbody>
                       </table>
                   </div>
@@ -1579,7 +1563,7 @@
 							<legend>资质资信</legend>
 							<ul class="list-unstyled f14">
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25 pl10">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月完税凭证</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月完税凭证</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0"
 										<c:if test="${fn:contains(audit,'taxCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'taxCert')"</c:if>>
 										<c:if test="${(fn:contains(audit,'taxCert')&&currSupplier.status==2 )||(currSupplier.status==-1 || currSupplier.status==1)}"> <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="taxcert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /></c:if>
@@ -1590,7 +1574,7 @@
 								</li>
 
 								<li id="bill_li_id" class="col-md-6 col-sm-6 col-xs-12 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年银行基本账户年末对账单</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年银行基本账户年末对账单</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0"
 										<c:if test="${fn:contains(audit,'billCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'billCert')"</c:if>>
 										<c:if test="${(fn:contains(audit,'billCert')&&currSupplier.status==2 )|| currSupplier.status==-1 || currSupplier.status==1}">	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="billcert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /></c:if>
@@ -1601,7 +1585,7 @@
 								</li>
 
 								<li id="security_li_id" class="col-md-6 col-sm-6 col-xs-12 mb25 h30">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月缴纳社会保险金凭证</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月缴纳社会保险金凭证</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0"
 										<c:if test="${fn:contains(audit,'securityCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'securityCert')"</c:if>>
 										<c:if test="${(fn:contains(audit,'securityCert')&&currSupplier.status==2) || currSupplier.status==-1 || currSupplier.status==1}">	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="curitycert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /></c:if>
@@ -1612,7 +1596,7 @@
 								</li>
 
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年内有无重大违法记录</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年内有无重大违法记录</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0 h30">
 										<select name="isIllegal" id="isIllegal" class="fl mr10 w120"
 											<c:if test="${fn:contains(audit,'isIllegal')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'isIllegal')"</c:if>>
@@ -1624,7 +1608,7 @@
 									</div>
 								</li>
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 国家或军队保密资格证书</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 国家或军队保密资格证书</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0 h30">
 										<select name="isHavingConCert" id="isHavingConCert" onchange="dis_bearch(this)" class="fl mr10 w120"
 											<c:if test="${fn:contains(audit,'isHavingConCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'isHavingConCert')"</c:if>>
@@ -1636,7 +1620,7 @@
 									</div>
 								</li>
 								<li class="col-md-6 col-sm-6 col-xs-12 mb25" id="bearchCertDiv">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 保密资格证书</span>
+									<span class="col-md-6 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 保密资格证书</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0"
 										<c:if test="${fn:contains(audit,'supplierBearchCert')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'supplierBearchCert')"</c:if>>
 										<c:if test="${(fn:contains(audit,'supplierBearchCert')&&currSupplier.status==2 ) || currSupplier.status==-1 || currSupplier.status==1}"> 	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /></c:if>
@@ -2102,13 +2086,13 @@
 																onkeyup="value=value.replace(/[^\d-]/g,'')" 
 																onpropertychange="value=value.replace(/[^\d-]/g,'')" 
 																oninput="value=value.replace(/[^\d-]/g,'')" 
-																<c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if> >
+															<c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if> >
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid red;"</c:if>>
 															<input type="text" required="required" class="w200 border0" name="listSupplierFinances[${vs.index }].auditors" value="${finance.auditors}" <c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if> >
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid red;"</c:if>>
-															<input type="text" required="required" class="w80 border0" onchange="checkNumsSale(this, 1)" name="listSupplierFinances[${vs.index }].totalAssets" value="${finance.totalAssets}" <c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if> >
+															<input type="text" required="required" class="w80 border0" onchange="checkNumsSale(this, 3)" name="listSupplierFinances[${vs.index }].totalAssets" value="${finance.totalAssets}" <c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if> >
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid red;"</c:if>>
 															<input type="text" required="required" class="w80 border0" onchange="checkNumsSale(this, 2)" name="listSupplierFinances[${vs.index }].totalLiabilities" value="${finance.totalLiabilities}" <c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if> >
@@ -2118,7 +2102,7 @@
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid red;"</c:if>>
 															<input type="text" required="required" class="w80 border0" onchange="checkNumsSale(this, 4)" name="listSupplierFinances[${vs.index }].taking" value="${finance.taking}" 
-																<c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if>
+															<c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if>
 																class="txtTempSave"/>
 														</td>
 													</tr>
@@ -2129,7 +2113,7 @@
 												<thead>
 													<tr>
 														<th class="w50 info">年份</th>
-														<!-- <th class="info"><font color=red>*</font> 审计报告的审计意见</th> -->
+														<!-- <th class="info"><font color=red>*</font> 审计报告书中的审计报告</th> -->
 														<th class="info"><font color=red>*</font> 审计报告书中的审计报告</th>
 														<th class="info"><font color=red>*</font> 资产负债表</th>
 														<th class="info"><font color=red>*</font> 财务利润表</th>
@@ -2143,39 +2127,36 @@
 														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid red;" </c:if>>${finance.year}</td>
 														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid red;" </c:if>>
 														  <div class="w200 fl">
-															<c:if test="${(fn:contains(audit,file)&&currSupplier.status==2) || currSupplier.status==-1 || currSupplier.status==1}"> 	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_audit_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierAuditOpinion}" auto="true" /> </c:if>
-															<c:if test="${!fn:contains(audit,file)&&currSupplier.status==2}">  <u:show showId="fina_${vs.index}_audit" delete="false"     groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierAuditOpinion}" sysKey="${sysKey}" /></c:if>
+																<c:if test="${(fn:contains(audit,file)&&currSupplier.status==2) || currSupplier.status==-1 || currSupplier.status==1}"> 	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_audit_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierAuditOpinion}" auto="true" /> </c:if>
+																<c:if test="${!fn:contains(audit,file)&&currSupplier.status==2}">  <u:show showId="fina_${vs.index}_audit" delete="false"     groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierAuditOpinion}" sysKey="${sysKey}" /></c:if>
 														  	<c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,file)}">  <u:show showId="fina_${vs.index}_audit"     groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierAuditOpinion}" sysKey="${sysKey}" /></c:if>
-														  
 														   </div>
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid red;" </c:if>>
 														  <div class="w200 fl">
 																<c:if test="${(fn:contains(audit,file)&&currSupplier.status==2) || currSupplier.status==-1 || currSupplier.status==1}">  <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_lia_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierLiabilities}" auto="true" /></c:if>
-														       <c:if test="${!fn:contains(audit,file)&&currSupplier.status==2}"> 	<u:show showId="fina_${vs.index}_lia" delete="false"   groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierLiabilities}" sysKey="${sysKey}" /></c:if>
-														  	   <c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,file)}"> 	<u:show showId="fina_${vs.index}_lia"    groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierLiabilities}" sysKey="${sysKey}" /></c:if>
+												       	<c:if test="${!fn:contains(audit,file)&&currSupplier.status==2}"> 	<u:show showId="fina_${vs.index}_lia" delete="false"   groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierLiabilities}" sysKey="${sysKey}" /></c:if>
+												  	   	<c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,file)}"> 	<u:show showId="fina_${vs.index}_lia"    groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierLiabilities}" sysKey="${sysKey}" /></c:if>
 														  </div>
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid red;" </c:if>>
 														  <div class="w200 fl">
-															<c:if test="${(fn:contains(audit,file)&&currSupplier.status==2 ) || currSupplier.status==-1 || currSupplier.status==1}"> <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_pro_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProfit}" auto="true" /></c:if>
-															<c:if test="${!fn:contains(audit,file)&&currSupplier.status==2}">  <u:show showId="fina_${vs.index}_pro"  delete="false"   groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierProfit}" sysKey="${sysKey}" /></c:if>
-															<c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,file)}">  <u:show showId="fina_${vs.index}_pro"    groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierProfit}" sysKey="${sysKey}" /></c:if>
-														
+																<c:if test="${(fn:contains(audit,file)&&currSupplier.status==2 ) || currSupplier.status==-1 || currSupplier.status==1}"> <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_pro_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProfit}" auto="true" /></c:if>
+																<c:if test="${!fn:contains(audit,file)&&currSupplier.status==2}">  <u:show showId="fina_${vs.index}_pro"  delete="false"   groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierProfit}" sysKey="${sysKey}" /></c:if>
+																<c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,file)}">  <u:show showId="fina_${vs.index}_pro"    groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierProfit}" sysKey="${sysKey}" /></c:if>
 														  </div>
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid red;" </c:if>>
 														  <div class="w200 fl">
-															<c:if test="${(fn:contains(audit,file)&&currSupplier.status==2)|| currSupplier.status==-1 || currSupplier.status==1}"> 	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_cash_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierCashFlow}" auto="true" /></c:if>
-															<c:if test="${!fn:contains(audit,file)&&currSupplier.status==2}"> <u:show showId="fina_${vs.index}_cash" delete="false"   groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierCashFlow}" sysKey="${sysKey}" /></c:if>
+																<c:if test="${(fn:contains(audit,file)&&currSupplier.status==2)|| currSupplier.status==-1 || currSupplier.status==1}"> 	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_cash_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierCashFlow}" auto="true" /></c:if>
+																<c:if test="${!fn:contains(audit,file)&&currSupplier.status==2}"> <u:show showId="fina_${vs.index}_cash" delete="false"   groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierCashFlow}" sysKey="${sysKey}" /></c:if>
 	 													  	<c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,file)}"> <u:show showId="fina_${vs.index}_cash"    groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierCashFlow}" sysKey="${sysKey}" /></c:if>
-	 													  
 	 													  </div>
 	 													</td>
 														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid red;" </c:if>>
 														  <div class="w200 fl">
-															<c:if test="${(fn:contains(audit,file)&&currSupplier.status==2 ) || currSupplier.status==-1 || currSupplier.status==1}"> 	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_change_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}" auto="true" /></c:if>
-															<c:if test="${!fn:contains(audit,file)&&currSupplier.status==2 }">  <u:show showId="fina_${vs.index}_change" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierOwnerChange}" sysKey="${sysKey}" /></c:if>
+																<c:if test="${(fn:contains(audit,file)&&currSupplier.status==2 ) || currSupplier.status==-1 || currSupplier.status==1}"> 	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_change_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}" auto="true" /></c:if>
+																<c:if test="${!fn:contains(audit,file)&&currSupplier.status==2 }">  <u:show showId="fina_${vs.index}_change" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierOwnerChange}" sysKey="${sysKey}" /></c:if>
 														  	<c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,file)}">  <u:show showId="fina_${vs.index}_change"  groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierOwnerChange}" sysKey="${sysKey}" /></c:if>
 														  </div>
 														</td>
@@ -2198,11 +2179,11 @@
                     	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
                     </c:when>
                     <c:otherwise>
-                      <button class="btn btn-windows add" type="button" onclick="openStockholder()">新增</button>
+                      <button class="btn btn-windows add" type="button" onclick="addStockholder()">新增</button>
                			</c:otherwise>
                   </c:choose> --%>
-                  <button class="btn btn-windows add" type="button" onclick="openStockholder()">新增</button>
-									<button class="btn btn-windows delete" type="button" onclick="deleteStockholder()">删除</button>
+                  <button class="btn btn-windows add" type="button" onclick="addStockholder()">新增</button>
+									<button class="btn btn-windows delete" type="button" onclick="delStockholder()">删除</button>
 									<span class="red">${stock }</span>
 								</div>
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
@@ -2269,10 +2250,10 @@
                    		<button class="btn btn-Invalid" type="button" disabled="disabled">新增</button>
                    	</c:when>
                    	<c:otherwise>
-                   		<button class="btn btn-windows add" type="button" onclick="openAfterSaleDep()">新增</button>
+                   		<button class="btn btn-windows add" type="button" onclick="addAfterSaleDep()">新增</button>
                    	</c:otherwise>
                  	</c:choose>
-									<button class="btn btn-windows delete" type="button" onclick="deleteAfterSaleDep()">删除</button>
+									<button class="btn btn-windows delete" type="button" onclick="delAfterSaleDep()">删除</button>
 									<span class="red">${afterSale}</span>
 								</div>
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
@@ -2383,8 +2364,9 @@
 			</div>
 		</div>
 		<div class="footer_margin">
-   			<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
-   		</div>
+ 			<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
+ 		</div>
+		
 	</body>
 </html>
 <script type="text/javascript">

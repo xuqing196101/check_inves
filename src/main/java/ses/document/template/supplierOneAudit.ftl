@@ -2939,7 +2939,7 @@
 											<w:rPr>
 												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 												<w:szCs w:val="21" /></w:rPr>
-											<w:t>年 月 日</w:t>
+											<w:t>${date}</w:t>
 										</w:r>
 									</w:p>
 								</w:tc>

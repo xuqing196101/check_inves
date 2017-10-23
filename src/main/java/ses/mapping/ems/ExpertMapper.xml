@@ -69,6 +69,7 @@
 				<result column="AUDITOR" property="auditor" />
 				<result column="AUDIT_TEMPORARY" property="auditTemporary" />
 				<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
+				<result column="IS_REVIEW_END" property="isReviewEnd" />
     </resultMap>
     
     <!-- 统计Analyze关系映射 -->
@@ -116,7 +117,8 @@
         PROFESSIONAL,
         TIME_PROFESSIONAL,
         IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE,TEACH_TITLE, EXTRACT_ORGID, AUDITOR,
-        AUDIT_OPINION_ATTACH
+        AUDIT_OPINION_ATTACH,
+        IS_REVIEW_END
     </sql>
     <sql id="Column_List">
         e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -176,6 +178,7 @@
         T1.SUBMIT_AT,
         T1.AUDIT_AT,
         T1.COVER_NOTE,
+        T1.AUDIT_TEMPORARY,
         T2.LOGIN_NAME AS loginName,
         org.SHORT_NAME AS orgName
       from
@@ -194,10 +197,23 @@
             AND T1.EXPERTS_FROM = #{expertsFrom}
         </if>
         <if test="status != null and status !=''">
-          <if test="status == 4">
-            AND IS_PROVISIONAL = '0'
+          <if test="status != 'temporary' and status != 'endOfTrial'">
+	          <if test="status == 4">
+	            AND IS_PROVISIONAL = '0'
+	          </if>
+	            AND T1.STATUS = #{status}
+	        </if>
+            
+            <!-- 临时专家 -->
+          <if test="status == 'temporary'">
+            AND IS_PROVISIONAL = '1'
+            AND T1.STATUS = '4'
           </if>
-            AND T1.STATUS = #{status}
+          
+            <!-- 预初审结束 -->
+          <if test="status == 'endOfTrial'">
+            AND (T1.STATUS = '15' or T1.STATUS = '16')
+          </if>
         </if>
         <if test="expertsTypeId != null and expertsTypeId !=''">
           AND instr(T1.EXPERTS_TYPE_ID, #{expertsTypeId} )>0
@@ -213,6 +229,9 @@
         </if>
         <if test="orgName !=null and orgName !=''">
           and org.SHORT_NAME =#{orgName}
+        </if>
+        <if test="auditTemporary !=null">
+          and T1.AUDIT_TEMPORARY = #{auditTemporary}
         </if>
         ORDER BY T1.SUBMIT_AT DESC NULLS LAST
     </select>
@@ -861,6 +880,14 @@ resultMap="BaseResultMap">
             <if test="auditOpinionAttach != null">
                 AUDIT_OPINION_ATTACH = #{auditOpinionAttach},
             </if>
+            <if test="isReviewEnd != null">
+                <if test="isReviewEnd != 0">
+                  IS_REVIEW_END = #{isReviewEnd},
+                </if>
+                <if test="isReviewEnd == 0">
+                  IS_REVIEW_END = null,
+                </if>
+            </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}
     </update>
@@ -1201,6 +1228,12 @@ resultMap="BaseResultMap">
         <if test="id != null and id !=''">
             AND ID = #{id}
         </if>
+        <if test="ids != null and ids !=''">
+            <foreach collection="ids" item="id" open="and ID in ("
+                     close=")" separator=",">
+                #{ids}
+            </foreach>
+        </if>
         ORDER BY CREATED_AT DESC
     </select>
 
@@ -1286,13 +1319,13 @@ resultMap="BaseResultMap">
         <choose>
         	<when test="sign == 1">
         		(IS_SUBMIT = '1'
-	        	AND (t1.STATUS = '0' OR t1.STATUS = '1' OR t1.STATUS = '2' OR t1.STATUS = '15' OR t1.STATUS = '16'))
+	        	AND (t1.STATUS = '0' OR t1.STATUS = '1' OR t1.STATUS = '2' OR t1.STATUS = '9' OR t1.STATUS = '10' OR t1.STATUS = '15' OR t1.STATUS = '16'))
 	        	OR (t1.IS_SUBMIT = '0' AND t1.status = '3')
         	</when>
         	<when test="sign == 2">
         		<if test="isOrg !=null and isOrg == 1">
 	            (t1.IS_SUBMIT = '1'
-	            AND (t1.STATUS = '1' OR t1.STATUS = '4' OR t1.STATUS = '5' OR t1.STATUS = '-2' OR t1.STATUS = '-3'))
+	            AND (t1.STATUS = '6' OR t1.STATUS = '4' OR t1.STATUS = '5' OR t1.STATUS = '-2' OR t1.STATUS = '-3' OR t1.STATUS = '10'))
 	          </if>
 	          <if test="isOrg !=null and isOrg == 0">
 	            t1.PURCHASE_DEP_ID = #{purchaseDepId}
@@ -1341,6 +1374,15 @@ resultMap="BaseResultMap">
         <if test="relName != null and relName !=''">
             AND t1.REAL_NAME LIKE CONCAT(CONCAT('%', #{relName}), '%')
         </if>
+        <if test="orgName != null and orgName !=''">
+            AND org.SHORT_NAME LIKE CONCAT(CONCAT('%', #{orgName}), '%')
+        </if>
+        <if test="expertsFrom != null and expertsFrom !=''">
+        	 AND t1.EXPERTS_FROM = #{expertsFrom}
+        </if>
+        <if test="expertsTypeId != null and expertsTypeId !=''">
+        	 AND t1.EXPERTS_TYPE_ID LIKE CONCAT(CONCAT('%', #{expertsTypeId}), '%')
+        </if>
         <if test="status != null and status !=''">
         	<if test="status == 'trialEnd'">
         	 AND t1.STATUS in ('15','16')
@@ -1349,14 +1391,33 @@ resultMap="BaseResultMap">
             AND t1.STATUS = #{status}
             </if>
         </if>
+        <if test="updatedAt !=null and updatedAt != ''">
+        	AND TO_CHAR(t1.UPDATED_AT,'YY-MM-DD') = TO_CHAR(#{updatedAt},'YY-MM-DD')
+        </if> 
         <if test="auditTemporary != null">
             AND t1.AUDIT_TEMPORARY = #{auditTemporary}
         </if>
         <if test="auditAt !=null and auditAt!=''">
         	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
         </if>
-        
+       <if test="startTime !=null and startTime!=''">
+        	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') &gt;= TO_CHAR(#{startTime},'YY-MM-DD')
+        </if>
+        <if test="endTime != null and endTime != ''">
+        	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') &lt;= TO_CHAR(#{endTime},'YY-MM-DD')
+        </if>
+       <if test="ids != null">
+            <foreach collection="ids" item="id" open="and t1.ID in ("
+                     close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+        <if test="sort != null">
+        	 ORDER BY t1.UPDATED_AT ASC NULLS LAST
+        </if>
+        <if test="sort == null">
         ORDER BY t1.SUBMIT_AT ASC NULLS LAST
+        </if>
     </select>
 
 		<!-- 插入历史记录 -->
@@ -1676,7 +1737,7 @@ resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
         FROM T_SES_EMS_EXPERT
-        WHERE  EXPERTS_FROM=#{netType} AND
+        WHERE 
         SUBMIT_AT &gt;=
 		to_date(#{startDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND
@@ -2159,6 +2220,7 @@ resultMap="BaseResultMap">
       T1.IS_SUBMIT,
       T1.SUBMIT_AT,
       T1.AUDIT_AT,
+      T1.AUDIT_TEMPORARY,
       T2.LOGIN_NAME AS loginName,
       org.SHORT_NAME AS orgName,
       AREA.NAME AS ADDRESS
@@ -2176,7 +2238,7 @@ resultMap="BaseResultMap">
 		  ON A.PARENT_ID = AREA.ID
     LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T1.PURCHASE_DEP_ID = dep.ID
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
-    where (T1.STATUS = 4 or T1.STATUS = 5 or T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 8)
+    where (T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 13 or T1.STATUS = 17 or T1.STATUS = 19)
     AND T1.IS_PROVISIONAL = '0'
     AND T1.IS_DELETE = 0
     <if test="relName != null and relName !=''">
@@ -2192,10 +2254,20 @@ resultMap="BaseResultMap">
       and ID_CARD_NUMBER like CONCAT(CONCAT('%', #{idCardNumber}), '%')
     </if>
     <if test="status != null and status !=''">
-    	<!-- <if test="status == 4">
-    		AND IS_PROVISIONAL = '0'
-    	</if> -->
-      AND T1.STATUS = #{status}
+      <if test="status != 'reviewLook'">
+        AND T1.STATUS = #{status}
+        
+        <!-- 只查 入库(待复查)状态 -->
+        <if test="status == 6">
+          AND T1.AUDIT_TEMPORARY = '0'
+        </if>
+      </if>
+      
+      <!-- 复查中 -->
+      <if test="status == 'reviewLook'">
+        AND T1.STATUS = '6'
+        AND T1.AUDIT_TEMPORARY = '3'
+      </if>
     </if>
     <if test="expertsFrom != null and expertsFrom !=''">
       AND T1.EXPERTS_FROM = #{expertsFrom}
@@ -2543,7 +2615,8 @@ resultMap="BaseResultMap">
     <!-- 查询公示专家导出外网 -->
     <select id="selectExpByPublictyOfExport" resultMap="BaseResultMap" parameterType="Map">
         SELECT
-        <include refid="Base_Column_List" />
+        T.ID, T.EXPERTS_TYPE_ID, T.PURCHASE_DEP_ID, T.REAL_NAME, T.EXPERTS_FROM,
+        T.STATUS, T.IS_PROVISIONAL
         FROM T_SES_EMS_EXPERT T
         WHERE T.STATUS = #{status}
         AND T.AUDIT_AT &gt;=
@@ -2569,6 +2642,105 @@ resultMap="BaseResultMap">
             </foreach>
         </if>
         ORDER BY CREATED_AT DESC
+    </select>
+<!-- 专家复审待分配列表 可条件查询 -->
+    <select id="findExpertAgainAuditList" resultMap="BaseResultMap" parameterType="ses.model.ems.Expert">
+        SELECT 
+		t1.ID,
+        t1.REAL_NAME,
+        t1.EXPERTS_FROM,
+        t1.EXPERTS_TYPE_ID,
+        t1.AUDIT_AT,
+        t1.WORK_UNIT,
+        t1.PROFESS_TECH_TITLES,
+        t2.NAME as sex,
+        org.SHORT_NAME AS orgName
+        from
+        T_SES_EMS_EXPERT t1
+        LEFT JOIN
+        T_SES_BMS_DICTIONARY_DATA t2
+        ON t1.GENDER = t2.ID
+        LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t1.PURCHASE_DEP_ID = dep.ID
+    		LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+        WHERE (
+        <choose>
+        	<when test="sign == 1">
+        		(IS_SUBMIT = '1'
+	        	AND (t1.STATUS = '0' OR t1.STATUS = '1' OR t1.STATUS = '2' OR t1.STATUS = '9' OR t1.STATUS = '10' OR t1.STATUS = '15' OR t1.STATUS = '16' OR t1.STATUS = '5'))
+	        	OR (t1.IS_SUBMIT = '0' AND t1.status = '3')
+        	</when>
+        	<when test="sign == 2">
+        		<if test="isOrg !=null and isOrg == 1">
+	            (t1.IS_SUBMIT = '1'
+	            AND (t1.STATUS = '6' OR t1.STATUS = '4' OR t1.STATUS = '5' OR t1.STATUS = '-2' OR t1.STATUS = '-3' OR t1.STATUS = '10'))
+	          </if>
+	          <if test="isOrg !=null and isOrg == 0">
+	            t1.PURCHASE_DEP_ID = #{purchaseDepId}
+	          </if>
+        	</when>
+        	<when test="sign == 3">
+        		(t1.IS_SUBMIT = '1'
+            AND (t1.STATUS = '6' OR t1.STATUS = '7' OR t1.STATUS = '8'))
+        	</when>
+        	<otherwise>
+        		1 = 1
+        	</otherwise>
+        </choose>
+        )
+        AND t1.IS_PROVISIONAL = '0'
+        AND t1.IS_DELETE = '0'
+        <if test="sign == 1">
+        	<if test="purchaseDepId !=null">
+		          AND t1.PURCHASE_DEP_ID = #{purchaseDepId}
+		       </if>
+        </if>
+        <if test="sign == 3">
+        	<if test="extractOrgid !=null">
+            AND t1.EXTRACT_ORGID = #{extractOrgid}
+        	</if>
+        </if>
+        <if test="relName != null and relName !=''">
+            AND t1.REAL_NAME LIKE CONCAT(CONCAT('%', #{relName}), '%')
+        </if>
+        <if test="orgName != null and orgName !=''">
+            AND org.SHORT_NAME LIKE CONCAT(CONCAT('%', #{orgName}), '%')
+        </if>
+        <if test="expertsFrom != null and expertsFrom !=''">
+        	 AND t1.EXPERTS_FROM = #{expertsFrom}
+        </if>
+        <if test="expertsTypeId != null and expertsTypeId !=''">
+        	 AND t1.EXPERTS_TYPE_ID LIKE CONCAT(CONCAT('%', #{expertsTypeId}), '%')
+        </if>
+        <if test="status != null and status !=''">
+        	<if test="status == 'trialEnd'">
+        	 AND t1.STATUS in ('15','16')
+        	</if>
+        	<if test="status != 'trialEnd'">
+            AND t1.STATUS = #{status}
+            </if>
+        </if>
+        <if test="updatedAt !=null and updatedAt != ''">
+        	AND TO_CHAR(t1.UPDATED_AT,'YY-MM-DD') = TO_CHAR(#{updatedAt},'YY-MM-DD')
+        </if> 
+        <if test="auditTemporary != null">
+            AND t1.AUDIT_TEMPORARY = #{auditTemporary}
+        </if>
+        <if test="auditAt !=null and auditAt!=''">
+        	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
+        </if>
+       <if test="startTime !=null and startTime!=''">
+        	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') &gt;= TO_CHAR(#{startTime},'YY-MM-DD')
+        </if>
+        <if test="endTime != null and endTime != ''">
+        	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') &lt;= TO_CHAR(#{endTime},'YY-MM-DD')
+        </if>
+       <if test="ids != null">
+            <foreach collection="ids" item="id" open="and t1.ID in ("
+                     close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+		ORDER BY org.POSITION ASC,t1.AUDIT_AT ASC
     </select>
 
 	<!-- 专家抽取根据条件查询专家 -->

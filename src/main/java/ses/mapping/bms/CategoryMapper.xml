@@ -23,7 +23,7 @@
 		<result column="SUPPLIER_REGISTER_LEVEL" property="level" />
 		<result column="SUPPLIER_ENG_REG_LEVEL" property="engLevel" />
 		<result column="IS_PARENT" property="isParent" />
-
+		<result column="CLASSIFY_TYPE" property="type" />
 		<!-- <association property="categoryAptitude" column="APTITUDE_ID" select="ses.dao.bms.CategoryAptitudeMapper.selectByPrimaryKey"/> -->
 		<association property="categoryAttchment" column="ATTCHMENT_ID"
 			select="ses.dao.bms.CategoryAttachmentMapper.selectByPrimaryKey" />
@@ -67,7 +67,7 @@
 		ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT,
 		DESCRIPTION, CLASSIFY_STATUS,CODE,POSITION,IS_DELETED,
 		IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE,
-		ATTCHMENT_ID,ORGNIZATION_ID,AUDIT_DATE,AUDIT_ADVISE,SUPPLIER_REGISTER_LEVEL,SUPPLIER_ENG_REG_LEVEL,IS_PARENT
+		ATTCHMENT_ID,ORGNIZATION_ID,AUDIT_DATE,AUDIT_ADVISE,SUPPLIER_REGISTER_LEVEL,SUPPLIER_ENG_REG_LEVEL,IS_PARENT,CLASSIFY_TYPE
 	</sql>
 
 	<!-- 根据id查询 -->
@@ -265,6 +265,9 @@
 			<if test="isParent != null">
 				IS_PARENT,
 			</if>
+			<if test="type != null">
+				CLASSIFY_TYPE,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -329,6 +332,9 @@
 			</if>
 			<if test="isParent != null">
 				#{isParent},
+			</if>
+			<if test="type != null">
+				type,
 			</if>
 		</trim>
 	</insert>
@@ -406,6 +412,9 @@
 			</if>
 			<if test="isParent != null">
 				IS_PARENT=#{isParent},
+			</if>
+			<if test="type != null">
+				CLASSIFY_TYPE=#{type},
 			</if>
 		</set>
 		where ID = #{id}
@@ -755,6 +764,30 @@
 		 FROM T_SES_BMS_CATEGORY t WHERE  t.IS_DELETED = 0 START WITH 
          t.parent_id=#{pId} CONNECT BY PRIOR t.ID=t.parent_id  order by t.code )s where s.l &lt; 5
   </select>
+
+  
+  	<select id="findCategoryForSupplierLevel" parameterType="Map" resultMap="CateMap">
+	    SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_CATEGORY
+		<where>
+				IS_DELETED = 0
+				and IS_PUBLISH = 0
+			 <if test="product != null">
+				and CLASSIFY_STATUS in (1,3)
+			</if>
+			 <if test="sale != null">
+				and CLASSIFY_STATUS in (2,3)
+			</if>
+			<if test="service != null">
+				and CLASSIFY_TYPE = 3
+			</if>
+			<if test="level != null">
+				and SUPPLIER_REGISTER_LEVEL = #{level}
+			</if>
+		</where>
+	</select>
+
   
   <!-- 根据pid查询生成公开状态树 -->
 	<select id="findpublishTreeByPid" parameterType="Object" resultMap="CateMap" >

@@ -177,7 +177,25 @@ function vartifyAuditCount(){
         flags = true;
         return flags;
     }
-    // 点击审核通过复选框时的校验
+    var supplierId=$("#supplierId").val();
+    $.ajax({
+        url:globalPath + "/supplierAudit/vertifyYushenhe.do",
+        type: "POST",
+        async:false,
+        data:{
+            "supplierId":supplierId,
+            "flag":checkVal
+        },
+        dataType:"json",
+        success:function (data) {
+            if (data.status != 0) {
+                layer.msg(data.msg);
+                flags = true;
+                return flags;
+            }
+        }
+    });
+    /*// 点击审核通过复选框时的校验
     if(checkVal == 1){
         var supplierId=$("#supplierId").val();
         $.ajax({
@@ -185,7 +203,8 @@ function vartifyAuditCount(){
             type: "POST",
             async:false,
             data:{
-                "supplierId":supplierId
+                "supplierId":supplierId,
+                "flag":2
             },
             dataType:"json",
             success:function (data) {
@@ -205,7 +224,8 @@ function vartifyAuditCount(){
             type: "POST",
             async:false,
             data:{
-                "supplierId":supplierId
+                "supplierId":supplierId,
+                "flag":2
             },
             dataType:"json",
             success:function (data) {
@@ -216,7 +236,7 @@ function vartifyAuditCount(){
                 }
             }
         });
-    }
+    }*/
     // 判断审核意见
     opinion = $.trim(opinion);
     if(checkVal != 1 && opinion == ''){

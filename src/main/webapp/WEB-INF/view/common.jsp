@@ -15,6 +15,7 @@
 <link href="${pageContext.request.contextPath}/public/backend/css/btn.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" rel="stylesheet" >
 <link href="${pageContext.request.contextPath}/public/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/select2/css/select2.css" rel="stylesheet" type="text/css">
 <!-- js -->
 <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
 <script>

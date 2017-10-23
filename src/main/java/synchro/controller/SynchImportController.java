@@ -154,10 +154,12 @@ public class SynchImportController {
      **/
     @Autowired
     private ExpertBlackListService expertBlackListService;
-    
-    /** 服务热线 **/
+
+    /**
+     * 服务热线
+     **/
     @Autowired
-	private ServiceHotlineService serviceHotlineService;
+    private ServiceHotlineService serviceHotlineService;
 
     /**
      * 〈简述〉初始化导入
@@ -351,8 +353,8 @@ public class SynchImportController {
                         if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
                             attachService.importAttach(f);
                         }
-                        if(f.getName().contains(FileUtils.C_ARTICLE_CATEGORY_PATH_FILENAME)){
-                        	infoService.importArticleCategory(f);
+                        if (f.getName().contains(FileUtils.C_ARTICLE_CATEGORY_PATH_FILENAME)) {
+                            infoService.importArticleCategory(f);
                         }
                         if (f.isDirectory()) {
                             if (f.getName().equals(Constant.ATTACH_FILE_TENDER)) {
@@ -381,7 +383,7 @@ public class SynchImportController {
                      */
                     if (synchType.contains("inner_out")) {
                         if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)) {
-                            innerSupplierService.immportInner(f, null);
+                            innerSupplierService.importInner(f, null);
                         }
                         if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
                             attachService.importSupplierAttach(f);
@@ -708,36 +710,39 @@ public class SynchImportController {
                      * 公示供应商
                      */
                     if (synchType.contains(Constant.SYNCH_PUBLICITY_SUPPLIER)) {
-                        for (File file2 : f.listFiles()) {
-                            if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)) {
-                                innerSupplierService.immportInner(file2, "publicity");
+                        if(f.getName().equals(Constant.T_SES_SMS_SUPPLIER_PUBLICITY_PATH)) {
+                            if (f.isDirectory()) {
+                                for (File file2 : f.listFiles()) {
+                                    if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)) {
+                                        innerSupplierService.importInner(file2, "publicity");
+                                    }
+                                }
                             }
                         }
-                        /*if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
-                            attachService.importSupplierAttach(f);
-                        }
-                        if (f.isDirectory()) {
-                            if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)) {
-                                OperAttachment.moveFolder(f);
+                    }
+
+                    /**
+                     * 注销供应商导入
+                     */
+                    if (synchType.contains(Constant.SYNCH_LOGOUT_SUPPLIER)) {
+                        if(FileUtils.getSynchAttachFile(31).equals("/" + f.getName())){
+                            for (File file2 : f.listFiles()) {
+                                if (file2.getName().contains(FileUtils.C_SYNCH_LOGOUT_SUPPLIER_FILENAME)) {
+                                    innerSupplierService.importLogoutSupplier(file2);
+                                }
                             }
-                        }*/
+                        }
                     }
 
                     /**
                      * 公示专家
                      */
                     if (synchType.contains(Constant.SYNCH_PUBLICITY_EXPERT)) {
-                        for (File file2 : f.listFiles()) {
-                            if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME)) {
-                                innerExpertService.importExpOfPublicity(file2);
-                            }
-                        }
-                        if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {
-                            attachService.importExpertAttach(f);
-                        }
-                        if (f.isDirectory()) {
-                            if (f.getName().equals(Constant.ATTCH_FILE_EXPERT)) {
-                                OperAttachment.moveFolder(f);
+                        if(FileUtils.getSynchAttachFile(24).equals("/" + f.getName())) {
+                            for (File file2 : f.listFiles()) {
+                                if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME)) {
+                                    innerExpertService.importExpOfPublicity(file2);
+                                }
                             }
                         }
                     }
@@ -852,7 +857,7 @@ public class SynchImportController {
                             }
                         }
                     }
-                    
+
                     /** 服务热线信息数据导入 **/
                     if (synchType.contains(Constant.DATE_SYNCH_HOT_LINE)) {
                         if (f.getName().equals(Constant.HOT_LINE_FILE_EXPERT)) {
@@ -862,7 +867,7 @@ public class SynchImportController {
                                         || file2.getName()
                                         .contains(
                                                 FileUtils.M_HOT_LINE_PATH_FILENAME)) {
-                                	serviceHotlineService.importHotLine(file2);
+                                    serviceHotlineService.importHotLine(file2);
                                 }
                             }
                         }
@@ -876,7 +881,6 @@ public class SynchImportController {
                     categoryService.importCategoryQua(synchType, f);
                     /** 产品资质表*/
                     qualificationService.importQualification(synchType, f);
-
                 }
             }
             bean.setSuccess(true);

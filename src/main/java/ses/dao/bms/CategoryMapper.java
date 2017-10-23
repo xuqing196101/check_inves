@@ -391,6 +391,13 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	Category selectCategoryByItemId (String itemsId);
+	
+	/**
+	 * 查询四级品目，供应商等级需要
+	 * @param map
+	 * @return
+	 */
+	public List<Category> findCategoryForSupplierLevel (HashMap<String, String> map);
 
 	/**
 	 * 

@@ -25,7 +25,7 @@ function listPage(pages, total, startRow, endRow, pageNum) {
 }
 function addButton(){
 	$("#addButton").empty();
-	$("#addButton").append("<input class=\"btn fl mt1\" onclick=\"findSupplier()\" type=\"button\" value=\"查询\"> "
+	$("#addButton").append("<input class=\"btn fl mt1\" onclick=\"findSupplier(3)\" type=\"button\" value=\"查询\"> "
 			+" <input type=\"button\" class=\"btn fl mt1\" onclick=\"resetQuery()\" value=\"重置\">"
 			+" <input type=\"button\" class=\"btn fl mt1\" onclick=\"resetAgain()\" value=\"重新计算\">");
 }
@@ -38,9 +38,9 @@ function addButtonProject(){
 /*******************************************************************************
  * 根据目录 查询供应商
  ******************************************************************************/
-function findSupplier() {
+function findSupplier(level) {
 	var supplierTypeName=$("#itemTypeName").val();
-    if (supplierTypeName != null && supplierTypeName !='' && supplierTypeName !='工程'){
+    if (level == 3 && supplierTypeName != null && supplierTypeName !='' && supplierTypeName !='工程'){
     	addButton();
     }else{
     	addButtonProject();
@@ -48,9 +48,9 @@ function findSupplier() {
     
 	if (!$("#supplierTypeId").val()) {
 		layer.msg("请选择目录");
-	} else if (!$("#categoryIds").val()) {
+	} /*else if (!$("#categoryIds").val()) {
 		layer.msg("请先选择品目");
-	}else{
+	}*/else{
 		var index = layer.load(0, {
 			shade : [ 0.1, '#fff' ],
 			offset : [ '45%', '53%' ]
@@ -99,7 +99,7 @@ function resetAgain(){
 					layer.msg(obj.msg);
 				layer.close(index);
 				$("#page").val(1);
-				findSupplier();
+				findSupplier(3);
 			},
 			error : function(data) {
 				layer.msg("请求异常!");
@@ -109,16 +109,45 @@ function resetAgain(){
 	}
 }
 
+//全部重新计算
+function resetAllAgain(){
+	layer.confirm('确定要重新计算所有物资、服务品目下供应商的等级吗？', {
+		  btn: ['确定','取消'] //按钮
+		}, function(){
+			var index = layer.load(0, {
+				shade : [ 0.1, '#fff' ],
+				offset : [ '45%', '53%' ]
+			});
+			$.ajax({
+				type : "POST",
+				url : globalPath + "/supplierQuery/countAllCategorySupplierLevel.do",
+				data : $("#form1").serializeArray(),
+				success : function(obj) {
+					layer.msg(obj.msg);
+					layer.close(index);
+				},
+				error : function(data) {
+					layer.msg("请求异常!");
+					layer.close(index);
+				},
+			});
+		}, function(){
+		  
+		});
+		
+}
+
 function resetQuery() {
 	$("#supplierName").val("");
 	$("#armyBusinessName").val("");
+	$("#supplierLevel").val("");
 	$("#categoryIds").val("");
 	$("#supplierTypeId").val("");
 	$("#page").val(1);
 	$("#itemTypeName").val("");
 }
 function info(supplierId) {
-	window.location.href = globalPath +"/supplierQuery/essential.do?judge=2&supplierId="+ supplierId;
+	window.open(globalPath +"/supplierQuery/essential.do?judge=2&supplierId="+ supplierId);
 }
 function empty(){
 	addButtonProject();
@@ -129,16 +158,32 @@ function showData(obj) {
 	$("#tb1 tbody").empty();
 	$(obj.list).each(
 			function(index, item) {
+				var level = "";
+				if (item.supplierLevelName != null) {
+					level = item.supplierLevelName;
+				}
+				var armyBusinessName = "";
+				if (item.armyBusinessName != null) {
+					armyBusinessName = item.armyBusinessName;
+				}
+				var armyBuinessTelephone = "";
+				if (item.armyBuinessTelephone != null) {
+					armyBuinessTelephone = item.armyBuinessTelephone;
+				}
+				var orgName = "";
+				if (item.orgName != null) {
+					orgName = item.orgName;
+				}
 				$("#tb1 tbody").append(
 						" <tr>" + "<td class=\"tc\">" + ((index+1)+(obj.pageNum-1)*(obj.pageSize))+ "</td>"
 								+ "<td class=\"pl20\">"
 								+ "<a href=\"javascript:void(0);\" onclick=\"info('" + item.supplierId+ "')\">" + item.supplierName + "</a>"
-								+ "</td>" + "<td class=\"tc\">" + item.supplierLevel
+								+ "</td>" + "<td class=\"tc\">" + level
 								+ "</td>" + "<td class=\"tl\">"
-								+ item.armyBusinessName + "</td>"
+								+ armyBusinessName + "</td>"
 								+ "<td class=\"tc\">"
-								+ item.armyBuinessTelephone + "</td>"
-								+ "<td class=\"tl\">" + item.orgName + "</td>"
+								+ armyBuinessTelephone + "</td>"
+								+ "<td class=\"tl\">" + orgName + "</td>"
 								+ "</tr>");
 			});
 }

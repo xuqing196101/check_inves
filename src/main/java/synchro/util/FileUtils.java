@@ -177,6 +177,11 @@ public class FileUtils {
     /**导出文件目录**/
     public final static String C_SYNCH_PUBLICITY_SUPPLIER_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_supplier_publicity_path.system.path");
 
+    /**供应商注销 导出创建数据名称**/
+    public final static String C_SYNCH_LOGOUT_SUPPLIER_FILENAME = "_c_logout_supplier.dat";
+    /**导出文件目录**/
+    public final static String C_SYNCH_LOGOUT_SUPPLIER_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_supplier_logout_path.system.path");
+
     /**专家公示 导出创建数据名称**/
     public final static String C_SYNCH_PUBLICITY_EXPERT_FILENAME = "_c_publicity_expert.dat";
     /**导出文件目录**/
@@ -237,7 +242,7 @@ public class FileUtils {
     public final static String EXTRACT_CATEGORY_PATH_FILENAME="_m_extract_category.dat";
     /** 专家抽取结果信息数据名称 **/
     public final static String EXTRACT_RESULT_PATH_FILENAME="_m_extract_result.dat";
-    /** 专家抽取目录 路径 31 **/
+    /** 专家抽取目录 路径 32 **/
     public final static String EXPERT_EXTRACT_PATH = PropUtil.getProperty("file.expert_extract.system.path");
     
     /** 专家抽取结果目录 路径 33 **/
@@ -853,10 +858,10 @@ public class FileUtils {
           case 28:  filePath=EXPERT_BLACKLIST_PATH;break;
           case 29:  filePath=EXPERT_BLACKLIST_LOG_PATH;break;
           case 30:  filePath=HOT_LINE_PATH;break;
-          case 31:  filePath=EXPERT_EXTRACT_PATH;break;
+          case 31:  filePath=C_SYNCH_LOGOUT_SUPPLIER_FILE_DIRECTORY;break;
+          case 32:  filePath=EXPERT_EXTRACT_PATH;break;
           case 33:  filePath=EXPERT_EXTRACT_RESULT_PATH;break;
           case 34:  filePath=MILITARY_EXPERT_PATH;break;
-          case 35:  filePath=MILITARY_EXPERT_PATH;break;
         }
         return filePath;
     }

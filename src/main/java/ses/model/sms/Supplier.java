@@ -415,6 +415,7 @@ Supplier implements Serializable {
 	 * -2：预审核结束
 	 *  3：审核不通过
 	 * -3：公示中
+	 * 10：异议处理
 	 *  1：入库（待复核）
 	 * -4：预复核结束
 	 *  5：复核合格（待考察）
@@ -728,6 +729,8 @@ Supplier implements Serializable {
     private List<SupplierHistory> historys=new ArrayList<SupplierHistory>();
     
     private List<SupplierModify> modifys=new ArrayList<SupplierModify>();
+
+	private List<SupplierAudit> supplierAudits = new ArrayList<>();
     
     private  List<Todos> todoList=new LinkedList<Todos>();
     
@@ -2043,5 +2046,12 @@ Supplier implements Serializable {
   public void setErrorNum(Integer errorNum) {
     this.errorNum = errorNum;
   }
-	
+
+    public List<SupplierAudit> getSupplierAudits() {
+        return supplierAudits;
+    }
+
+    public void setSupplierAudits(List<SupplierAudit> supplierAudits) {
+        this.supplierAudits = supplierAudits;
+    }
 }

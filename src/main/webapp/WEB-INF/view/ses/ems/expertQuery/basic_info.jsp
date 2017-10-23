@@ -8,6 +8,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+		<%@ include file="/WEB-INF/view/ses/ems/expertQuery/common.jsp"%>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ems/expertQuery/merge_jump.js"></script>
 		<script type="text/javascript">
 			function backOld() {
@@ -82,7 +83,13 @@
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('expertFile');">承诺书和申请表</a>
 						</li>
 						<li class="">
-              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('auditInfo');">审核信息</a>
+              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('auditInfo');">采购机构初审意见</a>
+            </li>
+						<li class="">
+              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('review');">资源服务中心复审意见</a>
+            </li>
+						<li class="">
+              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('reviewCheck');">采购机构复查意见</a>
             </li>
 					</ul>
 
@@ -335,6 +342,7 @@
 		<form id="form_id" action="" method="post">
 			<input name="expertId" value="${expertId}" type="hidden">
 			<input name="sign" value="${sign}" type="hidden">
+			<input name="status" value="${status}" type="hidden">
 		</form>
 	</body>
 

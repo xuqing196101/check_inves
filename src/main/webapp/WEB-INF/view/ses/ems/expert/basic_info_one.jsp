@@ -546,6 +546,13 @@
 				if(!birthday) {
 					layer.msg("请填写出生日期 !");
 					return false;
+				} else {
+					var ageStart = parseInt(birthday.replace(new RegExp("-","gm"), "")) + 700000; // 19700101 + 700000 = 20400101
+					var ageEnd = new Date().Format("yyyyMMdd");;
+					if (ageStart < ageEnd) {
+						layer.msg("年龄不大于70周岁 !");
+						return false;
+					}
 				}
 				var isAge = true;
 				if(birthday != "") {
@@ -557,7 +564,7 @@
 						},
 						success: function(response) {
 							if(response == "1") {
-								layer.msg("年龄70周岁以下的才能进行注册!");
+								layer.msg("年龄不大于70周岁才能进行注册!");
 								isAge = false;
 							} else {
 								isAge = true;
@@ -1524,7 +1531,7 @@
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 毕业证书</span>
 						</c:if>
-						<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'毕业证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业证书')"
+						<div class="input-append input_group h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'毕业证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业证书')"
 							</c:if>>
 							<c:choose>
 								<c:when test="${expert.status == 3 and !fn:contains(errorField,'毕业证书')}">

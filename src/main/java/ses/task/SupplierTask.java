@@ -2,6 +2,7 @@ package ses.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
 import synchro.inner.read.supplier.InnerSupplierService;
@@ -14,6 +15,7 @@ import synchro.util.OperAttachment;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * 
@@ -113,7 +115,7 @@ public class SupplierTask {
              File [] files = file.listFiles();
              for (File f : files){
                  if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)){
-                	 innerSupplierService.immportInner(f,null);
+                	 innerSupplierService.importInner(f,null);
                  	
                  }
 //                 if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
@@ -254,5 +256,19 @@ public class SupplierTask {
 	 */
 	public void handlerSupplierchange(){
 		supplierService.updateSupplierStatus();
+	}
+	
+	/**
+	 * 内网执行： 每天凌晨2点半重新计算所有入库供应商等级
+	 * @author Ye MaoLin
+	 * @version 2017-9-27
+	 */
+	public void handlerCountSupplierLevel(){
+		HashMap<String, Integer> dataMap = supplierService.countAllCategorySupplierLevel();
+        Integer productCount = dataMap.get("PRODUCT");
+        Integer saleCount = dataMap.get("SALE");
+        Integer serviceCount = dataMap.get("SERVICE");
+        String msg = "物资生产供应商等级重算数量：" + productCount + ",物资销售供应商等级重算数量：" + saleCount + ",服务供应商等级重算数量：" + serviceCount;
+        System.out.println(msg);
 	}
 }

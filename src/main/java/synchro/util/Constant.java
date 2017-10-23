@@ -107,7 +107,8 @@ public class Constant {
     public final static String SUPPLIER_CHECK_ATTACHMENT = "SUPPLIER_CHECK_ATTACHMENT";
     /**专家审核附件**/
     public final static String EXPERT_CHECK_ATTACHMENT = "EXPERT_CHECK_ATTACHMENT";
-    
+    /**专家复审准批件**/
+    public final static String EXPERT_REVIEW_APPROVE = "EXPERT_REVIEW_APPROVE";
     
     /** 招标附件文件名称 **/
     public final static String ATTACH_FILE_TENDER = "tender";
@@ -212,8 +213,15 @@ public class Constant {
     public final static String COMMIT_SYNCH_PUBLICITY_SUPPLIER="导出供应商公示信息数量:";
     /**供应商公示  导入信息描述 **/
     public final static String IMPORT_SYNCH_PUBLICITY_SUPPLIER="导入供应商公示信息数量:";
-    /**供应商公示  导入信息描述 **/
+    /**供应商公示  导入文件根路径（文件夹**/
     public final static String T_SES_SMS_SUPPLIER_PUBLICITY_PATH="t_ses_sms_supplier_publicity_path";
+
+    /**供应商注销信息**/
+    public final static String SYNCH_LOGOUT_SUPPLIER="SYNCH_LOGOUT_SUPPLIER";
+    /**供应商注销  导出信息描述 **/
+    public final static String EXPORT_SYNCH_LOGOUT_SUPPLIER="导出供应商注销信息数量:";
+    /**供应商注销  导入信息描述 **/
+    public final static String IMPORT_SYNCH_LOGOUT_SUPPLIER="导入供应商注销信息数量:";
 
     /**专家公示信息**/
     public final static String SYNCH_PUBLICITY_EXPERT="SYNCH_PUBLICITY_EXPERT";
@@ -221,6 +229,8 @@ public class Constant {
     public final static String COMMIT_SYNCH_PUBLICITY_EXPERT="导出专家公示信息数量:";
     /**专家公示  导入信息描述 **/
     public final static String IMPORT_SYNCH_PUBLICITY_EXPERT="导入专家公示信息数量:";
+    /**专家公示  导入文件根路径（文件夹**/
+    public final static String T_SES_SMS_EXPERT_PUBLICITY_PATH="t_ses_sms_expert_publicity_path";
 
     /**目录资质关联表 文件夹名称**/
     

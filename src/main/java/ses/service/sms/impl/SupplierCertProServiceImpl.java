@@ -6,7 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
-
 import ses.dao.sms.SupplierCertProMapper;
 import ses.model.sms.SupplierCertPro;
 import ses.service.sms.SupplierCertProService;
@@ -67,7 +66,7 @@ public class SupplierCertProServiceImpl implements SupplierCertProService {
 	
 	@Override
 	public String findCertProByProIdAndName(String proId){
-		if(proId == null){
+		if(proId != null){
 			List<SupplierCertPro> list = supplierCertProMapper.findCertProByProIdAndName(proId, "质量管理体系认证证书");
 			if(list != null && list.size() > 0 && list.get(0) != null){
 				return list.get(0).getId();
