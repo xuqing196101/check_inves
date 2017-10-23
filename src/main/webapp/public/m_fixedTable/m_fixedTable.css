@@ -1,0 +1,51 @@
+.mfixed-main {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  border: solid 1px #ddd;
+  border-top: none;
+}
+.mfixed-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  overflow: hidden;
+  background-color: #FFF;
+  border-top: solid 1px #ddd;
+}
+.mfixed-header-columns {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: #FFF;
+  border-top: solid 1px #ddd;
+  border-right: solid 1px #ddd;
+}
+.mfixed-columns {
+  position: absolute;
+  left: 0;
+  background-color: #FFF;
+  border-right: solid 1px #ddd;
+}
+.mfixed-body .table-hover>tbody>tr.hover, .mfixed-columns .table-hover>tbody>tr.hover {
+  background-color: #f5f5f5;
+}
+.mfixed-body {
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-bottom: none;
+}
+.mfixed-main .table {
+  margin-bottom: 0;
+}
+.mfixed-main .table-bordered {
+  border: none;
+}
+.mfixed-main .table-bordered>tbody>tr>td, .mfixed-main .table-bordered>tbody>tr>th, .mfixed-main .table-bordered>tfoot>tr>td, .mfixed-main .table-bordered>tfoot>tr>th, .mfixed-main .table-bordered>thead>tr>td, .mfixed-main .table-bordered>thead>tr>th {
+  border-right: none;
+}
+.mfixed-main .table-bordered>tbody>tr>td:first-child, .mfixed-main .table-bordered>thead>tr>th:first-child {
+  border-left: none;
+}
