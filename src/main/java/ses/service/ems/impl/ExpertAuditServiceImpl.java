@@ -436,9 +436,10 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
      * @return void
      */
 	@Override
-	public boolean temporaryAudit(String expertId) {
+	public boolean temporaryAudit(String expertId,String realName) {
 		Expert expert = new Expert();
 		expert.setId(expertId);
+		expert.setAuditor(realName);
 		Expert expertInfo = expertMapper.selectByPrimaryKey(expertId);
 		String status = expertInfo.getStatus();
 		if("0".equals(status) || "15".equals(status) || "16".equals(status) || "9".equals(status)){
@@ -775,6 +776,21 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 			mapper.updateAuditStatus(ids[i],status);
 		}
 		return true;
+	}
+	@Override
+	public void updateDoAuditStatus(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		mapper.updateDoAuditStatus(map);
+	}
+	@Override
+	public void updateToAuditStatus(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		mapper.updateToAuditStatus(map);
+	}
+	@Override
+	public void updateExpertTypeAuditStatus(ExpertAudit e) {
+		// TODO Auto-generated method stub
+		mapper.updateExpertTypeAuditStatus(e);
 	}
 
 

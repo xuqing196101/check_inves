@@ -5,7 +5,7 @@ import java.util.List;
 import ses.model.ems.ExpertEngHistory;
 
 public interface ExpertEngModifySerivce {
-	void insertSelective (ExpertEngHistory expertEngHistory);
+	void insertSelective (ExpertEngHistory expertEngHistory,Integer sign);
 	
 	List<ExpertEngHistory> selectByExpertId(ExpertEngHistory expertEngHistory);
 	

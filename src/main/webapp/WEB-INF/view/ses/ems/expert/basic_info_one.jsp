@@ -79,14 +79,11 @@
 					});
 				}
 				//实时保存
-			 $(function() {
-				$("input").bind("blur", updateAuditStatus(this));
-				$("select").bind("change", updateAuditStatus(this));
-				$("textarea").bind("blur", updateAuditStatus(this));
-			}); 
-			function updateAuditStatus(obj){
-				alert($(obj).parent("li").text());
-			}
+			/* $(function() {
+				$("input").bind("blur", submitformExpert);
+				$("select").bind("change", submitformExpert);
+				$("textarea").bind("blur", submitformExpert);
+			}); */
 			//校验军官证号
             function checkCardNumber(){
                 var idNumber = $("#idNumber").val();

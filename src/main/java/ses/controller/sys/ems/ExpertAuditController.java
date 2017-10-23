@@ -3,6 +3,7 @@ package ses.controller.sys.ems;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -93,6 +94,8 @@ import common.utils.JdcgResult;
 @Controller
 @RequestMapping("/expertAudit")
 public class ExpertAuditController{
+	private static final Object Date = null;
+
 	@Autowired
 	private ExpertAgainAuditService expertAgainAuditService;
 	
@@ -345,24 +348,35 @@ public class ExpertAuditController{
 	 * @param @param expertId
 	 * @param @return      
 	 * @return String
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
 	 */
 	@RequestMapping("/basicInfo")
-	public String basicInfo(Expert expert, Model model, Integer pageNum, String expertId, Integer sign, String batchId) {
+	public String basicInfo(@CurrentUser User user,Expert expert, Model model, Integer pageNum, String expertId, Integer sign, String batchId) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		model.addAttribute("batchId", batchId);
 		//暂存中
-		temporaryAudit(expertId);
+		temporaryAudit(expertId,user.getRelName());
 		
 		/**
 		 * 退回修改后对比历史记录
 		 */
 		ExpertEngHistory expertEngHistory = new ExpertEngHistory ();
-		expertEngHistory.setExpertId(expertId);
-		//先删除
-		expertEngModifySerivce.deleteByExpertId(expertEngHistory);
-		//插入对比后的
-		expertEngModifySerivce.insertSelective(expertEngHistory);
-		
 		expert = expertService.selectByPrimaryKey(expertId);
+		if( expert.getStatus().equals("0") || "9".equals(expert.getStatus())){
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("expertId", expertId);
+			expertAuditService.updateToAuditStatus(map);
+			expertEngHistory.setExpertId(expertId);
+			//先删除
+			expertEngModifySerivce.deleteByExpertId(expertEngHistory);
+			//插入对比后的
+			expertEngModifySerivce.insertSelective(expertEngHistory,sign);
+		}
+		
+		
 		model.addAttribute("expert", expert);
 		
 		//初审复审标识（1初审，2复审，3复查）
@@ -461,8 +475,33 @@ public class ExpertAuditController{
 				}
 				Set < String > keySet = compareMap.keySet();
 				List < String > editFields = new ArrayList < String > ();
+				Map<String,Object> map = new HashMap<String,Object>();
+				map.put("expertId", expertId);
+				map.put("auditFalg", sign);
 				for(String method: keySet) {
 					editFields.add(method);
+					 
+		            // 调用getter方法获取属性值  
+					Object param =  oldExpert.getClass().getMethod(method).invoke(oldExpert);
+					 if (param instanceof Integer) {
+						   map.put("auditContent", ((Integer) param).intValue());
+					 	} else if (param instanceof String) {
+						   map.put("auditContent", (String) param);
+						} else if (param instanceof Double) {
+						   map.put("auditContent",((Double) param).doubleValue());
+						} else if (param instanceof Float) {
+						   map.put("auditContent",((Float) param).floatValue());
+						} else if (param instanceof Long) {
+						   map.put("auditContent", ((Long) param).longValue());
+						} else if (param instanceof Boolean) {
+						   map.put("auditContent", ((Boolean) param).booleanValue());
+						} else if (param instanceof Date) {
+							Date time=(Date) param;
+							SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+						    map.put("auditContent",sdf.format(time));
+						}  
+					
+					expertAuditService.updateDoAuditStatus(map);
 				}
 				model.addAttribute("editFields", editFields);
 			}
@@ -501,29 +540,66 @@ public class ExpertAuditController{
 			List<ExpertAuditFileModify> selectFileModifyByExpertId = expertAuditService.selectFileModifyByExpertId(expertAuditFileModify);
 			StringBuffer fileModify = new StringBuffer();
 			if(!selectFileModifyByExpertId.isEmpty()){
+				Map<String,Object> map = new HashMap<String,Object>();
+				map.put("expertId", expertId);
+				map.put("auditFalg", sign);
 				for(ExpertAuditFileModify m : selectFileModifyByExpertId){
 					fileModify.append(m.getTypeId() + ",");
 					
 					//缴纳社会保险证明
 					if("1".equals(m.getTypeId())){
 						model.addAttribute("nsurance", "nsurance");
+						map.put("auditField", "缴纳社会保险证明");
 					}
 					//退休证书或退休证明
 					if("2".equals(m.getTypeId())){
 						model.addAttribute("retire", "retire");
+						map.put("auditField", "退休证书或退休证明");
 					}
 					//身份证复印件（正反面）
 					if("3".equals(m.getTypeId())){
 						model.addAttribute("idCard", "idCard");
+						map.put("auditField", "身份证复印件（正反面）");
 					}
 					//专业技术职称证书
 					if("4".equals(m.getTypeId())){
 						model.addAttribute("title", "title");
+						map.put("auditField", "专业技术职称证书");
 					}
 					//毕业证书
 					if("5".equals(m.getTypeId())){
 						model.addAttribute("graduation", "graduation");
+						map.put("auditField", "毕业证书");
 					}
+					//学位证书
+					if("6".equals(m.getTypeId())){
+						map.put("auditField", "学位证书");
+					}
+					//获奖证书
+					if("7".equals(m.getTypeId())){
+						map.put("auditField", "获奖证书");
+					}
+					//推荐信
+					if("8".equals(m.getTypeId())){
+						map.put("auditField", "推荐信");
+					}
+					//军队人员身份证件
+					if("12".equals(m.getTypeId())){
+						map.put("auditField", "军队人员身份证件");
+					}
+					//军队评审专家入库申请表
+					if("13".equals(m.getTypeId())){
+						map.put("auditField", "军队评审专家入库申请表");
+					}
+					//军队评审专家承诺书
+					if("14".equals(m.getTypeId())){
+						map.put("auditField", "军队评审专家承诺书");
+					}
+					//近期免冠彩色证件照
+					if("50".equals(m.getTypeId())){
+						map.put("auditField", "近期免冠彩色证件照");
+					}
+					expertAuditService.updateDoAuditStatus(map);
 				}
 				model.addAttribute("fileModify", fileModify);
 			}
@@ -3139,8 +3215,8 @@ public class ExpertAuditController{
 	 */
 	@RequestMapping(value ="/temporaryAudit", produces="text/html;charset=UTF-8")
 	@ResponseBody
-	public String temporaryAudit(String expertId){
-		boolean temporaryAudit = expertAuditService.temporaryAudit(expertId);
+	public String temporaryAudit(String expertId,String realName){
+		boolean temporaryAudit = expertAuditService.temporaryAudit(expertId,realName);
 		if(temporaryAudit){
 			return JSON.toJSONString("暂存成功");
 		}else{

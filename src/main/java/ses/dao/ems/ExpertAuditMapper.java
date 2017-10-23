@@ -188,4 +188,12 @@ public interface ExpertAuditMapper {
      * @return
      */
     List<ExpertAudit> diySelect(Map<String, Object> map);
+    /**
+     * 将修改过的审核记录改变状态为已修改
+     * @param expertAudit
+     * @return
+     */
+    void updateDoAuditStatus(Map<String, Object> map);
+    void updateToAuditStatus(Map<String, Object> map);
+    void updateExpertTypeAuditStatus(ExpertAudit e);
 }
