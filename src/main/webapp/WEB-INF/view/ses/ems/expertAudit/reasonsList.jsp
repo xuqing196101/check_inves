@@ -88,6 +88,10 @@
 	                	show=false;
 	                }
 	            });
+			 if("已修改"==s||"撤销退回"==s||"撤销不通过"==s){
+				 layer.alert(s+"的审核记录不能修改状态！", {offset: '100px'});
+				 return;
+			 }
 			 if(show){
 				 $("input[name='updateStatusRadio']").attr("disabled","disabled");
 				 $("input[name='updateStatusRadio']").removeAttr('checked');
