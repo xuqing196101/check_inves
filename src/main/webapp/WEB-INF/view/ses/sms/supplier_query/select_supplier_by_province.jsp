@@ -557,7 +557,7 @@
               <!-- <button type="reset" onclick="openDiy()" class="btn">自定义查询</button> -->
               <c:choose>
 								<c:when test="${sign == 1 }">
-								 		<%--<a href="${pageContext.request.contextPath}/supplierQuery/highmaps.html" class="btn">切换到地图</a>--%>
+								 		<a href="${pageContext.request.contextPath}/supplierQuery/highmaps.html" class="btn">切换到地图</a>
 								</c:when>
 								<c:otherwise>
 										<button class="btn btn-windows back" type="button" onclick="location.href='${pageContext.request.contextPath}/supplierQuery/highmaps.html'">返回</button>
