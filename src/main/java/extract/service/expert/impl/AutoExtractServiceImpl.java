@@ -94,6 +94,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
             ExpertExtractResult expertExtractResult = new ExpertExtractResult();
             expertExtractResult.setProjectId(projectVoiceResult.getRecordeId());
             expertExtractResult.setExpertId(expertId);
+            expertExtractResult.setUpdatedAt(new Date());
             //接口的状态码跟本地不同  所以要先转换一下
             if(expertResult.getJoin() == 0){
                 //待定
@@ -110,6 +111,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
             }else if(expertResult.getJoin() == 8){
             	//请假   如果专家请假   删除这个专家
             	expertExtractResult.setIsJoin((short)3);
+            	expertExtractResult.setIsDeleted((short)1);
             	expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
             }
         }

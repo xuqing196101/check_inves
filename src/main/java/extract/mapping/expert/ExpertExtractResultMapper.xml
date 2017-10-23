@@ -429,7 +429,19 @@
   
   <!-- 根据项目id和专家Id修改是否参加 -->
   <update id="updateByProjectIdandExpertId" parameterType="extract.model.expert.ExpertExtractResult">
-    UPDATE T_SES_EMS_EXTRACT_RESULT SET IS_JOIN = #{isJoin} WHERE PROJECT_ID = #{projectId} AND EXPERT_ID = #{expertId}
+    UPDATE T_SES_EMS_EXTRACT_RESULT
+    <set>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isJoin != null">
+        IS_JOIN = #{isJoin},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    WHERE PROJECT_ID = #{projectId} AND EXPERT_ID = #{expertId}
   </update>
   
   <select id="selNumByConditionId" parameterType="Map" resultType="Integer">
