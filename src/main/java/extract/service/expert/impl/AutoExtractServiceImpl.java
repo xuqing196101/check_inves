@@ -265,6 +265,7 @@ public class AutoExtractServiceImpl implements AutoExtractService {
             Map<String, Object> projectMap = new HashMap<>();
             projectMap.put("status", 2);
             projectMap.put("projectId", expertExtractProject.getId());
+            projectMap.put("updatedAt", new Date());
             expertExtractProjectMapper.updataStatus(projectMap);
             return "OK";
         }else{

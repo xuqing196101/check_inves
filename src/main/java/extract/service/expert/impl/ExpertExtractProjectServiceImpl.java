@@ -448,6 +448,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         Map<String, Object> map = new HashMap<>();
         map.put("projectId", projectId);
         map.put("status", "2");
+        map.put("updatedAt", new Date());
         int v = expertExtractProjectMapper.updataStatus(map);
         return v;
     }

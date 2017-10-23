@@ -269,7 +269,7 @@
       <if test="isAuto != null">
         IS_AUTO = #{isAuto,jdbcType=DECIMAL},
       </if>
-      <if test="reviewAddress != null">
+      <if test="status != null">
         STATUS = #{status,jdbcType=VARCHAR},
       </if>
       <if test="procurementDepId != null">
@@ -346,7 +346,14 @@
   <!-- 修改项目抽取状态 -->
   <update id="updataStatus" parameterType="Map">
     UPDATE T_SES_EMS_PROJECT_EXTRACT_INFO
-    SET STATUS = #{status,jdbcType=VARCHAR}
+      <set>
+        <if test="updatedAt != null">
+          UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+        </if>
+        <if test="status != null">
+          STATUS = #{status,jdbcType=VARCHAR},
+        </if>
+    </set>
     WHERE ID = #{projectId,jdbcType=VARCHAR}
   </update>
   
