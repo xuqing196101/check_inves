@@ -157,7 +157,7 @@
               <th class="info w90">提交日期</th>
               <th class="info w90">审核日期</th>
               <th class="info">手机</th>
-              <th class="info">类型</th>
+              <th class="info">类别</th>
               <th class="info">采购机构</th>
               <th class="info">专家类型</th>
               <th class="info">审核状态</th>
