@@ -48,7 +48,6 @@
      	     <!-- 每天凌晨12点半导出提交的专家 -->
      	 <task:scheduled ref="ExpertTask"  method="handlerExportExpert" cron="0 30 0 * * ?"/> 
      	 
-     	 
      	     <!-- 每天凌晨6点导入内网提交专家 -->
      	 <task:scheduled ref="ExpertTask"  method="handlerImportExpert" cron="0 30 0 * * ?"/> 
      	 
@@ -89,6 +88,21 @@
         <!-- 统计当天门户访问量(每天凌晨十二点半执行一次) -->
         <task:scheduled ref="analyzeTask" method="handlerPV"  cron="0 30 0 * * ?"/>
        
+        <!-- 外网导出专家抽取结果 -->
+        <!-- <task:scheduled ref="expertExtractResultExportTask" method="resultExport"  cron="0 30 1/8 * * ?"/> -->
+        
+        <!-- 内网导入专家抽取结果 -->
+        <!-- <task:scheduled ref="expertExtractResultImportTask" method="resultImport"  cron="0 0 2/8 * * ?"/> -->
+        
+        <!-- 外网定时导入专家抽取项目信息 -->
+        <!-- <task:scheduled ref="expertExtractImportTask" method="extractInfoImport"  cron="0 30 0 * * ?"/> -->
+        
+        <!-- 内网定时导出军队专家 -->
+        <!-- <task:scheduled ref="militaryExpertExportTask" method="militaryExpertExport"  cron="0 30 2 * * ?"/> -->
+        
+        <!-- 外网定时导入军队专家 -->
+        <!-- <task:scheduled ref="militaryExpertImportTask" method="militaryExpertImport"  cron="0 30 3 * * ?"/> -->
+        
         <!-- 内网任务 -->
         <!-- <task:scheduled ref="innerInfoExportTask" method="innerInfoExportTask" cron="0 0 5/6 * * ?"/>  
         <task:scheduled ref="innerInfoImportTask" method="innerInfoImportTask" cron="0 0 7/6 * * ?"/>  

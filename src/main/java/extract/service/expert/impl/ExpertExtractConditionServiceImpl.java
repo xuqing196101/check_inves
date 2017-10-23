@@ -253,6 +253,9 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                 if(DictionaryDataUtil.get(typeCode) != null){
                     map.put("expertsTypeId", DictionaryDataUtil.get(typeCode).getId());
                 }
+                if(typeCode.length() > 25){
+                    typeCode = DictionaryDataUtil.findById(typeCode) == null ? "" : DictionaryDataUtil.findById(typeCode).getCode();
+                }
                 //附加产品目录
                 Set<String> expertIds = new HashSet<>();
                 Field field = c.getDeclaredField(typeCode.toLowerCase()+"_type");
@@ -268,16 +271,16 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                         for (String str : categoryId) {
                             Map<String, Object> cateMap = new HashMap<>();
                             if("PROJECT".equals(typeCode)){
-                            	cateMap.put("engType", "1");
-                            	cateMap.put("categoryId", str);
-                            	cateMap.put("typeId", DictionaryDataUtil.getId(typeCode));
+                                cateMap.put("engType", "1");
+                                cateMap.put("categoryId", str);
+                                cateMap.put("typeId", DictionaryDataUtil.getId(typeCode));
                             }else if("GOODS_PROJECT".equals(typeCode)){
-                            	cateMap.put("engType", "2");
-                            	cateMap.put("categoryId", str);
-                            	cateMap.put("typeId", DictionaryDataUtil.getId("PROJECT"));
+                                cateMap.put("engType", "2");
+                                cateMap.put("categoryId", str);
+                                cateMap.put("typeId", DictionaryDataUtil.getId("PROJECT"));
                             }else{
-                            	cateMap.put("categoryId", str);
-                            	cateMap.put("typeId", DictionaryDataUtil.getId(typeCode));
+                                cateMap.put("categoryId", str);
+                                cateMap.put("typeId", DictionaryDataUtil.getId(typeCode));
                             }
                             List<String> expertIdList = expertCategoryMapper.selExpertByCategory(cateMap);
                             expertIds.addAll(expertIdList);
@@ -286,24 +289,24 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                         String[] categoryId = categoryIds.split(",");
                         Map<String, Object> idMap = new HashMap<String, Object>();
                         if("PROJECT".equals(typeCode)){
-                        	idMap.put("engType", "1");
-                        	idMap.put("ids", categoryId);
+                            idMap.put("engType", "1");
+                            idMap.put("ids", categoryId);
                             idMap.put("idSize", categoryId.length);
                             idMap.put("typeId", DictionaryDataUtil.getId("PROJECT"));
                         }else if("GOODS_PROJECT".equals(typeCode)){
-                        	idMap.put("engType", "2");
-                        	idMap.put("ids", categoryId);
+                            idMap.put("engType", "2");
+                            idMap.put("ids", categoryId);
                             idMap.put("idSize", categoryId.length);
                             idMap.put("typeId", DictionaryDataUtil.getId("PROJECT"));
                         }else{
-                        	idMap.put("ids", categoryId);
+                            idMap.put("ids", categoryId);
                             idMap.put("idSize", categoryId.length);
                             idMap.put("typeId", DictionaryDataUtil.getId(typeCode));
                         }
                         expertIds.addAll(expertCategoryMapper.selExpertByAll(idMap));
                     }
                     if(expertIds.size() == 0){
-                    	expertIds.add("");
+                        expertIds.add("");
                     }
                 }
                 map.put("expertIds",expertIds);
@@ -318,10 +321,10 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                     if(qualification != null && !qualification.equals("")){
                         List<String> titleList = expertExtractConditionMapper.findExpertBytypeIdTitle(qualification, DictionaryDataUtil.getId(typeCode));
                         if(titleList != null && titleList.size() > 0){
-                        	qualificationList.addAll(titleList);
+                            qualificationList.addAll(titleList);
                         }
                         if(qualificationList.size() == 0){
-                        	qualificationList.add("");
+                            qualificationList.add("");
                         }
                     }
                     map.put("qualificationList",qualificationList);
@@ -353,7 +356,7 @@ public class ExpertExtractConditionServiceImpl implements ExpertExtractCondition
                             gcList.addAll(expertCategoryMapper.selExpertByAll(idMap));
                         }
                         if(gcList.size() == 0){
-                        	gcList.add("");
+                            gcList.add("");
                         }
                     }
                     map.put("gcList",gcList);

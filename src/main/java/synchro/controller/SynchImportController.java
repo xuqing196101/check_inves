@@ -159,9 +159,6 @@ public class SynchImportController {
     @Autowired
 	private ServiceHotlineService serviceHotlineService;
 
-    /** 专家抽取 **/
-    @Autowired
-    private ExpertExtractProjectService expertExtractProjectService;
     /**
      * 〈简述〉初始化导入
      * 〈详细描述〉
@@ -188,6 +185,20 @@ public class SynchImportController {
             while (iter.hasNext()) {
                 DictionaryData dd = (DictionaryData) iter.next();
                 if (dd.getCode().equals(Constant.DATA_TYPE_ATTACH_CODE)) {
+                    iter.remove();
+                    continue;
+                }
+                // 过滤专家抽取信息  定时任务自动导入导出
+                if (dd.getCode().equals(Constant.DATE_SYNCH_EXPERT_EXTRACT)) {
+                    iter.remove();
+                    continue;
+                }
+                if (dd.getCode().equals(Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT)) {
+                    iter.remove();
+                    continue;
+                }
+                //过滤军队专家信息
+                if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
                     iter.remove();
                     continue;
                 }
@@ -857,17 +868,6 @@ public class SynchImportController {
                         }
                         if (f.isDirectory()) {
                             if (f.getName().equals(Constant.HOT_LINE_FILE_EXPERT)) {
-                                OperAttachment.moveFolder(f);
-                            }
-                        }
-                    }
-                    /** 专家抽取数据导入 **/
-                    if (synchType.contains(Constant.DATE_SYNCH_EXPERT_EXTRACT)) {
-                        if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
-                            expertExtractProjectService.importExpertExtract(f);
-                        }
-                        if (f.isDirectory()) {
-                            if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
                                 OperAttachment.moveFolder(f);
                             }
                         }

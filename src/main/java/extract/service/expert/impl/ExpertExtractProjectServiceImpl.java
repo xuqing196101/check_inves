@@ -29,6 +29,7 @@ import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
 import synchro.service.SynchRecordService;
@@ -128,6 +129,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     
     @Autowired
     private ExpertExtractResultMapper expertExtractResultMapper;
+    
     /**
      * 保存信息
      */
@@ -190,6 +192,12 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             map.put("code", extractProject.getCode());
             map.put("purchaseWay", extractProject.getPurchaseWay());
         }
+        //判断内外网   外网只能查看自动抽取
+        //获取是否内网标识 1外网 0内网
+        String ipAddressType= PropUtil.getProperty("ipAddressType");
+        if("1".equals(ipAddressType)){
+            map.put("isAuto", 1);
+        }
         List<ExpertExtractProject> list = expertExtractProjectMapper.findAll(map);
         if(list != null && list.size() > 0){
             for (ExpertExtractProject expertExtractProject : list) {
@@ -238,43 +246,43 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
 
     @Override
     public ResponseEntity<byte[]> printRecord(String id,HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 根据记录id 查询项目信息不同供应商类别打印两个记录表
-		Map<String, Object> info = selectExtractInfo(id);
-		// 文件存储地址
-		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
-		// 文件名称
-		String name;
-		if ("PROJECT".equals(info.get("projectTypeCode"))) {
-			name = new String(("军队供应商抽取记录表(工程类).doc").getBytes("UTF-8"),"UTF-8");
-		} else {
-			name = new String(("军队供应商抽取记录表(物资服务类).doc").getBytes("UTF-8"),"UTF-8");
-		}
-		// Supplier supplier = JSON.parseObject(supplierJson, Supplier.class);
-		/** 创建word文件 **/
-		String fileName;
-		if ("PROJECT".equals(info.get("projectTypeCode"))) {
-			fileName = WordUtil.createWord(info, "extractExpertEng.ftl", name,request);
-		} else {
-			fileName = WordUtil.createWord(info, "extractExpert.ftl", name,request);
-		}
+        // 根据记录id 查询项目信息不同供应商类别打印两个记录表
+        Map<String, Object> info = selectExtractInfo(id);
+        // 文件存储地址
+        String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+        // 文件名称
+        String name;
+        if ("PROJECT".equals(info.get("projectTypeCode"))) {
+            name = new String(("军队供应商抽取记录表(工程类).doc").getBytes("UTF-8"),"UTF-8");
+        } else {
+            name = new String(("军队供应商抽取记录表(物资服务类).doc").getBytes("UTF-8"),"UTF-8");
+        }
+        // Supplier supplier = JSON.parseObject(supplierJson, Supplier.class);
+        /** 创建word文件 **/
+        String fileName;
+        if ("PROJECT".equals(info.get("projectTypeCode"))) {
+            fileName = WordUtil.createWord(info, "extractExpertEng.ftl", name,request);
+        } else {
+            fileName = WordUtil.createWord(info, "extractExpert.ftl", name,request);
+        }
 
-		// String fileName = WordUtil.createWord(supplier, "test2.ftl", name, request);
-		// 下载后的文件名
-		String downFileName;
-		if ("PROJECT".equals(info.get("projectTypeCode"))) {
-			downFileName = "军队采购评审专家抽取记录表(工程类).doc";
-		} else {
-			downFileName = "军队供采购评审专家取记录表(物资服务类).doc";
-		}
+        // String fileName = WordUtil.createWord(supplier, "test2.ftl", name, request);
+        // 下载后的文件名
+        String downFileName;
+        if ("PROJECT".equals(info.get("projectTypeCode"))) {
+            downFileName = "军队采购评审专家抽取记录表(工程类).doc";
+        } else {
+            downFileName = "军队供采购评审专家取记录表(物资服务类).doc";
+        }
 
-		if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
-			// 解决IE下文件名乱码
-			downFileName = URLEncoder.encode(downFileName, "UTF-8");
-		} else {
-			// 解决非IE下文件名乱码
-			downFileName = new String(downFileName.getBytes("UTF-8"),"ISO8859-1");
-		}
-		return service.downloadFile(fileName, filePath, downFileName);
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            // 解决IE下文件名乱码
+            downFileName = URLEncoder.encode(downFileName, "UTF-8");
+        } else {
+            // 解决非IE下文件名乱码
+            downFileName = new String(downFileName.getBytes("UTF-8"),"ISO8859-1");
+        }
+        return service.downloadFile(fileName, filePath, downFileName);
     }
 
 
@@ -401,18 +409,18 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         //结果
         List<ExpertExtractResult> resultList = resultMapper.getResultListByrecordId(id);
         for (ExpertExtractResult expertExtractResult : resultList) {
-        	if(expertExtractResult.getExpertCode() != null){
-        		String typeName = DictionaryDataUtil.get(expertExtractResult.getExpertCode()) == null ? "" : DictionaryDataUtil.get(expertExtractResult.getExpertCode()).getName();
-        		expertExtractResult.setExpertCode(typeName);
-        	}
-		}
+            if(expertExtractResult.getExpertCode() != null){
+                String typeName = DictionaryDataUtil.get(expertExtractResult.getExpertCode()) == null ? "" : DictionaryDataUtil.get(expertExtractResult.getExpertCode()).getName();
+                expertExtractResult.setExpertCode(typeName);
+            }
+        }
         List<ExpertExtractResult> backList = resultMapper.getBackExpertListByrecordId(id);
         for (ExpertExtractResult expertExtractResult : backList) {
-        	if(expertExtractResult.getExpertCode() != null){
-        		String typeName = DictionaryDataUtil.get(expertExtractResult.getExpertCode()) == null ? "" : DictionaryDataUtil.get(expertExtractResult.getExpertCode()).getName();
-        		expertExtractResult.setExpertCode(typeName);
-        	}
-		}
+            if(expertExtractResult.getExpertCode() != null){
+                String typeName = DictionaryDataUtil.get(expertExtractResult.getExpertCode()) == null ? "" : DictionaryDataUtil.get(expertExtractResult.getExpertCode()).getName();
+                expertExtractResult.setExpertCode(typeName);
+            }
+        }
         map.put("result", resultList);
         map.put("back", backList);
         return map;
@@ -440,6 +448,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         Map<String, Object> map = new HashMap<>();
         map.put("projectId", projectId);
         map.put("status", "2");
+        map.put("updatedAt", new Date());
         int v = expertExtractProjectMapper.updataStatus(map);
         return v;
     }
@@ -456,112 +465,136 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     /**
      * 专家抽取信息导出
      */
-	@Override
-	public void exportExpertExtract(String start, String end, Date synchDate) {
-		//项目信息
-		List<ExpertExtractProject> projectList = expertExtractProjectMapper.selectByUpdateDate(start, end);
-		int sum=0;
-		if(projectList != null && projectList.size() > 0){
-			sum=sum+projectList.size();
-			//生成json 并保存
-			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_PROJECT_PATH_FILENAME, 31),JSON.toJSONString(projectList));
-			//抽取条件信息
-			List<ExpertExtractCondition> conditionList = new ArrayList<>();
-			for (ExpertExtractProject expertExtractProject : projectList) {
-				conditionList.addAll(expertExtractConditionMapper.selByProjectId(expertExtractProject.getId()));
-			}
-			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_CONDITION_PATH_FILENAME, 31),JSON.toJSONString(conditionList));
-			List<ExpertExtractTypeInfo> typeInfoList = new ArrayList<>();
-			List<ExtractCategory> extractCategoryList = new ArrayList<>();
-			for (ExpertExtractCondition expertExtractCondition : conditionList) {
-				//专家类别条件信息
-				ExpertExtractTypeInfo expertExtractTypeInfo = new ExpertExtractTypeInfo();
-				expertExtractTypeInfo.setConditionId(expertExtractCondition.getId());
-				typeInfoList.addAll(expertExtractTypeInfoMapper.selectByTypeInfo(expertExtractTypeInfo));
-				//专家抽取品目关联信息
-				extractCategoryList.addAll(extractCategoryMapper.findAllByConditionId(expertExtractCondition.getId()));
-			}
-			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_TYPE_INFO_PATH_FILENAME, 31),JSON.toJSONString(typeInfoList));
-			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_CATEGORY_PATH_FILENAME, 31),JSON.toJSONString(extractCategoryList));
-			//专家抽取结果信息
-			List<ExpertExtractResult> resultList = new ArrayList<>();
-			for (ExpertExtractProject expertExtractProject : projectList) {
-				resultList.addAll(expertExtractResultMapper.findAllByProjectId(expertExtractProject.getId()));
-			}
-			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_RESULT_PATH_FILENAME, 31),JSON.toJSONString(resultList));
-		}
-		synchRecordService.synchBidding(synchDate, sum+"", Constant.DATE_SYNCH_EXPERT_EXTRACT, Constant.OPER_TYPE_EXPORT, Constant.EXPERT_EXTRACT_COMMIT);
-	}
+    @Override
+    public void exportExpertExtract(String id) {
+        //项目信息
+        List<ExpertExtractProject> projectList = new ArrayList<ExpertExtractProject>();
+        ExpertExtractProject eep = expertExtractProjectMapper.selectExportInfo(id);
+        projectList.add(eep);
+        int sum=0;
+        if(projectList != null && projectList.size() > 0){
+            sum=sum+projectList.size();
+            //生成json 并保存
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_PROJECT_PATH_FILENAME, 31),JSON.toJSONString(projectList));
+            //抽取条件信息
+            List<ExpertExtractCondition> conditionList = new ArrayList<>();
+            for (ExpertExtractProject expertExtractProject : projectList) {
+                conditionList.addAll(expertExtractConditionMapper.selByProjectId(expertExtractProject.getId()));
+            }
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_CONDITION_PATH_FILENAME, 31),JSON.toJSONString(conditionList));
+            List<ExpertExtractTypeInfo> typeInfoList = new ArrayList<>();
+            List<ExtractCategory> extractCategoryList = new ArrayList<>();
+            for (ExpertExtractCondition expertExtractCondition : conditionList) {
+                //专家类别条件信息
+                ExpertExtractTypeInfo expertExtractTypeInfo = new ExpertExtractTypeInfo();
+                expertExtractTypeInfo.setConditionId(expertExtractCondition.getId());
+                typeInfoList.addAll(expertExtractTypeInfoMapper.selectByTypeInfo(expertExtractTypeInfo));
+                //专家抽取品目关联信息
+                extractCategoryList.addAll(extractCategoryMapper.findAllByConditionId(expertExtractCondition.getId()));
+            }
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_TYPE_INFO_PATH_FILENAME, 31),JSON.toJSONString(typeInfoList));
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_CATEGORY_PATH_FILENAME, 31),JSON.toJSONString(extractCategoryList));
+        }
+        synchRecordService.synchBidding(new Date(), sum+"", Constant.DATE_SYNCH_EXPERT_EXTRACT, Constant.OPER_TYPE_EXPORT, Constant.EXPERT_EXTRACT_COMMIT);
+    }
 
 
-	@Override
-	public void importExpertExtract(File file) {
-		int num = 0;
-		for (File file2 : file.listFiles()) {
-			//抽取项目信息
-			if(file2.getName().contains(FileUtils.EXTRACT_PROJECT_PATH_FILENAME)){
-				List<ExpertExtractProject> projectList = FileUtils.getBeans(file2, ExpertExtractProject.class);
-				if(projectList != null && projectList.size() > 0){
-					num = projectList.size();
-					for (ExpertExtractProject expertExtractProject : projectList) {
-						ExpertExtractProject extractProject = expertExtractProjectMapper.selectByPrimaryKey(expertExtractProject.getId() == null ? "" : expertExtractProject.getId());
-						if(extractProject != null){
-							expertExtractProjectMapper.updateByPrimaryKeySelective(expertExtractProject);
-						}else{
-							expertExtractProjectMapper.insertSelective(expertExtractProject);
-						}
-					}
-				}
-			}
-			// 抽取条件
-			if (file2.getName().contains(FileUtils.EXTRACT_CONDITION_PATH_FILENAME)) {
-				List<ExpertExtractCondition> conditionList = FileUtils.getBeans(file2, ExpertExtractCondition.class);
-				for (ExpertExtractCondition expertExtractCondition : conditionList) {
-					ExpertExtractCondition extractCondition = expertExtractConditionMapper.selectByPrimaryKey(expertExtractCondition.getId() == null ? "" : expertExtractCondition.getId());
-					if(extractCondition != null){
-						expertExtractConditionMapper.updateByPrimaryKeySelective(expertExtractCondition);
-					}else{
-						expertExtractConditionMapper.insertSelective(expertExtractCondition);
-					}
-				}
-			}
-			// 类别条件信息
-			if (file2.getName().contains(FileUtils.EXTRACT_TYPE_INFO_PATH_FILENAME)) {
-				List<ExpertExtractTypeInfo> typeInfoList = FileUtils.getBeans(file2, ExpertExtractTypeInfo.class);
-				for (ExpertExtractTypeInfo expertExtractTypeInfo : typeInfoList) {
-					ExpertExtractTypeInfo extractTypeInfo = expertExtractTypeInfoMapper.selectByPrimaryKey(expertExtractTypeInfo.getId() == null ? "" : expertExtractTypeInfo.getId());
-					if(extractTypeInfo != null){
-						expertExtractTypeInfoMapper.updateByPrimaryKeySelective(expertExtractTypeInfo);
-					}else{
-						expertExtractTypeInfoMapper.insertSelective(expertExtractTypeInfo);
-					}
-				}
-			}
-			// 品目关联信息
-			if (file2.getName().contains(FileUtils.EXTRACT_CATEGORY_PATH_FILENAME)) {
-				List<ExtractCategory> extractCategoryList = FileUtils.getBeans(file2, ExtractCategory.class);
-				for (ExtractCategory extractCategory : extractCategoryList) {
-					ExtractCategory eCategory = extractCategoryMapper.selectByPrimaryKey(extractCategory.getId() == null ? "" : extractCategory.getId());
-					if(eCategory != null){
-						extractCategoryMapper.updateByPrimaryKeySelective(extractCategory);
-					}else{
-						extractCategoryMapper.insertSelective(extractCategory);
-					}
-				}
-			}
-			// 抽取结果信息
-			if (file2.getName().contains(FileUtils.EXTRACT_RESULT_PATH_FILENAME)) {
-				List<ExpertExtractResult> resultList = FileUtils.getBeans(file2, ExpertExtractResult.class);
-				for (ExpertExtractResult expertExtractResult : resultList) {
-					ExpertExtractResult extractResult = expertExtractResultMapper.selectByPrimaryKey(expertExtractResult.getId() == null ? "" : expertExtractResult.getId());
-					if(extractResult != null){
-						expertExtractResultMapper.updateByPrimaryKeySelective(expertExtractResult);
-					}else{
-						expertExtractResultMapper.insertSelective(expertExtractResult);
-					}
-				}
-			}
-		}
+    @Override
+    public List<ExpertExtractProject> importExpertExtract(File file) {
+        int num = 0;
+        List<ExpertExtractProject> projectList = new ArrayList<ExpertExtractProject>();
+        for (File file2 : file.listFiles()) {
+            //抽取项目信息
+            if(file2.getName().contains(FileUtils.EXTRACT_PROJECT_PATH_FILENAME)){
+                projectList = FileUtils.getBeans(file2, ExpertExtractProject.class);
+                if(projectList != null && projectList.size() > 0){
+                    num = projectList.size();
+                    for (ExpertExtractProject expertExtractProject : projectList) {
+                        ExpertExtractProject extractProject = expertExtractProjectMapper.selectByPrimaryKey(expertExtractProject.getId() == null ? "" : expertExtractProject.getId());
+                        if(extractProject != null){
+                            expertExtractProjectMapper.updateByPrimaryKeySelective(expertExtractProject);
+                        }else{
+                            expertExtractProjectMapper.insertSelective(expertExtractProject);
+                        }
+                    }
+                }
+            }
+            // 抽取条件
+            if (file2.getName().contains(FileUtils.EXTRACT_CONDITION_PATH_FILENAME)) {
+                List<ExpertExtractCondition> conditionList = FileUtils.getBeans(file2, ExpertExtractCondition.class);
+                for (ExpertExtractCondition expertExtractCondition : conditionList) {
+                    ExpertExtractCondition extractCondition = expertExtractConditionMapper.selectByPrimaryKey(expertExtractCondition.getId() == null ? "" : expertExtractCondition.getId());
+                    if(extractCondition != null){
+                        expertExtractConditionMapper.updateByPrimaryKeySelective(expertExtractCondition);
+                    }else{
+                        expertExtractConditionMapper.insertSelective(expertExtractCondition);
+                    }
+                }
+            }
+            // 类别条件信息
+            if (file2.getName().contains(FileUtils.EXTRACT_TYPE_INFO_PATH_FILENAME)) {
+                List<ExpertExtractTypeInfo> typeInfoList = FileUtils.getBeans(file2, ExpertExtractTypeInfo.class);
+                for (ExpertExtractTypeInfo expertExtractTypeInfo : typeInfoList) {
+                    ExpertExtractTypeInfo extractTypeInfo = expertExtractTypeInfoMapper.selectByPrimaryKey(expertExtractTypeInfo.getId() == null ? "" : expertExtractTypeInfo.getId());
+                    if(extractTypeInfo != null){
+                        expertExtractTypeInfoMapper.updateByPrimaryKeySelective(expertExtractTypeInfo);
+                    }else{
+                        expertExtractTypeInfoMapper.insertSelective(expertExtractTypeInfo);
+                    }
+                }
+            }
+            // 品目关联信息
+            if (file2.getName().contains(FileUtils.EXTRACT_CATEGORY_PATH_FILENAME)) {
+                List<ExtractCategory> extractCategoryList = FileUtils.getBeans(file2, ExtractCategory.class);
+                for (ExtractCategory extractCategory : extractCategoryList) {
+                    ExtractCategory eCategory = extractCategoryMapper.selectByPrimaryKey(extractCategory.getId() == null ? "" : extractCategory.getId());
+                    if(eCategory != null){
+                        extractCategoryMapper.updateByPrimaryKeySelective(extractCategory);
+                    }else{
+                        extractCategoryMapper.insertSelective(extractCategory);
+                    }
+                }
+            }
+        }
         synchRecordService.synchBidding(new Date(), num+"", Constant.DATE_SYNCH_EXPERT_EXTRACT, Constant.OPER_TYPE_IMPORT, Constant.EXPERT_EXTRACT_COMMIT_IMPORT);
-	}
+        return projectList;
+    }
+
+    /**
+     * 专家抽取结果导入
+     */
+    @Override
+    public void importExpertExtractResult(File file) {
+        int num = 0;
+        for (File file2 : file.listFiles()) {
+            // 抽取结果信息
+            if (file2.getName().contains(FileUtils.EXTRACT_RESULT_PATH_FILENAME)) {
+                List<ExpertExtractResult> resultList = FileUtils.getBeans(file2, ExpertExtractResult.class);
+                for (ExpertExtractResult expertExtractResult : resultList) {
+                    ExpertExtractResult extractResult = expertExtractResultMapper.selectByPrimaryKey(expertExtractResult.getId() == null ? "" : expertExtractResult.getId());
+                    if(extractResult != null){
+                        expertExtractResultMapper.updateByPrimaryKeySelective(expertExtractResult);
+                    }else{
+                        expertExtractResultMapper.insertSelective(expertExtractResult);
+                    }
+                }
+            }
+        }
+        synchRecordService.synchBidding(new Date(), num+"", Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT, Constant.OPER_TYPE_IMPORT, Constant.EXPERT_EXTRACT_RESULT_COMMIT_IMPORT);
+    }
+
+    /**
+     * 专家抽取结果导出
+     */
+    @Override
+    public void exportExpertExtractResult(String start, String end, Date synchDate) {
+        int sum = 0;
+        List<ExpertExtractResult> resultList = expertExtractResultMapper.selectByUpdateDate(start, end);
+        if (resultList != null && resultList.size() > 0) {
+            sum = sum + resultList.size();
+            // 专家抽取结果信息
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_RESULT_PATH_FILENAME, 33), JSON.toJSONString(resultList));
+        }
+        synchRecordService.synchBidding(new Date(), sum + "",Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT, Constant.OPER_TYPE_EXPORT,Constant.EXPERT_EXTRACT_RESULT_COMMIT);
+    }
 }

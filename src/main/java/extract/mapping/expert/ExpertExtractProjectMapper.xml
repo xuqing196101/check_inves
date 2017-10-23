@@ -24,13 +24,14 @@
     <result column="IS_AUTO" property="isAuto" jdbcType="DECIMAL" />
     <result column="STATUS" property="status" jdbcType="VARCHAR" />
     <result column="PROCUREMENT_DEP_ID" property="procurementDepId" jdbcType="VARCHAR" />
+    <result column="REVIEW_SITE" property="reviewSite" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, PROJECT_NAME, CODE, PURCHASE_WAY, PACKAGE_NAME, REVIEW_TIME,
     REVIEW_PROVINCE,
     PROJECT_TYPE, EXTRACT_ADDRESS, CONTACT_PERSON, CONTACT_NUM, REMARK, IS_DELETED,
     CREATED_AT,
-    UPDATED_AT, PROJECT_ID, PACKAGE_ID, REVIEW_DAYS, REVIEW_ADDRESS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID
+    UPDATED_AT, PROJECT_ID, PACKAGE_ID, REVIEW_DAYS, REVIEW_ADDRESS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID,REVIEW_SITE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
@@ -49,7 +50,7 @@
       CONTACT_PERSON, CONTACT_NUM, REMARK,
       IS_DELETED, CREATED_AT, UPDATED_AT,
       PROJECT_ID, PACKAGE_ID, REVIEW_DAYS,
-      REVIEW_ADDRESS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID)
+      REVIEW_ADDRESS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID,REVIEW_SITE)
     values (#{id,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR},
       #{code,jdbcType=VARCHAR},
       #{purchaseWay,jdbcType=VARCHAR}, #{packageName,jdbcType=VARCHAR}, #{reviewTime,jdbcType=TIMESTAMP},
@@ -59,7 +60,9 @@
       #{isDeleted,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP},
       #{updatedAt,jdbcType=TIMESTAMP},
       #{projectId,jdbcType=VARCHAR}, #{packageId,jdbcType=VARCHAR}, #{reviewDays,jdbcType=VARCHAR},
-      #{reviewAddress,jdbcType=VARCHAR}, #{isAuto,jdbcType=DECIMAL},#{status,jdbcType=VARCHAR},#{procurementDepId,jdbcType=VARCHAR})
+      #{reviewAddress,jdbcType=VARCHAR}, #{isAuto,jdbcType=DECIMAL},#{status,jdbcType=VARCHAR},#{procurementDepId,jdbcType=VARCHAR},
+      #{reviewSite,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="extract.model.expert.ExpertExtractProject">
     insert into T_SES_EMS_PROJECT_EXTRACT_INFO
@@ -130,6 +133,9 @@
       <if test="procurementDepId != null">
         PROCUREMENT_DEP_ID,
       </if>
+      <if test="reviewSite != null">
+        REVIEW_SITE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -198,6 +204,9 @@
       <if test="procurementDepId != null">
         #{procurementDepId,jdbcType=VARCHAR},
       </if>
+      <if test="reviewSite != null">
+        #{reviewSite,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="extract.model.expert.ExpertExtractProject">
@@ -260,11 +269,14 @@
       <if test="isAuto != null">
         IS_AUTO = #{isAuto,jdbcType=DECIMAL},
       </if>
-      <if test="reviewAddress != null">
+      <if test="status != null">
         STATUS = #{status,jdbcType=VARCHAR},
       </if>
       <if test="procurementDepId != null">
         PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewSite != null">
+        REVIEW_SITE = #{reviewSite,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -291,7 +303,8 @@
       REVIEW_ADDRESS = #{reviewAddress,jdbcType=VARCHAR},
       IS_AUTO = #{isAuto,jdbcType=DECIMAL},
       STATUS = #{status,jdbcType=VARCHAR},
-      PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR}
+      PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR},
+      REVIEW_SITE = #{reviewSite,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -300,7 +313,7 @@
     SELECT
     <include refid="Base_Column_List" />
     FROM T_SES_EMS_PROJECT_EXTRACT_INFO
-    WHERE IS_DELETED = 0 AND STATUS = 2
+    WHERE IS_DELETED = 0 AND STATUS IN (1,2)
       <if test="projectName != null and projectName != ''">
         AND PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%')
       </if>
@@ -319,6 +332,9 @@
       <if test="procurementDepId != null and procurementDepId != ''">
         AND PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR}
       </if>
+      <if test="isAuto != null and isAuto != ''">
+        AND IS_AUTO = #{isAuto}
+      </if>
     ORDER BY CREATED_AT DESC
   </select>
   
@@ -330,7 +346,14 @@
   <!-- 修改项目抽取状态 -->
   <update id="updataStatus" parameterType="Map">
     UPDATE T_SES_EMS_PROJECT_EXTRACT_INFO
-    SET STATUS = #{status,jdbcType=VARCHAR}
+      <set>
+        <if test="updatedAt != null">
+          UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+        </if>
+        <if test="status != null">
+          STATUS = #{status,jdbcType=VARCHAR},
+        </if>
+    </set>
     WHERE ID = #{projectId,jdbcType=VARCHAR}
   </update>
   
@@ -339,5 +362,20 @@
     SELECT * FROM T_SES_EMS_PROJECT_EXTRACT_INFO WHERE 
     to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
     and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
+  </select>
+  
+  <!-- 根据专家手机查询专家id -->
+  <select id="selExppertIdByMobile" parameterType="String" resultType="String">
+  	SELECT ID FROM T_SES_EMS_EXPERT WHERE MOBILE = #{mobile}
+  </select>
+  
+  <!-- 专家抽取导出部分信息 -->
+  <select id="selectExportInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    ID, PROJECT_NAME, REVIEW_TIME,
+    REVIEW_PROVINCE,REVIEW_SITE, REVIEW_ADDRESS, CONTACT_PERSON, CONTACT_NUM, IS_DELETED,
+    CREATED_AT,UPDATED_AT, REVIEW_DAYS, IS_AUTO,STATUS,PROCUREMENT_DEP_ID
+    from T_SES_EMS_PROJECT_EXTRACT_INFO
+    where ID = #{id,jdbcType=VARCHAR}
   </select>
 </mapper>

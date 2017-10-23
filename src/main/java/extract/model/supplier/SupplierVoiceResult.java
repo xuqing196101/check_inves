@@ -1,6 +1,8 @@
 package extract.model.supplier;
 
-public class SupplierVoiceResult {
+import java.io.Serializable;
+
+public class SupplierVoiceResult implements Serializable {
 
 	private String supplierMobile;
 	private String feedBackTime;

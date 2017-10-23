@@ -81,4 +81,26 @@ public interface ExpertExtractProjectMapper {
      * @return
      */
     List<ExpertExtractProject> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
+    
+    /**
+     * 
+     * Description: 根据专家联系电话查询id
+     * 
+     * @author zhang shubin
+     * @data 2017年10月17日
+     * @param 
+     * @return
+     */
+    List<String> selExppertIdByMobile(String mobile);
+    
+    /**
+     * 
+     * Description: 专家抽取导出部分数据到外网
+     * 
+     * @author zhang shubin
+     * @data 2017年10月19日
+     * @param 
+     * @return
+     */
+    ExpertExtractProject selectExportInfo(String id);
 }
