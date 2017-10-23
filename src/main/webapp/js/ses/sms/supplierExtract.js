@@ -986,7 +986,7 @@ $(function () {
             title: "选择条件",
             shadeClose: true,
             shade: 0.01,
-            area: ['430px', '400px'],
+            area: ['440px', '400px'],
             skin: 'layer-default',
             offset: '20px',
             content: globalPath+'/SupplierExtracts_new/addHeading.do?supplierTypeCode='+typeCode,//+'&categoryId='+categoryId, //iframe的url
