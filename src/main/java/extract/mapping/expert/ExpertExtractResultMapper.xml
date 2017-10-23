@@ -427,7 +427,7 @@
   	SELECT * FROM T_SES_EMS_EXTRACT_RESULT WHERE PROJECT_ID = #{projectId}
   </select>
   
-  <!-- 根据项目id和专家Id修改是否参加 -->
+  <!-- 根据项目id和专家Id修改 -->
   <update id="updateByProjectIdandExpertId" parameterType="extract.model.expert.ExpertExtractResult">
     UPDATE T_SES_EMS_EXTRACT_RESULT
     <set>
