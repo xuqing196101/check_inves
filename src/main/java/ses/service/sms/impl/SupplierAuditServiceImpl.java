@@ -2209,8 +2209,28 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 						result += supplierAuditMapper.updateByIdSelective(supplierAuditUpdate);
 						continue;
 					}
-					supplierModify.setBeforeField(auditField);
-					supplierModify.setRelationId(auditField);
+					String beforeField = auditField;
+					String relationId = auditField;
+					if("basic_page".equals(auditType)){// 境外分支
+						if(auditField.startsWith("organizationName_")){
+							beforeField = "organizationName";
+							relationId = auditField.replaceAll("organizationName_", "");
+						}
+						if(auditField.startsWith("countryName_")){
+							beforeField = "countryName";
+							relationId = auditField.replaceAll("countryName_", "");
+						}
+						if(auditField.startsWith("detailAddress_")){
+							beforeField = "detailAddress";
+							relationId = auditField.replaceAll("detailAddress_", "");
+						}
+						if(auditField.startsWith("businessSope_")){
+							beforeField = "businessSope";
+							relationId = auditField.replaceAll("businessSope_", "");
+						}
+					}
+					supplierModify.setBeforeField(beforeField);
+					supplierModify.setRelationId(relationId);
 					int modifyCount = supplierModifyService.countBySupplierId(supplierModify);
 					// 更新状态
 					SupplierAudit supplierAuditUpdate = new SupplierAudit();
