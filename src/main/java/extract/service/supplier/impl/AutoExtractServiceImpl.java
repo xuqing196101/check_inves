@@ -9,12 +9,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ses.dao.bms.AreaMapper;
-import ses.dao.bms.QualificationMapper;
-import ses.dao.sms.SupplierBlacklistMapper;
 import ses.model.sms.Supplier;
+import synchro.util.FileUtils;
 import bss.service.ppms.PackageService;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import extract.autoVoiceExtract.Epoint005WebService;
@@ -38,9 +37,6 @@ import extract.util.WebServiceUtil;
 @Service
 public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 
-	 /** ERROR */
-	  private static final String ERROR = "ERROR";
-	  
 	  ObjectMapper mapper = new ObjectMapper();
 	  
 
@@ -109,7 +105,7 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 	
 	
 	/**
-	 * 上传待通知信息
+	 * 上传待通知信息（本地测试）
 	 * <简述> 
 	 *
 	 * @author Jia Chengxiang
@@ -262,15 +258,18 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 						count ++;
 					}
 				}
+				
 				//修改供应商参加状态
 				extractResult.saveOrUpdateVoiceResult(condition, null,suppliersResult,projectInfo.getProjectInto());
-				
 				//判断参加人数是否满足，不满足再次获取供应商通知
 				int parseInt = Integer.parseInt(ExtractNum);
 				if(count<parseInt){
 					SupplierConType conType = this.selectconType(parseInt-count,condition.getId());
 					Map<String, Object> autoExtract = this.autoExtract(condition, conType,projectInfo.getProjectInto());
+				}else{
+					//修改项目状态为抽取结束
 				}
+				
 			}
 		}
 	}
@@ -351,4 +350,33 @@ public class AutoExtractServiceImpl implements AutoExtractSupplierService {
 		}
 	}
 
+
+	 /**
+	   * 点击自动抽取 将项目信息，抽取条件从内网导出
+	   * <简述> 
+	   *
+	   * @author Jia Chengxiang
+	   * @dateTime 2017-10-20下午6:09:19
+	   * @return
+	   */
+	@Override
+	public Map<String, Object> exportExtractInfo(
+			SupplierExtractCondition condition, SupplierConType conType,
+			String projectInto) {
+		//查询项目信息
+		SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(condition.getRecordId());
+		int sum = 0 ;
+		if(null!=projectInfo){
+			 //生成json 并保存
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME, 31),JSON.toJSONString(projectInfo));
+		}
+		
+		
+		
+		//条件信息
+		
+		
+		
+		return null;
+	}
 }

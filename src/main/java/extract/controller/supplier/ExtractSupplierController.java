@@ -420,4 +420,6 @@ public class ExtractSupplierController extends BaseController {
     public void receiveVoiceResult(String json) {
     	autoExtract.receiveVoiceResult(json);
  	}
+    
+	
 }

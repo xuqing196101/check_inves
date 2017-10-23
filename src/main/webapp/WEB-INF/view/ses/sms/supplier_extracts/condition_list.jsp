@@ -69,7 +69,9 @@
         <input type="hidden" id="projectId" value="${projectInfo.projectId }" name="projectId">
         <!-- 包id  -->
         <input type="hidden" id="packageId" value="${projectInfo.packageId }" name="packageId">
-        <input type="hidden" id="projectInto" value="${projectInfo.projectInto}" name="packageId">
+        <input type="hidden" id="projectInto" value="${projectInfo.projectInto}" name="projectInto">
+        <input name="sellBeginTime" type="hidden" id="sellBeginTime">
+        <input name="sellEndTime" type="hidden" id="sellEndTime">
         <!-- 记录id -->
         <input type="hidden" value="${projectInfo.id}" name="id">
          <h2 class="count_flow"><i>1</i>项目信息</h2>
@@ -798,7 +800,7 @@
           <div class="clear"></div>
 	         <div class="col-xs-12 tc mt20">
 	           <button class="btn bu" onclick="extractVerify();" type="button">人工抽取</button>
-	           <button class="btn bu" onclick="extractVerify('auto')" type="button">自动抽取</button>
+	           <button class="btn bu"  type="button">自动抽取</button><!-- onclick="extractVerify('auto')" -->
 	           <button class="btn bu"  type="button" onclick="resetCondition(this)">重置</button>
 	         </div>
           </form>

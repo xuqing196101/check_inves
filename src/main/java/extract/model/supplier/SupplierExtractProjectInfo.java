@@ -191,6 +191,8 @@ public class SupplierExtractProjectInfo {
     @Future(message="日期不能小于当前日期")
     @NotNull(message="不能为空")
     private Date sellEnd;
+    
+    
     /**
      * 售领省
      */
@@ -226,10 +228,6 @@ public class SupplierExtractProjectInfo {
      * 搜索用结束时间
      */
     private String endTime;
-    
-    /**
-     * 
-     */
     
     private String purchaseTypeName;
 

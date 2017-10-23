@@ -122,6 +122,8 @@ $(function () {
     	if(null != $("#sellEnd").val()){
     		var startTime = new Date(Date.parse($("#sellBegin").val()));
     		var endTime = new Date(Date.parse($("#sellEnd").val()));
+    		$("#sellBeginTime").val(startTime.getTime());
+    		$("#sellEndTime").val(endTime.getTime());
     		if(startTime>=endTime){
     			layer.msg("结束时间不能小于起始时间");
     			$("#sellEnd").val("");
@@ -129,6 +131,7 @@ $(function () {
     	}else{
     		layer.msg("请选择售领起始时间");
     	}
+    	
     	if(null != $("#sellBegin").val()){
     		var startTime = new Date(Date.parse($("#sellBegin").val()));
     		var endTime = new Date(Date.parse($("#sellEnd").val()));
@@ -639,14 +642,16 @@ $(function () {
 	    	//自动抽取
 	    	$.ajax({
 	    		type: "POST",
-	    		url: globalPath+'/SupplierCondition_new/autoExtract.do?projectInfo'+projectType,
+	    		//url: globalPath+'/SupplierCondition_new/autoExtract.do?projectInfo'+projectType,
 	    		data: formData ,
+	    		url: globalPath+'/autoExtract/exportExtractInfo.do?projectInfo'+projectType,
+	    		//data:{"form1":$("#projectForm").serialize(),"form2":formData },
 	    		dataType: "json",
 	    		async:false,
 	    		success: function (msg) {
 	    			
 	    		}
-	    		});
+    		});
 	    }else{
 	    	//显示抽取结果表
 	    	$("#result").removeClass("dnone");

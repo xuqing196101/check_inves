@@ -6,8 +6,6 @@ package extract.controller.supplier;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -66,7 +64,7 @@ import extract.service.supplier.SupplierExtractConditionService;
      */
     @ResponseBody
     @RequestMapping("selectLikeSupplierCount")
-    public String selectLikeSupplierCount(SupplierExtractCondition condition,SupplierConType conType,HttpServletRequest sq,String province){
+    public String selectLikeSupplierCount(SupplierExtractCondition condition,SupplierConType conType){
         Map<String,Object> count = conditionService.selectLikeSupplierCount(condition,conType);
         return JSON.toJSONString(count);
     }
@@ -84,7 +82,7 @@ import extract.service.supplier.SupplierExtractConditionService;
      */
     @ResponseBody
     @RequestMapping("selectLikeSupplier")
-    public String selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType,HttpServletRequest sq,String province){
+    public String selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType){
     	Map<String, Object> supplierList = conditionService.selectLikeSupplier(condition,conType,1);
     	return JSON.toJSONString(supplierList);
     }
@@ -103,7 +101,7 @@ import extract.service.supplier.SupplierExtractConditionService;
      */
     @ResponseBody
     @RequestMapping("autoExtract")
-    public String autoExtract(SupplierExtractCondition condition,SupplierConType conType,HttpServletRequest sq,String province,String projectInfo){
+    public String autoExtract(SupplierExtractCondition condition,SupplierConType conType,String projectInfo){
     	Map<String, Object> supplierList = autoExtract.autoExtract(condition,conType,projectInfo);
     	return JSON.toJSONString(supplierList);
     }

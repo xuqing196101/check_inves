@@ -252,6 +252,11 @@ public class FileUtils {
     /** 军队专家目录 路径 34 **/
     public final static String MILITARY_EXPERT_PATH = PropUtil.getProperty("file.military_expert.system.path");
     
+    
+    /** 供应商抽取项目信息数据名称 **/
+    public final static String SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME="_m_supplier_extract_project.dat";
+    
+    
     /**
      * 
      *〈简述〉创建根目录
@@ -851,6 +856,7 @@ public class FileUtils {
           case 31:  filePath=EXPERT_EXTRACT_PATH;break;
           case 33:  filePath=EXPERT_EXTRACT_RESULT_PATH;break;
           case 34:  filePath=MILITARY_EXPERT_PATH;break;
+          case 35:  filePath=MILITARY_EXPERT_PATH;break;
         }
         return filePath;
     }

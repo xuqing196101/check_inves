@@ -507,6 +507,15 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		}
 	}
 
+	/**
+	 * 资质排序
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-20下午6:21:35
+	 * @param list
+	 * @return
+	 */
 	private List<Qua> sortQua(List<Qua> list) {
 		Collections.sort(list, new Comparator<Qua>(){
 	           @Override
@@ -519,6 +528,9 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		return list;
 	}
 
+	/**
+	 * 查询工程资质等级
+	 */
 	@Override
 	public List<DictionaryData> getLevelByQid(String qid) {
 		return  conditionMapper.getLevelByQid(qid.split(","));

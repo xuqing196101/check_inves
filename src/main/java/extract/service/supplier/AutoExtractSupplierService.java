@@ -32,4 +32,15 @@ public interface AutoExtractSupplierService {
 	   */
 	  void receiveVoiceResult(String json);
 	
+	  /**
+	   * 点击自动抽取 将项目信息，抽取条件从内网导出
+	   * <简述> 
+	   *
+	   * @author Jia Chengxiang
+	   * @dateTime 2017-10-20下午6:09:19
+	   * @return
+	   */
+	  Map<String, Object> exportExtractInfo(SupplierExtractCondition condition,
+			  SupplierConType conType, String projectInfo);
+
 }
