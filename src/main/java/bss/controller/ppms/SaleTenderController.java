@@ -169,7 +169,7 @@ public class SaleTenderController {
         Packages packages = list.get(i);
         Supplier supplier=new Supplier();
         if(supplierName!=null){
-          supplier.setSupplierName("%"+supplierName+"%");
+          supplier.setSupplierName(supplierName);
         }
         if(armyBuinessTelephone!=null){
           supplier.setArmyBuinessTelephone(armyBuinessTelephone);

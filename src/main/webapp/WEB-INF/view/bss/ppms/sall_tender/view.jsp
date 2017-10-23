@@ -295,6 +295,7 @@
 						<thead>
 							<tr>
 								<th class="info w50">选择</th>
+								<th class="info w50">序号</th>
 								<th class="info ">供应商名称</th>
 								<th class="info w150">军队业务联系人姓名</th>
 								<th class="info w150">军队业务联系人电话</th>
@@ -306,7 +307,8 @@
 							<c:forEach items="${pack.saleTenderList}" var="obj" varStatus="vs">
 								<tr>
 									<td class="tc opinter w50"><input type="checkbox" id="${obj.id}" name="chkItem_${index}" value="${obj.id}" /></td>
-									<td class="tc opinter " title="${obj.suppliers.supplierName}">
+									<td class="tc opinter " >${vs.index+1 }</td>
+									<td class="tl opinter " title="${obj.suppliers.supplierName}">
 										<c:choose>
 											<c:when test="${fn:length(obj.suppliers.supplierName) > 12}">
 												${fn:substring(obj.suppliers.supplierName, 0, 10)}......
@@ -316,15 +318,15 @@
 											</c:otherwise>
 										</c:choose>
 									</td>
-									<td class="tc opinter w150">
+									<td class="tc opinter w200">
 										${obj.suppliers.armyBusinessName}
 										<input type="hidden" value="${obj.suppliers.id }" id="supplierId" />
 										<input type="hidden" value="${obj.suppliers.isProvisional }" id="isProvisional" />
 									</td>
 
-									<td class="tc opinter w150">${obj.suppliers.armyBuinessTelephone}</td>
+									<td class="tc opinter w200">${obj.suppliers.armyBuinessTelephone}</td>
 
-									<td class="tc opinter w150">
+									<td class="tc opinter w200">
 										<fmt:formatDate value='${obj.createdAt}' pattern='yyyy-MM-dd' />
 									</td>
 									<td class="tc opinter w100">

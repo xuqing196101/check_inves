@@ -234,11 +234,11 @@
         <tr>
           <td class="tc opinter"><input onclick="check()" type="checkbox" name="chkItem" value="${ext.id}" /></td>
 
-          <td class="tc opinter">${ext.supplierName }</td>
+          <td class="tl opinter">${ext.supplierName }</td>
 
-          <td class="tc opinter">${ext.armyBusinessName}</td>
+          <td class="tl opinter">${ext.armyBusinessName}</td>
 
-          <td class="tc opinter">${ext.armyBuinessTelephone}</td>
+          <td class="tl opinter">${ext.armyBuinessTelephone}</td>
 
           <%-- <td class="tc opinter">${ext.addressName}</td> --%>
           <td class="tc opinter">

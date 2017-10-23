@@ -359,6 +359,9 @@ public class PackageExpertController {
         DictionaryData dictionaryData = null;
         if (project != null && project.getPurchaseType() != null ){
             dictionaryData = DictionaryDataUtil.findById(project.getPurchaseType());
+            if(dictionaryData!=null){
+              project.setPurchaseType(dictionaryData.getCode());
+            }
         }
         if (status) {
             Quote quote2 = new Quote();
@@ -3346,7 +3349,7 @@ public class PackageExpertController {
      * @return
      */
     @RequestMapping("/confirmSupplier")
-    public String confirmSupplier (String projectId, Model model) {
+    public String confirmSupplier (String projectId, Model model,String flowDefineId) {
         Project project = projectService.selectById(projectId);
         SaleTender saleTender = new SaleTender();
         saleTender.setProject(project);
@@ -3373,6 +3376,7 @@ public class PackageExpertController {
         model.addAttribute("supplierList", supplierList);
         model.addAttribute("projectId", projectId);
         model.addAttribute("packages", packages);
+        model.addAttribute("flowDefineId", flowDefineId);
         return "bss/prms/rank/confirm_supplier";
     }
     

@@ -222,7 +222,7 @@
         	</c:if>
 		 </c:if>
 		</table>
-		 <iframe src="${pageContext.request.contextPath}/open_bidding/viewChangtotalByPackId.html?projectId=${project.id}&packId=${packId}&flowDefineId=${flowDefineId}&timestamp=<fmt:formatDate value="${treemap.value[0].dataList[0]}" pattern="YYYY-MM-dd HH:mm:ss"/>" id="ifs" class="table table-bordered table-condensed mt5" height="380"></iframe>
+		 <iframe src="${pageContext.request.contextPath}/open_bidding/viewChangtotalByPackId.html?projectId=${project.id}&packId=${packId}&flowDefineId=${flowDefineId}&timestamp=<fmt:formatDate value="${treemap.value[0].dataList[0]}" pattern="YYYY-MM-dd HH:mm:ss"/>&purchaseType=${project.purchaseType}" id="ifs" class="table table-bordered table-condensed mt5" height="380"></iframe>
 		</div>
 		</c:if>
 	</c:forEach>

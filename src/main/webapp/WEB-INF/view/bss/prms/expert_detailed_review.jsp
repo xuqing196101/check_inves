@@ -139,6 +139,7 @@
 		}
 	}
 	function refur(packageId,projectId){
+		layer.msg("刷新成功",{offset: ['100px']});
 		$("#tab-6").load('${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId='+projectId);
 	}
 </script>
@@ -156,7 +157,7 @@
 			  <button disabled="disabled" class="btn" id="backId" onclick="backScore()" type="button">复核评分</button>
 		  </c:if> 
 		  <button class="btn btn-windows input" onclick="printRank()" type="button">打印汇总表</button>
-		  <button class="btn btn-windows input" onclick="refur('${packageId}','${projectId}')" type="button">刷新</button>
+		  <button class="btn" onclick="refur('${packageId}','${projectId}')" type="button">刷新</button>
 		</div>
 		<!--循环供应商  -->
 		<div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">

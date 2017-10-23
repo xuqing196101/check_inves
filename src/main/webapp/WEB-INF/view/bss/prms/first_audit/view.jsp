@@ -372,6 +372,7 @@
 		window.open("${pageContext.request.contextPath}/packageExpert/openAllPrint.html?packageId="+packageId+"&projectId="+projectId, "打印所有检查表");
 	}
 	function refur(projectId,packageId,flowDefineId){
+		layer.msg("刷新成功",{offset: ['100px']});
 		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/firstAuditView.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+flowDefineId);
 	}
   </script>

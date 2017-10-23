@@ -49,7 +49,7 @@
               $(this).attr("checked", false);
             });
             $(this).prop("checked", false);
-          }, 
+          }
         );
       });
     });

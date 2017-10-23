@@ -31,7 +31,9 @@
 						<th class="info w100">总价(万元)</th>
 						<th class="info w150">交货期限</th>
 						<th class="info w100">状态</th>
+						<c:if test="${purchaseType!='GKZB'}">
 						<th class="info w300">放弃原因</th>
+						</c:if>
 				    </tr>
 				</thead>
 				<c:set value="0" var = "index"> </c:set>
@@ -44,7 +46,9 @@
 					    <td class="tr">${treemapValue.total}</td>
 					    <td class="tc">${treemapValue.deliveryTime }</td>
 					    <td class="tc">${treemapValue.isRemoved}</td>
+					    <c:if test="${purchaseType!='GKZB'}">
 						<td class="tc">${treemapValue.removedReason}</td>
+						</c:if>
 				    </tr>
 				</c:if>
 			</c:forEach>

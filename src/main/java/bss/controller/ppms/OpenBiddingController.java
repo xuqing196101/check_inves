@@ -1734,7 +1734,7 @@ public class OpenBiddingController extends BaseSupplierController{
   }
 
   @RequestMapping("/viewChangtotalByPackId")
-  public String viewChangtotalByPackId(String projectId, String packId, String timestamp, Model model, HttpServletRequest req) throws ParseException{
+  public String viewChangtotalByPackId(String projectId, String packId, String timestamp, Model model, HttpServletRequest req,String purchaseType) throws ParseException{
     Packages pack = packageService.selectByPrimaryKeyId(packId);
     TreeMap<String, List<SaleTender>> treeMap = new TreeMap<String, List<SaleTender>>();
     SaleTender condition = new SaleTender();
@@ -1777,6 +1777,7 @@ public class OpenBiddingController extends BaseSupplierController{
     }
     model.addAttribute("treeMap", treeMap);
     model.addAttribute("projectId", projectId);
+    model.addAttribute("purchaseType", purchaseType);
     return "bss/ppms/open_bidding/bid_file/view_chang_total_by_packId";
   }
 
