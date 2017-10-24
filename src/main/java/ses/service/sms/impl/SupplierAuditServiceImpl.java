@@ -2492,9 +2492,11 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	public JdcgResult vertifyReturnToModify(String supplierId) {
 		SupplierAudit supplierAudit = new SupplierAudit();
 		supplierAudit.setSupplierId(supplierId);
-		int auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
+//		int auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
+		int auditCount = this.countAuditRecords(supplierAudit, new Integer[]{0,1,4});
 		if(auditCount == 0){
-			return JdcgResult.build(500, "没有审核不通过项！");
+//			return JdcgResult.build(500, "没有审核不通过项！");
+			return JdcgResult.build(500, "没有退回修改/未修改的记录！");
 		}
 		return getTypeAndItemNotPass(supplierId);
 	}
@@ -2503,18 +2505,19 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	public JdcgResult vertifyYushenhe(String supplierId, String flag) {
 		SupplierAudit supplierAudit = new SupplierAudit();
 		supplierAudit.setSupplierId(supplierId);
-		int auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
+		int auditCount = this.countAuditRecords(supplierAudit, new Integer[]{0,1,4});
 		if("0".equals(flag)){// 预审核不通过
 			if(auditCount == 0){
-				return JdcgResult.build(500, "没有审核不通过项！");
+				return JdcgResult.build(500, "没有预审核不通过项！");
 			}
 		}
 		if("1".equals(flag)){// 预审核通过
 			// 判断基本信息+财务信息+股东信息
-			supplierAudit.setAuditType("basic_page");
-			auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
+//			supplierAudit.setAuditType("basic_page");
+//			auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			if(auditCount > 0){
-				return JdcgResult.build(500, "基本、财务、股东信息中有不通过项！");
+//				return JdcgResult.build(500, "基本、财务、股东信息中有不通过项！");
+				return JdcgResult.build(500, "还有退回修改/未修改的记录！");
 			}
 			JdcgResult result = getTypeAndItemNotPass(supplierId);
 			if(result != null && result.getStatus() != 0){
