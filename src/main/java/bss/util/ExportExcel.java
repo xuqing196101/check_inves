@@ -1,11 +1,21 @@
 package bss.util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -16,6 +26,9 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 
 public class ExportExcel {
   /*
@@ -228,4 +241,113 @@ public class ExportExcel {
       System.out.println("文件：["+path+"] ["+sheets+"] 创建成功...");
       System.out.println("");
   }
+
+
+	/**
+	 *〈简述〉freemark根据模板生成excel
+	 *〈详细描述〉
+	 * @author Ye Maolin
+	 * @param dataMap 封装业务数据
+	 * @param templateName 模板名称
+	 * @param tempPath 生成文件临时存放路径
+	 * @param exceFileName 生成文件名称
+	 * @param response
+	 * @param request
+	 */
+	public static void createExcel(Map<String, Object> dataMap, String templateName,
+		String tempPath, String exceFileName, HttpServletResponse response, HttpServletRequest request) {
+  		try {  
+  			//创建配置实例 
+	    	Configuration configuration = new Configuration();
+	    	
+	    	//设置编码
+	        configuration.setDefaultEncoding("UTF-8");
+	            
+	        String path = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/ses/document/template/");  
+            configuration.setDirectoryForTemplateLoading(new File(path));// 此处是本类Class.getResource()相对于模版文件的相对路径
+	        //获取模板 
+	        Template template1 = configuration.getTemplate(templateName, "UTF-8");
+	        String pathLinShi = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/ses/document/template/");
+	        String context = template1.toString();
+	        String fileNam = UUID.randomUUID().toString() + ".ftl";
+	        
+	        File file = new File(pathLinShi + File.separator + fileNam);
+	        
+	        /* 创建写入对象 */
+	        FileWriter fileWriter = new FileWriter(file);
+	        /* 创建缓冲区 */
+	        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"utf-8"));
+	        /* 写入字符串 */
+	        writer.write(context);
+	        
+	        /* 关掉对象 */
+	        writer.flush();
+	        writer.close();
+	        fileWriter.flush();
+	        fileWriter.close();
+	        
+	        Template template = configuration.getTemplate(fileNam, "UTF-8");
+	        
+	        //封装文件名
+	        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_export" ;
+	           
+	        //输出文件
+	        File outFile = new File(tempPath+File.separator+fileName);
+	        
+	        //如果输出目标文件夹不存在，则创建
+	        if (!outFile.getParentFile().exists()){
+	            outFile.getParentFile().mkdirs();
+	        }
+	        
+	        //将模板和数据模型合并生成文件 
+	        Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile),"UTF-8"));
+	        template.process(dataMap, out);
+	        
+	        //关闭流
+	        out.flush();
+	        out.close();
+	        outFile.setWritable(false);
+	        file.delete();
+	     // 设置response的编码方式  
+            response.setContentType("application/x-msdownload");
+            String userAgent = request.getHeader("user-agent").toLowerCase();  
+            String outFileName = "";
+            if (userAgent.contains("msie") || userAgent.contains("like gecko") ) {  
+                    // win10 ie edge 浏览器 和其他系统的ie  
+            	outFileName = URLEncoder.encode(exceFileName, "UTF-8");  
+            } else {  
+                    // fe  
+            	outFileName = new String(exceFileName.getBytes("UTF-8"), "iso-8859-1");  
+            }  
+            // 设置附加文件名  
+            response.setHeader("Content-Disposition", "attachment;filename="  
+                    + outFileName);  
+  
+            // 读出文件到i/o流  
+            FileInputStream fis = new FileInputStream(outFile);  
+            BufferedInputStream buff = new BufferedInputStream(fis);  
+            byte[] b = new byte[1024];// 相当于我们的缓存  
+  
+            long k = 0;// 该值用于计算当前实际下载了多少字节  
+  
+            // 从response对象中得到输出流,准备下载  
+  
+            OutputStream myout = response.getOutputStream();  
+            // 开始循环下载  
+            while (k < outFile.length()) {  
+                int j = buff.read(b, 0, 1024);  
+                k += j;  
+                // 将b中的数据写到客户端的内存  
+                myout.write(b, 0, j);  
+            }  
+            fis.close();
+            buff.close();
+            // 将写入到客户端的内存的数据,刷新到磁盘  
+            myout.flush();  
+            myout.close();  
+            outFile.delete();
+      } catch (Exception e) { 
+    	  e.printStackTrace();
+      }  
+	}
 }
