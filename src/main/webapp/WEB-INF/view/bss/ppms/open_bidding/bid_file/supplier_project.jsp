@@ -92,6 +92,7 @@
 				        url: "${pageContext.request.contextPath}/open_bidding/isTurnUp.html?projectId=" + projectId,
 				        data: {isTurnUp:JSON.stringify(jsonStr)},
 				        dataType: "json",
+				        async:false,
 				        success: function (message) {
 				        	if (message == true) {
 				        		$.ajax({
@@ -101,6 +102,7 @@
 											},
 											type: "post",
 											dataType: "json",
+											async:false,
 											success: function(data2) {
 												if(data2.rules != null){
 													var split = data2.rules.split(";");
