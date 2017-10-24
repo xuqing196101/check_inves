@@ -2482,7 +2482,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//近三年内有无重大违法记录/是否有国家或军队保密工程业绩
-		if(supplierModify.getBeforeField().equals("isIllegal") || supplierModify.getBeforeField().equals("isHavingConAchi")){
+		if(supplierModify.getBeforeField().equals("isIllegal") || ("isHavingConCert").equals(supplierModify.getBeforeField()) || supplierModify.getBeforeField().equals("isHavingConAchi")){
 			if(supplierModify.getBeforeContent().equals("1")){
 				supplierModify.setBeforeContent("有");
 			}else{

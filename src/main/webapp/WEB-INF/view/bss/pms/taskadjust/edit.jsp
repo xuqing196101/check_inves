@@ -428,7 +428,7 @@
                   </td>
                   <td>
                     <input type="hidden" name="ss" value="${obj.id }">
-                    <textarea name="listDetail[${vs.index }].stand" onblur="cancelProject(this)" class="target stand">${obj.stand }</textarea>
+                    <textarea name="listDetail[${vs.index }].stand" onblur="cancelProject(this)" class="target stand">${obj.stand}</textarea>
                     <input type="hidden" name="details" value="" />
                   </td>
                   <td>
@@ -463,9 +463,14 @@
 
                   </td>
                   <td class="tr">
-                    <input type="hidden" name="ss" value="${obj.id}">
-                    <input type="text" name="listDetail[${vs.index }].budget" class="budget" value="${obj.budget }">
-                    <input type="hidden" name="ss" value="${obj.parentId }">
+	                  <c:if test="${obj.price!=null}">
+	                      <input type="hidden" name="ss" value="${obj.id }">
+	                      <input type="text" name="listDetail[${vs.index }].budget" value="${obj.budget }" class="budget">
+	                      <input type="hidden" name="ss" value="${obj.parentId }">
+	                    </c:if>
+	                    <c:if test="${obj.price==null}">
+	                      <input readonly="readonly" type="text" class="budget">
+	                    </c:if>
                   </td>
                   <td>
                     <input type="hidden" name="ss" value="${obj.id}">
