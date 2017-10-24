@@ -88,7 +88,6 @@
 
       // 返回
       function back(){
-      	debugger;
         var id = $("#id").val();
         var ix = "${ix}";
         if(ix){
@@ -180,6 +179,40 @@
         }
       }
       
+      function hold(){
+      	var id = $("#id").val();
+      	var name = $("#name").val();
+        var projectNumber = $("#projectNumber").val();
+        var chkItems = $("input[name='chkItems']").val();
+        chkItems = $.trim(chkItems);
+        name = $.trim(name);
+        projectNumber = $.trim(projectNumber);
+        if(name == "") {
+          layer.tips("项目名称不允许为空", "#name");
+          $("#name").focus();
+        } else if(projectNumber == "") {
+          layer.tips("项目编号不允许为空", "#projectNumber");
+          $("#projectNumber").focus();
+        }else if(!chkItems){
+          layer.alert("请选择明细");
+        } else {
+        	$.ajax({
+	          url: "${pageContext.request.contextPath}/project/hold.html",
+	          type: "post",
+	          data: {"id" : id},
+	          dataType: "text",
+	          async: false,
+	          success: function(data) {
+	          		if(data == "ok"){
+	          			layer.msg("暂存成功");
+	          		} else {
+	          			layer.msg("暂存失败");
+	          		}
+	          },
+	        });
+        }
+      }
+      
       //重置
       function resetResult(){
     	  $("#planName").val("");
@@ -245,7 +278,7 @@
             </li>
           </ul>
         </div>
-        <div>
+        <div class="padding-top-10 clear">
           <h2 class="count_flow"><i>2</i>选择采购明细</h2>
           <!-- 项目戳开始 -->
 				<h2 class="search_detail ml0">
@@ -396,6 +429,9 @@
           </div>
         </div>
         <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
+        	<c:if test="${ix eq null}">
+        		<button class="btn" onclick="hold()" type="button">暂存</button>
+        	</c:if>
           <button class="btn" onclick="nextStep()" type="button">确定</button>
           <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
         </div>

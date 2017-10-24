@@ -1332,7 +1332,7 @@
       SELECT
       <include refid="Base_Column_List" />
       FROM
-        T_BSS_PPMS_PROJECTS
+        T_BSS_PPMS_PROJECTS s
       WHERE 1=1 and IS_REHEARSE = 0 and STATUS != '4'
       and (PARENT_ID = '1' OR PARENT_ID IS NULL)
       <if test="purchaseDepId != null and purchaseDepId != ''">
@@ -1351,7 +1351,10 @@
        and STATUS = #{status}
       </if>
       <if test="statusAll != null and statusAll != ''">
-       and STATUS in (select ID from T_SES_BMS_DICTIONARY_DATA dd where dd.IS_DELETED = 0 and dd.KIND = 2 and dd.code!='YJLX' )
+       and EXISTS (SELECT ID FROM T_SES_BMS_DICTIONARY_DATA dd WHERE dd.IS_DELETED = 0 AND dd.KIND = 2 AND dd.code != 'YJLX' and s.STATUS=dd.id)
+      </if>
+      <if test="hold != null and hold != ''">
+       and EXISTS (SELECT ID FROM T_SES_BMS_DICTIONARY_DATA dd WHERE dd.IS_DELETED = 0 AND dd.KIND = 2 AND dd.code != 'XMZC' and s.STATUS=dd.id)
       </if>
       <if test="purchaseType != null and purchaseType != ''">
        and PURCHASE_TYPE = #{purchaseType}

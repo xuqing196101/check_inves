@@ -80,13 +80,16 @@
 	        });
 	        var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).find("input").val();
 	        status = $.trim(status);
-	        debugger;
 	        var name = $("input[name='chkItem']:checked").parents("tr").find("td").eq(2).text();
 	        name = $.trim(name);
 	        var projectNumber = $("input[name='chkItem']:checked").parents("tr").find("td").eq(3).text();
 	        projectNumber = $.trim(projectNumber);
 	        if(id.length == 1) {
-          	window.location.href = '${pageContext.request.contextPath}/project/add.html?id=' + id + '&name=' + name + '&projectNumber=' + projectNumber + '&ix=1';
+	        	if(status == "XMZC"){
+	        		window.location.href = '${pageContext.request.contextPath}/project/add.html?id=' + id + '&name=' + name + '&projectNumber=' + projectNumber + '&ix=1';
+	        	} else {
+	        		layer.msg("只有暂存的项目可以修改!");
+	        	}
           } else if(id.length > 1) {
 	          layer.alert("只能选择一个", {
 	            offset: ['222px', '730px'],

@@ -435,7 +435,7 @@
                         <select id="principal" name="principal" class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change(this.options[this.selectedIndex].value)"></select>
                       </td>
                       <td class="bggrey">负责人手机:</td>
-                      <td class="p0"><input name="ipone" id="ipone" class="m0" value="${project.ipone}" type="text" /></td>
+                      <td class="p0"><input name="ipone" id="ipone" class="m0" value="${project.ipone}" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"/></td>
                     </tr>
                     <tr>
                       <td class="bggrey">采购机构名称:</td>

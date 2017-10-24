@@ -56,7 +56,6 @@
 		var jsonStr = [];
 		var indexLayer;
 		function updateSaleTender() {
-			debugger;
 			var allTable = document.getElementsByTagName("table");
 			for(var j = 1; j < allTable[0].rows.length; j++) {
 				var isTurnUp = $(allTable[0].rows).eq(j).find("td").eq("3").find("select").find("option:checked").text();

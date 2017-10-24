@@ -17,7 +17,7 @@
 				//获取查看或操作权限
 				var isOperate = $('#isOperate', window.parent.document).val();
 				if(isOperate == 0) {
-					$(":button").each(function() {
+					$(".btn-windows").each(function() {
 						$(this).hide();
 					});
 				}

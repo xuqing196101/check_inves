@@ -3388,6 +3388,7 @@ public class ProjectController extends BaseController {
             if("1".equals(orgnization.getTypeName())){
                 map.put("purchaseDepId", user.getOrg().getId());
                 map.put("userId", user.getId());
+                map.put("hold", "0");
                 List<Project> list = projectService.selectProjectsByConition(map);
                 removeProject(list);
                 for (int i = 0; i < list.size(); i++ ) {
@@ -3555,6 +3556,22 @@ public class ProjectController extends BaseController {
     		}	
     	}
     	return StaticVariables.ORG_TYPE_MANAGE;
+    }
+    
+    @RequestMapping("/hold")
+    @ResponseBody
+    public String hold(@CurrentUser User user, String id){
+    	if (StringUtils.isNotBlank(id)) {
+    		Project project = projectService.selectById(id);
+    		if (project != null) {
+    			project.setStatus(DictionaryDataUtil.getId("XMZC"));
+    			project.setIsRehearse(0);
+    			project.setPrincipal(user.getId());
+    			projectService.update(project);
+    			return StaticVariables.SUCCESS;
+			}
+		}
+    	return StaticVariables.FAILED;
     }
     
     public void viewSubPack(Project project){

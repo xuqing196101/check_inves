@@ -13,7 +13,7 @@
     <meta name="author" content="">
    
     <script type="text/javascript">
-    	$(function() {
+    	/* $(function() {
 	  		//获取查看或操作权限
 	       	var isOperate = $('#isOperate', window.parent.document).val();
 	       	if(isOperate == 0) {
@@ -21,7 +21,7 @@
 					$(this).hide();
 	            }); 
 			}
-	    });
+	    }); */
 	    
 	  function download(path){
 	     window.location.href = "${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath="+path;
