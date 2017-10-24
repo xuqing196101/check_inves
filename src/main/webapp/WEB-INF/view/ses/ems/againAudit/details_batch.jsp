@@ -50,7 +50,7 @@
     
     <!-- 表格开始-->
    
-    <div class="col-md-12 pl20 mt10 mb10" id="btn_group">
+    <div class="col-md-12 pl20 pr0 mt10 mb10" id="btn_group">
       
       <div class="fr pic_upload">
         <div class="fl h30 lh30">上传批准复审表：</div>
