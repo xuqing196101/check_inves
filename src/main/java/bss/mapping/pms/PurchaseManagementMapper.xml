@@ -114,7 +114,7 @@
   select 
     <include refid="Base_Column_List" />
     from T_BSS_PMS_PURCHASE_MANAGEMENT
-    where PURCHASE_ID = #{pid} order By CREATE_AT
+    where PURCHASE_ID = #{pid} order By CREATE_AT desc
   </select>
   
   <update id="updateStaus" parameterType="String">

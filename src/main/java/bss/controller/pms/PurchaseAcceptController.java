@@ -172,7 +172,15 @@ public class PurchaseAcceptController extends BaseController{
 			for(PurchaseManagement p:list2){
 //				Orgnization dep= orgnizationService.getOrgByPrimaryKey(p.getOrgId());
 //				if(dep!=null){
-					listDep.add(p.getPurchaseId());	
+			    List<PurchaseManagement> queryByPid = purchaseManagementService.queryByPid(p.getPurchaseId());
+					if(queryByPid==null||queryByPid.size()<=1){
+					  listDep.add(p.getPurchaseId());  
+					}else{
+					   if(queryByPid.get(0).getManagementId().equals(user.getOrg().getId())){
+					     listDep.add(queryByPid.get(0).getPurchaseId());
+					   }
+					}
+			    
 //				}
 			}
 		}else{
