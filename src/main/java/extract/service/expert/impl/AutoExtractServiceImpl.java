@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 import ses.dao.bms.AreaMapper;
 import ses.model.bms.Area;
 import ses.model.ems.Expert;
+import ses.model.ems.ProjectExtract;
 import ses.util.DictionaryDataUtil;
 
 import com.alibaba.fastjson.JSON;
@@ -83,6 +84,8 @@ public class AutoExtractServiceImpl implements AutoExtractService {
         cMap.put("expertList", ExpertResult.class);
         ProjectVoiceResult projectVoiceResult = (ProjectVoiceResult)JSONObject.toBean(JSONObject.fromObject(result),ProjectVoiceResult.class,cMap);
         List<ExpertResult> expertList = projectVoiceResult.getExpertList();
+        //查询抽取的项目信息 
+        ExpertExtractProject expertExtractProject = expertExtractProjectMapper.selectByPrimaryKey(projectVoiceResult.getRecordeId());
         for (ExpertResult expertResult : expertList) {
             //唯一标识  电话
             String mobile = expertResult.getExpertId();
@@ -109,14 +112,25 @@ public class AutoExtractServiceImpl implements AutoExtractService {
                 expertExtractResult.setIsJoin((short)3);
                 expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
             }else if(expertResult.getJoin() == 8){
-            	//请假   如果专家请假   删除这个专家
-            	expertExtractResult.setIsJoin((short)3);
-            	expertExtractResult.setIsDeleted((short)1);
-            	expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
+                //请假   如果专家请假   删除这个专家
+                expertExtractResult.setIsJoin((short)3);
+                expertExtractResult.setIsDeleted((short)1);
+                expertExtractResultMapper.updateByProjectIdandExpertId(expertExtractResult);
+            }
+            //标识是否是从项目实施进入的抽取
+            if(expertExtractProject != null && expertExtractProject.getPackageId() != null){
+            	String[] packageIds = expertExtractProject.getPackageId().split(",");
+        	    ProjectExtract projectExtract = new ProjectExtract();
+        	    for (String packageId : packageIds) {
+        	    	projectExtract.setProjectId(packageId);
+        	    	projectExtract.setExpertId(expertId);
+        	    	projectExtract.setUpdatedAt(new Date());
+        	    	projectExtract.setOperatingType(expertExtractResult.getIsJoin());
+        	    	projectExtract.setIsDeleted(expertExtractResult.getIsDeleted());
+        	    	expertExtractResultMapper.updateProjectByEId(projectExtract);
+        	    }
             }
         }
-        //查询抽取的项目信息 
-        ExpertExtractProject expertExtractProject = expertExtractProjectMapper.selectByPrimaryKey(projectVoiceResult.getRecordeId());
         //查询抽取条件
         List<ExpertExtractCondition> conditionList = expertExtractConditionMapper.selByProjectId(expertExtractProject.getId());
         ExpertExtractCondition expertExtractCondition = new ExpertExtractCondition();
@@ -434,6 +448,11 @@ public class AutoExtractServiceImpl implements AutoExtractService {
         policy.setReceiveTimeout(180000);// 请求超时时间
         conduit.setClient(policy);
         List<PeopleYytz> peoplelist = new ArrayList<PeopleYytz>();
+        //标识是否是从项目实施进入的抽取
+        boolean xmssFlag = false;
+        if(expertExtractProject.getPackageId() != null){
+            xmssFlag = true;
+        }
         if(expertExtractCondition.getExpertKindId() != null){
             String[] kindIds = expertExtractCondition.getExpertKindId().split(",");
             for (String typeCode : kindIds) {
@@ -464,6 +483,45 @@ public class AutoExtractServiceImpl implements AutoExtractService {
                         expertExtractResult.setCreatedAt(new Date());
                         expertExtractResult.setUpdatedAt(new Date());
                         expertExtractResultMapper.insertSelective(expertExtractResult);
+                        //从项目实施进入的
+                        if(xmssFlag){
+                            String[] packageIds = expertExtractProject.getPackageId().split(",");
+                            for (String packageId : packageIds) {
+                                Map<String, Object> proMap = new HashMap<>();
+                                proMap.put("packageId", packageId);
+                                proMap.put("expertId", expertExtractResult.getExpertId());
+                                List<ProjectExtract> proList = expertExtractResultMapper.findByPackageId(proMap);
+                                ProjectExtract projectExtract = new ProjectExtract();
+                                if(proList != null && proList.size() > 0){
+                                    //修改
+                                    projectExtract = proList.get(0);
+                                    projectExtract.setUpdatedAt(new Date());
+                                    projectExtract.setProjectId(packageId);
+                                    projectExtract.setExpertId(expertExtractResult.getExpertId());
+                                    projectExtract.setReason(expertExtractResult.getReason());
+                                    projectExtract.setReviewType(DictionaryDataUtil.getId(expertExtractResult.getExpertCode() == null ? "" : expertExtractResult.getExpertCode()));
+                                    projectExtract.setOperatingType(expertExtractResult.getIsJoin());
+                                    projectExtract.setIsProvisional(expertExtractResult.getIsAlternate());
+                                    projectExtract.setExpertConditionId(expertExtractResult.getConditionId());
+                                    expertExtractResultMapper.updateProject(projectExtract);
+                                }else{
+                                    //新增
+                                    String uuuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+                                    projectExtract.setId(uuuuid);
+                                    projectExtract.setProjectId(packageId);
+                                    projectExtract.setIsDeleted((short) 0);
+                                    projectExtract.setCreatedAt(new Date());
+                                    projectExtract.setUpdatedAt(new Date());
+                                    projectExtract.setExpertId(expertExtractResult.getExpertId());
+                                    projectExtract.setReason(expertExtractResult.getReason());
+                                    projectExtract.setReviewType(DictionaryDataUtil.getId(expertExtractResult.getExpertCode() == null ? "" : expertExtractResult.getExpertCode()));
+                                    projectExtract.setOperatingType(expertExtractResult.getIsJoin());
+                                    projectExtract.setIsProvisional(expertExtractResult.getIsAlternate());
+                                    projectExtract.setExpertConditionId(expertExtractResult.getConditionId());
+                                    expertExtractResultMapper.insertProject(projectExtract);
+                                }
+                            }
+                        }
                     }
                 }
                 //候补专家
@@ -490,6 +548,45 @@ public class AutoExtractServiceImpl implements AutoExtractService {
                         expertExtractResult.setCreatedAt(new Date());
                         expertExtractResult.setUpdatedAt(new Date());
                         expertExtractResultMapper.insertSelective(expertExtractResult);
+                        //从项目实施进入的
+                        if(xmssFlag){
+                            String[] packageIds = expertExtractProject.getPackageId().split(",");
+                            for (String packageId : packageIds) {
+                                Map<String, Object> proMap = new HashMap<>();
+                                proMap.put("packageId", packageId);
+                                proMap.put("expertId", expertExtractResult.getExpertId());
+                                List<ProjectExtract> proList = expertExtractResultMapper.findByPackageId(proMap);
+                                ProjectExtract projectExtract = new ProjectExtract();
+                                if(proList != null && proList.size() > 0){
+                                    //修改
+                                    projectExtract = proList.get(0);
+                                    projectExtract.setUpdatedAt(new Date());
+                                    projectExtract.setProjectId(packageId);
+                                    projectExtract.setExpertId(expertExtractResult.getExpertId());
+                                    projectExtract.setReason(expertExtractResult.getReason());
+                                    projectExtract.setReviewType(DictionaryDataUtil.getId(expertExtractResult.getExpertCode() == null ? "" : expertExtractResult.getExpertCode()));
+                                    projectExtract.setOperatingType(expertExtractResult.getIsJoin());
+                                    projectExtract.setIsProvisional(expertExtractResult.getIsAlternate());
+                                    projectExtract.setExpertConditionId(expertExtractResult.getConditionId());
+                                    expertExtractResultMapper.updateProject(projectExtract);
+                                }else{
+                                    //新增
+                                    String uuuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+                                    projectExtract.setId(uuuuid);
+                                    projectExtract.setProjectId(packageId);
+                                    projectExtract.setIsDeleted((short) 0);
+                                    projectExtract.setCreatedAt(new Date());
+                                    projectExtract.setUpdatedAt(new Date());
+                                    projectExtract.setExpertId(expertExtractResult.getExpertId());
+                                    projectExtract.setReason(expertExtractResult.getReason());
+                                    projectExtract.setReviewType(DictionaryDataUtil.getId(expertExtractResult.getExpertCode() == null ? "" : expertExtractResult.getExpertCode()));
+                                    projectExtract.setOperatingType(expertExtractResult.getIsJoin());
+                                    projectExtract.setIsProvisional(expertExtractResult.getIsAlternate());
+                                    projectExtract.setExpertConditionId(expertExtractResult.getConditionId());
+                                    expertExtractResultMapper.insertProject(projectExtract);
+                                }
+                            }
+                        }
                     }
                 }
             }
