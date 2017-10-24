@@ -172,8 +172,14 @@
 		 			</td>
 		 		</tr>
 		 		<tr>
-		 			
 		 			<td class="bggrey">角色：</td><td colspan="3">${roleName}</td>
+		 		</tr>
+		 		<tr>
+		 			<td class="bggrey">数据查看权限：</td><td colspan="3">
+		 				<c:if test="${user.dataAccess == 1}">全部</c:if>
+		 				<c:if test="${user.dataAccess == 2}">本单位</c:if>
+		 				<c:if test="${user.dataAccess == 3}">本人</c:if>
+		 			</td>
 		 		</tr>
 		 		<tr>
 		 			<td class="bggrey w160">详细地址：</td><td colspan="3">${user.address}</td>

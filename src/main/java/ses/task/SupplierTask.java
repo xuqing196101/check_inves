@@ -115,7 +115,7 @@ public class SupplierTask {
              File [] files = file.listFiles();
              for (File f : files){
                  if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)){
-                	 innerSupplierService.immportInner(f,null);
+                	 innerSupplierService.importInner(f,null);
                  	
                  }
 //                 if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
@@ -261,7 +261,7 @@ public class SupplierTask {
 	/**
 	 * 内网执行： 每天凌晨2点半重新计算所有入库供应商等级
 	 * @author Ye MaoLin
-	 * @version 2016-9-27
+	 * @version 2017-9-27
 	 */
 	public void handlerCountSupplierLevel(){
 		HashMap<String, Integer> dataMap = supplierService.countAllCategorySupplierLevel();

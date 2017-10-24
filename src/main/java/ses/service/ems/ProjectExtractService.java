@@ -105,4 +105,14 @@ public interface ProjectExtractService {
      * 抽取完成后删除信息
      */
     void delPe(String projectId);
+    
+    /**
+     * 
+     *〈简述〉根据项目ID关联查询抽取专家
+     *〈详细描述〉
+     * @author FengTian
+     * @param projectId
+     * @return
+     */
+    List<Map<String, Object>> selectProExpert(String projectId);
 }

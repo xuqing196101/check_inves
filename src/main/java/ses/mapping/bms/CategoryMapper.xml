@@ -745,6 +745,7 @@
     ORDER BY CODE
   </select>
 	
+
 	
 	   <!-- 根据itme中间表id查询Categor -->
 	<select id="selectCategoryByItemId" parameterType="java.lang.String" resultMap="CategoryMap">
@@ -755,6 +756,13 @@
     LEFT JOIN T_SES_SMS_SUPPLIER_ITEM t2 ON T2.CATEGORY_ID = T1. ID
     WHERE
       T2.ID = #{id}
+</select>
+	<!-- 根据父节点查询四级以上的品目id -->
+  <select id="selExtractCategory" parameterType="String" resultType="String">
+    SELECT s.ID from (
+		SELECT t.ID,LEVEL as l
+		 FROM T_SES_BMS_CATEGORY t WHERE  t.IS_DELETED = 0 START WITH 
+         t.parent_id=#{pId} CONNECT BY PRIOR t.ID=t.parent_id  order by t.code )s where s.l &lt; 5
   </select>
 
   
@@ -780,4 +788,45 @@
 		</where>
 	</select>
 
+  
+  <!-- 根据pid查询生成公开状态树 -->
+	<select id="findpublishTreeByPid" parameterType="Object" resultMap="CateMap" >
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_CATEGORY
+		where IS_DELETED=0 AND IS_PUBLISH = 0 and PARENT_ID=#{id} order by CODE
+	</select>
+	
+	<select id="selectCategoryByName" parameterType="map" resultMap="CateMap">
+		<!-- SELECT C.ID, C.NAME, C.STATUS, C.PARENT_ID, C.CODE,C.IS_PARENT FROM (SELECT *
+		FROM T_SES_BMS_CATEGORY
+		START WITH NAME like  CONCAT(CONCAT('%', #{cateName}), '%')
+		CONNECT BY PRIOR PARENT_ID = ID) C
+		WHERE C. IS_DELETED=0 
+		AND C.IS_PUBLISH = 0
+		<if test="status != null">
+		 AND C.CLASSIFY_STATUS in (${status},3)
+		</if>
+		AND C.CLASSIFY_TYPE = #{type}
+		ORDER BY C.CODE -->
+		SELECT <include refid="Base_Column_List" />
+		FROM T_SES_BMS_CATEGORY START WITH ID IN 
+		( SELECT ID FROM T_SES_BMS_CATEGORY 
+		<where>
+			<if test="cateName != null">
+				CODE LIKE CONCAT(CONCAT('%', #{cateCode}), '%') 
+			</if>
+			<if test="cateName != null">
+				AND NAME LIKE CONCAT(CONCAT('%', #{cateName}), '%') 
+			</if>
+			AND IS_DELETED=0 
+			AND IS_PUBLISH = 0 
+			<if test="status != null">
+			 AND CLASSIFY_STATUS in (${status},3)
+			</if>
+			AND CLASSIFY_TYPE = #{type}
+		</where>
+		)  
+		CONNECT BY PRIOR PARENT_ID = ID
+	</select>
 </mapper>

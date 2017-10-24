@@ -1,12 +1,17 @@
 package extract.service.supplier;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
-import ses.model.sms.Supplier;
+import ses.model.bms.Qualification;
+import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
-import extract.model.supplier.SupplierCondition;
+import extract.model.supplier.SupplierExtractCondition;
 
 
 /**
@@ -26,74 +31,35 @@ public interface SupplierExtractConditionService {
    * @param @param condition      
    * @return void
    */
-  void insert(SupplierCondition condition);
+  void insert(SupplierExtractCondition condition);
 
-  /**
-   * @Description:修改
-   *
-   * @author Wang Wenshuai
-   * @version 2016年9月28日 上午10:36:05  
-   * @param @param condition      
-   * @return void
-   */
-  void update(SupplierCondition condition);
-
-  /**
-   * @Description:集合查询
-   *
-   * @author Wang Wenshuai
-   * @version 2016年9月28日 上午10:36:20  
-   * @param @param condition
-   * @param @return      
-   * @return List<ExpExtCondition>
-   */
-  List<SupplierCondition> list(SupplierCondition condition,Integer pageNum);
 
   /**
    * @Description:获取单个
    *
-   * @author Wang Wenshuai
+   * @author Jia Chengxiang
    * @version 2016年9月28日 下午3:17:07  
    * @param @param condition
    * @param @return      
    * @return ExpExtCondition
    */
-  SupplierCondition show(String id);
+  SupplierExtractCondition show(String id);
 
-  /**
-   * 
-   *〈简述〉更具关联包id查询是否有未抽取的条件
-   *〈详细描述〉
-   * @author Wang Wenshuai
-   * @param id
-   * @return
-   */
-  String getCount(String[] packagesId);
 
-  /**
-   * 直接删除查询结果的查询条件
-   */
-  Integer delById(String Id);
 
   /**
    * 返回满足数量的供应商
    *〈简述〉
    *〈详细描述〉
-   * @author Wang Wenshuai
+   * @author Jia Chengxiang
    * @param condition
    * @param conType
    * @return
    */
-  Map<String,Object> selectLikeSupplier(SupplierCondition condition,SupplierConType conType);
+  Map<String, Object> selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType,int type);
 
-  /**
-   * 
-   *〈简述〉本次抽取是否完成
-   *〈详细描述〉
-   * @author Wang Wenshuai
-   * @return
-   */
-  String isFinish(SupplierCondition condition);
+  
+  
   /**
    * 
    *〈简述〉获取供应商类型
@@ -105,15 +71,105 @@ public interface SupplierExtractConditionService {
   List<DictionaryData>  supplierTypeList(String projectId);
 
   /**
-   * 添加包信息
-   *〈简述〉
-   *〈详细描述〉
-   * @author Wang Wenshuai
+   * 
+   * <简述> 保存（修改）条件
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-9-20下午1:27:50
+   * @param condition
+   * @param conType
+ * @return 
+   */
+  int saveOrUpdateCondition(SupplierExtractCondition condition, SupplierConType conType);
+
+  /**
+   * 查询供应商类型
+   * <简述> 
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-9-20下午1:28:24
+   * @param typeCode
    * @return
    */
-  String addPackage(String packagesName,String projectId);
+  List<DictionaryData> supplierType(String typeCode);
+
+  /**
+   * 
+   * <简述> 返回满足供应商记录数
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-9-20下午1:28:36
+   * @param condition
+   * @param conType
+   * @return
+   */
+  Map<String, Object> selectLikeSupplierCount(SupplierExtractCondition condition,
+		SupplierConType conType);
+
+  /**
+   * 
+   * <简述> 企业性质
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-9-20下午1:28:56
+   * @return
+   */
+  List<DictionaryData> getBusinessNature();
+
+  /**
+   * 
+   * 功能： 获取品目树
+   *
+   * 作者：贾成祥
+   * 2017-9-12下午11:35:38
+   */
+  List<CategoryTree> getTreeForExt(Category category, String supplierTypeCode);
+
+  /**
+   * 
+   * 功能： 按品目查询资质等级
+   *
+   * 作者：贾成祥
+   * 2017-9-12下午11:49:26
+   */
+  List<DictionaryData> getEngAptitudeLevelByCategoryId(String categoryId);
+
+  /**
+   * 按品目查询资质信息
+   * 功能： 
+   *
+   * 作者：贾成祥
+   * 2017-9-12下午11:49:47
+ * @param parentId 
+   */
+  List<Qua> getQuaByCid(String categoryId,String code, String parentId);
+
+  /**
+   * 根据资质查询资质等级
+   * @param qid
+   * @return
+   */
+  List<DictionaryData> getLevelByQid(String qid);
+
+
+  /**
+   * 模糊查询供应商资质
+   * <简述> 
+   *
+   * @author Jia Chengxiang
+   * @dateTime 2017-9-23下午12:37:35
+   * @param name
+   * @return
+   */
+  List<Qualification> qualificationList(String name);
+
+
+  void excludeSupplier(SupplierExtractCondition condition);
+
+
   
-  void saveOrUpdateCondition(SupplierCondition condition, SupplierConType conType);
+  String setExtractCondition(String typeCode, SupplierExtractCondition condition,
+		SupplierConType conType) throws Exception;
 
 }
 

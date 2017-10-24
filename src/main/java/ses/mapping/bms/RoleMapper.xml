@@ -38,7 +38,7 @@
 	    <result column="uofficerCertNo"  property="officerCertNo" />
 	    <result column="unetType"  property="netType" />
 	    <result column="uerrorNum"  property="errorNum" />
-	    
+	    <result column="udataAccess"  property="dataAccess" />
 	  	<!-- 查询机构 -->  
     	<association column="org"  property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById" />
 	    <!-- 查询创建人 -->
@@ -309,6 +309,7 @@
 			U .OFFICER_CERT_NO AS uofficerCertNo,
 			U .NET_TYPE AS unetType,
 			U .ERROR_NUM AS uerrorNum,
+			U .DATA_ACCESS AS udataAccess,
 			pm. ID AS mid,
 			pm. NAME AS mname,
 			pm.MENU_TYPE AS mtype,

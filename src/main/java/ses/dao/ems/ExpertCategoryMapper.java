@@ -174,5 +174,28 @@ public interface ExpertCategoryMapper {
     List<ExpertCategory> findPassCateByExpertId(Map<String,Object> map);
     
     ExpertCategory selectCategoryByCategoryId(ExpertCategory expertCategory);
+
+    /** 
+     * Description: 根据品目查询符合条件的专家
+     * 
+     * @author zhang shubin
+     * @data 2017年9月10日
+     * @param 
+     * @return
+     */
+    List<String> selExpertByCategory(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 根据品目查询符合条件的专家 (满足所有品目条件)
+     * 
+     * @author zhang shubin
+     * @data 2017年9月10日
+     * @param 
+     * @return
+     */
+    List<String> selExpertByAll(Map<String, Object> map);
+
+
     List<ExpertCategory> selectCategoryListByCategoryId(ExpertCategory expertCategory);
 }

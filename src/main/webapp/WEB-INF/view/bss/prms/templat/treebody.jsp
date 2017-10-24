@@ -15,6 +15,7 @@
 		  	layer.msg("请填写数据");
 		  } else {
 		  	$(obj).parent().parent().remove(); 
+		  	gerneratorNine();
 		  }
 	}
 
@@ -472,7 +473,6 @@
 		var minScore = $("#minScore").val();
 		var unitScore = $("#unitScore").val();
 		var unit = $("#unit").val();
-		
 		if(addSubtractTypeName=="0"){
 			var str = " 加分类型：" + reviewParam + " 最低分为" +minScore +"分" + " 每" + unit + "加" + unitScore+"分"+" 最高分为"+maxScore+"分";
 			$("#easyUnderstandContent21").text(str);
@@ -623,7 +623,9 @@
 			var score = $("#show_table").find("tr").eq(i).find("td").eq("3").find("input").val();
 			if (name == "" || score == "") {
 			} else {
-				if (name.trim() != "" && score.trim() != "") {
+				if (name.trim() != "" && score.trim() != "" && i < $("#show_table").get(0).rows.length - 4 ) {
+					str = str + name + "等于" +score + "分 , ";
+				} else {
 					str = str + name + "等于" +score + "分  ";
 				}
 			}
@@ -1090,7 +1092,7 @@
 			</tr>
 			<tr>
 				<td class=" w300 tc"><span class="star_red">*</span>单位</td>
-				<td><input name="unit" id="unit" value="${scoreModel.unit }" type="text""></td>
+				<td><input name="unit" id="unit" value="${scoreModel.unit }" onkeyup="gernerator();" type="text"></td>
 				<td><span class="blue">该项为评审参数的单位</span></td>
 			</tr>
 			<tr>

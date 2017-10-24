@@ -1,10 +1,18 @@
 package extract.dao.supplier;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import ses.model.bms.Category;
+import ses.model.bms.CategoryQua;
+import ses.model.bms.DictionaryData;
+import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
-import extract.model.supplier.SupplierCondition;
+import extract.model.supplier.SupplierExtractCondition;
+
 
 public interface SupplierExtractConditionMapper {
     /**
@@ -19,33 +27,33 @@ public interface SupplierExtractConditionMapper {
      *
      * @param record
      */
-    int insert(SupplierCondition record);
+    int insert(SupplierExtractCondition record);
 
     /**
      *
      * @param record
      */
-    int insertSelective(SupplierCondition record);
+    int insertSelective(SupplierExtractCondition record);
 
     /**
      * 根据主键获取一条数据库记录
      *
      * @param id
      */
-    SupplierCondition selectByPrimaryKey(String id);
+    SupplierExtractCondition selectByPrimaryKey(String id);
 
     /**
      *
      * @param record
      */
-    int updateByPrimaryKeySelective(SupplierCondition record);
+    int updateByPrimaryKeySelective(SupplierExtractCondition record);
 
     /**
      * 根据主键来更新数据库记录
      *
      * @param record
      */
-    int updateByPrimaryKey(SupplierCondition record);
+    int updateByPrimaryKey(SupplierExtractCondition record);
     
     /**
      * @Description:获取集合信息
@@ -56,7 +64,7 @@ public interface SupplierExtractConditionMapper {
      * @param @return      
      * @return List<SupplierCondition>
      */
-    List<SupplierCondition> list(SupplierCondition record);
+    List<SupplierExtractCondition> list(SupplierExtractCondition record);
     
     
     /**
@@ -69,20 +77,61 @@ public interface SupplierExtractConditionMapper {
      */
     Integer getCount(String packId);
 
-	void updateConditionByPrimaryKeySelective(SupplierCondition condition);
+	void updateConditionByPrimaryKeySelective(SupplierExtractCondition condition);
 
 	List<SupplierConType> getAreaInfoByConditionId(String id);
 	
 	void deleteAreaInfoByConditionId(String id);
 	
-	void insertAreaCondition(SupplierCondition condition);
+	void insertAreaCondition(SupplierExtractCondition condition);
 	
 	List<SupplierConType> getTypeInfoByMap(Map<String, String> map);
 
 	void deleteTypeInfoByMap(Map<String, String> map);
 
-	void insertTypeInfo(SupplierCondition condition);
+	void insertTypeInfo(SupplierExtractCondition condition);
 
+	List<DictionaryData> getEngAptitudeLevelByCategoryId(
+			Map<String, String[]> map);
 
+	List<Qua> getQuaByCid(HashMap<String, Object> hashMap);
+
+	List<DictionaryData> getLevelByQid(String[] split);
+
+	/**
+	 * 按记录id 查询抽取条件
+	 * @param id
+	 * @return
+	 */
+	SupplierExtractCondition getByRid(String recordId);
+
+	/**
+	 * 查询抽取品目名称集合
+	 * @param byMap2
+	 * @return
+	 */
+	List<String> getCategoryByList(List<String> byMap2);
+
+	/**
+	 * 查询工程资质集合
+	 * @param byMap
+	 * @return
+	 */
+	List<String> getLevelByList(List<String> byMap);
+
+	List<Category> checkParentCate(String cid);
+
+	Set<String> seleselectChildCate(String[] split);
 	
+	/**
+	 * 
+	 * <简述>验证资质 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-9-27下午6:16:07
+	 * @param quaId
+	 * @return 
+	 */
+	List<CategoryQua> verifyQua(String quaId);
+
 }

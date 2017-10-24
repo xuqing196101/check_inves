@@ -1,9 +1,13 @@
 package extract.dao.supplier;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import extract.model.supplier.SupplierExtRelate;
+import ses.model.sms.Supplier;
+import extract.model.supplier.SupplierExtractCondition;
+import extract.model.supplier.SupplierExtractResult;
 
 public interface SupplierExtractRelateResultMapper {
   /**
@@ -18,33 +22,33 @@ public interface SupplierExtractRelateResultMapper {
    *
    * @param record
    */
-  int insert(SupplierExtRelate record);
+  int insert(SupplierExtractResult record);
 
   /**
    *
    * @param record
    */
-  int insertSelective(SupplierExtRelate record);
+  int insertSelective(SupplierExtractResult record);
 
   /**
    * 根据主键获取一条数据库记录
    *
    * @param id
    */
-  SupplierExtRelate selectByPrimaryKey(String id);
+  SupplierExtractResult selectByPrimaryKey(String id);
 
   /**
    *
    * @param record
    */
-  int updateByPrimaryKeySelective(SupplierExtRelate record);
+  int updateByPrimaryKeySelective(SupplierExtractResult record);
 
   /**
    * 根据主键来更新数据库记录
    *
    * @param record
    */
-  int updateByPrimaryKey(SupplierExtRelate record);
+  int updateByPrimaryKey(SupplierExtractResult record);
 
   /**
    * @Description:集合获取中间表
@@ -55,7 +59,7 @@ public interface SupplierExtractRelateResultMapper {
    * @param @return      
    * @return List<SupplierExtRelate>
    */
-  List<SupplierExtRelate> list(SupplierExtRelate extract);
+  List<SupplierExtractResult> list(SupplierExtractResult extract);
 
   /**
    * @Description:删除重复记录
@@ -96,7 +100,7 @@ public interface SupplierExtractRelateResultMapper {
    * @author Wang Wenshuai
    * @param list
    */
-  void insertList(List<SupplierExtRelate> list);
+  void insertList(List<SupplierExtractResult> list);
 
   /**
    * 删除满足条件后的其他抽取信息
@@ -118,13 +122,139 @@ public interface SupplierExtractRelateResultMapper {
 
   /**
    * 
-   *〈简述〉查询抽取供应商类型
+   *〈简述〉查询抽取供应商
    *〈详细描述〉
    * @author Wang Wenshuai
    * @return
    */
-  List<SupplierExtRelate> selectSupplierType(String conditionId);
+  List<SupplierExtractResult> selectSupplierType(String conditionId);
   
 
+  /**
+   * 查询已经抽取到的供应商
+   * @param recordId
+   * @return
+   */
   List<String> selectSupplierIdListByRecordId(String recordId);
+
+
+  	Object listExtractionExpertCount(SupplierExtractCondition condition);
+
+
+  	List<Supplier> listExtractionExpert(SupplierExtractCondition condition);
+
+  	/**
+  	 * 记录id查询抽取到的详细供应商信息
+  	 * @param hashMap2
+  	 * @return
+  	 */
+	List<SupplierExtractResult> getSupplierListByRid(HashMap<String, String> hashMap2);
+	
+	/**
+	 * 
+	 * <简述>查询真实项目抽取结果 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-9-26上午4:39:34
+	 * @param hashMap2
+	 * @return
+	 */
+	List<SupplierExtractResult> getSupplierListByRidForRel(HashMap<String, String> hashMap2);
+	
+	/**
+	 * 查询预言项目抽取结果
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-9-26上午4:40:03
+	 * @param hashMap2
+	 * @return
+	 */
+	List<SupplierExtractResult> getSupplierListByRidForAdv(HashMap<String, String> hashMap2);
+	
+	/**
+	 * 查询该项目已经联系过的供应商
+	 * @param projectId
+	 * @return
+	 */
+	List<String> selectSupplierIdListByProjectId(String projectId);
+
+	/**
+	 * 查询供应商类型 返回typeCode
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-9-20下午11:55:13
+	 * @param sid
+	 * @return
+	 */
+	List<String> selectTypeCodeBySid(String sid);
+
+	void insertAdv(ArrayList<SupplierExtractResult> arrayList);
+
+	void insertRel(ArrayList<SupplierExtractResult> arrayList);
+
+	/**
+	 * 自动抽取的获取供应商列表
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-12下午3:47:50
+	 * @param condition
+	 * @return
+	 */
+	List<Supplier> autoExtractSupplierList(SupplierExtractCondition condition);
+
+	/**
+	 * 批量添加（自动抽取返回结果）
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-17上午10:25:25
+	 * @param setSupplierExtractResult
+	 */
+	void insertBatch(ArrayList<SupplierExtractResult> setSupplierExtractResult);
+
+
+	/**
+	 * 删除保存的记录
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-17上午11:16:04
+	 * @param recordId
+	 */
+	void deleteByRecordId(String recordId);
+
+	/**
+	 * 修改预研项目供应商参加状态（自动抽取）
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-17上午11:23:06
+	 * @param supplierExtractResult
+	 */
+	void updateAdvSupplierJoin(SupplierExtractResult supplierExtractResult);
+
+	/**
+	 * 修改真实项目供应商参加状态（自动抽取）
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-17上午11:23:06
+	 * @param supplierExtractResult
+	 */
+	void updateRelSupplierJoin(SupplierExtractResult supplierExtractResult);
+
+	/**
+	 * 修改供应商参加状态（自动抽取）
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-17上午11:23:06
+	 * @param supplierExtractResult
+	 */
+	void updateSupplierJoin(SupplierExtractResult supplierExtractResult);
+
+	
 }

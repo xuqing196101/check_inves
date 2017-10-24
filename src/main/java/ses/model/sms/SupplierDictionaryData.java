@@ -30,7 +30,7 @@ public class SupplierDictionaryData implements Serializable {
 
 	private String supplierChangeList;  //供应商变更申请表
 
-	private String supplierAuditOpinion;  //供应商财务审计报告的审计意见
+	private String supplierAuditOpinion;  //供应商财务审计报告书中的审计报告
 
 	private String supplierLiabilities;  //供应商财务资产负债表
 

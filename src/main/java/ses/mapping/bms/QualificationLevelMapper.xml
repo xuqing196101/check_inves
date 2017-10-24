@@ -24,9 +24,16 @@
         (#{id}, #{qualificationId},#{grade})
     </insert>
     
-		<delete id="delete" parameterType="String">
-		delete from T_SES_BMS_QUALIFCATE_LEVEL  where QUALIFCATION_ID = #{qualificationId}
-		</delete>
+   <delete id="delete" parameterType="String">
+   		delete from T_SES_BMS_QUALIFCATE_LEVEL  where QUALIFCATION_ID = #{qualificationId}
+   </delete>
+   
+    <select id="getLevelByQid"  resultType="ses.model.bms.DictionaryData">
+        SELECT D.* FROM T_SES_BMS_QUALIFCATE_LEVEL L LEFT JOIN T_SES_BMS_DICTIONARY_DATA D ON L.GRADE = D.ID WHERE L.QUALIFCATION_ID IN 
+        <foreach collection="array" item="it" open="(" separator="," close=")">
+        	#{it}
+        </foreach>
+    </select>
    
 		<!-- 根据资质id和等级统计数量 -->
 		<select id="countByQuaIdAndLevel" resultType="int">

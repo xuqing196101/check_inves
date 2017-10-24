@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
+import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierItemLevelMapper;
+import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
@@ -45,6 +47,8 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 	private SupplierCertEngService supplierCertEngService;
 	@Autowired
 	private CategoryQuaMapper categoryQuaMapper;
+	@Autowired
+	private CategoryMapper categoryMapper;
 
 	@Override
 	public List<SupplierItemLevel> findSupplierItemLevel(SupplierItemLevel supplier, Integer page, String categoryIds) {
@@ -71,23 +75,34 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 				sup.setSupplierTypeId(categoryIds);
 			}
 			sup.setSupplierType(supplierType);
-			/*//根据品目查询资质
-			List<CategoryQua> list = categoryQuaMapper.findList(categoryIds);
-			//查询品目下入库供应商
-			List<SupplierItemLevel> supplierItemLevels = supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName());
-			//根据资质和供应商查询供应商等级
-			for (SupplierItemLevel supplierItemLevel : supplierItemLevels) {
-				SupplierItemLevel level=new SupplierItemLevel();
-				//
-				level.setSupplierId(supplierItemLevel.getId());
-				level.setArmyBusinessName(supplierItemLevel.getArmyBusinessName());
-				level.setCategoryId(categoryIds);
-				level.setSupplierLevel(sup.getGrade());
-				level.setSupplierTypeId(supplierType);
-				level.setSupplierName(supplierItemLevel.getSupplierName());
-				rutlist.add(level);
-			}*/
+			//根据品目查询资质
+			//List<CategoryQua> list = categoryQuaMapper.findList(categoryIds);
 			
+			List<SupplierItemLevel> supplierItemLevels = new ArrayList<SupplierItemLevel>();
+			if (categoryIds == null || "".equals(categoryIds)) {
+				//查询工程品目下所有入库供应商
+				supplierItemLevels = supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), null);
+			} else {
+				supplierItemLevels = supplierItemLevelMapper.selectProjectSupplierByCategory(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevel());
+			}
+			
+			/*//根据资质和供应商查询供应商等级
+			for (SupplierItemLevel supplierItemLevel : supplierItemLevels) {
+				//如果是四级品目就查资质等级
+				if (categoryIds != null && !"".equals(categoryIds)) {
+					List<String> levels = supplierItemLevelMapper.getProjectLevel(supplierItemLevel.getSupplierId(), categoryIds);
+					if (levels != null && levels.size()>0) {
+						supplierItemLevel.setSupplierLevel(levels.get(0));
+					}
+				}
+				supplierItemLevel.setSupplierId(supplierItemLevel.getSupplierId());
+				supplierItemLevel.setArmyBusinessName(supplierItemLevel.getArmyBusinessName());
+				supplierItemLevel.setCategoryId(categoryIds);
+				supplierItemLevel.setSupplierTypeId(supplierType);
+				supplierItemLevel.setSupplierName(supplierItemLevel.getSupplierName());
+			}
+			*/
+			/*
 			//查询供应商
 			List<Supplier> listSupplier=supplierService.findSupplierByCategoryId(sup);
 			if(listSupplier.isEmpty()){
@@ -115,9 +130,10 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 				level.setSupplierName(item.getSupplierName());
 				rutlist.add(level);
 	        }
-	        return rutlist;
+	        */
+	        return supplierItemLevels;
 	    }else{
-	    	return supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevel());
+	    	return supplierItemLevelMapper.selectByCategoryId(categoryIds, supplierType, supplier.getArmyBusinessName(), supplier.getSupplierName(), supplier.getSupplierLevelName());
 	    }
 	}
 
@@ -164,6 +180,11 @@ public class SupplierItemLevelServiceImpl implements SupplierItemLevelServer {
 	@Override
 	public SupplierItemLevel selectLevelByItem(SupplierItemLevel supplierItemLevel) {
 		return supplierItemLevelMapper.selectLevelByItem(supplierItemLevel);
+	}
+
+	@Override
+	public List<DictionaryData> ajaxProjectCategoryLevels(String categoryId) {
+		return supplierItemLevelMapper.ajaxProjectCategoryLevels(categoryId);
 	}
 	
 

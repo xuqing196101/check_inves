@@ -1,5 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<%@ page import="ses.constants.SupplierConstants" %>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -299,6 +301,7 @@
 							<th class="info w100">状态</th>
 						</tr>
 					</thead>
+					<c:set var="supplierStatusMap" value="<%=SupplierConstants.STATUSMAP %>"/>
 					<c:forEach items="${result.list }" var="list" varStatus="page">
 						<tr>
 							<td class="tc w30"><input name="id" type="radio" value="${list.id}"></td>
@@ -318,20 +321,26 @@
 								</c:if>
 							</td>
 							<td class="tc w100" id="${list.id}">
-							  <c:if test="${list.status==-1}"><span class="label rounded-2x label-dark">暂存</span></c:if>
-                <c:if test="${list.status==0}"><span class="label rounded-2x label-dark">待审核</span></c:if>
-                <c:if test="${list.status==2}"><span class="label rounded-2x label-dark">退回修改</span></c:if>
-                <c:if test="${list.status==9}"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
-                <c:if test="${list.status==-2}"><span class="label rounded-2x label-dark">预审核结束</span></c:if>
-                <c:if test="${list.status==3}"><span class="label rounded-2x label-dark">审核不通过</span></c:if>
-                <c:if test="${list.status==-3}"><span class="label rounded-2x label-dark">公示中</span></c:if>
-                <c:if test="${list.status==1}"><span class="label rounded-2x label-u">入库（待复核</span></c:if>
-                <c:if test="${list.status==-4}"><span class="label rounded-2x label-dark">预复核结束</span></c:if>
-                <c:if test="${list.status==5}"><span class="label rounded-2x label-u">复核合格（待考察）</span></c:if>
-                <c:if test="${list.status==6}"><span class="label rounded-2x label-dark">复核不合格</span></c:if>
-                <c:if test="${list.status==-5}"><span class="label rounded-2x label-dark">预考察结束</span></c:if>
-                <c:if test="${list.status==7}"><span class="label rounded-2x label-u">考察合格</span></c:if>
-                <c:if test="${list.status==8}"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
+								<%-- <c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
+								<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
+								<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
+								<c:if test="${list.status==-2 }"><span class="label rounded-2x label-dark">预审核结束</span></c:if>
+								<c:if test="${list.status==-3 }"><span class="label rounded-2x label-dark">公示中</span></c:if>
+								<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
+								<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">退回修改</span></c:if>
+								<c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
+								<c:if test="${list.status==3 }"><span class="label rounded-2x label-dark">审核未通过</span></c:if>
+								<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
+								<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">复核通过</span></c:if>
+								<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
+								<c:if test="${list.status==7 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
+								<c:if test="${list.status==8 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if> --%>
+								
+								<c:set var="label_color" value="label-dark"/>
+								<c:if test="${list.status==5 || list.status==7 }"><c:set var="label_color" value="label-u"/></c:if>
+								<c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
+								<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">${supplierStatusMap[list.status]}</span></c:if>
+								<c:if test="${list.status!=5 }"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
 							</td>
 						</tr>
 					</c:forEach>

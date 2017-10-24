@@ -12,6 +12,7 @@
       var obj = "";
       var detailId = "";
       var projectId = "${id}";
+      
       $(function() {
         layui.use('flow', function() {
           var flow = layui.flow;
@@ -46,7 +47,7 @@
                     if(item.purchaseCount == 0) {
                       item.purchaseCount = "";
                     }
-                    var html = "<tr class='pointer'>";
+                    var html = "<tr>";
                     /* if (item.projectStatus == 1) {
 				              //如果已被引用
 				              html +="<td><input type='text'><input type='checkbox' disabled='disabled' title='该明细已被引用'></td>";
@@ -87,7 +88,7 @@
 						}
                      
 
-                      html += "<td>";
+                      html += "<td class='text-center'>";
                       html += "<input type='hidden' name='pId_" + item.parentId + "' value='" + item.parentId + "'>";
                       if (flag == true) {
                     	  if(item.seq=='一'){
@@ -105,15 +106,15 @@
 						}
 
                       html += "</td>";
-                      html += "<td><div class='seq'>" + item.seq + "</div></td>";
-                      html += "<td><div class='department'>" + item.department + "</div></td>";
+                      html += "<td class='text-center'><div class='seq'>" + item.seq + "</div></td>";
+                      html += "<td class='text-center'><div class='department'>" + item.department + "</div></td>";
                       html += "<td><div class='goodsname'>" + item.goodsName + "</div></td>";
                       html += "<td><div class='stand'>" + item.stand + "</div></td>";
-                      html += "<td><div class='qualitStand'>" + item.qualitStand + "</div></td>";
-                      html += "<td><div class='item'>" + item.item + "</div></td>";
-                      html += "<td><div class='purchaseCount'>" + item.purchaseCount + "</div></td>";
+                      html += "<td class='text-center'><div class='qualitStand'>" + item.qualitStand + "</div></td>";
+                      html += "<td class='text-center'><div class='item'>" + item.item + "</div></td>";
+                      html += "<td class='text-center'><div class='purchaseCount'>" + item.purchaseCount + "</div></td>";
                       html += "<td><div class='deliverDate'>" + item.deliverDate + "</div></td>";
-                      html += "<td><div class='purchaseType tc'>" + item.purchaseType + "</div></td>";
+                      html += "<td class='text-center'><div class='purchaseType tc'>" + item.purchaseType + "</div></td>";
                       html += "<td><div class='purchasename'>" + code + "</div></td>";
                       html += "<td><div class='memo'>" + item.memo + "</div><input type='hidden' id='planType' value='" + item.planType + "' /></td>";
                       html += "</tr>";
@@ -125,12 +126,58 @@
                       "</div></td><td><div class='purchasename'>" + code + "</div></td><td><div class='memo'>"+item.memo+"</div><input type='hidden' id='planType' value='"+item.planType+"' /></td></tr>"; */
                   });
                   next(lis.join(''), page < res.pages);
+                  
+                  var fixed_header = '';
+                  $('#tb_id').siblings('thead').find('th').each(function () {
+                    fixed_header += '<th style="width: '+ $(this).outerWidth(true) +'px">'+ $(this).html() +'</th>';
+                  });
+                  $('#fixed_header').css({
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: $('#tb_id').parents('table').outerWidth()
+                  });
+                  $('#fixed_header').html('<table class="table table-hover table-border mb0">'+ fixed_header +'</table>');
+                  chage_fixedHeader();
+                  $(window).scroll(function () {
+                    chage_fixedHeader();
+                  });
+                  
+                  /* 锁定表头 */
+                  // var fixed_table = $('#table');
+                  // fixed_table.bootstrapTable('destroy').bootstrapTable({
+                  //   fixedColumns: true,
+                  //   onPostBody: function () {
+                  //     console.log($('.fixed-table-body').height());
+                  //     $('.fixed-table-body').scroll(function () {
+                  //       console.log('aaa');
+                  //       var scroll_top = $('.fixed-table-body').scrollTop();
+                  //       console.log(scroll_top);
+                  //     });
+                  //   }
+                  // });
+                  /* 锁定表头 */
                 },
               });
             }
           });
         });
+        
       });
+      
+      function chage_fixedHeader() {
+        if ($(window).scrollTop() >= $('#table').offset().top) {
+          $('#fixed_header').css({
+            position: 'fixed',
+            left: 'auto'
+          });
+        } else {
+          $('#fixed_header').css({
+            position: 'absolute',
+            left: 0
+          });
+        }
+      }
 
       function check(ele,seq) {
         obj = ele;
@@ -328,31 +375,31 @@
     <div class="container">
 
       <!-- 项目戳开始 -->
-      <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto mt20" id="content">
-        <table id="table" class="table table-bordered table-condensed lockout">
+      <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto pr mt20" id="content">
+        <table id="table" class="table table-hover table-bordered">
           <thead>
-            <tr class="space_nowrap">
-              <th class="choose">选择</th>
-              <th class="info seq">序号</th>
-              <th class="info department">需求部门</th>
-              <th class="info goodsname">物资类别<br/>及名称</th>
-              <th class="info stand">规格型号</th>
-              <th class="info qualitstand">质量技术标准<br/>(技术参数)</th>
-              <th class="info item">计量<br/>单位</th>
-              <th class="info purchasecount">采购<br/>数量</th>
-              <th class="info deliverdate">交货<br/>期限</th>
-              <th class="info purchasetype">采购方式</th>
-              <th class="info purchasename">供应商名称</th>
+            <tr>
+              <th width="50">选择</th>
+              <th width="60">序号</th>
+              <th width="80">需求部门</th>
+              <th width="100">物资类别及名称</th>
+              <th width="100">规格型号</th>
+              <th width="80">质量技术标准(技术参数)</th>
+              <th width="80">计量单位</th>
+              <th width="80">采购数量</th>
+              <th width="100">交货期限</th>
+              <th width="80">采购方式</th>
+              <th width="100">供应商名称</th>
               <!-- <th class="info freetax">是否申请<br/>办理免税</th>
               <th class="info goodsuse">物资用途<br/>（进口）</th>
               <th class="info useunit">使用单位<br/>（进口）</th> -->
-              <th class="memo">备注</th>
+              <th>备注</th>
             </tr>
           </thead>
           <tbody id="tb_id">
           </tbody>
         </table>
-
+        <div id="fixed_header"></div>
       </div>
       <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
         <button class="btn btn-windows save" type="button" onclick="save()">确定选择</button>

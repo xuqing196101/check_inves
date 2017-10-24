@@ -177,6 +177,11 @@ public class FileUtils {
     /**导出文件目录**/
     public final static String C_SYNCH_PUBLICITY_SUPPLIER_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_supplier_publicity_path.system.path");
 
+    /**供应商注销 导出创建数据名称**/
+    public final static String C_SYNCH_LOGOUT_SUPPLIER_FILENAME = "_c_logout_supplier.dat";
+    /**导出文件目录**/
+    public final static String C_SYNCH_LOGOUT_SUPPLIER_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_supplier_logout_path.system.path");
+
     /**专家公示 导出创建数据名称**/
     public final static String C_SYNCH_PUBLICITY_EXPERT_FILENAME = "_c_publicity_expert.dat";
     /**导出文件目录**/
@@ -227,6 +232,36 @@ public class FileUtils {
     /** 公告品目数据名称 **/
     public final static String C_ARTICLE_CATEGORY_PATH_FILENAME="_c_article_category.dat";
 
+    /** 专家抽取项目信息数据名称 **/
+    public final static String EXTRACT_PROJECT_PATH_FILENAME="_m_extract_project.dat";
+    /** 专家抽取条件数据名称 **/
+    public final static String EXTRACT_CONDITION_PATH_FILENAME="_m_extract_condition.dat";
+    /** 专家抽取类别条件信息数据名称 **/
+    public final static String EXTRACT_TYPE_INFO_PATH_FILENAME="_m_extract_type_info.dat";
+    /** 专家抽取产品类别关联信息数据名称 **/
+    public final static String EXTRACT_CATEGORY_PATH_FILENAME="_m_extract_category.dat";
+    /** 专家抽取结果信息数据名称 **/
+    public final static String EXTRACT_RESULT_PATH_FILENAME="_m_extract_result.dat";
+    /** 专家抽取目录 路径 32 **/
+    public final static String EXPERT_EXTRACT_PATH = PropUtil.getProperty("file.expert_extract.system.path");
+    
+    /** 专家抽取结果目录 路径 33 **/
+    public final static String EXPERT_EXTRACT_RESULT_PATH = PropUtil.getProperty("file.expert_extract_result.system.path");
+    
+    /** 军队专家基本信息数据名称 **/
+    public final static String MILITARY_EXPERT_PATH_FILENAME="_m_military_expert.dat";
+    /** 军队专家执业资格数据名称 **/
+    public final static String MILITARY_EXPERT_TITLE_PATH_FILENAME="_m_military_expert_title.dat";
+    /** 军队专家品目数据名称 **/
+    public final static String MILITARY_EXPERT_CATEGORY_PATH_FILENAME="_m_military_expert_category.dat";
+    /** 军队专家目录 路径 34 **/
+    public final static String MILITARY_EXPERT_PATH = PropUtil.getProperty("file.military_expert.system.path");
+    
+    
+    /** 供应商抽取项目信息数据名称 **/
+    public final static String SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME="_m_supplier_extract_project.dat";
+    
+    
     /**
      * 
      *〈简述〉创建根目录
@@ -823,6 +858,10 @@ public class FileUtils {
           case 28:  filePath=EXPERT_BLACKLIST_PATH;break;
           case 29:  filePath=EXPERT_BLACKLIST_LOG_PATH;break;
           case 30:  filePath=HOT_LINE_PATH;break;
+          case 31:  filePath=C_SYNCH_LOGOUT_SUPPLIER_FILE_DIRECTORY;break;
+          case 32:  filePath=EXPERT_EXTRACT_PATH;break;
+          case 33:  filePath=EXPERT_EXTRACT_RESULT_PATH;break;
+          case 34:  filePath=MILITARY_EXPERT_PATH;break;
         }
         return filePath;
     }

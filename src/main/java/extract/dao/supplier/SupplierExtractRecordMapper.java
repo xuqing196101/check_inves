@@ -2,8 +2,7 @@ package extract.dao.supplier;
 
 import java.util.List;
 
-import bss.model.ppms.Project;
-import extract.model.supplier.SupplierExtracts;
+import extract.model.supplier.SupplierExtractProjectInfo;
 
 public interface SupplierExtractRecordMapper {
     /**
@@ -18,33 +17,33 @@ public interface SupplierExtractRecordMapper {
      *
      * @param record
      */
-    int insert(SupplierExtracts record);
+    int insert(SupplierExtractProjectInfo record);
 
     /**
      *
      * @param record
      */
-    int insertSelective(SupplierExtracts record);
+    int insertSelective(SupplierExtractProjectInfo record);
 
     /**
      * 根据主键获取一条数据库记录
      *
      * @param id
      */
-    SupplierExtracts selectByPrimaryKey(String id);
+    SupplierExtractProjectInfo selectByPrimaryKey(String id);
 
     /**
-     *
+     *	动态修改项目记录表
      * @param record
      */
-    int updateByPrimaryKeySelective(SupplierExtracts record);
+    int updateByPrimaryKeySelective(SupplierExtractProjectInfo record);
 
     /**
      * 根据主键来更新数据库记录
      *
      * @param record
      */
-    int updateByPrimaryKey(SupplierExtracts record);
+    int updateByPrimaryKey(SupplierExtractProjectInfo record);
     
     /**
      * @Description:获取集合信息
@@ -55,9 +54,41 @@ public interface SupplierExtractRecordMapper {
      * @param @return      
      * @return List<SupplierExtracts>
      */
-    List<SupplierExtracts> list(SupplierExtracts record);
+    List<SupplierExtractProjectInfo> list(SupplierExtractProjectInfo record);
 
-	Project getProjectInfoById(String id);
+    
+    /**
+     * 下载记录表需要的项目信息
+     * @param id
+     * @return
+     */
+	SupplierExtractProjectInfo getProjectInfoById(String id);
 
-	List<SupplierExtracts> getList();
+	/**
+	 * 抽取记录列表
+	 * @param string 
+	 * @return
+	 */
+	List<SupplierExtractProjectInfo> getList(SupplierExtractProjectInfo project);
+
+	int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo);
+
+	void insertProjectInfo(SupplierExtractProjectInfo record);
+	
+	/**
+	 * 模糊查询项目信息
+	 * @param p
+	 * @return
+	 */
+	List<SupplierExtractProjectInfo> getListByMap(SupplierExtractProjectInfo p);
+
+	/**
+	 * 获取自动抽取待通知项目
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-19下午7:16:43
+	 * @return
+	 */
+	List<SupplierExtractProjectInfo> selectAutoExtractProject();
 }

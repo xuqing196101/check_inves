@@ -1,133 +1,153 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.sms.SupplierAuditMapper">
-  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierAudit">
-    <id column="ID" property="id" />
-    <result column="SUGGEST" property="suggest" />
-    <result column="AUDIT_TYPE" property="auditType" />
-    <result column="USER_ID" property="userId" />
-    <result column="SUPPLIER_ID" property="supplierId" />
-    <result column="STATUS" property="status" />
-    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
-    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
-    <result column="AUDIT_FIELD" property="auditField" />
-    <result column="AUDIT_CONTENT" property="auditContent" />
-    <result column="AUDIT_FIELD_NAME" property="auditFieldName" />
-    <result column="IS_DELETED" property="isDeleted" />
-    <result column="RETURN_STATUS" property="returnStatus" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="ses.model.sms.SupplierAudit">
+        <id column="ID" property="id"/>
+        <result column="SUGGEST" property="suggest"/>
+        <result column="AUDIT_TYPE" property="auditType"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="SUPPLIER_ID" property="supplierId"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
+        <result column="AUDIT_FIELD" property="auditField"/>
+        <result column="AUDIT_CONTENT" property="auditContent"/>
+        <result column="AUDIT_FIELD_NAME" property="auditFieldName"/>
+        <result column="IS_DELETED" property="isDeleted"/>
+        <result column="RETURN_STATUS" property="returnStatus"/>
+    </resultMap>
 
     <resultMap id="BaseResultMapChild" type="ses.model.sms.SupplierAudit" extends="BaseResultMap">
         <result column="TYPE" property="type"/>
     </resultMap>
-  <sql id="Base_Column_List">
+    <sql id="Base_Column_List">
     ID, SUGGEST, AUDIT_TYPE, USER_ID, SUPPLIER_ID, STATUS, CREATED_AT, UPDATED_AT, AUDIT_FIELD, 
     AUDIT_CONTENT, AUDIT_FIELD_NAME, IS_DELETED, RETURN_STATUS
   </sql>
-  
-  <select id="selectByPrimaryKey"   parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from T_SES_SMS_SUPPLIER_AUDIT
-    where SUPPLIER_ID = #{supplierId}
-    <if test="auditField!=null">
-		and  AUDIT_FIELD=#{auditField}
-    </if>
-    <if test="auditType!=null">
-		and  AUDIT_TYPE=#{auditType}
-    </if>
-    and IS_DELETED = 0
-    ORDER BY CREATED_AT DESC
-  </select>
-  
- 	<!-- 查询所有的审核记录 -->
-  <select id="selectAuditRecords" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from T_SES_SMS_SUPPLIER_AUDIT
-    where SUPPLIER_ID = #{audit.supplierId}
-    <if test="audit.auditField != null">
-		and AUDIT_FIELD = #{audit.auditField}
-    </if>
-    <if test="audit.auditType != null">
-		and AUDIT_TYPE = #{audit.auditType}
-    </if>
-    <if test="audit.returnStatus != null">
-		and RETURN_STATUS = #{audit.returnStatus}
-    </if>
-    <if test="audit.isDeleted != null">
-		and IS_DELETED = #{audit.isDeleted}
-    </if>
-    <if test="rss != null and rss.length > 0">
-		and RETURN_STATUS in
-		<foreach collection="rss" item="item" open="(" close=")" separator="," index="index">
-			#{item}
-		</foreach>
-    </if>
-  </select>
-  
- 	<!-- 查询所有的审核记录（排序） -->
-  <select id="selectAuditRecordsWithSort" parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from T_SES_SMS_SUPPLIER_AUDIT
-    where SUPPLIER_ID = #{supplierId}
-    <if test="auditField != null">
-		and AUDIT_FIELD = #{auditField}
-    </if>
-    <if test="auditType != null">
-		and AUDIT_TYPE = #{auditType}
-    </if>
-    <if test="returnStatus != null">
-		and RETURN_STATUS = #{returnStatus}
-    </if>
-    <!-- ORDER BY DECODE(RETURN_STATUS, 1, 0), DECODE(RETURN_STATUS, 3, 1), CREATED_AT DESC -->
-    ORDER BY CREATED_AT ASC
-  </select>
-  
-  <select id="findByTypeId"   parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
-    select
-     AUDIT_TYPE, SUPPLIER_ID, AUDIT_FIELD, 
-    AUDIT_CONTENT, AUDIT_FIELD_NAME 
-    from T_SES_SMS_SUPPLIER_AUDIT
-    where SUPPLIER_ID = #{supplierId}
-    <if test="auditField!=null">
-        and  AUDIT_FIELD=#{auditField}
-    </if>
-    <if test="auditType!=null">
-        and  AUDIT_TYPE=#{auditType}
-    </if>
-    and IS_DELETED = 0
-    ORDER BY CREATED_AT DESC
-  </select>
-  
-  
-   <select id="countByPrimaryKey"   parameterType="ses.model.sms.SupplierAudit" resultType="Integer">
-    select 
-    count(ID)
-    from T_SES_SMS_SUPPLIER_AUDIT
-    where SUPPLIER_ID = #{supplierId}
-    <if test="auditField!=null">
-        and  AUDIT_FIELD=#{auditField}
-    </if>
-    <if test="auditType!=null">
-        and  AUDIT_TYPE=#{auditType}
-    </if>
-    and IS_DELETED = 0
-    ORDER BY CREATED_AT DESC
-  </select>
-  
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+
+    <select id="selectByPrimaryKey" parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SES_SMS_SUPPLIER_AUDIT T
+        WHERE T.SUPPLIER_ID = #{supplierId}
+        <if test="auditField!=null">
+            AND T.AUDIT_FIELD=#{auditField}
+        </if>
+        <if test="auditType!=null">
+            AND T.AUDIT_TYPE=#{auditType}
+        </if>
+        AND T.RETURN_STATUS IN(0,1,2,4)
+        ORDER BY T.CREATED_AT DESC
+    </select>
+
+    <!-- 查询所有的审核记录 -->
+    <select id="selectAuditRecords" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_SMS_SUPPLIER_AUDIT
+        where SUPPLIER_ID = #{audit.supplierId}
+        <if test="audit.auditField != null">
+            and AUDIT_FIELD = #{audit.auditField}
+        </if>
+        <if test="audit.auditType != null">
+            and AUDIT_TYPE = #{audit.auditType}
+        </if>
+        <if test="audit.returnStatus != null">
+            and RETURN_STATUS = #{audit.returnStatus}
+        </if>
+        <if test="audit.isDeleted != null">
+            and IS_DELETED = #{audit.isDeleted}
+        </if>
+        <if test="rss != null and rss.length > 0">
+            and RETURN_STATUS in
+            <foreach collection="rss" item="item" open="(" close=")" separator="," index="index">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <!-- 查询所有的审核记录（排序） -->
+    <select id="selectAuditRecordsWithSort" parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_SMS_SUPPLIER_AUDIT
+        where SUPPLIER_ID = #{supplierId}
+        <if test="auditField != null">
+            and AUDIT_FIELD = #{auditField}
+        </if>
+        <if test="auditType != null">
+            and AUDIT_TYPE = #{auditType}
+        </if>
+        <if test="returnStatus != null">
+            and RETURN_STATUS = #{returnStatus}
+        </if>
+        <!-- ORDER BY DECODE(RETURN_STATUS, 1, 0), DECODE(RETURN_STATUS, 3, 1), CREATED_AT DESC -->
+        ORDER BY CREATED_AT ASC
+    </select>
+
+    <select id="findByTypeId" parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
+        select
+        AUDIT_TYPE, SUPPLIER_ID, AUDIT_FIELD,
+        AUDIT_CONTENT, AUDIT_FIELD_NAME
+        from T_SES_SMS_SUPPLIER_AUDIT
+        where SUPPLIER_ID = #{supplierId}
+        <if test="auditField!=null">
+            and AUDIT_FIELD=#{auditField}
+        </if>
+        <if test="auditType!=null">
+            and AUDIT_TYPE=#{auditType}
+        </if>
+        and IS_DELETED = 0
+        ORDER BY CREATED_AT DESC
+    </select>
+
+
+    <select id="countByPrimaryKey" parameterType="ses.model.sms.SupplierAudit" resultType="Integer">
+        select
+        count(ID)
+        from T_SES_SMS_SUPPLIER_AUDIT
+        where SUPPLIER_ID = #{supplierId}
+        <if test="auditField!=null">
+            and AUDIT_FIELD=#{auditField}
+        </if>
+        <if test="auditType!=null">
+            and AUDIT_TYPE=#{auditType}
+        </if>
+        and IS_DELETED = 0
+        ORDER BY CREATED_AT DESC
+    </select>
+
+    <!-- 统计审核记录 -->
+    <select id="countAuditRecords" resultType="Integer">
+        select
+        count(ID)
+        from T_SES_SMS_SUPPLIER_AUDIT
+        where SUPPLIER_ID = #{audit.supplierId}
+        <if test="audit.auditField!=null">
+            and AUDIT_FIELD=#{audit.auditField}
+        </if>
+        <if test="audit.auditType!=null">
+            and AUDIT_TYPE=#{audit.auditType}
+        </if>
+        <if test="rss != null and rss.length > 0">
+            and RETURN_STATUS in
+            <foreach collection="rss" item="item" open="(" close=")" separator="," index="index">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_SMS_SUPPLIER_AUDIT
     where ID = #{id}
   </delete>
-  
-  <delete id="deleteBySupplierId" parameterType="java.lang.String">
+
+    <delete id="deleteBySupplierId" parameterType="java.lang.String">
   	delete from T_SES_SMS_SUPPLIER_AUDIT
     where SUPPLIER_ID = #{supplierId}
   </delete>
-  
-  <insert id="insert" parameterType="ses.model.sms.SupplierAudit">
+
+    <insert id="insert" parameterType="ses.model.sms.SupplierAudit">
     insert into T_SES_SMS_SUPPLIER_AUDIT (ID, SUGGEST, AUDIT_TYPE, 
       USER_ID, SUPPLIER_ID, STATUS, 
       CREATED_AT, UPDATED_AT, AUDIT_FIELD, AUDIT_FIELD_NAME ,IS_DELETED,
@@ -137,219 +157,224 @@
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{auditField}, #{auditFieldName} ,#{isDeleted},
       #{auditContent})
   </insert>
-  
-  <!-- 插入审核记录 -->
-  <insert id="insertSelective" parameterType="ses.model.sms.SupplierAudit">
-    insert into T_SES_SMS_SUPPLIER_AUDIT
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="suggest != null">
-        SUGGEST,
-      </if>
-      <if test="auditType != null">
-        AUDIT_TYPE,
-      </if>
-      <if test="userId != null">
-        USER_ID,
-      </if>
-      <if test="supplierId != null">
-        SUPPLIER_ID,
-      </if>
-      <if test="status != null">
-        STATUS,
-      </if>
-      <if test="createdAt != null">
-        CREATED_AT,
-      </if>
-      <if test="updatedAt != null">
-        UPDATED_AT,
-      </if>
-      <if test="auditField != null">
-        AUDIT_FIELD,
-      </if>
-      <if test="auditContent != null">
-        AUDIT_CONTENT,
-      </if>
-      <if test="auditFieldName != null">
-        AUDIT_FIELD_NAME,
-      </if>
-      <if test="isDeleted != null">
-        IS_DELETED,
-      </if>
-      <if test="returnStatus != null">
-        RETURN_STATUS,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id},
-      </if>
-      <if test="suggest != null">
-        #{suggest},
-      </if>
-      <if test="auditType != null">
-        #{auditType},
-      </if>
-      <if test="userId != null">
-        #{userId},
-      </if>
-      <if test="supplierId != null">
-        #{supplierId},
-      </if>
-      <if test="status != null">
-        #{status},
-      </if>
-      <if test="createdAt != null">
-        #{createdAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedAt != null">
-        #{updatedAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="auditField != null">
-        #{auditField},
-      </if>
-      <if test="auditContent != null">
-        #{auditContent},
-      </if>
-      <if test="auditFieldName != null">
-        #{auditFieldName},
-      </if>
-      <if test="isDeleted != null">
-        #{isDeleted},
-      </if>
-      <if test="returnStatus != null">
-        #{returnStatus},
-      </if>
-    </trim>
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-        select sys_guid() from dual
-     </selectKey>
-  </insert>
-  
-  
-  <!-- 插入审核记录 -->
-  <insert id="inserActive" parameterType="ses.model.sms.SupplierAudit">
-    insert into T_SES_SMS_SUPPLIER_AUDIT
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="suggest != null">
-        SUGGEST,
-      </if>
-      <if test="auditType != null">
-        AUDIT_TYPE,
-      </if>
-      <if test="userId != null">
-        USER_ID,
-      </if>
-      <if test="supplierId != null">
-        SUPPLIER_ID,
-      </if>
-      <if test="status != null">
-        STATUS,
-      </if>
-      <if test="createdAt != null">
-        CREATED_AT,
-      </if>
-      <if test="updatedAt != null">
-        UPDATED_AT,
-      </if>
-      <if test="auditField != null">
-        AUDIT_FIELD,
-      </if>
-      <if test="auditContent != null">
-        AUDIT_CONTENT,
-      </if>
-      <if test="auditFieldName != null">
-        AUDIT_FIELD_NAME,
-      </if>
-      <if test="isDeleted != null">
-        IS_DELETED,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id},
-      </if>
-      <if test="suggest != null">
-        #{suggest},
-      </if>
-      <if test="auditType != null">
-        #{auditType},
-      </if>
-      <if test="userId != null">
-        #{userId},
-      </if>
-      <if test="supplierId != null">
-        #{supplierId},
-      </if>
-      <if test="status != null">
-        #{status},
-      </if>
-      <if test="createdAt != null">
-        #{createdAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedAt != null">
-        #{updatedAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="auditField != null">
-        #{auditField},
-      </if>
-      <if test="auditContent != null">
-        #{auditContent},
-      </if>
-      <if test="auditFieldName != null">
-        #{auditFieldName},
-      </if>
-      <if test="isDeleted != null">
-        #{isDeleted},
-      </if>
-    </trim>
-  </insert>
-  
-  
-  
-  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierAudit">
-    update T_SES_SMS_SUPPLIER_AUDIT
-    <set>
-      <if test="suggest != null">
-        SUGGEST = #{suggest},
-      </if>
-      <if test="auditType != null">
-        AUDIT_TYPE = #{auditType},
-      </if>
-      <if test="userId != null">
-        USER_ID = #{userId},
-      </if>
-      <if test="status != null">
-        STATUS = #{status},
-      </if>
-      <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="auditField != null">
-        AUDIT_FIELD = #{auditField},
-      </if>
-      <if test="auditContent != null">
-        AUDIT_CONTENT = #{auditContent},
-      </if>
-      <if test="auditContent != null">
-        AUDIT_FIELD_NAME = #{auditFieldName},
-      </if>
-      <if test="isDeleted != null">
-        IS_DELETED = #{isDeleted},
-      </if>
-    </set>
-    where
+
+    <!-- 插入审核记录 -->
+    <insert id="insertSelective" parameterType="ses.model.sms.SupplierAudit">
+        insert into T_SES_SMS_SUPPLIER_AUDIT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="suggest != null">
+                SUGGEST,
+            </if>
+            <if test="auditType != null">
+                AUDIT_TYPE,
+            </if>
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="supplierId != null">
+                SUPPLIER_ID,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="createdAt != null">
+                CREATED_AT,
+            </if>
+            <if test="updatedAt != null">
+                UPDATED_AT,
+            </if>
+            <if test="auditField != null">
+                AUDIT_FIELD,
+            </if>
+            <if test="auditContent != null">
+                AUDIT_CONTENT,
+            </if>
+            <if test="auditFieldName != null">
+                AUDIT_FIELD_NAME,
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED,
+            </if>
+            <if test="returnStatus != null">
+                RETURN_STATUS,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="suggest != null">
+                #{suggest},
+            </if>
+            <if test="auditType != null">
+                #{auditType},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="supplierId != null">
+                #{supplierId},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="auditField != null">
+                #{auditField},
+            </if>
+            <if test="auditContent != null">
+                #{auditContent},
+            </if>
+            <if test="auditFieldName != null">
+                #{auditFieldName},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted},
+            </if>
+            <if test="returnStatus != null">
+                #{returnStatus},
+            </if>
+        </trim>
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+            select sys_guid() from dual
+        </selectKey>
+    </insert>
+
+
+    <!-- 插入审核记录 -->
+    <insert id="inserActive" parameterType="ses.model.sms.SupplierAudit">
+        insert into T_SES_SMS_SUPPLIER_AUDIT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="suggest != null">
+                SUGGEST,
+            </if>
+            <if test="auditType != null">
+                AUDIT_TYPE,
+            </if>
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="supplierId != null">
+                SUPPLIER_ID,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="createdAt != null">
+                CREATED_AT,
+            </if>
+            <if test="updatedAt != null">
+                UPDATED_AT,
+            </if>
+            <if test="auditField != null">
+                AUDIT_FIELD,
+            </if>
+            <if test="auditContent != null">
+                AUDIT_CONTENT,
+            </if>
+            <if test="auditFieldName != null">
+                AUDIT_FIELD_NAME,
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED,
+            </if>
+            <if test="returnStatus != null">
+                RETURN_STATUS,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="suggest != null">
+                #{suggest},
+            </if>
+            <if test="auditType != null">
+                #{auditType},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="supplierId != null">
+                #{supplierId},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="auditField != null">
+                #{auditField},
+            </if>
+            <if test="auditContent != null">
+                #{auditContent},
+            </if>
+            <if test="auditFieldName != null">
+                #{auditFieldName},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted},
+            </if>
+            <if test="returnStatus != null">
+                #{returnStatus},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierAudit">
+        update T_SES_SMS_SUPPLIER_AUDIT
+        <set>
+            <if test="suggest != null">
+                SUGGEST = #{suggest},
+            </if>
+            <if test="auditType != null">
+                AUDIT_TYPE = #{auditType},
+            </if>
+            <if test="userId != null">
+                USER_ID = #{userId},
+            </if>
+            <if test="status != null">
+                STATUS = #{status},
+            </if>
+            <if test="createdAt != null">
+                CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="auditField != null">
+                AUDIT_FIELD = #{auditField},
+            </if>
+            <if test="auditContent != null">
+                AUDIT_CONTENT = #{auditContent},
+            </if>
+            <if test="auditContent != null">
+                AUDIT_FIELD_NAME = #{auditFieldName},
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED = #{isDeleted},
+            </if>
+        </set>
+        where
         SUPPLIER_ID = #{supplierId}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierAudit">
+    </update>
+    <update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierAudit">
     update T_SES_SMS_SUPPLIER_AUDIT
     set SUGGEST = #{suggest},
       AUDIT_TYPE = #{auditType},
@@ -364,91 +389,91 @@
       IS_DELETED = # {isDeleted}
     where ID = #{id}
   </update>
-  <update id="updateByIdSelective" parameterType="ses.model.sms.SupplierAudit">
-    update T_SES_SMS_SUPPLIER_AUDIT
-    <set>
-      <if test="suggest != null">
-        SUGGEST = #{suggest},
-      </if>
-      <if test="auditType != null">
-        AUDIT_TYPE = #{auditType},
-      </if>
-      <if test="userId != null">
-        USER_ID = #{userId},
-      </if>
-      <if test="status != null">
-        STATUS = #{status},
-      </if>
-      <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="auditField != null">
-        AUDIT_FIELD = #{auditField},
-      </if>
-      <if test="auditContent != null">
-        AUDIT_CONTENT = #{auditContent},
-      </if>
-      <if test="auditContent != null">
-        AUDIT_FIELD_NAME = #{auditFieldName},
-      </if>
-      <if test="isDeleted != null">
-        IS_DELETED = #{isDeleted},
-      </if>
-      <if test="returnStatus != null">
-        RETURN_STATUS = #{returnStatus},
-      </if>
-    </set>
-    where
+    <update id="updateByIdSelective" parameterType="ses.model.sms.SupplierAudit">
+        update T_SES_SMS_SUPPLIER_AUDIT
+        <set>
+            <if test="suggest != null">
+                SUGGEST = #{suggest},
+            </if>
+            <if test="auditType != null">
+                AUDIT_TYPE = #{auditType},
+            </if>
+            <if test="userId != null">
+                USER_ID = #{userId},
+            </if>
+            <if test="status != null">
+                STATUS = #{status},
+            </if>
+            <if test="createdAt != null">
+                CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="auditField != null">
+                AUDIT_FIELD = #{auditField},
+            </if>
+            <if test="auditContent != null">
+                AUDIT_CONTENT = #{auditContent},
+            </if>
+            <if test="auditContent != null">
+                AUDIT_FIELD_NAME = #{auditFieldName},
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED = #{isDeleted},
+            </if>
+            <if test="returnStatus != null">
+                RETURN_STATUS = #{returnStatus},
+            </if>
+        </set>
+        where
         ID = #{id}
-  </update>
-  
-  <select id="findByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
-  	select 
-  		<include refid="Base_Column_List" />
-  	from
-  		T_SES_SMS_SUPPLIER_AUDIT t1
-  	<where>
-  		<if test="list != null">
-  			<foreach collection="list" item="auditType" open="and t1.AUDIT_TYPE in (" close=")" separator=",">
-				#{auditType}
-			</foreach>
-  		</if>
-  		<if test="supplierId != null">
-			and t1.SUPPLIER_ID = #{supplierId}
-  		</if>
-  		<if test="isDeleted != null">
-		 	and t1.IS_DELETED = #{isDeleted}
-	 	</if>
-  	</where>
-  </select>
-	
-	<update id="updateByMap" parameterType="java.util.Map">
-	 update 
-	 	T_SES_SMS_SUPPLIER_AUDIT t1
-	 <set>
-	 	<if test="isDeleted != null">
-	 		t1.IS_DELETED = #{isDeleted}
-	 	</if>
-	 </set>
-	 <where>
-	 	<if test="supplierId != null">
-	 		and t1.SUPPLIER_ID = #{supplierId}
-	 	</if>
-	 </where>
-	</update>
-	
-	<select id="selectById" resultMap="BaseResultMap">
-	 select 
-    <include refid="Base_Column_List" />
-    from T_SES_SMS_SUPPLIER_AUDIT
-    where ID = #{id} 
-	</select>
-	
-	 <!-- 软删除历史记录 -->
-  <update id="updateIsDeleteBySupplierId" parameterType="ses.model.sms.SupplierAudit">
+    </update>
+
+    <select id="findByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        T_SES_SMS_SUPPLIER_AUDIT t1
+        <where>
+            <if test="list != null">
+                <foreach collection="list" item="auditType" open="and t1.AUDIT_TYPE in (" close=")" separator=",">
+                    #{auditType}
+                </foreach>
+            </if>
+            <if test="supplierId != null">
+                and t1.SUPPLIER_ID = #{supplierId}
+            </if>
+            <if test="isDeleted != null">
+                and t1.IS_DELETED = #{isDeleted}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateByMap" parameterType="java.util.Map">
+        update
+        T_SES_SMS_SUPPLIER_AUDIT t1
+        <set>
+            <if test="isDeleted != null">
+                t1.IS_DELETED = #{isDeleted}
+            </if>
+        </set>
+        <where>
+            <if test="supplierId != null">
+                and t1.SUPPLIER_ID = #{supplierId}
+            </if>
+        </where>
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_SES_SMS_SUPPLIER_AUDIT
+        where ID = #{id}
+    </select>
+
+    <!-- 软删除历史记录 -->
+    <update id="updateIsDeleteBySupplierId" parameterType="ses.model.sms.SupplierAudit">
   	update
   		T_SES_SMS_SUPPLIER_AUDIT
   	set
@@ -456,102 +481,105 @@
   	where 
   		SUPPLIER_ID =#{supplierId}
   </update>
-	
-	<!-- 查询注册供应商不通过的小类 -->
-	<select id="selectRegSupCateCount" resultType="java.lang.Integer" parameterType="Map">
-		SELECT COUNT(T.ID)
-		  FROM T_SES_SMS_SUPPLIER_AUDIT T
-		   WHERE T.SUPPLIER_ID = #{supplierId, jdbcType=VARCHAR}
-            <if test="items_product_page != null and items_product_page != ''">
-              AND T.AUDIT_TYPE = #{items_product_page}
-            </if>
-            <if test="items_sales_page != null and items_sales_page != ''">
-              AND T.AUDIT_TYPE = #{items_sales_page}
-            </if>
-		   AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3 OR T.STATUS = 9)
-           AND T.IS_DELETED = 0
-            <if test="supplierItems != null and supplierItems.size > 0">
-                AND T.AUDIT_FIELD NOT IN
-                <foreach collection="supplierItems" open="(" close=")" separator="," item="item">
-                    #{item}
-                </foreach>
-            </if>
-	</select>
-	<!-- 查询注册供应商不通过的小类 -->
-	<select id="selectRegSupCateCount2" resultType="java.lang.Integer" parameterType="Map">
-		SELECT COUNT(T.ID)
-		  FROM T_SES_SMS_SUPPLIER_AUDIT T
-		   WHERE T.SUPPLIER_ID = #{supplierId, jdbcType=VARCHAR}
-              AND (T.AUDIT_TYPE = #{items_product_page}
-              OR T.AUDIT_TYPE = #{items_sales_page})
-		   AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3 OR T.STATUS = 9)
-           AND T.IS_DELETED = 0
-            <if test="supplierItems != null and supplierItems.size > 0">
-                AND T.AUDIT_FIELD NOT IN
-                <foreach collection="supplierItems" open="(" close=")" separator="," item="item">
-                    #{item}
-                </foreach>
-            </if>
-	</select>
 
-		<!--查询基本信息的审核项数量-->
-		<select id="selectBasicInfoAuditItem" resultType="java.lang.Integer" parameterType="Map">
-			SELECT COUNT(T.ID)
-			FROM T_SES_SMS_SUPPLIER_AUDIT T
-			WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4)
-		     <if test="supplierId != null and supplierId != ''">
-		         AND T.SUPPLIER_ID = #{supplierId}
-		     </if>
-		     <if test="auditType != null and auditType != ''">
-		         AND T.AUDIT_TYPE = #{auditType}
-		     </if>
-		</select>
+    <!-- 查询注册供应商不通过的小类 -->
+    <select id="selectRegSupCateCount" resultType="java.lang.Integer" parameterType="Map">
+        SELECT COUNT(T.ID)
+        FROM T_SES_SMS_SUPPLIER_AUDIT T
+        WHERE T.SUPPLIER_ID = #{supplierId, jdbcType=VARCHAR}
+        <if test="items_product_page != null and items_product_page != ''">
+            AND T.AUDIT_TYPE = #{items_product_page}
+        </if>
+        <if test="items_sales_page != null and items_sales_page != ''">
+            AND T.AUDIT_TYPE = #{items_sales_page}
+        </if>
+        AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3 OR T.STATUS = 9)
+        AND T.IS_DELETED = 0
+        <if test="supplierItems != null and supplierItems.size > 0">
+            AND T.AUDIT_FIELD NOT IN
+            <foreach collection="supplierItems" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <!-- 查询注册供应商不通过的小类 -->
+    <select id="selectRegSupCateCount2" resultType="java.lang.Integer" parameterType="Map">
+        SELECT COUNT(T.ID)
+        FROM T_SES_SMS_SUPPLIER_AUDIT T
+        WHERE T.SUPPLIER_ID = #{supplierId, jdbcType=VARCHAR}
+        AND (T.AUDIT_TYPE = #{items_product_page}
+        OR T.AUDIT_TYPE = #{items_sales_page})
+        AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3 OR T.STATUS = 9)
+        AND T.IS_DELETED = 0
+        <if test="supplierItems != null and supplierItems.size > 0">
+            AND T.AUDIT_FIELD NOT IN
+            <foreach collection="supplierItems" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+    </select>
 
-		<select id="selectBySupIdAndType" resultMap="BaseResultMapChild" parameterType="Map">
-			SELECT T.AUDIT_FIELD, DA.CODE AS TYPE
-			FROM T_SES_SMS_SUPPLIER_AUDIT T
-			LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA
-			ON T.AUDIT_FIELD = DA.ID
-			WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4)
-			<if test="supplierId != null and supplierId != ''">
-			    AND T.SUPPLIER_ID = #{supplierId}
-			</if>
-			<if test="auditType != null and auditType != ''">
-			    AND T.AUDIT_TYPE = #{auditType}
-			</if>
-		</select>
+    <!--查询基本信息的审核项数量-->
+    <select id="selectBasicInfoAuditItem" resultType="java.lang.Integer" parameterType="Map">
+        SELECT COUNT(T.ID)
+        FROM T_SES_SMS_SUPPLIER_AUDIT T
+        <!-- WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4) -->
+        WHERE T.RETURN_STATUS IN(0,1,2,4)
+        <if test="supplierId != null and supplierId != ''">
+            AND T.SUPPLIER_ID = #{supplierId}
+        </if>
+        <if test="auditType != null and auditType != ''">
+            AND T.AUDIT_TYPE = #{auditType}
+        </if>
+    </select>
+
+    <select id="selectBySupIdAndType" resultMap="BaseResultMapChild" parameterType="Map">
+        SELECT T.AUDIT_FIELD, DA.CODE AS TYPE
+        FROM T_SES_SMS_SUPPLIER_AUDIT T
+        LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA
+        ON T.AUDIT_FIELD = DA.ID
+        <!-- WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4) -->
+        WHERE T.RETURN_STATUS IN(0,1,2,4)
+        <if test="supplierId != null and supplierId != ''">
+            AND T.SUPPLIER_ID = #{supplierId}
+        </if>
+        <if test="auditType != null and auditType != ''">
+            AND T.AUDIT_TYPE = #{auditType}
+        </if>
+    </select>
 
     <!-- 查询注册供应商不通过的小类 -->
     <select id="selectNoPassItem" resultMap="BaseResultMap" parameterType="Map">
         SELECT
-          <include refid="Base_Column_List" />
-            FROM T_SES_SMS_SUPPLIER_AUDIT T
-            WHERE T.SUPPLIER_ID = #{supplierId, jdbcType=VARCHAR}
-            <if test="items_product_page != null and items_product_page != ''">
-                AND T.AUDIT_TYPE = #{items_product_page}
-            </if>
-            <if test="items_sales_page != null and items_sales_page != ''">
-                AND T.AUDIT_TYPE = #{items_sales_page}
-            </if>
-            AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3 OR T.STATUS = 9)
-            AND T.IS_DELETED = 0
+        <include refid="Base_Column_List"/>
+        FROM T_SES_SMS_SUPPLIER_AUDIT T
+        WHERE T.SUPPLIER_ID = #{supplierId, jdbcType=VARCHAR}
+        <if test="items_product_page != null and items_product_page != ''">
+            AND T.AUDIT_TYPE = #{items_product_page}
+        </if>
+        <if test="items_sales_page != null and items_sales_page != ''">
+            AND T.AUDIT_TYPE = #{items_sales_page}
+        </if>
+        AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3 OR T.STATUS = 9)
+        AND T.IS_DELETED = 0
     </select>
 
     <!--查询基本信息的审核项数量-->
     <select flushCache="true" id="selectBasicInfoAuditItemSingal" resultMap="BaseResultMap" parameterType="Map">
-	    SELECT
-	    <include refid="Base_Column_List" />
-	    FROM T_SES_SMS_SUPPLIER_AUDIT T
-			WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4)
-	    <if test="supplierId != null and supplierId != ''">
-	        AND T.SUPPLIER_ID = #{supplierId}
-	    </if>
-	    <if test="auditField != null and auditField != ''">
-	        AND T.AUDIT_FIELD = #{auditField}
-	    </if>
-	    <if test="auditType != null and auditType != ''">
-	        AND T.AUDIT_TYPE = #{auditType}
-	    </if>
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM T_SES_SMS_SUPPLIER_AUDIT T
+        <!-- WHERE (T.IS_DELETED = 0 OR T.RETURN_STATUS = 4) -->
+        WHERE T.RETURN_STATUS IN(0,1,2,4)
+        <if test="supplierId != null and supplierId != ''">
+            AND T.SUPPLIER_ID = #{supplierId}
+        </if>
+        <if test="auditField != null and auditField != ''">
+            AND T.AUDIT_FIELD = #{auditField}
+        </if>
+        <if test="auditType != null and auditType != ''">
+            AND T.AUDIT_TYPE = #{auditType}
+        </if>
     </select>
 
 </mapper>

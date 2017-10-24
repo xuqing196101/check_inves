@@ -1,6 +1,27 @@
 package ses.service.bms.impl;
 
 
+import com.github.pagehelper.PageHelper;
+import common.constant.StaticVariables;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+import org.springframework.stereotype.Service;
+import ses.dao.bms.UserMapper;
+import ses.dao.oms.OrgnizationMapper;
+import ses.model.bms.User;
+import ses.model.bms.UserPreMenu;
+import ses.model.bms.Userrole;
+import ses.model.oms.Orgnization;
+import ses.model.oms.util.Ztree;
+import ses.service.bms.UserServiceI;
+import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
+import ses.util.PropertiesUtil;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,31 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.ExecutorType;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import ses.dao.bms.UserMapper;
-import ses.dao.oms.OrgnizationMapper;
-import ses.model.bms.User;
-import ses.model.bms.UserPreMenu;
-import ses.model.bms.Userrole;
-import ses.model.oms.Orgnization;
-import ses.model.oms.util.Ztree;
-import ses.service.bms.UserDataRuleService;
-import ses.service.bms.UserServiceI;
-import ses.service.oms.OrgnizationServiceI;
-import ses.util.DictionaryDataUtil;
-import ses.util.PropUtil;
-import ses.util.PropertiesUtil;
-
-import com.github.pagehelper.PageHelper;
-import common.constant.StaticVariables;
 
 
 /**
@@ -432,6 +428,7 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
 		    	 u.setMobile(mobile);
 		    	 u.setIdNumber(idNumber);
 		    	 u.setTypeId(typeId);
+		    	 u.setUpdatedAt(new Date());
 		    	 userMapper.updateDelUserByTypeId(u);
 	    	 } 
 		}

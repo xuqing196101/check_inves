@@ -600,7 +600,7 @@ public class ExpertAuditController{
 						map.put("auditField", "近期免冠彩色证件照");
 					}
 					expertAuditService.updateDoAuditStatus(map);
-				}
+					}
 				model.addAttribute("fileModify", fileModify);
 			}
 		}

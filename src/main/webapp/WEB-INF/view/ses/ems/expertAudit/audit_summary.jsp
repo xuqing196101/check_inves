@@ -210,20 +210,19 @@
       <div class="content">
         <div class="col-md-12 tab-v2 job-content">
           <%@include file="/WEB-INF/view/ses/ems/expertAudit/common_jump.jsp" %>
-
           <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
           <ul class="ul_list count_flow">
              <c:if test="${status == -2 || status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && status ==6) || status ==4}">
               <!-- <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button> -->
               <button class="btn btn-windows edit" type="button" onclick="showDiv()" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>  
             </c:if> 
-          <div id="updateStatus" style="display: none">
-	          <input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >退回修改
-	          <input type="radio" id="yupd" onclick="updateStatus(2)" name="updateStatusRadio" >已修改
-	          <input type="radio" id="nupd" onclick="updateStatus(3)" name="updateStatusRadio" >未修改
-	          <input type="radio" id="revokeReturn" onclick="updateStatus(4)" name="updateStatusRadio" >撤销退回
-	          <input type="radio" id="revokeNotpass" onclick="updateStatus(5)" name="updateStatusRadio">撤销不通过
-          </div>
+		         <div id="updateStatus" style="display: none">
+		          <input type="radio" id="upd" onclick="updateStatus(1)" name="updateStatusRadio" >退回修改
+		          <input type="radio" id="yupd" onclick="updateStatus(2)" name="updateStatusRadio" >已修改
+		          <input type="radio" id="nupd" onclick="updateStatus(3)" name="updateStatusRadio" >未修改
+		          <input type="radio" id="revokeReturn" onclick="updateStatus(4)" name="updateStatusRadio" >撤销退回
+		          <input type="radio" id="revokeNotpass" onclick="updateStatus(5)" name="updateStatusRadio">撤销不通过
+		         </div>
             <table class="table table-bordered table-condensed table-hover">
               <thead>
               <tr>

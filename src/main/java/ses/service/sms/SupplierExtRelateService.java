@@ -102,7 +102,7 @@ public interface SupplierExtRelateService {
    */
   List<SupplierExtRelate> selectSupplierType(String conditionId);
 
-
+  List<Map<String, String>> selectProSupplier(String projectId);
 
 
 }

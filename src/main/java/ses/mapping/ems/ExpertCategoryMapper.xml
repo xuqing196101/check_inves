@@ -324,6 +324,42 @@
 	    <if test="auditStatus != null">
 	      and AUDIT_STATUS = #{auditStatus} 
 	    </if>
+	 </select> 
+	    
+    <!-- 根据产品类别查询符合条件的专家 -->
+    <select id="selExpertByCategory" parameterType="Map" resultType="String">
+      SELECT 
+        EXPERT_ID
+      FROM
+        T_SES_EMS_EXPERT_CATEGORY
+      WHERE 1 = 1
+      <if test="categoryId != null and categoryId != ''">
+        AND CATEGORY_ID = #{categoryId}
+      </if>
+      <if test="typeId != null and typeId != ''">
+        AND TYPE_ID = #{typeId}
+      </if>
+      <if test="engType != null and engType != ''">
+        AND ENGIN_TYPE = #{engType}
+      </if>
+    </select>
+    
+    <!-- 根据品目查询符合条件的专家 (满足所有品目条件) -->
+    <select id="selExpertByAll" parameterType="Map" resultType="String">
+      SELECT
+        EXPERT_ID
+      FROM
+        T_SES_EMS_EXPERT_CATEGORY
+      WHERE
+        TYPE_ID = #{typeId}
+        <if test="engType != null and engType != ''">
+          AND ENGIN_TYPE = #{engType}
+        </if>
+         AND CATEGORY_ID IN
+        <foreach collection="ids" open="(" separator="," item="cid" close=")">
+          #{cid}
+        </foreach>
+      GROUP BY EXPERT_ID HAVING COUNT(EXPERT_ID) = #{idSize}
     </select>
       <!--根据专家ID，品目ID类型<集合>查询  -->
     <select id="selectCategoryListByCategoryId" resultMap="BaseResultMap">

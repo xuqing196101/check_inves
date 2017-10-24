@@ -447,4 +447,15 @@ public interface UserMapper {
      * @return
      */
     List<User> findByPermenuId(String permenuId);
+    
+    /**
+     *
+     * Description: 查询注销供应商
+     *
+     * @author Easong
+     * @version 2017/10/16
+     * @param 
+     * @since JDK1.7
+     */
+    List<User> selectLogoutSupplier(Map<String, Object> map);
 }

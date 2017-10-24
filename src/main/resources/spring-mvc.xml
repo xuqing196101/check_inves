@@ -26,7 +26,7 @@
 	
     <task:annotation-driven />
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
-	<context:component-scan base-package="ses.controller, iss.controller,bss.controller,common.controller,synchro.controller,common.aspect,system.controller,sums.controller,app.controller,dss.controller" />
+	<context:component-scan base-package="ses.controller, iss.controller,bss.controller,common.controller,synchro.controller,common.aspect,system.controller,sums.controller,app.controller,dss.controller,extract.controller" />
   
   	<aop:aspectj-autoproxy proxy-target-class="true" />
 
@@ -190,9 +190,14 @@
 			<!-- 定型产品 -->
 			<mvc:exclude-mapping path="/product/selPurchaseDepbyId.*" /> 
 			<!-- 前天搜索-->
-			<mvc:exclude-mapping path="/index/solrSearch1.*" />
+			<mvc:exclude-mapping path="/SupplierExtracts_new/supplierExtractResult.*" />
 			
+			<!-- 过滤专家抽取返回结果请求路径 -->
+			<mvc:exclude-mapping path="/expertExtracts/extractResult.*" />
+			<!-- 过滤抽取语音接口返回状态 -->
+			<mvc:exclude-mapping path="/index/solrSearch1.*" />
 			<bean class="ses.interceptor.MyInterceptor"></bean>
+			
 		</mvc:interceptor>
 		
 		<!-- 表单防重拦截器 -->

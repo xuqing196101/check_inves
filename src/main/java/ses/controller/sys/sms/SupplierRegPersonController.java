@@ -112,7 +112,7 @@ public class SupplierRegPersonController extends BaseController{
 		if(isOk){
 			return "ok";
 		}
-		return "fail";	
+		return "fail";
 	}
 	
 	public Map<String,Object>  validateRegPerson( SupplierRegPerson supplierRegPerson){

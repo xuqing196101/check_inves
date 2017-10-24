@@ -72,9 +72,12 @@ public class MyInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 		response.setContentType("text/html;charset=utf-8");
 		String reqUrl = request.getServletPath();
-		String file = request.getQueryString();
-		if(file!=null){
-		  reqUrl=reqUrl+"?"+file;
+		String catetree = "SupplierExtracts_new/addHeading.do";
+		if(!reqUrl.contains("addHeading")){
+			String file = request.getQueryString();
+			if(file!=null){
+				reqUrl=reqUrl+"?"+file;
+			}
 		}
 		
 			if (session.getAttribute("loginUser") == null) {

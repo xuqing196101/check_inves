@@ -31,6 +31,12 @@ public class SupplierMatProServiceImpl implements SupplierMatProService {
 		String id = supplier.getSupplierMatPro().getId();
 		if (id != null && !"".equals(id)) {
 		    supplier.getSupplierMatPro().setUpdatedAt(new Date());
+		    if(supplier.getSupplierMatPro().getCountryPro() == null){
+	        	supplier.getSupplierMatPro().setCountryPro("");
+	        }
+	        if(supplier.getSupplierMatPro().getCountryReward() == null){
+	        	supplier.getSupplierMatPro().setCountryReward("");
+	        }
 		    supplierMatProMapper.updateByPrimaryKeySelective(supplier.getSupplierMatPro());
 		} else {
 		    SupplierMatPro pro = supplierMatProMapper.getMatProBySupplierId(supplier.getId());
@@ -42,6 +48,12 @@ public class SupplierMatProServiceImpl implements SupplierMatProService {
 		    } else {
 		        if (supplier.getSupplierMatPro().getId() == null) {
 		            supplier.getSupplierMatPro().setId(pro.getId());
+		        }
+		        if(supplier.getSupplierMatPro().getCountryPro() == null){
+		        	supplier.getSupplierMatPro().setCountryPro("");
+		        }
+		        if(supplier.getSupplierMatPro().getCountryReward() == null){
+		        	supplier.getSupplierMatPro().setCountryReward("");
 		        }
 		        supplierMatProMapper.updateByPrimaryKeySelective(supplier.getSupplierMatPro());
 		    }

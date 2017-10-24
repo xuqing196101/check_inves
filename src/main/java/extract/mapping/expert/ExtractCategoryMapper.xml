@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="extract.dao.expert.ExtractCategoryMapper">
+  <resultMap id="BaseResultMap" type="extract.model.expert.ExtractCategory">
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CONDITION_ID" property="conditionId" jdbcType="VARCHAR" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+    <result column="TYPE_ID" property="typeId" jdbcType="VARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="IS_ENG" property="isEng" jdbcType="DECIMAL" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+    parameterType="java.lang.String">
+    select
+    *
+    from T_SES_EMS_EXTRACT_CATEGORY
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <!-- 插入非空数据 -->
+  <insert id="insertSelective" parameterType="extract.model.expert.ExpertExtractResult">
+    insert into T_SES_EMS_EXTRACT_CATEGORY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="conditionId != null">
+        CONDITION_ID,
+      </if>
+      <if test="categoryId != null">
+        CATEGORY_ID,
+      </if>
+      <if test="typeId != null">
+        TYPE_ID,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="isEng != null">
+        IS_ENG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionId != null">
+        #{conditionId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="isEng != null">
+        #{isEng,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 根据抽取条件id查询参评类别 -->
+  <select id="selByConditionId" parameterType="String" resultType="String">
+    SELECT CATEGORY_ID FROM T_SES_EMS_EXTRACT_CATEGORY WHERE CONDITION_ID = #{conditionId} AND TYPE_ID = #{typeId} AND IS_ENG = 0
+  </select>
+  
+  <!-- 根据抽取条件id查询参评类别 -->
+  <select id="findAllByConditionId" parameterType="String" resultType="String">
+    SELECT * FROM T_SES_EMS_EXTRACT_CATEGORY WHERE CONDITION_ID = #{conditionId}
+  </select>
+  
+    <update id="updateByPrimaryKeySelective" parameterType="extract.model.expert.ExtractCategory">
+    update T_SES_EMS_EXTRACT_CATEGORY
+    <set>
+      <if test="id != null">
+        ID = #{id},
+      </if>
+      <if test="conditionId != null">
+        CONDITION_ID = #{conditionId},
+      </if>
+      <if test="categoryId != null">
+        CATEGORY_ID = #{categoryId},
+      </if>
+      <if test="typeId != null">
+        TYPE_ID = #{typeId},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+      <if test="isEng != null">
+        IS_ENG = #{isEng},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 条件查询参评类别 -->
+  <select id="selByMap" parameterType="Map" resultType="String">
+    SELECT CATEGORY_ID FROM T_SES_EMS_EXTRACT_CATEGORY WHERE CONDITION_ID = #{conditionId} AND TYPE_ID = #{typeId}
+    <if test="isEng != null">
+        AND IS_ENG = #{isEng}
+      </if>
+  </select>
+</mapper>

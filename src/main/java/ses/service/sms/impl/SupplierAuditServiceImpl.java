@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import ses.constants.SupplierConstants;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
@@ -69,6 +71,7 @@ import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierModifyService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierTypeRelateService;
 import ses.util.Constant;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -211,6 +214,9 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	private SupplierItemMapper supplierItemMapper;
 	@Autowired
     private SupplierAuditOpinionMapper supplierAuditOpinionMapper;
+	
+	@Autowired
+	private SupplierTypeRelateService supplierTypeRelateService;
 	
 	/**
 	 * @Title: supplierList
@@ -1586,7 +1592,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 
 	@Override
-	public JdcgResult selectAuditNoPassItemCount(String supplierId) {
+	public JdcgResult selectAuditNoPassItemCount(String supplierId, String flag) {
 	    /**
 	     * @deprecated:
 	     *
@@ -1602,7 +1608,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	    if(auditNoPassCount != null && auditNoPassCount == 0){
 	        return JdcgResult.build(500, "没有审核不通过项");
         }
-        // 判断如果产品全部不通过，则提示需要改类型下所有产品不通过，请审核该类型也不通过
+        // 判断如果产品全部不通过，则提示需要该类型下所有产品不通过，请审核该类型也不通过
         JdcgResult jdcgResult = this.vertifyAuditItem(supplierId);
         if(jdcgResult != null){
             return jdcgResult;
@@ -1631,6 +1637,99 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
         }
         return JdcgResult.ok();
     }
+    
+    private JdcgResult getTypeAndItemNotPass(String supplierId){
+    	// 审核汇总记录中：
+		
+		// 有退回修改/未修改的记录，最终状态不通过（排除供应商类型/产品类别下的退回修改/未修改记录）
+		
+		// 所有类型不通过，最终状态不通过
+		
+		// 有目录下产品全部不通过，最终状态不通过
+		
+		// 其他情况，最终状态通过
+		
+		//int isAllTypeNotPass = 0;// 所有类型不通过
+		//int isAllItemNotPass = 0;// 类型下所有品目不通过
+		int typeNotPassCount = 0;// 类型不通过数量
+		SupplierAudit supplierTypeAudit = new SupplierAudit();
+		supplierTypeAudit.setSupplierId(supplierId);
+		supplierTypeAudit.setAuditType("supplierType_page");
+		List<SupplierAudit> supplierTypeAuditList = this.getAuditRecords(supplierTypeAudit, new Integer[]{2});
+		List<String> supplierTypeList = supplierTypeRelateService.findTypeBySupplierId(supplierId);
+		if(supplierTypeList != null){
+			for(String supplierType : supplierTypeList){
+				DictionaryData dd = DictionaryDataUtil.get(supplierType);
+				if(supplierTypeAuditList != null){
+					for(SupplierAudit audit : supplierTypeAuditList){
+						if(audit.getAuditField() != null && dd != null && audit.getAuditField().equals(dd.getId())){
+							typeNotPassCount++;
+							break;
+						}
+					}
+				}
+				int itemNotPassCount = 0;// 品目不通过数量
+				List<SupplierItem> itemList = supplierItemService.getItemList(supplierId, supplierType, null, null);
+				SupplierAudit supplierItemAudit = new SupplierAudit();
+				supplierItemAudit.setSupplierId(supplierId);
+				supplierItemAudit.setAuditType(getAuditType(supplierType));
+				List<SupplierAudit> supplierItemAuditList = this.getAuditRecords(supplierItemAudit, new Integer[]{2});
+				if(itemList != null){
+					for(SupplierItem item : itemList){
+						for(SupplierAudit audit : supplierItemAuditList){
+							if(audit.getAuditField() != null && audit.getAuditField().equals(item.getCategoryId())){
+								itemNotPassCount++;
+								break;
+							}
+						}
+					}
+					if(itemList.size() <= itemNotPassCount){
+						//isAllItemNotPass = 1;
+						String typeName = getSupplierTypeName(supplierType);
+						return JdcgResult.build(2, typeName + "类型下没有产品，请把" + typeName + "类型审核不通过！", supplierType);
+					}
+				}
+			}
+			if(supplierTypeList.size() <= typeNotPassCount){
+				//isAllTypeNotPass = 1;
+				return JdcgResult.build(1, "供应商类型不能全部不通过！");
+			}
+		}
+		return JdcgResult.build(0, "");
+    }
+    
+	private String getAuditType(String code){
+		String auditType = "";
+		switch (code) {
+		case ses.util.Constant.SUPPLIER_PRODUCT:
+			auditType = ses.util.Constant.ITEMS_PRODUCT_PAGE;
+			break;
+		case ses.util.Constant.SUPPLIER_SALES:
+			auditType = ses.util.Constant.ITEMS_SALES_PAGE;
+			break;
+		default:
+			auditType = ses.util.Constant.ITEMS_PRODUCT_PAGE;
+			break;
+		}
+		return auditType;
+	}
+	
+	private String getSupplierTypeName(String code){
+		String typeName = "";
+		if(Constant.SUPPLIER_PRODUCT.equals(code)){
+            typeName = "物资生产";
+        }
+        if(Constant.SUPPLIER_SALES.equals(code)){
+            typeName = "物资销售";
+        }
+        if(Constant.SUPPLIER_PROJECT.equals(code)){
+            typeName = "工程";
+        }
+        if(Constant.SUPPLIER_SERVICE.equals(code)){
+            typeName = "服务";
+        }
+		return typeName;
+	}
 
     /**
 	 * 
@@ -1767,7 +1866,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		audit.setSupplierId(supplierId);
 		audit.setAuditField(auditField);
 		audit.setAuditType(auditType);
-		return countByPrimaryKey(audit);
+		return countAuditRecords(audit, SupplierConstants.AUDIT_RETURN_STATUS);
 	}
 	@Override
 	public SupplierCateTree countEngCategoyrId(SupplierCateTree cateTree, String supplierId) {
@@ -2237,7 +2336,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					}
 					itemAudit.setAuditType(itemAuditType);
 					itemAudit.setAuditField(item.getCategoryId());
-					int itemAuditCount = supplierAuditMapper.countByPrimaryKey(itemAudit);
+//					int itemAuditCount = supplierAuditMapper.countByPrimaryKey(itemAudit);
+					int itemAuditCount = supplierAuditMapper.countAuditRecords(itemAudit, new Integer[]{0,2});
 					if(itemAuditCount > 0){
 						return new JdcgResult(503, "选择中存在已审核目录，无需再审核合同", null);
 					}
@@ -2266,7 +2366,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 						audit.setStatus(supplier.getStatus());
 						audit.setReturnStatus(1);
 						// 判断是否审核过该合同
-						int count = supplierAuditMapper.countByPrimaryKey(audit);
+//						int count = supplierAuditMapper.countByPrimaryKey(audit);
+						int count = supplierAuditMapper.countAuditRecords(audit, new Integer[]{0,1});
 						if(count > 0){
 							return new JdcgResult(503, "选择中存在已审核，不可重复审核", null);
 						}
@@ -2333,14 +2434,23 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			String[] idAry = ids.split(",");
 			for(String id : idAry){
 				SupplierAudit supplierAuditById = supplierAuditMapper.selectById(id);
-				if(supplierAuditById != null && supplierAuditById.getReturnStatus() != null && supplierAuditById.getReturnStatus() == 2){
+				/*if(supplierAuditById != null && supplierAuditById.getReturnStatus() != null && supplierAuditById.getReturnStatus() == 2){
 					return new JdcgResult(503, "选择中存在审核不通过的产品目录", null);
 				}
 				if(supplierAuditById != null && supplierAuditById.getAuditType() != null && supplierAuditById.getAuditType().startsWith("items_")){
 					return new JdcgResult(503, "选择中存在审核不通过的产品目录", null);
-				}
+				}*/
 				SupplierAudit supplierAudit = new SupplierAudit();
 				supplierAudit.setId(id);
+				if(status == 1){// 退回修改
+					supplierAudit.setIsDeleted(0);
+				}
+				if(status == 3){// 已修改
+					supplierAudit.setIsDeleted(1);
+				}
+				if(status == 4){ // 未修改
+					supplierAudit.setIsDeleted(1);
+				}
 				supplierAudit.setReturnStatus(status);
 				result += supplierAuditMapper.updateByIdSelective(supplierAudit);
 			}
@@ -2351,6 +2461,47 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int countAuditRecords(SupplierAudit supplierAudit, Integer[] rss) {
+		return supplierAuditMapper.countAuditRecords(supplierAudit, rss);
+	}
+
+	@Override
+	public JdcgResult vertifyReturnToModify(String supplierId) {
+		SupplierAudit supplierAudit = new SupplierAudit();
+		supplierAudit.setSupplierId(supplierId);
+		int auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
+		if(auditCount == 0){
+			return JdcgResult.build(500, "没有审核不通过项！");
+		}
+		return getTypeAndItemNotPass(supplierId);
+	}
+
+	@Override
+	public JdcgResult vertifyYushenhe(String supplierId, String flag) {
+		SupplierAudit supplierAudit = new SupplierAudit();
+		supplierAudit.setSupplierId(supplierId);
+		int auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
+		if("0".equals(flag)){// 预审核不通过
+			if(auditCount == 0){
+				return JdcgResult.build(500, "没有审核不通过项！");
+			}
+		}
+		if("1".equals(flag)){// 预审核通过
+			// 判断基本信息+财务信息+股东信息
+			supplierAudit.setAuditType("basic_page");
+			auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
+			if(auditCount > 0){
+				return JdcgResult.build(500, "基本、财务、股东信息中有不通过项！");
+			}
+			JdcgResult result = getTypeAndItemNotPass(supplierId);
+			if(result != null && result.getStatus() != 0){
+				return result;
+			}
+		}
+		return JdcgResult.build(0, "");
 	}
 
 }

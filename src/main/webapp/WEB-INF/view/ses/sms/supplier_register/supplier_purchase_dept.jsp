@@ -3,7 +3,7 @@
 
 		<style>
 			.m_fixInfo {
-				position: fixed;
+				position: absolute;
 				top: 210px;
 				right: 10px;
 				background-color: #FFF;
@@ -12,7 +12,7 @@
 				box-shadow: 0 0 5px rgba(0, 0, 0, .2);
 				border: solid 1px #FCBE3F;
 				padding: 10px;
-				z-index: 100;
+				z-index: 1001;
 			}
 			.m_fixInfo li {
 				overflow: hidden;
