@@ -74,75 +74,76 @@
             
             $("#fushengEnd").hide();
         });
-		function showDiv(){
-			var s=$('input[name="chkItem"]:checked').eq(0).parent("td").parent("tr").find("td").eq(7).text();
-			var show=true;
-			if($('input[name="chkItem"]:checked').size()<=0){
-				layer.alert("请选择需要修改状态的信息！", {offset: '100px'});
-				return;
+        
+        
+        function showDiv(){
+					var s=$('input[name="chkItem"]:checked').eq(0).parent("td").parent("tr").find("td").eq(7).text();
+					var show=true;
+					if($('input[name="chkItem"]:checked').size()<=0){
+						  layer.alert("请选择需要修改状态的信息！", {offset: '100px'});
+						  return;
+					}
+					$('input[name="chkItem"]:checked').each(function () {
+            var str=$(this).parent("td").parent("tr").find("td").eq(7).text();
+            if(s!=str){
+            	layer.alert("请选择相同状态的审核记录！", {offset: '100px'});
+            	show=false;
+            }
+	        });
+				 if("已修改"==s||"撤销退回"==s||"撤销不通过"==s){
+					 layer.alert(s+"的审核记录不能修改状态！", {offset: '100px'});
+					 return;
+				 }
+				 if(show){
+					 $("input[name='updateStatusRadio']").attr("disabled","disabled");
+					 $("input[name='updateStatusRadio']").removeAttr('checked');
+					 $("input[type='checkbox']").attr("disabled","disabled");
+					 if("退回修改"==s||"未修改"==s){
+						$("#revokeReturn").attr("disabled",false);
+					 }
+					 if("审核不通过"==s){
+						$("#revokeNotpass").attr("disabled",false);
+					 }
+					 if(""==s){
+						$("input[name='updateStatusRadio']").attr("disabled",false);
+					 }
+				 	$("#updateStatus").css('display','inline');
+				 }
 			}
-			 $('input[name="chkItem"]:checked').each(function () {
-	                var str=$(this).parent("td").parent("tr").find("td").eq(7).text();
-	                if(s!=str){
-	                	layer.alert("请选择相同状态的审核记录！", {offset: '100px'});
-	                	show=false;
-	                }
-	            });
-			 if("已修改"==s||"撤销退回"==s||"撤销不通过"==s){
-				 layer.alert(s+"的审核记录不能修改状态！", {offset: '100px'});
-				 return;
-			 }
-			 if(show){
-				 $("input[name='updateStatusRadio']").attr("disabled","disabled");
-				 $("input[name='updateStatusRadio']").removeAttr('checked');
-				 $("input[type='checkbox']").attr("disabled","disabled");
-				 if("退回修改"==s||"未修改"==s){
-					$("#revokeReturn").attr("disabled",false);
-				 }
-				 if("审核不通过"==s){
-					$("#revokeNotpass").attr("disabled",false);
-				 }
-				 if(""==s){
-					$("input[name='updateStatusRadio']").attr("disabled",false);
-				 }
-			 	$("#updateStatus").css('display','inline');
-			 }
-		}
-		function updateStatus(status) {
-			 var expertId = $("input[name='expertId']").val();
-	         var ids = "";
-	         $('input[name="chkItem"]:checked').each(function () {
-	             ids+=$(this).val()+",";
-	         });
-	         if (ids.length > 0) {
-	                layer.confirm('您确定要修改吗?', {title: '提示！', offset: ['200px']}, function (index) {
-	                    layer.close(index);
-	                    $.ajax({
-	                        url: "${pageContext.request.contextPath}/expertAudit/updateAuditStatus.html",
-	                        data: {'ids' : ids.substring(0, ids.length),
-	                        		'status':status
-	                        	},
-	                        type: "post",
-	                        dataType: "json",
-	                        success: function (result) {
-	                            result = eval("(" + result + ")");
-	                            if (result.msg == "yes") {
-	                                layer.msg("修改成功!", {offset: '100px'});
-	                                window.setTimeout(function () {
-	                                    var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
-	                                    $("#form_id").attr("action", action);
-	                                    $("#form_id").submit();
-	                                }, 1000);
-	                            }
-	                            ;
-	                        },
-	                        error: function () {
-	                            layer.msg("修改失败", {offset: '100px'});
-	                        }
-	                    });
-	                });
-	            }
-		}
+			function updateStatus(status) {
+				var expertId = $("input[name='expertId']").val();
+		     var ids = "";
+		     $('input[name="chkItem"]:checked').each(function () {
+           ids+=$(this).val()+",";
+         });
+         if (ids.length > 0) {
+           layer.confirm('您确定要修改吗?', {title: '提示！', offset: ['200px']}, function (index) {
+           layer.close(index);
+           $.ajax({
+	           url: "${pageContext.request.contextPath}/expertAudit/updateAuditStatus.html",
+	           data: {'ids' : ids.substring(0, ids.length),
+	           		'status':status
+	           	},
+              type: "post",
+              dataType: "json",
+              success: function (result) {
+                result = eval("(" + result + ")");
+                if (result.msg == "yes") {
+                  layer.msg("修改成功!", {offset: '100px'});
+                  window.setTimeout(function () {
+                    var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
+                    $("#form_id").attr("action", action);
+                    $("#form_id").submit();
+                    }, 1000);
+                  };
+               },
+               error: function () {
+                 layer.msg("修改失败", {offset: '100px'});
+               }
+             });
+		       });
+		    }
+			}
         // 审核意见
         function checkOpinion(status, expertId){
         	 var opinion = document.getElementById('opinion').value;
