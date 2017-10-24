@@ -2476,6 +2476,7 @@ public class ExpertAuditController{
 			expertAudit22.setAuditFieldId(cateTree.getRootNodeCode());
 			expertAudit22.setType("1");
 			expertAudit22.setAuditFalg(auditFalg);
+			expertAudit22.setAuditStatus("6");
 			List<ExpertAudit> expertauList = expertAuditService.selectFailByExpertId(expertAudit22);
 			if(expertauList != null && expertauList.size() > 0){
 				//查询专家类别是否审核通过
@@ -2545,6 +2546,7 @@ public class ExpertAuditController{
         		        		expertAudit.setSuggestType("six");
         		        		expertAudit.setAuditFieldId(cateTree.getItemsId());
         		        		expertAudit.setAuditFalg(auditFalg);
+        		        		expertAudit.setAuditStatus("6");
         		        		List < ExpertAudit > reasonsItemsList = expertAuditService.selectbyAuditType(expertAudit);
         		        		if(reasonsItemsList != null && reasonsItemsList.size() > 0){
         		        			for(ExpertAudit audit :reasonsItemsList){
@@ -2582,6 +2584,7 @@ public class ExpertAuditController{
         		        		expertAudit.setSuggestType("six");
         		        		expertAudit.setAuditFieldId(cateTree.getItemsId());
         		        		expertAudit.setAuditFalg(auditFalg);
+        		        		expertAudit.setAuditStatus("6");
         		        		List < ExpertAudit > reasonsItemsList = expertAuditService.selectbyAuditType(expertAudit);
         		        		if(reasonsItemsList != null && reasonsItemsList.size() > 0){
         		        			for(ExpertAudit audit :reasonsItemsList){
@@ -2603,6 +2606,7 @@ public class ExpertAuditController{
 		        		expertAudit.setSuggestType("six");
 		        		expertAudit.setAuditFieldId(cateTree.getItemsId());
 		        		expertAudit.setAuditFalg(auditFalg);
+		        		expertAudit.setAuditStatus("6");
 		        		List < ExpertAudit > reasonsItemsList = expertAuditService.selectbyAuditType(expertAudit);
 		        		if(reasonsItemsList != null && reasonsItemsList.size() > 0){
 		        			for(ExpertAudit audit :reasonsItemsList){
@@ -2623,6 +2627,7 @@ public class ExpertAuditController{
 	        		expertAudit.setSuggestType("six");
 	        		expertAudit.setAuditFieldId(cateTree.getItemsId());
 	        		expertAudit.setAuditFalg(auditFalg);
+	        		expertAudit.setAuditStatus("6");
 	        		List < ExpertAudit > reasonsItemsList = expertAuditService.selectbyAuditType(expertAudit);
 	        		if(reasonsItemsList != null && reasonsItemsList.size() > 0){
 	        			for(ExpertAudit audit :reasonsItemsList){
@@ -2651,6 +2656,10 @@ public class ExpertAuditController{
     	 */
     	if(tableType.equals("1") || tableType.equals("3")){
     		ExpertAudit auditFileInfo = new ExpertAudit();
+    		List<String> statusList22 = new ArrayList<String>();
+    		statusList22.add("2");
+    		statusList22.add("4");
+    		auditFileInfo.setStatusList(statusList22);
     		auditFileInfo.setExpertId(expert.getId());
     		auditFileInfo.setAuditField("近期免冠彩色证件照");
         	List < ExpertAudit > recentPhotos = expertAuditService.selectFailByExpertId(auditFileInfo);
@@ -2741,9 +2750,16 @@ public class ExpertAuditController{
 		expertAudit2.setExpertId(expert.getId());
 		expertAudit2.setSuggestType("one");
 		expertAudit2.setAuditFalg(auditFalg);
+		//判断审核意见的状态
+		//1：退回修改；2：已修改；3：未修改；4：撤销退回；5：撤销不通过；6：审核不通过
+		List<String> statusList = new ArrayList<String>();
+		statusList.add("2");
+		statusList.add("4");
+		expertAudit2.setAuditStatus(null);
+		expertAudit2.setStatusList(statusList);
     	List < ExpertAudit > basicFileList = expertAuditService.selectbyAuditType(expertAudit2);
+    	expertAudit2.setStatusList(null);
 		StringBuffer buff = new StringBuffer();
-		
 		for(ExpertAudit a : basicFileList){
 			buff.append(a.getAuditField() + ",");
 		}
