@@ -830,7 +830,7 @@ public class ExpertQueryController {
 			expertAuditOpinion.setFlagTime(2);
 		}*/
 		
-		map.put("isDeleted", 0);
+		//map.put("isDeleted", 0);
 		map.put("auditFalg", 1);
 		
 		expertAuditOpinion.setFlagTime(0);
