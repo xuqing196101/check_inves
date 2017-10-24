@@ -165,9 +165,9 @@ public class PlanLookController extends BaseController {
 				}
 			}
 		}
-		if(bool != true){
+		/*if(bool != true){*/
 			collectPlan.setUserId(user.getId());
-		} 
+		/*} */
 		
 		if (collectPlan.getStatus()!=null&&collectPlan.getStatus()==12) {
 			collectPlan.setStatus(null);
