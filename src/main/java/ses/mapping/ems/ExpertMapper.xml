@@ -2229,12 +2229,8 @@ resultMap="BaseResultMap">
       T_SES_BMS_USER t2
     ON
       T1.ID = T2.TYPE_ID
-    LEFT JOIN
-      T_SES_BMS_AREA A
-		  ON t1.address = A.ID
-		LEFT JOIN
-      T_SES_BMS_AREA AREA
-		  ON A.PARENT_ID = AREA.ID
+    LEFT JOIN T_SES_BMS_AREA A ON t1.address = A.ID
+		LEFT JOIN T_SES_BMS_AREA AREA ON A.PARENT_ID = AREA.ID
     LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T1.PURCHASE_DEP_ID = dep.ID
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
     where (T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 13 or T1.STATUS = 17 or T1.STATUS = 19)
@@ -2283,6 +2279,9 @@ resultMap="BaseResultMap">
     </if>
     <if test="address != null and address !=''">
         AND A.PARENT_ID = #{address}
+    </if>
+    <if test="addressName != null and addressName !=''">
+      and AREA.NAME like CONCAT(CONCAT('%', #{addressName}), '%')
     </if>
     ORDER BY T1.CREATED_AT DESC
   </select>
