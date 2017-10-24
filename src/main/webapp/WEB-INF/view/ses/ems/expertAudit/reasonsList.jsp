@@ -185,6 +185,7 @@
             //退回
             if (status == 3) {
                 updateStepNumber("one");
+                zhancun(3);
             }
             if (status == 2 || status == 3 || status == 5  || status == 8) {
                 //询问框
@@ -464,11 +465,14 @@
     }
 	
 	 //暂存
-    function zhancun() {
+    function zhancun(status) {
         var opinion = document.getElementById('opinion').value;
-		var expertId = $("input[name='expertId']").val();
-		var sign = $("input[name='sign']").val();
+				var expertId = $("input[name='expertId']").val();
+				var sign = $("input[name='sign']").val();
         var radio = $(":radio:checked").val();
+        if(status !=null && status == 3){
+        	radio = 3;
+        }
         var isDownLoadAttch = $("#isDownLoadAttch").val();
         if(sign == 1){
             flagTime = 0;
@@ -478,17 +482,19 @@
             data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime,"flagAudit":radio,"isDownLoadAttch":isDownLoadAttch},
             type: "POST",
             success: function () {
-            	//修改专家状态为审核中
-            	$.ajax({
-                    url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
-                    dataType: "json",
-                    data: {expertId: expertId},
-                    success: function (result) {
-                        layer.msg(result, {offset: ['100px']});
-                    }, error: function () {
-                        layer.msg("暂存失败", {offset: ['100px']});
-                    }
-                });
+            	if(status ==null){
+	            	//修改专家状态为审核中
+	            	$.ajax({
+	                 url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
+	                 dataType: "json",
+	                 data: {expertId: expertId},
+	                 success: function (result) {
+	                     layer.msg(result, {offset: ['100px']});
+	                 }, error: function () {
+	                     layer.msg("暂存失败", {offset: ['100px']});
+	                 }
+	              });
+            	}
             }
         });
     }
