@@ -1747,7 +1747,7 @@ resultMap="BaseResultMap">
       <!--   TO_CHAR(SUBMIT_AT,'yyyy-mm-dd') =
         #{_parameter} -->
         AND IS_SUBMIT = '1'
-        AND STATUS = '0'
+        AND STATUS in ('0','9')
     </select>
 
     <!-- 根据修改时间获取修改了的专家信息 -->

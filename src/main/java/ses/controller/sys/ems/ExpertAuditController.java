@@ -533,6 +533,7 @@ public class ExpertAuditController{
 			expertAudit.setSuggestType("one");
 			expertAudit.setAuditFalg(sign);
 			expertAudit.setStatusQuery("notPass");
+			expertAudit.setIsDeleted(1);
 			//复审退回修改，初审时显示的是复审的审核信息
 			if("10".equals(expert.getStatus())){
 				expertAudit.setAuditFalg(2);
