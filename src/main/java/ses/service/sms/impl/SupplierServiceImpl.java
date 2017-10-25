@@ -411,6 +411,9 @@ public class SupplierServiceImpl implements SupplierService {
 	  if(supplier.getBranchName()==null){
 		supplier.setBranchName("0");
 	  }
+	  if(supplier.getPurchaseExperience()==null){
+		supplier.setPurchaseExperience("");
+	  }
 
       supplierMapper.updateByPrimaryKeySelective(supplier);
 
@@ -1365,17 +1368,16 @@ public class SupplierServiceImpl implements SupplierService {
   }
 
   @Override
-  public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map) {
+   public List<Map<String, Object>> selectSupplierCheckNumber(HashMap<String, Object> map) {
 //    PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage((Integer) map.get("page"), 20);
-    return supplierMapper.selectSupplierNumber(map);
+    return supplierMapper.selectSupplierCheckNumber(map);
   }
 
   @Override
-  public List<supplierExport> selectExpertNumber(HashMap<String, Object> map) {
+  public List<Map<String, Object>> selectExpertCheckNumber(HashMap<String, Object> map) {
 //    PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage((Integer) map.get("pageEx"), 20);
-    return supplierMapper.selectExpertNumber(map);
+    /*PageHelper.startPage((Integer) map.get("pageEx"), 20);*/
+    return supplierMapper.selectExpertCheckNumber(map);
   }
 
   /**
@@ -1999,8 +2001,9 @@ public class SupplierServiceImpl implements SupplierService {
 			String upperCase = null;
 			for(Field f: fields) {
 				String str = "";
-				if(!f.getName().contains("serialVersionUID") && !f.getName().contains("list") && !f.getName().contains("List") && !f.getName().contains("Mat") && !f.getName().contains("supplierTypeIds") && !f.getName().contains("item") && !f.getName().contains("itemType") && !f.getName().contains("categoryParam") && !f.getName().contains("ParamVleu") && !f.getName().contains("armyCity") && !f.getName().contains("user")) {
-					upperCase = "get" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1);
+				String fieldName = f.getName();
+				if(!fieldName.contains("serialVersionUID") && !fieldName.contains("list") && !fieldName.contains("List") && !fieldName.contains("Mat") && !fieldName.contains("supplierTypeIds") && !fieldName.contains("item") && !fieldName.contains("itemType") && !fieldName.contains("categoryParam") && !fieldName.contains("ParamVleu") && !fieldName.contains("armyCity") && !fieldName.contains("user")) {
+					upperCase = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
 					m = (Method) obj1.getClass().getMethod(upperCase);
 					m2 = (Method) obj2.getClass().getMethod(upperCase);
 					if(m.equals(m2)) {
@@ -2008,7 +2011,16 @@ public class SupplierServiceImpl implements SupplierService {
 						Object obj4 = m2.invoke(obj2);
 						if(obj3 != null && obj4 != null) {
 							if(!obj3.toString().equals(obj4.toString())) {
-								str = f.getName() + "," + obj3 + "," + obj4 + ";";
+								str = fieldName + "," + obj3 + "," + obj4 + ";";
+							}
+						}
+						// 非必填字段（网址/营业期限/参加政府或军队采购经历）
+						if("website".equals(fieldName) || "purchaseExperience".equals(fieldName) || "branchName".equals(fieldName) || "businessStartDate".equals(fieldName)){
+							if(obj3 == null && obj4 != null){
+								str = fieldName + "," + "" + "," + obj4 + ";";
+							}
+							if(obj3 != null && obj4 == null){
+								str = fieldName + "," + obj3 + "," + "" + ";";
 							}
 						}
 						sb.append(str);
@@ -2045,19 +2057,33 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
   @Override
-  public List<supplierExport> selectSupplierNumberFormal(
+  public List<Map<String, Object>> selectSupplierTypeNumber(
       HashMap<String, Object> map) {
 //    PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage((Integer) map.get("pageSupFormal"), 20);
-    return  supplierMapper.selectSupplierNumberFormal(map);
+    /*PageHelper.startPage((Integer) map.get("pageSupFormal"), 20);*/
+    return  supplierMapper.selectSupplierTypeNumber(map);
   }
 
   @Override
-  public List<supplierExport> selectExpertNumberFormal(
-      HashMap<String, Object> map) {
+  public List<Map<String, Object>> selectExpertTypeNumber(HashMap<String, Object> map) {
 //    PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage((Integer) map.get("pageExpFormal"), 20);
-    return supplierMapper.selectExpertNumberFormal(map);
+   /* PageHelper.startPage((Integer) map.get("pageExpFormal"), 20);*/
+    return supplierMapper.selectExpertTypeNumber(map);
   }
+
+	@Override
+	public boolean checkIdCard(String id, String idCard) {
+		int count = supplierMapper.countByIdCard(id, idCard);
+		return count > 0 ? false : true;
+	}
+
+	@Override
+	public List<Supplier> querySupplierListByNoCate(Supplier supplier, Integer page) {
+		if(page != null){
+            PropertiesUtil config = new PropertiesUtil("config.properties");
+            PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+        }
+		return supplierMapper.selectSupplierListByNoCate(supplier);
+	}
 
 }

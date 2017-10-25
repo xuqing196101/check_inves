@@ -712,6 +712,16 @@
 				        <div class="cue"><sf:errors path="roleId"/></div>
 			        </div>
 			 	</li>
+			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>数据查看权限</span>
+			        <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+				        <select name="dataAccess">
+			        		<option value="1" <c:if test="${user.dataAccess == 1}">selected</c:if>>所有</option>
+					        <option value="2" <c:if test="${user.dataAccess == 2}">selected</c:if>>本单位</option>
+					        <option value="3" <c:if test="${user.dataAccess == 3}">selected</c:if>>本人</option>
+				        </select>
+			        </div>
+			 	</li>
 			 	<li class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
 			 	   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">详细地址</span>
 				   <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">

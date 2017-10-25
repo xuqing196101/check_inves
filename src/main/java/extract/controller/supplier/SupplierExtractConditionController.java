@@ -5,9 +5,6 @@ package extract.controller.supplier;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -24,8 +21,10 @@ import ses.service.bms.CategoryService;
 import com.alibaba.fastjson.JSON;
 import common.bean.ResponseBean;
 
+import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
+import extract.service.supplier.AutoExtractSupplierService;
 import extract.service.supplier.SupplierExtractConditionService;
 
 
@@ -43,6 +42,9 @@ import extract.service.supplier.SupplierExtractConditionService;
 	public class SupplierExtractConditionController {
     @Autowired
     private SupplierExtractConditionService conditionService;
+    
+    @Autowired
+    private AutoExtractSupplierService autoExtract;
 
     @Autowired
     private CategoryService categoryService;
@@ -62,7 +64,7 @@ import extract.service.supplier.SupplierExtractConditionService;
      */
     @ResponseBody
     @RequestMapping("selectLikeSupplierCount")
-    public String selectLikeSupplierCount(SupplierExtractCondition condition,SupplierConType conType,HttpServletRequest sq,String province){
+    public String selectLikeSupplierCount(SupplierExtractCondition condition,SupplierConType conType){
         Map<String,Object> count = conditionService.selectLikeSupplierCount(condition,conType);
         return JSON.toJSONString(count);
     }
@@ -80,7 +82,7 @@ import extract.service.supplier.SupplierExtractConditionService;
      */
     @ResponseBody
     @RequestMapping("selectLikeSupplier")
-    public String selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType,HttpServletRequest sq,String province){
+    public String selectLikeSupplier(SupplierExtractCondition condition,SupplierConType conType){
     	Map<String, Object> supplierList = conditionService.selectLikeSupplier(condition,conType,1);
     	return JSON.toJSONString(supplierList);
     }
@@ -99,8 +101,8 @@ import extract.service.supplier.SupplierExtractConditionService;
      */
     @ResponseBody
     @RequestMapping("autoExtract")
-    public String autoExtract(SupplierExtractCondition condition,SupplierConType conType,HttpServletRequest sq,String province,String projectInfo){
-    	Map<String, Object> supplierList = conditionService.autoExtract(condition,conType,projectInfo);
+    public String autoExtract(SupplierExtractCondition condition,SupplierConType conType,String projectInfo){
+    	Map<String, Object> supplierList = autoExtract.autoExtract(condition,conType,projectInfo);
     	return JSON.toJSONString(supplierList);
     }
 
@@ -137,7 +139,7 @@ import extract.service.supplier.SupplierExtractConditionService;
     */
    @RequestMapping("/getQuaByCid")
    @ResponseBody
-   public Set<DictionaryData> getQuaByCid(String categoryId,String supplierTypeCode,String parentId){
+   public List<Qua> getQuaByCid(String categoryId,String supplierTypeCode,String parentId){
    	return conditionService.getQuaByCid(categoryId,supplierTypeCode,parentId);
    }
    
@@ -198,8 +200,8 @@ import extract.service.supplier.SupplierExtractConditionService;
 
    @ResponseBody
    @RequestMapping("/searchCate")
-   public Set<Category> searchCate(String typeId,String cateName){
-	return categoryService.selectCategoryByName(typeId, cateName);
+   public String searchCate(String typeId,String cateName,String cateCode){
+	return JSON.toJSONString(categoryService.selectCategoryByName(typeId, cateName,cateCode));
    }
    
 }

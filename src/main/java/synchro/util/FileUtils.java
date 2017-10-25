@@ -1,10 +1,5 @@
 package synchro.util;
 
-import com.alibaba.fastjson.JSON;
-import org.apache.commons.io.LineIterator;
-import org.apache.commons.lang3.StringUtils;
-import ses.util.PropUtil;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,6 +7,13 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.LineIterator;
+import org.apache.commons.lang3.StringUtils;
+
+import ses.util.PropUtil;
+
+import com.alibaba.fastjson.JSON;
 
 /**
  * 
@@ -177,6 +179,11 @@ public class FileUtils {
     /**导出文件目录**/
     public final static String C_SYNCH_PUBLICITY_SUPPLIER_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_supplier_publicity_path.system.path");
 
+    /**供应商注销 导出创建数据名称**/
+    public final static String C_SYNCH_LOGOUT_SUPPLIER_FILENAME = "_c_logout_supplier.dat";
+    /**导出文件目录**/
+    public final static String C_SYNCH_LOGOUT_SUPPLIER_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_supplier_logout_path.system.path");
+
     /**专家公示 导出创建数据名称**/
     public final static String C_SYNCH_PUBLICITY_EXPERT_FILENAME = "_c_publicity_expert.dat";
     /**导出文件目录**/
@@ -237,8 +244,41 @@ public class FileUtils {
     public final static String EXTRACT_CATEGORY_PATH_FILENAME="_m_extract_category.dat";
     /** 专家抽取结果信息数据名称 **/
     public final static String EXTRACT_RESULT_PATH_FILENAME="_m_extract_result.dat";
-    /** 专家抽取目录 路径 31 **/
+    /** 项目实施专家抽取结果信息数据名称 **/
+    public final static String XM_EXTRACT_RESULT_PATH_FILENAME="_xm_extract_result.dat";
+    /** 专家抽取目录 路径 32 **/
     public final static String EXPERT_EXTRACT_PATH = PropUtil.getProperty("file.expert_extract.system.path");
+    
+    /** 专家抽取结果目录 路径 33 **/
+    public final static String EXPERT_EXTRACT_RESULT_PATH = PropUtil.getProperty("file.expert_extract_result.system.path");
+    
+    /** 军队专家基本信息数据名称 **/
+    public final static String MILITARY_EXPERT_PATH_FILENAME="_m_military_expert.dat";
+    /** 军队专家执业资格数据名称 **/
+    public final static String MILITARY_EXPERT_TITLE_PATH_FILENAME="_m_military_expert_title.dat";
+    /** 军队专家品目数据名称 **/
+    public final static String MILITARY_EXPERT_CATEGORY_PATH_FILENAME="_m_military_expert_category.dat";
+    /** 军队专家目录 路径 34 **/
+    public final static String MILITARY_EXPERT_PATH = PropUtil.getProperty("file.military_expert.system.path");
+    
+    
+    /** 供应商抽取项目信息数据名称 **/
+    public final static String SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME="_m_supplier_extract_project.dat";
+    /** 供应商抽取条件信息数据名称 **/
+    public final static String SUPPLIER_EXTRACT_CONDITION_PATH_FILENAME="_m_supplier_extract_condition.dat";
+    /** 供应商抽取详细条件信息数据名称 **/
+    public final static String SUPPLIER_EXTRACT_CONTYPE_PATH_FILENAME="_m_supplier_extract_contype.dat";
+    
+    /** 供应商抽取目录 路径 35 **/
+    public final static String SUPPLIER_EXTRACT_PATH = PropUtil.getProperty("file.supplier_extract.system.path");
+    
+    /** 供应商抽取结果信息数据名称 **/
+    public final static String SUPPLIER_EXTRACT_RESULT_PATH_FILENAME="_m_supplier_extract_result.dat";
+    /** 供应商抽预研项目取结果信息数据名称 **/
+    public final static String SUPPLIER_EXTRACT_ADV_RESULT_PATH_FILENAME="_m_supplier_extract_adv_result.dat";
+    
+    /** 供应商抽取结果目录 路径 36 **/
+    public final static String SUPPLIER_EXTRACT_RESULT_PATH = PropUtil.getProperty("file.supplier_extract_result.system.path");
     
     
     /**
@@ -837,7 +877,12 @@ public class FileUtils {
           case 28:  filePath=EXPERT_BLACKLIST_PATH;break;
           case 29:  filePath=EXPERT_BLACKLIST_LOG_PATH;break;
           case 30:  filePath=HOT_LINE_PATH;break;
-          case 31:  filePath=EXPERT_EXTRACT_PATH;break;
+          case 31:  filePath=C_SYNCH_LOGOUT_SUPPLIER_FILE_DIRECTORY;break;
+          case 32:  filePath=EXPERT_EXTRACT_PATH;break;
+          case 33:  filePath=EXPERT_EXTRACT_RESULT_PATH;break;
+          case 34:  filePath=MILITARY_EXPERT_PATH;break;
+          case 35:  filePath=SUPPLIER_EXTRACT_PATH;break;
+          case 36:  filePath=SUPPLIER_EXTRACT_RESULT_PATH;break;
         }
         return filePath;
     }

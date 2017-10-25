@@ -72,7 +72,12 @@
                 #{id}
             </foreach>
         </if>
-        ORDER BY T1.COUNT ASC
+        <if test=" sort != null ">
+        ORDER BY org.POSITION ASC,t2.AUDIT_AT ASC
+        </if>
+        <if test=" sort = null ">
+        ORDER BY T1.COUNT ASC   
+        </if>     
     </select> 
     <select id="getExpertBatchDetailsCount" resultType="java.lang.Integer"  parameterType="java.lang.String">
     	select count(*) from T_SYS_EMS_EXPERT_BATCH_DETAILS where GROUP_ID=#{groupId}
@@ -87,4 +92,8 @@
    <update  id="updateExpertBatchDetailsGrouping" parameterType="ses.model.ems.ExpertBatchDetails">
    		update T_SYS_EMS_EXPERT_BATCH_DETAILS SET GROUP_ID=#{groupId,jdbcType=VARCHAR},GROUP_NAME=#{groupName,jdbcType=VARCHAR},UPDATED_AT=#{updatedAt,jdbcType=TIMESTAMP} where ID=#{id,jdbcType=VARCHAR}
    </update>
+   
+   <select id="selGroupIdByExpertId" parameterType="String" resultType="String">
+     SELECT GROUP_ID FROM T_SYS_EMS_EXPERT_BATCH_DETAILS WHERE EXPERT_ID = #{expertId} ORDER BY CREATED_AT DESC
+   </select>
 </mapper>

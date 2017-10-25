@@ -30,13 +30,14 @@
             $('.pic_upload').before('<button type="button" class="btn btn-windows group" onclick="jump_batchGroup()">批次分组</button>'
               +'<button type="button" class="btn btn-windows config" onclick="jump_auditBatch()">审核配置</button>'
               +'<button type="button" class="btn btn-windows apply" onclick="reviewConfirm()">批准</button>'
+              +'<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>'
             );
           }
             
           $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
             +'<thead>'
             +'  <tr>'
-            +'    <th class="info w30"><input type="checkbox" onclick="selectAll();" id="checkAll"></th>'
+            +'    <th class="info w30"><input type="checkbox" onclick="checkAll(this)" name="checkAll"></th>'
             +'    <th class="info w130">专家编号</th>'
             +'    <th class="info w100">采购机构</th>'
             +'    <th class="info w100">专家姓名</th>'
@@ -44,7 +45,7 @@
             +'    <th class="info w80">专家类型</th>'
             +'    <th class="info w80">专家类别</th>'
             +'    <th class="info">工作单位</th>'
-            +'    <th class="info w120">专业职称(职务)</th>'
+            +'    <th class="info w120">技术职称(职称)</th>'
             +'    <th class="info w60">审核组</th>'
             +'    <th class="info w80">审核状态</th>'
             +'    <th class="info w100">操作</th>'
@@ -83,10 +84,10 @@
               } else if (list_content.list[i].status === '3') {
                 list_content.list[i].status = '初审退回修改';
               } else if (list_content.list[i].status === '4') {
-                if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '4') {
+                if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '2') {
                   list_content.list[i].status = '复审中';
                 } else {
-                  list_content.list[i].status = '待复审';
+                  list_content.list[i].status = '复审已分配';
                 }
               } else if (list_content.list[i].status === '5') {
                 list_content.list[i].status = '复审不合格';
@@ -154,13 +155,13 @@
               }
               
               $('#list_content').append('<tr><input id="'+ list_content.list[i].expertId +'" type="hidden">'
-            	+'<td class="text-center"><input name="chkItem" type="checkbox" onclick="check();" value="'+ list_content.list[i].expertId +'" class="select_item"></td>'
+            	+'<td class="text-center"><input type="checkbox" value="'+ list_content.list[i].expertId +'" class="select_item"></td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].batchDetailsNumber +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].orgName +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].realName +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].gender +'</td>'
-                +'<td class="text-center break-all">'+ list_content.list[i].expertsTypeId +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].expertsFrom +'</td>'
+                +'<td class="text-center break-all">'+ list_content.list[i].expertsTypeId +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].workUnit +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].professTechTitles +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list[i].groupName +'</td>'
@@ -173,7 +174,9 @@
           // $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
           //   +'<button type="button" onclick="downloadTable(2)" class="btn btn-windows input">下载复审表</button>');
           
-          $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>');
+          $('#btn_group').html('<button type="button" class="btn btn-windows git" onclick="expert_auditBatch(\''+ root_url +'\')">审核</button>'
+            +'<button type="button" class="btn btn-windows reset" onclick="javascript: location.reload()">刷新</button>'
+          );
           
           $('#table_content').html('<table class="table table-bordered table-condensed table-hover table-striped break-all againAudit_table">'
             +'<thead>'
@@ -186,7 +189,7 @@
             +'    <th class="info w120">专家类型</th>'
             +'    <th class="info w80">专家类别</th>'
             +'    <th class="info">工作单位</th>'
-            +'    <th class="info w120">专业职称(职务)</th>'
+            +'    <th class="info w120">技术职称(职称)</th>'
             +'    <th class="info w60">审核组</th>'
             +'    <th class="info w90">审核状态</th>'
             +'    <th class="info w100">操作</th>'
@@ -227,10 +230,10 @@
               } else if (list_content.list.list[i].status === '3') {
                 list_content.list.list[i].status = '初审退回修改';
               } else if (list_content.list.list[i].status === '4') {
-                if (list_content.list.list[i].status === '4' && list_content.list.list[i].auditTemporary === '4') {
+                if (list_content.list.list[i].status === '4' && list_content.list.list[i].auditTemporary === '2') {
                   list_content.list.list[i].status = '复审中';
                 } else {
-                  list_content.list.list[i].status = '待复审';
+                  list_content.list.list[i].status = '复审已分配';
                 }
               } else if (list_content.list.list[i].status === '5') {
                 list_content.list.list[i].status = '复审不合格';
@@ -300,8 +303,8 @@
                 +'<td class="text-center break-all">'+ list_content.list.list[i].orgName +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].realName +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].gender +'</td>'
-                +'<td class="text-center break-all">'+ list_content.list.list[i].expertsTypeId +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].expertsFrom +'</td>'
+                +'<td class="text-center break-all">'+ list_content.list.list[i].expertsTypeId +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].workUnit +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].professTechTitles +'</td>'
                 +'<td class="text-center break-all">'+ list_content.list.list[i].groupName +'</td>'
@@ -313,13 +316,20 @@
         }
         
         // 勾选翻页之前选中的项
+        var allchecked = 0;
         for (var i in select_ids) {
           $('.select_item').each(function () {
             if ($(this).val() === select_ids[i]) {
+              allchecked++;
               $(this).prop('checked', true);
               return false;
             }
           });
+          if (allchecked === $('.select_item').length) {
+            $('[name=checkAll]').prop('checked', true);
+          } else {
+            $('[name=checkAll]').prop('checked', false);
+          }
         }
         
         // 绑定列表框点击事件，获取选中id集合
@@ -327,6 +337,7 @@
         if (select_checkbox.length > 0) {
           select_checkbox.bind('click', function () {
             var this_val = $(this).val().toString();
+            
             if ($(this).is(':checked')) {
               select_ids.push(this_val);
             } else {
@@ -337,8 +348,23 @@
                 }
               }
             }
+            
+            var sum = 0;
+            $('.againAudit_table').find('.select_item').each(function () {
+              if ($(this).is(':checked')) {
+                sum++;
+              }
+            });
+            
+            if (sum === $('.againAudit_table').find('.select_item').length) {
+              $('[name=checkAll]').prop('checked', true);
+            } else {
+              $('[name=checkAll]').prop('checked', false);
+            }
           });
         }
+        
+        layer.close(index_load);
         
         // 构造分页
         // laypageConstructor();

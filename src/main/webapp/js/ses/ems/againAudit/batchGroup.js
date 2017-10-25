@@ -14,8 +14,8 @@
       success: function (data) {
         list_content = data.object;  // 储存所需数据到变量
         
+        $('#list_content').html('');
         if (typeof(list_content) != 'undefined') {
-          $('#list_content').html('');
           for (var i in list_content.list) {
             if (typeof(list_content.list[i].batchDetailsNumber) === 'undefined') {
               list_content.list[i].batchDetailsNumber = '';
@@ -45,6 +45,8 @@
               +'<td class="text-center break-all">'+ list_content.list[i].orgName +'</td>'
               +'<td class="text-center break-all">'+ list_content.list[i].realName +'</td>'
               +'<td class="text-center break-all">'+ list_content.list[i].gender +'</td>'
+              +'<td class="text-center break-all">'+ list_content.list[i].expertsFrom +'</td>'
+              +'<td class="text-center break-all">'+ list_content.list[i].expertsTypeId +'</td>'
               +'<td class="text-center break-all">'+ list_content.list[i].workUnit +'</td>'
               +'<td class="text-center break-all">'+ list_content.list[i].professTechTitles +'</td>'
               +'<td class="text-center break-all">'+ list_content.list[i].updateTime +'</td>'
@@ -92,8 +94,8 @@
         var str_tr = '';
         list_content_new = data.object;  // 储存所需数据到变量
         
+        $('#group_batch_box').html('');
         if (typeof(list_content_new) != 'undefined') {
-          $('#group_batch_box').html('');
           for (var i in list_content_new) {
             for (var ii in list_content_new[i].expertList) {
               if (typeof(list_content_new[i].expertList[ii].batchDetailsNumber) === 'undefined') {
@@ -124,29 +126,35 @@
                 +'<td class="text-center break-all">'+ list_content_new[i].expertList[ii].orgName +'</td>'
                 +'<td class="text-center break-all">'+ list_content_new[i].expertList[ii].realName +'</td>'
                 +'<td class="text-center break-all">'+ list_content_new[i].expertList[ii].gender +'</td>'
+                +'<td class="text-center break-all">'+ list_content_new[i].expertList[ii].expertsFrom +'</td>'
+                +'<td class="text-center break-all">'+ list_content_new[i].expertList[ii].expertsTypeId +'</td>'
                 +'<td class="text-center break-all">'+ list_content_new[i].expertList[ii].workUnit +'</td>'
                 +'<td class="text-center break-all">'+ list_content_new[i].expertList[ii].professTechTitles +'</td>'
                 +'<td class="text-center break-all">'+ list_content_new[i].expertList[ii].updateTime +'</td>'
               +'</tr>';
             }
             str += '<div class="group_batch_list">'
-                  +'<div class="gbl_tit"><span class="gbl_icon">'+ (parseInt(i) + 1) +'</span><span>'+ list_content_new[i].name +'</span></div>'
-                  +'<div class="mt10 mb10"><button type="button" class="btn btn-windows delete" onclick="del_group(this)">删除</button></div>'
-                  +'<table class="table table-bordered table-condensed table-hover table-striped groupBatch_table">'
-                  +'  <thead>'
-                  +'    <tr>'
-                  +'      <th class="info w50">选择</th>'
-                  +'      <th class="info w250">批次编号</th>'
-                  +'      <th class="info w100">采购机构</th>'
-                  +'      <th class="info w100">专家姓名</th>'
-                  +'      <th class="info w50">性别</th>'
-                  +'      <th class="info">工作单位</th>'
-                  +'      <th class="info w150">专业职称</th>'
-                  +'      <th class="info w150">初审时间</th>'
-                  +'    </tr>'
-                  +'  </thead>'
-                  +'  <tbody>'+ str_tr +'</tbody>'
-                  +'</table>'
+                  +'<div class="gbl_tit"><span class="count_flow hand mt0 shrink" onclick="toggle_list(this)">'+ list_content_new[i].name +'</span></div>'
+                  +'<div class="gbl_content hide">'
+                  +'  <div class="mt10 mb10"><button type="button" class="btn btn-windows delete" onclick="del_group(this)">删除</button></div>'
+                  +'  <table class="table table-bordered table-condensed table-hover table-striped groupBatch_table">'
+                  +'    <thead>'
+                  +'      <tr>'
+                  +'        <th class="info w40">选择</th>'
+                  +'        <th class="info w150">批次编号</th>'
+                  +'        <th class="info w90">采购机构</th>'
+                  +'        <th class="info w100">专家姓名</th>'
+                  +'        <th class="info w50">性别</th>'
+                  +'        <th class="info w80">专家类型</th>'
+                  +'        <th class="info w180">专家类别</th>'
+                  +'        <th class="info">工作单位</th>'
+                  +'        <th class="info w100">专业职称</th>'
+                  +'        <th class="info w100">初审合格时间</th>'
+                  +'      </tr>'
+                  +'    </thead>'
+                  +'    <tbody>'+ str_tr +'</tbody>'
+                  +'  </table>'
+                  +'</div>'
             +'</div>';
             $('#group_batch_box').append(str);
             str = str_tr = '';

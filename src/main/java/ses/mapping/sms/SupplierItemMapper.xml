@@ -8,6 +8,7 @@
 		<result column="SUPPLIER_TYPE_RELATE_ID" property="supplierTypeRelateId" />
 		<result column="STATUS" property="status" />
 		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
 		<result column="CATE_LEVEL" property="level"/>
 		<result column="DIY_LEVEL" property="diyLevel"/>
 		<result column="CERT_CODE" property="certCode"/>
@@ -18,7 +19,9 @@
 		<result column="IS_DELETED" property="isDeleted"/>
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT, CATE_LEVEL, CERT_CODE, DIY_LEVEL, QUALIFICATION_TYPE,PROFESS_TYPE, NODE_LEVEL, IS_RETURNED
+		ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT,
+		UPDATED_AT, CATE_LEVEL, DIY_LEVEL, CERT_CODE, QUALIFICATION_TYPE, PROFESS_TYPE,
+		NODE_LEVEL, IS_RETURNED, IS_DELETED
 	</sql>
 	
 	<sql id="Base_Column">
@@ -27,7 +30,7 @@
 	
 	<select id="getSupplierItem" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
-		*
+        <include refid="Base_Column_List" />
 		from T_SES_SMS_SUPPLIER_ITEM
 		where SUPPLIER_ID = #{supplierId}
 	</select>
@@ -100,7 +103,6 @@
 			<if test="nodeLevel != null">
 				NODE_LEVEL,
 			</if>
-
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -187,6 +189,9 @@
 			<if test="isReturned != null">
 				IS_RETURNED = #{isReturned},
 			</if>
+            <if test="isDeleted != null">
+                IS_DELETED = #{isDeleted},
+            </if>
 		</set>
 		where ID = #{id}
 	</update>
@@ -473,7 +478,7 @@
                             AND T.AUDIT_TYPE = #{items_sales_page}
                         </if>
 					   AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3 OR T.STATUS = 9)
-					   AND T.IS_DELETED = 0)
+					   AND T.RETURN_STATUS IN(0,1,2,4))
 			   AND A.SUPPLIER_ID = #{supplierId}
 			   AND A.NODE_LEVEL = 3
 			 GROUP BY A.SUPPLIER_TYPE_RELATE_ID) E
@@ -483,7 +488,8 @@
 			  LEFT JOIN T_SES_BMS_DICTIONARY_DATA DA
 				ON T.AUDIT_FIELD = DA.ID
 			 WHERE T.SUPPLIER_ID = #{supplierId}
-			   AND T.AUDIT_TYPE = #{supplierType_page})
+               AND T.AUDIT_TYPE = #{supplierType_page}
+               AND T.RETURN_STATUS IN (0, 1, 2, 4))
 	</select>
 
 	<!-- 查询供应商选择的小类节点 -->
@@ -517,14 +523,15 @@
 						AND T.AUDIT_TYPE = #{items_sales_page}
 					</if>
 					 AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3 OR T.STATUS = 9)
-					 AND T.IS_DELETED = 0)
+                     AND T.RETURN_STATUS IN (0, 1, 2, 4))
 			 AND A.SUPPLIER_ID = #{supplierId}
 			 AND A.NODE_LEVEL = 3
             ORDER BY C.CODE ASC
     </select>
 
     <!--查询供应商类型下所有选择的产品类别数量-->
-    <select id="selectCountBySupTypeList" resultMap="BaseResultMap" parameterType="Map">
+
+	<select id="selectCountBySupTypeList" resultMap="BaseResultMap" parameterType="Map">
        <!-- SELECT
         <include refid="Base_Column_List" />
         FROM T_SES_SMS_SUPPLIER_ITEM T
@@ -581,7 +588,6 @@
 		AND i.SUPPLIER_TYPE_RELATE_ID = #{supplierType}
 		AND (
 				s.SUPPLIER_STATUS = 1
-				OR s.SUPPLIER_STATUS = 4
 				OR s.SUPPLIER_STATUS = 5
 				OR s.SUPPLIER_STATUS = 7
 			)

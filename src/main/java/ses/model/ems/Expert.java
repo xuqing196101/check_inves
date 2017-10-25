@@ -401,12 +401,12 @@ public class Expert extends ExpertHistory implements Serializable {
 	 -2 预复审结束
 	 -1 暂存
 	 0 待初审
-	 1 初审合格
+	 1初审合格(待复审)
 	 2 初审不合格
 	 3 初审退回修改
-	 4 待复审
+	 4 复审已分配
 	 5 复审不合格
-	 6 待复查  *
+	 6入库(待复查)  *
 	 7 复查合格 *
 	 8 复查不合格
 	 9 初审退回再审核
@@ -418,6 +418,7 @@ public class Expert extends ExpertHistory implements Serializable {
 	 15 预初审合格
 	 16 预初审不合格
 	 17 资料不全
+	 18 异议处理
      */
     private String status;
     /**
@@ -470,6 +471,7 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private Integer isReviewEnd;//是否复审结束（1是）
 
+    private String addressName;
     /**
      * 专家提交审核时间
      **/
@@ -1118,6 +1120,14 @@ public class Expert extends ExpertHistory implements Serializable {
 
 	public void setIsReviewEnd(Integer isReviewEnd) {
 		this.isReviewEnd = isReviewEnd;
+	}
+
+	public String getAddressName() {
+		return addressName;
+	}
+
+	public void setAddressName(String addressName) {
+		this.addressName = addressName;
 	}
     
 }

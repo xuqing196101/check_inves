@@ -1,9 +1,9 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<%@ page import="ses.constants.SupplierConstants" %>
+
 <!DOCTYPE HTML>
 <html>
-
-
 		<head>
 			<%@ include file="/WEB-INF/view/common.jsp" %>
 			<title>供应商列表</title>
@@ -383,24 +383,36 @@
 			      <select name="status" class="span2" id="status">
 			        <option value="">全部</option>
 		        	<c:if test="${sign eq '1' }">
-		        		<option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
+		        		<%-- <option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
 		        		<option <c:if test="${state == 9 }">selected</c:if> value="9">退回再审核</option>
 		        		<option <c:if test="${state == -1 }">selected</c:if> value="-1">审核中</option>
 		        		<option <c:if test="${state == -2 }">selected</c:if> value="-2">预审核结束</option>
 		           	<option <c:if test="${state == -3 }">selected</c:if> value="-3">公示中</option>
 		           	<option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
 		           	<option <c:if test="${state == 2 }">selected</c:if> value="2">退回修改</option>
-		           	<option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option>
+		           	<option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option> --%>
+		           	<c:forEach items="<%=SupplierConstants.STATUSMAP_SHENHE %>" var="item">
+									<option value="${item.key}" <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
+								</c:forEach>
+								<option value="100" <c:if test="${state == 100 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(1) %></option>
 		        	</c:if>
 		        	<c:if test="${sign eq '2' }">
-		        		<option <c:if test="${state == 4 }">selected</c:if> value="4">待复核</option>
+		        		<%-- <option <c:if test="${state == 4 }">selected</c:if> value="4">待复核</option>
 		            <option <c:if test="${state == 5 }">selected</c:if> value="5">复核通过</option>
-		            <option <c:if test="${state == 6 }">selected</c:if> value="6">复核未通过 </option>
+		            <option <c:if test="${state == 6 }">selected</c:if> value="6">复核未通过 </option> --%>
+		            <c:forEach items="<%=SupplierConstants.STATUSMAP_FUHE %>" var="item">
+									<option value="${item.key}" <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
+								</c:forEach>
+								<option value="200" <c:if test="${state == 200 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(2) %></option>
 		        	</c:if>
 		        	<c:if test="${sign eq '3' }">
-		        	  <option <c:if test="${state == 5 }">selected</c:if> value="5">待考察</option>
+		        	  <%-- <option <c:if test="${state == 5 }">selected</c:if> value="5">待考察</option>
 		        		<option <c:if test="${state == 7 }">selected</c:if> value="7">合格</option>
-		             <option <c:if test="${state == 8 }">selected</c:if> value="8">不合格</option>
+	             	<option <c:if test="${state == 8 }">selected</c:if> value="8">不合格</option> --%>
+	             	<c:forEach items="<%=SupplierConstants.STATUSMAP_KAOCHA %>" var="item">
+									<option value="${item.key}" <c:if test="${state == item.key }">selected</c:if>>${item.value}</option>
+								</c:forEach>
+								<option value="300" <c:if test="${state == 300 }">selected</c:if>><%=SupplierConstants.STATUSMAP_AUDITTEMPORARY.get(3) %></option>
 		        	</c:if>
 			      </select> 
 		       </li>
@@ -488,6 +500,8 @@
 								<th class="info">状态</th>
 							</tr>
 						</thead>
+						<c:set var="supplierStatusMap" value="<%=SupplierConstants.STATUSMAP %>"/>
+						<c:set var="supplierAuditTemporaryStatusMap" value="<%=SupplierConstants.STATUSMAP_AUDITTEMPORARY %>"/>
 						<c:forEach items="${result.list }" var="list" varStatus="page">
 							<tr>
 								<td class="tc w30"><input name="id" type="checkbox" value="${list.id}"></td>
@@ -513,7 +527,7 @@
 									<c:if test="${list.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>
 								</td> --%>
 								<td class="tc" id="${list.id}" onclick="shenhe('${list.id }');">
-									<c:if test="${list.status == 0 and list.auditTemporary != 1}"><span class="label rounded-2x label-u">待审核</span></c:if>
+									<%-- <c:if test="${list.status == 0 and list.auditTemporary != 1}"><span class="label rounded-2x label-u">待审核</span></c:if>
 									<c:if test="${list.status == 9 and list.auditTemporary != 1}"><span class="label rounded-2x label-dark">退回再审核</span></c:if>
 									<c:if test="${(list.status == 0 or list.status == 9) and list.auditTemporary == 1}"><span class="label rounded-2x label-u">审核中</span></c:if>
 									<c:if test="${list.status == -3}"><span class="label rounded-2x label-dark">公示中</span></c:if>
@@ -528,7 +542,19 @@
 									<c:if test="${list.status == 5 and sign == 3 and list.auditTemporary != 3}"><span class="label rounded-2x label-u">待考察</span></c:if>
 									<c:if test="${list.status == 5 and list.auditTemporary == 3}"><span class="label rounded-2x label-u">考察中</span></c:if>
 									<c:if test="${list.status == 7}"><span class="label rounded-2x label-dark">合格</span></c:if>
-									<c:if test="${list.status == 8}"><span class="label rounded-2x label-dark">不合格</span></c:if>
+									<c:if test="${list.status == 8}"><span class="label rounded-2x label-dark">不合格</span></c:if> --%>
+									
+									<c:set var="label_color" value="label-dark"/>
+									<c:if test="${list.status==0 || list.status==9 || list.status==-2 || list.status==1 || list.status==5 }"><c:set var="label_color" value="label-u"/></c:if>
+									<c:if test="${list.status == 0 and list.auditTemporary != 1}"><span class="label rounded-2x label-u">${supplierStatusMap[list.status]}</span></c:if>
+									<c:if test="${list.status == 9 and list.auditTemporary != 1}"><span class="label rounded-2x label-u">${supplierStatusMap[list.status]}</span></c:if>
+									<c:if test="${(list.status == 0 or list.status == 9) and list.auditTemporary == 1}"><span class="label rounded-2x label-u">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
+									<c:if test="${list.status == 1 and list.auditTemporary != 2}"><span class="label rounded-2x label-u">${supplierStatusMap[list.status]}</span></c:if>
+									<c:if test="${list.status == 1 and list.auditTemporary == 2}"><span class="label rounded-2x label-u">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
+									<c:if test="${list.status == 5 and list.auditTemporary != 3}"><span class="label rounded-2x label-u">${supplierStatusMap[list.status]}</span></c:if>
+									<c:if test="${list.status == 5 and list.auditTemporary == 3}"><span class="label rounded-2x label-u">${supplierAuditTemporaryStatusMap[list.auditTemporary]}</span></c:if>
+									<c:if test="${list.status != 0 && list.status != 9 && list.status != 1 && list.status != 5 }"><span class="label rounded-2x ${label_color}">${supplierStatusMap[list.status]}</span></c:if>
+									
 								</td>
 								<%-- <td class="tc" id="${list.id }_isExtract" >${list.isExtract}</td> --%>
 							</tr>

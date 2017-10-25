@@ -846,7 +846,8 @@
 			<if test="dutyRoomPhone != null and dutyRoomPhone != ''">
 				DUTY_ROOM_PHONE = #{dutyRoomPhone},
 			</if>
-			<if test="isAuditSupplier != null and isAuditSupplier != ''">
+			<!-- 此处不能进行 ！= null判断 -->
+			<if test="isAuditSupplier >= 0">
 				IS_AUDIT_SUPPLIER = #{isAuditSupplier},
 			</if>
 			<if test="quaStatus != null">

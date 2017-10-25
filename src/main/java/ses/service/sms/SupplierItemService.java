@@ -297,4 +297,11 @@ public interface SupplierItemService {
 	 */
 	public SupplierItem getItemById(String id);
 
+	/**
+	 * 获取工程品目资质
+	 * @param supplierId
+	 * @return
+	 */
+	public Map<String, Object> getEngAptitute(String supplierId);
+
 }

@@ -216,6 +216,13 @@ public class Constant {
     /**供应商公示  导入文件根路径（文件夹**/
     public final static String T_SES_SMS_SUPPLIER_PUBLICITY_PATH="t_ses_sms_supplier_publicity_path";
 
+    /**供应商注销信息**/
+    public final static String SYNCH_LOGOUT_SUPPLIER="SYNCH_LOGOUT_SUPPLIER";
+    /**供应商注销  导出信息描述 **/
+    public final static String EXPORT_SYNCH_LOGOUT_SUPPLIER="导出供应商注销信息数量:";
+    /**供应商注销  导入信息描述 **/
+    public final static String IMPORT_SYNCH_LOGOUT_SUPPLIER="导入供应商注销信息数量:";
+
     /**专家公示信息**/
     public final static String SYNCH_PUBLICITY_EXPERT="SYNCH_PUBLICITY_EXPERT";
     /**专家公示  导出信息描述 **/
@@ -290,5 +297,41 @@ public class Constant {
     public final static String DATE_SYNCH_EXPERT_EXTRACT ="SYNCH_E_XPERT_EXTRACT";
     /** 专家抽取信息文件名称 **/
     public final static String EXPERT_EXTRACT_FILE_EXPERT = "expert_extract";
+    
+    /** 专家抽取结果信息描述 **/
+    public final static String EXPERT_EXTRACT_RESULT_COMMIT = "导出专家抽取结果数量:";
+    /** 专家抽取结果信息导入描述 **/
+    public final static String EXPERT_EXTRACT_RESULT_COMMIT_IMPORT = "同步专家抽取结果数量:";
+    /** 专家抽取结果信息 **/
+    public final static String DATE_SYNCH_EXPERT_EXTRACT_RESULT ="SYNCH_E_XPERT_EXTRACT_RESULT";
+    /** 专家抽取结果信息文件名称 **/
+    public final static String EXPERT_EXTRACT_RESULT_FILE_EXPERT = "expert_extract_result";
+    
+    /** 军队专家信息导出描述 **/
+    public final static String MILITARY_EXPERT_COMMIT = "导出军队专家数量:";
+    /** 军队专家信息导入描述 **/
+    public final static String MILITARY_EXPERT_COMMIT_IMPORT = "同步军队专家数量:";
+    /** 军队专家信息 **/
+    public final static String DATE_SYNCH_MILITARY_EXPERT ="SYNCH_MILITARY_E_XPERT";
+    /** 军队专家导出文件名称 **/
+    public final static String MILITARY_EXPERT_FILE_EXPERT = "military_expert";
 
+    /** 供应商抽取信息 **/
+    public final static String DATE_SYNCH_SUPPLIER_EXTRACT ="SYNCH_S_UPPLIER_EXTRACT_INFO";
+    /** 供应商抽取信息描述 **/
+    public final static String SUPPLIER_EXTRACT_COMMIT = "导出供应商抽取项目信息数量:";
+    /** 供应商抽取信息导入描述 **/
+    public final static String SUPPLIER_EXTRACT_COMMIT_IMPORT = "同步供应商抽取信息数量:";
+    /** 供应商抽取结果信息 **/
+    public final static String DATE_SYNCH_SUPPLIER_EXTRACT_RESULT ="SYNCH_S_UPPLIER_EXTRACT_RESULT";
+    /** 供应商抽取结果信息导入描述 **/
+    public final static String SUPPLIER_EXTRACT_RESULT_COMMIT_IMPORT = "同步供应商抽取结果数量:";
+    /** 供应商抽取结果信息描述 **/
+    public final static String SUPPLIER_EXTRACT_RESULT_COMMIT = "导出专家抽取结果数量:";
+    
+    /** 供应商抽取信息文件名称 **/
+    public final static String SUPPLIER_EXTRACT_FILE_NAME = "supplier_extract";
+    
+    /** 供应商抽取结果信息名称 **/
+    public final static String SUPPLIER_EXTRACT_RESULT_FILE_NAME = "supplier_extract_result";
 }

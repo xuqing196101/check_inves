@@ -273,8 +273,8 @@
 		<button class="btn btn-windows add "
 			onclick="del(this);" type="button">删除</button>
 	</div>
-	<div class="content table_box pl0">
-		<table class="table table-bordered table-condensed table_input table_input" id="forAppendTr">
+	<div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto pr mt20">
+		<table class="table table-hover table-bordered" id="forAppendTr">
 			<tr class="tc">
 				<th class="w30"><!-- -->
 				<input type="checkbox" id="checkAll" disabled="disabled" onclick="selectAll()" /><!-- -->

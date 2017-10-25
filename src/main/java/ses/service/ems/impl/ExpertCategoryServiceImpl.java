@@ -233,6 +233,8 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 		Map<String, Object> map = new HashedMap();
 		map.put("expertId", expertId);
 		map.put("type", "seven");
+		// 复审不通过的专家类型 2:复审
+		map.put("flag", 2);
 		return mapper.selectNoPassCateByExpertId(map);
 	}
 
@@ -257,6 +259,8 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
         map.put("expertId", expertId);
         map.put("typeId", typeId);
         map.put("type", "six");
+        // 设置复审字段标识，只查询复审不通过的参评类别
+        map.put("flag", 2);
         return mapper.selectPassCateByExpertId(map);
     }
     /**
@@ -335,6 +339,12 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	            PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSizeArticle"));
 	        }
 		return mapper.findPassCateByExpertId(map);
+	}
+
+	@Override
+	public List<ExpertCategory> selectCategoryListByCategoryId(ExpertCategory expertCategory) {
+		// TODO Auto-generated method stub
+		return mapper.selectCategoryListByCategoryId(expertCategory);
 	}
 }
  

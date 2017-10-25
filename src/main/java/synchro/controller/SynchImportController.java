@@ -1,17 +1,15 @@
 package synchro.controller;
 
-import bss.service.ob.OBProductService;
-import bss.service.ob.OBProjectServer;
-import bss.service.ob.OBSupplierService;
-
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.bean.ResponseBean;
-import extract.service.expert.ExpertExtractProjectService;
 import iss.service.hl.ServiceHotlineService;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +39,15 @@ import synchro.service.SynchService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBSupplierService;
 
-import javax.servlet.http.HttpServletRequest;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.bean.ResponseBean;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import extract.service.supplier.AutoExtractSupplierService;
 
 /**
  * 版权：(C) 版权所有
@@ -154,14 +154,16 @@ public class SynchImportController {
      **/
     @Autowired
     private ExpertBlackListService expertBlackListService;
-    
-    /** 服务热线 **/
-    @Autowired
-	private ServiceHotlineService serviceHotlineService;
 
-    /** 专家抽取 **/
+    /**
+     * 服务热线
+     **/
     @Autowired
-    private ExpertExtractProjectService expertExtractProjectService;
+    private ServiceHotlineService serviceHotlineService;
+    
+    @Autowired
+    private AutoExtractSupplierService autoExtractSupplierService;
+
     /**
      * 〈简述〉初始化导入
      * 〈详细描述〉
@@ -188,6 +190,29 @@ public class SynchImportController {
             while (iter.hasNext()) {
                 DictionaryData dd = (DictionaryData) iter.next();
                 if (dd.getCode().equals(Constant.DATA_TYPE_ATTACH_CODE)) {
+                    iter.remove();
+                    continue;
+                }
+                // 过滤专家抽取信息  定时任务自动导入导出
+                if (dd.getCode().equals(Constant.DATE_SYNCH_EXPERT_EXTRACT)) {
+                    iter.remove();
+                    continue;
+                }
+                if (dd.getCode().equals(Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT)) {
+                    iter.remove();
+                    continue;
+                }
+                // 过滤供应商抽取信息  定时任务自动导入导出
+                if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT)) {
+                	iter.remove();
+                	continue;
+                }
+                if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
+                	iter.remove();
+                	continue;
+                }
+                //过滤军队专家信息
+                if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
                     iter.remove();
                     continue;
                 }
@@ -340,8 +365,8 @@ public class SynchImportController {
                         if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
                             attachService.importAttach(f);
                         }
-                        if(f.getName().contains(FileUtils.C_ARTICLE_CATEGORY_PATH_FILENAME)){
-                        	infoService.importArticleCategory(f);
+                        if (f.getName().contains(FileUtils.C_ARTICLE_CATEGORY_PATH_FILENAME)) {
+                            infoService.importArticleCategory(f);
                         }
                         if (f.isDirectory()) {
                             if (f.getName().equals(Constant.ATTACH_FILE_TENDER)) {
@@ -370,7 +395,7 @@ public class SynchImportController {
                      */
                     if (synchType.contains("inner_out")) {
                         if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)) {
-                            innerSupplierService.immportInner(f, null);
+                            innerSupplierService.importInner(f, null);
                         }
                         if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
                             attachService.importSupplierAttach(f);
@@ -697,36 +722,39 @@ public class SynchImportController {
                      * 公示供应商
                      */
                     if (synchType.contains(Constant.SYNCH_PUBLICITY_SUPPLIER)) {
-                        for (File file2 : f.listFiles()) {
-                            if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)) {
-                                innerSupplierService.immportInner(file2, "publicity");
+                        if(f.getName().equals(Constant.T_SES_SMS_SUPPLIER_PUBLICITY_PATH)) {
+                            if (f.isDirectory()) {
+                                for (File file2 : f.listFiles()) {
+                                    if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)) {
+                                        innerSupplierService.importInner(file2, "publicity");
+                                    }
+                                }
                             }
                         }
-                        /*if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
-                            attachService.importSupplierAttach(f);
-                        }
-                        if (f.isDirectory()) {
-                            if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)) {
-                                OperAttachment.moveFolder(f);
+                    }
+
+                    /**
+                     * 注销供应商导入
+                     */
+                    if (synchType.contains(Constant.SYNCH_LOGOUT_SUPPLIER)) {
+                        if(FileUtils.getSynchAttachFile(31).equals("/" + f.getName())){
+                            for (File file2 : f.listFiles()) {
+                                if (file2.getName().contains(FileUtils.C_SYNCH_LOGOUT_SUPPLIER_FILENAME)) {
+                                    innerSupplierService.importLogoutSupplier(file2);
+                                }
                             }
-                        }*/
+                        }
                     }
 
                     /**
                      * 公示专家
                      */
                     if (synchType.contains(Constant.SYNCH_PUBLICITY_EXPERT)) {
-                        for (File file2 : f.listFiles()) {
-                            if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME)) {
-                                innerExpertService.importExpOfPublicity(file2);
-                            }
-                        }
-                        if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {
-                            attachService.importExpertAttach(f);
-                        }
-                        if (f.isDirectory()) {
-                            if (f.getName().equals(Constant.ATTCH_FILE_EXPERT)) {
-                                OperAttachment.moveFolder(f);
+                        if(FileUtils.getSynchAttachFile(24).equals("/" + f.getName())) {
+                            for (File file2 : f.listFiles()) {
+                                if (file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME)) {
+                                    innerExpertService.importExpOfPublicity(file2);
+                                }
                             }
                         }
                     }
@@ -822,7 +850,6 @@ public class SynchImportController {
                                                 FileUtils.M_EXPERT_BLACKLIST_LOG_PATH_FILENAME)) {
                                     expertBlackListService.importExpertBlacklistLog(file2);
                                 }
-
                             }
                         }
                         //专家黑名单附件
@@ -841,7 +868,7 @@ public class SynchImportController {
                             }
                         }
                     }
-                    
+
                     /** 服务热线信息数据导入 **/
                     if (synchType.contains(Constant.DATE_SYNCH_HOT_LINE)) {
                         if (f.getName().equals(Constant.HOT_LINE_FILE_EXPERT)) {
@@ -851,7 +878,7 @@ public class SynchImportController {
                                         || file2.getName()
                                         .contains(
                                                 FileUtils.M_HOT_LINE_PATH_FILENAME)) {
-                                	serviceHotlineService.importHotLine(file2);
+                                    serviceHotlineService.importHotLine(file2);
                                 }
                             }
                         }
@@ -861,22 +888,35 @@ public class SynchImportController {
                             }
                         }
                     }
-                    /** 专家抽取数据导入 **/
-                    if (synchType.contains(Constant.DATE_SYNCH_EXPERT_EXTRACT)) {
-                        if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
-                            expertExtractProjectService.importExpertExtract(f);
-                        }
-                        if (f.isDirectory()) {
-                            if (f.getName().equals(Constant.EXPERT_EXTRACT_FILE_EXPERT)) {
-                                OperAttachment.moveFolder(f);
-                            }
-                        }
+                    
+                    /** 供应商抽取信息数据导入 **/      
+                    if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT)) {
+                    	if (f.getName().contains(Constant.SUPPLIER_EXTRACT_FILE_NAME)) {
+                    		autoExtractSupplierService.importSupplierExtract(f);
+                    	}
+                    	if (f.isDirectory()) {
+                    		if (f.getName().contains(Constant.SUPPLIER_EXTRACT_FILE_NAME)) {
+                    			OperAttachment.moveFolder(f);
+                    		}
+                    	}
                     }
+                    
+                    /** 供应商抽取结果数据导入 **/      
+                    if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
+                    	if (f.getName().contains(Constant.SUPPLIER_EXTRACT_RESULT_FILE_NAME)) {
+            				autoExtractSupplierService.importSupplierExtractResult(f);
+            			}
+                    	if (f.isDirectory()) {
+                    		if (f.getName().contains(Constant.SUPPLIER_EXTRACT_RESULT_FILE_NAME)) {
+                    			OperAttachment.moveFolder(f);
+                    		}
+                    	}
+                    }
+                    
                     /**目录资质关联表*/
                     categoryService.importCategoryQua(synchType, f);
                     /** 产品资质表*/
                     qualificationService.importQualification(synchType, f);
-
                 }
             }
             bean.setSuccess(true);

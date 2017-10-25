@@ -84,8 +84,16 @@
 			var trObj = checktd.parent().parent();
 			var tdArr = trObj.children("td");
 		    var roleCode = tdArr.eq(8).find("input").val();
-		    //判断：如果该用户拥有供应商、专家（临时专家）、进口供应商、进口代理商中的任何一个角色都不能进行修改操作
-		    if(roleCode.indexOf("SUPPLIER_R") > -1 || roleCode.indexOf("EXPERT_R") > -1 || roleCode.indexOf("EXPERT_TEMP_R") > -1 || roleCode.indexOf("IMP_SUPPLIER_R") > -1 || roleCode.indexOf("IMPORT_AGENT_R") > -1){
+		    var strs = new Array(); //定义一数组 
+		    strs = roleCode.split(","); //字符分割 
+		    var flag = 0;
+		    for (var i=0;i<strs.length ;i++ ) 
+		    { //判断：如果该用户拥有供应商、专家（临时专家）、进口供应商、进口代理商中的任何一个角色都不能进行修改操作
+		    	if (strs[i] == "SUPPLIER_R" || strs[i] == "EXPERT_R" || strs[i] == "EXPERT_TEMP_R" || strs[i] == "IMP_SUPPLIER_R" || strs[i] == "IMPORT_AGENT_R") {
+		    		flag +=1;
+				}
+		    }
+		    if(flag > 0){
 				layer.msg("该（角色）用户不能进行信息修改",{offset: ['222px']});
 			} else {
 				var currPage = ${list.pageNum};

@@ -9,6 +9,7 @@ import java.util.Set;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
+import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
 
@@ -45,7 +46,7 @@ public interface SupplierExtractConditionMapper {
      *
      * @param record
      */
-    int updateByPrimaryKeySelective(SupplierExtractCondition record);
+    int updateByPrimaryKeySelective(SupplierExtractCondition condition);
 
     /**
      * 根据主键来更新数据库记录
@@ -93,7 +94,7 @@ public interface SupplierExtractConditionMapper {
 	List<DictionaryData> getEngAptitudeLevelByCategoryId(
 			Map<String, String[]> map);
 
-	HashSet<DictionaryData> getQuaByCid(HashMap<String, Object> hashMap);
+	List<Qua> getQuaByCid(HashMap<String, Object> hashMap);
 
 	List<DictionaryData> getLevelByQid(String[] split);
 
@@ -102,7 +103,7 @@ public interface SupplierExtractConditionMapper {
 	 * @param id
 	 * @return
 	 */
-	SupplierExtractCondition getByRid(String id);
+	SupplierExtractCondition getByRid(String recordId);
 
 	/**
 	 * 查询抽取品目名称集合

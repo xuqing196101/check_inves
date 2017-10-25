@@ -147,7 +147,7 @@ function resetQuery() {
 	$("#itemTypeName").val("");
 }
 function info(supplierId) {
-	window.location.href = globalPath +"/supplierQuery/essential.do?judge=2&supplierId="+ supplierId;
+	window.open(globalPath +"/supplierQuery/essential.do?judge=2&supplierId="+ supplierId);
 }
 function empty(){
 	addButtonProject();
@@ -159,8 +159,8 @@ function showData(obj) {
 	$(obj.list).each(
 			function(index, item) {
 				var level = "";
-				if (item.supplierLevel != null) {
-					level = item.supplierLevel;
+				if (item.supplierLevelName != null) {
+					level = item.supplierLevelName;
 				}
 				var armyBusinessName = "";
 				if (item.armyBusinessName != null) {

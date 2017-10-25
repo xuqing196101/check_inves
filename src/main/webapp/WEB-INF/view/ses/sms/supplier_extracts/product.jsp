@@ -71,14 +71,15 @@
         	// 加载中的菊花图标
 			loading = layer.load(1);
 			var cateName = $("#cateName").val();
+			var cateCode = $("#cateCode").val();
 			$.ajax({
 				url: "${pageContext.request.contextPath}/SupplierCondition_new/searchCate.do",
 				type:"post",
-				data: {"typeId" : "${supplierTypeCode}", "cateName" : cateName},
+				data: {"typeId" : "${supplierTypeCode}", "cateName" : cateName,"cateCode":cateCode},
 				async: false,
 				dataType: "json",
 				success: function(data){
-					if (data.length <1) {
+					if (!data || data.length<1) {
 						layer.msg("没有符合查询条件的产品类别信息！");
 					} else {
 						zNodes = data;
@@ -347,7 +348,11 @@
 				<br />
 			</div>
 			<div>
-				<input type="text" id="cateName" class="fl mr5"> <input type="button" class="btn fl" onclick="loadZtree('true')" value="搜索">
+				品目名称：<input type="text" id="cateName" class="mr3 empty w125">
+        品目编码：<input type="text" id="cateCode" class="mr3 empty w125"><br/>
+				<div class="tc">
+				  <input type="button" class="btn" onclick="loadZtree('true')" value="搜索">
+				</div>
         <div class="clear"></div>
 			</div>
 			<div id="ztree" class="ztree margin-left-13"></div>

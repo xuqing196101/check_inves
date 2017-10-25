@@ -180,4 +180,20 @@ public interface ExpertAuditMapper {
     void deleteByExpertIdAndAuditFieldId (ExpertAudit expertAudit);
     
     ExpertAudit findAuditByExpertId (ExpertAudit expertAudit);
+    void updateAuditStatus(@Param("id") String id,@Param("auditStatus") String auditStatus);
+    
+    /**
+     * 全部专家查询中的审核记录
+     * @param expertAudit
+     * @return
+     */
+    List<ExpertAudit> diySelect(Map<String, Object> map);
+    /**
+     * 将修改过的审核记录改变状态为已修改
+     * @param expertAudit
+     * @return
+     */
+    void updateDoAuditStatus(Map<String, Object> map);
+    void updateToAuditStatus(Map<String, Object> map);
+    void updateExpertTypeAuditStatus(ExpertAudit e);
 }

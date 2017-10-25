@@ -5,6 +5,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,12 +45,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 版权：(C) 版权所有 
+ * 版权：(C) 版权所有
  * <简述> 专家业务service
  * <详细描述>
- * @author   WangHuijie
- * @version  
- * @since
+ *
+ * @author WangHuijie
  * @see
  */
 @Service
@@ -66,23 +66,23 @@ public class OuterExpertServiceImpl implements OuterExpertService {
      */
     @Autowired
     private UserServiceI userService;
-    
+
     /**
      * 专家service
      */
     @Autowired
     private ExpertService expertService;
-    
+
     /**
      * 专家-品目service
      */
     @Autowired
     private ExpertCategoryService expertCategoryService;
-    
-    
+
+
     @Autowired
     private ExpertTitleMapper expertTitleMapper;
-    
+
     @Autowired
     private FileUploadMapper fileUploadMapper;
 
@@ -110,11 +110,12 @@ public class OuterExpertServiceImpl implements OuterExpertService {
 
     @Autowired
     private UserMapper userMapper;
+
     @Override
     public void backupCreated(String startTime, String endTime) {
-        getCreatedData(startTime,  endTime);
+        getCreatedData(startTime, endTime);
     }
-    
+
     /**
      * @see synchro.outer.back.service.supplier.OuterReadExpertService#backupModified()
      */
@@ -125,39 +126,44 @@ public class OuterExpertServiceImpl implements OuterExpertService {
 
     @Override
     public void backModifyExpert(String startTime, String endTime) {
-        List<Expert> expertList = expertService.getAuditExpertByDate(startTime,endTime);
+        List<Expert> expertList = expertService.getAuditExpertByDate(startTime, endTime);
         List<Expert> experts = new ArrayList<Expert>();
-        if(null != expertList && !expertList.isEmpty()){
+        if (null != expertList && !expertList.isEmpty()) {
             ExpertEngHistory expertEngHistory = null;
             ExpertAuditFileModify expertAuditFileModify = null;
-            for(Expert expert : expertList){
+            for (Expert expert : expertList) {
                 //专家审核记录表
                 List<ExpertAudit> expertAuditList = expertAuditMapper.selectByExpertId(expert.getId());
                 if(null != expertAuditList){
+                	for (ExpertAudit expertAudit : expertAuditList) {
+                		if(expertAudit!=null){
+                			expertAudit.setDataType(expertAudit.getType());
+                		}
+					}
                     expert.setExpertAuditList(expertAuditList);
                 }
                 //工程执业资格历史表
                 expertEngHistory = new ExpertEngHistory();
                 expertEngHistory.setExpertId(expert.getId());
                 List<ExpertEngHistory> expertEngHistoryList = expertEngHistoryMapper.selectByExpertId(expertEngHistory);
-                if(null != expertEngHistoryList){
+                if (null != expertEngHistoryList) {
                     expert.setExpertEngHistoryList(expertEngHistoryList);
                 }
                 //工程执业资格修改表
                 List<ExpertEngHistory> expertEngModifyList = expertEngModifyMapper.selectByExpertId(expertEngHistory);
-                if(null != expertEngModifyList){
+                if (null != expertEngModifyList) {
                     expert.setExpertEngModifyList(expertEngModifyList);
                 }
                 //专家历史表
                 ExpertHistory expertHistory = expertService.selectOldExpertById(expert.getId());
-                if(null != expertHistory){
+                if (null != expertHistory) {
                     expert.setHistory(expertHistory);
                 }
                 //工程执业资格文件修改表
                 expertAuditFileModify = new ExpertAuditFileModify();
                 expertAuditFileModify.setExpertId(expert.getId());
                 List<ExpertAuditFileModify> expertAuditFileModifyList = expertAuditFileModifyMapper.selectByExpertId(expertAuditFileModify);
-                if(null != expertAuditFileModifyList){
+                if (null != expertAuditFileModifyList) {
                     expert.setExpertAuditFileModifyList(expertAuditFileModifyList);
                 }
                 expert.setAttchList(getAttch(expert.getId()));
@@ -165,8 +171,8 @@ public class OuterExpertServiceImpl implements OuterExpertService {
             }
         }
         //将数据写入文件
-        if(!experts.isEmpty()){
-            FileUtils.writeFile(FileUtils.getExpertAuidtNot(),JSON.toJSONString(experts));
+        if (!experts.isEmpty()) {
+            FileUtils.writeFile(FileUtils.getExpertAuidtNot(), JSON.toJSONString(experts));
             //附件处理
 //            List<UploadFile> attachList = new ArrayList<>();
 //            for(Expert expert:experts){
@@ -184,18 +190,17 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     }
 
     /**
-     *
      * Description: 查询公示专家导出外网
      *
-     * @author Easong
-     * @version 2017/7/9
      * @param startTime
      * @param endTime
+     * @author Easong
+     * @version 2017/7/9
      * @since JDK1.7
      */
     @Override
     public void selectExpByPublictyOfExport(String startTime, String endTime) {
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("startTime", startTime);
         map.put("endTime", endTime);
         map.put("status", -3);
@@ -204,136 +209,131 @@ public class OuterExpertServiceImpl implements OuterExpertService {
         if(null != expertList && !expertList.isEmpty()){
             ExpertEngHistory expertEngHistory = null;
             ExpertAuditFileModify expertAuditFileModify = null;
-            for(Expert expert : expertList){
+            for (Expert expert : expertList) {
                 //专家审核记录表
                 List<ExpertAudit> expertAuditList = expertAuditMapper.selectByExpertId(expert.getId());
-                if(null != expertAuditList){
+                if (null != expertAuditList) {
                     expert.setExpertAuditList(expertAuditList);
                 }
                 //工程执业资格历史表
                 expertEngHistory = new ExpertEngHistory();
                 expertEngHistory.setExpertId(expert.getId());
                 List<ExpertEngHistory> expertEngHistoryList = expertEngHistoryMapper.selectByExpertId(expertEngHistory);
-                if(null != expertEngHistoryList){
+                if (null != expertEngHistoryList) {
                     expert.setExpertEngHistoryList(expertEngHistoryList);
                 }
                 //工程执业资格修改表
                 List<ExpertEngHistory> expertEngModifyList = expertEngModifyMapper.selectByExpertId(expertEngHistory);
-                if(null != expertEngModifyList){
+                if (null != expertEngModifyList) {
                     expert.setExpertEngModifyList(expertEngModifyList);
                 }
                 //专家历史表
                 ExpertHistory expertHistory = expertService.selectOldExpertById(expert.getId());
-                if(null != expertHistory){
+                if (null != expertHistory) {
                     expert.setHistory(expertHistory);
                 }
                 //工程执业资格文件修改表
                 expertAuditFileModify = new ExpertAuditFileModify();
                 expertAuditFileModify.setExpertId(expert.getId());
                 List<ExpertAuditFileModify> expertAuditFileModifyList = expertAuditFileModifyMapper.selectByExpertId(expertAuditFileModify);
-                if(null != expertAuditFileModifyList){
+                if (null != expertAuditFileModifyList) {
                     expert.setExpertAuditFileModifyList(expertAuditFileModifyList);
                 }
                 expert.setAttchList(getAttch(expert.getId()));
+                // 查询专家选择的小类
                 // 查询军队专家类型
                 DictionaryData dict = DictionaryDataUtil.get("ARMY");
-                if(dict != null && dict.getId().equals(expert.getExpertsFrom()))
-                expert.setExpertCategory(expertCategoryMapper.findByExpertId(expert.getId()));
-                // 查询专家复审意见
-                ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
-                expertAuditOpinion.setExpertId(expert.getId());
-                // 设置审核标识  1：复审标识
-                expertAuditOpinion.setFlagTime(1);
-                ExpertAuditOpinion expertAuditOpinionOut = expertAuditOpinionService.selectByExpertId(expertAuditOpinion);
-                expert.setExpertAuditOpinion(expertAuditOpinionOut);
-                // 将专家信息添加到集合
+                if (dict != null && dict.getId().equals(expert.getExpertsFrom()))
+                    expert.setExpertCategory(expertCategoryMapper.findByExpertId(expert.getId()));
                 experts.add(expert);
             }
         }
         //将数据写入文件
-        if(!experts.isEmpty()){
-            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME, 24),JSON.toJSONString(experts, SerializerFeature.WriteMapNullValue));
+        if (!experts.isEmpty()) {
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_PUBLICITY_EXPERT_FILENAME, 24), JSON.toJSONString(experts, SerializerFeature.WriteMapNullValue));
         }
         recordService.synchBidding(null, new Integer(experts.size()).toString(), synchro.util.Constant.SYNCH_PUBLICITY_EXPERT, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_PUBLICITY_EXPERT);
     }
 
     /**
-     * 
-     *〈简述〉获取专家与用户信息
-     *〈详细描述〉
-     * @author WangHuijie
+     * 〈简述〉获取专家与用户信息
+     * 〈详细描述〉
+     *
      * @param expertId 专家Id
      * @return
+     * @author WangHuijie
      */
     private User getUser(String expertId) {
         User user = userService.findByTypeId(expertId);
         return user;
     }
-    
+
     /**
-     * 
-     *〈简述〉获取专家与品目的关系
-     *〈详细描述〉
-     * @author WangHuijie
+     * 〈简述〉获取专家与品目的关系
+     * 〈详细描述〉
+     *
      * @param expertId 专家Id
      * @return
+     * @author WangHuijie
      */
     private List<ExpertCategory> getCategory(String expertId) {
         //List<ExpertCategory> categoryList = expertCategoryService.getListByExpertId(expertId, null);
         List<ExpertCategory> categoryList = expertCategoryService.selectListByExpertId1(expertId, null);
         return categoryList;
     }
-    
+
     /**
-     * 
-     *〈简述〉获取专家历史记录信息
-     *〈详细描述〉
-     * @author WangHuijie
+     * 〈简述〉获取专家历史记录信息
+     * 〈详细描述〉
+     *
      * @param expertId 专家Id
      * @return
+     * @author WangHuijie
      */
     private ExpertHistory getHistory(String expertId) {
         ExpertHistory history = expertService.selectOldExpertById(expertId);
         return history;
     }
-    
+
     /**
-     *〈简述〉获取新注册的专家信息
-     *〈详细描述〉
+     * 〈简述〉获取新注册的专家信息
+     * 〈详细描述〉
+     *
      * @author WangHuijie
      */
     public void getCreatedData(String startTime, String endTime) {
-        List<Expert> expertList = expertService.getCommitExpertByDate(startTime,endTime);
+        List<Expert> expertList = expertService.getCommitExpertByDate(startTime, endTime);
         List<Expert> list = getNewExpertList(expertList);
         List<UploadFile> attachList = new ArrayList<>();
-        for(Expert e:list){
-        	attachList.addAll(e.getAttchList());
+        for (Expert e : list) {
+            attachList.addAll(e.getAttchList());
         }
-        if (list != null && list.size() > 0){
-            FileUtils.writeFile(FileUtils.getNewExpertBackUpFile(),JSON.toJSONString(list));
+        if (list != null && list.size() > 0) {
+            FileUtils.writeFile(FileUtils.getNewExpertBackUpFile(), JSON.toJSONString(list));
             String basePath = FileUtils.attachExportPath(Constant.EXPERT_SYS_KEY);
-            if (StringUtils.isNotBlank(basePath)){
+            if (StringUtils.isNotBlank(basePath)) {
                 OperAttachment.writeFile(basePath, attachList);
                 recordService.backupAttach(new Integer(attachList.size()).toString());
             }
         }
         recordService.commitExpertRecord(new Integer(list.size()).toString());
-        
-        
+
+
 //        if (list != null && list.size() > 0){
 //            FileUtils.writeFile(FileUtils.getNewExpertBackUpFile(),JSON.toJSONString(list));
 //        }
 //        recordService.backNewExpertRecord(new Integer(list.size()).toString());
     }
-    
+
     /**
-     *〈简述〉获取修改的专家信息
-     *〈详细描述〉
+     * 〈简述〉获取修改的专家信息
+     * 〈详细描述〉
+     *
      * @author WangHuijie
      */
     public void getModifiedData() {
         List<Expert> expList = expertService.getModifyExpertByDate(DateUtils.getYesterDay());
-        List<Expert> expertList  = new ArrayList<Expert>();
+        List<Expert> expertList = new ArrayList<Expert>();
         // 去重
         if (expList != null && expList.size() > 1) {
             for (int i = 0; i < expList.size(); i++) {
@@ -342,60 +342,60 @@ public class OuterExpertServiceImpl implements OuterExpertService {
                     if (expList.get(i).getId().equals(expList.get(j).getId())) {
                         flag = false;
                     }
-                }            
+                }
                 if (flag) {
                     expertList.add(expList.get(0));
                 }
             }
         }
         List<Expert> list = getModifyExpertList(expertList);
-        if (list != null && list.size() > 0){
-            FileUtils.writeFile(FileUtils.getModifyExpertBackUpFile(),JSON.toJSONString(list));
+        if (list != null && list.size() > 0) {
+            FileUtils.writeFile(FileUtils.getModifyExpertBackUpFile(), JSON.toJSONString(list));
         }
         recordService.backModifyExpertRecord(new Integer(list.size()).toString());
     }
-    
+
     /**
-     * 
-     *〈简述〉根据主数据查询关联的数据(新注册)
-     *〈详细描述〉
-     * @author WangHuijie
+     * 〈简述〉根据主数据查询关联的数据(新注册)
+     * 〈详细描述〉
+     *
      * @param expertList 主数据
      * @return 组装完成的数据
+     * @author WangHuijie
      */
     private List<Expert> getNewExpertList(List<Expert> expertList) {
-        List <Expert> list = new ArrayList<Expert>();
-        for (Expert expert : expertList){
+        List<Expert> list = new ArrayList<Expert>();
+        for (Expert expert : expertList) {
             expert.setUser(getUser(expert.getId()));
             List<RoleUser> userRoles = userMapper.queryByUserId(expert.getUser().getId(), null);
-        	expert.setUserRoles(userRoles);
+            expert.setUserRoles(userRoles);
             expert.setExpertCategory(getCategory(expert.getId()));
             List<UploadFile> attchs = getAttch(expert.getId());
 //            expert.setAttchList(getAttch(expert.getId()));
             expert.setTitles(getTitle(expert.getId()));
-            for(ExpertTitle e:expert.getTitles()){
-            	  List<UploadFile> attch = fileUploadMapper.quyerExpertAttchment(e.getId());
-            	  attchs.addAll(attch);
+            for (ExpertTitle e : expert.getTitles()) {
+                List<UploadFile> attch = fileUploadMapper.quyerExpertAttchment(e.getId());
+                attchs.addAll(attch);
             }
             expert.setAttchList(attchs);
             list.add(expert);
         }
         return list;
     }
-    
+
     /**
-     * 
-     *〈简述〉根据主数据查询关联的数据(修改)
-     *〈详细描述〉
-     * @author WangHuijie
+     * 〈简述〉根据主数据查询关联的数据(修改)
+     * 〈详细描述〉
+     *
      * @param expertList 主数据
      * @return 组装完成的数据
+     * @author WangHuijie
      */
     private List<Expert> getModifyExpertList(List<Expert> expertList) {
-        List <Expert> list = new ArrayList<Expert>();
-        for (Expert expert : expertList){
-        	List<RoleUser> userRoles = userMapper.queryByUserId(expert.getUser().getId(), null);
-        	expert.setUserRoles(userRoles);
+        List<Expert> list = new ArrayList<Expert>();
+        for (Expert expert : expertList) {
+            List<RoleUser> userRoles = userMapper.queryByUserId(expert.getUser().getId(), null);
+            expert.setUserRoles(userRoles);
             expert.setUser(getUser(expert.getId()));
             expert.setExpertCategory(getCategory(expert.getId()));
             expert.setHistory(getHistory(expert.getId()));
@@ -403,42 +403,37 @@ public class OuterExpertServiceImpl implements OuterExpertService {
         }
         return list;
     }
-    
-    
+
+
     /**
-     * 
-    * @Title: getTitle
-    * @Description: 专家职业类型
-    * author: Li Xiaoxiao 
-    * @param @param expertId
-    * @param @return     
-    * @return List<ExpertTitle>     
-    * @throwsRS
+     * @param @param  expertId
+     * @param @return
+     * @return List<ExpertTitle>
+     * @Title: getTitle
+     * @Description: 专家职业类型
+     * author: Li Xiaoxiao
+     * @throwsRS
      */
-    public List<ExpertTitle> getTitle(String expertId){
-    	List<ExpertTitle> list = expertTitleMapper.selectByExpertId(expertId);
-    	return list;
+    public List<ExpertTitle> getTitle(String expertId) {
+        List<ExpertTitle> list = expertTitleMapper.selectByExpertId(expertId);
+        return list;
     }
-    
+
     /**
-     * 
-    * @Title: getAttch
-    * @Description:专家附件
-    * author: Li Xiaoxiao 
-    * @param @param expertId
-    * @param @return     
-    * @return List<UploadFile>     
-    * @throws
+     * @param @param  expertId
+     * @param @return
+     * @return List<UploadFile>
+     * @throws
+     * @Title: getAttch
+     * @Description:专家附件 author: Li Xiaoxiao
      */
-    public  List<UploadFile> getAttch(String expertId){
+    public List<UploadFile> getAttch(String expertId) {
         List<UploadFile> attchs = fileUploadMapper.quyerExpertAttchment(expertId);
-    	List<ExpertTitle> list = expertTitleMapper.selectByExpertId(expertId);
-	    	for(ExpertTitle ep:list){
-	    	     List<UploadFile> titleFile = fileUploadMapper.substrBusinessId(ep.getId());
-	    	     attchs.addAll(titleFile);
-	    	}
-    	 return attchs;
+        List<ExpertTitle> list = expertTitleMapper.selectByExpertId(expertId);
+        for (ExpertTitle ep : list) {
+            List<UploadFile> titleFile = fileUploadMapper.substrBusinessId(ep.getId());
+            attchs.addAll(titleFile);
+        }
+        return attchs;
     }
-    
-    
 }

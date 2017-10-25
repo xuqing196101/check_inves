@@ -163,30 +163,31 @@
 				var goodsEngInfoId = $("#goodsEngInfoId").val();
 				
 				var sign = ${sign};
+				var batchId = "${batchId}";
 				if(mat == "mat_page"){
 					// 物资品目信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + matCodeId + "&sign=" + sign;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + matCodeId + "&sign=" + sign + "&batchId=" + batchId;
 					$("#tbody_category").load(path);
 				}else if(eng == "eng_page"){
 					// 工程品目信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + engCodeId + "&sign=" + sign;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + engCodeId + "&sign=" + sign + "&batchId=" + batchId;
 					$("#tbody_category").load(path);
 				}else if(ser == "ser_page"){
 					// 服务
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + serCodeId + "&sign=" + sign;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + serCodeId + "&sign=" + sign + "&batchId=" + batchId;
 					$("#tbody_category").load(path);
 				}else if(goodsProject == "goodsProject_page"){
 					// 工程产品类别信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsProjectId + "&sign=" + sign;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsProjectId + "&sign=" + sign + "&batchId=" + batchId;
 					$("#tbody_category").load(path);
 				}else if(goodsEngInfo == "goodsEngInfo_page"){
 					// 工程专业属性信息
 					loading = layer.load(1);
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsEngInfoId + "&sign=" + sign;
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsEngInfoId + "&sign=" + sign + "&batchId=" + batchId;
 					$("#tbody_category").load(path);
 				}
 			});
@@ -196,7 +197,8 @@
 					loading = layer.load(1);
 					var expertId = $("#expertId").val();
 					var sign = ${sign};
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + code + "&sign=" + sign;
+					var batchId = "${batchId}";
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + code + "&sign=" + sign + "&batchId=" + batchId;
 					$("#tbody_category").load(path);
 			};   
 			
@@ -407,44 +409,46 @@
 			
 			//撤销
 			function revokeCategoryAudit(){
-				var expertId = $("#expertId").val();
-				var sign = ${sign};
-				var categoryIds = [];
-				var falg = true;
-        $('input[name="chkItem"]:checked').each(function () {
-          var index=$(this).val();
-          var itemsId =$("#itemsId"+index+"").val();
-          categoryIds.push(itemsId);
-          
-          ii = $('input[name=del'+itemsId+']').val();
-          if(ii != itemsId){
-              falg = false;
-            }
-         });
-        if(categoryIds.length > 0){
-        	if(falg){
-        		$.ajax({
-              url: "${pageContext.request.contextPath}/expertAudit/revokeCategoryAudit.do",
-              type: "post",
-              traditional:true,
-              data:{"expertId" : expertId, "categoryIds" : categoryIds, "sign" : sign},
-              success : function(result){
-                layer.msg(result.msg, {offset : [ '100px' ]});
-                if(result.status == 500){
-                  window.setTimeout(function () {
-                    var action = "${pageContext.request.contextPath}/expertAudit/product.html";
-                    $("#form_id").attr("action", action);
-                    $("#form_id").submit();
-                  }, 1000);
-                }
-              }
-            });
-        	}else{
-            layer.msg("请选择复审过的", {offset : [ '100px' ]});
-          }
-        }else{
-        	 layer.msg("请选择", {offset : [ '100px' ]});
-        }
+				if(status ==-2 || status == 0 || status == 15|| status == 16 || (sign ==1 && status ==9) || (sign ==3 && status ==6) || status ==4){
+					var expertId = $("#expertId").val();
+					var sign = ${sign};
+					var categoryIds = [];
+					var falg = true;
+	        $('input[name="chkItem"]:checked').each(function () {
+	          var index=$(this).val();
+	          var itemsId =$("#itemsId"+index+"").val();
+	          categoryIds.push(itemsId);
+	          
+	          ii = $('input[name=del'+itemsId+']').val();
+	          if(ii != itemsId){
+	              falg = false;
+	            }
+	         });
+	        if(categoryIds.length > 0){
+	        	if(falg){
+	        		$.ajax({
+	              url: "${pageContext.request.contextPath}/expertAudit/revokeCategoryAudit.do",
+	              type: "post",
+	              traditional:true,
+	              data:{"expertId" : expertId, "categoryIds" : categoryIds, "sign" : sign},
+	              success : function(result){
+	                layer.msg(result.msg, {offset : [ '100px' ]});
+	                if(result.status == 500){
+	                  window.setTimeout(function () {
+	                    var action = "${pageContext.request.contextPath}/expertAudit/product.html";
+	                    $("#form_id").attr("action", action);
+	                    $("#form_id").submit();
+	                  }, 1000);
+	                }
+	              }
+	            });
+	        	}else{
+	            layer.msg("请选择复审过的", {offset : [ '100px' ]});
+	          }
+	        }else{
+	        	 layer.msg("请选择", {offset : [ '100px' ]});
+	        }
+			  }
 			}
 		</script>
 	</head>
@@ -470,7 +474,7 @@
 					</c:if>
 					<c:if test="${sign == 2}">
 						<li>
-							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=2')">专家复审</a>
+							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.html?batchId=${batchId}')">专家复审</a>
 						</li>
 					</c:if>
 					<c:if test="${sign == 3}">
@@ -499,7 +503,7 @@
 									<c:set value="${liCount+1}" var="liCount" />
 									<%-- <li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree(this);"> --%>
 									<li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree('${matCodeId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资品目信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资产品类别信息</a>
 										<input type="hidden" id="mat" value="mat_page">
 										<input id="matCodeId" type="hidden" value="${matCodeId }">
 									</li>
@@ -507,7 +511,7 @@
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<%-- <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);"> --%>
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${engCodeId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程品目信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
 										<input type="hidden" id="eng" value="eng_page">
 										<input id="engCodeId" type="hidden" value="${engCodeId }">
 									</li>
@@ -515,7 +519,7 @@
 								</c:if>
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${engInfoId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程专业信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程专业属性信息</a>
 										<input type="hidden" id="engInfo" value="engInfo_page">
 										<input id="engInfoId" type="hidden" value="${engInfoId }">
 									</li>
@@ -524,7 +528,7 @@
 								<c:if test="${cate.code eq 'SERVICE'}">
 									<%-- <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);"> --%>
 										<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${serCodeId }');">
-										<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务品目信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务产品类别信息</a>
 										<input type="hidden" id="ser" value="ser_page">
 										<input id="serCodeId" type="hidden" value="${serCodeId }">
 									</li>
@@ -577,7 +581,7 @@
 					</div>
 					<div class="col-md-12 add_regist tc">
 						<a class="btn" type="button" onclick="lastStep();">上一步</a>
-						<c:if test="${expert.status == -2 ||  expert.status == 0 ||  expert.status == 9 || (sign ==3 && expert.status ==6) || expert.status ==4}">
+						<c:if test="${expert.status == -2 ||  expert.status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && expert.status ==6) || expert.status ==4}">
 	            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zancun();">暂存</a>
 	          </c:if>
 						<a class="btn" type="button" onclick="nextStep();">下一步</a>
@@ -589,6 +593,7 @@
 		<form id="form_id" action="" method="post">
 			<input name="expertId" value="${expertId}" type="hidden">
 			<input name="sign" value="${sign}" type="hidden">
+			<input name="batchId" value="${batchId}" type="hidden">
 		</form>
         <input id="status" value="${status}" type="hidden">
 	</body>

@@ -1,40 +1,30 @@
 package ses.controller.sys.ems;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import bss.controller.base.BaseController;
+import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
+import bss.model.ppms.SaleTender;
+import bss.model.ppms.ext.ProjectExt;
+import bss.model.prms.PackageExpert;
+import bss.service.ppms.BidMethodService;
+import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectService;
+import bss.service.ppms.SaleTenderService;
+import bss.service.prms.PackageExpertService;
+import bss.service.prms.ReviewProgressService;
+import bss.util.ExcelRead;
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import com.google.zxing.WriterException;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.LoginLogService;
+import common.service.UploadService;
+import common.utils.ListSortUtil;
+import common.utils.QRCodeUtil;
+import common.utils.RSAEncrypt;
 import net.sf.json.JSONObject;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -57,7 +47,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -118,32 +107,36 @@ import ses.util.SupplierLevelUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 import sun.misc.BASE64Encoder;
-import bss.controller.base.BaseController;
-import bss.model.ppms.Packages;
-import bss.model.ppms.Project;
-import bss.model.ppms.SaleTender;
-import bss.model.ppms.ext.ProjectExt;
-import bss.model.prms.PackageExpert;
-import bss.service.ppms.BidMethodService;
-import bss.service.ppms.PackageService;
-import bss.service.ppms.ProjectService;
-import bss.service.ppms.SaleTenderService;
-import bss.service.prms.PackageExpertService;
-import bss.service.prms.ReviewProgressService;
-import bss.util.ExcelRead;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-import com.google.zxing.WriterException;
-
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.model.UploadFile;
-import common.service.LoginLogService;
-import common.service.UploadService;
-import common.utils.ListSortUtil;
-import common.utils.QRCodeUtil;
-import common.utils.RSAEncrypt;
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 @Controller
 @RequestMapping("/expert")
 public class ExpertController extends BaseController {
@@ -594,6 +587,7 @@ public class ExpertController extends BaseController {
 	            ExpertAudit expertAudit = new ExpertAudit();
 	            expertAudit.setExpertId(expertId);
 	            expertAudit.setSuggestType(stepNumber);
+	            expertAudit.setStatusQuery("notPass");
 	            List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
 	            // 所有的不通过字段的名字
 	            StringBuffer errorField = new StringBuffer();
@@ -608,7 +602,8 @@ public class ExpertController extends BaseController {
             	ExpertAudit expertAuditFor = new ExpertAudit();
     			expertAuditFor.setExpertId(expertId);
     			expertAuditFor.setSuggestType("seven");
-    			expertAuditFor.settype("1");
+    			expertAuditFor.setType("1");
+    			expertAuditFor.setStatusQuery("notPass");
     			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
     			
     			
@@ -622,7 +617,7 @@ public class ExpertController extends BaseController {
     			}
     			
     			//不通过字段（执业资格）
-    			expertAuditFor.settype("2");
+    			expertAuditFor.setType("2");
     			List < ExpertAudit > engReasonsList = expertAuditService.getListByExpert(expertAuditFor);
     			StringBuffer engErrorField = new StringBuffer();
     			if(!engReasonsList.isEmpty()){
@@ -1070,6 +1065,7 @@ public class ExpertController extends BaseController {
             // 查询所有的不通过的品目
             expertAudit.setExpertId(expertId);
             expertAudit.setSuggestType("six");
+            expertAudit.setStatusQuery("notPass");
             auditList = expertAuditService.selectFailByExpertId(expertAudit);
             /*for (ExpertAudit e : auditList) {
             	Map < String, Object > map = new HashMap < String, Object > ();
@@ -2009,13 +2005,25 @@ public class ExpertController extends BaseController {
             	    ExpertAudit expertAudit = new ExpertAudit();
                     expertAudit.setExpertId(expertId);
                     expertAudit.setSuggestType("six");
+                    expertAudit.setStatusQuery("notPass");
                     List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
                     for (ExpertAudit e : auditList) {
                     	Map < String, Object > map = new HashMap < String, Object > ();
                         map.put("expertId", expertId);
                         map.put("categoryId", e.getAuditFieldId());
                         expertCategoryService.deleteByMap(map);
+                        e.setAuditStatus("2");
+                        expertAuditService.updateExpertTypeAuditStatus(e);
                     }
+                    expertAudit.setSuggestType("seven");
+                    expertAudit.setType("1");
+                    auditList = expertAuditService.selectFailByExpertId(expertAudit);
+                    for (ExpertAudit seven : auditList) {
+						if(!"isTitle".equals(seven.getAuditFieldId())){
+							seven.setAuditStatus("2");
+							expertAuditService.updateExpertTypeAuditStatus(seven);
+						}
+					}
                 }
                 
                 List < UploadFile > promise = uploadService.getFilesOther(expertId,  ExpertPictureType.COMMITMENT_PROOF.getSign().toString(),"3");
@@ -2248,10 +2256,10 @@ public class ExpertController extends BaseController {
       			exp.setExpertsFrom(expertsFrom.getName());
       		}
         }
-       /* // 查询数据字典中的专家来源配置数据
+        // 查询数据字典中的专家来源配置数据
         List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
         request.setAttribute("lyTypeList", lyTypeList);
-        // 查询数据字典中的专家类别数据
+        /*// 查询数据字典中的专家类别数据
         List < DictionaryData > jsTypeList = DictionaryDataUtil.find(6);
         for(DictionaryData data: jsTypeList) {
             data.setName(data.getName() + "技术");
@@ -3830,7 +3838,7 @@ public class ExpertController extends BaseController {
         String now = new SimpleDateFormat("yyyy").format(new Date());
         if(Integer.parseInt(now) - Integer.parseInt(yyyy) == 70) {
             if(Integer.parseInt(new SimpleDateFormat("MM").format(new Date())) >= Integer.parseInt(mm)){
-                if(Integer.parseInt(new SimpleDateFormat("dd").format(new Date())) >= Integer.parseInt(dd)){
+                if(Integer.parseInt(new SimpleDateFormat("dd").format(new Date())) > Integer.parseInt(dd)){
                     isok = "1";
                 }
             }
@@ -4311,9 +4319,9 @@ public class ExpertController extends BaseController {
             // 将筛选完的List转换为CategoryTreeList
             List < CategoryTree > treeList = new ArrayList < CategoryTree > ();
             for(Category category: allCateList) {
-            	if(category.getCode().length()>=9){
+            	/*if(category.getCode().length()>=9){
             		continue;
-            	}
+            	}*/
                 CategoryTree treeNode = new CategoryTree();
                 treeNode.setId(category.getId());
                 treeNode.setName(category.getName());
@@ -4402,6 +4410,7 @@ public class ExpertController extends BaseController {
             ExpertAudit audit = new ExpertAudit();
             audit.setExpertId(expertId);
             audit.setAuditFieldId(cate.getItemsId());
+            audit.setStatusQuery("notPass");
             List < ExpertAudit > list = expertAuditService.selectFailByExpertId(audit);
             if(list!=null && list.size()>0){
             	cate.setAuditReason(list.get(0).getAuditReason());
@@ -4425,6 +4434,7 @@ public class ExpertController extends BaseController {
         ExpertAudit expertAudit = new ExpertAudit();
         expertAudit.setExpertId(expertId);
         expertAudit.setSuggestType("six");
+        expertAudit.setStatusQuery("notPass");
         List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
         // 所有的不通过字段的名字
         StringBuffer errorField = new StringBuffer();

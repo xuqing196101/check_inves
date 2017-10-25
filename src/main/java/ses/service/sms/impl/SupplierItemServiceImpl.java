@@ -18,13 +18,16 @@ import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierPorjectQua;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
 import ses.util.Constant;
@@ -62,6 +65,9 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	
 	@Autowired
 	private SupplierAuditService supplierAuditService;
+	
+	@Autowired
+	private SupplierMatEngService supplierMatEngService;
 	
 	@Override
 	public void saveSupplierItem(Supplier supplier) {
@@ -123,6 +129,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("supplierId", supplierItem.getSupplierId());
         map.put("type", supplierItem.getSupplierTypeRelateId());
+        map.put("isReturned", 0);
         for (Category cate : categoryList) {
             map.put("categoryId", cate.getId());
             // 查询是否数据库已存在
@@ -1090,6 +1097,15 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			}
 		}
 	}
+	public void removeSameItem(List < SupplierItem > list) {
+		for(int i = 0; i < list.size() - 1; i++) {
+			for(int j = list.size() - 1; j > i; j--) {
+				if(list.get(j).getId().equals(list.get(i).getId())) {
+					list.remove(j);
+				}
+			}
+		}
+	}
 	
 	@Override
 	public List<SupplierItem> removeAuditNotItems(List<SupplierItem> items,
@@ -1330,6 +1346,67 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	@Override
 	public SupplierItem getItemById(String id) {
 		return supplierItemMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public Map<String, Object> getEngAptitute(String supplierId) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+		String firstCateId = DictionaryDataUtil.getId("PROJECT");
+		List < SupplierItem > listSupplierItems = this.getCategoryOther(supplierId, firstCateId, "PROJECT");
+		removeSameItem(listSupplierItems);
+		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+		String modifiedCertCodes = "";
+		for(SupplierItem item: listSupplierItems) {
+			String categoryId = item.getCategoryId();
+			SupplierCateTree cateTree = this.getTreeListByCategoryId(categoryId, item);
+			//后台判断证书编号是否有更新，若有将更新的证书编号放进数组，前台更新显示样式
+			/*if(StringUtils.isNotEmpty(item.getCertCode())){
+				int selectByCertCode = selectByCertCode(item.getCertCode());
+				if(selectByCertCode == 0){
+					if(StringUtils.isEmpty(modifiedCertCodes)){
+						modifiedCertCodes = item.getCertCode();
+					}else{
+						modifiedCertCodes = modifiedCertCodes+"-"+item.getCertCode();
+					}
+				}
+			}*/
+
+			if(cateTree != null && cateTree.getRootNode() != null) {
+				cateTree.setItemsId(item.getId());
+				cateTree.setDiyLevel(item.getLevel());
+				//每次都是最新
+				if(matEng.getListSupplierAptitutes() != null && !matEng.getListSupplierAptitutes().isEmpty()){
+					for (SupplierAptitute apt: matEng.getListSupplierAptitutes()){
+						//proName="三大部分"  diyLevel="6B0CC322A1BF489898A3EF51DE9AA6AD"
+						//qualificationType="4D96D5A8CAF4E7E2E050007F0100A66F"
+						//System.out.println(apt.getCertCode()+","+apt.getCertType()+"==="+cateTree.getCertCode()+","+cateTree.getQualificationType());
+						if(apt.getCertCode().equals(cateTree.getCertCode()) && apt.getCertType().equals(cateTree.getQualificationType())){
+							cateTree.setProName(apt.getProfessType());
+							cateTree.setLevel(DictionaryDataUtil.findById(apt.getAptituteLevel()));
+							cateTree.setDiyLevel(apt.getAptituteLevel());
+							cateTree.setFileId(apt.getId());
+							break;
+						}else{
+							cateTree.setProName(null);
+							cateTree.setLevel(null);
+							cateTree.setDiyLevel(null);
+							cateTree.setFileId(null);
+						}
+					}
+				}
+				/*if(cateTree!=null && cateTree.getCertCode() != null && cateTree.getQualificationType() != null && cateTree.getProName() != null) {
+					List<SupplierAptitute> certEng = queryByCodeAndType(null, matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
+					if(certEng != null && certEng.size() > 0) {
+						cateTree.setFileId(certEng.get(0).getId());
+					}
+				}*/
+				allTreeList.add(cateTree);
+			}
+		}
+		resultMap.put("allTreeList", allTreeList);
+		resultMap.put("modifiedCertCodes", modifiedCertCodes);
+		return resultMap;
 	}
 
 }

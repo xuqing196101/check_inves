@@ -17,11 +17,12 @@
 			function nextStep() {
 				var status = ${status};
 				var sign = $("input[name='sign']").val();
-				if(sign == 2 || status == 10 || status == 5){
+				if(sign == 2){
 					var action = "${pageContext.request.contextPath}/expertAudit/preliminaryInfo.html";
 				}else{
 					var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
 				}
+				
 				
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
@@ -121,7 +122,7 @@
 					</c:if>
 					<c:if test="${sign == 2}">
 						<li>
-							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=2')">专家复审</a>
+							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAgainAudit/findBatchDetailsList.html?batchId=${batchId}')">专家复审</a>
 						</li>
 					</c:if>
 					<c:if test="${sign == 3}">
@@ -162,7 +163,7 @@
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12  add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
-					<c:if test="${expert.status == -2 ||  expert.status == 0 ||  expert.status == 9 || (sign ==3 && expert.status ==6) || expert.status ==4}">
+					<c:if test="${expert.status == -2 ||  expert.status == 0 || (sign ==1 && expert.status ==9) || (sign ==3 && expert.status ==6) || expert.status ==4}">
 					  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zancun();">暂存</a>
 					</c:if>
 					<a class="btn" type="button" onclick="nextStep();">下一步</a>
@@ -176,6 +177,7 @@
 		<form id="form_id" action="" method="post">
 			<input name="expertId" value="${expertId}" type="hidden">
 			<input name="sign" value="${sign}" type="hidden">
+			<input name="batchId" value="${batchId}" type="hidden">
 		</form>
         <input value="${status}" id="status" type="hidden">
 	</body>

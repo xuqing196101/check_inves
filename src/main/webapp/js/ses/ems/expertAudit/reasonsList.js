@@ -26,11 +26,16 @@ $(function () {
     $("input[name='selectOption']").bind("click", function(){
         // 清空意见内容
         $("#cate_result").html("");
+        
         var selectedVal = $(this).val();
         if(selectedVal == 5){
-            $("#cate_result").html("预复审不合格 。");
+            $("#cate_result").html("预复审不合格。");
             return;
         }
+        if(selectedVal == '10'){
+       		$("#cate_result").html("退回修改 。");
+       	}
+        
         // 判断意见是否已经获取，有的话不再发送请求
         /*var opinionBack = $("#opinionBack").val();
         if(opinionBack != ''){
@@ -102,8 +107,6 @@ function lastStep() {
 	var sign = $("input[name='sign']").val();
 	if(sign == 2){
 		var action = globalPath + "/expertAudit/auditSummary.html";
-	}else if(sign == 1 && (status == 10 || status == 5)){
-		var action = globalPath + "/expertAudit/preliminaryInfo.html";
 	}else{
 		var action = globalPath + "/expertAudit/expertFile.html";
 	}
@@ -115,13 +118,9 @@ function lastStep() {
  * 下一步操作
  */
 function nextStep() {
-	if(status == -2 || status == 1){
-		tempSave(1);
-	}
-    if(status == -3 || (sign ==2 && status == 6) || status == 5){
-    	$("#form_id").attr("action", globalPath + "/expertAudit/uploadApproveFile.html");
-        $("#form_id").submit();
-    }
+	var action = globalPath + "/expertAudit/preliminaryInfo.html";
+	$("#form_id").attr("action", action);
+    $("#form_id").submit();
 }
 
 /**
@@ -130,6 +129,8 @@ function nextStep() {
 function tempSave(){
     // 获取审核意见
     var opinion  = $("#opinion").val();
+    var cate_result = $("#cate_result").text();
+    var opinion = cate_result + opinion;
     // 获取选择radio类型
     var selectOption = $("input[name='selectOption']:checked").val();
 	var flags = vartifyAuditCount();
@@ -154,6 +155,7 @@ function tempSave(){
     $("#opinionId").val(opinion);
     $("#flagTime").val(1);
     $("#flagAudit").val(selectOption);
+    
     $.ajax({
         url:globalPath + "/expertAudit/saveAuditOpinion.do",
         type: "POST",

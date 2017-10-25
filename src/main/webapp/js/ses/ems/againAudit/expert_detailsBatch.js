@@ -24,7 +24,7 @@
           } else if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '4') {
             list_content.list[i].status = '复审中';
           } else if (list_content.list[i].status === '4' && list_content.list[i].auditTemporary === '0') {
-            list_content.list[i].status = '待复审';
+            list_content.list[i].status = '复审已分配';
           } else if (list_content.list[i].status === '5') {
             list_content.list[i].status = '复审不合格';
           } else if (list_content.list[i].status === '6') {

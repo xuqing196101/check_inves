@@ -546,6 +546,13 @@
 				if(!birthday) {
 					layer.msg("请填写出生日期 !");
 					return false;
+				} else {
+					var ageStart = parseInt(birthday.replace(new RegExp("-","gm"), "")) + 700000; // 19700101 + 700000 = 20400101
+					var ageEnd = new Date().Format("yyyyMMdd");;
+					if (ageStart < ageEnd) {
+						layer.msg("年龄不大于70周岁 !");
+						return false;
+					}
 				}
 				var isAge = true;
 				if(birthday != "") {
@@ -557,7 +564,7 @@
 						},
 						success: function(response) {
 							if(response == "1") {
-								layer.msg("年龄70周岁以下的才能进行注册!");
+								layer.msg("年龄不大于70周岁才能进行注册!");
 								isAge = false;
 							} else {
 								isAge = true;

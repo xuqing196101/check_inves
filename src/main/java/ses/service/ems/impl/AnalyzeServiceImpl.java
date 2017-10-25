@@ -1,24 +1,6 @@
 package ses.service.ems.impl;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import ses.dao.bms.UserMapper;
-import ses.dao.ems.ExpertMapper;
-import ses.dao.sms.SupplierMapper;
-import ses.model.bms.Analyze;
-import ses.model.bms.AnalyzeItem;
-import ses.service.ems.AnalyzeService;
-import ses.util.DictionaryDataUtil;
 import bss.util.PropUtil;
-
 import common.constant.Constant;
 import common.dao.AttUploadAnalyzeMapper;
 import common.dao.FileUploadMapper;
@@ -29,6 +11,22 @@ import common.model.AttUploadAnalyze;
 import common.model.LoginAnalyze;
 import common.model.RegisterAnalyze;
 import common.utils.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ses.dao.bms.UserMapper;
+import ses.dao.ems.ExpertMapper;
+import ses.dao.sms.SupplierMapper;
+import ses.model.bms.Analyze;
+import ses.model.bms.AnalyzeItem;
+import ses.service.ems.AnalyzeService;
+import ses.util.DictionaryDataUtil;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -115,7 +113,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		AnalyzeItem analyzeItem = new AnalyzeItem();
 		List<Analyze> analyzes = analyzeItem.getAnalyzes();
 
-		// 获取供应商上传文件表
+		// 获取专家上传文件表
 		String tableName = Constant.fileSystem.get(Constant.EXPERT_SYS_KEY);
 		map.put("createdAt", dateFormat.format(date));
 		map.put("tableName", tableName);
@@ -123,7 +121,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		// 封装数据
 		setAnalyzeData(analyzes, SUPPLIER_NAME, expertFileCount);
 
-		// 获取专家上传文件表
+		// 获取供应商上传文件表
 		tableName = Constant.fileSystem.get(Constant.SUPPLIER_SYS_KEY);
 		map.put("tableName", tableName);
 		Long supplierFileCount = fileUploadMapper.getFileCountByEmp(map);

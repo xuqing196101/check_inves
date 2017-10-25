@@ -611,6 +611,7 @@ function checkOnly(el) {
 
 // 专家批次审核
 function expert_auditBatch(url) {
+  var batchId = getUrlParam('batchId')
   if (select_ids.length > 1) {
     layer.msg('不能多选，请选择一项', {
       offset: '100px'
@@ -638,7 +639,7 @@ function expert_auditBatch(url) {
       },
       success: function (data) {
         if (data.status) {
-          window.location.href=url+"/expertAudit/basicInfo.html?expertId="+ids+"&sign=2";
+          window.location.href=url+"/expertAudit/basicInfo.html?expertId="+ids+"&sign=2"+"&batchId=" + batchId;
         } else {
           layer.msg(data.message, {
             offset: '100px'
@@ -651,6 +652,39 @@ function expert_auditBatch(url) {
 
 //  全选操作
 function checkAll(el) {
+  var temp_list = [];
+  
+  if ($(el).is(':checked')) {
+    $(el).parents('table').find('.select_item').each(function () {
+      $(this).prop('checked', true);
+      temp_list.push($(this).val());
+    });
+    
+    for (var i in temp_list) {
+      for (var ii in select_ids) {
+        if (temp_list[i] === select_ids[ii]) {
+          temp_list.splice(i, 1);
+        }
+      }
+    }
+    
+    for (var iii in temp_list) {
+      select_ids.push(temp_list[iii]);
+    }
+  } else {
+    $(el).parents('table').find('.select_item').each(function () {
+      $(this).prop('checked', false);
+      for (var i in select_ids) {
+        if ($(this).val() === select_ids[i]) {
+          select_ids.splice(i, 1);
+        }
+      }
+    });
+  }
+}
+
+//  创建复审批次列表全选操作
+function againAudit_checkAll() {
   var temp_list = [];
   
   if ($('.againAudit_table [name=checkAll]').is(':checked')) {
@@ -732,4 +766,18 @@ function jump_batchGroup() {
       }
     }
   });
+}
+
+// 显示/隐藏批次列表
+function toggle_list(el) {
+  var show_ob = $(el).parents('.gbl_tit').siblings('.gbl_content');
+  if (show_ob.hasClass('hide')) {
+    show_ob.removeClass('hide');
+    $(el).removeClass('shrink');
+    $(el).addClass('spread');
+  } else {
+    show_ob.addClass('hide');
+    $(el).addClass('shrink');
+    $(el).removeClass('spread');
+  }
 }

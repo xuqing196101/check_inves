@@ -421,18 +421,20 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             }
             
             // 国家军队科研项目
-            if(supplierMatPro.getCountryPro() !=null){
+            // 由于是非必填信息，字段不做非空判断
+//            if(supplierMatPro.getCountryPro() !=null){
             	historyInfo.setBeforeField("countryPro");
-                historyInfo.setBeforeContent(supplierMatPro.getCountryPro());
+                historyInfo.setBeforeContent(supplierMatPro.getCountryPro() == null ? "" : supplierMatPro.getCountryPro());
                 supplierHistoryMapper.insertSelective(historyInfo);
-            }
+//            }
             
             // 国家军队科技奖项
-            if(supplierMatPro.getCountryReward() !=null){
+            // 由于是非必填信息，字段不做非空判断
+//            if(supplierMatPro.getCountryReward() !=null){
             	historyInfo.setBeforeField("countryReward");
-                historyInfo.setBeforeContent(supplierMatPro.getCountryReward());
+                historyInfo.setBeforeContent(supplierMatPro.getCountryReward() == null ? "" : supplierMatPro.getCountryReward());
                 supplierHistoryMapper.insertSelective(historyInfo);
-            }
+//            }
             
             
             /*// 生产线数量
@@ -572,6 +574,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         }*/
         
         //资质证书信息
+        //由于是非必填信息，字段不做非空判断
         if(supplierMatSell !=null){
         	List<SupplierCertSell> listSupplierCertSells = supplierMatSell.getListSupplierCertSells();
             if (listSupplierCertSells != null && listSupplierCertSells.size() > 0) {
@@ -585,53 +588,53 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                         historyInfo.setListType(CERT_SALES_LIST);
                         
                         // 资质证书名称
-                        if(certSell.getName() !=null){
+//                        if(certSell.getName() !=null){
                         	historyInfo.setBeforeField("name");
-                            historyInfo.setBeforeContent(certSell.getName());
+                            historyInfo.setBeforeContent(certSell.getName() == null ? "" : certSell.getName());
                             supplierHistoryMapper.insertSelective(historyInfo);
-                        }
+//                        }
 
                         // 证书编号
-                        if(certSell.getCode() !=null){
+//                        if(certSell.getCode() !=null){
                         	historyInfo.setBeforeField("code");
-                            historyInfo.setBeforeContent(certSell.getCode());
+                            historyInfo.setBeforeContent(certSell.getCode() == null ? "" : certSell.getCode());
                             supplierHistoryMapper.insertSelective(historyInfo);
-                        }
+//                        }
                         
                         // 资质等级
-                        if(certSell.getLevelCert() !=null){
+//                        if(certSell.getLevelCert() !=null){
                         	historyInfo.setBeforeField("levelCert");
-                            historyInfo.setBeforeContent(certSell.getLevelCert());
+                            historyInfo.setBeforeContent(certSell.getLevelCert() == null ? "" : certSell.getLevelCert());
                             supplierHistoryMapper.insertSelective(historyInfo);
-                        }
+//                        }
                         
                         // 发证机关
-                        if(certSell.getLicenceAuthorith() !=null){
+//                        if(certSell.getLicenceAuthorith() !=null){
                         	historyInfo.setBeforeField("licenceAuthorith");
-                            historyInfo.setBeforeContent(certSell.getLicenceAuthorith());
+                            historyInfo.setBeforeContent(certSell.getLicenceAuthorith() == null ? "" : certSell.getLicenceAuthorith());
                             supplierHistoryMapper.insertSelective(historyInfo);
-                        }
+//                        }
                         
                         // 有效期（起始时间）
-                        if(certSell.getExpStartDate() !=null){
+//                        if(certSell.getExpStartDate() !=null){
                         	historyInfo.setBeforeField("expStartDate");
-                            historyInfo.setBeforeContent(format.format(certSell.getExpStartDate()));
+                            historyInfo.setBeforeContent(certSell.getExpStartDate() == null ? "" : format.format(certSell.getExpStartDate()));
                             supplierHistoryMapper.insertSelective(historyInfo);
-                        }
+//                        }
                         
                         // 有效期（结束时间）
-                        if(certSell.getExpEndDate() !=null){
+//                        if(certSell.getExpEndDate() !=null){
                         	historyInfo.setBeforeField("expEndDate");
-                            historyInfo.setBeforeContent(format.format(certSell.getExpEndDate()));
+                            historyInfo.setBeforeContent(certSell.getExpEndDate() == null ? "" : format.format(certSell.getExpEndDate()));
                             supplierHistoryMapper.insertSelective(historyInfo);
-                        }
+//                        }
                         
                         //证书状态
-                        if(certSell.getMot() !=null){
+//                        if(certSell.getMot() !=null){
                         	historyInfo.setBeforeField("mot");
-                            historyInfo.setBeforeContent(certSell.getMot().toString());
+                            historyInfo.setBeforeContent(certSell.getMot() == null ? "" : certSell.getMot());
                             supplierHistoryMapper.insertSelective(historyInfo);
-                        }
+//                        }
             		}  
             	}
             }
@@ -687,6 +690,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             }
             
             //注册人员信息
+            //由于是非必填信息，字段不做非空判断
             List<SupplierRegPerson> listSupplierRegPersons = supplierMatEng.getListSupplierRegPersons();
             if(listSupplierRegPersons !=null && listSupplierRegPersons.size() >0){
             	for(SupplierRegPerson regPerson : listSupplierRegPersons){
@@ -699,18 +703,18 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                         historyInfo.setListType(REG_PERSON_LIST);
                         
                         //注册资格名称
-                        if(regPerson.getRegType() !=null){
-                       	 historyInfo.setBeforeField("regType");
-                            historyInfo.setBeforeContent(regPerson.getRegType());
+//                        if(regPerson.getRegType() !=null){
+                       	 	historyInfo.setBeforeField("regType");
+                            historyInfo.setBeforeContent(regPerson.getRegType() == null ? "" : regPerson.getRegType());
                             supplierHistoryMapper.insertSelective(historyInfo);
-                        }
+//                        }
                         
                         //注册人名字
-                        if(regPerson.getRegNumber() !=null){
-                       	 historyInfo.setBeforeField("regNumber");
-                            historyInfo.setBeforeContent(regPerson.getRegNumber().toString());
+//                        if(regPerson.getRegNumber() !=null){
+                       	 	historyInfo.setBeforeField("regNumber");
+                            historyInfo.setBeforeContent(regPerson.getRegNumber() == null ? "" : regPerson.getRegNumber());
                             supplierHistoryMapper.insertSelective(historyInfo);
-                        }
+//                        }
             		}	   
                 }	
             }
@@ -946,6 +950,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             supplierHistoryMapper.insertSelective(historyInfo);*/
         
             // 资质证书信息
+            // 由于是非必填信息，字段不做非空判断
             List<SupplierCertServe> listSupplierCertSes = supplierMatSe.getListSupplierCertSes();
             if (listSupplierCertSes != null && listSupplierCertSes.size() > 0) {
                 for (SupplierCertServe matSe : listSupplierCertSes) {
@@ -958,54 +963,53 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                         historyInfo.setListType(CERT_SE_LIST);
                         
                         // 资质证书名称
-                        if(matSe.getName() !=null){
+//                        if(matSe.getName() !=null){
                         	historyInfo.setBeforeField("name");
-                            historyInfo.setBeforeContent(matSe.getName());
+                            historyInfo.setBeforeContent(matSe.getName() == null ? "" : matSe.getName());
                             supplierHistoryMapper.insertSelective(historyInfo);
-                        }
+//                        }
                         
                         // 证书编号
-    					if(matSe.getCode() !=null){
+//    					if(matSe.getCode() !=null){
     						historyInfo.setBeforeField("code");
-    	                    historyInfo.setBeforeContent(matSe.getCode());
+    	                    historyInfo.setBeforeContent(matSe.getCode() == null ? "" : matSe.getCode());
     	                    supplierHistoryMapper.insertSelective(historyInfo);                	
-    					}
+//    					}
 
                         // 资质等级
-    					if(matSe.getLevelCert() !=null){
+//    					if(matSe.getLevelCert() !=null){
     						historyInfo.setBeforeField("levelCert");
-    	                    historyInfo.setBeforeContent(matSe.getLevelCert());
+    	                    historyInfo.setBeforeContent(matSe.getLevelCert() == null ? "" : matSe.getLevelCert());
     	                    supplierHistoryMapper.insertSelective(historyInfo);
-    					}
+//    					}
                         
                         // 发证机关
-    					if(matSe.getLicenceAuthorith() !=null){
+//    					if(matSe.getLicenceAuthorith() !=null){
     						historyInfo.setBeforeField("licenceAuthorith");
-    	                    historyInfo.setBeforeContent(matSe.getLicenceAuthorith());
+    	                    historyInfo.setBeforeContent(matSe.getLicenceAuthorith() == null ? "" : matSe.getLicenceAuthorith());
     	                    supplierHistoryMapper.insertSelective(historyInfo);
-    					}
+//    					}
                         
-                        // 有效期（起始时间
-    					if(matSe.getExpStartDate() !=null){
+                        // 有效期（起始时间）
+//    					if(matSe.getExpStartDate() !=null){
     						historyInfo.setBeforeField("expStartDate");
-    	                    historyInfo.setBeforeContent(format.format(matSe.getExpStartDate()));
+    	                    historyInfo.setBeforeContent(matSe.getExpStartDate() == null ? "" : format.format(matSe.getExpStartDate()));
     	                    supplierHistoryMapper.insertSelective(historyInfo);
-    					}
+//    					}
                         
                         // 有效期（结束时间）
-    					if(matSe.getExpEndDate() !=null){
+//    					if(matSe.getExpEndDate() !=null){
     						historyInfo.setBeforeField("expEndDate");
-    	                    historyInfo.setBeforeContent(format.format(matSe.getExpEndDate()));
+    	                    historyInfo.setBeforeContent(matSe.getExpEndDate() == null ? "" : format.format(matSe.getExpEndDate()));
     	                    supplierHistoryMapper.insertSelective(historyInfo);
-    					}
-                        
+//    					}
                         
                         //证书状态
-    					if(matSe.getMot() !=null){
+//    					if(matSe.getMot() !=null){
     						historyInfo.setBeforeField("mot");
-    	                    historyInfo.setBeforeContent(matSe.getMot().toString());
+    	                    historyInfo.setBeforeContent(matSe.getMot() == null ? "" : matSe.getMot());
     	                    supplierHistoryMapper.insertSelective(historyInfo);
-    					}
+//    					}
                 	}
                 }
             }

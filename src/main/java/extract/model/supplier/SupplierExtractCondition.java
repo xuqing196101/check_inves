@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class SupplierExtractCondition {
 
 	
-	private SupplierConType supplierConType;
+   private SupplierConType supplierConType;
 
    private String recordId;
    

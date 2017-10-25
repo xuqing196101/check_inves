@@ -5,7 +5,7 @@ import ses.model.sms.SupplierAuditOpinion;
 
 /**
  * <p>SupplierAuditOpinionService </p>
- * <p>Description:专家审核意见 </p>
+ * <p>Description:供应商审核意见 </p>
  * @date 2017-4-1下午5:48:39
  */
 public interface SupplierAuditOpinionService {
@@ -13,7 +13,7 @@ public interface SupplierAuditOpinionService {
 	 * @Title: insertSelective
 	 * @date 2017-4-1 下午5:39:10  
 	 * @Description:插入数据
-	 * @param @param expertAuditOpinionMapper      
+	 * @param @param SupplierAuditOpinionService      
 	 * @return void
 	 */
 	void insertSelective (SupplierAuditOpinion supplierAuditOpinion);

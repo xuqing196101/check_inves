@@ -191,6 +191,27 @@ public class ExpertServiceImpl implements ExpertService {
 			map.put("expertsTypeId", null);
 		
 		}*/
+		//搜索待初审，待复审，待复查状态。
+		if("0".equals(expert.getStatus()) || "4".equals(expert.getStatus()) ||"6".equals(expert.getStatus())){
+			expert.setAuditTemporary(0);
+		}
+		
+		//搜索初审中状态
+		if("firstInstance".equals(expert.getStatus())){
+			expert.setStatus("0");
+			expert.setAuditTemporary(1);
+		}
+		//搜索复审中状态
+		if("review".equals(expert.getStatus())){
+			expert.setStatus("4");
+			expert.setAuditTemporary(2);
+		}
+		//搜索复查中状态
+		if("reviewLook".equals(expert.getStatus())){
+			expert.setStatus("6");
+			expert.setAuditTemporary(3);
+		}
+		
 		return mapper.selectAllExpert(expert);
 	}
 	/**
@@ -385,7 +406,7 @@ public class ExpertServiceImpl implements ExpertService {
 				} else if(expert.getStatus().equals("2") || expert.getStatus().equals("16")){
 					//审核未通过
 					map.put("expert", "5");
-				} else if(expert.getStatus().equals("4") || expert.getStatus().equals("15")){
+				} else if((expert.getStatus().equals("4")  && 0 == expert.getIsProvisional())|| expert.getStatus().equals("15")){
 					//初审已通过，待复审
 					map.put("expert", "8");
 				} else if(expert.getIsBlack().equals("1") || expert.getStatus().equals("12")){
@@ -1594,6 +1615,12 @@ public class ExpertServiceImpl implements ExpertService {
          }
          return false;
   }
+
+	@Override
+	public List<Expert> findStorage(Expert expert) {
+		
+		return mapper.selectRuKuExpert(expert);
+	}
 }
 
 

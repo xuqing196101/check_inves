@@ -839,17 +839,19 @@ function myReSet(){
 			<label>标题：</label>
 			<input name="title" type="text" id="title" value="${title }" class="form-control"/>
 		</div>
-		<div class="form-group">
-			<label>采购方式：</label>
-			<select name="lastArticleTypeName" id="lastArticleTypeName" class="form-control">
-				<option value="">全部</option>
-				<option value="公开招标" <c:if test="${'公开招标' eq lastArticleTypeName }"> selected=selected </c:if> >公开招标</option>
-				<option value="邀请招标" <c:if test="${'邀请招标' eq lastArticleTypeName }"> selected=selected </c:if> >邀请招标</option>
-				<option value="询价" <c:if test="${'询价' eq lastArticleTypeName }"> selected=selected </c:if> >询价</option>
-				<option value="竞争性谈判" <c:if test="${'竞争性谈判' eq lastArticleTypeName }"> selected=selected </c:if> >竞争性谈判</option>
-			</select>
-		    <!-- <input name="lastArticleTypeName" type="text" id="lastArticleTypeName" value="${lastArticleTypeName }" />-->
-		</div>
+		<c:if test="${flag != 1}">
+			<div class="form-group">
+				<label>采购方式：</label>
+				<select name="lastArticleTypeName" id="lastArticleTypeName" class="form-control">
+					<option value="">全部</option>
+					<option value="公开招标" <c:if test="${'公开招标' eq lastArticleTypeName }"> selected=selected </c:if> >公开招标</option>
+					<option value="邀请招标" <c:if test="${'邀请招标' eq lastArticleTypeName }"> selected=selected </c:if> >邀请招标</option>
+					<option value="询价" <c:if test="${'询价' eq lastArticleTypeName }"> selected=selected </c:if> >询价</option>
+					<option value="竞争性谈判" <c:if test="${'竞争性谈判' eq lastArticleTypeName }"> selected=selected </c:if> >竞争性谈判</option>
+				</select>
+			    <!-- <input name="lastArticleTypeName" type="text" id="lastArticleTypeName" value="${lastArticleTypeName }" />-->
+			</div>
+		</c:if>
 		<div class="form-group">
 			<label> 产品类别：</label>
 			<select name="pt" id="pt" class="form-control">

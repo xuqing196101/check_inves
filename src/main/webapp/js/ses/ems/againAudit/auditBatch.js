@@ -50,7 +50,7 @@
                   if (list_content[i].expertList[ii].status === '4' && list_content[i].expertList[ii].auditTemporary === '4') {
                     list_content[i].expertList[ii].status = '复审中';
                   } else {
-                    list_content[i].expertList[ii].status = '待复审';
+                    list_content[i].expertList[ii].status = '复审已分配';
                     list_content[i].expertList[ii].updateTime = '';
                   }
                 } else if (list_content[i].expertList[ii].status === '5') {
@@ -99,14 +99,17 @@
                 if (typeof(list_content[i].expertList[ii].professTechTitles) === 'undefined') {
                   list_content[i].expertList[ii].professTechTitles = '';
                 }
-                if (typeof(list_content[i].expertList[ii].updateTime) === 'undefined') {
-                  list_content[i].expertList[ii].updateTime = '';
-                }
                 if (typeof(list_content[i].expertList[ii].status) === 'undefined') {
                   list_content[i].expertList[ii].status = '';
                 }
                 if (typeof(list_content[i].expertList[ii].updateTime) === 'undefined') {
                   list_content[i].expertList[ii].updateTime = '';
+                }
+                if (typeof(list_content[i].expertList[ii].expertsTypeId) === 'undefined') {
+                  list_content[i].expertList[ii].expertsTypeId = '';
+                }
+                if (typeof(list_content[i].expertList[ii].expertsFrom) === 'undefined') {
+                  list_content[i].expertList[ii].expertsFrom = '';
                 }
                 
                 str_tr += '<tr>'
@@ -114,9 +117,10 @@
                   +'<td class="text-center break-all">'+ list_content[i].expertList[ii].orgName +'</td>'
                   +'<td class="text-center break-all">'+ list_content[i].expertList[ii].realName +'</td>'
                   +'<td class="text-center break-all">'+ list_content[i].expertList[ii].gender +'</td>'
+                  +'<td class="text-center break-all">'+ list_content[i].expertList[ii].expertsFrom +'</td>'
+                  +'<td class="text-center break-all">'+ list_content[i].expertList[ii].expertsTypeId +'</td>'
                   +'<td class="text-center break-all">'+ list_content[i].expertList[ii].workUnit +'</td>'
                   +'<td class="text-center break-all">'+ list_content[i].expertList[ii].professTechTitles +'</td>'
-                  +'<td class="text-center break-all">'+ list_content[i].expertList[ii].updateTime +'</td>'
                   +'<td class="text-center break-all">'+ list_content[i].expertList[ii].status +'</td>'
                   +'<td class="text-center break-all">'+ list_content[i].expertList[ii].updateTime +'</td>'
                 +'</tr>';
@@ -131,26 +135,29 @@
                 groupStatus_str = '';
               }
               str += '<div class="group_batch_list">'
-                    +'<div class="gbl_tit"><span class="gbl_icon">'+ (parseInt(i) + 1) +'</span><span>'+ list_content[i].name + groupStatus_str +'</span></div>'
-                    +'<div class="mt10 mb10">'
-                    +'  <button type="button" class="btn btn-windows config" onclick="jump_members(\''+ list_content[i].id +'\')">配置审核组成员</button>'
+                    +'<div class="gbl_tit"><span class="count_flow hand mt0 shrink" onclick="toggle_list(this)">'+ list_content[i].name + groupStatus_str +'</span></div>'
+                    +'<div class="gbl_content hide">'
+                    +'  <div class="mt10 mb10">'
+                    +'    <button type="button" class="btn btn-windows config" onclick="jump_members(\''+ list_content[i].id +'\')">配置审核组成员</button>'
+                    +'  </div>'
+                    +'  <table class="table table-bordered table-condensed table-hover table-striped groupBatch_table">'
+                    +'    <thead>'
+                    +'      <tr>'
+                    +'        <th class="info w120">批次编号</th>'
+                    +'        <th class="info w100">采购机构</th>'
+                    +'        <th class="info w180">专家姓名</th>'
+                    +'        <th class="info w50">性别</th>'
+                    +'        <th class="info w80">专家类型</th>'
+                    +'        <th class="info w80">专家类别</th>'
+                    +'        <th class="info">工作单位</th>'
+                    +'        <th class="info w180">专业职称</th>'
+                    +'        <th class="info w100">审核状态</th>'
+                    +'        <th class="info w120">复审时间</th>'
+                    +'      </tr>'
+                    +'    </thead>'
+                    +'    <tbody>'+ str_tr +'</tbody>'
+                    +'  </table>'
                     +'</div>'
-                    +'<table class="table table-bordered table-condensed table-hover table-striped groupBatch_table">'
-                    +'  <thead>'
-                    +'    <tr>'
-                    +'      <th class="info w120">批次编号</th>'
-                    +'      <th class="info w100">采购机构</th>'
-                    +'      <th class="info w180">专家姓名</th>'
-                    +'      <th class="info w50">性别</th>'
-                    +'      <th class="info">工作单位</th>'
-                    +'      <th class="info w180">专业职称</th>'
-                    +'      <th class="info w120">初审时间</th>'
-                    +'      <th class="info w100">审核状态</th>'
-                    +'      <th class="info w120">复审时间</th>'
-                    +'    </tr>'
-                    +'  </thead>'
-                    +'  <tbody>'+ str_tr +'</tbody>'
-                    +'</table>'
               +'</div>';
               $('#group_batch_box').append(str);
               str = str_tr = '';

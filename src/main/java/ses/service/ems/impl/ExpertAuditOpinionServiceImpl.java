@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * <p>Title:ExpertAuditOpinionServiceImpl </p>
  * <p>Description:专家审核意见 </p>
- * @author XuQing
  * @date 2017-4-1下午5:48:39
  */
 @Service("expertAuditOpinionService")
@@ -74,6 +73,20 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
             expertAuditOpinion.setOpinion(expertAuditOpinion.getOpinion().substring(indexOf + 1));
         }
 		return expertAuditOpinion;
+	}
+
+	/**
+	 *
+	 * Description:根据专家ID查询信息-公示专用
+	 *
+	 * @author Easong
+	 * @version 2017年7月3日
+	 * @param expertId
+	 * @return
+	 */
+	@Override
+	public ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion, String flag) {
+		return mapper.selectByExpertId(expertAuditOpinion);
 	}
 
 	@Override
@@ -149,4 +162,15 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 		
 	}
 
+	
+	/**
+	 * @version 2017年7月3日
+	 * @param expertId
+	 * @return
+	 */
+	@Override
+	public ExpertAuditOpinion findByExpertId(ExpertAuditOpinion expertAuditOpinion) {
+        expertAuditOpinion = mapper.selectByExpertId(expertAuditOpinion);
+		return expertAuditOpinion;
+	}
 }

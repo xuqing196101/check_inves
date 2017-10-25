@@ -24,12 +24,24 @@ public interface InnerSupplierService {
     public void importSupplierInfo(final File file);
     
     
-    public void immportInner(final File file, String flag);
+    public void importInner(final File file, String flag);
     
     
     public void importTempSupplier(final File file);
     
     
     public void importBackSupplier(final File file);
+
+    /**
+     *
+     * Description:查询注销供应商导入
+     *
+     * @author Easong
+     * @version 2017/10/16
+     * @param startTime
+     * @param endTime
+     * @since JDK1.7
+     */
+    public void importLogoutSupplier(final File file);
 
 }

@@ -7,6 +7,12 @@
   <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
 </head>
 <body>
+  
+  <script>
+    var index_load = layer.load(1, {
+      shade: [1, '#FFF']
+    });
+  </script>
 
 	<!-- 面包屑导航开始 -->
 	<div class="margin-top-10 breadcrumbs">
@@ -44,7 +50,7 @@
     
     <!-- 表格开始-->
    
-    <div class="col-md-12 pl20 mt10 mb10" id="btn_group">
+    <div class="col-md-12 pl20 pr0 mt10 mb10" id="btn_group">
       
       <div class="fr pic_upload">
         <div class="fl h30 lh30">上传批准复审表：</div>
@@ -60,7 +66,7 @@
     </div>
     
     <div class="mt20 pl20 text-center">
-      <button type="button" class="btn btn-windows back" onclick="javascript:history.back()">返回</button>
+      <button type="button" class="btn btn-windows back" onclick="location='${pageContext.request.contextPath}/expertAgainAudit/findBatchList.html'">返回</button>
     </div>
       
   </div>
@@ -112,40 +118,40 @@
     }
     
     /** 全选全不选 */
-    function selectAll(){
-       var checklist = document.getElementsByName ("chkItem");
-       var checkAll = document.getElementById("checkAll");
-       if(checkAll.checked){
-           for(var i=0;i<checklist.length;i++)
-           {
-              checklist[i].checked = true;
-           } 
-         }else{
-          for(var j=0;j<checklist.length;j++)
-          {
-             checklist[j].checked = false;
-          }
-       }
-    }
+    // function selectAll(){
+    //    var checklist = document.getElementsByName ("chkItem");
+    //    var checkAll = document.getElementById("checkAll");
+    //    if(checkAll.checked){
+    //        for(var i=0;i<checklist.length;i++)
+    //        {
+    //           checklist[i].checked = true;
+    //        } 
+    //      }else{
+    //       for(var j=0;j<checklist.length;j++)
+    //       {
+    //          checklist[j].checked = false;
+    //       }
+    //    }
+    // }
     
     /** 单选 */
-    function check(){
-       var count=0;
-       var checklist = document.getElementsByName ("chkItem");
-       var checkAll = document.getElementById("checkAll");
-       for(var i=0;i<checklist.length;i++){
-           if(checklist[i].checked == false){
-             checkAll.checked = false;
-             break;
-           }
-           for(var j=0;j<checklist.length;j++){
-             if(checklist[j].checked == true){
-                 //checkAll.checked = true;
-                 count++;
-               }
-           }
-         }
-    }
+    // function check(){
+    //    var count=0;
+    //    var checklist = document.getElementsByName ("chkItem");
+    //    var checkAll = document.getElementById("checkAll");
+    //    for(var i=0;i<checklist.length;i++){
+    //        if(checklist[i].checked == false){
+    //          checkAll.checked = false;
+    //          break;
+    //        }
+    //        for(var j=0;j<checklist.length;j++){
+    //          if(checklist[j].checked == true){
+    //              //checkAll.checked = true;
+    //              count++;
+    //            }
+    //        }
+    //      }
+    // }
     
     //复审结束（审核专家操作）
     function reviewEnd(expertId){
@@ -168,18 +174,14 @@
     //复审确认（资源服务中心）
     function reviewConfirm(){
     	var ids = [];
-    	var flag = true;
     	$('input[type="checkbox"]:checked').each(function() {
         var id = $(this).val();
        	var state = $("#" + id + "").parent("tr").find("td").eq(10).text(); //.trim();
         state = trim(state);
-        if(state == "复审结束"){
+        if(state !="" && state == "复审结束"){
         	ids.push(id);
-        }else{
-        	flag = false;
         }
       });
-    	if(flag){
     		$.ajax({
  	        url: "${pageContext.request.contextPath}/expertAgainAudit/reviewConfirm.do",
  	        data: {"expertIds" : ids},
@@ -199,9 +201,10 @@
  	          layer.msg("操作失败",{offset:'100px'});
  	        }
  	      });
-    	}else{
-    		layer.msg("请选择复审结束的专家",{offset:'100px'});
-    	}
+    }
+    
+    function view(expertId){
+        window.location.href = "${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId="+expertId+"&sign=2";
     }
   </script>
     

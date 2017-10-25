@@ -16,7 +16,7 @@
   </resultMap>
   
   <sql id="baseExpertSql">
-     EXPERT_ID, CATEGORY_ID, TYPE_ID, LEVELS, ENGIN_TYPE
+     EXPERT_ID, CATEGORY_ID, TYPE_ID, LEVELS, ENGIN_TYPE, AUDIT_STATUS
   </sql>
   
   <!-- 根据专家id查询品目id集合 -->
@@ -200,6 +200,7 @@
          WHERE T.EXPERT_ID = #{expertId}
          AND T.SUGGEST_TYPE = #{type}
          AND T.IS_DELETED = 0
+         AND T.AUDIT_FALG = #{flag}
     </select>
 
     <!--查询专家审核通过的类型—根据类型查询-->
@@ -211,6 +212,7 @@
                  WHERE C.CATEGORY_ID = T.AUDIT_FIELD_ID
                    AND T.EXPERT_ID = #{expertId}
                    AND T.SUGGEST_TYPE = #{type}
+                   AND T.AUDIT_FALG = #{flag}
                    AND T.IS_DELETED = 0)
            AND C.EXPERT_ID = #{expertId}
            AND C.LEVELS = '1'
@@ -225,7 +227,17 @@
                  WHERE C.CATEGORY_ID = T.AUDIT_FIELD_ID
                    AND T.EXPERT_ID = #{expertId}
                    AND T.SUGGEST_TYPE = #{type}
-                   AND T.IS_DELETED = 0)
+                   AND T.IS_DELETED = 0
+                   AND (T.AUDIT_STATUS IN ('1','3','6') OR T.AUDIT_STATUS IS null)
+                   <if test="auditFalg!=null">
+                   	<if test="auditFalg==2">
+                   		AND T.AUDIT_FALG=2
+                   	</if>
+                   	<if test="auditFalg!=2">
+                   		AND T.AUDIT_FALG!=2
+                   	</if>
+                   </if>
+                   )
            AND C.EXPERT_ID = #{expertId}
             AND C.LEVELS = '1' 
            AND C.TYPE_ID = #{typeId}
@@ -348,5 +360,18 @@
           #{cid}
         </foreach>
       GROUP BY EXPERT_ID HAVING COUNT(EXPERT_ID) = #{idSize}
+    </select>
+      <!--根据专家ID，品目ID类型<集合>查询  -->
+    <select id="selectCategoryListByCategoryId" resultMap="BaseResultMap">
+	    select 
+	     <include refid="baseExpertSql"/>
+	    from T_SES_EMS_EXPERT_CATEGORY
+	      where EXPERT_ID = #{expertId}
+	    <if test="typeIdList != null">
+	      <foreach collection="typeIdList" item="item" index="index" open="and TYPE_ID in ("
+                     close=")" separator=",">
+                #{item}
+            </foreach>
+	    </if>
     </select>
 </mapper>

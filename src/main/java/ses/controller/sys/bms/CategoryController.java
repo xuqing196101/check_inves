@@ -289,19 +289,21 @@ public class CategoryController extends BaseSupplierController {
           String list="";
           List<Category> cateList=categoryService.disTreeGoodsData(category.getId());
           for(Category cate:cateList){
-              List<Category> cList=categoryService.disTreeGoodsData(cate.getId());
-              CategoryTree ct=new CategoryTree();
-              if(!cList.isEmpty()){
-                  ct.setIsParent("true");
-              }else{
-                  ct.setIsParent("false");
-              }
-              ct.setId(cate.getId());
-              ct.setName(cate.getName());
-              ct.setpId(cate.getParentId());
-              ct.setKind(cate.getKind());
-              ct.setStatus(cate.getStatus());
-              jList.add(ct);
+        	  if (cate.getIsPublish() != 1) {
+        		  List<Category> cList=categoryService.findTreeByPidIsPublish(cate.getId());
+        		  CategoryTree ct=new CategoryTree();
+        		  if(!cList.isEmpty()){
+        			  ct.setIsParent("true");
+        		  }else{
+        			  ct.setIsParent("false");
+        		  }
+        		  ct.setId(cate.getId());
+        		  ct.setName(cate.getName());
+        		  ct.setpId(cate.getParentId());
+        		  ct.setKind(cate.getKind());
+        		  ct.setStatus(cate.getStatus());
+        		  jList.add(ct);
+        	  }
           }
          list = JSON.toJSONString(jList);
          return list;

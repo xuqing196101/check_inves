@@ -85,6 +85,7 @@
 		  <result column="AUDIT_AT" jdbcType="TIMESTAMP" property="auditAt" />
 	  </resultMap>
     
+    
     <!-- 专家公示列表查询 -->
     <resultMap id="expertOfPublicityMapList" type="ses.model.ems.ExpertPublicity" extends="BaseResultMap">
     </resultMap>
@@ -177,6 +178,7 @@
         T1.SUBMIT_AT,
         T1.AUDIT_AT,
         T1.COVER_NOTE,
+        T1.AUDIT_TEMPORARY,
         T2.LOGIN_NAME AS loginName,
         org.SHORT_NAME AS orgName
       from
@@ -195,10 +197,23 @@
             AND T1.EXPERTS_FROM = #{expertsFrom}
         </if>
         <if test="status != null and status !=''">
-          <if test="status == 4">
-            AND IS_PROVISIONAL = '0'
+          <if test="status != 'temporary' and status != 'endOfTrial'">
+	          <if test="status == 4">
+	            AND IS_PROVISIONAL = '0'
+	          </if>
+	            AND T1.STATUS = #{status}
+	        </if>
+            
+            <!-- 临时专家 -->
+          <if test="status == 'temporary'">
+            AND IS_PROVISIONAL = '1'
+            AND T1.STATUS = '4'
           </if>
-            AND T1.STATUS = #{status}
+          
+            <!-- 预初审结束 -->
+          <if test="status == 'endOfTrial'">
+            AND (T1.STATUS = '15' or T1.STATUS = '16')
+          </if>
         </if>
         <if test="expertsTypeId != null and expertsTypeId !=''">
           AND instr(T1.EXPERTS_TYPE_ID, #{expertsTypeId} )>0
@@ -214,6 +229,9 @@
         </if>
         <if test="orgName !=null and orgName !=''">
           and org.SHORT_NAME =#{orgName}
+        </if>
+        <if test="auditTemporary !=null">
+          and T1.AUDIT_TEMPORARY = #{auditTemporary}
         </if>
         ORDER BY T1.SUBMIT_AT DESC NULLS LAST
     </select>
@@ -2202,6 +2220,7 @@ resultMap="BaseResultMap">
       T1.IS_SUBMIT,
       T1.SUBMIT_AT,
       T1.AUDIT_AT,
+      T1.AUDIT_TEMPORARY,
       T2.LOGIN_NAME AS loginName,
       org.SHORT_NAME AS orgName,
       AREA.NAME AS ADDRESS
@@ -2211,15 +2230,11 @@ resultMap="BaseResultMap">
       T_SES_BMS_USER t2
     ON
       T1.ID = T2.TYPE_ID
-    LEFT JOIN
-      T_SES_BMS_AREA A
-		  ON t1.address = A.ID
-		LEFT JOIN
-      T_SES_BMS_AREA AREA
-		  ON A.PARENT_ID = AREA.ID
+    LEFT JOIN T_SES_BMS_AREA A ON t1.address = A.ID
+		LEFT JOIN T_SES_BMS_AREA AREA ON A.PARENT_ID = AREA.ID
     LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T1.PURCHASE_DEP_ID = dep.ID
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
-    where (T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 13)
+    where (T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 13 or T1.STATUS = 17 or T1.STATUS = 19)
     AND T1.IS_PROVISIONAL = '0'
     AND T1.IS_DELETE = 0
     <if test="relName != null and relName !=''">
@@ -2235,10 +2250,20 @@ resultMap="BaseResultMap">
       and ID_CARD_NUMBER like CONCAT(CONCAT('%', #{idCardNumber}), '%')
     </if>
     <if test="status != null and status !=''">
-    	<!-- <if test="status == 4">
-    		AND IS_PROVISIONAL = '0'
-    	</if> -->
-      AND T1.STATUS = #{status}
+      <if test="status != 'reviewLook'">
+        AND T1.STATUS = #{status}
+        
+        <!-- 只查 入库(待复查)状态 -->
+        <if test="status == 6">
+          AND T1.AUDIT_TEMPORARY = '0'
+        </if>
+      </if>
+      
+      <!-- 复查中 -->
+      <if test="status == 'reviewLook'">
+        AND T1.STATUS = '6'
+        AND T1.AUDIT_TEMPORARY = '3'
+      </if>
     </if>
     <if test="expertsFrom != null and expertsFrom !=''">
       AND T1.EXPERTS_FROM = #{expertsFrom}
@@ -2255,6 +2280,9 @@ resultMap="BaseResultMap">
     </if>
     <if test="address != null and address !=''">
         AND A.PARENT_ID = #{address}
+    </if>
+    <if test="addressName != null and addressName !=''">
+      and AREA.NAME like CONCAT(CONCAT('%', #{addressName}), '%')
     </if>
     ORDER BY T1.CREATED_AT DESC
   </select>
@@ -2586,7 +2614,8 @@ resultMap="BaseResultMap">
     <!-- 查询公示专家导出外网 -->
     <select id="selectExpByPublictyOfExport" resultMap="BaseResultMap" parameterType="Map">
         SELECT
-        <include refid="Base_Column_List" />
+        T.ID, T.EXPERTS_TYPE_ID, T.PURCHASE_DEP_ID, T.REAL_NAME, T.EXPERTS_FROM,
+        T.STATUS, T.IS_PROVISIONAL
         FROM T_SES_EMS_EXPERT T
         WHERE T.STATUS = #{status}
         AND T.AUDIT_AT &gt;=
@@ -2615,7 +2644,14 @@ resultMap="BaseResultMap">
     </select>
 <!-- 专家复审待分配列表 可条件查询 -->
     <select id="findExpertAgainAuditList" resultMap="BaseResultMap" parameterType="ses.model.ems.Expert">
-        SELECT t1.*,
+        SELECT 
+		t1.ID,
+        t1.REAL_NAME,
+        t1.EXPERTS_FROM,
+        t1.EXPERTS_TYPE_ID,
+        t1.AUDIT_AT,
+        t1.WORK_UNIT,
+        t1.PROFESS_TECH_TITLES,
         t2.NAME as sex,
         org.SHORT_NAME AS orgName
         from
@@ -2763,5 +2799,27 @@ resultMap="BaseResultMap">
           AND PROFESS_TECH_TITLES = #{technical}
         </if>
         ORDER BY dbms_random.random
+  </select>
+  
+    <!-- 军队专家导出 -->
+    <resultMap id="militaryExpertMap" type="ses.model.ems.Expert">
+	  <id column="ID" jdbcType="VARCHAR" property="id" />
+	  <result column="REAL_NAME" jdbcType="VARCHAR" property="relName" />
+	  <result column="EXPERTS_TYPE_ID" jdbcType="VARCHAR" property="expertsTypeId" />
+	  <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+	  <result column="EXPERTS_FROM" jdbcType="VARCHAR" property="expertsFrom" />
+	  <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+	  <result column="PROFESS_TECH_TITLES" jdbcType="VARCHAR" property="professTechTitles" />
+	  <result column="STATUS" property="status" />
+	</resultMap>
+	<!-- 导出军队专家查询 -->
+  <select id="findMilitaryExpert" resultMap="militaryExpertMap">
+    SELECT ID,REAL_NAME,EXPERTS_TYPE_ID,ADDRESS,EXPERTS_FROM,MOBILE,PROFESS_TECH_TITLES,STATUS
+    FROM T_SES_EMS_EXPERT WHERE IS_DELETE = 0 AND STATUS in (6,7) AND IS_PROVISIONAL &lt;&gt; 1
+    <if test="expertsFrom != null and expertsFrom !=''">
+        AND EXPERTS_FROM = #{expertsFrom}
+    </if>
+    AND to_char(AUDIT_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    AND to_char(AUDIT_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{end,jdbcType=VARCHAR} 
   </select>
 </mapper>

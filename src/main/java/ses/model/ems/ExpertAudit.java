@@ -2,6 +2,7 @@ package ses.model.ems;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class ExpertAudit implements Serializable{
     /**
@@ -21,6 +22,7 @@ public class ExpertAudit implements Serializable{
     private String auditResult;
     //是否为历史数据 0否  1是
     private String type;
+    private String dataType;
     //审核时间
     private Date auditAt;
     //是否删除0否  1是
@@ -38,7 +40,39 @@ public class ExpertAudit implements Serializable{
     
     //审核标识（1初审，2复审，3复查）
     private Integer auditFalg;
-    public String getId() {
+    //审核状态 1：退回修改；2：已修改；3：未修改；4：撤销退回；5：撤销不通过；6：审核不通过
+    private String auditStatus;
+    //标识此次查询的数据状态
+    private String statusQuery;
+    
+    //审核状态集合
+    private List<String> statusList;
+    
+    public List<String> getStatusList() {
+		return statusList;
+	}
+
+	public void setStatusList(List<String> statusList) {
+		this.statusList = statusList;
+	}
+
+	public String getStatusQuery() {
+		return statusQuery;
+	}
+
+	public void setStatusQuery(String statusQuery) {
+		this.statusQuery = statusQuery;
+	}
+
+	public String getAuditStatus() {
+		return auditStatus;
+	}
+
+	public void setAuditStatus(String auditStatus) {
+		this.auditStatus = auditStatus;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -66,7 +100,16 @@ public class ExpertAudit implements Serializable{
         return auditUserName;
     }
 
-    public void setAuditUserName(String auditUserName) {
+    
+    public String getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
+	}
+
+	public void setAuditUserName(String auditUserName) {
         this.auditUserName = auditUserName == null ? null : auditUserName.trim();
     }
 
@@ -94,14 +137,18 @@ public class ExpertAudit implements Serializable{
         this.auditAt = auditAt;
     }
 
-    public String gettype() {
-        return type;
-    }
+   
 
-    public void settype(String type) {
-        this.type = type == null ? null : type.trim();
-    }
 
+	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	public Integer getIsDeleted() {
 		return isDeleted;

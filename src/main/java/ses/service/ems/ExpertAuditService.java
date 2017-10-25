@@ -10,6 +10,7 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertPublicity;
+import ses.model.ems.ExpertReviewTeam;
 
 import java.util.List;
 import java.util.Map;
@@ -244,7 +245,7 @@ public interface ExpertAuditService {
      * @param @param expert      
      * @return void
      */
-    boolean temporaryAudit (String expertId);
+    boolean temporaryAudit (String expertId,String realName);
     /**
      * 
      * Description:修改公示状态
@@ -318,4 +319,27 @@ public interface ExpertAuditService {
 	boolean revokeCategoryAudit (String expertId, String[] categoryIds, Integer sign);
 	
 	ExpertAudit findAuditByExpertId (ExpertAudit expertAudit);
+	
+	boolean updateAuditStatus(String[] ids,String status);
+	
+	/**
+	 * 
+	 * Description: 查询专家审核组成员
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年9月29日
+	 * @param 
+	 * @return
+	 */
+	List<ExpertReviewTeam> getExpertReviewTeamList(String expertId);
+	
+	/**
+     * 全部专家查询中的审核记录
+     * @param expertAudit
+     * @return
+     */
+    List<ExpertAudit> diySelect(Map<String, Object> map);
+    void updateDoAuditStatus(Map<String, Object> map);
+    void updateToAuditStatus(Map<String, Object> map);
+    void updateExpertTypeAuditStatus(ExpertAudit e);
 }

@@ -42,6 +42,11 @@
         $("#orgName option:selected").removeAttr("selected");
         $("#formSearch").submit();
       }
+      
+     //查看列表
+      function checkMap(){
+        window.location.href = "${pageContext.request.contextPath}/expertQuery/expertStorageMap.html";
+      }
     </script>
   </head>
 
@@ -74,6 +79,8 @@
       <h2 class="search_detail">  
       <form action="${pageContext.request.contextPath}/expertQuery/list.html"  method="post" id="formSearch"  class="mb0"> 
          <input type="hidden" name="page" id="page">
+         <input type="hidden" name="addressName" value="${addressName}">
+         <input type="hidden" name="flag" value="${flag}">
         <ul class="demand_list">
         <li>
           <label class="fl">专家姓名：</label><span><input class="w220" type="text" id="relName" name="relName" value="${expert.relName }"></span>
@@ -96,13 +103,16 @@
           </span>
         </li>
         <li>
-        <label class="fl">审核状态：</label>
+        <label class="fl">专家状态：</label>
         <span class="fl">
           <select name="status" id="status" class="w220">
              <option selected="selected" value=''>全部</option>
-             <option <c:if test="${expert.status =='6' }">selected</c:if> value="6">待复查</option>
+             <option <c:if test="${expert.status =='6' }">selected</c:if> value="6">入库(待复查)</option>
+             <option <c:if test="${expert.status eq 'reviewLook'}">selected</c:if> value="reviewLook">复查中</option>
+             <option <c:if test="${expert.status =='19' }">selected</c:if> value="19">预复查结束</option>
              <option <c:if test="${expert.status =='7' }">selected</c:if> value="7">复查合格</option>
              <option <c:if test="${expert.status =='13' }">selected</c:if> value="13">无产品专家</option>
+             <option <c:if test="${expert.status =='17' }">selected</c:if> value="17">资料不全</option>
            </select>
         </span>
        </li>
@@ -137,6 +147,12 @@
       <div class="col-md-12 clear tc mt10">
         <input class="btn mt1"  value="查询" type="submit">
        <input class="btn mt1" onclick="clearSearch();" value="重置" type="reset">
+       <c:if test="${flag == 1 }">
+	       <input class="btn mt1" onclick="checkMap();" value="返回" type="reset">
+       </c:if>
+       <c:if test="${flag != 1 }">
+	       <input class="btn mt1" onclick="checkMap();" value="切换到地图" type="reset">
+       </c:if>
      </div>
      <div class="clear"></div>
     </form>
@@ -154,10 +170,10 @@
               <th class="info w90">提交日期</th>
               <th class="info w90">审核日期</th>
               <th class="info">手机</th>
-              <th class="info">类型</th>
+              <th class="info">类别</th>
               <th class="info">采购机构</th>
-              <th class="info">审核状态</th>
               <th class="info">专家类型</th>
+              <th class="info">专家状态</th>
             </tr>
           </thead>
           <c:forEach items="${result.list }" var="e" varStatus="vs">
@@ -181,9 +197,16 @@
               <td class="tc">${e.mobile }</td>
               <td class="tl">${e.expertsTypeId}</td>
               <td class="tl">${e.orgName}</td>
+              <td class="tc">${e.expertsFrom }</td>
               <td class="tc" id="${e.id}">
-                <c:if test="${e.status eq '6' }">
-                  <span class="label rounded-2x label-u">待复查</span>
+                <c:if test="${e.status eq '6' and e.auditTemporary != 3}">
+                  <span class="label rounded-2x label-u">入库(待复查)</span>
+                </c:if>
+                <c:if test="${e.status eq '6' and e.auditTemporary == 3}">
+                  <span class="label rounded-2x label-u">复查中</span>
+                </c:if>
+                <c:if test="${e.status eq '19' }">
+                  <span class="label rounded-2x label-u">预复查结束</span>
                 </c:if>
                 <c:if test="${e.status eq '7' }">
                   <span class="label rounded-2x label-u">复查合格</span>
@@ -191,8 +214,10 @@
                 <c:if test="${e.status eq '13' }">
                   <span class="label rounded-2x label-u">无产品专家</span>
                 </c:if>
+                <c:if test="${e.status eq '17' }">
+                  <span class="label rounded-2x label-u">资料不全</span>
+                </c:if>
               </td>
-              <td class="tc">${e.expertsFrom }</td>
             </tr>
           </c:forEach>
         </table>

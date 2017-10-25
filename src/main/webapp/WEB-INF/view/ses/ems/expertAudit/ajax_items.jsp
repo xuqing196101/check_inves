@@ -32,7 +32,8 @@
 					var expertId = "${expertId}";
 					var typeId = "${typeId}";
 					var sign = "${sign}";
-					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + typeId + "&pageNum=" + pageNum + "&sign=" +sign;
+					var batchId = "${batchId}";
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + typeId + "&pageNum=" + pageNum + "&sign=" +sign + "&batchId=" +batchId;
 					$("#tbody_category").load(path);
 				}
 			}
@@ -78,9 +79,9 @@
 </head>
 <body>
   <input  class="btn btn-windows check" type="button" value="不通过" onclick="batchSelection();">
-  <c:if test="${sign == 2}">
+  <%-- <c:if test="${sign == 2}">
     <input  class="btn btn-windows delete" type="button" value="撤销" onclick="revokeCategoryAudit();">
-  </c:if>
+  </c:if> --%>
   <table class="table table-bordered table-hover m_table_fixed_border">
     <tr>
       <td class="w50 text-center"><input type="checkbox" id="checkAll" onclick="selectAll()"/></td>
