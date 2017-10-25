@@ -580,13 +580,13 @@
 						<tr>
 							<!-- <th class="info w50">选择</th> -->
 							<th class="info w50">序号</th>
-							<th class="info" width="17%">供应商名称</th>
+							<th class="info" width="28%">供应商名称</th>
 							<th class="info" width="10%">采购机构</th>
 							<th class="info" width="8%">地区</th>
 							<th class="info w90">注册日期</th>
 							<th class="info w90">提交日期</th>
 							<th class="info w90">审核日期</th>
-							<th class="info" width="17%">供应商类型</th>
+							<th class="info" width="7%">供应商类型</th>
 							<th class="info" width="7%">企业性质</th>
 							<th class="info">供应商状态</th>
 						</tr>
@@ -602,14 +602,14 @@
 									<c:choose>
 							       <c:when test="${list.status ==5 and list.isProvisional == 1 }">
 							       	 <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}')">
-							       	   <c:if test="${fn:length (list.supplierName) > 12}">${fn:substring(list.supplierName,0,12)}...</c:if>
-                         <c:if test="${fn:length (list.supplierName) <= 12}">${list.supplierName}</c:if>
+							       	   <c:if test="${fn:length (list.supplierName) > 20}">${fn:substring(list.supplierName,0,20)}...</c:if>
+                         <c:if test="${fn:length (list.supplierName) <= 20}">${list.supplierName}</c:if>
 							       	 </a>
 							       </c:when>
 							       <c:otherwise>
 							       	 <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}')">
-							       	   <c:if test="${fn:length (list.supplierName) > 12}">${fn:substring(list.supplierName,0,12)}...</c:if>
-                         <c:if test="${fn:length (list.supplierName) <= 12}">${list.supplierName}</c:if>
+							       	   <c:if test="${fn:length (list.supplierName) > 20}">${fn:substring(list.supplierName,0,20)}...</c:if>
+                         <c:if test="${fn:length (list.supplierName) <= 20}">${list.supplierName}</c:if>
 							       	 </a>
 							       </c:otherwise>
 									</c:choose>
@@ -625,7 +625,10 @@
 								<td class="tc">
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
-								<td class="">${list.supplierType }</td>
+								<td class="hand" title="${list.supplierType}">
+								  <c:if test="${fn:length (list.supplierType) > 4}">${fn:substring(list.supplierType,0,4)}...</c:if>
+                  <c:if test="${fn:length (list.supplierType) <= 4}">${list.supplierType}</c:if>
+								</td>
 								<td class="tc">${list.businessNature }</td>
 								<td class="tc">
 									<%-- <c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
