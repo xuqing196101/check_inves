@@ -45,8 +45,7 @@ import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
 
-import extract.service.expert.ExpertExtractProjectService;
-
+import extract.service.supplier.AutoExtractSupplierService;
 
 /**
  * 版权：(C) 版权所有
@@ -167,6 +166,9 @@ public class SynchExportController {
     @Autowired
 	private ServiceHotlineService serviceHotlineService;
 
+    @Autowired
+    private AutoExtractSupplierService autoExtractSupplierService;
+    
     /**
      * 〈简述〉初始化导出
      * 〈详细描述〉
@@ -205,6 +207,15 @@ public class SynchExportController {
 	              iter.remove();
 	              continue;
 	          }
+	          // 过滤供应商抽取信息  定时任务自动导入导出
+              if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT)) {
+              	iter.remove();
+              	continue;
+              }
+              if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
+              	iter.remove();
+              	continue;
+              }
 	          // 过滤军队专家信息
 	          if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
 	              iter.remove();
@@ -469,6 +480,10 @@ public class SynchExportController {
 	        /** 服务热线信息导出*/
 	        if (synchType.contains(Constant.DATE_SYNCH_HOT_LINE)) {
 	        	serviceHotlineService.exportHotLine(startTime, endTime,date);
+	        } 
+	        /** 供应商抽取结果导出*/
+	        if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
+	        	autoExtractSupplierService.exportSupplierExtractResult(startTime, endTime, date);
 	        } 
 	        bean.setSuccess(true);
 	        return bean;

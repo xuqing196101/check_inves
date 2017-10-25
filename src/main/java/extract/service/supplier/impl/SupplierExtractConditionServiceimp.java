@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,24 +40,14 @@ import bss.service.ppms.ProjectService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 
-import extract.autoVoiceExtract.Epoint005WebService;
-import extract.autoVoiceExtract.PeopleYytz;
-import extract.autoVoiceExtract.ProjectYytz;
 import extract.dao.supplier.ExtractConditionRelationMapper;
 import extract.dao.supplier.SupplierExtractConditionMapper;
 import extract.dao.supplier.SupplierExtractRelateResultMapper;
 import extract.model.supplier.ExtractConditionRelation;
-import extract.model.supplier.ProjectVoiceResult;
 import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
-import extract.model.supplier.SupplierExtractProjectInfo;
-import extract.model.supplier.SupplierVoiceResult;
 import extract.service.supplier.SupplierExtractConditionService;
-import extract.service.supplier.SupplierExtractRecordService;
-import extract.service.supplier.SupplierExtractRelateResultService;
-import extract.util.DateUtils;
-import extract.util.WebServiceUtil;
 
 
 /**
@@ -111,11 +99,6 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
   @Autowired
   private SupplierBlacklistMapper supplierBlacklistMapper;
   
-  @Autowired
-  private SupplierExtractRecordService recordService; //记录
-  
-  @Autowired
-  private SupplierExtractRelateResultService extractResult;
   
   /**
    * @Description:添加
@@ -314,79 +297,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	public int saveOrUpdateCondition(SupplierExtractCondition condition,SupplierConType conType) {
 		if(StringUtils.isNotBlank(condition.getId())){
 			conditionMapper.updateConditionByPrimaryKeySelective(condition);
-			//设置存储条件
-			List<ExtractConditionRelation> list = new ArrayList<>();
-			String cid = condition.getId();
-			//删除上次查询条件
-			extractConditionRelationMapper.deleteConditionRelationByMap(condition.getId());
-			//省份，直辖市
-			if(StringUtils.isNotEmpty(condition.getProvince())){
-				for (String province : condition.getProvinces()) {
-					list.add(new ExtractConditionRelation(cid, "province", province));
-				}
-			}
-			//市、区
-			if(StringUtils.isNotEmpty(condition.getAddressId())){
-				for (String addressId : condition.getAddressIds()) {
-					list.add(new ExtractConditionRelation(cid, "addressId", addressId));
-				}
-			}
-			//供应商类别
-			if(StringUtils.isNotEmpty(condition.getSupplierTypeCode())){
-				for (String supplierTypeCode : condition.getSupplierTypeCodes()) {
-					list.add(new ExtractConditionRelation(cid, "supplierTypeCode", supplierTypeCode));
-				}
-			}
-			
-			Class<? extends SupplierConType> class1 = conType.getClass();
-			String[] supplierTypeCodes  = condition.getSupplierTypeCodes();
-			try {
-				for (String typeCode : supplierTypeCodes) {
-					//首字母大写
-					String c = typeCode.toLowerCase();
-					char[] cs=c.toCharArray();
-			        cs[0]-=32;
-			        String code = String.valueOf(cs);
-				
-					Short mu = (Short)class1.getMethod("get"+code+"IsMulticondition").invoke(conType);
-					String cids = (String)class1.getMethod("get"+code+"CategoryIds").invoke(conType);
-					String le = (String)class1.getMethod("get"+code+"Level").invoke(conType);
-					Short en = (Short)class1.getMethod("get"+code+"ExtractNum").invoke(conType);
-					String ic = (String)class1.getMethod("get"+code+"IsHavingConCert").invoke(conType);
-					String bu = (String)class1.getMethod("get"+code+"BusinessNature").invoke(conType);
-					String ob = (String)class1.getMethod("get"+code+"OverseasBranch").invoke(conType);
-					if(null != mu){
-						list.add(new ExtractConditionRelation(cid,c+"IsMulticondition",mu.toString()));
-					}
-					if(StringUtils.isNotBlank(cids)){
-						for (String cId : cids.split(",")) {
-							list.add(new ExtractConditionRelation(cid, c+"CategoryId", cId));
-						}
-					}
-					if(StringUtils.isNotBlank(le)){
-						for (String lv : le.split(",")) {
-							list.add(new ExtractConditionRelation(cid, c+"Level", lv));
-						}
-					}
-					if(null !=en){
-						list.add(new ExtractConditionRelation(cid,c+"ExtractNum",en.toString()));
-					}
-					if(StringUtils.isNotBlank(ic)){
-						list.add(new ExtractConditionRelation(cid,c+"IsHavingConCert",ic));
-					}
-					if(StringUtils.isNotBlank(bu)){
-						list.add(new ExtractConditionRelation(cid,c+"BusinessNature",StringUtils.isBlank(bu)?"0":bu));
-					}
-					if(StringUtils.isNotBlank(ob)){
-						list.add(new ExtractConditionRelation(cid,c+"OverseasBranch",ob));
-					}
-				}
-				if(list.size()>0){
-					return extractConditionRelationMapper.insertConditionRelation(list);
-				}
-			} catch (Exception e) {
-				 e.getMessage();
-			} 
+			return saveContype(condition, conType);
 		}
 		return 0;
 	}
@@ -698,5 +609,81 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		return code;
 	}
 	
-	
+	@Override
+	public int saveContype(SupplierExtractCondition condition,SupplierConType conType) {
+		//设置存储条件
+		List<ExtractConditionRelation> list = new ArrayList<>();
+		String cid = condition.getId();
+		//删除上次查询条件
+		extractConditionRelationMapper.deleteConditionRelationByMap(condition.getId());
+		//省份，直辖市
+		if(StringUtils.isNotEmpty(condition.getProvince())){
+			for (String province : condition.getProvinces()) {
+				list.add(new ExtractConditionRelation(cid, "province", province));
+			}
+		}
+		//市、区
+		if(StringUtils.isNotEmpty(condition.getAddressId())){
+			for (String addressId : condition.getAddressIds()) {
+				list.add(new ExtractConditionRelation(cid, "addressId", addressId));
+			}
+		}
+		//供应商类别
+		if(StringUtils.isNotEmpty(condition.getSupplierTypeCode())){
+			for (String supplierTypeCode : condition.getSupplierTypeCodes()) {
+				list.add(new ExtractConditionRelation(cid, "supplierTypeCode", supplierTypeCode));
+			}
+		}
+		
+		Class<? extends SupplierConType> class1 = conType.getClass();
+		String[] supplierTypeCodes  = condition.getSupplierTypeCodes();
+		try {
+			for (String typeCode : supplierTypeCodes) {
+				//首字母大写
+				String c = typeCode.toLowerCase();
+				char[] cs=c.toCharArray();
+		        cs[0]-=32;
+		        String code = String.valueOf(cs);
+			
+				Short mu = (Short)class1.getMethod("get"+code+"IsMulticondition").invoke(conType);
+				String cids = (String)class1.getMethod("get"+code+"CategoryIds").invoke(conType);
+				String le = (String)class1.getMethod("get"+code+"Level").invoke(conType);
+				Short en = (Short)class1.getMethod("get"+code+"ExtractNum").invoke(conType);
+				String ic = (String)class1.getMethod("get"+code+"IsHavingConCert").invoke(conType);
+				String bu = (String)class1.getMethod("get"+code+"BusinessNature").invoke(conType);
+				String ob = (String)class1.getMethod("get"+code+"OverseasBranch").invoke(conType);
+				if(null != mu){
+					list.add(new ExtractConditionRelation(cid,c+"IsMulticondition",mu.toString()));
+				}
+				if(StringUtils.isNotBlank(cids)){
+					for (String cId : cids.split(",")) {
+						list.add(new ExtractConditionRelation(cid, c+"CategoryId", cId));
+					}
+				}
+				if(StringUtils.isNotBlank(le)){
+					for (String lv : le.split(",")) {
+						list.add(new ExtractConditionRelation(cid, c+"Level", lv));
+					}
+				}
+				if(null !=en){
+					list.add(new ExtractConditionRelation(cid,c+"ExtractNum",en.toString()));
+				}
+				if(StringUtils.isNotBlank(ic)){
+					list.add(new ExtractConditionRelation(cid,c+"IsHavingConCert",ic));
+				}
+				if(StringUtils.isNotBlank(bu)){
+					list.add(new ExtractConditionRelation(cid,c+"BusinessNature",StringUtils.isBlank(bu)?"0":bu));
+				}
+				if(StringUtils.isNotBlank(ob)){
+					list.add(new ExtractConditionRelation(cid,c+"OverseasBranch",ob));
+				}
+			}
+			if(list.size()>0){
+				return extractConditionRelationMapper.insertConditionRelation(list);
+			}
+		} catch (Exception e) {
+			 e.getMessage();
+		}
+		return 0; 
+	}
 }
