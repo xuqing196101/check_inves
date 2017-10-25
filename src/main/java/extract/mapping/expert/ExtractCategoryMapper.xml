@@ -95,4 +95,12 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 条件查询参评类别 -->
+  <select id="selByMap" parameterType="Map" resultType="String">
+    SELECT CATEGORY_ID FROM T_SES_EMS_EXTRACT_CATEGORY WHERE CONDITION_ID = #{conditionId} AND TYPE_ID = #{typeId}
+    <if test="isEng != null">
+        AND IS_ENG = #{isEng}
+      </if>
+  </select>
 </mapper>

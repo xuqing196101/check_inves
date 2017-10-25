@@ -36,7 +36,6 @@
       </div>
     </div>
 </c:if>
-
   <!-- 项目戳开始 -->
   <div class="container">
     <div class="col-md-12 col-sm-12 col-xs-12 container_box">
@@ -487,7 +486,7 @@
         </div>
         <div class="col-md-12 clear tc mt10">
           <button class="btn" type="button" onclick="artificial_extracting(0)" id="artificial">人工抽取</button>
-          <button class="btn" type="button" onclick="" id="auto">自动抽取</button>
+          <button class="btn" type="button" onclick="artificial_extracting(1)" id="auto">自动抽取</button>
           <button class="btn" type="button" onclick="extractReset()" id="reset">重置</button>
         </div>
         <div class="clear"></div>

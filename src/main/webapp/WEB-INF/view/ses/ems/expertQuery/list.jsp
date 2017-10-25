@@ -42,6 +42,11 @@
         $("#orgName option:selected").removeAttr("selected");
         $("#formSearch").submit();
       }
+      
+     //查看列表
+      function checkMap(){
+        window.location.href = "${pageContext.request.contextPath}/expertQuery/expertStorageMap.html";
+      }
     </script>
   </head>
 
@@ -74,6 +79,8 @@
       <h2 class="search_detail">  
       <form action="${pageContext.request.contextPath}/expertQuery/list.html"  method="post" id="formSearch"  class="mb0"> 
          <input type="hidden" name="page" id="page">
+         <input type="hidden" name="addressName" value="${addressName}">
+         <input type="hidden" name="flag" value="${flag}">
         <ul class="demand_list">
         <li>
           <label class="fl">专家姓名：</label><span><input class="w220" type="text" id="relName" name="relName" value="${expert.relName }"></span>
@@ -96,7 +103,7 @@
           </span>
         </li>
         <li>
-        <label class="fl">审核状态：</label>
+        <label class="fl">专家状态：</label>
         <span class="fl">
           <select name="status" id="status" class="w220">
              <option selected="selected" value=''>全部</option>
@@ -140,6 +147,12 @@
       <div class="col-md-12 clear tc mt10">
         <input class="btn mt1"  value="查询" type="submit">
        <input class="btn mt1" onclick="clearSearch();" value="重置" type="reset">
+       <c:if test="${flag == 1 }">
+	       <input class="btn mt1" onclick="checkMap();" value="返回" type="reset">
+       </c:if>
+       <c:if test="${flag != 1 }">
+	       <input class="btn mt1" onclick="checkMap();" value="切换到地图" type="reset">
+       </c:if>
      </div>
      <div class="clear"></div>
     </form>
@@ -157,10 +170,10 @@
               <th class="info w90">提交日期</th>
               <th class="info w90">审核日期</th>
               <th class="info">手机</th>
-              <th class="info">类型</th>
+              <th class="info">类别</th>
               <th class="info">采购机构</th>
               <th class="info">专家类型</th>
-              <th class="info">审核状态</th>
+              <th class="info">专家状态</th>
             </tr>
           </thead>
           <c:forEach items="${result.list }" var="e" varStatus="vs">

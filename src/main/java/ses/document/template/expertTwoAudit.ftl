@@ -41,20 +41,44 @@
 									<w:rFonts w:hint="eastAsia" w:ascii="方正小标宋简体" w:hAnsi="华文中宋" w:eastAsia="方正小标宋简体" />
 									<w:sz w:val="44" />
 									<w:szCs w:val="44" /></w:rPr>
-								<w:t>军队采购评审专家入库复审表</w:t>
+								<w:t>军队采购评审专家入库<#if orgName == "cgjg" >专家</#if>复审表</w:t>
 							</w:r>
 						</w:p>
 						<w:p>
 							<w:pPr>
+								<w:tabs>
+									<w:tab w:val="right" w:pos="8222" />
+								</w:tabs>
 								<w:rPr>
 									<w:rFonts w:ascii="华文中宋" w:eastAsia="华文中宋" />
 									<w:sz w:val="24" /></w:rPr>
 							</w:pPr>
+							<w:bookmarkStart w:id="0" w:name="_GoBack" />
+							<w:bookmarkEnd w:id="0" />
+							<#if orgName == "cgjg" >
+								<w:r>
+									<w:rPr>
+										<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
+										<w:sz w:val="24" /></w:rPr>
+									<w:t>初审采购机构名称：${depName}</w:t>
+								</w:r>
+							</#if>
+							<#if orgName == "zyfwzx" >
+								<w:r>
+									<w:rPr>
+										<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
+										<w:sz w:val="24" /></w:rPr>
+									<w:t>复审单位：资源服务中心</w:t>
+								</w:r>
+							</#if>
+							<w:r w:rsidR="009E0893">
+								<w:tab/>
+							</w:r>
 							<w:r>
 								<w:rPr>
 									<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 									<w:sz w:val="24" /></w:rPr>
-								<w:t>采购机构名称（盖章）：</w:t>
+								<w:t>${expertNum}</w:t>
 							</w:r>
 						</w:p>
 						<w:tbl>
@@ -856,7 +880,7 @@
 									<w:trHeight w:val="600" w:hRule="atLeast" /></w:trPr>
 								<w:tc>
 									<w:tcPr>
-										<w:tcW w:w="1526" w:type="dxa" />
+										<w:tcW w:w="2000" w:type="dxa" />
 										<w:gridSpan w:val="2" />
 										<w:tcBorders>
 											<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
@@ -875,13 +899,13 @@
 											<w:rPr>
 												<w:rFonts w:hint="eastAsia" w:ascii="宋体" w:hAnsi="宋体" />
 												<w:szCs w:val="21" /></w:rPr>
-											<w:t>复审最终意见</w:t>
+											<w:t>专家复审最终意见</w:t>
 										</w:r>
 									</w:p>
 								</w:tc>
 								<w:tc>
 									<w:tcPr>
-										<w:tcW w:w="7582" w:type="dxa" />
+										<w:tcW w:w="7108" w:type="dxa" />
 										<w:gridSpan w:val="7" />
 										<w:tcBorders>
 											<w:top w:val="single" w:color="000000" w:sz="6" w:space="0" />
@@ -906,6 +930,7 @@
 									</w:p>
 								</w:tc>
 							</w:tr>
+							<#if orgName != "zyfwzx" >
 							<w:tr>
 								<w:tblPrEx>
 									<w:tblBorders>
@@ -1216,6 +1241,7 @@
 								</w:tc>
 							</w:tr>
 							</#list>
+							</#if>
 						</w:tbl>
 						<w:p>
 							<w:pPr>

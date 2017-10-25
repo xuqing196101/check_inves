@@ -53,7 +53,7 @@ import extract.service.supplier.SupplierExtractRecordService;
 @Service
 public class SupplierExtractRecordServiceImp implements SupplierExtractRecordService {
     @Autowired
-    SupplierExtractRecordMapper supplierExtractsMapper;
+    SupplierExtractRecordMapper recordMapper;
     
     @Autowired
     SupplierMapper supplierMapper;
@@ -94,13 +94,13 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
     @Override
     public void update(SupplierExtractProjectInfo extracts) {
     	extracts.setExtractionTime(new Date());
-        supplierExtractsMapper.saveOrUpdateProjectInfo(extracts);
+        recordMapper.saveOrUpdateProjectInfo(extracts);
     }
     
 
 	@Override
 	public SupplierExtractProjectInfo selectByPrimaryKey(String id) {
-		return supplierExtractsMapper.selectByPrimaryKey(id);
+		return recordMapper.selectByPrimaryKey(id);
 	}
 
 	
@@ -111,10 +111,10 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		 List<SupplierExtractProjectInfo> list = new ArrayList<>();
 		 if("1".equals(user.getTypeName())){
 			project.setProcurementDepId(user.getOrg().getId());
-			list = supplierExtractsMapper.getList(project);
+			list = recordMapper.getList(project);
 		 }else if("4".equals(user.getTypeName())){
 			 project.setProcurementDepId(null);
-			 list = supplierExtractsMapper.getList(project);
+			 list = recordMapper.getList(project);
 		 }
 		for (SupplierExtractProjectInfo projectInfo : list) {
 			String temp = "";
@@ -138,7 +138,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	@Override
 	public int saveOrUpdateProjectInfo(SupplierExtractProjectInfo projectInfo,User user) {
 		projectInfo.setProcurementDepId(user.getOrg().getId());//存储采购机构
-		return supplierExtractsMapper.saveOrUpdateProjectInfo(projectInfo);
+		return recordMapper.saveOrUpdateProjectInfo(projectInfo);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 	 */
 	@Override
 	public void insertProjectInfo(SupplierExtractProjectInfo record) {
-		supplierExtractsMapper.insertProjectInfo(record);
+		recordMapper.insertProjectInfo(record);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 		//将项目状态变为抽取结束
 		//SupplierExtractProjectInfo p = new SupplierExtractProjectInfo(id);
 		//p.setStatus((short) 1);
-		//supplierExtractsMapper.saveOrUpdateProjectInfo(p);
+		//recordMapper.saveOrUpdateProjectInfo(p);
 		
 		
 		//根据记录id 查询项目信息不同供应商类别打印两个记录表
@@ -220,7 +220,7 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 
 	private Map<String, Object> selectExtractInfo(String recordId, String projectInto) {
 		
-		SupplierExtractProjectInfo projectInfo = supplierExtractsMapper.getProjectInfoById(recordId);
+		SupplierExtractProjectInfo projectInfo = recordMapper.getProjectInfoById(recordId);
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
 		
 		String projectCode = projectInfo.getProjectType();
@@ -490,7 +490,15 @@ public class SupplierExtractRecordServiceImp implements SupplierExtractRecordSer
 			String projectCode) {
 		SupplierExtractProjectInfo p = new SupplierExtractProjectInfo();
 		p.setProjectCode(projectCode);
-		return supplierExtractsMapper.getListByMap(p);
+		return recordMapper.getListByMap(p);
+	}
+
+
+	@Override
+	public List<SupplierExtractProjectInfo> selectAutoExtractProject() {
+		
+		List<SupplierExtractProjectInfo> projectInfos = recordMapper.selectAutoExtractProject();
+		return projectInfos;
 	}
 
 }

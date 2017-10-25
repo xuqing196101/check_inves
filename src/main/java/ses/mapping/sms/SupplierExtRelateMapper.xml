@@ -15,7 +15,6 @@
 		<result column="CON_TYPE_ID" jdbcType="VARCHAR" property="conTypeId" />
 		<result column="STATUS_COUNT" jdbcType="DECIMAL" property="statusCount" />
 		<result column="REVIEW_TYPE" jdbcType="VARCHAR" property="reviewType" />
-
 		<!-- 供应商 -->
 		<association column="SUPPLIER_ID" property="supplier"
 			select="ses.dao.sms.SupplierMapper.selectByPrimaryKeyItem" />

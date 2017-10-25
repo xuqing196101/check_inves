@@ -2,6 +2,7 @@ package ses.model.ems;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class ExpertAudit implements Serializable{
     /**
@@ -39,7 +40,39 @@ public class ExpertAudit implements Serializable{
     
     //审核标识（1初审，2复审，3复查）
     private Integer auditFalg;
-    public String getId() {
+    //审核状态 1：退回修改；2：已修改；3：未修改；4：撤销退回；5：撤销不通过；6：审核不通过
+    private String auditStatus;
+    //标识此次查询的数据状态
+    private String statusQuery;
+    
+    //审核状态集合
+    private List<String> statusList;
+    
+    public List<String> getStatusList() {
+		return statusList;
+	}
+
+	public void setStatusList(List<String> statusList) {
+		this.statusList = statusList;
+	}
+
+	public String getStatusQuery() {
+		return statusQuery;
+	}
+
+	public void setStatusQuery(String statusQuery) {
+		this.statusQuery = statusQuery;
+	}
+
+	public String getAuditStatus() {
+		return auditStatus;
+	}
+
+	public void setAuditStatus(String auditStatus) {
+		this.auditStatus = auditStatus;
+	}
+
+	public String getId() {
         return id;
     }
 

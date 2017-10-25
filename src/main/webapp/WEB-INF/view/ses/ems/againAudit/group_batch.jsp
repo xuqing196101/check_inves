@@ -53,16 +53,16 @@
       <table class="table table-bordered table-condensed table-hover table-striped againAudit_table">
         <thead>
           <tr>
-            <th class="w50">选择</th>
-            <th class="w250">批次编号</th>
-            <th class="w100">采购机构</th>
+            <th class="w40">选择</th>
+            <th class="w150">批次编号</th>
+            <th class="w90">采购机构</th>
             <th class="w100">专家姓名</th>
             <th class="w50">性别</th>
             <th class="w80">专家类型</th>
-            <th class="w80">专家类别</th>
+            <th class="w180">专家类别</th>
             <th>工作单位</th>
-            <th class="w150">专业职称</th>
-            <th class="w150">初审合格时间</th>
+            <th class="w100">专业职称</th>
+            <th class="w100">初审合格时间</th>
           </tr>
         </thead>
         <tbody id="list_content"></tbody>

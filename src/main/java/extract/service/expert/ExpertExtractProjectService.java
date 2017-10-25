@@ -114,7 +114,7 @@ public interface ExpertExtractProjectService {
      * @param 
      * @return
      */
-    void exportExpertExtract(String start, String end,Date synchDate);
+    void exportExpertExtract(String id);
     
     /**
      * 
@@ -125,5 +125,27 @@ public interface ExpertExtractProjectService {
      * @param 
      * @return
      */
-    void importExpertExtract(File file);
+    List<ExpertExtractProject> importExpertExtract(File file);
+    
+    /**
+     * 
+     * Description: 内网导入专家抽取结果
+     * 
+     * @author zhang shubin
+     * @data 2017年10月19日
+     * @param 
+     * @return
+     */
+    void importExpertExtractResult(File file);
+    
+    /**
+     * 
+     * Description: 外网导出专家抽取结果
+     * 
+     * @author zhang shubin
+     * @data 2017年10月19日
+     * @param 
+     * @return
+     */
+    void exportExpertExtractResult(String start, String end, Date synchDate);
 }

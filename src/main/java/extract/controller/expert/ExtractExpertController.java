@@ -35,6 +35,7 @@ import common.annotation.CurrentUser;
 import extract.model.expert.ExpertExtractCateInfo;
 import extract.model.expert.ExpertExtractCondition;
 import extract.model.expert.ExpertExtractProject;
+import extract.service.expert.AutoExtractService;
 import extract.service.expert.ExpertExtractConditionService;
 import extract.service.expert.ExpertExtractProjectService;
 import extract.service.expert.ExpertExtractResultService;
@@ -96,7 +97,11 @@ public class ExtractExpertController {
     /** 专家管理 **/
     @Autowired
     private ExpertService service;
-
+    
+    /** 自动抽取 **/
+    @Autowired
+    private AutoExtractService autoExtractService;
+    
     /**
      * 
      * Description: 跳转专家人工抽取页面
@@ -137,28 +142,28 @@ public class ExtractExpertController {
             model.addAttribute("authType",authType);
             //从项目实施进入  需要自动带入项目信息
             if(projectId != null && projectInto != null && packageId != null){
-            	ExpertExtractProject expertExtractProject = new ExpertExtractProject();
-            	expertExtractProject.setProjectId(projectId);
-            	expertExtractProject.setPackageId(packageId);
-            	if("advPro".equals(projectInto)){
-        			//预研进入
-        			AdvancedProject advancedProject = advancedProjectService.selectById(projectId);
-        			expertExtractProject.setProjectName(advancedProject.getName());
-        			expertExtractProject.setCode(advancedProject.getProjectNumber());
-        			expertExtractProject.setProjectType(advancedProject.getPlanType());
-        			expertExtractProject.setPurchaseWay(advancedProject.getPurchaseType());
-            	}else if("relPro".equals(projectInto)){
-            		//真实项目
-            		Project project = projectService.selectById(projectId);
-            		expertExtractProject.setProjectName(project.getName());
-            		expertExtractProject.setCode(project.getProjectNumber());
-            		expertExtractProject.setProjectType(project.getPlanType());
-            		expertExtractProject.setPurchaseWay(project.getPurchaseType());
-            	}else{
-            		//随机抽取
-            	}
-        		model.addAttribute("expertExtractProject", expertExtractProject);
-        		model.addAttribute("packageName", packageName);
+                ExpertExtractProject expertExtractProject = new ExpertExtractProject();
+                expertExtractProject.setProjectId(projectId);
+                expertExtractProject.setPackageId(packageId);
+                if("advPro".equals(projectInto)){
+                    //预研进入
+                    AdvancedProject advancedProject = advancedProjectService.selectById(projectId);
+                    expertExtractProject.setProjectName(advancedProject.getName());
+                    expertExtractProject.setCode(advancedProject.getProjectNumber());
+                    expertExtractProject.setProjectType(advancedProject.getPlanType());
+                    expertExtractProject.setPurchaseWay(advancedProject.getPurchaseType());
+                }else if("relPro".equals(projectInto)){
+                    //真实项目
+                    Project project = projectService.selectById(projectId);
+                    expertExtractProject.setProjectName(project.getName());
+                    expertExtractProject.setCode(project.getProjectNumber());
+                    expertExtractProject.setProjectType(project.getPlanType());
+                    expertExtractProject.setPurchaseWay(project.getPurchaseType());
+                }else{
+                    //随机抽取
+                }
+                model.addAttribute("expertExtractProject", expertExtractProject);
+                model.addAttribute("packageName", packageName);
             }
             return "ses/ems/exam/expert/extract/expertExtract";
         }
@@ -178,14 +183,26 @@ public class ExtractExpertController {
     @RequestMapping("/saveProjectInfo")
     @ResponseBody
     public String saveProjectInfo(@CurrentUser User user,ExpertExtractProject expertExtractProject,ExpertExtractCondition expertExtractCondition,ExpertExtractCateInfo expertExtractCateInfo) throws Exception{
-    	//保存项目基本信息
+        //保存项目基本信息
         expertExtractProjectService.save(expertExtractProject,user);
         //查询抽取结果信息
         Map<String, Object> result = expertExtractConditionService.findExpertByExtract(expertExtractProject,expertExtractCondition,expertExtractCateInfo);
         //保存抽取条件
         ExpertExtractCondition condition = expertExtractConditionService.save(expertExtractCondition,expertExtractCateInfo);
         result.put("conditionId", condition.getId());
-        return JSON.toJSONString(result);
+        Short isAuto = expertExtractProject.getIsAuto();
+        if(isAuto == 0){
+            //人工抽取
+            return JSON.toJSONString(result);
+        }else{
+            //自动抽取
+            //String extractResult = expertExtractProjectService.expertAutoExtract(condition, expertExtractProject,expertExtractCateInfo, result);
+            //将保存的数据信息同步至外网    便于外网抽取使用
+            expertExtractProjectService.exportExpertExtract(expertExtractProject.getId());
+            //请求语音接口   （仅测试用）
+            //autoExtractService.expertAutoExtract(expertExtractProject.getId());
+            return JSON.toJSONString("OK");
+        }
     }
     
     /**
@@ -402,20 +419,25 @@ public class ExtractExpertController {
      */
     @ResponseBody
     @RequestMapping(value = "/searchCate", produces = "application/json;charset=utf-8")
-    public String searchCate(String code, String cateName,String ids) throws Exception {
-    	if (code != null && code.equals("GOODS_PROJECT")) {
+    public String searchCate(String code, String cateName,String ids,String codeName) throws Exception {
+        if (code != null && code.equals("GOODS_PROJECT")) {
             code = "PROJECT";
         }
         if(code.equals("GOODS_SERVER")){
             return "";
         }
-        String codeName = null;
         String[] cheIds = ids.split(",");
         if(code.indexOf("ENG_INFO_ID") > 0){
-        	code = "ENG_INFO_ID";
+            code = "ENG_INFO_ID";
         }
         DictionaryData typeData = DictionaryDataUtil.get(code);
         String typeId = DictionaryDataUtil.getId(code);
+        if("".equals(cateName)){
+        	cateName = null;
+        }
+        if("".equals(codeName)){
+        	codeName = null;
+        }
         if (typeData != null && typeData.getCode().equals("ENG_INFO_ID")) {
             // 查询出所有满足条件的品目
             List < Category > categoryList = service.searchByName(cateName, "ENG_INFO", codeName);
@@ -502,9 +524,9 @@ public class ExtractExpertController {
             // 将筛选完的List转换为CategoryTreeList
             List < CategoryTree > treeList = new ArrayList < CategoryTree > ();
             for(Category category: allCateList) {
-            	if(category.getCode().length()>=9){
-            		continue;
-            	}
+                if(category.getLevel() != null && category.getLevel() >= 5){
+                    continue;
+                }
                 CategoryTree treeNode = new CategoryTree();
                 treeNode.setId(category.getId());
                 treeNode.setName(category.getName());
@@ -514,6 +536,9 @@ public class ExtractExpertController {
                 List < Category > nodesList = categoryService.findPublishTree(category.getId(), null);
                 if(nodesList != null && nodesList.size() > 0) {
                     treeNode.setIsParent("true");
+                }
+                if(category.getLevel() != null && category.getLevel() == 4){
+                	treeNode.setIsParent("false");
                 }
                 treeList.add(treeNode);
             }
@@ -542,7 +567,7 @@ public class ExtractExpertController {
     public String vaProjectCode(String code){
         return expertExtractProjectService.vaProjectCode(code);
     }
-
+    
     /**
      * 
      * Description: 判断是否被选中
