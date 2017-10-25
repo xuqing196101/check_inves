@@ -26,18 +26,18 @@
   </sql>
 
     <select id="selectByPrimaryKey" parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
-        select
+        SELECT
         <include refid="Base_Column_List"/>
-        from T_SES_SMS_SUPPLIER_AUDIT
-        where SUPPLIER_ID = #{supplierId}
+        FROM T_SES_SMS_SUPPLIER_AUDIT T
+        WHERE T.SUPPLIER_ID = #{supplierId}
         <if test="auditField!=null">
-            and AUDIT_FIELD=#{auditField}
+            AND T.AUDIT_FIELD=#{auditField}
         </if>
         <if test="auditType!=null">
-            and AUDIT_TYPE=#{auditType}
+            AND T.AUDIT_TYPE=#{auditType}
         </if>
-        and IS_DELETED = 0
-        ORDER BY CREATED_AT DESC
+        AND T.RETURN_STATUS IN(0,1,2,4)
+        ORDER BY T.CREATED_AT DESC
     </select>
 
     <!-- 查询所有的审核记录 -->
@@ -401,6 +401,9 @@
             <if test="userId != null">
                 USER_ID = #{userId},
             </if>
+            <if test="supplierId != null">
+                SUPPLIER_ID = #{supplierId},
+            </if>
             <if test="status != null">
                 STATUS = #{status},
             </if>
@@ -416,7 +419,7 @@
             <if test="auditContent != null">
                 AUDIT_CONTENT = #{auditContent},
             </if>
-            <if test="auditContent != null">
+            <if test="auditFieldName != null">
                 AUDIT_FIELD_NAME = #{auditFieldName},
             </if>
             <if test="isDeleted != null">

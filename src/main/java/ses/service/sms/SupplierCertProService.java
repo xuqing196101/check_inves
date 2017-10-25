@@ -10,7 +10,7 @@ public interface SupplierCertProService {
 	
 	public SupplierCertPro queryById(String id);
 	
-	public List<SupplierCertPro> queryByProId(String proId);
+	public List<SupplierCertPro> queryByMatProId(String proId);
 
 	/**
 	 * 批量删除生产证书

@@ -296,7 +296,7 @@
 		select * from T_SES_SMS_SUPPLIER_MAT_PRO where SUPPLIER_ID = #{supplierId}
 	</select>
 	<resultMap type="ses.model.sms.SupplierMatPro" id="MatProMap" extends="BaseResultMap">
-		<collection property="listSupplierCertPros" column="ID" select="ses.dao.sms.SupplierCertProMapper.findCertProBySupplierMatProId" />
+		<collection property="listSupplierCertPros" column="ID" select="ses.dao.sms.SupplierCertProMapper.findCertProByMatProId" />
 	</resultMap>
 	
 	<select id="findSupplierIdById" parameterType="java.lang.String" resultType="java.lang.String">

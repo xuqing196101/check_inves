@@ -310,8 +310,48 @@
 														</li>
 													</c:forEach>
 												</ul>
+												
+												<h2 class="count_flow"><i>3</i>资质证书信息</h2>
+												<div class="ul_list">
+													<table class="table table-bordered table-condensed table-hover">
+														<thead>
+															<tr>
+																<th class="info w50">序号</th>
+																<th class="info">资质证书名称</th>
+																<th class="info">证书编号</th>
+																<th class="info">资质等级</th>
+																<th class="info">发证机关或机构</th>
+																<th class="info">有效期（起始时间）</th>
+																<th class="info">有效期（结束时间）</th>
+																<th class="info">证书状态</th>
+																<th class="info">证书图片</th>
+															</tr>
+														</thead>
+														<c:forEach items="${supplierEngQuas}" var="s" varStatus="vs">
+															<tr>
+																<td class="tc">${vs.index + 1}</td>
+																<td class="tc">${s.name }</td>
+																<td class="tc">${s.code}</td>
+																<td class="tc">${s.levelCert}</td>
+																<td class="tc">${s.licenceAuthorith }</td>
+																<td class="tc">
+																	<fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd' />
+																</td>
+																<td class="tc">
+																	<fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd' />
+																</td>
+																<td class="tc">${s.mot}</td>
+																<td class="tc">
+																	 <div class="w110 fl">
+																		<u:show showId="eng_up_show${vs.index+1}" businessId="${s.id}" delete="false" typeId="${supplierDictionaryData.supplierEngQua}" sysKey="${sysKey}" />
+																	 </div>
+																</td>
+															</tr>
+														</c:forEach>
+													</table>
+												</div>
 
-												<h2 class="count_flow"><i>3</i>取得注册资质的人员信息</h2>
+												<h2 class="count_flow"><i>4</i>取得注册资质的人员信息</h2>
 												<div class="ul_list">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>
@@ -331,7 +371,7 @@
 													</table>
 												</div>
 
-												<h2 class="count_flow"><i>4</i>供应商资质（认证）证书信息</h2>
+												<h2 class="count_flow"><i>5</i>供应商资质（认证）证书信息</h2>
 												<div class="ul_list">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>
@@ -346,7 +386,7 @@
 																<!-- <th class="info">证书图片</th> -->
 															</tr>
 														</thead>
-														<c:forEach items="${supplierCertEng}" var="s" varStatus="vs">
+														<c:forEach items="${supplierCertEngs}" var="s" varStatus="vs">
 															<tr>
 																<td class="tc" id="certType_${s.id }">${s.certType }</td>
 																<td class="tc" id="certCode_${s.id }">${s.certCode }</td>
@@ -367,7 +407,7 @@
 													</table>
 												</div>
 
-												<h2 class="count_flow"><i>5</i>供应商资质证书详细信息</h2>
+												<h2 class="count_flow"><i>6</i>供应商资质证书详细信息</h2>
 												<div class="ul_list">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>

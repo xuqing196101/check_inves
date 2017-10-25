@@ -149,14 +149,8 @@
 			layer.msg("请选择供应商类型");
 			return false;
 		}
-		// 保存工程地址附件信息
-		var areaIds = "";
-		$("#areaSelect").find("option").each(function(i, element){
-			if (element.selected == true) {
-				areaIds = areaIds + element.value + ",";
-			}
-		});
-		$("#businessScope").val(areaIds);
+		// 设置承揽业务范围
+		setBusinessScope();
 		// 提交的时候表单域设置成可编辑
 		enableForm();
 		$.ajax({
@@ -211,14 +205,8 @@
 		});
 	
 		$("input[name='supplierTypeIds']").val(checkedTypes);
-		// 保存工程地址附件信息
-		var areaIds = "";
-		$("#areaSelect").find("option").each(function(i, element){
-			if (element.selected == true) {
-				areaIds = areaIds + element.value + ",";
-			}
-		});
-		$("#businessScope").val(areaIds);
+		// 设置承揽业务范围
+		setBusinessScope();
 		// 提交的时候表单域设置成可编辑
 		enableForm();
 		$.ajax({
@@ -341,19 +329,41 @@
 		// 判断有没有勾选工程
 		if (isEngCheck == true) {
 			$("#cert_eng_list_tbody_id").find("input[type='text']").each(
-					function(index, element) {
-						if (element.value == "" || !isEngCheck) {
-							flag = false;
-							layer.msg("工程资质（认证）证书信息不能为空! ");
-						}
-					});
+				function(index, element) {
+					if (element.value == "" || !isEngCheck) {
+						flag = false;
+						layer.msg("工程资质（认证）证书信息不能为空! ");
+					}
+				}
+			);
 			$("#aptitute_list_tbody_id").find("input[type='text']").each(
-					function(index, element) {
-						if (element.value == "" || !isEngCheck) {
-							flag = false;
-							layer.msg("工程资质证书详细信息不能为空! ");
-						}
-					});
+				function(index, element) {
+					if (element.value == "" || !isEngCheck) {
+						flag = false;
+						layer.msg("工程资质证书详细信息不能为空! ");
+					}
+				}
+			);
+			// 要填则必须填写完整
+			$("#eng_qua_list_tbody_id").find("tr").each(
+			function(index, element) {
+				var count = 0;// 统计没有填写的数量
+				var size = 0; // 总共需要填写的数量
+				$(this).find("td").not(":first").each(function(n, e){
+					var txt = $(this).find("input[type='text']").val();// 文本
+					var pic = $(this).find("ul[id^='eng_qua_show_'][id$='_disFileId']").html();// 图片
+					if(txt == "" || pic == ""){
+						count++;
+					}
+					size++;
+				});
+				//console.log(count+","+size);
+				if(count != 0 && count < size){
+					flag = false;
+					layer.msg("工程资质证书信息没有填写完整(第"+(index+1)+"行)!");
+					return false;
+				}
+			});
 		}
 		
 		// 判断物资销售专业信息是否填写完整
@@ -487,6 +497,105 @@
 			
 		}
 
+	}
+	
+	function addEngQua() {
+		var matEngId = $("input[name='supplierMatEng.id']").val();
+		var supplierId = $("input[name='id']").val();
+		var engQuaNumber = $("#engQuaNumber").val();
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplier/addEngQua.do",
+			async : false,
+			dataType : "html",
+			data : {
+				"number" : engQuaNumber
+			},
+			success : function(data) {
+				$("#eng_qua_list_tbody_id").append(data);
+				init_web_upload();
+			}
+		});
+		engQuaNumber++;
+		$("#engQuaNumber").val(engQuaNumber);
+	}
+
+	function delEngQua() {
+		var checkboxs = $("#eng_qua_list_tbody_id").find(":checkbox:checked");
+		var size = checkboxs.length;
+		if (size > 0) {
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
+			layer.confirm(
+				"已勾选" + size + "条记录，确定删除？",
+				{
+					offset : '200px',
+					scrollbar : false,
+				},
+				function(index) {
+					var engQuaIds = "";
+					var supplierId = $("input[name='id']").val();
+					$(checkboxs).each(function(n,v) {
+						var isAdd = $(this).attr("isAdd");
+						if(isAdd){
+							var tr = $(this).parent().parent();
+					    $(tr).remove();
+						}else{
+							if (n > 0) {
+								engQuaIds += ",";
+							}
+							engQuaIds += $(this).val();
+						}
+					});
+					/* window.location.href = "${pageContext.request.contextPath}/supplier_eng_qua/delete_eng_qua.html?engQuaIds="
+							+ engQuaIds
+							+ "&supplierId="
+							+ supplierId;
+					layer.close(index); */
+					// 采用ajax post方式删除
+					if(engQuaIds != ""){
+						$.ajax({
+							url: "${pageContext.request.contextPath}/supplier_eng_qua/delete_eng_qua.do",
+							async: false,
+							type: "POST",
+							data: {
+								"ids": engQuaIds
+							},
+							success: function(data){
+								if(data=="ok"){
+								  layer.msg("删除成功！", {
+								    offset: '300px'
+								  });
+								  $(checkboxs).each(function(index) {
+								    var tr = $(this).parent().parent();
+								    $(tr).remove();
+								  });
+								}
+								if(data=="fail"){
+								  layer.msg("删除失败！", {
+								    offset: '300px'
+								  });
+								}
+							},
+							error: function(){
+								layer.msg("删除失败！");
+							}
+						});
+					}
+					layer.close(index);
+				}
+			);
+		} else {
+			layer.alert("请至少勾选一条记录！", {
+				offset : '200px',
+				scrollbar : false,
+			});
+		}
 	}
 
 	function addRegPerson() {
@@ -1165,6 +1274,19 @@
 				}
 			}
 		});
+		// 设置承揽业务范围
+		setBusinessScope();
+	}
+	
+	// 设置承揽业务范围
+	function setBusinessScope(){
+		var areaIds = "";
+		$("#areaSelect").find("option").each(function(i, element){
+			if (element.selected == true) {
+				areaIds = areaIds + element.value + ",";
+			}
+		});
+		$("#businessScope").val(areaIds);
 	}
 
 	$(function() {
@@ -1881,7 +2003,7 @@
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																	 <div class="w200 fl"><input
-                                  required="required" type="text"   <c:if test="${certPro.name == '质量管理体系认证证书'}">readonly="readonly"</c:if>
+                                  required="required" type="text"   <c:if test="${certPro.name == '质量管理体系认证证书' and vs.index == 0}">readonly="readonly"</c:if>
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].name"
 																	value="${certPro.name}" class="border0" />
 																	</div>
@@ -2193,7 +2315,7 @@
 										</div>
 										<ul class="list-unstyled overflow_h">
 											<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}"/>
-											<c:forEach items="${rootArea}" var="area" varStatus="st">
+											<c:forEach items="${currSupplier.supplierMatEng.businessScopeAreas}" var="area" varStatus="st">
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}" >
 													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">${area.name}</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0"
@@ -2207,6 +2329,138 @@
 											</c:forEach>
 										</ul>
 									</fieldset>
+									
+									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
+										<span class="font_line"> 资质证书信息 </span>
+										<div class="col-md-12 col-xs-12 col-sm-12 p0">
+											<c:choose>
+                       	<c:when test="${currSupplier.status==2 }">
+                         	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                         </c:when>
+                         <c:otherwise>
+                           <button type="button" class="btn" onclick="addEngQua()">新增</button>
+                         </c:otherwise>
+                       </c:choose>
+											<button type="button" class="btn" onclick="delEngQua()">删除</button>
+											<span class="red">${eng_qua }</span>
+										</div>
+										<div class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
+											<table id="share_table_id"
+												class="table table-bordered table-condensed mt5 table_wrap left_table table_input">
+												<thead>
+													<tr>
+														<th class="info"><input type="checkbox"
+															onchange="checkAll(this, 'eng_qua_list_tbody_id')" />
+														</th>
+														<th class="info">资质证书名称</th>
+														<th class="info">证书编号</th>
+														<th class="info">资质等级</th>
+														<th class="info">发证机关或机构</th>
+														<th class="info">有效期（起始时间）</th>
+														<th class="info">有效期（结束时间）</th>
+														<th class="info">证书状态</th>
+														<th class="info w200">证书图片（可上传多张）</th>
+													</tr>
+												</thead>
+												<tbody id="eng_qua_list_tbody_id">
+													<c:set var="engQuaNumber" value="0"></c:set>
+													<c:forEach
+														items="${currSupplier.supplierMatEng.listSupplierEngQuas}"
+														var="engQua" varStatus="vs">
+														<tr
+															<c:if test="${fn:contains(engPageField,engQua.id)}"> onmouseover="errorMsg(this,'${engQua.id}','mat_eng_page')"</c:if>>
+															<td class="tc"
+																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>>
+																<input type="checkbox" class="border0" 
+																	value="${engQua.id}" /> <input type="hidden"
+																	<c:if test="${fn:contains(engPageField,engQua.id)}">readonly='readonly' </c:if> 
+																	name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].id"
+																	value="${engQua.id}"></td>
+															<!-- 工程资质证书名称 -->
+															<td class="tc"
+																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>>
+																<div class="w200">
+																 	<input type="text" class="border0"   maxlength="30" onkeyup="checkInputLength(this,30)"
+																 		<c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
+																		name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].name"
+																		value="${engQua.name}" />
+																 </div>
+															</td>
+															<!--工程 证书编号 -->
+															<td class="tc"
+																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>>
+																<div class="w150">
+															 		<input type="text" class="border0" maxlength="30" onkeyup="checkInputLength(this,30)" 
+																 		<c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
+																		name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].code"
+																		value="${engQua.code}" />
+																</div>
+															</td>
+															
+															<!--工程 资质等级 -->	
+															<td class="tc"
+																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>><input maxlength="30" onkeyup="checkInputLength(this,30)"
+																type="text" class="border0" <c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
+																name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].levelCert"
+																value="${engQua.levelCert}" />
+															</td>
+														
+															<!--工程 发证机关或机构 -->	
+															<td class="tc"
+																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>>
+																<div class="w200">
+															 		<input type="text" class="border0" maxlength="60" onkeyup="checkInputLength(this,60)"
+															    <c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
+																	name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].licenceAuthorith"
+																	value="${engQua.licenceAuthorith}" />
+																</div>
+															</td>
+														
+															<td class="tc"
+																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>><input
+																type="text" class="border0"
+																readonly="readonly"  <c:if test="${(fn:contains(engPageField,engQua.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" </c:if>
+																name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].expStartDate"
+																value="<fmt:formatDate value="${engQua.expStartDate}" pattern="yyyy-MM-dd "/>" />
+															</td>
+															<td class="tc"
+																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>><input
+																type="text" class="border0"
+																readonly="readonly" <c:if test="${(fn:contains(engPageField,engQua.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" </c:if>
+																name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].expEndDate"
+																value="<fmt:formatDate value="${engQua.expEndDate}" pattern="yyyy-MM-dd "/>" />
+															</td>
+															<!-- 工程 证书状态 -->	
+															<td class="tc"
+																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>><input
+																type="text" class="border0" maxlength="15" onkeyup="checkInputLength(this,15)"  <c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
+																name="supplierMatEng.listSupplierEngQuas[${engQuaNumber}].mot"
+																value="${engQua.mot}" />
+															</td>
+															<!-- 图片 -->
+															<td class="tc"
+																<c:if test="${fn:contains(engPageField,engQua.id)}">style="border: 1px solid red;" </c:if>>
+																<div class="fl w200">
+																<c:if test="${(fn:contains(engPageField,engQua.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">	 <u:upload
+																	singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+																	exts="${properties['file.picture.type']}"
+																	id="eng_qua_up_${engQuaNumber}" multiple="true"
+																	businessId="${engQua.id}"
+																	typeId="${supplierDictionaryData.supplierEngQua}"
+																	sysKey="${sysKey}" auto="true" /></c:if> 
+																	<c:if test="${!fn:contains(engPageField,engQua.id)&&currSupplier.status==2 }">	 <u:show showId="eng_qua_show_${engQuaNumber}" delete="false"  businessId="${engQua.id}" 	typeId="${supplierDictionaryData.supplierEngQua}" sysKey="${sysKey}" /> </c:if>
+																	<c:if test="${currSupplier.status==-1 || empty(currSupplier.status)||fn:contains(engPageField,engQua.id)}">	 <u:show showId="eng_qua_show_${engQuaNumber}"   businessId="${engQua.id}" 	typeId="${supplierDictionaryData.supplierEngQua}" sysKey="${sysKey}" /> </c:if>
+																</div>
+															</td>
+														</tr>
+														<c:set var="engQuaNumber" value="${engQuaNumber + 1}"></c:set>
+													</c:forEach>
+												</tbody>
+											</table>
+											<input type="hidden" id="engQuaNumber"
+												value="${engQuaNumber}">
+										</div>
+									</div>
 
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line">取得注册资质的人员信息 </span>
@@ -2272,7 +2526,6 @@
 										</div>
 									</div>
 
-									<!--  <h2 class="count_flow">供应商工程资质资格证书信息  </h2> -->
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line"><font class="red">*</font> 供应商资质（认证）证书信息</span>
 										<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
@@ -2395,7 +2648,6 @@
 										</div>
 									</div>
 
-									<!-- 	    <h2 class="count_flow">供应商资质资格信息   </h2> -->
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line"><font class="red">*</font> 供应商资质证书详细信息 </span>
 										<div class="col-md-12 col-md-12 col-xs-12 col-sm-12 p0">
@@ -2662,7 +2914,7 @@
 																value="${certSe.levelCert}" />
 															</td>
 														
-														<!--服务 发证机关或机构 -->	
+															<!--服务 发证机关或机构 -->	
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200">
@@ -2687,14 +2939,14 @@
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate"
 																value="<fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd "/>" />
 															</td>
-														<!-- 服务证书状态 -->	
+															<!-- 服务证书状态 -->	
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" class="border0" maxlength="15" onkeyup="checkInputLength(this,15)"  <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot"
 																value="${certSe.mot}" />
 															</td>
-														<!-- 图片	 -->
+															<!-- 图片 -->
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="fl w200">
@@ -2706,8 +2958,7 @@
 																	typeId="${supplierDictionaryData.supplierServeCert}"
 																	sysKey="${sysKey}" auto="true" /></c:if> 
 																	<c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2 }">	 <u:show showId="se_show_${certSeNumber}" delete="false"  businessId="${certSe.id}" 	typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" /> </c:if>
-																	<c:if test="${currSupplier.status==-1  || empty(currSupplier.status)||fn:contains(servePageField,certSe.id)}">	 <u:show showId="se_show_${certSeNumber}"   businessId="${certSe.id}" 	typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" /> </c:if>
-																
+																	<c:if test="${currSupplier.status==-1 || empty(currSupplier.status)||fn:contains(servePageField,certSe.id)}">	 <u:show showId="se_show_${certSeNumber}"   businessId="${certSe.id}" 	typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" /> </c:if>
 																</div>
 															</td>
 														</tr>

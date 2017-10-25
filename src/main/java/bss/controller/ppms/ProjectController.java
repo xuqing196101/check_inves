@@ -1685,7 +1685,7 @@ public class ProjectController extends BaseController {
                 //如果项目状态为开标唱标，就不让他保存
                 Project project2 = projectService.selectById(projectId);
                 FlowDefine flowDefine = new FlowDefine();
-                flowDefine.setCode("KBCB");
+                flowDefine.setCode("GYSQD");
                 flowDefine.setPurchaseTypeId(project2.getPurchaseType());
                 List<FlowDefine> defines = flowMangeService.find(flowDefine);
                 String erro = null;
@@ -1696,7 +1696,7 @@ public class ProjectController extends BaseController {
                     flowExecute.setStep(defines.get(0).getStep());
                     List<FlowExecute> executes = flowMangeService.findFlowExecute(flowExecute);
                     for (FlowExecute flowExecute2 : executes) {
-                        if(flowExecute2.getStatus() == 1 || flowExecute2.getStatus() == 2 || flowExecute2.getStatus() == 3 ){
+                        if(flowExecute2.getStatus() == 3 ){
                             erro = "1";
                             break;
                         }

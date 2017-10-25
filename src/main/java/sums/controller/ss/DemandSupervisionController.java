@@ -124,8 +124,7 @@ public class DemandSupervisionController extends BaseController{
 	 * @return String
 	 */
 	@RequestMapping(value = "/demandSupervisionList", produces = "text/html;charset=UTF-8")
-	public String demandSupervisionList(@CurrentUser User user, PurchaseRequired purchaseRequired, Integer page, Model model)
-			throws Exception {
+	public String demandSupervisionList(@CurrentUser User user, PurchaseRequired purchaseRequired, Integer page, Model model) throws Exception {
 		//是否是详细，1是主要，不是1为明细
 		purchaseRequired.setIsMaster(1);
         
@@ -225,7 +224,7 @@ public class DemandSupervisionController extends BaseController{
     public String view(String id, String type, Model model) {
         if(StringUtils.isNotBlank(id)){
             PurchaseRequired required = purchaseRequiredService.queryById(id);
-            if(required != null){
+            if(required != null && StringUtils.isNotBlank(required.getFileId())){
                 //采购计划状态
                 Integer planStatus = demandSupervisionService.planStatus(required.getFileId());
                 //项目状态
@@ -557,57 +556,58 @@ public class DemandSupervisionController extends BaseController{
     @ResponseBody
     public String paixu(Model model, String id, String fileId,Integer page){
         JSONObject jsonObj = new JSONObject();
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("fileId", fileId);
-        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-        List<PurchaseDetail> details = purchaseDetailService.getByMap(map);
-        if(details != null && details.size() > 0){
-            for (PurchaseDetail detail : details) { 
-                if(detail.getPrice() == null){
-                    detail.setPurchaseType("");
-                    detail.setStatus(null);
-                }else{
-                    DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
-                    if(findById != null){
-                        detail.setPurchaseType(findById.getName());
-                    }
-                    String[] progressBarPlan = supervisionService.progressBar(detail.getId());
-                    detail.setProgressBar(progressBarPlan[0]);
-                    detail.setStatus(progressBarPlan[1]);
-                    detail.setOneAdvice(findById.getCode());
-                }
-            }
-            PageInfo<PurchaseDetail> pageInfo = new PageInfo<PurchaseDetail>(details);
-            jsonObj.put("pages", pageInfo.getPages());
-            jsonObj.put("data", pageInfo.getList());
-        } else {
+        if (StringUtils.isNotBlank(fileId) && StringUtils.isNotBlank(id)) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("fileId", fileId);
             PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-            List<PurchaseRequired> purchaseRequireds = purchaseRequiredService.getUnique(id);
-            if(purchaseRequireds != null && purchaseRequireds.size() > 0){
-                for (PurchaseRequired purchaseRequired : purchaseRequireds) {
-                    HashMap<String, Object> maps = new HashMap<>();
-                    maps.put("id", purchaseRequired.getId());
-                    List<PurchaseRequired> purchaseDetails = purchaseRequiredService.selectByParentId(maps);
-                    if(purchaseDetails.size() > 1){
-                        purchaseRequired.setPurchaseType("");
-                        purchaseRequired.setStatus(null);
+            List<PurchaseDetail> details = purchaseDetailService.getByMap(map);
+            if(details != null && details.size() > 0){
+                for (PurchaseDetail detail : details) { 
+                    if(detail.getPrice() == null){
+                        detail.setPurchaseType("");
+                        detail.setStatus(null);
                     }else{
-                        DictionaryData findById = DictionaryDataUtil.findById(purchaseRequired.getPurchaseType());
+                        DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
                         if(findById != null){
-                            purchaseRequired.setPurchaseType(findById.getName());
+                            detail.setPurchaseType(findById.getName());
                         }
-                        String[] progressBarPlan = supervisionService.progressBar(purchaseRequired.getId());
-                        purchaseRequired.setProgressBar(progressBarPlan[0]);
-                        purchaseRequired.setStatus(progressBarPlan[1]);
-                        purchaseRequired.setOneAdvice(findById.getCode());
+                        String[] progressBarPlan = supervisionService.progressBar(detail.getId());
+                        detail.setProgressBar(progressBarPlan[0]);
+                        detail.setStatus(progressBarPlan[1]);
+                        detail.setOneAdvice(findById.getCode());
                     }
                 }
+                PageInfo<PurchaseDetail> pageInfo = new PageInfo<PurchaseDetail>(details);
+                jsonObj.put("pages", pageInfo.getPages());
+                jsonObj.put("data", pageInfo.getList());
+            } else {
+                PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+                List<PurchaseRequired> purchaseRequireds = purchaseRequiredService.getUnique(id);
+                if(purchaseRequireds != null && purchaseRequireds.size() > 0){
+                    for (PurchaseRequired purchaseRequired : purchaseRequireds) {
+                        HashMap<String, Object> maps = new HashMap<>();
+                        maps.put("id", purchaseRequired.getId());
+                        List<PurchaseRequired> purchaseDetails = purchaseRequiredService.selectByParentId(maps);
+                        if(purchaseDetails.size() > 1){
+                            purchaseRequired.setPurchaseType("");
+                            purchaseRequired.setStatus(null);
+                        }else{
+                            DictionaryData findById = DictionaryDataUtil.findById(purchaseRequired.getPurchaseType());
+                            if(findById != null){
+                                purchaseRequired.setPurchaseType(findById.getName());
+                            }
+                            String[] progressBarPlan = supervisionService.progressBar(purchaseRequired.getId());
+                            purchaseRequired.setProgressBar(progressBarPlan[0]);
+                            purchaseRequired.setStatus(progressBarPlan[1]);
+                            purchaseRequired.setOneAdvice(findById.getCode());
+                        }
+                    }
+                }
+                PageInfo<PurchaseRequired> pageInfo = new PageInfo<PurchaseRequired>(purchaseRequireds);
+                jsonObj.put("pages", pageInfo.getPages());
+                jsonObj.put("data", pageInfo.getList());
             }
-            PageInfo<PurchaseRequired> pageInfo = new PageInfo<PurchaseRequired>(purchaseRequireds);
-            jsonObj.put("pages", pageInfo.getPages());
-            jsonObj.put("data", pageInfo.getList());
         }
-        
         return jsonObj.toString();
     }
     

@@ -9,9 +9,10 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import ses.dao.sms.SupplierCertServeMapper;
 import ses.model.sms.SupplierCertServe;
+import ses.service.sms.SupplierCertSeService;
 
 @Service(value = "supplierCertSeService")
-public class SupplierCertSeServiceImpl implements ses.service.sms.SupplierCertSeService {
+public class SupplierCertSeServiceImpl implements SupplierCertSeService {
 	
 	@Autowired
 	private SupplierCertServeMapper supplierCertSeMapper;
@@ -34,8 +35,8 @@ public class SupplierCertSeServiceImpl implements ses.service.sms.SupplierCertSe
 	}
 
 	@Override
-	public List<SupplierCertServe> queryServerId(String serverId) {
-		return supplierCertSeMapper.findCertSeBySupplierMatSeId(serverId);
+	public List<SupplierCertServe> queryByServerId(String serverId) {
+		return supplierCertSeMapper.findCertSeByMatSeId(serverId);
 	}
 
 	@Override

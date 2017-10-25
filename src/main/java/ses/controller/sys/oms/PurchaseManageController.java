@@ -1154,6 +1154,8 @@ public class PurchaseManageController {
 		HashMap<String, Object> condtionmap = new HashMap<String, Object>();
 		condtionmap.put("typeName", 1);
 		condtionmap.put("name", purchaseDep.getName());
+		condtionmap.put("quaStartDate", purchaseDep.getQuaStartDate());
+		condtionmap.put("quaEdndate", purchaseDep.getQuaEdndate());
 		StringBuffer sb = new StringBuffer("");
 		List<PurchaseDep> oList = purchaseOrgnizationServiceI.findPurchaseDepList(condtionmap);
 		//开始循环 判断地址是否

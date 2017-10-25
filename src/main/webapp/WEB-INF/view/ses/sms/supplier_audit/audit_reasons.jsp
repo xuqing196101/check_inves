@@ -129,16 +129,15 @@
             if(status == 2){
                 var flags = false;
                 $.ajax({
-                    url:globalPath + "/supplierAudit/vertifyAuditNoPassItem.do",
+                    url:globalPath + "/supplierAudit/vertifyReturnToModify.do",
                     type: "POST",
                     async:false,
                     data:{
                         "supplierId":supplierId,
-                        "flag":1
                     },
                     dataType:"json",
                     success:function (data) {
-                        if (data.status == 500) {
+                        if (data.status != 0) {
                             layer.msg(data.msg);
                             flags = true;
                             return;
