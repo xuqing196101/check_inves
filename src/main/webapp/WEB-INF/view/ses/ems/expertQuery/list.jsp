@@ -103,7 +103,7 @@
           </span>
         </li>
         <li>
-        <label class="fl">审核状态：</label>
+        <label class="fl">专家状态：</label>
         <span class="fl">
           <select name="status" id="status" class="w220">
              <option selected="selected" value=''>全部</option>
@@ -173,7 +173,7 @@
               <th class="info">类别</th>
               <th class="info">采购机构</th>
               <th class="info">专家类型</th>
-              <th class="info">审核状态</th>
+              <th class="info">专家状态</th>
             </tr>
           </thead>
           <c:forEach items="${result.list }" var="e" varStatus="vs">

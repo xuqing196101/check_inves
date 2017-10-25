@@ -394,7 +394,7 @@
           </span>
         </li>
         <li>
-          <label class="fl">审核状态：</label>
+          <label class="fl">专家状态：</label>
           <span class="fl">
             <select name="status" id="status" class="w220">
                <option selected="selected" value=''>全部</option>

@@ -155,7 +155,7 @@
                 <div class="select_check" id="selectOptionId">
                     <input type="radio" disabled="disabled" name="selectOption" value="15" <c:if test="${auditOpinion.flagAudit eq '15'}">checked</c:if>>预初审合格
                     <input type="radio"  disabled="disabled" value="16" <c:if test="${auditOpinion.flagAudit eq '16'}">checked</c:if>>预初审不合格
-                    <input type="radio"  disabled="disabled" value="3" <c:if test="${auditOpinion.flagAudit eq '3'}">checked</c:if>>退回修改
+                    <%-- <input type="radio"  disabled="disabled" value="3" <c:if test="${auditOpinion.flagAudit eq '3'}">checked</c:if>>退回修改 --%>
                 </div>
               </li>
               <li>

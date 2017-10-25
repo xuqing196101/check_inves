@@ -598,7 +598,7 @@
             <c:if test="${sign == 1 || sign == 3}">
             <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
             <ul class="ul_list count_flow">
-              <c:if test="${status == 0 || status == 9 || status == 15 || status == 16 || status == 10 || status == -2 || (sign ==3 && status ==6) || status == 4 || status == 5}">
+              <c:if test="${status == 0 || status == 9 || status == 15 || status == 16 || status == 10 || status == -2 || (sign ==3 && status ==6) || status == 4}">
 <!--                 <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">撤销</button>
  -->            	<button class="btn btn-windows edit" type="button" onclick="showDiv()" style=" border-bottom-width: -;margin-bottom: 7px;">改状态</button>  
  				</c:if>  

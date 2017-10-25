@@ -387,6 +387,7 @@
                   <option <c:if test="${state eq '3'}">selected</c:if> value="3">初审退回修改</option>
                   <option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未合格</option>
                   <option <c:if test="${state eq '10'}">selected</c:if> value="10">复审退回修改</option>
+                  <option <c:if test="${state eq '5'}">selected</c:if> value="5">复审不合格</option>
                   <option <c:if test="${state eq 'trialEnd'}">selected</c:if> value="trialEnd">预初审结束</option>
                   
                 </c:if>
