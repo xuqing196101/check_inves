@@ -118,6 +118,9 @@
           <if test="flagTime != null ">
             AND T.FLAG_TIME = #{flagTime}
           </if>
+          <if test="flagAudit != null ">
+            AND T.FLAG_AUDIT = #{flagAudit}
+          </if>
           ORDER BY CREATED_AT DESC)
           WHERE ROWNUM = 1
   </select>
