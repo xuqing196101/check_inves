@@ -85,11 +85,11 @@
             	
             	//复审退回
               if(status == '10'){
-                  $("#check_opinion").html("退回修改 。");
+                  $("#check_opinion").html("退回修改。");
               }
             	
               if(status == '5'){
-                  $("#check_opinion").html("复审不合格 。");
+                  $("#check_opinion").html("复审不合格。");
               }
             }
           });
