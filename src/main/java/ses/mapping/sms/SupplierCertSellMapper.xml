@@ -150,11 +150,6 @@
 		where ID = #{id}
 	</update>
 	
-	
-	<select id="findCertSellBySuppliermatSellId" resultMap="BaseResultMap">
-		select * from T_SES_SMS_SUPPLIER_CERT_SELL where MAT_SELL_ID = #{supplierMatSellId}
-	</select>
-	
 	<!-- 物资销售资质证书信息 -->
 	<select id="findCertSellBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select

@@ -520,7 +520,7 @@ public class SupplierServiceImpl implements SupplierService {
       supplier.setStatus(9);
     }else{
     	//待审核
-    	  supplier.setStatus(0);
+    	supplier.setStatus(0);
     }
     // supplier.setCreatedAt(new Date());
     supplier.setSubmitAt(new Date());

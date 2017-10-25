@@ -169,16 +169,26 @@
 		select * from T_SES_SMS_SUPPLIER_MAT_ENG where SUPPLIER_ID = #{supplierId}
 	</select>
 	<resultMap type="ses.model.sms.SupplierMatEng" id="MatEngMap" extends="BaseResultMap">
+		<collection property="listSupplierEngQuas" select="ses.dao.sms.SupplierEngQuaMapper.findEngQuaByMatEngId" column="ID"></collection>
 		<collection property="listSupplierCertEngs" select="ses.dao.sms.SupplierCertEngMapper.findCertEngByMatEngId" column="ID"></collection>
 		<collection property="listSupplierAptitutes" select="ses.dao.sms.SupplierAptituteMapper.findAptituteByMatEngId" column="ID"></collection>
 		<collection property="listSupplierRegPersons" select="ses.dao.sms.SupplierRegPersonMapper.findRegPersonByMatEngId" column="ID"></collection>
 	</resultMap>
 	
-	<select id="findSupplierIdById" parameterType="java.lang.String" resultType="java.lang.String">
+	<select id="findSupplierIdByEngAptId" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT
 			SUPPLIER_ID
 		FROM
 			T_SES_SMS_SUPPLIER_APTITUTE t1
+		LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG t2 ON t1.MAT_ENG_ID = t2.ID
+		WHERE
+			t1.ID = #{id}
+	</select>
+	<select id="findSupplierIdByEngQuaId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT
+			SUPPLIER_ID
+		FROM
+			T_SES_SMS_SUPPLIER_ENG_QUA t1
 		LEFT JOIN T_SES_SMS_SUPPLIER_MAT_ENG t2 ON t1.MAT_ENG_ID = t2.ID
 		WHERE
 			t1.ID = #{id}
