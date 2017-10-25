@@ -858,6 +858,7 @@ public class ExpertAgainAuditController extends BaseSupplierController {
 		//复审结束标识
 		expert.setIsReviewEnd(1);
 		expertService.updateByPrimaryKeySelective(expert);
+		againAuditService.handleExpertReviewTeam(expertId);
 		
 		return new JdcgResult(200);
 	}

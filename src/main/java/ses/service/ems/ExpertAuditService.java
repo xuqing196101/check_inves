@@ -245,7 +245,7 @@ public interface ExpertAuditService {
      * @param @param expert      
      * @return void
      */
-    boolean temporaryAudit (String expertId);
+    boolean temporaryAudit (String expertId,String realName);
     /**
      * 
      * Description:修改公示状态
@@ -320,6 +320,8 @@ public interface ExpertAuditService {
 	
 	ExpertAudit findAuditByExpertId (ExpertAudit expertAudit);
 	
+	boolean updateAuditStatus(String[] ids,String status);
+	
 	/**
 	 * 
 	 * Description: 查询专家审核组成员
@@ -337,4 +339,7 @@ public interface ExpertAuditService {
      * @return
      */
     List<ExpertAudit> diySelect(Map<String, Object> map);
+    void updateDoAuditStatus(Map<String, Object> map);
+    void updateToAuditStatus(Map<String, Object> map);
+    void updateExpertTypeAuditStatus(ExpertAudit e);
 }

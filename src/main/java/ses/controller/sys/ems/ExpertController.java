@@ -587,6 +587,7 @@ public class ExpertController extends BaseController {
 	            ExpertAudit expertAudit = new ExpertAudit();
 	            expertAudit.setExpertId(expertId);
 	            expertAudit.setSuggestType(stepNumber);
+	            expertAudit.setStatusQuery("notPass");
 	            List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
 	            // 所有的不通过字段的名字
 	            StringBuffer errorField = new StringBuffer();
@@ -602,6 +603,7 @@ public class ExpertController extends BaseController {
     			expertAuditFor.setExpertId(expertId);
     			expertAuditFor.setSuggestType("seven");
     			expertAuditFor.setType("1");
+    			expertAuditFor.setStatusQuery("notPass");
     			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
     			
     			
@@ -1063,6 +1065,7 @@ public class ExpertController extends BaseController {
             // 查询所有的不通过的品目
             expertAudit.setExpertId(expertId);
             expertAudit.setSuggestType("six");
+            expertAudit.setStatusQuery("notPass");
             auditList = expertAuditService.selectFailByExpertId(expertAudit);
             /*for (ExpertAudit e : auditList) {
             	Map < String, Object > map = new HashMap < String, Object > ();
@@ -2002,13 +2005,25 @@ public class ExpertController extends BaseController {
             	    ExpertAudit expertAudit = new ExpertAudit();
                     expertAudit.setExpertId(expertId);
                     expertAudit.setSuggestType("six");
+                    expertAudit.setStatusQuery("notPass");
                     List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
                     for (ExpertAudit e : auditList) {
                     	Map < String, Object > map = new HashMap < String, Object > ();
                         map.put("expertId", expertId);
                         map.put("categoryId", e.getAuditFieldId());
                         expertCategoryService.deleteByMap(map);
+                        e.setAuditStatus("2");
+                        expertAuditService.updateExpertTypeAuditStatus(e);
                     }
+                    expertAudit.setSuggestType("seven");
+                    expertAudit.setType("1");
+                    auditList = expertAuditService.selectFailByExpertId(expertAudit);
+                    for (ExpertAudit seven : auditList) {
+						if(!"isTitle".equals(seven.getAuditFieldId())){
+							seven.setAuditStatus("2");
+							expertAuditService.updateExpertTypeAuditStatus(seven);
+						}
+					}
                 }
                 
                 List < UploadFile > promise = uploadService.getFilesOther(expertId,  ExpertPictureType.COMMITMENT_PROOF.getSign().toString(),"3");
@@ -4395,6 +4410,7 @@ public class ExpertController extends BaseController {
             ExpertAudit audit = new ExpertAudit();
             audit.setExpertId(expertId);
             audit.setAuditFieldId(cate.getItemsId());
+            audit.setStatusQuery("notPass");
             List < ExpertAudit > list = expertAuditService.selectFailByExpertId(audit);
             if(list!=null && list.size()>0){
             	cate.setAuditReason(list.get(0).getAuditReason());
@@ -4418,6 +4434,7 @@ public class ExpertController extends BaseController {
         ExpertAudit expertAudit = new ExpertAudit();
         expertAudit.setExpertId(expertId);
         expertAudit.setSuggestType("six");
+        expertAudit.setStatusQuery("notPass");
         List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
         // 所有的不通过字段的名字
         StringBuffer errorField = new StringBuffer();

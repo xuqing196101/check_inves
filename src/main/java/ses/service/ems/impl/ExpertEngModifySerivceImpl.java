@@ -3,11 +3,14 @@ package ses.service.ems.impl;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertEngModifyMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ExpertTitleMapper;
@@ -34,9 +37,11 @@ public class ExpertEngModifySerivceImpl implements ExpertEngModifySerivce{
 	@Autowired
 	private ExpertMapper mapper;
 	
+	@Autowired
+	private ExpertAuditMapper expertAuditMapper;
 	
 	@Override
-	public void insertSelective(ExpertEngHistory expertEngHistory) {
+	public void insertSelective(ExpertEngHistory expertEngHistory,Integer sign) {
 		String expertId = expertEngHistory.getExpertId();
 		Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -66,7 +71,9 @@ public class ExpertEngModifySerivceImpl implements ExpertEngModifySerivce{
 		for(ExpertEngHistory history :expertEngHistoryList){
 			for(ExpertTitle expertTitle: expertTitleList){
 				if(history.getRelationId().equals(expertTitle.getId())){
-					
+					Map<String,Object> map = new HashMap<String,Object>();
+					map.put("expertId", expertId);
+					map.put("auditFalg", sign);
 					expertEngHistory.setRelationId(expertTitle.getId());
 					//执业资格
 					if("qualifcationTitle".equals(history.getField())){
@@ -75,6 +82,8 @@ public class ExpertEngModifySerivceImpl implements ExpertEngModifySerivce{
 							expertEngHistory.setContent(history.getContent());
 							//插入数据
 							expertEngModifyMapper.insertSelective(expertEngHistory);
+							map.put("auditFieldName", "qualifcationTitle");
+							expertAuditMapper.updateDoAuditStatus(map);
 						}
 					}
 					
@@ -86,6 +95,8 @@ public class ExpertEngModifySerivceImpl implements ExpertEngModifySerivce{
 							expertEngHistory.setContent(history.getContent());
 							//插入数据
 							expertEngModifyMapper.insertSelective(expertEngHistory);
+							map.put("auditFieldName", "qualifcationTitle");
+							expertAuditMapper.updateDoAuditStatus(map);
 						}
 					}
 					
