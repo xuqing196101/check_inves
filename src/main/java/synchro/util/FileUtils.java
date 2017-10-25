@@ -1,10 +1,5 @@
 package synchro.util;
 
-import com.alibaba.fastjson.JSON;
-import org.apache.commons.io.LineIterator;
-import org.apache.commons.lang3.StringUtils;
-import ses.util.PropUtil;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,6 +7,13 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.LineIterator;
+import org.apache.commons.lang3.StringUtils;
+
+import ses.util.PropUtil;
+
+import com.alibaba.fastjson.JSON;
 
 /**
  * 
@@ -262,6 +264,21 @@ public class FileUtils {
     
     /** 供应商抽取项目信息数据名称 **/
     public final static String SUPPLIER_EXTRACT_PROJECT_PATH_FILENAME="_m_supplier_extract_project.dat";
+    /** 供应商抽取条件信息数据名称 **/
+    public final static String SUPPLIER_EXTRACT_CONDITION_PATH_FILENAME="_m_supplier_extract_condition.dat";
+    /** 供应商抽取详细条件信息数据名称 **/
+    public final static String SUPPLIER_EXTRACT_CONTYPE_PATH_FILENAME="_m_supplier_extract_contype.dat";
+    
+    /** 供应商抽取目录 路径 35 **/
+    public final static String SUPPLIER_EXTRACT_PATH = PropUtil.getProperty("file.supplier_extract.system.path");
+    
+    /** 供应商抽取结果信息数据名称 **/
+    public final static String SUPPLIER_EXTRACT_RESULT_PATH_FILENAME="_m_supplier_extract_result.dat";
+    /** 供应商抽预研项目取结果信息数据名称 **/
+    public final static String SUPPLIER_EXTRACT_ADV_RESULT_PATH_FILENAME="_m_supplier_extract_adv_result.dat";
+    
+    /** 供应商抽取结果目录 路径 36 **/
+    public final static String SUPPLIER_EXTRACT_RESULT_PATH = PropUtil.getProperty("file.supplier_extract_result.system.path");
     
     
     /**
@@ -864,6 +881,8 @@ public class FileUtils {
           case 32:  filePath=EXPERT_EXTRACT_PATH;break;
           case 33:  filePath=EXPERT_EXTRACT_RESULT_PATH;break;
           case 34:  filePath=MILITARY_EXPERT_PATH;break;
+          case 35:  filePath=SUPPLIER_EXTRACT_PATH;break;
+          case 36:  filePath=SUPPLIER_EXTRACT_RESULT_PATH;break;
         }
         return filePath;
     }

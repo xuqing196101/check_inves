@@ -4,7 +4,9 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class SupplierExtractResult {
+import ses.model.sms.SupplierExtRelate;
+
+public class SupplierExtractResult extends SupplierExtRelate {
     
     /**
      * 供应商id
@@ -161,9 +163,9 @@ public class SupplierExtractResult {
 		this.projectType = projectType;
 	}
 
-	public String getPackageId() {
+	/*public String getPackageId() {
 		return packageId;
-	}
+	}*/
 
 	public void setPackageId(String packageId) {
 		this.packageId = packageId;

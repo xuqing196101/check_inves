@@ -46,7 +46,7 @@ public interface SupplierExtractConditionMapper {
      *
      * @param record
      */
-    int updateByPrimaryKeySelective(SupplierExtractCondition record);
+    int updateByPrimaryKeySelective(SupplierExtractCondition condition);
 
     /**
      * 根据主键来更新数据库记录
