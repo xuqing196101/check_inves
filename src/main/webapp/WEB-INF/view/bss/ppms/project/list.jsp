@@ -258,7 +258,7 @@
           </thead>
           <tbody id="tbody_id">
             <c:forEach items="${info.list}" var="obj" varStatus="vs">
-              <tr class="pointer">
+              <tr  class="pointer <c:if test="${obj.status=='F0EAF1136F7E4E8A8BDA6561AE8B4390'}"> red</c:if>">
                 <td class="tc w30">
                   <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()">
                 </td>

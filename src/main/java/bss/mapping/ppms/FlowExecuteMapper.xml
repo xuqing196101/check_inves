@@ -242,7 +242,7 @@
         and fe.PROJECT_ID = #{projectId}
       </if>
      
-    ORDER BY fe.CREATED_AT DESC
+    ORDER BY fe.status DESC
   </select>
   <!-- 7.根据状态倒序-->
   <select id="findStatusDesc" parameterType="java.lang.String" resultMap="FlowExecuteResult">
