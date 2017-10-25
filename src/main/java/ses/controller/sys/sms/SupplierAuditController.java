@@ -51,6 +51,7 @@ import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierEngQua;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
@@ -971,17 +972,27 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierMatEng = supplier.getSupplierMatEng();
 			if(supplierMatEng != null){
 				request.setAttribute("supplierMatEngs", supplierMatEng);
-				//资质资格证书信息
-//				List < SupplierCertEng > supplierCertEng = supplierAuditService.findCertEngBySupplierId(supplierId);
-				List < SupplierCertEng > supplierCertEng = supplierMatEng.getListSupplierCertEngs();
-				for(int i = 0; i < supplierCertEng.size() - 1; i++) {
-					for(int j = supplierCertEng.size() - 1; j > i; j--) {
-						if(supplierCertEng.get(j).getId().equals(supplierCertEng.get(i).getId())) {
-							supplierCertEng.remove(j);
+				//资质证书信息
+				List < SupplierEngQua > supplierEngQuas = supplierMatEng.getListSupplierEngQuas();
+				for(int i = 0; i < supplierEngQuas.size() - 1; i++) {
+					for(int j = supplierEngQuas.size() - 1; j > i; j--) {
+						if(supplierEngQuas.get(j).getId().equals(supplierEngQuas.get(i).getId())) {
+							supplierEngQuas.remove(j);
 						}
 					}
 				}
-				request.setAttribute("supplierCertEng", supplierCertEng);
+				request.setAttribute("supplierEngQuas", supplierEngQuas);
+				//资质资格证书信息
+//				List < SupplierCertEng > supplierCertEngs = supplierAuditService.findCertEngBySupplierId(supplierId);
+				List < SupplierCertEng > supplierCertEngs = supplierMatEng.getListSupplierCertEngs();
+				for(int i = 0; i < supplierCertEngs.size() - 1; i++) {
+					for(int j = supplierCertEngs.size() - 1; j > i; j--) {
+						if(supplierCertEngs.get(j).getId().equals(supplierCertEngs.get(i).getId())) {
+							supplierCertEngs.remove(j);
+						}
+					}
+				}
+				request.setAttribute("supplierCertEngs", supplierCertEngs);
 
 				//资质资格信息
 //				List < SupplierAptitute > supplierAptitute = supplierAuditService.findAptituteBySupplierId(supplierId);
@@ -1177,6 +1188,15 @@ public class SupplierAuditController extends BaseSupplierController {
 				fieldSecrecy.append(beforeField + ",");
 			}
 			request.setAttribute("fieldSecrecy", fieldSecrecy);
+			//资质证书
+			supplierModify.setListType(13);
+			modifyList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer fieldEngQuas = new StringBuffer();
+			for(int i = 0; i < modifyList.size(); i++) {
+				String beforeField = modifyList.get(i).getRelationId() +"_"+ modifyList.get(i).getBeforeField();
+				fieldEngQuas.append(beforeField + ",");
+			}
+			request.setAttribute("fieldEngQuas", fieldEngQuas);
 			//注册人员
 			supplierModify.setListType(7);
 			modifyList = supplierModifyService.selectBySupplierId(supplierModify);
@@ -1186,7 +1206,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				fieldRegPersons.append(beforeField + ",");
 			}
 			request.setAttribute("fieldRegPersons", fieldRegPersons);
-			//资质证书
+			//资质（认证）证书
 			supplierModify.setListType(8);
 			modifyList = supplierModifyService.selectBySupplierId(supplierModify);
 			StringBuffer fieldCertEngs = new StringBuffer();
@@ -4012,7 +4032,7 @@ public class SupplierAuditController extends BaseSupplierController {
 					if(ses.util.Constant.SUPPLIER_PRODUCT.equals(supType)){
                         typeName = "物资生产资质证书";
 						if(matProId != null){
-							List<SupplierCertPro> wuziscList = supplierCertProService.queryByProId(matProId);
+							List<SupplierCertPro> wuziscList = supplierCertProService.queryByMatProId(matProId);
 							StringBuffer wuziscReasons = new StringBuffer();
 							boolean wuziscflag = true;
 							if(wuziscList != null && wuziscList.size() > 0){
@@ -4107,7 +4127,7 @@ public class SupplierAuditController extends BaseSupplierController {
                         typeName = "服务资质证书";
 						SupplierMatServe matSeBySupplierId = supplierMatServeMapper.getMatSeBySupplierId(supplier.getId());
 						if(matSeBySupplierId != null && matSeBySupplierId.getId() != null){
-							List<SupplierCertServe> serveCert = supplierCertServeMapper.findCertSeBySupplierMatSeId(matSeBySupplierId.getId());
+							List<SupplierCertServe> serveCert = supplierCertServeMapper.findCertSeByMatSeId(matSeBySupplierId.getId());
 							StringBuffer serveReasons = new StringBuffer();
 							boolean serveflag = true;
 							if(serveCert != null && serveCert.size() > 0){
