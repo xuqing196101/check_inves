@@ -56,7 +56,7 @@
       function resetQuery() {
         /* $("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected"); */
         $("#planName").attr("value", "");
-        $("#planNo").attr("value", "");
+        $("#referenceNo").attr("value", "");
         $("#createdAt").attr("value", "");
       }
     </script>
@@ -95,8 +95,8 @@
             <span><input type="text" name="planName" id="planName" value="${purchaseRequired.planName }" /></span>
            </li>
            <li>
-             <label class="fl">采购需求编号：</label>
-             <span><input  type="text" name="planNo" id="planNo" value="${purchaseRequired.planNo }" /> </span>
+             <label class="fl">采购需求文号：</label>
+             <span><input  type="text" name="referenceNo" id="referenceNo" value="${purchaseRequired.referenceNo }" /> </span>
            </li>
            <li>
              <label class="fl">需求填报日期：</label>

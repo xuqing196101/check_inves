@@ -401,6 +401,9 @@
             <if test="userId != null">
                 USER_ID = #{userId},
             </if>
+            <if test="supplierId != null">
+                SUPPLIER_ID = #{supplierId},
+            </if>
             <if test="status != null">
                 STATUS = #{status},
             </if>
@@ -416,7 +419,7 @@
             <if test="auditContent != null">
                 AUDIT_CONTENT = #{auditContent},
             </if>
-            <if test="auditContent != null">
+            <if test="auditFieldName != null">
                 AUDIT_FIELD_NAME = #{auditFieldName},
             </if>
             <if test="isDeleted != null">

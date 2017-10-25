@@ -76,6 +76,7 @@
 									<c:set value="0" var="ZLBQ"></c:set>
 									<c:set value="0" var="FCBHG"></c:set>
 									<c:set value="0" var="FCHG"></c:set>
+									<c:set value="0" var="YYCL"></c:set>
 									<c:forEach items="${list}" var="su" varStatus="vs">
 									<c:set value="${TJCS+su['TJCS']}" var="TJCS"></c:set>
 									<c:set value="${DCS+su['DCS']}" var="DCS"></c:set>
@@ -96,6 +97,7 @@
 									<c:set value="${ZLBQ+su['ZLBQ']}" var="ZLBQ"></c:set>
 									<c:set value="${FCBHG+su['FCBHG']}" var="FCBHG"></c:set>
 									<c:set value="${FCHG+su['FCHG']}" var="FCHG"></c:set>
+									<c:set value="${YYCL+su['YYCL']}" var="YYCL"></c:set>
 										 <tr>
 										  <td>${vs.index+1} </td>
 										  <td>${su['SHORTNAME']}</td>
@@ -113,7 +115,7 @@
 										  <td>${su['FSTHXG']}</td>
 										  <td>${su['FSBHG']}</td>
 										  <td>${su['GSZ']}</td>
-										  <td></td>
+										  <td>${su['YYCL']}</td>
 										  <td>${su['RKDFC']}</td>
 										  <td>${su['FCZ']}</td>
 										  <td></td>
@@ -138,7 +140,7 @@
 									  <td>${FSTHXG}</td>
 									  <td>${FSBHG}</td>
 									  <td>${GSZ}</td>
-									  <td></td>
+									  <td>${YYCL}</td>
 									  <td>${RKDFC}</td>
 									  <td>${FCZ}</td>
 									  <td></td>

@@ -54,11 +54,11 @@
      </form>
         <div class="report_list_box">
             <div class="report_list_title">
-          	  <div class="col-md-2 col-xs-2 col-sm-2 f16">专家名称</div>
-              <div class="col-md-2 col-xs-2 col-sm-2 f16">类别</div>
-              <div class="col-md-2 col-xs-2 col-sm-2 f16">初审单位</div>
-              <div class="col-md-4 col-xs-4 col-sm-4 f16 text-center">审核结果</div>
-              <div class="col-md-2 col-xs-2 col-sm-2 f16 text-center">公示时间</div>
+          	  <div class="col-xs-12 w12p f16">专家名称</div>
+              <div class="col-xs-12 w20p f16">类别</div>
+              <div class="col-xs-12 w12p f16 tc">初审单位</div>
+              <div class="col-xs-12 w38p f16 tc">审核结果</div>
+              <div class="col-xs-12 w18p f16 tc">公示时间</div>
               <div class="clear"></div>
             </div>
                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new" id="expPublicityList">
