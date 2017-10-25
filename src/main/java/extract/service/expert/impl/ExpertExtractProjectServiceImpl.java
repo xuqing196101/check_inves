@@ -6,8 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +28,7 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.ems.ProjectExtract;
 import ses.model.oms.Orgnization;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
@@ -570,12 +573,28 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             // 抽取结果信息
             if (file2.getName().contains(FileUtils.EXTRACT_RESULT_PATH_FILENAME)) {
                 List<ExpertExtractResult> resultList = FileUtils.getBeans(file2, ExpertExtractResult.class);
+                num = resultList == null ? 0 : resultList.size();
                 for (ExpertExtractResult expertExtractResult : resultList) {
                     ExpertExtractResult extractResult = expertExtractResultMapper.selectByPrimaryKey(expertExtractResult.getId() == null ? "" : expertExtractResult.getId());
                     if(extractResult != null){
                         expertExtractResultMapper.updateByPrimaryKeySelective(expertExtractResult);
                     }else{
                         expertExtractResultMapper.insertSelective(expertExtractResult);
+                    }
+                }
+            }
+            // 项目实施抽取结果信息
+            if (file2.getName().contains(FileUtils.XM_EXTRACT_RESULT_PATH_FILENAME)) {
+            	List<ProjectExtract> projectExtractList = FileUtils.getBeans(file2, ProjectExtract.class);
+                for (ProjectExtract projectExtract : projectExtractList) {
+                	Map<String, Object> proMap = new HashMap<>();
+                    proMap.put("packageId", projectExtract.getProjectId());
+                    proMap.put("expertId", projectExtract.getExpertId());
+                    List<ProjectExtract> proList = expertExtractResultMapper.findByPackageId(proMap);
+                    if(proList != null && proList.size() > 0){
+                    	expertExtractResultMapper.updateProject(projectExtract);
+                    }else{
+                    	expertExtractResultMapper.insertProject(projectExtract);
                     }
                 }
             }
@@ -595,6 +614,21 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
             // 专家抽取结果信息
             FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.EXTRACT_RESULT_PATH_FILENAME, 33), JSON.toJSONString(resultList));
         }
+        //项目实施部分的抽取结果信息
+        Set<ProjectExtract> projectExtractList = new HashSet<>();
+        for (ExpertExtractResult result : resultList) {
+	        //查询抽取的项目信息 
+	        ExpertExtractProject expertExtractProject = expertExtractProjectMapper.selectByPrimaryKey(result.getProjectId());
+	        if(expertExtractProject != null && expertExtractProject.getPackageId() != null){
+	        	for (String packageId : expertExtractProject.getPackageId().split(",")) {
+	        		Map<String, Object> map = new HashMap<String, Object>();
+	        		map.put("packageId", packageId);
+	        		List<ProjectExtract> findByPackageId = expertExtractResultMapper.findByPackageId(map);
+	        		projectExtractList.addAll(findByPackageId);
+				}
+	        }
+		}
+        FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.XM_EXTRACT_RESULT_PATH_FILENAME, 33), JSON.toJSONString(projectExtractList));
         synchRecordService.synchBidding(new Date(), sum + "",Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT, Constant.OPER_TYPE_EXPORT,Constant.EXPERT_EXTRACT_RESULT_COMMIT);
     }
 }

@@ -4,8 +4,10 @@
 package extract.service.supplier;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierExtRelate;
 import extract.model.supplier.SupplierExtractCondition;
 import extract.model.supplier.SupplierExtractResult;
 import extract.model.supplier.SupplierVoiceResult;
@@ -24,5 +26,23 @@ import extract.model.supplier.SupplierVoiceResult;
   void saveOrUpdateVoiceResult(SupplierExtractCondition condition,
 		List<Supplier> suppliers, List<SupplierVoiceResult> suppliers2,
 		String projectType);
+
+  List<SupplierExtractResult> selectExtractResults (String conditionId);
+
+  SupplierExtractResult selectById(String id);
+  
+  void updateByPrimaryKeySelective(SupplierExtractResult result);
+  
+  void insertSelective(SupplierExtractResult result);
+
+  List<SupplierExtractResult> selectByUpdateDate(Map<String, String> map);
+
+  List<SupplierExtRelate> selectByAdvUpdateDate(Map<String, String> hashMap);
+
+  void updateAdvByPrimaryKeySelective(SupplierExtractResult result);
+
+  void insertAdvSelective(SupplierExtractResult result);
+
+  SupplierExtractResult selectAdvById(String id);
 
 }

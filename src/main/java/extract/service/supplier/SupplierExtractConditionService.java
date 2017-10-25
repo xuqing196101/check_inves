@@ -1,9 +1,7 @@
 package extract.service.supplier;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -170,6 +168,10 @@ public interface SupplierExtractConditionService {
   
   String setExtractCondition(String typeCode, SupplierExtractCondition condition,
 		SupplierConType conType) throws Exception;
+
+
+  
+  int saveContype(SupplierExtractCondition condition, SupplierConType conType);
 
 }
 

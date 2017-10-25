@@ -130,7 +130,10 @@
                    click: function () { 
                    address=encodeURI(address);
                    address=encodeURI(address);
-                       window.location.href="${pageContext.request.contextPath}/purchaseManage/purchaseDepdetailList.html?parentName="+address;
+                   		var name = $("#name").val();
+                   		var quaStartDate = $("#quaStartDate").val();
+                   		var quaEdndate = $("#quaEdndate").val();
+                       window.location.href="${pageContext.request.contextPath}/purchaseManage/purchaseDepdetailList.html?parentName="+address+"&name="+name+"&quaStartDate="+quaStartDate+"&quaEdndate="+quaEdndate;
                     }
                   }
            }

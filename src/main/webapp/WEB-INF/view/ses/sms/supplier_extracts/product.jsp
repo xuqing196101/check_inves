@@ -348,9 +348,12 @@
 				<br />
 			</div>
 			<div>
-				品目名称：<input type="text" id="cateName" >	品目编码：<input type="text" id="cateCode" ><br/>
-				 <input type="button" class="btn fl" onclick="loadZtree('true')" value="搜索">
-        		<div class="clear"></div>
+				品目名称：<input type="text" id="cateName" class="mr3 empty w125">
+        品目编码：<input type="text" id="cateCode" class="mr3 empty w125"><br/>
+				<div class="tc">
+				  <input type="button" class="btn" onclick="loadZtree('true')" value="搜索">
+				</div>
+        <div class="clear"></div>
 			</div>
 			<div id="ztree" class="ztree margin-left-13"></div>
 		</form>

@@ -58,7 +58,7 @@
               <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('auditInfo');">采购机构初审意见</a>
             </li>
             <li class="">
-              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('review');">资源服务中心复审意见</a>
+              <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('review');">专家复审意见</a>
             </li>
             <li class="">
               <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('reviewCheck');">采购机构复查意见</a>

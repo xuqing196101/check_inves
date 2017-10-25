@@ -419,20 +419,25 @@ public class ExtractExpertController {
      */
     @ResponseBody
     @RequestMapping(value = "/searchCate", produces = "application/json;charset=utf-8")
-    public String searchCate(String code, String cateName,String ids) throws Exception {
+    public String searchCate(String code, String cateName,String ids,String codeName) throws Exception {
         if (code != null && code.equals("GOODS_PROJECT")) {
             code = "PROJECT";
         }
         if(code.equals("GOODS_SERVER")){
             return "";
         }
-        String codeName = null;
         String[] cheIds = ids.split(",");
         if(code.indexOf("ENG_INFO_ID") > 0){
             code = "ENG_INFO_ID";
         }
         DictionaryData typeData = DictionaryDataUtil.get(code);
         String typeId = DictionaryDataUtil.getId(code);
+        if("".equals(cateName)){
+        	cateName = null;
+        }
+        if("".equals(codeName)){
+        	codeName = null;
+        }
         if (typeData != null && typeData.getCode().equals("ENG_INFO_ID")) {
             // 查询出所有满足条件的品目
             List < Category > categoryList = service.searchByName(cateName, "ENG_INFO", codeName);
@@ -519,7 +524,7 @@ public class ExtractExpertController {
             // 将筛选完的List转换为CategoryTreeList
             List < CategoryTree > treeList = new ArrayList < CategoryTree > ();
             for(Category category: allCateList) {
-                if(category.getCode().length()>=9){
+                if(category.getLevel() != null && category.getLevel() >= 5){
                     continue;
                 }
                 CategoryTree treeNode = new CategoryTree();
@@ -531,6 +536,9 @@ public class ExtractExpertController {
                 List < Category > nodesList = categoryService.findPublishTree(category.getId(), null);
                 if(nodesList != null && nodesList.size() > 0) {
                     treeNode.setIsParent("true");
+                }
+                if(category.getLevel() != null && category.getLevel() == 4){
+                	treeNode.setIsParent("false");
                 }
                 treeList.add(treeNode);
             }

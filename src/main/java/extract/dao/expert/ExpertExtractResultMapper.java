@@ -164,4 +164,16 @@ public interface ExpertExtractResultMapper {
      * @return
      */
     int updateIsDelete(ExpertExtractResult expertExtractResult);
+    
+    
+    /**
+     * 
+     * Description: 根据专家id和包id修改专家参加状态（项目实施）
+     * 
+     * @author zhang shubin
+     * @data 2017年10月24日
+     * @param 
+     * @return
+     */
+    int updateProjectByEId(ProjectExtract projectExtract);
 }

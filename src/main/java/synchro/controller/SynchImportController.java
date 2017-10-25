@@ -1,17 +1,15 @@
 package synchro.controller;
 
-import bss.service.ob.OBProductService;
-import bss.service.ob.OBProjectServer;
-import bss.service.ob.OBSupplierService;
-
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.bean.ResponseBean;
-import extract.service.expert.ExpertExtractProjectService;
 import iss.service.hl.ServiceHotlineService;
 import iss.service.ps.DataDownloadService;
 import iss.service.ps.TemplateDownloadService;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +39,15 @@ import synchro.service.SynchService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBSupplierService;
 
-import javax.servlet.http.HttpServletRequest;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.bean.ResponseBean;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import extract.service.supplier.AutoExtractSupplierService;
 
 /**
  * 版权：(C) 版权所有
@@ -160,6 +160,9 @@ public class SynchImportController {
      **/
     @Autowired
     private ServiceHotlineService serviceHotlineService;
+    
+    @Autowired
+    private AutoExtractSupplierService autoExtractSupplierService;
 
     /**
      * 〈简述〉初始化导入
@@ -198,6 +201,15 @@ public class SynchImportController {
                 if (dd.getCode().equals(Constant.DATE_SYNCH_EXPERT_EXTRACT_RESULT)) {
                     iter.remove();
                     continue;
+                }
+                // 过滤供应商抽取信息  定时任务自动导入导出
+                if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT)) {
+                	iter.remove();
+                	continue;
+                }
+                if (dd.getCode().equals(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
+                	iter.remove();
+                	continue;
                 }
                 //过滤军队专家信息
                 if (dd.getCode().equals(Constant.DATE_SYNCH_MILITARY_EXPERT)) {
@@ -838,7 +850,6 @@ public class SynchImportController {
                                                 FileUtils.M_EXPERT_BLACKLIST_LOG_PATH_FILENAME)) {
                                     expertBlackListService.importExpertBlacklistLog(file2);
                                 }
-
                             }
                         }
                         //专家黑名单附件
@@ -877,6 +888,31 @@ public class SynchImportController {
                             }
                         }
                     }
+                    
+                    /** 供应商抽取信息数据导入 **/      
+                    if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT)) {
+                    	if (f.getName().contains(Constant.SUPPLIER_EXTRACT_FILE_NAME)) {
+                    		autoExtractSupplierService.importSupplierExtract(f);
+                    	}
+                    	if (f.isDirectory()) {
+                    		if (f.getName().contains(Constant.SUPPLIER_EXTRACT_FILE_NAME)) {
+                    			OperAttachment.moveFolder(f);
+                    		}
+                    	}
+                    }
+                    
+                    /** 供应商抽取结果数据导入 **/      
+                    if (synchType.contains(Constant.DATE_SYNCH_SUPPLIER_EXTRACT_RESULT)) {
+                    	if (f.getName().contains(Constant.SUPPLIER_EXTRACT_RESULT_FILE_NAME)) {
+            				autoExtractSupplierService.importSupplierExtractResult(f);
+            			}
+                    	if (f.isDirectory()) {
+                    		if (f.getName().contains(Constant.SUPPLIER_EXTRACT_RESULT_FILE_NAME)) {
+                    			OperAttachment.moveFolder(f);
+                    		}
+                    	}
+                    }
+                    
                     /**目录资质关联表*/
                     categoryService.importCategoryQua(synchType, f);
                     /** 产品资质表*/

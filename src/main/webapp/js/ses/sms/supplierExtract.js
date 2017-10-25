@@ -492,61 +492,8 @@ $(function () {
     	}
     	
     	
-    	//验证抽取条件中数量是否正确
-       // var eCount = $("#supplierCount").val();//抽取总数量
-        //获取每个类别的抽取数量
-       /* if (positiveRegular(eCount)) {
-            $("#countSupplier").text("");
-            var projectExtractNum = $("#projectExtractNum").val()==""?0:$("#projectExtractNum").val();
-            var productExtractNum = $("#productExtractNum").val()==""?0:$("#productExtractNum").val();
-            var serviceExtractNum = $("#serviceExtractNum").val()==""?0:$("#serviceExtractNum").val();
-            var salesExtractNum = $("#salesExtractNum").val()==""?0:$("#salesExtractNum").val();
-            var goodsExtractNum = $("#goodsExtractNum").val()==""?0:$("#goodsExtractNum").val();
-            var count = parseInt(projectExtractNum)+parseInt(productExtractNum)+parseInt(serviceExtractNum)+parseInt(salesExtractNum)+parseInt(goodsExtractNum);
-            var count = $("#extractNumber").find("input").val();
-           // var typeName = $("input[name='supplierTypeName']").attr('title');
-           var typeName = $("#supplierType").val();
-            if (typeName =="undefined" || typeName == "") {
-                layer.msg("请选择抽取类型");
-                return false;
-            }
-            if (positiveRegular(count)) {
-                if (parseInt(count) > parseInt(eCount)) {
-                    layer.msg("数量不能大于总数量");
-                } else {
-                	extractSupplier();
-                }
-            } else {
-                layer.msg("请输入有效人数(正整数)");
-            }
-        } else {
-            $("#countSupplier").text("请输入有效总人数(正整数)");
-        }*/
         return false;
     }
-    /**点击抽取--判断是否完成本次抽取*/
-   /* function fax() {
-        $.ajax({
-            type: "POST",
-            url: globalPath+"/SupplierExtracts_new/isFinish.do",
-            data: {packageId: "${packageId}"},
-            dataType: "json",
-            success: function (data) {
-                if (data == "SUCCESS") {
-                    layer.confirm('是否完成本次抽取？', {
-                        btn: ['确定', '取消'], offset: ['40%', '40%'], shade: 0.01
-                    }, function (index) {
-                        ext();
-                    }, function (index) {
-                        layer.close(index);
-                    });
-                } else {
-                    ext();
-                }
-            }
-        });
-    }*/
-    /**点击抽取--当选择参加与否后保存状态*/
     
     function extractSupplier(code,status) {
     	
@@ -645,7 +592,6 @@ $(function () {
 	    		//url: globalPath+'/SupplierCondition_new/autoExtract.do?projectInfo'+projectType,
 	    		data: formData ,
 	    		url: globalPath+'/autoExtract/exportExtractInfo.do?projectInfo'+projectType,
-	    		//data:{"form1":$("#projectForm").serialize(),"form2":formData },
 	    		dataType: "json",
 	    		async:false,
 	    		success: function (msg) {
@@ -661,72 +607,6 @@ $(function () {
 	    }
 	    
 	   
-    	/*var count = 0;
-    	var projectExtractNum = $("#projectExtractNum").val();
-    	if(projectExtractNum>0){
-    		if(projectExtractNum<=projects){
-    			$("#projectResult").find("tbody").empty();
-    			appendTd(0,$("#projectResult").find("tbody"),null);
-    		}else{
-    			layer.msg("工程条件不满足");count++;
-    		}
-    	}else if(projectExtractNum=="0"){
-    		layer.msg("请输入工程抽取数量");count++;
-    	}
-    	
-    	var productExtractNum = $("#productExtractNum").val();
-    	if(productExtractNum>0){
-    		if(productExtractNum<=products){
-    			$("#productResult").find("tbody").empty();
-    			appendTd(0,$("#productResult").find("tbody"),null);
-    		}else{
-    			layer.msg("生产条件不满足");count++;
-    		}
-    	}else if(productExtractNum=="0"){
-    		layer.msg("请输入生产抽取数量");count++;
-    	}
-    	
-    	var serviceExtractNum = $("#serviceExtractNum").val();
-    	if(serviceExtractNum>0){
-    		if(serviceExtractNum<=services){
-    			$("#serviceResult").find("tbody").empty();
-    			appendTd(0,$("#serviceResult").find("tbody"),null);
-    		}else{
-    			layer.msg("服务条件不满足");count++;
-    		}
-    	}else if(serviceExtractNum=="0"){
-    		layer.msg("请输入服务抽取数量");count++;
-    	}
-    	
-    	var salesExtractNum = $("#salesExtractNum").val();
-    	if(salesExtractNum>0){
-    		if(salesExtractNum<=sales){
-    			$("#salesResult").find("tbody").empty();
-    			appendTd(0,$("#salesResult").find("tbody"),null);
-    		}else{
-    			layer.msg("销售条件不满足");count++;
-    		}
-    	}else if(salesExtractNum=="0"){
-    		layer.msg("请输入销售抽取数量");count++;
-    	}
-    	
-    	
-    	var goodsExtractNum = $("#goodsExtractNum").val();
-    	if(goodsExtractNum>0){
-    		if(salesExtractNum<=goods){
-    			$("#goodsResult").find("tbody").empty();
-    			appendTd(0,$("#goodsResult").find("tbody"),null);
-    		}else{
-    			layer.msg("销售条件不满足");count++;
-    		}
-    	}else if(goodsExtractNum=="0"){
-    		layer.msg("请输入销售抽取数量");count++;
-    	}
-    	
-    	
-    	if(count>0){
-    		return false;
-    	}*/
     	
     	//输入框设置只读
     	$('.extractVerify_disabled input,.extractVerify_disabled select').each(function() {
@@ -737,37 +617,6 @@ $(function () {
 		$(".bu").each(function(){
 			$(this).attr("disabled",true);
 		});
-    	
-    	//存储项目信息
-    	/*	$.ajax({
-    		type: "POST",
-    		url: $("#projectForm").attr('action'),
-    		data:$("#projectForm").serialize(),
-    		dataType: "text",
-    		success: function (msg) {
-    			
-    		}
-    	});
-    	//存储人员信息
-    	$.ajax({
-    		type: "POST",
-    		url: $("#supervise").attr('action'),
-    		data:  $("#supervise").serialize(),
-    		dataType: "json",
-    		success: function (msg) {
-    			
-    		}
-    	});
-    	$.ajax({
-    		type: "POST",
-    		url: $("#extractUser").attr('action'),
-    		data:  $("#extractUser").serialize(),
-    		dataType: "json",
-    		success: function (msg) {
-    			
-    		}
-    	});*/
-    		
     }
     
     //显示结果   obj 是当前操作的行所在的tbody
@@ -986,7 +835,7 @@ $(function () {
             title: "选择条件",
             shadeClose: true,
             shade: 0.01,
-            area: ['430px', '400px'],
+            area: ['440px', '400px'],
             skin: 'layer-default',
             offset: '20px',
             content: globalPath+'/SupplierExtracts_new/addHeading.do?supplierTypeCode='+typeCode,//+'&categoryId='+categoryId, //iframe的url

@@ -235,7 +235,8 @@ function searchCate() {
           shade: [0.1, '#fff'] //0.1透明度的白色背景
         });
         var cateName = $("#key").val();
-        if(cateName == "") {
+        var codeName = $("#codeName").val();
+        if(cateName == "" && codeName == "") {
         	location.reload();
         } else {
           $.ajax({
@@ -245,6 +246,7 @@ function searchCate() {
               "code": code,
               "cateName": cateName,
               "ids": ids,
+              "codeName": codeName,
             },
             async: false,
             dataType: "json",
@@ -293,9 +295,12 @@ function searchCate() {
 				</ul>
 				
 			</div>
-			<div align="center">
-				<input type="text" id="key" class="fl mr5 empty" name="cateName">
-				<input type="button" id="search" class="btn fl" value="搜索" onclick="searchCate()">
+			<div >
+				产品类别：<input type="text" id="key" class="mr3 empty w125" name="cateName">
+				目录编码：<input type="text" id="codeName" class="mr3 empty w125" name="codeName"><br>
+				<div class="textc">
+					<input type="button" id="search" class="btn" value="搜索" onclick="searchCate()">
+				</div>
 				<div class="clear"></div>
 			</div>
 			<div id="ztree" class="ztree margin-left-13" ></div>

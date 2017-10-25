@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ses.model.bms.Area;
+
 public class SupplierMatEng implements Serializable {
 	private static final long serialVersionUID = -6683954164102872656L;
 
@@ -103,6 +105,8 @@ public class SupplierMatEng implements Serializable {
 	 * </pre>
 	 */
 	private String businessScope;
+	
+	private List<Area> businessScopeAreas = new ArrayList<Area>();
 
 	private List<SupplierCertEng> listSupplierCertEngs = new ArrayList<SupplierCertEng>();
 
@@ -110,8 +114,6 @@ public class SupplierMatEng implements Serializable {
 
 	private List<SupplierRegPerson> listSupplierRegPersons = new ArrayList<SupplierRegPerson>();
 
-	private List<List<SupplierRegPerson>> persons = new ArrayList<List<SupplierRegPerson>>();
-	
 	public String getId() {
 		return id;
 	}
@@ -208,14 +210,6 @@ public class SupplierMatEng implements Serializable {
 		this.listSupplierRegPersons = listSupplierRegPersons;
 	}
 
-    public List<List<SupplierRegPerson>> getPersons() {
-        return persons;
-    }
-
-    public void setPersons(List<List<SupplierRegPerson>> persons) {
-        this.persons = persons;
-    }
-
     public String getConfidentialAchievement() {
         return confidentialAchievement;
     }
@@ -239,4 +233,13 @@ public class SupplierMatEng implements Serializable {
     public void setBusinessScope(String businessScope) {
         this.businessScope = businessScope;
     }
+
+	public List<Area> getBusinessScopeAreas() {
+		return businessScopeAreas;
+	}
+
+	public void setBusinessScopeAreas(List<Area> businessScopeAreas) {
+		this.businessScopeAreas = businessScopeAreas;
+	}
+    
 }
