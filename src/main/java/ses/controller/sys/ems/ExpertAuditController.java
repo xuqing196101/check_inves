@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertField;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -42,6 +43,7 @@ import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditNot;
 import ses.model.ems.ExpertAuditOpinion;
+import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertHistory;
@@ -79,6 +81,7 @@ import bss.formbean.PurchaseRequiredFormBean;
 import com.alibaba.fastjson.JSON;
 import com.ctc.wstx.util.DataUtil;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -155,6 +158,8 @@ public class ExpertAuditController{
 	@Autowired
 	private PurChaseDepOrgService purChaseDepOrgService;
 	
+	@Autowired
+	private ExpertBatchDetailsMapper expertBatchDetailsMapper;
 	/**
 	 * @Title: expertAuditList
 	 * @author XuQing 
@@ -2163,6 +2168,17 @@ public class ExpertAuditController{
 		depMap.put("purchaseDepId", expert.getPurchaseDepId());
 		String depName = purChaseDepOrgService.selectOrgFullNameByPurchaseDepId(depMap);
 		dataMap.put("depName", depName);
+		String eStatus = expert.getStatus();
+		if("-2".equals(eStatus)){
+			dataMap.put("orgName", "cgjg");
+		}else{
+			dataMap.put("orgName", "zyfwzx");
+		}
+		//专家编号
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+		expertBatchDetails.setExpertId(expert.getId());
+		ExpertBatchDetails findExpertBatchDetails = expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
+		dataMap.put("expertNum", findExpertBatchDetails == null ? "" : findExpertBatchDetails.getBatchDetailsNumber());
 		//审核时间
 		//日期格式化
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
