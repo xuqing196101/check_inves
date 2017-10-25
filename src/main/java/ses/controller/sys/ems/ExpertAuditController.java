@@ -480,10 +480,21 @@ public class ExpertAuditController{
 				map.put("auditFalg", sign);
 				for(String method: keySet) {
 					editFields.add(method);
-					 
+					 map.remove("auditField");
+					 map.remove("auditContent");
 		            // 调用getter方法获取属性值  
 					Object param =  oldExpert.getClass().getMethod(method).invoke(oldExpert);
-					 if (param instanceof Integer) {
+					if("getAddress".equals(method)){
+						/*Area area = areaService.listById((String) param);
+						String sonName = area.getName();
+						String parentName="";
+						for(int i = 0; i < privnce.size(); i++) {
+							if(area.getParentId().equals(privnce.get(i).getId())) {
+								parentName = privnce.get(i).getName();
+							}
+						}*/
+						map.put("auditField", "地区");
+					}else if (param instanceof Integer) {
 						   map.put("auditContent", ((Integer) param).intValue());
 					 	} else if (param instanceof String) {
 						   map.put("auditContent", (String) param);
