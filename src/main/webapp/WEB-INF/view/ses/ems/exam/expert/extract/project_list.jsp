@@ -202,9 +202,18 @@ function form_reset(){
           <tr>
             <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obj.id }" /></td>
             <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-            <td class="">${obj.projectName }</td>
-            <td class="w90">${obj.code }</td>
-            <td class="w100">${obj.packageName }</td>
+            <td class="" title="${obj.projectName }">
+              <c:if test="${fn:length(obj.projectName) > 8 }">${fn:substring(obj.projectName, 0, 8)}...</c:if>
+              <c:if test="${fn:length(obj.projectName) <= 8 }">${obj.projectName }</c:if>
+            </td>
+            <td class="w100" title="${obj.code }">
+              <c:if test="${fn:length(obj.code) > 5 }">${fn:substring(obj.code, 0, 5)}...</c:if>
+              <c:if test="${fn:length(obj.code) <= 5 }">${obj.code }</c:if>
+            </td>
+            <td class="w100" title="${obj.packageName }">
+              <c:if test="${fn:length(obj.packageName) > 5 }">${fn:substring(obj.packageName, 0, 5)}...</c:if>
+              <c:if test="${fn:length(obj.packageName) <= 5 }">${obj.packageName }</c:if>
+            </td>
             <td class="tc w90">${obj.projectType }</td>
             <td class="tc w100">${obj.purchaseWay }</td>
             <td class="tc w90">

@@ -242,6 +242,8 @@ public class FileUtils {
     public final static String EXTRACT_CATEGORY_PATH_FILENAME="_m_extract_category.dat";
     /** 专家抽取结果信息数据名称 **/
     public final static String EXTRACT_RESULT_PATH_FILENAME="_m_extract_result.dat";
+    /** 项目实施专家抽取结果信息数据名称 **/
+    public final static String XM_EXTRACT_RESULT_PATH_FILENAME="_xm_extract_result.dat";
     /** 专家抽取目录 路径 32 **/
     public final static String EXPERT_EXTRACT_PATH = PropUtil.getProperty("file.expert_extract.system.path");
     
