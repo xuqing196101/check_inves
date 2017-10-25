@@ -587,4 +587,14 @@ public interface SupplierAuditService {
 	 */
 	JdcgResult vertifyYushenhe(String supplierId, String flag);
 
+	 /**
+	 * Description: 查询供应商不通过的类型
+	 *
+	 * @author Easong
+	 * @version 2017/10/20
+	 * @param 
+	 * @since JDK1.7
+	 */
+	List<SupplierAudit> selectBySupIdAndType(Map<String, Object> map);
+
 }

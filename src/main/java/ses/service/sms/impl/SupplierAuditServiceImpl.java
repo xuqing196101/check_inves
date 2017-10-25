@@ -2209,8 +2209,28 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 						result += supplierAuditMapper.updateByIdSelective(supplierAuditUpdate);
 						continue;
 					}
-					supplierModify.setBeforeField(auditField);
-					supplierModify.setRelationId(auditField);
+					String beforeField = auditField;
+					String relationId = auditField;
+					if("basic_page".equals(auditType)){// 境外分支
+						if(auditField.startsWith("organizationName_")){
+							beforeField = "organizationName";
+							relationId = auditField.replaceAll("organizationName_", "");
+						}
+						if(auditField.startsWith("countryName_")){
+							beforeField = "countryName";
+							relationId = auditField.replaceAll("countryName_", "");
+						}
+						if(auditField.startsWith("detailAddress_")){
+							beforeField = "detailAddress";
+							relationId = auditField.replaceAll("detailAddress_", "");
+						}
+						if(auditField.startsWith("businessSope_")){
+							beforeField = "businessSope";
+							relationId = auditField.replaceAll("businessSope_", "");
+						}
+					}
+					supplierModify.setBeforeField(beforeField);
+					supplierModify.setRelationId(relationId);
 					int modifyCount = supplierModifyService.countBySupplierId(supplierModify);
 					// 更新状态
 					SupplierAudit supplierAuditUpdate = new SupplierAudit();
@@ -2472,9 +2492,11 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	public JdcgResult vertifyReturnToModify(String supplierId) {
 		SupplierAudit supplierAudit = new SupplierAudit();
 		supplierAudit.setSupplierId(supplierId);
-		int auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
+//		int auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
+		int auditCount = this.countAuditRecords(supplierAudit, new Integer[]{0,1,4});
 		if(auditCount == 0){
-			return JdcgResult.build(500, "没有审核不通过项！");
+//			return JdcgResult.build(500, "没有审核不通过项！");
+			return JdcgResult.build(500, "没有退回修改/未修改的记录！");
 		}
 		return getTypeAndItemNotPass(supplierId);
 	}
@@ -2483,18 +2505,19 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	public JdcgResult vertifyYushenhe(String supplierId, String flag) {
 		SupplierAudit supplierAudit = new SupplierAudit();
 		supplierAudit.setSupplierId(supplierId);
-		int auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
+		int auditCount = this.countAuditRecords(supplierAudit, new Integer[]{0,1,4});
 		if("0".equals(flag)){// 预审核不通过
 			if(auditCount == 0){
-				return JdcgResult.build(500, "没有审核不通过项！");
+				return JdcgResult.build(500, "没有预审核不通过项！");
 			}
 		}
 		if("1".equals(flag)){// 预审核通过
 			// 判断基本信息+财务信息+股东信息
-			supplierAudit.setAuditType("basic_page");
-			auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
+//			supplierAudit.setAuditType("basic_page");
+//			auditCount = this.countAuditRecords(supplierAudit, SupplierConstants.AUDIT_RETURN_STATUS);
 			if(auditCount > 0){
-				return JdcgResult.build(500, "基本、财务、股东信息中有不通过项！");
+//				return JdcgResult.build(500, "基本、财务、股东信息中有不通过项！");
+				return JdcgResult.build(500, "还有退回修改/未修改的记录！");
 			}
 			JdcgResult result = getTypeAndItemNotPass(supplierId);
 			if(result != null && result.getStatus() != 0){
@@ -2504,4 +2527,20 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		return JdcgResult.build(0, "");
 	}
 
+	/**
+	 *
+	 * Description: 查询供应商不通过的类型
+	 *
+	 * @author Easong
+	 * @version 2017/10/20
+	 * @param
+	 * @since JDK1.7
+	 */
+	@Override
+	public List<SupplierAudit> selectBySupIdAndType(Map<String, Object> map) {
+		// 查询供应商不通过的类型
+		// 封装查询map集合
+		map.put("auditType", ses.util.Constant.SUPPLIER_CATE_INFO_ITEM_FLAG);
+		return supplierAuditMapper.selectBySupIdAndType(map);
+	}
 }

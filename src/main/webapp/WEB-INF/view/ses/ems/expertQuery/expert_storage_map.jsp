@@ -5,33 +5,99 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp" %>
+    <script src="${pageContext.request.contextPath}/public/highmap/js/highcharts.js"></script>
+    <script src="${pageContext.request.contextPath}/public/highmap/js/modules/map.js"></script>
+    <script src="${pageContext.request.contextPath}/public/highmap/js/modules/data.js"></script>
+    <script src="${pageContext.request.contextPath}/public/highmap/js/modules/drilldown.js"></script>
+    <script src="${pageContext.request.contextPath}/public/highmap/js/modules/exporting.js"></script>
+    <script src="${pageContext.request.contextPath}/public/highmap/js/cn-china-by-peng8.js"></script>
+    <script src="${pageContext.request.contextPath}/public/echarts/china.js"></script>
+    <link href="${pageContext.request.contextPath}/public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">
     <script type="text/javascript">
       $(function() {
-        laypage({
-          cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-          pages: "${result.pages}", //总页数
-          skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-          skip: true, //是否开启跳页
-          total: "${result.total}",
-          startRow: "${result.startRow}",
-          endRow: "${result.endRow}",
-          groups: "${result.pages}" >= 5 ? 5 : "${result.pages}", //连续显示分页数
-          curr: function() { //合格url获取当前页，也可以同上（pages）方式获取
-            //var page = location.search.match(/page=(\d+)/);
-            //return page ? page[1] : 1;
-            return "${result.pageNum}";
-          }(),
-          jump: function(e, first) { //触发分页后的回调
-            if(!first) { //一定要加此判断，否则初始时会无限刷新
-              $("#page").val(e.curr);
-              $("#formSearch").submit();
+        option = {
+          /* title : {
+              text: '专家数量统计',
+              x:'center'
+          }, */
+          tooltip: {
+            trigger: 'item'
+          },
+          legend: {
+            orient: 'vertical',
+            x: 'left',
+            data: ['']
+          },
+          dataRange: {
+            min: 0,
+            max: '${maxCount}',
+            x: 'left',
+            y: 'bottom',
+            text: ['高', '低'], // 文本，默认为数值文本
+            calculable: true
+          },
+          toolbox: {
+            show: true,
+            orient: 'vertical',
+            x: 'right',
+            y: 'center',
+            feature: {
+              mark: {
+                show: true
+              },
+              dataView: {
+                show: true,
+                readOnly: false
+              },
+              restore: {
+                show: true
+              },
+              saveAsImage: {
+                show: true
+              }
             }
-          }
+          },
+          roamController: {
+            show: true,
+            x: 'right',
+            mapTypeControl: {
+              'china': true
+            }
+          },
+          series: [{
+            name: '中国',
+            type: 'map',
+            mapType: 'china',
+            roam: false,
+            itemStyle: {
+              normal: {
+                label: {
+                  show: true
+                }
+              },
+              emphasis: {
+                label: {
+                  show: true
+                }
+              }
+            },
+            data: eval('${data}'),
+          }]
+        };
+
+        var myChart = echarts.init(document.getElementById("container"));
+        myChart.setOption(option);
+        myChart.hideLoading();
+        myChart.on('click', function(params) {
+          var address = encodeURI(params.name);
+          address = encodeURI(address);
+          window.location.href = "${pageContext.request.contextPath}/expertQuery/list.html?addressName=" + address +"&flag=1";
         });
+
       });
     </script>
     <script type="text/javascript">
-      function clearSearch() {
+	    function clearSearch() {
         $("#relName").attr("value", "");
         $("#status option:selected").removeAttr("selected");
         $("#mobile").attr("value", "");
@@ -41,12 +107,12 @@
         $("#expertsTypeId option:selected").removeAttr("selected");
         $("#orgName option:selected").removeAttr("selected");
         $("#formSearch").submit();
-      }
-      
-     //查看列表
-      function checkMap(){
-        window.location.href = "${pageContext.request.contextPath}/expertQuery/expertStorageMap.html";
-      }
+	    }
+	    
+	    //查看列表
+	    function checkList(){
+		    window.location.href = "${pageContext.request.contextPath}/expertQuery/list.html";
+	    }
     </script>
   </head>
 
@@ -77,10 +143,8 @@
         <h2>入库专家列表</h2>
       </div>
       <h2 class="search_detail">  
-      <form action="${pageContext.request.contextPath}/expertQuery/list.html"  method="post" id="formSearch"  class="mb0"> 
+      <form action="${pageContext.request.contextPath}/expertQuery/expertStorageMap.html"  method="post" id="formSearch"  class="mb0"> 
          <input type="hidden" name="page" id="page">
-         <input type="hidden" name="addressName" value="${addressName}">
-         <input type="hidden" name="flag" value="${flag}">
         <ul class="demand_list">
         <li>
           <label class="fl">专家姓名：</label><span><input class="w220" type="text" id="relName" name="relName" value="${expert.relName }"></span>
@@ -103,7 +167,7 @@
           </span>
         </li>
         <li>
-        <label class="fl">专家状态：</label>
+        <label class="fl">审核状态：</label>
         <span class="fl">
           <select name="status" id="status" class="w220">
              <option selected="selected" value=''>全部</option>
@@ -146,85 +210,14 @@
       </ul>
       <div class="col-md-12 clear tc mt10">
         <input class="btn mt1"  value="查询" type="submit">
-       <input class="btn mt1" onclick="clearSearch();" value="重置" type="reset">
-       <c:if test="${flag == 1 }">
-	       <input class="btn mt1" onclick="checkMap();" value="返回" type="reset">
-       </c:if>
-       <c:if test="${flag != 1 }">
-	       <input class="btn mt1" onclick="checkMap();" value="切换到地图" type="reset">
-       </c:if>
+        <input class="btn mt1" onclick="clearSearch();" value="重置" type="reset">
+        <input class="btn mt1" onclick="checkList();" value="切换到列表" type="reset">
      </div>
      <div class="clear"></div>
     </form>
    </h2>
-      <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover table-striped">
-          <thead>
-            <tr>
-              <th class="info w50">序号</th>
-              <th class="info">专家姓名</th>
-              <th class="info">身份证号</th>
-              <th class="info w50">性别</th>
-              <!-- <th class="info">毕业院校及专业</th> -->
-              <th class="info w90">注册日期</th>
-              <th class="info w90">提交日期</th>
-              <th class="info w90">审核日期</th>
-              <th class="info">手机</th>
-              <th class="info">类别</th>
-              <th class="info">采购机构</th>
-              <th class="info">专家类型</th>
-              <th class="info">专家状态</th>
-            </tr>
-          </thead>
-          <c:forEach items="${result.list }" var="e" varStatus="vs">
-            <tr class="pointer">
-              <td class="tc w50" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
-              <td class="tl">
-                <a href="javascript:jumppage('${pageContext.request.contextPath}/expertQuery/view.html?expertId=${e.id}&sign=2')">${e.relName}</a>
-              </td>
-              <td class="tc">${e.idCardNumber}</td>
-              <td class="tc w50">${e.gender}</td>
-              <%-- <td class="tl">${e.graduateSchool }</td> --%>
-              <td class="tc">
-                <fmt:formatDate value="${e.createdAt }" pattern="yyyy-MM-dd" />
-              </td>
-              <td class="tc">
-                <fmt:formatDate value="${e.submitAt }" pattern="yyyy-MM-dd" />
-              </td>
-              <td class="tc">
-                <fmt:formatDate value="${e.auditAt }" pattern="yyyy-MM-dd" />
-              </td>
-              <td class="tc">${e.mobile }</td>
-              <td class="tl">${e.expertsTypeId}</td>
-              <td class="tl">${e.orgName}</td>
-              <td class="tc">${e.expertsFrom }</td>
-              <td class="tc" id="${e.id}">
-                <c:if test="${e.status eq '6' and e.auditTemporary != 3}">
-                  <span class="label rounded-2x label-u">入库(待复查)</span>
-                </c:if>
-                <c:if test="${e.status eq '6' and e.auditTemporary == 3}">
-                  <span class="label rounded-2x label-u">复查中</span>
-                </c:if>
-                <c:if test="${e.status eq '19' }">
-                  <span class="label rounded-2x label-u">预复查结束</span>
-                </c:if>
-                <c:if test="${e.status eq '7' }">
-                  <span class="label rounded-2x label-u">复查合格</span>
-                </c:if>
-                <c:if test="${e.status eq '13' }">
-                  <span class="label rounded-2x label-u">无产品专家</span>
-                </c:if>
-                <c:if test="${e.status eq '17' }">
-                  <span class="label rounded-2x label-u">资料不全</span>
-                </c:if>
-              </td>
-            </tr>
-          </c:forEach>
-        </table>
-        <div id="pagediv" align="right"></div>
-      </div>
     </div>
-
+    <div id="container" style="height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>
   </body>
 
 </html>

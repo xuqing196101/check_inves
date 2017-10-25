@@ -162,6 +162,10 @@
 .w43p {
   width: 43%;
 }
+.w38p { width: 38%; }
+.w20p { width: 20%; }
+.w18p { width: 18%; }
+.w12p { width: 12%; }
 /*高度*/
   .h15 {
   height: 15px;

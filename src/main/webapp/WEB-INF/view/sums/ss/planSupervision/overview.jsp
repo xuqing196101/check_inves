@@ -569,6 +569,7 @@
               </tbody>
             </table>
 
+            <c:if test="${management ne null}">
             <h2 class="list_son" id="tab-2"><i>${flag}</i>采购需求受理</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
@@ -589,6 +590,7 @@
                 </tr>
               </tbody>
             </table>
+            </c:if>
 
             <c:if test="${advancedProject != null}">
               <h2 class="list_son" id="tab-3"><i>${flag}</i>预研任务下达</h2>
@@ -615,6 +617,7 @@
               </table>
             </c:if>
 
+            <c:if test="${listAuditPerson ne null and collectPlan.fileName ne null}">
             <h2 class="list_son" id="tab-4"><i>${flag}</i>采购计划审核</h2>
             <c:set var="flag" value="${flag+1}" />
             <c:choose>
@@ -670,6 +673,7 @@
                   </tr>
                 </tbody>
               </table>
+            </c:if>
             </c:if>
 
             <c:if test="${task ne null}">

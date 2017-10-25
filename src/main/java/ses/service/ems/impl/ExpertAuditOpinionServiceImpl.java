@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * <p>Title:ExpertAuditOpinionServiceImpl </p>
  * <p>Description:专家审核意见 </p>
- * @author XuQing
  * @date 2017-4-1下午5:48:39
  */
 @Service("expertAuditOpinionService")

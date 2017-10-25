@@ -149,14 +149,8 @@
 			layer.msg("请选择供应商类型");
 			return false;
 		}
-		// 保存工程地址附件信息
-		var areaIds = "";
-		$("#areaSelect").find("option").each(function(i, element){
-			if (element.selected == true) {
-				areaIds = areaIds + element.value + ",";
-			}
-		});
-		$("#businessScope").val(areaIds);
+		// 设置承揽业务范围
+		setBusinessScope();
 		// 提交的时候表单域设置成可编辑
 		enableForm();
 		$.ajax({
@@ -211,14 +205,8 @@
 		});
 	
 		$("input[name='supplierTypeIds']").val(checkedTypes);
-		// 保存工程地址附件信息
-		var areaIds = "";
-		$("#areaSelect").find("option").each(function(i, element){
-			if (element.selected == true) {
-				areaIds = areaIds + element.value + ",";
-			}
-		});
-		$("#businessScope").val(areaIds);
+		// 设置承揽业务范围
+		setBusinessScope();
 		// 提交的时候表单域设置成可编辑
 		enableForm();
 		$.ajax({
@@ -1165,6 +1153,19 @@
 				}
 			}
 		});
+		// 设置承揽业务范围
+		setBusinessScope();
+	}
+	
+	// 设置承揽业务范围
+	function setBusinessScope(){
+		var areaIds = "";
+		$("#areaSelect").find("option").each(function(i, element){
+			if (element.selected == true) {
+				areaIds = areaIds + element.value + ",";
+			}
+		});
+		$("#businessScope").val(areaIds);
 	}
 
 	$(function() {
@@ -1881,7 +1882,7 @@
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																	 <div class="w200 fl"><input
-                                  required="required" type="text"   <c:if test="${certPro.name == '质量管理体系认证证书'}">readonly="readonly"</c:if>
+                                  required="required" type="text"   <c:if test="${certPro.name == '质量管理体系认证证书' and vs.index == 0}">readonly="readonly"</c:if>
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].name"
 																	value="${certPro.name}" class="border0" />
 																	</div>
@@ -2193,7 +2194,7 @@
 										</div>
 										<ul class="list-unstyled overflow_h">
 											<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}"/>
-											<c:forEach items="${rootArea}" var="area" varStatus="st">
+											<c:forEach items="${currSupplier.supplierMatEng.businessScopeAreas}" var="area" varStatus="st">
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}" >
 													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">${area.name}</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0"

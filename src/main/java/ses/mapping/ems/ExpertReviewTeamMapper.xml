@@ -43,7 +43,7 @@
 		<if test="groupId != null and groupId !=''">
             AND T1.GROUP_ID=#{groupId}
         </if>
-		ORDER BY CREATED_AT DESC
+		ORDER BY CREATED_AT ASC
     </select>
     <insert id="insert" parameterType="ses.model.ems.ExpertReviewTeam">
         insert into T_SYS_EMS_EXPERT_REVIEWTEAM

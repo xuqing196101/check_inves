@@ -1947,6 +1947,7 @@
 	select  
 	 o.id as id,o.name as name,o.short_name as shortName,d.id as depId,o.position,
 	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id) as  TJSH,
+	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=10) as YYCL,
 	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=0) as DSH,
 	(select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and SUPPLIER_STATUS=9) as THZSH,
   (select count(*) from T_SES_SMS_SUPPLIER where  PROCUREMENT_DEP_ID = d.id and AUDIT_TEMPORARY=1) as SHZ,
@@ -1980,6 +1981,7 @@
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id) as  TJCS,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=0) as DCS,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=9) as THZCS,
+	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=18) as YYCL,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and AUDIT_TEMPORARY=1) as CSZ,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and STATUS=3) as CSTHXG,
 	(select count(*) from T_SES_EMS_EXPERT where  PURCHASE_DEP_ID = d.id and (STATUS=15 or STATUS=16)) as YCSJS,
