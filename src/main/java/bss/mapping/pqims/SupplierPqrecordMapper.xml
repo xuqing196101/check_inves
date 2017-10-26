@@ -182,15 +182,23 @@
 		          WHERE
 		            "ID" = SUPPLIER_DEP_NAME
 		        ) AS supplier_name,
-		        ID
+		        ID,
+		        CREATE_ID
 		      FROM
 		        T_BSS_CS_PURCHASE_CONTRACT
+		        WHERE 1=1
+		        <if test="createId != null and createId != ''">
+			      AND CREATE_ID = #{createId}
+			    </if>
 		    ) c ON P .CONTRACT_ID = c. ID
-		    WHERE 
-		    P.PURCHASEDEP_ID =#{purchaseDepId}
+		    WHERE 1=1
+		    <if test="purchaseDepId != null and purchaseDepId != ''">
+			  AND  P.PURCHASEDEP_ID =#{purchaseDepId}
+		    </if>
 		    <if test="supplierName != null and supplierName != ''">
 		      AND c.SUPPLIER_NAME LIKE CONCAT(CONCAT('%', #{supplierName}), '%')
 		    </if>
+		    
 		    GROUP BY
 		      c.SUPPLIER_NAME,
 		      P .CONCLUSION

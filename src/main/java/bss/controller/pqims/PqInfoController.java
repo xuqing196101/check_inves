@@ -2,6 +2,7 @@
 package bss.controller.pqims;
 
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,8 +22,12 @@ import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.service.oms.OrgnizationServiceI;
+import ses.util.AuthorityUtil;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
+
+
+
 
 
 import com.github.pagehelper.PageInfo;
@@ -32,7 +37,6 @@ import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
-
 import bss.model.pqims.PqInfo;
 import bss.model.pqims.SupplierPqrecord;
 import bss.service.pqims.PqInfoService;
@@ -306,20 +310,39 @@ public class PqInfoController extends BaseSupplierController{
 	 * @param page
 	 * @param supplierName
 	 * @return
+	 * @throws IOException 
 	 */
 	@RequestMapping("/getAllSupplierPqInfo")
-	public String getAllSupplierPqInfo(@CurrentUser User user, Model model,Integer page, String supplierName){
-	    if(user != null && user.getOrg() != null && "1".equals(user.getTypeName()) &&  "1".equals(user.getOrg().getTypeName())){
+	public String getAllSupplierPqInfo(@CurrentUser User user, Model model,Integer page, String supplierName) throws IOException{
+		//获取当前登录用户数据查看权限
+		Integer dataAccess = user.getDataAccess();
+		if (dataAccess == null) {
+			return AuthorityUtil.valiDataAccess(dataAccess, request, response);
+		}else {
 			HashMap<String, Object> map = new HashMap<>();
-			map.put("purchaseDepId", user.getOrg().getId());
+			if (dataAccess == 1) {
+				//查看所有数据
+			} else if (dataAccess == 2) {
+				//查看本单位数据
+				String orgId = ""; 
+				if (user.getOrg() != null) {
+					orgId = user.getOrg().getId();
+				} else {
+					orgId = user.getOrgId();
+				}
+				map.put("purchaseDepId", orgId);
+			} else if (dataAccess == 3) {
+				//查看本人数据
+				map.put("createId", user.getId());
+			}
 			if(StringUtils.isNotBlank(supplierName)){
-		    map.put("supplierName", supplierName);
-	    }
-	        List<SupplierPqrecord> list = pqrecordService.getByAll(page==null?1:page, map);
-	        model.addAttribute("info",new PageInfo<SupplierPqrecord>(list));
-	        model.addAttribute("supplierName", supplierName);
-	    }
-		return "bss/pqims/pqinfo/supplier_pqinfo_list";
+				map.put("supplierName", supplierName);
+			}
+			List<SupplierPqrecord> list = pqrecordService.getByAll(page==null?1:page, map);
+			model.addAttribute("info",new PageInfo<SupplierPqrecord>(list));
+			model.addAttribute("supplierName", supplierName);
+			return "bss/pqims/pqinfo/supplier_pqinfo_list";
+		}
 	}
 	  
 }
