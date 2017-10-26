@@ -273,7 +273,9 @@
       IS_DELETED = #{isDeleted},
       SUGGEST_TYPE = #{suggestType},
       AUDIT_FIELD = #{auditField},
-      AUDIT_CONTENT = #{auditContent}
+      AUDIT_CONTENT = #{auditContent},
+      AUDIT_FALG=#{auditFalg},
+      AUDIT_STATUS=#{auditStatus}
     where ID = #{id}
   </update>
   
@@ -449,6 +451,12 @@
       <if test="auditFieldName != null">
         AUDIT_FIELD_NAME,
       </if>
+      <if test="auditFalg != null">
+      	AUDIT_FALG,
+      </if>
+      <if test="auditStatus != null">
+      	AUDIT_STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -492,6 +500,12 @@
       </if>
       <if test="auditFieldName != null">
         #{auditFieldName},
+      </if>
+      <if test="auditFalg != null">
+        #{auditFalg},
+      </if>
+      <if test="auditStatus != null">
+        #{auditStatus},
       </if>
     </trim>
   </insert>
