@@ -46,7 +46,7 @@ public interface SupplierExtractConditionMapper {
      *
      * @param record
      */
-    int updateByPrimaryKeySelective(SupplierExtractCondition record);
+    int updateByPrimaryKeySelective(SupplierExtractCondition condition);
 
     /**
      * 根据主键来更新数据库记录
@@ -103,7 +103,7 @@ public interface SupplierExtractConditionMapper {
 	 * @param id
 	 * @return
 	 */
-	SupplierExtractCondition getByRid(String id);
+	SupplierExtractCondition getByRid(String recordId);
 
 	/**
 	 * 查询抽取品目名称集合

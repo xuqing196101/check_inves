@@ -176,13 +176,13 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
                            noPassNum += 1;
                        }
                    }
-                  /* //如果不通过的专家比通过的专家多，则该项判为不合格
+                  //如果不通过的专家比通过的专家多，则该项判为不合格
                    if (noPassNum > passNum) {
                        isPass += 1;
-                   }*/
-                   if (noPassNum > 0) {
+                   }
+                   /*if (noPassNum > 0) {
                      isPass += 1;
-                 }
+                 }*/
                }
                if (isPass == 0) {
                    //供应商合格

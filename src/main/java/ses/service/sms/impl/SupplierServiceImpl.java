@@ -520,7 +520,7 @@ public class SupplierServiceImpl implements SupplierService {
       supplier.setStatus(9);
     }else{
     	//待审核
-    	  supplier.setStatus(0);
+    	supplier.setStatus(0);
     }
     // supplier.setCreatedAt(new Date());
     supplier.setSubmitAt(new Date());
@@ -2015,7 +2015,7 @@ public class SupplierServiceImpl implements SupplierService {
 							}
 						}
 						// 非必填字段（网址/营业期限/参加政府或军队采购经历）
-						if("website".equals(fieldName) || "purchaseExperience".equals(fieldName) || "branchName".equals(fieldName)){
+						if("website".equals(fieldName) || "purchaseExperience".equals(fieldName) || "branchName".equals(fieldName) || "businessStartDate".equals(fieldName)){
 							if(obj3 == null && obj4 != null){
 								str = fieldName + "," + "" + "," + obj4 + ";";
 							}

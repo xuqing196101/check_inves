@@ -83,4 +83,6 @@ public interface ExpertAuditOpinionService {
 	void updateIsDownloadAttch(ExpertAuditOpinion expertAuditOpinion);
 	
 	void deleteByExpertId(ExpertAuditOpinion expertAuditOpinion);
+	
+	ExpertAuditOpinion findByExpertId(ExpertAuditOpinion expertAuditOpinion);
 }

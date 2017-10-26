@@ -129,8 +129,21 @@ public class ExpertExtractProject {
      * 抽取人员
      */
     private String extractPerson;
+    
+    /**
+     * 评审详细地址
+     */
+    private String reviewSite;
+    
+    public String getReviewSite() {
+		return reviewSite;
+	}
 
-    public String getExtractPerson() {
+	public void setReviewSite(String reviewSite) {
+		this.reviewSite = reviewSite == null ? null : reviewSite.trim();
+	}
+
+	public String getExtractPerson() {
         return extractPerson;
     }
 

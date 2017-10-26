@@ -471,6 +471,7 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private Integer isReviewEnd;//是否复审结束（1是）
 
+    private String addressName;
     /**
      * 专家提交审核时间
      **/
@@ -1119,6 +1120,14 @@ public class Expert extends ExpertHistory implements Serializable {
 
 	public void setIsReviewEnd(Integer isReviewEnd) {
 		this.isReviewEnd = isReviewEnd;
+	}
+
+	public String getAddressName() {
+		return addressName;
+	}
+
+	public void setAddressName(String addressName) {
+		this.addressName = addressName;
 	}
     
 }

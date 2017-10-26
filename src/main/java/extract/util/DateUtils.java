@@ -8,6 +8,8 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 public class DateUtils {  
+	
+	
       
     /** 
      * 将Date类转换为XMLGregorianCalendar 
@@ -41,4 +43,5 @@ public class DateUtils {
     public static Date xmlDate2Date(XMLGregorianCalendar cal){  
         return cal.toGregorianCalendar().getTime();  
     }  
+    
 } 

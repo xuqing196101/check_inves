@@ -1,7 +1,11 @@
 package ses.controller.sys.ems;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +24,7 @@ import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertTitle;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -32,9 +37,12 @@ import ses.service.ems.ExpertService;
 import ses.service.ems.ExpertTitleService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
+import ses.service.sms.SupplierEditService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
+import bss.formbean.Maps;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.constant.Constant;
@@ -84,6 +92,9 @@ public class ExpertQueryController {
 	
 	@Autowired
 	private ExpertAuditOpinionService expertAuditOpinionService;
+	
+	@Autowired
+    private SupplierEditService supplierEditService;
 	
 	/**
      * 
@@ -166,9 +177,10 @@ public class ExpertQueryController {
 	 * @param province:该省下所有专家
 	 * @param cateTypeDictCode:专家所属品目类型字典code
 	 * @param reqType:请求类型：analyze做统计请求标识
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value = "/list")
-    public String findAllExpert(Expert expert, Integer page, Model model, String province, String cateTypeDictCode, String reqType) {
+    public String findAllExpert(Expert expert, Integer page, Model model, String province, String cateTypeDictCode, String reqType, Integer flag) throws UnsupportedEncodingException {
 		// 用于查询地区专家
 		if(province != null && expert.getAddress() == null){
 			// 查询该省所对应的ID
@@ -182,10 +194,16 @@ public class ExpertQueryController {
 				expert.setExpertsTypeId(dictionaryData.getId());
 			}
 		}
+		
+		if(expert.getAddressName() != null){
+			String addressName = URLDecoder.decode(expert.getAddressName(), "UTF-8");
+			expert.setAddressName(addressName);
+			model.addAttribute("addressName", addressName);
+		}
+		
 		List < Expert > allExpert = service.selectRuKuExpert(expert, page);
         for(Expert exp: allExpert) {
-            DictionaryData dictionaryData = dictionaryDataServiceI
-                .getDictionaryData(exp.getGender());
+            DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(exp.getGender());
             exp.setGender(dictionaryData == null ? "" : dictionaryData.getName());
             StringBuffer expertType = new StringBuffer();
             if(exp.getExpertsTypeId() != null) {
@@ -234,6 +252,7 @@ public class ExpertQueryController {
         model.addAttribute("result", pageInfo);
         // 请求标识
         model.addAttribute("reqType", reqType);
+        model.addAttribute("flag", flag);
         return "ses/ems/expertQuery/list";
     }
 	
@@ -787,7 +806,7 @@ public class ExpertQueryController {
 		
 		map.put("expertId", expertId);
 		//初审的意见
-		if("0".equals(status) || "1".equals(status) || "2".equals(status) || "3".equals(status) || "9".equals(status) || "11".equals(status) 
+		/*if("0".equals(status) || "1".equals(status) || "2".equals(status) || "3".equals(status) || "9".equals(status) || "11".equals(status) 
 				|| "14".equals(status) || "15".equals(status) || "16".equals(status)){
 			map.put("isDeleted", 0);
 			map.put("auditFalg", 1);
@@ -809,9 +828,57 @@ public class ExpertQueryController {
 			map.put("auditFalg", 3);
 			
 			expertAuditOpinion.setFlagTime(2);
+		}*/
+		
+		//map.put("isDeleted", 0);
+		map.put("auditFalg", 1);
+		
+		expertAuditOpinion.setFlagTime(0);
+		
+		//审核记录
+		List < ExpertAudit > auditList = expertAuditService.diySelect(map);
+		model.addAttribute("auditList", auditList);
+		
+		// 查询审核最终意见
+		expertAuditOpinion.setExpertId(expertId);
+		expertAuditOpinion = expertAuditOpinionService.findByExpertId(expertAuditOpinion);
+		model.addAttribute("auditOpinion", expertAuditOpinion);
+		
+		model.addAttribute("expertId", expertId);
+		model.addAttribute("sign", sign);
+		model.addAttribute("reqType", reqType);
+		model.addAttribute("status", status);
+		
+		//批准初审表
+		// 供应商系统key文件上传key
+		Integer sysKey = common.constant.Constant.EXPERT_SYS_KEY;
+		// 定义文件上传类型
+		DictionaryData dictionaryData = DictionaryDataUtil
+				.get(synchro.util.Constant.EXPERT_CHECK_ATTACHMENT);
+		if (dictionaryData != null) {
+			model.addAttribute("typeId", dictionaryData.getId());
 		}
+		model.addAttribute("sysKey", sysKey);
+		return "ses/ems/expertQuery/auditInfo";
+	}
+	
+	
+	/**
+	 * 复审信息
+	 * @param model
+	 * @param expertId
+	 * @param sign
+	 * @return
+	 */
+	@RequestMapping(value = "/review")
+	public String review(Model model, String expertId, Integer sign, String reqType, String status){
+		Map<String,Object> map = new HashMap<String,Object>();
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
 		
-		
+		map.put("expertId", expertId);
+		map.put("auditFalg", 2);
+			
+		expertAuditOpinion.setFlagTime(1);
 		//审核记录
 		List < ExpertAudit > auditList = expertAuditService.diySelect(map);
 		model.addAttribute("auditList", auditList);
@@ -825,7 +892,96 @@ public class ExpertQueryController {
 		model.addAttribute("sign", sign);
 		model.addAttribute("reqType", reqType);
 		model.addAttribute("status", status);
-		return "ses/ems/expertQuery/auditInfo";
+		return "ses/ems/expertQuery/review";
 	}
 	
+	/**
+	 * 复查信息
+	 * @param model
+	 * @param expertId
+	 * @param sign
+	 * @return
+	 */
+	@RequestMapping(value = "/reviewCheck")
+	public String reviewCheck(Model model, String expertId, Integer sign, String reqType, String status){
+		Map<String,Object> map = new HashMap<String,Object>();
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		
+		map.put("expertId", expertId);
+		map.put("auditFalg", 3);
+			
+		expertAuditOpinion.setFlagTime(2);
+		//审核记录
+		List < ExpertAudit > auditList = expertAuditService.diySelect(map);
+		model.addAttribute("auditList", auditList);
+		
+		// 查询审核最终意见
+		expertAuditOpinion.setExpertId(expertId);
+		expertAuditOpinion = expertAuditOpinionService.findByExpertId(expertAuditOpinion);
+		model.addAttribute("auditOpinion", expertAuditOpinion);
+		
+		model.addAttribute("expertId", expertId);
+		model.addAttribute("sign", sign);
+		model.addAttribute("reqType", reqType);
+		model.addAttribute("status", status);
+		return "ses/ems/expertQuery/reviewCheck";
+	}
+	
+	/**
+	 * 入库专家查询地图模式
+	 * @param model
+	 * @param expert
+	 * @return
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping(value= "/expertStorageMap")
+	public String expertStorageMap(Model model, Expert expert) throws UnsupportedEncodingException{
+		List<Expert> findStorage = service.findStorage(expert);
+		Map<String, Integer> map = supplierEditService.getMap();
+		
+		Integer maxCount = 0;
+        for (Expert expertInfo : findStorage) {
+            for (Map.Entry<String, Integer> entry:map.entrySet()) {   
+                if (expertInfo.getAddress() != null && !"".equals(expertInfo.getAddress()) && expertInfo.getAddress().indexOf(entry.getKey()) != -1){
+                    map.put((String) entry.getKey(), (Integer) map.get(entry.getKey()) + 1);
+                    if (maxCount < map.get(entry.getKey())) {
+                        maxCount = map.get(entry.getKey());
+                    }
+                    break;
+                }
+            }
+        }
+        if (maxCount == 0) {
+            maxCount =2500;
+        }
+        List<Maps> listMap = new LinkedList<Maps>();
+        for (Map.Entry<String, Integer> entry:map.entrySet()) {   
+            Maps mp = new Maps();
+            mp.setValue(new BigDecimal(entry.getValue()));
+            mp.setName(entry.getKey());
+            listMap.add(mp);
+        }
+		
+        String json = JSON.toJSONString(listMap);
+        model.addAttribute("listMap", listMap);
+        model.addAttribute("data", json);
+        model.addAttribute("maxCount", maxCount);
+        
+        // 查询数据字典中的专家类别数据
+        List < DictionaryData > jsTypeList = DictionaryDataUtil.find(6);
+        for(DictionaryData data: jsTypeList) {
+            data.setName(data.getName() + "技术");
+        }
+        List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
+
+        jsTypeList.addAll(jjTypeList);
+        model.addAttribute("expTypeList", jsTypeList);
+        // 专家类型
+        List < DictionaryData > expertFromList = DictionaryDataUtil.find(12);
+        //全部机构
+        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
+        model.addAttribute("allOrg", allOrg);
+        model.addAttribute("expertFromList", expertFromList);
+		return "ses/ems/expertQuery/expert_storage_map";
+	}
 }

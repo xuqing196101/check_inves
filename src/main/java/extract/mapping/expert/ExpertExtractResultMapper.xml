@@ -90,8 +90,9 @@
     <result column="STATUS_COUNT" jdbcType="DECIMAL" property="statusCount" />
     <result column="IS_PROVISIONAL" jdbcType="DECIMAL" property="isProvisional" />
     <result column="REVIEW_TYPE" jdbcType="DECIMAL" property="reviewType" />
+    <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
     <!-- 专家 -->
-    <association column="EXPERT_ID" property="expert" select="ses.dao.ems.ExpertMapper.selectByPrimaryKey" />
+    <!-- <association column="EXPERT_ID" property="expert" select="ses.dao.ems.ExpertMapper.selectByPrimaryKey" /> -->
   </resultMap>
   <sql id="Base_Column_List">
     ID, PROJECT_ID, EXPERT_ID, CONDITION_ID, REVIEW_TIME, IS_JOIN, REASON, IS_DELETED,
@@ -264,7 +265,7 @@
   
   <!-- 条件查询 -->
   <select id="findByConditionId" resultType="String" parameterType="String">
-    SELECT EXPERT_ID FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0 AND CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
+    SELECT EXPERT_ID FROM T_SES_EMS_EXTRACT_RESULT WHERE IS_DELETED = 0 AND IS_JOIN = 1 AND CONDITION_ID = #{conditionId,jdbcType=VARCHAR}
   </select>
   
   <!-- 下载抽取结果 -->
@@ -287,7 +288,10 @@
   
   <!-- 项目实施部分查询抽取结果是否存在 -->
   <select id="findByPackageId" resultMap="projectMap" parameterType="Map">
-    SELECT * FROM T_SES_EMS_PROJECT_EXTRACT WHERE PROJECT_ID = #{packageId} AND EXPERT_ID = #{expertId}
+    SELECT * FROM T_SES_EMS_PROJECT_EXTRACT WHERE PROJECT_ID = #{packageId}
+    <if test="expertId != null">
+      AND EXPERT_ID = #{expertId}
+    </if>
   </select>
   
   <!-- 新增结果数据（项目实施） -->
@@ -385,8 +389,7 @@
         PROJECT_ID = #{projectId,jdbcType=VARCHAR},
       </if>
       <if test="expertConditionId != null">
-        EXPERT_CONDITION_ID =
-        #{expertConditionId,jdbcType=VARCHAR},
+        EXPERT_CONDITION_ID = #{expertConditionId,jdbcType=VARCHAR},
       </if>
       <if test="expertId != null">
         EXPERT_ID = #{expertId,jdbcType=VARCHAR},
@@ -422,8 +425,65 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
+  <!-- 根据专家id和包id修改专家参加状态（项目实施） -->
+  <update id="updateProjectByEId" parameterType="ses.model.ems.ProjectExtract">
+    update T_SES_EMS_PROJECT_EXTRACT
+    <set>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatingType != null">
+        OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    WHERE PROJECT_ID = #{projectId,jdbcType=VARCHAR} 
+    AND EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+  </update>
+  
   <!-- 根据项目id查询所有信息 -->
   <select id="findAllByProjectId" parameterType="String" resultMap="BaseResultMap">
   	SELECT * FROM T_SES_EMS_EXTRACT_RESULT WHERE PROJECT_ID = #{projectId}
   </select>
+  
+  <!-- 根据项目id和专家Id修改 -->
+  <update id="updateByProjectIdandExpertId" parameterType="extract.model.expert.ExpertExtractResult">
+    UPDATE T_SES_EMS_EXTRACT_RESULT
+    <set>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isJoin != null">
+        IS_JOIN = #{isJoin},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    WHERE PROJECT_ID = #{projectId} AND EXPERT_ID = #{expertId}
+  </update>
+  
+  <select id="selNumByConditionId" parameterType="Map" resultType="Integer">
+  	SELECT COUNT(EXPERT_ID) FROM T_SES_EMS_EXTRACT_RESULT WHERE CONDITION_ID = #{conditionId} AND IS_JOIN = 1
+  	<if test="isAlternate != null">
+      AND IS_ALTERNATE = #{isAlternate}
+    </if>
+    <if test="expertCode != null">
+      AND EXPERT_CODE = #{expertCode}
+    </if>
+  </select>
+  
+    <!-- 根据修改时间查询 -->
+  <select id="selectByUpdateDate" resultMap="BaseResultMap" >
+    SELECT * FROM T_SES_EMS_EXTRACT_RESULT WHERE 
+    to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{end,jdbcType=VARCHAR} 
+  </select>
+  
+  <!-- 修改删除标识 -->
+  <update id="updateIsDelete" parameterType="extract.model.expert.ExpertExtractResult">
+    UPDATE T_SES_EMS_EXTRACT_RESULT SET IS_DELETED = 1 WHERE PROJECT_ID = #{projectId} AND EXPERT_ID = #{expertId}
+  </update>
 </mapper>

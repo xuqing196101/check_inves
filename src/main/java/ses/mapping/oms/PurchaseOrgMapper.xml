@@ -25,7 +25,7 @@
         WHERE 
          t1.IS_PROVISIONAL = '0'
          AND t1.IS_DELETE = '0'
-         AND t1.STATUS = 0
+         AND t1.STATUS in ('0','9')
          AND dep.ORG_ID= #{_parameter,jdbcType=VARCHAR}  
      </select>
 	<select id="selectById" parameterType="java.util.Map" resultMap="BaseResultMap">

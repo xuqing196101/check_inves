@@ -5,6 +5,7 @@ package extract.service.supplier.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierMapper;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierExtRelate;
 import ses.util.UUIDUtils;
 import extract.dao.supplier.SupplierExtractConditionMapper;
 import extract.dao.supplier.SupplierExtractRecordMapper;
@@ -130,7 +132,58 @@ public class SupplierExtractRelateResultServiceImp implements SupplierExtractRel
 			supplierExtRelateMapper.updateSupplierJoin(supplierExtractResult);
 		}
 	}
+
+
+	@Override
+	public List<SupplierExtractResult> selectExtractResults(String conditionId) {
+		List<SupplierExtractResult> extractResults = supplierExtRelateMapper.selectByConditionId(conditionId);
+		return extractResults;
+	}
+
+
+	@Override
+	public SupplierExtractResult selectById(String id) {
+		return supplierExtRelateMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public SupplierExtractResult selectAdvById(String id) {
+		return supplierExtRelateMapper.selectAdvByPrimaryKey(id);
+	}
 	
+	@Override
+	public void updateByPrimaryKeySelective(SupplierExtractResult result) {
+		supplierExtRelateMapper.updateByPrimaryKeySelective(result);
+	}
+
+
+	@Override
+	public void insertSelective(SupplierExtractResult result) {
+		supplierExtRelateMapper.insertSelective(result);
+	}
+
+
+	@Override
+	public List<SupplierExtractResult> selectByUpdateDate(Map<String, String> map) {
+		return supplierExtRelateMapper.selectByUpdateDate(map);
+	}
+	
+	@Override
+	public List<SupplierExtRelate> selectByAdvUpdateDate(Map<String, String> map) {
+		return supplierExtRelateMapper.selectAdvByUpdateDate(map);
+	}
+
+
+	@Override
+	public void updateAdvByPrimaryKeySelective(SupplierExtractResult result) {
+		supplierExtRelateMapper.updateAdvByPrimaryKeySelective(result);
+	}
+
+
+	@Override
+	public void insertAdvSelective(SupplierExtractResult result) {
+		supplierExtRelateMapper.insertAdvSelective(result);
+	}
 }
 
 

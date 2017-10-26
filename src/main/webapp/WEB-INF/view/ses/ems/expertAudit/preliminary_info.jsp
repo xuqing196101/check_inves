@@ -85,11 +85,11 @@
             	
             	//复审退回
               if(status == '10'){
-                  $("#check_opinion").html("退回修改 。");
+                  $("#check_opinion").html("退回修改。");
               }
             	
               if(status == '5'){
-                  $("#check_opinion").html("复审不合格 。");
+                  $("#check_opinion").html("复审不合格。");
               }
             }
           });
@@ -154,6 +154,7 @@
                   <th class="info">审批字段</th>
                   <th class="info">审批内容</th>
                   <th class="info">不合格理由</th>
+                  <th class="info w100">状态</th>
                 </tr>
               </thead>
               <c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
@@ -176,6 +177,15 @@
                     <c:if test="${fn:length (reasons.auditReason) > 20}">${fn:substring(reasons.auditReason,0,20)}...</c:if>
                     <c:if test="${fn:length (reasons.auditReason) <= 20}">${reasons.auditReason}</c:if>
                   </td>
+                  <!-- 状态 -->
+                   <c:if test="${reasons.auditStatus eq '1'}"><td class="tc">退回修改</td></c:if>
+                   <c:if test="${reasons.suggestType eq 'six' && reasons.auditStatus eq '2'}"><td class="tc">审核不通过</td></c:if>
+                   <c:if test="${reasons.suggestType != 'six' && reasons.auditStatus eq '2'}"><td class="tc">已修改</td></c:if>
+                   <c:if test="${reasons.auditStatus eq '3'}"><td class="tc">未修改</td></c:if>
+                   <c:if test="${reasons.auditStatus eq '4'}"><td class="tc">撤销退回</td></c:if>
+                   <c:if test="${reasons.auditStatus eq '5'}"><td class="tc">撤销不通过</td></c:if>
+                   <c:if test="${reasons.auditStatus eq '6'}"><td class="tc">审核不通过</td></c:if>
+                   <c:if test="${reasons.auditStatus eq null}"><td class="tc"></td></c:if>
                 </tr>
               </c:forEach>
             </table>

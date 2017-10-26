@@ -530,7 +530,8 @@
     </select>
 
     <!--查询供应商类型下所有选择的产品类别数量-->
-    <select id="selectCountBySupTypeList" resultMap="BaseResultMap" parameterType="Map">
+
+	<select id="selectCountBySupTypeList" resultMap="BaseResultMap" parameterType="Map">
        <!-- SELECT
         <include refid="Base_Column_List" />
         FROM T_SES_SMS_SUPPLIER_ITEM T

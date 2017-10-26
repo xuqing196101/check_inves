@@ -380,9 +380,9 @@ public class PurchaseRequiredController extends BaseController {
 		if (!list.get(0).getSeq().matches("[\u4E00-\u9FA5]")) {
 			return "3";
 		}
-		if (list.get(0).getSeq().matches("[\u4E00-\u9FA5]") && list.get(0).getPurchaseCount() != null) {
+		/*if (list.get(0).getSeq().matches("[\u4E00-\u9FA5]") && list.get(0).getPurchaseCount() != null) {
 			return "4";
-		}
+		}*/
 		// if(!list.get(0).getSeq().matches("[\u4E00-\u9FA5]")){
 		// return "3";
 		// }

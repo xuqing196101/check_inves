@@ -389,9 +389,11 @@
 								$("#" + id + "_hidden").removeClass().addClass('hidden');
 								$("#" + id + "_hidden1").removeClass().addClass('hidden');
 								$("#" + id + "_hidden2").removeClass().addClass('hidden');
-								$("#" + id + "_show").removeClass('hidden');
-								$("#" + id + "_show1").removeClass('hidden');
-								$("#" + id + "_show2").removeClass('hidden');
+								$("#" + id + "_hidden3").removeClass().addClass('hidden');
+								$("#" + id + "_show").show().removeClass('hidden');
+								$("#" + id + "_show1").show().removeClass('hidden');
+								$("#" + id + "_show2").show().removeClass('hidden');
+								$("#" + id + "_show3").show().removeClass('hidden');
 								layer.close(index);
 							}else{
 								layer.msg('不能为空！', {offset:'100px'});
@@ -1210,9 +1212,56 @@
 													<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 											</li>
 										</c:forEach>
-									</ul>	
+									</ul>
 									
-									<h2 class="count_flow"><i>3</i>取得注册资质的人员信息</h2>
+									<h2 class="count_flow"><i>3</i>资质证书信息</h2>
+									<div class="ul_list">
+										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
+											<thead>
+												<tr>
+													<th class="info w50">序号</th>
+													<th class="info" width="15%">资质证书名称</th>
+													<th class="info" width="12%">证书编号</th>
+													<th class="info">资质等级</th>
+													<th class="info" width="12%">发证机关或机构</th>
+													<th class="info">有效期（起始时间）</th>
+													<th class="info">有效期（结束时间）</th>
+													<th class="info">证书状态</th>
+													<th class="info">证书图片</th>
+													<th class="info w50">操作</th>
+												</tr>
+											</thead>
+											<c:forEach items="${supplierEngQuas}" var="s" varStatus="vs">
+												<tr>
+													<td class="tc">${vs.index + 1}</td>
+													<td class="tl" id="name_${s.id}" <c:if test="${fn:contains(fieldEngQuas,s.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('name','${s.id }','mat_eng_page');"</c:if>>${s.name }</td>
+													<td class="tl" id="code_${s.id}" <c:if test="${fn:contains(fieldEngQuas,s.id.concat('_code'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('code','${s.id }','mat_eng_page');"</c:if>>${s.code}</td>
+													<td class="tc" id="levelCert_${s.id}" <c:if test="${fn:contains(fieldEngQuas,s.id.concat('_levelCert'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('levelCert','${s.id }','mat_eng_page');"</c:if>>${s.levelCert}</td>
+													<td class="tl" id="licenceAuthorith_${s.id}" <c:if test="${fn:contains(fieldEngQuas,s.id.concat('_licenceAuthorith'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('licenceAuthorith','${s.id }','mat_eng_page');"</c:if>>${s.licenceAuthorith }</td>
+													<td class="tc" id="expStartDate_${s.id}" <c:if test="${fn:contains(fieldEngQuas,s.id.concat('_expStartDate'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('expStartDate','${s.id }','mat_eng_page');"</c:if>>
+														<fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd' />
+													</td>
+													<td class="tc" id="expEndDate_${s.id}" <c:if test="${fn:contains(fieldEngQuas,s.id.concat('_expEndDate'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('expEndDate','${s.id }','mat_eng_page');"</c:if>>
+														<fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd' />
+													</td>
+													<td class="tc" id="mot_${s.id}" <c:if test="${fn:contains(fieldEngQuas,s.id.concat('_mot'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('mot','${s.id }','mat_eng_page');"</c:if>>${s.mot}</td>
+													<td class="tc" <c:if test="${fn:contains(fileModifyField,s.id.concat(supplierDictionaryData.supplierEngQua))}">style="border: 1px solid #FF8C00;"</c:if>>
+														<u:show showId="eng_qua_show${vs.index+1}" businessId="${s.id}" delete="false" typeId="${supplierDictionaryData.supplierEngQua}" sysKey="${sysKey}" />
+													</td>
+													<td class="tc w50">
+														<p onclick="reasonEngineering('${s.id}','工程-资质证书','${s.name}');" id="${s.id}_hidden3" class="editItem toinline"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+														<a id="${s.id}_show3" class="hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+														
+														<c:if test="${fn:contains(passedEngField,s.id)}">
+															<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+														</c:if>
+													</td>
+												</tr>
+											</c:forEach>
+										</table>
+									</div>
+									
+									<h2 class="count_flow"><i>4</i>取得注册资质的人员信息</h2>
 									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>
@@ -1241,7 +1290,7 @@
 										</table>
 									</div>
 									
-									<h2 class="count_flow"><i>4</i>供应商资质（认证）证书信息</h2>
+									<h2 class="count_flow"><i>5</i>供应商资质（认证）证书信息</h2>
 									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>
@@ -1263,7 +1312,7 @@
 													<th class="info w50">操作</th>
 												</tr>
 											</thead>
-											<c:forEach items="${supplierCertEng}" var="s" varStatus="vs">
+											<c:forEach items="${supplierCertEngs}" var="s" varStatus="vs">
 												<tr>
 													<td class="tl" id="certType_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_certType'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certType','${s.id }','mat_eng_page');"</c:if>>${s.certType }</td>
 													<td class="tl" id="certCode_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_certCode'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certCode','${s.id }','mat_eng_page');"</c:if>>${s.certCode }</td>
@@ -1299,7 +1348,7 @@
 										</table>
 									</div>
 
-									<h2 class="count_flow"><i>5</i>供应商资质证书详细信息</h2>
+									<h2 class="count_flow"><i>6</i>供应商资质证书详细信息</h2>
 									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover m_table_fixed_border">
 											<thead>

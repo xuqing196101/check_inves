@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ses.model.bms.Area;
+
 public class SupplierMatEng implements Serializable {
 	private static final long serialVersionUID = -6683954164102872656L;
 
@@ -103,15 +105,17 @@ public class SupplierMatEng implements Serializable {
 	 * </pre>
 	 */
 	private String businessScope;
+	
+	private List<Area> businessScopeAreas = new ArrayList<Area>();
 
 	private List<SupplierCertEng> listSupplierCertEngs = new ArrayList<SupplierCertEng>();
 
 	private List<SupplierAptitute> listSupplierAptitutes = new ArrayList<SupplierAptitute>();
 
 	private List<SupplierRegPerson> listSupplierRegPersons = new ArrayList<SupplierRegPerson>();
-
-	private List<List<SupplierRegPerson>> persons = new ArrayList<List<SupplierRegPerson>>();
 	
+	private List<SupplierEngQua> listSupplierEngQuas = new ArrayList<SupplierEngQua>();
+
 	public String getId() {
 		return id;
 	}
@@ -184,6 +188,38 @@ public class SupplierMatEng implements Serializable {
 		this.updatedAt = updatedAt;
 	}
 
+    public String getConfidentialAchievement() {
+        return confidentialAchievement;
+    }
+
+    public void setConfidentialAchievement(String confidentialAchievement) {
+        this.confidentialAchievement = confidentialAchievement;
+    }
+
+    public String getIsHavingConAchi() {
+        return isHavingConAchi;
+    }
+
+    public void setIsHavingConAchi(String isHavingConAchi) {
+        this.isHavingConAchi = isHavingConAchi;
+    }
+
+    public String getBusinessScope() {
+        return businessScope;
+    }
+
+    public void setBusinessScope(String businessScope) {
+        this.businessScope = businessScope;
+    }
+
+	public List<Area> getBusinessScopeAreas() {
+		return businessScopeAreas;
+	}
+
+	public void setBusinessScopeAreas(List<Area> businessScopeAreas) {
+		this.businessScopeAreas = businessScopeAreas;
+	}
+	
 	public List<SupplierCertEng> getListSupplierCertEngs() {
 		return listSupplierCertEngs;
 	}
@@ -208,35 +244,12 @@ public class SupplierMatEng implements Serializable {
 		this.listSupplierRegPersons = listSupplierRegPersons;
 	}
 
-    public List<List<SupplierRegPerson>> getPersons() {
-        return persons;
-    }
+	public List<SupplierEngQua> getListSupplierEngQuas() {
+		return listSupplierEngQuas;
+	}
 
-    public void setPersons(List<List<SupplierRegPerson>> persons) {
-        this.persons = persons;
-    }
-
-    public String getConfidentialAchievement() {
-        return confidentialAchievement;
-    }
-
-    public void setConfidentialAchievement(String confidentialAchievement) {
-        this.confidentialAchievement = confidentialAchievement;
-    }
-
-    public String getIsHavingConAchi() {
-        return isHavingConAchi;
-    }
-
-    public void setIsHavingConAchi(String isHavingConAchi) {
-        this.isHavingConAchi = isHavingConAchi;
-    }
-
-    public String getBusinessScope() {
-        return businessScope;
-    }
-
-    public void setBusinessScope(String businessScope) {
-        this.businessScope = businessScope;
-    }
+	public void setListSupplierEngQuas(List<SupplierEngQua> listSupplierEngQuas) {
+		this.listSupplierEngQuas = listSupplierEngQuas;
+	}
+	
 }

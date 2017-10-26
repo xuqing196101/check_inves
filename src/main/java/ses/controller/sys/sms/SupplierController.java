@@ -995,6 +995,14 @@ public class SupplierController extends BaseSupplierController {
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("rootArea", areaService.findRootArea());
+		String businessScope = supplier.getSupplierMatEng().getBusinessScope();
+		if (businessScope != null) {
+		    String[] scope = businessScope.split(",");
+		    for (String areaId : scope) {
+		        Area area = areaService.listById(areaId);
+		        supplier.getSupplierMatEng().getBusinessScopeAreas().add(area);
+            }
+		}
 		//资质类型
 		List<Qualification> quaList = qualificationService.findList(null, Integer.MAX_VALUE, null, 4);
 		// 去掉下面的代码（只要后台维护的资质，不要供应商自己添加的资质）
@@ -1405,8 +1413,7 @@ public class SupplierController extends BaseSupplierController {
 				            }
 				        }
 				        if(s.equals("PROJECT")) {
-				        	List<Area> areaList = areaService.findRootArea();
-				            project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
+				            project = validateEng(request, supplier.getSupplierMatEng(), model);
 				            if(project == true) {
 				                supplierMatEngService.saveOrUpdateSupplierMatEng(supplier);
 				            }
@@ -1896,11 +1903,11 @@ public class SupplierController extends BaseSupplierController {
 			String pwd=supplier.getPassword();
 			supplier.setPassword(pwd.replaceAll("\\s",""));
 		}
-		if(supplier.getPassword().length() < 6 || supplier.getPassword().length() > 20) {
+		if(StringUtils.isNotBlank(supplier.getLoginName()) && (supplier.getPassword().length() < 6 || supplier.getPassword().length() > 20)) {
 			model.addAttribute("err_msg_password", "密码不能出现空格，密码长度为6-20位！");
 			count++;
 		}
-		if(supplier.getConfirmPassword() == null || !supplier.getPassword().equals(supplier.getConfirmPassword())) {
+		if(supplier.getConfirmPassword() == null || !supplier.getConfirmPassword().equals(supplier.getPassword())) {
 			model.addAttribute("err_msg_ConfirmPassword", "密码和确认密码不一致！");
 			count++;
 		}
@@ -2603,50 +2610,50 @@ public class SupplierController extends BaseSupplierController {
 	}
 
 	//销售信息校验
-	public boolean validateSale(HttpServletRequest request, SupplierMatSell supplierMatPro, Model model) {
+	public boolean validateSale(HttpServletRequest request, SupplierMatSell supplierMatSell, Model model) {
 		boolean bool = true;
-		/*if(supplierMatPro.getOrgName() == null || supplierMatPro.getOrgName().length() > 12) {
+		/*if(supplierMatSell.getOrgName() == null || supplierMatSell.getOrgName().length() > 12) {
 			model.addAttribute("sale_org", "不能为空或者字符串过长");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalPerson() == null) {
+		if(supplierMatSell.getTotalPerson() == null) {
 			model.addAttribute("sale_person", "不能为空");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalPerson() != null && !supplierMatPro.getTotalPerson().toString().matches("^[0-9]*$")) {
+		if(supplierMatSell.getTotalPerson() != null && !supplierMatSell.getTotalPerson().toString().matches("^[0-9]*$")) {
 			model.addAttribute("sale_person", "人员必须是整数");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalMange() == null) {
+		if(supplierMatSell.getTotalMange() == null) {
 			model.addAttribute("sale_mange", "不能为空");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalMange() != null && !supplierMatPro.getTotalMange().toString().matches("^[0-9]*$")) {
+		if(supplierMatSell.getTotalMange() != null && !supplierMatSell.getTotalMange().toString().matches("^[0-9]*$")) {
 			model.addAttribute("sale_mange", "人员必须是整数");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalTech() == null) {
+		if(supplierMatSell.getTotalTech() == null) {
 			model.addAttribute("sale_tech", "不能为空");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalTech() != null && !supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")) {
+		if(supplierMatSell.getTotalTech() != null && !supplierMatSell.getTotalTech().toString().matches("^[0-9]*$")) {
 			model.addAttribute("sale_tech", "格式不正确");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalWorker() == null) {
+		if(supplierMatSell.getTotalWorker() == null) {
 			model.addAttribute("sale_work", "不能为空");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalWorker() != null && !supplierMatPro.getTotalWorker().toString().matches("^[0-9]*$")) {
+		if(supplierMatSell.getTotalWorker() != null && !supplierMatSell.getTotalWorker().toString().matches("^[0-9]*$")) {
 			model.addAttribute("sale_work", "格式不正确");
 			bool = false;
 		}
-		List<SupplierCertSell> list = supplierMatPro.getListSupplierCertSells();
+		List<SupplierCertSell> list = supplierMatSell.getListSupplierCertSells();
 		if(list==null||list.size()<1){
 			model.addAttribute("sale_cert", "资质证书不能为空");
 			bool=false;
 		}*/
-		/*List<SupplierCertSell> list = supplierMatPro.getListSupplierCertSells();
+		/*List<SupplierCertSell> list = supplierMatSell.getListSupplierCertSells();
 		if(list != null && list.size() > 0){
 			Set<String> codeSet = new HashSet<>();
 			int codeCount = 0;
@@ -2664,39 +2671,39 @@ public class SupplierController extends BaseSupplierController {
 		return bool;
 	}
 	//工程信息校验
-	public boolean validateEng(HttpServletRequest request, SupplierMatEng supplierMatPro, Model model, List<Area> areaList) {
+	public boolean validateEng(HttpServletRequest request, SupplierMatEng supplierMatEng, Model model) {
 		boolean bool = true;
-		if(supplierMatPro.getIsHavingConAchi() != null && supplierMatPro.getIsHavingConAchi().equals("1")) {
-		    List < UploadFile > tlist = uploadService.getFilesOther(supplierMatPro.getSupplierId(), dictionaryDataServiceI.getSupplierDictionary().getSupplierConAch(), Constant.SUPPLIER_SYS_KEY.toString());
+		if(supplierMatEng.getIsHavingConAchi() != null && supplierMatEng.getIsHavingConAchi().equals("1")) {
+		    List < UploadFile > tlist = uploadService.getFilesOther(supplierMatEng.getSupplierId(), dictionaryDataServiceI.getSupplierDictionary().getSupplierConAch(), Constant.SUPPLIER_SYS_KEY.toString());
             if(tlist != null && tlist.size() <= 0) {
                 bool = false;
                 model.addAttribute("err_conAch", "请上传文件!");
             }
-        	if(supplierMatPro.getConfidentialAchievement()==null){
+        	if(supplierMatEng.getConfidentialAchievement()==null){
    			 model.addAttribute("secret", "请填写国家或军队保密工程业绩!");
    			 bool = false;
    		   }
         }
-		String businessScope = supplierMatPro.getBusinessScope();
+		if(supplierMatEng.getBusinessScope() == null){
+			 model.addAttribute("province", "至少选择一个省市!");
+			 bool = false;
+		}
+		String businessScope = supplierMatEng.getBusinessScope();
 		if (businessScope != null) {
 		    String[] scope = businessScope.split(",");
 		    for (String areaId : scope) {
-		        Area recond = areaService.listById(areaId);
-		        if (recond != null) {
-		            List < UploadFile > list = uploadService.getFilesOther(supplierMatPro.getSupplierId() + "_" + recond.getId(), dictionaryDataServiceI.getSupplierDictionary().getSupplierProContract(), Constant.SUPPLIER_SYS_KEY.toString());
+		        Area area = areaService.listById(areaId);
+		        if (area != null) {
+		            List < UploadFile > list = uploadService.getFilesOther(supplierMatEng.getSupplierId() + "_" + area.getId(), dictionaryDataServiceI.getSupplierDictionary().getSupplierProContract(), Constant.SUPPLIER_SYS_KEY.toString());
 		            if(list != null && list.size() <= 0) {
 		                bool = false;
-		                for (Area area : areaList) {
-		                    if (area.getId().equals(recond.getId())) {
-		                        area.setErrInfo("请上传文件！");
-		                    }
-		                }
-		                break;
+		                area.setErrInfo("请上传文件！");
 		            }
+		            supplierMatEng.getBusinessScopeAreas().add(area);
 		        }
             }
 		}
-		List<SupplierCertEng> listSupplierCertEngs = supplierMatPro.getListSupplierCertEngs();
+		List<SupplierCertEng> listSupplierCertEngs = supplierMatEng.getListSupplierCertEngs();
 		if (listSupplierCertEngs != null && listSupplierCertEngs.size() > 0) {
 		    for (SupplierCertEng supplierCertEng : listSupplierCertEngs) {
                 if (supplierCertEng.getId() != null && supplierCertEng.getCertCode() != null) {
@@ -2711,7 +2718,7 @@ public class SupplierController extends BaseSupplierController {
 		}
 		
 		// 校验详细信息表里的编号和名称是否和证书信息表的匹配
-		List<SupplierAptitute> listSupplierAptitutes = supplierMatPro.getListSupplierAptitutes();
+		List<SupplierAptitute> listSupplierAptitutes = supplierMatEng.getListSupplierAptitutes();
 		if (listSupplierAptitutes != null && listSupplierAptitutes.size() > 0) {
 		    outer: for (SupplierAptitute supplierAptitute : listSupplierAptitutes) {
 				if(supplierAptitute != null && supplierAptitute.getId() != null){
@@ -2739,10 +2746,6 @@ public class SupplierController extends BaseSupplierController {
 				}
 		    }
 		}
-		if(supplierMatPro.getBusinessScope()==null){
-			 model.addAttribute("province", "至少选择一个省市!");
-			 bool = false;
-		}
 		
 		Integer count=0;
     	for(SupplierAptitute sa:listSupplierAptitutes){
@@ -2758,23 +2761,23 @@ public class SupplierController extends BaseSupplierController {
     		model.addAttribute("eng_aptitutes", "请上传文件！");
     	}
     	
-    	List<SupplierCertEng> engList = supplierMatPro.getListSupplierCertEngs();
+		List<SupplierCertEng> engList = supplierMatEng.getListSupplierCertEngs();
 		if(engList != null && engList.size() > 0){
 			Set<String> codeSet = new HashSet<>();
 			int codeCount = 0;
 			for (SupplierCertEng eng : engList) {
-	            if(StringUtils.isNotBlank(eng.getCertCode())){
-	            	codeSet.add(eng.getCertCode());
-	            	codeCount++;
-	            }
-            }
+				if(StringUtils.isNotBlank(eng.getCertCode())){
+					codeSet.add(eng.getCertCode());
+					codeCount++;
+				}
+		    }
 		    if(codeSet.size() != codeCount){
-		    	model.addAttribute("eng_cert", "证书编号重复！");
-                bool = false;
+				model.addAttribute("eng_cert", "证书编号重复！");
+				bool = false;
 		    }
 		}
 		
-		List<SupplierAptitute> aptitudeList = supplierMatPro.getListSupplierAptitutes();
+		List<SupplierAptitute> aptitudeList = supplierMatEng.getListSupplierAptitutes();
 		if(aptitudeList != null && aptitudeList.size() > 0){
 			/*Set<String> codeSet = new HashSet<>();
 			int codeCount = 0;
@@ -2822,50 +2825,50 @@ public class SupplierController extends BaseSupplierController {
 	}
 	
 	//服务信息校验
-	public boolean validateServer(HttpServletRequest request, SupplierMatServe supplierMatPro, Model model) {
+	public boolean validateServer(HttpServletRequest request, SupplierMatServe supplierMatServe, Model model) {
 		boolean bool = true;
-		/*if(supplierMatPro.getOrgName() == null || supplierMatPro.getOrgName().length() > 12) {
+		/*if(supplierMatServe.getOrgName() == null || supplierMatServe.getOrgName().length() > 12) {
 			model.addAttribute("fw_org", "不能为空");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalPerson() == null) {
+		if(supplierMatServe.getTotalPerson() == null) {
 			model.addAttribute("fw_person", "不能为空");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalPerson() != null && !supplierMatPro.getTotalPerson().toString().matches("^[0-9]*$")) {
+		if(supplierMatServe.getTotalPerson() != null && !supplierMatServe.getTotalPerson().toString().matches("^[0-9]*$")) {
 			model.addAttribute("fw_person", "人员必须是整数");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalMange() == null) {
+		if(supplierMatServe.getTotalMange() == null) {
 			model.addAttribute("fw_mange", "不能为空");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalMange() != null && !supplierMatPro.getTotalMange().toString().matches("^[0-9]*$")) {
+		if(supplierMatServe.getTotalMange() != null && !supplierMatServe.getTotalMange().toString().matches("^[0-9]*$")) {
 			model.addAttribute("fw_mange", "人员必须是整数");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalTech() == null) {
+		if(supplierMatServe.getTotalTech() == null) {
 			model.addAttribute("fw_tech", "不能为空");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalTech() != null && !supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")) {
+		if(supplierMatServe.getTotalTech() != null && !supplierMatServe.getTotalTech().toString().matches("^[0-9]*$")) {
 			model.addAttribute("fw_tech", "格式不正确");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalWorker() == null) {
+		if(supplierMatServe.getTotalWorker() == null) {
 			model.addAttribute("fw_work", "不能为空");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalWorker() != null && !supplierMatPro.getTotalWorker().toString().matches("^[0-9]*$")) {
+		if(supplierMatServe.getTotalWorker() != null && !supplierMatServe.getTotalWorker().toString().matches("^[0-9]*$")) {
 			model.addAttribute("fw_work", "格式不正确");
 			bool = false;
 		}*/
-		//		List<SupplierCertServe> list = supplierMatPro.getListSupplierCertSes();
+		//		List<SupplierCertServe> list = supplierMatServe.getListSupplierCertSes();
 		//		if(list==null||list.size()<1){
 		//			model.addAttribute("fw_cert", "请添加服务证书信息");
 		//			bool=false;
 		//		}
-		/*List<SupplierCertServe> list = supplierMatPro.getListSupplierCertSes();
+		/*List<SupplierCertServe> list = supplierMatServe.getListSupplierCertSes();
 		if(list != null && list.size() > 0){
 			Set<String> codeSet = new HashSet<>();
 			int codeCount = 0;
@@ -3439,6 +3442,25 @@ public class SupplierController extends BaseSupplierController {
 		return new ModelAndView("ses/sms/supplier_register/add_sale_cert");
 	}
 
+	/**
+	 *〈简述〉添加供应商工程资质证书信息
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param number
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/addEngQua")
+	public ModelAndView addEngQua(String number, Model model) {
+		model.addAttribute("engQuaNumber", number);
+		model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
+		//初始化供应商注册附件类型
+		model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		return new ModelAndView("ses/sms/supplier_register/add_eng_qua");
+	}
+	
 	/**
 	 *〈简述〉添加供应商工程证书信息
 	 *〈详细描述〉

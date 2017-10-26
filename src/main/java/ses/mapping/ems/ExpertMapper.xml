@@ -85,6 +85,7 @@
 		  <result column="AUDIT_AT" jdbcType="TIMESTAMP" property="auditAt" />
 	  </resultMap>
     
+    
     <!-- 专家公示列表查询 -->
     <resultMap id="expertOfPublicityMapList" type="ses.model.ems.ExpertPublicity" extends="BaseResultMap">
     </resultMap>
@@ -1319,7 +1320,7 @@ resultMap="BaseResultMap">
         <choose>
         	<when test="sign == 1">
         		(IS_SUBMIT = '1'
-	        	AND (t1.STATUS = '0' OR t1.STATUS = '1' OR t1.STATUS = '2' OR t1.STATUS = '9' OR t1.STATUS = '10' OR t1.STATUS = '15' OR t1.STATUS = '16'))
+	        	AND (t1.STATUS = '0' OR t1.STATUS = '1' OR t1.STATUS = '2' OR t1.STATUS = '9' OR t1.STATUS = '10' OR t1.STATUS = '15' OR t1.STATUS = '16' OR t1.STATUS = '5'))
 	        	OR (t1.IS_SUBMIT = '0' AND t1.status = '3')
         	</when>
         	<when test="sign == 2">
@@ -1747,7 +1748,7 @@ resultMap="BaseResultMap">
       <!--   TO_CHAR(SUBMIT_AT,'yyyy-mm-dd') =
         #{_parameter} -->
         AND IS_SUBMIT = '1'
-        AND STATUS = '0'
+        AND STATUS in ('0','9')
     </select>
 
     <!-- 根据修改时间获取修改了的专家信息 -->
@@ -2231,12 +2232,8 @@ resultMap="BaseResultMap">
       T_SES_BMS_USER t2
     ON
       T1.ID = T2.TYPE_ID
-    LEFT JOIN
-      T_SES_BMS_AREA A
-		  ON t1.address = A.ID
-		LEFT JOIN
-      T_SES_BMS_AREA AREA
-		  ON A.PARENT_ID = AREA.ID
+    LEFT JOIN T_SES_BMS_AREA A ON t1.address = A.ID
+		LEFT JOIN T_SES_BMS_AREA AREA ON A.PARENT_ID = AREA.ID
     LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T1.PURCHASE_DEP_ID = dep.ID
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
     where (T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 13 or T1.STATUS = 17 or T1.STATUS = 19)
@@ -2285,6 +2282,9 @@ resultMap="BaseResultMap">
     </if>
     <if test="address != null and address !=''">
         AND A.PARENT_ID = #{address}
+    </if>
+    <if test="addressName != null and addressName !=''">
+      and AREA.NAME like CONCAT(CONCAT('%', #{addressName}), '%')
     </if>
     ORDER BY T1.CREATED_AT DESC
   </select>
@@ -2801,5 +2801,27 @@ resultMap="BaseResultMap">
           AND PROFESS_TECH_TITLES = #{technical}
         </if>
         ORDER BY dbms_random.random
+  </select>
+  
+    <!-- 军队专家导出 -->
+    <resultMap id="militaryExpertMap" type="ses.model.ems.Expert">
+	  <id column="ID" jdbcType="VARCHAR" property="id" />
+	  <result column="REAL_NAME" jdbcType="VARCHAR" property="relName" />
+	  <result column="EXPERTS_TYPE_ID" jdbcType="VARCHAR" property="expertsTypeId" />
+	  <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+	  <result column="EXPERTS_FROM" jdbcType="VARCHAR" property="expertsFrom" />
+	  <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+	  <result column="PROFESS_TECH_TITLES" jdbcType="VARCHAR" property="professTechTitles" />
+	  <result column="STATUS" property="status" />
+	</resultMap>
+	<!-- 导出军队专家查询 -->
+  <select id="findMilitaryExpert" resultMap="militaryExpertMap">
+    SELECT ID,REAL_NAME,EXPERTS_TYPE_ID,ADDRESS,EXPERTS_FROM,MOBILE,PROFESS_TECH_TITLES,STATUS
+    FROM T_SES_EMS_EXPERT WHERE IS_DELETE = 0 AND STATUS in (6,7) AND IS_PROVISIONAL &lt;&gt; 1
+    <if test="expertsFrom != null and expertsFrom !=''">
+        AND EXPERTS_FROM = #{expertsFrom}
+    </if>
+    AND to_char(AUDIT_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    AND to_char(AUDIT_AT,'yyyy-MM-dd hh24:mi:ss') &lt;= #{end,jdbcType=VARCHAR} 
   </select>
 </mapper>

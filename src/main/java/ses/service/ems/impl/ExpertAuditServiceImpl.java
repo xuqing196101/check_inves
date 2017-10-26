@@ -139,9 +139,22 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
       * @return int
      */
 	@Override
-	public void add(ExpertAudit record) {
-
-		mapper.insertSelective(record);
+	public void add(ExpertAudit expertAudit) {
+		String suggestType = expertAudit.getSuggestType();
+		if("one".equals(suggestType) || "seven".equals(suggestType) || "five".equals(suggestType)){
+			expertAudit.setAuditStatus("1");
+			
+			DictionaryData findById = DictionaryDataUtil.findById(expertAudit.getAuditFieldId());
+			if(findById !=null){
+				expertAudit.setAuditStatus("6");
+			}
+			
+		}else if("six".equals(suggestType)){
+			expertAudit.setAuditStatus("6");
+		}
+		
+		
+		mapper.insertSelective(expertAudit);
 	}
 	 /**
      * 
@@ -423,9 +436,10 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
      * @return void
      */
 	@Override
-	public boolean temporaryAudit(String expertId) {
+	public boolean temporaryAudit(String expertId,String realName) {
 		Expert expert = new Expert();
 		expert.setId(expertId);
+		expert.setAuditor(realName);
 		Expert expertInfo = expertMapper.selectByPrimaryKey(expertId);
 		String status = expertInfo.getStatus();
 		if("0".equals(status) || "15".equals(status) || "16".equals(status) || "9".equals(status)){
@@ -743,6 +757,40 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	@Override
 	public List<ExpertAudit> diySelect(Map<String, Object> map) {
 		return mapper.diySelect(map);
+	}
+	@Override
+	public boolean updateAuditStatus(String[] ids, String status) {
+		ExpertCategory expertCategory = new ExpertCategory();
+		for(int i=0; i<ids.length; i++){
+			if("2".equals(status)||"4".equals(status)||"5".equals(status)){
+				//更新品目的状态(0通过);
+				ExpertAudit expertAudit = mapper.selectByPrimaryKey(ids[i]);
+				if(expertAudit.getAuditFieldId() !=null && expertAudit.getAuditFieldId() !=""){
+					expertCategory.setExpertId(expertAudit.getExpertId());
+					expertCategory.setCategoryId(expertAudit.getAuditFieldId());
+					expertCategory.setAuditStatus(0);
+					expertCategoryMapper.updateAuditStatus(expertCategory);
+				}
+			}
+			//修改审核记录状态
+			mapper.updateAuditStatus(ids[i],status);
+		}
+		return true;
+	}
+	@Override
+	public void updateDoAuditStatus(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		mapper.updateDoAuditStatus(map);
+	}
+	@Override
+	public void updateToAuditStatus(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		mapper.updateToAuditStatus(map);
+	}
+	@Override
+	public void updateExpertTypeAuditStatus(ExpertAudit e) {
+		// TODO Auto-generated method stub
+		mapper.updateExpertTypeAuditStatus(e);
 	}
 
 

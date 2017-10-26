@@ -34,6 +34,9 @@
 
 .w30 {
   width: 30px; }
+  
+.w40 {
+  width: 40px; }
 
 .w50 {
   width: 50px; }
@@ -465,6 +468,9 @@
 
 .pl200{
   padding-left:200px!important;}
+.pr0 {
+  padding-right: 0 !important;
+}
 .pr10 {
   padding-right: 10px; }
 .pr100{

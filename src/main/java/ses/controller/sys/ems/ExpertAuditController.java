@@ -3,6 +3,7 @@ package ses.controller.sys.ems;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.dao.ems.ExpertBatchDetailsMapper;
 import ses.dao.ems.ExpertField;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -40,6 +43,7 @@ import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditNot;
 import ses.model.ems.ExpertAuditOpinion;
+import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertHistory;
@@ -77,6 +81,7 @@ import bss.formbean.PurchaseRequiredFormBean;
 import com.alibaba.fastjson.JSON;
 import com.ctc.wstx.util.DataUtil;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -92,6 +97,8 @@ import common.utils.JdcgResult;
 @Controller
 @RequestMapping("/expertAudit")
 public class ExpertAuditController{
+	private static final Object Date = null;
+
 	@Autowired
 	private ExpertAgainAuditService expertAgainAuditService;
 	
@@ -151,6 +158,8 @@ public class ExpertAuditController{
 	@Autowired
 	private PurChaseDepOrgService purChaseDepOrgService;
 	
+	@Autowired
+	private ExpertBatchDetailsMapper expertBatchDetailsMapper;
 	/**
 	 * @Title: expertAuditList
 	 * @author XuQing 
@@ -344,24 +353,35 @@ public class ExpertAuditController{
 	 * @param @param expertId
 	 * @param @return      
 	 * @return String
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
 	 */
 	@RequestMapping("/basicInfo")
-	public String basicInfo(Expert expert, Model model, Integer pageNum, String expertId, Integer sign, String batchId) {
+	public String basicInfo(@CurrentUser User user,Expert expert, Model model, Integer pageNum, String expertId, Integer sign, String batchId) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		model.addAttribute("batchId", batchId);
 		//暂存中
-		temporaryAudit(expertId);
+		temporaryAudit(expertId,user.getRelName());
 		
 		/**
 		 * 退回修改后对比历史记录
 		 */
 		ExpertEngHistory expertEngHistory = new ExpertEngHistory ();
-		expertEngHistory.setExpertId(expertId);
-		//先删除
-		expertEngModifySerivce.deleteByExpertId(expertEngHistory);
-		//插入对比后的
-		expertEngModifySerivce.insertSelective(expertEngHistory);
-		
 		expert = expertService.selectByPrimaryKey(expertId);
+		if( expert.getStatus().equals("0") || "9".equals(expert.getStatus())){
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("expertId", expertId);
+			expertAuditService.updateToAuditStatus(map);
+			expertEngHistory.setExpertId(expertId);
+			//先删除
+			expertEngModifySerivce.deleteByExpertId(expertEngHistory);
+			//插入对比后的
+			expertEngModifySerivce.insertSelective(expertEngHistory,sign);
+		}
+		
+		
 		model.addAttribute("expert", expert);
 		
 		//初审复审标识（1初审，2复审，3复查）
@@ -460,8 +480,44 @@ public class ExpertAuditController{
 				}
 				Set < String > keySet = compareMap.keySet();
 				List < String > editFields = new ArrayList < String > ();
+				Map<String,Object> map = new HashMap<String,Object>();
+				map.put("expertId", expertId);
+				map.put("auditFalg", sign);
 				for(String method: keySet) {
 					editFields.add(method);
+					 map.remove("auditField");
+					 map.remove("auditContent");
+		            // 调用getter方法获取属性值  
+					Object param =  oldExpert.getClass().getMethod(method).invoke(oldExpert);
+					if("getAddress".equals(method)){
+						/*Area area = areaService.listById((String) param);
+						String sonName = area.getName();
+						String parentName="";
+						for(int i = 0; i < privnce.size(); i++) {
+							if(area.getParentId().equals(privnce.get(i).getId())) {
+								parentName = privnce.get(i).getName();
+							}
+						}*/
+						map.put("auditField", "地区");
+					}else if (param instanceof Integer) {
+						   map.put("auditContent", ((Integer) param).intValue());
+					 	} else if (param instanceof String) {
+						   map.put("auditContent", (String) param);
+						} else if (param instanceof Double) {
+						   map.put("auditContent",((Double) param).doubleValue());
+						} else if (param instanceof Float) {
+						   map.put("auditContent",((Float) param).floatValue());
+						} else if (param instanceof Long) {
+						   map.put("auditContent", ((Long) param).longValue());
+						} else if (param instanceof Boolean) {
+						   map.put("auditContent", ((Boolean) param).booleanValue());
+						} else if (param instanceof Date) {
+							Date time=(Date) param;
+							SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+						    map.put("auditContent",sdf.format(time));
+						}  
+					
+					expertAuditService.updateDoAuditStatus(map);
 				}
 				model.addAttribute("editFields", editFields);
 			}
@@ -476,6 +532,8 @@ public class ExpertAuditController{
 			expertAudit.setExpertId(expertId);
 			expertAudit.setSuggestType("one");
 			expertAudit.setAuditFalg(sign);
+			expertAudit.setStatusQuery("notPass");
+			expertAudit.setIsDeleted(1);
 			//复审退回修改，初审时显示的是复审的审核信息
 			if("10".equals(expert.getStatus())){
 				expertAudit.setAuditFalg(2);
@@ -499,9 +557,67 @@ public class ExpertAuditController{
 			List<ExpertAuditFileModify> selectFileModifyByExpertId = expertAuditService.selectFileModifyByExpertId(expertAuditFileModify);
 			StringBuffer fileModify = new StringBuffer();
 			if(!selectFileModifyByExpertId.isEmpty()){
+				Map<String,Object> map = new HashMap<String,Object>();
+				map.put("expertId", expertId);
+				map.put("auditFalg", sign);
 				for(ExpertAuditFileModify m : selectFileModifyByExpertId){
 					fileModify.append(m.getTypeId() + ",");
-				}
+					
+					//缴纳社会保险证明
+					if("1".equals(m.getTypeId())){
+						model.addAttribute("nsurance", "nsurance");
+						map.put("auditField", "缴纳社会保险证明");
+					}
+					//退休证书或退休证明
+					if("2".equals(m.getTypeId())){
+						model.addAttribute("retire", "retire");
+						map.put("auditField", "退休证书或退休证明");
+					}
+					//身份证复印件（正反面）
+					if("3".equals(m.getTypeId())){
+						model.addAttribute("idCard", "idCard");
+						map.put("auditField", "身份证复印件（正反面）");
+					}
+					//专业技术职称证书
+					if("4".equals(m.getTypeId())){
+						model.addAttribute("title", "title");
+						map.put("auditField", "专业技术职称证书");
+					}
+					//毕业证书
+					if("5".equals(m.getTypeId())){
+						model.addAttribute("graduation", "graduation");
+						map.put("auditField", "毕业证书");
+					}
+					//学位证书
+					if("6".equals(m.getTypeId())){
+						map.put("auditField", "学位证书");
+					}
+					//获奖证书
+					if("7".equals(m.getTypeId())){
+						map.put("auditField", "获奖证书");
+					}
+					//推荐信
+					if("8".equals(m.getTypeId())){
+						map.put("auditField", "推荐信");
+					}
+					//军队人员身份证件
+					if("12".equals(m.getTypeId())){
+						map.put("auditField", "军队人员身份证件");
+					}
+					//军队评审专家入库申请表
+					if("13".equals(m.getTypeId())){
+						map.put("auditField", "军队评审专家入库申请表");
+					}
+					//军队评审专家承诺书
+					if("14".equals(m.getTypeId())){
+						map.put("auditField", "军队评审专家承诺书");
+					}
+					//近期免冠彩色证件照
+					if("50".equals(m.getTypeId())){
+						map.put("auditField", "近期免冠彩色证件照");
+					}
+					expertAuditService.updateDoAuditStatus(map);
+					}
 				model.addAttribute("fileModify", fileModify);
 			}
 		}
@@ -910,6 +1026,7 @@ public class ExpertAuditController{
 		expertAuditFor.setExpertId(expertId);
 		expertAuditFor.setSuggestType("six");
 		expertAuditFor.setAuditFalg(sign);
+		expertAuditFor.setStatusQuery("notPass");
 		//复审退回修改，初审时显示的是复审的审核信息
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		if("10".equals(expert.getStatus())){
@@ -1224,6 +1341,7 @@ public class ExpertAuditController{
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("five");
 			expertAuditFor.setAuditFalg(sign);
+			expertAuditFor.setStatusQuery("notPass");
 			//复审退回修改，初审时显示的是复审的审核信息
 			if("10".equals(expert.getStatus())){
 				expertAuditFor.setAuditFalg(2);
@@ -1518,6 +1636,7 @@ public class ExpertAuditController{
 			expertAuditFor.setSuggestType("seven");
 			expertAuditFor.setType("1");
 			expertAuditFor.setAuditFalg(sign);
+			expertAuditFor.setStatusQuery("notPass");
 			//复审退回修改，初审时显示的是复审的审核信息
 			if("10".equals(expert.getStatus())){
 				expertAuditFor.setAuditFalg(2);
@@ -1627,6 +1746,7 @@ public class ExpertAuditController{
 			expertAudit.setAuditFalg(2);
 		}*/
 		expertAudit.setExpertId(expertId);
+		expertAudit.setIsDeleted(1);
 		List < ExpertAudit > reasonsList = new ArrayList<>();
 		if(expertAudit.getAuditFalg()==1){
 			expertAudit.setAuditFalg(666);//666为兼容老数据
@@ -1698,7 +1818,6 @@ public class ExpertAuditController{
 			selectEao.setFlagTime(1);
 		}
 		auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
-		int categoryCount=0;
 		model.addAttribute("qualified", true);
 		JdcgResult result =null;
 		if(expertAudit.getAuditFalg()==2){
@@ -1716,6 +1835,7 @@ public class ExpertAuditController{
 			audit.setExpertId(expertId);
 			audit.setSuggestType("seven");
 			audit.setType("1");
+			audit.setStatusQuery("notPass");
 			List<ExpertAudit> list = expertAuditService.getListByExpert(expertAudit);
 			
 			for (String string : split) {
@@ -1971,6 +2091,25 @@ public class ExpertAuditController{
 	}
 
 	/**
+	 * @Title: updateAuditStatus
+	 * @date 2016-12-19 下午7:38:43  
+	 * @Description:批量修改审核状态
+	 * @param @param ids
+	 * @param @param response      
+	 * @return void
+	 */
+	@RequestMapping("/updateAuditStatus")
+	public void updateAuditStatus(String ids,String status, HttpServletResponse response) {
+		
+		boolean Whether = expertAuditService.updateAuditStatus(ids.split(","),status);
+		if(Whether) {
+			String msg = "{\"msg\":\"yes\"}";
+			writeJson(response, msg);
+		}
+
+	}
+
+	/**
 	 * @Title: download
 	 * @date 2016-12-27 下午2:34:20  
 	 * @Description:word下载
@@ -2030,6 +2169,17 @@ public class ExpertAuditController{
 		depMap.put("purchaseDepId", expert.getPurchaseDepId());
 		String depName = purChaseDepOrgService.selectOrgFullNameByPurchaseDepId(depMap);
 		dataMap.put("depName", depName);
+		String eStatus = expert.getStatus();
+		if("-2".equals(eStatus)){
+			dataMap.put("orgName", "cgjg");
+		}else{
+			dataMap.put("orgName", "zyfwzx");
+		}
+		//专家编号
+		ExpertBatchDetails expertBatchDetails = new ExpertBatchDetails();
+		expertBatchDetails.setExpertId(expert.getId());
+		ExpertBatchDetails findExpertBatchDetails = expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
+		dataMap.put("expertNum", findExpertBatchDetails == null ? "" : findExpertBatchDetails.getBatchDetailsNumber());
 		//审核时间
 		//日期格式化
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
@@ -2354,6 +2504,7 @@ public class ExpertAuditController{
 			expertAudit22.setAuditFieldId(cateTree.getRootNodeCode());
 			expertAudit22.setType("1");
 			expertAudit22.setAuditFalg(auditFalg);
+			expertAudit22.setAuditStatus("6");
 			List<ExpertAudit> expertauList = expertAuditService.selectFailByExpertId(expertAudit22);
 			if(expertauList != null && expertauList.size() > 0){
 				//查询专家类别是否审核通过
@@ -2423,6 +2574,7 @@ public class ExpertAuditController{
         		        		expertAudit.setSuggestType("six");
         		        		expertAudit.setAuditFieldId(cateTree.getItemsId());
         		        		expertAudit.setAuditFalg(auditFalg);
+        		        		expertAudit.setAuditStatus("6");
         		        		List < ExpertAudit > reasonsItemsList = expertAuditService.selectbyAuditType(expertAudit);
         		        		if(reasonsItemsList != null && reasonsItemsList.size() > 0){
         		        			for(ExpertAudit audit :reasonsItemsList){
@@ -2460,6 +2612,7 @@ public class ExpertAuditController{
         		        		expertAudit.setSuggestType("six");
         		        		expertAudit.setAuditFieldId(cateTree.getItemsId());
         		        		expertAudit.setAuditFalg(auditFalg);
+        		        		expertAudit.setAuditStatus("6");
         		        		List < ExpertAudit > reasonsItemsList = expertAuditService.selectbyAuditType(expertAudit);
         		        		if(reasonsItemsList != null && reasonsItemsList.size() > 0){
         		        			for(ExpertAudit audit :reasonsItemsList){
@@ -2481,6 +2634,7 @@ public class ExpertAuditController{
 		        		expertAudit.setSuggestType("six");
 		        		expertAudit.setAuditFieldId(cateTree.getItemsId());
 		        		expertAudit.setAuditFalg(auditFalg);
+		        		expertAudit.setAuditStatus("6");
 		        		List < ExpertAudit > reasonsItemsList = expertAuditService.selectbyAuditType(expertAudit);
 		        		if(reasonsItemsList != null && reasonsItemsList.size() > 0){
 		        			for(ExpertAudit audit :reasonsItemsList){
@@ -2501,6 +2655,7 @@ public class ExpertAuditController{
 	        		expertAudit.setSuggestType("six");
 	        		expertAudit.setAuditFieldId(cateTree.getItemsId());
 	        		expertAudit.setAuditFalg(auditFalg);
+	        		expertAudit.setAuditStatus("6");
 	        		List < ExpertAudit > reasonsItemsList = expertAuditService.selectbyAuditType(expertAudit);
 	        		if(reasonsItemsList != null && reasonsItemsList.size() > 0){
 	        			for(ExpertAudit audit :reasonsItemsList){
@@ -2529,6 +2684,7 @@ public class ExpertAuditController{
     	 */
     	if(tableType.equals("1") || tableType.equals("3")){
     		ExpertAudit auditFileInfo = new ExpertAudit();
+    		auditFileInfo.setStatusQuery("notPass");
     		auditFileInfo.setExpertId(expert.getId());
     		auditFileInfo.setAuditField("近期免冠彩色证件照");
         	List < ExpertAudit > recentPhotos = expertAuditService.selectFailByExpertId(auditFileInfo);
@@ -2619,9 +2775,10 @@ public class ExpertAuditController{
 		expertAudit2.setExpertId(expert.getId());
 		expertAudit2.setSuggestType("one");
 		expertAudit2.setAuditFalg(auditFalg);
+		expertAudit2.setAuditStatus(null);
+		expertAudit2.setStatusQuery("notPass");
     	List < ExpertAudit > basicFileList = expertAuditService.selectbyAuditType(expertAudit2);
 		StringBuffer buff = new StringBuffer();
-		
 		for(ExpertAudit a : basicFileList){
 			buff.append(a.getAuditField() + ",");
 		}
@@ -3093,8 +3250,8 @@ public class ExpertAuditController{
 	 */
 	@RequestMapping(value ="/temporaryAudit", produces="text/html;charset=UTF-8")
 	@ResponseBody
-	public String temporaryAudit(String expertId){
-		boolean temporaryAudit = expertAuditService.temporaryAudit(expertId);
+	public String temporaryAudit(String expertId,String realName){
+		boolean temporaryAudit = expertAuditService.temporaryAudit(expertId,realName);
 		if(temporaryAudit){
 			return JSON.toJSONString("暂存成功");
 		}else{
@@ -3509,6 +3666,7 @@ public class ExpertAuditController{
 		expertAudit.setExpertId(expertId);
 		expertAudit.setSuggestType("seven");
 		expertAudit.setType("1");
+		expertAudit.setStatusQuery("notPass");
 		if(auditFalg==1){
 			expertAudit.setAuditFalg(666);//666标识为空的 用于兼容老数据问题
 			expertTypeAuditList.addAll(expertAuditService.getListByExpert(expertAudit));
@@ -3861,4 +4019,5 @@ public class ExpertAuditController{
 		expertService.updateByPrimaryKeySelective(expert);
 		return "redirect:list.html";
     }
+    
 }

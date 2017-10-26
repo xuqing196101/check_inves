@@ -73,6 +73,7 @@ import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierEngQua;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatPro;
 import ses.service.bms.AreaServiceI;
@@ -594,6 +595,7 @@ public class ExpertController extends BaseController {
 	            ExpertAudit expertAudit = new ExpertAudit();
 	            expertAudit.setExpertId(expertId);
 	            expertAudit.setSuggestType(stepNumber);
+	            expertAudit.setStatusQuery("notPass");
 	            List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
 	            // 所有的不通过字段的名字
 	            StringBuffer errorField = new StringBuffer();
@@ -609,6 +611,7 @@ public class ExpertController extends BaseController {
     			expertAuditFor.setExpertId(expertId);
     			expertAuditFor.setSuggestType("seven");
     			expertAuditFor.setType("1");
+    			expertAuditFor.setStatusQuery("notPass");
     			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
     			
     			
@@ -1070,6 +1073,7 @@ public class ExpertController extends BaseController {
             // 查询所有的不通过的品目
             expertAudit.setExpertId(expertId);
             expertAudit.setSuggestType("six");
+            expertAudit.setStatusQuery("notPass");
             auditList = expertAuditService.selectFailByExpertId(expertAudit);
             /*for (ExpertAudit e : auditList) {
             	Map < String, Object > map = new HashMap < String, Object > ();
@@ -2009,13 +2013,25 @@ public class ExpertController extends BaseController {
             	    ExpertAudit expertAudit = new ExpertAudit();
                     expertAudit.setExpertId(expertId);
                     expertAudit.setSuggestType("six");
+                    expertAudit.setStatusQuery("notPass");
                     List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
                     for (ExpertAudit e : auditList) {
                     	Map < String, Object > map = new HashMap < String, Object > ();
                         map.put("expertId", expertId);
                         map.put("categoryId", e.getAuditFieldId());
                         expertCategoryService.deleteByMap(map);
+                        e.setAuditStatus("2");
+                        expertAuditService.updateExpertTypeAuditStatus(e);
                     }
+                    expertAudit.setSuggestType("seven");
+                    expertAudit.setType("1");
+                    auditList = expertAuditService.selectFailByExpertId(expertAudit);
+                    for (ExpertAudit seven : auditList) {
+						if(!"isTitle".equals(seven.getAuditFieldId())){
+							seven.setAuditStatus("2");
+							expertAuditService.updateExpertTypeAuditStatus(seven);
+						}
+					}
                 }
                 
                 List < UploadFile > promise = uploadService.getFilesOther(expertId,  ExpertPictureType.COMMITMENT_PROOF.getSign().toString(),"3");
@@ -3043,46 +3059,64 @@ public class ExpertController extends BaseController {
         	SupplierMatPro pro=new SupplierMatPro();
         	supplier.setSupplierMatPro(pro);
         }
-            //		    List < SupplierCertServe > listSupplierCertSes = new ArrayList < SupplierCertServe > ();
-            if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null&&supplier.getSupplierTypeIds().contains("SERVICE")) {
-                List < SupplierCertServe >    listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
-               if(listSupplierCertSes!=null && !listSupplierCertSes.isEmpty()){
-
-                for(SupplierCertServe server: listSupplierCertSes) {
-                	if(server.getCode() != null){
-                		SupplierCertPro pro = new SupplierCertPro();
-                        pro.setName(server.getName());
-                        pro.setCode(server.getCode());
-                        pro.setLevelCert(server.getLevelCert());
-                        pro.setLicenceAuthorith(server.getLicenceAuthorith());
-                        pro.setExpStartDate(server.getExpStartDate());
-                        pro.setExpEndDate(server.getExpEndDate());
-                        pro.setMot(server.getMot());
-                        listSupplierCertPros.add(pro);
-                	}
-                }
-               }
-            }
-            //		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
-            if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null&&supplier.getSupplierTypeIds().contains("SALES")) {
-                List < SupplierCertSell >    listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
-                if(listSupplierCertSells !=null && !listSupplierCertSells.isEmpty()){
-                for(SupplierCertSell sell: listSupplierCertSells) {
-                	if(sell.getCode() != null){
-                		SupplierCertPro pro = new SupplierCertPro();
-                        pro.setName(sell.getName());
-                        pro.setCode(sell.getCode());
-                        pro.setLevelCert(sell.getLevelCert());
-                        pro.setLicenceAuthorith(sell.getLicenceAuthorith());
-                        pro.setExpStartDate(sell.getExpStartDate());
-                        pro.setExpEndDate(sell.getExpEndDate());
-                        pro.setMot(sell.getMot());
-                        listSupplierCertPros.add(pro);
-                	}
-                }
-                }
-            }
-            supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
+        //		    List < SupplierCertServe > listSupplierCertSes = new ArrayList < SupplierCertServe > ();
+        if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null && supplier.getSupplierTypeIds().contains("SERVICE")) {
+            List < SupplierCertServe > listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
+		   if(listSupplierCertSes != null && !listSupplierCertSes.isEmpty()){
+			   for(SupplierCertServe server: listSupplierCertSes) {
+				   if(server.getCode() != null){
+					   SupplierCertPro pro = new SupplierCertPro();
+					   pro.setName(server.getName());
+					   pro.setCode(server.getCode());
+					   pro.setLevelCert(server.getLevelCert());
+					   pro.setLicenceAuthorith(server.getLicenceAuthorith());
+					   pro.setExpStartDate(server.getExpStartDate());
+					   pro.setExpEndDate(server.getExpEndDate());
+					   pro.setMot(server.getMot());
+					   listSupplierCertPros.add(pro);
+				   }
+			   }
+		   }
+        }
+        //		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
+		if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null && supplier.getSupplierTypeIds().contains("SALES")) {
+			List < SupplierCertSell > listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
+			if(listSupplierCertSells != null && !listSupplierCertSells.isEmpty()){
+			    for(SupplierCertSell sell: listSupplierCertSells) {
+					if(sell.getCode() != null){
+						SupplierCertPro pro = new SupplierCertPro();
+					    pro.setName(sell.getName());
+					    pro.setCode(sell.getCode());
+					    pro.setLevelCert(sell.getLevelCert());
+					    pro.setLicenceAuthorith(sell.getLicenceAuthorith());
+					    pro.setExpStartDate(sell.getExpStartDate());
+					    pro.setExpEndDate(sell.getExpEndDate());
+					    pro.setMot(sell.getMot());
+					    listSupplierCertPros.add(pro);
+					}
+			    }
+			}
+		}
+        //		    List < SupplierEngQua > listSupplierEngQuas = new ArrayList < SupplierEngQua > ();
+		if (supplier.getSupplierMatEng() != null && supplier.getSupplierMatEng().getListSupplierEngQuas() != null && supplier.getSupplierTypeIds().contains("PROJECT")) {
+			List < SupplierEngQua > listSupplierEngQuas = supplier.getSupplierMatEng().getListSupplierEngQuas();
+			if(listSupplierEngQuas != null && !listSupplierEngQuas.isEmpty()){
+				for(SupplierEngQua engQua: listSupplierEngQuas) {
+					if(engQua.getCode() != null){
+						SupplierCertPro pro = new SupplierCertPro();
+						pro.setName(engQua.getName());
+						pro.setCode(engQua.getCode());
+						pro.setLevelCert(engQua.getLevelCert());
+						pro.setLicenceAuthorith(engQua.getLicenceAuthorith());
+						pro.setExpStartDate(engQua.getExpStartDate());
+						pro.setExpEndDate(engQua.getExpEndDate());
+						pro.setMot(engQua.getMot());
+						listSupplierCertPros.add(pro);
+					}
+				}
+			}
+        }
+        supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
 
         // 品目信息
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
@@ -4419,6 +4453,7 @@ public class ExpertController extends BaseController {
             ExpertAudit audit = new ExpertAudit();
             audit.setExpertId(expertId);
             audit.setAuditFieldId(cate.getItemsId());
+            audit.setStatusQuery("notPass");
             List < ExpertAudit > list = expertAuditService.selectFailByExpertId(audit);
             if(list!=null && list.size()>0){
             	cate.setAuditReason(list.get(0).getAuditReason());
@@ -4442,6 +4477,7 @@ public class ExpertController extends BaseController {
         ExpertAudit expertAudit = new ExpertAudit();
         expertAudit.setExpertId(expertId);
         expertAudit.setSuggestType("six");
+        expertAudit.setStatusQuery("notPass");
         List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
         // 所有的不通过字段的名字
         StringBuffer errorField = new StringBuffer();

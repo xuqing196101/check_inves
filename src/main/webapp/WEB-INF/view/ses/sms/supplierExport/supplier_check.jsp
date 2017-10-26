@@ -69,6 +69,7 @@
 									<c:set value="0" var="FHHGDKC"></c:set>
 									<c:set value="0" var="KCZ"></c:set>
 									<c:set value="0" var="YKCJS"></c:set>
+									<c:set value="0" var="YYCL"></c:set>
 									<c:set value="0" var="KCBHG"></c:set>
 									<c:set value="0" var="KCHG"></c:set>
 									<c:forEach items="${list}" var="su" varStatus="vs">
@@ -84,6 +85,7 @@
 									<c:set value="${FHZ+su['FHZ']}" var="FHZ"></c:set>
 									<c:set value="${YFHJS+su['YFHJS']}" var="YFHJS"></c:set>
 									<c:set value="${FHBHG+su['FHBHG']}" var="FHBHG"></c:set>
+									<c:set value="${YYCL+su['YYCL']}" var="YYCL"></c:set>
 									<c:set value="${FHHGDKC+su['FHHGDKC']}" var="FHHGDKC"></c:set>
 									<c:set value="${KCZ+su['KCZ']}" var="KCZ"></c:set>
 									<c:set value="${YKCJS+su['YKCJS']}" var="YKCJS"></c:set>
@@ -100,7 +102,7 @@
 										  <td>${su['YSHJS']}</td>
 										  <td>${su['SHBTG']}</td>
 										  <td>${su['GSZ']}</td>
-										  <td></td>
+										  <td>${su['YYCL']}</td>
 										  <td>${su['RKDFH']}</td>
 										  <td>${su['FHZ']}</td>
 										  <td>${su['YFHJS']}</td>
@@ -122,7 +124,7 @@
 									  <td>${YSHJS}</td>
 									  <td>${SHBTG}</td>
 									  <td>${GSZ}</td>
-									  <td></td>
+									  <td>${YYCL}</td>
 									  <td>${RKDFH}</td>
 									  <td>${FHZ}</td>
 									  <td>${YFHJS}</td>

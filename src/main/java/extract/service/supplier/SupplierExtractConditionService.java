@@ -1,9 +1,7 @@
 package extract.service.supplier;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -164,23 +162,16 @@ public interface SupplierExtractConditionService {
   List<Qualification> qualificationList(String name);
 
 
-  /**
-   * 自动抽取
-   * <简述> 
-   *
-   * @author Jia Chengxiang
-   * @dateTime 2017-10-12上午11:21:02
-   * @param condition
-   * @param conType
-   * @param i
-   * @return
-   */
-  Map<String, Object> autoExtract(SupplierExtractCondition condition,
-		  SupplierConType conType, String projectInfo);
-
-  void receiveVoiceResult(String json);
+  void excludeSupplier(SupplierExtractCondition condition);
 
 
+  
+  String setExtractCondition(String typeCode, SupplierExtractCondition condition,
+		SupplierConType conType) throws Exception;
+
+
+  
+  int saveContype(SupplierExtractCondition condition, SupplierConType conType);
 
 }
 

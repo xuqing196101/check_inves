@@ -71,7 +71,6 @@ import common.service.UpdateHistoryService;
 @Controller
 @RequestMapping("/adjust")
 public class TaskAdjustController extends BaseController{
-
 	
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
@@ -102,7 +101,6 @@ public class TaskAdjustController extends BaseController{
 	
 	@Autowired
 	private OrgnizationMapper oargnizationMapper;
-	
 	
 	@Autowired
 	private TaskService taskService;
@@ -355,31 +353,6 @@ public class TaskAdjustController extends BaseController{
     return "bss/pms/taskadjust/updateplan";
   }
   
-/**
-  * @Title: planEdit
-  * @Description: 修改页面
-  * author: L ChenHao 
-  * @param @param id
-  * @param @return     
-  * @return String     
-  * @throws
-   *//*
-  @RequestMapping("/pledit")
-  public String planEdit(String id,Model model){
-    List<PurchaseRequired> purList=new LinkedList<PurchaseRequired>();
-    List<String> list = collectPurchaseService.getNo(id);
-    
-    Map<String,Object> map=new HashMap<String,Object>();
-    for(String str:list){
-      map.put("isMaster", "1");
-      map.put("planNo", str);
-      List<PurchaseRequired> pur = purchaseRequiredService.getByMap(map);
-       purList.addAll(pur);
-    }
-    model.addAttribute("list", purList);
-    return "bss/pms/taskadjust/planedit";
-  }*/
-  
 	
   @RequestMapping("/updatePlan")
   public String updatePlan(PurchaseRequiredFormBean list,String history){
@@ -422,55 +395,16 @@ public class TaskAdjustController extends BaseController{
 		if(list!=null){
 			if(list.getListDetail()!=null&&list.getListDetail().size()>0){
 				for( PurchaseDetail pd:list.getListDetail()){
-					if( pd.getId()!=null){
+					if(pd.getId()!=null){
 						purchaseDetailService.updateByPrimaryKeySelective(pd);
 						lists.add(pd);
-//						String id = UUID.randomUUID().toString().replaceAll("-", "");
-//						map.put("oid", id);
-//						PurchaseRequired queryById = purchaseRequiredService.queryById(p.getId());
-//						Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
-//						map.put("historyStatus", s);
-//						map.put("id", p.getId());
-//						purchaseRequiredService.update(map);
-//						if(p.getParentId()!=null){
-//							p.setParentId(p.getParentId());
-//						}
-//						queryById.setId(p.getId());
-//						p.setHistoryStatus("0");
-//						purchaseRequiredService.add(p);	
-//					}else{
-//						String id = UUID.randomUUID().toString().replaceAll("-", "");
-//						p.setId(id);
-//						purchaseRequiredService.add(p);	
 					}
 				}
 				
 			}
 			
-//			if(list.getAudit()!=null&&list.getAudit().size()>0){
-//				for(PurchaseAudit pa:list.getAudit()){
-//					if(pa.getParamValue()!=null){
-//						purchaseAuditService.update(pa);
-//					}
-//				
-//				}
-//			}
 		}
 		
-		
-		
-//		ProjectAttachments project=new ProjectAttachments();
-//		String id = UUID.randomUUID().toString().replaceAll("-", "");
-//		project.setId(id);
-//		project.setContentType(file.getContentType());
-//		project.setCreatedAt(new Date());
-//		project.setFileName(file.getOriginalFilename());
-//		project.setIsDeleted(0);
-//		project.setProject(project);
-//		projectAttachmentsService.save(project); //报错
-//		FtpUtil.connectFtp(PropUtil.getProperty("file.upload.path.supplier"));
-//		 FtpUtil.upload2("plan", file);
-//		FtpUtil.closeFtp();
 		String[] ids = details.split(",");
 		HashMap<String,Object> maps=new HashMap<String,Object>();
 		
@@ -567,27 +501,6 @@ public class TaskAdjustController extends BaseController{
 	    return StaticVariables.SUCCESS;
 	}
 	
-	/**
-	 * 
-	 *〈简述〉更新状态
-	 *〈详细描述〉
-	 * @author myc
-	 * @param id
-	 * @return
-	 */
-	private boolean checkStatus(String id){
-	    CollectPlan collectPlan = collectPlanService.queryById(id);
-        if (collectPlan != null){
-            if (collectPlan.getStatus() == 8){
-                return false;
-            } else {
-                collectPlan.setStatus(8);
-                collectPlanService.update(collectPlan);
-                return true;
-            }
-        }
-        return false;
-	} 
 	
 	 @InitBinder  
 	    public void initBinder(WebDataBinder binder) {  

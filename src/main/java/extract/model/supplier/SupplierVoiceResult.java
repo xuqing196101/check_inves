@@ -1,7 +1,13 @@
 package extract.model.supplier;
 
-public class SupplierVoiceResult {
+import java.io.Serializable;
 
+public class SupplierVoiceResult implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String supplierMobile;
 	private String feedBackTime;
 	private String join;

@@ -1615,6 +1615,12 @@ public class ExpertServiceImpl implements ExpertService {
          }
          return false;
   }
+
+	@Override
+	public List<Expert> findStorage(Expert expert) {
+		
+		return mapper.selectRuKuExpert(expert);
+	}
 }
 
 

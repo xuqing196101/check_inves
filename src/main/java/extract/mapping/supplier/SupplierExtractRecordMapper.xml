@@ -283,4 +283,8 @@
     </select>
     
     
+    <select id="selectAutoExtractProject" resultMap="BaseResultMap">
+    	SELECT R.* FROM T_SES_SMS_EXTRACT_RECORD R WHERE R.STATUS = 2 AND R.EXTRACT_THE_WAY = 0 AND R.IS_DELETE = 0
+    </select>
+    
 </mapper>

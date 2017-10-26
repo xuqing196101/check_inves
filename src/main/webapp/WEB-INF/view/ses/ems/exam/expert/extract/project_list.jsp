@@ -95,7 +95,7 @@
         		layer.alert("评审时间未满足半个小时", {offset: ['222px', '390px'], shade: 0.01});
         	}
 		}else{
-			layer.alert("只能下载抽取结束的项目记录表", {
+			layer.alert("用户正在抽取中，请稍后下载。", {
 				offset: ['222px', '390px'],
 				shade: 0.01
 			});
@@ -202,9 +202,18 @@ function form_reset(){
           <tr>
             <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obj.id }" /></td>
             <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-            <td class="">${obj.projectName }</td>
-            <td class="w90">${obj.code }</td>
-            <td class="w100">${obj.packageName }</td>
+            <td class="" title="${obj.projectName }">
+              <c:if test="${fn:length(obj.projectName) > 8 }">${fn:substring(obj.projectName, 0, 8)}...</c:if>
+              <c:if test="${fn:length(obj.projectName) <= 8 }">${obj.projectName }</c:if>
+            </td>
+            <td class="w100" title="${obj.code }">
+              <c:if test="${fn:length(obj.code) > 5 }">${fn:substring(obj.code, 0, 5)}...</c:if>
+              <c:if test="${fn:length(obj.code) <= 5 }">${obj.code }</c:if>
+            </td>
+            <td class="w100" title="${obj.packageName }">
+              <c:if test="${fn:length(obj.packageName) > 5 }">${fn:substring(obj.packageName, 0, 5)}...</c:if>
+              <c:if test="${fn:length(obj.packageName) <= 5 }">${obj.packageName }</c:if>
+            </td>
             <td class="tc w90">${obj.projectType }</td>
             <td class="tc w100">${obj.purchaseWay }</td>
             <td class="tc w90">
@@ -220,7 +229,7 @@ function form_reset(){
               <c:if test="${fn:length(obj.extractPerson) <= 4 }">${obj.extractPerson }</c:if>
             </td>
             <td class="tc w150"><!-- reviewTime -->
-              <fmt:formatDate value="${obj.createdAt }" pattern="yyyy/MM/dd HH:mm:ss" />
+              <fmt:formatDate value="${obj.updatedAt }" pattern="yyyy/MM/dd HH:mm:ss" />
             </td>
             <td class="tc w90" id="${obj.id }">
               <c:if test="${obj.status == '0' }">未开始</c:if>

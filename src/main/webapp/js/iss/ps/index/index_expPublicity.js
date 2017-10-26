@@ -97,14 +97,14 @@ function resetAll(){
  */
 function loadData(data,index,pageNum,pageSize){
 	var html = "<li> "
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+ data.relName +">"+data.relName+"</span>"
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+ data.expertsTypeId +">"+data.expertsTypeId+"</span>"
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+data.orgName+">"+data.orgName+"</span>"
+		     + "  <span class='col-xs-12 w12p' title="+ data.relName +">"+data.relName+"</span>"
+		     + "  <span class='col-xs-12 w20p' title="+ data.expertsTypeId +">"+data.expertsTypeId+"</span>"
+		     + "  <span class='col-xs-12 w12p tc' title="+data.orgName+">"+data.orgName+"</span>"
              /*+ "  <span class='col-md-4 col-xs-4 col-sm-4' title='同意入库，选择了"+data.passCateCount+"个参评类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个参评类别。"+data.auditOpinion+"'>"
              +"同意入库，选择了"+data.passCateCount+"个参评类别，通过了<a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+(data.passCateCount - data.noPassCateCount)+"</a>个参评类别。"+data.auditOpinion+"</span>"*/
-             + "  <span class='col-md-4 col-xs-4 col-sm-4' title='"+data.auditOpinion+"'>"
+             + "  <span class='col-xs-12 w38p' title='"+data.auditOpinion+"'>"
              + "  <a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+data.auditOpinion+"</a></span>"
-             + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+timestampToDate('yyyy-MM-dd', data.auditAt)+"至"+ getDateOfNDay(data.auditAt) +"</span>"
+             + "  <span class='col-xs-12 w18p tc'>"+timestampToDate('yyyy-MM-dd', data.auditAt)+"至"+ getDateOfNDay(data.auditAt) +"</span>"
 		     html += "</li>";
 	$("#expPublicityList").append(html);
 }

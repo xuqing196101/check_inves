@@ -79,8 +79,6 @@ public class SupplierCertEngController extends BaseSupplierController {
 	@RequestMapping(value = "save_or_update_cert_eng",produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String saveOrUpdateCertEng(HttpServletRequest request, SupplierCertEng supplierCertEng, String supplierId) throws IOException {
- 
-		
 		Supplier supplier = supplierService.get(supplierId);
 		request.getSession().setAttribute("currSupplier", supplier);
 		Map<String, Object> map = validateEng(supplierCertEng);
@@ -95,8 +93,7 @@ public class SupplierCertEngController extends BaseSupplierController {
 		    map.put("edate", edate);
 			map.put("certEng", certEng);
 		} 
-			return JSON.toJSONString(map);
- 
+		return JSON.toJSONString(map);
 	}
 	
 	@RequestMapping(value = "back_to_professional")

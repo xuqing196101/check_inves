@@ -570,4 +570,11 @@ public interface ExpertService {
      * @param expert
      */
     public List<Expert> findExpertAgainAuditList(Expert expert);
+    
+    /**
+     * 查询全部入库的专家
+     * @param expert
+     * @return
+     */
+    List<Expert> findStorage (Expert expert);
 }

@@ -449,7 +449,7 @@
                   </td>
                   <td>
                     <input type="hidden" name="ss" value="${obj.id }">
-                    <textarea name="listDetail[${vs.index }].stand" onblur="cancelProject(this)" class="target stand">${obj.stand }</textarea>
+                    <textarea name="listDetail[${vs.index }].stand" onblur="cancelProject(this)" class="target stand">${obj.stand}</textarea>
                     <input type="hidden" name="details" value="" />
                   </td>
                   <td>

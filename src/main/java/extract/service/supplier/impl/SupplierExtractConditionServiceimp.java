@@ -32,34 +32,22 @@ import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
-import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 
-import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 
-import extract.autoVoiceExtract.Epoint005WebService;
-import extract.autoVoiceExtract.PeopleYytz;
-import extract.autoVoiceExtract.ProjectYytz;
 import extract.dao.supplier.ExtractConditionRelationMapper;
 import extract.dao.supplier.SupplierExtractConditionMapper;
 import extract.dao.supplier.SupplierExtractRelateResultMapper;
 import extract.model.supplier.ExtractConditionRelation;
-import extract.model.supplier.ProjectVoiceResult;
 import extract.model.supplier.Qua;
 import extract.model.supplier.SupplierConType;
 import extract.model.supplier.SupplierExtractCondition;
-import extract.model.supplier.SupplierExtractProjectInfo;
-import extract.model.supplier.SupplierVoiceResult;
 import extract.service.supplier.SupplierExtractConditionService;
-import extract.service.supplier.SupplierExtractRecordService;
-import extract.service.supplier.SupplierExtractRelateResultService;
-import extract.util.DateUtils;
-import extract.util.WebServiceUtil;
 
 
 /**
@@ -80,7 +68,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
   
 
   @Autowired
-  SupplierExtractConditionMapper supplierConditionMapper;
+  SupplierExtractConditionMapper conditionMapper;
 
   @Autowired
   SupplierExtractRelateResultMapper supplierExtRelateMapper;
@@ -111,11 +99,6 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
   @Autowired
   private SupplierBlacklistMapper supplierBlacklistMapper;
   
-  @Autowired
-  private SupplierExtractRecordService recordService; //记录
-  
-  @Autowired
-  private SupplierExtractRelateResultService extractResult;
   
   /**
    * @Description:添加
@@ -128,7 +111,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
   @Override
   public void insert(SupplierExtractCondition condition){
 	  condition.setCreatedAt(new Date());
-    supplierConditionMapper.insertSelective(condition);
+    conditionMapper.insertSelective(condition);
   }
 
   /**
@@ -147,7 +130,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	//类别是4种，每种类别对应多种品目 这里面会有关联关系前台传进来的数据是
 	//
 	//extTypeCategoryMapper.insertSupplierArea(condition);
-    supplierConditionMapper.updateByPrimaryKeySelective(condition);
+    conditionMapper.updateByPrimaryKeySelective(condition);
   }
 
   /**
@@ -163,7 +146,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
     if(pageNum != null && pageNum!=0){
       PageHelper.startPage(pageNum,PropUtil.getIntegerProperty("pageSize"));
     }
-    return supplierConditionMapper.list(condition);
+    return conditionMapper.list(condition);
   }
 
   /**
@@ -177,7 +160,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
    */
   @Override
   public SupplierExtractCondition show(String id) {
-    return supplierConditionMapper.selectByPrimaryKey(id);
+    return conditionMapper.selectByPrimaryKey(id);
   }
 
 
@@ -236,7 +219,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 
 
   private Set<String> selectChild(String pid, String cid) {
-	Set<String> cateSet = supplierConditionMapper.seleselectChildCate(pid.split(","));
+	Set<String> cateSet = conditionMapper.seleselectChildCate(pid.split(","));
 	if(StringUtils.isNotBlank(cid)){
 		cateSet.addAll(Arrays.asList(cid.split(",")));
 	}
@@ -313,80 +296,8 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	@Override
 	public int saveOrUpdateCondition(SupplierExtractCondition condition,SupplierConType conType) {
 		if(StringUtils.isNotBlank(condition.getId())){
-			supplierConditionMapper.updateConditionByPrimaryKeySelective(condition);
-			//设置存储条件
-			List<ExtractConditionRelation> list = new ArrayList<>();
-			String cid = condition.getId();
-			//删除上次查询条件
-			extractConditionRelationMapper.deleteConditionRelationByMap(condition.getId());
-			//省份，直辖市
-			if(StringUtils.isNotEmpty(condition.getProvince())){
-				for (String province : condition.getProvinces()) {
-					list.add(new ExtractConditionRelation(cid, "province", province));
-				}
-			}
-			//市、区
-			if(StringUtils.isNotEmpty(condition.getAddressId())){
-				for (String addressId : condition.getAddressIds()) {
-					list.add(new ExtractConditionRelation(cid, "addressId", addressId));
-				}
-			}
-			//供应商类别
-			if(StringUtils.isNotEmpty(condition.getSupplierTypeCode())){
-				for (String supplierTypeCode : condition.getSupplierTypeCodes()) {
-					list.add(new ExtractConditionRelation(cid, "supplierTypeCode", supplierTypeCode));
-				}
-			}
-			
-			Class<? extends SupplierConType> class1 = conType.getClass();
-			String[] supplierTypeCodes  = condition.getSupplierTypeCodes();
-			try {
-				for (String typeCode : supplierTypeCodes) {
-					//首字母大写
-					String c = typeCode.toLowerCase();
-					char[] cs=c.toCharArray();
-			        cs[0]-=32;
-			        String code = String.valueOf(cs);
-				
-					Short mu = (Short)class1.getMethod("get"+code+"IsMulticondition").invoke(conType);
-					String cids = (String)class1.getMethod("get"+code+"CategoryIds").invoke(conType);
-					String le = (String)class1.getMethod("get"+code+"Level").invoke(conType);
-					Short en = (Short)class1.getMethod("get"+code+"ExtractNum").invoke(conType);
-					String ic = (String)class1.getMethod("get"+code+"IsHavingConCert").invoke(conType);
-					String bu = (String)class1.getMethod("get"+code+"BusinessNature").invoke(conType);
-					String ob = (String)class1.getMethod("get"+code+"OverseasBranch").invoke(conType);
-					if(null != mu){
-						list.add(new ExtractConditionRelation(cid,c+"IsMulticondition",mu.toString()));
-					}
-					if(StringUtils.isNotBlank(cids)){
-						for (String cId : cids.split(",")) {
-							list.add(new ExtractConditionRelation(cid, c+"CategoryId", cId));
-						}
-					}
-					if(StringUtils.isNotBlank(le)){
-						for (String lv : le.split(",")) {
-							list.add(new ExtractConditionRelation(cid, c+"Level", lv));
-						}
-					}
-					if(null !=en){
-						list.add(new ExtractConditionRelation(cid,c+"ExtractNum",en.toString()));
-					}
-					if(StringUtils.isNotBlank(ic)){
-						list.add(new ExtractConditionRelation(cid,c+"IsHavingConCert",ic));
-					}
-					if(StringUtils.isNotBlank(bu)){
-						list.add(new ExtractConditionRelation(cid,c+"BusinessNature",StringUtils.isBlank(bu)?"0":bu));
-					}
-					if(StringUtils.isNotBlank(ob)){
-						list.add(new ExtractConditionRelation(cid,c+"OverseasBranch",ob));
-					}
-				}
-				if(list.size()>0){
-					return extractConditionRelationMapper.insertConditionRelation(list);
-				}
-			} catch (Exception e) {
-				 e.getMessage();
-			} 
+			conditionMapper.updateConditionByPrimaryKeySelective(condition);
+			return saveContype(condition, conType);
 		}
 		return 0;
 	}
@@ -451,7 +362,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 			String categoryId) {
 		Map<String, String[]> map = new HashMap<>();
 		map.put("categoryIds", categoryId.split(","));
-		return supplierConditionMapper.getEngAptitudeLevelByCategoryId(map);
+		return conditionMapper.getEngAptitudeLevelByCategoryId(map);
 	}
 
 	@Override
@@ -461,7 +372,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		if("project".equals(code) && StringUtils.isNotBlank(categoryId)){
 			String[] checkParentCate = checkParentCate(categoryId);
 			hashMap.put("categoryIds",null !=checkParentCate?checkParentCate:categoryId.split(","));
-			List<Qua> quaByCid = supplierConditionMapper.getQuaByCid(hashMap);
+			List<Qua> quaByCid = conditionMapper.getQuaByCid(hashMap);
 			return sortQua(quaByCid);
 		}else{
 			//List<DictionaryData> cateList = new ArrayList<>();
@@ -481,7 +392,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 							 arrayList2.add(arrayList.get(i*count+j));
 						 }
 						 hashMap.put("categoryIds",arrayList2);//categoryId.split(","));
-						 List<Qua> quaByCid = supplierConditionMapper.getQuaByCid(hashMap);
+						 List<Qua> quaByCid = conditionMapper.getQuaByCid(hashMap);
 						 cateList.addAll(quaByCid); 
 					}
 					 if(size%1000>0){
@@ -490,16 +401,16 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 							 arrayList2.add(arrayList.get(1000*count+i));
 						}
 						 hashMap.put("categoryIds",arrayList2);//categoryId.split(","));
-						 cateList.addAll(supplierConditionMapper.getQuaByCid(hashMap));
+						 cateList.addAll(conditionMapper.getQuaByCid(hashMap));
 					 } 
 				 }else{
 					 hashMap.put("categoryIds",arrayList);//categoryId.split(","));
-					 cateList.addAll(supplierConditionMapper.getQuaByCid(hashMap));
+					 cateList.addAll(conditionMapper.getQuaByCid(hashMap));
 				 }
 			}
 			if(StringUtils.isNotBlank(categoryId)){
 				 hashMap.put("categoryIds",categoryId.split(","));
-				cateList.addAll(supplierConditionMapper.getQuaByCid(hashMap)); 
+				cateList.addAll(conditionMapper.getQuaByCid(hashMap)); 
 				
 			}
 			
@@ -507,6 +418,15 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		}
 	}
 
+	/**
+	 * 资质排序
+	 * <简述> 
+	 *
+	 * @author Jia Chengxiang
+	 * @dateTime 2017-10-20下午6:21:35
+	 * @param list
+	 * @return
+	 */
 	private List<Qua> sortQua(List<Qua> list) {
 		Collections.sort(list, new Comparator<Qua>(){
 	           @Override
@@ -519,9 +439,12 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		return list;
 	}
 
+	/**
+	 * 查询工程资质等级
+	 */
 	@Override
 	public List<DictionaryData> getLevelByQid(String qid) {
-		return  supplierConditionMapper.getLevelByQid(qid.split(","));
+		return  conditionMapper.getLevelByQid(qid.split(","));
 	}
 
 	/**
@@ -538,7 +461,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		HashSet<String> hashSet = new HashSet<>();
 		if(StringUtils.isNotBlank(categoryIds)){
 			for (String cid : categoryIds.split(",")) {
-				List<Category> checkParentCate = supplierConditionMapper.checkParentCate(cid);
+				List<Category> checkParentCate = conditionMapper.checkParentCate(cid);
 				if("B02".equals(checkParentCate.get(0).getCode())||"B03".equals(checkParentCate.get(0).getCode())){
 					for (Category category : checkParentCate) {
 						hashSet.add(category.getId());
@@ -561,46 +484,6 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		return quaMapper.findList(name, null);
 	}
 
-	
-	/**
-	 * 自动抽取
-	 */
-	@Override
-	public Map<String, Object> autoExtract(SupplierExtractCondition condition,
-			SupplierConType conType,String projectInfo) {
-		
-		HashMap<String, Object> map = new HashMap<>();
-		
-		
-		//排除供应商
-		this.excludeSupplier(condition);
-		
-		String typeCode = condition.getSupplierTypeCode();
-		try {
-			//设置抽取条件
-			String code = this.setExtractCondition(typeCode, condition, conType);
-			//查询供应商
-			if(null == condition.getExtractNum()){
-				map.put("error",code+"ExtractNumError");
-				return map;
-			}
-			List<Supplier> suppliers = supplierExtRelateMapper.autoExtractSupplierList(condition);
-			//存储自动抽取结果
-			extractResult.saveOrUpdateVoiceResult(condition,suppliers,null,projectInfo);
-			
-			String status = callVoiceService(suppliers,condition.getRecordId());
-			if("500".equals(status)|| StringUtils.isBlank(status)){
-				map.put("error", "语音接口调用异常");
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		return null;
-	}
-	
 	/**
 	 * 查询已经抽取到的供应商和黑名单中供应商
 	 * <简述> 
@@ -609,6 +492,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	 * @dateTime 2017-10-12上午11:26:21
 	 * @return
 	 */
+	@Override
 	public void excludeSupplier(SupplierExtractCondition condition) {
 		//此方法为公共方法 查询满足供应商数量 和供应商抽取结果  0 表示查询数量 1 表示 抽取 
 		 //去除已经抽取到的供应商
@@ -652,6 +536,7 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 	 * @throws Exception 
 	 * @dateTime 2017-10-12下午2:13:10
 	 */
+	@Override
 	public String setExtractCondition(String typeCode,SupplierExtractCondition condition,SupplierConType conType) throws Exception {
 		Class<? extends SupplierConType> class1 = conType.getClass();
 		//首字母大写
@@ -724,144 +609,81 @@ public class SupplierExtractConditionServiceimp  implements SupplierExtractCondi
 		return code;
 	}
 	
-	
-	/**
-	 * 上传待通知信息
-	 * <简述> 
-	 *
-	 * @author Jia Chengxiang
-	 * @dateTime 2017-10-16下午4:19:02
-	 * @param suppliers
-	 * @param recordId
-	 * @return
-	 */
-	public String callVoiceService(List<Supplier> suppliers, String recordId) {
-		
-		//查询项目信息
-		SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(recordId);
-		
-		ArrayList<PeopleYytz> arrayList = new ArrayList<>();
-		for (Supplier supplier : suppliers) {
-			PeopleYytz peopleYytz = new PeopleYytz();
-			peopleYytz.setUsername(supplier.getSupplierName());
-			peopleYytz.setMobile(supplier.getArmyBuinessMobile());
-			peopleYytz.setContactname(supplier.getArmyBusinessName());
-			peopleYytz.setContactmobile(supplier.getArmyBuinessTelephone());
-			arrayList.add(peopleYytz);
+	@Override
+	public int saveContype(SupplierExtractCondition condition,SupplierConType conType) {
+		//设置存储条件
+		List<ExtractConditionRelation> list = new ArrayList<>();
+		String cid = condition.getId();
+		//删除上次查询条件
+		extractConditionRelationMapper.deleteConditionRelationByMap(condition.getId());
+		//省份，直辖市
+		if(StringUtils.isNotEmpty(condition.getProvince())){
+			for (String province : condition.getProvinces()) {
+				list.add(new ExtractConditionRelation(cid, "province", province));
+			}
+		}
+		//市、区
+		if(StringUtils.isNotEmpty(condition.getAddressId())){
+			for (String addressId : condition.getAddressIds()) {
+				list.add(new ExtractConditionRelation(cid, "addressId", addressId));
+			}
+		}
+		//供应商类别
+		if(StringUtils.isNotEmpty(condition.getSupplierTypeCode())){
+			for (String supplierTypeCode : condition.getSupplierTypeCodes()) {
+				list.add(new ExtractConditionRelation(cid, "supplierTypeCode", supplierTypeCode));
+			}
 		}
 		
-		
-		ProjectYytz projectYytz = new ProjectYytz();
-		projectYytz.setProvince(projectInfo.getProvinceName()); 
-		projectYytz.setAddress(projectInfo.getCityName());
-		projectYytz.setSite(projectInfo.getSellSite()); 
-		
-		projectYytz.setContactnum(projectInfo.getContactNum()); 
-		projectYytz.setContactperson(projectInfo.getContactPerson()); 
-		projectYytz.getPeoplelist().addAll(arrayList);
-		projectYytz.setProjectid(projectInfo.getProjectId());
-		projectYytz.setProjectname(projectInfo.getProjectName()); 
-		projectYytz.setRecordid(projectInfo.getId()); 
-		projectYytz.setReviewdays(0); 
-		projectYytz.setSellend(DateUtils.dateToXmlDate(projectInfo.getSellEnd())); 
-		projectYytz.setStarttime(DateUtils.dateToXmlDate(projectInfo.getSellBegin()));
-		
-		Epoint005WebService service = WebServiceUtil.getService();
-		
-		String putObject = service.putObject(projectYytz, "C");
-		System.out.println(putObject);
-		return putObject;
-	}
-	
-	
-	/**
-	 * 接收语音通知结果
-	 * <简述> 
-	 *
-	 * @author Jia Chengxiang
-	 * @dateTime 2017-10-13上午10:46:24
-	 * @return
-	 */
-	@Override
-	public void receiveVoiceResult(String json) {
-		
-		ProjectVoiceResult projectVoiceResult = null;
-		
-		//解析json
-		if(StringUtils.isNotBlank(json)){
+		Class<? extends SupplierConType> class1 = conType.getClass();
+		String[] supplierTypeCodes  = condition.getSupplierTypeCodes();
+		try {
+			for (String typeCode : supplierTypeCodes) {
+				//首字母大写
+				String c = typeCode.toLowerCase();
+				char[] cs=c.toCharArray();
+		        cs[0]-=32;
+		        String code = String.valueOf(cs);
 			
-			//解析json
-			try {
-				projectVoiceResult = mapper.readValue(json, ProjectVoiceResult.class);
-				 /*projectVoiceResult = mapper.readValue(json, ProjectVoiceResult.class);
-				 System.out.println(projectVoiceResult.getRecordId());*/
-				ProjectVoiceResult parse = (ProjectVoiceResult)JSON.parse(json);
-				//System.out.println(parse.getProjectId());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			//获取项目信息,查询抽取数量
-			SupplierExtractProjectInfo projectInfo = recordService.selectByPrimaryKey(projectVoiceResult.getRecordId());
-			SupplierExtractCondition condition = supplierConditionMapper.selectByPrimaryKey(projectInfo.getConditionId());
-			
-			HashMap<Object, Object> hashMap = new HashMap<>();
-			String supplierTypeCode = condition.getSupplierTypeCode().toLowerCase();
-			hashMap.put("conditionId", projectInfo.getConditionId());
-			hashMap.put("propertyName", supplierTypeCode+"ExtractNum");
-			List<String> conditionConTypes = extractConditionRelationMapper.getByMap(hashMap);
-			
-			String ExtractNum = null;
-			if(conditionConTypes.size()>0){
-				ExtractNum = conditionConTypes.get(0);
-			}
-			
-			if(null != projectVoiceResult){
-				//获取参加状态,持久化
-				List<SupplierVoiceResult> suppliersResult = projectVoiceResult.getSuppliers();
-				int count = 0;
-				for (SupplierVoiceResult supplier : suppliersResult) {
-					if(supplier.getJoin().equals("1")){
-						count ++;
+				Short mu = (Short)class1.getMethod("get"+code+"IsMulticondition").invoke(conType);
+				String cids = (String)class1.getMethod("get"+code+"CategoryIds").invoke(conType);
+				String le = (String)class1.getMethod("get"+code+"Level").invoke(conType);
+				Short en = (Short)class1.getMethod("get"+code+"ExtractNum").invoke(conType);
+				String ic = (String)class1.getMethod("get"+code+"IsHavingConCert").invoke(conType);
+				String bu = (String)class1.getMethod("get"+code+"BusinessNature").invoke(conType);
+				String ob = (String)class1.getMethod("get"+code+"OverseasBranch").invoke(conType);
+				if(null != mu){
+					list.add(new ExtractConditionRelation(cid,c+"IsMulticondition",mu.toString()));
+				}
+				if(StringUtils.isNotBlank(cids)){
+					for (String cId : cids.split(",")) {
+						list.add(new ExtractConditionRelation(cid, c+"CategoryId", cId));
 					}
 				}
-				//修改供应商参加状态
-				extractResult.saveOrUpdateVoiceResult(condition, null,suppliersResult,projectInfo.getProjectInto());
-				
-				//判断参加人数是否满足，不满足再次获取供应商通知
-				int parseInt = Integer.parseInt(ExtractNum);
-				if(count<parseInt){
-					SupplierConType conType = this.selectconType(parseInt-count,condition.getId());
-					Map<String, Object> autoExtract = this.autoExtract(condition, conType,projectInfo.getProjectInto());
+				if(StringUtils.isNotBlank(le)){
+					for (String lv : le.split(",")) {
+						list.add(new ExtractConditionRelation(cid, c+"Level", lv));
+					}
+				}
+				if(null !=en){
+					list.add(new ExtractConditionRelation(cid,c+"ExtractNum",en.toString()));
+				}
+				if(StringUtils.isNotBlank(ic)){
+					list.add(new ExtractConditionRelation(cid,c+"IsHavingConCert",ic));
+				}
+				if(StringUtils.isNotBlank(bu)){
+					list.add(new ExtractConditionRelation(cid,c+"BusinessNature",StringUtils.isBlank(bu)?"0":bu));
+				}
+				if(StringUtils.isNotBlank(ob)){
+					list.add(new ExtractConditionRelation(cid,c+"OverseasBranch",ob));
 				}
 			}
-		}
-	}
-	
-	
-	/**
-	 * 查询详细抽取条件
-	 * <简述> 
-	 *
-	 * @author Jia Chengxiang
-	 * @dateTime 2017-10-16下午3:42:44
-	 * @return
-	 */
-	public SupplierConType selectconType(int extractNum,String conditionId) {
-		
-		List<Map<String, String>> conTypeList = extractConditionRelationMapper.getConTypeList(conditionId);
-		
-		SupplierConType conType = new SupplierConType();
-		for (Map<String, String> map : conTypeList) {
-			try {
-				Class<?> supplierConType = SupplierConType.class;
-				supplierConType.getMethod("set"+map.get("property_name")).invoke(conType, "property_value");
-			} catch (Exception e) {
-				e.printStackTrace();
+			if(list.size()>0){
+				return extractConditionRelationMapper.insertConditionRelation(list);
 			}
+		} catch (Exception e) {
+			 e.getMessage();
 		}
-		return conType;
+		return 0; 
 	}
-	
-	
 }

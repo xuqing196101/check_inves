@@ -52,16 +52,16 @@ public class ExpertExtractCateInfo {
     // 是否同时满足品目条件（工程经济）
     private String goods_project_isSatisfy;
 
-    // 物资技术人数（物资经济）
+    // 物资技术人数（物资）
     private String goods_i_count;
 
-    // 产品类别（物资经济）
+    // 产品类别（物资）
     private String goods_type;
 
-    // 技术职称（物资经济）
+    // 技术职称（物资）
     private String goods_technical;
 
-    // 是否同时满足品目条件（物资经济）
+    // 是否同时满足品目条件（物资）
     private String goods_isSatisfy;
 
     // 物资服务经济人数（物资服务经济）
