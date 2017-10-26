@@ -996,7 +996,8 @@ public class SupplierController extends BaseSupplierController {
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("rootArea", areaService.findRootArea());
 		String businessScope = supplier.getSupplierMatEng().getBusinessScope();
-		if (businessScope != null) {
+		List<Area> businessScopeAreas = supplier.getSupplierMatEng().getBusinessScopeAreas();
+		if (businessScope != null && businessScopeAreas.isEmpty()) {
 		    String[] scope = businessScope.split(",");
 		    for (String areaId : scope) {
 		        Area area = areaService.listById(areaId);

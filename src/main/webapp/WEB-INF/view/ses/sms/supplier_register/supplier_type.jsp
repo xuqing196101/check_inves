@@ -2315,17 +2315,32 @@
 										</div>
 										<ul class="list-unstyled overflow_h">
 											<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}"/>
-											<c:forEach items="${currSupplier.supplierMatEng.businessScopeAreas}" var="area" varStatus="st">
-												<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}" >
-													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">${area.name}</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0"
-														<c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${area.name}','mat_eng_page')"</c:if>>
-														<c:if test="${(fn:contains(engPageField,area.name)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}">  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" /></c:if>
-														<c:if test="${!fn:contains(engPageField,area.name)&&currSupplier.status==2}">  <u:show showId="area_show_${st.index+1}" delete="false" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
-														<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(engPageField,area.name)}">  <u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
-														<div class="cue">${area.errInfo}</div>
-													</div>
-												</li>
+											<c:forEach items="${rootArea}" var="ra" varStatus="st">
+												<c:set var="flag" value="0"/>
+												<c:forEach items="${currSupplier.supplierMatEng.businessScopeAreas}" var="area">
+													<c:if test="${ra.id == area.id}">
+														<c:set var="flag" value="1"/>
+														<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}" >
+															<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">${area.name}</span>
+															<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+																<c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${area.name}','mat_eng_page')"</c:if>
+																<c:if test="${(fn:contains(engPageField,area.name)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}">  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" /></c:if>
+																<c:if test="${!fn:contains(engPageField,area.name)&&currSupplier.status==2}">  <u:show showId="area_show_${st.index+1}" delete="false" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
+																<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(engPageField,area.name)}">  <u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
+																<div class="cue">${area.errInfo}</div>
+															</div>
+														</li>
+													</c:if>
+												</c:forEach>
+												<c:if test="${flag == 0}">
+													<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${ra.id}" >
+														<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">${ra.name}</span>
+														<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+															<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${ra.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" />
+															<u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${ra.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
+														</div>
+													</li>
+												</c:if>
 											</c:forEach>
 										</ul>
 									</fieldset>
