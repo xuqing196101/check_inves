@@ -5,6 +5,7 @@
 <head>
   <%@ include file="/WEB-INF/view/common.jsp"%>
   <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
+  <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/bss/ppms/main.js"></script>
   <script type="text/javascript">
   var fflog=false;  
@@ -54,6 +55,7 @@
   	function cancel(){
 		  layer.close(index);
 	  }
+	  
   	
   	var ids="";
   	function bynSub(){
@@ -138,6 +140,8 @@
 	   		}
   		});
   	}
+  	
+  	var indexAudit;
   	function upddatejzxtp() {
   		var pachageIds="";
   		var val=[];
@@ -146,13 +150,24 @@
   			$(this).parent().remove();
   		});
   		if(val.length==0){
-  			layer.alert("请选择一个或多个包");
+  			layer.msg("请选择一个或多个包");
   			return false;
   		}
+  		var currHuanjieId = $("#currHuanjieId").val();
   		pachageIds=val.join(',');
-  		//alert(pachageIds+"-----------"+$("#currHuanjieId").val());
+  		$("#packId").val(pachageIds);
+  		indexAudit = layer.open({
+  	    shift: 1, //0-6的动画形式，-1不开启
+  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+  	    title: ['提示','border-bottom:1px solid #e5e5e5'],
+  	    shade:0.01, //遮罩透明度
+	  		type : 2,
+	  		area : [ '30%', '400px'  ], //宽高
+	  		content : '${pageContext.request.contextPath}/packageAdvice/auditFile.do?pachageIds=' + pachageIds + '&projectId=${project.id}' + '&currHuanjieId='+currHuanjieId,
+			});
   		
-  		$.ajax({
+  		
+  		 /*$.ajax({
 			url:"${pageContext.request.contextPath}/open_bidding/transformationJZXTP.do",
 			data:{"packageIds":pachageIds,
 				  "projectId":'${project.id}',
@@ -170,12 +185,14 @@
 	   	  			layer.closeAll()
 	   	  		};
 	   				alert("成功转为竞争性谈判");
-	   				} else if (data.status == "failed") {
-	   				alert("失败");
+	   			} else if (data.status == "failed") {
+	   				alert("该采购方式不能转竞谈");
 	   			}
 	   			} 
-  		});
+  		}); */
 	}
+	
+	
 	var indexFlw;
 	function openDetailFlw(){
 		indexFlw =  layer.open({

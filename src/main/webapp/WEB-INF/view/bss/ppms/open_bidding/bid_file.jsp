@@ -244,6 +244,9 @@
                     <c:if test="${p.projectStatus=='ZJZXTP'}">
                        <span class="star_red">[该包已转竞谈]</span>
                     </c:if>
+                    <c:if test="${p.projectStatus=='ZJTSHZ'}">
+                       <span class="star_red">[该包转竞谈审核中]</span>
+                    </c:if>
                 </td>
                 <td class="tc">
                 	<c:if test="${p.isEditFirst == 0}">

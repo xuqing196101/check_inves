@@ -277,13 +277,18 @@
 				<c:set value="${p.index}" var="index"></c:set>
 
 				<div class="over_hideen">
-					<h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand fl clear" id="package${index}">包名:<span class="f15 blue">${pack.name }<c:if test="${pack.projectStatus eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if><c:if test="${pack.projectStatus eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if></span>
+					<h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand fl clear" id="package${index}">包名:
+					<span class="f15 blue">${pack.name }
+					<c:if test="${pack.projectStatus eq 'YZZ'}"><span class="star_red">[该包已终止]</span></c:if>
+					<c:if test="${pack.projectStatus eq 'ZJZXTP'}"><span class="star_red">[该包已转竞谈]</span></c:if>
+					<c:if test="${pack.projectStatus eq 'ZJTSHZ'}"><span class="star_red">[该包转竞谈审核中]</span></c:if>
+					</span>
           </h2>
 					<div class="fl mt20 ml10">
-						<button class="btn btn-windows add" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if>  onclick="add('${pack.id }','${index}')" type="button">登记</button>
-						<button class="btn btn-windows add" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if> onclick="provisional('${pack.id}','${index}');" type="button">添加临时供应商</button>
-						<button class="btn btn-windows edit" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if> onclick="editSupp('${index}');" type="button">修改临时供应商</button>
-						<button class="btn btn-windows delete" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP'}">disabled="disabled"</c:if> onclick="del('${pack.id}','${index}');" type="button">移除供应商</button>
+						<button class="btn btn-windows add" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP' || pack.projectStatus eq 'ZJTSHZ'}">disabled="disabled"</c:if>  onclick="add('${pack.id }','${index}')" type="button">登记</button>
+						<button class="btn btn-windows add" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP' || pack.projectStatus eq 'ZJTSHZ'}">disabled="disabled"</c:if> onclick="provisional('${pack.id}','${index}');" type="button">添加临时供应商</button>
+						<button class="btn btn-windows edit" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP' || pack.projectStatus eq 'ZJTSHZ'}">disabled="disabled"</c:if> onclick="editSupp('${index}');" type="button">修改临时供应商</button>
+						<button class="btn btn-windows delete" <c:if test="${pack.projectStatus eq 'YZZ' || pack.projectStatus eq 'ZJZXTP' || pack.projectStatus eq 'ZJTSHZ'}">disabled="disabled"</c:if> onclick="del('${pack.id}','${index}');" type="button">移除供应商</button>
 					</div>
 
 					<input type="hidden" id="packId" name="packageId" value="${pack.id }" />
