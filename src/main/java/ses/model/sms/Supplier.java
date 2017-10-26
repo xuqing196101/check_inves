@@ -722,8 +722,13 @@ Supplier implements Serializable {
     
     /**参加政府或军队采购经历登记表**/
     private String purchaseExperience;
-    
-    /**供应商附件表**/
+
+    // 查询条件品目ID
+    private String queryCategory;
+    // 查询条件品目名称
+    private String queryCategoryName;
+
+	/**供应商附件表**/
     private List<UploadFile> attchList=new ArrayList<UploadFile>();
     
     private List<SupplierHistory> historys=new ArrayList<SupplierHistory>();
@@ -2053,5 +2058,20 @@ Supplier implements Serializable {
 
     public void setSupplierAudits(List<SupplierAudit> supplierAudits) {
         this.supplierAudits = supplierAudits;
+    }
+
+    public String getQueryCategory() {
+		return queryCategory;
+	}
+
+	public void setQueryCategory(String queryCategory) {
+		this.queryCategory = queryCategory;
+	}
+    public String getQueryCategoryName() {
+        return queryCategoryName;
+    }
+
+    public void setQueryCategoryName(String queryCategoryName) {
+        this.queryCategoryName = queryCategoryName;
     }
 }

@@ -1,29 +1,15 @@
 package ses.service.bms.impl;
 
-import java.io.File;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
-
 import common.bean.ResBean;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.DictionaryDataMapper;
@@ -45,6 +31,18 @@ import ses.util.SupplierToolUtil;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 
@@ -1058,7 +1056,7 @@ public class CategoryServiceImpl implements CategoryService {
       	  //物质销售  3/2
         	cateList=findPublishTree(SupplierToolUtil.GOODS_ID, 2);
         }else{
-      	  cateList=findTreeByPid(id);
+      	    cateList=findTreeByPid(id);
         }
 		return cateList;
 	}
@@ -1216,9 +1214,7 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryQuaMapper.getEngAptitudeLevelByCategoryId(map);
 	}
 
-	
-	
-	/**
+    /**
 	 * 根据itme中间表id查询categor
 	 * @param itemsId
 	 * @return
@@ -1228,5 +1224,149 @@ public class CategoryServiceImpl implements CategoryService {
 		
 		return categoryMapper.selectCategoryByItemId(itemsId);
 	}
-	
+
+    /**
+     *
+     * Description: 根据条件查询目录树
+     *              包括：
+     *              物资生产、物资销售、工程、服务
+     *
+     * @author Easong
+     * @version 2017/10/24
+     * @param
+     * @since JDK1.7
+     */
+    @Override
+    public List<Category> selectAllCateByCond(Map<String, Object> map) {
+        String name = (String)map.get("name");
+        Category categoryCond = (Category)map.get("category");
+        // 定义封装树集合
+        List<Category> list = new ArrayList<>();
+        List<DictionaryData> dictionaryDatas = new ArrayList<>();
+        List<DictionaryData> dictOne = DictionaryDataUtil.find(8);
+        List<DictionaryData> dictTwo = DictionaryDataUtil.find(6);
+        dictionaryDatas.addAll(dictOne);
+        dictionaryDatas.addAll(dictTwo);
+        // 排除未选择的类型
+        Iterator iterator = dictionaryDatas.listIterator();
+        while (iterator.hasNext()){
+            DictionaryData dict = (DictionaryData) iterator.next();
+            if(categoryCond.getCode() != null && !categoryCond.getCode().contains(dict.getCode())){
+                iterator.remove();
+            }
+        }
+        // 初始化时
+        if(StringUtils.isEmpty(name) && StringUtils.isEmpty(categoryCond.getId())){
+            for (DictionaryData dictionaryData : dictionaryDatas) {
+                Category ct=new Category();
+                //排除物资
+                if(ses.util.Constant.GOODS.equals(dictionaryData.getCode())){
+                    continue;
+                }
+                ct.setId(dictionaryData.getId());
+                ct.setName(dictionaryData.getName());
+                ct.setIsParent("true");
+                ct.setParentId("0");
+                list.add(ct);
+            }
+            return list;
+        }
+
+        // 点击节点展开树操作
+        if(StringUtils.isEmpty(name) && !StringUtils.isEmpty(categoryCond.getId())){
+            if(categoryCond.getId().contains(ses.util.Constant.UNDERLINE_PRODUCT)){
+                categoryCond.setId(categoryCond.getId().substring(0,categoryCond.getId().indexOf(ses.util.Constant.UNDERLINE_PRODUCT)));
+            }
+            list = this.disTreeGoodsData(categoryCond.getId());
+            return list;
+        }
+
+        // 查询操作
+        List<Category> categorys = null;
+        Category category = null;
+        if(dictionaryDatas != null && !dictionaryDatas.isEmpty()){
+            for (DictionaryData dict: dictionaryDatas){
+                //排除物资
+                if(ses.util.Constant.GOODS.equals(dict.getCode())){
+                    continue;
+                }
+                if(ses.util.Constant.SUPPLIER_PRODUCT.equals(dict.getCode())){
+                    // 查询物资生产类别信息
+                    // 目录类型 1：物资 2：工程 3：服务
+                    map.put("status", 1);
+                    map.put("type", 1);
+                    categorys = categoryMapper.selectAllCateByCond(map);
+                    if(categorys != null && !categorys.isEmpty()){
+                        packageRootCategory(category, dict, "物资生产", categorys, list);
+                    }
+                    continue;
+                }
+                if(ses.util.Constant.SUPPLIER_SALES.equals(dict.getCode())){
+                    // 查询物资销售类别信息
+                    map.put("status", 2);
+                    categorys = categoryMapper.selectAllCateByCond(map);
+                    if(categorys != null && !categorys.isEmpty()){
+                        packageRootCategory(category, dict, "物资销售", categorys, list);
+                    }
+                    continue;
+                }
+                map.remove("status");
+                // 工程类
+                if(ses.util.Constant.SUPPLIER_PROJECT.equals(dict.getCode())){
+                    map.put("type", 2);
+                    categorys = categoryMapper.selectAllCateByCond(map);
+                    if(categorys != null && !categorys.isEmpty()){
+                        packageRootCategory(category, dict, dict.getName(), categorys, list);
+                    }
+                    continue;
+                }
+                // 服务类
+                if(ses.util.Constant.SUPPLIER_SERVICE.equals(dict.getCode())){
+                    map.put("type", 3);
+                    categorys = categoryMapper.selectAllCateByCond(map);
+                    if(categorys != null && !categorys.isEmpty()){
+                        packageRootCategory(category, dict, dict.getName(), categorys, list);
+                    }
+                    continue;
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     *
+     * Description: 封装树
+     *
+     * @author Easong
+     * @version 2017/10/26
+     * @param [category, dict, name, categorys, list]
+     * @since JDK1.7
+     */
+    private void packageRootCategory(Category category, DictionaryData dict, String name, List<Category> categorys, List<Category> list){
+        if(ses.util.Constant.SUPPLIER_PRODUCT.equals(dict.getCode())){
+            for (Category cate : categorys){
+                cate.setId(cate.getId() + ses.util.Constant.UNDERLINE_PRODUCT);
+                if(SupplierToolUtil.GOODS_ID.equals(cate.getParentId())){
+                    cate.setParentId(dict.getId());
+                }else {
+                    cate.setParentId(cate.getParentId() + ses.util.Constant.UNDERLINE_PRODUCT);
+                }
+            }
+        }
+        if(ses.util.Constant.SUPPLIER_SALES.equals(dict.getCode())){
+            for (Category cate : categorys){
+                if(SupplierToolUtil.GOODS_ID.equals(cate.getParentId())){
+                    cate.setParentId(dict.getId());
+                }
+            }
+        }
+        category = new Category();
+        category.setId(dict.getId());
+        category.setIsParent("true");
+        category.setName(name);
+        category.setParentId("0");
+        categorys.add(category);
+        list.addAll(categorys);
+    }
 }

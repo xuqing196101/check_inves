@@ -489,8 +489,6 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 // 再做插入操作
                 saveSupplier(supplier);
             }
-
-
         }
         synchRecordService.importNewSupplierRecord(new Integer(list.size()).toString());
     }

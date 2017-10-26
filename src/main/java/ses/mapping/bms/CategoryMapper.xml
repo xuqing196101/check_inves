@@ -491,8 +491,8 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_BMS_CATEGORY
-		WHERE IS_DELETED=0 
-		AND PARENT_ID = #{id} 
+		WHERE IS_DELETED=0
+		AND PARENT_ID = #{id}
 		AND IS_PUBLISH = 0
 		<if test="status != null">
 		 AND CLASSIFY_STATUS in (#{status},3)
@@ -778,5 +778,25 @@
 				and SUPPLIER_REGISTER_LEVEL = #{level}
 			</if>
 		</where>
+	</select>
+
+	<select id="selectAllCateByCond" parameterType="map" resultMap="CategoryMap">
+		 SELECT
+          DISTINCT T.ID,T.NAME,T.PARENT_ID,T.IS_PUBLISH,T.IS_PARENT
+		  FROM T_SES_BMS_CATEGORY T
+		  START WITH T.ID IN (SELECT ID
+			FROM T_SES_BMS_CATEGORY T
+			WHERE T.IS_DELETED = 0
+			AND IS_PUBLISH = 0
+			<if test="status != null and status != ''">
+				AND CLASSIFY_STATUS IN (#{status}, 3)
+			</if>
+			<if test="name != null and name != ''">
+				AND INSTR(T.NAME, #{name}) > 0
+			</if>
+            <if test="type != null and type != ''">
+                AND T.CLASSIFY_TYPE = #{type}
+            </if>)
+ 		   CONNECT BY PRIOR T.PARENT_ID = T.ID
 	</select>
 </mapper>

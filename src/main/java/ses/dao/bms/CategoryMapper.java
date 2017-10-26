@@ -1,14 +1,13 @@
 package ses.dao.bms;
 
+import org.apache.ibatis.annotations.Param;
+import ses.model.bms.Category;
+
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
-import ses.model.bms.Category;
 
 
 
@@ -397,4 +396,15 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	public List<Category> findCategoryForSupplierLevel (HashMap<String, String> map);
+
+	/**
+	 *
+	 * Description: 
+	 *
+	 * @author Easong
+	 * @version 2017/10/24
+	 * @param 
+	 * @since JDK1.7
+	 */
+	List<Category> selectAllCateByCond(Map<String, Object> map);
 }

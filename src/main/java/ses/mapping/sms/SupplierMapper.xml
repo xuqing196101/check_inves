@@ -1294,16 +1294,27 @@
           ID,
           wm_concat (DISTINCT(SUPPLIER_TYPE_ID)) AS typeId
         FROM
-          (SELECT
-             t1.ID,
-             t3.SUPPLIER_TYPE_ID
-           FROM
-             T_SES_SMS_SUPPLIER t1
-             LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1. ID = t3.SUPPLIER_ID)
-           GROUP BY
-             ID
-      ) t1
-    LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1.ID = t2.ID 
+          (<choose>
+			  <when test="queryCategory != null and queryCategory != ''">
+				  SELECT DISTINCT T1.ID, T3.SUPPLIER_TYPE_ID
+				    FROM T_SES_SMS_SUPPLIER T1
+				    LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T3
+				     ON T1. ID = T3.SUPPLIER_ID
+				    LEFT JOIN T_SES_SMS_SUPPLIER_ITEM ITEM
+				     ON T3.SUPPLIER_ID = ITEM.SUPPLIER_ID
+				    WHERE INSTR(ITEM.SUPPLIER_TYPE_RELATE_ID,#{supplierTypeIds}) > 0 AND ITEM.CATEGORY_ID = #{queryCategory}
+                    )
+			  </when>
+			  <when test="queryCategory == null or queryCategory == ''">
+				  SELECT
+				    t1.ID,t3.SUPPLIER_TYPE_ID
+				  FROM
+				    T_SES_SMS_SUPPLIER t1
+				    LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1. ID = t3.SUPPLIER_ID)
+			  </when>
+		   </choose>
+           GROUP BY ID) t1
+    LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1.ID = t2.ID
     LEFT JOIN T_SES_BMS_AREA T3 ON t2.ADDRESS = T3.ID
     LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4.ID
     LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t2.PROCUREMENT_DEP_ID = dep.ID
