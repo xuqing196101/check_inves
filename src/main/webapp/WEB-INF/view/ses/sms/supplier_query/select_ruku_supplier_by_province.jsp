@@ -50,6 +50,8 @@
 				$("#supplierTypeIds").val('');
 				$("#mobile").val('');
 				$("#isProvisional").val('');
+                $("#supplierGradeInputVal").val('');
+                $("#supplierGradeInput").val('');
 				$("#status option:selected").removeAttr("selected");
 				$("#address option:selected").removeAttr("selected");
 				$("#businessNature option:selected").removeAttr("selected");
@@ -339,7 +341,13 @@
 		<div id="supplierTypeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
 		</div>
-
+        <div id="supplierGradeTreeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+            <div class="col-md-12 col-xs-8 col-sm-8 p0">
+                <input type="text" id="search" class="input_group" value="">
+                <img src="${pageContext.request.contextPath }/public/backend/images/view.png" onclick="loadZtree()">
+            </div>
+            <ul id="supplierGradeTree" class="ztree" style="margin-top:0;"></ul>
+        </div>
 		<div class="container">
 			<div class="headline-v2">
 				<h2>供应商信息</h2>

@@ -125,7 +125,7 @@ function zTreeOnClick(event, treeId, treeNode){
         return;
     }
     // 获取当前节点的根节点的Id
-    var currentRootNodeId = getCurrentRoot(treeNode);
+    // var currentRootNodeId = getCurrentRoot(treeNode);
     // 获取取当前节点的ID
     var currentNodeId = treeNode.id;
     // 获取当前节点的name

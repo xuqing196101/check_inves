@@ -1302,7 +1302,7 @@
 				     ON T1. ID = T3.SUPPLIER_ID
 				    LEFT JOIN T_SES_SMS_SUPPLIER_ITEM ITEM
 				     ON T3.SUPPLIER_ID = ITEM.SUPPLIER_ID
-				    WHERE INSTR(ITEM.SUPPLIER_TYPE_RELATE_ID,#{supplierTypeIds}) > 0 AND ITEM.CATEGORY_ID = #{queryCategory}
+				    WHERE INSTR(#{supplierTypeIds}, ITEM.SUPPLIER_TYPE_RELATE_ID) > 0 AND ITEM.CATEGORY_ID = #{queryCategory}
                     )
 			  </when>
 			  <when test="queryCategory == null or queryCategory == ''">
