@@ -500,17 +500,17 @@ public class ExpertAuditController{
 						}*/
 						map.put("auditField", "地区");
 					}else if (param instanceof Integer) {
-						   map.put("auditContent", ((Integer) param).intValue());
+						   map.put("auditContent", ((Integer) param).intValue()+"");
 					 	} else if (param instanceof String) {
 						   map.put("auditContent", (String) param);
 						} else if (param instanceof Double) {
-						   map.put("auditContent",((Double) param).doubleValue());
+						   map.put("auditContent",((Double) param).doubleValue()+"");
 						} else if (param instanceof Float) {
-						   map.put("auditContent",((Float) param).floatValue());
+						   map.put("auditContent",((Float) param).floatValue()+"");
 						} else if (param instanceof Long) {
-						   map.put("auditContent", ((Long) param).longValue());
+						   map.put("auditContent", ((Long) param).longValue()+"");
 						} else if (param instanceof Boolean) {
-						   map.put("auditContent", ((Boolean) param).booleanValue());
+						   map.put("auditContent", ((Boolean) param).booleanValue()+"");
 						} else if (param instanceof Date) {
 							Date time=(Date) param;
 							SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
