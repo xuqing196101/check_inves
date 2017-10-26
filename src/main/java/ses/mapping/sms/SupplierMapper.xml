@@ -91,6 +91,7 @@
 		<result column="ORGNAME" property="orgName" />
 		<result column="AUDITOR" property="auditor" />
 		<result column="AUDIT_TEMPORARY" property="auditTemporary" />
+		<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
     <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
@@ -133,7 +134,7 @@
 		BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
 		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION,LEVEL_SCORE_PRODUCT,LEVEL_SCORE_SALES,LEVEL_SCORE_SERVICE,IS_ILLEGAL,PURCHASE_EXPERIENCE,
-		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH, EXTRACT_ORGID, IS_DELETED, AUDITOR, AUDIT_TEMPORARY
+		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH, EXTRACT_ORGID, IS_DELETED, AUDITOR, AUDIT_TEMPORARY,AUDIT_OPINION_ATTACH
 	</sql>
 	<!--查询每个供应商所对应的所有类型 作者SBW -->
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
@@ -486,6 +487,15 @@
 			<if test="isProvisional != null">
 				IS_PROVISIONAL,
 			</if>
+			<if test="auditor != null">
+                AUDITOR,
+			</if>
+			<if test="auditTemporary != null">
+                AUDIT_TEMPORARY,
+			</if>
+			<if test="auditOpinionAttach != null">
+                AUDIT_OPINION_ATTACH,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -709,6 +719,15 @@
 			<if test="isProvisional != null">
 				#{isProvisional},
 			</if>
+            <if test="auditor != null">
+                #{auditor},
+            </if>
+            <if test="auditTemporary != null">
+                #{auditTemporary},
+            </if>
+            <if test="auditOpinionAttach != null">
+                #{auditOpinionAttach},
+            </if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.Supplier">
@@ -942,10 +961,39 @@
             <if test="isDeleted != null">
                 IS_DELETED=#{isDeleted},
             </if>
+            <if test="auditor != null">
+                AUDITOR=#{auditor},
+            </if>
+            <if test="auditTemporary != null">
+                AUDIT_TEMPORARY=#{auditTemporary},
+            </if>
+            <if test="auditOpinionAttach != null">
+                AUDIT_OPINION_ATTACH=#{auditOpinionAttach},
+            </if>
 		</set>
 		where ID = #{id}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="ses.model.sms.Supplier">
+    <!--退回修改导入外网字段-->
+    <update id="updateByPrimaryKeySelectiveOfBack" parameterType="ses.model.sms.Supplier">
+        update T_SES_SMS_SUPPLIER
+        <set>
+            <if test="auditDate != null">
+                AUDIT_DATE = #{auditDate},
+            </if>
+            <if test="status != null">
+                SUPPLIER_STATUS = #{status},
+            </if>
+            <if test="auditor != null">
+                AUDITOR=#{auditor},
+            </if>
+            <if test="auditTemporary != null">
+                AUDIT_TEMPORARY=#{auditTemporary},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="ses.model.sms.Supplier">
 		update
 		T_SES_SMS_SUPPLIER
 		set LOGIN_NAME = #{loginName},
@@ -1516,7 +1564,7 @@
 			<if test="status != null">
 				SUPPLIER_STATUS = #{status},
 			</if>
-			<if test="auditDate != ''">
+			<if test="auditDate != null">
 				AUDIT_DATE=#{auditDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
@@ -1979,7 +2027,7 @@
 		  SUPPLIER_STATUS = #{status},AUDIT_DATE=#{auditDate}
 		where ID = #{id}
 	</update>
-	
+
 	<!-- 根据创建日期查询已提交的供应商 -->
 	<select id="tempExportSupplier" resultMap="BaseResultMap">
 		SELECT

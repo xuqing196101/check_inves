@@ -1737,7 +1737,7 @@ public class SupplierController extends BaseSupplierController {
 		supplierAudit.setSupplierId(supplier.getId());
 		supplierAuditService.updateIsDeleteBySupplierId(supplierAudit);
 		//清空审核人
-		supplier.setAuditor("");
+		//supplier.setAuditor("");
 		supplierAuditService.updateStatus(supplier);
 		
 		request.getSession().removeAttribute("currSupplier");

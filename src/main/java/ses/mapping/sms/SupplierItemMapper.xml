@@ -148,10 +148,10 @@
 				#{professType},
 			</if>
 			<if test="nodeLevel != null">
-				#{nodeLevel}
+				#{nodeLevel},
 			</if>
 			<if test="isReturned != null">
-				#{isReturned}
+				#{isReturned},
 			</if>
 			<if test="isDeleted != null">
 				#{isDeleted}

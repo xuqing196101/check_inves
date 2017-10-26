@@ -533,7 +533,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     }
 
     /**
-     * Description:供应商退回修改导入
+     * Description:供应商退回修改导入外网
      *
      * @param [file：文件, flag：标识]
      * @author Easong
@@ -551,7 +551,10 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                     userMapper.updateByPrimaryKeySelective(user);
                 }
             }
-            supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus(), sb.getAuditDate());
+            // 退回修改供应商基本信息导入外网
+            //supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus(), sb.getAuditDate());
+            supplierMapper.updateByPrimaryKeySelectiveOfBack(sb.getSupplier());
+
             List<SupplierAuditNot> auditNots = sb.getSupplierAuditNot();
             for (SupplierAuditNot sa : auditNots) {
                 SupplierAuditNot not = supplierAuditNotMapper.selectById(sa.getId());
@@ -563,9 +566,10 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                 }
             }
             List<SupplierAudit> supplierAudits = sb.getSupplierAudits();
-            supplierAuditMapper.deleteBySupplierId(sb.getSupplierId());
+            if(sb.getSupplier() != null){
+                supplierAuditMapper.deleteBySupplierId(sb.getSupplier().getId());
+            }
             for (SupplierAudit sat : supplierAudits) {
-
                 SupplierAudit audit = supplierAuditMapper.selectById(sat.getId());
                 if (audit == null) {
                     supplierAuditMapper.inserActive(sat);
@@ -619,7 +623,6 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
                     }
                 }
             }
-
         }
         //
         if ("publicity".equals(flag)) {
