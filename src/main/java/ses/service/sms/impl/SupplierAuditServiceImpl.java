@@ -1683,7 +1683,10 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 							}
 						}
 					}
-					if(itemList.size() <= itemNotPassCount){
+					// 判断该类型是否审核
+					supplierTypeAudit.setAuditField(dd.getId());
+					int countSupplierTypeAudit = this.countAuditRecords(supplierTypeAudit, new Integer[]{2});
+					if(itemList.size() <= itemNotPassCount && countSupplierTypeAudit == 0){
 						//isAllItemNotPass = 1;
 						String typeName = getSupplierTypeName(supplierType);
 						return JdcgResult.build(2, typeName + "类型下没有产品，请把" + typeName + "类型审核不通过！", supplierType);
