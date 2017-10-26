@@ -99,8 +99,9 @@ public class PackageAdviceController extends BaseController {
 	
 	@RequestMapping("/saveAudit")
 	@ResponseBody
-	public String saveAudit(String projectId, String packageIds, String advice, String flowDefineId, String auditCode) {
-		if (StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(packageIds) && StringUtils.isNotBlank(flowDefineId) && StringUtils.isNotBlank(auditCode)) {
+	public String saveAudit(String projectId, String packageIds, String advice, String flowDefineId, String auditCode, String type) {
+		if (StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(packageIds) && StringUtils.isNotBlank(type)
+				&& StringUtils.isNotBlank(flowDefineId) && StringUtils.isNotBlank(auditCode)) {
 			if (StringUtils.isNotBlank(advice)) {
 				/*List<UploadFile> uploadFiles = uploadService.getFilesOther(auditCode, DictionaryDataUtil.getId("ZJTFJ"), "2");
 				if (uploadFiles != null && !uploadFiles.isEmpty()) {
@@ -108,7 +109,7 @@ public class PackageAdviceController extends BaseController {
 				} else {
 					return ERRO_FILE;
 				}*/
-				service.savaAudit(projectId, packageIds, advice, flowDefineId, auditCode);
+				service.savaAudit(projectId, packageIds, advice, flowDefineId, auditCode, type);
 				return StaticVariables.SUCCESS;
 			} else {
 				return ERRO_ADVICE;
@@ -173,12 +174,14 @@ public class PackageAdviceController extends BaseController {
 	}
 	
 	@RequestMapping("/auditFile")
-	public String auditFile(String pachageIds, String projectId, String currHuanjieId, Model model){
+	public String auditFile(String pachageIds, String projectId, String type, String currHuanjieId, Model model){
 		model.addAttribute("pachageIds", pachageIds);
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("auditJZXTP", DictionaryDataUtil.getId("ZJTFJ"));
+		model.addAttribute("auditZZFJ", DictionaryDataUtil.getId("ZZFJ"));
 		model.addAttribute("auditCode", WfUtil.createUUID());
 		model.addAttribute("currHuanjieId", currHuanjieId);
+		model.addAttribute("type", type);
 		return "bss/ppms/packageAdvice/upload";
 	}
 }
