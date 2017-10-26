@@ -70,7 +70,8 @@
         '<td><input type="text" class="tc w50" name="qualitStand"></td>' +
         '<td><input type="text" class="tc w50" name="item"></td>' +
         '<td><input type="text" class="tc w50" name="purchaseCount" onkeyup="this.value=this.value.replace(/\\D/g,' + "''" + ')"></td>' +
-        '<td><input type="text" class="tc w50" name="unitPrice"></td>' +
+        '<td><input type="text" class="tc w50" name="unitPrice" onblur="pMoney(this)"></td>' +
+        '<td class="tc w50"><input type="text" name="money" value="" readonly="readonly"></td>'+
         '</tr>';
       tableObj.append(appendStr);
     }
@@ -142,7 +143,6 @@
         if(validateFlag == "pass") {
           layer.confirm("保存后不可以修改", {
             title: '提示',
-            offset: ['222px', '360px'],
             shade: 0.01
           }, function(index) {
             layer.close(index);
@@ -176,6 +176,16 @@
       }
 
     }
+    function pMoney(obj){
+    	var reg = /^\d+\.?\d*$/;
+    	if(!reg.exec($(obj).val())) {
+    		$(obj).val("");
+    	}else{
+    		var cont=$(obj).parent().prev().find("input").val();
+    		var price=$(obj).val();
+    		$(obj).parent().next().find("input").val((cont*price/10000).toFixed(4));
+    	}
+    }
   </script>
 
   <body>
@@ -198,6 +208,7 @@
           <th>计量单位</th>
           <th>采购数量</th>
           <th>单价（元）</th>
+          <th>金额（万元）</th>
         </tr>
         <c:forEach items="${detailList}" var="detail" varStatus="p">
           <tr class="tc ">
@@ -206,7 +217,7 @@
             </td>
             <td class="tc w50" title="${detail.serialNumber }">
               <input type="hidden" name="ck" class="ck" title="${detail.id }" />
-              <input type="text" name="serialNumber" class="tc w50" value="${detail.serialNumber }"></td>
+              <input type="text" name="serialNumber" class="tc w50" value="${p.index+1}"></td>
             <td class="tc w50" title="${detail.goodsName}"><input type="hidden" name="detailId" value="${detail.id }"> <input type="hidden" name="detailId" value="${detail.id }"> <input type="hidden" name="detailId" value="${detail.id }"> <input type="text" name="goodsName" value="${detail.goodsName }"></td>
             <td class="tc w50" title=" ${detail.stand }"><input type="text" name="stand" value=" ${detail.stand }"></td>
             <td class="tc w50" title=""><input type="text" name="trademark" value=""></td>
@@ -214,7 +225,10 @@
             <td class="tc w50"><input type="text" name="item" readonly="readonly" value="${detail.item }"></td>
             <td id="purchaseCount" class="tc w50"><input type="text" name="purchaseCount" value="<fmt:formatNumber type='number' value='${detail.purchaseCount*pass.priceRatio/100}' pattern='0.00' maxFractionDigits='2'/>" readonly="readonly"></td>
             <td class="tc w50">
-              <input type="text" name='unitPrice' value="${detail.budget}" onkeyup="this.value=this.value.replace(/\D/g,'')">
+              <input type="text" name='unitPrice' value="${detail.budget}"  onblur="pMoney(this)">
+            </td>
+            <td class="tc w50">
+              <input type="text" name='money' value="" readonly="readonly">
             </td>
           </tr>
         </c:forEach>

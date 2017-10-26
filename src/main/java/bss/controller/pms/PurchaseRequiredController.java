@@ -453,10 +453,13 @@ public class PurchaseRequiredController extends BaseController {
 				if(list.size()>i + 1){
   				PurchaseRequired pr = list.get(i + 1);
   				if (pr != null) {
-  				  p.setIsParent("true");
   					if (!isContainChinese(pr.getSeq())) {
   						errMsg = String.valueOf(i + 4) + "行，节点错误";
   						break;
+  					}else{
+  					  if(pr.getSeq()!=null&&pr.getSeq().startsWith("（")){
+  					    p.setIsParent("true");
+  					  }
   					}
   				}
 				}
@@ -477,10 +480,13 @@ public class PurchaseRequiredController extends BaseController {
 				if(list.size()>i + 1){
 				  PurchaseRequired pr = list.get(i + 1);
 				  if (pr != null) {
-	          p.setIsParent("true");
-	          if (!pr.getSeq().equals("1") && !isContainChinese(p.getSeq())) {
+	          if (!isContainChinese(pr.getSeq())&&!isInteger(pr.getSeq())) {
 	            errMsg = String.valueOf(i + 4) + "行，节点错误";
 	            break;
+	          }else{
+	             if(isInteger(pr.getSeq())){
+	               p.setIsParent("true");
+	             }
 	          }
 	        }
 				}
@@ -499,6 +505,22 @@ public class PurchaseRequiredController extends BaseController {
 				}
 				p.setId(cid);
 				count++;
+				
+				if(list.size()>i + 1){
+          PurchaseRequired pr = list.get(i + 1);
+          if (pr != null) {
+            if (!isInteger(pr.getSeq()) && !isContainIntger(pr.getSeq())&&!isContainChinese(pr.getSeq())) {
+              errMsg = String.valueOf(i + 4) + "行，节点错误";
+              break;
+            }else{
+              if(isContainIntger(pr.getSeq())){
+                p.setIsParent("true");
+              }
+            }
+          }
+        }
+				
+				
 				continue;
 			}
 
@@ -513,6 +535,19 @@ public class PurchaseRequiredController extends BaseController {
 				}
 				p.setId(ccid);
 				count++;
+				if(list.size()>i + 1){
+          PurchaseRequired pr = list.get(i + 1);
+          if (pr != null) {
+            if (!isInteger(pr.getSeq()) && !isContainIntger(pr.getSeq())&&!isContainChinese(pr.getSeq())&&!isEng(pr.getSeq())) {
+              errMsg = String.valueOf(i + 4) + "行，节点错误";
+              break;
+            }else{
+              if(isEng(pr.getSeq())){
+                p.setIsParent("true");
+              }
+            }
+          }
+        }
 				continue;
 			}
 			// 五级节点
@@ -524,8 +559,21 @@ public class PurchaseRequiredController extends BaseController {
 					cccid = UUID.randomUUID().toString().replaceAll("-", "");// 重新给顶级id赋值
 				}
 				p.setId(cccid);
-				
 				count++;
+				if(list.size()>i + 1){
+          PurchaseRequired pr = list.get(i + 1);
+          if (pr != null) {
+            
+            if (!isInteger(pr.getSeq()) && !isContainIntger(pr.getSeq())&&!isContainChinese(pr.getSeq())&&!isEng(pr.getSeq())&&!isContainEng(pr.getSeq())) {
+              errMsg = String.valueOf(i + 4) + "行，节点错误";
+              break;
+            }else{
+              if(isContainEng(pr.getSeq())){
+                p.setIsParent("true");
+              }
+            }
+          }
+        }
 				continue;
 			} else {
 				p.setId(ccccid);
@@ -1167,6 +1215,23 @@ public class PurchaseRequiredController extends BaseController {
 		}
 		return bool;
 	}
+	
+	public boolean isContainEng(String str) {
+    boolean bool = true;
+    if(str.startsWith("（")&&str.endsWith("）")){
+      str=str.substring(1, str.length()-1);
+      String eng = "abcdefghijklmnopqrstuvwxyz";
+       String s= String.valueOf(str.toCharArray()[0]);
+      if (eng.contains(s)) {
+        bool = true;
+      } else {
+        bool = false;
+      }
+    }else{
+      bool = false;
+    }
+    return bool;
+  }
 
 	public String randomPlano() {
 		String str[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",

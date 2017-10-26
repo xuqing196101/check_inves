@@ -212,9 +212,9 @@
 					<table class="table table-bordered table-condensed table-hover table-striped">
 						<thead>
 							<tr>
-								<th class="info w30">
+								<!-- <th class="info w30">
 									<input type="checkbox" id="checkAll" onclick="selectAll()" alt="" />
-								</th>
+								</th> -->
 								<th class="info w50">序号</th>
 								<th class="info" width="25%">项目名称</th>
 								<th class="info" width="17%">项目编号</th>
@@ -228,9 +228,9 @@
 						<tbody id="tbody_id">
 							<c:forEach items="${list.list}" var="obj" varStatus="vs">
 								<tr style="cursor: pointer;">
-									<td class="tc w30">
+									<%-- <td class="tc w30">
 										<input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
-									</td>
+									</td> --%>
 									<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 									<td class="tl" title="${obj.name}" >
 										<c:if test="${fn:length(obj.name)>20}">

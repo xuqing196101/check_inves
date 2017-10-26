@@ -541,15 +541,18 @@ $(function () {
 	$('#tree_place').html(tree_place);
 	if(tree_place=="项目信息"){
 		$("#updateLinkId").hide();
+		$("#headline-v2").hide();
 	}
 	$('#show_tree_div #menu li').bind('click', function () {
 		tree_place = $(this).find('a').html();
 		$('#tree_place').html(tree_place);
 		if(tree_place!="项目信息"){
 			$("#updateLinkId").show();
+			$("#headline-v2").show();
 		}
 		if(tree_place=="项目信息"){
 			$("#updateLinkId").hide();
+			$("#headline-v2").hide();
 		}
 	});
 });

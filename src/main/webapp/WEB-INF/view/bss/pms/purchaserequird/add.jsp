@@ -7,8 +7,8 @@
     <%@ include file="/WEB-INF/view/common.jsp" %>
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
-    <link href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.js"></script>
+    <%-- <link href="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/public/m_fixedTable/m_fixedTable.js"></script> --%>
 
     <script type="text/javascript">
 	
@@ -103,6 +103,7 @@
                   "index": indexCount,
                   "indNum": indNum
               },
+              async:false,
               success: function(data) {
                   $("#detailZeroRow").append(data);
                   init_web_upload();
@@ -114,6 +115,9 @@
                       $("td[name='userNone']").attr("style", "display:none");
                       $("th[name='userNone']").attr("style", "display:none");
                   }
+                  /* $('#table').m_fixedTable({
+                      fixedNumber: 1
+                    }); */
               }
           });
       }
@@ -1481,11 +1485,11 @@
                     <th class="w80">交货期限</th>
                     <th class="w100">采购方式建议</th>
                     <th class="w100">供应商名称</th>
-                    <th class="w180">是否申请办理免税</th>
-                    <th class="w180">物资用途（仅进口）</th>
-                    <th class="w180">使用单位（仅进口）</th>
+                    <th class="w180" name="userNone">是否申请办理免税</th>
+                    <th class="w180" name="userNone">物资用途（仅进口）</th>
+                    <th class="w180" name="userNone">使用单位（仅进口）</th>
                     <th class="w120">备注</th>
-                    <th class="w80">附件</th>
+                    <th class="w180">附件</th>
                     <th class="w80">操作</th>
                   </tr>
                 </thead>
@@ -1736,11 +1740,11 @@
     
   <script>
     // 锁表头锁表列
-    $(function () {
+    /* $(function () {
       $('#table').m_fixedTable({
-        fixedNumber: 2
+        fixedNumber: 1
       });
-    });
+    }); */
   </script>
 
 </body>

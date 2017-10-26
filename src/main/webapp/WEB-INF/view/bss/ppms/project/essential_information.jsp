@@ -646,25 +646,19 @@
                     <c:forEach items="${pack.projectDetails}" var="obj" varStatus="vs">
                       <tr>
                         <td class="tc w50">${vs.index+1}</td>
-                        <td class="tl">
-                          <div class="goodsname" title="${obj.goodsName }">
+                        <td class="tl" title="${obj.goodsName }">
                             <a href="javascript:void(0)" onclick="view('${obj.parentId}');">
-                            <c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
-                            <c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
+                            <c:if test="${fn:length (obj.goodsName) > 16}">${fn:substring(obj.goodsName,0,15)}...</c:if>
+                            <c:if test="${fn:length(obj.goodsName) <= 16}">${obj.goodsName}</c:if>
                             </a>
-                          </div>
                         </td>
-                        <td class="tl">
-                          <div class="stand" title="${obj.stand }">
-                           <c:if test="${fn:length (obj.stand) > 8}">${fn:substring(obj.stand,0,7)}...</c:if>
-                            <c:if test="${fn:length(obj.stand) <= 8}">${obj.stand}</c:if>
-                          </div>
+                        <td class="tl" title="${obj.stand }">
+                           <c:if test="${fn:length (obj.stand) > 25}">${fn:substring(obj.stand,0,24)}...</c:if>
+                            <c:if test="${fn:length(obj.stand) <= 25}">${obj.stand}</c:if>
                         </td>
-                        <td class="tl">
-                          <div class="qualitstand" title="${obj.qualitStand }">
-                          <c:if test="${fn:length (obj.qualitStand) > 8}">${fn:substring(obj.qualitStand,0,7)}...</c:if>
-                            <c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
-                          </div>
+                        <td class="tl" title="${obj.qualitStand }">
+                          <c:if test="${fn:length (obj.qualitStand) > 16}">${fn:substring(obj.qualitStand,0,15)}...</c:if>
+                            <c:if test="${fn:length(obj.qualitStand) <= 16}">${obj.qualitStand}</c:if>
                         </td>
                         <td class="tc">
                           <div class="item">${obj.item}
@@ -674,11 +668,9 @@
                         <td class="tc">
                           <div class="purchasecount">${obj.purchaseCount}</div>
                         </td>
-                        <td class="tl">
-                          <div class="deliverdate" title="${obj.deliverDate }">
-                          <c:if test="${fn:length (obj.deliverDate) > 8}">${fn:substring(obj.deliverDate,0,7)}...</c:if>
-                            <c:if test="${fn:length(obj.deliverDate) <= 8}">${obj.deliverDate}</c:if>
-                          </div>
+                        <td class="tl" title="${obj.deliverDate }">
+                          <c:if test="${fn:length (obj.deliverDate) > 16}">${fn:substring(obj.deliverDate,0,15)}...</c:if>
+                            <c:if test="${fn:length(obj.deliverDate) <= 16}">${obj.deliverDate}</c:if>
                         </td>
                         <td class="tl">
                           <div class="purchasename">${obj.supplier}</div>
