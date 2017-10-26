@@ -23,6 +23,7 @@ import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.EngCategoryMapper;
+import ses.dao.bms.UserMapper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -96,11 +97,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     
     @Autowired
     private EngCategoryMapper engCategoryMapper;
-    /**
-     * 人员信息
-     */
-    @Autowired
-    private ExtractUserMapper userMapper;
+
     @Autowired
     private SuperviseMapper superviseMapper;
     
@@ -133,6 +130,9 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
     @Autowired
     private ExpertExtractResultMapper expertExtractResultMapper;
     
+    @Autowired
+    private UserMapper userMapper;
+    
     /**
      * 保存信息
      */
@@ -142,6 +142,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         expertExtractProject.setUpdatedAt(new Date());
         expertExtractProject.setIsDeleted((short) 0);
         expertExtractProject.setStatus("1");
+        expertExtractProject.setCreaterId(user == null ? "" : user.getId());
         if(user != null){
             expertExtractProject.setProcurementDepId(user.getOrg().getId());
         }
@@ -227,20 +228,9 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
                         expertExtractProject.setReviewAddress(area1.getName() + "/" + area2.getName());
                     }
                 }
+                User user = userMapper.queryById(expertExtractProject.getCreaterId() == null ? "" : expertExtractProject.getCreaterId());
                 //抽取人员
-                List<String> userList = extractUserMapper.getUnameByprojectId(expertExtractProject.getId());
-                StringBuffer sb = new StringBuffer();
-                if(userList != null && userList.size() > 0){
-                    for (int i = 0; i < userList.size(); i++) {
-                        if(i == 0){
-                            sb.append(userList.get(i));
-                        }else{
-                            sb.append(",");
-                            sb.append(userList.get(i));
-                        }
-                    }
-                }
-                expertExtractProject.setExtractPerson(sb.toString());
+                expertExtractProject.setExtractPerson(user == null ? "" :user.getRelName());
             }
         }
         return list;
@@ -338,7 +328,7 @@ public class ExpertExtractProjectServiceImpl implements ExpertExtractProjectServ
         //map.put("areaName", condition.getAreaName()==0?"全国":"");
         
         //人员信息
-        map.put("extractUsers",  userMapper.getlistByRid(projectInfo.getId()));
+        map.put("extractUsers",  extractUserMapper.getlistByRid(projectInfo.getId()));
         map.put("supervises",  superviseMapper.getlistByRid(projectInfo.getId()));
 
         DictionaryData typeData = DictionaryDataUtil.findById(projectInfo.getProjectType());
