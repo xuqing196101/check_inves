@@ -25,6 +25,8 @@ public class ExpertPublicity extends Expert implements Serializable{
 
 	// 审核意见
 	private String auditOpinion;
+	// 专家编号
+	private String expertNum;
 
 	public Integer getPassCateCount() {
 		return passCateCount;
@@ -48,5 +50,13 @@ public class ExpertPublicity extends Expert implements Serializable{
 
 	public void setAuditOpinion(String auditOpinion) {
 		this.auditOpinion = auditOpinion;
+	}
+
+	public String getExpertNum() {
+		return expertNum;
+	}
+
+	public void setExpertNum(String expertNum) {
+		this.expertNum = expertNum;
 	}
 }

@@ -1,11 +1,9 @@
 package ses.service.ems.impl;
 
 import com.github.pagehelper.PageHelper;
-
 import common.constant.StaticVariables;
 import common.utils.DateUtils;
 import common.utils.JdcgResult;
-
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertAuditOpinionMapper;
@@ -30,10 +27,10 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditOpinion;
+import ses.model.ems.ExpertBatchDetails;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertPublicity;
 import ses.model.ems.ExpertReviewTeam;
-import ses.model.sms.SupplierAuditOpinion;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertService;
 import ses.util.Constant;
@@ -42,7 +39,6 @@ import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -534,6 +530,8 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		ExpertPublicity expertPublicityQuery = (ExpertPublicity) map.get("expertPublicity");
 		List<ExpertPublicity> list = expertMapper.selectExpByPublictyList(expertPublicityQuery);
 		StringBuffer sb = new StringBuffer();
+		// 专家编号
+        ExpertBatchDetails expertBatchDetails = null;
 		if(list != null && !list.isEmpty()){
 			for (ExpertPublicity expertPublicity : list) {
 				// 查询专家类别
@@ -571,7 +569,12 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 					// 没意见设置为""
                     expertPublicity.setAuditOpinion("");
 				}
-			}
+				// 查询专家编号
+                expertBatchDetails = new ExpertBatchDetails();
+                expertBatchDetails.setExpertId(expertPublicity.getId());
+                ExpertBatchDetails expertBatchDetails1 = expertBatchDetailsMapper.findExpertBatchDetails(expertBatchDetails);
+                expertPublicity.setExpertNum(expertBatchDetails1.getCount());
+            }
 		}
 		return list;
 	}
