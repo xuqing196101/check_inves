@@ -654,19 +654,19 @@
             <tr>
               <!-- <th class="info w50">选择</th> -->
               <th class="info w50">序号</th>
-              <th class="info">专家姓名</th>
+              <th class="info">采购机构</th>
+              <th class="info">姓名</th>
               <!-- <th class="info">用户名</th> -->
+              <th class="info w40">性别</th>
               <th class="info">身份证号</th>
-              <th class="info">性别</th>
               <th class="info">类别</th>
+              <th class="info">类型</th>
               <!-- <th class="info">毕业院校及专业</th> -->
               <th class="info w90">注册日期</th>
               <th class="info w90">提交日期</th>
               <th class="info w90">审核日期</th>
               <th class="info">手机</th>
               <!-- <th class="info">积分</th> -->
-              <th class="info">专家类型</th>
-              <th class="info">采购机构</th>
               <th class="info">地区</th>
               <th class="info">专家状态</th>
             </tr>
@@ -675,6 +675,7 @@
             <tr class="pointer">
               <%-- <td class="tc w30"><input type="radio" name="check" id="checked" alt="" value="${e.id }"></td> --%>
               <td class="tc w50" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
+              <td class="">${e.orgName }</td>
               <td>
                 <c:choose>
                   <c:when test="${e.status eq '4' and e.isProvisional eq '1'}">
@@ -685,10 +686,14 @@
                   </c:otherwise>
                 </c:choose>
               </td>
-              <td class="tc">${e.idCardNumber}</td>
               <%-- <td class="tl pl20" >${e.loginName}</td> --%>
-              <td class="tc w50">${e.gender}</td>
-              <td class="tl">${e.expertsTypeId}</td>
+              <td class="tc">${e.gender}</td>
+              <td class="tc">${e.idCardNumber}</td>
+              <td class="hand" title="${e.expertsTypeId}">
+                <c:if test="${fn:length (e.expertsTypeId) > 4}">${fn:substring(e.expertsTypeId,0,4)}...</c:if>
+                <c:if test="${fn:length (e.expertsTypeId) <= 4}">${e.expertsTypeId}</c:if>
+              </td>
+              <td class="tc">${e.expertsFrom }</td>
               <%-- <td class="tl">${e.graduateSchool }</td> --%>
               <td class="tc">
                 <fmt:formatDate value="${e.createdAt }" pattern="yyyy-MM-dd" />
@@ -701,8 +706,6 @@
               </td>
               <td class="tc">${e.mobile }</td>
               <%-- <td class="tc"  class="tc">${e.honestyScore }</td> --%>
-              <td class="tc">${e.expertsFrom }</td>
-              <td class="tc">${e.orgName }</td>
               <td class="tc">${e.address }</td>
               <td class="tc" id="${e.id}">
                 <c:if test="${e.status eq '-3'}">

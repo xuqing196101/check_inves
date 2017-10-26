@@ -2231,6 +2231,7 @@ resultMap="BaseResultMap">
       T1.IS_PROVISIONAL,
       T1.EXPERTS_FROM,
       T1.MOBILE,
+      T1.CREATED_AT,
       T1.IS_SUBMIT,
       T1.SUBMIT_AT,
       T1.AUDIT_AT,
@@ -2248,6 +2249,14 @@ resultMap="BaseResultMap">
 		LEFT JOIN T_SES_BMS_AREA AREA ON A.PARENT_ID = AREA.ID
     LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T1.PURCHASE_DEP_ID = dep.ID
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+    <if test="expertCategoryId != null and expertCategoryId != ''">
+      RIGHT JOIN (
+        select expert_id as expertId from T_SES_EMS_EXPERT_CATEGORY where category_id in 
+        (<foreach collection="expertCategoryId" item="categoryId" index="index"  open="" separator="," close="">
+          #{categoryId}
+        </foreach>) 
+      ) t5  on t1.ID = t5.expertId
+    </if>
     where (T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 13 or T1.STATUS = 17 or T1.STATUS = 19)
     AND T1.IS_PROVISIONAL = '0'
     AND T1.IS_DELETE = 0
