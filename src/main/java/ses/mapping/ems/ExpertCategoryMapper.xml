@@ -201,6 +201,7 @@
          AND T.SUGGEST_TYPE = #{type}
          AND T.IS_DELETED = 0
          AND T.AUDIT_FALG = #{flag}
+         AND T.AUDIT_STATUS = #{auditStatus}
     </select>
 
     <!--查询专家审核通过的类型—根据类型查询-->
@@ -213,6 +214,7 @@
                    AND T.EXPERT_ID = #{expertId}
                    AND T.SUGGEST_TYPE = #{type}
                    AND T.AUDIT_FALG = #{flag}
+                   AND T.AUDIT_STATUS = #{auditStatus}
                    AND T.IS_DELETED = 0)
            AND C.EXPERT_ID = #{expertId}
            AND C.LEVELS = '1'
