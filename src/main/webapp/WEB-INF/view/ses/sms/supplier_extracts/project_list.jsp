@@ -97,18 +97,7 @@
         function record() {
             location.href = '${pageContext.request.contextPath}/SupplierExtracts_new/resuleRecordlist.do';
         }
-        function printRecord() {
-        	var id = [];
-            $('input[name="chkItem"]:checked').each(function () {
-                id.push($(this).val());
-            });
-            if (id.length != 1) {
-                layer.alert("只能选择一个", {offset: ['222px', '390px'], shade: 0.01});
-            } else {
-				conditionId = $("#conditionId").val();
-                window.location.href = "${pageContext.request.contextPath}/SupplierExtracts_new/printRecord.html?id=" + id + "&&conditionId=";
-            }
-        }
+        
     </script>
 </head>
 
@@ -203,8 +192,8 @@
             <c:forEach items="${info.list}" var="obj" varStatus="vs">
                 <tr style="cursor: pointer;">
                     <td class="tc w30">
-                        <input type="hidden" value="${obj.status }"/>
-                        <input type="hidden" id="conditionId" value="${obj.id }"/>
+                        <input class="extract_status" type="hidden" value="${obj.status }"/>
+                        <input type="hidden" class="conditionId" value="${obj.id }"/>
                         <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
                     </td>
                     <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
@@ -228,6 +217,27 @@
 </body>
 </html>
 <script type="text/javascript">
+
+	//下载记录表
+	function printRecord() {
+        	var id = [];
+            $('input[name="chkItem"]:checked').each(function () {
+                id.push($(this).val());
+            });
+            if (id.length != 1) {
+                layer.alert("只能选择一个", {offset: ['222px', '390px'], shade: 0.01});
+            } else {
+            	
+            	var status =  $('input[name="chkItem"]:checked').prev().prev().val();
+            	if("1"==status){
+					conditionId = $("#conditionId").val();
+	                window.location.href = "${pageContext.request.contextPath}/SupplierExtracts_new/printRecord.html?id=" + id + "&&conditionId=";
+            	}else{
+            		 layer.alert("当前记录并未结束抽取，无法下载");
+            	}
+            }
+        }
+
     $(".channelBtn").click(function () {
         $("#projectNumber").val("");
         $("#proName").val("");
