@@ -286,7 +286,9 @@
     	T_SES_EMS_EXPERT_AUDIT
     where 
     	EXPERT_ID = #{expertId}
+    <if test="isDeleted == null">
     	and IS_DELETED = 0
+    </if>
     <if test="suggestType != '' and suggestType != null">
     	and SUGGEST_TYPE = #{suggestType}
     </if>
