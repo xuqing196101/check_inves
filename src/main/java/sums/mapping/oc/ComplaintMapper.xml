@@ -180,6 +180,9 @@
     	<include refid="Base_Column_List" />
     FROM T_SUMS_OC_COMPLAINT
     WHERE IS_DELETED = 0
+     <if test="createrId != null and createrId != ''">
+      AND CREATER_ID = #{createrId}
+    </if>
     <if test="name != null and name != ''">
       AND NAME like '%'||#{name}||'%'
     </if>
